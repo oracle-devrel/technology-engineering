@@ -1,8 +1,8 @@
-# Welcome to the Technology Specialists GitHub Repository
+# Welcome to the Oracle Technology Specialists GitHub Repository
 
 ## Who are we?
 
-We are a team of Oracle specialists focussing on technology cloud products. We answer questions, create demos and workshops, do hands-on guides, create code snippets and examples, and do health checks on existing solutions. We help our customers to find solutions to business challenges and to move workloads to Oracle cloud.
+We are a team of Oracle specialists focussing on technology cloud and software products. We answer questions, create demos and workshops, do hands-on guides, create code snippets and examples, and do health checks on existing solutions. We help our customers to find solutions to business challenges and to move workloads to Oracle cloud.
 
 ## Why do we have a Git Repository?
 
