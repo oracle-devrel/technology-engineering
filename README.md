@@ -1,29 +1,19 @@
-# technology-engineering
+# Welcome to the Technology Specialists GitHub Repository
 
-[![License: UPL](https://img.shields.io/badge/license-UPL-green)](https://img.shields.io/badge/license-UPL-green) [![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=oracle-devrel_technology-engineering)](https://sonarcloud.io/dashboard?id=oracle-devrel_technology-engineering)
+## Who are we?
 
-## THIS IS A NEW, BLANK REPO THAT IS NOT READY FOR USE YET.  PLEASE CHECK BACK SOON!
+We are a team of Oracle specialists focussing on technology cloud products. We answer questions, create demos and workshops, do hands-on guides, create code snippets and examples, and do health checks on existing solutions. We help our customers to find solutions to business challenges and to move workloads to Oracle cloud.
 
-## Introduction
-MISSING
+## Why do we have a Git Repository?
 
-## Getting Started
-MISSING
+We create all kinds of interesting assets in our line of work, which we believe should be open-source and accessible to everyone. We want to share our architecture patterns for solutions, technical step-by-step guides, and code examples. We believe this will simplify how we work internally in Oracle, while also sharing access to the same assets with our customers, implementation partners, and everyone interested. We want to be transparent on how we work and also grow the quality of our assets and best practices with the contribution coming from the community.
 
-### Prerequisites
-MISSING
+## How to use this Repository? 
 
-## Notes/Issues
-MISSING
-
-## URLs
-* Nothing at this time
-
-## Contributing
-This project is open source.  Please submit your contributions by forking this repository and submitting a pull request!  Oracle appreciates any contributions that are made by the open source community.
+We structure our assets by our internal product areas and reflect this in the folder structure of this repository. The repository will have at least four levels of folders, starting with the first representing a wider product area (like Infrastructure Cloud), followed by a specific product area (like Compute), followed by a product or cloud service (like Bare Metal Compute), and finally by an asset for that product (like How-to-Guides).
 
 ## License
-Copyright (c) 2022 Oracle and/or its affiliates.
+Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
