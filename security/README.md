@@ -1,6 +1,6 @@
 # Security
 
-The Technology Engineering Security Specialists team provides end-end Oracle security coverage through CISO Office & Security Design. Our specialists work closely with Infra Security and Data Security specialists with a mission to transform the IT landscape of strategic customers into a secure, compliant, resilient, and successful workload deployment by evangelizing and applying Oracle’s leading security best practices and services.
+The Technology Engineering Security Specialists team provides end-end Oracle security coverage through CISO Office and Security Design. Our specialists work closely with Infra Security and Data Security specialists with a mission to transform the IT landscape of strategic customers into a secure, compliant, resilient, and successful workload deployment by evangelizing and applying Oracle’s leading security best practices and services.
 
 # License
 
