@@ -2,6 +2,12 @@
 
 *Product description*
 
+# Table of Contents
+
+1. [Team Publications](#team-publications)
+2. [Useful Links](#useful-uinks)
+3. [Reusable Assets Overview](#reusable-assets-overview)
+
 ## Team Publications
 
 - Name and Link
@@ -19,8 +25,9 @@
     - High-level product and capability description
 - [Migration Hub](oracle.com)
 
-## Reusable Assets Overview (Optional)
+## Reusable Assets Overview
 
+*OPTIONAL*
 *If you don't have a flat hierarchy for assets, please describe your structure*
 
 # License
