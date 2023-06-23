@@ -12,18 +12,18 @@
 
 - Name and Link
     - Description
-- [Cloud Coaching ABC](www.youtube.com)
+- [Cloud Coaching ABC](https://www.youtube.com)
     - Video about ABC 
-- [Reference Architecture ABC](docs.oracle.com)
+- [Reference Architecture ABC](https://docs.oracle.com/en/)
     - ABC Architecture on the Oracle Architecture Center
 
 ## Useful Links
 
 - Name and Link
     - Description
-- [Public Product Page](oracle.com)
+- [Public Product Page](https://www.oracle.com/)
     - High-level product and capability description
-- [Migration Hub](oracle.com)
+- [Migration Hub](https://www.oracle.com/)
 
 ## Reusable Assets Overview
 
