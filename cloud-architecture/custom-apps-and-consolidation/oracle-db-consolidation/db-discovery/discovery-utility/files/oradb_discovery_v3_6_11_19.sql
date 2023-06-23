@@ -189,7 +189,7 @@ DECLARE
       if ( (111071 < v_inp) and (v_inp < 120000) ) then gv_slab:='11g2'; end if;
       if ( (120001 < v_inp) and (v_inp < 130000) ) then gv_slab:='12c';  end if;
       if ( (130001 < v_inp) and (v_inp < 140000) ) then gv_slab:='13';  end if;
-	  if ( (179999 < v_inp) and (v_inp < 190000) ) then gv_slab:='18';  end if;
+	   if ( (179999 < v_inp) and (v_inp < 190000) ) then gv_slab:='18';  end if;
       if ( (189999 < v_inp) and (v_inp < 200000) ) then gv_slab:='19';  end if;
 	END;
 	PROCEDURE sp_get_version IS
@@ -248,8 +248,7 @@ DECLARE
 		dbms_output.put_line('SELECT  (select PDB_NAME from DBA_PDBS where PDB_NAME='''||v_pdbname||''') PDB_NAME,(select listagg(name,'', '') within group (order by name) from v$services where PDB='''||v_pdbname||''') Service_Name,(select version from v$instance) DB_VERSION,');
 		dbms_output.put_line('(SELECT SYS_CONTEXT(''USERENV'',''HOST'') FROM dual) HOST_NAME,(select Platform_name from v$database) OS_PLATFORM, (select banner from v$version where banner like ''Oracle%'') EDITION,(select open_mode from v$pdbs where name='''||v_pdbname||''') Open_Mode,');
 		dbms_output.put_line('(select open_time from v$pdbs where name='''||v_pdbname||''') Open_time, (select round(((select sum(bytes) from dba_data_files) + (select sum(bytes) from dba_temp_files))/1024/1024/1024,2) ||'' GB'' from dual) DB_SIZE from dual;');
-		--dbms_output.put_line('ALTER SESSION SET CONTAINER = cdb$root;');
-	
+		
 	END;
 BEGIN
 	sp_process_slab; /* this will bring defined slab value */
@@ -290,7 +289,7 @@ DECLARE
       if ( (111071 < v_inp) and (v_inp < 120000) ) then gv_slab:='11g2'; end if;
       if ( (120001 < v_inp) and (v_inp < 130000) ) then gv_slab:='12c';  end if;
       if ( (130001 < v_inp) and (v_inp < 140000) ) then gv_slab:='13';  end if;
-	  if ( (179999 < v_inp) and (v_inp < 190000) ) then gv_slab:='18';  end if;
+	   if ( (179999 < v_inp) and (v_inp < 190000) ) then gv_slab:='18';  end if;
       if ( (189999 < v_inp) and (v_inp < 200000) ) then gv_slab:='19';  end if;
    end;
    procedure sp_get_version is
@@ -404,9 +403,7 @@ DECLARE
             if (lower(nvl(tab_col_des(ii).choose,'ok')) not like '%delete%') then
                begin
                   v_sub_str :=' '||''''||trim(nvl(tab_col_des(ii).out_value,''))||''''||' '||tab_col_des(ii).des||' ';
-               --if( ii = 0 ) then
-                  --v_sub_str := 'SELECT '||v_sub_str;
-               --els
+
                if( ii = tab_col_des.LAST ) then
                   v_sub_str := '  ,'||v_sub_str ||' from dual;';
                else
@@ -440,7 +437,7 @@ DECLARE
             v_column_name:= replace( v_column_name,')',null);
             v_column_name:= replace( v_column_name,')',null);
             yes_no:='n';
----         dbms_output.put_line('REM -->table:'||tab_col_des(ii).tab||' column:'||v_column_name);
+
             for i in c1(tab_col_des(ii).tab,v_column_name) LOOP
                tab_col_des(ii).tab := i.table_name;   --this table have schema name with in   newly added
                v_str := 'SELECT '||tab_col_des(ii).col ||' from ' || tab_col_des(ii).tab ||' '||tab_col_des(ii).in_where  ; -- newly added
@@ -523,8 +520,7 @@ DECLARE
 ----
    begin
    -------general block starts -------
-   ---        dbms_output.put_line(V_identitity);
---      select value into v_bytes from sys.v_$parameter where name='db_block_size';
+   
    --0
       tab_col_des(0).tab                     :='V_$PARAMETER';
       tab_col_des(tab_col_des.LAST).col      :='VALUE' ;
@@ -625,7 +621,7 @@ end;
 -------------------------------------------------------
 --Prompt Heading U_I_GG DB:Additional Database Details|
 -------------------------------------------------------	
-		--dbms_output.put_line('ALTER SESSION SET CONTAINER = cdb$root;');
+		
 		dbms_output.put_line('SET MARKUP HTML ON;');
 		dbms_output.put_line('set linesize 200;');
 		dbms_output.put_line('set trimspool on;');
@@ -770,7 +766,7 @@ IF :gv_multi = 0 THEN
       dbms_output.put_line('  FROM dba_tables');
       dbms_output.put_line(' WHERE owner not in '||owner_blacklist); 
       dbms_output.put_line('MINUS');
-	  dbms_output.put_line('(');
+	   dbms_output.put_line('(');
       dbms_output.put_line('SELECT distinct(owner), idx.table_name');
       dbms_output.put_line('  FROM dba_indexes idx');
       dbms_output.put_line(' WHERE idx.owner not in '||owner_blacklist); 
@@ -784,19 +780,19 @@ IF :gv_multi = 0 THEN
       dbms_output.put_line('select owner, table_name, '||''''||' '||''''||', logging from DBA_TABLES');
       dbms_output.put_line('where logging <> '||''''||'YES'||''''||'');
       dbms_output.put_line('and owner not in '||owner_blacklist); 
-	  dbms_output.put_line('UNION');
+	   dbms_output.put_line('UNION');
       dbms_output.put_line('select owner, table_name, partitioning_type, DEF_LOGGING "LOGGING" from DBA_part_tables');
       dbms_output.put_line('where DEF_LOGGING != '||''''||'YES'||''''||' ');
       dbms_output.put_line('and owner not in '||owner_blacklist); 
-	  dbms_output.put_line('UNION');
+	   dbms_output.put_line('UNION');
       dbms_output.put_line('select table_owner, table_name, PARTITION_NAME, logging from DBA_TAB_PARTITIONS');
       dbms_output.put_line('where logging <> '||''''||'YES'||''''||' ');
       dbms_output.put_line('and table_owner not in '||owner_blacklist); 
-	  dbms_output.put_line('UNION');
+	   dbms_output.put_line('UNION');
       dbms_output.put_line('select table_owner, table_name, PARTITION_NAME, logging from DBA_TAB_SUBPARTITIONS');
       dbms_output.put_line('where logging <> '||''''||'YES'||''''||' ');
       dbms_output.put_line('and table_owner not in '||owner_blacklist); 
-	  dbms_output.put_line(';');
+	   dbms_output.put_line(';');
    END IF;  
    
    IF ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
@@ -813,7 +809,7 @@ IF :gv_multi = 0 THEN
       dbms_output.put_line('  i.INDEX_TYPE,');
       dbms_output.put_line('  c.INDEX_NAME,');
       dbms_output.put_line('  c.INDEX_OWNER');
---    dbms_output.put_line('  c.OWNER');
+
       dbms_output.put_line('FROM dba_constraints c,');
       dbms_output.put_line('  dba_indexes i');
       dbms_output.put_line('WHERE');
@@ -905,7 +901,7 @@ IF :gv_multi = 0 THEN
       dbms_output.put_line('SELECT OWNER, TABLE_NAME, IOT_TYPE, TABLE_TYPE ');
       dbms_output.put_line('FROM all_all_tables');
       dbms_output.put_line('WHERE OWNER not in '||owner_blacklist);
-	  dbms_output.put_line('AND (IOT_TYPE is not null or TABLE_TYPE is NOT NULL);');
+	   dbms_output.put_line('AND (IOT_TYPE is not null or TABLE_TYPE is NOT NULL);');
    END IF;
 
    IF ( gv_slab in ('8i','9i','10g','11g1','11g2','12c','13','18','19') ) THEN
@@ -914,7 +910,7 @@ IF :gv_multi = 0 THEN
       dbms_output.put_line('SELECT OWNER, TABLE_NAME, index_name, index_type ');
       dbms_output.put_line('FROM dba_indexes ');
       dbms_output.put_line('WHERE OWNER not in '||owner_blacklist);
-	  dbms_output.put_line('and index_type = '||''''||'DOMAIN'||''''||';');
+	   dbms_output.put_line('and index_type = '||''''||'DOMAIN'||''''||';');
    END IF;
 
    IF ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
@@ -924,7 +920,7 @@ IF :gv_multi = 0 THEN
       dbms_output.put_line(''||''''||'REFERENTIAL'||''''||','||''''||'Other Constraints'||''''||') constraint_type_desc, count(*) total');
       dbms_output.put_line('FROM all_constraints');
       dbms_output.put_line('WHERE OWNER not in '||owner_blacklist);
-	  dbms_output.put_line('GROUP BY constraint_type;');
+	   dbms_output.put_line('GROUP BY constraint_type;');
    END IF;
 
    IF ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
@@ -933,7 +929,7 @@ IF :gv_multi = 0 THEN
       dbms_output.put_line('SELECT owner, table_name, constraint_name');
       dbms_output.put_line('FROM all_constraints');
       dbms_output.put_line('WHERE OWNER not in '||owner_blacklist);
-	  dbms_output.put_line('	and constraint_type = '||''''||'R'||''''||' and delete_rule = '||''''||'CASCADE'||''''||';');
+	   dbms_output.put_line('	and constraint_type = '||''''||'R'||''''||' and delete_rule = '||''''||'CASCADE'||''''||';');
    END IF;
 
    IF ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
@@ -942,7 +938,7 @@ IF :gv_multi = 0 THEN
       dbms_output.put_line('SELECT owner, table_name, COUNT(*) trigger_count');
       dbms_output.put_line('FROM all_triggers');
       dbms_output.put_line('WHERE OWNER not in '||owner_blacklist);
-	  dbms_output.put_line('GROUP BY owner, table_name;');
+	   dbms_output.put_line('GROUP BY owner, table_name;');
    END IF;
 
    IF ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
@@ -963,7 +959,7 @@ IF :gv_multi = 0 THEN
       dbms_output.put_line('from dba_indexes');
       dbms_output.put_line('where index_type = '||''''||'NORMAL/REV'||''''||'');
       dbms_output.put_line('      And OWNER not in '||owner_blacklist);
-	  dbms_output.put_line(';');
+	   dbms_output.put_line(';');
  END IF;
 
    IF ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
@@ -980,7 +976,7 @@ IF :gv_multi = 0 THEN
       dbms_output.put_line(' 	 LAST_NUMBER');
       dbms_output.put_line('  FROM DBA_SEQUENCES');
       dbms_output.put_line(' WHERE SEQUENCE_OWNER not in '||owner_blacklist);
-	  dbms_output.put_line(';');
+	   dbms_output.put_line(';');
    END IF;
 
    IF ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
@@ -1007,7 +1003,7 @@ IF :gv_multi = 0 THEN
       dbms_output.put_line('from dba_objects ');
       dbms_output.put_line('where object_type='||''''||'MATERIALIZED VIEW'||''''||'');
       dbms_output.put_line('and owner not in '||owner_blacklist);
-	  dbms_output.put_line('order by owner, object_name;');
+	   dbms_output.put_line('order by owner, object_name;');
    END IF;
 
    IF ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
@@ -1021,16 +1017,6 @@ IF :gv_multi = 0 THEN
       dbms_output.put_line('select * from sys.transport_set_violations;');
    END IF;
    
-   --IF ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
-      --dbms_output.put_line('Prompt Heading U_I_GG DB:Database Home');
-      --dbms_output.put_line('var Oracle_Home varchar2(100);');
-      --dbms_output.put_line('begin');
-      --dbms_output.put_line('sys.dbms_system.get_env('||''''||'ORACLE_HOME'||''''||', :Oracle_Home);');
-      --dbms_output.put_line('end;');
-      --dbms_output.put_line('/');
-      --dbms_output.put_line('Print :Oracle_home');
-   --END IF;
-
    IF ( gv_slab in ('12c','13','18','19') ) THEN
       dbms_output.put_line('Prompt Heading U_I_GG DB:Database Home');
       dbms_output.put_line('select SYS_CONTEXT (''USERENV'',''ORACLE_HOME'') ORACLE_HOME from dual;');
@@ -1162,7 +1148,7 @@ IF :gv_multi = 0 THEN
       dbms_output.put_line(' d.segment_space_management,');
       dbms_output.put_line(' auto_extension,');
       dbms_output.put_line(' d.status,');
-	  dbms_output.put_line(' d.BLOCK_SIZE,');
+	   dbms_output.put_line(' d.BLOCK_SIZE,');
       dbms_output.put_line(' TO_CHAR(NVL((a.bytes - NVL(b.bytes, 0)) / a.maxbytes * 100, 0), '||''''||'990.00'||''''||')  "Used % (including Autoextend)"');
       dbms_output.put_line(' from   ( select tablespace_name, round(sum(bytes)/1024/1024, 2) total_size_mb,');
       dbms_output.put_line(' decode(sum(decode(autoextensible,'||''''||'YES'||''''||',1,0)),0,'||''''||'NO'||''''||','||''''||'YES'||''''||') auto_extension,sum(bytes) bytes,sum(decode(autoextensible,'||''''||'YES'||''''||',maxbytes,bytes)) maxbytes');
@@ -1224,14 +1210,14 @@ IF :gv_multi = 0 THEN
       dbms_output.put_line('Prompt Heading U_I_GG DB:Scheduled Jobs_From_DBA_SCHEDULER_SCHEDULES');
       dbms_output.put_line('select owner, schedule_name,START_DATE from dba_scheduler_schedules');
       dbms_output.put_line('where owner not in '||owner_blacklist);
-	  dbms_output.put_line(';');
+	   dbms_output.put_line(';');
    END IF;
 
    IF ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
       dbms_output.put_line('Prompt Heading U_I_GG DB:Scheduled Jobs_From_DBA_SCHEDULER_JOBS');
       dbms_output.put_line('select owner,JOB_NAME,START_DATE,END_DATE,STATE,LAST_START_DATE,LAST_RUN_DURATION,NEXT_RUN_DATE from dba_scheduler_jobs');
       dbms_output.put_line('where owner not in '||owner_blacklist);
-	  dbms_output.put_line(';');
+	   dbms_output.put_line(';');
    END IF;
    
    IF ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
@@ -1246,7 +1232,7 @@ IF :gv_multi = 0 THEN
       dbms_output.put_line(',DEFAULT_TABLESPACE');
       dbms_output.put_line(',TEMPORARY_TABLESPACE TEMP_TABLESPACE');
       dbms_output.put_line('from dba_users where username not in '||owner_blacklist);
-	  dbms_output.put_line('Union all');
+	   dbms_output.put_line('Union all');
       dbms_output.put_line('select '||''''||'Default'||''''||' USER_TYPE,USERNAME');
       dbms_output.put_line(',account_status');
       dbms_output.put_line(',to_char(created, '||''''||'DD-Mon-YYYY HH24:Mi:SS'||''''||') CREATED');
@@ -1256,7 +1242,7 @@ IF :gv_multi = 0 THEN
       dbms_output.put_line(',DEFAULT_TABLESPACE');
       dbms_output.put_line(',TEMPORARY_TABLESPACE TEMP_TABLESPACE');
       dbms_output.put_line('from dba_users where username in '||owner_blacklist);
-	  dbms_output.put_line(') order by 1,3,7;');
+	   dbms_output.put_line(') order by 1,3,7;');
    END IF;
    
    IF ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
@@ -1271,7 +1257,7 @@ IF :gv_multi = 0 THEN
       dbms_output.put_line(',DEFAULT_TABLESPACE');
       dbms_output.put_line(',TEMPORARY_TABLESPACE TEMP_TABLESPACE');
       dbms_output.put_line('from dba_users where username not in '||owner_blacklist);
-	  dbms_output.put_line('Union all');
+	   dbms_output.put_line('Union all');
       dbms_output.put_line('select '||''''||'Default'||''''||' USER_TYPE,USERNAME');
       dbms_output.put_line(',account_status');
       dbms_output.put_line(',to_char(created, '||''''||'DD-Mon-YYYY HH24:Mi:SS'||''''||') CREATED');
@@ -1281,15 +1267,15 @@ IF :gv_multi = 0 THEN
       dbms_output.put_line(',DEFAULT_TABLESPACE');
       dbms_output.put_line(',TEMPORARY_TABLESPACE TEMP_TABLESPACE');
       dbms_output.put_line('from dba_users where username in '||owner_blacklist);
-	  dbms_output.put_line(') WHERE TRIM(PVERSION) =''10G''');
-	  dbms_output.put_line('order by 1,3,7;');
+	   dbms_output.put_line(') WHERE TRIM(PVERSION) =''10G''');
+	   dbms_output.put_line('order by 1,3,7;');
    END IF;
 
    IF ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
       dbms_output.put_line('Prompt Heading U_I_GG DB:Index Organised Tables');
       dbms_output.put_line('SELECT OWNER,table_name, iot_type, iot_name FROM dba_tables ');
       dbms_output.put_line('where owner not in '||owner_blacklist);
-	  dbms_output.put_line('ORDER BY 1;');
+	   dbms_output.put_line('ORDER BY 1;');
    END IF;
 
    IF ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
@@ -1297,7 +1283,7 @@ IF :gv_multi = 0 THEN
       dbms_output.put_line('select owner||'||''''||'.'||''''||'||object_name Object_name,object_type,status from dba_objects');
       dbms_output.put_line('where status<>'||''''||'VALID'||''''||'');
       dbms_output.put_line('and owner not in'||owner_blacklist);
-	  dbms_output.put_line(';');
+	   dbms_output.put_line(';');
    END IF;
 
    IF ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
@@ -1360,7 +1346,7 @@ IF :gv_multi = 0 THEN
       dbms_output.put_line('select q.owner||'||''''||'.'||''''||'||q.queue_table queue_table_name, num_rows, blocks,');
       dbms_output.put_line(' last_analyzed, chain_cnt from all_queue_tables q, all_tables t');
       dbms_output.put_line('where q.owner = t.owner and q.queue_table = t.table_name and q.owner not in '||owner_blacklist);
-	  dbms_output.put_line('order by q.owner, q.queue_table;');
+	   dbms_output.put_line('order by q.owner, q.queue_table;');
    end if;
 
    if ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
@@ -1368,7 +1354,7 @@ IF :gv_multi = 0 THEN
       dbms_output.put_line('select owner, mview_name, container_name, updatable, last_refresh_date');
       dbms_output.put_line(', compile_state, refresh_mode, master_link from dba_mviews ');
       dbms_output.put_line('where owner not in '||owner_blacklist);
-	  dbms_output.put_line('order by owner, mview_name;');
+	   dbms_output.put_line('order by owner, mview_name;');
    end if;
 
    if ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
@@ -1394,7 +1380,7 @@ IF :gv_multi = 0 THEN
          dbms_output.put_line('Prompt Heading U_I_GG DB:Database XML_Tables');
          dbms_output.put_line('select owner||'||''''||'.'||''''||'||table_name table_name, xmlschema, element_name, storage_type');
          dbms_output.put_line('from dba_xml_tables where owner not in '||owner_blacklist);
-		 dbms_output.put_line('order by owner, table_name ;');
+		   dbms_output.put_line('order by owner, table_name ;');
       end loop;
    end if;
 
@@ -1407,7 +1393,7 @@ IF :gv_multi = 0 THEN
          dbms_output.put_line('Prompt Heading U_I_GG DB:Database XML_Table_Columns');
          dbms_output.put_line('select owner||'||''''||'.'||''''||'|| table_name table_name, column_name, xmlschema, element_name, storage_type');
          dbms_output.put_line('from dba_xml_tab_cols where owner not in '||owner_blacklist);
-		 dbms_output.put_line('order by owner, table_name, column_name ;');
+		   dbms_output.put_line('order by owner, table_name, column_name ;');
       end loop;
    end if;
 
@@ -1420,7 +1406,7 @@ IF :gv_multi = 0 THEN
          dbms_output.put_line('Prompt Heading U_I_GG DB:Database XML_Table_Indexes');
          dbms_output.put_line('select index_owner, table_name, index_name, type, async, stale');
          dbms_output.put_line('from dba_xml_indexes where index_owner not in '||owner_blacklist);
-		 dbms_output.put_line('order by index_owner, table_name, index_name ;');
+		   dbms_output.put_line('order by index_owner, table_name, index_name ;');
       end loop;
    elsif ( gv_slab in ('11g2','12c','13','18','19') ) THEN
       for j in ( select 1 from dual where not exists (select 1 from sys.dba_registry where lower(comp_name) like lower('%Oracle XML Database%') ) ) loop
@@ -1432,7 +1418,7 @@ IF :gv_multi = 0 THEN
          dbms_output.put_line('Prompt Heading U_I_GG DB:Database XML_Table_Indexes');
          dbms_output.put_line('select index_owner, table_name, index_name, type, index_type, async, stale');
          dbms_output.put_line('from dba_xml_indexes where index_owner not in '||owner_blacklist);
-		 dbms_output.put_line('order by index_owner, table_name, index_name ;');
+		   dbms_output.put_line('order by index_owner, table_name, index_name ;');
       end loop;
    end if;
 
@@ -1503,7 +1489,7 @@ IF :gv_multi = 0 THEN
       dbms_output.put_line('select TABLESPACE_NAME,'||''''||'tables'||''''||' Object_type, count(1) count_of_tables ');
       dbms_output.put_line('FROM DBA_TAB_PARTITIONS');
       dbms_output.put_line('where table_owner not in '||owner_blacklist);
-	  dbms_output.put_line('group by  TABLESPACE_NAME;');
+	   dbms_output.put_line('group by  TABLESPACE_NAME;');
    end if;
 
    if ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
@@ -1512,13 +1498,13 @@ IF :gv_multi = 0 THEN
       dbms_output.put_line('from dba_tab_partitions');
       dbms_output.put_line('where table_owner not in '||owner_blacklist);
       dbms_output.put_line('group by TABLESPACE_NAME,table_owner,table_name');
-	  dbms_output.put_line(';');
+	   dbms_output.put_line(';');
    END IF;
    
    if ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
       dbms_output.put_line('Prompt Heading U_I_GG DB:External Table Details');
       dbms_output.put_line('select * from DBA_EXTERNAL_TABLES');
-	  dbms_output.put_line(';');
+	   dbms_output.put_line(';');
    END IF;
 
 	DECLARE
@@ -1617,59 +1603,59 @@ IF :gv_multi = 0 THEN
    IF ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
       dbms_output.put_line('Prompt Heading DB:Database Synonyms for Remote Objects');
       dbms_output.put_line('select OWNER,SYNONYM_NAME,TABLE_OWNER,TABLE_NAME,DB_LINK ');
-	  dbms_output.put_line('from dba_synonyms ');
-	  dbms_output.put_line('WHERE OWNER not in '||owner_blacklist);
-	  dbms_output.put_line('and DB_LINK IS NOT NULL ');
-	  dbms_output.put_line('order by 1,2; ');
+	   dbms_output.put_line('from dba_synonyms ');
+	   dbms_output.put_line('WHERE OWNER not in '||owner_blacklist);
+	   dbms_output.put_line('and DB_LINK IS NOT NULL ');
+	   dbms_output.put_line('order by 1,2; ');
    END IF;
 
    IF ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
       dbms_output.put_line('Prompt Heading DB:Database Corrupt Blocks');
       dbms_output.put_line('select count(*) "Corrupt Database Blocks" ');
-	  dbms_output.put_line('from v$database_block_corruption; ');
+	   dbms_output.put_line('from v$database_block_corruption; ');
    END IF;
 
    IF ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
       dbms_output.put_line('Prompt Heading DB:Database Encrypted - Tablespace');
       dbms_output.put_line('SELECT B.NAME, ENCRYPTIONALG, ENCRYPTEDTS  ');
-	  dbms_output.put_line('from sys.V_$ENCRYPTED_TABLESPACES A, sys.V_$TABLESPACE  B ');
-	  dbms_output.put_line('WHERE A.TS# = B.TS#;');
+	   dbms_output.put_line('from sys.V_$ENCRYPTED_TABLESPACES A, sys.V_$TABLESPACE  B ');
+	   dbms_output.put_line('WHERE A.TS# = B.TS#;');
    END IF;
    
    IF ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
       dbms_output.put_line('Prompt Heading DB:Database Encrypted - Columns');
       dbms_output.put_line('select OWNER,TABLE_NAME,COLUMN_NAME,ENCRYPTION_ALG,SALT');
       dbms_output.put_line('from dba_encrypted_columns');
-	  dbms_output.put_line('WHERE OWNER not in '||owner_blacklist);
+	   dbms_output.put_line('WHERE OWNER not in '||owner_blacklist);
       dbms_output.put_line('order by 1,2,3;');
    END IF;
    
    IF ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
-	  dbms_output.put_line('Prompt Heading DB:Database Encrypted - Database Wallet Details');
+	   dbms_output.put_line('Prompt Heading DB:Database Encrypted - Database Wallet Details');
       dbms_output.put_line('SELECT * from V_$ENCRYPTION_WALLET;  ');
    END IF;
 
    IF ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
       dbms_output.put_line('Prompt Heading DB:Database Proxy Connections');
       dbms_output.put_line('select * ');
-	  dbms_output.put_line('from dba_proxies ');
-	  dbms_output.put_line('order by 1,2; ');
+	   dbms_output.put_line('from dba_proxies ');
+	   dbms_output.put_line('order by 1,2; ');
    END IF;
 
    IF ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
       dbms_output.put_line('Prompt Heading DB:Database RMAN Configuration');
       dbms_output.put_line('SELECT name, value ');
-	  dbms_output.put_line('from sys.v_$rman_configuration ');
-	  dbms_output.put_line('order by 1; ');
+	   dbms_output.put_line('from sys.v_$rman_configuration ');
+	   dbms_output.put_line('order by 1; ');
    END IF;
 
    IF ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
       dbms_output.put_line('Prompt Heading DB:Database Custom Schema Size');
       dbms_output.put_line('select owner,sum(bytes)/1024/1024/1024 as "size in GB" ');
-	  dbms_output.put_line('from dba_segments ');
-	  dbms_output.put_line('WHERE owner not in '||owner_blacklist);
-	  dbms_output.put_line('group by owner ');
-	  dbms_output.put_line('order by 2 asc; ');
+	   dbms_output.put_line('from dba_segments ');
+	   dbms_output.put_line('WHERE owner not in '||owner_blacklist);
+	   dbms_output.put_line('group by owner ');
+	   dbms_output.put_line('order by 2 asc; ');
    END IF;
 
 -- Query added on 16/08/2021 
@@ -1680,28 +1666,20 @@ IF :gv_multi = 0 THEN
    IF ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
       dbms_output.put_line('Prompt Heading DB:Database ASM Disk Group Details');
       dbms_output.put_line('SELECT o.name group_name, o.sector_size sector_size, o.block_size block_size, o.allocation_unit_size allocation_unit_size, o.state state, o.type type, o.total_mb total_mb, (total_mb - free_mb) used_mb, ROUND((1- (free_mb / decode(total_mb,0,1)))*100, 2)  pct_used ');
-	  dbms_output.put_line('FROM v$asm_diskgroup o ;');
+	   dbms_output.put_line('FROM v$asm_diskgroup o ;');
    END IF;
-   --IF ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
-      --dbms_output.put_line('Prompt Heading DB:ACL Details');
-      --dbms_output.put_line('select * from dba_network_acls;');
-   --END IF;
-   --IF ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
-      --dbms_output.put_line('Prompt Heading DB:ACL Privileges');
-      --dbms_output.put_line('select * from dba_network_acl_privileges;');
-   --END IF;
    IF ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
       dbms_output.put_line('Prompt Heading DB:LOB Segment Details');
-	  dbms_output.put_line('SELECT * FROM (SELECT l.owner,l.table_name,l.column_name,l.segment_name,l.tablespace_name,index_name,ENCRYPT,COMPRESSION,SECUREFILE,ROUND(s.bytes/1024/1024/1024,2) size_GB ');
-	  dbms_output.put_line('FROM   dba_lobs l JOIN dba_segments s ON s.owner = l.owner AND s.segment_name = l.segment_name ');
-	  dbms_output.put_line('where l.owner not in '||owner_blacklist);
-	  dbms_output.put_line('order by 10 DESC);');	  
+	   dbms_output.put_line('SELECT * FROM (SELECT l.owner,l.table_name,l.column_name,l.segment_name,l.tablespace_name,index_name,ENCRYPT,COMPRESSION,SECUREFILE,ROUND(s.bytes/1024/1024/1024,2) size_GB ');
+	   dbms_output.put_line('FROM   dba_lobs l JOIN dba_segments s ON s.owner = l.owner AND s.segment_name = l.segment_name ');
+	   dbms_output.put_line('where l.owner not in '||owner_blacklist);
+	   dbms_output.put_line('order by 10 DESC);');	  
    END IF;
    IF ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
       dbms_output.put_line('Prompt Heading DB:Restricted Session Username');
       dbms_output.put_line('select username Restricted_Session_username from (select u.username from dba_role_privs rp,dba_users u where u.username=rp.grantee and ');
-	  dbms_output.put_line('rp.granted_role in (select grantee from dba_sys_privs where privilege=''RESTRICTED_SESSION'' and grantee in (select role from dba_roles)) union ');
-	  dbms_output.put_line('select grantee from dba_sys_privs where privilege=''RESTRICTED_SESSION'' and grantee not in (select role from dba_roles));');
+	   dbms_output.put_line('rp.granted_role in (select grantee from dba_sys_privs where privilege=''RESTRICTED_SESSION'' and grantee in (select role from dba_roles)) union ');
+	   dbms_output.put_line('select grantee from dba_sys_privs where privilege=''RESTRICTED_SESSION'' and grantee not in (select role from dba_roles));');
    END IF;   
    IF ( gv_slab in ('11g1','11g2','12c','13','18','19') ) THEN
       dbms_output.put_line('Prompt Heading DB:Database Global Names value details');
@@ -1769,7 +1747,7 @@ IF :gv_multi = 0 THEN
       dbms_output.put_line('where lower(a.parameter)=b.name(+)');
       dbms_output.put_line('and upper(a.parameter) in (''NLS_CHARACTERSET'',''NLS_NCHAR_CHARACTERSET'')');
       dbms_output.put_line(')');
-	  dbms_output.put_line('SELECT ''Discovery Utility Version'' KEY_POINTS,'''||&gv_script_version||''' KEY_VALUE, ''Discovery script version to be noted!'' OBSERVATION FROM  SERVER_INFO union all');
+	   dbms_output.put_line('SELECT ''Discovery Utility Version'' KEY_POINTS,'''||&gv_script_version||''' KEY_VALUE, ''Discovery script version to be noted!'' OBSERVATION FROM  SERVER_INFO union all');
       dbms_output.put_line('SELECT ''Database Name'' KEY_POINTS,DB_NAME KEY_VALUE, ''Information to be noted!'' OBSERVATION FROM  SERVER_INFO union all');
       dbms_output.put_line('SELECT ''Database Version'' KEY_POINTS,DB_VERSION KEY_VALUE, ''Information to be noted!'' OBSERVATION FROM  SERVER_INFO union all');
       dbms_output.put_line('SELECT ''SYSADM user status'' KEY_POINTS,to_char(nvl(SYSADM_USER,0))||'' Exists'' KEY_VALUE, case when nvl(SYSADM_USER,0)=0 then ''No Action required'' else ''May need to reset password.Please check password version in the report..'' end OBSERVATION FROM  SERVER_INFO  union all');
@@ -1811,7 +1789,6 @@ END IF;   ---End of Non-CDB Block
 
 IF :gv_multi = 1 THEN
 
-		--dbms_output.put_line('ALTER SESSION SET CONTAINER = cdb$root;');
 		dbms_output.put_line('SET MARKUP HTML ON;');
 		dbms_output.put_line('set linesize 200;');
 		dbms_output.put_line('set trimspool on;');
@@ -2062,13 +2039,6 @@ IF :gv_multi = 1 THEN
 ----------------------------------------
 --Prompt Heading U_I_GG DB:Database Home|
 ----------------------------------------
-		-- dbms_output.put_line('Prompt Heading U_I_GG DB:Database Home');
-		-- dbms_output.put_line('var Oracle_Home varchar2(100);');
-		-- dbms_output.put_line('begin');
-		-- dbms_output.put_line('sys.dbms_system.get_env(''ORACLE_HOME'', :Oracle_Home);');
-		-- dbms_output.put_line('end;');
-		-- dbms_output.put_line('/');
-		-- dbms_output.put_line('Print :Oracle_home');	
 		
 		dbms_output.put_line('Prompt Heading U_I_GG DB:Database Home');
 		dbms_output.put_line('select SYS_CONTEXT (''USERENV'',''ORACLE_HOME'') from dual;');
@@ -2444,42 +2414,41 @@ IF :gv_multi = 1 THEN
 		dbms_output.put_line('where      t.num_rows > 100000 and c.con_id =1 and l.CON_ID=C.CON_ID and l.master = t.table_name order by t.num_rows desc;');
 		dbms_output.put_line('select C.NAME PDB_NAME, decode(C.CON_ID,1,''CDB-''||C.CON_ID,''PDB-''||C.CON_ID) "TYPE-ID",l.log_owner||''.''||l.master name, l.log_table, t.last_analyzed, t.blocks, t.num_rows from cdb_mview_logs l, cdb_tables t,V$CONTAINERS c');
 		dbms_output.put_line('where      t.num_rows > 100000 and c.con_id ='||&v_pdbconid||' and l.CON_ID=C.CON_ID and l.master = t.table_name order by t.num_rows desc;');
---PROMPT Heading U_I_GG DB:Database MV_log data accumulation info
---alter session set nls_date_format = 'DD-Mon-YYYY';
+
 -----------------------------------------------------
 --Prompt Heading U_I_GG OGG:Redo Log Switch History|
 -----------------------------------------------------
 		dbms_output.put_line('alter session set nls_date_format = ''DD-Mon-YYYY'';');
 		dbms_output.put_line('Prompt Heading U_I_GG OGG:Redo Log Switch History');
 		dbms_output.put_line('Prompt Footnote Average is given in last line');
-        dbms_output.put_line('SELECT  to_char(trunc(first_time),''DD-Mon-YY'') "Date",to_char(first_time, ''Dy'') "Day",count(1) Total,');
-        dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''00'',1,0)) "h0",SUM(decode(to_char(first_time, ''hh24''),''01'',1,0)) "h1",');
-        dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''02'',1,0)) "h2",');
-        dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''03'',1,0)) "h3",');
-        dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''04'',1,0)) "h4",');
-        dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''05'',1,0)) "h5",');
-        dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''06'',1,0)) "h6",');
-        dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''07'',1,0)) "h7",');
-        dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''08'',1,0)) "h8",');
-        dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''09'',1,0)) "h9",');
-        dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''10'',1,0)) "h10",');
-        dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''11'',1,0)) "h11",');
-        dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''12'',1,0)) "h12",');
-        dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''13'',1,0)) "h13",');
-        dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''14'',1,0)) "h14",');
-        dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''15'',1,0)) "h15",');
-        dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''16'',1,0)) "h16",');
-        dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''17'',1,0)) "h17",');
-        dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''18'',1,0)) "h18",');
-        dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''19'',1,0)) "h19",');
-        dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''20'',1,0)) "h20",');
-        dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''21'',1,0)) "h21",');
-        dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''22'',1,0)) "h22",');
-        dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''23'',1,0)) "h23"');
-        dbms_output.put_line('from v$log_history ');
-        dbms_output.put_line('where first_time > sysdate - 30');
-        dbms_output.put_line('group by trunc(first_time), to_char(first_time, ''Dy'')');
-        dbms_output.put_line('order by trunc(first_time);');
+      dbms_output.put_line('SELECT  to_char(trunc(first_time),''DD-Mon-YY'') "Date",to_char(first_time, ''Dy'') "Day",count(1) Total,');
+      dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''00'',1,0)) "h0",SUM(decode(to_char(first_time, ''hh24''),''01'',1,0)) "h1",');
+      dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''02'',1,0)) "h2",');
+      dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''03'',1,0)) "h3",');
+      dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''04'',1,0)) "h4",');
+      dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''05'',1,0)) "h5",');
+      dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''06'',1,0)) "h6",');
+      dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''07'',1,0)) "h7",');
+      dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''08'',1,0)) "h8",');
+      dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''09'',1,0)) "h9",');
+      dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''10'',1,0)) "h10",');
+      dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''11'',1,0)) "h11",');
+      dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''12'',1,0)) "h12",');
+      dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''13'',1,0)) "h13",');
+      dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''14'',1,0)) "h14",');
+      dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''15'',1,0)) "h15",');
+      dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''16'',1,0)) "h16",');
+      dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''17'',1,0)) "h17",');
+      dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''18'',1,0)) "h18",');
+      dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''19'',1,0)) "h19",');
+      dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''20'',1,0)) "h20",');
+      dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''21'',1,0)) "h21",');
+      dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''22'',1,0)) "h22",');
+      dbms_output.put_line('SUM(decode(to_char(first_time, ''hh24''),''23'',1,0)) "h23"');
+      dbms_output.put_line('from v$log_history ');
+      dbms_output.put_line('where first_time > sysdate - 30');
+      dbms_output.put_line('group by trunc(first_time), to_char(first_time, ''Dy'')');
+      dbms_output.put_line('order by trunc(first_time);');
 
 -- Query added on 21/06/2021 	
 ---------------------------------------------------------
@@ -2497,22 +2466,22 @@ IF :gv_multi = 1 THEN
 --------------------------------------------
       dbms_output.put_line('Prompt Heading DB:Database Corrupt Blocks');
       dbms_output.put_line('select count(*) "Corrupt Database Blocks" ');
-	  dbms_output.put_line('from v$database_block_corruption where con_id ='||&v_pdbconid||'; ');	
+	   dbms_output.put_line('from v$database_block_corruption where con_id ='||&v_pdbconid||'; ');	
 	  
 -------------------------------------------------
 --Prompt Heading DB:Database Encrypted - Tablespace |
 -------------------------------------------------  
       dbms_output.put_line('Prompt Heading DB:Database Encrypted - Tablespace');
       dbms_output.put_line('SELECT B.NAME TABLESPACE_NAME, ENCRYPTIONALG, ENCRYPTEDTS  ');
-	  dbms_output.put_line('from sys.V_$ENCRYPTED_TABLESPACES A, sys.V_$TABLESPACE  B ');
-	  dbms_output.put_line('WHERE A.TS# = B.TS# AND B.con_id ='||&v_pdbconid||'; ');	
+	   dbms_output.put_line('from sys.V_$ENCRYPTED_TABLESPACES A, sys.V_$TABLESPACE  B ');
+	   dbms_output.put_line('WHERE A.TS# = B.TS# AND B.con_id ='||&v_pdbconid||'; ');	
 -----------------------------------------------
 --Prompt Heading DB:Database Encrypted Columns |
 -----------------------------------------------
       dbms_output.put_line('Prompt Heading DB:Database Encrypted - Columns');
       dbms_output.put_line('select OWNER,TABLE_NAME,COLUMN_NAME,ENCRYPTION_ALG,SALT');
       dbms_output.put_line('from dba_encrypted_columns');
-	  dbms_output.put_line('WHERE OWNER not in '||owner_blacklist);
+	   dbms_output.put_line('WHERE OWNER not in '||owner_blacklist);
       dbms_output.put_line('order by 1,2,3;');
 	  
 -----------------------------------------------
@@ -2520,36 +2489,36 @@ IF :gv_multi = 1 THEN
 -----------------------------------------------
       dbms_output.put_line('Prompt Heading DB:Database Proxy Connections');
       dbms_output.put_line('select * ');
-	  dbms_output.put_line('from dba_proxies ');
-	  dbms_output.put_line('order by 1,2; ');
+	   dbms_output.put_line('from dba_proxies ');
+	   dbms_output.put_line('order by 1,2; ');
 
 -----------------------------------------------
 --Prompt Heading DB:Database RMAN Configuration|
 -----------------------------------------------
       dbms_output.put_line('Prompt Heading DB:Database RMAN Configuration');
       dbms_output.put_line('SELECT name, value ');
-	  dbms_output.put_line('from sys.v_$rman_configuration ');
-	  dbms_output.put_line('WHERE con_id ='||&v_pdbconid);
-	  dbms_output.put_line('order by 1; ');
+	   dbms_output.put_line('from sys.v_$rman_configuration ');
+	   dbms_output.put_line('WHERE con_id ='||&v_pdbconid);
+	   dbms_output.put_line('order by 1; ');
 
 --------------------------------------------
 --Prompt Heading DB:Database RMAN Configuration|
 --------------------------------------------
       dbms_output.put_line('Prompt Heading DB:Database RMAN Configuration');
       dbms_output.put_line('select owner,sum(bytes)/1024/1024/1024 as "size in GB" ');
-	  dbms_output.put_line('from dba_segments ');
-	  dbms_output.put_line('WHERE owner not in '||owner_blacklist);
-	  dbms_output.put_line('group by owner ');
-	  dbms_output.put_line('order by 2 asc; ');
+	   dbms_output.put_line('from dba_segments ');
+	   dbms_output.put_line('WHERE owner not in '||owner_blacklist);
+	   dbms_output.put_line('group by owner ');
+	   dbms_output.put_line('order by 2 asc; ');
 	  
 ------------------------------------------------
 --Prompt Heading DB:Database Custom Schema Size |
 ------------------------------------------------
       dbms_output.put_line('Prompt Heading DB:Database Custom Schema Size');	  
-	  dbms_output.put_line('select owner,sum(bytes)/1024/1024/1024 as "size in GB" from cdb_segments');
-	  dbms_output.put_line('where con_id ='||&v_pdbconid||' AND owner in (select username from cdb_users where oracle_maintained=''N'' and username not in '||owner_blacklist||') ');	  
-	  dbms_output.put_line('group by owner ');
-	  dbms_output.put_line('order by 2 asc; ');
+	   dbms_output.put_line('select owner,sum(bytes)/1024/1024/1024 as "size in GB" from cdb_segments');
+	   dbms_output.put_line('where con_id ='||&v_pdbconid||' AND owner in (select username from cdb_users where oracle_maintained=''N'' and username not in '||owner_blacklist||') ');	  
+	   dbms_output.put_line('group by owner ');
+	   dbms_output.put_line('order by 2 asc; ');
 -------------------------------------------
 --Prompt Heading DB:External Table Details |
 -------------------------------------------
@@ -2563,33 +2532,22 @@ IF :gv_multi = 1 THEN
       dbms_output.put_line('Prompt Heading DB:DNFS Status Details');
       dbms_output.put_line('select * from gv$dnfs_servers where con_id ='||&v_pdbconid||';');
 -------------------------------
---Prompt Heading DB:ACL Details|
--------------------------------
-      --dbms_output.put_line('Prompt Heading DB:ACL Details');
-      --dbms_output.put_line('select * from dba_network_acls;');
-----------------------------------
---Prompt Heading DB:ACL Privileges|
----------------------------------- 
-      --dbms_output.put_line('Prompt Heading DB:ACL Privileges');
-      --dbms_output.put_line('select * from dba_network_acl_privileges;');
+
 ---------------------------------------
 --Prompt Heading DB:LOB Segment Details|
 ---------------------------------------
       dbms_output.put_line('Prompt Heading DB:LOB Segment Details');
-      --dbms_output.put_line('select owner,table_name,column_name,segment_name,tablespace_name,index_name,ENCRYPT,COMPRESSION,SECUREFILE ');
-	  --dbms_output.put_line('from dba_lobs where owner not in '||owner_blacklist);
-	  --dbms_output.put_line('order by 1,2;');
-	  dbms_output.put_line('SELECT * FROM (SELECT l.owner,l.table_name,l.column_name,l.segment_name,l.tablespace_name,index_name,ENCRYPT,COMPRESSION,SECUREFILE,ROUND(s.bytes/1024/1024/1024,2) size_GB ');
-	  dbms_output.put_line('FROM   dba_lobs l JOIN dba_segments s ON s.owner = l.owner AND s.segment_name = l.segment_name ');
-	  dbms_output.put_line('where l.owner not in '||owner_blacklist);
-	  dbms_output.put_line('order by 10 DESC);');	
+	   dbms_output.put_line('SELECT * FROM (SELECT l.owner,l.table_name,l.column_name,l.segment_name,l.tablespace_name,index_name,ENCRYPT,COMPRESSION,SECUREFILE,ROUND(s.bytes/1024/1024/1024,2) size_GB ');
+	   dbms_output.put_line('FROM   dba_lobs l JOIN dba_segments s ON s.owner = l.owner AND s.segment_name = l.segment_name ');
+	   dbms_output.put_line('where l.owner not in '||owner_blacklist);
+	   dbms_output.put_line('order by 10 DESC);');	
 -----------------------------------------------
 --Prompt Heading DB:Restricted Session Username|
 -----------------------------------------------
       dbms_output.put_line('Prompt Heading DB:Restricted Session Username');
       dbms_output.put_line('select username Restricted_Session_username from (select u.username from dba_role_privs rp,dba_users u where u.username=rp.grantee and ');
-	  dbms_output.put_line('rp.granted_role in (select grantee from dba_sys_privs where privilege=''RESTRICTED_SESSION'' and grantee in (select role from dba_roles)) union ');
-	  dbms_output.put_line('select grantee from dba_sys_privs where privilege=''RESTRICTED_SESSION'' and grantee not in (select role from dba_roles));');
+	   dbms_output.put_line('rp.granted_role in (select grantee from dba_sys_privs where privilege=''RESTRICTED_SESSION'' and grantee in (select role from dba_roles)) union ');
+	   dbms_output.put_line('select grantee from dba_sys_privs where privilege=''RESTRICTED_SESSION'' and grantee not in (select role from dba_roles));');
 -----------------------------------------------
 --Prompt Heading DB:Database Global Names value details|
 -----------------------------------------------
@@ -2610,7 +2568,7 @@ IF :gv_multi = 1 THEN
       dbms_output.put_line('Prompt Heading 00:Discovery Summary');
       dbms_output.put_line('WITH SERVER_INFO AS (');
       dbms_output.put_line('SELECT (select name from v$database) DB_NAME,');
-	  dbms_output.put_line('(select PDB_NAME from DBA_PDBS where PDB_NAME in (SELECT name from v$pdbs where con_id='||&v_pdbconid||')) PDB_NAME,');
+	   dbms_output.put_line('(select PDB_NAME from DBA_PDBS where PDB_NAME in (SELECT name from v$pdbs where con_id='||&v_pdbconid||')) PDB_NAME,');
       dbms_output.put_line('(select version from v$instance) DB_VERSION,');
       dbms_output.put_line('(select count(1) from dba_users where username=''SYSADM'') SYSADM_USER,');	
       dbms_output.put_line('(select HOST_NAME from v$instance) HOST_NAME,');
@@ -2661,7 +2619,7 @@ IF :gv_multi = 1 THEN
       dbms_output.put_line('where lower(a.parameter)=b.name(+)');
       dbms_output.put_line('and upper(a.parameter) in (''NLS_CHARACTERSET'',''NLS_NCHAR_CHARACTERSET'')');
       dbms_output.put_line(')');
-	  dbms_output.put_line('SELECT ''Discovery Utility Version'' KEY_POINTS,'''||&gv_script_version||''' KEY_VALUE, ''Discovery script version to be noted!'' OBSERVATION FROM  SERVER_INFO union all');
+	   dbms_output.put_line('SELECT ''Discovery Utility Version'' KEY_POINTS,'''||&gv_script_version||''' KEY_VALUE, ''Discovery script version to be noted!'' OBSERVATION FROM  SERVER_INFO union all');
       dbms_output.put_line('SELECT ''CDB Name'' KEY_POINTS,DB_NAME KEY_VALUE, ''Information to be noted!'' OBSERVATION FROM  SERVER_INFO union all');
       dbms_output.put_line('SELECT ''PDB Name'' KEY_POINTS,PDB_NAME KEY_VALUE, ''Information to be noted!'' OBSERVATION FROM  SERVER_INFO union all');
       dbms_output.put_line('SELECT ''Database Version'' KEY_POINTS,DB_VERSION KEY_VALUE, ''Information to be noted!'' OBSERVATION FROM  SERVER_INFO union all');
