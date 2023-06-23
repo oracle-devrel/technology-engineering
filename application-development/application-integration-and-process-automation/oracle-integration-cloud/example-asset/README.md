@@ -1,4 +1,4 @@
-# Introduction
+# Asset Name
 
 *Asset Introduction*
 
@@ -14,7 +14,7 @@
 
 - Name and Link
     - Description
-- [Oracle](www.oracle.com)
+- [Oracle](https://www.oracle.com)
     - Oracle Website
 
 # License
