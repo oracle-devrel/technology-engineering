@@ -1,11 +1,14 @@
-# Package Name
-Project Kick-off Template.pdf
+# ## How to use this asset?
 
-## Description
-This document can be used as a reference template for a project kick off presentation.
+This document can be used as a reference template for a project kick-off presentation.
 
-## Usage
-The information is generic in nature and not specified for a particular customer. Appropriate changes in architecture ,scope ,timelines should be updated.
+## When to use this asset?
+
+You use this asset at the beginning of your implementation project.
+
+## How to use this asset?
+
+The information is generic in nature and not specified for a particular customer. Appropriate changes in architecture, scope, and timelines should be updated.
 
 ## License
 Copyright (c) 2023 Oracle and/or its affiliates.
