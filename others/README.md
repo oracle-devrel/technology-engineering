@@ -1,4 +1,6 @@
-# Placeholder
+# Other Content
+
+In this folder, you will find interesting assets which are not aligned with the other areas, products, or workloads. these are typically generic assets that apply to all other areas, such as a generic project plan.
 
 # License
 
