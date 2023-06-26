@@ -1,10 +1,13 @@
-# Package Name
-Project Closure Template.pdf
+# Project Closure Template
 
-## Description
 This document can be used as a reference template for a project closure presentation.
 
-## Usage
+## When to use this asset?
+
+You use this asset when you close an implementation project.
+
+## How to use this asset?
+
 The information with presentation is generic in nature and not specified for a particular customer. Update the scope delivered, transition plans etc aligned to a specific project.
 
 ## License
