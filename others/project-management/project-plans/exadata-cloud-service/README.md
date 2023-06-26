@@ -1,10 +1,12 @@
-# Package Name
-ExaCS Project Plan Template.xlsx
+# ExaCS Project Plan Template
 
-## Description
-This document can be used as a reference template for a ExaCS Project Implementation.
+This document can be used as a reference template for an ExaCS Project Implementation.
 
-## Usage
+## When to use this asset?
+
+At the beginning of an ExaCS project implementation.
+
+## How to use this asset?
 The information is generic in nature and not specified for a particular customer. Appropriate changes in scope and timelines should be updated.
 
 ## License
