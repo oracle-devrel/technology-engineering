@@ -6,7 +6,7 @@ Cyber security has become an increasingly critical topic as malware and ransomwa
 
 Cyber Recovery should be considered as part of a comprehensive cybersecurity strategy, in conjunction with other preventive, detective, and responsive measures. Its primary focus is on rapid recovery and maintaining the integrity of critical systems and data in the face of cyber threats.
 
-The Cloud Backup Module will be helpful for implementing cyber-recovery solution, backup high availability, disaster recovery, and guaranteed backups for the database. It enables you to quickly recover your data in case of data loss or corruption. Installation of the Cloud Backup module to take database backups to the object storage will take between 4 to 5 Hrs.
+The Cloud Backup Module will be helpful for implementing cyber-recovery solutions, backup high availability, disaster recovery, and guaranteed backups for the database. It enables you to quickly recover your data in case of data loss or corruption. Installation of the Cloud Backup module to take database backups to the object storage will take between 4 to 5 Hrs.
 
 This asset will provide the following key features and benefits:
 
@@ -20,6 +20,7 @@ This asset will provide the following key features and benefits:
 8) Cost Optimization
 
 ## How to use this asset?
+
 Here's an overview of how to use this asset:
 
 Follow the deployment section in the Cyber-Recovery-Solution document and configure the Oracle Cloud Backup Module.
@@ -31,11 +32,9 @@ Follow the deployment section in the Cyber-Recovery-Solution document and config
 
 ### Useful Links
 
-The link below can be referred for cyber recovery solution using ansible playbooks, terraform, shell and RMAN scripts.
+[This link](https://docs.oracle.com/en/solutions/oci-automated-cyber-recovery/) can be referred to for cyber recovery solutions using Ansible playbooks, Terraform, Shell, and RMAN scripts.
 
-- https://docs.oracle.com/en/solutions/oci-automated-cyber-recovery/
-
-## License
+# License
 Copyright (c) 2023 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 See [LICENSE](LICENSE) for more details.
