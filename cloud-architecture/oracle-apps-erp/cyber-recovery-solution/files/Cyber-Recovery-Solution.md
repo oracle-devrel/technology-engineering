@@ -2,24 +2,26 @@
 
 Cyber security has become an increasingly critical topic as malware and ransomware attacks continue to occur around the world. For mission-critical databases, such attacks leading to lost data and system downtime can have far-ranging impacts throughout the business in terms of revenue, operations, reputation, and even penalties.
 
-The purpose of Oracle Cloud Database Backup Service is to provide a secure, reliable, and cost-effective way to backup and recover Oracle Database workloads that are running in the cloud or on-premises. With this service, you can create backups of your databases and store them in Oracle Cloud Infrastructure Object Storage, which provides highly durable and scalable object storage.
+The purpose of Oracle Cloud Database Backup Service is to provide a secure, reliable, and cost-effective way to back up and recover Oracle Database workloads that are running in the cloud or on-premises. With this service, you can create backups of your databases and store them in Oracle Cloud Infrastructure Object Storage, which provides highly durable and scalable object storage.
+
 The service offers several benefits, including automated backups, point-in-time recovery, and backup retention policies. It enables you to quickly recover your data in case of data loss or corruption, and can also be used to migrate your databases to the cloud. Additionally, the service helps you meet your regulatory and compliance requirements by providing data encryption and secure backups.
 
 Owner: Bhaskar Ivaturi
 
-## Deployment:
+## Deployment
 
 Download and install the Oracle Cloud Backup Module on the database server(s) where your Oracle Database resides. The installation process typically involves running the provided installation scripts and configuring the necessary parameters.
 
--	Download the Oracle Database Cloud Backup Module for OCI from Oracle Technology Network (OTN).
+- Download the Oracle Database Cloud Backup Module for OCI from Oracle Technology Network (OTN).
 - Accept the license agreement, click All Supported Platforms, and provide your OTN username and password when prompted. Then download the ZIP file that contains the installer (opc_installer.zip) to your system.
--	Extract the contents of the zip file.
--	The file contains two directories, oci_installer (for Oracle Cloud Infrastructure) and opc_installer (for Oracle Cloud Infrastructure Classic), and a README file.
--	To use Oracle Database Backup Cloud Service for Oracle database backups, you'll need to install the appropriate backup module needed for cloud backups.
--	Run the installer, oci_install.jar, from the oci_installer directory. Provide the required parameters in one line, with each parameter preceded by a hyphen and followed by its value.
+- Extract the contents of the zip file.
+- The file contains two directories, oci_installer (for Oracle Cloud Infrastructure) and opc_installer (for Oracle Cloud Infrastructure Classic), and a README file.
+- To use Oracle Database Backup Cloud Service for Oracle database backups, you'll need to install the appropriate backup module needed for cloud backups.
+- Run the installer, oci_install.jar, from the oci_installer directory. Provide the required parameters in one line, with each parameter preceded by a hyphen and followed by its value.
 
 The following is an example run of the installer. This example shows how the installer automatically downloads the Oracle Database Cloud Backup Module for OCI for your operating system, creates a wallet that contains Oracle Database Backup Cloud Service identifiers and credentials, creates the backup module configuration file, and downloads the library necessary for backups and restores to Oracle Cloud Infrastructure.
 
+```
     %java -jar oci_install.jar -host https://objectstorage.<region>.oraclecloud.com
     -pvtKeyFile /oracle/dbs/oci_wallet/oci_pvt
     -pubFingerPrint xx:10:06:b1:fb:24:xx:xx:46:21:16:20:00:xx:xx:00
@@ -28,18 +30,19 @@ The following is an example run of the installer. This example shows how the ins
     -walletDir /oracle/dbs/oci_wallet
     -libDir /oracle/lib
     -bucket db_backups
-
+```
 
 After installing the backup module, you'll configure the settings that will be used for backup and recovery operations. When using Recovery Manager (RMAN) for backup and recovery operations with Oracle Database Backup Cloud Service, you must configure your RMAN environment.
 
+```
     RMAN> CONFIGURE DEFAULT DEVICE TYPE TO 'SBT_TAPE';
     RMAN> CONFIGURE CHANNEL DEVICE TYPE sbt PARMS='SBT_LIBRARY=location-of-the-SBT-library-for-the-backup-module, SBT_PARMS=(OPC_PFILE=location-of-the-configuration file)’;
     RMAN> CONFIGURE COMPRESSION ALGORITHM 'MEDIUM’;
     RMAN> CONFIGURE DEVICE TYPE 'SBT_TAPE' PARALLELISM 4 BACKUP TYPE TO COMPRESSED BACKUPSET;
     RMAN> CONFIGURE ENCRYPTION FOR DATABASE ON;
+```
 
-
-### Backup Destination:
+### Backup Destination
 
 Create an Oracle Cloud Infrastructure Object Storage bucket to serve as the backup destination. This bucket will store the backup files securely in the Oracle Cloud.
 
@@ -52,12 +55,13 @@ Define backup schedules and retention policies based on your requirements. You c
 Initiate backups using OCBM commands or integrated RMAN (Recovery Manager) commands. OCBM seamlessly integrates with RMAN, providing familiar commands and workflows.
 Monitor the progress and status of backup operations to ensure successful completion.
 
-Perform restore and recovery operations as needed. OCBM allows you to restore the database to a specific point in time using backups stored in OCI Object Storage. Use the RMAN shell scripts for the seamless restore operations.
+Perform restore and recovery operations as needed. OCBM allows you to restore the database to a specific point in time using backups stored in OCI Object Storage. Use the RMAN shell scripts for seamless restore operations.
 
 ##### Use Case 1: Implement a cyber recovery solution on Oracle Cloud Infrastructure
 ###### RMAN Scripts for backup and restore
 ###### Sample Backup script:
 
+```
     #!/bin/bash
     #
     W_SID=$1
@@ -74,10 +78,11 @@ Perform restore and recovery operations as needed. OCBM allows you to restore th
     BACKUP AS COMPRESSED BACKUPSET ARCHIVELOG FROM TIME 'SYSDATE-1' FORCE FORMAT '%U-%d-OSS-DB-19-%I-%T';
     }
     EOF
-
+```
 
 ###### Sample Restore script:
 
+```
     #!/bin/bash
     ###############################################################################
     # $Header: db_restore.sh v0.1 - DB Restore $
@@ -150,12 +155,13 @@ Perform restore and recovery operations as needed. OCBM allows you to restore th
     srvctl stop database -d $ORACLE_UNQNAME
     srvctl start database -d $ORACLE_UNQNAME -o "read only"
     srvctl status database -d $ORACLE_UNQNAME -v
-
+```
 
 ##### Use Case 2: Create DR Using backup from Object Storage
+
 To perform targetless duplication in RMAN without connecting to the source database or catalog, the BACKUP LOCATION clause is used. However, this method is only applicable when the source database backups are stored in a DISK location. If the source database utilizes Oracle Database Backup Cloud Service (e.g., ZDM or EBS Cloud Manager) for cloud backups, the following steps need to be followed:
 1)	Apply one-off patch 26082402:
--	For Oracle RDBMS versions 12c and later, it is necessary to apply the patch 26082402.
+-	For Oracle RDBMS versions 12c and later, it is necessary to apply patch 26082402.
 -	Please note that this bug is fixed starting from Oracle RDBMS version 19.1 onwards.
 2)	Create an XML file with backup information:
 -	On the destination database server, execute the odbsrmt.py script (bundled along with the libopc.so library file).
@@ -171,11 +177,9 @@ By following these steps, the targetless duplication process can be performed su
     cloud_slave_processors: Thread Thread_0 successfully done
     odbsrmt.py: ALL outputs have been written to [/u01/install/APPS/backup/duplicate.xml]
 
-
-
-
 ###### Script to duplicate standby database.
 
+```
       connect auxiliary /
       set DECRYPTION identified by  "<password>";
       run {
@@ -185,15 +189,17 @@ By following these steps, the targetless duplication process can be performed su
       ALLOCATE AUXILIARY CHANNEL aux4 DEVICE TYPE SBT parms='SBT_LIBRARY=/u01/install/APPS/backup/lib/libopc.so, ENV=(OPC_PFILE=/u01/install/APPS/backup/opcdbbkp.ora)';
       duplicate target database for standby backup location from file '/u01/install/APPS/backup/duplicate.xml' nofilenamecheck;
       }
+```
 
 *Reference doc: Perform RMAN Targetless Duplication Using Cloud (Oracle Database Backup Cloud Service) Backups (Doc ID 2454290.1)*
 
 #### Validation/Testing
 
-Test Scenario – This script, named validation.sql, runs the validation queries while connected as sysdba. It provides a comprehensive validation report for the target database after the restore process. The script sets various SQL*Plus settings to control output formatting and executes the necessary queries. The results include information such as the PDB name, current date, database name, open mode, database status, logins, and status of distinct datafiles, tablespaces, tempfiles, and datafiles. It also reports the number of invalid objects and the count of recoverable files.
+Test Scenario – This script, named validation.sql, runs the validation queries while connected as sysdba. It provides a comprehensive validation report for the target database after the restore process. The script sets various SQL*Plus settings to control output formatting and executes the necessary queries. The results include information such as the PDB name, current date, database name, open mode, database status, logins, and status of distinct datafiles, tablespaces, temp files, and data files. It also reports the number of invalid objects and the count of recoverable files.
 
 Executing this script ensures a thorough validation of the restored database, enabling confirmation of a successful restore operation and providing critical information for further testing and analysis.
 
+```
     #!/bin/bash
     ###############################################################################
     # $Header: validation.sql - DB Restore $
@@ -244,6 +250,7 @@ Executing this script ensures a thorough validation of the restored database, en
     select 'Recover_Files:'||count(*) from v\$recover_file;
 
     EOF
+```
 
 
 
