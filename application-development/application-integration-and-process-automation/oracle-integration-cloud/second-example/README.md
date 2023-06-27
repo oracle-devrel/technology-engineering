@@ -1,6 +1,6 @@
 # Integration Cloud Project Plan
 
-*Asset Introduction*
+*Asset Introduction.*
 
 ## When to use this asset?
 
@@ -8,7 +8,7 @@
 
 ## How to use this asset?
 
-*Describe how an asset is used*
+*Describe how an asset is used.*
 
 ## Useful Links (Optional)
 
