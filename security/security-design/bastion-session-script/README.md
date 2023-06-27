@@ -1,7 +1,13 @@
-# bastion-session.sh
-
+# <Asset Name>
+ 
 This shell script can be used to easily connect to the OCI Bastion service based on temporary SSH keys. Authorization is granted based on OCI CLI authentication and OCI Permissions. For OCI CLI authentication both the use of exchanged API keys and session security tokens is supported. This script works also directly on OCI Cloud Shell, however only for Managed SSH Sessions since port forwarding is not supported on OCI Cloud Shell.
-
+ 
+## When to use this asset?
+ 
+Use this shell script if you want make use of OCI Bastions in a simple and secure way.
+ 
+## How to use this asset?
+ 
 **Usage: ./bastion-session.sh COMMAND [ARGS]...**
 
 Example:
@@ -44,3 +50,11 @@ Prerequisites:
   (See also [https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/cliinstall.htm])
 - The jq commandline JSON processer must be installed.
   (See also [https://stedolan.github.io/jq])
+ 
+# License
+ 
+Copyright (c) 2023 Oracle and/or its affiliates.
+ 
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+ 
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
