@@ -10,7 +10,8 @@ This questionnaire can be used to capture details for the database migration wor
 ## How to use this asset?
 The information is generic in nature and not specified for a particular customer. Appropriate changes in scope should be updated.
 
-License
+# License
+
 Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
