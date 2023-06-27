@@ -4,26 +4,26 @@ OSSA stands for 'Oracle Software Security Assurance', which encompasses the secu
 
 CIS Oracle Cloud Infrastructure Foundations Benchmark provides prescriptive guidance for establishing a secure
 baseline configuration for the Oracle Cloud Infrastructure environment. The scope of this benchmark is to
-establish a base level of security for anyone utilizing the included Oracle Cloud Infrastructure services. Current OSSA checklist is aligned with the CIS OCI Benchmark 1.2.0
+establish a base level of security for anyone utilizing the included Oracle Cloud Infrastructure services. The current OSSA checklist is aligned with the CIS OCI Benchmark 1.2.0
 
 Owner: Ravi Agrawal
 
 ## When to use this asset?
 
- For every Oracle Cloud Infrastructure implementation,  best practices and guidelines need to be validated against the OSSA checklist.
+For every Oracle Cloud Infrastructure implementation,  best practices and guidelines need to be validated against the OSSA checklist.
 
 ## How to use this asset?
 
-Validate the solution before project closure against OSSA checklist controls and seek for justification against any non-compliant entry.
+Validate the solution before project closure against OSSA checklist controls and seek justification against any non-compliant entry.
 
 
 ## Useful Links
 
-- Download full CIS OCI Benchmark from below link for the full details of remediations steps:
-https://www.cisecurity.org/benchmark/oracle_cloud
+- Download the full [CIS OCI Benchmark from the link](https://www.cisecurity.org/benchmark/oracle_cloud) for the full details of the remediation steps.
 
 
-License
+# License
+
 Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
