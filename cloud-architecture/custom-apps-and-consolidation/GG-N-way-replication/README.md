@@ -10,7 +10,7 @@ This will provide methods and best practices to achieve real time data replicati
 
 Users of this document should have a working knowledge of GoldenGate and OCI Oracle Databases.
 
-- GoldenGate to setup bi-directional replication between DBCS (Region1) and DBCS(Region2)
+- GoldenGate to setup bi-directional replication between DBCS (Region1) and DBCS(Region2).
 - GoldenGate to setup uni-directional replication between DBCS and ADW for both regions. 
 
 
