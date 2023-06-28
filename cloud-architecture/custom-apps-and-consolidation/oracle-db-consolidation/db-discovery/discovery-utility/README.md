@@ -1,10 +1,12 @@
-# Package Name
-oradb_discovery_v3_6_11_19.sql
+# Oracle Database Discovery Script
 
-## Description
 The Database discovery and analysis tool is a SQL utility that captures necessary details of an oracle database in order to analyse on-premises or cloud Oracle Databases for the suitability of migration/upgrades. This utility runs on Non Container or Container databases and helps in generating HTML report with detailed description.
 
-## Usage
+## When to use this asset?
+
+This script is to be executed in the discovery phase if it is identified the oracle on-premises database is to be migrated to OCI.
+
+## How to use this asset?
 ```
 sqlplus "/ as sysdba"  @oradb_discovery_v3_6_11_19.sql
 ```
