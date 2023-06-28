@@ -1,11 +1,11 @@
 # Oradb XTTS Prechecks
 
-XTTS Pre-check for ORACLE Database is a SQL script-based utility that captures necessary details of an oracle database in order to analyze the suitability of XTTS method.
-This utility runs on Oracle 11g onwards, both on Container/Non Container databases and helps in generating a HTML report with self-contained tablespace violation status and other detailed description.
+XTTS Pre-check for ORACLE Database is a SQL script-based utility that captures the necessary details of an Oracle database in order to analyze the suitability of the XTTS method.
+This utility runs on Oracle 11g onwards, both on Container/Non-Container databases, and helps in generating an HTML report with self-contained tablespace violation status and other detailed descriptions.
 
 ## When to use this asset?
 
-This script is to be executed in the discovery phase if it is identified the oracle on-premises database is to be migrated using XTTS method.
+This script is to be executed in the discovery phase if it is identified the Oracle on-premises database is to be migrated using the XTTS method.
 
 ## How to use this asset?
 
@@ -13,7 +13,7 @@ This script is to be executed in the discovery phase if it is identified the ora
 sqlplus "/ as sysdba"  @oradb_xtts_prechecks.sql
 ```
 
-This script needs to be executed on Oracle database server with a user who has ` "/as sysdba" ` access.
+This script needs to be executed on an Oracle database server with a user who has ` "/as sysdba" ` access.
 
 -	Copy the oradb_xtts_prechecks.sql file to the server.
 -	Execute the script as ```sqlplus "/ as sysdba" @oradb_xtts_prechecks.sql``` .
