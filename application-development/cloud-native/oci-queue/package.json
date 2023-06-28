@@ -6,8 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "mika.rinne@oracle.com",
-  "license": "ISC",
   "dependencies": {
     "oci-common": "^2.52.0",
     "oci-core": "^2.52.0",
