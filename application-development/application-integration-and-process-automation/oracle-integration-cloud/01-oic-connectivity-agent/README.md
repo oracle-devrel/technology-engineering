@@ -1,23 +1,28 @@
-# Integration Cloud Project Plan
+# OIC Connectivity Agent and Hybrid Integration Practice
 
-*Following assets Article should help to decide Integration architecture on OCI and demonstrate how easy it is to create and manage connectivity between the Oracle Integration Cloud and private resources in OCI or VPN to on-premise or third-party cloud resources without public IP.
+Assets that contains solution design practice and implementation steps for the Hybrid Integrations and integrating private OCI resources.
 
-Using the connectivity agent, you can create hybrid integrations and exchange messages between applications in private or on-premises networks and Oracle Integration. *
+## OIC-Connectivity-Agent-and-Hybrid-Integrations
 
-## When to use this asset?
+ OIC-Connectivity-Agent-and-Hybrid-Integrations.pdf - contains architectures and references that should help to decide Integration architecture on OCI. It describes the connectivity agent and using the connectivity agent to create hybrid integrations and exchange messages between applications in private or on-premises networks and Oracle Integration.
 
-*Who would use this asset when?*
+## Installing-OIC-agent-on-OCI
+
+ Installing-OIC-agent-on-OCI.pdf Thiis cookbook style article hich should demonstrate how easy it is to create and manage connectivity between the Oracle Integration Cloud and private resources in OCI or VPN to on-premise or third-party cloud resources without public IP.
+
+## When to use these asset?
+
+These assets should be used whenever is needed to design solution with on premise or private cloud resources integration.
 
 ## How to use this asset?
 
-*Describe how an asset is used.*
+### OIC-Connectivity-Agent-and-Hybrid-Integrations
 
-## Useful Links (Optional)
+The information is generic in nature and not specified for a particular customer. Appropriate changes to reflect the customer should be updated in the area of optional demo.
 
-- Name and Link
-    - Description
-- [Oracle](https://www.oracle.com)
-    - Oracle Website
+## Installing-OIC-agent-on-OCI
+
+The document contains detailed steps to install the OIC Connectivity Agent on OCI and use it within the OIC Connection definition.
 
 # License
 
