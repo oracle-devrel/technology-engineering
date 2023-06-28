@@ -4,7 +4,7 @@ This document can be used as a reference template for project delivery.
 
 ## When to use this asset?
 
-This template provides a snapshot of the complete end to end project delivery. This is a one stop document for the entire project. 
+This template provides a snapshot of the complete end-to-end project delivery. This is a one-stop document for the entire project. 
 
 ## How to use this asset?
 
