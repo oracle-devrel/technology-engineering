@@ -27,7 +27,7 @@ Oracle Cloud Infrastructure (OCI) AI Services is a collection of services with p
     - Oracle AI Services homepage
 
 ## Reusable Assets Overview
-TBD
+
 
 # License
 
