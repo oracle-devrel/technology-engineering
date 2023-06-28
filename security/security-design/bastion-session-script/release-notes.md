@@ -10,7 +10,7 @@
 
 # Sep 8, 2022 Release Notes - Beta 0.9.2
 
-- When using CygWin (e.g. via MobaXTerm) on windows, ssh-keygen key location and access works slightly different. Added detection for this.
+- When using CygWin (e.g. via MobaXTerm) on Windows, ssh-keygen key location and access works slightly differently. Added detection for this.
 - Improved verbose output to include ssh commands.
 - Removed obsolete oci lookup command.
 
