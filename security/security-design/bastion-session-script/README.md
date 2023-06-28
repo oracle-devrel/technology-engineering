@@ -4,7 +4,7 @@ This shell script can be used to easily connect to the OCI Bastion service based
  
 ## When to use this asset?
  
-Use this shell script if you want make use of OCI Bastions in a simple and secure way.
+Use this shell script if you want to make use of OCI Bastions in a simple and secure way.
  
 ## How to use this asset?
  
