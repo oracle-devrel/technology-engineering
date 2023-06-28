@@ -4,6 +4,8 @@ A Postman collection of sample SCIM API requests for Oracle Identity Governance 
 
 ## When to use this asset?
 
+The collection can be used for demonstration purposes, to showcase the SCIM capabilities of OIG or as a general reference in SCIM request automation.
+
 ## How to use this asset?
 
 ### Pre-requisites
