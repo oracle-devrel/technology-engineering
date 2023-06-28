@@ -1,4 +1,4 @@
-# Oracle Database Discovery Script
+# Oracle Database Discovery Utility
 
 The Database discovery and analysis tool is a SQL utility that captures necessary details of an oracle database in order to analyse on-premises or cloud Oracle Databases for the suitability of migration/upgrades. This utility runs on Non Container or Container databases and helps in generating HTML report with detailed description.
 
