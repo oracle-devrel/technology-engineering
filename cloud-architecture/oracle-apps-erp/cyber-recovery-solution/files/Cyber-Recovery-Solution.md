@@ -12,7 +12,7 @@ Owner: Bhaskar Ivaturi
 
 Download and install the Oracle Cloud Backup Module on the database server(s) where your Oracle Database resides. The installation process typically involves running the provided installation scripts and configuring the necessary parameters.
 
--	Download the Oracle Database Cloud Backup Module for OCI from Oracle Technology Network (OTN).
+-	Download the Oracle Database Cloud Backup Module for OCI from Oracle Technology Network (https://www.oracle.com/database/technologies/oracle-cloud-backup-downloads.html).
 - Accept the license agreement, click All Supported Platforms, and provide your OTN username and password when prompted. Then download the ZIP file that contains the installer (opc_installer.zip) to your system.
 - Extract the contents of the zip file.
 - The file contains two directories, oci_installer (for Oracle Cloud Infrastructure) and opc_installer (for Oracle Cloud Infrastructure Classic), and a README file.
