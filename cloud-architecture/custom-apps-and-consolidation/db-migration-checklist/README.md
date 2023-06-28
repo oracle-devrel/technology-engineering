@@ -1,10 +1,10 @@
 # Database Migration Checklist
 
-This is a checklist that would help the implementer with any logical oracle database migration. This includes pre-check and post-check tasks along with the migration flow so as to track and complete the required tasks before handover.
+This is a checklist that would help the implementer with any logical Oracle database migration. This includes pre-check and post-check tasks along with the migration flow so as to track and complete the required tasks before handover.
 
 ## When to use this asset?
 
-This checklist could be followed in the implementation phase for any logical oracle database migration.
+This checklist could be followed in the implementation phase for any logical Oracle database migration.
 
 ## How to use this asset?
 
