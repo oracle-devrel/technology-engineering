@@ -1,0 +1,21 @@
+# Logging Analytics
+
+
+# Team Publications
+
+- [Logging Analytics Demo](https://www.youtube.com/watch?v=1bJb92put4k)
+- [How to send Windows Logs to Logging Analytics from OCI Logging](https://learnoci.cloud/how-to-send-windows-logs-to-logging-analytics-from-oci-logging-2c2a209c180a)
+   - 	Step-by-step guide on how to send Custom Logs to OCI Logging Analytics and prepare for Threat Hunting using Windows Event ID.
+- [How to get your IDCS Logs into OCI Logging Analytics](https://learnoci.cloud/how-to-get-your-idcs-logs-into-oci-logging-analytics-897dca063198)
+- [How to get Sysmon events into Logging Analytics](https://learnoci.cloud/how-to-get-sysmon-events-into-logging-analytics-798eec1e57d5)
+- [How to ingest Windows Logs into Logging Analytics](https://learnoci.cloud/how-to-ingest-windows-logs-into-logging-analytics-ec9fa591edc5)
+- [Adding Threat Intelligence to Your Logging Analytics Solution in Oracle Cloud Infrastructure](https://learnoci.cloud/adding-threat-intelligence-to-your-logging-analytics-solution-in-oracle-cloud-infrastructure-882ee020fbcd)
+- [Leveraging OCI Logging Analytics with OSSEM Detection Model for Enhanced Security Analytics](https://adibirzu.medium.com/leveraging-oci-logging-analytics-with-ossem-detection-model-for-enhanced-security-analytics-e599b270a14a)
+
+# License
+
+Copyright (c) 2023 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
