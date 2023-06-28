@@ -11,6 +11,8 @@
 - [How to ingest Windows Logs into Logging Analytics](https://learnoci.cloud/how-to-ingest-windows-logs-into-logging-analytics-ec9fa591edc5)
 - [Adding Threat Intelligence to Your Logging Analytics Solution in Oracle Cloud Infrastructure](https://learnoci.cloud/adding-threat-intelligence-to-your-logging-analytics-solution-in-oracle-cloud-infrastructure-882ee020fbcd)
 - [Leveraging OCI Logging Analytics with OSSEM Detection Model for Enhanced Security Analytics](https://adibirzu.medium.com/leveraging-oci-logging-analytics-with-ossem-detection-model-for-enhanced-security-analytics-e599b270a14a)
+- [Analyzing OCI Compute Instance logs with OCI Logging Analytics](https://blogs.oracle.com/observability/post/oci-logginganalytics-compute-instance)
+
 
 # License
 
