@@ -4,17 +4,6 @@
 
 We've designed our storage platform as an ideal complement to Oracle compute and networking services to support the highest performance requirements. OCI Block Volume uses the latest NVMe SSDs and provides nonblocking network connectivity to every host. Oracle delivers consistent, low-latency performance of up to 225 IOPS/GB to a maximum of 300,000 IOPS and 2,680 MB/sec of throughput per volume.
 
-Features
-
-- Cross-region asynchronous block volume replication
-- Consistent high performance
-- Dynamic performance scaling with auto-tuning of block volumes
-- Scales volumes from 50 GB to 32 TB
-- Attach volumes to reach 1 PB per compute instance
-- Less than half the price of AWS EBS
-- Encryption at rest by default using AES 256
-- Encryption in transit supported by TLS 1.2
-- Automatic monitoring for data integrity
 
 # Table of Contents
 
@@ -63,8 +52,6 @@ Features
     - Set up your Server with Resilience by default Using the Console
     - Set up your Server with Resilience by default using CLI
     - Performance-Based Auto-tune Use Case script
-- [Block Volume Service performance-based auto-tune - Cost comparison](https://gitlab.com/hmielimo/cloud-resilience-by-default/-/blob/main/doc/Block.Volume.Service.performance.based.auto.tune.Cost.comparison.xlsx)
-  - Cost comparison excel to analyze Block Volume Service performance-based auto-tune cost advantages in your environment
 - [OCI Storage Health-Check](https://gitlab.com/hmielimo/oci-storage-health-check/)
   - Storage Health-Check example scripts
     - validate all boot and block volumes regarding backup policies

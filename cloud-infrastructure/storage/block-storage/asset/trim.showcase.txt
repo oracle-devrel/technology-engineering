@@ -1,5 +1,12 @@
 TRIM showcase
 
+License
+{----------------------------------------------------------------------------------------------
+Copyright (c) 2023 Oracle and/or its affiliates.
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+}----------------------------------------------------------------------------------------------
+
 prepare environment
 {----------------------------------------------------------------------------------------------
 - FYI: If you use https://notepad-plus-plus.org/ and choose shell as language you are able to fold/unfold the sections https://npp-user-manual.org/docs/views/#folding 
