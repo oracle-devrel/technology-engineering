@@ -1,0 +1,191 @@
+TRIM showcase
+
+prepare environment
+{----------------------------------------------------------------------------------------------
+- FYI: If you use https://notepad-plus-plus.org/ and choose shell as language you are able to fold/unfold the sections https://npp-user-manual.org/docs/views/#folding 
+- set up the "operate" instance
+	- An oracle enterprise linux server with Command Line Interface (CLI) 
+	  see Set up your Server with Resilience by default using CLI https://gitlab.com/hmielimo/cloud-resilience-by-default/#set-up-your-server-with-resilience-by-default-using-cli for details
+	- create and attach block volume: e.g. trim-test (200GB)
+}----------------------------------------------------------------------------------------------
+
+format and mount block volume
+{----------------------------------------------------------------------------------------------
+DEVICEoPATH=/dev/oracleoci/oraclevdb
+DATAoDIR=/mnt/MyBlockVolume
+sudo mkdir /mnt/MyBlockVolume
+sudo mkfs -t ext4 ${DEVICEoPATH}
+sudo mount ${DEVICEoPATH} ${DATAoDIR}
+sudo chown -R opc:opc ${DATAoDIR}
+ls -lah ${DATAoDIR}
+sudo mount | grep ${DATAoDIR}
+}----------------------------------------------------------------------------------------------
+ 
+update fstab
+{----------------------------------------------------------------------------------------------
+sudo vi /etc/fstab
+/dev/oracleoci/oraclevdb  /mnt/MyBlockVolume    ext4    defaults,_netdev,noatime  0  2
+}----------------------------------------------------------------------------------------------
+
+TRIM showcase (TRIM off)
+{----------------------------------------------------------------------------------------------
+Oracle Cloud Infrastructure CLI Command Reference			: https://docs.oracle.com/en-us/iaas/tools/oci-cli/latest/oci_cli_docs/index.html
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------
+# CUSTOMER SPECIFIC VALUES - please update appropriate
+# ---------------------------------------------------------------------------------------------------------------------------------------------
+export TENENCY_OCID=[please insert your value here]
+export USER_OCID=[please insert your value here]
+export COMPARTMENT_OCID=[please insert your value here]
+export FRANKFURT_SUBNET_OCID=[please insert your value here]
+export FRANKFURT_REGION_IDENTIFIER=eu-frankfurt-1
+export FRANKFURT_SERVER_NAME=operate
+export AD=1
+export AD_PREFIX=fyxu
+export FRANKFURT_AVAILABILITY_DOMAIN="${AD_PREFIX}:${FRANKFURT_REGION_IDENTIFIER}-AD-${AD}"
+export PROFILE_FRANKFURT=FRANKFURT
+export TRIM_TEST_OCID=[please insert your value here]
+export TRIM_TEST_BACKUP_NAME=TrimTestBackup
+export myLOGFILE=\tmp\trim.test.log
+export myTEMPFILE=\tmp\.trim.test.tmp
+export mySIZE=1048576
+export myITERATIONS=13
+
+DEVICEoPATH=/dev/oracleoci/oraclevdb
+DATAoDIR=/mnt/MyBlockVolume
+sudo mkdir /mnt/MyBlockVolume
+sudo umount ${DATAoDIR}
+sudo mkfs -t ext4 ${DEVICEoPATH}
+
+sudo mount ${DEVICEoPATH} ${DATAoDIR}
+sudo chown -R opc:opc ${DATAoDIR}
+ls -lah ${DATAoDIR}
+sudo mount | grep ${DATAoDIR}
+df -h | grep ${DATAoDIR}
+sudo fstrim --all
+
+= ##############################################################################################################################
+- this will run ~ 20 minutes (TRIM off) or 30 minutes (TRIM on)
+- ##############################################################################################################################
+echo "Start Trim Test (trim NOT active)" > "${myLOGFILE}"
+echo "============================================================================================" >> "${myLOGFILE}"
+for i in $( seq 1 $myITERATIONS )
+do
+
+  if [ 1 -eq 1 ] ; then # show Size Information: Filesystem
+    echo -n "Size Information: Filesystem..: " >> "${myLOGFILE}"
+    df -h | grep /mnt/MyBlockVolume >> "${myLOGFILE}"
+  fi
+  
+  if [ 1 -eq 1 ] ; then # take backup, show Size Information: Block Volume; delete backup
+    oci --profile "${PROFILE_FRANKFURT}" bv backup create --volume-id "${TRIM_TEST_OCID}" --display-name "${TRIM_TEST_BACKUP_NAME}" --wait-for-state "AVAILABLE" 
+
+    oci --profile "${PROFILE_FRANKFURT}" bv backup list --compartment-id "${COMPARTMENT_OCID}" --display-name "${TRIM_TEST_BACKUP_NAME}" > "${myTEMPFILE}"
+    for ii in $(cat "${myTEMPFILE}"|jq --raw-output '.[] | [.[] | select(."display-name"=="TrimTestBackup")] | .[]."id" ')
+    do
+      TRIM_TEST_BACKUP_OCID=$ii
+      TRIM_TEST_BACKUP_SIZE_IN_MB=$( cat "${myTEMPFILE}"|jq --raw-output '.[] | [.[] | select(.'\"id\"'=='\"$ii\"')] | .[].'\"unique-size-in-mbs\"' ' )
+    done
+    echo "Size Information: Block Volume: Backup size in MB: ${TRIM_TEST_BACKUP_SIZE_IN_MB}" >> "${myLOGFILE}"
+	
+    echo "Action..........: Block Volume: delete backup" >> "${myLOGFILE}"
+    oci --profile "${PROFILE_FRANKFURT}" bv backup delete --volume-backup-id "${TRIM_TEST_BACKUP_OCID}" --force --wait-for-state "TERMINATED" 
+  fi
+
+  if [ 1 -eq 1 ] ; then # insert, update delete files
+    echo "Action..........: Filesystem..: insert, update and delete" >> "${myLOGFILE}"
+    dd if=/dev/zero of=/mnt/MyBlockVolume/iteration.$i.file1.txt count=$mySIZE bs=1024
+    dd if=/dev/zero of=/mnt/MyBlockVolume/iteration.$i.file2.txt count=$mySIZE bs=1024
+    dd if=/dev/zero of=/mnt/MyBlockVolume/iteration.$i.file1.txt count=$mySIZE bs=1024
+    rm -f /mnt/MyBlockVolume/iteration.$i.file1.txt
+	#sudo fstrim --all
+  fi  
+
+done
+
+cat "${myLOGFILE}"
+
+
+}----------------------------------------------------------------------------------------------
+
+TRIM showcase (TRIM on)
+{----------------------------------------------------------------------------------------------
+Oracle Cloud Infrastructure CLI Command Reference			: https://docs.oracle.com/en-us/iaas/tools/oci-cli/latest/oci_cli_docs/index.html
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------
+# CUSTOMER SPECIFIC VALUES - please update appropriate
+# ---------------------------------------------------------------------------------------------------------------------------------------------
+export TENENCY_OCID=[please insert your value here]
+export USER_OCID=[please insert your value here]
+export COMPARTMENT_OCID=[please insert your value here]
+export FRANKFURT_SUBNET_OCID=[please insert your value here]
+export FRANKFURT_REGION_IDENTIFIER=eu-frankfurt-1
+export FRANKFURT_SERVER_NAME=operate
+export AD=1
+export AD_PREFIX=fyxu
+export FRANKFURT_AVAILABILITY_DOMAIN="${AD_PREFIX}:${FRANKFURT_REGION_IDENTIFIER}-AD-${AD}"
+export PROFILE_FRANKFURT=FRANKFURT
+export TRIM_TEST_OCID=[please insert your value here]
+export TRIM_TEST_BACKUP_NAME=TrimTestBackup
+export myLOGFILE=\tmp\trim.test.log
+export myTEMPFILE=\tmp\.trim.test.tmp
+export mySIZE=1048576
+export myITERATIONS=13
+
+DEVICEoPATH=/dev/oracleoci/oraclevdb
+DATAoDIR=/mnt/MyBlockVolume
+sudo mkdir /mnt/MyBlockVolume
+sudo umount ${DATAoDIR}
+sudo mkfs -t ext4 ${DEVICEoPATH}
+
+sudo mount ${DEVICEoPATH} ${DATAoDIR}
+sudo chown -R opc:opc ${DATAoDIR}
+ls -lah ${DATAoDIR}
+sudo mount | grep ${DATAoDIR}
+df -h | grep ${DATAoDIR}
+sudo fstrim --all
+
+= ##############################################################################################################################
+- this will run ~ 20 minutes (TRIM off) or 30 minutes (TRIM on)
+- ##############################################################################################################################
+echo "Start Trim Test (trim active)" > "${myLOGFILE}"
+echo "============================================================================================" >> "${myLOGFILE}"
+for i in $( seq 1 $myITERATIONS )
+do
+
+  if [ 1 -eq 1 ] ; then # show Size Information: Filesystem
+    echo -n "Size Information: Filesystem..: " >> "${myLOGFILE}"
+    df -h | grep /mnt/MyBlockVolume >> "${myLOGFILE}"
+  fi
+  
+  if [ 1 -eq 1 ] ; then # take backup, show Size Information: Block Volume; delete backup
+    oci --profile "${PROFILE_FRANKFURT}" bv backup create --volume-id "${TRIM_TEST_OCID}" --display-name "${TRIM_TEST_BACKUP_NAME}" --wait-for-state "AVAILABLE" 
+
+    oci --profile "${PROFILE_FRANKFURT}" bv backup list --compartment-id "${COMPARTMENT_OCID}" --display-name "${TRIM_TEST_BACKUP_NAME}" > "${myTEMPFILE}"
+    for ii in $(cat "${myTEMPFILE}"|jq --raw-output '.[] | [.[] | select(."display-name"=="TrimTestBackup")] | .[]."id" ')
+    do
+      TRIM_TEST_BACKUP_OCID=$ii
+      TRIM_TEST_BACKUP_SIZE_IN_MB=$( cat "${myTEMPFILE}"|jq --raw-output '.[] | [.[] | select(.'\"id\"'=='\"$ii\"')] | .[].'\"unique-size-in-mbs\"' ' )
+    done
+    echo "Size Information: Block Volume: Backup size in MB: ${TRIM_TEST_BACKUP_SIZE_IN_MB}" >> "${myLOGFILE}"
+	
+    echo "Action..........: Block Volume: delete backup" >> "${myLOGFILE}"
+    oci --profile "${PROFILE_FRANKFURT}" bv backup delete --volume-backup-id "${TRIM_TEST_BACKUP_OCID}" --force --wait-for-state "TERMINATED" 
+  fi
+
+  if [ 1 -eq 1 ] ; then # insert, update delete files
+    echo "Action..........: Filesystem..: insert, update and delete" >> "${myLOGFILE}"
+    dd if=/dev/zero of=/mnt/MyBlockVolume/iteration.$i.file1.txt count=$mySIZE bs=1024
+    dd if=/dev/zero of=/mnt/MyBlockVolume/iteration.$i.file2.txt count=$mySIZE bs=1024
+    dd if=/dev/zero of=/mnt/MyBlockVolume/iteration.$i.file1.txt count=$mySIZE bs=1024
+    rm -f /mnt/MyBlockVolume/iteration.$i.file1.txt
+	sudo fstrim --all
+  fi  
+
+done
+
+cat "${myLOGFILE}"
+
+
+}----------------------------------------------------------------------------------------------
+
