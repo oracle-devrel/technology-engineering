@@ -1,9 +1,10 @@
-# Placeholder
-This page provides a collection of assets related to AppDev that can help the customer solve initial questions about the modern frameworks and get an overview about the OCI offering.
+# Cloud Native
+
+This page provides a collection of assets related to AppDev that can help the customer solve initial questions about the modern frameworks and get an overview of the OCI offering.
 
 The intended purpose is to provide a clear and well-defined insight into the concepts before involving deeper expertise.
 
-Customers and partners developing applications and thinking of moving into the cloud can find anything needed in here, from inspiring slides to samples of code.
+Customers and partners developing applications and thinking of moving into the cloud can find anything needed here, from inspiring slides to samples of code.
 
 # License
 
