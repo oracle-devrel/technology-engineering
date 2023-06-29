@@ -4,7 +4,7 @@ On Oracle Cloud Infrastructure (OCI), developers find a comprehensive portfolio 
 
 This area includes Cloud Native Services, Application Integration, AI Cloud Services, Content Management, as well as many other exciting services that can be used to develop, optimize and extend your applications.
 
-Also see [oracle.com/application-development] (https://www.oracle.com/uk/application-development/) for details.
+Also, see [oracle.com/application-development] (https://www.oracle.com/uk/application-development/) for details.
 
 # License
 
