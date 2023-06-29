@@ -54,7 +54,7 @@ fi
     myOCID=$ii
     myNAME=$( cat "${myTEMPFILE}"|jq --raw-output '.[] | [.[] | select(.'\"id\"'=='\"$ii\"')] | .[].'\"display-name\"' ' )
     if [ 0 -lt $(echo "${myNAME}" | grep "${FRANKFURT_BLOCK_VOLUME_NAME}" | wc -l)  ] ; then 
-	  BLOCK_VOLUME_OCID=${myOCID}
+      BLOCK_VOLUME_OCID=${myOCID}
       echo "${PF1} Block Volume name.........: ${myNAME}" >> "${LOG_FILE}"
       echo "${PF1} Block Volume OCID.........: ${myOCID}" >> "${LOG_FILE}"
     fi  
@@ -90,7 +90,7 @@ fi
     myOCID=$ii
     myNAME=$( cat "${myTEMPFILE}"|jq --raw-output '.[] | [.[] | select(.'\"id\"'=='\"$ii\"')] | .[].'\"display-name\"' ' )
     if [ 0 -lt $(echo "${myNAME}" | grep "${FRANKFURT_BLOCK_VOLUME_NAME}Backup" | wc -l)  ] ; then 
-	  BLOCK_VOLUME_BACKUP_OCID=${myOCID}
+      BLOCK_VOLUME_BACKUP_OCID=${myOCID}
       echo "${PF1} Block Volume Backup name..: ${myNAME}" >> "${LOG_FILE}"
       echo "${PF1} Block Volume Backup OCID..: ${myOCID}" >> "${LOG_FILE}"
     fi  
@@ -107,8 +107,8 @@ if [ 1 -eq 1 ] ; then
 color_print "${IGreen}" "($MYCOUNT) $(date "+%d.%m.%Y %H:%M:%S") : $MYOUTPUT"
 
 : ' ---------------------------------------------------------------------------------------------------------------------------------------
-Encrypt Data in Block Volumes		https://docs.oracle.com/en/solutions/oci-best-practices/protect-data-rest1.html
-oci bv volume-kms-key update		https://docs.oracle.com/en-us/iaas/tools/oci-cli/latest/oci_cli_docs/cmdref/bv/volume-kms-key/update.html
+Encrypt Data in Block Volumes       https://docs.oracle.com/en/solutions/oci-best-practices/protect-data-rest1.html
+oci bv volume-kms-key update        https://docs.oracle.com/en-us/iaas/tools/oci-cli/latest/oci_cli_docs/cmdref/bv/volume-kms-key/update.html
 -------------------------------------------------------------------------------------------------------------------------------------------'
 
 echo "Secure Storage with Customer managed Key" >> "${LOG_FILE}"
@@ -125,7 +125,7 @@ fi
 color_print "${MYcolor}" "${PF1} BLOCK volume backup change from Oracle managed Key to Customer managed Key (coming soon)"
 if [ 1 -eq 0 ] ; then # BLOCK volume backup change from Oracle managed Key to Customer managed Key (coming soon)
 : ' ---------------------------------------------------------------------------------------------------------------------------------------
-Backup Data in Storage Services		https://docs.oracle.com/en/solutions/oci-best-practices/back-your-data1.html
+Backup Data in Storage Services     https://docs.oracle.com/en/solutions/oci-best-practices/back-your-data1.html
 -------------------------------------------------------------------------------------------------------------------------------------------'
   oci --profile "${REGION_PROFILE}" bv backup-kms-key update --volume-id "${BLOCK_VOLUME_BACKUP_OCID}" --kms-key-id "${MasterEncryptionKey_OCID}"
   
@@ -139,8 +139,8 @@ if [ 1 -eq 1 ] ; then # Rotation of Customer managed Key
 : ' ---------------------------------------------------------------------------------------------------------------------------------------
 Periodically rotating keys limits the amount of data 
 encrypted or signed by one key version. If a key is 
-ever compromised, key rotation thus reduces the risk. 	https://docs.oracle.com/en-us/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts
-kms management key-version create						https://docs.oracle.com/en-us/iaas/tools/oci-cli/latest/oci_cli_docs/cmdref/kms/management/key-version/create.html
+ever compromised, key rotation thus reduces the risk.   https://docs.oracle.com/en-us/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts
+kms management key-version create                       https://docs.oracle.com/en-us/iaas/tools/oci-cli/latest/oci_cli_docs/cmdref/kms/management/key-version/create.html
 -------------------------------------------------------------------------------------------------------------------------------------------'
 
   oci --profile "${REGION_PROFILE}" kms management key-version create --key-id "${MasterEncryptionKey_OCID}" --endpoint "${ManagementEndpoint}" --wait-for-state "ENABLED"
