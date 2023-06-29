@@ -6,6 +6,15 @@ The intended purpose is to provide a clear and well-defined insight into the con
 
 Customers and partners developing applications and thinking of moving into the cloud can find anything needed here, from inspiring slides to samples of code.
 
+# Table of Contents
+ 
+1. [Team Publications](#team-publications)
+2. [Useful Links](#useful-uinks)
+
+## Team Publications
+
+## Useful Links
+
 ## Hyperscaler translation
 
 | <b>OCI</b>          | <b>AWS</b>                            | <b>Azure</b>                         | <b>GCP</b>                              |
