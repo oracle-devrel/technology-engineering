@@ -1,23 +1,22 @@
-TRIM showcase
+# License
 
-License
-{----------------------------------------------------------------------------------------------
 Copyright (c) 2023 Oracle and/or its affiliates.
+
 Licensed under the Universal Permissive License (UPL), Version 1.0.
+
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
-}----------------------------------------------------------------------------------------------
 
-prepare environment
-{----------------------------------------------------------------------------------------------
-- FYI: If you use https://notepad-plus-plus.org/ and choose shell as language you are able to fold/unfold the sections https://npp-user-manual.org/docs/views/#folding 
-- set up the "operate" instance
-	- An oracle enterprise linux server with Command Line Interface (CLI) 
-	  see Set up your Server with Resilience by default using CLI https://gitlab.com/hmielimo/cloud-resilience-by-default/#set-up-your-server-with-resilience-by-default-using-cli for details
-	- create and attach block volume: e.g. trim-test (200GB)
-}----------------------------------------------------------------------------------------------
 
-format and mount block volume
-{----------------------------------------------------------------------------------------------
+# Showcase TRIM
+
+## Prepare your environment
+- [Oracle Cloud Infrastructure CLI Command Reference](https://docs.oracle.com/en-us/iaas/tools/oci-cli/latest/oci_cli_docs/index.html)
+- set up your individual "operate" instance
+	- An Oracle enterprise Linux server with Command Line Interface (*see [Set up your Server with Resilience by default using CLI](https://gitlab.com/hmielimo/cloud-resilience-by-default/#set-up-your-server-with-resilience-by-default-using-cli)  for details*)
+	- create and attach block volume: e.g. trim-test (*200GB*)
+
+## Format and mount block volume
+~~~
 DEVICEoPATH=/dev/oracleoci/oraclevdb
 DATAoDIR=/mnt/MyBlockVolume
 sudo mkdir /mnt/MyBlockVolume
@@ -26,38 +25,42 @@ sudo mount ${DEVICEoPATH} ${DATAoDIR}
 sudo chown -R opc:opc ${DATAoDIR}
 ls -lah ${DATAoDIR}
 sudo mount | grep ${DATAoDIR}
-}----------------------------------------------------------------------------------------------
- 
-update fstab
-{----------------------------------------------------------------------------------------------
+~~~
+
+## Update fstab
+~~~
 sudo vi /etc/fstab
 /dev/oracleoci/oraclevdb  /mnt/MyBlockVolume    ext4    defaults,_netdev,noatime  0  2
-}----------------------------------------------------------------------------------------------
+~~~
 
-TRIM showcase (TRIM off)
-{----------------------------------------------------------------------------------------------
-Oracle Cloud Infrastructure CLI Command Reference			: https://docs.oracle.com/en-us/iaas/tools/oci-cli/latest/oci_cli_docs/index.html
+## TRIM OFF showcase
 
+
+### Set needed variables (*please adjust variables to your needs before past into your terminal*)
+~~~
 # ---------------------------------------------------------------------------------------------------------------------------------------------
 # CUSTOMER SPECIFIC VALUES - please update appropriate
 # ---------------------------------------------------------------------------------------------------------------------------------------------
-export TENENCY_OCID=[please insert your value here]
-export USER_OCID=[please insert your value here]
-export COMPARTMENT_OCID=[please insert your value here]
-export FRANKFURT_SUBNET_OCID=[please insert your value here]
-export FRANKFURT_REGION_IDENTIFIER=eu-frankfurt-1
-export FRANKFURT_SERVER_NAME=operate
-export AD=1
-export AD_PREFIX=fyxu
+export TENENCY_OCID=<your_tenency_ocid>
+export USER_OCID=<your_user_ocid>
+export COMPARTMENT_OCID=<your_compartment_ocid>
+export FRANKFURT_SUBNET_OCID=<your_frankfurt_subnet_ocid>
+export FRANKFURT_REGION_IDENTIFIER=<your_frankfurt_region_identifier>
+export FRANKFURT_SERVER_NAME=<your_frankfurt_server_name>
+export AD=<your_ad_number>
+export AD_PREFIX=<your_ad_prefix>
 export FRANKFURT_AVAILABILITY_DOMAIN="${AD_PREFIX}:${FRANKFURT_REGION_IDENTIFIER}-AD-${AD}"
 export PROFILE_FRANKFURT=FRANKFURT
-export TRIM_TEST_OCID=[please insert your value here]
+export TRIM_TEST_OCID=<your_trim_test_ocid>
 export TRIM_TEST_BACKUP_NAME=TrimTestBackup
 export myLOGFILE=\tmp\trim.test.log
 export myTEMPFILE=\tmp\.trim.test.tmp
 export mySIZE=1048576
 export myITERATIONS=13
+~~~
 
+### Preperation steps
+~~~
 DEVICEoPATH=/dev/oracleoci/oraclevdb
 DATAoDIR=/mnt/MyBlockVolume
 sudo mkdir /mnt/MyBlockVolume
@@ -70,10 +73,10 @@ ls -lah ${DATAoDIR}
 sudo mount | grep ${DATAoDIR}
 df -h | grep ${DATAoDIR}
 sudo fstrim --all
+~~~
 
-= ##############################################################################################################################
-- this will run ~ 20 minutes (TRIM off) or 30 minutes (TRIM on)
-- ##############################################################################################################################
+### This will run ~ 20 minutes
+~~~
 echo "Start Trim Test (trim NOT active)" > "${myLOGFILE}"
 echo "============================================================================================" >> "${myLOGFILE}"
 for i in $( seq 1 $myITERATIONS )
@@ -83,9 +86,9 @@ do
     echo -n "Size Information: Filesystem..: " >> "${myLOGFILE}"
     df -h | grep /mnt/MyBlockVolume >> "${myLOGFILE}"
   fi
-  
+
   if [ 1 -eq 1 ] ; then # take backup, show Size Information: Block Volume; delete backup
-    oci --profile "${PROFILE_FRANKFURT}" bv backup create --volume-id "${TRIM_TEST_OCID}" --display-name "${TRIM_TEST_BACKUP_NAME}" --wait-for-state "AVAILABLE" 
+    oci --profile "${PROFILE_FRANKFURT}" bv backup create --volume-id "${TRIM_TEST_OCID}" --display-name "${TRIM_TEST_BACKUP_NAME}" --wait-for-state "AVAILABLE"
 
     oci --profile "${PROFILE_FRANKFURT}" bv backup list --compartment-id "${COMPARTMENT_OCID}" --display-name "${TRIM_TEST_BACKUP_NAME}" > "${myTEMPFILE}"
     for ii in $(cat "${myTEMPFILE}"|jq --raw-output '.[] | [.[] | select(."display-name"=="TrimTestBackup")] | .[]."id" ')
@@ -94,9 +97,9 @@ do
       TRIM_TEST_BACKUP_SIZE_IN_MB=$( cat "${myTEMPFILE}"|jq --raw-output '.[] | [.[] | select(.'\"id\"'=='\"$ii\"')] | .[].'\"unique-size-in-mbs\"' ' )
     done
     echo "Size Information: Block Volume: Backup size in MB: ${TRIM_TEST_BACKUP_SIZE_IN_MB}" >> "${myLOGFILE}"
-	
+
     echo "Action..........: Block Volume: delete backup" >> "${myLOGFILE}"
-    oci --profile "${PROFILE_FRANKFURT}" bv backup delete --volume-backup-id "${TRIM_TEST_BACKUP_OCID}" --force --wait-for-state "TERMINATED" 
+    oci --profile "${PROFILE_FRANKFURT}" bv backup delete --volume-backup-id "${TRIM_TEST_BACKUP_OCID}" --force --wait-for-state "TERMINATED"
   fi
 
   if [ 1 -eq 1 ] ; then # insert, update delete files
@@ -111,34 +114,35 @@ do
 done
 
 cat "${myLOGFILE}"
+~~~
 
+## TRIM ON showcase
 
-}----------------------------------------------------------------------------------------------
-
-TRIM showcase (TRIM on)
-{----------------------------------------------------------------------------------------------
-Oracle Cloud Infrastructure CLI Command Reference			: https://docs.oracle.com/en-us/iaas/tools/oci-cli/latest/oci_cli_docs/index.html
-
+### Set needed variables (*please adjust variables to your needs before past into your terminal*)
+~~~
 # ---------------------------------------------------------------------------------------------------------------------------------------------
 # CUSTOMER SPECIFIC VALUES - please update appropriate
 # ---------------------------------------------------------------------------------------------------------------------------------------------
-export TENENCY_OCID=[please insert your value here]
-export USER_OCID=[please insert your value here]
-export COMPARTMENT_OCID=[please insert your value here]
-export FRANKFURT_SUBNET_OCID=[please insert your value here]
-export FRANKFURT_REGION_IDENTIFIER=eu-frankfurt-1
-export FRANKFURT_SERVER_NAME=operate
-export AD=1
-export AD_PREFIX=fyxu
+export TENENCY_OCID=<your_tenency_ocid>
+export USER_OCID=<your_user_ocid>
+export COMPARTMENT_OCID=<your_compartment_ocid>
+export FRANKFURT_SUBNET_OCID=<your_frankfurt_subnet_ocid>
+export FRANKFURT_REGION_IDENTIFIER=<your_frankfurt_region_identifier>
+export FRANKFURT_SERVER_NAME=<your_frankfurt_server_name>
+export AD=<your_ad_number>
+export AD_PREFIX=<your_ad_prefix>
 export FRANKFURT_AVAILABILITY_DOMAIN="${AD_PREFIX}:${FRANKFURT_REGION_IDENTIFIER}-AD-${AD}"
 export PROFILE_FRANKFURT=FRANKFURT
-export TRIM_TEST_OCID=[please insert your value here]
+export TRIM_TEST_OCID=<your_trim_test_ocid>
 export TRIM_TEST_BACKUP_NAME=TrimTestBackup
 export myLOGFILE=\tmp\trim.test.log
 export myTEMPFILE=\tmp\.trim.test.tmp
 export mySIZE=1048576
 export myITERATIONS=13
+~~~
 
+### Preperation steps
+~~~
 DEVICEoPATH=/dev/oracleoci/oraclevdb
 DATAoDIR=/mnt/MyBlockVolume
 sudo mkdir /mnt/MyBlockVolume
@@ -151,10 +155,10 @@ ls -lah ${DATAoDIR}
 sudo mount | grep ${DATAoDIR}
 df -h | grep ${DATAoDIR}
 sudo fstrim --all
+~~~
 
-= ##############################################################################################################################
-- this will run ~ 20 minutes (TRIM off) or 30 minutes (TRIM on)
-- ##############################################################################################################################
+### This will run ~ 30 minutes
+~~~
 echo "Start Trim Test (trim active)" > "${myLOGFILE}"
 echo "============================================================================================" >> "${myLOGFILE}"
 for i in $( seq 1 $myITERATIONS )
@@ -164,9 +168,9 @@ do
     echo -n "Size Information: Filesystem..: " >> "${myLOGFILE}"
     df -h | grep /mnt/MyBlockVolume >> "${myLOGFILE}"
   fi
-  
+
   if [ 1 -eq 1 ] ; then # take backup, show Size Information: Block Volume; delete backup
-    oci --profile "${PROFILE_FRANKFURT}" bv backup create --volume-id "${TRIM_TEST_OCID}" --display-name "${TRIM_TEST_BACKUP_NAME}" --wait-for-state "AVAILABLE" 
+    oci --profile "${PROFILE_FRANKFURT}" bv backup create --volume-id "${TRIM_TEST_OCID}" --display-name "${TRIM_TEST_BACKUP_NAME}" --wait-for-state "AVAILABLE"
 
     oci --profile "${PROFILE_FRANKFURT}" bv backup list --compartment-id "${COMPARTMENT_OCID}" --display-name "${TRIM_TEST_BACKUP_NAME}" > "${myTEMPFILE}"
     for ii in $(cat "${myTEMPFILE}"|jq --raw-output '.[] | [.[] | select(."display-name"=="TrimTestBackup")] | .[]."id" ')
@@ -175,9 +179,9 @@ do
       TRIM_TEST_BACKUP_SIZE_IN_MB=$( cat "${myTEMPFILE}"|jq --raw-output '.[] | [.[] | select(.'\"id\"'=='\"$ii\"')] | .[].'\"unique-size-in-mbs\"' ' )
     done
     echo "Size Information: Block Volume: Backup size in MB: ${TRIM_TEST_BACKUP_SIZE_IN_MB}" >> "${myLOGFILE}"
-	
+
     echo "Action..........: Block Volume: delete backup" >> "${myLOGFILE}"
-    oci --profile "${PROFILE_FRANKFURT}" bv backup delete --volume-backup-id "${TRIM_TEST_BACKUP_OCID}" --force --wait-for-state "TERMINATED" 
+    oci --profile "${PROFILE_FRANKFURT}" bv backup delete --volume-backup-id "${TRIM_TEST_BACKUP_OCID}" --force --wait-for-state "TERMINATED"
   fi
 
   if [ 1 -eq 1 ] ; then # insert, update delete files
@@ -192,7 +196,4 @@ do
 done
 
 cat "${myLOGFILE}"
-
-
-}----------------------------------------------------------------------------------------------
-
+~~~
