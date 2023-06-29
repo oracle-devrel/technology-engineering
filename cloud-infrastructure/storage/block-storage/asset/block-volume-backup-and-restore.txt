@@ -33,10 +33,10 @@ MYoSOURCE2=/dev/sdb1
 DATAoDIR=/mnt/MyBlockVolume.backup-test
 OBJECTDATAoDIR=/mnt/MyObjectStorage.backup-test
 BUCKEToNAME=backup-test
-MYoREGION=eu-frankfurt-1
-MYoNAMESPACE=***
-MYoSECREToKEY=***
-MYoACCESSoKEY=***
+MYoREGION=<region>
+MYoNAMESPACE=<your_namespace>
+MYoSECREToKEY=<your_secret_key>
+MYoACCESSoKEY=<your_access_key>
 }----------------------------------------------------------------------------------------------
 
 
