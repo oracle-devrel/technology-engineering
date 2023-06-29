@@ -10,15 +10,15 @@ showcase manual block volume backup & restore
 
 prepare environment
 {----------------------------------------------------------------------------------------------
-- FYI: If you use https://notepad-plus-plus.org/ and choose shell as language you are able to fold/unfold the sections https://npp-user-manual.org/docs/views/#folding 
+- FYI: If you use https://notepad-plus-plus.org/ and choose shell as the language you are able to fold/unfold the sections https://npp-user-manual.org/docs/views/#folding 
 - set up the "operate" instance
-	- An oracle enterprise linux server with Command Line Interface (CLI) 
+	- An Oracle enterprise Linux server with Command Line Interface (CLI) 
 	  see Set up your Server with Resilience by default using CLI https://gitlab.com/hmielimo/cloud-resilience-by-default/#set-up-your-server-with-resilience-by-default-using-cli for details
 	- create and attach block volume: e.g. backup-test (50GB)
 	- create a bucket e.g. backup-test
 }----------------------------------------------------------------------------------------------
 
-Some informations 
+Some information 
 {----------------------------------------------------------------------------------------------
 Mounting an Object Storage Bucket as File System on Oracle Linux				https://blogs.oracle.com/cloud-infrastructure/post/mounting-an-object-storage-bucket-as-file-system-on-oracle-linux
 OCI Compute - How to Install s3fs-fuse on Oracle Linux 8 (Doc ID 2938554.1)		https://support.oracle.com/epmos/faces/DocumentDisplay?id=2938554.1
