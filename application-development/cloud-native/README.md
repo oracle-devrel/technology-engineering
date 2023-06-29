@@ -26,6 +26,8 @@ Customers and partners developing applications and thinking of moving into the c
 
 [Who provides the best value?](https://blogs.oracle.com/cloud-infrastructure/post/kubernetes-cloud-cost-comparison-best-value)
 
+[Cloud Journey](*application-development/cloud-native/AppDev.pdf)
+
 
 # License
 
