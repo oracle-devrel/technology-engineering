@@ -16,8 +16,7 @@ The Oracle Converged Database makes it easier and faster to develop data-driven 
 ## Livelabs Workshops  
 - [Get Started with Oracle database](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=613)
 - [AutoREST with JSON Relational Duality Views in 23c Free](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3634)
-- []()
-- []()
+ 
  
  # License
 
