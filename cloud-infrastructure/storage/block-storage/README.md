@@ -2,7 +2,7 @@
 
 [High-performance block storage at any scale](https://www.oracle.com/cloud/storage/#rc30p1)
 
-We've designed our storage platform as an ideal complement to Oracle compute and networking services to support the highest performance requirements. OCI Block Volume uses the latest NVMe SSDs and provides nonblocking network connectivity to every host. Oracle delivers consistent, low-latency performance of up to 225 IOPS/GB to a maximum of 300,000 IOPS and 2,680 MB/sec of throughput per volume.
+We've designed our storage platform as an ideal complement to Oracle compute and networking services to support the highest performance requirements. OCI Block Volume uses the latest NVMe SSDs and provides nonblocking network connectivity to every host. Oracle delivers a consistent, low-latency performance of up to 225 IOPS/GB to a maximum of 300,000 IOPS and 2,680 MB/sec of throughput per volume.
 
 
 # Table of Contents
@@ -16,7 +16,7 @@ We've designed our storage platform as an ideal complement to Oracle compute and
 - [OCI provides native high availability and data resilience](https://blogs.oracle.com/cloud-infrastructure/post/oci-provide-cloud-resilience-by-default)
     - Blog: Oracle Cloud Infrastructure (OCI) provides high data durability and availability as a core feature, enabling businesses to concentrate on their customer experience and economic success.
 - [Make your cloud resilient against regional outages](https://www.youtube.com/watch?v=IVqLe_XH_AE)
-    - 6 minute Video about "Make your cloud resilient against regional outages"
+    - 6-minute Video about "Make your cloud resilient against regional outages"
 - [Effortless Cloud Resilience – Automate your Disaster Recovery with Oracle Cloud Infrastructure](https://www.youtube.com/watch?v=P3qWyjE9HMQ)
     - 1h Video about "Effortless Cloud Resilience – Automate your Disaster Recovery with Oracle Cloud Infrastructure"
 
@@ -33,7 +33,7 @@ We've designed our storage platform as an ideal complement to Oracle compute and
 - [Block Storage Release Notes](https://docs.oracle.com/en-us/iaas/releasenotes/services/blockvolume/)
 - [Block Volumes FAQ](https://www.oracle.com/cloud/storage/block-volumes/faq)
 - [Oracle Cloud Infrastructure Service Level Agreement (SLA)](https://www.oracle.com/cloud/sla/)
-  - Enterprises demand more than just availability from their cloud infrastructure. Mission-critical workloads also require consistent performance, and the ability to manage, monitor, and modify resources running in the cloud at any time. Only Oracle offers end-to-end SLAs covering performance, availability, and manageability of services.
+  - Enterprises demand more than just availability from their cloud infrastructure. Mission-critical workloads also require consistent performance, and the ability to manage, monitor, and modify resources running in the cloud at any time. Only Oracle offers end-to-end SLAs covering the performance, availability, and manageability of services.
 - [Oracle PaaS and IaaS Public Cloud Services Pillar Document Block Storage](https://www.oracle.com/assets/paas-iaas-pub-cld-srvs-pillar-4021422.pdf#page=28)
   - Oracle offers end-to-end SLAs covering performance, availability, and manageability. Here you find details regarding Block Storage.
 - [Oracle PaaS and IaaS Universal Credits Service Descriptions - Storage section](https://www.oracle.com/us/corporate/contracts/paas-iaas-universal-credits-3940775.pdf#page=178)
@@ -46,9 +46,9 @@ We've designed our storage platform as an ideal complement to Oracle compute and
 ## Reusable Assets Overview
 
 - [Cloud Resilience](https://gitlab.com/hmielimo/cloud-resilience/-/blob/main/doc/cloud.resilience/README.md)
-  - All details regarding storage based resiliency incl. example backup & recover automation script
+  - All details regarding storage-based resiliency incl. example backup and recovery automation script
 - [Cloud Resilience by default](https://gitlab.com/hmielimo/cloud-resilience-by-default/)
-  - All details regarding storage based Server resiliency incl.
+  - All details regarding storage-based Server resiliency incl.
     - Set up your Server with Resilience by default Using the Console
     - Set up your Server with Resilience by default using CLI
     - Performance-Based Auto-tune Use Case script
@@ -58,7 +58,7 @@ We've designed our storage platform as an ideal complement to Oracle compute and
     - showcase boot and block volume security e.g. using Customer managed key, Key-Rotation, Backup
 - [TRIM showcase - example script](asset/trim.showcase.txt)
 - [boot/block volume security best practice - example script](asset/secure.storage.sh)
-- [boot/block volume individual (to a customer managed bucket) backup and restore  - example script](asset/block.volume.backup.and.restore.txt)
+- [boot/block volume individual (to a customer-managed bucket) backup and restore  - example script](asset/block.volume.backup.and.restore.txt)
 
 
 
