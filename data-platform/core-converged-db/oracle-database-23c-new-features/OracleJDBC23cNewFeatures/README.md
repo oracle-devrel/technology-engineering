@@ -1,3 +1,13 @@
+# Placeholder
+
+# License
+
+Copyright (c) 2023 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+
 # OracleJDBC23cNewFeatures
 This repo contains working code of examples demonstrating Reactive API support provided in Oracle JDBC Driver 23c
 Before running the code there is need to provide in the code
