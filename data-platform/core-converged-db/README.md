@@ -1,5 +1,9 @@
 # Placeholder
 
+# Useful Links
+[Oracle Database](https://www.oracle.com/database/23c/)
+
+
 # License
 
 Copyright (c) 2023 Oracle and/or its affiliates.
