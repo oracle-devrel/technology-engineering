@@ -18,20 +18,20 @@ The Technology Engineering Security Specialists team provides end-end Oracle sec
 ### Oracle Blogs
 
 - [Native Cloud Security Services or Heterogeneous Tools?](https://blogs.oracle.com/cloudsecurity/post/native-cloud-security-services-or-heterogeneous-tools)
-  - Read this article to hear our experts view on “I’m deploying workloads in Oracle Cloud Infrastructure (OCI) but I already have several, existing security tools. Should I use those, which can monitor all my different cloud environments, not just OCI, or should I use OCI-native security services?”
+  - Read this article to hear our expert's view on “I’m deploying workloads in Oracle Cloud Infrastructure (OCI) but I already have several, existing security tools. Should I use those, which can monitor all my different cloud environments, not just OCI, or should I use OCI-native security services?”
 - [Quick tip 8: Managing authentication through sign-on policies](https://blogs.oracle.com/cloudsecurity/post/quick-tip-8-managing-authentication-through-signon-policies)
-   - This article is on IAM but focusing on authentication. Sign-on policies control how users are challenged to authenticate and under what circumstances they’re allowed to access integrated applications.
+   - This article is on IAM but focuses on authentication. Sign-on policies control how users are challenged to authenticate and under what circumstances they’re allowed to access integrated applications.
 - [A huge step forward for Security Zones in Oracle Cloud Infrastructure](https://blogs.oracle.com/cloudsecurity/post/a-huge-step-forward-for-security-zones-in-oci)
-    - Oracle announced custom Security Zones, which, as the name suggests, enables you to customise the security zone policies (referred to as recipes), disabling rules that are not appropriate for your deployments.
+    - Oracle announced custom Security Zones, which, as the name suggests, enables you to customize the security zone policies (referred to as recipes), disabling rules that are not appropriate for your deployments.
       
 ### OCI Architecture Center
  
-- [Enhance user experience by deploying your custom sign-in application on OKE](https://docs.oracle.com/en/solutions/enhance-ux-custom-signin-app-oke/index.html)
-    - You can display your organization's own URL during employee sign in instead of using the cloud service provider's standard URL by hosting your custom sign-in application in your own domain.
+- [Enhance the user experience by deploying your custom sign-in application on OKE](https://docs.oracle.com/en/solutions/enhance-ux-custom-signin-app-oke/index.html)
+    - You can display your organization's own URL during employee sign-in instead of using the cloud service provider's standard URL by hosting your custom sign-in application in your own domain.
 - [OCVS Security - Data Protection](https://docs.oracle.com/en/solutions/oci-security-ocvs/index.html#GUID-A59FC475-6C3B-4589-8151-4ED088E4AC91)
    - This reference architecture describes the integration options for Oracle Cloud VMware Solution with OCI Data Protection layer and security services to address the requirements for running critical and sensitive workloads. 
 -  [Connect Oracle Data Safe to Exadata and Autonomous Databases](https://docs.oracle.com/en/solutions/data-safe-exadata-adb/index.html)
-    - This reference architecture highlights the different ways you can connect Exadata and Autonomous databases to Oracle Data Safe. It also describes the security measurements you need take to provide a safe deployment of a connection to a specific target database.
+    - This reference architecture highlights the different ways you can connect Exadata and Autonomous databases to Oracle Data Safe. It also describes the security measures you need to take to provide a safe deployment of a connection to a specific target database.
  
 ### Cloud Coaching Webinars - [Oracle Learning Library YouTube](https://www.youtube.com/@OracleLearning)
 
