@@ -13,7 +13,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"//Retrieve access token\r",
+							"// Retrieve access token.\r",
 							"pm.collectionVariables.set(\"access_token\",JSON.parse(responseBody).accessToken);"
 						],
 						"type": "text/javascript"
@@ -75,7 +75,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"//Retrieve org id\r",
+							"// Retrieve org id.\r",
 							"pm.collectionVariables.set(\"organization_id\",JSON.parse(responseBody).id);"
 						],
 						"type": "text/javascript"
@@ -135,7 +135,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"//Retrieve manager id\r",
+							"// Retrieve manager id.\r",
 							"pm.collectionVariables.set(\"manager_id\",JSON.parse(responseBody).id);"
 						],
 						"type": "text/javascript"
@@ -163,7 +163,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"schemas\":\r\n  [\r\n    \"urn:ietf:params:scim:schemas:core:2.0:User\",\r\n    \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\",\r\n    \"urn:ietf:params:scim:schemas:extension:oracle:2.0:OIG:User\"\r\n  ],\r\n  \"userName\": \"{{manager_login}}\",\r\n  \"name\": {\r\n    \"familyName\": \"{{manager_lastname}}\",\r\n    \"givenName\": \"{{manager_firstname}}\"\r\n  },\r\n  \"displayName\": \"{{manager_firstname}} {{manager_lastname}}\",\r\n  \"emails\":\r\n  [\r\n    {\r\n      \"value\": \"{{manager_email}}\",\r\n      \"type\": \"work\"\r\n    }\r\n  ],\r\n  \"userType\": \"Full-Time\",\r\n  \"urn:ietf:params:scim:schemas:extension:oracle:2.0:OIG:User\":\r\n  {\r\n    \"startDate\": \"2021-08-31T12:00:00.000+00:00\",\r\n    \"homeOrganization\":\r\n    {\r\n      \"value\": \"{{organization_id}}\",\r\n      \"$ref\": \"http://{{host}}:{{port}}/iam/governance/scim/v1/Organizations/{{organization_id}}\"\r\n    }\r\n  }\r\n}"
+					"raw": "{\r\n  \"schemas\":\r\n  [\r\n    \"urn:ietf:params:scim:schemas:core:2.0:User\",\r\n    \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\",\r\n    \"urn:ietf:params:scim:schemas:extension:oracle:2.0:OIG:User\"\r\n  ],\r\n  \"userName\": \"{{manager_login}}\",\r\n  \"name\": {\r\n    \"familyName\": \"{{manager_lastname}}\",\r\n    \"givenName\": \"{{manager_firstname}}\"\r\n  },\r\n  \"displayName\": \"{{manager_firstname}} {{manager_lastname}}\",\r\n  \"emails\":\r\n  [\r\n    {\r\n      \"value\": \"{{manager_email}}\",\r\n      \"type\": \"work\"\r\n    }\r\n  ],\r\n  \"userType\": \"Full-Time\",\r\n  \"urn:ietf:params:scim:schemas:extension:oracle:2.0:OIG:User\":\r\n  {\r\n    \"startDate\": \"{{manager_startdate}}\",\r\n    \"homeOrganization\":\r\n    {\r\n      \"value\": \"{{organization_id}}\",\r\n      \"$ref\": \"http://{{host}}:{{port}}/iam/governance/scim/v1/Organizations/{{organization_id}}\"\r\n    }\r\n  }\r\n}"
 				},
 				"url": {
 					"raw": "http://{{host}}:{{port}}/iam/governance/scim/v1/Users",
@@ -219,7 +219,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"schemas\":\r\n  [\r\n    \"urn:ietf:params:scim:schemas:core:2.0:User\",\r\n    \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\",\r\n    \"urn:ietf:params:scim:schemas:extension:oracle:2.0:OIG:User\"\r\n  ],\r\n  \"userName\": \"{{login}}\",\r\n  \"name\": {\r\n    \"familyName\": \"{{lastname}}\",\r\n    \"givenName\": \"{{firstname}}\"\r\n  },\r\n  \"displayName\": \"{{firstname}} {{lastname}}\",\r\n  \"emails\":\r\n  [\r\n    {\r\n      \"value\": \"{{email}}\",\r\n      \"type\": \"work\"\r\n    }\r\n  ],\r\n  \"userType\": \"{{emptype}}\",\r\n    \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\":\r\n  {\r\n    \"manager\":\r\n    {\r\n      \"value\": \"{{manager_id}}\",\r\n      \"$ref\": \"http://{{host}}:{{port}}/iam/governance/scim/v1/Users/{{manager_id}}\"\r\n    }\r\n  },\r\n  \"urn:ietf:params:scim:schemas:extension:oracle:2.0:OIG:User\":\r\n  {\r\n    \"startDate\": \"2021-08-31T12:00:00.000+00:00\",\r\n    \"homeOrganization\":\r\n    {\r\n      \"value\": {{organization_id}},\r\n      \"$ref\": \"http://{{host}}:{{port}}/iam/governance/scim/v1/Organizations/{{organization_id}}\"\r\n    }\r\n  }\r\n}"
+					"raw": "{\r\n  \"schemas\":\r\n  [\r\n    \"urn:ietf:params:scim:schemas:core:2.0:User\",\r\n    \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\",\r\n    \"urn:ietf:params:scim:schemas:extension:oracle:2.0:OIG:User\"\r\n  ],\r\n  \"userName\": \"{{login}}\",\r\n  \"name\": {\r\n    \"familyName\": \"{{lastname}}\",\r\n    \"givenName\": \"{{firstname}}\"\r\n  },\r\n  \"displayName\": \"{{firstname}} {{lastname}}\",\r\n  \"emails\":\r\n  [\r\n    {\r\n      \"value\": \"{{email}}\",\r\n      \"type\": \"work\"\r\n    }\r\n  ],\r\n  \"userType\": \"{{emptype}}\",\r\n    \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\":\r\n  {\r\n    \"manager\":\r\n    {\r\n      \"value\": \"{{manager_id}}\",\r\n      \"$ref\": \"http://{{host}}:{{port}}/iam/governance/scim/v1/Users/{{manager_id}}\"\r\n    }\r\n  },\r\n  \"urn:ietf:params:scim:schemas:extension:oracle:2.0:OIG:User\":\r\n  {\r\n    \"startDate\": \"{{startdate}}\",\r\n    \"homeOrganization\":\r\n    {\r\n      \"value\": {{organization_id}},\r\n      \"$ref\": \"http://{{host}}:{{port}}/iam/governance/scim/v1/Organizations/{{organization_id}}\"\r\n    }\r\n  }\r\n}"
 				},
 				"url": {
 					"raw": "http://{{host}}:{{port}}/iam/governance/scim/v1/Users",
@@ -300,6 +300,11 @@
 		{
 			"key": "manager_email",
 			"value": "dora.jones@example.com"
+		},
+		{
+			"key": "manager_startdate",
+			"value": "2023-01-01T12:00:00.000+00:00",
+			"type": "default"
 		}
 	]
 }
