@@ -1,0 +1,11 @@
+login,firstname,lastname,email,startdate,emptype
+LSCHULTE,Lothur,Schulte,lothur.schulte@example.com,2023-01-01T12:00:00.000+00:00,Full-Time
+GKLEIN,Gerrit,Klein,gerrit.klein@example.com,2023-01-01T12:00:00.000+00:00,Full-Time
+LDERICHS,Lutz,Derichs,lutz.derichs@example.com,2023-01-01T12:00:00.000+00:00,Full-Time
+HSCHUMACHER,Helene,Schumacher,helene.schumacher@example.com,2023-01-01T12:00:00.000+00:00,Full-Time
+GVOGT,Gitta,Vogt,gitta.vogt@example.com,2023-01-01T12:00:00.000+00:00,Full-Time
+EBRANDT,Ewald,Brandt,ewald.brandt@example.com,2023-01-01T12:00:00.000+00:00,Contractor
+RPROTZ,Rosemarie,Protz,rosemarie.protz@example.com,2023-01-01T12:00:00.000+00:00,Contractor
+WSCHUBERT,Wolf,Schubert,wolf.schubert@example.com,2023-01-01T12:00:00.000+00:00,Full-Time
+BFRANK,Bernd,Frank,bernd.frank@example.com,2023-01-01T12:00:00.000+00:00,Full-Time
+DSTAUSS,Dirk,Stauss,dirk.stauss@example.com,2023-01-01T12:00:00.000+00:00,Full-Time
