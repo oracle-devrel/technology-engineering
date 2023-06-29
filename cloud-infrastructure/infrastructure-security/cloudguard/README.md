@@ -1,6 +1,6 @@
 # Oracle Cloud Guard
  
-Oracle Cloud Guard helps customers maintain good security posture by detecting weak security configurations and activities that can indicate cloud security risks.
+Oracle Cloud Guard helps customers maintain a good security posture by detecting weak security configurations and activities that can indicate cloud security risks.
 
 Cloud Guard detects security problems within a customer tenancy by ingesting audit and configuration data about resources in each region, processing it based on detector rules, and correlating the problems at the reporting region. Identified problems will be used to produce dashboards and metrics and may also trigger one or more provided responders to help resolve the problem.
 
