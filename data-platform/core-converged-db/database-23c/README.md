@@ -1,8 +1,8 @@
 # Database23c
 
-By definition a converged database is a database that provides native support for all modern data types and the latest development paradigms built into one product. By integrating new data types, workloads, and paradigms as features within a converged database, you can support mixed workloads and data types in a much simpler way. You don't need to manage and maintain multiple systems or worry about having to provide unified security across them. 
+By definition, a converged database is a database that provides native support for all modern data types and the latest development paradigms built into one product. By integrating new data types, workloads, and paradigms as features within a converged database, you can support mixed workloads and data types in a much simpler way. You don't need to manage and maintain multiple systems or worry about having to provide unified security across them. 
 
-The Oracle Converged Database makes easier and faster to develop data-driven apps while maintaining Enterprise grade capabilities at the same time.  
+The Oracle Converged Database makes it easier and faster to develop data-driven apps while maintaining Enterprise-grade capabilities at the same time.  
  
 ## Useful Links  
  
