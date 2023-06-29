@@ -32,7 +32,6 @@
  
 - [Oracle Security](https://www.oracle.com/security/)
     - Protect your most valuable data in the cloud and on-premises with Oracle’s security-first approach. Oracle has decades of experience securing data and applications; Oracle Cloud Infrastructure delivers a more secure cloud to our customers, building trust and protecting their most valuable data.
-
  - [Oracle Cloud Compliance](https://www.oracle.com/corporate/cloud-compliance/)
      - Oracle is committed to helping customers operate globally in a fast-changing business environment and address the challenges of an ever more complex regulatory environment. 
  
