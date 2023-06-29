@@ -56,9 +56,9 @@ We've designed our storage platform as an ideal complement to Oracle compute and
   - Storage Health-Check example scripts
     - validate all boot and block volumes regarding backup policies
     - showcase boot and block volume security e.g. using Customer managed key, Key-Rotation, Backup
-- [TRIM showcase - example script](asset/trim.showcase.txt)
+- [TRIM showcase - example script](asset/trim-showcase.md)
 - [boot/block volume security best practice - example script](asset/secure.storage.sh)
-- [boot/block volume individual (to a customer-managed bucket) backup and restore  - example script](asset/block.volume.backup.and.restore.txt)
+- [boot/block volume individual (to a customer-managed bucket) backup and restore  - example script](asset/block-volume-backup-and-restore.md)
 
 
 
