@@ -14,6 +14,11 @@ This section contains various examples related to Application Integration: demo 
     - Reference Architecture on the Oracle Architecture Center, which provides the necessary considerations and recommendations to enable a multicloud, event-driven and no-code integration solution to receive real-time feeds from Oracle Cloud ERP and send those to a private Microsoft Azure SQL Database, leveraging a component Oracle Integration provides called the connectivity agent, to facilitate on-premises/multicloud integrations
 - [Cloud Coaching Webinar: Building a Multi-Cloud, Event-Driven Service Request Feeds Solution using No-Code Integration](https://youtu.be/gvENaT6fcYY)
     - Demo Video where we show to quickly and easily enable a real-time and event-driven solution to feed a Microsoft Azure SQL database with service request data coming from Oracle Fusion CX Service. Learn how to use a no-code approach with Oracle Integration Cloud's prebuilt connectors and connectivity agent (key enabler for multicloud integrations) and Oracle Cloud Infrastructure Streaming (Kafka-based)
+- [OIC - Recipes and Accelerators - Exploit Reuse](https://www.youtube.com/watch?v=qt_vX5CpRL4)
+    - Demo Video (part of Red Hot Webinars) where we show how to use a Recipe (HCM Employee sync) and how to enhance it through an available accelerator.
+- [Cloud Integration is not only for SaaS: an EBS modernization ](https://www.youtube.com/watch?v=E_Kz-r26La4)
+    - Demo Video (part of Red Hot Webinars) where we show an initiative to enhance and modernize the EBS platform for a better reach and ease of users. No change to existing workflow approvals in EBS and standard EBS Self Service Submissions has been required. From a mobile VBCS app employess are able to submit their IQAMA Renewal (Residence renewal) or Overtime Work Requests and their managers (up to 2 management chain up) are able to check the request and perform their approval. It uses EBS Integrated SOA Gateway which exposes custom and standard EBS APIs reached through OIC REST adapter.
+
 
 # License
 
