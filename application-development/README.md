@@ -1,6 +1,10 @@
 # Application Development
 
-This area focuses on developing solutions that require application development and integration. This includes CI/CD, Cloud Native services, integration, AI services, Content and experience, Sauce, as well as many other exciting services that can be used to launch your new hit product.
+On Oracle Cloud Infrastructure (OCI), developers find a comprehensive portfolio of tools and developer services to build new cloud native applications, modernize, and extend enterprise applications.
+
+This area includes Cloud Native Services, Application Integration, AI Cloud Services, Content Management, as well as many other exciting services that can be used to develop, optimize and extend your applications.
+
+Also see [oracle.com/application-development] (https://www.oracle.com/uk/application-development/) for details.
 
 # License
 
