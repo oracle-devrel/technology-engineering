@@ -1,7 +1,7 @@
-# Placeholder
+# Core Converged DB
 
 # Useful Links
-[Oracle Database](https://www.oracle.com/database/23c/)
+- [Oracle Database](https://www.oracle.com/database/23c/)
 
 
 # License
