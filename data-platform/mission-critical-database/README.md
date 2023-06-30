@@ -6,6 +6,7 @@ The team follows MAA Best Practices closely and provides guidance and informatio
 # Useful Links
 
 Oracle MAA https://www.oracle.com/database/technologies/maximum-availability-architecture/
+
 Overview of Oracle Maximum Availability Architecture (MAA) https://www.youtube.com/watch?v=OIliQT-YxAE
  
 
