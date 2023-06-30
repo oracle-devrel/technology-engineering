@@ -1,34 +1,35 @@
 # Oracle Integration Cloud
 
-*Product description*
-
-# Table of Contents
-
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-links)
-3. [Reusable Assets Overview](#reusable-assets-overview)
-
-## Team Publications
-
-- Name and Link
-    - Description
-- [Cloud Coaching ABC](https://www.youtube.com)
-    - Video about ABC 
-- [Reference Architecture ABC](https://docs.oracle.com/en/)
-    - ABC Architecture on the Oracle Architecture Center
+Oracle Integration is an enterprise connectivity and automation platform for quickly modernizing applications, business processes, APIs, and data. Developers and cloud architects can connect SaaS and on-premises applications six times faster with a visual development experience, prebuilt integrations, and embedded best practices. Oracle Integration gives you native access to events in Oracle Cloud ERP, HCM, and CX. Connect app-specific analytic silos to simplify requisition-to-receipt, recruit-to-pay, lead-to-invoice, and other critical processes. Finally, give your IT and business leaders end-to-end visibility.
 
 ## Useful Links
 
-- Name and Link
-    - Description
-- [Public Product Page](https://www.oracle.com/)
-    - High-level product and capability description
-- [Migration Hub](https://www.oracle.com/)
+- [Oracle Integration Oracle.com Page](https://www.oracle.com/integration/application-integration/)
+    - Official page for OIC 
+- Oracle Integration Documentation
+    - [Oracle Integration 3](https://docs.oracle.com/iaas/application-integration/index.html)
+    - [OIC 3 Guides](https://docs.oracle.com/en/cloud/paas/application-integration/books.html)
+    - [Integration Generation 2](https://docs.oracle.com/en-us/iaas/integration/index.html)
+    - [OIC 2 Guides](https://docs.oracle.com/en/cloud/paas/integration-cloud/books.html)
+- [Integration Blog](https://blogs.oracle.com/integration/)
+- [Integration Hands On Bootcamps](https://go.oracle.com/LP=110450?elqCampaignId=296318)
+
+## Provisioning OIC Instances
+
+- OIC 3
+  - https://docs.oracle.com/en-us/iaas/application-integration/doc/setting-users-groups-and-policies.html
+  - https://docs.oracle.com/en-us/iaas/application-integration/doc/creating-and-editing-instances.html
+  - https://docs.oracle.com/en-us/iaas/application-integration/doc/choose-your-update-window.html
+  - https://docs.oracle.com/en-us/iaas/application-integration/doc/enable-announcements-oracle-integration.html
+- OIC 2
+  - https://docs.oracle.com/en-us/iaas/integration/doc/setting-users-groups-and-policies.html
+  - https://docs.oracle.com/en-us/iaas/integration/doc/creating-and-editing-instances.html
+  - https://docs.oracle.com/en-us/iaas/integration/doc/choose-your-update-window.html
+  - https://docs.oracle.com/en-us/iaas/integration/doc/enable-announcements-oracle-integration.html
 
 ## Reusable Assets Overview
 
-*OPTIONAL*
-*If you don't have a flat hierarchy for assets, please describe your structure*
+Relevant reusable assets can be found in subfolders.
 
 # License
 
