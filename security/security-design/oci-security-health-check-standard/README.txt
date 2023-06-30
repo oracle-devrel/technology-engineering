@@ -52,9 +52,9 @@ Usage
   - From the menu select the Cloud Shell item.
   - When running it the first time:
     - Upload the provided ZIP file.
-    - Extract it with unzip -q oci-security-health-check-standard-<version>.zip
-  - Change directory into oci-security-health-check-standard-<version>
-    $ cd oci-security-health-check-standard-<version>
+    - Extract it with unzip -q oci-security-health-check-standard-230630.zip
+  - Change directory into oci-security-health-check-standard
+    $ cd oci-security-health-check-standard
     $ screen
   - In the oci-security-health-check-standard-<version> directory run the standard.sh
     script.
@@ -66,7 +66,7 @@ Usage
       $ ./standard.sh -h
 
 3 Gathering the results
-  - In the directory oci-security-health-check-standard-<version> a directory will be created which
+  - In the directory oci-security-health-check-standard a directory will be created which
     holds all the output created by the scripts. This directory will be
     compressed in a single ZIP file and the resulting ZIP file will be moved to
     the home directory of the account running the script.

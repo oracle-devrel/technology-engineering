@@ -54,7 +54,7 @@ The recommended way is to run the *OCI Security Health Check - Standard* in the 
 
 #### Download and upload the release file
 
-  - Download the the latest distribution [oci-security-health-check-standard-\<version>.zip](releases/oci-security-health-check-standard-\<version>.zip).
+  - Download the the latest distribution [oci-security-health-check-standard-230630.zip](https://github.com/oracle-devrel/technology-engineering/releases/download/oci-security-health-check-std-230630/oci-security-health-check-standard-230630.zip).
   - Log into the OCI Console.
   - Select the *Developer Tools* icon (looks like a small window) in the header toolbar.
   - From the menu select the *Cloud Shell* item.
@@ -63,15 +63,15 @@ The recommended way is to run the *OCI Security Health Check - Standard* in the 
   - Upload the distribution file.
   - Extract it
     ```
-    $ unzip -q oci-security-health-check-standard-<version>.zip
+    $ unzip -q oci-security-health-check-standard-230630.zip
     ```
 
 ### Run the script
-  - Change directory into `oci-security-health-check-standard-<version>`:
+  - Change directory into `oci-security-health-check-standard`:
     ```
-    $ cd oci-security-health-check-standard-<version>
+    $ cd oci-security-health-check-standard
     ```
-  - In the `oci-security-health-check-standard-<version>` directory:
+  - In the `oci-security-health-check-standard` directory:
     - Enable execution of script `standard.sh`:
       ```
       $ chmod +x standard.sh
@@ -90,10 +90,10 @@ The recommended way is to run the *OCI Security Health Check - Standard* in the 
       ```
 
 ### Getting the results
-  - In the directory `oci-security-health-check-standard-<version>` a directory will be created which
+  - In the directory `oci-security-health-check-standard` a directory will be created which
     holds all the output created by the scripts. This directory will be
     compressed in a single ZIP file and the resulting ZIP file will be moved to
-    the parent directory of `oci-security-health-check-standard-<version>`.
+    the parent directory of `oci-security-health-check-standard`.
 
 # License
 
