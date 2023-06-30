@@ -605,7 +605,7 @@ The current Essbase deployment is depicted below.
 
 ![Current Functional state Architecture](images/current-functional-diagram-onprem.png)
 
-## Future State Architecture
+## Future State Architecture 
 <!-- GUIDANCE -->
 <!--
 The Workload Future State Architecture can be described in various forms. In the easiest case we  just describe a Logical Architecture, possibly with a System Context Diagram.
