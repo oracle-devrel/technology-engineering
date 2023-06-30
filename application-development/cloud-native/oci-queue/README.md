@@ -47,8 +47,8 @@ Create Queue and copy the Queue OCID and Enpoint:
 
 <p>
 When using another <code>region</code> than <code>EU_FRANKFURT_1</code> please modify the 
-<a href="index.js#L10">
-<code>index.js</code></a> Line #10 accordingly:
+<a href="index.js#L48">
+<code>index.js</code></a> Line #48 accordingly:
 
 <pre>
 const region = common.Region.EU_FRANKFURT_1;
@@ -92,7 +92,7 @@ This example will poll for messages in the queue and finally writes a new messag
 
 ### Running locally
 
-Clone this repo, setup npm and <code>oci cli</code> and modify <a href="index.js#L8">index.js</a> line 8 by uncommenting it and removing/commenting lines 10-18 and replace lines 21-22
+Clone this repo, setup npm and <code>oci cli</code> and modify <a href="index.js#L46">index.js</a> line 46 by uncommenting it and removing/commenting lines 49-56 and replace lines 59-60
 with Queue details :
 
 <pre>
