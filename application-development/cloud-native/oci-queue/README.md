@@ -36,6 +36,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 -->
 
+## OCI queue overview
+[Document queue-overview](files/queue_overview.pdf)
+
 ## OCI Queue example in NodeJS with GitHub Actions
 
 ### OCI Queue
@@ -43,12 +46,12 @@ SOFTWARE.
 Create Queue and copy the Queue OCID and Enpoint:
 
 <p>
-<img src="endpoint.png" width="800" />
+<img src="files/endpoint.png" width="800" />
 
 <p>
 When using another <code>region</code> than <code>EU_FRANKFURT_1</code> please modify the 
-<a href="https://github.com/mikarinneoracle/oci-queue-node/blob/main/index.js#L10">
-<code>index.js</code></a> Line #10 accordingly:
+<a href="index.js#L48">
+<code>index.js</code></a> Line #48 accordingly:
 
 <pre>
 const region = common.Region.EU_FRANKFURT_1;
@@ -81,18 +84,18 @@ Setup secrets to run this example with GitHub Actions:
 Monitor the GitHub action to run:
 
 <p>
-<img src="action.png" width="800" />
+<img src="files/action.png" width="800" />
 
 <p>
 This example will poll for messages in the queue and finally writes a new message to it.
 
 ### View messages in the Queue
 
-<img src="messages.png" width="800" />
+<img src="files/messages.png" width="800" />
 
 ### Running locally
 
-Clone this repo, setup npm and <code>oci cli</code> and modify <a href="https://github.com/mikarinneoracle/oci-queue-node/blob/main/index.js#L8">index.js</a> line 8 by uncommenting it and removing/commenting lines 10-18 and replace lines 21-22
+Clone this repo, setup npm and <code>oci cli</code> and modify <a href="index.js#L46">index.js</a> line 46 by uncommenting it and removing/commenting lines 49-56 and replace lines 59-60
 with Queue details :
 
 <pre>
@@ -119,4 +122,4 @@ You can manually send messages to the queue using the OCI Queue Console
 <p>
 You can also play with the queue's <code>Dead Letter Queue</code> settings to see how many
 times the same message is being received (default is 5). To do this comment the 
-<a href="index.js#L61">line 61 of the index.js</a> and re-run the build using commit. 
+<a href="index.js#L99">line 99 of the index.js</a> and re-run the build using commit. 
