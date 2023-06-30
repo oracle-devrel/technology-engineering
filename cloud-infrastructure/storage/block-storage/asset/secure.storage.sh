@@ -27,7 +27,7 @@ source functions0.sh
 # Oracle Cloud Infrastructure CLI Command Reference - https://docs.oracle.com/en-us/iaas/tools/oci-cli/latest/oci_cli_docs/
 # ---------------------------------------------------------------------------------------------------------------------------------------------
 
-MYOUTPUT="Secure Storage by example - Preperation" && MYCOUNT=$((1)) 
+MYOUTPUT="Secure Storage by Example - Preperation" && MYCOUNT=$((1)) 
 if [ 1 -eq 1 ] ; then
 color_print "${IGreen}" "($MYCOUNT) $(date "+%d.%m.%Y %H:%M:%S") : $MYOUTPUT"
 
@@ -42,8 +42,8 @@ if [ 1 -eq 1 ] ; then # create BLOCK volume
 if [ ${CREATE_BLOCK_VOLUME} -eq 1 ] ; then # create block volume 
   oci --profile "${REGION_PROFILE}" bv volume create --availability-domain "${FRANKFURT_AVAILABILITY_DOMAIN}" \
   --compartment-id "${COMPARTMENT_OCID}" \
-  --display-name   "${FRANKFURT_BLOCK_VOLUME_NAME}" \
-  --size-in-gbs    50 \
+  --display-name "${FRANKFURT_BLOCK_VOLUME_NAME}" \
+  --size-in-gbs 50 \
   --wait-for-state "AVAILABLE" 
 fi
  
@@ -102,7 +102,7 @@ echo " " >> "${LOG_FILE}"
 fi
 
 
-MYOUTPUT="Secure Storage with Customer managed Key" && MYCOUNT=$(($MYCOUNT + 1))
+MYOUTPUT="Secure Storage with Customer-managed Key" && MYCOUNT=$(($MYCOUNT + 1))
 if [ 1 -eq 1 ] ; then
 color_print "${IGreen}" "($MYCOUNT) $(date "+%d.%m.%Y %H:%M:%S") : $MYOUTPUT"
 
@@ -116,25 +116,25 @@ echo "=====================================================================" >> 
 echo "${PF1} $(date "+%d.%m.%Y %H:%M:%S")" >> "${LOG_FILE}"
 echo "${PF1} --------------------------------------------------------------" >> "${LOG_FILE}"
 
-color_print "${MYcolor}" "${PF1} BLOCK volume change from Oracle managed Key to Customer managed Key"
-if [ 1 -eq 1 ] ; then # BLOCK volume change from Oracle managed Key to Customer managed Key
+color_print "${MYcolor}" "${PF1} BLOCK volume change from Oracle-managed Key to Customer-managed Key"
+if [ 1 -eq 1 ] ; then # BLOCK volume change from Oracle-managed Key to Customer-managed Key
   oci --profile "${REGION_PROFILE}" bv volume-kms-key update --volume-id "${BLOCK_VOLUME_OCID}" --kms-key-id "${MasterEncryptionKey_OCID}"
-  echo "${PF1} BLOCK volume change from Oracle managed Key to Customer managed Key" >> "${LOG_FILE}"
+  echo "${PF1} BLOCK volume change from Oracle-managed Key to Customer-managed Key" >> "${LOG_FILE}"
 fi
 
-color_print "${MYcolor}" "${PF1} BLOCK volume backup change from Oracle managed Key to Customer managed Key (coming soon)"
-if [ 1 -eq 0 ] ; then # BLOCK volume backup change from Oracle managed Key to Customer managed Key (coming soon)
+color_print "${MYcolor}" "${PF1} BLOCK volume backup change from Oracle-managed Key to Customer-managed Key (coming soon)"
+if [ 1 -eq 0 ] ; then # BLOCK volume backup change from Oracle-managed Key to Customer-managed Key (coming soon)
 : ' ---------------------------------------------------------------------------------------------------------------------------------------
 Backup Data in Storage Services     https://docs.oracle.com/en/solutions/oci-best-practices/back-your-data1.html
 -------------------------------------------------------------------------------------------------------------------------------------------'
   oci --profile "${REGION_PROFILE}" bv backup-kms-key update --volume-id "${BLOCK_VOLUME_BACKUP_OCID}" --kms-key-id "${MasterEncryptionKey_OCID}"
   
   oci --profile "${REGION_PROFILE}" bv backup update --volume-backup-id "${BLOCK_VOLUME_BACKUP_OCID}" --kms-key-id "${MasterEncryptionKey_OCID}"
-  echo "${PF1} BLOCK volume backup change from Oracle managed Key to Customer managed Key" >> "${LOG_FILE}"
+  echo "${PF1} BLOCK volume backup change from Oracle-managed Key to Customer-managed Key" >> "${LOG_FILE}"
 fi
 
-color_print "${MYcolor}" "${PF1} Rotation of Customer managed Key"
-if [ 1 -eq 1 ] ; then # Rotation of Customer managed Key
+color_print "${MYcolor}" "${PF1} Rotation of Customer-managed Key"
+if [ 1 -eq 1 ] ; then # Rotation of Customer-managed Key
 
 : ' ---------------------------------------------------------------------------------------------------------------------------------------
 Periodically rotating keys limits the amount of data 
@@ -144,32 +144,32 @@ kms management key-version create                       https://docs.oracle.com/
 -------------------------------------------------------------------------------------------------------------------------------------------'
 
   oci --profile "${REGION_PROFILE}" kms management key-version create --key-id "${MasterEncryptionKey_OCID}" --endpoint "${ManagementEndpoint}" --wait-for-state "ENABLED"
-  echo "${PF1} Rotation of Customer managed Key" >> "${LOG_FILE}"
+  echo "${PF1} Rotation of Customer-managed Key" >> "${LOG_FILE}"
 fi
 
 echo "${PF1} --------------------------------------------------------------" >> "${LOG_FILE}"
 echo " " >> "${LOG_FILE}"
 fi
 
-MYOUTPUT="Secure Storage with Oracle managed Key" && MYCOUNT=$(($MYCOUNT + 1))
+MYOUTPUT="Secure Storage with Oracle-managed Key" && MYCOUNT=$(($MYCOUNT + 1))
 if [ 1 -eq 1 ] ; then
 color_print "${IGreen}" "($MYCOUNT) $(date "+%d.%m.%Y %H:%M:%S") : $MYOUTPUT"
 
-echo "Secure Storage with Oracle managed Key" >> "${LOG_FILE}"
+echo "Secure Storage with Oracle-managed Key" >> "${LOG_FILE}"
 echo "=====================================================================" >> "${LOG_FILE}"
 echo "${PF1} $(date "+%d.%m.%Y %H:%M:%S")" >> "${LOG_FILE}"
 echo "${PF1} --------------------------------------------------------------" >> "${LOG_FILE}"
 
-color_print "${MYcolor}" "${PF1} BLOCK volume change from Customer managed Key to Oracle managed Key"
+color_print "${MYcolor}" "${PF1} BLOCK volume change from Customer-managed Key to Oracle-managed Key"
 if [ 1 -eq 1 ] ; then # BLOCK volume change from Customer managed Key to Oracle managed Key
   oci --profile "${REGION_PROFILE}" bv volume-kms-key update --volume-id "${BLOCK_VOLUME_OCID}" --kms-key-id "${MasterEncryptionKey_OCID}"
-  echo "${PF1} BLOCK volume change from Customer managed Key to Oracle managed Key" >> "${LOG_FILE}"
+  echo "${PF1} BLOCK volume change from Customer-managed Key to Oracle-managed Key" >> "${LOG_FILE}"
 fi
 
-color_print "${MYcolor}" "${PF1} BLOCK volume backup change from Customer managed Key to Oracle managed Key (coming soon)"
-if [ 1 -eq 0 ] ; then # BLOCK volume backup change from Customer managed Key to Oracle managed Key (coming soon)
+color_print "${MYcolor}" "${PF1} BLOCK volume backup change from Customer-managed Key to Oracle-managed Key (coming soon)"
+if [ 1 -eq 0 ] ; then # BLOCK volume backup change from Customer-managed Key to Oracle-managed Key (coming soon)
   #oci --profile "${REGION_PROFILE}" bv backup-kms-key update --volume-id "${BLOCK_VOLUME_BACKUP_OCID}" --kms-key-id "${MasterEncryptionKey_OCID}" 
-  echo "${PF1} BLOCK volume backup change from Customer managed Key to Oracle managed Key" >> "${LOG_FILE}"
+  echo "${PF1} BLOCK volume backup change from Customer-managed Key to Oracle-managed Key" >> "${LOG_FILE}"
 fi
 
 echo "${PF1} --------------------------------------------------------------" >> "${LOG_FILE}"
