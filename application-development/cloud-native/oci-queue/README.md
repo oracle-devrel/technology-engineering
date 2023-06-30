@@ -47,7 +47,7 @@ Create Queue and copy the Queue OCID and Enpoint:
 
 <p>
 When using another <code>region</code> than <code>EU_FRANKFURT_1</code> please modify the 
-<a href="https://github.com/mikarinneoracle/oci-queue-node/blob/main/index.js#L10">
+<a href="./blob/main/files/index.js#L10">
 <code>index.js</code></a> Line #10 accordingly:
 
 <pre>
@@ -92,7 +92,7 @@ This example will poll for messages in the queue and finally writes a new messag
 
 ### Running locally
 
-Clone this repo, setup npm and <code>oci cli</code> and modify <a href="https://github.com/mikarinneoracle/oci-queue-node/blob/main/index.js#L8">index.js</a> line 8 by uncommenting it and removing/commenting lines 10-18 and replace lines 21-22
+Clone this repo, setup npm and <code>oci cli</code> and modify <a href="./blob/main/files/index.js#L8">index.js</a> line 8 by uncommenting it and removing/commenting lines 10-18 and replace lines 21-22
 with Queue details :
 
 <pre>
