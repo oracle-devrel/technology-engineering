@@ -4,7 +4,7 @@ Oracle Cloud Infrastructure (OCI) Document Understanding is an AI service that e
  
 # Table of Contents
  
-1. [Publications](#publications)
+1. [Publications](#team-publications)
 1. [Demos](#demos)
 3. [LiveLabs and Workshops](#livelabs-and-workshops) 
 4. [Reusable Assets](#reusable-assets)
