@@ -1,9 +1,9 @@
 # Table of Contents
  
 1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-links)
 3. [Reusable Assets Overview](#reusable-assets-overview)
- 
+2. [Useful Links](#useful-links)
+   
 ## Team Publications
  
  
@@ -27,6 +27,11 @@
      - In this session, you will see how to implement best practices for a strong and secure cloud environment including your containers, virtual machines, and databases.
 - [Managing Identities across OCI IAM, Azure AD and Oracle SaaS](https://www.youtube.com/watch?v=9dFj9rePOuc)
      - This session will cover the details of how to enable Single Sign On (SSO) between OCI IAM and Microsoft Azure Active Directory (Azure AD), Oracle Fusion Apps, and Databases.
+       
+## Reusable Assets Overview
+
+- [Bastion Session Script](bastion-session-script/README.md)
+
       
 ## Useful Links
  
