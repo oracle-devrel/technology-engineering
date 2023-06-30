@@ -14,7 +14,7 @@ Use this document as a starting point for the solution definition of your Essbas
 The Essbase Workload Solution Definition is expected to serve as a definitive guide to the project. All participants are encouraged to provide feedback, raise queries, and make contributions to enhance the overall project's success.
 
 ### Useful Links
-The validated Solution Guide for Essase on OCI can be found [here](https://docs.oracle.com/en/database/other-databases/essbase/21/essad/set-oracle-essbase.html) .
+The validated Solution Guide for Essbase on OCI can be found [here](https://docs.oracle.com/en/database/other-databases/essbase/21/essad/set-oracle-essbase.html) .
 
 # License
 
