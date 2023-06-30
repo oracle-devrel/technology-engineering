@@ -1,6 +1,6 @@
 # Placeholder
 
-This document describes a sample architecture of an Oracle database migration from on-prenises to OCI Base Database Service.
+This document describes a sample architecture of an Oracle database migration from on-premises to OCI Base Database Service.
 
 # License
 
