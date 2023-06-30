@@ -44,13 +44,13 @@ sudo vi /etc/fstab
 export TENENCY_OCID=<your_tenency_ocid>
 export USER_OCID=<your_user_ocid>
 export COMPARTMENT_OCID=<your_compartment_ocid>
-export FRANKFURT_SUBNET_OCID=<your_frankfurt_subnet_ocid>
-export FRANKFURT_REGION_IDENTIFIER=<your_frankfurt_region_identifier>
-export FRANKFURT_SERVER_NAME=<your_frankfurt_server_name>
+export CUST_REGION_SUBNET_OCID=<your_cust_region_subnet_ocid>
+export CUST_REGION_REGION_IDENTIFIER=<your_cust_region_region_identifier>
+export CUST_REGION_SERVER_NAME=<your_cust_region_server_name>
 export AD=<your_ad_number>
 export AD_PREFIX=<your_ad_prefix>
-export FRANKFURT_AVAILABILITY_DOMAIN="${AD_PREFIX}:${FRANKFURT_REGION_IDENTIFIER}-AD-${AD}"
-export PROFILE_FRANKFURT=FRANKFURT
+export CUST_REGION_AVAILABILITY_DOMAIN="${AD_PREFIX}:${CUST_REGION_REGION_IDENTIFIER}-AD-${AD}"
+export PROFILE_CUST_REGION=CUST_REGION
 export TRIM_TEST_OCID=<your_trim_test_ocid>
 export TRIM_TEST_BACKUP_NAME=TrimTestBackup
 export myLOGFILE=\tmp\trim.test.log
@@ -88,9 +88,9 @@ do
   fi
 
   if [ 1 -eq 1 ] ; then # take backup, show Size Information: Block Volume; delete backup
-    oci --profile "${PROFILE_FRANKFURT}" bv backup create --volume-id "${TRIM_TEST_OCID}" --display-name "${TRIM_TEST_BACKUP_NAME}" --wait-for-state "AVAILABLE"
+    oci --profile "${PROFILE_CUST_REGION}" bv backup create --volume-id "${TRIM_TEST_OCID}" --display-name "${TRIM_TEST_BACKUP_NAME}" --wait-for-state "AVAILABLE"
 
-    oci --profile "${PROFILE_FRANKFURT}" bv backup list --compartment-id "${COMPARTMENT_OCID}" --display-name "${TRIM_TEST_BACKUP_NAME}" > "${myTEMPFILE}"
+    oci --profile "${PROFILE_CUST_REGION}" bv backup list --compartment-id "${COMPARTMENT_OCID}" --display-name "${TRIM_TEST_BACKUP_NAME}" > "${myTEMPFILE}"
     for ii in $(cat "${myTEMPFILE}"|jq --raw-output '.[] | [.[] | select(."display-name"=="TrimTestBackup")] | .[]."id" ')
     do
       TRIM_TEST_BACKUP_OCID=$ii
@@ -99,7 +99,7 @@ do
     echo "Size Information: Block Volume: Backup size in MB: ${TRIM_TEST_BACKUP_SIZE_IN_MB}" >> "${myLOGFILE}"
 
     echo "Action..........: Block Volume: delete backup" >> "${myLOGFILE}"
-    oci --profile "${PROFILE_FRANKFURT}" bv backup delete --volume-backup-id "${TRIM_TEST_BACKUP_OCID}" --force --wait-for-state "TERMINATED"
+    oci --profile "${PROFILE_CUST_REGION}" bv backup delete --volume-backup-id "${TRIM_TEST_BACKUP_OCID}" --force --wait-for-state "TERMINATED"
   fi
 
   if [ 1 -eq 1 ] ; then # insert, update delete files
@@ -126,13 +126,13 @@ cat "${myLOGFILE}"
 export TENENCY_OCID=<your_tenency_ocid>
 export USER_OCID=<your_user_ocid>
 export COMPARTMENT_OCID=<your_compartment_ocid>
-export FRANKFURT_SUBNET_OCID=<your_frankfurt_subnet_ocid>
-export FRANKFURT_REGION_IDENTIFIER=<your_frankfurt_region_identifier>
-export FRANKFURT_SERVER_NAME=<your_frankfurt_server_name>
+export CUST_REGION_SUBNET_OCID=<your_cust_region_subnet_ocid>
+export CUST_REGION_REGION_IDENTIFIER=<your_cust_region_region_identifier>
+export CUST_REGION_SERVER_NAME=<your_cust_region_server_name>
 export AD=<your_ad_number>
 export AD_PREFIX=<your_ad_prefix>
-export FRANKFURT_AVAILABILITY_DOMAIN="${AD_PREFIX}:${FRANKFURT_REGION_IDENTIFIER}-AD-${AD}"
-export PROFILE_FRANKFURT=FRANKFURT
+export CUST_REGION_AVAILABILITY_DOMAIN="${AD_PREFIX}:${CUST_REGION_REGION_IDENTIFIER}-AD-${AD}"
+export PROFILE_CUST_REGION=CUST_REGION
 export TRIM_TEST_OCID=<your_trim_test_ocid>
 export TRIM_TEST_BACKUP_NAME=TrimTestBackup
 export myLOGFILE=\tmp\trim.test.log
@@ -170,9 +170,9 @@ do
   fi
 
   if [ 1 -eq 1 ] ; then # take backup, show Size Information: Block Volume; delete backup
-    oci --profile "${PROFILE_FRANKFURT}" bv backup create --volume-id "${TRIM_TEST_OCID}" --display-name "${TRIM_TEST_BACKUP_NAME}" --wait-for-state "AVAILABLE"
+    oci --profile "${PROFILE_CUST_REGION}" bv backup create --volume-id "${TRIM_TEST_OCID}" --display-name "${TRIM_TEST_BACKUP_NAME}" --wait-for-state "AVAILABLE"
 
-    oci --profile "${PROFILE_FRANKFURT}" bv backup list --compartment-id "${COMPARTMENT_OCID}" --display-name "${TRIM_TEST_BACKUP_NAME}" > "${myTEMPFILE}"
+    oci --profile "${PROFILE_CUST_REGION}" bv backup list --compartment-id "${COMPARTMENT_OCID}" --display-name "${TRIM_TEST_BACKUP_NAME}" > "${myTEMPFILE}"
     for ii in $(cat "${myTEMPFILE}"|jq --raw-output '.[] | [.[] | select(."display-name"=="TrimTestBackup")] | .[]."id" ')
     do
       TRIM_TEST_BACKUP_OCID=$ii
@@ -181,7 +181,7 @@ do
     echo "Size Information: Block Volume: Backup size in MB: ${TRIM_TEST_BACKUP_SIZE_IN_MB}" >> "${myLOGFILE}"
 
     echo "Action..........: Block Volume: delete backup" >> "${myLOGFILE}"
-    oci --profile "${PROFILE_FRANKFURT}" bv backup delete --volume-backup-id "${TRIM_TEST_BACKUP_OCID}" --force --wait-for-state "TERMINATED"
+    oci --profile "${PROFILE_CUST_REGION}" bv backup delete --volume-backup-id "${TRIM_TEST_BACKUP_OCID}" --force --wait-for-state "TERMINATED"
   fi
 
   if [ 1 -eq 1 ] ; then # insert, update delete files
