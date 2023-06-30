@@ -36,6 +36,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 -->
 
+## OCI queue overview
+application-development/cloud-native/oci-queue/queue_overview.pdf
+
 ## OCI Queue example in NodeJS with GitHub Actions
 
 ### OCI Queue
