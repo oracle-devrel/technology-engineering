@@ -247,7 +247,7 @@ Impl. | None
 PPM   | None
 -->
 
-|:-------------------------------------------------------------------------------------|:------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|Requirement / Component|Currently Used|On OCI|
 | :----------------------                                                              | :---------------------------------------------------- | :--------------------------------------------------                                                                                                                    |
 | Essbase Server / Essbase Provider Services Web / Essbase Administration Services Web | Essbase (EPM) 11.1.2.4                    | Essbase 21c (21.X). EAS console functionalities have been replaced by Web based UI + Cube Designer                                                                     |
 | Authentication                                                                       | EPM Shared Services security 11.1.2.4     | Identity Cloud Service (IDCS) proposed for the workload                                                                                                                |
