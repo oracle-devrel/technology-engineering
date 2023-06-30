@@ -12,13 +12,24 @@ Oracle's on-premise content management offering is Oracle WebCenter which is the
 
 # Content Management Cloud
 
-- Useful Links
-General info: http://oracle.com/content-management
-Documentation: https://docs.oracle.com/en/cloud/paas/content-cloud/index.html
-OCM Developer website: https://developer.oracle.com/technologies/content-management.html
-OCM Solution Playbooks: https://docs.oracle.com/solutions/?q=&cType=reference-architectures%2Csolution-playbook%2Cbuilt-deployed&product=Content%20Management&sort=date-desc&lang=en
+## Useful Links
 
-- Reusable Assets
+- [General info](http://oracle.com/content-management/)
+- [Documentation](https://docs.oracle.com/en/cloud/paas/content-cloud/index.html/)
+- [OCM Developer website](https://developer.oracle.com/technologies/content-management.html/)
+- [OCM Solution Playbooks on Oracle Architecture Center](https://docs.oracle.com/solutions/?q=&cType=reference-architectures%2Csolution-playbook%2Cbuilt-deployed&product=Content%20Management&sort=date-desc&lang=en/)
+- [OCM Fundamentals playlist](https://videohub.oracle.com/playlist/dedicated/167233142/1_qfyi6b02/)
+- [OCM Content Services / Document Management](https://videohub.oracle.com/playlist/dedicated/167233142/1_7up05717/)
+- [OCM Digital Asset Management](https://videohub.oracle.com/playlist/dedicated/167233142/1_kf36lrld/)
+- [OCM Digital Experience Platform Low Code / Site Builder & Headless](https://videohub.oracle.com/playlist/dedicated/167233142/1_bgzwwzgp)
+- [OCM Integration & Extensibility](https://videohub.oracle.com/playlist/dedicated/167233142/1_029312og/)
+- [Understand deployment options](https://docs.oracle.com/en/cloud/paas/content-cloud/administer/understand-your-deployment-architecture-options.html#GUID-5A4B5098-5E15-448F-91D6-FE05F4ED15DA)
+- [Cloud Native Disaster Recovery](https://docs.oracle.com/en/cloud/paas/content-cloud/administer/understand-your-deployment-architecture-options.html#GUID-84E5932D-9EBC-46F9-A243-5FA45BCA8579)
+- [Set Up A Test 2 Production (T2P) Deployment](https://docs.oracle.com/en/cloud/paas/content-cloud/administer/set-test-production-t2p-deployment.html#GUID-35087199-8AEC-403A-934B-6D85E771B330)
+- [Learn in 5 minutes How to provision an OCM instance here](https://www.youtube.com/watch?v=v46zEhUYEQs/)
+- [Learn how to setup an ECM Repository from scratch](https://docs.oracle.com/en/cloud/paas/content-cloud/content-capture-engineering/index.html#introduction)
+
+## Reusable Assets
 
 # Sauce
 
