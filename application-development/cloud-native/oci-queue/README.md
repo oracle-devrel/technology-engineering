@@ -43,11 +43,11 @@ SOFTWARE.
 Create Queue and copy the Queue OCID and Enpoint:
 
 <p>
-<img src="endpoint.png" width="800" />
+<img src="files/endpoint.png" width="800" />
 
 <p>
 When using another <code>region</code> than <code>EU_FRANKFURT_1</code> please modify the 
-<a href="./blob/main/files/index.js#L10">
+<a href="index.js#L10">
 <code>index.js</code></a> Line #10 accordingly:
 
 <pre>
@@ -81,18 +81,18 @@ Setup secrets to run this example with GitHub Actions:
 Monitor the GitHub action to run:
 
 <p>
-<img src="action.png" width="800" />
+<img src="files/action.png" width="800" />
 
 <p>
 This example will poll for messages in the queue and finally writes a new message to it.
 
 ### View messages in the Queue
 
-<img src="messages.png" width="800" />
+<img src="files/messages.png" width="800" />
 
 ### Running locally
 
-Clone this repo, setup npm and <code>oci cli</code> and modify <a href="./blob/main/files/index.js#L8">index.js</a> line 8 by uncommenting it and removing/commenting lines 10-18 and replace lines 21-22
+Clone this repo, setup npm and <code>oci cli</code> and modify <a href="index.js#L8">index.js</a> line 8 by uncommenting it and removing/commenting lines 10-18 and replace lines 21-22
 with Queue details :
 
 <pre>
