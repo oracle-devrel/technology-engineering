@@ -37,7 +37,7 @@ SOFTWARE.
 -->
 
 ## OCI queue overview
-[Document queue-overview](https://github.com/oracle-devrel/technology-engineering/blob/martatolosa-queue/application-development/cloud-native/oci-queue/files/queue_overview.pdf)
+[Document queue-overview](files/queue_overview.pdf)
 
 ## OCI Queue example in NodeJS with GitHub Actions
 
