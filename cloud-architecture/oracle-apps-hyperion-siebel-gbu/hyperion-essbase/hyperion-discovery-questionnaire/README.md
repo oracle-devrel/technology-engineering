@@ -1,6 +1,4 @@
-# Placeholder
-
-# License
+# Hyperion Discovery Questionnaire
 
 This document serves as a standard questionnaire designed to gather crucial information necessary for the execution of Hyperion and Essbase application migration projects. It captures specific data that aids in estimating the effort required for a successful migration.
 
@@ -12,6 +10,7 @@ This asset is purposed for the acquisition of specific details related to the wo
 
 This questionnaire presents generic information and is not explicitly tailored to a specific customer or project. It is intended to be a dynamic document; modifications to fit the particular scope of each project are encouraged. Respondents are advised to adapt and amend the document as necessary, ensuring its relevance to their specific migration scenario.
 
+# License
 
 Copyright (c) 2023 Oracle and/or its affiliates.
 
