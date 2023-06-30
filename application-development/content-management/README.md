@@ -6,7 +6,7 @@ Oracle's on-premise content management offering is Oracle WebCenter which is the
 
 # Table Of Contents
 
-1. [Content Management Cloud](#content-management-cloud)
+1. [Content Management Cloud](#content-management-cloud) 
 2. [Sauce](#sauce)
 3. [Webcenter](#webcenter)
 
