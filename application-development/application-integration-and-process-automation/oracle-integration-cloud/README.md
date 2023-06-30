@@ -27,6 +27,21 @@ Oracle Integration is an enterprise connectivity and automation platform for qui
   - https://docs.oracle.com/en-us/iaas/integration/doc/choose-your-update-window.html
   - https://docs.oracle.com/en-us/iaas/integration/doc/enable-announcements-oracle-integration.html
 
+## Integration Demos and Webinars
+
+- [OCW Building a Multicloud, Event-Driven PO Feed Solution with Low-Code Integration](https://www.youtube.com/watch?v=eGnbWn9btYA)
+  <br>
+  We show how to quickly and easily enable a real-time and event-driven solution to feed a Microsoft Azure database with purchase order data coming from Oracle Enterprise Resource Planning (ERP). Learn how to use a low-code approach with Oracle Integration Cloud's prebuilt connectors and connectivity agent and Oracle Cloud Infrastructure Streaming (Kafka-like event service).
+- [Enabling an Event-Driven, Real-Time Twitter Sentiment Analysis Dashboard](https://www.youtube.com/watch?v=9hvUxLSE3Vg)
+  <br>
+  How can you enable a real-time and event-driven sentiment analysis dashboard on top of Twitter feeds? We show how, by using an Oracle Cloud Infrastructure (OCI) Python Twitter Stream Listener, OCI Streaming (Kafka-like service), OCI AI Language Bulk Sentiment Analysis, Oracle Integration Cloud, Oracle Autonomous Database, and Oracle Analytics Cloud. See how this can keep retention and referrals high. Take part by tweeting positively and/or negatively about a specific hashtag—and see how OCI AI Language Sentiment Analysis services work in real time.
+- [Cloud Integration is not only for SaaS: an EBS modernization](https://www.youtube.com/watch?v=E_Kz-r26La4)
+  <br>
+  Join us for this interactive webinar where we will dive into the world of Cloud Integration with an EBS modernization example. 
+- [Cloud Coach Webinar](https://www.youtube.com/watch?v=gvENaT6fcYY)
+  <br>
+  Building a MultiCloud, Event-Driven Service Request Feed Solution from Oracle ERP Cloud to Azure SQL Database using No-Code Integration.
+
 ## Reusable Assets Overview
 
 Relevant reusable assets can be found in subfolders.
