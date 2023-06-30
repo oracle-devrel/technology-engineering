@@ -1,6 +1,6 @@
-# <OCI Vault>
+# OCI Vault
  
-OCI Vault lets you to centrally manage and control use of keys and secrets across a wide range of OCI services and applications. OCI Vault is a secure, resilient managed service that lets you focus on your data encryption needs without worrying about time-consuming administrative tasks such as hardware provisioning, software patching, and high availability.
+OCI Vault lets you centrally manage and control the use of keys and secrets across a wide range of OCI services and applications. OCI Vault is a secure, resilient managed service that lets you focus on your data encryption needs without worrying about time-consuming administrative tasks such as hardware provisioning, software patching, and high availability.
  
 # Table of Contents
  
@@ -16,7 +16,7 @@ OCI Vault lets you to centrally manage and control use of keys and secrets acros
 ## Useful Links
  
 - [OCI Vault Overview)(https://www.oracle.com/uk/security/cloud-security/key-management/)
-    - OCI Vault overview
+    - OCI Vault Overview
 
 - [OCI Vault Documentation)(https://docs.cloud.oracle.com/en-us/iaas/Content/KeyManagement/Concepts/keyoverview.htm)
     - OCI Vault documentation
