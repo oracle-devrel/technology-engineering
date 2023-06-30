@@ -1,6 +1,14 @@
 
 OCI Security Health Check - Standard Edition
 ============================================
+Owner: Olaf Heimburger
+
+When to use this asset?
+
+The OCI Security Health Check - Standard Edition checks an OCI tenancy for
+CIS OCI Foundation Benchmark compliance.
+
+Usage
 
 1 Prepare the OCI Tenancy
   You can run the assessment as a member of the OCI Administrator group or
