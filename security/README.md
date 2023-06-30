@@ -49,11 +49,13 @@ The Technology Engineering Security Specialists team provides end-end Oracle sec
  - [Oracle Cloud Compliance](https://www.oracle.com/corporate/cloud-compliance/)
      - Oracle is committed to helping customers operate globally in a fast-changing business environment and address the challenges of an ever more complex regulatory environment. 
  
-## Reusable Assets Overview
- 
-
 # License
 
+Copyright (c) 2023 Oracle and/or its affiliates.
+ 
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+ 
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
 Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
