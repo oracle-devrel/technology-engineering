@@ -4,13 +4,13 @@ OCI Vision is an AI service for performing deep-learning–based image analysis 
  
 # Table of Contents
  
-1. [Publications](#publications)
+1. [Publications](#team-publications)
 2. [Useful Links](#useful-uinks)
 3. [LiveLabs and Workshops](#livelabs-and-workshops) 
 4. [Reusable Assets Overview](#reusable-assets-overview)
 5. [Other useful links](useful-links)
  
-## Publications
+## Team Publications
 
 - [OCI Vision Saving Bees using Object Detection](https://www.linkedin.com/pulse/saving-bees-using-ai-one-object-time-ismail-syed/)
 - [OCI Vision Healthcare Image Analysis](https://blogs.oracle.com/ai-and-datascience/post/advancing-healthcare-image-analysis-on-oci)
