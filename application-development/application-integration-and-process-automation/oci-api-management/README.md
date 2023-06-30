@@ -4,7 +4,7 @@ Oracle Cloud Infrastructure (OCI) provides a comprehensive set of services to ma
 
 Developers can prototype APIs easily using the integrated **Code Editor** to create API descriptions in OpenAPI format which is supported by OCI API Gateway. Code Editor comes with Git integration and built-in integration with OCI services.
 
-**OCI API Management** is a fully Oracle-managed, regional service that is used to provide a policy enforcement layer for HTTP traffic. The API Gateway service enables you to publish protected APIs for HTTP/s services such as Serverless Functions, services running on Oracle Kubernetes Engine, Oracle Integration, ORDS and other services on Oracle Cloud Infrastructure and beyond.
+**OCI API Management** is a fully Oracle-managed, regional service that is used to provide a policy enforcement layer for HTTP traffic. The API Gateway service enables you to publish protected APIs for HTTP/s services such as Serverless Functions, services running on Oracle Kubernetes Engine, Oracle Integration, ORDS, and other services on Oracle Cloud Infrastructure and beyond.
 
 API managers can create Usage Plans within API Gateway and define API access tiers. API teams can monitor the traffic and analytics of their APIs based on the usage plan and subscriptions. This enables customers to analyze usage patterns as well as unlock new revenue streams by monetizing APIs.
 
