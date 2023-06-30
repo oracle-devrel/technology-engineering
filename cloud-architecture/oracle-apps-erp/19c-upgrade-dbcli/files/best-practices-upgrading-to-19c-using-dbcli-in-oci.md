@@ -1,6 +1,6 @@
 # Introduction
 
-The best practices in this document provides recommendations for successfully migrating a 12c database running on a compute VM to a VM DB system (DBCS) in Oracle Cloud Infrastructure (OCI) while simultaneously upgrading the database to the 19c version using the dbcli utility. This document covers planning, preparation, provisioning, data migration, and the upgrade process. It offers insights into optimizing the migration and upgrade journey, ensuring compatibility, minimizing downtime and achieving a seamless transition to the new environment.
+The best practices in this document provide recommendations for successfully migrating a 12c database running on a compute VM to a VM DB system (DBCS) in Oracle Cloud Infrastructure (OCI) while simultaneously upgrading the database to the 19c version using the dbcli utility. This document covers planning, preparation, provisioning, data migration, and the upgrade process. It offers insights into optimizing the migration and upgrade journey, ensuring compatibility, minimizing downtime, and achieving a seamless transition to the new environment.
 
 Owner: Bhaskar Ivaturi
 
@@ -8,15 +8,15 @@ Owner: Bhaskar Ivaturi
 
 To ensure a smooth migration from Oracle 12c to 19c, it is important to plan the migration timeline while considering any downtime limitations and potential impact on users or applications. The following alternative approaches can be considered based on the size of the source database:
 
-For a source database of approximately 1-2 TB, an export/import method can be employed to migrate and upgrade the database to Oracle 19c. This approach eliminates the need for converting Non-CDB to CDB database and later upgrading the database using DBCLI. To execute this method, it is recommended to refer MOS note 2554156.1, which provides a step-by-step guide for migrating the database to 19c in OCI.
+For a source database of approximately 1-2 TB, an export/import method can be employed to migrate and upgrade the database to Oracle 19c. This approach eliminates the need for converting Non-CDB to CDB database and later upgrades the database using DBCLI. To execute this method, it is recommended to refer MOS note 2554156.1, which provides a step-by-step guide for migrating the database to 19c in OCI.
 
-However, if the source database is larger than 2 TB, a different migration approach of hybrid DR along with dbcli tool to upgrade database should be taken to minimize downtime.
+However, if the source database is larger than 2 TB, a different migration approach of hybrid DR along with dbcli tool to upgrade the database should be taken to minimize downtime.
 
 The following high-level steps outline this approach:
 
 -	Provision a target 12c VM DB system (DBCS) in OCI.
 -	Drop the pluggable database and shut down the CDB database.
--	Configure a standby database for the source database on the newly provisioned 12c VM DB system, utilizing the same ORACLE_HOME binaries and ASM filesystem for the datafiles.
+-	Configure a standby database for the source database on the newly provisioned 12c VM DB system, utilizing the same ORACLE_HOME binaries and ASM filesystem for the data files.
 - Install the 19c Oracle Binaries on the 12c VM DB system using dbcli.
 -	Start Managed Recovery Process (MRP) till cutover.
 -	 During the cutover
@@ -26,15 +26,15 @@ The following high-level steps outline this approach:
       - Execute the necessary post-PDB steps on the DB Node.
       - Configure the application to connect with the 19c database using adcfgclone.pl located under $ADMIN_SCRIPTS_HOME.
 
-The remaining part of the document outlines best practices for the above high level steps.
+The remaining part of the document outlines best practices for the above high-level steps.
 
 ### Pre-upgrade Tasks:
-By thoroughly reviewing the Oracle Database 19c documentation and release notes, verifying hardware and software requirements and evaluating the impact on existing applications, the organization can save approximately half a day in preparation time.
+By thoroughly reviewing the Oracle Database 19c documentation and release notes, verifying hardware and software requirements, and evaluating the impact on existing applications, the organization can save approximately half a day in preparation time.
 
 #### Planning and Testing:
 -	Develop a comprehensive upgrade plan with specific milestones and timelines.
 -	Create a test environment to simulate the upgrade process and validate its impact on applications.
--	Perform thorough testing of all critical application process and functionality in the test environment.
+-	Perform thorough testing of all critical application processes and functionality in the test environment.
 -	Define rollback and backup procedures in case any issues arise during the upgrade.
 
 
@@ -51,12 +51,12 @@ By carefully reviewing and adhering to the information presented in these docume
 
 
 ###### Database:
-1.	Analyze the existing database and its components, such as tablespaces, data files and schemas.
+1.	Analyze the existing database and its components, such as tablespaces, data files, and schemas.
 2.	Resolve any outstanding database issues, such as inconsistencies or corruption.
 3.	Implement necessary performance tuning and optimizations before the upgrade.
 4.	Ensure that the database is adequately backed up and the backups are accessible during the upgrade process.
 
-By analyzing the existing database, resolving outstanding issues and implementing performance tuning and optimizations beforehand, the organization can save significant downtime.
+By analyzing the existing database, resolving outstanding issues, and implementing performance tuning and optimizations beforehand, the organization can save significant downtime.
 
 ### Provisioning
 -	Create a Database 12c VM DB system in OCI.
@@ -74,7 +74,7 @@ Connect to the database using SQL*Plus as the sysdba user:
 
 ### Data migration
 
-Configure standby database for source EBS database on the OCI VM DB system. We are using the OCI VM DB system $ORACLE_HOME and ASM (+DATA, +RECO) locations for the physical standby database creation. Creating standby database will save the overall downtime which is required during the cutover by avoiding a database backup and restore, especially if the database size is greater than 2TB.
+Configure standby database for source EBS database on the OCI VM DB system. We are using the OCI VM DB system $ORACLE_HOME and ASM (+DATA, +RECO) locations for the physical standby database creation. Creating a standby database will save the overall downtime which is required during the cutover by avoiding a database backup and restore, especially if the database size is greater than 2TB.
 
 
 #### Set up a standby database for your source database
@@ -97,7 +97,7 @@ In the pfile, set the "DB_FILE_NAME_CONVERT" parameter to specify the conversion
       DUPLICATE TARGET DATABASE TO <source DB name>  BACKUP LOCATION <'backup location path'>;
 -	Start the managed recovery and make sure the archives are getting shipped and applied to the standby database.
 
-During the cutover we will cancel the managed recovery and activate physical standby database.
+During the cutover, we will cancel the managed recovery and activate the physical standby database.
 
 ######Example:
     SQL> ALTER DATABASE RECOVER MANAGED STANDBY DATABASE FINISH;
@@ -122,7 +122,7 @@ SQL patch errors can be ignored at this point.
 Review warnings regarding mismatched database parameters and update any that are critical for your environment. For more information, refer to Document 396009.1, Database Initialization Parameters for Oracle E-Business Suite Release 12.
 
 ### Upgrade Process
-Before we start the upgrade process ensure that you verify the precheck output file generated during the execution prior to initiating the upgrade process. This can be accomplished by performing a validation using both the hcheck.sql script and the dbcli upgrade-database command with the --precheck flag. Also, make sure that we always update the dbcli tool and use the latest version using cliadm update-dbcli command.
+Before we start the upgrade process ensure that you verify the precheck output file generated during the execution prior to initiating the upgrade process. This can be accomplished by performing validation using both the hcheck.sql script and the dbcli upgrade-database command with the --precheck flag. Also, make sure that we always update the dbcli tool and use the latest version using cliadm update-dbcli command.
 
 *The hcheck.sql file can be downloaded from the MOS Note 136697.1*
 
@@ -152,11 +152,11 @@ where -i is the 12c DB ID and -dh is the 19c DB home ID value. You can get these
 
 ### Post-upgrade Tasks
 -	Conduct thorough testing of the upgraded database to validate its functionality.
--	Update any necessary configurations, parameters or settings in the upgraded database.
+-	Update any necessary configurations, parameters, or settings in the upgraded database.
 -	Revalidate the performance of critical application processes and tune the database if required.
 -	Communicate the successful completion of the upgrade to relevant stakeholders.
 
 ### Maintenance and Support
 -	Establish a plan for ongoing database maintenance and support activities.
--	Schedule regular backups, patching and performance monitoring for the upgraded database.
+-	Schedule regular backups, patching, and performance monitoring for the upgraded database.
 -	Stay up to date with Oracle's support and patching releases for Oracle Database 19c.
