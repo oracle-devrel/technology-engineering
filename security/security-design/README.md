@@ -5,7 +5,7 @@ TBD
 # Packages
 
 - [Bastion Session](bastion-session-script/README.md)
-- [OCI Security Healt Check - Standard Edition](oci-security-health-check-standard/README.md)
+- [OCI Security Health Check - Standard Edition](oci-security-health-check-standard/README.md)
 
 # License
 
