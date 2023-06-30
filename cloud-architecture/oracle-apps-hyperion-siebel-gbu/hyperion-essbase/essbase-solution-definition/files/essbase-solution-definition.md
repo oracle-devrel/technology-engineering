@@ -89,7 +89,7 @@ OEL           | Oracle Enterprise Linux
 ## Document Purpose
 <!-- GUIDANCE -->
 <!--
-Describe the purpose of this document and the Oracle specific terminology, specifically around 'Workload' and 'Lift'.
+Describe the purpose of this document and the Oracle specific terminology, specifically around 'Workload'.
 
 Mandatory Chapter
 
@@ -165,7 +165,6 @@ Customer has been using Essbase for more than X years and is one of the key stra
 ## Overview
 <!-- GUIDANCE -->
 <!--
-Describe the Workload: What applications and environments are part of this Workload, what are their names? Lift will be scoped later and is typically a subset of the Workload. For example a Workload could exists of two applications, but Lift would only include one environment of one application. This Workload chapter is about the whole Workload and Lift will be described late in chapter [Scope](#scope).
 
 
 
@@ -316,7 +315,7 @@ A diagram or list detailing all the required environments (e.g. development, tex
 
 -->
 
-The following table lists all the environments (current + required) as part of the workload project. The scope column mentions whether the environment is included in the workload migration project scope or not, and also identifies if it is included within the Lift services scope or not.
+The following table lists all the environments (current + required) as part of the workload project. The scope column mentions whether the environment is included in the workload migration project scope or not.
 
 | Name       | Size of Prod | Customer DC/ OCI Region | MAA | Scope        |
 |------------|--------------|-------------------------|-----|--------------|
@@ -604,14 +603,14 @@ This section describes the current state architecture and environments.
 
 The current Essbase deployment is depicted below.
 
-![Current Functional state Architecture](images/Current-Functional-Diagram-Onprem.png)
+![Current Functional state Architecture](images/current-functional-diagram-onprem.png)
 
 ## Future State Architecture
 <!-- GUIDANCE -->
 <!--
 The Workload Future State Architecture can be described in various forms. In the easiest case we  just describe a Logical Architecture, possibly with a System Context Diagram.
 
-Additional architectures, in the subsections, can be used to describe needs for specific workloads or for non Lift engagements.
+Additional architectures, in the subsections, can be used to describe needs for specific workloads.
 
 Mandatory Chapter
 
@@ -641,7 +640,7 @@ Mandatory Chapter
 
 Based on the customer requirements, the future state logical architecture of Essbase on OCI is depicted below.
 
-![Future Logical Architecture](images/Future-Functional-Diagram-OCI.png)
+![Future Logical Architecture](images/future-functional-diagram-oci.png)
 
 The main building blocks that compose this cloud architecture:
 
@@ -653,9 +652,9 @@ The main building blocks that compose this cloud architecture:
 <!-- GUIDANCE -->
 <!--
 
-The Workload Architecture is typically not described in a physical form. If we deliver a Lift project, the scoped Lift Project in chapter 4 includes the physical architecture.
+The Workload Architecture is typically not described in a physical form.
 
-Nevertheless, an architect might want to describe the full physical Workload here, if this is a non-Lift project or if 3rd party implementation partner implement the non Lift environments.
+Nevertheless, an architect might want to describe the full physical Workload here.
 
 Recommended Chapter
 
@@ -688,7 +687,7 @@ Essbase sizing on OCI for **Test environment** (current Workload) is reflected i
 
 The diagram below depicts Physical architecture.
 
-![Future State Physical Architecture](images/Future-Technical-Diagram-OCI.png)
+![Future State Physical Architecture](images/future-technical-diagram-oci.png)
 
 * **One instance of __Essbase 21c__** will be provisioned in a private subnet in a dedicated compartment.
 * **One instance of Autonomous Database ATP** will be provisioned with a private endpoint in a dedicated compartment.
@@ -1066,7 +1065,7 @@ OCI SLAs                                     | Mission-critical workloads requir
 ## Roadmap
 <!-- GUIDANCE -->
 <!--
-Explain a high-level roadmap for this Workload. Include a few easy high-level steps to success (See Business Context). Include Lift services (if possible) as a first fast step. Add other implementation partners and their work as part of your roadmap as well. Does not include details about the Lift scope or any timeline. This is not about product roadmaps.
+Explain a high-level roadmap for this Workload. Include a few easy high-level steps to success (See Business Context).
 
 Recommended Chapter
 
@@ -1135,7 +1134,6 @@ PPM   | None
 Sales | R
 -->
 
-<!-- Latest Customer Lift Acceptance -->
 
 # Implementation
 
@@ -1298,7 +1296,7 @@ PPM   | R
 ## Deployment Build
 <!-- GUIDANCE -->
 <!--
-The Deployment Build is a list of all OCI resources needed for the Lift implementation. It serves two purposes: as a customers documentation; and as a Lift implementer handover. The checklist below defines mandatory requirements as per project scope for the Lift implementation. This table replaces the CD3 file for the architecture team.
+The Deployment Build is a list of all OCI resources needed for the implementation. The checklist below defines mandatory requirements as per project scope for the implementation.
 
 Agile Approach: The architect creates and fills in the first version of this table. We work together with our customers to get and confirm the detailed data. Afterwards, the architect and the implementer are working together to iteratively fill these tables. In the meantime some development might already been done by the implementers.
 
