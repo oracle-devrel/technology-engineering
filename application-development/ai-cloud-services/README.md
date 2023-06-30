@@ -5,6 +5,8 @@ Oracle Cloud Infrastructure (OCI) AI Services is a collection of services with p
 - [Oracle AI Services](https://www.oracle.com/artificial-intelligence/ai-services/)
     - Oracle AI Services homepage
 
+Navigate the pages for each service and find specific assets (reusable code, demos, architecture center articles etc).
+
 # License
 
 Copyright (c) 2023 Oracle and/or its affiliates.
