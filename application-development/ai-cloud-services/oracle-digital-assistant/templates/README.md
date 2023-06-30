@@ -1,6 +1,7 @@
 # Oracle Digital Assistant Templates
  
-Oracle Digital Assistant templates is a collection of configurations that allow you to quickly implement Digital Assistant based on best practices; some examples are the concierge template, for creating FAQ based skills very fast and the HCM quick start template for creating multilingual HCM skills.
+Oracle Digital Assistant templates create a quick start for particular use cases. Check out the following templates: the Concierge Template.
+The Concierge Template is a skill for quickly setting up a Knowledge bot.
  
 
 # License
