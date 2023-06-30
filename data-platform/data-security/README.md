@@ -1,10 +1,11 @@
 # Data Security
+
 The team covers: 
-The cloud service : Data Safe
+The cloud service: Data Safe
 in the context of ExaDB-C@C / ExaCI
-The database options : Advanced Security, Database Vault, Label Security
-The stand-alone products : Audit Vault and Database Firewall, Key Vault
-The Enterprise Manager pack : Data Masking and Subsetting
+The database options: Advanced Security, Database Vault, Label Security
+The stand-alone products: Audit Vault and Database Firewall, Key Vault
+The Enterprise Manager pack: Data Masking and Subsetting
 OpsCtl for ExaDB-C@C
 
 # Useful Links
