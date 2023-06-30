@@ -1,9 +1,12 @@
-
 # OCI Security Health Check - Standard Edition
 
 Owner: Olaf Heimburger
 
-## Prepare the OCI Tenancy
+## When to use this asset?
+
+## How to use this asset?
+
+### Prepare the OCI Tenancy
 
 You can run the assessment as a member of the OCI `Administrator` group or
 create a group for auditing and assign the respective user to it.
@@ -15,7 +18,7 @@ quickest way. If you decide to use this option, please continue reading in
 For recurring usage, setting up a group for auditing is recommended. The
 steps for setting this up are described in the next chapter.
 
-### Setting up an *Auditor* group and policy
+#### Setting up an *Auditor* group and policy
 
 Using an auditor group is the recommended way to run the assessment script.
 To create a group for auditing do the following steps:
@@ -43,17 +46,17 @@ To create a group for auditing do the following steps:
   - Assign a user to the `grp-auditors` group
   - Log out of the OCI Console
 
-## Run the OCI Security Health Check in OCI Cloud Shell
+### Run the OCI Security Health Check in OCI Cloud Shell
 
-The recommended way is to run the *OCI Security Healh Check - Standard* in the OCI Cloud Shell. It does not require any additional configuration on a local desktop machine.
+The recommended way is to run the *OCI Security Health Check - Standard* in the OCI Cloud Shell. It does not require any additional configuration on a local desktop machine.
 
-### Download and upload the release file
+#### Download and upload the release file
 
   - Download the the latest distribution [oci-security-health-check-standard-\<version>.zip](releases/oci-security-health-check-standard-\<version>.zip).
   - Log into the OCI Console.
   - Select the *Developer Tools* icon (looks like a small window) in the header toolbar.
   - From the menu select the *Cloud Shell* item.
-  - Wait until the Cloud Shell has been initialised.
+  - Wait until the Cloud Shell has been initialized.
   - ...
   - Upload the distribution file.
   - Extract it
@@ -75,7 +78,7 @@ The recommended way is to run the *OCI Security Healh Check - Standard* in the O
       ```
       $ ./standard.sh
       ```
-    - Run the script for one subscribed regions:
+    - Run the script for one subscribed region:
       ```
       $ ./standard.sh -r <region_name>
       ```
@@ -84,7 +87,7 @@ The recommended way is to run the *OCI Security Healh Check - Standard* in the O
       $ ./standard.sh -h
       ```
 
-## Getting the results
+### Getting the results
   - In the directory `oci-security-health-check-standard-<version>` a directory will be created which
     holds all the output created by the scripts. This directory will be
     compressed in a single ZIP file and the resulting ZIP file will be moved to
