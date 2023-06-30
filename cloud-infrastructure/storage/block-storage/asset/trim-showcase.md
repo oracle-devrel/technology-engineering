@@ -11,9 +11,9 @@ See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folde
 
 ## Prepare your environment
 - [Oracle Cloud Infrastructure CLI Command Reference](https://docs.oracle.com/en-us/iaas/tools/oci-cli/latest/oci_cli_docs/index.html)
-- set up your individual "operate" instance
-	- An Oracle enterprise Linux server with Command Line Interface (*see [Set up your Server with Resilience by default using CLI](https://gitlab.com/hmielimo/cloud-resilience-by-default/#set-up-your-server-with-resilience-by-default-using-cli)  for details*)
-	- create and attach block volume: e.g. trim-test (*200GB*)
+- Set up your individual "operate" instance
+	- An Oracle enterprise Linux server with Command Line Interface (*see [Set up your Server with Resilience by default using CLI](https://gitlab.com/hmielimo/cloud-resilience-by-default/#set-up-your-server-with-resilience-by-default-using-cli)  for details*).
+	- Create and attach block volume: e.g. trim-test (*200GB*).
 
 ## Format and mount block volume
 ~~~
@@ -118,10 +118,10 @@ cat "${myLOGFILE}"
 
 ## TRIM ON showcase
 
-### Set needed variables (*please adjust variables to your needs before past into your terminal*)
+### Set needed variables (*please adjust variables to your needs before past into your terminal*).
 ~~~
 # ---------------------------------------------------------------------------------------------------------------------------------------------
-# CUSTOMER SPECIFIC VALUES - please update appropriate
+# CUSTOMER SPECIFIC VALUES - Please update appropriate
 # ---------------------------------------------------------------------------------------------------------------------------------------------
 export TENENCY_OCID=<your_tenency_ocid>
 export USER_OCID=<your_user_ocid>
