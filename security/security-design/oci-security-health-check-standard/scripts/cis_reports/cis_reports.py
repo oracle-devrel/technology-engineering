@@ -33,9 +33,9 @@ try:
 except:
     OUTPUT_TO_XLSX = False
 
-RELEASE_VERSION = "2.5.11"
+RELEASE_VERSION = "2.5.12"
 PYTHON_SDK_VERSION = "2.103.0"
-UPDATED_DATE = "June 20, 2023"
+UPDATED_DATE = "June 29, 2023"
 
 ##########################################################################
 # Print header centered
@@ -1299,7 +1299,6 @@ class CIS_Report:
                     search_details=oci.resource_search.models.StructuredSearchDetails(
                     query="query Bucket resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
                     ).data
-
                 # Getting Bucket Info
                 for bucket in buckets_data:
                     try:
@@ -1328,12 +1327,10 @@ class CIS_Report:
                         }
                         self.__buckets.append(record)
                     except Exception as e:
-                        deep_link = self.__oci_buckets_uri + bucket.additional_details['namespace'] + \
-                                "/" + bucket.display_name + "/objects?region=" + region_key
                         record = {
                             "id": "",
                             "name":  bucket.display_name,
-                            "deep_link": self.__generate_csv_hyperlink(deep_link, bucket.display_name),
+                            "deep_link": "",
                             "kms_key_id": "",
                             "namespace": bucket.additional_details['namespace'],
                             "compartment_id": bucket.compartment_id,
@@ -3371,7 +3368,7 @@ class CIS_Report:
         for sl in self.__network_security_lists:
             for irule in sl['ingress_security_rules']:
                 if irule['source'] == "0.0.0.0/0" and irule['protocol'] == '6':
-                    if irule['tcp_options']:
+                    if irule['tcp_options'] and irule['tcp_options']['destinationPortRange']:
                         port_min = irule['tcp_options']['destinationPortRange']['min']
                         port_max = irule['tcp_options']['destinationPortRange']['max']
                         ports_range = range(port_min, port_max +1)
@@ -3419,7 +3416,7 @@ class CIS_Report:
         for nsg in self.__network_security_groups:
             for rule in nsg['rules']:
                 if rule['source'] == "0.0.0.0/0" and rule['protocol'] == '6':
-                    if rule['tcp_options']:
+                    if rule['tcp_options'] and rule['tcp_options'].destination_port_range:
                         port_min = rule['tcp_options'].destination_port_range.min
                         port_max = rule['tcp_options'].destination_port_range.max
                         ports_range = range(port_min,port_max+1)
@@ -3693,7 +3690,7 @@ class CIS_Report:
         ## Determines if a Budget Exists with an alert rule
         if len(self.__budgets) > 0:
             for budget in self.__budgets:
-                if budget['alert_rule_count'] > 0:
+                if budget['alert_rule_count'] >0 and budget['target_compartment_id'] == self.__tenancy.id:
                     self.obp_foundations_checks['Cost_Tracking_Budgets']['Status'] = True
                     self.obp_foundations_checks['Cost_Tracking_Budgets']['OBP'].append(budget)
                 else:
