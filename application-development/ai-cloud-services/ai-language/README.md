@@ -7,7 +7,7 @@ OCI Language is a cloud-based AI service for performing sophisticated text analy
 1. [Team Publications](#publications)
 2. [Useful Links](#useful-uinks)
 3. [LiveLabs and Workshops](#livelabs-and-workshops) 
-4. [Reusable Assets Overview](#reusable-assets-overview)
+4. [Reusable Assets Overview](#reusable-assets)
  
 ## Publications
 
@@ -21,10 +21,12 @@ OCI Language is a cloud-based AI service for performing sophisticated text analy
 - [Deliver Immersive Conversational User Experiences with OCI AI Services](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3452&clear=RR,180&session=5298742340912)
 - [Build applications with Oracle’s AI services](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3674&clear=RR,180&session=5298742340912)
 
-## Reusable Assets Overview
+## Reusable Assets
  
 - [OCI AI Language Service introduction video](https://www.youtube.com/watch?v=-t6jje8SRXU)
 - [Enabling an Event-Driven, Real-Time Twitter Sentiment Analysis Dashboard Demo ](https://www.youtube.com/watch?v=9hvUxLSE3Vg)
+- [Smarter Apps with AI, OIC partner community webcast June 2023](https://videohub.oracle.com/media/Smarter+AI+Apps+with+OIC+partner+community+webcast+June+2023-1080p30/1_m2yjnvf9)
+    - OCI Language and Document Understanding are cloud-based AI services for performing sophisticated text analysis and extracting data from all kinds of documents e.g. Passport, Driving License, Invoices, Receipt etc. You can use these services to build intelligent applications by leveraging REST APIs. You can use these services to build intelligent applications by leveraging REST APIs and automate using Oracle Integration Cloud. This allows you to process unstructured text for use cases such as sentiment analysis, service ticket classification, document extraction, and more using pretrained models or your own custom models leveraging OCI Data Labelling.
 
 ## Useful Links
  
