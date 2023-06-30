@@ -15,7 +15,7 @@ OCI Vision is an AI service for performing deep-learning–based image analysis 
 - [OCI Vision Saving Bees using Object Detection](https://www.linkedin.com/pulse/saving-bees-using-ai-one-object-time-ismail-syed/)
 - [OCI Vision Healthcare Image Analysis](https://blogs.oracle.com/ai-and-datascience/post/advancing-healthcare-image-analysis-on-oci)
  
-## LiveLabs and Workshops
+### LiveLabs and Workshops
  
 - [LiveLabs - AI Vision introduction](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=931&clear=RR,180&session=101189893786132)
     - Introduction: OCI Vision
@@ -34,7 +34,7 @@ OCI Vision is an AI service for performing deep-learning–based image analysis 
     - Lab 6: Connecting to Autonomous Data Warehouse
     - Lab 7: Processing the entire video
 
-## Reusable Assets Overview
+### Reusable Assets Overview
  
 - [OCI image classification using data labeling and vision service](https://github.com/carlgira/oci-image-classification)
 - [OCI object detection using data labeling and vision service](https://github.com/carlgira/oci-object-detection) 
