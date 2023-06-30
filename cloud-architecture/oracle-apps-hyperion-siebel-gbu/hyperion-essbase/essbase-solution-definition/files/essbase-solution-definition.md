@@ -1,7 +1,7 @@
 ---
 doc:
     author: Manish Palaparthy, Grzegorz Reizer
-    version: 1.1
+    version: 1.0
     cover:
         title:
         - ${doc.customer.name}
