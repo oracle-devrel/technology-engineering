@@ -7,7 +7,7 @@ OCI Security Health Check - Standard Edition
   create a group for auditing and assign the respective user to it.
 
   Running the assessment script as an OCI Administrator is the easiest and
-  quickest way. If you decide to use this option, please continue reading in
+  quickest way. If you decide to use this option, please continue reading 
   chapter 2.
 
   For recurring usage, setting up a group for auditing is recommended. The
@@ -52,7 +52,7 @@ OCI Security Health Check - Standard Edition
     script.
     - Run the script for all subscribed regions:
       $ ./standard.sh
-    - Run the script for one subscribed regions:
+    - Run the script for one subscribed region:
       $ ./standard.sh -r <region_name>
     - Get command line options:
       $ ./standard.sh -h
