@@ -1,6 +1,6 @@
 # Oracle Graph for Data Science
 
-This page is covering Oracle Graph analytics for data science projects.
+This page is covering Oracle Graph analytics for Data Science projects.
 
 Graph databases, part of Oracle’s converged database offering, eliminate the need to set up a separate database and move data. Analysts and developers can perform fraud detection in banking, find connections and link to data, and improve traceability in smart manufacturing, all while gaining enterprise-grade security, ease of data ingestion, and strong support for data workloads.
 
