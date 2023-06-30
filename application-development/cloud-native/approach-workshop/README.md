@@ -11,9 +11,13 @@ We will discuss
 - Design principles and best practices that govern application architectures
 - The core requirements that apply to your application
 - Recommend technologies for modern applications
-- Showcase similar customers use cases
+- Showcase similar customers' use cases
 - Which architecture pattern fits your situation and the necessary steps to get there
 
+
+## When to use this asset?
+
+## How to use this asset?
 
 # License
 
