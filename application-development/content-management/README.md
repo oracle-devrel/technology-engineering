@@ -7,28 +7,29 @@ Oracle's on-premise content management offering is Oracle WebCenter which is the
 # Table Of Contents
 
 1. [Content Management Cloud](#content-management-cloud)
-2. [Sauce](sauce)
+2. [Sauce](#sauce)
 3. [Webcenter](#webcenter)
 
 # Content Management Cloud
 
-- Useful Links
-General info: http://oracle.com/content-management
-Documentation: https://docs.oracle.com/en/cloud/paas/content-cloud/index.html
-OCM Developer website: https://developer.oracle.com/technologies/content-management.html
-OCM Solution Playbooks: https://docs.oracle.com/solutions/?q=&cType=reference-architectures%2Csolution-playbook%2Cbuilt-deployed&product=Content%20Management&sort=date-desc&lang=en
+## Useful Links
 
-- Reusable Assets
+- [General info](http://oracle.com/content-management)
+- [Documentation](https://docs.oracle.com/en/cloud/paas/content-cloud/index.html)
+- [OCM Developer website](https://developer.oracle.com/technologies/content-management.html)
+- [OCM Solution Playbooks](https://docs.oracle.com/solutions/?q=&cType=reference-architectures%2Csolution-playbook%2Cbuilt-deployed&product=Content%20Management&sort=date-desc&lang=en)
+
+## Reusable Assets
 
 # Sauce
 
-- Useful Links
-- Reusable Assets
+## Useful Links
+## Reusable Assets
 
 # WebCenter
 
-- Useful Links
-- Reusable Assets
+## Useful Links
+## Reusable Assets
 
 # License
 
