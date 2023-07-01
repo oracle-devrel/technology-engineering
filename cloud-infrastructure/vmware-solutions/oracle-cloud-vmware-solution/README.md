@@ -84,7 +84,7 @@ Oracle Cloud VMware Solution is based on VMware Cloud Foundation (VCF) and provi
 ### Videos & Podcasts
 - [Oracle Cloud VMware Solution – Differentiation by Design](https://videohub.oracle.com/media/1_von9a3t2)
 - [OCI Flexible Infrastructure: Oracle Cloud VMware Solution with OCI Block & File Storage](https://event.vmware.com/flow/vmware/7000/webinar1/page/landing?rep=0052H00000Dg8dA)
-- [Adding OCI Block Storage as VMware Datastore](https://www.youtube.com/watch?v=dPnvBxf3adY)\
+- [Adding OCI Block Storage as VMware Datastore](https://www.youtube.com/watch?v=dPnvBxf3adY)
 - [OCI FSS as an NFS Datastore for OCVS](https://www.youtube.com/watch?v=E5e3vpT9Ink)
 - [Red Hot Webinars - Exploring the different storage options and capabilities of OCVS](https://www.youtube.com/watch?v=7j1MyzCObxI)
 - [Cloud Coaching Clinic - Oracle Cloud VMware Solution](https://www.youtube.com/watch?v=fU3oWg8mbvY)
