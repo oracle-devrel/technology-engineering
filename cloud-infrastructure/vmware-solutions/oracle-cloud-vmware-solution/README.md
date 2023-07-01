@@ -81,8 +81,14 @@ Oracle Cloud VMware Solution is based on VMware Cloud Foundation (VCF) and provi
 - [Establishing connectivity from an Oracle Cloud VMware Solution NSX-T overlay segment to another VCN in different region](https://blogs.oracle.com/cloud-infrastructure/post/establishing-connectivity-from-ocvs-nsx-t-overlay-segment-to-another-vcn-in-different-region)
      -  This blog post talks about the setup of communication between overlay segments in Oracle Cloud VMware Solutions and workloads deployed in a VCN in different OCI region.
 
-### Podcasts
-TBD
+### Videos & Podcasts
+- [Oracle Cloud VMware Solution – Differentiation by Design](https://videohub.oracle.com/media/1_von9a3t2)
+- [OCI Flexible Infrastructure: Oracle Cloud VMware Solution with OCI Block & File Storage](https://event.vmware.com/flow/vmware/7000/webinar1/page/landing?rep=0052H00000Dg8dA)
+- [Adding OCI Block Storage as VMware Datastore](https://www.youtube.com/watch?v=dPnvBxf3adY)\
+- [OCI FSS as an NFS Datastore for OCVS](https://www.youtube.com/watch?v=E5e3vpT9Ink)
+- [Red Hot Webinars - Exploring the different storage options and capabilities of OCVS](https://www.youtube.com/watch?v=7j1MyzCObxI)
+- [Cloud Coaching Clinic - Oracle Cloud VMware Solution](https://www.youtube.com/watch?v=fU3oWg8mbvY)
+- [On-Demand Webinar - Oracle Cloud VMware Solution-Differentiation by Design](https://go.oracle.com/LP=130642)
 
 ## Reusable Assets Overview
 TBD
