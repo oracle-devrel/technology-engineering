@@ -17,6 +17,10 @@ Oracle Cloud Migrations enables customers to migrate virtual machines to Oracle 
 - [OCM Deployment Guide - Migrate VMs from an on-premises VMware environment to Oracle Cloud Compute VMs using Oracle Cloud Migrations service](https://docs.oracle.com/en/learn/ocm-migrate-on-prem-vm/)
   - This tutorial provides step-by-step guidelines for configuring the Oracle Cloud Migrations service, to enable customers to migrate their virtual machines from an on-premises VMware environment to Oracle Cloud Compute VMs.
 
+### Videos
+- [Cloud Coaching Clinic - Introduction to Oracle Cloud Migrations](https://www.youtube.com/watch?v=a1C3vZh5Wno)
+  - In this Cloud Coaching Clinic session, we talk about the Oracle Cloud Migrations Service and how it enables you to migration VMs from your on-premises VMware environments to OCI Compute VMs.
+ 
 # License
 
 Copyright (c) 2023 Oracle and/or its affiliates.
