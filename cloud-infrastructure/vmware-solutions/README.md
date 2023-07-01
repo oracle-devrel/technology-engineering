@@ -11,7 +11,7 @@ Secure Desktops is ideal for organizations that need to provide employees with c
  
 ## Useful Links
 - [[Oracle Cloud Migrations](https://docs.oracle.com/en-us/iaas/secure-desktops/home.htm)
-- [Announcing Oracle Cloud Infrastructure Secure Desktops]([https://docs.oracle.com/en-us/iaas/Content/cloud-migration/home.htm](https://blogs.oracle.com/cloud-infrastructure/post/secure-desktops-cloud-native-virtualization)
+- [Announcing Oracle Cloud Infrastructure Secure Desktops](https://blogs.oracle.com/cloud-infrastructure/post/secure-desktops-cloud-native-virtualization)
 
 ## Team Publications
 
