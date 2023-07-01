@@ -6,10 +6,15 @@ Oracle Cloud VMware Solution is based on VMware Cloud Foundation (VCF) and provi
  
 # Table of Contents
  
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-links)
+1.[Useful Links](#useful-links)
+2. [Team Publications](#team-publications)
 3. [Reusable Assets Overview](#reusable-assets-overviewdef)
  
+## Useful Links
+- [Oracle Cloud VMware Solution](https://www.oracle.com/uk/cloud/compute/vmware/)
+- [Oracle Cloud VMware Solution Blogs](https://blogs.oracle.com/cloud-infrastructure/search.html?contentType=Blog-Post&default=%22Oracle%20Cloud%20VMware%20Solution%22*)
+- [Oracle Cloud VMware Solution on Oracle Help Center](https://docs.oracle.com/search/?q=VMware&pg=2&size=10&showfirstpage=true&lang=en)
+
 ## Team Publications
 
 ### Reference Architectures & Step-by-step Guides
@@ -77,9 +82,6 @@ Oracle Cloud VMware Solution is based on VMware Cloud Foundation (VCF) and provi
      -  This blog post talks about the setup of communication between overlay segments in Oracle Cloud VMware Solutions and workloads deployed in a VCN in different OCI region.
 
 ### Podcasts
-TBD
-
-## Useful Links
 TBD
 
 ## Reusable Assets Overview
