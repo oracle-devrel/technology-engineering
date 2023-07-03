@@ -29,7 +29,7 @@ The information is generic in nature and not specified for a particular customer
 
 ### Reference Architectures & Step-by-step Guides
 
-- [Protect your Internet facing applications using Modernized Architecture](files/Modernized_Architecture.pdf)
+- [Protect your Internet facing applications using Modernized Architecture](files/Modernized%20Architecture.pdf)
 
 ### Blogs
  
