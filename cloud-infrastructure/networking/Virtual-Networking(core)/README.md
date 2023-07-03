@@ -24,15 +24,14 @@ The information is generic in nature and not specified for a particular customer
 - [Network observability: Your network operations made easy in OCI](https://blogs.oracle.com/cloud-infrastructure/post/virtual-network-observability-your-network-operations-made-easy-in-oci)
 
 
-
-
-
-
 ## Team Publications
+
 
 ### Reference Architectures & Step-by-step Guides
 
+- [Protect your Internet facing applications using Modernized Architecture]([https://docs.oracle.com/es-ww/iaas/Content/Network/Concepts/path_analyzer.htm](https://github.com/oracle-devrel/technology-engineering/blob/luisc_networking_2/cloud-infrastructure/networking/Virtual-Networking(core)/files/Modernized_Architecture.pdf))
 
+- 
 ### Blogs
  
 
