@@ -1801,7 +1801,7 @@ The required entries will be created by the marketplace stack.
 <!--
 All the Fields are Mandatory Except Tags.
 Shape: Specify VM.Standard for VM DBCS BM.DenseIO2 for Bare Metal DBCS and Exadata for Exadata DBCS System.
-DB Software Edition: Valid Options are ENTERPRISE_EDITION_EXTREME_PERFORMANCE, STANDARD_EDITION, ENTERPRISE_EDITION, ENTERPROSE_EDITION_HIGH_PERFORMANCE.
+DB Software Edition: Valid Options are ENTERPRISE_EDITION_EXTREME_PERFORMANCE, STANDARD_EDITION, ENTERPRISE_EDITION, ENTERPRISE_EDITION_HIGH_PERFORMANCE.
 DB Size: Specify DB Size in GB's.
 DB Disk Redundancy: Valid options are High/Low.
 -->
