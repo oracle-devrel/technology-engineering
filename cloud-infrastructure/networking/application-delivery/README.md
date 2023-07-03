@@ -29,8 +29,7 @@ The information is generic in nature and not specified for a particular customer
 
 ### Reference Architectures & Step-by-step Guides
 
-- [Cloud Coaching : Implementing Public & Private DNS on OCI](https://www.youtube.com/watch?v=AjA-HagCye8)
-    -  This Youtube describes how to implement Public and Private DNS in OCI
+
 
  
 
@@ -42,7 +41,8 @@ The information is generic in nature and not specified for a particular customer
 
 ### Videos & Podcasts
 - [OCI DNS intro](https://www.youtube.com/watch?v=NvUeA75z7No)
-
+- [Cloud Coaching : Implementing Public & Private DNS on OCI](https://www.youtube.com/watch?v=AjA-HagCye8)
+    -  This Youtube describes how to implement Public and Private DNS in OCI
 
 # License
 
