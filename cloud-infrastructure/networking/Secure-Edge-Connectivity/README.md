@@ -33,6 +33,8 @@ The information is generic in nature and not specified for a particular customer
     -  Step by step guide to deploy OCI network Firewall for SSL Forwar proxy and inbound inspection with Decryption rules. It does include an introduction on encryption for beginners
 - [Implementation architecture of Network Firewall in Multi VCN deployment](files/Implementation%20guide%20for%20Network%20Firewall%20in%20a%20Multi-VCNs%20deployment.pdf)
    
+- [Implementation architecture of Network Firewall in Multi VCN deployment](files/Implementation%20guide%20for%20Network%20Firewall%20in%20a%20Multi-VCNs%20deployment.pdf)
+
 ### Blogs
  
 - [Using OCI Network Firewall for SSL Decryption](https://blogs.oracle.com/cloud-infrastructure/post/oci-network-firewall-ssl-decryption)
