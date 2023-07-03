@@ -27,8 +27,7 @@ This is a readme file for Oracle Database Consolidation
  
 ## Reusable Assets Overview
  
-<OPTIONAL - remove if not needed>
-<If you don't have a flat hierarchy for assets, please describe your structure>
+ The Database Consolidation Document provides useful learnings and guidlines for an Oracle Database Consolidation Project. It includes Business and Technical Requirements, Database Environments, Isolation and Resource Management Objectives, Consolidation Approach, sample sizing, consolidation platform reccomendations and finally the results of consolidation using Multi-tenant Architecture on ExaDB-D 
  
 # License
  
