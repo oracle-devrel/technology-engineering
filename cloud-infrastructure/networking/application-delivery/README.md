@@ -29,7 +29,7 @@ The information is generic in nature and not specified for a particular customer
 
 ### Reference Architectures & Step-by-step Guides
 
-
+- [Reference Architecture for forwarding multiple DNS requests to Multiple Onprem DNS Servers](https://github.com/oracle-devrel/technology-engineering/blob/luisc_networking_2/cloud-infrastructure/networking/application-delivery/Files/Forwarding_DNS_requests_to_multiple_On-Prem_DNS_Servers.pdf)
 
  
 
