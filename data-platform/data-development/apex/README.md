@@ -1,4 +1,5 @@
 # APEX
+
 ## Get Started
 - [Official APEX Landing Page](https://apex.oracle.com/en/)
 - [What's New in APEX 23.1](https://apex.oracle.com/en/platform/features/whats-new-231/)
