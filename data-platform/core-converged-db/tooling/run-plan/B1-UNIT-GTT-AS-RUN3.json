@@ -1,0 +1,44 @@
+{
+  "IDPLAN": "B1-UNIT-GTT-AS",
+  "PlanDesc": "B1 unitario con 4-128 ocpu - GTT - Autoscaling",
+  "version": 1.0,
+  "releaseDate": "2020-10-13T00:00:00.000Z",
+  "runs": 
+  [
+      {
+        "name": "Run3",
+        "Label": "RUN3",
+	"ocpu": "16",
+	"storageTB": "5",
+	"parallel": "Y",
+        "steps": 
+	[
+	  {
+	    "name": "ScaleUpAdw",
+	    "type": "SCALE",
+	    "command": "/home/opc/PPL/scale-ADW.sh"
+	  },
+	  {
+	    "name": "CollectAWR",
+	    "type": "AWR",
+	    "command": "/home/opc/PPL/create-AWR-snapshot.sh"
+	  },
+	  {
+	    "name": "step1",
+	    "type": "SH",
+	    "command": "/home/opc/PPL/run.B1.GTT.DM_CONFIG0.sh"
+	  },
+	  {
+	    "name": "Waiting",
+	    "type": "WAIT",
+	    "command": "/home/opc/PPL/check-for-completion.sh"
+	  },
+	  {
+	    "name": "CollectAWR",
+	    "type": "AWR",
+	    "command": "/home/opc/PPL/create-AWR-snapshot.sh"
+	  }
+	]
+      }
+  ]
+}
