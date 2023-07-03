@@ -24,11 +24,8 @@ The information is generic in nature and not specified for a particular customer
 
 ## Team Publications
 
-### Reference Architectures & Step-by-step Guides
-
 
  
-
 ### Blogs
  
 
