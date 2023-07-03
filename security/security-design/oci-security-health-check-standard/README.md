@@ -54,7 +54,7 @@ The recommended way is to run the *OCI Security Health Check - Standard* in the 
 
 #### Download and upload the release file
 
-  - Download the the latest distribution [oci-security-health-check-standard-230630.zip](https://github.com/oracle-devrel/technology-engineering/releases/download/oci-security-health-check-std-230630/oci-security-health-check-standard-230630.zip).
+  - Download the latest distribution [oci-security-health-check-standard-230630.zip](https://github.com/oracle-devrel/technology-engineering/releases/download/oci-security-health-check-std-230630/oci-security-health-check-standard-230630.zip).
   - Log into the OCI Console.
   - Select the *Developer Tools* icon (looks like a small window) in the header toolbar.
   - From the menu select the *Cloud Shell* item.
