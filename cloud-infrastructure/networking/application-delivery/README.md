@@ -20,7 +20,7 @@ The information is generic in nature and not specified for a particular customer
 - [Flexible Load Balancer](https://www.oracle.com/es/cloud/networking/load-balancing/)
 - [LBaaS Blog](https://blogs.oracle.com/cloud-infrastructure/post/announcing-oracle-cloud-infrastructure-flexible-load-balancing)
 - [Network Load Balancer Blog](https://blogs.oracle.com/analytics/post/configure-oracle-cloud-infrastructure-oci-network-load-balancer-for-oracle-analytics-server-on-oracle-cloud-marketplace)
-- [LoadBalancer Troubleshootin](https://www.ateam-oracle.com/post/loadbalancer-troubleshooting)
+- [LoadBalancer Troubleshooting](https://www.ateam-oracle.com/post/loadbalancer-troubleshooting)
 
 
 
@@ -36,7 +36,7 @@ The information is generic in nature and not specified for a particular customer
 ### Blogs
  
 - [DNS in multicloud disaster recovery architectures](https://blogs.oracle.com/cloud-infrastructure/post/dns-in-multicloud-disaster-recovery-architectures)
-    -  MultiCloud Dissaster Recovery Blog around private DNS between different cloud providers and OCI
+    -  MultiCloud Disaster Recovery Blog around private DNS between different cloud providers and OCI
 
 
 ### Videos & Podcasts
