@@ -23,8 +23,8 @@
 
 | Name         | Email                | Role                     | Company |
 |:-------------|:---------------------|:-------------------------|:--------|
-| Name Surname | name.name@oracle.com | Tech Solution Specialist | Oracle  |
-| Ada Lovelace | ada@lovelace.com     | Account Cloud Engineer   | Oracle  |
+| Name Surname | name@example.com     | Tech Solution Specialist | example  |
+| Name Surname | name@lexample.com    | Account Cloud Engineer   | example  |
 
 ## Document Purpose
 
@@ -66,7 +66,7 @@ This is a living document, additional sections will be added as the engagement p
 
 *Example:*
 
-Organizations use on-premises deployments of E-Business Suite(EBS) for a wide range of functionalities, including Financials, Order Management, Procurement, Manufacturing and Logistics. These implementations are often customized to seamlessly integrate with other applications to meet business requirements. So it’s counterproductive to re-architect software from scratch. OCI has the flexibility to support everything Organizations are currently doing with E-Business Suite.
+Organizations use on-premises deployments of E-Business Suite (EBS) for a wide range of functionalities, including Financials, Order Management, Procurement, Manufacturing and Logistics. These implementations are often customized to seamlessly integrate with other applications to meet business requirements. So it’s counterproductive to re-architect software from scratch. OCI has the flexibility to support everything Organizations are currently doing with EBS.
 
 Most On-Premises EBS deployments can be migrated to run on Oracle Cloud Infrastructure (OCI) without requiring significant configuration, integration, or business process changes, and result in an implementation that is more flexible, more reliable, higher performance, and lower cost than either On-Premises or other Cloud vendors. Running EBS on Oracle Cloud enables you to:
 
@@ -163,7 +163,7 @@ Current EBS workload has four environments:
     -   This is a copy of Production environment which is kept in synch with Production environment using following synchronization methods:
         -   EBS application tier are kept in synch with Production using rsync job scheduled via crontab
 
-        -   The E-Business database repository is synchronized with DR using Oracle Data Guard Solution
+        -   The EBS database repository is synchronized with DR using Oracle Data Guard Solution
 
             #### Environment Sizing
 
@@ -221,7 +221,7 @@ The foundation of security is access control, which refers to how the system is 
 
 At the time of this document creation, no Security requirements have been specified.
 
-### Workload Access Requirement
+### Workload Access Requirements
 
 *Guide:*
 
@@ -235,21 +235,21 @@ The Customer has both internal and external endpoints of their EBS workload.
 
 **Internal Users:**
 
-Users access E-Business using URL https://`<Internal LB URL:port>`{=html}. The connection flows via external/internal firewall to the Load Balancer in DMZ. Load Balancer terminates the SSL and passes the request on port 8010 to E-Business internal servers 'X', 'Y'. The internal E-Business servers communicate with E-Business RAC Database on Linux VMs 'A', 'B' using port 1531 and validate the user request.
+Users access EBS using URL https://`<Internal LB URL:port>`. The connection flows via external/internal firewall to the Load Balancer in DMZ. Load Balancer terminates the SSL and passes the request on port 8010 to EBS internal servers 'X', 'Y'. The internal EBS servers communicate with EBS RAC Database on Linux VMs 'A', 'B' using port 1531 and validate the user request.
 
 **External Users:**
 
-External users access E-Business using URL https://`<External LB URL:port>`{=html}. The connection flows via external/internal firewall to the Load Balancer in DMZ. Load Balancer terminates the SSL and passes the request on port 8010 to E-Business external server 'X'.
+External users access EBS using URL https://`<External LB URL:port>`. The connection flows via external/internal firewall to the Load Balancer in DMZ. Load Balancer terminates the SSL and passes the request on port 8010 to EBS external server 'X'.
 
-### Workload Monitoring
+### Workload Monitoring Requirements
 
 *Guide:*
 
-*A section describing the Current EBS workload of the Customer: Monitoring of the Workload (like OEM or any other monitoring tools)*
+*A section describing the Current EBS workload of the Customer: Monitoring of the Workload)*
 
 *Example:*
 
-Currently Oracle Enterprise Manager is used as Customer's On-Premises management platform, providing a single pane of glass for management of Oracle E-Business Suite environments.
+Currently Oracle Enterprise Manager (OEM) is used as Customer's On-Premises management platform, providing a single pane of glass for management of Oracle EBS Suite environments.
 
 ## Future State Architecture
 
@@ -265,15 +265,17 @@ Currently Oracle Enterprise Manager is used as Customer's On-Premises management
 
 *Use this text for every engagement. Do not change. Aligned with the Cloud Adoption Framework*
 
-The safety of the ACME's Oracle Cloud Infrastructure (OCI) environment and data is the ACME’s priority.
+*Example:*
 
-To following table of OCI Security Best Practices lists the recommended topics to provide a secure foundation for every OCI implementation. It applies to new and existing tenancies and should be implemented before the Workload defined in this document will be implemented.
+The safety of the Customer's Oracle Cloud Infrastructure (OCI) environment and data is the priority.
+
+The following table of OCI Security Best Practices lists the recommended topics to provide a secure foundation for every OCI implementation. It applies to new and existing tenancies and should be implemented before the Workload defined in this document will be implemented.
 
 Workload related security requirements and settings like tenancy structure, groups, and permissions are defined in the respective chapters.
 
-Any deviations from these recommendations needed for the scope of this document will be documented in chapters below. They must be approved by ACME.
+Any deviations from these recommendations needed for the scope of this document will be documented in chapters below. They must be approved by Customer.
 
-ACME is responsible for implementing, managing, and maintaining all listed topics.
+Customer is responsible for implementing, managing, and maintaining all listed topics.
 
 <table style="width:25%;">
 <colgroup>
@@ -365,20 +367,22 @@ ACME is responsible for implementing, managing, and maintaining all listed topic
 
 *Guide:*
 
-*This chapter describes landing zone best practices and usually does not require any changes. If changes are required please refer to [landing zone confluence](https://confluence.oraclecorp.com/confluence/x/GZ-VHQE). The full landing zone needs to be described in the Solution Design by the service provider.*
+*This chapter describes landing zone best practices. The full landing zone needs to be described in the Solution Design by the service provider.*
 
 *Use this template ONLY for new cloud deployments and remove for brown field deployments.*
 
-The design considerations for an OCI Cloud Landing Zone have to do with OCI and industry architecture best practices, along with ACME specific architecture requirements that reflect the Cloud Strategy (hybrid, multi-cloud, etc). An OCI Cloud Landing zone involves a variety of fundamental aspects that have a broad level of sophistication. A good summary of a Cloud Landing Zone has been published in the [OCI User Guide](https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/landing-zone.htm).
+*Example:*
+
+The design considerations for an OCI Cloud Landing Zone have to do with OCI and industry architecture best practices, along with Customer specific architecture requirements that reflect the Cloud Strategy (hybrid, multi-cloud, etc). An OCI Cloud Landing zone involves a variety of fundamental aspects that have a broad level of sophistication. A good summary of a Cloud Landing Zone has been published in the [OCI User Guide](https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/landing-zone.htm).
 
 #### Naming Convention
 
-A naming convention is an important part of any deployment to ensure consistency as well as security within your tenancy. Hence we jointly agree on a naming convention, matching Oracle's best practices and ACME requirements.
+A naming convention is an important part of any deployment to ensure consistency as well as security within your tenancy. Hence we jointly agree on a naming convention, matching Oracle's best practices and Customer requirements.
 
 Oracle recommends the following Resource Naming Convention:
 
 -   The name segments are separated by “-“
--   Within a name segment avoid using `<space>`{=html} and “.”
+-   Within a name segment avoid using `<space>` and “.”
 -   Where possible intuitive/standard abbreviations should be considered (e.g. “shared“ compared to "shared.cloud.team”)
 -   When referring to the compartment full path, use “:” as a separator, e.g. cmp-shared:cmp-security
 
@@ -434,7 +438,7 @@ Abbreviations per resource type are listed below. This list may not be complete.
 
 #### Security and Identity Management
 
-This chapter covers the Security and Identity Management definitions and resources which will be implemented for ACME.
+This chapter covers the Security and Identity Management definitions and resources which will be implemented for Customer.
 
 ##### Universal Security and Identity and Access Management Principles
 
@@ -447,7 +451,7 @@ This chapter covers the Security and Identity Management definitions and resourc
 
 ##### Authentication and Authorization for OCI
 
-The provisioning of respective OCI administration users will be handled by ACME.
+The provisioning of respective OCI administration users will be handled by Customer.
 
 ###### User Management
 
@@ -461,7 +465,7 @@ The usage of OCI Local Users is not recommended for the majority of users and is
 
 **No additional users are to be, nor should be, configured as local users.**
 
-**ACME is responsible to manage and maintain local users for emergency use cases.**
+**Customer is responsible to manage and maintain local users for emergency use cases.**
 
 **Federated Users**
 
@@ -475,7 +479,7 @@ All users have the same OCI-specific attributes (OCI API Keys, Auth Tokens, Cust
 
 OCI Administration users should only be configured in the pre-configured primary IDCS or the Default Identity Domain where applicable.
 
-**Note:** Any federated user can be a member of 100 groups only. The OCI Console limits the number of groups in a SAML assertion to 100 groups. User Management in the Enterprise Identity Management system will be handled by ACME.
+**Note:** Any federated user can be a member of 100 groups only. The OCI Console limits the number of groups in a SAML assertion to 100 groups. User Management in the Enterprise Identity Management system will be handled by Customer.
 
 **Authorization**
 
@@ -505,7 +509,7 @@ Apart from tenant-level authorization, compartment-level authorization provides 
 
 **Authentication and Authorization for Applications and Databases**
 
-Application (including Compute Instances) and Database User management are completely separate and done outside of the primary IDCS or Default Identity Domain. The management of these users is the sole responsibility of ACME using the application, compute instance, and database-specific authorization.
+Application (including Compute Instances) and Database User management are completely separate and done outside of the primary IDCS or Default Identity Domain. The management of these users is the sole responsibility of Customer using the application, compute instance, and database-specific authorization.
 
 ##### Security Posture Management
 
@@ -513,7 +517,7 @@ Application (including Compute Instances) and Database User management are compl
 
 Oracle Cloud Guard Service will be enabled using the pcy-service policy and with the following default configuration. Customization of the Detector and Responder Recipes will result in clones of the default (Oracle Managed) recipes.
 
-Cloud Guard default configuration provides a number of good settings. It is expected that these settings may not match ACME's requirements.
+Cloud Guard default configuration provides a number of good settings. It is expected that these settings may not match Customer's requirements.
 
 **Targets**
 
@@ -521,11 +525,11 @@ In accordance with the [CIS Oracle Cloud Infrastructure Foundations Benchmark, v
 
 **Detectors**
 
-The Oracle Default Configuration Detector Recipes and Oracle Default Activity Detector Recipes are implemented. To better meet the requirements, the default detectors must be cloned and configured by ACME.
+The Oracle Default Configuration Detector Recipes and Oracle Default Activity Detector Recipes are implemented. To better meet the requirements, the default detectors must be cloned and configured by Customer.
 
 **Responder Rules**
 
-The default Cloud Guard Responders will be implemented. To better meet the requirements, the default detectors must be cloned and configured by ACME.
+The default Cloud Guard Responders will be implemented. To better meet the requirements, the default detectors must be cloned and configured by Customer.
 
 **Vulnerability Scanning Service**
 
@@ -539,7 +543,7 @@ Required policy statements for OCI OS Management Service are included in the pcy
 
 By default, the *OS Management Service Agent plugin* of the *Oracle Cloud Agent* is enabled and running on current Oracle Linux 6, 7, 8, and 9 platform images.
 
-##### Monitoring, Auditing, and Logging
+##### OCI Monitoring, Auditing, and Logging
 
 In accordance with the [CIS Oracle Cloud Infrastructure Foundations Benchmark, v1.2.0, Chapter 3 Logging and Monitoring](https://www.cisecurity.org/cis-benchmarks) the following configurations will be made:
 
@@ -599,7 +603,7 @@ Synchronized clocks are a necessity for securely operating environments. OCI pro
 
 ##### Regulations and Compliance
 
-ACME is responsible for setting the access rules to services and environments that require stakeholders’ integration into the tenancy to comply with all applicable regulations. Oracle will support in accomplishing this task.
+Customer is responsible for setting the access rules to services and environments that require stakeholders’ integration into the tenancy to comply with all applicable regulations. Oracle will support in accomplishing this task.
 
 ### Physical Architecture
 
@@ -609,56 +613,42 @@ ACME is responsible for setting the access rules to services and environments th
 
 *Example:*
 
-The Tenancy of Customer will be managed by 'X' as a Managed Service Provider. The design plan which has been decided is to create One Tenancy where Virtual Cloud Network (VCN) will be provisioned for both the Customer as well as for Managed Service provider. Traffic for Each VCN will be terminated at their respected Dynamic Routing Gateways (DRG).
+The Tenancy of Customer will be managed by a Managed Service Provider. The design plan which has been decided is to create One Tenancy where Virtual Cloud Network (VCN) will be provisioned for both the Customer as well as for Managed Service provider. Traffic for Each VCN will be terminated at their respected Dynamic Routing Gateways (DRG).
 
 In the **following sections** we are describing the **Deployment Design Diagrams** as well as all the relevant components present in the Design diagram.\*
 
-*[The Oracle Cloud Notation, OCI Architecture Diagram Toolkits](https://docs.oracle.com/en-us/iaas/Content/General/Reference/graphicsfordiagrams.htm)*
-
-*Reference:*
-
-[StarterPacks](https://orahub.oci.oraclecorp.com/emea-workloadarchitecture/wad-snippets/-/tree/main/starter-packs) ``{=html}
 
 ![Future State Deployment Diagram - EBS Workload Multi-AD, DR Design Diagram](images/MultiADDR-DeploymentDiagram-V2.pdf)
 
-```{=tex}
-\pagebreak
-```
+
 Deployment architecture for the 'X' environment of the Customers EBS Workload, in OCI, is illustrated below:
 
 ![Future State Deployment Diagram - EBS Workload Single AD, DR Design Diagram](images/SingleADDR-DeploymentDiagram-V2.pdf)
 
-```{=tex}
-\pagebreak
-```
 Deployment architecture for the Production environment of the Customers EBS Workload, in OCI, is illustrated below:
 
 ![Future State Deployment Diagram - EBS Workload Single AD, Production Design Diagram](images/SingleADProd-DeploymentDiagram-V2.pdf)
 
-```{=tex}
-\pagebreak
-```
+
 Deployment architecture for the Development environment of the Customers EBS Workload, in OCI, is illustrated below:
 
 ![Future State Deployment Diagram - EBS Workload Single AD, Development Design Diagram](images/SingleADDev-DeploymentDiagram-V2.pdf)
 
-```{=tex}
-\pagebreak
-```
+
 Deployment architecture for the 'Hub and Spoke Topology' is illustrated below:
 
 ![Future State Deployment Diagram - EBS Workload Hub and Spoke with Palo Alto Design Diagram](images/HubandSpoke-DeploymentDiagram-V2.pdf){width="90%" height="90%"}
 
-```{=tex}
-\pagebreak
-```
+
 Deployment architecture including 'Tenancy - A' and Tenancy - B' are illustrated in the design below:
 
 ![Future State Deployment Diagram - EBS Workload Multiple tenancies with RPC Design Diagram](images/MultiTenancy-DeploymentDiagram-V2.pdf)
 
-For official copy of the Multi-Tenancy diagram, please see the [**OCI Architecture Center Reference Architecture**](https://docs.oracle.com/en/solutions/manage-ebs-tenancies/index.html#GUID-61AD9980-8916-4759-8731-26053AC6848C)
+*Reference:*
 
-## Solutions Considerations
+*[The Oracle Cloud Notation, OCI Architecture Diagram Toolkits](https://docs.oracle.com/en-us/iaas/Content/General/Reference/graphicsfordiagrams.htm)*
+
+## Solution Considerations
 
 *Guide:*
 
@@ -670,11 +660,25 @@ Proposed plan is to move EBS Application server (\_12.2) in the compute VM shape
 
 Oracle Cloud Infrastructure Web Application Firewall (WAF) helps you make your endpoints more secure by monitoring and filtering out potentially malicious traffic. It is a cloud-based, Payment Card Industry (PCI) compliant, global security service that protects applications from malicious and unwanted internet traffic.
 
-### Resilience and Recovery
+### High Availability and Disaster Recovery
 
 *Guide:*
 
-*A section describing the 'Resiliency and Recovery' of the Customer in OCI*
+*Please describe the Oracle MAA in the context of EBS.*
+
+*Example:*
+
+Oracle Maximum Availability Architecture (MAA) is Oracle's best practice blueprint based on proven Oracle high availability technologies and recommendations. The goal of MAA is to achieve the optimal high availability architecture at the lowest cost and complexity. Papers are published on the Oracle Technology Network [OTN](http://www.oracle.com/goto/maa).
+
+*Reference:*
+
+[HA Reference for EBS](https://www.oracle.com/a/tech/docs/ebs-maa-on-pca.pdf)
+
+#### Backup and Recovery
+
+*Guide:*
+
+*A section describing the 'Backup and Recovery' practices of the Customer in OCI*
 
 *Example:*
 
@@ -682,6 +686,7 @@ We will follow the current Backup and Recovery strategy and practices of the Cus
 
 -   Official RTO practices: less than 24 hrs
 -   Official RPO practices: 4 hours
+
 
 ### Security
 
@@ -691,13 +696,12 @@ We will follow the current Backup and Recovery strategy and practices of the Cus
 
 *Example:*
 
-he objective of the security architecture is to enable you to maintain your security posture when running E-Business Suite and associated applications in the Oracle Cloud.
+The objective of the security architecture is to enable you to maintain your security posture when running EBS Suite and associated applications in the Oracle Cloud.
 
 Oracle has designed security into every aspect of our infrastructure to help our customers achieve better protection, isolation and control. We started by taking a unique design approach, separating the network and server environments. This way, if an attack occurs on a VM, we can contain that threat and prevent it from moving to other servers, resulting in better protection and lower risk for customers.
 
 We also hyper-segment our physical network and backend infrastructure for secure isolation between customer instances and backend hosts. Additionally, we’ve implemented hardware-based root of trust, making sure each server is pristine each and every time it is provisioned.
 
-`\pagebreak`{=tex}
 
 ![EBS Network Security](images/EBSNetworkSecurity_V3.pdf)
 
@@ -721,23 +725,42 @@ Secure Traffic Between ADs and Regions: Communications between ADs are encrypted
 -   Application authentication and authorization details (If applicable how Application users are going to access the Application and associated privilege control mechanism(for example role based access control), federation with other IdP like Microsoft/Azure AD)
 -   Specific to some use cases: Using any specific security services available in OCI like Security Zone, Security Advisor
 -   Specific to some use cases: Customer from specific Industry (Financial) might require PCI compliant services like WAF
--   Oracle E-Business Suite requires policies with the following ports and protocol to be open
+-   Oracle EBS Suite requires policies with the following ports and protocol to be open
 
 ![Port and Protocol Requirement for EBS Workload](images/SLforEBS-V3.pdf)
+
+__Note:__Please see generic OCI security guidelines in the [Annex](#security-guidelines).
+
+### Workload Access
+
+*Guide:*
+
+*A section describing how Customer will access their Application in OCI*
+
+*Example:*
+
+Customer will access EBS workload internally over the OCI backbone and EBS external endpoints will be secured by OCI Web Application Firewall (WAF).
+
+### Workload Monitoring 
+
+*Guide:*
+
+*A section describing how Customer will monitor their Application in OCI*
+
+*Example:*
+
+Customer will use OEM to monitor their EBS workload.
 
 ### Regulations and Compliances
 
 *Guide:*
 
-*A section describing the any specific 'Regulation and Compliance if any' in OCI*
+*A section describing the any Customer-specific 'Regulation and Compliance if any' in OCI*
 
 *Example:*
 
-None has been discussed.
+None has been discussed at the time of Migration.
 
-```{=tex}
-\pagebreak
-```
 ### Cloud Manger - EBS Automation Tool
 
 *Guide:*
@@ -750,7 +773,7 @@ None has been discussed.
 
 -   Oracle EBS CM is a key component of the Oracle EBS automation for OCI.
 
--   Oracle EBS CM is a web-based application that drives all the principal automation flows for Oracle E-Business Suite on Oracle Cloud Infrastructure, including provisioning new environments, performing lifecycle management activities on those environments, and restoring environments from on-premises.
+-   Oracle EBS CM is a web-based application that drives all the principal automation flows for Oracle EBS Suite on Oracle Cloud Infrastructure, including provisioning new environments, performing lifecycle management activities on those environments, and restoring environments from on-premises.
 
 -   This is Oracle’s recommended way to deploy EBS on OCI.
 
@@ -779,35 +802,12 @@ Automation is provided for a selection of deployment and management scenarios. T
 |                    |                    | \- 11.2.0.4             | \* 2-Node VM DB System (Oracle RAC) |
 |                    |                    |                         | \* Exadata DB System                |
 
-### High Availability and Disaster Recovery
 
-*Guide:*
-
-*Please describe the Oracle MAA in the context of EBS.*
-
-*Example:*
-
-Oracle Maximum Availability Architecture (MAA) is Oracle's best practice blueprint based on proven Oracle high availability technologies and recommendations. The goal of MAA is to achieve the optimal high availability architecture at the lowest cost and complexity. Papers are published on the Oracle Technology Network \[OTN\] (http://www.oracle.com/goto/maa)
+### OCI Networking
 
 *Reference:*
 
-[HA Reference for EBS](https://www.oracle.com/a/tech/docs/ebs-maa-on-pca.pdf)
-
-### Security
-
-*Guide:*
-
-*Please describe your solution from a security point of view. Generic security guidelines are in the Annex chapter.*
-
-*Example:*
-
-Please see our security guidelines in the [Annex](#security-guidelines).
-
-### Networking
-
-*Reference:*
-
-[Networking Confluence](https://confluence.oraclecorp.com/confluence/x/jDxJBQE) ``{=html}
+[Oracle’s Networking capabilities](https://www.oracle.com/cloud/networking/)
 
 ## Sizing and Bill of Materials
 
