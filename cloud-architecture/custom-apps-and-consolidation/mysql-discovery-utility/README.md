@@ -1,6 +1,6 @@
 # MySQL Database Discovery Utility
 
-MySQL Database Discovery & Analysis Utility is a discovery utility to fetch the database information and the host details. In order to capture complete details of the source MySQL instance, the discovery script will help us fetch the necessary information. It is a shell script with HTML tags embedded to help connect to source instances and fetch the details. This script runs in any flavor of Linux version and any MySQL version 5.6 and above.
+MySQL Database Discovery and Analysis Utility is a discovery utility to fetch the database information and the host details. In order to capture complete details of the source MySQL instance, the discovery script will help us fetch the necessary information. It is a shell script with HTML tags embedded to help connect to source instances and fetch the details. This script runs in any flavor of Linux version and any MySQL version 5.6 and above.
 
 ## When to use this asset?
 
