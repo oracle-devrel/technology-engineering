@@ -1,6 +1,6 @@
 # Weblogic on VMs 
  
-<Custom Applications with or without Weblogic>
+Oracle WebLogic Server for OCI is fully integrated with the underlying infrastructure. This integration makes it easy to provision a WebLogic cluster and provide the required services, such as a load balancer, block volumes, file storage, and the network
  
 # Table of Contents
  
