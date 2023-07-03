@@ -31,6 +31,7 @@
 ## Reusable Assets Overview
 
 - [Bastion Session Script](bastion-session-script/README.md)
+- [OCI Security Health Check Standard](oci-security-health-check-standard/README.md)
 
       
 ## Useful Links

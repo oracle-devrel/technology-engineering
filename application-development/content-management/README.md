@@ -17,7 +17,6 @@ Oracle's on-premise content management offering is Oracle WebCenter which is the
 - [General info](http://oracle.com/content-management/)
 - [Documentation](https://docs.oracle.com/en/cloud/paas/content-cloud/index.html/)
 - [OCM Developer website](https://developer.oracle.com/technologies/content-management.html/)
-- [OCM Developer website](https://developer.oracle.com/technologies/content-management.html/)
 - [OCM Solution Playbooks on Oracle Architecture Center](https://docs.oracle.com/solutions/?q=&cType=reference-architectures%2Csolution-playbook%2Cbuilt-deployed&product=Content%20Management&sort=date-desc&lang=en/)
 - [OCM PM Training on VideoHub - highlights below:](https://videohub.oracle.com/channel/Oracle%2BContent%2BManagement%2B%2528OCM%2529%2BTraining/167233142)
     - [OCM Fundamentals playlist](https://videohub.oracle.com/playlist/dedicated/167233142/1_qfyi6b02/)
@@ -27,8 +26,6 @@ Oracle's on-premise content management offering is Oracle WebCenter which is the
     - [OCM Integration & Extensibility](https://videohub.oracle.com/playlist/dedicated/167233142/1_029312og/)
 - [Understand deployment options](https://docs.oracle.com/en/cloud/paas/content-cloud/administer/understand-your-deployment-architecture-options.html#GUID-5A4B5098-5E15-448F-91D6-FE05F4ED15DA)
 - [Cloud Native Disaster Recovery](https://docs.oracle.com/en/cloud/paas/content-cloud/administer/understand-your-deployment-architecture-options.html#GUID-84E5932D-9EBC-46F9-A243-5FA45BCA8579)
-- [Set Up A Test 2 Production (T2P) Deployment](https://docs.oracle.com/en/cloud/paas/content-cloud/administer/set-test-production-t2p-deployment.html#GUID-35087199-8AEC-403A-934B-6D85E771B330)
-- [Learn in 5 minutes How to provision an OCM instance here](https://www.youtube.com/watch?v=v46zEhUYEQs/)
 - [Learn how to setup an ECM Repository from scratch](https://docs.oracle.com/en/cloud/paas/content-cloud/content-capture-engineering/index.html#introduction)
 
 
@@ -41,6 +38,8 @@ Oracle's on-premise content management offering is Oracle WebCenter which is the
 - [WORKSHOP - Getting Started with OCM - Product installation and configuration guide](https://oradocs.oracle.com/documents/link/LD51003AFBD52A114ABDF275C6D92DCB14C4F2067473/fileview/DA2B9F5E068DCCBC5A92A914F69904189E44B58DBB77/_OCM_Service_Provisioning_Workshop.pdf)
 - [OCM Short Overview ](https://oradocs-prodapp.cec.ocp.oraclecloud.com/documents/link/LDD80549E799553C3DDDCF8678E9865D1F7A0FC667CB/fileview/D4DE14CAC6AAE699D911EB5D37885AE07A35E5AFDA02/_OCM_OVERVIEW_OCT222.pptx)
 - [OCM Migration (content upload from OCI Obj Storage to OCM) ](https://oradocs.oracle.com/documents/link/LFB6FBE4EFB39DE6B12683D19FCC3F6992A695726E79/folder/FFE0713DBE32F4AF6A0C6BAFEDD551FEC60DED66A099/_Content_Management)
+- [Set Up A Test 2 Production (T2P) Deployment](https://docs.oracle.com/en/cloud/paas/content-cloud/administer/set-test-production-t2p-deployment.html#GUID-35087199-8AEC-403A-934B-6D85E771B330)
+- [Learn in 5 minutes How to provision an OCM instance here](https://www.youtube.com/watch?v=v46zEhUYEQs/)
 
 # Sauce
 

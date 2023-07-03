@@ -4,7 +4,7 @@ OCI Vision is an AI service for performing deep-learning–based image analysis 
  
 # Table of Contents
  
-1. [Team Publications](#team-publications)
+1. [Publications](#team-publications)
 2. [Useful Links](#useful-uinks)
 3. [LiveLabs and Workshops](#livelabs-and-workshops) 
 4. [Reusable Assets Overview](#reusable-assets-overview)
@@ -14,6 +14,8 @@ OCI Vision is an AI service for performing deep-learning–based image analysis 
 
 - [OCI Vision Saving Bees using Object Detection](https://www.linkedin.com/pulse/saving-bees-using-ai-one-object-time-ismail-syed/)
 - [OCI Vision Healthcare Image Analysis](https://blogs.oracle.com/ai-and-datascience/post/advancing-healthcare-image-analysis-on-oci)
+- [Build a real-time object identifier using OCI Vision and Oracle Autonomous Database](https://docs.oracle.com/en/solutions/realtime-ocivision-object-identification/index.html#GUID-A875FB7D-29E3-4FBF-AED5-C0CF43F71469)
+    - The reference architecture describes how you can integrate an OCI Vision-trained model with a front-end web app to perform real-time object identification with a mobile phone camera. 
  
 ### LiveLabs and Workshops
  
@@ -38,6 +40,8 @@ OCI Vision is an AI service for performing deep-learning–based image analysis 
  
 - [OCI image classification using data labeling and vision service](https://github.com/carlgira/oci-image-classification)
 - [OCI object detection using data labeling and vision service](https://github.com/carlgira/oci-object-detection) 
+- [AI vision web client](https://github.com/oracle-devrel/oci-tf-vision-web-client)
+    - Terraform script that will create a set of resources on OCI to create a web app to test an existing vision model.
 
 ## Useful Links
  

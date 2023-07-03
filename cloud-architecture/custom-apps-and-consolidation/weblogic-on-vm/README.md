@@ -1,22 +1,25 @@
-# Multiteneant
-
-<description>
-
+# Weblogic on VMs 
+ 
+<Custom Applications with or without Weblogic>
+ 
 # Table of Contents
  
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-uinks)
 
+ 
 ## Team Publications
-
-- [Example Link](https://www.oracle.com)
-  - This is a link to a ...
-
+ links to resources, otube videos, blog posts, etc. 
+ 
+- [Google](http://www.google.com)
+  - This is a great search engine.
+ 
 ## Useful Links
-
-- [Example Link](https://www.oracle.com)
-  - This is a link to a ...
-
+ 
+- Name and Link
+    - Description
+(other links - not by team)
+ 
 # License
  
 Copyright (c) 2023 Oracle and/or its affiliates.
