@@ -59,7 +59,7 @@ The recommended way is to run the *OCI Security Health Check - Standard* in the 
   - Select the *Developer Tools* icon (looks like a small window) in the header toolbar.
   - From the menu select the *Cloud Shell* item.
   - Wait until the Cloud Shell has been initialized.
-  - ...
+  - On the green tool bar click on the *Settings* icon and select the *Upload ...* menu item.
   - Upload the distribution file.
   - Extract it
     ```
