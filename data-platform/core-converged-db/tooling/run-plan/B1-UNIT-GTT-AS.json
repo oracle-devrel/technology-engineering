@@ -1,0 +1,254 @@
+{
+  "IDPLAN": "B1-UNIT-GTT-AS",
+  "PlanDesc": "B1 unitario con 4-128 ocpu - GTT - Autoscaling",
+  "version": 1.0,
+  "releaseDate": "2020-10-13T00:00:00.000Z",
+  "runs": 
+  [
+      {
+        "name": "Run1",
+        "Label": "RUN1",
+	"ocpu": "4",
+	"storageTB": "5",
+	"parallel": "Y",
+        "steps": 
+	[
+	  {
+	    "name": "ScaleUpAdw",
+	    "type": "SCALE",
+	    "command": "/home/opc/PPL/scale-ADW.sh"
+	  },
+	  {
+	    "name": "CollectAWR",
+	    "type": "AWR",
+	    "command": "/home/opc/PPL/create-AWR-snapshot.sh"
+	  },
+	  {
+	    "name": "step1",
+	    "type": "SH",
+	    "command": "/home/opc/PPL/run.B1.GTT.DM_CONFIG0.sh"
+	  },
+	  {
+	    "name": "Waiting",
+	    "type": "WAIT",
+	    "command": "/home/opc/PPL/check-for-completion.sh"
+	  },
+	  {
+	    "name": "CollectAWR",
+	    "type": "AWR",
+	    "command": "/home/opc/PPL/create-AWR-snapshot.sh"
+	  }
+	]
+      },
+      {
+        "name": "Run2",
+        "Label": "RUN2",
+	"ocpu": "8",
+	"storageTB": "5",
+	"parallel": "Y",
+        "steps": 
+	[
+	  {
+	    "name": "ScaleUpAdw",
+	    "type": "SCALE",
+	    "command": "/home/opc/PPL/scale-ADW.sh"
+	  },
+	  {
+	    "name": "CollectAWR",
+	    "type": "AWR",
+	    "command": "/home/opc/PPL/create-AWR-snapshot.sh"
+	  },
+	  {
+	    "name": "step1",
+	    "type": "SH",
+	    "command": "/home/opc/PPL/run.B1.GTT.DM_CONFIG0.sh"
+	  },
+	  {
+	    "name": "Waiting",
+	    "type": "WAIT",
+	    "command": "/home/opc/PPL/check-for-completion.sh"
+	  },
+	  {
+	    "name": "CollectAWR",
+	    "type": "AWR",
+	    "command": "/home/opc/PPL/create-AWR-snapshot.sh"
+	  }
+	]
+      },
+      {
+        "name": "Run3",
+        "Label": "RUN3",
+	"ocpu": "16",
+	"storageTB": "5",
+	"parallel": "Y",
+        "steps": 
+	[
+	  {
+	    "name": "ScaleUpAdw",
+	    "type": "SCALE",
+	    "command": "/home/opc/PPL/scale-ADW.sh"
+	  },
+	  {
+	    "name": "CollectAWR",
+	    "type": "AWR",
+	    "command": "/home/opc/PPL/create-AWR-snapshot.sh"
+	  },
+	  {
+	    "name": "step1",
+	    "type": "SH",
+	    "command": "/home/opc/PPL/run.B1.GTT.DM_CONFIG0.sh"
+	  },
+	  {
+	    "name": "Waiting",
+	    "type": "WAIT",
+	    "command": "/home/opc/PPL/check-for-completion.sh"
+	  },
+	  {
+	    "name": "CollectAWR",
+	    "type": "AWR",
+	    "command": "/home/opc/PPL/create-AWR-snapshot.sh"
+	  }
+	]
+      },
+      {
+        "name": "Run4",
+        "Label": "RUN4",
+	"ocpu": "32",
+	"storageTB": "5",
+	"parallel": "Y",
+        "steps": 
+	[
+	  {
+	    "name": "ScaleUpAdw",
+	    "type": "SCALE",
+	    "command": "/home/opc/PPL/scale-ADW.sh"
+	  },
+	  {
+	    "name": "CollectAWR",
+	    "type": "AWR",
+	    "command": "/home/opc/PPL/create-AWR-snapshot.sh"
+	  },
+	  {
+	    "name": "step1",
+	    "type": "SH",
+	    "command": "/home/opc/PPL/run.B1.GTT.DM_CONFIG0.sh"
+	  },
+	  {
+	    "name": "Waiting",
+	    "type": "WAIT",
+	    "command": "/home/opc/PPL/check-for-completion.sh"
+	  },
+	  {
+	    "name": "CollectAWR",
+	    "type": "AWR",
+	    "command": "/home/opc/PPL/create-AWR-snapshot.sh"
+	  }
+	]
+      },
+      {
+        "name": "Run5",
+        "Label": "RUN5",
+	"ocpu": "64",
+	"storageTB": "5",
+	"parallel": "Y",
+        "steps": 
+	[
+	  {
+	    "name": "ScaleUpAdw",
+	    "type": "SCALE",
+	    "command": "/home/opc/PPL/scale-ADW.sh"
+	  },
+	  {
+	    "name": "CollectAWR",
+	    "type": "AWR",
+	    "command": "/home/opc/PPL/create-AWR-snapshot.sh"
+	  },
+	  {
+	    "name": "step1",
+	    "type": "SH",
+	    "command": "/home/opc/PPL/run.B1.GTT.DM_CONFIG0.sh"
+	  },
+	  {
+	    "name": "Waiting",
+	    "type": "WAIT",
+	    "command": "/home/opc/PPL/check-for-completion.sh"
+	  },
+	  {
+	    "name": "CollectAWR",
+	    "type": "AWR",
+	    "command": "/home/opc/PPL/create-AWR-snapshot.sh"
+	  }
+	]
+      },
+      {
+        "name": "Run6",
+        "Label": "RUN6",
+	"ocpu": "96",
+	"storageTB": "5",
+	"parallel": "Y",
+        "steps": 
+	[
+	  {
+	    "name": "ScaleUpAdw",
+	    "type": "SCALE",
+	    "command": "/home/opc/PPL/scale-ADW.sh"
+	  },
+	  {
+	    "name": "CollectAWR",
+	    "type": "AWR",
+	    "command": "/home/opc/PPL/create-AWR-snapshot.sh"
+	  },
+	  {
+	    "name": "step1",
+	    "type": "SH",
+	    "command": "/home/opc/PPL/run.B1.GTT.DM_CONFIG0.sh"
+	  },
+	  {
+	    "name": "Waiting",
+	    "type": "WAIT",
+	    "command": "/home/opc/PPL/check-for-completion.sh"
+	  },
+	  {
+	    "name": "CollectAWR",
+	    "type": "AWR",
+	    "command": "/home/opc/PPL/create-AWR-snapshot.sh"
+	  }
+	]
+      },
+      {
+        "name": "Run7",
+        "Label": "RUN7",
+	"ocpu": "128",
+	"storageTB": "5",
+	"parallel": "Y",
+        "steps": 
+	[
+	  {
+	    "name": "ScaleUpAdw",
+	    "type": "SCALE",
+	    "command": "/home/opc/PPL/scale-ADW.sh"
+	  },
+	  {
+	    "name": "CollectAWR",
+	    "type": "AWR",
+	    "command": "/home/opc/PPL/create-AWR-snapshot.sh"
+	  },
+	  {
+	    "name": "step1",
+	    "type": "SH",
+	    "command": "/home/opc/PPL/run.B1.GTT.DM_CONFIG0.sh"
+	  },
+	  {
+	    "name": "Waiting",
+	    "type": "WAIT",
+	    "command": "/home/opc/PPL/check-for-completion.sh"
+	  },
+	  {
+	    "name": "CollectAWR",
+	    "type": "AWR",
+	    "command": "/home/opc/PPL/create-AWR-snapshot.sh"
+	  }
+	]
+      }
+  ]
+}
