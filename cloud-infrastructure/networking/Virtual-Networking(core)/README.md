@@ -30,6 +30,8 @@ The information is generic in nature and not specified for a particular customer
 ### Reference Architectures & Step-by-step Guides
 
 - [Protect your Internet facing applications using Modernized Architecture](files/Modernized%20Architecture.pdf)
+- [Simple deployment guide of Private DNS integration with On-premises](files/Simple%20deploy%20guide%20of%20Private%20Dns%20integration%20with%20On-premises.pdf)
+- [HA & DR Patterns in Network Connectivity](files/HA&DR%20Patterns%20in%20Network%20connectivity.pdf)
 
 ### Blogs
  
