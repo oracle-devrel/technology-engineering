@@ -31,9 +31,18 @@ The information is generic in nature and not specified for a particular customer
 
 - [Use OCI Network Firewall for SSL forward proxy and inbound inspection using Decryption rule](https://docs.oracle.com/en/learn/oci-network-firewall/#introduction)
     -  Step by step guide to deploy OCI network Firewall for SSL Forwar proxy and inbound inspection with Decryption rules. It does include an introduction on encryption for beginners
+    
 - [Implementation architecture of Network Firewall in Multi VCN deployment](files/Implementation%20guide%20for%20Network%20Firewall%20in%20a%20Multi-VCNs%20deployment.pdf)
-   
-- [Implementation architecture of Network Firewall in Multi VCN deployment](files/Implementation%20guide%20for%20Network%20Firewall%20in%20a%20Multi-VCNs%20deployment.pdf)
+
+
+- [Reference Architecture for LPG to DRGv2 on Fortigate Network FW](files/LPG%20to%20DRG%20V2%2BFortigate%20Reference%20Architecture.jpg)
+    - Reference Architecture for LPG to DRGv2 on Fortigate Network FW
+
+- [Reference Architecture for LPG to DRGv2 ](files/LPG%20to%20DRG%20V2%20Reference%20Architecture.jpg)
+    - Reference Architecture for LPG to DRGv2 
+
+- [Reference Architecture FC MPLS network to OCI + HA Fortigate ](files/Multi-tenancy%20DR%20architecture%20with%20MPLS%20customers%20and%20Network%20FW.jpg)
+    - Reference Architecture for an MPLS network via FC to OCI, using a Fortigate Next Generation FW in HA
 
 ### Blogs
  
