@@ -1,4 +1,4 @@
-# DB Seach
+# DB Search
 
 Oracle Text is a full-text search that is fully integrated into Oracle Database and delivered as a part of all versions of Oracle Database. It uses standard SQL to index, search, and analyze text and documents in different stored in the Oracle database, in files, and on the web. 
 Oracle Text can perform linguistic analysis on documents, mining capabilities, classification, clustering, etc.
