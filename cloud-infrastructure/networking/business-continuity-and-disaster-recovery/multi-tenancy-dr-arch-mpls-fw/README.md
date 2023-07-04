@@ -1,14 +1,14 @@
-# Disaster Recovery and Business Continuity Presentation
+# Multi tenancy DR Architecture with MPLS 
  
-*Asset Introduction*
+This is a reference architecture
  
 ## When to use this asset?
  
-*Who would use this asset when?*
+*Before architecting DR design for Multi tenancy MPLS connections*
  
 ## How to use this asset?
  
-*Describe how an asset is used*
+*Use this as a reference architecture for configuring Multi tenancy DR design with MPLS connections and a firewall ( Fortigate)*
  
 # License
  
