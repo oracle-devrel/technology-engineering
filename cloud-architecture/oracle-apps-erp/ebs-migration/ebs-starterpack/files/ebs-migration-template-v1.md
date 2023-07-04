@@ -66,7 +66,7 @@ This is a living document, additional sections will be added as the engagement p
 
 *Example:*
 
-Organizations use on-premises deployments of E-Business Suite (EBS) for a wide range of functionalities, including Financials, Order Management, Procurement, Manufacturing and Logistics. These implementations are often customized to seamlessly integrate with other applications to meet business requirements. So it’s counterproductive to re-architect software from scratch. OCI has the flexibility to support everything Organizations are currently doing with EBS.
+Organizations use on-premises deployments of E-Business Suite (EBS) for a wide range of functionalities, including Financials, Order Management, Procurement, Manufacturing, and Logistics. These implementations are often customized to seamlessly integrate with other applications to meet business requirements. So it’s counterproductive to re-architect software from scratch. OCI has the flexibility to support everything Organizations are currently doing with EBS.
 
 Most On-Premises EBS deployments can be migrated to run on OCI without requiring significant configuration, integration, or business process changes, and result in an implementation that is more flexible, more reliable, higher performance, and lower cost than either On-Premises or other Cloud vendors. Running EBS on Oracle Cloud enables you to:
 
@@ -76,13 +76,13 @@ Most On-Premises EBS deployments can be migrated to run on OCI without requiring
 -   Track and Manage Usage and Cost
 -   Maximize the productivity of your IT staff
 
-OCI Database service offers Autonomous and Co-managed (Base Database, Exadata Database on Dedicated Infrastructure and Exadata Database on Cloud@Customer). EBS customers can run their mission-critical business applications with unprecedented performance, scalability, and availability. This is accomplished by leveraging the **best database platforms** available in OCI discussed above. Further note that most EBS systems currently running on OCI host the Database on either Base Database (Oracle Database Cloud Services on Virtual Machines), or on Oracle Exadata Database on Dedicated Infrastructure.
+OCI Database service offers Autonomous and Co-managed (Base Database, Exadata Database on Dedicated Infrastructure, and Exadata Database on Cloud@Customer). EBS customers can run their mission-critical business applications with unprecedented performance, scalability, and availability. This is accomplished by leveraging the **best database platforms** available in OCI discussed above. Further note that most EBS systems currently running on OCI host the Database on either Base Database (Oracle Database Cloud Services on Virtual Machines), or on Oracle Exadata Database on Dedicated Infrastructure.
 
 Another key EBS investment unique to OCI is the time-saving automation capability delivered by **Oracle EBS Cloud Manager**, which has been designed specifically to support EBS customers running on OCI and associated database services. EBS Cloud Manager and its associated tools can help you reduce cost, reduce risk, and increase agility by automating essential operations such as:
 
 Environment deployment: - Lift and shift of an on-premises environment to Oracle Cloud - One-click provisioning of demo environments - Advanced provisioning, of either a fresh installation or from a backup Lifecycle management: - Backup and restore - Scaling - Optimized cloning
 
-Additionally, all the activities mentioned within the scope will ensure the deployment of workload as per Oracle's best practices. As a tried and tested methodology by many customers 'Oracle Lift' brings speed of deployment resulting in successful project without any setbacks; thus bring value to the overall project provisioning for the Application workload.
+Additionally, all the activities mentioned within the scope will ensure the deployment of workload as per Oracle's best practices. As a tried and tested methodology by many customers 'Oracle Lift' brings the speed of deployment resulting in a successful project without any setbacks; thus bringing value to the overall project provisioning for the Application workload.
 
 # Workload Requirements and Architecture
 
@@ -94,12 +94,12 @@ Additionally, all the activities mentioned within the scope will ensure the depl
 
 *Example:*
 
-Currently Customer's EBS workload is a multi node deployment of EBS release 12.2. The Application tier is connected to a 19C Oracle Real Application Cluster (RAC) Database. The application tier is sub divided into the following components:
+Currently, Customer's EBS workload is a multi-node deployment of EBS release 12.2. The Application tier is connected to a 19C Oracle Real Application Cluster (RAC) Database. The application tier is sub-divided into the following components:
 
 -   Two nodes EBS farm (Deployed to WebLogic Clusters of Managed Servers) hosting web, forms and concurrent managers and
--   A single external facing node hosting web functionality to support iSupplier portal.
+-   A single external-facing node hosting web functionality to support the iSupplier portal.
 
-Two client connection routes, internal via a WAN and externally via the internet. Both routes employ https which is terminated on a load-balancer. The internal application cluster employs a shared application tier home.
+Two client connection routes, internal via a WAN and external via the internet. Both routes employ https which is terminated on a load-balancer. The internal application cluster employs a shared application tier home.
 
 The reporting elements of the solution are provided using Oracle Business Intelligence Enterprise Edition 'X' together with Oracle Apex 'X' for access to archived legacy data.
 
@@ -137,7 +137,7 @@ In addition to these requirements, the [CIS Oracle Cloud Infrastructure Foundati
 
 *Example:*
 
-Current EBS workload has four environments:
+The current EBS workload has four environments:
 
 -   **Production**
     -   EBS Application Version: **12.2**
@@ -154,12 +154,12 @@ Current EBS workload has four environments:
 -   **Development**
     -   EBS Application Version: **12.2**
     -   Oracle Database Version: **19c**
-    -   Number of Application Node: Single Application Node including Web, Forms and Concurrent Managers Instances
+    -   Number of Application Node: Single Application Node including Web, Forms, and Concurrent Managers Instances
         -   1 Single Instance of EBS is running on DMZ zone, catering for external end-users
     -   Number of Database Node: Single node Oracle Restart
 -   **Disaster Recovery (DR)**
-    -   This is a copy of Production environment which is kept in synch with Production environment using following synchronization methods:
-        -   EBS application tier are kept in synch with Production using rsync job scheduled via crontab
+    -   This is a copy of the production environment which is kept in sync with the production environment using the following synchronization methods:
+        -   EBS application tiers are kept in synch with Production using the 'rsync' job scheduled via crontab
 
         -   The EBS database repository is synchronized with DR using Oracle Data Guard Solution
      
@@ -188,7 +188,7 @@ Partner will capture current EBS workload sizing here.
 
 *Example:*
 
-The recovery time objective (downtime tolerance) and recovery point objective (data loss tolerance) details are very important considerations for the Customer. The overall DR requirement is a cross region DR strategy with the goal of minimizing RTO.
+The recovery time objective (downtime tolerance) and recovery point objective (data loss tolerance) details are very important considerations for the Customer. The overall DR requirement is a cross-region DR strategy with the goal of minimizing RTO.
 
 #### Backup and Recovery Practices
 
@@ -198,11 +198,11 @@ The recovery time objective (downtime tolerance) and recovery point objective (d
 
 *Example:*
 
-Current high level backup and recovery practices are described below:
+Current high-level backup and recovery practices are described below:
 
 -   File system and Database backups are retained for 30 days for production and at least 7 days for non-production.
--   Oracle Recovery Manager (RMAN) is the standard backup tools which handles for all EBS workload Databases.
--   Backup of the Oracle Databases uses the standard file system agent which backs up the Oracle RMAN disk based backup to tape.
+-   Oracle Recovery Manager (RMAN) is the standard backup tool that handles all EBS workload Databases.
+-   Backup of the Oracle Databases uses the standard file system agent which backs up the Oracle RMAN disk-based backup to tape.
 -   Backup frequency standards are:
     -   Weekly full,
     -   Daily incremental backup, which includes the archive log backups. *Example:*
@@ -220,7 +220,7 @@ Current high level backup and recovery practices are described below:
 
 *Example:*
 
-The foundation of security is access control, which refers to how the system is being accessed and by whom. User security consists of three principal components: authentication, authorization and an audit trail. All current browser-based password login screens send the password as a parameter in the HTTP form submission. Using an HTTPS connection will encrypt this information. The best practice is therefore to use HTTPS for all web-based access. The requirement is to take extra steps to ensure security is not compromised neither from the Infrastructure side nor from the Application endpoints.
+The foundation of security is access control, which refers to how the system is being accessed and by whom. User security consists of three principal components: authentication, authorization, and an audit trail. All current browser-based password login screens send the password as a parameter in the HTTP form submission. Using an HTTPS connection will encrypt this information. The best practice is therefore to use HTTPS for all web-based access. The requirement is to take extra steps to ensure security is not compromised, either from the Infrastructure side or from the Application endpoints.
 
 At the time of this document creation, no Security requirements have been specified.
 
@@ -228,7 +228,7 @@ At the time of this document creation, no Security requirements have been specif
 
 *Guide:*
 
-*A section describing the Current EBS workload of the Customer: How Customer access their Application*
+*A section describing the Current EBS workload of the Customer: How the Customer accesses their Application*
 
 *Example:*
 
@@ -238,11 +238,11 @@ The Customer has both internal and external endpoints of their EBS workload.
 
 **Internal Users:**
 
-Users access EBS using URL https://`<Internal LB URL:port>`. The connection flows via external/internal firewall to the Load Balancer in DMZ. Load Balancer terminates the Secure Socket Layer (SSL) and passes the request on port 8010 to EBS internal servers. The internal EBS servers communicate with EBS RAC Database on Linux VMs using Database listener port 1531 and validate the user request.
+Users access EBS using the URL https://`<Internal LB URL:port>`. The connection flows via the external/internal firewall to the Load Balancer in DMZ. Load Balancer terminates the Secure Socket Layer (SSL) and passes the request on port 8010 to EBS internal servers. The internal EBS servers communicate with EBS RAC Database on Linux VMs using Database listener port 1531 and validate the user request.
 
 **External Users:**
 
-External users access EBS using URL https://`<External LB URL:port>`. The connection flows via external/internal firewall to the Load Balancer in DMZ. Load Balancer terminates the SSL and passes the request on port 8010 to EBS external server.
+External users access EBS using the URL https://`<External LB URL:port>`. The connection flows via the external/internal firewall to the Load Balancer in DMZ. Load Balancer terminates the SSL and passes the request on port 8010 to EBS external server.
 
 ### Workload Monitoring Requirements
 
@@ -252,7 +252,7 @@ External users access EBS using URL https://`<External LB URL:port>`. The connec
 
 *Example:*
 
-Currently Oracle Enterprise Manager (OEM) is used as Customer's On-Premises management platform, providing a single pane of glass for management of Oracle EBS Suite environments.
+Currently, Oracle Enterprise Manager (OEM) is used as Customer's On-Premises management platform, providing a single pane of glass for the management of Oracle EBS Suite environments.
 
 ## Future State Architecture
 
@@ -274,9 +274,9 @@ The safety of the Customer's Oracle Cloud Infrastructure (OCI) environment and d
 
 The following table of OCI Security Best Practices lists the recommended topics to provide a secure foundation for every OCI implementation. It applies to new and existing tenancies and should be implemented before the Workload defined in this document will be implemented.
 
-Workload related security requirements and settings like tenancy structure, groups, and permissions are defined in the respective chapters.
+Workload-related security requirements and settings like tenancy structure, groups, and permissions are defined in the respective chapters.
 
-Any deviations from these recommendations needed for the scope of this document will be documented in chapters below. They must be approved by Customer.
+Any deviations from these recommendations needed for the scope of this document will be documented in the chapters below. They must be approved by Customer.
 
 Customer is responsible for implementing, managing, and maintaining all listed topics.
 
@@ -301,7 +301,7 @@ Customer is responsible for implementing, managing, and maintaining all listed t
 <ul>
 <li>For configuration details see <a href="https://docs.oracle.com/en-us/iaas/Content/Identity/mfa/understand-multi-factor-authentication.htm">Managing Multi-Factor Authentication</a>.</li>
 </ul>
-<p>In addition to enforce MFA for local users, Adaptive Security will be enabled to track the Risk Score of each user of the Default Domain.</p>
+<p>In addition to enforcing MFA for local users, Adaptive Security will be enabled to track the Risk Score of each user of the Default Domain.</p>
 <ul>
 <li>For configuration details see <a href="https://docs.oracle.com/en-us/iaas/Content/Identity/adaptivesecurity/overview.htm">Managing Adaptive Security and Risk Providers</a>.</li>
 </ul></td>
@@ -314,14 +314,14 @@ Customer is responsible for implementing, managing, and maintaining all listed t
 <li>Username does not match any username in the Customer’s Enterprise Identity Management System</li>
 <li>Are real humans.</li>
 <li>Have a recovery email address that differs from the primary email address.</li>
-<li>User capabilities has Local Password enabled only.</li>
+<li>User capabilities have Local Password enabled only.</li>
 <li>Has MFA enabled and enforced (see IAM Default Domain).</li>
 </ul></td>
 </tr>
 <tr class="odd">
 <td></td>
 <td>OCI Administrators</td>
-<td><p>Daily business OCI Administrators are managed by the Customer’s Enterprise Identity Management System . This system is federated with the IAM Default Domain following these configuration steps:</p>
+<td><p>Daily business OCI Administrators are managed by the Customer’s Enterprise Identity Management System. This system is federated with the IAM Default Domain following these configuration steps:</p>
 <ul>
 <li>Federation Setup</li>
 <li>User Provisioning</li>
@@ -336,9 +336,9 @@ Customer is responsible for implementing, managing, and maintaining all listed t
 <tr class="odd">
 <td>Cloud Posture Management</td>
 <td>OCI Cloud Guard</td>
-<td><p>OCI Cloud Guard will be enabled at the root compartment of the tenancy home region. This way it covers all future extensions, like new regions or new compartments, of your tenancy automatically. It will use the Oracle Managed Detector and Responder recipes at the beginning and can be customized by the Customer to fulfil the Customer’s security requirements.</p>
+<td><p>OCI Cloud Guard will be enabled at the root compartment of the tenancy home region. This way it covers all future extensions, like new regions or new compartments, of your tenancy automatically. It will use the Oracle Managed Detector and Responder recipes at the beginning and can be customized by the Customer to fulfill the Customer’s security requirements.</p>
 <ul>
-<li>For configuration details see <a href="https://docs.oracle.com/en-us/iaas/cloud-guard/using/part-start.htm">Getting Started with Cloud Guard</a>. Customization of the Cloud Guard Detector and Responder recipes to fit with the Customer’s requirements is highly recommended. This step requires thorough planning and decisions to make.</li>
+<li>For configuration details see <a href="https://docs.oracle.com/en-us/iaas/cloud-guard/using/part-start.htm">Getting Started with Cloud Guard</a>. Customization of the Cloud Guard Detector and Responder recipes to fit the Customer’s requirements is highly recommended. This step requires thorough planning and decisions to make.</li>
 <li>For configuration details see <a href="https://docs.oracle.com/en-us/iaas/cloud-guard/using/part-customize.htm">Customizing Cloud Guard Configuration</a></li>
 </ul></td>
 </tr>
@@ -358,7 +358,7 @@ Customer is responsible for implementing, managing, and maintaining all listed t
 <tr class="even">
 <td>Additional Services</td>
 <td>Budget Control</td>
-<td><p>OCI Budget Control provides an easy to use and quick notification on changes of the tenancy’s budget consumption. It will be configured to quickly identify unexpected usage of the tenancy.</p>
+<td><p>OCI Budget Control provides an easy-to-use and quick notification on changes in the tenancy’s budget consumption. It will be configured to quickly identify unexpected usage of the tenancy.</p>
 <ul>
 <li>For configuration details see <a href="https://docs.oracle.com/en-us/iaas/Content/Billing/Tasks/managingbudgets.htm">Managing Budgets</a></li>
 </ul></td>
@@ -372,7 +372,7 @@ Customer is responsible for implementing, managing, and maintaining all listed t
 
 *This chapter describes landing zone best practices. The full landing zone needs to be described in the Solution Design by the service provider.*
 
-*Use this template ONLY for new cloud deployments and remove for brown field deployments.*
+*Use this template ONLY for new cloud deployments and remove for brownfield deployments.*
 
 *Example:*
 
@@ -380,7 +380,7 @@ The design considerations for an OCI Cloud Landing Zone have to do with OCI and 
 
 #### Naming Convention
 
-A naming convention is an important part of any deployment to ensure consistency as well as security within your tenancy. Hence we jointly agree on a naming convention, matching Oracle's best practices and Customer requirements.
+A naming convention is an important part of any deployment to ensure consistency as well as security within your tenancy. Hence we jointly agree on a naming convention, matches Oracle's best practices and Customer requirements.
 
 Oracle recommends the following Resource Naming Convention:
 
@@ -514,7 +514,7 @@ Apart from tenant-level authorization, compartment-level authorization provides 
 
 **Authentication and Authorization for Applications and Databases**
 
-Application (including Compute Instances) and Database User management are completely separate and done outside of the primary IDCS or Default Identity Domain. The management of these users is the sole responsibility of Customer using the application, compute instance, and database-specific authorization.
+Application (including Compute Instances) and Database User management are completely separate and done outside of the primary IDCS or Default Identity Domain. The management of these users is the sole responsibility of Customer using the application, compute instance and database-specific authorization.
 
 ##### Security Posture Management
 
@@ -645,7 +645,7 @@ Deployment architecture for the 'Hub and Spoke Topology' is illustrated below:
 ![Future State Deployment Diagram - EBS Workload Hub and Spoke with Palo Alto Design Diagram](images/HubandSpoke-DeploymentDiagram-V2.pdf){width="90%" height="90%"}
 
 
-Deployment architecture including two tenancy: 'Tenancy - A' and Tenancy - B' are illustrated in the design below:
+Deployment architecture including two tenancies: 'Tenancy - A' and Tenancy - B' are illustrated in the design below:
 
 ![Future State Deployment Diagram - EBS Workload Multiple tenancies with RPC Design Diagram](images/MultiTenancy-DeploymentDiagram-V2.pdf)
 
@@ -661,7 +661,7 @@ Deployment architecture including two tenancy: 'Tenancy - A' and Tenancy - B' ar
 
 *Example:*
 
-Proposed plan is to move EBS Application server (\_12.2) in the compute VM shapes on the latest OS and kernel version (which is supported). On-Premises RAC Database (**19c**) will be migrated to a VM-DB RAC system based on a multitenant architecture.
+The proposed plan is to move EBS Application server (\_12.2) in the compute VM shapes on the latest OS and kernel version (which is supported). On-Premises RAC Database (**19c**) will be migrated to a VM-DB RAC system based on a multitenant architecture.
 
 Oracle Cloud Infrastructure Web Application Firewall (WAF) helps you make your endpoints more secure by monitoring and filtering out potentially malicious traffic. It is a cloud-based, Payment Card Industry (PCI) compliant, global security service that protects applications from malicious and unwanted internet traffic.
 
@@ -673,14 +673,14 @@ Oracle Cloud Infrastructure Web Application Firewall (WAF) helps you make your e
 
 *Example:*
 
-Oracle Maximum Availability Architecture (MAA) is Oracle's best practice blueprint based on proven Oracle high availability technologies and recommendations. The goal of MAA is to achieve the optimal high availability architecture at the lowest cost and complexity. Papers are published on the Oracle Technology Network [OTN](http://www.oracle.com/goto/maa).
+Oracle Maximum Availability Architecture (MAA) is Oracle's best practice blueprint based on proven Oracle high availability technologies and recommendations. The goal of MAA is to achieve the optimal high-availability architecture at the lowest cost and complexity. Papers are published on the Oracle Technology Network [OTN](http://www.oracle.com/goto/maa).
 To achieve maximum Oracle E-Business Suite database availability, Oracle recommends deploying EBS on an Oracle Database MAA foundation that includes the following technologies:
     - Oracle Real Application Clusters (RAC)
     - Oracle Data Guard
     - Oracle Flashback Database
     - Oracle Automatic Storage Management
     - Oracle Recovery Manager and Oracle Secure Backup
-    - Oracle Online Upgrade Using Edition Based Redefinition
+    - Oracle Online Upgrade Using Edition-Based Redefinition
 
 Please refer to the following reference paper for detail.
 
@@ -712,10 +712,11 @@ We will follow the current Backup and Recovery strategy and practices of the Cus
 
 The objective of the security architecture is to enable you to maintain your security posture when running EBS Suite and associated applications in the Oracle Cloud.
 
-Oracle has designed security into every aspect of our infrastructure to help our customers achieve better protection, isolation and control. We started by taking a unique design approach, separating the network and server environments. This way, if an attack occurs on a VM, we can contain that threat and prevent it from moving to other servers, resulting in better protection and lower risk for customers.
+Oracle has designed security into every aspect of our infrastructure to help our customers achieve better protection, isolation, and control. We started by taking a unique design approach, separating the network and server environments. This way, if an attack occurs on a VM, we can contain that threat and prevent it from moving to other servers, resulting in better protection and lower risk for customers.
 
-We also hyper-segment our physical network and backend infrastructure for secure isolation between customer instances and backend hosts. Additionally, we’ve implemented hardware-based root of trust, making sure each server is pristine each and every time it is provisioned.
-Below diagram shows security posture of EBS in OCI.
+We also hyper-segment our physical network and backend infrastructure for secure isolation between customer instances and backend hosts. Additionally, we’ve implemented a hardware-based root of trust, making sure each server is pristine each and every time it is provisioned.
+
+The below diagram shows the security posture of EBS in OCI.
 
 ![EBS Network Security](images/EBSNetworkSecurity_V3.pdf)
 
@@ -727,19 +728,19 @@ For each customer’s VCN there is a range of defense in depth protections avail
 
 **Load Balancing Traffic Securely (3):** TLS 1.2 is supported by default to securely balance traffic within the implementation and from external connections.
 
-Secure Traffic Between ADs and Regions: Communications between ADs are encrypted with Media Access Control security (MACsec) to prevent layer 2 security threats such as wiretapping, DDoS, intrusion, man-in-the-middle and playback attacks. VCN traffic that travel between regions are either sent over private links or are encrypted.
+Secure Traffic Between ADs and Regions: Communications between ADs are encrypted with Media Access Control security (MACsec) to prevent layer 2 security threats such as wiretapping, DDoS, intrusion, man-in-the-middle, and playback attacks. VCN traffic that travels between regions is either sent over private links or is encrypted.
 
-**Secure Connectivity to Public Internet (4):** For security, a VCN has no internet connectivity by default. Therefore, internet bound traffic to / from a VCN must pass through an IGW. Virtual routing tables can be implemented with private IP addresses for use with NAT and 3rd party firewall devices for additional security.
+**Secure Connectivity to Public Internet (4):** For security, a VCN has no internet connectivity by default. Therefore, internet-bound traffic to/from a VCN must pass through an IGW. Virtual routing tables can be implemented with private IP addresses for use with NAT and 3rd party firewall devices for additional security.
 
 **Secure Connectivity Between Your VCN and Data Center (5):** Traffic can be routed through a DRG for private traffic. It is used with an IPSec VPN or FastConnect connection to establish private connectivity between a VCN and an On-Premises or other cloud network.
 
-**Protect Internet-Facing Applications (6):** Oracle Cloud Infrastructure Web Application Firewall is a regional-based and edge enforcement service that is attached to an enforcement point, such as a load balancer or a web application domain name. WAF protects applications from malicious and unwanted internet traffic. WAF can protect any internet facing endpoint, providing consistent rule enforcement across a customer's applications. It also inspects any request going from the web application server to the end user. Additionally, Oracle’s optional global 'anycast' DNS service also takes advantage of DNS-based DDoS protections providing resiliency at the DNS layers.
+**Protect Internet-Facing Applications (6):** Oracle Cloud Infrastructure Web Application Firewall is a regional-based and edge enforcement service that is attached to an enforcement point, such as a load balancer or a web application domain name. WAF protects applications from malicious and unwanted internet traffic. WAF can protect any internet-facing endpoint, providing consistent rule enforcement across a customer's applications. It also inspects any request going from the web application server to the end user. Additionally, Oracle’s optional global 'anycast' DNS service also takes advantage of DNS-based DDoS protections providing resiliency at the DNS layers.
 
 -   Specific to some use cases: Route details for a specific use case like Hub and Spoke
--   Application authentication and authorization details (If applicable how Application users are going to access the Application and associated privilege control mechanism(for example role based access control), federation with other IdP like Microsoft/Azure AD)
+-   Application authentication and authorization details (If applicable how Application users are going to access the Application and associated privilege control mechanism(for example role-based access control), federation with other IdP like Microsoft/Azure AD)
 -   Specific to some use cases: Using any specific security services available in OCI like Security Zone, Security Advisor
--   Specific to some use cases: Customer from specific Industry (Financial) might require PCI compliant services like WAF
--   Oracle EBS Suite requires policies with the following ports and protocol to be open
+-   Specific to some use cases: Customer from specific industries (Financial) might require PCI-compliant services like WAF
+-   Oracle EBS Suite requires policies with the following ports and protocols to be open
 
 ![Port and Protocol Requirement for EBS Workload](images/SLforEBS-V3.pdf)
 
@@ -753,8 +754,8 @@ __Note:__Please see generic OCI security guidelines in the [Annex](#security-gui
 
 *Example:*
 
-Customer will access EBS workload internally over the OCI FastConnect connectivity solution and EBS external endpoints will be secured by OCI Web Application Firewall (WAF). FastConnect is a private, dedicated connectivity which improves security, it supports bandwidths from 1Gbps to 10Gbps.
-An alternative option to FastConnect is Virtual Private Network (VPN). VPN could also be a back-up configuration if FastConnect is down.
+Customer will access the EBS workload internally over the OCI FastConnect connectivity solution and EBS external endpoints will be secured by OCI Web Application Firewall (WAF). FastConnect is a private, dedicated connectivity that improves security, it supports bandwidths from 1Gbps to 10Gbps.
+An alternative option to FastConnect is Virtual Private Network (VPN). VPN could also be a backup configuration if FastConnect is down.
 
 ### Workload Monitoring 
 
@@ -765,7 +766,7 @@ An alternative option to FastConnect is Virtual Private Network (VPN). VPN could
 *Example:*
 
 Customer will use OEM to monitor their EBS workload. Customer can also leverage OCI Stack Monitoring for EBS.
-For detail please check the below blog article specified in reference section.
+For detail please check the below blog article specified in the reference section.
 
 *Reference:*
 
@@ -775,7 +776,7 @@ For detail please check the below blog article specified in reference section.
 
 *Guide:*
 
-*A section describing the any Customer-specific 'Regulation and Compliance if any' in OCI*
+*A section describing any Customer-specific 'Regulation and Compliance if any' in OCI*
 
 *Example:*
 
@@ -797,19 +798,19 @@ None has been discussed at the time of Migration.
 
 -   This is Oracle’s recommended way to deploy EBS on OCI.
 
-#### High level Deployment steps using EBS CM
+#### High-level Deployment steps using EBS CM
 
 Using CM, one can provision a new environment or can perform a 'lift-and-shift' as depicted in the diagram below:
 
 ![EBS CM Provisioning Diagram](images/CM-Migration-1.pdf){width="60%" height="60%"}
 
-How EBS CM can help to migrate EBS workload to OCI is depicted in the diagram below:
+How EBS CM can help to migrate the EBS workload to OCI is depicted in the diagram below:
 
 ![EBS CM MIgration Diagram](images/CM-Migration-2.pdf){width="60%" height="60%"}
 
 -   If the Customer EBS estate is not compatible with CM, then we have to go for other migration options like manual Implementation.
 
--   Another scenario could be to move Customer Workload and/or other Solution components 'as-is' to OCI using Rackware or similar tool.
+-   Another scenario could be to move Customer Workload and/or other Solution components 'as-is' to OCI using Rackware or a similar tool.
 
 #### Options for Automated EBS Lift & Shift from On-Premises
 
@@ -832,7 +833,7 @@ Automation is provided for a selection of deployment and management scenarios. T
 *Example:*
 
 Oracle Cloud Infrastructure (OCI) networking and connectivity products and services enable customers to manage and scale their networks.
-Please refer to the following article for a better understanding of OCI networking capabilities and how it can be leverages for Customer advantage.
+Please refer to the following article for a better understanding of OCI networking capabilities and how they can be leveraged for Customer advantage.
 
 *Reference:*
 
