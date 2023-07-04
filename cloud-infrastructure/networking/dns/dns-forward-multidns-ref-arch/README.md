@@ -8,7 +8,7 @@
  
 ## How to use this asset?
  
-*This is a reference architecture to implement private DNS which in turns forwards requrests to multi DNS servers*
+*This is a reference architecture*
  
 # License
  
