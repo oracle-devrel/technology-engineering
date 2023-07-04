@@ -1,8 +1,8 @@
-# Secure Edge Connectivity Reusable Assets
-Secure Edge Connectivity in Oracle Cloud Infrastructure (OCI). Discover how OCI enables organizations to establish secure and reliable connections between on-premises networks and the cloud, ensuring data integrity and confidentiality. Explore our resources to learn about VPN connectivity, FastConnect, IPSec VPN, Network Firewall and more.
+# Networking-Competitive-Insights Reusable Assets
+Networking - Competitive Insights in Oracle Cloud Infrastructure (OCI). Gain competitive knowledge by exploring OCI's networking capabilities and discovering how they compare to other cloud providers.
 
 ## When to use this asset?
-These documents can be use as reusable assets on different technologies around OCI regarding Secure Edge Connectivity
+These documents can be use as reusable assets on different technologies around OCI regarding Networking Competitive Insights context
 
 ## How to use this asset?
 The information is generic in nature and not specified for a particular customer. Appropriate changes in scope should be updated.
@@ -15,16 +15,19 @@ The information is generic in nature and not specified for a particular customer
 3. [Reusable Assets Overview](#reusable-assets-overviewdef)
  
 ## Useful Links
+- [Cloud Economics, OCI vs AWS ](https://www.oracle.com/cloud/economics/)
+- [Cost advantages to consider when choosing a cloud platform](https://blogs.oracle.com/cloud-infrastructure/post/cost-advantages-to-consider-when-choosing-a-cloud-platform---part-1-pricing-consistency-with-consumption-flexibility)
+- [AWS vs Azure vs Google vs IBM vs Oracle - VMs Q2 2023 - Network Pricing ](https://projector.cloud-mercato.com/projects/aws-vs-azure-vs-google-vs-ibm-vs-oracle-vms-q2-2023/network-pricing/graph)
+
+
 
 
 ## Team Publications
 
-### Reference Architectures & Step-by-step Guides
-- [asdas](ha-dr-patterns/files/HA%26DR%20Patterns%20in%20Network%20connectivity.pdf)
 
+ 
 ### Blogs
  
-
 
 
 ### Videos & Podcasts
