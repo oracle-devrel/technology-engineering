@@ -24,7 +24,7 @@ meant to be used as _template_
 
 Following is the content currently available:
 
-1. WebLogic for OKE, _ACME_ Architecture: a simple example of a WebLogic workload architecture built in OCI leveraging the OKE deployment of WebLogic.
+1. WebLogic for OKE, _ACME_ Architecture: a simple example of a WebLogic workload architecture built in OCI and leveraging the OKE deployment of WebLogic. Included, as reusable asset, there are the Drawio diagrams of the architecture. 
 
 
 ## License
