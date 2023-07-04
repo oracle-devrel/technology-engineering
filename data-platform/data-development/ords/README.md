@@ -32,4 +32,3 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
 See [LICENSE]( https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
-![image](https://github.com/oracle-devrel/technology-engineering/assets/116644854/213041e1-1d8e-4884-b514-11197e3f03d2)
