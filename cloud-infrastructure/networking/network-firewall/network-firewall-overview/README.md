@@ -1,14 +1,14 @@
 # Disaster Recovery and Business Continuity Presentation
  
-*Asset Introduction*
+*Overview presentation of OCI Network Firewall*
  
 ## When to use this asset?
  
-*Who would use this asset when?*
+*To elaborate the understandings of Network Firewall*
  
 ## How to use this asset?
  
-*Describe how an asset is used*
+*Slide deck for sharing the overview of OCI Network Firewall powered by Palo Alto*
  
 # License
  
