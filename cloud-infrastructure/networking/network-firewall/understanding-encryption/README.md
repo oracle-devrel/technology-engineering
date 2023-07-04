@@ -1,14 +1,14 @@
-# Disaster Recovery and Business Continuity Presentation
+# Understanding Encryption
  
-*Asset Introduction*
+*Overview presentation of OCI Network Firewall*
  
 ## When to use this asset?
  
-*Who would use this asset when?*
+*While understanding the basics of encryption*
  
 ## How to use this asset?
  
-*Describe how an asset is used*
+*This document explains the nitigritties of encryption in general and in the context of Firewall*
  
 # License
  
