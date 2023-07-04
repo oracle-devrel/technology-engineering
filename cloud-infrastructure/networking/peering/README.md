@@ -25,7 +25,7 @@ The information is generic in nature and not specified for a particular customer
 ## Team Publications
 
 ### Reference Architectures & Step-by-step Guides
-- [asdas](ha-dr-patterns/files/HA%26DR%20Patterns%20in%20Network%20connectivity.pdf)
+
 
 ### Blogs
  
