@@ -1,14 +1,14 @@
-# Disaster Recovery and Business Continuity Presentation
+# LPG to DRG V2 ReferenceArchitecture
  
-*Asset Introduction*
+*This is a reference architecture for converting a LPG based architecture to modernised DRGV2 based architecture along with Fortigate*
  
 ## When to use this asset?
  
-*Who would use this asset when?*
+*WBefore you modernise an existing LPG based architecture to Hub and Spoke based architecture*
  
 ## How to use this asset?
  
-*Describe how an asset is used*
+*This is a reference architecture to move to a DRGV2 based architecture along with Firewall implementation*
  
 # License
  
