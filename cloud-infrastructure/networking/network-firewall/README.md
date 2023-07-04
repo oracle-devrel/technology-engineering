@@ -1,8 +1,14 @@
-# Secure Edge Connectivity Reusable Assets
-Secure Edge Connectivity in Oracle Cloud Infrastructure (OCI). Discover how OCI enables organizations to establish secure and reliable connections between on-premises networks and the cloud, ensuring data integrity and confidentiality. Explore our resources to learn about VPN connectivity, FastConnect, IPSec VPN, Network Firewall and more.
+# Network Firewall Assets
+Enterprise customers leverage next generation network firewall solutions to protect on-prem apps against layer 3-7 cyber attacks. It is important for us to provide a similar network security posture to enable those customers adopt and migrate their workloads to OCI.
+
+OCI's network and application layer security controls currently has the following limitations and customer pain points:
+
+    Layered Defence
+    Advanced Egress Security Controls
+    Advanced Network Firewall Features
 
 ## When to use this asset?
-These documents can be use as reusable assets on different technologies around OCI regarding Secure Edge Connectivity
+These documents can be use as reusable assets on different technologies around OCI Network Firewall
 
 ## How to use this asset?
 The information is generic in nature and not specified for a particular customer. Appropriate changes in scope should be updated.
@@ -15,19 +21,35 @@ The information is generic in nature and not specified for a particular customer
 3. [Reusable Assets Overview](#reusable-assets-overviewdef)
  
 ## Useful Links
+- 
+- [OCI Network Firewall Documentation](https://docs.oracle.com/en-us/iaas/Content/network-firewall/home.htm)
+- [OCI Network Firewall Overview](https://docs.oracle.com/en-us/iaas/Content/network-firewall/overview.htm)
+- [OCI Network Firewall LiveLabs workshop](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=3499)
+- 
 
 
 ## Team Publications
 
 ### Reference Architectures & Step-by-step Guides
-- [asdas](ha-dr-patterns/files/HA%26DR%20Patterns%20in%20Network%20connectivity.pdf)
+
+
+- [Use OCI Network Firewall for SSL forward proxy and inbound inspection using Decryption rule](https://docs.oracle.com/en/learn/oci-network-firewall/#introduction)
+    -  Step by step guide to deploy OCI network Firewall for SSL Forwar proxy and inbound inspection with Decryption rules. It does include an introduction on encryption for beginners
+    
 
 ### Blogs
  
-
+- [Using OCI Network Firewall for SSL Decryption](https://blogs.oracle.com/cloud-infrastructure/post/oci-network-firewall-ssl-decryption)
+    -  Blog describing OCI Network Firewall, focusing on SSL Decryption techniques
 
 
 ### Videos & Podcasts
+- [Network Firewall Overview - Oracle Learning Channel](https://www.youtube.com/watch?v=AlwQQQOl5qw)
+    -  Step by step session around OCI Network Firewall with advanced features
+- [OCI Network Firewall Routing Session - Part 1 ](https://www.youtube.com/watch?v=aX3hl-91zRc)
+    -  Step by step guide around routing in Network Firewall, part 1
+- [OCI Network Firewall Routing Session - Part 2 ](https://www.youtube.com/watch?v=zZYZehAnVXw&t=0s)
+    -  Step by step guide around routing in Network Firewall, part 2
 
 
 
