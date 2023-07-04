@@ -1,14 +1,14 @@
 # Networking Workshop
  
-*Asset Introduction*
+These slides can be used to run a short Networking Workshop .
  
 ## When to use this asset?
  
-*Who would use this asset when?*
+*OCI Onboarding Workshop*
  
 ## How to use this asset?
  
-*Describe how an asset is used*
+*To introduce OCI Networking topics to anyone who is new to OCI *
  
 # License
  
