@@ -1,8 +1,13 @@
-# Secure Edge Connectivity Reusable Assets
-Secure Edge Connectivity in Oracle Cloud Infrastructure (OCI). Discover how OCI enables organizations to establish secure and reliable connections between on-premises networks and the cloud, ensuring data integrity and confidentiality. Explore our resources to learn about VPN connectivity, FastConnect, IPSec VPN, Network Firewall and more.
+# OCI DNS
+
+The Domain Name System (DNS) is a distributed internet system that maps human-readable names (such as Oracle.com) to IP addresses and serves as the first link in the customers’ digital supply chain. Oracle’s globally distributed DNS service offers enhanced DNS performance, resiliency, and scalability so that end users connect to customers’ applications as quickly as possible from wherever they are.
+
+The Oracle Cloud Infrastructure Domain Name System (DNS) service lets you create and manage your DNS zones. You can create zones, add records to zones, and allow Oracle Cloud Infrastructure's edge network to handle your domain's DNS queries. 
+
+We do have three mayor componets around DNS: Private DNS , Public DNS , Traffic Management
 
 ## When to use this asset?
-These documents can be use as reusable assets on different technologies around OCI regarding Secure Edge Connectivity
+These documents can be use as reusable assets on different technologies around OCI DNS
 
 ## How to use this asset?
 The information is generic in nature and not specified for a particular customer. Appropriate changes in scope should be updated.
@@ -16,20 +21,23 @@ The information is generic in nature and not specified for a particular customer
  
 ## Useful Links
 
+- [Private DNS Implementation](https://www.ateam-oracle.com/post/private-dns-implementation)
+- [Private DNS common Scenarios](https://www.ateam-oracle.com/post/oci-private-dns---common-scenarios)
+- [Hands on Training](https://oracle.github.io/learning-library/oci-library/oci-hol/oci-private-dns/workshops/freetier/?lab=intro)
+- [OCI DNS Documentation](https://www.oracle.com/cloud/networking/dns/)
 
 ## Team Publications
 
 ### Reference Architectures & Step-by-step Guides
-- [asdas](ha-dr-patterns/files/HA%26DR%20Patterns%20in%20Network%20connectivity.pdf)
+
 
 ### Blogs
  
-
-
+- [DNS in multicloud disaster recovery architectures](https://blogs.oracle.com/cloud-infrastructure/post/dns-in-multicloud-disaster-recovery-architectures)
 
 ### Videos & Podcasts
 
-
+- [Implementing Public and Private DNS in OCI](https://www.youtube.com/watch?v=AjA-HagCye8)
 
 # License
 
