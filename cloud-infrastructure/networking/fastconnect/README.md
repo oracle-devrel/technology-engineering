@@ -13,6 +13,12 @@ The FastConnect Reusable Asset is a  network connectivity solution offered by Or
 
 ## team Publications
 
+### Reference Architectures & Step-by-step Guides
+
+
+- [Use OCI Network Firewall for SSL forward proxy and inbound inspection using Decryption rule](https://docs.oracle.com/en/learn/oci-network-firewall/#introduction)
+    -  Step by step guide to deploy OCI network Firewall for SSL Forwar proxy and inbound inspection with Decryption rules. It does include an introduction on encryption for beginners
+
 ## Reusable assets overview
 
  - [overview](/cloud-infrastructure/networking/fastconnect/fastconnect-overview/)
