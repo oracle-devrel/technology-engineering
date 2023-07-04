@@ -1,14 +1,14 @@
-# Disaster Recovery and Business Continuity Presentation
+# Network Firewall Multi VCN's Deployment
  
-*Asset Introduction*
+*Overview presentation of OCI Network Firewall*
  
 ## When to use this asset?
  
-*Who would use this asset when?*
+*While implementing Firewall in Multi VCN setup*
  
 ## How to use this asset?
  
-*Describe how an asset is used*
+*This can be used as a reference architecture for Firewall in Multi VCN deployment*
  
 # License
  
