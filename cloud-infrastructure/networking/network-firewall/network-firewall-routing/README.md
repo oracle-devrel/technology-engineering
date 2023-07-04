@@ -1,14 +1,14 @@
-# Disaster Recovery and Business Continuity Presentation
+# Network Firewall Routing
  
-*Asset Introduction*
+*Overview presentation of OCI Network Firewall*
  
 ## When to use this asset?
  
-*Who would use this asset when?*
+*This can be used as a guideline while configuring both East-West and North-South traffic for Network Firewall*
  
 ## How to use this asset?
  
-*Describe how an asset is used*
+*Depending on the architecture type , validate your network configurations against the guidelines in the slides*
  
 # License
  

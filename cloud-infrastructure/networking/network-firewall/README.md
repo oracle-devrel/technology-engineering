@@ -21,11 +21,10 @@ The information is generic in nature and not specified for a particular customer
 3. [Reusable Assets Overview](#reusable-assets-overviewdef)
  
 ## Useful Links
-- 
+
 - [OCI Network Firewall Documentation](https://docs.oracle.com/en-us/iaas/Content/network-firewall/home.htm)
 - [OCI Network Firewall Overview](https://docs.oracle.com/en-us/iaas/Content/network-firewall/overview.htm)
-- [OCI Network Firewall LiveLabs workshop](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=3499)
-- 
+- [OCI Network Firewall LiveLabs workshop](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=3499) 
 
 
 ## Team Publications

@@ -1,14 +1,14 @@
-# Disaster Recovery and Business Continuity Presentation
+# HA DR Patterns
  
-*Asset Introduction*
+Use this asset to understand various HA and DR Patterns
  
 ## When to use this asset?
  
-*Who would use this asset when?*
+*Before selecting the appropriate HA/DR network design*
  
 ## How to use this asset?
  
-*Describe how an asset is used*
+*Refer as a reference architecture for varuous HA/DR network designs*
  
 # License
  
