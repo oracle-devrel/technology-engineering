@@ -20,8 +20,8 @@ The information is generic in nature and not specified for a particular customer
  
 ## Useful Links
 
-- [OCI VPN site-to-site Overview](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/overviewIPsec.htm)
-- [OCI VPN site-to-site Documentation](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/managingIPsec.htm)
+- [OCI Network Visualizer Introduction](https://www.ateam-oracle.com/post/oci-network-visualizer)
+- [OCI Network Visualizer  Documentation](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/network_visualizer.htm)
  
 
 
