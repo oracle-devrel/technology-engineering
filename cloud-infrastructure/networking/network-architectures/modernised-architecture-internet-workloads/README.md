@@ -1,15 +1,19 @@
-# Networking Workshop
+# Modernized Architecture asset
  
-*Asset Introduction*
+Reference architecture for your modernized architecture in OCI
  
 ## When to use this asset?
  
-*Who would use this asset when?*
+Whenever you want to use a modernized architecture protected with NFW, WAF and Load balancer
  
 ## How to use this asset?
  
-*Describe how an asset is used*
+Use it as a reference guide.
  
+## Useful Links 
+
+- [Reference Architecture ](files/Modernized%20Architecture.pdf)
+
 # License
  
 Copyright (c) 2023 Oracle and/or its affiliates.

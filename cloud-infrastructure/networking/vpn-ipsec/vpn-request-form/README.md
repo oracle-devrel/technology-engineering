@@ -12,7 +12,7 @@ This document must be filled by customers with the IPSEC parameters
  
 ## Useful Links (Optional)
 
-- [Fast Connect overview ](files/template%20OCI%20Site-to-Site%20VPN%20Request%20Form_v1.1.xlsx)
+- [Request Form](files/template%20OCI%20Site-to-Site%20VPN%20Request%20Form_v1.1.xlsx)
 
  
 # License

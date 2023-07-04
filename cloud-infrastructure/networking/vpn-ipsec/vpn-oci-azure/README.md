@@ -1,6 +1,6 @@
 # VPN OCI to Azure Overview
  
-The VPN OCI to Azure Asset is a crucial networking overvdocument that enables secure and private communication between OCI IPSEC managed service and Azure VPN Manage service (VPN gateways), so you will be able to interconnect OCI with Azure via Site to Site IPSEC over the internet.
+The VPN OCI to Azure Asset is a crucial networking document that enables secure and private communication between OCI IPSEC managed service and Azure VPN Manage service (VPN gateways), so you will be able to interconnect OCI with Azure via Site to Site IPSEC over the internet.
  
 ## When to use this asset?
  
@@ -11,9 +11,9 @@ The VPN OCI to Azure Asset is designed for organizations and businesses that req
  
 This document can be used as a reference guide or tutorial to implement Site to Site IPSEC between OCI and Azure
  
-## Useful Links (Optional)
+## Useful Links 
 
-- [Fast Connect overview ](files/S2S%20IPSEC%20between%20Azure%20and%20OCI_v1.pdf)
+- [OCI to Azure IPSEC guide ](files/S2S%20IPSEC%20between%20Azure%20and%20OCI_v1.pdf)
 
  
 # License
