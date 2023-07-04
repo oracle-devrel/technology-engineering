@@ -1,14 +1,14 @@
-# Disaster Recovery and Business Continuity Presentation
+# Load Balancer Overview
  
-*Asset Introduction*
+*This is an introduction slide deck to talk about Http and Network Load Balancer*
  
 ## When to use this asset?
  
-*Who would use this asset when?*
+*To educate and understand http load balancers*
  
 ## How to use this asset?
  
-*Describe how an asset is used*
+*Slide deck to present an overview of OCI LBaas*
  
 # License
  
