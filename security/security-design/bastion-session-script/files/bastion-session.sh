@@ -1,43 +1,7 @@
-#!/usr/bin/env bash
+#!/bin/bash
 #
 # Copyright (c) 2023 Oracle and/or its affiliates. All rights reserved.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
-#
-# The Universal Permissive License (UPL), Version 1.0
-#
-# Subject to the condition set forth below, permission is hereby granted to any
-# person obtaining a copy of this software, associated documentation and/or
-# data (collectively the "Software"), free of charge and under any and all
-# copyright rights in the Software, and any and all patent rights owned or
-# freely licensable by each licensor hereunder covering either (i) the
-# unmodified Software as contributed to or provided by such licensor, or (ii)
-# the Larger Works (as defined below), to deal in both
-#
-# (a) the Software, and
-#
-# (b) any piece of software and/or hardware listed in the lrgrwrks.txt file if
-# one is included with the Software each a "Larger Work" to which the Software
-# is contributed by such licensors),
-#
-# without restriction, including without limitation the rights to copy, create
-# derivative works of, display, perform, and distribute the Software and make,
-# use, sell, offer for sale, import, export, have made, and have sold the
-# Software and the Larger Work(s), and to sublicense the foregoing rights on
-# either these or other terms.
-#
-# This license is subject to the following condition:
-#
-# The above copyright notice and either this complete permission notice or at a
-# minimum a reference to the UPL must be included in all copies or substantial
-# portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
 #
 ###############################################################################
 #
@@ -46,11 +10,11 @@
 #
 ###############################################################################
 
-# Set default values
-version="1.0.1"
+# Set default values.
+version="1.0.2"
 oci_profile="DEFAULT"
 session_name="Bastion-Session"
-session_check_counter=15  # times 10 seconds for maximum time while checking session creation status
+session_check_counter=15  # times 10 seconds for maximum time while checking session creation status.
 ttl=10800
 target_port=22
 username="opc"
@@ -59,7 +23,7 @@ keysize=4096
 generatekeypair=true
 
 ###############################################################################
-# Usage function
+# Usage function.
 ###############################################################################
 usage() {
    echo "Version: ${version}"
@@ -75,25 +39,25 @@ usage() {
    echo "  pf               The session type \"pf\" for Port Forwarding session."
    echo ""
    echo "Arguments:"
-   echo "  -b |--bastion TEXT              The Name of the Bastion to be used. [-b or -c is required]"
-   echo "  -c |--bastion-ocid TEXT         The OCID of the Bastion to be used. [-b or -c is required]"
-   echo "  -i |--instance TEXT             The name of the target instance to be used."
-   echo "  -j |--instance-ocid TEXT        The OCID of the target instance to be used."
-   echo "  -u |--username TEXT             The target resource username to be used. [default: opc]"
-   echo "  -p |--profile TEXT              The oci profile in the config file to load. [default: DEFAULT]"
-   echo "  -s |--session TEXT              The Bastion session name. [default: Bastion-Session]"
-   echo "  -t |--ttl INTEGER               The Bastion session time-to-live in seconds, minimum 1800, maximum 10800. [default: 10800]"
-   echo "  -d |--destination-ip IP         The destination IP Address to be used for Bastion session. [default: the first private ip address of instance]"
-   echo "  -e |--destination-port INTEGER  The destination port to be used for Port Forwarding session. [default: 22]"
-   echo "  -l |--local-port INTEGER        The local port to be used for Port Forwarding session. [defaults to same value as destination port]"
-   echo "  -a |--key-alg TEXT              The algorithm for the SSH key (ssh-keygen) to be used. [default: rsa]"
-   echo "  -k |--key-size INTEGER          The key size for the SSH key (ssh-keygen) to be used. [default: 4096]"
-   echo "  -pr|--private-key TEXT          The private key file to be used when not generating a temporary key pair. [by default not used]"
-   echo "  -pu|--public-key TEXT           The public key file to be used when not generating a temporary key pair. [by default not used]"
-   echo "  -v |--verbose                   Show verbose output for troubleshooting."
+   echo "  -b, --bastion TEXT              (Required) The Name of the Bastion to be used. [-b or -c is required]"
+   echo "  -c, --bastion-ocid TEXT         (Required) The OCID of the Bastion to be used. [-b or -c is required]"
+   echo "  -i, --instance TEXT             The name of the target instance to be used."
+   echo "  -j, --instance-ocid TEXT        The OCID of the target instance to be used."
+   echo "  -u, --username TEXT             The target resource username to be used. [default: opc]"
+   echo "  -p, --profile TEXT              The OCI profile in the config file to load. [default: DEFAULT]"
+   echo "  -s, --session TEXT              The Bastion session name. [default: Bastion-Session]"
+   echo "  -t, --ttl INTEGER               The Bastion session time-to-live in seconds, minimum 1800, maximum 10800. [default: 10800]"
+   echo "  -d, --destination-ip IP         The destination IP Address to be used for Bastion session. [default: the first private IP address of instance]"
+   echo "  -e, --destination-port INTEGER  The destination port to be used for Port Forwarding session. [default: 22]"
+   echo "  -l, --local-port INTEGER        The local port to be used for Port Forwarding session. [defaults to same value as destination port]"
+   echo "  -a, --key-alg TEXT              The algorithm for the SSH key (ssh-keygen) to be used. [default: rsa]"
+   echo "  -k, --key-size INTEGER          The key size for the SSH key (ssh-keygen) to be used. [default: 4096]"
+   echo "  -pr, --private-key TEXT         The private key file to be used when not generating a temporary key pair. [by default not used]"
+   echo "  -pu, --public-key TEXT          The public key file to be used when not generating a temporary key pair. [by default not used]"
+   echo "  -v, --verbose                   Show verbose output for troubleshooting."
    echo ""
    echo "Prerequisites:"
-   echo "  - The OCI Command Line Interface (CLI) must be installed and configured."
+   echo "  - The OCI CLI must be installed and configured."
    echo "    (See also https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/cliinstall.htm)"
    echo "  - The jq commandline JSON processer must be installed."
    echo "    (See also https://stedolan.github.io/jq)"
@@ -102,7 +66,7 @@ usage() {
 }
 
 ###############################################################################
-# trap ctrl-c and call ctrl_c()
+# trap ctrl-c and call ctrl_c().
 ###############################################################################
 trap ctrl_c INT
 
@@ -113,11 +77,11 @@ function ctrl_c() {
 }
 
 ###############################################################################
-# Run the OCI Command Line Interface with or without verbose info
+# Run the OCI CLI with or without verbose info.
 ###############################################################################
 run_oci_cmd() {
    if [ "${verbose}" ]; then
-      echo "*** Running OCI Command: ${cmd}"
+      echo "*** Running OCI command: ${cmd}"
       result=$(${cmd})
    else
       result=$(${cmd} 2>/dev/null)
@@ -125,48 +89,48 @@ run_oci_cmd() {
 }
 
 ###############################################################################
-# Retrieve private ip address based on instance ocid
+# Retrieve private IP address based on instance OCID.
 ###############################################################################
 oci_get_ip_address() {
    cmd="oci compute instance list-vnics --instance-id ${instance_ocid} ${oci_options}"
    if ! run_oci_cmd; then
-      echo "*** Problem determining instance ip address. Check the oci cli connectivity and provided instance ocid."
+      echo "*** Problem determining instance IP address. Check the OCI CLI connectivity and provided instance OCID."
       exit 1
    fi
    target_ip=$(echo "${result}" | jq -r '.data[0]."private-ip"')
    if [ -z "${target_ip}" ]; then
-      echo "*** Problem finding instance ip address."
+      echo "*** Problem finding instance IP address."
       exit 1
    fi
 }
 
 ###############################################################################
-# Retrieve OCID based on resource displayname
+# Retrieve OCID based on resource displayname.
 ###############################################################################
 oci_get_resource_ocid() {
    if [ "${verbose}" ]; then
       cmd="oci search resource structured-search --query-text \"${query_text}\" ${oci_options}"
-      echo "*** Running OCI Command: ${cmd}"
+      echo "*** Running OCI command: ${cmd}"
       result=$(oci search resource structured-search --query-text "${query_text}" ${oci_options})
    else
       result=$(oci search resource structured-search --query-text "${query_text}" ${oci_options} 2>/dev/null)
    fi
    if [ $? != 0 ]; then
-      echo "*** Problem finding resource by name. Check the oci cli connectivity and provided name."
+      echo "*** Problem finding resource by name. Check the OCI CLI connectivity and provided name."
       exit 1
    fi
    resource_ocid=$(echo "${result}" | jq -r '.data.items[0]."identifier"')
    if [ -z "${resource_ocid}" ]; then
-      echo "*** Problem finding resource ocid."
+      echo "*** Problem finding resource OCID."
       exit 1
    fi
 }
 
 ###############################################################################
-# Create a new bastion session
+# Create a new bastion session.
 ###############################################################################
 oci_create_bastion_session() {
-   echo "*** Creating OCI Bastion session"
+   echo "*** Creating OCI Bastion session."
    if [ "$1" == "ssh" ]; then
       cmd="oci bastion session create-managed-ssh --bastion-id ${bastion_ocid} --display-name ${session_name} --session-ttl ${ttl} --key-type PUB  --ssh-public-key-file ${public_key_file} --target-resource-id ${instance_ocid} --target-port ${target_port} --target-os-username ${username} ${oci_options}"
    else
@@ -182,10 +146,10 @@ oci_create_bastion_session() {
       exit 1
    fi
    if [ "${verbose}" ]; then
-      echo "*** OCI Bastion session ocid: ${session_id}"
+      echo "*** OCI Bastion session OCID: ${session_id}"
    fi
 
-   # Check for session creation status ACTIVE
+   # Check for session creation status ACTIVE.
    cmd="oci bastion session get --session-id ${session_id} ${oci_options}"
    until [ $session_check_counter == 0 ]
    do
@@ -207,7 +171,7 @@ oci_create_bastion_session() {
       exit 1
    fi
 
-   # Retrieve SSH Command and replace ssh-command placeholders
+   # Retrieve SSH command and replace SSH command placeholders.
    session_command=$(echo "${result}" | jq -r '.data."ssh-metadata".command')
    session_command=${session_command//"<privateKey>"/$private_key_file}
    session_command=${session_command//"<localPort>"/$local_port}
@@ -218,7 +182,7 @@ oci_create_bastion_session() {
 }
 
 ###############################################################################
-# OCI session token refresh background process
+# OCI session token refresh background process.
 ###############################################################################
 oci_session_refresh() {
    while true
@@ -229,7 +193,7 @@ oci_session_refresh() {
 }
 
 ###############################################################################
-# Remove an existing bastion session
+# Remove an existing bastion session.
 ###############################################################################
 oci_bastion_delete() {
    if [ "${session_id}" ]; then
@@ -241,13 +205,13 @@ oci_bastion_delete() {
 }
 
 ###############################################################################
-# Cleanup temporary key files and optional oci session token refresh process
+# Cleanup temporary key files and optional oci session token refresh process.
 ###############################################################################
 cleanup() {
    oci_bastion_delete
    if [ ${generatekeypair} == true ] && [ "${private_key_file}" ]; then
       if [ "${verbose}" ]; then
-         echo "*** Cleaning up temporary key files"
+         echo "*** Cleaning up temporary key files."
       fi
       rm "${private_key_file}"
       rm "${public_key_file}"
@@ -261,7 +225,7 @@ cleanup() {
    echo "*** Done."
 }
 
-# Process cmdline arguments
+# Process cmdline arguments.
 while [[ $# -gt 0 ]]; do
   case $1 in
     ssh)
@@ -361,7 +325,7 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-# Check for mandatory cmdline arguments
+# Check for mandatory cmdline arguments.
 if ! { [ "${session_type}" == "ssh" ] || [ "${session_type}" == "pf" ]; }; then
     usage
 fi
@@ -386,11 +350,11 @@ if [ "${verbose}" ]; then
    echo "*** Version: ${version}"
 fi
 
-# Check for oci cli session security_token
+# Check for OCI CLI session security_token.
 result=$(echo no | oci session validate --profile ${oci_profile} 2>/dev/null)
 if [ $? == 0 ]; then
     if [ "${verbose}" ]; then
-       echo "*** Detected valid OCI CLI session security_token"
+       echo "*** Detected valid OCI CLI session security_token."
     fi
     oci_options=" --auth security_token --profile=${oci_profile}"
     oci_session_refresh &
@@ -403,7 +367,7 @@ else
     oci_options=" --profile=${oci_profile}"
 fi
 
-# Fetch the bastion ocid from the displayname
+# Fetch the bastion OCID from the displayname.
 if [ -z "${bastion_ocid}" ]; then
    query_text="query bastion resources where displayname = '${bastion_name}'"
    oci_get_resource_ocid
@@ -413,12 +377,12 @@ if [ -z "${bastion_ocid}" ]; then
       exit 1
    fi
    if [ "${verbose}" ]; then
-      echo "*** Retrieved bastion ocid for ${bastion_name}: ${resource_ocid}"
+      echo "*** Retrieved bastion OCID for ${bastion_name}: ${resource_ocid}"
    fi
    bastion_ocid=${resource_ocid}
 fi
 
-# Fetch the instance ocid from the displayname
+# Fetch the instance OCID from the displayname.
 if [ "${instance_name}" ] && [ -z "${instance_ocid}" ]; then
    query_text="query instance resources where displayname = '${instance_name}'"
    oci_get_resource_ocid
@@ -428,23 +392,23 @@ if [ "${instance_name}" ] && [ -z "${instance_ocid}" ]; then
       exit 1
    fi
    if [ "${verbose}" ]; then
-      echo "*** Retrieved instance ocid for: ${instance_name}: ${resource_ocid}"
+      echo "*** Retrieved instance OCID for: ${instance_name}: ${resource_ocid}"
    fi
    instance_ocid=${resource_ocid}
 fi
 
-# Fetch the instance private ip address from instance ocid when not provided
+# Fetch the instance private IP address from instance OCID when not provided.
 if [ -z "${target_ip}" ]; then
    if ! oci_get_ip_address; then
-      echo "*** Problem finding instance ip address by name: ${instance_name}"
+      echo "*** Problem finding instance IP address by name: ${instance_name}"
       exit 1
    fi
    if [ "${verbose}" ]; then
-      echo "*** Retrieved instance ip address for ${instance_name}: ${target_ip}"
+      echo "*** Retrieved instance IP address for ${instance_name}: ${target_ip}"
    fi
 fi
 
-# Generate key pair if needed
+# Generate key pair if needed.
 # When CygWin (e.g. MobaXTerm) is used, place keys in current dir to avoid access issues.
 if [ ${generatekeypair} == true ]; then
    platform=$(uname)
@@ -458,30 +422,30 @@ if [ ${generatekeypair} == true ]; then
    fi
    public_key_file="${private_key_file}.pub"
    if [ "${verbose}" ]; then
-      echo "*** Generating temporary ssh key pair"
+      echo "*** Generating temporary ssh key pair."
       echo yes | ssh-keygen -t "${keyalg}" -b "${keysize}" -f "${private_key_file}" -N ""
    else
       echo yes | ssh-keygen -t "${keyalg}" -b "${keysize}" -f "${private_key_file}" -N "" >/dev/null 2>&1
    fi
 else
    if [ "${verbose}" ]; then
-      echo "*** Using existing ssh key pair"
+      echo "*** Using existing ssh key pair."
    fi
 
 fi
-# When local_port not specified make it equal to target_port
+# When local_port not specified make it equal to target_port.
 if [ "${session_type}" == "pf" ] && [ -z "${local_port}" ]; then
    local_port=${target_port}
 fi
 
-# Create the OCI Bastion Session
+# Create the OCI Bastion Session.
 oci_create_bastion_session ${session_type}
 if [ $? != 0 ]; then
    cleanup
    exit 1
 fi
 
-# All looking good, just display status
+# All looking good, just display status.
 if [ "${session_type}" == "ssh" ]; then
    echo "*** Starting SSH session through OCI Bastion for user ${username} to ${target_ip}:${target_port}."
    echo "*** Enter \"exit\" to end session."
@@ -492,8 +456,8 @@ else
    echo "***"
 fi
 
-# Execute the ssh command for the bastion session
+# Execute the ssh command for the bastion session.
 eval "$session_command"
 
-# Cleanup 
+# Cleanup.
 cleanup
