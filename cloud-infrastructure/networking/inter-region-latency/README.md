@@ -1,5 +1,11 @@
-# Secure Edge Connectivity Reusable Assets
-Secure Edge Connectivity in Oracle Cloud Infrastructure (OCI). Discover how OCI enables organizations to establish secure and reliable connections between on-premises networks and the cloud, ensuring data integrity and confidentiality. Explore our resources to learn about VPN connectivity, FastConnect, IPSec VPN, Network Firewall and more.
+#  Inter Region Latency
+
+The Inter-Region Latency dashboard in the Console provides the average network round-trip latency (round-trip time or RTT) for all pairs of regions  in an Oracle Cloud Infrastructure realm, the dashboard shows a current snapshot view and lets you view historic snapshots including up to a 30-day history.
+
+The Inter-Region Latency dashboard shows two charts:
+
+    The Current Inter-Region Round-Trip Time is a current snapshot expressed in milliseconds. This snapshot is an average of values over the last five minutes. This view updates every minute.
+    The Inter-Region Round-Trip Time (ms) for the last 30 days is a historical view of the last 30 days
 
 ## When to use this asset?
 These documents can be use as reusable assets on different technologies around OCI regarding Secure Edge Connectivity
@@ -15,12 +21,12 @@ The information is generic in nature and not specified for a particular customer
 3. [Reusable Assets Overview](#reusable-assets-overviewdef)
  
 ## Useful Links
-
+- [Anouncing Inter region latency dashboard](https://blogs.oracle.com/cloud-infrastructure/post/announcing-the-inter-region-latency-dashboard-for-oracle-cloud-infrastructure)
 
 ## Team Publications
 
 ### Reference Architectures & Step-by-step Guides
-- [asdas](ha-dr-patterns/files/HA%26DR%20Patterns%20in%20Network%20connectivity.pdf)
+
 
 ### Blogs
  
