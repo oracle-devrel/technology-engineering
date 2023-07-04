@@ -1,8 +1,8 @@
-# Secure Edge Connectivity Reusable Assets
-Secure Edge Connectivity in Oracle Cloud Infrastructure (OCI). Discover how OCI enables organizations to establish secure and reliable connections between on-premises networks and the cloud, ensuring data integrity and confidentiality. Explore our resources to learn about VPN connectivity, FastConnect, IPSec VPN, Network Firewall and more.
+# Content Delivery Network (CDN)
+Enables customers to deliver digital content to end users from a nearby location in a geographically distributed network. Customers benefit from integrated APIs, console, UCM billing and stronger integrations between OCI Object Storage, Compute and CDN to reduce origin-server-to-CDN egress fees.
 
 ## When to use this asset?
-These documents can be use as reusable assets on different technologies around OCI regarding Secure Edge Connectivity
+These documents can be use as reusable assets on different technologies around OCI regarding CDN
 
 ## How to use this asset?
 The information is generic in nature and not specified for a particular customer. Appropriate changes in scope should be updated.
@@ -15,12 +15,12 @@ The information is generic in nature and not specified for a particular customer
 3. [Reusable Assets Overview](#reusable-assets-overviewdef)
  
 ## Useful Links
-
+- [Oracle CDN Announcement](https://www.oracle.com/uk/news/announcement/oracle-launches-new-flexible-cloud-infrastructure-services-2022-03-15/)
 
 ## Team Publications
 
 ### Reference Architectures & Step-by-step Guides
-- [asdas](ha-dr-patterns/files/HA%26DR%20Patterns%20in%20Network%20connectivity.pdf)
+
 
 ### Blogs
  
