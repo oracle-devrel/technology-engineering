@@ -1,14 +1,14 @@
-# Disaster Recovery and Business Continuity Presentation
+# Forwarding  DNS requests to multiple onprem DNS servers
  
-*Asset Introduction*
+*This asset talks about how we can configurate private DNS to forward requrests to multiple onprem DNS servers*
  
 ## When to use this asset?
  
-*Who would use this asset when?*
+*WBefore implementing Private DNS in a multi DNS deployment*
  
 ## How to use this asset?
  
-*Describe how an asset is used*
+*This is a reference architecture*
  
 # License
  

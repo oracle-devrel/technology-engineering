@@ -1,14 +1,14 @@
-# Disaster Recovery and Business Continuity Presentation
+# Private DNS implementation guide
  
-*Asset Introduction*
- 
+This is an  guide for Private DNS implementation
+
 ## When to use this asset?
  
-*Who would use this asset when?*
+*Use it while implementing Private DNS with Onprem server*
  
 ## How to use this asset?
  
-*Describe how an asset is used*
+*Reference Architecture*
  
 # License
  
