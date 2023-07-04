@@ -23,7 +23,7 @@
 
 | Name         | Email                | Role                     | Company |
 |:-------------|:---------------------|:-------------------------|:--------|
-| Name Surname | name@example.com     | Tech Solution Specialist | example  |
+| Name Surname | name@example.com     | Solution Architect       | example  |
 | Name Surname | name@lexample.com    | Account Cloud Engineer   | example  |
 
 ## Document Purpose
@@ -68,7 +68,7 @@ This is a living document, additional sections will be added as the engagement p
 
 Organizations use on-premises deployments of E-Business Suite (EBS) for a wide range of functionalities, including Financials, Order Management, Procurement, Manufacturing and Logistics. These implementations are often customized to seamlessly integrate with other applications to meet business requirements. So it’s counterproductive to re-architect software from scratch. OCI has the flexibility to support everything Organizations are currently doing with EBS.
 
-Most On-Premises EBS deployments can be migrated to run on Oracle Cloud Infrastructure (OCI) without requiring significant configuration, integration, or business process changes, and result in an implementation that is more flexible, more reliable, higher performance, and lower cost than either On-Premises or other Cloud vendors. Running EBS on Oracle Cloud enables you to:
+Most On-Premises EBS deployments can be migrated to run on OCI without requiring significant configuration, integration, or business process changes, and result in an implementation that is more flexible, more reliable, higher performance, and lower cost than either On-Premises or other Cloud vendors. Running EBS on Oracle Cloud enables you to:
 
 -   Increase business agility
 -   Better manage growth
@@ -99,7 +99,7 @@ Currently Customer's EBS workload is a multi node deployment of EBS release 12.2
 -   Two nodes EBS farm (Deployed to WebLogic Clusters of Managed Servers) hosting web, forms and concurrent managers and
 -   A single external facing node hosting web functionality to support iSupplier portal.
 
-Two client connection routes, internal via a WAN and externally via the internet. Both routes employ https which is terminated on a load-balancer. The internal farm employs a shared application tier home.
+Two client connection routes, internal via a WAN and externally via the internet. Both routes employ https which is terminated on a load-balancer. The internal application cluster employs a shared application tier home.
 
 The reporting elements of the solution are provided using Oracle Business Intelligence Enterprise Edition 'X' together with Oracle Apex 'X' for access to archived legacy data.
 
@@ -139,8 +139,6 @@ In addition to these requirements, the [CIS Oracle Cloud Infrastructure Foundati
 
 Current EBS workload has four environments:
 
-Current EBS workload has four environments:
-
 -   **Production**
     -   EBS Application Version: **12.2**
     -   Oracle Database Version: **19c**
@@ -159,17 +157,22 @@ Current EBS workload has four environments:
     -   Number of Application Node: Single Application Node including Web, Forms and Concurrent Managers Instances
         -   1 Single Instance of EBS is running on DMZ zone, catering for external end-users
     -   Number of Database Node: Single node Oracle Restart
--   **DR**
+-   **Disaster Recovery (DR)**
     -   This is a copy of Production environment which is kept in synch with Production environment using following synchronization methods:
         -   EBS application tier are kept in synch with Production using rsync job scheduled via crontab
 
         -   The EBS database repository is synchronized with DR using Oracle Data Guard Solution
-
-            #### Environment Sizing
+     
+            
+#### Environment Sizing
 
 *Guide:*
 
 *A section describing the Current EBS workload of the Customer: Sizing Details, Current On-Premise BoM*
+
+*Example:*
+
+Partner will capture current EBS workload sizing here.
 
 ### High Availability and Disaster Recovery Requirements
 
@@ -235,11 +238,11 @@ The Customer has both internal and external endpoints of their EBS workload.
 
 **Internal Users:**
 
-Users access EBS using URL https://`<Internal LB URL:port>`. The connection flows via external/internal firewall to the Load Balancer in DMZ. Load Balancer terminates the SSL and passes the request on port 8010 to EBS internal servers 'X', 'Y'. The internal EBS servers communicate with EBS RAC Database on Linux VMs 'A', 'B' using port 1531 and validate the user request.
+Users access EBS using URL https://`<Internal LB URL:port>`. The connection flows via external/internal firewall to the Load Balancer in DMZ. Load Balancer terminates the Secure Socket Layer (SSL) and passes the request on port 8010 to EBS internal servers. The internal EBS servers communicate with EBS RAC Database on Linux VMs using Database listener port 1531 and validate the user request.
 
 **External Users:**
 
-External users access EBS using URL https://`<External LB URL:port>`. The connection flows via external/internal firewall to the Load Balancer in DMZ. Load Balancer terminates the SSL and passes the request on port 8010 to EBS external server 'X'.
+External users access EBS using URL https://`<External LB URL:port>`. The connection flows via external/internal firewall to the Load Balancer in DMZ. Load Balancer terminates the SSL and passes the request on port 8010 to EBS external server.
 
 ### Workload Monitoring Requirements
 
@@ -437,6 +440,8 @@ Abbreviations per resource type are listed below. This list may not be complete.
 | Virtual Machine                    | vm                 | vm-xxxx                                                     |
 
 #### Security and Identity Management
+
+*Guide:*
 
 This chapter covers the Security and Identity Management definitions and resources which will be implemented for Customer.
 
@@ -640,7 +645,7 @@ Deployment architecture for the 'Hub and Spoke Topology' is illustrated below:
 ![Future State Deployment Diagram - EBS Workload Hub and Spoke with Palo Alto Design Diagram](images/HubandSpoke-DeploymentDiagram-V2.pdf){width="90%" height="90%"}
 
 
-Deployment architecture including 'Tenancy - A' and Tenancy - B' are illustrated in the design below:
+Deployment architecture including two tenancy: 'Tenancy - A' and Tenancy - B' are illustrated in the design below:
 
 ![Future State Deployment Diagram - EBS Workload Multiple tenancies with RPC Design Diagram](images/MultiTenancy-DeploymentDiagram-V2.pdf)
 
@@ -656,7 +661,7 @@ Deployment architecture including 'Tenancy - A' and Tenancy - B' are illustrated
 
 *Example:*
 
-Proposed plan is to move EBS Application server (\_12.2) in the compute VM shapes on the latest OS and kernel version (which is supported). On-Premises RAC Database (**19c**) will be migrated to a VM-DB RAC system based on a Multi-tenant Architecture.
+Proposed plan is to move EBS Application server (\_12.2) in the compute VM shapes on the latest OS and kernel version (which is supported). On-Premises RAC Database (**19c**) will be migrated to a VM-DB RAC system based on a multitenant architecture.
 
 Oracle Cloud Infrastructure Web Application Firewall (WAF) helps you make your endpoints more secure by monitoring and filtering out potentially malicious traffic. It is a cloud-based, Payment Card Industry (PCI) compliant, global security service that protects applications from malicious and unwanted internet traffic.
 
@@ -669,6 +674,15 @@ Oracle Cloud Infrastructure Web Application Firewall (WAF) helps you make your e
 *Example:*
 
 Oracle Maximum Availability Architecture (MAA) is Oracle's best practice blueprint based on proven Oracle high availability technologies and recommendations. The goal of MAA is to achieve the optimal high availability architecture at the lowest cost and complexity. Papers are published on the Oracle Technology Network [OTN](http://www.oracle.com/goto/maa).
+To achieve maximum Oracle E-Business Suite database availability, Oracle recommends deploying EBS on an Oracle Database MAA foundation that includes the following technologies:
+    - Oracle Real Application Clusters (RAC)
+    - Oracle Data Guard
+    - Oracle Flashback Database
+    - Oracle Automatic Storage Management
+    - Oracle Recovery Manager and Oracle Secure Backup
+    - Oracle Online Upgrade Using Edition Based Redefinition
+
+Please refer to the following reference paper for detail.
 
 *Reference:*
 
@@ -701,11 +715,11 @@ The objective of the security architecture is to enable you to maintain your sec
 Oracle has designed security into every aspect of our infrastructure to help our customers achieve better protection, isolation and control. We started by taking a unique design approach, separating the network and server environments. This way, if an attack occurs on a VM, we can contain that threat and prevent it from moving to other servers, resulting in better protection and lower risk for customers.
 
 We also hyper-segment our physical network and backend infrastructure for secure isolation between customer instances and backend hosts. Additionally, we’ve implemented hardware-based root of trust, making sure each server is pristine each and every time it is provisioned.
-
+Below diagram shows security posture of EBS in OCI.
 
 ![EBS Network Security](images/EBSNetworkSecurity_V3.pdf)
 
-For each customer’s VCN there is a range of defense in depth protections available spanning across **layers 3-7**.
+For each customer’s VCN there is a range of defense in depth protections available spanning across **layers 3-7**. 
 
 **VCN (1):** A VCN provides isolation for your workload from any other workload on Oracle Cloud Infrastructure, including your other workloads in a different VCN.
 
@@ -739,7 +753,8 @@ __Note:__Please see generic OCI security guidelines in the [Annex](#security-gui
 
 *Example:*
 
-Customer will access EBS workload internally over the OCI backbone and EBS external endpoints will be secured by OCI Web Application Firewall (WAF).
+Customer will access EBS workload internally over the OCI FastConnect connectivity solution and EBS external endpoints will be secured by OCI Web Application Firewall (WAF). FastConnect is a private, dedicated connectivity which improves security, it supports bandwidths from 1Gbps to 10Gbps.
+An alternative option to FastConnect is Virtual Private Network (VPN). VPN could also be a back-up configuration if FastConnect is down.
 
 ### Workload Monitoring 
 
@@ -749,7 +764,12 @@ Customer will access EBS workload internally over the OCI backbone and EBS exter
 
 *Example:*
 
-Customer will use OEM to monitor their EBS workload.
+Customer will use OEM to monitor their EBS workload. Customer can also leverage OCI Stack Monitoring for EBS.
+For detail please check the below blog article specified in reference section.
+
+*Reference:*
+
+[OCI Stack Monitoring for EBS](https://blogs.oracle.com/observability/post/oci-stack-monitoring)
 
 ### Regulations and Compliances
 
@@ -805,9 +825,21 @@ Automation is provided for a selection of deployment and management scenarios. T
 
 ### OCI Networking
 
+*Guide:*
+
+*A section describing OCI networking capabilities and features*
+
+*Example:*
+
+Oracle Cloud Infrastructure (OCI) networking and connectivity products and services enable customers to manage and scale their networks.
+Please refer to the following article for a better understanding of OCI networking capabilities and how it can be leverages for Customer advantage.
+
 *Reference:*
 
-[Oracle’s Networking capabilities](https://www.oracle.com/cloud/networking/)
+- [Oracle’s Networking capabilities](https://www.oracle.com/cloud/networking/)
+- [OCI Networking Best Practices](https://www.ateam-oracle.com/post/oci-networking-best-practices-recommendations-and-tips---part-one---general-oci-networking)
+- [Best practices for hybrid and multicloud OCI networking design](https://docs.oracle.com/en/solutions/oci-best-practices-networking/index.html#GUID-368122DF-8B74-4F38-A55F-23E47E04AEB2)
+
 
 ## Sizing and Bill of Materials
 
@@ -817,7 +849,7 @@ Automation is provided for a selection of deployment and management scenarios. T
 
 *Example:*
 
-OCI sizing of the EBS workload and its integrated Solution components are reflected in the diagram below:
+A sample sizing of the EBS workload is reflected in the diagram below for reference purposes:
 
 ![OCI - Bill of Materials](images/OCI-Sizing-Template-V1.pdf)
 
