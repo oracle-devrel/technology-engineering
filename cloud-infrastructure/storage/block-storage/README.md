@@ -32,16 +32,8 @@ We've designed our storage platform as an ideal complement to Oracle compute and
   - See all Block Storage Blogs from Oracle's Product Management.
 - [Block Storage Release Notes](https://docs.oracle.com/en-us/iaas/releasenotes/services/blockvolume/)
 - [Block Volumes FAQ](https://www.oracle.com/cloud/storage/block-volumes/faq)
-- [Oracle Cloud Infrastructure Service Level Agreement (SLA)](https://www.oracle.com/cloud/sla/)
-  - Enterprises demand more than just availability from their cloud infrastructure. Mission-critical workloads also require consistent performance, and the ability to manage, monitor, and modify resources running in the cloud at any time. Only Oracle offers end-to-end SLAs covering the performance, availability, and manageability of services.
-- [Oracle PaaS and IaaS Public Cloud Services Pillar Document Block Storage](https://www.oracle.com/assets/paas-iaas-pub-cld-srvs-pillar-4021422.pdf#page=28)
-  - Oracle offers end-to-end SLAs covering performance, availability, and manageability. Here you find details regarding Block Storage.
-- [Oracle PaaS and IaaS Universal Credits Service Descriptions - Storage section](https://www.oracle.com/us/corporate/contracts/paas-iaas-universal-credits-3940775.pdf#page=178)
-  - OCI Block Storage Service Description.
-- [Resilience and Continuous Availability of Oracle Cloud Infrastructure Services and Platform FAQ](https://www.oracle.com/cloud/iaas/faq.html)
-  - Resilience and Continuous Availability FAQs.
 - [Oracle Cloud Infrastructure Vault: Block Volume Encryption](https://www.youtube.com/watch?v=3GBPIx4hlRU)
- - This video helps you to encrypt a block volume with the KMS Vault customer-managed encryption key.
+  - This video helps you to encrypt a block volume with the KMS Vault customer-managed encryption key.
 
 ## Reusable Assets Overview
 
