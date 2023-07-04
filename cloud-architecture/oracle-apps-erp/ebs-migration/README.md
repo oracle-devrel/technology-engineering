@@ -1,6 +1,9 @@
 # E-Business Suite Migration
 
-<Product description>
+Hosting critical Oracle applications on-premises can be challenging in terms of Capital Expenditure of on-premises hardware. Additionally, non-standardized infrastructure is susceptible to
+security threats and slow performance. Oracle Cloud Infrastructure (OCI) offers a suite of migration, provisioning, and management tools to expedite their transition to the cloud.
+
+This solution guide provides a starting point for the Partners/Managed Service Providers/Consultants to understand the key technical requirements and existing business challenges that need to be addressed as part of the migration.
   
 # Table of Contents
 
@@ -17,8 +20,11 @@
     - This reference architecture describes how two different Oracle E-Business Suite (EBS) workloads can be managed across tenancies. This use case is prevalent among managed service providers (MSPs) who implement EBS workloads for multiple customers across tenancies.
  
 ## Useful Links
-- Name and Link
-    - Description
+
+- [EBS on OCI Blog Link](https://blogs.oracle.com/ebsandoraclecloud/)
+- [EBS Documentation Link](https://www.oracle.com/technical-resources/documentation/applications-doc.html)
+- [EBS to OCI Manual Migration Documents Available](https://blogs.oracle.com/ebsandoraclecloud/post/ebs-to-oci-manual-migration-documents-available)
+- [Oracle A-team Blog](https://www.ateam-oracle.com/)
 
 # License
 
