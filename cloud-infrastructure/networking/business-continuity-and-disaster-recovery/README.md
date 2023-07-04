@@ -15,50 +15,20 @@ The information is generic in nature and not specified for a particular customer
 3. [Reusable Assets Overview](#reusable-assets-overviewdef)
  
 ## Useful Links
-- [Oracle Cloud Security](https://docs.oracle.com/en-us/iaas/Content/Security/Concepts/security.htm)
-- [OCI Network Firewall Documentation](https://docs.oracle.com/en-us/iaas/Content/network-firewall/home.htm)
-- [OCI Network Firewall Overview](https://docs.oracle.com/en-us/iaas/Content/network-firewall/overview.htm)
-- [OCI Network Firewall LiveLabs workshop](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=3499)
-- [OCI VPN site-to-site Overview](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/overviewIPsec.htm)
-- [OCI VPN site-to-site Documentation](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/managingIPsec.htm)
-- [OCI FastConnect overview](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/fastconnect.htm)
 
 
 ## Team Publications
 
 ### Reference Architectures & Step-by-step Guides
-
-
-- [Use OCI Network Firewall for SSL forward proxy and inbound inspection using Decryption rule](https://docs.oracle.com/en/learn/oci-network-firewall/#introduction)
-    -  Step by step guide to deploy OCI network Firewall for SSL Forwar proxy and inbound inspection with Decryption rules. It does include an introduction on encryption for beginners
-    
-- [Implementation architecture of Network Firewall in Multi VCN deployment](files/Implementation%20guide%20for%20Network%20Firewall%20in%20a%20Multi-VCNs%20deployment.pdf)
-
-
-- [Reference Architecture for LPG to DRGv2 on Fortigate Network FW](files/LPG%20to%20DRG%20V2%2BFortigate%20Reference%20Architecture.jpg)
-    - Reference Architecture for LPG based architecture to DRGv2 on Fortigate Network FW
-
-- [Reference Architecture for LPG to DRGv2 ](files/LPG%20to%20DRG%20V2%20Reference%20Architecture.jpg)
-    - Reference Architecture converting for LPG based architecture to DRGv2 
-
-- [Reference Architecture FC MPLS network to OCI + HA Fortigate ](files/Multi-tenancy%20DR%20architecture%20with%20MPLS%20customers%20and%20Network%20FW.jpg)
-    - Reference Architecture for an MPLS network via FC to OCI, using a Fortigate Next Generation FW in HA
+- [asdas](ha-dr-patterns/files/HA%26DR%20Patterns%20in%20Network%20connectivity.pdf)
 
 ### Blogs
  
-- [Using OCI Network Firewall for SSL Decryption](https://blogs.oracle.com/cloud-infrastructure/post/oci-network-firewall-ssl-decryption)
-    -  Blog describing OCI Network Firewall, focusing on SSL Decryption techniques
+
 
 
 ### Videos & Podcasts
-- [Network Firewall Overview - Oracle Learning Channel](https://www.youtube.com/watch?v=AlwQQQOl5qw)
-    -  Step by step session around OCI Network Firewall with advanced features
-- [OCI Network Firewall Routing Session - Part 1 ](https://www.youtube.com/watch?v=aX3hl-91zRc)
-    -  Step by step guide around routing in Network Firewall, part 1
-- [OCI Network Firewall Routing Session - Part 2 ](https://www.youtube.com/watch?v=zZYZehAnVXw&t=0s)
-    -  Step by step guide around routing in Network Firewall, part 2
-- [Securing your Applications against Cyber Attacks with WAF](https://www.youtube.com/watch?v=t9R90X3PXv0)
-    -  Session about security your applications against Attachs with WAF in OCI 
+
 
 
 # License
