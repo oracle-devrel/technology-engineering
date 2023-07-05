@@ -1,18 +1,12 @@
 # Networking-Competitive-Insights 
 Networking - Competitive Insights in Oracle Cloud Infrastructure (OCI). Gain competitive knowledge by exploring OCI's networking capabilities and discovering how they compare to other cloud providers.
 
-## When to use this asset?
-These documents can be use as reusable assets on different technologies around OCI regarding Networking Competitive Insights context
-
-## How to use this asset?
-The information is generic in nature and not specified for a particular customer. Appropriate changes in scope should be updated.
-
 
 # Table of Contents
  
 1. [Useful Links](#useful-links)
 2. [Team Publications](#team-publications)
-3. [Reusable Assets Overview](#reusable-assets-overviewdef)
+
  
 ## Useful Links
 - [Cloud Economics, OCI vs AWS ](https://www.oracle.com/cloud/economics/)
