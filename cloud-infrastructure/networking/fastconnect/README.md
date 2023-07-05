@@ -18,7 +18,7 @@ Use Case
 - [Fastconnect troubleshooting](https://www.ateam-oracle.com/post/fastconnect-troubleshooting)
 - [OCI Fastconnect integration with COLT](https://blogs.oracle.com/cloud-infrastructure/post/oracle-cloud-infrastructure-fastconnect-integration-with-colt)
 
-## team Publications
+## Team Publications
 
 ### Reference Architectures & Step-by-step Guides
 
