@@ -4,7 +4,7 @@
  
 ## When to use this asset?
  
-*WBefore implementing Private DNS in a multi DNS deployment*
+*Before implementing Private DNS in a multi DNS deployment*
  
 ## How to use this asset?
  
