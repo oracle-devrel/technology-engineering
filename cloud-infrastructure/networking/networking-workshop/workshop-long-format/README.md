@@ -8,7 +8,7 @@ These slides can be used to run a detailed OCI networking workshop
  
 ## How to use this asset?
  
-*To introduce OCI Networking topics to anyone who is new to OCI *
+*To introduce OCI Networking topics to anyone who is new to OCI*
  
 # License
  
