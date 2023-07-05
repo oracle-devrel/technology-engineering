@@ -2,6 +2,7 @@
 
 
 - [Hands On Lab - Integrating Oracle Content Management with OIC for Asset Workflows](OCM_Getting_Started_Workshop_2023.pdf)
+By completing this hands-on lab for integrating Oracle Content Management with Oracle Integration Cloud, you will have the knowledge and practical experience to leverage the seamless integration between these two powerful tools, empowering your organization to optimize content management and drive productivity to new heights.
 - [WORKSHOP - Getting Started with OCM - Product installation and configuration guide](LAB_Setup_OIC_with_OCM_2023.pdf)
 
 
