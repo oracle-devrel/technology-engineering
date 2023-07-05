@@ -1,6 +1,6 @@
 # Oracle Analytics
  
-As Oracle Analytics team, our main objective is to help our customers with comprehensive solutions in the area of Oracle Analytics Platform.
+As the Oracle Analytics team, our main objective is to help our customers with comprehensive solutions in the area of the Oracle Analytics Platform.
 
 Please see further details on Oracle Analytics Platform [HERE](https://www.oracle.com/uk/business-analytics/analytics-platform/capabilities/)
  
