@@ -1,5 +1,5 @@
 # Fast Connect Reusable Assets
-The FastConnect Reusable Asset is a  network connectivity solution offered by Oracle Cloud Infrastructure (OCI). It enables organizations to establish secure, private, and high-bandwidth connections between their on-premises data centers or network environments and OCI's cloud infrastructure.
+The FastConnect  is a  network connectivity solution offered by Oracle Cloud Infrastructure (OCI). It enables organizations to establish secure, private, and high-bandwidth connections between their on-premises data centers or network environments and OCI's cloud infrastructure.
 
 
 # Table of Contents
