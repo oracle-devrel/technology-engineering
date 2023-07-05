@@ -1,11 +1,25 @@
-# Networking
+# Networking Gateways
  
-Oracle Cloud Infrastructure (OCI) networking and connectivity products and services enable customers to manage and scale their networks. Customers can connect securely to a customizable, isolated virtual cloud network (VCN), and take advantage of inexpensive data egress charges. Granular access control of networking technologies provides connectivity solutions across both physical and virtual networks.
+Internet Gateway (IGW) is an optional gateway you can add to your VCN to enable direct connectivity to the internet
 
-# Useful Links (Optional)
+NAT Gateway(NAT) gives to your VCN  instances in a private subnet access to the internet
+
+Dynamic Routing Gateway (DRG)  to connect to customer on-prem DC or other OCI regions
+DRG instances support following attachment types:
+    VCNs
+    Remote Peering Connections
+    Site-to-Site VPN IPSec tunnels
+    Oracle Cloud Infrastructure FastConnect Virtual Circuits
+    
+ Service Gateway (SGW)  lets resources in your VCN privately access specific Oracle services, without exposing the data to an internet gateway or NAT
  
-- [OCI Networking Documentation](https://docs.oracle.com/en-us/iaas/Content/home.htm)
-- [OCI Networking on oracle.com](https://www.oracle.com/cloud/networking/)
+# Useful Links (Optional)
+
+
+- [DRG Video Tutorial](https://www.youtube.com/watch?v=ZXOYkkkQCEI)
+- [IGW Video Tutorial](https://www.youtube.com/watch?v=MtFNdZz20M4)
+- [NAT Video Tutorial](https://www.youtube.com/watch?v=dWEApK7DmdY)
+- [SGW Video Tutorial](https://www.youtube.com/watch?v=ivAxfoMYXlo)
  
 # License
  
