@@ -1,4 +1,4 @@
-# Networking Workshop Asstsa
+# Networking Workshop Assets
 
 We have 2 slides - longer and shorter formats
 
