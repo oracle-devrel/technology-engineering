@@ -1,25 +1,19 @@
 # OCI Load Balancer
 
-The Oracle Cloud Infrastructure Load Balancer LBaaS service provides automated traffic distribution from one entry point to multiple servers reachable from your virtual cloud network (VCN). The service offers a load balancer with your choice of a public or private IP address, and provisioned bandwidth .
+The Oracle Cloud Infrastructure Load Balancer LBaaS service provides automated traffic distribution from one entry point to multiple servers reachable from your virtual cloud network (VCN). The service offers a load balancer with your choice of a public or private IP address and provisioned bandwidth.
 
 The Load Balancer service enables you to create a public or private load balancer within your VCN. A public load balancer has a public IP address that is accessible from the internet. A private load balancer has an IP address from the hosting subnet, which is visible only within your VCN. You can configure multiple listeners  for an IP address to load balance transport Layer 4 and Layer 7 (TCP and HTTP) traffic. Both public and private load balancers act as reverse proxies and can route data traffic to any backend server that is reachable from the VCN.
 
 Network Load Balancer provides automated traffic distribution from one entry point to multiple backend servers in your virtual cloud network (VCN). It operates at the connection level and load balances incoming client connections to healthy backend servers based on Layer 3/Layer 4 (IP protocol) data. The service offers a load balancer with your choice of a regional public or private IP address that is elastically scalable and scales up or down based on client traffic with no bandwidth configuration requirement.
 
-Network Load Balancer provides the benefits of flow high availability, source and destination IP addresses, and port preservation. It is designed to handle volatile traffic patterns and millions of flows, offering high throughput while maintaining ultra low latency. Network load balancers have a default 1 million concurrent connection limit. Network Load Balancer is the ideal load balancing solution for latency sensitive workloads.
-
-## When to use this asset?
-These documents can be use as reusable assets on different technologies around OCI regarding Secure Edge Connectivity
-
-## How to use this asset?
-The information is generic in nature and not specified for a particular customer. Appropriate changes in scope should be updated.
+Network Load Balancer provides the benefits of flow high availability, source and destination IP addresses, and port preservation. It is designed to handle volatile traffic patterns and millions of flows, offering high throughput while maintaining ultra-low latency. Network load balancers have a default 1 million concurrent connection limit. A network Load Balancer is the ideal load-balancing solution for latency-sensitive workloads.
 
 
 # Table of Contents
  
 1. [Useful Links](#useful-links)
 2. [Team Publications](#team-publications)
-3. [Reusable Assets Overview](#reusable-assets-overviewdef)
+
  
 ## Useful Links
 

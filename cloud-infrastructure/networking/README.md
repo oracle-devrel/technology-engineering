@@ -2,12 +2,6 @@
 
 Oracle Cloud Infrastructure (OCI) networking and connectivity products and services enable customers to manage and scale their networks. Customers can connect securely to a customizable, isolated virtual cloud network (VCN), and take advantage of inexpensive data egress charges. Granular access control of networking technologies provides connectivity solutions across both physical and virtual networks.
     
-## When to use this asset?
-These documents can be use as reusable assets on different technologies around OCI Networking
-
-## How to use this asset?
-The information is generic in nature and not specified for a particular customer. Appropriate changes in scope should be updated.
-
 
 # Table of Contents
  

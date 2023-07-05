@@ -1,24 +1,19 @@
 # Network Firewall Assets
-Enterprise customers leverage next generation network firewall solutions to protect on-prem apps against layer 3-7 cyber attacks. It is important for us to provide a similar network security posture to enable those customers adopt and migrate their workloads to OCI.
+Enterprise customers leverage next-generation network firewall solutions to protect on-prem apps against layer 3-7 cyber attacks. It is important for us to provide a similar network security posture to enable those customers to adopt and migrate their workloads to OCI.
 
-OCI's network and application layer security controls currently has the following limitations and customer pain points:
+OCI's network and application layer security controls currently have the following limitations and customer pain points:
 
     Layered Defence
     Advanced Egress Security Controls
     Advanced Network Firewall Features
 
-## When to use this asset?
-These documents can be use as reusable assets on different technologies around OCI Network Firewall
-
-## How to use this asset?
-The information is generic in nature and not specified for a particular customer. Appropriate changes in scope should be updated.
 
 
 # Table of Contents
  
 1. [Useful Links](#useful-links)
 2. [Team Publications](#team-publications)
-3. [Reusable Assets Overview](#reusable-assets-overviewdef)
+
  
 ## Useful Links
 
@@ -33,7 +28,7 @@ The information is generic in nature and not specified for a particular customer
 
 
 - [Use OCI Network Firewall for SSL forward proxy and inbound inspection using Decryption rule](https://docs.oracle.com/en/learn/oci-network-firewall/#introduction)
-    -  Step by step guide to deploy OCI network Firewall for SSL Forwar proxy and inbound inspection with Decryption rules. It does include an introduction on encryption for beginners
+    -  Step-by-step guide to deploy OCI network Firewall for SSL Forward proxy and inbound inspection with Decryption rules. It does include an introduction to encryption for beginners
     
 
 ### Blogs
@@ -44,11 +39,11 @@ The information is generic in nature and not specified for a particular customer
 
 ### Videos & Podcasts
 - [Network Firewall Overview - Oracle Learning Channel](https://www.youtube.com/watch?v=AlwQQQOl5qw)
-    -  Step by step session around OCI Network Firewall with advanced features
+    -  Step-by-step session around OCI Network Firewall with advanced features
 - [OCI Network Firewall Routing Session - Part 1 ](https://www.youtube.com/watch?v=aX3hl-91zRc)
-    -  Step by step guide around routing in Network Firewall, part 1
+    -  Step-by-step guide around routing in Network Firewall, part 1
 - [OCI Network Firewall Routing Session - Part 2 ](https://www.youtube.com/watch?v=zZYZehAnVXw&t=0s)
-    -  Step by step guide around routing in Network Firewall, part 2
+    -  Step-by-step guide around routing in Network Firewall, part 2
 
 
 

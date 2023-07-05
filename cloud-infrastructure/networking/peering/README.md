@@ -2,14 +2,7 @@
 
 Local VCN peering: is the process of connecting two VCNs in the same region so that their resources can communicate using private IP addresses without routing the traffic over the internet or through your on-premises network this process is achieved via LPG Gateways
 
-Remote VCN peering is the process of connecting two VCNs in different regions (but the same tenancy ). The peering allows the VCNs' resources to communicate using private IP addresses without routing the traffic over the internet or through your on-premises network, RPC requires 2 DRG instances (one for each region see pic below), customer can also use RPC  to peer different tenants in the same region peering the DRGs.
-
-
-## When to use this asset?
-These documents can be use as reusable assets on different technologies around OCI regarding Secure Edge Connectivity
-
-## How to use this asset?
-The information is generic in nature and not specified for a particular customer. Appropriate changes in scope should be updated.
+Remote VCN peering is the process of connecting two VCNs in different regions (but with the same tenancy ). The peering allows the VCNs' resources to communicate using private IP addresses without routing the traffic over the internet or through your on-premises network. RPC requires 2 DRG instances (one for each region see pic below). The customer can also use RPC  to peer different tenants in the same region peering the DRGs.
 
 
 # Table of Contents
@@ -30,11 +23,7 @@ The information is generic in nature and not specified for a particular customer
 ### Blogs
  
 
-
-
 ### Videos & Podcasts
-
-
 
 # License
 
