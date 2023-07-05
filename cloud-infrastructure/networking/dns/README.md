@@ -4,9 +4,7 @@ The Domain Name System (DNS) is a distributed internet system that maps human-re
 
 The Oracle Cloud Infrastructure Domain Name System (DNS) service lets you create and manage your DNS zones. You can create zones, add records to zones, and allow Oracle Cloud Infrastructure's edge network to handle your domain's DNS queries. 
 
-We do have three mayor componets around DNS: Private DNS , Public DNS , Traffic Management
-
-
+We do have three major components around DNS: Private DNS, Public DNS, and Traffic Management.
 
 # Table of Contents
  
@@ -18,7 +16,7 @@ We do have three mayor componets around DNS: Private DNS , Public DNS , Traffic 
 
 - [Private DNS Implementation](https://www.ateam-oracle.com/post/private-dns-implementation)
 - [Private DNS common Scenarios](https://www.ateam-oracle.com/post/oci-private-dns---common-scenarios)
-- [Hands on Training](https://oracle.github.io/learning-library/oci-library/oci-hol/oci-private-dns/workshops/freetier/?lab=intro)
+- [Hands-on Training](https://oracle.github.io/learning-library/oci-library/oci-hol/oci-private-dns/workshops/freetier/?lab=intro)
 - [OCI DNS Documentation](https://www.oracle.com/cloud/networking/dns/)
 
 ## Team Publications
