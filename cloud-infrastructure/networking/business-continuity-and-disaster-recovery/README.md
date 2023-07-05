@@ -1,6 +1,6 @@
 # Business Continuity and Disaster Recovery Assets
 
-These assets help you understand varioud HA and DR architectures
+These assets help you understand various HA and DR cloud architectures
 
 ## When to use this asset?
 These documents can be use as reusable assets on different technologies around HA and DR Networking Architectures
