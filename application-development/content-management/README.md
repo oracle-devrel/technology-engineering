@@ -41,8 +41,35 @@ Oracle's on-premise content management offering is Oracle WebCenter which is the
 
 # WebCenter
 
-- Useful Links
-- Reusable Assets
+Oracle WebCenter is the center of engagement for business powering exceptional experiences for customers, partners, and employees. It connects people, processes, and information with the most complete portfolio of portal, content management, Web experience management, and collaboration technologies.
+
+### The Center of Engagement for Business
+
+- Three pillars working together Sites, Portal, and Content
+- Mobile experience across devices including smartphones, tablets, and laptops
+- Transforming Organizations to Social Business Improve Business Agility, Increase Customer Loyalty, Enhance User Productivity, Seamless Access to the Right Information
+- Connecting People and Information Desktop/Mobile/Tablet, Search, Gadgets, Application Integration
+
+WebCenter Content
+
+- Users share information efficiently on their choice of device and in process-centric business applications. Complete content lifecycle management in the most scalable and comprehensive enterprise content management system.
+
+WebCenter Portal
+
+- Users create intuitive portals, composite applications and mash-ups with integrated application content for web & mobile.
+
+WebCenter Sites
+
+- Marketers engage, guide, and convert customers with media rich online experience for web & mobile.
+
+## Useful Links
+
+- [WebCenter Content Documentation](https://docs.oracle.com/en/middleware/webcenter/content/12.2.1.4/index.html)
+- [WebCenter Portal Documentation](https://docs.oracle.com/en/middleware/webcenter/portal/12.2.1.4/)
+- [WebCenter Sites Documentation](https://docs.oracle.com/en/middleware/webcenter/sites/12.2.1.4/)
+- [OTN Oracle WebCenter](https://www.oracle.com/middleware/technologies/webcenter.html)
+
+## Reusable Assets
 
 # License
 
