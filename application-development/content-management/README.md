@@ -71,6 +71,8 @@ WebCenter Sites
 
 ## Reusable Assets
 
+- [Implementing Oracle WebCenter in Amazon Web Services (AWS)](https://blogs.perficient.com/2014/09/25/implementing-oracle-webcenter-in-amazon-web-services-aws/)
+
 # License
 
 Copyright (c) 2023 Oracle and/or its affiliates.
