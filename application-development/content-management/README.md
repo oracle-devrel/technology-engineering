@@ -56,11 +56,11 @@ WebCenter Content
 
 WebCenter Portal
 
-- Users create intuitive portals, composite applications and mash-ups with integrated application content for web & mobile.
+- Users create intuitive portals, composite applications, and mash-ups with integrated application content for web & mobile.
 
 WebCenter Sites
 
-- Marketers engage, guide, and convert customers with media rich online experience for web & mobile.
+- Marketers engage, guide, and convert customers with media-rich online experience for web & mobile.
 
 ## Useful Links
 
