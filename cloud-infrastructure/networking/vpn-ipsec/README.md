@@ -9,12 +9,6 @@ Flexible Configuration: Configure the VPN IPSec tunnels to meet your specific ne
 
 Site-to-Site Connectivity: Establish a site-to-site VPN connection, allowing seamless and secure communication between your on-premises network and your virtual cloud network (VCN) in OCI. This enables you to extend your on-premises network to OCI, facilitating hybrid cloud architectures.
 
-## When to use this asset?
-These documents can be use as reusable assets on different technologies around OCI VPN IPSEC
-
-## How to use this asset?
-The information is generic in nature and not specified for a particular customer. Appropriate changes in scope should be updated.
-
 
 # Table of Contents
  
