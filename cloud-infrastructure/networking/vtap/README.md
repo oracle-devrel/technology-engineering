@@ -1,8 +1,19 @@
-# Secure Edge Connectivity Reusable Assets
-Secure Edge Connectivity in Oracle Cloud Infrastructure (OCI). Discover how OCI enables organizations to establish secure and reliable connections between on-premises networks and the cloud, ensuring data integrity and confidentiality. Explore our resources to learn about VPN connectivity, FastConnect, IPSec VPN, Network Firewall and more.
+#  Virtual Test Access Points (VTAP) 
 
+A Virtual Test Access Point (VTAP) provides a way to mirror traffic from a designated source to a selected target to facilitate troubleshooting, security analysis, and data monitoring. The VTAP uses a capture filter, which contains a set of rules governing what traffic a VTAP mirrors. A VTAP is STOPPED by default at creation, so you need to click the Start VTAP before it mirrors traffic as intended.
+
+You can create a capture filter while you create a VTAP, or assign an existing capture filter to a new VTAP
+
+VTAP sources can be:
+
+    A single compute instance VNIC in a subnet
+    A Load Balancer
+    A Database system
+    An Exadata VM Cluster
+    An Autonomous Database for Analytics and Data Warehousing instance using a private endpoint
+    
 ## When to use this asset?
-These documents can be use as reusable assets on different technologies around OCI regarding Secure Edge Connectivity
+These documents can be use as reusable assets on different technologies around OVTAP
 
 ## How to use this asset?
 The information is generic in nature and not specified for a particular customer. Appropriate changes in scope should be updated.
@@ -16,20 +27,22 @@ The information is generic in nature and not specified for a particular customer
  
 ## Useful Links
 
+- [VTAP Introduction and Setup](https://blogs.oracle.com/cloud-infrastructure/post/announcing-vtap-for-oracle-cloud-infrastructure)
+- [Exploring traffic Mirroring with VTAP](https://blogs.oracle.com/cloud-infrastructure/post/explore-traffic-mirroring-vtap-functionality-with-network-and-monitoring-partners-on-oci)
+- [Troubleshoot network issues with vTAP and Wireshark](https://docs.oracle.com/en/solutions/oci-network-vtap-wireshark/index.htm)
 
 ## Team Publications
 
 ### Reference Architectures & Step-by-step Guides
-- [asdas](ha-dr-patterns/files/HA%26DR%20Patterns%20in%20Network%20connectivity.pdf)
+
 
 ### Blogs
  
 
 
-
 ### Videos & Podcasts
 
-
+- [How to monitor and inspect your Network Traffic flow](https://www.youtube.com/watch?v=f29iNJ1paMU)
 
 # License
 

@@ -1,19 +1,9 @@
-#  Virtual Test Access Points (VTAP) 
+#  Cloud Networking
 
-A Virtual Test Access Point (VTAP) provides a way to mirror traffic from a designated source to a selected target to facilitate troubleshooting, security analysis, and data monitoring. The VTAP uses a capture filter, which contains a set of rules governing what traffic a VTAP mirrors. A VTAP is STOPPED by default at creation, so you need to click the Start VTAP before it mirrors traffic as intended.
-
-You can create a capture filter while you create a VTAP, or assign an existing capture filter to a new VTAP
-
-VTAP sources can be:
-
-    A single compute instance VNIC in a subnet
-    A Load Balancer
-    A Database system
-    An Exadata VM Cluster
-    An Autonomous Database for Analytics and Data Warehousing instance using a private endpoint
+Oracle Cloud Infrastructure (OCI) networking and connectivity products and services enable customers to manage and scale their networks. Customers can connect securely to a customizable, isolated virtual cloud network (VCN), and take advantage of inexpensive data egress charges. Granular access control of networking technologies provides connectivity solutions across both physical and virtual networks.
     
 ## When to use this asset?
-These documents can be use as reusable assets on different technologies around OVTAP
+These documents can be use as reusable assets on different technologies around OCI Networking
 
 ## How to use this asset?
 The information is generic in nature and not specified for a particular customer. Appropriate changes in scope should be updated.
@@ -27,9 +17,8 @@ The information is generic in nature and not specified for a particular customer
  
 ## Useful Links
 
-- [VTAP Introduction and Setuo](https://blogs.oracle.com/cloud-infrastructure/post/announcing-vtap-for-oracle-cloud-infrastructure)
-- [Exploring traffic Mirroring with VTAP](https://blogs.oracle.com/cloud-infrastructure/post/explore-traffic-mirroring-vtap-functionality-with-network-and-monitoring-partners-on-oci)
-- [Troubleshoot network issues with vTAP and Wireshark](https://docs.oracle.com/en/solutions/oci-network-vtap-wireshark/index.htm)
+- [OCI Networking](https://www.oracle.com/cloud/networking/)
+
 
 ## Team Publications
 
@@ -42,7 +31,7 @@ The information is generic in nature and not specified for a particular customer
 
 ### Videos & Podcasts
 
-- [How to monitor and inspect your Network Traffic flow](https://www.youtube.com/watch?v=f29iNJ1paMU)
+
 
 # License
 
