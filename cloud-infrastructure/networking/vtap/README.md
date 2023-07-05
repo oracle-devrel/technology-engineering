@@ -17,7 +17,6 @@ VTAP sources can be:
 1. [Useful Links](#useful-links)
 2. [Team Publications](#team-publications)
 
- 
 ## Useful Links
 
 - [VTAP Introduction and Setup](https://blogs.oracle.com/cloud-infrastructure/post/announcing-vtap-for-oracle-cloud-infrastructure)
