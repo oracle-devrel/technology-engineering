@@ -1,0 +1,180 @@
+################################################################################
+#Copyright (c) 2023 Oracle and/or its affiliates.
+# 
+#The Universal Permissive License (UPL), Version 1.0
+# 
+#Subject to the condition set forth below, permission is hereby granted to any
+#person obtaining a copy of this software, associated documentation and/or data
+#(collectively the "Software"), free of charge and under any and all copyright
+#rights in the Software, and any and all patent rights owned or freely
+#licensable by each licensor hereunder covering either (i) the unmodified
+#Software as contributed to or provided by such licensor, or (ii) the Larger
+#Works (as defined below), to deal in both
+# 
+#(a) the Software, and
+#(b) any piece of software and/or hardware listed in the lrgrwrks.txt file if
+#one is included with the Software (each a "Larger Work" to which the Software
+#is contributed by such licensors),
+ 
+#without restriction, including without limitation the rights to copy, create
+#derivative works of, display, perform, and distribute the Software and make,
+#use, sell, offer for sale, import, export, have made, and have sold the
+#Software and the Larger Work(s), and to sublicense the foregoing rights on
+#either these or other terms.
+ 
+#This license is subject to the following condition:
+#The above copyright notice and either this complete permission notice or at
+#a minimum a reference to the UPL must be included in all copies or
+#substantial portions of the Software.
+ 
+#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+#IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+#FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+#AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+#LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+#OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+#SOFTWARE.
+################################################################################
+
+title: "Automate loading Data Safe DB Audit log data to OCI logging using a serverless application"
+stackDescription: "Automate loading Data Safe DB Audit log data to OCI logging using a serverless application."
+schemaVersion: 1.1.0
+version: "20230622"
+locale: "en"
+
+variableGroups:
+- title: General Configuration
+  visible: false
+  variables:
+  - tenancy_ocid
+  - region
+  - release
+  - ocir_repo_name
+  - compartment_ocid
+  - dashboard_files
+
+
+- title: Collection Details (function, network, and object storage)
+  visible: true  
+  variables:
+  - ocir_user_name
+  - ocir_user_password
+  - deployment_name
+  - create_network
+  - show_advanced_collection
+
+
+- title: Select	Network Subnet
+  visible:
+      not:
+        - create_network
+  variables:
+  - subnet_ocid
+
+- title: Network Setup
+  visible:
+      and:
+        - create_network
+        - show_advanced_collection
+  variables:
+  - VCN-CIDR
+  - fnsubnet-CIDR
+
+- title: Optional Collection Details
+  visible:
+      and:
+        - show_advanced_collection
+  variables:
+  - tracker-bucket
+  - test
+  - setup_policies
+
+
+variables:
+  
+  setup_policies:
+    type: boolean
+    title: "Setup Policies for Function?"
+    description: "Uncheck only if policies has already been set for functions in this compartment."
+    visible: true
+    default: true
+
+  create_network:
+    type: boolean
+    title: "Create Network"
+    description: "Uncheck only if you already have a private subnet with security policies."
+    visible: true
+    default: true
+
+  compartment_ocid:
+    type: oci:identity:compartment:id
+    required: true
+    visibile: true
+    title: "Compartment"
+    description: "Choose compartment where you want to create the solution resources."
+
+  region:
+    type: oci:identity:region:name
+    required: true
+    visibile: true
+    title: "Region"
+    description: "Choose region where you want to deploy the resources defined by this stack."
+
+  subnet_ocid:
+    type: oci:core:subnet:id
+    required:
+         not:
+          create_network
+    visibile:
+         not:
+          create_network
+    title: "Subnet"
+    description: "Select an existing subnet for creating resources."
+    dependsOn:
+      compartmentId: ${compartment_ocid}
+
+  ocir_user_name:
+    type: string
+    required: true
+    visibile: true
+    title: "OCIR username"
+    description: "Oracle Cloud Infrastructure Registry username (your OCI username)." 
+
+  ocir_user_password:
+    type: password
+    required: true
+    visibile: true
+    title: "OCIR user password"
+    description: "Oracle Cloud Infrastructure Registry user password (your OCI user authtoken)." 
+  
+  deployment_name:
+    type: string
+    required: true
+    visibile: true
+    title: "Deployement Mode"
+    description: "Function Deployment Mod (Prod, Test, Dev)" 
+
+  # Optional Configuration
+
+  VCN-CIDR:
+    type: string
+    required: false
+    default: "10.0.0.0/16"
+    pattern: "^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9]).(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9]).(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9]).(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\/(3[0-2]|[1-2]?[0-9])$"
+    title: "VCN CIDR"
+    description: "Choose VCN's CIDR block where Fn App will be deployed."
+
+  fnsubnet-CIDR:
+    type: string
+    required: false
+    default: "10.0.2.0/24"
+    pattern: "^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9]).(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9]).(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9]).(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\/(3[0-2]|[1-2]?[0-9])$"
+    title: "Subnet CIDR"
+    description: "Choose Private Subnet's CIDR where Fn App will be deployed."  
+
+  tracker-bucket:
+    type: string
+    required: false
+    default: "datasafe-to-ocilogging-collector-bucket"
+    title: "Tracker Bucket Name"
+    description: "Choose Bucket Name for storing tracker file."
