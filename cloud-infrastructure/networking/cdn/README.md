@@ -1,7 +1,6 @@
 # Content Delivery Network (CDN)
-Enables customers to deliver digital content to end users from a nearby location in a geographically distributed network. Customers benefit from integrated APIs, console, UCM billing and stronger integrations between OCI Object Storage, Compute and CDN to reduce origin-server-to-CDN egress fees.
 
-
+Enables customers to deliver digital content to end users from a nearby location in a geographically distributed network. Customers benefit from integrated APIs, console, UCM billing, and stronger integrations between OCI Object Storage, Compute, and CDN to reduce origin-server-to-CDN egress fees.
 
 # Table of Contents
  
