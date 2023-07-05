@@ -1,6 +1,6 @@
-# Modernized Architecture asset
+# Modernized Architecture for internet facing workloads
  
-Reference architecture for your modernized architecture in OCI
+Modernized network Architecture Asset provides a solution where you will be able to achieve N-S traffic inspection for your Internet published App via OCI Network Firewall, protect your application using OCI WAFv2, load balance the traffic using LBaaS
  
 ## When to use this asset?
  
