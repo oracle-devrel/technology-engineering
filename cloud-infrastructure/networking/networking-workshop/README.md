@@ -1,19 +1,42 @@
-# Networking Workshop
- 
-These slides can be used to run a short Networking Workshop .
- 
+# Networking Workshop Asstsa
+
+We have 2 slides - longer and shorter formats
+
 ## When to use this asset?
- 
-*OCI Onboarding Workshop*
- 
+These documents can be use as reusable assets on different technologies around OCI Networking workshops
+
 ## How to use this asset?
+The information is generic in nature and not specified for a particular customer. Appropriate changes in scope should be updated.
+
+
+# Table of Contents
  
-*To introduce OCI Networking topics to anyone who is new to OCI *
+1. [Useful Links](#useful-links)
+2. [Team Publications](#team-publications)
+3. [Reusable Assets Overview](#reusable-assets-overviewdef)
  
+## Useful Links
+
+
+
+
+
+## Team Publications
+
+
+ 
+### Blogs
+ 
+
+
+### Videos & Podcasts
+
+
+
 # License
- 
+
 Copyright (c) 2023 Oracle and/or its affiliates.
- 
+
 Licensed under the Universal Permissive License (UPL), Version 1.0.
- 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+
+See LICENSE for more details.
