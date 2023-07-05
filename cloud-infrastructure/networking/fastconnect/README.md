@@ -16,6 +16,7 @@ Use Case
 ## Useful Links
 - [OCI Fastconnect Partners](https://www.oracle.com/it/cloud/networking/fastconnect/providers/)
 - [Fastconnect troubleshooting](https://www.ateam-oracle.com/post/fastconnect-troubleshooting)
+- [OCI Fastconnect integration with COLT](https://blogs.oracle.com/cloud-infrastructure/post/oracle-cloud-infrastructure-fastconnect-integration-with-colt)
 
 ## team Publications
 
