@@ -2,31 +2,19 @@
 
 These assets help you understand various HA and DR cloud architectures
 
-## When to use this asset?
-These documents can be use as reusable assets on different technologies around HA and DR Networking Architectures
-
-## How to use this asset?
-The information is generic in nature and not specified for a particular customer. Appropriate changes in scope should be updated.
-
 
 # Table of Contents
  
 1. [Useful Links](#useful-links)
 2. [Team Publications](#team-publications)
-3. [Reusable Assets Overview](#reusable-assets-overviewdef)
+
  
 ## Useful Links
-
-
-
 
 ## Team Publications
 
 ### Reference Architectures & Step-by-step Guides
 
-
-
-    
 
 ### Blogs
  
