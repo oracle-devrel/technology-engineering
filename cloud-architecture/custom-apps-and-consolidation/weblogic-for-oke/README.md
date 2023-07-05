@@ -5,9 +5,9 @@ The content in this folder is about the [WebLogic for Oracle Engine for Kubernet
 
 ## Which kind of assets are we making available?
 
-In this location we will we will collect:
+In this location we are making available:
 
-- Architecture Examples 
+- Architecture examples 
 - Reusable assets, as questionnaires, sizing tools, diagrams examples
 - Best practices and guidelines
 - Technical Briefs 
