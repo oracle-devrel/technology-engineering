@@ -5,18 +5,12 @@ The Network Visualizer provides a diagram of the implemented topology of all VCN
 - Subnet Topology: You can see the the resource information about the instances, load balancer, FSS, OKE clusters in the subnet
 - Generate a .pdf with all components details and diagrams
 
-## When to use this asset?
-These documents can be use as reusable assets on different technologies around OCI Network
-
-## How to use this asset?
-The information is generic in nature and not specified for a particular customer. Appropriate changes in scope should be updated.
-
 
 # Table of Contents
  
 1. [Useful Links](#useful-links)
 2. [Team Publications](#team-publications)
-3. [Reusable Assets Overview](/cloud-infrastructure/networking/vpn-ipsec/vpn-overview/README.md)
+
  
 ## Useful Links
 
