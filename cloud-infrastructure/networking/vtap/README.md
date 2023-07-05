@@ -12,18 +12,11 @@ VTAP sources can be:
     An Exadata VM Cluster
     An Autonomous Database for Analytics and Data Warehousing instance using a private endpoint
     
-## When to use this asset?
-These documents can be use as reusable assets on different technologies around OVTAP
-
-## How to use this asset?
-The information is generic in nature and not specified for a particular customer. Appropriate changes in scope should be updated.
-
-
 # Table of Contents
  
 1. [Useful Links](#useful-links)
 2. [Team Publications](#team-publications)
-3. [Reusable Assets Overview](#reusable-assets-overviewdef)
+
  
 ## Useful Links
 
@@ -35,11 +28,8 @@ The information is generic in nature and not specified for a particular customer
 
 ### Reference Architectures & Step-by-step Guides
 
-
 ### Blogs
  
-
-
 ### Videos & Podcasts
 
 - [How to monitor and inspect your Network Traffic flow](https://www.youtube.com/watch?v=f29iNJ1paMU)
