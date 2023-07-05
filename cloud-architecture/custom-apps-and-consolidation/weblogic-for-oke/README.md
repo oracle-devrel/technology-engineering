@@ -14,20 +14,23 @@ In this location we are making available:
 
 ## How to use these asset?
 
-This content has been shared with the goal of facilitate the adoption of Oracle technology and Oracle Cloud Infrastructure as cloud platform.
-The examples given are to be consider as starting point to develop and build a custom specific architecture that will cover the requirements
+This content has been shared with the goal of facilitate the adoption of Oracle technology and Oracle Cloud Infrastructure as a Cloud Platform.
+The examples collected here are to be consider as a starting point to develop and build a custom specific architecture that will cover the requirements
 peculiar to the workload. As for the various topics addressed we don't expect to cover all aspects but want to present some interesting point of
 view or specific deployment examples. The reusable assets are updatable artifacts (drawio diagrams, questionnaires, sizing tools, scripts, etc..)
-meant to be used as _template_ 
+meant to be used, again, as _templates_ so we expect that readers will use them to build a customized solution that meets the specific requirements
+of their projects.
 
-## Content List 
+## Content List  
 
 Following is the content currently available:
 
-1. WebLogic for OKE, _ACME_ Architecture: a simple example of a WebLogic workload architecture built in OCI and leveraging the OKE deployment of WebLogic. Included, as reusable asset, there are the Drawio diagrams of the architecture. 
+1. WebLogic for OKE, _ACME_ Architecture: a simple example of a WebLogic workload architecture built in OCI and leveraging the OKE deployment of WebLogic. Included, as reusable asset, there are the Drawio 
+diagrams of the architecture. 
 
 
 ## License
+
 Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
