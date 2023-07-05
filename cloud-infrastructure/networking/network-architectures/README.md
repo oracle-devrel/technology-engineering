@@ -1,9 +1,9 @@
-# Modernized Network Architectures Assets
-Modernized network Architecture Asset provides a solution where you will be able to achieve N-S traffic inspection for your Internet published App via OCI
-Network Firewall, protect your application using OCI WAFv2, load balance the traffic using LBaaS
+# Network Architectures
+
+This collection will hold various network architectures for different types of workloads
 
 ## When to use this asset?
-These documents can be use as reusable assets on different technologies around OCI new and modernized architectures
+These documents can be use as reusable assets on different technologies around OCI network architectures
 
 ## How to use this asset?
 The information is generic in nature and not specified for a particular customer. Appropriate changes in scope should be updated.
@@ -13,7 +13,7 @@ The information is generic in nature and not specified for a particular customer
  
 1. [Useful Links](#useful-links)
 2. [Team Publications](#team-publications)
-3. [Reusable Assets Overview](/cloud-infrastructure/networking/vpn-ipsec/vpn-overview/README.md)
+3. [Reusable Assets Overview](#)
  
 ## Useful Links
 
