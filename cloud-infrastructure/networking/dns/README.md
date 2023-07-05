@@ -6,18 +6,13 @@ The Oracle Cloud Infrastructure Domain Name System (DNS) service lets you create
 
 We do have three mayor componets around DNS: Private DNS , Public DNS , Traffic Management
 
-## When to use this asset?
-These documents can be use as reusable assets on different technologies around OCI DNS
-
-## How to use this asset?
-The information is generic in nature and not specified for a particular customer. Appropriate changes in scope should be updated.
 
 
 # Table of Contents
  
 1. [Useful Links](#useful-links)
 2. [Team Publications](#team-publications)
-3. [Reusable Assets Overview](#reusable-assets-overviewdef)
+
  
 ## Useful Links
 
