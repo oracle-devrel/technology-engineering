@@ -1,6 +1,6 @@
 # Custom Applications and Consolidation 
 
-This Architecture Group is focused on helping customers migrate on-premises applications written in Java with WebLogic middleware (WLS) to Oracle Cloud or applications using non-weblogic application servers like Wildfly, Apache, etc. Besides Lift and Shift of Custom Applications we can add more value to your choice with a migration & modernisation pathway to Cloud Native & Oracle Cloud. You can mix traditional Java and Cloud Native architectures on Oracle OCI with supported deployments of Weblogic on VMs and/or OKE (Oracle Kubernetes Engine). 
+This Architecture Group is focused on helping customers migrate on-premises applications written in Java with WebLogic middleware (WLS) to Oracle Cloud or applications using non-Weblogic application servers like Wildfly, Apache, etc. Besides Lift and Shift of Custom Applications, we can add more value to your choice with a migration & modernization pathway to Cloud Native & Oracle Cloud. You can mix traditional Java and Cloud Native architectures on Oracle OCI with supported deployments of Weblogic on VMs and/or OKE (Oracle Kubernetes Engine). 
 
 # Database Consolidation 
 
