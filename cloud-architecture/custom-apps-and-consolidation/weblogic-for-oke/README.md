@@ -3,9 +3,7 @@
 The content in this folder is about the [WebLogic for Oracle Engine for Kubernetes (OKE)](https://docs.oracle.com/en/cloud/paas/weblogic-container/index.html) deployment.
 
 
-## Which kind of assets are we making available?
-
-In this location we are making  available:
+## Assets made available include the following
 
 - Architecture examples 
 - Reusable assets, such as questionnaires, sizing tools, diagrams examples
