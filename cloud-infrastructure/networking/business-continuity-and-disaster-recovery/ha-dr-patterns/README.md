@@ -8,7 +8,7 @@ Use this asset to understand various HA and DR Patterns
  
 ## How to use this asset?
  
-*Refer as a reference architecture for varuous HA/DR network designs*
+*Use it as a reference architecture for varuous HA/DR network designs*
  
 # License
  
