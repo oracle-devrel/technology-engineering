@@ -137,7 +137,9 @@ The solution provided must address the following security requirements expressed
 
 The future state architecture for ACME \<Application Name\> database environment after a migration from on-premises to OCI is composed of the following:
 
-![OCI Logical Architecture](images/oracle-database-migration-to-base-database-service-an-example-migration-LogicalArchitecture.png)
+<figure>
+    <img src="images/oracle-database-migration-to-base-database-service-an-example-migration-LogicalArchitecture.png" title="OCI Logical Architecture"/>
+</figure>
 
 - End users will connect to the \<Application Name\> application through the Load Balancer (1). Internal users will access through VPN/Fastconnect. For external users accessing the application over the Internet, the traffic will be inspected by a Web Application Firewall (2).
 - The Load Balancer will act as a reverse proxy and will distribute the application traffic across several application servers (3).
