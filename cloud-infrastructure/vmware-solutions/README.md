@@ -1,6 +1,6 @@
 # VMware Solutions
 
-This area focuses on Oracle Cloud VMware Solution, Secure Desktops & CLoud migrations.
+This area focuses on Oracle Cloud VMware Solution, Oracle Cloud Migrations & Oracle Secure Desktops.
 
 # License
 
