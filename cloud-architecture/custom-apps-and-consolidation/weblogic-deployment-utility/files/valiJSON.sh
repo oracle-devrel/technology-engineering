@@ -18,5 +18,5 @@ if [ $? -eq 0 ]; then
 fi
 echo "Resultant JSON as follows"
 cat input.json
-echo -e "\n\nPlease validate JSON here if you want https://jsonlint.com/"
+
 
