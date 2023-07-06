@@ -13,7 +13,7 @@ This document can be used as a first introduction to network Visualizer
  
 ## Useful Links (Optional)
 
-- [Network Visualizer Overview ](files/netvisual.pptx)
+- [Network Visualizer Overview ](files/netvisual.pdf)
 
  
 # License
