@@ -1,9 +1,12 @@
 # OCI-BackupInspector
 
-**BackupInspector** generates a comprehensive CSV reports that assess compute backups status for boot and block volumes.
+**BackupInspector** generates comprehensive CSV reports that assess compute backups status for boot and block volumes.
 
+## When to use this asset?
+ 
+## How to use this asset?
 
-# Features 
+### Features 
 - **BackupInspector** :
 	- searches for compute instances
 	- retrieves all attached volumes
@@ -11,7 +14,7 @@
 	- analyzes unattached volumes
 	- retrieves volume groups information
 	- generates csv report
-	- stores csv report locally or in an oci bucket 
+	- stores csv report locally or in an OCI bucket 
 
 
 - **Parameters for execution:**
@@ -33,27 +36,25 @@ Default authentication uses [Instance Principals](https://docs.public.oneportal.
 | -rg           | region_name       | scan only a specific region, default: scan all subscribed regions    | 
 | -h            | --help            | show this help message and exit                                      | 
 
-
-# How to use
-##### Default - No argument:
+#### Default - No argument:
 	
 	python3 ./OCI-BackupInspector.py
 
 without arguments **OCI-BackupInspector** tries to authenticate using Instance Principals
 
-##### Authenticate with local_config_file:
+#### Authenticate with local_config_file:
 	
 	python3 ./OCI-BackupInspector.py -cf
 
-##### Authenticate with custom local_config_file & profile:
+#### Authenticate with custom local_config_file & profile:
 	
 	python3 ./OCI-BackupInspector.py -cf -cfp /home/opc/myconfig -cp MyDomain
 
-##### Authenticate in cloud_shell:
+#### Authenticate in cloud_shell:
 	
 	python3 ./OCI-BackupInspector.py -cs
 
-##### custom parameters examples:
+#### custom parameters examples:
 	
 	python3 ./OCI-BackupInspector.py -cf -rg eu-paris-1 -tlc ocid1.compartment.oc1..aaaaaaaaurxxxx -b data_bucket -rn backups_of_my_instances
 
