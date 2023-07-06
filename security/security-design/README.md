@@ -32,6 +32,7 @@
 
 - [Bastion Session Script](bastion-session-script/README.md)
 - [OCI Security Health Check Standard](oci-security-health-check-standard/README.md)
+- [Cloud Guard Recommendations and Tips](cloud-guard-recommendations-and-tips/README.md)
 
       
 ## Useful Links
