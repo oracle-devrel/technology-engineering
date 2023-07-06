@@ -16,7 +16,7 @@ From OCI Logging Data Safe DB Audit Logs, can be send to OCI Logging Analytics, 
 
 - Create and/or Check IAM Policies to permit Oracle Cloud Infrastructure Registry username to push function image in OCI Registry. See [Policies to Control Repository Access](https://docs.oracle.com/en-us/iaas/Content/Registry/Concepts/registrypolicyrepoaccess.htm)
 
-- Permission to `manage` the following types of resources in your Oracle Cloud Infrastructure tenancy: `IAM policies`, `vcns`, `services-gateways`, `route-tables`, `security-lists`, `subnets`, `functions`, `Monitor Alarms`, and `Notifications`.
+- Permission to `manage` the following types of resources in your Oracle Cloud Infrastructure tenancy: `IAM policies`, `Dynamic Group`, `vcns`, `services-gateways`, `route-tables`, `security-lists`, `subnets`, `functions`, `Monitor Alarms`, and `Notifications`.
 
 - Quota to create the following resources: 1 VCN, 1 subnets, 1 Service Gateway, 1 route rules, 1 function, 1 dynamic group, 1 policy in root compartment, 1 Monitor Alarm, and 1 Notification Subscription.
 
@@ -24,7 +24,7 @@ If you don't have the required permissions and quota, contact your tenancy admin
 
 ## Deploy Using Oracle Resource Manager
 
-1. Click [![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?region=home&zipUrl=https://github.com/fzarri/oci-datasafe-audit-to-logging/archive/refs/tags/firstr.zip)
+1. Click [![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?region=home&zipUrl=https://github.com/oracle-devrel/technology-engineering)
 
 2. If you aren't already signed in, when prompted, enter the tenancy and user credentials.
 
@@ -47,8 +47,8 @@ If you don't have the required permissions and quota, contact your tenancy admin
 ### Clone the Module
 Now, you'll want a local copy of this repo. You can make that with the commands:
 
-    git clone https://github.com/fzarri/oci-datasafe-audit-to-logging.git
-    cd oci-datasafe-audit-to-logging/terraform
+    git clone https://github.com/oracle-devrel/technology-engineering.git
+    cd security/security-design/fn-datasafe-dbaudit-to-oci-logging
     ls
 
 ### Prerequisites
