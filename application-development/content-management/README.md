@@ -33,6 +33,11 @@ Oracle's on-premise content management offering is Oracle WebCenter which is the
 
 ## Reusable Assets
 
+- [OCM Short Overview ](content-management\ocm-files\OCM_OVERVIEW_OCT222.pdf)
+- [OCM Migration Scenarios](ocm-files\OCM_Identifyig_migration_scenarios.pdf)
+- [Hands On Lab - Integrating Oracle Content Management with OIC for Asset Workflows](ocm-files\LAB_Setup_OIC_with_OCM_2023.pdf)
+- [WORKSHOP - Getting Started with OCM - Product installation and configuration guide](ocm-files\OCM_Getting_Started_Workshop_2023.pdf)
+- [WORKSHOP - OCM Content Migration Using Mount Point ](ocm-files\OCM_Content_Migration_Using_Mount_Point.pdf)
 
 # Sauce
 
