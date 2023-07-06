@@ -49,9 +49,9 @@ Today, ACME is responsible for the overall planning and development...
 
 ACME’s \<Application Name\> application database environment needs hosting the database environment within an OCI Region for production, pre-production, test, and DR environments. The application components will connect to those databases for the data persistence requirements. In this case, ACME is looking for a solution that would allow:
 
-    - host the database environment within the region with an OpEx investment for both the infrastructure and the platform services running with it
-    - automatic backup and restore capabilities to secure the database against failures and/or data loss within the cloud datacenter
-    - near standby capability across an Availability Domain in short term and a disaster recovery enablement in mid and long term to support the data residency requirements
+- host the database environment within the region with an OpEx investment for both the infrastructure and the platform services running with it
+- automatic backup and restore capabilities to secure the database against failures and/or data loss within the cloud datacenter
+- near standby capability across an Availability Domain in short term and a disaster recovery enablement in mid and long term to support the data residency requirements
 
 ## Workload Business Value
 
