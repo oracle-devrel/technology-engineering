@@ -481,11 +481,17 @@ Customer is responsible for setting the access rules to services and environment
 
 ### Physical Architecture
 
-![Future State Production Deployment Diagram – Base Database Workload Multi-AD, DR Design Diagram](images/oracle-database-migration-to-base-database-service-an-example-migration-2NODEDB_DRwithinRegion.png)
+<figure>
+    <img src="images/oracle-database-migration-to-base-database-service-an-example-migration-2NODEDB_DRwithinRegion.png" title="Production Deployment Diagram – Multi-AD with near DR Design Diagram"/>
+    <figcaption>Production Deployment Diagram – Multi-AD with near DR Design Diagram</figcaption>
+</figure>
 
 For the production environment Oracle RAC database will be deployed to ensure High Availability in Single AD with a Disaster Recovery across Availability Domain using Dataguard.
 
-![Future State Non-Production Deployment Diagram – Base Database Workload](images/oracle-database-migration-to-base-database-service-an-example-migration-1NodeDB_NoDRwithinRegion.png)
+<figure>
+    <img src="images/oracle-database-migration-to-base-database-service-an-example-migration-1NodeDB_NoDRwithinRegion.png" title="Non-Production Deployment Diagram"/>
+    <figcaption>Non-Production Deployment Diagram</figcaption>
+</figure>
 
 For the non-production environment, a single Oracle database node will be deployed. Automatic Backup stored in the Oracle Cloud Infrastructure Object Storage will be enabled to ensure database recovery in case of failure.
 
@@ -553,7 +559,10 @@ A Data Guard configuration consists of one production database and one or more s
 A Data Guard configuration contains one production database, also referred to as the primary database, that functions in the primary role. This is the database that is accessed by most of your applications. On the other hand, a standby database is a transactionally consistent copy of the primary database. Once created, Data Guard automatically maintains the standby database by transmitting redo data from the primary database and then applying the redo to the standby database.
 Like a primary database, a standby database can be either a single-instance Oracle database or an Oracle Real Application Clusters database.
 
-![DataGuard Configuration](images/oracle-database-migration-to-base-database-service-an-example-migration-dataguard_config.jpg)
+<figure>
+    <img src="images/oracle-database-migration-to-base-database-service-an-example-migration-dataguard_config.jpg" title="DataGuard Configuration"/>
+    <figcaption>DataGuard Configuration</figcaption>
+</figure>
 
 Below is a guideline for how the DataGuard works:
 
