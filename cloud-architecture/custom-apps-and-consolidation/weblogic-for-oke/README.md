@@ -23,8 +23,13 @@ of their projects.
 
 Following is the content currently available:
 
-1. _weblogic_for_oke_acme_architecture.pdf_: a simple example of a WebLogic workload architecture built in OCI and leveraging the OKE deployment of WebLogic. Included, as reusable asset, there are the Drawio 
-diagrams of the architecture. 
+### WebLogic Workload - Example Of Architecture Leveraging OKE  
+
+A simple example of a WebLogic workload architecture built in OCI and leveraging the OKE deployment of WebLogic. It includes
+
+- a technical brief: _weblogic_for_oke_acme_architecture.pdf_
+- a reusable Drawio file with the diagrams used in the previous file: _weblogic_for_oke_acme_architecture.drawio_
+
 
 
 ## License
