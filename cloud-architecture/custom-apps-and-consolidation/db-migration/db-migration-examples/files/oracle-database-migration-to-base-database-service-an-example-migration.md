@@ -4,7 +4,7 @@
 
 | Version | Authors         | Date               | Comments                               |
 |:--------|:----------------|:-------------------|:-------------------                    |
-| 0.1     | <Name Surname>  | June 16th, 2023    | Initial Version                        |
+| 0.1     | \<Name Surname\>  | June 16th, 2023    | Initial Version                        |
 | 0.2     | <Name Surname>  | June 20th, 2023    | Updated architecture to use public LBs |
 |         | <Name Surname>  |                    | Added some LBs configuration           |
 | 0.3     | <Name Surname>  | June 30th, 2023    | Updated after peer review              |
