@@ -586,8 +586,6 @@ The automatic backup process used to create level 0 and level 1 backups can run 
 
 The retention periods for automatic backups can be one of the following retention periods: 7 days, 15 days, 30 days, 45 days, or 60 days. The system automatically deletes your incremental backups at the end of your chosen retention period.
 
-#### Backup and Recovery
-
 ### Security
 
 Please see generic OCI security guidelines in the [Annex](#security-guidelines).
