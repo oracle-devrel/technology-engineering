@@ -2,27 +2,27 @@
 
 ## Version Control
 
-| Version | Authors         | Date               | Comments                               |
-|:--------|:----------------|:-------------------|:-------------------                    |
+| Version | Authors           | Date               | Comments                               |
+|:--------|:----------------  |:-------------------|:-------------------                    |
 | 0.1     | \<Name Surname\>  | June 16th, 2023    | Initial Version                        |
-| 0.2     | <Name Surname>  | June 20th, 2023    | Updated architecture to use public LBs |
-|         | <Name Surname>  |                    | Added some LBs configuration           |
-| 0.3     | <Name Surname>  | June 30th, 2023    | Updated after peer review              |
+| 0.2     | \<Name Surname\>  | June 20th, 2023    | Updated architecture to use public LBs |
+|         | \<Name Surname\>  |                    | Added some LBs configuration           |
+| 0.3     | \<Name Surname\>  | June 30th, 2023    | Updated after peer review              |
 
 ## Team
 
-| Name            | eMail                      | Role                      | Company  |
-|:----------------|:---------------------------|:--------------------------|:-------- |
-| <Name Surname>  | <xxxxx>@<xxxx>.<xxx>       | Tech Solution Specialist  | <XXXXX>  |
-| <Name Surname>  | <xxxxx>@<xxxx>.<xxx>       | Account Cloud Engineer    | <XXXXX>  |
+| Name              | eMail                            | Role                      | Company    |
+|:----------------  |:---------------------------      |:--------------------------|:--------   |
+| \<Name Surname\>  | \<xxxxx\>@\<xxxx\>.\<xxx\>       | Tech Solution Specialist  | \<XXXXX\>  |
+| \<Name Surname\>  | \<xxxxx\>@\<xxxx\>.\<xxx\>       | Account Cloud Engineer    | \<XXXXX\>  |
 
 ## Document Purpose
 
-This document provides a high-level solution definition for the Oracle solution and aims at describing the current state, and to-be state as well as a potential high-level project scope and timeline for the <Implementer>.
+This document provides a high-level solution definition for the Oracle solution and aims at describing the current state, and to-be state as well as a potential high-level project scope and timeline for the \<Implementer\>.
 
 The document may refer to a ‘Workload’, which summarizes the full technical solution for a customer (You) during a single engagement. The Workload is described in the chapter [Workload Requirements and Architecture](#workload-requirements-and-architecture).
 
-This is a living document, additional sections will be added as the engagement progresses resulting in a final Document to be handed over to the <Implementer>.
+This is a living document, additional sections will be added as the engagement progresses resulting in a final Document to be handed over to the \<Implementer\>.
 
 ## Abbreviations and Acronyms
 
@@ -47,7 +47,7 @@ Today, ACME is responsible for the overall planning and development...
 
 ## Executive Summary
 
-ACME’s <Application Name> application database environment needs hosting the database environment within an OCI Region for production, pre-production, test, and DR environments. The application components will connect to those databases for the data persistence requirements. In this case, ACME is looking for a solution that would allow:
+ACME’s \<Application Name\> application database environment needs hosting the database environment within an OCI Region for production, pre-production, test, and DR environments. The application components will connect to those databases for the data persistence requirements. In this case, ACME is looking for a solution that would allow:
 
     - host the database environment within the region with an OpEx investment for both the infrastructure and the platform services running with it
     - automatic backup and restore capabilities to secure the database against failures and/or data loss within the cloud datacenter
@@ -55,15 +55,15 @@ ACME’s <Application Name> application database environment needs hosting the d
 
 ## Workload Business Value
 
-ACME uses different applications to address its needs to perform its required duties. One of the major areas where ACME has responsibilities is transportation. Among the transportation services, <Application Name> solution is used to improve the productivity of the assets to meet safety, regulatory and citizen demands.
+ACME uses different applications to address its needs to perform its required duties. One of the major areas where ACME has responsibilities is transportation. Among the transportation services, \<Application Name\> solution is used to improve the productivity of the assets to meet safety, regulatory and citizen demands.
 
-The application <Application Name> uses Oracle database as a data persistence store backend to safely store and query the data. To provide a consistent and reliable application environment, ACME is looking for a new database platform. In this regard, Oracle Cloud Infrastructure provides several different services to support Oracle databases in Cloud.
+The application \<Application Name\> uses Oracle database as a data persistence store backend to safely store and query the data. To provide a consistent and reliable application environment, ACME is looking for a new database platform. In this regard, Oracle Cloud Infrastructure provides several different services to support Oracle databases in Cloud.
 
 # Workload Requirements and Architecture
 
 ## Overview
 
-<Application Name> components are currently deployed on-premises, in ACME datacenter. Currently, the application and its database reside in the same datacenter within the same physical hardware creating a single point of failure. ACME’s objective is to provide high availability and resilience at the database level to service its application consistently while catering for hardware failures.
+\<Application Name\> components are currently deployed on-premises, in ACME datacenter. Currently, the application and its database reside in the same datacenter within the same physical hardware creating a single point of failure. ACME’s objective is to provide high availability and resilience at the database level to service its application consistently while catering for hardware failures.
 
 Based on these requirements ACME decided to migrate their application and database to the OCI. There are several migration approach and methods for Oracle database and based upon several factors like: Database size, Downtime, Database version and Characterset should be taken into consideration when choosing the migration method.
 
@@ -87,11 +87,11 @@ In addition to these requirements, the [CIS Oracle Cloud Infrastructure Foundati
 
 ### Environments
 
-| Name           | Size of Prod | Location         | DR     | Scope                    |
-|:---------------|-------------:|:-----------------|:-------|:----------------         |
-| Production     | 100%         | <OCI Region>     | Yes    | Not in Scope             |
-| DR             | 50%          | <OCI Region>     | No     | Not in Scope             |
-| Dev & Test     | 25%          | <OCI Region>     | No     | Workload - <Implementer> |
+| Name           | Size of Prod | Location           | DR     | Scope                      |
+|:---------------|-------------:|:-----------------  |:-------|:----------------           |
+| Production     | 100%         | \<OCI Region\>     | Yes    | Not in Scope               |
+| DR             | 50%          | \<OCI Region\>     | No     | Not in Scope               |
+| Dev & Test     | 25%          | \<OCI Region\>     | No     | Workload - \<Implementer\> |
 
 ### High Availability and Disaster Recovery Requirements
 
@@ -135,13 +135,13 @@ The solution provided must address the following security requirements expressed
 
 ## Future State Architecture
 
-The future state architecture for ACME <Application Name> database environment after a migration from on-premises to OCI is composed of the following:
+The future state architecture for ACME \<Application Name\> database environment after a migration from on-premises to OCI is composed of the following:
 
 ![OCI Logical Architecture](images/oracle-database-migration-to-base-database-service-an-example-migration-LogicalArchitecture.png)
 
-- End users will connect to the <Application Name> application through the Load Balancer (1). Internal users will access through VPN/Fastconnect. For external users accessing the application over the Internet, the traffic will be inspected by a Web Application Firewall (2).
+- End users will connect to the \<Application Name\> application through the Load Balancer (1). Internal users will access through VPN/Fastconnect. For external users accessing the application over the Internet, the traffic will be inspected by a Web Application Firewall (2).
 - The Load Balancer will act as a reverse proxy and will distribute the application traffic across several application servers (3).
-- <Application Name> application environment will connect to OCI Production database (4).
+- \<Application Name\> application environment will connect to OCI Production database (4).
 - The primary Oracle database will be synchronized to a secondary one to ensure the disaster recovery plan (5).
 
 ### Mandatory Security Best Practices
@@ -490,8 +490,8 @@ For the non-production environment, a single Oracle database node will be deploy
 
 The components used within the architecture design are as follows :
 
-- **Region** An Oracle Cloud Infrastructure region is a localized geographic area that contains one or more data centers, called availability domains. Regions are independent of other regions, and vast distances can separate them (across countries or even continents). *\<The Region\>* Region is placed in *\<The Region\>* and the tenancy explained in the physical architecture will be placed in *\<The Region\>* OCI.
-- **Availability domains** are standalone, independent data centers within a region. The physical resources in each availability domain are isolated from the resources in the other availability domains, which provides fault tolerance. Availability domains don’t share infrastructure such as power or cooling, or the internal availability domain network. So, a failure at one availability domain is unlikely to affect the other availability domains in the region. *\<The Region\>* OCI has only one availability domain installed therefore every cloud component will be placed in the single availability domain.
+- **Region** An Oracle Cloud Infrastructure region is a localized geographic area that contains one or more data centers, called availability domains. Regions are independent of other regions, and vast distances can separate them (across countries or even continents). \<OCI Region\> Region is placed in \<OCI Region\> and the tenancy explained in the physical architecture will be placed in \<OCI Region\> OCI.
+- **Availability domains** are standalone, independent data centers within a region. The physical resources in each availability domain are isolated from the resources in the other availability domains, which provides fault tolerance. Availability domains don’t share infrastructure such as power or cooling, or the internal availability domain network. So, a failure at one availability domain is unlikely to affect the other availability domains in the region. \<OCI Region\> OCI has only one availability domain installed therefore every cloud component will be placed in the single availability domain.
 - **Fault domains** A fault domain is a grouping of hardware and infrastructure within an availability domain. Each availability domain has three fault domains with independent power and hardware. When you distribute resources across multiple fault domains, your applications can tolerate physical server failure, system maintenance, and power failures inside a fault domain.
 - **Virtual cloud network (VCN) and subnets** A VCN is a customizable, software-defined network that you set up in an Oracle Cloud Infrastructure region. Like traditional data center networks, VCNs give you complete control over your network environment. A VCN can have multiple non-overlapping CIDR blocks that you can change after you create the VCN. You can segment a VCN into subnets, which can be scoped to a region or to an availability domain. Each subnet consists of a contiguous range of addresses that don't overlap with the other subnets in the VCN. You can change the size of a subnet after creation. A subnet can be public or private.
 - **Route tables** Virtual route tables contain rules to route traffic from subnets to destinations outside a VCN, typically through gateways.
@@ -509,7 +509,7 @@ The components used within the architecture design are as follows :
 
 ### High Availability and Disaster Recovery
 
-ACME <Application Name> application and database deployment will benefit from all the major resilience principles and best practices. Application VMs and Oracle database RAC nodes will be deployed on separate Fault Domains to ensure server availability in case of server or rack failure.
+ACME \<Application Name\> application and database deployment will benefit from all the major resilience principles and best practices. Application VMs and Oracle database RAC nodes will be deployed on separate Fault Domains to ensure server availability in case of server or rack failure.
 
 - For Application data:
 
@@ -527,7 +527,7 @@ Transparent Application Continuity (TAC), introduced with Oracle Database 18c an
 
 - For Oracle database:
 
-The resilience and recovery requirements for ACME <Application Name> database environment on OCI is supported through Oracle RAC and Oracle Data Guard as near standby - which are explained in more detail in the following sub-sections. The availability SLA is met through Oracle Database Cloud Services (>99.95%).
+The resilience and recovery requirements for ACME \<Application Name\> database environment on OCI is supported through Oracle RAC and Oracle Data Guard as near standby - which are explained in more detail in the following sub-sections. The availability SLA is met through Oracle Database Cloud Services (>99.95%).
 
 **Oracle Real Application Clusters (RAC)**
 
@@ -571,7 +571,7 @@ Below are the DataGuard protection modes briefly explained:
 - **Maximum availability** provides the highest level of data protection that is possible without compromising the availability of the primary database. Like maximum protection mode, a transaction will not commit until the redo needed to recover that transaction is written to the local online redo log and to the standby redo log of at least one transactionally consistent standby database. Unlike maximum protection mode, the primary database does not shut down if a fault prevents it from writing its redo stream to a remote standby redo log. Instead, the primary database operates in maximum performance mode until the fault is corrected, and all gaps in redo log files are resolved. When all gaps are resolved, the primary database automatically resumes operating in maximum availability mode.
 - **Maximum performance** provides the highest level of data protection that is possible without affecting the performance of the primary database. This is accomplished by allowing a transaction to commit as soon as the redo data needed to recover that transaction is written to the local online redo log. The primary database's redo data stream is also written to at least one standby database, but that redo stream is written asynchronously with respect to the transactions that create the redo data. When network links with sufficient bandwidth are used, this mode provides a level of data protection that approaches that of maximum availability mode with minimal impact on primary database performance.
 
-Based on all the above advantages, ACME <Application Name> application database environment will be deployed on an environment that supports multiple levels of availability and disaster recovery scenarios.
+Based on all the above advantages, ACME \<Application Name\> application database environment will be deployed on an environment that supports multiple levels of availability and disaster recovery scenarios.
 
 **Automatic Backups**
 
@@ -600,7 +600,7 @@ ACME headquarters is planned to be connected to OCI through Fastconnect, with a 
 
 ## Sizing (Sample)
 
-The sizing estimation for the ACME <Application Name> database environment is based on the current sizing and near future growth estimations.
+The sizing estimation for the ACME \<Application Name\> database environment is based on the current sizing and near future growth estimations.
 
 Based on the above sizing, the following is recommended:
 
