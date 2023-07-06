@@ -139,6 +139,7 @@ The future state architecture for ACME \<Application Name\> database environment
 
 <figure>
     <img src="images/oracle-database-migration-to-base-database-service-an-example-migration-LogicalArchitecture.png" title="OCI Logical Architecture"/>
+    <figcaption>OCI Logical Architecture</figcaption>
 </figure>
 
 - End users will connect to the \<Application Name\> application through the Load Balancer (1). Internal users will access through VPN/Fastconnect. For external users accessing the application over the Internet, the traffic will be inspected by a Web Application Firewall (2).
