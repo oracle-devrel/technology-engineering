@@ -1,6 +1,6 @@
 # Workshops
 
-This section contains workshop offerings from the Application Integration Specialist team within Oracle Technology Enginnering organization.
+This section contains workshop offerings from the Application Integration Specialist team within Oracle Technology Engineering organization.
 
 # License
 
