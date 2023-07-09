@@ -1,4 +1,4 @@
-# Hyperion Essbase
+# Siebel
  
 This repository is dedicated to the migration or upgrade of Siebel CRM.
 
