@@ -31,9 +31,15 @@ blue = Color(94)
 yellow = Color(93)
 green = Color(92)
 red = Color(91)
-purple = Color(128)
-orange = Color(93)
 black = Color(90)
+white_b = Color(47)
+cyan_b = Color(46)
+magenta_b = Color(45)
+blue_b = Color(44)
+yellow_b = Color(43)
+green_b = Color(42)
+red_b = Color(41)
+black_b = Color(40)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 # clear shell screen
@@ -304,6 +310,10 @@ def write_to_csv(csv_report, data):
     except Exception as e:
         print_error("write_to_csv error:", e)
         raise SystemExit(1)
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
+# calculate time delta
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 def strfdelta(td):
     days = td.days

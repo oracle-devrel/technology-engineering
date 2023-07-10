@@ -1,7 +1,8 @@
 # coding: utf-8
 
 import oci
-import os 
+import os
+
 from modules.utils import green, print_error, print_info
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -

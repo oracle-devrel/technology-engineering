@@ -85,11 +85,10 @@ print_info(green, 'Analysis', 'started', script_name)
 # oci authentication
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-config, signer, oci_tname=create_signer(
-                          cmd.config_file_path, 
-                          cmd.config_profile, 
-                          cmd.is_delegation_token, 
-                          cmd.is_config_file)
+config, signer, oci_tname=create_signer(cmd.config_file_path, 
+                                        cmd.config_profile, 
+                                        cmd.is_delegation_token, 
+                                        cmd.is_config_file)
 
 tenancy_id=config['tenancy']
 

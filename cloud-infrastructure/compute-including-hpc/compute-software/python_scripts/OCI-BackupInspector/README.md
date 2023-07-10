@@ -1,23 +1,23 @@
 # OCI-BackupInspector
 
-**BackupInspector** generates comprehensive CSV reports that assess compute backups status for boot and block volumes.
 
 ## When to use this asset?
+**BackupInspector** generates comprehensive CSV reports that assess compute backups status for boot and block volumes.
  
 ## How to use this asset?
 
 ### Features 
-- **BackupInspector** :
-	- searches for compute instances
-	- retrieves all attached volumes
-	- retrieves last backup details
-	- analyzes unattached volumes
-	- retrieves volume groups information
-	- generates csv report
-	- stores csv report locally or in an OCI bucket 
+
+1. searches for compute instances
+2. retrieves all attached volumes
+3. retrieves details about last available backup
+4. analyzes unattached volumes
+5. retrieves volume groups information
+6. generates csv report
+7. stores csv report locally or in an OCI bucket 
 
 
-- **Parameters for execution:**
+### Parameters for execution
 
 Default authentication uses [Instance Principals](https://docs.public.oneportal.content.oci.oraclecloud.com/en-us/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm), meaning you can run this script from an OCI virtual machine without having to provide any details or credentials
 
@@ -54,21 +54,21 @@ without arguments **OCI-BackupInspector** tries to authenticate using Instance P
 	
 	python3 ./OCI-BackupInspector.py -cs
 
-#### custom parameters examples:
+#### Custom parameters examples:
 	
 	python3 ./OCI-BackupInspector.py -cf -rg eu-paris-1 -tlc ocid1.compartment.oc1..aaaaaaaaurxxxx -b data_bucket -rn backups_of_my_instances
 
 	python3 ./OCI-BackupInspector.py rg eu-frankfurt-1 -nocloud -rf /home/opc/data/ -rn backups_of_my_instances
 	
-Terminal output
+**Terminal output**
 ![Script Output](./images/output.png)
 
-CSV report
+**CSV report**
 ![Script Output](./images/csv1.png)
 ![Script Output](./images/csv2.png)
 ![Script Output](./images/csv3.png)
 
-## From
+# From
 
 [https://github.com/Olygo/OCI-BackupInspector](https://github.com/Olygo/OCI-BackupInspector)
 
