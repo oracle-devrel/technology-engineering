@@ -2,7 +2,7 @@
 
 This Architecture Group is focused on helping customers migrate their custom-developed applications with minimal re-architecture, re-integration, or business process changes. By moving and improving custom applications and databases in the cloud, IT operations and development managers can reduce application deployment times, increase performance and reliability, and lower maintenance and operational costs.
 
-Custom Applications may be designed using traditional or cloud-native architectures. Whether the custom applications are running in Kubernetes containers, serverless architectures, machine learning, NoSQL data models, and open source databases, our aim to to offer architectures and guidance that can help in migration of e.g. Traditional Java applications running on Weblogic to be migrated to the cloud using the [Weblogic Market on OCI VMs Place Image] [https://cloudmarketplace.oracle.com/marketplace/en_US/listing/63497374] or [Weblogic Market on OKE Place Image] [https://cloudmarketplace.oracle.com/marketplace/en_US/listing/84688008]
+Custom Applications may be designed using traditional or cloud-native architectures. Whether the custom applications are running in Kubernetes containers, serverless architectures, machine learning, NoSQL data models, and open source databases, our aim to to offer architectures and guidance that can help in migration of e.g. Traditional Java applications running on Weblogic to be migrated to the cloud using the [Weblogic Market on OCI VMs Place Image] (https://cloudmarketplace.oracle.com/marketplace/en_US/listing/63497374) or [Weblogic Market on OKE Place Image] (https://cloudmarketplace.oracle.com/marketplace/en_US/listing/84688008)
 
 
 # Application Modernization 
@@ -28,17 +28,16 @@ Database consolidation means running databases on a common set of infrastructure
 
 # Sub Areas 
 
-Within the broad area of Custom Applications and Consolidation, we offer artifacts and example guides for the following sub-areas:
+Within the broad area of Custom Applications and Consolidation, we offer artefacts and example guides for the following sub-areas:
 
-Custom Application Migration (With or Without Weblogic) 
-Oracle Database Migration 
-Oracle Database Consolidation 
-Non-Oracle Databases on OCI 
+- Custom Application Migration (With or Without Weblogic) 
+- Oracle Database Migration 
+- Oracle Database Consolidation 
+- Non-Oracle Databases on OCI 
 
 # License
 
 Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
-
-See [LICENSE]([https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE)https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
