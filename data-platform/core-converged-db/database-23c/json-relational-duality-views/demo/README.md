@@ -1,5 +1,6 @@
-# The demo against a23c free database.
+# The demo against a 23c free database.
 
+- The steps exposed in this demo were executed against a 23c free database running in a docker container.
 
 # License
 
