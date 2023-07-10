@@ -1,26 +1,26 @@
 # Move, Optimize, and Extend Custom Applications
 
-This Architecture Group is focused on helping customers migrate their Custom Developed Applications with minimal rearchitecture, reintegration or business process changes. By moving and improving custom applications and databases in the cloud, IT operations and development managers can reduce application deployment times, increase performance and reliability, and lower maintenance and operational costs.
+This Architecture Group is focused on helping customers migrate their custom-developed applications with minimal re-architecture, re-integration, or business process changes. By moving and improving custom applications and databases in the cloud, IT operations and development managers can reduce application deployment times, increase performance and reliability, and lower maintenance and operational costs.
 
-Custom Applications may be designed using traditional or cloud native architectures. Whether the custom applications are running in Kubernetes containers, serverless architectures, machine learning, NoSQL data models, and open source databases, our aim to to offer architectures and guidance that can help in migration of e.g. Traditional Java applications running on Weblogic to be migrated to cloud using the [Weblogic Market on OCI VMs Place Image] [https://cloudmarketplace.oracle.com/marketplace/en_US/listing/63497374] or [Weblogic Market on OKE Place Image] [https://cloudmarketplace.oracle.com/marketplace/en_US/listing/84688008]
+Custom Applications may be designed using traditional or cloud-native architectures. Whether the custom applications are running in Kubernetes containers, serverless architectures, machine learning, NoSQL data models, and open source databases, our aim to to offer architectures and guidance that can help in migration of e.g. Traditional Java applications running on Weblogic to be migrated to the cloud using the [Weblogic Market on OCI VMs Place Image] [https://cloudmarketplace.oracle.com/marketplace/en_US/listing/63497374] or [Weblogic Market on OKE Place Image] [https://cloudmarketplace.oracle.com/marketplace/en_US/listing/84688008]
 
 
 # Application Modernization 
 
-Application Modernization spans a wide range of uses cases/requirements and may have differening opinons on what modernization means. However when modernizing, we need to consider:
+Application Modernization spans a wide range of use cases/requirements and may have different opinions on what modernization means. However, when modernizing, we need to consider:
 
 - The infrastructure the application runs on, the data store, and the application itself. 
-- The ’level’ of effort required for each tier in order to fit your needs at your particular current stage of the modernization:
+- The ’level’ of effort required for each tier in order to fit your needs at your particular current stage of modernization:
           - “Lift & Shift“ the application ’as is’ with minimal effort to start
           - Extend/enhance the application with new functionality and gradually decompose
           - Complete re-write/refactoring of the application to use modern architectures and technologies
 
 You can Modernize Custom Applications with new technology or add functionality, often referred to as Refactoring, which includes
-- Net new application development using cloud native environments
+- Net new application development using cloud-native environments
 - Modernizations with containers (like Docker and Kubernetes) and microservices
 - Rewriting apps in the cloud
 - Implementing DevOps processes
-- Add new capabilities like mobile, chatbot
+- Add new capabilities like a mobile, chatbot
   
 # Database Consolidation 
 
@@ -28,7 +28,7 @@ Database consolidation means running databases on a common set of infrastructure
 
 # Sub Areas 
 
-Within the broad area of Custom Applications and Conslidation, we offer artefacts and example guides for the following sub areas:
+Within the broad area of Custom Applications and Consolidation, we offer artifacts and example guides for the following sub-areas:
 
 Custom Application Migration (With or Without Weblogic) 
 Oracle Database Migration 
