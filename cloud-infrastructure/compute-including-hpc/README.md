@@ -1,5 +1,7 @@
 # Compute (Including HPC)
-This area is focused on the core Compute Service of OCI which includes and covers HPC on Compute, Compute Hardware and Compute Software. Some of the topics covered on this page:
+
+This area is focused on the core Compute Service of OCI which includes and covers HPC on Compute, Compute Hardware, and Compute Software. Some of the topics covered on this page:
+
 - Oracle Cloud Infrastructure (OCI) Compute hardware components such as Intel, AMD, ARM
 - OCI Bare Metal
 - Compute on HPC
@@ -10,7 +12,7 @@ This area is focused on the core Compute Service of OCI which includes and cover
 - Autoscaling
 - Confidential Compute
 - Roving Edge Infrastructure
-and more..
+and more...
 
 # License
 
