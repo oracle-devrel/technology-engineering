@@ -44,7 +44,7 @@ As the database and database offering evolves, new advisors and automations are 
 - [Testing with Oracle Database Replay](https://blogs.oracle.com/coretec/post/testing-with-oracle-database-replay)
 - [Real Application Testing Demo](https://blogs.oracle.com/coretec/post/rat-demo)
 - [Autonomous Database Replay](https://blogs.oracle.com/coretec/post/adb-database-replay)
-- [Smooth transition to Autonomous Database using SPA](https://blogs.oracle.com/coretec/post/spa-in-autonomous-database}
+- [Smooth transition to Autonomous Database using SPA](https://blogs.oracle.com/coretec/post/spa-in-autonomous-database)
 
 ### Blogs
 
