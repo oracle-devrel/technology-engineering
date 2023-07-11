@@ -6,7 +6,6 @@
 - [Cloud Coaching - Unlock the Power of APEX](https://www.youtube.com/watch?v=6rG_tX8ScBc)
 
 ## Documentation / Videos
-- [Webinar - ORDS & DevOps](https://www.youtube.com/watch?v=GIRdoGlqIDE)
 - [APEX Documentation](https://docs.oracle.com/en/database/oracle/apex/23.1/index.html)
 - [APEX API Reference](https://docs.oracle.com/en/database/oracle/apex/23.1/aeapi/#Oracle%C2%AE-APEX)
 
@@ -16,6 +15,7 @@
 - [APEX Service DevOps with DBMS_CLOUD](https://medium.com/@devpiotrekk/apex-service-can-devops-too-dbms-cloud-on-autonomous-72be9842d2f8https://medium.com/@devpiotrekk/apex-service-can-devops-too-dbms-cloud-on-autonomous-72be9842d2f8)
 - [Integrating APEX with Azure AD](https://medium.com/@rana.saeed/can-your-external-users-authenticate-into-your-apex-apps-606e48f9417b)
 - [Integrating Data Science with APEX](https://blogs.oracle.com/ai-and-datascience/post/yolov5-models-in-apex-using-oracle-data-science)
+- [Integrating Real Application Security (RAS) with APEX](https://medium.com/@rana.saeed/integrating-real-application-security-ras-with-oracle-apex-33892967beff)
 - [Other APEX Blogs](https://blogs.oracle.com/apex/)
 
 # License
