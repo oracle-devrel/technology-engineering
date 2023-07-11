@@ -95,6 +95,8 @@ resource "oci_core_subnet" "function_ds_log_vcn" {
   vcn_id            = oci_core_virtual_network.vcn.id
   route_table_id    = oci_core_route_table.rt_fn_subnet.id
   dhcp_options_id   = oci_core_dhcp_options.dhcpoptions1.id
+  prohibit_internet_ingress = true
+  prohibit_public_ip_on_vnic = true
   security_list_ids = [oci_core_security_list.vcn_security_list.id]
 }
 
