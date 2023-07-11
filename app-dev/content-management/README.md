@@ -55,15 +55,15 @@ Oracle WebCenter is the center of engagement for business powering exceptional e
 - Transforming Organizations to Social Business Improve Business Agility, Increase Customer Loyalty, Enhance User Productivity, Seamless Access to the Right Information
 - Connecting People and Information Desktop/Mobile/Tablet, Search, Gadgets, Application Integration
 
-WebCenter Content
+### WebCenter Content
 
 - Users share information efficiently on their choice of device and in process-centric business applications. Complete content lifecycle management in the most scalable and comprehensive enterprise content management system.
 
-WebCenter Portal
+### WebCenter Portal
 
 - Users create intuitive portals, composite applications, and mash-ups with integrated application content for web & mobile.
 
-WebCenter Sites
+### WebCenter Sites
 
 - Marketers engage, guide, and convert customers with media-rich online experience for web & mobile.
 
@@ -76,6 +76,9 @@ WebCenter Sites
 
 ## Reusable Assets
 
+- [Migrating WebCenter Content to Oracle Cloud Infrastructure Object Storage: A hybrid approach](https://blogs.oracle.com/content-management/post/migrating-webcenter-content-data-to-oracle-cloud-infrastructure-object-storage)
+- [Modernizing Oracle WebCenter Content with Kubernetes Deployment](https://blogs.oracle.com/content-management/post/modernizing-oracle-webcenter-content-with-kubernetes-deployment)
+- [Oracle WebCenter Content Container on Docker](https://blogs.oracle.com/content-management/post/oracle-webcenter-content-container-on-docker)
 - [Implementing Oracle WebCenter in Amazon Web Services (AWS)](https://blogs.perficient.com/2014/09/25/implementing-oracle-webcenter-in-amazon-web-services-aws/)
 
 # License
