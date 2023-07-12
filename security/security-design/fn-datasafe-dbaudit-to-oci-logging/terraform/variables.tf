@@ -1,7 +1,11 @@
-################################################################################
-# Copyright (c) 2023, Oracle and/or its affiliates. All rights reserved.
-# This software is dual-licensed to you under the Universal Permissive 
-# License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl
+###############################################################################
+# Copyright (c) 2022, 2023, Oracle and/or its affiliates.  All rights reserved.
+# This software is dual-licensed to you under the Universal Permissive License
+# (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.
+###############################################################################
+#
+# Author: Fabrizio Zarri
+#
 ################################################################################
 
 variable "tenancy_ocid" {}
@@ -64,43 +68,43 @@ variable "VCN-CIDR" {
   description = "The CIDR block of VCN"
 }
 
-variable "fnsubnet-CIDR" {
+variable "subnet-CIDR" {
   default = "10.0.1.0/24"
 }
 
-variable "fnvcndnslabelprefix" {
+variable "vcndnslabelprefix" {
   default = "dnsepl"
 }
 
-variable "fnvcnnameprefix" {
+variable "vcnnameprefix" {
   default = "vnc"
   description = "The prefix display name of VCN"
 }
 
-variable "fnvcnnameroutingtableprefix" {
+variable "vcnnameroutingtableprefix" {
   default = "rt"
 }
 
-variable "fnvcnroutingtabledescriptionservicegw" {
+variable "vcnroutingtabledescriptionservicegw" {
   default = "Route for Service Gateway"
 }
 
-variable "fnvcnnamedhcpopitonsprefix" {
+variable "vcnnamedhcpopitonsprefix" {
   default = "dhcpo"
 }
 
-variable "fnsubnetnameprefix" {
+variable "subnetnameprefix" {
   default = "sub"
 }
 
-variable "fnsubnetdnslabelprefix" {
+variable "subnetdnslabelprefix" {
   default = "dnsepl"
 }
 
-variable "fnvcnnamesecuritylistprefix" {
+variable "vcnnamesecuritylistprefix" {
   default = "sl"
 }
-variable "fnvcnnameservicegatewayprefix" {
+variable "vcnnameservicegatewayprefix" {
   default = "sgw"
 }
 

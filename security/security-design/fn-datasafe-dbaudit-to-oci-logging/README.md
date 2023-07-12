@@ -1,4 +1,7 @@
 # Data Safe Audit DB to OCI Logging
+
+Owner: Fabrizio Zarri
+
 Oracle Data Safe is a fully-integrated, regional Cloud service focused on data security. It provides a complete and integrated set of features of the Oracle Cloud Infrastructure (OCI) for protecting sensitive and regulated data in Oracle databases.
 
 Oracle Data Safe delivers essential security services for Oracle Autonomous Database, Exadata Database on Dedicated Infrastructure, Oracle Base Database and Oracle Databases running in OCI. Data Safe also supports on-premises Oracle Databases, Exadata Database on Cloud@Customer, and multicloud deployments. All Oracle Database customers can reduce the risk of a data breach and simplify compliance by using Data Safe to assess configuration and user risk, monitor and audit user activity, and discover, classify, and mask sensitive data.
