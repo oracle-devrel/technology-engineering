@@ -37,7 +37,7 @@ N/A
 
 # Release notes
 
-2023-07-12 (version 0.2). Initial public release
+2023-07-12 (version 0.2). Initial public release.
   
 # License
 
