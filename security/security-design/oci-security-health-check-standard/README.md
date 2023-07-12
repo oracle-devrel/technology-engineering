@@ -111,6 +111,15 @@ The recommended way is to run the *OCI Security Health Check - Standard* in the 
     compressed in a single ZIP file and the resulting ZIP file will be moved to
     the parent directory of `oci-security-health-check-standard`.
 
+### Checking the results
+
+The report results are showing the compliance status of the related [CIS OCI Foundation Benchmark, version 1.2](https://www.cisecurity.org/benchmark/Oracle_Cloud) recommendations. Please download this benchmark before reading the report. (For license reasons, we cannot distribute the benchmark.)
+
+The report results are summarized in two files:
+- *cis_html_summary_report.html* &ndash; The report in HTML that displays the all recommendations and their compliance status, respectively.
+- *Consolidated_Report.xslx* &ndash; An XSLX workbook with a summary and sheets for the non-compliant recommendations.
+
+
 # License
 
 Copyright (c) 2022-2023 Oracle and/or its affiliates.
