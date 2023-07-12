@@ -4,13 +4,6 @@
 # License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl
 ################################################################################
 
-
-
-# Container Registry Policies
-
-
-resource "oci_artifacts_container_repository" "fn_container_repository" {
-  
-  compartment_id = var.compartment_ocid
-  display_name   = "${var.ocir_repo_name}-${var.deployment_name}-${random_id.tag.hex}"
-}
+#!/bin/sh
+. $PWD/set-local-vars.sh
+fn -v deploy --app $FN_APP_NAME

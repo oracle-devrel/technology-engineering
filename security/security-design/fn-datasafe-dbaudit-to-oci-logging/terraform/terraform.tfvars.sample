@@ -1,3 +1,10 @@
+################################################################################
+# Copyright (c) 2023, Oracle and/or its affiliates. All rights reserved.
+# This software is dual-licensed to you under the Universal Permissive 
+# License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl
+################################################################################
+
+
 # Required for the OCI Provider
 tenancy_ocid="<tenancy_ocid>"
 compartment_ocid="<compartment_ocid>"
@@ -8,7 +15,8 @@ private_key_path="<key_path>"
 ocir_user_name="<user_name>"
 ocir_user_password="<auth_token>"
 
-region="us-phoenix-1"
+#OCI Region Identifier (see: https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm)
+region="<OCI Region Identifier>"
 
-# Deployment name is used in resource names
-deployment_name="test"
+# Deployment name is used in resource names (test, prod, etc..)
+deployment_name="<deployement name>"

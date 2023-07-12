@@ -94,7 +94,7 @@ user_ocid            = "<user_ocid>"
 fingerprint          = "<finger_print>"
 private_key_path     = "<pem_private_key_path>"
 
-# Region
+# #OCI Region Identifier (see: https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm)
 region = "<oci_region>"
 
 # Compartment
