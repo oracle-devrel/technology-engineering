@@ -1,4 +1,7 @@
-# Placeholder
+# Using Porting Advisor for Graviton to check compatability of  Java Applications on X86 and ARM.
+
+
+This section includes a step-by-step manual for using Porting Advisor for Graviton to check the compatability of Java Applications on X86 and ARM.
 
 # License
 
