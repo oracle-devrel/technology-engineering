@@ -39,6 +39,10 @@ Check out the links below to detailed videos, technical demonstrations, blog art
     - Detailed, step-by-step GoldenGate Marketplace Image Docker setup guide for database migrations, available on Marcus Doeringer's public platform
 - [OCI Migration Hub](https://www.oracle.com/cloud/oci-migration-hub/#rc30p2)
     - Go-to portal for Migrations to OCI
+- [How to Automate DB System Patching of Oracle Base Database in OCI](https://youtu.be/o_0KdVY631Y)
+    - Step by step Video demo on automating the DB System Patching of Oracle Base Database in OCI
+- [How to Automate Database Patching of Oracle Base Database in OCI](https://youtu.be/lzGQ0IgVbBE)
+    - Step by step Video Demo on automating the Database Patching of Oracle Base Database in OCI
  
 # License
  
