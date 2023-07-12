@@ -1,8 +1,8 @@
 # Oracle ERP Apps Architecture
 
-This ERP Architecture Group is focused on helping customers migrate on-premises ERP applications as there are EBS, JDE, PeopleSoft, to migrate these to Oracle Cloud Infrastructure  
-On top of a Migration to OCI, there might be a reason during this migration to upgrade one or both, the Application and or the Database Release to a higher version, so the customer can benefit to become more current with recent releases.
-During or after the migration, we can also add more value to your choice with a migration & modernisation to Oracle Cloud. 
+Oracle Cloud Infrastructure (OCI) offers a suite of migration, provisioning, and management tools for key Oracle “Apps Unlimited” applications, such as E-Business Suite, JD Edwards, and PeopleSoft. This makes it easy for customers to migrate their back-office applications and leverage immediate benefits, and also to incrementally optimize the applications and derive greater value over time with new integrations to other applications and new user experiences, such as digital assistants, improved data preparation, and visualization.
+
+We believe that these assets will help our Partners/Managed Service Providers/Consulting Services to expedite the migration process to OCI.
 
 # License
 
