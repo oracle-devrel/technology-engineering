@@ -295,7 +295,7 @@ PPM   | None
 #### Oracle Database Service for Azure
 Database Service for Microsoft Azure (OracleDB for Azure) is an Oracle-managed service for Azure customers to easily provision, access, and operate enterprise-grade Oracle Database services in Oracle Cloud Infrastructure (OCI) with a familiar Azure-like experience. Users can seamlessly build Azure applications with the high performance, high availability, and automated management of Oracle Database services running on OCI.
 
-![Oracle Database Service for Azure](./images/ODSAOverview.png)
+![Oracle Database Service for Azure](./images/ODSAoverview.png)
 
 OracleDB for Azure reduces the complexity of connecting your clouds, networks, identities, and data by
 - Automatically creating the network plumbing between the cloud environments (over Oracle Interconnect for Azure)
