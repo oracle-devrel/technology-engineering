@@ -1,0 +1,38 @@
+# Non Oracle Databases
+ 
+Oracle Cloud has the migration tools and Cloud Lift services to move the data into the best-suited cloud service, including Oracle Autonomous Database, MySQL, Hadoop, Object Storage, and more. Here you will find migration architectures for Non-Oracle Databases.
+ 
+# Table of Contents
+ 
+1. [Microsoft SQL Server Always On Availability Architecture Example](#team-publications)
+2. [Useful Links](#useful-uinks)
+ 
+## Team Publications
+ 
+- Microsoft SQL Server Always On Availability Architecture
+    - Deploy Microsoft SQL Server Always On availability groups on Oracle Cloud Infrastructure to take advantage of the built-in redundancy and resiliency features of Oracle Cloud
+
+ 
+## Useful Links
+ 
+- Migrate Microsoft SQL Server to Autonomous Database 
+    - You can migrate and convert a Microsoft SQL Server database to Oracle Autonomous Database 19c on Oracle Cloud Infrastructure using Oracle SQL Developer version 20.5 or higher
+- [Migrate a Microsoft SQL Server to Oracle Cloud](https://docs.oracle.com/en/solutions/migrate-microsoft-sql-to-the-cloud)
+
+- Migrate Microsoft SQL Server to OCI
+  - To migrate Microsoft SQL Server to OCI, first deploy MS SQL on OCI and then use the backup/restore method to migrate data
+- [Deploy a highly available Microsoft SQL Server database](https://docs.oracle.com/en/solutions/deploy-microsoft-sql-on-oci/index.html)
+
+- Migration Hub  
+- [Migration Hub](https://www.oracle.com/uk/cloud/oci-migration-hub)
+
+- Migrate AWS RDS for Oracle to Autonomous Database using OCI Database Migration Blog
+- [Oracle Blog on Migration Service for AWS RDS Migration](https://blogs.oracle.com/dataintegration/post/aws-rds-for-oracle-to-autonomous-database-using-oci-database-migration-service)
+ 
+# License
+ 
+Copyright (c) 2023 Oracle and/or its affiliates.
+ 
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+ 
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
