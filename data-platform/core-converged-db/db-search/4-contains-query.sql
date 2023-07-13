@@ -8,7 +8,7 @@ where CONTAINS(data,'fuzzy(Los)')>0;
 
 -- check the result in table STORES
 
-select pysical_address from stores where store_id=10;
+select physical_address from stores where store_id=10;
 
 -- check the result in table SHIPMENTS
 
