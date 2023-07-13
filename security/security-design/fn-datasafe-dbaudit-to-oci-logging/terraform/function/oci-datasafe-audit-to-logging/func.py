@@ -66,7 +66,7 @@ def generate_log_entries(audit_events, headAuditEventTime):
     logging.getLogger().debug("End Function - Generate log entries")
     return aus
 
-def get_audit_events(data_safe_cl,l_compartment_id, l_sort_order, l_limit, l_sort_by, l_compartment_id_in_subtree, l_access_level, l_scim_query, headerTimeCollected):
+def get_audit_events(data_safe_cl,l_compartment_id, l_sort_order, l_limit, l_sort_by, l_compartment_id_in_subtree, l_access_level, l_scim_query, headerTimeCollected, l_max_auditevents):
     logging.getLogger().debug("get DB Audit Events from DataSafe")
     try:   
         audit_events_response = data_safe_cl.list_audit_events(
@@ -83,7 +83,7 @@ def get_audit_events(data_safe_cl,l_compartment_id, l_sort_order, l_limit, l_sor
         ds_audit = pd.DataFrame()
         ds_audit=pd.json_normalize(to_dict(audit_events_response.data), record_path='items')
         #Paging audit events
-        while audit_events_response.has_next_page:
+        while (audit_events_response.has_next_page and len(ds_audit) < l_max_auditevents):
             audit_events_response = data_safe_cl.list_audit_events(
                                                                     compartment_id=l_compartment_id, 
                                                                     sort_order=l_sort_order,
@@ -97,6 +97,7 @@ def get_audit_events(data_safe_cl,l_compartment_id, l_sort_order, l_limit, l_sor
             #Add audit events in pandas Dataframe
             ds_audit=pd.concat([ds_audit,pd.json_normalize(to_dict(audit_events_response.data), record_path='items')],verify_integrity=True, ignore_index=True)
             logging.getLogger().info("Paging List audit events from Data Safe")
+            logging.getLogger().info("Number of audit events imported:  %s", len(ds_audit))
         if (not ds_audit.empty):
                 #To Camel Dataframe Headers
                 ds_audit.columns = map(to_camel_case, ds_audit.columns)
@@ -271,7 +272,7 @@ def main(ctx):
     limit = 10000
     access_level = "ACCESSIBLE"
     sort_by = "timeCollected"
-    sort_order = "DESC"
+    sort_order = "ASC"
     compartment_id_in_subtree = True
     headerTimeCollected = "timeCollected"
     headerAuditEventTime = "auditEventTime" 
@@ -279,6 +280,7 @@ def main(ctx):
     lock_file_name = "lock.json"
     lastAuditEventRecordTime_attr = "lastAuditEventRecordTime"
     ds_dbaudit_events = pd.DataFrame()
+    max_auditevents = 50000
 
     try:
         logging.getLogger().info("function start")
@@ -347,7 +349,7 @@ def main(ctx):
                 logging.getLogger().debug("Generate SCIM Query Done")
                 # Step 8: Get DB Audit Events from DataSafe
                 logging.getLogger().debug("get DB Audit Events from DataSafe")
-                ds_dbaudit_events = get_audit_events(data_safe_client,ociDataSafeCompartmentOCID, sort_order, limit, sort_by, compartment_id_in_subtree, access_level, scim_query, headerTimeCollected)
+                ds_dbaudit_events = get_audit_events(data_safe_client,ociDataSafeCompartmentOCID, sort_order, limit, sort_by, compartment_id_in_subtree, access_level, scim_query, headerTimeCollected, max_auditevents)
                 if not ds_dbaudit_events.empty:
                     # Step 9: Get Last Event time DB Audit Collected
                     lastdbauditeventcolletcted = ds_dbaudit_events[headerTimeCollected].iloc[0]
