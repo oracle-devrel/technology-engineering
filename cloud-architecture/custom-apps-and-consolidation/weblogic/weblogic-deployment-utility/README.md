@@ -53,6 +53,10 @@ Navigate to **Resource Manager - Stack** -> **Job** -> **Apply**
 - https://docs.oracle.com/en/cloud/paas/weblogic-cloud/scripts/terraform-scripts.html.
 - https://docs.oracle.com/en/cloud/paas/weblogic-cloud/scripts/download-terraform-configuration-file.html.
 
+## License 
 
+Copyright (c) 2023 Oracle and/or its affiliates.
 
+Licensed under the Universal Permissive License (UPL), Version 1.0.
 
+See [LICENSE](LICENSE) for more details.
