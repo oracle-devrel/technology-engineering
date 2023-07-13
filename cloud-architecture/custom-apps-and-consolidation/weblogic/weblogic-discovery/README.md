@@ -1,7 +1,7 @@
 # WebLogic Discovery
 
 The content of this folder is about WebLogic's workloads _discovery_. The term _discovery_ can include different tasks and activities
-depending on the context and the goal of the engagement.  
+depending on the context and the goals of the engagement.  
 
 ## Possible Discovery Contexts  
 
