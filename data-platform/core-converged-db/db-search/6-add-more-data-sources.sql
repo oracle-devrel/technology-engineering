@@ -10,7 +10,7 @@ SELECT METADATA output from SEARCH_PRODUCTS WHERE CONTAINS(data,'fuzzy(jon)')>0;
 
 --Let's add a row to the table CUSTOMERS und search for it again.
 
-insert into customers values (1000,'john.johnson@oracle.com','John Johnson');
+insert into customers values (2000,'john.johnson@oracle.com','John Johnson');
 
 SELECT METADATA output from SEARCH_PRODUCTS WHERE CONTAINS(data,'fuzzy(jon)')>0;
 
@@ -20,3 +20,6 @@ commit;
 
 -- search again
 SELECT METADATA output from SEARCH_PRODUCTS WHERE CONTAINS(data,'fuzzy(jon)')>0;
+
+-- optional: delete the row again 
+-- delete from customers where customer_id=1000;
