@@ -1,7 +1,7 @@
 # WebLogic Resources
 
-In this folder, we are making available several useful resources that can be used when deploying, using or configuring WebLogic as application server fro custom application. Here, we focus on _custom applications_ and we are considering WebLogic in the context of _Oracle Fusion Middleware_ applications. In the later case the WebLogic deployment must follows 
-specific rules and best practices as described in details in the specific documentation.
+In this folder, we are making available several useful resources that can be used when deploying, using or configuring WebLogic. Here, we focus on _custom applications_ in the sense that we are not considering WebLogic in the context of _Oracle Fusion Middleware_ applications. In the latter case, the WebLogic deployment must follow
+specific rules and best practices as described in detail in the dedicated documentation.
 
 ## Content Folders
 
