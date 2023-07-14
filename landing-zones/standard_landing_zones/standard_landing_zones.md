@@ -35,7 +35,7 @@ Before you start, it's important to understand the existing OCI landing zone sol
 
 
 &nbsp; 
-* **[ORACLE ENTERPRISE LANDING ZONE (OELZ)](https://blogs.oracle.com/cloudsecurity/post/enterprise-scale-baseline-landing-zone-version2)**: This is the enterprise version of the Cloud Adoption Framework (CAF) landing zone. This reference architecture provides a scalable architecture and deployment that includes designs for governance, security segmentation, and separation of duties. You can deploy multiple workloads with separate networks for isolation and access.
+* **[ORACLE ENTERPRISE LANDING ZONE (OELZ)](https://blogs.oracle.com/cloudsecurity/post/enterprise-scale-baseline-landing-zone-version2)**: This is the new version of the enterprise version of the Cloud Adoption Framework (CAF) landing zone. This solution provides a scalable architecture and deployment that includes designs for governance, security segmentation, and separation of duties. You can deploy multiple workloads with separate networks for isolation and access.
   * The current version is v2.x.
 
 
@@ -48,10 +48,10 @@ Find below an executive review of some key requirements that will influence your
 
 | DOMAIN  |  REQUIREMENT | SOLUTION  |  
 |---|---|---|
-| Segregation of Duties | You require a Network Team, Security Team, Database Team, and Applications Team | CIS LZ v2 |
-| Segregation of Duties | You require a Network Team, Security Team, and possibly a Team per Application| OELZ v2 |
+| Segregation of Duties | You require a dedicated Network Team, Security Team, Database Team, and Applications Team, operating their respective resources| CIS LZ v2 |
+| Segregation of Duties | You require a dedicated Network Team, Security Team, and possibly a Team per Application operating their respective resources | OELZ v2 |
 | Isolation of Resources | You require strong workload network isolation with NSGs | CIS LZ v2 |
-| Security | You require OCI Tenancy CIS validation | CIS LZ v2 |
+| Security | You require OCI Tenancy CIS Validation embedded on the solution | CIS LZ v2 |
 | Security | You have an older tenancy without Identity Domains | CIS LZ v2 |
 | Cost | You require no initial OCI consumption | CIS LZ v2 |
 
