@@ -29,15 +29,15 @@ The tailored approach is normally used in these cases, but not limited to:
 
 ## 2. What Are The Assets Available
 
-## 2.1 Design Blueprints
+## 2.1 Landing Zone Blueprint
 To tailor your landing zone we recommend using the **[OCI Open LZ Blueprint](https://github.com/oracle-quickstart/terraform-oci-open-lz)**, which is itself a reference solution design process. It presents an end-to-end coherent solution - with the **security, network, and operations views** - of what an organization-wide landing zone looks like, with fine-grained segregation of duties, strong isolation of resources, and a scaleable operating model.
 
-The blueprint is a solution that can be completely adjusted and easily simplified into any other type of landing zone, by following the design steps as best-practices.  Using this reference blueprint will help you create a day-two operational model ready to scale - using the IaC solution presented in the next section.
+The blueprint is a solution that can be completely adjusted and easily simplified into any other type of landing zone, by following the design steps as best-practices.  Using this reference blueprint will help you create a day-two operational model ready to scale - using the **configurable IaC solution** presented in the next section.
 
 
 &nbsp; 
 
-## 2.2 Infrastructure as Code
+## 2.2 Configurable Infrastructure as Code
 For this type of approach **we recommend the use of the CIS LZ v3 Terraform modules**, to configure your resources with json/hcl terraform native interfaces. The outcome of using this approach is that you will: 
 - **Focus on Value**: Focus on configuring your design and resources, instead of coding it. This means shorter time-to-value, lower effort, and lower risk.
 - **Best Practices**: Use existing top-quality terraform modules that are open and full of best practices. You can leverage this to evolve your OCI terraform skills and apply future IaC best practices. This also means lower risk and lower efforts.
