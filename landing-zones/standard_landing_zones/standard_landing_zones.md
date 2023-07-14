@@ -46,6 +46,9 @@ Before you start, it's important to understand the existing OCI landing zone sol
 
 Find below an executive review of some key requirements that will influence your standard landing zone decision - without any customization:
 
+&nbsp; 
+
+
 | DOMAIN  |  REQUIREMENT | SOLUTION  |  
 |---|---|---|
 | Segregation of Duties | You require a dedicated Network Team, Security Team, Database Team, and Applications Team, operating their respective resources| CIS LZ v2 |
@@ -66,10 +69,12 @@ For other design considerations (such as hub & spoke, several environments, ExaC
 
 ## 4. How Do You Start
 
+&nbsp; 
+
 | STEP  |   DESCRIPTION | 
 |:---:|---|
 | 1 | Review the previous section | 
-| 2 | Review the [landing zone landscape](/commons/select_your_solution.pdf) and understand the **considerations for using and before using**.  |
+| 2 | Review the [**landing zone landscape**](/commons/select_your_solution.pdf) for complementary **considerations for using and before using**.  |
 |3 | Select your solution:<br>- For the **CIS LZ [start here](/standard_landing_zones/cis_lz_v2/cis_landing_zone_v2.md)**. <br>- For the **OELZ [start here](/standard_landing_zones/oelz_v2/oelz_v2.md)**.
 | 4 | If you require some **custom design extending the standard landing zone**, you have the following alternatives: <br>**a. OCI Console**: Update the resources after deploying the solution. The impact of this is operating the OCI landing zone with the OCI console, i.e., manually.<br>**b. Extended IaC**: Update the code to fit your needs and deploy the solution. The impact of this might be the effort and skills required. <br>**c. Tailored with IaC**: If you require more design flexibility or your extensions break the standard solution and require structural changes, use the [tailored landing zone](/tailored_landing_zones/tailored_landing_zones.md) approach.
 
