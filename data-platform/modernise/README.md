@@ -12,9 +12,9 @@ Check out the links below to detailed videos, technical demonstrations, blog art
 - [How to survive an Oracle Database failure without your users ever noticing - Cloud Coaching Webinar]( https://www.youtube.com/watch?v=dsUbi5dO_PU)
     - Cloud Coaching Webinar, including a technical demonstration, delivered by Amalraj Puthenchira around the use of Application Continuity to avoid unplanned application outages.
 - [Oracle Learning - Red Hot Webinar - OCI Database Migration on YouTube](https://www.youtube.com/watch?v=oLpah0TlmFE)
-    - Red Hot Webinar delivered by Amalraj Puthenchira and Carlos Álvarez capturing an in-depth description of OCI Database Migration - features, functionality, use-cases and technical demonstration
+    - Red Hot Webinar delivered by Marcus Doeringer capturing an in-depth description of OCI Database Migration - features, functionality, use-cases and technical demonstration
 - [Red Hot Universally Speaking - Zero Downtime Migration session on YouTube](https://www.youtube.com/watch?v=1jQ9GtAKDF0)
-    - Red Hot Webinar delivered by Amalraj Puthenchira capturing an in-depth description of Zero Downtime Migration - features, functionality, use-cases and technical demonstration
+    - Red Hot Webinar delivered by Amalraj Puthenchira and Carlos Álvarez capturing an in-depth description of Zero Downtime Migration - features, functionality, use-cases and technical demonstration
 - [Zero Downtime Migration : Physical Offline Migration to Co-Managed Databases in OCI](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=3568)
     - Technical Hands-On workshop around Zero Downtime Migration Physical Offline Migration (RMAN) to Oracle Database in OCI
 - [Zero Downtime Migration: Physical Online Migration with Backup Location to Co-Managed Databases in OCI](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=3618)
