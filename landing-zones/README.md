@@ -19,7 +19,7 @@ The LZF is a set of assets that aim to **simplify the OCI onboarding experience*
 &nbsp; 
 
 If you're starting with landing zones, we recommend the following **decision process**:
-1. Start with the **standard** approach. 
+1. Start with the **standard** approach as they're full of best practices.
 2. If it need adjustments or **extensions** on top of the prescribed design, customize it by code or manually. 
 3. If the design requires **structural changes** to the standard landing zone and a **scalable operating model**, use the **tailored** approach with IaC configuration (json/hcl).
 
