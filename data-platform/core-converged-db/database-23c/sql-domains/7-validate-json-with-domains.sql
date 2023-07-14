@@ -22,7 +22,6 @@ create domain p_recorddomain AS JSON VALIDATE USING '{
               } 
  }' ;
 
-
 -- a check constraint is automatically created.
 
 set long 1000
@@ -31,7 +30,7 @@ select name, generated, constraint_type, search_condition
      from user_domain_constraints where domain_name like 'P_RECORD%';
 
 
--- create a table person_json
+-- create a table person
 
 drop table person;
 
