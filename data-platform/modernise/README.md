@@ -12,7 +12,7 @@ Check out the links below to detailed videos, technical demonstrations, blog art
 - [How to survive an Oracle Database failure without your users ever noticing - Cloud Coaching Webinar]( https://www.youtube.com/watch?v=dsUbi5dO_PU)
     - Cloud Coaching Webinar, including a technical demonstration, delivered by Amalraj Puthenchira around the use of Application Continuity to avoid unplanned application outages.
 - [Oracle Learning - Red Hot Webinar - OCI Database Migration on YouTube](https://www.youtube.com/watch?v=oLpah0TlmFE)
-    - Red Hot Webinar delivered by Amalraj Puthenchira capturing an in-depth description of OCI Database Migration - features, functionality, use-cases and technical demonstration
+    - Red Hot Webinar delivered by Amalraj Puthenchira and Carlos Álvarez capturing an in-depth description of OCI Database Migration - features, functionality, use-cases and technical demonstration
 - [Red Hot Universally Speaking - Zero Downtime Migration session on YouTube](https://www.youtube.com/watch?v=1jQ9GtAKDF0)
     - Red Hot Webinar delivered by Amalraj Puthenchira capturing an in-depth description of Zero Downtime Migration - features, functionality, use-cases and technical demonstration
 - [Zero Downtime Migration : Physical Offline Migration to Co-Managed Databases in OCI](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=3568)
@@ -43,6 +43,8 @@ Check out the links below to detailed videos, technical demonstrations, blog art
     - Step by step Video demo on automating the DB System Patching of Oracle Base Database in OCI
 - [How to Automate Database Patching of Oracle Base Database in OCI](https://youtu.be/lzGQ0IgVbBE)
     - Step by step Video Demo on automating the Database Patching of Oracle Base Database in OCI
+- [CLONE PDB options as a Migration Method for Windows Databases to Oracle Cloud Infrastructure](https://carlosal.wordpress.com/2023/07/14/clone-pdb-options-as-a-migration-method-for-windows-databases-to-oracle-cloud-infrastructure/)
+    - Blog technical article about migrating Windows Oracle Databases to OCI using Oracle REMOTE CLONE PDB and REFRESHABLE PDB functionalities, available on Carlos Álvarez's public platform
     
      
 # License
