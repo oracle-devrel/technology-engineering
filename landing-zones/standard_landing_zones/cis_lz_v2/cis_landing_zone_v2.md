@@ -1,30 +1,18 @@
 # CIS LZ v2
 
-
 <img src="../../images/landing_zone_300.png">
 
-&nbsp; 
-
-&nbsp; 
-
 ## 1. Before You Start
-Before starting and create the configuration, we recommend:
+Before starting and creating the configuration, we recommend:
 1. Understand [CIS Landing Zone v2 Architecture](https://docs.oracle.com/en/solutions/cis-oci-benchmark/index.html) and the OCI elements involved, as you'll be configuring the solution.
 2. Review the [GitHub Repository](https://github.com/oracle-quickstart/oci-cis-landingzone-quickstart) as it contains the complete solution documentation.
 3. Execute the Live Labs ["Deploy a Secure Landing Zone in OCI"](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3662).
 
-
-
-&nbsp; 
-
 ## 2. Create The Setup Configuration
-
 
 Your deliverable will be an OCI Landing Zone configuration. This configuration will contain all the input parameter values, that any implementation team can follow and execute. This activity is important as it will create the master configuration to enable repeatable deployments.
 
 There are two deployment models described below.
-&nbsp; 
-
 
 | DEPLOYMENT MODEL  | WHEN TO USE | GUIDELINES  |  EXAMPLES | 
 |---|---|---|---|
@@ -33,33 +21,20 @@ There are two deployment models described below.
 
 A configuration for the ORM deployment can have the format of a document, with parameters/values per ORM step, while the Terraform Command Line can have the format of tfvars.
 
-&nbsp; 
-
 ## 3. Deploy the Configuration
 
  This activity will execute the deployment configuration in a tenancy. The team responsible for this activity might not be the same in the previous step, and the configuration created will contain all the necessary information for the landing zone deployment. 
 
 The guidelines below can be used and shared informally with the deployment team to guide the process.
 
-&nbsp; 
-
-
 | DEPLOYMENT MODEL  | WHEN TO USE | GUIDELINES  |  
 |---|---|---|
 | Oracle Resource Manager (ORM) | Use this option by default | [Review Steps](/standard_landing_zones/cis_lz_v2/orm/orm_deployment_guide.pdf)<br>[Review Live Lab](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3662) | 
 | Terraform Command Line | Use this option if you have advanced terraform skills or require code extensions | *Soon*
 
-
-&nbsp; 
-
-
-
 ## 4. More on CIS LZ v2
 
 The steps above present a standard configuration and deployment of the CIS Landing Zone v2, with guidance for the key configuration decision. In the table below you can find complementary public information on this solution to expand your knowledge.
-
-&nbsp; 
-
 
 ID                  | TOPIC   		| CONTENT	|  	
 :---		                    |:------		      	|:---		   | 
@@ -73,14 +48,10 @@ ID                  | TOPIC   		| CONTENT	|
 8           | ExaCS | [How to Deploy CIS Landing Zone v2 for Exadata Cloud Service](https://www.ateam-oracle.com/post/how-to-deploy-oci-secure-landing-zone-for-exadata-cloud-service) |
 9             | Events and Alarms | [How to Operationalize the CIS Landing Zone with Alarms and Events](https://www.ateam-oracle.com/post/operational-monitoring-and-alerting-in-the-cis-landing-zone) |
 
-
-
-&nbsp; 
-
 # License
 
 Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-ngineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
