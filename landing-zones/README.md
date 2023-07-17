@@ -23,9 +23,9 @@ If you're starting with landing zones, we recommend the following **decision pro
 &nbsp; 
 
 The following support assets are also available for a better OCI experience:
-- [Resource Namining Conventions](/commons/resource_naming_conventions.md)
-- [User Identity Management](/commons/user_identity_management.md)
-- [Budgets and Tagging](/commons/budgets_and_tagging.md)
+- [Resource Namining Conventions](/landing-zones/commons/resource_naming_conventions.md)
+- [User Identity Management](/landing-zones/commons/user_identity_management.md)
+- [Budgets and Tagging](/landing-zones/commons/budgets_and_tagging.md)
 
 
 &nbsp; 
