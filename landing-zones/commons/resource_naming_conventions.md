@@ -1,7 +1,5 @@
 # RESOURCE NAMING CONVENTIONS
 
-&nbsp; 
-
 ## 1. Introduction
 
 A resource naming convention helps to identify resources, their type, and location by the name, quickly. If you don't have any naming convention in place, we recommend the following Resource Naming Convention:
@@ -20,8 +18,6 @@ The patterns used for the names are:
 - &lt;resource-type&gt;-&lt;environment&gt;-&lt;location&gt;-&lt;purpose&gt;
   &lt;resource-type&gt;-&lt;environment&gt;-&lt;source-location&gt;-&lt;destination-location&gt;-&lt;purpose&gt;
 - &lt;resource-type&gt;-&lt;entity/sub-entity&gt;-&lt;environment&gt;-&lt;function/department&gt;-&lt;project&gt;-&lt;custom&gt;
-
-&nbsp; 
 
 ## 2. List of Resource Types
 
@@ -108,14 +104,10 @@ The patterns used for the names are:
 | Vulnerability Scanning Recipe - Host | vss-rech |
 | Vulnerability Scanning Target | vss-tgt |
 
-
-&nbsp; 
-
-
 # License
 
 Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-ngineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
