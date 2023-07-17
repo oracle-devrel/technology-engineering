@@ -62,7 +62,7 @@ Find below an executive review of some key requirements that will influence the 
 
 For other design considerations (such as hub & spoke, several environments, ExaCS ready, etc.), both solutions will fit. If after reviewing the table above it's still not clear to identify a solution: 
 1. Visit [this asset](/commons/select_your_solution.pdf) for further consideration.
-2. Might be in the case that a customization is required for a standard landing zone, which should be treated as an extension of it, and **not** as rebuilding it into a different shape. Choose the solution that is nearer to the requirements.
+2. Might be in the case that customization is required for a standard landing zone, which should be treated as an extension of it, and **not** as rebuilding it into a different shape. Choose the solution that is nearer to the requirements.
 3. If it's required to rebuild/restructure a standard landing zone then  use it's recommended to use the [tailored landing zone](/tailored_landing_zones/tailored_landing_zones.md) approach.
 
 &nbsp; 
@@ -87,4 +87,4 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-ngineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
