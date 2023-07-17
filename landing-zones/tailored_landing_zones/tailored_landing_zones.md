@@ -29,11 +29,6 @@ In terms of **running**, it will be an **IaC-configured solution**, as described
 
 &nbsp; 
 
-
-
-
-
-
 ## 2. What Are The Assets Available
 
 ### 2.1 Design Blueprints
@@ -87,9 +82,9 @@ The CIS LZ v3 Terraform modules are distributed into five repositories, as descr
 
 ## 4. Other Considerations
    
-Note that the **alternative for not using the modules on section 2.1 is to code your own solution**, from scratch or reusing existing modules. From experience, we strongly recommend not following this path as it provides little value and high effort. These modules allow any configuration topology and allow to focus on business resources (workloads) instead of investing time coding to create OCI core resources. In summary, complex customizations with a standard landing zone might imply the following:
+Note that the **alternative for not using the modules in section 2.1 is to code your own solution**, from scratch or reusing existing modules. From experience, we strongly recommend not following this path as it provides little value and high effort. These modules allow any configuration topology and allow us to focus on business resources (workloads) instead of investing time coding to create OCI core resources. In summary, complex customizations with a standard landing zone might imply the following:
 - **Time-consuming**. Changing or adapting code to create a new landing zone different than the original is complex and time-consuming. This also means that any change to the landing zone will be executed by code and not configurations.
-- **Waste & Late Time-to-Value**. The time spent on adapting code, or recoding over and over for the landing/core resources (compartments, groups, policies, network) is time wasted on the workloads, which means late time-to-value.
+- **Waste & Late Time-to-Value**. The time spent on adapting code, or recording over and over for the landing/core resources (compartments, groups, policies, network) is time wasted on the workloads, which means late time-to-value.
 - **Skills Limitations**. IaC Terraform coding skills are not as common as we should expect, which makes these efforts a high challenge to solve. 
 - **Limited Scaling**. Doing the changes manually works for some tactical solutions, but it will always limit the scaling and day-two operations. Note that, for example, CIS LZ creates 100+ OCI resources.
 
@@ -104,4 +99,4 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-ngineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
