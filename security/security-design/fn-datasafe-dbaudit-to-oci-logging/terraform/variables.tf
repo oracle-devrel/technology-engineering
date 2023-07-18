@@ -141,7 +141,7 @@ variable "FunctionAppNamePrefix" {
 }
 
 variable "FunctionNamePrefix" {
-  default = "funName"
+  default = "fun"
 }
 
 variable "FunctionMemory" {
