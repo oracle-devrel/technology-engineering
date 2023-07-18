@@ -10,7 +10,7 @@
 
 locals {
     resource_nc = "-${var.deployment_name}-${var.region}-${var.purpose}-${random_id.tag.hex}"
-    resource_nc_dnslabel = "-${var.deployment_name}-${random_id.tag.hex}"
+    resource_nc_dnslabel = "${var.deployment_name}${random_id.tag.hex}"
     vcn_dns_label = "${var.vcndnslabelprefix}${local.resource_nc_dnslabel}"
     vcn_displayname = "${var.vcnnameprefix}${local.resource_nc}"
     service_gw_displayname = "${var.vcnnameservicegatewayprefix}${local.resource_nc}"
