@@ -10,11 +10,11 @@
 
 resource "oci_logging_log_group" "log_group" {
   compartment_id = var.compartment_ocid
-  display_name   = "${var.LogGroupPrefix}-${random_id.tag.hex}"
+  display_name   = local.ocilogging_group_displayname
 }
 
 resource "oci_logging_log" "log_datadafe_auditdb" {
-  display_name = "${var.LogDataSafeAuditDBNamePrefix}-${var.deployment_name}-${random_id.tag.hex}"
+  display_name = local.ocilogging_dslog_displayname
   log_group_id = oci_logging_log_group.log_group.id
   log_type     = "CUSTOM"
   is_enabled = true

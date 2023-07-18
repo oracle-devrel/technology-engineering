@@ -13,7 +13,7 @@
 resource "oci_ons_notification_topic" "schedule_ds_ocilogging_notification_topic" {
     #Required
     compartment_id = var.compartment_ocid
-    name = "${var.NotificationTopicNamePrefix}-${var.deployment_name}-${random_id.tag.hex}"
+    name = local.notificationtopic_name
 }
 
 resource "oci_ons_subscription" "schedule_ds_ocilogging_notification_subscription" {
@@ -28,7 +28,7 @@ resource "oci_monitoring_alarm" "schedule_ds_ocilogging_alarm" {
     #Required
     compartment_id = var.compartment_ocid
     destinations = [oci_ons_notification_topic.schedule_ds_ocilogging_notification_topic.id]
-    display_name = "${var.AlarmNamePrefix}-${var.deployment_name}-${random_id.tag.hex}"
+    display_name = local.alarm_displayname
     is_enabled = "true"
     metric_compartment_id =  var.compartment_ocid
     namespace = "oci_faas"

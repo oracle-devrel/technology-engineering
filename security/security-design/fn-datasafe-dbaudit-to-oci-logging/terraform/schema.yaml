@@ -136,7 +136,7 @@ variables:
     title: "VCN CIDR"
     description: "Choose VCN's CIDR block where Fn App will be deployed."
 
-  fnsubnet-CIDR:
+  subnet-CIDR:
     type: string
     required: false
     default: "10.0.2.0/24"
