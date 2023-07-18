@@ -5,15 +5,15 @@
 
 Welcome to the **Landing Zone Framework (LZF)**. 
 
-The LZF is a set of assets that aim to **simplify the OCI onboarding experience** and **reduce OCI day-one and day-two efforts**. It provides **best practices** covering the complete spectrum of OCI landing zones, from the **standards** to  **tailored** approaches.
+The LZF was created by the EMEA Landing Zone Specialists, collaborating with worldwide Oracle to **simplify the OCI onboarding experience** and **reduce OCI day-one and day-two efforts**. It provides **best practices** covering the complete spectrum of OCI landing zones, from the **standards** to  **tailored** approaches.
 
 &nbsp; 
 
 
 | APPROACH  |  DESCRIPTION | 
 |---|---|
-| <a href="/landing-zones/standard_landing_zones/standard_landing_zones.md" ><img src="images/slz.png" alt= “” width="600" height=""></a>  | **Prescribed** and **ready to use** solutions with a **guided setup** and  **IaC**. This is the recommended approach for initial landing zone deployments covering the most-common workload scenarios.  | 
-| <a href="tailored_landing_zones/tailored_landing_zones.md" ><img src="images/tlz.png" alt= “” width="600" height=""> </a>  | An approach to solve **specific requirements** when the standard is not enough. The  designs are transformed into a **configuration-as-code** solution, simple to set up, and used to scale/bridge with existing operating models,  fine-grained segregations of duties, strong network isolation, or heterogeneous workload   |  
+| <a href="/landing-zones/standard_landing_zones/standard_landing_zones.md" ><img src="images/slz.png" alt= “” width="500" height=""></a>  | **Prescribed** and **ready to use** solutions with a **guided setup** and  **IaC**. This is the recommended approach for initial landing zone deployments covering the most-common workload scenarios.  | 
+| <a href="tailored_landing_zones/tailored_landing_zones.md" ><img src="images/tlz.png" alt= “” width="500" height=""> </a>  | An approach to solve **specific requirements** when the standard is not enough. These LZs run with **configuration-as-code** and are used to scale/bridge with existing **operating models**, complying with fine-grained **segregations of duties**, strong **network isolation**, and heterogeneous **workloads**.  |  
 &nbsp; 
 
 If you're **starting with OCI landing zones**:

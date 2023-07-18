@@ -1,4 +1,4 @@
-# TAILORED LANDING ZONES 
+# **Tailored Landing Zones**
 
 &nbsp; 
 
@@ -37,7 +37,7 @@ There are **two assets** for creating OCI tailored landing zones, one for **desi
 
 &nbsp; 
 
-### 2.1 Design Blueprint
+### 2.1 Design - with a Blueprint
 To tailor a landing zone we recommend using the **[OCI Open LZ Blueprint](https://github.com/oracle-quickstart/terraform-oci-open-lz)**, which is a **reference solution** and a **repeatable design process**. It presents an end-to-end coherent solution - with the security, network, and operations views - of what an organization-wide landing zone looks like, with fine-grained segregation of duties, strong isolation of resources, and a scaleable operating model.
 
 The **benefits** of this blueprint is that it can be completely **adjusted and easily simplified** into any other type of landing zone, by following the design steps towards your needs.  Using this reference blueprint will help **create a day-two operational model ready to scale** - using the IaC solution presented in the next section.
@@ -45,7 +45,7 @@ The **benefits** of this blueprint is that it can be completely **adjusted and e
 
 &nbsp; 
 
-### 2.2 Configuration and Infrastructure as Code 
+### 2.2 Run - with Configuration and Infrastructure as Code 
 For this type of approach **we recommend** the use of the **CIS LZ v3 Terraform modules**, to **configure** the resources with *json/hcl* terraform native interfaces. 
 
 The **benefits** of using this approach is: 
@@ -95,7 +95,7 @@ The CIS LZ v3 Terraform modules are distributed into five repositories, as descr
 
 ## 4. Other Considerations
    
-Note that the **alternative** for not using the configurable approach described in section 2.1 is to **code your own solution**, from zero or reuse existing modules. The CIS v3 modules allow any configuration topology and allow to focus on business resources (workloads) instead of investing time coding to create OCI core resources. By using the recommended approach it's possible to avoid the **common pitfalls** associated with complex customizations:
+Note that the **alternative** for not using the configurable approach described in section 2.2 is to **code your own solution**, from zero or reuse existing modules. The CIS v3 modules allow any configuration topology and allow to focus on business resources (workloads) instead of investing time coding to create OCI core resources. By using the recommended approach it's possible to avoid the **common pitfalls** associated with complex customizations:
 - **Hard-coding**. Changing or adapting code to create a new landing zone different than the original is complex and time-consuming. This also means that any change to the landing zone will be executed by code and not configurations.
 - **Waste & Late Time-to-Value**. The time spent on adapting code, or re-coding over and over for the OCI landing/core resources is time wasted and not used on the business value/workloads.
 - **Limited Scaling**. Doing OCI changes manually can work for some tactical solutions, but it will always limit the scaling and add complexity and cost to the day-two operations. Note that, for example, CIS LZ creates 100+ OCI resources.
