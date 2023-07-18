@@ -1,4 +1,4 @@
-# STANDARD LANDING ZONES (SLZs)
+# **Standard Landing Zones**
 
 &nbsp; 
 
@@ -8,22 +8,22 @@
 
 ## 1. What Are Standard Landing Zones
 
-An SLZ is a **prescribed approach** to landing zones with a **guided setup**. To achieve this, a **set of configurations** are available with a predefined structure. This is the **recommended approach for initial landing zone deployments** covering the most-common workload scenarios. An SLZ can also be extended to implement specific requirements, but those **extension** resources, or **add-ons**, would be manually created or by custom code.
+A Standard Landing Zone (SLZ) is a  **prescriptive approach** to landing zones. To achieve this, a **set of configurations** are available with a predefined structure. This is the **recommended approach for initial landing zone deployments** covering the most-common workload scenarios. An SLZ can also be extended to implement specific requirements, but those **extension** resources, or **add-ons**, would be manually created or by custom code.
 
 Some characteristics of an SLZ:
 
-- It provides a set of **best practices** and a prescriptive approach to deploying secure landing zones.
+- It provides a set of **best practices** and a prescriptive solution to deploy secure landing zones.
 - It creates a **pre-defined** landing zone structure (compartments, networks, groups, policies, etc.)
 - It’s a **configurable** setup, with no design or implementation activities.
 - It provides a **secure footprint** to safely land and uses workloads.
-- It has an **automated deployment** with **public** code
+- It has an **automated deployment** with **public Infrastructure as Code (IaC)**.
 
 
 &nbsp; 
 
 ## 2. What Are The Solutions Available
 
-There are two solutions OCI Standard Landing Zones:
+There are **two solutions** OCI Standard Landing Zones:
 
 
 * **[CIS LANDING ZONE (CIS LZ)](https://docs.oracle.com/en/solutions/cis-oci-benchmark/index.html)**:  This solution provides a Terraform-based landing zone template that meets the security guidance prescribed in CIS Oracle Cloud Infrastructure Foundations Benchmark. This LZ brings in the ability to provision multiple VCNs, either in standalone mode or as constituent parts of a Hub and Spoke architecture. The VCNs can either follow a general purpose standard three-tier network topology or are oriented towards specific topologies. 
@@ -48,22 +48,22 @@ Find below an executive review of some key requirements that will influence the 
 
 | DOMAIN  |  REQUIREMENT | SOLUTION  |  
 |---|---|---|
-| **Segregation of Duties** | A dedicated **Network** Team, **Security** Team, **Database** Team, and **Applications** Team, operating their respective resources | CIS LZ v2 |
-| **Segregation of Duties** | A dedicated **Network** Team, **Security** Team, and possibly a Team per **Application** operating their respective resources | OELZ v2 |
-| **Networt** | A strong workload network isolation with **NSGs** is required | CIS LZ v2 |
-| **Security** | **CIS Compliant** solution with embedded **CIS validations** | CIS LZ v2 |
-| **IAM** | The target tenancy **without Identity Domains** | CIS LZ v2 |
-| **Cost** | Starting with **no initial OCI consumption** is required | CIS LZ v2 |
+| **Segregation of Duties** | A dedicated **Network** Team, **Security** Team, **Database** Team, and **Applications** Team, operating their respective resources. | CIS LZ v2 |
+| **Segregation of Duties** | A dedicated **Network** Team, **Security** Team, and possibly a Team per **Application** operating their respective resources. | OELZ v2 |
+| **Network** | Strong workload network isolation with **NSGs**. | CIS LZ v2 |
+| **Security** | **CIS Compliant** solution with embedded **CIS validations**. | CIS LZ v2 |
+| **IAM** | The target tenancy **without Identity Domains**. | CIS LZ v2 |
+| **Cost** | Starting with **no initial OCI consumption**. | CIS LZ v2 |
 
 &nbsp; 
 
 For other design considerations (such as hub & spoke, several environments, ExaCS ready, etc.), both solutions will tend to fit. Note the support model for both solutions is UPL 1.0. 
 
 If after reviewing the table above the solution is not clear: 
-1. Visit [landing zone landscape](/landing-zones/commons/select_your_solution.pdf) for further consideration.
-2. Might be the case that a customization is required for a standard landing zone, which should be treated as an extension of it, and **not** as rebuilding it into a different shape. Choose the solution that is nearer to the requirements.
-3. If it's required to rebuild/restructure a standard landing zone then  use it's recommended to use the [tailored landing zone](/landing-zones/tailored_landing_zones/tailored_landing_zones.md) approach.
-4. Reach out to us for a recommendation.
+1. Visit [**landing zone landscape**](/landing-zones/commons/select_your_solution.pdf) for further consideration.
+2. Might be the case that a **customization** is required for a standard landing zone, which should be treated as an extension of it, and **not** as rebuilding it into a different shape. Choose the solution that is nearer to the requirements.
+3. If it's required to r**ebuild/restructure** a standard landing zone then  use it's recommended to use the [**tailored landing zone**](/landing-zones/tailored_landing_zones/tailored_landing_zones.md) approach.
+4. If none of the above is sufficient, reach out to us for a recommendation.
 
 &nbsp; 
 

@@ -26,8 +26,8 @@ There are two deployment models described below.
 
 | DEPLOYMENT MODEL  | WHEN TO USE | GUIDELINES  |  EXAMPLES | 
 |---|---|---|---|
-| Oracle Resource Manager (ORM) | Use this option by default |[View](/landing-zones/standard_landing_zones/cis_lz_v2/orm/orm_configuration_guide.pdf)  | [Quick Start](/landing-zones/standard_landing_zones/cis_lz_v2/orm/samples/oci_cislz_configuration_example-quickstart_scenario.pdf)<br> [Production](/landing-zones/standard_landing_zones/cis_lz_v2/orm/samples/oci_cislz_configuration_example-production_scenario.pdf) |
-| Terraform Command Line | Use this option if you have advanced terraform skills or require code extensions |*Soon* | |
+| Oracle Resource Manager (ORM) | Use this option by default. |[View](/landing-zones/standard_landing_zones/cis_lz_v2/orm/orm_configuration_guide.pdf)  | [Quick Start](/landing-zones/standard_landing_zones/cis_lz_v2/orm/samples/oci_cislz_configuration_example-quickstart_scenario.pdf)<br> [Production](/landing-zones/standard_landing_zones/cis_lz_v2/orm/samples/oci_cislz_configuration_example-production_scenario.pdf) |
+| Terraform Command Line | Use this option if you have advanced terraform skills or require code extensions. |*Soon* | |
 
 A configuration for the ORM deployment can have the format of a document, with parameters/values per ORM step, while the Terraform Command Line can have the format of tfvars.
 
@@ -43,8 +43,8 @@ The guidelines below can be used and shared informally with the deployment team 
 
 | DEPLOYMENT MODEL  | WHEN TO USE | GUIDELINES  |  
 |---|---|---|
-| Oracle Resource Manager (ORM) | Use this option by default | [Review Steps](/landing-zones/standard_landing_zones/cis_lz_v2/orm/orm_deployment_guide.pdf)<br>[Review Live Lab](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3662) | 
-| Terraform Command Line | Use this option if you have advanced terraform skills or require code extensions | *Soon*
+| Oracle Resource Manager (ORM) | Use this option by default. | [Review Steps](/landing-zones/standard_landing_zones/cis_lz_v2/orm/orm_deployment_guide.pdf)<br>[Review Live Lab](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3662) | 
+| Terraform Command Line | Use this option if you have advanced terraform skills or require code extensions. | *Soon*
 
 &nbsp; 
 
