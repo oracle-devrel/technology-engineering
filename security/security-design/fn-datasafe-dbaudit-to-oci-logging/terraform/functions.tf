@@ -12,7 +12,7 @@
 resource "oci_functions_application" "DataSafeAuditDBtoLoggingApp" {
   compartment_id = var.compartment_ocid
   display_name   = "${var.FunctionAppNamePrefix}-${var.deployment_name}-${random_id.tag.hex}"
-  subnet_ids     = [var.create_network ? module.setup-network[0].fnsubnet_ocid : var.subnet_ocid] 
+  subnet_ids     = [var.create_network ? module.setup-network[0].subnet_ocid : var.subnet_ocid] 
 }
 
 resource "oci_functions_function" "postauditlogs" {
