@@ -9,12 +9,7 @@
 ################################################################################
 
 
-# Functions Policies
-
-locals {
-  policy_displayname = "${var.PolicyNamePrefix}${local.resource_nc}"
-  dynamicgroup_displayname = "${var.DynamicGroupNamePrefix}${local.resource_nc}"
-}
+#  Policies
 
 resource "oci_identity_policy" "DataSafetoLoggingFunctionsPolicy" {
   provider = oci.homeregion
