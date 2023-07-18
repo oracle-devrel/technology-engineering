@@ -14,7 +14,7 @@ data "oci_objectstorage_namespace" "bucket_namespace" {
 
 resource "oci_objectstorage_bucket" "tracker-bucket" {
   compartment_id        = var.compartment_ocid
-  name                  = "${var.tracker-bucket}-${var.deployment_name}-${random_id.tag.hex}"
+  name                  = local.tracker_bucket_name
   namespace             = data.oci_objectstorage_namespace.bucket_namespace.namespace
 
 }

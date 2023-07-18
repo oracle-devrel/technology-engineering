@@ -14,5 +14,5 @@
 resource "oci_artifacts_container_repository" "fn_container_repository" {
   
   compartment_id = var.compartment_ocid
-  display_name   = "${var.ocir_repo_name}-${var.deployment_name}-${random_id.tag.hex}"
+  display_name   = local.oci_repo_displayname
 }

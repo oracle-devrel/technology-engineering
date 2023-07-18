@@ -16,4 +16,9 @@ locals {
   resource_nc = "-${var.deployment_name}-${var.region}-${var.purpose}-${random_id.tag.hex}"
   policy_displayname = "${var.PolicyNamePrefix}${local.resource_nc}"
   dynamicgroup_displayname = "${var.DynamicGroupNamePrefix}${local.resource_nc}"
+  tracker_bucket_name = "${var.tracker-bucket}${local.resource_nc}"
+  oci_repo_displayname = "${var.ocir_repo_name}${local.resource_nc}"
+  functionapp_display_name = "${var.FunctionAppNamePrefix}${local.resource_nc}"
+  function_display_name = "${var.FunctionNamePrefix}${local.resource_nc}"
+  function_invoke_oci_logging_displayname = "${var.FunctionInvokeOCILoggingName}${local.resource_nc}"
 }
