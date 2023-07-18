@@ -57,4 +57,7 @@ module "setup-network" {
   subnetdnslabelprefix = var.subnetdnslabelprefix
   vcnnamesecuritylistprefix = var.vcnnamesecuritylistprefix
   vcnnameservicegatewayprefix = var.vcnnameservicegatewayprefix
+  deployment_name = var.deployment_name
+  region = var.region
+  purpose = var.purpose
 }

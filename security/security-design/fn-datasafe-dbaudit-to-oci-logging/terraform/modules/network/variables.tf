@@ -8,6 +8,16 @@
 #
 ################################################################################
 
+variable "deployment_name" {
+  description = "Deployment Name"
+
+variable "region" {
+  description = "OCI Region"
+}
+
+variable "purpose" {
+}
+
 variable "compartment_ocid" {
   description = "the OCID of the compartment where the environment will be created."
 }
