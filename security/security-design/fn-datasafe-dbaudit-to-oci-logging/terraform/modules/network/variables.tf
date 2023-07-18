@@ -10,7 +10,7 @@
 
 variable "deployment_name" {
   description = "Deployment Name"
-
+}
 variable "region" {
   description = "OCI Region"
 }
