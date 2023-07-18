@@ -8,6 +8,16 @@ Explore these materials to enhance your migration strategy. We appreciate your p
  
 # Table of Contents
 
+<!-- 
+ - **Communications** Global Business Unit (CGBU) _(coming soon)_
+ - **Construction and Engineering** Global Business Unit (CEGBU) _(coming soon)_
+ - **Energy and Water** Global Business Unit (EWGBU) _(coming soon)_
+ - **Financial Services** Global Business Unit (FSGBU) _(coming soon)_
+ - **Food and Beverage** Global Business Unit (FBGBU) _(coming soon)_
+ - **Health Care** Global Business Unit (HCGBU) _(coming soon)_
+ - **Health Sciences** Global Business Unit (HSGBU) _(coming soon)_
+ - **Hospitality** Global Business Unit (HGBU) _(coming soon)_
+ --> 
 <!--
  - [**Communications** Global Business Unit (CGBU)](./communications-gbu)
  - [**Construction and Engineering** Global Business Unit (CEGBU)](./construction-and-engineering-gbu)
@@ -18,7 +28,6 @@ Explore these materials to enhance your migration strategy. We appreciate your p
  - [**Health Sciences** Global Business Unit (HSGBU)](./health-sciences-gbu)
  - [**Hospitality** Global Business Unit (HGBU)](./hospitality-gbu)
  -->
- 
  - [**Retail** Global Business Unit (RGBU)](./retail-gbu)
 
 # License

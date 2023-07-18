@@ -23,6 +23,8 @@ The reusable assets available in this repository:
 ## Useful Links
  
 - [Oracle Retail On-Premise Applications documentation](https://docs.oracle.com/en/industries/retail/onpremapps.html)
+- [Oracle Retail Applications Lifetime Support Policy](https://www.oracle.com/us/assets/lifetime-support-retail-brochure-069175.pdf)
+- [Oracle Retail Infrastructure Compatibilities / Certification Matrix](https://support.oracle.com/epmos/faces/DocumentDisplay?id=857142.1)
 - Reference Architectures:
   - [Learn about architecting retail applications on Oracle Cloud](https://docs.oracle.com/en/solutions/learn-implement-rms-on-oci/index.html)
   - [Deploy Oracle Retail Xstore Office on Oracle Autonomous Database](https://docs.oracle.com/en/solutions/oci-adb-xstore-office/index.html)
