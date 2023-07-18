@@ -2,7 +2,7 @@
 
 This document can be used as a reference to support the decision about migrating and upgrading Oracle Retail Merchandising System.
 
-[asset preview](http://htmlpreview.github.io/?https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-architecture/oracle-apps-hyperion-siebel-gbu/gbu/retail-gbu/rms-decision-tree/files/rms-decision-tree.html)
+[asset preview](https://raw.githack.com/oracle-devrel/technology-engineering/main/cloud-architecture/oracle-apps-hyperion-siebel-gbu/gbu/retail-gbu/rms-decision-tree/files/rms-decision-tree.html)
 
 ## When to use this asset?
 
