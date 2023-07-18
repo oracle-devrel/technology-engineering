@@ -123,10 +123,8 @@ Run the following commands:
 
 You can test the stack by login/logout in the DB already integrated with Data Safe that generates DB audit log. The function will load the logs in 1 minutes and you can see it in Logging Console.
 In Logging Console will be present a new Log Group (ex. loggr-test-eu-milan-1-fn_ds_to_ol-d54e) and relative 2 logs:
-    
-    - Log with data from Data Safe: Log Type Custom (example log name: log-test-eu-milan-1-fn_ds_to_ol-d54e)
-    - Log execution function: Log Type Service (example log name: fn-datasafe-dbaudit-test-eu-milan-1-fn_ds_to_ol-d54e)
-
+- Log with data from Data Safe: Log Type Custom (example log name: log-test-eu-milan-1-fn_ds_to_ol-d54e)
+- Log execution function: Log Type Service (example log name: fn-datasafe-dbaudit-test-eu-milan-1-fn_ds_to_ol-d54e)
 
 ### Destroy the Deployment
 When you no longer need the deployment, you can run this command to destroy the resources:
