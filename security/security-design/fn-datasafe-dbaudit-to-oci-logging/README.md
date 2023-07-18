@@ -108,7 +108,7 @@ ocir_user_name         = "<ocir_user_name>"  <- OCI Registry username (your OCI 
 ocir_user_password     = "<ocir_user_password>" <- OCI Registry user password (your OCI user authtoken)
 
 # Deployment name is used in resource names
-deployment_name="test"
+deployment_name="<deployment name>"
 
 ```
 
