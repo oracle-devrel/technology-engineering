@@ -48,4 +48,13 @@ module "setup-network" {
   compartment_ocid = var.compartment_ocid
   VCN-CIDR = var.VCN-CIDR
   subnet-CIDR = var.subnet-CIDR
+  vcndnslabelprefix = var.vcndnslabelprefix
+  vcnnameprefix = var.vcnnameprefix
+  vcnnameroutingtableprefix = var.vcnnameroutingtableprefix
+  vcnroutingtabledescriptionservicegw = var.vcnroutingtabledescriptionservicegw
+  vcnnamedhcpopitonsprefix = var.vcnnamedhcpopitonsprefix
+  subnetnameprefix = var.subnetnameprefix
+  subnetdnslabelprefix = var.subnetdnslabelprefix
+  vcnnamesecuritylistprefix = var.vcnnamesecuritylistprefix
+  vcnnameservicegatewayprefix = var.vcnnameservicegatewayprefix
 }
