@@ -8,6 +8,6 @@
 #
 ################################################################################
 
-output "fnsubnet_ocid"{
-    value = oci_core_subnet.function_ds_log_vcn.id
+output "subnet_ocid"{
+    value = oci_core_subnet.vcn_subnet.id
 }

@@ -280,6 +280,7 @@ def main(ctx):
     lock_file_name = "lock.json"
     lastAuditEventRecordTime_attr = "lastAuditEventRecordTime"
     ds_dbaudit_events = pd.DataFrame()
+    #Maximun number of audit events collected for each execution. The value 50000 is specific with function timeout equal to 5 mins.  
     max_auditevents = 50000
 
     try:

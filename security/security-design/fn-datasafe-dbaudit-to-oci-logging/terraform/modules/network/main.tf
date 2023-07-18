@@ -9,11 +9,23 @@
 ################################################################################
 
 
+locals {
+    resource_nc = "-${var.deployment_name}-${var.region}-${var.purpose}-${random_id.tag.hex}"
+    vcn_dns_label = "${var.vcndnslabelprefix}${local.resource_nc}"
+    vcn_displayname = "${var.vcnnameprefix}${local.resource_nc}"
+    service_gw_displayname = "${var.vcnnameservicegatewayprefix}${local.resource_nc}"
+    vcnnameroutingtable_displayname = "${var.vcnnameroutingtableprefix}${local.resource_nc}"
+    dhcpoptions_displayname = "${var.vcnnamedhcpopitonsprefix}${local.resource_nc}"
+    subnet_displayname = "${var.subnetnameprefix}${local.resource_nc}"
+    subnet_dns_label = "${var.subnetdnslabelprefix}${local.resource_nc}"
+    vcn_securitylist_displayname = "${var.vcnnamesecuritylistprefix}${local.resource_nc}"
+}
+
 resource "oci_core_virtual_network" "vcn" {
   cidr_block     = var.VCN-CIDR
-  dns_label      = "${var.vcndnslabelprefix}${random_id.tag.hex}"
+  dns_label      = local.vcn_dns_label
   compartment_id = var.compartment_ocid
-  display_name   = "${var.vcnnameprefix}-${random_id.tag.hex}"
+  display_name   = local.vcn_displayname
 }
 
 data "oci_core_services" "service_gateway_all_oci_services" {
@@ -31,19 +43,19 @@ resource "oci_core_service_gateway" "service_gw" {
   services {
         service_id = lookup(data.oci_core_services.service_gateway_all_oci_services.services[0], "id")
   }
-  display_name = "${var.vcnnameservicegatewayprefix}-${random_id.tag.hex}"
+  display_name = local.service_gw_displayname
 }
 
 resource "oci_core_route_table" "rt_fn_subnet" {
   compartment_id = var.compartment_ocid
   vcn_id         = oci_core_virtual_network.vcn.id
-  display_name   = "${var.vcnnameroutingtableprefix}-${random_id.tag.hex}"
+  display_name   = local.vcnnameroutingtable_displayname
   
   route_rules {
     destination       = lookup(data.oci_core_services.service_gateway_all_oci_services.services[0], "cidr_block")
     destination_type  = "SERVICE_CIDR_BLOCK"
     network_entity_id = oci_core_service_gateway.service_gw.id
-    description = "${var.vcnroutingtabledescriptionservicegw}-${random_id.tag.hex}"
+    description = var.vcnroutingtabledescriptionservicegw
   }
   
 }
@@ -53,17 +65,17 @@ resource "oci_core_route_table" "rt_fn_subnet" {
 resource "oci_core_dhcp_options" "dhcpoptions1" {
   compartment_id = var.compartment_ocid
   vcn_id         = oci_core_virtual_network.vcn.id
-  display_name   = "${var.vcnnamedhcpopitonsprefix}-${random_id.tag.hex}"
+  display_name   = local.dhcpoptions_displayname
   options {
     type        = "DomainNameServer"
     server_type = "VcnLocalPlusInternet"
   }  
 }
 
-resource "oci_core_subnet" "function_ds_log_vcn" {
+resource "oci_core_subnet" "vcn_subnet" {
   cidr_block        = var.subnet-CIDR
-  display_name      = "${var.subnetnameprefix}-${random_id.tag.hex}"
-  dns_label         = "${var.subnetdnslabelprefix}${random_id.tag.hex}"
+  display_name      = local.subnet_displayname
+  dns_label         = local.subnet_dns_label
   compartment_id    = var.compartment_ocid
   vcn_id            = oci_core_virtual_network.vcn.id
   route_table_id    = oci_core_route_table.rt_fn_subnet.id
@@ -76,7 +88,7 @@ resource "oci_core_subnet" "function_ds_log_vcn" {
 resource "oci_core_security_list" "vcn_security_list"{
   compartment_id = var.compartment_ocid
   vcn_id         = oci_core_virtual_network.vcn.id
-  display_name = "${var.vcnnamesecuritylistprefix}-${random_id.tag.hex}"
+  display_name = local.vcn_securitylist_displayname
 
   egress_security_rules {
       stateless = false

@@ -47,5 +47,5 @@ module "setup-network" {
   count  = var.create_network ? 1 : 0
   compartment_ocid = var.compartment_ocid
   VCN-CIDR = var.VCN-CIDR
-  fnsubnet-CIDR = var.fnsubnet-CIDR
+  subnet-CIDR = var.subnet-CIDR
 }

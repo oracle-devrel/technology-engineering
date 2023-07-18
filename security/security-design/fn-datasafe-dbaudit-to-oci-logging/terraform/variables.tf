@@ -28,6 +28,11 @@ variable "region" {}
 variable "ocir_user_name" {}
 variable "ocir_user_password" {}
 
+variable "purpose" {
+  default ="fn_ds_to_ol"
+}
+
+
 variable "deployment_name" {
     default = "test"
 }
