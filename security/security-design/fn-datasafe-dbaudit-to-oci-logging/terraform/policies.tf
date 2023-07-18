@@ -15,8 +15,8 @@
 resource "oci_identity_policy" "DataSafetoLoggingFunctionsPolicy" {
   provider = oci.homeregion
   depends_on     = [oci_identity_dynamic_group.DataSafetoLoggingFunctionsServiceDynamicGroup]
-  name = "${var.PolicyNamePrefix}-${local.compartment_name}-${random_id.tag.hex}"
-  description = "${var.PolicyDescription}"
+  name = local.policy_displayname
+  description = var.PolicyDescription
   compartment_id = var.tenancy_ocid
   count = var.setup_policies ? 1 : 0
   statements = ["Allow dynamic-group ${oci_identity_dynamic_group.DataSafetoLoggingFunctionsServiceDynamicGroup[0].name} to use log-content in compartment id ${var.compartment_ocid} where target.loggroup.id=${oci_logging_log_group.log_group.id}", 
@@ -33,8 +33,8 @@ resource "oci_identity_policy" "DataSafetoLoggingFunctionsPolicy" {
 
 resource "oci_identity_dynamic_group" "DataSafetoLoggingFunctionsServiceDynamicGroup" {
   provider = oci.homeregion
-  name           = "${var.DynamicGroupNamePrefix}-${local.compartment_name}-${random_id.tag.hex}"
-  description    =  "${var.DynamicGroupDescription}"
+  name           = local.dynamicgroup_displayname
+  description    =  var.DynamicGroupDescription
   compartment_id = var.tenancy_ocid
   count = var.setup_policies ? 1 : 0
   matching_rule  = "ALL {resource.type = 'fnfunc', resource.compartment.id = '${var.compartment_ocid}'}"
