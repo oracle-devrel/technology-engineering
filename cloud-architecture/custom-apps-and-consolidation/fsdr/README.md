@@ -10,22 +10,23 @@ Using OCI Full Stack DR provides a single pane of glass monitoring and managemen
 ## When to use this asset?
 
 ### Use Case - Move a virtual machine between OCI regions using Full Stack Disaster Recovery
-To move a compute VM that has just a boot volume attached to it from one region to other regions using Full Stack Disaster Recovery.
 
-- https://docs.oracle.com/en/learn/full-stack-dr-to-move-vm/
+To move a compute VM that has just a boot volume attached to it from one region to another region using Full Stack Disaster Recovery.
+
+- [Move a virtual machine between OCI regions using Full Stack Disaster Recovery](https://docs.oracle.com/en/learn/full-stack-dr-to-move-vm/)
 
 ### Use Case - Automate Disaster Recovery switchover and failover operations for Oracle WebLogic Server with OCI Full Stack Disaster Recovery
 
 To automate Disaster Recovery Switchover and Failover operations of Oracle WebLogic Server using OCI Stack Disaster Recovery.
-- https://docs.oracle.com/en/learn/full-stack-dr-integration-weblogic/
+- [Automate Disaster Recovery switchover and failover operations for Oracle WebLogic Server with OCI Full Stack Disaster Recovery](https://docs.oracle.com/en/learn/full-stack-dr-integration-weblogic/)
 
 
 
 ## Useful Links
 
-- https://docs.oracle.com/en-us/iaas/disaster-recovery/index.html
-- https://www.oracle.com/a/otn/docs/middleware/maa-wls-mp-dr.pdf
-- https://www.oracle.com/in/cloud/full-stack-disaster-recovery/
+- [Documentation: Full Stack Disaster Recovery](https://docs.oracle.com/en-us/iaas/disaster-recovery/index.html)
+- [Oracle WebLogic Server for Oracle Cloud Infrastructure Disaster Recovery](https://www.oracle.com/a/otn/docs/middleware/maa-wls-mp-dr.pdf)
+- [Oracle.com: Full Stack Disaster Recovery](https://www.oracle.com/in/cloud/full-stack-disaster-recovery/)
 
 # License
 
