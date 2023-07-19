@@ -44,7 +44,7 @@ variable "release" {
 }
 
 variable "ocir_repo_name" {
-  default = "oci-datasafe-audit-to-logging"
+  default = "rep"
 }
 
 variable "setup_policies" {
