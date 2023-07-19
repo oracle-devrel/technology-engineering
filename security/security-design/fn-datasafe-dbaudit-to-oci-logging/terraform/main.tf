@@ -13,7 +13,7 @@ resource "null_resource" "Login2OCIR" {
     oci_artifacts_container_repository.fn_container_repository, oci_functions_application.DataSafeAuditDBtoLoggingApp]
 
   provisioner "local-exec" {
-    command = "fn update context ${var.compartment_ocid}"
+    command = "fn list context"
   }
   provisioner "local-exec" {
     command = "echo '${var.ocir_user_password}' |  docker login ${local.ocir_docker_repository} --username ${local.namespace}/${var.ocir_user_name} --password-stdin"
