@@ -20,7 +20,7 @@ resource "oci_functions_function" "postauditlogs" {
   application_id = oci_functions_application.DataSafeAuditDBtoLoggingApp.id
   display_name   = local.function_display_name
   #image          = "${local.ocir_docker_repository}/${local.namespace}/${var.ocir_repo_name}/${var.FunctionNamePrefix}:0.0.1"
-  image          = "${local.ocir_docker_repository}/${oci_artifacts_container_repository.fn_container_repository.namespace}/${oci_artifacts_container_repository.fn_container_repository.display_name}/${local.function_display_name}:0.0.1"
+  image          = "${local.ocir_docker_repository}/${local.namespace}/${oci_artifacts_container_repository.fn_container_repository.display_name}/${local.function_display_name}:0.0.1"
   memory_in_mbs  =  var.FunctionMemory
   timeout_in_seconds = var.FunctionTimeoutSec
   config = {
