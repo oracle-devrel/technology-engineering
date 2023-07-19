@@ -37,16 +37,12 @@
 ###
 # This is a sample python script that post a custom metric (service_limits) to oci monitoring based on Tenancy Service Limits information.
 # Run this script on any host with python with access to your tenancy.
-# Command: python3 postServiceLimitsMetricsIAM.py
+# Command: python3 postServiceLimitsMetricsIP.py
 # Version: 0.1
 ###
 
 import oci,datetime,json
 from pytz import timezone
-
-# Using IAM user credentials and default profile (~/.oci/config)
-from oci.config import from_file
-config = from_file()
 
 # Vars:
 # Replace here with your tenancy's root compartment OCID
@@ -56,20 +52,24 @@ compartment_ocid = "ocid1.tenancy.oc1....."
 now = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 print("[", now,"] Starting OCI Service Metrics limits gathering and customer metrics post...")
 
+# Setup the signer for the instance principal auth method
+signer = oci.auth.signers.InstancePrincipalsSecurityTokenSigner()
+
 # We gather the list of availability domains in the region
-identity_client = oci.identity.IdentityClient(config)
+identity_client = oci.identity.IdentityClient(config={}, signer=signer)
 list_availability_domains_response = identity_client.list_availability_domains(compartment_id = compartment_ocid)
 
 # Get the data from response
 print(list_availability_domains_response.data)
 
 # Initialize service client with default config file
-monitoring_client = oci.monitoring.MonitoringClient(config,service_endpoint="https://telemetry-ingestion.eu-frankfurt-1.oraclecloud.com")
+#monitoring_client = oci.monitoring.MonitoringClient(config={}, signer=signer)
+monitoring_client = oci.monitoring.MonitoringClient(config={},service_endpoint="https://telemetry-ingestion.eu-frankfurt-1.oraclecloud.com",signer=signer)
 
 # Get Service Limits
 
 # Initialize service client with default config file
-limits_client = oci.limits.LimitsClient(config)
+limits_client = oci.limits.LimitsClient(config={}, signer=signer)
 
 # Send the request to service, some parameters are not required, see API
 # doc for more info

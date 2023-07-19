@@ -2,6 +2,7 @@
 # Using python SDK to create OCI Monitoring custom metric namespace: Services Limit monitoring example use case
 
 ## 1. INTRODUCTION
+
 Describes how any user can create an OCI Monitoring ***custom metric namespace*** to being able to extend the default services metric namespaces. For that, we'll support on python SDK to create an script that can be run in an OCI VM (using instance principals authentication), or any other external system (using OCI IAM principals). To cover this educational example, we'll use as an example the creation of a custom metric namespace to monitor the OCI Services Limits usage. With this custom metric namespace, OCI alarms can be created and OCI Notification Service can be used to send the alarm information by different means to allow to create proactively a Service Limit Service Request to increase the limit before causing any disruption in the running services or services to be provisioned.
 
 ## 2. SOLUTION
@@ -39,7 +40,7 @@ Basically the **logic** is:
 
 ````
 Start
-Gather the IAM user connection details from OCI Config
+Setup the OCI connection authentication (OCI IAM Config or Instance Principals)
 Set compartment_ocid
 Initialize the clients for the different API calls (IAM, Monitoring, Service Limits)
 Gather the full list of Service Limits Definitions sorted by Service Limit name
@@ -71,7 +72,7 @@ To execute the script:
         ````
         $ python3 serviceLimitsMetricsIP.py
         ````
-        * The script is available **TBD**
+        * The script is available [here](./files/Scripts/postServiceLimitsMetricsIP.py)
 
 
 ## 5. REQUIREMENTS
@@ -87,7 +88,11 @@ We have different requirements depending on the variant of this asset that we wo
       * use metrics in tenancy
   
 2. **Instance Principal**
-   * ***TBD***
+   * An existing dynamic group identifying the VM where to run the script as member of the group
+   * A policy granting the dynamic group to:
+      * inspect resource-availability in tenancy
+      * inspect limits in tenancy
+      * use metrics in tenancy
 
 3. ***Common requirements***
 The VM where to run the script must have installed python3 with the following required packages installed with pip:
