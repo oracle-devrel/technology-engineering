@@ -32,7 +32,7 @@ resource "null_resource" "DataSafeAuditDBtoLoggingPush2OCIR" {
   }
 
   provisioner "local-exec" {
-    command     = "image=$(docker images | grep oci-datasafe-audit-to-logging | awk -F ' ' '{print $3}') ; docker tag $image ${local.ocir_docker_repository}/${oci_artifacts_container_repository.fn_container_repository.namespace}/${oci_artifacts_container_repository.fn_container_repository.display_name}/${local.function_display_name}:0.0.1"
+    command     = "image=$(docker images | grep oci-datasafe-audit-to-logging | awk -F ' ' '{print $3}') ; docker tag $image ${local.ocir_docker_repository}/${oci_artifacts_container_repository.fn_container_repository.display_name}/${oci_artifacts_container_repository.fn_container_repository.display_name}/${local.function_display_name}:0.0.1"
     working_dir = local.working_dir
  }
 
