@@ -11,7 +11,7 @@ This document serves as an integral asset for individuals and organizations seek
 Use this document as a starting point for your Hyperion or Essbase migration project.
 
 ### Useful Links
-The validated Solution Guide for Hyperion EPM on OCI can be found [here](https://www.oracle.com/a/ocom/docs/cloud/hyperion-epm-on-oci-validated-solution-guide.pdf/) .
+The validated Solution Guide for Hyperion EPM on OCI can be found [here](https://www.oracle.com/a/ocom/docs/cloud/hyperion-epm-on-oci-validated-solution-guide.pdf) .
 
 # License
 
