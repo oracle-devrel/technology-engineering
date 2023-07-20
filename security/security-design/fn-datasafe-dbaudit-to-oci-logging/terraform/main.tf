@@ -8,41 +8,7 @@
 #
 ################################################################################
 
-resource "null_resource" "Login2OCIR" {
-  depends_on = [module.setup-network, oci_objectstorage_bucket.tracker-bucket, oci_identity_policy.DataSafetoLoggingFunctionsPolicy,
-    oci_artifacts_container_repository.fn_container_repository, oci_functions_application.DataSafeAuditDBtoLoggingApp]
 
-  provisioner "local-exec" {
-    command = "fn list context"
-  }
-  provisioner "local-exec" {
-    command = "echo '${var.ocir_user_password}' |  docker login ${local.ocir_docker_repository} --username ${local.namespace}/${var.ocir_user_name} --password-stdin"
-  }
-}
-
-resource "null_resource" "DataSafeAuditDBtoLoggingPush2OCIR" {
-  depends_on = [null_resource.Login2OCIR, oci_functions_application.DataSafeAuditDBtoLoggingApp]
-
-  provisioner "local-exec" {
-    command     = "image=$(docker images | grep oci-datasafe-audit-to-logging | awk -F ' ' '{print $3}') ; docker rmi -f $image &> /dev/null ; echo $image"
-    working_dir = local.working_dir
-  }
-
-  provisioner "local-exec" {
-    command     = "fn build --verbose"
-    working_dir = local.working_dir
-  }
-
-  provisioner "local-exec" {
-    command     = "image=$(docker images | grep oci-datasafe-audit-to-logging | awk -F ' ' '{print $3}') ; docker tag $image ${local.ocir_docker_repository}/${local.namespace}/${oci_artifacts_container_repository.fn_container_repository.display_name}/${local.function_display_name}:0.0.1"
-    working_dir = local.working_dir
- }
-
-  provisioner "local-exec" {
-    command     = "docker push ${local.ocir_docker_repository}/${local.namespace}/${oci_artifacts_container_repository.fn_container_repository.display_name}/${local.function_display_name}:0.0.1"
-    working_dir = local.working_dir
- }
-}
 
 module "setup-network" {
   source = "./modules/network"
