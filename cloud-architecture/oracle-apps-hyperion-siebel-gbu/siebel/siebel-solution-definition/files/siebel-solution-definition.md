@@ -1057,7 +1057,7 @@ Application Servers  | 9 |  VM.Standard.E4.Flex
 
 
 
-![Siebel on OCI Migration Path](./images/SiebelonOCIUpgradePath.pdf)
+![Siebel on OCI Migration Path](./images/SiebelonOCIUpgradePath.png)
 
 ##### Use Case 1: Customers on Siebel CRM IP2017 onwards
 1. Target Upgrade update is Siebel Siebel 21.x
