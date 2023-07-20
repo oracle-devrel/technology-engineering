@@ -304,7 +304,7 @@ Access Restriction  | We are not allowed to access a certain tenancy without cus
 
 - Include a diagram using the logical architecture notation or any on-premises architecture artifacts provided by Customer
 
-![Current Logical Diagram On-Premises Example](./images/CurrentFunctionalDiagram.pdf)
+![Current Logical Diagram On-Premises Example](./images/CurrentFunctionalDiagram.png)
 
 - Include any diagrams such as current networking that are available.
 
@@ -633,7 +633,7 @@ Document the discrete user communities that will be using the defined scope. The
 
 - Logical architecture in OCI will be depicted here:
 
-![Future Logical Diagram in OCI Example](./images/Logicaltobediagram.pdf)
+![Future Logical Diagram in OCI Example](./images/Logicaltobediagram.png)
 
 ### Physical Architecture
 <!--GUIDANCE-->
@@ -653,7 +653,7 @@ Nevertheless, an architect might want to describe the full physical Workload her
 - Internal and External user tiers-->
 
 
-![High Level Connectivity Diagram Example](./images/CurrentFutureLogicalarch-CONNECTIVTY.pdf)
+![High Level Connectivity Diagram Example](./images/CurrentFutureLogicalarch-CONNECTIVTY.png)
 \newpage
 \blandscape
 
