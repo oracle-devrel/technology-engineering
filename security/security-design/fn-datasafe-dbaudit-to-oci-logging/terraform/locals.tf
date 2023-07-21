@@ -9,8 +9,6 @@
 ################################################################################
 
 locals {
-  fn_working_dir = "function/${var.FunctionContext}"
-  fn_context = var.FunctionContext
   ocir_docker_repository = join("", [lower(lookup(data.oci_identity_regions.oci_regions.regions[0], "key")), ".ocir.io"])
   ocir_namespace = lookup(data.oci_objectstorage_namespace.namespace, "namespace")
   
@@ -28,4 +26,6 @@ locals {
   ocilogging_dslog_displayname="${var.LogDataSafeAuditDBNamePrefix}${local.resource_nc}"
   notificationtopic_name = "${var.NotificationTopicNamePrefix}${local.resource_nc}"
   alarm_displayname = "${var.AlarmNamePrefix}${local.resource_nc}"
+  fn_working_dir = "function/${var.function_display_name}"
+  fn_context = local.function_display_name
 }
