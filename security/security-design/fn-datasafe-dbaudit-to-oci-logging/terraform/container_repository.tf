@@ -16,9 +16,3 @@ resource "oci_artifacts_container_repository" "fn_container_repository" {
   compartment_id = var.compartment_ocid
   display_name   = local.oci_repo_displayname
 }
-
-data "oci_artifacts_container_configuration" "fn_container_configuration" {
-    #Required
-    compartment_id = var.compartment_ocid
-    is_repository_created_on_first_push = true
-}
