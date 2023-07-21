@@ -6,7 +6,7 @@
 #
 # Author: Fabrizio Zarri
 #
-################################################################################
+###############################################################################
 
 resource "null_resource" "Login2OCIR" {
   depends_on = [module.setup-network, oci_objectstorage_bucket.tracker-bucket, oci_identity_policy.DataSafetoLoggingFunctionsPolicy,

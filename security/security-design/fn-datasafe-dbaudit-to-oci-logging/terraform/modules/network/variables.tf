@@ -27,6 +27,7 @@ variable "VCN-CIDR" {
 }
 
 variable "subnet-CIDR" {
+  description = "The CIDR block of Subnet"
 }
 
 variable "vcndnslabelprefix" {
