@@ -21,7 +21,22 @@ resource "null_resource" "DataSafeAuditDBtoLoggingPush2OCIR" {
   depends_on = [null_resource.Login2OCIR, oci_functions_application.DataSafeAuditDBtoLoggingApp]
 
   provisioner "local-exec" {
-    command     = "image=$(docker images | grep oci-datasafe-audit-to-logging | awk -F ' ' '{print $3}') ; docker rmi -f $image &> /dev/null ; echo $image"
+    command     = "fn create context ${local.fn_context} --provider oracle"
+    working_dir = local.working_dir
+  }
+
+  provisioner "local-exec" {
+    command     = "fn use context ${local.fn_context} --provider oracle"
+    working_dir = local.working_dir
+  }
+
+  provisioner "local-exec" {
+    command     = "fn update context oracle.compartment-id ${var.compartment_ocid}"
+    working_dir = local.working_dir
+  }
+
+  provisioner "local-exec" {
+    command     = "fn update context registry ${local.ocir_docker_repository}/${local.namespace}/${oci_artifacts_container_repository.fn_container_repository.display_name}"
     working_dir = local.working_dir
   }
 
@@ -31,12 +46,8 @@ resource "null_resource" "DataSafeAuditDBtoLoggingPush2OCIR" {
   }
 
   provisioner "local-exec" {
-    command     = "image=$(docker images | grep oci-datasafe-audit-to-logging | awk -F ' ' '{print $3}') ; docker tag $image ${local.ocir_docker_repository}/${local.namespace}/${oci_artifacts_container_repository.fn_container_repository.display_name}/${local.function_display_name}:0.0.1"
+    command     = "fn push --verbose"
     working_dir = local.working_dir
- }
+  }
 
-  provisioner "local-exec" {
-    command     = "docker push ${local.ocir_docker_repository}/${local.namespace}/${oci_artifacts_container_repository.fn_container_repository.display_name}/${local.function_display_name}:0.0.1"
-    working_dir = local.working_dir
- }
 }
