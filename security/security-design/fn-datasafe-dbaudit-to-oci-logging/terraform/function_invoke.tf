@@ -8,9 +8,8 @@
 #
 ###############################################################################
 
-resource "null_resource" "FunctionAppPush2OCIR" {
-  depends_on = [module.setup-network, oci_objectstorage_bucket.tracker-bucket, oci_identity_policy.DataSafetoLoggingFunctionsPolicy,
-    oci_artifacts_container_repository.fn_container_repository, oci_functions_application.FunctionApp]
+resource "null_rmoduleesource" "FunctionInvoke" {
+  depends_on = [oci_functions_function.fun1]
 
   provisioner "local-exec" {
     command     = "fn create context ${local.fn_context} --provider oracle"
@@ -27,22 +26,11 @@ resource "null_resource" "FunctionAppPush2OCIR" {
     working_dir = local.fn_working_dir
   }
   
+  
   provisioner "local-exec" {
-    command = "echo '${var.ocir_user_password}' |  docker login ${local.ocir_docker_repository} --username ${local.namespace}/${var.ocir_user_name} --password-stdin"
-  }
-  provisioner "local-exec" {
-    command     = "fn update context registry ${local.fn_registry}"
+    command     = "fn invoke ${oci_functions_application.FunctionApp.display_name} ${oci_functions_function.fun1.display_name}"
     working_dir = local.fn_working_dir
   }
 
-  provisioner "local-exec" {
-    command     = "fn build --verbose"
-    working_dir = local.fn_working_dir
-  }
-
-  provisioner "local-exec" {
-    command     = "fn push --verbose"
-    working_dir = local.fn_working_dir
-  }
 
 }

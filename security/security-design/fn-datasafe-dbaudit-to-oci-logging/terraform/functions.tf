@@ -9,15 +9,15 @@
 ################################################################################
 
 
-resource "oci_functions_application" "DataSafeAuditDBtoLoggingApp" {
+resource "oci_functions_application" "FunctionApp" {
   compartment_id = var.compartment_ocid
   display_name   = local.functionapp_display_name
   subnet_ids     = [var.create_network ? module.setup-network[0].subnet_ocid : var.subnet_ocid] 
 }
 
-resource "oci_functions_function" "postauditlogs" {
-  depends_on     = [null_resource.DataSafeAuditDBtoLoggingPush2OCIR]
-  application_id = oci_functions_application.DataSafeAuditDBtoLoggingApp.id
+resource "oci_functions_function" "fun1" {
+  depends_on     = [null_resource.FunctionAppPush2OCIR]
+  application_id = oci_functions_application.FunctionApp.id
   display_name   = local.function_display_name
   #image          = "${local.ocir_docker_repository}/${local.namespace}/${var.ocir_repo_name}/${var.FunctionNamePrefix}:0.0.1"
   image          = local.fn_image
@@ -39,7 +39,7 @@ resource "oci_logging_log" "log_on_fn_invoke" {
   configuration {
     source {
       category    = "invoke"
-      resource    = oci_functions_application.DataSafeAuditDBtoLoggingApp.id
+      resource    = oci_functions_application.FunctionApp.id
       service     = "functions"
       source_type = "OCISERVICE"
     }
