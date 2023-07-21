@@ -27,5 +27,5 @@ locals {
   notificationtopic_name = "${var.NotificationTopicNamePrefix}${local.resource_nc}"
   alarm_displayname = "${var.AlarmNamePrefix}${local.resource_nc}"
   fn_context = "oci-datasafe-audit-to-logging"
-  fn_working_dir = "function/local.${local.fn_context}"
+  fn_working_dir = "function/${local.fn_context}"
 }
