@@ -8,7 +8,7 @@
 #
 ###############################################################################
 
-resource "null_rmoduleesource" "FunctionInvoke" {
+resource "null_resource" "FunctionInvoke" {
   depends_on = [oci_functions_function.fun1]
 
   provisioner "local-exec" {
