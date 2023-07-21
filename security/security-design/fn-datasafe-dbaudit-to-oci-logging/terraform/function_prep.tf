@@ -31,7 +31,7 @@ resource "null_resource" "DataSafeAuditDBtoLoggingPush2OCIR" {
     command = "echo '${var.ocir_user_password}' |  docker login ${local.ocir_docker_repository} --username ${local.namespace}/${var.ocir_user_name} --password-stdin"
   }
   provisioner "local-exec" {
-    command     = "fn update context registry ${local.ocir_docker_repository}/${local.namespace}/${oci_artifacts_container_repository.fn_container_repository.display_name}"
+    command     = "fn update context registry ${fn_registry}"
     working_dir = local.fn_working_dir
   }
 
