@@ -22,32 +22,32 @@ resource "null_resource" "DataSafeAuditDBtoLoggingPush2OCIR" {
 
   provisioner "local-exec" {
     command     = "fn create context ${local.fn_context} --provider oracle"
-    working_dir = local.working_dir
+    working_dir = local.fn_working_dir
   }
 
   provisioner "local-exec" {
     command     = "fn use context ${local.fn_context} --provider oracle"
-    working_dir = local.working_dir
+    working_dir = local.fn_working_dir
   }
 
   provisioner "local-exec" {
     command     = "fn update context oracle.compartment-id ${var.compartment_ocid}"
-    working_dir = local.working_dir
+    working_dir = local.fn_working_dir
   }
 
   provisioner "local-exec" {
     command     = "fn update context registry ${local.ocir_docker_repository}/${local.namespace}/${oci_artifacts_container_repository.fn_container_repository.display_name}"
-    working_dir = local.working_dir
+    working_dir = local.fn_working_dir
   }
 
   provisioner "local-exec" {
     command     = "fn build --verbose"
-    working_dir = local.working_dir
+    working_dir = local.fn_working_dir
   }
 
   provisioner "local-exec" {
     command     = "fn push --verbose"
-    working_dir = local.working_dir
+    working_dir = local.fn_working_dir
   }
 
 }
