@@ -1,6 +1,6 @@
-# Container Engine for Kubernetes
+# Container Engine for Kubernetes (OKE)
  
-OKE
+Container Engine for Kubernetes (OKE) is a popular and powerful managed Kubernetes running on OCI. It boosts Kubernetes with powerful networking based on OCI VCN, resilient block and file storage, and tight security integration with OCI IAM. It's well known for its [capabilities](https://developer.oracle.com/learn/k8s/k8s_comparison.html) offering great price-performance ratio. It's the heart of every cloud-native architecture in OCI.
  
 # Table of Contents
  
@@ -10,6 +10,10 @@ OKE
  
 ## Team Publications
  
+ - [Running MongoDB on OKE Smoothly](https://medium.com/oracledevs/running-mongodb-on-oke-smoothly-f0ff12af3e9)
+ - [Deploy Ingress Nginx using Helm in OKE](https://medium.com/oracledevs/deploy-ingress-nginx-using-helm-in-oci-c3ff4d9d5450)
+ - [Serve gRPC on OKE With Ingress and Network Load balancer](https://medium.com/oracledevs/serve-grpc-services-on-oke-with-ingress-and-network-load-balancer-8794809629dd)
+ - [How to Read a Remote IP Address Behind Ingress and Load Balancer in OKE](https://medium.com/oracledevs/how-to-read-a-remote-ip-address-behind-ingress-and-load-balancer-in-oke-ea71dedcbbec)
 
 ## Useful Links
  
