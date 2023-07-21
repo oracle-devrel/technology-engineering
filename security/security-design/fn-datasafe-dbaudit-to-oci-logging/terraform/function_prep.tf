@@ -26,7 +26,7 @@ resource "null_resource" "DataSafeAuditDBtoLoggingPush2OCIR" {
   }
 
   provisioner "local-exec" {
-    command     = "fn use context ${local.fn_context} --provider oracle"
+    command     = "fn use context ${local.fn_context}"
     working_dir = local.fn_working_dir
   }
 
