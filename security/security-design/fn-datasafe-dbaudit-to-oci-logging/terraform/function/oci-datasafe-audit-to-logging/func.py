@@ -21,7 +21,8 @@ from datetime import datetime, timedelta
 #Set Logging level.
 #logger.setLevel(logging.DEBUG)
 logger = logging.getLogger()
-logger.setLevel(logging.INFO)
+#logger.setLevel(logging.INFO)
+logger.setLevel(logging.DEBUG)
 
 
 def init_rps_client():
