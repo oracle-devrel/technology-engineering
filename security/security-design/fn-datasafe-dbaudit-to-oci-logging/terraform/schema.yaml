@@ -147,6 +147,5 @@ variables:
   tracker-bucket:
     type: string
     required: false
-    default: "datasafe-to-ocilogging-collector-bucket"
     title: "Tracker Bucket Name"
     description: "Choose Bucket Name for storing tracker file."
