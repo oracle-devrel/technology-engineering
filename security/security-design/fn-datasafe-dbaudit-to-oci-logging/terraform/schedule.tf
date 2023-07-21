@@ -19,7 +19,7 @@ resource "oci_ons_notification_topic" "schedule_ds_ocilogging_notification_topic
 resource "oci_ons_subscription" "schedule_ds_ocilogging_notification_subscription" {
     #Required
     compartment_id = var.compartment_ocid
-    endpoint = oci_functions_function.postauditlogs.id
+    endpoint = oci_functions_function.fun1.id
     protocol = "ORACLE_FUNCTIONS"
     topic_id = oci_ons_notification_topic.schedule_ds_ocilogging_notification_topic.id
 }
