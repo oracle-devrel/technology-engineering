@@ -26,6 +26,6 @@ locals {
   ocilogging_dslog_displayname="${var.LogDataSafeAuditDBNamePrefix}${local.resource_nc}"
   notificationtopic_name = "${var.NotificationTopicNamePrefix}${local.resource_nc}"
   alarm_displayname = "${var.AlarmNamePrefix}${local.resource_nc}"
-  fn_context = "oci-datasafe-audit-to-logging"
+  fn_context = "${var.FunctionName}"
   fn_working_dir = "function/${local.fn_context}"
 }

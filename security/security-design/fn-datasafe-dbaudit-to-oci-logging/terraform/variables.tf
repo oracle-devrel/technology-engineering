@@ -156,6 +156,10 @@ variable "FunctionTimeoutSec" {
   default = "300"
 }
 
+variable "FunctionName" {
+  default = "oci-datasafe-audit-to-logging"
+}
+
 
 ###################################
 # Logging Variables
