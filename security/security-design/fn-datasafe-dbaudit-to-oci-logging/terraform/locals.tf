@@ -28,4 +28,5 @@ locals {
   alarm_displayname = "${var.AlarmNamePrefix}${local.resource_nc}"
   fn_context = "${var.FunctionName}"
   fn_working_dir = "function/${local.fn_context}"
+  fn_image = "${local.ocir_docker_repository}/${local.namespace}/${oci_artifacts_container_repository.fn_container_repository.display_name}/${var.FunctionName}:0.0.1"
 }
