@@ -1,6 +1,7 @@
 REM Script: 1-transport-sts-from-source.sql
 REM Create a staging table and add the statements to it (source system) 
 
+-- don't use SYS user for this  
 -- Use CREATE_STGTAB_SQLSET to create the staging table
 
 execute dbms_sqltune.create_stgtab_sqlset(table_name => '&tablename', schema_name => '&owner');
