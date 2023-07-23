@@ -647,7 +647,6 @@ Nevertheless, an architect might want to describe the full physical Workload her
 
 ![High Level Connectivity Diagram Example](./images/CurrentFutureLogicalarch-CONNECTIVTY.png)
 \newpage
-\blandscape
 
 ![IP15 One Region and One AD Example](./images/IP15-oneRegion-OneAD.png)
 \pagebreak
@@ -671,7 +670,7 @@ Nevertheless, an architect might want to describe the full physical Workload her
 \pagebreak
 
 ![SiebelIP17&Later-DR-Multipleregions-multipleAD Example](./images/SiebelIP17&Later-DR-Multipleregions-multipleAD.png)
-\elandscape
+
 \newpage
 
 <!--In case of a landing zone deployment-->
@@ -1044,8 +1043,8 @@ Application Servers  | 9 |  VM.Standard.E4.Flex
 ##### Learn About Deploying Siebel CRM on Oracle Cloud Infrastructure
 [here](https://docs.oracle.com/en/solutions/infrastructure-components-siebel/index.html#GUID-D6F99470-2253-4544-8C6A-0BE54BDA54FD)
 
-##### Siebel Cloud Manager (Beta only and not GA)
-[here](https://mosemp.us.oracle.com/epmos/faces/DocumentDisplay?id=2828904.1)
+##### Siebel Cloud Manager 
+[here](https://docs.oracle.com/cd/F26413_43/books/DeploySCM/index.html#id0894FK005PF)
 
 
 
