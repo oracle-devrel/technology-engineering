@@ -1022,30 +1022,14 @@ Application Servers  | 9 |  VM.Standard.E4.Flex
 
 #### Specific Technical Information
 
-##### Siebel Enterprise Architecture
-[here](https://confluence.oraclecorp.com/confluence/display/CRMODDG/Siebel+Enterprise+Architecture)
-
-##### Suggested Learning Paths for Siebel CRM
-[here](https://confluence.oraclecorp.com/confluence/display/OCUPM/Siebel+CLS+Learning+Path+Reference)
-
-##### Siebel CRM Bookshelf
-[here](https://www.oracle.com/documentation/siebel-crm-libraries.html)
-
-##### Siebel CRM Releases Information
-[here](https://my.oracle.com/site/ibu/abu/CRM2/ProductLines/SiebelCRM/ip/index.html?ssSourceNodeId=44522&ssSourceSiteId=ibu)
-
-##### Siebel Virtual Summit 2020
-[here](https://go.oracle.com/OracleSiebelCRMVirtualSummit#sep29oct01)
-
-##### Siebel Virtual Summit 2021
-[here](https://oradocs-prodapp.cec.ocp.oraclecloud.com/documents/folder/F067C8AE1C8E61E909E8E27CD9F4A45A8AAB84D20FD1/_Siebel_Virtual_Summit_2021)
-
-##### Learn About Deploying Siebel CRM on Oracle Cloud Infrastructure
-[here](https://docs.oracle.com/en/solutions/infrastructure-components-siebel/index.html#GUID-D6F99470-2253-4544-8C6A-0BE54BDA54FD)
-
-##### Siebel Cloud Manager 
-[here](https://docs.oracle.com/cd/F26413_43/books/DeploySCM/index.html#id0894FK005PF)
-
+- [Siebel Enterprise Architecture](https://confluence.oraclecorp.com/confluence/display/CRMODDG/Siebel+Enterprise+Architecture)
+- [Suggested Learning Paths for Siebel CRM](https://confluence.oraclecorp.com/confluence/display/OCUPM/Siebel+CLS+Learning+Path+Reference)
+- [Siebel CRM Bookshelf](https://www.oracle.com/documentation/siebel-crm-libraries.html)
+- [Siebel CRM Releases Information](https://my.oracle.com/site/ibu/abu/CRM2/ProductLines/SiebelCRM/ip/index.html?ssSourceNodeId=44522&ssSourceSiteId=ibu)
+- [Siebel Virtual Summit 2020](https://go.oracle.com/OracleSiebelCRMVirtualSummit#sep29oct01)
+- [Siebel Virtual Summit 2021](https://oradocs-prodapp.cec.ocp.oraclecloud.com/documents/folder/F067C8AE1C8E61E909E8E27CD9F4A45A8AAB84D20FD1/_Siebel_Virtual_Summit_2021)
+- [Learn About Deploying Siebel CRM on Oracle Cloud Infrastructure](https://docs.oracle.com/en/solutions/infrastructure-components-siebel/index.html#GUID-D6F99470-2253-4544-8C6A-0BE54BDA54FD)
+- [Siebel Cloud Manager](https://docs.oracle.com/cd/F26413_43/books/DeploySCM/index.html#id0894FK005PF)
 
 
 ![Siebel on OCI Migration Path](./images/SiebelonOCIUpgradePath.png)
