@@ -298,9 +298,9 @@ Access Restriction  | We are not allowed to access a certain tenancy without cus
 
 ![Current Logical Diagram On-Premises Example](./images/CurrentFunctionalDiagram.png)
 
-- Include any diagrams such as current networking that are available.
+- Include any available diagrams such as current networking architecture.
 
-- Current Siebel environment details (current Production and non-Production environments, including Application as well as Database details)
+- Current Siebel environment details (current Production and non-Production environments)
 
 Description of the current Siebel environment
 
@@ -331,10 +331,10 @@ _Siebel Application Tier_
 - Source Operating System Version and Release: Oracle Linux Server release 7.9
 - Number of application nodes: Single Node
 - What languages other than English are installed on Siebel, if any? None
-- Load balancer implemented ? Yes, OCI Load Balancer
+- Load balancer implemented ? Yes, F5
 - DMZ setup or any external tiers: No
 - Single Sign On implemented: No
-- SSL implemented: Yes, terminated at OCI load balancer
+- SSL implemented: Yes, terminated at F5 load balancer
 - Siebel is integrated with any other Oracle Products like OBIEE/SOA/IDM...etc.
 
 ## Future State Architecture
@@ -349,7 +349,7 @@ The following are foundational OCI features.
 
 __Tenancy__
 
-When you sign up for Oracle Cloud Infrastructure, Oracle creates a tenancy for you in one of the available Commercial Regions. This is your home region.
+When you sign up for Oracle Cloud Infrastructure, Oracle creates a tenancy for you in one of the available Commercial or Government Regions. This is your home region.
 
 __Region__
 
@@ -373,7 +373,7 @@ Oracle Cloud Infrastructure Identity and Access Management (IAM) provides identi
 
 __Users__
 
-An individual employee or system that needs to manage or use your company's Oracle Cloud Infrastructure resources. Users might need to launch instances, work with your virtual cloud network, etc. End users of your application are not typically IAM users. Users have one or more IAM credentials.
+An individual employee or system that needs to manage or use your company's Oracle Cloud Infrastructure resources. Users might need to launch instances, work with your virtual cloud network, etc. Users have one or more IAM credentials. End users of your application are not typically IAM users.
 
 __Group__
 
@@ -402,13 +402,13 @@ __IAM Relationships__
 
 The following diagrams shows the relationship between the IAM components outlined above:
 
-![IAM Relationships](./images/IAMConcepts.pdf)
+![IAM Relationships](./images/IAMConcepts.png)
 
 #### Networking
 
 Networking is the cornerstone of an OCI architecture and a unique characteristic of OCI Gen2 cloud. In simple terms Oracle offers to customers a flat network topology built on a highly scalable physical network which is not oversubscribed. Storage and network IO is moved out of the hypervisor into the custom firmware on the physical NICs (Network Interface Card), and that enables lower overhead.
 
-This off-box network is virtualized separately to the infrastructure and the “Oracle Code” and that gives customers a guaranteed maximum of 2 hops between any services ran on Oracle Network Fabric and protection from issues like the “noisy-neighbour”.
+This off-box network is virtualized separately to the infrastructure and the “Oracle Code” and that gives customers a guaranteed maximum of 2 hops between any services which ran on Oracle Network Fabric and protection from issues like the “noisy-neighbour”.
 
 Below is a summary of the basic components that are considered in a network design:
 
@@ -419,7 +419,7 @@ Below is a summary of the basic components that are considered in a network desi
 - __Dynamic Routing Gateway (DRG)__: The DRG is a virtual router that provides a path for private network traffic between VCNs, or a network outside the region, an on-premises network, or a network with another cloud provider such as AWS or Azure.
 - __Local Peering Gateway (LPG)__: LPGs enable to peer one VCN with another VCN in the same region. Peering means the VCNs communicate using private IP addresses, without the traffic traversing the internet or routing through your on-premises network. This feature can still be used, however best practice is to now use the upgraded DRG for this as it simplifies the network configuration. LPG is now only needed for extreme low latency requirements.
 
-- __Load balancer__: A load balancer improves resource utilization, facilitates scaling, and helps ensure high availability. The Oracle Cloud Infrastructure Load Balancing service provides automated traffic distribution from one entry point to multiple servers reachable from the VCN. In OCI this is a managed service. It offers a load balancer with your choice of a public or private IP address, and provisioned bandwidth.
+- __Load Balancer__: A load balancer improves resource utilization, facilitates scaling, and helps ensure high availability. The Oracle Cloud Infrastructure Load Balancing service provides automated traffic distribution from one entry point to multiple servers reachable from the VCN. In OCI this is a managed service. It offers a load balancer with your choice of a public or private IP address, and provisioned bandwidth.
 
 A load balancer (LB) protects backends, improves resource utilisation (SSL-offloading), facilitates scaling, and helps ensure high availability. A customer can configure multiple load balancing policies and application-specific “health checks” to ensure that the load balancer directs traffic only to healthy instances. The load balancer can reduce the customer's maintenance window by draining traffic from an unhealthy application server before it is removed from service for maintenance.
 
@@ -430,7 +430,7 @@ For additional information see the [public documentation](https://docs.oracle.co
 Each Load Balancer has different entry points to further route traffic to specific back-end servers and ports in OCI. These are called backend sets. The Load Balancers will not do SSL tunnelling for the HTTP traffic, but terminate the SSL traffic from the client. The traffic between the Load Balancer and the backend host(s) will therefore not be encrypted.
 
 - __Subnet__: A subnet is a segment of a VCN and any online OCI resource is associated with a specific subnet. A subnet reserves a subset (less significant bits) of the IP addresses allocated to the VCN (following the CIDR notation), can be specific to an Availability Domain or to a region (regional subnet), can be private or public (accessible by Internet) and is secured with the Security List and Routing Table components.
--
+
 - __Security List (SL)__: Each subnet and/or host will have security rules that specify the source, destination, and type of traffic that must be allowed in and out of the subnet. In simple terms an SL is a virtual firewall for each subnet/VCN controlling ingress and egress traffic.
 
 The [Siebel Security List documentation](https://docs.oracle.com/en/solutions/learn-architecture-deploy-siebel/index.html#GUID-08AE773F-0AD6-45CB-95FA-080456833291) provides the blueprint of the Security List entries required for the Siebel Load Balancer, Application and Database tiers. This will be used during implementation and Security Lists created with the actual implementation values. For additional information about Security Lists see the [public documentation](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/securitylists.htm#Security_Lists) online.
@@ -470,17 +470,17 @@ For additional information see the [public documentation](https://docs.oracle.co
 
 #### Database Service
 
-Oracle Cloud Infrastructure offers single-node database systems on either bare metal or virtual machines, and 2-node RAC database systems on virtual machines, ExaCS and ATP-D/ATP-S
+Oracle Cloud Infrastructure offers single-node database systems on either bare metal or virtual machines, and 2-node RAC database systems on virtual machines, ExaCS and ADB-D/ADB-S
 
 All single-node DB systems support the following Oracle DBCS editions: Standard Edition, Enterprise Edition (EE), EE - High Performance, EE - Extreme Performance. Two-node Oracle RAC DB systems require Oracle Enterprise Edition - Extreme Performance which includes the Real Application Clusters license.
 
 Each database will be single node, [for information see](https://docs.oracle.com/en-us/iaas/Content/Database/Concepts/overview.htm) with ASM as the Storage Management option. By default, the database listener runs on port 1521.
 
-The Database Service uses its own hidden default Object Storage when employing the [built-in backup capabilities](https://docs.oracle.com/en-us/iaas/Content/Database/Tasks/backingupOS.htm#Backing_Up_a_Database_to_Oracle_Cloud_Infrastructure_Object_Storage) for [scheduling automated backups](https://docs.oracle.com/en-us/iaas/Content/Database/Tasks/backingupOS.htm#managedbackupfeatures__backupscheduling). The DB automatic backup configuration is defined in the deployment section of this design. However many customers prefer a more flexible scheduling or want to have access to the backups from outside the DB Service. The DB backup bucket will be created for this purpose.
+The Database Service uses its own hidden default Object Storage when employing the [built-in backup capabilities](https://docs.oracle.com/en-us/iaas/Content/Database/Tasks/backingupOS.htm#Backing_Up_a_Database_to_Oracle_Cloud_Infrastructure_Object_Storage) for scheduling automated backups. The DB automatic backup configuration is defined in the deployment section of this design. However many customers prefer a more flexible scheduling or want to have access to the backups from outside the DB Service. The DB backup bucket will be created for this purpose.
 
 A DB System in DBCS can be [easily scaled](https://docs.oracle.com/en-us/iaas/Content/Database/Tasks/managingDBsystem.htm)
 
-**Please consider changing the above for ExaCS and ATP**
+**Please consider changing the above for ExaCS and ADB**
 
 #### Object Storage
 
@@ -619,11 +619,11 @@ For information on Object Storage Metrics, please see [here](https://docs.oracle
 
 Provide a high-level logical Oracle solution for the complete Workload. Indicate Oracle products as abstract groups, and not as a physical detailed instances. Create an architecture diagram following the latest notation and describe the solution.-->
 
-- Provide a Logical representation of the future state architecture. Including high-level products or capabilities and data flows. While this will show which components exist in which locations, it will not show connectivity.
+Provide a Logical representation of the future state architecture. Including high-level products or capabilities and data flows. While this will show which components exist in which locations, it will not show connectivity.
 
 Document the discrete user communities that will be using the defined scope. These communities should be clearly reflected on the logical overview diagram. The number of users of each community should be included, together with any relevant concurrency information i.e. # of internal and # of external users.
 
-- Logical architecture in OCI will be depicted here:
+Logical architecture in OCI will be depicted here:
 
 ![Future Logical Diagram in OCI Example](./images/Logicaltobediagram.png)
 
