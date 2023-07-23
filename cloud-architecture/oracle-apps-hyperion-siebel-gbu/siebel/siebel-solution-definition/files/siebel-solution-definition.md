@@ -4,18 +4,14 @@ doc:
     version: 0.1
     cover:
         title:
-        - ${doc.customer.name}
+        - Customer Name
         - Siebel to OCI
         subtitle:
-        - Workload Architecture Document 
         - Solution Definition
-    customer:
-        name: customer name
-        alias: customer name alias
     history:
       - version: "0.1"
         authors: Firstname, Lastname 
-        date: Jul 2022 
+        date: Jul 2023 
         comments: First draft
     
     team:
@@ -36,18 +32,17 @@ doc:
  <!-- GUIDANCE -->
  <!-- A section describing the versions of this document and its changes.-->
 
-```{#history}
-This is the document history (this text is ignored)
-```
+| Version | Authors | Date   | Comments      |
+|---------|---------|--------|---------------|
+| 0.1     | Name    | Jul 23 | initial draft |
 
 ## Team
 <!-- GUIDANCE -->
 <!--A section describing the key people involved with the workload, both Oracle and Customer-->
 
-
-```{#team}
-This is the team that is delivering the WAD (this text is ignored)
-```
+| Name  | Email | Role | Company |
+|-------|-------|------|---------|
+| name  | email | role | company |
 
 ## Abbreviations and Acronyms
 <!-- GUIDANCE -->
@@ -87,7 +82,7 @@ This is a living document, additional sections will be added as the engagement p
 <!--How this is aligned with the overall business strategy of the Customer-->
 <!--key values of the solution to the customer-->
 
-CUST_NAME is a telecommunication & ICT company operating in Belgium and on the international markets, providing services to consumers, businesses and the public sector. CUST_NAME is the leading Belgian provider of telephony, Internet, television and network-based ICT services. CUST_NAME provides an advanced interconnected fixed and mobile networks offer access anywhere and anytime to digital services and data, as well as to a broad offering of multimedia content.
+CUST_NAME is a telco & ICT company operating in CUNTRY and on the international markets, providing services to consumers, businesses and the public sector. CUST_NAME is the leading Belgian provider of telephony, Internet, television and network-based ICT services. CUST_NAME provides an advanced interconnected fixed and mobile networks offer access anywhere and anytime to digital services and data, as well as to a broad offering of multimedia content.
 
 Oracle Siebel is the strategic platform for B2B/B2C sales and marketing activities called "XYZ". Siebel implementation has performance issues with the Remote Product Configurator. Assessment has been done by ACS to perform some configuration changes.
 
