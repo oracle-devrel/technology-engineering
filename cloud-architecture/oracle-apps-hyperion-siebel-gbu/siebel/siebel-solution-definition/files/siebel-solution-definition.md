@@ -63,9 +63,9 @@ doc:
 <!-- GUIDANCE -->
 <!--Describe the purpose of this document and the Oracle specific terminology, specifically around 'Workload' and 'Lift'-->
 
-This document provides a high-level solution definition for the Oracle solution and aims at describing the current state, to-be state as well as a potential 'Oracle Lift' project scope and timeline. The Lift parts will be described as a physical implementable solution. The intended purpose is to provide all parties involved a clear and well-defined insight into the scope of work and intention of the project as it will be done as part of the Oracle Lift service.
+This document provides a high-level solution definition for the Oracle solution and aims at describing the current state and to-be state
 
-The document may refer to a 'Workload', which summarizes the full technical solution for a customer (You) during a single engagement. The Workload is described in chapter [Workload Requirements and Architecture](#workload-requirements-and-architecture). In some cases Oracle offers a free implementation service called 'Oracle Lift', which has its own dedicated scope and is typically a subset of the initial Workload. The Lift project, architecture and implementation details are documented in chapter [Oracle Lift Project and Architecture](#oracle-lift-project-and-architecture) and in chapter [Oracle Lift Implementation](#oracle-lift-implementation).
+The document may refer to a 'Workload', which summarizes the full technical solution for a customer (You) during a single engagement. The Workload is described in chapter [Workload Requirements and Architecture](#workload-requirements-and-architecture). 
 
 This is a living document, additional sections will be added as the engagement progresses resulting in a final workload architecture to be handed over at the end of the customer engagement. Where Oracle Lift is involved, certain sections will only be completed after customer acceptance of the content of the Workload Architecture document as it stands at the time acceptance is requested.
 
@@ -82,11 +82,11 @@ This is a living document, additional sections will be added as the engagement p
 <!--How this is aligned with the overall business strategy of the Customer-->
 <!--key values of the solution to the customer-->
 
-CUST_NAME is a telco & ICT company operating in CUNTRY and on the international markets, providing services to consumers, businesses and the public sector. CUST_NAME is the leading Belgian provider of telephony, Internet, television and network-based ICT services. CUST_NAME provides an advanced interconnected fixed and mobile networks offer access anywhere and anytime to digital services and data, as well as to a broad offering of multimedia content.
+CUST_NAME is a INDUSTRY_NAME company operating in COUNTRY_NAME and on the international markets, providing services to consumers, businesses and the public sector.
 
 Oracle Siebel is the strategic platform for B2B/B2C sales and marketing activities called "XYZ". Siebel implementation has performance issues with the Remote Product Configurator. Assessment has been done by ACS to perform some configuration changes.
 
-Oracle Cloud Infrastructure (OCI) was designed specifically to support workloads like Oracle Siebel. By moving CUST_NAME customer’s Siebel workload completely to OCI it will allow them to enjoy improved efficiency, cost savings, and performance gains compared to on-premises deployments and other Cloud vendors, along with the elasticity and agility of the Cloud.
+Oracle Cloud Infrastructure (OCI) was designed specifically to support workloads like Oracle Siebel. By moving CUST_NAME’s Siebel workload completely to OCI it will allow them to enjoy improved efficiency, cost savings, and performance gains compared to on-premises deployments and other Cloud vendors, along with the elasticity and agility of the Cloud.
 
 There are a number of interfaces from and to the Siebel application, but these are not in scope of this cloud migration activity and have not been included here.
 
@@ -96,35 +96,34 @@ There are a number of interfaces from and to the Siebel application, but these a
 
 The workload addresses the following key concerns:
 
-1. Improve Siebel Performance and response time leveraging a modern cloud infrastructure with main focus on the Remote Product Configurator (RPC).
+1. Improve Siebel Performance and response time leveraging a modern cloud infrastructure.
 2. Ensure that the Siebel application can scale up to the real time transaction processing volume.
 3. Leverage OCI capabilities such as auto-scaling & enhance infrastructure availability, security and resilience.
 4. Environment consistency/availability and rapid in-place technology refreshes, patching and updates.
 
 There is an opportunity for the Oracle Cloud Infrastructure to help assist and support this transition to a new environment by providing additional deployment options. The advantages of using the Oracle Cloud include:
 
-- Resolution of performance issues on existing On-premise deployment with a main focus on the Remote Product Configurator (RPC).
+- Resolution of performance issues on existing on-premise deployment.
 - Considerable reduction in the time it takes to provision new environments on the existing infrastructure.
-- One of the key benefits that moving to OCI can bring is potential cost savings in moving to the Oracle Cloud.
-- The Oracle Cloud also provides the ability to utilize existing Oracle Cloud Credits.
-- The Oracle Cloud provides multiple different compute shapes that can be used to provide maximum performance at the lowest cost.
-- The Oracle Cloud can be used for non-production environments which can be shut-down when not needed such as evenings and weekends saving money.
+- Potential cost savings in moving to the Oracle Cloud.
+- Ability to utilize existing Oracle Cloud Credits.
+- Availability of multiple different compute shapes that can be used to provide maximum performance at the lowest cost.
+- Option to fine tune consumption e.g. by shutting-down non-production environments when not needed such as evenings and weekends.
 
 **More business value Examples**
-- Siebel environments will be using a long term supported database version including ATP-S and ATP-D
+- Siebel database tier will be using a long term supported database and might even leverage Autonomous Database
 - Siebel application tier will benefit from the "pay as you go" UCM model
-- Siebel application will benefit from the Siebel architecture on OCI leveraging the Siebel Cloud Manager, docker containers and Siebel Component services (Beta Program)
-- Provide the ability to rapidly clone to non-production environments in OCI
-- Exit Siebel from the existing data centres
+- Siebel application will benefit from the Siebel architecture on OCI leveraging the Siebel Cloud Manager and docker containers
+- Automation may be put in place for environments creation, Siebel updates and DevOps
 - OCI cost monitoring will be available for use for the complete Siebel environment
+- Moving Siebel to OCI may be conducive to broader data centre exit initiatives
 
 The success implementation of this project is to:
 
-1. Deliver Oracle Siebel CME (IP20.9) running on OCI in the specified architecture for the "Stress Testing Environment".
-2. Deliver the specified environments in such a way that CUST_NAME on-premise applications and other third party systems can successfully access, use and integrate.
+1. Deliver Oracle Siebel CRM running on OCI in the specified architecture for the "Stress Testing Environment".
+2. Deliver the specified environments in such a way that CUST_NAME on-premise applications and other third party systems can be successfully and integrated.
 3. Deliver the To-Be architecture with the Terraform scripts to be used for other environments.
 
-Oracle Lift will setup Siebel 21.12 on OCI infrastructure, install Siebel 21.11 binaries and migrate current CUST_NAME Siebel IP21.11 database to the Exadata Cloud Service. Oracle PARTNER_NAME will be taking care of functional/load/stress and performance testing.
 
 ## Executive Summary
 
@@ -135,11 +134,9 @@ Oracle Lift will setup Siebel 21.12 on OCI infrastructure, install Siebel 21.11 
 <!--Differentiators-->
 <!--Reference to Lift sections - which is likely to be just part of the overall workload-->
 
-The complete scope of the Workload is to deliver a future state architecture that migrates **WHAT** environments to OCI. The Oracle Lift service described later in this document in the section [Oracle Lift Project and Architecture](#oracle-lift-project-and-architecture) will be used to complete part of the overall Workload scope.
+The complete scope of the Workload is to deliver a future state architecture that migrates **WHAT** environments to OCI. 
 
 Oracle Cloud Infrastructure (OCI) was designed specifically to support workloads like Siebel. By further migrating CUST_NAME Siebel workload to more OCI services it will allow them to enjoy improved efficiency, cost savings, and performance gains compared to on-premises deployments and other Cloud vendors, along with the elasticity and agility of the Cloud.
-
-Running Siebel on OCI also allows CUST_NAME to leverage the benefits Siebel component services (Cloud Native)/BETA Program only and not GA, which is only available on OCI. Its capabilities are described later in this document.
 
 
 # Workload Requirements and Architecture
@@ -152,14 +149,14 @@ Running Siebel on OCI also allows CUST_NAME to leverage the benefits Siebel comp
 
 The SIEBEL workload described in this document documents an Oracle Cloud Infrastructure (OCI) solution which replicates CUST_NAME existing on-premises Oracle Siebel implementation.
 
-CUST_NAME is currently running Siebel **state version** with database **state version**. / **Mention for all Environments**
+CUST_NAME is currently running Siebel **specify version** with database **specify version**. / **specify for all Environments**
 
-**Describe other features of the customer workload - example areas:**
+**describe other features of the customer workload - example areas:**
 
 - Customization complexity, java, siebel tools...etc.
-- Application modules - Siebel Loyalty, Siebel Smart answers etc.
-- Connectivity - on-premise, Internet
-- DR
+- Application modules - Siebel Loyalty, Siebel Smart Answers etc.
+- Connectivity - on-premises, Internet
+- Disaster Recovery
 
 ## Non Functional Requirements
 <!-- GUIDANCE -->
@@ -195,10 +192,10 @@ CUST_NAME Siebel **version** environments:
 
 Name | Size of Prod | Location | MAA | Scope
 :--- |:--- |:--- |:--- |:---
-Dev & Test | 25% | Dubai | None | OCI Workload - Lift Migration
+Dev & Test | 25% | Dubai | None | OCI Workload Migration
 DR | 50% | Amsterdam | None | OCI Workload  |   |   |   |
 
-Details Oracle's of the Maximum Availability Architectures for Oracle Cloud can be found <[here](https://www.oracle.com/database/maximum-availability-architecture/)>
+Details concerning Maximum Availability Architectures for Oracle Cloud can be found <[here](https://www.oracle.com/database/maximum-availability-architecture/)>
 
 <!-- ADB Specifics
 The default level for Autonomous Database - Shared Infrastructure is currently Silver.
@@ -240,9 +237,9 @@ The Production environment has:
 Recovery Point Objective : 10 minutes
 Recovery Time Objective : 4 hours
 
-In order to achieve these requirements the Production environment will
-- Be backed-up using standard OCI Gold backups
-- Databases will be synchronised to a DR database using Oracle Data Guard.
+In order to achieve these requirements the Production environment 
+- will be backed-up using standard OCI Gold backups
+- Databases will be synchronised to a DR database using Oracle Data Guard
 - Key Compute files will be synchronised to a DR equivalent using RSYNC
 - OCI's Load Balancer as a Service (LBaaS) will be deployed to ensure users are easily migrated from Production to DR in the event on an invocation.
 
