@@ -40,7 +40,7 @@ Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a compl
 
 - [Data Swamps No More!](https://www.linkedin.com/pulse/data-swamps-more-ismael-hassane/)
   - Article describing lakehouse as a natural evolution from a lambda and kappa data architecture.
-- [DataOps, you data rolls!](https://www.linkedin.com/pulse/dataops-your-data-rolls-ismaël-hassane/)
+- [DataOps, your data rolls!](https://www.linkedin.com/pulse/dataops-your-data-rolls-ismaël-hassane/)
   - Blog post introducing DataOps, the several aspects of a DataOps strategy in a lakehouse architecture, and how OCI services and features address those different aspects.
 
 ### Podcasts
