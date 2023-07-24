@@ -40,7 +40,7 @@ There are **two assets** for creating OCI tailored landing zones, one for **desi
 ### 2.1 Design - with a Blueprint
 To tailor a landing zone we recommend using the **[OCI Open LZ Blueprint](https://github.com/oracle-quickstart/terraform-oci-open-lz)**, which is a **reference solution** and a **repeatable design process**. It presents an end-to-end coherent solution - with the security, network, and operations views - of what an organization-wide landing zone looks like, with fine-grained segregation of duties, strong isolation of resources, and a scaleable operating model.
 
-The **benefits** of this blueprint is that it can be completely **adjusted and easily simplified** into any other type of landing zone, by following the design steps towards your needs.  Using this reference blueprint will help **create a day-two operational model ready to scale** - using the IaC solution presented in the next section.
+The **benefit** of this blueprint is that it can be completely **adjusted and easily simplified** into any other type of landing zone, by following the design steps towards your needs.  Using this reference blueprint will help **create a day-two operational model ready to scale** - using the IaC solution presented in the next section.
 
 
 &nbsp; 
@@ -48,7 +48,7 @@ The **benefits** of this blueprint is that it can be completely **adjusted and e
 ### 2.2 Run - with Configuration and Infrastructure as Code 
 For this type of approach **we recommend** the use of the **CIS LZ v3 Terraform modules**, to **configure** the resources with *json/hcl* terraform native interfaces. 
 
-The **benefits** of using this approach is: 
+The **benefits** of using this approach are: 
 - **Focus on Value**: Focus on configuring the design and resources, instead of coding them. This means shorter time-to-value, lower effort, and lower risk.
 - **Best Practices**: Use existing top-quality terraform modules that are open and full of best practices. It's possible to leverage this to evolve OCI terraform skills and apply future IaC best practices. This also means lower risk and lower efforts.
 - **Scale Day Two**: Being able to split operational configurations from code it's a game change in cloud operations, and will simplify drastically the day-two operations, opening the path for a GitOps operating model and potentially simpler automation. The cloud operators will only work with configurations, not code.
