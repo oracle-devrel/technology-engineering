@@ -28,7 +28,8 @@ resource "null_resource" "FunctionAppPush2OCIR" {
   }
   
   provisioner "local-exec" {
-    command = "echo '${var.ocir_user_password}' |  docker login ${local.ocir_docker_repository} --username ${local.namespace}/${var.ocir_user_name} --password-stdin"
+  #  command = "echo '${var.ocir_user_password}' |  docker login ${local.ocir_docker_repository} --username ${local.namespace}/${var.ocir_user_name} --password-stdin"
+     command = "echo '${var.ocir_user_password}' |  docker login ${local.ocir_docker_repository} --username ${local.namespace}/${local.identity_name} --password-stdin"
   }
   provisioner "local-exec" {
     command     = "fn update context registry ${local.fn_registry}"

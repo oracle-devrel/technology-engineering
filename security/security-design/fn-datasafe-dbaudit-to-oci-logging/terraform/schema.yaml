@@ -143,9 +143,3 @@ variables:
     pattern: "^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9]).(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9]).(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9]).(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\/(3[0-2]|[1-2]?[0-9])$"
     title: "Subnet CIDR"
     description: "Choose Private Subnet's CIDR where Fn App will be deployed."  
-
-  tracker-bucket:
-    type: string
-    required: false
-    title: "Tracker Bucket Name"
-    description: "Choose Bucket Name for storing tracker file."

@@ -14,6 +14,7 @@ locals {
   
   namespace = lookup(data.oci_objectstorage_namespace.namespace, "namespace")
   compartment_name = lookup(data.oci_identity_compartment.compartment, "name")
+  identity_name = lookup(data.oci_identity_user.user, "name")
   resource_nc = "-${var.deployment_name}-${var.region}-${var.purpose}-${random_id.tag.hex}"
   policy_displayname = "${var.PolicyNamePrefix}${local.resource_nc}"
   dynamicgroup_displayname = "${var.DynamicGroupNamePrefix}${local.resource_nc}"
