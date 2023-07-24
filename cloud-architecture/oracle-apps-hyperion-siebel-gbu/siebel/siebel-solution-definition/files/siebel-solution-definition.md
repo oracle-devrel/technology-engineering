@@ -18,7 +18,7 @@ doc:
       - name:	Firstname, Lastname  
         email:	 xxx.yyy@oracle.com 
         role:	 Siebel Specialist 
-        company:	 Oracle
+        company: Oracle
 ---
 
 <!-- Begin Solution Definition - Start editing from here -->
