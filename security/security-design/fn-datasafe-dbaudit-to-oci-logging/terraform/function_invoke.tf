@@ -10,22 +10,6 @@
 
 resource "null_resource" "FunctionInvoke" {
   depends_on = [oci_functions_function.fun1]
-
-  provisioner "local-exec" {
-    command     = "fn create context ${local.fn_context} --provider oracle"
-    working_dir = local.fn_working_dir
-  }
-
-  provisioner "local-exec" {
-    command     = "fn use context ${local.fn_context}"
-    working_dir = local.fn_working_dir
-  }
-
-  provisioner "local-exec" {
-    command     = "fn update context oracle.compartment-id ${var.compartment_ocid}"
-    working_dir = local.fn_working_dir
-  }
-  
   
   provisioner "local-exec" {
     command     = "fn invoke ${oci_functions_application.FunctionApp.display_name} ${oci_functions_function.fun1.display_name}"
