@@ -5,7 +5,7 @@
 
 Welcome to the **Landing Zone Framework (LZF)**. 
 
-The LZF was created by the EMEA Landing Zone Specialists, collaborating with worldwide Oracle to **simplify the OCI onboarding experience** and **reduce OCI day-one and day-two efforts**. It provides **best practices** covering the complete spectrum of OCI landing zones, from the **standards** to  **tailored** approaches.
+The LZF was created by the EMEA Landing Zone Specialists, collaborating with worldwide Oracle, customers, and partners, to **simplify the OCI onboarding experience** and **reduce OCI day-one and day-two efforts**. It provides **best practices** covering the complete spectrum of OCI landing zones, from the **standards** to the **tailored** approaches.
 
 &nbsp; 
 
