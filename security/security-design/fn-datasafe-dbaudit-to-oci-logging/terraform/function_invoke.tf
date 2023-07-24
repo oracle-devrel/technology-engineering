@@ -9,5 +9,5 @@
 ###############################################################################
 
 resource "oci_functions_invoke_function" "FunctionInvoke" {
-    function_id = oci_functions_function.fun1.i
+    function_id = oci_functions_function.fun1.id
 }
