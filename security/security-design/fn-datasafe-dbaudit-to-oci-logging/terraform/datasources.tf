@@ -38,3 +38,7 @@ data "oci_identity_compartment" "compartment" {
   id = var.compartment_ocid
 }
 
+data "oci_identity_users" "user" {
+  compartment_id = var.tenancy_ocid
+}
+

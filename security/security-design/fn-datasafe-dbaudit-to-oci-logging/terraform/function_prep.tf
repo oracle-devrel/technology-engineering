@@ -14,17 +14,17 @@ resource "null_resource" "FunctionAppPush2OCIR" {
 
   provisioner "local-exec" {
     command     = "fn create context ${local.fn_context} --provider oracle"
-    working_dir = local.fn_working_dir
+    working_dir = "${path.module}/${local.fn_working_dir}"
   }
 
   provisioner "local-exec" {
     command     = "fn use context ${local.fn_context}"
-    working_dir = local.fn_working_dir
+    working_dir = "${path.module}/${local.fn_working_dir}"
   }
 
   provisioner "local-exec" {
     command     = "fn update context oracle.compartment-id ${var.compartment_ocid}"
-    working_dir = local.fn_working_dir
+    working_dir = "${path.module}/${local.fn_working_dir}"
   }
   
   provisioner "local-exec" {
@@ -33,17 +33,17 @@ resource "null_resource" "FunctionAppPush2OCIR" {
   }
   provisioner "local-exec" {
     command     = "fn update context registry ${local.fn_registry}"
-    working_dir = local.fn_working_dir
+    working_dir = "${path.module}/${local.fn_working_dir}"
   }
 
   provisioner "local-exec" {
     command     = "fn build --verbose"
-    working_dir = local.fn_working_dir
+    working_dir = "${path.module}/${local.fn_working_dir}"
   }
 
   provisioner "local-exec" {
     command     = "fn push --verbose"
-    working_dir = local.fn_working_dir
+    working_dir = "${path.module}/${local.fn_working_dir}"
   }
 
 }
