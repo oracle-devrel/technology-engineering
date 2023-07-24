@@ -8,13 +8,6 @@
 #
 ###############################################################################
 
-resource "null_resource" "FunctionInvoke" {
-  depends_on = [oci_functions_function.fun1]
-  
-  provisioner "local-exec" {
-    command     = "fn invoke ${oci_functions_application.FunctionApp.display_name} ${oci_functions_function.fun1.display_name}"
-    working_dir = local.fn_working_dir
-  }
-
-
+resource "oci_functions_invoke_function" "FunctionInvoke" {
+    function_id = oci_functions_function.fun1.i
 }
