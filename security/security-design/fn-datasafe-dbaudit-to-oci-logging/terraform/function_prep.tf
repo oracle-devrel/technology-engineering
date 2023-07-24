@@ -9,7 +9,7 @@
 ###############################################################################
 
 resource "null_resource" "FunctionAppPush2OCIR" {
-  depends_on = [module.setup-network, oci_objectstorage_bucket.tracker-bucket, oci_identity_policy.DataSafetoLoggingFunctionsPolicy,
+  depends_on = [module.setup-network, oci_objectstorage_bucket.tracker-bucket, oci_identity_policy.FunctionsPolicy,
     oci_artifacts_container_repository.fn_container_repository, oci_functions_application.FunctionApp]
 
   provisioner "local-exec" {
