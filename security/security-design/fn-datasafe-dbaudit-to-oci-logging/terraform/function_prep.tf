@@ -19,7 +19,7 @@ resource "null_resource" "Login2OCIR" {
 }
 
 resource "null_resource" "FunctionAppPush2OCIR" {
-  depends_on = [null_resource.Login2OCIR, oci_functions_application.test_application]
+  depends_on = [null_resource.Login2OCIR, oci_functions_application.fun1]
 
   provisioner "local-exec" {
     command     = "image=$(docker images | grep ${var.FunctionName} | awk -F ' ' '{print $3}') ; docker rmi -f $image &> /dev/null ; echo $image"
