@@ -15,11 +15,11 @@ Oracle Digital Assistant is a platform powered by artificial intelligence, speci
 - [Cloud Coaching - Art of the possible Digital Assistant](https://www.youtube.com/watch?v=zPmfjuYQCGg&t=49s)
     - Deep dive into Digital Assistant
 
+- [Cloud Coaching - Digital Assistant SQL Dialogs & AI Services](https://www.youtube.com/watch?v=HcS2GIxc7DM)
+    - Leverage SQL Dialogs and other AI services with Digital Assistant
+
 - [Live Lab - Immerse Conversational Interfaces](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3452&clear=RR,180&session=112146561197244)
     - How to combine Digital Assistant with other AI Services
-
-- [Cloud Coaching - Digital Assistant SQL Dialogs & AI Services](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3452&clear=RR,180&session=112146561197244)
-    - Leverage SQL Dialogs and other AI services with Digital Assistant
 
 ### Blogs
 
