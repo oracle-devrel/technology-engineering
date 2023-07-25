@@ -28,7 +28,7 @@ Database consolidation means running databases on a common set of infrastructure
 
 # Sub Areas 
 
-Within the broad area of Custom Applications and Consolidation, we offer artefacts and example guides for the following sub-areas:
+Within the broad area of Custom Applications and Consolidation, we offer artifacts and example guides for the following sub-areas:
 
 - Custom Application Migration (With or Without Weblogic) 
 - Oracle Database Migration 
