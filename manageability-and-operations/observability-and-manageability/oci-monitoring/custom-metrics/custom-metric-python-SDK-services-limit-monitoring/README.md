@@ -117,6 +117,7 @@ None at this point.
 
 There 2 scripts with same code except for the OCI authentication. Both scripts will be maintained in parallel with same versions:
 
+2023-07-25 (version 0.2). compartment_ocid & region are now input arguments. Fixed region wide limits publishing.
 2023-07-18 (version 0.1). Initial public release.
   
 # LICENSE
