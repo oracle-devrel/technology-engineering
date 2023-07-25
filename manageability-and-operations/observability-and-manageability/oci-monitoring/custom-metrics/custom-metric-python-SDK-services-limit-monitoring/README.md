@@ -40,9 +40,9 @@ Basically the **logic** is:
 
 ````
 Start
+Parse input arguments (compartment_ocid, region)
 Setup the OCI connection authentication (OCI IAM Config or Instance Principals)
-Set compartment_ocid
-Initialize the clients for the different API calls (IAM, Monitoring, Service Limits)
+Initialise the clients for the different API calls (IAM, Monitoring, Service Limits)
 Gather the full list of Service Limits Definitions sorted by Service Limit name
 For the list of Service Limit names
     If the scope is Availability Domain
@@ -55,27 +55,7 @@ For the list of Service Limit names
 End
 ````
 
-## 4. GETTING STARTED
-
-To execute the script:
-
-1. Ensure that the requirements are met with your desired variant (using IAM user or Instance Principals)
-2. Upload the script into your administration VM inside OCI (IAM user or Instance Principals), or outside OCI (IAM user only)
-3. Edit the script and put your OCI tenancy root compartment OCID in the compartment_ocid variable
-4. To execute the script: 
-   * For the IAM User principals authentication method, execute:
-        ````
-        $ python3 serviceLimitsMetricsIAM.py
-        ````
-        * The script is available [here](./files/Scripts/postServiceLimitsMetricsIAM.py)
-   * For the Instance principal authentication method, execute:
-        ````
-        $ python3 serviceLimitsMetricsIP.py
-        ````
-        * The script is available [here](./files/Scripts/postServiceLimitsMetricsIP.py)
-
-
-## 5. REQUIREMENTS
+## 4. REQUIREMENTS
 
 We have different requirements depending on the variant of this asset that we would use:
 
@@ -98,15 +78,36 @@ We have different requirements depending on the variant of this asset that we wo
 The VM where to run the script must have installed python3 with the following required packages installed with pip:
    *  **oci**
 
-## 6. INPUT
+## 5. INPUT
 
-The required input is the ***compartment_ocid*** with the OCID of your tenancy root compartment. Replace the value of the variable at the beginning of the script.
+The required input arguments are:
 
-## 7. OUTPUT
+* **compartment_ocid** with the OCID of your tenancy root compartment. 
+* **region** where you want to get the Services Limits with regional scope and where to publish metrics
+
+## 6. OUTPUT
 
 Every time the script is run, it will feed a custom metric namespace called "**limits_metrics**" in the tenancy's root compartment with the information of the Services Limits usage.
 
 You can check the custom metric extension from the OCI Metrics Explorer, where you will be able also to create an alarms from an specific metric query.
+
+## 7. GETTING STARTED
+
+To execute the script:
+
+1. Ensure that the requirements are met with your desired variant (using IAM user or Instance Principals)
+2. Upload the script into your administration VM inside OCI (IAM user or Instance Principals), or outside OCI (IAM user only)
+3. To execute the script: 
+   * For the IAM User principals authentication method, execute:
+        ````
+        $ python3 serviceLimitsMetricsIAM.py -c/--compartment_ocid <root's compartment OCID> -r/--region <target region>
+        ````
+        * The script is available [here](./files/Scripts/postServiceLimitsMetricsIAM.py)
+   * For the Instance principal authentication method, execute:
+        ````
+        $ python3 serviceLimitsMetricsIP.py -c/--compartment_ocid <root's compartment OCID> -r/--region <target region>
+        ````
+        * The script is available [here](./files/Scripts/postServiceLimitsMetricsIP.py)
 
 ## 8.KNOWN PROBLEMS
 
