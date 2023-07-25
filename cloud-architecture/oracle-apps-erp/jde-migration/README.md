@@ -16,8 +16,8 @@ This solution guide provides a starting point for the Partners/Managed Service P
 - [Learn JD Edwards Portal](https://docs.oracle.com/cd/E84502_01/learnjde/index.html)
 - [JD Edwards on OCI FAQ](https://www.oracle.com/uk/erp/move-jd-edwards-to-cloud/faq/)
 - [JD Edwards Documentation](https://docs.oracle.com/en/applications/jd-edwards/index.html)
-- [Strategies to maximize your JD Edwards investment in the cloud](https://blogs.oracle.com/cloud-infrastructure/poststrategies-to-maximize-your-jd-edwards-investment-in-the-cloud)
-
+- [Strategies to maximize your JD Edwards investment in the cloud](https://blogs.oracle.com/cloud-infrastructure/post/strategies-to-maximize-your-jd-edwards-investment-in-the-cloud)
+                                                                  
 ## Architecture Center Publications
 
 - [Deploy Oracle JD Edwards applications in the cloud](https://docs.oracle.com/en/solutions/learn-architecture-deploy-jd-edwards/index.html#GUID-371D284E-4631-4949-BC01-8BCB9F44FB5F)
