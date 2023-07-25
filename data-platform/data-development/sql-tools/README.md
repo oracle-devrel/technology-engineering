@@ -1,4 +1,5 @@
 # Oracle SQL Tools 
+
 This section covers Oracle SQL Tools: from SQL Developer Desktop to SQL Developer Web on GUI ADB Database Actions to SQLcl.
 Providing links to public useful documentation and articles/blogs written by Oracle SQL and Database Advocates and Product Managers.
 A SQL Clue Card is also provided.
@@ -12,6 +13,7 @@ A SQL Clue Card is also provided.
 
 # Team Publications
 TBD
+
 
 # Useful Links
 - [SQL Developer](https://www.oracle.com/uk/database/sqldeveloper/)

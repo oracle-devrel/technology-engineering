@@ -4,9 +4,26 @@ Owner: Olaf Heimburger
 
 ## When to use this asset?
 
-The OCI Security Health Check - Standard Edition checks an OCI tenancy for CIS OCI Foundation Benchmark compliance.
+The *OCI Security Health Check - Standard Edition* checks an OCI tenancy for CIS OCI Foundation Benchmark compliance.
 
 ## Usage
+
+### Download and verify the release file
+
+Before running the *OCI Security Health Check - Standard Edition* you should download and verify it.
+
+  - Download the latest distribution [oci-security-health-check-standard-230630.zip](https://github.com/oracle-devrel/technology-engineering/releases/download/oci-security-health-check-std-230630/oci-security-health-check-standard-230630.zip).
+  - Download the respective checksum file [oci-security-health-check-standard-230630.sha512256](https://github.com/oracle-devrel/technology-engineering/releases/download/oci-security-health-check-std-230630/oci-security-health-check-standard-230630.sha512256).
+  - Verify the integrity of the distribution. Both files must be in the same directory (for example, in your downloads directory).
+
+    On MacOS or Linux:
+    ```
+    $ cd <your_downloads_directory>
+    $ shasum -a 512256 -c oci-security-health-check-standard-230630.sha512256
+    oci-security-health-check-standard-230630.zip: OK
+    ```
+
+Reject the downloaded file if the check fails.
 
 ### Prepare the OCI Tenancy
 
@@ -52,9 +69,8 @@ To create a group for auditing do the following steps:
 
 The recommended way is to run the *OCI Security Health Check - Standard* in the OCI Cloud Shell. It does not require any additional configuration on a local desktop machine.
 
-#### Download and upload the release file
+#### Upload the release file
 
-  - Download the latest distribution [oci-security-health-check-standard-230630.zip](https://github.com/oracle-devrel/technology-engineering/releases/download/oci-security-health-check-std-230630/oci-security-health-check-standard-230630.zip).
   - Log into the OCI Console.
   - Select the *Developer Tools* icon (looks like a small window) in the header toolbar.
   - From the menu select the *Cloud Shell* item.
@@ -94,6 +110,15 @@ The recommended way is to run the *OCI Security Health Check - Standard* in the 
     holds all the output created by the scripts. This directory will be
     compressed in a single ZIP file and the resulting ZIP file will be moved to
     the parent directory of `oci-security-health-check-standard`.
+
+### Checking the results
+
+The report results are showing the compliance status of the related [CIS OCI Foundation Benchmark, version 1.2](https://www.cisecurity.org/benchmark/Oracle_Cloud) recommendations. Please download this benchmark before reading the report. (For license reasons, we cannot distribute the benchmark.)
+
+The report results are summarized in two files:
+- *cis_html_summary_report.html* &ndash; The report in HTML that displays the all recommendations and their compliance status, respectively.
+- *Consolidated_Report.xslx* &ndash; An XSLX workbook with a summary and sheets for the non-compliant recommendations.
+
 
 # License
 
