@@ -11,6 +11,13 @@ This section contains various examples related to Application Integration: demo 
 
 ## Demos
 
+- [Oracle Integration Cloud - Feature - Parallel Action](https://youtu.be/BTtPsDyiVLo)
+    -This video demonstrate how you can use parallel action in Oracle Integration.
+    Parallel action is used to process tasks in parallel to improve integration performance and response times. 
+    
+    Demonstration includes: Rest Based App Driven Integration that takes Supplier Data and Creates the Supplier in parallel in two systems:
+    - Oracle ERP Cloud 
+    - Autonomous Database
 - [Red Hot Webinar: Event-Driven and Low-Code Document Approval Process and Lifecycle Automation](https://youtu.be/kQuF2XOYKOc)
     - Demo Video about enabling Document Lifecycle Automation using a Low-Code Approach with OCI Integration (ProcessAutomation, Integration & Visual App Builder), Content Management (embedded document mgmt & Microsoft O365 online editor plugin), Streaming (kafka-based) and Autonomous Database (document business data store).
 - [Cloud Coaching - Automating Invoice Handling using OIC and AI Document Understanding Service](https://www.youtube.com/watch?v=pjdQzFscOrk)
