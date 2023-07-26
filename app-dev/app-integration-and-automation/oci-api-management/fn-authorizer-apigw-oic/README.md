@@ -1,4 +1,4 @@
-# fn-authorizer-apigw-ords
+# fn-authorizer-apigw-oic
  
 *Example authorizer function for API Gateway with OIC backend.*
  
