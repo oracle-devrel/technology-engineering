@@ -44,20 +44,19 @@ There are **two solutions** OCI Standard Landing Zones:
 Find below an executive review of some key requirements that will influence the standard landing zone decision - without any customization:
 
 &nbsp; 
-
-
-| DOMAIN  |  REQUIREMENT | SOLUTION  |  
-|---|---|---|
-| **Segregation of Duties** | A dedicated **Network** Team, **Security** Team, **Database** Team, and **Applications** Team, operating their respective resources. | CIS LZ v2 |
-| **Segregation of Duties** | A dedicated **Network** Team, **Security** Team, and possibly a Team per **Application** operating their respective resources. | OELZ v2 |
-| **Network** | Strong workload network isolation with **NSGs**. | CIS LZ v2 |
-| **Security** | **CIS Compliant** solution with embedded **CIS validations**. | CIS LZ v2 |
-| **IAM** | The target tenancy **without Identity Domains**. | CIS LZ v2 |
-| **Cost** | Starting with **no initial OCI consumption**. | CIS LZ v2 |
+| # | DOMAIN  |  REQUIREMENT (The customer requires...)| SOLUTION  |  
+|:-:|---|---|---|
+| 1 | **Segregation of Duties** | A dedicated **Network** Team, **Security** Team, **Database** Team, and **Applications** Team, operating their respective resources. | CIS LZ v2 |
+| 2 | **Segregation of Duties** | A dedicated **Network** Team, **Security** Team, and possibly **one Team per Application** operating their respective resources. | OELZ v2 |
+| 3 | **Network** | Strong workload network isolation with **NSGs**. | CIS LZ v2 |
+| 4 | **Security** | **CIS Compliant** solution with embedded **CIS validations**. | CIS LZ v2 |
+| 5 | **IAM** | A target tenancy **without Identity Domains**. | CIS LZ v2 |
+| 6 | **Workloads** | The main use case focused on **database workloads** and there is **one team responsible** for these workloads. Relates to point 1. | CIS LZ v2 |
+| 7 | **Cost** | Starting with **no initial OCI consumption**. | CIS LZ v2 |
 
 &nbsp; 
 
-For other design considerations (such as hub & spoke, several environments, ExaCS ready, etc.), both solutions will tend to fit. Note the support model for both solutions is UPL 1.0. 
+For other design considerations (such as hub & spoke, several environments, ExaCS ready, etc.), both solutions will tend to fit. Note the **support model for both solutions is UPL 1.0**. 
 
 If after reviewing the table above the solution is not clear: 
 1. Visit [**landing zone landscape**](/landing-zones/commons/select_your_solution.pdf) for further consideration.

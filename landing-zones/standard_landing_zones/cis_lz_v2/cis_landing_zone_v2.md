@@ -7,10 +7,14 @@
 &nbsp; 
 
 ## 1. Before You Start
-Before starting and creating the configuration, we recommend:
-1. Understand [CIS Landing Zone v2 Architecture](https://docs.oracle.com/en/solutions/cis-oci-benchmark/index.html) and the OCI elements involved, as you'll be configuring the solution.
-2. Review the [GitHub Repository](https://github.com/oracle-quickstart/oci-cis-landingzone-quickstart) as it contains the complete solution documentation.
-3. Execute the Live Labs ["Deploy a Secure Landing Zone in OCI"](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3662).
+Before starting and creating the configuration, we recommend the following activities.
+
+&nbsp; 
+
+| STEP  |  ACTIVITY | GUIDANCE | 
+|---|---|---|
+| 1 | Understand **Solution** | Understand [CIS Landing Zone v2 Architecture](https://docs.oracle.com/en/solutions/cis-oci-benchmark/index.html) and the OCI elements involved, as you'll be configuring the solution. </br> Review the [GitHub Repository](https://github.com/oracle-quickstart/oci-cis-landingzone-quickstart) as it contains the complete solution documentation. |
+| 2 | Train with **LiveLabs** |  Execute the Live Labs ["Deploy a Secure Landing Zone in OCI"](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3662).
 
 
 
