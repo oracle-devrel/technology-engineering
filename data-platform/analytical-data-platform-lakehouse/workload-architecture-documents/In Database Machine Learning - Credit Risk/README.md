@@ -1,6 +1,6 @@
 # In-database Machine Learning - Solution Definition
 
-This repository contains a Machine Learning project based on the Autonomous Database Oracle Machine Learning (OML) reference architecture, useful links, and a workload deployement template. The intent is to equip the Partner/Managed Service Provider/Consultant with the necessary tools and resources so that they can confidently lift and shift or migrate or deploy a green field Machine Learning project into Oracle Cloud Infrastructure (OCI) Autonomous Database. The document covers :
+This repository contains a Machine Learning project based on the Autonomous Database Oracle Machine Learning (OML) reference architecture, useful links, and a workload deployment template. The intent is to equip the Partner/Managed Service Provider/Consultant with the necessary tools and resources so that they can confidently lift and shift or migrate or deploy a green field Machine Learning project into Oracle Cloud Infrastructure (OCI) Autonomous Database. The document covers :
 
 - data replication with GoldenGate,
 - data refinery with OCI Data Integration,
