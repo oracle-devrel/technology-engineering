@@ -10,6 +10,7 @@ The In-Memory Eligibility Test is the IS_INMEMORY_ELIGIBLE procedure within the 
 ### Documentation
 
 - [Database In-Memory Guide](https://docs.oracle.com/en/database/oracle/oracle-database/19/inmem/intro-to-in-memory-column-store.html#GUID-54764B12-9A27-405B-AD02-8BF5140CA078)
+- [PL/SQL Packages and Types Reference: DBMS_INMEMORY_ADVISE](https://docs.oracle.com/en/database/oracle/oracle-database/19/arpls/is_inmemory_eligible-procedure.html#GUID-86A800CE-920F-4406-A66E-C931481201D2)
 
 ### Blogs
 
