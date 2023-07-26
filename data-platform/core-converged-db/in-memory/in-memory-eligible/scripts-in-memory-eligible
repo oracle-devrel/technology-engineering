@@ -1,0 +1,27 @@
+REM script: execute-eligible-test.sql
+REM 19.20 is required
+
+-- use SQL*Plus or other linemode tools
+-- set serveroutput on for the test result
+set serveroutput on;
+
+-- define variable for the test output summary 
+variable analysis_summary VARCHAR2(1000)
+
+-- input snap id range and run the following code blog
+declare
+  v_inmem_eligible boolean;
+   begin
+     dbms_inmemory_advise.is_inmemory_eligible(&snapfirst, &snaplast, v_inmem_eligible, :analysis_summary);
+     --
+     if v_inmem_eligible then
+   	 dbms_output.put_line('Database is eligible');
+      else
+    	 dbms_output.put_line('Database is NOT eligible');
+     end if;
+   end;
+/
+
+-- print the summary
+-- The greater the level of activity above that target analytic workload percentage threshold, the greater is the potential benefit that may be seen from use of Database In-Memory.
+print analysis_summary
