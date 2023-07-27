@@ -313,7 +313,7 @@ For each component, recovery in the case of the disaster can be achieved by leve
 
 - **OCI DI** :
 
-  -   **Applications in ODI Data Integration** : In order to achieve disaster recovery, version upgrade and cross environment code promotion, we use the notion of Applications in OCI Data Integration. An Application in Data Integration is a container at the workspace level that holds runtime objects such as published tasks and task runs. You have the flexibility to [create a new Application](https://docs.oracle.com/en-us/iaas/data-integration/using/applications.htm#creating-applications) from scratch or make a copy of an existing one. Disaster Recovery will be achieve by automating backup creation and trigger restauration in the event of a disaster.
+  -   **Applications in ODI Data Integration** : In order to achieve disaster recovery, version upgrade and cross environment code promotion, we use the notion of Applications in OCI Data Integration. An Application in Data Integration is a container at the workspace level that holds runtime objects such as published tasks and task runs. You have the flexibility to [create a new Application](https://docs.oracle.com/en-us/iaas/data-integration/using/applications.htm#creating-applications) from scratch or make a copy of an existing one. Disaster Recovery will be achieve by automating backup creation and trigger restoration in the event of a disaster.
 
 - **ADW** :
 
