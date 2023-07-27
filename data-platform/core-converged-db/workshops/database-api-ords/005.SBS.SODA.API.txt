@@ -1,0 +1,146 @@
+ssh -i /Users/stef/Documents/TSE/Workshops/20230525.France.DevDay/SSH/id_rsa_lab opc@<public_ip>
+
+or
+
+https://<public_ip>/vnc.html?resize=remote
+
+
+
+source OH.env
+
+[oracle@wip-ords-docker2 ~]$ java -version
+java version "11.0.10" 2021-01-19 LTS
+Java(TM) SE Runtime Environment 18.9 (build 11.0.10+8-LTS-162)
+Java HotSpot(TM) 64-Bit Server VM 18.9 (build 11.0.10+8-LTS-162, mixed mode)
+
+
+unset ORACLE_HOME
+sql soe/Oracle_4U@localhost:1521/freepdb1
+
+soda drop musiccollection
+soda create musiccollection
+soda insert musiccollection {"name": "The Rolling Stones","Title": "Bridges of Babylon", "Description": "A Great album by the greatest band ever"}
+soda insert musiccollection {"name": "The Rolling Stones","Title": "Jump Back", "Description": "An awesome compilation by the greatest band ever"}
+soda insert musiccollection {"name": "Pink Floyd","Title": "Wish you were here", "Description": "A pretty good choice"}
+soda insert musiccollection {"name": "Pink Floyd","Title": "Greatest hits", "Description": "A pretty good choice"}
+soda insert musiccollection {"name": "Police","Title": "Every breath you take", "Description": "Breathtaking, their greatest album"}
+! echo '{"name": "Eric Clapton","Title": "Unplugged", "Description": "Awesome unplugged concert"}' > /home/oracle/tt.json
+!cat /home/oracle/tt.json
+soda insert musiccollection /home/oracle/tt.json
+
+info musiccollection
+
+SQL> soda get musiccollection -all
+	KEY						Created On
+
+	9954DBB0A2304120A4EE876230FA5330		2023-02-01T14:21:21.426104000Z
+	FF0E2FFBCA4944F29D8C37746CBFDC68		2023-02-01T14:21:21.687074000Z
+	C1A1F586094741A4AA7E600971CF7337		2023-02-01T14:21:21.881056000Z
+	177E3072427547F89E14F375B77ADC18		2023-02-01T14:21:22.038875000Z
+	7C40A23303494C89BC11A505E1CE53A8		2023-02-01T14:21:22.865711000Z
+	8E97C315F46B4776AC8D3D9592688933		2023-02-01T14:21:45.941778000Z
+
+ 6 rows selected.
+
+SQL> soda get musiccollection -k  8E97C315F46B4776AC8D3D9592688933
+
+Key:    	 8E97C315F46B4776AC8D3D9592688933
+Content:	 {"name": "Eric Clapton","Title": "Unplugged", "Description": "Awesome unplugged concert"}
+
+-----------------------------------------
+
+ 1 row selected.
+
+SQL> soda insert musiccollection {"name" : "Alex"}
+
+ JSON document inserted successfully.
+
+SQL> soda get musiccollection -all
+	KEY						Created On
+
+	9954DBB0A2304120A4EE876230FA5330		2023-02-01T14:21:21.426104000Z
+	FF0E2FFBCA4944F29D8C37746CBFDC68		2023-02-01T14:21:21.687074000Z
+	C1A1F586094741A4AA7E600971CF7337		2023-02-01T14:21:21.881056000Z
+	177E3072427547F89E14F375B77ADC18		2023-02-01T14:21:22.038875000Z
+	7C40A23303494C89BC11A505E1CE53A8		2023-02-01T14:21:22.865711000Z
+	8E97C315F46B4776AC8D3D9592688933		2023-02-01T14:21:45.941778000Z
+	1BA1D77E9DB048849EB56EB611DFB0E3		2023-02-01T14:22:33.238650000Z
+
+ 7 rows selected.
+
+SQL> soda get musiccollection -k  1BA1D77E9DB048849EB56EB611DFB0E3
+
+Key:    	 1BA1D77E9DB048849EB56EB611DFB0E3
+Content:	 {"name" : "Alex"}
+-----------------------------------------
+
+ 1 row selected.
+
+SQL> soda remove musiccollection -k  1BA1D77E9DB048849EB56EB611DFB0E3
+Successfully removed 1 document.
+
+SQL> soda get musiccollection -f {"Title":"Wish you were here"}
+
+Key:    	 C1A1F586094741A4AA7E600971CF7337
+Content:	 {"name": "Pink Floyd","Title": "Wish you were here", "Description": "A pretty good choice"}
+-----------------------------------------
+
+ 1 row selected.
+
+SQL> CREATE SEARCH INDEX music_search_idx ON musiccollection(DATA) FOR JSON;
+
+INDEX MUSIC_SEARCH_IDX created.
+
+<INDEXEDJSONQUERY>
+
+SELECT m.json_document.name as "Band name", m.json_document."Title" as "Title", m.json_document."Description" as "Description"
+FROM   musiccollection m
+WHERE  JSON_TEXTCONTAINS(json_document, '$.Description', 'greatest band');
+
+            Band name                 Title                                         Description
+_____________________ _____________________ ___________________________________________________
+The Rolling Stones    Bridges of Babylon    A Great album by the greatest band ever
+The Rolling Stones    Jump Back             An awesome compilation by the greatest band ever
+
+SQL>
+SQL>
+SQL>
+
+-- SODA for REST:
+
+source OH.env
+sqlplus -s system/Oracle_4U@localhost:1521/freepdb1 << EOF
+GRANT SODA_APP TO SOE;
+exit
+EOF
+
+echo "Enabling SOE for ORDS and SODA"
+
+sqlplus -s soe/Oracle_4U@localhost:1521/freepdb1 << EOF
+EXEC ords.enable_schema;
+COMMIT;
+
+BEGIN
+  ords.delete_privilege_mapping(
+    'oracle.soda.privilege.developer',
+    '/soda/*');
+  COMMIT;
+END;
+/
+exit
+EOF
+
+
+http://localhost:8181/ords/freepdb1/soe/soda/latest/
+http://localhost:8181/ords/freepdb1/soe/soda/latest/musiccollection
+
+
+-- Create a new collection:
+
+curl -X PUT http://localhost:8181/ords/freepdb1/soe/soda/latest/newcollection/
+
+curl -X POST --data-binary '{"name": "Keith", "address": {"city": "London"}}' -H "Content-Type: application/json" http://localhost:8181/ords/freepdb1/soe/soda/latest/newcollection
+
+http://localhost:8181/ords/freepdb1/soe/soda/latest/newcollection/
+
+curl -X DELETE http://localhost:8181/ords/freepdb1/soe/soda/latest/newcollection/
