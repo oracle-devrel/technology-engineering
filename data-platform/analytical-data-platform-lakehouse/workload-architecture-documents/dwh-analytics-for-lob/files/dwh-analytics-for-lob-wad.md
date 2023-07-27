@@ -14,7 +14,7 @@
 
 This document provides a high-level solution definition for the Oracle solution and aims at describing the current state, to-be state as well as a potential 'Lift' project scope and timeline. The Lift parts will be described as a physical implementable solution. The intended purpose is to provide all parties involved with a clear and well-defined insight into the scope of work and intention of the project as it will be done as part of the Oracle Lift service.
 
-The document may refer to a 'Workload', which summarizes the full technical solution for a customer (You) during a single engagement. The Workload is described in chapter [Workload Requirements and Architecture](#workload-requirements-and-architecture). In some cases Oracle offers an implementation service called 'Lift', which has its dedicated scope and is typically a subset of the initial Workload. The Lift project, architecture, and implementation details are documented in chapter Oracle Lift Project and Architecture and in chapter Oracle Lift Implementation.
+The document may refer to a 'Workload', which summarizes the full technical solution for a customer (You) during a single engagement. The Workload is described in chapter [Workload Requirements and Architecture](#workload-requirements-and-architecture). In some cases, Oracle offers an implementation service called 'Lift', which has its dedicated scope and is typically a subset of the initial Workload. The Lift project, architecture, and implementation details are documented in the chapter Oracle Lift Project and Architecture and in the chapter Oracle Lift Implementation.
 
 This is a living document, additional sections will be added as the engagement progresses resulting in a final Workload Architecture Document to be handed over at the end of the engagement. Where Oracle Lift is involved, detailed design sections will be added after customer acceptance of the content of the Workload Architecture Document as it stands at the time acceptance is requested.
 
@@ -26,9 +26,9 @@ Business users will have the potential to gain new insight into their financial 
 
 ## Workload Business Value
 
-This solution can satisfy the A Company Making Everything desire to provide increased insight in their GL reporting to their Finance team. The customer can capitalise on the capabilities of a modern analytics platform to provide benefits to business users and to IT. Business benefits mean users would have access to standard reports and be able to augment them with their own data or create additional visualisations without the need and wait for IT to implement. IT benefits by having an analytics solution on platform services that are managed by Oracle on Oracle Cloud Infrastructure (OCI). A Company Making Everything will have an up to date platform that will automatically scale up or down with business demand.
+This solution can satisfy the A Company Making Everything desire to provide increased insight into their GL reporting to their Finance team. The customer can capitalize on the capabilities of a modern analytics platform to provide benefits to business users and to IT. Business benefits mean users would have access to standard reports and be able to augment them with their own data or create additional visualizations without the need and wait for IT to implement them. IT benefits by having an analytics solution on platform services that are managed by Oracle on Oracle Cloud Infrastructure (OCI). A Company Making Everything will have an up-to-date platform that will automatically scale up or down with business demand.
 
-The Finance team can augment the pre-packaged set of Finance dashboards and KPIs provided with their own data or create their own visualisations for personal analysis and gain greater insight, giving them greater control over their reporting. The IT department can focus on adding business value through data and curated reporting by freeing up time spent on platform maintenance.
+The Finance team can augment the pre-packaged set of Finance dashboards and KPIs provided with their own data or create their own visualizations for personal analysis and gain greater insight, giving them greater control over their reporting. The IT department can focus on adding business value through data and curated reporting by freeing up time spent on platform maintenance.
 
 Using Lift to implement the core EBS Analytics Finance Accelerator will set the foundation for A Company Making Everything to extend the content to deliver customer-specific analyses.
 
@@ -38,13 +38,13 @@ Using Lift to implement the core EBS Analytics Finance Accelerator will set the 
 
 This project will implement the E-Business Suite Analytics Accelerator for Financials (Accelerator) to provide content, Oracle Analytics Cloud (OAC) for reporting with Autonomous Data Warehouse (ADW) for data management and Oracle Data Integrator - Marketplace (ODI) for data integration and transformation as the technology platform. The data source will be E-Business Suite (EBS).
 
-## Non Functional Requirements
+## Non-Functional Requirements
 
 ## Current State Architecture
 
 ## Future State Architecture
 
-In the future state target architecture ODI-Marketplace will be used to extract data from EBS tables, load and transform them into ADW where the Analytics data model will reside. OAC will access the ADW for reporting.
+In the future state target architecture, ODI-Marketplace will be used to extract data from EBS tables, load, and transform them into ADW where the Analytics data model will reside. OAC will access the ADW for reporting.
 
 ![Future State Architecture](images/Target_State_Architecture_v01-2.png)
 
@@ -58,11 +58,11 @@ The architecture focuses on the following logical divisions:
 
 -   **Data refinery**`<br>`{=html} Ingests and refines the data for use in each of the data layers in the architecture. The shape is intended to illustrate the differences in processing costs for storing and refining data at each level and for moving data between them.
 
--   **Data persistence platform (curated information layer)**`<br>`{=html} Facilitates access and navigation of the data to show the current business view. For relational technologies, data may be logical or physically structured in simple relational, longitudinal, dimensional or OLAP forms. For non-relational data, this layer contains one or more pools of data, either output from an analytical process or data optimized for a specific analytical task.
+-   **Data persistence platform (curated information layer)**`<br>`{=html} Facilitates access and navigation of the data to show the current business view. For relational technologies, data may be logical or physically structured in simple relational, longitudinal, dimensional, or OLAP forms. For non-relational data, this layer contains one or more pools of data, either output from an analytical process or data optimized for a specific analytical task.
 
 -   **Access and interpretation**`<br>`{=html} Abstracts the logical business view of the data for the consumers. This abstraction facilitates agile approaches to development, migration to the target architecture, and the provision of a single reporting layer from multiple federated sources.
 
-As a data source we assume that EBS is the primary data source, but additional information might be brought in using files in the local file store.
+As a data source, we assume that EBS is the primary data source, but additional information might be brought in using files in the local file store.
 
 The architecture has the following components:
 
@@ -70,9 +70,9 @@ The architecture has the following components:
 
     The Accelerator provides pre-built ODI code to extract data from EBS and load it into the data warehouse.
 
--   **Autonomous data warehouse**`<br>`{=html} Oracle Autonomous Data Warehouse is a fully managed, preconfigured database environment. You do not need to configure or manage any hardware, or install any software. After provisioning, you can scale the number of CPU cores or the storage capacity of the database at any time without impacting availability or performance.
+-   **Autonomous data warehouse**`<br>`{=html} Oracle Autonomous Data Warehouse is a fully managed, preconfigured database environment. You do not need to configure or manage any hardware or install any software. After provisioning, you can scale the number of CPU cores or the storage capacity of the database at any time without impacting availability or performance.
 
-    The Accelerator provides the physical tables for the data persistence.
+    The Accelerator provides the physical tables for data persistence.
 
 -   **Object Storage**`<br>`{=html} Oracle Cloud Infrastructure Object Storage is an internet-scale, high-performance storage platform that offers reliable and cost-efficient data durability. Oracle Cloud Infrastructure Object Storage can store an unlimited amount of unstructured data of any content type, including analytic data. You can safely and securely store or retrieve data directly from the internet or from within the cloud platform. Multiple management interfaces let you easily start small and scale seamlessly, without experiencing any degradation in performance or service reliability.
 
@@ -106,9 +106,9 @@ This chapter covers the Security and Identity Management definitions and resourc
 
 -   Groups will be configured at the tenancy level and access will be governed by policies configured in OCI.
 -   Any new project deployment in OCI will start with the creation of a new compartment. Compartments follow a hierarchy, and the compartment structure will be decided as per the application requirements.
--   It is also proposed to keep any shared resources, such as Object Storage, Networks etc. in a shared services compartment. This will allow the various resources in different compartments to access and use the resources deployed in the shared services compartment and user access can be controlled by policies related to specific resource types and user roles.
--   Policies will be configured in OCI to maintain the level of access / control that should exist between resources in different compartments. These will also control user access to the various resources deployed in the tenancy.
--   The tenancy will include a pre-provisioned Identity Cloud Service (IDCS) instance (the primary IDCS instance) or, where applicable, the Default Identity Domain. Both provide access management across all Oracle cloud services for IaaS, PaaS and SaaS cloud offerings.
+-   It is also proposed to keep any shared resources, such as Object Storage, Networks, etc. in a shared services compartment. This will allow the various resources in different compartments to access and use the resources deployed in the shared services compartment and user access can be controlled by policies related to specific resource types and user roles.
+-   Policies will be configured in OCI to maintain the level of access/control that should exist between resources in different compartments. These will also control user access to the various resources deployed in the tenancy.
+-   The tenancy will include a pre-provisioned Identity Cloud Service (IDCS) instance (the primary IDCS instance) or, where applicable, the Default Identity Domain. Both provide access management across all Oracle cloud services for IaaS, PaaS, and SaaS cloud offerings.
 -   The primary IDCS or the Default Identity Domain will be used as the access management system for all users administrating (OCI Administrators) the OCI tenant.
 
 #### Authentication and Authorization for OCI
@@ -121,9 +121,9 @@ Only OCI Administrators are granted access to the OCI Infrastructure. As a good 
 
 **Local Users**
 
-The usage of OCI Local Users is not recommended for the majority of users and is restricted to a few users only. These users include the initial OCI Administrator created during the tenancy setup, and additional emergency administrators.
+The usage of OCI Local Users is not recommended for the majority of users and is restricted to a few users only. These users include the initial OCI Administrator created during the tenancy setup and additional emergency administrators.
 
-**Local Users are considered as Emergency Administrators and should not be used for daily administration activities!**
+**Local Users are considered Emergency Administrators and should not be used for daily administration activities!**
 
 **No additional users are to be, nor should be, configured as local users.**
 
@@ -131,7 +131,7 @@ The usage of OCI Local Users is not recommended for the majority of users and is
 
 **Federated Users**
 
-Unlike Local Users, Federated Users are managed in the Federated or Enterprise User Management system. In the OCI User list Federated Users may be distinguished by a prefix which consists of the name of the federated service in lower case, a '/' character followed by the user name of the federated user, for example:
+Unlike Local Users, Federated Users are managed in the Federated or Enterprise User Management system. In the OCI User list Federated Users may be distinguished by a prefix that consists of the name of the federated service in lower case, a '/' character followed by the user name of the federated user, for example:
 
 `oracleidentityservicecloud/user@example.com`
 
@@ -139,7 +139,7 @@ In order to provide the same attributes (OCI API Keys, Auth Tokens, Customer Sec
 
 All users have the same OCI-specific attributes (OCI API Keys, Auth Tokens, Customer Secret Keys, OAuth 2.0 Client Credentials, and SMTP Credentials).
 
-OCI Administration user should only be configured in the pre-configured primary IDCS or the Default Identity Domain where applicable.
+OCI Administration users should only be configured in the pre-configured primary IDCS or the Default Identity Domain where applicable.
 
 **Note:** Any federated user can be a member of 100 groups only. The OCI Console limits the number of groups in a SAML assertion to 100 groups. User Management in the Enterprise Identity Management system will be handled by A Company Making Everything.
 
@@ -149,7 +149,7 @@ In general, policies hold permissions granted to groups. Policy and Group naming
 
 **Tenant Level Authorization**
 
-The policies and groups defined at the tenant level will provide access to administrators and authorized users, to manage or view resources across the entire tenancy. Tenant level authorization will be granted to tenant administrators only.
+The policies and groups defined at the tenant level will provide access to administrators and authorized users, to manage or view resources across the entire tenancy. Tenant-level authorization will be granted to tenant administrators only.
 
 These policies follow the recommendations of the [CIS Oracle Cloud Infrastructure Foundations Benchmark v1.2.0, recommendations 1.1, 1.2, 1.3](https://www.cisecurity.org/cis-benchmarks).
 
@@ -159,19 +159,19 @@ A Service Policy is used to enable services at the tenancy level. It is not assi
 
 **Shared Compartment Authorization**
 
-Compartment level authorization for the cmp-shared compartment structure uses the following specific policies and groups.
+Compartment-level authorization for the cmp-shared compartment structure uses the following specific policies and groups.
 
-Apart from tenant level authorization, authorization for the cmp-shared compartment provides specific policies and groups. In general, policies will be designed that lower-level compartments are not able to modify resources of higher-level compartments.
+Apart from tenant-level authorization, authorization for the cmp-shared compartment provides specific policies and groups. In general, policies will be designed so that lower-level compartments are not able to modify the resources of higher-level compartments.
 
 Policies for the cmp-shared compartment follow the recommendations of the [CIS Oracle Cloud Infrastructure Foundations Benchmark v1.2.0, recommendations 1.1, 1.2, 1.3](https://www.cisecurity.org/cis-benchmarks).
 
 **Compartment Level Authorization**
 
-Apart from tenant level authorization, compartment level authorization provides compartment structure specific policies and groups. In general, policies will be designed that lower-level compartments are not able to modify resources of higher-level compartments.
+Apart from tenant-level authorization, compartment-level authorization provides compartment structure-specific policies and groups. In general, policies will be designed so that lower-level compartments are not able to modify the resources of higher-level compartments.
 
 **Authentication and Authorization for Applications and Databases**
 
-Application (including Compute Instances) and Database User management is completely separate of and done outside of the primary IDCS or Default Identity Domain. The management of these users is the sole responsibility of A Company Making Everything using the application, compute instance and database specific authorization.
+Application (including Compute Instances) and Database User management are completely separate and done outside of the primary IDCS or Default Identity Domain. The management of these users is the sole responsibility of A Company Making Everything using the application, compute instance, and database-specific authorization.
 
 #### Security Posture Management
 
@@ -179,7 +179,7 @@ Application (including Compute Instances) and Database User management is comple
 
 Oracle Cloud Guard Service will be enabled using the pcy-service policy and with the following default configuration. Customization of the Detector and Responder Recipes will result in clones of the default (Oracle Managed) recipes.
 
-Cloud Guard default configuration provides a number of good settings. It is expected that these settings may not match with A Company Making Everything's requirements.
+Cloud Guard default configuration provides a number of good settings. It is expected that these settings may not match A Company Making Everything's requirements.
 
 **Targets**
 
@@ -197,15 +197,15 @@ The default Cloud Guard Responders will be implemented. To better meet the requi
 
 In accordance with the [CIS Oracle Cloud Infrastructure Foundations Benchmark, v1.2.0, OCI Vulnerability Scanning](https://www.cisecurity.org/cis-benchmarks) will be enabled using the pcy-service policy.
 
-Compute instances which should be scanned *must* implement the *Oracle Cloud Agent* and enable the *Vulnerability Scanning plugin*.
+Compute instances that should be scanned *must* implement the *Oracle Cloud Agent* and enable the *Vulnerability Scanning plugin*.
 
 **OCI OS Management Service**
 
 Required policy statements for OCI OS Management Service are included in the pcy-service policy.
 
-By default, the *OS Management Service Agent plugin* of the *Oracle Cloud Agent* is enabled and running on current Oracle Linux 6, 7, 8 and 9 platform images.
+By default, the *OS Management Service Agent plugin* of the *Oracle Cloud Agent* is enabled and running on current Oracle Linux 6, 7, 8, and 9 platform images.
 
-#### Monitoring, Auditing and Logging
+#### Monitoring, Auditing, and Logging
 
 In accordance with the [CIS Oracle Cloud Infrastructure Foundations Benchmark, v1.2.0, Chapter 3 Logging and Monitoring](https://www.cisecurity.org/cis-benchmarks) the following configurations will be made:
 
@@ -245,19 +245,19 @@ For Object Storage security the following guidelines are considered.
 
 **Data Residency**
 
-It is expected that data will be held in the respective region and additional steps will be taken when exporting the data to other regions to comply with the applicable laws and regulations. This should be review for every project onboard into the tenancy.
+It is expected that data will be held in the respective region and additional steps will be taken when exporting the data to other regions to comply with the applicable laws and regulations. This should be reviewed for every project onboard into the tenancy.
 
 #### Operational Security
 
 **Security Zones**
 
-Whenever possible OCI Security Zones will be used to implement a security compartment for Compute instances or Database resources. For more information on Security Zones refer to the in the *Oracle Cloud Infrastructure User Guide* chapter on [Security Zones](https://docs.oracle.com/en-us/iaas/security-zone/using/security-zones.htm).
+Whenever possible OCI Security Zones will be used to implement a security compartment for Compute instances or Database resources. For more information on Security Zones refer to the *Oracle Cloud Infrastructure User Guide* chapter on [Security Zones](https://docs.oracle.com/en-us/iaas/security-zone/using/security-zones.htm).
 
 **Remote Access to Compute Instances or Private Database Endpoints**
 
 To allow remote access to Compute Instances or Private Database Endpoints, the OCI Bastion will be implemented for defined compartments.
 
-To be able to use OCI services to for OS management, Vulnerability Scanning, Bastion Service, etc. it is highly recommended to implement the Oracle Cloud Agent as documented in the *Oracle Cloud Infrastructure User Guide* chapter [Managing Plugins with Oracle Cloud Agent](https://docs.oracle.com/en-us/iaas/Content/Compute/Tasks/manage-plugins.htm).
+To be able to use OCI services for OS management, Vulnerability Scanning, Bastion Service, etc. it is highly recommended to implement the Oracle Cloud Agent as documented in the *Oracle Cloud Infrastructure User Guide* chapter [Managing Plugins with Oracle Cloud Agent](https://docs.oracle.com/en-us/iaas/Content/Compute/Tasks/manage-plugins.htm).
 
 #### Network Time Protocol Configuration for Compute Instance
 
@@ -265,7 +265,7 @@ Synchronized clocks are a necessity for securely operating environments. OCI pro
 
 #### Regulations and Compliance
 
-A Company Making Everything is responsible for setting the access rules to services and environments that require stakeholders’ integration to the tenancy to comply with all applicable regulations. Oracle will support in accomplishing this task.
+A Company Making Everything is responsible for setting the access rules to services and environments that require stakeholders’ integration into the tenancy to comply with all applicable regulations. Oracle will support in accomplishing this task.
 
 ## Bill of Materials
 
@@ -280,7 +280,7 @@ A Company Making Everything is responsible for setting the access rules to servi
 
 # Oracle Lift Project and Architecture
 
-==**the Lift part below here is not yet confirmed nor validated by Lift team if achievable or realistic**==
+==**the part below here is not yet confirmed nor validated by the implementation team if achievable or realistic**==
 
 ## Solution Scope
 
@@ -294,14 +294,14 @@ All items not explicitly stated to be within the scope of the Lift project will 
 
 The EBS Financial Analytics Accelerator will provide:
 
--   Eighty five (85) pre-built reports
+-   Eighty-five (85) pre-built reports
 -   Three (3) pre-built dashboards for Accounts Receivable, Accounts Payable and General Ledger
 -   Six (6) data models: 2 AR, 2 AP, 2 GL
--   Chart of accounts are pre-configured for X (x) standard segments
+-   Chart of accounts is pre-configured for X (x) standard segments
 
 The Lift implementation team will:
 
--   Design and configure A Company Making Everything's OCI tenancy and provision a new instance of OAC, ADW and OCI for ODI Marketplace for one (1) non-prod environment
+-   Design and configure A Company Making Everything's OCI tenancy and provision a new instance of OAC, ADW, and OCI for ODI Marketplace for one (1) non-prod environment
 -   Implement the standard EBS Analytics Accelerator for Financials
 -   Configuration will be for one (1) primary ledger
 -   Max 500 GB of data can be loaded
@@ -312,11 +312,11 @@ The Lift implementation team will:
 
 ### Business Value
 
-This Lift implementation of the Accelerator would give A Company Making Everything a kickstart in providing greater business capability to their finance users increasing their ability to gain deeper insight to make data driven decisions. It will provide a foundation of recommended practice on OCI with a sound basis to extend and expand. By utilizing Lift, A Company Making Everything will have an extensible foundation for analytics provided while making use of pre-purchased Universal Credits for OCI that would otherwise be unused.
+This Lift implementation of the Accelerator would give A Company Making Everything a kickstart in providing greater business capability to their finance users increasing their ability to gain deeper insight to make data-driven decisions. It will provide a foundation of recommended practice on OCI with a sound basis to extend and expand. By utilizing Lift, A Company Making Everything will have an extensible foundation for analytics provided while making use of pre-purchased Universal Credits for OCI that would otherwise be unused.
 
 ### Success Criteria
 
-A Company Making Everything will be able to see their data in the Accelerator dashboards and reports on the A Company Making Everything OCI tenancy by the end of the project timeline. Project timeline is set forth in the 'project timeline' section of this document.
+A Company Making Everything will be able to see their data in the Accelerator dashboards and reports on the A Company Making Everything OCI tenancy by the end of the project timeline. The project timeline is set forth in the 'project timeline' section of this document.
 
 ## Workplan
 
@@ -339,36 +339,36 @@ This section provides more details on the implementation of the Accelerator.
     -   Gather the details of the pre-requisite functional parameters in a spreadsheet Oracle will supply. It will include items such as the chart of accounts configuration, data-load parameters, transaction type, etc.
     -   Configure the connection between EBS and ODI Marketplace
     -   Configure the connection between ODI Marketplace and ADW
-    -   Run data load to ADW to cater the reports in the OAC
+    -   Run data load to ADW to cater to the reports in the OAC
     -   Max 500 GB of data will be loaded for reporting
     -   Single Language ‘US’ will be implemented and all levels of reporting will be in English
-    -   A Company Making Everything have X segments, all will be considered (list segments here)
-    -   One (primary) currency will be implemented (- GL Budget data does not exist in EBS. So, GL Budget dashboard page will be hidden.) (- ODI scenarios related to GL Budget fact and dimensions will be unchecked from project load plan.)
+    -   A Company Making Everything has X segments, all will be considered (list segments here)
+    -   One (primary) currency will be implemented (- GL Budget data does not exist in EBS. So, GL Budget dashboard page will be hidden.) (- ODI scenarios related to GL Budget fact and dimensions will be unchecked from the project load plan.)
 
 ### Recommended Activities
 
-This Lift workload is designed to assist A Company Making Everything to rapidly start utilising Oracle Cloud Infrastructure and allow them to explore the benefits of the solution to them for further rollout. In discussion with A Company Making Everything and from our own experience, we suggest A Company Making Everything consider engaging Oracle Consulting to implement some or all of the following activities to enrich the Accelerator. Below is not exhaustive list but includes:
+This Lift workload is designed to assist A Company Making Everything to rapidly start utilizing Oracle Cloud Infrastructure and allow them to explore the benefits of the solution to them for further rollout. In discussion with A Company Making Everything and from our own experience, we suggest A Company Making Everything consider engaging Oracle Consulting to implement some or all of the following activities to enrich the Accelerator. Below is not an exhaustive list but includes:
 
-Activities which extend functionality, such as:
+Activities that extend functionality, such as:
 
 -   Incorporate Descriptive Flex Fields from EBS, which may be needed for reporting
--   Develop ETL to address customisations of EBS
+-   Develop ETL to address customizations of EBS
 -   Implement OAC Usage Tracking
--   After the initial bedding in period to get users directly accessing the system, implement scheduling reports through OAC Agents or Delivers
--   Develop extensions to incorporate data that is not in AP, AR or GL either within EBS or an additional data source to augment the analytics
--   Extend the classic Dashboard and Reports delivered as standard with additional dashboards and reports or with data visualisations
+-   After the initial bedding-in period to get users directly accessing the system, implement scheduling reports through OAC Agents or Delivers
+-   Develop extensions to incorporate data that is not in AP, AR, or GL either within EBS or an additional data source to augment the analytics
+-   Extend the classic Dashboard and Reports delivered as standard with additional dashboards and reports or with data visualizations
 -   Modify the standard reports to address A Company Making Everything-specific requirements
 -   Performance tuning
 -   Identity and Access Management integration between EBS and OAC users via IDCS Standard
 
-Activities which improve security, such as:
+Activities that improve security, such as:
 
 -   Implement custom Row/column level security changes
 -   Implement a VPN Firewall
 -   Conduct vulnerability assessment and/or penetration testing
--   IP whitelisting to access Bastion host
+-   IP whitelisting to access the Bastion host
 
-Activities which affect the tenancy, such as:
+Activities that affect the tenancy, such as:
 
 -   Provision and/or configuration of a second environment
 -   Configure FTP server certificates if needed
@@ -387,31 +387,31 @@ This high-level project timeline shows a representative timeline and is intended
 | 1   | Perform tasks that must be done on the root level (compartment, admins group, Oracle users etc.)            | R,A         | I,C                         |
 | 2   | Provide access to A Company Making Everything's OCI tenancy, with administration privileges for compartment | I,C         | R,A                         |
 | 3   | Provide EBS user to be used in accelerator                                                                  | I,C         | R,A                         |
-| 4   | Provide information required to setup environments                                                          | I,C         | R,A                         |
-| 5   | Perform any changes in network (VPN setup, routing, hostname resolution)                                    | I, C        | R, A                        |
+| 4   | Provide information required to set up environments                                                          | I,C         | R,A                         |
+| 5   | Perform any changes in the network (VPN setup, routing, hostname resolution)                                    | I, C        | R, A                        |
 | 6   | Provide complete details of pre-requisite functional parameter details                                      | I,C         | R,A                         |
 | 7   | Unboxing and implementation of the Finance EBS accelerator                                                  | R,A         | I,C                         |
 | 8   | Technical validation of all the out of the box reports                                                      | R,A         | I,C                         |
 | 9   | Functional validation                                                                                       | I           | R,A                         |
-| 10  | Project kick off                                                                                            | R,A         | I,C                         |
+| 10  | Project kick-off                                                                                            | R,A         | I,C                         |
 | 11  | Project management                                                                                          | R,A         | R,A                         |
 
-R:Responsible A:Accountable C:Consulted I:Informed
+R: Responsible A: Accountable C: Consulted I: Informed
 
 ### Assumptions
 
 The following assumptions have been made about the project, which will impact delivery:
 
--   A Company Making Everything is able to respond swiftly to questions arising on EBS configuration, networking and security, or Accelerator configuration.
--   A Company Making Everything will extend or customise the Accelerator if required.
+-   A Company Making Everything is able to respond swiftly to questions arising on EBS configuration, networking, and security, or Accelerator configuration.
+-   A Company Making Everything will extend or customize the Accelerator if required.
 -   A Company Making Everything will perform UAT and validation testing performing any changes required as necessary.
--   A new ODI Marketplace, ADW and OAC service will be created as part of this delivery.
+-   A new ODI Marketplace, ADW, and OAC service will be created as part of this delivery.
 -   EBS data will be clean and EBS Application is the only source of data for the EBS Analytics Accelerator.
 -   There will be no updates to the EBS Database during implementation.
 -   The solution will be delivered against the current EBS implementation (version 12.1 or higher).
 -   Port opening will be done well before by the A Company Making Everything
 -   All work will be done remotely and within either X time or India standard time within normal office working hours.
--   No problems, issues, errors and anomalies should exist in current database & applications. These issues and SRs will continue to be owned by A Company Making Everything during and after the migration.
+-   No problems, issues, errors, and anomalies should exist in the current database & applications. These issues and SRs will continue to be owned by A Company Making Everything during and after the migration.
 
 ### Obligations
 
@@ -423,7 +423,7 @@ The following obligations will be required to be met for the project:
 -   A Company Making Everything will create a cutoff plan for Go Live.
 -   A Company Making Everything will ensure the appropriate product training has been obtained to maintain and support the implementation
 -   A Company Making Everything's business team will be available for the Testing phase, which will be completed within the agreed testing window.
--   A Company Making Everything will provide project management for the project and will manage any third party suppliers or vendors.
+-   A Company Making Everything will provide project management for the project and will manage any third-party suppliers or vendors.
 
 ### Resource Naming Convention
 
@@ -432,7 +432,7 @@ Oracle recommends the following Resource Naming Convention:
 -   The name segments are separated by “-“
 -   Within a name segment avoid using `<space>`{=html} and “.”
 -   Where possible intuitive/standard abbreviations should be considered (e.g. “shared“ compared to "shared.cloud.team”)
--   When referring to the compartment full path, use “:” as separator, e.g. cmp-shared:cmp-security
+-   When referring to the compartment full path, use “:” as a separator, e.g. cmp-shared:cmp-security
 
 Some examples of naming are given below:
 
@@ -447,7 +447,7 @@ The patterns used are these:
 -   \<resource-type\>-\<entity/sub-entity\>-\<environment\>-\<function/department\>-\<project\>-\<custom\>
 -   \<resource-type\>-\<environment\>-\<location\>-\<purpose\>
 
-Abbreviation per resource type are listed below. This list may not be complete.
+Abbreviations per resource type are listed below. This list may not be complete.
 
 | Resource type                      | Abbreviation       | Example                                                     |
 |------------------------------------|--------------------|-------------------------------------------------------------|
@@ -491,7 +491,7 @@ Abbreviation per resource type are listed below. This list may not be complete.
 
 OCI Group Names should follow the naming scheme of the Enterprise Identity Management system for Groups or Roles.
 
-Examples for global groups are:
+Examples of global groups are:
 
 -   \<prefix\>-\<purpose\>-admins
 -   \<prefix\>-\<purpose\>-users
