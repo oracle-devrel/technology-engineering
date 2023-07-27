@@ -24,7 +24,7 @@
 
 This document provides a high-level solution definition for the Oracle solution and aims at describing the current state, to-be state as well as a potential 'Lift' project scope and timeline. The Lift parts will be described as a physical implementable solution. The intended purpose is to provide all parties involved with a clear and well-defined insight into the scope of work and intention of the project as it will be done as part of the Oracle Lift service.
 
-The document may refer to a 'Workload', which summarizes the full technical solution for a customer (You) during a single engagement. The Workload is described in chapter [Workload Requirements and Architecture](#workload-requirements-and-architecture). In some cases Oracle offers an implementation service called 'Lift', which has its dedicated scope and is typically a subset of the initial Workload. The Lift project, architecture, and implementation details are documented in chapter Oracle Lift Project and Architecture and in chapter Oracle Lift Implementation.
+The document may refer to a 'Workload', which summarizes the full technical solution for a customer (You) during a single engagement. The Workload is described in chapter [Workload Requirements and Architecture](#workload-requirements-and-architecture). In some cases, Oracle offers an implementation service called 'Lift', which has its dedicated scope and is typically a subset of the initial Workload. The Lift project, architecture, and implementation details are documented in the chapter Oracle Lift Project and Architecture and in the chapter Oracle Lift Implementation.
 
 This is a living document, additional sections will be added as the engagement progresses resulting in a final Workload Architecture Document to be handed over at the end of the engagement. Where Oracle Lift is involved, detailed design sections will be added after customer acceptance of the content of the Workload Architecture Document as it stands at the time acceptance is requested.
 
@@ -32,7 +32,7 @@ The solution proposed in this document is about the migration of an existing Dat
 
 A Company Making Everything should use this document to review the architecture and migration approach; and to validate the scope, assumptions, and timelines of the project.
 
-The document will be also used as reference by Oracle Lift team when deploying the Database Cloud Service (DBCS), Autonomous Data Warehouse (ADW), Oracle Data Integrator (ODI) and Oracle Analytics Cloud (OAC) solution in Oracle Cloud Infrastructure (OCI); configuring the integration, connectivity, and identity; and planning the migration.
+The document will be also used as a reference by the Oracle Lift team when deploying the Database Cloud Service (DBCS), Autonomous Data Warehouse (ADW), Oracle Data Integrator (ODI), and Oracle Analytics Cloud (OAC) solution in Oracle Cloud Infrastructure (OCI); configuring the integration, connectivity, and identity; and planning the migration.
 
 ## Related Documents
 
@@ -42,11 +42,11 @@ The document will be also used as reference by Oracle Lift team when deploying t
 
 ## Workload Description
 
-A Company Making Everything currently has Data Warehouse and BI system on-premises, based on Oracle technologies. It uses the system to provide insights into their business.
+A Company Making Everything currently has Data Warehouse and BI system on-premises, based on Oracle technologies. It uses the system to provide insights into its business.
 
 A Company Making Everything wants to migrate the existing Data Warehouse and BI system to Oracle Cloud, in order to modernize the system, provide new analytical features to users, and to better manage the costs of the system. It plans to migrate the Oracle Data Warehouse Database to Autonomous Data Warehouse (ADW) and the OBIEE and BI Publisher reports to Oracle Analytics Cloud (OAC).
 
-The migration project includes provisioning of the OCI infrastructure, connectivity from on-premises network to OCI, establishing Standby databases in OCI for operational data, migration of Data Warehouse database to ADW, migration of ODI from on-premises to ODI on OCI, and migration of OBIEE and BI Publisher dashboards and reports to OAC.
+The migration project includes provisioning of the OCI infrastructure, connectivity from the on-premises network to OCI, establishing Standby databases in OCI for operational data, migration of Data Warehouse database to ADW, migration of ODI from on-premises to ODI on OCI, and migration of OBIEE and BI Publisher dashboards and reports to OAC.
 
 # Workload Requirements and Architecture
 
@@ -62,11 +62,11 @@ The logical architecture of the current Data Warehouse and BI system is depicted
 
 -   **Data Sources** - represent the various data sources from which A Company Making Everything collects its data.
 
--   **ETL** - is the ETL tool used to extract the data from various sources, transform them and load them into Data Warehouse.
+-   **ETL** - is the ETL tool used to extract data from various sources, transform them and load them into Data Warehouse.
 
--   **Data Warehouse** - central location where all data is stored. This creates a single source of truth and allows for further manipulation of data.
+-   **Data Warehouse** - a central location where all data is stored. This creates a single source of truth and allows for further manipulation of data.
 
--   **Oracle Business Intelligence Enterprise Edition (OBIEE)** - A Company Making Everything's central reporting platform. Used daily by A Company Making Everything to access various reports, dashboards and visualizations.
+-   **Oracle Business Intelligence Enterprise Edition (OBIEE)** - A Company Making Everything's central reporting platform. Used daily by A Company Making Everything to access various reports, dashboards, and visualizations.
 
 -   **Auth Provider** - the Authentication and Authorization provider deployed by A Company Making Everything
 
@@ -119,11 +119,11 @@ The logical architecture of the current Data Warehouse and BI system is depicted
 
 The document describing installed services must contain the following information:
 
--   Service endpoint names, IP addresses of each service.
+-   Service endpoint names, and IP addresses of each service.
 -   List of components and versions installed in each layer and environment.
 -   URLs and open ports.
 -   Location of logs and the main configurations.
--   Stop / start procedures and health checks of components.
+-   Stop/start procedures and health checks of components.
 
 ## Future State Architecture
 
@@ -135,7 +135,7 @@ The target logical architecture is shown below.
 
 ![Future State Architecture](images/Target_State_Architecture_v01.png)
 
--   **OCI FastConnect and/or VPN Connect** must be established either before or as part of the project. Private connectivity from on-premises to OCI is required for Active Data Guard replication, for OAC accessing on-premises sources, and users accessing OAC services.
+-   **OCI FastConnect and/or VPN Connect** must be established either before or as part of the project. Private connectivity from on-premises to OCI is required for Active Data Guard replication, for OAC accessing on-premises sources, and for users accessing OAC services.
 
 -   **Data Source** will remain on premises
 
@@ -143,7 +143,7 @@ The target logical architecture is shown below.
 
 -   **Autonomous Data Warehouse (ADW)** will become the primary data source for Dashboards in OAC. ODI will regularly load information into ADW. ADW will be also used for ODI Repository.
 
--   **Oracle Analytics Cloud (OAC)** will be A Company Making Everything's target central reporting platform in the cloud. Will be used daily by A Company Making Everything to access various reports, dashboards and visualizations.
+-   **Oracle Analytics Cloud (OAC)** will be A Company Making Everything's target central reporting platform in the cloud. Will be used daily by A Company Making Everything to access various reports, dashboards, and visualizations.
 
 -   **Identity Cloud Service (IDCS)** will be used by OAC to authenticate and authorize OAC users.
 
@@ -153,39 +153,39 @@ The target logical architecture is shown below.
 
 Users of Oracle Cloud services include OAC users (report consumers, developers, data analysts), OCI users (database and application services administrators), and administrators of OCI tenancy. All Oracle Cloud users and groups are managed in IDCS.
 
-The proposed IDCS design is based on separation of Production and Pre-Production users and groups, using different IDCS instances for each.
+The proposed IDCS design is based on the separation of Production and Pre-Production users and groups, using different IDCS instances for each.
 
 -   **Production IDCS Instance** `idcsprod` will be used by Production users and groups. It will be linked with the Production OAC instance and Production OCI services.
 
 -   **Pre-Production IDCS Instance** `idcspreprod` will be used by Pre-Production users and groups. It will be linked with the Pre-Production OAC instance and Pre-Production OCI services.
 
--   **Primeordial IDCS Instance** is the initial instance created when OCI tenancy is provisioned. This instance will be used only by tenancy administrators; it will not be used by users and administrators of Oracle Cloud services.
+-   **Primordial IDCS Instance** is the initial instance created when OCI tenancy is provisioned. This instance will be used only by tenancy administrators; it will not be used by users and administrators of Oracle Cloud services.
 
 ### Physical Architecture
 
 #### Overview
 
-The following diagram outlines the connectivity between on-premises network and Oracle Cloud that will be used in the future architecture with the Oracle Data Warehouse and BI System, as well as WebCenter Content System .
+The following diagram outlines the connectivity between the on-premises network and Oracle Cloud that will be used in the future architecture with the Oracle Data Warehouse and BI System, as well as WebCenter Content System.
 
 ![Physical Architecture](images/Connectivity-v4.png)
 
--   **FastConnect** provides the dedicated, high capacity connection between on-premises network and Oracle Cloud. VPN Connect may provide backup connection in case FastConnect is not available.
+-   **FastConnect** provides the dedicated, high-capacity connection between the on-premises network and Oracle Cloud. VPN Connect may provide a backup connection in case FastConnect is not available.
 
 -   **Dynamic Routing Gateway (DRG)** is the virtual router that secures and manages traffic between on-premises networks and Virtual Cloud Networks (VCN) in Oracle Cloud.
 
--   **Service Gateways** allow private access to Oracle managed services with public IP addresses from on-premises and from VCNs, without exposing the traffic to public Internet.
+-   **Service Gateways** allow private access to Oracle-managed services with public IP addresses from on-premises and from VCNs, without exposing the traffic to the public Internet.
 
--   **Virtual Cloud Networks (VCN) and Subnets** will contain private resources like compute instances, database systems, and private endpoints for Oracle managed resources like Autonomous Data Warehouse and Orcle Analytics Cloud.
+-   **Virtual Cloud Networks (VCN) and Subnets** will contain private resources like compute instances, database systems, and private endpoints for Oracle-managed resources like Autonomous Data Warehouse and Oracle Analytics Cloud.
 
--   **Private DNS** maps IP addresses of Oracle Cloud private resources to hostnames. You may use private DNS listener to resolve DNS requests to Oracle Cloud hostnames from on-premises.
+-   **Private DNS** maps IP addresses of Oracle Cloud private resources to hostnames. You may use a private DNS listener to resolve DNS requests to Oracle Cloud hostnames from on-premises.
 
--   **Bastion Service** provides secure access to private resources from over the Internet. Bastion uses SSH (22) to either connect to servers or to tunnel HTTPS or SQL Net traffic. Bastion will be used by Oracle Lift team to perform the migration; and by Infrastructure admins in break-glass scenarios.
+-   **Bastion Service** provides secure access to private resources from over the Internet. Bastion uses SSH (22) to either connect to servers or tunnel HTTPS or SQL Net traffic. Bastion will be used by the Oracle Lift team to perform the migration, and by Infrastructure admins in break-glass scenarios.
 
--   **Cloud Guard** monitors OCI resources, it identifies possible security or configuration problems, and it reports the discovered issues. Cloud Guard may be also configured to respond to identified problems.
+-   **Cloud Guard** monitors OCI resources, identifies possible security or configuration problems, and it reports the discovered issues. Cloud Guard may be also configured to respond to identified problems.
 
 #### Firewall Requirements
 
-The following table shows traffic between A Company Making Everything's on-premises network and Oracle Cloud Infrastructure (OCI). Traffic from Internet to OCI is prohibited with the exception of Bastion service.
+The following table shows traffic between A Company Making Everything's on-premises network and Oracle Cloud Infrastructure (OCI). Traffic from the Internet to OCI is prohibited with the exception of Bastion service.
 
 | Purpose                             | Origin                      | Destination                      | Protocol      | Port |
 |:------------------------------------|:----------------------------|:---------------------------------|:--------------|:-----|
@@ -207,7 +207,7 @@ The following table shows traffic between A Company Making Everything's on-premi
 
 -   (3) Autonomous Data Warehouse will be accessed from on-premises and OCI via Private Endpoint.
 
--   (4) External access to VCNs via Bastion Service will be used by Oracle Lift team and (exceptionally) by infra admins.
+-   (4) External access to VCNs via Bastion Service will be used by the Oracle Lift team and (exceptionally) by infra admins.
 
 -   (5) In addition to Bastion Service, Bastion host is required for database and OBIEE migration.
 
@@ -215,7 +215,7 @@ A Company Making Everything is responsible for configuring its network to allow 
 
 ##### Network Firewall
 
-Optionally a managed Network Firewall can be leveraged to increase security posture of the workload.
+Optionally a managed Network Firewall can be leveraged to increase the security posture of the workload.
 
 OCI Network Firewall is a next-generation managed network firewall and intrusion detection and prevention service for VCNs, powered by Palo Alto Networks®. The Network Firewall service offers simple setup and deployment and gives visibility into traffic entering the cloud environment (North-south network traffic) as well traffic between subnets (East-west network traffic).
 
@@ -231,21 +231,21 @@ Above a simple example is presented where a Network Firewall is deployed in a DM
 
 When designing the future state architecture and sizing, we made the following decisions:
 
--   **OCI as Extension of On-premises Network.** To meet the connectivity requirements, OCI services will be accessible from on-premises network only, via secure link such as FastConnect or VPN Connect. Application components such as DBCS, ODI, OAC and ADW will be deployed with private endpoints.
+-   **OCI as Extension of On-premises Network.** To meet the connectivity requirements, OCI services will be accessible from an on-premises network only, via secure links such as FastConnect or VPN Connect. Application components such as DBCS, ODI, OAC, and ADW will be deployed with private endpoints.
 
--   **FastConnect or VPN Connect.** For real-time data transfer it is necessary to establish FastConnect link, which provides sufficient bandwidth. We recommend using VPN Connect as backup option only, to provide connectivity in case FastConnect fails.
+-   **FastConnect or VPN Connect.** For real-time data transfer it is necessary to establish a FastConnect link, which provides sufficient bandwidth. We recommend using VPN Connect as a backup option only, to provide connectivity in case FastConnect fails.
 
 -   **Edition of Identity Cloud Service (IDCS).** Depending on A Company Making Everything Identity needs, multiple options are available. In the rest of the document, IDCS Standard will be used
 
--   **Database for Data Warehouse.** We choose Autonomous Data Warehouse (ADW) as data warehousing platform on OCI. ADW provides a fully managed, optimized data warehouse environment, that eliminates many manual operational and administration tasks. It also includes tools for analysts, data scientists, and low-code development (APEX).
+-   **Database for Data Warehouse.** We choose Autonomous Data Warehouse (ADW) as a data warehousing platform on OCI. ADW provides a fully managed, optimized data warehouse environment, that eliminates many manual operational and administration tasks. It also includes tools for analysts, data scientists, and low-code development (APEX).
 
--   **Edition of Oracle Analytics Cloud.** Enterprise Analytics is required as this option supports migration of OBIEE model, data catalog, and BI Publisher reports into OAC. Self-Service Analytics supports data visualizations only.
+-   **Edition of Oracle Analytics Cloud.** Enterprise Analytics is required as this option supports migration of the OBIEE model, data catalog, and BI Publisher reports into OAC. Self-Service Analytics supports data visualizations only.
 
 ### Sizing and Bill of Materials
 
 #### Sizing
 
-The following tables detail the size of the components that have been initially estimated to be used by Data Watehousing and Analytics in the Oracle Cloud. You may scale up and down the sizing for many components later (e.g. DBCS, ADW, OAC, ODI), to perform adjustments based on the observed utilization of services.
+The following tables detail the size of the components that have been initially estimated to be used by Data Warehouse and Analytics in the Oracle Cloud. You may scale up and down the sizing for many components later (e.g. DBCS, ADW, OAC, ODI), to perform adjustments based on the observed utilization of services.
 
 **Tenancy** components (shared with Web Center Content):
 
