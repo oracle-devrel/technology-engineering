@@ -21,3 +21,14 @@ We recommend that you use the 'In-database Machine Learning' as a template for a
 ## Conclusion
 
 We hope that you will find the architecture document to be a helpful guide for any data platform which includes a data science aspects with an Oracle Machine Learning project. We encourage everyone to provide feedback so that we can further improve our assets.
+
+### Useful Links
+This workload uses OCI services that are part of the Oracle Data platform and it can be further augmented with additional services and capabilities that are described on the [Data platform - data lakehouse reference architecture](https://docs.oracle.com/en/solutions/data-platform-lakehouse/index.html#GUID-A328ACEF-30B8-4595-B86F-F27B512744DF).
+
+# License
+
+Copyright (c) 2023 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](LICENSE.txt) for more details.
