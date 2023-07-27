@@ -103,7 +103,7 @@ The logical architecture of the current Data Warehouse and BI system is depicted
 
 -   Databases in OCI must be periodically backed up.
 -   OAC models, reports, and dashboards must be periodically backed up.
--   The platform should support monitoring and self-diagnostic tool that monitors correct operation of services.
+-   The platform should support monitoring and self-diagnostic tool that monitors the correct operation of services.
 
 #### Environments
 
@@ -298,11 +298,11 @@ The following tables summarises Oracle Cloud part numbers of the components that
 | B91962      | Oracle Cloud Infrastructure - Block Volume Performance (6)            | VPU               | 91920 |
 | B95403      | Oracle Cloud Infrastructure - Network Firewall Instance (optional)    | Instance per Hour |   744 |
 
--   (1) We assume the FastConnect 1 Gbps bandwidth is sufficient for both Data Guard and user traffic, however we were unable to validate this assumption as we do not have information about the redo logs generated.
+-   (1) We assume the FastConnect 1 Gbps bandwidth is sufficient for both Data Guard and user traffic, however, we were unable to validate this assumption as we do not have information about the redo logs generated.
 
 -   (2) Object Storage required for Database migration might be released after the migration finishes.
 
--   (3) With Autoscaling enabled, ADW will automatically scale to 3x time of base OCPUs. With 1 OCPU, it can scale up to 3 OCPUs. We recommend enabling Autoscaling for production workloads.
+-   (3) With Autoscaling enabled, ADW will automatically scale to 3x the time of base OCPUs. With 1 OCPU, it can scale up to 3 OCPUs. We recommend enabling Autoscaling for production workloads.
 
 -   (4) For OAC, 1 OCPU is recommended for Trials only. OAC instances with 1 OCPU are restricted in how many rows they may return (see https://docs.oracle.com/en-us/iaas/analytics-cloud/doc/create-services.html for details.
 
@@ -330,9 +330,9 @@ This chapter covers the Security and Identity Management definitions and resourc
 
 -   Groups will be configured at the tenancy level and access will be governed by policies configured in OCI.
 -   Any new project deployment in OCI will start with the creation of a new compartment. Compartments follow a hierarchy, and the compartment structure will be decided as per the application requirements.
--   It is also proposed to keep any shared resources, such as Object Storage, Networks etc. in a shared services compartment. This will allow the various resources in different compartments to access and use the resources deployed in the shared services compartment and user access can be controlled by policies related to specific resource types and user roles.
--   Policies will be configured in OCI to maintain the level of access / control that should exist between resources in different compartments. These will also control user access to the various resources deployed in the tenancy.
--   The tenancy will include a pre-provisioned Identity Cloud Service (IDCS) instance (the primary IDCS instance) or, where applicable, the Default Identity Domain. Both provide access management across all Oracle cloud services for IaaS, PaaS and SaaS cloud offerings.
+-   It is also proposed to keep any shared resources, such as Object Storage, Networks, etc. in a shared services compartment. This will allow the various resources in different compartments to access and use the resources deployed in the shared services compartment and user access can be controlled by policies related to specific resource types and user roles.
+-   Policies will be configured in OCI to maintain the level of access/control that should exist between resources in different compartments. These will also control user access to the various resources deployed in the tenancy.
+-   The tenancy will include a pre-provisioned Identity Cloud Service (IDCS) instance (the primary IDCS instance) or, where applicable, the Default Identity Domain. Both provide access management across all Oracle cloud services for IaaS, PaaS, and SaaS cloud offerings.
 -   The primary IDCS or the Default Identity Domain will be used as the access management system for all users administrating (OCI Administrators) the OCI tenant.
 
 #### Authentication and Authorization for OCI
@@ -345,9 +345,9 @@ Only OCI Administrators are granted access to the OCI Infrastructure. As a good 
 
 **Local Users**
 
-The usage of OCI Local Users is not recommended for the majority of users and is restricted to a few users only. These users include the initial OCI Administrator created during the tenancy setup, and additional emergency administrators.
+The usage of OCI Local Users is not recommended for the majority of users and is restricted to a few users only. These users include the initial OCI Administrator created during the tenancy setup and additional emergency administrators.
 
-**Local Users are considered as Emergency Administrators and should not be used for daily administration activities!**
+**Local Users are considered Emergency Administrators and should not be used for daily administration activities!**
 
 **No additional users are to be, nor should be, configured as local users.**
 
@@ -355,7 +355,7 @@ The usage of OCI Local Users is not recommended for the majority of users and is
 
 **Federated Users**
 
-Unlike Local Users, Federated Users are managed in the Federated or Enterprise User Management system. In the OCI User list Federated Users may be distinguished by a prefix which consists of the name of the federated service in lower case, a '/' character followed by the user name of the federated user, for example:
+Unlike Local Users, Federated Users are managed in the Federated or Enterprise User Management system. In the OCI User list Federated Users may be distinguished by a prefix that consists of the name of the federated service in lower case, a '/' character followed by the user name of the federated user, for example:
 
 `oracleidentityservicecloud/user@example.com`
 
@@ -363,7 +363,7 @@ In order to provide the same attributes (OCI API Keys, Auth Tokens, Customer Sec
 
 All users have the same OCI-specific attributes (OCI API Keys, Auth Tokens, Customer Secret Keys, OAuth 2.0 Client Credentials, and SMTP Credentials).
 
-OCI Administration user should only be configured in the pre-configured primary IDCS or the Default Identity Domain where applicable.
+OCI Administration users should only be configured in the pre-configured primary IDCS or the Default Identity Domain where applicable.
 
 **Note:** Any federated user can be a member of 100 groups only. The OCI Console limits the number of groups in a SAML assertion to 100 groups. User Management in the Enterprise Identity Management system will be handled by A Company Making Everything.
 
@@ -373,7 +373,7 @@ In general, policies hold permissions granted to groups. Policy and Group naming
 
 **Tenant Level Authorization**
 
-The policies and groups defined at the tenant level will provide access to administrators and authorized users, to manage or view resources across the entire tenancy. Tenant level authorization will be granted to tenant administrators only.
+The policies and groups defined at the tenant level will provide access to administrators and authorized users, to manage or view resources across the entire tenancy. Tenant-level authorization will be granted to tenant administrators only.
 
 These policies follow the recommendations of the [CIS Oracle Cloud Infrastructure Foundations Benchmark v1.2.0, recommendations 1.1, 1.2, 1.3](https://www.cisecurity.org/cis-benchmarks).
 
@@ -383,19 +383,19 @@ A Service Policy is used to enable services at the tenancy level. It is not assi
 
 **Shared Compartment Authorization**
 
-Compartment level authorization for the cmp-shared compartment structure uses the following specific policies and groups.
+Compartment-level authorization for the cmp-shared compartment structure uses the following specific policies and groups.
 
-Apart from tenant level authorization, authorization for the cmp-shared compartment provides specific policies and groups. In general, policies will be designed that lower-level compartments are not able to modify resources of higher-level compartments.
+Apart from tenant-level authorization, authorization for the cmp-shared compartment provides specific policies and groups. In general, policies will be designed so that lower-level compartments are not able to modify the resources of higher-level compartments.
 
 Policies for the cmp-shared compartment follow the recommendations of the [CIS Oracle Cloud Infrastructure Foundations Benchmark v1.2.0, recommendations 1.1, 1.2, 1.3](https://www.cisecurity.org/cis-benchmarks).
 
 **Compartment Level Authorization**
 
-Apart from tenant level authorization, compartment level authorization provides compartment structure specific policies and groups. In general, policies will be designed that lower-level compartments are not able to modify resources of higher-level compartments.
+Apart from tenant-level authorization, compartment-level authorization provides compartment structure-specific policies and groups. In general, policies will be designed so that lower-level compartments are not able to modify the resources of higher-level compartments.
 
 **Authentication and Authorization for Applications and Databases**
 
-Application (including Compute Instances) and Database User management is completely separate of and done outside of the primary IDCS or Default Identity Domain. The management of these users is the sole responsibility of A Company Making Everything using the application, compute instance and database specific authorization.
+Application (including Compute Instances) and Database User management are completely separate and done outside of the primary IDCS or Default Identity Domain. The management of these users is the sole responsibility of A Company Making Everything using the application, compute instance, and database-specific authorization.
 
 #### Security Posture Management
 
@@ -403,7 +403,7 @@ Application (including Compute Instances) and Database User management is comple
 
 Oracle Cloud Guard Service will be enabled using the pcy-service policy and with the following default configuration. Customization of the Detector and Responder Recipes will result in clones of the default (Oracle Managed) recipes.
 
-Cloud Guard default configuration provides a number of good settings. It is expected that these settings may not match with A Company Making Everything's requirements.
+Cloud Guard default configuration provides a number of good settings. It is expected that these settings may not match A Company Making Everything's requirements.
 
 **Targets**
 
@@ -421,15 +421,15 @@ The default Cloud Guard Responders will be implemented. To better meet the requi
 
 In accordance with the [CIS Oracle Cloud Infrastructure Foundations Benchmark, v1.2.0, OCI Vulnerability Scanning](https://www.cisecurity.org/cis-benchmarks) will be enabled using the pcy-service policy.
 
-Compute instances which should be scanned *must* implement the *Oracle Cloud Agent* and enable the *Vulnerability Scanning plugin*.
+Compute instances that should be scanned *must* implement the *Oracle Cloud Agent* and enable the *Vulnerability Scanning plugin*.
 
 **OCI OS Management Service**
 
 Required policy statements for OCI OS Management Service are included in the pcy-service policy.
 
-By default, the *OS Management Service Agent plugin* of the *Oracle Cloud Agent* is enabled and running on current Oracle Linux 6, 7, 8 and 9 platform images.
+By default, the *OS Management Service Agent plugin* of the *Oracle Cloud Agent* is enabled and running on current Oracle Linux 6, 7, 8, and 9 platform images.
 
-#### Monitoring, Auditing and Logging
+#### Monitoring, Auditing, and Logging
 
 In accordance with the [CIS Oracle Cloud Infrastructure Foundations Benchmark, v1.2.0, Chapter 3 Logging and Monitoring](https://www.cisecurity.org/cis-benchmarks) the following configurations will be made:
 
@@ -469,19 +469,19 @@ For Object Storage security the following guidelines are considered.
 
 **Data Residency**
 
-It is expected that data will be held in the respective region and additional steps will be taken when exporting the data to other regions to comply with the applicable laws and regulations. This should be review for every project onboard into the tenancy.
+It is expected that data will be held in the respective region and additional steps will be taken when exporting the data to other regions to comply with the applicable laws and regulations. This should be reviewed for every project onboard into the tenancy.
 
 #### Operational Security
 
 **Security Zones**
 
-Whenever possible OCI Security Zones will be used to implement a security compartment for Compute instances or Database resources. For more information on Security Zones refer to the in the *Oracle Cloud Infrastructure User Guide* chapter on [Security Zones](https://docs.oracle.com/en-us/iaas/security-zone/using/security-zones.htm).
+Whenever possible OCI Security Zones will be used to implement a security compartment for Compute instances or Database resources. For more information on Security Zones refer to the *Oracle Cloud Infrastructure User Guide* chapter on [Security Zones](https://docs.oracle.com/en-us/iaas/security-zone/using/security-zones.htm).
 
 **Remote Access to Compute Instances or Private Database Endpoints**
 
 To allow remote access to Compute Instances or Private Database Endpoints, the OCI Bastion will be implemented for defined compartments.
 
-To be able to use OCI services to for OS management, Vulnerability Scanning, Bastion Service, etc. it is highly recommended to implement the Oracle Cloud Agent as documented in the *Oracle Cloud Infrastructure User Guide* chapter [Managing Plugins with Oracle Cloud Agent](https://docs.oracle.com/en-us/iaas/Content/Compute/Tasks/manage-plugins.htm).
+To be able to use OCI services for OS management, Vulnerability Scanning, Bastion Service, etc. it is highly recommended to implement the Oracle Cloud Agent as documented in the *Oracle Cloud Infrastructure User Guide* chapter [Managing Plugins with Oracle Cloud Agent](https://docs.oracle.com/en-us/iaas/Content/Compute/Tasks/manage-plugins.htm).
 
 #### Network Time Protocol Configuration for Compute Instance
 
@@ -495,7 +495,7 @@ A Company Making Everything is responsible for setting the access rules to servi
 
 ## Disclaimer
 
-As part of the Oracle Lift Project, any scope change against this document needs to be agreed by both A Company Making Everything and Oracle. Oracle can reject scope changes for any reason and it may design and implement an originally agreed scope only. A change of scope may impact agreed timelines and budget. Any change also needs to be technically feasible.
+As part of the Oracle Lift Project, any scope change against this document needs to be agreed upon by both A Company Making Everything and Oracle. Oracle can reject scope changes for any reason and it may design and implement an originally agreed scope only. A change of scope may impact agreed timelines and budget. Any change also needs to be technically feasible.
 
 ## Scope
 
@@ -509,14 +509,14 @@ Furthermore, there are activities that must be performed either by Oracle Consul
 
 -   Create compartments, groups, and policies.
 -   Support provisioning and configuration of FastConnect and VPN Connect (task shared with WCC project).
--   Create VCNs, subnets, DRG and other gateways, security rules & NSG, route tables.
+-   Create VCNs, subnets, DRG and other gateways, security rules & NSG, and route tables.
 -   Create Bastion service and sessions to reach private resources.
 -   Configure Private DNS listener for DNS queries from on-premises.
 -   Provision Production and Pre-Production ADW instances with Private Endpoint.
--   Provision Production and Pre-Production ODI Marketplace instances, with repository in ADW.
+-   Provision Production and Pre-Production ODI Marketplace instances, with a repository in ADW.
 -   Provision Production and Pre-Production OAC instances with Private Endpoint and Private Access Channel (PAC).
 -   Provision Object Storage buckets for Standby instantiation and ADW migration.
--   Create and configure Cloud Guard with default configuration.
+-   Create and configure Cloud Guard with the default configuration.
 
 **Activities Not Provided by Oracle Lift:**
 
@@ -534,7 +534,7 @@ Furthermore, there are activities that must be performed either by Oracle Consul
 
 **Activities Not Provided by Oracle Lift:**
 
--   Configure and test SAML2 integration between secondary IDCS instances and Shibboleth as identity provider (SSO).
+-   Configure and test SAML2 integration between secondary IDCS instances and Shibboleth as an identity provider (SSO).
 -   Implement and test provisioning of users and groups from LDAP to IDCS secondary instances.
 -   Map IDCS groups to OCI IAM groups.
 -   Map IDCS groups to OAC roles.
@@ -554,12 +554,12 @@ Furthermore, there are activities that must be performed either by Oracle Consul
 
 **Oracle Lift Activities:**
 
-Migration to ODI Marketplace and deploy in all environments, Pre-Production and Production.
+Migration to ODI Marketplace and deployment in all environments, Pre-Production, and Production.
 
 -   Technical Migration of the Pre-production repository
 -   Configuration of connections.
 -   Technical validation tests.
--   Deploy in the rest of environments of the ODI repository and configuration of connections.
+-   Deploy in the rest of the environments of the ODI repository and configuration of connections.
 
 **Activities Not Provided by Oracle Lift:**
 
@@ -570,14 +570,14 @@ Migration to ODI Marketplace and deploy in all environments, Pre-Production and 
 
 **Oracle Lift Activities:**
 
-Migration from OBIEE to OAC and deploy in all environments, Pre-Production and Production.
+Migration from OBIEE to OAC and deploy in all environments, Pre-Production, and Production.
 
 -   Technical Migration of the production repository and catalog, from OBIEE 12.2.0.4 to OAC.
 -   Review Errors and Warnings of the repository.
 -   Configuration of connections pools.
 -   Revision Warnings/Errors.
 -   Technical validation tests of 3 Dashboards.
--   Deploy in the rest of environments (Pre-Production) of the repository and catalog shared, and configuration of connections.
+-   Deploy in the rest of the environments (Pre-Production) of the repository and catalog shared and configuration of connections.
 -   Management & Coordinate tasks with Oracle Consulting.
 
 **Activities Not Provided by Oracle Lift:**
@@ -622,10 +622,10 @@ When scoping the Oracle Lift Project, we made the following key assumptions.
 ### Oracle Data Integrator Migration
 
 -   Connections to sources will be available.
--   ODI will only have as source the ADG Standby database in OCI.
--   Deployment of target database for Datawarehouse.
+-   ODI will only have as a source the ADG Standby database in OCI.
+-   Deployment of target database for Data warehouse.
 -   Migration strategy and coordination with project teams will be done by Oracle Consulting.
--   The Pre-production environment will be migrated and deployed in the rest, Production environment.
+-   The Pre-production environment will be migrated and deployed in the rest, the Production environment.
 -   Oracle Lift will only perform technical, not functional tests.
 
 ### OBIEE Migration
@@ -638,26 +638,20 @@ When scoping the Oracle Lift Project, we made the following key assumptions.
 
 ## Success Criteria
 
-The following criteria will be used to determine successful outcome of the Data Warehouse and BI Migration Project.
+The following criteria will be used to determine the successful outcome of the Data Warehouse and BI Migration Project.
 
 -   Infrastructure and components described in this document are provisioned.
 -   ADW database in OCI is migrated from A Company Making Everything's database.
 -   ODI mappings and tasks are migrated from on-premises to ODI Marketplace in OCI and they run without errors.
 -   OBIEE dashboards are migrated to OAC and they run without errors.
--   Users have access to dashboards as in current system.
+-   Users have access to dashboards as in the current system.
 
 ## Timelines
 
-The high level plan for the Oracle Lift Project is shown on the following diagram.
+The high-level plan for the Oracle Lift Project is shown in the following diagram.
 
-TODOTODOTODO
+Please note the dependency on the provisioned FastConnect. Although connectivity and network configuration both in OCI and on-premises is part of the project, FastConnect provisioning should start well before the other activities. It is our experience that FastConnect provisioning could take 4 or more weeks and delay depending on tasks.
 
-Please note the dependency on the provisioned FastConnect. Although connectivity and network configuration both in OCI and on-premises is part of the project, FastConnect provisioning should start well before the other activities. It is our experience that FastConnect provisioning could take 4 or more weeks and delay depending tasks.
-
-```{=tex}
-\newpage
-\blandscape
-```
 ## Deployment Build
 
 ### Resource Naming Convention
@@ -667,7 +661,7 @@ Oracle recommends the following Resource Naming Convention:
 -   The name segments are separated by “-“
 -   Within a name segment avoid using `<space>`{=html} and “.”
 -   Where possible intuitive/standard abbreviations should be considered (e.g. “shared“ compared to "shared.cloud.team”)
--   When referring to the compartment full path, use “:” as separator, e.g. cmp-shared:cmp-security
+-   When referring to the compartment full path, use “:” as a separator, e.g. cmp-shared:cmp-security
 
 Some examples of naming are given below:
 
@@ -682,7 +676,7 @@ The patterns used are these:
 -   \<resource-type\>-\<entity/sub-entity\>-\<environment\>-\<function/department\>-\<project\>-\<custom\>
 -   \<resource-type\>-\<environment\>-\<location\>-\<purpose\>
 
-Abbreviation per resource type are listed below. This list may not be complete.
+Abbreviations per resource type are listed below. This list may not be complete.
 
 | Resource type                      | Abbreviation       | Example                                                     |
 |------------------------------------|--------------------|-------------------------------------------------------------|
@@ -720,9 +714,9 @@ Abbreviation per resource type are listed below. This list may not be complete.
 | Virtual Machine                    | vm                 | vm-xxxx                                                     |
 |                                    |                    |                                                             |
 
-For the Data Warehouse and BI system we will use application name `dwh`. For the shared management components, we will use application name `mgmt`. We will also use `prod` for production environment and `preprod` for pre-production environment.
+For the Data Warehouse and BI system we will use the application name `dwh`. For the shared management components, we will use the application name `mgmt`. We will also use `prod` for the production environment and `preprod` for the pre-production environment.
 
-Words are separated by hyphen `-`, with the exception of resources that do not support hyphens (such as OAC instances). Only ASCII lowercase letters `[a-z]` and numerical digits `[0-9]` will be used.
+Words are separated by a hyphen `-`, with the exception of resources that do not support hyphens (such as OAC instances). Only ASCII lowercase letters `[a-z]` and numerical digits `[0-9]` will be used.
 
 **Note:** Resource names are limited to 100 characters.
 
@@ -730,7 +724,7 @@ Words are separated by hyphen `-`, with the exception of resources that do not s
 
 OCI Group Names should follow the naming scheme of the Enterprise Identity Management system for Groups or Roles.
 
-Examples for global groups are:
+Examples of global groups are:
 
 -   \<prefix\>-\<purpose\>-admins
 -   \<prefix\>-\<purpose\>-users
@@ -744,7 +738,7 @@ The value for \<prefix\> or the full names **must be agreed** with A Company Mak
 
 ### Compartments
 
-Compartments are logical collections of OCI resources, used for isolating the resources, managing access, and monitoring usage and billing. Typically, compartments correspond to projects, application domains or departments. Since OCI groups and compartments are used to manage access to OCI resources, they should be aligned with the operating model of your IT organization.
+Compartments are logical collections of OCI resources, used for isolating the resources, managing access, and monitoring usage and billing. Typically, compartments correspond to projects, application domains, or departments. Since OCI groups and compartments are used to manage access to OCI resources, they should be aligned with the operating model of your IT organization.
 
 ![Compartments](images/Analytics-Solution-Deployment-v4-compartments.png)
 
@@ -809,7 +803,7 @@ Compartments are logical collections of OCI resources, used for isolating the re
 
 ### Users
 
-No technical OCI users are required for the DWH and BI workload. Administrators, developers, and business users are out of scope of this document. Hence the following table is empty.
+No technical OCI users are required for the DWH and BI workload. Administrators, developers, and business users are out of the scope of this document. Hence the following table is empty.
 
 | Name | Email | Group | Description |
 |:-----|:------|:------|:------------|
@@ -824,7 +818,7 @@ No technical OCI users are required for the DWH and BI workload. Administrators,
 
 ### Virtual Cloud Networks
 
-The proposed network design is based on hub-and-spoke topology, with Dynamic Routing Gateway (DRG) `drg-fra-1` acting as the hub connecting on-premises network and virtual cloud networks (VCN) in OCI. Production and pre-production environments are separated into production VCN `vcn-dwh-prod-fra` and pre-production VCN `vcn-dwh-preprod-fra`. Management VCN `vcn-mgmt-fra` contains shared services such as DNS listener. It also provides transit routing for on-premises network to reach Oracle Services Network.
+The proposed network design is based on hub-and-spoke topology, with Dynamic Routing Gateway (DRG) `drg-fra-1` acting as the hub connecting the on-premises network and virtual cloud networks (VCN) in OCI. Production and pre-production environments are separated into production VCN `vcn-dwh-prod-fra` and pre-production VCN `vcn-dwh-preprod-fra`. Management VCN `vcn-mgmt-fra` contains shared services such as DNS listener. It also provides transit routing for the on-premises network to reach Oracle Services Network.
 
 ![Network](images/Analytics-Solution-Deployment-v4-network.png)
 
@@ -852,7 +846,7 @@ Note that Internet gateways in networks `vcn-dwh-prod-fra` and `vcn-dwh-preprod-
 
 ### DNS Private Views
 
-OCI automatically manages private views and it resolves hostnames within a VCN. To enable hostname resolution accross VCNs and from on-premises, it is necessary to add private views to Management VCN's DNS resolver `vcn-mgmt-fra`.
+OCI automatically manages private views and it resolves hostnames within a VCN. To enable hostname resolution across VCNs and from on-premises, it is necessary to add private views to Management VCN's DNS resolver `vcn-mgmt-fra`.
 
 | VCN          | DNS Resolver | Private View        | Compartment      | Description                             |
 |:-------------|:-------------|:--------------------|:-----------------|:----------------------------------------|
