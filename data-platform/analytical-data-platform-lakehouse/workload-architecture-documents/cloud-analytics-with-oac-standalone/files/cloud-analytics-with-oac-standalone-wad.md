@@ -14,7 +14,7 @@
 
 This document provides a high-level solution definition for the Oracle solution and aims at describing the current state, to-be state as well as a potential 'Lift' project scope and timeline. The Lift parts will be described as a physical implementable solution. The intended purpose is to provide all parties involved with a clear and well-defined insight into the scope of work and intention of the project as it will be done as part of the Oracle Lift service.
 
-The document may refer to a 'Workload', which summarizes the full technical solution for a customer (You) during a single engagement. The Workload is described in chapter [Workload Requirements and Architecture](#workload-requirements-and-architecture). In some cases Oracle offers an implementation service called 'Lift', which has its dedicated scope and is typically a subset of the initial Workload. The Lift project, architecture, and implementation details are documented in chapter Oracle Lift Project and Architecture and in chapter Oracle Lift Implementation.
+The document may refer to a 'Workload', which summarizes the full technical solution for a customer (You) during a single engagement. The Workload is described in chapter [Workload Requirements and Architecture](#workload-requirements-and-architecture). In some cases, Oracle offers an implementation service called 'Lift', which has its dedicated scope and is typically a subset of the initial Workload. The Lift project, architecture, and implementation details are documented in the chapter Oracle Lift Project and Architecture and in the chapter Oracle Lift Implementation.
 
 This is a living document, additional sections will be added as the engagement progresses resulting in a final Workload Architecture Document to be handed over at the end of the engagement. Where Oracle Lift is involved, detailed design sections will be added after customer acceptance of the content of the Workload Architecture Document as it stands at the time acceptance is requested.
 
@@ -30,9 +30,9 @@ The Oracle Analytics Cloud solution is a cloud-native service that provides the 
 
 ## Overview
 
-The objective of this project is to successfully migrate on-premises OBIEE to OAC in Oracle Cloud Infrastructure. The Lift project will take care of the migration of only one (1) environment. For the rest of the environments, the customer can leverage the knowledge from Lift to create additional ones themselves or with the help of Oracle Consulting and/or a partner. There are a number of pre-requisites that need to be met in order for the implementation to be successful.
+The objective of this project is to successfully migrate on-premises OBIEE to OAC in Oracle Cloud Infrastructure. The Lift project will take care of the migration of only one (1) environment. For the rest of the environments, the customer can leverage the knowledge from Lift to create additional ones themselves or with the help of Oracle Consulting and/or a partner. There are a number of prerequisites that need to be met in order for the implementation to be successful.
 
-## Non Functional Requirements
+## Non-Functional Requirements
 
 ## Current State Architecture
 
@@ -40,11 +40,11 @@ The objective of this project is to successfully migrate on-premises OBIEE to OA
 
 -   **Data Sources** - represent the various data sources from which A Company Making Everything collects its data.
 
--   **ETL** - is the ETL tool used to extract the data from various sources, transform them and load them into Data Warehouse.
+-   **ETL** - is the ETL tool used to extract data from various sources, transform them and load them into Data Warehouse.
 
--   **Data Warehouse** - central location where all data is stored. This creates a single source of truth and allows for further manipulation of data.
+-   **Data Warehouse** - a central location where all data is stored. This creates a single source of truth and allows for further manipulation of data.
 
--   **Oracle Business Intelligence Enterprise Edition (OBIEE)** - A Company Making Everything's central reporting platform. Used daily by A Company Making Everything to access various reports, dashboards and visualizations.
+-   **Oracle Business Intelligence Enterprise Edition (OBIEE)** - A Company Making Everything's central reporting platform. Used daily by A Company Making Everything to access various reports, dashboards, and visualizations.
 
 -   **Auth Provider** - the Authentication and Authorization provider deployed by A Company Making Everything
 
@@ -58,13 +58,13 @@ In the target logical diagram, the following **new** components are represented:
 
 -   **Private Access Channel** - enables OAC with public and private endpoints to access private data sources directly.
 
--   **Oracle Analytics Cloud (OAC)** - A Company Making Everything's target central reporting platform in the cloud. Will be used daily by A Company Making Everything to access various reports, dashboards and visualizations.
+-   **Oracle Analytics Cloud (OAC)** - A Company Making Everything's target central reporting platform in the cloud. Will be used daily by A Company Making Everything to access various reports, dashboards, and visualizations.
 
--   **IDCS** - IDCS provides the security and manages authentication and authorization for the end users.
+-   **IDCS** - IDCS provides security and manages authentication and authorization for the end users.
 
 ### Data Access
 
-A Company Making Everything's data will remain on-permises. To access this data securely, a PDAC (Private Data Access Channel) will be configured. This ensures a secure connection to A Company Making Everything's on-premises database in their private network. A detailed description of how a PDAC is setup can be found here (https://docs.oracle.com/en/cloud/paas/analytics-cloud/acoci/manage-service-access-and-security.html#GUID-19F1F4B0-3709-4243-BC00-0FD078F1E444). This scenario gives the on-premises network private access to Oracle Analytics Cloud, so that the on-premises hosts can use their private IP addresses and the traffic does not go over the public internet. Instead, the traffic travels over VPN, transits through a virtual cloud network (VCN), and then through a service gateway to the Oracle Analytics Cloud.
+A Company Making Everything's data will remain on-premises. To access this data securely, a PDAC (Private Data Access Channel) will be configured. This ensures a secure connection to A Company Making Everything on-premises database in their private network. A detailed description of how a PDAC is setup can be found here (https://docs.oracle.com/en/cloud/paas/analytics-cloud/acoci/manage-service-access-and-security.html#GUID-19F1F4B0-3709-4243-BC00-0FD078F1E444). This scenario gives the on-premises network private access to Oracle Analytics Cloud, so that the on-premises hosts can use their private IP addresses and the traffic does not go over the public internet. Instead, the traffic travels over VPN, transits through a virtual cloud network (VCN), and then through a service gateway to the Oracle Analytics Cloud.
 
 ### Security
 
@@ -90,9 +90,9 @@ This chapter covers the Security and Identity Management definitions and resourc
 
 -   Groups will be configured at the tenancy level and access will be governed by policies configured in OCI.
 -   Any new project deployment in OCI will start with the creation of a new compartment. Compartments follow a hierarchy, and the compartment structure will be decided as per the application requirements.
--   It is also proposed to keep any shared resources, such as Object Storage, Networks etc. in a shared services compartment. This will allow the various resources in different compartments to access and use the resources deployed in the shared services compartment and user access can be controlled by policies related to specific resource types and user roles.
--   Policies will be configured in OCI to maintain the level of access / control that should exist between resources in different compartments. These will also control user access to the various resources deployed in the tenancy.
--   The tenancy will include a pre-provisioned Identity Cloud Service (IDCS) instance (the primary IDCS instance) or, where applicable, the Default Identity Domain. Both provide access management across all Oracle cloud services for IaaS, PaaS and SaaS cloud offerings.
+-   It is also proposed to keep any shared resources, such as Object Storage, Networks, etc. in a shared services compartment. This will allow the various resources in different compartments to access and use the resources deployed in the shared services compartment and user access can be controlled by policies related to specific resource types and user roles.
+-   Policies will be configured in OCI to maintain the level of access/control that should exist between resources in different compartments. These will also control user access to the various resources deployed in the tenancy.
+-   The tenancy will include a pre-provisioned Identity Cloud Service (IDCS) instance (the primary IDCS instance) or, where applicable, the Default Identity Domain. Both provide access management across all Oracle cloud services for IaaS, PaaS, and SaaS cloud offerings.
 -   The primary IDCS or the Default Identity Domain will be used as the access management system for all users administrating (OCI Administrators) the OCI tenant.
 
 #### Authentication and Authorization for OCI
@@ -105,9 +105,9 @@ Only OCI Administrators are granted access to the OCI Infrastructure. As a good 
 
 **Local Users**
 
-The usage of OCI Local Users is not recommended for the majority of users and is restricted to a few users only. These users include the initial OCI Administrator created during the tenancy setup, and additional emergency administrators.
+The usage of OCI Local Users is not recommended for the majority of users and is restricted to a few users only. These users include the initial OCI Administrator created during the tenancy setup and additional emergency administrators.
 
-**Local Users are considered as Emergency Administrators and should not be used for daily administration activities!**
+**Local Users are considered Emergency Administrators and should not be used for daily administration activities!**
 
 **No additional users are to be, nor should be, configured as local users.**
 
@@ -115,7 +115,7 @@ The usage of OCI Local Users is not recommended for the majority of users and is
 
 **Federated Users**
 
-Unlike Local Users, Federated Users are managed in the Federated or Enterprise User Management system. In the OCI User list Federated Users may be distinguished by a prefix which consists of the name of the federated service in lower case, a '/' character followed by the user name of the federated user, for example:
+Unlike Local Users, Federated Users are managed in the Federated or Enterprise User Management system. In the OCI User list Federated Users may be distinguished by a prefix that consists of the name of the federated service in lower case, a '/' character followed by the user name of the federated user, for example:
 
 `oracleidentityservicecloud/user@example.com`
 
@@ -123,7 +123,7 @@ In order to provide the same attributes (OCI API Keys, Auth Tokens, Customer Sec
 
 All users have the same OCI-specific attributes (OCI API Keys, Auth Tokens, Customer Secret Keys, OAuth 2.0 Client Credentials, and SMTP Credentials).
 
-OCI Administration user should only be configured in the pre-configured primary IDCS or the Default Identity Domain where applicable.
+OCI Administration users should only be configured in the pre-configured primary IDCS or the Default Identity Domain where applicable.
 
 **Note:** Any federated user can be a member of 100 groups only. The OCI Console limits the number of groups in a SAML assertion to 100 groups. User Management in the Enterprise Identity Management system will be handled by A Company Making Everything.
 
@@ -133,7 +133,7 @@ In general, policies hold permissions granted to groups. Policy and Group naming
 
 **Tenant Level Authorization**
 
-The policies and groups defined at the tenant level will provide access to administrators and authorized users, to manage or view resources across the entire tenancy. Tenant level authorization will be granted to tenant administrators only.
+The policies and groups defined at the tenant level will provide access to administrators and authorized users, to manage or view resources across the entire tenancy. Tenant-level authorization will be granted to tenant administrators only.
 
 These policies follow the recommendations of the [CIS Oracle Cloud Infrastructure Foundations Benchmark v1.2.0, recommendations 1.1, 1.2, 1.3](https://www.cisecurity.org/cis-benchmarks).
 
@@ -143,19 +143,19 @@ A Service Policy is used to enable services at the tenancy level. It is not assi
 
 **Shared Compartment Authorization**
 
-Compartment level authorization for the cmp-shared compartment structure uses the following specific policies and groups.
+Compartment-level authorization for the cmp-shared compartment structure uses the following specific policies and groups.
 
-Apart from tenant level authorization, authorization for the cmp-shared compartment provides specific policies and groups. In general, policies will be designed that lower-level compartments are not able to modify resources of higher-level compartments.
+Apart from tenant-level authorization, authorization for the cmp-shared compartment provides specific policies and groups. In general, policies will be designed so that lower-level compartments are not able to modify the resources of higher-level compartments.
 
 Policies for the cmp-shared compartment follow the recommendations of the [CIS Oracle Cloud Infrastructure Foundations Benchmark v1.2.0, recommendations 1.1, 1.2, 1.3](https://www.cisecurity.org/cis-benchmarks).
 
 **Compartment Level Authorization**
 
-Apart from tenant level authorization, compartment level authorization provides compartment structure specific policies and groups. In general, policies will be designed that lower-level compartments are not able to modify resources of higher-level compartments.
+Apart from tenant-level authorization, compartment-level authorization provides compartment structure-specific policies and groups. In general, policies will be designed so that lower-level compartments are not able to modify the resources of higher-level compartments.
 
 **Authentication and Authorization for Applications and Databases**
 
-Application (including Compute Instances) and Database User management is completely separate of and done outside of the primary IDCS or Default Identity Domain. The management of these users is the sole responsibility of A Company Making Everything using the application, compute instance and database specific authorization.
+Application (including Compute Instances) and Database User management are completely separate of and done outside of the primary IDCS or Default Identity Domain. The management of these users is the sole responsibility of A Company Making Everything using the application, compute instance, and database-specific authorization.
 
 #### Security Posture Management
 
@@ -163,7 +163,7 @@ Application (including Compute Instances) and Database User management is comple
 
 Oracle Cloud Guard Service will be enabled using the pcy-service policy and with the following default configuration. Customization of the Detector and Responder Recipes will result in clones of the default (Oracle Managed) recipes.
 
-Cloud Guard default configuration provides a number of good settings. It is expected that these settings may not match with A Company Making Everything's requirements.
+Cloud Guard default configuration provides a number of good settings. It is expected that these settings may not match A Company Making Everything's requirements.
 
 **Targets**
 
@@ -181,15 +181,15 @@ The default Cloud Guard Responders will be implemented. To better meet the requi
 
 In accordance with the [CIS Oracle Cloud Infrastructure Foundations Benchmark, v1.2.0, OCI Vulnerability Scanning](https://www.cisecurity.org/cis-benchmarks) will be enabled using the pcy-service policy.
 
-Compute instances which should be scanned *must* implement the *Oracle Cloud Agent* and enable the *Vulnerability Scanning plugin*.
+Compute instances that should be scanned *must* implement the *Oracle Cloud Agent* and enable the *Vulnerability Scanning plugin*.
 
 **OCI OS Management Service**
 
 Required policy statements for OCI OS Management Service are included in the pcy-service policy.
 
-By default, the *OS Management Service Agent plugin* of the *Oracle Cloud Agent* is enabled and running on current Oracle Linux 6, 7, 8 and 9 platform images.
+By default, the *OS Management Service Agent plugin* of the *Oracle Cloud Agent* is enabled and running on current Oracle Linux 6, 7, 8, and 9 platform images.
 
-#### Monitoring, Auditing and Logging
+#### Monitoring, Auditing, and Logging
 
 In accordance with the [CIS Oracle Cloud Infrastructure Foundations Benchmark, v1.2.0, Chapter 3 Logging and Monitoring](https://www.cisecurity.org/cis-benchmarks) the following configurations will be made:
 
@@ -229,19 +229,19 @@ For Object Storage security the following guidelines are considered.
 
 **Data Residency**
 
-It is expected that data will be held in the respective region and additional steps will be taken when exporting the data to other regions to comply with the applicable laws and regulations. This should be review for every project onboard into the tenancy.
+It is expected that data will be held in the respective region and additional steps will be taken when exporting the data to other regions to comply with the applicable laws and regulations. This should be reviewed for every project onboard into the tenancy.
 
 #### Operational Security
 
 **Security Zones**
 
-Whenever possible OCI Security Zones will be used to implement a security compartment for Compute instances or Database resources. For more information on Security Zones refer to the in the *Oracle Cloud Infrastructure User Guide* chapter on [Security Zones](https://docs.oracle.com/en-us/iaas/security-zone/using/security-zones.htm).
+Whenever possible OCI Security Zones will be used to implement a security compartment for Compute instances or Database resources. For more information on Security Zones refer to the *Oracle Cloud Infrastructure User Guide* chapter on [Security Zones](https://docs.oracle.com/en-us/iaas/security-zone/using/security-zones.htm).
 
 **Remote Access to Compute Instances or Private Database Endpoints**
 
 To allow remote access to Compute Instances or Private Database Endpoints, the OCI Bastion will be implemented for defined compartments.
 
-To be able to use OCI services to for OS management, Vulnerability Scanning, Bastion Service, etc. it is highly recommended to implement the Oracle Cloud Agent as documented in the *Oracle Cloud Infrastructure User Guide* chapter [Managing Plugins with Oracle Cloud Agent](https://docs.oracle.com/en-us/iaas/Content/Compute/Tasks/manage-plugins.htm).
+To be able to use OCI services for OS management, Vulnerability Scanning, Bastion Service, etc. it is highly recommended to implement the Oracle Cloud Agent as documented in the *Oracle Cloud Infrastructure User Guide* chapter [Managing Plugins with Oracle Cloud Agent](https://docs.oracle.com/en-us/iaas/Content/Compute/Tasks/manage-plugins.htm).
 
 #### Network Time Protocol Configuration for Compute Instance
 
@@ -264,7 +264,7 @@ The following prerequisites need to be in place:
 
 -   OBIEE is on version 12.2.1.4
 -   RPD is in a consistent state
--   No object level security is used
+-   No object-level security is used
 -   No usage tracking is implemented
 -   No JS and/or CSS customization of the reports
 -   No special characters (including spaces) are used in the names of the reports and entities in the catalog
@@ -275,7 +275,7 @@ The following prerequisites need to be in place:
 
 # Oracle Lift Project and Architecture
 
-==**the Lift part below here is not yet confirmed nor validated by Lift team if achievable or realistic**==
+==**The part below here is not yet confirmed nor validated by the implementation team if achievable or realistic**==
 
 ## Solution Scope
 
@@ -287,11 +287,11 @@ All items not explicitly stated to be within the scope of the Lift project will 
 
 ### Business Value
 
-This Lift implementation of this project will give A Company Making Everything a kickstart into a new Analytics world, allowing them to increase their agility and to gain deeper insights to make data driven decision. The project will deliver a foundation based on best practices of OCI with a sound basis to extend and expand. By utilizing Lift, A Company Making Everything will have an extensible foundation for analytics.
+This Lift implementation of this project will give A Company Making Everything a kickstart into a new Analytics world, allowing them to increase their agility and gain deeper insights to make data-driven decisions. The project will deliver a foundation based on the best practices of OCI with a sound basis to extend and expand. By utilizing Lift, A Company Making Everything will have an extensible foundation for analytics.
 
 ### Success Criteria
 
-A Company Making Everything will have a functional OAC environment with the existing reports build by them in OBIEE.
+A Company Making Everything will have a functional OAC environment with the existing reports built by them in OBIEE.
 
 ## Workplan
 
@@ -308,7 +308,7 @@ The following components and activities are included in the project scope:
 
 1.  Tenancy
 
-    -   Provisioning and configuration of compartments, groups, policies and tags
+    -   Provisioning and configuration of compartments, groups, policies, and tags
     -   Provisioning and configuration of VCN, subnets, gateways, security lists, ingress/egress rules
 
 2.  Identity and Authentication
@@ -335,13 +335,11 @@ Application roles are migrated using a BAR file while initialization blocks for 
 
 ### Recommended Activities
 
-This Lift workload is designed to assist A Company Making Everything to rapidly start utilising Oracle Cloud Infrastructure and allow them to explore the benefits of the solution to them for further rollout. Once the Lift team finishes the work, A Company Making Everything can leverage the knowledge acquired from this project to create additional environments themselves or with the help of Oracle Consulting and/or a partner.
+This Lift workload is designed to assist A Company Making Everything to rapidly start utilizing Oracle Cloud Infrastructure and allow them to explore the benefits of the solution to them for further rollout. Once the Lift team finishes the work, A Company Making Everything can leverage the knowledge acquired from this project to create additional environments themselves or with the help of Oracle Consulting and/or a partner.
 
 ### Timeline
 
-This high-level project timeline shows a representative timeline and is intended for planning purposes only
-
-TODOTODOTODO
+This high-level project timeline shows a representative timeline and is intended for planning purposes only.
 
 ### Implementation RACI
 
@@ -351,27 +349,27 @@ The following assumptions have been made about the project, which will impact de
 
 -   OBIEE is on version 12.2.1.4
 -   RPD is in a consistent state
--   No object level security is used
+-   No object-level security is used
 -   No usage tracking is implemented
 -   No JS and/or CSS customization of the reports
 -   No special characters (including spaces) are used in the names of the reports and entities in the catalog
 -   No OBIEE variables like :USER, :ROLE, :GROUP are used
 -   Unsupported functionality such as "Act As" is not used.
 -   Disaster Recovery is not in scope
--   VPN is already set up by A Company Making Everything and the appropriate ports are opened in order to be access the on-prem data sources
+-   VPN is already set up by A Company Making Everything and the appropriate ports are opened in order to access the on-prem data sources
 
 ### Out of scope
 
 The following components and activities are out of scope:
 
 -   Provisioning and configuration of a second instance
--   VPN setup, On Premise VPN Tunnel, Fast Connect, VPN Firewall Configuration.
+-   VPN setup, On-Premises VPN Tunnel, Fast Connect, VPN Firewall Configuration.
 -   Functional Testing of OAC reports.
 -   Any third party or A Company Making Everything on-premise integration
--   Third Party products, Backup tools, Firewall implementation, Security tools, monitoring tools implementation.
+-   Third-Party products, Backup tools, Firewall implementation, Security tools, monitoring tools implementation.
 -   Load Testing, Performance benchmarking testing, Functional/code change & tuning of any component in the solution.
 -   Any Vulnerability Assessment and Penetration Testing.
--   Trainings on deployed products and cloud services.
+-   Training on deployed products and cloud services.
 -   Any other activity not listed under “In Scope” section.
 
 ### Obligations
@@ -383,7 +381,7 @@ The following obligations will be required to be met for the project:
 -   A Company Making Everything will provide functional or business subject matter experts who understand the current environment and are able to answer functional and technical questions that might arise.
 -   A Company Making Everything will ensure the appropriate product training has been obtained to maintain and support the implementation
 -   A Company Making Everything's business team will be available for the Testing phase, which will be completed within the agreed testing window.
--   A Company Making Everything will provide project management for the project and will manage any third party suppliers or vendors.
+-   A Company Making Everything will provide project management for the project and will manage any third-party suppliers or vendors.
 
 ### Resource Naming Convention
 
@@ -392,7 +390,7 @@ Oracle recommends the following Resource Naming Convention:
 -   The name segments are separated by “-“
 -   Within a name segment avoid using `<space>`{=html} and “.”
 -   Where possible intuitive/standard abbreviations should be considered (e.g. “shared“ compared to "shared.cloud.team”)
--   When referring to the compartment full path, use “:” as separator, e.g. cmp-shared:cmp-security
+-   When referring to the compartment full path, use “:” as a separator, e.g. cmp-shared:cmp-security
 
 Some examples of naming are given below:
 
@@ -407,7 +405,7 @@ The patterns used are these:
 -   \<resource-type\>-\<entity/sub-entity\>-\<environment\>-\<function/department\>-\<project\>-\<custom\>
 -   \<resource-type\>-\<environment\>-\<location\>-\<purpose\>
 
-Abbreviation per resource type are listed below. This list may not be complete.
+Abbreviations per resource type are listed below. This list may not be complete.
 
 | Resource type                      | Abbreviation       | Example                                                     |
 |------------------------------------|--------------------|-------------------------------------------------------------|
@@ -451,7 +449,7 @@ Abbreviation per resource type are listed below. This list may not be complete.
 
 OCI Group Names should follow the naming scheme of the Enterprise Identity Management system for Groups or Roles.
 
-Examples for global groups are:
+Examples of global groups are:
 
 -   \<prefix\>-\<purpose\>-admins
 -   \<prefix\>-\<purpose\>-users
