@@ -11,6 +11,16 @@ This section contains various examples related to Application Integration: demo 
 
 ## Demos
 
+- [Oracle Integration Cloud - Feature - Publish & Subscribe Events](https://youtu.be/3gZcHnPJtuk)
+
+    -This video will explain Oracle Integration Cloud Feature Events, how Events can be used to create publish and subscribe integration pattern.
+    
+    Demonstration includes.
+        - Creating an Event in Oracle Integration Cloud
+        - Creating an Integration that publishes the Event
+        - Creating an integration that subscribes to the Event and add data in ServiceNow
+        - Creating an integration that subscribes to the Event and append data in a file stored in an FTP Server
+
 - [Oracle Integration Cloud - Feature - Parallel Action](https://youtu.be/BTtPsDyiVLo)
     -This video demonstrate how you can use parallel action in Oracle Integration.
     Parallel action is used to process tasks in parallel to improve integration performance and response times. 
