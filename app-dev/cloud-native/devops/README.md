@@ -24,6 +24,7 @@ OCI DevOps, OCI Resource Manager, Visual Builder Studio, Open Source tools
 - [OCI DevOps Build Pipeline collection](https://github.com/oracle-devrel/oci-devops-examples)
 - [OCI CLI documentation](https://docs.oracle.com/iaas/tools/oci-cli/latest/oci_cli_docs/)
 - [Deploying a Helm chart with Provenance liveLab](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3664&clear=RR,180&session=109957900717640)
+- [Sample build-spec.yaml](./devops-graalvm-native-image/build-spec.yaml) and [associated Dockerfile](./devops-graalvm-native-image/Dockerfile) to use with OCI Devops. These are very configurable and show the installing of specific versions of software (GraalVM and Maven) into the build environment, creating of a native image executable using the installed software, determining version information dynamically and creating a docker image.
 
 
 ### Terraform
