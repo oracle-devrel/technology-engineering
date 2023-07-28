@@ -1,4 +1,4 @@
-REM Script: summary-report-for-devs.sql
+REM Script: report-summary-for-devs.sql
 REM DBMS_SQLTUNE for database developers for all statements executed by the user
 
 -- list all monitored statement executed by the user
