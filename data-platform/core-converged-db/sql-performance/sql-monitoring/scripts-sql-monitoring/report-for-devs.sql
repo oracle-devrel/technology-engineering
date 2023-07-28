@@ -1,8 +1,8 @@
-REM Script: report-for-developers.sql
+REM Script: report-for-devs.sql
 REM DBMS_SQLTUNE for database developers
 
 -- DBMS_SQLTUNE contains the REPORT_SQL_MONITOR and REPORT_SQL_MONITOR_LIST functions
--- list last monitored statement excuted by the user with REPORT_SQL_MONITOR
+-- list the last monitored statement excuted by the user with REPORT_SQL_MONITOR
 -- enter value for type (e.g. TEXT, HTML, ACTIVE)
 -- please use the proposed SQL*Plus formats
 
