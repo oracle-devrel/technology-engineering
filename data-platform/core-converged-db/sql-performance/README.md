@@ -20,8 +20,8 @@ In this way, statements from a SQL workload can be tested and compared and tuned
 
 ### Documentation
 
-- [Oracle Database 19c](https://docs.oracle.com/en/database/oracle/oracle-database/19/performance.html)
-- [Oracle Database 23c][https://docs.oracle.com/en/database/oracle/oracle-database/23/performance.html]
+- [Oracle Database 19c Performance](https://docs.oracle.com/en/database/oracle/oracle-database/19/performance.html)
+- [Oracle Database 23c Performance](https://docs.oracle.com/en/database/oracle/oracle-database/23/performance.html)
 - [Testing Guide 19c](https://docs.oracle.com/en/database/oracle/oracle-database/19/ratug/index.html#Oracle%C2%AE-Database)
 
 # License
