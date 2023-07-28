@@ -1,8 +1,9 @@
 REM  Script: html-report.sql
-REM  report generation in HTML with DBMS_SQL_MONITOR.REPORT_SQL_MONITOR
+REM  Generate HTML report with DBMS_SQL_MONITOR.REPORT_SQL_MONITOR
 
--- find the last monitored database operation
--- please use the proposed SQL*plus formats here to get the correct HTML report 
+-- report on the last statement monitored by Oracle
+-- please use the proposed SQL*Plus formats here to get the correct HTML report
+  
 set trimspool on 
 set trim on
 set pagesize 0
