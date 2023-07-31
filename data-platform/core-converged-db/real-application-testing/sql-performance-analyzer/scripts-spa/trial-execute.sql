@@ -1,4 +1,4 @@
-REM Script trial-execute.sql
+REM Script: trial-execute.sql
 REM Execute the trial with execution_type TEST EXECUTE
 
 -- This is the default setting
