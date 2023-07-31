@@ -23,6 +23,8 @@ If you're **starting with OCI landing zones**:
 &nbsp; 
 
 The following **assets** are also available to improve the OCI landing experience:
+- [Executive Overview of the Available Approaches](/landing-zones/commons/EMEA_LandingZonesSpecialists_ExecOverview.pdf)
+- [How a Tailored OCI Landing Zone Looks Like](https://github.com/oracle-quickstart/terraform-oci-open-lz)
 - [Resource Naming Conventions](/landing-zones/commons/resource_naming_conventions.md)
 - [User Identity Management](/landing-zones/commons/user_identity_management.md)
 - [Budgets and Tagging](/landing-zones/commons/budgets_and_tagging.md)
