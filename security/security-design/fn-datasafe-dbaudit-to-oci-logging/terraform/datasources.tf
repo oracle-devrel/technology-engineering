@@ -38,7 +38,3 @@ data "oci_identity_compartment" "compartment" {
   id = var.compartment_ocid
 }
 
-data "oci_identity_user" "user" {
-  user_id = var.user_ocid
-}
-
