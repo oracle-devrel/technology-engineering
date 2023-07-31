@@ -14,7 +14,7 @@ resource "null_resource" "Login2OCIR" {
     oci_artifacts_container_repository.fn_container_repository, oci_functions_application.FunctionApp]
 
   provisioner "local-exec" {
-    command = "echo '${var.ocir_user_password}' |  docker login ${local.ocir_docker_repository} --username '${local.namespace}/${local.identity_name}' --password-stdin"
+    command = "echo '${var.ocir_user_password}' |  docker login ${local.ocir_docker_repository} --username '${local.namespace}/${var.ocir_user_name}' --password-stdin"
   }
 }
 
