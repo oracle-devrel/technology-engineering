@@ -1,8 +1,8 @@
-REM Script monitor-executions.sql
+REM Script: monitor-executions.sql
 REM Monitor SQL Performance Analyzer executions
 
 -- list task name and executions for advisor
--- use SQL PERFORMANCE ANALYZER in the case of SPA  
+-- use SQL PERFORMANCE ANALYZER for advisor name in the case of SPA  
 col execution_name format a25
 col task_name format a25 
 
