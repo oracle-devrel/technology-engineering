@@ -43,7 +43,7 @@ SOFTWARE.
 
 ### OCI Queue
 
-Create Queue and copy the <i>Queue OCID</i> and <i>Endpoint</i>:
+Create Queue and copy the Queue <i>OCID</i> and <i>Messages endpoint</i>:
 
 <p>
 <img src="files/endpoint.png" width="800" />
