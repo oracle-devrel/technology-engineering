@@ -36,6 +36,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 -->
 
+## Functions overview
+[Document functions-overview](files/Fn.pdf)
+
 # API Gateway authorizer function context var example
 
 ## Build and deploy the functions
