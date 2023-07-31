@@ -1,4 +1,4 @@
-REM Script compare-performance.sql
+REM Script: compare-performance.sql
 REM Compare performance of two executions
   
 -- enter task name (see also monitor-tasks.ql)
