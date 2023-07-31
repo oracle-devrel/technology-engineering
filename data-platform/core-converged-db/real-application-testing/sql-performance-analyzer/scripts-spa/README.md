@@ -5,7 +5,7 @@ Before you start with SQL Performance Analyzer, you need to provide a SQL Tuning
 For more information see also:   
 - [Github scripts for SQL Tuning Sets](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/core-converged-db/sql-performance/sql-tuning-sets/scripts-for-sts)
 
-Please note all SQL Performnace Analyzer tasks require the privilege ADVISOR.
+Please note all SQL Performance Analyzer tasks require the privilege ADVISOR.
 
 ## SQL Performance Analyzer Scripts
 Please follow the steps in the suggested order. In step 2 you can choose between two test scenarios - on the same system or on a remote system. The tuning of regressed statements with SQL Plan Baselines at the end is optional.
