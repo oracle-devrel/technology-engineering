@@ -12,6 +12,7 @@ Please follow the steps in the suggested order. In step 2 you can choose between
 
 1. Create and monitor the tuning task and executions
 - Create a SPA task     : create-spa-task.sql
+- Drop SPA task         : drop-spa-task.sql
 - Monitor SPA task      : monitor-task.sql
 - Monitor SPA executions: monitor-executions.sql
  
