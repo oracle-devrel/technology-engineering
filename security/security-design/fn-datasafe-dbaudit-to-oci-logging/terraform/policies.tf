@@ -18,10 +18,10 @@ resource "oci_identity_policy" "FunctionPolicy" {
   description = var.PolicyDescription
   compartment_id = var.tenancy_ocid
   count = var.setup_policies ? 1 : 0
-  statements = ["Allow dynamic-group ${oci_identity_dynamic_group.FunctionsServiceDynamicGroup[0].name} to use log-content in compartment id ${var.compartment_ocid} where target.loggroup.id=${oci_logging_log_group.log_group.id}", 
-        "Allow dynamic-group ${oci_identity_dynamic_group.FunctionsServiceDynamicGroup[0].name} to manage objects in compartment id ${var.compartment_ocid} where all {target.bucket.name='${oci_objectstorage_bucket.tracker-bucket.name}', any {request.permission='OBJECT_INSPECT', request.permission='OBJECT_CREATE'}}",
-        "Allow dynamic-group ${oci_identity_dynamic_group.FunctionsServiceDynamicGroup[0].name} to read objectstorage-namespaces in compartment id ${var.compartment_ocid} where target.bucket.name='${oci_objectstorage_bucket.tracker-bucket.name}'", 
-        "allow dynamic-group ${oci_identity_dynamic_group.FunctionsServiceDynamicGroup[0].name} to read buckets in compartment id ${var.compartment_ocid} where target.bucket.name='${oci_objectstorage_bucket.tracker-bucket.name}'",
+  statements = ["Allow dynamic-group ${oci_identity_dynamic_group.FunctionsServiceDynamicGroup[0].name} to use log-content in compartment id ${var.compartment_ocid}", 
+        "Allow dynamic-group ${oci_identity_dynamic_group.FunctionsServiceDynamicGroup[0].name} to manage objects in compartment id ${var.compartment_ocid}",
+        "Allow dynamic-group ${oci_identity_dynamic_group.FunctionsServiceDynamicGroup[0].name} to read objectstorage-namespaces in compartment id ${var.compartment_ocid}", 
+        "allow dynamic-group ${oci_identity_dynamic_group.FunctionsServiceDynamicGroup[0].name} to read buckets in compartment id ${var.compartment_ocid}",
         "Allow dynamic-group ${oci_identity_dynamic_group.FunctionsServiceDynamicGroup[0].name} to read data-safe-audit-events in tenancy"
         ]
 
