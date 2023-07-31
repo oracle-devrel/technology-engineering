@@ -19,7 +19,7 @@ Please follow the steps in the suggested order. In step 2 you can choose between
 Scenario A: 
 2. Execute trials on the same system
 - Execute first trial : trial-execute.sql 
-Change the system
+- Make changes on the system
 - Execute second trial: trial-execute.sql  
 
 Scenario B: 
