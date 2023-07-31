@@ -1,4 +1,4 @@
-REM Script create-sts-regressed.sql
+REM Script: create-sts-regressed.sql
 REM Generate STS for regressed statements
 
 -- create SQL Tuning Set for regressed statements
