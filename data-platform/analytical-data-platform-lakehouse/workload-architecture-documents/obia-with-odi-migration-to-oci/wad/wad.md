@@ -1,9 +1,9 @@
 # Document Control
 
-| Version | Authors           | Date             | Comments                       |
-|:--------|:------------------|:-----------------|:-------------------------------|
-| 0.1     | Wilbert Poeliejoe | 25 January 2023  | Initial Draft                  |
-| 0.2     | Wilbert Poeliejoe | 20 February 2023 | Network Firewall content added |
+| Version | Authors       | Date             | Comments                       |
+|:--------|:--------------|:-----------------|:-------------------------------|
+| 0.1     | Author Author | 25 January 2023  | Initial Draft                  |
+| 0.2     | Author Author | 20 February 2023 | Network Firewall content added |
 
 | Term  | Meaning                                         |
 |:------|:------------------------------------------------|
@@ -38,9 +38,9 @@
 
 ## Team
 
-| Name              | eMail                        | Role                                        | Company |
-|:------------------|:-----------------------------|:--------------------------------------------|:--------|
-| Wilbert Poeliejoe | Wilbert.poeliejoe@oracle.com | Initial Author (to be removed for customer) | Oracle  |
+| Name          | eMail                      | Role                                        | Company |
+|:--------------|:---------------------------|:--------------------------------------------|:--------|
+| Author Author | example.example@xxxxxx.xxx | Initial Author (to be removed for customer) | Oracle  |
 
 ## Document Purpose
 
@@ -50,7 +50,7 @@ This document provides a high-level solution definition for the Oracle solution 
 
 # Business Context
 
-(WAD Template) is using OBIA version 11g which they want to migrate to OCI and leverage where possible the advantages of a cloud native solution. It is important to know which version of OBIA (WAD Template) is using. The recommended version to deploy on OCI is OBIA 11.1.1.10.3 PS3. This version is certified with OAC and ADW. It is possible to use OBIA version 11.1.1.0.2 on OCI but only DBCS and OAC can be used as cloud products. Other components are on- premise applications. It would be best if the source application is running on OCI as well, but that is not a fixed requirement. It is important to check which version customer is using and what the latest certification matrix is and what current support guidelines are. Version 11.1.1.10.3 is still in support. An upgrade to the 11.1.1.10.3 version from 11.1.1.10.2 or earlier will be mainly a technology upgrade from 11g to 12c but due to the change of technology and the level of customisations in ODI this will require more or less effort.
+(ExampleCustomer) is using OBIA version 11g which they want to migrate to OCI and leverage where possible the advantages of a cloud native solution. It is important to know which version of OBIA (ExampleCustomer) is using. The recommended version to deploy on OCI is OBIA 11.1.1.10.3 PS3. This version is certified with OAC and ADW. It is possible to use OBIA version 11.1.1.0.2 on OCI but only DBCS and OAC can be used as cloud products. Other components are on- premise applications. It would be best if the source application is running on OCI as well, but that is not a fixed requirement. It is important to check which version customer is using and what the latest certification matrix is and what current support guidelines are. Version 11.1.1.10.3 is still in support. An upgrade to the 11.1.1.10.3 version from 11.1.1.10.2 or earlier will be mainly a technology upgrade from 11g to 12c but due to the change of technology and the level of customisations in ODI this will require more or less effort.
 
 Success criteria:
 
@@ -62,7 +62,7 @@ Success criteria:
 
 ## Workload Business Value
 
-(WAD Template) is running a recent installation of OBIA 11g. with support and security risks. Modernising this Data Warehouse and Analytics solution will help (WAD Template) to be ready for the future again. Migrating to OCI and using ADW, OAC and ODI creates an as much as possible cloud native solution and leverages the existing OBIEE, ODI and Database knowledge in a modern setting while preserving previously made investments in Data Warehouse, extractions and analytics.
+(ExampleCustomer) is running a recent installation of OBIA 11g. with support and security risks. Modernising this Data Warehouse and Analytics solution will help (ExampleCustomer) to be ready for the future again. Migrating to OCI and using ADW, OAC and ODI creates an as much as possible cloud native solution and leverages the existing OBIEE, ODI and Database knowledge in a modern setting while preserving previously made investments in Data Warehouse, extractions and analytics.
 
 After the migration the OBIA installation will continue as a custom data warehouse and analytics solution based on the cloud native successors of the migrated stack.
 
@@ -193,7 +193,7 @@ You can use a OCI Bastion service to provide secure access to your resources. Th
 
 ### VCN and Subnets
 
-For security reasons the the Data Warehouse and Analytics components are positioned in a separate VCN. Spoke VCNs are not accessible from the internet. All components are placed in private subnets. The subnets where OAC, ADW and the Linux developer instance are in can be configured to be accessible from customers network or accessed through the Bastion Service in the Hub VCN. VCN's require to have CIDR ranges that are not overlapping with other VCN's and are also not overlapping with IP ranges used in (WAD Template) network.
+For security reasons the the Data Warehouse and Analytics components are positioned in a separate VCN. Spoke VCNs are not accessible from the internet. All components are placed in private subnets. The subnets where OAC, ADW and the Linux developer instance are in can be configured to be accessible from customers network or accessed through the Bastion Service in the Hub VCN. VCN's require to have CIDR ranges that are not overlapping with other VCN's and are also not overlapping with IP ranges used in (ExampleCustomer) network.
 
 ### Network Firewall
 
@@ -307,11 +307,11 @@ For departmental groups:
 -   \<prefix\>-\<compartment\>-\<purpose\>-admins
 -   \<prefix\>-\<compartment\>-\<purpose\>-users
 
-The value for \<prefix\> or the full names **must be agreed** with (WAD Template).
+The value for \<prefix\> or the full names **must be agreed** with (ExampleCustomer).
 
 ### Security and Identity Management
 
-This chapter covers the Security and Identity Management definitions and resources which will be implemented for (WAD Template).
+This chapter covers the Security and Identity Management definitions and resources which will be implemented for (ExampleCustomer).
 
 #### Universal Security and Identity and Access Management Principles
 
