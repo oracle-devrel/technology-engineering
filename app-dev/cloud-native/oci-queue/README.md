@@ -43,7 +43,7 @@ SOFTWARE.
 
 ### OCI Queue
 
-Create Queue and copy the Queue OCID and Enpoint:
+Create Queue and copy the <i>Queue OCID</i> and <i>Endpoint</i>:
 
 <p>
 <img src="files/endpoint.png" width="800" />
@@ -76,7 +76,7 @@ Setup secrets to run this example with GitHub Actions:
     <li><b>OCI_KEY</b>: OCI User Private Key</li>
     <li><b>OCI_PASSPHRASE</b>: OCI User Private Key passphrase (optional)</li>
     <li><b>Q_ID</b>: OCI Queue OCID</li>
-    <li><b>Q_ENDPOINT</b>OCI Queue Endpoint</li>
+    <li><b>Q_ENDPOINT</b>: OCI Queue Endpoint</li>
 </ul>
 
 ### Run Action
