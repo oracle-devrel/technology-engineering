@@ -26,9 +26,8 @@ locals {
   ocilogging_dslog_displayname="${var.LogDataSafeAuditDBNamePrefix}${local.resource_nc}"
   notificationtopic_name = "${var.NotificationTopicNamePrefix}${local.resource_nc}"
   alarm_displayname = "${var.AlarmNamePrefix}${local.resource_nc}"
-  fn_context = "${var.FunctionName}"
-  fn_working_dir = "function/${local.fn_context}"
+  fn_working_dir = "function/${var.FunctionName}"
   fn_registry = "${local.ocir_docker_repository}/${local.namespace}/${oci_artifacts_container_repository.fn_container_repository.display_name}"
   fn_repository = "${local.oci_repo_displayname}/${var.FunctionName}"
-  fn_image = "${local.fn_registry}/${var.FunctionName}:0.0.1"
+  fn_image = "${local.fn_repository}:0.0.1"
 }
