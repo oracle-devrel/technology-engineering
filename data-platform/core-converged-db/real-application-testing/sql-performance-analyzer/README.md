@@ -18,7 +18,8 @@ SQL Performance Analyzer (aka SPA) as part of Real Application Testing focuses o
 - [HOL 19c SQL Performance Analyzer](https://mikedietrichde.com/hol-19c-sql-performance-analyzer/)
 
 
-License
+# License
+
 Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
