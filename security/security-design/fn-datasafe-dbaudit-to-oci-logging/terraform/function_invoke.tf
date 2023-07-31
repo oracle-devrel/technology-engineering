@@ -8,10 +8,7 @@
 #
 ###############################################################################
 
-provisioner "local-exec" {
-    depends_on = [oci_functions_function.fun1]
-    command = "sleep 60"
-  }
+
 
 resource "oci_functions_invoke_function" "FunctionInvoke" {
     function_id = oci_functions_function.fun1.id

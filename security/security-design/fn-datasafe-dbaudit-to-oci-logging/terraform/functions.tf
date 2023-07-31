@@ -28,6 +28,10 @@ resource "oci_functions_function" "fun1" {
     "ociOSTrackerBucketName" : local.tracker_bucket_name
     "ociLoggingLogOCID" : oci_logging_log.log_datadafe_auditdb.id
   }
+  provisioner "local-exec" {
+    depends_on = [oci_functions_function.fun1]
+    command = "sleep 60"
+  }
   
 }
 
