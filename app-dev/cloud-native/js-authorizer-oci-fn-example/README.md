@@ -36,8 +36,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 -->
 
-## Functions queue overview
-[Document queue-overview](files/Fn.pdf)
+## Functions overview
+[Document functions-overview](files/Fn.pdf)
 
 # API Gateway authorizer function context var example
 
