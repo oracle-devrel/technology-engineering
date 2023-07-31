@@ -20,7 +20,7 @@ locals {
   tracker_bucket_name = "${var.tracker-bucket}${local.resource_nc}"
   oci_repo_displayname = "${var.ocir_repo_name}${local.resource_nc}"
   functionapp_display_name = "${var.FunctionAppNamePrefix}${local.resource_nc}"
-  function_display_name = "${var.FunctionNamePrefix}${local.resource_nc}"
+  function_display_name = "${var.FunctionNamePrefix}${local.resource_nc}/${var.FunctionName}"
   function_invoke_oci_logging_displayname = "${var.FunctionInvokeOCILoggingName}${local.resource_nc}"
   ocilogging_group_displayname="${var.LogGroupPrefix}${local.resource_nc}"
   ocilogging_dslog_displayname="${var.LogDataSafeAuditDBNamePrefix}${local.resource_nc}"
