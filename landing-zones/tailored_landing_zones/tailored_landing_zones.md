@@ -10,7 +10,7 @@
 
 A tailored landing zone is a solution designed to fit specific requirements. This approach is normally used in these **use cases** (but not limited to):
 - **Mirroring existing landing zones** on other CSPs.
-- **Onboarding and reflecting organization structures** such as business units, operating entities, OpCps, into a cloud operating model.
+- **Onboarding and reflecting organization structures** such as business units, operating entities, OpCos, into a cloud operating model.
 - **Fine-grained segregation of duties** and responsibilities across resources and teams.
 - **Network structure** with **different areas and security postures**, with fine-tuned **north-south** and **east-west** traffic scenarios.
 - **Heterogeneous** and/or **large workloads** landscape.
