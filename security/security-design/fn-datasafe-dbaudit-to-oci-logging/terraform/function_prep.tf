@@ -10,7 +10,7 @@
 
 
 
-resource "null_resource" "FunctionAppPush2OCIR" {
+resource "null_resource" "functionapp_push2ocir" {
   depends_on = [module.setup-network, oci_objectstorage_bucket.tracker-bucket, oci_identity_policy.functionpolicy,
     oci_artifacts_container_repository.fn_container_repository, oci_functions_application.functionapp]
   
