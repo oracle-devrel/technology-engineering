@@ -15,7 +15,7 @@ resource "oci_identity_policy" "functionpolicy" {
   provider = oci.homeregion
   depends_on     = [oci_identity_dynamic_group.functionsservicedynamicgroup]
   name = local.policy_displayname
-  description = var.PolicyDescription
+  description = var.policydescription
   compartment_id = var.tenancy_ocid
   count = var.setup_policies ? 1 : 0
   statements = ["Allow dynamic-group ${oci_identity_dynamic_group.functionsservicedynamicgroup[0].name} to use log-content in compartment id ${var.compartment_ocid}", 
