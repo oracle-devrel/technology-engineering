@@ -59,7 +59,7 @@ resource "oci_core_dhcp_options" "dhcpoptions1" {
 }
 
 resource "oci_core_subnet" "vcn_subnet" {
-  cidr_block        = var.subnet-cidr
+  cidr_block        = var.subnet_cidr
   display_name      = local.subnet_displayname
   dns_label         = local.subnet_dns_label
   compartment_id    = var.compartment_ocid
