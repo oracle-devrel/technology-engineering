@@ -48,8 +48,6 @@ resource "oci_core_route_table" "rt_fn_subnet" {
   
 }
 
-
-
 resource "oci_core_dhcp_options" "dhcpoptions1" {
   compartment_id = var.compartment_ocid
   vcn_id         = oci_core_virtual_network.vcn.id
@@ -61,7 +59,7 @@ resource "oci_core_dhcp_options" "dhcpoptions1" {
 }
 
 resource "oci_core_subnet" "vcn_subnet" {
-  cidr_block        = var.subnet-CIDR
+  cidr_block        = var.subnet-cidr
   display_name      = local.subnet_displayname
   dns_label         = local.subnet_dns_label
   compartment_id    = var.compartment_ocid

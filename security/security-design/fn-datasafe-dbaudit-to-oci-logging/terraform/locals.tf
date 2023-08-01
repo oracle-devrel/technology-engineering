@@ -21,7 +21,7 @@ locals {
   oci_repo_displayname = "${var.ocir_repo_name}${local.resource_nc}/${var.functionname}"
   functionapp_display_name = "${var.functionappnameprefix}${local.resource_nc}"
   function_display_name = "${var.functionnameprefix}${local.resource_nc}"
-  function_invoke_oci_logging_displayname = "${var.functionInvokeociloggingname}${local.resource_nc}"
+  function_invoke_oci_logging_displayname = "${var.functioninvokeociloggingname}${local.resource_nc}"
   ocilogging_group_displayname="${var.loggrouprefix}${local.resource_nc}"
   ocilogging_dslog_displayname="${var.log_datafafeauditdbnameprefix}${local.resource_nc}"
   notificationtopic_name = "${var.notificationtopicnameprefix}${local.resource_nc}"

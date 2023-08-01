@@ -129,7 +129,7 @@ variable "policydescription" {
 variable "dynamicgroupnameprefix" {
   default = "dgp"
 }
-variable "DynamicGroupDescription" {
+variable "dynamicgroupdescription" {
   default = "Dynamic Group for function to manage DataSafe DB Audit to OCI Logging"
 }
 
