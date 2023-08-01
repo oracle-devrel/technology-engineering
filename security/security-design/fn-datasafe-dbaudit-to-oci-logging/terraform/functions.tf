@@ -9,20 +9,19 @@
 ################################################################################
 
 
-resource "oci_functions_application" "FunctionApp" {
+resource "oci_functions_application" "functionapp" {
   compartment_id = var.compartment_ocid
   display_name   = local.functionapp_display_name
   subnet_ids     = [var.create_network ? module.setup-network[0].subnet_ocid : var.subnet_ocid] 
 }
 
 resource "oci_functions_function" "fun1" {
-  depends_on     = [null_resource.FunctionAppPush2OCIR]
-  application_id = oci_functions_application.FunctionApp.id
+  depends_on     = [null_resource.functionapp_push2ocir]
+  application_id = oci_functions_application.functionapp.id
   display_name   = local.function_display_name
-  #image          = "${local.ocir_docker_repository}/${local.namespace}/${var.ocir_repo_name}/${var.FunctionNamePrefix}:0.0.1"
   image          = local.fn_image
-  memory_in_mbs  =  var.FunctionMemory
-  timeout_in_seconds = var.FunctionTimeoutSec
+  memory_in_mbs  =  var.functionmemory
+  timeout_in_seconds = var.functiontimeoutsec
   config = {
     "ociDataSafeCompartmentOCID" : var.tenancy_ocid
     "ociOSTrackerBucketName" : local.tracker_bucket_name
@@ -42,7 +41,7 @@ resource "oci_logging_log" "log_on_fn_invoke" {
   configuration {
     source {
       category    = "invoke"
-      resource    = oci_functions_application.FunctionApp.id
+      resource    = oci_functions_application.functionapp.id
       service     = "functions"
       source_type = "OCISERVICE"
     }

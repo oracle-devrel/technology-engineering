@@ -11,18 +11,18 @@
 
 #  Policies
 
-resource "oci_identity_policy" "FunctionPolicy" {
+resource "oci_identity_policy" "functionpolicy" {
   provider = oci.homeregion
-  depends_on     = [oci_identity_dynamic_group.FunctionsServiceDynamicGroup]
+  depends_on     = [oci_identity_dynamic_group.functionsservicedynamicgroup]
   name = local.policy_displayname
   description = var.PolicyDescription
   compartment_id = var.tenancy_ocid
   count = var.setup_policies ? 1 : 0
-  statements = ["Allow dynamic-group ${oci_identity_dynamic_group.FunctionsServiceDynamicGroup[0].name} to use log-content in compartment id ${var.compartment_ocid}", 
-        "Allow dynamic-group ${oci_identity_dynamic_group.FunctionsServiceDynamicGroup[0].name} to manage objects in compartment id ${var.compartment_ocid}",
-        "Allow dynamic-group ${oci_identity_dynamic_group.FunctionsServiceDynamicGroup[0].name} to read objectstorage-namespaces in compartment id ${var.compartment_ocid}", 
-        "allow dynamic-group ${oci_identity_dynamic_group.FunctionsServiceDynamicGroup[0].name} to read buckets in compartment id ${var.compartment_ocid}",
-        "Allow dynamic-group ${oci_identity_dynamic_group.FunctionsServiceDynamicGroup[0].name} to read data-safe-audit-events in tenancy"
+  statements = ["Allow dynamic-group ${oci_identity_dynamic_group.functionsservicedynamicgroup[0].name} to use log-content in compartment id ${var.compartment_ocid}", 
+        "Allow dynamic-group ${oci_identity_dynamic_group.functionsservicedynamicgroup[0].name} to manage objects in compartment id ${var.compartment_ocid}",
+        "Allow dynamic-group ${oci_identity_dynamic_group.functionsservicedynamicgroup[0].name} to read objectstorage-namespaces in compartment id ${var.compartment_ocid}", 
+        "allow dynamic-group ${oci_identity_dynamic_group.functionsservicedynamicgroup[0].name} to read buckets in compartment id ${var.compartment_ocid}",
+        "Allow dynamic-group ${oci_identity_dynamic_group.functionsservicedynamicgroup[0].name} to read data-safe-audit-events in tenancy"
         ]
 
   provisioner "local-exec" {
@@ -30,10 +30,10 @@ resource "oci_identity_policy" "FunctionPolicy" {
   }
 }
 
-resource "oci_identity_dynamic_group" "FunctionsServiceDynamicGroup" {
+resource "oci_identity_dynamic_group" "functionsservicedynamicgroup" {
   provider = oci.homeregion
   name           = local.dynamicgroup_displayname
-  description    =  var.DynamicGroupDescription
+  description    =  var.dynamicgroupdescription
   compartment_id = var.tenancy_ocid
   count = var.setup_policies ? 1 : 0
   matching_rule  = "ALL {resource.type = 'fnfunc', resource.compartment.id = '${var.compartment_ocid}'}"

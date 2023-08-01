@@ -68,12 +68,12 @@ variable "subnet_ocid" {
 variable "create_network" {
   default = true
 }
-variable "VCN-CIDR" {
+variable "vcn_cidr" {
   default = "10.0.0.0/22"
-  description = "The CIDR block of VCN"
+  description = "The cidr block of VCN"
 }
 
-variable "subnet-CIDR" {
+variable "subnet_cidr" {
   default = "10.0.1.0/24"
 }
 
@@ -118,15 +118,15 @@ variable "vcnnameservicegatewayprefix" {
 ###################################
 # Policies Variables
 ###################################
-variable "PolicyNamePrefix" {
+variable "policynameprefix" {
   default = "pcy"
 }
 
-variable "PolicyDescription" {
+variable "policydescription" {
   default = "Data Safe to Logging Function Policy"
 }
 
-variable "DynamicGroupNamePrefix" {
+variable "dynamicgroupnameprefix" {
   default = "dgp"
 }
 variable "DynamicGroupDescription" {
@@ -136,27 +136,27 @@ variable "DynamicGroupDescription" {
 ###################################
 # Functions Variables
 ###################################
-variable "FunctionAppNamePrefix" {
+variable "functionappnameprefix" {
   default = "funApp"
 }
 
-variable "FunctionNamePrefix" {
+variable "functionnameprefix" {
   default = "fun"
 }
 
-variable "FunctionMemory" {
+variable "functionmemory" {
   default = "1024"
 }
 
-variable "FunctionInvokeOCILoggingName" {
+variable "functioninvokeociloggingname" {
   default = "fn-datasafe-dbaudit"
 }
 
-variable "FunctionTimeoutSec" {
+variable "functiontimeoutsec" {
   default = "300"
 }
 
-variable "FunctionName" {
+variable "functionname" {
   default = "oci-datasafe-audit-to-logging"
 }
 
@@ -164,21 +164,21 @@ variable "FunctionName" {
 ###################################
 # Logging Variables
 ###################################
-variable "LogGroupPrefix" {
+variable "loggrouprefix" {
   default = "loggr"
 }
 
-variable "LogDataSafeAuditDBNamePrefix" {
+variable "log_datafafeauditdbnameprefix" {
   default = "log"
 }
 
 ###################################
 # Notification Variables
 ###################################
-variable "NotificationTopicNamePrefix" {
+variable "notificationtopicnameprefix" {
   default = "not"
 }
 
-variable "AlarmNamePrefix" {
+variable "alarmnameprefix" {
   default = "alm"
 }

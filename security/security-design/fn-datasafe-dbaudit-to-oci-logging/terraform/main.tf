@@ -14,8 +14,8 @@ module "setup-network" {
   source = "./modules/network"
   count  = var.create_network ? 1 : 0
   compartment_ocid = var.compartment_ocid
-  VCN-CIDR = var.VCN-CIDR
-  subnet-CIDR = var.subnet-CIDR
+  vcn_cidr = var.vcn_cidr
+  subnet_cidr = var.subnet_cidr
   vcndnslabelprefix = var.vcndnslabelprefix
   vcnnameprefix = var.vcnnameprefix
   vcnnameroutingtableprefix = var.vcnnameroutingtableprefix

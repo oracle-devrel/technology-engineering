@@ -19,7 +19,6 @@ private_key_path="<key_path>"
 ocir_user_name="<user_name>"
 ocir_user_password="<auth_token>"
 
-#OCI Region Identifier (see: https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm)
 region="<OCI Region Identifier>"
 
 # Deployment name is used in resource names (test, prod, etc..)

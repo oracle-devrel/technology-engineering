@@ -10,6 +10,6 @@
 
 
 
-resource "oci_functions_invoke_function" "FunctionInvoke" {
+resource "oci_functions_invoke_function" "functioninvoke" {
     function_id = oci_functions_function.fun1.id
 }

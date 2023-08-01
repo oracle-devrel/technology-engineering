@@ -10,7 +10,7 @@
 
 
 resource "oci_core_virtual_network" "vcn" {
-  cidr_block     = var.VCN-CIDR
+  cidr_block     = var.vcn_cidr
   dns_label      = local.vcn_dns_label
   compartment_id = var.compartment_ocid
   display_name   = local.vcn_displayname
@@ -101,7 +101,7 @@ resource "oci_core_security_list" "vcn_security_list"{
   
   ingress_security_rules { 
       stateless = false
-      source = "10.0.0.0/16"
+      source = var.vcn_cidr
       source_type = "CIDR_BLOCK"
       # Get protocol numbers from https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml ICMP is 1  
       protocol = "1"

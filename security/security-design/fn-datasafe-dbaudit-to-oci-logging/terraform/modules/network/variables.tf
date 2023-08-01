@@ -22,19 +22,19 @@ variable "compartment_ocid" {
   description = "the OCID of the compartment where the environment will be created."
 }
 
-variable "VCN-CIDR" {
-  description = "The CIDR block of VCN"
+variable "vcn_cidr" {
+  description = "The cidr block of VCN"
 }
 
-variable "subnet-CIDR" {
-  description = "The CIDR block of Subnet"
+variable "subnet_cidr" {
+  description = "The cidr block of Subnet"
 }
 
 variable "vcndnslabelprefix" {
 }
 
 variable "vcnnameprefix" {
-  description = "The prefix display name of VCN"
+  description = "The prefix display name of vcn"
 }
 
 variable "vcnnameroutingtableprefix" {

@@ -49,8 +49,8 @@ variableGroups:
         - create_network
         - show_advanced_collection
   variables:
-  - VCN-CIDR
-  - fnsubnet-CIDR
+  - vcn_cidr
+  - fnsubnet_cidr
 
 - title: Optional Collection Details
   visible:
@@ -128,7 +128,7 @@ variables:
 
   # Optional Configuration
 
-  VCN-CIDR:
+  vcn_cidr:
     type: string
     required: false
     default: "10.0.0.0/16"
@@ -136,7 +136,7 @@ variables:
     title: "VCN CIDR"
     description: "Choose VCN's CIDR block where Fn App will be deployed."
 
-  subnet-CIDR:
+  subnet_cidr:
     type: string
     required: false
     default: "10.0.2.0/24"
