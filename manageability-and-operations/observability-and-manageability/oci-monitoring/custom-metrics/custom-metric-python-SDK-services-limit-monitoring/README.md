@@ -8,7 +8,7 @@ Describes how any user can create an OCI Monitoring ***custom metric namespace**
 ## 2. SOLUTION
 We can see the overall architecture in the following logical diagram:
 
-![Logical diagram](./files/Diagrams/custom-metrics-python-SDK-services-limit_solution1.png)
+![Logical diagram](./files/Diagrams/services-limit_solution1.png)
 
 The script will take care of gathering the OCI Services Limits information and post as a custom metric namespace. The metrics where to post the data will be:
 
