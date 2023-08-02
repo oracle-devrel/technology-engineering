@@ -41,13 +41,16 @@
 # Version: 0.2
 ###
 
-import oci,datetime,json,argparse
+import oci, datetime, json, argparse
+
 from pytz import timezone
 
 # Functions definition
 
 # postMetric: posts custom monitoring metric information for compartment, metric(used,available,max_limit) and with its dimensions (service, limit name and availability domain(if AD specific))
-def postMetric(compartment_ocid, m_name, s_name,l_name, value, a_domain=None):
+def postMetric(compartment_ocid, m_name, s_name,l_name, value, monitoring_client, a_domain=None):
+    # Get the timestamp for setup the monitoring metric post information    
+    times_stamp = datetime.datetime.now(timezone('UTC'))
     if a_domain is None:
         post_metric_data_response = monitoring_client.post_metric_data(
             post_metric_data_details=oci.monitoring.models.PostMetricDataDetails(
@@ -92,7 +95,7 @@ def postMetric(compartment_ocid, m_name, s_name,l_name, value, a_domain=None):
     return post_metric_data_response
 
 # getServiceLimitsUsage: gets the existing limits for a service and limit name in a compartment and, if AD specific, for its AD
-def getServiceLimitsUsage(s_name, l_name, compartment_ocid, a_domain=None):
+def getServiceLimitsUsage(s_name, l_name, compartment_ocid, limits_client, a_domain=None):
     if a_domain is None:
         # We gather the service limit usage
         get_resource_availability_response = limits_client.get_resource_availability(service_name = s_name, limit_name = l_name, compartment_id = compartment_ocid)
@@ -188,26 +191,23 @@ for x in list_limit_definitions_response.data:
             
             a_domain = json.loads(str(AD))
 
-            limit_usage = json.loads(getServiceLimitsUsage(s_name, l_name, compartment_ocid, a_domain["name"]))
-
-            # Get the timestamp for setup the monitoring metric post information    
-            times_stamp = datetime.datetime.now(timezone('UTC'))
+            limit_usage = json.loads(getServiceLimitsUsage(s_name, l_name, compartment_ocid, limits_client, a_domain["name"]))
 
             # Posting custom metrics to oci monitoring for each of the metrics (max, used, available)
 
             # Max limit
-            postMetricMax = postMetric(compartment_ocid = compartment_ocid, m_name = "max_limit", s_name = s_name, l_name = l_name, value = int(limit_usage["max_limit"]), a_domain = a_domain["name"])
+            postMetric(compartment_ocid, "max_limit", s_name, l_name, limit_usage["max_limit"], monitoring_client, a_domain = a_domain["name"])
 
             # Used
-            postMetricUsed = postMetric(compartment_ocid = compartment_ocid, m_name = "used", s_name = s_name, l_name = l_name, value = limit_usage["used"], a_domain = a_domain["name"])
+            postMetric(compartment_ocid, "used", s_name, l_name, limit_usage["used"], monitoring_client, a_domain = a_domain["name"])
 
             # Available
-            postMetricAvail = postMetric(compartment_ocid = compartment_ocid, m_name = "available", s_name = s_name, l_name = l_name, value = limit_usage["available"], a_domain = a_domain["name"])
+            postMetric(compartment_ocid, "available", s_name, l_name, limit_usage["available"], monitoring_client, a_domain = a_domain["name"])
 
     else: 
         # We are in GLOBAL or REGION case
 
-        limit_usage = json.loads(getServiceLimitsUsage(s_name, l_name, compartment_ocid))
+        limit_usage = json.loads(getServiceLimitsUsage(s_name, l_name, compartment_ocid, limits_client))
 
         max_limit = limit_usage["max_limit"]
         used = limit_usage["used"]
@@ -215,22 +215,19 @@ for x in list_limit_definitions_response.data:
         if max_limit == "null" : 
             continue
 
-        # Get the timestamp for setup the monitoring metric post information    
-        times_stamp = datetime.datetime.now(timezone('UTC'))
-
         # Posting custom metrics to oci monitoring for each of the metrics (max, used, available)
 
         # Max limit
-        postMetricMax = postMetric(compartment_ocid = compartment_ocid, m_name = "max_limit", s_name = s_name, l_name = l_name, value = max_limit)
+        postMetric(compartment_ocid, "max_limit", s_name, l_name, max_limit, monitoring_client)
 
         if used is None : 
             continue
 
         # Used
-        postMetricUsed = postMetric(compartment_ocid = compartment_ocid, m_name = "used", s_name = s_name, l_name = l_name, value = used)
+        postMetric(compartment_ocid, "used", s_name, l_name, used, monitoring_client)
 
         # Available
-        postMetricAvail = postMetric(compartment_ocid = compartment_ocid, m_name = "used", s_name = s_name, l_name = l_name, value = limit_usage["available"])
+        postMetric(compartment_ocid, "used", s_name, l_name, limit_usage["available"], monitoring_client)
 
 # Finish:
 now = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
