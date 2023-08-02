@@ -1,6 +1,6 @@
 # Workshops
 
-In this section you'll detailed material about the workshops we propose to either customers or internally. 
+In this section, you'll find detailed material about the workshops we propose to customers or partners. 
 
  # License
 
