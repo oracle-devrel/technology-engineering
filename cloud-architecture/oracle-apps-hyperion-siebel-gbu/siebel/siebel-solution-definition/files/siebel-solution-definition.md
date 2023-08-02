@@ -16,7 +16,7 @@ doc:
     
     team:
       - name:	Firstname, Lastname  
-        email:	 xxx.yyy@oracle.com 
+        email:	 example@example.com 
         role:	 Siebel Specialist 
         company: Oracle
 ---
