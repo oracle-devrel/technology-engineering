@@ -13,7 +13,9 @@ Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a compl
 ### Architecture Center
  
 - [Data platform - data lakehouse](https://docs.oracle.com/en/solutions/data-platform-lakehouse/index.html#GUID-A328ACEF-30B8-4595-B86F-F27B512744DF)
-    - The reference architecture describes a lakehouse architecture pattern, the services that are part of it, the capabilities those services deliver, and how to deploy them. It covers best practices, a deployment topology, and also automated deployment with an Oracle Resource Manager Terraform stack.
+    - This reference architecture describes a lakehouse architecture pattern, the services that are part of it, the capabilities those services deliver, and how to deploy them. It covers best practices, a deployment topology, and also automated deployment with an Oracle Resource Manager Terraform stack.
+- [Deploy a machine learning model close to the network edge](https://docs.oracle.com/en/solutions/deploy-ml-at-edge/#GUID-8EC86246-D724-4C16-8073-8CB5B2EA6719)
+    - This reference architecture describes a deployment where data is ingested from edge locations into OCI, where it is used to build and train ML models that are deployed in the edge for low latency inferencing.
 
 ### GitHub
 
