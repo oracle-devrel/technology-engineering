@@ -6,6 +6,7 @@ In this section will bring some examples about how to create OCI Monitoring cust
 # Team Publications
 
 - [Using python SDK to create OCI Monitoring custom metric namespace: Services Limit monitoring example use case](./custom-metric-python-SDK-services-limit-monitoring/README.md)
+- [Using OCI Functions to create OCI Monitoring custom metric namespace: Services Limit monitoring example use case](./custom-metric-FN-services-limit-monitoring/README.md)
 
 # License
 
