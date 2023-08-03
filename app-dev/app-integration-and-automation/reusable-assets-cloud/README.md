@@ -11,15 +11,30 @@ This section contains various examples related to Application Integration: demo 
 
 ## Demos
 
+- [Oracle Integration Cloud - Feature - Projects](https://youtu.be/CxNDbBnWWYU) 
+    -This video will explain Oracle Integration Cloud Feature Projects, how you can use it. Enterprises often have hundreds of integrations to manage and monitor. Developers want to focus on specific integration components involved with an automated business process. With OIC Project, all related integrations and their components are in a single unified workspace. Additionally, projects provide robust life cycle management and risk-free updates to prebuilt integrations.
+
+    Demonstration includes:
+    - Creating Project & setting Role Based Access
+    - Creating Connections (FTP, Rest, Autonomous Database(ATP) using JDBC With OCI Signature security Policy)
+    - Creating Lookup
+    - Creating App Driven Integration (Bulk Load Data to ATP)
+    - Creating Schedule Integration
+    - Run, Observe & Monitor the Integrations
+    - Create Deployments and Migrate to another Instances
+    - Creating a new Version of Integration, Deployment and Migrate to another Instance
+    - Add Schedule and see Future Runs
+    - Check Design time Audit
+
 - [Oracle Integration Cloud - Feature - Publish & Subscribe Events](https://youtu.be/3gZcHnPJtuk)
 
     -This video will explain Oracle Integration Cloud Feature Events, how Events can be used to create publish and subscribe integration pattern.
     
-    Demonstration includes.
-        - Creating an Event in Oracle Integration Cloud
-        - Creating an Integration that publishes the Event
-        - Creating an integration that subscribes to the Event and add data in ServiceNow
-        - Creating an integration that subscribes to the Event and append data in a file stored in an FTP Server
+    Demonstration includes:
+    - Creating an Event in Oracle Integration Cloud
+    - Creating an Integration that publishes the Event
+    - Creating an integration that subscribes to the Event and add data in ServiceNow
+    - Creating an integration that subscribes to the Event and append data in a file stored in an FTP Server
 
 - [Oracle Integration Cloud - Feature - Parallel Action](https://youtu.be/BTtPsDyiVLo)
     -This video demonstrate how you can use parallel action in Oracle Integration.
