@@ -127,6 +127,7 @@ def handler(ctx, data: io.BytesIO = None):
 
     resp={}
     resp["Result"] = "OK"
+    logger = logging.getLogger()
 
     # We gather the input arguments from the function configuration:
     try:
@@ -134,10 +135,10 @@ def handler(ctx, data: io.BytesIO = None):
        compartment_ocid = cfg["compartment_ocid"]
        region = cfg["region"]
     except (Exception, ValueError) as ex:
-       logging.getLogger().error('ERROR: ' + str(ex))
+       logger.error(str(ex))
 
     # Start:
-    logging.getLogger().info("Starting OCI Service Metrics limits gathering and customer metrics post...")
+    logger.info("Starting OCI Service Metrics limits gathering and customer metrics post...")
 
     # Setup the signer for the resource principals auth method
     signer = oci.auth.signers.get_resource_principals_signer()
@@ -154,11 +155,11 @@ def handler(ctx, data: io.BytesIO = None):
                 break
         else:
             resp["Result"] = "NOT OK"
-            resp["ERROR"] = "Wrong or non-subscribed OCI region"
-            logging.getLogger().error('ERROR: Wrong or non-subscribed OCI region')
+            resp["ERROR"] = "Wrong or non-subscribed OCI region."
+            logger.error('Wrong or non-subscribed OCI region.')
             exit(1)
     except (Exception, ValueError) as ex:
-        logging.getLogger().error('ERROR: ' + str(ex))
+        logger.error(str(ex))
 
 
     # Check tenancy compartment OCID given
@@ -166,7 +167,7 @@ def handler(ctx, data: io.BytesIO = None):
         list_availability_domains_response = identity_client.list_availability_domains(compartment_id = compartment_ocid)
     except Exception as ex:
         resp["Result"] = "NOT OK"
-        resp["ERROR"] = "The given compartment is wrong or you aren't authorized to list the availability domains"
+        resp["ERROR"] = "The given compartment is wrong or you aren't authorized to list the availability domains."
         exit(1)
 
     service_endpoint = "https://telemetry-ingestion." + region + ".oraclecloud.com"
@@ -240,5 +241,5 @@ def handler(ctx, data: io.BytesIO = None):
 
 
     # Finish:
-    logging.getLogger().info("Finish OCI Service Metrics limits gathering and customer metrics post.")
+    logger.info("Finish OCI Service Metrics limits gathering and customer metrics post.")
     return resp
