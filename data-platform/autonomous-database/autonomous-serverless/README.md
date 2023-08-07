@@ -24,7 +24,7 @@ Oracle Cloud provides a set of data management services built on self-driving Or
 # LiveLabs
  
 - [Manage and Monitor Autonomous Database](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=553&clear=RR,180&session=115113440340155)
-    - Complete course about how to administrate an Autonomous Database.
+    - Complete the course about how to administrate an Autonomous Database.
  
 # License
  
