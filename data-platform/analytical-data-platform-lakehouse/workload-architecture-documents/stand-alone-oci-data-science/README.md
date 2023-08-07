@@ -1,6 +1,6 @@
 # Stand-alone Data Science - Solution Definition
 
-This repository contains a Machine Learning project based on the Oracle Cloud Infranstructure Data Science service, reference architecture, useful links, and a workload deployment template. The intent is to equip the Partner/Managed Service Provider/Consultant with the necessary tools and resources so that they can confidently lift and shift or migrate or deploy a green field Machine Learning project into Oracle Cloud Infrastructure (OCI). The document covers : 
+This repository contains a Machine Learning project based on the Oracle Cloud Infrastructure Data Science service, reference architecture, useful links, and a workload deployment template. The intent is to equip the Partner/Managed Service Provider/Consultant with the necessary tools and resources so that they can confidently lift and shift or migrate or deploy a green field Machine Learning project into Oracle Cloud Infrastructure (OCI). The document covers : 
 
 - data refinery with OCI Data Integration,
 - data warehousing with the Autonomous Data Warehouse,
@@ -12,7 +12,7 @@ __Note:__ This is a living document. We will make changes and enhance this as an
 
 ## When to use this asset?
 
-Any Oracle Partner/Service Provider/Consultant working on a data platform which includes an OCI Data Science project deployment to OCI should find this useful. 
+Any Oracle Partner/Service Provider/Consultant working on a data platform that includes an OCI Data Science project deployment to OCI should find this useful. 
 
 ## Instructions for utilizing this asset
 
@@ -20,4 +20,4 @@ We recommend that you use the current 'stand-alone-data-science' as a template f
 
 ## Conclusion
 
-We hope that you will find the architecture document to be a helpful guide for any data platform which includes a data science aspects with an OCI Data Science and data platform project. We encourage everyone to provide feedback so that we can further improve our assets.
+We hope that you will find the architecture document to be a helpful guide for any data platform which includes data science aspects with an OCI Data Science and data platform project. We encourage everyone to provide feedback so that we can further improve our assets.
