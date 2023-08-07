@@ -16,14 +16,21 @@ Before running the *OCI Security Health Check - Standard Edition* you should dow
   - Download the respective checksum file [oci-security-health-check-standard-230630.sha512256](https://github.com/oracle-devrel/technology-engineering/releases/download/oci-security-health-check-std-230630/oci-security-health-check-standard-230630.sha512256).
   - Verify the integrity of the distribution. Both files must be in the same directory (for example, in your downloads directory).
 
-    On MacOS or Linux:
+    On MacOS:
     ```
     $ cd <your_downloads_directory>
     $ shasum -a 512256 -c oci-security-health-check-standard-230630.sha512256
     oci-security-health-check-standard-230630.zip: OK
     ```
 
-Reject the downloaded file if the check fails.
+    On Linux (including Cloud Shell):
+    ```
+    $ cd <your_downloads_directory>
+    $ sha512sum -c oci-security-health-check-standard-230630.sha512
+    oci-security-health-check-standard-230630.zip: OK
+    ```
+
+**Reject the downloaded file if the check fails!**
 
 ### Prepare the OCI Tenancy
 
