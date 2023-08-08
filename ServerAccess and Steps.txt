@@ -1,0 +1,21 @@
+Instructions :
+
+Login into server,
+
+mkdir -p /net/frafdwzfsd5001b/export/oracc/retained_export_share/discovery/<DB_NAME_TASKID>
+cd /net/frafdwzfsd5001b/export/oracc/retained_export_share/discovery/<DB_NAME_TASKID>
+cp /net/frafdwzfsd5001b/export/oracc/retained_export_share/oracle_scripts/auto_discovery.sh .
+chmod +x auto_discovery.sh
+
+export ORACLE_SID=<ORACLE_SID>
+export ORACLE_HOME=<ORACLE_HOME>
+export LOG_DIR=<ZFS_FS>/<DB_NAME_TASKID>/log
+export PATH=$PATH:$ORACLE_HOME/bin:$ORACLE_HOME
+
+which java  make sure Java version is > 1.8
+
+cd /net/frafdwzfsd5001b/export/oracc/retained_export_share/discovery/<DB_NAME_TASKID>
+./auto_discovery.sh
+
+
+pbrun ssh -l oracle `hostname
