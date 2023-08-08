@@ -980,7 +980,7 @@ Example:
 
 Based on the customer requirements, the future state logical architecture of Essbase on OCI is depicted below.
 
-![Future Logical Architecture](images/essbase-architecture-logical.png)
+![Future Logical Architecture](images/future-functional-diagram-oci.png)
 
 The main building blocks that compose this cloud architecture:
 
@@ -1029,7 +1029,7 @@ Essbase sizing on OCI for **Test environment** (current Workload) is reflected i
 
 The diagram below depicts Physical architecture.
 
-![Future State Deployment Diagram - EBS Workload Multi-AD, DR Design Diagram](images/essbase-architecture-physical.png)
+![Future State Deployment Diagram - EBS Workload Multi-AD, DR Design Diagram](images/future-technical-diagram-oci.png)
 
 * **One instance of __Essbase 21c__** will be provisioned in a private subnet in a dedicated compartment.
 * **One instance of Autonomous Database ATP** will be provisioned with a private endpoint in a dedicated compartment.
