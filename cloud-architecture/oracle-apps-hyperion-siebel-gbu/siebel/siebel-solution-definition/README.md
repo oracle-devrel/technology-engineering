@@ -8,7 +8,7 @@ This document serves as an integral asset for individuals and organizations seek
 
 ## Instructions for Utilizing This Asset
 
-Use this document as a starting point for the solution definition of your Siebel implementation project. This asset includes example architecture diagrams for DrawIO in the file CurrentFutureLogicalarch.drawio.
+Use this document as a starting point for the solution definition of your Siebel implementation project. This asset includes example architecture diagrams for draw.io in the file CurrentFutureLogicalarch.drawio.
 
 ## Conclusion
 The Siebel Workload Solution Definition is expected to serve as a definitive guide to the project. All participants are encouraged to provide feedback, raise queries, and make contributions to enhance the overall project's success.

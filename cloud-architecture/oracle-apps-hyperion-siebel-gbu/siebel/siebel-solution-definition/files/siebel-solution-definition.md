@@ -1,24 +1,32 @@
 ---
 doc:
-    author: Firstname, Lastname 
-    version: 0.1
-    cover:
-        title:
-        - Customer Name
-        - Siebel to OCI
-        subtitle:
-        - Solution Definition
-    history:
-      - version: "0.1"
-        authors: Firstname, Lastname 
-        date: Jul 2023 
-        comments: First draft
-    
-    team:
-      - name:	Firstname, Lastname  
-        email:	 example@example.com 
-        role:	 Siebel Specialist 
-        company: Oracle
+  author: Name, Surname 
+  version: 1.2
+  cover:
+    title:
+      - ${doc.customer.name}
+      - Siebel to OCI
+    subtitle:
+      - Solution Definition
+  customer:                             
+    name: CustomerName                           
+    alias: CustomerAlias                          
+  config:
+    impl:
+      type: \<Service Provider\>            # Can be 'Oracle Lift', 'Oracle Fast Start', 'Partner' etc. Use with ${doc.config.impl.type}     
+      handover: ${doc.customer.name}    # Please specify to whom to hand over the project after implementation. eg.: The Customer, a 3rd party implementation or operations partner, etc.           
+  history:
+    - version: "0.1"
+      date: Jul 2023 
+      authors: 
+        - ${doc.author} 
+      comments:
+        - First draft
+  team:
+    - name:	Firstname, Lastname  
+      email:	 example@example.com 
+      role:	 Siebel Specialist 
+      company: Oracle
 ---
 
 <!-- Begin Solution Definition - Start editing from here -->
