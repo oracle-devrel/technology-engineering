@@ -1,7 +1,7 @@
 ---
 doc:
   author: Name, Surname 
-  version: 1.2
+  version: 0.1
   cover:
     title:
       - ${doc.customer.name}
@@ -16,21 +16,26 @@ doc:
       type: \<Service Provider\>            # Can be 'Oracle Lift', 'Oracle Fast Start', 'Partner' etc. Use with ${doc.config.impl.type}     
       handover: ${doc.customer.name}    # Please specify to whom to hand over the project after implementation. eg.: The Customer, a 3rd party implementation or operations partner, etc.           
   history:
-    - version: "0.1"
-      date: Jul 2023 
+    - version: 0.1
+      date: Aug 2023 
       authors: 
         - ${doc.author} 
       comments:
         - First draft
   team:
-    - name:	Firstname, Lastname  
+    - name:	${doc.author}  
       email:	 example@example.com 
-      role:	 Siebel Specialist 
+      role:	 Solution Specialist 
       company: Oracle
+  acronyms:
+    Dev: Development
 ---
 
-<!-- Begin Solution Definition - Start editing from here -->
-
+<!--
+    Last Change: 8 Aug 2023
+    Review Status: draft
+    Based on WAD Template Version: 1.2
+-->
 # Document Control
 <!-- GUIDANCE -->
 <!--First Chapter of the document, describes meta data for the document. Such as versioning and team members. -->
@@ -42,7 +47,7 @@ doc:
 
 | Version | Authors | Date   | Comments      |
 |---------|---------|--------|---------------|
-| 0.1     | Name    | Jul 23 | initial draft |
+| 0.1     | Name    | Aug 23 | initial draft |
 
 ## Team
 <!-- GUIDANCE -->
@@ -51,20 +56,6 @@ doc:
 | Name  | Email | Role | Company |
 |-------|-------|------|---------|
 | name  | email | role | company |
-
-## Abbreviations and Acronyms
-<!-- GUIDANCE -->
-<!--Add and amend as appropriate - ensure the Acronyms are in alphabetical order-->
-
-| Acronym | Meaning |
-| :---------- | :------ |
-| DB  |  Oracle Database  |
-| SBL |  Oracle Siebel CRM  |
-| IAM |  Identity and Access Management (IAM)  |
-| OCI |  Oracle Cloud Infrastructure  |
-| SSO |  Single Sign-On  |
-| OMC |  Oracle Management Cloud |
-
 
 ## Document Purpose
 
