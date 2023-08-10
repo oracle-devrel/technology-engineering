@@ -1,7 +1,7 @@
 {
-	"name": "hellofn",
+	"name": "os-replication",
         "version": "1.0.0",
-	"description": "example function",
+	"description": "os replication example function",
 	"main": "func.js",
 	"author": "",
 	"license": "Apache-2.0",
