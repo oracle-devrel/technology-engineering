@@ -37,21 +37,31 @@ doc:
     Based on WAD Template Version: 1.2
 -->
 # Document Control
-<!-- GUIDANCE -->
-<!--First Chapter of the document, describes meta data for the document. Such as versioning and team members. -->
+
+*Guide:*
+
+*The first chapter of the document describes the metadata for the document. Such as versioning and team members.*
 
 
 ## Version Control
- <!-- GUIDANCE -->
- <!-- A section describing the versions of this document and its changes.-->
+
+*Guide:* 
+
+*A section describing the versions of this document and its changes.*
+
+*Example:*
 
 | Version | Authors | Date   | Comments      |
 |---------|---------|--------|---------------|
 | 0.1     | Name    | Aug 23 | initial draft |
 
 ## Team
-<!-- GUIDANCE -->
-<!--A section describing the key people involved with the workload, both Oracle and Customer-->
+
+*Guide:*
+
+*A section describing the Oracle team.*
+
+*Example:*
 
 | Name  | Email | Role | Company |
 |-------|-------|------|---------|
@@ -59,8 +69,9 @@ doc:
 
 ## Document Purpose
 
-<!-- GUIDANCE -->
-<!--Describe the purpose of this document and the Oracle specific terminology, specifically around 'Workload' and 'Lift'-->
+*Guide:*
+
+*Describe the purpose of this document and the Oracle-specific terminology, specifically around 'Workload'.*
 
 This document provides a high-level solution definition for the Oracle solution and aims at describing the current state and to-be state
 
@@ -70,28 +81,32 @@ This is a living document, additional sections will be added as the engagement p
 
 \pagebreak
 # Business Context
-<!-- GUIDANCE -->
-<!--Describe the customers business and background. What is the context of the customers industry and LOB. What are the business needs and goals which this Workload is an enabler for? How does this technical solution impact and support the customers business goals? Does this solution support a specific customer strategy, or maybe certain customer values? How does this solution help our customers to either generate more revenue or save costs.-->
 
-<!-- Background of the customer-->
-<!--business details-->
-<!-- driving force to move to Cloud-->
-<!--Business needs for using current workload (business function served, related solution components)-->
-<!--Any specific expectations to move the workload to Cloud (higher performance, better availability, better integration etc)-->
-<!--How this is aligned with the overall business strategy of the Customer-->
-<!--key values of the solution to the customer-->
+*Describe the customer's business and background. What is the context of the customer's industry and LoB? What are the business needs and goals which this Workload is an enabler for? How does this technical solution impact and support the customer's business goals? Does this solution support a specific customer strategy, or maybe certain customer values? How does this solution help our customers to either generate more revenue or save costs?*
 
 CUST_NAME is a INDUSTRY_NAME company operating in COUNTRY_NAME and on the international markets, providing services to consumers, businesses and the public sector.
 
 Oracle Siebel is the strategic platform for B2B/B2C sales and marketing activities called "XYZ". Siebel implementation has performance issues with the Remote Product Configurator. Assessment has been done by ACS to perform some configuration changes.
 
-Oracle Cloud Infrastructure (OCI) was designed specifically to support workloads like Oracle Siebel. By moving CUST_NAME’s Siebel workload completely to OCI it will allow them to enjoy improved efficiency, cost savings, and performance gains compared to on-premises deployments and other Cloud vendors, along with the elasticity and agility of the Cloud.
 
-There are a number of interfaces from and to the Siebel application, but these are not in scope of this cloud migration activity and have not been included here.
+## Executive Summary
+
+*Guide:*
+
+*A section describing the Oracle differentiator and key values of the solution of our solution for the customer, allowing the customer to make decisions quickly.*
+
+
+The complete scope of the Workload is to deliver a future state architecture that migrates **WHAT** environments to OCI. 
+
+Oracle Cloud Infrastructure (OCI) was designed specifically to support workloads like Siebel. By further migrating CUST_NAME Siebel workload to more OCI services it will allow them to enjoy improved efficiency, cost savings, and performance gains compared to on-premises deployments and other Cloud vendors, along with the elasticity and agility of the Cloud.
+
+
 
 ## Workload Business Value
-<!-- GUIDANCE -->
-<!--A clear statement of specific business value as part of the full workload scope. Try to keep it SMART: Specific, Measurable, Assignable, Realistic, and Time-Related - Agree the SMART business value with the customer. Keep it business focused, and speak the language of the LOB which benefits from this Workload: "Increase Customer Retention by 3% in the next year" or "Grow Customer Base with Executive Decision-Making from our Sales and Support Data". Avoid technical success criteria such as "Migrate App X to Oracle Cloud" or "Provision 5 Compute Instances". Avoid Oracle success criteria and language "Get Workload Consuming on OCI".-->
+
+*Guide:*
+
+*A clear statement of specific business value as part of the full workload scope. Try to keep it SMART: Specific, Measurable, Assignable, Realistic, and Time-Related - Agree on the business value with the customer. Keep it business-focused, and speak the language of the LoB which benefits from this Workload: "Increase Customer Retention by 3% in the next year" or "Grow Customer Base with Executive Decision-Making from our Sales and Support Data". Avoid technical success criteria such as "Migrate App X to Oracle Cloud" or "Provision 5 Compute Instances". Avoid Oracle success criteria and language "Get Workload Consuming on OCI".*
 
 The workload addresses the following key concerns:
 
@@ -124,27 +139,13 @@ The success implementation of this project is to:
 3. Deliver the To-Be architecture with the Terraform scripts to be used for other environments.
 
 
-## Executive Summary
-
-<!-- GUIDANCE -->
-<!--A section describing the Oracle differentiator and key values of the solution of our solution for the customer, allowing the customer to make decisions quickly.-->
-
-<!--Scope-->
-<!--Differentiators-->
-<!--Reference to Lift sections - which is likely to be just part of the overall workload-->
-
-The complete scope of the Workload is to deliver a future state architecture that migrates **WHAT** environments to OCI. 
-
-Oracle Cloud Infrastructure (OCI) was designed specifically to support workloads like Siebel. By further migrating CUST_NAME Siebel workload to more OCI services it will allow them to enjoy improved efficiency, cost savings, and performance gains compared to on-premises deployments and other Cloud vendors, along with the elasticity and agility of the Cloud.
-
-
 # Workload Requirements and Architecture
-<!-- GUIDANCE -->
-<!--Describe the Workload: What applications and environments are part of this Workload, what are their names? Lift will be scoped later and is typically a subset of the Workload. For example a Workload could exists of two applications, but Lift would only include one environment of one application. This Workload chapter is about the whole Workload and Lift will be described later.-->
 
 ## Overview
-<!-- GUIDANCE -->
-<!--Describe the Workload: What applications and environments are part of this Workload, what are their names? Lift will be scoped later and is typically a subset of the Workload. For example a Workload could exists of two applications, but Lift would only include one environment of one application. This Workload chapter is about the whole Workload and Lift will be described later.-->
+
+*Guide:*
+
+*Describe the Workload: What applications and environments are part of this Workload migration or new implementation project, and what are their names? The implementation will be scoped later and can be a subset of the Solution Definition and proposed overall solution. For example, a Workload could exist of two applications, but the implementer would only include one environment of one application. The workload chapter is about the whole Workload and the implementation scope will be described late in the chapter [Solution Scope](#solution-scope).*
 
 The SIEBEL workload described in this document documents an Oracle Cloud Infrastructure (OCI) solution which replicates CUST_NAME existing on-premises Oracle Siebel implementation.
 
@@ -158,8 +159,13 @@ CUST_NAME is currently running Siebel **specify version** with database **specif
 - Disaster Recovery
 
 ## Non Functional Requirements
-<!-- GUIDANCE -->
-<!--Describe the high-level technical requirements for the whole Workload. Consider all sub-chapters but decide and choose which Non Functional Requirements are actually necessary for your engagement. You might not need to capture all requirements for all sub-chapters.-->
+
+*Guide:*
+
+*Describe the high-level technical requirements for the Workload. Consider all sub-chapters, but decide and choose which Non-Functional Requirements are necessary for your engagement. You might not need to capture all requirements for all sub-chapters.*
+
+*This chapter is for describing customer-specific requirements (needs), not to explain Oracle solutions or capabilities.*
+
 
 ### Integration and Interfaces
 <!-- GUIDANCE -->
