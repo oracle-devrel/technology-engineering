@@ -20,10 +20,10 @@ Oracle Integration (OIC) is an enterprise connectivity and automation platform f
 - [Oracle Integration Product Page](https://www.oracle.com/integration/application-integration/)
     - Official page for OIC 
 - Oracle Integration Documentation
-    - [Oracle Integration 3](https://docs.oracle.com/iaas/application-integration/index.html)
-    - [OIC 3 Guides](https://docs.oracle.com/en/cloud/paas/application-integration/books.html)
+    - [Integration 3](https://docs.oracle.com/iaas/application-integration/index.html)
+    - [OIC3 Guides](https://docs.oracle.com/en/cloud/paas/application-integration/books.html)
     - [Integration Generation 2](https://docs.oracle.com/en-us/iaas/integration/index.html)
-    - [OIC 2 Guides](https://docs.oracle.com/en/cloud/paas/integration-cloud/books.html)
+    - [OIC Gen2 Guides](https://docs.oracle.com/en/cloud/paas/integration-cloud/books.html)
 
 ## Reusable Assets Overview
 
