@@ -15,36 +15,6 @@ doc:
     impl:
       type: \<Service Provider\>            #Mandatory: Can be 'Oracle Lift', 'Oracle Fast Start', 'Partner' etc. Use with ${doc.config.impl.type}     
       handover: ${doc.customer.name}    #Mandatory: Please specify to whom to hand over the project after implementation. eg.: The Customer, a 3rd party implementation or operations partner, etc.           
-  draft: false
-  history:
-    - version: 1.0
-      date: 1st June 2023
-      authors:
-        - ${doc.author}
-      comments:
-        - Created a new Solution Definition document. To be used for iterative review and improvement.
-    - version: 1.1
-      date: 1st July 2023
-      authors: ${doc.author}
-      comments:
-        - Update Template per feedback. Added security-templated texts and annex.
-    - version: 1.2
-      date: 1st August 2023
-      authors: ${doc.author}
-      comments:
-        - Update Template per feedback. As per Confluence.
-  team:
-    - name: ${doc.author}
-      email: example@example.com
-      role: Tech Solution Specialist
-      company: Oracle
-    - name: Ada Lovelace
-      email: example@example.com
-      role: Account Cloud Engineer
-      company: Oracle
-  acronyms:
-    Dev: Development
----
 
 *Guide:*
 
@@ -54,26 +24,12 @@ doc:
 - *Chapter 4: Implementer*
 
 # Document Control
-<!--
-Role  | RACI
-------|-----
-ACE   | R/A
-Impl. | None
-PPM   | None
--->
 
 *Guide:*
 
 *The first chapter of the document describes the metadata for the document. Such as versioning and team members.*
 
 ## Version Control
-<!--
-Role  | RACI
-------|-----
-ACE   | R/A
-Impl. | None
-PPM   | None
--->
 
 *Guide:*
 
@@ -87,13 +43,6 @@ Version     | Author          | Date                    | Comment
 1.0         | Name            | June 13th, 2023     | Updates to HA design
 
 ## Team
-<!--
-Role  | RACI
-------|-----
-ACE   | R/A
-Impl. | None
-PPM   | None
--->
 
 *Guide:*
 
@@ -109,13 +58,6 @@ Name   | email@example.com     | Project Manager         | Oracle
 Name  | email@example.com     | Cloud Architect         | Oracle
 
 ## Abbreviations and Acronyms (Optional)
-<!--
-Role  | RACI
-------|-----
-ACE   | R/A
-Impl. | None
-PPM   | None
--->
 
 *Guide:*
 
@@ -124,7 +66,6 @@ PPM   | None
 - *Acronyms: an abbreviation formed from the initial letters of other words and pronounced as a word (e.g. ASCII, NASA ).*
 
 *Example:*
-
 
 Acronyms:    
 AD: Availability Domain  
@@ -136,13 +77,6 @@ NSG: Network Security Group
 VCN: Virtual Cloud Network
 
 ## Document Purpose
-<!--
-Role  | RACI
-------|-----
-ACE   | R/A
-Impl. | None
-PPM   | None
--->
 
 *Guide:*
 
@@ -152,33 +86,19 @@ PPM   | None
 
 This document provides a high-level solution definition for the Oracle solution and aims at describing the current state, and to-be state as well as a potential project scope and timeline. The intended purpose is to provide all parties involved with a clear and well-defined insight into the scope of work and intention of the project.
 
-The document may refer to a 'Workload', which summarizes the full technical solution for a customer (You) during a single engagement. The Workload is described in the chapter [Workload Requirements and Architecture](#workload-requirements-and-architecture).
+The document may refer to a 'Workload', which summarizes the full technical solution for a customer (You) during a single engagement. The Workload is described in the chapter Workload Requirements and Architecture.
 
 <!--                            -->
 <!-- End of 1) Document Control -->
 <!--                            -->
 
 # Business Context
-<!--
-Role  | RACI
-------|-----
-ACE   | R/A
-Impl. | None
-PPM   | None
--->
 
 *Guide:*
 
 *Describe the customer's business and background. What is the context of the customer's industry and line of business? What are the business needs and goals which this Workload is an enabler for? How does this technical solution impact and support the customer's business goals? Does this solution support a specific customer strategy, or maybe certain customer values? How does this solution help our customers to either generate more revenue or save costs?*
 
 ## Executive Summary
-<!--
-Role  | RACI
-------|-----
-ACE   | R/A
-Impl. | None
-PPM   | None
--->
 
 *Guide:*
 
@@ -186,30 +106,23 @@ PPM   | None
 
 Example:
 
-The scope of this project is to deliver a working **Test environment including one deployment of the Essbase 21c marketplace** in OCI.
+The scope of this project is to deliver a working **Test environment including one deployment of Essbase 21c marketplace** in OCI.
 
 Customer's on-premises Essbase deployments can be migrated to run on Oracle Cloud Infrastructure without requiring significant configuration, integration, or process changes. The resulting implementation will be more flexible and more reliable than on-premises or other cloud deployments. Oracle has a validated solution to accomplish these goals, quickly and reliably. This solution includes procedures, supporting Oracle Cloud Infrastructure platform services, and reference architectures. These consider real production needs, like security, network configuration, disaster recovery (DR), identity integration, and cost management.
 
 By moving Essbase systems to Oracle Cloud Infrastructure the following benefits could be realized:
 
 1. The lower total cost of ownership (TCO) than on-premises deployments
-2. Managing and reducing CAPEX, ensuring that the data centers you maintain are efficient while eliminating server hardware, and taking advantage of cloud flexibility where possible
+2. Managing and reducing CAPEX, and ensuring that the data centers you maintain are efficient while eliminating server hardware, and taking advantage of cloud flexibility where possible
 3. Rapid in-place technology refresh
 4. Proactive monitoring of usage and costs
 5. Scaling up or down to handle business growth or workload bursts
 
 ## Workload Business Value
-<!--
-Role  | RACI
-------|-----
-ACE   | R/A
-Impl. | None
-PPM   | None
--->
 
 *Guide:*
 
-*A clear statement of specific business value as part of the full workload scope. Try to keep it SMART: Specific, Measurable, Assignable, Realistic, and Time-Related - Agree on the business value with the customer. Keep it business-focused, and speak the language of the LoB which benefits from this Workload: "Increase Customer Retention by 3% in the next year" or "Grow Customer Base with Executive Decision-Making from our Sales and Support Data". Avoid technical success criteria such as "Migrate App X to Oracle Cloud" or "Provision 5 Compute Instances". Avoid Oracle success criteria and language "Get Workload Consuming on OCI".*
+*A clear statement of specific business value as part of the full workload scope. Try to keep it SMART: Specific, Measurable, Assignable, Realistic, and Time-Related - Agree on the business value with the customer. Keep it business-focused, and speak the language of the LoB which benefits from this Workload: "Increase Customer Retention by 3% in the next year" or "Grow Customer Base with Executive Decision-Making from our Sales and Support Data". Avoid technical success criteria such as "Migrate App X to Oracle Cloud" or "Provision 5 Compute Instances".*
 
 Example:
 
@@ -222,21 +135,14 @@ The customer has been using Essbase for more than X years and is one of the key 
 # Workload Requirements and Architecture
 
 ## Overview
-<!--
-Role  | RACI
-------|-----
-ACE   | R/A
-Impl. | None
-PPM   | None
--->
 
 *Guide:*
 
-*Describe the Workload: What applications and environments are part of this Workload migration or new implementation project, and what are their names? The implementation will be scoped later and can be a subset of the Solution Definition and proposed overall solution. For example, a Workload could exist of two applications, but the implementer would only include one environment of one application. The workload chapter is about the whole Workload and the implementation scope will be described late in the chapter [Solution Scope](#solution-scope).*
+*Describe the Workload: What applications and environments are part of this Workload migration or new implementation project, and what are their names? The implementation will be scoped later and can be a subset of the Solution Definition and proposed overall solution. For example, a Workload could exist of two applications, but the implementer would only include one environment of one application. The workload chapter is about the whole Workload and the implementation scope will be described late in the chapter Solution Scope.*
 
 Example:
 
-The current project includes provisioning of the Oracle Cloud Infrastructure and deploying Essbase 21c via Marketplace.
+The current project includes provisioning of the Oracle Cloud Infrastructure infrastructure and deploying Essbase 21c via Marketplace.
 This project also involves the migration of two Essbase applications from version 11.1.2.4 currently hosted on-premises and used by the customer.
 
 The customer has 2 Essbase environments currently:
@@ -247,13 +153,6 @@ The customer has 2 Essbase environments currently:
 | DEV    | 1 single server deployed on Windows 2012 R2 STD with MS SQL Server   |
 
 ## Functional Requirements (Optional)
-<!--
-Role  | RACI
-------|-----
-ACE   | R/A
-Impl. | None
-PPM   | None
--->
 
 *Guide:*
 
@@ -272,13 +171,6 @@ However, as part of the workload migration project, no functional changes are im
 
 
 ### Use Cases (Optional)
-<!--
-Role  | RACI
-------|-----
-ACE   | R/A
-Impl. | None
-PPM   | None
--->
 
 *Guide:*
 
@@ -301,13 +193,6 @@ Alternative Flow 2              | If he/she notices that something is still dirt
 Alternative Flow 3              | If he/she notices that something shrank, he/she throws it out.
 
 ### Functional Capabilities (Optional)
-<!--
-Role  | RACI
-------|-----
-ACE   | R/A
-Impl. | None
-PPM   | None
--->
 
 *Guide:*
 
@@ -319,13 +204,6 @@ In addition, Essbase is built on the middle-tier application server (Weblogic) a
 Further information can be found [here](https://docs.oracle.com/en/database/other-databases/essbase/21/essst/what-is-oracle-essbase.html)
 
 ### Requirement Matrix (Optional)
-<!--
-Role  | RACI
-------|-----
-ACE   | R/A
-Impl. | None
-PPM   | None
--->
 
 *Guide:*
 
@@ -340,17 +218,8 @@ of the client.*
 | Authentication                                                                       | EPM Shared Services security 11.1.2.4     | Identity Cloud Service (IDCS) proposed for the workload                                                                                                                |
 | Database                                                                             |Oracle Database 19c                 | Oracle Autonomous Database (ATP) 19c proposed for the workload                                                                                                         |
 | Operating System                                                                     | Microsoft Windows 2012 R2 Standard 64-bit | Oracle Linux 7.9 64-bit                                                                                                                                                |
-| Browser                                                                              | **TBC BY THE CUSTOMER**                   | Firefox (79.0 64bit) or Chrome (Version 88.0.4324.150) or Edge Driver Version 88.0.705.63 (Official build) (64-bit) or Mac Safari Version 14.0 (15610.1.28.1.9, 15610) |
-| Oracle Smart View                                                                    | **TBC BY THE CUSTOMER**                   | Latest Essbase 21c (21.3) is certified with **Oracle Smart View 21.1.0.0.0**
 
 ## Non-Functional Requirements
-<!--
-Role  | RACI
-------|-----
-ACE   | R/A
-Impl. | None
-PPM   | None
--->
 
 *Guide:*
 
@@ -381,7 +250,7 @@ In addition to these requirements, the [CIS Oracle Cloud Infrastructure Foundati
 
 *A diagram or list detailing all the required environments (e.g. development, text, live, production, etc).*
 
-*If you like to describe a current state, you can use or add the chapter 'Current State Architecture' before the 'Future State Architecture'.*
+*If you like to describe a current state, you can use or add the chapter 'Current Sate Architecture' before the 'Future State Architecture'.*
 
 Example:
 
@@ -431,7 +300,7 @@ Essbase Application	| Max Interruption	| minutes 	| 20
 
 *Guide:*
 
-*A subsubsection, if cleaner separation of Resilience and Recovery into HA, DR, and Backup & Restore is needed.*
+*A subsection, if cleaner separation of Resilience and Recovery into HA, DR, and Backup & Restore is needed.*
 
 *Example:*
 
@@ -463,7 +332,7 @@ Essbase backup and restore planning is required at both the application and inst
 
 Backups of individual applications protect you from application failures or application artifact corruption, and can easily be migrated between servers. When you restore a single application, there is no disruption to user activity with other applications in your instance. Essbase application backups are taken using LCM export and import commands.
 
-Use Essbase instance backups to restore all applications on your instance to a common point in time. Instance backups are primarily for disaster recovery but are also appropriate when you want to migrate or restore all applications at once. Backups of Essbase on OCI depend on some details of the Essbase stack. A complete backup must protect all information that makes your Essbase deployment unique. Items you may be instructed to back up include:
+Use Essbase instance backups to restore all applications on your instance to a common point in time. Instance backups are primarily for disaster recovery, but are also appropriate when you want to migrate or restore all applications at once. Backups of Essbase on OCI depend on some details of the Essbase stack. A complete backup must protect all information that makes your Essbase deployment unique. Items you may be instructed to back up include:
 
 * Relational database schemas which store some application, user and configuration information.
 * Essbase application and database information stored on a block volume mounted as /u01/data.
@@ -587,13 +456,6 @@ The following table indicates the current sizing available on-premises and also 
 | Essbase Server | Memory             | usage                  | %    | 24      | Feedback from customer for evaluated period for a total of 128GB RAM                                                                  |
 
 ## Constraints and Risks (Optional)
-<!--
-Role  | RACI
-------|-----
-ACE   | R/A
-Impl. | None
-PPM   | None
--->
 
 *Guide:*
 
@@ -612,26 +474,12 @@ Team Availability   | A certain person is only available on Friday CET time zone
 Access Restriction  | We are not allowed to access a certain tenancy without customer presence  | Constraint  |                      | Invite customer key person to implementation sessions
 
 ## Current State Architecture (Optional)
-<!--
-Role  | RACI
-------|-----
-ACE   | R/A
-Impl. | None
-PPM   | None
--->
 
 *Guide:*
 
 *Provide a high-level logical description of the Workload's current state. Stay in the Workload scope, and show potential integrations, but do not try to create a full customer landscape. Use architecture diagrams to visualize the current state. I recommend not putting lists of technical resources or dependencies here. Refer to the attachments instead.*
 
 ## Future State Architecture
-<!--
-Role  | RACI
-------|-----
-ACE   | R/A
-Impl. | None
-PPM   | None
--->
 
 *Guide:*
 
@@ -656,7 +504,7 @@ This section describes the future state logical and physical deployment architec
 The safety of the ${doc.customer.name}'s Oracle Cloud Infrastructure (OCI) environment and data is the ${doc.customer.name}’s priority.
 To following table of OCI Security Best Practices lists the recommended topics to provide a secure foundation for every OCI implementation. It applies to new and existing tenancies and should be implemented before the Workload defined in this document will be implemented.
 Workload-related security requirements and settings like tenancy structure, groups, and permissions are defined in the respective chapters.
-Any deviations from these recommendations needed for the scope of this document will be documented in the chapters below. They must be approved by ${doc.customer.name}.
+Any deviations from these recommendations needed for the scope of this document will be documented in chapters below. They must be approved by ${doc.customer.name}.
 
 ${doc.customer.name} is responsible for implementing, managing, and maintaining all listed topics.
 
@@ -699,17 +547,15 @@ Category  |Topic   |Details
 
 *Guide:*
 
-*This chapter describes landing zone best practices and usually does not require any changes. If changes are required please refer to [landing zone confluence](https://confluence.oraclecorp.com/confluence/x/GZ-VHQE). The full landing zone needs to be described in the Solution Design by the service provider.*
+*This chapter describes landing zone best practices and usually does not require any changes. The full landing zone needs to be described in the Solution Design by the service provider.*
 
 *Use this template ONLY for new cloud deployments and remove it for brownfield deployments.*
 
 The design considerations for an OCI Cloud Landing Zone have to do with OCI and industry architecture best practices, along with ${doc.customer.name} specific architecture requirements that reflect the Cloud Strategy (hybrid, multi-cloud, etc). An OCI Cloud Landing zone involves a variety of fundamental aspects that have a broad level of sophistication. A good summary of a Cloud Landing Zone has been published in the [OCI User Guide](https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/landing-zone.htm).
 
 # Naming Convention
-<!-- GUIDANCE -->
-<!--
-If the customer provides a resource naming convention use it. They should have it already for their on-premises compute resources.
--->
+*Guide*
+*If the customer provides a resource naming convention use it. They should have it already for their on-premises compute resources.*
 
 A naming convention is an important part of any deployment to ensure consistency as well as security within your tenancy. Hence, we jointly agree on a naming convention, matching Oracle's best practices and ${doc.customer.name} requirements.
 
@@ -905,11 +751,6 @@ For IDCS or OCI Identity Domain Auditing events, the respective Auditing API can
 All data will be encrypted at rest and in transit. Encryption keys can be managed by Oracle or the customer and will be implemented for identified resources.
 
 ### Key Management
-<!--
-Make sure that the correct type of vault is used:
-shared - cheap to moderate pricing
-private - expensive pricing
--->
 
 All keys for **OCI Block Volume**, **OCI Container Engine for Kubernetes**, **OCI Database**, **OCI File Storage**, **OCI Object Storage**, and **OCI Streaming** are centrally managed in a shared or a private virtual vault will be implemented and placed in the compartment cmp-security.
 
@@ -946,13 +787,6 @@ ${doc.customer.name} is responsible for setting the access rules to services and
 
 
 ### Functional Architecture (Optional)
-<!--
-Role  | RACI
-------|-----
-ACE   | R/A
-Impl. | None
-PPM   | None
--->
 
 *Guide:*
 
@@ -960,13 +794,6 @@ PPM   | None
 
 ### Logical Architecture (Optional)
 
-<!--
-Role  | RACI
-------|-----
-ACE   | R/A
-Impl. | None
-PPM   | None
--->
 
 *Guide:*
 
@@ -980,7 +807,7 @@ Example:
 
 Based on the customer requirements, the future state logical architecture of Essbase on OCI is depicted below.
 
-![Future Logical Architecture](images/future-functional-diagram-oci.png)
+![Future Logical Architecture](images/essbase-architecture-logical.png)
 
 The main building blocks that compose this cloud architecture:
 
@@ -990,13 +817,6 @@ The main building blocks that compose this cloud architecture:
 
 
 ### Physical Architecture
-<!--
-Role  | RACI
-------|-----
-ACE   | R/A
-Impl. | None
-PPM   | None
--->
 
 *Guide:*
 
@@ -1029,34 +849,19 @@ Essbase sizing on OCI for **Test environment** (current Workload) is reflected i
 
 The diagram below depicts Physical architecture.
 
-![Future State Deployment Diagram - EBS Workload Multi-AD, DR Design Diagram](images/future-technical-diagram-oci.png)
+![Future State Deployment Diagram - EBS Workload Multi-AD, DR Design Diagram](images/essbase-architecture-physical.png)
 
 * **One instance of __Essbase 21c__** will be provisioned in a private subnet in a dedicated compartment.
 * **One instance of Autonomous Database ATP** will be provisioned with a private endpoint in a dedicated compartment.
 * The other OCI services are already ready to use when the tenancy was created: Oracle Cloud Infrastructure Object Storage, Oracle Cloud Infrastructure Logging, Oracle Cloud Infrastructure Monitoring, Oracle Identity Cloud Service and Identity and Access Management.
 
 ### Data Architecture (Optional)
-<!--
-
-Role  | RACI
-------|-----
-ACE   | R/A
-Impl. | None
-PPM   | None
--->
 
 *Guide:*
 
 *Show how data is acquired, transported, stored, queried, and secured as in the scope of this Workload. This could include Data Ecosystem Reference Architectures, Master Data Management models, or any other data-centric model.*
 
 ## Solution Considerations
-<!--
-Role  | RACI
-------|-----
-ACE   | R/A
-Impl. | None
-PPM   | None
--->
 
 *Guide:*
 
@@ -1083,13 +888,6 @@ Please see our security guidelines in the [Annex](#security-guidelines).
 [Overview of Networking in OCI](https://docs.public.oneportal.content.oci.oraclecloud.com/en-us/iaas/Content/Network/Concepts/landing.htm)
 
 ### Operations (Optional)
-<!--
-Role  | RACI
-------|-----
-ACE   | R/A
-Impl. | None
-PPM   | None
--->
 
 *Guide:*
 
@@ -1097,7 +895,7 @@ PPM   | None
 
 *Example:*
 
-This chapter provides an introduction and collection of useful resources, relevant to operating the solution on Oracle Infrastructure Cloud.
+This chapter provides an introduction and collection of useful resources, to relevant topics to operate the solution on Oracle Infrastructure Cloud.
 
 Cloud Operations Topic                       | Short Summary      | References
 :---                                         |:------             |:---
@@ -1111,13 +909,6 @@ OCI SLAs                                     | Mission-critical workloads requir
 
 
 ## Roadmap (Optional)
-<!--
-Role  | RACI
-------|-----
-ACE   | R/A
-Impl. | None
-PPM   | None
--->
 
 *Guide:*
 
@@ -1145,13 +936,6 @@ PPM   | None
 
 
 # Glossary (Optional)
-<!--
-Role  | RACI
-------|-----
-ACE   | R/A
-Impl. | C
-PPM   | None
--->
 
 *Guide:*
 
@@ -1167,7 +951,7 @@ You can learn about Oracle Cloud Infrastructure terms and concepts in this [glos
 
 *Example:*
 
-A second verification factor is required each time a user signs in. Users can't sign in using just their username and password.
+A second verification factor is required each time that a user signs in. Users can't sign in using just their username and password.
 
 For more information please visit our documentation for [Administering Oracle Identity Cloud](https://docs.oracle.com/en/cloud/paas/identity-cloud/uaids/enable-multi-factor-authentication-security-oracle-cloud.html).
 
@@ -1192,7 +976,7 @@ Oracle Cloud Infrastructure (OCI) is designed to protect customer workloads with
 
 ## Compliance and Regulations
 
-Cloud computing is fundamentally different from traditionally on-premises computing. In the traditional model, organizations are typically in full control of their technology infrastructure located on-premises (e.g., physical control of the hardware, and full control over the technology stack in production). In the cloud, organizations leverage resources and practices that are under the control of the cloud service provider, while still retaining some control and responsibility over other components of their IT solution. As a result, managing security and privacy in the cloud is often a shared responsibility between the cloud customer and the cloud service provider. The distribution of responsibilities between the cloud service provider and the customer also varies based on the nature of the cloud service (IaaS, PaaS, SaaS).
+Cloud computing is fundamentally different from traditionally on-premises computing. In the traditional model, organizations are typically in full control of their technology infrastructure located on-premises (e.g., physical control of the hardware, and full control over the technology stack in production). In the cloud, organizations leverage resources and practices that are under the control of the cloud service provider, while still retaining some control and responsibility over other components of their IT solution. As a result, managing security and privacy in the cloud is often a shared responsibility between the cloud customer and the cloud service provider. The distribution of responsibilities between the cloud service provider and customer also varies based on the nature of the cloud service (IaaS, PaaS, SaaS).
 
 # Additional Resources
 - [Oracle Cloud Compliance](https://www.oracle.com/corporate/cloud-compliance/) – Oracle is committed to helping customers operate globally in a fast-changing business environment and address the challenges of an ever more complex regulatory environment. This site is a primary reference for customers on Shared Management Model with Attestations and Advisories.
