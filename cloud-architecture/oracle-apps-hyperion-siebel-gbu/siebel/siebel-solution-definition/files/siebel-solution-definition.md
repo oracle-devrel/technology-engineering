@@ -101,7 +101,6 @@ The complete scope of the Workload is to deliver a future state architecture tha
 Oracle Cloud Infrastructure (OCI) was designed specifically to support workloads like Siebel. By further migrating CUST_NAME Siebel workload to more OCI services it will allow them to enjoy improved efficiency, cost savings, and performance gains compared to on-premises deployments and other Cloud vendors, along with the elasticity and agility of the Cloud.
 
 
-
 ## Workload Business Value
 
 *Guide:*
@@ -358,7 +357,7 @@ _Siebel Application Tier_
 ### High Availability and Disaster Recovery 
 
 *Reference:*
-???
+[Learn about deploying Siebel CRM on Oracle Cloud Infrastructure](https://docs.oracle.com/en/solutions/learn-architecture-deploy-siebel/index.html#GUID-B1AF5BE2-7BB9-402A-A57C-5E9AE752244D)
 
 ### Security
 <!-- [Security Snippets](https://orahub.oci.oraclecorp.com/emea-workloadarchitecture/wad-snippets/-/tree/main/snippets/security/security-design/sec) -->
