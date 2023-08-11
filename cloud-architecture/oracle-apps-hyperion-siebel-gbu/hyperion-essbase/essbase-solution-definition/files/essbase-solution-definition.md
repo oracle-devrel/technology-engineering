@@ -1,20 +1,6 @@
----
-doc:
-  author: Name Surname                     #Mandatory
-  version: 1.2                          #Mandatory
-  cover:                                #Mandatory
-    title:                              #Mandatory
-      - ${doc.customer.name}            #Mandatory
-      - Database Migration to OCI       #Mandatory
-    subtitle:                           #Mandatory
-      - Solution Definition             #Mandatory
-  customer:                             #Mandatory
-    name: \<Customer Name\>                           #Mandatory
-    alias: \<Customer Alias\>                          #Mandatory
-  config:
-    impl:
-      type: \<Service Provider\>            #Mandatory: Can be 'Oracle Lift', 'Oracle Fast Start', 'Partner' etc. Use with ${doc.config.impl.type}     
-      handover: ${doc.customer.name}    #Mandatory: Please specify to whom to hand over the project after implementation. eg.: The Customer, a 3rd party implementation or operations partner, etc.           
+<!---   
+      Replace ${doc.customer.name} in the document. Please specify to whom to hand over the project after implementation. eg.: The Customer, a 3rd party implementation or operations partner, etc.           
+--->
 
 *Guide:*
 
