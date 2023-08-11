@@ -167,31 +167,30 @@ CUST_NAME is currently running Siebel **specify version** with database **specif
 *This chapter is for describing customer-specific requirements (needs), not to explain Oracle solutions or capabilities.*
 
 
-### Integration and Interfaces
-<!-- GUIDANCE -->
-<!--
-A list of all the interfaces into and out of the defined Workload. The list should detail the type of integration, the type connectivity required (e.g. VPN, VPC etc) the volumes and the frequency
-- list of integrations
-- list of user interfaces
--->
-
-<!-- EXMAPLE / TEMPLATE / CAN BE ONLY A LIST -->
-Name	                      | Source    		| Target	  	| Protocol	| Function
----		                      |---		      	|---		    	|---		   	|---
-Billing Revenue Management           | Siebel        | Oracle BRM  | AIA       | Online
-
 ### Regulations and Compliances
-<!-- GUIDANCE -->
-<!--This section captures and specific regulatory of compliance requirements for the Workload. These may limit the types of technologies that can be used and may drive some architectural decisions. If there are none, then please state None-->
 
-No specific Regulation or Compliance requirements have been stipulated by CUST_NAME.
-Data has been classified by CUST_NAME as Business Confidential / Highly Confidential etc.
+*Guide:*
+
+*This section captures specific regulatory or compliance requirements for the Workload. These may limit the types of technologies that can be used and may drive some architectural decisions.*
+
+*The Oracle Cloud Infrastructure Compliance Documents service lets you view and download compliance documents:
+https://docs.oracle.com/en-us/iaas/Content/ComplianceDocuments/Concepts/compliancedocsoverview.htm*
+
+*If there are none, then please state it. Leave the second sentance as a default in the document.*
+
+*Example:*
+
+At the time of this document creation, no Regulatory and Compliance requirements have been specified.
+
+In addition to these requirements, the [CIS Oracle Cloud Infrastructure Foundation Benchmark, v1.2](https://www.cisecurity.org/benchmark/Oracle_Cloud) will be applied to the Customer tenancy.
 
 ### Environments
-<!-- GUIDANCE -->
-<!--A diagram or list detailing all the required environments (e.g. development, text, live, production etc).
-- list each environment included in the scope
-- map each environment to bronze/silver/gold MAA-->
+
+*Guide:*
+
+*A diagram or list detailing all the required environments (e.g. development, text, live, production, etc).*
+
+*If you like to describe a current state, you can use or add the chapter 'Current Sate Architecture' before the 'Future State Architecture'.*
 
 CUST_NAME Siebel **version** environments:
 
@@ -200,102 +199,46 @@ Name | Size of Prod | Location | MAA | Scope
 Dev & Test | 25% | Dubai | None | OCI Workload Migration
 DR | 50% | Amsterdam | None | OCI Workload  |   |   |   |
 
-Details concerning Maximum Availability Architectures for Oracle Cloud can be found <[here](https://www.oracle.com/database/maximum-availability-architecture/)>
+### High Availability and Disaster Recovery Requirements
 
-<!-- ADB Specifics
-The default level for Autonomous Database - Shared Infrastructure is currently Silver.
+*Guide:*
 
-The 'out of the box' features are:
-- Backup from primary and standby to object storage via Autonomous Backups
-- Automatically done by the service (full every 60 days, daily incremental, weekly cumulative, hourly archivelog)
-- Service-managed bucket, no direct customer access
-- 3-ways mirrored backup
-- No charge for automatic backups
-- Exadata's (the underlying platform for ADW) inherent HA, Quality of Service and performance benefits -->
+*This section captures the resilience and recovery requirements for the Workload. Note that these may be different from the current system.*
 
-### Resilience and Recovery
-<!-- GUIDANCE -->
-<!--This section captures the resilience and recovery requirements for the Workload. Note that these may be different from the current system.
+*The Recovery Point Objective (RPO) and Recovery Time Objective (RTO) requirement of each environment should be captured in the environments section above, and wherever possible.*
 
-The RPO and RTO requirement of each environment should be captured in the environments section above, and wherever possible, these should be mapped to the standard Bronze, Silver and Gold levels of Oracle's MAA.
+- *What are the RTO and RPO requirements of the Application?*
+- *What are the SLAs of the application?*
+- *What are the backup requirements*
 
-- What are RTO and RPO requirements of the Application?
-- What are SLA's of the application?
-- What are the backup requirements
+*Note that if needed, this section may also include an overview of the proposed backup and disaster recovery proposed architectures.*
 
-Note that if needed, this section may also include an overview of the proposed backup and disaster recovery proposed architectures.
+*This chapter is mandatory, while there could be no requirements on HA/DR, please mention that in a short single sentence.*
 
-Recommended Chapter
--->
+*Example:*
 
-This is written on a case-by-case basis.
+At the time of this document creation, no Resilience or Recovery requirements have been specified.
 
-- Add details of HA requirements, if any.
+### Security Requirements
 
-- Add details of DR requirements, if any.
+*Guide:*
 
-- Add details of Backup/Restore requirements, if any.
+*Capture the Non-Functional Requirements for security-related topics. Security is a mandatory subsection that is to be reviewed by the x-workload security team. The requirements can be separated into:*
+- *Identity and Access Management*
+- *Data Security*
 
+*Other security topics, such as network security, application security, key management or others can be added if needed.*
 
-The Production environment has:
-
-Recovery Point Objective : 10 minutes
-Recovery Time Objective : 4 hours
-
-In order to achieve these requirements the Production environment 
-- will be backed-up using standard OCI Gold backups
-- Databases will be synchronised to a DR database using Oracle Data Guard
-- Key Compute files will be synchronised to a DR equivalent using RSYNC
-- OCI's Load Balancer as a Service (LBaaS) will be deployed to ensure users are easily migrated from Production to DR in the event on an invocation.
-
-The Non-Production environments have:
-
-Recovery Point Objective : Previous evenings backup
-Recovery Time Objective : 1 days
-
-In order to achieve these requirements the Non-Production environments will be backed up using standard OCI Gold backups
-
-### Security
-<!-- GUIDANCE -->
-<!--Capture the non functional requirements for security related topics. The requirements can be separated into:
-- Identity and Access Management
-- Data Security
-
-Other security topics, such as network security, application security or other can be added if needed.
-The requirements for identity and access control. This section describes any requirements for authentication, identity management, single-sign-on and necessary integrations to retained customer systems (e.g. corporate directories)-->
+*Example:*
 
 - Is there any Single Sign On or Active Directory Integration Requirement?
 - Is the OS hardened if so please share the hardening guide line?
 - What is the data classification?
 
 
-## Constraints and Risks
-<!-- GUIDANCE -->
-<!--
-Constraints are limitations which will impact the resulting project or Solution Architecture. It is a technology- or project-related condition or event that prevents the project from fully delivering the ideal solution to customers and end-users. Constraints can be identified on our customer, partner or even Oracle's side.
-
-A project risk is an uncertain event that may or may not occur during a project.
-
-Describe constraints and risks affecting the Workload and possible Logical Solution Architecture. These can be of technical nature, but might also be non-technical. Consider: budgets, timing, preferred technologies, skills in the customer organization, location, etc.
-
-Recommended Chapter
-
-Role  | RACI
-------|-----
-WLA   | R/A
-Impl. | None
-PPM   | None
--->
-Name                | Description                                    | Type           | Impact                         | Mitigation Approach
-:---                |:---                                            |:---            |:---                              |:---
-OCI skills          | Limited OCI skills in customers organization   | Risk     | No Operating Model                | Involve Ops partner, for example Oracle ACS
-Team Availability  | A certain person is only available on Friday CET time zone  | Constraint  | | Arrange meetings to fit that persons availability
-Access Restriction  | We are not allowed to access a certain tenancy without customer presence  | Constraint   | | Invite customer key person to implementation sessions
-
-
 ## Current State Architecture
-<!-- GUIDANCE -->
-<!--Provide a high-level logical description of the Workload current state. Stay in the Workload scope, show potential integrations, but do not try to create a full customer landscape. Use architecture diagrams to visualize the current state. We recommend not putting lists of technical resources or dependencies here. Refer to attachments instead.-->
+*Guide:*
+*Provide a high-level logical description of the Workload current state. Stay in the Workload scope, show potential integrations, but do not try to create a full customer landscape. Use architecture diagrams to visualize the current state. We recommend not putting lists of technical resources or dependencies here. Refer to attachments instead.*
 
 - Logical representation of the current Siebel estate architecture in the scope of business needs and current IT estate. Usually showing business flows and capabilities with high-level data flows and user interactions
 
@@ -319,7 +262,7 @@ OR
 
 The following information has been provided from answers to the Discovery Questionnaire:
 
-<!--SAMPLE-->
+*Example:*
 
 _Database Tier_
 
