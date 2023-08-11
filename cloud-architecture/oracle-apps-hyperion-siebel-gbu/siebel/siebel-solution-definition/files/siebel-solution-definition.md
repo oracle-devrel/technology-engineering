@@ -287,37 +287,39 @@ _Siebel Application Tier_
 
 ## Future State Architecture
 
+*Guide:*
 
-### Logical Architecture
-<!-- GUIDANCE -->
-<!--Use [System Context Diagram](https://online.visual-paradigm.com/knowledge/system-context-diagram/what-is-system-context-diagram/) to show integration for the Workload solution.
+*The Workload Future State Architecture can be described in various forms. In the easiest case, we describe a Logical Architecture, possibly with a System Context Diagram. A high-level physical architecture is mandatory as a description of your solution.*
 
-Provide a high-level logical Oracle solution for the complete Workload. Indicate Oracle products as abstract groups, and not as a physical detailed instances. Create an architecture diagram following the latest notation and describe the solution.-->
+*This should be the final architecture as part of the pre-sales solution, not an intermediate or draft version*
 
-Provide a Logical representation of the future state architecture. Including high-level products or capabilities and data flows. While this will show which components exist in which locations, it will not show connectivity.
-
-Document the discrete user communities that will be using the defined scope. These communities should be clearly reflected on the logical overview diagram. The number of users of each community should be included, together with any relevant concurrency information i.e. # of internal and # of external users.
-
-Logical architecture in OCI will be depicted here:
+*Additional architectures, in the subsections, can be used to describe needs for specific workloads.*
 
 ![Future Logical Diagram in OCI Example](./images/Logicaltobediagram.png)
 
+### Mandatory Security Best Practices
+
+*Guide:*
+
+*Use this text for every engagament. Do not change. Aligned with the Cloud Adoption Framework*
+
+### OCI Secure Landing Zone Architecture
+
+*Guide:*
+
+*This chapter describes landing zone best practices and usually does not require any changes. If changes are required please refer to [landing zone confluence](https://confluence.oraclecorp.com/confluence/x/GZ-VHQE). The full landing zone needs to be described in the Solution Design by the service provider.*
+
+*Use this section ONLY for new cloud deployments and remove for brown field deployments.*
+
 ### Physical Architecture
-<!--GUIDANCE-->
-<!--The Workload Architecture is typically not described in a physical form. If we deliver a Lift project, the scoped Lift Project in chapter 4 includes the physical architecture.
 
-Nevertheless, an architect might want to describe the full physical Workload here, particularly if this is a non-Lift project or if 3rd party implementation partner implement the non Lift environments.-->
+*Guide:*
 
-<!--Description and high level diagram of the future Siebel environment in Oracle Cloud Infrastructure(OCI). This should detail the datacenter locations, the location of the main components of the architecture, and the connectivity between the locations. Technical details such as Networking, Availability Domains or hardware resource metrics are NOT required in this document.
+*The Workload Architecture is typically described in a physical form. This should include all solution components. You do not have to provide solution build or deployment details such as IP addresses.*
 
-- If the application is currently accessible via the internet, then this section should cover both the existing method (e.g. VPN etc) and also the proposed method. This section should include a high level connectivity diagram.
+*Please describe the solution as a written text. If you have certain specifics you like to explain, you can also use the Solution Consideration chapter to describe the details there.*
 
-- Describe VCN and subnets approach
-- SSL will be enabled and terminated at each Load Balancer.
-- Storage being used - e.g. Block, File
-- Bastion server or Bastion Service
-- DR and HA
-- Internal and External user tiers-->
+*[The Oracle Cloud Notation, OCI Architecture Diagram Toolkits](https://docs.oracle.com/en-us/iaas/Content/General/Reference/graphicsfordiagrams.htm)*
 
 
 ![High Level Connectivity Diagram Example](./images/CurrentFutureLogicalarch-CONNECTIVTY.png)
@@ -346,63 +348,45 @@ Nevertheless, an architect might want to describe the full physical Workload her
 
 ![SiebelIP17&Later-DR-Multipleregions-multipleAD Example](./images/SiebelIP17&Later-DR-Multipleregions-multipleAD.png)
 
-\newpage
 
+## Solution Considerations
 
-<!--OCI Operations-->
-## Operations
-<!-- GUIDANCE -->
+*Guide:*
+
+*Describe certain aspects of your solution in detail. What are the security, resilience, networking, and operations decisions you have taken that are important for your customer?*
+
+### High Availability and Disaster Recovery 
+
+*Reference:*
+???
+
+### Security
+<!-- [Security Snippets](https://orahub.oci.oraclecorp.com/emea-workloadarchitecture/wad-snippets/-/tree/main/snippets/security/security-design/sec) -->
+
+*Guide:*
+
+*Please describe your solution from a security point of view. Generic security guidelines are in the Annex chapter.*
+
+### Networking
+
+## Sizing and Bill of Materials
 <!--
-In this chapter we provide a high-level introduction to various operations related topics around OCI. We do not design, plan or execute any detailed operations for our customers. We can provide some best practices and workload specific recommendations.
-
-Please visit our Operations Catalogue for more information, best practices, and examples: https://confluence.oraclecorp.com/confluence/pages/viewpage.action?pageId=3403322163
-
-The below example text represents the first asset from this catalogue PCO#01. Please consider including other assets as well. You can find MD text snippets within each asset.
-
-Recommended Chapter
-
-Role  | RACI
-------|-----
-WLA   | R/A
-Impl. | None
-PPM   | None
+Price Lists and SKUs / Part Numbers: https://esource.oraclecorp.com/sites/eSource/ESRCHome
 -->
 
-This chapter provides an introduction and collection of useful resources, to relevant topics to operate the solution on Oracle Infrastructure Cloud.
+*Guide:*
 
-Cloud Operations Topic                       | Short Summary      | References
-:---                                         |:------             |:---
-Cloud Shared Responsibility Model            | The shared responsibility model conveys how a cloud service provider is responsible for managing the security of the public cloud while the subscriber of the service is responsible for securing what is in the cloud.	                |  [Shared Services Link](https://www.oracle.com/a/ocom/docs/cloud/oracle-ctr-2020-shared-responsibility.pdf)
-Oracle Support Portal	                       | Search Oracle knowledge base and engage communities to learn about products, services, and to find help resolving issues.	   |  [Oracle Support Link](https://support.oracle.com/portal/)
-Support Management API	                     | Use the Support Management API to manage support requests	  |  [API Documentation Link](https://docs.oracle.com/en-us/iaas/api/#/en/incidentmanagement/20181231/) and [Other OCI Support Link](https://docs.oracle.com/en-us/iaas/Content/GSG/Tasks/contactingsupport.htm)
-OCI Status	                                 | Use this link to check the global status of all OCI Cloud Services in all Regions and Availability Domains.	  |  [OCI Status Link](https://ocistatus.oraclecloud.com/)
-Oracle Incident Response	                   | Reflecting the recommended practices in prevalent security standards issued by the International Organization for Standardization (ISO), the United States National Institute of Standards and Technology (NIST), and other industry sources, Oracle has implemented a wide variety of preventive, detective, and corrective security controls with the objective of protecting information assets.	  |  [Oracle Incident Response Link](https://ocistatus.oraclecloud.com/)
-Oracle Cloud Hosting and Delivery Policies   | Describe the Oracle Cloud hosting and delivery policies in terms of security, continuity, SLAs, change management, support, and termination.	  |  [Oracle Cloud Hosting and Delivery Policies](https://www.oracle.com/us/corporate/contracts/ocloud-hosting-delivery-policies-3089853.pdf)
-OCI SLAs                                     | Mission-critical workloads require consistent performance, and the ability to manage, monitor, and modify resources running in the cloud at any time. Only Oracle offers end-to-end SLAs covering performance, availability, manageability of services. This document applies to Oracle PaaS and IaaS Public Cloud Services purchased, and supplements the Oracle Cloud Hosting and Delivery Policies | [OCI SLA's](https://www.oracle.com/cloud/sla/) and [PDF Link](https://www.oracle.com/assets/paas-iaas-pub-cld-srvs-pillar-4021422.pdf)
+*Estimate and size the physically needed resources of the Workload. The information can be collected and is based upon previously gathered capacities, business user numbers, integration points, or translated existing on-premises resources. The sizing is possibly done with or even without a Physical Architecture. It is ok to make assumptions and to clearly state them!*
 
-<!-- END of OCI Operations Section-->
+*Clarify with sales your assumptions and your sizing. Get your sales to finalize the BoM with discounts or other sales calculations. Review the final BoM and ensure the sales are using the correct product SKUs / Part Number.*
 
-## Bill of Materials
-<!-- GUIDANCE -->
-<!--
-Estimate and size the physical needed resources of the Workload. The information can be collected and is based upon previously gathered capacities, business user numbers, integration points, or translated existing on-premises resources. The sizing is possibly done with or even without a Physical Architecture. It is ok to make assumptions and to clearly state them!
-
-Clarify with sales your assumptions and your sizing. Get your sales to finalize the BoM with discounts or other sales calculations. Review the final BoM and ensure the sales is using the correct product SKU's / Part Number.
-
-Even if the BoM and sizing was done with the help of Excel between the different teams, ensure that this chapter includes or links to the final BoM as well.
-
-Price Lists and SKU's / Part Numbers: https://esource.oraclecorp.com/sites/eSource/ESRCHome-->
-
-This section should list all the Oracle software components that are in the proposed target architecture.
-
-For each component of the system, this section captures the existing sizing, plus any additional sizing requirements that the customer might have (e.g. where the customer wishes to extend or expand an existing system). This should include :
-- A list of all database storage sizes
-- All servers with CPU type and counts
-- Any file-system storage required
+*Even if the BoM and sizing were done with the help of Excel between the different teams, ensure that this chapter includes or links to the final BoM as well.*
 
 ![Future BOQ](./images/Future_BOQ.png)
 
 ###  Future Environment components
+
+*Example:*
 
 Component	|	Qty	|	Note
 --- | --- | ---
@@ -419,8 +403,7 @@ Application Servers  | 9 |  VM.Standard.E4.Flex
 
 
 
-
-#### Specific Technical Information
+## Specific Technical Information
 
 - [Siebel Enterprise Architecture](https://confluence.oraclecorp.com/confluence/display/CRMODDG/Siebel+Enterprise+Architecture)
 - [Suggested Learning Paths for Siebel CRM](https://confluence.oraclecorp.com/confluence/display/OCUPM/Siebel+CLS+Learning+Path+Reference)
@@ -461,6 +444,7 @@ Application Servers  | 9 |  VM.Standard.E4.Flex
     3. Single-Step or Two-Step Repository Upgrade based on the current version
     4. Full Database Upgrade or IRM based on the current version
 
+[Supported Upgrade Paths for Siebel CRM Version 22.7 and later](https://docs.oracle.com/cd/F26413_43/books/UPG/c-Supported-Upgrade-Paths-for-Siebel-CRM.html#u30227145)
 
 [Supported Upgrade Paths for Siebel CRM Version 20.0](https://docs.oracle.com/cd/F26413_12/books/UPG/overview-of-siebel-database-environments.html#c_Supported_Upgrade_Paths_for_Siebel_CRM_Version170_cz1184825)
 
