@@ -9,8 +9,8 @@ doc:
     subtitle:
       - Solution Definition
   customer:                             
-    name: CustomerName                           
-    alias: CustomerAlias                          
+    name: \<Customer Name\>                           
+    alias: \<Customer Alias\>                          
   config:
     impl:
       type: \<Service Provider\>            # Can be 'Oracle Lift', 'Oracle Fast Start', 'Partner' etc. Use with ${doc.config.impl.type}     
@@ -84,7 +84,7 @@ This is a living document, additional sections will be added as the engagement p
 
 *Describe the customer's business and background. What is the context of the customer's industry and LoB? What are the business needs and goals which this Workload is an enabler for? How does this technical solution impact and support the customer's business goals? Does this solution support a specific customer strategy, or maybe certain customer values? How does this solution help our customers to either generate more revenue or save costs?*
 
-CUST_NAME is a INDUSTRY_NAME company operating in COUNTRY_NAME and on the international markets, providing services to consumers, businesses and the public sector.
+\<Customer Name\> is a \<Industry Name\> company operating in \<Country Name\> and on the international markets, providing services to consumers, businesses and the public sector.
 
 Oracle Siebel is the strategic platform for B2B/B2C sales and marketing activities called "XYZ". Siebel implementation has performance issues with the Remote Product Configurator. Assessment has been done by ACS to perform some configuration changes.
 
@@ -98,7 +98,7 @@ Oracle Siebel is the strategic platform for B2B/B2C sales and marketing activiti
 
 The complete scope of the Workload is to deliver a future state architecture that migrates **WHAT** environments to OCI. 
 
-Oracle Cloud Infrastructure (OCI) was designed specifically to support workloads like Siebel. By further migrating CUST_NAME Siebel workload to more OCI services it will allow them to enjoy improved efficiency, cost savings, and performance gains compared to on-premises deployments and other Cloud vendors, along with the elasticity and agility of the Cloud.
+Oracle Cloud Infrastructure (OCI) was designed specifically to support workloads like Siebel. By further migrating \<Customer Name\> Siebel workload to more OCI services it will allow them to enjoy improved efficiency, cost savings, and performance gains compared to on-premises deployments and other Cloud vendors, along with the elasticity and agility of the Cloud.
 
 
 ## Workload Business Value
@@ -134,7 +134,7 @@ There is an opportunity for the Oracle Cloud Infrastructure to help assist and s
 The success implementation of this project is to:
 
 1. Deliver Oracle Siebel CRM running on OCI in the specified architecture for the "Stress Testing Environment".
-2. Deliver the specified environments in such a way that CUST_NAME on-premise applications and other third party systems can be successfully and integrated.
+2. Deliver the specified environments in such a way that \<Customer Name\> on-premise applications and other third party systems can be successfully and integrated.
 3. Deliver the To-Be architecture with the Terraform scripts to be used for other environments.
 
 
@@ -146,9 +146,9 @@ The success implementation of this project is to:
 
 *Describe the Workload: What applications and environments are part of this Workload migration or new implementation project, and what are their names? The implementation will be scoped later and can be a subset of the Solution Definition and proposed overall solution. For example, a Workload could exist of two applications, but the implementer would only include one environment of one application. The workload chapter is about the whole Workload and the implementation scope will be described late in the chapter [Solution Scope](#solution-scope).*
 
-The SIEBEL workload described in this document documents an Oracle Cloud Infrastructure (OCI) solution which replicates CUST_NAME existing on-premises Oracle Siebel implementation.
+The SIEBEL workload described in this document documents an Oracle Cloud Infrastructure (OCI) solution which replicates \<Customer Name\> existing on-premises Oracle Siebel implementation.
 
-CUST_NAME is currently running Siebel **specify version** with database **specify version**. / **specify for all Environments**
+\<Customer Name\> is currently running Siebel **specify version** with database **specify version**. / **specify for all Environments**
 
 **describe other features of the customer workload - example areas:**
 
@@ -191,7 +191,7 @@ In addition to these requirements, the [CIS Oracle Cloud Infrastructure Foundati
 
 *If you like to describe a current state, you can use or add the chapter 'Current Sate Architecture' before the 'Future State Architecture'.*
 
-CUST_NAME Siebel **version** environments:
+\<Customer Name\> Siebel **version** environments:
 
 Name | Size of Prod | Location | MAA | Scope
 :--- |:--- |:--- |:--- |:---
@@ -417,7 +417,7 @@ Application Servers  | 9 |  VM.Standard.E4.Flex
 ![Siebel on OCI Migration Path](./images/SiebelonOCIUpgradePath.png)
 
 ##### Use Case 1: Customers on Siebel CRM IP2017 onwards
-1. Target Upgrade update is Siebel Siebel 21.x
+1. Target Upgrade update is Siebel Siebel 23.x
 2. Neither an Incremental Repository Merge nor a Database Upgrade is required for Siebel CRM 17.0 or later)
 3. Quick Provisioning (available now on Oracle Marketplace).
 4. Lift and Shift tooling:
@@ -427,7 +427,7 @@ Application Servers  | 9 |  VM.Standard.E4.Flex
    4. Apply changes to Non-Production.
 
 ##### Use Case 2: Customers on Siebel CRM IP2015 or IP2016
-1. Target Upgrade update is Siebel 21.x
+1. Target Upgrade update is Siebel 23.x
 2. Quick Provisioning (available now on Oracle Marketplace)
 3. Lift and Shift tooling:
    1. Clone existing instances to the Oracle Cloud
@@ -438,8 +438,8 @@ Application Servers  | 9 |  VM.Standard.E4.Flex
 ##### Use Case 3: Customers on Sustaining or Extended support release (7.5, 7.7, 7.8, 8.0, 8.1, 8.1)
 1. Option 1: Migrate your application into Partner/Oracle Managed Cloud Service (OMCS) Hosting
 2. Option 2: Upgrade to IP2020 using Partner/OMCS upgrade services
-    1. Target Upgrade update is Siebel Siebel 21.x
-    2. New or Migration installation of Siebel 21.x
+    1. Target Upgrade update is Siebel Siebel 23.x
+    2. New or Migration installation of Siebel 23.x
     3. Single-Step or Two-Step Repository Upgrade based on the current version
     4. Full Database Upgrade or IRM based on the current version
 
