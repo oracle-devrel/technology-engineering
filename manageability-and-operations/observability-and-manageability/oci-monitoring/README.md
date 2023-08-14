@@ -4,6 +4,7 @@
 
 - [Cost estimation](https://learnoci.cloud/new-summary-feature-in-the-oci-compute-creation-workflow-e71b63d68cdd)
 - [How to feed OCI metrics to Security Onion Grafana](https://learnoci.cloud/how-to-feed-oci-metrics-to-security-onion-grafana-2dd1ceac3f71)
+- [Test](https://www.google.com)
 
 # License
 
