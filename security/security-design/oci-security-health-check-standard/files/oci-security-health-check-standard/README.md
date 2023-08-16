@@ -2,20 +2,11 @@
 
 Owner: Olaf Heimburger
 
-## Introduction
-![Flyer](./files/resources/OCI_Security_Health_Check_Standard.png)
-
-[Download the flyer](./files/resources/OCI%20Security%20Health%20Check%20-%20Standard%20-%20Flyer%203.2.pdf)
-
-### When to use this asset?
+## When to use this asset?
 
 The *OCI Security Health Check - Standard Edition* checks an OCI tenancy for CIS OCI Foundation Benchmark compliance.
 
-### Complete Runtime Example
-
-See the OCI Security Health Check - Standard Edition in action and watch the [video](https://www.youtube.com/watch?v=EzjKLxfxaAM).
-
-## Getting Started with the *OCI Security Health Check - Standard Edition*
+## Usage
 
 ### Download and verify the release file
 
@@ -82,6 +73,60 @@ To create a group for auditing do the following steps:
     ```
   - Assign a user to the `grp-auditors` group
   - Log out of the OCI Console
+
+### Run the OCI Security Health Check in OCI Cloud Shell
+
+The recommended way is to run the *OCI Security Health Check - Standard* in the OCI Cloud Shell. It does not require any additional configuration on a local desktop machine.
+
+#### Upload the release file
+
+  - Log into the OCI Console.
+  - Select the *Developer Tools* icon (looks like a small window) in the header toolbar.
+  - From the menu select the *Cloud Shell* item.
+  - Wait until the Cloud Shell has been initialized.
+  - On the green tool bar click on the *Settings* icon and select the *Upload ...* menu item.
+  - Upload the distribution file.
+  - Extract it
+    ```
+    $ unzip -q oci-security-health-check-standard-230630.zip
+    ```
+
+### Run the script
+  - Change directory into `oci-security-health-check-standard`:
+    ```
+    $ cd oci-security-health-check-standard
+    ```
+  - In the `oci-security-health-check-standard` directory:
+    - Enable execution of script `standard.sh`:
+      ```
+      $ chmod +x standard.sh
+      ```
+    - Run the script for all subscribed regions:
+      ```
+      $ ./standard.sh
+      ```
+    - Run the script for one subscribed region:
+      ```
+      $ ./standard.sh -r <region_name>
+      ```
+    - Get command line options:
+      ```
+      $ ./standard.sh -h
+      ```
+
+### Getting the results
+  - In the directory `oci-security-health-check-standard` a directory will be created which
+    holds all the output created by the scripts. This directory will be
+    compressed in a single ZIP file and the resulting ZIP file will be moved to
+    the parent directory of `oci-security-health-check-standard`.
+
+### Checking the results
+
+The report results are showing the compliance status of the related [CIS OCI Foundation Benchmark, version 1.2](https://www.cisecurity.org/benchmark/Oracle_Cloud) recommendations. Please download this benchmark before reading the report. (For license reasons, we cannot distribute the benchmark.)
+
+The report results are summarized in two files:
+- *cis_html_summary_report.html* &ndash; The report in HTML that displays the all recommendations and their compliance status, respectively.
+- *Consolidated_Report.xslx* &ndash; An XSLX workbook with a summary and sheets for the non-compliant recommendations.
 
 ## Credits
 

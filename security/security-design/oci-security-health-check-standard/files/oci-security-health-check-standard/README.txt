@@ -70,3 +70,14 @@ Usage
     holds all the output created by the scripts. This directory will be
     compressed in a single ZIP file and the resulting ZIP file will be moved to
     the home directory of the account running the script.
+
+4 Credits
+The *OCI Security Health Check - Standard Edition* streamlines the usage of the bundled
+Compliance Checking Script
+(https://github.com/oracle-quickstart/oci-cis-landingzone-quickstart/blob/main/compliance-script.md)
+provided by the CIS OCI Landing Zone Quick Start Template
+(https://github.com/oracle-quickstart/oci-cis-landingzone-quickstart).
+
+The *OCI Security Health Check - Standard Edition* would not be possible without the great work of
+the CIS OCI Landing Zone Quick Start Template Team
+(https://github.com/oracle-quickstart/oci-cis-landingzone-quickstart/graphs/contributors).
