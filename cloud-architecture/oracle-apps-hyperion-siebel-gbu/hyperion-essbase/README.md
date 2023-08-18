@@ -33,6 +33,10 @@ The reusable assets available in this repository:
     - Customers using Oracle Analytics Cloud - Essbase Classic are encouraged to migrate to Essbase 21C. Requires login to Oracle Support portal.
 - [OCI Cost Estimator](https://www.oracle.com/uk/cloud/costestimator.html)
     - Estimate the cost of your OCI environment.
+- [EPM & BI Proactive Support Blog](https://blogs.oracle.com/proactivesupportepm/)
+    - Blog with the latest news for Oracle EPM and BI products.
+- [EPM Certification Matrices](https://www.oracle.com/middleware/technologies/bi-foundation/hyperion-supported-platforms.html)
+    - This page contains links to the documents providing supported platform information for Oracle Enterprise Performance Management System products.
 
 
 # License
