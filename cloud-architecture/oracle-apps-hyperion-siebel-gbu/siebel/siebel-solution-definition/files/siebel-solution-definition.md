@@ -436,7 +436,7 @@ Application Servers  | 9 |  VM.Standard.E4.Flex
 
 ##### Use Case 3: Customers on Sustaining or Extended support release (7.5, 7.7, 7.8, 8.0, 8.1, 8.1)
 1. Option 1: Migrate your application into Partner/Oracle Managed Cloud Service (OMCS) Hosting
-2. Option 2: Upgrade to IP2020 using Partner/OMCS upgrade services
+2. Option 2: Upgrade to Siebel 20.x using Partner/OMCS upgrade services
     1. Target Upgrade update is Siebel Siebel 23.x
     2. New or Migration installation of Siebel 23.x
     3. Single-Step or Two-Step Repository Upgrade based on the current version
