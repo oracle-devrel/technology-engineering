@@ -306,9 +306,11 @@ _Siebel Application Tier_
 
 *Guide:*
 
-*This chapter describes landing zone best practices and usually does not require any changes. If changes are required please refer to [landing zone confluence](https://confluence.oraclecorp.com/confluence/x/GZ-VHQE). The full landing zone needs to be described in the Solution Design by the service provider.*
+*This chapter describes landing zone best practices and usually does not require any changes. The full landing Zone needs to be described in the Solution Design by the service provider.*
 
 *Use this section ONLY for new cloud deployments and remove for brown field deployments.*
+
+The design considerations for an OCI Cloud Landing Zone have to do with OCI and industry architecture best practices, along with customer-specific architecture requirements that reflect the Cloud Strategy (hybrid, multi-cloud, etc). An OCI Cloud Landing zone involves a variety of fundamental aspects that have a broad level of sophistication. Oracle Cloud Infrastructure (OCI) provides multiple landing zone implementations that you can choose from [link](https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/technology-implementation.htm).
 
 ### Physical Architecture
 
@@ -404,14 +406,11 @@ Application Servers  | 9 |  VM.Standard.E4.Flex
 
 ## Specific Technical Information
 
-- [Siebel Enterprise Architecture](https://confluence.oraclecorp.com/confluence/display/CRMODDG/Siebel+Enterprise+Architecture)
-- [Suggested Learning Paths for Siebel CRM](https://confluence.oraclecorp.com/confluence/display/OCUPM/Siebel+CLS+Learning+Path+Reference)
 - [Siebel CRM Bookshelf](https://www.oracle.com/documentation/siebel-crm-libraries.html)
-- [Siebel CRM Releases Information](https://my.oracle.com/site/ibu/abu/CRM2/ProductLines/SiebelCRM/ip/index.html?ssSourceNodeId=44522&ssSourceSiteId=ibu)
 - [Siebel Virtual Summit 2020](https://go.oracle.com/OracleSiebelCRMVirtualSummit#sep29oct01)
-- [Siebel Virtual Summit 2021](https://oradocs-prodapp.cec.ocp.oraclecloud.com/documents/folder/F067C8AE1C8E61E909E8E27CD9F4A45A8AAB84D20FD1/_Siebel_Virtual_Summit_2021)
+- [Siebel Virtual Summit 2021](https://go.oracle.com/LP=117576)
 - [Learn About Deploying Siebel CRM on Oracle Cloud Infrastructure](https://docs.oracle.com/en/solutions/infrastructure-components-siebel/index.html#GUID-D6F99470-2253-4544-8C6A-0BE54BDA54FD)
-- [Siebel Cloud Manager](https://docs.oracle.com/cd/F26413_43/books/DeploySCM/index.html#id0894FK005PF)
+- [Siebel Cloud Manager](https://docs.oracle.com/cd/F26413_44/books/DeploySCM/index.html#id0894FK005PF)
 
 
 ![Siebel on OCI Migration Path](./images/SiebelonOCIUpgradePath.png)
@@ -445,11 +444,7 @@ Application Servers  | 9 |  VM.Standard.E4.Flex
 
 [Supported Upgrade Paths for Siebel CRM Version 22.7 and later](https://docs.oracle.com/cd/F26413_43/books/UPG/c-Supported-Upgrade-Paths-for-Siebel-CRM.html#u30227145)
 
-[Supported Upgrade Paths for Siebel CRM Version 20.0](https://docs.oracle.com/cd/F26413_12/books/UPG/overview-of-siebel-database-environments.html#c_Supported_Upgrade_Paths_for_Siebel_CRM_Version170_cz1184825)
-
-[Supported Upgrade Paths for Siebel CRM Version 19.0](https://docs.oracle.com/cd/F14158_13/books/UPG/overview-of-siebel-database-environments.html#c_Supported_Upgrade_Paths_for_Siebel_CRM_Version170_cz1184825)
-
-[Supported Upgrade Paths for Siebel CRM Version 18.0](https://docs.oracle.com/cd/E95904_01/books/UPG/overview-of-siebel-database-environments.html#c_Supported_Upgrade_Paths_for_Siebel_CRM_Version170_cz1184825)
+[Supported Upgrade Paths for Siebel CRM Version 21.10](https://docs.oracle.com/cd/F26413_24/books/UPG/c-Supported-Upgrade-Paths-for-Siebel-CRM.html#cz1184825)
 
 [Supported Upgrade Paths for Siebel CRM Version 17.0](https://docs.oracle.com/cd/E88140_01/books/UPG/UPG_SimplOver2.html#wp1184825)
 
