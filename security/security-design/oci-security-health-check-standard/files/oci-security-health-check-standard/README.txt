@@ -16,7 +16,7 @@ Usage
 
   Running the assessment script as an OCI Administrator is the easiest and
   quickest way. If you decide to use this option, please continue reading 
-  chapter 2.
+  Chapter 2.
 
   For recurring usage, setting up a group for auditing is recommended. The
   steps for setting this up are described in the next chapter.
@@ -53,7 +53,7 @@ Usage
   - When running it the first time:
     - Upload the provided ZIP file.
     - Extract it with unzip -q oci-security-health-check-standard-230630.zip
-  - Change directory into oci-security-health-check-standard
+  - Change the directory into oci-security-health-check-standard
     $ cd oci-security-health-check-standard
     $ screen
   - In the oci-security-health-check-standard-<version> directory run the standard.sh
