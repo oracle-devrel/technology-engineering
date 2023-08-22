@@ -125,7 +125,7 @@ The recommended way is to run the *OCI Security Health Check - Standard* in the 
 The report results are showing the compliance status of the related [CIS OCI Foundation Benchmark, version 1.2](https://www.cisecurity.org/benchmark/Oracle_Cloud) recommendations. Please download this benchmark before reading the report. (For license reasons, we cannot distribute the benchmark.)
 
 The report results are summarized in two files:
-- *cis_html_summary_report.html* &ndash; The report in HTML that displays the all recommendations and their compliance status, respectively.
+- *cis_html_summary_report.html* &ndash; The report in HTML that displays all recommendations and their compliance status, respectively.
 - *Consolidated_Report.xslx* &ndash; An XSLX workbook with a summary and sheets for the non-compliant recommendations.
 
 ## Credits
