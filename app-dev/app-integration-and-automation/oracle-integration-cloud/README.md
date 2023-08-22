@@ -25,6 +25,11 @@ Oracle Integration (OIC) is an enterprise connectivity and automation platform f
     - [Integration Generation 2](https://docs.oracle.com/en-us/iaas/integration/index.html)
     - [OIC Gen2 Guides](https://docs.oracle.com/en/cloud/paas/integration-cloud/books.html)
 
+### Other related content
+
+- [Provision and configure OIC instance using Terraform](https://medium.com/oracledevs/provision-and-configure-oracle-integration-cloud-instance-using-terraform-6baa89c257a)
+  
+
 ## Reusable Assets Overview
 
 Relevant reusable assets can be found in subfolders.
