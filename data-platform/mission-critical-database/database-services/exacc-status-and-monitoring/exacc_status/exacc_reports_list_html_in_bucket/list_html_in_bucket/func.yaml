@@ -1,0 +1,13 @@
+# ----------------------------------------------------------------------------------------------------
+# ExaCC Status & Maintenance Reports
+# Copyright © 2020-2022, Oracle and/or its affiliates. 
+# All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
+# ----------------------------------------------------------------------------------------------------
+schema_version: 20180708
+name: list_html_in_bucket
+version: 0.0.1
+runtime: python
+build_image: fnproject/python:3.9-dev
+run_image: fnproject/python:3.9
+entrypoint: /python/bin/fdk /function/func.py handler
+memory: 256

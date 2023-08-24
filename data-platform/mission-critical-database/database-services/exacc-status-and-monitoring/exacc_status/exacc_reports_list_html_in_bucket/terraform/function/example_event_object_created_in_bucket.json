@@ -1,0 +1,27 @@
+{
+  "eventType": "com.oraclecloud.objectstorage.createobject",
+  "cloudEventsVersion": "0.1",
+  "eventTypeVersion": "2.0",
+  "source": "ObjectStorage",
+  "eventTime": "2022-05-04T17:33:47Z",
+  "contentType": "application/json",
+  "data": {
+    "compartmentId": "ocid1.compartment.oc1..aaaaaaaafbaqbcjgz6xm4uxwnnyk3aiwxoh6qfxwouuh5b6jjayxmkuirzja",
+    "compartmentName": "cpauliat",
+    "resourceName": "ExaCC_report_2029.html",
+    "resourceId": "/n/oscemea001/b/sharing/o/ExaCC_report_2029.html",
+    "availabilityDomain": "AMS-AD-1",
+    "additionalDetails": {
+      "bucketName": "ExaCC_daily_reports",
+      "versionId": "db0a3e0e-8119-4da6-a81c-85b0a668bffb",
+      "archivalState": "Available",
+      "namespace": "oscemea001",
+      "bucketId": "ocid1.bucket.oc1.eu-amsterdam-1.aaaaaaaazlqtxgno7fc2lrjcn5tlwy3qt3j76ho6izvymebfp7qlfzlntxoq",
+      "eTag": "a9f55fb1-9e78-4b2f-b8eb-b1e719e83982"
+    }
+  },
+  "eventID": "1b1095dd-d10c-7334-eea6-07ee070ea17c",
+  "extensions": {
+    "compartmentId": "ocid1.compartment.oc1..aaaaaaaafbaqbcjgz6xm4uxwnnyk3aiwxoh6qfxwouuh5b6jjayxmkuirzja"
+  }
+}
