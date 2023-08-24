@@ -14,6 +14,17 @@ This section contains various examples related to Application Integration: demo 
 - [Cloud Coaching Webinar: Multi-Cloud Employee New Hire Delta Feeds from Oracle HCM Cloud into Azure Data Lake](https://youtu.be/sn0qLz4jJ38)
     - Demo Video where we show to quickly and easily enable a multi-cloud integration solution to feed a private Microsoft Azure Data Lake (Azure Blob Storage) with Employee New Hire Delta Feeds coming from Oracle Fusion HCM Cloud. Learn how to use a no-code approach with Oracle Integration Cloud's prebuilt connectors and connectivity agent (key enabler for multicloud integrations) and Oracle Cloud Infrastructure Streaming (Kafka-based)
 
+- [Oracle Integration Cloud - Feature - Recipes](https://youtu.be/Yfim7S11gU8)
+    -This video will explain Oracle Integration Cloud Feature Recipes. Recipes are pre-built integrations covering a certain use case scenario. A recipe contains all the resources required for a specific integration usecase. The resources include integration flows, connections, lookups, and certificates. Use a recipe to quickly get started on your integration journey.
+    Demonstration includes:
+    - Overview of Recipes
+    - How to find and install recipes
+    - Run and Test Recipes
+    - Following Recipes demonstrated end to end
+        - Oracle Fusion PopUp Notification
+        - Oracle ERP Cloud FTP Server Business Event
+        - SOAP Calculator Multiple Operations
+
 - [Oracle Integration Cloud - Feature - Projects](https://youtu.be/CxNDbBnWWYU) 
     -This video will explain Oracle Integration Cloud Feature Projects, how you can use it. Enterprises often have hundreds of integrations to manage and monitor. Developers want to focus on specific integration components involved with an automated business process. With OIC Project, all related integrations and their components are in a single unified workspace. Additionally, projects provide robust life cycle management and risk-free updates to prebuilt integrations.
 
