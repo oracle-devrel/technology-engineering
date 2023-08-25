@@ -2,7 +2,7 @@
 
 # Team Publications
 
-- [OCI Database Management PDB Support](https://learnoci.cloud/oci-database-management-new-features-announced-f9991cba2cc2)
+- [OCI Database Management PDB Support](https://learnoci.cloud/oci-database-management-new-features-announced-f9991cba2cc2?source=friends_link&sk=06e9e1841afb181147e556715b5a7c33)
 
 # License
 
