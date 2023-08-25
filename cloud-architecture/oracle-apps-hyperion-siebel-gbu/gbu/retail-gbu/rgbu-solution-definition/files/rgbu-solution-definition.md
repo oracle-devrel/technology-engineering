@@ -358,10 +358,10 @@ At the time of this document creation, no Security requirements have been specif
 
 *Example:*
 
-Name	                    | Source    	| Target	  | Protocol  | Function
-:---		                |:---		    |:---		  |:---		  |:---
-Finalncials		            | EBS 	| RMS | RFI	  | Data collection
-Price tags	                       	| SIM		    | printers	  | file based	  | Data extraction
+Name         | Source  | Target    | Protocol   | Function
+:---         |:---     |:---       |:---        |:---
+Financials   | EBS     | RMS       | RFI        | Data collection
+Price tags   | SIM     | printers  | file based | Data extraction
 
 
 ### System Configuration Control Lifecycle (Optional)
@@ -495,7 +495,7 @@ The design considerations for an OCI Cloud Landing Zone have to do with OCI and 
 
 *Example:*
 
-![Future State Logical Architecture](images/rgbu-logical-arch.drawio.pdf)
+![Future State Logical Architecture](images/rgbu-logical-arch.drawio.png)
 
 ### Physical Architecture
 
@@ -510,7 +510,7 @@ The design considerations for an OCI Cloud Landing Zone have to do with OCI and 
 
 *Example:*
 
-![Future State Deployment Diagram - RGBU Workload Multi-AD](images/rgbu-physical-arch.drawio.pdf)
+![Future State Deployment Diagram - RGBU Workload Multi-AD](images/rgbu-physical-arch.drawio.png)
 
 ### Data Architecture (Optional)
 
