@@ -34,6 +34,8 @@ OCI Language is a cloud-based AI service for performing sophisticated text analy
 - [Oracle AI Language documentation](https://docs.oracle.com/en-us/iaas/language/using/language.htm)
 - [Oracle AI Language blog announcement](https://blogs.oracle.com/ai-and-datascience/post/announcing-oci-language)
 
+- [Aon improves customer experience with OCI Language service](https://www.oracle.com/customers/aon-case-study/)
+
 # License
  
 Copyright (c) 2023 Oracle and/or its affiliates.
