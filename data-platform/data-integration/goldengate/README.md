@@ -6,6 +6,9 @@ Oracle Cloud Infrastructure GoldenGate is a fully managed, native cloud service 
  
 ## Useful Links
  
+- [Sync data between DBCS and Google BigQuery using Stage and Merge](https://github.com/alexandruporcescu/Articles/blob/main/Sync%20OracleDB%20with%20Google%20BigQuery/Replicate%20data%20from%20Oracle%20DB%20to%20Google%20BigQuery%20using%20GoldenGate%20Stage%20and%20Merge%20handler.md)
+    - Sync data between DBCS and Google BigQuery using Stage and Merge
+
 - [Install GoldenGate Microservices 21c in silent mode](https://medium.com/@eloi-lopes29/install-goldengate-microservices-21c-in-silent-mode-48a904b97dc3)
     - How to install GoldenGate in SilentMode
       
