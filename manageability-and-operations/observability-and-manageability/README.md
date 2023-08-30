@@ -13,12 +13,12 @@ The Observability and Manageability (O&M) platform is a set of Oracle Cloud Infr
 
 - [OCI Observability and Management best practices and checklist](https://blogs.oracle.com/observability/post/oci-observability-checklist)
   - When starting a new project in a new environment or moving a workload to a cloud provider, one of the first questions is: how to monitor it. With this document, we are sharing our best practice.
-- [Use Cloud Guard Insight Recipes to monitor Windows Instances against Interesting Windows Event IDs for Malware/General Investigation ](https://learnoci.cloud/use-cloud-guard-insight-recipes-to-monitor-windows-instances-against-interesting-windows-event-ids-7ef796174d37)
+- [Use Cloud Guard Insight Recipes to monitor Windows Instances against Interesting Windows Event IDs for Malware/General Investigation ](https://learnoci.cloud/use-cloud-guard-insight-recipes-to-monitor-windows-instances-against-interesting-windows-event-ids-7ef796174d37?source=friends_link&sk=682c057a61e7c2707df1895420649c2c)
    - With the new Cloud Guard Log Insight Detector you are also able to extend your existing OCI Capabilities to also Endpoint Monitoring: showcase some basic options using OCI Logging, OS Custom Logging with Windows Events and Linux Audit Events and OCI Cloud Guard Log Insight Detector.
-- [Stream OCI logs to Splunk](https://learnoci.cloud/stream-oci-logs-to-splunk-e03522f87f7)
+- [Stream OCI logs to Splunk](https://learnoci.cloud/stream-oci-logs-to-splunk-v9-1-c71c93e470fe?sk=8a7c3f6201bfcd847a83d36247eddfa7)
   - Step-by-step guide on the Splunk Plugin Installation and setup, and how to stream OCI logs to Splunk.
-- [Why and how to run Wazuh on OCI](https://learnoci.cloud/why-and-how-to-run-wazuh-on-oci-6b39174b5d2d)
-- [How to get logs into Splunk from OCI obj storage](https://learnoci.cloud/how-to-get-logs-into-splunk-from-oci-object-storage-7304fbf467ea)
+- [Why and how to run Wazuh on OCI](https://learnoci.cloud/why-and-how-to-run-wazuh-on-oci-6b39174b5d2d?sk=2b9185ad216f0cedbf80b2e5a8705c96)
+- [How to get logs into Splunk from OCI obj storage](https://learnoci.cloud/how-to-get-logs-into-splunk-from-oci-object-storage-7304fbf467ea?sk=6539609ba70a068fe52f39fb079df32b)
 
 ## Cloud Coaching Clinics (Videos)
 
