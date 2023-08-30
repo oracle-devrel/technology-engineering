@@ -53,6 +53,9 @@ Oracle Cloud VMware Solution is based on VMware Cloud Foundation (VCF) and provi
  -  [Configure VMware HCX with Oracle Cloud VMware Solution](https://docs.oracle.com/en/learn/oci-ocvs-hcx/index.html#introduction)
     -  This tutorial provides information about Oracle Cloud VMware Solution deployment overview, VMware HCX Overview, pre-requisites needed for implementation, and step-by-step implementation guidelines.
 
+ -  [Deploy Red Hat OpenShift on Oracle Cloud VMware Solution](https://docs.oracle.com/en/solutions/deploy-ocvs-redhat-openshift/index.html#GUID-3DC08F2B-7D7D-4E8E-BAA4-70C61E7BEC37)
+    -  This tutorial is about deploying Red Hat OpenShift on Oracle Cloud VMware Solution.
+
 ### Blogs
  
 - [Oracle Cloud VMware Solution with OCI block volumes](https://blogs.oracle.com/cloud-infrastructure/post/oracle-cloud-vmware-solution-oci-block-volumes)
