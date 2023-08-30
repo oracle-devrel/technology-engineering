@@ -1,6 +1,6 @@
 # Operations Advisory
 
-The Operations Advisory provides critical guidance to Customers on how to define their operations. Operations Excellence Advisory 'Approach Workshop' advises on best practices and their benefits from Oracle based on previous experiences and is meant to identify  an outline for Day-2 optimal operations, based on  priorities and requirements for DR, Integrations, O&M also in the following scenarios: Hybrid, Multi-cloud, DRCC. Where needed, Automation advice is also included.
+The Operations Advisory provides critical guidance to Customers on how to define their operations. Operations Excellence Advisory 'Approach Workshop' advises on best practices and their benefits from Oracle based on previous experiences and is meant to identify  an outline for Day-2 onwards optimal operations, based on  priorities and requirements for DR, Integrations, O&M also in the following scenarios: Hybrid, Multi-cloud, DRCC. Automation advice is also included.
 
 # Public Assets
 
