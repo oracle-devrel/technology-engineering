@@ -8,27 +8,17 @@ Explore these materials to enhance your migration strategy. We appreciate your p
  
 # Table of Contents
 
-<!-- 
- - **Communications** Global Business Unit (CGBU) _(coming soon)_
- - **Construction and Engineering** Global Business Unit (CEGBU) _(coming soon)_
- - **Energy and Water** Global Business Unit (EWGBU) _(coming soon)_
- - **Financial Services** Global Business Unit (FSGBU) _(coming soon)_
- - **Food and Beverage** Global Business Unit (FBGBU) _(coming soon)_
- - **Health Care** Global Business Unit (HCGBU) _(coming soon)_
- - **Health Sciences** Global Business Unit (HSGBU) _(coming soon)_
- - **Hospitality** Global Business Unit (HGBU) _(coming soon)_
- --> 
-<!--
- - [**Communications** Global Business Unit (CGBU)](./communications-gbu)
- - [**Construction and Engineering** Global Business Unit (CEGBU)](./construction-and-engineering-gbu)
- - [**Energy and Water** Global Business Unit (EWGBU)](./energy-and-water-gbu)
- - [**Financial Services** Global Business Unit (FSGBU)](./financial-services-gbu)
- - [**Food and Beverage** Global Business Unit (FBGBU)](./food-and-beverage-gbu)
- - [**Health Care** Global Business Unit (HCGBU)](./health-care-gbu)
- - [**Health Sciences** Global Business Unit (HSGBU)](./health-sciences-gbu)
- - [**Hospitality** Global Business Unit (HGBU)](./hospitality-gbu)
- -->
- - [**Retail** Global Business Unit (RGBU)](./retail-gbu)
+<!-- for future use   - [**Oracle Communications** applications](./communications)               -->
+ - [**Oracle Construction and Engineering** applications](./construction-engineering)
+<!-- for future use   - [**Oracle Energy and Water** applications](./energy-water)               -->
+<!-- for future use   - [**Oracle Financial Services** applications](./financial-services)       -->
+ - [**Oracle Food and Beverage** applications](./food-beverage)
+<!-- for future use   - [**Oracle Health** applications](./health)                               -->
+ - [**Oracle Hospitality** applications](./hospitality)
+<!-- for future use   - [**Oracle Life Sciences** applications](./life-sciences)                 -->
+<!-- for future use   - [**Oracle Local Government** applications](./local-government)           -->
+ - [**Oracle Retail** applications](./retail-gbu)
+
 
 # License
  
