@@ -7,7 +7,6 @@
 *Author Responsibility*
 
 - *Chapter 1-3: Sales Consultant*
-- *Chapter 4: Implementer*
 
 # Document Control
 
@@ -330,7 +329,7 @@ For OCI, the Backup tier will be set to Gold: The gold policy includes daily inc
 
 *Guide:*
 
-*Capture the Non-Functional Requirements for security-related topics. Security is a mandatory subsection that is to be reviewed by the x-workload security team. The requirements can be separated into:*
+*Capture the Non-Functional Requirements for security-related topics. The requirements can be separated into:*
 - *Identity and Access Management*
 - *Data Security*
 
@@ -905,15 +904,6 @@ OCI SLAs                                     | Mission-critical workloads requir
 *Guide:*
 
 *Estimate and size the physically needed resources of the Workload. The information can be collected and is based upon previously gathered capacities, business user numbers, integration points, or translated existing on-premises resources. The sizing is possibly done with or even without a Physical Architecture. It is ok to make assumptions and to clearly state them!*
-
-*Clarify with sales your assumptions and your sizing. Get your sales to finalize the BoM with discounts or other sales calculations. Review the final BoM and ensure the sales are using the correct product SKUs / Part Number.*
-
-*Even if the BoM and sizing were done with the help of Excel between the different teams, ensure that this chapter includes or links to the final BoM as well.*
-
-*WIP*
-- *Revision of existing discovery templates*
-- *Consolidated data gathering sheet (sizing focused)*
-- *Workload-specific sizing process/methodology*
 
 <!--                                                 -->
 <!-- End of 3) Workload Requirements and Architecture -->
