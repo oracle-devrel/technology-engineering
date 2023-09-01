@@ -2,7 +2,6 @@
       Replace ${doc.customer.name} in the document. Please specify to whom to hand over the project after implementation. eg.: The Customer, a 3rd party implementation or operations partner, etc.           
 --->
 
-*Guide:*
 
 *Author Responsibility*
 
