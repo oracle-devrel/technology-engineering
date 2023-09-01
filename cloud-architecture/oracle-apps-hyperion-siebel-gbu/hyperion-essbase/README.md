@@ -8,8 +8,11 @@ Explore these materials to enhance your migration strategy. We appreciate your p
  
 # Table of Contents
  
-1. [Team Assets](#team-assets)
-2. [Useful Links](#useful-links)
+- [Hyperion Essbase](#hyperion-essbase)
+- [Table of Contents](#table-of-contents)
+  - [Team Assets](#team-assets)
+  - [Useful Links](#useful-links)
+- [License](#license)
  
 ## Team Assets
 
@@ -41,7 +44,7 @@ The reusable assets available in this repository:
 
 # License
  
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2023 Oracle and/or its affiliates. 
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
