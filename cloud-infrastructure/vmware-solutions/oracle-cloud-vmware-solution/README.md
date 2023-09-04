@@ -23,39 +23,48 @@ Oracle Cloud VMware Solution is based on VMware Cloud Foundation (VCF) and provi
 - [Facilitate Name Resolution between On-Premises vCenter and Oracle Cloud VMware Solution vCenter](https://docs.oracle.com/en/learn/ocvs-name-resolution)
     -  This tutorial describes how you can enable Name Resolution between On-Premises vCenter and Oracle Cloud VMware Solution-powered vCenter.
 
- - [Set up connectivity from Oracle Cloud VMware Solution NSX-T Overlay segment to other VCNs in the same region](https://docs.oracle.com/en/learn/oci-connect-ocvs-nsxt-overlay/)
+- [Set up connectivity from Oracle Cloud VMware Solution NSX-T Overlay segment to other VCNs in the same region](https://docs.oracle.com/en/learn/oci-connect-ocvs-nsxt-overlay/)
     -  This tutorial describes routing Oracle Cloud VMware Solution NSX-T Overlay traffic to an OCI instance deployed on a different VCN in the same region.
 
- - [Integrate OCI Block Volumes with Oracle Cloud VMware Solution](https://docs.oracle.com/en/learn/integrate-oci-block-volumes-ocvs/#introduction)
+- [Integrate OCI Block Volumes with Oracle Cloud VMware Solution](https://docs.oracle.com/en/learn/integrate-oci-block-volumes-ocvs/#introduction)
     -  This is a step-by-step guide on how to integrate an OCI Block Volume with Oracle Cloud VMware Solution.
 
- - [Integrate Active Directory with VMware vCenter on Oracle Cloud VMware Solution](https://docs.oracle.com/en/learn/integrate-ad-with-vcenter/#introduction)
+- [Integrate Active Directory with VMware vCenter on Oracle Cloud VMware Solution](https://docs.oracle.com/en/learn/integrate-ad-with-vcenter/#introduction)
     -  This tutorial describes how you can integrate an existing on-premises Active Directory with VMware vCenter deployed in Oracle Cloud VMware Solution.
       
- - [Integrate Active Directory with VMware NSX-T on Oracle Cloud VMware Solution](https://docs.oracle.com/en/learn/integrate-ad-with-nsx-t/#introduction)
+- [Integrate Active Directory with VMware NSX-T on Oracle Cloud VMware Solution](https://docs.oracle.com/en/learn/integrate-ad-with-nsx-t/#introduction)
     -  This tutorial summarizes how an on-premises/corporate Active Directory (AD) user can access Oracle Cloud VMware Solution NSX-T console with their on-premises/corporate AD credentials.
 
- - [Configure VMware vSAN file share with Oracle Cloud VMware Solution](https://docs.oracle.com/en/learn/config-ocvs-vsan-file-share/index.html#introduction)
+- [Configure VMware vSAN file share with Oracle Cloud VMware Solution](https://docs.oracle.com/en/learn/config-ocvs-vsan-file-share/index.html#introduction)
     -  This tutorial provides an operational overview of how to configure the VMware vSAN File Service and provide file share capabilities to the SDDC VMs (clients). 
 
- -  [Configure Disaster Recovery using RackWare® with Oracle Cloud VMware Solution](https://docs.oracle.com/en/learn/oci-ocvs-dr-rw/index.html#introduction)
+-  [Configure Disaster Recovery using RackWare® with Oracle Cloud VMware Solution](https://docs.oracle.com/en/learn/oci-ocvs-dr-rw/index.html#introduction)
     -  This tutorial summarizes how the entire lifecycle of disaster recovery and business continuity can be effectively managed with Oracle Cloud VMware Solution using RackWare.
-    - 
- -  [Configure Disaster Recovery - Cold Standby using RackWare® with Oracle Cloud VMware Solution](https://docs.oracle.com/en/learn/oci-ocvs-dr-rw/index.html#introduction)
+      
+-  [Configure Disaster Recovery - Cold Standby using RackWare® with Oracle Cloud VMware Solution](https://docs.oracle.com/en/learn/oci-ocvs-dr-rw/index.html#introduction)
     -  This tutorial summarizes how RackWare RMM can seamlessly autoprovision replicated data from the image repository to the Oracle Cloud VMware Solution for a Cold Standby Disaster Recovery use case and will only be provisioned in the event of Disaster Recovery.
 
- -  [Configure Disaster Recovery using RackWare® with Oracle Cloud VMware Solution](https://docs.oracle.com/en/learn/oci-ocvs-dr-cs-rw/index.html#introduction)
+-  [Configure Disaster Recovery using RackWare® with Oracle Cloud VMware Solution](https://docs.oracle.com/en/learn/oci-ocvs-dr-cs-rw/index.html#introduction)
     -  This tutorial describes how you can enable Name Resolution between On-Premises vCenter and Oracle Cloud VMware Solution-powered vCenter.
 
- -  [Oracle Cloud VMware Solution - in-place upgrade how-to guide](https://docs.oracle.com/en/learn/ocvs-inplace-upgrade-6x-7x/)
+-  [Oracle Cloud VMware Solution - in-place upgrade how-to guide](https://docs.oracle.com/en/learn/ocvs-inplace-upgrade-6x-7x/)
     -  This tutorial provides an operational overview of how to perform the in-place upgrade for software components running in the 6.x version of SDDC to 7.x. 
 
- -  [Configure VMware HCX with Oracle Cloud VMware Solution](https://docs.oracle.com/en/learn/oci-ocvs-hcx/index.html#introduction)
+-  [Configure VMware HCX with Oracle Cloud VMware Solution](https://docs.oracle.com/en/learn/oci-ocvs-hcx/index.html#introduction)
     -  This tutorial provides information about Oracle Cloud VMware Solution deployment overview, VMware HCX Overview, pre-requisites needed for implementation, and step-by-step implementation guidelines.
 
- -  [Deploy Red Hat OpenShift on Oracle Cloud VMware Solution](https://docs.oracle.com/en/solutions/deploy-ocvs-redhat-openshift/index.html#GUID-3DC08F2B-7D7D-4E8E-BAA4-70C61E7BEC37)
-    -  This tutorial is about deploying Red Hat OpenShift on Oracle Cloud VMware Solution.
+-  [Deploy Red Hat OpenShift on Oracle Cloud VMware Solution](https://docs.oracle.com/en/solutions/deploy-ocvs-redhat-openshift/index.html#GUID-3DC08F2B-7D7D-4E8E-BAA4-70C61E7BEC37)
+    -  This tutorial focuses on Red Hat OpenShift deployment on Oracle Cloud VMware Solution, providing general design guidelines and best practices for the solution.
 
+- [Enable DNS resolution for public URLs from Oracle Cloud VMware Solution NSX-T Overlay Segment](https://docs.oracle.com/en/learn/ocvs-dns-resolution-public-urls/#overview)
+     -  This tutorial describes how to enable name resolution for public URL’s from Oracle Cloud VMware Solution NSX-T backed Overlay segment.
+  
+- [Enable DNS resolution for Oracle Cloud VMware Solution Management VMs and ESXi Host from NSX-T Overlay Segment](https://docs.oracle.com/en/learn/ocvs-dns-resolution-mgmt-vms/#overview)
+     -  This tutorial describes how to enable name resolution for Oracle Cloud VMware Solution Management VMs from NSX-T backed Overlay segment.
+
+- [Enable DNS resolution for On-Premises Domain from Oracle Cloud VMWare Solution NSX-T Overlay Segment](https://docs.oracle.com/en/learn/ocvs-dns-resolution-on-premises/#overview)
+     -  This tutorial describes how to enable name resolution for On-Premises Domain from Oracle Cloud VMWare Solution NSX-T backed Overlay segment.
+          
 ### Blogs
  
 - [Oracle Cloud VMware Solution with OCI block volumes](https://blogs.oracle.com/cloud-infrastructure/post/oracle-cloud-vmware-solution-oci-block-volumes)
@@ -81,6 +90,12 @@ Oracle Cloud VMware Solution is based on VMware Cloud Foundation (VCF) and provi
 
 - [Establishing connectivity from an Oracle Cloud VMware Solution NSX-T overlay segment to another VCN in different region](https://blogs.oracle.com/cloud-infrastructure/post/establishing-connectivity-from-ocvs-nsx-t-overlay-segment-to-another-vcn-in-different-region)
      -  This blog post talks about the setup of communication between overlay segments in Oracle Cloud VMware Solutions and workloads deployed in a VCN in different OCI region.
+ 
+- [Establishing connectivity from an Oracle Cloud VMware Solution NSX-T overlay segment to another VCN in different region](https://blogs.oracle.com/cloud-infrastructure/post/establishing-connectivity-from-ocvs-nsx-t-overlay-segment-to-another-vcn-in-different-region)
+     -  This blog post talks about the setup of communication between overlay segments in Oracle Cloud VMware Solutions and workloads deployed in a VCN in different OCI region.
+
+- [VMware Tanzu deployment option with Oracle Cloud VMware Solution](https://blogs.oracle.com/cloud-infrastructure/post/vmware-tanzu-deploy-oracle-cloud-vmware-solution)
+     -  This blog post talks about the deployment of VMware Tanzu on Oracle Cloud VMware Solution.
 
 ### Videos & Podcasts
 - [Oracle Cloud VMware Solution – Differentiation by Design](https://videohub.oracle.com/media/1_von9a3t2)
@@ -90,6 +105,7 @@ Oracle Cloud VMware Solution is based on VMware Cloud Foundation (VCF) and provi
 - [Red Hot Webinars - Exploring the different storage options and capabilities of OCVS](https://www.youtube.com/watch?v=7j1MyzCObxI)
 - [Cloud Coaching Clinic - Oracle Cloud VMware Solution](https://www.youtube.com/watch?v=fU3oWg8mbvY)
 - [On-Demand Webinar - Oracle Cloud VMware Solution-Differentiation by Design](https://go.oracle.com/LP=130642)
+- [Increasing VMware Datastore size backed by OCI Block Storage](https://www.youtube.com/watch?v=vg_RApWrvE0)
 
 ## Reusable Assets Overview
 TBD
