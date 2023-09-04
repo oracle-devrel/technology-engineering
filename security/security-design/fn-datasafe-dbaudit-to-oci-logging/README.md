@@ -1,4 +1,4 @@
-# Data Safe Audit DB to OCI Logging
+# Data Safe Audit Database to OCI Logging
 
 Owner: Fabrizio Zarri
 
@@ -13,7 +13,7 @@ From OCI Logging Data Safe DB Audit Logs, can be send to OCI Logging Analytics, 
 
 ## Prerequisites
 
-- Configure Data Safe to get DB Audit Events from Oracle DataBase.
+- Configure Data Safe to get Database Audit Events from Oracle DataBase.
 
 - Configure OCI Registry username (your OCI username) and OCI Registry user password (your OCI user authtoken), See [Generating an Auth Token to Enable Login to Oracle Cloud Infrastructure Registry](https://docs.oracle.com/en-us/iaas/Content/Functions/Tasks/functionsgenerateauthtokens.htm)
 
@@ -21,7 +21,7 @@ From OCI Logging Data Safe DB Audit Logs, can be send to OCI Logging Analytics, 
 
 - Permission to `manage` the following types of resources in your Oracle Cloud Infrastructure tenancy: `IAM policies`, `Dynamic Group`, `vcns`, `services-gateways`, `route-tables`, `security-lists`, `subnets`, `functions`, `Monitor Alarms`, and `Notifications`.
 
-- Quota to create the following resources: 1 VCN, 1 subnets, 1 Service Gateway, 1 route rules, 1 function, 1 dynamic group, 1 policy in root compartment, 1 Monitor Alarm, and 1 Notification Subscription.
+- Quota to create the following resources: 1 VCN, 1 subnets, 1 Service Gateway, 1 route rule, 1 function, 1 dynamic group, 1 policy in root compartment, 1 Monitor Alarm, and 1 Notification Subscription.
 
 If you don't have the required permissions and quota, contact your tenancy administrator. See [Policy Reference](https://docs.cloud.oracle.com/en-us/iaas/Content/Identity/Reference/policyreference.htm), [Service Limits](https://docs.cloud.oracle.com/en-us/iaas/Content/General/Concepts/servicelimits.htm), [Compartment Quotas](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcequotas.htm).
 
@@ -112,6 +112,8 @@ deployment_name="<deployment name>"
 
 ```
 
+Please note that the `terraform.tfvars` file will include sensitive information and needs to be protected from unauthorized usage.
+
 ### Create the Resources
 Run the following commands:
 
@@ -132,6 +134,9 @@ When you no longer need the deployment, you can run this command to destroy the 
     terraform destroy
 
 If there is error in destroying the object storage bucket, manually delete the bucket and run "terraform destroy" again.
+
+### Test Environment
+We tested the terraform script in [Oracle Linux Cloud Developer Image](https://docs.oracle.com/en-us/iaas/oracle-linux/developer/index.htm) and Oracle Resource Manager 
 
 ### Architecture Diagram
 ![](./images/DatasafetoOCILoggingArchitecture.jpg)
