@@ -1,15 +1,17 @@
 # Performance Hub
 This folder provides SQL scripts to generate active Performance Hub reports. The Oracle provided script perfhubrpt.sql and the PL/SQL package DBMS_PERF especially REPORT_PERFHUB will be used.
-Information on the script usage can also be found in the blog posting [Performance Hub - the database tuning gem](https://blogs.oracle.com/coretec/post/oracle-performance-hub)
-Refer also to the [DBMS_PERF documentation](https://docs.oracle.com/en/database/oracle/oracle-database/21/arpls/DBMS_PERF.html#GUID-85CD8AB9-B6E0-444F-91A5-762EB92A74E9) to get detailled information on the parameters which can be used.
+Information on the script usage can also be found in the blog posting [Performance Hub - the database tuning gem](https://blogs.oracle.com/coretec/post/oracle-performance-hub).
 
-REM Please note the user needs to have DBA privileges.
+
+Please refer to the [DBMS_PERF documentation](https://docs.oracle.com/en/database/oracle/oracle-database/21/arpls/DBMS_PERF.html#GUID-85CD8AB9-B6E0-444F-91A5-762EB92A74E9) to get detailled information on the parameters which can be used.
+
+Before you start make sure that the user has DBA privileges.
 
 ### Performance Hub scripts
 
--  Use the Oracle provided script perfhubrpt.sql: perfhubscript.sql
--  Example for DBMS_PERF.REPORT_PERFHUB with default settings: dbmsperf_def.sql
--  Example for DBMS_PERF.REPORT_PERFHUB with parameters: dbmsperf_1.sql
+-  perfhubscript.sql: Use the Oracle provided script perfhubrpt.sql
+-  dbmsperf_def.sql: Example for DBMS_PERF.REPORT_PERFHUB with default settings
+-  dbmsperf_1.sql: Example for DBMS_PERF.REPORT_PERFHUB with parameters
 
 
   # License
