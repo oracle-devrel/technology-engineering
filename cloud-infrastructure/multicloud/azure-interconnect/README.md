@@ -4,8 +4,11 @@ Oracle Interconnect for Microsoft Azure provides organizations with a simple mig
  
 # Table of Contents
  
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-uinks)
+- [Azure Interconnect](#azure-interconnect)
+- [Table of Contents](#table-of-contents)
+  - [Team Publications](#team-publications)
+  - [Useful Links](#useful-links)
+- [License](#license)
  
 ## Team Publications
   
