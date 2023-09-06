@@ -4,8 +4,11 @@ This sample flow 'Problem' contains a few reusable constructs/learnings:
 - Use of Composite Bag
 - Uploading/make picture
 - QR-code decoding
-- Create incident in JD-Edwards including image-binary in message
+- Create an incident in JD-Edwards including image-binary in the message
 
+# When to use this asset?
+  
+# How to use this asset?
 
 # License
 
