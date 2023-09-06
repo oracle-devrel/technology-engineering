@@ -6,6 +6,7 @@ EMEA AppDev is an expert team of Cloud Native architects and developers focusing
 - [How Do We Help?](#how-do-we-help)
 - [Our Favorite Building Blocks](#our-favorite-building-blocks)
 - [Contact Us](#contact-us)
+- [Our Recent Publications](#our-recent-publications)
 
 # How Do We Help?
 ## 1. Solution Assistance
