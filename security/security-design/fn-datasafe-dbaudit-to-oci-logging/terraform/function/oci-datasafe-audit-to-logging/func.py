@@ -175,12 +175,12 @@ def check_object_from_bucket(l_bucketName, l_objectName, ol_client):
         logger.error("Failed access to bucket for check Object file " + l_objectName + ": %s.", e)
         raise
     else:
-        logger.debug("Ckeck Object file " + l_objectName + " in bucket Done.")
+        logger.debug("Ckeck Object file " + l_objectName + " in bucket done.")
     return fileExist
 
 def check_file_lock_bucket(lo_bucketName, lo_objectName, lo_client, lo_fntimeout, lo_current_time):
     # Check if lock file is in OCI ObjectStorage/Bucket.
-    logger.debug("Check lock file is in a Bucket")
+    logger.debug("Check lock file is in a bucket.")
     lockFilePresent = False
     lockFileExist = check_object_from_bucket(lo_bucketName, lo_objectName, lo_client)
     if lockFileExist:
@@ -269,7 +269,7 @@ def last_collected_time(last_time_collected):
     return str_list_time_collected
 
 def generate_scim_query(q_last_time_collected, q_actual_time):
-    logger.debug("Generate SCIM query for DataSafe.")
+    logger.debug("Generate SCIM query for Data Safe.")
     scim_query = '(timeCollected gt "' + q_last_time_collected + '")'
     logger.info("SCIM Query: " + str(scim_query) + ".")
     return scim_query
@@ -318,7 +318,7 @@ def main(ctx):
         if current_time.find('Z') == -1:
             current_time = current_time + "Z"
         logger.debug("Current Time: " + str(current_time))
-        logger.info("Start Execution.")
+        logger.info("Start execution.")
         # Step 1: Initializing RPS Client.
         logger.debug("initializing RPS client")
         rps = init_rps_client()
