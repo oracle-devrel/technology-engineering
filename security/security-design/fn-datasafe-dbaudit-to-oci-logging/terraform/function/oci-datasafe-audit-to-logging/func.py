@@ -31,7 +31,7 @@ def init_rps_client():
         logger.error("Init rps client Error: %s.", e)
         raise
     else:
-        logger.debug("rps client initialized.")
+        logger.debug("Rps client initialized.")
     return rps_client
 
 
@@ -175,7 +175,7 @@ def check_object_from_bucket(l_bucketName, l_objectName, ol_client):
         logger.error("Failed access to bucket for check Object file " + l_objectName + ": %s.", e)
         raise
     else:
-        logger.debug("Ckeck Object file " + l_objectName + " in bucket done.")
+        logger.debug("Check Object file " + l_objectName + " in bucket done.")
     return fileExist
 
 def check_file_lock_bucket(lo_bucketName, lo_objectName, lo_client, lo_fntimeout, lo_current_time):
@@ -320,7 +320,7 @@ def main(ctx):
         logger.debug("Current Time: " + str(current_time))
         logger.info("Start execution.")
         # Step 1: Initializing RPS Client.
-        logger.debug("initializing RPS client")
+        logger.debug("Initializing RPS client")
         rps = init_rps_client()
         logger.debug("RPS client obtain with Instance Principal.")
         # Step 2: Initializing ObjectStorage/Bucket Client.
