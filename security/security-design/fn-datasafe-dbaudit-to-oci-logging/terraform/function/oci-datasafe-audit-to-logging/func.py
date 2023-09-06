@@ -18,7 +18,7 @@ from oci.util import to_dict
 from fdk import response
 from datetime import datetime, timedelta
 
-#Set Logging level.
+# Set Logging level.
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
@@ -90,10 +90,10 @@ def get_audit_events(data_safe_cl,l_compartment_id, l_sort_order, l_limit, l_sor
                                                                     scim_query=l_scim_query
                 )
         
-        #Add audit events in pandas Dataframe.
+        # Add audit events in pandas Dataframe.
         ds_audit = pd.DataFrame()
         ds_audit=pd.json_normalize(to_dict(audit_events_response.data), record_path='items')
-        #Paging audit events
+        # Paging audit events
         while (audit_events_response.has_next_page and len(ds_audit) < l_max_auditevents):
             audit_events_response = data_safe_cl.list_audit_events(
                                                                     compartment_id=l_compartment_id, 
@@ -105,18 +105,18 @@ def get_audit_events(data_safe_cl,l_compartment_id, l_sort_order, l_limit, l_sor
                                                                     scim_query=l_scim_query,
                                                                     page=audit_events_response.next_page
             )
-            #Add audit events in pandas Dataframe.
+            # Add audit events in pandas Dataframe.
             ds_audit=pd.concat([ds_audit,pd.json_normalize(to_dict(audit_events_response.data), record_path='items')],verify_integrity=True, ignore_index=True)
             logger.info("Paging List audit events from Data Safe.")
             logger.info("Number of audit events imported:  %s.", len(ds_audit))
         if (not ds_audit.empty):
-            #To Camel Dataframe Headers.
+            # To Camel Dataframe Headers.
             ds_audit.columns = map(to_camel_case, ds_audit.columns)
-            #Convert timeCollected column in datatime format.
+            # Convert timeCollected column in datatime format.
             ds_audit[headerTimeCollected] = pd.to_datetime(ds_audit[headerTimeCollected], format='mixed', yearfirst=True, utc=True)
-            #Sort DataFrame by 'timeCollected' value.
+            # Sort DataFrame by 'timeCollected' value.
             ds_audit = ds_audit.sort_values(by=headerTimeCollected, ascending=False, ignore_index=True)
-            #Rebuild index of DataFrame.
+            # Rebuild index of DataFrame.
             ds_audit = ds_audit.reset_index(drop=True)
     except Exception as e:
         logger.error("List Audits from Data Safe Error: %s.", e)
@@ -159,7 +159,7 @@ def check_object_from_bucket(l_bucketName, l_objectName, ol_client):
                                                        )
         if list_objects_response.data.objects:
             for o in list_objects_response.data.objects:
-                #File already present in bucket.
+                # File already present in bucket.
                 logger.debug("ObjectName: " + str(o.name) + ".")
                 if o.name == l_objectName:
                     logger.debug("Object file " + l_objectName + " is in a Bucket.")
@@ -168,7 +168,7 @@ def check_object_from_bucket(l_bucketName, l_objectName, ol_client):
                     logger.debug("Object file " + l_objectName + " is not present in a Bucket.")
                     fileExist = False
         else:
-            #File is not present in bucket.
+            # File is not present in bucket.
             logger.debug("Object file " + l_objectName + " is not present in a Bucket.")
             fileExist = False    
     except Exception as e:
@@ -179,15 +179,15 @@ def check_object_from_bucket(l_bucketName, l_objectName, ol_client):
     return fileExist
 
 def check_file_lock_bucket(lo_bucketName, lo_objectName, lo_client, lo_fntimeout, lo_current_time):
-    #Check if lock file is in OCI ObjectStorage/Bucket.
+    # Check if lock file is in OCI ObjectStorage/Bucket.
     logger.debug("Check lock file is in a Bucket")
     lockFilePresent = False
     lockFileExist = check_object_from_bucket(lo_bucketName, lo_objectName, lo_client)
     if lockFileExist:
         logger.debug("Check if lock file last modified time is > of fn execution.")
-        #Get Last Modified Time lock file from bucket.
+        # Get Last Modified Time lock file from bucket.
         oblastmodifiedtime_str = get_object_last_modified_time_from_bucket(lo_bucketName, lo_objectName, lo_client)
-        #Covert data in datatimeFormat date: Thu, 15 Jun 2023 10:25:17 GMT.
+        # Covert data in datatimeFormat date: Thu, 15 Jun 2023 10:25:17 GMT.
         oblastmodifiedtime = datetime.strptime(oblastmodifiedtime_str, '%a, %d %b %Y %H:%M:%S %Z')
         oblastmodifiedtime = oblastmodifiedtime + lo_fntimeout
 
@@ -204,7 +204,7 @@ def check_file_lock_bucket(lo_bucketName, lo_objectName, lo_client, lo_fntimeout
     return lockFilePresent
 
 def get_object_from_bucket(r_bucketName, r_objectName, or_client, r_lastAuditEventRecordTime_attr):
-    #Get cursor file with last execution in OCI ObjectStorage/Bucket.
+    # Get cursor file with last execution in OCI ObjectStorage/Bucket.
     logger.debug("Get object " + r_objectName + " file from Bucket.")
     r_namespace = or_client.get_namespace().data
     try:
@@ -220,7 +220,7 @@ def get_object_from_bucket(r_bucketName, r_objectName, or_client, r_lastAuditEve
     return r_lastexecutionupdatime
 
 def delete_object_from_bucket(d_bucketName, d_objectName, d_client):
-    #Delete object from bucket in OCI ObjectStorage/Bucket.
+    # Delete object from bucket in OCI ObjectStorage/Bucket.
     logger.debug("Delete object " + d_objectName + " Bucket.")
     d_namespace = d_client.get_namespace().data
     try:
@@ -233,7 +233,7 @@ def delete_object_from_bucket(d_bucketName, d_objectName, d_client):
     
 
 def get_object_last_modified_time_from_bucket(h_bucketName, h_objectName, h_client):
-    #Get last_modified_time header from file in bucket.
+    # Get last_modified_time header from file in bucket.
     logger.debug("Get last_modified_time header from object " + h_objectName + " in bucket.")
     h_namespace = h_client.get_namespace().data
     try:
@@ -275,7 +275,7 @@ def generate_scim_query(q_last_time_collected, q_actual_time):
     return scim_query
 
 def main(ctx):
-    #Initializing Variables.
+    # Initializing Variables.
     limit = 10000
     access_level = "ACCESSIBLE"
     sort_by = "timeCollected"
@@ -287,7 +287,7 @@ def main(ctx):
     lock_file_name = "lock.json"
     lastAuditEventRecordTime_attr = "lastAuditEventRecordTime"
     ds_dbaudit_events = pd.DataFrame()
-    #Maximun number of audit events collected for each execution. The value 50000 is specific with function timeout equal to 5 mins.  
+    # Maximun number of audit events collected for each execution. The value 50000 is specific with function timeout equal to 5 mins.  
     max_auditevents = 50000
     try:
         logger.info("Function start.")
@@ -306,7 +306,7 @@ def main(ctx):
             "OCI OS BucketName: " + ociOSTrackerBucketName + "."
         )
         
-        #Calculate fn timeout configured for manage validity of lock file.
+        # Calculate fn timeout configured for manage validity of lock file.
         fndeadlinetime_str = ctx.Deadline()
         fndeadlinetime = datetime.strptime(fndeadlinetime_str, '%Y-%m-%dT%H:%M:%SZ')
         current_time_t = datetime.utcnow()
@@ -331,7 +331,7 @@ def main(ctx):
         logger.debug("Manage file lock in Bucket.")
         check_file_lock = check_file_lock_bucket(ociOSTrackerBucketName, lock_file_name, os_client, fntimeout, current_time_t)
         if check_file_lock:
-            #File lock is present and valid other fn execution is active.
+            # File lock is present and valid other fn execution is active.
             logger.info("File Lock is valid other fn session is yet in execution.")
         else:
             # Step 4: Check if exist file cursor in ObjectStorage/Bucket. 
@@ -415,5 +415,3 @@ def handler(ctx, data: io.BytesIO = None):
         return response.Response(
             ctx, status_code=401, response_data=json.dumps({"error": "exception"})
         )
-    
-
