@@ -1,9 +1,9 @@
 # Networking Workshop Assets
 
-We have 2 slides - longer and shorter formats
+We have 2 slides - longer and shorter formats.
 
 ## When to use this asset?
-These documents can be use as reusable assets on different technologies around OCI Networking workshops
+These documents can be use as reusable assets on different technologies around OCI Networking workshops.
 
 ## How to use this asset?
 The information is generic in nature and not specified for a particular customer. Appropriate changes in scope should be updated.
