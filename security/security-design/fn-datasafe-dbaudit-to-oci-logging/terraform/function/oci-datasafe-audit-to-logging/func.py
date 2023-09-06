@@ -324,7 +324,7 @@ def main(ctx):
         rps = init_rps_client()
         logger.debug("RPS client obtain with Instance Principal.")
         # Step 2: Initializing ObjectStorage/Bucket Client.
-        logger.debug("initializing ObjectStorage/Bucket client.")
+        logger.debug("Initializing ObjectStorage/Bucket client.")
         os_client = init_objectstorage_client(rps)
         logger.debug("ObjectStorage/Bucket client obtained with Instance Principal.")
         # Step 3: Check file lock in ObjectStorage/Bucket.
@@ -350,7 +350,7 @@ def main(ctx):
                 logger.debug("Content from file cursor lasteventexecutiontime: " + lastexecutionupdatime + ".")
                 logger.debug("Content from file cursor done.") 
                 # Step 7: Initializing DataSafe Client.
-                logger.debug("initializing DataSafe client.")
+                logger.debug("Initializing DataSafe client.")
                 data_safe_client = init_datasafe_client(rps)
                 logger.debug("DataSafe client obtained with Instance Principal.")
                 # Step 8: Generate SCIM query based on time window.
@@ -365,7 +365,7 @@ def main(ctx):
                     lastdbauditeventcolletcted = ds_dbaudit_events[headerTimeCollected].iloc[0]
                     logger.debug("Last DB Audit Time Events Collected from DataSafe: " + str(lastdbauditeventcolletcted) + ".")
                     # Step 11: Initializing OCI Logging ingestion Client.
-                    logger.debug("initializing OCI Logging ingestion client.")
+                    logger.debug("Initializing OCI Logging ingestion client.")
                     oci_logging_ingestion_client = init_logging_ingestion_client(rps)
                     logger.debug("OCI Logging ingestion client obtained with Instance Principal.") 
                     #Step 12: Send DB Audit Events to OCI Logging.

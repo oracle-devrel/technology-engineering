@@ -23,18 +23,18 @@ variable "compartment_ocid" {
 }
 
 variable "vcn_cidr" {
-  description = "The cidr block of VCN"
+  description = "The CIDR block of VCN"
 }
 
 variable "subnet_cidr" {
-  description = "The cidr block of Subnet"
+  description = "The CIDR block of Subnet"
 }
 
 variable "vcndnslabelprefix" {
 }
 
 variable "vcnnameprefix" {
-  description = "The prefix display name of vcn"
+  description = "The prefix display name of VCN"
 }
 
 variable "vcnnameroutingtableprefix" {

@@ -70,7 +70,7 @@ variable "create_network" {
 }
 variable "vcn_cidr" {
   default = "10.0.0.0/22"
-  description = "The cidr block of VCN"
+  description = "The CIDR block of VCN"
 }
 
 variable "subnet_cidr" {
