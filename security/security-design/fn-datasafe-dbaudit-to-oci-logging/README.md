@@ -136,7 +136,7 @@ When you no longer need the deployment, you can run this command to destroy the 
 If there is error in destroying the object storage bucket, manually delete the bucket and run "terraform destroy" again.
 
 ### Test Environment
-We tested the terraform script in [Oracle Linux Cloud Developer Image](https://docs.oracle.com/en-us/iaas/oracle-linux/developer/index.htm) and Oracle Resource Manager 
+We tested the terraform script in [Oracle Linux Cloud Developer Image](https://docs.oracle.com/en-us/iaas/oracle-linux/developer/index.htm) and Oracle Resource Manager. 
 
 ### Architecture Diagram
 ![](./images/DatasafetoOCILoggingArchitecture.jpg)
