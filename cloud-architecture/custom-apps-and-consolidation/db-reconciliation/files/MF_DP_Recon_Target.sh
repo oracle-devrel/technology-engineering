@@ -6,7 +6,7 @@
 # @author: Ananda Ghosh Dastidar.
 
 if [ "$#" -lt 2 ]; then
-   echo Usage: $0 "o2o/o2o@service_name" "spool_dir"
+   echo Usage: $0 "<username>/<passowrd>@service_name" "spool_dir"
    exit 1
 fi
 

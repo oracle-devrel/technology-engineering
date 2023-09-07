@@ -38,7 +38,7 @@ SET VERIFY OFF;
 SET ECHO OFF;
 SET PAGES 0;
 
-ACCEPT user_response PROMPT 'Please press Enter to continue : '
+ACCEPT user_response PROMPT 'Please press Enter to continue: '
 
 --Source check and validation
 SET TERM OFF;
@@ -70,7 +70,7 @@ END;
 /
 SPOOL OFF
 SET TERMOUT ON;
-SPOOL Source_Steps_Execution.log append
+SPOOL source_steps_execution.log append
 @raise_exit.sql
 PROMPT
 SET TERM ON;
