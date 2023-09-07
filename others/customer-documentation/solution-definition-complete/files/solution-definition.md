@@ -284,7 +284,7 @@ At the time of this document creation, no Security requirements have been specif
 
 *Guide*
 
-*Capture the Non-Functional Requirements for networking-related topics. You can use the networking questions in the [Annex](#networking-requiremend-considerations)*
+*Capture the Non-Functional Requirements for networking-related topics. You can use the networking questions in the [Annex](#networking-requirement-considerations)*
 
 *Example:*
 
@@ -421,87 +421,88 @@ Any deviations from these recommendations needed for the scope of this document 
 
 \<Customer Name\> is responsible for implementing, managing, and maintaining all listed topics.
 
-<table style="width:26%;">
+<table style="width:25%;">
 <colgroup>
 <col style="width: 2%" />
 <col style="width: 2%" />
 <col style="width: 19%" />
-<col style="width: 0%" />
 </colgroup>
+<thead>
+<tr class="header">
+<th>CATEGORY</th>
+<th>TOPIC</th>
+<th>DETAILS</th>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
-<td rowspan="2"><h4 id="category">CATEGORY</h4>
-<p>User Management</p></td>
-<td rowspan="2"><h4 id="topic">TOPIC</h4>
-<p>IAM Default Domain</p></td>
-<td colspan="2" rowspan="2"><p>DETAILS | ======================================================================================================================================================================================================+ Multi-factor Authentication (MFA) should be enabled and enforced for every non-federated OCI user account. |</p>
+<td>User Management</td>
+<td>IAM Default Domain</td>
+<td><p>Multi-factor Authentication (MFA) should be enabled and enforced for every non-federated OCI user account.</p>
 <ul>
-<li>For configuration details see <a href="https://docs.oracle.com/en-us/iaas/Content/Identity/mfa/understand-multi-factor-authentication.htm">Managing Multi-Factor Authentication</a>. | | In addition to enforcing MFA for local users, Adaptive Security will be enabled to track the Risk Score of each user of the Default Domain.</li>
-<li>For configuration details see <a href="https://docs.oracle.com/en-us/iaas/Content/Identity/adaptivesecurity/overview.htm">Managing Adaptive Security and Risk Providers</a>. |</li>
+<li>For configuration details see <a href="https://docs.oracle.com/en-us/iaas/Content/Identity/mfa/understand-multi-factor-authentication.htm">Managing Multi-Factor Authentication</a>.</li>
+</ul>
+<p>In addition to enforcing MFA for local users, Adaptive Security will be enabled to track the Risk Score of each user of the Default Domain.</p>
+<ul>
+<li>For configuration details see <a href="https://docs.oracle.com/en-us/iaas/Content/Identity/adaptivesecurity/overview.htm">Managing Adaptive Security and Risk Providers</a>.</li>
 </ul></td>
 </tr>
 <tr class="even">
-</tr>
-<tr class="odd">
 <td></td>
 <td>OCI Emergency Users</td>
-<td colspan="2"><p>A maximum of <strong>three</strong> non-federated OCI user accounts should be present with the following requirements: |</p>
+<td><p>A maximum of <strong>three</strong> non-federated OCI user accounts should be present with the following requirements:</p>
 <ul>
-<li>Username does not match any username in the Customer’s Enterprise Identity Management System |</li>
-<li>Are real humans. |</li>
-<li>Have a recovery email address that differs from the primary email address. |</li>
-<li>User capabilities have Local Password enabled only. |</li>
-<li>Has MFA enabled and enforced (see IAM Default Domain). |</li>
-</ul></td>
-</tr>
-<tr class="even">
-<td></td>
-<td>OCI Administrators</td>
-<td colspan="2"><p>Daily business OCI Administrators are managed by the Customer’s Enterprise Identity Management System. | This system is federated with the IAM Default Domain following these configuration steps: |</p>
-<ul>
-<li>Federation Setup |</li>
-<li>User Provisioning |</li>
-<li>For configuration guidance for major Identity Providers see the OCI IAM Identity Domain tutorials. |</li>
+<li>Username does not match any username in the Customer’s Enterprise Identity Management System</li>
+<li>Are real humans.</li>
+<li>Have a recovery email address that differs from the primary email address.</li>
+<li>User capabilities have Local Password enabled only.</li>
+<li>Has MFA enabled and enforced (see IAM Default Domain).</li>
 </ul></td>
 </tr>
 <tr class="odd">
+<td></td>
+<td>OCI Administrators</td>
+<td><p>Daily business OCI Administrators are managed by the Customer’s Enterprise Identity Management System. This system is federated with the IAM Default Domain following these configuration steps:</p>
+<ul>
+<li>Federation Setup</li>
+<li>User Provisioning</li>
+<li>For configuration guidance for major Identity Providers see the OCI IAM Identity Domain tutorials.</li>
+</ul></td>
+</tr>
+<tr class="even">
 <td></td>
 <td>Application Users</td>
 <td>Application users like OS users, Database users, or PaaS users are not managed in the IAM Default Domain but either directly or in dedicated identity domains. These identity domains and users are covered in the Workload design. For additional information see <a href="https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/iam-security-structure.htm">Design Guidance for IAM Security Structure</a>.</td>
-<td></td>
-</tr>
-<tr class="even">
-<td>Cloud Posture Management</td>
-<td>OCI Cloud Guard</td>
-<td colspan="2"><p>OCI Cloud Guard will be enabled at the root compartment of the tenancy home region. This way it covers all future extensions, like new regions or new compartments, of your tenancy automatically. | It will use the Oracle Managed Detector and Responder recipes at the beginning and can be customized by the Customer to fulfill the Customer’s security requirements. |</p>
-<ul>
-<li>For configuration details see <a href="https://docs.oracle.com/en-us/iaas/cloud-guard/using/part-start.htm">Getting Started with Cloud Guard</a>. | Customization of the Cloud Guard Detector and Responder recipes to fit the Customer’s requirements is highly recommended. This step requires thorough planning and decisions to make. |</li>
-<li>For configuration details see <a href="https://docs.oracle.com/en-us/iaas/cloud-guard/using/part-customize.htm">Customizing Cloud Guard Configuration</a> |</li>
-</ul></td>
 </tr>
 <tr class="odd">
+<td>Cloud Posture Management</td>
+<td>OCI Cloud Guard</td>
+<td><p>OCI Cloud Guard will be enabled at the root compartment of the tenancy home region. This way it covers all future extensions, like new regions or new compartments, of your tenancy automatically. It will use the Oracle Managed Detector and Responder recipes at the beginning and can be customized by the Customer to fulfill the Customer’s security requirements.</p>
+<ul>
+<li>For configuration details see <a href="https://docs.oracle.com/en-us/iaas/cloud-guard/using/part-start.htm">Getting Started with Cloud Guard</a>. Customization of the Cloud Guard Detector and Responder recipes to fit the Customer’s requirements is highly recommended. This step requires thorough planning and decisions to make.</li>
+<li>For configuration details see <a href="https://docs.oracle.com/en-us/iaas/cloud-guard/using/part-customize.htm">Customizing Cloud Guard Configuration</a></li>
+</ul></td>
+</tr>
+<tr class="even">
 <td></td>
 <td>OCI Vulnerability Scanning Service</td>
 <td><p>In addition to OCI Cloud Guard, the OCI Vulnerability Scanning Service will be enabled at the root compartment in the home region. This service provides vulnerability scanning of all Compute instances once they are created.</p>
 <ul>
 <li>For configuration details see <a href="https://docs.oracle.com/en-us/iaas/scanning/home.htm">Vulnerability Scanning</a>.</li>
 </ul></td>
-<td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Monitoring</td>
 <td>SIEM Integration</td>
 <td>Continuous monitoring of OCI resources is key for maintaining the required security level (see <a href="#regulations-and-compliances-requirements">Regulations and Compliance</a> for specific requirements). See <a href="https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/siem-integration.htm">Design Guidance for SIEM Integration</a> to implement integration with the existing SIEM system.</td>
-<td></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Additional Services</td>
 <td>Budget Control</td>
 <td><p>OCI Budget Control provides an easy-to-use and quick notification on changes in the tenancy’s budget consumption. It will be configured to quickly identify unexpected usage of the tenancy.</p>
 <ul>
 <li>For configuration details see <a href="https://docs.oracle.com/en-us/iaas/Content/Billing/Tasks/managingbudgets.htm">Managing Budgets</a></li>
 </ul></td>
-<td></td>
 </tr>
 </tbody>
 </table>
@@ -796,7 +797,8 @@ Synchronized clocks are a necessity for securely operating environments. OCI pro
 
 *Reference:*
 
-[HA Reference for EBS](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-architecture/oracle-apps-erp)
+-   [Resilliance on OCI](https://docs.public.oneportal.content.oci.oraclecloud.com/en-us/iaas/Content/cloud-adoption-framework/era-resiliency.htm)
+-   [Workload Related Content](https://github.com/oracle-devrel/technology-engineering/)
 
 ### Security
 
