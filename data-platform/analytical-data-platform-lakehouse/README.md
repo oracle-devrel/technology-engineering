@@ -38,6 +38,13 @@ Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a compl
 - [Real Time Analytics DW DR Architecture (Part II) - DR Recovery Operations](https://gianlucarossi06.github.io/data-organon/2023/04/20/Real-Time-Analytics-DW-DR-Architecture-(Part-II).html)
   - Blog post showcasing a disaster simulation on the primary Region and describing the operational tasks that need to be performed to properly start the workload in the secondary Region.
 
+### YouTube
+
+- [Real Time Analytics on Oracle Data Platform](https://www.youtube.com/watch?v=SVmM0CuLnU4)
+  - Cloud Coaching session describing what is Real Time Analytics and how to architect a real time analytics workload on the Oracle Data Platform.
+- [Analytics and Lakehouse for Oracle Applications](https://youtu.be/a_JsSzmz1_U)
+  - Session describing how to architect analytical workloads for Oracle Applications.
+
 ### LinkedIn
 
 - [Data Swamps No More!](https://www.linkedin.com/pulse/data-swamps-more-ismael-hassane/)
