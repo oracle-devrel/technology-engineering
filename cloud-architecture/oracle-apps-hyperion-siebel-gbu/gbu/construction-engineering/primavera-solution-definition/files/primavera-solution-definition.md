@@ -720,7 +720,7 @@ Example:
 
 The below diagram describes the future logical architecture for Primavera at ${doc.customer.name}
 
-![Future Logical Architecture](images/app-cegbu-pv-ar-logical-state-arch-01.png)
+![Future Logical Architecture](images/primavera-logical-arch.png)
 
 
 ### Physical Architecture
@@ -737,7 +737,7 @@ The below diagram describes the future logical architecture for Primavera at ${d
 
 The below diagram describes the future physical architecture for Primavera at ${doc.customer.name}
 
-![Future Physical Architecture](images/app-cegbu-pv-ar-physical-state-arch-1ad-01.png) 
+![Future Physical Architecture](images/primavera-physical-arch-1ad.png) 
 
 *The attached "images" folder includes alternative architectural designs, encompassing both multi-availability domain (AD) and multi-region deployments. The diagrams are provided in draw.io format and are editable.*
 
