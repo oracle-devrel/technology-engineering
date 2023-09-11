@@ -1,23 +1,19 @@
 # Data Transforms
  
-Oracle Data Transforms is an Oracle Data Integrator (ODI) based integration tool that can be deployed from Oracle Cloud Marketplace. It provides a fully unified solution for building, deploying, and managing complex data warehouses or as part of data-centric architectures in a SOA or business intelligence environment. 
+Data Transforms is an easy-to-use graphical user interface that Oracle Autonomous Database users can use to design graphical data transformations for data integration.
 
-In addition, it combines all the elements of data integration - data movement, data synchronization, data quality, and data management - to ensure that information is timely, accurate, and consistent across complex systems. Oracle Data Transforms integrates with Oracle Autonomous Database (Autonomous Data Warehouse and Autonomous Transaction Processing) for repository creation as well as for loading data directly into ADB or ATP.
+Data Transforms allows you to design data transformations in the form of data loads, data flows, and workflows, without requiring you to write any code. Data loads provide a convenient way of loading data into Autonomous Database, data flows define how the data is moved and transformed between different systems, while the workflows define the sequence in which the data flows are executed.
 
-
- 
 # Useful Links
- 
-- [Introducing Data Transforms](https://blogs.oracle.com/dataintegration/post/introducing-oracle-data-transforms-oracle-data-integrator-odi-powered-elt-tool-on-oracle-cloud-marketplace)
-    - An introduction to Data Transforms
-     
-- [Using Oracle Data Transforms](https://docs.oracle.com/en/middleware/fusion-middleware/data-integrator/12.2.1.4/oditu/using-oracle-data-transforms.html#GUID-CD461716-55C3-4C6B-88F4-0D7206183B91)
-    - Documentation link
 
-- [Data Integrator Web Edition Usage Information](https://cloudmarketplace.oracle.com/marketplace/en_US/listing/87183711)
+- [Introducing Oracle Data Transforms](https://www.youtube.com/watch?v=ImrdoFe-4QE)
 
-    - Usage information for Data Integrator Web Edition on Marketplace
-    
+- [Oracle Data Transforms - Handling Incremental Loads](https://www.youtube.com/watch?v=3TCapQSa41s)
+
+- [Oracle Data Transforms Documentation](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/adp-odt-data-transforms-page.html)
+
+- [Oracle Data Transforms Supported Connection Types](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/adp-odt-data-transforms-page.html#ADBSB-GUID-0FCBCBDB-4016-4EDC-B6E0-38E4D1BC0A)
+
 - [Deploying and launching Data Transforms](https://blogs.oracle.com/dataintegration/post/deploying-and-launching-oracle-data-transforms)
     - Blog entry about how to deploy and launch Data Transforms
  
