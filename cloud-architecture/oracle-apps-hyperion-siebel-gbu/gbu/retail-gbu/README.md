@@ -17,7 +17,7 @@ The reusable assets available in this repository:
 
  - [Example solution definition document for the deployment of Oracle Retail Applications on OCI.](./rgbu-solution-definition)
  - [Editable example architecture diagrams in drawio format.](./rgbu-solution-definition/files/images/rgbu-physical-arch.drawio)
- - Discovery questionnaire designed to streamline the collection of the necessary information.
+ - [Discovery questionnaire designed to streamline the collection of the necessary information.](./rgbu-discovery-questionnaire/files/rgbu-discovery-questionnaire.xlsx)
  - [Decision tree about the upgrade and migration process](./rms-decision-tree) 
 
 ## Useful Links

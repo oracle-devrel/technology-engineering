@@ -1,6 +1,6 @@
 # Identity & Access Management Team
 
-The Identity and Access Management group under Technology Engineering Security Specialists team is responsible to provide the expertise on the on-premise IAM, Cloud Security related to the customers. The IAM team helps build, define and support the strategy, workshops and deliver re-useable assets which contribute to how Oracle assists the IAM requirements of partners and customers.
+The Identity and Access Management group under the Technology Engineering Security Specialists team is responsible for providing expertise on the on-premise IAM and Cloud Security related topics to Oracle partners and customers. The IAM team helps build, define and support the strategy, workshops and delivery of re-useable assets, which contribute to how Oracle addresses the IAM requirements of partners and customers. The team is typically involved in:
 
 - Custom Demos based on the customer requirements
 - POCs with various integrations
@@ -9,8 +9,12 @@ The Identity and Access Management group under Technology Engineering Security S
 
 ## Reusable Assets Overview
 
+**Note:** The below assets are provided for reference purposes only and for use in demos/PoC activities where required.
+
 - [Oracle Identity Governance SCIM Postman Samples](oracle-identity-governance/postman-scim-samples/README.md)
 - [Temporary User Disable Scheduled Task](oracle-identity-governance/scheduled-task-samples/temporary-user-disable/README.md)
+- [Access Extension Notification Scheduled Task](oracle-identity-governance/scheduled-task-samples/access-extension-notification/README.md)
+- [Extend Access WebService](oracle-identity-governance/webservice-samples/extend-access-ws/README.md)
      
 ## Useful Links
 

@@ -7,43 +7,54 @@ This section contains various examples related to Application Integration: demo 
 - [Enable multicloud integrations from Oracle Cloud ERP to Microsoft Azure SQL Database](https://docs.oracle.com/en/solutions/oci-multicloud-erp-azure/index.html)
     - Reference Architecture on the Oracle Architecture Center, which provides the necessary considerations and recommendations to enable a multicloud, event-driven, and no-code integration solution to receive real-time feeds from Oracle Cloud ERP and send those to a private Microsoft Azure SQL Database, leveraging a component Oracle Integration provides called the connectivity agent, to facilitate on-premises/multicloud integrations
 - [Implement message-level encryption in Oracle Integration Cloud using OCI Vault](https://docs.oracle.com/en/solutions/oic-message-level-encryption/index.html#GUID-5C843938-A470-4584-9048-4361025358C6)
-    - Message-Level Encryption (MLE) is a security technique used to protect the confidentiality and integrity of a message during transmission. It involves using encryption algorithms to scramble the contents of a message so that only the intended recipient, with the decryption keys, can read it. This reference architecture shows how you can implement message level encryption in OIC using OCI Vault Service.
+    - Message-level encryption (MLE) is a security technique used to protect the confidentiality and integrity of a message during transmission. It involves using encryption algorithms to scramble the contents of a message so that only the intended recipient, with the decryption keys, can read it. This reference architecture shows how you can implement message-level encryption in OIC using OCI Vault Service.
 
 ## Demos
 
 - [Cloud Coaching Webinar: Multi-Cloud Employee New Hire Delta Feeds from Oracle HCM Cloud into Azure Data Lake](https://youtu.be/sn0qLz4jJ38)
-    - Demo Video where we show to quickly and easily enable a multi-cloud integration solution to feed a private Microsoft Azure Data Lake (Azure Blob Storage) with Employee New Hire Delta Feeds coming from Oracle Fusion HCM Cloud. Learn how to use a no-code approach with Oracle Integration Cloud's prebuilt connectors and connectivity agent (key enabler for multicloud integrations) and Oracle Cloud Infrastructure Streaming (Kafka-based)
+    - Demo Video where we show how to quickly and easily enable a multi-cloud integration solution to feed a private Microsoft Azure Data Lake (Azure Blob Storage) with Employee New Hire Delta Feeds coming from Oracle Fusion HCM Cloud. Learn how to use a no-code approach with Oracle Integration Cloud's prebuilt connectors and connectivity agent (key enabler for multicloud integrations) and Oracle Cloud Infrastructure Streaming (Kafka-based)
+
+- [Oracle Integration Cloud - Feature - Recipes](https://youtu.be/Yfim7S11gU8)
+    -This video will explain Oracle Integration Cloud Feature Recipes. Recipes are pre-built integrations covering a certain use case scenario. A recipe contains all the resources required for a specific integration use case. The resources include integration flows, connections, lookups, and certificates. Use a recipe to quickly get started on your integration journey.
+    Demonstration includes:
+    - Overview of Recipes
+    - How to find and install recipes
+    - Run and Test Recipes
+    - The following Recipes demonstrated end-to-end
+        - Oracle Fusion PopUp Notification
+        - Oracle ERP Cloud FTP Server Business Event
+        - SOAP Calculator Multiple Operations
 
 - [Oracle Integration Cloud - Feature - Projects](https://youtu.be/CxNDbBnWWYU) 
-    -This video will explain Oracle Integration Cloud Feature Projects, how you can use it. Enterprises often have hundreds of integrations to manage and monitor. Developers want to focus on specific integration components involved with an automated business process. With OIC Project, all related integrations and their components are in a single unified workspace. Additionally, projects provide robust life cycle management and risk-free updates to prebuilt integrations.
+    -This video will explain Oracle Integration Cloud Feature Projects, and how you can use it. Enterprises often have hundreds of integrations to manage and monitor. Developers want to focus on specific integration components involved with an automated business process. With OIC Project, all related integrations and their components are in a single unified workspace. Additionally, projects provide robust life cycle management and risk-free updates to prebuilt integrations.
 
     Demonstration includes:
     - Creating Project & setting Role Based Access
-    - Creating Connections (FTP, Rest, Autonomous Database(ATP) using JDBC With OCI Signature security Policy)
+    - Creating Connections (FTP, Rest, Autonomous Database(ATP) using JDBC With OCI Signature Security Policy)
     - Creating Lookup
     - Creating App Driven Integration (Bulk Load Data to ATP)
     - Creating Schedule Integration
-    - Run, Observe & Monitor the Integrations
-    - Create Deployments and Migrate to another Instances
-    - Creating a new Version of Integration, Deployment and Migrate to another Instance
+    - Run, Observe and monitor the Integrations
+    - Create Deployments and Migrate to another instance
+    - Creating a new version of Integration, Deployment, and Migrate to another Instance
     - Add Schedule and see Future Runs
-    - Check Design time Audit
+    - Check Design Time Audit
 
 - [Oracle Integration Cloud - Feature - Publish & Subscribe Events](https://youtu.be/3gZcHnPJtuk)
 
-    -This video will explain Oracle Integration Cloud Feature Events, how Events can be used to create publish and subscribe integration pattern.
+    -This video will explain Oracle Integration Cloud Feature Events, and how Events can be used to create publish and subscribe integration patterns.
     
     Demonstration includes:
     - Creating an Event in Oracle Integration Cloud
     - Creating an Integration that publishes the Event
-    - Creating an integration that subscribes to the Event and add data in ServiceNow
-    - Creating an integration that subscribes to the Event and append data in a file stored in an FTP Server
+    - Creating an integration that subscribes to the Event and adds data in ServiceNow
+    - Creating an integration that subscribes to the Event and appends data in a file stored in an FTP Server
 
 - [Oracle Integration Cloud - Feature - Parallel Action](https://youtu.be/BTtPsDyiVLo)
-    -This video demonstrate how you can use parallel action in Oracle Integration.
+    -This video demonstrates how you can use parallel action in Oracle Integration.
     Parallel action is used to process tasks in parallel to improve integration performance and response times. 
     
-    Demonstration includes: Rest Based App Driven Integration that takes Supplier Data and Creates the Supplier in parallel in two systems:
+    The demonstration includes Rest Based App Driven Integration that takes Supplier Data and Creates the Supplier in parallel in two systems:
     - Oracle ERP Cloud 
     - Autonomous Database
 - [Red Hot Webinar: Event-Driven and Low-Code Document Approval Process and Lifecycle Automation](https://youtu.be/kQuF2XOYKOc)
@@ -61,7 +72,7 @@ This section contains various examples related to Application Integration: demo 
 - [Red Hot Webinar: Event-Driven & Real-Time Order Feeds from Shopify to MSFT SQLServerDB with No-Code Integration](https://youtu.be/IFrFI-feWQU)
     - Demo Video about enabling Real-Time and Event-Driven Order feeds from Shopify to an On-Prem Microsoft SQLServer DB, using No-Code Integration with Oracle Cloud Integration and Streaming (Kafka-based)
 - [Cloud Coaching Webinar: Building a Multi-Cloud, Event-Driven Service Request Feeds Solution using No-Code Integration](https://youtu.be/gvENaT6fcYY)
-    - Demo Video where we show to quickly and easily enable a real-time and event-driven solution to feed a Microsoft Azure SQL database with service request data coming from Oracle Fusion CX Service. Learn how to use a no-code approach with Oracle Integration Cloud's prebuilt connectors and connectivity agent (key enabler for multicloud integrations) and Oracle Cloud Infrastructure Streaming (Kafka-based)
+    - Demo Video where we show how to quickly and easily enable a real-time and event-driven solution to feed a Microsoft Azure SQL database with service request data coming from Oracle Fusion CX Service. Learn how to use a no-code approach with Oracle Integration Cloud's prebuilt connectors and connectivity agent (key enabler for multicloud integrations) and Oracle Cloud Infrastructure Streaming (Kafka-based)
 - [OIC - Recipes and Accelerators - Exploit Reuse](https://www.youtube.com/watch?v=qt_vX5CpRL4)
     - Demo Video (part of Red Hot Webinars) where we show how to use a Recipe (HCM Employee sync) and how to enhance it through an available accelerator.
 - [Cloud Integration is not only for SaaS: an EBS modernization ](https://www.youtube.com/watch?v=E_Kz-r26La4)
@@ -69,8 +80,8 @@ This section contains various examples related to Application Integration: demo 
 
 ## Blogs
 
-- [Practical Guide to use HCM Data Loader with Oracle Integration](https://blogs.oracle.com/integration/post/practical-guide-to-use-hcm-data-loader-with-oracle-integration)
-    - This blog addresses some key practical steps and pre-requisites needed to use HCM Data Loader with Oracle Integration Cloud. Steps like generating Business Object Mapping file in Fusion HCM. How to work with nxsd in Oracle Integration Cloud and more.
+- [Practical Guide to using HCM Data Loader with Oracle Integration](https://blogs.oracle.com/integration/post/practical-guide-to-use-hcm-data-loader-with-oracle-integration)
+    - This blog addresses some key practical steps and prerequisites needed to use HCM Data Loader with Oracle Integration Cloud. Steps like generating Business Object Mapping file in Fusion HCM. How to work with nxsd in Oracle Integration Cloud and more.
 
 - [OCI Signature in Oracle Integration Rest Adapter for OCI Rest APIs](https://blogs.oracle.com/integration/post/oci-signature-in-rest-adapter-for-oci-rest-apis)
     - This blog provides step by step guide on configuring OCI Signature Version 1 security policy in OIC Rest Adapter to call any OCI Rest APIs.
