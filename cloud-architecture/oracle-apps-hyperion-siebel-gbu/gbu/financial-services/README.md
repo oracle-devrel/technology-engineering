@@ -1,4 +1,4 @@
-# Oracle Food and Beverage applications
+# Oracle Financial Services applications
  
 This repository is dedicated to the migration or upgrade of Oracle Financial Services (FSGBU) applications to Oracle Cloud Infrastructure (OCI). The intent is to support professionals and organizations transitioning their FSGBU environments to OCI by providing an extensive array of essential resources.
 

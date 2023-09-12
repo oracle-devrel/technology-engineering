@@ -1,4 +1,4 @@
-# Oracle Food and Beverage Discovery Questionnaire
+# Oracle Financial Services Questionnaire
 
 This asset helps the customer and/or the partner to conduct a thorough discovery phase gathering all the necessary information for a proper design of Financial Services applications on OCI.
 
