@@ -2,21 +2,21 @@
 
 Assets that contain solution design practice and implementation steps for the Hybrid Integrations and integrating private OCI resources.
 
-## OIC-Connectivity-Agent-and-Hybrid-Integrations
+# OIC-Connectivity-Agent-and-Hybrid-Integrations
 
  oic-connectivity-agent-and-hybrid-integrations.pdf - This document contains architectures and references that should help to decide on an integration architecture on OCI. It describes the connectivity agent and uses the connectivity agent to create hybrid integrations and exchange messages between applications in private or on-premises networks and Oracle Integration.
 
-## Installing-OIC-agent-on-OCI
+# Installing-OIC-agent-on-OCI
 
  installing-oic-agent-on-oci.pdf - This cookbook-style article which should demonstrate how easy it is to create and manage the connectivity between the Oracle Integration Cloud and private resources in OCI or VPN to on-premise or third-party cloud resources without public IP.
 
-## When to use this asset?
+# When to use this asset?
 
 These assets should be used whenever needed to design solutions with on-premises or private cloud resources integration.
 
-## How to use this asset?
+# How to use this asset?
 
-### OIC-Connectivity-Agent-and-Hybrid-Integrations
+## OIC-Connectivity-Agent-and-Hybrid-Integrations
 
 The information is generic in nature and not specified for a particular customer. 
 

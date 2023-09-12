@@ -4,7 +4,7 @@ Oracle Process Automation (OPA) capabilities help business and IT groups within 
 
 There are two working environments: the design-time environment, where you develop and test applications, and the runtime environment, where you use and monitor process applications: Structured Processes and Dynamic Processes.
 
-## Useful Links
+# Useful Links
 
 - [OCI API Management Oracle.com Page](https://www.oracle.com/integration/process-automation/)
 - [OCI OPA 3 Documentation](https://docs.oracle.com/en-us/iaas/process-automation/index.html)
@@ -13,15 +13,10 @@ There are two working environments: the design-time environment, where you devel
 - [Course: Process Automation Using Oracle Integration Cloud](https://mylearn.oracle.com/ou/course/process-automation-using-oracle-integration-cloud-new/101633/)
 - [New OCI Process Automation Gen3 Demo of UI Enhancements](https://videohub.oracle.com/media/New+OCI+Process+Automation+Gen3+-+UI+Enhancements+Demo/1_t31x313u)
 
-
-## Reusable Assets Overview
-
-Relevant reusable assets can be found in subfolders.
-
 # License
 
 Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
