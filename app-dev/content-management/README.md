@@ -40,6 +40,7 @@ Oracle's on-premise content management offering is Oracle WebCenter which is the
 - [WORKSHOP - OCM Content Migration Using Mount Point ](ocm-files/OCM_Content_Migration_Using_Mount_Point.pdf)
 - [Red Hot Webinar: Event-Driven and Low-Code Document Approval Process and Lifecycle Automation](https://youtu.be/kQuF2XOYKOc)
     - Demo Video about enabling Document Lifecycle Automation using a Low-Code Approach with OCI Integration (ProcessAutomation, Integration & Visual App Builder), Content Management (embedded document mgmt & Microsoft O365 online editor plugin), Streaming (kafka-based) and Autonomous Database (document business data store).
+- [OCI – Automating Document Processing with Oracle Content Management, Integration Cloud & AI Document Understanding](https://community.oracle.com/customerconnect/events/604868-oci-automating-document-processing-with-oracle-content-management-integration-cloud-ai-document-understanding)
 
 # Sauce
 
