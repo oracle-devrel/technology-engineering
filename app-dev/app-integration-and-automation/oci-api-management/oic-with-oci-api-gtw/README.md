@@ -7,7 +7,9 @@
 This asset is provided as an example. Please tailor the code according to your needs and your context.
  
 # License
- 
-Copyright (c)  2023,  Oracle and/or its affiliates.
 
-Licensed under the Universal Permissive License (UPL), Version 1.0 as shown at https://oss.oracle.com/licenses/upl.
+Copyright (c) 2023 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
