@@ -11,6 +11,15 @@ This section contains various examples related to Application Integration: demo 
 
 ## Demos
 
+- [Usecase - Fusion HCM Payslips to FTP](https://www.youtube.com/watch?v=KxKfnmfHPc8)
+    - This video will demonstrate a common use case, how you can extract data from Fusion HCM using Oracle Integration. You will learn how to download Payslips from Fusion HCM and send it to FTP Server using Oracle Integration
+        Demonstration includes:
+        - Understanding Fusion HCM APIs
+        - Creating Integration using HCM, Rest and FTP Adapters
+        - Passing Absolute path at run time for a Rest invoke
+        - Switch Action to create multiple paths based on data
+        - For Action to traverse through multiple records
+
 - [Cloud Coaching Webinar: Multi-Cloud Employee New Hire Delta Feeds from Oracle HCM Cloud into Azure Data Lake](https://youtu.be/sn0qLz4jJ38)
     - Demo Video where we show how to quickly and easily enable a multi-cloud integration solution to feed a private Microsoft Azure Data Lake (Azure Blob Storage) with Employee New Hire Delta Feeds coming from Oracle Fusion HCM Cloud. Learn how to use a no-code approach with Oracle Integration Cloud's prebuilt connectors and connectivity agent (key enabler for multicloud integrations) and Oracle Cloud Infrastructure Streaming (Kafka-based)
 
