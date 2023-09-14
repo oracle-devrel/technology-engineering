@@ -37,7 +37,7 @@ There are **two assets** for creating OCI tailored landing zones, one for **desi
 
 &nbsp; 
 
-### 2.1 Design - with a Blueprint
+### **2.1 Design** - with a Blueprint
 To tailor a landing zone we recommend using the **[OCI Open LZ Blueprint](https://github.com/oracle-quickstart/terraform-oci-open-lz)**, which is a **reference solution** and a **repeatable design process**. It presents an end-to-end coherent solution - with the security, network, and operations views - of what an organization-wide landing zone looks like, with fine-grained segregation of duties, strong isolation of resources, and a scaleable operating model.
 
 The **benefit** of this blueprint is that it can be completely **adjusted and easily simplified** into any other type of landing zone, by following the design steps towards your needs.  Using this reference blueprint will help **create a day-two operational model ready to scale** - using the IaC solution presented in the next section.
@@ -45,8 +45,8 @@ The **benefit** of this blueprint is that it can be completely **adjusted and ea
 
 &nbsp; 
 
-### 2.2 Run - with Configuration and Infrastructure as Code 
-For this type of approach **we recommend** the use of the **CIS LZ v3 Terraform modules**, to **configure** the resources with *json/hcl* terraform native interfaces. 
+### **2.2 Run** - with Configuration and Infrastructure as Code 
+For this type of approach **we recommend** the use of the **[CIS Landing Zone Enhanced Modules](https://www.ateam-oracle.com/post/cis-landing-zone-enhanced-modules)**, to **configure** the resources with *json/hcl* terraform native interfaces. 
 
 The **benefits** of using this approach are: 
 - **Focus on Value**: Focus on configuring the design and resources, instead of coding them. This means shorter time-to-value, lower effort, and lower risk.
@@ -55,17 +55,17 @@ The **benefits** of using this approach are:
 
 &nbsp; 
 
-The CIS LZ v3 Terraform modules are distributed into five repositories, as described in the table below. 
+These **terraform modules** are presented [**here**](https://www.ateam-oracle.com/post/cis-landing-zone-enhanced-modules) and are distributed into five repositories, as described in the table below. 
 
 &nbsp; 
 
 | MODULES  |  OCI RESOURCES COVERED | DESIGN VIEW MATCH |  USE|
 |---|---|---|---|
-| [IAM](https://github.com/oracle-quickstart/terraform-oci-cis-landing-zone-iam) | Compartments, Groups, Policies, Dynamic Groups | Security View (Tenancy Structure, IAM) | Mandatory |
-| [Network](https://github.com/oracle-quickstart/terraform-oci-cis-landing-zone-networking) | VCNs, Subnets, DGR, Gateways, Load Balancers, etc. | Network View | Mandatory |
-| [Security](https://github.com/oracle-quickstart/terraform-oci-cis-landing-zone-security) | Cloud guard, Security Zones, Vaults, VSS | Security View (Posture) | Optional |
-| [Observability](https://github.com/oracle-quickstart/terraform-oci-cis-landing-zone-observability) | Alarms, Events, Notifications, Service Connectors, Streams | Operations View | Optional |
-| [Governance](https://github.com/oracle-quickstart/terraform-oci-cis-landing-zone-governance) | Tags | Operations View | Optional |
+| [**IAM**](https://github.com/oracle-quickstart/terraform-oci-cis-landing-zone-iam) | Compartments, Groups, Policies, Dynamic Groups | Security View (Tenancy Structure, IAM) | Mandatory |
+| [**Network**](https://github.com/oracle-quickstart/terraform-oci-cis-landing-zone-networking) | VCNs, Subnets, DGR, Gateways, Load Balancers, etc. | Network View | Mandatory |
+| [**Security**](https://github.com/oracle-quickstart/terraform-oci-cis-landing-zone-security) | Cloud guard, Security Zones, Vaults, VSS | Security View (Posture) | Optional |
+| [**Observability**](https://github.com/oracle-quickstart/terraform-oci-cis-landing-zone-observability) | Alarms, Events, Notifications, Service Connectors, Streams | Operations View | Optional |
+| [**Governance**](https://github.com/oracle-quickstart/terraform-oci-cis-landing-zone-governance) | Tags | Operations View | Optional |
 
 &nbsp; 
 
@@ -85,6 +85,8 @@ The CIS LZ v3 Terraform modules are distributed into five repositories, as descr
 | 4 | **Design the Security View first**, with a focus on the tenancy structure and IAM, as all resources and access to them will be defined here. | [OCI Open LZ Security View](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/docs/OCI_Open_LZ.pdf)<br> [OCI Open LZ Draw.io](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/docs/OCI_Open_LZ.drawio)
 | 5 | **Design the Network View**, with a focus on the network structure, connectivity, and isolation. | [OCI Open LZ Network View](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/docs/OCI_Open_LZ.pdf)<br> [OCI Open LZ Draw.io](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/docs/OCI_Open_LZ.drawio)
 | 6 | If applicable, **design the Operations View**, and set up the cloud operating model. It can contain also monitoring and integrations with IT Systems. | [OCI Open LZ Operations View](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/docs/OCI_Open_LZ.pdf) 
+| 7 | Create the **IaC configurations** for your design using the CIS Landing Zone Enhanced Modules.| [OCI Open LZ Rumtime View](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/docs/OCI_Open_LZ.pdf)<br> [CIS Landing Zone Enhanced Modules](https://www.ateam-oracle.com/post/cis-landing-zone-enhanced-modules)
+
 
 &nbsp; 
 
@@ -95,14 +97,14 @@ The CIS LZ v3 Terraform modules are distributed into five repositories, as descr
 
 ## 4. Other Considerations
    
-Note that the **alternative** for not using the configurable approach described in section 2.2 is to **code your own solution**, from zero or reuse existing modules. The CIS v3 modules allow any configuration topology and allow to focus on business resources (workloads) instead of investing time coding to create OCI core resources. By using the recommended approach it's possible to avoid the **common pitfalls** associated with complex customizations:
+Note that the **alternative** for not using the configurable approach described in section 2.2 is to **code your own solution**, from zero or reuse existing modules. The CIS Landing Zone Enhanced Modules allow any configuration topology and allow to focus on business resources (workloads) instead of investing time coding to create OCI core resources. By using the recommended approach it's possible to avoid the **common pitfalls** associated with complex customizations:
 - **Hard-coding**. Changing or adapting code to create a new landing zone different than the original is complex and time-consuming. This also means that any change to the landing zone will be executed by code and not configurations.
 - **Waste & Late Time-to-Value**. The time spent on adapting code, or re-coding over and over for the OCI landing/core resources is time wasted and not used on the business value/workloads.
 - **Limited Scaling**. Doing OCI changes manually can work for some tactical solutions, but it will always limit the scaling and add complexity and cost to the day-two operations. Note that, for example, CIS LZ creates 100+ OCI resources.
 - **Scarce Skills**. IaC Terraform coding skills are not as common as we should expect, which makes these efforts a higher risk and challenge to solve. 
 
 
-For a comparison between **standard landing zone** solutions and the proposed solution for **tailored landing zones** please review the [OCI landing zone solution landcscape](/commons/select_your_solution.pdf).
+For a comparison between **standard landing zone** solutions and the proposed solution for **tailored landing zones** please review the [OCI landing zone solution landcscape](/landing-zones/commons/select_your_solution.pdf).
 
 &nbsp; 
 

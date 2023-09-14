@@ -14,6 +14,7 @@ The LZF was created by the EMEA Landing Zone Specialists, collaborating with wor
 |---|---|
 | <a href="/landing-zones/standard_landing_zones/standard_landing_zones.md" ><img src="images/slz.png" alt= “” width="500" height=""></a>  | **Prescribed** and **ready to use** solutions with a **guided setup** and  **IaC**. This is the recommended approach for initial landing zone deployments covering the most-common workload scenarios.  | 
 | <a href="tailored_landing_zones/tailored_landing_zones.md" ><img src="images/tlz.png" alt= “” width="500" height=""> </a>  | An approach to solve **specific requirements** when the standard is not enough. These LZs run with **configuration-as-code** and are used to scale/bridge with existing **operating models**, complying with fine-grained **segregations of duties**, strong **network isolation**, and heterogeneous **workloads**.  |  
+
 &nbsp; 
 
 If you're **starting with OCI landing zones**:
@@ -24,7 +25,7 @@ If you're **starting with OCI landing zones**:
 
 The following **assets** are also available to improve the OCI landing experience:
 - [Executive Overview of the Available Approaches](/landing-zones/commons/EMEA_LandingZonesSpecialists_ExecOverview.pdf)
-- [How a Tailored OCI Landing Zone Looks Like](https://github.com/oracle-quickstart/terraform-oci-open-lz)
+- [How a Tailored OCI Landing Zone Looks Like (The OCI Open LZ)](https://github.com/oracle-quickstart/terraform-oci-open-lz)
 - [Resource Naming Conventions](/landing-zones/commons/resource_naming_conventions.md)
 - [User Identity Management](/landing-zones/commons/user_identity_management.md)
 - [Budgets and Tagging](/landing-zones/commons/budgets_and_tagging.md)
