@@ -5,7 +5,7 @@ doc:
   cover:                                #Mandatory
     title:                              #Mandatory
       - ${doc.customer.name}            #Mandatory
-      - RGBU Applications to OCI        #Mandatory
+      - ORacle Retail Applications to OCI        #Mandatory
     subtitle:                           #Mandatory
       - Solution Definition             #Mandatory
   customer:                             #Mandatory
@@ -495,7 +495,7 @@ The design considerations for an OCI Cloud Landing Zone have to do with OCI and 
 
 *Example:*
 
-![Future State Logical Architecture](images/rgbu-logical-arch.drawio.png)
+![Future State Logical Architecture](images/retail-logical-arch.drawio.png)
 
 ### Physical Architecture
 
@@ -510,7 +510,7 @@ The design considerations for an OCI Cloud Landing Zone have to do with OCI and 
 
 *Example:*
 
-![Future State Deployment Diagram - RGBU Workload Multi-AD](images/rgbu-physical-arch.drawio.png)
+![Future State Deployment Diagram - Oracle Retail Workload Multi-AD](images/retail-physical-arch.drawio.png)
 
 ### Data Architecture (Optional)
 
