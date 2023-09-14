@@ -72,10 +72,9 @@ If after reviewing the table above the solution is not clear:
 
 | STEP  |   DESCRIPTION | 
 |:---:|---|
-| 1 | Review the previous section | 
-| 2 | Review the [**landing zone landscape**](/landing-zones/commons/select_your_solution.pdf) for complementary **considerations for using** and **before using**.  |
-|3 | Select the solution:<br>a. For the **CIS LZ [start here](/landing-zones/standard_landing_zones/cis_lz_v2/cis_landing_zone_v2.md)**. <br>b. For the **OELZ [start here](/landing-zones/standard_landing_zones/oelz_v2/oelz_v2.md)**.
-| 4 | If it's required a **custom design extending the standard landing zone**, there are three alternatives: <br>**a. OCI Console**: Update the resources after deploying the solution. The impact of this is operating the OCI landing zone with the OCI console, i.e., manually.<br>**b. Extended IaC**: Update the code to fit the needs and deploy the solution. The impact of this might be the effort and skills required. <br>**c. Tailored with IaC**: If it's required more design flexibility or the extensions break the standard solution and require structural changes, use the [tailored landing zone](/landing-zones/tailored_landing_zones/tailored_landing_zones.md) approach.
+| 1 | Review the previous section. | 
+| 2 | Select the solution:<br>a. For the **CIS LZ [start here](/landing-zones/standard_landing_zones/cis_lz_v2/cis_landing_zone_v2.md)**. <br>b. For the **OELZ [start here](/landing-zones/standard_landing_zones/oelz_v2/oelz_v2.md)**.
+| 3 | If it's required a **custom design extending the standard landing zone**, there are three alternatives: <br>**a. OCI Console**: Update the resources after deploying the solution. The impact of this is operating the OCI landing zone with the OCI console, i.e., manually.<br>**b. Extended IaC**: Update the code to fit the needs and deploy the solution. The impact of this might be the effort and skills required. <br>**c. Tailored with IaC**: If it's required more design flexibility or the extensions break the standard solution and require structural changes, use the [tailored landing zone](/landing-zones/tailored_landing_zones/tailored_landing_zones.md) approach.
 
    
 &nbsp; 
