@@ -4,11 +4,13 @@ OCI Vision is an AI service for performing deep-learning–based image analysis 
  
 # Table of Contents
  
-1. [Publications](#team-publications)
-2. [Useful Links](#useful-uinks)
-3. [LiveLabs and Workshops](#livelabs-and-workshops) 
-4. [Reusable Assets Overview](#reusable-assets-overview)
-5. [Other useful links](useful-links)
+- [AI Vision](#ai-vision)
+- [Table of Contents](#table-of-contents)
+  - [Team Publications](#team-publications)
+    - [LiveLabs and Workshops](#livelabs-and-workshops)
+    - [Reusable Assets Overview](#reusable-assets-overview)
+  - [Useful Links](#useful-links)
+- [License](#license)
  
 ## Team Publications
 
@@ -42,6 +44,9 @@ OCI Vision is an AI service for performing deep-learning–based image analysis 
 - [OCI object detection using data labeling and vision service](https://github.com/carlgira/oci-object-detection) 
 - [AI vision web client](https://github.com/oracle-devrel/oci-tf-vision-web-client)
     - Terraform script that will create a set of resources on OCI to create a web app to test an existing vision model.
+- [Vision Image Classification demo](https://youtu.be/9_NSumsQcMs)
+- [Vision Object Detection demo](https://youtu.be/iiuluuOlAKc)
+- [AI Vision Car parking utilisation demo (OCI AI Vision, OAC)](https://youtu.be/VlZDaUC2Jus)
 
 ## Useful Links
  

@@ -9,9 +9,15 @@ most performant and cost-effective platform to host their AI services.
  
 # Table of Contents
  
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-uinks)
-3. [Reusable Assets Overview](#reusable-assets-overview)
+- [Generative AI services and Cohere](#generative-ai-services-and-cohere)
+- [Table of Contents](#table-of-contents)
+  - [Team Publications](#team-publications)
+    - [Architecture Center](#architecture-center)
+    - [Medium](#medium)
+    - [GitHub](#github)
+  - [Useful Links](#useful-links)
+  - [Reusable Assets Overview](#reusable-assets-overview)
+- [License](#license)
  
 ## Team Publications
  
@@ -37,7 +43,8 @@ most performant and cost-effective platform to host their AI services.
     - A Brief Overview of Generative AI Capabilities in Oracle Cloud
 
 ## Reusable Assets Overview
-TBD
+
+- [Gen AI powered document search (Cohere with custom UI)](https://youtu.be/vyJAZvYKY34)
 
 # License
 

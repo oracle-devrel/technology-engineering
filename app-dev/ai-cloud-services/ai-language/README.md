@@ -4,10 +4,13 @@ OCI Language is a cloud-based AI service for performing sophisticated text analy
 
 # Table of Contents
  
-1. [Team Publications](#publications)
-2. [Useful Links](#useful-uinks)
-3. [LiveLabs and Workshops](#livelabs-and-workshops) 
-4. [Reusable Assets Overview](#reusable-assets)
+- [AI Language](#ai-language)
+- [Table of Contents](#table-of-contents)
+  - [Publications](#publications)
+  - [LiveLabs and Workshops](#livelabs-and-workshops)
+  - [Reusable Assets](#reusable-assets)
+  - [Useful Links](#useful-links)
+- [License](#license)
  
 ## Publications
 
@@ -27,6 +30,8 @@ OCI Language is a cloud-based AI service for performing sophisticated text analy
 - [Enabling an Event-Driven, Real-Time Twitter Sentiment Analysis Dashboard Demo ](https://www.youtube.com/watch?v=9hvUxLSE3Vg)
 - [Smarter Apps with AI, OIC partner community webcast June 2023](https://videohub.oracle.com/media/Smarter+AI+Apps+with+OIC+partner+community+webcast+June+2023-1080p30/1_m2yjnvf9)
     - OCI Language and Document Understanding are cloud-based AI services for performing sophisticated text analysis and extracting data from all kinds of documents e.g. Passport, Driving License, Invoices, Receipt etc. You can use these services to build intelligent applications by leveraging REST APIs. You can use these services to build intelligent applications by leveraging REST APIs and automate using Oracle Integration Cloud. This allows you to process unstructured text for use cases such as sentiment analysis, service ticket classification, document extraction, and more using pretrained models or your own custom models leveraging OCI Data Labelling.
+- [AI Language demo](https://youtu.be/w8vFTKp4JME)
+- [AI Language - Hotel Reviews (AI Language, OAC)](https://youtu.be/pmf90oUZGH4)
 
 ## Useful Links
  
