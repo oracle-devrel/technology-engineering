@@ -52,6 +52,18 @@ The guidelines below can be used and shared informally with the deployment team 
 
 &nbsp; 
 
+## 4. Extend the Solution
+
+This activity will create new OCI elements on top of the CIS LZ standard structure, in a non-disruptive approach.
+
+
+| PHASE  | GUIDELINES   
+|---|---|
+| **DESIGN** | Use the [CIS LZ Drawio](/landing-zones/standard_landing_zones/cis_lz_v2/cis_landing_zone.drawio) to view or create new extension patterns. Two models are presented on EXT tabs.  Identify the extension unit that will agregated resources (e.g., project, environments). Operational responsibility over these resources should drive the design.  | 
+| **RUN** | Use OCI Console to create manually the design extensions or use [CIS LZ v3 Modules](https://www.ateam-oracle.com/post/cis-landing-zone-enhanced-modules) to configure the extensions add-ons with a IaC Terraform native approach. | 
+
+&nbsp; 
+
 ## 4. More on CIS LZ v2
 
 The steps above present a standard configuration and deployment of the CIS Landing Zone v2, with guidance for the key configuration decision. In the table below you can find complementary public information on this solution to expand your knowledge.
@@ -69,6 +81,8 @@ ID                  | TOPIC   		| CONTENT	|
 7            | Vulnerability Scanning | [Vulnerability Scanning in CIS OCI Landing Zone](https://www.ateam-oracle.com/post/vulnerability-scanning-in-cis-oci-landing-zone) |
 8           | ExaCS | [How to Deploy CIS Landing Zone v2 for Exadata Cloud Service](https://www.ateam-oracle.com/post/how-to-deploy-oci-secure-landing-zone-for-exadata-cloud-service) |
 9             | Events and Alarms | [How to Operationalize the CIS Landing Zone with Alarms and Events](https://www.ateam-oracle.com/post/operational-monitoring-and-alerting-in-the-cis-landing-zone) |
+10             | Configurable IaC | Use the [CIS LZ v3 Modules](https://www.ateam-oracle.com/post/cis-landing-zone-enhanced-modules) to create new landing zones or extend existing ones with Terraform configurations without the need to code. |
+
 
 &nbsp; 
 
