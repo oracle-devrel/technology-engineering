@@ -4,10 +4,13 @@ OCI Speech is an AI service that applies automatic speech recognition technology
 
 # Table of Contents
  
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-uinks)
-3. [LiveLabs and Workshops](#livelabs-and-workshops) 
-4. [Reusable Assets Overview](#reusable-assets-overview)
+- [AI Speech](#ai-speech)
+- [Table of Contents](#table-of-contents)
+  - [Team Publications](#team-publications)
+    - [LiveLabs and Workshops](#livelabs-and-workshops)
+    - [Reusable Assets Overview](#reusable-assets-overview)
+  - [Useful Links](#useful-links)
+- [License](#license)
  
 ## Team Publications
 
@@ -18,6 +21,7 @@ OCI Speech is an AI service that applies automatic speech recognition technology
 ### Reusable Assets Overview
  
 - [Demos built using OCI Python SDK](https://github.com/luigisaetta/oci-speech-demos)
+- [AI Speech console demo](https://youtu.be/EWBSoSLNph8)
 
 ## Useful Links
  

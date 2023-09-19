@@ -15,6 +15,7 @@ Oracle Cloud Infrastructure (OCI) Document Understanding is an AI service that e
 - [Demo: Automate Invoice Handling - Oracle Integration Cloud & AI Document Understanding Service](https://youtu.be/k72CcNhmOjs)
 - [Smarter Apps with AI, OIC partner community webcast June 2023](https://videohub.oracle.com/media/Smarter+AI+Apps+with+OIC+partner+community+webcast+June+2023-1080p30/1_m2yjnvf9)
     - OCI Language and Document Understanding are cloud-based AI services for performing sophisticated text analysis and extracting data from all kinds of documents e.g. Passport, Driving License, Invoices, Receipts, etc. You can use these services to build intelligent applications by leveraging REST APIs. You can use these services to build intelligent applications by leveraging REST APIs and automating using Oracle Integration Cloud. This allows you to process unstructured text for use cases such as sentiment analysis, service ticket classification, document extraction, and more using pre-trained models or your own custom models leveraging OCI Data Labelling.
+- [Document Understanding (Insurance Document) Key Value extraction demo](https://youtu.be/QsFqaRxtV1s)
 
 ## Useful Links
 
