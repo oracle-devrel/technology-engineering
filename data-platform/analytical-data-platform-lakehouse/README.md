@@ -22,7 +22,7 @@ Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a compl
 - [OCI Monitoring with PLSQL SDK](https://jakubillner.github.io/2022/10/07/How-to-Get-OCI-Utilization-in-PLSQL.html)
   - Blog post showcasing how to read monitoring metrics directly from ADW to control data ingestion load.
 - [Options for Storing Large JSON Documents in Autonomous Database](https://jakubillner.github.io/2022/09/30/JSON-in-autonomous-database.html)
-  - Blog post showcasing options for storing large JSON documents in Autonomous Database
+  - Blog post showcasing options for storing large JSON documents in an Autonomous Database
 - [Transforming JSON documents with OCI Data Integration](https://jakubillner.github.io/2022/10/25/Flattening-JSON-documents-with-OCI-Data-Integration.html)
   - Blog post showcasing how to process and store JSON on the Data Lake in parquet format to then use that data for analytics in the context of a lakehouse architecture
 - [Event Driven Automation of OCI Data Integration Tasks](https://jakubillner.github.io/2022/11/11/automating-di-tasks-with-events.html)
@@ -32,7 +32,7 @@ Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a compl
 - [Decentralized Data Lake on OCI Object Storage (Part 2)](https://jakubillner.github.io/2023/02/19/data-lake-on-oci-object-storage-2.html)
   - Blog post describing how to organize and govern a decentralized data lake domains and entities in an OCI tenancy with a design that explains 1) how to store lake data with partitions, 2) how those can be implemented, 3) governed by a Data Catalog and then 4) consumed seamlessly by ADW in a cohesive and integrated lakehouse architecture.
 - [Automated Load and Export Pipelines in Autonomous Database](https://jakubillner.github.io/2023/03/27/adb-data-pipelines.html)
-  - Blog post on how to ingest automatically data residing in Object Storage to make it available in ADW for further processing and curation. Covers as well the export of ADW data to Object Storage that can be used for several purposes, including ILM, offloading data sharing to Object Storage, or making data available via the data lake. 
+  - Blog post on how to ingest automatically data residing in Object Storage to make it available in ADW for further processing and curation. Covers the export of ADW data to Object Storage that can be used for several purposes, including ILM, offloading data sharing to Object Storage, or making data available via the data lake. 
 - [Real Time Analytics DW DR Architecture (Part I) - DR Architecture Configuration](https://gianlucarossi06.github.io/data-organon/2023/04/20/Real-Time-Analytics-DW-DR-Architecture-(Part-I).html)
   - Blog post showcasing how to configure a DR for a DW architecture using ADW and OCI GG. 
 - [Real Time Analytics DW DR Architecture (Part II) - DR Recovery Operations](https://gianlucarossi06.github.io/data-organon/2023/04/20/Real-Time-Analytics-DW-DR-Architecture-(Part-II).html)
@@ -40,8 +40,10 @@ Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a compl
 
 ### YouTube
 
+- [Architecting Analytical Data Platform](https://youtu.be/-rMUsvrXYw4?si=7Yx80VvZQYiy2qHE)
+  - Cloud Coaching session covering how to architect an Analytical Data Platform in Oracle and OCI using best practices to achieve trustable business outcomes.
 - [Real Time Analytics on Oracle Data Platform](https://www.youtube.com/watch?v=SVmM0CuLnU4)
-  - Cloud Coaching session describing what is Real Time Analytics and how to architect a real time analytics workload on the Oracle Data Platform.
+  - Cloud Coaching session describing what is Real-Time Analytics and how to architect a real-time analytics workload on the Oracle Data Platform.
 - [Analytics and Lakehouse for Oracle Applications](https://youtu.be/a_JsSzmz1_U)
   - Session describing how to architect analytical workloads for Oracle Applications.
 
@@ -76,4 +78,4 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
