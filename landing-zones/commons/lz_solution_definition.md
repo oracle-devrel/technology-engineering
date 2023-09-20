@@ -14,27 +14,30 @@
 
 Welcome to the Landing Zone Framework (LZF) Solution Definition Asset.
 
+The content of this asset will guide you through the **landing zone design decisions**, and help select the best **approach** and **solution** to setup and run your OCI Landing Zone.
+
 Using an OCI Landing Zone will enable a **secured OCI Tenancy**, with operational control and governance, ready to **onboard** and **run**  workloads with **network isolation** and with the right **segregation of duties** in the organization.
-
-The content of this asset will guide you through the **landing zone design decisions**, and help select the best **approach** and **solution** to setup and run an OCI Landing Zone.
-
 
 &nbsp; 
 
-## **2. Design Considerations / Decisions**
+## **2. Design Considerations**
 
-Before choosing the approach and solution, it's important to understand the design decisions to be made - their scope, objective, and related OCI resources - to successfully run OCI. It's recommended to iterate over these elements as they will guide and simplify the understanding of OCI core resources and day-two operations.
+Before choosing the approach and solution, it's important to understand the design considerations and related decisions to be made to successfully run OCI. 
+
+In the next sections the design considerations are presented for security, network, and operations topics. It's recommended to iterate over these elements as they will guide the design process, simplify the understanding of OCI core resources, and clarify the day-two operations. 
+
+Find [**here**](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/design/OCI_Open_LZ.pdf) an example of a complete **landing zone design** document following this proposed structure. Note that this document is a complete reference blueprint, simplified versions can be created with low efforts.
 
 
 &nbsp; 
 
 ## 2.1 Security 
 
-The following table presents the recommended security decision to review.
+The following table presents the recommended security topics to review in the landing zone design.
 
 &nbsp; 
 
-| ID  |  DECISION | DESCRIPTION | OCI RESOURCES
+| ID  |  TOPIC | DESCRIPTION | OCI RESOURCES
 |---|---|---|---|
 | **SD.01** | **Tenancy Structure** |  Compartment structure to support resource grouping, separation of duties, budget control and billing, and workloads. | Compartments | 
 | **SD.02**| **Identity and Access Management** | The groups, dynamic groups, and policies for the related duties and compartments. | Groups & Policies | 
@@ -44,12 +47,12 @@ The following table presents the recommended security decision to review.
 
 ## 2.2 Network 
 
-The following table presents the recommended network decision to review. The first two decisions are highly recommended while the last two can be optional depending on requirements.
+The following table presents the recommended network topics to review in the landing zone design. The first two topics are highly recommended while the last two can be optional depending on requirements.
 
 &nbsp; 
 
 
-| ID  |  DECISION | DESCRIPTION | OCI RESOURCES
+| ID  |  TOPIC | DESCRIPTION | OCI RESOURCES
 |---|---|---|---|
 | **ND.01** | **Network Structure** | Network elements to support the workloads and network segregation. | VCNs, Subnets, DRG, Gateways | 
 | **ND.02**| **Network Security** |  Network areas and their security posture. | NSGs, Security Lists, Gateways, Firewalls | 
@@ -60,13 +63,14 @@ The following table presents the recommended network decision to review. The fir
 
 ## 2.3 Operations 
 
-The following table presents the recommended operational decision to review.
+The following table presents the recommended operational topics to review in the landing zone design.
 
-| ID  |  DECISION | DESCRIPTION | OCI RESOURCES
+| ID  |  TOPIC | DESCRIPTION | OCI RESOURCES
 |---|---|---|---|
 | **OD.01** | **Teams** | Cloud operations teams responsible for running (provisioning and changing) OCI landing zone and OCI workloads. | Relates to SD01 and SD.02 | 
 | **OD.02** | **Tooling** |  Tools to run OCI, used for provisioning and changing of resources. | OCI Console, ORM, CLI, Terraform, SDK, Pipelines, Git, etc. | 
-| **OD.03**| **Operating Model** |  The modus operandi to provision and change resources with the tooling by the cloud operations teams. | OD.01, OD.02 | 
+| **OD.03**| **Operating Model** |  The modus operandi to provision and change resources with the tooling by the cloud operations teams. | Relates to OD.01, OD.02 | 
+| **OD.04**| **Operatinal Integrations** |  Integrate OCI Landing Zone with external systems, such as SIEM or Monitoring. | Relates to SD.01, SD.02, SD.03, ND.01, ND.03 | 
 
 &nbsp; 
 
@@ -113,9 +117,8 @@ For guidande on **extending** this solution with OCI resources on top of the sta
 
 
 
-For guiding you on the tailoring of your landing zone use the [**LZF asset dedicated to this approach**](/tailored_landing_zones/tailored_landing_zones.md):
-- This asset  will describe all the **recommended steps** for **designing** and **running** your landing zone. 
-- In terms of **design**, to tailor a landing zone we recommend using the [**OCI Open LZ Blueprint**](https://github.com/oracle-quickstart/terraform-oci-open-lz).
+For guiding you on the tailoring of your landing zone we recommend the use the [**LZF asset dedicated to this approach**](/tailored_landing_zones/tailored_landing_zones.md). This asset  describes all the **recommended steps** for **designing** and **running** your landing zone:
+- In terms of **design**, to tailor a landing zone we recommend using the [**OCI Open LZ Blueprint**](https://github.com/oracle-quickstart/terraform-oci-open-lz). If follows all [design considerations](/landing-zones/commons/lz_solution_definition.md#2-design-considerations) above except OD.04.
 - In terms of **deployment** and **running** your landing zone design, we recommend the use of the **[CIS Landing Zone Enhanced Modules](https://www.ateam-oracle.com/post/cis-landing-zone-enhanced-modules)**, to **configure** the resources with *json/hcl* terraform native interfaces. 
 
 
