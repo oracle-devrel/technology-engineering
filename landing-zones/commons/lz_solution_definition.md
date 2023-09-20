@@ -99,7 +99,7 @@ The **guidance** we recommend to follow is very simple:
 | **APPROACH** | [Standard](https://github.com/oracle-devrel/technology-engineering/blob/main/landing-zones/standard_landing_zones/standard_landing_zones.md) |
 | **SOLUTION** | [CIS LZ](/landing-zones/standard_landing_zones/cis_lz_v2/cis_landing_zone_v2.md) |
 | **SECURITY SCOPE** | Covers all topics in [section 2.1](#21-security).
-| **NETWORK SCOPE** | Covers ND.01, ND.02, and ND.03 in [section 2.2](#22-network).
+| **NETWORK SCOPE** | Covers all topics in [section 2.2](#22-network) exept ND.04.
 | **OPERATIONS SCOPE** | Covers OD.02 in [section 2.3](#23-operations).
 | **RUNTIME** | Use the solution link for complete guidance on the **configuration** and **deployment** of this solution.
 | **EXTENSIONS** | For guidande on **extending** this solution with OCI resources on top of the standard model review the [section 4](/landing-zones/standard_landing_zones/cis_lz_v2/cis_landing_zone_v2.md#4-extend-the-solution) of the CIS LZ solution.| 
