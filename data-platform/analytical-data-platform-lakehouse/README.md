@@ -41,7 +41,7 @@ Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a compl
 ### YouTube
 
 - [Architecting Analytical Data Platform](https://youtu.be/-rMUsvrXYw4?si=7Yx80VvZQYiy2qHE)
-  - Cloud Coaching session covering how to architect an Analytical Data Platform in Oracle and OCI using best practices to achieve trustable business outcomes.
+  - Cloud Coaching session covering how to architect an Analytical Data Platform in Oracle and OCI leveraging best practices to achieve trustable business outcomes.
 - [Real Time Analytics on Oracle Data Platform](https://www.youtube.com/watch?v=SVmM0CuLnU4)
   - Cloud Coaching session describing what is Real Time Analytics and how to architect a real time analytics workload on the Oracle Data Platform.
 - [Analytics and Lakehouse for Oracle Applications](https://youtu.be/a_JsSzmz1_U)
