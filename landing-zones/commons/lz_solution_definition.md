@@ -12,7 +12,7 @@
 
 ## **1. Introduction**
 
-Welcome to the Landing Zone Framework (LZF) Solution Definition.
+Welcome to the [Landing Zone Framework (LZF)](/landing-zones/README.md) Solution Definition.
 
 This asset provides guidance on the future **landing zone design decisions**, and helps select the best **approach** and **solution** to setup and run your OCI Landing Zone.
 
@@ -86,13 +86,14 @@ There are two types of landing zone approaches to consider:
 |---|---|
 | [**Standard Landing Zones**](/landing-zones/standard_landing_zones/standard_landing_zones.md) | **Prescribed** and **ready to use** solutions with a **guided setup** and  **IaC**. This is the recommended approach for initial landing zone deployments covering the most common workload scenarios.  | 
 | [**Tailored Landing Zones**](/tailored_landing_zones/tailored_landing_zones.md) | An approach to solve **specific requirements** when the standard is not enough. These LZs run with **configuration-as-code** and are used to scale/bridge with existing **operating models**, complying with fine-grained **segregations of duties**, strong **network isolation**, and heterogeneous **workloads**.  |  
+|
 
 &nbsp; 
 
-The guidance we recommend to follow is very simple:
+The **guidance** we recommend to follow is very simple:
 
-- If you're **starting** with OCI landing zones use a **standard landing zone** as they're full of best practices. If it needs adjustments or extensions on top of the prescribed design, customize it by code or manually. This approach is described in [section 4](#4-standard-landing-zones).
-- If your **requirements are very specific/detailed**, or they imply structural changes to a standard landing zone, and/or you need a highly scalable operating model, **use the tailored approach** described in   [section 5](#5-tailored-landing-zones).
+- If you're **starting** with OCI landing zones use a **standard landing zone** as they're full of best practices. If it needs adjustments or **extensions** on top of the prescribed design, customize it by code or manually. This approach is described in [next section](#4-standard-landing-zones).
+- If your [**requirements** are very **specific/detailed**](/landing-zones/tailored_landing_zones/tailored_landing_zones.md#1-what-are-tailored-landing-zones), or they imply structural changes to a standard landing zone, and/or you need a highly scalable operating model, **use the tailored approach** described in   [section 5](#5-tailored-landing-zones). 
 
 &nbsp; 
 
