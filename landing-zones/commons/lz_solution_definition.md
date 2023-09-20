@@ -3,7 +3,7 @@
 ## **Table of Contents**
 
 [1. Introduction](#1-introduction) </br>
-[2. Design Considerations / Decisions](#1-design-considerations--decisions)</br>
+[2. Design Considerations](#1-design-considerations--decisions)</br>
 [3. Landing Zone Approach](#3-landing-zone-zone-approach) </br>
 [4. Standard Landing Zones](#4-standard-landing-zones) </br>
 [5. Tailored Landing Zones](#5-tailored-landing-zones)
