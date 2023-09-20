@@ -35,8 +35,6 @@ Find [**here**](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/
 
 The following table presents the recommended security topics to review in the landing zone design.
 
-&nbsp; 
-
 | ID  |  TOPIC | DESCRIPTION | OCI RESOURCES
 |---|---|---|---|
 | **SD.01** | **Tenancy Structure** |  Compartment structure to support resource grouping, separation of duties, budget control and billing, and workloads. | Compartments | 
@@ -48,8 +46,6 @@ The following table presents the recommended security topics to review in the la
 ## 2.2 Network 
 
 The following table presents the recommended network topics to review in the landing zone design. The first two topics are highly recommended while the last two can be optional depending on requirements.
-
-&nbsp; 
 
 
 | ID  |  TOPIC | DESCRIPTION | OCI RESOURCES
@@ -77,16 +73,13 @@ The following table presents the recommended operational topics to review in the
 
 ## **3. Landing Zone Zone Approach**
 
-
 There are two types of landing zone approaches to consider:
 
-&nbsp; 
 
 | APPROACH  |  DESCRIPTION | 
 |---|---|
 | [**Standard Landing Zones**](/landing-zones/standard_landing_zones/standard_landing_zones.md) | **Prescribed** and **ready to use** solutions with a **guided setup** and  **IaC**. This is the recommended approach for initial landing zone deployments covering the most common workload scenarios.  | 
-| [**Tailored Landing Zones**](/tailored_landing_zones/tailored_landing_zones.md) | An approach to solve **specific requirements** when the standard is not enough. These LZs run with **configuration-as-code** and are used to scale/bridge with existing **operating models**, complying with fine-grained **segregations of duties**, strong **network isolation**, and heterogeneous **workloads**.  |  
-|
+| [**Tailored Landing Zones**](/tailored_landing_zones/tailored_landing_zones.md) | An approach to solve **specific requirements** when the standard is not enough. These LZs run with **configuration-as-code** and are used to scale/bridge with existing **operating models**, complying with fine-grained **segregations of duties**, strong **network isolation**, and heterogeneous **workloads**.  | 
 
 &nbsp; 
 
@@ -100,8 +93,6 @@ The **guidance** we recommend to follow is very simple:
 
 ## **4. Standard Landing Zones**
 
-&nbsp; 
-
 
 | TOPIC  |  DESCRIPTION | 
 |---|---|
@@ -111,14 +102,12 @@ The **guidance** we recommend to follow is very simple:
 | **NETWORK SCOPE** | Covers ND.01, ND.02, and ND.03 in [section 2.2](#22-network).
 | **OPERATIONS SCOPE** | Covers OD.02 in [section 2.3](#23-operations).
 | **RUNTIME** | Use the solution link for complete guidance on the **configuration** and **deployment** of this solution.
-| **EXTENSIONS** | For guidande on **extending** this solution with OCI resources on top of the standard model review the [section 4](/landing-zones/standard_landing_zones/cis_lz_v2/cis_landing_zone_v2.md#4-extend-the-solution) of the CIS LZ solution.
-| 
+| **EXTENSIONS** | For guidande on **extending** this solution with OCI resources on top of the standard model review the [section 4](/landing-zones/standard_landing_zones/cis_lz_v2/cis_landing_zone_v2.md#4-extend-the-solution) of the CIS LZ solution.| 
 
 &nbsp; 
 
 ## **5. Tailored Landing Zones**
 
-&nbsp; 
 
 | TOPIC  |  DESCRIPTION | 
 |---|---|
@@ -128,8 +117,7 @@ The **guidance** we recommend to follow is very simple:
 | **NETWORK SCOPE** | Covers all topics in [section 2.2](#22-network).
 | **OPERATIONS SCOPE** | Covers all topics in [section 2.3](#23-operations) except OD.04.
 | **RUNTIME** | - In terms of **deployment** and **running** your landing zone design, we recommend the use of the **[CIS Landing Zone Enhanced Modules](https://www.ateam-oracle.com/post/cis-landing-zone-enhanced-modules)**, to **configure** the resources with *json/hcl* terraform native interfaces. </br> - Note the [**OCI Open LZ Blueprint**](https://github.com/oracle-quickstart/terraform-oci-open-lz) also presents the Runtime View of the design, with IaC configurations for each operation scenario, using these same [modules](https://www.ateam-oracle.com/post/cis-landing-zone-enhanced-modules).
-| **EXTENSIONS** | Any extension is a new operation scenario and follows the same process and cloud operating model of all other scenarios. Refer to the [OCI Open LZ Operations View chapter](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/design/OCI_Open_LZ.pdf) for more details.
-| 
+| **EXTENSIONS** | Any extension is a new operation scenario and follows the same process and cloud operating model of all other scenarios. Refer to the [OCI Open LZ Operations View chapter](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/design/OCI_Open_LZ.pdf) for more details.| 
 
 
 &nbsp; 
