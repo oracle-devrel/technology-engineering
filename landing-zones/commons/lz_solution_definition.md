@@ -12,9 +12,9 @@
 
 ## **1. Introduction**
 
-Welcome to the Landing Zone Framework (LZF) Solution Definition Asset.
+Welcome to the Landing Zone Framework (LZF) Solution Definition.
 
-The content of this asset will guide you through the **landing zone design decisions**, and help select the best **approach** and **solution** to setup and run your OCI Landing Zone.
+This asset provides guidance on the future **landing zone design decisions**, and helps select the best **approach** and **solution** to setup and run your OCI Landing Zone.
 
 Using an OCI Landing Zone will enable a **secured OCI Tenancy**, with operational control and governance, ready to **onboard** and **run**  workloads with **network isolation** and with the right **segregation of duties** in the organization.
 
@@ -24,9 +24,9 @@ Using an OCI Landing Zone will enable a **secured OCI Tenancy**, with operationa
 
 Before choosing the approach and solution, it's important to understand the design considerations and related decisions to be made to successfully run OCI. 
 
-In the next sections the design considerations are presented for security, network, and operations topics. It's recommended to iterate over these elements as they will guide the design process, simplify the understanding of OCI core resources, and clarify the day-two operations. 
+In the next sections the design considerations are presented for security, network, and operations. It is recommended to iterate over these elements as they will guide the design process, simplify the understanding of OCI core resources, and clarify the day-two operations. 
 
-Find [**here**](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/design/OCI_Open_LZ.pdf) an example of a complete **landing zone design** document following this proposed structure. Note that this document is a complete reference blueprint, simplified versions can be created with low efforts.
+Find [**here**](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/design/OCI_Open_LZ.pdf) an example of a complete **landing zone design** document following the proposed structure. Note that this document is a complete reference blueprint, simplified versions should be created, presenting objective design for each element.
 
 
 &nbsp; 
@@ -99,27 +99,36 @@ The guidance we recommend to follow is very simple:
 
 ## **4. Standard Landing Zones**
 
-The **CIS Landing Zone** is the recommended solution to start with standard landing zones. It proposes a design that covers:
-- Security Design Decisions (SD.01, SD.02, and SD.03) covered in [section 2.1](#21-security).
-- Network Design Decisions (ND.01, ND.02, and ND.03) covered in [section 2.2](#22-network).
-- Operations Design Decision (OD.02) covered in [section 2.3](#23-operations).
+&nbsp; 
 
 
-For complete guidance on the **configuration** and **deployment** of this solution refer to this [**LZF asset dedicated to the CIS Landing Zone**](/landing-zones/standard_landing_zones/cis_lz_v2/cis_landing_zone_v2.md).
-
-For guidande on **extending** this solution with OCI resources on top of the standard model review the [section 4](/landing-zones/standard_landing_zones/cis_lz_v2/cis_landing_zone_v2.md#4-extend-the-solution) of the same asset.
-
-
+| TOPIC  |  DESCRIPTION | 
+|---|---|
+| **APPROACH** | [Standard](https://github.com/oracle-devrel/technology-engineering/blob/main/landing-zones/standard_landing_zones/standard_landing_zones.md) |
+| **SOLUTION** | [CIS LZ](/landing-zones/standard_landing_zones/cis_lz_v2/cis_landing_zone_v2.md) |
+| **SECURITY SCOPE** | Covers all topics in [section 2.1](#21-security).
+| **NETWORK SCOPE** | Covers ND.01, ND.02, and ND.03 in [section 2.2](#22-network).
+| **OPERATIONS SCOPE** | Covers OD.02 in [section 2.3](#23-operations).
+| **RUNTIME** | Use the solution link for complete guidance on the **configuration** and **deployment** of this solution.
+| **EXTENSIONS** | For guidande on **extending** this solution with OCI resources on top of the standard model review the [section 4](/landing-zones/standard_landing_zones/cis_lz_v2/cis_landing_zone_v2.md#4-extend-the-solution) of the CIS LZ solution.
+| 
 
 &nbsp; 
 
 ## **5. Tailored Landing Zones**
 
+&nbsp; 
 
-
-For guiding you on the tailoring of your landing zone we recommend the use the [**LZF asset dedicated to this approach**](/tailored_landing_zones/tailored_landing_zones.md). This asset  describes all the **recommended steps** for **designing** and **running** your landing zone:
-- In terms of **design**, to tailor a landing zone we recommend using the [**OCI Open LZ Blueprint**](https://github.com/oracle-quickstart/terraform-oci-open-lz). If follows all [design considerations](/landing-zones/commons/lz_solution_definition.md#2-design-considerations) above except OD.04.
-- In terms of **deployment** and **running** your landing zone design, we recommend the use of the **[CIS Landing Zone Enhanced Modules](https://www.ateam-oracle.com/post/cis-landing-zone-enhanced-modules)**, to **configure** the resources with *json/hcl* terraform native interfaces. 
+| TOPIC  |  DESCRIPTION | 
+|---|---|
+| **APPROACH** | [Tailored](/tailored_landing_zones/tailored_landing_zones.md)  |
+| **SOLUTION** | Use the [OCI Open LZ Blueprint](https://github.com/oracle-quickstart/terraform-oci-open-lz) to tailor your landing zone. There are also complementar [models](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/design/models/readme.md) for initial discussions.|
+| **SECURITY SCOPE** | Covers all topics in [section 2.1](#21-security).
+| **NETWORK SCOPE** | Covers all topics in [section 2.2](#22-network).
+| **OPERATIONS SCOPE** | Covers all topics in [section 2.3](#23-operations) except OD.04.
+| **RUNTIME** | - In terms of **deployment** and **running** your landing zone design, we recommend the use of the **[CIS Landing Zone Enhanced Modules](https://www.ateam-oracle.com/post/cis-landing-zone-enhanced-modules)**, to **configure** the resources with *json/hcl* terraform native interfaces. </br> - Note the [**OCI Open LZ Blueprint**](https://github.com/oracle-quickstart/terraform-oci-open-lz) also presents the Runtime View of the design, with IaC configurations for each operation scenario, using these same [modules](https://www.ateam-oracle.com/post/cis-landing-zone-enhanced-modules).
+| **EXTENSIONS** | Any extension is a new operation scenario and follows the same process and cloud operating model of all other scenarios. Refer to the [OCI Open LZ Operations View chapter](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/design/OCI_Open_LZ.pdf) for more details.
+| 
 
 
 &nbsp; 
