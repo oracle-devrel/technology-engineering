@@ -13,7 +13,7 @@ Before starting and creating the configuration, we recommend the following activ
 
 | STEP  |  ACTIVITY | GUIDANCE | 
 |---|---|---|
-| 1 | Understand **Solution** | <ul><li>Understand [CIS Landing Zone v2 Architecture](https://docs.oracle.com/en/solutions/cis-oci-benchmark/index.html) and the OCI elements involved, as you'll be configuring the solution.</li><li>Review the [GitHub Repository](https://github.com/oracle-quickstart/oci-cis-landingzone-quickstart) as it contains the complete solution documentation.</li></ul> |
+| 1 | Understand **Solution** | <li>Understand [CIS Landing Zone v2 Architecture](https://docs.oracle.com/en/solutions/cis-oci-benchmark/index.html) and the OCI elements involved, as you'll be configuring the solution.</li><li>View the [CIS Landing Zone Drawio](/landing-zones/standard_landing_zones/cis_lz_v2/cis_landing_zone.drawio). Iterate through the tabs to understand compartments, groups, network, and workloads elements. Ignore extension tabs for now.</li><li>Review the [GitHub Repository](https://github.com/oracle-quickstart/oci-cis-landingzone-quickstart) as it contains the complete solution documentation.</li>|
 | 2 | Train with **LiveLabs** |  Execute the Live Labs ["Deploy a Secure Landing Zone in OCI"](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3662).
 
 
@@ -30,7 +30,7 @@ There are two deployment models described below.
 
 | DEPLOYMENT MODEL  | WHEN TO USE | GUIDELINES  |  EXAMPLES | 
 |---|---|---|---|
-| Oracle Resource Manager (ORM) | Use this option by default. |[View](/landing-zones/standard_landing_zones/cis_lz_v2/orm/orm_configuration_guide.pdf)  | <ul><li>[Quick Start](/landing-zones/standard_landing_zones/cis_lz_v2/orm/samples/oci_cislz_configuration_example-quickstart_scenario.pdf)</li><li>[Production](/landing-zones/standard_landing_zones/cis_lz_v2/orm/samples/oci_cislz_configuration_example-production_scenario.pdf)</li></ul> |
+| Oracle Resource Manager (ORM) | Use this option by default. |[View](/landing-zones/standard_landing_zones/cis_lz_v2/orm/orm_configuration_guide.pdf)  | <li>[Quick Start](/landing-zones/standard_landing_zones/cis_lz_v2/orm/samples/oci_cislz_configuration_example-quickstart_scenario.pdf)</li><li>[Production](/landing-zones/standard_landing_zones/cis_lz_v2/orm/samples/oci_cislz_configuration_example-production_scenario.pdf)</li>|
 | Terraform Command Line | Use this option if you have advanced terraform skills or require code extensions. |*Soon* | |
 
 A configuration for the ORM deployment can have the format of a document, with parameters/values per ORM step, while the Terraform Command Line can have the format of tfvars.
@@ -47,19 +47,19 @@ The guidelines below can be used and shared informally with the deployment team 
 
 | DEPLOYMENT MODEL  | WHEN TO USE | GUIDELINES  |  
 |---|---|---|
-| Oracle Resource Manager (ORM) | Use this option by default. | <ul><li>[Review Steps](/landing-zones/standard_landing_zones/cis_lz_v2/orm/orm_deployment_guide.pdf)</li><li>[Review Live Lab](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3662)</li></ul>| 
+| Oracle Resource Manager (ORM) | Use this option by default. | <li>[Review Steps](/landing-zones/standard_landing_zones/cis_lz_v2/orm/orm_deployment_guide.pdf)</li><li>[Review Live Lab](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3662)</li>| 
 | Terraform Command Line | Use this option if you have advanced terraform skills or require code extensions. | *Soon*
 
 &nbsp; 
 
 ## 4. Extend the Solution
 
-This activity will create new OCI elements on top of the CIS LZ standard structure, in a non-disruptive approach.
+This activity will create new OCI elements on top of the CIS LZ standard structure, in an **incremental**, **non-disruptive** approach.
 
 
 | PHASE  | GUIDELINES   
 |---|---|
-| **DESIGN** | Use the [CIS LZ Drawio](/landing-zones/standard_landing_zones/cis_lz_v2/cis_landing_zone.drawio) to view or create new extension patterns. Two models are presented on EXT tabs.  Identify the extension unit that will agregated resources (e.g., project, environments). Operational responsibility over these resources should drive the design.  | 
+| **DESIGN** | Use the [C**IS Landing Zone Drawio**](/landing-zones/standard_landing_zones/cis_lz_v2/cis_landing_zone.drawio) to view or create new extension patterns. Two models are presented on EXT tabs.  We recommend to identify the extension unit that will agregated resources (e.g., project, environments). Operational responsibility over these resources should drive the design.  | 
 | **RUN** | Use OCI Console to create manually the design extensions or use [CIS LZ Enhanced Modules Modules](https://www.ateam-oracle.com/post/cis-landing-zone-enhanced-modules) to configure the extensions add-ons with a IaC Terraform native approach. | 
 
 &nbsp; 
