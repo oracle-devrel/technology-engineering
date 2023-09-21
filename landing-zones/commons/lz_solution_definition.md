@@ -38,7 +38,7 @@ The following table presents the recommended security topics to review in the la
 | ID  |  TOPIC | DESCRIPTION | OCI RESOURCES
 |---|---|---|---|
 | **SD.01** | **Tenancy Structure** |  Compartment structure to support resource grouping, separation of duties, budget control and billing, and workloads. | Compartments | 
-| **SD.02**| **Identity and Access Management** | The groups, dynamic groups, and policies for the related duties and compartments. | Groups & Policies | 
+| **SD.02**| **Identity and Access Management** | The groups, dynamic groups, and policies for the related duties and compartments. | Identity Domains, Groups, and Policies | 
 | **SD.03**| **Security Posture** |  Additional configurations for OCI native security tooling. | Cloud Guard, Security Zones, Vulnerability Scanning, etc. | 
 
 &nbsp; 
