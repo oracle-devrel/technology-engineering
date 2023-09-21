@@ -117,7 +117,7 @@ The **guidance** we recommend to follow is very simple:
 | **NETWORK SCOPE** | Covers all topics in [section 2.2](#22-network).
 | **OPERATIONS SCOPE** | Covers all topics in [section 2.3](#23-operations) except OD.04.
 | **RUNTIME** | - In terms of **deployment** and **running** your landing zone design, we recommend the use of the **[CIS Landing Zone Enhanced Modules](https://www.ateam-oracle.com/post/cis-landing-zone-enhanced-modules)**, to **configure** the resources with *json/hcl* terraform native interfaces. </br> - Note the [**OCI Open LZ Blueprint**](https://github.com/oracle-quickstart/terraform-oci-open-lz) also presents the Runtime View of the design, with IaC configurations for each operation scenario, using these same [modules](https://www.ateam-oracle.com/post/cis-landing-zone-enhanced-modules).
-| **EXTENSIONS** | Any extension is a new operation scenario and follows the same process and cloud operating model of all other scenarios. Refer to the [OCI Open LZ Operations View chapter](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/design/OCI_Open_LZ.pdf) for more details.| 
+| **EXTENSIONS** | Any extension is a new operation scenario and follows the same process and cloud operating model of all other scenarios. Refer to the **OCI Open LZ** [**Runtime View**](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/examples/oci-open-lz/readme.md) for examples and the [**Operations View**](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/design/OCI_Open_LZ.pdf) for more details on the cloud operating model.| 
 
 
 &nbsp; 
