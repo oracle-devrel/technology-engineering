@@ -13,7 +13,7 @@ Before starting and creating the configuration, we recommend the following activ
 
 | STEP  |  ACTIVITY | GUIDANCE | 
 |---|---|---|
-| 1 | Understand **Solution** | Understand [CIS Landing Zone v2 Architecture](https://docs.oracle.com/en/solutions/cis-oci-benchmark/index.html) and the OCI elements involved, as you'll be configuring the solution. </br> Review the [GitHub Repository](https://github.com/oracle-quickstart/oci-cis-landingzone-quickstart) as it contains the complete solution documentation. |
+| 1 | Understand **Solution** | <ul><li>Understand [CIS Landing Zone v2 Architecture](https://docs.oracle.com/en/solutions/cis-oci-benchmark/index.html) and the OCI elements involved, as you'll be configuring the solution.</li><li>Review the [GitHub Repository](https://github.com/oracle-quickstart/oci-cis-landingzone-quickstart) as it contains the complete solution documentation.</li></ul> |
 | 2 | Train with **LiveLabs** |  Execute the Live Labs ["Deploy a Secure Landing Zone in OCI"](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3662).
 
 
@@ -30,7 +30,7 @@ There are two deployment models described below.
 
 | DEPLOYMENT MODEL  | WHEN TO USE | GUIDELINES  |  EXAMPLES | 
 |---|---|---|---|
-| Oracle Resource Manager (ORM) | Use this option by default. |[View](/landing-zones/standard_landing_zones/cis_lz_v2/orm/orm_configuration_guide.pdf)  | [Quick Start](/landing-zones/standard_landing_zones/cis_lz_v2/orm/samples/oci_cislz_configuration_example-quickstart_scenario.pdf)<br> [Production](/landing-zones/standard_landing_zones/cis_lz_v2/orm/samples/oci_cislz_configuration_example-production_scenario.pdf) |
+| Oracle Resource Manager (ORM) | Use this option by default. |[View](/landing-zones/standard_landing_zones/cis_lz_v2/orm/orm_configuration_guide.pdf)  | <ul><li>[Quick Start](/landing-zones/standard_landing_zones/cis_lz_v2/orm/samples/oci_cislz_configuration_example-quickstart_scenario.pdf)</li><li>[Production](/landing-zones/standard_landing_zones/cis_lz_v2/orm/samples/oci_cislz_configuration_example-production_scenario.pdf)</li></ul> |
 | Terraform Command Line | Use this option if you have advanced terraform skills or require code extensions. |*Soon* | |
 
 A configuration for the ORM deployment can have the format of a document, with parameters/values per ORM step, while the Terraform Command Line can have the format of tfvars.
@@ -47,7 +47,7 @@ The guidelines below can be used and shared informally with the deployment team 
 
 | DEPLOYMENT MODEL  | WHEN TO USE | GUIDELINES  |  
 |---|---|---|
-| Oracle Resource Manager (ORM) | Use this option by default. | [Review Steps](/landing-zones/standard_landing_zones/cis_lz_v2/orm/orm_deployment_guide.pdf)<br>[Review Live Lab](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3662) | 
+| Oracle Resource Manager (ORM) | Use this option by default. | <ul><li>[Review Steps](/landing-zones/standard_landing_zones/cis_lz_v2/orm/orm_deployment_guide.pdf)</li><li>[Review Live Lab](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3662)</li></ul>| 
 | Terraform Command Line | Use this option if you have advanced terraform skills or require code extensions. | *Soon*
 
 &nbsp; 
