@@ -60,7 +60,7 @@ This activity will create new OCI elements on top of the CIS LZ standard structu
 | PHASE  | GUIDELINES   
 |---|---|
 | **DESIGN** | Use the [CIS LZ Drawio](/landing-zones/standard_landing_zones/cis_lz_v2/cis_landing_zone.drawio) to view or create new extension patterns. Two models are presented on EXT tabs.  Identify the extension unit that will agregated resources (e.g., project, environments). Operational responsibility over these resources should drive the design.  | 
-| **RUN** | Use OCI Console to create manually the design extensions or use [CIS LZ v3 Modules](https://www.ateam-oracle.com/post/cis-landing-zone-enhanced-modules) to configure the extensions add-ons with a IaC Terraform native approach. | 
+| **RUN** | Use OCI Console to create manually the design extensions or use [CIS LZ Enhanced Modules Modules](https://www.ateam-oracle.com/post/cis-landing-zone-enhanced-modules) to configure the extensions add-ons with a IaC Terraform native approach. | 
 
 &nbsp; 
 

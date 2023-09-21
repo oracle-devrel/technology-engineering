@@ -96,13 +96,13 @@ The **guidance** we recommend to follow is very simple:
 
 | TOPIC  |  DESCRIPTION | 
 |---|---|
-| **APPROACH** | [Standard](https://github.com/oracle-devrel/technology-engineering/blob/main/landing-zones/standard_landing_zones/standard_landing_zones.md) |
-| **SOLUTION** | [CIS LZ](/landing-zones/standard_landing_zones/cis_lz_v2/cis_landing_zone_v2.md) |
+| **APPROACH** | [Standard Landing Zones](/landing-zones/standard_landing_zones/standard_landing_zones.md) |
+| **SOLUTION** | [CIS Landing Zone](/landing-zones/standard_landing_zones/cis_lz_v2/cis_landing_zone_v2.md). CIS 1.2 [certified](https://www.cisecurity.org/partner/oracle) since september 2023. |
 | **SECURITY SCOPE** | Covers all topics in [section 2.1](#21-security).
 | **NETWORK SCOPE** | Covers all topics in [section 2.2](#22-network) exept ND.04.
 | **OPERATIONS SCOPE** | Covers OD.02 in [section 2.3](#23-operations).
 | **RUNTIME** | Use the solution link for complete guidance on the **configuration** and **deployment** of this solution.
-| **EXTENSIONS** | For guidande on **extending** this solution with OCI resources on top of the standard model review the [section 4](/landing-zones/standard_landing_zones/cis_lz_v2/cis_landing_zone_v2.md#4-extend-the-solution) of the CIS LZ solution.| 
+| **EXTENSIONS** | **- Design**: For guidande on **extending** this **solution design** with OCI resources on top of the standard model review the [section 4](/landing-zones/standard_landing_zones/cis_lz_v2/cis_landing_zone_v2.md#4-extend-the-solution) of the CIS LZ solution. </br>**- Deployment/Run with IaC**: An alternative to add-ons on the solution v2 code base is using of the [CIS Landing Zone Enhanced Modules](https://www.ateam-oracle.com/post/cis-landing-zone-enhanced-modules), to **configure** the resources templates with *json/hcl* terraform native interfaces. | 
 
 &nbsp; 
 
@@ -111,8 +111,8 @@ The **guidance** we recommend to follow is very simple:
 
 | TOPIC  |  DESCRIPTION | 
 |---|---|
-| **APPROACH** | [Tailored](/tailored_landing_zones/tailored_landing_zones.md)  |
-| **SOLUTION** | Use the [OCI Open LZ Blueprint](https://github.com/oracle-quickstart/terraform-oci-open-lz) to tailor your landing zone. There are also complementar [models](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/design/models/readme.md) for initial discussions.|
+| **APPROACH** | [Tailored Landing Zones](/landing-zones/tailored_landing_zones/tailored_landing_zones.md)  |
+| **SOLUTION** | Use the [OCI Open LZ Blueprint](https://github.com/oracle-quickstart/terraform-oci-open-lz) to tailor your landing zone. There are also complementar [models](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/design/models/readme.md) for initial discussions. This solution uses CIS 1.2 compliant Terraform modules.|
 | **SECURITY SCOPE** | Covers all topics in [section 2.1](#21-security).
 | **NETWORK SCOPE** | Covers all topics in [section 2.2](#22-network).
 | **OPERATIONS SCOPE** | Covers all topics in [section 2.3](#23-operations) except OD.04.
