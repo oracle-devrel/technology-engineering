@@ -7,7 +7,7 @@
 #
 # Author: Olaf Heimburger
 #
-VERSION=230920
+VERSION=230922
 
 ASSESS_DIR=`dirname $0`
 if [ ${ASSESS_DIR} == "." ]; then
