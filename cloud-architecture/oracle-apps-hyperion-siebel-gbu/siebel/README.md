@@ -6,7 +6,13 @@ These resources aim to offer guidance throughout your migration, enabling you to
 
 Explore these materials to enhance your migration strategy. We appreciate your participation and are committed to supporting your cloud migration journey.
  
+## Useful Links
 
+- [Learn about deploying Siebel CRM on Oracle Cloud Infrastructure](https://docs.oracle.com/en/solutions/learn-architecture-deploy-siebel/index.html)
+  - Solution Playbook for deploying Siebel CRM on Oracle Cloud.
+- [Deploy Siebel CRM on Oracle Kubernetes Engine by using Siebel Cloud Manager](https://docs.oracle.com/en/solutions/deploy-siebel-oke-oci/index.html)
+  - Reference Architecture for deploying Siebel CRM on Oracle Container Engine for Kubernetes (OKE).
+- [Siebel CRM space on Oracle Cloud Customer Connect](https://community.oracle.com/customerconnect/categories/onprem-siebel-crm)
 
 # License
  

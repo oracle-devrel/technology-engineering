@@ -32,6 +32,8 @@ We've designed our storage platform as an ideal complement to Oracle compute and
   - See all Block Storage Blogs from Oracle's Product Management.
 - [Block Storage Release Notes](https://docs.oracle.com/en-us/iaas/releasenotes/services/blockvolume/)
 - [Block Volumes FAQ](https://www.oracle.com/cloud/storage/block-volumes/faq)
+- [Migrate Oracle Cloud Infrastructure volume data across tenancies](https://docs.oracle.com/en/solutions/migrate-data-across-tenancies)
+  - Migrating data across tenancies can be a challenging task, but with proper planning and by using well-tested processes, you can migrate data from one tenancy to another safely, securely, and with little downtime.
 - [Oracle Cloud Infrastructure Vault: Block Volume Encryption](https://www.youtube.com/watch?v=3GBPIx4hlRU)
   - This video helps you to encrypt a block volume with the KMS Vault customer-managed encryption key.
 
@@ -48,9 +50,17 @@ We've designed our storage platform as an ideal complement to Oracle compute and
   - Storage Health-Check example scripts
     - validate all boot and block volumes regarding backup policies
     - showcase boot and block volume security e.g. using Customer managed key, Key-Rotation, Backup
-- [TRIM showcase - example script](asset/trim-showcase.md)
-- [boot/block volume security best practice - example script](asset/secure.storage.sh)
-- [boot/block volume individual (to a customer-managed bucket) backup and restore  - example script](asset/block-volume-backup-and-restore.md)
+- Showcase section
+  - [Showcase 1: Demonstrate block volume backup copy to a different region in a customer managed key environment.](https://gitlab.com/hmielimo/cloud-resilience-by-default/-/tree/main/copy.customer.managed.key.backup)
+    - we showcase a: cli management of several customer managed key protected OCI resources (e.g. instance, block volume, block volume backup)
+    - we showcase b: cli based customer managed key protected block volume creation, attachment to instance, create filesystem
+    - we showcase c: cli based customer managed key protected block volume backup
+    - we showcase d: cli based customer managed key protected block volume backup copy to a different region
+    - we showcase e: cli based customer managed key protected instance using Cloud-Init to run custom scripts or provide custom Cloud-Init configuration
+    - we showcase f: cli based customer managed key protected instance using Consistent device paths fot attached block volumes
+  - [TRIM showcase - example script](asset/trim-showcase.md)
+  - [boot/block volume security best practice - example script](asset/secure.storage.sh)
+  - [boot/block volume individual (to a customer-managed bucket) backup and restore  - example script](asset/block-volume-backup-and-restore.md)
 
 
 

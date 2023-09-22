@@ -1,0 +1,562 @@
+ssh -i /Users/stef/Documents/TSE/Workshops/20230525.France.DevDay/SSH/id_rsa_lab opc@<public_ip>
+https://<public_ip>/vnc.html?resize=remote
+
+curl -ks -X GET --user admin:<admin_passwd> -H "Content-Type: application/json" -k http://localhost:8181/ords/_/db-api/stable/database/pdbs/ | jq
+
+{
+    "items": [
+        {
+            "inst_id": 1,
+            "con_id": 2,
+            "dbid": 871956951,
+            "con_uid": 871956951,
+            "guid": "98VZ05JYtiXgUxwoRmSUnA==",
+            "name": "PDB$SEED",
+            "open_mode": "READ ONLY",
+            "restricted": "NO",
+            "open_time": "2023-05-03T10:06:40.172Z",
+            "create_scn": 292,
+            "total_size": 765460480,
+            "block_size": 8192,
+            "recovery_status": "ENABLED",
+            "snapshot_parent_con_id": null,
+            "application_root": "NO",
+            "application_pdb": "NO",
+            "application_seed": "NO",
+            "application_root_con_id": null,
+            "application_root_clone": "NO",
+            "proxy_pdb": "NO",
+            "local_undo": 1,
+            "undo_scn": 0,
+            "undo_timestamp": null,
+            "creation_time": "2023-03-26T02:26:33Z",
+            "diagnostics_size": 0,
+            "pdb_count": 0,
+            "audit_files_size": 0,
+            "max_size": 0,
+            "max_diagnostics_size": 0,
+            "max_audit_size": 0,
+            "last_changed_by": "COMMON USER",
+            "template": "NO",
+            "tenant_id": null,
+            "upgrade_level": 1,
+            "guid_base64": "98VZ05JYtiXgUxwoRmSUnAA=",
+            "recovery_target_pdb_incarnation#": 0,
+            "cloud_identity": null,
+            "close_time": "2023-05-03T10:06:40.171Z",
+            "priority": 1,
+            "backup_size": 0,
+            "backup_status": "ENABLED",
+            "links": [
+                {
+                    "rel": "self",
+                    "href": "http://localhost:8181/ords/_/db-api/stable/database/pdbs/PDB%24SEED/"
+                }
+            ]
+        },
+        {
+            "inst_id": 1,
+            "con_id": 3,
+            "dbid": 1511376183,
+            "con_uid": 1511376183,
+            "guid": "9/bT02wYCangU2QCAAo8Wg==",
+            "name": "FREEPDB1",
+            "open_mode": "READ WRITE",
+            "restricted": "NO",
+            "open_time": "2023-05-03T10:01:25.116Z",
+            "create_scn": 2062882,
+            "total_size": 802160640,
+            "block_size": 8192,
+            "recovery_status": "ENABLED",
+            "snapshot_parent_con_id": null,
+            "application_root": "NO",
+            "application_pdb": "NO",
+            "application_seed": "NO",
+            "application_root_con_id": null,
+            "application_root_clone": "NO",
+            "proxy_pdb": "NO",
+            "local_undo": 1,
+            "undo_scn": 292,
+            "undo_timestamp": null,
+            "creation_time": "2023-03-28T13:27:56Z",
+            "diagnostics_size": 0,
+            "pdb_count": 0,
+            "audit_files_size": 0,
+            "max_size": 0,
+            "max_diagnostics_size": 0,
+            "max_audit_size": 0,
+            "last_changed_by": "COMMON USER",
+            "template": "NO",
+            "tenant_id": null,
+            "upgrade_level": 1,
+            "guid_base64": "9/bT02wYCangU2QCAAo8WgA=",
+            "recovery_target_pdb_incarnation#": 0,
+            "cloud_identity": null,
+            "close_time": null,
+            "priority": null,
+            "backup_size": 0,
+            "backup_status": "ENABLED",
+            "links": [
+                {
+                    "rel": "self",
+                    "href": "http://localhost:8181/ords/_/db-api/stable/database/pdbs/FREEPDB1/"
+                }
+            ]
+        }
+    ],
+    "hasMore": false,
+    "limit": 25,
+    "offset": 0,
+    "count": 2,
+    "links": [
+        {
+            "rel": "self",
+            "href": "http://localhost:8181/ords/_/db-api/stable/database/pdbs/"
+        },
+        {
+            "rel": "describedby",
+            "href": "http://localhost:8181/ords/_/db-api/stable/metadata-catalog/"
+        },
+        {
+            "rel": "first",
+            "href": "http://localhost:8181/ords/_/db-api/stable/database/pdbs/"
+        }
+    ]
+}
+
+curl -ks -X GET --user admin:<admin_passwd> -H "Content-Type: application/json" \
+-k http://localhost:8181/ords/_/db-api/stable/database/pdbs/ | jq -r '.items[] | (.con_uid|tostring) + " , " + .name + " => " + .open_mode'
+
+871956951 , PDB$SEED => READ ONLY
+1511376183 , FREEPDB1 => READ WRITE
+
+=> OK.
+
+-- Check the status of a particular PDB:
+
+curl -ks -X GET --user admin:<admin_passwd> -H "Content-Type: application/json" \
+-k http://localhost:8181/ords/_/db-api/stable/database/pdbs/FREEPDB1/ | jq
+
+curl -ks -X GET --user admin:<admin_passwd> -H "Content-Type: application/json" \
+-k http://localhost:8181/ords/_/db-api/stable/database/pdbs/FREEPDB1/ | jq -r '.data_files[] | .name + " : " + .status'
+
+--- Create a new PDB:
+
+--- First set file dest:
+sqlplus sys/Oracle_4U@localhost:1521/free as sysdba
+
+alter system set db_create_file_dest='/opt/oracle/oradata/FREE' scope=both;
+exit
+
+curl -ks -X POST --user admin:<admin_passwd> --data '{
+"method": "CREATE",
+"adminName": "Admin",
+"adminPwd": "<admin_passwd>",
+"pdb_name": "PDB2",
+"asClone": true,
+"fileNameConversions": "NONE",
+"unlimitedStorage": true,
+"reuseTempFile": true,
+"totalSize": "10G",
+"tempSize": "100M",
+"getScript": false
+}' -H "Content-Type: application/json" -k http://localhost:8181/ords/_/db-api/stable/database/pdbs/  | jq
+
+{
+    "env": {
+        "defaultTimeZone": "UTC"
+    },
+    "items": [
+        {
+            "statementId": 1,
+            "response": [
+                "\nPL/SQL procedure successfully completed.\n\n"
+            ],
+            "result": 0,
+            "binds": [
+                {
+                    "name": "g__pdbName",
+                    "data_type": "VARCHAR2",
+                    "value": "PDB2"
+                },
+                {
+                    "name": "g__adminUsername",
+                    "data_type": "VARCHAR2",
+                    "value": "ADMIN"
+                },
+                {
+                    "name": "g__totalSize",
+                    "data_type": "VARCHAR2",
+                    "value": "10G"
+                },
+                {
+                    "name": "g__tempSize",
+                    "data_type": "VARCHAR2",
+                    "value": "100M"
+                },
+                {
+                    "name": "g__adminPassword",
+                    "data_type": "VARCHAR2",
+                    "value": "<admin_passwd>"
+                },
+                {
+                    "name": "g__filenameConversion",
+                    "data_type": "VARCHAR2",
+                    "value": "NONE"
+                }
+            ]
+        },
+        {
+            "statementId": 2,
+            "response": [
+                "\nPL/SQL procedure successfully completed.\n\n"
+            ],
+            "result": 0,
+            "binds": [
+                {
+                    "name": "g__pdbName",
+                    "data_type": "VARCHAR2",
+                    "value": "PDB2"
+                },
+                {
+                    "name": "g__adminUsername",
+                    "data_type": "VARCHAR2",
+                    "value": "ADMIN"
+                },
+                {
+                    "name": "g__totalSize",
+                    "data_type": "VARCHAR2",
+                    "value": "10G"
+                },
+                {
+                    "name": "g__tempSize",
+                    "data_type": "VARCHAR2",
+                    "value": "100M"
+                },
+                {
+                    "name": "g__adminPassword",
+                    "data_type": "VARCHAR2",
+                    "value": "<admin_passwd>"
+                },
+                {
+                    "name": "g__filenameConversion",
+                    "data_type": "VARCHAR2",
+                    "value": "NONE"
+                }
+            ]
+        }
+    ]
+}
+
+-- Check on the new PDB:
+
+[oracle@myoracledb1 ~]$ sqlplus sys/Oracle_4U@localhost:1521/free as sysdba
+
+SQL*Plus: Release 21.0.0.0.0 - Production on Wed May 3 13:18:04 2023
+Version 21.9.0.0.0
+
+Copyright (c) 1982, 2022, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 23c Free, Release 23.0.0.0.0 - Developer-Release
+Version 23.2.0.0.0
+
+SQL> show pdbs
+
+    CON_ID CON_NAME			  OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+	 2 PDB$SEED			  READ ONLY  NO
+	 3 FREEPDB1			  READ WRITE NO
+	 4 PDB2 			  READ WRITE NO
+SQL>
+
+--- Drop the new PDB:
+curl -ks -X DELETE --user admin:<admin_passwd> --data '{"action":"INCLUDING"}' -H "Content-Type: application/json" -k http://localhost:8181/ords/_/db-api/stable/database/pdbs/PDB2/ | jq
+
+{
+    "env": {
+        "defaultTimeZone": "UTC"
+    },
+    "items": [
+        {
+            "statementId": 1,
+            "response": [
+                "\nPL/SQL procedure successfully completed.\n\n"
+            ],
+            "result": 0
+        }
+    ]
+}
+[oracle@myoracledb1 ~]$ sqlplus sys/Oracle_4U@localhost:1521/free as sysdba
+
+SQL*Plus: Release 21.0.0.0.0 - Production on Wed May 3 13:20:52 2023
+Version 21.9.0.0.0
+
+Copyright (c) 1982, 2022, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 23c Free, Release 23.0.0.0.0 - Developer-Release
+Version 23.2.0.0.0
+
+SQL> show pdbs
+
+    CON_ID CON_NAME			  OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+	 2 PDB$SEED			  READ ONLY  NO
+	 3 FREEPDB1			  READ WRITE NO
+SQL>
+
+--- Create a new PDB2 from FREEPDB1:
+
+curl -ks -X POST --user admin:<admin_passwd> --data '{
+  "method": "CLONE",
+  "clonePDBName": "pdb2",
+  "unlimitedStorage": true,
+  "reuseTempFile": true,
+  "totalSize": "UNLIMITED",
+  "tempSize": "UNLIMITED"
+}' -H "Content-Type: application/json" -k http://localhost:8181/ords/_/db-api/stable/database/pdbs/FREEPDB1/ | jq
+
+{
+    "env": {
+        "defaultTimeZone": "UTC"
+    },
+    "items": [
+        {
+            "statementId": 1,
+            "response": [
+                "\nPL/SQL procedure successfully completed.\n\n"
+            ],
+            "result": 0
+        },
+        {
+            "statementId": 2,
+            "response": [
+                "\nPL/SQL procedure successfully completed.\n\n"
+            ],
+            "result": 0
+        },
+        {
+            "statementId": 3,
+            "response": [
+                "\nPL/SQL procedure successfully completed.\n\n"
+            ],
+            "result": 0
+        },
+        {
+            "statementId": 4,
+            "response": [
+                "\nPL/SQL procedure successfully completed.\n\n"
+            ],
+            "result": 0
+        }
+    ]
+}
+
+[oracle@myoracledb1 ~]$ sqlplus sys/Oracle_4U@localhost:1521/free as sysdba << EOF
+show pdbs
+exit
+EOF
+
+SQL*Plus: Release 21.0.0.0.0 - Production on Wed May 3 13:26:00 2023
+Version 21.9.0.0.0
+
+Copyright (c) 1982, 2022, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 23c Free, Release 23.0.0.0.0 - Developer-Release
+Version 23.2.0.0.0
+
+SQL>
+    CON_ID CON_NAME			  OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+	 2 PDB$SEED			  READ ONLY  NO
+	 3 FREEPDB1			  READ WRITE NO
+	 5 PDB2 			  READ WRITE NO
+SQL> Disconnected from Oracle Database 23c Free, Release 23.0.0.0.0 - Developer-Release
+Version 23.2.0.0.0
+
+-- You can also unplug PDB2, in order to plug it back. To unplug PDB2, you must close it first:
+
+curl -ks -X POST --user admin:<admin_passwd> --data '{
+  "state": "CLOSE",
+  "modifyOption": "IMMEDIATE"
+}' -H "Content-Type: application/json" -k http://localhost:8181/ords/_/db-api/stable/database/pdbs/PDB2/status | jq
+
+{
+    "env": {
+        "defaultTimeZone": "UTC"
+    },
+    "items": [
+        {
+            "statementId": 1,
+            "response": [
+                "\nPL/SQL procedure successfully completed.\n\n"
+            ],
+            "result": 0
+        }
+    ]
+}
+[oracle@myoracledb1 ~]$ sqlplus sys/Oracle_4U@localhost:1521/free as sysdba << EOF
+show pdbs
+exit
+EOF
+
+SQL*Plus: Release 21.0.0.0.0 - Production on Wed May 3 13:30:16 2023
+Version 21.9.0.0.0
+
+Copyright (c) 1982, 2022, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 23c Free, Release 23.0.0.0.0 - Developer-Release
+Version 23.2.0.0.0
+
+SQL>
+    CON_ID CON_NAME			  OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+	 2 PDB$SEED			  READ ONLY  NO
+	 3 FREEPDB1			  READ WRITE NO
+	 5 PDB2 			  MOUNTED
+SQL> Disconnected from Oracle Database 23c Free, Release 23.0.0.0.0 - Developer-Release
+Version 23.2.0.0.0
+
+curl -ks -X POST --user admin:<admin_passwd> --data '{
+  "method": "UNPLUG",
+  "xmlFileName": "/tmp/pdb2.xml"
+}' -H "Content-Type: application/json" -k http://localhost:8181/ords/_/db-api/stable/database/pdbs/PDB2/ | jq
+
+[oracle@myoracledb1 ~]$ sqlplus sys/Oracle_4U@localhost:1521/free as sysdba << EOF
+show pdbs
+exit
+EOF
+
+SQL*Plus: Release 21.0.0.0.0 - Production on Wed May 3 13:32:59 2023
+Version 21.9.0.0.0
+
+Copyright (c) 1982, 2022, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 23c Free, Release 23.0.0.0.0 - Developer-Release
+Version 23.2.0.0.0
+
+SQL>
+    CON_ID CON_NAME			  OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+	 2 PDB$SEED			  READ ONLY  NO
+	 3 FREEPDB1			  READ WRITE NO
+SQL> Disconnected from Oracle Database 23c Free, Release 23.0.0.0.0 - Developer-Release
+Version 23.2.0.0.0
+
+--- Review the XML manifest file: it has been generated in the database container !!!
+
+docker exec -it my23free cat /tmp/pdb2.xml
+
+--- Plug PDB2 back as plugged_pdb
+
+curl -ks -X POST --user admin:<admin_passwd> --data '{
+  "method": "PLUG",
+  "pdb_name": "plugged_pdb",
+  "xmlFileName": "/tmp/pdb2.xml",
+  "sourceFileNameConversions": "NONE",
+  "copyAction": "NOCOPY",
+  "fileNameConversions": "NONE",
+  "unlimitedStorage": true,
+  "reuseTempFile": true,
+  "totalSize": "UNLIMITED",
+  "tempSize": "UNLIMITED"
+}' -H "Content-Type: application/json" -k http://localhost:8181/ords/_/db-api/stable/database/pdbs/ | jq
+
+{
+    "env": {
+        "defaultTimeZone": "UTC"
+    },
+    "items": [
+        {
+            "statementId": 1,
+            "response": [
+                "\nPL/SQL procedure successfully completed.\n\n"
+            ],
+            "result": 0
+        },
+        {
+            "statementId": 2,
+            "response": [
+                "\nPL/SQL procedure successfully completed.\n\n"
+            ],
+            "result": 0
+        }
+    ]
+}
+
+[oracle@myoracledb1 ~]$ sqlplus sys/Oracle_4U@localhost:1521/free as sysdba << EOF
+show pdbs
+exit
+EOF
+
+SQL*Plus: Release 21.0.0.0.0 - Production on Wed May 3 13:36:10 2023
+Version 21.9.0.0.0
+
+Copyright (c) 1982, 2022, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 23c Free, Release 23.0.0.0.0 - Developer-Release
+Version 23.2.0.0.0
+
+SQL>
+    CON_ID CON_NAME			  OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+	 2 PDB$SEED			  READ ONLY  NO
+	 3 FREEPDB1			  READ WRITE NO
+	 4 PLUGGED_PDB			  READ WRITE NO
+SQL> Disconnected from Oracle Database 23c Free, Release 23.0.0.0.0 - Developer-Release
+Version 23.2.0.0.0
+
+---- Finally drop PLUGGED_PDB:
+curl -ks -X DELETE --user admin:<admin_passwd> --data '{"action":"INCLUDING"}' -H "Content-Type: application/json" \
+-k http://localhost:8181/ords/_/db-api/stable/database/pdbs/PLUGGED_PDB/ | jq
+
+{
+    "env": {
+        "defaultTimeZone": "UTC"
+    },
+    "items": [
+        {
+            "statementId": 1,
+            "response": [
+                "\nPL/SQL procedure successfully completed.\n\n"
+            ],
+            "result": 0
+        }
+    ]
+}
+[oracle@myoracledb1 ~]$ sqlplus sys/Oracle_4U@localhost:1521/free as sysdba << EOF
+show pdbs
+exit
+EOF
+
+SQL*Plus: Release 21.0.0.0.0 - Production on Wed May 3 13:37:54 2023
+Version 21.9.0.0.0
+
+Copyright (c) 1982, 2022, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 23c Free, Release 23.0.0.0.0 - Developer-Release
+Version 23.2.0.0.0
+
+SQL>
+    CON_ID CON_NAME			  OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+	 2 PDB$SEED			  READ ONLY  NO
+	 3 FREEPDB1			  READ WRITE NO
+SQL> Disconnected from Oracle Database 23c Free, Release 23.0.0.0.0 - Developer-Release
+Version 23.2.0.0.0
+
+
+
