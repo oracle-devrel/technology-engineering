@@ -13,7 +13,7 @@ Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a compl
 ### Architecture Center
  
 - [Data platform - data lakehouse](https://docs.oracle.com/en/solutions/data-platform-lakehouse/index.html#GUID-A328ACEF-30B8-4595-B86F-F27B512744DF)
-    - This reference architecture describes a lakehouse architecture pattern, the services that are part of it, the capabilities those services deliver, and how to deploy them. It covers best practices, a deployment topology, and also automated deployment with an Oracle Resource Manager Terraform stack.
+    - This reference architecture describes a lakehouse architecture pattern, the services that are part of it, the capabilities those services deliver, and how to deploy them. It covers best practices, a deployment topology, and automated deployment with an Oracle Resource Manager Terraform stack.
 - [Deploy a machine learning model close to the network edge](https://docs.oracle.com/en/solutions/deploy-ml-at-edge/#GUID-8EC86246-D724-4C16-8073-8CB5B2EA6719)
     - This reference architecture describes a deployment where data is ingested from edge locations into OCI, where it is used to build and train ML models that are deployed in the edge for low latency inferencing.
 
@@ -40,8 +40,12 @@ Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a compl
 
 ### YouTube
 
+- [Data Lake Modernization](https://youtu.be/bOF3YJq4L6A?si=WgQVp9sXuZz8Em_3)
+  - Cloud Coaching session covering Hadoop-based Data Lake modernizations in OCI, explaining the deployment options and migration path.
+- [Architecting Analytical Data Platform](https://youtu.be/-rMUsvrXYw4?si=7Yx80VvZQYiy2qHE)
+  - Cloud Coaching session covering how to architect an Analytical Data Platform in Oracle and OCI using best practices to achieve trustable business outcomes.
 - [Real Time Analytics on Oracle Data Platform](https://www.youtube.com/watch?v=SVmM0CuLnU4)
-  - Cloud Coaching session describing what is Real Time Analytics and how to architect a real time analytics workload on the Oracle Data Platform.
+  - Cloud Coaching session describing what is Real Time Analytics and how to architect a real-time analytics workload on the Oracle Data Platform.
 - [Analytics and Lakehouse for Oracle Applications](https://youtu.be/a_JsSzmz1_U)
   - Session describing how to architect analytical workloads for Oracle Applications.
 

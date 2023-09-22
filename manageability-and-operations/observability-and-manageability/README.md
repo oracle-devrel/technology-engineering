@@ -19,6 +19,7 @@ The Observability and Manageability (O&M) platform is a set of Oracle Cloud Infr
   - Step-by-step guide on the Splunk Plugin Installation and setup, and how to stream OCI logs to Splunk.
 - [Why and how to run Wazuh on OCI](https://learnoci.cloud/why-and-how-to-run-wazuh-on-oci-6b39174b5d2d?sk=2b9185ad216f0cedbf80b2e5a8705c96)
 - [How to get logs into Splunk from OCI obj storage](https://learnoci.cloud/how-to-get-logs-into-splunk-from-oci-object-storage-7304fbf467ea?sk=6539609ba70a068fe52f39fb079df32b)
+- [Supercharge your Oracle Enterprise Manager Cloud Control 13.5 management, by using the REST API calls](https://medium.com/@eugenesimos/supercharge-your-oracle-enterprise-manager-cloud-control-13-5-d264e7371ec9)
 
 ## Cloud Coaching Clinics (Videos)
 
