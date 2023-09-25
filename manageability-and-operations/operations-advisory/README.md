@@ -6,6 +6,10 @@ The Operations Advisory provides critical guidance to Customers on how to define
 
 OS Management: The Oracle OCI OS Management Service allows users to control the update process of Oracle Cloud Infrastructure (OCI) compute instances. By default, the update of a compute instance installs the latest available packages and patches. Just installing what is available might impact critical installed applications. It might also be desirable to keep the number of configuration variants low by ensuring all or groups of instances have the exact same versions of packages and patches installed. This can be achieved with OS Management  https://github.com/hoehenunterschied/OSManagement
 
+# Cloud Coaching Clinic
+
+OCI Functions—Integration of Monitoring for Oracle Cloud:This workshop provides an overview of OCI Functions, highlighting the its capabilities as the most versatile tool to integrate diverse monitoring tools and applications. Reconding: https://youtu.be/_H0fqbsBvk4
+
 
 # License
 
