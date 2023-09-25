@@ -1,0 +1,206 @@
+# Copyright (c) 2023 Oracle and/or its affiliates.
+# 
+# The Universal Permissive License (UPL), Version 1.0
+# 
+# Subject to the condition set forth below, permission is hereby granted to any
+# person obtaining a copy of this software, associated documentation and/or data
+# (collectively the "Software"), free of charge and under any and all copyright
+# rights in the Software, and any and all patent rights owned or freely
+# licensable by each licensor hereunder covering either (i) the unmodified
+# Software as contributed to or provided by such licensor, or (ii) the Larger
+# Works (as defined below), to deal in both
+# 
+# (a) the Software, and
+# (b) any piece of software and/or hardware listed in the lrgrwrks.txt file if
+# one is included with the Software (each a "Larger Work" to which the Software
+# is contributed by such licensors),
+# without restriction, including without limitation the rights to copy, create
+# derivative works of, display, perform, and distribute the Software and make,
+# use, sell, offer for sale, import, export, have made, and have sold the
+# Software and the Larger Work(s), and to sublicense the foregoing rights on
+# either these or other terms.
+# 
+# This license is subject to the following condition:
+# The above copyright notice and either this complete permission notice or at
+# a minimum a reference to the UPL must be included in all copies or
+# substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+version: 0.1
+component: build
+timeoutInSeconds: 6000
+runAs: root
+shell: bash
+
+env:
+  # these are local variables to the build config, we need to declare them here so thet will follow on in subsequent build stages
+  # Note that PATH seems to be automatically added to the list of variables who's value is preserved across commands
+  variables:
+    # Software versions to install, this will work, but relies on the 
+    # download sources of the software retaining the same URL formats
+    GRAALVM_JAVA_VERSION: "17"
+    MVN_VERSION: "3.9.3"
+    # some times the actuall code isn't in the root of the git repo
+    # set this to any sub path or to . if you do want to build in the root of the repo
+    PROJECT_PATH_TO_BUILD: "getting-started"
+    # where any downloaded software used by the build will be installed,
+    # unless you have a specific need there is no benefit to changing this
+    SW_PATH: "installedsw"
+    # Settings needed for the docker container
+    DOCKER_BASE_IMAGE: "oraclelinux:8"
+    # where in the resulting docker container the application will be placed
+    # this path will be created is needed
+    DOCKER_APPLICATION_DIR: "/application"
+    # the following are determined during the various processing stages
+    # and used to pass usefull around between the stages
+    # You don't need to set them
+    GRAALVM_HOME: "Not yet set"
+    JAVA_HOME: "Not yet set"
+    WORKING_PATH: "Not yet set"
+    EXTRACTED_ARTIFACT_ID: "Not set"
+    EXTRACTED_VERSION: "Not set"
+    MVN_HOME: "Not yet set"
+    APPLICATION_COMPILED_PATH: "Not yet set"
+    APPLICATION_COMPILED_NAME: "Not yet set"
+
+  exportedVariables:
+    - EXTRACTED_ARTIFACT_ID
+    - EXTRACTED_VERSION
+
+steps:
+  - type: Command
+    name: "Check local environment before starting work"
+    command: |
+      echo "Current working directory is "`pwd`
+      echo "It's contents are "
+      ls -l .
+      echo "Source is in ${OCI_PRIMARY_SOURCE_DIR} it's contents are"
+      cd ${OCI_PRIMARY_SOURCE_DIR}
+      ls -l .
+      export WORKING_PATH="/${OCI_PRIMARY_SOURCE_DIR}/${PROJECT_PATH_TO_BUILD}"
+      echo "Project working path is ${WORKING_PATH}"
+      cd ${WORKING_PATH}
+      echo "Top level contents of working path via cwd "
+      ls -l .
+  - type: Command
+    name: "Setup for software install"
+    command: |
+      echo "Configuring home directory for the upcomming sw installs"
+      mkdir -p $HOME/${SW_PATH}
+  # This uses YUM to install graalvm
+  #- type: Command
+    #name: "Install GraalVM Enterprise 22 Native Image for Java 17"
+    #command: |
+      #echo "Installing graal vm using yum"
+      #yum -y install graalvm22-ee-17-native-image
+      #echo "Java version is "
+      #java -version
+  # This used curl to  download and then we unpack the graalvm. it give us control over the instalation location
+  - type: Command
+    name: "Install GraalVM"
+    command: |
+      echo "Installing graal vm for Java ${GRAALVM_JAVA_VERSION} into $HOME/${SW_PATH}"
+      cd $HOME/${SW_PATH}
+      echo "Download command is"
+      echo curl https://download.oracle.com/graalvm/${GRAALVM_JAVA_VERSION}/latest/graalvm-jdk-${GRAALVM_JAVA_VERSION}_linux-x64_bin.tar.gz -o graalvm.tar.gz
+      echo "Downloading"
+      curl https://download.oracle.com/graalvm/${GRAALVM_JAVA_VERSION}/latest/graalvm-jdk-${GRAALVM_JAVA_VERSION}_linux-x64_bin.tar.gz -o graalvm.tar.gz
+      echo "Download file details are"
+      ls -l graalvm.tar.gz
+      echo "Unpacking"
+      tar xf graalvm.tar.gz
+      echo "Removing download file"
+      rm -f *tar.gz
+      echo "Files after removing download are"
+      ls -l
+      echo "Relocating"
+      mv graalvm-jdk-* graalvm
+      echo "files after relocation"
+      ls -l
+      echo "Setting environment variables"
+      export JAVA_HOME=$HOME/${SW_PATH}/graalvm
+      export GRAALVM_HOME=${JAVA_HOME}
+      echo "JAVA_HOME and GRAALVM_HOME both set to ${JAVA_HOME}"
+      echo "Testing download version"
+      ${GRAALVM_HOME}/bin/java -version
+  - type: Command
+    name: "Install Maven"
+    command: |
+      echo "Download maven ${MVN_VERSION} and install in $HOME/${SW_PATH}"
+      cd $HOME/${SW_PATH}
+      echo "Current $HOME/$SW_PATH before download contents are"
+      ls -l .
+      echo "Using curl co download maven, command is "
+      echo curl https://dlcdn.apache.org/maven/maven-3/${MVN_VERSION}/binaries/apache-maven-${MVN_VERSION}-bin.tar.gz -o maven.tar.gz
+      curl https://dlcdn.apache.org/maven/maven-3/${MVN_VERSION}/binaries/apache-maven-${MVN_VERSION}-bin.tar.gz -o maven.tar.gz
+      echo "unpack maven"
+      tar xf maven.tar.gz
+      echo "Move maven in to place"
+      mv apache-maven-* maven
+      echo "Remove doanload file"
+      rm *.tar.gz
+      echo "Configuring MVN_PATH"
+      export MVN_HOME=$HOME/${SW_PATH}/maven
+      echo "Installed maven version in ${MVN_PATH} is"
+      ${MVN_HOME}/bin/mvn --version
+  - type: Command
+    name: "Configure PATH for installed software"
+    command: |
+      echo "Using software in system locations and $SW_PATH"
+      echo "Before updates PATH is $PATH"
+      PATH=PATH=${JAVA_HOME}/bin:${MVN_HOME}/bin:$PATH
+      echo "After updates PATH is $PATH"
+  - type: Command
+    name: "Validating software versions"
+    command: |
+      echo "Confirming downloaded software versions using PATH"
+      echo "java -version"
+      java -version
+      echo "mvn --version"
+      mvn --version
+  - type: Command
+    name: "Extracting the artifact id and version information"
+    command: |
+      echo "Extracting artifact ID and version from the pom.xml in ${WORKING_PATH}"
+      cd ${WORKING_PATH}
+      export EXTRACTED_ARTIFACT_ID=`xmllint --xpath '/*[local-name()="project"]/*[local-name()="artifactId"]/text()' pom.xml`
+      export EXTRACTED_VERSION=`xmllint --xpath '/*[local-name()="project"]/*[local-name()="version"]/text()' pom.xml`
+      echo "Extracted artifact ID is ${EXTRACTED_ARTIFACT_ID}"
+      echo "Extracted version is ${EXTRACTED_VERSION}"
+  - type: Command
+    name: "Compile and build the application"
+    command: |
+      echo "Compiling in ${WORKING_PATH}"
+      cd ${WORKING_PATH}
+      echo "Starting compile and native imge process, this may take a while"
+      ./mvnw package -Dnative
+  - type: Command
+    name: "Locating resulting output"
+    command: |
+      cd ${WORKING_PATH}
+      export APPLICATION_COMPILED_NAME=${EXTRACTED_ARTIFACT_ID}-${EXTRACTED_VERSION}-runner
+      export APPLICATION_COMPILED_PATH=./target/${APPLICATION_COMPILED_NAME}
+      echo "Application compiled path = ${APPLICATION_COMPILED_PATH}"
+      echo "Details are :"
+      ls -l ${APPLICATION_COMPILED_PATH}
+  - type: Command
+    name: "Build docker image"
+    command: |
+      echo "Building docker image in ${WORKING_PATH} contents are"
+      cd ${WORKING_PATH}
+      ls -l
+      echo "Using ${APPLICATION_COMPILED_PATH} as the appSource"
+      echo "Docker command to execute is :"
+      echo docker build --build-arg BASE_IMAGE=${DOCKER_BASE_IMAGE}  --build-arg APP_DIR=${DOCKER_APPLICATION_DIR} --build-arg APP_SOURCE=${APPLICATION_COMPILED_PATH} --build-arg APP_NAME=${APPLICATION_COMPILED_NAME} --file Dockerfile --tag ${EXTRACTED_ARTIFACT_ID}:${EXTRACTED_VERSION} .
+      docker build --build-arg BASE_IMAGE=${DOCKER_BASE_IMAGE}  --build-arg APP_DIR=${DOCKER_APPLICATION_DIR} --build-arg APP_SOURCE=${APPLICATION_COMPILED_PATH} --build-arg APP_NAME=${APPLICATION_COMPILED_NAME} --file Dockerfile --tag ${EXTRACTED_ARTIFACT_ID}:${EXTRACTED_VERSION} .
+
+outputArtifacts:
+  - name: application-container-image
+    type: DOCKER_IMAGE
+    location: ${EXTRACTED_ARTIFACT_ID}:${EXTRACTED_VERSION}

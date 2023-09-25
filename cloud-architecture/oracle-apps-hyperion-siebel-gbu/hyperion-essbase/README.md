@@ -8,8 +8,11 @@ Explore these materials to enhance your migration strategy. We appreciate your p
  
 # Table of Contents
  
-1. [Team Assets](#team-assets)
-2. [Useful Links](#useful-links)
+- [Hyperion Essbase](#hyperion-essbase)
+- [Table of Contents](#table-of-contents)
+  - [Team Assets](#team-assets)
+  - [Useful Links](#useful-links)
+- [License](#license)
  
 ## Team Assets
 
@@ -33,12 +36,16 @@ The reusable assets available in this repository:
     - Customers using Oracle Analytics Cloud - Essbase Classic are encouraged to migrate to Essbase 21C. Requires login to Oracle Support portal.
 - [OCI Cost Estimator](https://www.oracle.com/uk/cloud/costestimator.html)
     - Estimate the cost of your OCI environment.
+- [EPM & BI Proactive Support Blog](https://blogs.oracle.com/proactivesupportepm/)
+    - Blog with the latest news for Oracle EPM and BI products.
+- [EPM Certification Matrices](https://www.oracle.com/middleware/technologies/bi-foundation/hyperion-supported-platforms.html)
+    - This page contains links to the documents providing supported platform information for Oracle Enterprise Performance Management System products.
 
 
 # License
  
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2023 Oracle and/or its affiliates. 
  
-Licensed under the Universal Permissive License (UPL), Version 1.0.
+Licensed under the Universal Permissive License (UPL), Version 1.0. 
  
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
