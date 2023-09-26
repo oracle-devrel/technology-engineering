@@ -7,8 +7,9 @@ OCI Vision is an AI service for performing deep-learning–based image analysis 
 - [AI Vision](#ai-vision)
 - [Table of Contents](#table-of-contents)
   - [Team Publications](#team-publications)
-    - [LiveLabs and Workshops](#livelabs-and-workshops)
-    - [Reusable Assets Overview](#reusable-assets-overview)
+  - [Architecture Center](#architecture-center)
+  - [LiveLabs and Workshops](#livelabs-and-workshops)
+  - [Reusable Assets Overview](#reusable-assets-overview)
   - [Useful Links](#useful-links)
 - [License](#license)
  
@@ -19,7 +20,11 @@ OCI Vision is an AI service for performing deep-learning–based image analysis 
 - [Build a real-time object identifier using OCI Vision and Oracle Autonomous Database](https://docs.oracle.com/en/solutions/realtime-ocivision-object-identification/index.html#GUID-A875FB7D-29E3-4FBF-AED5-C0CF43F71469)
     - The reference architecture describes how you can integrate an OCI Vision-trained model with a front-end web app to perform real-time object identification with a mobile phone camera. 
  
-### LiveLabs and Workshops
+## Architecture Center
+
+- [Build a real-time object identifier using OCI Vision and Oracle Autonomous Database](https://docs.oracle.com/en/solutions/realtime-ocivision-object-identification/index.html)
+
+## LiveLabs and Workshops
  
 - [LiveLabs - AI Vision introduction](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=931&clear=RR,180&session=101189893786132)
     - Introduction: OCI Vision
@@ -37,16 +42,19 @@ OCI Vision is an AI service for performing deep-learning–based image analysis 
     - Lab 5: Translate Camera Coordinates to Football Pitch Coordinates
     - Lab 6: Connecting to Autonomous Data Warehouse
     - Lab 7: Processing the entire video
+- [How to Use AI Vision and Drones for Inventory Management](https://go.oracle.com/LP=135420)
 
-### Reusable Assets Overview
+## Reusable Assets Overview
  
 - [OCI image classification using data labeling and vision service](https://github.com/carlgira/oci-image-classification)
 - [OCI object detection using data labeling and vision service](https://github.com/carlgira/oci-object-detection) 
+- [Perform image recognition with Oracle Cloud Infrastructure OCI Vision](https://youtu.be/G11INIVtlMY?si=ixMoLE2jSq7f_Iyi) 
 - [AI vision web client](https://github.com/oracle-devrel/oci-tf-vision-web-client)
     - Terraform script that will create a set of resources on OCI to create a web app to test an existing vision model.
 - [Vision Image Classification demo](https://youtu.be/9_NSumsQcMs)
 - [Vision Object Detection demo](https://youtu.be/iiuluuOlAKc)
 - [AI Vision Car parking utilisation demo (OCI AI Vision, OAC)](https://youtu.be/VlZDaUC2Jus)
+- [How to train AI Vision and Document Understanding demos](https://community.oracle.com/customerconnect/events/604740-oci-how-to-train-your-oracle-ai-cloud-service-model)
 
 ## Useful Links
  
