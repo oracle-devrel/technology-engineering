@@ -32,6 +32,7 @@
 
 - [Bastion Session Script](bastion-session-script/README.md)
 - [OCI Security Health Check Standard](oci-security-health-check-standard/README.md)
+- [Data Safe Audit Database to OCI Logging](fn-datasafe-dbaudit-to-oci-logging/README.md)
 
       
 ## Useful Links
