@@ -13,41 +13,49 @@ EMEA AppDev is an expert team of Cloud Native architects and developers focusing
 <img src="https://objectstorage.eu-frankfurt-1.oraclecloud.com/p/p3Sq8BqTs9Q7IlzvJ3o49eMg-_W8-bLQiOJoqELnDeX2JHdLhXWxdVJbyOK7aVkT/n/frsxwtjslf35/b/github-technology-engineering/o/solutioning.png" width="80px" />
 
 We help you to architect a solution from conceptual architecture to IaC artifacts. We are equipped with a toolset of assets and best practices to boost your developer experience of OCI and Oracle products. [Reach out](#contact-us) and leverage our complimentary service.
+
 ## 2. Health Check
 <img src="https://objectstorage.eu-frankfurt-1.oraclecloud.com/p/p3Sq8BqTs9Q7IlzvJ3o49eMg-_W8-bLQiOJoqELnDeX2JHdLhXWxdVJbyOK7aVkT/n/frsxwtjslf35/b/github-technology-engineering/o/healthcheck.png" width="80px" />
 
 We address your technical challenges on OCI, guiding you to the solution. If you experience problems with your architecture, [engage us](#contact-us) and minimize the problem's impact.
+
 ## 3. Demonstrate Oracle Products
 <img src="https://objectstorage.eu-frankfurt-1.oraclecloud.com/p/p3Sq8BqTs9Q7IlzvJ3o49eMg-_W8-bLQiOJoqELnDeX2JHdLhXWxdVJbyOK7aVkT/n/frsxwtjslf35/b/github-technology-engineering/o/demo.png" width="80px" />
 
 We showcase OCI and Oracle technology. If you search for inspiration or best practice explanations, we have quite an extensive repository of OCI-based demos and assets. Nevertheless, [leverage](#contact-us) our complimentary offering if you organize an in-house workshop, meetup, or public conference.
+
 ## 4. Build PoC
 <img src="https://objectstorage.eu-frankfurt-1.oraclecloud.com/p/p3Sq8BqTs9Q7IlzvJ3o49eMg-_W8-bLQiOJoqELnDeX2JHdLhXWxdVJbyOK7aVkT/n/frsxwtjslf35/b/github-technology-engineering/o/poc.png" width="80px" />
 
 We strive for innovative solutions that make us excited and proud. If you have a great product candidate for succeeding on top of OCI, [engage us](#contact-us) in complimentary PoC and deliver great value for your business.
+
 ## 5. Ideation Sessions
 <img src="https://objectstorage.eu-frankfurt-1.oraclecloud.com/p/p3Sq8BqTs9Q7IlzvJ3o49eMg-_W8-bLQiOJoqELnDeX2JHdLhXWxdVJbyOK7aVkT/n/frsxwtjslf35/b/github-technology-engineering/o/ideate.png" width="80px" />
 
 We jointly ideate the business process and transform it into the architecture roadmap using Design Thinking and Architectural Thinking. If you want to ensure you are doing the right thing and things right, [reach out](#contact-us) for our complimentary service.
 
 # Our Favorite Building Blocks
-We play with the OCI service s and Oracle Software. Here is the list of pour favourite components we have expertise in. Our skills include containers, cloud networks, APIs, messaging, developer tools, frameworks, low code platforms, data management, and blockchain.
-### Containers
+We play with the OCI services and Oracle Software. Here is the list of our favorite components we have expertise in. Our skills include containers, cloud networks, APIs, messaging, developer tools, frameworks, low code platforms, data management, and blockchain.
+
+## Containers
 - [Container Engine for Kubernetes (OKE)](https://www.oracle.com/cloud/cloud-native/container-engine-kubernetes/) | [docs](https://docs.oracle.com/en-us/iaas/Content/ContEng/home.htm)
 - [Container Registry](https://www.oracle.com/cloud/cloud-native/container-registry/) | [docs](https://docs.oracle.com/en-us/iaas/Content/ContEng/home.htm)
 - [Container Instances](https://www.oracle.com/cloud/cloud-native/container-instances/) | [docs](https://docs.oracle.com/en-us/iaas/Content/container-instances/home.htm)
 - [Functions](https://www.oracle.com/cloud/cloud-native/functions/) | [docs](https://docs.oracle.com/en-us/iaas/Content/Functions/home.htm)
 - [Service Mesh](https://www.oracle.com/cloud/cloud-native/service-mesh/) | [docs](https://docs.oracle.com/en-us/iaas/Content/service-mesh/home.htm)
-### Networks
+
+## Networks
 - [Load Balancers](https://www.oracle.com/cloud/networking/load-balancing/) | [docs](https://docs.oracle.com/en-us/iaas/Content/Balance/home.htm)
 - [DNS](https://www.oracle.com/cloud/networking/dns/) | [docs](https://docs.oracle.com/en-us/iaas/Content/DNS/home.htm)
 - [Virtual Cloud Networks](https://www.oracle.com/cloud/networking/virtual-cloud-network/) | [docs](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/landing.htm)
-### APIs, Messaging and Events
+
+## APIs, Messaging and Events
 - [API Management](https://www.oracle.com/cloud/cloud-native/api-management/) | [docs](https://docs.oracle.com/en-us/iaas/Content/APIGateway/home.htm)
 - [Queue](https://www.oracle.com/cloud/queue/) | [docs](https://docs.oracle.com/en-us/iaas/Content/queue/home.htm)
 - [Streaming](https://www.oracle.com/cloud/streaming/) | [docs](https://docs.oracle.com/en-us/iaas/Content/Streaming/home.htm)
 - [Events](https://www.oracle.com/cloud/events-service/) | [docs](https://docs.oracle.com/en-us/iaas/Content/Events/home.htm)
-### Developer Tools
+
+## Developer Tools
 - [DevOps](https://www.oracle.com/devops/devops-service/) | [docs](https://docs.oracle.com/en-us/iaas/Content/devops/using/home.htm)
 - [Visual Builder Studio](https://www.oracle.com/application-development/visual-builder-studio/) | [docs](https://docs.oracle.com/en-us/iaas/visual-builder-studio/index.html)
 - [Resource Manager](https://www.oracle.com/devops/resource-manager/) | [docs](https://docs.oracle.com/en-us/iaas/Content/ResourceManager/home.htm)
@@ -56,15 +64,18 @@ We play with the OCI service s and Oracle Software. Here is the list of pour fav
 - [Logging](https://www.oracle.com/devops/logging/) | [docs](https://docs.oracle.com/en-us/iaas/Content/Logging/home.htm)
 - [Monitoring](https://www.oracle.com/devops/monitoring/) | [docs](https://docs.oracle.com/en-us/iaas/Content/Monitoring/home.htm)
 - [OpenSearch](https://www.oracle.com/cloud/search/) | [docs](https://docs.oracle.com/en-us/iaas/Content/search-opensearch/home.htm)
-### Development Frameworks and Servers
+
+## Development Frameworks and Servers
 - [GraalVM](https://www.graalvm.org/) | [docs](https://www.graalvm.org/latest/docs/)
 - [Helidon](https://helidon.io/) | [docs](https://helidon.io/docs/v3/#/)
 - [Microanut](https://micronaut.io/) | [docs](https://docs.micronaut.io/index.html)
 - [WebLogic](https://www.oracle.com/java/weblogic/) | [docs](https://docs.oracle.com/en/middleware/fusion-middleware/weblogic-server/index.html)
 - [MicroTx](https://www.oracle.com/database/transaction-manager-for-microservices/) | [docs](https://docs.oracle.com/en/database/oracle/transaction-manager-for-microservices/22.3/index.html)
-### Low Code
+
+## Low Code
 - [Visual Builder](https://www.oracle.com/application-development/visual-builder/) | [docs](https://docs.oracle.com/en-us/iaas/visual-builder/index.html)
-### Data and Blockchain
+
+## Data and Blockchain
 - [Blockchain Platform](https://www.oracle.com/blockchain/cloud-platform/) | [docs](https://docs.oracle.com/en-us/iaas/blockchain-platform/index.html)
 
 # Contact Us
