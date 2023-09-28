@@ -7,18 +7,23 @@ OCI Speech is an AI service that applies automatic speech recognition technology
 - [AI Speech](#ai-speech)
 - [Table of Contents](#table-of-contents)
   - [Team Publications](#team-publications)
-    - [LiveLabs and Workshops](#livelabs-and-workshops)
-    - [Reusable Assets Overview](#reusable-assets-overview)
+  - [Architecture Center](#architecture-center)
+  - [LiveLabs and Workshops](#livelabs-and-workshops)
+  - [Reusable Assets Overview](#reusable-assets-overview)
   - [Useful Links](#useful-links)
 - [License](#license)
  
 ## Team Publications
 
-### LiveLabs and Workshops
+## Architecture Center
+
+- [Use OCI Speech to transcribe natural language](https://docs.oracle.com/en/solutions/ai-speech/index.html)
+
+## LiveLabs and Workshops
  
 - [Introduction to OCI Speech](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3135&clear=RR,180&session=106771425893627)
 
-### Reusable Assets Overview
+## Reusable Assets Overview
  
 - [Demos built using OCI Python SDK](https://github.com/luigisaetta/oci-speech-demos)
 - [AI Speech console demo](https://youtu.be/EWBSoSLNph8)

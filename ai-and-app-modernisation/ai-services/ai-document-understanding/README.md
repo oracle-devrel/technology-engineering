@@ -4,12 +4,22 @@ Oracle Cloud Infrastructure (OCI) Document Understanding is an AI service that e
  
 # Table of Contents
  
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-links)
+  - [Team Publications](#team-publications)
+  - [LiveLabs and Workshops](#livelabs-and-workshops)
+  - [Reusable Assets Overview](#reusable-assets-overview)
+  - [Useful Links](#useful-links)
+  - [Customer Stories](#customer-stories)
 
 ## Team Publications
 
-### Demos
+- [Automate with documents using AI](https://blogs.oracle.com/ai-and-datascience/post/automate-documents-using-ai)
+
+## LiveLabs and Workshops
+ 
+- [Introduction to OCI Document Understanding](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3585)
+
+## Reusable Assets Overview
+ 
 - [Cloud Coaching - Automating Invoice Handling using OIC and AI Document Understanding Service](https://www.youtube.com/watch?v=pjdQzFscOrk)
     - In this session, we demonstrate how you can use OCI AI Document Understanding service's pre-trained models to extract key information from invoices and use Oracle Integration Cloud to automate the whole process. It also includes kick-starting process workflows where human intervention is required.
 - [Demo: Automate Invoice Handling - Oracle Integration Cloud & AI Document Understanding Service](https://youtu.be/k72CcNhmOjs)
@@ -20,19 +30,16 @@ Oracle Cloud Infrastructure (OCI) Document Understanding is an AI service that e
 ## Useful Links
 
 - [Oracle Learning YouTube Playlist - OCI Document Understanding Service](https://youtube.com/playlist?list=PLKCk3OyNwIzt1x62El9gGGeNaQr0va58c)
-    - Overview and Product Demos by  Product Management
 - [GitHub Examples](https://github.com/oracle-samples/oci-data-science-ai-samples/tree/master/labs/ai-document-understanding)
-- [LiveLabs - Introduction to OCI Document Understanding](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3585)
-
-### Articles
-
 - [Announcing OCI Document Understanding custom model support (June 14, 2023)](https://blogs.oracle.com/ai-and-datascience/post/oci-document-understanding-custom-model-support)
 - [Announcing OCI Document Understanding service (December 8, 2022)](https://blogs.oracle.com/ai-and-datascience/post/announcing-oci-document-understanding-service)
 
-### General Product Links
-
 - [Document Understanding Oracle.com Page](https://www.oracle.com/artificial-intelligence/document-understanding/)
 - [Document Understanding Documentation](https://docs.oracle.com/iaas/document-understanding/document-understanding/using/home.htm)
+
+## Customer Stories
+ 
+- [Trailcon Leasing: Low-code and AI for Automating Invoice Processing & Approval Workflow](https://asktom.oracle.com/pls/apex/f?p=100:551:114803500934032::::P551_INVITED,P551_CLASS_ID:N,21886)
 
 # License
  
