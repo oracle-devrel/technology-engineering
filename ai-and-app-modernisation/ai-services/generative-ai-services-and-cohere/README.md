@@ -1,4 +1,4 @@
-# Generative AI services and Cohere
+# Generative AI services
  
 Oracle’s AI strategy is to make artificial intelligence (AI) pervasive across its cloud
 applications and cloud infrastructure. We serve business users who want to
