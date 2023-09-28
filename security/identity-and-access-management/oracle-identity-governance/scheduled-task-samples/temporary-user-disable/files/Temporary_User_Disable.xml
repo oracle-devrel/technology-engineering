@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<scheduledTasks xmlns="http://xmlns.oracle.com/oim/scheduler">
+<task>
+<name>Temporary User Disable</name>
+<class>com.oracle.sample.TemporaryUserDisable</class>
+<description>Temporary user disable scheduled task</description>
+<retry>1</retry>
+<parameters>
+<string-param required="true" encrypted="false" helpText="The name of the user attribute storing the temporary disable date.">Temporary disable date user attribute</string-param>
+</parameters>
+</task>
+</scheduledTasks>

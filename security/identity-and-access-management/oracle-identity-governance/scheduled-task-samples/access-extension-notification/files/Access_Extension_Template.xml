@@ -1,0 +1,9 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xl-ddm-data version="12.2.1.4.0" user="XELSYSADM" database="" exported-date="1692272039167" description="Access_Extension_Template.xml"><NOTIFICATIONTEMPLATE repo-type="RDBMS" name="Access_Extension_Template"><CREATEUSER>1</CREATEUSER><CREATIONDATE>1614848134174</CREATIONDATE><DATALEVEL>0</DATALEVEL><EVENTNAME>EndDateNotificationEvent</EVENTNAME><LASTUSER>xelsysadm</LASTUSER><LASTUPDATED>1692180967014</LASTUPDATED><LOCALTEMPLATE repo-type="RDBMS" id="LOCALTEMPLATE481"><CREATEUSER>1</CREATEUSER><CONTENTTYPE>html</CONTENTTYPE><CREATIONDATE>1614848134282</CREATIONDATE><LOCALE>en_US</LOCALE><DATALEVEL>0</DATALEVEL><ENCODING>UTF-8</ENCODING><SUBJECT>Your access is expiring</SUBJECT><LONGMESSAGE>&lt;p>Hi $display_name,&lt;/p>
+
+&lt;p>Some of your access is expiring in $days day(s). Please find below a list of expiring access items.&lt;/p>
+
+&lt;p>$expiring_items&lt;/p>
+
+&lt;p>Kind regards,&lt;br>
+Your friendly OIM admin&lt;/p></LONGMESSAGE><LASTUSER>xelsysadm</LASTUSER><LASTUPDATED>1692180967018</LASTUPDATED></LOCALTEMPLATE></NOTIFICATIONTEMPLATE></xl-ddm-data>

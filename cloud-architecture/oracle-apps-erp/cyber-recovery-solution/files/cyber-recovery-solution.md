@@ -1,3 +1,8 @@
+<!-- 
+Copyright (c) 2023, Oracle and/or its affiliates.
+Licensed under the Universal Permissive License v1.0 as shown at https://oss.oracle.com/licenses/upl.
+-->
+
 # Introduction
 
 Cyber security has become an increasingly critical topic as malware and ransomware attacks continue to occur around the world. For mission-critical databases, such attacks leading to lost data and system downtime can have far-ranging impacts throughout the business in terms of revenue, operations, reputation, and even penalties.
