@@ -15,6 +15,7 @@ This page has information about Oracle Cloud Infrastructure (OCI) Compute hardwa
 - [Changing the shape of a compute instance: X5 to X9, or VM.Standard2 series to Flexible instance](https://docs.oracle.com/en-us/iaas/Content/Compute/Tasks/resizinginstances.htm#Changing_the_Shape_of_an_Instance)
 - [Deploy high-performance computing (HPC) on Oracle Cloud Infrastructure](https://docs.oracle.com/en/solutions/deploy-hpc-on-oci/index.html#GUID-F216B94E-33C5-44A6-92F8-2DE1E5880242)
 - [OCI Compute shape naming convention](https://github.com/mariusscholtz/Oracle-Cloud-Infrastructure-resources) ex VM Shape name with A refers to Ampere, E refers to AMD Epyc
+- [Change hostname of OCI Compute Instance Virtual Machine](https://github.com/mariusscholtz/Oracle-Cloud-Infrastructure-resources/blob/main/rename-hostname.md) - explains how to change the hostname of an Oracle Linux Virtual Machine (VM) running on Oracle Cloud Infrastructure (OCI)
 
 # License
 
