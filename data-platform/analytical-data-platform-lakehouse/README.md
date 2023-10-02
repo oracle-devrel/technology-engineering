@@ -40,6 +40,8 @@ Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a compl
 
 ### YouTube
 
+- [Decentralized Data Platform on Oracle Cloud Infrastructure (OCI)](https://youtu.be/mHryV0K8Ciw?si=hJyOpxalMVf3bjbL)
+  - Cloud Coaching session covering the concepts of a decentralized data platform, how to design such platform with Oracle Cloud Infrastructure, and how to easily share data between data domains.
 - [Data Lake Modernization](https://youtu.be/bOF3YJq4L6A?si=WgQVp9sXuZz8Em_3)
   - Cloud Coaching session covering Hadoop-based Data Lake modernizations in OCI, explaining the deployment options and migration path.
 - [Architecting Analytical Data Platform](https://youtu.be/-rMUsvrXYw4?si=7Yx80VvZQYiy2qHE)
