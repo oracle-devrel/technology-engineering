@@ -83,6 +83,7 @@ WebCenter Sites
 
 - [Implementing Oracle WebCenter in Amazon Web Services (AWS)](https://blogs.perficient.com/2014/09/25/implementing-oracle-webcenter-in-amazon-web-services-aws/)
 - [Migrating WebCenter Content to Oracle Cloud Infrastructure Object Storage A hybrid approach ](ocm-files/WebCenter_Content_Migration_to_OCI.pdf)
+- [WebCenter Content vs Drupal Comparison](ocm-files/WebCenterContentvsDrupalComparison.pdf)
 
 
 # License
