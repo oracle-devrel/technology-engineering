@@ -8,23 +8,26 @@ This solution guide provides a starting point for the Partners/Managed Service P
 # Table of Contents
 
 1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-uinks)
-3. [Reusable Assets Overview](#reusable-assets-overview)
+2. [Useful Links](#useful-links)
 
-## Team Publications
+# Team Publications
 
 - [Deploy EBS with Palo Alto and Exadata Cloud Service](https://docs.oracle.com/en/solutions/deploy-ebs-pa-exacs/index.html#GUID-BFCA38A6-DAE5-41FB-8657-44710D9BE471)
-    - This reference architecture describes a highly-available multi-node deployment wherein Oracle E-Business Suite Database is running on Oracle Exadata Cloud Services. 
+    - This reference architecture describes a highly-available multi-node deployment wherein Oracle E-Business Suite (EBS) Database is running on Oracle Exadata Cloud Services. 
 
 - [Manage multiple EBS Customers across tenancies](https://docs.oracle.com/en/solutions/manage-ebs-tenancies/index.html)
-    - This reference architecture describes how two different Oracle E-Business Suite (EBS) workloads can be managed across tenancies. This use case is prevalent among managed service providers (MSPs) who implement EBS workloads for multiple customers across tenancies.
+    - This reference architecture describes how two different Oracle EBS workloads can be managed across tenancies. This use case is prevalent among managed service providers (MSPs) who implement EBS workloads for multiple customers across tenancies.
  
-## Useful Links
+# Useful Links
 
 - [EBS on OCI Blog Link](https://blogs.oracle.com/ebsandoraclecloud/)
 - [EBS Documentation Link](https://www.oracle.com/technical-resources/documentation/applications-doc.html)
 - [EBS to OCI Manual Migration Documents Available](https://blogs.oracle.com/ebsandoraclecloud/post/ebs-to-oci-manual-migration-documents-available)
 - [Oracle A-team Blog](https://www.ateam-oracle.com/)
+
+## LiveLabs (Oracle Workshop)
+
+- [Oracle tools and technologies workshops - search for EBS](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/home)
 
 # License
 
