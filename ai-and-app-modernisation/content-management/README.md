@@ -84,7 +84,10 @@ WebCenter Sites
 - [Implementing Oracle WebCenter in Amazon Web Services (AWS)](https://blogs.perficient.com/2014/09/25/implementing-oracle-webcenter-in-amazon-web-services-aws/)
 - [Migrating WebCenter Content to Oracle Cloud Infrastructure Object Storage A hybrid approach ](ocm-files/WebCenter_Content_Migration_to_OCI.pdf)
 - [WebCenter Content vs Drupal Comparison](ocm-files/WebCenterContentvsDrupalComparison.pdf)
-
+- [Oracle E-Business Suite Adapter for WebCenter Content](ocm-files/ds-oracle-wc-ebs-adapter.pdf)
+- [WebCenter Content integration with Oracle BI Publisher for Fusion Applications](ocm-files/wcc-bip-integration.pdf)
+- [WebCenter Enterprise Capture Demo](ocm-files/wcc_capture_demo.mp4)
+- [Invoice Automation between Oracle E-Business Suite-WebCenter Imaging-WebCenter Forms Recognition](ocm-files/Invoice_Automation_EBS-IPM-OFR_DSS.avi)
 
 # License
 
