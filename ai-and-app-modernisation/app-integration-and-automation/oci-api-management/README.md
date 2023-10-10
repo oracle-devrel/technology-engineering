@@ -29,7 +29,7 @@ API managers can create Usage Plans within API Gateway and define API access tie
 - [API Management Product Page](https://www.oracle.com/cloud/cloud-native/api-management/)
 - [API Gateway Documentation](https://docs.oracle.com/iaas/Content/APIGateway/home.htm)
 
-# Reusable Assets Overview
+# Team Publications
 
 Reusable assets can be found in subfolders:
 - [fn-authorizer-apigw-oic](fn-authorizer-apigw-oic)
