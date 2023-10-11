@@ -6,7 +6,7 @@ OCI Language is a cloud-based AI service for performing sophisticated text analy
  
 - [AI Language](#ai-language)
 - [Table of Contents](#table-of-contents)
-  - [Publications](#publications)
+  - [Team Publications](#team-publications)
   - [Architecture Center](#architecture-center)
   - [LiveLabs and Workshops](#livelabs-and-workshops)
   - [Reusable Assets](#reusable-assets)
@@ -14,20 +14,9 @@ OCI Language is a cloud-based AI service for performing sophisticated text analy
   - [Customer Stories](#customer-stories)
 - [License](#license)
  
-## Publications
+# Team Publications
 
 - [Saving the Bees using AI: One Positive Entity at a Time](https://www.linkedin.com/pulse/saving-bees-using-ai-one-positive-entity-time-ismail-syed/)
-
-## Architecture Center
-
-- [Use OCI Language for customer feedback analysis](https://docs.oracle.com/en/solutions/oci-ai-language/index.html#GUID-33D63770-1F4D-4AAE-BC6D-D42C62D10CC2)
-
-## LiveLabs and Workshops
- 
-- [Get started with Oracle Cloud Infrastructure Language](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=887&clear=RR,180&session=5298742340912)
-- [Perform Sentiment Analysis with OCI AI Language Service and OAC](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3214&clear=RR,180&session=5298742340912)
-- [Deliver Immersive Conversational User Experiences with OCI AI Services](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3452&clear=RR,180&session=5298742340912)
-- [Build applications with Oracle’s AI services](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3674&clear=RR,180&session=5298742340912)
 
 ## Reusable Assets
  
@@ -45,7 +34,18 @@ OCI Language is a cloud-based AI service for performing sophisticated text analy
 - [Oracle AI Language blog announcement](https://blogs.oracle.com/ai-and-datascience/post/announcing-oci-language)
 - [Aon improves customer experience with OCI Language service](https://www.oracle.com/customers/aon-case-study/)
 
-## Customer Stories
+# Architecture Center
+
+- [Use OCI Language for customer feedback analysis](https://docs.oracle.com/en/solutions/oci-ai-language/index.html#GUID-33D63770-1F4D-4AAE-BC6D-D42C62D10CC2)
+
+# LiveLabs and Workshops
+ 
+- [Get started with Oracle Cloud Infrastructure Language](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=887&clear=RR,180&session=5298742340912)
+- [Perform Sentiment Analysis with OCI AI Language Service and OAC](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3214&clear=RR,180&session=5298742340912)
+- [Deliver Immersive Conversational User Experiences with OCI AI Services](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3452&clear=RR,180&session=5298742340912)
+- [Build applications with Oracle’s AI services](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3674&clear=RR,180&session=5298742340912)
+
+# Customer Stories
  
 - [Aon improves customer experience with OCI Language service](https://www.oracle.com/customers/aon-case-study/)
 

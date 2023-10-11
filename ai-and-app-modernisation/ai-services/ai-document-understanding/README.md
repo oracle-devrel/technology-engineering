@@ -10,13 +10,9 @@ Oracle Cloud Infrastructure (OCI) Document Understanding is an AI service that e
   - [Useful Links](#useful-links)
   - [Customer Stories](#customer-stories)
 
-## Team Publications
+# Team Publications
 
 - [Automate with documents using AI](https://blogs.oracle.com/ai-and-datascience/post/automate-documents-using-ai)
-
-## LiveLabs and Workshops
- 
-- [Introduction to OCI Document Understanding](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3585)
 
 ## Reusable Assets Overview
  
@@ -37,7 +33,11 @@ Oracle Cloud Infrastructure (OCI) Document Understanding is an AI service that e
 - [Document Understanding Oracle.com Page](https://www.oracle.com/artificial-intelligence/document-understanding/)
 - [Document Understanding Documentation](https://docs.oracle.com/iaas/document-understanding/document-understanding/using/home.htm)
 
-## Customer Stories
+# LiveLabs and Workshops
+ 
+- [Introduction to OCI Document Understanding](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3585)
+
+# Customer Stories
  
 - [Trailcon Leasing: Low-code and AI for Automating Invoice Processing & Approval Workflow](https://asktom.oracle.com/pls/apex/f?p=100:551:114803500934032::::P551_INVITED,P551_CLASS_ID:N,21886)
 
@@ -47,4 +47,4 @@ Copyright (c) 2023 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

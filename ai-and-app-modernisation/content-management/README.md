@@ -33,7 +33,7 @@ Oracle's on-premise content management offering is Oracle WebCenter which is the
 - [Learn in 5 minutes How to provision an OCM instance here](https://www.youtube.com/watch?v=v46zEhUYEQs/)
 
 
-## Reusable Assets
+# Team Publications
 
 - [OCM Short Overview ](ocm-files/OCM_OVERVIEW_OCT222.pdf)
 - [OCM Migration Scenarios](ocm-files/OCM_Identifyig_migration_scenarios.pdf)
