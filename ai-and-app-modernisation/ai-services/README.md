@@ -7,7 +7,7 @@ Oracle Cloud Infrastructure (OCI) AI Services is a collection of services with p
   - [Team Publications](#team-publications)
   - [Useful Links](#useful-links)
 
-## Team Publications
+# Team Publications
 
 - [Oracle’s generative AI strategy](https://blogs.oracle.com/ai-and-datascience/post/generative-ai-strategy)
 

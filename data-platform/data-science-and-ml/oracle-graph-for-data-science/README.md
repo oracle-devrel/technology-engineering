@@ -18,8 +18,6 @@ Graph databases, part of Oracle’s converged database offering, eliminate the n
 - [Oracle Graph on Oracle LiveLabs](https://apexapps.oracle.com/pls/apex/f?p=133:100:2717775602397::::SEARCH:graph)
 - [Oracle Graph documentation](https://docs.oracle.com/en/database/oracle/oracle-database/23/graph.html)
 
-## Reusable Assets
-
 
 # License
 
