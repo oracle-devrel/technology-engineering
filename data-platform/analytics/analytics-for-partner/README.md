@@ -1,14 +1,14 @@
 # Analytics For Partner
  
-This
+This page contains all Oracle Analytics Cloud assets available for partners.    
  
-# Useful Links (Optional)
+# Useful Links for Parner registration and learning center
  
-- Name and Link
-    - Description
-- [Public Product Page](oracle.com)
-    - High-level product and capability description
-- [Migration Hub](oracle.com)
+	Partner Portal
+    Register for Partner Access
+    Partner Learning Center
+    Oracle PartnerCasts Product Channel
+
  
 # License
  
