@@ -78,6 +78,23 @@ This page contains all Oracle Analytics Cloud assets available for partners.
 |[Oracle Analytics Key Features](https://blogs.oracle.com/coretec/post/analytics-key-features)|Oracle Analytics key features|Oracle Analytics platform Key features and functionality.
 |[Oracle Data Analytics and Business Intelligence Solution](https://blogs.oracle.com/coretec/post/innovate-your-business-with-data-analytics-and-business-intelligence-solution)|An end-to-end Oracle Analytics solution|How to implement an end-to-end Cloud/on-premises Analytics solution using Oracle product domain.
 |[Oracle Graph with Oracle Analytics](https://blogs.oracle.com/coretec/post/oracle-graph-database-with-oracle-analytics)|OAC Graph Analytics|How to enable oracle property graph in Oracle Analytics Cloud and how to use it for analytics.
+|[Different ways to implement Machine Learning with Oracle Analytics](https://blogs.oracle.com/coretec/post/different-ways-to-implement-machine-learning-with-oracle-analytics)|OAC Machine Learning|Different ways to use Machine Learning with Oracle Analytics.
+|[How to leverage Oracle Database Machine Learning with Oracle Analytics](https://blogs.oracle.com/coretec/post/oracle-analytics---how-to-use-oracle-database-machine-learning-model-for-predictive-analytics)|OAC Machine Learning|How to register an oracle database machine learning model in Oracle analytics and use it for predictions.
+|[Oracle Machine Learning – Auto ML](https://blogs.oracle.com/coretec/post/oracle-auto-ml-use-inbuilt-expertise-to-develop-effective-machine-learning-model)|OAC Machine Learning|How to use Oracle Database Automl with OAC
+|[Leverage the power of Oracle Analytics and Oracle Machine and implement a fraud detection process using anomaly detection](https://blogs.oracle.com/coretec/post/oracle-analytics-oracle-machine-learning-fraud-detection-using-unsupervised-and-supervised-machine-learning)|OAC Machine Learning|Oracle Analytics and Oracle Machine Learning : Fraud Detection using Unsupervised and Supervised Machine Learning
+
+# Blogs for AI/ML with Oracle Analytics Platform
+|Content Link |Functionality|Descripton|
+| ------------ |------------|----------|
+|[Create a Data Science Model for Oracle Analytics Cloud](https://blogs.oracle.com/analytics/post/create-a-data-science-model-for-oac)|OAC Machine Learning|How to create a OCI data science model in OCI to use in OAC for analytics.|
+|[Register a Data Science Model in Oracle Analytics Cloud](https://blogs.oracle.com/analytics/post/register-a-data-science-model-in-oac)|OAC Machine Learning|How to Register a OCI model in OAC.
+|[Invoke a Data Science Model from Oracle Analytics Cloud](https://blogs.oracle.com/analytics/post/invoke-a-data-science-model-from-oac)|OAC Machine Learning|How to use a OCI model in OAC for analytics.|
+|[Drive innovation with OAC and AI Vision image classification](https://blogs.oracle.com/analytics/post/drive-innovation-with-analytics-and-ai-vision-image-classification)|OAC Machine Learning|How to use OCI Vision model in OAC for Image detection and classification.
+|[Register OCI Language models in Oracle Analytics Cloud](https://blogs.oracle.com/analytics/post/register-ai-language-models-in-oracle-analytics)|OAC Machine Learning|How to register OCI Language models in OAC and perform sentiment analysis.|
+|[Putting a face to data stories with AI avatars: Oracle Analytics & Synthesia](https://blogs.oracle.com/analytics/post/putting-a-face-to-data-stories-with-ai-avatars-oracle-analytics-synthesia)|OAC Machine Learning|OAC integration with Synthesia to put a face to data stories with AI avatars|
+|[Start using Oracle Analytics and AI in 5 minutes!](https://blogs.oracle.com/analytics/post/start-using-oracle-analytics-and-ai-in-5-minutes)|Quick guide to use OAC for AI.|
+|[Discover Insights with Oracle Analytics Cloud and OCI AI Anomaly Detection](https://blogs.oracle.com/analytics/post/discover-insights-with-oracle-analytics-cloud-and-oci-ai-anomaly-detection)|OAC Machine Learning|How you can take advantage of Oracle Analytics Cloud (OAC) and OCI AI Anomaly Detection to reveal insights from detected anomalies.|
+
 
 # License
  
