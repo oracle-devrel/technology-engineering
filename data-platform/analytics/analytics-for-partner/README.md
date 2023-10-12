@@ -57,6 +57,27 @@ This page contains all Oracle Analytics Cloud assets available for partners.
 |[Oracle Analytics YouTube Channel](https://www.youtube.com/user/EvolvingBI)|The official channel for Oracle Analytics solutions. Find out about Oracle Analytics offerings, events, and more by watching our videos.|
 |[Oracle Analytics Live! Webinars on YouTube](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KXC2dtdh-iXBulo1V0Rw3CE)|Monthly update from the Oracle Product teams for Oracle Analytics Cloud. See new capabilities, hear about road map and see cool demos.|
 
+# How OAC features compare to other vendors
+|Content Link |Descripton|
+| ------------ |------------|
+|[OAC vs PowerBI vs Tableau](https://www.oracle.com/business-analytics/comparison-chart.html)|Comparison of Oracle Analytics Cloud with other leading business analytics products|
+|[Gartner Analytics Review 2023](https://blogs.oracle.com/analytics/post/oracle-named-a-visionary-in-the-2023-gartner-magic-quadrant-for-analytics-and-business-intelligence-platforms)|Oracle Analytics as visionary in the 2023 Gartner’s Magic Quadrant|
+
+# Specialists Cloud Coaching
+|Content Link |Descripton|
+| ------------ |------------|
+|[Exploring Oracle Expense Analytics: A Hands-On Lab for Data-driven Insights](https://www.youtube.com/watch?v=TqUBFCo13gk)|Exploring Oracle Expense Analytics: A Hands-On Lab for Data-driven Insights.|
+|[OBI Modernization - video](https://www.youtube.com/watch?v=udOfHSioEY4)|How you can modernize your OBIEE environment using the latest cloud trends of Oracle Analytics Cloud.
+
+# Specialists Blogs for various features & functionality
+|Content Link |Functionality|Descripton|
+| ------------ |------------|----------|
+|[Oracle Analytics Cloud : Set up and configure Oracle Analytics Cloud environments using Terraform](https://blogs.oracle.com/analytics/post/oracle-analytics-cloud-set-up-and-configure-oracle-analytics-cloud-environments-using-terraform)|OAC Setup & Configure|How to provision and configure Oracle analytics cloud on OCI using Terraform.
+|[Oracle Analytics Cloud - How to Setup and Configure the Oracle Analytics Cloud Environment on OCI](https://blogs.oracle.com/analytics/post/oac-quick-guide-to-setup-oracle-analytics-cloud-environment)|OAC Setup & Configure|How to provision and configure Oracle analytics cloud on OCI (Manual Steps).
+|[Oracle Analytics Cloud — Private Access Channel](https://medium.com/@ionutforlafu/oracle-analytics-cloud-private-access-channel-7399a305bad0)|OAC Setup & Configure|All about OAC private access channel and different scenarios where a Private Access Channel can be used.
+|[Oracle Analytics Key Features](https://blogs.oracle.com/coretec/post/analytics-key-features)|Oracle Analytics key features|Oracle Analytics platform Key features and functionality.
+|[Oracle Data Analytics and Business Intelligence Solution](https://blogs.oracle.com/coretec/post/innovate-your-business-with-data-analytics-and-business-intelligence-solution)|An end-to-end Oracle Analytics solution|How to implement an end-to-end Cloud/on-premises Analytics solution using Oracle product domain.
+|[Oracle Graph with Oracle Analytics](https://blogs.oracle.com/coretec/post/oracle-graph-database-with-oracle-analytics)|OAC Graph Analytics|How to enable oracle property graph in Oracle Analytics Cloud and how to use it for analytics.
 
 # License
  
