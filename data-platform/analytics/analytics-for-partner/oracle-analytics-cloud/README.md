@@ -9,7 +9,10 @@ Oracle Analytics Cloud (OAC) is a cloud native service delivered on next-generat
 4. [Community, Solutions, Live Labs](#Community-Solutions-LiveLabs)
 5. [Public Library, YouTube and Channels](#Public-Library-YouTube-and-Channels)
 6. [How OAC features compare to other vendors](#How-OAC-features-compare-to-other-vendors)
-7. [Specialists Cloud Coaching](#How-OAC-features-compare-to-other-vendors)
+7. [How OAC features compare to other vendors](#How-OAC-features-compare-to-other-vendors)
+8. [Specialists Cloud Coaching](#Specialists-Cloud-Coaching)
+9. [Specialists Blogs for various features & functionality](#Specialists-Blogs-for-various-features-&-functionality)
+10. [Blogs for AI/ML with Oracle Analytics Platform](#Blogs-for-AI/ML-with-Oracle-Analytics-Platform)
  
 # Public Homepage and official documentation content
  |Content Link |Descripton|
@@ -58,7 +61,39 @@ Oracle Analytics Cloud (OAC) is a cloud native service delivered on next-generat
 | ------------ |------------|
 |[OAC vs PowerBI vs Tableau](https://www.oracle.com/business-analytics/comparison-chart.html)|Comparison of Oracle Analytics Cloud with other leading business analytics products|
 |[Gartner Analytics Review 2023](https://blogs.oracle.com/analytics/post/oracle-named-a-visionary-in-the-2023-gartner-magic-quadrant-for-analytics-and-business-intelligence-platforms)|Oracle Analytics as visionary in the 2023 Gartner’s Magic Quadrant|
- 
+
+ # Specialists Cloud Coaching
+ |Content Link |Descripton|
+| ------------ |------------|
+|[Exploring Oracle Expense Analytics: A Hands-On Lab for Data-driven Insights](https://www.youtube.com/watch?v=TqUBFCo13gk)|Exploring Oracle Expense Analytics: A Hands-On Lab for Data-driven Insights.|
+|[OBI Modernization - video](https://www.youtube.com/watch?v=udOfHSioEY4)|How you can modernize your OBIEE environment using the latest cloud trends of Oracle Analytics Cloud.
+
+# Specialists Blogs for various features & functionality
+|Content Link |Functionality|Descripton|
+| ------------ |------------|----------|
+|[Oracle Analytics Cloud : Set up and configure Oracle Analytics Cloud environments using Terraform](https://blogs.oracle.com/analytics/post/oracle-analytics-cloud-set-up-and-configure-oracle-analytics-cloud-environments-using-terraform)|OAC Setup & Configure|How to provision and configure Oracle analytics cloud on OCI using Terraform.
+|[Oracle Analytics Cloud - How to Setup and Configure the Oracle Analytics Cloud Environment on OCI](https://blogs.oracle.com/analytics/post/oac-quick-guide-to-setup-oracle-analytics-cloud-environment)|OAC Setup & Configure|How to provision and configure Oracle analytics cloud on OCI (Manual Steps).
+|[Oracle Analytics Cloud — Private Access Channel](https://medium.com/@ionutforlafu/oracle-analytics-cloud-private-access-channel-7399a305bad0)|OAC Setup & Configure|All about OAC private access channel and different scenarios where a Private Access Channel can be used.
+|[Oracle Analytics Key Features](https://blogs.oracle.com/coretec/post/analytics-key-features)|Oracle Analytics key features|Oracle Analytics platform Key features and functionality.
+|[Oracle Data Analytics and Business Intelligence Solution](https://blogs.oracle.com/coretec/post/innovate-your-business-with-data-analytics-and-business-intelligence-solution)|An end-to-end Oracle Analytics solution|How to implement an end-to-end Cloud/on-premises Analytics solution using Oracle product domain.
+|[Oracle Graph with Oracle Analytics](https://blogs.oracle.com/coretec/post/oracle-graph-database-with-oracle-analytics)|OAC Graph Analytics|How to enable oracle property graph in Oracle Analytics Cloud and how to use it for analytics.
+|[Different ways to implement Machine Learning with Oracle Analytics](https://blogs.oracle.com/coretec/post/different-ways-to-implement-machine-learning-with-oracle-analytics)|OAC Machine Learning|Different ways to use Machine Learning with Oracle Analytics.
+|[How to leverage Oracle Database Machine Learning with Oracle Analytics](https://blogs.oracle.com/coretec/post/oracle-analytics---how-to-use-oracle-database-machine-learning-model-for-predictive-analytics)|OAC Machine Learning|How to register an oracle database machine learning model in Oracle analytics and use it for predictions.
+|[Oracle Machine Learning – Auto ML](https://blogs.oracle.com/coretec/post/oracle-auto-ml-use-inbuilt-expertise-to-develop-effective-machine-learning-model)|OAC Machine Learning|How to use Oracle Database Automl with OAC
+|[Leverage the power of Oracle Analytics and Oracle Machine and implement a fraud detection process using anomaly detection](https://blogs.oracle.com/coretec/post/oracle-analytics-oracle-machine-learning-fraud-detection-using-unsupervised-and-supervised-machine-learning)|OAC Machine Learning|Oracle Analytics and Oracle Machine Learning : Fraud Detection using Unsupervised and Supervised Machine Learning
+
+# Blogs for AI/ML with Oracle Analytics Platform
+|Content Link |Functionality|Descripton|
+| ------------ |------------|----------|
+|[Create a Data Science Model for Oracle Analytics Cloud](https://blogs.oracle.com/analytics/post/create-a-data-science-model-for-oac)|OAC Machine Learning|How to create a OCI data science model in OCI to use in OAC for analytics.|
+|[Register a Data Science Model in Oracle Analytics Cloud](https://blogs.oracle.com/analytics/post/register-a-data-science-model-in-oac)|OAC Machine Learning|How to Register a OCI model in OAC.
+|[Invoke a Data Science Model from Oracle Analytics Cloud](https://blogs.oracle.com/analytics/post/invoke-a-data-science-model-from-oac)|OAC Machine Learning|How to use a OCI model in OAC for analytics.|
+|[Drive innovation with OAC and AI Vision image classification](https://blogs.oracle.com/analytics/post/drive-innovation-with-analytics-and-ai-vision-image-classification)|OAC Machine Learning|How to use OCI Vision model in OAC for Image detection and classification.
+|[Register OCI Language models in Oracle Analytics Cloud](https://blogs.oracle.com/analytics/post/register-ai-language-models-in-oracle-analytics)|OAC Machine Learning|How to register OCI Language models in OAC and perform sentiment analysis.|
+|[Putting a face to data stories with AI avatars: Oracle Analytics & Synthesia](https://blogs.oracle.com/analytics/post/putting-a-face-to-data-stories-with-ai-avatars-oracle-analytics-synthesia)|OAC Machine Learning|OAC integration with Synthesia to put a face to data stories with AI avatars|
+|[Start using Oracle Analytics and AI in 5 minutes!](https://blogs.oracle.com/analytics/post/start-using-oracle-analytics-and-ai-in-5-minutes)|Quick guide to use OAC for AI.|
+|[Discover Insights with Oracle Analytics Cloud and OCI AI Anomaly Detection](https://blogs.oracle.com/analytics/post/discover-insights-with-oracle-analytics-cloud-and-oci-ai-anomaly-detection)|OAC Machine Learning|How you can take advantage of Oracle Analytics Cloud (OAC) and OCI AI Anomaly Detection to reveal insights from detected anomalies.|
+
 # License
  
 Copyright (c) 2023 Oracle and/or its affiliates.
