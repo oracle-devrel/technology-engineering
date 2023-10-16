@@ -2,7 +2,7 @@
  
 This folder contains all Oracle Analytics Cloud assets available for partners. 
  
-# Useful Links (Optional)
+# Useful Links
  
 - [Partner Portal](https://www.oracle.com/uk/partnernetwork/program/)
  
