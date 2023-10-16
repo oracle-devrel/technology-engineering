@@ -10,13 +10,7 @@ Oracle Cloud Infrastructure (OCI) Document Understanding is an AI service that e
   - [Useful Links](#useful-links)
   - [Customer Stories](#customer-stories)
 
-## Team Publications
-
-- [Automate with documents using AI](https://blogs.oracle.com/ai-and-datascience/post/automate-documents-using-ai)
-
-## LiveLabs and Workshops
- 
-- [Introduction to OCI Document Understanding](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3585)
+# Team Publications
 
 ## Reusable Assets Overview
  
@@ -26,9 +20,12 @@ Oracle Cloud Infrastructure (OCI) Document Understanding is an AI service that e
 - [Smarter Apps with AI, OIC partner community webcast June 2023](https://videohub.oracle.com/media/Smarter+AI+Apps+with+OIC+partner+community+webcast+June+2023-1080p30/1_m2yjnvf9)
     - OCI Language and Document Understanding are cloud-based AI services for performing sophisticated text analysis and extracting data from all kinds of documents e.g. Passport, Driving License, Invoices, Receipts, etc. You can use these services to build intelligent applications by leveraging REST APIs. You can use these services to build intelligent applications by leveraging REST APIs and automating using Oracle Integration Cloud. This allows you to process unstructured text for use cases such as sentiment analysis, service ticket classification, document extraction, and more using pre-trained models or your own custom models leveraging OCI Data Labelling.
 - [Document Understanding (Insurance Document) Key Value extraction demo](https://youtu.be/QsFqaRxtV1s)
+- [Cloud Customer Connect - How to Train Your Oracle AI Cloud Service Model](https://community.oracle.com/customerconnect/events/604740-oci-how-to-train-your-oracle-ai-cloud-service-model)
+    - In this session, we demonstrate how you can use OCI AI services, to create custom models using the data labeling, vision and document understanding service.
 
-## Useful Links
+# Useful Links
 
+- [Automate with documents using AI](https://blogs.oracle.com/ai-and-datascience/post/automate-documents-using-ai)
 - [Oracle Learning YouTube Playlist - OCI Document Understanding Service](https://youtube.com/playlist?list=PLKCk3OyNwIzt1x62El9gGGeNaQr0va58c)
 - [GitHub Examples](https://github.com/oracle-samples/oci-data-science-ai-samples/tree/master/labs/ai-document-understanding)
 - [Announcing OCI Document Understanding custom model support (June 14, 2023)](https://blogs.oracle.com/ai-and-datascience/post/oci-document-understanding-custom-model-support)
@@ -37,7 +34,11 @@ Oracle Cloud Infrastructure (OCI) Document Understanding is an AI service that e
 - [Document Understanding Oracle.com Page](https://www.oracle.com/artificial-intelligence/document-understanding/)
 - [Document Understanding Documentation](https://docs.oracle.com/iaas/document-understanding/document-understanding/using/home.htm)
 
-## Customer Stories
+# LiveLabs and Workshops
+ 
+- [Introduction to OCI Document Understanding](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3585)
+
+# Customer Stories
  
 - [Trailcon Leasing: Low-code and AI for Automating Invoice Processing & Approval Workflow](https://asktom.oracle.com/pls/apex/f?p=100:551:114803500934032::::P551_INVITED,P551_CLASS_ID:N,21886)
 
@@ -47,4 +48,4 @@ Copyright (c) 2023 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
