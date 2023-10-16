@@ -8,8 +8,7 @@ Oracle Analytics Cloud (OAC) is a cloud native service delivered on next-generat
 3. [OAC Latest Release and Announcements](#OAC-Latest-Release-and-Announcements)
 4. [Community, Solutions, Live Labs](#Community-Solutions-LiveLabs)
 5. [Public Library, YouTube and Channels](#Public-Library-YouTube-and-Channels)
-6. [How OAC features compare to other vendors](#How-OAC-features-compare-to-other-vendors)
-7. [How OAC features compare to other vendors](#How-OAC-features-compare-to-other-vendors)
+7. [Oracle Analytics Cloud: Augmented Analytics at Scale](#Oracl-Analytics-Cloud-Augmented-Analytics-at-Scale)
 8. [Specialists Cloud Coaching](#Specialists-Cloud-Coaching)
 9. [Specialists Blogs for various features & functionality](#Specialists-Blogs-for-various-features-&-functionality)
 10. [Blogs for AI/ML with Oracle Analytics Platform](#Blogs-for-AI/ML-with-Oracle-Analytics-Platform)
@@ -65,7 +64,7 @@ Oracle Analytics Cloud (OAC) is a cloud native service delivered on next-generat
 |[Oracle Analytics YouTube Channel](https://www.youtube.com/user/EvolvingBI)|The official channel for Oracle Analytics solutions. Find out about Oracle Analytics offerings, events, and more by watching our videos.|
 |[Oracle Analytics Live! Webinars on YouTube](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KXC2dtdh-iXBulo1V0Rw3CE)|Monthly update from the Oracle Product teams for Oracle Analytics Cloud. See new capabilities, hear about road map and see cool demos.|
 
-# How OAC features compare to other vendors
+# Oracle Analytics Cloud: Augmented Analytics at Scale
 |Content Link |Descripton|
 | ------------ |------------|
 |[OAC vs PowerBI vs Tableau](https://www.oracle.com/business-analytics/comparison-chart.html)|Comparison of Oracle Analytics Cloud with other leading business analytics products|
