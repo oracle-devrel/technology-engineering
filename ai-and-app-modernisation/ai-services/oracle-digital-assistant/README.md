@@ -43,13 +43,14 @@ Oracle Digital Assistant is a platform powered by artificial intelligence, speci
 - [Analytics Use Case](https://bit.ly/oda4hsbc)
     - Digital Assistant deepdive for Oracle Analytics customers
 
-## Useful Links
-- [Oracle AI Services](https://www.oracle.com/artificial-intelligence/ai-services/)
-    - Oracle AI Services homepage
-
 ## Reusable Assets Overview
 
 If you navigate to the templates folder you will find our Digital Assistant templates like the 'Concierge Template'.
+
+
+# Useful Links
+- [Oracle AI Services](https://www.oracle.com/artificial-intelligence/ai-services/)
+    - Oracle AI Services homepage
 
 # License
 
