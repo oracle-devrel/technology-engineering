@@ -2,6 +2,8 @@
 
 This section contains various examples related to Application Integration: demo videos and code examples, articles, blogs, presentations, and reference architectures. Links to public content are listed below, while the assets can be found in subfolders.
 
+# Team Publications
+
 ## Architecture Center
 
 - [Enable multicloud integrations from Oracle Cloud ERP to Microsoft Azure SQL Database](https://docs.oracle.com/en/solutions/oci-multicloud-erp-azure/index.html)

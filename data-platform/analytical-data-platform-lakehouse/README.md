@@ -22,7 +22,7 @@ Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a compl
 - [OCI Monitoring with PLSQL SDK](https://jakubillner.github.io/2022/10/07/How-to-Get-OCI-Utilization-in-PLSQL.html)
   - Blog post showcasing how to read monitoring metrics directly from ADW to control data ingestion load.
 - [Options for Storing Large JSON Documents in Autonomous Database](https://jakubillner.github.io/2022/09/30/JSON-in-autonomous-database.html)
-  - Blog post showcasing options for storing large JSON documents in Autonomous Database
+  - Blog post showcasing options for storing large JSON documents in an Autonomous Database
 - [Transforming JSON documents with OCI Data Integration](https://jakubillner.github.io/2022/10/25/Flattening-JSON-documents-with-OCI-Data-Integration.html)
   - Blog post showcasing how to process and store JSON on the Data Lake in parquet format to then use that data for analytics in the context of a lakehouse architecture
 - [Event Driven Automation of OCI Data Integration Tasks](https://jakubillner.github.io/2022/11/11/automating-di-tasks-with-events.html)
@@ -40,6 +40,8 @@ Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a compl
 
 ### YouTube
 
+- [Decentralized Data Platform on Oracle Cloud Infrastructure (OCI)](https://youtu.be/mHryV0K8Ciw?si=hJyOpxalMVf3bjbL)
+  - Cloud Coaching session covering the concepts of a decentralized data platform, how to design such a platform with Oracle Cloud Infrastructure, and how to easily share data between data domains.
 - [Data Lake Modernization](https://youtu.be/bOF3YJq4L6A?si=WgQVp9sXuZz8Em_3)
   - Cloud Coaching session covering Hadoop-based Data Lake modernizations in OCI, explaining the deployment options and migration path.
 - [Architecting Analytical Data Platform](https://youtu.be/-rMUsvrXYw4?si=7Yx80VvZQYiy2qHE)
