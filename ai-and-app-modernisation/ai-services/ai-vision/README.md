@@ -30,7 +30,8 @@ OCI Vision is an AI service for performing deep-learning–based image analysis 
 - [Vision Image Classification demo](https://youtu.be/9_NSumsQcMs)
 - [Vision Object Detection demo](https://youtu.be/iiuluuOlAKc)
 - [AI Vision Car parking utilisation demo (OCI AI Vision, OAC)](https://youtu.be/VlZDaUC2Jus)
-- [How to train AI Vision and Document Understanding demos](https://community.oracle.com/customerconnect/events/604740-oci-how-to-train-your-oracle-ai-cloud-service-model)
+- [Cloud Customer Connect - How to Train Your Oracle AI Cloud Service Model](https://community.oracle.com/customerconnect/events/604740-oci-how-to-train-your-oracle-ai-cloud-service-model)
+    - In this session, we demonstrate how you can use OCI AI services, to create custom models using the data labeling, vision and document understanding service.
 
 # Useful Links
  

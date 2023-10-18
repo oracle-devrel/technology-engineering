@@ -27,16 +27,16 @@ OCI Language is a cloud-based AI service for performing sophisticated text analy
 - [AI Language demo](https://youtu.be/w8vFTKp4JME)
 - [AI Language - Hotel Reviews (AI Language, OAC)](https://youtu.be/pmf90oUZGH4)
 
-## Useful Links
+# Architecture Center
+
+- [Use OCI Language for customer feedback analysis](https://docs.oracle.com/en/solutions/oci-ai-language/index.html#GUID-33D63770-1F4D-4AAE-BC6D-D42C62D10CC2)
+
+# Useful Links
  
 - [Oracle AI Language on oracle.com](https://www.oracle.com/uk/artificial-intelligence/language/)
 - [Oracle AI Language documentation](https://docs.oracle.com/en-us/iaas/language/using/language.htm)
 - [Oracle AI Language blog announcement](https://blogs.oracle.com/ai-and-datascience/post/announcing-oci-language)
-- [Aon improves customer experience with OCI Language service](https://www.oracle.com/customers/aon-case-study/)
 
-# Architecture Center
-
-- [Use OCI Language for customer feedback analysis](https://docs.oracle.com/en/solutions/oci-ai-language/index.html#GUID-33D63770-1F4D-4AAE-BC6D-D42C62D10CC2)
 
 # LiveLabs and Workshops
  

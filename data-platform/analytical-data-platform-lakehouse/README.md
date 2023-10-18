@@ -13,7 +13,7 @@ Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a compl
 ### Architecture Center
  
 - [Data platform - data lakehouse](https://docs.oracle.com/en/solutions/data-platform-lakehouse/index.html#GUID-A328ACEF-30B8-4595-B86F-F27B512744DF)
-    - This reference architecture describes a lakehouse architecture pattern, the services that are part of it, the capabilities those services deliver, and how to deploy them. It covers best practices, a deployment topology, and automated deployment with an Oracle Resource Manager Terraform stack.
+    - This reference architecture describes a lakehouse architecture pattern, the services that are part of it, the capabilities those services deliver, and how to deploy them. It covers best practices, a deployment topology, and automated deployment with an [Oracle Resource Manager Terraform stack](https://github.com/oracle-devrel/terraform-oci-oracle-cloud-foundation/tree/main/cloud-foundation/solutions/Data-platform-data-lakehouse) (part of the [cloud-foundation Terraform solutions](https://github.com/oracle-devrel/terraform-oci-oracle-cloud-foundation/tree/main/cloud-foundation)).
 - [Deploy a machine learning model close to the network edge](https://docs.oracle.com/en/solutions/deploy-ml-at-edge/#GUID-8EC86246-D724-4C16-8073-8CB5B2EA6719)
     - This reference architecture describes a deployment where data is ingested from edge locations into OCI, where it is used to build and train ML models that are deployed in the edge for low latency inferencing.
 
@@ -53,6 +53,8 @@ Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a compl
 
 ### LinkedIn
 
+- [Delta Sharing with Oracle Cloud](https://www.linkedin.com/pulse/delta-sharing-oracle-cloud-jeff-richmond%3FtrackingId=kztSJVKDLRyOgQ30mH2ujQ%253D%253D/?trackingId=kztSJVKDLRyOgQ30mH2ujQ%3D%3D)
+  - Article explaining Data Sharing capabilities Oracle Cloud and Autonomous Database have, based in the open source Delta Share protocol, that allow to share data between heterogeneous data platforms in a multi cloud and heterogeneous data platform.
 - [Data Swamps No More!](https://www.linkedin.com/pulse/data-swamps-more-ismael-hassane/)
   - Article describing lakehouse as a natural evolution from a lambda and kappa data architecture.
 - [DataOps, you data rolls!](https://www.linkedin.com/pulse/dataops-your-data-rolls-ismaël-hassane/)
@@ -72,6 +74,8 @@ Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a compl
 ## Useful Links
 - [Oracle Modern Data Platform](https://www.oracle.com/data-platform/)
   - Oracle Modern Data Platform Homepage
+- [Oracle Cloud Word 2023 - Data Strategy: From Vision to Reality](https://videohub.oracle.com/media/Oracle+Cloud+Word+2023+-+Data+StrategyA+From+Vision+to+Reality/1_0zwykatb)
+  - Data Strategy session explaining what are the elements and reasoning of defining a data strategy that is the conduit between the business strategy and requirements and a data platform architecture.
 
 ## Reusable Assets Overview
 TBD
