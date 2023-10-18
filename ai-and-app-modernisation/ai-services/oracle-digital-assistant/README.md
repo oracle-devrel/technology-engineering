@@ -8,9 +8,9 @@ Oracle Digital Assistant is a platform powered by artificial intelligence, speci
 2. [Useful Links](#useful-links)
 3. [Reusable Assets Overview](#reusable-assets-overview)
  
-## Team Publications
+# Team Publications
 
-### Cloud Coaching & Live Labs
+## Cloud Coaching & Live Labs
  
 - [Cloud Coaching - Art of the possible Digital Assistant](https://www.youtube.com/watch?v=zPmfjuYQCGg&t=49s)
     - Deep dive into Digital Assistant
@@ -21,7 +21,7 @@ Oracle Digital Assistant is a platform powered by artificial intelligence, speci
 - [Live Lab - Immerse Conversational Interfaces](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3452&clear=RR,180&session=112146561197244)
     - How to combine Digital Assistant with other AI Services
 
-### Blogs
+## Blogs
 
 - [Data Picker ](https://www.youtube.com/watch?v=zPmfjuYQCGg&t=49s)
     - How to implement a date picker in Digital Assistant (now a standard feature)
@@ -32,7 +32,7 @@ Oracle Digital Assistant is a platform powered by artificial intelligence, speci
 - [Translate with AI Language](https://blogs.oracle.com/digitalassistant/post/techexchange-unlocking-the-power-of-multi-lingual-digital-assistants-with-oci-ai-services)
     - How to implement AI Language Translate in Digital Assistant (now a standard feature)
 
-### Use Case Deep Dives
+## Use Case Deep Dives
 
 - [Banking & Insurance Use Cases](https://bit.ly/oda4fins)
     - Digital Assistant deepdive for Financial Services
@@ -43,13 +43,14 @@ Oracle Digital Assistant is a platform powered by artificial intelligence, speci
 - [Analytics Use Case](https://bit.ly/oda4hsbc)
     - Digital Assistant deepdive for Oracle Analytics customers
 
-## Useful Links
-- [Oracle AI Services](https://www.oracle.com/artificial-intelligence/ai-services/)
-    - Oracle AI Services homepage
-
 ## Reusable Assets Overview
 
 If you navigate to the templates folder you will find our Digital Assistant templates like the 'Concierge Template'.
+
+
+# Useful Links
+- [Oracle AI Services](https://www.oracle.com/artificial-intelligence/ai-services/)
+    - Oracle AI Services homepage
 
 # License
 

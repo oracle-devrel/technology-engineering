@@ -4,19 +4,12 @@ Oracle Cloud Infrastructure (OCI) AI Services is a collection of services with p
 
 # Table of Contents
  
-  - [Team Publications](#team-publications)
   - [Useful Links](#useful-links)
-
-## Team Publications
-
-- [Oracle’s generative AI strategy](https://blogs.oracle.com/ai-and-datascience/post/generative-ai-strategy)
-
-- [Cloud Customer Connect - How to Train Your Oracle AI Cloud Service Model](https://community.oracle.com/customerconnect/events/604740-oci-how-to-train-your-oracle-ai-cloud-service-model)
-    - In this session, we demonstrate how you can use OCI AI services, to create custom models using the data labeling, vision and document understanding service.
 
 # Useful Links
 
 - [Oracle AI Services Oracle.com Page](https://www.oracle.com/artificial-intelligence/ai-services/)
+- [Oracle’s Generative AI strategy](https://blogs.oracle.com/ai-and-datascience/post/generative-ai-strategy)
 
 # License
 
