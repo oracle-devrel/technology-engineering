@@ -46,15 +46,7 @@ Periodical sharing of Standard Query Language Best Practices links and blog, vid
 
 - Application Continuity - [Does your Database really know your application - Part 2](https://medium.com/@paulbrad71/does-your-database-really-know-your-application-second-part-48321b0ab81) - Published on [Medium](http://www.medium.com) on 6th April 2023;
 
-- SQL - [The Jimi Hendrix SQL Experience - Part 1: Load Jimi Hendrix music data into ADB](https://medium.com/@paulbrad71/the-jimi-hendrix-sql-experience-30f11a78bd54) - Published on [Medium](http://www.medium.com) on 21th March 2023
-
-- SQL - [The Jimi Hendrix SQL Experience - Part 2: Integrate and modify Jimi Hendrix data into ADB](https://medium.com/@paulbrad71/the-jimi-hendrix-sql-clue-card-experience-5729def14040) - Published on [Medium](http://www.medium.com) on 17th April 2023;
-
-- SQL - [The Jimi Hendrix SQL Experience - Part 3: Modifications to table structure in ADB](https://medium.com/@paulbrad71/the-jimi-hendrix-sql-clue-card-experience-9d3106b3e903) - Published on [Medium](http://www.medium.com) on 16th May 2023;
-
 - Application Continuity - [Does your Database really know your application - Part 3](https://medium.com/@paulbrad71/application-continuity-on-adb-does-your-database-know-your-application-376e44d8a30) - Published on [Medium](http://www.medium.com) on 31th May 2023.
-
-- SQL [The Jimi Hendrix SQL Experience - Part 4: Adding Table Constraints - First](https://medium.com/@paulbrad71/the-jimi-hendrix-sql-clue-card-experience-518c0d0932f3) - Published on [Medium](http://www.medium.com) on 12th June 2023;
 
 
 # PMs Personal Websites
