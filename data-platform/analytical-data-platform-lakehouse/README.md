@@ -13,14 +13,16 @@ Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a compl
 ### Architecture Center
  
 - [Data platform - data lakehouse](https://docs.oracle.com/en/solutions/data-platform-lakehouse/index.html#GUID-A328ACEF-30B8-4595-B86F-F27B512744DF)
-    - The reference architecture describes a lakehouse architecture pattern, the services that are part of it, the capabilities those services deliver, and how to deploy them. It covers best practices, a deployment topology, and also automated deployment with an Oracle Resource Manager Terraform stack.
+    - This reference architecture describes a lakehouse architecture pattern, the services that are part of it, the capabilities those services deliver, and how to deploy them. It covers best practices, a deployment topology, and automated deployment with an [Oracle Resource Manager Terraform stack](https://github.com/oracle-devrel/terraform-oci-oracle-cloud-foundation/tree/main/cloud-foundation/solutions/Data-platform-data-lakehouse) (part of the [cloud-foundation Terraform solutions](https://github.com/oracle-devrel/terraform-oci-oracle-cloud-foundation/tree/main/cloud-foundation)).
+- [Deploy a machine learning model close to the network edge](https://docs.oracle.com/en/solutions/deploy-ml-at-edge/#GUID-8EC86246-D724-4C16-8073-8CB5B2EA6719)
+    - This reference architecture describes a deployment where data is ingested from edge locations into OCI, where it is used to build and train ML models that are deployed in the edge for low latency inferencing.
 
 ### GitHub
 
 - [OCI Monitoring with PLSQL SDK](https://jakubillner.github.io/2022/10/07/How-to-Get-OCI-Utilization-in-PLSQL.html)
   - Blog post showcasing how to read monitoring metrics directly from ADW to control data ingestion load.
 - [Options for Storing Large JSON Documents in Autonomous Database](https://jakubillner.github.io/2022/09/30/JSON-in-autonomous-database.html)
-  - Blog post showcasing options for storing large JSON documents in Autonomous Database
+  - Blog post showcasing options for storing large JSON documents in an Autonomous Database
 - [Transforming JSON documents with OCI Data Integration](https://jakubillner.github.io/2022/10/25/Flattening-JSON-documents-with-OCI-Data-Integration.html)
   - Blog post showcasing how to process and store JSON on the Data Lake in parquet format to then use that data for analytics in the context of a lakehouse architecture
 - [Event Driven Automation of OCI Data Integration Tasks](https://jakubillner.github.io/2022/11/11/automating-di-tasks-with-events.html)
@@ -36,8 +38,23 @@ Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a compl
 - [Real Time Analytics DW DR Architecture (Part II) - DR Recovery Operations](https://gianlucarossi06.github.io/data-organon/2023/04/20/Real-Time-Analytics-DW-DR-Architecture-(Part-II).html)
   - Blog post showcasing a disaster simulation on the primary Region and describing the operational tasks that need to be performed to properly start the workload in the secondary Region.
 
+### YouTube
+
+- [Decentralized Data Platform on Oracle Cloud Infrastructure (OCI)](https://youtu.be/mHryV0K8Ciw?si=hJyOpxalMVf3bjbL)
+  - Cloud Coaching session covering the concepts of a decentralized data platform, how to design such a platform with Oracle Cloud Infrastructure, and how to easily share data between data domains.
+- [Data Lake Modernization](https://youtu.be/bOF3YJq4L6A?si=WgQVp9sXuZz8Em_3)
+  - Cloud Coaching session covering Hadoop-based Data Lake modernizations in OCI, explaining the deployment options and migration path.
+- [Architecting Analytical Data Platform](https://youtu.be/-rMUsvrXYw4?si=7Yx80VvZQYiy2qHE)
+  - Cloud Coaching session covering how to architect an Analytical Data Platform in Oracle and OCI using best practices to achieve trustable business outcomes.
+- [Real Time Analytics on Oracle Data Platform](https://www.youtube.com/watch?v=SVmM0CuLnU4)
+  - Cloud Coaching session describing what is Real Time Analytics and how to architect a real-time analytics workload on the Oracle Data Platform.
+- [Analytics and Lakehouse for Oracle Applications](https://youtu.be/a_JsSzmz1_U)
+  - Session describing how to architect analytical workloads for Oracle Applications.
+
 ### LinkedIn
 
+- [Delta Sharing with Oracle Cloud](https://www.linkedin.com/pulse/delta-sharing-oracle-cloud-jeff-richmond%3FtrackingId=kztSJVKDLRyOgQ30mH2ujQ%253D%253D/?trackingId=kztSJVKDLRyOgQ30mH2ujQ%3D%3D)
+  - Article explaining Data Sharing capabilities Oracle Cloud and Autonomous Database have, based in the open source Delta Share protocol, that allow to share data between heterogeneous data platforms in a multi cloud and heterogeneous data platform.
 - [Data Swamps No More!](https://www.linkedin.com/pulse/data-swamps-more-ismael-hassane/)
   - Article describing lakehouse as a natural evolution from a lambda and kappa data architecture.
 - [DataOps, you data rolls!](https://www.linkedin.com/pulse/dataops-your-data-rolls-ismaël-hassane/)
@@ -57,6 +74,8 @@ Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a compl
 ## Useful Links
 - [Oracle Modern Data Platform](https://www.oracle.com/data-platform/)
   - Oracle Modern Data Platform Homepage
+- [Oracle Cloud Word 2023 - Data Strategy: From Vision to Reality](https://videohub.oracle.com/media/Oracle+Cloud+Word+2023+-+Data+StrategyA+From+Vision+to+Reality/1_0zwykatb)
+  - Data Strategy session explaining what are the elements and reasoning of defining a data strategy that is the conduit between the business strategy and requirements and a data platform architecture.
 
 ## Reusable Assets Overview
 TBD

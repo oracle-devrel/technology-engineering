@@ -1,0 +1,365 @@
+ssh -i /Users/stef/Documents/TSE/Workshops/20230525.France.DevDay/SSH/id_rsa_lab opc@<public_ip>
+
+or
+
+https://<public_ip>/vnc.html?resize=remote  => Show sqldev Web
+
+
+
+
+
+sudo su - oracle
+
+-- Setup a new database user:
+source OH.env
+
+docker exec -it my23free sqlplus system/Oracle_4U@freepdb1
+
+create user USER1 identified by "Oracle_4U" default tablespace USERS temporary tablespace TEMP;
+alter user USER1 quota unlimited on USERS;
+grant connect, resource to USER1;
+grant create view to USER1;
+grant select, update, insert on SOE.customers to USER1;
+
+grant select on ORDS_METADATA.ORDS_PARAMETERS to SOE;
+grant select on ORDS_METADATA.ORDS_SCHEMAS to SOE; 
+grant select on ORDS_METADATA.ORDS_PARAMETERS to USER1;
+grant select on ORDS_METADATA.ORDS_SCHEMAS to USER1; 
+
+-- Publish schema SOE for REST access 
+
+BEGIN
+    ords_admin.enable_schema (
+        p_enabled               => TRUE,
+        p_schema                => 'SOE',
+        p_url_mapping_type      => 'BASE_PATH',
+        p_url_mapping_pattern   => 'soe',
+        p_auto_rest_auth        => TRUE
+    );
+    COMMIT;
+END;
+/
+
+-- Publish schema USER1 for REST access 
+
+BEGIN
+    ords_admin.enable_schema (
+        p_enabled               => TRUE,
+        p_schema                => 'USER1',
+        p_url_mapping_type      => 'BASE_PATH',
+        p_url_mapping_pattern   => 'user1',
+        p_auto_rest_auth        => TRUE
+    );
+    COMMIT;
+END;
+/
+exit
+
+docker exec -it my23free sqlplus user1/Oracle_4U@freepdb1
+
+create or replace view V_CUSTOMERS
+as
+select * from soe.customers;
+
+--- Publish the view for REST !!!
+
+DECLARE
+  PRAGMA AUTONOMOUS_TRANSACTION;
+BEGIN
+
+    ORDS.ENABLE_OBJECT(p_enabled => TRUE,
+                       p_schema => 'USER1',
+                       p_object => 'V_CUSTOMERS',
+                       p_object_type => 'VIEW',
+                       p_object_alias => 'customers',
+                       p_auto_rest_auth => FALSE);
+
+    commit;
+
+END;
+/
+exit
+
+docker exec -it my23free sqlplus soe/Oracle_4U@freepdb1
+
+DECLARE
+  PRAGMA AUTONOMOUS_TRANSACTION;
+BEGIN
+
+    ORDS.ENABLE_OBJECT(p_enabled => TRUE,
+                       p_schema => 'SOE',
+                       p_object => 'CUSTOMERS',
+                       p_object_type => 'TABLE',
+                       p_object_alias => 'customers',
+                       p_auto_rest_auth => FALSE);
+
+    commit;
+
+END;
+/
+
+DECLARE
+  PRAGMA AUTONOMOUS_TRANSACTION;
+BEGIN
+
+    ORDS.ENABLE_OBJECT(p_enabled => TRUE,
+                       p_schema => 'SOE',
+                       p_object => 'ORDERS',
+                       p_object_type => 'TABLE',
+                       p_object_alias => 'orders',
+                       p_auto_rest_auth => FALSE);
+
+    commit;
+
+END;
+/
+exit
+
+### Now we can access the view through a REST endpoint:
+
+## Review exposed ports for container myords:
+
+[oracle@wip-ords-docker2 ~]$ docker port myords
+8443/tcp -> 0.0.0.0:444
+8443/tcp -> :::444
+8888/tcp -> 0.0.0.0:8080
+8888/tcp -> :::8080
+
+## ORDS is listening on port 8443 and 8888 inside the container.
+## 8443 port is exposed as port 444 on the host.
+## 8888 port is exposed as port 8080 on the host.
+
+
+
+curl -k http://localhost:8181/ords/freepdb1/soe/customers/ | jq
+curl -k http://localhost:8181/ords/freepdb1/soe/customers/73 | jq
+
+## We can access from a web browser as well: use noVNC desktop
+
+
+http://localhost:8181/ords/freepdb1/soe/customers/?q={"CUSTOMER_ID":{"$eq":73}}
+http://localhost:8181/ords/freepdb1/soe/customers/73
+
+
+-- Examples with binding:
+
+docker exec -it my23free sqlplus soe/Oracle_4U@freepdb1
+
+BEGIN
+  ORDS.define_module(
+    p_module_name    => 'analytical_services',
+    p_base_path      => 'finance/',
+    p_items_per_page => 0);
+
+  ORDS.define_template(
+   p_module_name    => 'analytical_services',
+   p_pattern        => 'orders/');
+
+  ORDS.define_template(
+   p_module_name    => 'analytical_services',
+   p_pattern        => 'orders_by_year/:myyear');
+
+  ORDS.define_template(
+   p_module_name    => 'analytical_services',
+   p_pattern        => 'orders_between/:myyear1/:myyear2');
+
+  ORDS.define_handler(
+    p_module_name    => 'analytical_services',
+    p_pattern        => 'orders/',
+    p_method         => 'GET',
+    p_source_type    => ORDS.source_type_collection_feed,
+    p_source         => 'select to_char(ORDER_DATE,''YYYY'') as year, sum(ORDER_TOTAL) as total from orders group by to_char(ORDER_DATE,''YYYY'')',
+    p_items_per_page => 0);
+
+  ORDS.define_handler(
+    p_module_name    => 'analytical_services',
+    p_pattern        => 'orders_by_year/:myyear',
+    p_method         => 'GET',
+    p_source_type    => ORDS.source_type_collection_feed,
+    p_source         => 'select to_char(ORDER_DATE,''YYYY'') as year, sum(ORDER_TOTAL) as total from orders where to_char(ORDER_DATE,''YYYY'') = :myyear group by to_char(ORDER_DATE,''YYYY'')',
+    p_items_per_page => 0);
+
+  ORDS.define_handler(
+    p_module_name    => 'analytical_services',
+    p_pattern        => 'orders_between/:myyear1/:myyear2',
+    p_method         => 'GET',
+    p_source_type    => ORDS.source_type_collection_feed,
+    p_source         => 'select to_char(ORDER_DATE,''YYYY'') as year, sum(ORDER_TOTAL) as total from orders where to_char(ORDER_DATE,''YYYY'') between :myyear1 and :myyear2 group by to_char(ORDER_DATE,''YYYY'')',
+    p_items_per_page => 0);
+
+
+commit;
+  END;
+/
+exit
+
+curl -k http://localhost:8181/ords/freepdb1/soe/finance/orders/ | jq
+curl -k http://localhost:8181/ords/freepdb1/soe/finance/orders_by_year/2009 | jq
+curl -k http://localhost:8181/ords/freepdb1/soe/finance/orders_between/2007/2009 | jq
+
+-- Example with a POST method:
+
+docker exec -it my23free sqlplus soe/Oracle_4U@freepdb1
+
+create or replace procedure PC_CREATE_CUSTOMER (
+P_CUST_FIRST_NAME	       CUSTOMERS.CUST_FIRST_NAME%type,
+P_CUST_LAST_NAME	       CUSTOMERS.CUST_LAST_NAME%type,
+P_NLS_LANGUAGE		       CUSTOMERS.NLS_LANGUAGE%type,
+P_NLS_TERRITORY 	       CUSTOMERS.NLS_TERRITORY%type,
+P_CREDIT_LIMIT		       CUSTOMERS.CREDIT_LIMIT%type,
+P_CUST_EMAIL		       CUSTOMERS.CUST_EMAIL%type,
+P_ACCOUNT_MGR_ID	       CUSTOMERS.ACCOUNT_MGR_ID%type,
+P_CUSTOMER_SINCE	       VARCHAR2,
+P_CUSTOMER_CLASS	       CUSTOMERS.CUSTOMER_CLASS%type,
+P_SUGGESTIONS		       CUSTOMERS.SUGGESTIONS%type,
+P_DOB			       VARCHAR2,
+P_MAILSHOT		       CUSTOMERS.MAILSHOT%type,
+P_PARTNER_MAILSHOT	       CUSTOMERS.PARTNER_MAILSHOT%type,
+P_PREFERRED_ADDRESS	       CUSTOMERS.PREFERRED_ADDRESS%type,
+P_PREFERRED_CARD	       CUSTOMERS.PREFERRED_CARD%type
+)
+IS
+    v_cust_id CUSTOMERS.CUSTOMER_ID%TYPE;
+BEGIN
+ INSERT INTO customers (
+    CUSTOMER_ID,
+    CUST_FIRST_NAME,
+    CUST_LAST_NAME,
+    NLS_LANGUAGE,
+    NLS_TERRITORY,
+    CREDIT_LIMIT,
+    CUST_EMAIL,
+    ACCOUNT_MGR_ID,
+    CUSTOMER_SINCE,
+    CUSTOMER_CLASS,
+    SUGGESTIONS,
+    DOB,
+    MAILSHOT,
+    PARTNER_MAILSHOT,
+    PREFERRED_ADDRESS,
+    PREFERRED_CARD
+ )
+  VALUES (
+CUSTOMER_SEQ.nextval,
+P_CUST_FIRST_NAME,
+P_CUST_LAST_NAME,
+P_NLS_LANGUAGE,
+P_NLS_TERRITORY,
+P_CREDIT_LIMIT,
+P_CUST_EMAIL,
+P_ACCOUNT_MGR_ID,
+to_date(P_CUSTOMER_SINCE,'DD/MM/YYYY'),
+P_CUSTOMER_CLASS,
+P_SUGGESTIONS,
+to_date(P_DOB,'DD/MM/YYYY'),
+P_MAILSHOT,
+P_PARTNER_MAILSHOT,
+P_PREFERRED_ADDRESS,
+P_PREFERRED_CARD)
+returning CUSTOMER_ID into v_cust_id;
+--
+HTP.print('New customer created with ID= ' || v_cust_id);
+EXCEPTION
+  WHEN OTHERS THEN
+    HTP.print(SQLERRM);
+END PC_CREATE_CUSTOMER;
+/
+
+--- Create an endpoint mapped to the above procedure !!!
+
+BEGIN
+  ORDS.define_module(
+    p_module_name    => 'customer_mgmt',
+    p_base_path      => 'customer/',
+    p_items_per_page => 0);
+
+  ORDS.define_template(
+   p_module_name    => 'customer_mgmt',
+   p_pattern        => 'newcust/');
+
+  ORDS.define_handler(
+    p_module_name    => 'customer_mgmt',
+    p_pattern        => 'newcust/',
+    p_method         => 'POST',
+    p_source_type    => ORDS.source_type_plsql,
+    p_source         => '
+BEGIN
+PC_CREATE_CUSTOMER (
+P_CUST_FIRST_NAME => :CUST_FIRST_NAME,
+P_CUST_LAST_NAME => :CUST_LAST_NAME,
+P_NLS_LANGUAGE => :NLS_LANGUAGE,
+P_NLS_TERRITORY => :NLS_TERRITORY,
+P_CREDIT_LIMIT => :CREDIT_LIMIT,
+P_CUST_EMAIL => :CUST_EMAIL,
+P_ACCOUNT_MGR_ID => :ACCOUNT_MGR_ID,
+P_CUSTOMER_SINCE => :CUSTOMER_SINCE,
+P_CUSTOMER_CLASS => :CUSTOMER_CLASS,
+P_SUGGESTIONS => :SUGGESTIONS,
+P_DOB => :DOB,
+P_MAILSHOT => :MAILSHOT,
+P_PARTNER_MAILSHOT => :PARTNER_MAILSHOT,
+P_PREFERRED_ADDRESS => :PREFERRED_ADDRESS,
+P_PREFERRED_CARD => :PREFERRED_CARD);
+ END;',
+    p_items_per_page => 0);
+commit;
+  END;
+/
+exit
+
+-- Generate a JSON file: this file will be used for the POST
+
+cat<<EOF>/home/oracle/cre.new.customer.json
+{
+"CUST_FIRST_NAME":"Mick",
+"CUST_LAST_NAME":"Jagger",
+"NLS_LANGUAGE":"EN",
+"NLS_TERRITORY":"England",
+"CREDIT_LIMIT":"1000",
+"CUST_EMAIL":"mick.jagger@beggarsbanquet.com",
+"ACCOUNT_MGR_ID":"499",
+"CUSTOMER_SINCE":"01/01/1967",
+"CUSTOMER_CLASS":"Occasional",
+"SUGGESTIONS":"Cooking",
+"DOB":"26/07/1943",
+"MAILSHOT":"Y",
+"PARTNER_MAILSHOT":"N",
+"PREFERRED_ADDRESS":"121",
+"PREFERRED_CARD":"121"
+}
+EOF
+
+-- Check your JSON file:
+
+[oracle@wip-ords-docker2 ~]$ cat /home/oracle/cre.new.customer.json
+{
+"CUST_FIRST_NAME":"Mick",
+"CUST_LAST_NAME":"Jagger",
+"NLS_LANGUAGE":"EN",
+"NLS_TERRITORY":"England",
+"CREDIT_LIMIT":"1000",
+"CUST_EMAIL":"mick.jagger@beggarsbanquet.com",
+"ACCOUNT_MGR_ID":"499",
+"CUSTOMER_SINCE":"01/01/1967",
+"CUSTOMER_CLASS":"Occasional",
+"SUGGESTIONS":"Cooking",
+"DOB":"26/07/1943",
+"MAILSHOT":"Y",
+"PARTNER_MAILSHOT":"N",
+"PREFERRED_ADDRESS":"121",
+"PREFERRED_CARD":"121"
+}
+
+-- Use the POST methdo to create a new customer in the DB
+
+curl -i -k -X POST --data-binary @/home/oracle/cre.new.customer.json -H "Content-Type: application/json" http://localhost:8181/ords/freepdb1/soe/customer/newcust/
+
+HTTP/2 200
+content-type: text/html;charset=utf-8
+
+New customer created with ID= 1000001
+
+--- View the new customer:
+
+curl -k http://localhost:8181/ords/freepdb1/soe/customers/1000001 | jq
+
