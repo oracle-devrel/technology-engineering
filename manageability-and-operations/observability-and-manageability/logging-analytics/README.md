@@ -14,6 +14,7 @@
 - [Analyzing OCI Compute Instance logs with OCI Logging Analytics](https://blogs.oracle.com/observability/post/oci-logginganalytics-compute-instance)
 - [Logging Analytics solution for Oracle Kubernetes Engine](https://karthicin.medium.com/logging-monitoring-solution-for-oracle-kubernetes-engine-oke-611738fe7d1)
 - [How to collect windows event logs in Logging Analytics](https://karthicin.medium.com/how-to-collect-windows-event-logs-in-logging-analytics-3a4f3ec8dc95)
+- [Oracle APEX Monitor](https://github.com/oracle-quickstart/oci-o11y-solutions/tree/main/knowlege-content/oracle-database/APEX)
 
 
 # License
