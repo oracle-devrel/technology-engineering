@@ -10,6 +10,9 @@ Oracle Digital Assistant is a platform powered by artificial intelligence, speci
  
 # Team Publications
 
+- [Solution Definition Document - Oracle Digital Assistant](#team-publications)
+    - A Template to use for ODA projects
+
 ## Cloud Coaching & Live Labs
  
 - [Cloud Coaching - Art of the possible Digital Assistant](https://www.youtube.com/watch?v=zPmfjuYQCGg&t=49s)
