@@ -15,6 +15,7 @@ Security of Data is at the core of our products.   As a team, we focus on Securi
 - [Setting Data Safe Email Notifications on Security baseline Configuration Drift](https://www.linkedin.com/pulse/setting-data-safe-email-notifications-security-baseline-ilyas/)
 - [Compliance Reporting with Oracle Data Safe Security Assessment](https://www.linkedin.com/pulse/compliance-reporting-oracle-data-safe-security-assessment-ilyas/)
 - [Data Redaction Demo](https://youtu.be/6FMgzi2eLNk)
+- [Data Redaction - Extend it to multiple columns and Analytics](https://www.youtube.com/watch?v=Q0K2caAtGIY)
 
 ## Useful Links 
 
