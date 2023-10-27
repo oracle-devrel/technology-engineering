@@ -13,7 +13,13 @@ Oracle Cloud Infrastructure (OCI) Document Understanding is an AI service that e
 # Team Publications
 
 ## Reusable Assets Overview
- 
+
+- [Cloud Coaching - AI Based & Real Time Gmail Invoice Documents Processing into Oracle Fusion ERP Cloud](https://youtu.be/wq7HH-WYslU?si=wBqH5eEkcC0hYKqj)
+    How can you speed up your Account Payable Invoice Processing Cycle? Document Understanding and OCI Intelligent Automation Engine running on top of Oracle Fusion ERP Cloud can help:
+    - Through a live demo, we show how to use it to enable an AI-based, Event-Driven and Real-Time Invoice Processing Solution into Oracle Fusion ERP Cloud on top of Gmail Invoices as Attachments
+    - Learn how Oracle Integration Cloud combined with OCI Streaming to allow real-time capture of Gmail Messages (leveraging Gmail Push Notifications via Google Cloud Pub/Sub)
+    - Then, using AI Document Understanding, uncover Invoice Documents Data using the Key-Value Extraction and automatically load it into Oracle Fusion ERP Cloud using Oracle Integration Cloud's native connectors
+
 - [Cloud Coaching - Automating Invoice Handling using OIC and AI Document Understanding Service](https://www.youtube.com/watch?v=pjdQzFscOrk)
     - In this session, we demonstrate how you can use OCI AI Document Understanding service's pre-trained models to extract key information from invoices and use Oracle Integration Cloud to automate the whole process. It also includes kick-starting process workflows where human intervention is required.
 - [Demo: Automate Invoice Handling - Oracle Integration Cloud & AI Document Understanding Service](https://youtu.be/k72CcNhmOjs)

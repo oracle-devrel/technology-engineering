@@ -31,6 +31,8 @@ Oracle Zero Downtime Migration (ZDM) is the Oracle Maximum Availability Architec
     - Detailed, step-by-step guide for ZDM wallet setup
 - [Red Hot Universally Speaking - Zero Downtime Migration session on YouTube](https://www.youtube.com/watch?v=1jQ9GtAKDF0)
     - Red Hot Webinar delivered by Amalraj Puthenchira and Carlos Alvarez capturing an in depth description of Zero Downtime Migration - features, functionality, use-cases and technical demonstration
+- [Ace your Database Migration to Oracle Exadata Database Service on Dedicated Infrastructure](https://www.youtube.com/watch?v=luBezgN7sa0)
+     - Cloud Customer Connect session delivered by Amalraj Puthenchira explaining how to use the Oracle Zero Downtime Migration(ZDM) tool to migrate Oracle Database on Linux to Exadata Database Service on Dedicated Infrastructure.
 
  
 ## Useful Links
