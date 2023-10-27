@@ -10,6 +10,9 @@ Oracle Digital Assistant is a platform powered by artificial intelligence, speci
  
 # Team Publications
 
+- [Solution Definition Document - Oracle Digital Assistant](#team-publications)
+    - A Template to use for ODA projects
+
 ## Cloud Coaching & Live Labs
  
 - [Cloud Coaching - Art of the possible Digital Assistant](https://www.youtube.com/watch?v=zPmfjuYQCGg&t=49s)
@@ -20,6 +23,11 @@ Oracle Digital Assistant is a platform powered by artificial intelligence, speci
 
 - [Live Lab - Immerse Conversational Interfaces](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3452&clear=RR,180&session=112146561197244)
     - How to combine Digital Assistant with other AI Services
+
+## Workshops
+
+- [Conversational AI / Digital Assistant Approach Workshop](./oda-workshop/README.md)
+    - Conversational Design Experience in short CDX 
 
 ## Blogs
 
@@ -58,4 +66,4 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
