@@ -26,6 +26,9 @@ OCI IAM is a native service of OCI that provides enterprise-class identity and a
  
   - [OCI API Gateway and OpenID Connect Authentication with IAM Domain, IDCS and Azure BtoC](https://blogs.oracle.com/coretec/post/oci-api-gateway-and-openid-connect-authentication-with-iam-domain-idcs-and-azure-btoc)
     - Blog about OCI APIGW and OIDC Auth with OCI IAM Domain and IDCS
+
+  - [Correlation between OCI native IAM, IDCS and Service Console](https://blogs.oracle.com/coretec/post/correlation-between-oci-native-iam-idcs-and-service-console)
+    - Blog about the correlation between the IAMs in OCI and Service Console
  
 ## Useful Links
  
