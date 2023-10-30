@@ -3,14 +3,14 @@ doc:
   author: Gianluca Rossi
   config:
     impl:
-      type: Lift
+      type: Oracle Lift
       handover: ${doc.customer.name}
   cover:
     subtitle:
     - Workload Architecture Document
     - Solution Definition and Design
     title:
-    - ${doc.customer.name}
+    - A Company Making Everything
     - Serverless Lakehouse
   customer:
     alias: ACME
@@ -48,48 +48,46 @@ doc:
 
 # Document Control
 
-## Version Control
-
-| Version                | Author         | Date                 | Comment                           |
-|---------               |----------------|-----------------     |-----------------------------------|
-| ${doc.history.version1}| ${doc.author}  | ${doc.history.date1} | ${doc.history.comments1}          |
-| ${doc.history.version2}| ${doc.author}  | ${doc.history.date2} | ${doc.history.comments2}          |
-| ${doc.history.version3}| ${doc.author}  | ${doc.history.date3} | ${doc.history.comments3}          |
-| ${doc.history.version4}| ${doc.author}  | ${doc.history.date4} | ${doc.history.comments4}          |
+| Version | Author         | Date            | Comment                           |
+|---------|----------------|-----------------|-----------------------------------|
+| 1.0     | Gianluca Rossi | June 21st, 2022 | Initial version                   |
+| 1.1     | Gianluca Rossi | March 2nd, 2022 | Internal review                   |
+| 1.2     | Gianluca Rossi | July 21st, 2023 | Updated OCI Services descriptions |
+| 1.3     | Gianluca Rossi | July 21st, 2023 | New Template                      |
 
 ## Team
 
-| Name             | eMail                     | Role                   | Company             |
-|----------------  |---------------------------|------------------------|---------            |
-| ${doc.team.name} | ${doc.team.email}         | ${doc.team.role}       | ${doc.team.company} |
+| Name           | eMail                     | Role               | Company |
+|----------------|---------------------------|--------------------|---------|
+| Gianluca Rossi | gianluca.rossi@oracle.com | Workload Architect | Oracle  |
 
 ## Document Purpose
 
-This document provides a high-level solution definition for the Oracle solution and aims at describing the current state, and to-be state as well as a potential high-level project scope and timeline for ${doc.config.impl.type}.
+This document provides a high-level solution definition for the Oracle solution and aims at describing the current state, and to-be state as well as a potential high-level project scope and timeline for Oracle Lift.
 
 The document may refer to a ‘Workload’, which summarizes the full technical solution for a customer (You) during a single engagement. The Workload is described in the chapter [Workload Requirements and Architecture](#workload-requirements-and-architecture).
 
-This is a living document, additional sections will be added as the engagement progresses resulting in a final Document to be handed over to the ${doc.config.impl.type}.
+This is a living document, additional sections will be added as the engagement progresses resulting in a final Document to be handed over to the Oracle Lift.
 
 # Business Context
 
-${doc.customer.name} has more than two thousand employees and is looking for a solution that supports the analysis, monitoring and prediction of personnel costs and helps in the main decision-making processes concerning HR management.
+A Company Making Everything has more than two thousand employees and is looking for a solution that supports the analysis, monitoring and prediction of personnel costs and helps in the main decision-making processes concerning HR management.
 
 ## Executive Summary
 
-This Oracle Analytical Data Platform for HR provides the customer with a complete solution to discover, ingest, process, analyze, and analyze HR data. Its easily scalable, flexible, and cost-effective architecture is built with services fully managed by Oracle, allowing ${doc.customer.name} to focus on their core HR competencies while leaving the technical complexities of managing IT infrastructure to Oracle.
+This Oracle Analytical Data Platform for HR provides the customer with a complete solution to discover, ingest, process, analyze, and analyze HR data. Its easily scalable, flexible, and cost-effective architecture is built with services fully managed by Oracle, allowing A Company Making Everything to focus on their core HR competencies while leaving the technical complexities of managing IT infrastructure to Oracle.
 
 ## Workload Business Value
 
-The solution will allow ${doc.customer.name} to make data-driven decisions, enabling HR professionals to identify trends, patterns, and areas for improvement within the workforce.
-The solution provides a competitive advantage by ensuring that ${doc.customer.name} has the right talent, engaged employees, and efficient processes, positioning the company for long-term success.
-Finally, with predictive analytics in HR ${doc.customer.name} will be able to forecast trends such as skills shortages or potential turnover, enabling proactive measures to address these issues before they impact the organization.
+The solution will allow A Company Making Everything to make data-driven decisions, enabling HR professionals to identify trends, patterns, and areas for improvement within the workforce.
+The solution provides a competitive advantage by ensuring that A Company Making Everything has the right talent, engaged employees, and efficient processes, positioning the company for long-term success.
+Finally, with predictive analytics in HR A Company Making Everything will be able to forecast trends such as skills shortages or potential turnover, enabling proactive measures to address these issues before they impact the organization.
 
 # Workload Requirements and Architecture
 
 ## Overview
 
-The Workload includes a new analytical application that allows ${doc.customer.name} to produce analyzes on human resources data and in particular on typical indicators of cost of labor. The application will:
+The Workload includes a new analytical application that allows A Company Making Everything to produce analyzes on human resources data and in particular on typical indicators of cost of labor. The application will:
 
 -   Store data into Oracle's Cloud systems and platforms
 -   Manage metadata and business glossaries for the included data domains.
@@ -116,12 +114,12 @@ The new system extracts data from on-premises application (HR System on Oracle D
 
 ### Regulations and Compliances
 
-The HR reporting data for ${doc.customer.name} uses personal data. 'Personal data’ means any information relating to an identified or identifiable natural person (‘data subject’); an identifiable natural person is one who can be identified, directly or indirectly, in particular by reference to an identifier such as a name, an identification number, location data, an online identifier or to one or more factors specific to the physical, physiological, genetic, mental, economic, cultural or social identity of that natural person. Furthermore, under GDPR, this only applies to personal data processed in one of two ways:
+The HR reporting data for A Company Making Everything uses personal data. 'Personal data’ means any information relating to an identified or identifiable natural person (‘data subject’); an identifiable natural person is one who can be identified, directly or indirectly, in particular by reference to an identifier such as a name, an identification number, location data, an online identifier or to one or more factors specific to the physical, physiological, genetic, mental, economic, cultural or social identity of that natural person. Furthermore, under GDPR, this only applies to personal data processed in one of two ways:
 
 -   Personal data processed wholly or partly by automated means (or, information in electronic form); and
 -   Personal data processed in a non-automated manner which forms part of, or is intended to form part of, a ‘filing system’ (or, written records in a manual filing system).
 
-**In relation to this Workload, all HR data will be anonymized (masked/pseudonymized to make data not attributable to a single employee) by ${doc.customer.name} prior to being uploaded in the Oracle Cloud.**
+**In relation to this Workload, all HR data will be anonymized (masked/pseudonymized to make data not attributable to a single employee) by A Company Making Everything prior to being uploaded in the Oracle Cloud.**
 
 ### Environments
 
@@ -130,7 +128,7 @@ The new workload includes two environment, Development/Test and Production.
 Name	        | Size of Prod  | Location	  | DR    | Scope
 :---		      |:---		   	    |:---		      |:---   |:---
 Production    | 100%          | Frankfurt	  | No    | Workload
-Dev & Test    | 25%           | Frankfurt   | No    | Workload - ${doc.config.impl.type}
+Dev & Test    | 25%           | Frankfurt   | No    | Workload - Oracle Lift
 
 ### High Availability and Disaster Recovery Requirements
 
@@ -148,7 +146,7 @@ Furthermore, resilience and recovery and can be achieved by leveraging:
 
 Authentication and authorization of users done by enterprise-grade identity and access management services of OCI.
 
-To facilitate identity and access management the solution will make use of the standard Oracle OCI IAM with IDCS foundation integration. Oracle Cloud Infrastructure Identity and Access Management (IAM) lets ${doc.customer.name} control who has access to the subscribed OCI cloud resources. After ${doc.customer.name} signs up for an Oracle account and Identity Domain, Oracle sets up a default administrator for the account. This ${doc.customer.name} tenancy also automatically has a policy that gives the Administrators group access to all of the Oracle Cloud resources in the tenancy. ${doc.customer.name} can control what type of access a group of users have and to which specific resources. The different Groups and associated policies for ${doc.customer.name} will consider the different type of ${doc.customer.name}'s user and the different type of service they will use to perform their job. ${doc.customer.name}'s main type of users are:
+To facilitate identity and access management the solution will make use of the standard Oracle OCI IAM with IDCS foundation integration. Oracle Cloud Infrastructure Identity and Access Management (IAM) lets A Company Making Everything control who has access to the subscribed OCI cloud resources. After A Company Making Everything signs up for an Oracle account and Identity Domain, Oracle sets up a default administrator for the account. This A Company Making Everything tenancy also automatically has a policy that gives the Administrators group access to all of the Oracle Cloud resources in the tenancy. A Company Making Everything can control what type of access a group of users have and to which specific resources. The different Groups and associated policies for A Company Making Everything will consider the different type of A Company Making Everything's user and the different type of service they will use to perform their job. A Company Making Everything's main type of users are:
 
 -   **Business Analysts** (HR Manager, HR Specialists): must have the possibility to visualize data, to create report and dashboard with OAC.
 -   **Data Scientists**: must have the possibility to run data processing (with Data Flow, Data Integration), to access to the different type of data (raw data in Object Storage, enriched/transformed data in ADW), to analyze and discover data (with Data Science projects, OAC self-service analytics) and to train and test AI models (with Data Science projects).
@@ -156,17 +154,17 @@ To facilitate identity and access management the solution will make use of the s
 -   **ETL Developer**: must have the possibility to create Data Set, Data Flows and Pipelines with OCI Data Integrator.
 -   **IT Administrators**: must have the possibility to administer the Oracle Cloud Infrastructure (Networks, Compartments, Groups, Policies,...) and Oracle Cloud Platforms (ADW, OAC, ...).
 
-Currently, for this workload, there isn't a requirement to federate users with ${doc.customer.name} on-premises identity and access management system.
+Currently, for this workload, there isn't a requirement to federate users with A Company Making Everything on-premises identity and access management system.
 
 #### Data Security
 
-There is a specific requirement regarding data security in Dev/Test environment. Data managed by this workload includes personal data of ${doc.customer.name} employees (e.g: Name, Surname, Fiscal Code) associated to their salary and retribution details. ${doc.customer.name} will perform the masking process on-premises before loading source data files on Object Storage buckets. That masking process will make impossible to attribute data to a single employee.
+There is a specific requirement regarding data security in Dev/Test environment. Data managed by this workload includes personal data of A Company Making Everything employees (e.g: Name, Surname, Fiscal Code) associated to their salary and retribution details. A Company Making Everything will perform the masking process on-premises before loading source data files on Object Storage buckets. That masking process will make impossible to attribute data to a single employee.
 
-For the Production environment of this workload the pseudonymization of personal data is under discussion. Anyhow, as per the data masking process, the pseudonymization process will be developed by ${doc.customer.name} and will be executed on the on-premises data prior to load them in Oracle Cloud.
+For the Production environment of this workload the pseudonymization of personal data is under discussion. Anyhow, as per the data masking process, the pseudonymization process will be developed by A Company Making Everything and will be executed on the on-premises data prior to load them in Oracle Cloud.
 
 ### Networking Requirements
 
-A connection to the ${doc.customer.name} network is required to extract data from the data sources on-premises. ${doc.customer.name} requires all the services to be deployed with private endpoints.
+A connection to the A Company Making Everything network is required to extract data from the data sources on-premises. A Company Making Everything requires all the services to be deployed with private endpoints.
 
 ### Capacity
 
@@ -183,17 +181,17 @@ The following tables shows the main capacity metrics collected for this Workload
 
 ## Functional Requirements
 
-${doc.customer.name} needs a solution to manage Human Resource data from an analytical perspective. They need to monitor the current values of salary, retribution, cost of labor, presences/absences in current and past ${doc.customer.name}'s organizational structure for different employee types. They also need to understand historical trends of the main KPIs and predict possible future scenarios.
+A Company Making Everything needs a solution to manage Human Resource data from an analytical perspective. They need to monitor the current values of salary, retribution, cost of labor, presences/absences in current and past A Company Making Everything's organizational structure for different employee types. They also need to understand historical trends of the main KPIs and predict possible future scenarios.
 
 ### Use cases
 
 Different type of users will leverage the new analytic platform capabilities:
 
--   **Analysts** in ${doc.customer.name} will profile and analyze data to identify and prototype KPIs, visualizations, dashboards and other outputs useful for ${doc.customer.name}s's business users.
--   **Report Developers** in ${doc.customer.name} will prepare and publish KPIs, visualizations and dashboards, that will be used by ${doc.customer.name}'s business users to understand history and trends of various data sets managed by ${doc.customer.name}.
--   **Data Scientists** in ${doc.customer.name} need an environment to load and prepare data, develop, and test ML models, so that they can create new insights from data in the new analytic platform.
--   ${doc.customer.name}'s **Business Users** (HR Managers, HR Specialists, etc...), need interactive dashboards and visualizations, to analyze HR management KPIs values (cost of labor, salaries, absences/presences) and other characteristics of the service they are responsible for. They also need a Graphical User Interface to manage some master data updates ("D_SOURCE_TABLE1 voci di retribuzione" - i.e. "Payslip items grouping" and "Categoria di Storno" - i.e. "Reversal Category").
--   **All ${doc.customer.name}'s users** needs a supporting tool to manage metadata and main business glossaries of the data included in the analytic solution.
+-   **Analysts** in A Company Making Everything will profile and analyze data to identify and prototype KPIs, visualizations, dashboards and other outputs useful for A Company Making Everythings's business users.
+-   **Report Developers** in A Company Making Everything will prepare and publish KPIs, visualizations and dashboards, that will be used by A Company Making Everything's business users to understand history and trends of various data sets managed by A Company Making Everything.
+-   **Data Scientists** in A Company Making Everything need an environment to load and prepare data, develop, and test ML models, so that they can create new insights from data in the new analytic platform.
+-   A Company Making Everything's **Business Users** (HR Managers, HR Specialists, etc...), need interactive dashboards and visualizations, to analyze HR management KPIs values (cost of labor, salaries, absences/presences) and other characteristics of the service they are responsible for. They also need a Graphical User Interface to manage some master data updates ("D_SOURCE_TABLE1 voci di retribuzione" - i.e. "Payslip items grouping" and "Categoria di Storno" - i.e. "Reversal Category").
+-   **All A Company Making Everything's users** needs a supporting tool to manage metadata and main business glossaries of the data included in the analytic solution.
 
 ### Requirement Matrix
 
@@ -210,21 +208,21 @@ Different type of users will leverage the new analytic platform capabilities:
 
 ## Constraints, Challenges and other Requirements
 
-Two of the datasets used by the workload as data sources will come as results of data manipulation done by Business Users through dedicated new Web Applications. Those applications are not already available, they will be developed by ${doc.customer.name} using Oracle APEX in Oracle Cloud. For the solution definition and the Lift implementation we need to share with ${doc.customer.name} the expected data set structure - tables output of the APEX Applications - that will be used as data sources.
+Two of the datasets used by the workload as data sources will come as results of data manipulation done by Business Users through dedicated new Web Applications. Those applications are not already available, they will be developed by A Company Making Everything using Oracle APEX in Oracle Cloud. For the solution definition and the Lift implementation we need to share with A Company Making Everything the expected data set structure - tables output of the APEX Applications - that will be used as data sources.
 
 ## Future State Architecture
 
 ### Mandatory Security Best Practices
 
-The safety of the ${doc.customer.name}'s Oracle Cloud Infrastructure (OCI) environment and data is the ${doc.customer.name}’s priority.
+The safety of the A Company Making Everything's Oracle Cloud Infrastructure (OCI) environment and data is the A Company Making Everything’s priority.
 
 To following table of OCI Security Best Practices lists the recommended topics to provide a secure foundation for every OCI implementation. It applies to new and existing tenancies and should be implemented before the Workload defined in this document will be implemented.
 
 Workload-related security requirements and settings like tenancy structure, groups, and permissions are defined in the respective chapters.
 
-Any deviations from these recommendations needed for the scope of this document will be documented in the chapters below. They must be approved by ${doc.customer.name}.
+Any deviations from these recommendations needed for the scope of this document will be documented in the chapters below. They must be approved by A Company Making Everything.
 
-${doc.customer.name} is responsible for implementing, managing, and maintaining all listed topics.
+A Company Making Everything is responsible for implementing, managing, and maintaining all listed topics.
 
 +--------------------------+---------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | CATEGORY                 | TOPIC                     | DETAILS                                                                                                                                                                                              |
@@ -303,22 +301,22 @@ The following are the main building blocks that compose this cloud architecture.
 **Data Persistence and Data Governance**:
 
 -   **OCI Object Storage**: is a cloud native, highly scalable and resilient storage that will be used to support the Data Lake to store any type of data, be it relational or non-relational. Object Storage can be leveraged by a variety of clients and processing engines. It is a managed, durable, scalable, and cost-effective cloud storage for Data Lake and many other use cases. Data in Object Storage is organized in buckets. Object name prefix may be used to group data into logical entities and partitions.
--   **Autonomous Data Warehouse (ADW)**: Oracle Autonomous Data Warehouse (ADW) is a fully managed, preconfigured data warehouse environment. After provisioning, you can scale the number of CPU cores or the storage capacity of the database at any time without impacting availability or performance. ADW can also virtualize data that resides on Object Storage as external tables and hybrid partitioned tables so data consumption derived from other data sources can seamlessly be consumed and joined with the warehouse data. Furthermore one can also leverage Object Storage as a tier of cold storage, if needed, and move part of the historical data from the warehouse into object storage and then consume it seamlessly via Hybrid Partitioned Tables. ADW can also take advantage of the metadata stored on the Data Catalog, meaning, it can consume metadata previously harvested, in order to support external tables creation without the need to explicitly define manually all metadata needed for creating those tables; it even synchs automatically the metadata updates in the Data Catalog with the external tables definition to keep consistency overtime, simplify management and reduce effort. Furthermore, ADW offers solutions to enable data sharing without duplicating or propagating data to all recipients, significantly reducing storage and bandwidth requirements: Delta Sharing and Cloud Links. **Delta Sharing**, a modern open data sharing protocol introduced by Databricks, enables secure and efficient data sharing across organizations. It provides a unified, high-performance, and cost-effective solution for sharing large datasets without the need for data duplication or complex ETL processes. **Cloud Links** are a cutting-edge data sharing solution native to Oracle Autonomous Databases. Leveraging the Oracle Cloud Infrastructure and its metadata Cloud Links enable secure and efficient data sharing between single databases or groups of databases, for example, on a compartmental level. The ${doc.customer.name} instance will be used to support the HR Management Data Lake to be analyzed by all the tools and services of this new OCI analytical system. The built in **APEX** platform will support the development of the Web Application that Business User will use to modify specific HR data that will be used as data input by the HR data-mart.
--   **OCI Data Catalog**: provides metadata describing data sets in the Data Lake. Metadata includes technical metadata such as location, type and format of data sets; and business metadata defining the logical categories and terms. In ${doc.customer.name}, Data Catalog can be used by users for searching and understanding available data (metadata of files in Object Storage and tables in ADW) and also to map data to **ADW external tables** (from source files). In addition, Data Catalog Metastore also provides a highly available and scalable central repository of metadata for a Hive cluster. It stores metadata for data structures such as databases, tables, and partitions in a relational database, backed by files maintained in Object Storage. OCI Data Flow jobs with Apache Spark can makes use of Data Catalog Metastore for this purpose.
+-   **Autonomous Data Warehouse (ADW)**: Oracle Autonomous Data Warehouse (ADW) is a fully managed, preconfigured data warehouse environment. After provisioning, you can scale the number of CPU cores or the storage capacity of the database at any time without impacting availability or performance. ADW can also virtualize data that resides on Object Storage as external tables and hybrid partitioned tables so data consumption derived from other data sources can seamlessly be consumed and joined with the warehouse data. Furthermore one can also leverage Object Storage as a tier of cold storage, if needed, and move part of the historical data from the warehouse into object storage and then consume it seamlessly via Hybrid Partitioned Tables. ADW can also take advantage of the metadata stored on the Data Catalog, meaning, it can consume metadata previously harvested, in order to support external tables creation without the need to explicitly define manually all metadata needed for creating those tables; it even synchs automatically the metadata updates in the Data Catalog with the external tables definition to keep consistency overtime, simplify management and reduce effort. Furthermore, ADW offers solutions to enable data sharing without duplicating or propagating data to all recipients, significantly reducing storage and bandwidth requirements: Delta Sharing and Cloud Links. **Delta Sharing**, a modern open data sharing protocol introduced by Databricks, enables secure and efficient data sharing across organizations. It provides a unified, high-performance, and cost-effective solution for sharing large datasets without the need for data duplication or complex ETL processes. **Cloud Links** are a cutting-edge data sharing solution native to Oracle Autonomous Databases. Leveraging the Oracle Cloud Infrastructure and its metadata Cloud Links enable secure and efficient data sharing between single databases or groups of databases, for example, on a compartmental level. The A Company Making Everything instance will be used to support the HR Management Data Lake to be analyzed by all the tools and services of this new OCI analytical system. The built in **APEX** platform will support the development of the Web Application that Business User will use to modify specific HR data that will be used as data input by the HR data-mart.
+-   **OCI Data Catalog**: provides metadata describing data sets in the Data Lake. Metadata includes technical metadata such as location, type and format of data sets; and business metadata defining the logical categories and terms. In A Company Making Everything, Data Catalog can be used by users for searching and understanding available data (metadata of files in Object Storage and tables in ADW) and also to map data to **ADW external tables** (from source files). In addition, Data Catalog Metastore also provides a highly available and scalable central repository of metadata for a Hive cluster. It stores metadata for data structures such as databases, tables, and partitions in a relational database, backed by files maintained in Object Storage. OCI Data Flow jobs with Apache Spark can makes use of Data Catalog Metastore for this purpose.
 
 **Analytics and Data Science**:
 
 -   **Oracle Analytics Cloud (OAC)**: managed BI service supporting reports, dashboards, self-service, and augmented analytics. With OAC, users can prepare data and run self-service data transformations, they can discover and visualize data, collaborate in teams and share analysis, and develop dashboards and rich visualizations for consumers. In this workload, it will support the reporting to provide visibility on the overall HR Management KPIs (cost of labor, salaries, retribution) as well as to drill down on detailed employee information.
--   **OCI Data Science**: provides infrastructure, open source technologies, libraries, and packages, and data science tools for data science teams to build, train, and manage machine learning (ML) models in Oracle Cloud Infrastructure. The collaborative and project-driven workspace provides an end-to-end cohesive user experience and supports the lifecycle of predictive models. Data Science Model Deployment feature allows data scientists to deploy trained models as fully managed HTTP endpoints that serve predictions in real time infusing intelligence into processes and applications and allowing the business to react to events of relevance as they occur. For long running machine learning process, the results can be also stored in Autonomous Data Base or files in Object Storage to be consumed by external applications. ${doc.customer.name} will implement a ML model to predict cost of labour by leveraging OCI Data Science capabilities.
+-   **OCI Data Science**: provides infrastructure, open source technologies, libraries, and packages, and data science tools for data science teams to build, train, and manage machine learning (ML) models in Oracle Cloud Infrastructure. The collaborative and project-driven workspace provides an end-to-end cohesive user experience and supports the lifecycle of predictive models. Data Science Model Deployment feature allows data scientists to deploy trained models as fully managed HTTP endpoints that serve predictions in real time infusing intelligence into processes and applications and allowing the business to react to events of relevance as they occur. For long running machine learning process, the results can be also stored in Autonomous Data Base or files in Object Storage to be consumed by external applications. A Company Making Everything will implement a ML model to predict cost of labour by leveraging OCI Data Science capabilities.
 
 **Batch Ingestion and Processing**:
 
--   **OCI Data Integration (DI)**: is a serverless, no code, fully managed ETL service to integrate, transform, move data in the OCI ecosystem. It will be used to develop and execute the data integration pipelines that ingest data from data sources as micro batches or batches, transform that data leveraging Spark and persists the data on the targets, on this case, Autonomous Data Warehouse. It will support data extract, transformation and loading to build the analytical data layer in ADW. ${doc.customer.name}'s data analysts and data scientists can leverage its graphical no-code interface for operations that require self-service ETL.
--   **OCI Data Flow**: managed service for running Apache Spark applications. Data Flow applications are reusable templates consisting of a Spark application, its dependencies, default parameters, and a default runtime resource specification. Since it's a perfectly elastic pay-as-you-go service, Data Flow can be used by ${doc.customer.name} Data Engineers and Data Scientists whenever they need to perform scalable and large scale data processing on Data Lake. Furthermore, OCI Data lows offers Data Flow SQL Endpoints that are designed for developers, data scientists, and advanced analysts to interactively query data directly where it lives in the data lake. Using Data Flow SQL Endpoints, you can economically process large amounts of raw data, with cloud native security used to control access.
+-   **OCI Data Integration (DI)**: is a serverless, no code, fully managed ETL service to integrate, transform, move data in the OCI ecosystem. It will be used to develop and execute the data integration pipelines that ingest data from data sources as micro batches or batches, transform that data leveraging Spark and persists the data on the targets, on this case, Autonomous Data Warehouse. It will support data extract, transformation and loading to build the analytical data layer in ADW. A Company Making Everything's data analysts and data scientists can leverage its graphical no-code interface for operations that require self-service ETL.
+-   **OCI Data Flow**: managed service for running Apache Spark applications. Data Flow applications are reusable templates consisting of a Spark application, its dependencies, default parameters, and a default runtime resource specification. Since it's a perfectly elastic pay-as-you-go service, Data Flow can be used by A Company Making Everything Data Engineers and Data Scientists whenever they need to perform scalable and large scale data processing on Data Lake. Furthermore, OCI Data lows offers Data Flow SQL Endpoints that are designed for developers, data scientists, and advanced analysts to interactively query data directly where it lives in the data lake. Using Data Flow SQL Endpoints, you can economically process large amounts of raw data, with cloud native security used to control access.
 
 **Identity and Access Management**:
 
--   **Identity Cloud Service (IDCS)** manages user identities, access and entitlements across a wide range of cloud and on-premises applications and services, such as OCI, OAC, and many other Oracle and non-Oracle services. IDCS may be federated with external identity systems such as Active Directory, both for SSO and user and group provisioning. For this workload ${doc.customer.name} can use IDCS to authenticate users and define users/groups memberships. In future ${doc.customer.name} can leverage IDCS federation capabilities to enable a hybrid Cloud/on-premises security model.
+-   **Identity Cloud Service (IDCS)** manages user identities, access and entitlements across a wide range of cloud and on-premises applications and services, such as OCI, OAC, and many other Oracle and non-Oracle services. IDCS may be federated with external identity systems such as Active Directory, both for SSO and user and group provisioning. For this workload A Company Making Everything can use IDCS to authenticate users and define users/groups memberships. In future A Company Making Everything can leverage IDCS federation capabilities to enable a hybrid Cloud/on-premises security model.
 -   **OCI Identity and Access Management (IAM)** control who can access OCI resources in Data Lake. Access control rules are described in flexible and powerful policy statements, using service types, compartments, tags, locations, and other attributes to allow access to OCI. Access is granted either to Groups (for humans as principals) or to Dynamic Groups (for VMs or Functions as principals).
 
 ### Physical Architecture
@@ -330,7 +328,7 @@ Below is a high level deployment architecture to show how the OCI services would
 Below there is a brief explanation of each architecture component.
 
 -   **OCI Region** An Oracle Cloud Infrastructure region is a localized geographic area that contains one or more data centers, called availability domains.
--   **IDCS** - Identity Cloud Service is the service that allows to manage identities and permissions for the various OCI services users and can be integrated/federated with external Identity Providers, on this case, ${doc.customer.name}'s (Azure) Active Directory.
+-   **IDCS** - Identity Cloud Service is the service that allows to manage identities and permissions for the various OCI services users and can be integrated/federated with external Identity Providers, on this case, A Company Making Everything's (Azure) Active Directory.
 -   **IAM** - OCI Identity and Access Management allows controlling who has access to cloud resources. It can control what type of access a group of users have and to which specific cloud resources. It is a key component of segregating resources and restricting access only to authorized groups and users. OCI IAM, and in fact, OCI as a whole implements a [Zero Trust Security](https://www.oracle.com/security/what-is-zero-trust/#link1model) of which one of the guiding principles is least privilege access; in fact, a user by default doesn’t have access to any resources and policies need to be created explicitly to grant groups of users access to cloud resources.
 -   **Cloud Guard** - Cloud Guard continuously collects and analyses configuration, audit logs and other information in a customer’s tenancy and reports its findings as “Problems” based on its Detector Recipes. When Cloud Guard triggers detects a problem, transform and send the problem data to an external SIEM system, leveraging OCI Event and OCI Functions.
 -   **Vault** - OCI Vault allows to centrally manage the encryption keys that protect your data and the secret credentials that you use to securely access resources. Vault allows to import customer key in order to own and manage the key material outside Oracle Cloud infrastructure for additional durability, and for recovery purpose.
@@ -343,12 +341,12 @@ Below there is a brief explanation of each architecture component.
     -   **Security list**- For each subnet, you can create security rules that specify the source, destination, and type of traffic that must be allowed in and out of the subnet.
     -   **Route table**- Virtual route tables contain rules to route traffic from subnets to destinations outside a VCN, typically through gateways.
 -   **Data Lakehouse Platform** - A data lakehouse is a modern, open architecture that enables you to store, understand, and analyze all your data. It combines the power and richness of data warehouses with the breadth and flexibility of the most popular open source data lake technologies. Main Lakehouse components for this workload:
-    -   **Autonomous Data Warehouse** - Oracle Autonomous Data Warehouse (ADW) is a fully managed, preconfigured data warehouse environment. After provisioning, you can scale the number of CPU cores or the storage capacity of the database at any time without impacting availability or performance. ADW can also virtualize data that resides on Object Storage as external tables and hybrid partitioned tables so data consumption derived from other data sources can seamlessly be consumed and joined with the warehouse data. Furthermore one can also leverage Object Storage as a tier of cold storage, if needed, and move part of the historical data from the warehouse into object storage and then consume it seamlessly via Hybrid Partitioned Tables. ADW can also take advantage of the metadata stored on the Data Catalog, meaning, it can consume metadata previously harvested, in order to support external tables creation without the need to explicitly define manually all metadata needed for creating those tables; it even synchs automatically the metadata updates in the Data Catalog with the external tables definition to keep consistency overtime, simplify management and reduce effort. For ${doc.customer.name} two ADW instances will be provisioned one for Production and the other for Dev/Test environment, both will have private end-points.
+    -   **Autonomous Data Warehouse** - Oracle Autonomous Data Warehouse (ADW) is a fully managed, preconfigured data warehouse environment. After provisioning, you can scale the number of CPU cores or the storage capacity of the database at any time without impacting availability or performance. ADW can also virtualize data that resides on Object Storage as external tables and hybrid partitioned tables so data consumption derived from other data sources can seamlessly be consumed and joined with the warehouse data. Furthermore one can also leverage Object Storage as a tier of cold storage, if needed, and move part of the historical data from the warehouse into object storage and then consume it seamlessly via Hybrid Partitioned Tables. ADW can also take advantage of the metadata stored on the Data Catalog, meaning, it can consume metadata previously harvested, in order to support external tables creation without the need to explicitly define manually all metadata needed for creating those tables; it even synchs automatically the metadata updates in the Data Catalog with the external tables definition to keep consistency overtime, simplify management and reduce effort. For A Company Making Everything two ADW instances will be provisioned one for Production and the other for Dev/Test environment, both will have private end-points.
     -   **Object Storage** - is a cloud native, highly scalable and resilient storage that will be used to support the data lake to store any type of data, be it relational or non-relational. Object Storage can be leveraged by a variety of clients and processing engines and effectively.
--   **OCI Data Integration** - is a serverless, no code, fully managed ETL service that will be used to develop and execute the data integration pipelines that ingest data from data sources as micro batches or batches, transform that data leveraging Spark and persists the data on the targets, on this case, Autonomous Data Warehouse. It will be used to support any ETL needed on the data platform and to capture data from the majority of the systems based on Oracle DB and MS SQL, recent versions. OCI Data Integration is used in ${doc.customer.name} for data ingestion processes that load the HR Analytics data model. There will be two OCI DI workspaces, one for each environment.
+-   **OCI Data Integration** - is a serverless, no code, fully managed ETL service that will be used to develop and execute the data integration pipelines that ingest data from data sources as micro batches or batches, transform that data leveraging Spark and persists the data on the targets, on this case, Autonomous Data Warehouse. It will be used to support any ETL needed on the data platform and to capture data from the majority of the systems based on Oracle DB and MS SQL, recent versions. OCI Data Integration is used in A Company Making Everything for data ingestion processes that load the HR Analytics data model. There will be two OCI DI workspaces, one for each environment.
 -   **Oracle Analytics Cloud** - OAC is a scalable and secure cloud service that provides a full set of capabilities to explore and perform collaborative analytics for you, your workgroup, and your enterprise. With Oracle Analytics Cloud you also get flexible service management capabilities, including fast setup, easy scaling and patching, and automated lifecycle management. There will be two OAC instances, one for each environment, both with private end-points.
 -   **Data Catalog**, ready to use when the tenancy is created.
--   **OCI Data Flow** and **OCI Data Science** are available to ${doc.customer.name}'s data scientists and data analysts. They will create Data Science projects or Data Flow applications whenever they need.
+-   **OCI Data Flow** and **OCI Data Science** are available to A Company Making Everything's data scientists and data analysts. They will create Data Science projects or Data Flow applications whenever they need.
 
 ### Management and Monitoring
 
@@ -416,9 +414,9 @@ The Lift project will provision and configure the Oracle Cloud Environments. Usi
 
 ### Business Value
 
-The Oracle ${doc.config.impl.type} service brings several benefits to this project. All the activities mentioned within the scope will ensure the deployment of workload as per Oracle's best practices. As a tried and tested methodology by many customers, Oracle ${doc.config.impl.type} brings the speed of deployment resulting in successful projects without any setbacks. Oracle ${doc.config.impl.type} services will bring value to the overall project provisioning OCI environments for the application workload.
+The Oracle Oracle Lift service brings several benefits to this project. All the activities mentioned within the scope will ensure the deployment of workload as per Oracle's best practices. As a tried and tested methodology by many customers, Oracle Oracle Lift brings the speed of deployment resulting in successful projects without any setbacks. Oracle Oracle Lift services will bring value to the overall project provisioning OCI environments for the application workload.
 
-Oracle Cloud ${doc.config.impl.type} services provide guidance from cloud engineers and project managers on planning, project management, architecting, deploying, and managing cloud migrations.
+Oracle Cloud Oracle Lift services provide guidance from cloud engineers and project managers on planning, project management, architecting, deploying, and managing cloud migrations.
 
 ### Success Criteria
 
@@ -460,7 +458,7 @@ Main implementation activities as part of the Lift service are:
 -   Unit test of the data loading processes.
 -   Unit test of the OAC reports and visualizations.
 -   Deployment in Production environment.
--   Handover sessions to ${doc.customer.name}'s System Integrator partner and to ${doc.customer.name}'s IT Department.
+-   Handover sessions to A Company Making Everything's System Integrator partner and to A Company Making Everything's IT Department.
 
 ## Recommended Activities
 
@@ -492,7 +490,7 @@ There is a specific requirement only for the implementation of one report. That 
 
 ![Required Report](images/e-ReportExampleMain.jpg)
 
-${doc.customer.name} has provided other reports as examples to be considered when implementing additional OAC visualization for the "Cost of labor":
+A Company Making Everything has provided other reports as examples to be considered when implementing additional OAC visualization for the "Cost of labor":
 
 ![Sample Report](images/e-ReportExample2.jpg)
 
@@ -500,7 +498,7 @@ ${doc.customer.name} has provided other reports as examples to be considered whe
 
 ### Specific Non Functional Requirements
 
-${doc.customer.name} team (members of ${doc.customer.name} IT department and ${doc.customer.name} Partners) needs to be involved during the execution of the Lift implementation. The handover sessions will be scheduled accordingly with the project progress and not only at the end of the project. ${doc.customer.name}'s requirement is to be ready to design extensions of the workload before the end of the Lift implementation project.
+A Company Making Everything team (members of A Company Making Everything IT department and A Company Making Everything Partners) needs to be involved during the execution of the Lift implementation. The handover sessions will be scheduled accordingly with the project progress and not only at the end of the project. A Company Making Everything's requirement is to be ready to design extensions of the workload before the end of the Lift implementation project.
 
 Main handover session will be focused on:
 
@@ -528,16 +526,16 @@ Find below the RACI matrix for the high level tasks:
 | Unit test of the data loading processes                                                                 | A,R        | C,I          |                                                                                     |
 | Unit test of the OAC reports and visualizations                                                         | A,R        | C,I          |                                                                                     |
 | Deployment in Production environment                                                                    | A,R        | C,I          |                                                                                     |
-| Testing by ${doc.customer.name}                                                                  | I          | R,A          |                                                                                     |
+| Testing by A Company Making Everything                                                                  | I          | R,A          |                                                                                     |
 
 R:Responsible A:Accountable C:Consulted I:Informed
 
 ### Assumptions
 
--   Data is assumed to be already masked/pseudonymized by ${doc.customer.name} managed processes (executed on-premises).
+-   Data is assumed to be already masked/pseudonymized by A Company Making Everything managed processes (executed on-premises).
 -   Data sources will be:
-    -   maximum 5 text files (csv), uploaded by ${doc.customer.name} on OCI Object Storage buckets
-    -   maximum 2 Oracle tables in Oracle Autonomous Data Warehouse. Those tables are the output of the APEX applications that HR Business users will use to modify some master data related to the payslip items. The APEX application will be developed by ${doc.customer.name} in parallel with the Lift project.
+    -   maximum 5 text files (csv), uploaded by A Company Making Everything on OCI Object Storage buckets
+    -   maximum 2 Oracle tables in Oracle Autonomous Data Warehouse. Those tables are the output of the APEX applications that HR Business users will use to modify some master data related to the payslip items. The APEX application will be developed by A Company Making Everything in parallel with the Lift project.
 -   Data prepared in the sources files and source tables is considered "ready to be loaded" (no quality checks or discarded records management)
 -   Batch loading processes will perform a full data loading (no incremental loading).
 -   Batch loading process will run on monthly bases (only consolidated monthly data will be loaded).
@@ -546,20 +544,20 @@ R:Responsible A:Accountable C:Consulted I:Informed
 
 ### Obligations
 
--   ${doc.customer.name} Application team will be available for the Testing Phase and will be completed within the agreed testing window.
--   ${doc.customer.name} to provide lists of Users and related IAM/IDCS Groups membership (max 20 users)
--   ${doc.customer.name} to provide lists OAC Application Roles and related users associations (max 2 custom OAC Application Roles)
--   ${doc.customer.name} to provides the tables structures output of the APEX web applications (that are source tables for this workload) before the beginning of the project implementation.
+-   A Company Making Everything Application team will be available for the Testing Phase and will be completed within the agreed testing window.
+-   A Company Making Everything to provide lists of Users and related IAM/IDCS Groups membership (max 20 users)
+-   A Company Making Everything to provide lists OAC Application Roles and related users associations (max 2 custom OAC Application Roles)
+-   A Company Making Everything to provides the tables structures output of the APEX web applications (that are source tables for this workload) before the beginning of the project implementation.
 
 ### Transition Plan
 
 #### Introduction
 
-Following the deployment of the solution to Oracle Cloud Infrastructure by the ${doc.config.impl.type} team, it is important to ensure a smooth handover to a technical team, or a partner. ${doc.config.impl.type} values the continuation of the cloud journey and we focus our efforts to ensure you start with the best possible foundation, to set you up for success in OCI.
+Following the deployment of the solution to Oracle Cloud Infrastructure by the Oracle Lift team, it is important to ensure a smooth handover to a technical team, or a partner. Oracle Lift values the continuation of the cloud journey and we focus our efforts to ensure you start with the best possible foundation, to set you up for success in OCI.
 
-When ${doc.config.impl.type} completes the deliverables as described in the [Workplan](#workplan) section of this document, ${doc.config.impl.type} will hand over the controls of the new OCI environment.
+When Oracle Lift completes the deliverables as described in the [Workplan](#workplan) section of this document, Oracle Lift will hand over the controls of the new OCI environment.
 
-${doc.customer.name}, or a partner of your choice, will assume the ownership of the OCI tenancy and responsibility for further development of the OCI environment. From that moment forward, having completed the [Solution Scope](#solution-scope), ${doc.config.impl.type} will disengage. For post-implementation support, Oracle provides you with three distinct resources:
+A Company Making Everything, or a partner of your choice, will assume the ownership of the OCI tenancy and responsibility for further development of the OCI environment. From that moment forward, having completed the [Solution Scope](#solution-scope), Oracle Lift will disengage. For post-implementation support, Oracle provides you with three distinct resources:
 
 1.	Oracle Account Cloud Engineer (ACE) – This is your first point of contact and will provide technical leadership and support for Oracle cloud technologies and your cloud transformation.
 2.	Cloud Adoption Manager (CAM) - Introduces and plans operation monitoring and optimization advisory activities, and continues working with you on the next milestones. Please contact your ACE for further information.
@@ -567,9 +565,9 @@ ${doc.customer.name}, or a partner of your choice, will assume the ownership of 
 
 #### Transition Acceptance
 
-When ${doc.config.impl.type} completes the deliverables as specified in the [Workplan](#workplan) section of this document, a closure session will be scheduled within 1-2 weeks to recap the project and to hand it over to the accepting party. In the case of this project, the accepting party is ${doc.config.impl.handover}. ${doc.config.impl.handover} is now responsible for the OCI tenancy.
+When Oracle Lift completes the deliverables as specified in the [Workplan](#workplan) section of this document, a closure session will be scheduled within 1-2 weeks to recap the project and to hand it over to the accepting party. In the case of this project, the accepting party is A Company Making Everything. A Company Making Everything is now responsible for the OCI tenancy.
 
-From this moment forward, the Oracle ${doc.config.impl.type} team will fully remove their access from your OCI tenancy and provide the access credentials to the accepting party. This marks the completion of the ${doc.config.impl.type} project. There is no sign-off signature required.
+From this moment forward, the Oracle Oracle Lift team will fully remove their access from your OCI tenancy and provide the access credentials to the accepting party. This marks the completion of the Oracle Lift project. There is no sign-off signature required.
 
 # Oracle Lift Implementation
 
@@ -791,7 +789,7 @@ We create Security List egress rules (stateful) to allow the resources in subnet
 
 ### Object Storage Buckets
 
-Object Storage buckets to store the datasource files uploaded in OCI by ${doc.customer.name}. We create two buckets (one for Development), one for Production) that will store the HR costs source files.
+Object Storage buckets to store the datasource files uploaded in OCI by A Company Making Everything. We create two buckets (one for Development), one for Production) that will store the HR costs source files.
 
 | Compartment  | Bucket       | Visibility | Region | Description                              | Tags                                  |
 |:-------------|:-------------|:-----------|:-------|:-----------------------------------------|:--------------------------------------|
@@ -829,7 +827,7 @@ We create an Oracle Analytics Cloud instance (Enterprise) with public end-point.
 
 ### OCI Data Catalog
 
-We create an OCI Data Catalog instance to harvest data source files. ${doc.customer.name} can then use the same Data Catalog instance to harvest other data assets (e.g: lakehouse data models tables in ADW) as needed.
+We create an OCI Data Catalog instance to harvest data source files. A Company Making Everything can then use the same Data Catalog instance to harvest other data assets (e.g: lakehouse data models tables in ADW) as needed.
 
 | Compartment      | Data Catalog Instance Name | Tags               |
 |:-----------------|:---------------------------|:-------------------|
@@ -855,7 +853,7 @@ The figure below shows the high level data processing to load the HR analytics d
 
 ![High-level Data Processing](images/e-HRAnalytics-diagrams-Logical-Data-Processing.jpg)
 
--   **Data Sources**: data sources are 4 text files loaded by ${doc.customer.name} in Object Storage buckets and 2 ADW tables (output of APEX application)
+-   **Data Sources**: data sources are 4 text files loaded by A Company Making Everything in Object Storage buckets and 2 ADW tables (output of APEX application)
 -   **Working Tables**: tables to calculate intermediate results to be loaded then to the final target schemas
 -   **Target Tables and Views**: lakehouse HR target tables and Views (accessed by OAC for dashboards and visualizations)
 -   **Aggregated views**: aggregated views created to run ML Model
@@ -869,19 +867,19 @@ Two users/schemas will be created to manage the ADW data model and the ADW data 
 
 #### Data Sources
 
-Data sources files will be stored by ${doc.customer.name} in the reserved specific Object Storage buckets:
+Data sources files will be stored by A Company Making Everything in the reserved specific Object Storage buckets:
 
 -   **HRCosts-Dev** for development data source files
 -   **HRCosts-Prod** for production data source files
 
 Source files are:
 
--   **filename1.txt**: csv files with ";" as separator. It contains historical data regarding ${doc.customer.name}'s employees and their organizational units. Repeated for every month you can find the organizational units to which employees belong.
--   **filename2.txt**: csv files with ";" as separator. It contains historical data regarding ${doc.customer.name}'s salary slip items. Each item may have additional rows with related reference month, in case change to the item description occurs.
--   **filename3.txt**: csv files with ";" as separator. It contains historical data regarding ${doc.customer.name}'s employee retributions. Level of detail for the amounts is: month, salary slip item, employee.
--   **filename4.txt**: csv files with ";" as separator. It contains historical data regarding ${doc.customer.name}'s employees salary as per accounting information (EBS). Level of detail for the amounts is: month, salary slip item, employee category (manager/employee).
+-   **filename1.txt**: csv files with ";" as separator. It contains historical data regarding A Company Making Everything's employees and their organizational units. Repeated for every month you can find the organizational units to which employees belong.
+-   **filename2.txt**: csv files with ";" as separator. It contains historical data regarding A Company Making Everything's salary slip items. Each item may have additional rows with related reference month, in case change to the item description occurs.
+-   **filename3.txt**: csv files with ";" as separator. It contains historical data regarding A Company Making Everything's employee retributions. Level of detail for the amounts is: month, salary slip item, employee.
+-   **filename4.txt**: csv files with ";" as separator. It contains historical data regarding A Company Making Everything's employees salary as per accounting information (EBS). Level of detail for the amounts is: month, salary slip item, employee category (manager/employee).
 
-For detailed descriptions of the source file structure including columns name, columns type and columns description refer to the sheet "Source Files" in the attached Excel file "\_${doc.customer.name}*HRAnalytics_DataMapping.xlsx*"
+For detailed descriptions of the source file structure including columns name, columns type and columns description refer to the sheet "Source Files" in the attached Excel file "\_A Company Making Everything*HRAnalytics_DataMapping.xlsx*"
 
 Source tables are:
 
@@ -896,7 +894,7 @@ We create two working tables:
 -   **W_TABLE3**: with the data of the TABLE2 table filtered by type of "*column1*" and with the calculation of the amounts of reversals and funds ("*column2*" and "*column3*").
 -   **W_TABLE3** with the data of the filename3.txt file filtered for the last five years.
 
-For detailed descriptions of the table structures and related mapping to load them refer to the sheet "Working Tables" in the attached Excel file "\_${doc.customer.name}*HRAnalytics_DataMapping.xlsx*"
+For detailed descriptions of the table structures and related mapping to load them refer to the sheet "Working Tables" in the attached Excel file "\_A Company Making Everything*HRAnalytics_DataMapping.xlsx*"
 
 #### Target Tables and Views
 
@@ -908,14 +906,14 @@ Target Tables and Views are:
 
 -   Table **D_TABLE1**: It contains all the attributes regarding the salary payslip items. It Includes master-data coming from the **FILENAME1.txt** source file and the related hierarchy as per the information stored in the **D_SOURCE_TABLE1** source table. A consolidated validity period is calculated for each salary item.
 -   View **V_D_VIEW1**: Using the group of salary items present in **D_TABLE1** it calculates a high level categorization ("*Category1*": "*Category1*", "*Category1*", "*Category4*", "*Category5*", "*Category6*"). This view is then used to calculate the aggregated view **V_W_VIEW2**.
--   Table **D_TABLE2**: It contains all the information regarding ${doc.customer.name}'s organizational unit. It includes the information coming from the **FILENAME2.txt** source files.
--   View **V_D_TABLE2**: Starting from the data in the dimension **D_TABLE2** and in the fact table **F_TABLE3** we create also this database view that contains some additional records. The added records are the ones related to those employees that are still present in the SourceFile3.txt files but not in the SourceFile2.txt file anymore. This case happens after an employee resigned and, even if he/she is not part of ${doc.customer.name} organizational units anymore, he/she still receives last salaries from ${doc.customer.name} (then is present in the system and in SourceFile3.txt file)
+-   Table **D_TABLE2**: It contains all the information regarding A Company Making Everything's organizational unit. It includes the information coming from the **FILENAME2.txt** source files.
+-   View **V_D_TABLE2**: Starting from the data in the dimension **D_TABLE2** and in the fact table **F_TABLE3** we create also this database view that contains some additional records. The added records are the ones related to those employees that are still present in the SourceFile3.txt files but not in the SourceFile2.txt file anymore. This case happens after an employee resigned and, even if he/she is not part of A Company Making Everything organizational units anymore, he/she still receives last salaries from A Company Making Everything (then is present in the system and in SourceFile3.txt file)
 -   **D_TIME**: Time dimension. The level of detail is month.
 -   **D_TABLE4**: table manually loaded with the only two values for "accounting employee category" that are: "Impiegato" and "Dirigente". It is used as conformed dimension to compare values of the salary coming from HR System (stored in **F_TABLE3** target table) with the values for the salary coming from accounting systems (stored in **F_TABLE5** target table)
 -   **F_TABLE3**: It contains the values of the employee salary and, eventually, the values of related reversals. Level of details are: month, employee, salary item.
 -   **F_TABLE5**: It contains the values of the employee salary as managed in the accounting system. Level of details are: month, employee, employee accounting category.
 
-For detailed descriptions of the table structures and related mapping to load them refer to the sheet "Target - Data Mart" in the attached Excel file "\_${doc.customer.name}*HRAnalytics_DataMapping.xlsx*"
+For detailed descriptions of the table structures and related mapping to load them refer to the sheet "Target - Data Mart" in the attached Excel file "\_A Company Making Everything*HRAnalytics_DataMapping.xlsx*"
 
 #### Aggregated Views
 
@@ -925,16 +923,16 @@ We create an aggregated view:
 
 #### OAC Workbook
 
-We create an OAC Workbook using the Subject Area "*HR Analysis*". The workbook contains a canvas with the report required by ${doc.customer.name} (see par. 4.2.1 - Fig.4). In addition the workbook will contain other visualizations as sample analyses with Cost of Labour data.
+We create an OAC Workbook using the Subject Area "*HR Analysis*". The workbook contains a canvas with the report required by A Company Making Everything (see par. 4.2.1 - Fig.4). In addition the workbook will contain other visualizations as sample analyses with Cost of Labour data.
 
 #### OAC security
 
-There is no specific implementation required for OAC security. As starting point, we create for ${doc.customer.name} the users listed below (will be assigned to **BI Service Administrator** OAC role):
+There is no specific implementation required for OAC security. As starting point, we create for A Company Making Everything the users listed below (will be assigned to **BI Service Administrator** OAC role):
 
--   John Smith: john.smith@${doc.customer.name}.com
--   Tom Scott : tom.scott@${doc.customer.name}.com
+-   John Smith: john.smith@A Company Making Everything.com
+-   Tom Scott : tom.scott@A Company Making Everything.com
 
-${doc.customer.name} will add further OAC users in the future.
+A Company Making Everything will add further OAC users in the future.
 
 [^1]: **OAC**:Oracle Analytics Cloud, **ADW**: Autonomous Data Warehouse, **OCI DI**: Data Integration, **APEX**: Oracle Application Express
 
