@@ -45,6 +45,8 @@ Check out the links below to detailed videos, technical demonstrations, blog art
     - Step by step Video Demo on automating the Database Patching of Oracle Base Database in OCI
 - [CLONE PDB options as a Migration Method for Windows Databases to Oracle Cloud Infrastructure](https://carlosal.wordpress.com/2023/07/14/clone-pdb-options-as-a-migration-method-for-windows-databases-to-oracle-cloud-infrastructure/)
     - Blog technical article about migrating Windows Oracle Databases to OCI using Oracle REMOTE CLONE PDB and REFRESHABLE PDB functionalities, available on Carlos Álvarez's public platform
+- [Ace your Database Migration to Oracle Exadata Database Service on Dedicated Infrastructure](https://www.youtube.com/watch?v=luBezgN7sa0)
+     - Cloud Customer Connect session delivered by Amalraj Puthenchira explaining how to use the Oracle Zero Downtime Migration(ZDM) tool to migrate Oracle Database on Linux to Exadata Database Service on Dedicated Infrastructure.
     
      
 # License
