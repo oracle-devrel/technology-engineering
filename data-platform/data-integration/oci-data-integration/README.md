@@ -4,7 +4,7 @@ Data Integration is a fully managed, multi-tenant service that helps data engine
 
 
  
-## Useful Link
+# Useful Link
 
 - [OCI Data Integration - Extract data from Fusion Apps](https://www.youtube.com/watch?v=r0m1qCG8v5c)
 
@@ -33,5 +33,7 @@ Data Integration is a fully managed, multi-tenant service that helps data engine
 Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
 
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
