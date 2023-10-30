@@ -13,6 +13,11 @@ There are two working environments: the design-time environment, where you devel
 - [Course: Process Automation Using Oracle Integration Cloud](https://mylearn.oracle.com/ou/course/process-automation-using-oracle-integration-cloud-new/101633/)
 - [New OCI Process Automation Gen3 Demo of UI Enhancements](https://videohub.oracle.com/media/New+OCI+Process+Automation+Gen3+-+UI+Enhancements+Demo/1_t31x313u)
 
+# Team Publications
+- [Shared Assets](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/app-integration-and-automation/shared-assets)
+  - List of reusable assets spanning multiple cloud services (OIC, OPA, API Gateway)
+
+
 # License
 
 Copyright (c) 2023 Oracle and/or its affiliates.
