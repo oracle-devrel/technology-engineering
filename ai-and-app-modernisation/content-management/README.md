@@ -33,13 +33,13 @@ Oracle's on-premise content management offering is Oracle WebCenter which is the
 - [Learn in 5 minutes How to provision an OCM instance here](https://www.youtube.com/watch?v=v46zEhUYEQs/)
 
 
-## Reusable Assets
+# Team Publications
 
-- [OCM Short Overview ](ocm-files/OCM_OVERVIEW_OCT222.pdf)
-- [OCM Migration Scenarios](ocm-files/OCM_Identifyig_migration_scenarios.pdf)
-- [Hands On Lab - Integrating Oracle Content Management with OIC for Asset Workflows](ocm-files/LAB_Setup_OIC_with_OCM_2023.pdf)
-- [WORKSHOP - Getting Started with OCM - Product installation and configuration guide](ocm-files/OCM_Getting_Started_Workshop_2023.pdf)
-- [WORKSHOP - OCM Content Migration Using Mount Point ](ocm-files/OCM_Content_Migration_Using_Mount_Point.pdf)
+- [OCM Short Overview ](ocm-files/ocm-overview/OCM_OVERVIEW_OCT222.pdf)
+- [OCM Migration Scenarios](ocm-files/ocm-migration-scenarios/OCM_Identifyig_migration_scenarios.pdf)
+- [Hands On Lab - Integrating Oracle Content Management with OIC for Asset Workflows](ocm-files/oic-and-ocm-lab/LAB_Setup_OIC_with_OCM_2023.pdf)
+- [WORKSHOP - Getting Started with OCM - Product installation and configuration guide](ocm-files/ocm-getting-started/OCM_Getting_Started_Workshop_2023.pdf)
+- [WORKSHOP - OCM Content Migration Using Mount Point ](ocm-files/ocm-migration-using-object-storage/OCM_Content_Migration_Using_Mount_Point.pdf)
 - [Red Hot Webinar: Event-Driven and Low-Code Document Approval Process and Lifecycle Automation](https://youtu.be/kQuF2XOYKOc)
     - Demo Video about enabling Document Lifecycle Automation using a Low-Code Approach with OCI Integration (ProcessAutomation, Integration & Visual App Builder), Content Management (embedded document mgmt & Microsoft O365 online editor plugin), Streaming (kafka-based) and Autonomous Database (document business data store).
 - [OCI – Automating Document Processing with Oracle Content Management, Integration Cloud & AI Document Understanding](https://community.oracle.com/customerconnect/events/604868-oci-automating-document-processing-with-oracle-content-management-integration-cloud-ai-document-understanding)
@@ -82,8 +82,12 @@ WebCenter Sites
 ## Reusable Assets
 
 - [Implementing Oracle WebCenter in Amazon Web Services (AWS)](https://blogs.perficient.com/2014/09/25/implementing-oracle-webcenter-in-amazon-web-services-aws/)
-- [Migrating WebCenter Content to Oracle Cloud Infrastructure Object Storage A hybrid approach ](ocm-files/WebCenter_Content_Migration_to_OCI.pdf)
-
+- [Migrating WebCenter Content to Oracle Cloud Infrastructure Object Storage A hybrid approach ](ocm-files/webcenter-to-oci-migration/WebCenter_Content_Migration_to_OCI.pdf)
+- [Migrating Oracle WebCenter Content to Oracle Cloud Infrastructure](https://docs.oracle.com/en/middleware/webcenter/content/12.2.1.4/webcenter-content-cloud-infrastructure/index.html#Oracle%C2%AE-Fusion-Middleware)
+- [WebCenter Content Integration with Oracle BI Publisher for Fusion Applications ](ocm-files/webcenter-bi-publisher/wcc-in-bip.pdf)
+- [E-Business Suite Adapter for Oracle WebCenter Content ](ocm-files/webcenter-ebs-adapter/wc-ebs-adapter.pdf)
+- [Manage Rich Media Files Effectively in WebCenter Content ](ocm-files/webcenter-dam/wcc_dam.pdf)
+- [Automate Document Driven Process Across the Enterprise ](ocm-files/webcenter-imaging/wcc_imaging.pdf)
 
 # License
 
