@@ -13,6 +13,9 @@ This section contains various examples related to Application Integration: demo 
 
 ## Demos
 
+- [Cloud Coaching On-Demand: Oracle Integration (OIC3) Provisioning and User Access with Identity Domains](https://youtu.be/osuCdujq6-A)
+  - This video shows how to provision OIC and how to setup user access to OIC in a cloud account with Identity Domains.
+
 - [Cloud Coaching On-Demand: Enabling a WhatsApp Customer HelpMate using OCI Generative AI, AI Language & Integration](https://youtu.be/ryo3wVB_69E)
     - Learn how Oracle Integration Cloud and Oracle Cloud Infrastructure (OCI) Streaming allow real-time capture of WhatsApp messages.
 
