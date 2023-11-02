@@ -18,7 +18,7 @@
 # Inspiration and Credits
 * [A-Team - Identity Propagation to ORDS for a VBCS Fusion SaaS Extension](https://www.ateam-oracle.com/post/identity-propagation-to-ords-for-a-vbcs-fusion-saas-extension)
 
-# Licence
+# License
 
 Copyright (c)  2023,  Oracle and/or its affiliates.
 
