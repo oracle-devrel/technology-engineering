@@ -6,12 +6,18 @@ In Oracle Cloud Infrastructure the customer owns and manages patching of OS and 
 
 Best practices & other useful resources around how to patch Oracle Databases on premises or on Oracle Cloud Infrastructure can be found on this page.
  
+Reviewed: 03.11.2023
+
 # Team Publications
  
 - [How to Automate DB System Patching of Oracle Base Database in OCI](https://youtu.be/o_0KdVY631Y)
     - Step by step Video demo on automating the DB System Patching of Oracle Base Database in OCI
 - [How to Automate Database Patching of Oracle Base Database in OCI](https://youtu.be/lzGQ0IgVbBE)
     - Step by step Video Demo on automating the Database Patching of Oracle Base Database in OCI
+- [How to apply Database Quarterly Patches on ExaDB-D/ExaDB-C@C - Part 1 - Understanding the Patching Methods](https://www.youtube.com/watch?v=3LRCR16JMBY&list=PLMQIPzhkeafSri_Jo1FEel10Y7GNO_JJS&index=2)
+    - Video explaining the various patching methods of ExaDB-D/ExaDB-C@C, part of the larger series available [here](https://www.youtube.com/playlist?list=PLMQIPzhkeafSri_Jo1FEel10Y7GNO_JJS)
+- [How to apply Database Quarterly Patches on ExaDB-D/ExaDB-C@C - Part 2 - Perform in-place patching of the database](https://www.youtube.com/watch?v=pNRnwMobtfU&list=PLMQIPzhkeafSri_Jo1FEel10Y7GNO_JJS&index=3)
+    - Video explaining in-place patching of ExaDB-D/ExaDB-C@C databases, part of the larger series available [here](https://www.youtube.com/playlist?list=PLMQIPzhkeafSri_Jo1FEel10Y7GNO_JJS)
 
 # License
  

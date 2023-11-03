@@ -5,6 +5,8 @@ Oracle Data Pump technology enables very high-speed movement of data and metadat
 The Data Pump export utility writes the schema objects, including the tables and metadata that constitute mining models, to a dump file set. The Data Pump import utility retrieves the schema objects, including the model tables and metadata, from the dump file set and restores them in the target database.
 
 A set of best practices and other useful assets/links can be found in this page.
+
+Reviewed: 03.11.2023
  
 # Table of Contents
  
