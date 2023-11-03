@@ -1,6 +1,8 @@
 # fn-authorizer-apigw-oic
  
 *Example authorizer function for API Gateway with OIC backend.*
+
+Review Date: 03.11.2023
  
 # When to use this asset?
  
