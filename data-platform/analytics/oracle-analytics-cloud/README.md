@@ -54,7 +54,7 @@ Reviewed: 31.10.2023
 |[Oracle Analytics New Capabilities - May 2022](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KUFnzA0cg2uMHsJuCjSr4L9)| Oracle Analytics Cloud May-2022 release| 
 |[Oracle Analytics New Capabilities - March 2022](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KVWVRE0U8HQAvoU5mU31KVs)| Oracle Analytics Cloud March-2022 release| 
 |[Oracle Analytics New Capabilities - January 2022](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KUisLrIYCH8yMZyY6X1pWC5)| Oracle Analytics Cloud January-2022 release| 
- 
+
 ## Community, Solutions, Live Labs
 |Content Link |Descripton|
 | ------------ |------------|
@@ -102,6 +102,10 @@ Reviewed: 31.10.2023
 |[Start using Oracle Analytics and AI in 5 minutes!](https://blogs.oracle.com/analytics/post/start-using-oracle-analytics-and-ai-in-5-minutes)|Quick guide to use OAC for AI.|
 |[Discover Insights with Oracle Analytics Cloud and OCI AI Anomaly Detection](https://blogs.oracle.com/analytics/post/discover-insights-with-oracle-analytics-cloud-and-oci-ai-anomaly-detection)|OAC Machine Learning|How you can take advantage of Oracle Analytics Cloud (OAC) and OCI AI Anomaly Detection to reveal insights from detected anomalies.|
 
+## Oracle Analytics Client Tools
+ |Content Link |Descripton|
+ | ------------ |------------|
+ |[Oracle Analytics Client Tools](https://www.oracle.com/middleware/technologies/oac-tools-downloads.html)|Download and install Oracle Analytics Client Tools on your workstation|
 # License
  
 Copyright (c) 2023 Oracle and/or its affiliates.
