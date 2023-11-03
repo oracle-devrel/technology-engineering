@@ -7,7 +7,7 @@ Security of Data is at the core of our products.   As a team, we focus on Securi
 - The stand-alone products: Audit Vault and Database Firewall, Key Vault
 - The Enterprise Manager pack: Data Masking and Subsetting
 
-## Team Publications
+# Team Publications
 
 - [Deploy Oracle KeyVault](https://medium.com/@aurelia.nita/deploy-oracle-key-vault-dbfbc2a67876)
 - [Integrating Real Application Security (RAS) with Oracle APEX](https://medium.com/@rana.saeed/integrating-real-application-security-ras-with-oracle-apex-33892967beff)
@@ -17,7 +17,7 @@ Security of Data is at the core of our products.   As a team, we focus on Securi
 - [Data Redaction Demo](https://youtu.be/6FMgzi2eLNk)
 - [Data Redaction - Extend it to multiple columns and Analytics](https://www.youtube.com/watch?v=Q0K2caAtGIY)
 
-## Useful Links 
+# Useful Links 
 
 - [Oracle.com](https://www.oracle.com) 
 - [Oracle Security Blog](https://blogs.oracle.com/security/)
@@ -30,4 +30,4 @@ Copyright (c) 2023 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

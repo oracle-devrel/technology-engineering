@@ -1,8 +1,0 @@
-schema_version: 20180708
-name: os-replication
-version: 0.0.10
-runtime: node
-build_image: fnproject/node:14-dev
-run_image: fnproject/node:14
-entrypoint: node func.js
-
