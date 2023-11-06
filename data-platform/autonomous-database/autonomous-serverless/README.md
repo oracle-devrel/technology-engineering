@@ -20,7 +20,7 @@ Oracle Cloud provides a set of data management services built on self-driving Or
     - Learn how to use Terraform to automate Oracle Autonomous Database deployments.
 
 - [Recently announced Autonomous Database container image] (https://www.linkedin.com/posts/manuela-mitu-1119a3259_adb-activity-7112093727061340161-L8L1?utm_source=li_share&utm_content=feedcontent&utm_medium=g_dt_web&utm_campaign=copy)
-    - Learn how to download and run Autonomous Database Free container image.
+    - Learn how to download and run an Autonomous Database Free container image.
 
 - [Recently announced Autonomous Database container image] (https://www.linkedin.com/posts/manuela-mitu-1119a3259_autonomousdatabase-activity-7117196782438076416-YHBt?utm_source=li_share&utm_content=feedcontent&utm_medium=g_dt_web&utm_campaign=copy)
     - Access built-in database tools and load data. 
