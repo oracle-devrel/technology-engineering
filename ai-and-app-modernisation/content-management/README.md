@@ -36,13 +36,25 @@ Oracle's on-premise content management offering is Oracle WebCenter which is the
 # Team Publications
 
 - [OCM Short Overview ](ocm-files/ocm-overview/OCM_OVERVIEW_OCT222.pdf)
-- [OCM Migration Scenarios](ocm-files/ocm-migration-scenarios/OCM_Identifyig_migration_scenarios.pdf)
-- [Hands On Lab - Integrating Oracle Content Management with OIC for Asset Workflows](ocm-files/oic-and-ocm-lab/LAB_Setup_OIC_with_OCM_2023.pdf)
-- [WORKSHOP - Getting Started with OCM - Product installation and configuration guide](ocm-files/ocm-getting-started/OCM_Getting_Started_Workshop_2023.pdf)
+- [OCM Developers website](https://developer.oracle.com/technologies/content-management.html)
+- [OCM Solution Playbooks on Oracle Architecture Center](https://docs.oracle.com/solutions/?q=&cType=reference-architectures%2Csolution-playbook%2Cbuilt-deployed&product=Content%20Management&sort=date-desc&lang=en)
+- [OCM PM Training on VideoHub](https://videohub.oracle.com/channel/Oracle%2BContent%2BManagement%2B%2528OCM%2529%2BTraining/167233142)
+- [Learn in 5 minutes How to provision an OCM instance](https://www.youtube.com/watch?v=v46zEhUYEQs)
+- [Learn how to setup an ECM Repository from scratch - Capture setup included](https://docs.oracle.com/en/cloud/paas/content-cloud/content-capture-engineering/index.html#introduction)
+- [Comparing Oracle Content and OCI Object Storage for Document Management](https://blogs.oracle.com/content-management/post/comparing-oracle-content-and-oci-object-storage-for-document-management)
+- [OCM Core Use Cases](https://blogs.oracle.com/content-management/post/comparing-oracle-content-and-oci-object-storage-for-document-management)
+- [OCM Migration Scenarios](ocm-files/ocm-migration-scenarios/ocm_Identifying_migration_scenarios.pdf)
+- [Hands On Lab - Integrating Oracle Content Management with OIC for Asset Workflows](ocm-files/oic-and-ocm-lab/lab_setup_oic_with_ocm_2023.pdf)
 - [WORKSHOP - OCM Content Migration Using Mount Point ](ocm-files/ocm-migration-using-object-storage/OCM_Content_Migration_Using_Mount_Point.pdf)
 - [Red Hot Webinar: Event-Driven and Low-Code Document Approval Process and Lifecycle Automation](https://youtu.be/kQuF2XOYKOc)
     - Demo Video about enabling Document Lifecycle Automation using a Low-Code Approach with OCI Integration (ProcessAutomation, Integration & Visual App Builder), Content Management (embedded document mgmt & Microsoft O365 online editor plugin), Streaming (kafka-based) and Autonomous Database (document business data store).
 - [OCI – Automating Document Processing with Oracle Content Management, Integration Cloud & AI Document Understanding](https://community.oracle.com/customerconnect/events/604868-oci-automating-document-processing-with-oracle-content-management-integration-cloud-ai-document-understanding)
+- [Integrating Oracle Content Management with OIC for Asset Workflows](ocm-files/ocm-oic-asset-workflow/integrating_ocm_with_oic_for_asset_workflows.pdf)
+- [WORKSHOP - Getting Started with OCM - Product installation and configuration guide](ocm-files/ocm-getting-started/ocm_getting_started_workshop_2023.pdf)
+- [Oracle Content Management Platform Overview, Document Mgt, Capture and Content Services Platform](ocm-files/ocm-solutions-overview/ocm_solution_overview_DM_ECM_CSP_CAPTURE.pdf)
+- [Oracle Content Management Platform Overview, Digital Asset Management, Site Building and Headless](ocm-files/ocm-solutions-overview-dam/ocm_overview_DAM_VP_WCM.pdf)
+- [Content upload from OCI Obj Storage to Oracle Content Management](https://oradocs.oracle.com/documents/folder/FFE0713DBE32F4AF6A0C6BAFEDD551FEC60DED66A099/_Content_Management)
+
 
 # Sauce
 
