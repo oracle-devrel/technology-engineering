@@ -15,7 +15,10 @@ Oracle Cloud provides a set of data management services built on self-driving Or
  
 - [4 ways to connect to Autonomous Database on a Private Network](https://blogs.oracle.com/datawarehousing/post/4-ways-to-connect-to-autonomous-database-on-a-private-network)
     - Learn how to connect to Autonomous Database when is on a private network.
- 
+      
+ - [How to use Terraform to automate Oracle Autonomous Database deployments](https://blogs.oracle.com/datawarehousing/post/how-to-use-terraform-to-automate-oracle-autonomous-database-deployments)
+    - Learn how to use Terraform to automate Oracle Autonomous Database deployments.
+      
 # Useful Links
  
 - [Autonomous Database Serverless documentation](https://docs.oracle.com/en/cloud/paas/autonomous-database/shared/index.html)
