@@ -1,9 +1,9 @@
-# **Landing Zone Framework**
+# **OCI Landing Zone Framework**
 
 &nbsp; 
 
 
-Welcome to the **Landing Zone Framework (LZF)**. 
+Welcome to the **OCI Landing Zone Framework (LZF)**.
 
 The LZF was created by the EMEA Landing Zone Specialists, collaborating with worldwide Oracle, customers, and partners, to **simplify the OCI onboarding experience** and **reduce OCI day-one and day-two efforts**. It provides **best practices** covering the complete spectrum of OCI landing zones, from the **standards** to the **tailored** approaches, including landing zone extensions for specific **workloads**.
 
@@ -13,7 +13,7 @@ The LZF was created by the EMEA Landing Zone Specialists, collaborating with wor
 | TYPE  |  OBJECTIVE | DESCRIPTION | 
 |---|---|---|
 | <a href="/landing-zones/standard_landing_zones/standard_landing_zones.md" ><img src="images/slz.jpg" alt= “” width="500" height=""></a>  | **Basic Workloads** | **Prescribed** and **ready to use** solutions with a **guided setup** and  **IaC**. This is the  recommended approach for initial landing zone deployments covering the **most-common workload scenarios**.  | 
-| <a href="workload_landing_zones/workload_landing_zones.md" ><img src="images/wlz.jpg" alt= “” width="500" height=""> </a>  | **Specific Workloads** | A set of landing zones extension ready for specific **workload**. Each flavour has a **design** with **IaC configurations** ready to run. Examples are EBS, ExaCC, OCVS, OIC, CCC, etc. |  
+| <a href="workload_landing_zones/workload_landing_zones.md" ><img src="images/wlz.jpg" alt= “” width="500" height=""> </a>  | **Specific Workloads** | A set of landing zones extension ready for specific **workloads**. Each flavour has a **design** with **IaC configurations** ready to be deployed. Examples are EBS, ExaCC, OCVS, OIC, OKE, CCC, etc. |  
 | <a href="tailored_landing_zones/tailored_landing_zones.md" ><img src="images/tlz.jpg" alt= “” width="500" height=""> </a>  | **All Workloads** | An approach to solve **specific requirements** when the standard is not enough. These LZs run with **configuration-as-code** and are used to scale/bridge with existing **operating models**, complying with fine-grained **segregations of duties**, strong **network isolation**, and heterogeneous **workloads**.  |  
 
 
