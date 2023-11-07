@@ -11,9 +11,14 @@ who support customers across various industries and geographies in EMEA (local s
 - PoCs/benchmarks
 - Architecture designs & sizing
 
-## Team Publications
+# Useful Links 
 
-- [Oracle and UbiOps make your AI workloads land on OCI with NVIDIA GPUs](https://blogs.oracle.com/cloud-infrastructure/post/ubiops-ai-workloads-on-oci)
+- [Oracle Cloud GPU Instances](https://www.oracle.com/uk/cloud/compute/gpu/)
+    - High-level description of Oracle Cloud GPU offering
+- [Oracle Cloud GPU Instances](https://www.oracle.com/uk/ai-infrastructure/)
+    - High-level desctription of Oracle Cloud Artificial Intelligence infrastructure offering   
+- [GPU instances details](https://docs.oracle.com/en-us/iaas/Content/Compute/References/computeshapes.htm#bm-gpu)
+    - Oracle Cloud Bare-Metal GPU specifications 
 
 # License
 
@@ -21,4 +26,4 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
