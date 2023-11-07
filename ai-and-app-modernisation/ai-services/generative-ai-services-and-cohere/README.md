@@ -24,6 +24,10 @@ most performant and cost-effective platform to host their AI services.
 ## Reusable Assets Overview
 
 - [Gen AI powered document search (Cohere with custom UI)](https://youtu.be/vyJAZvYKY34)
+- [Enabling a WhatsApp Customer HelpMate using OCI Generative AI, AI Language & Integration](https://youtu.be/ryo3wVB_69E?si=SxSuTVawoRcbhReU)
+    - Use OCI Generative AI (in pre-availability) for "Customer Service Quick Replies" Generation for Whatsapp Neutral Messages (customer questions, queries, etc.), sentence-level sentiment analysis from OCI AI Language to uncover overall sentiment and set service ticket severity for negative Whatsapp messages, automatically classify Customer Service tickets through OCI AI Language custom text classification and aspect-based sentiment analysis (ABSA) services
+    - Learn how Oracle Integration Cloud and Oracle Cloud Infrastructure (OCI) Streaming allow real-time capture of WhatsApp messages.
+    - All this automation using OCI Generative AI and AI Language Services APIs orchestrated by Oracle Integration Cloud (using no-code integration approach)
 
 ## Architecture Center
  

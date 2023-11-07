@@ -10,7 +10,7 @@ Use this asset as an example, when you have OAuth enabled in ORDS and you want t
  
 This asset is provided as an example. Please tailor the code according to your needs and your context.
 
-See [oci-apigw-ords-auth/README.md](oci-apigw-ords-auth/README.md) for asset details.
+See [files/oci-apigw-ords-auth/README.md](files/oci-apigw-ords-auth/README.md) for asset details.
  
 # License
 
