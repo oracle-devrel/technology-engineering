@@ -4,10 +4,14 @@ The Data Studio Tools enables you to load data from the cloud and other diverse 
  
 # Table of Contents
  
+1. [Useful Links](#useful-links)
+2. [LiveLabs](#livelabs)
+ 
+# Useful Links
+ 
+- [Data Studio Documentation](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/adp-data-studio-overview-page.html)
+    - Find all the information about Data Studio.
 
-1. [LiveLabs](#livelabs)
- 
- 
 # LiveLabs
  
 - [Data Studio - Self-service tools for everyone using Oracle Autonomous Database](https://apexapps.oracle.com/pls/apex/f?p=133:180:109524315536663::::wid:789)

@@ -31,64 +31,64 @@ Oracle Cloud provides a set of data management services built on self-driving Or
 
 # Tip of the Day
  
-- [Tip 1](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7104394940436164609-LSa-?utm_source=share&utm_medium=member_desktop)
+- [Tip 1](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7104394940436164609-LSa-?)
     - Query different databases using direct query.
 
-- [Tip 2](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7104746581991563264-ONHG?utm_source=share&utm_medium=member_desktop)
+- [Tip 2](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7104746581991563264-ONHG?)
     - Which types of Autonomous databases can I provision?.
 
-- [Tip 3](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7105106822885224448-NkPN?utm_source=share&utm_medium=member_desktop)
+- [Tip 3](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7105106822885224448-NkPN?)
     - Autonomous is self securing.
 
-- [Tip 4](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7105457134749777920-hiGQ?utm_source=share&utm_medium=member_desktop)
+- [Tip 4](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7105457134749777920-hiGQ?)
     - Improve security with Data Safe.
 
-- [Tip 5](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7105858237802962944-IicY?utm_source=share&utm_medium=member_desktop)
+- [Tip 5](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7105858237802962944-IicY?)
     - Automatic backups.
 
-- [Tip 6](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7106932008630517760-7SO0?utm_source=share&utm_medium=member_desktop)
+- [Tip 6](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7106932008630517760-7SO0?)
     - Create Autonomous Databases from Azure.
 
-- [Tip 7](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7107272409954590721-wgkk?utm_source=share&utm_medium=member_desktop)
+- [Tip 7](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7107272409954590721-wgkk?)
     - Configure Autonomous CPU autoscaling.
 
-- [Tip 8](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7107662131604418561-GsqH?utm_source=share&utm_medium=member_desktop)
+- [Tip 8](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7107662131604418561-GsqH?)
     - Configure Autonomous storage autoscaling.
 
-- [Tip 9](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7108015244769136640-3QVI?utm_source=share&utm_medium=member_desktop)
+- [Tip 9](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7108015244769136640-3QVI?)
     - Automatic Indexing.
 
-- [Tip 10](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7108380970751303682-yE0n?utm_source=share&utm_medium=member_desktop)
+- [Tip 10](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7108380970751303682-yE0n?)
     - Configure disaster recovery.
 
-- [Tip 11](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7109470994955710464-YaUH?utm_source=share&utm_medium=member_desktop)
+- [Tip 11](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7109470994955710464-YaUH?)
     - Clone production databases.
 
-- [Tip 12](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7109853287725621249-jn9y?utm_source=share&utm_medium=member_desktop)
+- [Tip 12](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7109853287725621249-jn9y?)
     - Use JSON with Autonomous Database.
 
-- [Tip 13](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7110214198017560576-Ucd7?utm_source=share&utm_medium=member_desktop)
+- [Tip 13](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7110214198017560576-Ucd7?)
     - Become an expert data scientist.
 
-- [Tip 14](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7110526745765720064-dpWI?utm_source=share&utm_medium=member_desktop)
+- [Tip 14](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7110526745765720064-dpWI?)
     - Use time travel to query historical data.
 
-- [Tip 15](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7110892721266905088-z23o?utm_source=share&utm_medium=member_desktop)
+- [Tip 15](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7110892721266905088-z23o?)
     - Data Sharing.
 
-- [Tip 16](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7112001307946725378-grDm?utm_source=share&utm_medium=member_desktop )
+- [Tip 16](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7112001307946725378-grDm?)
     - Elastic Resource Pools.
 
-- [Tip 17](https://www.linkedin.com/posts/javier-de-la-torre-medina_data-oracle-autonomousdatabase-activity-7112353730464821248-7w38?utm_source=share&utm_medium=member_desktop)
+- [Tip 17](https://www.linkedin.com/posts/javier-de-la-torre-medina_data-oracle-autonomousdatabase-activity-7112353730464821248-7w38?)
     - Data Studio.
 
-- [Tip 18](https://www.linkedin.com/posts/javier-de-la-torre-medina_data-oracle-autonomousdatabase-activity-7112743945121492993-geuf?utm_source=share&utm_medium=member_desktop)
+- [Tip 18](https://www.linkedin.com/posts/javier-de-la-torre-medina_data-oracle-autonomousdatabase-activity-7112743945121492993-geuf?)
     - MongoDB API.
 
-- [Tip 19](https://www.linkedin.com/posts/javier-de-la-torre-medina_data-softwareengineering-innovation-activity-7113069715228405762-0lWO?utm_source=share&utm_medium=member_desktop)
+- [Tip 19](https://www.linkedin.com/posts/javier-de-la-torre-medina_data-softwareengineering-innovation-activity-7113069715228405762-0lWO?)
     - Autonomous Container image.
 
-- [Tip 20](https://www.linkedin.com/posts/javier-de-la-torre-medina_data-softwareengineering-innovation-activity-7113425224850653184-PTZd?utm_source=share&utm_medium=member_desktop)
+- [Tip 20](https://www.linkedin.com/posts/javier-de-la-torre-medina_data-softwareengineering-innovation-activity-7113425224850653184-PTZd?)
     - Select AI.
  
 # License

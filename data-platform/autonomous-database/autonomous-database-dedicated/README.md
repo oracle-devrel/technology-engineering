@@ -17,6 +17,9 @@ Autonomous Database on Dedicated Exadata Infrastructure provides you with a priv
  
 - [Autonomous Database Dedicated Documentation](https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbd-index.html)
     - Find all the information about Autonomous Database Dedicated.
+
+- [Advanced customer deployment for Oracle Autonomous Dedicated Infrastructure](https://www.youtube.com/watch?v=RqlHM1i83_w )
+    - Learn how to deploy advanced Autonomous Database Dedicated deployments.
  
 # LiveLabs
  
