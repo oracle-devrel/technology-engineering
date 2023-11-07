@@ -15,7 +15,7 @@ who support customers across various industries and geographies in EMEA (local s
 
 - [Oracle Cloud GPU Instances](https://www.oracle.com/uk/cloud/compute/gpu/)
     - High-level description of Oracle Cloud GPU offering
-- [Oracle Cloud GPU Instances](https://www.oracle.com/uk/ai-infrastructure/)
+- [Oracle Cloud AI Infrastructure](https://www.oracle.com/uk/ai-infrastructure/)
     - High-level desctription of Oracle Cloud Artificial Intelligence infrastructure offering   
 - [GPU instances details](https://docs.oracle.com/en-us/iaas/Content/Compute/References/computeshapes.htm#bm-gpu)
     - Oracle Cloud Bare-Metal GPU specifications 
