@@ -1,10 +1,12 @@
 # AI and App Modernisation
 
+
 On Oracle Cloud Infrastructure (OCI), business users and developers find a comprehensive portfolio of tools and services to create, modernize, and extend enterprise applications.
 
-This area includes Application Integration, AI Cloud Services, Content Management, as well as many other exciting low code and no code services.
+This area includes Application Integration, AI Services, Content Management, as well as many other exciting low code and no code services.
 
-For more details, also see [oracle.com](https://www.oracle.com/): Application Integration | Artificial Intelligence Services | Content Management
+For more details, also see [oracle.com](https://www.oracle.com/): 
+[Application Integration](https://www.oracle.com/integration/) | [Artificial Intelligence Services](https://www.oracle.com/artificial-intelligence/) | [Content Management](https://www.oracle.com/content-management/)
 
 # License
 

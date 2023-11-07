@@ -20,8 +20,6 @@ Oracle Cloud Infrastructure (OCI) Data Science is a fully-managed platform for t
 - [Oracle Data Science ADS SDK Documentation](https://accelerated-data-science.readthedocs.io/en/latest/index.html)
 - [Oracle Data Science AutoMLx SDK Documentation](https://docs.oracle.com/en-us/iaas/tools/automlx/latest/html/multiversion/v23.1.1/index.html)
 
-## Reusable Assets
-
 
 # License
 
