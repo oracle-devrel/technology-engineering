@@ -10,7 +10,7 @@ The LZF was created by the EMEA Landing Zone Specialists, collaborating with wor
 &nbsp; 
 
 
-| TYPE  |  OBJECTIVE | DESCRIPTION | 
+| APPROACH  |  OBJECTIVE | DESCRIPTION | 
 |---|---|---|
 | <a href="/landing-zones/standard_landing_zones/standard_landing_zones.md" ><img src="images/slz.jpg" alt= “” width="500" height=""></a>  | **Basic Workloads** | **Prescribed** and **ready to use** solutions with a **guided setup** and  **IaC**. This is the  recommended approach for initial landing zone deployments covering the **most-common workload scenarios**.  | 
 | <a href="workload_landing_zones/workload_landing_zones.md" ><img src="images/wlz.jpg" alt= “” width="500" height=""> </a>  | **Specific Workloads** | A set of landing zones extension ready for specific **workloads**. Each flavour has a **design** with **IaC configurations** ready to be deployed. Examples are EBS, ExaCC, OCVS, OIC, OKE, CCC, etc. |  
