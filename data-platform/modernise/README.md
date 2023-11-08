@@ -19,6 +19,8 @@ Also make sure to check the dedicated pages of the main technology areas of Data
     - Technical Comparison of Zero Downtime Migration and OCI Database Migration service, available on Marcus Doeringer's public platform
 - [CLONE PDB options as a Migration Method for Windows Databases to Oracle Cloud Infrastructure](https://carlosal.wordpress.com/2023/07/14/clone-pdb-options-as-a-migration-method-for-windows-databases-to-oracle-cloud-infrastructure/)
     - Blog technical article about migrating Windows Oracle Databases to OCI using Oracle REMOTE CLONE PDB and REFRESHABLE PDB functionalities, available on Carlos Álvarez's public platform
+- [Cloning Oracle Databases from Non-CDB to PDB](https://carlosal.wordpress.com/2023/11/07/cloning-oracle-databases-from-non-cdb-to-pdb/)
+    - Blog technical article about cloning Non-CDB Oracle Databases as a PDB in a Container Database (CDB) using Oracle REMOTE CLONE PDB functionality, available on Carlos Álvarez's public platform
 - [How to survive an Oracle Database failure without your users ever noticing - Cloud Coaching Webinar]( https://www.youtube.com/watch?v=dsUbi5dO_PU)
     - Cloud Coaching Webinar, including a technical demonstration, delivered by Amalraj Puthenchira around the use of Application Continuity to avoid unplanned application outages.
 - [Teradata to Autonomous Data Warehouse on OCI Migration Guide](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/teradata-to-autonomous-data-warehouse-migration-guide)
