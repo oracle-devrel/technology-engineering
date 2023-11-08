@@ -4,7 +4,7 @@
 
 ISV Applications are very similar to the above description of 3rd Party Applications, but the company developing the application is using Oracle technology. Examples are Dassault Enovia, Temenos and Murex. 
 
-## Team Publications
+# Team Publications
 
 - [Learn how to migrate third-party applications onto multicloud multiregion infrastructure](https://blogs.oracle.com/cloud-infrastructure/post/3rd-party-apps-multicloud-multiregion)
 
@@ -14,4 +14,4 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
