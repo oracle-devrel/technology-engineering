@@ -1,6 +1,8 @@
 # fn-authorizer-apigw-ords
  
 *Example authorizer function for API Gateway with ORDS backend.*
+
+Review Date: 03.11.2023
  
 # When to use this asset?
  
