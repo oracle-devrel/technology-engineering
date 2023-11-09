@@ -2,17 +2,15 @@
  
 This section includes a step-by-step manual to configure Oracle OCI CLI on Windows or Unix machines.
  
- 
 Reviewed: 09.11.2023
  
 # When to use this asset?
  
-Use this manual to configure Oracle OCI CLI to comunicate with OCI
+Use this manual to configure Oracle OCI CLI to communicate with OCI.
  
 # How to use this asset?
  
-The details can be found in files folder.
- 
+The details can be found in the files folder.
  
 # License
  
