@@ -3,9 +3,11 @@
 Open Source Data Platforms continue to extend the Oracle Data Platform with Key Open Source Offerings including:
 
 - Big Data Service
-- MySQL Heatwave
-- Data Flow (Apache SPARK)
+- OCI PostgreSQL
+- OCI Cache Redis
+- OCI Data Flow (Apache SPARK)
 - OCI Streaming (Kafka)
+- OCI OpenSearch
 
 # Useful Links
 
