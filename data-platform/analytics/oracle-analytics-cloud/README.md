@@ -24,6 +24,15 @@ Reviewed: 31.10.2023
 |[Oracle Machine Learning – Auto ML](https://blogs.oracle.com/coretec/post/oracle-auto-ml-use-inbuilt-expertise-to-develop-effective-machine-learning-model)|OAC Machine Learning|How to use Oracle Database Automl with OAC
 |[Leverage the power of Oracle Analytics and Oracle Machine and implement a fraud detection process using anomaly detection](https://blogs.oracle.com/coretec/post/oracle-analytics-oracle-machine-learning-fraud-detection-using-unsupervised-and-supervised-machine-learning)|OAC Machine Learning|Oracle Analytics and Oracle Machine Learning : Fraud Detection using Unsupervised and Supervised Machine Learning
 
+## Specialists Videos for various features & functionality
+|Content Link |Functionality|Descripton|
+| ------------ |------------|----------|
+|[Modern Analytics Experience using Oracle Analytics Cloud](https://www.youtube.com/watch?v=eTqYXJ5rNqU)|Oracle Database Graph Analytics|Innovation with Oracle Analaytics using Autonomous Datawarehouse and Essbase.
+|[How to Develop Graph Database Applications](https://www.youtube.com/watch?v=FI6C0d5pt7I)|Oracle Database Graph Analytics|How to Develop Graph Database Applications using Oracle database property graph feature.
+|[Detecting Tax Fraud using Knowledge Graph of Citizens](https://www.youtube.com/watch?v=c1TOeWKBmrk&t=2135s)|Oracle Database Graph Analytics|Tax fraud detection usecase with Oracle Graph Database.
+|[Financial Fraud Detection Using Graph Database](https://www.youtube.com/watch?v=U1xc9kxMOwo&t=3119s)|Oracle Database Graph Analytics|Financial Fraud Detection usecase using Oracle Graph Database.
+
+
 # Useful Links
 
 ## Public Homepage and official documentation content
