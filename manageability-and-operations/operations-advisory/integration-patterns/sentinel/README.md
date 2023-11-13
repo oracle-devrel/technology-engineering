@@ -1,6 +1,6 @@
+This Chapter contains Integrations capabilities with 3rd Parties for Monitoring
 
-
-
+1. Integrating Logging With Sentinel
 
 # License
 
