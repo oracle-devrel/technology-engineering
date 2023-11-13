@@ -18,7 +18,16 @@ Oracle Cloud provides a set of data management services built on self-driving Or
 
 - [Develop over a full database managed service on your laptop](https://dev.to/javierdelatorre/develop-over-a-full-database-managed-service-on-your-laptop-20pg)
     - Learn how to create an Autonomous Database on your laptop.
- 
+      
+- [How to use Terraform to automate Oracle Autonomous Database deployments](https://blogs.oracle.com/datawarehousing/post/how-to-use-terraform-to-automate-oracle-autonomous-database-deployments)
+    - Learn how to use Terraform to automate Oracle Autonomous Database deployments.
+
+- [Recently announced Autonomous Database container image](https://www.linkedin.com/posts/manuela-mitu-1119a3259_adb-activity-7112093727061340161-L8L1)
+    - Learn how to download and run Autonomous Database Free container image.
+
+- [Recently announced Autonomous Database container image](https://www.linkedin.com/posts/manuela-mitu-1119a3259_autonomousdatabase-activity-7117196782438076416-YHBt)
+    - Access built-in database tools and load data.
+   
 # Useful Links
  
 - [Autonomous Database Serverless documentation](https://docs.oracle.com/en/cloud/paas/autonomous-database/shared/index.html)
