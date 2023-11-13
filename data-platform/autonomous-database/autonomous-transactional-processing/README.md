@@ -9,7 +9,7 @@ Oracle Autonomous Transaction Processing is a fully automated database service o
  
 # Useful Links
  
-- [Autonomous Transactional Processing Documentation](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/appendix-autonomous-database-atp-and-ajd-workloads.html#GUID-DEE78C94-E80F-4DF0-B19A-D051E381743D)
+- [Autonomous Transactional Processing Documentation](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/appendix-autonomous-database-atp-and-ajd-workloads.html)
     - Find all the information about Autonomous Transactional Processing.
 
 # LiveLabs
