@@ -17,7 +17,7 @@ Oracle Cloud provides a set of data management services built on self-driving Or
     - Learn how to connect to Autonomous Database when is on a private network.
 
 - [Develop over a full database managed service on your laptop](https://dev.to/javierdelatorre/develop-over-a-full-database-managed-service-on-your-laptop-20pg)
-    - Learn how to create an Autonomous Database at your laptop.
+    - Learn how to create an Autonomous Database on your laptop.
  
 # Useful Links
  
@@ -26,7 +26,7 @@ Oracle Cloud provides a set of data management services built on self-driving Or
  
 # LiveLabs
  
-- [Manage and Monitor Autonomous Database](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=553&clear=RR,180&session=115113440340155)
+- [Manage and Monitor Autonomous Database](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=553&clear=RR,180)
     - Complete the course about how to administrate an Autonomous Database.
 
 # Tip of the Day
@@ -35,10 +35,10 @@ Oracle Cloud provides a set of data management services built on self-driving Or
     - Query different databases using direct query.
 
 - [Tip 2](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7104746581991563264-ONHG?)
-    - Which types of Autonomous databases can I provision?.
+    - Which types of Autonomous databases can I provision?
 
 - [Tip 3](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7105106822885224448-NkPN?)
-    - Autonomous is self securing.
+    - Autonomous is self-securing.
 
 - [Tip 4](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7105457134749777920-hiGQ?)
     - Improve security with Data Safe.
@@ -65,7 +65,7 @@ Oracle Cloud provides a set of data management services built on self-driving Or
     - Clone production databases.
 
 - [Tip 12](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7109853287725621249-jn9y?)
-    - Use JSON with Autonomous Database.
+    - Use JSON with an Autonomous Database.
 
 - [Tip 13](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7110214198017560576-Ucd7?)
     - Become an expert data scientist.
