@@ -6,7 +6,7 @@ This tool helps you to identify which MongoDB queries are supported when using t
 
 # When to use this asset?
 
-This tool generates a report which indicates the percentage of compatibilty. There is an example on this repository. This advisor has been tested for 19c version.
+This tool generates a report which indicates the percentage of compatibility. There is an example in this repository. This advisor has been tested for the 19c version.
 
 # How to use this asset?
 
@@ -16,7 +16,7 @@ You need to provide the MongoDB log as an argument.
 python3 advisor.py --file mongod.log
 ```
 
-You need to enable the logging in the MongoDB by running the following command. It is recommended to run it in non-production environments.
+You need to enable logging in the MongoDB by running the following command. It is recommended to run it in non-production environments.
 ```
 db.setProfilingLevel(0, -1)
 ```
