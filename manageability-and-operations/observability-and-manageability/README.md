@@ -28,18 +28,19 @@ The Observability and Manageability (O&M) platform is a set of Oracle Cloud Infr
 - [Enrich Oracle Enterprise Manager Cloud Control with Machine Learning](https://www.youtube.com/watch?v=KPmDyCGZKi8)
 - [Unveiling the Power of OCI Observability, A Short Tour and Best Practices](https://youtu.be/KEF0NeptJa8)
 - [OCI Monitoring Integration with Third-Party SIEM](https://youtu.be/UPdPZPWOZIs)
+- [Leveraging Oracle Observability and Open-Source Tools](https://youtu.be/-ftEkoqfLfM)
 
 # Useful Links
 
 - [PMs GitHub repo](https://github.com/oracle-quickstart/oci-o11y-solutions)
   - Observability and Manageability Product Managers GitHub
-- [Application Performance Monitoring] (https://docs.oracle.com/en-us/iaas/application-performance-monitoring/index.html)
-- [Stack Monitoring] (https://docs.oracle.com/en-us/iaas/stack-monitoring/index.html)
-- [Database Management] (https://docs.oracle.com/en-us/iaas/database-management/index.html)
-- [Operations Insights] (https://docs.oracle.com/en-us/iaas/operations-insights/index.html)
+- [Application Performance Monitoring](https://docs.oracle.com/en-us/iaas/application-performance-monitoring/index.html)
+- [Stack Monitoring](https://docs.oracle.com/en-us/iaas/stack-monitoring/index.html)
+- [Database Management](https://docs.oracle.com/en-us/iaas/database-management/index.html)
+- [Operations Insights](https://docs.oracle.com/en-us/iaas/operations-insights/index.html)
 - [Logging](https://docs.oracle.com/en-us/iaas/Content/Logging/home.htm)
-- [Logging Analytics] (https://docs.oracle.com/en-us/iaas/logging-analytics/index.html)
-- [OCI Monitoring] (https://docs.oracle.com/en-us/iaas/Content/Monitoring/home.htm)
+- [Logging Analytics](https://docs.oracle.com/en-us/iaas/logging-analytics/index.html)
+- [OCI Monitoring](https://docs.oracle.com/en-us/iaas/Content/Monitoring/home.htm)
 
 # License
 
