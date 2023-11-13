@@ -14,7 +14,7 @@ Oracle Autonomous Data Warehouse is the world’s first and only autonomous data
     - Full recording of the Oracle Modern Data Warehouse Workshop.
 
 - [Oracle Modern Data Warehouse Workshop](https://apexapps.oracle.com/pls/apex/f?p=133:180:109191784471974::::wid:3570)
-    - Workshop for learning about the converged capabilities, including JSON, blockchain tables, Oracle Text, Oracle Spatial, APEX, AutoML and Oracle Graph.
+    - Workshop for learning about the converged capabilities, including JSON, blockchain tables, Oracle Text, Oracle Spatial, APEX, AutoML, and Oracle Graph.
 
 - [Introduction to Modern Data Warehouse Workshop](https://videohub.oracle.com/media/Modern+Data+Warehouse+-+Introduction/1_rlwxs9bo?elqTrackId=1e86f1df32c547ee96716ddf5919b28f&elqaid=136738&elqat=2&source=:ow:lp:cpo::&elqCampaignId=448573)
     - Video introducing the Modern Data Warehouse workshop.
@@ -41,13 +41,13 @@ Oracle Autonomous Data Warehouse is the world’s first and only autonomous data
     - Video about how to use Oracle Graph for the Modern Data Warehouse Workshop.
 
  - [How to Develop Graph Database Applications](https://www.youtube.com/watch?v=FI6C0d5pt7I)
-    - Learn how to architect a graph database application using graph database feature.
+    - Learn how to architect a graph database application using the graph database feature.
  
  - [Detecting Tax Fraud using Knowledge Graph of Citizens](https://youtu.be/c1TOeWKBmrk?si=9X06vw3gv3aj0K9L)
-    - In this session, we show you the example of a tax fraud.
+    - In this session, we show you an example of tax fraud.
 
  - [Financial Fraud Detection Using Graph Database](https://youtu.be/U1xc9kxMOwo?si=eVOiXlMKMTStZULR)
-    - In this session, learn how graph-based queries and graph algorithms can be run against large-scale graph data, and help organisations detect cyclic patterns which is the essential step towards identifying fraud.
+    - In this session, learn how graph-based queries and graph algorithms can be run against large-scale graph data, and help organizations detect cyclic patterns which is the essential step towards identifying fraud.
 
 # Useful Links
  
@@ -57,7 +57,7 @@ Oracle Autonomous Data Warehouse is the world’s first and only autonomous data
 # LiveLabs
  
 - [Oracle Modern Data Warehouse Workshop](https://apexapps.oracle.com/pls/apex/f?p=133:180:109191784471974::::wid:3570)
-    - Workshop for learning about the converged capabilities, including JSON, blockchain tables, Oracle Text, Oracle Spatial, APEX, AutoML and Oracle Graph.
+    - Workshop for learning about the converged capabilities, including JSON, blockchain tables, Oracle Text, Oracle Spatial, APEX, AutoML, and Oracle Graph.
 
 - [Access the Data Lake using Autonomous Database and Data Catalog](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=877&clear=RR,180&session=100131668414396)
     - The labs in this workshop walk you through all the steps that you need to access the Data Lake (Oracle Object Storage buckets) using Autonomous Database (ADB) and Data Catalog.
@@ -66,7 +66,7 @@ Oracle Autonomous Data Warehouse is the world’s first and only autonomous data
     - The labs in this workshop walk you through all the steps that you need to build and access the Data Lake (Oracle Object Storage buckets) using Autonomous Database.
 
 - [Implement Data Sharing with PL/SQL in Autonomous Database](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=3747)
-    - Learn how to implement data sharing with PL/SQL using Delta Sharing protocol.
+    - Learn how to implement data sharing with PL/SQL using the Delta Sharing protocol.
     
 # License
  
