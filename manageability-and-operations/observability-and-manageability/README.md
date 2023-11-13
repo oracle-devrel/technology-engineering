@@ -33,6 +33,13 @@ The Observability and Manageability (O&M) platform is a set of Oracle Cloud Infr
 
 - [PMs GitHub repo](https://github.com/oracle-quickstart/oci-o11y-solutions)
   - Observability and Manageability Product Managers GitHub
+- [Application Performance Monitoring] (https://docs.oracle.com/en-us/iaas/application-performance-monitoring/index.html)
+- [Stack Monitoring] (https://docs.oracle.com/en-us/iaas/stack-monitoring/index.html)
+- [Database Management] (https://docs.oracle.com/en-us/iaas/database-management/index.html)
+- [Operations Insights] (https://docs.oracle.com/en-us/iaas/operations-insights/index.html)
+- [Logging](https://docs.oracle.com/en-us/iaas/Content/Logging/home.htm)
+- [Logging Analytics] (https://docs.oracle.com/en-us/iaas/logging-analytics/index.html)
+- [OCI Monitoring] (https://docs.oracle.com/en-us/iaas/Content/Monitoring/home.htm)
 
 # License
 
@@ -40,4 +47,5 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE)for more details.
+Reviewed: 13/11/2023
