@@ -28,6 +28,8 @@ Reviewed: 03.11.2023
 - [Step-by-step guide and tutorial - Agent Based](https://www.oracle.com/a/ocom/docs/oci-database-migration-agent-tutorial.pdf)
     - Aimed for scenarios where the source db is behind a firewall or there is no direct db connection to OCI
 - [OCI Database Migration Product page on oracle.com](https://www.oracle.com/cloud/database-migration)
+- [OCI Database Migration GoldenGate Integration](https://blogs.oracle.com/dataintegration/post/oci-database-migration-announces-oci-goldengate-integration)
+    - Blog article that shows the GoldenGate integration in DMS
  
 # License
  
