@@ -6,13 +6,15 @@ The scheduled task needs to be used in conjunction with the Access Extension Not
 
 Developed on and compatible with OIG 11g R2 PS3 and above.
 
-## When to use this asset?
+Review Date: 13.11.2023
+
+# When to use this asset?
 
 When there's a need to provide or demonstrate the functionality described above or something similar, which can be adapted from the provided code.
 
-## How to use this asset?
+# How to use this asset?
 
-### Pre-requisites and dependencies
+## Pre-requisites and dependencies
 
 The WebService is build using the JAX-RS specification and API.
 
@@ -42,7 +44,7 @@ To connect to an OIM node, the service will also use a full OIM client, and will
 
 Note that this is a full OIM client. On more details about exporting a full OIM client jar file, please consult the developer's guide linked below.
 
-### Building and deployment
+## Building and deployment
 
 A complete WebContent deployment configuration is provided as a sample, please use it and extend it as needed.
 
@@ -57,7 +59,7 @@ Here's a short build and deployment checklist:
 
 Please see the useful link below for detailed build and deployment steps.
 
-## Useful Links
+# Useful Links
 
 [The Java API for RESTful Web Services (JAX-RS)](https://www.oracle.com/technical-resources/articles/java/jax-rs.html)
 [JSR 311: JAX-RS: The JavaTM API for RESTful Web Services](https://jcp.org/en/jsr/detail?id=311)

@@ -6,13 +6,15 @@ The scheduled task needs to be used in conjunction with the Extend Access WebSer
 
 Developed on and compatible with OIG 11g R2 PS3 and above.
 
-## When to use this asset?
+Review Date: 13.11.2023
+
+# When to use this asset?
 
 When there's a need to provide or demonstrate the functionality described above or something similar, which can be adapted from the provided code.
 
-## How to use this asset?
+# How to use this asset?
 
-### Pre-requisites and dependencies
+## Pre-requisites and dependencies
 
 The scheduled task uses the `javax.mail` interface in order to send emails, and also parts of the `jaxb-api` interface for generating UUIDs.
 
@@ -20,7 +22,7 @@ As such, the following jar files are required as dependencies and need to be use
 - javax.mail.jar
 - jaxb-api-2.3.1.jar
 
-### Building and deployment
+## Building and deployment
 
 Here's a short build and deployment checklist:
 
@@ -33,7 +35,7 @@ Here's a short build and deployment checklist:
 
 Please see the useful link below for detailed build and deployment steps.
 
-### Executing the scheduled task
+## Executing the scheduled task
 
 The following items need to be populated as part of the scheduled job parameters:
 - Days Before Expiration: Number of days before the email is sent, e.g. 7
@@ -47,7 +49,7 @@ The following items need to be populated as part of the scheduled job parameters
 
 [Consult this section](https://docs.oracle.com/en/middleware/idm/identity-governance/12.2.1.4/omusg/managing-jobs-1.html#GUID-71BB3623-AEE2-4F64-BBD4-D921DCA39D7C) on how to manually start or schedule a job.
 
-## Useful Links
+# Useful Links
 
 [Oracle Identity Governance developer's guide - Developing scheduled tasks](https://docs.oracle.com/en/middleware/idm/identity-governance/12.2.1.4/omdev/developing-scheduled-tasks.html#GUID-F62EF833-1E70-41FC-9DCC-C1EAB407D151)
 
