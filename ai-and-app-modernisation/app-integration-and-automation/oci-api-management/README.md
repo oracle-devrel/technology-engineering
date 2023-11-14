@@ -10,6 +10,9 @@ API Gateway provides policy enforcement such as limit the number of requests sen
 
 API managers can create Usage Plans within API Gateway and define API access tiers. API teams can monitor the traffic and analytics of their APIs based on the usage plan and subscriptions. This enables customers to analyze usage patterns as well as unlock new revenue streams by monetizing APIs.
 
+Review Date: 03.11.2023
+
+
 # Useful Links
 
 - [Quick Start Guide](https://docs.oracle.com/en-us/iaas/Content/APIGateway/Tasks/apigatewayquickstartsetupcreatedeploy.htm)
