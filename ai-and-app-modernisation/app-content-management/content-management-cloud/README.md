@@ -8,7 +8,7 @@ It covers Digital Asset Management & Video Production(Sauce), Document Collabora
 
 - [General info](http://oracle.com/content-management/)
 - [Documentation](https://docs.oracle.com/en/cloud/paas/content-cloud/index.html/)
-- [OCM Developer website](https://developer.oracle.com/technologies/content-management.html/)
+- [OCM Developer website](https://developer.oracle.com/technologies/content-management.html)
 - [OCM Solution Playbooks on Oracle Architecture Center](https://docs.oracle.com/solutions/?q=&cType=reference-architectures%2Csolution-playbook%2Cbuilt-deployed&product=Content%20Management&sort=date-desc&lang=en/)
 - [OCM PM Training on VideoHub - highlights below:](https://videohub.oracle.com/channel/Oracle%2BContent%2BManagement%2B%2528OCM%2529%2BTraining/167233142)
     - [OCM Fundamentals playlist](https://videohub.oracle.com/playlist/dedicated/167233142/1_qfyi6b02/)
@@ -26,21 +26,21 @@ It covers Digital Asset Management & Video Production(Sauce), Document Collabora
 
 Reusable assets can be found in subfolders:
 - [ocm-getting-started](ocm-getting-started)
-  - Example authorizer function for API Gateway with OIC backend. 
+  - Oracle Content Management Overview. 
 - [ocm-migration-using-object-storage](ocm-migration-using-object-storage)
-  - Example authorizer function for API Gateway with ORDS backend.
+  - Oracle Content Management migration to Object Storage.
 - [ocm-oic-asset-workflow](ocm-oic-asset-workflow)
-  - Architecture pattern for exposing APIs deployed in OIC using OCI API Gateway
+  - Setup Oracle Integration Cloud with Oracle Content Management
 - [ocm-overview](ocm-overview)
-  - List of reusable assets spanning multiple cloud services (OIC, OPA, API Gateway)
+  - Intelligent Content Management Platform Overview
 - [ocm-services](ocm-services)
-  - List of reusable assets spanning multiple cloud services (OIC, OPA, API Gateway)
+  - Content Management Services Overview
 - [ocm-solutions-overview](ocm-solutions-overview)
-  - List of reusable assets spanning multiple cloud services (OIC, OPA, API Gateway)
+  - Content Management Overview of Document Management, Content Repositories, Capture
 - [ocm-solutions-overview-dam](ocm-solutions-overview-dam)
-  - List of reusable assets spanning multiple cloud services (OIC, OPA, API Gateway)
-- [oic-and-ocm-lab](oic-and-ocm-lab)
-  - List of reusable assets spanning multiple cloud services (OIC, OPA, API Gateway)
+  - Content Management Overview of Digital Asset Management, Repositories, Web Content
+- [ocm-with-oic-asset-workflow](ocm-with-oic-asset-workflow)
+  - Integration of Content Management with Asset Workflows in OIC
 
 # License
 
