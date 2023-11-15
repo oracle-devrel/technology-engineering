@@ -19,13 +19,13 @@ Oracle WebCenter Content Server is the foundation for a variety of Oracle conten
 
 Reusable assets can be found in subfolders:
 - [webcenter-bi-publisher](webcenter-bi-publisher)
-  - Example authorizer function for API Gateway with OIC backend. 
-- [webcenter-dam](webcenter-dam)
-  - Example authorizer function for API Gateway with ORDS backend.
+  - Oracle Business Intelligence (BI) Publisher is an enterprise reporting solution for authoring, managing, and delivering all your highly formatted documents. 
+- [webcenter-capture-imaging](webcenter-capture-imaging)
+  - WebCenter Enterprise Capture and Imaging solution for an enterprise-class imaging platform.
+- [webcenter-digital-asset-management](webcenter-digital-asset-management)
+  - Digital asset management capability allows organizations to store, find, view, and use digital assets and rich media quickly and easily.
 - [webcenter-ebs-adapter](webcenter-ebs-adapter)
-  - Architecture pattern for exposing APIs deployed in OIC using OCI API Gateway
-- [webcenter-imaging](webcenter-imaging)
-  - List of reusable assets spanning multiple cloud services (OIC, OPA, API Gateway)
+  - Oracle E-Business Suite Adapter for WebCenter enables business users to easily   access, view documents.
 
 # License
 

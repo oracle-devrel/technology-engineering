@@ -25,12 +25,8 @@ It covers Digital Asset Management & Video Production(Sauce), Document Collabora
 # Team Publications
 
 Reusable assets can be found in subfolders:
-- [ocm-getting-started](ocm-getting-started)
-  - Oracle Content Management Overview. 
 - [ocm-migration-using-object-storage](ocm-migration-using-object-storage)
   - Oracle Content Management migration to Object Storage.
-- [ocm-oic-asset-workflow](ocm-oic-asset-workflow)
-  - Setup Oracle Integration Cloud with Oracle Content Management
 - [ocm-overview](ocm-overview)
   - Intelligent Content Management Platform Overview
 - [ocm-services](ocm-services)
@@ -41,6 +37,10 @@ Reusable assets can be found in subfolders:
   - Content Management Overview of Digital Asset Management, Repositories, Web Content
 - [ocm-with-oic-asset-workflow](ocm-with-oic-asset-workflow)
   - Integration of Content Management with Asset Workflows in OIC
+- [ocm-workshop](ocm-workshop)
+  - Oracle Content Management Workshop 
+- [setup-workflows-with-ocm](setup-workflows-with-ocm)
+  - Setup Oracle Integration Cloud with Oracle Content Management
 
 # License
 
