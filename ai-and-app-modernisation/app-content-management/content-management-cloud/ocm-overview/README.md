@@ -1,16 +1,10 @@
-# ocm-overview
+# Content Management Cloud Overview
  
-*Oracle Content Management Overview presenation*
+* Content Management Administrator tasks, such as Provisioning OCM, Roles and Permissions, Content Management System Settings, Install OCM Desktop Client, and useful materials*
  
-# When to use this asset?
- 
-Oracle Content Management is a cloud-based content hub to drive omni-channel content management and accelerate experience delivery. It offers powerful collaboration, workflow management, and development capabilities to streamline the creation and delivery of content and improve customer and employee engagement.
-
 # How to use this asset?
  
 This asset is provided as an example. Please tailor the code according to your needs and your context.
-
-See [files/ocm-overview/README.md](files/ocm-overview/README.md) for asset details.
  
 # License
 
