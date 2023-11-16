@@ -9,11 +9,16 @@ Oracle WebCenter Content Server is the foundation for a variety of Oracle conten
 # Useful Links
 
 - [Overview of WebCenter Content](https://docs.oracle.com/en/middleware/webcenter/content/12.2.1.4/webcenter-content-concepts/overview-oracle-webcenter-content.html#GUID-9F9EF978-8476-4CE5-A6AE-84D6EB79F3C4)
-- [Benefits of Using WebCenter Content](https://docs.oracle.com/en/middleware/webcenter/content/12.2.1.4/webcenter-content-use/introduction-oracle-webcenter-content.html#GUID-E8D9402D-A71A-4311-8A44-F052934A65B6)
+- [How to install and configure Oracle Webcenter Content 12c](https://youtu.be/UaPTfkHWGQ8?si=yL8VeKhexhGj5g6H)
+- [WebCenter Content User Experience](https://youtu.be/MpwWzgmKfFw?si=QNG-dORBLEo6E_3z)
+- [WebCenter Content for Android Mobile Users](https://youtu.be/G6KzH4auWw4?si=L60JAR_d5CAG4Dgp)
+- [WebCenter Content for Android Mobile Users](https://youtu.be/G6KzH4auWw4?si=L60JAR_d5CAG4Dgp)
+- [Create Criteria Workflow in Webcenter Content](https://youtu.be/qLe4DFmhjXo?si=QvW4J_sSv1odi5aC)
 - [Records and Retention Management](https://docs.oracle.com/en/middleware/webcenter/content/12.2.1.4/webcenter-content-manage/managing-records.html#GUID-220C643F-F3F9-4B06-A459-B68DD0517212)
 - [WebCenter Enterprise Capture](https://docs.oracle.com/en/middleware/webcenter/content/12.2.1.4/use-capture/getting-started-capture.html#GUID-94A154E5-0189-4066-90A8-D120B1C993CD)
 - [WebCenter Content Desktop Integration](https://docs.oracle.com/en/middleware/webcenter/content/12.2.1.4/use-desktop/getting-started-oracle-webcenter-content-desktop.html#GUID-EFA4824A-5536-40B5-B3C1-FD083CC13F45)
 - [WebCenter Content Imaging](https://docs.oracle.com/en/middleware/webcenter/content/12.2.1.4/webcenter-content-concepts/managing-oracle-webcenter-content-imaging.html#GUID-B1362A2C-C562-42C6-B488-F6F4F9471CCE)
+- [Accounts Payable Processing using Oracle WebCenter Imaging](https://youtu.be/Lk0RHwEMhCI?si=p8fDuWX1oHnTmAtD)
 
 # Team Publications
 
