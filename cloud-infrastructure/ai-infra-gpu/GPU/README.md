@@ -26,6 +26,10 @@ Reviewed: 07.11.2023
 ## Cloud Coaching Events
 - [Running AI on NVIDIA A10 GPUs in Oracle Cloud](https://www.youtube.com/watch?v=auvNHWoblIA)
     - How to run run AI on NVIDIA A10 GPUs in Oracle Cloud
+ 
+ ## Re-useable Assets
+- [Navigating the AI Revolution: Opportunities and Challenges - German - efcom Symposium 2023](https://www.youtube.com/watch?v=r_ZG2sUzhqo)
+    - For all German speakers interested to hear high-level about the foundations of GPU, what AI is (and how it is connected to Machine Learning, Data Science, LLM, GenAI) and how Oracle is approaching it.
 
 # Useful Links
  
