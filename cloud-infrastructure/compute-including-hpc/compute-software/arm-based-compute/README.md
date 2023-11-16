@@ -1,6 +1,7 @@
-# Configuring Oracle OCI CLI
+# Arm-Based Compute documentation and Manuals
 
-This section includes a step-by-step manual to configure Oracle OCI CLI on Windows or Unix machines.
+
+This section includes documentation and step-by-step manuals for Arm-based compute usage.
 
 # License
 
