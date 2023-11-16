@@ -16,7 +16,7 @@ Reviewed: 07.11.2023
 - [Oracle and UbiOps make your AI workloads land on OCI with NVIDIA GPUs](https://blogs.oracle.com/cloud-infrastructure/post/ubiops-ai-workloads-on-oci)
     - Deploy UbiOps on Oracle Cloud using Oracle Kubernetes Engines (OKE) and GPU instances
 
-- [A deepfake example on Oracle Cloud Infrastructure](https://blogs.oracle.com/cloud-infrastructure/post/a-deepfake-example-on-oracle-cloud-infrastructure)
+- [A deep fake example on Oracle Cloud Infrastructure](https://blogs.oracle.com/cloud-infrastructure/post/a-deepfake-example-on-oracle-cloud-infrastructure)
     - Running Faceswap on Oracle Cloud    
 
 ## LiveLabs
@@ -25,7 +25,7 @@ Reviewed: 07.11.2023
 
 ## Cloud Coaching Events
 - [Running AI on NVIDIA A10 GPUs in Oracle Cloud](https://www.youtube.com/watch?v=auvNHWoblIA)
-    - How to run run AI on NVIDIA A10 GPUs in Oracle Cloud
+    - How to run AI on NVIDIA A10 GPUs in Oracle Cloud
  
  ## Re-useable Assets
 - [Navigating the AI Revolution: Opportunities and Challenges - German - efcom Symposium 2023](https://www.youtube.com/watch?v=r_ZG2sUzhqo)
@@ -38,7 +38,7 @@ Reviewed: 07.11.2023
 - [NVIDIA L40S GPUs on Oracle Cloud](https://blogs.oracle.com/cloud-infrastructure/post/announcing-oci-compute-nvidia-l40s-gpus)
     - Announcing OCI Compute with NVIDIA L40S GPUs   
 - [Superclusters with RDMA](https://blogs.oracle.com/cloud-infrastructure/post/superclusters-rdma-high-performance)
-    - Deep dive explanation about Oracle Cloud specifc network for GPU workload at scale      
+    - Deep dive explanation about Oracle Cloud-specific network for GPU workload at scale      
 
  
 # License
