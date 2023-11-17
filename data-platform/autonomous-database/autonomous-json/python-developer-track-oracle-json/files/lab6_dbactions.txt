@@ -1,0 +1,129 @@
+============== Install and configure ords ==============
+-- Info abour ORDS can be found here: https://www.oracle.com/database/technologies/appdev/rest.html
+
+yum install graalvm-17-jdk.x86_64
+yum install ords
+
+-- We need to run the installation as Oracle user
+su - oracle
+
+ords --config /etc/ords/config install
+
+--Here you have an example of the options to introduce
+
+ORDS: Release 23.3 Production on Fri Nov 10 17:26:21 2023
+
+Copyright (c) 2010, 2023, Oracle.
+
+Configuration:
+  /etc/ords/config/
+
+Oracle REST Data Services - Interactive Install
+
+  Enter a number to select the type of installation
+    [1] Install or upgrade ORDS in the database only
+    [2] Create or update a database pool and install/upgrade ORDS in the database
+    [3] Create or update a database pool only
+  Choose [1]: 2
+  Enter a number to select the database pool to update, or create an additional database pool.
+  The selected (or created) database pool will be used to install or upgrade ORDS in the database.
+    [1] default      jdbc:oracle:thin:@//localhost:1521/FREEPDB1
+    [2] Create an additional database pool
+  Choose [1]: 1
+  Enter a number to select the database connection type to use
+    [1] Basic (host name, port, service name)
+    [2] TNS (TNS alias, TNS directory)
+    [3] Custom database URL
+  Choose [1]: 1
+  Enter the database host name [localhost]:
+  Enter the database listen port [1521]:
+  Enter the database service name [FREEPDB1]:
+  Provide database user name with administrator privileges.
+    Enter the administrator username: SYS
+  Enter the database password for SYS AS SYSDBA: PassworD123##
+Connecting to database user: SYS AS SYSDBA url: jdbc:oracle:thin:@//localhost:1521/FREEPDB1
+
+Retrieving information.
+Connecting to database user: ORDS_PUBLIC_USER url: jdbc:oracle:thin:@//localhost:1521/FREEPDB1
+  Enter a number to select additional feature(s) to enable:
+    [1] Database Actions  (Enables all features)
+    [2] REST Enabled SQL and Database API
+    [3] REST Enabled SQL
+    [4] Database API
+    [5] None
+  Choose [1]: 1
+  Enter a number to configure and start ORDS in standalone mode
+    [1] Configure and start ORDS in standalone mode
+    [2] Skip
+  Choose [1]:
+  Enter a number to select the protocol
+    [1] HTTP
+    [2] HTTPS
+  Choose [1]:
+  Enter the HTTP port [8080]:
+
+--When you see the following line, run: ctrl + c to kill ords
+
+2023-11-17T14:56:13.685Z INFO        Oracle REST Data Services initialized
+ctrl + c
+
+-- Open firewall
+exit
+firewall-cmd --permanent --zone=public --add-port=8080/tcp
+firewall-cmd --reload
+
+
+-- Enable myapp user for ORDS
+sqlplus sys/PassworD123##@localhost:1521/FREEPDB1 as sysdba
+
+grant inherit privileges on user SYS to ORDS_METADATA;
+BEGIN
+  ORDS.enable_schema(
+    p_enabled             => TRUE,
+    p_schema              => 'MYAPP',
+    p_url_mapping_type    => 'BASE_PATH',
+    p_url_mapping_pattern => 'myapp',
+    p_auto_rest_auth      => FALSE
+  );
+  COMMIT;
+END;
+/
+
+exit;
+
+============== Configure the MongoDB API for later usage and Start ORDS ==============
+
+su - oracle
+ords config set mongo.enabled true
+cd /tmp
+nohup ords serve >> ords_log.log 2>&1 &
+
+
+-- Go to your browser and connect.
+http://PUBLIC_IP:8080/ords/sql-developer
+user: myapp
+password:PassworD123##
+
+============== Using GUI for JSON ==============
+-- Go to JSON menu
+-- Create new collection: restaurant_bookings
+
+--Insert documents individually
+
+{
+    "guest_email": "olivia.johnson@example.com",
+    "board":"full",
+    "included_in_reservation": true ,
+    "allergens": ["gluten", "nuts"]
+}
+
+
+{
+    "guest_email": "liam.patel@example.com",
+    "board":"half",
+    "included_in_reservation": true ,
+    "allergens": ["milk", "eggs"]
+}
+
+-- Modify Data. Change from half board to full board
+-- Click on view diagram to see the JSON structure for hotel_reservations
