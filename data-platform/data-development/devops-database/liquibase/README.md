@@ -1,5 +1,5 @@
 # Liquibase in SQLcl
-Reviewed: "`17.11.2023"
+Reviewed: "17.11.2023"
 
 [Liquibase](https://www.liquibase.org/) is an open-source database-independent library for tracking, managing and applying database schema changes. This feature, is included in the standalone SQLcl offering, which is different that the SQL Developer installation.
  

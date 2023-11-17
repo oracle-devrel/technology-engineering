@@ -1,5 +1,5 @@
 # Development & Operations (DevOps) for the Database and APEX
-Reviewed: "`17.11.2023"
+Reviewed: "17.11.2023"
 
 ## The development lifecycle is the process of periodically: (Development)
 - Selecting a set of bugs and features that will improve your app

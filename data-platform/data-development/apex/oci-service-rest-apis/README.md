@@ -1,15 +1,11 @@
-# Development & Operations (DevOps) for the Database and APEX
-Reviewed: "`17.11.2023"
+# Integrating with OCI Cloud Services
+Reviewed: "17.11.2023"
 
-## The development lifecycle is the process of periodically: (Development)
-- Selecting a set of bugs and features that will improve your app
-- Dividing up the work among teammates,and
-- Testing the result before releasing it to end users
+REST APIs are used to integrate with OCI Cloud Services from APEX. understanding the nuances of the APIs and OCI authentication can be somewhat complex. The main challenge in our experience has been translating Documentation into Implementation.
 
-## Every development team's goal: (Operations)
-- Steady,incremental progress against prioritized list of issues and ideas
-- Delivering a fewchange requests at a time to end users
-- Through a series of high-quality releases on a regular cadence
+To simplfy the creation of the REST Data Sources, we are assembling REST Source arctifacts into a Catalog as we gain experience using the APIs ourselves.
+
+Hopefully, this will simplfy your project implementations as you work with these services.
 
 # Table of Contents
  
