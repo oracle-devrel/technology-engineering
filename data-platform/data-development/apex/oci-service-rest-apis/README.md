@@ -7,6 +7,8 @@ To simplfy the creation of the REST Data Sources, we are assembling REST Source 
 
 Hopefully, this will simplfy your project implementations as you work with these services.
 
+The first set of samples will provide REST Data Sources for the OCI Document Understanding and Vision services.
+
 # Table of Contents
  
 1. [Team Publications](#team-publications)
