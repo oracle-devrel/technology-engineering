@@ -3,17 +3,17 @@
 Infrastructure As Code (IaC) is a methodology in which scripts automate infrastructure and configuration management. IaC tools allow you to abstract away details about your physical environment, allowing you to focus on what matters. It brings several benefits.
 
 
-**Cost reduction**: By automating time consuming, frequent and repeatable tasks, like configuring compute instances and storage, businesses can minimize costs.
+**Cost reduction**: By automating time-consuming, frequent, and repeatable tasks, like configuring compute instances and storage, businesses can minimize costs.
 
-**Flexibility**: Modify the parameter o deplyed resources by simply changing a variable.
+**Flexibility**: Modify the parameter of deployed resources by simply changing a variable.
 
-**Speed**: IaC allows automation for everything, leading to quicker provinsioning and Time to Market.
+**Speed**: IaC allows automation for everything, leading to quicker provisioning and Time to Market.
 
 **Consistency** IaC makes it possible to avoid human errors and inconsistency and minimize drift over time.
 
 # Declarative Automation
 
-In this scenation the desidere end-state of the resource is declared, The provider takes care or all the steps needed to achied the desidered state.
+In this scenario the desired end-state of the resource is declared, The provider takes care of all the steps needed to achieve the desired state.
 
 ***Adopt it when:***
 
@@ -27,7 +27,7 @@ In this scenation the desidere end-state of the resource is declared, The provid
 
 ***Prerequisites***
 
-- Decide on  **Git repository organisation**  for shared code and dedicated configurations.
+- Decide on  **Git repository organization**  for shared code and dedicated configurations.
 - Decide on  **Orchestration technology**.
 - Decide on  **State file resource scope**. This decision can influence how many root modules you have. A good segmentation rule is to base state file granularity on resources that are bound to be together, such as Environment Type, OCI Region, etc.
 - Decide on the  **Module granularity**. This is related to the  **state file ** decision and  **data structures**  in the  **tfvars**  files.
@@ -53,7 +53,7 @@ Procedural automation consists of a set of activities required to achieve the go
 
 - Decide on  **Git repository organization**  for shared code and dedicated configurations
 - Decide on  **Orchestration technology**.
-- Identifying the  **Operational Scenarios**  and prioritize them based on the frequency of use and effort.
+- Identifying the  **Operational Scenarios**  and prioritizing them based on the frequency of use and effort.
 - Decide on the  **scripting**  technology.
 
 
