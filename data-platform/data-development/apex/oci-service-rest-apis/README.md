@@ -36,7 +36,7 @@ Reviewed: "`17.11.2023"
 - [Oracle Documentation - Developers Guide](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/devguidesetupprereq.htm "Setting User with Required Keys and OCIDs")
 
 ### Import the REST Catalog into the APEX Workspace
-- From the relevant application
+ - From the relevant application
     - [] Navigate to REST Data Sources *from Shared Components*
     - [] Createa a new REST Data Source *from a REST Source Catalog*
     - [] Use the *+* to select the REST Data Source and click *Next*
