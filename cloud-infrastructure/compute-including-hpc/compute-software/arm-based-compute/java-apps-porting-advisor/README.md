@@ -1,13 +1,13 @@
-# Using Porting Advisor for Graviton to check compatability of  Java Applications on X86 and ARM.
+# Using Porting Advisor for Graviton to check the compatibility of  Java Applications on X86 and ARM.
 
- This section includes a step-by-step manual for using Porting Advisor for Graviton to check the compatability of Java Applications on X86 and ARM.
+ This section includes a step-by-step manual for using Porting Advisor for Graviton to check the compatibility of Java Applications on X86 and ARM.
 
  
 Reviewed: 17.11.2023
  
 # When to use this asset?
  
-Use this manual to check the compatability of Java Applications on X86 and ARM on OCI
+Use this manual to check the compatibility of Java Applications on X86 and ARM on OCI
  
 # How to use this asset?
  
