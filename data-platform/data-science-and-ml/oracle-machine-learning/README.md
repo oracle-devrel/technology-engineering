@@ -18,8 +18,6 @@ Machine Learning in Oracle Database supports data exploration, preparation, and 
 - [Oracle Machine Learning on Oracle LiveLabs](https://apexapps.oracle.com/pls/apex/f?p=133:100:14606520475441::::SEARCH:oracle+machine+learning)
 - [Oracle Machine Learning documentation](https://docs.oracle.com/en/database/oracle/machine-learning/)
 
-## Reusable Assets
-
 
 # License
 
