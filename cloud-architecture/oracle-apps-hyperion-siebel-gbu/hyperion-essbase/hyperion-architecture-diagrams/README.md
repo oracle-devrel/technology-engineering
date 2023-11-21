@@ -6,7 +6,9 @@ These diagrams are created with draw.io, software for designing professional dia
 
 They serve as a helpful resource for defining solutions, preparing designs, understanding service integrations, and visualizing data flows. These diagrams can be used by developers, solution architects, or anyone interested in designing and understanding Hyperion deployments on OCI.
 
-For a more professional and consistent presentation, these diagrams use the official OCI icon pack for draw.io. You can download the icons pack from the official Oracle page [here](https://docs.oracle.com/en-us/iaas/Content/General/Reference/graphicsfordiagrams.htm) .
+For a more professional and consistent presentation, these diagrams use the official OCI icon pack for draw.io. You can download the icons pack from the official Oracle page [here](https://docs.oracle.com/en-us/iaas/Content/General/Reference/graphicsfordiagrams.htm)
+
+Reviewed date: 13.11.2023
 
 ## Contents
 
@@ -23,4 +25,4 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
