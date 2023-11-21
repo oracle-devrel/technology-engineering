@@ -17,6 +17,7 @@ The Oracle Cloud Infrastructure Logging service is a highly scalable and fully m
 - [How to create a postman collection for audit logs](https://learnoci.cloud/how-to-create-a-postman-collection-for-oci-audit-logs-7115f16737dd?sk=a2f842471737ad12c0ff5b67499a960e)
 - [OKE logging using OCI Logging](https://learnoci.cloud/oke-log-collection-using-oci-logging-3f1e732928b3?source=friends_link&sk=d077521b8306b55c3f84cd0712a771e7)
 - [Stream OCI Logs to Splunk](https://learnoci.cloud/stream-oci-logs-to-splunk-v9-1-c71c93e470fe?sk=8a7c3f6201bfcd847a83d36247eddfa7)
+- [Enable OCI VCN Flow logs in easy way](https://karthicin.medium.com/enable-oci-vcn-flow-logs-in-easy-way-c986c6cda6c0)
 
 # Useful Links
 - [Logging](https://docs.oracle.com/en-us/iaas/Content/Logging/home.htm)
@@ -28,4 +29,5 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+Reviewed: 16.11.2023
