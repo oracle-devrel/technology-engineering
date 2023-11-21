@@ -1,21 +1,25 @@
-# Importing Custom Images to OCI
+# Install Docker on Oracle Linux 8 (OL8) on an OCI Compute VM.
 
-This section includes step-by-step manuals to import custom images from an on-premises environment to OCI.
+ This section includes a step-by-step manual for installing Docker on OL8 on the OCI Compute Virtual Machine.
 
-<i>Reviewed: 21.11.2023<i>
-
+ 
+<i>Reviewed: 20.11.2023<i>
+ 
 # When to use this asset?
-
-Use these assets to move your on-prem VMs to OCI Compute.
-
+ 
+Use this manual to install a Docker on Oracle Linux on OCI Compute VM.
+ 
 # How to use this asset?
-
+ 
 The details can be found in the files folder.
-
+ 
 # License
-
+ 
 Copyright (c) 2023 Oracle and/or its affiliates.
-
+ 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
-
+ 
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+
+
+
