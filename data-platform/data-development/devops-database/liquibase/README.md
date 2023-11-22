@@ -14,7 +14,7 @@ The Liquibase feature in SQLcl enables you to execute commands to generate a cha
 
  
 # Team Publications
-- TBD
+- [Start your DevOps adventure with Liquibase on ADB](https://medium.com/@devpiotrekk/start-your-apex-devops-adventure-with-liquibase-f8e45c3d1e6a)
 
 # Useful Links
 - [Oracle Documentation - Oracle SQLcl Release 23.3](https://docs.oracle.com/en/database/oracle/sql-developer-command-line/23.3/sqcug/using-liquibase.html#GUID-4CA25386-E442-4D9D-B119-C1ACE6B79539 "Using Liquibase")
