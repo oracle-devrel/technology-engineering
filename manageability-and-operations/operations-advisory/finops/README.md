@@ -1,6 +1,6 @@
 # FinOps
 
-**FinOps** is a cloud financial management practice that support organizations to optimize their cloud spending by proiding a dedicated framework to achieve get maximum business value by helping engineering, finance & business teams to collaborate on data-driven spending decision
+**FinOps** is a cloud financial management practice that supports organizations to optimize their cloud spending by providing a dedicated framework to achieve maximum business value by helping engineering, finance & business teams to collaborate on data-driven spending decision
 
 
 **The FinOps Framework** describes 
@@ -12,15 +12,15 @@
 # Principles
 
 - Teams need to collaborate
-- Everyone takes ownership for their cloud usage
+- Everyone takes ownership of their cloud usage
 - A centralized team enables FinOps
 - Reports should be accessible and timely
-- Decisions are driven by business value of cloud
+- Decisions are driven by the business value of the cloud
 - Take advantage of the variable cost model of the cloud
 
 # FinOps Phases
 
-**Inform**: Gain visibility inyo your cloud usage;
+**Inform**: Gain visibility into your cloud usage;
 **Optimize**: Reduce overconsumption by making optimal decisions based on data;
 **Operate**: Create a culture for cost optimization.
 
