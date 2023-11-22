@@ -1,6 +1,6 @@
-========= Provision a OCI VM ===============
+========= Provision an OCI VM ===============
 
-For this workshop we are going to use a Oracle Cloud VM with Oracle Linux 8.
+For this workshop, we are going to use an Oracle Cloud VM with Oracle Linux 8.
 
 =========== Install and configure 23c free ========
 
@@ -27,7 +27,7 @@ echo 'export PATH=$ORACLE_HOME/bin:$PATH' >> .bashrc
 . .bashrc
 
 
-4.- Enable firewall and autmatic start of 23c Database.
+4.- Enable firewall and automatic start of 23c Database.
 
 systemctl enable oracle-free-23c
 firewall-cmd --permanent --add-port=1521/tcp
