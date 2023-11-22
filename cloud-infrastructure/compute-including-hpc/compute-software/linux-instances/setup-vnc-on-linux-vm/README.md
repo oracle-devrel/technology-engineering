@@ -1,12 +1,12 @@
-# Importing Custom Images to OCI
+# Install and Setup GUI on OCI Linux VM with VNC Server
 
-This section includes step-by-step manuals to import custom images from an on-premises environment to OCI.
+This section includes a step-by-step manual for the installation and Setup of the GUI on an OCI Linux VM with a VNC Server.
 
 Reviewed: 21.11.2023
 
 # When to use this asset?
 
-Use these assets to move your on-prem VMs to OCI Compute.
+Use these assets to setup a GUI and VNC server on OCI Compute VM running Linux OS
 
 # How to use this asset?
 

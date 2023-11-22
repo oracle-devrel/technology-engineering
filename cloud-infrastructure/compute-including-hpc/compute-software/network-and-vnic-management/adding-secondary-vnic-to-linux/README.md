@@ -1,12 +1,12 @@
-# Importing Custom Images to OCI
+# Adding Secondary VNIC to a Linux instance
 
-This section includes step-by-step manuals to import custom images from an on-premises environment to OCI.
+This section includes a step-by-step manual to add a secondary vnic to an OCI Compute VM running Linux OS.
 
 Reviewed: 21.11.2023
 
 # When to use this asset?
 
-Use these assets to move your on-prem VMs to OCI Compute.
+Use these assets to add a secondary vnic to an OCI Compute VM running Linux OS
 
 # How to use this asset?
 
