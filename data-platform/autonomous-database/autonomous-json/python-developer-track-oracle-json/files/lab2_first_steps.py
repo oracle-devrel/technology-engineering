@@ -4,7 +4,7 @@ import oracledb
 oracledb.init_oracle_client()
 
 #connection details
-connection = oracledb.connect(user="myapp",password="PassworD123##",dsn="localhost:1521/FREEPDB1")
+connection = oracledb.connect(user="myapp",password="YOUR_PASSWORD",dsn="localhost:1521/FREEPDB1")
 
 #connect, create and list collections
 soda = connection.getSodaDatabase()

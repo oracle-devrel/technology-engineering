@@ -16,7 +16,7 @@ yum -y localinstall oracle-database*
 2.- Configure Oracle 23c free
 
 /etc/init.d/oracle-free-23c configure
---We are going to use this password: PassworD123##
+--Remember to set your password for SYS and ADMIN
 
 
 3.- Set environment variables to use sqlplus
@@ -37,8 +37,8 @@ firewall-cmd --reload
 ========== Create new user for 23c  ==============
 
 
-sqlplus sys/PassworD123##@localhost:1521/FREEPDB1 as sysdba
-create user myapp identified by PassworD123##;
+sqlplus sys/YOUR_PASSWORD@localhost:1521/FREEPDB1 as sysdba
+create user myapp identified by YOUR_PASSWORD;
 grant db_developer_role to myapp;
 alter user myapp quota unlimited on users;
 exit;

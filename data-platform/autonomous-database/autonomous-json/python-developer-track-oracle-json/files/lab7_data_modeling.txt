@@ -4,7 +4,7 @@ Simple Oracle Document Access (SODA) is a set of NoSQL-style APIs that let you c
 
 How is data stored? Let's connect via sqlplus with root user.
 
-sqlplus myapp/PassworD123##@localhost:1521/FREEPDB1
+sqlplus myapp/YOUR_PASSWORD@localhost:1521/FREEPDB1
 
 SET LINESIZE 150;
 SET PAGESIZE 150;
@@ -35,7 +35,7 @@ We can run a select all and we can see all the information, including the JSON d
 We can create a table containing JSON data and relational data. 
 
 
-sqlplus myapp/PassworD123##@localhost:1521/FREEPDB1
+sqlplus myapp/YOUR_PASSWORD@localhost:1521/FREEPDB1
 
 create table souvenir(
   email varchar2(50),
@@ -305,7 +305,7 @@ import oracledb
 oracledb.init_oracle_client()
 
 #connection details
-connection = oracledb.connect(user="myapp",password="PassworD123##",dsn="localhost:1521/FREEPDB1")
+connection = oracledb.connect(user="myapp",password="YOUR_PASSWORD",dsn="localhost:1521/FREEPDB1")
 
 #connect, create and list collections
 soda = connection.getSodaDatabase()

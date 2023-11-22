@@ -4,7 +4,7 @@ import oracledb
 #connect with thick-client
 oracledb.init_oracle_client()
 connection = oracledb.connect(user="myapp",
-                              password="PassworD123##",
+                              password="YOUR_PASSWORD",
                               dsn="localhost:1521/FREEPDB1")
 
 #auto commit

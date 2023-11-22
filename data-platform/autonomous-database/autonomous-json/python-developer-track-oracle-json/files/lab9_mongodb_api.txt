@@ -10,9 +10,9 @@ yum localinstall mongodb-mongosh-2.0.2.x86_64.rpm
 --mongodb://[{user}:{password}@]localhost:27017/{user}?authMechanism=PLAIN&authSource=$external&ssl=true&retryWrites=false&loadBalanced=true
 
 --It is a default string. Let's connect with our user.
---For the password is required to change # with %23: https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/mongo-using-oracle-database-api-mongodb.html
+--For the password, remember to change your special characters: https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/mongo-using-oracle-database-api-mongodb.html
 
-mongosh --tlsAllowInvalidCertificates 'mongodb://myapp:PassworD123%23%23@localhost:27017/myapp?authMechanism=PLAIN&authSource=$external&ssl=true&retryWrites=false&loadBalanced=true'
+mongosh --tlsAllowInvalidCertificates 'mongodb://myapp:YOUR_PASSWORD@localhost:27017/myapp?authMechanism=PLAIN&authSource=$external&ssl=true&retryWrites=false&loadBalanced=true'
 
 
 -- Let's run some simple queries using MongoDB
