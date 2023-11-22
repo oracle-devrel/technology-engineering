@@ -20,6 +20,9 @@ Reviewed: "17.11.2023"
 # Team Publications
 -  [Red Hot Webinars - YouTube](https://www.youtube.com/watch?v=GIRdoGlqIDE "Here is how ORDS helps you with DevOps")
    - A Webinar demonstrating how ORDS can be used to support DevOps
+- DevOps with ADB using DBMS_CLOUD
+   - [Part 1](https://medium.com/oracledevs/apex-service-can-devops-too-dbms-cloud-on-autonomous-72be9842d2f8)
+   - [Part 2](https://medium.com/oracledevs/apex-service-devops-part-2-ed737a4fc583)
  
 # Useful Links
 - [Cloud Native DevOps](../../../app-dev/devops/README.md)
