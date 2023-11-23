@@ -82,7 +82,7 @@ def handler(ctx, data: io.BytesIO=None):
             parameters = dict()
         else:
             parameters = body.get('parameters')
-        parameters['input-path'] = 'oci://<bucket name>@<namespace bucket>/{}'.format(resourceName)
+        parameters['input-path'] = 'oci://<bucket name >@<namespace bucket>/{}'.format(resourceName)
         logging.info(parameters['input-path'])
 
     except (Exception, ValueError) as ex:
