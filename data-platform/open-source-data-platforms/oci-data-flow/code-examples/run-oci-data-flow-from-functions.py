@@ -67,7 +67,7 @@ def handler(ctx, data: io.BytesIO=None):
                         response_data=json.dumps(retval),
                         headers={"Content-Type": "application/json"})
 
-        applicationId = body.get('applicationId','<OCI ID application data flow>')
+        applicationId = body.get('applicationId',' <OCI ID application data flow>')
         compartmentId = body.get('compartmentId','<Compartment ID>')
         displayName = body.get('displayName','MaterialInventory')
         #driverShape = body.get('driverShape','VM.Standard2.1')
