@@ -10,6 +10,8 @@ Also make sure to check the dedicated pages of the main technology areas of Data
 * [OCI Database Migration](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/oci-database-migration)
 * [Oracle Data Pump](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/data-pump)
 * [Database Patching](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/database-patching)
+* [Cloud Premigration Advisor Tool](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/cloud-premigration-advisor-tool)
+* [Transportable Tablespace](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/transportable-tablespace)
 
 # Team Publications
  
@@ -22,6 +24,15 @@ Also make sure to check the dedicated pages of the main technology areas of Data
 - [How to survive an Oracle Database failure without your users ever noticing - Cloud Coaching Webinar]( https://www.youtube.com/watch?v=dsUbi5dO_PU)
     - Cloud Coaching Webinar, including a technical demonstration, delivered by Amalraj Puthenchira around the use of Application Continuity to avoid unplanned application outages.
 - [Teradata to Autonomous Data Warehouse on OCI Migration Guide](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/teradata-to-autonomous-data-warehouse-migration-guide)
+    - Comprehensive lab guide with best practices to migrate Teradata to Autonomous Data Warehouse on Oracle Cloud Infrastructure
+- [Load Data into an Autonomous Database using OCI Data Load](https://youtu.be/r1ff0jW8l_s)
+    - YouTube Video by Austine Ouma explaining how to use the OCI Data Load functionality for loading data into an Oracle Autonomous Database on OCI
+- [Accelerate your Data Migration into Oracle Autonomous Database](https://youtu.be/_2Lu6y5_XxY)
+    - Cloud Coaching session delivered by Austine Ouma and Marcus Doeringer around best practices for loading data and migrating databases into Oracle Autonomous Database on Oracle Cloud Infrastructure.
+- [Ace your Database Migration to Oracle Exadata Database Service on Dedicated Infrastructure](https://www.youtube.com/watch?v=luBezgN7sa0)
+     - Cloud Customer Connect session delivered by Amalraj Puthenchira explaining how to use the Oracle Zero Downtime Migration (ZDM) tool to migrate Oracle Database on Linux to Exadata Database Service on Dedicated Infrastructure.
+- [Migration Methods Overview & Comparison](https://macsdata.netlify.app/oracle/migration/methods-overview-comparison/)
+    - Explore and compare key features of different Oracle migration methods, available on Marcus Doeringer's public platform
     
 # Useful Links
 
