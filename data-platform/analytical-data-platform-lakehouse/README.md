@@ -37,6 +37,11 @@ Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a compl
   - Blog post showcasing how to configure a DR for a DW architecture using ADW and OCI GG. 
 - [Real Time Analytics DW DR Architecture (Part II) - DR Recovery Operations](https://gianlucarossi06.github.io/data-organon/2023/04/20/Real-Time-Analytics-DW-DR-Architecture-(Part-II).html)
   - Blog post showcasing a disaster simulation on the primary Region and describing the operational tasks that need to be performed to properly start the workload in the secondary Region.
+- [Data Integration Operational Analytics](https://jakubillner.github.io/2023/11/10/data-integration-analytics.html)
+  - Blog post describing a solution to monitor data integration pipelines at enterprise level, potentially for several workspaces, and providing integrated monitoring capabilities as one of the key pillars to address DataOps.
+- [Zero ETL Lakehouse in Oracle Cloud](https://gianlucarossi06.github.io/data-organon/2023/09/30/ZeroETL-Lakehouse-Oracle-Cloud.html)
+  - Blog post describing what is ZeroETL and the different options in OCI to deploy a lakehouse that minimizes and reduces ETL to deliver information to data consumers.
+
 
 ## YouTube
 
@@ -50,6 +55,12 @@ Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a compl
   - Cloud Coaching session describing what is Real Time Analytics and how to architect a real-time analytics workload on the Oracle Data Platform.
 - [Analytics and Lakehouse for Oracle Applications](https://youtu.be/a_JsSzmz1_U)
   - Session describing how to architect analytical workloads for Oracle Applications.
+- [Real Time Analytics - Cloud Customer Connect](https://community.oracle.com/customerconnect/events/604981-oci-real-time-analytics)
+  - Cloud Customer Connect session describing what is Real Time Analytics and how to architect a real-time analytics workload on the Oracle Data Platform.
+- [Data Lake Modernization - Cloud Customer Connect](https://community.oracle.com/customerconnect/events/604994-oci-data-lake-modernization)
+  - Cloud Customer Connect session covering Hadoop-based Data Lake modernizations in OCI, explaining the deployment options and migration path.
+- [Modernize your on premise Oracle Informatica solution to Oracle Cloud](https://youtu.be/gQ2_AztxR84?si=DyEfvgn3mk0oIP9U)
+  - Cloud coaching session describing how to modernize an Oracle DW solution that uses PowerCenter for ETL into OCI and using Informatica IDMC.
 
 ## LinkedIn
 
