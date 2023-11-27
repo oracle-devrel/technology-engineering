@@ -1,6 +1,12 @@
 # OIC with OCI API Gateway
  
 *Architecture pattern for exposing APIs deployed in OIC using OCI API Gateway*
+
+Review Date: 03.11.2023
+
+# When to use this asset?
+ 
+Use this asset as an example, when you want to expose OIC integrations with REST endpoints publicly using OCI API Gateway
  
 # How to use this asset?
  
