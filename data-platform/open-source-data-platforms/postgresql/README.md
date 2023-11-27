@@ -3,7 +3,8 @@
 OCI Database with PostgreSQL is a fully managed PostgreSQL-compatible service with intelligent sizing, tuning, and high durability.
 
 The service automatically scales storage as database tables are created and dropped, making management easier on you and optimizing storage spend. 
-Data is encrypted both in-transit and at rest. 
+Data is encrypted both in transit and at rest. 
+
 OCI Database with PostgreSQL is designed for high availability by offering durability even in the event of an availability domain (AD) failure.
 
 
