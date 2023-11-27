@@ -6,6 +6,10 @@ EMEA AppDev is an expert team of Cloud Native architects and developers focusing
 
  
 # Team Publications
+
+- [Cloud Coaching - OCI Observability for Kubernetes monitoring](https://www.youtube.com/watch?v=DLce-UReoKo)[November 2023]
+- [Github Workflow or OCI DevOps for deploying a Springboot App on OCI Container Instances](https://www.youtube.com/watch?v=Nc4lMeEuq5c)[October 2023]
+- [OKE in a Hub-Spoke Architecture](https://ivan-delic.medium.com/advanced-kubernetes-networking-oke-in-a-hub-spoke-architectures-f0ba2256e824)[September 2023]
 - [Building a minimal and secure container for Serverless functions with Micronaut and GraalVM](https://medium.com/@comes94/building-a-minimal-and-secure-container-for-serverless-functions-with-micronaut-and-graalvm-4765da26e6a8) [August 2023]
 - [Autoscale Oracle Container Instances](https://docs.oracle.com/en/solutions/autoscale-oracle-container-instances/#GUID-2796F988-7CBA-4049-8E03-352117950CD1) [July 2023]
 - [Scale and optimize Jenkins on Oracle Cloud Infrastructure Container Engine for Kubernetes](https://docs.oracle.com/en/solutions/oci-jenkins-oke/index.html#GUID-23A8EB94-DFFC-4D5C-897F-5F59423447D2)  [July 2023]
