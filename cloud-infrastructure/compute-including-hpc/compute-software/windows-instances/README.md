@@ -1,7 +1,7 @@
+# OCI Compute Instances running Windows OS
 
-# Arm-Based Compute documentation and manuals
 
-This section includes documentation and step-by-step manuals for Arm-based compute usage.
+This section includes documentation and step-by-step manuals for Windows operating system running on OCI Compute VMs
 
 # License
 

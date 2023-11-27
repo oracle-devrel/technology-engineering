@@ -1,7 +1,6 @@
+# OCI Compute Performance
 
-# Arm-Based Compute documentation and manuals
-
-This section includes documentation and step-by-step manuals for Arm-based compute usage.
+This section includes documentation about OCI Compute Performance and Performance Management.
 
 # License
 

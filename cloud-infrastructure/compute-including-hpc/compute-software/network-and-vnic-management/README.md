@@ -1,7 +1,6 @@
+# Network Management.
 
-# Arm-Based Compute documentation and manuals
-
-This section includes documentation and step-by-step manuals for Arm-based compute usage.
+This section includes step-by-step manuals for managing network devices on OCI Compute VMs.
 
 # License
 

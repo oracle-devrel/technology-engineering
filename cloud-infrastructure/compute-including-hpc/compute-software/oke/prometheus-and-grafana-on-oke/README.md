@@ -1,12 +1,12 @@
-# Importing Custom Images to OCI
+# Deploy Prometheus and Grafana on the OCI Container Engine for Kubernetes.
 
-This section includes step-by-step manuals to import custom images from an on-premises environment to OCI.
+This section includes a step-by-step manual for the deployment of Prometheus and Grafana on the OCI Container Engine for Kubernetes.
 
 Reviewed: 21.11.2023
 
 # When to use this asset?
 
-Use these assets to move your on-prem VMs to OCI Compute.
+Use these assets to deploy Prometheus and Grafana on the OCI Container Engine for Kubernetes.
 
 # How to use this asset?
 

@@ -11,7 +11,7 @@ This page contains information and useful links regarding Compute services that 
 
 # Team Publications
 - [How to Deploy Self Managed Nodes on OKE](https://www.youtube.com/watch?v=OroPnRN7arE)
-- [Cloud Coaching - Optimising performance - Deploying Red Hat Workloads on Oracle Cloud Infrastructure] (https://www.youtube.com/watch?v=_18PgW4NN40)
+- [Cloud Coaching - Optimising performance - Deploying Red Hat Workloads on Oracle Cloud Infrastructure](https://www.youtube.com/watch?v=_18PgW4NN40)
 
 # Useful Links
 
