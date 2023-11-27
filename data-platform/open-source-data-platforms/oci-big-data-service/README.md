@@ -9,7 +9,7 @@ BDS is based on Oracle Hadoop Distribution: https://docs.oracle.com/en-us/iaas/C
 - [OCI Big Data Service product page](https://www.oracle.com/uk/big-data/big-data-service/)
 - [OCI Big Data Blog](https://blogs.oracle.com/bigdata)
 
-# Tutorials
+## Tutorials
 - [Get Started with Oracle Big Data Service](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=762)
 - [Analyze IoT Car in Big Data Services - Kafka, Flink, Mysql, OAC](https://apexapps.oracle.com/pls/apex/f?p=133:180:17108050413248::::wid:3837)
 
