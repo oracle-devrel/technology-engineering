@@ -70,9 +70,9 @@ if *PrivacyPassphrasePtr == "" {
 		Timeout:       time.Duration(30) * time.Second,
 		SecurityParameters: &g.UsmSecurityParameters{UserName: *UserNamePtr,
 			AuthenticationProtocol:   g.SHA,
-			AuthenticationPassphrase: "Welcome123.",
+			AuthenticationPassphrase: "",
 			PrivacyProtocol:          g.AES,
-			PrivacyPassphrase:        "Welcome123.",
+			PrivacyPassphrase:        "",
 		},
 	}
 	
