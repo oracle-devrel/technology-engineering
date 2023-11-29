@@ -74,7 +74,7 @@ There are two types of landing zone approaches to consider:
 | APPROACH  |  DESCRIPTION | 
 |---|---|
 | [**Standard Landing Zones**](/landing-zones/standard_landing_zones/standard_landing_zones.md) | **Prescribed** and **ready to use** solutions with a **guided setup** and  **IaC**. This is the recommended approach for initial landing zone deployments covering the most common workload scenarios.  | 
-| [**Tailored Landing Zones**](/tailored_landing_zones/tailored_landing_zones.md) | An approach to solve **specific requirements** when the standard is not enough. These LZs run with **configuration-as-code** and are used to scale/bridge with existing **operating models**, complying with fine-grained **segregations of duties**, strong **network isolation**, and heterogeneous **workloads**.  | 
+| [**Tailored Landing Zones**](/landing-zones/tailored_landing_zones/tailored_landing_zones.md) | An approach to solve **specific requirements** when the standard is not enough. These LZs run with **configuration-as-code** and are used to scale/bridge with existing **operating models**, complying with fine-grained **segregations of duties**, strong **network isolation**, and heterogeneous **workloads**.  | 
 
 &nbsp; 
 
