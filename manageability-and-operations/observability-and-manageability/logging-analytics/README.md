@@ -1,5 +1,10 @@
 # Logging Analytics
+Oracle Logging Analytics is a cloud solution in Oracle Cloud Infrastructure that lets you index, enrich, aggregate, explore, search, analyze, correlate, visualize, and monitor all log data from your applications and system infrastructure.
 
+# Table of Contents
+
+1. [Team Publications](#team-publications)
+2. [Useful Links](#useful-links)
 
 # Team Publications
 
@@ -15,7 +20,11 @@
 - [Logging Analytics solution for Oracle Kubernetes Engine](https://karthicin.medium.com/logging-monitoring-solution-for-oracle-kubernetes-engine-oke-611738fe7d1)
 - [How to collect windows event logs in Logging Analytics](https://karthicin.medium.com/how-to-collect-windows-event-logs-in-logging-analytics-3a4f3ec8dc95)
 - [Oracle APEX Monitor](https://github.com/oracle-quickstart/oci-o11y-solutions/tree/main/knowlege-content/oracle-database/APEX)
+- [OCI MySQL database log collection using Logging Analytics](https://karthicin.medium.com/oci-mysql-database-log-collection-using-logging-analytics-b521441ba06b)
 
+# Useful Links
+
+- [Logging Analytics](https://docs.oracle.com/en-us/iaas/logging-analytics/index.html)
 
 # License
 
@@ -23,4 +32,5 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE)for more details.
+Reviewed: 16.11.2023

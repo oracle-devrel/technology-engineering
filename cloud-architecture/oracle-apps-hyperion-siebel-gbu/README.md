@@ -4,10 +4,12 @@ This repository is dedicated to the migration of Hyperion Enterprise Performance
 
 Our extensive array of essential resources is designed to guide you throughout the migration process, empowering you to make informed decisions. These assets are here to streamline your migration journey and ensure a seamless transition to the OCI platform.
 
+Reviewed date: 13.11.2023
+
 # License
 
 Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
