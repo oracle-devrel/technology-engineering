@@ -85,6 +85,7 @@ Reviewed: 31.10.2023
 |[Oracle Analytics Product Videos](https://www.oracle.com/business-analytics/data-visualization/videos/)|Numerous videos on specific topics like „Recent New Features“, „Connect to Your Data“, „Data Visualization“, „Prepare Your Data“ and much more.|
 |[Oracle Analytics YouTube Channel](https://www.youtube.com/user/EvolvingBI)|The official channel for Oracle Analytics solutions. Find out about Oracle Analytics offerings, events, and more by watching our videos.|
 |[Oracle Analytics Live! Webinars on YouTube](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KXC2dtdh-iXBulo1V0Rw3CE)|Monthly update from the Oracle Product teams for Oracle Analytics Cloud. See new capabilities, hear about the roadmap, and see cool demos.|
+|[Oracle Analytics Learning Library](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KWqy-XYDjfPga5SXKm6_DHx)|Learn "how to" with Oracle Analytics Cloud, Oracle Analytics Server and Oracle Fusion Analytics.|
 
 ## Oracle Analytics Cloud: Augmented Analytics at Scale
 |Content Link |Descripton|
