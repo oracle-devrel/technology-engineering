@@ -11,7 +11,7 @@ Explore these materials to enhance your migration strategy. We appreciate your p
 <!-- for future use   - [**Oracle Communications** applications](./communications)               -->
  - [**Oracle Construction and Engineering** applications](./construction-engineering)
 <!-- for future use   - [**Oracle Energy and Water** applications](./energy-water)               -->
-<!-- for future use   - [**Oracle Financial Services** applications](./financial-services)       -->
+ - [**Oracle Financial Services** applications](./financial-services)
  - [**Oracle Food and Beverage** applications](./food-beverage)
 <!-- for future use   - [**Oracle Health** applications](./health)                               -->
  - [**Oracle Hospitality** applications](./hospitality)
