@@ -27,7 +27,7 @@ doc:
       date: 25th October 2023
       authors: Maurits Dijkens
       comments:
-				- Base Template
+        - Base Template
         - Updated Template per new Solution Definition Guidelines.
   team:
     - name: Maurits Dijkens
