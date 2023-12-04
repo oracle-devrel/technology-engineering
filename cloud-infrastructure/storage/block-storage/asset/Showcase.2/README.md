@@ -1,10 +1,23 @@
-# License
+# Showcase 2: TRIM showcase
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+[Showcase 2: TRIM showcase](#showcase-trim)
 
-Licensed under the Universal Permissive License (UPL), Version 1.0.
+Assets that contain a great opportunity to learn about Cloud Resilience or "Keep your systems running". This assets provide
+- A theoretical overview
+- An alignment of terms across several cloud provides like e.g. Oracle, Amazon, Google and Microsoft
+- A hands on guidance on a real world example based on which you are able to gain insides for your individual cloud resilience implementation
+- A list of Oracle Architectural Best Practices
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+
+Reviewed: 27.11.2023
+
+# When to use this asset?
+
+These assets should be used whenever you like to understand TRIM in Oracle Cloud Infrastructure (OCI) Storage Services.
+
+# How to use this asset?
+
+The information is generic in nature and not specified for a particular customer.
 
 
 # Showcase TRIM
@@ -12,7 +25,7 @@ See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folde
 ## Prepare your environment
 - [Oracle Cloud Infrastructure CLI Command Reference](https://docs.oracle.com/en-us/iaas/tools/oci-cli/latest/oci_cli_docs/index.html)
 - Set up your individual "operate" instance
-	- An Oracle enterprise Linux server with Command Line Interface (*see [Set up your Server with Resilience by default using CLI](https://gitlab.com/hmielimo/cloud-resilience-by-default/#set-up-your-server-with-resilience-by-default-using-cli)  for details*).
+	- An Oracle enterprise Linux server with Command Line Interface (*see [How to create a new operate server](https://gitlab.com/hmielimo/next-generation-cloud/-/tree/main/doc/how.to.create.a.new.operate.server)  for details*).
 	- Create and attach block volume: e.g. trim-test (*200GB*).
 
 ## Format and mount block volume
@@ -197,3 +210,11 @@ done
 
 cat "${myLOGFILE}"
 ~~~
+
+# License
+
+Copyright (c) 2023 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
