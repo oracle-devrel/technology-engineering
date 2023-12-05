@@ -2,7 +2,7 @@
 
 This GitHub repository hosts a decision path designed to guide you through the process of upgrading of Hyperion EPM System and Essbase or migrating these products to Oracle Cloud Infrastructure (OCI).
 
-Reviewed date: 13.11.2023
+Reviewed: 4.12.2023
 
 ## When to use this asset?
 
