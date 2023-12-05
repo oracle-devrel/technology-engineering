@@ -32,7 +32,7 @@ Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a compl
 - [Decentralized Data Lake on OCI Object Storage (Part 2)](https://jakubillner.github.io/2023/02/19/data-lake-on-oci-object-storage-2.html)
   - Blog post describing how to organize and govern a decentralized data lake domains and entities in an OCI tenancy with a design that explains 1) how to store lake data with partitions, 2) how those can be implemented, 3) governed by a Data Catalog and then 4) consumed seamlessly by ADW in a cohesive and integrated lakehouse architecture.
 - [Automated Load and Export Pipelines in Autonomous Database](https://jakubillner.github.io/2023/03/27/adb-data-pipelines.html)
-  - Blog post on how to ingest automatically data residing in Object Storage to make it available in ADW for further processing and curation. Covers as well the export of ADW data to Object Storage that can be used for several purposes, including ILM, offloading data sharing to Object Storage, or making data available via the data lake. 
+  - Blog post on how to ingest automatically data residing in Object Storage to make it available in ADW for further processing and curation. Covers the export of ADW data to Object Storage that can be used for several purposes, including ILM, offloading data sharing to Object Storage, or making data available via the data lake. 
 - [Real Time Analytics DW DR Architecture (Part I) - DR Architecture Configuration](https://gianlucarossi06.github.io/data-organon/2023/04/20/Real-Time-Analytics-DW-DR-Architecture-(Part-I).html)
   - Blog post showcasing how to configure a DR for a DW architecture using ADW and OCI GG. 
 - [Real Time Analytics DW DR Architecture (Part II) - DR Recovery Operations](https://gianlucarossi06.github.io/data-organon/2023/04/20/Real-Time-Analytics-DW-DR-Architecture-(Part-II).html)
@@ -65,7 +65,7 @@ Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a compl
 ## LinkedIn
 
 - [Delta Sharing with Oracle Cloud](https://www.linkedin.com/pulse/delta-sharing-oracle-cloud-jeff-richmond%3FtrackingId=kztSJVKDLRyOgQ30mH2ujQ%253D%253D/?trackingId=kztSJVKDLRyOgQ30mH2ujQ%3D%3D)
-  - Article explaining Data Sharing capabilities Oracle Cloud and Autonomous Database have, based on the open source Delta Share protocol, that allow to share data between heterogeneous data platforms in a multi cloud and heterogeneous data platform.
+  - Article explaining Data Sharing capabilities Oracle Cloud and Autonomous Database have based on the open source Delta Share protocol, which allows sharing data between heterogeneous data platforms in a multi cloud and heterogeneous data platform.
 - [Data Swamps No More!](https://www.linkedin.com/pulse/data-swamps-more-ismael-hassane/)
   - Article describing lakehouse as a natural evolution from a lambda and kappa data architecture.
 - [DataOps, you data rolls!](https://www.linkedin.com/pulse/dataops-your-data-rolls-ismaël-hassane/)
@@ -91,7 +91,7 @@ Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a compl
 - [Oracle Modern Data Platform](https://www.oracle.com/data-platform/)
   - Oracle Modern Data Platform Homepage
 - [Oracle Cloud Word 2023 - Data Strategy: From Vision to Reality](https://videohub.oracle.com/media/Oracle+Cloud+Word+2023+-+Data+StrategyA+From+Vision+to+Reality/1_0zwykatb)
-  - Data Strategy session explaining what are the elements and reasoning of defining a data strategy that is the conduit between the business strategy and requirements and a data platform architecture.
+  - Data Strategy session explaining what are the elements and reasoning behind defining a data strategy that is the conduit between the business strategy and requirements and a data platform architecture.
 
 # Reusable Assets Overview
 TBD
