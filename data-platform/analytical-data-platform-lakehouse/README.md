@@ -71,6 +71,11 @@ Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a compl
 - [DataOps, you data rolls!](https://www.linkedin.com/pulse/dataops-your-data-rolls-ismaël-hassane/)
   - Blog post introducing DataOps, the several aspects of a DataOps strategy in a lakehouse architecture, and how OCI services and features address those different aspects.
 
+## Medium
+
+- [Oracle BI Applications and migration to Fusion Applications](https://medium.com/@DoubleUP66/oracle-bi-applications-and-migration-to-fusion-applications-1ae7db1bff15)
+  - Blog describing the different options to modernize OBIA when customers migrate their Oracle Unlimited Apps into Oracle Fusion SaaS.
+
 ## Podcasts
 
 - [Data Mesh Concepts](https://digitalimpactradio.libsyn.com/s7-ep09-data-mesh-concepts-with-larry-jose-and-mike-pt-1-of-4)
