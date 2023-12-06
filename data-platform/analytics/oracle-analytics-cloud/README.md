@@ -112,6 +112,25 @@ Reviewed: 31.10.2023
 |[Start using Oracle Analytics and AI in 5 minutes!](https://blogs.oracle.com/analytics/post/start-using-oracle-analytics-and-ai-in-5-minutes)|Quick guide to use OAC for AI.|
 |[Discover Insights with Oracle Analytics Cloud and OCI AI Anomaly Detection](https://blogs.oracle.com/analytics/post/discover-insights-with-oracle-analytics-cloud-and-oci-ai-anomaly-detection)|OAC Machine Learning|How you can take advantage of Oracle Analytics Cloud (OAC) and OCI AI Anomaly Detection to reveal insights from detected anomalies.|
 
+## OAC Machine Learning Demos
+|Functionality |Content Link|
+| ------------ |------------|
+|AI Augmented Experience|[Ai-Enhanced Automated Insights](https://www.youtube.com/watch?v=JpQ9V9p2hMI)|
+[ML-based Automated Column Explain](https://www.youtube.com/watch?v=mcQ9MGdcKoA)|
+[Targeted Segmentation](https://youtu.be/IJaGTmiZyAg)|
+[Right Click In Context ML](https://www.youtube.com/watch?v=aRfYn2hB-Jg)|
+|User Friendly No-code ML|[Code-less ML Design](https://www.youtube.com/watch?v=vgFTiDObLyU)|
+[Powerful Single-Click Auto-ML](https://www.youtube.com/watch?v=Nuh3KShdeFg)|
+[Time Series Forecast](https://www.youtube.com/watch?v=LuMTLlhq2-M)|
+[Consume External ML models](https://www.youtube.com/watch?v=k68UJyIsjqQ)|
+[Model Quality, Explainability, Lift](https://www.youtube.com/watch?v=PKwjitqOdOc)|
+|Embedded Cognitive AI|[Image Object Detection Classification](https://www.youtube.com/watch?v=uYIo4XURymI)|
+[Key Phrase, Sentiment, Tokens Classification,](https://www.youtube.com/watch?v=yjgoh2-WINs)|
+[Market Basket Analysis](https://www.youtube.com/watch?v=e8UOe1IbcSA)|
+[Anomaly Detection](https://www.youtube.com/watch?v=wOnQuF3YIH8)|
+[Spatial](https://www.youtube.com/watch?v=O24q6KuHeR4)|
+[Network Graph](https://www.youtube.com/watch?v=NSGC7Gpmnzo)|
+
 ## Oracle Analytics Client Tools
  |Content Link |Descripton|
  | ------------ |------------|
