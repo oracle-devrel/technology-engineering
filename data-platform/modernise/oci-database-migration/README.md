@@ -15,6 +15,8 @@ Reviewed: 03.11.2023
     - Red Hot Webinar delivered by Marcus Doeringer capturing an in-depth description of OCI Database Migration - features, functionality, use-cases and technical demonstration
 - [Setup your Oracle Database Migration to OCI in the blink of an eye - Cloud Coaching Webinar](https://www.youtube.com/watch?v=jEJ30lona7g)
     - Cloud Coaching Webinar, including a technical demonstration, delivered by Amalraj Puthenchira around the use of OCI Database Migration for simplified and effective Database Migrations into OCI
+- [Online Database Migration Services (DMS) made simpler, faster](https://www.youtube.com/watch?v=iVCZYU5ddBA)
+    - YouTube video explaining how OCI Database Migration is integrated with OCI GoldenGate for replication during online migrations. More information about this feature of OCI Database Migration is also available [here](https://blogs.oracle.com/dataintegration/post/oci-database-migration-announces-oci-goldengate-integration).
  
 ## Useful Links
 
