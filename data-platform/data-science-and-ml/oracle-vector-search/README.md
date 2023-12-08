@@ -2,6 +2,9 @@
 
 This page is covering Oracle Vector Search.
 
+Reviewed: 2023-12-04
+
+
 # License
 
 Copyright (c) 2023 Oracle and/or its affiliates.

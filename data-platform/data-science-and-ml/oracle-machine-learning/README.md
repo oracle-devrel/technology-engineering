@@ -4,12 +4,20 @@ This page is covering Oracle Machine Learning, or Machine Learning in Oracle Dat
 
 Machine Learning in Oracle Database supports data exploration, preparation, and machine learning modeling at scale using SQL, R, Python, REST, automated machine learning (AutoML), and no-code interfaces. It includes more than 30 high performance in-database algorithms producing models for immediate use in applications. By keeping data in the database, organizations can simplify their overall architecture and maintain data synchronization and security. It enables data scientists and other data professionals to build models quickly by simplifying and automating key elements of the machine learning lifecycle.
 
-## Table of Contents
- 
-1. [Useful Links](#useful-links)
-2. [Reusable Assets](#reusable-assets)
+Reviewed: 2023-12-04
 
-## Useful Links
+
+# Table of Contents
+
+1. [Team Publications](#team-publications) 
+2. [Useful Links](#useful-links)
+3. [Reusable Assets](#reusable-assets)
+
+
+# Team Publications
+
+
+# Useful Links
 
 - [Oracle Machine Learning homepage](https://www.oracle.com/artificial-intelligence/database-machine-learning/)
 - [Oracle Machine Learning on YouTube](https://www.youtube.com/playlist?list=PLdtXkK5KBY57_y3Z0SW2cbCqGUPbfc94w)
@@ -17,6 +25,11 @@ Machine Learning in Oracle Database supports data exploration, preparation, and 
 - [Oracle Machine Learning on GitHub](https://github.com/oracle-samples/oracle-db-examples/tree/main/machine-learning)
 - [Oracle Machine Learning on Oracle LiveLabs](https://apexapps.oracle.com/pls/apex/f?p=133:100:14606520475441::::SEARCH:oracle+machine+learning)
 - [Oracle Machine Learning documentation](https://docs.oracle.com/en/database/oracle/machine-learning/)
+
+
+# Reusable Assets
+
+- [Integrating Oracle Machine Learning with Oracle Digital Assistant](https://www.youtube.com/watch?v=gA-HfDYV7ao)
 
 
 # License
