@@ -108,7 +108,7 @@ Oracle Cloud VMware Solution is based on VMware Cloud Foundation (VCF) and provi
 - [Increasing VMware Datastore size backed by OCI Block Storage](https://www.youtube.com/watch?v=vg_RApWrvE0)
 
 ## Reusable Assets Overview
-- [Automating OCVS operations using Terraform](https://github.com/oracle-devrel/technology-engineering/cloud-infrastructure/vmware-solutions/oracle-cloud-vmware-solution/OCVS-Terraform-automation/)
+- [Automating OCVS operations using Terraform](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/vmware-solutions/oracle-cloud-vmware-solution/OCVS-Terraform-automation)
 
 # License
 
