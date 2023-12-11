@@ -8,7 +8,7 @@ Depending on the role, each user (or persona) plays, different processes are use
 
 This pattern explains the personas and related processes.
 
-Before you start, take into account these considerations:
+Before you start, take these considerations into account:
 - Never share accounts between users.
 - Never share passwords between users.
 - Never create shared accounts for tenancy global administration.
@@ -18,6 +18,8 @@ Before you start, take into account these considerations:
 ## 2. User Personas
 
 ### 2.1 OCI Platform Administrator
+
+OCI Platform Administrator Personas use the Default domain only. **No other user persona should be in this domain.** [See Design Guidance for IAM Identity Domains](https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/iam-security-structure.htm#IAM-identity-domains)
 &nbsp; 
 | TYPE  |  DESCRIPTION | USER TYPE | RESPONSIBILITIES | CAPABILITIES | LIFE CYCLE | OCI GROUP MEMBERSHIP | FEDERATED | DOMAIN | 
 |---|---|---|---|---|---|---|---|---|
@@ -30,12 +32,14 @@ Administrators |  Dedicated groups of users to manage the OCI platform resources
 
 ### 2.2 Workload User
 
+Workload User Personas are workload dependent and may life in the related resources (like OS users or Database schema users). Workload personas should **never** be part of the *Default* domain. [See Design Guidance for IAM Identity Domains](https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/iam-security-structure.htm#IAM-identity-domains)
+
 | TYPE  |  DESCRIPTION | USER TYPE   | LIFE CYCLE | OCI GROUP MEMBERSHIP | FEDERATED | DOMAIN | 
 |---|---|---|---|---|---|---|
-| OS User | A user working in the VM as an OS user. Permissions are granted at the OS level. <br> *Not related to any OCI groups and policies.* | Root users <br>Human users  | If possible, through user provisioning where customer identity management system is the source of truth. | N/A | Optional | Not required<br> Dedicated | 
-| Database User | A user working in a database using a database schema user. Permissions are granted within the database. <br>*Not related to any OCI groups and policies.* | DBAs, Admin users<br>Schema users  | If possible, through user provisioning where customer identity management system is the source of truth. | N/A | Optional | Not required<br> Dedicated | 
-| Application User | A user working in an application. <br>*Not related to any OCI groups and policies.*  | Application Administrators<br>Application Users<br>Backplane processes  | If possible, through user provisioning where the customer identity management system is the source of truth. | N/A | Optional | Not required<br> Dedicated | 
-| PaaS User | A user working in PaaS services. <br>*Not related to any OCI groups and policies.*  | PaaS-related user types | If possible, through user provisioning where the customer identity management system is the source of truth. | N/A | Optional | Dedicated | 
+| OS User | A user working in the VM as an OS user. Permissions are granted at the OS level. <br> *Not related to any OCI groups and policies.* | Root users <br>Human users  | If possible, through user provisioning where customer identity management system is the source of truth. | N/A | Optional | Not required<br> Dedicated domain| 
+| Database User | A user working in a database using a database schema user. Permissions are granted within the database. <br>*Not related to any OCI groups and policies.* | DBAs, Admin users<br>Schema users  | If possible, through user provisioning where customer identity management system is the source of truth. | N/A | Optional | Not required<br> Dedicated domain| 
+| Application User | A user working in an application. <br>*Not related to any OCI groups and policies.*  | Application Administrators<br>Application Users<br>Backplane processes  | If possible, through user provisioning where the customer identity management system is the source of truth. | N/A | Optional | Not required<br> Dedicated domain| 
+| PaaS User | A user working in PaaS services. <br>*Not related to any OCI groups and policies.*  | PaaS-related user types | If possible, through user provisioning where the customer identity management system is the source of truth. | N/A | Optional | Dedicated domain | 
 
 &nbsp; 
 
