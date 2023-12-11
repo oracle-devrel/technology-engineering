@@ -1,8 +1,8 @@
 # Did-Not-Attend Risk Model
 
 This demo is going to showcase Oracle Data Science capabilities to predict the likelihood of a patient not attending their scheduled appointment.
-The objective it not only to make accurate predictions, but to also understand the reasons why our Machine Learning Model has predicted each patient to be a show or a no show.
-By exploring explainability of a model we will be able to answer the question of ‘why’ a patient will likely be a no show so that the practice operational team can follow up with a friendly reminder or reschedule for a more convenient time.
+The objective is not only to make accurate predictions but to also understand the reasons why our Machine Learning Model has predicted each patient to be a show or a no-show.
+By exploring the explainability of a model we will be able to answer the question of ‘why’ a patient will likely be a no-show so that the practice operational team can follow up with a friendly reminder or reschedule for a more convenient time.
 
 Reviewed: 2023-12-04
  
