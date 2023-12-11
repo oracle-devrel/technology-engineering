@@ -4,14 +4,20 @@ Oracle Autonomous Transaction Processing is a fully automated database service o
  
 # Table of Contents
  
+1. [Useful Links](#useful-links)
+2. [LiveLabs](#livelabs)
+ 
+# Useful Links
+ 
+- [Autonomous Transactional Processing Documentation](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/appendix-autonomous-database-atp-and-ajd-workloads.html)
+    - Find all the information about Autonomous Transactional Processing.
 
-1. [LiveLabs](#livelabs)
- 
- 
 # LiveLabs
  
 - [Automatic Indexing for Oracle Autonomous Database](https://apexapps.oracle.com/pls/apex/f?p=133:180:109524315536663::::wid:3328)
     - Creating indexes requires a deep knowledge of the data model, how client applications behave, and the characteristics of the data stored in the database. Now, Oracle’s Autonomous Database can manage indexes without the need for manual intervention.
+
+    
  
 # License
  

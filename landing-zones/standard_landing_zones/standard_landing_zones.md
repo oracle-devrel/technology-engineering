@@ -26,13 +26,13 @@ Some characteristics of an SLZ:
 There are **two solutions** OCI Standard Landing Zones:
 
 
-* **[CIS LANDING ZONE (CIS LZ)](https://docs.oracle.com/en/solutions/cis-oci-benchmark/index.html)**:  This solution provides a Terraform-based landing zone template that meets the security guidance prescribed in CIS Oracle Cloud Infrastructure Foundations Benchmark. This LZ brings in the ability to provision multiple VCNs, either in standalone mode or as constituent parts of a Hub and Spoke architecture. The VCNs can either follow a general purpose standard three-tier network topology or are oriented towards specific topologies. 
+* **[CIS LANDING ZONE (CIS LZ)](/landing-zones/standard_landing_zones/cis_lz_v2/cis_landing_zone_v2.md)**:  This solution provides a Terraform-based landing zone template that meets the security guidance prescribed in CIS Oracle Cloud Infrastructure Foundations Benchmark. This LZ brings in the ability to provision multiple VCNs, either in standalone mode or as constituent parts of a Hub and Spoke architecture. The VCNs can either follow a general purpose standard three-tier network topology or are oriented towards specific topologies. 
   * The current version is v2.x.
   * The **version 3** is coming and a highly configurable set of terraform modules are already available to configure with json/hcl any landing zone structure. For more details refer to the [Tailored Landing Zones](/landing-zones/tailored_landing_zones/tailored_landing_zones.md) approach. 
 
 
 &nbsp; 
-* **[ORACLE ENTERPRISE LANDING ZONE (OELZ)](https://blogs.oracle.com/cloudsecurity/post/enterprise-scale-baseline-landing-zone-version2)**: This is the new version of the enterprise version of the Cloud Adoption Framework (CAF) landing zone. This solution provides a scalable architecture and deployment that includes designs for governance, security segmentation, and separation of duties. It's possible to deploy multiple workloads with separate networks for isolation and access.
+* **[ORACLE ENTERPRISE LANDING ZONE (OELZ)](/landing-zones/standard_landing_zones/oelz_v2/oelz_v2.md)**: This is the new version of the enterprise version of the Cloud Adoption Framework (CAF) landing zone. This solution provides a scalable architecture and deployment that includes designs for governance, security segmentation, and separation of duties. It's possible to deploy multiple workloads with separate networks for isolation and access.
   * The current version is v2.x.
 
 
@@ -72,10 +72,9 @@ If after reviewing the table above the solution is not clear:
 
 | STEP  |   DESCRIPTION | 
 |:---:|---|
-| 1 | Review the previous section | 
-| 2 | Review the [**landing zone landscape**](/landing-zones/commons/select_your_solution.pdf) for complementary **considerations for using** and **before using**.  |
-|3 | Select the solution:<br>- For the **CIS LZ [start here](/landing-zones/standard_landing_zones/cis_lz_v2/cis_landing_zone_v2.md)**. <br>- For the **OELZ [start here](/landing-zones/standard_landing_zones/oelz_v2/oelz_v2.md)**.
-| 4 | If it's required a **custom design extending the standard landing zone**, there are three alternatives: <br>**a. OCI Console**: Update the resources after deploying the solution. The impact of this is operating the OCI landing zone with the OCI console, i.e., manually.<br>**b. Extended IaC**: Update the code to fit the needs and deploy the solution. The impact of this might be the effort and skills required. <br>**c. Tailored with IaC**: If it's required more design flexibility or the extensions break the standard solution and require structural changes, use the [tailored landing zone](/landing-zones/tailored_landing_zones/tailored_landing_zones.md) approach.
+| 1 | Review the previous section. | 
+| 2 | Select the solution:<br>a. For the **CIS LZ [start here](/landing-zones/standard_landing_zones/cis_lz_v2/cis_landing_zone_v2.md)**. <br>b. For the **OELZ [start here](/landing-zones/standard_landing_zones/oelz_v2/oelz_v2.md)**.
+| 3 | If it's required a **custom design extending the standard landing zone**, there are three alternatives: <br>**a. OCI Console**: Update the resources after deploying the solution. The impact of this is operating the OCI landing zone with the OCI console, i.e., manually.<br>**b. Extended IaC**: Update the code to fit the needs and deploy the solution. The impact of this might be the effort and skills required. <br>**c. Tailored with IaC**: If it's required more design flexibility or the extensions break the standard solution and require structural changes, use the [tailored landing zone](/landing-zones/tailored_landing_zones/tailored_landing_zones.md) approach.
 
    
 &nbsp; 

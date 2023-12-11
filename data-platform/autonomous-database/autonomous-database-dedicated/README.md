@@ -17,17 +17,20 @@ Autonomous Database on Dedicated Exadata Infrastructure provides you with a priv
  
 - [Autonomous Database Dedicated Documentation](https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbd-index.html)
     - Find all the information about Autonomous Database Dedicated.
+
+- [Advanced customer deployment for Oracle Autonomous Dedicated Infrastructure](https://www.youtube.com/watch?v=RqlHM1i83_w )
+    - Learn how to deploy advanced Autonomous Database Dedicated deployments.
  
 # LiveLabs
  
-- [Oracle Autonomous Database Dedicated for Fleet Administrators](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3196&clear=RR,180&session=109524315536663)
+- [Oracle Autonomous Database Dedicated for Fleet Administrators](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3196&clear=RR,180)
     - In this workshop designed for Oracle Autonomous Database Dedicated fleet administrators, you set up the network, users, and groups and required administrator privileges on your OCI account.
 
-- [Oracle Autonomous Database Dedicated for Developers and Database Users](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3197&clear=RR,180&session=109524315536663)
-    - This set of hands-on-labs is designed to assist developers and database users with setting up and using various features of the Autonomous Database on Dedicated Exadata Infrastructure Service.
+- [Oracle Autonomous Database Dedicated for Developers and Database Users](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3197&clear=RR,180)
+    - This set of hands-on labs is designed to assist developers and database users with setting up and using various features of the Autonomous Database on Dedicated Exadata Infrastructure Service.
 
-- [Oracle Autonomous Database Dedicated for Security Administrators](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3198&clear=RR,180&session=109524315536663)
-    - This set of hands-on-labs is designed to assist database security administrators with setting up and using various features of the Autonomous Database on dedicated Exadata Infrastructure service.
+- [Oracle Autonomous Database Dedicated for Security Administrators](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3198&clear=RR,180)
+    - This set of hands-on labs is designed to assist database security administrators with setting up and using various features of the Autonomous Database on the dedicated Exadata Infrastructure service.
     
 # License
  
