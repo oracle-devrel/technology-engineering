@@ -1,6 +1,6 @@
 # Art of Possible Demos
 
-This page covers the Art of Possible Demos associated assets.
+This page covers the Art of Possible Demo-associated assets.
 
 Reviewed: 2023-12-04
 
