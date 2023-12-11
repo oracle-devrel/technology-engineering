@@ -16,6 +16,8 @@ Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a compl
     - This reference architecture describes a lakehouse architecture pattern, the services that are part of it, the capabilities those services deliver, and how to deploy them. It covers best practices, a deployment topology, and automated deployment with an [Oracle Resource Manager Terraform stack](https://github.com/oracle-devrel/terraform-oci-oracle-cloud-foundation/tree/main/cloud-foundation/solutions/Data-platform-data-lakehouse) (part of the [cloud-foundation Terraform solutions](https://github.com/oracle-devrel/terraform-oci-oracle-cloud-foundation/tree/main/cloud-foundation)).
 - [Deploy a machine learning model close to the network edge](https://docs.oracle.com/en/solutions/deploy-ml-at-edge/#GUID-8EC86246-D724-4C16-8073-8CB5B2EA6719)
     - This reference architecture describes a deployment where data is ingested from edge locations into OCI, where it is used to build and train ML models that are deployed in the edge for low latency inferencing.
+- [Monetize data with Oracle Cloud Infrastructure](https://docs.oracle.com/en/solutions/monetize-data-oci/index.html)
+    - Reference Architecture depicting how to support data monetization by exposing data products via APIs and integrating with subscription and payment systems to process usage and payments.
 
 ## GitHub
 

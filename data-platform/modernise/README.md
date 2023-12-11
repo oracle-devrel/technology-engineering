@@ -12,6 +12,7 @@ Also make sure to check the dedicated pages of the main technology areas of Data
 * [Database Patching](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/database-patching)
 * [Cloud Premigration Advisor Tool](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/cloud-premigration-advisor-tool)
 * [Transportable Tablespace](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/transportable-tablespace)
+* [Migration to OCI Database with PostgreSQL](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/migration-to-oci-database-with-postgresql)
 
 # Team Publications
  
