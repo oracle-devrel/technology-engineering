@@ -8,7 +8,7 @@ Reviewed: 11.12.2023
  
 1. [Useful Links](#useful-links)
 2. [Team Publications](#team-publications)
-3. [Reusable Assets Overview](#reusable-assets-overviewdef)
+3. [Reusable Assets Overview](#reusable-assets-overview)
  
 ## Useful Links
 - [Oracle Cloud VMware Solution](https://www.oracle.com/uk/cloud/compute/vmware/)
