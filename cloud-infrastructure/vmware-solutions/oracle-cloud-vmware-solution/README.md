@@ -1,12 +1,14 @@
 # Oracle Cloud VMware Solution
  
 Oracle Cloud VMware Solution is based on VMware Cloud Foundation (VCF) and provides a fully supported, customizable cloud environment for VMware deployments and migrations. The solution delivers a full-stack software-defined data center (SDDC), including VMware’s vCenter, ESXi, NSX, and vSAN. Specific use cases targeted by Oracle Cloud VMware Solution include data center and application migration, hybrid extension, on-demand capacity, and disaster recovery. 
+
+Reviewed: 11.12.2023
  
 # Table of Contents
  
 1. [Useful Links](#useful-links)
 2. [Team Publications](#team-publications)
-3. [Reusable Assets Overview](#reusable-assets-overviewdef)
+3. [Reusable Assets Overview](#reusable-assets-overview)
  
 ## Useful Links
 - [Oracle Cloud VMware Solution](https://www.oracle.com/uk/cloud/compute/vmware/)
@@ -16,6 +18,9 @@ Oracle Cloud VMware Solution is based on VMware Cloud Foundation (VCF) and provi
 ## Team Publications
 
 ### Reference Architectures & Step-by-step Guides
+
+- [Secure web applications hosted on Oracle Cloud VMware Solution with OCI Certificates](https://docs.oracle.com/en/solutions/secure-web-applications-in-ocvs/#GUID-7FA4EA91-B3CD-4085-B1FB-6255E068928B)
+    -  This reference architecture describes the integration options for Oracle Cloud VMware Solution with OCI Certificates and Oracle Cloud Infrastructure Load Balancing (LBaaS) allowing customers to securely publish their critical applications.
 
 - [Use OCI Security Services for Data Protection with Oracle Cloud VMware Solution](https://docs.oracle.com/en/solutions/oci-security-ocvs/index.html)
     -  This reference architecture describes the integration options for Oracle Cloud VMware Solution with OCI Data Protection layer and security services to address the requirements for running critical and sensitive workloads.
@@ -116,7 +121,7 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
 
 [def]: #useful-links
 [def2]: def
