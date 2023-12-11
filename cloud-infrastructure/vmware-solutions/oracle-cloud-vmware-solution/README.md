@@ -113,7 +113,7 @@ Reviewed: 11.12.2023
 - [Increasing VMware Datastore size backed by OCI Block Storage](https://www.youtube.com/watch?v=vg_RApWrvE0)
 
 ## Reusable Assets Overview
-TBD
+- [Automating OCVS operations using Terraform](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/vmware-solutions/oracle-cloud-vmware-solution/OCVS-Terraform-automation)
 
 # License
 

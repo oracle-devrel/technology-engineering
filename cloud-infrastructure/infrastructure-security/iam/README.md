@@ -8,6 +8,9 @@ OCI IAM is a native service of OCI that provides enterprise-class identity and a
 2. [Useful Links](#useful-uinks)
  
 ## Team Publications
+
+- [Oracle IAM Services ](https://www.oracle.com/emea/cloud/events/cloud-coaching/on-demand/?ytid=mvOqda-XZVE)
+    - Video about Oracle's Identity and Access Management Services
  
 - [OCI IAM and IDCS Common Use Cases](https://www.youtube.com/watch?v=RiaPB8PaEjA)
     - Video about common use cases of OCI IAM
@@ -34,6 +37,9 @@ OCI IAM is a native service of OCI that provides enterprise-class identity and a
     - OCI IAM Documentation
 - [OCI IAM Introduction Video](https://youtu.be/TUP9lIijNJQ)
     - OCI IAM Overview video
+- [OCI IAM Live Lab](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=624&clear=RR,180&session=109961295889018)
+    - OCI IAM Live Lab
+
       
 # License
  
