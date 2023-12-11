@@ -1,7 +1,7 @@
 # Footfall Forecasting
 
-This demo is going to show Oracle AI Platform capabilities to predict number of customers visiting a Retail space by following composite AI approach.
-Objective is to make accurate predictions about future footfall and make data-driven decisions about staffing, inventory, rental prices as well as optimizing tenant mix by combining various techniques such as descriptive analytics , NLP, image detection and forecasting.
+This demo is going to show Oracle AI Platform capabilities to predict the number of customers visiting a Retail space by following a composite AI approach.
+The objective is to make accurate predictions about future footfall and make data-driven decisions about staffing, inventory, and rental prices as well as optimize tenant mix by combining various techniques such as descriptive analytics, NLP, image detection, and forecasting.
 
 Reviewed: 2023-12-04
  
