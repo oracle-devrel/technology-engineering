@@ -33,7 +33,11 @@ most performant and cost-effective platform to host their AI services.
     - Terraform script to start a stable-diffusion, bloom, and dreambooth in compute instance using an Nvidia GPU in OCI.
 - [Generative AI in OCI](https://medium.com/oracledevs/generative-ai-in-oci-c0467e1a68f7)
     - Blog post explaining how to use generative AI models in OCI.
-
+- [Introduction to Oracle AI Platform](https://go.oracle.com/LP=138234?elqCampaignId=489428&src1=:so:ch:or:dg::::&SC=:so:ch:or:dg::::&pcode=WWMK230822P00010)
+    - Webinar series, where you will learn about Artificial Intelligence, Oracle AI infrastructure and solutions.
+- [Oracle Generative AI Webinar](https://go.oracle.com/LP=138234?elqCampaignId=489428&src1=:so:ch:or:dg::::&SC=:so:ch:or:dg::::&pcode=WWMK230822P00010)
+    - Deep dive into Oracle Generative AI platform.
+    
 
 # Useful Links
  
