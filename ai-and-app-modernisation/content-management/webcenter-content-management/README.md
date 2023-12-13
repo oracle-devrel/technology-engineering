@@ -12,7 +12,6 @@ Oracle WebCenter Content Server is the foundation for a variety of Oracle conten
 - [How to install and configure Oracle Webcenter Content 12c](https://youtu.be/UaPTfkHWGQ8?si=yL8VeKhexhGj5g6H)
 - [WebCenter Content User Experience](https://youtu.be/MpwWzgmKfFw?si=QNG-dORBLEo6E_3z)
 - [WebCenter Content for Android Mobile Users](https://youtu.be/G6KzH4auWw4?si=L60JAR_d5CAG4Dgp)
-- [WebCenter Content for Android Mobile Users](https://youtu.be/G6KzH4auWw4?si=L60JAR_d5CAG4Dgp)
 - [Create Criteria Workflow in Webcenter Content](https://youtu.be/qLe4DFmhjXo?si=QvW4J_sSv1odi5aC)
 - [Records and Retention Management](https://docs.oracle.com/en/middleware/webcenter/content/12.2.1.4/webcenter-content-manage/managing-records.html#GUID-220C643F-F3F9-4B06-A459-B68DD0517212)
 - [WebCenter Enterprise Capture](https://docs.oracle.com/en/middleware/webcenter/content/12.2.1.4/use-capture/getting-started-capture.html#GUID-94A154E5-0189-4066-90A8-D120B1C993CD)
