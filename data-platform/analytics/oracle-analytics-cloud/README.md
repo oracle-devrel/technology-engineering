@@ -112,6 +112,25 @@ Reviewed: 31.10.2023
 |[Start using Oracle Analytics and AI in 5 minutes!](https://blogs.oracle.com/analytics/post/start-using-oracle-analytics-and-ai-in-5-minutes)|Quick guide to use OAC for AI.|
 |[Discover Insights with Oracle Analytics Cloud and OCI AI Anomaly Detection](https://blogs.oracle.com/analytics/post/discover-insights-with-oracle-analytics-cloud-and-oci-ai-anomaly-detection)|OAC Machine Learning|How you can take advantage of Oracle Analytics Cloud (OAC) and OCI AI Anomaly Detection to reveal insights from detected anomalies.|
 
+## OAC Machine Learning Demos
+|Content Link |Functionality|Descripton|
+| ------------ |------------|----------|
+[Ai-Enhanced Automated Insights](https://www.youtube.com/watch?v=JpQ9V9p2hMI)|AI Augmented Experience|Auto-Insights feature in Oracle Analytics.|
+[ML-based Automated Column Explain](https://www.youtube.com/watch?v=mcQ9MGdcKoA)|AI Augmented Experience|Explain feature for Attribute and Measure column.|
+[Targeted Segmentation](https://youtu.be/IJaGTmiZyAg)|AI Augmented Experience|Use Explain to Discover Data Insights in Oracle Analytics.|
+[Right Click In Context ML](https://www.youtube.com/watch?v=aRfYn2hB-Jg)|AI Augmented Experience|Easily Create Custom Advanced Analytics Calculations in Oracle Analytics.|
+[Code-less ML Design](https://www.youtube.com/watch?v=vgFTiDObLyU)|User Friendly No-code ML|Visualize Quality of Oracle Analytics Linear Regression Models.|
+[Powerful Single-Click Auto-ML](https://www.youtube.com/watch?v=Nuh3KShdeFg)|User Friendly No-code ML|Design Models using AutoML in Oracle Analytics.|
+[Time Series Forecast](https://www.youtube.com/watch?v=LuMTLlhq2-M)|User Friendly No-code ML|Leveraging OML Timeseries in Oracle Analytics.|
+[Consume External ML models](https://www.youtube.com/watch?v=k68UJyIsjqQ)|User Friendly No-code ML|Apply OCI Data Science Regression Model in Oracle Analytics.|
+[Model Quality, Explainability, Lift](https://www.youtube.com/watch?v=PKwjitqOdOc)|User Friendly No-code ML|Explain Predictions on Your Data Using OAC ML Outputs Options.|
+[Image Object Detection Classification](https://www.youtube.com/watch?v=uYIo4XURymI)|Embedded Cognitive AI|Image Object Detection in Oracle Analytics with OCI Vision AI.|
+[Key Phrase, Sentiment, Tokens Classification,](https://www.youtube.com/watch?v=yjgoh2-WINs)|Embedded Cognitive AI|Running and Visualizing OCI Language Sentiment AI in Oracle Analytics.|
+[Market Basket Analysis](https://www.youtube.com/watch?v=e8UOe1IbcSA)|Embedded Cognitive AI|Frequent Itemset Analytics (Market Basket) with Data Flows.|
+[Anomaly Detection](https://www.youtube.com/watch?v=wOnQuF3YIH8)|Embedded Cognitive AI|Database Analytics Node : Anomalies Detection.|
+[Spatial](https://www.youtube.com/watch?v=O24q6KuHeR4)|Embedded Cognitive AI|Use Custom Maps to Visualize Data in Oracle Analytics.|
+[Network Graph](https://www.youtube.com/watch?v=NSGC7Gpmnzo)|Embedded Cognitive AI|OAC Custom Viz Plugin - Network Graph Visualization.|
+
 ## Oracle Analytics Client Tools
  |Content Link |Descripton|
  | ------------ |------------|
