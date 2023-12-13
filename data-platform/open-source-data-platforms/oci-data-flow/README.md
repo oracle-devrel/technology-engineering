@@ -6,7 +6,7 @@ Oracle Cloud Infrastructure (OCI) Data Flow is a fully managed Apache Spark serv
 - [Code Samples](https://github.com/oracle-samples/oracle-dataflow-samples)
 - [Data Science Data Flow Notebook Samples](https://github.com/oracle-samples/oci-data-science-ai-samples/tree/main/notebook_examples)
 - [Machine Learning with OCI Data Flow](https://www.youtube.com/watch?v=A6uVbK7wQb4)  
-
+- [Extracting data from Salesforce in near real time using OCI Data Flow — Part 1](https://medium.com/@eloi-lopes29/extracting-data-from-salesforce-in-near-real-time-using-oci-data-flow-part-1-f096886b9fcd)
                                                      
 # License
 Copyright (c) 2023 Oracle and/or its affiliates.
