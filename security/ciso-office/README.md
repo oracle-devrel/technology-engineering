@@ -38,9 +38,11 @@ The CISO office group under Technology Engineering Security Specialists team is 
     - Uncovering the Cyberleader Priorities and Challenges from the Oracle and KPMG Cloud Threat Report
 - [Cloud security trends to safeguard your enterprise](https://www.oracle.com/security/cloud-security/what-is-cloud-security/security-trends/)
     - This ebook explores trends in how some organizations are using cloud services to address security challenges and provides ideas for how IT and security leaders can simplify and strengthen their security posture
+- [Oracle Trust Center](https://www.oracle.com/trust/)
+     - Contains a range of useful documents and links to various security, privacy, and compliance resources. Includes links to monitor the availability of Oracle Cloud.
 - [Oracle Security](https://www.oracle.com/security/)
     - Protect your most valuable data in the cloud and on-premises with Oracle’s security-first approach. Oracle has decades of experience securing data and applications; Oracle Cloud Infrastructure delivers a more secure cloud to our customers, building trust and protecting their most valuable data.
- - [Oracle Cloud Compliance](https://www.oracle.com/corporate/cloud-compliance/)
+- [Oracle Cloud Compliance](https://www.oracle.com/corporate/cloud-compliance/)
      - Oracle is committed to helping customers operate globally in a fast-changing business environment and address the challenges of an ever more complex regulatory environment. 
  
 # License

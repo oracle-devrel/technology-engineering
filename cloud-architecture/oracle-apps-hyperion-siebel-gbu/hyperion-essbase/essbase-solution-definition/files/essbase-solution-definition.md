@@ -1,6 +1,3 @@
-<!---   
-      Replace ${doc.customer.name} in the document. Please specify to whom to hand over the project after implementation. eg.: The Customer, a 3rd party implementation or operations partner, etc.           
---->
 
 *Guide:*
 
@@ -10,11 +7,13 @@
 
 # Document Control
 
+
 *Guide:*
 
 *The first chapter of the document describes the metadata for the document. Such as versioning and team members.*
 
 ## Version Control
+
 
 *Guide:*
 
@@ -52,14 +51,18 @@ Name  | email@example.com     | Cloud Architect         | Oracle
 
 *Example:*
 
-Acronyms:    
-AD: Availability Domain  
-DRG: Dynamic Routing Gateway  
-OCI: Oracle Cloud Infrastructure   
-IaaS: Infrastructure as a Service    
-LB: Load Balancer    
-NSG: Network Security Group   
-VCN: Virtual Cloud Network
+doc:
+  acronyms:
+    AD:	Availability Domain
+    DRG: Dynamic Routing Gateway
+    OCI: Oracle Cloud Infrastructure
+    IaaS: Infrastructure as a Service
+    LB: Load Balancer
+    NSG: Network Security Group
+    VCN: Virtual Cloud Network
+---
+
+
 
 ## Document Purpose
 
@@ -71,7 +74,7 @@ VCN: Virtual Cloud Network
 
 This document provides a high-level solution definition for the Oracle solution and aims at describing the current state, and to-be state as well as a potential project scope and timeline. The intended purpose is to provide all parties involved with a clear and well-defined insight into the scope of work and intention of the project.
 
-The document may refer to a 'Workload', which summarizes the full technical solution for a customer (You) during a single engagement. The Workload is described in the chapter Workload Requirements and Architecture.
+The document may refer to a 'Workload', which summarizes the full technical solution for a customer (You) during a single engagement. The Workload is described in the chapter [Workload Requirements and Architecture](#workload-requirements-and-architecture).
 
 <!--                            -->
 <!-- End of 1) Document Control -->
@@ -107,7 +110,7 @@ By moving Essbase systems to Oracle Cloud Infrastructure the following benefits 
 
 *Guide:*
 
-*A clear statement of specific business value as part of the full workload scope. Try to keep it SMART: Specific, Measurable, Assignable, Realistic, and Time-Related - Agree on the business value with the customer. Keep it business-focused, and speak the language of the LoB which benefits from this Workload: "Increase Customer Retention by 3% in the next year" or "Grow Customer Base with Executive Decision-Making from our Sales and Support Data". Avoid technical success criteria such as "Migrate App X to Oracle Cloud" or "Provision 5 Compute Instances".*
+*A clear statement of specific business value as part of the full workload scope. Try to keep it SMART: Specific, Measurable, Assignable, Realistic, and Time-Related - Agree on the business value with the customer. Keep it business-focused, and speak the language of the LoB which benefits from this Workload: "Increase Customer Retention by 3% in the next year" or "Grow Customer Base with Executive Decision-Making from our Sales and Support Data". Avoid technical success criteria such as "Migrate App X to Oracle Cloud" or "Provision 5 Compute Instances". Avoid Oracle success criteria and language "Get Workload Consuming on OCI".*
 
 Example:
 
@@ -123,11 +126,11 @@ The customer has been using Essbase for more than X years and is one of the key 
 
 *Guide:*
 
-*Describe the Workload: What applications and environments are part of this Workload migration or new implementation project, and what are their names? The implementation will be scoped later and can be a subset of the Solution Definition and proposed overall solution. For example, a Workload could exist of two applications, but the implementer would only include one environment of one application. The workload chapter is about the whole Workload and the implementation scope will be described late in the chapter Solution Scope.*
+*Describe the Workload: What applications and environments are part of this Workload migration or new implementation project, and what are their names? The implementation will be scoped later and can be a subset of the Solution Definition and proposed overall solution. For example, a Workload could exist of two applications, but the implementer would only include one environment of one application.*
 
 Example:
 
-The current project includes provisioning of the Oracle Cloud Infrastructure infrastructure and deploying Essbase 21c via Marketplace.
+The current project includes provisioning of the Oracle Cloud infrastructure and deploying Essbase 21c via Marketplace.
 This project also involves the migration of two Essbase applications from version 11.1.2.4 currently hosted on-premises and used by the customer.
 
 The customer has 2 Essbase environments currently:
@@ -145,15 +148,7 @@ The customer has 2 Essbase environments currently:
 
 *Provide a formal description of the requirements as 1. a set of Use Cases or 2. a description of Functional Capabilities or 3. a Requirement Matrix. The three descriptions are not mutually exclusive.*
 
-Example:
-
-Oracle Essbase is a business analytics solution that uses a proven, flexible, best-in-class architecture for analysis, reporting, and collaboration. Oracle Essbase delivers instant value and greater productivity for your business users, analysts, modellers, and decision-makers, across all lines of business within your organization.
-
-Oracle Essbase provides a complete set of tools and features for deriving and sharing data insights.
-Oracle Essbase on Oracle Cloud Infrastructure (OCI) via Marketplace is a powerful analytic platform with robust new features added since Release 11g.
-
-However, as part of the workload migration project, no functional changes are implemented to the Essbase applications. Please refer to the official documentation for differences between Essbase 11g and Essbase 21c [here] (https://docs.oracle.com/en/database/other-databases/essbase/21/essoa/differences-essbase-11g-and-essbase-21c.html)
-
+*Some Workload teams, especially the Analytics and Merging Tech teams, will create new applications based on functional requirements, some Workload teams will not touch the functional requirements at all and just change the platform under an application. However, it is important to understand who is using the system and for what reason.*
 
 ### Use Cases (Optional)
 
@@ -183,26 +178,16 @@ Alternative Flow 3              | If he/she notices that something shrank, he/sh
 
 *In specific cases, a set of Functional Capabilities can be represented in a functional decomposition diagram. This is typical of functional analysis in the System Engineering domain. For more information on Functional Analysis see, e.g. https://spacese.spacegrant.org/functional-analysis/.*
 
-Oracle Essbase stands for Extended Spread Sheet Database. Essbase is an OLAP (Online Analytic Processing) business analysis server technology that provides an environment for rapidly developing custom analytic applications and uses complex queries to analyze aggregated historical data from OLTP systems. The multidimensional analysis uses a database that is structured on business concepts and that is designed around business needs.
-
-In addition, Essbase is built on the middle-tier application server (Weblogic) and DB tier.
-Further information can be found [here](https://docs.oracle.com/en/database/other-databases/essbase/21/essst/what-is-oracle-essbase.html)
-
 ### Requirement Matrix (Optional)
 
 *Guide:*
 
-*A Requirement Matrix can be used when the solution will be based on software capabilities already available in existing components (either custom or vendor provided). The Requirements Matrix is a matrix that is used to capture client requirements for software selection and to evaluate the initial functional “fit” of a vendor’s software solution to the business needs
+*A Requirement Matrix can be used when the solution will be based on software capabilities already available in existing components (either custom or vendor-provided). The Requirements Matrix is a matrix that is used to capture client requirements for software selection and to evaluate the initial functional “fit” of a vendor’s software solution to the business needs
 of the client.*
 
 *Example:*
 
-|Requirement / Component|Currently Used|On OCI|
-| :----------------------                                                              | :---------------------------------------------------- | :--------------------------------------------------                                                                                                                    |
-| Essbase Server / Essbase Provider Services Web / Essbase Administration Services Web | Essbase (EPM) 11.1.2.4                    | Essbase 21c (21.X). EAS console functionalities have been replaced by Web based UI + Cube Designer                                                                     |
-| Authentication                                                                       | EPM Shared Services security 11.1.2.4     | Identity Cloud Service (IDCS) proposed for the workload                                                                                                                |
-| Database                                                                             |Oracle Database 19c                 | Oracle Autonomous Database (ATP) 19c proposed for the workload                                                                                                         |
-| Operating System                                                                     | Microsoft Windows 2012 R2 Standard 64-bit | Oracle Linux 7.9 64-bit                                                                                                                                                |
+For example, rows can list required functional capabilities and columns can list available software components. Cells can contain a simple Y/N or provide more detail. The Requirements Matrix also is used to identify initial functional gaps or special software enhancements needed to enable each vendor’s software to fulfill the client’s desired system capabilities.
 
 ## Non-Functional Requirements
 
@@ -233,17 +218,17 @@ In addition to these requirements, the [CIS Oracle Cloud Infrastructure Foundati
 
 *Guide:*
 
-*A diagram or list detailing all the required environments (e.g. development, text, live, production, etc).*
+*A diagram or list detailing all the required environments (e.g. development, text, live, production, etc.).*
 
-*If you like to describe a current state, you can use or add the chapter 'Current Sate Architecture' before the 'Future State Architecture'.*
+*If you like to describe a current state, you can use or add the chapter 'Current State Architecture' before the 'Future State Architecture'.*
 
 Example:
 
 Name	        | Size of Prod  | Location	  | DR    | Scope
 :---		    |:---		   	|:---		  |:---   |:---
-Production      | 100%        	| Malaga	  | Yes   | Not in Scope / On-prem
-UAT              | 50%           | Sevilla     | No    | Workload
-Dev      | 25%           | Sevilla     | No    | Workload - ${doc.config.impl.type}
+Production      | 100%        	| Frankfurt	  | Yes   | Not in Scope / On-prem
+UAT              | 50%           | Madrid     | No    | Workload
+Dev      | 25%           | Madrid     | No    | Workload - ${doc.config.impl.type}
 
 
 ### High Availability and Disaster Recovery Requirements
@@ -285,7 +270,7 @@ Essbase Application	| Max Interruption	| minutes 	| 20
 
 *Guide:*
 
-*A subsection, if cleaner separation of Resilience and Recovery into HA, DR, and Backup & Restore is needed.*
+*A subsubsection, if cleaner separation of Resilience and Recovery into HA, DR, and Backup & Restore is needed.*
 
 *Example:*
 
@@ -321,7 +306,7 @@ Use Essbase instance backups to restore all applications on your instance to a c
 
 * Relational database schemas which store some application, user and configuration information.
 * Essbase application and database information stored on a block volume mounted as /u01/data.
-* WebLogic domain and configuration information stored** on a block volume mounted as /u01/config.
+* WebLogic domain and configuration information stored** on a block volume mounted as /u01/confg.
 
 For OCI, the Backup tier will be set to Gold: The gold policy includes daily incremental backups, retained for seven days, along with weekly incremental backups, run on Sunday and retained for four weeks. Includes monthly incremental backups, run on the first day of the month, retained for twelve months. Also, include a full backup, run yearly, during the first part of January. This backup is retained for five years. The backups can be potentially done to a different cloud region as well. Refer to the documentation for more details: [Scheduling volume backups](https://docs.oracle.com/en-us/iaas/Content/Block/Tasks/schedulingvolumebackups.htm)
 
@@ -329,7 +314,7 @@ For OCI, the Backup tier will be set to Gold: The gold policy includes daily inc
 
 *Guide:*
 
-*Capture the Non-Functional Requirements for security-related topics. The requirements can be separated into:*
+*Capture the Non-Functional Requirements for security-related topics. Security is a mandatory subsection that is to be reviewed by the x-workload security team. The requirements can be separated into:*
 - *Identity and Access Management*
 - *Data Security*
 
@@ -353,21 +338,32 @@ At the time of this document creation, no Security requirements have been specif
 
 *Capture any specific or special requirements for data security. This section should also describe any additional constraints such as a requirement for data to be held in a specific location or for data export restrictions.*
 
+### Networking Requirements
+
+*Guide*
+
+*Capture the Non-Functional Requirements for networking-related topics. You can use the networking questions in the [Annex](#networking-requirement-considerations)*
+
+*Example:*
+
+At the time of this document creation, no Networking requirements have been specified.
+
 ### Integration and Interfaces (Optional)
 
 *Guide:*
 
-*A list of all the interfaces into and out of the defined Workload. The list should detail the type of integration, the type of connectivity required (e.g. VPN, VPC, etc) the volumes, and the frequency.*
+*A list of all the interfaces into and out of the defined Workload. The list should detail the type of integration, the type of connectivity required (e.g. VPN, VPC, etc.) the volumes, and the frequency.*
 - *list of integrations*
 - *list of user interfaces*
 
-*Example:*
-
-Name	                    | Source    	| Target	  | Protocol  | Function
+*                | Source    	| Target	  | Protocol  | Function
 :---		                |:---		    |:---		  |:---		  |:---
+IOT		                    | FieExample:*
+
+Name	    ld Sensor	| MQTT Server | MQTT	  | Data collection
 ELT	                       	| ODI		    | EBS DB	  | SQL Net	  | Data extraction
 General Ledger Integration  | EBS           | ERP Cloud   | Batch     | Batch extraction
-
+Mobile API                  | Mobile User   | HR Cloud    | Rest API  | Via API Cloud
 
 ### System Configuration Control Lifecycle (Optional)
 
@@ -378,13 +374,6 @@ General Ledger Integration  | EBS           | ERP Cloud   | Batch     | Batch ex
 - *Does the customer require software to be delivered to a repository*
 - *How will configuration and software be promoted through the environments*
 
-Example:
-
-Oracle recommends the below approach to automate continuous delivery onto servers running on OCI for customer’s application:
-
-- Git version management
-- Automating deployment
-- Automate LCM export
 
 ### Operating Model (Optional)
 
@@ -415,10 +404,11 @@ Enterprise Manager		| Manage DB Instances    | All Oracle DBs	| OCI	(Migration) 
 
 *Example:*
 
-Type		  | Operation				       | KPI		  | Unit	| Value	| Notes
----			  |---					           |---		    |---		|---	  |---
-Online		| Data Load (FDMEE) | MaxTime	| sec		| TBD	  | Compare selected data load times between the source and target environments
-Online    | Run selected calculations in Essbase application (Essbase)  | MaxTime  | sec  | TBD  |  Compare selected calculation time in Essbase applications between the source and target environments
+Type		| Operation				 | KPI		| Unit	| Value	  | Notes
+:---		|:---					 |:---	    |:---	|:---	  |:---
+Online		| Retrieve customer data | MaxTime	| sec	| 3		  |
+Online		| Retrieve customer data | AvrgTime	| sec	| 0.2	  |
+Realtime|	| Receive MQTT message	 | AvrgTime	| msec	| 100	  | From arrival at Internet router
 
 ### Capacity (Optional)
 
@@ -431,14 +421,11 @@ Online    | Run selected calculations in Essbase application (Essbase)  | MaxTim
 
 *Example:*
 
-The following table indicates the current sizing available on-premises and also outlines any additional capacity requested by the customer or required for the workload migration to OCI. In case of 1:1 sizing and no performance issues/growth considerations, the current capacity will be matched on OCI.
-
-| System         | Capacity           | KPI                    | Unit | Value   | Notes                                                                                                                                 |
-|:---------------|:-------------------|:-----------------------|:-----|:--------|:--------------------------------------------------------------------------------------------------------------------------------------|
-| DB server      | DB size            | MaxVol                 | GB   | 11GB    | Metadata sizing stored on existing Production environment                                                                             |
-| Essbase Server | Simultaneous users | Concurrent / Max Users | Nb   | 150/700 |                                                                                                                                       |
-| Essbase Server | CPU                | usage                  | %    | 30      | Feedback from customer: cpu peak at 30% for evaluated period with Intel Xeon CPU E7-8870 v4@2.10GHz (2 processors - 40 virtual cores) |
-| Essbase Server | Memory             | usage                  | %    | 24      | Feedback from customer for evaluated period for a total of 128GB RAM                                                                  |
+System      | Capacity                | KPI		  | Unit   | Value    | Notes
+:---		|:---					  |:---		  |:---	   |:---	  |:---
+DB server	| DB size                 | MaxVol	  | GB     | 2000	  |
+ETL Server  | Data processed nightly  | MaxFlow	  | GB/h   | 100	  |
+OAC Server  | Simultaneous users      | MaxUsers  | -	   | 10	      |
 
 ## Constraints and Risks (Optional)
 
@@ -486,12 +473,12 @@ This section describes the future state logical and physical deployment architec
 
 *Use this text for every engagement. Do not change. Aligned with the Cloud Adoption Framework*
 
-The safety of the ${doc.customer.name}'s Oracle Cloud Infrastructure (OCI) environment and data is the ${doc.customer.name}’s priority.
+The safety of the ${doc.customer.name}'s OCI environment and data is the ${doc.customer.name}’s priority.
 To following table of OCI Security Best Practices lists the recommended topics to provide a secure foundation for every OCI implementation. It applies to new and existing tenancies and should be implemented before the Workload defined in this document will be implemented.
 Workload-related security requirements and settings like tenancy structure, groups, and permissions are defined in the respective chapters.
 Any deviations from these recommendations needed for the scope of this document will be documented in chapters below. They must be approved by ${doc.customer.name}.
 
-${doc.customer.name} is responsible for implementing, managing, and maintaining all listed topics.
+The customer is responsible for implementing, managing, and maintaining all listed topics.
 
 
 Category  |Topic   |Details
@@ -528,248 +515,28 @@ Category  |Topic   |Details
 | Additional Services      | Budget Control            | OCI Budget Control provides an easy to use and quick notification on changes of the tenancy’s budget consumption. It will be configured to quickly identify unexpected usage of the tenancy.         |
 |                          |                           | - For configuration details see Managing Budgets                                                                     |
 
-### OCI Secure Landing Zone Architecture
-
+# Naming Convention
 *Guide:*
 
-*This chapter describes landing zone best practices and usually does not require any changes. The full landing zone needs to be described in the Solution Design by the service provider.*
+*This chapter describes naming convention best practices and usually does not require any changes. If changes are required please refer to [Landing Zone GitHub](https://github.com/oracle-devrel/technology-engineering/tree/main/landing-zones). The naming convention zone needs to be described in the Solution Design by the service provider.*
 
 *Use this template ONLY for new cloud deployments and remove it for brownfield deployments.*
 
-The design considerations for an OCI Cloud Landing Zone have to do with OCI and industry architecture best practices, along with ${doc.customer.name} specific architecture requirements that reflect the Cloud Strategy (hybrid, multi-cloud, etc). An OCI Cloud Landing zone involves a variety of fundamental aspects that have a broad level of sophistication. A good summary of a Cloud Landing Zone has been published in the [OCI User Guide](https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/landing-zone.htm).
+A naming convention is an important part of any deployment to ensure consistency, governance, and security within your tenancy. Find [here](https://github.com/oracle-devrel/technology-engineering/blob/main/landing-zones/commons/resource_naming_conventions.md) Oracle's recommended best practices.
 
-# Naming Convention
-*Guide*
-*If the customer provides a resource naming convention use it. They should have it already for their on-premises compute resources.*
+### OCI Landing Zone Solution Definition
 
-A naming convention is an important part of any deployment to ensure consistency as well as security within your tenancy. Hence, we jointly agree on a naming convention, matching Oracle's best practices and ${doc.customer.name} requirements.
+*Guide:*
 
-Oracle recommends the following Resource Naming Convention:
+*This chapter describes landing zone best practices and usually does not require any changes. If changes are required please refer to [Landing Zone GitHub](https://github.com/oracle-devrel/technology-engineering/tree/main/landing-zones). The full landing zone needs to be described in the Solution Design by the service provider.*
 
-- The name segments are separated by “-“
-- Within a name segment avoid using <space> and “.”
-- Where possible intuitive/standard abbreviations should be considered (e.g. “shared“ compared to "shared.cloud.team”)
-- When referring to the compartment full path, use “:” as a separator, e.g. cmp-shared:cmp-security
+*Use this template ONLY for new cloud deployments and remove it for brownfield deployments.*
 
-Some examples of naming are given below:
+An OCI Landing Zone sets the foundations for a secure tenancy, providing design best practices and operational control over OCI resources. A Landing Zone also simplifies the onboarding of workloads and teams, with clear patterns for network isolation and segregation of duties in the organization, which sets the cloud operating model for day two operations.
 
-- cmp-shared
-- cmp-\<workload>
-- cmp-networking
+Oracle highly recommends the use of an OCI Landing Zone for any deployment. Use these [guidelines](https://github.com/oracle-devrel/technology-engineering/blob/main/landing-zones/commons/lz_solution_definition.md) to set up your OCI Landing Zone, including design considerations, approaches, and solutions to use.
 
-The patterns used are these:
-
-- \<resource-type>-\<environment>-\<location>-\<purpose>
-- \<resource-type>-\<environment>-\<source-location>-\<destination-location>-\<purpose>
-- \<resource-type>-\<entity/sub-entity>-\<environment>-\<function/department>-\<project>-\<custom>
-- \<resource-type>-\<environment>-\<location>-\<purpose>
-
-Abbreviations per resource type are listed below. This list may not be complete.
-
-| Resource Type | Abbreviation | Example |
-|---|---|---|
-| Bastion Service | bst | bst-\<location>-\<network> |
-| Block Volume | blk | blk-\<location>-\<project>-\<purpose>
-| Compartment | cmp | cmp-shared, cmp-shared-security |
-| Customer Premise Equipment | cpe | cpe-\<location>-\<destination> |
-| DNS Endpoint Forwarder | dnsepf | dnsepf-\<location> |
-| DNS Endpoint Listener | dnsepl | dnsepl-\<location> |
-| Dynamic Group | dgp | dpg-security-functions |
-| Dynamic Routing Gateway | drg | drg-prod-\<location>
-| Dynamic Routing Gateway Attachment | drgatt | drgatt-prod-\<location>-\<source_vcn>-\<destination_vcn> |
-| Fast Connect | fc# <# := 1...n> | fc0-\<location>-\<destination> |
-| File Storage | fss | fss-prod-\<location>-\<project> |
-| Internet Gateway | igw | igw-dev-\<location>-\<project> |
-| Jump Server | js | js-\<location>-xxxxx |
-| Load Balancer | lb | lb-prod-\<location>-\<project> |
-| Local Peering Gateway | lpg | lpg-prod-\<source_vcn>-\<destination_vcn> |
-| NAT Gateway | nat | nat-prod-\<location>-\<project> |
-| Network Security Group | nsg | nsg-prod-\<location>-waf |
-| Managed key | key | key-prod-\<location>-\<project>-database01 |
-| OCI Function Application | fn | fn-security-logs |
-| Object Storage Bucket | bkt | bkt-audit-logs |
-| Policy | pcy | pcy-services, pcy-tc-security-administration |
-| Region Code, Location | xxx | fra, ams, zch # three letter region code |
-| Routing Table | rt | rt-prod-\<location>-network |
-| Secret | sec | sec-prod-wls-admin |
-| Security List | sl | sl-\<location> |
-| Service Connector Hub | sch | sch-\<location> |
-| Service Gateway | sgw | sgw-\<location> |
-| Subnet | sn | sn-\<location> |
-| Tenancy | tc | tc |
-| Vault | vlt | vlt-\<location> |
-| Virtual Cloud Network | vcn | vcn-\<location> |
-| Virtual Machine | vm | vm-xxxx |
-
-# Security and Identity Management
-
-This chapter covers the Security and Identity Management definitions and resources which will be implemented for ${doc.customer.name}.
-
-## Universal Security and Identity and Access Management Principles
-
-- Groups will be configured at the tenancy level and access will be governed by policies configured in OCI.
-- Any new project deployment in OCI will start with the creation of a new compartment. Compartments follow a hierarchy, and the compartment structure will be decided as per the application requirements.
-- It is also proposed to keep any shared resources, such as Object Storage, Networks, etc. in a shared services compartment. This will allow the various resources in different compartments to access and use the resources deployed in the shared services compartment and user access can be controlled by policies related to specific resource types and user roles.
-- Policies will be configured in OCI to maintain the level of access/control that should exist between resources in different compartments. These will also control user access to the various resources deployed in the tenancy.
-- The tenancy will include a pre-provisioned Identity Cloud Service (IDCS) instance (the primary IDCS instance) or, where applicable, the Default Identity Domain. Both provide access management across all Oracle cloud services for IaaS, PaaS, and SaaS cloud offerings.
-- The primary IDCS or the Default Identity Domain will be used as the access management system for all users administrating (OCI Administrators) the OCI tenant.
-
-## Authentication and Authorization for OCI
-
-The provisioning of respective OCI administration users will be handled by ${doc.customer.name}.
-
-### User Management
-
-Only OCI Administrators are granted access to the OCI Infrastructure. As a good practice, these users are managed within the pre-provisioned and pre-integrated Oracle Identity Cloud Service (primary IDCS) or, where applicable, the OCI Default Identity Domain, of OCI tenancy. These users are members of groups. IDCS Groups can be mapped to OCI groups while Identity Domains groups do not require any mapping. Each mapped group membership will be considered during login.
-
-**Local Users**
-
-The usage of OCI Local Users is not recommended for the majority of users and is restricted to a few users only. These users include the initial OCI Administrator created during the tenancy setup and additional emergency administrators.
-
-**Local Users are considered Emergency Administrators and should not be used for daily administration activities!**
-
-**No additional users are to be, nor should be, configured as local users.**
-
-**${doc.customer.name} is responsible to manage and maintain local users for emergency use cases.**
-
-**Federated Users**
-
-Unlike Local Users, Federated Users are managed in the Federated or Enterprise User Management system. In the OCI User list Federated Users may be distinguished by a prefix that consists of the name of the federated service in lower case, a '/' character followed by the user name of the federated user, for example:
-
-`oracleidentityservicecloud/user@example.com`
-
-Providing the same attributes (OCI API Keys, Auth Tokens, Customer Secret Keys, OAuth 2.0 Client Credentials, and SMTP Credentials) for Local and *Federated Users* federation with third-party Identity Providers should only be done in the pre-configured primary IDCS or the Default Identity Domain where applicable.
-
-All users have the same OCI-specific attributes (OCI API Keys, Auth Tokens, Customer Secret Keys, OAuth 2.0 Client Credentials, and SMTP Credentials).
-
-OCI Administration users should only be configured in the pre-configured primary IDCS or the Default Identity Domain where applicable.
-
-**Note:** Any federated user can be a member of 100 groups only. The OCI Console limits the number of groups in a SAML assertion to 100 groups. User Management in the Enterprise Identity Management system will be handled by ${doc.customer.name}.
-
-**Authorization**
-
-In general, policies hold permissions granted to groups. Policy and Group naming follows the Resource Naming Conventions.
-
-**Tenant Level Authorization**
-
-The policies and groups defined at the tenant level will provide access to administrators and authorized users, to manage or view resources across the entire tenancy. The tenant-level authorization will be granted to tenant administrators only.
-
-These policies follow the recommendations of the [CIS Oracle Cloud Infrastructure Foundations Benchmark v1.2.0, recommendations 1.1, 1.2, 1.3](https://www.cisecurity.org/cis-benchmarks).
-
-**Service Policy**
-
-A Service Policy is used to enable services at the tenancy level. It is not assigned to any group.
-
-**Shared Compartment Authorization**
-
-Compartment-level authorization for the cmp-shared compartment structure uses the following specific policies and groups.
-
-Apart from tenant-level authorization, authorization for the cmp-shared compartment provides specific policies and groups. In general, policies will be designed so that lower-level compartments are not able to modify the resources of higher-level compartments.
-
-Policies for the cmp-shared compartment follow the recommendations of the [CIS Oracle Cloud Infrastructure Foundations Benchmark v1.2.0, recommendations 1.1, 1.2, 1.3](https://www.cisecurity.org/cis-benchmarks).
-
-**Compartment Level Authorization**
-
-Apart from tenant-level authorization, compartment-level authorization provides compartment structure-specific policies and groups. In general, policies will be designed so that lower-level compartments are not able to modify the resources of higher-level compartments.
-
-**Authentication and Authorization for Applications and Databases**
-
-Application (including Compute Instances) and Database User management are completely separate and done outside the primary IDCS or Default Identity Domain. The management of these users is the sole responsibility of ${doc.customer.name} using the application, compute instance, and database-specific authorization.
-
-## Security Posture Management
-
-**Oracle Cloud Guard**
-
-Oracle Cloud Guard Service will be enabled using the pcy-service policy and with the following default configuration. Customization of the Detector and Responder Recipes will result in clones of the default (Oracle Managed) recipes.
-
-Cloud Guard default configuration provides several good settings. It is expected that these settings may not match ${doc.customer.name}'s requirements.
-
-**Targets**
-
-In accordance with the [CIS Oracle Cloud Infrastructure Foundations Benchmark, v1.2.0, Chapter 3.15](https://www.cisecurity.org/cis-benchmarks), Cloud Guard will be enabled in the root compartment.
-
-**Detectors**
-
-The Oracle Default Configuration Detector Recipes and Oracle Default Activity Detector Recipes are implemented. To better meet the requirements, the default detectors must be cloned and configured by ${doc.customer.name}.
-
-**Responder Rules**
-
-The default Cloud Guard Responders will be implemented. To better meet the requirements, the default detectors must be cloned and configured by ${doc.customer.name}.
-
-**Vulnerability Scanning Service**
-
-In accordance with the [CIS Oracle Cloud Infrastructure Foundations Benchmark, v1.2.0, OCI Vulnerability Scanning](https://www.cisecurity.org/cis-benchmarks) will be enabled using the pcy-service policy.
-
-Compute instances that should be scanned *must* implement the *Oracle Cloud Agent* and enable the *Vulnerability Scanning plugin*.
-
-**OCI OS Management Service**
-
-Required policy statements for OCI OS Management Service are included in the pcy-service policy.
-
-By default, the *OS Management Service Agent plugin* of the *Oracle Cloud Agent* is enabled and running on current Oracle Linux 6, 7, 8, and 9 platform images.
-
-## Monitoring, Auditing, and Logging
-
-In accordance with the [CIS Oracle Cloud Infrastructure Foundations Benchmark, v1.2.0, Chapter 3 Logging and Monitoring](https://www.cisecurity.org/cis-benchmarks) the following configurations will be made:
-
-- OCI Audit log retention period set to 365 days.
-- At least one notification topic and subscription to receive monitoring alerts.
-- Notification for Identity Provider changes.
-- Notification for IdP group mapping changes.
-- Notification for IAM policy changes.
-- Notification for IAM group changes.
-- Notification for user changes.
-- Notification for VCN changes.
-- Notification for changes to route tables.
-- Notification for security list changes.
-- Notification for network security group changes.
-- Notification for changes to network gateways.
-- VCN flow logging for all subnets.
-- Write level logging for all Object Storage Buckets.
-- Notification for Cloud Guard detected problems.
-- Notification for Cloud Guard remedied problems.
-
-For IDCS or OCI Identity Domain Auditing events, the respective Auditing API can be used to retrieve all required information.
-
-## Data Encryption
-
-All data will be encrypted at rest and in transit. Encryption keys can be managed by Oracle or the customer and will be implemented for identified resources.
-
-### Key Management
-
-All keys for **OCI Block Volume**, **OCI Container Engine for Kubernetes**, **OCI Database**, **OCI File Storage**, **OCI Object Storage**, and **OCI Streaming** are centrally managed in a shared or a private virtual vault will be implemented and placed in the compartment cmp-security.
-
-**Object Storage Security**
-
-For Object Storage security the following guidelines are considered.
-
-- **Access to Buckets** -- Assign least privileged access for IAM users and groups to resource types in the object-family (Object Storage Buckets & Object)
-- **Encryption at rest** -- All data in the Object Storage is encrypted at rest using AES-256 and is on by default. This cannot be turned off and objects are encrypted with a master encryption key.
-
-**Data Residency**
-
-It is expected that data will be held in the respective region and additional steps will be taken when exporting the data to other regions to comply with the applicable laws and regulations. This should be reviewed for every project onboard into the tenancy.
-
-## Operational Security
-
-**Security Zones**
-
-Whenever possible OCI Security Zones will be used to implement a security compartment for Compute instances or Database resources. For more information on Security Zones refer to the *Oracle Cloud Infrastructure User Guide* chapter on [Security Zones](https://docs.oracle.com/en-us/iaas/security-zone/using/security-zones.htm).
-
-**Remote Access to Compute Instances or Private Database Endpoints**
-
-To allow remote access to Compute Instances or Private Database Endpoints, the OCI Bastion will be implemented for defined compartments.
-
-To be able to use OCI services for OS management, Vulnerability Scanning, Bastion Service, etc. it is highly recommended to implement the Oracle Cloud Agent as documented in the *Oracle Cloud Infrastructure User Guide* chapter [Managing Plugins with Oracle Cloud Agent](https://docs.oracle.com/en-us/iaas/Content/Compute/Tasks/manage-plugins.htm).
-
-## Network Time Protocol Configuration for Compute Instance
-
-Synchronized clocks are a necessity for securely operating environments. OCI provides a Network Time Protocol (NTP) server using the OCI global IP number 169.254.169.254. All compute instances should be configured to use this NTP service.
-
-## Regulations and Compliance
-
-${doc.customer.name} is responsible for setting the access rules to services and environments that require stakeholders’ integration into the tenancy to comply with all applicable regulations. Oracle will support in accomplishing this task.
-
+Note that all workloads in a tenancy should sit on top of a Landing Zone, meaning that the workload architecture defined in the next section can be subject to adjustments (e.g., network structure) towards the landing zone model, along with other future workloads.  
 
 ### Functional Architecture (Optional)
 
@@ -777,14 +544,13 @@ ${doc.customer.name} is responsible for setting the access rules to services and
 
 *Provide a brief description of the functional architecture, split into two main areas: application capabilities and data.*
 
-### Logical Architecture (Optional)
-
+### Logical Architecture
 
 *Guide:*
 
-*Use [System Context Diagram](https://online.visual-paradigm.com/knowledge/system-context-diagram/what-is-system-context-diagram/) to show integration for the Workload solution.*
-
 *Provide a high-level logical Oracle solution for the complete Workload. Indicate Oracle products as abstract groups, and not as physical detailed instances. Create an architecture diagram following the latest notation and describe the solution.*
+
+*To implement a solution the Physical Architecture is needed in the next chapter. The physical notation can show individual components with physical attributes such as IP addresses, hostnames, or sizes.*
 
 *[The Oracle Cloud Notation, OCI Architecture Diagram Toolkits](https://docs.oracle.com/en-us/iaas/Content/General/Reference/graphicsfordiagrams.htm)*
 
@@ -870,27 +636,32 @@ Please see our security guidelines in the [Annex](#security-guidelines).
 
 *Reference:*
 
-[Overview of Networking in OCI](https://docs.public.oneportal.content.oci.oraclecloud.com/en-us/iaas/Content/Network/Concepts/landing.htm)
+*A list of possible Oracle solutions can be found in the [Annex](#networking-solutions).*
+
 
 ### Operations (Optional)
 
 *Guide:*
 
-*In this chapter, we provide a high-level introduction to various operations-related topics around OCI. We do not design, plan or execute any detailed operations for our customers. We can provide some best practices and workload-specific recommendations.*
+*In this chapter, we provide a high-level introduction to various operations-related topics around OCI. We do not design, plan, or execute any detailed operations for our customers. We can provide some best practices and workload-specific recommendations.*
+
+*[Please visit our Operations Catalogue for more information, best practices, and examples](https://github.com/oracle-devrel/technology-engineering/tree/main/manageability-and-operations/operations-advisory)* 
+
+*The below example text represents the first asset from this catalog PCO#01. Please consider including other assets as well. You can find MD text snippets within each asset.*
 
 *Example:*
 
-This chapter provides an introduction and collection of useful resources, to relevant topics to operate the solution on Oracle Infrastructure Cloud.
+This chapter provides an introduction and collection of useful resources, on relevant topics to operate the solution on Oracle Infrastructure Cloud.
 
 Cloud Operations Topic                       | Short Summary      | References
 :---                                         |:------             |:---
 Cloud Shared Responsibility Model            | The shared responsibility model conveys how a cloud service provider is responsible for managing the security of the public cloud while the subscriber of the service is responsible for securing what is in the cloud.	                |  [Shared Services Link](https://www.oracle.com/a/ocom/docs/cloud/oracle-ctr-2020-shared-responsibility.pdf)
-Oracle Support Portal	                       | Search Oracle knowledge base and engage communities to learn about products, services, and to find help resolving issues.	   |  [Oracle Support Link](https://support.oracle.com/portal/)
+Oracle Support Portal	                       | Search Oracle knowledge base and engage communities to learn about products, and services, and to find help resolving issues.	   |  [Oracle Support Link](https://support.oracle.com/portal/)
 Support Management API	                     | Use the Support Management API to manage support requests	  |  [API Documentation Link](https://docs.oracle.com/en-us/iaas/api/#/en/incidentmanagement/20181231/) and [Other OCI Support Link](https://docs.oracle.com/en-us/iaas/Content/GSG/Tasks/contactingsupport.htm)
 OCI Status	                                 | Use this link to check the global status of all OCI Cloud Services in all Regions and Availability Domains.	  |  [OCI Status Link](https://ocistatus.oraclecloud.com/)
 Oracle Incident Response	                   | Reflecting the recommended practices in prevalent security standards issued by the International Organization for Standardization (ISO), the United States National Institute of Standards and Technology (NIST), and other industry sources, Oracle has implemented a wide variety of preventive, detective, and corrective security controls with the objective of protecting information assets.	  |  [Oracle Incident Response Link](https://ocistatus.oraclecloud.com/)
 Oracle Cloud Hosting and Delivery Policies   | Describe the Oracle Cloud hosting and delivery policies in terms of security, continuity, SLAs, change management, support, and termination.	  |  [Oracle Cloud Hosting and Delivery Policies](https://www.oracle.com/us/corporate/contracts/ocloud-hosting-delivery-policies-3089853.pdf)
-OCI SLAs                                     | Mission-critical workloads require consistent performance, and the ability to manage, monitor, and modify resources running in the cloud at any time. Only Oracle offers end-to-end SLAs covering performance, availability, manageability of services. This document applies to Oracle PaaS and IaaS Public Cloud Services purchased, and supplements the Oracle Cloud Hosting and Delivery Policies | [OCI SLA's](https://www.oracle.com/cloud/sla/) and [PDF Link](https://www.oracle.com/assets/paas-iaas-pub-cld-srvs-pillar-4021422.pdf)
+OCI SLAs                                     | Mission-critical workloads require consistent performance, and the ability to manage, monitor, and modify resources running in the cloud at any time. Only Oracle offers end-to-end SLAs covering the performance, availability, and manageability of services. This document applies to Oracle PaaS and IaaS Public Cloud Services purchased and supplements the Oracle Cloud Hosting and Delivery Policies | [OCI SLAs](https://www.oracle.com/cloud/sla/) and [PDF Link](https://www.oracle.com/assets/paas-iaas-pub-cld-srvs-pillar-4021422.pdf)
 
 
 ## Roadmap (Optional)
@@ -903,13 +674,11 @@ OCI SLAs                                     | Mission-critical workloads requir
 
 *Guide:*
 
-*Estimate and size the physically needed resources of the Workload. The information can be collected and is based upon previously gathered capacities, business user numbers, integration points, or translated existing on-premises resources. The sizing is possibly done with or even without a Physical Architecture. It is ok to make assumptions and to clearly state them!*
+*Estimate and size the physically needed resources of the Workload. The information can be collected and is based upon previously gathered capacities, business user numbers, integration points, or translated existing on-premises resources. The sizing is possibly done with or even without a Physical Architecture. It is okay to make assumptions and to clearly state them!*
 
 <!--                                                 -->
 <!-- End of 3) Workload Requirements and Architecture -->
 <!--                                                 -->
-
-
 
 # Glossary (Optional)
 
@@ -923,7 +692,7 @@ OCI SLAs                                     | Mission-critical workloads requir
 
 You can learn about Oracle Cloud Infrastructure terms and concepts in this [glossary](https://docs.oracle.com/en-us/iaas/Content/libraries/glossary/glossary-intro.htm). Further terms, product names, or concepts are described below in each subsection.
 
-## 2-Factor Authentication
+## 2-Factor Authentication 
 
 *Example:*
 
@@ -964,22 +733,134 @@ Cloud computing is fundamentally different from traditionally on-premises comput
 - [OCI Security Guide](https://docs.oracle.com/en-us/iaas/Content/Security/Concepts/security_guide.htm)
 - [OCI Cloud Adoption Framework Security chapter](https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/security.htm)
 
+# Networking Requirement Considerations
 
-<!--
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⢠⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠸⣷⣦⣀⠀⠀⠀⠀⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠙⣿⣿⣿⣦⠀⠠⠾⠿⣿⣷⠀⠀⠀⠀⠀⣠⣤⣄⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠟⢉⣠⣤⣶⡆⠀⣠⣈⠀⢀⣠⣴⣿⣿⠋⠀⠀⠀⠀
-⠀⢀⡀⢀⣀⣀⣠⣤⡄⢀⣀⡘⣿⣿⣿⣷⣼⣿⣿⣷⡄⠹⣿⡿⠁⠀⠀⠀⠀⠀
-⠀⠀⠻⠿⢿⣿⣿⣿⠁⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⣁⠀⠋⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠈⠻⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⢰⣄⣀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⣠⡀⠀⣴⣿⣿⣿⣿⣿⣿⣿⡿⢿⡿⠀⣾⣿⣿⣿⣿⣶⡄⠀
-⠀⠀⠀⠀⠀⢀⣾⣿⣷⡀⠻⣿⣿⡿⠻⣿⣿⣿⣿⠀⠀⠈⠉⠉⠉⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⣠⣾⡿⠟⠉⠉⠀⢀⡉⠁⠀⠛⠛⢉⣠⣴⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠈⠉⠉⠀⠀⠀⠀⠀⢸⣿⣿⡿⠉⠀⠙⠿⣿⣿⣧⡀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣿⣿⠁⠀⠀⠀⠀⠀⠙⠿⣷⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠟⠀⠀⠀⠀⠀⠀⠀⠀⠃⠀⠀⠀⠀⠀⠀⠀
+The below questions help to identify networking requirements.
 
-        Have a great summer 2023!⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
--->
+## Application Connectivity
+
+- Does your application need to be exposed to the internet?
+- Does your solution on DC (on-prem) need to be connected 24x7 to OCI in a Hybrid model?
+  - Site-to-Site IPSEC (Y/N)
+  - Dedicated Lines (FC) (Y/N)
+- Are there any specific network security requirements for your application? (No internet, encryption, etc, etc)
+- Will your application require connectivity to other cloud providers?
+  - Site-to-Site IPSEC (Y/N)
+  - Dedicated Lines (FC)  (Y/N)
+- Will your application require inter-region connectivity?
+- Are you planning to reuse IP addresses from your on-premises environment in OCI?
+- If yes, what steps have you taken to ensure IP address compatibility and avoid conflicts?
+- How will you handle network address translation (NAT) for IP reuse in OCI?
+- Will you bring your own public IPs to OCI?
+
+## DR and Business Continuity 
+
+- Does your organization need a Business Continuity/DR Plan to address potential disruptions? 
+  - Network Requirements (min latency, bandwidth, etc)
+  - RPO/RTO values
+- What are your requirements regarding Data Replication and Geo-Redundancy (different regions, restrictions, etc.)?
+- Are you planning to distribute incoming traffic across multiple instances or regions to achieve business continuity?
+- What strategies do you require to guarantee minimal downtime and data loss, and to swiftly recover from any unforeseen incidents?
+
+## High Availability and Scalability
+
+- Does your application require load balancing for high availability and scalability? (y/n)
+  - Does your application span around the globe or is regionally located?
+  - How do you intend to ensure seamless user experiences and consistent connections in your application (session persistence, affinity, etc.)?
+  - What are the network Security requirements for traffic management (SSL offloading, X509 certificates management, etc.)?
+  - Does your application use name resolutions and traffic steering across multiple regions (Public DNS steering)?
+
+## Security and Access Control
+
+- Are you familiar with the concept of Next-Generation Firewalls (NGFW) and their benefits over traditional firewalls?
+- Have you considered the importance of protecting your web applications from potential cyber threats using a Web Application Firewall (WAF)?
+
+## Monitoring and Troubleshooting
+
+- How do you plan to monitor your application's network performance in OCI?
+- How can you proactively address and resolve any potential network connectivity challenges your company might face? 
+- How do you plan to troubleshoot your network connectivity?
+
+# Networking Solutions
+
+## OCI Network Firewall
+
+Oracle Cloud Infrastructure Network Firewall is a next-generation managed network firewall and intrusion detection and prevention service for your Oracle Cloud Infrastructure VCN, powered by Palo Alto Networks®.
+
+- [Overview](https://docs.oracle.com/en-us/iaas/Content/network-firewall/overview.htm)
+- [OCI Network Firewall](https://docs.oracle.com/en/solutions/oci-network-firewall/index.html#GUID-875E911C-8D7D-4205-952B-5E8FAAD6C6D3)
+
+## OCI Load Balancer
+
+The Load Balancer service provides automated traffic distribution from one entry point to multiple servers reachable from your virtual cloud network (VCN). The service offers a load balancer with your choice of a public or private IP address and provisioned bandwidth.
+
+- [Load Balancing](https://www.oracle.com/es/cloud/networking/load-balancing/)
+- [Overview](https://docs.oracle.com/en-us/iaas/Content/NetworkLoadBalancer/overview.htm)
+- [Concept Overview](https://docs.oracle.com/en-us/iaas/Content/Balance/Concepts/balanceoverview.htm)
+
+## OCI DNS Traffic Management
+
+Traffic Management helps you guide traffic to endpoints based on various conditions, including endpoint health and the geographic origins of DNS requests.
+
+- [Concept Overview](https://docs.oracle.com/en-us/iaas/Content/TrafficManagement/Concepts/overview.htm)
+- [DNS](https://docs.oracle.com/en-us/iaas/Content/DNS/home.htm)
+
+## OCI WAF
+
+Protect applications from malicious and unwanted internet traffic with a cloud-based, PCI-compliant, global web application firewall service.
+
+- [Cloud Security Web Application Firewall](https://www.oracle.com/security/cloud-security/web-application-firewall/)
+- [Add WAF to a load balancer](https://docs.oracle.com/en/learn/oci-waf-flex-lbaas/index.html#add-oracle-cloud-infrastructure-web-application-firewall-protection-to-a-flexible-load-balancer)
+
+## OCI IGW
+
+An internet gateway is an optional virtual router that connects the edge of the VCN with the internet. To use the gateway, the hosts on both ends of the connection must have public IP addresses for routing
+
+- [Managing IGW](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/managingIGs.htm)
+
+## OCI Site-to-Site VPN
+
+Site-to-site VPN provides a site-to-site IPSec connection between your on-premises network and your virtual cloud network (VCN). The IPSec protocol suite encrypts IP traffic before the packets are transferred from the source to the destination and decrypts the traffic when it arrives. Site-to-Site VPN was previously referred to as VPN Connect and IPSec VPN.
+
+- [Overview IPSec](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/overviewIPsec.htm)
+- [Setup IPSec](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/settingupIPsec.htm)
+
+## OCI Fast Connect
+
+FastConnect allows customers to connect directly to their Oracle Cloud Infrastructure (OCI) virtual cloud network via dedicated, private, high-bandwidth connections.
+
+- [FastConnect](https://www.oracle.com/cloud/networking/fastconnect/)
+- [Concept Overview](https://docs.public.oneportal.content.oci.oraclecloud.com/en-us/iaas/Content/Network/Concepts/fastconnect.htm)
+
+## OCI VTAP
+
+A Virtual Test Access Point (VTAP) provides a way to mirror traffic from a designated source to a selected target to facilitate troubleshooting, security analysis, and data monitoring
+
+- [VTAP](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/vtap.htm)
+- [Network VTAP Wireshark](https://docs.oracle.com/en/solutions/oci-network-vtap-wireshark/index.html#GUID-3196621D-12EB-470A-982C-4F7F6F3723EC)
+
+## OCI NPA
+
+Network Path Analyzer (NPA) provides a unified and intuitive capability you can use to identify virtual network configuration issues that impact connectivity. NPA collects and analyzes the network configuration to determine how the paths between the source and the destination function or fail.
+
+- [Path Analyzer](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/path_analyzer.htm)
+
+## OCI DRG (Connectivity Options)
+
+A DRG acts as a virtual router, providing a path for traffic between your on-premises networks and VCNs, and can also be used to route traffic between VCNs. Using different types of attachments, custom network topologies can be constructed using components in different regions and tenancies.
+
+- [Managing DRGs](https://docs.oracle.com/es-ww/iaas/Content/Network/Tasks/managingDRGs.htm)
+- [OCI Pilot Light DR](https://docs.oracle.com/en/solutions/oci-pilot-light-dr/index.html#GUID-3C1F7B6B-0195-4166-A38C-8B7AD53F0B79)
+- [Peering VCNs in different regions through a DRG](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/scenario_e.htm)
+
+## OCI Oracle Cloud Infrastructure Certificates
+
+Easily create, deploy, and manage Secure Sockets Layer/Transport Layer Security (SSL/TLS) certificates available in Oracle Cloud. In a flexible Certificate Authority (CA) hierarchy, Oracle Cloud Infrastructure Certificates help create private CAs to provide granular security controls for each CA.
+
+- [SSL TLS Certificates](https://www.oracle.com/security/cloud-security/ssl-tls-certificates/)
+
+## OCI Monitoring
+
+You can monitor the health, capacity, and performance of your Oracle Cloud Infrastructure resources by using metrics, alarms, and notifications. For more information, see [Monitoring](https://docs.oracle.com/iaas/Content/Monitoring/home.htm) and [Notifications](https://docs.oracle.com/en-us/iaas/Content/Notification/home.htm#top).
+
+- [Networking Metrics](https://docs.oracle.com/en-us/iaas/Content/Network/Reference/networkmetrics.htm)

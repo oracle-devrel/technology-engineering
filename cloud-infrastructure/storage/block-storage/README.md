@@ -8,17 +8,22 @@ We've designed our storage platform as an ideal complement to Oracle compute and
 # Table of Contents
 
 1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-uinks)
-3. [Reusable Assets Overview](#reusable-assets-overview)
+2. [Useful Links](#useful-links)
 
 ## Team Publications
 
-- [OCI provides native high availability and data resilience](https://blogs.oracle.com/cloud-infrastructure/post/oci-provide-cloud-resilience-by-default)
-    - Blog: Oracle Cloud Infrastructure (OCI) provides high data durability and availability as a core feature, enabling businesses to concentrate on their customer experience and economic success.
-- [Make your cloud resilient against regional outages](https://www.youtube.com/watch?v=IVqLe_XH_AE)
-    - 6-minute Video about "Make your cloud resilient against regional outages".
-- [Effortless Cloud Resilience – Automate your Disaster Recovery with Oracle Cloud Infrastructure](https://www.youtube.com/watch?v=P3qWyjE9HMQ)
-    - 1h Video about "Effortless Cloud Resilience – Automate your Disaster Recovery with Oracle Cloud Infrastructure".
+- [OCI provides native high availability and data resilience](asset/OCI.provides.native.high.availability.and.data.resilience)
+- [Make your cloud resilient against regional outages](asset/Make.your.cloud.resilient.against.regional.outages)
+- [Effortless Cloud Resilience – Automate your Disaster Recovery with Oracle Cloud Infrastructure](asset/Effortless.Cloud.Resilience)
+- [Cloud Resilience](asset/Cloud.Resilience)
+- [Cloud Resilience by default](asset/Cloud.Resilience.by.default)
+- [OCI Storage Health-Check](asset/OCI.Storage.Health-Check)
+- Showcase section
+  - [Showcase 1: Demonstrate block volume backup copy to a different region in a customer managed key environment.](asset/Showcase.1)
+  - [Showcase 2: TRIM showcase](asset/Showcase.2)
+  - [Showcase 3: boot/block volume security best practice](asset/Showcase.3)
+  - [Showcase 4: boot/block volume individual (to a customer-managed bucket) backup and restore](asset/Showcase.4)
+
 
 ## Useful Links
 
@@ -37,30 +42,6 @@ We've designed our storage platform as an ideal complement to Oracle compute and
 - [Oracle Cloud Infrastructure Vault: Block Volume Encryption](https://www.youtube.com/watch?v=3GBPIx4hlRU)
   - This video helps you to encrypt a block volume with the KMS Vault customer-managed encryption key.
 
-## Reusable Assets Overview
-
-- [Cloud Resilience](https://gitlab.com/hmielimo/cloud-resilience/-/blob/main/doc/cloud.resilience/README.md)
-  - All details regarding storage-based resiliency incl. example backup and recovery automation script.
-- [Cloud Resilience by default](https://gitlab.com/hmielimo/cloud-resilience-by-default/)
-  - All details regarding storage-based Server resiliency including
-    - Set up your Server with Resilience by default Using the Console
-    - Set up your Server with Resilience by default using CLI
-    - Performance-Based Auto-tune Use Case script
-- [OCI Storage Health-Check](https://gitlab.com/hmielimo/oci-storage-health-check/)
-  - Storage Health-Check example scripts
-    - validate all boot and block volumes regarding backup policies
-    - showcase boot and block volume security e.g. using Customer managed key, Key-Rotation, Backup
-- Showcase section
-  - [Showcase 1: Demonstrate block volume backup copy to a different region in a customer managed key environment.](https://gitlab.com/hmielimo/cloud-resilience-by-default/-/tree/main/copy.customer.managed.key.backup)
-    - we showcase a: cli management of several customer managed key protected OCI resources (e.g. instance, block volume, block volume backup)
-    - we showcase b: cli based customer managed key protected block volume creation, attachment to instance, create filesystem
-    - we showcase c: cli based customer managed key protected block volume backup
-    - we showcase d: cli based customer managed key protected block volume backup copy to a different region
-    - we showcase e: cli based customer managed key protected instance using Cloud-Init to run custom scripts or provide custom Cloud-Init configuration
-    - we showcase f: cli based customer managed key protected instance using Consistent device paths fot attached block volumes
-  - [TRIM showcase - example script](asset/trim-showcase.md)
-  - [boot/block volume security best practice - example script](asset/secure.storage.sh)
-  - [boot/block volume individual (to a customer-managed bucket) backup and restore  - example script](asset/block-volume-backup-and-restore.md)
 
 
 
@@ -70,4 +51,4 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
