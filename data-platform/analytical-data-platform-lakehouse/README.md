@@ -8,16 +8,18 @@ Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a compl
 2. [Useful Links](#useful-uinks)
 3. [Reusable Assets Overview](#reusable-assets-overview)
  
-## Team Publications
+# Team Publications
 
-### Architecture Center
+## Architecture Center
  
 - [Data platform - data lakehouse](https://docs.oracle.com/en/solutions/data-platform-lakehouse/index.html#GUID-A328ACEF-30B8-4595-B86F-F27B512744DF)
     - This reference architecture describes a lakehouse architecture pattern, the services that are part of it, the capabilities those services deliver, and how to deploy them. It covers best practices, a deployment topology, and automated deployment with an [Oracle Resource Manager Terraform stack](https://github.com/oracle-devrel/terraform-oci-oracle-cloud-foundation/tree/main/cloud-foundation/solutions/Data-platform-data-lakehouse) (part of the [cloud-foundation Terraform solutions](https://github.com/oracle-devrel/terraform-oci-oracle-cloud-foundation/tree/main/cloud-foundation)).
 - [Deploy a machine learning model close to the network edge](https://docs.oracle.com/en/solutions/deploy-ml-at-edge/#GUID-8EC86246-D724-4C16-8073-8CB5B2EA6719)
     - This reference architecture describes a deployment where data is ingested from edge locations into OCI, where it is used to build and train ML models that are deployed in the edge for low latency inferencing.
+- [Monetize data with Oracle Cloud Infrastructure](https://docs.oracle.com/en/solutions/monetize-data-oci/index.html)
+    - Reference Architecture depicting how to support data monetization by exposing data products via APIs and integrating with subscription and payment systems to process usage and payments.
 
-### GitHub
+## GitHub
 
 - [OCI Monitoring with PLSQL SDK](https://jakubillner.github.io/2022/10/07/How-to-Get-OCI-Utilization-in-PLSQL.html)
   - Blog post showcasing how to read monitoring metrics directly from ADW to control data ingestion load.
@@ -32,13 +34,18 @@ Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a compl
 - [Decentralized Data Lake on OCI Object Storage (Part 2)](https://jakubillner.github.io/2023/02/19/data-lake-on-oci-object-storage-2.html)
   - Blog post describing how to organize and govern a decentralized data lake domains and entities in an OCI tenancy with a design that explains 1) how to store lake data with partitions, 2) how those can be implemented, 3) governed by a Data Catalog and then 4) consumed seamlessly by ADW in a cohesive and integrated lakehouse architecture.
 - [Automated Load and Export Pipelines in Autonomous Database](https://jakubillner.github.io/2023/03/27/adb-data-pipelines.html)
-  - Blog post on how to ingest automatically data residing in Object Storage to make it available in ADW for further processing and curation. Covers as well the export of ADW data to Object Storage that can be used for several purposes, including ILM, offloading data sharing to Object Storage, or making data available via the data lake. 
+  - Blog post on how to ingest automatically data residing in Object Storage to make it available in ADW for further processing and curation. Covers the export of ADW data to Object Storage that can be used for several purposes, including ILM, offloading data sharing to Object Storage, or making data available via the data lake. 
 - [Real Time Analytics DW DR Architecture (Part I) - DR Architecture Configuration](https://gianlucarossi06.github.io/data-organon/2023/04/20/Real-Time-Analytics-DW-DR-Architecture-(Part-I).html)
   - Blog post showcasing how to configure a DR for a DW architecture using ADW and OCI GG. 
 - [Real Time Analytics DW DR Architecture (Part II) - DR Recovery Operations](https://gianlucarossi06.github.io/data-organon/2023/04/20/Real-Time-Analytics-DW-DR-Architecture-(Part-II).html)
   - Blog post showcasing a disaster simulation on the primary Region and describing the operational tasks that need to be performed to properly start the workload in the secondary Region.
+- [Data Integration Operational Analytics](https://jakubillner.github.io/2023/11/10/data-integration-analytics.html)
+  - Blog post describing a solution to monitor data integration pipelines at an enterprise level, potentially for several workspaces, and providing integrated monitoring capabilities as one of the key pillars to address DataOps.
+- [Zero ETL Lakehouse in Oracle Cloud](https://gianlucarossi06.github.io/data-organon/2023/09/30/ZeroETL-Lakehouse-Oracle-Cloud.html)
+  - Blog post describing what is ZeroETL and the different options in OCI to deploy a lakehouse that minimizes and reduces ETL to deliver information to data consumers.
 
-### YouTube
+
+## YouTube
 
 - [Decentralized Data Platform on Oracle Cloud Infrastructure (OCI)](https://youtu.be/mHryV0K8Ciw?si=hJyOpxalMVf3bjbL)
   - Cloud Coaching session covering the concepts of a decentralized data platform, how to design such a platform with Oracle Cloud Infrastructure, and how to easily share data between data domains.
@@ -47,20 +54,31 @@ Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a compl
 - [Architecting Analytical Data Platform](https://youtu.be/-rMUsvrXYw4?si=7Yx80VvZQYiy2qHE)
   - Cloud Coaching session covering how to architect an Analytical Data Platform in Oracle and OCI using best practices to achieve trustable business outcomes.
 - [Real Time Analytics on Oracle Data Platform](https://www.youtube.com/watch?v=SVmM0CuLnU4)
-  - Cloud Coaching session describing what is Real Time Analytics and how to architect a real-time analytics workload on the Oracle Data Platform.
+  - Cloud Coaching session describing what is Real-Time Analytics and how to architect a real-time analytics workload on the Oracle Data Platform.
 - [Analytics and Lakehouse for Oracle Applications](https://youtu.be/a_JsSzmz1_U)
   - Session describing how to architect analytical workloads for Oracle Applications.
+- [Real Time Analytics - Cloud Customer Connect](https://community.oracle.com/customerconnect/events/604981-oci-real-time-analytics)
+  - Cloud Customer Connect session describing what is Real-Time Analytics and how to architect a real-time analytics workload on the Oracle Data Platform.
+- [Data Lake Modernization - Cloud Customer Connect](https://community.oracle.com/customerconnect/events/604994-oci-data-lake-modernization)
+  - Cloud Customer Connect session covering Hadoop-based Data Lake modernizations in OCI, explaining the deployment options and migration path.
+- [Modernize your on-premises Oracle Informatica solution to Oracle Cloud](https://youtu.be/gQ2_AztxR84?si=DyEfvgn3mk0oIP9U)
+  - Cloud coaching session describing how to modernize an Oracle DW solution that uses PowerCenter for ETL into OCI and Informatica IDMC.
 
-### LinkedIn
+## LinkedIn
 
 - [Delta Sharing with Oracle Cloud](https://www.linkedin.com/pulse/delta-sharing-oracle-cloud-jeff-richmond%3FtrackingId=kztSJVKDLRyOgQ30mH2ujQ%253D%253D/?trackingId=kztSJVKDLRyOgQ30mH2ujQ%3D%3D)
-  - Article explaining Data Sharing capabilities Oracle Cloud and Autonomous Database have, based in the open source Delta Share protocol, that allow to share data between heterogeneous data platforms in a multi cloud and heterogeneous data platform.
+  - Article explaining Data Sharing capabilities Oracle Cloud and Autonomous Database have based on the open source Delta Share protocol, which allows sharing data between heterogeneous data platforms in a multi cloud and heterogeneous data platform.
 - [Data Swamps No More!](https://www.linkedin.com/pulse/data-swamps-more-ismael-hassane/)
   - Article describing lakehouse as a natural evolution from a lambda and kappa data architecture.
 - [DataOps, you data rolls!](https://www.linkedin.com/pulse/dataops-your-data-rolls-ismaël-hassane/)
   - Blog post introducing DataOps, the several aspects of a DataOps strategy in a lakehouse architecture, and how OCI services and features address those different aspects.
 
-### Podcasts
+## Medium
+
+- [Oracle BI Applications and migration to Fusion Applications](https://medium.com/@DoubleUP66/oracle-bi-applications-and-migration-to-fusion-applications-1ae7db1bff15)
+  - Blog describing the different options to modernize OBIA when customers migrate their Oracle Unlimited Apps into Oracle Fusion SaaS.
+
+## Podcasts
 
 - [Data Mesh Concepts](https://digitalimpactradio.libsyn.com/s7-ep09-data-mesh-concepts-with-larry-jose-and-mike-pt-1-of-4)
   - Digital Impact Radio podcast with José Cruz, Mike Blackmore, Larry Fumagally, and Franco Ucci discussing Data Mesh concepts.
@@ -71,13 +89,13 @@ Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a compl
 - [Oracle Data Mesh Components](https://digitalimpactradio.libsyn.com/s7-ep12-oracle-data-mesh-components-with-larry-jose-and-mike-pt-4-of-4)
   - Digital Impact Radio podcast with José Cruz, Mike Blackmore, Larry Fumagally, and Franco Ucci discussing the components needed for a data mesh on an OCI ecosystem.
 
-## Useful Links
+# Useful Links
 - [Oracle Modern Data Platform](https://www.oracle.com/data-platform/)
   - Oracle Modern Data Platform Homepage
 - [Oracle Cloud Word 2023 - Data Strategy: From Vision to Reality](https://videohub.oracle.com/media/Oracle+Cloud+Word+2023+-+Data+StrategyA+From+Vision+to+Reality/1_0zwykatb)
-  - Data Strategy session explaining what are the elements and reasoning of defining a data strategy that is the conduit between the business strategy and requirements and a data platform architecture.
+  - Data Strategy session explaining what are the elements and reasoning behind defining a data strategy that is the conduit between the business strategy and requirements and a data platform architecture.
 
-## Reusable Assets Overview
+# Reusable Assets Overview
 TBD
 
 # License
@@ -86,4 +104,4 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

@@ -6,17 +6,8 @@ The Identity and Access Management group under the Technology Engineering Securi
 - POCs with various integrations
 - Solution Assistance
 - Workshops to enable the partners/customers
-
-## Reusable Assets Overview
-
-**Note:** The below assets are provided for reference purposes only and for use in demos/PoC activities where required.
-
-- [Oracle Identity Governance SCIM Postman Samples](oracle-identity-governance/postman-scim-samples/README.md)
-- [Temporary User Disable Scheduled Task](oracle-identity-governance/scheduled-task-samples/temporary-user-disable/README.md)
-- [Access Extension Notification Scheduled Task](oracle-identity-governance/scheduled-task-samples/access-extension-notification/README.md)
-- [Extend Access WebService](oracle-identity-governance/webservice-samples/extend-access-ws/README.md)
      
-## Useful Links
+# Useful Links
 
 - [Identity & Access Management products page](https://www.oracle.com/in/security/identity-management/)
     - The one-stop products page for Oracle IAM products. Keep track of the latest added features, guides and future product developments.

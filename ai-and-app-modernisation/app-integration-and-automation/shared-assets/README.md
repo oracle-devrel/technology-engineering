@@ -13,6 +13,36 @@ This section contains various examples related to Application Integration: demo 
 
 ## Demos
 
+- [Cloud Coaching Webinar: Real-Time Outlook Email Analysis with Oracle Integration & AI](https://youtu.be/qzyzdAZjUU0?si=moC-O47m7L1nrhqx)
+    - Through a Live Demo you will see how Oracle Integration Cloud work seamlessly with Oracle Cloud Streaming & API Gateway for instant Outlook Messages capture via Microsoft Graph Webhooks
+    
+    - Explore Email Sentiment Analysis & Categorization with Oracle Cloud AI Language Service
+    
+    - Explore Email "Quick Replies" Generation with Oracle Cloud Generative AI Service (in Beta Program, limited availability)
+
+    - Explore No-Code Integration flow into Oracle Autonomous Database & Automatic Creation of Service Tickets into Customer Service Apps, all orchestrated by Oracle Integration Cloud
+    
+    - Finally, watch live Email Classification & Analysis Dashboard with Oracle Analytics Cloud
+
+- [Cloud Coaching On-Demand: Oracle Integration (OIC3) Provisioning and User Access with Identity Domains](https://youtu.be/osuCdujq6-A)
+  - This video shows how to provision OIC and how to setup user access to OIC in a cloud account with Identity Domains.
+
+- [Cloud Coaching On-Demand: Enabling a WhatsApp Customer HelpMate using OCI Generative AI, AI Language & Integration](https://youtu.be/ryo3wVB_69E)
+    - Learn how Oracle Integration Cloud and Oracle Cloud Infrastructure (OCI) Streaming allow real-time capture of WhatsApp messages.
+
+    - Use OCI Generative AI (in pre-availability) for "Customer Service Quick Replies" Generation for Whatsapp Neutral Messages (customer questions, queries, etc.), sentence-level sentiment analysis from OCI AI Language to uncover overall sentiment and set service ticket severity for negative Whatsapp messages, automatically classify Customer Service tickets through OCI AI Language custom text classification and aspect-based sentiment analysis (ABSA) services.
+
+    - All this automation using OCI AI Services APIs orchestrated by Oracle Integration Cloud (using no-code integration approach).
+
+- [Cloud Coaching Webinar: AI Based & Real Time Gmail Invoice Documents Processing into Oracle Fusion ERP Cloud](https://youtu.be/wq7HH-WYslU)
+    - How can you speed up your Account Payable Invoice Processing Cycle? Document Understanding and OCI Intelligent Automation Engine running on top of Oracle Fusion ERP Cloud can help.
+    
+    - Through a live demo, we show how to use it to enable an AI-based, Event-Driven and Real-Time Invoice Processing Solution into Oracle Fusion ERP Cloud on top of Gmail Invoices as Attachments.
+    
+    - Learn how Oracle Integration Cloud combined with OCI Streaming and API Gateway allow real-time capture of Gmail Messages (leveraging Gmail Push Notifications via Google Cloud Pub/Sub).
+    
+    - Then, using AI Document Understanding, uncover Invoice Documents Data using the Key-Value Extraction and automatically load it into Oracle Fusion ERP Cloud using Oracle Integration Cloud's native connectors.
+
 - [Usecase - Fusion HCM Payslips to FTP](https://www.youtube.com/watch?v=KxKfnmfHPc8)
     - This video will demonstrate a common use case, how you can extract data from Fusion HCM using Oracle Integration. You will learn how to download Payslips from Fusion HCM and send it to FTP Server using Oracle Integration
         Demonstration includes:
