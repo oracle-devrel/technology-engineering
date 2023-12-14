@@ -19,8 +19,13 @@ TBD
 # Useful Links
 - [SQL Developer](https://www.oracle.com/uk/database/sqldeveloper/)
 - [SQL Developer Releases](https://docs.oracle.com/en/database/oracle/sql-developer/)
+- [SQL Developer - Jeff Smith Page](https://www.thatjeffsmith.com/sql-developer/)
+- [SQL Developer - Data Modeler](https://www.oracle.com/database/sqldeveloper/technologies/sql-data-modeler/)
+- [SQL Developer - Developer Community](https://forums.oracle.com/ords/apexds/domain/dev-community/category/sql_developer?tags=sql-developer)
 - [Oracle SQLcl](https://www.oracle.com/uk/database/sqldeveloper/technologies/sqlcl/)
 - [SQL Tools Training](https://education.oracle.com/database/oracle-database/pFamily_32)
+- [Autonomous Database Actions](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/connect-database-actions.html#GUID-102845D9-6855-4944-8937-5C688939610F)
+- [Live SQL](https://livesql.oracle.com/apex/f?p=590:1000)
 
 - The amazing [Dev Gym](https://devgym.oracle.com/pls/apex/f?p=10001:20011::::20011::) from PM Join the Oracle Dev Gym (FREE!) and build your Oracle technology muscles by taking workouts, quizzes and even entire classes on SQL, PL/SQL, database design, logic and more.
 - Dev Gym Workout Class [Getting Started on Oracle Cloud](https://devgym.oracle.com/pls/apex/f?p=10001:29:4444375111375:::29:P29_CLASS_ID:20342&cs=1qfK8bInptu93se5QM5iMzsT-iih_gFsY78j308d3ZUzrCzX2c0-kgiimo59pm0c_NblFShALC1oOB8MosiaSYQ)
@@ -34,6 +39,7 @@ As a "SQL - Do it yourself" in Oracle Dev Gym you can find, to start:
 Periodical sharing of Standard Query Language Best Practices links and blog, video publications from Advocate SQL and PL/SQL Developers and PMs
 
 - Analytic Functions: [how to get SQL cumulative running total on each row](https://blogs.oracle.com/sql/post/cumulative-running-total-of-previous-rows-with-sql) (from Chris Saxon);
+- V$ views: [Top 10 V$ Views For DBA and Developers](https://youtu.be/oI1F4vFwM9Q?si=i1UslciVja50792t) (From Connor McDonald).
 
 
 # Reusable Assets Overview
