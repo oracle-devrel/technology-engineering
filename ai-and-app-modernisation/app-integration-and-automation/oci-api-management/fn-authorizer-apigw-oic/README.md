@@ -1,6 +1,8 @@
 # fn-authorizer-apigw-oic
  
 *Example authorizer function for API Gateway with OIC backend.*
+
+Review Date: 03.11.2023
  
 # When to use this asset?
  
@@ -10,7 +12,7 @@ Use this asset as an example, when you want to decouple the client authenticatio
  
 This asset is provided as an example. Please tailor the code according to your needs and your context.
 
-See [oci-apigw-oic-auth/README.md](oci-apigw-oic-auth/README.md) for asset details.
+See [files/oci-apigw-oic-auth/README.md](files/oci-apigw-oic-auth/README.md) for asset details.
  
 # License
 

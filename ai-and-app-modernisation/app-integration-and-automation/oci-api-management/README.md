@@ -10,6 +10,9 @@ API Gateway provides policy enforcement such as limit the number of requests sen
 
 API managers can create Usage Plans within API Gateway and define API access tiers. API teams can monitor the traffic and analytics of their APIs based on the usage plan and subscriptions. This enables customers to analyze usage patterns as well as unlock new revenue streams by monetizing APIs.
 
+Review Date: 03.11.2023
+
+
 # Useful Links
 
 - [Quick Start Guide](https://docs.oracle.com/en-us/iaas/Content/APIGateway/Tasks/apigatewayquickstartsetupcreatedeploy.htm)
@@ -29,13 +32,17 @@ API managers can create Usage Plans within API Gateway and define API access tie
 - [API Management Product Page](https://www.oracle.com/cloud/cloud-native/api-management/)
 - [API Gateway Documentation](https://docs.oracle.com/iaas/Content/APIGateway/home.htm)
 
-# Reusable Assets Overview
+# Team Publications
 
 Reusable assets can be found in subfolders:
 - [fn-authorizer-apigw-oic](fn-authorizer-apigw-oic)
   - Example authorizer function for API Gateway with OIC backend. 
 - [fn-authorizer-apigw-ords](fn-authorizer-apigw-ords)
   - Example authorizer function for API Gateway with ORDS backend.
+- [oic-with-oci-api-gtw](oic-with-oci-api-gtw)
+  - Architecture pattern for exposing APIs deployed in OIC using OCI API Gateway
+- [Shared Assets](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/app-integration-and-automation/shared-assets)
+  - List of reusable assets spanning multiple cloud services (OIC, OPA, API Gateway)
 
 # License
 

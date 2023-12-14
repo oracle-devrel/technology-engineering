@@ -10,11 +10,13 @@ This document serves as an integral asset for individuals and organizations seek
 
 Use this document as a starting point for the solution definition of your Essbase implementation project. This asset includes example architecture diagrams for DrawIO in the file essbase-architecture-diagrams-example.drawio.
 
+Reviewed: 4.12.2023
+
 ## Conclusion
 The Essbase Workload Solution Definition is expected to serve as a definitive guide to the project. All participants are encouraged to provide feedback, raise queries, and make contributions to enhance the overall project's success.
 
 ### Useful Links
-The validated Solution Guide for Essbase on OCI can be found [here](https://docs.oracle.com/en/database/other-databases/essbase/21/essad/set-oracle-essbase.html) .
+The validated solution guide for Essbase stack deployment on OCI can be found [here](https://docs.oracle.com/en/database/other-databases/essbase/21/essad/set-oracle-essbase.html) .
 
 # License
 
@@ -22,4 +24,4 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
