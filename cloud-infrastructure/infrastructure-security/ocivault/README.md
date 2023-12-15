@@ -26,7 +26,9 @@ OCI Vault lets you centrally manage and control the use of keys and secrets acro
   
 - [OCI Vault Video)(https://www.youtube.com/watch?v=MkM_fJbFjJg)
     - OCI Vault introduction video
- 
+
+- [OCI Vault External KMS with Thales)(https://blogs.oracle.com/cloudsecurity/post/announcing-external-key-management-service-in-oci)
+    - OCI Vault External KMS with Thales - Announcement  
 # License
  
 Copyright (c) 2023 Oracle and/or its affiliates.
