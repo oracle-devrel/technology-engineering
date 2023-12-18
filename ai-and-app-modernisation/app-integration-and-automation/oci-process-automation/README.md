@@ -4,6 +4,9 @@ Oracle Process Automation (OPA) capabilities help business and IT groups within 
 
 There are two working environments: the design-time environment, where you develop and test applications, and the runtime environment, where you use and monitor process applications: Structured Processes and Dynamic Processes.
 
+Review Date: 03.11.2023
+
+
 # Useful Links
 
 - [OCI API Management Oracle.com Page](https://www.oracle.com/integration/process-automation/)

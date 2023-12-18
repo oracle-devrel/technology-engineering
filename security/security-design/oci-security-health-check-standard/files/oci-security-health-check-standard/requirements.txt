@@ -2,4 +2,4 @@ xlsxwriter>=3.0.3
 pandas>=1.5.2
 openpyxl>=3.0.10
 pyyaml>=6.0
-oci>=2.104
+oci>=2.110

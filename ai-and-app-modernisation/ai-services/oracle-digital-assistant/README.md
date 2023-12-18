@@ -28,7 +28,8 @@ Oracle Digital Assistant is a platform powered by artificial intelligence, speci
 
 - [Conversational AI / Digital Assistant Approach Workshop](./oda-workshop/README.md)
     - Conversational Design Experience in short CDX 
-
+- [Customer Experience and Digital Assistants with Boxfusion](https://videohub.oracle.com/media/Customer+Experience+and+Digital+Assistants+with+Boxfusion+07.2023/1_bj0g5h8b)
+    - Learn from call center implementations to improve customer satisfaction by instant, helpful, responses. 
 ## Blogs
 
 - [Data Picker ](https://www.youtube.com/watch?v=zPmfjuYQCGg&t=49s)
