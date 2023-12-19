@@ -2,7 +2,7 @@
 
 This page contains information and useful links regarding Compute services that are mostly related to OS and Licenses Management on top of OCI Compute. You can also find resources about BYOI, BYOH and Autoscaling.
 
-<i> Review date: 20 November 2023 </i>
+<i> Review date: 19 December 2023 </i>
 
 # Table of Contents
 
@@ -22,6 +22,7 @@ This page contains information and useful links regarding Compute services that 
 - [OCI List Backups](https://github.com/Olygo/OCI-ShowBackups)
 - [OCI Function for Freeform Tagging](https://github.com/Olygo/OCI-FN_TagCompute_FF)
 - [OCI Function for Defined Tags](https://github.com/Olygo/OCI-FN_TagCompute_DT)
+- [Cluster software on Oracle Linux 9 using Corosync and Pacemaker - create failover IP](https://github.com/mariusscholtz/Oracle-Cloud-Infrastructure-resources/blob/main/cluster/readme.md)
 
 # Useful Links
 
