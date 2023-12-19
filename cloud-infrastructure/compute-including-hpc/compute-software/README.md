@@ -1,12 +1,30 @@
 # Compute Software
 
-This page contains information and useful links regarding Compute services that are mostly related to OS and Licenses Management on top of OCI Compute. You can also find resources about BYOH and Autoscaling.
+This page contains information and useful links regarding Compute services that are mostly related to OS and Licenses Management on top of OCI Compute. You can also find resources about BYOI, BYOH and Autoscaling.
+
+<i> Review date: 19 December 2023 </i>
 
 # Table of Contents
 
-1. [Useful Links](#useful-links)
+1. [Team Publications](#team-publications)
+2. [Useful Links](#useful-links)
 
-## Useful Links
+# Team Publications
+- [How to Deploy Self Managed Nodes on OKE](https://www.youtube.com/watch?v=OroPnRN7arE)
+- [Cloud Coaching - Optimising performance - Deploying Red Hat Workloads on Oracle Cloud Infrastructure](https://www.youtube.com/watch?v=_18PgW4NN40)
+- [OCI PowerShell 7 Launch Instance](https://github.com/Olygo/OCI_Pwsh_Launch_Instance)
+- [OCI Cloud-Init WinPwd Update](https://github.com/Olygo/CloudInit_WinPwd_Update)
+- [OCI Object Storage Refresh Data Replication ](https://github.com/Olygo/OCI-OS_RefreshDataReplication)
+- [OCI DR with Reserved Public IPs](https://github.com/Olygo/OCI_DR-Reserved_PIP)
+- [OCI Vertical AutoScale](https://github.com/Olygo/OCI-AutoScale)
+- [OCI BackupInspector](https://github.com/Olygo/OCI-BackupInspector)
+- [OCI Freeform Tagging](https://github.com/Olygo/OCI-TagCompute)
+- [OCI List Backups](https://github.com/Olygo/OCI-ShowBackups)
+- [OCI Function for Freeform Tagging](https://github.com/Olygo/OCI-FN_TagCompute_FF)
+- [OCI Function for Defined Tags](https://github.com/Olygo/OCI-FN_TagCompute_DT)
+- [Cluster software on Oracle Linux 9 using Corosync and Pacemaker - create failover IP](https://github.com/mariusscholtz/Oracle-Cloud-Infrastructure-resources/blob/main/cluster/readme.md)
+
+# Useful Links
 
 - [Managing Custom Images](https://docs.oracle.com/en-us/iaas/Content/Compute/Tasks/managingcustomimages.htm)
 - [Oracle Blog - OCI OS Management](https://blogs.oracle.com/cloud-infrastructure/post/os-management-with-oracle-cloud-infrastructure)
@@ -32,3 +50,4 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+

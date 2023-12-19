@@ -18,7 +18,14 @@ The Observability and Manageability (O&M) platform is a set of Oracle Cloud Infr
 - [Stream OCI logs to Splunk](https://learnoci.cloud/stream-oci-logs-to-splunk-v9-1-c71c93e470fe?sk=8a7c3f6201bfcd847a83d36247eddfa7)
   - Step-by-step guide on the Splunk Plugin Installation and setup, and how to stream OCI logs to Splunk.
 - [Why and how to run Wazuh on OCI](https://learnoci.cloud/why-and-how-to-run-wazuh-on-oci-6b39174b5d2d?sk=2b9185ad216f0cedbf80b2e5a8705c96)
+- [Oracle Cloud Prometheus Exporter](https://karthicin.medium.com/oracle-cloud-prometheus-exporter-c78543473d7)
+- [How to integrate Service Now with Oracle cloud Alarms](https://karthicin.medium.com/servicenow-integration-with-oracle-cloud-d3d7a1c6f68a)
+- [Oracle Cloud Observability Terraform module](https://karthicin.medium.com/oracle-cloud-observability-terraform-module-d549132892cb)
+- [Useful cli commands](https://karthicin.medium.com/useful-oci-cli-commands-f6e05b3e5eef)
+- [How to install Grafana in OCI and send OCI metrics to it](https://learnoci.cloud/how-to-install-grafana-in-oci-and-send-oci-metrics-to-it-c2582ebdfda5)
+- [How to use Templates for Console Dashboards](https://learnoci.cloud/how-to-use-templates-for-console-dashboards-3e30890e7f31)
 - [How to get logs into Splunk from OCI obj storage](https://learnoci.cloud/how-to-get-logs-into-splunk-from-oci-object-storage-7304fbf467ea?sk=6539609ba70a068fe52f39fb079df32b)
+- [Enhanced Support in OCI Console — Create Service Requests (SR) in Child Tenancies](https://learnoci.cloud/enhanced-support-in-oci-console-create-service-requests-sr-in-child-tenancies-a327cb9d2c10)
 - [Supercharge your Oracle Enterprise Manager Cloud Control 13.5 management, by using the REST API calls](https://medium.com/@eugenesimos/supercharge-your-oracle-enterprise-manager-cloud-control-13-5-d264e7371ec9)
 - [ServiceNow integration with OCI using secrets stored in OCI Vault to create incidents](https://karthicin.medium.com/servicenow-integration-with-oracle-cloud-d3d7a1c6f68a)
 
@@ -29,17 +36,14 @@ The Observability and Manageability (O&M) platform is a set of Oracle Cloud Infr
 - [Unveiling the Power of OCI Observability, A Short Tour and Best Practices](https://youtu.be/KEF0NeptJa8)
 - [OCI Monitoring Integration with Third-Party SIEM](https://youtu.be/UPdPZPWOZIs)
 - [Leveraging Oracle Observability and Open-Source Tools](https://youtu.be/-ftEkoqfLfM)
+- [OCI Observability for Kubernetes monitoring](https://youtu.be/DLce-UReoKo?si=Vpw19z4rjlUb9fW2)
 
 # Useful Links
 
 - [PMs GitHub repo](https://github.com/oracle-quickstart/oci-o11y-solutions)
   - Observability and Manageability Product Managers GitHub
-- [Application Performance Monitoring](https://docs.oracle.com/en-us/iaas/application-performance-monitoring/index.html)
-- [Stack Monitoring](https://docs.oracle.com/en-us/iaas/stack-monitoring/index.html)
-- [Database Management](https://docs.oracle.com/en-us/iaas/database-management/index.html)
-- [Operations Insights](https://docs.oracle.com/en-us/iaas/operations-insights/index.html)
-- [Logging](https://docs.oracle.com/en-us/iaas/Content/Logging/home.htm)
-- [Logging Analytics](https://docs.oracle.com/en-us/iaas/logging-analytics/index.html)
+- [O&M Oracle Blogs](https://blogs.oracle.com/observability/)
+- [Documentation](https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/monitoring-and-observability.htm)
 - [OCI Monitoring](https://docs.oracle.com/en-us/iaas/Content/Monitoring/home.htm)
 
 # License
