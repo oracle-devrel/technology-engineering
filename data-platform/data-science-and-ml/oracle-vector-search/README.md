@@ -1,6 +1,6 @@
 # Oracle Vector Search
 
-This page is covering Oracle Vector Search.
+This page covers Oracle Vector Search.
 
 Reviewed: 2023-12-04
 
