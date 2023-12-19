@@ -2,6 +2,8 @@
 
 Owner: Olaf Heimburger
 
+Version: 230922
+
 ## When to use this asset?
 
 The *OCI Security Health Check - Standard Edition* checks an OCI tenancy for CIS OCI Foundation Benchmark compliance.
@@ -12,22 +14,22 @@ The *OCI Security Health Check - Standard Edition* checks an OCI tenancy for CIS
 
 Before running the *OCI Security Health Check - Standard Edition* you should download and verify it.
 
-  - Download the latest distribution [oci-security-health-check-standard-230630.zip](https://github.com/oracle-devrel/technology-engineering/releases/download/oci-security-health-check-std-230630/oci-security-health-check-standard-230630.zip).
-  - Download the respective checksum file [oci-security-health-check-standard-230630.sha512256](https://github.com/oracle-devrel/technology-engineering/releases/download/oci-security-health-check-std-230630/oci-security-health-check-standard-230630.sha512256).
+  - Download the latest distribution [oci-security-health-check-standard-230922.zip](https://github.com/oracle-devrel/technology-engineering/releases/download/oci-security-health-check-std-230922/oci-security-health-check-standard-230922.zip).
+  - Download the respective checksum file [oci-security-health-check-standard-230922.sha512256](https://github.com/oracle-devrel/technology-engineering/releases/download/oci-security-health-check-std-230922/oci-security-health-check-standard-230922.sha512256).
   - Verify the integrity of the distribution. Both files must be in the same directory (for example, in your downloads directory).
 
     On MacOS:
     ```
     $ cd <your_downloads_directory>
-    $ shasum -a 512256 -c oci-security-health-check-standard-230630.sha512256
-    oci-security-health-check-standard-230630.zip: OK
+    $ shasum -a 512256 -c oci-security-health-check-standard-230922.sha512256
+    oci-security-health-check-standard-230922.zip: OK
     ```
 
     On Linux (including Cloud Shell):
     ```
     $ cd <your_downloads_directory>
-    $ sha512sum -c oci-security-health-check-standard-230630.sha512
-    oci-security-health-check-standard-230630.zip: OK
+    $ sha512sum -c oci-security-health-check-standard-230922.sha512
+    oci-security-health-check-standard-230922.zip: OK
     ```
 
 **Reject the downloaded file if the check fails!**
@@ -86,7 +88,7 @@ The recommended way is to run the *OCI Security Health Check - Standard* in the 
   - Upload the distribution file.
   - Extract it
     ```
-    $ unzip -q oci-security-health-check-standard-230630.zip
+    $ unzip -q oci-security-health-check-standard-230922.zip
     ```
 
 ### Run the script
@@ -131,6 +133,11 @@ The report results are summarized in two files:
 The *OCI Security Health Check - Standard Edition* streamlines the usage of the bundled [Compliance Checking Script](https://github.com/oracle-quickstart/oci-cis-landingzone-quickstart/blob/main/compliance-script.md) provided by the [CIS OCI Landing Zone Quick Start Template](https://github.com/oracle-quickstart/oci-cis-landingzone-quickstart).
 
 The *OCI Security Health Check - Standard Edition* would not be possible without the great work of the [CIS OCI Landing Zone Quick Start Template Team](https://github.com/oracle-quickstart/oci-cis-landingzone-quickstart/graphs/contributors).
+
+## Certification
+
+The Compliance Checking Script is certified by the [CIS Center of Internet Security for the OCI Oracle Cloud Foundation Benchmark v1.2.O, Level 1 and 2](https://www.cisecurity.org/partner/oracle).
+
 # License
 
 Copyright (c) 2022-2023 Oracle and/or its affiliates.

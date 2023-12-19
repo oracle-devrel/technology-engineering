@@ -5,6 +5,8 @@ This repository is dedicated to the migration or upgrade of Hyperion Enterprise 
 These resources aim to offer guidance throughout your migration, enabling you to make informed decisions. Utilize these assets to streamline your migration process and ensure a smooth transition to the OCI platform.
 
 Explore these materials to enhance your migration strategy. We appreciate your participation and are committed to supporting your cloud migration journey.
+
+Reviewed: 4.12.2023
  
 # Table of Contents
  
@@ -14,16 +16,14 @@ Explore these materials to enhance your migration strategy. We appreciate your p
   - [Useful Links](#useful-links)
 - [License](#license)
  
-## Team Assets
+# Team Publications
 
-The reusable assets available in this repository:
+- [Cyber recovery solution on Oracle Cloud Infrastructure](https://docs.oracle.com/en/solutions/oci-automated-cyber-recovery/index.html) 
+ 
+# Useful Links
 
-- Example solution definition document for the deployment of Hyperion applications on OCI.
-- Editable example architecture diagrams in drawio format
-- Discovery questionnaire designed to streamline the collection of the necessary information 
- 
-## Useful Links
- 
+- [Essbase 21.5 New Features and Enhancements YouTube Playlist](https://www.youtube.com/playlist?list=PLdtXkK5KBY57davwRTIGtDn05A9N4ybrI) 
+- [EPM System Release 11.2.15 announcement](https://blogs.oracle.com/proactivesupportepm/post/enterprise-performance-management-epm-11215-is-available)
 - [EPM Architecture Center](https://docs.oracle.com/en/solutions/deploy-hyperion-oci/index.html)
     - Reference architecture for EPM on OCI, including high availability (HA) and disaster recovery (DR) solutions.
 - [Hyperion on OCI: A validated solution guide](https://www.oracle.com/a/ocom/docs/cloud/hyperion-epm-on-oci-validated-solution-guide.pdf)
@@ -48,4 +48,4 @@ Copyright (c) 2023 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0. 
  
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
