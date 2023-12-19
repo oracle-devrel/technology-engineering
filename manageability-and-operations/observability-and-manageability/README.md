@@ -36,6 +36,7 @@ The Observability and Manageability (O&M) platform is a set of Oracle Cloud Infr
 - [Unveiling the Power of OCI Observability, A Short Tour and Best Practices](https://youtu.be/KEF0NeptJa8)
 - [OCI Monitoring Integration with Third-Party SIEM](https://youtu.be/UPdPZPWOZIs)
 - [Leveraging Oracle Observability and Open-Source Tools](https://youtu.be/-ftEkoqfLfM)
+- [OCI Observability for Kubernetes monitoring](https://youtu.be/DLce-UReoKo?si=Vpw19z4rjlUb9fW2)
 
 # Useful Links
 
