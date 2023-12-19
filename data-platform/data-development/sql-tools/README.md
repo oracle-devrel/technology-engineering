@@ -13,7 +13,13 @@ A SQL Clue Card is also provided.
 5. PMs Personal Websites
 
 # Team Publications
-TBD
+
+- Application Continuity - [Does your Database really know your application - Part 1](https://medium.com/@paulbrad71/application-continuity-on-adb-does-your-database-know-your-application-376e44d8a30) - Published on [Medium](http://www.medium.com) on 13th March 2023;
+
+- Application Continuity - [Does your Database really know your application - Part 2](https://medium.com/@paulbrad71/does-your-database-really-know-your-application-second-part-48321b0ab81) - Published on [Medium](http://www.medium.com) on 6th April 2023;
+
+- Application Continuity - [Does your Database really know your application - Part 3](https://medium.com/@paulbrad71/application-continuity-on-adb-does-your-database-know-your-application-376e44d8a30) - Published on [Medium](http://www.medium.com) on 31st May 2023.
+
 
 
 # Useful Links
@@ -33,7 +39,13 @@ TBD
 As a "SQL - Do it yourself" in Oracle Dev Gym you can find, to start:
 - [Database For Developers: Foundations](https://devgym.oracle.com/pls/apex/f?p=10001:29:112499394488989:::29:P29_CLASS_ID:5481&cs=1Nx3TDJgh0w-ygq3icYMX7urIWoNPCEJuXLH5pqVOkknGnq2I33EJh57LsiiynySdqwMpwClQNviXsLC73e3-0Q);
 
+Learn SQL in this FREE 12-part boot camp. It will help you get started with Oracle Database and SQL. The course is a series of videos to teach you database concepts, interactive SQL tutorials, and quizzes to reinforce the ideas. Complete the course to get your free certificate.
+
 - [Database For Developers: Next Level](https://devgym.oracle.com/pls/apex/dg/class/databases-for-developers-next-level.html)
+
+This course continues where Databases for Developers: Foundations left off, taking you further on your SQL journey.
+The class consists of a series of videos introducing concepts, interactive coding sections, and quizzes to test your understanding.
+
 
 # SQL Best Practices
 Periodical sharing of Standard Query Language Best Practices links and blog, video publications from Advocate SQL and PL/SQL Developers and PMs
@@ -43,21 +55,7 @@ Periodical sharing of Standard Query Language Best Practices links and blog, vid
 
 
 # Reusable Assets Overview
-
-- Application Continuity - [Does your Database really know your application - Part 1](https://medium.com/@paulbrad71/application-continuity-on-adb-does-your-database-know-your-application-376e44d8a30) - Published on [Medium](http://www.medium.com) on 13th March 2023;
-
-- Application Continuity - [Does your Database really know your application - Part 2](https://medium.com/@paulbrad71/does-your-database-really-know-your-application-second-part-48321b0ab81) - Published on [Medium](http://www.medium.com) on 6th April 2023;
-
-- SQL - [The Jimi Hendrix SQL Experience - Part 1: Load Jimi Hendrix music data into ADB](https://medium.com/@paulbrad71/the-jimi-hendrix-sql-experience-30f11a78bd54) - Published on [Medium](http://www.medium.com) on 21th March 2023
-
-- SQL - [The Jimi Hendrix SQL Experience - Part 2: Integrate and modify Jimi Hendrix data into ADB](https://medium.com/@paulbrad71/the-jimi-hendrix-sql-clue-card-experience-5729def14040) - Published on [Medium](http://www.medium.com) on 17th April 2023;
-
-- SQL - [The Jimi Hendrix SQL Experience - Part 3: Modifications to table structure in ADB](https://medium.com/@paulbrad71/the-jimi-hendrix-sql-clue-card-experience-9d3106b3e903) - Published on [Medium](http://www.medium.com) on 16th May 2023;
-
-- Application Continuity - [Does your Database really know your application - Part 3](https://medium.com/@paulbrad71/application-continuity-on-adb-does-your-database-know-your-application-376e44d8a30) - Published on [Medium](http://www.medium.com) on 31st May 2023.
-
-- SQL [The Jimi Hendrix SQL Experience - Part 4: Adding Table Constraints - First](https://medium.com/@paulbrad71/the-jimi-hendrix-sql-clue-card-experience-518c0d0932f3) - Published on [Medium](http://www.medium.com) on 12th June 2023;
-
+TBD
 
 # PMs Personal Websites
 
