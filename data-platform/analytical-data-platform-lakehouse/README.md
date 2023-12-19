@@ -1,6 +1,8 @@
 # Analytical Data Platform
  
-Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a complete, open, and intelligent platform to cater to all analytical workloads from the largest lakehouses to the smallest data marts, from a cloud data warehouse to a distributed data mesh; it delivers these workloads at scale and with enterprise-grade security and performance to tackle the most demanding data workloads. 
+Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a complete, open, and intelligent platform to cater to all analytical workloads from the largest lakehouses to the smallest data marts, from a cloud data warehouse to a distributed data mesh; it delivers these workloads at scale and with enterprise-grade security and performance to tackle the most demanding data workloads.
+
+Reviewed: 19.12.2023
  
 # Table of Contents
  
@@ -96,7 +98,26 @@ Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a compl
   - Data Strategy session explaining what are the elements and reasoning behind defining a data strategy that is the conduit between the business strategy and requirements and a data platform architecture.
 
 # Reusable Assets Overview
-TBD
+
+- [Workload Architecture Documents](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/analytical-data-platform-lakehouse/workload-architecture-documents)
+  - [Cloud Analytics with OAC standalone](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/analytical-data-platform-lakehouse/workload-architecture-documents/cloud-analytics-with-oac-standalone)
+    - In-depth guide on how to design and deploy a cloud analytics workload that uses Oracle Analytics Cloud (OAC) as the visualization tool to show data residing on a premises Data Warehouse using private connectivity.
+  - [Oracle DWH Analytics for IT](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/analytical-data-platform-lakehouse/workload-architecture-documents/data-warehouse-analytics-for-IT)
+    - In-depth guide on how to design and deploy a DWH Analytical workload for IT. This particular example covers a migration of an existing Oracle DW workload but the guide can be leveraged as well for net new workloads.
+  - [Oracle DWH Analytics for LoB](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/analytical-data-platform-lakehouse/workload-architecture-documents/dwh-analytics-for-lob)
+      - In-depth guide on how to design and deploy a DWH Analytical workload for Lines of Business (LoBs) based on the eBusiness Suite (eBS) accelerator that Oracle Consulting has for Customers.
+  - [In-database Machine Learning](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/analytical-data-platform-lakehouse/workload-architecture-documents/in-database-machine-learning)
+    - Machine Learning project based on the Autonomous Database Oracle Machine Learning (OML) reference architecture, useful links, and a workload deployment template. 
+  - [Oracle BI Applications with Informatica Powercenter migration to Oracle OCI with Informatica IDMC, OAC and ADW](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/analytical-data-platform-lakehouse/workload-architecture-documents/obia-with-informatica-to-oci-with-idmc)
+    - in-depth guide on how to define and design a Data Warehouse Analytical workload when migrating from an Oracle BI Applications (OBIA) with Informatica Powercenter to Oracle OCI with Informatica IDMC, Oracle Analytics Cloud (OAC) and Autonomous Data Warehouse (ADW).
+  - [Oracle BI Applications 11g with ODI migration to Oracle OCI with ODI, OAC and Oracle DB](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/analytical-data-platform-lakehouse/workload-architecture-documents/obia-with-odi-migration-to-oci)
+      - In-depth guide on how to define and design a Data Warehouse Analytical workload when migrating from an Oracle BI Applications (OBIA) 11g with ODI to Oracle OCI with ODI, Oracle Analytics Cloud (OAC) and Oracle Database
+  - [Oracle Database and OBIEE migration to Autonomous Data Warehouse and Oracle Analytics Cloud](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/analytical-data-platform-lakehouse/workload-architecture-documents/obiee-db-migration-to-oac-adw)
+    - In-depth guide on how to define, design and deploy a Data Warehouse Analytical workload when migrating from an on-premise OBIEE and Oracle database solution to an OCI Oracle Analytics Cloud (OAC) + Autonomous Data Warehouse (ADW) solution
+  - [Serverless Lakehouse](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/analytical-data-platform-lakehouse/workload-architecture-documents/serverless-lakehouse)
+    - Design for a Lakehouse Serverless solution for HR Analytics. The solution includes: OCI Data Integration, Autonomous Data Warehouse, OCI Objects Storage, Oracle Analytics Cloud, OCI Data Flow, and OCI Data Science.
+  - [Stand-alone Data Science](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/analytical-data-platform-lakehouse/workload-architecture-documents/stand-alone-oci-data-science)
+      - Machine Learning project based on the Oracle Cloud Infrastructure Data Science service, reference architecture, useful links, and a workload deployment template.
 
 # License
 
