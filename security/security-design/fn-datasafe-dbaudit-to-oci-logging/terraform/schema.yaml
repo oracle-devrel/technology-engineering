@@ -124,7 +124,8 @@ variables:
     required: true
     visibile: true
     title: "Deployement Mode"
-    description: "Function Deployment Mod (Prod, Test, Dev)" 
+    description: "Function Deployment Mod (prod, test, dev)"
+    pattern: "^[a-z]+$" 
 
   # Optional Configuration
 
