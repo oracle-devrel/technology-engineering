@@ -23,13 +23,16 @@ Oracle Cloud provides a set of data management services built on self-driving Or
     - Learn how to use Terraform to automate Oracle Autonomous Database deployments.
 
 - [Recently announced Autonomous Database container image](https://www.linkedin.com/posts/manuela-mitu-1119a3259_adb-activity-7112093727061340161-L8L1)
-    - Learn how to download and run Autonomous Database Free container image.
+    - Learn how to download and run an Autonomous Database Free container image.
 
 - [Recently announced Autonomous Database container image](https://www.linkedin.com/posts/manuela-mitu-1119a3259_autonomousdatabase-activity-7117196782438076416-YHBt)
     - Access built-in database tools and load data.
 
 - [Autonomous Database only - Geocode with managed reference data](https://www.youtube.com/watch?v=yCxlNBjtoNE)
     - Geocoding is the conversion of an address or place name into geographic coordinates. With Oracle Autonomous Database Serverless you can now geocode (and reverse geocode) with managed reference data.
+ 
+- [Disaster Recovery with Autonomous Data Guard Serverless](https://www.youtube.com/watch?v=h4wkXh7dWe4)
+    - The disaster Recovery solution for the Autonomous Database Serverless (RTO/RPO, local and remote cross-region, etc).
    
 # Useful Links
  
