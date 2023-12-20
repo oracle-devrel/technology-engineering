@@ -30,6 +30,9 @@ Oracle Cloud provides a set of data management services built on self-driving Or
 
 - [Autonomous Database only - Geocode with managed reference data](https://www.youtube.com/watch?v=yCxlNBjtoNE)
     - Geocoding is the conversion of an address or place name into geographic coordinates. With Oracle Autonomous Database Serverless you can now geocode (and reverse geocode) with managed reference data.
+ 
+- [Disaster Recovery with Autonomous Data Guard Serverless](https://www.youtube.com/watch?v=h4wkXh7dWe4)
+    - The disaster Recovery solution for the Autonomous Database Serverless (RTO/RPO, local and remote cross-region etc).
    
 # Useful Links
  
