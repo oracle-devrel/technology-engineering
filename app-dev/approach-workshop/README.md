@@ -1,5 +1,6 @@
 # Approach Workshop
 
+## When to use this asset?
 Do you consider
 - Adopting a cloud native enterprise approach?
 - Automating on-demand services?
@@ -7,6 +8,7 @@ Do you consider
 - Building and running apps that are highly available, resilient, fully secure, and compliant?
 - Modernizing and simplifying your deployments and operations?
 
+## How to use this asset?
 We will discuss
 - Design principles and best practices that govern application architectures
 - The core requirements that apply to your application
@@ -14,15 +16,10 @@ We will discuss
 - Showcase similar customers' use cases
 - Which architecture pattern fits your situation and the necessary steps to get there
 
-
-## When to use this asset?
-
-## How to use this asset?
-
 # License
-
+ 
 Copyright (c) 2023 Oracle and/or its affiliates.
-
+ 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
-
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+ 
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
