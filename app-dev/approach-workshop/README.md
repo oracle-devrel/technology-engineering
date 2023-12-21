@@ -4,7 +4,7 @@
 Do you consider
 - Adopting a cloud native enterprise approach?
 - Automating on-demand services?
-- Utilizing cloud based tools? And think they change so much?
+- Utilizing cloud-based tools? And think they have changed so much?
 - Building and running apps that are highly available, resilient, fully secure, and compliant?
 - Modernizing and simplifying your deployments and operations?
 
