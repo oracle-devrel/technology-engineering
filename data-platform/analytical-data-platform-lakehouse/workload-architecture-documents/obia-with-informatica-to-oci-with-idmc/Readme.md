@@ -2,6 +2,8 @@
 
 This repository contains an in-depth guide on how to define and design a Data Warehouse Analytical workload when migrating from an Oracle BI Applications (OBIA) with Informatica Powercenter to Oracle OCI with Informatica IDMC, Oracle Analytics Cloud (OAC) and Autonomous Data Warehouse (ADW)
 
+Reviewed: 19.12.2023
+
 ## When to use this asset?
 
 Use this asset when planning a migration of OBIA with Informatica Powercenter to Oracle OCI with OAC and ADW + OBIEE workload as a starting point to an OAC and ADW.
@@ -30,4 +32,4 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](LICENSE.txt) for more details.
+See [LICENSE](LICENSE) for more details.

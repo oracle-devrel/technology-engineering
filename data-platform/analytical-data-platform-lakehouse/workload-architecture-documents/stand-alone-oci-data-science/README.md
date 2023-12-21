@@ -8,7 +8,9 @@ This repository contains a Machine Learning project based on the Oracle Cloud In
 - analytics with Oracle Analytics Cloud,
 - and data science with OCI Data Science.
 
-__Note:__ This is a living document. We will make changes and enhance this as and when needed.  
+__Note:__ This is a living document. We will make changes and enhance this as and when needed.
+
+Reviewed: 19.12.2023
 
 ## When to use this asset?
 
@@ -21,3 +23,11 @@ We recommend that you use the current 'stand-alone-data-science' as a template f
 ## Conclusion
 
 We hope that you will find the architecture document to be a helpful guide for any data platform which includes data science aspects with an OCI Data Science and data platform project. We encourage everyone to provide feedback so that we can further improve our assets.
+
+# License
+ 
+Copyright (c) 2023 Oracle and/or its affiliates.
+ 
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+ 
+See [LICENSE](LICENSE) for more details.

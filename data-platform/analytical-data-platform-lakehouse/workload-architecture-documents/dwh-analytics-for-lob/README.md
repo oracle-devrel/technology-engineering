@@ -2,6 +2,8 @@
 
 This repository contains an in-depth guide on how to design and deploy a DWH Analytical workload for Lines of Business (LoBs) based on the eBusiness Suite (eBS) accelerator that Oracle Consulting has for Customers.
 
+Reviewed: 19.12.2023
+
 ## When to use this asset?
 
 Use this asset when designing an eBS accelerator workload or as a starting point for designing and deploying a general DWH for LoBs. 
@@ -28,4 +30,4 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](LICENSE.txt) for more details.
+See [LICENSE](LICENSE) for more details.

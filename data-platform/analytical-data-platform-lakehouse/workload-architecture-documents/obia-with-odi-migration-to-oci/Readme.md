@@ -1,6 +1,8 @@
 # Oracle BI Applications 11g with ODI migration to Oracle OCI with ODI, OAC and Oracle DB
 
-This repository contains an in-depth guide on how to define and design a Data Warehouse Analytical workload when migrating from an Oracle BI Applications (OBIA) 11g with ODI to Oracle OCI with ODI, Oracle Analytics Cloud (OAC) and Oracle Database
+This repository contains an in-depth guide on how to define and design a Data Warehouse Analytical workload when migrating from an Oracle BI Applications (OBIA) 11g with ODI to Oracle OCI with ODI, Oracle Analytics Cloud (OAC) and Oracle Database.
+
+Reviewed: 19.12.2023
 
 ## When to use this asset?
 
@@ -40,4 +42,4 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](LICENSE.txt) for more details.
+See [LICENSE](LICENSE) for more details.
