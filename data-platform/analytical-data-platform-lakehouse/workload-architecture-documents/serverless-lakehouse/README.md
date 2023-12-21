@@ -1,6 +1,8 @@
 # Lakehouse for HR
  
 The asset is a document describing the design for a Lakehouse Serverless solution for HR Analytics. The solution includes: OCI Data Integration, Autonomous Data Warehouse, OCI Objects Storage, Oracle Analytics Cloud, OCI Data Flow, and OCI Data Science.
+
+Reviewed: 19.12.2023
  
 # When to use this asset?
  
@@ -19,4 +21,4 @@ Copyright (c) 2023 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
-See [LICENSE](LICENSE.txt) for more details.
+See [LICENSE](LICENSE) for more details.

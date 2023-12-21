@@ -1,6 +1,8 @@
 # Oracle Database and OBIEE migration to Autonomous Data Warehouse and Oracle Analytics Cloud
 
-This repository contains an in-depth guide on how to define, design and deploy a Data Warehouse Analytical workload when migrating from an on-premise OBIEE and Oracle database solution to an OCI Oracle Analytics Cloud (OAC) + Autonomous Data Warehouse (ADW) solution
+This repository contains an in-depth guide on how to define, design and deploy a Data Warehouse Analytical workload when migrating from an on-premise OBIEE and Oracle database solution to an OCI Oracle Analytics Cloud (OAC) + Autonomous Data Warehouse (ADW) solution.
+
+Reviewed: 19.12.2023
 
 ## When to use this asset?
 
@@ -32,4 +34,4 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](LICENSE.txt) for more details.
+See [LICENSE](LICENSE) for more details.

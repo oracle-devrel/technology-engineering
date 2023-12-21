@@ -2,6 +2,8 @@
 
 This repository contains an in-depth guide on how to design and deploy a cloud analytics workload that uses Oracle Analytics Cloud (OAC) as the visualization tool to show data residing on a premises Data Warehouse using private connectivity.
 
+Reviewed: 19.12.2023
+
 ## When to use this asset?
 
 Use this asset when designing an analytics workload that serves data stored in a DW residing on premises. 
@@ -28,4 +30,4 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](LICENSE.txt) for more details.
+See [LICENSE](LICENSE) for more details.

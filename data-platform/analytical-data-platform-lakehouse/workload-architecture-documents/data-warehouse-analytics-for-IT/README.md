@@ -2,6 +2,8 @@
 
 This repository contains an in-depth guide on how to design and deploy a DWH Analytical workload for IT. This particular example covers a migration of an existing Oracle DW workload but the guide can be leveraged as well for net new workloads.
 
+Reviewed: 19.12.2023
+
 ## When to use this asset?
 
 Use this asset when designing a workload for a net new or migration of an existing DW in OCI.
@@ -28,4 +30,4 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](LICENSE.txt) for more details.
+See [LICENSE](LICENSE) for more details.

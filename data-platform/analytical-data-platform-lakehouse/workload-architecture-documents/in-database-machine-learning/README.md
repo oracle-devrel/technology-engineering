@@ -10,6 +10,8 @@ This repository contains a Machine Learning project based on the Autonomous Data
 
 __Note:__ This is a living document. We will make changes and enhance this as and when needed.  
 
+Reviewed: 19.12.2023
+
 ## When to use this asset?
 
 Any Oracle Partner/Service Provider/Consultant working on a data platform which includes an Oracle Machine Learning project deployment to OCI should find this useful.
@@ -31,4 +33,4 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](LICENSE.txt) for more details.
+See [LICENSE](LICENSE) for more details.
