@@ -21,7 +21,7 @@ Reviewed: 19.12.2023
 - [Monetize data with Oracle Cloud Infrastructure](https://docs.oracle.com/en/solutions/monetize-data-oci/index.html)
     - Reference Architecture depicting how to support data monetization by exposing data products via APIs and integrating with subscription and payment systems to process usage and payments.
 - [Data platform - data federation](https://docs.oracle.com/en/solutions/data-platform-federation/index.html#GUID-440BB303-426C-4467-91EE-09C1BA564C84)
-    - Reference Architecture depicting how to combine, correlate, and analyze lakehouse data with federated data regardless of location (third-party cloud stores, cloud, and on premises databases) without having to duplicate data.
+    - Reference Architecture depicting how to combine, correlate, and analyze lakehouse data with federated data regardless of location (third-party cloud stores, cloud, and on-premises databases) without having to duplicate data.
 
 ## GitHub
 
