@@ -18,10 +18,5 @@ can eventually be modified or forked.
 
 Although these limitations might not fit every use case, the code can be used as a reference and there are ways to lift them.
 
-[
-![Deploy to Oracle Cloud]
-(https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)
-]
-(https://cloud.oracle.com/resourcemanager/stacks/create
-?zipUrl=<package-url>)
+[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/raw/main/app-dev/devops/ansible-jenkins/ansible-jenkins-rm.zip)
 

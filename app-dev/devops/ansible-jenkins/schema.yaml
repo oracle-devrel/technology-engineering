@@ -1,3 +1,7 @@
+# URL of Logo Icon used on Application Information tab. Logo must be 130x130 pixels.
+# (Optional)
+#logoUrl:
+
 title: "Jenkins OCI initializer"
 description: "A Terraform stack to deploy a Jenkins instance on an ARM Flex shape"
 informationalText: "A Terraform stack to initialize Jenkins on OCI"
