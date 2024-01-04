@@ -2,7 +2,7 @@
 
 Oracle Content Management (OCM) is a cloud-based content hub to drive omni-channel content management and accelerate experience delivery. It offers powerful collaboration, workflow management, and development capabilities to streamline the creation and delivery of content and improve customer and employee engagement.
 
-It covers Digital Asset Management & Video Production(Sauce), Document Collaboration, Capture & Enterprise Content Management, Digital Experience Platform (Low Code & Headless Development) as well packaged applications within OCM like Video Hub, Email Builder, Sales Accelerator and more to come. 
+It covers Digital Asset Management & Video Production(Sauce), Document Collaboration, Capture & Enterprise Content Management, Digital Experience Platform (Low Code & Headless Development) as well packaged applications within OCM like Video Hub, Email Builder, Sales Accelerator. 
 
 # Useful Links
 
