@@ -12,7 +12,7 @@ Oracle Cloud Infrastructure (OCI) AI Services is a collection of services with p
 - [Oracle AI Services Oracle.com Page](https://www.oracle.com/artificial-intelligence/ai-services/)
 - [Oracle’s Generative AI strategy](https://blogs.oracle.com/ai-and-datascience/post/generative-ai-strategy)
 - [OCI AI Foundations Certification](https://mylearn.oracle.com/ou/component/-/127179/198553)
-- [AI usecases - 10 examples](https://www.oracle.com/a/ocom/docs/gated/ai-use-cases-ebook.pdf)
+- [AI use cases - 10 examples](https://www.oracle.com/a/ocom/docs/gated/ai-use-cases-ebook.pdf)
 - [Availability of AI Services across OCI datacenters](https://www.oracle.com/uk/cloud/public-cloud-regions/service-availability/#commercial)
 
 # Reusable Assets
