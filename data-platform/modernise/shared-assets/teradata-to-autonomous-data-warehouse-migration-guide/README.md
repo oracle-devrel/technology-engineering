@@ -1,5 +1,7 @@
 # Teradata to Autonomous Data Warehouse on OCI Migration Guide
 
+Reviewed: 04.01.2024
+
 ## Why move Teradata to Autonomous Data Warehouse on OCI?
 
 Legacy Data Warehouses, like Teradata, present a lot of inconveniences nowadays. The monolithic architecture implies high costs both in terms of hosting and management. Also, legacy Data Warehouses are difficult to scale (up/down, out/in) and require very skilled personnel to operate. The capex model associated costs and the costs associated to this expert personnel, among others, are making the companies to move the legacy database systems to the cloud rapidly. 
@@ -20,7 +22,7 @@ Once a decision has been taken to migrate a Teradata database to Autonomous Data
 
 # How to use this asset?
 
-A comprehensive guide to migrate a Teradata database to Autonomous Data Warehouse on OCI using SQL Developer is available in this GitHub folder, named "Teradata to ADW Migration with SQL Developer_v1.1.pdf". Follow the steps to prepare for your Teradata to Autonomous Data Warehouse migration.
+A comprehensive guide to migrate a Teradata database to Autonomous Data Warehouse on OCI using SQL Developer is available in the "files" subfolder of this GitHub folder, named "Teradata to ADW Migration with SQL Developer_v1.1.pdf". Follow the steps to prepare for your Teradata to Autonomous Data Warehouse migration.
 
 # License
  

@@ -9,7 +9,7 @@ Reviewed: 03.11.2023
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-links)
  
-## Team Publications
+# Team Publications
  
 - [Oracle Learning - Red Hot Webinar - OCI Database Migration on YouTube](https://www.youtube.com/watch?v=oLpah0TlmFE)
     - Red Hot Webinar delivered by Marcus Doeringer capturing an in-depth description of OCI Database Migration - features, functionality, use-cases, and technical demonstration
@@ -18,7 +18,7 @@ Reviewed: 03.11.2023
 - [Online Database Migration Services (DMS) made simpler, faster](https://www.youtube.com/watch?v=iVCZYU5ddBA)
     - YouTube video explaining how OCI Database Migration is integrated with OCI GoldenGate for replication during online migrations. More information about this feature of OCI Database Migration is also available [here](https://blogs.oracle.com/dataintegration/post/oci-database-migration-announces-oci-goldengate-integration).
  
-## Useful Links
+# Useful Links
 
 - [OCI Database Migration Documentation](https://docs.oracle.com/en/cloud/paas/database-migration)
 - [OCI Database Migration LiveLabs Workshop](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=3326)
