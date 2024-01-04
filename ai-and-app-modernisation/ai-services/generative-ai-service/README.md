@@ -21,6 +21,8 @@ most performant and cost-effective platform to host their AI services.
  
 # Team Publications
 
+- [Oracle Generative AI webinar](https://go.oracle.com/LP=138234?elqCampaignId=489428&src1=:so:ch:or:dg::::&SC=:so:ch:or:dg::::&pcode=WWMK230822P00010)
+- [Creating a RAG (Retrieval-Augmented Generation) with Oracle Generative AI Service in just 21 lines of code](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/rag-genai)
 - [Summarize any document using Oracle Generative AI](https://www.youtube.com/watch?v=6A3KGyKy91Q)
 - [Dubai Citizen's Dream: An Oracle GenAI-Powered Oracle BOT to Answer All Your Questions (RAG on websites)](https://www.youtube.com/watch?v=5Y_k1r34Mp0)
 - [Document Chatbot with Oracle Generative AI](https://www.youtube.com/watch?v=vyJAZvYKY34) 
