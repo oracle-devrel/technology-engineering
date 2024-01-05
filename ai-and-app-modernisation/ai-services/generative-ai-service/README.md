@@ -22,6 +22,7 @@ most performant and cost-effective platform to host their AI services.
 # Team Publications
 
 - [Oracle Generative AI webinar](https://go.oracle.com/LP=138234?elqCampaignId=489428&src1=:so:ch:or:dg::::&SC=:so:ch:or:dg::::&pcode=WWMK230822P00010)
+    - Deep dive into Oracle Generative AI platform.
 - [Creating a RAG (Retrieval-Augmented Generation) with Oracle Generative AI Service in just 21 lines of code](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/rag-genai)
 - [Summarize any document using Oracle Generative AI](https://www.youtube.com/watch?v=6A3KGyKy91Q)
 - [Dubai Citizen's Dream: An Oracle GenAI-Powered Oracle BOT to Answer All Your Questions (RAG on websites)](https://www.youtube.com/watch?v=5Y_k1r34Mp0)
@@ -38,8 +39,6 @@ most performant and cost-effective platform to host their AI services.
     - Terraform script to start a stable-diffusion, bloom, and dreambooth in compute instance using an Nvidia GPU in OCI.
 - [Generative AI in OCI](https://medium.com/oracledevs/generative-ai-in-oci-c0467e1a68f7)
     - Blog post explaining how to use generative AI models in OCI.
-- [Oracle Generative AI Webinar](https://go.oracle.com/LP=138234?elqCampaignId=489428&src1=:so:ch:or:dg::::&SC=:so:ch:or:dg::::&pcode=WWMK230822P00010)
-    - Deep dive into Oracle Generative AI platform.
     
 
 # Useful Links
