@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudnativebasicspring-deployment
+  namespace: k8-booster
+spec:
+  selector:
+    matchLabels:
+      app: cloudnativebasicspring
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: cloudnativebasicspring
+    spec:
+      containers:
+      - name: cloudnativebasicspring
+        image: fharris/cloudnativebasic-spring-docker:latest
+        ports:
+        - containerPort: 8080

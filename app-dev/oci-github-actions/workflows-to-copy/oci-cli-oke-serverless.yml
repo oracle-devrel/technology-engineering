@@ -1,0 +1,74 @@
+name: Demo for OKE Serverless
+run-name: ${{ github.actor }} is testing out GitHub Actions with OCI🚀 OKE Serverless
+on: [workflow_dispatch]
+env:
+  # Setting an environment variable with the value of a configuration variable
+  OCI_CLI_REGION:  ${{ vars.VAR_OCI_CLI_REGION }}
+  OKE_CLUSTER_OCID: ${{ vars.VAR_OKE_CLUSTER_OCID }}
+  #REGISTRY: ${{ vars.VAR_REGISTRY }}
+ 
+jobs:
+  my-instances:
+    runs-on: ubuntu-latest
+    name: Play with OKE Serverless
+    env:
+      
+      OCI_CLI_USER: ${{ secrets.OCI_CLI_USER }}
+      OCI_CLI_TENANCY: ${{ secrets.OCI_CLI_TENANCY }}
+      OCI_CLI_FINGERPRINT: ${{ secrets.OCI_CLI_FINGERPRINT }}
+      OCI_CLI_KEY_CONTENT: ${{ secrets.OCI_CLI_KEY_CONTENT }}
+      
+      
+      #OCIR_TOKEN: ${{ secrets.OCIR_TOKEN }}
+      #OCIR_USERNAME: ${{ secrets.OCIR_USERNAME }}
+      
+
+    steps:
+    
+      - name: "Checkout Rep"   
+        uses: actions/checkout@v3
+    
+      - name: "list workspace"
+        run: ls -ltra
+        shell: bash
+      
+      - name: "Get Cluster details"
+        uses: oracle-actions/run-oci-cli-command@v1.1.1
+        with:
+          command: 'ce cluster get --cluster-id ${{ secrets.OKE_CLUSTER_OCID }}'
+          silent: False
+     
+      - name: Configure Kubectl
+        uses: oracle-actions/configure-kubectl-oke@v1.3.2
+        id: test-configure-kubectl-oke-action
+        with:
+          cluster: ${{ secrets.OKE_CLUSTER_OCID }}
+      
+      - name: Get Nodes
+        run: kubectl get nodes -A
+      
+      - name: Create k8booster Namespace
+        run: kubectl apply -f k8booster/manifestNamespace.json
+      
+      - name: Deploy Dummy App
+        run: kubectl apply -f k8booster/manifestDeploy.yaml
+        
+      - name: Check Dummy App
+        run: kubectl get -f k8booster/manifestDeploy.yaml -o wide
+        
+      - name: Create Load Balancer Service for Dummy App
+        run: kubectl apply -f k8booster/manifestService.yaml
+        
+      - name: Check Service for Dummy App
+        run: kubectl get -f k8booster/manifestService.yaml -o wide
+        
+        
+        
+        
+
+      
+
+
+
+
+

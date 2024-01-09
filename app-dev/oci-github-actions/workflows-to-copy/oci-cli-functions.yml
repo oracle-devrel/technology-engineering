@@ -1,0 +1,117 @@
+name: Demo for OCI Functions
+run-name:  ${{ github.actor }} is testing out GitHub Actions with OCI🚀 Functions
+on: [workflow_dispatch]
+env:
+  # Setting an environment variable with the value of a configuration variable
+  function_runtime: ${{ vars.FUNCTION_RUNTIME }}
+  function_name: ${{ vars.FUNCTION_NAME }}
+  app_name: ${{ vars.APP_NAME }}
+jobs:
+  my-instances:
+    runs-on: ubuntu-latest
+    name: List the display name and shape of the instances in my compartment
+    env:
+      OCI_CLI_USER: ${{ secrets.OCI_CLI_USER }}
+      OCI_CLI_TENANCY: ${{ secrets.OCI_CLI_TENANCY }}
+      OCI_CLI_FINGERPRINT: ${{ secrets.OCI_CLI_FINGERPRINT }}
+      OCI_CLI_KEY_CONTENT: ${{ secrets.OCI_CLI_KEY_CONTENT }}
+      OCI_CLI_REGION: ${{ secrets.OCI_CLI_REGION_CI }}
+      OCIR_TOKEN: ${{ secrets.OCIR_TOKEN }}
+      OCIR_USERNAME: ${{ secrets.OCIR_USERNAME }}
+      REGISTRY: fra.ocir.io
+      IMAGE_NAME: ${{ github.repository }}
+      OCI_COMPARTMENT_ID: ${{ secrets.OCI_COMPARTMENT_ID }}
+
+      
+    steps:
+      - name: "Install Fn"
+        run: curl -LSs https://raw.githubusercontent.com/fnproject/cli/master/install | sh
+        shell: bash
+      - name: "Check runtime language"
+        run: echo "Hello $runtime"
+        shell: bash
+    
+
+      - name: "Create context"
+        run: fn create context functions --provider oracle
+        shell: bash
+      
+      - name: "Use context"
+        run: fn use context functions
+        shell: bash
+      
+
+      - name: "Update context compartment"
+        run: fn update context oracle.compartment-id ocid1.compartment.oc1..aaaaaaaajc733zsnctrcbo6w5ryfdtbifa44nrzaqlpatjptu4qlgr5dccpq
+        shell: bash
+      - name: "Update context api url"
+        run: fn update context api-url https://functions.eu-frankfurt-1.oci.oraclecloud.com 
+        shell: bash
+      - name: "Update context registry"
+        run: fn update context registry fra.ocir.io/frsxwtjslf35/${{ github.actor }}
+        shell: bash 
+      
+      - name: "list context"
+        run: fn list context
+        shell: bash
+        
+        
+      - name: Log in to the Container registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.OCIR_USERNAME }}
+          password: ${{ secrets.OCIR_TOKEN }} 
+      
+
+          
+      - name: Retrieve the OCID of a named compartment in tenancy
+        uses: oracle-actions/run-oci-cli-command@v1.1.1
+        id: find-compartment-id
+        with:
+          command: 'iam compartment list --compartment-id-in-subtree=true'
+          query: "data[?name=='functions'].id"
+          silent: False
+          
+      - name: Retrieve the display name of the applications for functions in my compartment
+        uses: oracle-actions/run-oci-cli-command@v1.1.1
+        id: find-applications
+        with:
+          command: 'fn application list --compartment-id ${{ steps.find-compartment-id.outputs.raw_output }}'
+          query: 'data[*].{name: \"display-name\", applicationId: \"id\" }'
+          silent: False
+    
+    
+      
+      - name: Retrieve the display name and shape of the instances in my compartment
+        uses: oracle-actions/run-oci-cli-command@v1.1.1
+        id: find-instances
+        with:
+          command: 'compute instance list --compartment-id ${{ steps.find-compartment-id.outputs.raw_output }}'
+          query: 'data[*].{name: \"display-name\", shape: shape}'
+      
+      - name: Retrieve the id for functions in my application
+        uses: oracle-actions/run-oci-cli-command@v1.1.1
+        id: find-applications-id
+        with:
+          command: 'fn function list --application-id ocid1.fnapp.oc1.eu-frankfurt-1.aaaaaaaaj4dgig5nut2su5tjvo3faum5npzr5yhoweid4q4p2r2esmzn222q'
+          query: 'data[*].{name: \"display-name\", functionId: \"id\" }'
+          silent: False
+          
+      - name: Invoke function in my application
+        uses: oracle-actions/run-oci-cli-command@v1.1.1
+        #id: functions-response
+        with:
+          command: 'fn function invoke --function-id "ocid1.fnfunc.oc1.eu-frankfurt-1.aaaaaaaaniupaauxysoxzmltd7r2vrrk5mlgxeldaiaexeinbyqg7tbrwwzq" --file "-" --body "`${{ github.actor }}` "'
+          #query: 'data[*].{name: \"display-name\", functionId: \"id\" }'
+          #fernandoharris: Change returning type of my hello world to JSON should solve the issue!
+          silent: False
+          
+      #- name: "List Apps"
+      #  run: fn list apps
+      #  shell: bash   
+      
+      - name: "Create function"
+        run: fn init --runtime $function_runtime $function_name ; cd $function_name ; ls -ltr; pwd
+        shell: bash
+          

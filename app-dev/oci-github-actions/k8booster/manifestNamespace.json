@@ -1,0 +1,9 @@
+{"kind": "Namespace",
+ "apiVersion": "v1",
+ "metadata": {
+        "name": "k8-booster",
+        "labels": {
+        "name": "k8-booster"
+}
+}
+}

@@ -1,0 +1,7 @@
+[
+  {
+    "isPublicIpAssigned": true,
+    "skipSourceDestCheck": true,
+    "subnetId": "ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaahy2w3ynsgyrmjjxuyykax5m3ap4qld4lee7o6aqic3nmfkf5xpxq"
+  }
+]

@@ -1,0 +1,50 @@
+name: Demo for Container Instances
+run-name: ${{ github.actor }} is testing out GitHub Actions with OCI🚀 Container Instances
+on: [workflow_dispatch]
+env:
+  # Setting an environment variable with the value of a configuration variable
+  function_runtime: ${{ vars.FUNCTION_RUNTIME }}
+  #function_name: ${{ vars.FUNCTION_NAME }}
+  container_instance_name: ${{ vars.CONTAINER_INSTANCE_NAME }}
+jobs:
+  my-instances:
+    runs-on: ubuntu-latest
+    name: Play with container Instances
+    env:
+      OCI_CLI_USER: ${{ secrets.OCI_CLI_USER }}
+      OCI_CLI_TENANCY: ${{ secrets.OCI_CLI_TENANCY }}
+      OCI_CLI_FINGERPRINT: ${{ secrets.OCI_CLI_FINGERPRINT }}
+      OCI_CLI_KEY_CONTENT: ${{ secrets.OCI_CLI_KEY_CONTENT }}
+      OCI_CLI_REGION: ${{ secrets.OCI_CLI_REGION_CI }}
+      OCIR_TOKEN: ${{ secrets.OCIR_TOKEN }}
+      OCIR_USERNAME: ${{ secrets.OCIR_USERNAME }}
+      REGISTRY: fra.ocir.io
+      IMAGE_NAME: ${{ github.repository }}
+      OCI_COMPARTMENT_ID: ${{ secrets.OCI_COMPARTMENT_ID }}
+      #OCI_COMPARTMENT_ID: ocid1.compartment.oc1..aaaaaaaak3cg7aoegjmd7pcpv6j6uhcmssa3ghygxjamzbtas7fx7qauahga
+
+      
+    steps:
+      - name: "Checkout Rep"   
+        uses: actions/checkout@v3
+    
+      - name: "list workspace"
+        run: ls -ltra
+        shell: bash
+        
+     
+      - name: "echo var"
+        run: echo $OCI_COMPARTMENT_ID
+        shell: bash
+      
+      
+      - name: "Create container Instances"
+        uses: oracle-actions/run-oci-cli-command@v1.1.1
+        with:
+          command: 'container-instances container-instance create --availability-domain Vihs:EU-FRANKFURT-1-AD-1  --compartment-id ${{ secrets.OCI_COMPARTMENT_ID }} --containers file://wordpressmysql-containers.json   --shape CI.Standard.E4.Flex --shape-config file://wordpress-shape-config.json --vnics file://wordpress-vnic.json --display-name ${{ vars.CONTAINER_INSTANCE_NAME }}'
+          silent: false
+        
+        
+
+
+
