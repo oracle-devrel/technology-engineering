@@ -17,3 +17,11 @@ We recommend that you use the 'ebs-starterpack' as a template for any EBS migrat
 
 We hope that you will find the 'ebs-starterpack' to be a helpful guide for any EBS migration project. We encourage everyone to provide feedback so that we can further improve our assets.
 
+
+# License
+
+Copyright (c) 2023 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
