@@ -45,6 +45,7 @@ most performant and cost-effective platform to host their AI services.
 # Useful Links
  
 - [Implement Oracle Cloud Infrastructure Generative AI based on Cohere Large Language Model - Blog & Architecture](https://docs.oracle.com/en/solutions/oci-generative-ai-llm/index.html#GUID-76987F35-F646-40CF-9CF2-42724BA57191)
+- [Generative AI Chatbot using LLaMA-2, Qdrant, RAG, LangChain & Streamlit](https://blogs.oracle.com/ai-and-datascience/post/ai-chatbot-llama2-qdrant-rag-langchain-streamlit)
 - [Oracle and Generative AI](https://docs.oracle.com/en-us/iaas/Content/Resources/Assets/whitepapers/oracle-and-generative-ai.pdf)
 - [Oracle’s generative AI strategy - blog by Greg Pavlik](https://blogs.oracle.com/ai-and-datascience/post/generative-ai-strategy)
 - [Oracle to Deliver Powerful and Secure Generative AI Services for Business](https://www.oracle.com/news/announcement/oracle-to-deliver-powerful-and-secure-generative-ai-service-for-business-2023-06-13/)
