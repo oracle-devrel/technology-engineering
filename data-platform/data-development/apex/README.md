@@ -1,9 +1,12 @@
 # APEX
 
+Reviewed: 10.01.2024
+
 ## Get Started
 - [Official APEX Landing Page](https://apex.oracle.com/en/)
-- [What's New in APEX 23.1](https://apex.oracle.com/en/platform/features/whats-new-231/)
+- [What's New in APEX 23.1](https://apex.oracle.com/en/platform/features/whats-new-232/)
 - [Cloud Coaching - Unlock the Power of APEX](https://www.youtube.com/watch?v=6rG_tX8ScBc)
+- [APEX with AI - A new landscape for Application Development](https://youtu.be/f1cBdLEGY00)
 
 ## Documentation / Videos
 - [APEX Documentation](https://docs.oracle.com/en/database/oracle/apex/23.1/index.html)
@@ -24,4 +27,4 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
