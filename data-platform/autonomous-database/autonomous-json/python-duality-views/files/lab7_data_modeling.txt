@@ -1,0 +1,330 @@
+============== 1) Working with SODA ==============
+
+Simple Oracle Document Access (SODA) is a set of NoSQL-style APIs that let you create and store collections of documents (in particular JSON) in Oracle Database, retrieve them, and query them, without needing to know Structured Query Language (SQL) or how the documents are stored in the database.
+
+How is data stored? Let's connect via sqlplus with root user.
+
+sqlplus myapp/YOUR_PASSWORD@localhost:1521/FREEPDB1
+
+SET LINESIZE 150;
+SET PAGESIZE 150;
+
+1) desc HOTEL_RESERVATIONS
+
+SQL> desc HOTEL_RESERVATIONS
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL RAW(4000)
+ CREATED_ON                                NOT NULL TIMESTAMP(6)
+ LAST_MODIFIED                             NOT NULL TIMESTAMP(6)
+ VERSION                                   NOT NULL VARCHAR2(255)
+ DATA                                               JSON
+
+When creating a SODA collection, a table is created. This table contains 4 columns for metadata, and 1 column containing the JSON information, DATA.
+
+2) select h.data.payment_status, h.data.reservation_id from HOTEL_RESERVATIONS h;
+
+3) select * from HOTEL_RESERVATIONS;
+
+We can run a select all and we can see all the information, including the JSON data. On the following lab, you will learn how to use SQL over JSON data.
+
+
+
+ 
+============== 2) Hybrid Model ==============
+
+We can create a table containing JSON data and relational data. 
+
+
+sqlplus myapp/YOUR_PASSWORD@localhost:1521/FREEPDB1
+
+create table souvenir(
+  email varchar2(50),
+  room_number number,
+  products json
+);
+
+insert into souvenir values(
+'mrodriguez@example.com',
+105,
+'[{
+  "id": 1,
+  "type": "t-shirt",
+  "price": 15,
+},
+{
+  "id": 2,
+  "type": "ball",
+  "price": 3,
+}
+]
+'
+);
+
+insert into souvenir values(
+'ethan.lee@example.com',
+315,
+'[{
+  "id": 1,
+  "type": "shoes",
+  "price": 75,
+},
+{
+  "id": 2,
+  "type": "glasses",
+  "price": 100,
+}
+]
+'
+);
+
+commit;
+
+
+-- Let'r run some simple SQL queries to combine relational and JSON (SODA Collection):
+
+select * from souvenir;
+
+select s.email,s.room_number,s.products.type
+from souvenir s;
+
+
+select h.data.guest_name.first_name "Name",h.data.guest_name.last_name "Last Name",s.email "Email",s.room_number "Room",s.products.type "Products"
+from souvenir s,hotel_reservations h
+where h.data.guest_contact_info.email=s.email;
+
+============== 3) Duality Views ==============
+
+JSON-relational duality views combine the advantages of using JSON documents with the advantages of the relational model, while avoiding the limitations of each.
+
+Let's improve the hotel booking example using duality views, and let's keep using JSON and Python.
+
+drop table hotel cascade constraints;
+drop table room cascade constraints;
+drop table reservation cascade constraints;
+drop table guest cascade constraints;
+drop table bill cascade constraints;
+
+drop view guest_dv;
+drop view billing_dv;
+
+create table hotel(
+    hotel_id int primary key
+);
+
+insert into hotel values (123);
+commit;
+
+
+create table room(
+    room_id int primary key,
+    hotel_id int,
+    constraint fk_room_hotel foreign key (hotel_id) references hotel(hotel_id)
+);
+
+insert into room values (105,123);
+insert into room values (315,123);
+insert into room values (207,123);
+insert into room values (222,123);
+insert into room values (101,123);
+insert into room values (305,123);
+commit;
+
+
+create table reservation(
+reservation_id int primary key,
+guest_id number,
+room_id int,
+checkin_date date,
+checkout_date date,
+num_adults int,
+num_children int,
+guest_email varchar2(100),
+additional_requests json,
+constraint fk_room_reservation foreign key (room_id) REFERENCES ROOM(room_id)
+);
+
+
+
+insert into reservation values(1,1,105,TO_DATE('2023-06-03 12:00:00', 'yyyy-MM-dd hh:mi:ss'),TO_DATE('2023-06-07 12:00:00', 'yyyy-MM-dd hh:mi:ss'),2,0,'mrodriguez@example.com','');
+insert into reservation values(2,2,315,TO_DATE('2023-06-15 12:00:00', 'yyyy-MM-dd hh:mi:ss'),TO_DATE('2023-06-17 12:00:00', 'yyyy-MM-dd hh:mi:ss'),1,0,'ethan.lee@example.com','');
+insert into reservation values(3,3,207,TO_DATE('2023-06-25 12:00:00', 'yyyy-MM-dd hh:mi:ss'),TO_DATE('2023-06-30 12:00:00', 'yyyy-MM-dd hh:mi:ss'),2,0,'olivia.johnson@example.com','');
+insert into reservation values(4,4,222,TO_DATE('2023-06-07 12:00:00', 'yyyy-MM-dd hh:mi:ss'),TO_DATE('2023-06-17 12:00:00', 'yyyy-MM-dd hh:mi:ss'),2,0,'liam.patel@example.com','');
+insert into reservation values(5,5,101,TO_DATE('2023-06-01 12:00:00', 'yyyy-MM-dd hh:mi:ss'),TO_DATE('2023-06-05 12:00:00', 'yyyy-MM-dd hh:mi:ss'),2,1,'john.smith@example.com','[{"type": "extra_bed","quantity": 1},{"type": "late_checkout","details": "Please arrange for a 2pm checkout"}]');
+insert into reservation values(6,6,305,TO_DATE('2023-06-04 12:00:00', 'yyyy-MM-dd hh:mi:ss'),TO_DATE('2023-06-20 12:00:00', 'yyyy-MM-dd hh:mi:ss'),2,0,'marcus.wong@example.com','');
+
+commit;
+
+
+
+create table guest(
+    guest_id number primary key,
+    email varchar2(100) unique,
+    first_name varchar2(100),
+    last_name varchar2(100),
+    phone varchar2(20),
+    city varchar2(50),
+    country varchar2(50)
+);
+insert into guest values(1,'mrodriguez@example.com','Maria','Rodriguez','777-4231','Paris','France');
+insert into guest values(2,'ethan.lee@example.com','Ethan','Lee','123-8106','Madrid','Spain');
+insert into guest values(3,'olivia.johnson@example.com','Olivia','Johnson','987-1890','Barcelona','Spain');
+insert into guest values(4,'liam.patel@example.com','Liam','Patel','123-8106','Malaga','Spain');
+insert into guest values(5,'john.smith@example.com','John','Smith','555-1234','Lyon','France');
+insert into guest values(6,'marcus.wong@example.com','Marcus','Wong','123-1234','Nice','France');
+
+commit;
+
+
+alter table reservation add constraint fk_reservation_guest2 foreign key (guest_id) REFERENCES guest(guest_id);
+
+
+create table bill(
+bill_id int primary key,
+guest_id int,
+reservation_id int,
+email varchar2(100),
+total_cost number,
+payment_status varchar2(20)
+);
+
+insert into bill values(1,1,1,'mrodriguez@example.com',650,'paid');
+insert into bill values(2,2,2,'ethan.lee@example.com',350,'paid');
+insert into bill values(3,3,3,'olivia.johnson@example.com',932,'pending');
+insert into bill values(4,4,4,'liam.patel@example.com',350,'paid');
+insert into bill values(5,5,5,'john.smith@example.com',800,'paid');
+insert into bill values(6,6,6,'marcus.wong@example.com',1350,'cancelled');
+commit;
+
+alter table bill add constraint fk_guest_bill foreign key (guest_id) REFERENCES guest(guest_id);
+alter table bill add constraint fk_reservation_bill foreign key (reservation_id) REFERENCES reservation(reservation_id);
+
+
+============ Duality Views ============
+
+
+CREATE OR REPLACE JSON RELATIONAL DUALITY VIEW guest_dv AS
+SELECT JSON {
+              '_id' :  g.guest_id,
+              'email' is g.email,
+              'first_name' is g.first_name,
+              'last_name' is g.last_name,
+              'phone' is g.phone,
+              'city' is g.city,
+              'country' is g.country,
+              'reservation_info' is[
+                select json {r.reservation_id,r.room_id,r.checkin_date,r.checkout_date,r.num_adults,r.num_children,r.additional_requests}
+                from reservation r WITH INSERT NODELETE
+                where g.guest_id=r.guest_id ]}
+FROM guest g WITH INSERT UPDATE NODELETE;
+
+
+-- Let's run SQL examples
+
+SELECT json_serialize(data PRETTY) FROM guest_dv where rownum<2;
+SELECT json_serialize(data PRETTY) FROM guest_dv g where g.data.email like '%marcus%';
+SELECT json_serialize(data PRETTY) FROM guest_dv b where  json_exists(b.data.reservation_info.additional_requests[*].type, '$[*]?(@ == "extra_bed")');
+
+
+--insert new reservation with new guest
+
+insert into guest_dv values('
+{
+  "_id" : 7,
+  "email" : "ana.smith@example.com",
+  "first_name" : "Ana",
+  "last_name" : "Smith",
+  "phone" : "999-1234",
+  "city" : "Paris",
+  "country" : "France",
+  "reservation_info" :
+  [
+    {
+      "reservation_id" : 7,
+      "room_id" : 305,
+      "checkin_date" : "2023-09-04T12:00:00",
+      "checkout_date" : "2023-09-20T12:00:00",
+      "num_adults" : 2,
+      "num_children" : 1
+    }
+  ]
+}
+');
+commit;
+
+
+-- Query new reservation
+SELECT json_serialize(data PRETTY) FROM guest_dv dv where dv.data."_id"=7;
+
+-- Delete with nodelete, error expected
+
+DELETE FROM guest_dv dv WHERE dv.data."_id" = 7;
+
+-- insert new guest via normal sql and display, no reservation info.
+
+insert into guest values(8,'luis.gomez@example.com','Luis','Gomez','127-18910','Madrid','Spain');
+commit;
+
+SELECT json_serialize(data PRETTY) FROM guest_dv dv where dv.data."_id"=8;
+
+
+========= Duality view billing info
+
+CREATE OR REPLACE JSON RELATIONAL DUALITY VIEW billing_dv AS
+SELECT JSON {
+            '_id' IS b.bill_id,
+            'email' is b.email,
+            'total_cost' is b.total_cost,
+            'payment_status' is b.payment_status,
+            'reservation_id' is b.reservation_id,
+            'guest' is [
+              select json{g.guest_id,g.first_name,g.last_name,g.phone}
+              from guest g  WITH INSERT NODELETE
+              where g.guest_id=b.bill_id
+            ]
+}
+FROM bill b with UPDATE INSERT DELETE;
+            
+SELECT json_serialize(data PRETTY) FROM billing_dv bdv where bdv.data."_id"=6;
+
+-- Update cancelled with paid
+
+UPDATE billing_dv dv
+SET data = json_transform(data, SET '$.payment_status' = 'paid')
+WHERE dv.data."_id"=6;
+COMMIT;
+
+--Run again to check changes:
+SELECT json_serialize(data PRETTY) FROM billing_dv bdv where bdv.data."_id"=6;
+
+==========================Map duality view to a python soda collection ============
+DECLARE col soda_collection_t;
+BEGIN
+  col := DBMS_SODA.create_dualv_collection('BILLING_COLLECTION', 'BILLING_DV');
+END;
+/
+============= New python code to work with collection ================
+--Run as root
+
+import oracledb
+
+#thick mode for SODA
+oracledb.init_oracle_client()
+
+#connection details
+connection = oracledb.connect(user="myapp",password="YOUR_PASSWORD",dsn="localhost:1521/FREEPDB1")
+
+#connect, create and list collections
+soda = connection.getSodaDatabase()
+
+list=soda.getCollectionNames()
+print(list)
+collection = soda.openCollection("BILLING_COLLECTION")
+documents = collection.find().filter({'total_cost': {"$gt" : 1000}}).getDocuments()
+for d in documents:
+    content = d.getContent()
+    print(content)
+
+
+
+

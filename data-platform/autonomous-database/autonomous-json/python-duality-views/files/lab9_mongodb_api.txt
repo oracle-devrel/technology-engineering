@@ -1,0 +1,128 @@
+========================== Use MongoDB API with Duality views ============
+
+--Install mongodb client: https://www.mongodb.com/try/download/shell
+
+
+wget https://downloads.mongodb.com/compass/mongodb-mongosh-2.0.2.x86_64.rpm
+yum localinstall mongodb-mongosh-2.0.2.x86_64.rpm
+
+--we can find the url at the ords log we defined before, and we will have something like this:
+--mongodb://[{user}:{password}@]localhost:27017/{user}?authMechanism=PLAIN&authSource=$external&ssl=true&retryWrites=false&loadBalanced=true
+
+--It is a default string. Let's connect with our user.
+--For the password is required to change # with %23: https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/mongo-using-oracle-database-api-mongodb.html
+
+mongosh --tlsAllowInvalidCertificates 'mongodb://myapp:YOUR_PASSWORD@localhost:27017/myapp?authMechanism=PLAIN&authSource=$external&ssl=true&retryWrites=false&loadBalanced=true'
+
+
+-- Let's run some simple queries using MongoDB
+show collections
+db.hotel_reservations.countDocuments()
+db.hotel_reservations.find( {"reservation_id": "5"} )
+
+
+
+
+-- Insert new reservation into SODA collection
+db.hotel_reservations.insertOne(
+    {
+    
+    checkin_date: '2023-06-15',
+    num_adults: 1,
+    reservation_id: '16',
+    hotel_id: '123',
+    room_id: '315',
+    payment_status: 'paid',
+    num_children: 0,
+    guest_contact_info: {
+      email: 'jose.garcia@example.com',
+      phone: '318-8206',
+      address: { city: 'Madrid', country: 'Spain' }
+    },
+    checkout_date: '2023-06-17',
+    total_cost: 350,
+    guest_name: { first_name: 'Jose', last_name: 'Garcia' }
+  }
+)
+
+
+db.hotel_reservations.find( {"reservation_id": "16"} )
+
+-- Update the document:
+
+db.hotel_reservations.updateOne(
+   { "reservation_id": "16" },
+   {
+     $set: { "num_adults": 2 }
+   }
+)
+
+db.hotel_reservations.find( {"reservation_id": "16"} )
+
+-- Go back to sql and check the new reservation is there:
+
+select h.data.reservation_id,h.data.num_adults from hotel_reservations h where h.data.reservation_id='16';
+
+=========== USE DUALITY VIEWS=========
+
+
+DECLARE col soda_collection_t;
+BEGIN
+  col := DBMS_SODA.create_dualv_collection('GUEST_COLLECTION', 'GUEST_DV');
+END;
+/
+
+db.GUEST_COLLECTION.insertOne(
+
+{
+  "_id" : 9,
+  "email" : "mike.smith@example.com",
+  "first_name" : "Mike",
+  "last_name" : "Smith",
+  "phone" : "999-1234",
+  "city" : "Toronto",
+  "country" : "Canada",
+  "reservation_info" :
+  [
+    {
+      "reservation_id" : 9,
+      "room_id" : 105,
+      "checkin_date" : "2023-09-04T12:00:00",
+      "checkout_date" : "2023-09-20T12:00:00",
+      "num_adults" : 2,
+      "num_children" : 1
+    }
+  ]
+}
+
+)
+
+
+db.GUEST_COLLECTION.find({"email":"mike.smith@example.com"})
+
+select * from guest_dv;
+
+
+============ Adding Billing DV ===========
+
+
+
+db.BILLING_COLLECTION.countDocuments()
+db.BILLING_COLLECTION.find()
+
+-- Insert new reservation into Duality Views collection
+db.BILLING_COLLECTION.insertOne(
+{
+  "_id" : 9,
+  "email" : "mike.smith@example.com",
+  "total_cost" : 1350,
+  "payment_status" : "paid",
+  "reservation_id":9
+}
+)
+
+
+==========
+
+
+db.BILLING_COLLECTION.find({"email":"mike.smith@example.com"})
