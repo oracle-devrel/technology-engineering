@@ -28,6 +28,7 @@ The Observability and Manageability (O&M) platform is a set of Oracle Cloud Infr
 - [Enhanced Support in OCI Console — Create Service Requests (SR) in Child Tenancies](https://learnoci.cloud/enhanced-support-in-oci-console-create-service-requests-sr-in-child-tenancies-a327cb9d2c10)
 - [Supercharge your Oracle Enterprise Manager Cloud Control 13.5 management, by using the REST API calls](https://medium.com/@eugenesimos/supercharge-your-oracle-enterprise-manager-cloud-control-13-5-d264e7371ec9)
 - [ServiceNow integration with OCI using secrets stored in OCI Vault to create incidents](https://karthicin.medium.com/servicenow-integration-with-oracle-cloud-d3d7a1c6f68a)
+- [How to enable OCI Observability Services on Exadata Cloud@Customer](https://medium.com/@erikasciunzi/how-to-enable-oci-observability-services-on-exadata-cloud-customer-9501dcaa356e)
 
 ## Cloud Coaching Clinics (Videos)
 
