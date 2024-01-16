@@ -11,14 +11,14 @@ Refer to this asset to learn how to migrate the Oracle BI Publisher workload to 
  
 # How to use this asset?
  
-This asset contains files to help you understand  how OAC BIP is different from Standalone BIP, and what are the migration steps.
+This asset contains files to help you understand how OAC BIP is different from Standalone BIP, and what are the migration steps.
 Please refer as well to the OAC Guidelines Document to learn how to deploy OAC and find easy training resources to help you get started on your Analytics Cloud Journey"
  
 # Useful Links
  
- -[Oracle Analytics Publisher Product Page](https://www.oracle.com/uk/middleware/technologies/analytics-publisher.html)
- -[Oracle Analytics Publisher Documentation](https://docs.oracle.com/en/cloud/paas/analytics-cloud/create-pixel-perfect-reports.html)
- -[Oracle Analytics Publisher Designing Pixel Perfect Reports](https://docs.oracle.com/en/cloud/paas/analytics-cloud/acpmr/designing-pixel-perfect-reports-oracle-analytics-cloud.pdf)
+ - [Oracle Analytics Publisher Product Page](https://www.oracle.com/uk/middleware/technologies/analytics-publisher.html)
+ - [Oracle Analytics Publisher Documentation](https://docs.oracle.com/en/cloud/paas/analytics-cloud/create-pixel-perfect-reports.html)
+ - [Oracle Analytics Publisher Designing Pixel Perfect Reports](https://docs.oracle.com/en/cloud/paas/analytics-cloud/acpmr/designing-pixel-perfect-reports-oracle-analytics-cloud.pdf)
 
  
 # License
