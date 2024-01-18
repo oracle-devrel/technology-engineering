@@ -2,7 +2,7 @@
  
 Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a complete, open, and intelligent platform to cater to all analytical workloads from the largest lakehouses to the smallest data marts, from a cloud data warehouse to a distributed data mesh; it delivers these workloads at scale and with enterprise-grade security and performance to tackle the most demanding data workloads.
 
-Reviewed: 17.01.2024
+Reviewed: 18.01.2024
  
 # Table of Contents
  
@@ -83,6 +83,8 @@ Reviewed: 17.01.2024
 
 - [Oracle BI Applications and migration to Fusion Applications](https://medium.com/@DoubleUP66/oracle-bi-applications-and-migration-to-fusion-applications-1ae7db1bff15)
   - Blog describing the different options to modernize OBIA when customers migrate their Oracle Unlimited Apps into Oracle Fusion SaaS.
+- [Using Security Integration between Oracle eBusiness Suite and Oracle Business Intelligence OBIEE?](https://medium.com/@DoubleUP66/using-security-integration-between-oracle-ebusiness-suite-and-oracle-business-intelligence-obiee-cfa97b8133c9)
+  - Blog describing the options to setup security integration between eBusiness Suite and OAC/OAS on the scope of a data platform workload.
 
 ## Podcasts
 
