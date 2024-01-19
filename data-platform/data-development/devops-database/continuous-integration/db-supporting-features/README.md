@@ -9,7 +9,7 @@ After development, automating this first stage of integration is crucial step to
 
 Each area provides a series of packages for using metadata in Software LifeCycle Management.
 
-The primary PL/SQL pacakage are: 
+The primary PL/SQL package are: 
 [DBMS_METADATA](https://docs.oracle.com/en/database/oracle/oracle-database/19/arpls/DBMS_METADATA.html#GUID-F72B5833-C14E-4713-A588-6BDF4D4CBA2A) 
 - The DBMS_METADATA package provides a way for you to retrieve metadata from the database dictionary as XML or creation DDL and to submit the XML to re-create the object. Use this to generate the data definition of schema objects.
 
