@@ -7,7 +7,7 @@ OCI IAM is a native service of OCI that provides enterprise-class identity and a
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-uinks)
  
-## Team Publications
+# Team Publications
 
 - [Oracle IAM Services ](https://www.oracle.com/emea/cloud/events/cloud-coaching/on-demand/?ytid=mvOqda-XZVE)
     - Video about Oracle's Identity and Access Management Services
@@ -30,7 +30,7 @@ OCI IAM is a native service of OCI that provides enterprise-class identity and a
   - [Correlation between OCI native IAM, IDCS, and Service Console](https://blogs.oracle.com/coretec/post/correlation-between-oci-native-iam-idcs-and-service-console)
     - Blog about the correlation between the IAMs in OCI and Service Console
  
-## Useful Links
+# Useful Links
  
 - [Federating with MS AzureAD](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/federatingADFSazure.htm)
     - Federating OCI IAM with Microsoft Azure Active Directory
@@ -46,8 +46,4 @@ OCI IAM is a native service of OCI that provides enterprise-class identity and a
       
 # License
  
-Copyright (c) 2023 Oracle and/or its affiliates.
- 
-Licensed under the Universal Permissive License (UPL), Version 1.0.
- 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+[LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE)
