@@ -9,7 +9,7 @@ Oracle Cloud Infrastructure Bastion provides restricted and time-limited access 
 <!--## Team Publications -->
   
  
-## Useful Links
+# Useful Links
  
 - [OCI Bastion Overview](https://www.oracle.com/uk/security/cloud-security/bastion/)
     - This page provides an overview of the OCI Bastion Service
@@ -25,8 +25,4 @@ Oracle Cloud Infrastructure Bastion provides restricted and time-limited access 
  
 # License
  
-Copyright (c) 2023 Oracle and/or its affiliates.
- 
-Licensed under the Universal Permissive License (UPL), Version 1.0.
- 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+[LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE)
