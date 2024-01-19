@@ -10,14 +10,15 @@ Reviewed: 11.12.2023
 2. [Team Publications](#team-publications)
 3. [Reusable Assets Overview](#reusable-assets-overview)
  
-## Useful Links
+# Useful Links
+
 - [Oracle Cloud VMware Solution](https://www.oracle.com/uk/cloud/compute/vmware/)
 - [Oracle Cloud VMware Solution Blogs](https://blogs.oracle.com/cloud-infrastructure/search.html?contentType=Blog-Post&default=%22Oracle%20Cloud%20VMware%20Solution%22*)
 - [Oracle Cloud VMware Solution on Oracle Help Center](https://docs.oracle.com/search/?q=VMware&pg=2&size=10&showfirstpage=true&lang=en)
 
-## Team Publications
+# Team Publications
 
-### Reference Architectures & Step-by-step Guides
+## Reference Architectures & Step-by-step Guides
 
 - [Secure web applications hosted on Oracle Cloud VMware Solution with OCI Certificates](https://docs.oracle.com/en/solutions/secure-web-applications-in-ocvs/#GUID-7FA4EA91-B3CD-4085-B1FB-6255E068928B)
     -  This reference architecture describes the integration options for Oracle Cloud VMware Solution with OCI Certificates and Oracle Cloud Infrastructure Load Balancing (LBaaS) allowing customers to securely publish their critical applications.
@@ -70,7 +71,7 @@ Reviewed: 11.12.2023
 - [Enable DNS resolution for On-Premises Domain from Oracle Cloud VMWare Solution NSX-T Overlay Segment](https://docs.oracle.com/en/learn/ocvs-dns-resolution-on-premises/#overview)
      -  This tutorial describes how to enable name resolution for On-Premises Domain from Oracle Cloud VMWare Solution NSX-T backed Overlay segment.
           
-### Blogs
+## Blogs
  
 - [Oracle Cloud VMware Solution with OCI block volumes](https://blogs.oracle.com/cloud-infrastructure/post/oracle-cloud-vmware-solution-oci-block-volumes)
     -  The latest storage technology that is now available with Oracle Cloud VMware Solution is the OCI Block Volume service, which provides highly redundant and high-performance storage at a low cost.
@@ -102,7 +103,8 @@ Reviewed: 11.12.2023
 - [VMware Tanzu deployment option with Oracle Cloud VMware Solution](https://blogs.oracle.com/cloud-infrastructure/post/vmware-tanzu-deploy-oracle-cloud-vmware-solution)
      -  This blog post talks about the deployment of VMware Tanzu on Oracle Cloud VMware Solution.
 
-### Videos & Podcasts
+## Videos & Podcasts
+
 - [Oracle Cloud VMware Solution – Differentiation by Design](https://videohub.oracle.com/media/1_von9a3t2)
 - [OCI Flexible Infrastructure: Oracle Cloud VMware Solution with OCI Block & File Storage](https://event.vmware.com/flow/vmware/7000/webinar1/page/landing?rep=0052H00000Dg8dA)
 - [Adding OCI Block Storage as VMware Datastore](https://www.youtube.com/watch?v=dPnvBxf3adY)
@@ -112,7 +114,8 @@ Reviewed: 11.12.2023
 - [On-Demand Webinar - Oracle Cloud VMware Solution-Differentiation by Design](https://go.oracle.com/LP=130642)
 - [Increasing VMware Datastore size backed by OCI Block Storage](https://www.youtube.com/watch?v=vg_RApWrvE0)
 
-## Reusable Assets Overview
+# Reusable Assets Overview
+
 - [Automating OCVS operations using Terraform](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/vmware-solutions/oracle-cloud-vmware-solution/OCVS-Terraform-automation)
 
 # License
