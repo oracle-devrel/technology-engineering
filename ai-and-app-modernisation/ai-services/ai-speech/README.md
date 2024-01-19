@@ -33,6 +33,7 @@ OCI Speech is an AI service that applies automatic speech recognition technology
  
 - [Oracle AI Speech on oracle.com](https://www.oracle.com/uk/artificial-intelligence/speech/)
 - [Oracle AI Speech documentation](https://docs.oracle.com/en-us/iaas/Content/speech/home.htm)
+- [Oracle Speech AI service now supports diarization](https://blogs.oracle.com/ai-and-datascience/post/oracle-speech-ai-service-now-supports-diarization)
 
  
 # License

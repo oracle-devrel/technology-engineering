@@ -9,6 +9,7 @@ Operations Insights provides comprehensive information about the resource use an
 # Team Publications
 
 - [Operations Insights Demo](https://www.youtube.com/watch?v=Y45kPRn_c7s)
+- [Auto enable hosts for Operation Insights in OCI](https://karthicin.medium.com/auto-enable-hosts-for-operation-insights-in-oci-60c9c80486b1)
 
 # Useful Links
 

@@ -24,7 +24,7 @@ Also make sure to check the dedicated pages of the main technology areas of Data
     - Blog technical article about cloning Non-CDB Oracle Databases as a PDB in a Container Database (CDB) using Oracle REMOTE CLONE PDB functionality, available on Carlos Álvarez's public platform
 - [How to survive an Oracle Database failure without your users ever noticing - Cloud Coaching Webinar]( https://www.youtube.com/watch?v=dsUbi5dO_PU)
     - Cloud Coaching Webinar, including a technical demonstration, delivered by Amalraj Puthenchira around the use of Application Continuity to avoid unplanned application outages.
-- [Teradata to Autonomous Data Warehouse on OCI Migration Guide](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/teradata-to-autonomous-data-warehouse-migration-guide)
+- [Teradata to Autonomous Data Warehouse on OCI Migration Guide](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/shared-assets/teradata-to-autonomous-data-warehouse-migration-guide)
     - Comprehensive lab guide with best practices to migrate Teradata to Autonomous Data Warehouse on Oracle Cloud Infrastructure
 - [Load Data into an Autonomous Database using OCI Data Load](https://youtu.be/r1ff0jW8l_s)
     - YouTube Video by Austine Ouma explaining how to use the OCI Data Load functionality for loading data into an Oracle Autonomous Database on OCI
