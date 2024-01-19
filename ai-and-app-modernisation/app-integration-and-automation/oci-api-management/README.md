@@ -6,7 +6,7 @@ Oracle Cloud Infrastructure (OCI) provides a comprehensive set of services to ma
 
 Developers can choose from a wide range of tools to create API descriptions in OpenAPI format which is supported by OCI API Gateway.
 
-API Gateway provides policy enforcement such as limit the number of requests sent to back-end services, enable CORS, provide authentication and authorization, add mTLS support, modify incoming requests and outgoing responses, cache responses to improve performance and reduce load on back-end services.
+API Gateway provides policy enforcement such as limiting the number of requests sent to back-end services, enabling CORS, providing authentication and authorization, adding mTLS support, modifying incoming requests and outgoing responses, cache responses to improve performance and reduce load on back-end services.
 
 API managers can create Usage Plans within API Gateway and define API access tiers. API teams can monitor the traffic and analytics of their APIs based on the usage plan and subscriptions. This enables customers to analyze usage patterns as well as unlock new revenue streams by monetizing APIs.
 
@@ -18,7 +18,7 @@ Review Date: 03.11.2023
 - [Quick Start Guide](https://docs.oracle.com/en-us/iaas/Content/APIGateway/Tasks/apigatewayquickstartsetupcreatedeploy.htm)
 - YouTube Videos
   - [API Gateway Overview by Product Management](https://youtu.be/10U6kTh_0Lc)
-  - [Hands on lab - how to create an API Gateway](https://youtu.be/hES55nIQH0Y)
+  - [Hands-on lab - how to create an API Gateway](https://youtu.be/hES55nIQH0Y)
 - [Articles](https://blogs.oracle.com/author/robert-wunderlich) by Product Management
 - [Terraform examples](https://github.com/oracle/terraform-provider-oci/tree/master/examples/api_gateway)
 - Oracle Functions Samples – API Gateway Authorizer Functions

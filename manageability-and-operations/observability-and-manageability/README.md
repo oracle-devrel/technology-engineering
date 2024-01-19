@@ -39,7 +39,7 @@ Reviewed: 13/11/2023
 - [Unveiling the Power of OCI Observability, A Short Tour and Best Practices](https://youtu.be/KEF0NeptJa8)
 - [OCI Monitoring Integration with Third-Party SIEM](https://youtu.be/UPdPZPWOZIs)
 - [Leveraging Oracle Observability and Open-Source Tools](https://youtu.be/-ftEkoqfLfM)
-- [OCI Observability for Kubernetes monitoring](https://youtu.be/DLce-UReoKo?si=Vpw19z4rjlUb9fW2)
+- [OCI Observability for Kubernetes Monitoring](https://youtu.be/DLce-UReoKo?si=Vpw19z4rjlUb9fW2)
 
 # Useful Links
 
@@ -55,4 +55,4 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE)for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
