@@ -19,7 +19,7 @@ Reviewed: 11.12.2023
 
 ### Videos
 - [Cloud Coaching Clinic - Oracle Secure Desktops: A native VDI offering on Oracle Cloud](https://www.youtube.com/watch?v=QGBa4I9TzPo)
--- In this Cloud Coaching Clinic session, we talk about Oracle Cloud Infrastructure Secure Desktops, which is a native, managed service offering Virtual Desktop Infrastructure (VDI)
+  - In this Cloud Coaching Clinic session, we talk about Oracle Cloud Infrastructure Secure Desktops, which is a native, managed service offering Virtual Desktop Infrastructure (VDI)
 
 ### Reference Architectures & Step-by-step Guides
 TBC
