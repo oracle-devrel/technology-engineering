@@ -18,7 +18,7 @@ Review Date: 03.11.2023
   - [A-Team Chronicles](https://www.ateam-oracle.com/category/atm-integration)
 - [EMEA Cloud Coaching On-Demand: AI and App Innovation](https://www.oracle.com/emea/cloud/events/cloud-coaching/on-demand/#ai-innovation)
   - Webcast recordings and on-demand videos created by Oracle EMEA Cloud Specialists
-- [Integration Hands On Bootcamps](https://go.oracle.com/LP=110450?elqCampaignId=296318)
+- [Integration Hands-On Bootcamps](https://go.oracle.com/LP=110450?elqCampaignId=296318)
 - [LiveLabs](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/livelabs-workshop-cards) (filter on product *Oracle Integration Cloud*)
 - [Reference Architectures](https://docs.oracle.com/solutions/?q=&cType=reference-architectures%2Csolution-playbook%2Cbuilt-deployed&product=Integration%20Generation%202%2CIntegration%20Cloud%20Service%2CIntegration%203%2CIntegration%20Adapters&sort=date-desc&lang=en)
 - Oracle University - Learning Path and Certification - [Become an Application Integration Professional (2023)](https://mylearn.oracle.com/ou/learning-path/become-an-application-integration-professional-2023/122249)
