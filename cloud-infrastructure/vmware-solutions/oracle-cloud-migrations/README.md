@@ -18,7 +18,7 @@ Reviewed: 11.12.2023
 ### Reference Architectures & Step-by-step Guides
 - [OCM Deployment Guide - Migrate VMs from an on-premises VMware environment to Oracle Cloud Compute VMs using Oracle Cloud Migrations service](https://docs.oracle.com/en/learn/ocm-migrate-on-prem-vm/)
   - This tutorial provides step-by-step guidelines for configuring the Oracle Cloud Migrations service, to enable customers to migrate their virtual machines from an on-premises VMware environment to Oracle Cloud Compute VMs.
-- [Preparing your Windows VMs for successful migrations](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/vmware-solutions/oracle-cloud-vmware-migrations/windows-migrations)
+- [Preparing your Windows VMs for successful migrations](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/vmware-solutions/oracle-cloud-migrations/windows-migrations)
 
 
 ### Videos
