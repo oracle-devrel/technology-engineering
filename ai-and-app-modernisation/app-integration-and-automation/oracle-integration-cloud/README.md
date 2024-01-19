@@ -4,6 +4,10 @@ Oracle Integration (OIC) is an enterprise connectivity and automation platform f
 
 Review Date: 03.11.2023
 
+# Team Publications
+
+- [Make Filezilla talk to OICs' file server on Linux](http://aroundmiddleware.blogspot.com/2023/12/make-filezilla-talk-to-oics-file-server_22.html)
+
 # Useful Links
 
 - [Integration Partner & Developer Community - VideoHub Channel](https://videohub.oracle.com/channel/Oracle%2BPartner%2BCommunity)
