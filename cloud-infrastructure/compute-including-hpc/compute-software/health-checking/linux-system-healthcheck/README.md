@@ -1,8 +1,7 @@
-# How to check health status of a Linux system
+# How to check the health status of a Linux system
 
- This section includes a step-by-step manual to check the health status of a Linux system;
+This section includes a step-by-step manual to check the health status of a Linux system;
 
- 
 Reviewed: 21.11.2023
  
 # When to use this asset?
