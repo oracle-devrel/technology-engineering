@@ -1,12 +1,12 @@
 # Adding Secondary VNIC to a Linux instance
 
-This section includes a step-by-step manual to add a secondary vnic to an OCI Compute VM running Linux OS.
+This section includes a step-by-step manual to add a secondary VNIC to an OCI Compute VM running Linux OS.
 
 Reviewed: 21.11.2023
 
 # When to use this asset?
 
-Use these assets to add a secondary vnic to an OCI Compute VM running Linux OS
+Use these assets to add a secondary VNIC to an OCI Compute VM running Linux OS
 
 # How to use this asset?
 

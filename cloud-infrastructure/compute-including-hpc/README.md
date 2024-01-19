@@ -5,7 +5,8 @@ This area is focused on the core Compute Service of Oracle Cloud Infrastructure 
 <pre>
      <img alt="Cloud Computing" src="images/ARM-logo.png" width="10%" style="float:right">     <img alt="Cloud Computing" src="images/AMD-logo.png" width="10%" style="float:right">     <img alt="Cloud Computing" src="images/Intel-logo.png" width="10%" style="float:right">
  </pre>
-<i> Review date: 20 November 2023 </i>
+
+Review date: 20.11.2023
 
 # Useful Links
 
@@ -25,13 +26,9 @@ and more...
 
 # Team Publications
 
-The links below contains publications from the OCI Compute team:
+The links below contain publications from the OCI Compute team:
 - [Compute Hardware](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/compute-including-hpc/compute-hardware)
 - [Compute Software](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/compute-including-hpc/compute-software)
-
-
-
-
 
 # License
 

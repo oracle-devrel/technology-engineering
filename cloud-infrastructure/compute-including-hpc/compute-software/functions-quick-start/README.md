@@ -1,8 +1,7 @@
 # Functions: Quick Start
 
- This section includes a step-by-step manual for setting up your OCI environment to start using OCI Functions.
+This section includes a step-by-step manual for setting up your OCI environment to start using OCI Functions.
 
- 
 Reviewed: 21.11.2023
  
 # When to use this asset?
