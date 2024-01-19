@@ -19,7 +19,6 @@ The primary PL/SQL package are:
 
 
 # Table of Contents
- 
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-links)
 3. [Tutorials / How To's](#tutorials-how-tos)
@@ -40,6 +39,7 @@ The primary PL/SQL package are:
 
 ## [ThatJeffSmith](https://www.thatjeffsmith.com/archive/tag/liquibase/ "That Jeff Smith and Liquibase")
 - [BLOG: How to Export Your RESTful Services](https://www.thatjeffsmith.com/archive/2018/12/how-to-export-your-restful-services/)
+
 
 # Tutorials / How To's
 - TBD
