@@ -18,7 +18,9 @@ who support customers across various industries and geographies in EMEA (local s
 - [Oracle Cloud AI Infrastructure](https://www.oracle.com/uk/ai-infrastructure/)
     - High-level desctription of Oracle Cloud Artificial Intelligence infrastructure offering   
 - [GPU instances details](https://docs.oracle.com/en-us/iaas/Content/Compute/References/computeshapes.htm#bm-gpu)
-    - Oracle Cloud Bare-Metal GPU specifications 
+    - Oracle Cloud Bare-Metal GPU specifications
+- [AI infrastructure - Best practices on OCI](https://www.oracle.com/cloud/oci-best-practices-guide/#ai-infra-on-oci)
+    - Guides, architectures, videos, and automation scripts to plan, design and deploy AI workloads on our GPU compute and OCI services.
 
 # License
 
