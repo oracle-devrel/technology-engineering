@@ -5,6 +5,8 @@ Hosting critical Oracle applications on-premises can be challenging in terms of 
 Contrary to the belief that database-intensive workloads like JD Edwards often don’t go the route of traditional cloud deployment due to concerns about cost, performance, re-architecting, compatibility, and expertise, most on-premises JD Edwards EnterpriseOne deployments can be migrated to run on OCI without significant configuration, integration, or business process changes. Additionally, it results in an implementation that is more flexible, reliable, higher performance, and lower cost than either on-premises or other cloud approaches.
 
 This solution guide provides a starting point for the Partners/Managed Service Providers/Consultants to understand the key technical requirements and existing business challenges that need to be addressed as part of the migration.
+
+Review Date: 03.12.2023
   
 # Table of Contents
 
