@@ -11,12 +11,12 @@ Responders can mitigate, correct, and prevent security issues based on a problem
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-uinks)
  
-## Team Publications
+# Team Publications
  
 - [Cloud Coaching Cloud Guard](https://www.youtube.com/watch?v=D5L0Hy8h9aY)
     - Video about Oracle Cloud Guard
  
-## Useful Links
+# Useful Links
  
 - [Oracle Cloud Guard](https://www.oracle.com/uk/security/cloud-security/)
     - Oracle Cloud Guard Overview
@@ -28,8 +28,4 @@ Responders can mitigate, correct, and prevent security issues based on a problem
 
 # License
  
-Copyright (c) 2023 Oracle and/or its affiliates.
- 
-Licensed under the Universal Permissive License (UPL), Version 1.0.
- 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+[LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE)
