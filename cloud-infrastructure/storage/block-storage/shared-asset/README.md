@@ -1,4 +1,4 @@
-# Asset
+# Shared Asset
 
 
 Assets contain all OCI Block Storage assets.
@@ -8,11 +8,11 @@ Reviewed: 27.11.2023
 
 # When to use this asset?
 
-These assets should be used whenever work with Oracle Cloud Infrastructure (OCI) Block Storage.
+These assets should be used whenever working with Oracle Cloud Infrastructure (OCI) Block Storage.
 
 # How to use this asset?
 
-The information is generic in nature and not specified for a particular customer.
+The information is generic and not specified for a particular customer.
 
 # License
 
