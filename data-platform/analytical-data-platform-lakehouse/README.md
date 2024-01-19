@@ -84,7 +84,7 @@ Reviewed: 18.01.2024
 - [Oracle BI Applications and migration to Fusion Applications](https://medium.com/@DoubleUP66/oracle-bi-applications-and-migration-to-fusion-applications-1ae7db1bff15)
   - Blog describing the different options to modernize OBIA when customers migrate their Oracle Unlimited Apps into Oracle Fusion SaaS.
 - [Using Security Integration between Oracle eBusiness Suite and Oracle Business Intelligence OBIEE?](https://medium.com/@DoubleUP66/using-security-integration-between-oracle-ebusiness-suite-and-oracle-business-intelligence-obiee-cfa97b8133c9)
-  - Blog describing the options to setup security integration between eBusiness Suite and OAC/OAS on the scope of a data platform workload.
+  - Blog describing the options to set up security integration between eBusiness Suite and OAC/OAS on the scope of a data platform workload.
 
 ## Podcasts
 
