@@ -4,13 +4,14 @@ High-performance block storage at any scale.
 
 We've designed our storage platform as an ideal complement to Oracle compute and networking services to support the highest performance requirements. OCI Block Volume uses the latest NVMe SSDs and provides nonblocking network connectivity to every host. Oracle delivers a consistent, low-latency performance of up to 225 IOPS/GB to a maximum of 300,000 IOPS and 2,680 MB/sec of throughput per volume.
 
+Reviewed: 19.01.2024
 
 # Table of Contents
 
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-links)
 
-## Team Publications
+# Team Publications
 
 - [OCI provides native high availability and data resilience](asset/OCI.provides.native.high.availability.and.data.resilience)
 - [Make your cloud resilient against regional outages](asset/Make.your.cloud.resilient.against.regional.outages)
@@ -25,7 +26,7 @@ We've designed our storage platform as an ideal complement to Oracle compute and
   - [Showcase 4: boot/block volume individual (to a customer-managed bucket) backup and restore](asset/Showcase.4)
 
 
-## Useful Links
+# Useful Links
 
 - [OCI Block Storage documentation](https://docs.oracle.com/en-us/iaas/Content/Block/home.htm)
   - Oracle Block Storage documentation.
@@ -41,9 +42,6 @@ We've designed our storage platform as an ideal complement to Oracle compute and
   - Migrating data across tenancies can be a challenging task, but with proper planning and by using well-tested processes, you can migrate data from one tenancy to another safely, securely, and with little downtime.
 - [Oracle Cloud Infrastructure Vault: Block Volume Encryption](https://www.youtube.com/watch?v=3GBPIx4hlRU)
   - This video helps you to encrypt a block volume with the KMS Vault customer-managed encryption key.
-
-
-
 
 # License
 
