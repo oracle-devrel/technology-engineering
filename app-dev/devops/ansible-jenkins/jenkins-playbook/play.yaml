@@ -1,0 +1,178 @@
+---
+# Copyright (c) 2023 Oracle and/or its affiliates.
+#
+# The Universal Permissive License (UPL), Version 1.0
+#
+# Subject to the condition set forth below, permission is hereby granted to any
+# person obtaining a copy of this software, associated documentation and/or data
+# (collectively the "Software"), free of charge and under any and all copyright
+# rights in the Software, and any and all patent rights owned or freely
+# licensable by each licensor hereunder covering either (i) the unmodified
+# Software as contributed to or provided by such licensor, or (ii) the Larger
+# Works (as defined below), to deal in both
+#
+# (a) the Software, and
+# (b) any piece of software and/or hardware listed in the lrgrwrks.txt file if
+# one is included with the Software (each a "Larger Work" to which the Software
+# is contributed by such licensors),
+# without restriction, including without limitation the rights to copy, create
+# derivative works of, display, perform, and distribute the Software and make,
+# use, sell, offer for sale, import, export, have made, and have sold the
+# Software and the Larger Work(s), and to sublicense the foregoing rights on
+# either these or other terms.
+#
+# This license is subject to the following condition:
+# The above copyright notice and either this complete permission notice or at
+# a minimum a reference to the UPL must be included in all copies or
+# substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+- name: Install and configure Jenkins
+  hosts: all
+  remote_user: opc
+#  collections:
+#   - oracle.oci
+  vars:
+    jenkins_port: "{{ jenkins_port }}"
+    jenkins_casc_path: /var/lib/jenkins/jenkins_config.yaml
+    jenkins_plugins: "configuration-as-code job-dsl github credentials workflow-multibranch workflow-aggregator pipeline-stage-view git oracle-cloud-infrastructure-devops oracle-cloud-infrastructure-compute bouncycastle-api ssh-credentials"
+    jenkins_admin_pwd: "{{ jenkins_admin_pwd }}"
+
+
+  tasks:
+    - set_fact:
+        public_ip: "{{ instance_host }}"
+    - name: Instance public ip
+      debug:
+        var: public_ip
+    - block:
+      - name: Add Jenkins yum repository
+        ansible.builtin.yum_repository: 
+          name: jenkins-rpm-lts
+          description: Jenkins RPM packages
+          baseurl: http://pkg.jenkins.io/redhat-stable
+        become: true
+
+      - name: Import jenkins key
+        ansible.builtin.rpm_key:
+          state: present
+          key: https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+        become: true
+
+      - name: yum update
+        yum:
+          name: '*'
+          state: latest
+        become: true
+
+      - name: Install git
+        yum:
+          name: git
+          state: present
+        become: true
+
+      - name: Install java
+        yum:
+          name: java-17-openjdk
+          state: present
+        become: true
+
+      - name: Install jenkins dependencies
+        yum:
+          name: fontconfig
+          state: present
+        become: true
+
+      - name: Install Jenkins
+        ansible.builtin.yum:
+          name: jenkins
+          state: latest
+        become: true
+
+      - name: Start jenkins
+        ansible.builtin.systemd:
+          daemon_reload: yes
+          enabled: true
+          name: jenkins
+          state: started
+        become: true
+
+      - name: Get Jenkins CLI
+        get_url:
+          url: http://localhost:8080/jnlpJars/jenkins-cli.jar
+          dest: /home/opc/jenkins-cli.jar
+          mode: "0777"
+
+      - name: Get initial admin password
+        command: "cat /var/lib/jenkins/secrets/initialAdminPassword"
+        register: result
+        become: true
+      - set_fact:
+          initial_admin_pass: "{{ result.stdout }}"
+
+      - name: Check if plugins folder is empty before proceeding
+        find:
+          paths: '/var/lib/jenkins/plugins/'
+        register: pluginsFound
+
+      - name: Install plugins
+        shell: |
+          java -jar jenkins-cli.jar -s http://127.0.0.1:{{ jenkins_port }}/ -auth admin:{{ initial_admin_pass }} install-plugin {{ jenkins_plugins }}
+        when: pluginsFound.matched == 0    # Only install the plugin with default admin password if it is a first installation
+
+      - name: Copy Jenkins CasC configs
+        template:
+          src: ./templates/jenkins_config.yaml.j2
+          dest: "{{ jenkins_casc_path }}"
+          owner: opc
+          group: opc
+          mode: '0644'
+        become: true
+
+      - name: Create jenkins.service.d directory
+        file:
+          path: /etc/systemd/system/jenkins.service.d/
+          state: directory
+          owner: root
+          group: root
+          mode: 0755
+        become: true
+
+      - name: Copy jenkins.service drop-in
+        template:
+          src: ./templates/jenkins.service.j2
+          dest: /etc/systemd/system/jenkins.service.d/override.conf
+          owner: root
+          group: root
+          mode: 0644
+        become: true
+
+      - name: Install plugins
+        shell: |
+          java -jar jenkins-cli.jar -s http://127.0.0.1:{{ jenkins_port }}/ -auth admin:{{ jenkins_admin_pwd }} install-plugin {{ jenkins_plugins }}
+        when: pluginsFound.matched > 0
+      
+      - name: Restart Jenkins
+        systemd:
+          daemon_reload: yes
+          name: jenkins
+          state: restarted
+        become: true
+
+      - name: Add firewall rules
+        shell: |
+          firewall-cmd --permanent --zone=public --add-service=jenkins
+          firewall-cmd --zone=public --add-port=50000/tcp --permanent
+          firewall-cmd --reload
+        become: true
+
+      rescue:
+        - import_tasks: rollback.yaml
+
