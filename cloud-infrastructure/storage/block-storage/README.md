@@ -21,9 +21,9 @@ Reviewed: 19.01.2024
 - [OCI Storage Health-Check](https://gitlab.com/hmielimo/oci-storage-health-check/)
 - Showcase section
   - [Showcase 1: Demonstrate block volume backup copy to a different region in a customer managed key environment.](https://gitlab.com/hmielimo/cloud-resilience-by-default/-/tree/main/copy.customer.managed.key.backup)
-  - [Showcase 2: TRIM showcase](asset/Showcase.2)
-  - [Showcase 3: boot/block volume security best practice](asset/Showcase.3)
-  - [Showcase 4: boot/block volume individual (to a customer-managed bucket) backup and restore](asset/Showcase.4)
+  - [Showcase 2: TRIM showcase](asset/showcase-2)
+  - [Showcase 3: boot/block volume security best practice](asset/showcase-3)
+  - [Showcase 4: boot/block volume individual (to a customer-managed bucket) backup and restore](asset/showcase-4)
 
 
 # Useful Links
