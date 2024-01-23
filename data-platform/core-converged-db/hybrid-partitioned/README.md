@@ -1,7 +1,7 @@
 # Hybrid Partitioned Tables
 
 As the name implies the partitions of hybrid partitioned tables can exist in both – inside the Oracle database in tablespaces and outside in external sources, such as Linux files, files on Hadoop Distributed File System (HDFS),and files in Cloud Object Storage. Hybrid Partitioned Tables enhance the functionality of partitioning for mixed Big Data scenarios where large portions of a table can reside in external partitions.
- 
+Review Date: 03.06.2024
 
 ## Useful Links
 
@@ -40,4 +40,4 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See LICENSE for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
