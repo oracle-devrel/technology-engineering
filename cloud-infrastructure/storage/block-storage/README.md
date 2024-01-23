@@ -13,14 +13,14 @@ Reviewed: 19.01.2024
 
 # Team Publications
 
-- [OCI provides native high availability and data resilience](asset/OCI.provides.native.high.availability.and.data.resilience)
-- [Make your cloud resilient against regional outages](asset/Make.your.cloud.resilient.against.regional.outages)
-- [Effortless Cloud Resilience – Automate your Disaster Recovery with Oracle Cloud Infrastructure](asset/Effortless.Cloud.Resilience)
-- [Cloud Resilience](asset/Cloud.Resilience)
-- [Cloud Resilience by default](asset/Cloud.Resilience.by.default)
-- [OCI Storage Health-Check](asset/OCI.Storage.Health-Check)
+- [OCI provides native high availability and data resilience](https://blogs.oracle.com/cloud-infrastructure/post/oci-provide-cloud-resilience-by-default)
+- [Make your cloud resilient against regional outages](https://www.youtube.com/watch?v=IVqLe_XH_AE)
+- [Effortless Cloud Resilience – Automate your Disaster Recovery with Oracle Cloud Infrastructure](https://www.youtube.com/watch?v=P3qWyjE9HMQ)
+- [Cloud Resilience](https://gitlab.com/hmielimo/cloud-resilience/-/blob/main/doc/cloud.resilience/README.md)
+- [Cloud Resilience by default](https://gitlab.com/hmielimo/cloud-resilience-by-default/)
+- [OCI Storage Health-Check](https://gitlab.com/hmielimo/oci-storage-health-check/)
 - Showcase section
-  - [Showcase 1: Demonstrate block volume backup copy to a different region in a customer managed key environment.](asset/Showcase.1)
+  - [Showcase 1: Demonstrate block volume backup copy to a different region in a customer managed key environment.](https://gitlab.com/hmielimo/cloud-resilience-by-default/-/tree/main/copy.customer.managed.key.backup)
   - [Showcase 2: TRIM showcase](asset/Showcase.2)
   - [Showcase 3: boot/block volume security best practice](asset/Showcase.3)
   - [Showcase 4: boot/block volume individual (to a customer-managed bucket) backup and restore](asset/Showcase.4)
