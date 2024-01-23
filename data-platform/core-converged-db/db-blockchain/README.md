@@ -5,6 +5,7 @@ Users can verify that rows have not been tampered. A hash value that is part of 
 
 Review Date: 03.06.2024
 
+
 ## Useful Links
 
 ### Documentation
@@ -45,4 +46,3 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
-
