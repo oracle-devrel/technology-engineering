@@ -4,6 +4,7 @@ Oracle provides a series of advisors to analyze the database in different fields
 Advisors are distinguished by certain characteristics and are usually available through different methods: Graphical tools such as Oracle Enterprise Manager Cloud Control or SQL Developer, scripts through PL/SQL packages, initialization parameters or through corresponding v$ views. Most of them are available without additional installation and can be used immediately. Others can be loaded separately from My Oracle Support (MOS) or can be activated and used via Cloud Console. Unlike alerts, advisors are more resource intensive, as their analysis and suggested solutions have a greater level of detail. It is important to know how to use advisors and what advice to expect.
 As the database and database offering evolves, new advisors and automations are continually made available.
  
+Review Date: 03.06.2024
 
 ## Useful Links
 
@@ -72,4 +73,4 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See LICENSE for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
