@@ -5,6 +5,8 @@ Statements from a SQL workload can be tested and compared and tuned if necessary
 
 Database Replay can be used to capture a real workload on the production system and replay it on a test system with the exact timing, concurrency, and transaction characteristics of the original workload. This enables you to test the effects of a system change without affecting the production system. 
 
+Review Date: 03.06.2024
+
 ## Useful Links
 
 ### Documentation
@@ -34,4 +36,4 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See LICENSE for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
