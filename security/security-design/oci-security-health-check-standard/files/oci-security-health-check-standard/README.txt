@@ -2,6 +2,7 @@
 OCI Security Health Check - Standard Edition
 ============================================
 Owner: Olaf Heimburger
+Version: 230922
 
 When to use this asset?
 
@@ -52,7 +53,7 @@ Usage
   - From the menu select the Cloud Shell item.
   - When running it the first time:
     - Upload the provided ZIP file.
-    - Extract it with unzip -q oci-security-health-check-standard-230630.zip
+    - Extract it with unzip -q oci-security-health-check-standard-230922.zip
   - Change directory into oci-security-health-check-standard
     $ cd oci-security-health-check-standard
     $ screen
@@ -70,3 +71,22 @@ Usage
     holds all the output created by the scripts. This directory will be
     compressed in a single ZIP file and the resulting ZIP file will be moved to
     the home directory of the account running the script.
+
+
+4 Credits
+
+The OCI Security Health Check - Standard Edition streamlines the usage of the bundled Compliance Checking Script (https://github.com/oracle-quickstart/oci-cis-landingzone-quickstart/blob/main/compliance-script.md) provided by the CIS OCI Landing Zone Quick Start Template (https://github.com/oracle-quickstart/oci-cis-landingzone-quickstart).
+
+The OCI Security Health Check - Standard Edition would not be possible without the great work of the CIS OCI Landing Zone Quick Start Template Team (https://github.com/oracle-quickstart/oci-cis-landingzone-quickstart/graphs/contributors).
+
+5 Certification
+
+The Compliance Checking Script is certified by the CIS Center of Internet Security for the OCI Oracle Cloud Foundation Benchmark v1.2.O, Level 1 and 2 (https://www.cisecurity.org/partner/oracle).
+
+6 License
+
+Copyright (c) 2022-2023 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See the LICENSE file for more details.
