@@ -4,7 +4,6 @@ The Operations Advisory provides critical guidance to Customers on how to define
 - [Multi-cloud operations - 3rd party tools that support OCI](https://learnoci.cloud/multi-cloud-operations-3rd-party-tools-that-support-oci-091207d923ed)
   
 Reviewed: 22/01/2024
-Table of Contents
 
 # Table of Contents
 
@@ -12,16 +11,16 @@ Table of Contents
 2. [Useful Links](#useful-links)
 
 
-## Team Publications
+# Team Publications
 
  ** OS Management **: The Oracle OCI OS Management Service allows users to control the update process of Oracle Cloud Infrastructure (OCI) compute instances. By default, the update of a compute instance installs the latest available packages and patches. Just installing what is available might impact critical installed applications. It might also be desirable to keep the number of configuration variants low by ensuring all or groups of instances have the exact same versions of packages and patches installed. 
 
 - [OS Management](https://github.com/hoehenunterschied/OSManagement)
 - [How to use OS Management Resource Discovery to monitor your Compute resources](https://learnoci.cloud/how-to-use-os-management-resource-discovery-to-monitor-your-compute-resources-bf19800f51fe)
 
-## Useful Links 
+# Useful Links 
 
-# Cloud Coaching Clinic
+## Cloud Coaching Clinic
 
 OCI Functions—Integration of Monitoring for Oracle Cloud: This workshop provides an overview of OCI Functions, highlighting its capabilities as the most versatile tool to integrate diverse monitoring tools and applications. 
 
