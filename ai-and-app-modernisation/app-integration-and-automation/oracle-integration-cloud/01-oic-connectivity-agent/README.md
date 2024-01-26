@@ -2,6 +2,8 @@
 
 Assets that contain solution design practice and implementation steps for the Hybrid Integrations and integrating private OCI resources.
 
+Review Date: 19.01.2024
+
 # OIC-Connectivity-Agent-and-Hybrid-Integrations
 
  oic-connectivity-agent-and-hybrid-integrations.pdf - This document contains architectures and references that should help to decide on an integration architecture on OCI. It describes the connectivity agent and uses the connectivity agent to create hybrid integrations and exchange messages between applications in private or on-premises networks and Oracle Integration.

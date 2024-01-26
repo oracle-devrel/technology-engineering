@@ -22,6 +22,7 @@ most performant and cost-effective platform to host their AI services.
 # Team Publications
 
 - [Oracle Generative AI webinar](https://go.oracle.com/LP=138234?elqCampaignId=489428&src1=:so:ch:or:dg::::&SC=:so:ch:or:dg::::&pcode=WWMK230822P00010)
+    - Deep dive into Oracle Generative AI platform
 - [Creating a RAG (Retrieval-Augmented Generation) with Oracle Generative AI Service in just 21 lines of code](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/rag-genai)
 - [Summarize any document using Oracle Generative AI](https://www.youtube.com/watch?v=6A3KGyKy91Q)
 - [Dubai Citizen's Dream: An Oracle GenAI-Powered Oracle BOT to Answer All Your Questions (RAG on websites)](https://www.youtube.com/watch?v=5Y_k1r34Mp0)
@@ -40,10 +41,12 @@ most performant and cost-effective platform to host their AI services.
     - Blog post explaining how to use generative AI models in OCI.
 - [Oracle Generative AI Webinar](https://go.oracle.com/LP=138234?elqCampaignId=489428&src1=:so:ch:or:dg::::&SC=:so:ch:or:dg::::&pcode=WWMK230822P00010)
     - Deep dive into Oracle Generative AI platform.
-    
 
 # Useful Links
  
+- [The Future of Generative AI: What Enterprises Need to Know](https://blogs.oracle.com/ai-and-datascience/post/future-generative-ai-what-enterprises-need-to-know) 
+- [Announcing the general availability of OCI Generative AI](https://blogs.oracle.com/ai-and-datascience/post/ga-oci-generative-ai)
+- [Oracle Embeds Generative AI Across the Technology Stack to Enable Enterprise AI Adoption at Scale](https://www.oracle.com/news/announcement/oracle-announces-availability-oci-generative-ai-service-2024-01-23/)
 - [Implement Oracle Cloud Infrastructure Generative AI based on Cohere Large Language Model - Blog & Architecture](https://docs.oracle.com/en/solutions/oci-generative-ai-llm/index.html#GUID-76987F35-F646-40CF-9CF2-42724BA57191)
 - [Oracle and Generative AI](https://docs.oracle.com/en-us/iaas/Content/Resources/Assets/whitepapers/oracle-and-generative-ai.pdf)
 - [Oracle’s generative AI strategy - blog by Greg Pavlik](https://blogs.oracle.com/ai-and-datascience/post/generative-ai-strategy)

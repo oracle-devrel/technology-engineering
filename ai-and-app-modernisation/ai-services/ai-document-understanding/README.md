@@ -46,7 +46,7 @@ Oracle Cloud Infrastructure (OCI) Document Understanding is an AI service that e
 
 # Customer Stories
  
-- [Trailcon Leasing: Low-code and AI for Automating Invoice Processing & Approval Workflow](https://asktom.oracle.com/pls/apex/f?p=100:551:114803500934032::::P551_INVITED,P551_CLASS_ID:N,21886)
+- [Trailcon Leasing: Low-code and AI for Automating Invoice Processing & Approval Workflow](https://www.youtube.com/watch?v=TsbNU6xdQPw)
 
 # License
  

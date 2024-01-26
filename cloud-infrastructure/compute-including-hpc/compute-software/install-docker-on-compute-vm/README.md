@@ -1,9 +1,8 @@
 # Install Docker on Oracle Linux 8 (OL8) on an OCI Compute VM.
 
- This section includes a step-by-step manual for installing Docker on OL8 on the OCI Compute Virtual Machine.
-
+This section includes a step-by-step manual for installing Docker on OL8 on the OCI Compute Virtual Machine.
  
-<i>Reviewed: 20.11.2023<i>
+Reviewed: 20.11.2023
  
 # When to use this asset?
  
