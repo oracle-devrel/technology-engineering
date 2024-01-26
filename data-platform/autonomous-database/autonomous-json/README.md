@@ -1,6 +1,8 @@
 # Autonomous JSON Database
  
 Oracle Autonomous JSON Database is a cloud document database service that makes it simple to develop JSON-centric applications. It features NoSQL-style document APIs (Oracle SODA and Oracle Database API for MongoDB), serverless scaling, high-performance ACID transactions, comprehensive security, and low pay-per-use pricing.
+
+Reviewed: 25.01.2024
  
 # Table of Contents
  
@@ -64,7 +66,7 @@ Oracle Autonomous JSON Database is a cloud document database service that makes 
     - Examples for Duality Views.
 
 - [Key benefits of JSON Relational Duality](https://blogs.oracle.com/database/post/key-benefits-of-json-relational-duality-experience-it-today-using-oracle-database-23c-free-developer-release )
-    - Learn the benefits or Duality Views.
+    - Learn the benefits of Duality Views.
 
 - [Best Practices in Designing JSON Document Model in Autonomous JSON Database](https://www.youtube.com/watch?v=AyLM930yU88 )
     - Discover the best practices for Autonomous JSON when designing documents.
@@ -98,7 +100,7 @@ Oracle Autonomous JSON Database is a cloud document database service that makes 
     
 # License
  
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
