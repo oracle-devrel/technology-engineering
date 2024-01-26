@@ -2,6 +2,7 @@
 
 **FinOps** is a cloud financial management practice that supports organizations to optimize their cloud spending by providing a dedicated framework to achieve maximum business value by helping engineering, finance & business teams to collaborate on data-driven spending decision
 
+Reviewed: 20/11/2023
 
 **The FinOps Framework** describes 
 1. The Principles that drive FinOps practices
@@ -36,9 +37,8 @@ Attribution
 
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE)for more details.
-Reviewed: 20/11/2023
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

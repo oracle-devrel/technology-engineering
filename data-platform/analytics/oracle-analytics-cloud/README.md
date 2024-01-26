@@ -135,9 +135,10 @@ Reviewed: 31.10.2023
  |Content Link |Descripton|
  | ------------ |------------|
  |[Oracle Analytics Client Tools](https://www.oracle.com/middleware/technologies/oac-tools-downloads.html)|Download and install Oracle Analytics Client Tools on your workstation|
+
 # License
  
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

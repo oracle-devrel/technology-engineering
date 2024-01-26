@@ -25,3 +25,11 @@ In addition to the guided tracks mentioned above, we highly recommend exploring 
 We specifically want to draw your attention to the **Support** tab on the OCI-in-5 library. As you ramp up your environment, you may need a helping hand. Learn how to work effectively with My Oracle Support by reviewing the dedicated page, which includes easy-to-digest 3-5 minute video bits. [Access support tutorials](https://www.oracle.com/emea/cloud/architecture-center/oci-in-5/#cloud-support)
 
 > Now that we have shared a variety of insights with you, we bid you welcome once more and wish you a fun and productive Oracle Cloud journey! Thank you for choosing Oracle Cloud, and please feel free to contact us if you have any questions at all.
+
+# License
+
+Copyright (c) 2024 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
