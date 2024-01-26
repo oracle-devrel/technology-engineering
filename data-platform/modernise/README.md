@@ -34,6 +34,8 @@ Also make sure to check the dedicated pages of the main technology areas of Data
      - Cloud Customer Connect session delivered by Amalraj Puthenchira explaining how to use the Oracle Zero Downtime Migration (ZDM) tool to migrate Oracle Database on Linux to Exadata Database Service on Dedicated Infrastructure.
 - [Migration Methods Overview & Comparison](https://macsdata.netlify.app/oracle/migration/methods-overview-comparison/)
     - Explore and compare key features of different Oracle migration methods, available on Marcus Doeringer's public platform
+- [Multicloud Network Architectures for DB Migrations to Oracle Cloud Infrastructure](https://www.youtube.com/watch?v=1ngXJRsP5jA)
+    - Cloud Coaching Webinar explaining different multicloud network architectures for migrating databases to OCI using Zero Downtime Migration
     
 # Useful Links
 
