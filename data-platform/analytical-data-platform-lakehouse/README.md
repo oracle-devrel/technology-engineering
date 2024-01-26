@@ -47,6 +47,8 @@ Reviewed: 18.01.2024
   - Blog post describing a solution to monitor data integration pipelines at an enterprise level, potentially for several workspaces, and providing integrated monitoring capabilities as one of the key pillars to address DataOps.
 - [Zero ETL Lakehouse in Oracle Cloud](https://gianlucarossi06.github.io/data-organon/2023/09/30/ZeroETL-Lakehouse-Oracle-Cloud.html)
   - Blog post describing what is ZeroETL and the different options in OCI to deploy a lakehouse that minimizes and reduces ETL to deliver information to data consumers.
+- [Automate Publishing of Data Shares from Autonomous Database](https://jakubillner.github.io/2024/01/19/data-sharing-automation.html)
+  - Blog post explaining how to share data securely and programmatically, as part of an end-to-end data pipeline, used to support an analytical workload.
 
 
 ## YouTube
