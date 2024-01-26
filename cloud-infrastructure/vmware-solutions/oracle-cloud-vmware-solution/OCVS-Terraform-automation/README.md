@@ -15,7 +15,9 @@ data oci_ocvp_esxi_hosts export_esxi_hosts{
 }
 ```
 
-### New VLAN Assignment to your OCVS environment
+Reviewed: 11.12.2023
+
+## New VLAN Assignment to your OCVS environment
 
 If you want to have a new extra VLAN for OCVS environment, you would need to do the following steps
 before you can use the VLAN on your Distributed Switch.
@@ -85,3 +87,10 @@ resource "oci_core_vnic_attachment" "vnic_attachment-nic1" {
     nic_index = 1
 }
 ```
+# License
+
+Copyright (c) 2023 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

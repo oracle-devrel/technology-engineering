@@ -16,6 +16,8 @@ The workload runs twice - once BEFORE the change and then AFTER a change. The re
 measured by different metrics such as elapsed time, cpu_time, etc. Optionally, you can automate the tuning process using SQL Tuning Advisor or SQL Plan Baselines.
 In this way, statements from a SQL workload can be tested and compared and tuned if necessary.
 
+Review Date: 03.06.2024
+
 ## Useful Links
 
 ### Documentation
@@ -30,4 +32,4 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See LICENSE for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
