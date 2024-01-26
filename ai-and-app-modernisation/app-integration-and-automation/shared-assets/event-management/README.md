@@ -9,6 +9,8 @@ Examples of topics could be:
 * Generallyspeaking:needtopropagateinformationfromsourcesystemstotargetonesassoonastheyareupdated (near real time approach)
 * APortal/Webapplicationwhichneedsasynchronousupdatesonsourceinformationlikeorderactivation,shipment status, etc.
 
+Review Date: 19.01.2024
+
 # How to use this asset?
  
 This asset is provided as an example. Please tailor the code according to your needs and your context.
