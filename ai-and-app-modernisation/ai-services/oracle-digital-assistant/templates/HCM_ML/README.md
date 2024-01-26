@@ -14,7 +14,7 @@ Scope
     1. Absence balance
     2. Find co-worker details
     3. Payslip information
-  See the HCM Skill Documentation Excel sheet with all intents and the ones (high) already created Arabic translations for as an example.
+  See the HCM Skill Documentation Excel sheet (in zipfile) with all intents and the ones (high) already created Arabic translations for as an example.
 
 What do you need?
   1. Access to a paired Oracle Digital Assistant Fusion instance linked to a Universal Credits instance (see ODApaired.pdf)
