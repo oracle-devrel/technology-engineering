@@ -2,7 +2,7 @@
  
 Oracle's [Data Platform](https://www.oracle.com/data-platform/) delivers a complete, open, and intelligent platform to cater to all analytical workloads from the largest lakehouses to the smallest data marts, from a cloud data warehouse to a distributed data mesh; it delivers these workloads at scale and with enterprise-grade security and performance to tackle the most demanding data workloads.
 
-Reviewed: 19.12.2023
+Reviewed: 18.01.2024
  
 # Table of Contents
  
@@ -47,6 +47,8 @@ Reviewed: 19.12.2023
   - Blog post describing a solution to monitor data integration pipelines at an enterprise level, potentially for several workspaces, and providing integrated monitoring capabilities as one of the key pillars to address DataOps.
 - [Zero ETL Lakehouse in Oracle Cloud](https://gianlucarossi06.github.io/data-organon/2023/09/30/ZeroETL-Lakehouse-Oracle-Cloud.html)
   - Blog post describing what is ZeroETL and the different options in OCI to deploy a lakehouse that minimizes and reduces ETL to deliver information to data consumers.
+- [Automate Publishing of Data Shares from Autonomous Database](https://jakubillner.github.io/2024/01/19/data-sharing-automation.html)
+  - Blog post explaining how to share data securely and programmatically, as part of an end-to-end data pipeline, used to support an analytical workload.
 
 
 ## YouTube
@@ -67,6 +69,8 @@ Reviewed: 19.12.2023
   - Cloud Customer Connect session covering Hadoop-based Data Lake modernizations in OCI, explaining the deployment options and migration path.
 - [Modernize your on-premises Oracle Informatica solution to Oracle Cloud](https://youtu.be/gQ2_AztxR84?si=DyEfvgn3mk0oIP9U)
   - Cloud coaching session describing how to modernize an Oracle DW solution that uses PowerCenter for ETL into OCI and Informatica IDMC.
+- [Enhancing Data Science with Oracle's Modern Data Platform](https://youtu.be/XXR3U1V7cQI?si=5b5vL8SLqI2K8UMU)
+  - Cloud coaching session describing how to combine OCI data platform and data science/AI services and capabilities to curate trustable data to produce trustable AI&ML outcomes.
 
 ## LinkedIn
 
@@ -81,6 +85,8 @@ Reviewed: 19.12.2023
 
 - [Oracle BI Applications and migration to Fusion Applications](https://medium.com/@DoubleUP66/oracle-bi-applications-and-migration-to-fusion-applications-1ae7db1bff15)
   - Blog describing the different options to modernize OBIA when customers migrate their Oracle Unlimited Apps into Oracle Fusion SaaS.
+- [Using Security Integration between Oracle eBusiness Suite and Oracle Business Intelligence OBIEE?](https://medium.com/@DoubleUP66/using-security-integration-between-oracle-ebusiness-suite-and-oracle-business-intelligence-obiee-cfa97b8133c9)
+  - Blog describing the options to set up security integration between eBusiness Suite and OAC/OAS on the scope of a data platform workload.
 
 ## Podcasts
 
