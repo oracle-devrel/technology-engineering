@@ -1,5 +1,8 @@
 # Operations Insights
+
 Operations Insights provides comprehensive information about the resource use and capacity of databases and hosts. Use this service to analyze CPU and storage resources, forecast capacity issues, and proactively identify SQL performance issues across a database fleet.
+
+Reviewed: 15.11.2023
 
 # Table of Contents
 
@@ -23,4 +26,4 @@ Copyright (c) 2023 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
-Reviewed: 15.11.2023
+

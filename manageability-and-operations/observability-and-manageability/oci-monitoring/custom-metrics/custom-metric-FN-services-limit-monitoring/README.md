@@ -1,9 +1,10 @@
-
 # Using OCI Functions to create OCI Monitoring custom metric namespace: Services Limit monitoring example use case
+
+Reviewed: 15.11.2023
 
 ## 1. INTRODUCTION
 
-Describes how any user can create an OCI Monitoring ***custom metric namespace*** to being able to extend the default services metric namespaces. For that, we'll support on OCI Function written with python SDK. To cover this educational example, we'll use as an example the creation of a custom metric namespace to monitor the OCI Services Limits usage. With this custom metric namespace, OCI alarms can be created and OCI Notification Service can be used to send the alarm information by different means to allow to create proactively a Service Limit Service Request to increase the limit before causing any disruption in the running services or services to be provisioned.
+Describes how any user can create an OCI Monitoring ***custom metric namespace*** to be able to extend the default services metric namespaces. For that, we'll support on OCI Function written with Python SDK. To cover this educational example, we'll use as an example the creation of a custom metric namespace to monitor the OCI Services Limits usage. With this custom metric namespace, OCI alarms can be created and OCI Notification Service can be used to send the alarm information by different means to allow to create proactively a Service Limit Service Request to increase the limit before causing any disruption in the running services or services to be provisioned.
 
 ## 2. SOLUTION
 We can see the overall architecture in the following logical diagram:
@@ -28,11 +29,11 @@ Not all the Services Limits are equal as they depend of the scope they have (Glo
  
 With this raw data, we could be able to build Alarm Definitions on the specific Services Limits that we would like to monitor, as usually customers do not use all the possible OCI services.
 
-Optionally, they could use any OCI Notification Service to being notified when the alarm fires receiving the notification message in any of the supported options. Some of them will enable the integration with 3rd party services.
+Optionally, they could use any OCI Notification Service to be notified when the alarm fires receiving the notification message in any of the supported options. Some of them will enable the integration with 3rd party services.
 
 ## 3. FUNCTION'S LOGIC
 
-Here we'll focus in reviewing the logic behind using the OCI Function Python SDK to get the objectives to monitor the Services Limits with OCI Monitoring.
+Here we'll focus on reviewing the logic behind using the OCI Function Python SDK to get the objectives to monitor the Services Limits with OCI Monitoring.
 
 We use 3 different OCI services API calls to gather the needed information to create the custom metric namespace for the Services Limit monitoring, these are:
 
@@ -40,7 +41,7 @@ We use 3 different OCI services API calls to gather the needed information to cr
 2. [Monitoring API](https://docs.oracle.com/en-us/iaas/api/#/en/monitoring/20180401/): To use the [PostMetricData](https://docs.oracle.com/en-us/iaas/api/#/en/monitoring/20180401/MetricData/PostMetricData), to post the metrics information in the existing (or non yet existing) custom service metric namespace. If it doesn't exist yet, it just creates it so we don't need to explicitly create it before.
 3. [Service Limits API](https://docs.oracle.com/en-us/iaas/api/#/en/limits/20181025/): To use the [ListLimitsDefinition](https://docs.oracle.com/en-us/iaas/api/#/en/limits/20181025/LimitDefinitionSummary/ListLimitDefinitions) to get the full list of Service Limits in a given compartment and the [GetResouceAvailability](https://docs.oracle.com/en-us/iaas/api/#/en/limits/20181025/ResourceAvailability/GetResourceAvailability), to gather the used and available limits depending in the scope (AD, regional, whole tenancy), of the known Service Limits from the previous list.
    
-Basically the **logic** is:
+Basically, the **logic** is:
 
 ````
 Start
@@ -63,9 +64,9 @@ End
 
 We have different requirements depending on the variant of this asset that we would use:
 
-1. A **compartment** exists where to locate the Application: Will depend of your landing zone design. Typically this monitoring applications/functions or integrations affecting whole tenancy are located in Security Compartment. 
+1. A **compartment** exists where to locate the Application: Will depend on your landing zone design. Typically monitoring applications/functions or integrations affecting the whole tenancy are located in the Security Compartment. 
    
-2. A **VCN with a private subnet with Oracle Service Network (OSN) / Internet connectivity** exists: At the Application create time you'll need to choose a VCN and subnet which has the proper egress rule and route to gather the Oracle Service Network of your region through a Service Gateway and, if you're going to use the function in a given region X to gather the services limits on region Y, you'd need to have access to the Internet throught a NAT Gateway. That's why the regional services access through Service Gateway only gives you access to the API endpoints of region X, not the Y.
+2. A **VCN with a private subnet with Oracle Service Network (OSN) / Internet connectivity** exists: At the Application create time you'll need to choose a VCN and subnet that has the proper egress rule and route to gather the Oracle Service Network of your region through a Service Gateway and, if you're going to use the function in a given region X to gather the services limits on region Y, you'd need to have access to the Internet through a NAT Gateway. That's why the regional services access through Service Gateway only gives you access to the API endpoints of region X, not the Y.
    
 3. The user must have the **proper permissions in a policy** to work with cloud-shell, container registry, logging service, functions as: 
    * Allow group <group-name> to use cloud-shell in tenancy
@@ -84,13 +85,13 @@ The required function configuration parameters are:
 * **region** where you want to get the Services Limits with regional scope and where to publish metrics
 
 Others requirements:
-* The **function's Timeout** must be configured with 120s, instead of the default of 30s to avoid to get timeout errors under certain circumstances.
+* The **function's Timeout** must be configured with 120s, instead of the default of 30s to avoid getting timeout errors under certain circumstances.
 
 ## 6. OUTPUT
 
 Every time the function is invoked, it will feed a custom metric namespace called "**limits_metric**" in the tenancy's root compartment with the information of the Services Limits usage.
 
-You can check the custom metric extension from the OCI Metrics Explorer, where you will be able also to create an alarms from an specific metric query.
+You can check the custom metric extension from the OCI Metrics Explorer, where you will be able also to create alarms from a specific metric query.
 
 ## 7. GETTING STARTED
 
@@ -136,7 +137,7 @@ Select the **region** where you want to create the OCI Function.
       fn update context registry ams.ocir.io/frxfz3gchXXX/app-monitoring
       ````
    
-   * Configure the Fn Project context with the OCID of the compartment for repository of images:
+   * Configure the Fn Project context with the OCID of the compartment for a repository of images:
       ````
       fn update context oracle.image-compartment-id <compartment-ocid>
       e.g.:
@@ -149,13 +150,13 @@ Select the **region** where you want to create the OCI Function.
    3. Close **Generate Token** dialog.
 
 5. Log in to Registry:
-   1. On the Getting Started page, login in the Container Registry with the docker CLI command:
+   1. On the Getting Started page, log in the Container Registry with the docker CLI command:
       ````
       docker login -u '<tenancy-namespace>/<user-name>' <region-key>.ocir.io
       e.g.: 
       docker login -u 'frxfz3gchXXX/oracleidentitycloudservice/john.doe@example.com' ams.ocir.io
       ````
-   2. When prompted for a password, enther the OCI auth token that you created earlier.
+   2. When prompted for a password, enter the OCI auth token that you created earlier.
 
 ### 7.3 Deploy the function
 
@@ -164,7 +165,7 @@ Select the **region** where you want to create the OCI Function.
    fn init --runtime python servicelimits
    ````
    * A directory called *serviceLimits* is created
-   * In the directory you'll find the folloging files: requirements.txt, func.py and func.yaml
+   * In the directory, you'll find the following files: requirements.txt, func.py and func.yaml
 
 2. Replace the code with the code given:
    1. Click on the **Cloud Shell settings → Upload** → Drag and Drop the **func.py** and **requirements.txt** files on the upload windows → Upload
