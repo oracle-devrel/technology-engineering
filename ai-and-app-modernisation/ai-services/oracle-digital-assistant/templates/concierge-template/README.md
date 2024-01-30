@@ -1,17 +1,21 @@
-# OCM with OIC Asset Workflow
+# Concierge Template
  
-* Integrate Oracle Content Management with Oracle Integration Cloud Asset Workflows*
- 
+TBD
+
 Reviewed: 30.01.2024
 
+# When to use this asset?
+
+TBD
+
 # How to use this asset?
- 
-This asset is provided as an example. Please tailor the code according to your needs and your context.
+
+TBD
  
 # License
-
+ 
 Copyright (c) 2024 Oracle and/or its affiliates.
-
+ 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
-
+ 
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
