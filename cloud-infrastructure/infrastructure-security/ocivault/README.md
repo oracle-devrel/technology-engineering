@@ -10,8 +10,8 @@ OCI Vault lets you centrally manage and control the use of keys and secrets acro
  
 ## Team Publications
  
-- [Import your own key into OCI Vault](https://blogs.oracle.com/coretec/post/import-your-own-key-in-oci-vault-with-cloud-console-ui)
-   - This is a blog showcasing the process to import your own key into OCI Vault
+- [Import your key into OCI Vault](https://blogs.oracle.com/coretec/post/import-your-own-key-in-oci-vault-with-cloud-console-ui)
+   - This is a blog showcasing the process of importing your key into the OCI Vault
  
 ## Useful Links
  
@@ -28,7 +28,10 @@ OCI Vault lets you centrally manage and control the use of keys and secrets acro
     - OCI Vault introduction video
 
 - [OCI Vault External KMS with Thales)(https://blogs.oracle.com/cloudsecurity/post/announcing-external-key-management-service-in-oci)
-    - OCI Vault External KMS with Thales - Announcement  
+    - OCI Vault External KMS with Thales - Announcement
+ 
+- [OCI Dedicated KMS)(https://blogs.oracle.com/cloud-infrastructure/post/dedicated-kms-owning-keys-hsm-partitions-cloud)
+    - OCI Dedicated KMS: Owning your keys and HSM partitions in the cloud
 # License
  
 Copyright (c) 2024 Oracle and/or its affiliates.
