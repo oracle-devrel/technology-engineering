@@ -20,7 +20,8 @@ OCI's network and application layer security controls currently have the followi
 - [OCI Network Firewall Documentation](https://docs.oracle.com/en-us/iaas/Content/network-firewall/home.htm)
 - [OCI Network Firewall Overview](https://docs.oracle.com/en-us/iaas/Content/network-firewall/overview.htm)
 - [OCI Network Firewall LiveLabs workshop](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=3499) 
-
+- [Fortinet Terraform templates](https://github.com/fortinet/fortigate-terraform-deploy/tree/main/oci) 
+- [Fortinet OCI Deployments](https://github.com/40net-cloud/fortinet-oci-solutions) 
 
 ## Team Publications
 
