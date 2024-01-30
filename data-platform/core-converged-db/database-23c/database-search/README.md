@@ -38,10 +38,10 @@ For example it is not necessary to define complex USER_DATASTORE procedures. In 
 - [Oracle Text Quickstart Tutorial](https://livesql.oracle.com/apex/livesql/file/tutorial_IHF3DMUBR01852DBZFYKUZF3Q.html)
 - [all Oracle Text scripts from the Code Library](https://livesql.oracle.com/apex/f?p=590:49::::RP,49:P49_SEARCH:Oracle%20text)
 
- # License
+# License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

@@ -23,10 +23,10 @@ Reversely, if you update your relational data model, the JSON representation is 
 
 - This short demo, built on the OE sample schema, illustrates the basic concepts of JRD views. It was built and executed against a 23c free database running in a docker container.
  
- # License
+# License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

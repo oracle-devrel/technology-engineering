@@ -13,7 +13,7 @@ We create all kinds of interesting assets in our line of work, which we believe 
 We structure our assets by our internal product areas and reflect this in the folder structure of this repository. The repository will have at least four levels of folders, starting with the first representing a wider product area (like Infrastructure Cloud), followed by a specific product area (like Compute), followed by a product or cloud service (like Bare Metal Compute), and finally by an asset for that product (like How-to-Guides).
 
 ## License
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
