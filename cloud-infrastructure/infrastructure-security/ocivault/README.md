@@ -10,8 +10,8 @@ OCI Vault lets you centrally manage and control the use of keys and secrets acro
  
 ## Team Publications
  
-- [Import your own key into OCI Vault](https://blogs.oracle.com/coretec/post/import-your-own-key-in-oci-vault-with-cloud-console-ui)
-   - This is a blog showcasing the process to import your own key into OCI Vault
+- [Import your key into OCI Vault](https://blogs.oracle.com/coretec/post/import-your-own-key-in-oci-vault-with-cloud-console-ui)
+   - This is a blog showcasing the process of importing your key into the OCI Vault
  
 ## Useful Links
  
