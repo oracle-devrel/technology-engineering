@@ -9,6 +9,9 @@ Oracle Cloud Infrastructure (OCI) Data Flow is a fully managed Apache Spark serv
 - [Extracting data from Salesforce in near real time using OCI Data Flow — Part 1](https://medium.com/@eloi-lopes29/extracting-data-from-salesforce-in-near-real-time-using-oci-data-flow-part-1-f096886b9fcd)
                                                      
 # License
-Copyright (c) 2023 Oracle and/or its affiliates.
+
+Copyright (c) 2024 Oracle and/or its affiliates.
+
 Licensed under the Universal Permissive License (UPL), Version 1.0.
+
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

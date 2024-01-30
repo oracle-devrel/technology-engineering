@@ -11,6 +11,8 @@ Infrastructure As Code (IaC) is a methodology in which scripts automate infrastr
 
 **Consistency** IaC makes it possible to avoid human errors and inconsistency and minimize drift over time.
 
+Reviewed: 13/11/2023
+
 # Declarative Automation
 
 In this scenario the desired end-state of the resource is declared, The provider takes care of all the steps needed to achieve the desired state.
@@ -72,9 +74,8 @@ Procedural automation consists of a set of activities required to achieve the go
 
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE)for more details.
-Reviewed: 13/11/2023
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
