@@ -8,16 +8,18 @@ establish a base level of security for anyone utilizing the included Oracle Clou
 
 Owner: Ravi Agrawal
 
-## When to use this asset?
+Reviewed: 30.01.2024
+
+# When to use this asset?
 
 For every Oracle Cloud Infrastructure implementation,  best practices and guidelines need to be validated against the OSSA checklist.
 
-## How to use this asset?
+# How to use this asset?
 
 Validate the solution before project closure against OSSA checklist controls and seek justification against any non-compliant entry.
 
 
-## Useful Links
+# Useful Links
 
 - Download the full [CIS OCI Benchmark from the link](https://www.cisecurity.org/benchmark/oracle_cloud) for the full details of the remediation steps.
 
