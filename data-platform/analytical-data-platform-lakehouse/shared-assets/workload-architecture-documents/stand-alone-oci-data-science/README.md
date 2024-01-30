@@ -25,9 +25,9 @@ We recommend that you use the current 'stand-alone-data-science' as a template f
 We hope that you will find the architecture document to be a helpful guide for any data platform which includes data science aspects with an OCI Data Science and data platform project. We encourage everyone to provide feedback so that we can further improve our assets.
 
 # License
- 
-Copyright (c) 2023 Oracle and/or its affiliates.
- 
+
+Copyright (c) 2024 Oracle and/or its affiliates.
+
 Licensed under the Universal Permissive License (UPL), Version 1.0.
- 
-See [LICENSE](LICENSE) for more details.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

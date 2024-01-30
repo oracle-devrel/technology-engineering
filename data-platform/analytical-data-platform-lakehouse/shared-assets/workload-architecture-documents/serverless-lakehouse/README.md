@@ -16,9 +16,9 @@ You can reuse this document structure and contents as an example to be modified 
 This workload uses OCI services that are part of the Oracle Data platform and it can be further augmented with additional services and capabilities that are described on the [Data platform - data lakehouse reference architecture](https://docs.oracle.com/en/solutions/data-platform-lakehouse/index.html#GUID-A328ACEF-30B8-4595-B86F-F27B512744DF).
 
 # License
- 
-Copyright (c) 2023 Oracle and/or its affiliates.
- 
+
+Copyright (c) 2024 Oracle and/or its affiliates.
+
 Licensed under the Universal Permissive License (UPL), Version 1.0.
- 
-See [LICENSE](LICENSE) for more details.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

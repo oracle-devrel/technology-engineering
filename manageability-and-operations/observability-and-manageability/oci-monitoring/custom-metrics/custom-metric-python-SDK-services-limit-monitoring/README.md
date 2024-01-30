@@ -124,7 +124,7 @@ There 2 scripts with same code except for the OCI authentication. Both scripts w
   
 # LICENSE
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

@@ -13,6 +13,8 @@ Reviewed: 31.10.2023
 ## Specialists Blogs for various features & functionality
 |Content Link |Functionality|Descripton|
 | ------------ |------------|----------|
+|[Leverage the OCI Modern Data Platform to implement an Enterprise Analytics Solution](https://blogs.oracle.com/coretec/post/leverage-oci-modern-data-platform-to-implement-enterprise-analytics-solution)|OAC-Enterprise Analytics Solution |How to leverage the OCI modern data platform to implement an enterprise analytics solution.
+|[Top 5 reasons Oracle Analytics Cloud stands apart in the ML/AI Analytics landscape](https://blogs.oracle.com/analytics/post/top-5-reasons-oracle-analytics-cloud-stands-apart-in-the-mlai-analytics-landscape)|OAC Machine Learning|What are primary reasons to choose Oracle Analytics Cloud (OAC) from an ML/AI perspective.
 |[Oracle Analytics Cloud: Set up and configure Oracle Analytics Cloud environments using Terraform](https://blogs.oracle.com/analytics/post/oracle-analytics-cloud-set-up-and-configure-oracle-analytics-cloud-environments-using-terraform)|OAC Setup & Configure|How to provision and configure Oracle analytics cloud on OCI using Terraform.
 |[Oracle Analytics Cloud - How to Setup and Configure the Oracle Analytics Cloud Environment on OCI](https://blogs.oracle.com/analytics/post/oac-quick-guide-to-setup-oracle-analytics-cloud-environment)|OAC Setup & Configure|How to provision and configure Oracle analytics cloud on OCI (Manual Steps).
 |[Oracle Analytics Cloud — Private Access Channel](https://medium.com/@ionutforlafu/oracle-analytics-cloud-private-access-channel-7399a305bad0)|OAC Setup & Configure|All about OAC private access channel and different scenarios where a Private Access Channel can be used.
@@ -23,6 +25,12 @@ Reviewed: 31.10.2023
 |[How to leverage Oracle Database Machine Learning with Oracle Analytics](https://blogs.oracle.com/coretec/post/oracle-analytics---how-to-use-oracle-database-machine-learning-model-for-predictive-analytics)|OAC Machine Learning|How to register an oracle database machine learning model in Oracle analytics and use it for predictions.
 |[Oracle Machine Learning – Auto ML](https://blogs.oracle.com/coretec/post/oracle-auto-ml-use-inbuilt-expertise-to-develop-effective-machine-learning-model)|OAC Machine Learning|How to use Oracle Database Automl with OAC
 |[Leverage the power of Oracle Analytics and Oracle Machine and implement a fraud detection process using anomaly detection](https://blogs.oracle.com/coretec/post/oracle-analytics-oracle-machine-learning-fraud-detection-using-unsupervised-and-supervised-machine-learning)|OAC Machine Learning|Oracle Analytics and Oracle Machine Learning: Fraud Detection using Unsupervised and Supervised Machine Learning
+
+ ## Specialists Cloud Coaching
+ |Content Link |Descripton|
+| ------------ |------------|
+|[Exploring Oracle Expense Analytics: A Hands-On Lab for Data-driven Insights](https://www.youtube.com/watch?v=TqUBFCo13gk)|Exploring Oracle Expense Analytics: A Hands-On Lab for Data-driven Insights.|
+|[OBI Modernization - video](https://www.youtube.com/watch?v=udOfHSioEY4)|How you can modernize your OBIEE environment using the latest cloud trends of Oracle Analytics Cloud.
 
 ## Specialists Videos for various features & functionality
 |Content Link |Functionality|Descripton|
@@ -51,7 +59,9 @@ Reviewed: 31.10.2023
 ## OAC Latest Release and Announcements
  |Content Link |Descripton|
 | ------------ |------------|
-|[OAC September Release New Features](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KWt5F5cC1TXA18QOpT4rgOB)|Oracle Analytics Cloud new features - September 2023 YouTube videos|
+|[Oracle Analytics Cloud new features - January 2024](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KUGvVDRGC8IyXo8yQzUtMiD)|Oracle Analytics Cloud January-2024 new features videos|
+|[Oracle Analytics New Capabilities - November 2023](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KXVh3PVwWfl1nC_TyHi_yl8)|Oracle Analytics Cloud November-2023 release|
+|[Oracle Analytics New Capabilities - September 2023](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KWt5F5cC1TXA18QOpT4rgOB)|Oracle Analytics Cloud September-2023 release|
 |[Oracle Analytics Cloud at Oracle CloudWorld 2023](https://blogs.oracle.com/analytics/post/oracle-analytics-cloud-at-oracle-cloudworld-2023)|Oracle Analytics Cloud Announcements at Oracle Cloud World 2023|
 |[Oracle Analytics Cloud Marketing Announcements](https://www.oracle.com/news/announcement/ocw-ai-capabilities-oracle-analytics-cloud-2023-09-20/)|Oracle Analytics Cloud Marketing Announcements at Oracle Cloud World 2023|
 |[Oracle Analytics New Capabilities - May 2023](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KWZkXpZnjr7lTMfDTj9-dfK)| Oracle Analytics Cloud May-2023 release| 
@@ -87,17 +97,18 @@ Reviewed: 31.10.2023
 |[Oracle Analytics Live! Webinars on YouTube](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KXC2dtdh-iXBulo1V0Rw3CE)|Monthly update from the Oracle Product teams for Oracle Analytics Cloud. See new capabilities, hear about the roadmap, and see cool demos.|
 |[Oracle Analytics Learning Library](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KWqy-XYDjfPga5SXKm6_DHx)|Learn "how to" with Oracle Analytics Cloud, Oracle Analytics Server and Oracle Fusion Analytics.|
 
+## Oracle Analytics Live YouTube Videos
+|Content Link |Descripton|
+| ------------ |------------|
+|[Oracle Analytics Live! Webinar - January 2024 Edition](https://www.youtube.com/watch?v=pHTt89yw-oo&t=1336s)|The January 2024 edition of the Oracle Analytics Live! Webinar.|
+|[Accessing Delta Share with Oracle Analytics](https://www.youtube.com/watch?v=oZLKcarIreQ)|How to access data from Delta Share using Oracle Analytics. This capability is part of the Oracle Analytics Cloud November 2023 update.|
+|[Discover AI and Machine Learning for Oracle Analytics Cloud](https://www.youtube.com/watch?v=oZLKcarIreQ)|Learn about the intersection of Oracle Analytics Cloud (OAC) with OCI AI Services.|
+
 ## Oracle Analytics Cloud: Augmented Analytics at Scale
 |Content Link |Descripton|
 | ------------ |------------|
 |[OAC vs PowerBI vs Tableau](https://www.oracle.com/business-analytics/comparison-chart.html)|Comparison of Oracle Analytics Cloud with other leading business analytics products|
-|[Gartner Analytics Review 2023](https://blogs.oracle.com/analytics/post/oracle-named-a-visionary-in-the-2023-gartner-magic-quadrant-for-analytics-and-business-intelligence-platforms)|Oracle Analytics as visionary in the 2023 Gartner’s Magic Quadrant|
-
- ## Specialists Cloud Coaching
- |Content Link |Descripton|
-| ------------ |------------|
-|[Exploring Oracle Expense Analytics: A Hands-On Lab for Data-driven Insights](https://www.youtube.com/watch?v=TqUBFCo13gk)|Exploring Oracle Expense Analytics: A Hands-On Lab for Data-driven Insights.|
-|[OBI Modernization - video](https://www.youtube.com/watch?v=udOfHSioEY4)|How you can modernize your OBIEE environment using the latest cloud trends of Oracle Analytics Cloud.
+|[Gartner Analytics Review 2023](https://www.youtube.com/watch?v=nYNbpGeu_nw)|Oracle Analytics as visionary in the 2023 Gartner’s Magic Quadrant|
 
 
 ## Blogs for AI/ML with Oracle Analytics Platform
@@ -135,9 +146,10 @@ Reviewed: 31.10.2023
  |Content Link |Descripton|
  | ------------ |------------|
  |[Oracle Analytics Client Tools](https://www.oracle.com/middleware/technologies/oac-tools-downloads.html)|Download and install Oracle Analytics Client Tools on your workstation|
+
 # License
  
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
