@@ -102,7 +102,7 @@ The Compliance Checking Script is certified by the CIS Center of Internet Securi
 
 6 License
 
-Copyright (c) 2022-2023 Oracle and/or its affiliates.
+Copyright (c) 2022-2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

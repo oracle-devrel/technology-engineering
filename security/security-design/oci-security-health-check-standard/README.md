@@ -17,6 +17,12 @@ The *OCI Security Health Check - Standard Edition* checks an OCI tenancy for [CI
 
 See the *OCI Security Health Check - Standard Edition* in action and watch the [OCI Health Checks - Self Service video](https://www.youtube.com/watch?v=EzjKLxfxaAM).
 
+### Sample Output
+
+After a completed run you will find a directory with a name starting with your tenancy name followed by a timestamp in your working directory (like tenancy_name_YYYYMMDDHHmmss_standard). A zip archive for easier download using the same name will be created, too. Both hold data files for your review.
+
+To start with reviewing the results, open the file named [cis_html_summary_report.html](files/resources/cis_html_summary_report.html)(sample report).
+
 ## Getting Started with the *OCI Security Health Check - Standard Edition*
 
 ### Download and verify the release file
@@ -123,7 +129,7 @@ The *OCI Security Health Check - Standard Edition* would not be possible without
 
 # License
 
-Copyright (c) 2022-2023 Oracle and/or its affiliates.
+Copyright (c) 2022-2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
