@@ -2,6 +2,8 @@
  
 * Content Management Administrator tasks, such as Provisioning OCM, Roles and Permissions, Content Management System Settings, Install OCM Desktop Client, and useful materials*
  
+Reviewed: 30.01.2024
+
 # How to use this asset?
  
 This asset is provided as an example. Please tailor the code according to your needs and your context.

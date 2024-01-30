@@ -4,7 +4,9 @@ Oracle WebCenter Content provides a single content management platform that help
 
 Oracle WebCenter Content manages content that can include documents, email, electronic discussions, images, videos, and other types of digital information.
 
-Oracle WebCenter Content Server is the foundation for a variety of Oracle content management features. It provides a flexible, secure, centralized, web-based repository that manages all phases of the content life cycle from creation and approval to publishing, searching, expiration, and archiving or disposition
+Oracle WebCenter Content Server is the foundation for a variety of Oracle content management features. It provides a flexible, secure, centralized, web-based repository that manages all phases of the content life cycle from creation and approval to publishing, searching, expiration, and archiving or disposition.
+
+Reviewed: 30.01.2024
 
 # Useful Links
 

@@ -2,6 +2,8 @@
  
 * Oracle Business Intelligence (BI) Publisher is an enterprise reporting solution for authoring, managing, and delivering all your highly formatted documents, such as operational reports, electronic funds transfer documents, government PDF forms, shipping labels, checks, sales and marketing letters, and much more. BI Publisher can deliver reports to a variety of destinations such as Printer, Fax, Email, WebDAV servers, FTP Servers, WebCenter Content Servers*
  
+Reviewed: 30.01.2024
+
 # How to use this asset?
  
 This asset is provided as an example. Please tailor the code according to your needs and your context.
