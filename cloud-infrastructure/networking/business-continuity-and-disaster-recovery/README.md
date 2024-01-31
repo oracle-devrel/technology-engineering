@@ -3,22 +3,18 @@
 These assets help you understand various HA and DR cloud architectures
 
 
-# Table of Contents
- 
-1. [Useful Links](#useful-links)
-2. [Team Publications](#team-publications)
-
- 
 ## Useful Links
+- [OCI Disaster Recovery Overview](https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/disaster-recovery.htm)
+- [Learning](https://learn.oracle.com/ols/event/business-continuity-disaster-recovery-on-the-cloud/89350/116373/181290)
 
-## Team Publications
+
 
 ### Reference Architectures & Step-by-step Guides
 
 
 ### Blogs
  
-
+- [Two-region strategy resiliant solution](https://blogs.oracle.com/cloud-infrastructure/post/ocis-tworegion-strategy-resilient-solution)
 
 
 

@@ -6,10 +6,6 @@ The Oracle Cloud Infrastructure Domain Name System (DNS) service lets you create
 
 We do have three major components around DNS: Private DNS, Public DNS, and Traffic Management.
 
-# Table of Contents
- 
-1. [Useful Links](#useful-links)
-2. [Team Publications](#team-publications)
 
  
 ## Useful Links

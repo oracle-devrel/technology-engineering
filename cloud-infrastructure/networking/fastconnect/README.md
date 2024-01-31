@@ -7,12 +7,7 @@ Use Case
     Public peering: To access public services in Oracle Cloud Infrastructure without using the internet. For example, Object Storage, the Oracle Cloud Infrastructure Console and APIs, or public load balancers in your VCN
 
 
-# Table of Contents
- 
-1. [Useful Links](#useful-links)
-2. [Team Publications](#team-publications)
-3. [Reusable Assets Overview](#reusable-assets-overview)
- 
+
 ## Useful Links
 - [OCI Fastconnect Partners](https://www.oracle.com/it/cloud/networking/fastconnect/providers/)
 - [Fastconnect troubleshooting](https://www.ateam-oracle.com/post/fastconnect-troubleshooting)

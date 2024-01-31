@@ -2,12 +2,7 @@
 
 Enables customers to deliver digital content to end users from a nearby location in a geographically distributed network. Customers benefit from integrated APIs, console, UCM billing, and stronger integrations between OCI Object Storage, Compute, and CDN to reduce origin-server-to-CDN egress fees.
 
-# Table of Contents
- 
-1. [Useful Links](#useful-links)
-2. [Team Publications](#team-publications)
 
- 
 ## Useful Links
 - [Oracle CDN Announcement](https://www.oracle.com/uk/news/announcement/oracle-launches-new-flexible-cloud-infrastructure-services-2022-03-15/)
 
