@@ -20,36 +20,27 @@ The following source and destination scenarios are supported:
     Internet to OCI
     OCI to internet
 
-
-# Table of Contents
- 
-1. [Useful Links](#useful-links)
-2. [Team Publications](#team-publications)
-
  
 ## Useful Links
 
 - [Introducing NPA](https://blogs.oracle.com/cloud-infrastructure/post/introducing-oracle-cloud-network-path-analyzer)
 
 
-
-## Team Publications
-
 ### Reference Architectures & Step-by-step Guides
 
-
-
-    
+ - [NPA Steps guide](https://blogs.oracle.com/ateam/post/oci-network-path-analyzer)
+ - [NPA Step by Step guide (external)](https://k21academy.com/1z0-1072/oracle-cloud-network-path-analyzer/)  
 
 ### Blogs
  
-
+- [Speed up Network Troubleshooting with Oracle Cloud Network Path Analyzer](https://blogs.oracle.com/analytics/post/fast-track-network-troubleshooting-with-oracle-cloud-network-path-analyzer-for-oracle-analytics-cloud-oac)
 
 
 ### Videos & Podcasts
 
 - [NPA in 5 mins](https://www.youtube.com/watch?v=vr8oitlkAvI)
-
+- [Oracle Network Path Analyzer](https://videohub.oracle.com/media/Oracle+Network+Path+Analyzer.mov/1_dm81kp7i)
+- [OCI Tips and Tricks - Troubleshooting with Oracle Cloud Infrastructure Network Path Analyzer](https://www.youtube.com/watch?v=AoTk4Aq-9Gw)
 
 
 # License

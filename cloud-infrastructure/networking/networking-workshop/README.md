@@ -9,29 +9,24 @@ These documents can be use as reusable assets on different technologies around O
 The information is generic in nature and not specified for a particular customer. Appropriate changes in scope should be updated.
 
 
-# Table of Contents
- 
-1. [Useful Links](#useful-links)
-2. [Team Publications](#team-publications)
-3. [Reusable Assets Overview](#reusable-assets-overviewdef)
- 
+
 ## Useful Links
 
 
-
-
-
-## Team Publications
+ - [Oracle Cloud Infrastructure (OCI) Basic Workshop](https://learn.oracle.com/ols/event/oracle-cloud-infrastructure-oci-basic-workshop/89350/126248/197976)
 
 
  
 ### Blogs
  
+- [OCI Networking Best Practices - Part One](https://www.ateam-oracle.com/post/oci-networking-best-practices-recommendations-and-tips---part-one---general-oci-networking)
+
+- [OCI Networking Best Practices - Part two](https://www.ateam-oracle.com/post/oci-networking-best-practices---part-two---oci-network-security)
 
 
 ### Videos & Podcasts
 
-
+- [OCI Networking Workshop Quick Start] (https://www.youtube.com/watch?v=Kza0WSjfwiY())
 
 # License
 

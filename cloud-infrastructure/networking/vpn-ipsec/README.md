@@ -8,12 +8,7 @@ Key Features:
 - Site-to-Site Connectivity: Establish a site-to-site VPN connection, allowing seamless and secure communication between your on-premises network and your virtual cloud network (VCN) in OCI. This enables you to extend your on-premises network to OCI, facilitating hybrid cloud architectures.
 
 
-# Table of Contents
- 
-1. [Useful Links](#useful-links)
-2. [Team Publications](#team-publications)
-3. [Reusable Assets Overview](/cloud-infrastructure/networking/vpn-ipsec/vpn-overview/README.md)
- 
+
 ## Useful Links
 
 - [OCI VPN site-to-site Overview](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/overviewIPsec.htm)

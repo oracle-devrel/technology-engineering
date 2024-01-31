@@ -9,10 +9,6 @@ OCI's network and application layer security controls currently have the followi
 
 
 
-# Table of Contents
- 
-1. [Useful Links](#useful-links)
-2. [Team Publications](#team-publications)
 
  
 ## Useful Links
@@ -24,6 +20,8 @@ OCI's network and application layer security controls currently have the followi
 - [Fortinet OCI Deployments](https://github.com/40net-cloud/fortinet-oci-solutions) 
 
 ## Team Publications
+
+- [Create Fully Compatible JSON Templates from Custom PEM Certificates for OCI Network Firewall](https://docs.oracle.com/en/learn/setup-certificate-authentication-oci-network-fw/index.html)
 
 ### Reference Architectures & Step-by-step Guides
 

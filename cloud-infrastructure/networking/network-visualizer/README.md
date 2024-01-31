@@ -7,10 +7,6 @@ The Network Visualizer provides a diagram of the implemented topology of all VCN
 - Generate a .pdf with all component details and diagrams
 
 
-# Table of Contents
- 
-1. [Useful Links](#useful-links)
-2. [Team Publications](#team-publications)
 
  
 ## Useful Links
@@ -20,17 +16,15 @@ The Network Visualizer provides a diagram of the implemented topology of all VCN
  
 
 
-## Team Publications
-
 ### Reference Architectures & Step-by-step Guides
 
 
-
+- [Network Visualizer Steps guide](https://www.ateam-oracle.com/post/oci-network-visualizer)
     
 
 ### Blogs
  
-
+- [Enhanced visualization and troubleshooting with Network Visualizer 2.0](https://blogs.oracle.com/cloud-infrastructure/post/enhanced-visualization-troubleshooting-with-network-visualizer-v2)
 
 
 ### Videos & Podcasts

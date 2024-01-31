@@ -12,10 +12,6 @@ VTAP sources can be:
     An Exadata VM Cluster
     An Autonomous Database for Analytics and Data Warehousing instance using a private endpoint
     
-# Table of Contents
- 
-1. [Useful Links](#useful-links)
-2. [Team Publications](#team-publications)
 
 ## Useful Links
 
@@ -23,15 +19,23 @@ VTAP sources can be:
 - [Exploring traffic Mirroring with VTAP](https://blogs.oracle.com/cloud-infrastructure/post/explore-traffic-mirroring-vtap-functionality-with-network-and-monitoring-partners-on-oci)
 - [Troubleshoot network issues with vTAP and Wireshark](https://docs.oracle.com/en/solutions/oci-network-vtap-wireshark/index.htm)
 
-## Team Publications
+
 
 ### Reference Architectures & Step-by-step Guides
 
+ -[Troubleshoot Step by step network issues with VTAP for OCI and Wireshark](https://docs.oracle.com/en/solutions/oci-network-vtap-wireshark/index.html#GUID-3196621D-12EB-470A-982C-4F7F6F3723EC)
+
 ### Blogs
+
+ - [Announcing VTAP for Oracle Cloud Infrastructure](https://blogs.oracle.com/cloud-infrastructure/post/announcing-vtap-for-oracle-cloud-infrastructure)
  
+ - [Explore traffic mirroring VTAP functionality with network and monitoring partners on OCI ](https://blogs.oracle.com/cloudmarketplace/post/explore-traffic-mirroring-vtap-functionality-with-network-and-monitoring-partners-on-oci)
+
+
 ### Videos & Podcasts
 
 - [How to monitor and inspect your Network Traffic flow](https://www.youtube.com/watch?v=f29iNJ1paMU)
+- [Perform Live Traffic Analysis with Wireshark and VTAP on OCI](https://www.youtube.com/watch?v=7nWY_8BjJis)
 
 # License
 

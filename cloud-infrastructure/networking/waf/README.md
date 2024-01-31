@@ -8,12 +8,7 @@ These documents can be use as reusable assets on different technologies around O
 The information is generic in nature and not specified for a particular customer. Appropriate changes in scope should be updated.
 
 
-# Table of Contents
- 
-1. [Useful Links](#useful-links)
-2. [Team Publications](#team-publications)
-3. [Reusable Assets Overview](/cloud-infrastructure/networking/vpn-ipsec/vpn-overview/README.md)
- 
+
 ## Useful Links
 
 - [WAF demo](https://blogs.oracle.com/cloud-infrastructure/post/announcing-oracle-cloud-infrastructure-waf-protection-on-flexible-load-balancers)
@@ -21,9 +16,11 @@ The information is generic in nature and not specified for a particular customer
 - [Edge Policies](https://docs.oracle.com/en-us/iaas/Content/WAF/EdgePolicyResources/legacy_waf.htm)
 
 ## Team Publications
+- [Securing your Applications against Cyber Attacks with WAF](#videos--podcasts)
 
 ### Reference Architectures & Step-by-step Guides
     
+- [Steps guide: Add Oracle Cloud Infrastructure Web Application Firewall protection to a flexible Load Balancer](https://docs.oracle.com/en/learn/oci-waf-flex-lbaas/index.html#task-2-create-a-web-application-firewall-policy-for-the-load-balancer)
 
 ### Blogs
 
