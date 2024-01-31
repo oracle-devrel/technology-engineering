@@ -18,23 +18,33 @@ Key Features:
 
 - [OCI VPN site-to-site Overview](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/overviewIPsec.htm)
 - [OCI VPN site-to-site Documentation](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/managingIPsec.htm)
- 
+- [OCI VPN Troubleshooting](https://www.ateam-oracle.com/post/oracle-cloud-vpn-connect-troubleshooting)
+- [Supported IPSEC params](https://docs.oracle.com/en-us/iaas/Content/Network/Reference/supportedIPsecparams.htm)
 
 
 ## Team Publications
 
+- [Use Oracle Cloud Infrastructure Site-to-Site VPN service in HA mode with ECMP routing from Linux and Libreswan](https://docs.oracle.com/en/learn/oci-site-to-site-vpn/#introduction)
+
+
 ### Reference Architectures & Step-by-step Guides
 
-
-
+- [Steps to create an IPSec](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/settingupIPsec.htm)
+- [Steps to create IPSEC to AWS ](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/vpn_to_aws.htm)
     
 
 ### Blogs
- 
 
-
+ - [Enabling ECMP on IPSEC](https://www.ateam-oracle.com/post/equal-cost-multi-path-ecmp-routing-on-oci-drgv2)
+ - [IPSEC enhancements](https://blogs.oracle.com/cloud-infrastructure/post/announcing-multiple-enhancements-for-oracle-cloud-infrastructure-ipsec-vpns)
+ - [IPSEC bandwidth testing](https://www.ateam-oracle.com/post/transfer-rates-using-ipsec-over-internet)
 
 ### Videos & Podcasts
+
+- [VPN Connectivity between Azure and OCI](https://videohub.oracle.com/media/VPN+Connectivity+between+Azure+and+OCI/1_bmtogfh2)
+- [IPSec and with Palo Alto CPE](https://www.youtube.com/watch?v=ZS7YCgAjdLs)
+- [Customer Education Videos part 1](https://www.youtube.com/watch?v=gDtMTasZfVY)
+- [Customer Education Videos part 2](https://www.youtube.com/watch?v=G52f5sWsbpI)
 
 
 

@@ -20,6 +20,14 @@ DRG instances support following attachment types:
 - [IGW Video Tutorial](https://www.youtube.com/watch?v=MtFNdZz20M4)
 - [NAT Video Tutorial](https://www.youtube.com/watch?v=dWEApK7DmdY)
 - [SGW Video Tutorial](https://www.youtube.com/watch?v=ivAxfoMYXlo)
+- [Introducing global connectivity and enhanced cloud networking with the dynamic routing gateway](https://blogs.oracle.com/cloud-infrastructure/post/introducing-global-connectivity-and-enhanced-cloud-networking-with-the-dynamic-routing-gateway)
+- [DRGv1 to DRGv2 ](https://www.ateam-oracle.com/post/migration-from-legacy-drg-to-enhanced-drg)
+- [DRG routing examples](https://www.ateam-oracle.com/post/basic-routing-scenarios-for-the-enhanced-drg
+)
+- [NAT GW Usage](https://blogs.oracle.com/ateam/post/oci-network-firewall---nat-gateway-use-case)
+- [SG Usage](https://blogs.oracle.com/cloud-infrastructure/post/access-oracle-services-privately-with-a-service-gateway)
+
+
  
 # License
 

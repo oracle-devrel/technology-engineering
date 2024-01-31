@@ -16,20 +16,25 @@ Use Case
 ## Useful Links
 - [OCI Fastconnect Partners](https://www.oracle.com/it/cloud/networking/fastconnect/providers/)
 - [Fastconnect troubleshooting](https://www.ateam-oracle.com/post/fastconnect-troubleshooting)
-- [OCI Fastconnect integration with COLT](https://blogs.oracle.com/cloud-infrastructure/post/oracle-cloud-infrastructure-fastconnect-integration-with-colt)
+- [Price list](https://www.oracle.com/cloud/price-list/#fastconnect)
+- [FastConnect Step by Step Interactive To Setup FastConnect Partner Mode](http://docs.hol.vmware.com/hol-isim/hol-2021/hol-isim-player.htm?isim=hol-2296-01-ism_connecting_to_on-premises_environment.json)
+- [FastConnect providers by Region](https://www.oracle.com/it/cloud/networking/fastconnect/providers/)
 
 ## Team Publications
 
 ### Reference Architectures & Step-by-step Guides
 
-
+ - [FastConnect Provisioning Partner Mode Equinix:](https://www.youtube.com/watch?v=TezGaTjXxKQ)
+ - [FastConnect Full Video for Partner Mode, Colo and 3rd Parties, part 1](https://www.youtube.com/watch?v=nI0J4RSpCCA)
+ - [FastConnect Full Video for Partner Mode, Colo and 3rd Parties, part 2](https://www.youtube.com/watch?v=nI0J4RSpCCA)
+ 
 
 
 ## Reusable assets overview
 
  
 ### Blogs
- 
+ - [OCI Fastconnect integration with COLT](https://blogs.oracle.com/cloud-infrastructure/post/oracle-cloud-infrastructure-fastconnect-integration-with-colt) 
 
 
 

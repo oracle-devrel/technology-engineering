@@ -16,31 +16,26 @@ The information is generic in nature and not specified for a particular customer
  
 ## Useful Links
 
-- [blog announcing WAF](https://blogs.oracle.com/cloud-infrastructure/post/announcing-oracle-cloud-infrastructure-waf-protection-on-flexible-load-balancers)
 - [WAF demo](https://blogs.oracle.com/cloud-infrastructure/post/announcing-oracle-cloud-infrastructure-waf-protection-on-flexible-load-balancers)
 - [WAFv2 documentation](https://docs.oracle.com/en-us/iaas/Content/WAF/Policies/waf-policy_management.htm)
-
-
- 
-
+- [Edge Policies](https://docs.oracle.com/en-us/iaas/Content/WAF/EdgePolicyResources/legacy_waf.htm)
 
 ## Team Publications
 
 ### Reference Architectures & Step-by-step Guides
-
-
-
     
 
 ### Blogs
- 
 
-
+- [blog announcing WAF](https://blogs.oracle.com/cloud-infrastructure/post/announcing-oracle-cloud-infrastructure-waf-protection-on-flexible-load-balancers) 
+- [WAF demo](https://blogs.oracle.com/cloud-infrastructure/post/announcing-oracle-cloud-infrastructure-waf-protection-on-flexible-load-balancers)
 
 ### Videos & Podcasts
 
 - [Securing your Applications against Cyber Attacks with WAF](https://www.youtube.com/watch?v=t9R90X3PXv0)
-    -  Session about security your applications against Attachs with WAF in OCI 
+- [WAF Demo](https://youtu.be/FiuL-JDuF6E)
+
+    
 
 # License
 

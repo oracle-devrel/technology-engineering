@@ -14,6 +14,7 @@ This document can be used as a reference guide or tutorial to implement Site to 
 ## Useful Links 
 
 - [OCI to Azure IPSEC guide ](files/S2S%20IPSEC%20between%20Azure%20and%20OCI_v1.pdf)
+- [VPN Connectivity between Azure and OCI](https://videohub.oracle.com/media/VPN+Connectivity+between+Azure+and+OCI/1_bmtogfh2)
 
  
 # License

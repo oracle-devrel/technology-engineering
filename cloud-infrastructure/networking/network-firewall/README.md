@@ -38,6 +38,12 @@ OCI's network and application layer security controls currently have the followi
     -  Blog describing OCI Network Firewall, focusing on SSL Decryption techniques
 
 
+- [Announcing Network Firewall Services](https://blogs.oracle.com/cloudsecurity/post/announcing-oracle-cloud-infrastructure-network-firewall)
+- [How to use Network FW](https://blogs.oracle.com/cloudsecurity/post/defense-in-depth-layering-using-oci-network-firewall)
+- [Concept and use cases](https://www.ateam-oracle.com/post/oci-network-firewall---concepts-and-deployment)
+- [Hub and Spoke fraffic inspection](https://www.ateam-oracle.com/post/oci-network-firewall---hub-and-spoke-traffic-inspection)
+
+
 ### Videos & Podcasts
 - [Network Firewall Overview - Oracle Learning Channel](https://www.youtube.com/watch?v=AlwQQQOl5qw)
     -  Step-by-step session around OCI Network Firewall with advanced features
@@ -45,6 +51,8 @@ OCI's network and application layer security controls currently have the followi
     -  Step-by-step guide around routing in Network Firewall, part 1
 - [OCI Network Firewall Routing Session - Part 2 ](https://www.youtube.com/watch?v=zZYZehAnVXw&t=0s)
     -  Step-by-step guide around routing in Network Firewall, part 2
+- [Cloud Coaching Public session](https://www.youtube.com/watch?v=AlwQQQOl5qw)
+
 
 
 

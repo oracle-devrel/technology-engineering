@@ -21,9 +21,17 @@ Remote VCN peering is the process of connecting two VCNs in different regions (b
 
 
 ### Blogs
- 
+
+- [LPG Part 1](https://blogs.oracle.com/cloud-infrastructure/post/easily-connect-isolated-networks-using-oracle-cloud-infrastructures-vcn-peering-solution-part-1--)
+- [LPG Part 2](https://blogs.oracle.com/cloud-infrastructure/post/easily-connect-isolated-networks-using-oracle-cloud-infrastructures-vcn-peering-solution-part-2)
+- [LPG inter tenancy](https://www.ateam-oracle.com/post/inter-tenancy-vcn-peering-using-remote-peering-connection)
+- [RPC 2 Regions](https://learnoci.cloud/how-to-connect-2-vcns-in-different-regions-using-remote-peering-connection-decac8b9e4de)
+
 
 ### Videos & Podcasts
+
+- [LPG video tutorial](https://www.youtube.com/watch?v=kO1UlrwffgM)
+- [RPC video tutorial](https://www.youtube.com/watch?v=2TOL5tJQ-fU)
 
 # License
 
