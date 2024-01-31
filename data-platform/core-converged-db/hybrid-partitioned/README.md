@@ -17,6 +17,8 @@ Review Date: 03.06.2024
 - [Hybrid Partitioned Tables - an introduction with examples](https://blogs.oracle.com/coretec/post/hybrid-partitioned-tables-introduction)
 - [Hybrid Partitioned Tables and Lifecycle Management](https://blogs.oracle.com/coretec/post/hybrid-partitioned-tables-and-lifecycle-management)
 - [ORAWORLD magazine article page 26-31](https://www.oraworld.org/fileadmin/documents/27-ORAWORLD.pdf)
+- [Oracle Object Storage Access for all Oracle Databases with DBMS_CLOUD](https://blogs.oracle.com/coretec/post/oracle-object-storage-access-for-all-oracle-databases-with-dbmscloud)
+- [SQL examples with DBMS_CLOUD](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/core-converged-db/dbms_cloud)
 
 ### Blogs
 
