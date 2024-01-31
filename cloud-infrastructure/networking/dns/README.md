@@ -8,7 +8,7 @@ We do have three major components around DNS: Private DNS, Public DNS, and Traff
 
 
  
-## Useful Links
+# Useful Links
 
 - [Private DNS Implementation](https://www.ateam-oracle.com/post/private-dns-implementation)
 - [Private DNS common Scenarios](https://www.ateam-oracle.com/post/oci-private-dns---common-scenarios)
@@ -16,13 +16,15 @@ We do have three major components around DNS: Private DNS, Public DNS, and Traff
 - [OCI DNS Documentation](https://www.oracle.com/cloud/networking/dns/)
 
 ## Team Publications
+- [DNS in multicloud disaster recovery architectures](#blogs)
 
 ### Reference Architectures & Step-by-step Guides
-
+- [Reference architecture for hybrid DNS high availability in OCI](https://blogs.oracle.com/cloud-infrastructure/post/oci-hybrid-dns-high-availability)
 
 ### Blogs
  
 - [DNS in multicloud disaster recovery architectures](https://blogs.oracle.com/cloud-infrastructure/post/dns-in-multicloud-disaster-recovery-architectures)
+- [Integrate on-premises, internal DNS zones with private DNS on OCI](https://blogs.oracle.com/cloud-infrastructure/post/integrate-internal-dns-lan-private-dns-oci)
 
 ### Videos & Podcasts
 

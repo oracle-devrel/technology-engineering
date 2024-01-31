@@ -21,7 +21,7 @@ The following source and destination scenarios are supported:
     OCI to internet
 
  
-## Useful Links
+# Useful Links
 
 - [Introducing NPA](https://blogs.oracle.com/cloud-infrastructure/post/introducing-oracle-cloud-network-path-analyzer)
 

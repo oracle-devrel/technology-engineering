@@ -8,14 +8,14 @@ Use Case
 
 
 
-## Useful Links
+# Useful Links
 - [OCI Fastconnect Partners](https://www.oracle.com/it/cloud/networking/fastconnect/providers/)
 - [Fastconnect troubleshooting](https://www.ateam-oracle.com/post/fastconnect-troubleshooting)
 - [Price list](https://www.oracle.com/cloud/price-list/#fastconnect)
 - [FastConnect Step by Step Interactive To Setup FastConnect Partner Mode](http://docs.hol.vmware.com/hol-isim/hol-2021/hol-isim-player.htm?isim=hol-2296-01-ism_connecting_to_on-premises_environment.json)
 - [FastConnect providers by Region](https://www.oracle.com/it/cloud/networking/fastconnect/providers/)
 
-## Team Publications
+
 
 ### Reference Architectures & Step-by-step Guides
 
@@ -25,7 +25,6 @@ Use Case
  
 
 
-## Reusable assets overview
 
  
 ### Blogs
@@ -35,6 +34,11 @@ Use Case
 
 ### Videos & Podcasts
 
+- [Megaport:Connecting to Oracle FastConnect](https://www.youtube.com/watch?v=IfmhyBrGn3M)
+- [FastConnect Level 100 - Part 1: Introduction to OCI FastConnect](https://www.youtube.com/watch?v=2inkEQRC5hY)
+- [FastConnect Level 100 - Part 2: Demo](https://www.youtube.com/watch?v=ixS2XH99Yzs)
+- [OCI Level 200 - Connectivity FastConnect Part 1](https://www.youtube.com/watch?v=nI0J4RSpCCA)
+- [OCI Level 200 - Connectivity FastConnect Part 2](https://www.youtube.com/watch?v=5SaK5W3KvS0)
 
 
 # License

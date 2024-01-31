@@ -11,7 +11,7 @@ Network Load Balancer provides the benefits of flow high availability, source an
 sssssssssssssssssssssssssssssssssssssssssssssssssssssssTeam Publications](#team-publications)
 
  
-## Useful Links
+# Useful Links
 
 - [OCI Flexible Load Balancingp](https://blogs.oracle.com/cloud-infrastructure/post/announcing-oracle-cloud-infrastructure-flexible-load-balancing)
 - [Network Load Balancer](https://blogs.oracle.com/cloud-infrastructure/post/announcing-oracle-cloud-infrastructure-flexible-network-load-balancer)
@@ -22,18 +22,20 @@ sssssssssssssssssssssssssssssssssssssssssssssssssssssssTeam Publications](#team-
 - [LBaas troubleshooting](https://www.ateam-oracle.com/post/loadbalancer-troubleshooting)
 
 
-## Team Publications
+
 
 ### Reference Architectures & Step-by-step Guides
-
+-[OCI Network Load Balancer Types, Use Cases, and Best Practices](https://www.ateam-oracle.com/post/oci-network-load-balancer-types-use-cases-and-best-practice)
 
 ### Blogs
  
-
+- [Application load balancing on Oracle Cloud Infrastructure](https://blogs.oracle.com/developers/post/application-load-balancing-on-oracle-cloud-infrastructure)
+- [Comparing OCI Load Balancers: Quickly and Easily](https://www.ateam-oracle.com/post/comparing-oci-load-balancers)
 
 ### Videos & Podcasts
 
-
+- [Oracle Cloud Infrastructure Load Balancing: Overview](https://www.youtube.com/watch?v=HaCzcFrTF-g)
+- [Deploy High Availability (HA) applications using Load Balancer in OCI](https://www.youtube.com/watch?v=bOwEwfu78Zg)
 
 # License
 
