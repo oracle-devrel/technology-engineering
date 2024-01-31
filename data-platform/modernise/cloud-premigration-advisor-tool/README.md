@@ -4,8 +4,22 @@ Cloud Premigration Advisor Tool (CPAT) helps you evaluate an existing Oracle dat
 
 A set of best practices and other useful assets/links can be found on this page.
 
-Reviewed: 03.11.2023
+Reviewed: 31.01.2024
+
+# Table of Contents
  
+1. [Team Publications](#team-publications)
+2. [Useful Links](#useful-links)
+ 
+# Team Publications
+ 
+- [Cloud Premigration Advisor Tool - Part 1 - Overview ](https://youtu.be/sji8ZhvQn-w?feature=shared)
+    - Youtube video covering overview of CPAT including installation and Usage.
+- [Cloud Premigration Advisor Tool - Part 2 - Demo ](https://youtu.be/iDwgC7b_vA4?feature=shared)
+    - Youtube video showcasing CPAT demo using independent Java command line tool and also SQL command line (SQLcl).
+- [Cloud Premigration Advisor Tool - Part 3 - CPAT report review and Best Practices ](https://youtu.be/YYDPey-NYE8?feature=shared)
+    - YouTube video explaining how to review the CPAT ouptut and also Best Practices.
+
 # Useful Links
 - [Oracle Support Document 2758371.1 (Cloud Premigration Advisor Tool (CPAT) Analyzes Databases for Suitability of Cloud Migration)](https://support.oracle.com/epmos/faces/DocumentDisplay?id=2758371.1)
     - Comprehensive Oracle Support note around CPAT
