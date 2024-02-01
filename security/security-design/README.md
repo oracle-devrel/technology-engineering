@@ -1,5 +1,7 @@
 # Security Design
 
+The Cloud Security Design Advisory team is covering end-to-end OCI security topics depending on customers needs and requirements.
+We are working closely with OCI Domain Specialists (networking, infrastructure security, data management and observability), in order to provide to the customer the best deep dive expertise, both on Cloud Security and Cloud Solutions.
 
 
 Reviewed: 01.02.2024
@@ -47,7 +49,12 @@ Reviewed: 01.02.2024
 - [Oracle Security](https://www.oracle.com/security/)
     - Protect your most valuable data in the cloud and on-premises with Oracle’s security-first approach. Oracle has decades of experience securing data and applications; Oracle Cloud Infrastructure delivers a more secure cloud to our customers, building trust and protecting their most valuable data.
  - [Oracle Cloud Compliance](https://www.oracle.com/corporate/cloud-compliance/)
-     - Oracle is committed to helping customers operate globally in a fast-changing business environment and address the challenges of an ever more complex regulatory environment. 
+     - Oracle is committed to helping customers operate globally in a fast-changing business environment and address the challenges of an ever more complex regulatory environment.
+ - [Security in OCI - OCI Best Practices for security adoption](https://www.oracle.com/cloud/oci-best-practices-guide/#security-on-oci)
+ - [Security Checklist for OCI](https://docs.oracle.com/en/solutions/oci-security-checklist/#GUID-D27BD123-8CFB-49A4-84AF-3546022638CE)
+ - [Zero Trust Security Model](https://www.oracle.com/security/what-is-zero-trust/)
+ - [Cloud Security Documentation](https://docs.oracle.com/en-us/iaas/Content/Security/Concepts/security.htm#Security_Guide_and_Announcements)
+ - [OCI Architecture Center](https://www.oracle.com/uk/cloud/architecture-center/)
 
 # License
 
