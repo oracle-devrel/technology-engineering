@@ -1,4 +1,5 @@
 # Oracle Cloud Isolated Region
+
 Oracle Cloud Isolated Region is a secure, air-gapped Oracle Cloud Infrastructure (OCI) solution designed to meet the higher demands of global customers’ mission-critical classified workloads.
 
 Reviewed: 31.01.2024
@@ -15,7 +16,7 @@ Reviewed: 31.01.2024
 - [OCIR Overview](https://www.oracle.com/government/govcloud/isolated/)
     - This page provides an overview of the Oracle Cloud Isolated Region
 
-- OCIR DataSheet](https://www.oracle.com/a/ocom/docs/cloud/oracle-cloud-isolated-region-datasheet.pdf)
+- [OCIR DataSheet](https://www.oracle.com/a/ocom/docs/cloud/oracle-cloud-isolated-region-datasheet.pdf)
     - This document provides details about Oracle Cloud Isolated Region
 
 - [OCIR FAQs](https://www.oracle.com/government/govcloud/isolated/faq/)
