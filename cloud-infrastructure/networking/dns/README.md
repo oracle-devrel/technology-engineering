@@ -14,6 +14,7 @@ We do have three major components around DNS: Private DNS, Public DNS, and Traff
 - [Private DNS common Scenarios](https://www.ateam-oracle.com/post/oci-private-dns---common-scenarios)
 - [Hands-on Training](https://oracle.github.io/learning-library/oci-library/oci-hol/oci-private-dns/workshops/freetier/?lab=intro)
 - [OCI DNS Documentation](https://www.oracle.com/cloud/networking/dns/)
+- [OCI DNS now supports slave servers, or secondary servers](https://docs.oracle.com/en-us/iaas/releasenotes/changes/d2d17c2d-500b-4edb-b16d-d65363e56a48/)
 
 ## Team Publications
 - [DNS in multicloud disaster recovery architectures](#blogs)

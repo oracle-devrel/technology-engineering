@@ -13,15 +13,13 @@ sssssssssssssssssssssssssssssssssssssssssssssssssssssssTeam Publications](#team-
  
 # Useful Links
 
-- [OCI Flexible Load Balancingp](https://blogs.oracle.com/cloud-infrastructure/post/announcing-oracle-cloud-infrastructure-flexible-load-balancing)
-- [Network Load Balancer](https://blogs.oracle.com/cloud-infrastructure/post/announcing-oracle-cloud-infrastructure-flexible-network-load-balancer)
 - [NLB Vs LBaas](https://www.ateam-oracle.com/post/comparing-oci-load-balancers)
 - [LBaas Video Tutorial](https://www.youtube.com/watch?v=88wIK_zZVzw)
 - [LBaas Autoscaling Video](https://www.youtube.com/watch?v=2A9tq3rDkVM)
 - [LBaaS and SSL configuration](https://www.youtube.com/watch?v=8VzFO-kPGDI)
 - [LBaas troubleshooting](https://www.ateam-oracle.com/post/loadbalancer-troubleshooting)
-
-
+- [Comparison LBs](https://www.ateam-oracle.com/post/comparing-oci-load-balancers)
+- [FAQ](https://www.oracle.com/cloud/networking/load-balancing/faq/)
 
 
 ### Reference Architectures & Step-by-step Guides
@@ -29,13 +27,19 @@ sssssssssssssssssssssssssssssssssssssssssssssssssssssssTeam Publications](#team-
 
 ### Blogs
  
+- [Announcing Oracle Cloud Infrastructure Flexible Load Balancing](https://blogs.oracle.com/cloud-infrastructure/post/announcing-oracle-cloud-infrastructure-flexible-load-balancing)
 - [Application load balancing on Oracle Cloud Infrastructure](https://blogs.oracle.com/developers/post/application-load-balancing-on-oracle-cloud-infrastructure)
 - [Comparing OCI Load Balancers: Quickly and Easily](https://www.ateam-oracle.com/post/comparing-oci-load-balancers)
+- [Configure Oracle Cloud Infrastructure (OCI) Network Load Balancer for Oracle Analytics Server on Oracle Cloud Marketplace](https://blogs.oracle.com/analytics/post/configure-oracle-cloud-infrastructure-oci-network-load-balancer-for-oracle-analytics-server-on-oracle-cloud-marketplace)
 
 ### Videos & Podcasts
 
 - [Oracle Cloud Infrastructure Load Balancing: Overview](https://www.youtube.com/watch?v=HaCzcFrTF-g)
 - [Deploy High Availability (HA) applications using Load Balancer in OCI](https://www.youtube.com/watch?v=bOwEwfu78Zg)
+- [Tutorial](https://www.youtube.com/watch?v=88wIK_zZVzw)
+- [AutoScaling Tutorial](https://www.youtube.com/watch?v=2A9tq3rDkVM)
+- [LBaaS and SSL Management](https://www.youtube.com/watch?v=8VzFO-kPGDI)
+
 
 # License
 

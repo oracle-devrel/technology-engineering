@@ -8,8 +8,6 @@ OCI's network and application layer security controls currently have the followi
     Advanced Network Firewall Features
 
 
-
-
  
 # Useful Links
 

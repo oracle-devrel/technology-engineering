@@ -23,13 +23,9 @@ Use Case
  - [FastConnect Full Video for Partner Mode, Colo and 3rd Parties, part 1](https://www.youtube.com/watch?v=nI0J4RSpCCA)
  - [FastConnect Full Video for Partner Mode, Colo and 3rd Parties, part 2](https://www.youtube.com/watch?v=nI0J4RSpCCA)
  
-
-
-
  
 ### Blogs
  - [OCI Fastconnect integration with COLT](https://blogs.oracle.com/cloud-infrastructure/post/oracle-cloud-infrastructure-fastconnect-integration-with-colt) 
-
 
 
 ### Videos & Podcasts
