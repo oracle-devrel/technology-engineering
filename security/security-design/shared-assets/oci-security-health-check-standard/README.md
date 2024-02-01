@@ -4,7 +4,7 @@ Owner: Olaf Heimburger
 
 Version: 230922
 
-## Introduction
+# Introduction
 ![Flyer](./files/resources/OCI_Security_Health_Check_Standard.png)
 
 [Download the flyer](./files/resources/OCI%20Security%20Health%20Check%20-%20Standard%20-%20Flyer.pdf)
