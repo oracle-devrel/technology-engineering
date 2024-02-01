@@ -11,7 +11,9 @@ Oracle Functions is a serverless, highly scalable, fully managed Functions-as-a-
 This Reference Architecture describes OCI Logging based solution for collecting Oracle Datasafe Oracle DB Audit Logs for continuous monitoring and troubleshooting. An OCI Function pulls audit logs from Data Safe REST API Endpoints regularly and ingest them in OCI Logging. 
 From OCI Logging Data Safe DB Audit Logs, can be send to OCI Logging Analytics, external SIEM and OCI Object Storage. See [Design Guidance for SIEM Integration](https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/siem-integration.htm)
 
-## Prerequisites
+Reviewed: 01.02.2024
+
+# Prerequisites
 
 - Configure Data Safe to get Database Audit Events from Oracle DataBase.
 
@@ -25,7 +27,7 @@ From OCI Logging Data Safe DB Audit Logs, can be send to OCI Logging Analytics, 
 
 If you don't have the required permissions and quota, contact your tenancy administrator. See [Policy Reference](https://docs.cloud.oracle.com/en-us/iaas/Content/Identity/Reference/policyreference.htm), [Service Limits](https://docs.cloud.oracle.com/en-us/iaas/Content/General/Concepts/servicelimits.htm), [Compartment Quotas](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcequotas.htm).
 
-## Deploy Using Oracle Resource Manager
+# Deploy Using Oracle Resource Manager
 
 1. Click [![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?region=home&zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/fn-datasafe-to-oci-logging/fn-datasafe-dbaudit-to-oci-logging.zip)
 
@@ -47,14 +49,14 @@ If you don't have the required permissions and quota, contact your tenancy admin
 
 ## Deploy Using the Terraform CLI
 
-### Clone the Module
+## Clone the Module
 Now, you'll want a local copy of this repo. You can make that with the commands:
 
     git clone https://github.com/oracle-devrel/technology-engineering.git
     cd security/security-design/fn-datasafe-dbaudit-to-oci-logging
     ls
 
-### Prerequisites
+## Prerequisites
 First off, you'll need to do some pre-deploy setup for Docker and Fn Project inside your machine:
 
 ```
@@ -84,7 +86,7 @@ curl -LSs https://raw.githubusercontent.com/fnproject/cli/master/install | sh
 Also, please follow this [note](https://docs.oracle.com/en-us/iaas/Content/Functions/Tasks/functionsinstalldocker.htm#Install_Docker_for_Use_with_Oracle_Functions__section_podman_instead_of_docker). By default, Fn Project (and by extension, OCI Functions) assumes the use of Docker to build and deploy function images. However, Fn Project also supports Podman as an alternative to Docker. When using Fn Project CLI version 0.6.12 and above, you can set a configuration setting to specify that you want to use Podman instead of Docker. 
 
 
-### Set Up and Configure Terraform
+## Set Up and Configure Terraform
 
 1. Complete the prerequisites described [here](https://github.com/cloud-partners/oci-prerequisites).   
 
@@ -114,31 +116,31 @@ deployment_name="<deployment name>"
 
 Please note that the `terraform.tfvars` file will include sensitive information and needs to be protected from unauthorized usage.
 
-### Create the Resources
+## Create the Resources
 Run the following commands:
 
     terraform init
     terraform plan
     terraform apply
 
-### Test the stack 
+## Test the stack 
 
 You can test the stack by login/logout in the DB already integrated with Data Safe that generates DB audit log. The function will load the logs in 1 minutes and you can see it in Logging Console.
 In Logging Console will be present a new Log Group (ex. loggr-test-eu-milan-1-fn_ds_to_ol-d54e) and relative 2 logs:
 - Log with data from Data Safe: Log Type Custom (example log name: log-test-eu-milan-1-fn_ds_to_ol-d54e)
 - Log execution function: Log Type Service (example log name: fn-datasafe-dbaudit-test-eu-milan-1-fn_ds_to_ol-d54e)
 
-### Destroy the Deployment
+## Destroy the Deployment
 When you no longer need the deployment, you can run this command to destroy the resources:
 
     terraform destroy
 
 If there is error in destroying the object storage bucket, manually delete the bucket and run "terraform destroy" again.
 
-### Test Environment
+## Test Environment
 We tested the terraform script in [Oracle Linux Cloud Developer Image](https://docs.oracle.com/en-us/iaas/oracle-linux/developer/index.htm) and Oracle Resource Manager. 
 
-### Architecture Diagram
+## Architecture Diagram
 ![](./images/DatasafetoOCILoggingArchitecture.jpg)
 
 # License
