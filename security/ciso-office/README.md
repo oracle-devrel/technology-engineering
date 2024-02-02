@@ -1,13 +1,14 @@
 # Field CISO Specialists
 
-The Field CISO Specialists team is repsonsible to build trusted relationships with customer CISO and IT Security team to help build, define and review their cybersecurity strategy to align with their business objectives. In addition, the team also advises on OCI Security first design principles and how shared security management model can help them achieve security posture management to improve security resilience.  Key responsibliies not limited to below
+The Field CISO Specialists team is responsible for building trusted relationships with customer CISO and IT Security team to help build, define, and review their cybersecurity strategy to align with their business objectives. In addition, the team also advises on OCI Security's first design principles and how the shared security management model can help them achieve security posture management to improve security resilience.  Key responsibilities not limited to the below
 
 - Executive Influence - Build Trusted Relationship
 - Avoid Business risk with Cybersecurity management
 - Embrace Zero Trust
 - Reduce risk, Incident response, Resiliency and Optimize costs
-- Adopt OCI to meet their compliance needs with securely build and operated workloads
+- Adopt OCI to meet their compliance needs with securely built and operated workloads
 
+Reviewed: 02.02.2024
 
 # Table of Contents
  
@@ -29,10 +30,10 @@ The Field CISO Specialists team is repsonsible to build trusted relationships wi
     - This blog post looks at Sign-on policies and how users are challenged to authenticate.
 
 - [A huge step forward for Security Zones in Oracle Cloud Infrastructure](https://blogs.oracle.com/cloudsecurity/post/a-huge-step-forward-for-security-zones-in-oci)
-    - This blog post will examine changes to customise security recipe for a security zone and help you to understand the benefits that the new approach has.
+    - This blog post will examine changes to customize a security recipe for a security zone and help you understand the benefits that the new approach has.
 
 - [Native Cloud Security Services or Heterogeneous Tools?](https://blogs.oracle.com/cloudsecurity/post/native-cloud-security-services-or-heterogeneous-tools)
-    - This blog post examines the common question of Should you use existing security tools, which can monitor all your different cloud environments, not just OCI, or should you use OCI-native security services?
+    - This blog post examines the common question of whether should you use existing security tools, which can monitor all your different cloud environments, not just OCI, or should you use OCI-native security services.
  
 ## Cloud Coaching Webinars
 
@@ -52,16 +53,16 @@ The Field CISO Specialists team is repsonsible to build trusted relationships wi
     - In this third episode, we will cover: Oracle’s approach to security within OCI and Adopting a zero-trust security model as recommended by industry compliance standards 
     
 - [Oracle Espresso - Be More Resilient Against Ransomware Attacks](https://go.oracle.com/LP=114881?elqCampaignId=312068#On-Demand-Webinars)
-  - The webinar adresses a number of design architectures, best practices, automation tooling, and services for your inspiration and consideration. Let us show you how to become more resilient in a systematic and consistent way.
+  - The webinar addresses a number of design architectures, best practices, automation tooling, and services for your inspiration and consideration. Let us show you how to become more resilient in a systematic and consistent way.
 - [Cybersecurity First: why Security is better in the cloud](https://go.oracle.com/LP=122806?)
    - Join us to hear from Oracle Security expert, how your solutions could benefit from OCI built-in security. 
 - [OCI Tech Talk - OCI Strategy Update and Security Deep Dive](https://videohub.oracle.com/media/t/1_s6juw6by)
-    - Watch this webinar as the Oracle experts will briefly go through some of the latest updates of OCI, before going in depth into the security topic. Oracle believes security should be foundational and built-in, and customers shouldn’t be forced to make tradeoffs between security and cost.
+    - Watch this webinar as the Oracle experts will briefly go through some of the latest updates of OCI, before going in-depth into the security topic. Oracle believes security should be foundational and built-in, and customers shouldn’t be forced to make tradeoffs between security and cost.
       
  ## Oracle Live Labs
 
 - [Security workshop for ORDS Deployment](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/run-workshop?p210_wid=3338&p210_wec=&session=107996902425576)
-    - This hands-on workshop lab will help you understand how to setup a standalone ORDS (Oracle REST Data Services) server on OCI in a secure way, protecting all the resources involved through bastion services, private end-point ADB-S database, API Gateway and monitoring with Oracle Data Safe.
+    - This hands-on workshop lab will help you understand how to set up a standalone ORDS (Oracle REST Data Services) server on OCI in a secure way, protecting all the resources involved through bastion services, private end-point ADB-S database, API Gateway, and monitoring with Oracle Data Safe.
 
 # Useful Links
  
