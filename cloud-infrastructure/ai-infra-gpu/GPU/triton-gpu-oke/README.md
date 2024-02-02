@@ -4,11 +4,11 @@ This repository intends to demonstrate how to deploy NVIDIA Triton Inference Ser
 
 # Pre-requisites
 
-You have access to an Oracle Cloud Tenancy.
-You have access to shapes with NVIDIA GPU such as A10 GPU's (i.e VM.GPU.A10.1).
-You have a [container registry](https://docs.oracle.com/en-us/iaas/Content/Registry/home.htm).
-You have an [Auth Token](https://docs.oracle.com/en-us/iaas/Content/Registry/Tasks/registrypushingimagesusingthedockercli.htm#Pushing_Images_Using_the_Docker_CLI) to push/pull images to/from the registry.
-You are familiar with Kubernetes and Helm basic terminology.
+* You have access to an Oracle Cloud Tenancy.
+* You have access to shapes with NVIDIA GPU such as A10 GPU's (i.e VM.GPU.A10.1).
+* You have a [container registry](https://docs.oracle.com/en-us/iaas/Content/Registry/home.htm).
+* You have an [Auth Token](https://docs.oracle.com/en-us/iaas/Content/Registry/Tasks/registrypushingimagesusingthedockercli.htm#Pushing_Images_Using_the_Docker_CLI) to push/pull images to/from the registry.
+* You are familiar with Kubernetes and Helm basic terminology.
 
 # Walkthrough
 
@@ -215,7 +215,7 @@ sudo docker push <region-key>.ocir.io/<tenancy-namespace>/triton_llm:triton_trt_
 
 Here is the target architecture at the end of the deployment:
 
-[Architecture Diagram](architecture-diagram.png)
+![Architecture Diagram](architecture-diagram.png)
 
 At this stage, your container is ready and uploaded to your Oracle Registry. It is now time to bring everything together in Oracle Kubernetes Engines (OKE)
 
@@ -367,9 +367,9 @@ $ oci os bucket delete --bucket-name triton-inference-server-repository --empty
 
 Resources:
 
-[TensorRT-LLM Backend on Triton official repo](https://github.com/triton-inference-server/tensorrtllm_backend)
-[NCG page with all version of NVIDIA Triton Inference Server](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/tritonserver/tags)
-[LLaMA Example](https://github.com/NVIDIA/TensorRT-LLM/tree/e06f537e08f792fd52e6fef7bbc7b54774492503/examples/llama)
-[Triton deployment on Cloud Provider](https://github.com/triton-inference-server/server/tree/main/deploy)
+* [TensorRT-LLM Backend on Triton official repo](https://github.com/triton-inference-server/tensorrtllm_backend)
+* [NCG page with all version of NVIDIA Triton Inference Server](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/tritonserver/tags)
+* [LLaMA Example](https://github.com/NVIDIA/TensorRT-LLM/tree/e06f537e08f792fd52e6fef7bbc7b54774492503/examples/llama)
+* [Triton deployment on Cloud Provider](https://github.com/triton-inference-server/server/tree/main/deploy)
 
 
