@@ -23,6 +23,8 @@ The first set of samples will provide REST Data Sources for the OCI Document Und
     - Document AI helps customers perform various analysis on their documents.
 - [Oracle Documentation - Vision API](https://docs.oracle.com/en-us/iaas/api/#/en/vision/20220125/)
     - Vision AI allows customers to detect and classify objects in uploaded images.
+- [Blog: Empowering Search with OCI Vision in Oracle APEX](https://blogs.oracle.com/apex/post/empowering-search-with-oci-vision-in-oracle-apex)
+- [Blog: Building Innovative Q&A Experiences: Oracle APEX Meets OCI Generative AI](https://blogs.oracle.com/apex/post/building-innovative-qa-experiences-oracle-apex-meets-oci-generative-ai)
 
 # Reusable Assets Overview
 - [Sample REST Data Catalog](./sample-rest-catalog)
