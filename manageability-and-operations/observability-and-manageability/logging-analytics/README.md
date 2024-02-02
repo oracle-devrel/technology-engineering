@@ -24,6 +24,7 @@ Reviewed: 16.11.2023
 - [How to collect Windows event logs in Logging Analytics](https://karthicin.medium.com/how-to-collect-windows-event-logs-in-logging-analytics-3a4f3ec8dc95)
 - [Oracle APEX Monitor](https://github.com/oracle-quickstart/oci-o11y-solutions/tree/main/knowlege-content/oracle-database/APEX)
 - [OCI MySQL database log collection using Logging Analytics](https://karthicin.medium.com/oci-mysql-database-log-collection-using-logging-analytics-b521441ba06b)
+- [How to Measure Raw Byte Size of Stored Logs in OCI Logging Analytics](https://medium.com/@michtoeth/how-to-measure-raw-byte-size-of-stored-logs-in-oci-logging-analytics-3f5387506c07)
 
 # Useful Links
 
