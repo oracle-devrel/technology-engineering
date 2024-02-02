@@ -1,6 +1,6 @@
 # Security
 
-The Technology Engineering Security Specialists team provides end-end Oracle security specialists coverage through Field CISO,Security Design and IAM sub-areas. Our specialists work closely with Infra Security and Data Security specialists with a mission to transform the IT landscape of strategic customers into a secure, compliant, resilient, and successful workload deployment by evangelizing and applying Oracle’s leading security best practices and services.
+The Technology Engineering Security Specialists team provides end-end Oracle security specialists coverage through Field CISO, Security Design, and IAM sub-areas. Our specialists work closely with Infra Security and Data Security specialists with a mission to transform the IT landscape of strategic customers into a secure, compliant, resilient, and successful workload deployment by evangelizing and applying Oracle’s leading security best practices and services.
 
 Reviewed: 01.02.2024
 
@@ -19,13 +19,13 @@ Reviewed: 01.02.2024
 ## Oracle Blogs
 
 - [Zero Trust Security - Not a buzz word; but elixir of Cyber Security?](https://blogs.oracle.com/cloudsecurity/post/zero-trust-security-elixir-of-cyber-security)
-    - We hear very frequently of our customers’ plans to adopt zero trust model to improve their overall approach to cyber security. Read this blog to understand how Oracle Cloud Infrastructure (OCI) can help accelerate your Zero Trust Security journey.
+    - We hear very frequently of our customers’ plans to adopt a zero-trust model to improve their overall approach to cyber security. Read this blog to understand how Oracle Cloud Infrastructure (OCI) can help accelerate your Zero Trust Security journey.
 
       
 ## Cloud Coaching Webinars
 
 -  [Oracle's Approach To Cloud Security](https://community.oracle.com/customerconnect/events/604931-oci-oracles-approach-to-cloud-security)
-     - Refer to this webinar from our Field CISO Speciailsts to understand about what is Oracle's approach to Cloud Security and how the security pillar focuses on protecting users, safeguarding data, and meeting regulatory and compliance requirements.
+     - Refer to this webinar from our Field CISO Specialists to understand about what is Oracle's approach to Cloud Security and how the security pillar focuses on protecting users, safeguarding data, and meeting regulatory and compliance requirements.
      
 # Useful Links
  
