@@ -1,7 +1,7 @@
 # Security Design
 
-The Cloud Security Design Advisory team is covering end-to-end OCI security topics depending on customers needs and requirements.
-We are working closely with OCI Domain Specialists (networking, infrastructure security, data management and observability), in order to provide to the customer the best deep dive expertise, both on Cloud Security and Cloud Solutions.
+The Cloud Security Design Advisory team is covering end-to-end OCI security topics depending on customers' needs and requirements.
+We are working closely with OCI Domain Specialists (networking, infrastructure security, data management, and observability), to provide the customer the best deep dive expertise, both on Cloud Security and Cloud Solutions.
 
 
 Reviewed: 01.02.2024
