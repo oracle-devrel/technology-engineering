@@ -6,7 +6,7 @@ Reviewed: 01.02.2024
 
 # When to use this asset?
 
-Use this shell script if you want to make use of OCI Bastions in a simple and secure way.
+Use this shell script if you want to make use of OCI Bastions simply and securely.
 
 # How to use this asset?
 
@@ -38,9 +38,9 @@ Example:
 | -p, --profile TEXT              | The OCI profile in the config file to load. [default: DEFAULT]|
 | -s, --session TEXT              | The Bastion session name. [default: Bastion-Session]|
 | -t, --ttl INTEGER               | The Bastion session time-to-live in seconds, minimum 1800, maximum 10800. [default: 10800]|
-| -d, --destination-ip IP         | The destination IP Address to be used for Bastion session. [default: the first private ip address of instance]|
-| -e, --destination-port INTEGER  | The destination port to be used for Port Forwarding session. [default: 22]|
-| -l, --local-port INTEGER        | The local port to be used for Port Forwarding session. [defaults to same value as destination port]|
+| -d, --destination-ip IP         | The destination IP Address to be used for the Bastion session. [default: the first private ip address of instance]|
+| -e, --destination-port INTEGER  | The destination port to be used for the Port Forwarding session. [default: 22]|
+| -l, --local-port INTEGER        | The local port to be used for the Port Forwarding session. [defaults to same value as destination port]|
 | -a, --key-alg TEXT              | The algorithm for the SSH key (ssh-keygen) to be used. [default: rsa]|
 | -k, --key-size INTEGER          | The key size for the SSH key (ssh-keygen) to be used. [default: 4096]|
 | -pr, --private-key TEXT         | The private key file to be used when not generating a temporary key pair. [by default not used]|
@@ -51,7 +51,7 @@ Prerequisites:
 
 - The OCI CLI must be installed and configured.
   (See also [https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/cliinstall.htm](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/cliinstall.htm))
-- The jq commandline JSON processer must be installed.
+- The jq command-line JSON processer must be installed.
   (See also [https://stedolan.github.io/jq](https://stedolan.github.io/jq))
 
 # License
