@@ -1,8 +1,13 @@
 # Table of Contents
  
-1. [Team Publications](#team-publications)
-3. [Reusable Assets Overview](#reusable-assets-overview)
-2. [Useful Links](#useful-links)
+- [Table of Contents](#table-of-contents)
+  - [Team Publications](#team-publications)
+    - [Oracle Blogs](#oracle-blogs)
+    - [OCI Architecture Center](#oci-architecture-center)
+    - [Cloud Coaching Webinars](#cloud-coaching-webinars)
+  - [Reusable Assets Overview](#reusable-assets-overview)
+  - [Useful Links](#useful-links)
+- [License](#license)
    
 ## Team Publications
  
@@ -44,7 +49,7 @@
 
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2023-2024 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
