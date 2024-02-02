@@ -33,6 +33,9 @@ Oracle Cloud provides a set of data management services built on self-driving Or
  
 - [Disaster Recovery with Autonomous Data Guard Serverless](https://www.youtube.com/watch?v=h4wkXh7dWe4)
     - The disaster Recovery solution for the Autonomous Database Serverless (RTO/RPO, local and remote cross-region, etc).
+      
+- [How to create Autonomous Database Notifications in Slack](https://blogs.oracle.com/datawarehousing/post/how-to-create-autonomous-database-notifications-in-slack)
+    - Step-by-step blog article explaining how to send an alert message, triggered by an Autonomous Database event, into a slack channel using a webhook link.
    
 # Useful Links
  
