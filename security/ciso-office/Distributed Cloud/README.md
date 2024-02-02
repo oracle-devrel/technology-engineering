@@ -2,9 +2,9 @@
 
 OCI’s distributed cloud provides customers with the flexibility to choose where and how cloud services are delivered to meet their regulatory, performance, and other needs. Our distributed cloud offerings deliver the full functionality and superior economics of Oracle’s public cloud to customer data centers and edge locations, with a range of deployment models and operational controls.
 
-Field CISO specialists team offers advisory services to engage with customer CISO and C-level executives to align their business objectives to suitable Distributed Cloud options.
+The field CISO specialists team offers advisory services to engage with customer CISO and C-level executives to align their business objectives to suitable Distributed Cloud options.
 
-
+Reviewed: 02.02.2024
 
 # Useful Links
  
