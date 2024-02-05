@@ -4,22 +4,24 @@ Owner: Olaf Heimburger
 
 Version: 230922
 
-## Introduction
+Reviewed: 01.02.2024
+
+# Introduction
 ![Flyer](./files/resources/OCI_Security_Health_Check_Standard.png)
 
 [Download the flyer](./files/resources/OCI%20Security%20Health%20Check%20-%20Standard%20-%20Flyer.pdf)
 
-### When to use this asset?
+## When to use this asset?
 
 The *OCI Security Health Check - Standard Edition* checks an OCI tenancy for [CIS Oracle Cloud Infrastructure Foundations Benchmark](https://www.cisecurity.org/benchmark/Oracle_Cloud) compliance.
 
-### Complete Runtime Example
+## Complete Runtime Example
 
 See the *OCI Security Health Check - Standard Edition* in action and watch the [OCI Health Checks - Self Service video](https://www.youtube.com/watch?v=EzjKLxfxaAM).
 
-## Getting Started with the *OCI Security Health Check - Standard Edition*
+# Getting Started with the *OCI Security Health Check - Standard Edition*
 
-### Download and verify the release file
+## Download and verify the release file
 
 Before running the *OCI Security Health Check - Standard Edition* you should download and verify it.
 
@@ -45,9 +47,9 @@ Before running the *OCI Security Health Check - Standard Edition* you should dow
 
 **Reject the downloaded file if the check fails!**
 
-### Prepare the OCI Tenancy
+## Prepare the OCI Tenancy
 
-#### Single Run
+### Single Run
 
 You can run the assessment as a member of the OCI `Administrator` group or
 create a group for auditing and assign the respective user to it.
@@ -56,11 +58,11 @@ Running the assessment script as an OCI `Administrator` is the easiest and
 quickest way. If you decide to use this option, please continue reading in
 [Run the OCI Security Health Check in Cloud Shell](files/oci-security-health-check-standard/README.md#run-the-oci-security-health-check-in-cloud-shell).
 
-#### Recurring usage
+### Recurring usage
 
 For recurring usage, setting up a group for auditing is recommended. For setting this up follow the steps documented next.
 
-#### Setting up an *Auditor* group and policy
+### Setting up an *Auditor* group and policy
 
 Using an auditor group is the recommended way to run the assessment script.
 To create a group for auditing do the following steps:
@@ -88,7 +90,7 @@ To create a group for auditing do the following steps:
   - Assign a user to the `grp-auditors` group
   - Log out of the OCI Console
 
-## Credits
+# Credits
 
 The *OCI Security Health Check - Standard Edition* streamlines the usage of the bundled [Compliance Checking Script](https://github.com/oracle-quickstart/oci-cis-landingzone-quickstart/blob/main/compliance-script.md) provided by the [CIS OCI Landing Zone Quick Start Template](https://github.com/oracle-quickstart/oci-cis-landingzone-quickstart).
 
