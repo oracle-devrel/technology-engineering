@@ -2,10 +2,11 @@
 
 Oracle Unified Directory is part of Oracle's comprehensive directory solution offering for robust identity management deployments. Enable enterprise directory scalability with an all-in-one solution that provides the services required for high performance and massive scale.
 
+Reviewed: 31.01.2024
 
-Review Date: 31.01.2024
+# Useful Links
 
-# General Product Links
+## General Product Links
 
 - [Oracle Directory Services  Product Page](https://www.oracle.com/in/security/identity-management/directory-services/)
     - Official page for Directory Services
