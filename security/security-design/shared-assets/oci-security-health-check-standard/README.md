@@ -2,7 +2,7 @@
 
 Owner: Olaf Heimburger
 
-Version: 230922
+Version: 240130
 
 Reviewed: 01.02.2024
 
@@ -67,28 +67,37 @@ For recurring usage, setting up a group for auditing is recommended. For setting
 Using an auditor group is the recommended way to run the assessment script.
 To create a group for auditing do the following steps:
 
-  - Log into OCI Console as OCI administrator
-  - Create a group `grp-auditors`
-  - Create a policy `pcy-auditing` with these statements:
+  - Log into OCI Console as OCI administrator.
+  - In your Default domain create a group `grp-auditors`
+  - Create a policy `pcy-auditing` with these statements (if your tenancy does not have Domains, replace `'Default'/'grp-auditors'` with `grp-auditors`):
     ```
-    allow group grp-auditors to inspect all-resources in tenancy
-    allow group grp-auditors to read instances in tenancy
-    allow group grp-auditors to read load-balancers in tenancy
-    allow group grp-auditors to read buckets in tenancy
-    allow group grp-auditors to read nat-gateways in tenancy
-    allow group grp-auditors to read public-ips in tenancy
-    allow group grp-auditors to read file-family in tenancy
-    allow group grp-auditors to read instance-configurations in tenancy
-    allow group grp-auditors to read network-security-groups in tenancy
-    allow group grp-auditors to read resource-availability in tenancy
-    allow group grp-auditors to read audit-events in tenancy
-    allow group grp-auditors to read users in tenancy
-    allow group grp-auditors to read vss-family in tenancy
-    allow group grp-auditors to read dns in tenancy
-    allow group grp-auditors to use cloud-shell in tenancy
-    ```
-  - Assign a user to the `grp-auditors` group
-  - Log out of the OCI Console
+      allow group 'Default'/'grp-auditors' to inspect all-resources in tenancy
+      allow group 'Default'/'grp-auditors' to read instances in tenancy
+      allow group 'Default'/'grp-auditors' to read load-balancers in tenancy
+      allow group 'Default'/'grp-auditors' to read buckets in tenancy
+      allow group 'Default'/'grp-auditors' to read nat-gateways in tenancy
+      allow group 'Default'/'grp-auditors' to read public-ips in tenancy
+      allow group 'Default'/'grp-auditors' to read file-family in tenancy
+      allow group 'Default'/'grp-auditors' to read instance-configurations in tenancy
+      allow group 'Default'/'grp-auditors' to read network-security-groups in tenancy
+      allow group 'Default'/'grp-auditors' to read resource-availability in tenancy
+      allow group 'Default'/'grp-auditors' to read audit-events in tenancy
+      allow group 'Default'/'grp-auditors' to read users in tenancy
+      allow group 'Default'/'grp-auditors' to read vss-family in tenancy
+      allow group 'Default'/'grp-auditors' to read dns in tenancy
+      allow group 'Default'/'grp-auditors' to use cloud-shell in tenancy    ```
+  - Assign a user to the `grp-auditors` group.
+  - Log out of the OCI Console.
+
+## Run the OCI Security Health Check in OCI Cloud Shell
+
+For a detailed description go to [Run the OCI Security Health Check in OCI Cloud Shell](https://github.com/oracle-devrel/technology-engineering/blob/main/security/security-design/oci-security-health-check-standard/files/oci-security-health-check-standard/README.md#run-the-oci-security-health-check-in-cloud-shell)
+
+## Sample Output
+
+After a completed run you will find a directory with a name starting with your tenancy name followed by a timestamp in your working directory (like `tenancy_name_YYYYMMDDHHmmss_standard`). A zip archive for easier download using the same name will be created, too. Both hold data files for your review.
+
+To start with reviewing the results, open the file named [cis_html_summary_report.html](files/resources/cis_html_summary_report.html)(sample report).
 
 # Credits
 
