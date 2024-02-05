@@ -1,5 +1,5 @@
 # Integrating with OCI Cloud Services
-Reviewed: "17.11.2023"
+Reviewed: "05.02.2024"
 
 REST APIs are used to integrate with OCI Cloud Services from APEX. however there are other topics to be considered or
 options outside of REST APIs.
@@ -29,7 +29,10 @@ This section will highlight other integration considerations, posts and useful p
 - [Blog: Use Oracle Analytics Cloud as an APEX Print Server](https://blogs.oracle.com/apex/post/apex-202-report-printing-use-oracle-analytics-cloud-as-a-print-server)
 - [Blog: How to Pass Values from Embedded Oracle Analytics to Oracle APEX](https://medium.com/oracledevs/how-to-pass-values-from-embedded-oracle-analytics-to-oracle-apex-8d71b6aea00c)
     - [Youtube Video: OAC Events APEX v1](https://youtu.be/-yIN3cMQTP0)
+- [Blog: Oracle Analytics — Troubleshooting Embedded Content](https://insight2action.medium.com/oracle-analytics-troubleshooting-embedded-content-20eccbc84f6c)
+    - See the above if embedded content does not show, only a blank screen or there an AJAX Bootstrap exception
 - [Learn: Configure Sign-on Policies for Oracle Analytics Cloud and APEX Apps on OCI](https://docs.oracle.com/en/learn/sign-on-policies-for-oac-and-apex-apps/index.html#introduction)
+
 
 ## Oracle Digital Assistant
 - [Blog: Integrate ODA Chatbot in Oracle APEX Apps](https://blogs.oracle.com/apex/post/integrating-an-oracle-digital-assistant-chatbot-in-to-your-oracle-apex-app)
