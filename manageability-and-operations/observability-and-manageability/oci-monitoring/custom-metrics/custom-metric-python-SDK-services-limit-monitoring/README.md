@@ -1,5 +1,7 @@
 
-# Using python SDK to create OCI Monitoring custom metric namespace: Services Limit monitoring example use case
+# Using Python SDK to create OCI Monitoring custom metric namespace: Services Limit monitoring example use case
+
+Reviewed: 15.11.2023
 
 ## 1. INTRODUCTION
 
@@ -122,8 +124,8 @@ There 2 scripts with same code except for the OCI authentication. Both scripts w
   
 # LICENSE
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

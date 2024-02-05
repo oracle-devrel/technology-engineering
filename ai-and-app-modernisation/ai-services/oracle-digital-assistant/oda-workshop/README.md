@@ -1,7 +1,5 @@
-# Conversational AI / Digital Assistant Approach Workshop
-
-## Overview
-
+# ODA Workshop
+ 
 Organizations are looking for ways to improve the customer
 experience and employee experience. With the rise of
 (Conversational) AI and social channels like WhatsApp, Slack,
@@ -23,36 +21,20 @@ Conversational AI specialist this workshop is a proven
 methodology and many customers have used it as a major
 stepping stone in a successful Conversational AI strategy.
 
-## Benefits
-
-Deeper understanding of  the value of Conversational AI;
-
-- use cases, channels and integrations
-- Persona based thinking to uncover real value
-- High level understanding of target architecture
-
-## More Details
-
-- How to request this workshop: please reach out to your Oracle Account Team
-- Delivered by EMEA AI Services Cloud Specialists
-- How it is delivered: Zoom &  Whiteboarding Tools
-- Customer audience, CTO, LoB Representatives, Enterprise and Integration, Architects, Developers
-- Workshop Duration; 3-4 Hours
-
-## Agenda
-
-1. Introduction
-2. User Persona’s; understanding the users
-3. Use Cases; deep dive in the core use cases of users and understand key value
-4. Bot Persona; understand the heart and mind of the Digital Assistant. How to uncover more value with a well-designed bot persona.
-5. Build out first conversational flows, understand integrations and high-level architecture
-6. Next Steps.
-
+Reviewed: 30.01.2024
+ 
+# When to use this asset?
+ 
+See the README document in the /files folder.
+ 
+# How to use this asset?
+ 
+See the README document in the /files folder.
+ 
 # License
-
-Copyright (c) 2023 Oracle and/or its affiliates.
-
+ 
+Copyright (c) 2024 Oracle and/or its affiliates.
+ 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
-
+ 
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
-

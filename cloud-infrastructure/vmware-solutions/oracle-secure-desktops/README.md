@@ -11,21 +11,22 @@ Reviewed: 11.12.2023
 1. [Useful Links](#useful-links)
 2. [Team Publications](#team-publications)
  
-## Useful Links
-- [Oracle Cloud Infrastrcuture Secure Desktops](https://docs.oracle.com/en-us/iaas/secure-desktops/home.htm)
+# Useful Links
+
+- [Oracle Cloud Infrastructure Secure Desktops](https://docs.oracle.com/en-us/iaas/secure-desktops/home.htm)
 - [Announcing Oracle Cloud Infrastructure Secure Desktops](https://blogs.oracle.com/cloud-infrastructure/post/secure-desktops-cloud-native-virtualization)
 
-## Team Publications
+# Team Publications
 
-### Reference Architectures & Step-by-step Guides
+## Reference Architectures & Step-by-step Guides
 TBC
 
-### Videos
+## Videos
 TBC
 
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

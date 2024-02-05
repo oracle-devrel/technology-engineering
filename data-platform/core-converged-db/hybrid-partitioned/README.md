@@ -1,7 +1,8 @@
 # Hybrid Partitioned Tables
 
 As the name implies the partitions of hybrid partitioned tables can exist in both – inside the Oracle database in tablespaces and outside in external sources, such as Linux files, files on Hadoop Distributed File System (HDFS),and files in Cloud Object Storage. Hybrid Partitioned Tables enhance the functionality of partitioning for mixed Big Data scenarios where large portions of a table can reside in external partitions.
- 
+
+Review Date: 03.06.2024
 
 ## Useful Links
 
@@ -16,6 +17,8 @@ As the name implies the partitions of hybrid partitioned tables can exist in bot
 - [Hybrid Partitioned Tables - an introduction with examples](https://blogs.oracle.com/coretec/post/hybrid-partitioned-tables-introduction)
 - [Hybrid Partitioned Tables and Lifecycle Management](https://blogs.oracle.com/coretec/post/hybrid-partitioned-tables-and-lifecycle-management)
 - [ORAWORLD magazine article page 26-31](https://www.oraworld.org/fileadmin/documents/27-ORAWORLD.pdf)
+- [Oracle Object Storage Access for all Oracle Databases with DBMS_CLOUD](https://blogs.oracle.com/coretec/post/oracle-object-storage-access-for-all-oracle-databases-with-dbmscloud)
+- [SQL examples with DBMS_CLOUD](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/core-converged-db/dbms_cloud)
 
 ### Blogs
 
@@ -36,8 +39,8 @@ As the name implies the partitions of hybrid partitioned tables can exist in bot
 
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See LICENSE for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

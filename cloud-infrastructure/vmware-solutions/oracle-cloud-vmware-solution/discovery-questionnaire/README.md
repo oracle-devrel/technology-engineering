@@ -2,9 +2,11 @@
 
 This document can be used as a reference questionnaire to collect the required details for a project involving Oracle Cloud VMware Solution.
 
+Reviewed: 11.12.2023
+
 ## When to use this asset?
 
-This questionnaire can be used to capture details for the project related to Oracle Cloud VMware Solution and covers following scenarios:
+This questionnaire can be used to capture details for the project related to Oracle Cloud VMware Solution and covers the following scenarios:
 
 - Workload Migration
 - Disaster Recovery
@@ -16,7 +18,7 @@ The information is generic in nature and not specified for a particular customer
 
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

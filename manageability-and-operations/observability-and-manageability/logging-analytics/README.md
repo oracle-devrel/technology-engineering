@@ -1,5 +1,8 @@
 # Logging Analytics
+
 Oracle Logging Analytics is a cloud solution in Oracle Cloud Infrastructure that lets you index, enrich, aggregate, explore, search, analyze, correlate, visualize, and monitor all log data from your applications and system infrastructure.
+
+Reviewed: 16.11.2023
 
 # Table of Contents
 
@@ -18,7 +21,7 @@ Oracle Logging Analytics is a cloud solution in Oracle Cloud Infrastructure that
 - [Leveraging OCI Logging Analytics with OSSEM Detection Model for Enhanced Security Analytics](https://adibirzu.medium.com/leveraging-oci-logging-analytics-with-ossem-detection-model-for-enhanced-security-analytics-e599b270a14a)
 - [Analyzing OCI Compute Instance logs with OCI Logging Analytics](https://blogs.oracle.com/observability/post/oci-logginganalytics-compute-instance)
 - [Logging Analytics solution for Oracle Kubernetes Engine](https://karthicin.medium.com/logging-monitoring-solution-for-oracle-kubernetes-engine-oke-611738fe7d1)
-- [How to collect windows event logs in Logging Analytics](https://karthicin.medium.com/how-to-collect-windows-event-logs-in-logging-analytics-3a4f3ec8dc95)
+- [How to collect Windows event logs in Logging Analytics](https://karthicin.medium.com/how-to-collect-windows-event-logs-in-logging-analytics-3a4f3ec8dc95)
 - [Oracle APEX Monitor](https://github.com/oracle-quickstart/oci-o11y-solutions/tree/main/knowlege-content/oracle-database/APEX)
 - [OCI MySQL database log collection using Logging Analytics](https://karthicin.medium.com/oci-mysql-database-log-collection-using-logging-analytics-b521441ba06b)
 
@@ -28,9 +31,8 @@ Oracle Logging Analytics is a cloud solution in Oracle Cloud Infrastructure that
 
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE)for more details.
-Reviewed: 16.11.2023
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

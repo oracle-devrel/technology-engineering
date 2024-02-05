@@ -27,7 +27,6 @@ The simplest deployment and set of APIS for Continuous Integration are available
 
 
 # Table of Contents
- 
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-links)
 3. [Tutorials / How To's](#tutorials-how-tos)
@@ -49,18 +48,21 @@ The simplest deployment and set of APIS for Continuous Integration are available
 ### [ThatJeffSmith](https://www.thatjeffsmith.com/archive/tag/liquibase/ "That Jeff Smith and Liquibase")
 - [BLOG: How to Export Your RESTful Services](https://www.thatjeffsmith.com/archive/2018/12/how-to-export-your-restful-services/)
 
+
 ### Other 
 - [CICD automation for Oracle APEX Apps](https://blogs.oracle.com/shay/post/cicd-automation-for-oracle-apex-apps)
 - [Git Version Management and CICD automation for Oracle APEX](https://blogs.oracle.com/shay/post/version-management-and-cicd-automation-for-oracle-apex)
+
+
 
 # Tutorials / How To's
 - TBD
 
 
 # License
- 
-Copyright (c) 2023 Oracle and/or its affiliates.
- 
+
+Copyright (c) 2024 Oracle and/or its affiliates.
+
 Licensed under the Universal Permissive License (UPL), Version 1.0.
- 
-See [LICENSE]( https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

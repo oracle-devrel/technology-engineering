@@ -1,7 +1,6 @@
 #  Oracle BI Publisher to Oracle Analytics Cloud
  
-This asset covers the process and documentation of the migration of Oracle Business Intelligence Publisher(BIP) to the Oracle Analytics cloud(OAC).
- 
+This asset covers the process and documentation of the migration of Oracle Business Intelligence Publisher(BIP) to the Oracle Analytics Cloud(OAC).
  
 Reviewed: 16.01.2024
  
@@ -23,7 +22,7 @@ Please refer as well to the OAC Guidelines Document to learn how to deploy OAC a
  
 # License
  
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
