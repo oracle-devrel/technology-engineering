@@ -1,5 +1,5 @@
 # Integrating with OCI Cloud Services
-Reviewed: "17.11.2023"
+Reviewed: "05.02.2024"
 
 REST APIs are used to integrate with OCI Cloud Services from APEX. understanding the nuances of the APIs and OCI authentication can be somewhat complex. The main challenge in our experience has been translating Documentation into Implementation.
 
