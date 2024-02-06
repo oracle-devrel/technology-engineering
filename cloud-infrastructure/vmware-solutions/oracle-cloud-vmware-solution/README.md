@@ -116,7 +116,7 @@ Reviewed: 11.12.2023
 
 # Reusable Assets Overview
 
-- [Automating OCVS operations using Terraform](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/vmware-solutions/oracle-cloud-vmware-solution/OCVS-Terraform-automation)
+- [Automating OCVS provisioning and operations using Terraform](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/vmware-solutions/oracle-cloud-vmware-solution/OCVS-Terraform-automation)
 
 # License
 
