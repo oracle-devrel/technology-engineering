@@ -19,7 +19,7 @@ The metaverse stack needs to support social interaction, 3D / 2D representation,
 
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

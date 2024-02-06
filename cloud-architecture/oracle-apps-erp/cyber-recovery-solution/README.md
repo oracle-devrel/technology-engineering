@@ -35,6 +35,6 @@ Follow the deployment section in the Cyber-Recovery-Solution document and config
 [This link](https://docs.oracle.com/en/solutions/oci-automated-cyber-recovery/) can be referred to for cyber recovery solutions using Ansible playbooks, Terraform, Shell, and RMAN scripts.
 
 # License
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 See [LICENSE](LICENSE) for more details.
