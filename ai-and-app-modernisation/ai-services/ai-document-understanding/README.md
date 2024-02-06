@@ -1,7 +1,10 @@
 # Document Understanding
  
 Oracle Cloud Infrastructure (OCI) Document Understanding is an AI service that enables developers to extract text, tables, and other key data from document files through APIs and command-line interface tools. With OCI Document Understanding, you can automate tedious business processing tasks with prebuilt AI models and customize document extraction to fit your industry-specific needs.
- 
+
+Reviewed: 30.01.2024
+
+
 # Table of Contents
  
   - [Team Publications](#team-publications)
@@ -40,17 +43,17 @@ Oracle Cloud Infrastructure (OCI) Document Understanding is an AI service that e
 - [Document Understanding Oracle.com Page](https://www.oracle.com/artificial-intelligence/document-understanding/)
 - [Document Understanding Documentation](https://docs.oracle.com/iaas/document-understanding/document-understanding/using/home.htm)
 
-# LiveLabs and Workshops
+## LiveLabs and Workshops
  
 - [Introduction to OCI Document Understanding](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3585)
 
-# Customer Stories
+## Customer Stories
  
 - [Trailcon Leasing: Low-code and AI for Automating Invoice Processing & Approval Workflow](https://www.youtube.com/watch?v=TsbNU6xdQPw)
 
 # License
  
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

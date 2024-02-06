@@ -14,10 +14,10 @@ Before you start make sure that the user has DBA privileges.
 -  dbmsperf_1.sql: Example for DBMS_PERF.REPORT_PERFHUB with parameters
 
 
-  # License
+# License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See LICENSE for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
