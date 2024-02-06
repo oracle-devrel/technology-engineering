@@ -1,12 +1,10 @@
 # Compute (Including HPC)
 
-This area is focused on the core Compute Service of Oracle Cloud Infrastructure (OCI) which includes and covers High Performance Computing (HPC), [Compute Hardware](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/compute-including-hpc/compute-hardware), and [Compute Software](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/compute-including-hpc/compute-software). 
+This area is focused on the core Compute Service of Oracle Cloud Infrastructure (OCI) which includes and covers High Performance Computing (HPC), [Compute Hardware](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/compute-including-hpc/compute-hardware), and [Compute Software](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/compute-including-hpc/compute-software) residing on several CPU architectures.
 
-<pre>
-     <img alt="Cloud Computing" src="images/ARM-logo.png" width="10%" style="float:right">     <img alt="Cloud Computing" src="images/AMD-logo.png" width="10%" style="float:right">     <img alt="Cloud Computing" src="images/Intel-logo.png" width="10%" style="float:right">
- </pre>
 
-Review date: 20.11.2023
+
+<i>Review date: 23 January 2024</I>
 
 # Useful Links
 
@@ -32,7 +30,7 @@ The links below contain publications from the OCI Compute team:
 
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

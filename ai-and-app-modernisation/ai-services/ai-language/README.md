@@ -2,6 +2,8 @@
 
 OCI Language is a cloud-based AI service for performing sophisticated text analysis at scale. Use this service to build intelligent applications by leveraging REST APIs and SDKs to process unstructured text for sentiment analysis, entity recognition, translation, and more.
 
+Reviewed: 30.01.2024
+
 # Table of Contents
  
 - [AI Language](#ai-language)
@@ -18,7 +20,29 @@ OCI Language is a cloud-based AI service for performing sophisticated text analy
 
 - [Saving the Bees using AI: One Positive Entity at a Time](https://www.linkedin.com/pulse/saving-bees-using-ai-one-positive-entity-time-ismail-syed/)
 
-## Reusable Assets
+## Architecture Center
+
+- [Use OCI Language for customer feedback analysis](https://docs.oracle.com/en/solutions/oci-ai-language/index.html#GUID-33D63770-1F4D-4AAE-BC6D-D42C62D10CC2)
+
+# Useful Links
+ 
+- [Oracle AI Language on oracle.com](https://www.oracle.com/uk/artificial-intelligence/language/)
+- [Oracle AI Language documentation](https://docs.oracle.com/en-us/iaas/language/using/language.htm)
+- [Oracle AI Language blog announcement](https://blogs.oracle.com/ai-and-datascience/post/announcing-oci-language)
+
+
+## LiveLabs and Workshops
+ 
+- [Get started with Oracle Cloud Infrastructure Language](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=887&clear=RR,180&session=5298742340912)
+- [Perform Sentiment Analysis with OCI AI Language Service and OAC](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3214&clear=RR,180&session=5298742340912)
+- [Deliver Immersive Conversational User Experiences with OCI AI Services](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3452&clear=RR,180&session=5298742340912)
+- [Build applications with Oracle’s AI services](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3674&clear=RR,180&session=5298742340912)
+
+## Customer Stories
+ 
+- [Aon improves customer experience with OCI Language service](https://www.oracle.com/customers/aon-case-study/)
+
+# Reusable Assets
  
 - [OCI AI Language Service introduction video](https://www.youtube.com/watch?v=-t6jje8SRXU)
 - [Real-Time Outlook Email Analysis with Oracle Integration & OCI AI Language](https://youtu.be/qzyzdAZjUU0?si=moC-O47m7L1nrhqx)
@@ -41,32 +65,10 @@ OCI Language is a cloud-based AI service for performing sophisticated text analy
 - [AI Language demo](https://youtu.be/w8vFTKp4JME)
 - [AI Language - Hotel Reviews (AI Language, OAC)](https://youtu.be/pmf90oUZGH4)
 
-# Architecture Center
-
-- [Use OCI Language for customer feedback analysis](https://docs.oracle.com/en/solutions/oci-ai-language/index.html#GUID-33D63770-1F4D-4AAE-BC6D-D42C62D10CC2)
-
-# Useful Links
- 
-- [Oracle AI Language on oracle.com](https://www.oracle.com/uk/artificial-intelligence/language/)
-- [Oracle AI Language documentation](https://docs.oracle.com/en-us/iaas/language/using/language.htm)
-- [Oracle AI Language blog announcement](https://blogs.oracle.com/ai-and-datascience/post/announcing-oci-language)
-
-
-# LiveLabs and Workshops
- 
-- [Get started with Oracle Cloud Infrastructure Language](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=887&clear=RR,180&session=5298742340912)
-- [Perform Sentiment Analysis with OCI AI Language Service and OAC](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3214&clear=RR,180&session=5298742340912)
-- [Deliver Immersive Conversational User Experiences with OCI AI Services](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3452&clear=RR,180&session=5298742340912)
-- [Build applications with Oracle’s AI services](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3674&clear=RR,180&session=5298742340912)
-
-# Customer Stories
- 
-- [Aon improves customer experience with OCI Language service](https://www.oracle.com/customers/aon-case-study/)
-
 # License
  
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

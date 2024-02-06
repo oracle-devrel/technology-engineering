@@ -1,6 +1,8 @@
 
 # Full Stack Disaster Recovery (FSDR) Operations Workshop
 
+Reviewed: 30.01.2024
+
 ## Objectives
 
 * Overview of OCI Full Stack Disaster Recovery Service

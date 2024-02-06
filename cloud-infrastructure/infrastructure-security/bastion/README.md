@@ -2,6 +2,8 @@
  
 Oracle Cloud Infrastructure Bastion provides restricted and time-limited access to target resources that don't have public endpoints.
  
+Reviewed: 30.01.2024
+
 # Table of Contents
  
 1 [Useful Links](#useful-uinks)
@@ -9,7 +11,7 @@ Oracle Cloud Infrastructure Bastion provides restricted and time-limited access 
 <!--## Team Publications -->
   
  
-## Useful Links
+# Useful Links
  
 - [OCI Bastion Overview](https://www.oracle.com/uk/security/cloud-security/bastion/)
     - This page provides an overview of the OCI Bastion Service
@@ -24,9 +26,9 @@ Oracle Cloud Infrastructure Bastion provides restricted and time-limited access 
     - This is the demo video of the OCI bastion service
  
 # License
- 
-Copyright (c) 2023 Oracle and/or its affiliates.
- 
+
+Copyright (c) 2024 Oracle and/or its affiliates.
+
 Licensed under the Universal Permissive License (UPL), Version 1.0.
- 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

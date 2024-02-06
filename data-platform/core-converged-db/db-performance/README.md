@@ -15,6 +15,7 @@ Examples are:
 - Special Performance pages (aka Performance Hub) in Cloud Control or OCI Console and associated reports deliver a consolidated view of all performance data for 
   and provide summary information not only on overall IO, CPU and Memory usage by the database but also detailed SQL monitoring information.
 
+Review Date: 03.06.2024
 
 ## Useful Links
 
@@ -37,8 +38,8 @@ Examples are:
 
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See LICENSE for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

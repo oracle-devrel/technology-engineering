@@ -15,7 +15,7 @@ This checklist could be followed in the implementation phase for any logical Ora
 3. Update the status from "Planned" to "In-Progress/Completed/Failed" respectively after each task defined in the checklist.
 
 ## License
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

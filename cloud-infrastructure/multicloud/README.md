@@ -32,10 +32,11 @@ Multicloud architectures leverage the coordinated use of cloud services from two
 - [Establish a multi-cloud private network connectivity through Oracle Integration Cloud](https://docs.oracle.com/en/solutions/multi-cloud-with-oic/index.html)
 - [Multicloud split-stack architecture with OCI, GCP and AWS](https://docs.oracle.com/en/solutions/oci-aws-gcp-multicloud/index.html)
 - [Become an OCI Multicloud Architect Associate](https://mylearn.oracle.com/ou/learning-path/become-an-oci-multicloud-architect/120606)
+
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

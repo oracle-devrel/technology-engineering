@@ -20,3 +20,11 @@ https://bit.ly/SlackCloudCoachingEvents
 **Step 2:** Search the dedicated Channel #kick-off-your-cloud-account
 
 **Step 3:** Be engaged with the Community 
+
+# License
+
+Copyright (c) 2024 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

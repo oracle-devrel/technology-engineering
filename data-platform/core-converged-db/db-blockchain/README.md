@@ -2,7 +2,9 @@
 
 Blockchain tables are insert-only tables that organize rows into a number of system chains. Blockchain and Immutable tables are part of the Crypto-Secure Data Management features in Oracle 19c and later releases. Rows in a blockchain table are made tamper-resistant by special sequencing and chaining algorithms. 
 Users can verify that rows have not been tampered. A hash value that is part of the row metadata is used to chain and validate rows.
- 
+
+Review Date: 03.06.2024
+
 
 ## Useful Links
 
@@ -39,8 +41,8 @@ Users can verify that rows have not been tampered. A hash value that is part of 
 
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See LICENSE for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
