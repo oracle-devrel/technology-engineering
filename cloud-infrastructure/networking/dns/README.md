@@ -6,7 +6,7 @@ The Oracle Cloud Infrastructure Domain Name System (DNS) service lets you create
 
 We do have three major components around DNS: Private DNS, Public DNS, and Traffic Management.
 
-
+Reviewed: 06.02.2024
  
 # Useful Links
 
@@ -14,20 +14,20 @@ We do have three major components around DNS: Private DNS, Public DNS, and Traff
 - [Private DNS common Scenarios](https://www.ateam-oracle.com/post/oci-private-dns---common-scenarios)
 - [Hands-on Training](https://oracle.github.io/learning-library/oci-library/oci-hol/oci-private-dns/workshops/freetier/?lab=intro)
 - [OCI DNS Documentation](https://www.oracle.com/cloud/networking/dns/)
-- [OCI DNS now supports slave servers, or secondary servers](https://docs.oracle.com/en-us/iaas/releasenotes/changes/d2d17c2d-500b-4edb-b16d-d65363e56a48/)
+- [OCI DNS now supports secondary servers](https://docs.oracle.com/en-us/iaas/releasenotes/changes/d2d17c2d-500b-4edb-b16d-d65363e56a48/)
 
-## Team Publications
+# Team Publications
 - [DNS in multicloud disaster recovery architectures](#blogs)
 
-### Reference Architectures & Step-by-step Guides
+## Reference Architectures & Step-by-step Guides
 - [Reference architecture for hybrid DNS high availability in OCI](https://blogs.oracle.com/cloud-infrastructure/post/oci-hybrid-dns-high-availability)
 
-### Blogs
+## Blogs
  
 - [DNS in multicloud disaster recovery architectures](https://blogs.oracle.com/cloud-infrastructure/post/dns-in-multicloud-disaster-recovery-architectures)
 - [Integrate on-premises, internal DNS zones with private DNS on OCI](https://blogs.oracle.com/cloud-infrastructure/post/integrate-internal-dns-lan-private-dns-oci)
 
-### Videos & Podcasts
+## Videos & Podcasts
 
 - [Implementing Public and Private DNS in OCI](https://www.youtube.com/watch?v=AjA-HagCye8)
 
