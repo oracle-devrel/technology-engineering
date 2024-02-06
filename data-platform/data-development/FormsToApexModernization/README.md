@@ -23,13 +23,13 @@ TBD
 
 # Useful Links
 
-- [Oracle APEX link](https://apex.oracle.com/en/solutions/oracle-forms/)
+- [APEX Solutions: Modernizing Oracle Forms](https://apex.oracle.com/en/solutions/oracle-forms/)
 
 
 # Forms to APEX Best Practices
 
-- [Oracle Forms to APEX modernization - FAQ](https://blogs.oracle.com/apex/post/faq-about-oracle-forms-to-apex-modernization)
-TBD
+- [General Guide: Modernizing Oracle Forms Using APEX](https://blogs.oracle.com/apex/post/modernizing-oracle-forms-using-oracle-apex)
+
 
 # Reusable Assets Overview
 
