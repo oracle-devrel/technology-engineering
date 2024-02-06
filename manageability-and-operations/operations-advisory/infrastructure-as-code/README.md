@@ -11,7 +11,7 @@ Infrastructure As Code (IaC) is a methodology in which scripts automate infrastr
 
 **Consistency** IaC makes it possible to avoid human errors and inconsistency and minimize drift over time.
 
-Reviewed: 13/11/2023
+Reviewed: 13.11.2023
 
 # Declarative Automation
 

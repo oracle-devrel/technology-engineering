@@ -3,7 +3,7 @@
 The Operations Advisory provides critical guidance to Customers on how to define their operations. Operations Excellence Advisory 'Approach Workshop' advises on best practices and their benefits from Oracle based on previous experiences and is meant to identify  an outline for Day-2 optimal operations, based on  priorities and requirements for DR, Integrations, O&M also in the following scenarios: Hybrid, Multi-cloud, DRCC. Where needed, Automation advice is also included.
 - [Multi-cloud operations - 3rd party tools that support OCI](https://learnoci.cloud/multi-cloud-operations-3rd-party-tools-that-support-oci-091207d923ed)
   
-Reviewed: 22/01/2024
+Reviewed: 22.01.2024
 
 # Table of Contents
 
