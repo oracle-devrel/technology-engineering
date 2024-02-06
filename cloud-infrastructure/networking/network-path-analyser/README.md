@@ -6,37 +6,38 @@ NPA carefully examines routing and security configurations and identifies the po
 
 Using NPA, you can:
 
-    Troubleshoot routing and security misconfiguration that are causing connectivity issues
-    Validate that the logical network paths match your intent
-    Verify that the virtual network connectivity setup works as expected before starting to send traffic
+- Troubleshoot routing and security misconfiguration that are causing connectivity issues
+- Validate that the logical network paths match your intent
+- Verify that the virtual network connectivity setup works as expected before starting to send traffic
 
 To achieve any of these objectives, create a test that you think should work and then run the test. You can also save this test definition to run it again later. Saved tests are displayed in the Network Path Analyzer page for you to select.
 
 The following source and destination scenarios are supported:
 
-    OCI to OCI
-    OCI to on-premises
-    On-premises to OCI
-    Internet to OCI
-    OCI to internet
+- OCI to OCI
+- OCI to on-premises
+- On-premises to OCI
+- Internet to OCI
+- OCI to internet
 
+Reviewed: 06.02.2024
  
 # Useful Links
 
 - [Introducing NPA](https://blogs.oracle.com/cloud-infrastructure/post/introducing-oracle-cloud-network-path-analyzer)
 
 
-### Reference Architectures & Step-by-step Guides
+## Reference Architectures & Step-by-step Guides
 
  - [NPA Steps guide](https://blogs.oracle.com/ateam/post/oci-network-path-analyzer)
- - [NPA Step by Step guide (external)](https://k21academy.com/1z0-1072/oracle-cloud-network-path-analyzer/)  
+ - [NPA Step-by-Step Guide](https://k21academy.com/1z0-1072/oracle-cloud-network-path-analyzer/)  
 
-### Blogs
+## Blogs
  
 - [Speed up Network Troubleshooting with Oracle Cloud Network Path Analyzer](https://blogs.oracle.com/analytics/post/fast-track-network-troubleshooting-with-oracle-cloud-network-path-analyzer-for-oracle-analytics-cloud-oac)
 
 
-### Videos & Podcasts
+## Videos & Podcasts
 
 - [NPA in 5 mins](https://www.youtube.com/watch?v=vr8oitlkAvI)
 - [Oracle Network Path Analyzer](https://videohub.oracle.com/media/Oracle+Network+Path+Analyzer.mov/1_dm81kp7i)
