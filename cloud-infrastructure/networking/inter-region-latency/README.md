@@ -4,27 +4,19 @@ The Inter-Region Latency dashboard in the Console provides the average network r
 
 The Inter-Region Latency dashboard shows two charts:
 
-    The Current Inter-Region Round-Trip Time is a current snapshot expressed in milliseconds. This snapshot is an average of values over the last five minutes. This view updates every minute.
-    The Inter-Region Round-Trip Time (ms) for the last 30 days is a historical view of the last 30 days
+The Current Inter-Region Round-Trip Time is a current snapshot expressed in milliseconds. This snapshot is an average of values over the last five minutes. This view updates every minute.
 
+The Inter-Region Round-Trip Time (ms) for the last 30 days is a historical view of the last 30 days.
+
+Reviewed: 06.02.2024
 
 # Useful Links
+
 - [Anouncing Inter region latency dashboard](https://blogs.oracle.com/cloud-infrastructure/post/announcing-the-inter-region-latency-dashboard-for-oracle-cloud-infrastructure)
 
-
-
-### Reference Architectures & Step-by-step Guides
+## Reference Architectures & Step-by-step Guides
 
 - [Inter-Region Latency Documentation](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/inter_region_latency.htm)
-
-### Blogs
-
-
-
-
-### Videos & Podcasts
-
-
 
 # License
 
