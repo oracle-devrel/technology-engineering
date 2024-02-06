@@ -12,6 +12,6 @@ This asset will help to understand the prerequisites/limitations for XTTS migrat
 
 
 ## License
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 See [LICENSE](LICENSE) for more details.

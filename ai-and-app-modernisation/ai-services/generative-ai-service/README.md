@@ -7,17 +7,7 @@ scientists and developers who want complete control to build and deploy AI
 models of any kind, and independent software vendors (ISVs) who want the
 most performant and cost-effective platform to host their AI services.
  
-# Table of Contents
- 
-- [Generative AI service](#generative-ai-service)
-- [Table of Contents](#table-of-contents)
-  - [Team Publications](#team-publications)
-    - [Architecture Center](#architecture-center)
-    - [Medium](#medium)
-    - [GitHub](#github)
-  - [Useful Links](#useful-links)
-  - [Reusable Assets Overview](#reusable-assets-overview)
-- [License](#license)
+Reviewed: 30.01.2024
  
 # Team Publications
 
@@ -63,7 +53,7 @@ most performant and cost-effective platform to host their AI services.
 
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

@@ -2,13 +2,9 @@
 
 This section contains various examples related to Content Management: demo videos and code examples, articles, blogs, presentations, and reference architectures. Links to public content are listed below, while the assets can be found in subfolders.
 
+Reviewed: 30.01.2024
+
 # Team Publications
-
-
-## Architecture Center
-
-
-## Demos
 
 ## Blogs
 
@@ -20,7 +16,7 @@ This section contains various examples related to Content Management: demo video
 
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

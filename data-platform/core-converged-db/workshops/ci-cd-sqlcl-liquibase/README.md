@@ -19,10 +19,10 @@ Build on two 23c free databases on Docker containers, this workshop gives an exc
 
 This content is meant to be delivered either as a demo or a workshop in 1h30, a 30mn introduction and 1h Hands-on-Lab.
 
- # License
+# License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
