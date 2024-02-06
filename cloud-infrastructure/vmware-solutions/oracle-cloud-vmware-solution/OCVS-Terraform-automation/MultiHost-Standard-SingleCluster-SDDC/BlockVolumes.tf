@@ -2,7 +2,7 @@ resource "oci_core_volume" "export_VMFS_Management_datastore_volume" {
     compartment_id = var.compartment_ocid
     availability_domain = data.oci_identity_availability_domains.export_availability_domains.availability_domains[0].name
     display_name = "ds-sda-MGMT-LUN"
-    size_in_gbs = 8192
+    size_in_gbs = 8192  # NEEDS TO BE MIN 8TB! This is for all the VMware Management VMs, like vCenter
     vpus_per_gb = 10
 }
 

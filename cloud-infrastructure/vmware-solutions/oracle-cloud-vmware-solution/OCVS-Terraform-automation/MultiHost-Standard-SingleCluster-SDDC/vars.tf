@@ -1,6 +1,7 @@
 
-variable region { default = "eu-frankfurt-1"}
-variable compartment_ocid { default = "ocid1.compartment.oc1..aaaaaaaaofmxfqtgasp3qilge44fmwhraxtkcqecpw6ge7vqhrhnt37aagma" }
+# Where to provision your SDDC
+variable region { default = "your-oci-region"}  # MODIFY to your region, for example: eu-frankfurt-1
+variable compartment_ocid { default = "ocid1.compartment._your_compartment_OCID" }
 
 # Network Setting
 variable vcn_name {default = "SDDC-VCN"}
@@ -28,8 +29,8 @@ variable SDDC_ESXi_host_count {default = 3}
 variable SDDC_shape {default = "BM.Standard2.52"}  # possible: "BM.Standard2.52", "BM.Standard3.64" or "BM.Standard.E4.128"
 variable SDDC_core_count {default = 12}
 variable SDDC_Primary_Cluster_Name {default = "Cluster1"}
-variable SDDC_NSX-workload-Segment {default = "192.168.1.0/24"}
-variable SDDC_ssh_public_key { default = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDIQS8UDvLnTocbmm9q5ytQlO8MwE6BRhk3OVF/y2gfKbdQPGhKTisZCx8i0jJO8vPnp3a5ra0rg52LJ7UZ+FJNepbK//1Cb6iXPOP1nLft8FlvdC2YJOPrwYXAWL8ZQQY3W3qOID72vTwhns1ZJSAgSCn9gI8NUZCUwLxFMsQJwGtV+aPt2zsGnE1Vgzxsr795KgoRRt6E0UKT38BPxRkVXRp7JXwSjz8qLnqiAFp4JKFMCVud2pdyj0rQAMvb+QT49I4k9NKDQWzbjGRlsoUZDbc6lwnmo6jQ+pw3fZDS/CNi1+4udDJ6i5iaeU7hPnvQXfzSI3vOoFtrb83oZy2D phpseclib-generated-ke" }
+variable SDDC_NSX-workload-Segment {default = "192.168.1.0/24"}  # Example of an initial NSX-T Segment to be created
+variable SDDC_ssh_public_key { default = "ssh-rsa your Public SSH Key" } #MODIFY This field to include your public key
 
 # Block Volume for VMFS datastores Settings
 variable SDDC_BlockVolume_name {default = "VMFS1"}
