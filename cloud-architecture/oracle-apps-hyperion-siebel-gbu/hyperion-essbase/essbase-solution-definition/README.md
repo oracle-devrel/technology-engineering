@@ -10,7 +10,7 @@ This document serves as an integral asset for individuals and organizations seek
 
 Use this document as a starting point for the solution definition of your Essbase implementation project. This asset includes example architecture diagrams for DrawIO in the file essbase-architecture-diagrams-example.drawio.
 
-Reviewed: 4.12.2023
+Reviewed: 7.2.2024
 
 ## Conclusion
 The Essbase Workload Solution Definition is expected to serve as a definitive guide to the project. All participants are encouraged to provide feedback, raise queries, and make contributions to enhance the overall project's success.
