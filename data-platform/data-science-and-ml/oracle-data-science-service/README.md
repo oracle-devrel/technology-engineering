@@ -4,7 +4,7 @@ This page covers Oracle Cloud Infrastructure (OCI) Data Science Service.
 
 Oracle Cloud Infrastructure (OCI) Data Science is a fully-managed platform for teams of data scientists to build, train, deploy, and manage machine learning models using Python and open source tools. Use a JupyterLab-based environment to experiment and develop models. Scale up model training with NVIDIA GPUs and distributed training. Take models into production and keep them healthy with MLOps capabilities, such as automated pipelines, model deployments, and model monitoring.
 
-Reviewed: 2023-12-04
+Reviewed: 04.12.2023
 
 
 # Table of Contents
@@ -53,7 +53,7 @@ Reviewed: 2023-12-04
 
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
