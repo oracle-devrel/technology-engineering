@@ -1,8 +1,8 @@
 # Credit Risk Scoring
 
-This demo is going to showcase predicting the credit worthiness of a loan applicant.
+This demo is going to showcase predicting the creditworthiness of a loan applicant.
 
-Reviewed: 2023-12-04
+Reviewed: 04.12.2023
  
  
 # Useful Links
@@ -15,7 +15,7 @@ Reviewed: 2023-12-04
  
 # License
  
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
