@@ -1,13 +1,13 @@
 # Art of Possible Demos
 
-This page covers the Art of Possible Demo associated assets.
+This page covers the Art of Possible Demo-associated assets.
 
-Reviewed: 2023-12-04
+Reviewed: 04.12.2023
 
 
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
