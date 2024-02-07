@@ -2,7 +2,7 @@
 OCI Security Health Check - Standard Edition
 ============================================
 Owner: Olaf Heimburger
-Version: 230922
+Version: 240130
 
 When to use this asset?
 
@@ -23,12 +23,13 @@ Usage
   steps for setting this up are described in the next chapter.
 
 1.1 Setup an Auditor group and policy
-  Using an auditor group is the recommended way to run the assessment script.
-  To create a group for auditing do the following steps:
-
-  - Log into OCI Console as OCI administrator
+  - Check whether your tenancy is still not migrated to Identity Domains:
+  - Login to OCI Console as OCI Administrator
+    - Select "Identity & Security"
+    - If "Domains" are listed you are migrated to Identity Domains
   - Create a group grp-auditors
   - Create a policy pcy-auditing with these statements:
+- For tenancies without Identity Domains use
     allow group grp-auditors to inspect all-resources in tenancy
     allow group grp-auditors to read instances in tenancy
     allow group grp-auditors to read load-balancers in tenancy
@@ -44,6 +45,22 @@ Usage
     allow group grp-auditors to read vss-family in tenancy
     allow group grp-auditors to read dns in tenancy
     allow group grp-auditors to use cloud-shell in tenancy
+- For tenancies *with* Identity Domains use
+      allow group 'Default'/'grp-auditors' to inspect all-resources in tenancy
+      allow group 'Default'/'grp-auditors' to read instances in tenancy
+      allow group 'Default'/'grp-auditors' to read load-balancers in tenancy
+      allow group 'Default'/'grp-auditors' to read buckets in tenancy
+      allow group 'Default'/'grp-auditors' to read nat-gateways in tenancy
+      allow group 'Default'/'grp-auditors' to read public-ips in tenancy
+      allow group 'Default'/'grp-auditors' to read file-family in tenancy
+      allow group 'Default'/'grp-auditors' to read instance-configurations in tenancy
+      allow group 'Default'/'grp-auditors' to read network-security-groups in tenancy
+      allow group 'Default'/'grp-auditors' to read resource-availability in tenancy
+      allow group 'Default'/'grp-auditors' to read audit-events in tenancy
+      allow group 'Default'/'grp-auditors' to read users in tenancy
+      allow group 'Default'/'grp-auditors' to read vss-family in tenancy
+      allow group 'Default'/'grp-auditors' to read dns in tenancy
+      allow group 'Default'/'grp-auditors' to use cloud-shell in tenancy
   - Assign a user to the grp-auditors group
   - Log out of OCI Console
 
@@ -72,20 +89,25 @@ Usage
     compressed in a single ZIP file and the resulting ZIP file will be moved to
     the home directory of the account running the script.
 
+4 Known Issues
 
-4 Credits
+4.1 Wrong urllib3 version
+
+There is a known dependency between Python urllib3 version 2 and the OS installed version of OpenSSL. The script tries to handle this automatically using a working version of urllib3. If the handling does not work let us know.
+
+5 Credits
 
 The OCI Security Health Check - Standard Edition streamlines the usage of the bundled Compliance Checking Script (https://github.com/oracle-quickstart/oci-cis-landingzone-quickstart/blob/main/compliance-script.md) provided by the CIS OCI Landing Zone Quick Start Template (https://github.com/oracle-quickstart/oci-cis-landingzone-quickstart).
 
 The OCI Security Health Check - Standard Edition would not be possible without the great work of the CIS OCI Landing Zone Quick Start Template Team (https://github.com/oracle-quickstart/oci-cis-landingzone-quickstart/graphs/contributors).
 
-5 Certification
+6 Certification
 
 The Compliance Checking Script is certified by the CIS Center of Internet Security for the OCI Oracle Cloud Foundation Benchmark v1.2.O, Level 1 and 2 (https://www.cisecurity.org/partner/oracle).
 
-6 License
+7 License
 
-Copyright (c) 2022-2023 Oracle and/or its affiliates.
+Copyright (c) 2022-2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
