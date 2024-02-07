@@ -18,8 +18,9 @@ A SQL Clue Card is also provided.
 
 - Application Continuity - [Does your Database really know your application - Part 2](https://medium.com/@paulbrad71/does-your-database-really-know-your-application-second-part-48321b0ab81) - Published on [Medium](http://www.medium.com) on 6th April 2023;
 
-- Application Continuity - [Does your Database really know your application - Part 3](https://medium.com/@paulbrad71/application-continuity-on-adb-does-your-database-know-your-application-376e44d8a30) - Published on [Medium](http://www.medium.com) on 31st May 2023.
+- Application Continuity - [Does your Database really know your application - Part 3](https://medium.com/@paulbrad71/application-continuity-on-adb-does-your-database-know-your-application-376e44d8a30) - Published on [Medium](http://www.medium.com) on 31st May 2023;
 
+- APEX and Autonomous Database - [APEX on ADB Rockin' Experience: Part 1 - APEX and ADB "Hand in Hand"](https://medium.com/@paulbrad71/apex-on-autonomous-database-rockin-experience-e57c4c4dc4f3) - Published on [Medium](http://www.medium.com) on 6th February 2024.
 
 
 # Useful Links
