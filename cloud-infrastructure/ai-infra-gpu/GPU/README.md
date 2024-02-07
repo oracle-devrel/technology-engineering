@@ -17,7 +17,10 @@ Reviewed: 07.11.2023
     - Deploy UbiOps on Oracle Cloud using Oracle Kubernetes Engines (OKE) and GPU instances
 
 - [A deep fake example on Oracle Cloud Infrastructure](https://blogs.oracle.com/cloud-infrastructure/post/a-deepfake-example-on-oracle-cloud-infrastructure)
-    - Running Faceswap on Oracle Cloud    
+    - Running Faceswap on Oracle Cloud
+ 
+ - [Video surveillance and analytics software performance on OCI](https://blogs.oracle.com/cloud-infrastructure/post/video-surveillance-analytics-performance-oci)
+    - Run video surveillance and analytics software on OCI
 
 ## LiveLabs
 - [Running Faceswap on OCI](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=798&session=4731494759204)
