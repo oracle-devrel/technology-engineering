@@ -5,6 +5,9 @@ Hosting critical Oracle applications on-premises can be challenging in terms of 
 Oracle Cloud offers a set of core infrastructure capabilities like elastic compute and storage to provide customers the ability to run their business-critical PeopleSoft applications on OCI. When you run PeopleSoft on OCI, you get your unique configuration of PeopleSoft applications, customizations, and data while cutting operational costs and increasing automation, speed, and agility.
 
 This solution guide provides a starting point for the Partners/Managed Service Providers/Consultants to understand the key technical requirements and existing business challenges that need to be addressed as part of the migration.
+
+
+Review Data: 03.12.2023
   
 # Table of Contents
 
@@ -30,7 +33,7 @@ This solution guide provides a starting point for the Partners/Managed Service P
 
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

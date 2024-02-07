@@ -14,7 +14,7 @@ This script is to be executed in the discovery phase if it is identified the MyS
 The script will generate a DB_REPORT.html file at ` /tmp` location of the server.
 
 ## License
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

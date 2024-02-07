@@ -12,8 +12,9 @@ This area focuses on discussing different data models supported by Oracle Conver
 - [Developing with JSON and SODA in Oracle Database](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=831&clear=RR,180&session=107096809782354)
   
 # License
-Copyright (c) 2023 Oracle and/or its affiliates.
+
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See LICENSE for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

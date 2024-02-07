@@ -1,5 +1,5 @@
 # Development & Operations (DevOps) for the Database and APEX
-Reviewed: "17.11.2023"
+Reviewed: "29.01.2024"
 
 ## The development lifecycle is the process of periodically: (Development)
 - Selecting a set of bugs and features that will improve your app
@@ -27,6 +27,7 @@ Reviewed: "17.11.2023"
 # Useful Links
 - [Cloud Native DevOps](../../../app-dev/devops/README.md)
 - [Understanding the Oracle APEX Application Development Lifecycle](https://apex.oracle.com/go/lifecycle-technical-paper)
+- [Implementing DevOps principles with Oracle Database](https://www.oracle.com/a/ocom/docs/database/implementing-devops-principles-with-oracle-database.pdf)
 - [Automate CI/CD with OCI DevOps](https://www.oracle.com/devops/devops-service/)
 - [Oracle Databases for Containers and Kubernetes](https://www.oracle.com/database/kubernetes-for-container-database/)
 
@@ -43,9 +44,9 @@ Reviewed: "17.11.2023"
 
 
 # License
- 
-Copyright (c) 2023 Oracle and/or its affiliates.
- 
+
+Copyright (c) 2024 Oracle and/or its affiliates.
+
 Licensed under the Universal Permissive License (UPL), Version 1.0.
- 
-See [LICENSE]( https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

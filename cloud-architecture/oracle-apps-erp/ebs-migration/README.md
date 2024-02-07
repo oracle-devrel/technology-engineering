@@ -4,7 +4,10 @@ Hosting critical Oracle applications on-premises can be challenging in terms of 
 security threats and slow performance. Oracle Cloud Infrastructure (OCI) offers a suite of migration, provisioning, and management tools to expedite their transition to the cloud.
 
 This solution guide provides a starting point for the Partners/Managed Service Providers/Consultants to understand the key technical requirements and existing business challenges that need to be addressed as part of the migration.
-  
+
+Review Date: 03.12.2023
+
+ 
 # Table of Contents
 
 1. [Team Publications](#team-publications)
@@ -31,7 +34,7 @@ This solution guide provides a starting point for the Partners/Managed Service P
 
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

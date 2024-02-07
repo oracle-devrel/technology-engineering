@@ -4,10 +4,14 @@ Oracle Cloud Infrastructure (OCI) offers a suite of migration, provisioning, and
 
 We believe that these assets will help our Partners/Managed Service Providers/Consulting Services to expedite the migration process to OCI.
 
+Review Date: 03.12.2023
+
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+
+

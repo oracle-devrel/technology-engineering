@@ -1,7 +1,6 @@
 # Using Porting Advisor for Graviton to check the compatibility of  Java Applications on X86 and ARM.
 
- This section includes a step-by-step manual for using Porting Advisor for Graviton to check the compatibility of Java Applications on X86 and ARM.
-
+This section includes a step-by-step manual for using Porting Advisor for Graviton to check the compatibility of Java Applications on X86 and ARM.
  
 Reviewed: 17.11.2023
  
@@ -15,7 +14,7 @@ The details can be found in the files folder.
  
 # License
  
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

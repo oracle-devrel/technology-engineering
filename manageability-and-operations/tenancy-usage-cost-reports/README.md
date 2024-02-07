@@ -3,6 +3,8 @@
 Usage2ADW is a tool that uses the Python SDK to extract the usage and cost reports from OCI tenancy and load them to Oracle Autonomous Database. It is an extension of OCI's native Billing & Cost management capabilities, to provide customers with a granular understanding of their spending and utilization of OCI. Using ADW and OAC features, this solution can provide a high-level overview, in-depth spending analysis, resource utilization trends, and forecast.
 
 OCI automatically generates usage data and is stored in an Oracle-owned Object Storage bucket. It contains one row per each OCI resource per hour along with consumption information, metadata, namespace, and tags. Usage2ADW load this data to the ADW database and OAC visualizations can be created on top of this database.
+
+Reviewed: 30.01.2024
 ​
 # When to use this asset?
 ​
@@ -34,7 +36,10 @@ Step 5: Refresh the OAC dashboard to retrieve your tenancy usage and cost detail
 Note: Usage2ADW can be downloaded from https://github.com/oracle/oci-python-sdk/tree/master/examples/usage_reports_to_adw
 
 
-## License
-Copyright (c) 2023 Oracle and/or its affiliates.
+# License
+
+Copyright (c) 2024 Oracle and/or its affiliates.
+
 Licensed under the Universal Permissive License (UPL), Version 1.0.
-See [LICENSE](LICENSE) for more details.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
