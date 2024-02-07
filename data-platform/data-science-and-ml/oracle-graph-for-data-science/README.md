@@ -4,18 +4,7 @@ This page covers Oracle Graph analytics for Data Science projects.
 
 Graph databases, part of Oracle’s converged database offering, eliminate the need to set up a separate database and move data. Analysts and developers can perform fraud detection in banking, find connections and links to data, and improve traceability in smart manufacturing, all while gaining enterprise-grade security, ease of data ingestion, and strong support for data workloads.
 
-Reviewed: 2023-12-04
-
-
-# Table of Contents
-
-1. [Team Publications](#team-publications) 
-2. [Useful Links](#useful-links)
-3. [Reusable Assets](#reusable-assets)
-
-
-# Team Publications
-
+Reviewed: 04.12.2023
 
 # Useful Links
 
@@ -26,13 +15,9 @@ Reviewed: 2023-12-04
 - [Oracle Graph on Oracle LiveLabs](https://apexapps.oracle.com/pls/apex/f?p=133:100:2717775602397::::SEARCH:graph)
 - [Oracle Graph documentation](https://docs.oracle.com/en/database/oracle/oracle-database/23/graph.html)
 
-
-# Reusable Assets
-
-
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
