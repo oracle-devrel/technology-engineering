@@ -4,17 +4,17 @@ This demonstration will showcase the capabilities of the Oracle Machine Learning
 Objectives are: classifying vendors or suppliers into different categories based on various criteria to streamline procurement processes, identifying unusual or abnormal patterns in spending data, and forecasting total daily/weekly/monthly procurement spending for each vendor.
 
 
-Reviewed: 2023-12-04
+Reviewed: 04.12.2023
  
  
 # Useful Links
 
-- [end-to-end](https://www.youtube.com/watch?v=Ilz4lJzHZcs)
+- [Leveraging Procurement Vendor Segmentation, Anomaly Detection and Forecasting](https://www.youtube.com/watch?v=Ilz4lJzHZcs)
 
  
 # License
  
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
