@@ -26,7 +26,7 @@ Before getting started, make sure you have the following installed:
 ## Setting up the Environment
 1. Install the required packages:
    ```bash
-   pip install oci==2.112.1+preview.1.1649 llama-index qdrant-client sentence-transformers
+   pip install oci==2.118.1+preview.1.1697 llama-index qdrant-client sentence-transformers
    ```
 
 ## Loading data
