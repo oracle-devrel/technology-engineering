@@ -39,9 +39,9 @@ Reviewed: 01.02.2024
        
 # Reusable Assets Overview
 
-- [Bastion Session Script](bastion-session-script/README.md)
-- [OCI Security Health Check Standard](oci-security-health-check-standard/README.md)
-- [Data Safe Audit Database to OCI Logging](fn-datasafe-dbaudit-to-oci-logging/README.md)
+- [Bastion Session Script](shared-assets/bastion-session-script/README.md)
+- [OCI Security Health Check Standard](shared-assets/oci-security-health-check-standard/README.md)
+- [Data Safe Audit Database to OCI Logging](shared-assets/fn-datasafe-dbaudit-to-oci-logging/README.md)
 
       
 # Useful Links
