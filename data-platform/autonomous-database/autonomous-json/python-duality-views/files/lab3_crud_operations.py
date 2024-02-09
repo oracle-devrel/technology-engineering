@@ -3,6 +3,8 @@ import oracledb
 
 #connect with thick-client
 oracledb.init_oracle_client()
+
+#=== PLEASE CHANGE YOUR_PASSWORD  TO A REAL PASSWORD ! ===
 connection = oracledb.connect(user="myapp",
                               password="YOUR_PASSWORD",
                               dsn="localhost:1521/FREEPDB1")
