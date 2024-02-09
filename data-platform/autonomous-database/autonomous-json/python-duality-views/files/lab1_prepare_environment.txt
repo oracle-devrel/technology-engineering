@@ -35,7 +35,7 @@ firewall-cmd --reload
 
 
 ========== Create new user for 23c  ==============
-
+=== PLEASE CHANGE YOUR_PASSWORD  TO A REAL PASSWORD ! ===
 
 sqlplus sys/YOUR_PASSWORD@localhost:1521/FREEPDB1 as sysdba
 create user myapp identified by YOUR_PASSWORD;
