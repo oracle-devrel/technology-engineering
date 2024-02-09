@@ -13,7 +13,7 @@ ords --config /etc/ords/config install
 
 ORDS: Release 23.3 Production on Fri Nov 10 17:26:21 2023
 
-Copyright (c) 2010, 2023, Oracle.
+Copyright (c) 2024, Oracle.
 
 Configuration:
   /etc/ords/config/
@@ -100,6 +100,8 @@ nohup ords serve >> ords_log.log 2>&1 &
 
 
 -- Go to your browser and connect.
+=== PLEASE CHANGE YOUR_PASSWORD  TO A REAL PASSWORD ! ===
+
 http://PUBLIC_IP:8080/ords/sql-developer
 user: myapp
 password:YOUR_PASSWORD
