@@ -35,6 +35,7 @@ Reviewed: 30.01.2024
 # Useful Links
  
 - [The Future of Generative AI: What Enterprises Need to Know](https://blogs.oracle.com/ai-and-datascience/post/future-generative-ai-what-enterprises-need-to-know) 
+- [Developing AI applications with OCI Generative AI and LangChain](https://blogs.oracle.com/ai-and-datascience/post/developing-ai-apps-oci-generative-ai-langchain)
 - [Announcing the general availability of OCI Generative AI](https://blogs.oracle.com/ai-and-datascience/post/ga-oci-generative-ai)
 - [Oracle Embeds Generative AI Across the Technology Stack to Enable Enterprise AI Adoption at Scale](https://www.oracle.com/news/announcement/oracle-announces-availability-oci-generative-ai-service-2024-01-23/)
 - [Implement Oracle Cloud Infrastructure Generative AI based on Cohere Large Language Model - Blog & Architecture](https://docs.oracle.com/en/solutions/oci-generative-ai-llm/index.html#GUID-76987F35-F646-40CF-9CF2-42724BA57191)
