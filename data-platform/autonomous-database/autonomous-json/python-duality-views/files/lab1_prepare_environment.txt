@@ -17,31 +17,11 @@ yum -y localinstall oracle-database*
 
 /etc/init.d/oracle-free-23c configure
 
-
-
-3.- Set environment variables to use sqlplus
-
-cd /root
-echo 'export ORACLE_HOME=/opt/oracle/product/23c/dbhomeFree' >> .bashrc
-echo 'export PATH=$ORACLE_HOME/bin:$PATH' >> .bashrc
-. .bashrc
-
-
-4.- Enable firewall and automatic start of 23c Database.
+3.- Enable firewall and automatic start of 23c Database.
 
 systemctl enable oracle-free-23c
 firewall-cmd --permanent --add-port=1521/tcp
 firewall-cmd --reload
-
-
-========== Create new user for 23c  ==============
-=== PLEASE CHANGE YOUR_PASSWORD  TO A REAL PASSWORD ! ===
-
-sqlplus sys/YOUR_PASSWORD@localhost:1521/FREEPDB1 as sysdba
-create user myapp identified by YOUR_PASSWORD;
-grant db_developer_role to myapp;
-alter user myapp quota unlimited on users;
-exit;
 
 =========Install python =========
 
@@ -55,7 +35,19 @@ update-alternatives --config python3
 -- Install pip and Oracle Driver for python: oracledb
 yum install python3.11-pip
 python -m pip install oracledb --upgrade
+exit
 
+4.- Set environment variables to use sqlplus
 
+echo 'export ORACLE_HOME=/opt/oracle/product/23c/dbhomeFree' >> .bashrc
+echo 'export PATH=$ORACLE_HOME/bin:$PATH' >> .bashrc
+. .bashrc
 
+========== Create new user for 23c  ==============
+=== PLEASE CHANGE YOUR_PASSWORD  TO A REAL PASSWORD! ===
 
+sqlplus sys/YOUR_PASSWORD@localhost:1521/FREEPDB1 as sysdba
+create user myapp identified by YOUR_PASSWORD;
+grant db_developer_role to myapp;
+alter user myapp quota unlimited on users;
+exit;
