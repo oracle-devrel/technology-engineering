@@ -4,7 +4,7 @@ Simple Oracle Document Access (SODA) is a set of NoSQL-style APIs that let you c
 
 How is data stored? Let's connect via sqlplus with root user.
 
-=== PLEASE CHANGE YOUR_PASSWORD  TO A REAL PASSWORD ! ===
+=== PLEASE CHANGE YOUR_PASSWORD  TO A REAL PASSWORD! ===
 
 sqlplus myapp/YOUR_PASSWORD@localhost:1521/FREEPDB1
 
@@ -37,7 +37,7 @@ We can run a select all and we can see all the information, including the JSON d
 
 We can create a table containing JSON data and relational data. 
 
-=== PLEASE CHANGE YOUR_PASSWORD  TO A REAL PASSWORD ! ===
+=== PLEASE CHANGE YOUR_  TO A REAL PASSWORD! ===
 
 sqlplus myapp/YOUR_PASSWORD@localhost:1521/FREEPDB1
 
@@ -315,7 +315,7 @@ import oracledb
 oracledb.init_oracle_client()
 
 #connection details
-# === PLEASE CHANGE YOUR_PASSWORD  TO A REAL PASSWORD ! ===
+# === PLEASE CHANGE YOUR_PASSWORD  TO A REAL PASSWORD! ===
 
 connection = oracledb.connect(user="myapp",password="YOUR_PASSWORD",dsn="localhost:1521/FREEPDB1")
 
