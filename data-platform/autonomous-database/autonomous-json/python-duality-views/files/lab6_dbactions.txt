@@ -40,6 +40,7 @@ Oracle REST Data Services - Interactive Install
   Enter the database service name [FREEPDB1]:
   Provide database user name with administrator privileges.
     Enter the administrator username: SYS
+# === PLEASE CHANGE YOUR_PASSWORD  TO A REAL PASSWORD! ===
   Enter the database password for SYS AS SYSDBA: YOUR_PASSWORD
 Connecting to database user: SYS AS SYSDBA url: jdbc:oracle:thin:@//localhost:1521/FREEPDB1
 
@@ -74,6 +75,7 @@ firewall-cmd --reload
 
 
 -- Enable myapp user for ORDS
+# === PLEASE CHANGE YOUR_PASSWORD  TO A REAL PASSWORD! ===
 sqlplus sys/YOUR_PASSWORD@localhost:1521/FREEPDB1 as sysdba
 
 grant inherit privileges on user SYS to ORDS_METADATA;
@@ -100,7 +102,7 @@ nohup ords serve >> ords_log.log 2>&1 &
 
 
 -- Go to your browser and connect.
-=== PLEASE CHANGE YOUR_PASSWORD  TO A REAL PASSWORD ! ===
+=== PLEASE CHANGE YOUR_PASSWORD  TO A REAL PASSWORD! ===
 
 http://PUBLIC_IP:8080/ords/sql-developer
 user: myapp
