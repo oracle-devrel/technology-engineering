@@ -7,10 +7,14 @@ wget https://downloads.mongodb.com/compass/mongodb-mongosh-2.0.2.x86_64.rpm
 yum localinstall mongodb-mongosh-2.0.2.x86_64.rpm
 
 --we can find the url at the ords log we defined before, and we will have something like this:
+-- PLEASE CHANGE YOUR_PASSWORD  TO A REAL PASSWORD ! 
+
 --mongodb://[{user}:{password}@]localhost:27017/{user}?authMechanism=PLAIN&authSource=$external&ssl=true&retryWrites=false&loadBalanced=true
 
 --It is a default string. Let's connect with our user.
 --For the password is required to change # with %23: https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/mongo-using-oracle-database-api-mongodb.html
+-- PLEASE CHANGE YOUR_PASSWORD  TO A REAL PASSWORD ! 
+
 
 mongosh --tlsAllowInvalidCertificates 'mongodb://myapp:YOUR_PASSWORD@localhost:27017/myapp?authMechanism=PLAIN&authSource=$external&ssl=true&retryWrites=false&loadBalanced=true'
 
