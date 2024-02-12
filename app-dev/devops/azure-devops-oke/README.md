@@ -40,7 +40,7 @@ SOFTWARE.
 
 There are two ways (at least) to build and deploy to OKE from Azure DevOps:
 <ul>
-    <li>Use OCI VM as Azure parallel job self-hosted build agent that will run as instance-principal and hence no OCI credentials are needed to be shared with Azure DevOps. Here <code>kubectl</code> and OCI native tooling like <code>oci cli</code> can be used in pipelines.</li>
+    <li>Use OCI VM as Azure parallel job self-hosted build agent that will run as <code>instance-principal</code>code> and hence no OCI credentials are needed to be shared with Azure DevOps. Here <code>kubectl</code> and OCI native tooling like <code>oci cli</code> can be used in pipelines.</li>
     <br>
     <li>Use Azure DevOps native <code>tasks</code> that can run as either Azure-hosted or as self-hosted Azure parallel jobs. Credentials will be stored to Azure DevOps.</li>
 </ul>
