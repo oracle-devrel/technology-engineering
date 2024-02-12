@@ -131,7 +131,7 @@ httpd-lb     LoadBalancer   10.96.175.74   144.200.51.195   80:32452/TCP        
 </PRE>
 
 <p>
-Calling the LB endpoint with cURL or from the browser should show and echo:
+Calling the LB endpoint with cURL or from the browser should show an echo:
 
 <p>
 <PRE>
