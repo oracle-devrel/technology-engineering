@@ -100,6 +100,8 @@ Reviewed: 31.10.2023
 ## Oracle Analytics Live YouTube Videos
 |Content Link |Descripton|
 | ------------ |------------|
+|[Discover AI and Machine Learning for Oracle Analytics Cloud](https://www.youtube.com/watch?v=nYNbpGeu_nw)|Get an introduction to how OAC leverages AI services to to improve business performance while saving time, energy, and resources.|
+|[Discover the Analytics Workflow with Oracle Analytics Cloud](https://www.youtube.com/watch?v=DkurzlgZLyY)|An insightful session covering key topics including connecting data sources, data preparation for business users, data visualization and collaboration, and advanced, one-click analytics incorporating machine learning (ML).|
 |[Oracle Analytics Live! Webinar - January 2024 Edition](https://www.youtube.com/watch?v=pHTt89yw-oo&t=1336s)|The January 2024 edition of the Oracle Analytics Live! Webinar.|
 |[Accessing Delta Share with Oracle Analytics](https://www.youtube.com/watch?v=oZLKcarIreQ)|How to access data from Delta Share using Oracle Analytics. This capability is part of the Oracle Analytics Cloud November 2023 update.|
 |[Discover AI and Machine Learning for Oracle Analytics Cloud](https://www.youtube.com/watch?v=oZLKcarIreQ)|Learn about the intersection of Oracle Analytics Cloud (OAC) with OCI AI Services.|
