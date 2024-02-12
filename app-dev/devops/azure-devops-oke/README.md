@@ -64,7 +64,7 @@ To be able to do <code>Docker login</code> to the repo create <code>auth token</
     
 ## Create OKE cluster (or use existing) and setup Service Account for Azure DevOps
 
-Using Cloud UI and OKE Quick create setup a new Kubernetes cluster in OCI for this example. Alternatively you can also use an exisitng one. Make sure the OKE cluster has <code>public</code> API endpoint access for <code>kubectl</code>.
+Using Cloud UI and OKE Quick create setup a new Kubernetes cluster in OCI for this example. Alternatively you can also use an existing one. Make sure the OKE cluster has <code>public</code> API endpoint access for <code>kubectl</code>.
 
 <p>
 Once the OKE cluster is up and running with <code>kubectl</code> access setup the Service Account for Azure DevOps by following this guide: 
