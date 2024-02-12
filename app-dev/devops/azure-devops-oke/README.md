@@ -46,7 +46,7 @@ There are two ways (at least) to build and deploy to OKE from Azure DevOps:
 </ul>
 
 <p>
-For this example I've used the second option. I'm also using a self-hosted agent/runner on OCI but that's just because I can use the <code>always-free</code> VM instance for it as part of the default OCI subscription and I don't have any Azure-hosted agents available in my Azure subscription. Technically that does not matter since the agent is a vanilla Oracle Linux VM instance and does not contain any customizations whatsover to do the pipeline work (it could however, but is does not).
+For this example I've used the second option. I'm also using a self-hosted agent/runner on OCI but that's just because I can use the <code>always-free</code> VM instance for it as part of the default OCI subscription and I don't have any Azure-hosted agents available in my Azure subscription. Technically that does not matter since the agent is a vanilla Oracle Linux VM instance and does not contain any customizations whatsover to do the pipeline work (it could however, but it does not).
 
 ## Copy the files to the Azure DevOps repo
 
