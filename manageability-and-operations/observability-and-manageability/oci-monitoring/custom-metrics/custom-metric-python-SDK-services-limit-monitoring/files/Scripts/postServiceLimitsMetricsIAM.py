@@ -173,10 +173,11 @@ monitoring_client = oci.monitoring.MonitoringClient(config,service_endpoint=serv
 limits_client = oci.limits.LimitsClient(config)
 
 # Send the request to service, some parameters are not required, see API doc for more info
-list_limit_definitions_response = limits_client.list_limit_definitions(
-    compartment_id = compartment_ocid,
-    sort_by="name",
-    sort_order="ASC")
+list_limit_definitions_response = oci.pagination.list_call_get_all_results(
+  limits_client.list_limit_definitions,
+  compartment_id = compartment_ocid,
+  sort_by=“name”,
+  sort_order=“ASC”)
 
 # We iterate the list of all the service limits
 for x in list_limit_definitions_response.data:
