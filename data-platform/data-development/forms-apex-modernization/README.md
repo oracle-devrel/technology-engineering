@@ -1,4 +1,5 @@
-# Oracle Forms To Apex Modernization 
+# Oracle Forms To Apex Modernization
+Reviewed: "14.02.2024"
 
 This section covers Oracle Forms to APEX Modernization topic.
 
@@ -24,6 +25,10 @@ TBD
 # Useful Links
 
 - [APEX Solutions: Modernizing Oracle Forms](https://apex.oracle.com/en/solutions/oracle-forms/)
+- [FAQs Oracle Forms to APEX Modernization](https://apex.oracle.com/go/forms-faq)
+- [Modernizing Oracle Forms APEX Site](https://apex.oracle.com/en/solutions/oracle-forms/)
+- [Top 10 Reason why APEX is ideal for Forms Developers](https://apex.oracle.com/go/reasons-forms)
+- [Comparing Oracle Forms to Oracle Application Express Components](https://docs.oracle.com/en/database/oracle/application-express/20.2/aemig/comparing-Oracle-forms-to-Oracle-application-express-components.html)
 
 
 # Forms to APEX Best Practices

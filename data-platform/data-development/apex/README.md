@@ -1,8 +1,9 @@
 # APEX
+Reviewed: 14.02.2024
 
-<Product description>
+[Oracle APEX](https://apex.oracle.com/en/) is a low-code development platform that enables you to build stunning, scalable, secure apps with world-class features that can be deployed anywhere the Oracle Database runs (Any Edition, Any Version) for **FREE**
 
-Reviewed: 10.01.2024
+Using APEX, developers don't need to be an expert in a vast array of technologies to deliver sophisticated solutions. Just focus on solving the problem and let APEX take care of the rest.
 
 # Team Publications
 
@@ -25,7 +26,11 @@ Reviewed: 10.01.2024
 ## Get Started
 
 - [Official APEX Landing Page](https://apex.oracle.com/en/)
-- [What's New in APEX 23.1](https://apex.oracle.com/en/platform/features/whats-new-232/)
+- [What's New in APEX 23.2](https://docs.oracle.com/en/database/oracle/apex/23.2/htmrn/new-features.html)
+- [Training and Certification](https://apex.oracle.com/en/learn/training/)
+- [Tutorials](https://apex.oracle.com/en/learn/tutorials/)
+- [APEX Team Hosted Sessions - Office Hours](https://apex.oracle.com/en/community/office-hours/)
+
 
 
 ## Documentation
