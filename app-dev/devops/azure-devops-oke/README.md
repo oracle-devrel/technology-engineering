@@ -113,6 +113,9 @@ Edit the created pipeline and select <code>Variables</code> to create them as fo
     <li>OcirPullSecret: ocirsecret</li>
 </ul>
 
+<p>
+<img src="pipeline-vars.png" width="800" />
+
 ## Run the pipeline
 
 Pipeline runs automatically after commiting changes and when all of the above are properly set it should complete succesfully.
