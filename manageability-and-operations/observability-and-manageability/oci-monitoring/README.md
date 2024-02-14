@@ -14,6 +14,7 @@ Reviewed: 15.11.2023
 - [Cost estimation](https://learnoci.cloud/new-summary-feature-in-the-oci-compute-creation-workflow-e71b63d68cdd)
 - [How to feed OCI metrics to Security Onion Grafana](https://learnoci.cloud/how-to-feed-oci-metrics-to-security-onion-grafana-2dd1ceac3f71)
 - [Use Oracle REST API call to manage OEM assets](https://medium.com/@eugenesimos/supercharge-your-oracle-enterprise-manager-cloud-control-13-5-d264e7371ec9)
+- [Customised Alarm Notification in OCI](https://karthicin.medium.com/customised-alarm-notification-in-oci-e5b367ca20bc)
 
 # Useful Links
 
@@ -22,7 +23,7 @@ Reviewed: 15.11.2023
 
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

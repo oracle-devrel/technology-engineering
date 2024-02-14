@@ -23,7 +23,7 @@ The CLI is built on the OCI SDK for Python and runs on Mac, Windows, or Linux. T
 
 # License
  
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

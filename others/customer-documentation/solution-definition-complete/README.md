@@ -23,9 +23,9 @@ You might want to use a Markdown editor, or possibly copy the structure into a W
 You can find prewritten documents for various use cases in this repository, or create an Issue if you are missing something.
  
 # License
- 
-Copyright (c) 2023 Oracle and/or its affiliates.
- 
+
+Copyright (c) 2024 Oracle and/or its affiliates.
+
 Licensed under the Universal Permissive License (UPL), Version 1.0.
- 
+
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

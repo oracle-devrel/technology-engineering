@@ -12,11 +12,12 @@ OCI Database with PostgreSQL is designed for high availability by offering durab
 
 - [OCI PostgreSQL launch blog](https://blogs.oracle.com/cloud-infrastructure/post/oci-database-postgres)
 - [OCI PostgreSQL features](https://blogs.oracle.com/cloud-infrastructure/post/first-principles-optimizing-postgresql-for-the-cloud)
+- [Terraform to deploy OCI PostgreSQL database](https://blogs.oracle.com/cloud-infrastructure/post/deploy-managed-oci-database-with-postgresql-service-with-terraform)
 
 
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

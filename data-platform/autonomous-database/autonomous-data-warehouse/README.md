@@ -70,7 +70,7 @@ Oracle Autonomous Data Warehouse is the world’s first and only autonomous data
     
 # License
  
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
