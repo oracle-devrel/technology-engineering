@@ -1,4 +1,4 @@
-# How to check the health status of a Linux system
+# How to deploy a BeeGFS file system on OCI
 
 This section includes a step-by-step manual to install and deploy a BeeGFS file system on OCI VMs without RDMA support.
 
