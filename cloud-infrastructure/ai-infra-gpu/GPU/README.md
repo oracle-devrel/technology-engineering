@@ -21,6 +21,9 @@ Reviewed: 07.11.2023
  
  - [Video surveillance and analytics software performance on OCI](https://blogs.oracle.com/cloud-infrastructure/post/video-surveillance-analytics-performance-oci)
     - Run video surveillance and analytics software on OCI
+      
+ - [Powering protein large language models in antibody discovery on OCI](https://blogs.oracle.com/cloud-infrastructure/post/powering-protein-llms-antibody-discovery-oci)
+    - Powering protein large language models in antibody discovery on OCI
 
 ## LiveLabs
 - [Running Faceswap on OCI](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=798&session=4731494759204)
@@ -31,9 +34,12 @@ Reviewed: 07.11.2023
     - How to run AI on NVIDIA A10 GPUs in Oracle Cloud
  
  ## Re-useable Assets
+- [Transform your Organization with Oracle Artificial Intelligence: Did you know that Oracle Artificial Intelligence can transform your business? - live webinar ]([https://www.youtube.com/watch?v=r_ZG2sUzhqo](https://videohub.oracle.com/media/Transform+your+Organization+with+Oracle+Artificial+Intelligence/1_8rhx6ua9))
+    - We  had a live webinar focusing on Oracle Artificial Intelligence and Machine learning on 8th February.
+
 - [Navigating the AI Revolution: Opportunities and Challenges - German - efcom Symposium 2023](https://www.youtube.com/watch?v=r_ZG2sUzhqo)
     - For all German speakers interested to hear high-level about the foundations of GPU, what AI is (and how it is connected to Machine Learning, Data Science, LLM, GenAI) and how Oracle is approaching it.
-
+      
 # Useful Links
  
 - [NVIDIA H100 GPUs on Oracle Cloud](https://blogs.oracle.com/cloud-infrastructure/post/general-availability-oci-compute-nvidia-h100)
