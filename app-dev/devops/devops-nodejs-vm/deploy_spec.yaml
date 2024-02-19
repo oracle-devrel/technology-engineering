@@ -1,0 +1,35 @@
+version: 1.0
+component: deployment
+runAs: ocarun
+env: 
+  variables: 
+    version: ${buildId}
+files: 
+  - source: /nodejs.zip
+    destination: /tmp
+steps:
+  - stepType: Command
+    name: kill NodeJS
+    command: "pkill -f 'node /home/opc/source/server.js'"
+    timeoutInSeconds: 60
+    runAs: root
+  - stepType: Command
+    name: copy NodeJS
+    command: "cp /tmp/nodejs.zip /home/opc/nodejs.zip"
+    timeoutInSeconds: 60
+    runAs: root
+  - stepType: Command
+    name: cd to home
+    command: "cd /home/opc"
+    timeoutInSeconds: 60
+    runAs: root
+  - stepType: Command
+    name: unzip
+    command: "unzip -o nodejs.zip -d /home/opc"
+    timeoutInSeconds: 60
+    runAs: root
+  - stepType: Command
+    name: start NodeJS
+    command: "nohup node /home/opc/source/server.js &"
+    timeoutInSeconds: 60
+    runAs: root
