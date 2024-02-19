@@ -38,7 +38,7 @@ SOFTWARE.
 
 ### Guide
 
-Please see the setup guide on Medium.
+Please see the <a href="https://medium.com/@mika.rinne/ci-cd-for-nodejs-on-oci-without-kubernetes-a6f94b4b2948">setup guide on Medium</a>.
 
 ### License
 
