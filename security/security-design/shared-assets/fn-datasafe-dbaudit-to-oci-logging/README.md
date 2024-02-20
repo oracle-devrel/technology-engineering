@@ -11,7 +11,7 @@ Oracle Functions is a serverless, highly scalable, fully managed Functions-as-a-
 This Reference Architecture describes OCI Logging solution for collecting Oracle Datasafe Oracle DB Audit Logs for continuous monitoring and troubleshooting. An OCI Function pulls audit logs from Data Safe REST API Endpoints regularly and ingests them in OCI Logging. 
 From OCI Logging Data Safe DB Audit Logs, can be sent to OCI Logging Analytics, external SIEM, and OCI Object Storage. See [Design Guidance for SIEM Integration](https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/siem-integration.htm)
 
-Reviewed: 01.02.2024
+Reviewed: 20.02.2024
 
 # Prerequisites
 
