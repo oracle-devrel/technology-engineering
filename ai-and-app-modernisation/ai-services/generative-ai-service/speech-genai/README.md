@@ -6,7 +6,7 @@ OCI Speech is an AI service that applies automatic speech recognition technology
 
 Reviewed: 20.02.2024
 
-<img src="./AISpeechGenAISummary.jpg"></img>
+<img src="./files/AISpeechGenAISummary.png"></img>
 
 # Prerequisites
 
@@ -37,8 +37,7 @@ Before getting started, make sure you have access to these services:
 - OCI Generative AI Service generates text using the keywords received from OCI Speech service, to create a concise summary of the audio or video.
 
       
-<img src="./files/AISpeechSummaryAppArch.svg>
-</img>
+<img src="./files/AISpeechSummaryAppArch.svg"></img>
 
 # Application Flow in Detail (VBCS, OCI Speech, OCI Generative AI Service)
 
@@ -51,8 +50,7 @@ In this application, the drag-and-drop component in VBCS allows the user to drop
 
          User (Visual Builder) --> (Drag and Drop File) --> |Media File (adudio or video) --> (Service Endpoint) --> |OCI Speech Service| --> |Speech to Text| --> (Service Endpoint) --> |Result| --> (Visual Builder) --> (Gen AI Service Endpoint) --> |Result| --> (Visual Builder) 
 
-   <img src="./AISpeechEngine.png">
-      </img>
+   <img src="./files/AISpeechEngine.png"></img>
 
 # Service Endpoint call - Invoke OCI Object Storage
 
