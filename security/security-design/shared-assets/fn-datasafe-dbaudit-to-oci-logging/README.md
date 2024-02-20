@@ -53,7 +53,7 @@ If you don't have the required permissions and quota, contact your tenancy admin
 Now, you'll want a local copy of this repo. You can make that with the commands:
 
     git clone https://github.com/oracle-devrel/technology-engineering.git
-    cd security/security-design/fn-datasafe-dbaudit-to-oci-logging
+    cd security/security-design/shared-assets/fn-datasafe-dbaudit-to-oci-logging
     ls
 
 ## Prerequisites
