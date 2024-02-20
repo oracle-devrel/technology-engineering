@@ -2,11 +2,13 @@
  
 *This presentation can be used to talk about varioud peering options and its usage in OCI Networking*
  
-## When to use this asset?
+Reviewed: 19.02.2024
+
+# When to use this asset?
  
 *To understand various OCI Networking component*
  
-## How to use this asset?
+# How to use this asset?
  
 *To explore and understand both local and remote peering usages and understanding in the content of OCI Networking*
  

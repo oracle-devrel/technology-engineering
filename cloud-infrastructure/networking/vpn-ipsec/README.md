@@ -21,13 +21,11 @@ Reviewed: 06.02.2024
 
 - [Use Oracle Cloud Infrastructure Site-to-Site VPN service in HA mode with ECMP routing from Linux and Libreswan](https://docs.oracle.com/en/learn/oci-site-to-site-vpn/#introduction)
 
-
 ## Reference Architectures & Step-by-step Guides
 
 - [Steps to create an IPSec](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/settingupIPsec.htm)
 - [Steps to create IPSEC to AWS ](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/vpn_to_aws.htm)
     
-
 ## Blogs
 
  - [Enabling ECMP on IPSEC](https://www.ateam-oracle.com/post/equal-cost-multi-path-ecmp-routing-on-oci-drgv2)
