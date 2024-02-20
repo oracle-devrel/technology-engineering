@@ -1,15 +1,10 @@
 ## Operating Models
 
 This chapter is aimed at outlining the Operating Model importance and the possibilities in the different scenarios
-Single Cloud Provider
-Multi-cloud provider
-Hybrid 
 
-
-
-
-
-
+- Single Cloud Provider
+- Multi-cloud provider
+- Hybrid 
 
 # License
 
