@@ -2,11 +2,13 @@
  
 *This is an introduction slide deck for OCI Networking gateways*
  
-## When to use this asset?
+Reviewed: 19.02.2024
+
+# When to use this asset?
  
 *Networking Onboarding*
  
-## How to use this asset?
+# How to use this asset?
  
 *TTo read and understand various gateway offerings and its applicability within OCI Networking*
  

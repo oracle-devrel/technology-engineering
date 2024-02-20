@@ -1,7 +1,8 @@
 #  Cloud Networking
 
 Oracle Cloud Infrastructure (OCI) networking and connectivity products and services enable customers to manage and scale their networks. Customers can connect securely to a customizable, isolated virtual cloud network (VCN), and take advantage of inexpensive data egress charges. Granular access control of networking technologies provides connectivity solutions across both physical and virtual networks.
-    
+
+Reviewed: 19.02.2024
 
 # Table of Contents
  
@@ -13,20 +14,6 @@ Oracle Cloud Infrastructure (OCI) networking and connectivity products and servi
 
 - [OCI Networking](https://www.oracle.com/cloud/networking/)
 - [Network Command Center Services](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/net_command_center.htm)
-
-
-## Team Publications
-
-### Reference Architectures & Step-by-step Guides
-
-
-### Blogs
- 
-
-
-### Videos & Podcasts
-
-
 
 # License
 
