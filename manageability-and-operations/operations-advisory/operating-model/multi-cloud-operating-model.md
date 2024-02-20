@@ -22,13 +22,13 @@ Let's start with the basics:
 1. Make Automation part of your culture if this is not the case.
 If, in a single-cloud provider scenario, its importance is not always perceived as crucial, except for large-scale deployments, automation becomes paramount in a multi-cloud scenario.
 
-	a.Define which Operating scenarios you need to automate: what will be most frequent operations you will	need to run? what are the most complex and prone to human errors?
+a.Define which Operating scenarios you need to automate: what will be the most frequent operations you will	need to run? what are the most complex and prone to human errors?
 
-	b. Define the roles:Two typical roles in Infrastructure as Code (IaC) are IaC Developer and Cloud 	Operator. The IaC Developer provides essential building blocks--modules in Terraform, Playbooks in 	Ansible--which are used by the Cloud Operator to deploy resources. The same module or playbook will be 	used many times to create the same type of resource, each time providing specific parameters for the 	instantiation. Reusable Terraform modules and Ansible playbooks ensure deployed resources adhere to company-wide or organisational standards.
+b. Define the roles: Two typical roles in Infrastructure as Code (IaC) are IaC Developer and Cloud Operator. The IaC Developer provides essential building blocks--modules in Terraform, and Playbooks in 	Ansible--which are used by the Cloud Operator to deploy resources. The same module or playbook will be used many times to create the same type of resource, each time providing specific parameters for the instantiation. Reusable Terraform modules and Ansible playbooks ensure deployed resources adhere to company-wide or organizational standards.
 		
-	c. Define Approval workflows for changes: tipically you will want to protect resource from unwanted changes.
+c. Define Approval workflows for changes: typically you will want to protect resources from unwanted changes.
 
-    d. Make your coding provider-agnostic and modular.
+d. Make your coding provider agnostic and modular.
 
 2. Decide on the repository structure: this will need to support your Multi-cloud approach.
 
@@ -39,11 +39,6 @@ If, in a single-cloud provider scenario, its importance is not always perceived 
 The following Diagram depicts as an example, the use of ServiceNow ITOM to operate across cloud vendors, using two different repositories.
 
 ![alt ServiceNow Itom Integration](servicenowitomintegration.png)
-
-
-
-
-
 
 # Establish a FinOps practice
 
