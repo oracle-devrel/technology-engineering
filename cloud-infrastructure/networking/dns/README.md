@@ -17,9 +17,11 @@ Reviewed: 06.02.2024
 - [OCI DNS now supports secondary servers](https://docs.oracle.com/en-us/iaas/releasenotes/changes/d2d17c2d-500b-4edb-b16d-d65363e56a48/)
 
 # Team Publications
+
 - [DNS in multicloud disaster recovery architectures](#blogs)
 
 ## Reference Architectures & Step-by-step Guides
+
 - [Reference architecture for hybrid DNS high availability in OCI](https://blogs.oracle.com/cloud-infrastructure/post/oci-hybrid-dns-high-availability)
 
 ## Blogs

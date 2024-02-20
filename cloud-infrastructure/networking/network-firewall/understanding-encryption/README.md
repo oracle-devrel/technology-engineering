@@ -1,12 +1,14 @@
 # Understanding Encryption
  
 *Overview presentation of OCI Network Firewall*
+
+Reviewed: 19.02.2024
  
-## When to use this asset?
+# When to use this asset?
  
 *While understanding the basics of encryption*
  
-## How to use this asset?
+# How to use this asset?
  
 *This document explains the nitigritties of encryption in general and in the context of Firewall*
  
