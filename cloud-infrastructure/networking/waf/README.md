@@ -4,9 +4,11 @@ Oracle Cloud Infrastructure Web Application Firewall (WAF) is a regional-based a
 Reviewed: 06.02.2024
 
 # When to use this asset?
+
 These documents can be used as reusable assets on different technologies around OCI  WAF
 
 # How to use this asset?
+
 The information is generic and not specified for a particular customer. Appropriate changes in scope should be updated.
 
 # Useful Links
@@ -16,6 +18,7 @@ The information is generic and not specified for a particular customer. Appropri
 - [Edge Policies](https://docs.oracle.com/en-us/iaas/Content/WAF/EdgePolicyResources/legacy_waf.htm)
 
 # Team Publications
+
 - [Securing your Applications against Cyber Attacks with WAF](#videos--podcasts)
 
 ## Reference Architectures & Step-by-step Guides

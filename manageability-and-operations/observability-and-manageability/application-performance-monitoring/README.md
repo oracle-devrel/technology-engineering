@@ -19,6 +19,7 @@ Reviewed: 15.11.2023
 - [Using Stack Monitoring to monitor a Windows Instance](https://learnoci.cloud/using-stack-monitoring-to-monitor-a-windows-instance-d5f0d64f5494)
 - [Delete Multiple Resources in OCI Stack Monitoring with the Python SDK](https://medium.com/@michtoeth/delete-multiple-resources-in-oci-stack-monitoring-with-the-python-sdk-60fa23970ac1)
 - [Process monitoring using Stack Monitoring](https://karthicin.medium.com/process-monitoring-using-stack-monitoring-99908cec31a8)
+- [Storing APM Synthetic monitor error logs in OCI Logging](https://karthicin.medium.com/storing-apm-synthetic-monitor-error-logs-in-oci-logging-c2296ce6072f)
 
 
 # Useful Links

@@ -68,6 +68,11 @@ Before getting started, make sure you have the access to these services:
    <img src="./OIC_GenerateSummary.jpg">
       </img>
 
+## Code
+      VBCS app -  ImageClassification-1.0.zip
+      OIC Vision Integration - RESTVISION_01.00.0000.iar
+      OIC Generate Summary - IMAGEDESCRIPTIONGENERATION_01.00.0000.iar
+
 ## Conclusion
 
 In this article, we've covered how to utilise Oracle AI Vision Service features to provide a summary of an image using Geneartive AI service .  
@@ -81,3 +86,4 @@ Copyright (c) 2024 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+	
