@@ -19,11 +19,6 @@ steps:
     timeoutInSeconds: 60
     runAs: root
   - stepType: Command
-    name: cd to home
-    command: "cd /home/opc"
-    timeoutInSeconds: 60
-    runAs: root
-  - stepType: Command
     name: unzip
     command: "unzip -o nodejs.zip -d /home/opc"
     timeoutInSeconds: 60
