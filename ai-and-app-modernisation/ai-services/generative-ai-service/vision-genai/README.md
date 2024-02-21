@@ -5,8 +5,7 @@ In this article, we'll explore how to describe an image using OCI AI Vision Serv
 The application is developed using Oracle VBCS, OIC , OCI AI Vision service and OCI Generative AI Service.
 This integrated approach combines the strength of OCI AI Vision and OCI Generative AI Service, allowing for an efficient and insightful summarization of image content.                                     
 
-<img src="./AIVisionApp.jpg>
-</img>
+<img src="./files/AIVisionApp.jpg>"</img>
 
 ## Prerequisites
 
@@ -19,20 +18,19 @@ Before getting started, make sure you have the access to these services:
 
 ## AI Vision and OCI Generative AI Service Integration Architecture
 1. AI Vision App using VBCS
-      o	Oracle Visual Builder Cloud Service (VBCS) is a hosted environment for your application development infrastructure. It provides an open-source standards-based development service to create, collaborate on, and deploy applications within Oracle Cloud. This application is developed in VBCS.
-2.	Image Analysis with OCI AI Vision Service:
-      o	The AI Vision service is employed to analyse images.
-      o	It identifies objects within the image by using advanced computer vision algorithms.
-3.	Integration with OCI Generative AI Service:
-      o	The extracted object keywords are sent to the OCI Generative AI Service
-4.	Integration with OCI AI Vision and OCI Generative AI Service using OIC:
-      o	Oracle Integration Cloud is used to integrate VBCS app and OCI AI Services.
-5.	Summarization Process:
-      o	OCI Generative AI Service generates text using the keywords received from OCI Vision service, to create a concise summary of the image.
+- Oracle Visual Builder Cloud Service (VBCS) is a hosted environment for your application development infrastructure. It provides an open-source standards-based development service to create, collaborate on, and deploy applications within Oracle Cloud. This application is developed in VBCS.
+2. Image Analysis with OCI AI Vision Service:
+- The AI Vision service is employed to analyse images.
+- It identifies objects within the image by using advanced computer vision algorithms.
+3. Integration with OCI Generative AI Service:
+- The extracted object keywords are sent to the OCI Generative AI Service
+4. Integration with OCI AI Vision and OCI Generative AI Service using OIC:
+- Oracle Integration Cloud is used to integrate VBCS app and OCI AI Services.
+5. Summarization Process:
+- OCI Generative AI Service generates text using the keywords received from OCI Vision service, to create a concise summary of the image.
 
       
-<img src="./AIVisionAppArch.svg>
-</img>
+<img src="./files/AIVisionAppArch.svg>"</img>
 
 ## Application Flow in Detail (VBCS, OIC, OCI Vision, OCI Generative AI Service)
    In this application,
@@ -44,13 +42,13 @@ Before getting started, make sure you have the access to these services:
 
          User (VBCS) --> (File Picker) --> |Image| --> (OIC) --> |OCI Vision Service| --> |Detected Objects| --> (OIC) --> |Result| --> (VBCS)
 
-   <img src="./VBCS_Vision.jpg">
+   <img src="./files/VBCS_Vision.jpg">
       </img>
 
       OIC call - Invoke OCI Vision Service
       Endpoint - /actions/analyzeImage
 
-   <img src="./OIC_VisionService.jpg">
+   <img src="./files/OIC_VisionService.jpg">
       </img>
 
       •	User clicks the "Generate" button in the app to initiate the summary generation.
@@ -60,12 +58,12 @@ Before getting started, make sure you have the access to these services:
 
          User (VBCS) --> (File Picker) --> |Image| --> (OIC) --> |OCI Vision Service| --> |Detected Keywords| --> (OIC) --> | OCI Generative AI Service  --> |Summary| --> (OIC) --> |Result| --> (VBCS)
 
-   <img src="./VBCS_GenerateSummary.jpg">
+   <img src="./files/VBCS_GenerateSummary.jpg">
       </img>
 
       OIC call - Invoke OCI Generative AI Service
       Endpoint - /20231130/actions/generatText
-   <img src="./OIC_GenerateSummary.jpg">
+   <img src="./files/OIC_GenerateSummary.jpg">
       </img>
 
 ## Code
