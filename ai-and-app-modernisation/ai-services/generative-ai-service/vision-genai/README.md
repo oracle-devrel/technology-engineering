@@ -5,9 +5,10 @@ In this article, we'll explore how to describe an image using OCI AI Vision Serv
 The application is developed using Oracle VBCS, OIC, OCI AI Vision service, and OCI Generative AI Service.
 This integrated approach combines the strength of OCI AI Vision and OCI Generative AI Service, allowing for efficient and insightful summarization of image content.
 
+
 Reviewed: 21.02.2024
 
-<img src="./AIVisionApp.jpg></img>
+<img src="./files/AIVisionApp.jpg>"</img>
 
 # Prerequisites
 
@@ -36,40 +37,41 @@ Before getting started, make sure you have access to these services:
 5. Summarization Process:
 - OCI Generative AI Service generates text using the keywords received from OCI Vision service, to create a concise summary of the image.
 
-<img src="./AIVisionAppArch.svg></img>
+<img src="./files/AIVisionAppArch.svg></img>
 
 # Application Flow in Detail (VBCS, OIC, OCI Vision, OCI Generative AI Service)
-   In this application,
-      •	The File Picker action in VBCS allows the user to select the image. 
-      •	Create an integration process in Oracle Integration Cloud (OIC) to handle the communication between   VBCS and OCI Vision Service.
-      •	Pass the selected image from VBCS to OCI Vision Service to analyze the image.
-      •	OCI Vision Service analyzes the image and identifies objects within it.
-      •	The OCI Vision Service returns the detected objects (keywords) to the OIC integration process and returns the results to VBCS.
+
+In this application,
+-	The File Picker action in VBCS allows the user to select the image. 
+-	Create an integration process in Oracle Integration Cloud (OIC) to handle the communication between   VBCS and OCI Vision Service.
+-	Pass the selected image from VBCS to OCI Vision Service to analyze the image.
+-	OCI Vision Service analyzes the image and identifies objects within it.
+-	The OCI Vision Service returns the detected objects (keywords) to the OIC integration process and returns the results to VBCS.
 
          User (VBCS) --> (File Picker) --> |Image| --> (OIC) --> |OCI Vision Service| --> |Detected Objects| --> (OIC) --> |Result| --> (VBCS)
 
-   <img src="./VBCS_Vision.jpg">
+   <img src="./files/VBCS_Vision.jpg">
       </img>
 
       OIC call - Invoke OCI Vision Service
       Endpoint - /actions/analyzeImage
 
-   <img src="./OIC_VisionService.jpg">
+   <img src="./files/OIC_VisionService.jpg">
       </img>
 
-      •	User clicks the "Generate" button in the app to initiate the summary generation.
-      •	Configure the OIC integration process to invoke the GenAI service.
-      •	Pass the keywords returned by the OCI Vision Service along with any additional relevant information.
-      •	Generative AI Service processes the received keywords and generates a summary of the image content.
+-	User clicks the "Generate" button in the app to initiate the summary generation.
+-	Configure the OIC integration process to invoke the GenAI service.
+-	Pass the keywords returned by the OCI Vision Service along with any additional relevant information.
+-	Generative AI Service processes the received keywords and generates a summary of the image content.
 
          User (VBCS) --> (File Picker) --> |Image| --> (OIC) --> |OCI Vision Service| --> |Detected Keywords| --> (OIC) --> | OCI Generative AI Service  --> |Summary| --> (OIC) --> |Result| --> (VBCS)
 
-   <img src="./VBCS_GenerateSummary.jpg">
+   <img src="./files/VBCS_GenerateSummary.jpg">
       </img>
 
       OIC call - Invoke OCI Generative AI Service
       Endpoint - /20231130/actions/generatText
-   <img src="./OIC_GenerateSummary.jpg">
+   <img src="./files/OIC_GenerateSummary.jpg">
       </img>
 
 # Code
