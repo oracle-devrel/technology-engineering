@@ -21,11 +21,18 @@ Reviewed: 07.11.2023
  
  - [Video surveillance and analytics software performance on OCI](https://blogs.oracle.com/cloud-infrastructure/post/video-surveillance-analytics-performance-oci)
     - Run video surveillance and analytics software on OCI
+      
+ - [Powering protein large language models in antibody discovery on OCI](https://blogs.oracle.com/cloud-infrastructure/post/powering-protein-llms-antibody-discovery-oci)
+    - Powering protein large language models in antibody discovery on OCI
 
 ## LiveLabs
-- [Running Faceswap on OCI](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=798&session=4731494759204)
+- [Transform your Organization with Oracle Artificial Intelligence](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=798&session=4731494759204)
     - How to run Faceswap on Oracle Cloud GPU instance
 
+## Webinar
+- [Transform your Organization with Oracle Artificial Intelligence](https://videohub.oracle.com/media/Transform+your+Organization+with+Oracle+Artificial+Intelligence/1_8rhx6ua9)
+    - Transform your Organization with Oracle Artificial Intelligence
+      
 ## Cloud Coaching Events
 - [Running AI on NVIDIA A10 GPUs in Oracle Cloud](https://www.youtube.com/watch?v=auvNHWoblIA)
     - How to run AI on NVIDIA A10 GPUs in Oracle Cloud
