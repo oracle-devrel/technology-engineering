@@ -26,7 +26,7 @@ Reviewed: 07.11.2023
     - Powering protein large language models in antibody discovery on OCI
 
 ## LiveLabs
-- [Transform your Organization with Oracle Artificial Intelligence](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=798&session=4731494759204)
+- [How to run Faceswap on Oracle Cloud GPU instance](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=798&session=4731494759204)
     - How to run Faceswap on Oracle Cloud GPU instance
 
 ## Webinar
