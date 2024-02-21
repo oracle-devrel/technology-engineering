@@ -84,9 +84,9 @@ This asset is for anyone managing multiple on-prem database systems who needs to
 
 6. Run the following commands from **root_module** to initialize the Terraform configuration, see its execution plan, and finally apply that plan:
    
-    **terraform init**
-    **terraform plan**
-    **terraform apply**
+    **terraform init**<br>
+    **terraform plan**<br>
+    **terraform apply**<br>
 
 ### Update applied Terraform configurations
 
