@@ -1,4 +1,4 @@
-# Summarize Image using OCI AI Vision Service and OCI Generative AI Service
+# Describe an image using OCI AI Vision Service and OCI Generative AI Service
 
 ## Introduction
 In this article, we'll explore how to describe an image using OCI AI Vision Service and OCI Generative AI Service.
