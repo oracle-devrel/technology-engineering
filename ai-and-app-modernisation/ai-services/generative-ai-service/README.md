@@ -27,8 +27,8 @@ Reviewed: 30.01.2024
     - The reference architecture shows generative AI models deployed to an OCI GPU instance for image and text generation.
 - [Running 3rd party LLMs on OCI](https://github.com/oracle-devrel/oci-generative-ai)
     - Terraform script to start a stable-diffusion, bloom, and dreambooth in compute instance using an Nvidia GPU in OCI.
-- [Generative AI in OCI](https://medium.com/oracledevs/generative-ai-in-oci-c0467e1a68f7)
-    - Blog post explaining how to use generative AI models in OCI.
+- [Integrate OCI AI Speech Service and Generative AI Summarization in Visual Builder](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/speech-genai)
+- [Describe an image using OCI AI Vision and Generative AI Service](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/vision-genai)
 - [Oracle Generative AI Webinar](https://go.oracle.com/LP=138234?elqCampaignId=489428&src1=:so:ch:or:dg::::&SC=:so:ch:or:dg::::&pcode=WWMK230822P00010)
     - Deep dive into Oracle Generative AI platform.
 
@@ -37,6 +37,7 @@ Reviewed: 30.01.2024
 - [The Future of Generative AI: What Enterprises Need to Know](https://blogs.oracle.com/ai-and-datascience/post/future-generative-ai-what-enterprises-need-to-know) 
 - [Announcing the general availability of OCI Generative AI](https://blogs.oracle.com/ai-and-datascience/post/ga-oci-generative-ai)
 - [Oracle Embeds Generative AI Across the Technology Stack to Enable Enterprise AI Adoption at Scale](https://www.oracle.com/news/announcement/oracle-announces-availability-oci-generative-ai-service-2024-01-23/)
+- [Developing AI applications with OCI Generative AI and LangChain](https://blogs.oracle.com/ai-and-datascience/post/developing-ai-apps-oci-generative-ai-langchain)
 - [Implement Oracle Cloud Infrastructure Generative AI based on Cohere Large Language Model - Blog & Architecture](https://docs.oracle.com/en/solutions/oci-generative-ai-llm/index.html#GUID-76987F35-F646-40CF-9CF2-42724BA57191)
 - [Generative AI Chatbot using LLaMA-2, Qdrant, RAG, LangChain & Streamlit](https://blogs.oracle.com/ai-and-datascience/post/ai-chatbot-llama2-qdrant-rag-langchain-streamlit)
 - [Oracle and Generative AI](https://docs.oracle.com/en-us/iaas/Content/Resources/Assets/whitepapers/oracle-and-generative-ai.pdf)
@@ -48,6 +49,8 @@ Reviewed: 30.01.2024
 - [Oracle's Vision for the Future - Larry Ellison keynote Oracle Cloud World 2023](https://www.youtube.com/watch?v=63DmgBN1rSI)
 - [Generative AI on Oracle.com](https://www.oracle.com/artificial-intelligence/generative-ai/)
 - [Generative AI product documentation](https://docs.oracle.com/en-us/iaas/Content/generative-ai/home.htm)
+- [Generative AI in OCI](https://medium.com/oracledevs/generative-ai-in-oci-c0467e1a68f7)
+    - Blog post explaining how to use 3rd party generative AI models in OCI.
 
 
 
