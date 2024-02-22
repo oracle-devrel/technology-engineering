@@ -30,6 +30,7 @@ Reviewed: 06.02.2024
 ## Videos & Podcasts
 
 - [Implementing Public and Private DNS in OCI](https://www.youtube.com/watch?v=AjA-HagCye8)
+- [OCI DNS Traffic Management Policies Video](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=3906)
 
 # License
 
