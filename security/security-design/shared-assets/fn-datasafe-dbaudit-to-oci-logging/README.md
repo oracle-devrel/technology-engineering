@@ -141,7 +141,7 @@ If there is an error in destroying the object storage bucket, manually delete th
 We tested the terraform script in [Oracle Linux Cloud Developer Image](https://docs.oracle.com/en-us/iaas/oracle-linux/developer/index.htm) and Oracle Resource Manager. 
 
 ## Architecture Diagram
-![](./images/DatasafetoOCILoggingArchitecture.jpg)
+![](./files/images/DatasafetoOCILoggingArchitecture.jpg)
 
 # License
 
