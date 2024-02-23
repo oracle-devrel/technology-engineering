@@ -682,8 +682,9 @@ OCI networking and connectivity products and services enable customers to manage
 
 *Example:*
 
-A sample sizing of the PeopleSoft workload is reflected in the diagram below for reference purposes:
 Please note this example is indicative only.
+
+A sample sizing of the PeopleSoft workload is reflected in the diagram below for reference purposes:
 
 ![OCI - Bill of Materials](images/PeopleSoft-Sizing-Template-External.pdf)
 
