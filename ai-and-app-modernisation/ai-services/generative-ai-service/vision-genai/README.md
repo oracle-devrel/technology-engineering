@@ -8,7 +8,8 @@ This integrated approach combines the strength of OCI AI Vision and OCI Generati
 
 Reviewed: 21.02.2024
 
-<img src="./files/AIVisionApp.jpg>"</img>
+<img src="./files/AIVisionApp.jpg"></img>
+
 
 # Prerequisites
 
@@ -37,7 +38,7 @@ Before getting started, make sure you have access to these services:
 5. Summarization Process:
 - OCI Generative AI Service generates text using the keywords received from OCI Vision service, to create a concise summary of the image.
 
-<img src="./files/AIVisionAppArch.svg></img>
+<img src="./files/AIVisionAppArch.svg"></img>
 
 # Application Flow in Detail (VBCS, OIC, OCI Vision, OCI Generative AI Service)
 
