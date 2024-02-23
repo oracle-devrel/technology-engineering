@@ -303,7 +303,7 @@ External users access PeopleSoft using the URL https://`<External LB URL:port>`.
 
 *Reference:*
 
-\[SSL in OCI\] (https://www.ateam-oracle.com/post/load-balancing-ssl-traffic-in-oci)
+[SSL in OCI](https://www.ateam-oracle.com/post/load-balancing-ssl-traffic-in-oci)
 
 ### Workload Monitoring
 
@@ -477,29 +477,19 @@ In the **following sections** we are describing the **Solution Design Diagrams f
 
 *[The Oracle Cloud Notation, OCI Architecture Diagram Toolkits](https://docs.oracle.com/en-us/iaas/Content/General/Reference/graphicsfordiagrams.htm)*
 
-```{=tex}
-\pagebreak
-```
+
 ![Future State Deployment Diagram - PeopleSoft Workload Multi-AD, DR Design Diagram](images/MultiADDR-DeploymentDiagram-V3.pdf)
 
-```{=tex}
-\pagebreak
-```
+
 ![Future State Deployment Diagram - PeopleSoft Workload Multi-AD, Non-Production Design Diagram](images/SingleADProd-DeploymentDiagram-V3.pdf)
 
-```{=tex}
-\pagebreak
-```
+
 ![Future State Deployment Diagram - PeopleSoft Workload Single AD, Customer Use case Example -1](images/SingleADCustUseCase1-V3.pdf)
 
-```{=tex}
-\pagebreak
-```
+
 ![Future State Deployment Diagram - PeopleSoft Workload Single AD, Customer Use case Example -2](images/SingleADCustUseCase2-V3.pdf)
 
-```{=tex}
-\pagebreak
-```
+
 ## Solutions Considerations
 
 *Guide:*
@@ -530,18 +520,13 @@ Please refer to the following high level MAA diagrams for PepleSoft workload.
 
 ![PeopleSoft Workload MAA High Level Design Diagram (With WAF for Internet connection)](images/PeopleSoftHighLevelMAA-WithWAF-V3.pdf)
 
-```{=tex}
-\pagebreak
-```
+
 ![PeopleSoft Workload MAA High Level Design Diagram](images/PeopleSoftHighLevelMAA-V3.pdf)
 
 *Reference:*
 
 [HA Reference for PeopleSoft](https://www.oracle.com/a/tech/docs/psft-maa-exacs-tech-brief.pdf)
 
-```{=tex}
-\pagebreak
-```
 #### Backup and Recovery
 
 *Guide:*
@@ -697,9 +682,11 @@ OCI networking and connectivity products and services enable customers to manage
 
 *Example:*
 
+Please note this example is indicative only.
+
 A sample sizing of the PeopleSoft workload is reflected in the diagram below for reference purposes:
 
-![OCI - Bill of Materials](images/PeopleSoft-Sizing-Template-V3.pdf)
+![OCI - Bill of Materials](images/PeopleSoft-Sizing-Template-External.pdf)
 
 # Annex
 
