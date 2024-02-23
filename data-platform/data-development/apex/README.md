@@ -10,6 +10,8 @@ Using APEX, developers don't need to be an expert in a vast array of technologie
 - [Cloud Coaching - Unlock the Power of APEX](https://www.youtube.com/watch?v=6rG_tX8ScBc)
 - [APEX with AI - A new landscape for Application Development](https://youtu.be/f1cBdLEGY00)
 - [APEX Do it yourself latest post](https://www.linkedin.com/feed/update/urn:li:activity:7141123908354617345/)
+- [APEX on Autonomous Rockin' Experience](https://medium.com/@paulbrad71/apex-on-autonomous-database-rockin-experience-e57c4c4dc4f3)
+
 
 ## Tutorials/ How To's
 
@@ -32,7 +34,6 @@ Using APEX, developers don't need to be an expert in a vast array of technologie
 - [APEX Team Hosted Sessions - Office Hours](https://apex.oracle.com/en/community/office-hours/)
 
 
-
 ## Documentation
 
 - [APEX Documentation](https://docs.oracle.com/en/database/oracle/apex/23.2/index.html)
@@ -40,9 +41,6 @@ Using APEX, developers don't need to be an expert in a vast array of technologie
 
 
 # License
-
 Copyright (c) 2024 Oracle and/or its affiliates.
-
 Licensed under the Universal Permissive License (UPL), Version 1.0.
-
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
