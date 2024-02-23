@@ -303,7 +303,7 @@ External users access PeopleSoft using the URL https://`<External LB URL:port>`.
 
 *Reference:*
 
-\[SSL in OCI\] (https://www.ateam-oracle.com/post/load-balancing-ssl-traffic-in-oci)
+[SSL in OCI](https://www.ateam-oracle.com/post/load-balancing-ssl-traffic-in-oci)
 
 ### Workload Monitoring
 
