@@ -6,10 +6,10 @@ This set of workshops is composed by 3 workshops that can be run either in 3 day
 - Active Data Guard: the first part of this workshop is dedicated to Transparent Application Continuity and Active Data Guard. Then the second part illustrates the Fast Start Failover functionality, using Data Guard Broker and observers.
 - Sharding: this workshop illustrates Oracle Database sharding as a Continuous availability and a scalability solution.
 
- # License
+# License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

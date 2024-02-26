@@ -1,0 +1,133 @@
+============== Run different SQL queries explaining the different operators ==============
+
+
+--1 Simple Query dot notation
+
+select h.data.payment_status, h.data.reservation_id
+from HOTEL_RESERVATIONS h;
+
+-- 2 Sum and Group by
+
+select h.data.guest_contact_info.address.country "Country",sum(h.data.total_cost) "Total Income"
+from HOTEL_RESERVATIONS h
+group by  h.data.guest_contact_info.address.country
+order by sum(h.data.total_cost) desc;
+
+
+--3 Unnest arrays
+
+select customers.*
+from RESTAURANT_BOOKINGS nested data columns 
+    (
+    guest_email varchar2(50),
+    board varchar2(10),
+    included_in_reservation varchar2(10) ,
+    nested allergens[*] columns (allergen path '$')) customers;
+
+-- 4 JSON_TABLE
+-- 4.1 Nested document 
+select jt.*
+from hotel_reservations, JSON_TABLE(data, '$' columns(
+    reservation_id varchar(5),
+    room_id varchar2(5),
+    checkin_date date,
+    checkout_date varchar2(15),
+    email varchar2(50) path '$.guest_contact_info.email',
+    phone varchar2(50) path '$.guest_contact_info.phone'
+)) jt;
+
+-- 4.2 Quering internal array
+
+select jt.*
+from hotel_reservations, JSON_TABLE(data, '$' columns(
+    reservation_id varchar(5),
+    room_id varchar2(5),
+    checkin_date date,
+    checkout_date varchar2(15),
+    email varchar2(50) path '$.guest_contact_info.email',
+    phone varchar2(50) path '$.guest_contact_info.phone',
+        nested path '$.additional_requests[*]' columns(
+            type varchar2(20),
+            quantity number,
+            details varchar2(50)
+        )
+)) jt;
+
+-- 5 JSON UPDATE
+-- Change room, reservation 4 room 222 to reservation 4 to 105
+
+SELECT h.data.reservation_id, h.data.room_id, h.data.guest_contact_info.email
+from hotel_reservations h
+where h.data.reservation_id='4';
+
+update hotel_reservations h
+set h.data = JSON_TRANSFORM(data, 
+set '$.room_id'='105'
+)
+where h.data.reservation_id='4';
+
+commit;
+
+SELECT h.data.reservation_id, h.data.room_id, h.data.guest_contact_info.email
+from hotel_reservations h
+where h.data.reservation_id='4';
+
+SELECT h.data.reservation_id, h.data.room_id, h.data.guest_contact_info.email
+from hotel_reservations h
+where h.data.reservation_id='105';
+
+-- 6 JSON values Return sql object type (strint to number)
+
+select JSON_Value (data, '$.reservation_id' returning number) from HOTEL_RESERVATIONS;
+
+-- 7 JSON_EXIST
+
+--7.1 count bookings with additional requests:
+
+select count(1)
+from HOTEL_RESERVATIONS
+where JSON_Exists(data, '$.additional_requests');
+
+--7.2 show all bookings with additional requests with extra bed requirement
+
+select JSON_SERIALIZE(h.data)
+from HOTEL_RESERVATIONS h
+where JSON_Exists(h.data, '$.additional_requests.type?(@ == "extra_bed")');
+
+-- 8 JSON Data Guide and views
+
+-- 8.1 Create view from Query:
+
+create view reservation_info as
+select jt.*
+from hotel_reservations, JSON_TABLE(data, '$' columns(
+    reservation_id varchar(5),
+    room_id varchar2(5),
+    checkin_date date,
+    checkout_date varchar2(15),
+    email varchar2(50) path '$.guest_contact_info.email',
+    phone varchar2(50) path '$.guest_contact_info.phone',
+        nested path '$.additional_requests[*]' columns(
+            type varchar2(20),
+            quantity number,
+            details varchar2(50)
+        )
+)) jt;
+
+select * from reservation_info;
+
+8.2 Create views and Data Guide
+
+
+--create temp table to store the data guide:
+DECLARE
+  dg CLOB;
+  BEGIN
+    SELECT JSON_DATAGUIDE(data,dbms_json.FORMAT_HIERARCHICAL,dbms_json.pretty) "DATA GUIDE"
+      INTO dg
+      FROM HOTEL_RESERVATIONS;
+    DBMS_JSON.create_view('HOTEL_VIEW','HOTEL_RESERVATIONS','DATA',dg);
+  END;
+/
+
+select * from hotel_view;

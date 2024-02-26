@@ -6,6 +6,8 @@ Cloud Guard detects security problems within a customer tenancy by ingesting aud
 
 Responders can mitigate, correct, and prevent security issues based on a problem.
  
+Reviewed: 30.01.2024
+
 # Table of Contents
  
 1. [Team Publications](#team-publications)

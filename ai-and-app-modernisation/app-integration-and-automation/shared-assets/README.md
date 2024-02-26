@@ -13,6 +13,11 @@ This section contains various examples related to Application Integration: demo 
 
 ## Demos
 
+- [Oracle Integration - Realtime File Processing from Object Storage](https://www.youtube.com/watch?v=HnpYrussmWw)
+
+    - Discover a hands-on approach to processing real-time files from OCI Object Storage using Oracle Integration Cloud, OCI Events and OCI Streaming Service.No need for you to run scheduled jobs and checking the OCI Object Bucket for new files, by enabling Events in OCI Object Storage you can transmit Events like OCI Object Create, OCI Object Update, OCI Object Delete etc. to an OCI Stream in Real-time and configure OCI Stream Adapter in Oracle Integration as a trigger to receive the data in real time and process the file.
+    - This video will show you step by step guide to achieve this.   
+
 - [Cloud Coaching Webinar: Real-Time Outlook Email Analysis with Oracle Integration & AI](https://youtu.be/qzyzdAZjUU0?si=moC-O47m7L1nrhqx)
     - Through a Live Demo you will see how Oracle Integration Cloud work seamlessly with Oracle Cloud Streaming & API Gateway for instant Outlook Messages capture via Microsoft Graph Webhooks
     
@@ -130,7 +135,7 @@ This section contains various examples related to Application Integration: demo 
 
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

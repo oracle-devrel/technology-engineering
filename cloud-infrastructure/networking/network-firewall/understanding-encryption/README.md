@@ -1,19 +1,21 @@
 # Understanding Encryption
  
 *Overview presentation of OCI Network Firewall*
+
+Reviewed: 19.02.2024
  
-## When to use this asset?
+# When to use this asset?
  
 *While understanding the basics of encryption*
  
-## How to use this asset?
+# How to use this asset?
  
 *This document explains the nitigritties of encryption in general and in the context of Firewall*
  
 # License
- 
-Copyright (c) 2023 Oracle and/or its affiliates.
- 
+
+Copyright (c) 2024 Oracle and/or its affiliates.
+
 Licensed under the Universal Permissive License (UPL), Version 1.0.
- 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

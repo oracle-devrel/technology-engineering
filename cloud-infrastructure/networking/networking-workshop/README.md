@@ -2,41 +2,33 @@
 
 We have 2 slides - longer and shorter formats
 
-## When to use this asset?
-These documents can be use as reusable assets on different technologies around OCI Networking workshops
+Reviewed: 06.02.2024
 
-## How to use this asset?
-The information is generic in nature and not specified for a particular customer. Appropriate changes in scope should be updated.
+# When to use this asset?
 
+These documents can be used as reusable assets on different technologies around OCI Networking workshops
 
-# Table of Contents
+# How to use this asset?
+
+The information is generic and not specified for a particular customer. Appropriate changes in scope should be updated.
+
+# Useful Links
+
+ - [Oracle Cloud Infrastructure (OCI) Basic Workshop](https://learn.oracle.com/ols/event/oracle-cloud-infrastructure-oci-basic-workshop/89350/126248/197976)
  
-1. [Useful Links](#useful-links)
-2. [Team Publications](#team-publications)
-3. [Reusable Assets Overview](#reusable-assets-overviewdef)
+## Blogs
  
-## Useful Links
+- [OCI Networking Best Practices - Part One](https://www.ateam-oracle.com/post/oci-networking-best-practices-recommendations-and-tips---part-one---general-oci-networking)
+- [OCI Networking Best Practices - Part two](https://www.ateam-oracle.com/post/oci-networking-best-practices---part-two---oci-network-security)
 
+## Videos & Podcasts
 
-
-
-
-## Team Publications
-
-
- 
-### Blogs
- 
-
-
-### Videos & Podcasts
-
-
+- [OCI Networking Workshop Quick Start] (https://www.youtube.com/watch?v=Kza0WSjfwiY())
 
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See LICENSE for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

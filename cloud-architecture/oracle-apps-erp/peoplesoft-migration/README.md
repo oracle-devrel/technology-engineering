@@ -13,7 +13,7 @@ Review Data: 03.12.2023
 
 1. [Useful Links](#useful-links)
 
- 
+
 # Useful Links
 
 - [PeopleSoft Documentation Portal](https://docs.oracle.com/cd/E17566_01/epm91pbr0/eng/psbooks/psft_docall.htm#hcmdoc)
@@ -33,7 +33,7 @@ Review Data: 03.12.2023
 
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

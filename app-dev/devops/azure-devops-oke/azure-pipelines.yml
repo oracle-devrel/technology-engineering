@@ -1,0 +1,45 @@
+trigger:
+- main
+
+pool:
+  name: oci-vm
+
+steps:
+- task: Docker@2
+  displayName: 'Login to OCIR'
+  inputs:
+    command: login
+    containerRegistry: '$(CONTAINER_REGISTRY)'
+- task: Docker@2
+  displayName: 'Build & Push Container Image $(Build.BuildNumber)'
+  inputs:
+    command: buildAndPush
+    buildContext: '$(System.DefaultWorkingDirectory)'
+    Dockerfile: '$(System.DefaultWorkingDirectory)/Dockerfile'
+    containerRegistry: '$(CONTAINER_REGISTRY)'
+    repository: '$(CONTAINER_REPOSITORY)'
+    tags: $(Build.BuildNumber)
+
+- task: KubernetesManifest@0
+  displayName: 'Setup secret'
+  inputs: 
+    action: 'createSecret'
+    secretType: 'dockerRegistry'
+    secretName: '$(OcirPullSecret)'
+    namespace: '$(K8S_NAMESPACE)'
+    dockerRegistryEndpoint: '$(CONTAINER_REGISTRY)'
+    kubernetesServiceConnection: '$(K8S_CONNECTION_NAME)'
+
+- task: KubernetesManifest@0
+  displayName: 'Deploy To K8s Cluster - test container'
+  inputs:
+    action: 'deploy'
+    kubernetesServiceConnection: '$(K8S_CONNECTION_NAME)'
+    namespace: '$(K8S_NAMESPACE)'
+    manifests: |
+      $(System.DefaultWorkingDirectory)/deployment.yaml
+      $(System.DefaultWorkingDirectory)/svc.yaml
+    imagePullSecrets: |
+      $(OcirPullSecret)
+    containers: |
+      $(containerImageFullNameForK8sDeploy):$(Build.BuildNumber)

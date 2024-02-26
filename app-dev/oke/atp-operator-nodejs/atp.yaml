@@ -1,0 +1,34 @@
+#
+# Copyright (c) 2022, Oracle and/or its affiliates. 
+# Licensed under the Universal Permissive License v 1.0 as shown at http://oss.oracle.com/licenses/upl.
+#
+apiVersion: database.oracle.com/v1alpha1
+kind: AutonomousDatabase
+metadata:
+  name: atp
+spec:
+  details:
+    # Update compartmentOCID with your compartment OCID.
+    compartmentOCID: ocid1.compartment.oc1..aaaaaaaawccfkl...u5ripl2whnznhmvgiqdatqgq
+    # The dbName must begin with an alphabetic character and can contain a maximum of 14 alphanumeric characters. Special characters are not permitted. The database name must be unique in the tenancy.
+    dbName: atp
+    displayName: atp
+    cpuCoreCount: 1
+    adminPassword:
+      # Comment out k8sSecret and uncomment ociSecret if you pass the admin password using OCI Secret.
+      k8sSecret:
+        # The Name of the K8s secret where you want to hold the password of the ADMIN account.
+        name: admin-password
+    wallet:
+      name: instance-wallet
+      password:
+        k8sSecret:
+          name: instance-wallet-password
+    dataStorageSizeInTBs: 1
+    networkAccess:
+       accessType: PUBLIC
+
+  # Authorize the operator with API signing key pair. Comment out the ociConfig fields if your nodes are already authorized with instance principal.
+  #ociConfig:
+    #configMapName: oci-cred
+    #secretName: oci-privatekey

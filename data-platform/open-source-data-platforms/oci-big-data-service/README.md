@@ -12,10 +12,11 @@ BDS is based on Oracle Hadoop Distribution: https://docs.oracle.com/en-us/iaas/C
 ## Tutorials
 - [Get Started with Oracle Big Data Service](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=762)
 - [Analyze IoT Car in Big Data Services - Kafka, Flink, Mysql, OAC](https://apexapps.oracle.com/pls/apex/f?p=133:180:17108050413248::::wid:3837)
+- [Build a Data Pipeline with Big Data Service and Oracle Analytics Cloud - BDS, Object Storage, Machine Learning](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=3870)
 
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
