@@ -2,7 +2,7 @@
 OCI Security Health Check - Standard Edition
 ============================================
 Owner: Olaf Heimburger
-Version: 240130
+Version: 240229
 
 When to use this asset?
 

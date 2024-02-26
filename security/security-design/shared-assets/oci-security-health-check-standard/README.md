@@ -2,7 +2,7 @@
 
 Owner: Olaf Heimburger
 
-Version: 240130
+Version: 240229
 
 Reviewed: 01.02.2024
 
@@ -25,24 +25,24 @@ See the *OCI Security Health Check - Standard Edition* in action and watch the [
 
 Before running the *OCI Security Health Check - Standard Edition* you should download and verify it.
 
-  - Download the latest distribution [oci-security-health-check-standard-240130.zip](https://github.com/oracle-devrel/technology-engineering/releases/download/oci-security-health-check-std-240130/oci-security-health-check-standard-240130.zip).
+  - Download the latest distribution [oci-security-health-check-standard-240229.zip](https://github.com/oracle-devrel/technology-engineering/releases/download/oci-security-health-check-std-240229/oci-security-health-check-standard-240229.zip).
   - Download the respective checksum file:
-    - [oci-security-health-check-standard-240130.sha512](https://github.com/oracle-devrel/technology-engineering/releases/download/oci-security-health-check-std-240130/oci-security-health-check-standard-240130.sha512).
-    - [oci-security-health-check-standard-240130.sha512256](https://github.com/oracle-devrel/technology-engineering/releases/download/oci-security-health-check-std-240130/oci-security-health-check-standard-240130.sha512256).
+    - [oci-security-health-check-standard-240229.sha512](https://github.com/oracle-devrel/technology-engineering/releases/download/oci-security-health-check-std-240229/oci-security-health-check-standard-240229.sha512).
+    - [oci-security-health-check-standard-240229.sha512256](https://github.com/oracle-devrel/technology-engineering/releases/download/oci-security-health-check-std-240229/oci-security-health-check-standard-240229.sha512256).
   - Verify the integrity of the distribution. Both files must be in the same directory (for example, in your downloads directory).
 
     On MacOS:
     ```
     $ cd <your_downloads_directory>
-    $ shasum -a 512256 -c oci-security-health-check-standard-240130.sha512256
-    oci-security-health-check-standard-240130.zip: OK
+    $ shasum -a 512256 -c oci-security-health-check-standard-240229.sha512256
+    oci-security-health-check-standard-240229.zip: OK
     ```
 
     On Linux (including Cloud Shell):
     ```
     $ cd <your_downloads_directory>
-    $ sha512sum -c oci-security-health-check-standard-240130.sha512
-    oci-security-health-check-standard-240130.zip: OK
+    $ sha512sum -c oci-security-health-check-standard-240229.sha512
+    oci-security-health-check-standard-240229.zip: OK
     ```
 
 **Reject the downloaded file if the check fails!**
