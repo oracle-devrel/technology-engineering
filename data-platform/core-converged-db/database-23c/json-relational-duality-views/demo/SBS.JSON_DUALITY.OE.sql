@@ -1,4 +1,5 @@
-[opc@rdbmsfree ~]$ docker exec -it my23free sqlplus OE/Oracle_4U@localhost:1521/freepdb1
+PLEASE CHANGE YOUR_PASSWORD  TO A REAL PASSWORD!
+[opc@rdbmsfree ~]$ docker exec -it my23free sqlplus OE/YOUR_PASSWORD@localhost:1521/freepdb1
 
 SQL*Plus: Release 23.0.0.0.0 - Developer-Release on Tue Apr 11 11:59:22 2023
 Version 23.2.0.0.0
@@ -219,7 +220,7 @@ JSON_SERIALIZE(DATAPRETTY)
   "CUST_FIRST_NAME" : "Ron",
   "CUST_LAST_NAME" : "Wood",
   "CREDIT_LIMIT" : 2000,
-  "CUST_EMAIL" : "ron.wood@beggarsbanquet.com",
+  "CUST_EMAIL" : "test@example.com",
   "orders" :
   [
     {
@@ -248,7 +249,7 @@ set data = '{
   "CUST_FIRST_NAME" : "Ron",
   "CUST_LAST_NAME" : "Wood",
   "CREDIT_LIMIT" : 2000,
-  "CUST_EMAIL" : "ron.wood@beggarsbanquet.com",
+  "CUST_EMAIL" : "test@example.com",
   "orders" :
   [
     {
@@ -300,7 +301,7 @@ set data = JSON_MERGEPATCH (data,'{
   "CUST_FIRST_NAME" : "Ron",
   "CUST_LAST_NAME" : "Wood",
   "CREDIT_LIMIT" : 2000,
-  "CUST_EMAIL" : "ron.wood@beggarsbanquet.com",
+  "CUST_EMAIL" : "test@example.com",
   "orders" :
   [
     {
@@ -374,7 +375,7 @@ values (
   "CUST_FIRST_NAME" : "Ron",
   "CUST_LAST_NAME" : "Wood",
   "CREDIT_LIMIT" : 2000,
-  "CUST_EMAIL" : "ron.wood@beggarsbanquet.com",
+  "CUST_EMAIL" : "test@example.com",
   "orders" :
   [
     {
@@ -411,7 +412,7 @@ set data = JSON_MERGEPATCH (data,'{
   "CUST_FIRST_NAME" : "Ron",
   "CUST_LAST_NAME" : "Wood",
   "CREDIT_LIMIT" : 2000,
-  "CUST_EMAIL" : "ron.wood@beggarsbanquet.com",
+  "CUST_EMAIL" : "test@example.com",
   "orders" :
   [
     {
@@ -458,7 +459,7 @@ values ('{
   "CUST_FIRST_NAME" : "Keith",
   "CUST_LAST_NAME" : "Richards",
   "CREDIT_LIMIT" : 2000,
-  "CUST_EMAIL" : "keith.richards@beggarsbanquet.com",
+  "CUST_EMAIL" : "test@example.com",
   "orders" :
   [
     {
@@ -560,7 +561,7 @@ values ('{
   "CUST_FIRST_NAME" : "Keith",
   "CUST_LAST_NAME" : "Richards",
   "CREDIT_LIMIT" : 2000,
-  "CUST_EMAIL" : "keith.richards@beggarsbanquet.com",
+  "CUST_EMAIL" : "test@example.com",
   "orders" :
   [
     {
@@ -627,7 +628,7 @@ set data = JSON_MERGEPATCH (data,'{
   "CUST_FIRST_NAME" : "Ron",
   "CUST_LAST_NAME" : "Wood",
   "CREDIT_LIMIT" : 2000,
-  "CUST_EMAIL" : "ron.wood@beggarsbanquet.com",
+  "CUST_EMAIL" : "test@example.com",
   "orders" :
   [
     {
@@ -671,7 +672,7 @@ set data = JSON_MERGEPATCH (data,'{
   "CUST_FIRST_NAME" : "Ron",
   "CUST_LAST_NAME" : "Wood",
   "CREDIT_LIMIT" : 2000,
-  "CUST_EMAIL" : "ron.wood@beggarsbanquet.com",
+  "CUST_EMAIL" : "test@example.com",
   "orders" :
   [
     {

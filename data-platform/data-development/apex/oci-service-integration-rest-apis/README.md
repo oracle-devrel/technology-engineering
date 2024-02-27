@@ -1,5 +1,5 @@
 # Integrating with OCI Cloud Services
-Reviewed: "05.02.2024"
+Reviewed: "08.02.2024"
 
 REST APIs are used to integrate with OCI Cloud Services from APEX. understanding the nuances of the APIs and OCI authentication can be somewhat complex. The main challenge in our experience has been translating Documentation into Implementation.
 
@@ -16,7 +16,7 @@ The first set of samples will provide REST Data Sources for the OCI Document Und
 3. [Reusable Assets Overview](#reusable-assets-overview)
  
 # Team Publications
--  TBD
+-  [Interacting with OCI REST APIs in APEX — Empty POST Request](https://medium.com/@devpiotrekk/interacting-with-oci-rest-apis-in-apex-empty-post-request-ce270d15cbb6 "Tip: Submitting Empty Body")
  
 # Useful Links
 - [Oracle Documentation - Document Understanding API](https://docs.oracle.com/en-us/iaas/api/#/en/document-understanding/20221109/)
