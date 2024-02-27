@@ -44,8 +44,9 @@ const app = express();
 const path = require('path');
 
 const password = process.env.ATP_PWD;
+console.log("atp password:" + password);
 
-oracledb.initOracleClient({ libDir: '/instantclient_21_7', configDir: '/instantclient_21_7/network/admin/' });
+oracledb.initOracleClient({ libDir: '/instantclient_23_3', configDir: '/instantclient_23_3/network/admin/' });
 
 async function init() {
   try {
@@ -59,25 +60,53 @@ async function init() {
     console.log('Connection pool started succesfully.'); 
   } catch (err) {
     console.error('init() error: ' + err.message);
+    console.log('priceadmin/atp_pwd');
   }
 }
 
 app.get('/', (req, res) => {
-  getDate().then((date) => {
-     console.log(date);
-     res.send(date);
+  getSodaDoc().then((json) => {
+     console.log(json);
+     res.send(json);
   });
 });
 
-async function getDate() {
+async function getSodaDoc() {
   let connection;
   try {
     // Get a connection from the default pool
     connection = await oracledb.getConnection();
-    const sql = `SELECT SYSDATE FROM DUAL`;
-    const result = await connection.execute(sql);
-    const date = result.rows[0];
-    return date;
+    const soda = connection.getSodaDatabase();
+    var collection = await soda.createCollection("hotel_reservations"); 
+    collection = await soda.openCollection("hotel_reservations");
+    const json = {
+        "reservation_id": "2",
+        "hotel_id": "123",
+        "room_id": "315",
+        "checkin_date": "2023-06-15",
+        "checkout_date": "2023-06-17",
+        "num_adults": 1,
+        "num_children": 0,
+        "guest_name": {
+            "first_name": "Ethan",
+            "last_name": "Lee"
+        },
+        "guest_contact_info": {
+            "email": "ethan.lee@example.com",
+            "phone": "123-8106",
+            "address": {
+                "city": "Madrid",
+                "country": "Spain"
+            }
+        },
+        "total_cost": 350.00,
+        "payment_status": "paid"
+    }
+    var document = await collection.insertOneAndGet(json);
+    const key = document.key;
+    document = await collection.find().key(key).getOne() ;
+    const content = await document.getContent();
+    return content;
   } catch (err) {
     console.error(err);
   } finally {
