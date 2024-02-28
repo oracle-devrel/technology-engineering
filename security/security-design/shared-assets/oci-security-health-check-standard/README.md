@@ -89,7 +89,8 @@ To create a group for auditing do the following steps:
       allow group 'Default'/'grp-auditors' to read users in tenancy
       allow group 'Default'/'grp-auditors' to read vss-family in tenancy
       allow group 'Default'/'grp-auditors' to read dns in tenancy
-      allow group 'Default'/'grp-auditors' to use cloud-shell in tenancy    ```
+      allow group 'Default'/'grp-auditors' to use cloud-shell in tenancy
+    ```
   - Assign a user to the `grp-auditors` group.
   - Log out of the OCI Console.
 

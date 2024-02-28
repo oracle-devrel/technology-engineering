@@ -36,23 +36,23 @@ Usage
     - If "Domains" are listed you are migrated to Identity Domains
   - Create a group grp-auditors
   - Create a policy pcy-auditing with these statements:
-- For tenancies without Identity Domains use
-    allow group grp-auditors to inspect all-resources in tenancy
-    allow group grp-auditors to read instances in tenancy
-    allow group grp-auditors to read load-balancers in tenancy
-    allow group grp-auditors to read buckets in tenancy
-    allow group grp-auditors to read nat-gateways in tenancy
-    allow group grp-auditors to read public-ips in tenancy
-    allow group grp-auditors to read file-family in tenancy
-    allow group grp-auditors to read instance-configurations in tenancy
-    allow group grp-auditors to read network-security-groups in tenancy
-    allow group grp-auditors to read resource-availability in tenancy
-    allow group grp-auditors to read audit-events in tenancy
-    allow group grp-auditors to read users in tenancy
-    allow group grp-auditors to read vss-family in tenancy
-    allow group grp-auditors to read dns in tenancy
-    allow group grp-auditors to use cloud-shell in tenancy
-- For tenancies *with* Identity Domains use
+  - For tenancies without Identity Domains use
+      allow group grp-auditors to inspect all-resources in tenancy
+      allow group grp-auditors to read instances in tenancy
+      allow group grp-auditors to read load-balancers in tenancy
+      allow group grp-auditors to read buckets in tenancy
+      allow group grp-auditors to read nat-gateways in tenancy
+      allow group grp-auditors to read public-ips in tenancy
+      allow group grp-auditors to read file-family in tenancy
+      allow group grp-auditors to read instance-configurations in tenancy
+      allow group grp-auditors to read network-security-groups in tenancy
+      allow group grp-auditors to read resource-availability in tenancy
+      allow group grp-auditors to read audit-events in tenancy
+      allow group grp-auditors to read users in tenancy
+      allow group grp-auditors to read vss-family in tenancy
+      allow group grp-auditors to read dns in tenancy
+      allow group grp-auditors to use cloud-shell in tenancy
+  - For tenancies *with* Identity Domains use
       allow group 'Default'/'grp-auditors' to inspect all-resources in tenancy
       allow group 'Default'/'grp-auditors' to read instances in tenancy
       allow group 'Default'/'grp-auditors' to read load-balancers in tenancy
