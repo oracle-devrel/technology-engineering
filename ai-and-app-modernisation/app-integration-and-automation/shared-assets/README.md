@@ -6,6 +6,10 @@ This section contains various examples related to Application Integration: demo 
 
 ## Architecture Center
 
+- [Enable a Low Code Modular LLM App Engine using Oracle Integration and OCI Generative AI](https://docs.oracle.com/en/solutions/oci-generative-ai-integration/index.html)
+    - This reference architecture lets you understand the necessary considerations and recommendations to enable an AI-based, modular and event-driven  LLM App Engine using a low-code approach with Oracle Integration as the LLM orchestrator, OCI Generative AI and other OCI services
+    - Build enterprise-grade, modular, scalable, secure & maintainable LLM Apps
+
 - [Enable multicloud integrations from Oracle Cloud ERP to Microsoft Azure SQL Database](https://docs.oracle.com/en/solutions/oci-multicloud-erp-azure/index.html)
     - Reference Architecture on the Oracle Architecture Center, which provides the necessary considerations and recommendations to enable a multicloud, event-driven, and no-code integration solution to receive real-time feeds from Oracle Cloud ERP and send those to a private Microsoft Azure SQL Database, leveraging a component Oracle Integration provides called the connectivity agent, to facilitate on-premises/multicloud integrations
 - [Implement message-level encryption in Oracle Integration Cloud using OCI Vault](https://docs.oracle.com/en/solutions/oic-message-level-encryption/index.html#GUID-5C843938-A470-4584-9048-4361025358C6)
