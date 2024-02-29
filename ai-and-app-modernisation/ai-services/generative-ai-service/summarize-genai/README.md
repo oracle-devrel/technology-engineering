@@ -2,7 +2,7 @@
 
 Text summarization, a core NLP task, unlocks the ability to distill lengthy content into concise, informative summaries. Large Language Models (LLMs) serve as powerful tools for summarizing a wide array of texts, including news articles, research papers, and technical documents. However, summarizing large documents comes with its own set of challenges, necessitating the application of specialized summarization strategies to indexed content.
 
-In this article, we'll delve into the creation of a powerful document summarization solution leveraging Oracle Generative AI. Through the integration of Oracle Gen AI's advanced capabilities with cutting-edge technologies such as langchain. This succinct yet potent codebase empowers users to effortlessly summarize extensive documents, harnessing the prowess of Oracle Generative AI Service for content comprehension and condensation. 
+In this article, we'll delve into the creation of a powerful document summarization solution leveraging Oracle Generative AI. Through the integration of Oracle Gen AI's advanced capabilities with cutting-edge technologies such as langchain. This codebase empowers users to effortlessly summarize extensive documents, harnessing the power of Oracle Generative AI Service.
 
  
 # When to use this asset?
