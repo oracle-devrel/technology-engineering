@@ -23,7 +23,7 @@ Version     | Author          | Date                    | Comment
 :---        |:---             |:---                     |:---
 0.1         | Name            | June 12th, 2023     | Updates to network design
 1.0         | Name            | June 13th, 2023     | Updates to HA design
-2.2         | Name            | October 25th, 2023     | Updates to Annex
+2.4         | Name            | February 26th, 2024     | Added the network firewall in the requirement, the solution considerations and in the Annex.
 
 ## Team
 
@@ -52,13 +52,24 @@ Name  | email@example.com     | Cloud Architect         | Oracle
 
 doc:
   acronyms:
-    AD:	Availability Domain
-    DRG: Dynamic Routing Gateway
     OCI: Oracle Cloud Infrastructure
-    IaaS: Infrastructure as a Service
-    LB: Load Balancer
-    NSG: Network Security Group
     VCN: Virtual Cloud Network
+    VM: Virtual Machine
+    AD:	Availability Domain
+    FD: Fault Domain
+    DR: Disaster Recovery
+    DRG: Dynamic Routing Gateway
+    IaaS: Infrastructure as a Service
+    PaaS: Platform as a Service
+    ATP: Autonomous Transaction Processing
+    ADW: Autonomous Data Wharehouse
+    OCID: Oracle Cloud Identifier
+    BYOL: Bring Your Own License
+    BYOI: Bring Your Own Image
+    DMZ: Demilitarized Zone
+    BV:	Block Volume
+    BM:	Bare Metal
+
 ---
 
 
@@ -123,7 +134,7 @@ The customer has been using Hyperion Planning and Essbase for more than 6 years 
 
 *Guide:*
 
-*Describe the Workload: What applications and environments are part of this Workload migration or new implementation project, and what are their names? The implementation will be scoped later and can be a subset of the Solution Definition and proposed overall solution. For example, a Workload could exist of two applications, but the implementer would only include one environment of one application.*
+*Describe the Workload: What applications and environments are part of this Workload migration or new implementation project, and what are their names? The implementation will be scoped later and can be a subset of the Solution Definition and proposed overall solution. For example, a Workload could exist of two applications, but the implementer would only include one environment of one application. The workload chapter is about the whole Workload and the implementation scope will be described later in the chapter [Solution Scope](#solution-scope).*
 
 Example:
 
@@ -334,6 +345,19 @@ At the time of this document creation, no Security requirements have been specif
 
 *Capture the Non-Functional Requirements for networking-related topics. You can use the networking questions in the [Annex](#networking-requirement-considerations)*
 
+*As businesses increasingly rely on Cloud Infrastructure to store, process, and transmit sensitive data, the need for comprehensive security solutions has never been more important. Potential customers evaluating network security solutions typically prioritize the following requirements: Some of the broader category considerations are below.*
+
+- *Data Protection: Safeguarding sensitive information against unauthorized access, theft, or modification is a primary concern for any organization and industry today.*
+    - *Threat Prevention: Advanced capabilities like IDPS and malware detection for blocking threats.*
+    - *Data Loss Prevention (DLP): Monitoring and controlling sensitive data transmission.*
+    - *Encryption and Decryption: Inspecting encrypted traffic without compromising privacy.*
+- *Threat Prevention: Proactively identifying and mitigating security threats is essential for maintaining the integrity of network infrastructure. *
+    - *Intrusion Detection and Prevention: Monitoring for suspicious or malicious activity.*
+    - *Application Control: Granular control over specific applications or services.*
+    - *URL Filtering: Controlling access to permitted URLs.*
+- *Security compliance: Does your organization have network security requirements based on industry or organization compliance? For example - SAMA (Saudi Arabia Monetary Authority), HIPAA (Health Insurance Portability and Accountability Act), GDPR (General Data Protection Regulation), SWIFT, etc.*
+
+
 *Example:*
 
 At the time of this document creation, no Networking requirements have been specified.
@@ -455,7 +479,7 @@ Access Restriction  | We are not allowed to access a certain tenancy without cus
 
 *Guide:*
 
-*Use this text for every engagament. Do not change. Aligned with the Cloud Adoption Framework*
+*Use this text for every engagement. Do not change. Aligned with the Cloud Adoption Framework*
 
 The safety of the customer's Oracle Cloud Infrastructure (OCI) environment and data is the customer's priority.
 To following table of OCI Security Best Practices lists the recommended topics to provide a secure foundation for every OCI implementation. It applies to new and existing tenancies and should be implemented before the Workload defined in this document will be implemented.
@@ -549,9 +573,13 @@ Note that all workloads in a tenancy should sit on top of a Landing Zone, meanin
 
 *The Workload Architecture is typically described in a physical form. This should include all solution components. You do not have to provide solution build or deployment details such as IP addresses.*
 
-*Please describe the solution as a written text. If you have certain specifics you like to explain, you can also use the Solution Consideration chapter to describe the details there.*
+*Please describe the solution with an architecture image plus a written text. If you have certain specifics you like to explain, you can also use the Solution Consideration chapter to describe the details there.*
 
 *[The Oracle Cloud Notation, OCI Architecture Diagram Toolkits](https://docs.oracle.com/en-us/iaas/Content/General/Reference/graphicsfordiagrams.htm)*
+
+*Reference:*
+
+[StarterPacks (use the search)](https://github.com/oracle-devrel/technology-engineering/)
 
 *Example:*
 
@@ -588,7 +616,7 @@ Please see our security guidelines in the [Annex](#security-guidelines).
 
 *Reference:*
 
-*A list of possible Oracle solutions can be found in the [Annex](#networking-solutions).*
+*If your customers have any or one of the needs described in the guide of the [Network Requirements](#networking-requirements), then the OCI Network Firewall (OCI NFW) is the cloud native solution that provides all of it. It is based on the industry-leading Nextgen firewall solution by Palo Alto (VM-Series). Refer to the Annex for more best practices around deployment models.*
 
 ### Operations (Optional)
 <!--
@@ -688,7 +716,7 @@ Oracle Cloud Infrastructure (OCI) is designed to protect customer workloads with
 
 Cloud computing is fundamentally different from traditionally on-premises computing. In the traditional model, organizations are typically in full control of their technology infrastructure located on-premises (e.g., physical control of the hardware, and full control over the technology stack in production). In the cloud, organizations leverage resources and practices that are under the control of the cloud service provider, while still retaining some control and responsibility over other components of their IT solution. As a result, managing security and privacy in the cloud is often a shared responsibility between the cloud customer and the cloud service provider. The distribution of responsibilities between the cloud service provider and customer also varies based on the nature of the cloud service (IaaS, PaaS, SaaS).
 
-# Additional Resources
+## Additional Resources
 - [Oracle Cloud Compliance](https://www.oracle.com/corporate/cloud-compliance/) – Oracle is committed to helping customers operate globally in a fast-changing business environment and address the challenges of an ever more complex regulatory environment. This site is a primary reference for customers on Shared Management Model with Attestations and Advisories.
 - [Oracle Security Practices](https://www.oracle.com/corporate/security-practices/) – Oracle’s security practices are multidimensional, encompassing how the company develops and manages enterprise systems, and cloud and on-premises products and services.
 - [Oracle Cloud Security Practices](https://www.oracle.com/corporate/security-practices/cloud/) documents.
@@ -737,8 +765,22 @@ The below questions help to identify networking requirements.
 
 ## Security and Access Control
 
+<!--
 - Are you familiar with the concept of Next-Generation Firewalls (NGFW) and their benefits over traditional firewalls?
 - Have you considered the importance of protecting your web applications from potential cyber threats using a Web Application Firewall (WAF)?
+-->
+
+- Some of the below questions help you to adopt the right sizing and deployment model of the network firewall.
+    - Does the customer need to protect traffic from VCN to VCN? 
+    - Does the customer need to protect traffic from subnet to subnet in the same VCN?
+    - When deploying an OCI Network Firewall in a dedicated HUB or secure VCN, do you want to protect inter-VCN traffic and/or inter-subnet traffic from within the same VCN?
+    - Does the customer need to protect incoming or egressing traffic to the internet?
+    - Does the customer need to protect internal traffic (including on-premises via IPSEC/FC)?
+    - Is the network performance critical? 
+    - Does the customer have any requirement on network isolation (i.e., internet traffic never traverses or is mixed with internal traffic)? 
+- Have you considered the importance of protecting your web applications from potential cyber threats using a Web Application Firewall (WAF)?
+
+
 
 ## Monitoring and Troubleshooting
 
