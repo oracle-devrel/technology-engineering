@@ -1,12 +1,11 @@
+#Author: Anshuman Panda
 import streamlit as st
 import os
 from langchain.document_loaders import PyPDFLoader
 from langchain.prompts import PromptTemplate
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.chains.summarize import load_summarize_chain
-from langchain.chains import LLMChain
 from langchain_community.llms import OCIGenAI
-# from genai_langchain_integration.langchain_oci import OCIGenAI
 from pypdf import PdfReader
 from io import BytesIO
 from typing import Any, Dict, List
@@ -46,7 +45,7 @@ def text_to_docs(text: str,chunk_size,chunk_overlap) -> List[Document]:
     for i, doc in enumerate(page_docs):
         doc.metadata["page"] = i + 1
 
-    # Split pages into chunks
+    # Ansh Split pages into chunks
     doc_chunks = []
 
     for doc in page_docs:
@@ -60,7 +59,7 @@ def text_to_docs(text: str,chunk_size,chunk_overlap) -> List[Document]:
             doc = Document(
                 page_content=chunk, metadata={"page": doc.metadata["page"], "chunk": i}
             )
-            # Add sources a metadata
+            # Ansh Add sources a metadata
             doc.metadata["source"] = f"{doc.metadata['page']}-{doc.metadata['chunk']}"
             doc_chunks.append(doc)
     return doc_chunks
@@ -69,13 +68,13 @@ def text_to_docs(text: str,chunk_size,chunk_overlap) -> List[Document]:
 def custom_summary(docs, llm, custom_prompt, chain_type, num_summaries):
     print("I am inside custom summary")
     custom_prompt = custom_prompt + """:\n {text}"""
-    print("custom Prompt is ------>")
+    print("Ansh custom Prompt is ------>")
     print(custom_prompt)
     COMBINE_PROMPT = PromptTemplate(template=custom_prompt, input_variables = ["text"])
-    print("combine Prompt is ------>")
+    print("Ansh combine Prompt is ------>")
     print(COMBINE_PROMPT)
     MAP_PROMPT = PromptTemplate(template="Summarize:\n{text}", input_variables=["text"])
-    print("MAP_PROMPT Prompt is ------>")
+    print("Ansh MAP_PROMPT Prompt is ------>")
     print(MAP_PROMPT)
     if chain_type == "map_reduce":
         chain = load_summarize_chain(llm,chain_type=chain_type,
@@ -106,18 +105,21 @@ def main():
     st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
     st.title("Document Summarization App")
     
-    llm = st.sidebar.selectbox("LLM",["OracleGenAI","Other (other source in the future)"])
+    llm_name = st.sidebar.selectbox("LLM",["cohere.command","meta.llama-2-70b-chat"])
+    
     chain_type = st.sidebar.selectbox("Chain Type", ["map_reduce", "stuff", "refine"])
-    chunk_size = st.sidebar.slider("Chunk Size", min_value=20, max_value = 10000,
-                                   step=10, value=4000)
+    chunk_size = st.sidebar.slider("Chunk Size", min_value=20, max_value = 5000,
+                                   step=10, value=2000)
     chunk_overlap = st.sidebar.slider("Chunk Overlap", min_value=5, max_value = 5000,
                                    step=10, value=200)        
-    user_prompt = st.text_input("Enter the document summary prompt", value= "Compose a concise and brief summary of this text. ")
+    user_prompt = st.text_input("Enter the document summary prompt", value= "Compose a brief summary of this text. ")
     temperature = st.sidebar.number_input("Set the GenAI Temperature",
                                               min_value = 0.0,
                                               max_value=1.0,
                                               step=0.1,
                                               value=0.5)
+    max_token = st.sidebar.slider("Max Output size", min_value=200, max_value = 1000,step=10, value=200) 
+    compartment_id = st.sidebar.text_input("Enter the compartment id", value= "")
                                              
     opt = "Upload-own-file"
     pages = None
@@ -144,17 +146,11 @@ def main():
                     pages
 
         
-        
-    #             llm = OCIGenAI(
-    # model_id="cohere.command",
-    # service_endpoint="https://generativeai.aiservice.us-chicago-1.oci.oraclecloud.com",
-    # compartment_id = "ocid1.tenancy.oc1..aaaaaaaa5hwtrus75rauufcfvtnjnz3mc4xm2bzibbigva2bw4ne7ezkvzha",
-    # temperature=temperature
-    # )
                 llm = OCIGenAI(
-    model_id="cohere.command",
+    model_id=llm_name,
     service_endpoint="https://inference.generativeai.us-chicago-1.oci.oraclecloud.com",
-    compartment_id = "ocid1.compartment.oc1..aaaaaaaa7ggqkd4ptkeb7ugk6ipsl3gqjofhkr6yacluwj4fitf2ufrdm65q",
+    compartment_id = compartment_id,
+    model_kwargs={"temperature": temperature, "max_tokens": max_token}
 )
 
                 if st.button("Summarize"):
