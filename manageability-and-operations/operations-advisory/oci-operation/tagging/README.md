@@ -9,3 +9,4 @@ The installation details and the configuration of this tool ( oci cli ) is given
 
 The provided code is for simple testing purposes 
 
+Tag [bootvolumes](code/bootvolumes_tagging.md)
