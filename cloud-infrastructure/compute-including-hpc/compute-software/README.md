@@ -2,7 +2,7 @@
 
 This page contains information and useful links regarding Compute services that are mostly related to OS and Licenses Management on top of OCI Compute. You can also find resources about BYOI, BYOH and Autoscaling.
 
-<i>Review date: 01 March 2024</i>
+<i>Review date: 04 March 2024</i>
 
 # Table of Contents
 
