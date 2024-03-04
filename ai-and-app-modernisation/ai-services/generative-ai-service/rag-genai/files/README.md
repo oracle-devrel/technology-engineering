@@ -9,22 +9,14 @@ Also check the file LangChainRAG.py which allows you to create an application (i
 <img src="./RagArchitecture.svg">
 </img>
 
-<!-- ## Limited Availability
-
-Oracle Generative AI Service is in Limited Availability as of today when we are creating this repo.
-
-Customers can easily enter in the LA programs. To test these functionalities you need to enrol in the LA programs and install the proper versions of software libraries.
-
-Code and functionalities can change, as a result of changes and new features -->
-
 ## Prerequisites
 
 Before getting started, make sure you have the following installed:
 
 - Oracle Generative AI Service
-- llama index
-- langchain
-- qdrant client
+- Llama index
+- Langchain
+- Qdrant client
 - SentenceTransformerEmbeddings
 
 ## Setting up the Environment
