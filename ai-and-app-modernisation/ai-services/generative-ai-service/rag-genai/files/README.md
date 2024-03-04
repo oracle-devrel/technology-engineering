@@ -3,6 +3,9 @@
 ## Introduction
 In this article, we'll explore how to create a Retrieval-Augmented Generation (RAG) model using Oracle Gen AI, llama index, Qdrant Vector Database, and SentenceTransformerEmbeddings. This 21-line code will allow you to scrape through web pages, use llama index for indexing, Oracle Generative AI Service for question generation, and Qdrant for vector indexing.
 
+Find below the code of building a RAG using llamaIndex with Oracle GEN AI .
+Also we have a file LangChainRAG.py which allows you to create a rag using langchain and a file langChainRagWithUI.py which also has a streamlit ui attached to the langchain rag
+
 <img src="./RagArchitecture.svg">
 </img>
 
@@ -20,13 +23,15 @@ Before getting started, make sure you have the following installed:
 
 - Oracle Generative AI Service
 - llama index
+- langchain
 - qdrant client
 - SentenceTransformerEmbeddings
 
 ## Setting up the Environment
 1. Install the required packages:
    ```bash
-   pip install oci==2.118.1+preview.1.1697 llama-index qdrant-client sentence-transformers
+   pip install -U langchain oci
+   pip install langchain llama-index qdrant-client sentence-transformers transformers
    ```
 
 ## Loading data
@@ -41,26 +46,26 @@ sitemap used : https://objectstorage.eu-frankfurt-1.oraclecloud.com/n/frpj5kvxry
 ## Entire code
 
    ```bash
-   from genai_langchain_integration.langchain_oci import OCIGenAI
 from llama_index import VectorStoreIndex
 from llama_index import ServiceContext
 from llama_index.vector_stores.qdrant import QdrantVectorStore
 from llama_index.storage.storage_context import StorageContext
 from qdrant_client import qdrant_client
-from langchain.embeddings import SentenceTransformerEmbeddings
+from langchain_community.embeddings import SentenceTransformerEmbeddings
 from llama_hub.web.sitemap import SitemapReader
+from langchain_community.llms import OCIGenAI
 loader = SitemapReader()
-documents = loader.load_data(sitemap_url='https://objectstorage.eu-frankfurt-1.oraclecloud.com/n/frpj5kvxryk1/b/thisIsThePlace/o/combined.xml')
+documents = loader.load_data(sitemap_url='https://objectstorage.eu-frankfurt-1.oraclecloud.com/n/frpj5kvxryk1/b/thisIsThePlace/o/latest.xml')
 client = qdrant_client.QdrantClient(location=":memory:")
 embeddings = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
-llm = OCIGenAI(model_id="cohere.command",service_endpoint="https://generativeai.aiservice.us-chicago-1.oci.oraclecloud.com",compartment_id = "ocid1.tenancy.oc1..aaaaaaaa5hwtrus75rauufcfvtnjnz3mc4xm2bzibbigva2bw4ne7ezkvzha",temperature=0.0)
+llm = OCIGenAI(model_id="cohere.command",service_endpoint="https://inference.generativeai.us-chicago-1.oci.oraclecloud.com",model_kwargs={"temperature": 0.0, "max_tokens": 300},compartment_id = "ocid1.compartment.oc1..aaaaaaaa7ggqkd4ptkeb7ugk6ipsl3gqjofhkr6yacluwj4fitf2ufrdm65q")
 system_prompt="As a support engineer, your role is to leverage the information in the context provided. Your task is to respond to queries based strictly on the information available in the provided context. Do not create new information under any circumstances. Refrain from repeating yourself. Extract your response solely from the context mentioned above. If the context does not contain relevant information for the question, respond with 'How can I assist you with questions related to the document?"
 service_context = ServiceContext.from_defaults(llm=llm, chunk_size=1000, chunk_overlap=100, embed_model=embeddings,system_prompt=system_prompt)
 vector_store = QdrantVectorStore(client=client, collection_name="ansh")
 storage_context = StorageContext.from_defaults(vector_store=vector_store)
 index = VectorStoreIndex.from_documents(documents, storage_context=storage_context, service_context=service_context)
 query_engine = index.as_query_engine()
-response = query_engine.query("can i use OCI document understanding for files in french ?")
+response = query_engine.query('What is activity auditing report?')
 print(response)
    ```
 
