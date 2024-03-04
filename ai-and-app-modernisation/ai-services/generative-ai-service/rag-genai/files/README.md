@@ -3,19 +3,19 @@
 ## Introduction
 In this article, we'll explore how to create a Retrieval-Augmented Generation (RAG) model using Oracle Gen AI, llama index, Qdrant Vector Database, and SentenceTransformerEmbeddings. This 21-line code will allow you to scrape through web pages, use llama index for indexing, Oracle Generative AI Service for question generation, and Qdrant for vector indexing.
 
-Find below the code of building a RAG using llamaIndex with Oracle GEN AI .
-Also we have a file LangChainRAG.py which allows you to create a rag using langchain and a file langChainRagWithUI.py which also has a streamlit ui attached to the langchain rag
+Find below the code of building a RAG using llamaIndex with Oracle Generative AI Service.
+Also check the file LangChainRAG.py which allows you to create an application (implementing RAG) using Langchain and the file langChainRagWithUI.py which includes a UI build with Streamlit.
 
 <img src="./RagArchitecture.svg">
 </img>
 
-## Limited Availability
+<!-- ## Limited Availability
 
 Oracle Generative AI Service is in Limited Availability as of today when we are creating this repo.
 
 Customers can easily enter in the LA programs. To test these functionalities you need to enrol in the LA programs and install the proper versions of software libraries.
 
-Code and functionalities can change, as a result of changes and new features
+Code and functionalities can change, as a result of changes and new features -->
 
 ## Prerequisites
 
