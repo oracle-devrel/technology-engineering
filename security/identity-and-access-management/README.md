@@ -1,11 +1,13 @@
 # Identity & Access Management Team
 
-The Identity and Access Management group under the Technology Engineering Security Specialists team is responsible for providing expertise on the on-premise IAM and Cloud Security related topics to Oracle partners and customers. The IAM team helps build, define and support the strategy, workshops and delivery of re-useable assets, which contribute to how Oracle addresses the IAM requirements of partners and customers. The team is typically involved in:
+The Identity and Access Management group under the Technology Engineering Security Specialists team is responsible for providing expertise on the on-premise IAM and Cloud Security-related topics to Oracle partners and customers. The IAM team helps build, define and support the strategy, workshops and delivery of re-useable assets, which contribute to how Oracle addresses the IAM requirements of partners and customers. The team is typically involved in:
 
-- Custom Demos based on the customer requirements
+- Custom Demos based on the customer's requirements
 - POCs with various integrations
 - Solution Assistance
 - Workshops to enable the partners/customers
+
+Reviewed: 02.02.2024
      
 # Useful Links
 

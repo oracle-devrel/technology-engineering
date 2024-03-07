@@ -2,11 +2,13 @@
  
 *Overview presentation of OCI Network Firewall*
  
-## When to use this asset?
+Reviewed: 19.02.2024
+
+# When to use this asset?
  
 *To elaborate the understandings of Network Firewall*
  
-## How to use this asset?
+# How to use this asset?
  
 *Slide deck for sharing the overview of OCI Network Firewall powered by Palo Alto*
  

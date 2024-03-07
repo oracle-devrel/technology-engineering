@@ -23,7 +23,6 @@ Reviewed: 06.02.2024
 
 ## Reference Architectures & Step-by-step Guides
 
-
 - [Use OCI Network Firewall for SSL forward proxy and inbound inspection using Decryption rule](https://docs.oracle.com/en/learn/oci-network-firewall/#introduction)
     -  Step-by-step guide to deploy OCI network Firewall for SSL Forward proxy and inbound inspection with Decryption rules. It does include an introduction to encryption for beginners
     
@@ -31,13 +30,10 @@ Reviewed: 06.02.2024
  
 - [Using OCI Network Firewall for SSL Decryption](https://blogs.oracle.com/cloud-infrastructure/post/oci-network-firewall-ssl-decryption)
     -  Blog describing OCI Network Firewall, focusing on SSL Decryption techniques
-
-
 - [Announcing Network Firewall Services](https://blogs.oracle.com/cloudsecurity/post/announcing-oracle-cloud-infrastructure-network-firewall)
 - [How to use Network FW](https://blogs.oracle.com/cloudsecurity/post/defense-in-depth-layering-using-oci-network-firewall)
 - [Concept and use cases](https://www.ateam-oracle.com/post/oci-network-firewall---concepts-and-deployment)
 - [Hub and Spoke traffic inspection](https://www.ateam-oracle.com/post/oci-network-firewall---hub-and-spoke-traffic-inspection)
-
 
 ## Videos & Podcasts
 

@@ -2,11 +2,13 @@
  
 *Overview presentation of OCI Network Firewall*
  
-## When to use this asset?
+Reviewed: 19.02.2024
+
+# When to use this asset?
  
 *While implementing Firewall in Multi VCN setup*
  
-## How to use this asset?
+# How to use this asset?
  
 *This can be used as a reference architecture for Firewall in Multi VCN deployment*
  

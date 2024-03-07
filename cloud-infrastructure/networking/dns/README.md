@@ -18,9 +18,11 @@ Reviewed: 06.02.2024
 - [OCI DNS Traffic Management Policies Workshop](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=3906)
 
 # Team Publications
+
 - [DNS in multicloud disaster recovery architectures](#blogs)
 
 ## Reference Architectures & Step-by-step Guides
+
 - [Reference architecture for hybrid DNS high availability in OCI](https://blogs.oracle.com/cloud-infrastructure/post/oci-hybrid-dns-high-availability)
 
 ## Blogs
