@@ -3,7 +3,7 @@
 | Name          | eMail | Role                            | Company |
 |:--------------|:------|:--------------------------------|:--------|
 | Andrew Bond   |       | CTO and Specialist Leader       | Oracle  |
-| ${doc.author} |       | Manageability Specialist Leader | Oracle  |
+| Manuela Fioramonti |       | Manageability Specialist Leader | Oracle  |
 
 # History
 
