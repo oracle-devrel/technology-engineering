@@ -11,6 +11,9 @@ Reviewed: 30.01.2024
  
 # Team Publications
 
+- [Enable a Low Code Modular LLM App Engine using Oracle Integration and OCI Generative AI](https://docs.oracle.com/en/solutions/oci-generative-ai-integration/index.html)
+    - This reference architecture lets you understand the necessary considerations and recommendations to enable an AI-based, modular and event-driven  LLM App Engine using a low-code approach with Oracle Integration as the LLM orchestrator, OCI Generative AI and other OCI services
+    - Build enterprise-grade, modular, scalable, secure & maintainable LLM Apps
 - [Oracle Generative AI webinar](https://go.oracle.com/LP=138234?elqCampaignId=489428&src1=:so:ch:or:dg::::&SC=:so:ch:or:dg::::&pcode=WWMK230822P00010)
     - Deep dive into Oracle Generative AI platform
 - [Creating a RAG (Retrieval-Augmented Generation) with Oracle Generative AI Service in just 21 lines of code](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/rag-genai)
