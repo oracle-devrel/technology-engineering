@@ -11,8 +11,7 @@ This project will show you how to set up such a system, feed it documents, and h
 2. Getting started with OCI Generative AI for summarization—[docs](https://docs.oracle.com/en-us/iaas/Content/generative-ai/use-playground-summarize.htm#playground-summarize)
 3. OCI Generative AI—[Python SDK ](https://pypi.org/project/oci/)
 4. Front-end framework—[Streamlit](https://streamlit.io/)
-5. Development Framework-[LangChain](https://python.langchain.com/docs/get_started/introduction)
-
+5. Development Framework—[LangChain](https://python.langchain.com/docs/get_started/introduction)
 
 ## Running the application
 
