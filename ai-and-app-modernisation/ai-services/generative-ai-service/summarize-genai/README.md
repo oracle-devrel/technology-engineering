@@ -48,8 +48,8 @@ streamlit run ocidocumentSummarizeUpload.py
 
 ## Additional resources
 
-- How to run the application : https://www.youtube.com/watch?v=6A3KGyKy91Q&t=21s
-- Different methods of sumarization : https://medium.com/@anshuman4luv/revolutionizing-document-summarization-innovative-methods-with-langchain-and-large-language-models-f12272c7e8cd
+- [How to run the application](https://www.youtube.com/watch?v=6A3KGyKy91Q&t=21s)
+- [Blog - Different methods of sumarization](https://medium.com/@anshuman4luv/revolutionizing-document-summarization-innovative-methods-with-langchain-and-large-language-models-f12272c7e8cd)
 
 ## License
 
