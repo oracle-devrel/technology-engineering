@@ -2,7 +2,7 @@
 
 This demo is going to showcase predicting the creditworthiness of a loan applicant.
 
-Reviewed: 04.12.2023
+Reviewed: 2024.03.08
  
  
 # Useful Links

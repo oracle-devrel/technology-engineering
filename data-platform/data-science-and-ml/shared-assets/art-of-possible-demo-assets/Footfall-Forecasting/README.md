@@ -3,7 +3,7 @@
 This demo is going to show Oracle AI Platform capabilities to predict the number of customers visiting a Retail space by following a composite AI approach.
 The objective is to make accurate predictions about future footfall and make data-driven decisions about staffing, inventory, and rental prices as well as optimize tenant mix by combining various techniques such as descriptive analytics, NLP, image detection, and forecasting.
 
-Reviewed: 04.12.2023
+Reviewed: 2024.03.08
  
  
 # Useful Links
