@@ -3,7 +3,7 @@
 Often, it would be useful to see a summary of a document before reading it fully. There are many reasons—for example, we could be in a time crunch and need to quickly understand a large amount of text at a high level. In the past, seeing a document summary would have been extremely difficult unless the author wrote one. However, now it can be possible anytime with [Oracle Cloud Infrastructure (OCI) Generative AI](https://www.oracle.com/uk/artificial-intelligence/generative-ai/generative-ai-service/). Simply upload any document and witness instant, efficient summarization.   
 This project will show you how to set up such a system, feed it documents, and have it deliver summaries that will help accelerate your organization’s efficiency.  
 
-![](img/logo.png)
+![Document Summarization Application with OCI Generative AI and Streamlit](img/logo.png)
 
 ## Prerequisites
 
