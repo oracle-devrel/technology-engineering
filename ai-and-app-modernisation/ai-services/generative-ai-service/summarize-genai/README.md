@@ -31,12 +31,10 @@ pip install -U langchain oci
 Install requirements
 
 ```console
-pip install -r requirements. txt
+pip install -r requirements.txt
 ```
 
-For next step you will need [OCI Compartment ID](https://docs.oracle.com/en/cloud/foundation/cloud_architecture/governance/compartments.html#what-is-a-compartment) 
-
-Then run
+For next step you will need [OCI Compartment ID](https://docs.oracle.com/en/cloud/foundation/cloud_architecture/governance/compartments.html#what-is-a-compartment), then run
 
 ```console
 streamlit run ocidocumentSummarizeUpload.py
