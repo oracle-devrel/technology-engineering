@@ -1,13 +1,9 @@
 # Document Summarization Using Oracle Generative AI
 
-Often, it would be useful to see a summary of a document before reading it fully. There are many reasons—for example, we could be in a time crunch and need to quickly understand a large amount of text at a high level. In the past, seeing a document summary would have been extremely difficult unless the author wrote one. However, now it can be possible anytime with [Oracle Cloud Infrastructure (OCI) Generative AI](https://www.oracle.com/uk/artificial-intelligence/generative-ai/generative-ai-service/). Simply upload any document and witness instant, efficient summarization. 
+Often, it would be useful to see a summary of a document before reading it fully. There are many reasons—for example, we could be in a time crunch and need to quickly understand a large amount of text at a high level. In the past, seeing a document summary would have been extremely difficult unless the author wrote one. However, now it can be possible anytime with [Oracle Cloud Infrastructure (OCI) Generative AI](https://www.oracle.com/uk/artificial-intelligence/generative-ai/generative-ai-service/). Simply upload any document and witness instant, efficient summarization.   
 This project will show you how to set up such a system, feed it documents, and have it deliver summaries that will help accelerate your organization’s efficiency.  
 
 ![](img/logo.png)
-
-Text summarization, a core NLP task, unlocks the ability to distill lengthy content into concise, informative summaries. Large Language Models (LLMs) serve as powerful tools for summarizing a wide array of texts, including news articles, research papers, and technical documents. However, summarizing large documents comes with its own set of challenges, necessitating the application of specialized summarization strategies to indexed content.
-
-In this article, we'll delve into the creation of a powerful document summarization solution leveraging [OCI Generative AI](https://www.oracle.com/uk/artificial-intelligence/generative-ai/generative-ai-service/). Through the integration of OCI Generative AI's advanced capabilities with cutting-edge technologies such as [langchain](https://python.langchain.com/docs/get_started/introduction). This codebase allows you to effortlessly summarize extensive documents.
 
 ## Prerequisites
 
