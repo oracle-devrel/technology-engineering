@@ -3,7 +3,7 @@
 ## Introduction
 
 If you’ve ever needed to take an audio recording, transcribe it, and summarize what was said, you know how many steps that can take while juggling several files. Let’s use AI to more efficiently solve the problem.
-With Oracle Cloud Infrastructure (OCI) Speech and OCI Generative AI, we can automate audio-to-text conversion and build a concise summary all at once. This could, for example, be applied to a call center that handles thousands of calls, using a summary of the call transcripts to draw insights for improving customer experience.
+With [Oracle Cloud Infrastructure (OCI) Speech](https://www.oracle.com/uk/artificial-intelligence/speech/) and [OCI Generative AI](https://www.oracle.com/uk/artificial-intelligence/generative-ai/generative-ai-service/), we can automate audio-to-text conversion and build a concise summary all at once. This could, for example, be applied to a call center that handles thousands of calls, using a summary of the call transcripts to draw insights for improving customer experience.
 OCI Speech is an AI service that uses automatic speech recognition technology to transform audio-based content into text. OCI Generative AI analyzes this text and can generate, summarize, transform, and extract information from it. You could even take the next step to use these AI capabilities to build a low-code application with Oracle Visual Builder.
 Try this project to invoke the OCI Speech REST API, convert audio files into text, and invoke the Generative AI REST API to summarize it.
 
@@ -20,7 +20,7 @@ Try this project to invoke the OCI Speech REST API, convert audio files into tex
 ## Getting started
 
 1. AI Speech App using VBCS:  
-Oracle Visual Builder Cloud Service (VBCS) is a hosted environment for your application development infrastructure. It provides an open-source standards-based development service to create, collaborate on, and deploy applications within Oracle Cloud. This application is developed in VBCS.
+Oracle Visual Builder Cloud Service ([VBCS](https://www.oracle.com/uk/application-development/visual-builder/)) is a hosted environment for your application development infrastructure. It provides an open-source standards-based development service to create, collaborate on, and deploy applications within Oracle Cloud. This application is developed in VBCS.
 2. Transcriptions with OCI AI Speech Service:  
 Speech harnesses the power of spoken language enabling you to easily convert media files containing human speech into highly exact text transcriptions.
 Produces accurate and easy-to-use JSON and SubRip Subtitle (SRT) files written directly to the Object Storage bucket you choose.
