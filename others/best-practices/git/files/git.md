@@ -140,7 +140,9 @@ A practical example to approach DevOps and CI/CD for Autonomous Database into OC
 
 Find a high-level simplified view of actors(we will focus on Database Developers) and tasks we will explain in detail in this document:
 
-![Database DevOps Flow](images/DevOpsDatabaseFlow-Flow.pdf)
+<!-- ![Database DevOps Flow](images/DevOpsDatabaseFlow-Flow.pdf) -->
+![Database DevOps Flow](images/DevOpsDatabaseFlow-Flow.png)
+
 
 ## GIT with a Single Repository and Directory Structure
 

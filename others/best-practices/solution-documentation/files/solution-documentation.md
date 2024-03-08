@@ -55,11 +55,15 @@ To draw architecture diagrams, we use DrawIO. It is an easy-to-use tool to draw 
 
 We created two different styles for our notation. A logical style and a physical style, inspired by the original definitions by Zachman for [conceptual, logical, and physical system designs](https://zachman-feac.com/resources/ea-articles-reference/149-conceptual-logical-physical-it-is-simple). The logical notation represents a business point of view with user and data flows between capabilities or processes, instead of technology products. This view is more abstract and is very business-friendly. It can include technical generic capabilities such as 'integration', if required. The creator of a diagram needs to understand the audience and the purpose of the diagram, thus a logical notation can focus on business concepts only or somewhat bridge the gap to a technical view if needed.
 
-![A logical example diagram created in DrawIO](images/logical.pdf)
+<!-- ![A logical example diagram created in DrawIO](images/logical.pdf) -->
+![A logical example diagram created in DrawIO](images/logical.png)
+
 
 On the other hand, the physical notation describes the final technical solution. It includes physical things, such as hard- or software components or networking details. It describes a system and what components are needed for a full implementation of the system.
 
-![A physical example diagram created in DrawIO](images/physical.pdf)
+<!-- ![A physical example diagram created in DrawIO](images/physical.pdf) -->
+![A physical example diagram created in DrawIO](images/physical.png)
+
 
 The physical notation includes also a set of icons for different Oracle products, as seen in the image above.
 
@@ -99,7 +103,8 @@ Using Markdown in an organization will incur two challenges. First, you need to 
 
 For the first challenge, we developed an internal tool, based on public open-source components, to translate a Markdown file into a branded PDF. The solution is based on [Pandoc](https://pandoc.org/) and [`\LaTeX`{=tex}](https://www.latex-project.org/) in the backend, while the user only writes Markdown. Languages such as HTML and `\LaTeX `{=tex}can also be used in the text if desired. On top of that, we developed some LUA scripts as a filter for Pandoc, which allows us to create and resolve variables that a user can define in a YAML metadata block. These variables can also be used to load pieces of text per condition like an If-Else statement. With that, we can easily define a variable for a customer name and switch a template from one customer to another. Or we can use a piece of text if a condition is true, such as 'high-availability = true'. Furthermore, we can convert multiple Markdown files into a single PDF output. This allows us to have a single main document, and maybe some chapters as an individual document shared between different team members if needed, or specific text block highly reusable shared between all users, such as disclaimers, safe harbor statements, product descriptions etc. Such snippets can then be centrally managed and updated, with the end users just retaining the reference to the snippets, not needing to update their documents.
 
-![Markdown to PDF converter with corporate branding](images/converter.pdf)
+<!-- ![Markdown to PDF converter with corporate branding](images/converter.pdf) -->
+![Markdown to PDF converter with corporate branding](images/converter.png)
 
 Here are some examples of such a document, with the use of variables and snippets:
 
