@@ -1,4 +1,4 @@
-# Solution Documentation
+# Git
 
 This paper describes some best practices for using Git.
 
