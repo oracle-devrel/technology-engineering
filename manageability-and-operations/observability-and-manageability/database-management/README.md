@@ -13,6 +13,7 @@ Reviewed: 16.11.2023
 # Team Publications
 
 - [OCI Database Management PDB Support](https://learnoci.cloud/oci-database-management-new-features-announced-f9991cba2cc2)
+- [How to enable OCI Observability for OCI native database deploy](https://medium.com/@erikasciunzi/enable-observability-for-oci-native-database-deploy-235484953e46)
 
 # Useful Links
 
