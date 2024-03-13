@@ -39,6 +39,9 @@ SOFTWARE.
 ## OCI queue overview
 [Document queue-overview](files/queue_overview.pdf)
 
+### Author
+<a href="https://github.com/mikarinneoracle">mikarinneoracle</a>
+
 ## OCI Queue example in NodeJS with GitHub Actions
 
 ### OCI Queue
