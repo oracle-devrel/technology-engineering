@@ -125,4 +125,4 @@ You can manually send messages to the queue using the OCI Queue Console
 <p>
 You can also play with the queue's <code>Dead Letter Queue</code> settings to see how many
 times the same message is being received (default is 5). To do this comment the 
-<a href="index.js#L99">line 99 of the index.js</a> and re-run the build using commit. 
+<a href="index.js#L99">line 99 of the index.js</a> and re-run the build by committing the change. 
