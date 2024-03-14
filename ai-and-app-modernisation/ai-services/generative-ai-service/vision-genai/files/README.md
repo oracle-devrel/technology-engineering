@@ -1,13 +1,12 @@
 # Describe an image using OCI AI Vision Service and OCI Generative AI Service
 
 # Introduction
+
 In this article, we'll explore how to describe an image using OCI AI Vision Service and OCI Generative AI Service.
 The application is developed using Oracle VBCS, OIC, OCI AI Vision service, and OCI Generative AI Service.
 This integrated approach combines the strength of OCI AI Vision and OCI Generative AI Service, allowing for efficient and insightful summarization of image content.
 
-
 <img src="./files/AIVisionApp.jpg"></img>
-
 
 # Prerequisites
 
@@ -74,6 +73,7 @@ In this application,
       </img>
 
 # Code
+
       VBCS app -  ImageClassification-1.0.zip
       OIC Vision Integration - RESTVISION_01.00.0000.iar
       OIC Generate Summary - IMAGEDESCRIPTIONGENERATION_01.00.0000.iar
