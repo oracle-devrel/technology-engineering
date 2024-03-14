@@ -11,34 +11,34 @@ import hashlib
 kms_key_backup
 Last update: 31.01.24
 
-Export a OCI Vault Key and eiether save it to file or copy the key to a different vault
-It only export or copy software keys. HSM keys are not exportable
+Export an OCI Vault Key and either save it to a file or copy the key to a different vault
+It only exports or copies software keys. HSM keys are not exportable
 
 Usage:
   python kms_key_backup [arguments]
 
-  Parameters can be declared in a jsonfile or as arguments to the commandline, or both.
-  Any comandline arguments overwrites json config file values
+  Parameters can be declared in a JSON file as arguments to the command line, or both.
+  Any command line arguments overwrites JSON config file values
 
-  The script is run in two modi, eiter key export only or backup to a 2. vault.
+  The script is run in two modes, either key export only or backup to a 2. vault.
 
-  Parmeters/Arguments
+  Parameters/Arguments
   --configfile filename
-    File with configuration parameters in jeson format
+    File with configuration parameters in JSON format
 
   Common parameters for both modi
-    --ociconfig             path to OCI configuration file, assume both soruce and target use the same OCI config
+    --ociconfig             path to OCI configuration file, assume both source and target use the same OCI config
     --source_ociprofile     Source profile in oci config
     --source_region         Source Region
     --source_compartment    Source Compartment
     --source_vault          Source vault OCI
-    --source_keyname        Source Key Name, if search for key
-    --source_key_ocid       Source key OCID if search for OCID
-    --source_key_version    OCID of a spesific key version, if not set pick newest
+    --source_keyname        Source Key Name, if searching for key
+    --source_key_ocid       Source key OCID if searching for OCID
+    --source_key_version    OCID of a specific key version, if not set pick the newest
     --wrapping_algorithm    Key Export Wrapper Algorithm
   --exportonly              Target vault is not used, only export the key and save it to a file.
     --outfile               File with encrypted key, used for exportonly option. If not set, print to stdout
-    --wrapping_pubkey_file  For exportponly option, file with openssl generated key that matches the wrapping algoritm
+    --wrapping_pubkey_file  For exportponly option, a file with openssl generated key that matches the wrapping algorithm
     --target_region         Target Region
     --target_compartment    Target Compartment
     --target_vault Target   Vault OCID
@@ -97,7 +97,7 @@ def load_config(config_file_name):
 
 #########################################################################
 # parse_cmd_line
-# Parses the commandline with argsparser and returns args Namespace
+# Parses the command line with argsparser and returns args Namespace
 #########################################################################
 def parse_cmd_line():
     """ parse_cmd_line """
@@ -119,8 +119,8 @@ def parse_cmd_line():
 
 #########################################################################
 # overwrite_config
-# Overwrite configfile settings from commandline
-# Any commandline settings will overwrite any setings inherited from the 
+# Overwrite configfile settings from command line
+# Any commandline settings will overwrite any settings inherited from the 
 # config file, if loaded
 #########################################################################
 def overwrite_conf(args,config):
