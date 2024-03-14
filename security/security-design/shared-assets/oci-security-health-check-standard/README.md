@@ -2,7 +2,7 @@
 
 Owner: Olaf Heimburger
 
-Version: 240130
+Version: 240229
 
 Reviewed: 01.02.2024
 
@@ -15,6 +15,10 @@ Reviewed: 01.02.2024
 
 The *OCI Security Health Check - Standard Edition* checks an OCI tenancy for [CIS Oracle Cloud Infrastructure Foundations Benchmark](https://www.cisecurity.org/benchmark/Oracle_Cloud) compliance.
 
+### Disclaimer
+
+This asset covers the OCI platform as specified in the *CIS Oracle Cloud Infrastructure Foundations Benchmark*, only. Any workload provisioned in Databases, Compute VMs (running any Operating System), the Container Engine for Kubernetes, or in the VMware Solution is *out of scope* of the *OCI Security Health Check*.
+
 ## Complete Runtime Example
 
 See the *OCI Security Health Check - Standard Edition* in action and watch the [OCI Health Checks - Self Service video](https://www.youtube.com/watch?v=EzjKLxfxaAM).
@@ -25,24 +29,24 @@ See the *OCI Security Health Check - Standard Edition* in action and watch the [
 
 Before running the *OCI Security Health Check - Standard Edition* you should download and verify it.
 
-  - Download the latest distribution [oci-security-health-check-standard-240130.zip](https://github.com/oracle-devrel/technology-engineering/releases/download/oci-security-health-check-std-240130/oci-security-health-check-standard-240130.zip).
+  - Download the latest distribution [oci-security-health-check-standard-240229.zip](https://github.com/oracle-devrel/technology-engineering/releases/download/oci-security-health-check-std-240229/oci-security-health-check-standard-240229.zip).
   - Download the respective checksum file:
-    - [oci-security-health-check-standard-240130.sha512](https://github.com/oracle-devrel/technology-engineering/releases/download/oci-security-health-check-std-240130/oci-security-health-check-standard-240130.sha512).
-    - [oci-security-health-check-standard-240130.sha512256](https://github.com/oracle-devrel/technology-engineering/releases/download/oci-security-health-check-std-240130/oci-security-health-check-standard-240130.sha512256).
+    - [oci-security-health-check-standard-240229.sha512](https://github.com/oracle-devrel/technology-engineering/releases/download/oci-security-health-check-std-240229/oci-security-health-check-standard-240229.sha512).
+    - [oci-security-health-check-standard-240229.sha512256](https://github.com/oracle-devrel/technology-engineering/releases/download/oci-security-health-check-std-240229/oci-security-health-check-standard-240229.sha512256).
   - Verify the integrity of the distribution. Both files must be in the same directory (for example, in your downloads directory).
 
     On MacOS:
     ```
     $ cd <your_downloads_directory>
-    $ shasum -a 512256 -c oci-security-health-check-standard-240130.sha512256
-    oci-security-health-check-standard-240130.zip: OK
+    $ shasum -a 512256 -c oci-security-health-check-standard-240229.sha512256
+    oci-security-health-check-standard-240229.zip: OK
     ```
 
     On Linux (including Cloud Shell):
     ```
     $ cd <your_downloads_directory>
-    $ sha512sum -c oci-security-health-check-standard-240130.sha512
-    oci-security-health-check-standard-240130.zip: OK
+    $ sha512sum -c oci-security-health-check-standard-240229.sha512
+    oci-security-health-check-standard-240229.zip: OK
     ```
 
 **Reject the downloaded file if the check fails!**
@@ -85,7 +89,8 @@ To create a group for auditing do the following steps:
       allow group 'Default'/'grp-auditors' to read users in tenancy
       allow group 'Default'/'grp-auditors' to read vss-family in tenancy
       allow group 'Default'/'grp-auditors' to read dns in tenancy
-      allow group 'Default'/'grp-auditors' to use cloud-shell in tenancy    ```
+      allow group 'Default'/'grp-auditors' to use cloud-shell in tenancy
+    ```
   - Assign a user to the `grp-auditors` group.
   - Log out of the OCI Console.
 
