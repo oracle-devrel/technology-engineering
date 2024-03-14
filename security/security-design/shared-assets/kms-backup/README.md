@@ -2,27 +2,27 @@
 
 Owner: Inge Os
 
-OCI Vault supports several types of keys, two HSM based, and software based.
+OCI Vault supports several types of keys: HSM-based and software-based.
 
-Most services in Oracle OCI with encryption offers two types of encryption key management, Oracle Managed keys or Customer Managed keys.
+Most services in Oracle OCI with encryption offer two types of encryption key management, Oracle-managed keys or Customer-managed keys.
 
 Some common main requirements most often seen in various cyber security frameworks typically are:
 -	Separation of Duty, key administration is separated from service management. Typical for Oracle Databases with Transparent Data Encryption the DBA function does not have access to manage the keys, only to read and use them.
--	The Master key shall not be stored in any filesystem shared with the encrypted resource. Again, for using the Oracle Database with TDE as an example, the default key management with TDE is to use a Oracle Wallet stored in the same filesystem as the Oracle software installation. 
-To meet these requirements and to have a robust operations model for key management, Oracle offers Oracle Key Vault.
+-	The Master key shall not be stored in any filesystem shared with the encrypted resource. Again, for using the Oracle Database with TDE as an example, the default key management with TDE is to use an Oracle Wallet stored in the same filesystem as the Oracle software installation.
+-	To meet these requirements and to have a robust operations model for key management, Oracle offers Oracle Key Vault.
 
-Oracle key Vault offers two main categories of key management:  
-   HSM based, with a FIPS compliant Hardware Security Module  
-   Software Based, where the key is not stored in a HSM, but still protected with the strong tenant isolation and ops isolation that is the cornerstone of Oracle OCI.  
+Oracle Key Vault offers two main categories of key management:  
+- HSM-based, with a FIPS compliant Hardware Security Module  
+- Software-based, where the key is not stored in an HSM, but still protected with the strong tenant isolation and ops isolation that is the cornerstone of Oracle OCI.  
 
-The main difference between HSM based Vaults and Software based is that the HSM based prohibits explicit export of the master key. HSM based key storage offers HA and DR, including cross region replication, slightly dependent of the type of HSM service deployed.
+The main difference between HSM-based Vaults and Software-based is that the HSM-based prohibits explicit export of the master key. HSM-based key storage offers HA and DR, including cross-region replication, slightly dependent on the type of HSM service deployed.
 
-Software based Key Vault do not offer cross region replication.  
-The main purpose of this asset is to provide an example python script that demonstrates usage of the Python KMS SDK, an example of OCI Vault software key backup/restore between two regions.  
+Software-based Key Vault does not offer cross-region replication.  
+The main purpose of this asset is to provide an example Python script that demonstrates the usage of the Python KMS SDK, an example of OCI Vault software key backup/restore between two regions.  
 
 ## Prerequisites
 
-- The script may be run from the Cloud Shell, or from a linux/Windows environment
+- The script may be run from the Cloud Shell, or from a Linux/Windows environment
 - Python 3.0
 - Create a virtual environment
 
@@ -44,7 +44,7 @@ Please refer to the OCI install guide.
 ```
 
 - Configure OCI profiles and verify the OCI SDK
-Configure the OCI CLI with a API key (may be the same) for source and target. Please refer to the OCI CLI documentation for creating a OCI environment file. 
+Configure the OCI CLI with an API key (may be the same) for source and target. Please refer to the OCI CLI documentation for creating an OCI environment file. 
 
   
 [OCI File Configuration]( https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/cliconfigure.htm)
@@ -61,7 +61,7 @@ The OCI CLI configuration may be verified with the following command:
 
 - A valid public key for export only
 
-- Create and/or Check IAM Policies to permit key read, inspect and key creation. 
+- Create and/or Check IAM Policies to permit key reading, inspection, and creation. 
 
 Permission to `manage` the following types of resources in your Oracle Cloud Infrastructure tenancy: `vaults`, `keys`, `secret-family` 
 Example policies:
@@ -79,15 +79,15 @@ If you don't have the required permissions and quota, contact your tenancy admin
 
 ## Script execution
 
-The script requires a number of arguments. The arguments vary dependent on modi of script execution. All or some arguments can be submitted as a configuration file in JSON format or at the command-line. Any command-line argument overwrites any arguments from the configuration file,
+The script requires a number of arguments. The arguments vary depending on the script execution. All or some arguments can be submitted as a configuration file in JSON format or at the command line. Any command-line argument overwrites any arguments from the configuration file,
 
 The script has two modes of operation:
 1)	Export a key, save it to a file, and print the fingerprint, used for verification of a key
-2)	Copy the key between two locations where tenant OCID, region and API Key is required.
+2)	Copy the key between two locations where tenant OCID, region, and API Key are required.
 
-A key in vault may have several versions, and you may specify the OCID of a given version for both export and copy of the key. If no key version is specified, the most recent key is exported.
+A key in the vault may have several versions, and you may specify the OCID of a given version for both export and copy of the key. If no key version is specified, the most recent key is exported.
 
-The script checks if the key is Enabled and is of type SOFTWARE, before any export is attempted.
+The script checks if the key is Enabled and is of type SOFTWARE before any export is attempted.
 
 ##  Configuration parameters/arguments
 
