@@ -32,6 +32,8 @@ Reviewed: 13/11/2023
 - [ServiceNow integration with OCI using secrets stored in OCI Vault to create incidents](https://karthicin.medium.com/servicenow-integration-with-oracle-cloud-d3d7a1c6f68a)
 - [How to enable OCI Observability Services on Exadata Cloud@Customer](https://medium.com/@erikasciunzi/how-to-enable-oci-observability-services-on-exadata-cloud-customer-9501dcaa356e)
 - [Using Pulumi to create OCI resource](https://karthicin.medium.com/using-pulumi-to-create-oci-resource-1e685a7d25fb)
+- [How to monitor Weblogic in OCI and collect logs for analysis](https://karthicin.medium.com/how-to-monitor-weblogic-in-oci-and-collect-logs-for-analysis-7c5007426010)
+- [How to run Velociraptor in OCI Container Instance](https://learnoci.cloud/how-to-run-velociraport-in-oci-container-instance-7adfb75d1df8)
 
 ## Cloud Coaching Clinics (Videos)
 

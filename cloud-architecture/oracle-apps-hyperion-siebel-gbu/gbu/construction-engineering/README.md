@@ -6,7 +6,7 @@ These resources aim to offer guidance throughout your migration, enabling you to
 
 Explore these materials to enhance your migration strategy. We appreciate your participation and are committed to supporting your cloud migration journey.
  
-Reviewed: 20.11.2023
+Reviewed: 7.2.2024
 
 # Table of Contents
  
@@ -22,6 +22,7 @@ The reusable assets available in this repository:
 
 # Useful Links
 
+- [Primavera 24 is now available for download. Read more about the latest release in the Documentation Library](https://docs.oracle.com/en/industries/construction-engineering/index.html)
 - [Oracle Construction and Engineering Applications documentation](https://docs.oracle.com/en/industries/construction-engineering/index.html)
 - [Oracle Construction and Engineering Applications Lifetime Support Policy](https://www.oracle.com/us/assets/lifetime-support-applications-069216.pdf)
 - [Oracle Primavera P6 EPPM Deployment Categories](https://docs.oracle.com/cd/F51302_01/English/Planning/p6_eppm_performance_sizing/index.htm)

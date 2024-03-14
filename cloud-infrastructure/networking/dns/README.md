@@ -15,11 +15,14 @@ Reviewed: 06.02.2024
 - [Hands-on Training](https://oracle.github.io/learning-library/oci-library/oci-hol/oci-private-dns/workshops/freetier/?lab=intro)
 - [OCI DNS Documentation](https://www.oracle.com/cloud/networking/dns/)
 - [OCI DNS now supports secondary servers](https://docs.oracle.com/en-us/iaas/releasenotes/changes/d2d17c2d-500b-4edb-b16d-d65363e56a48/)
+- [OCI DNS Traffic Management Policies Workshop](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=3906)
 
 # Team Publications
+
 - [DNS in multicloud disaster recovery architectures](#blogs)
 
 ## Reference Architectures & Step-by-step Guides
+
 - [Reference architecture for hybrid DNS high availability in OCI](https://blogs.oracle.com/cloud-infrastructure/post/oci-hybrid-dns-high-availability)
 
 ## Blogs
@@ -30,6 +33,7 @@ Reviewed: 06.02.2024
 ## Videos & Podcasts
 
 - [Implementing Public and Private DNS in OCI](https://www.youtube.com/watch?v=AjA-HagCye8)
+
 
 # License
 
