@@ -2,7 +2,7 @@
 
 # Introduction
 
-OCI Speech is an AI service that applies automatic speech recognition technology to transform audio-based content into text.  Generative AI, The Large Language Model (LLM) analyzes the text input and can generate, summarize, transform, and extract information. Using these AI capabilities, we built a low code application- “Integrate OCI AI Speech Service and Generative AI Summarization in Visual Builder "  to invoke AI Speech REST API to convert audio files into text and then further invoke the Generative AI REST API to Summarize it.       
+OCI Speech is an AI service that applies automatic speech recognition technology to transform audio-based content into text.  Generative AI, The Large Language Model (LLM) analyzes the text input and can generate, summarize, transform, and extract information. Using these AI capabilities, we built a low code application- "Integrate OCI AI Speech Service and Generative AI Summarization in Visual Builder"  to invoke AI Speech REST API to convert audio files into text and then further invoke the Generative AI REST API to Summarize it.       
 
 Reviewed: 20.02.2024
 
@@ -70,7 +70,7 @@ In this application, the drag-and-drop component in VBCS allows the user to drop
 
 # Conclusion
 
-In this article, we've covered how to utilize Oracle AI Speech Service features to provide a transription and summarize using Generative AI service.  
+In this article, we've covered how to utilize Oracle AI Speech Service features to provide a transcription and summarize using Generative AI service.  
 
 Feel free to modify and expand upon this template according to your specific use case and preferences.
 
