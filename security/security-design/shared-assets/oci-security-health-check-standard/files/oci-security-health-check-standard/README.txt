@@ -2,12 +2,19 @@
 OCI Security Health Check - Standard Edition
 ============================================
 Owner: Olaf Heimburger
-Version: 240130
+Version: 240315
 
 When to use this asset?
 
 The OCI Security Health Check - Standard Edition checks an OCI tenancy for
 CIS OCI Foundation Benchmark compliance.
+
+Disclaimer
+
+This asset covers the OCI platform as specified in the *CIS Oracle Cloud Infrastructure
+Foundations Benchmark*, only. Any workload provisioned in Databases, Compute VMs
+(running any Operating System), the Container Engine for Kubernetes, or in the VMware
+Solution is *out of scope* of the *OCI Security Health Check*.
 
 Usage
 
@@ -29,23 +36,23 @@ Usage
     - If "Domains" are listed you are migrated to Identity Domains
   - Create a group grp-auditors
   - Create a policy pcy-auditing with these statements:
-- For tenancies without Identity Domains use
-    allow group grp-auditors to inspect all-resources in tenancy
-    allow group grp-auditors to read instances in tenancy
-    allow group grp-auditors to read load-balancers in tenancy
-    allow group grp-auditors to read buckets in tenancy
-    allow group grp-auditors to read nat-gateways in tenancy
-    allow group grp-auditors to read public-ips in tenancy
-    allow group grp-auditors to read file-family in tenancy
-    allow group grp-auditors to read instance-configurations in tenancy
-    allow group grp-auditors to read network-security-groups in tenancy
-    allow group grp-auditors to read resource-availability in tenancy
-    allow group grp-auditors to read audit-events in tenancy
-    allow group grp-auditors to read users in tenancy
-    allow group grp-auditors to read vss-family in tenancy
-    allow group grp-auditors to read dns in tenancy
-    allow group grp-auditors to use cloud-shell in tenancy
-- For tenancies *with* Identity Domains use
+  - For tenancies without Identity Domains use
+      allow group grp-auditors to inspect all-resources in tenancy
+      allow group grp-auditors to read instances in tenancy
+      allow group grp-auditors to read load-balancers in tenancy
+      allow group grp-auditors to read buckets in tenancy
+      allow group grp-auditors to read nat-gateways in tenancy
+      allow group grp-auditors to read public-ips in tenancy
+      allow group grp-auditors to read file-family in tenancy
+      allow group grp-auditors to read instance-configurations in tenancy
+      allow group grp-auditors to read network-security-groups in tenancy
+      allow group grp-auditors to read resource-availability in tenancy
+      allow group grp-auditors to read audit-events in tenancy
+      allow group grp-auditors to read users in tenancy
+      allow group grp-auditors to read vss-family in tenancy
+      allow group grp-auditors to read dns in tenancy
+      allow group grp-auditors to use cloud-shell in tenancy
+  - For tenancies *with* Identity Domains use
       allow group 'Default'/'grp-auditors' to inspect all-resources in tenancy
       allow group 'Default'/'grp-auditors' to read instances in tenancy
       allow group 'Default'/'grp-auditors' to read load-balancers in tenancy
@@ -70,7 +77,7 @@ Usage
   - From the menu select the Cloud Shell item.
   - When running it the first time:
     - Upload the provided ZIP file.
-    - Extract it with unzip -q oci-security-health-check-standard-230922.zip
+    - Extract it with unzip -q oci-security-health-check-standard-240315.zip
   - Change directory into oci-security-health-check-standard
     $ cd oci-security-health-check-standard
     $ screen
@@ -91,9 +98,7 @@ Usage
 
 4 Known Issues
 
-4.1 Wrong urllib3 version
-
-There is a known dependency between Python urllib3 version 2 and the OS installed version of OpenSSL. The script tries to handle this automatically using a working version of urllib3. If the handling does not work let us know.
+No known issues.
 
 5 Credits
 
