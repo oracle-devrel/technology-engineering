@@ -2,7 +2,7 @@
 OCI Security Health Check - Standard Edition
 ============================================
 Owner: Olaf Heimburger
-Version: 240229
+Version: 240315
 
 When to use this asset?
 
@@ -77,7 +77,7 @@ Usage
   - From the menu select the Cloud Shell item.
   - When running it the first time:
     - Upload the provided ZIP file.
-    - Extract it with unzip -q oci-security-health-check-standard-230922.zip
+    - Extract it with unzip -q oci-security-health-check-standard-240315.zip
   - Change directory into oci-security-health-check-standard
     $ cd oci-security-health-check-standard
     $ screen
@@ -98,9 +98,7 @@ Usage
 
 4 Known Issues
 
-4.1 Wrong urllib3 version
-
-There is a known dependency between Python urllib3 version 2 and the OS installed version of OpenSSL. The script tries to handle this automatically using a working version of urllib3. If the handling does not work let us know.
+No known issues.
 
 5 Credits
 
