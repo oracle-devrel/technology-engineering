@@ -1,11 +1,10 @@
-# Document Evaluation Tool using Oracle Generative AI, OCI Document Understanding and Oracle Integration Cloud
-
-Reviewed: 14.03.2024
+# Document Evaluation Tool using Oracle Generative AI, OCI Document Understanding, and Oracle Integration Cloud
 
 In this article, we'll explore how to make a handy tool that helps to evaluate documents using Oracle Generative AI, OCI Document Understanding, and Oracle Integration Cloud (OIC). 
-This application combines a loow-code approach to orchestrate LLM AI services and applications using Oracle Integration Cloud
-and Generative AI prompting techniques for tasks like document key criteria extraction, summarization and evaluation.
+This application combines a low-code approach to orchestrate LLM AI services and applications using Oracle Integration Cloud
+and Generative AI prompting techniques for tasks like document key criteria extraction, summarization, and evaluation.
 
+Reviewed: 14.03.2024
  
 # When to use this asset?
  
