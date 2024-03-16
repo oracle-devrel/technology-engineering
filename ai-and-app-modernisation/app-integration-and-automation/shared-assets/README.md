@@ -14,9 +14,8 @@ This section contains various examples related to Application Integration: demo 
     - Reference Architecture on the Oracle Architecture Center, which provides the necessary considerations and recommendations to enable a multicloud, event-driven, and no-code integration solution to receive real-time feeds from Oracle Cloud ERP and send those to a private Microsoft Azure SQL Database, leveraging a component Oracle Integration provides called the connectivity agent, to facilitate on-premises/multicloud integrations
 - [Implement message-level encryption in Oracle Integration Cloud using OCI Vault](https://docs.oracle.com/en/solutions/oic-message-level-encryption/index.html#GUID-5C843938-A470-4584-9048-4361025358C6)
     - Message-level encryption (MLE) is a security technique used to protect the confidentiality and integrity of a message during transmission. It involves using encryption algorithms to scramble the contents of a message so that only the intended recipient, with the decryption keys, can read it. This reference architecture shows how you can implement message-level encryption in OIC using OCI Vault Service.
- 
-  - [Set up a landing zone architecture with Oracle Integration](https://docs.oracle.com/en/solutions/set-up-lz-oic/index.html#GUID-E2C6E096-E695-4813-94F1-0C697EEEC8F0)
-    - To run integrations in Oracle Cloud, you need a secure environment that you can operate efficiently. Oracle Integration is a Cloud Native service designed to address your security requirements. This reference architecture describes the components and concepts that enable you to build hybrid integrations.These components conform to the landing zone template and concepts that meet the security guidance prescribed for Oracle Cloud Infrastructure's CIS Foundation Benchmark.
+- [Set up a landing zone architecture with Oracle Integration](https://docs.oracle.com/en/solutions/set-up-lz-oic/index.html#GUID-E2C6E096-E695-4813-94F1-0C697EEEC8F0)
+   - To run integrations in Oracle Cloud, you need a secure environment that you can operate efficiently. Oracle Integration is a Cloud Native service designed to address your security requirements. This reference architecture describes the components and concepts that enable you to build hybrid integrations.These components conform to the landing zone template and concepts that meet the security guidance prescribed for Oracle Cloud Infrastructure's CIS Foundation Benchmark.
 
 ## Demos
 
@@ -27,13 +26,13 @@ This section contains various examples related to Application Integration: demo 
 
 - [Cloud Coaching Webinar: Real-Time Outlook Email Analysis with Oracle Integration & AI](https://youtu.be/qzyzdAZjUU0?si=moC-O47m7L1nrhqx)
     - Through a Live Demo you will see how Oracle Integration Cloud work seamlessly with Oracle Cloud Streaming & API Gateway for instant Outlook Messages capture via Microsoft Graph Webhooks
-    
+
     - Explore Email Sentiment Analysis & Categorization with Oracle Cloud AI Language Service
-    
+
     - Explore Email "Quick Replies" Generation with Oracle Cloud Generative AI Service (in Beta Program, limited availability)
 
     - Explore No-Code Integration flow into Oracle Autonomous Database & Automatic Creation of Service Tickets into Customer Service Apps, all orchestrated by Oracle Integration Cloud
-    
+
     - Finally, watch live Email Classification & Analysis Dashboard with Oracle Analytics Cloud
 
 - [Cloud Coaching On-Demand: Oracle Integration (OIC3) Provisioning and User Access with Identity Domains](https://youtu.be/osuCdujq6-A)
@@ -48,11 +47,11 @@ This section contains various examples related to Application Integration: demo 
 
 - [Cloud Coaching Webinar: AI Based & Real Time Gmail Invoice Documents Processing into Oracle Fusion ERP Cloud](https://youtu.be/wq7HH-WYslU)
     - How can you speed up your Account Payable Invoice Processing Cycle? Document Understanding and OCI Intelligent Automation Engine running on top of Oracle Fusion ERP Cloud can help.
-    
+
     - Through a live demo, we show how to use it to enable an AI-based, Event-Driven and Real-Time Invoice Processing Solution into Oracle Fusion ERP Cloud on top of Gmail Invoices as Attachments.
-    
+
     - Learn how Oracle Integration Cloud combined with OCI Streaming and API Gateway allow real-time capture of Gmail Messages (leveraging Gmail Push Notifications via Google Cloud Pub/Sub).
-    
+
     - Then, using AI Document Understanding, uncover Invoice Documents Data using the Key-Value Extraction and automatically load it into Oracle Fusion ERP Cloud using Oracle Integration Cloud's native connectors.
 
 - [Usecase - Fusion HCM Payslips to FTP](https://www.youtube.com/watch?v=KxKfnmfHPc8)
@@ -78,7 +77,7 @@ This section contains various examples related to Application Integration: demo 
         - Oracle ERP Cloud FTP Server Business Event
         - SOAP Calculator Multiple Operations
 
-- [Oracle Integration Cloud - Feature - Projects](https://youtu.be/CxNDbBnWWYU) 
+- [Oracle Integration Cloud - Feature - Projects](https://youtu.be/CxNDbBnWWYU)
     -This video will explain Oracle Integration Cloud Feature Projects, and how you can use it. Enterprises often have hundreds of integrations to manage and monitor. Developers want to focus on specific integration components involved with an automated business process. With OIC Project, all related integrations and their components are in a single unified workspace. Additionally, projects provide robust life cycle management and risk-free updates to prebuilt integrations.
 
     Demonstration includes:
@@ -96,7 +95,7 @@ This section contains various examples related to Application Integration: demo 
 - [Oracle Integration Cloud - Feature - Publish & Subscribe Events](https://youtu.be/3gZcHnPJtuk)
 
     -This video will explain Oracle Integration Cloud Feature Events, and how Events can be used to create publish and subscribe integration patterns.
-    
+
     Demonstration includes:
     - Creating an Event in Oracle Integration Cloud
     - Creating an Integration that publishes the Event
@@ -105,10 +104,10 @@ This section contains various examples related to Application Integration: demo 
 
 - [Oracle Integration Cloud - Feature - Parallel Action](https://youtu.be/BTtPsDyiVLo)
     -This video demonstrates how you can use parallel action in Oracle Integration.
-    Parallel action is used to process tasks in parallel to improve integration performance and response times. 
-    
+    Parallel action is used to process tasks in parallel to improve integration performance and response times.
+
     The demonstration includes Rest Based App Driven Integration that takes Supplier Data and Creates the Supplier in parallel in two systems:
-    - Oracle ERP Cloud 
+    - Oracle ERP Cloud
     - Autonomous Database
 - [Red Hot Webinar: Event-Driven and Low-Code Document Approval Process and Lifecycle Automation](https://youtu.be/kQuF2XOYKOc)
     - Demo Video about enabling Document Lifecycle Automation using a Low-Code Approach with OCI Integration (ProcessAutomation, Integration & Visual App Builder), Content Management (embedded document mgmt & Microsoft O365 online editor plugin), Streaming (kafka-based) and Autonomous Database (document business data store).
