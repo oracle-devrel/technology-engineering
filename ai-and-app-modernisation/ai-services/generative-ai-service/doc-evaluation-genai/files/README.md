@@ -6,9 +6,9 @@ Reviewed: 14.03.2024
 
 In this article, we'll explore how to make a handy tool that helps to evaluate documents using Oracle Generative AI, OCI Document Understanding, and Oracle Integration Cloud (OIC). 
 This tool can be super useful in different situations:
-For example, it could help recruiters in identifying the top nN% of resumes to get the best candidate for a job, as well it could help to check the RFP compliance in a vendor bid, or easily figure out what's in a bunch of email attachments without opening each one, but these are only a few cases out of hundreds, you just name it. It can be applied to any industry and is adaptable to any department like HR, Procurement, Marketing, Customer Service, and others.
+For example, it could help recruiters in identifying the top nN% of resumes to get the best candidate for a job, as well it could help to check the RFP compliance in a vendor bid, or easily figure out what's in a bunch of email attachments without opening each one, but these are only a few examples. It can be applied to any industry and is adaptable to any department like HR, Procurement, Marketing, Customer Service, and others.
 
-Here are just 2 examples of how you may use the document evaluation application:
+Here are 2 use cases for how you may use the document evaluation sample application:
 
 A CV Evaluation App as part of a recruitment process:
 
