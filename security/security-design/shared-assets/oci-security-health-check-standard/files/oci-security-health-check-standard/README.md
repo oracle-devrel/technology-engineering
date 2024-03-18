@@ -2,7 +2,7 @@
 
 Owner: Olaf Heimburger
 
-Version: 240229
+Version: 240315
 
 ## When to use this asset?
 
@@ -18,22 +18,20 @@ This asset covers the OCI platform as specified in the *CIS Oracle Cloud Infrast
 
 Before running the *OCI Security Health Check - Standard Edition* you should download and verify it.
 
-  - Download the latest distribution [oci-security-health-check-standard-240229.zip](https://github.com/oracle-devrel/technology-engineering/releases/download/oci-security-health-check-std-240229/oci-security-health-check-standard-240229.zip).
-  - Download the respective checksum file [oci-security-health-check-standard-240229.sha512256](https://github.com/oracle-devrel/technology-engineering/releases/download/oci-security-health-check-std-240229/oci-security-health-check-standard-240229.sha512256).
+  - Download the latest distribution [oci-security-health-check-standard-240315.zip](https://github.com/oracle-devrel/technology-engineering/releases/download/oci-security-health-check-std-240315/oci-security-health-check-standard-240315.zip).
+  - Download the respective checksum file [oci-security-health-check-standard-240315.sha512256](https://github.com/oracle-devrel/technology-engineering/releases/download/oci-security-health-check-std-240315/oci-security-health-check-standard-240315.sha512256).
   - Verify the integrity of the distribution. Both files must be in the same directory (for example, in your downloads directory).
 
     On MacOS:
     ```
-    $ cd <your_downloads_directory>
-    $ shasum -a 512256 -c oci-security-health-check-standard-240229.sha512256
-    oci-security-health-check-standard-240229.zip: OK
+    cd <your_downloads_directory>
+    shasum -a 512256 -c oci-security-health-check-standard-240315.sha512256
     ```
 
     On Linux (including Cloud Shell):
     ```
-    $ cd <your_downloads_directory>
-    $ sha512sum -c oci-security-health-check-standard-240229.sha512
-    oci-security-health-check-standard-240229.zip: OK
+    cd <your_downloads_directory>
+    sha512sum -c oci-security-health-check-standard-240315.sha512
     ```
 
 **Reject the downloaded file when the check fails!**
@@ -114,7 +112,7 @@ The recommended way is to run the *OCI Security Health Check - Standard* in the 
   - Upload the distribution file.
   - Extract it
     ```
-    $ unzip -q oci-security-health-check-standard-230922.zip
+    unzip -q oci-security-health-check-standard-240315.zip
     ```
 
 ### Run the script
@@ -156,9 +154,7 @@ The report results are summarized in two files:
 
 ### Known Issues
 
-#### Wrong urllib3 version
-
-There is a known dependency between Python urllib3 version 2 and the OS installed version of OpenSSL. The script tries to handle this automatically using a working version of urllib3. If the handling does not work let us know.
+No known issues.
 
 ## Credits
 

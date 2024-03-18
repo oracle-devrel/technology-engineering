@@ -36,6 +36,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 -->
 
+### Author
+<a href="https://github.com/mikarinneoracle">mikarinneoracle</a>
+
 ### Blog on Medium
 
 Please see the <a href="https://medium.com/@mika.rinne/easy-oracle-autonomous-db-access-for-nodejs-with-kubernetes-operator-cf02ea7fc59a">blog on Medium</a>.
