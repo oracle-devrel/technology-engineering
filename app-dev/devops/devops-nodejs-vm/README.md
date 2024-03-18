@@ -36,6 +36,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 -->
 
+### Author
+<a href="https://github.com/mikarinneoracle">mikarinneoracle</a>
+
 ### Guide
 
 Please see the <a href="https://medium.com/@mika.rinne/ci-cd-for-nodejs-on-oci-without-kubernetes-a6f94b4b2948">setup guide on Medium</a>.

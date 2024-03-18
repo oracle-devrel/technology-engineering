@@ -36,6 +36,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 -->
 
+### Author
+<a href="https://github.com/mikarinneoracle">mikarinneoracle</a>
+
 ## Building and Deploying to OKE with Azure DevOps
 
 There are two ways (at least) to build and deploy to OKE from Azure DevOps:

@@ -39,6 +39,9 @@ SOFTWARE.
 ## Functions overview
 [Document functions-overview](files/Fn.pdf)
 
+### Author
+<a href="https://github.com/mikarinneoracle">mikarinneoracle</a>
+
 # API Gateway authorizer function context var example
 
 ## Build and deploy the functions

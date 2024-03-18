@@ -1,0 +1,918 @@
+﻿{
+  "paragraphs": [
+    {
+      "text": "%md\n<div style=\"padding:8px; background-color:#ccff99; font-family:Calibri, sans-serif; font-size:32px; font-weight:bold\">\n&nbsp;&sect;&nbsp;&nbsp;Initialize</div>",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-26T08:59:56+0000",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "graph": {
+          "mode": "table",
+          "height": 300,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "results": {},
+        "editorSetting": {
+          "language": "md",
+          "editOnDblClick": false
+        },
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div style=\"padding:8px; background-color:#ccff99; font-family:Calibri, sans-serif; font-size:32px; font-weight:bold\">\n&nbsp;&sect;&nbsp;&nbsp;Initialize</div>\n"
+          }
+        ]
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695102625420_1960547576",
+      "id": "20230919-055025_2122225696",
+      "dateCreated": "2023-09-11T09:03:29+0000",
+      "dateStarted": "2023-09-11T09:43:16+0000",
+      "dateFinished": "2023-09-11T09:43:16+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:41"
+    },
+    {
+      "text": "%python\n\n# check resources\ndef check_compute_performance(label, scale):\n    result = 0\n    for i in range(scale):\n        for j in range(scale):\n            result = result + i * j\ncheck_compute_performance('ADW.OML', 10000)",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-27T08:11:31+0000",
+      "progress": 0,
+      "config": {
+        "lineNumbers": true,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/undefined",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695102625420_-1768470895",
+      "id": "20230919-055025_1889255487",
+      "dateCreated": "2023-09-11T09:43:18+0000",
+      "dateStarted": "2023-09-27T08:11:31+0000",
+      "dateFinished": "2023-09-27T08:12:04+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:42"
+    },
+    {
+      "text": "%md\n<div style=\"padding:8px; background-color:#ccff99; font-family:Calibri, sans-serif; font-size:32px; font-weight:bold\">\n&nbsp;&sect;&nbsp;&nbsp;Transform data (for machine learning)</div>",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-27T08:11:10+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "md",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div style=\"padding:8px; background-color:#ccff99; font-family:Calibri, sans-serif; font-size:32px; font-weight:bold\">\n&nbsp;&sect;&nbsp;&nbsp;Transform data (for machine learning)</div>\n"
+          }
+        ]
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695102625420_1395260596",
+      "id": "20230919-055025_2013973034",
+      "dateCreated": "2023-09-11T09:12:47+0000",
+      "dateStarted": "2023-09-27T08:11:07+0000",
+      "dateFinished": "2023-09-27T08:11:08+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:43"
+    },
+    {
+      "text": "%script\n\ncreate table TF_WIP_PG_BCENTRAL_TMP as \n    (select ID, max(NAME) as \"NAME\", max(SCORE) as \"SCORE\" from TF_WIP_PG_BCENTRAL group by ID);\ndrop table TF_WIP_PG_BCENTRAL;\ncreate table TF_WIP_PG_BCENTRAL as (select * from TF_WIP_PG_BCENTRAL_TMP);\ndrop table TF_WIP_PG_BCENTRAL_TMP",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-26T08:59:56+0000",
+      "progress": 0,
+      "config": {
+        "lineNumbers": true,
+        "editorSetting": {
+          "language": "plsql",
+          "editOnDblClick": false
+        },
+        "colWidth": 6,
+        "editorMode": "ace/mode/plsql",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "ID": "string",
+                      "NAME": "string",
+                      "SCORE": "number"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nTable TF_WIP_PG_BCENTRAL_TMP created.\n\n\n---------------------------\n\nTable TF_WIP_PG_BCENTRAL dropped.\n\n\n---------------------------\n\nTable TF_WIP_PG_BCENTRAL created.\n\n\n---------------------------\n\nTable TF_WIP_PG_BCENTRAL_TMP dropped.\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695107035392_961085506",
+      "id": "paragraph_1695107035392_961085506",
+      "dateCreated": "2023-09-19T07:03:55+0000",
+      "dateStarted": "2023-09-19T07:09:31+0000",
+      "dateFinished": "2023-09-19T07:09:31+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:44"
+    },
+    {
+      "text": "%script\n\ncreate table TF_WIP_PG_CCENTRAL_TMP as \n    (select ID, max(NAME) as \"NAME\", max(SCORE) as \"SCORE\" from TF_WIP_PG_CCENTRAL group by ID);\ndrop table TF_WIP_PG_CCENTRAL;\ncreate table TF_WIP_PG_CCENTRAL as (select * from TF_WIP_PG_CCENTRAL_TMP);\ndrop table TF_WIP_PG_CCENTRAL_TMP",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-26T08:59:56+0000",
+      "progress": 0,
+      "config": {
+        "lineNumbers": true,
+        "editorSetting": {
+          "language": "plsql",
+          "editOnDblClick": false
+        },
+        "colWidth": 6,
+        "editorMode": "ace/mode/plsql",
+        "fontSize": 9,
+        "editorHide": false,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "ID": "string",
+                      "NAME": "string",
+                      "SCORE": "number"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nTable TF_WIP_PG_CCENTRAL_TMP created.\n\n\n---------------------------\n\nTable TF_WIP_PG_CCENTRAL dropped.\n\n\n---------------------------\n\nTable TF_WIP_PG_CCENTRAL created.\n\n\n---------------------------\n\nTable TF_WIP_PG_CCENTRAL_TMP dropped.\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695107338202_1775463654",
+      "id": "paragraph_1695107338202_1775463654",
+      "dateCreated": "2023-09-19T07:08:58+0000",
+      "dateStarted": "2023-09-19T07:09:49+0000",
+      "dateFinished": "2023-09-19T07:09:49+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:45"
+    },
+    {
+      "text": "%python\n\n# imports\nimport warnings\nimport oml\nimport pandas\n\n# settings\nwarnings.filterwarnings('ignore')\npandas.set_option('display.width', 2000)",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-26T08:59:56+0000",
+      "progress": 0,
+      "config": {
+        "lineNumbers": true,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 6,
+        "editorMode": "ace/mode/undefined",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695102625420_371836869",
+      "id": "20230919-055025_55596086",
+      "dateCreated": "2023-09-11T09:12:53+0000",
+      "dateStarted": "2023-09-19T07:10:01+0000",
+      "dateFinished": "2023-09-19T07:10:01+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:46"
+    },
+    {
+      "text": "%python\n\n# sync proxy objects\nTF_WIP_PG_CYCLE1 = oml.sync(table=\"TF_WIP_PG_CYCLE1\")\nTF_WIP_PG_CYCLE2 = oml.sync(table=\"TF_WIP_PG_CYCLE2\")\nTF_WIP_PG_CYCLE3 = oml.sync(table=\"TF_WIP_PG_CYCLE3\")\nTF_WIP_PG_BCENTRAL = oml.sync(table=\"TF_WIP_PG_BCENTRAL\")\nTF_WIP_PG_CCENTRAL = oml.sync(table=\"TF_WIP_PG_CCENTRAL\")\n\n# pull data\ndata = {}\ndata['TF_WIP_PG_CYCLE1'] = TF_WIP_PG_CYCLE1.pull()\ndata['TF_WIP_PG_CYCLE2'] = TF_WIP_PG_CYCLE2.pull()\ndata['TF_WIP_PG_CYCLE3'] = TF_WIP_PG_CYCLE3.pull()\ndata['TF_WIP_PG_BCENTRAL'] = TF_WIP_PG_BCENTRAL.pull()\ndata['TF_WIP_PG_CCENTRAL'] = TF_WIP_PG_CCENTRAL.pull()",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-26T08:59:56+0000",
+      "progress": 0,
+      "config": {
+        "lineNumbers": true,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 6,
+        "editorMode": "ace/mode/undefined",
+        "fontSize": 9,
+        "editorHide": false,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695102625420_965707930",
+      "id": "20230919-055025_86769609",
+      "dateCreated": "2023-09-11T09:43:51+0000",
+      "dateStarted": "2023-09-19T07:10:03+0000",
+      "dateFinished": "2023-09-19T07:10:03+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:47"
+    },
+    {
+      "text": "%python\n\n# transform data 'METRICS'\ndata['TF_WIP_PG_METRICS'] = pandas.merge(data['TF_WIP_PG_CYCLE1'], data['TF_WIP_PG_CYCLE2'], left_on=['ID'], right_on=['ID'], how='inner')\ndata['TF_WIP_PG_METRICS'] = data['TF_WIP_PG_METRICS'].drop(columns=['NAME_y'])\ndata['TF_WIP_PG_METRICS'] = data['TF_WIP_PG_METRICS'].rename(columns={'NAME_x':'NAME','SCORE_x':'SCORE_CYC1','SCORE_y':'SCORE_CYC2'})\ndata['TF_WIP_PG_METRICS'] = pandas.merge(data['TF_WIP_PG_METRICS'], data['TF_WIP_PG_CYCLE3'], left_on=['ID'], right_on=['ID'], how='inner')\ndata['TF_WIP_PG_METRICS'] = data['TF_WIP_PG_METRICS'].drop(columns=['NAME_y'])\ndata['TF_WIP_PG_METRICS'] = data['TF_WIP_PG_METRICS'].rename(columns={'NAME_x':'NAME','SCORE':'SCORE_CYC3'})\ndata['TF_WIP_PG_METRICS'] = pandas.merge(data['TF_WIP_PG_METRICS'], data['TF_WIP_PG_BCENTRAL'], left_on=['ID'], right_on=['ID'], how='inner')\ndata['TF_WIP_PG_METRICS'] = data['TF_WIP_PG_METRICS'].drop(columns=['NAME_y'])\ndata['TF_WIP_PG_METRICS'] = data['TF_WIP_PG_METRICS'].rename(columns={'NAME_x':'NAME','SCORE':'SCORE_BCEN'})\ndata['TF_WIP_PG_METRICS'] = pandas.merge(data['TF_WIP_PG_METRICS'], data['TF_WIP_PG_CCENTRAL'], left_on=['ID'], right_on=['ID'], how='inner')\ndata['TF_WIP_PG_METRICS'] = data['TF_WIP_PG_METRICS'].drop(columns=['NAME_y'])\ndata['TF_WIP_PG_METRICS'] = data['TF_WIP_PG_METRICS'].rename(columns={'ID':'COMPANYID','NAME_x':'COMPANYNAME','SCORE':'SCORE_CCEN'})\nfor col in ['SCORE_CYC1','SCORE_CYC2','SCORE_CYC3','SCORE_BCEN','SCORE_CCEN']:\n    data['TF_WIP_PG_METRICS'][col] = round(100 * (data['TF_WIP_PG_METRICS'][col] - data['TF_WIP_PG_METRICS'][col].min()) / (data['TF_WIP_PG_METRICS'][col].max() - data['TF_WIP_PG_METRICS'][col].min()), 2)\n\n# check\nz.show(data['TF_WIP_PG_METRICS'])",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-26T08:59:56+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/undefined",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "COMPANYID": "string",
+                      "COMPANYNAME": "date",
+                      "SCORE_CYC1": "number",
+                      "SCORE_CYC2": "number",
+                      "SCORE_CYC3": "number",
+                      "SCORE_BCEN": "number",
+                      "SCORE_CCEN": "number"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true,
+        "lineNumbers": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "COMPANYID\tCOMPANYNAME\tSCORE_CYC1\tSCORE_CYC2\tSCORE_CYC3\tSCORE_BCEN\tSCORE_CCEN\nC308732444\tCompany #0047\t3.45\t7.82\t7.15\t8.48\t31.14\nC309830621\tCompany #0074\t5.17\t6.41\t5.33\t4.49\t15.3\nC307940687\tCompany #0034\t5.17\t11.63\t11.72\t12.45\t27.97\nC310691473\tCompany #0091\t6.9\t6.04\t6.19\t3.7\t16.01\nC309204505\tCompany #0056\t8.62\t16.3\t17.65\t11.13\t28.75\nC314465049\tCompany #0171\t10.34\t11.04\t10.89\t10.5\t33.57\nC308125507\tCompany #0037\t12.07\t14.97\t16.44\t17.81\t33.57\nC309341138\tCompany #0059\t12.07\t15.56\t15.91\t17.88\t35.22\nC310848853\tCompany #0097\t13.79\t14.3\t15.21\t12.96\t33.57\nC310028811\tCompany #0080\t15.52\t15.12\t14.25\t13.57\t34.39\nC311436566\tCompany #0108\t15.52\t18.9\t19.1\t19.5\t35.22\nC309865291\tCompany #0075\t17.24\t20.86\t20.34\t21.01\t36.05\nC314371075\tCompany #0166\t20.69\t12.56\t12.88\t10.19\t27.19\nC310844797\tCompany #0096\t20.69\t16.71\t17.81\t18.87\t35.22\nC309920691\tCompany #0076\t24.14\t26.6\t27.8\t32.31\t45.53\nC310901658\tCompany #0098\t24.14\t19.01\t18.9\t19.57\t37.72\nC312949461\tCompany #0136\t25.86\t22.86\t23.38\t21.5\t38.57\nC310381605\tCompany #0087\t29.31\t25.34\t26.03\t24.2\t39.42\nC309554316\tCompany #0067\t29.31\t20.49\t21.5\t16.9\t31.95\nC311259710\tCompany #0104\t37.93\t40.98\t41.07\t38.13\t51.0\nC311544820\tCompany #0111\t39.66\t28.12\t27.31\t33.0\t42.88\nC315664164\tCompany #0192\t41.38\t39.72\t41.68\t37.74\t62.59\nC308849534\tCompany #0050\t44.83\t39.83\t39.53\t40.79\t58.62\nC307894134\tCompany #0033\t56.9\t51.2\t52.57\t48.46\t55.71\nC309440200\tCompany #0064\t100.0\t100.0\t100.0\t100.0\t100.0\nC315780579\tCompany #0195\t5.17\t10.15\t10.19\t10.38\t36.88\nC310282839\tCompany #0085\t5.17\t14.56\t14.37\t12.19\t31.95\nC313485085\tCompany #0147\t6.9\t13.3\t13.39\t13.63\t29.55\nC314420332\tCompany #0169\t8.62\t12.15\t10.51\t10.45\t31.14\nC315769074\tCompany #0194\t8.62\t8.6\t8.72\t8.52\t23.35\nC313229381\tCompany #0143\t10.34\t11.04\t10.79\t8.31\t25.64\nC315834768\tCompany #0197\t12.07\t19.93\t19.96\t19.54\t42.88\nC309364212\tCompany #0060\t12.07\t15.6\t16.21\t21.96\t36.88\nC307174269\tCompany #0017\t13.79\t21.75\t23.66\t21.98\t42.01\nC312301709\tCompany #0126\t13.79\t21.49\t20.79\t22.58\t44.64\nC312164377\tCompany #0124\t15.52\t15.12\t13.99\t11.5\t26.41\nC313583629\tCompany #0148\t17.24\t15.45\t15.98\t13.23\t28.75\nC313723792\tCompany #0152\t17.24\t19.45\t19.52\t18.81\t37.72\nC314876890\tCompany #0178\t18.97\t14.64\t13.25\t10.05\t21.1\nC306972901\tCompany #0013\t18.97\t21.04\t20.88\t17.57\t32.76\nC312082911\tCompany #0123\t18.97\t19.86\t21.54\t17.46\t39.42\nC315196126\tCompany #0184\t20.69\t17.78\t17.81\t19.99\t42.01\nC313789101\tCompany #0153\t22.41\t22.64\t24.28\t22.76\t51.93\nC311469579\tCompany #0109\t25.86\t23.42\t22.86\t23.91\t35.22\nC311943422\tCompany #0119\t27.59\t44.5\t42.4\t38.68\t61.59\nC308569921\tCompany #0045\t31.03\t25.6\t25.67\t28.59\t47.33\nC314408256\tCompany #0168\t44.83\t36.12\t35.15\t34.54\t47.33\nC309113624\tCompany #0055\t44.83\t47.02\t44.13\t49.29\t64.62\nC306778540\tCompany #0009\t53.45\t42.13\t45.1\t39.63\t57.65\nC313934530\tCompany #0155\t56.9\t57.35\t60.0\t51.22\t65.64\nC314201266\tCompany #0163\t1.72\t3.15\t2.45\t2.44\t13.19\nC306878120\tCompany #0012\t5.17\t10.11\t10.9\t11.73\t24.87\nC311635372\tCompany #0114\t6.9\t12.37\t11.92\t8.05\t28.75\nC307693450\tCompany #0030\t10.34\t14.15\t13.35\t12.35\t27.19\nC310180199\tCompany #0083\t10.34\t14.78\t12.93\t12.03\t28.75\nC312856255\tCompany #0134\t10.34\t13.15\t12.85\t12.41\t30.34\nC312668453\tCompany #0131\t12.07\t12.15\t12.94\t10.14\t23.35\nC314934490\tCompany #0180\t13.79\t10.49\t10.77\t9.97\t27.19\nC311376001\tCompany #0107\t13.79\t16.86\t17.04\t16.63\t30.34\nC311555184\tCompany #0112\t13.79\t14.67\t14.44\t14.62\t28.75\nC306853568\tCompany #0010\t15.52\t27.86\t25.68\t23.47\t39.42\nC309241459\tCompany #0057\t15.52\t14.3\t13.58\t15.19\t29.55\nC310460978\tCompany #0088\t15.52\t19.27\t17.3\t19.97\t40.28\nC314006009\tCompany #0157\t20.69\t10.41\t10.8\t11.52\t24.11\nC314059063\tCompany #0158\t20.69\t18.9\t18.47\t14.84\t34.39\nC313134595\tCompany #0140\t22.41\t15.64\t15.24\t14.66\t27.97\nC307801759\tCompany #0032\t24.14\t22.3\t25.18\t22.07\t37.72\nC307990811\tCompany #0035\t24.14\t22.42\t22.27\t23.88\t45.53\nC307343636\tCompany #0021\t25.86\t14.67\t16.1\t17.9\t31.14\nC307462528\tCompany #0023\t27.59\t31.94\t30.71\t28.58\t42.88\nC315412624\tCompany #0187\t34.48\t25.94\t26.17\t22.15\t39.42\nC315608398\tCompany #0191\t34.48\t25.94\t26.44\t27.2\t36.88\nC307665738\tCompany #0029\t36.21\t31.2\t31.22\t25.43\t45.53\nC307108048\tCompany #0015\t39.66\t24.45\t23.52\t25.06\t36.88\nC306558208\tCompany #0005\t41.38\t48.57\t48.0\t41.37\t62.59\nC311348313\tCompany #0106\t1.72\t3.89\t4.57\t6.31\t19.63\nC315910338\tCompany #0199\t3.45\t9.11\t8.83\t12.42\t31.14\nC314732486\tCompany #0175\t5.17\t18.82\t19.1\t17.95\t46.43\nC307582190\tCompany #0026\t5.17\t8.82\t8.52\t8.72\t28.75\nC313087347\tCompany #0139\t5.17\t11.12\t10.87\t12.67\t25.64\nC309047357\tCompany #0054\t10.34\t13.82\t12.26\t9.55\t26.41\nC313289410\tCompany #0144\t10.34\t12.12\t10.4\t10.76\t21.85\nC314437868\tCompany #0170\t12.07\t15.56\t15.34\t15.88\t29.55\nC313588235\tCompany #0149\t12.07\t14.71\t14.35\t11.15\t31.14\nC307254815\tCompany #0018\t13.79\t5.67\t5.01\t5.05\t20.36\nC308913241\tCompany #0052\t13.79\t12.82\t13.17\t11.18\t26.41\nC306714099\tCompany #0008\t15.52\t25.42\t25.99\t21.69\t49.15\nC308284342\tCompany #0041\t15.52\t11.37\t10.86\t12.2\t27.97\nC313156081\tCompany #0141\t18.97\t18.49\t18.1\t16.45\t28.75\nC314267901\tCompany #0164\t20.69\t15.89\t15.36\t16.33\t29.55\nC311826878\tCompany #0117\t20.69\t16.93\t17.26\t18.83\t33.57\nC314002076\tCompany #0156\t22.41\t15.08\t16.24\t17.35\t29.55\nC315101540\tCompany #0183\t27.59\t30.94\t30.39\t35.85\t50.07\nC314407449\tCompany #0167\t32.76\t29.97\t31.06\t24.44\t45.53\nC307603290\tCompany #0028\t32.76\t26.49\t25.57\t21.24\t43.76\nC315346233\tCompany #0186\t50.0\t45.13\t47.28\t58.66\t69.81\nC314174119\tCompany #0160\t51.72\t44.98\t45.01\t36.56\t59.6\nC308059853\tCompany #0036\t51.72\t46.76\t44.43\t43.45\t59.6\nC307548053\tCompany #0024\t53.45\t45.91\t48.56\t40.32\t55.71\nC312947258\tCompany #0135\t70.69\t60.43\t60.49\t55.57\t63.6\nC315592736\tCompany #0190\t0.0\t0.0\t0.0\t0.0\t0.0\nC312992057\tCompany #0138\t3.45\t5.0\t5.05\t3.54\t15.3\nC310769904\tCompany #0095\t5.17\t2.15\t1.76\t1.95\t7.07\nC308850815\tCompany #0051\t6.9\t7.78\t6.93\t7.03\t18.17\nC310093693\tCompany #0081\t6.9\t13.89\t15.16\t20.68\t32.76\nC312961181\tCompany #0137\t8.62\t17.9\t18.92\t17.75\t34.39\nC314882843\tCompany #0179\t10.34\t15.64\t15.09\t14.44\t25.64\nC312069726\tCompany #0122\t10.34\t13.78\t14.26\t15.42\t28.75\nC313668198\tCompany #0151\t10.34\t10.97\t10.4\t8.55\t25.64\nC314177113\tCompany #0161\t12.07\t12.34\t11.84\t9.35\t27.19\nC306592341\tCompany #0006\t12.07\t17.78\t17.54\t14.09\t40.28\nC306870275\tCompany #0011\t12.07\t17.49\t16.54\t15.96\t36.88\nC309663456\tCompany #0070\t12.07\t14.75\t14.95\t11.89\t35.22\nC314699193\tCompany #0174\t13.79\t15.97\t15.32\t12.15\t24.87\nC313341564\tCompany #0145\t13.79\t10.89\t10.79\t9.59\t29.55\nC310202267\tCompany #0084\t17.24\t22.38\t20.82\t21.22\t38.57\nC308401033\tCompany #0043\t22.41\t13.12\t13.34\t16.07\t31.95\nC308240838\tCompany #0040\t24.14\t18.15\t17.85\t18.73\t31.95\nC315453014\tCompany #0188\t25.86\t27.53\t26.5\t26.0\t40.28\nC309956395\tCompany #0077\t31.03\t33.64\t34.54\t32.46\t51.93\nC309389322\tCompany #0061\t32.76\t30.75\t30.06\t24.97\t41.14\nC307311844\tCompany #0020\t39.66\t29.97\t27.99\t27.69\t42.01\nC312510586\tCompany #0129\t41.38\t35.98\t38.19\t35.19\t52.86\nC312427415\tCompany #0128\t48.28\t43.05\t45.09\t42.96\t57.65\nC306429876\tCompany #0002\t68.97\t62.5\t66.34\t61.69\t71.93\nC312022089\tCompany #0121\t1.72\t3.26\t1.87\t1.98\t11.12\nC310744428\tCompany #0093\t5.17\t13.19\t11.36\t12.13\t35.22\nC309542604\tCompany #0066\t6.9\t7.85\t7.63\t4.62\t21.1\nC311167331\tCompany #0102\t8.62\t24.12\t24.17\t21.28\t36.88\nC311069409\tCompany #0101\t10.34\t9.82\t10.48\t9.11\t21.1\nC311909198\tCompany #0118\t12.07\t12.78\t11.72\t13.05\t27.19\nC309469237\tCompany #0065\t13.79\t9.74\t9.68\t11.22\t25.64\nC310023084\tCompany #0079\t15.52\t19.82\t20.16\t16.58\t44.64\nC311232669\tCompany #0103\t15.52\t20.27\t20.0\t22.84\t42.01\nC309637551\tCompany #0068\t15.52\t19.86\t17.49\t19.9\t33.57\nC312597081\tCompany #0130\t18.97\t19.34\t19.65\t20.73\t44.64\nC311529071\tCompany #0110\t20.69\t20.08\t19.83\t22.85\t49.15\nC310176782\tCompany #0082\t20.69\t32.6\t29.49\t23.47\t42.01\nC312398375\tCompany #0127\t20.69\t23.27\t23.69\t20.92\t34.39\nC309735724\tCompany #0071\t22.41\t17.08\t16.89\t14.48\t39.42\nC309817708\tCompany #0073\t22.41\t19.16\t19.16\t16.96\t34.39\nC310308434\tCompany #0086\t22.41\t20.97\t21.26\t15.53\t42.88\nC309970244\tCompany #0078\t24.14\t27.64\t25.62\t26.01\t42.01\nC311561813\tCompany #0113\t25.86\t21.01\t19.69\t15.86\t31.14\nC314089310\tCompany #0159\t25.86\t22.93\t20.77\t13.17\t29.55\nC310921279\tCompany #0099\t29.31\t18.78\t19.09\t15.12\t31.14\nC310736903\tCompany #0092\t37.93\t26.34\t25.4\t30.97\t45.53\nC311677430\tCompany #0115\t43.1\t36.9\t37.68\t28.33\t49.15\nC311731323\tCompany #0116\t48.28\t39.27\t39.49\t36.88\t52.86\nC311999485\tCompany #0120\t51.72\t39.83\t41.79\t33.12\t43.76\nC315509232\tCompany #0189\t3.45\t4.26\t4.07\t4.12\t16.72\nC313158829\tCompany #0142\t5.17\t8.52\t9.3\t8.96\t26.41\nC308761264\tCompany #0049\t6.9\t17.04\t16.61\t18.98\t31.95\nC314560881\tCompany #0172\t6.9\t14.15\t15.18\t16.46\t36.05\nC307584912\tCompany #0027\t8.62\t8.0\t8.3\t4.42\t15.3\nC308187927\tCompany #0039\t8.62\t17.41\t16.74\t15.48\t36.05\nC314279258\tCompany #0165\t12.07\t14.23\t14.73\t16.77\t30.34\nC307256519\tCompany #0019\t12.07\t9.37\t8.53\t11.43\t18.17\nC306384932\tCompany #0001\t13.79\t21.82\t21.02\t19.89\t39.42\nC306519118\tCompany #0004\t15.52\t21.27\t20.6\t22.83\t48.24\nC308471248\tCompany #0044\t15.52\t20.79\t20.72\t16.44\t35.22\nC309424518\tCompany #0063\t15.52\t22.38\t23.61\t24.18\t42.88\nC307375199\tCompany #0022\t15.52\t14.3\t15.1\t16.32\t35.22\nC315064542\tCompany #0182\t18.97\t26.31\t26.71\t17.77\t38.57\nC312761338\tCompany #0133\t20.69\t18.71\t18.85\t22.54\t45.53\nC309003560\tCompany #0053\t22.41\t20.23\t19.94\t20.29\t36.88\nC313437635\tCompany #0146\t22.41\t21.56\t20.16\t17.71\t36.05\nC308355273\tCompany #0042\t24.14\t29.94\t28.94\t25.53\t46.43\nC315786299\tCompany #0196\t27.59\t33.68\t35.65\t28.74\t51.93\nC309414960\tCompany #0062\t31.03\t23.93\t22.43\t24.59\t37.72\nC315734991\tCompany #0193\t31.03\t37.2\t34.53\t33.14\t53.81\nC306487644\tCompany #0003\t31.03\t20.27\t19.24\t23.36\t35.22\nC315970263\tCompany #0200\t37.93\t40.76\t39.71\t38.0\t52.86\nC306634688\tCompany #0007\t53.45\t53.69\t54.88\t46.56\t57.65\nC308753692\tCompany #0048\t60.34\t52.95\t52.55\t48.48\t53.81\nC315281716\tCompany #0185\t3.45\t14.01\t13.09\t11.83\t33.57\nC309639877\tCompany #0069\t3.45\t4.08\t3.57\t2.95\t11.12\nC314178743\tCompany #0162\t6.9\t11.89\t12.2\t14.01\t31.14\nC314986429\tCompany #0181\t6.9\t5.41\t5.55\t4.22\t15.3\nC309250059\tCompany #0058\t8.62\t10.63\t10.08\t9.81\t22.6\nC313647541\tCompany #0150\t10.34\t9.97\t10.26\t7.05\t16.72\nC314634673\tCompany #0173\t10.34\t13.15\t12.74\t11.01\t29.55\nC314792395\tCompany #0177\t10.34\t18.97\t19.39\t21.22\t40.28\nC307552374\tCompany #0025\t12.07\t13.15\t12.91\t9.83\t28.75\nC312261547\tCompany #0125\t13.79\t12.34\t12.94\t11.51\t25.64\nC310553173\tCompany #0089\t13.79\t20.27\t19.71\t16.39\t35.22\nC310647482\tCompany #0090\t15.52\t12.56\t11.84\t13.06\t21.85\nC308137480\tCompany #0038\t17.24\t12.93\t12.53\t10.17\t25.64\nC308646382\tCompany #0046\t17.24\t20.23\t19.4\t18.41\t36.88\nC314743310\tCompany #0176\t18.97\t21.19\t20.05\t17.26\t40.28\nC311018228\tCompany #0100\t20.69\t9.56\t9.22\t9.79\t16.01\nC310767904\tCompany #0094\t20.69\t22.53\t22.43\t22.68\t38.57\nC312740576\tCompany #0132\t24.14\t23.9\t24.15\t31.55\t47.33\nC315853837\tCompany #0198\t25.86\t28.71\t26.26\t22.12\t37.72\nC307110381\tCompany #0016\t27.59\t33.53\t32.72\t30.72\t68.75\nC309743814\tCompany #0072\t27.59\t26.49\t25.32\t23.46\t37.72\nC307713100\tCompany #0031\t32.76\t37.38\t37.28\t24.63\t51.0\nC307032812\tCompany #0014\t39.66\t40.2\t41.73\t49.63\t63.6\nC311265614\tCompany #0105\t46.55\t48.91\t49.26\t43.34\t65.64\nC313862631\tCompany #0154\t75.86\t76.1\t76.7\t75.02\t75.18\n"
+          }
+        ]
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695102625420_1421748593",
+      "id": "20230919-055025_1442179248",
+      "dateCreated": "2023-09-14T07:32:19+0000",
+      "dateStarted": "2023-09-19T07:25:34+0000",
+      "dateFinished": "2023-09-19T07:25:34+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:48"
+    },
+    {
+      "text": "%md\n<div style=\"padding:8px; background-color:#ccff99; font-family:Calibri, sans-serif; font-size:32px; font-weight:bold\">\n&nbsp;&sect;&nbsp;&nbsp;Save data (to database)</div>",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-26T08:59:56+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "md",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div style=\"padding:8px; background-color:#ccff99; font-family:Calibri, sans-serif; font-size:32px; font-weight:bold\">\n&nbsp;&sect;&nbsp;&nbsp;Save data (to database)</div>\n"
+          }
+        ]
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695102795228_652337657",
+      "id": "paragraph_1695102795228_652337657",
+      "dateCreated": "2023-09-19T05:53:15+0000",
+      "dateStarted": "2023-09-19T05:53:42+0000",
+      "dateFinished": "2023-09-19T05:53:42+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:49"
+    },
+    {
+      "text": "%python\n\n# push data\ntry:\n    oml.drop(table='TF_WIP_PG_METRICS')\nexcept:\n    pass\nTF_WIP_PG_METRICS = oml.create(data['TF_WIP_PG_METRICS'], table='TF_WIP_PG_METRICS', \n    dbtypes={'COMPANYID':'VARCHAR2(100)','COMPANYNAME':'VARCHAR2(100)','SCORE_CYC1':'NUMBER(10)','SCORE_CYC2':'NUMBER(10)','SCORE_CYC3':'NUMBER(10)','SCORE_BCEN':'NUMBER(10)','SCORE_CCEN':'NUMBER(10)'})",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-26T08:59:56+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/undefined",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "lineNumbers": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695102794594_74099119",
+      "id": "paragraph_1695102794594_74099119",
+      "dateCreated": "2023-09-19T05:53:14+0000",
+      "dateStarted": "2023-09-19T07:26:39+0000",
+      "dateFinished": "2023-09-19T07:26:39+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:50"
+    },
+    {
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-26T08:59:56+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695102625420_1064832863",
+      "id": "20230919-055025_1340415475",
+      "dateCreated": "2023-09-14T07:32:18+0000",
+      "status": "READY",
+      "$$hashKey": "object:51"
+    },
+    {
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-26T08:59:56+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695102625420_-625132031",
+      "id": "20230919-055025_1950862155",
+      "dateCreated": "2023-09-14T07:32:17+0000",
+      "status": "READY",
+      "$$hashKey": "object:52"
+    },
+    {
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-26T08:59:56+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695108378837_826178172",
+      "id": "paragraph_1695108378837_826178172",
+      "dateCreated": "2023-09-19T07:26:18+0000",
+      "status": "READY",
+      "$$hashKey": "object:53"
+    },
+    {
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-26T08:59:56+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695102625420_1048190259",
+      "id": "20230919-055025_441157030",
+      "dateCreated": "2023-09-14T07:32:16+0000",
+      "status": "READY",
+      "$$hashKey": "object:54"
+    },
+    {
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-26T08:59:56+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695102625420_143282974",
+      "id": "20230919-055025_1610702391",
+      "dateCreated": "2023-09-14T07:32:14+0000",
+      "status": "READY",
+      "$$hashKey": "object:55"
+    },
+    {
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-26T08:59:56+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695102625420_-966797803",
+      "id": "20230919-055025_124570945",
+      "dateCreated": "2023-09-14T07:32:13+0000",
+      "status": "READY",
+      "$$hashKey": "object:56"
+    },
+    {
+      "text": "%md\n<div style=\"padding:8px; background-color:#ccff99; font-family:Calibri, sans-serif; font-size:32px; font-weight:bold\">\n&nbsp;&sect;&nbsp;&nbsp;WIP</div>",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-26T08:59:56+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "md",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div style=\"padding:8px; background-color:#ccff99; font-family:Calibri, sans-serif; font-size:32px; font-weight:bold\">\n&nbsp;&sect;&nbsp;&nbsp;WIP</div>\n"
+          }
+        ]
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695102625420_-733192022",
+      "id": "20230919-055025_1304122228",
+      "dateCreated": "2023-09-14T07:32:01+0000",
+      "dateStarted": "2023-09-14T07:32:33+0000",
+      "dateFinished": "2023-09-14T07:32:33+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:57"
+    },
+    {
+      "text": "",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-26T08:59:56+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695102625420_-791353064",
+      "id": "20230919-055025_194742736",
+      "dateCreated": "2023-09-11T09:45:44+0000",
+      "status": "READY",
+      "$$hashKey": "object:58"
+    },
+    {
+      "text": "",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-26T08:59:56+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695102625420_-1988380093",
+      "id": "20230919-055025_1635884658",
+      "dateCreated": "2023-09-11T09:46:54+0000",
+      "status": "READY",
+      "$$hashKey": "object:59"
+    },
+    {
+      "text": "",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-26T08:59:56+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695102625420_-348620474",
+      "id": "20230919-055025_6701510",
+      "dateCreated": "2023-09-11T09:46:54+0000",
+      "status": "READY",
+      "$$hashKey": "object:60"
+    },
+    {
+      "text": "",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-26T08:59:56+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695102625420_1721058893",
+      "id": "20230919-055025_399610445",
+      "dateCreated": "2023-09-11T09:46:53+0000",
+      "status": "READY",
+      "$$hashKey": "object:61"
+    },
+    {
+      "text": "",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-26T08:59:56+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695102625420_-939374790",
+      "id": "20230919-055025_1087593582",
+      "dateCreated": "2023-09-11T09:45:43+0000",
+      "status": "READY",
+      "$$hashKey": "object:62"
+    },
+    {
+      "text": "",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-27T08:11:15+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695102625420_1273369473",
+      "id": "20230919-055025_759965704",
+      "dateCreated": "2023-09-11T09:11:08+0000",
+      "status": "READY",
+      "$$hashKey": "object:63"
+    }
+  ],
+  "name": "06-prepare.data.for.machine.learning",
+  "id": "1430488",
+  "defaultInterpreterGroup": "spark",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/02-explore.enhanced.data"
+}
