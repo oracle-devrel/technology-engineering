@@ -129,6 +129,10 @@ This section contains various examples related to Application Integration: demo 
     - Demo Video (part of Red Hot Webinars) where we show how to use a Recipe (HCM Employee sync) and how to enhance it through an available accelerator.
 - [Cloud Integration is not only for SaaS: an EBS modernization ](https://www.youtube.com/watch?v=E_Kz-r26La4)
     - Demo Video (part of Red Hot Webinars) where we show an initiative to enhance and modernize the EBS platform for better reach and ease of users. No change to existing workflow approvals in EBS and standard EBS Self Service Submissions has been required. From a mobile VBCS app employees are able to submit their IQAMA Renewal (Residence renewal) or Overtime Work Requests and their managers (up to 2 management chains up) are able to check the request and perform their approval. It uses EBS Integrated SOA Gateway which exposes custom and standard EBS APIs reached through OIC REST adapter.
+- [Oracle Process Automation - BPM Structured Process - Travel Request Demo](https://www.youtube.com/watch?v=MAVZzBX8nQY)
+    - Demo video showing how to create and run a BPM structured process. Shows how to manage a Travel request through automatic decisiona and Human Task approval steps. This demo implements [Oracle Live Lab](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/run-workshop?p210_wid=3362&p210_wec=&session=17064424204924), Lab 1
+- [Oracle Process Automation - BPM Dynamic (Case Management) Process - Car Rental Demo](https://www.youtube.com/watch?v=JcB4FDIEzPo)
+    - Demo video showing how to create and run a BPM Dynamic (Case Management) Process. Shows how to manage Car Rental Process through Case Management stages, Global activities and combination of Human Tasks, Structured BPM processes and Milestones in Case Management stages. This demo implements [Oracle Live Lab](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/run-workshop?p210_wid=3362&p210_wec=&session=17064424204924), Lab 2
 
 ## Blogs
 
