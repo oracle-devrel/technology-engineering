@@ -17,6 +17,9 @@ Reviewed: 30.01.2024
 
 ## Reusable Assets Overview
 
+- [Cloud Coaching - How to code and to develop a Web (or Mobile) Application with Visual Builder that uses and leverages OCI Document Understanding Service](https://youtu.be/0oHixpA9JDc?si=3CWh0d2RpuEzzLKU)
+    Learn how to create applications that read, modify, and classify documents with a couple of clicks using our low code development platform and some of the OCI AI services offering
+
 - [Cloud Coaching - AI Based & Real Time Gmail Invoice Documents Processing into Oracle Fusion ERP Cloud](https://youtu.be/wq7HH-WYslU?si=wBqH5eEkcC0hYKqj)
     How can you speed up your Account Payable Invoice Processing Cycle? Document Understanding and OCI Intelligent Automation Engine running on top of Oracle Fusion ERP Cloud can help:
     - Through a live demo, we show how to use it to enable an AI-based, Event-Driven and Real-Time Invoice Processing Solution into Oracle Fusion ERP Cloud on top of Gmail Invoices as Attachments
