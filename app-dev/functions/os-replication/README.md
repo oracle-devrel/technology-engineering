@@ -39,6 +39,9 @@ SOFTWARE.
 ## Functions overview
 [Document functions-overview](files/Fn.pdf)
 
+### Author
+<a href="https://github.com/mikarinneoracle">mikarinneoracle</a>
+
 # Example function to copy a file from an Object Storage bucket to multiple other buckets when uploaded
 
 ### The Use case

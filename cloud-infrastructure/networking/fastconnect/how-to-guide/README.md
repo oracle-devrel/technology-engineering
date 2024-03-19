@@ -1,20 +1,21 @@
 # How-to Overview
  
 FastConnect How-to guide: Step by step guide to create a FC connection with MegaPort
+
+Reviewed: 19.02.2024
  
-## When to use this asset?
+# When to use this asset?
  
 Use it as a how to guide to create a FC connection with MegaPort
 
-## How to use this asset?
+# How to use this asset?
  
 This document can be used to deploy FC when the provider is Megaport
  
-## Useful Links (Optional)
+# Useful Links
 
 - [how to guide ](files/Connectivity-fc(1).pdf)
 
- 
 # License
 
 Copyright (c) 2024 Oracle and/or its affiliates.

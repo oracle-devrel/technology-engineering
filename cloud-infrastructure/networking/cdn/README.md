@@ -5,6 +5,7 @@ Enables customers to deliver digital content to end users from a nearby location
 Reviewed: 06.02.2024
 
 # Useful Links
+
 - [Oracle CDN Announcement](https://www.oracle.com/uk/news/announcement/oracle-launches-new-flexible-cloud-infrastructure-services-2022-03-15/)
 
 # License
