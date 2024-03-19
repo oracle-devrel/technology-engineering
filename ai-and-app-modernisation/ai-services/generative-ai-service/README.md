@@ -49,6 +49,7 @@ Reviewed: 30.01.2024
 - [Oracle's Vision for the Future - Larry Ellison keynote Oracle Cloud World 2023](https://www.youtube.com/watch?v=63DmgBN1rSI)
 - [Generative AI on Oracle.com](https://www.oracle.com/artificial-intelligence/generative-ai/)
 - [Generative AI product documentation](https://docs.oracle.com/en-us/iaas/Content/generative-ai/home.htm)
+- [Live Lab to Search Documents stored in Object Storage using Opensearch, Generative AI, Semantic Search, RAG](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/run-workshop?p210_wid=3762&p210_wec=&session=114913007746363)
 
 # License
 
