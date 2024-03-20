@@ -24,6 +24,7 @@ Reviewed: 30.01.2024
 
 # Useful Links
  
+- [AI Solutions Hub](https://www.oracle.com/artificial-intelligence/solutions/)
 - [Oracle AI Vision on oracle.com](https://www.oracle.com/uk/artificial-intelligence/vision/)
 - [Oracle AI Vision documentation](https://docs.oracle.com/en-us/iaas/vision/vision/using/home.htm)
 
