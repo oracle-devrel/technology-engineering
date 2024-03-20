@@ -7,6 +7,10 @@ variable "compartment_ocid" {
 variable "external_database_connector_connection_string_hostname" {
   description = "Hostname for connection string"
   type        = string
+  validation {
+  	condition = var.external_database_connector_connection_string_hostname != ""
+	error_message = "The value of 'host' in the JSON-input for database systems is an empty string"
+  }
 }
 
 variable "external_database_connector_connection_string_port" {
@@ -33,6 +37,10 @@ variable "ssl_secret_id" {
 variable "external_database_connector_agent_id" {
   description = "The OCID for the management agent used for database connections"
   type        = string
+  validation {
+  	condition = var.external_database_connector_agent_id != ""
+	error_message = "The value of 'managementAgentId' in the JSON-input for database systems is an empty string"
+  }
   #default = "ocid1.managementagent.oc1..XXXXXXX"
 }
 
@@ -64,6 +72,10 @@ variable "external_cdb_connector_connection_credentials_credential_type" {
 variable "external_cdb_connector_connection_credentials_password" {
   description = "Password for container database connector"
   type        = string
+  validation {
+	condition = var.external_cdb_connector_connection_credentials_password != ""
+	error_message = "Container database connector password is an empty string. Confirm values in the JSON-input for credentials"
+  }
 }
 
 variable "external_cdb_connector_connection_credentials_role" {
@@ -78,9 +90,17 @@ variable "external_cdb_connector_connection_credentials_role" {
 variable "external_cdb_connector_connection_credentials_username" {
   description = "Username for container database connector"
   type        = string
+  validation {
+	condition = var.external_cdb_connector_connection_credentials_username != ""
+	error_message = "Container database connector username is an empty string. Confirm values in the JSON-input for credentials"
+  }
 }
 
 variable "external_cdb_connector_connection_string_service" {
   description = "Service name for container database connector"
   type        = string
+  validation {
+    condition = var.external_cdb_connector_connection_string_service != ""
+	error_message = "The value of 'containerServiceName' in the JSON-input for database systems is an empty string"
+  }
 }

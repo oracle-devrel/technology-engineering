@@ -69,6 +69,10 @@ variable "external_pdb_connector_connection_credentials_credential_type" {
 variable "external_pdb_connector_connection_credentials_password" {
   description = "Password for pluggable database connector"
   type        = string
+  validation {
+	condition = var.external_pdb_connector_connection_credentials_password != ""
+	error_message = "Pluggable database connector password is an empty string. Confirm values in the JSON-input for credentials"
+  }
 }
 
 variable "external_pdb_connector_connection_credentials_role" {
@@ -83,11 +87,19 @@ variable "external_pdb_connector_connection_credentials_role" {
 variable "external_pdb_connector_connection_credentials_username" {
   description = "Username for pluggable database connector"
   type        = string
+  validation {
+	condition = var.external_pdb_connector_connection_credentials_username != ""
+	error_message = "Pluggable database connector username is an empty string. Confirm values in the JSON-input for credentials"
+  }
 }
 
 variable "external_pdb_connector_connection_string_service" {
   description = "Service name for pluggable database connector"
   type        = string
+  validation {
+    condition = var.external_pdb_connector_connection_string_service != ""
+	error_message = "The value of 'pdbServiceName' in the JSON-input for database systems is an empty string"
+  }
 }
 
 variable "enable_database_management_pdb" {
