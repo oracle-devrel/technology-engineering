@@ -6,6 +6,10 @@ Machine Learning in Oracle Database supports data exploration, preparation, and 
 
 Reviewed: 2024.03.20
 
+# Team Publications
+
+- [Integrating Oracle Machine Learning with Oracle Digital Assistant](https://www.youtube.com/watch?v=gA-HfDYV7ao)
+
 
 # Useful Links
 
@@ -15,11 +19,6 @@ Reviewed: 2024.03.20
 - [Oracle Machine Learning on GitHub](https://github.com/oracle-samples/oracle-db-examples/tree/main/machine-learning)
 - [Oracle Machine Learning on Oracle LiveLabs](https://apexapps.oracle.com/pls/apex/f?p=133:100:14606520475441::::SEARCH:oracle+machine+learning)
 - [Oracle Machine Learning documentation](https://docs.oracle.com/en/database/oracle/machine-learning/)
-
-
-# Reusable Assets
-
-- [Integrating Oracle Machine Learning with Oracle Digital Assistant](https://www.youtube.com/watch?v=gA-HfDYV7ao)
 
 
 # License

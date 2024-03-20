@@ -21,22 +21,6 @@ Reviewed: 2024.03.20
 - [What is synthetic data?](https://blogs.oracle.com/ai-and-datascience/post/what-is-synthetic-data)
 - [Using APEX to apply trained Data Science models](https://blogs.oracle.com/ai-and-datascience/post/yolov5-models-in-apex-using-oracle-data-science)
 - [Integrating GenAI, RAG, and LangChain](https://www.linkedin.com/posts/luigi-saetta_ai-genai-llm-activity-7127218835404795905-6vvi?utm_source=share&utm_medium=member_desktop)
-
-
-# Useful Links
-
-- [Oracle Data Science Homepage](https://www.oracle.com/uk/artificial-intelligence/data-science/)
-- [Oracle Data Science on YouTube](https://www.youtube.com/playlist?list=PLKCk3OyNwIzv6CWMhvqSB_8MLJIZdO80L)
-- [Oracle Data Science on Oracle Blogs](https://blogs.oracle.com/ai-and-datascience/)
-- [Oracle Data Science on GitHub](https://github.com/oracle-samples/oci-data-science-ai-samples)
-- [Oracle Data Science on Oracle LiveLabs](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/livelabs-workshop-cards?p100_role=16&clear=100&session=11626256508663)
-- [Oracle Data Science Service Documentation](https://docs.oracle.com/en-us/iaas/data-science/using/data-science.htm)
-- [Oracle Data Science ADS SDK Documentation](https://accelerated-data-science.readthedocs.io/en/latest/index.html)
-- [Oracle Data Science AutoMLx SDK Documentation](https://docs.oracle.com/en-us/iaas/tools/automlx/latest/html/multiversion/v23.1.1/index.html)
-
-
-# Reusable Assets
-
 - [Create and Publish a Custom Conda environment](https://github.com/bobpeulen/oracle_data_science_examples/blob/main/Custom_Conda_Run_Jobs_Examples.ipynb)
 - [Integrate Generative AI with LangChain](https://github.com/luigisaetta/langchain_oracle)
 - [OCI Speech demos from OCI Data Science](https://github.com/luigisaetta/oci-speech-demos)
@@ -49,6 +33,18 @@ Reviewed: 2024.03.20
 - [Analyze Tweets (Twitter / X) using OCI Data Science and AI Language](https://github.com/bobpeulen/oracle_data_science_examples/blob/main/twitter_feed_sentiment.ipynb)
 - [Run Speech to Text on many recordings using Whisper on OCI Data Science as one Job](https://github.com/bobpeulen/oracle_data_science_examples/blob/main/speech_to_text_qdrant_vector_db.ipynb)
 - [Running Stable Diffusion XL using OCI Data Science](https://github.com/bobpeulen/stable_diff)
+
+
+# Useful Links
+
+- [Oracle Data Science Homepage](https://www.oracle.com/uk/artificial-intelligence/data-science/)
+- [Oracle Data Science on YouTube](https://www.youtube.com/playlist?list=PLKCk3OyNwIzv6CWMhvqSB_8MLJIZdO80L)
+- [Oracle Data Science on Oracle Blogs](https://blogs.oracle.com/ai-and-datascience/)
+- [Oracle Data Science on GitHub](https://github.com/oracle-samples/oci-data-science-ai-samples)
+- [Oracle Data Science on Oracle LiveLabs](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/livelabs-workshop-cards?p100_role=16&clear=100&session=11626256508663)
+- [Oracle Data Science Service Documentation](https://docs.oracle.com/en-us/iaas/data-science/using/data-science.htm)
+- [Oracle Data Science ADS SDK Documentation](https://accelerated-data-science.readthedocs.io/en/latest/index.html)
+- [Oracle Data Science AutoMLx SDK Documentation](https://docs.oracle.com/en-us/iaas/tools/automlx/latest/html/multiversion/v23.1.1/index.html)
 
 
 # License
