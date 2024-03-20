@@ -50,7 +50,7 @@ This asset is for anyone managing multiple on-prem database systems who needs to
         | ***Key*** | ***Description*** | ***Mandatory*** |
         |--------------|-----------|------------|
         | **host** | Host name used by management agent for connections with container and pluggable databases in system<br>**NOTE**: It is recommended to use the SCAN hostname for RAC systems | Yes |
-        | **port** | Port used by management agent for connections with container and pluggable databases in system | Yes |
+        | **port** | Port used by management agent for connections with container and pluggable databases in system<br>**NOTE**: Set to 1521 by default if no value is provided | Yes |
         | **protocol** | Protocol used by management agent for connections with container and pluggable databases in system<br>**NOTE**: Must be **TCP** or **TCPS** | Yes |
         | **managementAgentId** | OCID of the management agent connecting to container and pluggable databases in system | Yes |
         | **databaseCredentials** | Key for credential object in **root_module/db_credentials.json** used by management agent for database connections<br>**NOTE**: If **protocol** is set to **TCPS**, the credential object must include **sslSecretId** | Yes |
@@ -81,6 +81,8 @@ This asset is for anyone managing multiple on-prem database systems who needs to
         | **userPasswordSecretId** | OCID for encrypted Secret with database user password in OCI Vault. Click [here](https://docs.oracle.com/en-us/iaas/Content/KeyManagement/Tasks/managingsecrets.htm) for more<br>**NOTE**: Required to enable Stack Monitoring for ASM | No, if using **userPassword** instead |
         | **userRole** | Database user role for management agent connections<br>**NOTE**: For database connections, **userRole** can be **NORMAL** or **SYSDBA**. For ASM connections, **userRole** can be **SYSASM**, **SYSDBA**, or **SYSOPER** | Yes |
         | **sslSecretId** | OCID for encrypted Secret with JSON containing SSL-settings for database connections via TCPS. Click [here](https://docs.oracle.com/en-us/iaas/external-database/doc/create-connection-external-database.html#EXTUG-GUID-59ECD72C-EAC2-426D-B865-D8DDB1297F0E) for more | Yes, if **protocol** is set to **TCPS** for database system object in **root_module/db_systems.json**|
+		
+		**NOTE**: **CREDENTIAL VALUES ABOVE ARE SAVED AS PLAIN TEXT** IN BOTH **root_module/db_credentials.json** AS WELL AS IN **root_module/terraform.tfstate** AFTER APPLYING THE TERRAFORM CONFIGURATION. **ENSURE THAT THESE FILES ARE STORED SECURELY**
 
 6. Run the following commands from **root_module** to initialize the Terraform configuration, see its execution plan, and finally apply that plan:
    
