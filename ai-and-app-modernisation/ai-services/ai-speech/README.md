@@ -33,6 +33,7 @@ Reviewed: 30.01.2024
 
 # Useful Links
  
+- [AI Solutions Hub](https://www.oracle.com/artificial-intelligence/solutions/)
 - [Oracle AI Speech on oracle.com](https://www.oracle.com/uk/artificial-intelligence/speech/)
 - [Oracle AI Speech documentation](https://docs.oracle.com/en-us/iaas/Content/speech/home.htm)
 - [Oracle Speech AI service now supports diarization](https://blogs.oracle.com/ai-and-datascience/post/oracle-speech-ai-service-now-supports-diarization)

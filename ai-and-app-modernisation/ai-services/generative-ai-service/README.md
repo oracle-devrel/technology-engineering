@@ -32,6 +32,7 @@ Reviewed: 30.01.2024
 
 # Useful Links
  
+- [AI Solutions Hub](https://www.oracle.com/artificial-intelligence/solutions/)
 - [Navigating the frontier: Key considerations for developing a generative AI integration strategy for the enterprise](https://blogs.oracle.com/ai-and-datascience/post/considerations-generative-ai-integration-strategy)
 - [The Future of Generative AI: What Enterprises Need to Know](https://blogs.oracle.com/ai-and-datascience/post/future-generative-ai-what-enterprises-need-to-know) 
 - [Announcing the general availability of OCI Generative AI](https://blogs.oracle.com/ai-and-datascience/post/ga-oci-generative-ai)
