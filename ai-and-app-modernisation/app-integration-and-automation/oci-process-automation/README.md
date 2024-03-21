@@ -1,6 +1,6 @@
 # OCI Process Automation
 
-Oracle Process Automation (OPA) capabilities help business and IT groups within enterprises to implement business process initiatives that aim at automating business transactions that usually involve people and systems of record. Users can build, customize and change process applications in a collaborative manner using a Low Code 100% browser-based declarative environment. 
+Oracle Process Automation (OPA) capabilities help business and IT groups within enterprises to implement business process initiatives that aim at automating business transactions that usually involve people and systems of record. Users can build, customize and change process applications in a collaborative manner using a Low Code 100% browser-based declarative environment.
 
 There are two working environments: the design-time environment, where you develop and test applications, and the runtime environment, where you use and monitor process applications: Structured Processes and Dynamic Processes.
 
@@ -19,6 +19,12 @@ Review Date: 03.11.2023
 # Team Publications
 - [Shared Assets](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/app-integration-and-automation/shared-assets)
   - List of reusable assets spanning multiple cloud services (OIC, OPA, API Gateway)
+- OPA specific assets
+ - [Oracle Process Automation DEMO - Structured BPM Process (Travel Request) from Oracle LiveLab](https://www.youtube.com/watch?v=MAVZzBX8nQY)
+ - [Oracle Process Automation DEMO - Dynamic (Case Management) Process (Car Rental) from Oracle LiveLab](https://www.youtube.com/watch?v=JcB4FDIEzPo)
+ - [Oracle OPA Live Lab (source for above linked Oracle Process Automation DEMOs)](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/run-workshop?p210_wid=3362&p210_wec=&session=17064424204924)
+
+
 
 
 # License
