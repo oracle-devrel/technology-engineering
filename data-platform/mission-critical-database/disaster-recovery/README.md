@@ -12,6 +12,10 @@ A database disaster is an event that causes DATA LOSS or SERIOUS DISRUPTION to a
 - [Data Guard Best Practices](https://docs.oracle.com/en/database/oracle/oracle-database/19/haovw/oracle-data-guard-best-practices.html)
 - [Introduction to Full Stack Disaster Recovery](https://www.youtube.com/watch?v=GiyFs8Cpksg&t=587s)
 
+## Snehas Favorite Links
+
+- [My favorite search engine](https://www.google.com)
+
 # License
 
 Copyright (c) 2024 Oracle and/or its affiliates.
