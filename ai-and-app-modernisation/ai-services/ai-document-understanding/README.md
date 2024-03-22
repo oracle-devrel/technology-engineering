@@ -17,6 +17,12 @@ Reviewed: 30.01.2024
 
 ## Reusable Assets Overview
 
+- [Cloud Coaching - Boost Your Oracle AI Services](https://youtu.be/VVWTqqlIEhg)
+    - Learn how to Develop a Multi-Chain Document Evaluation Apps with Oracle Generative AI, Document Understanding, and Integration Cloud.
+
+- [Blog: Document Evaluation Tool using OCI Generative AI, Document Understanding & Integration Cloud](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/doc-evaluation-genai)
+    - In this article, we'll explore how to make a handy tool that helps to evaluate documents using Oracle Generative AI, OCI Document Understanding, and Oracle Integration Cloud (OIC). This application combines a low-code approach to orchestrate LLM AI services and applications using Oracle Integration Cloud and Generative AI prompting techniques for tasks like document key criteria extraction, summarization, and evaluation.
+    
 - [Cloud Coaching - How to code and develop a Web (or Mobile) Application with Visual Builder that uses and leverages OCI Document Understanding Service](https://youtu.be/0oHixpA9JDc?si=3CWh0d2RpuEzzLKU)
     Learn how to create applications that read, modify, and classify documents with a couple of clicks using our low code development platform and some of the OCI AI services offering
 
