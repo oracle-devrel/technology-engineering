@@ -3,7 +3,7 @@
 This demonstration will showcase the capabilities of the Oracle Machine Learning Platform in aiding procurement teams with data-driven decision-making.
 Objectives are: classifying vendors or suppliers into different categories based on various criteria to streamline procurement processes, identifying unusual or abnormal patterns in spending data, and forecasting total daily/weekly/monthly procurement spending for each vendor.
 
-Reviewed: 2024.03.20
+Reviewed: 2024.03.25
 
 
 # When to use this asset?

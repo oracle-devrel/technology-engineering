@@ -2,7 +2,7 @@
  
 This document covers the topic of jobs with OCI Data Science ADS Operator Control.
 
-Reviewed: 2024.03.20
+Reviewed: 2024.03.25
  
 
 # When to use this asset?
