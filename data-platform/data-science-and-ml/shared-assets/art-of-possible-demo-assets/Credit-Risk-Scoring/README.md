@@ -2,8 +2,18 @@
 
 This demo is going to showcase predicting the creditworthiness of a loan applicant.
 
-Reviewed: 2024.03.08
+Reviewed: 2024.03.20
  
+
+# When to use this asset?
+
+Use this asset as support material when working with the subject of credit risk scoring.
+
+
+# How to use this asset?
+
+This asset is provided as general purpose material. Please tailor the content according to your context and needs.
+
  
 # Useful Links
 
