@@ -2,6 +2,7 @@
 
  Examples to illustrate some SQL features in 23c using the 23c Developer FREE release.
  
+ Review Date: 03.06.2024
 
 ## Useful Links
 
@@ -22,7 +23,7 @@
 
 ### LiveLabs Workshops
 
-- coming soon
+- [SQL Empowerment in Oracle 23c: Leveraging Domains and New Features](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3835&clear=RR,180&session=112078282268124)
 
 
 # License
