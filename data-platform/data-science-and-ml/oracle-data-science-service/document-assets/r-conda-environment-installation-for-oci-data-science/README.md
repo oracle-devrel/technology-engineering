@@ -2,7 +2,7 @@
  
 This document covers installation of R Conda environment for OCI Data Science.
 
-Reviewed: 2024.03.20
+Reviewed: 2024.03.25
  
 
 # When to use this asset?

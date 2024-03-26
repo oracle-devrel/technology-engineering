@@ -4,7 +4,7 @@ This page covers Oracle Machine Learning, or Machine Learning in Oracle Database
 
 Machine Learning in Oracle Database supports data exploration, preparation, and machine learning modeling at scale using SQL, R, Python, REST, automated machine learning (AutoML), and no-code interfaces. It includes more than 30 high-performance in-database algorithms producing models for immediate use in applications. By keeping data in the database, organizations can simplify their overall architecture and maintain data synchronization and security. It enables data scientists and other data professionals to build models quickly by simplifying and automating key elements of the machine learning lifecycle.
 
-Reviewed: 2024.03.20
+Reviewed: 2024.03.25
 
 # Team Publications
 

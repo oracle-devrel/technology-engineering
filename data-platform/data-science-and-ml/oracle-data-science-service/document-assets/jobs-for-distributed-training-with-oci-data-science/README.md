@@ -2,7 +2,7 @@
  
 This document covers the topic of jobs distributed training with OCI Data Science.
 
-Reviewed: 2024.03.20
+Reviewed: 2024.03.25
  
 
 # When to use this asset?
