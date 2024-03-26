@@ -1,4 +1,4 @@
-# ODS - jobs with ADS
+# ODS - Jobs with ADS
  
 This files cover code snippets for OCI Data Science, for jobs with ADS.
 
