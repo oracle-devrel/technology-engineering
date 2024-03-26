@@ -1,4 +1,4 @@
-# ODS - Sample R code
+# ODS - Enhance Data with GAN
  
 This files cover code snippets for OCI Data Science, for enhancing data with GAN (Generative Adversarial Networks).
 

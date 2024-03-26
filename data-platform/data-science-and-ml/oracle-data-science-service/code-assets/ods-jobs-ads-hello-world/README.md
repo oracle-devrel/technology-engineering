@@ -1,4 +1,4 @@
-# ODS - Sample R code
+# ODS - jobs with ADS
  
 This files cover code snippets for OCI Data Science, for jobs with ADS.
 

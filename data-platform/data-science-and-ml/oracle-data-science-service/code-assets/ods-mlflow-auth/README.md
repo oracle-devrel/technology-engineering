@@ -1,4 +1,4 @@
-# ODS - Sample R code
+# ODS - MLflow authentication
  
 This file covers code snippets for OCI Data Science, for MLflow authentication.
 
