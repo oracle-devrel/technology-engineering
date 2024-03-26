@@ -21,6 +21,8 @@ Reviewed: 26.02.20224
     - Run video surveillance and analytics software on OCI
 - [Powering protein large language models in antibody discovery on OCI](https://blogs.oracle.com/cloud-infrastructure/post/powering-protein-llms-antibody-discovery-oci)
     - Powering protein large language models in antibody discovery on OCI
+ - [Customer sentiment analysis using VM.GPU.A10](https://blogs.oracle.com/cloud-infrastructure/post/oci-ai-language-nonenglish-language-use-case)
+    - This experiment involved deploying a VM.GPU.A10 instance to run Python code, translating approximately 1,100 hotel reviews from Hebrew to English using AlephBERT and Google Translate
 
 
 ## LiveLabs
