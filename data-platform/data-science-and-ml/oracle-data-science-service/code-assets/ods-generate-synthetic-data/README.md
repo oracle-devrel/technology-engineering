@@ -1,4 +1,4 @@
-# ODS - Sample R code
+# ODS - Generate Synthetic Data
  
 This files cover code snippets for OCI Data Science, for generating synthetic data.
 

@@ -1,4 +1,4 @@
-# ODS - Sample R code
+# ODS - MLflow Authentication with MySQL
  
 This file covers code snippets for OCI Data Science, for MLflow authentication with MySQL.
 
