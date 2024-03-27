@@ -1,6 +1,9 @@
 # Oracle Vector Search
 
-This page is covering Oracle Vector Search.
+This page covers Oracle Vector Search.
+
+Reviewed: 2024.03.25
+
 
 # License
 

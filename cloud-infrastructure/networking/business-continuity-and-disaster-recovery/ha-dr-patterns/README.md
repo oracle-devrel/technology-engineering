@@ -1,12 +1,14 @@
 # HA DR Patterns
  
 Use this asset to understand various HA and DR Patterns
+
+Reviewed: 19.02.2024
  
-## When to use this asset?
+# When to use this asset?
  
 *Before selecting the appropriate HA/DR network design*
  
-## How to use this asset?
+# How to use this asset?
  
 *Use it as a reference architecture for varuous HA/DR network designs*
  

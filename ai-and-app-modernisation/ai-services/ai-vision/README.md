@@ -24,6 +24,7 @@ Reviewed: 30.01.2024
 
 # Useful Links
  
+- [AI Solutions Hub](https://www.oracle.com/artificial-intelligence/solutions/)
 - [Oracle AI Vision on oracle.com](https://www.oracle.com/uk/artificial-intelligence/vision/)
 - [Oracle AI Vision documentation](https://docs.oracle.com/en-us/iaas/vision/vision/using/home.htm)
 
@@ -52,7 +53,11 @@ Reviewed: 30.01.2024
 - [How to Use AI Vision and Drones for Inventory Management](https://go.oracle.com/LP=135420)
 
 # Reusable Assets Overview
- 
+
+- [Cloud Coaching - Boost Your Oracle AI Services](https://youtu.be/VVWTqqlIEhg)
+    - Describe an image using OCI AI Vision, Generative AI Service and Oracle Integration 
+- [Blog: Describe an image using OCI AI Vision, Generative AI & Integration Cloud](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/vision-genai)
+    - In this article, we'll explore how to describe an image using OCI AI Vision Service and OCI Generative AI Service. The application is developed using Oracle VBCS, OIC, OCI AI Vision service, and OCI Generative AI Service. This integrated approach combines the strength of OCI AI Vision and OCI Generative AI Service, allowing for efficient and insightful summarization of image content.
 - [OCI image classification using data labeling and vision service](https://github.com/carlgira/oci-image-classification)
 - [OCI object detection using data labeling and vision service](https://github.com/carlgira/oci-object-detection) 
 - [Perform image recognition with Oracle Cloud Infrastructure OCI Vision](https://youtu.be/G11INIVtlMY?si=ixMoLE2jSq7f_Iyi) 

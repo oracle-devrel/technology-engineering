@@ -11,6 +11,7 @@ Reviewed: 30.01.2024
 
 # Useful Links
 
+- [AI Solutions Hub](https://www.oracle.com/artificial-intelligence/solutions/)
 - [Oracle AI Services Oracle.com Page](https://www.oracle.com/artificial-intelligence/ai-services/)
 - [Oracle’s Generative AI strategy](https://blogs.oracle.com/ai-and-datascience/post/generative-ai-strategy)
 - [OCI AI Foundations Certification](https://mylearn.oracle.com/ou/component/-/127179/198553)

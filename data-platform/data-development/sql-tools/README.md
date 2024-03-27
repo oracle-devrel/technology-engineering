@@ -47,17 +47,14 @@ This course continues where Databases for Developers: Foundations left off, taki
 The class consists of a series of videos introducing concepts, interactive coding sections, and quizzes to test your understanding.
 
 
-# SQL Best Practices
+## SQL Best Practices
 Periodical sharing of Standard Query Language Best Practices links and blog, video publications from Advocate SQL and PL/SQL Developers and PMs
 
 - Analytic Functions: [how to get SQL cumulative running total on each row](https://blogs.oracle.com/sql/post/cumulative-running-total-of-previous-rows-with-sql) (from Chris Saxon);
-- V$ views: [Top 10 V$ Views For DBA and Developers](https://youtu.be/oI1F4vFwM9Q?si=i1UslciVja50792t) (From Connor McDonald).
+- V$ views: [Top 10 V$ Views For DBA and Developers](https://youtu.be/oI1F4vFwM9Q?si=i1UslciVja50792t) (From Connor McDonald);
+- The Secret to a Successful Data Loading: [VALIDATE_CONVERSION and CONVERSION ERROR](https://www.youtube.com/watch?v=gjjPAQ6znlw) (From Connor McDonald)
 
-
-# Reusable Assets Overview
-TBD
-
-# PMs Personal Websites
+## PMs Personal Websites
 
 - [@ThatJeffSmith](https://www.thatjeffsmith.com/)
 - [SQL Blog by Chris Saxon](https://blogs.oracle.com/sql)
