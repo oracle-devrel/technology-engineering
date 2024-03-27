@@ -7,6 +7,8 @@ EMEA AppDev is an expert team of Cloud Native architects and developers focusing
  
 # Team Publications
 
+- [Reserve Memory and CPU for Kubernetes System Daemons](/app-dev/oke/oke-kube-reserved-cloud-init/README.md)
+- [Image Credential Provider for OKE](https://github.com/oracle-devrel/oke-credential-provider-for-ocir/)
 - [Cloud Coaching - OCI Observability for Kubernetes monitoring](https://www.youtube.com/watch?v=DLce-UReoKo)[November 2023]
 - [Github Workflow or OCI DevOps for deploying a Springboot App on OCI Container Instances](https://www.youtube.com/watch?v=Nc4lMeEuq5c)[October 2023]
 - [OKE in a Hub-Spoke Architecture](https://ivan-delic.medium.com/advanced-kubernetes-networking-oke-in-a-hub-spoke-architectures-f0ba2256e824)[September 2023]
