@@ -159,7 +159,7 @@ curl -X "POST" 'http://localhost:9999/v1/completions' -H 'accept: application/js
 > [!NOTE]
 > Ideally, a cleaner way of using rclone in Kubernetes would be to use the [rclone container](https://hub.docker.com/r/rclone/rclone) as a sidecar before starting the inference server. This works fine locally using docker but because it needs the `--device` option to use `fuse`, this makes it complicated to use with Kubernetes due to the lack of support for this feature (see https://github.com/kubernetes/kubernetes/issues/7890?ref=karlstoney.com, a Feature Request from 2015 still very active as of March 2024). The workaround I chose is to setup rclone as a service on the host and mount the bucket on startup.
 
-In ![cloud-init](cloud-init), replace the value of your namespace, compartment OCID and region lines 17, 18 and 19 with the values retrieved previously. You can also adapt the value of the bucket line 57. By default it is called `NIM` and has a directory called `llama2-7b-hf`. 
+In [cloud-init](cloud-init), replace the value of your namespace, compartment OCID and region lines 17, 18 and 19 with the values retrieved previously. You can also adapt the value of the bucket line 57. By default it is called `NIM` and has a directory called `llama2-7b-hf`. 
 
 This cloud-init script will be uploaded on your GPU node in your OKE cluster. The first part consists in increasing the boot volume to the value set. Then, it downloads rclone, creates the correct directories and create the configuration file, the same way as we did previously. Finally, it starts rclone as a service and mount the bucket to `/opt/mnt/model_bucket_oci`. 
 
@@ -176,7 +176,7 @@ It is now time to bring everything together in Oracle Kubernetes Engines (OKE)
 Start by creating an OKE Cluster following [this tutorial](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingclusterusingoke_topic-Using_the_Console_to_create_a_Quick_Cluster_with_Default_Settings.htm) with slight adaptations:
 
 * Start by creating 1 CPU node pool that will be used for monitoring with 1 node only (i.e VM.Standard.E4.Flex with 5 OCPU and 80GB RAM) with the default image.
-* Once your cluster is up, create another node pool with 1 GPU node (i.e VM.GPU.A10.1) with the default image coming with the GPU drivers. __*Important note*__: Make sure to increase the boot volume (350 GB) and add the previously modified ![cloud-init script](cloud-init)
+* Once your cluster is up, create another node pool with 1 GPU node (i.e VM.GPU.A10.1) with the default image coming with the GPU drivers. __*Important note*__: Make sure to increase the boot volume (350 GB) and add the previously modified [cloud-init script](cloud-init)
 
 
 ### Deploy using Helm in Cloud Shell
