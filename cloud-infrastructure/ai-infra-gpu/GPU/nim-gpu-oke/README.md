@@ -301,7 +301,7 @@ $ oci os bucket delete --bucket-name NIM --empty
 Resources:
 
 * [NVIDIA releases NIM for deploying AI models at scale](https://developer.nvidia.com/blog/nvidia-nim-offers-optimized-inference-microservices-for-deploying-ai-models-at-scale/)
-* [Deployng Triton on OCI](https://github.com/triton-inference-server/server/tree/main/deploy/oci)
+* [Deploying Triton on OCI](https://github.com/triton-inference-server/server/tree/main/deploy/oci)
 * [NIM documentation on how to use non prebuilt models](https://developer.nvidia.com/docs/nemo-microservices/inference/nmi_nonprebuilt_playbook.html)
 * [NVIDIA TensorRT-LLM GitHub repository](https://github.com/NVIDIA/TensorRT-LLM)
 
