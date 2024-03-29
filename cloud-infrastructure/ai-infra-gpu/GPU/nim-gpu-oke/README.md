@@ -1,6 +1,6 @@
 # Overview
 
-This repository intends to demonstrate how to deploy [NVIDIA NIM](https://developer.nvidia.com/docs/nemo-microservices/inference/overview.html) on Oracle Kubernetes Engine (OKE) with TensorRT-LLM Backend and Triton Inference Server in order to server Large Language Models (LLM's) in a Kubernetes architecture. The model used is Llama2-7B-chat on a GPU A10. For scalability, we are hosting the model repository on a Bucket in Oracle Object Storage.
+This repository intends to demonstrate how to deploy [NVIDIA NIM](https://developer.nvidia.com/docs/nemo-microservices/inference/overview.html) on Oracle Kubernetes Engine (OKE) with TensorRT-LLM Backend and Triton Inference Server in order to serve Large Language Models (LLM's) in a Kubernetes architecture. The model used is Llama2-7B-chat on a GPU A10. For scalability, we are hosting the model repository on a Bucket in Oracle Cloud Object Storage.
 
 # Pre-requisites
 
@@ -9,9 +9,9 @@ This repository intends to demonstrate how to deploy [NVIDIA NIM](https://develo
 * You have a [container registry](https://docs.oracle.com/en-us/iaas/Content/Registry/home.htm).
 * You have an [Auth Token](https://docs.oracle.com/en-us/iaas/Content/Registry/Tasks/registrypushingimagesusingthedockercli.htm#Pushing_Images_Using_the_Docker_CLI) to push/pull images to/from the registry.
 * Ability for your instance to authenticate via [instance principal](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm)
-* You have access to NVIDIA AI Entreprise to pull the containers.
+* You have access to NVIDIA AI Entreprise to pull the NIM containers.
 * You are familiar with Kubernetes and Helm basic terminology.
-* A HuggingFace account with an Access Token configured to download llama2-7B-chat
+* You have a HuggingFace account with an Access Token configured to download llama2-7B-chat
 
 # Walkthrough
 
@@ -24,7 +24,7 @@ Start a VM.GPU.A10.1 from the Instance > Compute menu with the [NGC image](https
 
 ## Update to the required NVIDIA Drivers (Optional)
 
-It is recommended to update your drivers to the latest available following the guidance from NVIDIA with the compatibility [matrix between the drivers and your Cuda version](https://docs.nvidia.com/deploy/cuda-compatibility/index.html). You can also see  See https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=20.04&target_type=deb_network for more information.
+It is recommended to update your drivers to the latest available following the guidance from NVIDIA with the compatibility [matrix between the drivers and your Cuda version](https://docs.nvidia.com/deploy/cuda-compatibility/index.html). You can also see https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=20.04&target_type=deb_network for more information.
 
 
 ```
@@ -75,7 +75,7 @@ git clone https://huggingface.co/meta-llama/Llama-2-7b-chat-hf
 
 ### Create the Model Config
 
-Copy the file `model_config.yaml` and create the directory to host the model store. This is where the Model Repo Generator command will store the output.
+Copy the file [`model_config.yaml`](model_config.yaml) and create the directory to host the model store. This is where the Model Repo Generator command will store the output.
 
 ```
 mkdir model-store
@@ -88,7 +88,7 @@ chmod -R 777 model-store
 docker run --rm -it --gpus all -v $(pwd)/model-store:/model-store -v $(pwd)/model_config.yaml:/model_config.yaml -v $(pwd)/Llama-2-7b-chat-hf:/engine_dir nvcr.io/ohlfw0olaadg/ea-participants/nemollm-inference-ms:24.02.rc4 bash -c "model_repo_generator llm --verbose --yaml_config_file=/model_config.yaml"
 ```
 
-### Export the model repository to an Oracle Object Storage Bucket
+### Export the model repository to an Oracle Cloud Object Storage Bucket
 
 At this stage, the model repository is located in the directory `model-store`. You can use `oci-cli` to do a bulk upload to one of your buckets in the region. Here is an example for a bucket called "NIM" where we want the model store to be uploaded in NIM/llama2-7b-hf (in case we upload different model configuration to the same bucket):
 
@@ -102,9 +102,9 @@ oci os object bulk-upload -bn NIM --src-dir . --prefix llama2-7b-hf/ --auth inst
 At this stage, the model repository is uploaded to one OCI bucket. It is a good moment to try the setup.
 
 > [!IMPORTANT]
-> Because the option parameter `--model-repository` is currently hardoded in the container, we cannot simply point to the Bucket when starting the parameter. One option would be to adapt the python script within the container but we would need sudo privilege. The other would be to mount the bucket as a file system on the machine directly. We chose the second method here with [rclone](https://rclone.org/). Make sure fuse3 is on the machine. On Ubuntu you can run `sudo apt install fuse3 jq`.
+> Because the option parameter `--model-repository` is currently hardoded in the container, we cannot simply point to the Bucket when we start it. One option would be to adapt the python script within the container but we would need sudo privilege. The other would be to mount the bucket as a file system on the machine directly. We chose the second method with [rclone](https://rclone.org/). Make sure fuse3 and jq are installed on the machine. On Ubuntu you can run `sudo apt install fuse3 jq`.
 
-Start by gathering your Namespace, Compartment OCID and region, either fetching them from the web console or by running the following commands from your compute instance:
+Start by gathering your Namespace, Compartment OCID and Region, either fetching them from the web console or by running the following commands from your compute instance:
 
 ```
 #NAMESPACE:
@@ -159,9 +159,9 @@ curl -X "POST" 'http://localhost:9999/v1/completions' -H 'accept: application/js
 > [!NOTE]
 > Ideally, a cleaner way of using rclone in Kubernetes would be to use the [rclone container](https://hub.docker.com/r/rclone/rclone) as a sidecar before starting the inference server. This works fine locally using docker but because it needs the `--device` option to use `fuse`, this makes it complicated to use with Kubernetes due to the lack of support for this feature (see https://github.com/kubernetes/kubernetes/issues/7890?ref=karlstoney.com, a Feature Request from 2015 still very active as of March 2024). The workaround I chose is to setup rclone as a service on the host and mount the bucket on startup.
 
-In ![cloud-init](cloud-init), replace the value of your namespace, compartment OCID and region lines 17, 18 and 19 with the values retrieved previously. You can also adapt the value of the bucket line 57. By default it is called `NIM` and has a directory called `llama2-7b-hf`. 
+In [cloud-init](cloud-init), replace the value of your Namespace, Compartment OCID and Region lines 17, 18 and 19 with the values retrieved previously. You can also adapt the value of the bucket line 57. By default it is called `NIM` and has a directory called `llama2-7b-hf`. 
 
-This cloud-init script will be uploaded on your GPU node in your OKE cluster. The first part consists in increasing the boot volume to the value set. Then, it downloads rclone, creates the correct directories and create the configuration file, the same way as we did previously. Finally, it starts rclone as a service and mount the bucket to `/opt/mnt/model_bucket_oci`. 
+This cloud-init script will be uploaded on your GPU node in your OKE cluster. The first part consists in increasing the boot volume to the value set. Then, it downloads rclone, creates the correct directories and create the configuration file, the same way as we did previously on teh GPU VM. Finally, it starts rclone as a service and mounts the bucket to `/opt/mnt/model_bucket_oci`. 
 
 ## Deploy on OKE
 
@@ -176,7 +176,7 @@ It is now time to bring everything together in Oracle Kubernetes Engines (OKE)
 Start by creating an OKE Cluster following [this tutorial](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingclusterusingoke_topic-Using_the_Console_to_create_a_Quick_Cluster_with_Default_Settings.htm) with slight adaptations:
 
 * Start by creating 1 CPU node pool that will be used for monitoring with 1 node only (i.e VM.Standard.E4.Flex with 5 OCPU and 80GB RAM) with the default image.
-* Once your cluster is up, create another node pool with 1 GPU node (i.e VM.GPU.A10.1) with the default image coming with the GPU drivers. __*Important note*__: Make sure to increase the boot volume (350 GB) and add the previously modified ![cloud-init script](cloud-init)
+* Once your cluster is up, create another node pool with 1 GPU node (i.e VM.GPU.A10.1) with the default image coming with the GPU drivers. __*Important note*__: Make sure to increase the boot volume (350 GB) and add the previously modified [cloud-init script](cloud-init)
 
 
 ### Deploy using Helm in Cloud Shell
@@ -185,9 +185,9 @@ See [this documentation](https://docs.oracle.com/en-us/iaas/Content/API/Concepts
 
 #### Adapting the variables
 
-You can find the Helm configuration in */oke* where you need to adapt the *values.yaml*:
+You can find the Helm configuration in the folder [`oke`](oke/) where you need to adapt the [`values.yaml`](oke/values.yaml):
 
-Review your credentials for the [secret to pull the image](https://helm.sh/docs/howto/charts_tips_and_tricks/#creating-image-pull-secrets) in *values.yaml*: 
+Review your credentials for the [secret to pull the image](https://helm.sh/docs/howto/charts_tips_and_tricks/#creating-image-pull-secrets) in [`values.yaml`](oke/values.yaml): 
 
 ```
 registry: nvcr.io
@@ -208,7 +208,7 @@ helm install example-metrics --set prometheus.prometheusSpec.serviceMonitorSelec
 
 The default load balancer created comes with a fixed shape and a bandwidth of 100Mbps. You can switch to a [flexible](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingloadbalancers-subtopic.htm#contengcreatingloadbalancers_subtopic) shape and adapt the bandwidth according to your OCI limits in case the bandwidth is a bottleneck.
 
-An example Grafana dashboard is available in *dashboard-review.json*. Use the import function in Grafana to import and view this dashboard.
+An example Grafana dashboard is available in [dashboard-review.json](oke/dashboard-review.json). Use the import function in Grafana to import and view this dashboard.
 
 You can then see the Public IP of you grafana dashboard by running:
 
@@ -302,7 +302,7 @@ Resources:
 
 * [NVIDIA releases NIM for deploying AI models at scale](https://developer.nvidia.com/blog/nvidia-nim-offers-optimized-inference-microservices-for-deploying-ai-models-at-scale/)
 * [Deployng Triton on OCI](https://github.com/triton-inference-server/server/tree/main/deploy/oci)
-* [NCG page with all version of NVIDIA Triton Inference Server](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/tritonserver/tags)
 * [NIM documentation on how to use non prebuilt models](https://developer.nvidia.com/docs/nemo-microservices/inference/nmi_nonprebuilt_playbook.html)
+* [NVIDIA TensorRT-LLM GitHub repository](https://github.com/NVIDIA/TensorRT-LLM)
 
 
