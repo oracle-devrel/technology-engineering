@@ -2,6 +2,14 @@
 
 This utility has been made to run benchmarks against Autonomous Databases. It could be easily adapted to run against any Oracle Database.
 
+Reviewed: 02.04.2024
+
+# When to use this asset?
+
+To run benchmarks against Autonomous Databases.
+
+# How to use this asset?
+
 Create a JSON file describing your test plan, and run it against ADB.
 
 A test plan is made of runs and steps.
@@ -106,7 +114,7 @@ This plan is named B2-UNIT and has 2 runs:
     Wait until completion
     Create an AWR snapshot and generate the AWR report
 
-At the end of all the runs, a notification will be sent to a topic in OCI. If this topic is associated to anemail address, you'll receive somnething like this:
+At the end of all the runs, a notification will be sent to a topic in OCI. If this topic is associated with an email address, you'll receive something like this:
 
 "As of 20/12/2022-10h19mn02s, plan with ID B1-IB.Consulta88.20221220101727 completed with the following results:
  
@@ -122,7 +130,7 @@ Please review file /home/opc/PPL/log/B1-IB.Consulta88.20221220101727.log for det
  
 Kind regards,"
 
-So this tool enables to automate long test plans and run them unattented.
+So this tool enables you to automate long test plans and run them unattended.
 
 
 # License

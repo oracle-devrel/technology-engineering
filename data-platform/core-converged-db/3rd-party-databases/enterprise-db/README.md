@@ -1,6 +1,14 @@
-# Tooling
+# Enterprise DB
 
-In this section, you'll find useful tools and scripts. 
+Review Date: 02.04.2024
+
+# When to use this asset?
+
+Presentation and Oracle Point of View for Enterprise DB
+
+# How to use this asset?
+
+Use the PDF as a presentation.
 
 # License
 
