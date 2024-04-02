@@ -1,4 +1,4 @@
-# ODS - Sample R code
+# ODS - Jobs Distributed Training
  
 This files cover code snippets for OCI Data Science, for jobs distributed training.
 
