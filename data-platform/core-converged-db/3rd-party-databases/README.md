@@ -1,8 +1,6 @@
+# 3rd Party DBs
 
-# Core Converged DB
-
-This area focuses on 3rd party databases.
-
+Reviewed: 02.04.2024
 
 # License
 
