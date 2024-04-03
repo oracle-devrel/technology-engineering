@@ -84,12 +84,11 @@ def load_config(config_file_name):
     """Load config file and returns dict of configuration"""
     try:
         config_file = open(config_file_name)
+        config = json.load(config_file)
+        config_file.close()
     except Exception as ioError:
         print("Load of configuration file: " + args.configfile + " failed")
         exit(1)
-    try:
-        config = json.load(config_file)
-        config_file.close()
     except Exception as ConfigError:
         print("JSON Parse of configuration file: " + config_file_name + " failed")
         exit(1)
@@ -115,7 +114,7 @@ def parse_cmd_line():
             args_parser.add_argument('--'+arg[0],default=arg[1],action='store_true',help=arg[3])
     # Parse and return parsed Namespace
     args = args_parser.parse_args()
-    return(args)
+    return args
 
 #########################################################################
 # overwrite_config
@@ -242,7 +241,7 @@ def create_kms_client(oci_config_file,oci_profile_name,kms_vault_ocid):
     kms_client['vault_client']=kms_vault_client
     kms_client['vault_data']=kms_vault_data
     kms_client['ociconfig']=oci_config
-    return(kms_client)
+    return kms_client
 
 #########################################################################
 # get_kms_key
@@ -256,7 +255,7 @@ def get_kms_key(kms_client,compartment_ocid,kms_keyname,kms_keyocid,wrapping_key
     """ get_kms_key """
     if kms_keyname is None and kms_keyocid is None:
         print("Eiter keyname or keyocid needs to be set")
-        return(False)
+        return False
     ###################################################
     #### Allocate KSM management client, KMS vault client
     ###################################################
@@ -305,23 +304,20 @@ def get_kms_key(kms_client,compartment_ocid,kms_keyname,kms_keyocid,wrapping_key
                     exported_key = kms_crypto_client.export_key(
                         export_key_details
                     )
-                    key_data={}
-                    key_data['exported_key']=exported_key
-                    key_data['kms_key_metadata']=kms_key
-                    key_data['current_key_data']=current_key_data
-                    return(key_data)
+                    key_data={'exported_key':exported_key,'kms_key_metadata':kms_key,'current_key_data':current_key_data}
+                    return key_data 
                 else:
                     print("Key is not in ENABLED state")
-                    return(False)
+                    return False 
             else:
                 print("Key found but it is not a softare key, export not permitted by OCI")
-                return(False)
+                return False 
     #
     # This point is reached only if a key with OCID or name is not found
     #
     print("No key found, verify name/ocid")
     #
-    return(False)
+    return False 
 
 #########################################################################
 # import_key
@@ -390,10 +386,10 @@ def import_key(config,key_data,kms_client,wrapping_key,wrapping_algorithm):
         )
         print("Imported key: " + config['target_keyname'] + " with ID: " + kms_key.id )
         print("Target OCID " + response.data.id)
-        return(response)
+        return response 
     except Exception as e:
         print("Failed to import key " + kms_key.id + ": " + str(e))
-        return(False)
+        return False 
 
 
 
@@ -408,7 +404,7 @@ def main():
     #
     os_name = platform.system().lower()
     if os_name == 'linux':
-        default_kms_copy_config_file = '/home/users/demo/key_backup.json'
+        default_kms_copy_config_file = '~/demo/key_backup.json'
     elif os_name == 'windows':
         default_kms_copy_config_file = 'c:\\temp\\key_backup.json'
     else:
