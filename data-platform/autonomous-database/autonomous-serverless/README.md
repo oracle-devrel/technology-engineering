@@ -1,6 +1,8 @@
 # Autonomous Database Serverless
  
 Oracle Cloud provides a set of data management services built on self-driving Oracle Autonomous Database technology to deliver automated patching, upgrades, and tuning, including performing all routine database maintenance tasks while the system is running, without human intervention.
+
+Reviewed: 20.03.2024
  
 # Table of Contents
  
@@ -37,17 +39,7 @@ Oracle Cloud provides a set of data management services built on self-driving Or
 - [How to create Autonomous Database Notifications in Slack](https://blogs.oracle.com/datawarehousing/post/how-to-create-autonomous-database-notifications-in-slack)
     - Step-by-step blog article explaining how to send an alert message, triggered by an Autonomous Database event, into a slack channel using a webhook link.
    
-# Useful Links
- 
-- [Autonomous Database Serverless documentation](https://docs.oracle.com/en/cloud/paas/autonomous-database/shared/index.html)
-    - Full documentation about Oracle Autonomous Database Serverless.
- 
-# LiveLabs
- 
-- [Manage and Monitor Autonomous Database](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=553&clear=RR,180)
-    - Complete the course about how to administrate an Autonomous Database.
-
-# Tip of the Day
+## Tip of the Day
  
 - [Tip 1](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7104394940436164609-LSa-?)
     - Query different databases using direct query.
@@ -108,6 +100,17 @@ Oracle Cloud provides a set of data management services built on self-driving Or
 
 - [Tip 20](https://www.linkedin.com/posts/javier-de-la-torre-medina_data-softwareengineering-innovation-activity-7113425224850653184-PTZd?)
     - Select AI.
+    
+# Useful Links
+ 
+- [Autonomous Database Serverless documentation](https://docs.oracle.com/en/cloud/paas/autonomous-database/shared/index.html)
+    - Full documentation about Oracle Autonomous Database Serverless.
+ 
+## LiveLabs
+ 
+- [Manage and Monitor Autonomous Database](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=553&clear=RR,180)
+    - Complete the course about how to administrate an Autonomous Database.
+
  
 # License
  

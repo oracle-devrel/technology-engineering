@@ -26,9 +26,11 @@ Reviewed: 30.01.2024
 
 # Useful Links
  
+- [AI Solutions Hub](https://www.oracle.com/artificial-intelligence/solutions/)
 - [Oracle AI Language on oracle.com](https://www.oracle.com/uk/artificial-intelligence/language/)
 - [Oracle AI Language documentation](https://docs.oracle.com/en-us/iaas/language/using/language.htm)
-- [Oracle AI Language blog announcement](https://blogs.oracle.com/ai-and-datascience/post/announcing-oci-language)
+- [Oracle AI Language v3 announcement blog](https://blogs.oracle.com/ai-and-datascience/post/announcing-the-general-availability-of-oci-language-30)
+- [Oracle AI Language announcement blog](https://blogs.oracle.com/ai-and-datascience/post/announcing-oci-language)
 
 
 ## LiveLabs and Workshops
