@@ -25,6 +25,7 @@ Reviewed: 16.11.2023
 - [Oracle APEX Monitor](https://github.com/oracle-quickstart/oci-o11y-solutions/tree/main/knowlege-content/oracle-database/APEX)
 - [OCI MySQL database log collection using Logging Analytics](https://karthicin.medium.com/oci-mysql-database-log-collection-using-logging-analytics-b521441ba06b)
 - [How to Measure Raw Byte Size of Stored Logs in OCI Logging Analytics](https://medium.com/@michtoeth/how-to-measure-raw-byte-size-of-stored-logs-in-oci-logging-analytics-3f5387506c07)
+- [Kubernetes Solution in OCI Logging Analytics](https://karthicin.medium.com/kubernetes-solution-in-oci-logging-analytics-035a0eb39cb5)
 
 # Useful Links
 
