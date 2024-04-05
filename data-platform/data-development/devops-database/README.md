@@ -10,6 +10,7 @@ Reviewed: "29.01.2024"
 - Steady,incremental progress against prioritized list of issues and ideas
 - Delivering a fewchange requests at a time to end users
 - Through a series of high-quality releases on a regular cadence
+ - Testing 
 
 # Table of Contents
  
