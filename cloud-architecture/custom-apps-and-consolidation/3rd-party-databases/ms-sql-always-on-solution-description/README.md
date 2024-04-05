@@ -1,14 +1,16 @@
-# MSSQL Server Resources
+# MS SQL Server Resources Solution Description
 
 In this folder, we are making available several useful resources that can be used when deploying, using or configuring MS SQL Server.
 
-## Content Folders
+Reviewed: 05.04.2024
 
-Currently, we have the following content:
-
-### MS SQL always on  
+# When to use this asset?
 
 Content material to be used for MS SQL Always ON solution on OCI.
+
+# How to use this asset?
+
+Reuse the document in the files folder. Amend for your workload.
 
 # License
 
