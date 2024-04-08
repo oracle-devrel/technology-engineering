@@ -2,13 +2,19 @@
 
 Multicloud architectures leverage the coordinated use of cloud services from two or more public cloud vendors. Organizations use multicloud environments to distribute computing resources and minimize the risk of downtime and data loss. Organizations may also adopt two or more public cloud providers for their unique capabilities. 
 
+Reviewed: 08.04.2024
 
-## Team Publications
+# Team Publications
 
-- [Learn About Multicloud Architecture Framework](https://docs.oracle.com/en/solutions/learn-about-multicloud-arch-framework/index.html)
+## Video Content
+
 - [Multicloud Is The New Norm - Part I](https://www.youtube.com/watch?v=WzyJiAXldDM)
 - [Multicloud Is The New Norm - Part II](https://www.youtube.com/watch?v=27L_ZeF1o9Q)
 - [Multicloud Is The New Norm - Part III](https://www.youtube.com/watch?v=qesCk_nIvY8) 
+
+## Other Content
+
+- [Learn About Multicloud Architecture Framework](https://docs.oracle.com/en/solutions/learn-about-multicloud-arch-framework/index.html)
 - [Multicloud in the Mainstream - Discovery Report](https://www.oracle.com/uk/cloud/multicloud/industry-mainstream/)
 - [Google Cloud and OCI making the most of multicloud](https://services.google.com/fh/files/misc/google-cloud-oci-guide.pdf)
 - [Use AWS endpoint service to securely connect applications to Oracle Autonomous Database](https://docs.oracle.com/en/solutions/adb-endpoint-in-aws/index.html)
@@ -24,7 +30,7 @@ Multicloud architectures leverage the coordinated use of cloud services from two
 - [Connecting on prem network to OCI with Colt on demand](https://blogs.oracle.com/cloud-infrastructure/connecting-your-on-premises-network-to-oracle-cloud-with-colt-on-demand)
 - [Deploy a Multicloud split-stack solution across OCI, AWS and GCP](https://docs.oracle.com/en/solutions/oci-aws-gcp-multicloud/index)
 - [Best practices for hybrid and Multi Cloud  OCI networking design](https://docs.oracle.com/en/solutions/oci-best-practices-networking/index.html)
-- [Multi cloud patterns to deploy Oracle Applications (EBS, PeopleSoft, JDEdwards) to Azure and OCI](https://learn.microsoft.com/en-us/azure/virtual-machines/workloads/oracle/oracle-oci-applications)
+- [Multi cloud patterns to deploy Oracle Applications (EBS, PeopleSoft, JD Edwards) to Azure and OCI](https://learn.microsoft.com/en-us/azure/virtual-machines/workloads/oracle/oracle-oci-applications)
 - [Extend Active Directory integration in Hybrid Cloud](https://docs.oracle.com/en/solutions/integrate-oci-msft-ad/)
 - [Oracle OCI — encrypted connection to AWS, Azure, GCP](https://aviatrix.com/blog/oracle-oci-encrypted-connection/)
 - [DNS in multicloud disaster recovery architectures](https://blogs.oracle.com/cloud-infrastructure/post/dns-in-multicloud-disaster-recovery-architectures)

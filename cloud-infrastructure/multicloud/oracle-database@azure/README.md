@@ -1,12 +1,10 @@
 # Oracle Database@Azure --- now GA !!!
  
-Orcale has significantly expanded partnership with Microsoft to launch a new service called Oracle Database@Azure. With this service, Microsoft and Oracle will deliver the same Oracle database services running on OCI in Microsoft Azure datacenters. Oracle database services in Azure are designed to offer high levels of performance, scale, security, and availability — at parity with what we offer in OCI today.
+Oracle has significantly expanded its partnership with Microsoft to launch a new service called Oracle Database@Azure. With this service, Microsoft and Oracle will deliver the same Oracle database services running on OCI in Microsoft Azure data centers. Oracle database services in Azure are designed to offer high levels of performance, scale, security, and availability — at par with what we offer in OCI today.
  
-# Table of Contents
+Reviewed: 08.04.2024
  
-- [Useful Links](#useful-links)
- 
-## Useful Links
+# Useful Links
  
 - [GA Press release](https://www.oracle.com/news/announcement/oracle-announces-the-general-availability-of-oracle-database-at-azure-2023-12-13/)
 - [Microsoft announcement blog](https://aka.ms/ODAA_Launch_Blog_Dec)
