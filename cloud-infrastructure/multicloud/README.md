@@ -12,7 +12,7 @@ Reviewed: 08.04.2024
 - [Multicloud Is The New Norm - Part II](https://www.youtube.com/watch?v=27L_ZeF1o9Q)
 - [Multicloud Is The New Norm - Part III](https://www.youtube.com/watch?v=qesCk_nIvY8) 
 
-## Other Content
+## Blog Posts
 
 - [Learn About Multicloud Architecture Framework](https://docs.oracle.com/en/solutions/learn-about-multicloud-arch-framework/index.html)
 - [Multicloud in the Mainstream - Discovery Report](https://www.oracle.com/uk/cloud/multicloud/industry-mainstream/)
