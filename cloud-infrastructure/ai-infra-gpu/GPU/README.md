@@ -23,6 +23,8 @@ Reviewed: 26.02.20224
     - Powering protein large language models in antibody discovery on OCI
  - [Customer sentiment analysis using VM.GPU.A10](https://blogs.oracle.com/cloud-infrastructure/post/oci-ai-language-nonenglish-language-use-case)
     - This experiment involved deploying a VM.GPU.A10 instance to run Python code, translating approximately 1,100 hotel reviews from Hebrew to English using AlephBERT and Google Translate
+ - [Pioneering de novo antibody design with OCI, supporting Silica Corpora’s AI mission for unmatched precision and efficacy](https://blogs.oracle.com/cloud-infrastructure/post/de-novo-antibody-design-oci-silica-corpora)
+    - About the ollaboration between Silica Corpora and Oracle Cloud Infrastructure in leveraging generative AI and robust cloud capabilities to revolutionize de novo antibody design for enhanced precision and efficacy in drug development
 
 
 ## LiveLabs
