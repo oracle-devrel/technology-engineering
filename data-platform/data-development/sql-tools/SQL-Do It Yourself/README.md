@@ -7,15 +7,23 @@ A SQL Clue Card is also provided.
 
 # Table of Contents
 
-TBD
+1. [Public Oracle SQL Tools](#public-oracle-sql-tools)
+    1.1. [SQL Tips](#sql-tips)
+    1.2. [Articles/Blogs](#articlesblogs)
+    1.3. [SQL Examples](#sql-examples)
+    1.4. [SQL Clue Card](#sql-clue-card)
+2. [SQLcl](#sqlcl)
+    2.1. [Features of SQLcl](#features-of-sqlcl)
+    2.2. [Resources](#resources)
+    2.3. [Getting Started](#getting-started)
 
 ## 1. Public Oracle SQL Tools
 
-Explore a variety of Oracle SQL tools to streamline your database management tasks: 
+Explore a variety of Oracle SQL tools to streamline your database management tasks:
 
 - **SQL Developer**: Oracle SQL Developer provides a powerful integrated development environment (IDE) for Oracle Database. Discover its features and functionalities to optimize your SQL workflow.
-  - [Official Documentation](link)
-  - [Getting Started Guide](link)
+  - [Official Documentation](https://docs.oracle.com/cd/E12151_01/index.htm)
+  - [Getting Started Guide](https://docs.oracle.com/cd/E25259_01/appdev.31/e24285/toc.htm)
   - [Video Tutorials](link)
 
 - **sqlplus**: Master the command-line interface for Oracle Database with sqlplus. Learn essential commands and best practices for efficient SQL execution.
@@ -70,8 +78,8 @@ Discover the advanced features and functionalities of SQLcl, Oracle's command-li
 
 ## 2.2.  Resources
 
-- [Official Documentation](link)
-- [Installation Guide](link)
+- [Official Documentation](https://www.oracle.com/es/database/sqldeveloper/technologies/sqlcl/)
+- [Installation Guide](https://docs.oracle.com/en/database/oracle/apex/23.2/aeadm/downloading-and-installing-sqlcl.html)
 - [Tips and Tricks](link)
 
 ## 2.3. Getting Started
