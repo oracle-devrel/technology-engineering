@@ -1,4 +1,4 @@
-# GPU compute instances
+# GPU Compute Instances
  
 This repository contains detailed information related to Oracle Cloud Infrastructure GPU compute instances.
  
@@ -24,7 +24,7 @@ Reviewed: 26.02.20224
  - [Customer sentiment analysis using VM.GPU.A10](https://blogs.oracle.com/cloud-infrastructure/post/oci-ai-language-nonenglish-language-use-case)
     - This experiment involved deploying a VM.GPU.A10 instance to run Python code, translating approximately 1,100 hotel reviews from Hebrew to English using AlephBERT and Google Translate
  - [Pioneering de novo antibody design with OCI, supporting Silica Corpora’s AI mission for unmatched precision and efficacy](https://blogs.oracle.com/cloud-infrastructure/post/de-novo-antibody-design-oci-silica-corpora)
-    - About the ollaboration between Silica Corpora and Oracle Cloud Infrastructure in leveraging generative AI and robust cloud capabilities to revolutionize de novo antibody design for enhanced precision and efficacy in drug development
+    - About the collaboration between Silica Corpora and Oracle Cloud Infrastructure in leveraging generative AI and robust cloud capabilities to revolutionize de novo antibody design for enhanced precision and efficacy in drug development
 
 
 ## LiveLabs
@@ -47,7 +47,7 @@ Reviewed: 26.02.20224
  ## Re-useable Assets
 
 - [Navigating the AI Revolution: Opportunities and Challenges - German - efcom Symposium 2023](https://www.youtube.com/watch?v=r_ZG2sUzhqo)
-    - For all German speakers interested in hearing high-level about the foundations of GPU, what AI is (and how it is connected to Machine Learning, Data Science, LLM, GenAI) and how Oracle is approaching it.
+    - For all German speakers interested in hearing high-level about the foundations of GPU, what AI is (and how it is connected to Machine Learning, Data Science, LLM, GenAI), and how Oracle is approaching it.
 
 # Useful Links
  
