@@ -11,7 +11,7 @@ TBD
 
 ## 1. Public Oracle SQL Tools
 
-Explore a variety of Oracle SQL tools to streamline your database management tasks:
+Explore a variety of Oracle SQL tools to streamline your database management tasks: 
 
 - **SQL Developer**: Oracle SQL Developer provides a powerful integrated development environment (IDE) for Oracle Database. Discover its features and functionalities to optimize your SQL workflow.
   - [Official Documentation](link)
