@@ -4,7 +4,7 @@ Oracle Text is a full-text search that is fully integrated into the Oracle Datab
 
 Oracle Text can perform linguistic analysis on documents, mining capabilities, classification, clustering, etc.
 
-Review Date: 03.06.2024
+Reviewed Date: 10.04.2024
 
 # Useful Links
 
@@ -38,6 +38,7 @@ Review Date: 03.06.2024
 
 - [New full-text search in 23c: Ubiquitous Database Search](https://blogs.oracle.com/coretec/post/ubiquitous-database-search-in-23c)
 - [Easy Database Search with APEX in 23c](https://blogs.oracle.com/coretec/post/easy-database-search-with-apex-in-23c)
+- [Text Index with Automatic Maintenance](https://blogs.oracle.com/coretec/post/text-index-with-automatic-maintenance)
 
 # License
 
