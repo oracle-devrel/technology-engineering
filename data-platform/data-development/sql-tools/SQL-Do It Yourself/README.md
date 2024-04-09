@@ -8,14 +8,23 @@ A SQL Clue Card is also provided.
 # Table of Contents
 
 1. [Public Oracle SQL Tools](#public-oracle-sql-tools)
+
     1.1. [SQL Tips](#sql-tips)
+
     1.2. [Articles/Blogs](#articlesblogs)
+
     1.3. [SQL Examples](#sql-examples)
+
     1.4. [SQL Clue Card](#sql-clue-card)
+
 2. [SQLcl](#sqlcl)
+
     2.1. [Features of SQLcl](#features-of-sqlcl)
+    
     2.2. [Resources](#resources)
+
     2.3. [Getting Started](#getting-started)
+    
 
 ## 1. Public Oracle SQL Tools
 
