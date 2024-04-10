@@ -24,6 +24,7 @@ Reviewed: 08.04.2024
 - [Connecting OCI to GCP with Equinix Network Edge](https://blogs.oracle.com/cloud-infrastructure/connecting-oracle-cloud-infrastructure-to-google-cloud-platform-with-equinix-network-edge-cloud-router)
 - [Connecting OCI to AWS with Megaport](https://blogs.oracle.com/cloud-infrastructure/connecting-oracle-cloud-infrastructure-to-amazon-vpc-with-megaport-cloud-router)
 - [Connecting on prem network to OCI with Colt on demand](https://blogs.oracle.com/cloud-infrastructure/connecting-your-on-premises-network-to-oracle-cloud-with-colt-on-demand)
+- [Oracle and Microsoft bring Oracle Database@Azure to Europe](https://blogs.oracle.com/cloud-infrastructure/post/oracle-microsoft-databaseazure-europe?source=:so:ch:or:awr::::&SC=:so:ch:or:awr::::&pcode=)
 
 ## Reference Architectures
 
