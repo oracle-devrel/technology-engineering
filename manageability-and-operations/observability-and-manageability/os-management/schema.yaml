@@ -1,0 +1,221 @@
+title: Create resources for demonstrating the OS Management service
+stackDescription: Create Manageid Instance Groups, Managed Instances and Network
+informationalText: Create Managed Instance Group, Managed Instances and Network
+schemaVersion: 1.1.0
+version: "20240320"
+locale: "en"
+
+variableGroups:
+  - title: "Hidden"
+    variables:
+    - tenancy_ocid
+    - mi_state
+    visible: false
+
+  - title: "General settings"
+    visible: true
+    variables:
+      - region
+      - compartment_ocid
+      - availability_domain_name
+      - ssh_public_key
+      - defined_tags
+      - ignore_defined_tags
+
+  - title: "Managed Instance Group 1"
+    visible: true
+    variables:
+      - mig1_name
+      - mig1_miname
+      - mig1_os
+      - mig1_count
+
+  - title: "Managed Instance Group 2"
+    visible: true
+    variables:
+      - mig2_name
+      - mig2_miname
+      - mig2_os
+      - mig2_count
+      
+  - title: "Managed Instance Group 3"
+    visible: true
+    variables:
+      - mig3_name
+      - mig3_miname
+      - mig3_os
+      - mig3_count
+
+  - title: "Managed Instance Group 4"
+    visible: true
+    variables:
+      - mig4_name
+      - mig4_miname
+      - mig4_os
+      - mig4_count
+
+
+variables:
+  region:
+    type: oci:identity:region:name
+    title: Region
+    description: "region in which to create resources"
+    required: true
+
+  compartment_ocid:
+    type: oci:identity:compartment:id
+    required: true
+
+  availability_domain_name:
+    type: oci:identity:availabilitydomain:name
+    title: "The availability domain in which to create resources"
+    dependsOn:
+      compartmentId: ${compartment_ocid}
+    required: true
+    default: ${availability_domain_name}
+    description: "The availability domain for the OS Management resources."
+
+  ssh_public_key:
+    type: oci:core:ssh:publickey
+    required: true
+
+  defined_tags:
+    type: oci:identity:tag:value
+    title: Tags to add to resources
+    required: false
+
+  ignore_defined_tags:
+    type: oci:identity:tag:value
+    title: Tags that should be ignored by Terraform
+    required: false
+
+  mig1_name:
+    type: string
+    title: Name for Managed Instance Group 1
+    default: OracleLinux8_ManagedInstanceGroup1
+    required: true
+
+  mig1_miname:
+    type: string
+    title: base name for Managed Instances
+    default: Tokyo8
+    required: true
+
+  mig1_os:
+    type: enum
+    enum:
+      - OracleLinux8
+      - OracleLinux9
+    allowMultiple: false
+    title: Managed Instance OS
+    default: OracleLinux8
+    required: true
+
+  mig1_count:
+    type: number
+    title: number of Managed Instances in Managed Instance Group
+    default: 4
+    minimum: 0
+    maximum: 6
+    required: true
+
+  mig2_name:
+    type: string
+    title: Name for Managed Instance Group 2
+    default: OracleLinux8_ManagedInstanceGroup2
+    required: true
+
+  mig2_miname:
+    type: string
+    title: base name for Managed Instances
+    default: Toronto8
+    required: true
+
+  mig2_os:
+    type: enum
+    enum:
+      - OracleLinux8
+      - OracleLinux9
+    allowMultiple: false
+    title: Managed Instance OS
+    default: OracleLinux8
+    required: true
+
+  mig2_count:
+    type: number
+    title: number of Managed Instances in Managed Instance Group
+    default: 3
+    minimum: 0
+    maximum: 6
+    required: true
+
+  mig3_name:
+    type: string
+    title: Name for Managed Instance Group 3
+    default: OracleLinux9_ManagedInstanceGroup1
+    required: true
+
+  mig3_miname:
+    type: string
+    title: base name for Managed Instances
+    default: NewYork9
+    required: true
+
+  mig3_os:
+    type: enum
+    enum:
+      - OracleLinux8
+      - OracleLinux9
+    allowMultiple: false
+    title: Managed Instance OS
+    default: OracleLinux9
+    required: true
+
+  mig3_count:
+    type: number
+    title: number of Managed Instances in Managed Instance Group
+    default: 2
+    minimum: 0
+    maximum: 6
+    required: true
+
+  mig4_name:
+    type: string
+    title: Name for Managed Instance Group 4
+    default: OracleLinux9_ManagedInstanceGroup2
+    required: true
+
+  mig4_miname:
+    type: string
+    title: base name for Managed Instances
+    default: London9
+    required: true
+
+  mig4_os:
+    type: enum
+    enum:
+      - OracleLinux8
+      - OracleLinux9
+    allowMultiple: false
+    title: Managed Instance OS
+    default: OracleLinux9
+    required: true
+
+  mig4_count:
+    type: number
+    title: number of Managed Instances in Managed Instance Group
+    default: 2
+    minimum: 0
+    maximum: 6
+    required: true
+
+  tenancy_ocid:
+    type: string
+    title: The tenancy OCID
+    required: false
+
+  mi_state:
+    type: string
+    title: target state of managed instances
+    required: false
+
