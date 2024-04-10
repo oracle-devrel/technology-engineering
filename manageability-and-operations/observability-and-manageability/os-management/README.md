@@ -6,6 +6,8 @@ The Oracle Cloud Infrastructure (OCI) [OS Management](https://docs.oracle.com/en
 
 By default, the latest packages and patches available at the time the update is initiated will be installed. Versions of installed packages and patches will differ between compute instances that originated from the same [platform image](https://docs.oracle.com/en-us/iaas/Content/Compute/References/images.htm), depending on the time and date updates have been installed. Every update contains the risk to break installed applications. Therefore a more controlled process for updating and patches is desirable. OS Management, through Software Sources, offers a mechanism to update many compute instances to the exact same versions of packages and patches, regardless of when the udpate happens. The list of installed packages and patches can be read from a compute instance which has been tested and is known to work. This list can be put on a software source. Managed Instances receive available packages and patches from software sources instead of the public repositories of the OS distribution.
 
+[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://objectstorage.eu-frankfurt-1.oraclecloud.com/p/c5Ovp7yoN53kgfrED5DFlavvt1XERxWfmID4qwKQqR1jL8BEmcJr-miBWFmfhtOt/n/frxfz3gch4zb/b/FileShare/o/OSManagement.zip)
+
 ## Managed Instances, Managed Instance Groups and Software Sources
 
 **Managed Instances** are compute instances under control of OS Management.
