@@ -23,7 +23,7 @@ Reviewed: 08.04.2024
 - [Implementing Oracle Database for Azure with a hub-and-spoke network](https://blogs.oracle.com/cloud-infrastructure/post/implementing-oracledb-azure-hubandspoke-network)
 - [Connecting OCI to GCP with Equinix Network Edge](https://blogs.oracle.com/cloud-infrastructure/connecting-oracle-cloud-infrastructure-to-google-cloud-platform-with-equinix-network-edge-cloud-router)
 - [Connecting OCI to AWS with Megaport](https://blogs.oracle.com/cloud-infrastructure/connecting-oracle-cloud-infrastructure-to-amazon-vpc-with-megaport-cloud-router)
-- [Connecting on prem network to OCI with Colt on demand](https://blogs.oracle.com/cloud-infrastructure/connecting-your-on-premises-network-to-oracle-cloud-with-colt-on-demand)
+- [Connecting on-premises network to OCI with Colt on demand](https://blogs.oracle.com/cloud-infrastructure/connecting-your-on-premises-network-to-oracle-cloud-with-colt-on-demand)
 - [Oracle and Microsoft bring Oracle Database@Azure to Europe](https://blogs.oracle.com/cloud-infrastructure/post/oracle-microsoft-databaseazure-europe?source=:so:ch:or:awr::::&SC=:so:ch:or:awr::::&pcode=)
 
 ## Reference Architectures
@@ -34,14 +34,14 @@ Reviewed: 08.04.2024
 - [Connect Oracle Data Safe to Oracle databases on multicloud and hybrid cloud environments](https://docs.oracle.com/en/solutions/data-safe-multicloud-ods-hybrid/index.html)
 - [Extend your high availability database architecture to multicloud using OCI GoldenGate replication](https://docs.oracle.com/en/solutions/oci-multicloud-db-replication-goldengate/index.html)
 - [Deploy multicloud Oracle Database Service for Microsoft Azure in a hub and spoke topology](https://docs.oracle.com/en/solutions/odsa-azure-hub-spoke/index.html)
-- [Deploy a Multicloud split-stack solution across OCI, AWS and GCP](https://docs.oracle.com/en/solutions/oci-aws-gcp-multicloud/index)
-- [Best practices for hybrid and Multi Cloud  OCI networking design](https://docs.oracle.com/en/solutions/oci-best-practices-networking/index.html)
+- [Deploy a Multicloud split-stack solution across OCI, AWS, and GCP](https://docs.oracle.com/en/solutions/oci-aws-gcp-multicloud/index)
+- [Best practices for hybrid and multicloud OCI networking design](https://docs.oracle.com/en/solutions/oci-best-practices-networking/index.html)
 - [Multi cloud patterns to deploy Oracle Applications (EBS, PeopleSoft, JD Edwards) to Azure and OCI](https://learn.microsoft.com/en-us/azure/virtual-machines/workloads/oracle/oracle-oci-applications)
 - [Extend Active Directory integration in Hybrid Cloud](https://docs.oracle.com/en/solutions/integrate-oci-msft-ad/)
 - [Establish a multi-cloud private network connectivity through Oracle Integration Cloud](https://docs.oracle.com/en/solutions/multi-cloud-with-oic/index.html)
-- [Multicloud split-stack architecture with OCI, GCP and AWS](https://docs.oracle.com/en/solutions/oci-aws-gcp-multicloud/index.html)
+- [Multicloud split-stack architecture with OCI, GCP, and AWS](https://docs.oracle.com/en/solutions/oci-aws-gcp-multicloud/index.html)
 
-## Certificatons
+## Certifications
  
 - [Become an OCI Multicloud Architect Associate](https://mylearn.oracle.com/ou/learning-path/become-an-oci-multicloud-architect/120606)
 - [Become an Oracle Database@Azure Specialist](https://mylearn.oracle.com/ou/learning-path/become-an-oracle-databaseazure-specialist/135857)
