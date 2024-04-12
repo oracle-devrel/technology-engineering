@@ -16,7 +16,7 @@ Reviewed: 04.04.2024
 - [Oracle Base DB OCI console upgrade from 11.2.04 to 19.22](https://mihaicosteanu.wordpress.com/2024/04/04/oracle-base-db-oci-console-upgrade-from-11-2-04-to-19-22/)
     - Step-by-step guide by Mihai Costeanu demonstrating the Oracle Base DB OCI console upgrade from 11.2.04 to 19.22
 - [Converting an Oracle Database 19c from noncdb to cdb using OCI console](https://mihaicosteanu.wordpress.com/2024/04/10/converting-an-oracle-database-19c-from-noncdb-to-cdb-using-oci-console/)
-    - Step-by-step guide by Mihai Costeanu demonstrating how we can covert a 19c Oracle Database EE from noncdb to cdb using OCI console
+    - Step-by-step guide by Mihai Costeanu demonstrating how we can covert a 19c Oracle Database EE from noncdb to cdb using OCI interface
 
 
 # Useful Links
