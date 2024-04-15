@@ -32,7 +32,7 @@ Using APEX, developers don't need to be an expert in a vast array of technologie
 ## Get Started
 
 - [Official APEX Landing Page](https://apex.oracle.com/en/)
-- [What's New in APEX 23.2](https://docs.oracle.com/en/database/oracle/apex/23.2/htmrn/new-features.html)
+- [What's New in latest Release APEX 23.2](https://docs.oracle.com/en/database/oracle/apex/23.2/htmrn/new-features.html)
 - [APEX best practice architecture](https://docs.oracle.com/solutions/?q=apex&cType=reference-architectures&sort=date-desc&lang=en)
 - [APEX Managing Application Performance](https://docs.oracle.com/en/database/oracle/apex/23.2/htmdb/managing-application-performance.html#GUID-1684F55B-7782-4B1F-96AB-0D41BCBDB1BA)
 - [APEX Managing Application Security](https://docs.oracle.com/en/database/oracle/apex/23.2/htmdb/managing-application-security.html#GUID-417EAE67-7A36-4AE0-816B-D28716829F96)
