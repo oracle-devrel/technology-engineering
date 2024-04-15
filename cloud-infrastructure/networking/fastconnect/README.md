@@ -9,13 +9,12 @@ Public peering: To access public services in Oracle Cloud Infrastructure without
 Reviewed: 06.02.2024
 
 # Useful Links
+
 - [OCI Fastconnect Partners](https://www.oracle.com/it/cloud/networking/fastconnect/providers/)
 - [Fastconnect troubleshooting](https://www.ateam-oracle.com/post/fastconnect-troubleshooting)
 - [Price list](https://www.oracle.com/cloud/price-list/#fastconnect)
 - [FastConnect Step by Step Interactive To Setup FastConnect Partner Mode](http://docs.hol.vmware.com/hol-isim/hol-2021/hol-isim-player.htm?isim=hol-2296-01-ism_connecting_to_on-premises_environment.json)
 - [FastConnect providers by Region](https://www.oracle.com/it/cloud/networking/fastconnect/providers/)
-
-
 
 ## Reference Architectures & Step-by-step Guides
 
@@ -23,10 +22,10 @@ Reviewed: 06.02.2024
  - [FastConnect Full Video for Partner Mode, Colo and 3rd Parties, part 1](https://www.youtube.com/watch?v=nI0J4RSpCCA)
  - [FastConnect Full Video for Partner Mode, Colo and 3rd Parties, part 2](https://www.youtube.com/watch?v=nI0J4RSpCCA)
  
- 
-## Blogs
- - [OCI Fastconnect integration with COLT](https://blogs.oracle.com/cloud-infrastructure/post/oracle-cloud-infrastructure-fastconnect-integration-with-colt) 
 
+## Blogs
+
+ - [OCI Fastconnect integration with COLT](https://blogs.oracle.com/cloud-infrastructure/post/oracle-cloud-infrastructure-fastconnect-integration-with-colt) 
 
 ## Videos & Podcasts
 
@@ -35,7 +34,6 @@ Reviewed: 06.02.2024
 - [FastConnect Level 100 - Part 2: Demo](https://www.youtube.com/watch?v=ixS2XH99Yzs)
 - [OCI Level 200 - Connectivity FastConnect Part 1](https://www.youtube.com/watch?v=nI0J4RSpCCA)
 - [OCI Level 200 - Connectivity FastConnect Part 2](https://www.youtube.com/watch?v=5SaK5W3KvS0)
-
 
 # License
 

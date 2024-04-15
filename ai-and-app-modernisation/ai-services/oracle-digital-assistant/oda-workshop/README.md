@@ -1,4 +1,4 @@
-# ODA Workshop
+# Conversational Design Experience (CDX) Workshop
  
 Organizations are looking for ways to improve the customer
 experience and employee experience. With the rise of

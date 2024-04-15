@@ -2,11 +2,13 @@
  
 *This is an introduction slide deck to talk about Http and Network Load Balancer*
  
-## When to use this asset?
+Reviewed: 19.02.2024
+
+# When to use this asset?
  
 *To educate and understand http load balancers*
  
-## How to use this asset?
+# How to use this asset?
  
 *Slide deck to present an overview of OCI LBaas*
  

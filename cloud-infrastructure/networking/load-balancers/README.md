@@ -20,7 +20,6 @@ Reviewed: 06.02.2024
 - [Comparison LBs](https://www.ateam-oracle.com/post/comparing-oci-load-balancers)
 - [FAQ](https://www.oracle.com/cloud/networking/load-balancing/faq/)
 
-
 ## Reference Architectures & Step-by-step Guides
 
 -[OCI Network Load Balancer Types, Use Cases, and Best Practices](https://www.ateam-oracle.com/post/oci-network-load-balancer-types-use-cases-and-best-practice)
@@ -39,7 +38,6 @@ Reviewed: 06.02.2024
 - [Tutorial](https://www.youtube.com/watch?v=88wIK_zZVzw)
 - [AutoScaling Tutorial](https://www.youtube.com/watch?v=2A9tq3rDkVM)
 - [LBaaS and SSL Management](https://www.youtube.com/watch?v=8VzFO-kPGDI)
-
 
 # License
 
