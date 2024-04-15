@@ -13,6 +13,19 @@ This section contains various examples related to Application Integration: demo 
 
 ## Demos
 
+- [Oracle Process Automation - File Manager Component](https://youtu.be/ZnGPteYE_tA?si=KAFsgffX1ZsRkfer)
+
+    - The File Manager component allows end users to upload one or more documents using a process form to an external system.This video demonstrate the use of the File Manager
+
+    Demonstration Includes
+
+        - Creating a Process in Oracle Process Automation
+        - Creating a Web UI with File Manager Component
+        - Walk through of Oracle Integration Project and Integrations to Dowload, List, Delete and Upload files in OCI Object Storage
+        - Configuring Rest API Connector to Integrate with OIC Integrations
+        - Configuring File Manager Component and connecting with the Integrations
+        - Validate, Activate, Test the Process
+
 - [Oracle Integration - Realtime File Processing from Object Storage](https://www.youtube.com/watch?v=HnpYrussmWw)
 
     - Discover a hands-on approach to processing real-time files from OCI Object Storage using Oracle Integration Cloud, OCI Events and OCI Streaming Service.No need for you to run scheduled jobs and checking the OCI Object Bucket for new files, by enabling Events in OCI Object Storage you can transmit Events like OCI Object Create, OCI Object Update, OCI Object Delete etc. to an OCI Stream in Real-time and configure OCI Stream Adapter in Oracle Integration as a trigger to receive the data in real time and process the file.
