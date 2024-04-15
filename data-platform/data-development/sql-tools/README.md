@@ -47,6 +47,10 @@ This course continues where Databases for Developers: Foundations left off, taki
 The class consists of a series of videos introducing concepts, interactive coding sections, and quizzes to test your understanding.
 
 
+# PMs and Oracle Developer's Channel useful publications:
+- [SQL Developer extensions for VS Code](https://www.youtube.com/watch?v=e-yqkI0t6dQ&t=179s) - From [Oracle Developers](https://www.youtube.com/@oracledevs) YouTube public Channel.
+
+
 # SQL Best Practices
 Periodical sharing of Standard Query Language Best Practices links and blog, video publications from Advocate SQL and PL/SQL Developers and PMs
 

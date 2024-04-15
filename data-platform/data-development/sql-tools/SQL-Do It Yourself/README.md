@@ -5,7 +5,11 @@ A SQL Clue Card is also provided.
 
 # Table of Contents
 
-TBD
+1. SQLcl Tips and Tools
+WIP
+
+# SQLcl Tips and Tools
+- [Oracle Database Migration with SQLcl](https://blogs.oracle.com/database/post/easy-oracle-database-migration-with-sqlcl) - Oracle Database Insider
 
 
 # Reusable Assets Overview
