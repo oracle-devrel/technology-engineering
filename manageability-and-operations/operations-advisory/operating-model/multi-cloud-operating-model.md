@@ -44,7 +44,7 @@ The following Diagram depicts as an example, the use of ServiceNow ITOM to opera
 
 # Implement SRE Function
 
-SRE inputs and on-call work is crucial to maximize reliabilty, hence this function should always be implemented for mission-critical workloads.
+SRE inputs and on-call work are crucial to maximize reliability, hence this function should always be implemented for mission-critical workloads.
 
 # Embrace FinOps Practice
 
