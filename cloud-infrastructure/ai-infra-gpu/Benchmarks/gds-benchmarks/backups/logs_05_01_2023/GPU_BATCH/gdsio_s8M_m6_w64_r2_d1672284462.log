@@ -1,4 +1,0 @@
-/usr/local/cuda/gds/tools/gdsio -D /mnt/nvme0/ -d 0 -w 64 -s 1G -x 6 -i 8M -I 1 -V >> /home/ubuntu/gds_benchmarks/scripts/../logs/GPU_BATCH//gdsio_s8M_m6_w64_r2_d1672284462.log
-IoType: WRITE XferType: GPU_BATCH Threads: 1 IoDepth: 64 DataSetSize: 67108864/67108864(KiB) IOSize: 8192(KiB) Throughput: 4.437128 GiB/sec, Avg_Latency: 111804.593750 usecs ops: 128 total_time 14.423745 secs
-Verifying data 
-IoType: READ XferType: GPU_BATCH Threads: 1 IoDepth: 64 DataSetSize: 67108864/67108864(KiB) IOSize: 8192(KiB) Throughput: 17.383156 GiB/sec, Avg_Latency: 28530.046875 usecs ops: 128 total_time 3.681725 secs
