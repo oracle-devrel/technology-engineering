@@ -19,6 +19,19 @@ This section contains various examples related to Application Integration: demo 
 
 ## Demos
 
+- [Oracle Process Automation - File Manager Component](https://youtu.be/ZnGPteYE_tA?si=KAFsgffX1ZsRkfer)
+
+    - The File Manager component allows end users to upload one or more documents using a process form to an external system.This video demonstrate the use of the File Manager
+
+    Demonstration Includes
+
+        - Creating a Process in Oracle Process Automation
+        - Creating a Web UI with File Manager Component
+        - Walk through of Oracle Integration Project and Integrations to Dowload, List, Delete and Upload files in OCI Object Storage
+        - Configuring Rest API Connector to Integrate with OIC Integrations
+        - Configuring File Manager Component and connecting with the Integrations
+        - Validate, Activate, Test the Process
+
 - [Cloud Coaching - Boost Your Oracle AI Services](https://youtu.be/VVWTqqlIEhg)
     - Learn how to Develop a Multi-Chain Document Evaluation Apps with Oracle Generative AI, Document Understanding, and Integration Cloud.
     - Integrate OCI AI Speech Service and Generative AI Summarization with Oracle Integration Cloud and Visual Builder
