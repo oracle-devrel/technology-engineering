@@ -1,0 +1,13 @@
+Filesystem                  Size  Used Avail Use% Mounted on
+devtmpfs                    252G     0  252G   0% /dev
+tmpfs                       252G     0  252G   0% /dev/shm
+tmpfs                       252G   19M  252G   1% /run
+tmpfs                       252G     0  252G   0% /sys/fs/cgroup
+/dev/mapper/ocivolume-root   36G   13G   23G  36% /
+/dev/mapper/ocivolume-oled   10G  117M  9.9G   2% /var/oled
+/dev/sda2                  1014M  328M  687M  33% /boot
+/dev/sda1                   100M  5.0M   95M   6% /boot/efi
+tmpfs                        51G     0   51G   0% /run/user/0
+tmpfs                        51G     0   51G   0% /run/user/987
+tmpfs                        51G     0   51G   0% /run/user/1000
+beegfs_nodev                 20T  512K   20T   1% /mnt/beegfs

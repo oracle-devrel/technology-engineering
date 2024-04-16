@@ -1,0 +1,2 @@
+/usr/local/cuda/gds/tools/gdsio -D /mnt/nvme0/ -d 0 -w 8 -s 1G -x 2 -i 1M -I 2 -T 120 >> /home/ubuntu/gds-benchmarks/scripts/../logs/CPU_GPU//gdsio_s1M_m2_w8_r1_t2_d1679432844.log
+IoType: RANDREAD XferType: CPU_GPU Threads: 8 DataSetSize: 1244246016/8388608(KiB) IOSize: 1024(KiB) Throughput: 9.905909 GiB/sec, Avg_Latency: 788.696667 usecs ops: 1215084 total_time 119.787635 secs

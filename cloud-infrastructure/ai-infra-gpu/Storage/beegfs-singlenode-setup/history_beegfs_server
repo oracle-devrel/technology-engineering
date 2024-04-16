@@ -1,0 +1,123 @@
+    1  ip a
+    2  systemctl stop firewalld
+    3  iperf -s
+    4  iperf3 -s
+    5  ip a
+    6  lsblk 
+    7  ls
+    8  ls
+    9  vim /etc/yum.repos.d/beegfs.repo
+   10  rpm --import https://www.beegfs.io/release/beegfs_7.3.2/gpg/GPG-KEY-beegfs
+   11  yum install beegfs-mgmtd beegfs-meta beegfs-storage beegfs-utils beegfs-common
+   12  mkdir /data/beegfs/beegfs_mgmtd
+   13  mkdir -p /data/beegfs/beegfs_mgmtd
+   14  /opt/beegfs/sbin/beegfs-setup-mgmtd -p /data/beegfs/beegfs_mgmtd
+   15  /opt/beegfs/sbin/beegfs-setup-meta -p /data/beegfs/beegfs_meta -s 1 -m instance-beegfs01
+   16  sudo iscsiadm -m node -o new -T iqn.2015-12.com.oracleiaas:939731eb-8dba-4dce-84f0-f3e530df18cb -p 169.254.2.2:3260
+   17  sudo iscsiadm -m node -o update -T iqn.2015-12.com.oracleiaas:939731eb-8dba-4dce-84f0-f3e530df18cb -n node.startup -v automatic
+   18  sudo iscsiadm -m node -T iqn.2015-12.com.oracleiaas:939731eb-8dba-4dce-84f0-f3e530df18cb -p 169.254.2.2:3260 -l
+   19  lsblk 
+   20  cfdisk /dev/sdb 
+   21  mkfs.ext4  /dev/sdb1 
+   22  rm -rvf /data/beegfs/beegfs_meta/*
+   23  mount /dev/sdb1 /data/beegfs/beegfs_meta/
+   24  /opt/beegfs/sbin/beegfs-setup-meta -p /data/beegfs/beegfs_meta -s 1 -m instance-beegfs01
+   25  mkdir /data/beegfs/beegfs_storage01/
+   26  sudo iscsiadm -m node -o new -T iqn.2015-12.com.oracleiaas:e6d41113-5779-4986-a898-5d1e6d5664b6 -p 169.254.2.3:3260
+   27  sudo iscsiadm -m node -o update -T iqn.2015-12.com.oracleiaas:e6d41113-5779-4986-a898-5d1e6d5664b6 -n node.startup -v automatic
+   28  sudo iscsiadm -m node -T iqn.2015-12.com.oracleiaas:e6d41113-5779-4986-a898-5d1e6d5664b6 -p 169.254.2.3:3260 -l
+   29  lsblk 
+   30  parted /dev/sdc 
+   31  cfdisk /dev/sdc 
+   32  mkfs.ext4 /dev/sdb1 
+   33  mkfs.ext4 /dev/sdc1 
+   34  ls
+   35  mount /dev/sdc1 /data/beegfs/beegfs_storage01/
+   36  /opt/beegfs/sbin/beegfs-setup-storage -p /mnt/myraid1/beegfs_storage -s 2 -i 201 -m instance-beegfs01
+   37  lsblk 
+   38  rm -rvf /mnt/myraid1/
+   39  /opt/beegfs/sbin/beegfs-setup-storage -p /data/beegfs/beegfs_storage01  -s 2 -i 201 -m instance-beegfs01
+   40  systemctl start beegfs-mgmtd
+   41  systemctl start beegfs-meta
+   42  systemctl start beegfs-storage
+   43  netatat -putanl
+   44  netstat -putanl
+   45  systemctl status beegfs-meta
+   46   dd if=/dev/random of=/etc/beegfs/connauthfile bs=128 count=1
+   47  chown root:root /etc/beegfs/connauthfile
+   48   chmod 400 /etc/beegfs/connauthfile
+   49  cat /etc/beegfs/connauthfile
+   50  ssh-keygen 
+   51  cat /root/.ssh/id_rsa.pub 
+   52  scp /etc/beegfs/connauthfile instance-client01:/etc/beegfs/
+   53  vim /etc/beegfs/beegfs-mgmtd.conf 
+   54  vim /etc/beegfs/beegfs-meta.conf 
+   55  vim /etc/beegfs/beegfs-storage.conf 
+   56  lsblk 
+   57  lsblk 
+   58  systemctl start beegfs-meta
+   59  systemctl stsatus  beegfs-meta
+   60  systemctl status beegfs-meta
+   61  systemctl start beegfs-storage
+   62  systemctl status beegfs-mgmtd
+   63  systemctl start beegfs-mgmtd
+   64  setenforce 0
+   65  systemctl status firewalld.
+   66  systemctl status firewalld
+   67  netstat -putanl
+   68  systemctl  stop beegfs-mgmtd
+   69  netstat -putanl
+   70  systemctl  stop beegfs-mgmtd
+   71  netstat -putanl
+   72  systemctl start beegfs-mgmtd
+   73  netstat -putanl
+   74  systemctl status beegfs-storage
+   75  vim /etc/beegfs/beegfs-storage.conf 
+   76  systemctl start beegfs-storage
+   77  systemctl status beegfs-storage
+   78  netstat -putanl
+   79  mkdir /data/beegfs/beegfs_storage02/
+   80  sudo iscsiadm -m node -o new -T iqn.2015-12.com.oracleiaas:9bf2e47a-f71a-4dde-bb66-1051ea2c4e36 -p 169.254.2.4:3260
+   81  sudo iscsiadm -m node -o update -T iqn.2015-12.com.oracleiaas:9bf2e47a-f71a-4dde-bb66-1051ea2c4e36 -n node.startup -v automatic
+   82  sudo iscsiadm -m node -T iqn.2015-12.com.oracleiaas:9bf2e47a-f71a-4dde-bb66-1051ea2c4e36 -p 169.254.2.4:3260 -l
+   83  cfdisk /dev/sdd 
+   84  mkfs.ext4 /dev/sdd1 
+   85  mount /dev/sdd1 /data/beegfs/beegfs_storage02/
+   86  history | grep beegfs
+   87  /opt/beegfs/sbin/beegfs-setup-storage -p /data/beegfs/beegfs_storage01  -s 2 -i 202 
+   88  /opt/beegfs/sbin/beegfs-setup-storage -p /data/beegfs/beegfs_storage02/  -s 2 -i 202 
+   89  systemctl restart beegfs-storage
+   90  dmesg
+   91  sudo iscsiadm -m node -o new -T iqn.2015-12.com.oracleiaas:d362af12-35f7-41b6-a9c7-a13a32926fed -p 169.254.2.5:3260
+   92  sudo iscsiadm -m node -o update -T iqn.2015-12.com.oracleiaas:d362af12-35f7-41b6-a9c7-a13a32926fed -n node.startup -v automatic
+   93  sudo iscsiadm -m node -T iqn.2015-12.com.oracleiaas:d362af12-35f7-41b6-a9c7-a13a32926fed -p 169.254.2.5:3260 -l
+   94  cfdisk /dev/sde 
+   95  mkfs.ext4 /dev/sde1 
+   96  mkdir /data/beegfs/beegfs_storage03/
+   97  mount /dev/sde1 /data/beegfs/beegfs_storage03/
+   98  /opt/beegfs/sbin/beegfs-setup-storage -p /data/beegfs/beegfs_storage03/  -s 2 -i 203 
+   99  systemctl restart beegfs-storage
+  100  sudo iscsiadm -m node -o new -T iqn.2015-12.com.oracleiaas:ad6025e7-d290-4cab-b310-abe16166deda -p 169.254.2.6:3260
+  101  sudo iscsiadm -m node -o update -T iqn.2015-12.com.oracleiaas:ad6025e7-d290-4cab-b310-abe16166deda -n node.startup -v automatic
+  102  sudo iscsiadm -m node -T iqn.2015-12.com.oracleiaas:ad6025e7-d290-4cab-b310-abe16166deda -p 169.254.2.6:3260 -l
+  103  cfdisk /dev/sdf 
+  104  mkdir /data/beegfs/beegfs_storage04/
+  105  mount /dev/sdf1 /data/beegfs/beegfs_storage04/
+  106  mkfs.ext4 /dev/sdf1 
+  107  mount /dev/sdf1 /data/beegfs/beegfs_storage04/
+  108  /opt/beegfs/sbin/beegfs-setup-storage -p /data/beegfs/beegfs_storage04/  -s 2 -i 204 
+  109  systemctl restart beegfs-storage
+  110  mount
+  111  sudo iscsiadm -m node -o new -T iqn.2015-12.com.oracleiaas:7a95e65c-6b78-4e4c-8f7c-817624aa8e11 -p 169.254.2.7:3260
+  112  sudo iscsiadm -m node -o update -T iqn.2015-12.com.oracleiaas:7a95e65c-6b78-4e4c-8f7c-817624aa8e11 -n node.startup -v automatic
+  113  sudo iscsiadm -m node -T iqn.2015-12.com.oracleiaas:7a95e65c-6b78-4e4c-8f7c-817624aa8e11 -p 169.254.2.7:3260 -l
+  114  mkdir /data/beegfs/beegfs_storage05/
+  115  mkfs.ext4 /dev/sdg1 
+  116  cfdisk /dev/sdg 
+  117  mkfs.ext4 /dev/sdg1 
+  118  mkdir /data/beegfs/beegfs_storage05/
+  119  mount /dev/sdg1 /data/beegfs/beegfs_storage05/
+  120  /opt/beegfs/sbin/beegfs-setup-storage -p /data/beegfs/beegfs_storage05/  -s 2 -i 205 
+  121  systemctl restart beegfs-storage
+  122  history
+  123  history > history_beegfs

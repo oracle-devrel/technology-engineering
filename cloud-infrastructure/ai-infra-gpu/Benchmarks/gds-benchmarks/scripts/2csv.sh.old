@@ -1,0 +1,24 @@
+#!/bin/bash
+#IoType: READ XferType: CPUONLY Threads: 1 DataSetSize: 16777216/16777216(KiB) IOSize: 512(KiB) Throughput: 0.870023 GiB/sec, Avg_Latency: 561.190887 usecs ops: 32768 total_time 18.390314 secs
+
+declare -a dirs=("../logs/CPU_GPU/" "../logs/CPU_ONLY/" "../logs/GPU_DIRECT/" "../logs/GPU_DIRECT_ASYNC/" "../logs/GPU_BATCH/")
+
+for d in "${dirs[@]}"; do
+    echo "size;mode;workers;reps;write (GiB/s);reads (GiB/s);write latency;read latency;write iops;time write iops;read iops;time read iops";
+    for i in $(ls -1 $d | sort -t _ -k6,6); do 
+        size=$(echo $i | sed 's/IoDepth: [0-9]* //g' | awk -F'[_]' '{print $2;}' | sed 's/s//'); 
+        mode=$(echo $i | sed 's/IoDepth: [0-9]* //g' | awk -F'[_]' '{print $3;}' | sed 's/m//'); 
+        workers=$(echo $i | sed 's/IoDepth: [0-9]* //g' | awk -F'[_]' '{print $4;}' | sed 's/w//'); 
+        reps=$(echo $i | sed 's/IoDepth: [0-9]* //g' | awk -F'[_]' '{print $5;}' | sed 's/r//'); 
+        write=$(cat $d/$i | sed 's/IoDepth: [0-9]* //g' | grep -E "WRITE" | awk '{print $2" "$12}' | sed 's/WRITE //; s/\.//;'); 
+        reads=$(cat $d/$i | sed 's/IoDepth: [0-9]* //g' | grep -E "READ" | awk '{print $2" "$12}' | sed 's/READ //; s/\.//;'); 
+        lat_write=$(cat $d/$i | sed 's/IoDepth: [0-9]* //g' | grep -E "WRITE" | awk '{print $15}' ); 
+        lat_reads=$(cat $d/$i | sed 's/IoDepth: [0-9]* //g' | grep -E "READ" | awk '{print $15}' ); 
+        ops_writes=$(cat $d/$i | sed 's/IoDepth: [0-9]* //g' | grep -E "WRITE" | awk '{print $18}' ); 
+        time_writes=$(cat $d/$i | sed 's/IoDepth: [0-9]* //g' | grep -E "WRITE" | awk '{print $20}' ); 
+        ops_reads=$(cat $d/$i | sed 's/IoDepth: [0-9]* //g' | grep -E "READ" | awk '{print $18}' ); 
+        time_reads=$(cat $d/$i | sed 's/IoDepth: [0-9]* //g' | grep -E "READ" | awk '{print $20}' ); 
+	#echo "$size;$mode;$reps;${write::5};${reads::5}"; 
+	echo "$size;$mode;$workers;$reps;${write};${reads};$lat_write;$lat_reads;$ops_writes;$time_writes;$ops_reads;$time_reads"; 
+    done
+done;
