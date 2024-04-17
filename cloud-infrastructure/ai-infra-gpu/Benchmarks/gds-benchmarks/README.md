@@ -16,22 +16,19 @@
     ├── cufile.log
     ├── initialize.sh
     ├── launch.sh
-    ├── launch.sh.backup_2
-    ├── rename.sh
-    └── rename.sh.backup
+    └── rename.sh
 ```
 
-The **'backups'** dir contains the backup of the previous runs (logfiles) and older csv files. This directory is kept just in case some log files are missing.  
-The **'logs'** directory contains the very latest logs of each run. The sub-directories are split based on the 'mode' used during the runs.  
-The **'scripts'** contains all the bash scripts used to initiate the gds machine, run the banchmark and convert the log files into csv files.  
+The **'backups'** dir contains the backup of the previous runs (logfiles) and older CSV files. This directory is kept just in case some log files are missing.  
+The **'logs'** directory is designated for storing the most recent log files. Its sub-directories are organized according to the **'mode'** employed during the runs.
 
-**initialize.sh**: This script does everything that's required to have the machine configured to use GDS.  
-It checks and disables the ACS, then sets the correct LBA on the NVMes, creates, formats, mounts the RAID 0 array and adjusts the privileges on the mounted fs.  
+The **'scripts'** directory contains all the bash scripts used for initializing the GDS machine, running benchmarks, and transforming log files into CSV format.
 
-**launch.sh**: This script is the one that runs the actual benchmarks. The script accepts as first argument the 'mode' (0, 1, 2, 5, 6 which correspond to GPU_DIRECT, CPU_ONLY, CPU_GPU, GPU_DIRECT_ASYNC, GPU_BATCH, GPU_DIRECT) and as a second parameter the number of threads. (I would create a for loop and input different threads numbers when running the benchmarks). As an additional 3rd parameter, we now have to specify the block size (4k 8k 16k 32k 64k 128k 256k 512k 1M 2M 4M 8M 16M).  
+**'initialize.sh'**: This script prepares the machine for GDS usage by performing necessary configurations. It disables ACS, sets the correct LBA for the NVMes, and handles the creation, formatting, and mounting of a RAID 0 array, while also adjusting file system privileges.
 
-The **launch.sh** script, will then launch several tests with different block and file sizes. This has been hardcoded (Block sizes: 4k 8k 16k 32k 64k 128k 256k 512k 1M 2M 4M 8M 16M). Each test will be repeated 4 times.  
-Depending by the number of threads, the file size will change. For the sake of time, this has been kept rather low. The gdsio benchmark will multiply the number of threads for the file size. This might result time consuming even if you consider the scenario in which you are running 8 threads using 128G file size for example, because the file size is per thread. In that case the benchmark will attempt to write 128GB * 8 threads equals 1024 TB of data.  
+**'launch.sh'**: This script executes the benchmarks and is parameterized by 'mode' (with options 0, 1, 2, 5, 6 corresponding to GPU_DIRECT, CPU_ONLY, CPU_GPU, GPU_DIRECT_ASYNC, GPU_BATCH, GPU_DIRECT) and the number of threads. Additionally, a third parameter allows for the specification of block size (ranging from 4k to 16M).
+
+During operation, **'launch.sh'** will conduct multiple tests using a variety of block and file sizes, which are predefined (Block sizes include: 4k, 8k, 16k, 32k, 64k, 128k, 256k, 512k, 1M, 2M, 4M, 8M, 16M). Each test iteration is performed four times. The file size varies depending on the number of threads, and to maintain efficiency, file sizes are kept relatively small. The gdsio benchmark scales the file size with the number of threads, which can lead to extensive data processing. For example, running eight threads with a 128G file size would result in a total of 1024 TB of data being written, reflecting the scale of operations handled by this setup.
 
 
 Each test will be logged under the corresponding directoy. The naming of the log files has the following format: ``gdsio_s<block size>_m<mode number>_w<threads / workers>_r<repetition number>_d<timestamp>.log``  
@@ -45,9 +42,9 @@ Verifying data
 IoType: READ XferType: CPU_GPU Threads: 1 DataSetSize: 8388608/8388608(KiB) IOSize: 1024(KiB) Throughput: 2.681619 GiB/sec, Avg_Latency: 364.043213 usecs ops: 8192 total_time 2.983272 secs  
 ```
 
-**2csv.sh**: This script is the one that converts the content of the logfiles into csv format. The output csv file can then be imported into excel and plotted.  
+**'2csv.sh'**: This script is responsible for converting the log files into CSV format. The resulting CSV files can then be imported into Excel for data visualization and analysis.
 
-**How to launch the scripts**: In order to have more flexibility, the launch.sh script has been adapted to accept more input parameters. The last parameter that was added is the block size. Doing so, allows us to resume runs that might have been interrupted without starting from scratch. One example above. In this example i had to resume the runs for mode 0, resuming from 32 threads and 16k block size. Following that, there are instead complete runs for all block sies and number of threads:
+**'How to launch the scripts'**: To enhance operational flexibility, the launch.sh script has been modified to accommodate additional input parameters, including the block size. This enhancement allows for the resumption of interrupted runs without the necessity to restart them entirely. For instance, in a previous scenario, it was necessary to resume runs for mode 0 from 32 threads and a 16k block size. Subsequently, complete runs were conducted for all specified block sizes and thread counts:
 ```
 for i in 32 64 128; 
   do 
@@ -82,4 +79,3 @@ for i in 1 2 4 8 16 32 64 128;
 done | bash;
 ```
 
-all other scripts were used to solve some issues and i just kept there in case these issues re-appear.  
