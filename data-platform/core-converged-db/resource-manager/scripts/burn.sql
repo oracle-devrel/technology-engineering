@@ -22,7 +22,7 @@ BEGIN
   RETURN 0;
 END;
 /
-grant execute on burn_cpu to public;
+grant execute on redef_user.burn_cpu to public;
 
 -- Use burns.sql to run the script
--- SELECT burn_cpu (5) FROM dual;
+-- SELECT redef_burn.burn_cpu (5) FROM dual;
