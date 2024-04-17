@@ -28,6 +28,9 @@ END;
  
 -- change priority of consumer groups if required
 begin 
+dbms_resource_manager.clear_pending_area();
+dbms_resource_manager.create_pending_area();
+
   dbms_resource_manager.set_consumer_group_mapping_pri(
   explicit               => 1,
   service_module_action  => 2,
@@ -40,6 +43,9 @@ begin
   client_os_user         => 9, 
   client_machine         => 10, 
   client_id		 => 11);
+
+dbms_resource_manager.clear_pending_area();
+dbms_resource_manager.create_pending_area();
 end;
 /
 
