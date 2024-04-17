@@ -1,6 +1,6 @@
 # Overview
 
-This repository is a variant of the Retrieval Augmented Generation (RAG) tutorial available [here](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/rag-genai/files) with a local deployment of Mistral 7B Instruct v0.2 using vLLM powered by a NVIDIA A10 GPU instead of the OCI GenAI Service.
+This repository is a variant of the Retrieval Augmented Generation (RAG) tutorial available [here](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/rag-genai/files). Instead of the OCI GenAI Service, it uses a local deployment of Mistral 7B Instruct v0.2 using a vLLM inference server powered by a NVIDIA A10 GPU.
 
 # Requirements
 
@@ -8,10 +8,10 @@ This repository is a variant of the Retrieval Augmented Generation (RAG) tutoria
 
 # Libraries
 
-* LlamaIndex: a data framework for LLM-based applications which benefit from context augmentation. [doc](https://docs.llamaindex.ai/en/stable/)
-* LangChain: a framework for developing applications powered by large language models. [doc](https://python.langchain.com/docs/get_started/introduction)
-* vLLM: a fast and easy-to-use library for LLM inference and serving. [doc](https://docs.vllm.ai/en/latest/)
-* Qdrant: a vector similarity search engine. [doc](https://qdrant.tech/documentation/)
+* **LlamaIndex**: a data framework for LLM-based applications which benefit from context augmentation.
+* **LangChai**: a framework for developing applications powered by large language models.
+* **vLLM**: a fast and easy-to-use library for LLM inference and serving.
+* **Qdrant**: a vector similarity search engine.
 
 # Mistral LLM
 
@@ -55,14 +55,14 @@ The python script creates an all-in-one framework with local instances of the Qd
 
 ### Framework components
 
-* SitemapReader: Asynchronous sitemap reader for web. Reads pages from the web based on their sitemap.xml. Other data connectors are available (Snowflake, Twitter, Wikipedia, etc.).
-* QdrantClient: Python client for the Qdrant vector search engine.
-* SentenceTransformerEmbeddings: Sentence embeddings model (from HuggingFace). Other options include Aleph Alpha, Cohere, MistralAI, SpaCy, etc.
-* VLLM: Fast and easy-to-use LLM inference server
-* Settings: Bundle of commonly used resources used during the indexing and querying stage in a LlamaIndex pipeline/application. In this example we use global configuration.
-* QdrantVectorStore: Vector store where embeddings and docs are stored within a Qdrant collection.
-* StorageContext: Utility container for storing nodes, indices, and vectors.
-* VectorStoreIndex: Index built from the documents loaded in the Vector Store.
+* **SitemapReader**: Asynchronous sitemap reader for web. Reads pages from the web based on their sitemap.xml. Other data connectors are available (Snowflake, Twitter, Wikipedia, etc.). In this example the site mapxml file is stored in an OCI bucket.
+* **QdrantClient**: Python client for the Qdrant vector search engine.
+* **SentenceTransformerEmbeddings**: Sentence embeddings model object (from HuggingFace). Other options include Aleph Alpha, Cohere, MistralAI, SpaCy, etc.
+* **VLLM**: Fast and easy-to-use LLM inference server.
+* **Settings**: Bundle of commonly used resources used during the indexing and querying stage in a LlamaIndex pipeline/application. In this example we use global configuration.
+* **QdrantVectorStore**: Vector store where embeddings and docs are stored within a Qdrant collection.
+* **StorageContext**: Utility container for storing nodes, indices, and vectors.
+* **VectorStoreIndex**: Index built from the documents loaded in the Vector Store.
 
 ### Remote Qdrant client
 
@@ -113,3 +113,10 @@ To deploy the container, refer to this [tutorial](https://github.com/oracle-devr
 # Notes
 
 The libraries used in this example are evolving quite fast. The python script provided here might have to be updated in a near future to avoid Warnings and Errors.
+
+# Documentation
+
+* [LlamaIndex](https://docs.llamaindex.ai/en/stable/)
+* [LangChain](https://python.langchain.com/docs/get_started/introduction)
+* [vLLM](https://docs.vllm.ai/en/latest/)
+* [Qdrant](https://qdrant.tech/documentation/)
