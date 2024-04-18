@@ -93,6 +93,8 @@ Reviewed: 18.01.2024
   - Blog describing the need for real time data integrations between different clouds and data stores, explaining multi cloud data architecture patterns deployed in OCI and other Cloud Service Providers.
 - [Cloud-native streaming and analysis pipeline](https://medium.com/@danielhalldin/cloud-native-streaming-and-analysis-pipeline-ee1895a97b1f)
   - Blog describing a pattern for a cloud native streaming data architecture using OCI services.
+- [Data Sharing for Data Lakehouse on OCI](https://medium.com/@danielhalldin/data-sharing-for-data-lakehouse-on-oci-72b49318cbcf)
+  - Blog describing the different options to share data within and across a data lakehouse deployed in OCI.
 
 ## Podcasts
 

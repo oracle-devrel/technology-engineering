@@ -8,10 +8,10 @@ dbms_resource_manager.clear_pending_area();
 dbms_resource_manager.create_pending_area();
 
 DBMS_RESOURCE_MANAGER.create_plan(plan => 'ORG_PLAN', comment=>'Limit CPU for redefinition');
-DBMS_RESOURCE_MANAGER.create_plan_directive(plan => 'ORG_PLAN', group_or_subplan => 'REDEF_GROUP', comment => 'For redefinition', cpu_p1 => 30, SWITCH_GROUP=>'LOWER_GROUP', SWITCH_TIME =>30, switch_for_call=>true);
-DBMS_RESOURCE_MANAGER.create_plan_directive(plan => 'ORG_PLAN', group_or_subplan => 'OTHER_GROUPS', comment => 'Default', cpu_p1=> 30);
-DBMS_RESOURCE_MANAGER.create_plan_directive(plan => 'ORG_PLAN', group_or_subplan => 'SYS_GROUP', comment => 'SYS', cpu_p1 => 30);
-DBMS_RESOURCE_MANAGER.create_plan_directive(plan => 'ORG_PLAN', group_or_subplan => 'LOWER_GROUP', comment => 'LOWER GROUP', cpu_p1 =>10, utilization_limit=>10);
+DBMS_RESOURCE_MANAGER.create_plan_directive(plan => 'ORG_PLAN', group_or_subplan => 'REDEF_GROUP', comment => 'For redefinition',  mgmt_p1 => 30, SWITCH_GROUP=>'LOWER_GROUP', SWITCH_TIME =>30, switch_for_call=>true);
+DBMS_RESOURCE_MANAGER.create_plan_directive(plan => 'ORG_PLAN', group_or_subplan => 'OTHER_GROUPS', comment => 'Default',  mgmt_p1=> 30);
+DBMS_RESOURCE_MANAGER.create_plan_directive(plan => 'ORG_PLAN', group_or_subplan => 'SYS_GROUP', comment => 'SYS',  mgmt_p1 => 30);
+DBMS_RESOURCE_MANAGER.create_plan_directive(plan => 'ORG_PLAN', group_or_subplan => 'LOWER_GROUP', comment => 'LOWER GROUP',  mgmt_p1 =>10, utilization_limit=>10);
 
 DBMS_RESOURCE_MANAGER.VALIDATE_PENDING_AREA();
 DBMS_RESOURCE_MANAGER.SUBMIT_PENDING_AREA();
