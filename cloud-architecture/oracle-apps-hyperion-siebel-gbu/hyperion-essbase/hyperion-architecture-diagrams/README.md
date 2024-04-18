@@ -10,12 +10,17 @@ For a more professional and consistent presentation, these diagrams use the offi
 
 Reviewed: 7.2.2024
 
-## Contents
+# Contents
 
 -  draw.io file containing multiple architecture diagrams for Hyperion deployments on OCI, including high-availability, DR, single- and multi-region deployments.
 
-## Usage
-1. Download and import the OCI icon pack from [here](https://docs.oracle.com/en-us/iaas/Content/General/Reference/graphicsfordiagrams.htm) .
+# When to use this asset?
+
+For designing Hyperion Deployments on OCI
+
+# How to use this asset?
+
+1. Download and import the OCI icon pack from [here](https://docs.oracle.com/en-us/iaas/Content/General/Reference/graphicsfordiagrams.htm).
 2. Import the .drawio file from this repository into your draw.io tool.
 3. Modify the diagrams as per your requirements.
 

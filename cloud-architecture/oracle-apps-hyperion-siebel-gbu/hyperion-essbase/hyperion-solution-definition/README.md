@@ -4,18 +4,20 @@ This repository contains an in-depth guide for Oracle Hyperion migration project
 
 Reviewed date: 27.2.2024
 
-## When to use this asset?
+# When to use this asset?
 
 This document serves as an integral asset for individuals and organizations seeking to deploy a new Enterprise Performance Management (EPM) system or migrate the existing Hyperion workloads to OCI. It includes critical insights and detailed instructions, facilitating efficient project planning and execution.
 
-## Instructions for Utilizing This Asset
+# How to use this asset?
 
 Use this document as a starting point for the solution definition of your Hyperion implementation project. This asset includes example architecture diagrams for DrawIO in the file hyperion-architecture-diagrams-example.drawio.
 
-## Conclusion
+# Conclusion
+
 The Hyperion Workload Solution Definition is expected to serve as a definitive guide to the project. All participants are encouraged to provide feedback, raise queries, and make contributions to enhance the overall project's success.
 
-### Useful Links
+# Useful Links
+
 The validated Solution Guide for Hyperion EPM on OCI can be found [here](https://www.oracle.com/a/ocom/docs/cloud/hyperion-epm-on-oci-validated-solution-guide.pdf/) .
 
 # License
