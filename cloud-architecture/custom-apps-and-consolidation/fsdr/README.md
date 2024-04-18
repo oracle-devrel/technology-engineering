@@ -4,6 +4,8 @@ Full Stack Disaster Recovery is an Oracle Cloud Infrastructure (OCI) disaster re
 
 Using OCI Full Stack DR provides a single pane of glass monitoring and management capability for all disaster recovery needs. Full stack disaster recovery easily integrates Oracle platforms and non-Oracle applications and provides recovery for the entire application stack, instead of recovery of individual components, such as databases or compute instances.
 
+Reviewed: 18.04.2024
+
 # Useful Links
 
 - [Move a virtual machine between OCI regions using Full Stack Disaster Recovery](https://docs.oracle.com/en/learn/full-stack-dr-to-move-vm/)
