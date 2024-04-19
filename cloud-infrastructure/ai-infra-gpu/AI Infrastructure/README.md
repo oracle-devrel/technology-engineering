@@ -25,6 +25,8 @@ Reviewed: 26.02.20224
     - This experiment involved deploying a VM.GPU.A10 instance to run Python code, translating approximately 1,100 hotel reviews from Hebrew to English using AlephBERT and Google Translate
  - [Pioneering de novo antibody design with OCI, supporting Silica Corpora’s AI mission for unmatched precision and efficacy](https://blogs.oracle.com/cloud-infrastructure/post/de-novo-antibody-design-oci-silica-corpora)
     - About the collaboration between Silica Corpora and Oracle Cloud Infrastructure in leveraging generative AI and robust cloud capabilities to revolutionize de novo antibody design for enhanced precision and efficacy in drug development
+- [ETIQMEDIA certifies their automated video transcription and indexation solution on OCI]([https://blogs.oracle.com/cloud-infrastructure/post/oci-ai-language-nonenglish-language-use-case](https://blogs.oracle.com/cloud-infrastructure/post/etiqmedia-video-transcription-indexation-oci))
+    - ETIQMEDIA, in collaboration with Telefonica, has just certified their automated video transcription and indexation solution on Oracle Cloud Infrastructure (OCI)
 
 
 ## LiveLabs
