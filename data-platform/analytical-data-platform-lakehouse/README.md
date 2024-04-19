@@ -51,6 +51,8 @@ Reviewed: 18.01.2024
   - Blog post explaining how to share data securely and programmatically, as part of an end-to-end data pipeline, used to support an analytical workload.
 - [OCI Lakehouse DR Architecture with Automatic Switchover](https://gianlucarossi06.github.io/data-organon/2024/03/05/Lakehouse-DR-Architecture-Oracle-Cloud.html)
   - Blog post describing how to support a lakehouse DR architecture between two regions with automatic switchover.
+- [High Frequency Inserts into Oracle Database](https://jakubillner.github.io/2024/04/12/adw-fast-ingest.html)
+  - Blog post describing and comparing the different insert methods in Autonomous Database to support low latency data ingestion for IoT workloads.
 
 
 ## YouTube
