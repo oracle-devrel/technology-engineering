@@ -51,7 +51,7 @@ Reviewed: 18.01.2024
   - Blog post explaining how to share data securely and programmatically, as part of an end-to-end data pipeline, used to support an analytical workload.
 - [OCI Lakehouse DR Architecture with Automatic Switchover](https://gianlucarossi06.github.io/data-organon/2024/03/05/Lakehouse-DR-Architecture-Oracle-Cloud.html)
   - Blog post describing how to support a lakehouse DR architecture between two regions with automatic switchover.
-- [High Frequency Inserts into Oracle Database](https://jakubillner.github.io/2024/04/12/adw-fast-ingest.html)
+- [High-Frequency Inserts into Oracle Database](https://jakubillner.github.io/2024/04/12/adw-fast-ingest.html)
   - Blog post describing and comparing the different insert methods in Autonomous Database to support low latency data ingestion for IoT workloads.
 
 
@@ -92,9 +92,9 @@ Reviewed: 18.01.2024
 - [Using Security Integration between Oracle eBusiness Suite and Oracle Business Intelligence OBIEE?](https://medium.com/@DoubleUP66/using-security-integration-between-oracle-ebusiness-suite-and-oracle-business-intelligence-obiee-cfa97b8133c9)
   - Blog describing the options to set up security integration between eBusiness Suite and OAC/OAS on the scope of a data platform workload.
 - [Real-time data integration across any data store and any cloud](https://medium.com/@danielhalldin/real-time-data-integration-across-any-data-store-and-any-cloud-a468abb2a120)
-  - Blog describing the need for real time data integrations between different clouds and data stores, explaining multi cloud data architecture patterns deployed in OCI and other Cloud Service Providers.
+  - Blog describing the need for real-time data integrations between different clouds and data stores, explaining multi cloud data architecture patterns deployed in OCI and other Cloud Service Providers.
 - [Cloud-native streaming and analysis pipeline](https://medium.com/@danielhalldin/cloud-native-streaming-and-analysis-pipeline-ee1895a97b1f)
-  - Blog describing a pattern for a cloud native streaming data architecture using OCI services.
+  - Blog describing a pattern for a cloud-native streaming data architecture using OCI services.
 - [Data Sharing for Data Lakehouse on OCI](https://medium.com/@danielhalldin/data-sharing-for-data-lakehouse-on-oci-72b49318cbcf)
   - Blog describing the different options to share data within and across a data lakehouse deployed in OCI.
 
