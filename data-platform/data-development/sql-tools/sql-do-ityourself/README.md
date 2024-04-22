@@ -100,7 +100,13 @@ Ready to explore SQLcl? Follow these steps to install SQLcl and start leveraging
 3. Explore SQLcl commands and features to familiarize yourself with its capabilities.
 4. Start scripting and executing SQL commands with ease using SQLcl's intuitive interface.
 
-# 3. Reusable Assets Overview
+# 3. SQL Developer
+Oracle SQL Developer is a free, integrated development environment that simplifies the development and management of Oracle Database in both traditional and Cloud deployments. SQL Developer offers complete end-to-end development of your PL/SQL applications, a worksheet for running queries and scripts, a DBA console for managing the database, a reports interface, a complete data modeling solution, and a migration platform for moving your 3rd party databases to Oracle.
+
+[SQL Developer Official Documentation](https://docs.oracle.com/en/database/oracle/sql-developer/) 
+
+
+# 4. Reusable Assets Overview
 
 TBD
 
