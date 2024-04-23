@@ -1,7 +1,7 @@
 schema_version: 20180708
 name: oci-datasafe-audit-to-logging
 version: 0.0.1
-runtime: docker
+runtime: python
 build_image: fnproject/python:3.9-dev
 run_image: fnproject/python:3.9
 entrypoint: /python/bin/fdk /function/func.py handler
