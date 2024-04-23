@@ -7,10 +7,7 @@ Data Integration is a fully managed, multi-tenant service that helps data engine
 ## Useful Link
 
 - [OCI Data Integration - Extract data from Fusion Apps](https://www.youtube.com/watch?v=r0m1qCG8v5c)
-
-- [Automate OCI Data Integration Pipelines with parameters](https://eloi-lopes29.medium.com/automate-oci-data-integration-pipelines-with-parameters-7d45584b82a5)
-
-- [OCI Data Integration — Incremental data load](https://eloi-lopes29.medium.com/oci-data-integration-incremental-data-load-bd257d7e34cb)
+    - Video on how to use OCI Data Integration for extracting data from Oracle Fusion Apps
 
 - [OCI Data Integration and Oracle Data Safe— Masking sensitive data between environments](https://eloi-lopes29.medium.com/oci-data-integration-masking-sensitive-data-between-environments-1ad386849419)
     - OCI Data Integration and Oracle Data Safe— Masking sensitive data between environments
@@ -27,6 +24,9 @@ Data Integration is a fully managed, multi-tenant service that helps data engine
 - [Automate OCI Data Integration Pipelines with parameters](https://medium.com/@eloi-lopes29/automate-oci-data-integration-pipelines-with-parameters-7d45584b82a5)
     - Blog article explaining how to Automate OCI Data Integration Pipelines with parameters
 
+- [Automate Object Store file ingestion to DBCS with OCI DI](https://medium.com/@aporcescu/automating-oracle-object-store-file-loading-with-oci-data-integration-64f8d608601e)
+    - A step-by-step blog article that explains how to trigger OCI Data Integration job everytime a new file was uploaded to the Object Store
+    
 
 # License
 
