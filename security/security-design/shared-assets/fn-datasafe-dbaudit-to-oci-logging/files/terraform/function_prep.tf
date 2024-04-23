@@ -22,19 +22,19 @@ resource "null_resource" "functionapp_push2ocir" {
     working_dir = "${path.module}/${local.fn_working_dir}"
   }
 
-  #provisioner "local-exec" {
-  #  command     = "fn build --verbose"
-  # working_dir ="${path.module}/${local.fn_working_dir}"
-  #}
-
-  #provisioner "local-exec" {
-  #  command     = "image=$(docker images | grep ${var.functionname} | awk -F ' ' '{print $3}') ; docker tag $image ${local.fn_image}"
-  #  working_dir = "${path.module}/${local.fn_working_dir}"
-  #}
+  provisioner "local-exec" {
+    #command     = "fn build --verbose"
+    command     = "docker buildx build --push --platform linux/arm64/v8,linux/amd64"
+    working_dir ="${path.module}/${local.fn_working_dir}"
+  }
 
   provisioner "local-exec" {
- #   command     = "docker push ${local.fn_image}"
-    command = "fn -v deploy --app ${var.functionname}" 
+    command     = "image=$(docker images | grep ${var.functionname} | awk -F ' ' '{print $3}') ; docker tag $image ${local.fn_image}"
+    working_dir = "${path.module}/${local.fn_working_dir}"
+  }
+
+  provisioner "local-exec" {
+    command     = "docker manifestpush ${local.fn_image}" 
     working_dir = "${path.module}/${local.fn_working_dir}"
   }
 
