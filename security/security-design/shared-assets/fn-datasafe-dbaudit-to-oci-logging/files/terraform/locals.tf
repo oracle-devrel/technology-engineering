@@ -29,4 +29,5 @@ locals {
   fn_working_dir = "function/${var.functionname}"
   fn_repository= "${local.ocir_docker_repository}/${local.namespace}/${oci_artifacts_container_repository.fn_container_repository.display_name}"
   fn_image = "${local.fn_repository}:0.0.1"
+  fn_image_app = "${oci_artifacts_container_repository.fn_container_repository.display_name}:0.0.1"
 }
