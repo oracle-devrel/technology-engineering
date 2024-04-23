@@ -24,7 +24,6 @@ resource "null_resource" "functionapp_push2ocir" {
 
   provisioner "local-exec" {
     command     = "fn build --verbose"
-    #command     = "docker buildx build --platform linux/arm64/v8,linux/amd64 ${path.module}/${local.fn_working_dir}"
     working_dir ="${path.module}/${local.fn_working_dir}"
   }
 
