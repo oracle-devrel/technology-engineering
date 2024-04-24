@@ -6,11 +6,11 @@ Reviewed: 12.04.2024
 
 # When to use this asset?
  
-Use this workshop to understand Oracle Database@Azure service in detail to build required solution in Azure and OCI.
+Use this workshop to understand the Oracle Database@Azure service in detail to build the required solution in Azure and OCI.
  
 # How to use this asset?
  
-Workshop content has different sections. Review each section to understand the service options to match with your requirements. If required have separate deep dive into each section.
+Workshop content has different sections. Review each section to understand the service options to match your requirements. If required have separate deep dive into each section.
  
 # License
  
