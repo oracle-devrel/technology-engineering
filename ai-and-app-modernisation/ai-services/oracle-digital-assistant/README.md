@@ -25,6 +25,7 @@ Reviewed: 30.01.2024
 
 - [Live Lab - Immerse Conversational Interfaces](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3452&clear=RR,180&session=112146561197244)
     - How to combine Digital Assistant with other AI Services
+    
 
 ## Workshops
 
@@ -53,6 +54,9 @@ Reviewed: 30.01.2024
 
 - [Analytics Use Case](https://bit.ly/oda4hsbc)
     - Digital Assistant deepdive for Oracle Analytics customers
+
+- [Customer Service Use Case ](https://bit.ly/oda4service)
+    - Digital Assistant deepdive for Customer Service customers
 
 # Useful Links
 - [Oracle AI Services](https://www.oracle.com/artificial-intelligence/ai-services/)
