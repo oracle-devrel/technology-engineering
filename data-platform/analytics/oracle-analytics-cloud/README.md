@@ -61,6 +61,7 @@ Reviewed: 31.10.2023
 ## OAC Latest Release and Announcements
  |Content Link |Descripton|
 | ------------ |------------|
+|[Oracle Analytics Cloud new features - March 2024](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KWlnpaELiCxQJii-F4c7Ehz)|Oracle Analytics Cloud March-2024 new features videos|
 |[Oracle Analytics Cloud new features - January 2024](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KUGvVDRGC8IyXo8yQzUtMiD)|Oracle Analytics Cloud January-2024 new features videos|
 |[Oracle Analytics New Capabilities - November 2023](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KXVh3PVwWfl1nC_TyHi_yl8)|Oracle Analytics Cloud November-2023 release|
 |[Oracle Analytics New Capabilities - September 2023](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KWt5F5cC1TXA18QOpT4rgOB)|Oracle Analytics Cloud September-2023 release|
