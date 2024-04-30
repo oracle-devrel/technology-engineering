@@ -5,7 +5,7 @@ Oracle has significantly expanded its partnership with Microsoft to launch a new
 Reviewed: 10.04.2024
  
 # Useful Links
- 
+ - [Major Global Businesses Adopt Oracle Database@Azure Worldwide](https://www.oracle.com/news/announcement/major-global-businesses-adopt-oracle-database-at-azure-worldwide-2024-04-23/)
  - [Oracle Database@Azure Partner Sales Briefing Session April 15th ](https://videohub.oracle.com/media/Oracle+Database%40Azure+Partner+Sales+Briefing+Session+April+15th/1_7y78vd1d)
  - [Learn about Oracle Maximum Availability Architecture for Oracle Database@Azure](https://docs.oracle.com/en/solutions/oracle-maa-db-at-azure/#GUID-7723E2B1-9588-40BC-88BE-44637B1AF0D9)
  - [Oracle Database@Azure is Gold Maximum Availability Architecture endorsed](https://blogs.oracle.com/cloud-infrastructure/post/oracle-database-at-azure-gold-maa-goldengate)

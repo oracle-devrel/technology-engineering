@@ -8,6 +8,7 @@ Reviewed: 08.04.2024
 
 ## Video Content
 
+- [Simple & Secure OCI Multicloud Architecture with Aviatrix](https://youtu.be/9Jh9N6fouxE?feature=shared)
 - [Multicloud Is The New Norm - Part I](https://www.youtube.com/watch?v=WzyJiAXldDM)
 - [Multicloud Is The New Norm - Part II](https://www.youtube.com/watch?v=27L_ZeF1o9Q)
 - [Multicloud Is The New Norm - Part III](https://www.youtube.com/watch?v=qesCk_nIvY8) 
