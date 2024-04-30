@@ -1,11 +1,11 @@
-## Oracle Property Graph Presentations
+# Oracle Property Graph Presentations
 This presentation provides information about general Oracle Property Graph functions and highlights Oracle Database 23 features. 
 
-Reviewed: 29.04.2024
+Reviewed: 30.04.2024
 
 # When to use this asset?
 
-To present or to learn about Oracle Text.
+To present or to learn about Oracle Property Graph.
 
 # How to use this asset?
 
