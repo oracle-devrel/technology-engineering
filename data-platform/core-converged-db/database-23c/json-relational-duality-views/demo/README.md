@@ -1,15 +1,15 @@
-# Oracle Property Graph Presentations
-This presentation provides information about general Oracle Property Graph functions and highlights Oracle Database 23 features. 
-
-Reviewed: 30.04.2024
+# Demo
+Example to illustrate JSON-relational duality views.
+ 
+ Reviewed: 30.04.2024
 
 # When to use this asset?
 
-To present or to learn about Oracle Property Graph.
+To learn about the JSON Relational Duality Views features.
 
 # How to use this asset?
 
-Use PDF as a presentation.
+Run the scripts in your preferred SQL environment or IDE.
 
 # License
 
