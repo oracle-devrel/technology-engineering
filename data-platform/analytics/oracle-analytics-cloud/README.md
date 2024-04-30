@@ -29,6 +29,8 @@ Reviewed: 31.10.2023
  ## Specialists Cloud Coaching
  |Content Link |Descripton|
 | ------------ |------------|
+|[Seamless integration of Oracle Autonomous Database and Leverage ML Feature](https://www.youtube.com/watch?v=lWW1klePXgU)|Explore how to leverage Autonomous Database Machine Leaning and Automated Machine Learning features in Oracle Analytics cloud and perform predictive analytics to know the future outcomes.|
+|[Oracle Analytics: Pioneering ESG Intelligence](https://www.youtube.com/watch?v=ImuRe_cWf58)|"Oracle Analytics: Pioneering ESG Intelligence" is a dynamic session tailored to explore the pivotal role of Environment, Social, and Governance (ESG) in today's business landscape through Oracle Analytics. |
 |[Exploring Oracle Expense Analytics: A Hands-On Lab for Data-driven Insights](https://www.youtube.com/watch?v=TqUBFCo13gk)|Exploring Oracle Expense Analytics: A Hands-On Lab for Data-driven Insights.|
 |[OBI Modernization - video](https://www.youtube.com/watch?v=udOfHSioEY4)|How you can modernize your OBIEE environment using the latest cloud trends of Oracle Analytics Cloud.
 
