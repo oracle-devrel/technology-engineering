@@ -1,4 +1,4 @@
-# ORacle Retail applications
+# Oracle Retail applications
  
 This repository is dedicated to the migration or upgrade of Oracle Retail Global Business Unit (RGBU) applications to Oracle Cloud Infrastructure (OCI). The intent is to support professionals and organizations transitioning their Oracle Retail environments to OCI by providing an extensive array of essential resources.
 
