@@ -29,6 +29,8 @@ Reviewed: 31.10.2023
  ## Specialists Cloud Coaching
  |Content Link |Descripton|
 | ------------ |------------|
+|[Seamless integration of Oracle Autonomous Database and Leverage ML Feature](https://www.youtube.com/watch?v=lWW1klePXgU)|Explore how to leverage Autonomous Database Machine Leaning and Automated Machine Learning features in Oracle Analytics cloud and perform predictive analytics to know the future outcomes.|
+|[Oracle Analytics: Pioneering ESG Intelligence](https://www.youtube.com/watch?v=ImuRe_cWf58)|"Oracle Analytics: Pioneering ESG Intelligence" is a dynamic session tailored to explore the pivotal role of Environment, Social, and Governance (ESG) in today's business landscape through Oracle Analytics. |
 |[Exploring Oracle Expense Analytics: A Hands-On Lab for Data-driven Insights](https://www.youtube.com/watch?v=TqUBFCo13gk)|Exploring Oracle Expense Analytics: A Hands-On Lab for Data-driven Insights.|
 |[OBI Modernization - video](https://www.youtube.com/watch?v=udOfHSioEY4)|How you can modernize your OBIEE environment using the latest cloud trends of Oracle Analytics Cloud.
 
@@ -59,6 +61,7 @@ Reviewed: 31.10.2023
 ## OAC Latest Release and Announcements
  |Content Link |Descripton|
 | ------------ |------------|
+|[Oracle Analytics Cloud new features - March 2024](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KWlnpaELiCxQJii-F4c7Ehz)|Oracle Analytics Cloud March-2024 new features videos|
 |[Oracle Analytics Cloud new features - January 2024](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KUGvVDRGC8IyXo8yQzUtMiD)|Oracle Analytics Cloud January-2024 new features videos|
 |[Oracle Analytics New Capabilities - November 2023](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KXVh3PVwWfl1nC_TyHi_yl8)|Oracle Analytics Cloud November-2023 release|
 |[Oracle Analytics New Capabilities - September 2023](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KWt5F5cC1TXA18QOpT4rgOB)|Oracle Analytics Cloud September-2023 release|

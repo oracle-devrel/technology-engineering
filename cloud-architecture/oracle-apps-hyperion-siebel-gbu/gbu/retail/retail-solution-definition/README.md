@@ -2,7 +2,7 @@
 
 This repository contains an in-depth guide for Oracle Retail applications migration projects. It offers a high-level solution definition for migrating or establishing Oracle Retail Workloads on Oracle Cloud Infrastructure (OCI). With a comprehensive representation of the current state, prospective state, potential project scope, and anticipated timeline, this document aims to provide a precise understanding of the project's scope and intention to all participating entities.
 
-Reviewed: 20.11.2023
+Reviewed: 30.04.2024
 
 # When to use this asset?
 
