@@ -14,7 +14,7 @@ Reviewed: 08.04.2024
 - [Simplify OCI and Azure Interconnect encryption and observation for multicloud using Aviatrix](https://blogs.oracle.com/cloud-infrastructure/post/simplify-ociazure-interconnect-observation-using-aviatrix)
 - [Enabling redundancy between 2 Azure interconnect connections](https://www.ateam-oracle.com/post/oci-azure-interconnect-advanced-scenarios---part2)
 - [Network latency using OCI-Azure Interconnect and best practices](https://blogs.oracle.com/cloud-infrastructure/post/network-latency-oci-azure-best-practices)
-- [How to setup the interconnect between Oracle Cloud Infrastructure and Microsoft Azure](https://medium.com/@j.jamalarif/how-to-setup-the-interconnect-between-oracle-cloud-infrastructure-and-microsoft-azure-da359233e5e9)
+- [How to set up the interconnect between Oracle Cloud Infrastructure and Microsoft Azure](https://medium.com/@j.jamalarif/how-to-setup-the-interconnect-between-oracle-cloud-infrastructure-and-microsoft-azure-da359233e5e9)
 - [Access to MS Azure to set up Azure Interconnect](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/azure.htm)
 - [Azure Express route pricing](https://azure.microsoft.com/en-us/pricing/details/expressroute/)
 - [OCI Azure Interconnect advanced scenarios - Part 1](https://www.ateam-oracle.com/post/oci-azure-interconnect-advanced-scenarios---part1)
