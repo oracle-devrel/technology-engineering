@@ -1,4 +1,4 @@
-## JSON in Oracle Database in Presentations
+## JSON in Oracle Database Presentations
 These presentations provide information about JSON in the Oracle Database, new features, and MongoDB API.
 
 Reviewed: 02.05.2024
