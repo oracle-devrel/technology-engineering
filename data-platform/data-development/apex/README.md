@@ -6,15 +6,15 @@ Reviewed: 14.02.2024
 Using APEX, developers don't need to be an expert in a vast array of technologies to deliver sophisticated solutions. Just focus on solving the problem and let APEX take care of the rest.
 
 # Team Publications
+
 - [APEX NEXT EVENTS](https://apex.oracle.com/pls/apex/r/apex_pm/apex-events/events)
 - [APEX Office Hours](https://apex.oracle.com/en/community/office-hours/)
 
 - [APEX with AI - A new landscape for Application Development](https://youtu.be/f1cBdLEGY00)
 - [Cloud Coaching - Unlock the Power of APEX](https://www.youtube.com/watch?v=6rG_tX8ScBc)
 
-- [APEX Do it yourself latest post](https://www.linkedin.com/feed/update/urn:li:activity:7141123908354617345/)
+- [APEX Do it yourself latest post](https://www.linkedin.com/posts/sonnemeyer_do-it-yourselfupload-your-time-booking-activity-7178658201943314432-1f2x?utm_source=share&utm_medium=member_desktop)
 - [APEX on Autonomous Rockin' Experience](https://medium.com/@paulbrad71/apex-on-autonomous-database-rockin-experience-e57c4c4dc4f3)
-
 
 ## Tutorials/ How To's
 
@@ -32,14 +32,13 @@ Using APEX, developers don't need to be an expert in a vast array of technologie
 ## Get Started
 
 - [Official APEX Landing Page](https://apex.oracle.com/en/)
-- [What's New in APEX 23.2](https://docs.oracle.com/en/database/oracle/apex/23.2/htmrn/new-features.html)
+- [What's New in latest Release APEX 23.2](https://docs.oracle.com/en/database/oracle/apex/23.2/htmrn/new-features.html)
 - [APEX best practice architecture](https://docs.oracle.com/solutions/?q=apex&cType=reference-architectures&sort=date-desc&lang=en)
 - [APEX Managing Application Performance](https://docs.oracle.com/en/database/oracle/apex/23.2/htmdb/managing-application-performance.html#GUID-1684F55B-7782-4B1F-96AB-0D41BCBDB1BA)
 - [APEX Managing Application Security](https://docs.oracle.com/en/database/oracle/apex/23.2/htmdb/managing-application-security.html#GUID-417EAE67-7A36-4AE0-816B-D28716829F96)
 
 - [Training and Certification](https://apex.oracle.com/en/learn/training/)
 - [Tutorials](https://apex.oracle.com/en/learn/tutorials/)
-
 
 ## Documentation
 
@@ -49,8 +48,8 @@ Using APEX, developers don't need to be an expert in a vast array of technologie
 - [APEX Managing Application Backups](https://docs.oracle.com/en/database/oracle/apex/22.1/htmdb/managing-application-backups.html)
 - [APEX Application Development Lifecycle Technical Paper](https://www.oracle.com/a/tech/docs/apex-lifecycle-management-v3.pdf)
 
-
 # License
+
 Copyright (c) 2024 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

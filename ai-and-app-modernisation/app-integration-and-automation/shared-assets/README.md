@@ -19,6 +19,24 @@ This section contains various examples related to Application Integration: demo 
 
 ## Demos
 
+- [Oracle Process Automation - File Manager Component](https://youtu.be/ZnGPteYE_tA?si=KAFsgffX1ZsRkfer)
+
+    - The File Manager component allows end users to upload one or more documents using a process form to an external system.This video demonstrate the use of the File Manager
+
+    Demonstration Includes
+
+        - Creating a Process in Oracle Process Automation
+        - Creating a Web UI with File Manager Component
+        - Walk through of Oracle Integration Project and Integrations to Dowload, List, Delete and Upload files in OCI Object Storage
+        - Configuring Rest API Connector to Integrate with OIC Integrations
+        - Configuring File Manager Component and connecting with the Integrations
+        - Validate, Activate, Test the Process
+
+- [Cloud Coaching - Boost Your Oracle AI Services](https://youtu.be/VVWTqqlIEhg)
+    - Learn how to Develop a Multi-Chain Document Evaluation Apps with Oracle Generative AI, Document Understanding, and Integration Cloud.
+    - Integrate OCI AI Speech Service and Generative AI Summarization with Oracle Integration Cloud and Visual Builder
+    - Describe an image using OCI AI Vision, Generative AI Service and Oracle Integration
+
 - [Oracle Integration - Realtime File Processing from Object Storage](https://www.youtube.com/watch?v=HnpYrussmWw)
 
     - Discover a hands-on approach to processing real-time files from OCI Object Storage using Oracle Integration Cloud, OCI Events and OCI Streaming Service.No need for you to run scheduled jobs and checking the OCI Object Bucket for new files, by enabling Events in OCI Object Storage you can transmit Events like OCI Object Create, OCI Object Update, OCI Object Delete etc. to an OCI Stream in Real-time and configure OCI Stream Adapter in Oracle Integration as a trigger to receive the data in real time and process the file.
@@ -135,6 +153,15 @@ This section contains various examples related to Application Integration: demo 
     - Demo video showing how to create and run a BPM Dynamic (Case Management) Process. Shows how to manage Car Rental Process through Case Management stages, Global activities and combination of Human Tasks, Structured BPM processes and Milestones in Case Management stages. This demo implements [Oracle Live Lab](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/run-workshop?p210_wid=3362&p210_wec=&session=17064424204924), Lab 2
 
 ## Blogs
+
+- [Document Evaluation Tool using OCI Generative AI, Document Understanding & Integration Cloud](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/doc-evaluation-genai)
+    - In this article, we'll explore how to make a handy tool that helps to evaluate documents using Oracle Generative AI, OCI Document Understanding, and Oracle Integration Cloud (OIC). This application combines a low-code approach to orchestrate LLM AI services and applications using Oracle Integration Cloud and Generative AI prompting techniques for tasks like document key criteria extraction, summarization, and evaluation.
+
+- [Describe an image using OCI AI Vision, Generative AI & Integration Cloud](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/vision-genai)
+    - In this article, we'll explore how to describe an image using OCI AI Vision Service and OCI Generative AI Service. The application is developed using Oracle VBCS, OIC, OCI AI Vision service, and OCI Generative AI Service. This integrated approach combines the strength of OCI AI Vision and OCI Generative AI Service, allowing for efficient and insightful summarization of image content.
+
+- [Integrate OCI AI Speech Service and Generative AI Summarization with Oracle Integration Cloud & Visual Builder](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/speech-genai)
+    - OCI Speech is an AI service that applies automatic speech recognition technology to transform audio-based content into text. Generative AI, The Large Language Model (LLM) analyzes the text input and can generate, summarize, transform, and extract information. Using these AI capabilities, we built a low code application- “Integrate OCI AI Speech Service and Generative AI Service for Summarization in Visual Builder " to invoke AI Speech REST API to convert audio files into text and then further invoke the Generative AI REST API to Summarize it.
 
 - [Practical Guide to using HCM Data Loader with Oracle Integration](https://blogs.oracle.com/integration/post/practical-guide-to-use-hcm-data-loader-with-oracle-integration)
     - This blog addresses some key practical steps and prerequisites needed to use HCM Data Loader with Oracle Integration Cloud. Steps like generating Business Object Mapping file in Fusion HCM. How to work with nxsd in Oracle Integration Cloud and more.

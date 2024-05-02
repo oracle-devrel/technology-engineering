@@ -2,17 +2,19 @@
  
 Oracle Interconnect for Microsoft Azure provides organizations with a simple migration path to a multicloud environment that includes Oracle Database capabilities such as Oracle Exadata Database Service, Autonomous Database, and MySQL HeatWave. Customers can innovate using the best of Oracle Cloud Infrastructure (OCI) and Microsoft Azure with seamless interoperability.
  
+Reviewed: 08.04.2024
+
 # Table of Contents
  
 - [Team Publications](#team-publications)
 - [Useful Links](#useful-links)
  
-## Team Publications
+# Team Publications
   
 - [Simplify OCI and Azure Interconnect encryption and observation for multicloud using Aviatrix](https://blogs.oracle.com/cloud-infrastructure/post/simplify-ociazure-interconnect-observation-using-aviatrix)
 - [Enabling redundancy between 2 Azure interconnect connections](https://www.ateam-oracle.com/post/oci-azure-interconnect-advanced-scenarios---part2)
 - [Network latency using OCI-Azure Interconnect and best practices](https://blogs.oracle.com/cloud-infrastructure/post/network-latency-oci-azure-best-practices)
-- [How to setup the interconnect between Oracle Cloud Infrastructure and Microsoft Azure](https://medium.com/@j.jamalarif/how-to-setup-the-interconnect-between-oracle-cloud-infrastructure-and-microsoft-azure-da359233e5e9)
+- [How to set up the interconnect between Oracle Cloud Infrastructure and Microsoft Azure](https://medium.com/@j.jamalarif/how-to-setup-the-interconnect-between-oracle-cloud-infrastructure-and-microsoft-azure-da359233e5e9)
 - [Access to MS Azure to set up Azure Interconnect](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/azure.htm)
 - [Azure Express route pricing](https://azure.microsoft.com/en-us/pricing/details/expressroute/)
 - [OCI Azure Interconnect advanced scenarios - Part 1](https://www.ateam-oracle.com/post/oci-azure-interconnect-advanced-scenarios---part1)
@@ -25,7 +27,7 @@ Oracle Interconnect for Microsoft Azure provides organizations with a simple mig
 - [Deploy the Oracle Cloud and Microsoft Azure Interconnect Using Hub-and-Spoke Topology](https://docs.oracle.com/en-us/iaas/Content/Resources/Assets/whitepapers/deploy_oracle_cloud_and_microsoft_azure_interconnect_using_hub_spoke_topology.pdf)
 
  
-## Useful Links
+# Useful Links
  
 - [Original Service Press release](https://www.oracle.com/corporate/pressrelease/microsoft-and-oracle-to-interconnect-microsoft-azure-and-oracle-cloud-060519.html)
 - [Service Landing Page](https://www.oracle.com/cloud/azure/interconnect/)

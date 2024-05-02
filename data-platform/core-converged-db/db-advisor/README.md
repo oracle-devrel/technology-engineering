@@ -1,14 +1,16 @@
 # Database Advisors
 
-Oracle provides a series of advisors to analyze the database in different fields, e.g. to examine appropriate access structures, to decide on security configurations, segment compression and so on. They provide the basis for automations within the Oracle Database and support DBAs and database developers when working with the Oracle Database.
-Advisors are distinguished by certain characteristics and are usually available through different methods: Graphical tools such as Oracle Enterprise Manager Cloud Control or SQL Developer, scripts through PL/SQL packages, initialization parameters or through corresponding v$ views. Most of them are available without additional installation and can be used immediately. Others can be loaded separately from My Oracle Support (MOS) or can be activated and used via Cloud Console. Unlike alerts, advisors are more resource intensive, as their analysis and suggested solutions have a greater level of detail. It is important to know how to use advisors and what advice to expect.
-As the database and database offering evolves, new advisors and automations are continually made available.
+Oracle provides a series of advisors to analyze the database in different fields, e.g. to examine appropriate access structures, to decide on security configurations, segment compression and so on. They provide the basis for automation within the Oracle Database and support DBAs and database developers when working with the Oracle Database.
+
+Advisors are distinguished by certain characteristics and are usually available through different methods: Graphical tools such as Oracle Enterprise Manager Cloud Control or SQL Developer, scripts through PL/SQL packages, initialization parameters or corresponding v$ views. Most of them are available without additional installation and can be used immediately. Others can be loaded separately from My Oracle Support (MOS) or can be activated and used via Cloud Console. Unlike alerts, advisors are more resource-intensive, as their analysis and suggested solutions have a greater level of detail. It is important to know how to use advisors and what advice to expect.
+
+As the database offering evolves, new advisors and automation are continually made available.
  
 Review Date: 03.06.2024
 
-## Useful Links
+# Useful Links
 
-### Documentation
+## Documentation
 
 - [Automatic Database Diagnostic Advisor(ADDM)](https://docs.oracle.com/en/database/oracle/oracle-database/21/tgdba/automatic-performance-diagnostics.html#GUID-843A596D-2D8B-422D-9C8D-73C0EF52739D)
 - [Autonomous Health Framework(AHF)](https://www.oracle.com/de/database/technologies/rac/ahf.html)
@@ -35,11 +37,30 @@ Review Date: 03.06.2024
 - [Statistics Advisor](https://docs.oracle.com/en/database/oracle/oracle-database/21/tgsql/optimizer-statistics-advisor.html#GUID-054F4B76-DD57-46EE-98EA-0FF04F49D1B3)
 - [Undo Advisor](https://docs.oracle.com/en/database/oracle/oracle-database/21/admin/managing-undo.html#GUID-F7D30328-A0CC-4F81-BA54-0FCFC2095F8B)
 
-### Team Publications
+## Blogs
+
+- [Use Compression Advisor to Estimate Compression Ratios for Data, Indexes and LOBS](https://blogs.oracle.com/datawarehousing/post/oracle-autonomous-data-warehouse-access-parquet-files-in-object-stores)
+- [New Oracle Data Safe Reference Architectures to Quickly Secure Your Databases](https://blogs.oracle.com/cloudsecurity/post/oracle-data-safe-architectures-to-quickly-secure-your-databases)
+- [Metrics and Performance Hub for ExaCS and DBCS](https://blogs.oracle.com/database/post/metrics-and-performance-hub-for-exacs-and-dbcs)
+- [The performance report you are NOT using](https://connor-mcdonald.com/2021/04/30/the-performance-report-you-are-not-using/)
+
+## LiveLabs Workshops
+
+- [Automatic Indexing for Oracle Autonomous Database](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3328&clear=RR,180&session=113580025120480)
+- [How do I see the current table compression ratio?](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/run-workshop?p210_wid=1019&session=113580025120480)
+- [Get Started with Oracle Data Safe Fundamentals](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=598)
+- [Real Application Testing: SQL Performance Analyzer-Database Replay](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=858&clear=RR,180&session=113580025120480)
+
+## Video
+
+- [Database In-Memory Advisor](https://www.youtube.com/watch?v=_qQIifPnMzA)
+- [Performance Hub for Exadata Cloud Service and Database Cloud Service](https://www.youtube.com/watch?v=xj6kHFsOqFo)
+
+# Team Publications
 
 - [Oracle Database Advisors](https://blogs.oracle.com/coretec/post/oracle-database-advisors-overview)
 - [Advanced Compression Advisor](https://blogs.oracle.com/coretec/post/advanced-compression-advisor)
-- [When and How to use Oracle Database In-Memory Advisor](https://blogs.oracle.com/coretec/post/how-to-use-oracle-database-in-memory-advisor)
+- [When and How to Use Oracle Database In-Memory Advisor](https://blogs.oracle.com/coretec/post/how-to-use-oracle-database-in-memory-advisor)
 - [Running Oracle Database In-Memory Advisor Offline](https://blogs.oracle.com/coretec/post/running-oracle-database-in-memory-advisor-of-one-database-on-another)
 - [PL/SQL Tuning with PL/SQL Hierarchical ProfilerPL/SQL Tuning with PL/SQL Hierarchical Profiler](https://blogs.oracle.com/coretec/post/plsql-tuning-with-plsql-hierarchical-profiler)
 - [Testing with Oracle Database Replay](https://blogs.oracle.com/coretec/post/testing-with-oracle-database-replay)
@@ -47,25 +68,6 @@ Review Date: 03.06.2024
 - [Autonomous Database Replay](https://blogs.oracle.com/coretec/post/adb-database-replay)
 - [Smooth transition to Autonomous Database using SPA](https://blogs.oracle.com/coretec/post/spa-in-autonomous-database)
 
-### Blogs
-
-- [Use Compression Advisor to Estimate Compression Ratios for Data, Indexes and LOBS](https://blogs.oracle.com/datawarehousing/post/oracle-autonomous-data-warehouse-access-parquet-files-in-object-stores)
-- [New Oracle Data Safe Reference Architectures to Quickly Secure Your Databases](https://blogs.oracle.com/cloudsecurity/post/oracle-data-safe-architectures-to-quickly-secure-your-databases)
-- [Metrics and Performance Hub for ExaCS and DBCS](https://blogs.oracle.com/database/post/metrics-and-performance-hub-for-exacs-and-dbcs)
-- [The performance report you are NOT using](https://connor-mcdonald.com/2021/04/30/the-performance-report-you-are-not-using/)
-
-### LiveLabs Workshops
-
-- [Automatic Indexing for Oracle Autonomous Database](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3328&clear=RR,180&session=113580025120480)
-- [How do I see the current table compression ratio?](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/run-workshop?p210_wid=1019&session=113580025120480)
-- [Get Started with Oracle Data Safe Fundamentals](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=598)
-- [Real Application Testing : SQL Performance Analyzer-Database Replay](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=858&clear=RR,180&session=113580025120480)
-
-
-### Video
-
-- [Database In-Memory Advisor](https://www.youtube.com/watch?v=_qQIifPnMzA)
-- [Performance Hub for Exadata Cloud Service and Database Cloud Service](https://www.youtube.com/watch?v=xj6kHFsOqFo)
 
 # License
 

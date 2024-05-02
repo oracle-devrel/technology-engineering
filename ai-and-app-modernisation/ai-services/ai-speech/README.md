@@ -18,7 +18,11 @@ Reviewed: 30.01.2024
 # Team Publications
 
 ## Reusable Assets Overview
- 
+
+- [Cloud Coaching - Boost Your Oracle AI Services](https://youtu.be/VVWTqqlIEhg)
+    - Integrate OCI AI Speech Service and Generative AI Summarization with Oracle Integration Cloud and Visual Builder
+- [Blog: Integrate OCI AI Speech Service and Generative AI Summarization with Oracle Integration Cloud & Visual Builder](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/speech-genai)
+    - OCI Speech is an AI service that applies automatic speech recognition technology to transform audio-based content into text. Generative AI, The Large Language Model (LLM) analyzes the text input and can generate, summarize, transform, and extract information. Using these AI capabilities, we built a low code application- “Integrate OCI AI Speech Service and Generative AI Service for Summarization in Visual Builder " to invoke AI Speech REST API to convert audio files into text and then further invoke the Generative AI REST API to Summarize it.
 - [Demos built using OCI Python SDK](https://github.com/luigisaetta/oci-speech-demos)
 - [AI Speech console demo](https://youtu.be/EWBSoSLNph8)
 

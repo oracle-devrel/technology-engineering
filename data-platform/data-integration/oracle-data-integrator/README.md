@@ -2,9 +2,9 @@
 
 Oracle Data Integrator is a comprehensive data integration platform that covers all data integration requirements: from high-volume, high-performance batch loads, to event-driven, trickle-feed integration processes, to SOA-enabled data services. Oracle Data Integrator (ODI) 12c, the latest version of Oracle’s strategic Data Integration offering, provides superior developer productivity and improved user experience with a redesigned flow-based declarative user interface and deeper integration with Oracle GoldenGate. ODI12c further builds on its flexible and high-performance architecture with comprehensive big data support and added parallelism when executing data integration processes. It includes interoperability with Oracle Warehouse Builder (OWB) for a quick and simple migration for OWB customers to ODI12c. 
 
-
+Reviewed: 24.04.2024
  
-## Useful Links
+# Useful Links
  
 - [Oracle Data Integrator (ODI) Documentation](https://docs.oracle.com/en/middleware/fusion-middleware/data-integrator/12.2.1.4/odiun/overview-oracle-data-integrator.html#GUID-3B2C52A4-8AFB-424A-9964-29838E875433)
       
@@ -15,7 +15,7 @@ Oracle Data Integrator is a comprehensive data integration platform that covers 
 
 - [Install ODI Agent on ExaCC with ODI Marketplace](https://eloi-lopes29.medium.com/install-odi-agent-on-exacc-with-odi-marketplace-c98a1a422f55)
 
-- [Changing Autonomous Database wallet in ODI Marketplace](https://eloi-lopes29.medium.com/changing-autonomous-database-wallet-in-odi-marketplace-707a2e2dcf9)
+- [Changing the Autonomous Database wallet in ODI Marketplace](https://eloi-lopes29.medium.com/changing-autonomous-database-wallet-in-odi-marketplace-707a2e2dcf9)
 
 - [ODI — Extracting data from ERP Cloud](https://eloi-lopes29.medium.com/odi-extracting-data-from-erp-cloud-f503baef4499)
 
