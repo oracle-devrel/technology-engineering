@@ -25,6 +25,8 @@ A SQL Clue Card is also provided.
 
     2.3. [Getting Started](#getting-started)
     
+3. [SQL Developer](#SQL-Developer)
+
 
 ## 1. Public Oracle SQL Tools
 
@@ -105,10 +107,6 @@ Oracle SQL Developer is a free, integrated development environment that simplifi
 
 [SQL Developer Official Documentation](https://docs.oracle.com/en/database/oracle/sql-developer/) 
 
-
-# 4. Reusable Assets Overview
-
-TBD
 
 # License
 
