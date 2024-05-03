@@ -13,8 +13,6 @@ Reviewed: 01.02.2024
 2. [Useful Links](#useful-links)
    
 # Team Publications
-
- 
  
 ## Oracle Blogs
 
