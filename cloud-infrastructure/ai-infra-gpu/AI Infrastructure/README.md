@@ -30,6 +30,11 @@ Reviewed: 26.02.20224
 - [ETIQMEDIA certifies their automated video transcription and indexation solution on OCI](https://blogs.oracle.com/cloud-infrastructure/post/etiqmedia-video-transcription-indexation-oci)
     - ETIQMEDIA, in collaboration with Telefonica, has just certified their automated video transcription and indexation solution on Oracle Cloud Infrastructure (OCI)
 
+## Tutorials
+
+- [Deploying NVIDIA NIM on OKE with model repository stored on Object Storage](https://docs.oracle.com/en/learn/deploy-nvidia-nim-on-oke/)
+    - Step-by-step tutorial to run inference at scale using NVIDIA NIM.
+ 
 ## LiveLabs
 
 - [Running Faceswap on OCI](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=798&session=4731494759204)

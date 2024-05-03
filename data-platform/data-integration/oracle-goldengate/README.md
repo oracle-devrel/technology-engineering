@@ -1,6 +1,8 @@
 # Oracle GoldenGate
 
-Oracle GoldenGate is a comprehensive software package for enabling the replication of data in heterogeneous data environments. The product set enables high availability solutions, real-time data integration, transactional change data capture, data replication, transformations, and verification between operational and analytical enterprise systems.
+Oracle GoldenGate is a comprehensive software package for enabling the replication of data in heterogeneous data environments. The product set enables high-availability solutions, real-time data integration, transactional change data capture, data replication, transformations, and verification between operational and analytical enterprise systems.
+
+Reviewed: 24.04.2024
 
 # Table of Contents
  
@@ -11,7 +13,7 @@ Oracle GoldenGate is a comprehensive software package for enabling the replicati
 # Team Publications
  
 - [On-Demand Video Oracle GoldenGate for Multicloud, Data Lakes, and Big Data Deep Dive](https://go.oracle.com/LP=137345?elqCampaignId=468926&src1=:eng:lw:ie::::Odlwtlw_David_Horgan#On-Demand-Webinars)
-    - Oracle GoldenGate deep dive session discussing various use-cases for Multicloud, Data Lakes, and Big Data
+    - Oracle GoldenGate deep dive session discussing various use cases for Multicloud, Data Lakes, and Big Data
  
 - [Datasheet Oracle GoldenGate Management Pack](https://www.oracle.com/a/ocom/docs/goldengate-management-pack-datasheet.pdf)
     - Oracle GoldenGate Monitoring capabilities
@@ -39,17 +41,14 @@ Oracle GoldenGate is a comprehensive software package for enabling the replicati
 - [GoldenGate Product Blogs](https://blogs.oracle.com/dataintegration/)
     - Oracle GoldenGate Product blogs on various functionality
 
-- [GoldenGate Product Youtube Channel](https://www.youtube.com/channel/UCQZN-1TrusmKNLgJbq5SxNQ)
-    - Oracle GoldenGate Product Youtube channel with how to use videos
+- [GoldenGate Product YouTube Channel](https://www.youtube.com/channel/UCQZN-1TrusmKNLgJbq5SxNQ)
+    - Oracle GoldenGate Product YouTube channel with how to use videos
 
-- [GoldenGate Community help forum](https://forums.oracle.com/ords/apexds/domain/dev-community/category/goldengatenested?tags=goldengate)
-    - Oracle GoldenGate Product community help center
+- [GoldenGate Community Help Forum](https://forums.oracle.com/ords/apexds/domain/dev-community/category/goldengatenested?tags=goldengate)
+    - Oracle GoldenGate Product Community Help Center
 
 - [GoldenGate 23C Free](https://docs.oracle.com/en/middleware/goldengate/free/23/uggfe/what-is-goldengate-free.html#GUID-27DF4E00-4359-4266-81E7-2972DC3BE498)
     - What is Oracle GoldenGate 23C Free Version?
-
- 
-# Reusable Assets Overview
 
 - [GoldenGate High Availability Overview and Best Practices](https://docs.oracle.com/en/database/oracle/oracle-database/19/haovw/overview-oracle-goldengate-high-availability-best-practices.html#GUID-BF26CB63-31FE-42F9-A418-CF9725A3CD72)
     - Oracle GoldenGate High Availability Overview and Best Practices
@@ -70,13 +69,13 @@ Oracle GoldenGate is a comprehensive software package for enabling the replicati
     - Application Failover Options for Oracle GoldenGate
 
 - [Oracle GoldenGate Best Practices: Active-Active Configuration](https://www.oracle.com/a/ocom/docs/ogg-best-practices-active-active.pdf)
-    - How to configure and manage GoldenGate in Active-Active use-case?
+    - How to configure and manage GoldenGate in an Active-Active use case?
 
 - [Set Up Bidirectional Replication for Oracle GoldenGate Microservices Architecture](https://docs.oracle.com/en/middleware/goldengate/core/21.3/coredoc/quickstart-bidirectional-replication.html)
-    - How to configure GoldenGate Microservices Architecture in Active-Active scenario?
+    - How to Configure GoldenGate Microservices Architecture in an Active-Active Scenario?
 
 - [Set up Bidirectional Replication for Oracle GoldenGate Classic Architecture](https://docs.oracle.com/en/middleware/goldengate/core/19.1/admin/configuring-oracle-goldengate-active-active-high-availability.html)
-    - How to configure GoldenGate Classic Architecture in Active-Active scenario?
+    - How to Configure GoldenGate Classic Architecture in an Active-Active Scenario?
 
 - [Oracle GoldenGate Performance Best Practices](https://www.oracle.com/technetwork/database/availability/maa-gg-performance-1969630.pdf)
     - How to use GoldenGate to achieve the maximum performance
@@ -94,16 +93,16 @@ Oracle GoldenGate is a comprehensive software package for enabling the replicati
     - How to create connections, groups, compare pairs and repair the data in Veridata?
 
 - [Configuring Partitions in Oracle GoldenGate Veridata](https://www.youtube.com/watch?v=N28CsAr5kjw&autoplay=0&html5=1)
-    - How to configure partitions for comparision in the Veridata?
+    - How to configure partitions for comparison in the Veridata?
 
 - [Five Cs of Oracle GoldenGate Veridata: Connect, Create Groups, Compare Pairs, Configure Partition, and Correct Jobs](https://blogs.oracle.com/dataintegration/five-cs-in-oracle-goldengate-veridata:-connect-create-groups-compare-pairs-configure-partitions-and-correct-jobs)
-    - The GoldenGate Veridata blog mentioning about various stages of comparison
+    - The GoldenGate Veridata blog mentions various stages of comparison
 
 - [The Magic of Delta Comparison in Oracle GoldenGate Veridata](https://blogs.oracle.com/dataintegration/post/the-magic-of-delta-comparison-in-oracle-goldengate-veridata)
     - Explaining the Delta comparison in Veridata
 
 - [Veridata Automatic Partition](https://blogs.oracle.com/dataintegration/oracle-goldengate-veridata-automatic-row-partitioning-feature)
-    - How to configure Automatic Partition in Veridata?
+    - How to Configure Automatic Partition in Veridata?
 
 - [How to set Credential in GoldenGate OEM PlugIn](https://www.youtube.com/watch?v=zFaX348_LiA)
     - How to set Credential in GoldenGate OEM PlugIn
