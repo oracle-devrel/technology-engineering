@@ -1,0 +1,28 @@
+---
+
+- name: Ensures /root/.ssh/ dir exists
+  become: true
+  file:
+    path: "/root/.ssh/"
+    state: directory
+
+- name: Install ssh keys on all nodes
+  become: true
+  copy:
+    dest: "/root/.ssh/{{item}}"
+    src: "/home/{{ ansible_user }}/.ssh/{{ item }}"
+    owner: "root"
+    group: "root"
+    mode: '0600'
+    remote_src: yes
+  with_items:
+    - id_rsa
+    - id_rsa.pub
+    - authorized_keys
+
+- name: Allow Root login
+  become: true
+  replace:
+    path: /etc/ssh/sshd_config
+    regexp: "#PermitRootLogin yes"
+    replace: "PermitRootLogin yes"

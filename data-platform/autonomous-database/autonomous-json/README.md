@@ -89,7 +89,7 @@ Reviewed: 25.01.2024
 - [JSON Relational Duality blog announcement](https://blogs.oracle.com/post/json-relational-duality-app-dev )
     - Duality Views introduction.
 
-# LiveLabs
+## LiveLabs
  
 - [Developing with JSON and SODA in Oracle Database](https://apexapps.oracle.com/pls/apex/f?p=133:180:109524315536663::::wid:831)
     - In this workshop, you will create a simple webshop using JSON and SODA with the Autonomous JSON Database.

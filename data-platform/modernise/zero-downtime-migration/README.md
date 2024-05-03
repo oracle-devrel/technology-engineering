@@ -53,7 +53,8 @@ Reviewed: 03.11.2023
 - [Step-by-Step Guide – Logical Migration from On-Premises to Exadata Cloud@Customer or Exadata On-Premises using ACFS as Backup Location](https://www.oracle.com/a/tech/docs/oracle-zdm-logical-migration-acfs.pdf)
 - [Step-by-Step Guide - Physical Migration](https://www.oracle.com/docs/tech/oracle-zdm-step-by-step-guide.pdf)
 - [Step-by-Step Guide – Logical Migration and In-Flight Upgrade from On-Premises to DBCS and ExaCS](https://www.oracle.com/a/tech/docs/oracle-zdm-logical-migration-step-by-step-guide.pdf)
-
+- [Database@Azure - Blog: Oracle ZDM Physical Online Migration with direct data transfer](https://blogs.oracle.com/maa/post/oracle-zdm-for-oracle-database-at-azure)
+- [Database@Azure - Video: Migrate Oracle Databases to ExaDB-D on Oracle Database@Azure](https://www.youtube.com/watch?v=1fDDGlb7y7Y)
 
 # License
  
