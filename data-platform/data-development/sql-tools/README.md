@@ -5,7 +5,7 @@ Providing links to public useful documentation and articles/blogs written by Ora
 
 A SQL Clue Card is also provided.
 
-Reviewed: 24.04.2024
+Reviewed: 3.5.2024
 
 # Team Publications
 
@@ -28,7 +28,12 @@ Reviewed: 24.04.2024
 - [Live SQL](https://livesql.oracle.com/apex/f?p=590:1000)
 
 ## Dev Gyms 
+- [The amazing Dev Gym](https://devgym.oracle.com/pls/apex/f?p=10001:20011::::20011::) 
+    - Join the Oracle Product Management Dev Gym (FREE!) and build your Oracle technology muscles by taking workouts, quizzes, and even entire classes on SQL, PL/SQL, database design, logic and more.
+- [Dev Gym Workout Class - Getting Started on Oracle Cloud](https://devgym.oracle.com/pls/apex/f?p=10001:29:4444375111375:::29:P29_CLASS_ID:20342&cs=1qfK8bInptu93se5QM5iMzsT-iih_gFsY78j308d3ZUzrCzX2c0-kgiimo59pm0c_NblFShALC1oOB8MosiaSYQ)
 
+- [Database For Developers: Foundations](https://devgym.oracle.com/pls/apex/f?p=10001:29:112499394488989:::29:P29_CLASS_ID:5481&cs=1Nx3TDJgh0w-ygq3icYMX7urIWoNPCEJuXLH5pqVOkknGnq2I33EJh57LsiiynySdqwMpwClQNviXsLC73e3-0Q);
+ 
 - [The amazing Dev Gym](https://devgym.oracle.com/pls/apex/f?p=10001:20011::::20011::) 
     - Join the Oracle Product Management Dev Gym (FREE!) and build your Oracle technology muscles by taking workouts, quizzes, and even entire classes on SQL, PL/SQL, database design, logic and more.
 - [Dev Gym Workout Class - Getting Started on Oracle Cloud](https://devgym.oracle.com/pls/apex/f?p=10001:29:4444375111375:::29:P29_CLASS_ID:20342&cs=1qfK8bInptu93se5QM5iMzsT-iih_gFsY78j308d3ZUzrCzX2c0-kgiimo59pm0c_NblFShALC1oOB8MosiaSYQ)
