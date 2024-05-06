@@ -17,6 +17,7 @@ Reviewed: 22.01.2024
 
 - [OS Management](https://github.com/hoehenunterschied/OSManagement)
 - [How to use OS Management Resource Discovery to monitor your Compute resources](https://learnoci.cloud/how-to-use-os-management-resource-discovery-to-monitor-your-compute-resources-bf19800f51fe)
+- [From Terraform to OpenTofu](https://medium.com/@ralflange/667672c609c8)
 
 # Useful Links 
 
