@@ -1,20 +1,14 @@
-![AppDev Team](https://objectstorage.eu-frankfurt-1.oraclecloud.com/p/p3Sq8BqTs9Q7IlzvJ3o49eMg-_W8-bLQiOJoqELnDeX2JHdLhXWxdVJbyOK7aVkT/n/frsxwtjslf35/b/github-technology-engineering/o/appdev_banner.png)
-
 # Developer Tools, LowCode and Middleware
 
-EMEA 
+We play with the OCI services and Oracle Software. Here is the list of our favorite components we have expertise in. Our skills include WebLogic Server, WebCenter Content, developer tools, frameworks, low code platforms, data management, and blockchain.
 
- 
 # Team Publications
 
-- [Reserve Memory and CPU for Kubernetes System Daemons](/app-dev/oke/oke-kube-reserved-cloud-init/README.md)
-- [Image Credential Provider for OKE](https://github.com/oracle-devrel/oke-credential-provider-for-ocir/)
-- [Cloud Coaching - OCI Observability for Kubernetes monitoring](https://www.youtube.com/watch?v=DLce-UReoKo)[November 2023]
-
+- [About Setting up a custom content management system secured by Oracle Blockchain Platform](https://docs.oracle.com/en/solutions/oracle-blockchain-platform-cms/index.html#GUID-D346CE74-FE02-4255-B1A6-82672474A259)[February 2023]
+- [Fortify Visual Builder and Oracle Integration With Cloudflare](https://ivan-delic.medium.com/fortify-visual-builder-and-oracle-integration-with-cloudflare-52b35b335dbe) [July 2023]
+- [Develop a Web Application that modifies PDF documents](https://docs.oracle.com/en/solutions/dev-webapp-mod-pdf/index.html) [May 2023]
  
 # Useful Links
-
-We play with the OCI services and Oracle Software. Here is the list of our favorite components we have expertise in. Our skills include containers, cloud networks, APIs, messaging, developer tools, frameworks, low code platforms, data management, and blockchain.
 
 ## Developer Tools
 - [DevOps](https://www.oracle.com/devops/devops-service/) | [docs](https://docs.oracle.com/en-us/iaas/Content/devops/using/home.htm)
