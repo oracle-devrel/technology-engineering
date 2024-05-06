@@ -16,14 +16,20 @@ EMEA
 
 We play with the OCI services and Oracle Software. Here is the list of our favorite components we have expertise in. Our skills include containers, cloud networks, APIs, messaging, developer tools, frameworks, low code platforms, data management, and blockchain.
 
-## VBCS
-- [Container Engine for Kubernetes (OKE)](https://www.oracle.com/cloud/cloud-native/container-engine-kubernetes/) | [docs](https://docs.oracle.com/en-us/iaas/Content/ContEng/home.htm)
-
+## Developer Tools
+- [DevOps](https://www.oracle.com/devops/devops-service/) | [docs](https://docs.oracle.com/en-us/iaas/Content/devops/using/home.htm)
+- [Visual Builder Studio](https://www.oracle.com/application-development/visual-builder-studio/) | [docs](https://docs.oracle.com/en-us/iaas/visual-builder-studio/index.html)
+- [Resource Manager](https://www.oracle.com/devops/resource-manager/) | [docs](https://docs.oracle.com/en-us/iaas/Content/ResourceManager/home.htm)
 
 ## Development Frameworks and Servers
-- [GraalVM](https://www.graalvm.org/) | [docs](https://www.graalvm.org/latest/docs/)
-- [Helidon](https://helidon.io/) | [docs](https://helidon.io/docs/v3/#/)
+- [WebLogic](https://www.oracle.com/java/weblogic/) | [docs](https://docs.oracle.com/en/middleware/fusion-middleware/weblogic-server/index.html)
+- [MicroTx](https://www.oracle.com/database/transaction-manager-for-microservices/) | [docs](https://docs.oracle.com/en/database/oracle/transaction-manager-for-microservices/22.3/index.html)
 
+## Low Code
+- [Visual Builder](https://www.oracle.com/application-development/visual-builder/) | [docs](https://docs.oracle.com/en-us/iaas/visual-builder/index.html)
+
+## Data and Blockchain
+- [Blockchain Platform](https://www.oracle.com/blockchain/cloud-platform/) | [docs](https://docs.oracle.com/en-us/iaas/blockchain-platform/index.html)
 
 # License
  

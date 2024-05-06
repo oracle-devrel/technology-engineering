@@ -5,10 +5,17 @@
 EMEA AppDev is an expert team of Cloud Native architects and developers focusing on OCI services and Fusion Middleware components. We are passionate about talking to developers, architects, and executives, ensuring business acceleration and continuity through the technicalities of OCI. We are deeply technical, favoring performant Kubernetes and integrated DevOps. We utilize serverless components on top of privacy-enabled networks. We stuard open source projects and make a bond between traditional FMW components and the containerized world. Our mission is to ease the learning curve of OCI for our customers, equipping them with performant and resilient solutions. We share our knowledge on conferences, YouTube channels, Medium, and Architecture Center.
 
  
-# Team Publications
+# Latest Team Publications
 
-- [Reserve Memory and CPU for Kubernetes System Daemons](/app-dev/oke/oke-kube-reserved-cloud-init/README.md)
-- [Image Credential Provider for OKE](https://github.com/oracle-devrel/oke-credential-provider-for-ocir/)
+- [GitHub Self Hosted Runner in OCI Container Instances](https://www.youtube.com/watch?v=7sA87-JOMdo)[May 2023]
+- [Cloud Coaching - Helidon microservices and distributed transactions](https://www.youtube.com/watch?v=xcY2jgbuZOo)[April 2023]
+- [Cloud Coaching - Oracle CI/CD for microservices in Oracle Kubernetes Environment](https://www.youtube.com/watch?v=U0ah90Gs-QY)[March 2023]
+- [Safeguarding OKE: Kubernetes API Server Access Control With OCI IAM and RBAC Explained](https://ivan-delic.medium.com/safeguarding-oke-kubernetes-api-server-access-control-with-oci-iam-and-rbac-explained-b7737e6b6388)[April 2023]
+- [Safeguarding OKE: Kubernetes Authentication and Authorization](https://ivan-delic.medium.com/safeguarding-oke-kubernetes-authentication-and-authorization-b3374ce9c505)[April 2023]
+- [Reserve Memory and CPU for Kubernetes System Daemons](/app-dev/oke/oke-kube-reserved-cloud-init/README.md)[March 2023]
+- [Image Credential Provider for OKE](https://github.com/oracle-devrel/oke-credential-provider-for-ocir/)[March 2023]
+- [Easy Oracle Autonomous DB access for NodeJS with Kubernetes Operator](https://medium.com/@mika.rinne/easy-oracle-autonomous-db-access-for-nodejs-with-kubernetes-operator-cf02ea7fc59a)[February 2023]
+- [About Setting up a custom content management system secured by Oracle Blockchain Platform](https://docs.oracle.com/en/solutions/oracle-blockchain-platform-cms/index.html#GUID-D346CE74-FE02-4255-B1A6-82672474A259)[February 2023]
 - [Cloud Coaching - OCI Observability for Kubernetes monitoring](https://www.youtube.com/watch?v=DLce-UReoKo)[November 2023]
 - [Github Workflow or OCI DevOps for deploying a Springboot App on OCI Container Instances](https://www.youtube.com/watch?v=Nc4lMeEuq5c)[October 2023]
 - [OKE in a Hub-Spoke Architecture](https://ivan-delic.medium.com/advanced-kubernetes-networking-oke-in-a-hub-spoke-architectures-f0ba2256e824)[September 2023]
