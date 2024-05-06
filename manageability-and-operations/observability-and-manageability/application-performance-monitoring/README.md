@@ -20,6 +20,7 @@ Reviewed: 15.11.2023
 - [Delete Multiple Resources in OCI Stack Monitoring with the Python SDK](https://medium.com/@michtoeth/delete-multiple-resources-in-oci-stack-monitoring-with-the-python-sdk-60fa23970ac1)
 - [Process monitoring using Stack Monitoring](https://karthicin.medium.com/process-monitoring-using-stack-monitoring-99908cec31a8)
 - [Storing APM Synthetic monitor error logs in OCI Logging](https://karthicin.medium.com/storing-apm-synthetic-monitor-error-logs-in-oci-logging-c2296ce6072f)
+- [How to use OCI APM in Kubernetes Environment for Java Application](https://karthicin.medium.com/how-to-use-oci-apm-in-kubernetes-environment-for-java-application-56de2c770a69)
 
 
 # Useful Links
