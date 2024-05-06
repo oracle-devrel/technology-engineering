@@ -8,6 +8,7 @@ Reviewed: 08.04.2024
 
 ## Video Content
 
+- [Simple & Secure OCI Multicloud Architecture with Aviatrix](https://youtu.be/9Jh9N6fouxE?feature=shared)
 - [Multicloud Is The New Norm - Part I](https://www.youtube.com/watch?v=WzyJiAXldDM)
 - [Multicloud Is The New Norm - Part II](https://www.youtube.com/watch?v=27L_ZeF1o9Q)
 - [Multicloud Is The New Norm - Part III](https://www.youtube.com/watch?v=qesCk_nIvY8) 
@@ -28,7 +29,7 @@ Reviewed: 08.04.2024
 
 ## Reference Architectures
 
-- [Learn About Multicloud Architecture Framework](https://docs.oracle.com/en/solutions/learn-about-multicloud-arch-framework/index.html)
+- [Learn About multicloud Architecture Framework](https://docs.oracle.com/en/solutions/learn-about-multicloud-arch-framework/index.html)
 - [Use AWS endpoint service to securely connect applications to Oracle Autonomous Database](https://docs.oracle.com/en/solutions/adb-endpoint-in-aws/index.html)
 - [Resolve DNS records seamlessly in OCI multicloud architectures](https://docs.oracle.com/en/solutions/resolve-dns-oci/index.html#GUID-84375E55-F207-4A72-84E8-C17CE0CE6BF3)
 - [Connect Oracle Data Safe to Oracle databases on multicloud and hybrid cloud environments](https://docs.oracle.com/en/solutions/data-safe-multicloud-ods-hybrid/index.html)
@@ -36,9 +37,9 @@ Reviewed: 08.04.2024
 - [Deploy multicloud Oracle Database Service for Microsoft Azure in a hub and spoke topology](https://docs.oracle.com/en/solutions/odsa-azure-hub-spoke/index.html)
 - [Deploy a Multicloud split-stack solution across OCI, AWS, and GCP](https://docs.oracle.com/en/solutions/oci-aws-gcp-multicloud/index)
 - [Best practices for hybrid and multicloud OCI networking design](https://docs.oracle.com/en/solutions/oci-best-practices-networking/index.html)
-- [Multi cloud patterns to deploy Oracle Applications (EBS, PeopleSoft, JD Edwards) to Azure and OCI](https://learn.microsoft.com/en-us/azure/virtual-machines/workloads/oracle/oracle-oci-applications)
+- [Multicloud patterns to deploy Oracle Applications (EBS, PeopleSoft, JD Edwards) to Azure and OCI](https://learn.microsoft.com/en-us/azure/virtual-machines/workloads/oracle/oracle-oci-applications)
 - [Extend Active Directory integration in Hybrid Cloud](https://docs.oracle.com/en/solutions/integrate-oci-msft-ad/)
-- [Establish a multi-cloud private network connectivity through Oracle Integration Cloud](https://docs.oracle.com/en/solutions/multi-cloud-with-oic/index.html)
+- [Establish a multicloud private network connectivity through Oracle Integration Cloud](https://docs.oracle.com/en/solutions/multi-cloud-with-oic/index.html)
 - [Multicloud split-stack architecture with OCI, GCP, and AWS](https://docs.oracle.com/en/solutions/oci-aws-gcp-multicloud/index.html)
 
 ## Certifications

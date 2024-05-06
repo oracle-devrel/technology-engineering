@@ -2,7 +2,7 @@
 
 This asset helps the customer and/or the partner to conduct a thorough discovery phase gathering all the info necessary for a proper design of Oracle Retail applications on OCI.
 
-Reviewed: 20.11.2023
+Reviewed: 30.04.2024
 
 # License
 
