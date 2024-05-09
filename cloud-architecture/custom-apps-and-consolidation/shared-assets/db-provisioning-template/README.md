@@ -2,7 +2,9 @@
 
 This document can be used as a reference template to collect the required details for database provisioning.
 
-## When to use this asset?
+Reviewed: 18.04.2024
+
+# When to use this asset?
 
 This template can be used to provision:
 
@@ -10,7 +12,7 @@ This template can be used to provision:
 - Virtual Machine DB System.
 - Exadata DB System.
 
-## How to use this asset?
+# How to use this asset?
 
 The information is generic in nature and not specified for a particular customer. Appropriate changes in scope should be updated.
 
