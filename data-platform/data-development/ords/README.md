@@ -17,6 +17,7 @@ Oracle Database 12c JSON Document store and higher and the Oracle NoSQL Database
     - Article demonstrating the performance of Customer Managed ORDS combined with the Autonomous Database
  
 # Useful Links
+- [ORDS - latest Release](https://www.oracle.com/tools/ords/ords-relnotes-24.1.html)
 - [Webinar - ORDS & DevOps](https://www.youtube.com/watch?v=GIRdoGlqIDE)
 - [High Availability (HA) with ORDS](https://docs.oracle.com/en/solutions/deploy-ords-ha-oci/index.html)
     - A deployable HA stack showcasing flexibility of ORDS
