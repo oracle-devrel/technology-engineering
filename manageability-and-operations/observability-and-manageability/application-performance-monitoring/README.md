@@ -2,7 +2,7 @@
 
 Application Performance Monitoring service provides deep visibility into the performance of applications and provides the ability to diagnose issues quickly to deliver a consistent level of service. This includes the monitoring of the multiple components and application logic spread across clients, third-party services, and back-end computing tiers, on-premises or on the cloud.
 
-Reviewed: 15.11.2023
+Reviewed: 08.05.2024
 
 # Table of Contents
 
