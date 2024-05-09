@@ -1,4 +1,4 @@
-# OCVS Terraform Automation: Multi Host Standard Single Cluster SDDC
+# OCVS Terraform Automation: Add Host Multi AD
 
 Automate the provisioning and management of an OCVS environment.
 
@@ -6,11 +6,9 @@ Reviewed: 09.05.2024
 
 # When to use this asset?
 
-This is an example Terraform script to provision a hulti host SDDC environment with a single cluster based on a Standard shape (Block volumes based).
 
 # How to use this asset?
 
-See the README in the files folder.
 
 # License
 
