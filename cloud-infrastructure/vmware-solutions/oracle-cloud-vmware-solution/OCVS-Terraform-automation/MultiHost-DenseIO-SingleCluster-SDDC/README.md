@@ -6,7 +6,7 @@ Reviewed: 09.05.2024
 
 # When to use this asset?
 
-This is an example Terraform script to provision a single host SDDC.
+This is an example Terraform script to provision a multi-host SDDC with a single cluster based on DenseIO shape, using VSAN for storage.
 
 # How to use this asset?
 
