@@ -25,7 +25,7 @@ A SQL Clue Card is also provided.
 
     2.3. [Getting Started](#getting-started)
     
-3. [SQL Developer](#SQL-Developer)
+3. [SQL Developer](#sql-developer)
 
 
 ## 1. Public Oracle SQL Tools
@@ -105,8 +105,9 @@ Ready to explore SQLcl? Follow these steps to install SQLcl and start leveraging
 # 3. SQL Developer
 Oracle SQL Developer is a free, integrated development environment that simplifies the development and management of Oracle Database in both traditional and Cloud deployments. SQL Developer offers complete end-to-end development of your PL/SQL applications, a worksheet for running queries and scripts, a DBA console for managing the database, a reports interface, a complete data modeling solution, and a migration platform for moving your 3rd party databases to Oracle.
 
-[SQL Developer Official Documentation](https://docs.oracle.com/en/database/oracle/sql-developer/) 
-
+- [SQL Developer Official Documentation](https://docs.oracle.com/en/database/oracle/sql-developer/) 
+- [SQL Developer Extension for VS Code](https://marketplace.visualstudio.com/items?itemName=Oracle.sql-developer)
+   Oracle SQL Developer Extension for Visual Studio Code is available now! It provides the ability to execute your SQL queries and scripts, perform PL/SQL development, and interact with your database schema objects  taking the features you’ve been using in Oracle SQL Developer, and making them available in VS Code.
 
 # License
 
