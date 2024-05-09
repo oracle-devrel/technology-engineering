@@ -1,5 +1,5 @@
 ## Terraform - Provisioning Single host SDDC
-Create by: richard.garsthagen@oracle.com
+Create by: Richard Garsthagen
 Date: February 2024
 
 This is an example Terraform script to provision a single host SDDC.
