@@ -13,6 +13,7 @@ Reviewed: 31.10.2023
 ## Specialists Blogs for various features & functionality
 |Content Link |Functionality|Descripton|
 | ------------ |------------|----------|
+|[Unleash the Power of Template Viewer: Streamlined Testing for Flawless Oracle Analytics Publisher Reports](https://www.linkedin.com/pulse/unleash-power-template-viewer-streamlined-testing-flawless-kasetty-bxiqc/)|Oracle Analytics Publisher Template Viewer|How to leverage Template Viewer to test Oracle Analytics Publisher templates.
 |[Leverage the OCI Modern Data Platform to implement an Enterprise Analytics Solution](https://blogs.oracle.com/coretec/post/leverage-oci-modern-data-platform-to-implement-enterprise-analytics-solution)|OAC-Enterprise Analytics Solution |How to leverage the OCI modern data platform to implement an enterprise analytics solution.
 |[Top 5 reasons Oracle Analytics Cloud stands apart in the ML/AI Analytics landscape](https://blogs.oracle.com/analytics/post/top-5-reasons-oracle-analytics-cloud-stands-apart-in-the-mlai-analytics-landscape)|OAC Machine Learning|What are primary reasons to choose Oracle Analytics Cloud (OAC) from an ML/AI perspective.
 |[Oracle Analytics Cloud: Set up and configure Oracle Analytics Cloud environments using Terraform](https://blogs.oracle.com/analytics/post/oracle-analytics-cloud-set-up-and-configure-oracle-analytics-cloud-environments-using-terraform)|OAC Setup & Configure|How to provision and configure Oracle analytics cloud on OCI using Terraform.
