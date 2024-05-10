@@ -47,6 +47,7 @@ Reviewed: 20.12.2023
 - [Selecting a cloud native microservice framework](https://louwersj.medium.com/selecting-a-cloud-native-microservice-framework-9974e9534da1)
 - [Deploying a spring boot microservice in K8s](https://techdozo.dev/deploying-a-restful-spring-boot-microservice-on-kubernetes/)
 - [Collection of Labs](https://oracle.github.io/cloudtestdrive/AppDev/cloud-native/livelabs/)
+- [Test S3 Compatibility - Preparing Backups and DR for OKE and Velero](https://github.com/fharris/oci-s3-compatibility)
  
 # Reusable Assets Overview
  
