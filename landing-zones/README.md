@@ -1,4 +1,4 @@
-# **OCI Landing Zone Framework**
+# **OCI Landing Zone**
 
 &nbsp; 
 
