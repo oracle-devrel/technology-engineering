@@ -2,15 +2,17 @@
 
 This repository contains an in-depth guide for Oracle Siebel migration projects. It offers a high-level solution definition for migrating or establishing Siebel Workloads on Oracle Cloud Infrastructure (OCI). With a comprehensive representation of the current state, prospective state, potential project scope, and anticipated timeline, this document aims to provide a precise understanding of the project's scope and intention to all participating entities.
 
-## When to use this asset?
+Reviewed: 18.04.2024
+
+# When to use this asset?
 
 This document serves as an integral asset for individuals and organizations seeking to deploy a new Siebel system or migrate the existing Siebel workloads to OCI. It includes critical insights and detailed instructions, facilitating efficient project planning and execution.
 
-## Instructions for Utilizing This Asset
+# How to use this asset?
 
 Use this document as a starting point for the solution definition of your Siebel implementation project. This asset includes example architecture diagrams for draw.io in the file CurrentFutureLogicalarch.drawio.
 
-## Conclusion
+# Conclusion
 The Siebel Workload Solution Definition is expected to serve as a definitive guide to the project. All participants are encouraged to provide feedback, raise queries, and make contributions to enhance the overall project's success.
 
 # License

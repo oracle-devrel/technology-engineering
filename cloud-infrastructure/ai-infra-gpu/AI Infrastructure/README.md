@@ -25,8 +25,16 @@ Reviewed: 26.02.20224
     - This experiment involved deploying a VM.GPU.A10 instance to run Python code, translating approximately 1,100 hotel reviews from Hebrew to English using AlephBERT and Google Translate
  - [Pioneering de novo antibody design with OCI, supporting Silica Corpora’s AI mission for unmatched precision and efficacy](https://blogs.oracle.com/cloud-infrastructure/post/de-novo-antibody-design-oci-silica-corpora)
     - About the collaboration between Silica Corpora and Oracle Cloud Infrastructure in leveraging generative AI and robust cloud capabilities to revolutionize de novo antibody design for enhanced precision and efficacy in drug development
+- [Accelerating telco innovation by leveraging power of GPUs on Oracle Cloud Infrastructure for enhanced customer experiences and operational efficiency](https://blogs.oracle.com/cloud-infrastructure/post/telco-innovation-gpus-oci-operational-efficiency)
+    - The use case involves deploying distinct AI models, including JAIS for Arabic, and utilizing various ML libraries like PyTorch, with each model requiring different BM shapes, such as BM.GPU.H100.8, to process the expected throughput of requests efficiently.
+- [ETIQMEDIA certifies their automated video transcription and indexation solution on OCI](https://blogs.oracle.com/cloud-infrastructure/post/etiqmedia-video-transcription-indexation-oci)
+    - ETIQMEDIA, in collaboration with Telefonica, has just certified their automated video transcription and indexation solution on Oracle Cloud Infrastructure (OCI)
 
+## Tutorials
 
+- [Deploying NVIDIA NIM on OKE with model repository stored on Object Storage](https://docs.oracle.com/en/learn/deploy-nvidia-nim-on-oke/)
+    - Step-by-step tutorial to run inference at scale using NVIDIA NIM.
+ 
 ## LiveLabs
 
 - [Running Faceswap on OCI](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=798&session=4731494759204)
