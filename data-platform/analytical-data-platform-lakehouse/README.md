@@ -78,6 +78,8 @@ Reviewed: 18.01.2024
 
 ## LinkedIn
 
+- [Using the Oracle MongoDB API for OpenBanking](https://www.linkedin.com/pulse/using-oracle-mongodb-api-openbanking-jeff-richmond-kl2ze/)
+  - Blog post showcasing how Oracle MongoDB API can be used to support a workload providing OpenBanking REST APIs and how operational reporting and analytics can be made easier using Oracle's converged database features.
 - [Delta Sharing with Oracle Cloud](https://www.linkedin.com/pulse/delta-sharing-oracle-cloud-jeff-richmond%3FtrackingId=kztSJVKDLRyOgQ30mH2ujQ%253D%253D/?trackingId=kztSJVKDLRyOgQ30mH2ujQ%3D%3D)
   - Article explaining Data Sharing capabilities Oracle Cloud and Autonomous Database have based on the open source Delta Share protocol, which allows sharing data between heterogeneous data platforms in a multi cloud and heterogeneous data platform.
 - [Data Swamps No More!](https://www.linkedin.com/pulse/data-swamps-more-ismael-hassane/)
