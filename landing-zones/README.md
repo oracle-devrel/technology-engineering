@@ -14,7 +14,7 @@ The LZF was created by the EMEA Landing Zone Specialists, collaborating with wor
 |---|---|---|
 | <a href="/landing-zones/standard_landing_zones/readme.md"><img src="images/slz.jpg" alt= “” width="500" height=""></a>  | **Best Practices</br>3 Shapes** | **Three standard shapes/models** for different organization scopes, **ready to use** with **design blueprints** and  **IaC configurations**. Use these models directly or tailor them to your needs.  | 
 | <a href="tailored_landing_zones/readme.md" ><img src="images/tlz.jpg" alt= “” width="500" height=""> </a>  | **Tailored Design </br> Any Shape** | An approach to solve **specific requirements** when the standard models are not enough. A tailored model has **dedicated design views** to match requirements and an IaC runtime. This approach is commonly used to bridge **existing customer practices** in other CSPs. |  
-| <a href="workload_landing_zones/readme.md" ><img src="images/wext.jpg" alt= “” width="500" height=""> </a>  | **Workload Ready</br>Plug & Play** | **Complement your landing zone** with extensions ready for **specific workloads**. Each flavor has a **design** with **IaC configurations** ready to be deployed on top of standard or tailored landing zones. Examples are EBS, ExaCC, OCVS, OIC, OKE, CCC, etc. |  
+| <a href="workload_extensions/readme.md" ><img src="images/wext.jpg" alt= “” width="500" height=""> </a>  | **Workload Ready</br>Plug & Play** | **Complement your landing zone** with extensions ready for **specific workloads**. Each flavor has a **design** with **IaC configurations** ready to be deployed on top of standard or tailored landing zones. Examples are EBS, ExaCC, OCVS, OIC, OKE, CCC, etc. |  
 
 &nbsp; 
 
