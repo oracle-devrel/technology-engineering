@@ -1,0 +1,6 @@
+home_region          = ""
+region               = ""
+tenancy_id           = ""
+compartment_id       = ""
+ssh_public_key_path  = ""
+ssh_private_key_path = ""
