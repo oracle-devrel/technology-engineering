@@ -28,12 +28,12 @@ Find below the list of available workload landing zones and our backlog. Be free
 
 | WORKLOAD  | CONTENT | DESCRIPTION |
 |---|---|---|
-| [**EBS**](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/examples/oci-ebs-lz) | Public | An EBS Landing Zone as an extension of the CIS Landing Zone.
-| **OKE** | On Demand | An ExaCC Landing Zone as an extension of the CIS Landing Zone.
-| **ExaCS** | On Demand | An ExaCC Landing Zone as an extension of the CIS Landing Zone.
-| **ExaCC** | On Demand | An ExaCC Landing Zone as an extension of the CIS Landing Zone.
-| **OCVS** | On Demand | An OCVS Landing Zone, as an extension of the CIS Landing Zone.
-| **CCC** | On Demand | A Compute Cloud @ Customer Landing Zone, as an extension of the CIS Landing Zone.
+| [**EBS**](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/examples/oci-ebs-lz) | Public | An EBS Landing Zone Extension.
+| **OKE** | On Demand | An ExaCC Landing Zone Extension.
+| **ExaCS** | On Demand | An ExaCC Landing Zone Extension.
+| **ExaCC** | On Demand | An ExaCC Landing Zone Extension.
+| **OCVS** | On Demand | An OCVS Landing Zone Extension.
+
 
 
 
