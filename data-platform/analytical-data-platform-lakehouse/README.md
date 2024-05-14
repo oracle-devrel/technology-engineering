@@ -97,6 +97,8 @@ Reviewed: 18.01.2024
   - Blog describing a pattern for a cloud-native streaming data architecture using OCI services.
 - [Data Sharing for Data Lakehouse on OCI](https://medium.com/@danielhalldin/data-sharing-for-data-lakehouse-on-oci-72b49318cbcf)
   - Blog describing the different options to share data within and across a data lakehouse deployed in OCI.
+- [Data Monetisation on OCI](https://medium.com/@gareth.smith_44910/data-monetisation-on-oci-d2a1f4d79861)
+  - Blog describing data monetization options, of data products created in an OCI analytical data platform, and how they can be architected and deployed using OCI services.
 
 ## Podcasts
 

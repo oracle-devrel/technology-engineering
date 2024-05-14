@@ -13,8 +13,8 @@ loader = SitemapReader(html_to_text=True)
 documents = loader.load_data(
     sitemap_url='https://objectstorage.eu-frankfurt-1.oraclecloud.com/n/frpj5kvxryk1/b/thisIsThePlace/o/latest.xml'
 )
-for document in documents:
-    print(document.metadata['Source'])
+# for document in documents:
+#    print(document.metadata['Source'])
 
 # local Docker-based instance of Qdrant
 client = QdrantClient(
