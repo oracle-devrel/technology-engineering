@@ -78,7 +78,7 @@ This operation takes the Dockerfile from  tensorrtllm_backend/dockerfile/Dockerf
 ```
 tmux new -s triton
 cd /home/ubuntu/tensorrtllm_backend
-DOCKER_BUILDKIT=1 docker build -t triton_trt_llm -f dockerfile/Dockerfile.trt_llm_backend .
+DOCKER_BUILDKIT=1 docker build --network host -t triton_trt_llm -f dockerfile/Dockerfile.trt_llm_backend .
 ```
 
 Once the container is built, it is recommended to save it to your private registry (i.e *triton_llm*). Please note this example is using a federated tenancy with Oracle Identity Cloud Service:
@@ -95,9 +95,25 @@ In order to be able to download LLaMA2, request access from [this page from Meta
 
 ### Get LLaMA-2-7B
 
+First, make sure you have `md5sum` installed:
+
+```bash
+sudo apt install -y ucommon-utils
+```
+
+Check that it has installed with this command:
+
+```bash
+md5sum --version
+```
+
 Go to the LLaMA directory, download the LLaMA repo and download the 7B model:
 
-```
+In order to download the model weights and tokenizer, please visit the [Meta website](https://ai.meta.com/resources/models-and-libraries/llama-downloads/) and accept their license.
+
+Once your request is approved, you will receive a signed URL over email. Then run the `download.sh` script, passing the URL provided when prompted to start the download:
+
+```bash
 cd /home/ubuntu/tensorrtllm_backend/tensorrt_llm/examples/llama
 git clone https://github.com/facebookresearch/llama.git
 cd llama
@@ -105,24 +121,23 @@ cd llama
 cd ..
 ```
 
-copy tokenizer.model to the downloaded model:
+Copy `tokenizer.model` to the downloaded model:
 
-```
+```bash
 cp llama/tokenizer.model llama/llama-2-7b/
 ```
-
 
 ### Convert Weights to HF format
 
 Download the conversion script from [HuggingFace](https://huggingface.co/docs/transformers/main/en/model_doc/llama) and start the Triton Server container (i.e24.01-trtllm-python-py3) :
 
-```
+```bash
 wget https://raw.githubusercontent.com/huggingface/transformers/main/src/transformers/models/llama/convert_llama_weights_to_hf.py
 ```
 
-start the container and share the root directory of *tensorrtllm_backend*
+Start the container and share the root directory of *tensorrtllm_backend*:
 
-```
+```bash
 docker run --rm -it --net host --shm-size=2g --ulimit memlock=-1 --ulimit stack=67108864 --gpus all -v /home/ubuntu/tensorrtllm_backend:/tensorrtllm_backend <region-key>.ocir.io/<tenancy-namespace>/triton_llm:triton_trt_llm_23.12_manual_build bash
 
 python /tensorrtllm_backend/tensorrt_llm/examples/llama/convert_llama_weights_to_hf.py \

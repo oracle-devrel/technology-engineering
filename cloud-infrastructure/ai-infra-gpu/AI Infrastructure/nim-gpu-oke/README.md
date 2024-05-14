@@ -4,7 +4,9 @@
 
 ## Introduction
 
-This repository intends to demonstrate how to deploy [NVIDIA NIM](https://developer.nvidia.com/docs/nemo-microservices/inference/overview.html) on Oracle Kubernetes Engine (OKE) with TensorRT-LLM Backend and Triton Inference Server in order to serve Large Language Models (LLM's) in a Kubernetes architecture. The model used is Llama2-7B-chat on a GPU A10. For scalability, we are hosting the model repository on a Bucket in Oracle Cloud Object Storage.
+This repository intends to demonstrate how to deploy [NVIDIA NIM](https://developer.nvidia.com/docs/nemo-microservices/inference/overview.html) on Oracle Container Engine for Kubernetes (OKE) with TensorRT-LLM Backend and Triton Inference Server in order to serve Large Language Models (LLM's) in a Kubernetes architecture.
+
+The model used is `Llama2-7B-chat`, running on an NVIDIA A10 Tensor Core GPU hosted on OCI. For scalability, we are hosting the model repository on a Bucket in Oracle Cloud Object Storage.
 
 ## 0. Prerequisites & Docs
 
@@ -15,14 +17,14 @@ This repository intends to demonstrate how to deploy [NVIDIA NIM](https://develo
 * You have a [container registry](https://docs.oracle.com/en-us/iaas/Content/Registry/home.htm).
 * You have an [Auth Token](https://docs.oracle.com/en-us/iaas/Content/Registry/Tasks/registrypushingimagesusingthedockercli.htm#Pushing_Images_Using_the_Docker_CLI) to push/pull images to/from the registry.
 * Ability for your instance to authenticate via [instance principal](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm)
-* You have access to NVIDIA AI Entreprise to pull the NIM containers.
-* You are familiar with Kubernetes and Helm basic terminology.
-* You have a HuggingFace account with an Access Token configured to download `llama2-7B-chat`
+* You have access to **NVIDIA AI Entreprise** to pull the NIM containers.
+* You are familiar with *Kubernetes* and *Helm* basic terminology.
+* You have a HuggingFace account with an Access Token configured to download `Llama2-7B-chat`.
 
 > [!IMPORTANT]
-> All the tests of this walkthrough have been realised with an early access version of NVIDIA NIM for LLM's with nemollm-inference-ms:24.02.rc4. NVIDIA NIM has for ambition to make deployment of LLM's easier compared to the previous implementation with Triton and TRT-LLM. Therefore, this walkthrough takes back the steps of [the deployment of Triton on an OKE cluster on OCI](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/ai-infra-gpu/GPU/triton-gpu-oke) skipping the container creation.
+> All tests of this walkthrough have been performed with an early access version of NVIDIA NIM for LLM's with **nemollm-inference-ms:24.02.rc4**. NVIDIA NIM has for ambition to make deployment of LLM's easier compared to the previous implementation with Triton and TRT-LLM. Therefore, this walkthrough assumes you've previously completed [the deployment of Triton on an OKE cluster on OCI](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/ai-infra-gpu/GPU/triton-gpu-oke). This is a continuation of that guide.
 
-# Docs
+### Docs
 
 * [NVIDIA releases NIM for deploying AI models at scale](https://developer.nvidia.com/blog/nvidia-nim-offers-optimized-inference-microservices-for-deploying-ai-models-at-scale/)
 * [Deploying Triton on OCI](https://github.com/triton-inference-server/server/tree/main/deploy/oci)
@@ -31,11 +33,11 @@ This repository intends to demonstrate how to deploy [NVIDIA NIM](https://develo
 
 ## 1. Instance Creation
 
-Let's spin up a VM with a GPU!
+Let's spin up a GPU instance VM on OCI!
 
-1. Start a VM.GPU.A10.1 from the `Instance > Compute` menu with the [NGC image](https://docs.oracle.com/en-us/iaas/Content/Compute/References/ngcimage.htm). A boot volume of 200-250 GB is also recommended.
+1. Start a **VM.GPU.A10.1** instance from the `Instance > Compute` menu with the [NGC image](https://docs.oracle.com/en-us/iaas/Content/Compute/References/ngcimage.htm). A boot volume of **200-250 GB** is also recommended.
 
-2. It is recommended to update your drivers to the latest available following the guidance from NVIDIA with the compatibility [matrix between the drivers and your Cuda version](https://docs.nvidia.com/deploy/cuda-compatibility/index.html). You can also see https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=20.04&target_type=deb_network for more information.
+2. It is recommended to update your drivers to the latest available, following the guidance from NVIDIA with the compatibility [matrix between the drivers and your CUDA version](https://docs.nvidia.com/deploy/cuda-compatibility/index.html). You can also see [this link](https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=20.04&target_type=deb_network) for more information.
 
     ```bash
     sudo apt purge nvidia* libnvidia*
@@ -45,7 +47,7 @@ Let's spin up a VM with a GPU!
     sudo reboot
     ```
 
-3. Make sure you have `nvidia-container-toolkit` installed:
+3. Make sure you have `nvidia-container-toolkit` installed. If not, install it by running:
 
     ```bash
     sudo apt-get install -y nvidia-container-toolkit
@@ -53,14 +55,14 @@ Let's spin up a VM with a GPU!
     sudo systemctl restart docker
     ```
 
-4. Check that your version matches with the version you need:
+4. Check that your version matches with the version you need (CUDA >12.3):
 
     ```bash
     nvidia-smi
     /usr/local/cuda/bin/nvcc --version
     ```
 
-5. Prepare the model registry: It's possible to use [pre-built models](https://developer.nvidia.com/docs/nemo-microservices/inference/nmi_playbook.html). However, we chose to run `Llama2-7B-chat` on a A10 GPU. At the time of writing, this choice is not available and we therefore have to [build the model repository ourselve](https://developer.nvidia.com/docs/nemo-microservices/inference/nmi_nonprebuilt_playbook.html).
+5. Prepare the model registry: It's possible to use [pre-built models](https://developer.nvidia.com/docs/nemo-microservices/inference/nmi_playbook.html). However, we chose to run `Llama2-7B-chat`. At the time of writing, this choice is not available and we therefore have to [build the model repository ourselves](https://developer.nvidia.com/docs/nemo-microservices/inference/nmi_nonprebuilt_playbook.html).
 
 6. Start by logging into the NVIDIA container registry with your username and password and pull the container:
 
@@ -260,7 +262,7 @@ example-triton-inference-server  LoadBalancer   10.18.13.28    34.83.9.133   800
 The inference server exposes an HTTP endpoint on port 8000, and GRPC endpoint on port 8001 and a Prometheus metrics endpoint on port 8002. You can use curl to get the meta-data of the inference server from the HTTP endpoint.
 
 ```bash
-$ curl 34.83.9.133:8000/v2
+curl 34.83.9.133:8000/v2
 ```
 
 From your client machine, you can now send a request to the public IP on port 8000:

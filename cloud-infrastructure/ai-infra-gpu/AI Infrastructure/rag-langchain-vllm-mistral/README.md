@@ -166,6 +166,8 @@ For the sake of libraries and packages compatibility, is highly recommended to u
     python invoke_api.py
     ```
 
+Having these scripts been benchmarked and achieved an average of 40-60 tokens/second *without FlashAttention enabled* (which means there's room for more performance) when retrieving from the RAG system and Mistral generations (with the compute shape mentioned previously).
+
 The script will return the answer to the questions asked in the query.
 
 ## 4. Alternative deployment
