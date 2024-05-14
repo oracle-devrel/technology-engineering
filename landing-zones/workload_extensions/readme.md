@@ -29,8 +29,8 @@ Find below the list of available workload landing zones and our backlog. Be free
 | WORKLOAD  | CONTENT | DESCRIPTION |
 |---|---|---|
 | [**EBS**](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/examples/oci-ebs-lz) | Public | An EBS Landing Zone Extension.
-| **OKE** | On Demand | An ExaCC Landing Zone Extension.
-| **ExaCS** | On Demand | An ExaCC Landing Zone Extension.
+| **OKE** | On Demand | An OKE Landing Zone Extension.
+| **ExaCS** | On Demand | An ExaCS Landing Zone Extension.
 | **ExaCC** | On Demand | An ExaCC Landing Zone Extension.
 | **OCVS** | On Demand | An OCVS Landing Zone Extension.
 
