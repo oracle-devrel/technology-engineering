@@ -1,4 +1,4 @@
-# **OCI Landing Zone**
+# **OCI Landing Zones**
 
 &nbsp; 
 
