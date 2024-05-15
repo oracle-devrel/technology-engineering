@@ -2,6 +2,8 @@
 
 We play with the OCI services and Oracle Software. Here is the list of our favorite components we have expertise in. Our skills include WebLogic Server, WebCenter Content, developer tools, frameworks, low code platforms, data management, and blockchain.
 
+Reviewed: 08.05.2024
+
 # Team Publications
 
 - [About Setting up a custom content management system secured by Oracle Blockchain Platform](https://docs.oracle.com/en/solutions/oracle-blockchain-platform-cms/index.html#GUID-D346CE74-FE02-4255-B1A6-82672474A259)[February 2023]
