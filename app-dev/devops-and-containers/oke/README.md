@@ -40,6 +40,7 @@ Reviewed: 20.12.2023
 - [Disaster Recovery — Notes on Velero and OKE, Part 1: Stateless Pods](https://medium.com/oracledevs/disaster-recovery-notes-on-velero-and-oke-part-1-stateless-pods-b4ba3e737386)
 - [Disaster Recovery — Notes on Velero and OKE, Part 2: Stateful Pods with Persistent Volumes and Block Volume](https://medium.com/oracledevs/disaster-recovery-notes-on-velero-and-oke-part-2-stateful-pods-with-persistent-volumes-and-80204b3ac6d7)
 - [Disaster Recovery: Notes on Velero and OKE — part 3: Stateful Pods with Persistent Volumes and File Storage](https://medium.com/oracledevs/oke-disaster-recovery-notes-on-velero-and-oke-part-3-stateful-pods-with-persistent-volumes-and-a6eacef7600b)
+- [Test S3 Compatibility - Preparing Backups and DR for OKE and Velero](https://github.com/fharris/oci-s3-compatibility)
 
  
 # Useful Links
