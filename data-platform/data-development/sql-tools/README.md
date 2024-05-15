@@ -13,6 +13,7 @@ A SQL Clue Card is also provided.
 5. PMs Personal Websites
 
 # Team Publications
+- [SQL Developer Extension for VS Code v24.1 is now available](https://www.thatjeffsmith.com/archive/2024/04/sql-developer-extension-for-vs-code-v24-1-is-now-available/)
 
 - Application Continuity - [Does your Database really know your application - Part 1](https://medium.com/@paulbrad71/application-continuity-on-adb-does-your-database-know-your-application-376e44d8a30) - Published on [Medium](http://www.medium.com) on 13th March 2023;
 
