@@ -92,7 +92,7 @@ trtllm-build --checkpoint_dir ./tllm_checkpoint_mixtral_8gpu \
 ```
 The egines files are located in the `./trt_engines/mixtral/tp8` folder.
 
-## prepare the model repository
+## Prepare the model repository
 
 Create the model repository that will be used by the Triton inference server.
 ```
@@ -226,6 +226,7 @@ instance_group [
   }
 ]
 ```
+Files examples are provided in this repo.
 
 ## Run the inference server
 
