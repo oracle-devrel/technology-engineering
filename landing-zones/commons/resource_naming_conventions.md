@@ -4,22 +4,33 @@
 
 ## 1. Introduction
 
-A resource naming convention helps to identify resources, their type, and location by the name, quickly. If you don't have any naming convention in place, we recommend the following Resource Naming Convention:
+A resource naming convention helps to identify resources, their type, and location by the name, quickly. If you don't have any naming convention in place, we recommend using the following principles:
 
-- Segments of the name are separated by "-".
-- Within a name segment avoid using &lt;space&gt; and ".".
-- Where possible intuitive/standard abbreviations should be considered (e.g., use "shared" instead of "shared.cloud.team").
-- When referring to the compartment fully qualified compartment path, use ":" as a separator, e.g. cmp-shared:cmp-security
+1. **Segmented Names**: Segments of the name are separated by "-". Within a name segment do not use &lt;space&gt; and ".".
+2. **Intuitive Names**: Where possible intuitive/standard abbreviations should be considered (e.g., use "shared" instead of "shared.cloud.team"). Use simple rules such as "p" for production, or "np" for non-production, for a clear identification of the resource scope.
+3. **Intuitive Grouping**: Use the technical scope (e.g., production environment) and functional scope (e.g., LoB, Department) to aggregate resources and resource groups.
+4. **Intuitive Hierarchy**: Compartment names should reflect their hierarchy (environment -> projects -> workload layer).
+
+&nbsp; 
+
+The **pattern** to be used for the **cross-region** tenancy resources is:
+- &lt;resource-type&gt; - &lt;environment&gt; - &lt;sub-scope(s)&gt;
+
+The **pattern** to be used for the **regional** tenancy resources is:
+- &lt;resource-type&gt; - &lt;region&gt; - &lt;environment&gt; - &lt;sub-scope(s)&gt;
+
+&nbsp; 
+
 
 Examples of names are:
-- cmp-shared
-- cmp-&lt;workload&gt;
-- cmp-networking
+- **cmp-security**: refers to a compartment dedicated to security resources.
+- **cmp-network**: refers to a compartment dedicated to network resources.
+- **cmp-platform**: refers to a compartment dedicated to platform workloads.
+- **cmp-&lt;workload-environment&gt;**: refers to a compartment dedicated to specific workload environments.
+- **cmp-p-&lt;project1&gt;**: refers to a compartment dedicated to Project 1 in the production ("p") workload environments.
+- **vcn-fra-p-projects**: refers to a VCN in the OCI Frankfurt Region, dedicated to a production environment ("p") and shared for several projects.
+- **For more examples** please review the Security View of the **OCI Open LZ Design** [pdf](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/design/OCI_Open_LZ.pdf) and [drawio](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/design/OCI_Open_LZ.drawio).
 
-The patterns used for the names are:
-- &lt;resource-type&gt;-&lt;environment&gt;-&lt;location&gt;-&lt;purpose&gt;
-  &lt;resource-type&gt;-&lt;environment&gt;-&lt;source-location&gt;-&lt;destination-location&gt;-&lt;purpose&gt;
-- &lt;resource-type&gt;-&lt;entity/sub-entity&gt;-&lt;environment&gt;-&lt;function/department&gt;-&lt;project&gt;-&lt;custom&gt;
 
 &nbsp; 
 
@@ -109,6 +120,7 @@ The patterns used for the names are:
 | Vulnerability Scanning Target | vss-tgt |
 
 &nbsp; 
+
 # License
 
 Copyright (c) 2024 Oracle and/or its affiliates.
