@@ -238,7 +238,7 @@ and from within the container start the server by running the following python c
 ```
 python3 scripts/launch_triton_server.py --world_size=8 --model_repo=/tensorrtllm_backend/triton_model_repo
 ```
-where --world_size is the number of GPUs you want to use for serving.
+where `--world_size` is the number of GPUs you want to use for serving.
 If the deployment is successful you should get something like:
 ```
 I0919 14:52:10.475738 293 grpc_server.cc:2451] Started GRPCInferenceService at 0.0.0.0:8001
@@ -249,7 +249,7 @@ I0919 14:52:10.517138 293 http_server.cc:187] Started Metrics Service at 0.0.0.0
 
 To test the model, one can query the the server endpoint, for example with:
 ```
-curl -X POST localhost:8000/v2/models/ensemble/generate -d '{"text_input": "What is machine learning?", "max_tokens": 512, "bad_words": "", "stop_words": ""}'
+curl -X POST localhost:8000/v2/models/ensemble/generate -d '{"text_input": "What is cloud computing?", "max_tokens": 512, "bad_words": "", "stop_words": ""}'
 ```
 
 # Resources
