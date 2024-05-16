@@ -1,4 +1,5 @@
 # conda-envs
+
 A collection of ready to use conda environments
 
 The templates are divided per OS version, so they should be applied to the same OS.
@@ -6,9 +7,6 @@ The templates are divided per OS version, so they should be applied to the same 
 To create an environment
 
 ```conda env create -f  environment.yml```
-
-
-
 
 ### Pytorch ###
 
@@ -18,7 +16,8 @@ You can check that pytorch works with GPUs with the command
 
 which will run a test training:
 
-```Using pytorch version: 2.2.1+cu121
+```text
+Using pytorch version: 2.2.1+cu121
 Using: NVIDIA A10
 Downloading https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz to ./data/cifar-10-python.tar.gz
 100%|███████████████████████████████████████████████████████████████████████████████████████| 170498071/170498071 [00:05<00:00, 33540043.06it/s]
@@ -36,8 +35,7 @@ Extracting ./data/cifar-10-python.tar.gz to ./data
 ...
 ```
 
-
-### vLLM ###
+### vLLM
 
 Login into Hugging Face HUB with
 ```huggingface-cli login```
@@ -46,9 +44,9 @@ You can then start an Open AI compatible API running Llama2 on http://localhost:
 
 ```python -m vllm.entrypoints.openai.api_server --model meta-llama/Llama-2-7b-chat-hf```
 
-It can be tested with Curl 
+It can be tested with `curl`.
 
-```
+```bash
       curl http://localhost:8000/v1/completions     -H "Content-Type: application/json"     -d \
    '{
         "model": "meta-llama/Llama-2-7b-chat-hf",
@@ -58,12 +56,12 @@ It can be tested with Curl
     }'
 ```
 
+#### Load test with Locust
 
-#### Load test with Locust ####
+1. Execute the following command in utilities folder
 
-execute the following command in utilities folder
+  ```bash
+  locust --host  httry utilitiesocalhost:8000
+  ```
 
-```locust --host  httry utilitiesocalhost:8000```
-
-This will create a web port on http://localhost:8089
-
+This will create a web port on `http://localhost:8089`.

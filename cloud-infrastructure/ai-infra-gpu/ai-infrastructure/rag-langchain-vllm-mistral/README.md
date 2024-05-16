@@ -131,7 +131,7 @@ For the sake of libraries and package compatibility, is highly recommended to up
 
     ```bash
     git clone https://github.com/oracle-devrel/technology-engineering.git
-    cd technology-engineering/cloud-infrastructure/ai-infra-gpu/AI\ Infrastructure/rag-langchain-vllm-mistral/
+    cd technology-engineering/cloud-infrastructure/ai-infra-gpu/ai-infrastructure/rag-langchain-vllm-mistral/
     git checkout rag-marketing-update # switch to this branch just in case new changes aren't synced with the main branch yet
     ```
 
@@ -142,7 +142,7 @@ For the sake of libraries and package compatibility, is highly recommended to up
     conda activate rag
     pip install packaging
     pip install -r requirements.txt
-    # requirements.txt can be found in `technology-engineering/cloud-infrastructure/ai-infra-gpu/AI Infrastructure/rag-langchain-vllm-mistral/`
+    # requirements.txt can be found in `technology-engineering/cloud-infrastructure/ai-infra-gpu/ai-infrastructure/rag-langchain-vllm-mistral/`
     ```
 
 9. Finally, reboot the instance and reconnect via SSH.
@@ -229,7 +229,7 @@ llm = VLLMOpenAI(
 )
 ```
 
-To deploy the container, refer to this [tutorial](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/ai-infra-gpu/AI%20Infrastructure/vllm-mistral).
+To deploy the container, refer to this [tutorial](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/ai-infra-gpu/ai-infrastructure/vllm-mistral).
 
 ## Notes
 
