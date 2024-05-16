@@ -11,7 +11,7 @@ Reviewed: 03.05.2024
 
 - [Database 23ai: Feature Highlights on oracle.com](https://www.oracle.com/database/23ai/)
 - [Online documentation for Oracle Database 23ai](https://docs.oracle.com/en/database/oracle/oracle-database/23/index.html)
-- [Oracle Database 23ai](https://docs.oracle.com/en/database/oracle/oracle-database/23/nfcoa/)
+- [Oracle Database 23ai New Features](https://docs.oracle.com/en/database/oracle/oracle-database/23/nfcoa/)
 - [Features and Licensing page](https://apex.oracle.com/database-features/)
 - [Oracle Interactive Technical Architecture Diagrams](https://docs.oracle.com/en/database/oracle/oracle-database/23/aliad/iad_home.html)
 - [Oracle Release Analyzer Diff Utility](https://oradiff.oracle.com/ords/r/oradiff/oradiff/home?session=226168768557352)
@@ -20,10 +20,12 @@ Reviewed: 03.05.2024
 - [Client/Server Interoperability Support Matrix for Different Oracle Versions in my Oracle Support (Doc ID 207303.1)](https://support.oracle.com/epmos/faces/DocumentDisplay?_afrLoop=466448281697580&id=207303.1&_afrWindowMode=0&_adf.ctrl-state=nbfmqzpug_4)
 - [Database Release Notes](https://docs.oracle.com/en/database/oracle/oracle-database/23/rnrdm/purpose-these-release-notes.html)
 - [Download Oracle Database Free Get Started](https://www.oracle.com/database/free/get-started/)
+- [Download Autonomous Database Free Container Image](https://www.oracle.com/autonomous-database/free-trial/#free-container-image)
+- [Oracle Database on oracle.com](https://www.oracle.com/database/)
 
 ## Blogs
   
-- [Announcing Oracle Database 23ai : General Availability](https://blogs.oracle.com/database/post/oracle-23ai-now-generally-available)
+- [Announcing Oracle Database 23ai: General Availability](https://blogs.oracle.com/database/post/oracle-23ai-now-generally-available)
 - [Oracle Database 23ai Now Available in Cloud](https://blogs.oracle.com/database/post/oracle-database-23ai-now-available-in-the-cloud)
 - [Oracle Announces General Availability of AI Vector Search in Oracle Database 23ai](https://blogs.oracle.com/database/post/oracle-announces-general-availability-of-ai-vector-search-in-oracle-database-23ai)
 - [Oracle Announces General Availability of JSON Relational Duality in Oracle Database 23ai](https://blogs.oracle.com/database/post/oracle-announces-general-availability-of-json-relational-duality-in-oracle-database-23ai)
@@ -55,11 +57,16 @@ Reviewed: 03.05.2024
 ## Videos
 
 - [AI and Converged Data: Oracle's Strategy for Data Management](https://www.youtube.com/watch?v=4yobT4rtmeo)
+- [Oracle Database 23ai: AI Made Simple for Enterprise](https://www.youtube.com/watch?v=TRDDsStoMxc)
+- [Oracle Database 23ai: The World's Most Powerful Database for AI](https://www.youtube.com/watch?v=r7enzKYWcbI)
+- [Oracle Database 23ai: Vector Search - Bring AI to your Data](https://www.youtube.com/watch?v=pu79sny1AzY)
 - [Oracle Database 23ai on Oracle Base Database Service](https://www.youtube.com/watch?v=9F4RbnXCXeM)
+- [Oracle Database 23ai: AI for Data, AI for Devs, AI Where you Need It](https://www.youtube.com/watch?v=ksVgnhbxj9w)
 
  
 # Team Publications 
 
+- [Oracle Database Release 23ai is available now!](https://blogs.oracle.com/coretec/post/oracle-database-release-23ai)
 - [Oracle Database 23c Free Developer Release - 10 features you should know](https://blogs.oracle.com/coretec/post/oracle-database-23c-free-developer-sql)
 - [Sample data for Oracle Database](https://blogs.oracle.com/coretec/post/sample-data-for-oracle-database)
 - [Less coding using Domains](https://blogs.oracle.com/coretec/post/less-coding-with-sql-domains-in-23c)
@@ -75,7 +82,7 @@ Reviewed: 03.05.2024
 - [Easy Database Search with APEX in 23c](https://blogs.oracle.com/coretec/post/easy-database-search-with-apex-in-23c)
 - [SQL statement tracking in 23c with SQL History](https://blogs.oracle.com/coretec/post/easy-sql-statement-tracking-in23c)
 - [Developing a Java application using Oracle Graph Server](https://blogs.oracle.com/coretec/post/developing-a-java-application-working-on-top-of-oracle-property-graph-server)
-- [23c articles on blogs.oracle.com/coretec](https://blogs.oracle.com/coretec/category/crt-23c)
+- [23ai articles on blogs.oracle.com/coretec](https://blogs.oracle.com/coretec/category/crt-23ai)
 
 # License
 
