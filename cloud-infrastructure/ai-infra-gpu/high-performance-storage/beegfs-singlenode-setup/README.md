@@ -1,10 +1,10 @@
 # beegfs-singlenode-setup
+
 Quick and dirty Beegfs single node setup configuration files
 
-2xBM.Optimized3.36
+`2xBM.Optimized3.36`
 
-
-# License
+## License
 
 Copyright (c) 2024 Oracle and/or its affiliates.
 
