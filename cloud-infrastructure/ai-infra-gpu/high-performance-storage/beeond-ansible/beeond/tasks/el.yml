@@ -1,0 +1,50 @@
+---
+- include: root_ssh.yml
+ 
+- name: execute client_rebuild_prep.sh
+  command: bash -c "sudo yum-config-manager --save --setopt=intelpython.skip_if_unavailable=true"
+
+- name: Repository
+  become: true
+  yum_repository:
+    name: BEEGFS-REPO
+    description: BEEGFS-REPO
+    baseurl: https://www.beegfs.io/release/beegfs_7.2.9/dists/rhel7
+    gpgcheck: no
+
+- name: install beeond
+  become: true
+  yum:
+    name:
+      - beeond
+      - libbeegfs-ib
+    lock_timeout: 180
+
+- name: create nodefile.tcp
+  template:
+    src: _nodefile.tcp.j2
+    dest: /home/opc/nodefile.tcp
+
+- name: create client_rebuild_prep.sh file
+  template:
+    src: _client_rebuild_prep.sh.j2
+    dest: /home/opc/client_rebuild_prep.sh
+
+- name: execute client_rebuild_prep.sh
+  command: bash -c "chmod +x /home/opc/*.sh ; sudo /home/opc/client_rebuild_prep.sh"
+
+- name: create beeond_tuning.sh file
+  template:
+    src: _beeond_tuning.sh.j2
+    dest: /home/opc/beeond_tuning.sh
+
+- name: execute beeond_tuning.sh
+  command: bash -c "chmod +x /home/opc/*.sh ; sudo /home/opc/beeond_tuning.sh"
+
+- name: Clean-up any previous failed attempt files - /var/tmp/beeond.tmp on all nodes
+  shell: "sudo rm -rf /var/tmp/beeond.tmp"
+
+
+- name: Run BeeOND script on first compute node only
+  shell: "sudo beeond start -n /home/opc/nodefile.tcp -d {{ nvme_path }} -c /scratch -F -f /etc/beegfs/tuning"
+  run_once: true

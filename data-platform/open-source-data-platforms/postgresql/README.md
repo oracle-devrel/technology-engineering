@@ -10,10 +10,15 @@ OCI Database with PostgreSQL is designed for high availability by offering durab
 
 # Useful Links
 
+## Documentation
+- [OCI PostgreSQL Documentation](https://docs.oracle.com/en-us/iaas/Content/postgresql/home.htm)
+
+## Blogs
 - [OCI PostgreSQL launch blog](https://blogs.oracle.com/cloud-infrastructure/post/oci-database-postgres)
 - [OCI PostgreSQL features](https://blogs.oracle.com/cloud-infrastructure/post/first-principles-optimizing-postgresql-for-the-cloud)
 - [Terraform to deploy OCI PostgreSQL database](https://blogs.oracle.com/cloud-infrastructure/post/deploy-managed-oci-database-with-postgresql-service-with-terraform)
-
+- [Backup and Restore an OCI Database with PostgreSQL](https://docs.oracle.com/en/learn/backup-and-restore-db-with-postgresql/index.html#introduction)
+- [Migrate to OCI PostgreSQL Database with OCI GoldenGate](https://blogs.oracle.com/dataintegration/post/seamlessly-migrate-an-onpremise-postgresql-database-to-oci-database-with-postgresql-online-with-oci-goldengate)
 
 # License
 
