@@ -8,15 +8,19 @@ Reviewed: 04.01.2024
  
 # Table of Contents
  
-1. [Useful Links](#useful-links)
- 
+1. [Team Publications](#team-publications)
+2. [Useful Links](#useful-links)
+
+# Team Publications
+
+- [Seamless Cross-Platform/Endian Database Migration with Minimal Downtime](https://www.youtube.com/watch?v=OUsaZoBUHBY)
+  - Cload Coaching Webinar delivered by Marcus Doeringer and the EMEA Lift team (Poornima Veeraiah, Suresh Baral) explaining XTTSv4 and Full Transportable Export/Import FTEX migration method including a technical demo and best practices 
 
 # Useful Links
 
 - [Transportable Tablespace Basics](https://youtu.be/jte-W_6tJME)
 - [Transportable Tablespace Checklist](https://youtu.be/PhktQqOlNXE)
 - [Migrate Big Endian Database to OCI using Transportable Tablespace ](https://youtu.be/dyDefQxSesI)
-
 
 # License
  

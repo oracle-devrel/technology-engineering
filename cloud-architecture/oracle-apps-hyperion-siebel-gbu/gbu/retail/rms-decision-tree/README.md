@@ -4,7 +4,7 @@ This document can be used as a reference to support the decision about migrating
 
 [asset preview](https://raw.githack.com/oracle-devrel/technology-engineering/main/cloud-architecture/oracle-apps-hyperion-siebel-gbu/gbu/retail/rms-decision-tree/files/rms-decision-tree.html)
 
-Reviewed: 20.11.2023
+Reviewed: 30.04.2024
 
 # When to use this asset?
 
