@@ -32,7 +32,8 @@ Reviewed: 03.11.2023
 - [OCI Database Migration Product page on oracle.com](https://www.oracle.com/cloud/database-migration)
 - [OCI Database Migration GoldenGate Integration](https://blogs.oracle.com/dataintegration/post/oci-database-migration-announces-oci-goldengate-integration)
     - Blog article that shows the GoldenGate integration in DMS
- 
+- [A Practical Guide to Oracle Cloud Migration Using OCI DMS](https://blogs.oracle.com/dataintegration/post/migrate-data-from-onprem-oracle-11g-database-to-oci-with-minimal-downtime-using-oci-database-migration-dms)
+    - This blog helps you in planning, designing, and implementing the process of migrating your On-premises Oracle Database 11g to OCI Base Database Service (Oracle 19c) using OCI Database Migration Service (DMS).  
 # License
  
 Copyright (c) 2024 Oracle and/or its affiliates.
