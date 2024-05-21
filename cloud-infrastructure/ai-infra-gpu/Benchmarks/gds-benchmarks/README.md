@@ -1,9 +1,10 @@
 # DISCLAIMER
+
 This code is provided as a starting point for your own benchmarks or for adaptation to your specific needs. It is not production-ready, and may lack a testing strategy, requiring modifications to function properly.
 
-
 # gds-benchmakrs
-```
+
+```bash
 [root@machine gds_benchmarks]# tree -L 2
 .
 ├── backups
@@ -34,12 +35,12 @@ The **'scripts'** directory contains all the bash scripts used for initializing 
 
 During operation, **'launch.sh'** will conduct multiple tests using a variety of block and file sizes, which are predefined (Block sizes include: 4k, 8k, 16k, 32k, 64k, 128k, 256k, 512k, 1M, 2M, 4M, 8M, 16M). Each test iteration is performed four times. The file size varies depending on the number of threads, and to maintain efficiency, file sizes are kept relatively small. The GDSIO benchmark scales the file size with the number of threads, which can lead to extensive data processing. For example, running eight threads with a 128G file size would result in a total of 1024 TB of data being written, reflecting the scale of operations handled by this setup.
 
-
 Each test will be logged under the corresponding directory. The naming of the log files has the following format: ``gdsio_s<block size>_m<mode number>_w<threads / workers>_r<repetition number>_d<timestamp>.log``  
 gdsio_s1M_m2_w1_r1_d1671836744.log  
 For example, this log refers to a test that used 1M as block size, Mode 2 (CPU_GPU), 1 thread, and its timestamp.  
 Each log also contains the full command that was issued to run:  
-```
+
+```bash
 /usr/local/cuda/gds/tools/gdsio -D /mnt/nvme0/ -d 0 -w 1 -s 8G -x 2 -i 1M -I 1 -V >> /home/ubuntu/gds_benchmarks/scripts/../logs/CPU_GPU//gdsio_s1M_m2_w1_r1_d1671836744.log  
 IoType: WRITE XferType: CPU_GPU Threads: 1 DataSetSize: 8388608/8388608(KiB) IOSize: 1024(KiB) Throughput: 4.179353 GiB/sec, Avg_Latency: 233.618286 usecs ops: 8192 total_time 1.914172 secs  
 Verifying data  
