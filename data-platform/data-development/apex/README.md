@@ -7,8 +7,10 @@ Using APEX, developers don't need to be an expert in a vast array of technologie
 
 # Team Publications
 
-- [APEX NEXT EVENTS](https://apex.oracle.com/pls/apex/r/apex_pm/apex-events/events)
+- [APEX EVENTS](https://apex.oracle.com/pls/apex/r/apex_pm/apex-events/events)
 - [APEX Office Hours](https://apex.oracle.com/en/community/office-hours/)
+
+- [APEX NEXT Office Hours](https://asktom.oracle.com/ords/r/tech/catalog/session-landing-page?p2_event_id=23832218026907132494874527225118065688)
 
 - [APEX with AI - A new landscape for Application Development](https://youtu.be/f1cBdLEGY00)
 - [Cloud Coaching - Unlock the Power of APEX](https://www.youtube.com/watch?v=6rG_tX8ScBc)

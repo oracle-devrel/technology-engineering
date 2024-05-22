@@ -2,7 +2,7 @@
 
 The Observability and Manageability (O&M) platform is a set of Oracle Cloud Infrastructure (OCI) services that enable visibility and insight across cloud-native and traditional technology, whether deployed in multicloud or on-premises environments, with broad, standards-based ecosystem support. It’s designed to help enterprises better manage their increasingly diverse and distributed IT portfolios while reducing troubleshooting time, preventing outages, and enabling IT to manage applications from a business perspective.
 
-Reviewed: 13/11/2023
+Reviewed: 10/05/2024
 
 # Table of Contents
 
@@ -35,6 +35,8 @@ Reviewed: 13/11/2023
 - [How to monitor Weblogic in OCI and collect logs for analysis](https://karthicin.medium.com/how-to-monitor-weblogic-in-oci-and-collect-logs-for-analysis-7c5007426010)
 - [How to run Velociraptor in OCI Container Instance](https://learnoci.cloud/how-to-run-velociraport-in-oci-container-instance-7adfb75d1df8)
 - [Multi-cloud observability using OCI Monitoring](https://karthicin.medium.com/multi-cloud-observability-using-oci-monitoring-8fa87f9c5e84)
+- [How to enable OCI Observability for Golden Gate Cloud](https://medium.com/@erikasciunzi/how-to-enable-observability-for-golden-gate-cloud-06a9702c9313)
+- [How to enable OCI Observability on Oracle APEX](https://learnoci.cloud/oci-observability-for-oracle-apex-f25369bd771a)
 
 ## Cloud Coaching Clinics (Videos)
 
