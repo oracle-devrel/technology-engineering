@@ -14,7 +14,9 @@ Who support customers across various industries and geographies in EMEA (local s
     - PoCs/benchmarks
     - Architecture designs & sizing
 
-## Useful Links
+Reviewed: 23.05.2024
+
+# Useful Links
 
 - [Oracle Cloud GPU Instances](https://www.oracle.com/uk/cloud/compute/gpu/)
     - High-level description of Oracle Cloud GPU offering
@@ -25,7 +27,7 @@ Who support customers across various industries and geographies in EMEA (local s
 - [AI infrastructure - Best practices on OCI](https://www.oracle.com/cloud/oci-best-practices-guide/#ai-infra-on-oci)
     - Guides, architectures, videos, and automation scripts to plan, design, and deploy AI workloads on our GPU compute and OCI services.
 
-## License
+# License
 
 Copyright (c) 2024 Oracle and/or its affiliates.
 
