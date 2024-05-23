@@ -130,7 +130,7 @@ qdrant-client==1.9.0
 ray==2.12.0
 referencing==0.35.0
 regex==2024.4.16
-requests==2.31.0
+requests==2.32.2
 requests-file==2.0.0
 retrying==1.3.4
 rpds-py==0.18.0
@@ -157,7 +157,7 @@ tldextract==5.1.2
 tokenizers==0.19.1
 torch==2.2.1
 torch-utils==0.1.2
-tqdm==4.66.2
+tqdm==4.66.3
 transformers==4.40.1
 trio==0.25.0
 trio-websocket==0.11.1
