@@ -157,7 +157,7 @@ tldextract==5.1.2
 tokenizers==0.19.1
 torch==2.2.1
 torch-utils==0.1.2
-tqdm==4.66.2
+tqdm==4.66.3
 transformers==4.40.1
 trio==0.25.0
 trio-websocket==0.11.1
