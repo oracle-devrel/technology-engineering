@@ -1,68 +1,55 @@
-# Oracle SQL Tools 
+# SQL Repository
 
-This section covers Oracle SQL Tools: from SQL Developer Desktop to SQL Developer Web on GUI ADB Database Actions to SQLcl.
-Providing links to public useful documentation and articles/blogs written by Oracle SQL and Database Advocates and Product Managers.
+Welcome to the SQL repository of the Data Development team at Oracle. This repository is designed to provide comprehensive resources, tips, and tools to help you master SQL and leverage the latest features of Oracle23ai. Below you'll find an index to all the sections available in this repository, along with a brief introduction to what you can expect in each section.
 
-A SQL Clue Card is also provided.
+## What is SQL?
 
-Reviewed: 3.5.2024
+Structured Query Language (SQL) is the standard programming language used for managing and manipulating relational databases. SQL allows you to perform a variety of operations such as querying data, updating records, creating and modifying schema, and controlling access to the database. It is a crucial skill for data developers and analysts, enabling efficient data retrieval and manipulation to support data-driven decision-making.
 
-# Team Publications
+## Interesting Resources for Data Development in Oracle
 
-- Application Continuity - [Does your Database really know your application - Part 1](https://medium.com/@paulbrad71/application-continuity-on-adb-does-your-database-know-your-application-376e44d8a30) - Published on [Medium](http://www.medium.com) on 13th March 2023;
+To support your development journey, here are some valuable resources related to SQL and Oracle:
+- [Oracle SQL Documentation](https://docs.oracle.com/en/database/oracle/oracle-database/)
+- [SQL Tutorial by W3Schools](https://www.w3schools.com/sql/)
+- [Oracle Live SQL](https://livesql.oracle.com/) 
+- [Oracle Learning Library](https://www.oracle.com/learning-library/)
+- [Oracle Database 23c: New Features](https://www.oracle.com/database/technologies/appdev/whats-new-in-23c.html)
 
-- Application Continuity - [Does your Database really know your application - Part 2](https://medium.com/@paulbrad71/does-your-database-really-know-your-application-second-part-48321b0ab81) - Published on [Medium](http://www.medium.com) on 6th April 2023;
+## Index
 
-- Application Continuity - [Does your Database really know your application - Part 3](https://medium.com/@paulbrad71/application-continuity-on-adb-does-your-database-know-your-application-376e44d8a30) - Published on [Medium](http://www.medium.com) on 31st May 2023.
+1. [SQL Tools](#sql-tools)
+2. [SQL Tips](#sql-tips)
+3. [SQL Oracle23ai](#sql-oracle23ai)
+4. [SQL Do It Yourself](#sql-do-it-yourself)
 
-# Useful Links
+## SQL Tools
 
-- [SQL Developer](https://www.oracle.com/uk/database/sqldeveloper/)
-- [SQL Developer Releases](https://docs.oracle.com/en/database/oracle/sql-developer/)
-- [SQL Developer - Jeff Smith Page](https://www.thatjeffsmith.com/sql-developer/)
-- [SQL Developer - Data Modeler](https://www.oracle.com/database/sqldeveloper/technologies/sql-data-modeler/)
-- [SQL Developer - Developer Community](https://forums.oracle.com/ords/apexds/domain/dev-community/category/sql_developer?tags=sql-developer)
-- [Oracle SQLcl](https://www.oracle.com/uk/database/sqldeveloper/technologies/sqlcl/)
-- [SQL Tools Training](https://education.oracle.com/database/oracle-database/pFamily_32)
-- [Autonomous Database Actions](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/connect-database-actions.html#GUID-102845D9-6855-4944-8937-5C688939610F)
-- [Live SQL](https://livesql.oracle.com/apex/f?p=590:1000)
+In the [SQL Tools](SQL_Tools/README.md) section, you'll find a collection of essential tools and utilities that can help streamline your SQL development process. This includes:
+- SQL client software recommendations
+- Database management tools
+- Productivity-enhancing plugins and extensions
 
-## Dev Gyms 
-- [The amazing Dev Gym](https://devgym.oracle.com/pls/apex/f?p=10001:20011::::20011::) 
-    - Join the Oracle Product Management Dev Gym (FREE!) and build your Oracle technology muscles by taking workouts, quizzes, and even entire classes on SQL, PL/SQL, database design, logic and more.
-- [Dev Gym Workout Class - Getting Started on Oracle Cloud](https://devgym.oracle.com/pls/apex/f?p=10001:29:4444375111375:::29:P29_CLASS_ID:20342&cs=1qfK8bInptu93se5QM5iMzsT-iih_gFsY78j308d3ZUzrCzX2c0-kgiimo59pm0c_NblFShALC1oOB8MosiaSYQ)
+## SQL Tips
 
-- [Database For Developers: Foundations](https://devgym.oracle.com/pls/apex/f?p=10001:29:112499394488989:::29:P29_CLASS_ID:5481&cs=1Nx3TDJgh0w-ygq3icYMX7urIWoNPCEJuXLH5pqVOkknGnq2I33EJh57LsiiynySdqwMpwClQNviXsLC73e3-0Q);
- 
-- [The amazing Dev Gym](https://devgym.oracle.com/pls/apex/f?p=10001:20011::::20011::) 
-    - Join the Oracle Product Management Dev Gym (FREE!) and build your Oracle technology muscles by taking workouts, quizzes, and even entire classes on SQL, PL/SQL, database design, logic and more.
-- [Dev Gym Workout Class - Getting Started on Oracle Cloud](https://devgym.oracle.com/pls/apex/f?p=10001:29:4444375111375:::29:P29_CLASS_ID:20342&cs=1qfK8bInptu93se5QM5iMzsT-iih_gFsY78j308d3ZUzrCzX2c0-kgiimo59pm0c_NblFShALC1oOB8MosiaSYQ)
+The [SQL Tips](SQL_Tips/README.md) section is dedicated to providing practical advice and best practices for writing efficient and effective SQL queries. Topics covered include:
+- Query optimization techniques
+- Common pitfalls and how to avoid them
+- Advanced SQL functions and their use cases
 
-- [Dev Gym Workout Class Database For Developers: Foundations](https://devgym.oracle.com/pls/apex/f?p=10001:29:112499394488989:::29:P29_CLASS_ID:5481&cs=1Nx3TDJgh0w-ygq3icYMX7urIWoNPCEJuXLH5pqVOkknGnq2I33EJh57LsiiynySdqwMpwClQNviXsLC73e3-0Q)
-    - Learn SQL in this FREE 12-part boot camp. It will help you get started with Oracle Database and SQL. The course is a series of videos to teach you database concepts,   interactive SQL tutorials, and quizzes to reinforce the ideas. 
-- [Database For Developers: Next Level](https://devgym.oracle.com/pls/apex/dg/class/databases-for-developers-next-level.html)
-    - Complete the course to get your free certificate. This course continues where Databases for Developers: Foundations left off, taking you further on your SQL journey. The class consists of a series of videos introducing concepts, interactive coding sections, and quizzes to test your understanding.
+## SQL Oracle23ai
 
+Explore the latest advancements with Oracle's cutting-edge AI capabilities in the [SQL Oracle23ai](SQL_Oracle23ai/README.md) section. Here, you will find:
+- New features and enhancements in Oracle23ai
+- Tutorials on integrating AI with your SQL queries
+- Case studies and real-world applications of Oracle23ai
 
-## SQL Best Practices
-Periodical sharing of Standard Query Language Best Practices links and blog, video publications from Advocate SQL and PL/SQL Developers and PMs
+## SQL Do It Yourself
 
-- Analytic Functions: [how to get SQL cumulative running total on each row](https://blogs.oracle.com/sql/post/cumulative-running-total-of-previous-rows-with-sql) (from Chris Saxon);
-- V$ views: [Top 10 V$ Views For DBA and Developers](https://youtu.be/oI1F4vFwM9Q?si=i1UslciVja50792t) (From Connor McDonald);
-- The Secret to a Successful Data Loading: [VALIDATE_CONVERSION and CONVERSION ERROR](https://www.youtube.com/watch?v=gjjPAQ6znlw) (From Connor McDonald)
+The [SQL Do It Yourself](SQL_Do_It_Yourself/README.md) section encourages hands-on learning by providing a variety of exercises and projects. This includes:
+- Practice problems with solutions
+- Step-by-step project guides
+- Interactive SQL challenges to test your skills
 
-## PMs Personal Websites
+---
 
-- [@ThatJeffSmith](https://www.thatjeffsmith.com/)
-- [SQL Blog by Chris Saxon](https://blogs.oracle.com/sql)
-- [The Magic of SQL by Chris Saxon - YouTube Channel](https://www.youtube.com/c/TheMagicofSQL)
-- [SQL and Database explained! By Connor McDonald - YouTube Channel](https://www.youtube.com/@DatabaseDude)
-
-
-# License
-
-Copyright (c) 2024 Oracle and/or its affiliates.
-
-Licensed under the Universal Permissive License (UPL), Version 1.0.
-
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+We hope you find these resources helpful in your SQL journey. If you have any questions or suggestions, please feel free to contribute or reach out to the team. Happy querying!
