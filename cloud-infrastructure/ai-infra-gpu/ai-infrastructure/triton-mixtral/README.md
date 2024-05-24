@@ -1,6 +1,14 @@
-# Overview
+# Triton Mixtral
 
 This repository provides a step-by-step tutorial for deploying and using Mixtral 8x7B Large Language Model using the NVIDIA Triton Inference Server and the TensorRT-LLM backend.
+
+Reviewed: 23.05.2024
+
+# When to use this asset?
+
+To run a step-by-step tutorial for deploying and using Mixtral 8x7B Large Language Model using the NVIDIA Triton Inference Server and the TensorRT-LLM backend.
+
+# How to use this asset?
 
 ## Prerequisites & Docs
 
@@ -45,7 +53,7 @@ In this example a BM.GPU4.8 instance is used. The image is the Oracle Linux Gen2
     sudo systemctl start docker.service
     ```
 
-2. Install and configure NVIDIA Container Toolkit
+2. Install and configure the NVIDIA Container Toolkit
 
     Configure the production repository.
 
@@ -272,8 +280,7 @@ Once all files are ready, start the container that has been built previously:
 ```bash
 sudo docker run --rm -it --net host --shm-size=2g --ulimit memlock=-1 --ulimit stack=67108864 --gpus all -v /home/opc/tensorrtllm_backend:/tensorrtllm_backend triton_trt_llm bash
 ```
-
-And from within the container start the server by running the following python command:
+Ffrom within the container start the server by running the following Python command:
 
 ```bash
 python3 scripts/launch_triton_server.py --world_size=8 --model_repo=/tensorrtllm_backend/triton_model_repo
@@ -290,9 +297,16 @@ I0919 14:52:10.517138 293 http_server.cc:187] Started Metrics Service at 0.0.0.0
 
 ## Test the model
 
-To test the model, one can query the the server endpoint, for example with:
+To test the model, one can query the server endpoint, for example with:
 
 ```bash
 curl -X POST localhost:8000/v2/models/ensemble/generate -d '{"text_input": "What is cloud computing?", "max_tokens": 512, "bad_words": "", "stop_words": ""}'
 ```
 
+# License
+ 
+Copyright (c) 2024 Oracle and/or its affiliates.
+ 
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+ 
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

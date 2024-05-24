@@ -171,20 +171,20 @@ Now you should be able to navigate in your browser to localhost:8080
 and see the Grafana login page. Use username=admin and
 password=prom-operator to login.
 
-Note that it is also possible to set a load balancer service for the grafana dashboard
+Note that it is also possible to set a load balancer service for the Grafana dashboard
 by running:
 
 ```
 $ helm install example-metrics --set prometheus.prometheusSpec.serviceMonitorSelectorNilUsesHelmValues=false --set grafana.service.type=LoadBalancer prometheus-community/kube-prometheus-stack
 ```
 
-You can then see the Public IP of you grafana dashboard by running:
+You can then see the Public IP of your Grafana dashboard by running:
 
 ```
 $ kubectl get svc
 NAME                                       TYPE           CLUSTER-IP     EXTERNAL-IP       PORT(S)                      AGE
 alertmanager-operated                      ClusterIP      None           <none>            9093/TCP,9094/TCP,9094/UDP   2m33s
-example-metrics-grafana                    LoadBalancer   10.96.82.33    141.145.220.114   80:31005/TCP                 2m38s
+example-metrics-grafana                    LoadBalancer   10.96.82.33    xxx.xxx.xxx.xxx   80:31005/TCP                 2m38s
 ```
 
 The default load balancer created comes with a fixed shape and a bandwidth of 100Mbps. You can switch to a [flexible](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingloadbalancers-subtopic.htm#contengcreatingloadbalancers_subtopic) shape and adapt the bandwidth according to your OCI limits in case the bandwidth is a bottleneck.
@@ -195,16 +195,14 @@ import function in Grafana to import and view this dashboard.
 
 ## Deploy the Inference Server
 
-Deploy the inference server using the default configuration with the
-following commands.
+Deploy the inference server using the default configuration with the following commands.
 
 ```
 $ cd <directory containing Chart.yaml>
 $ helm install example .
 ```
 
-Use kubectl to see status and wait until the inference server pods are
-running.
+Use kubectl to see the status and wait until the inference server pods are running.
 
 ```
 $ kubectl get pods
@@ -212,21 +210,15 @@ NAME                                               READY   STATUS    RESTARTS   
 example-triton-inference-server-5f74b55885-n6lt7   1/1     Running   0          2m21s
 ```
 
-There are several ways of overriding the default configuration as
-described in this [helm
-documentation](https://helm.sh/docs/using_helm/#customizing-the-chart-before-installing).
+There are several ways of overriding the default configuration as described in this [Helm documentation](https://helm.sh/docs/using_helm/#customizing-the-chart-before-installing).
 
-You can edit the values.yaml file directly or you can use the *--set*
-option to override a single parameter with the CLI. For example, to
-deploy a cluster of four inference servers use *--set* to set the
-replicaCount parameter.
+You can edit the values.yaml file directly or you can use the *--set* option to override a single parameter with the CLI. For example, to deploy a cluster of four inference servers use *--set* to set the replicaCount parameter.
 
 ```
 $ helm install example --set replicaCount=4 .
 ```
 
-You can also write your own "config.yaml" file with the values you
-want to override and pass it to helm.
+You can also write your own "config.yaml" file with the values you want to override and pass it to Helm.
 
 ```
 $ cat << EOF > config.yaml
@@ -240,26 +232,21 @@ $ helm install example -f config.yaml .
 
 ## Using Triton Inference Server
 
-Now that the inference server is running you can send HTTP or GRPC
-requests to it to perform inferencing. By default, the inferencing
-service is exposed with a LoadBalancer service type. Use the following
-to find the external IP for the inference server. In this case it is
-34.83.9.133.
+Now that the inference server is running you can send HTTP or GRPC requests to it to perform inferencing. By default, the inferencing service is exposed with a LoadBalancer service type. Use the following to find the external IP for the inference server.
 
 ```
 $ kubectl get services
 NAME                             TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)                                        AGE
 ...
-example-triton-inference-server  LoadBalancer   10.18.13.28    34.83.9.133   8000:30249/TCP,8001:30068/TCP,8002:32723/TCP   47m
+example-triton-inference-server  LoadBalancer   10.18.13.28    xxx.xxx.xxx.xxx   8000:30249/TCP,8001:30068/TCP,8002:32723/TCP   47m
 ```
 
-The inference server exposes an HTTP endpoint on port 8000, and GRPC
-endpoint on port 8001 and a Prometheus metrics endpoint on
-port 8002. You can use curl to get the meta-data of the inference server
-from the HTTP endpoint.
+The inference server exposes an HTTP endpoint on port 8000, and GRPC endpoint on port 8001 and a Prometheus metrics endpoint on port 8002. You can use curl to get the meta-data of the inference server from the HTTP endpoint.
+
+Please replace the 'xxx.xxx.xxx.xxx' with your external IP in the following command.
 
 ```
-$ curl 34.83.9.133:8000/v2
+$ curl xxx.xxx.xxx.xxx:8000/v2
 ```
 
 Follow the [QuickStart](../../docs/getting_started/quickstart.md) to get the example
@@ -291,8 +278,7 @@ $ helm uninstall example
 $ helm uninstall example-metrics
 ```
 
-For the Prometheus and Grafana services, you should [explicitly delete
-CRDs](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack#uninstall-helm-chart):
+For the Prometheus and Grafana services, you should [explicitly delete CRDs](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack#uninstall-helm-chart):
 
 ```
 $ kubectl delete crd alertmanagerconfigs.monitoring.coreos.com alertmanagers.monitoring.coreos.com podmonitors.monitoring.coreos.com probes.monitoring.coreos.com prometheuses.monitoring.coreos.com prometheusrules.monitoring.coreos.com servicemonitors.monitoring.coreos.com thanosrulers.monitoring.coreos.com

@@ -1,10 +1,14 @@
 # RAG with OCI, LangChain, and VLLMs
 
-[![License: UPL](https://img.shields.io/badge/license-UPL-green)](https://img.shields.io/badge/license-UPL-green) [![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=oracle-devrel_technology-engineering)](https://sonarcloud.io/dashboard?id=oracle-devrel_technology-engineering)
+This repository is a variant of the Retrieval Augmented Generation (RAG) tutorial available [here](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/rag-genai). Instead of the OCI GenAI Service, it uses a local deployment of Mistral 7B Instruct v0.2 using a vLLM inference server powered by an NVIDIA A10 GPU.
 
-## Introduction
+Reviewed: 23.05.2024
 
-This repository is a variant of the Retrieval Augmented Generation (RAG) tutorial available [here](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/rag-genai/files). Instead of the OCI GenAI Service, it uses a local deployment of Mistral 7B Instruct v0.2 using a vLLM inference server powered by a NVIDIA A10 GPU.
+# When to use this asset?
+
+To run the RAG tutorial with a local deployment of Mistral 7B Instruct v0.2 using a vLLM inference server powered by an NVIDIA A10 GPU.
+
+# How to use this asset?
 
 These are the following libraries and modules being used in this solution:
 
@@ -13,7 +17,7 @@ These are the following libraries and modules being used in this solution:
 * **vLLM**: a fast and easy-to-use library for LLM inference and serving.
 * **Qdrant**: a vector similarity search engine.
 
-As we're using a Mistral model, [Mistral.ai](https://mistral.ai/) also deserves a proper introduction: Mistral AI is a French AI startup that develops Large Language Models (LLMs), and one of the few companies with uncensored versions for their models (interesting to look into as a developer) Mistral 7B Instruct is a small yet powerful open model that supports English and code. The instructional version, the one we're using here, is optimized for chat.
+As we're using a Mistral model, [Mistral.ai](https://mistral.ai/) also deserves a proper introduction: Mistral AI is a French AI startup that develops Large Language Models (LLMs), and one of the few companies with uncensored versions for their models Mistral 7B Instruct is a small yet powerful open model that supports English and code. The instructional version, the one we're using here, is optimized for chat.
 
 In this example, inference performance is increased using the [FlashAttention](https://huggingface.co/docs/text-generation-inference/conceptual/flash_attention) backend.
 
@@ -28,7 +32,7 @@ These are the components of the Python solution being used here:
 * **StorageContext**: Utility container for storing nodes, indices, and vectors.
 * **VectorStoreIndex**: Index built from the documents loaded in the Vector Store.
 
-## 0. Prerequisites & Docs
+## Prerequisites & Docs
 
 ### Prerequisites
 
@@ -44,7 +48,7 @@ These are the components of the Python solution being used here:
 * [vLLM](https://docs.vllm.ai/en/latest/)
 * [Qdrant](https://qdrant.tech/documentation/)
 
-## 1. Instance Creation
+## Instance Creation
 
 There are two approaches here: either install everything from scratch using an Ubuntu 22 LTS OS Image or use a marketplace image from NVIDIA, which will significantly reduce the overhead from installing all NVIDIA drivers and dependencies manually. However, these steps are also provided for those of you who want to know exactly what goes into your machine.
 
@@ -56,7 +60,7 @@ In this example, a single A10 GPU VM shape, codename `VM.GPU.A10.1`, is used. Th
 
 1. Create a GPU instance on OCI if you haven't already:
 
-    ![GPU Creation in OCI](./img/create_gpu_accelerated.PNG)
+    ![GPU Creation in OCI](./files/img/create_gpu_accelerated.PNG)
 
 2. Connect to the instance via SSH once the instance has been created:
 
@@ -68,7 +72,7 @@ where `private.key` is the SSH private key provided in the instance creation pha
 
 Once we have SSH access to our instance, we can proceed with the setup.
 
-## 2. Setup
+## Setup
 
 For the sake of libraries and package compatibility, is highly recommended to update the image packages, NVIDIA drivers, and CUDA versions.
 
@@ -108,7 +112,7 @@ For the sake of libraries and package compatibility, is highly recommended to up
     echo "" >> /home/$USER/.bashrc # we also include a new line at the end.
     ```
 
-5. We also add our HuggingFace Access Token to `.bashrc`, as it will be used in our Python file and retrieved from the environment:
+5. We also added our HuggingFace Access Token to `.bashrc`, as it will be used in our Python file and retrieved from the environment:
 
     ```bash
     echo "export HF_TOKEN=<YOUR_HUGGINGFACE_TOKEN>" >> /home/ubuntu/.bashrc
@@ -152,7 +156,7 @@ For the sake of libraries and package compatibility, is highly recommended to up
     sudo reboot
     ```
 
-## 3. Running the solution
+## Running the solution
 
 1. You can run an editable file with parameters to test one query by running:
 
@@ -170,7 +174,7 @@ Having these scripts been benchmarked and achieved an average of 40-60 tokens/se
 
 The script will return the answer to the questions asked in the query.
 
-## 4. Alternative deployment
+## Alternative deployment
 
 Alternatively, it is possible to deploy both components (qdrant client and vLLM server) remotely using Docker containers. This option can be useful in two situations:
 
@@ -231,20 +235,18 @@ llm = VLLMOpenAI(
 
 To deploy the container, refer to this [tutorial](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/ai-infra-gpu/ai-infrastructure/vllm-mistral).
 
-## Notes
+# Notes
 
-The libraries used in this example are evolving quite fast. The python script provided here might have to be updated in the near future to avoid Warnings and Errors.
+The libraries used in this example are evolving quite fast. The Python script provided here might have to be updated in the near future to avoid Warnings and Errors.
 
-## Contributing
+# Contributing
 
 This project is open source.  Please submit your contributions by forking this repository and submitting a pull request!  Oracle appreciates any contributions that are made by the open-source community.
 
-## License
-
-Copyright (c) 2022 Oracle and/or its affiliates.
-
+# License
+ 
+Copyright (c) 2024 Oracle and/or its affiliates.
+ 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
-
-See [LICENSE](LICENSE) for more details.
-
-ORACLE AND ITS AFFILIATES DO NOT PROVIDE ANY WARRANTY WHATSOEVER, EXPRESS OR IMPLIED, FOR ANY SOFTWARE, MATERIAL OR CONTENT OF ANY KIND CONTAINED OR PRODUCED WITHIN THIS REPOSITORY, AND IN PARTICULAR SPECIFICALLY DISCLAIM ANY AND ALL IMPLIED WARRANTIES OF TITLE, NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A PARTICULAR PURPOSE.  FURTHERMORE, ORACLE AND ITS AFFILIATES DO NOT REPRESENT THAT ANY CUSTOMARY SECURITY REVIEW HAS BEEN PERFORMED WITH RESPECT TO ANY SOFTWARE, MATERIAL OR CONTENT CONTAINED OR PRODUCED WITHIN THIS REPOSITORY. IN ADDITION, AND WITHOUT LIMITING THE FOREGOING, THIRD PARTIES MAY HAVE POSTED SOFTWARE, MATERIAL OR CONTENT TO THIS REPOSITORY WITHOUT ANY REVIEW. USE AT YOUR OWN RISK.
+ 
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
