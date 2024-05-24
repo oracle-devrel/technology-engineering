@@ -22,6 +22,10 @@ Reviewed: 06.05.2024
 
 - [Introducing Oracle True Cache: In-memory, consistent, and automatically managed SQL cache (Oracle Database 23ai)](https://blogs.oracle.com/database/post/introducing-oracle-true-cache)
   
+# Team Publications
+
+- [Getting started with True Cache in Oracle Database 23ai FREE](https://blogs.oracle.com/coretec/post/true-cache-in-23ai-free)
+
 
 # License
 
