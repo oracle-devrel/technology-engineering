@@ -44,4 +44,4 @@ imageCredentials:
   registry: <region-key>.ocir.io/<tenancy-namespace>/triton_llm
   username: <tenancy-namespace>/oracleidentitycloudservice/<username>
   password: <auth_token>
-  email: someone@host.com
+  email: example@example.com

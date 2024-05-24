@@ -2,6 +2,14 @@
 
 This repository provides a step-by-step tutorial for deploying and using [Mistral 7B Instruct](https://mistral.ai/technology/#models) Large Language Model using the [vLLM](https://github.com/vllm-project/vllm?tab=readme-ov-file) library.
 
+Reviewed: 23.05.2024
+
+# When to use this asset?
+
+To run a step-by-step tutorial for deploying and using [Mistral 7B Instruct](https://mistral.ai/technology/#models) Large Language Model using the [vLLM](https://github.com/vllm-project/vllm?tab=readme-ov-file) library.
+
+# How to use this asset?
+
 ## Prerequisites & Docs
 
 ### Prerequisites
@@ -18,7 +26,7 @@ This repository provides a step-by-step tutorial for deploying and using [Mistra
 
 ### Mistral models
 
-[Mistral.ai](https://mistral.ai/) is a French AI startup that develop Large Language Models (LLMs). Mistral 7B is the small yet powerful open model that supports English and code. The Mistral 7B Instruct is a chat optimized version of Mistral 7B. Mixtral 8x7B is a 7B sparse Mixture-of-Experts that supports French, Italian, German and Spanish on top of English and code (stronger than Mistral 7B). It uses 12B parameters out of 45B total.
+[Mistral.ai](https://mistral.ai/) is a French AI startup that develops Large Language Models (LLMs). Mistral 7B is a small yet powerful open model that supports English and code. The Mistral 7B Instruct is a chat-optimized version of Mistral 7B. Mixtral 8x7B is a 7B sparse Mixture-of-Experts that supports French, Italian, German and Spanish on top of English and code (stronger than Mistral 7B). It uses 12B parameters out of 45B total.
 
 ### vLLM Library
 
@@ -42,7 +50,7 @@ sudo reboot
 
 ### System configuration
 
-Once the NVIDIA packages are updated, it is necessary to reconfigure docker in order to make it GPU aware:
+Once the NVIDIA packages are updated, it is necessary to reconfigure docker to make it GPU-aware:
 
 ```bash
 sudo apt-get install -y nvidia-container-toolkit
@@ -68,7 +76,7 @@ Once the deployment is finished, the model is available by default at http://0.0
 
 ## Model Calling
 
-The Mistral model is available through a OpenAI compatible API. As a prerequisite you must have the curl package installed.
+The Mistral model is available through an OpenAI-compatible API. As a prerequisite, you must have the curl package installed.
 
 ```bash
 sudo apt-get install curl
@@ -110,7 +118,7 @@ curl http://localhost:8000/v1/chat/completions \
 
 ## Notes
 
-`Mixtral8x7B` is much more greedy that `Mistral-7B` and it will not fit in a single NVIDIA A10 Tensor Core GPU, nor a quad Tensor Core GPU Bare Metal Instance. Therefore, it is necessary to either:
+`Mixtral8x7B` is more VRAM demanding than `Mistral-7``B` and it will not fit in a single NVIDIA A10 Tensor Core GPU, nor a quad Tensor Core GPU Bare Metal Instance. Therefore, it is necessary to either:
 
 * Increase the size of the shape to a `BM.GPU4.8` (`8 x A100` 40 GB GPUs).
 * Use a quantized version such as [TheBloke/mixtral-8x7b-v0.1-AWQ](https://huggingface.co/TheBloke/mixtral-8x7b-v0.1-AWQ). However, AWQ quantization on vLLM is not fully optimized yet so speed might be lower than the original model.

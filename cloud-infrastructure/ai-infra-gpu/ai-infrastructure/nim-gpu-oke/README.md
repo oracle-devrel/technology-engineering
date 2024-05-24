@@ -1,14 +1,18 @@
 # NVIDIA NIM inference server at scale with Oracle Container Engine for Kubernetes (OKE)
 
-[![License: UPL](https://img.shields.io/badge/license-UPL-green)](https://img.shields.io/badge/license-UPL-green) [![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=oracle-devrel_technology-engineering)](https://sonarcloud.io/dashboard?id=oracle-devrel_technology-engineering)
-
-## Introduction
-
 This repository intends to demonstrate how to deploy [NVIDIA NIM](https://developer.nvidia.com/docs/nemo-microservices/inference/overview.html) on Oracle Container Engine for Kubernetes (OKE) with TensorRT-LLM Backend and Triton Inference Server in order to serve Large Language Models (LLM's) in a Kubernetes architecture.
 
 The model used is `Llama2-7B-chat`, running on an NVIDIA A10 Tensor Core GPU hosted on OCI. For scalability, we are hosting the model repository on a Bucket in Oracle Cloud Object Storage.
 
-## 0. Prerequisites & Docs
+Reviewed 23.05.2024
+
+# When to use this asset?
+
+When you like to run  [NVIDIA NIM](https://developer.nvidia.com/docs/nemo-microservices/inference/overview.html) on Oracle Container Engine for Kubernetes (OKE) with TensorRT-LLM Backend and Triton Inference Server in order to serve Large Language Models (LLM's) in a Kubernetes architecture.
+
+# How to use this asset?
+ 
+## Prerequisites & Docs
 
 ### Prerequisites
 
@@ -21,12 +25,8 @@ The model used is `Llama2-7B-chat`, running on an NVIDIA A10 Tensor Core GPU hos
 * You are familiar with *Kubernetes* and *Helm* basic terminology.
 * You have a HuggingFace account with an Access Token configured to download `Llama2-7B-chat`.
 
-> [!IMPORTANT]
-<<<<<<< HEAD
-> All tests of this walkthrough have been performed with an early access version of NVIDIA NIM for LLM's with **nemollm-inference-ms:24.02.rc4**. NVIDIA NIM has for ambition to make deployment of LLM's easier compared to the previous implementation with Triton and TRT-LLM. Therefore, this walkthrough assumes you've previously completed [the deployment of Triton on an OKE cluster on OCI](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/ai-infra-gpu/ai-infrastructure/triton-gpu-oke). This is a continuation of that guide.
-=======
+> **IMPORTANT**
 > All the tests of this walkthrough have been realized with an early access version of NVIDIA NIM for LLM's with nemollm-inference-ms:24.02.rc4. NVIDIA NIM has for ambition to make the deployment of LLMs easier compared to the previous implementation with Triton and TRT-LLM. Therefore, this walkthrough takes back the steps of [the deployment of Triton on an OKE cluster on OCI](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/ai-infra-gpu/ai-infrastructure/triton-gpu-oke) skipping the container creation.
->>>>>>> b671e8e9a1b1a9bce4222883c7cc87ba020d5f63
 
 ### Docs
 
@@ -35,7 +35,7 @@ The model used is `Llama2-7B-chat`, running on an NVIDIA A10 Tensor Core GPU hos
 * [NIM documentation on how to use non-prebuilt models](https://developer.nvidia.com/docs/nemo-microservices/inference/nmi_nonprebuilt_playbook.html)
 * [NVIDIA TensorRT-LLM GitHub repository](https://github.com/NVIDIA/TensorRT-LLM)
 
-## 1. Instance Creation
+## Instance Creation
 
 Let's spin up a GPU instance VM on OCI!
 
@@ -173,7 +173,7 @@ Let's spin up a GPU instance VM on OCI!
 
     This cloud-init script will be uploaded on your GPU node in your OKE cluster. The first part consists of increasing the boot volume to the value set. Then, it downloads rclone, creates the correct directories, and creates the configuration file, the same way as we did previously on the GPU VM. Finally, it starts rclone as a service and mounts the bucket to `/opt/mnt/model_bucket_oci`.
 
-## 2. Deploy on OKE
+## Deploy on OKE
 
 Here is the target architecture at the end of the deployment:
 
@@ -205,7 +205,7 @@ It is now time to bring everything together in Oracle Kubernetes Engines (OKE)!
     email: someone@host.com
     ```
 
-## 3. Deploy monitoring (Grafana & Prometheus)
+## Deploy monitoring (Grafana & Prometheus)
 
 The monitoring consists of Grafana and Prometheus pods. The configuration comes from [kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack).
 
@@ -228,7 +228,7 @@ alertmanager-operated                      ClusterIP      None           <none> 
 example-metrics-grafana                    LoadBalancer   10.96.82.33    141.145.220.114   80:31005/TCP                 2m38s
 ```
 
-## 4. Deploying the inference server
+## Deploying the inference server
 
 Deploy the inference server using the default configuration with the following commands.
 
@@ -252,7 +252,7 @@ NAME                                               READY   STATUS    RESTARTS   
 example-triton-inference-server-5f74b55885-n6lt7   1/1     Running   0          2m21s
 ```
 
-## 5. Using *Triton* Inference Server on your NIM container
+## Using *Triton* Inference Server on your NIM container
 
 Now that the inference server is running you can send HTTP or GRPC requests to it to perform inferencing. By default, the inferencing service is exposed with a LoadBalancer service type. Use the following to find the external IP for the inference server. In this case, it is 34.83.9.133.
 
@@ -308,16 +308,14 @@ You may also want to delete the OCI bucket you created to hold the model reposit
 oci os bucket delete --bucket-name NIM --empty
 ```
 
-## Contributing
+# Contributing
 
 This project is open source.  Please submit your contributions by forking this repository and submitting a pull request!  Oracle appreciates any contributions that are made by the open-source community.
 
-## License
-
-Copyright (c) 2022 Oracle and/or its affiliates.
-
+# License
+ 
+Copyright (c) 2024 Oracle and/or its affiliates.
+ 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
-
-See [LICENSE](LICENSE) for more details.
-
-ORACLE AND ITS AFFILIATES DO NOT PROVIDE ANY WARRANTY WHATSOEVER, EXPRESS OR IMPLIED, FOR ANY SOFTWARE, MATERIAL OR CONTENT OF ANY KIND CONTAINED OR PRODUCED WITHIN THIS REPOSITORY, AND IN PARTICULAR SPECIFICALLY DISCLAIM ANY AND ALL IMPLIED WARRANTIES OF TITLE, NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A PARTICULAR PURPOSE.  FURTHERMORE, ORACLE AND ITS AFFILIATES DO NOT REPRESENT THAT ANY CUSTOMARY SECURITY REVIEW HAS BEEN PERFORMED WITH RESPECT TO ANY SOFTWARE, MATERIAL OR CONTENT CONTAINED OR PRODUCED WITHIN THIS REPOSITORY. IN ADDITION, AND WITHOUT LIMITING THE FOREGOING, THIRD PARTIES MAY HAVE POSTED SOFTWARE, MATERIAL OR CONTENT TO THIS REPOSITORY WITHOUT ANY REVIEW. USE AT YOUR OWN RISK.
+ 
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
