@@ -22,9 +22,9 @@ Oracle Cloud Infrastructure (OCI) Data Flow is a fully managed Apache Spark serv
 # Reusable Assets
 
 - [Build and deploy OCI DataFlow application from OCI Data Science - Example](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-data-flow/code-examples/build-and-deploy-app-from-oci-ds)
--[Load data from OCI Data Flow into Autonomous Database](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-data-flow/code-examples/load-data-to-adw)
--[Connect to Salesforce using OCI Data Flow](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-data-flow/code-examples/salesforce)
--[Run OCI Data Flow from OCI Functions](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-data-flow/code-examples/run-from-functions)
+- [Load data from OCI Data Flow into Autonomous Database](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-data-flow/code-examples/load-data-to-adw)
+- [Connect to Salesforce using OCI Data Flow](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-data-flow/code-examples/salesforce)
+- [Run OCI Data Flow from OCI Functions](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-data-flow/code-examples/run-from-functions)
                                                      
 # License
 
