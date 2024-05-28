@@ -44,5 +44,41 @@ SOFTWARE.
 
 # A Java Hello World function with local dev and then building and deploying to OCI Functions
 
+This is an example how I'm locally developing and testing OCI Functions on my mac with Apple silicon that uses mainly ARM architecture and then building and deploying the same to Functions in OCI.
 
+<p>
+
+I've installed maven and <code>Fn cli</code> on my mac. Thisn is how to do the <a href="https://docs.oracle.com/en-us/iaas/Content/Functions/Tasks/functionsinstallfncli.htm">Fn cli install</a> or here <a href="https://fnproject.io/tutorials/install/">following the Fn tutorial</a>. 
+
+<p>
+
+To develop functions locally I'm running the Fn server; to do this I'm using this command with Rancher Desktop instead of doing the usual <code>fn start</code> that works for me:
+
+<pre>
+docker run --rm -i --name fnserver \
+-v /tmp/iofs:/iofs \
+-e FN_IOFS_DOCKER_PATH=/tmp/iofs \
+-e FN_IOFS_PATH=/iofs \
+-v /tmp/data:/app/data \
+-v /var/run/docker.sock:/var/run/docker.sock \
+--privileged \
+-p 8080:8080 \
+--entrypoint ./fnserver \
+-e FN_LOG_LEVEL=DEBUG fnproject/fnserver:latest
+</pre>
+
+<p>
+Now that the Fn server is running create an application for our function using the cli:
+
+<pre>
+fn create app hellofunction
+</pre>
+
+<p>
+
+Then clone this repo and project and cd to the project root directory. Then run Fn cli command to build and deploy the function locally:
+
+<pre>
+fn --verbose deploy --app hellofunction --local
+</pre>
 
