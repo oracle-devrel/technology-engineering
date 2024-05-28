@@ -7,13 +7,10 @@ Using APEX, developers don't need to be an expert in a vast array of technologie
 
 # Team Publications
 
-- [APEX NEXT EVENTS](https://apex.oracle.com/pls/apex/r/apex_pm/apex-events/events)
-- [APEX Office Hours](https://apex.oracle.com/en/community/office-hours/)
-
-- [APEX with AI - A new landscape for Application Development](https://youtu.be/f1cBdLEGY00)
-- [Cloud Coaching - Unlock the Power of APEX](https://www.youtube.com/watch?v=6rG_tX8ScBc)
-
 - [APEX Do it yourself latest post](https://www.linkedin.com/posts/sonnemeyer_do-it-yourselfupload-your-time-booking-activity-7178658201943314432-1f2x?utm_source=share&utm_medium=member_desktop)
+- [APEX Office Hours - APEX and JavaScript a perfect team](https://asktom.oracle.com/ords/r/tech/catalog/session-landing-page?p2_event_id=23832218026907132494874527225118065688)
+- [APEX with AI - a chat about new landscape for Application Development](https://youtu.be/f1cBdLEGY00)
+- [Cloud Coaching - Unlock the Power of APEX](https://www.youtube.com/watch?v=6rG_tX8ScBc)
 - [APEX on Autonomous Rockin' Experience](https://medium.com/@paulbrad71/apex-on-autonomous-database-rockin-experience-e57c4c4dc4f3)
 
 ## Tutorials/ How To's
@@ -31,6 +28,8 @@ Using APEX, developers don't need to be an expert in a vast array of technologie
 
 ## Get Started
 
+- [APEX EVENTS](https://apex.oracle.com/pls/apex/r/apex_pm/apex-events/events)
+- [APEX Office Hours](https://apex.oracle.com/en/community/office-hours/)
 - [Official APEX Landing Page](https://apex.oracle.com/en/)
 - [What's New in APEX 23.2](https://docs.oracle.com/en/database/oracle/apex/23.2/htmrn/new-features.html)
 - [APEX best practice architecture](https://docs.oracle.com/solutions/?q=apex&cType=reference-architectures&sort=date-desc&lang=en)
