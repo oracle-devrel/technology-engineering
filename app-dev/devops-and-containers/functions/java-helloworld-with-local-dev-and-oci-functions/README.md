@@ -98,5 +98,14 @@ echo 'Mika' | fn invoke hellofunction hellofunc
 Hello, Mika!
 </pre>
 
+<p>
+
+Now that the function is properly working locally let's build and deploy it to OCI.
+
+<p>
+
+First create a OCIR repo for the container in your OCI tenancy <code>compartment</code> you want push the container into. Unless you do this first the container will be pushed to the <code>root</code> comaprtment that is not a good idea and will usually lead to 404 or 502 errors when the OCI Function pulling the container due to missing OCI policies. You can create the OCIR repo from the Cloud UI or using the <a href="https://docs.oracle.com/en-us/iaas/tools/oci-cli/3.41.0/oci_cli_docs/cmdref/artifacts/container/repository/create.html">oci cli</a>.
+
+<p>
 
 
