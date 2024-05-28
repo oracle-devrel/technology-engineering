@@ -48,7 +48,7 @@ This is an example how I'm locally developing and testing OCI Functions on my ma
 
 <p>
 
-I've installed maven and <code>Fn cli</code> on my mac. Thisn is how to do the <a href="https://docs.oracle.com/en-us/iaas/Content/Functions/Tasks/functionsinstallfncli.htm">Fn cli install</a> or here <a href="https://fnproject.io/tutorials/install/">following the Fn tutorial</a>. 
+I've installed maven and <code>Fn cli</code> on my mac. This is how to do the <a href="https://docs.oracle.com/en-us/iaas/Content/Functions/Tasks/functionsinstallfncli.htm">Fn cli install</a> or like in here <a href="https://fnproject.io/tutorials/install/">following the Fn tutorial</a>. 
 
 <p>
 
@@ -81,4 +81,22 @@ Then clone this repo and project and cd to the project root directory. Then run 
 <pre>
 fn --verbose deploy --app hellofunction --local
 </pre>
+
+<p>
+
+After this you are ready to call the function to test it:
+
+<pre>
+fn invoke hellofunction hellofunc
+Hello, world!
+</pre>
+
+or
+
+<pre>
+echo 'Mika' | fn invoke hellofunction hellofunc
+Hello, Mika!
+</pre>
+
+
 
