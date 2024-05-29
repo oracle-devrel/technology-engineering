@@ -53,6 +53,8 @@ Reviewed: 18.01.2024
   - Blog post describing how to support a lakehouse DR architecture between two regions with automatic switchover.
 - [High-Frequency Inserts into Oracle Database](https://jakubillner.github.io/2024/04/12/adw-fast-ingest.html)
   - Blog post describing and comparing the different insert methods in Autonomous Database to support low latency data ingestion for IoT workloads.
+- [Managing Active Metadata with Oracle Data Platform](https://gianlucarossi06.github.io/data-organon/2024/04/24/Active-Metadata-4-OCI-Lakehouse.html)
+  - Blog post describing how to define and store active metadata using OCI Data Platform, using a practical example. Active Metadata can be anything stored as custom properties in data catalog allowing users to understand, for instance, data freshness.
 
 
 ## YouTube
@@ -101,6 +103,10 @@ Reviewed: 18.01.2024
   - Blog describing the different options to share data within and across a data lakehouse deployed in OCI.
 - [Data Monetisation on OCI](https://medium.com/@gareth.smith_44910/data-monetisation-on-oci-d2a1f4d79861)
   - Blog describing data monetization options, of data products created in an OCI analytical data platform, and how they can be architected and deployed using OCI services.
+- [Setting Up Data Monetisation on OCI](https://medium.com/@gareth.smith_44910/setting-up-data-monetisation-on-oci-6cfa93c31cca)
+  - Blog describing how to setup data monetization on OCI using OCI native services and Stripe to process payments, explaining the mechanics of publishing data products listings as a provider and purchases as a consumer.
+- [Monetising ADW Data through Delta Sharing](https://medium.com/@gareth.smith_44910/monetising-adw-data-through-delta-sharing-dd60ad81a743)
+  - Blog explaining how to use Autonomous Data Warehouse and its data sharing capabilities as an enabler to share and monetize data products.
 
 ## Podcasts
 
