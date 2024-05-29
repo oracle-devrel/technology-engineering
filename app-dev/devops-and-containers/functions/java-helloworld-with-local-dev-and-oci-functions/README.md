@@ -137,7 +137,7 @@ To create a mac binary compatible Function Application use the <code>shape GENER
 
 <p>
 
-Create the Function from the container image that was pushed to the OCIR repo e.g. <code>fra.ocir.io/&lt;YOUR OCI TENANCY NAMESPACE&gt;/helloworld-java:1</code>. Let's name this <code>helloworld-java-arm</code>.
+Using the application create a function for it from the container image that was pushed to the OCIR repo e.g. <code>fra.ocir.io/&lt;YOUR OCI TENANCY NAMESPACE&gt;/helloworld-java:1</code>. Let's name this <code>helloworld-java-arm</code>.
 
 <p>
 
