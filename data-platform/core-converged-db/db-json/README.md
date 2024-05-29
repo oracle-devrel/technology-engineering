@@ -18,6 +18,7 @@ Reviewed Date: 2.5.2024
 ## Blogs
 
 - [JSON in Oracle Database Insider](https://blogs.oracle.com/database/category/db-json)
+- [Simplify APEX App REST APIs with JSON Duality Views](https://diveintoapex.com/2024/03/05/simplify-apex-app-rest-apis-with-json-duality-views/)
 
 ## LiveLabs and Live SQL Workshops
 
