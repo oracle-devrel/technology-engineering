@@ -114,7 +114,7 @@ Next, let's build the Docker container for the function using <code>docker build
 docker build -t fra.ocir.io/&lt;YOUR OCI TENANCY NAMESPACE&gt;/helloworld-java:1 .
 </pre>
 
-In the docker build command above replace the <code>region</code> if necessary and the &lt;YOUR OCI TENANCY NAMESPACE&gt; with yours.
+In the docker build command above replace the <code>region</code> if necessary and the <code>&lt;YOUR OCI TENANCY NAMESPACE&gt;</code> with yours.
 
 <p>
 
