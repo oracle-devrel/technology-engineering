@@ -26,8 +26,6 @@ Reviewed: 03.11.2023
     - Video explaining Exadata Fleet Update Preparation for ExaDB-D/ExaDB-C@C databases, part of the larger series available [here](https://youtu.be/mYUo0A5e178?feature=shared)
 - [How to apply Database Quarterly Patches on ExaDB-D/ExaDB-C@C - Part 5 - Exadata Fleet Update](https://youtu.be/iydZdx4_5Kw?feature=shared)
     - Video explaining Exadata Fleet Update for ExaDB-D/ExaDB-C@C databases, part of the larger series available [here](https://youtu.be/mYUo0A5e178?feature=shared)
-- [How to apply Database Quarterly Patches on ExaDB-D/ExaDB-C@C - Part 5 - Exadata Fleet Update](https://youtu.be/iydZdx4_5Kw?feature=shared)
-    - Video explaining Exadata Fleet Update for ExaDB-D/ExaDB-C@C databases, part of the larger series available [here](https://youtu.be/mYUo0A5e178?feature=shared)
 - [Level up your Exadata databases in OCI using Exadata Fleet Update - Cloud Coaching Webinar](https://youtu.be/DcHpYhVgmDU?feature=shared)
     - Cloud Coaching Webinar, including a technical demonstration, delivered by Amalraj Puthenchira around the use of Exadata Fleet Update for fleet level patching in ExaDB-D.
 
