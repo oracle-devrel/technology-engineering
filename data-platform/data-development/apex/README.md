@@ -7,8 +7,10 @@ Using APEX, developers don't need to be an expert in a vast array of technologie
 
 # Team Publications
 
-- [APEX NEXT EVENTS](https://apex.oracle.com/pls/apex/r/apex_pm/apex-events/events)
+- [APEX EVENTS](https://apex.oracle.com/pls/apex/r/apex_pm/apex-events/events)
 - [APEX Office Hours](https://apex.oracle.com/en/community/office-hours/)
+
+- [APEX NEXT Office Hours](https://asktom.oracle.com/ords/r/tech/catalog/session-landing-page?p2_event_id=23832218026907132494874527225118065688)
 
 - [APEX with AI - A new landscape for Application Development](https://youtu.be/f1cBdLEGY00)
 - [Cloud Coaching - Unlock the Power of APEX](https://www.youtube.com/watch?v=6rG_tX8ScBc)
@@ -32,7 +34,7 @@ Using APEX, developers don't need to be an expert in a vast array of technologie
 ## Get Started
 
 - [Official APEX Landing Page](https://apex.oracle.com/en/)
-- [What's New in APEX 23.2](https://docs.oracle.com/en/database/oracle/apex/23.2/htmrn/new-features.html)
+- [What's New in latest Release APEX 23.2](https://docs.oracle.com/en/database/oracle/apex/23.2/htmrn/new-features.html)
 - [APEX best practice architecture](https://docs.oracle.com/solutions/?q=apex&cType=reference-architectures&sort=date-desc&lang=en)
 - [APEX Managing Application Performance](https://docs.oracle.com/en/database/oracle/apex/23.2/htmdb/managing-application-performance.html#GUID-1684F55B-7782-4B1F-96AB-0D41BCBDB1BA)
 - [APEX Managing Application Security](https://docs.oracle.com/en/database/oracle/apex/23.2/htmdb/managing-application-security.html#GUID-417EAE67-7A36-4AE0-816B-D28716829F96)

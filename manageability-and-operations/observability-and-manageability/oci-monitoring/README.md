@@ -2,7 +2,7 @@
 
 Use Monitoring to query metrics and manage alarms. Metrics and alarms help monitor the health, capacity, and performance of your cloud resources.
 
-Reviewed: 15.11.2023
+Reviewed: 22.05.2024
 
 # Table of Contents
 
