@@ -12,7 +12,7 @@ Reviewed: 11.12.2023
 - [Announcing Oracle Cloud Infrastructure Secure Desktops](https://blogs.oracle.com/cloud-infrastructure/post/secure-desktops-cloud-native-virtualization)
 
 # Reusable Assets Overview
-- [Oracle Cloud Infrastructure Secure Desktops Solution Definition Document](https://cloud-infrastructure/vmware-solutions/oracle-secure-desktops/Secure-Desktops-solution-definition/Secure-Desktop-Solution-Definition-Document.zip)
+- [Oracle Cloud Infrastructure Secure Desktops Solution Definition Document](cloud-infrastructure/vmware-solutions/oracle-secure-desktops/Secure-Desktops-solution-definition/)
   
 
 # License
