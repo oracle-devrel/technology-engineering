@@ -2,7 +2,7 @@
 
 This area focuses on Oracle Cloud VMware Solution, Oracle Cloud Migrations & Oracle Secure Desktops.
 # Reusable Assets Overview
-
+- [Secure Desktop Solution Definition Document] (
 # License
 
 Copyright (c) 2024 Oracle and/or its affiliates.
