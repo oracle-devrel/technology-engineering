@@ -55,7 +55,7 @@ This example is based on the <a href="../java-helloworld-with-local-dev-and-oci-
 To do the OCI SDK authentication and authorization to use the GenAI services the function uses two options:
 <ul>
 <li>IAM regular <b>user auth</b> for the local dev and test on mac</li>
-<li><b>InstancePrincipal</b> auth for the function byt passing OCI Function config key <code>AUTH_INSTANCE_PRINCIPAL</code> with any value (not being null)</li>
+<li><b>InstancePrincipal</b> auth for the OCI Function by passing config key <code>AUTH_INSTANCE_PRINCIPAL</code> with any value (then not being null)</li>
 </ul>
 
 <p>
