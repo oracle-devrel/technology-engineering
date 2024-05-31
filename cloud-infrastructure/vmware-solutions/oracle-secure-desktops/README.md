@@ -4,7 +4,7 @@ The Oracle Cloud Infrastructure Secure Desktops service allows an administrator 
 
 Secure Desktops is ideal for organizations that need to provide employees with controlled access to a preconfigured desktop environment. An administrator can create pools of desktops in their tenancy, based on existing compute shapes or custom images. All configuration for the desktop and Oracle Cloud Infrastructure is completed by the administrator, making it possible for non-technical users to securely access and use a remote desktop for their day-to-day work. Secure Desktops controls all access to the remote desktops, protecting Oracle Cloud Infrastructure resources and customer data from malicious client activity.
 
-Reviewed: 11.12.2023
+Reviewed: 31.05.2024
  
 # Useful Links
 
