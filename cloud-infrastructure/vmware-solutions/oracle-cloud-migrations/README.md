@@ -2,7 +2,7 @@
  
 Oracle Cloud Migrations enables customers to migrate virtual machines to Oracle Cloud Infrastructure (OCI) Compute instances. It helps customers eliminate manual migration tasks and ultimately reduces errors in asset discovery and migration planning and execution.
 
-Reviewed: 11.12.2023
+Reviewed: 31.05.2024
  
 # Table of Contents
  
