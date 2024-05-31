@@ -121,7 +121,7 @@ Reviewed: 30.05.2024
 - [On-Demand Webinar - Oracle Cloud VMware Solution-Differentiation by Design](https://go.oracle.com/LP=130642)
 - [Increasing VMware Datastore size backed by OCI Block Storage](https://www.youtube.com/watch?v=vg_RApWrvE0)
 - [Oracle Cloud VMware Solution - The best place for VMware Workloads in the Cloud](https://videohub.oracle.com/media/Oracle+Cloud+VMware+Solution+-+The+best+place+for+VMware+Workloads+in+the+Cloud/1_vaj6kihc)
-- [Oracle Cloud VMware Solution Partner Sales Briefing](https://videohub.oracle.com/media/Cloud%20VMware%20Solution%20Partner%20Sales%20Briefing%20March%2019th%2C%202024/1_523erfwn)
+
   
 
 # Reusable Assets Overview
