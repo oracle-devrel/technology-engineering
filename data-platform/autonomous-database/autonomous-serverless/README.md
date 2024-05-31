@@ -41,6 +41,9 @@ Reviewed: 20.03.2024
     
 - [Oracle Database Vault on the Autonomous Database](https://www.youtube.com/watch?v=d5c2QAPrX1o)
     - How to configure and implement Oracle Database Vault on the Autonomous Database. Use cases.
+      
+- [Switching from Oracle-Managed to Customer-Managed Keys in Autonomous Database Serverless](https://medium.com/@mmy0utu8e/switching-from-oracle-managed-to-customer-managed-keys-in-autonomous-database-serverless-b1c24d107a8f)
+    - How to switch from Oracle-Managed to Customer-Managed Keys in Autonomous Database Serverless
    
 ## Tip of the Day
  
