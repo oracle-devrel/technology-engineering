@@ -11,6 +11,9 @@ Reviewed: 11.12.2023
 - [Oracle Cloud Infrastructure Secure Desktops](https://docs.oracle.com/en-us/iaas/secure-desktops/home.htm)
 - [Announcing Oracle Cloud Infrastructure Secure Desktops](https://blogs.oracle.com/cloud-infrastructure/post/secure-desktops-cloud-native-virtualization)
 
+# Reusable Assets Overview
+- [Oracle Cloud Infrastructure Secure Desktops Solution Definition Document](
+
 # License
 
 Copyright (c) 2024 Oracle and/or its affiliates.
