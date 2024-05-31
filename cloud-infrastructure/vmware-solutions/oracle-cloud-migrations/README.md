@@ -30,6 +30,8 @@ Reviewed: 11.12.2023
 
 # Reusable Assets Overview
 
+- [OCM Solution Definition Document](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/vmware-solutions/oracle-cloud-migrations/ocm-solution-definition-document)
+
 
  
 # License
