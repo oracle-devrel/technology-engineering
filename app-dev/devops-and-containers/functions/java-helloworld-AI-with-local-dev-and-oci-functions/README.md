@@ -48,14 +48,14 @@ This is an example how I'm locally developing and testing OCI Functions on my ma
 
 <p>
 
-This example is based on the <a href="../java-helloworld-with-local-dev-and-oci-functions">java-helloworld-with-local-dev-and-oci-functions</a> and building and deploying is exactly the same but this time uses <code>OCI SDK</code> and <code>OCI Generative AI services</code> to produce the function output instead of just a simple "Hello World".
+This example is based on the <a href="../java-helloworld-with-local-dev-and-oci-functions">java-helloworld-with-local-dev-and-oci-functions</a> and hence building and deploying is exactly the same but this time uses <code>OCI SDK</code> and <code>OCI Generative AI services</code> to produce the function output instead of just a simple "Hello World".
 
 <p>
 
 To do the OCI SDK authentication and authorization to use the GenAI services the function uses two options:
 <ul>
 <li>IAM regular <b>user auth</b> for the local dev and test on mac</li>
-<li><b>InstancePricipal</b> auth for the function byt passing OCI Function config key <code>AUTH_INSTANCE_PRINCIPAL</code> with any value (not being null)</li>
+<li><b>InstancePrincipal</b> auth for the function byt passing OCI Function config key <code>AUTH_INSTANCE_PRINCIPAL</code> with any value (not being null)</li>
 </ul>
 
 <p>
