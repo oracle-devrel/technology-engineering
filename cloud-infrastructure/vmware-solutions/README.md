@@ -1,8 +1,7 @@
 # VMware Solutions
 
-This area focuses on Oracle Secure Desktops. Secure Desktops is ideal for organizations that need to provide employees with controlled access to a preconfigured desktop environment.
+This area focuses on Oracle Cloud VMware Solution, Oracle Secure Desktops and Oracle Cloud Migration.
 
-Reviewed: 31.05.2024
 
 # Reusable Assets Overview
 
