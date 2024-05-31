@@ -27,6 +27,10 @@ Reviewed: 11.12.2023
 
 - [Cloud Coaching Clinic - Introduction to Oracle Cloud Migrations](https://www.youtube.com/watch?v=a1C3vZh5Wno)
   - In this Cloud Coaching Clinic session, we talk about the Oracle Cloud Migrations Service and how it enables you to migrate VMs from your on-premises VMware environments to OCI Compute VMs.
+
+# Reusable Assets Overview
+
+
  
 # License
 
