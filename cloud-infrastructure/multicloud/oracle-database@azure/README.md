@@ -30,10 +30,14 @@ Reviewed: 22.05.2024
 - [Oracle Database@Azure is Gold Maximum Availability Architecture endorsed](https://blogs.oracle.com/cloud-infrastructure/post/oracle-database-at-azure-gold-maa-goldengate)
 - [Oracle Maximum Availability Architecture for Oracle Database@Azure](https://docs.oracle.com/en/database/oracle/oracle-database/19/haovw/db-azure1.html#GUID-17550D0E-4D7C-4F7E-8AF8-AB4964C1E92D)
 - [The public ExaDB-D@Azure documentation](https://docs.oracle.com/en-us/iaas/odaaz/odaaz-provisioning-exadata-infrastructure.html#ODAAZ-GUID-9CD7A523-0945-4B89-B688-C2EC3DA8F332)
+- [Secure Shell to Oracle Exadata Database Service from a Microsoft Azure Linux VM in Oracle Database@Azure](https://docs.oracle.com/en/learn/ssh-oeds-oracledbazure/)
+- [Oracle Zero Downtime Migration – Physical Online Migration to ExaDB-D on Oracle Database@Azure](https://www.oracle.com/a/otn/docs/database/zdm-physical-migration-to-oracle-at-azure.pdf)
+- [Move to Oracle Database@Azure with Oracle Zero Downtime Migration](https://docs.oracle.com/en/solutions/oracle-db-at-azure-migration/index.html)
 
 ## ADB-S@Azure
 
 - [The public ADB-S@Azure documentation](https://docs.oracle.com/en-us/iaas/odaaz/odaaz-provisioning-autonomous-database.html)
+- [Available Database Services](https://docs.oracle.com/en-us/iaas/Content/multicloud/oaa.htm#oaasystems)
 
 # License
  
