@@ -12,7 +12,9 @@ Oracle Database 12c JSON Document store and higher and the Oracle NoSQL Database
 3. [Reusable Assets Overview](#reusable-assets-overview)
  
 # Team Publications
- 
+
+- [ORDS version 24.1 is now available, time to upgrade!](https://www.thatjeffsmith.com/archive/2024/04/ords-version-24-1-is-now-available-time-to-upgrade/)
+
 - [JSON & Customer Managed ORDS with ADB](https://medium.com/@devpiotrekk/cloud-scalability-using-customer-managed-oracle-rest-data-service-with-autonomous-json-275fa06e8d22)
     - Article demonstrating the performance of Customer Managed ORDS combined with the Autonomous Database
  
