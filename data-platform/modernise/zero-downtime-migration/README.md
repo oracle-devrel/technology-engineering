@@ -30,6 +30,8 @@ Reviewed: 03.11.2023
     - Detailed, step-by-step GoldenGate Marketplace Image installation guide for database migrations, available on Marcus Doeringer's public platform
 - [GoldenGate: Marketplace Image Docker Setup Guide](https://macsdata.netlify.app/oradb/migration/goldengate/marketplace/docker/)
     - Detailed, step-by-step GoldenGate Marketplace Image Docker setup guide for database migrations, available on Marcus Doeringer's public platform
+- [ZDM: Logical Offline Migration to Autonomous Database Dedicated ](https://wordpress.com/post/amalrajputhenchira.wordpress.com/40)
+    - Detailed, step-by-step instructions for performing logical offline migration to Autonomous Database Dedicated using NFS as data transfer medium, available on Amalraj Puthenchira's public platform
 
 ## LiveLabs Workshops
 - [Zero Downtime Migration: Physical Offline Migration to Co-Managed Databases in OCI](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=3568)
