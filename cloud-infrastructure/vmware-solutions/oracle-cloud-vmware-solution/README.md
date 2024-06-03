@@ -70,6 +70,9 @@ Reviewed: 31.05.2024
 
 - [Enable DNS resolution for On-Premises Domain from Oracle Cloud VMWare Solution NSX-T Overlay Segment](https://docs.oracle.com/en/learn/ocvs-dns-resolution-on-premises/#overview)
      -  This tutorial describes how to enable name resolution for on-premises Domain from Oracle Cloud VMWare Solution NSX-T backed Overlay segment.
+       
+
+  
           
 ## Blogs
  
@@ -102,6 +105,10 @@ Reviewed: 31.05.2024
 
 - [VMware Tanzu deployment option with Oracle Cloud VMware Solution](https://blogs.oracle.com/cloud-infrastructure/post/vmware-tanzu-deploy-oracle-cloud-vmware-solution)
      -  This blog post talks about the deployment of VMware Tanzu on Oracle Cloud VMware Solution.
+       
+- [Effectively monitor the Oracle Cloud VMware Solution environment using Grafana](https://blogs.oracle.com/cloud-infrastructure/post/monitor-oracle-cloud-vmware-solution-grafana)
+     -  This blog post delves into an open source solution for monitoring Oracle Cloud VMware Solution, harnessing the power of Grafana, InfluxDB, and Telegraf.
+  
 
 ## Videos & Podcasts
 
@@ -113,6 +120,9 @@ Reviewed: 31.05.2024
 - [Cloud Coaching Clinic - Oracle Cloud VMware Solution](https://www.youtube.com/watch?v=fU3oWg8mbvY)
 - [On-Demand Webinar - Oracle Cloud VMware Solution-Differentiation by Design](https://go.oracle.com/LP=130642)
 - [Increasing VMware Datastore size backed by OCI Block Storage](https://www.youtube.com/watch?v=vg_RApWrvE0)
+- [Oracle Cloud VMware Solution - The best place for VMware Workloads in the Cloud](https://videohub.oracle.com/media/Oracle+Cloud+VMware+Solution+-+The+best+place+for+VMware+Workloads+in+the+Cloud/1_vaj6kihc)
+
+  
 
 # Reusable Assets Overview
 
