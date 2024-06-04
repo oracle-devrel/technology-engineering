@@ -107,6 +107,8 @@ Reviewed: 18.01.2024
   - Blog describing how to set up data monetization on OCI using OCI native services and Stripe to process payments, explaining the mechanics of publishing data product listings as a provider and purchases as a consumer.
 - [Monetising ADW Data through Delta Sharing](https://medium.com/@gareth.smith_44910/monetising-adw-data-through-delta-sharing-dd60ad81a743)
   - Blog explaining how to use Autonomous Data Warehouse and its data sharing capabilities as an enabler to share and monetize data products.
+ - [Siebel Analytics to Oracle Cloud](https://medium.com/@DoubleUP66/siebel-analytics-to-oracle-cloud-8fe053602c39)
+  - Blog explaining the options and pre requisites to modernize Siebel Analytics (AKA OBIA) in OCI.
 
 ## Podcasts
 
