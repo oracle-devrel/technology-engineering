@@ -29,7 +29,7 @@ See the *OCI Security Health Check - Standard Edition* in action and watch the [
 
 Before running the *OCI Security Health Check - Standard Edition* you should download and verify it.
 
-  - Download the latest distribution [oci-security-health-check-standard-240502.zip](./files/resources/oci-security-health-check-standard-240502.zip).
+  - Download the latest distribution [oci-security-health-check-standard-240502.zip](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-240502.zip).
   - Download the respective checksum file:
     - [oci-security-health-check-standard-240502.sha512](./files/resources/oci-security-health-check-standard-240502.sha512).
     - [oci-security-health-check-standard-240502.sha512256](./files/resources/oci-security-health-check-standard-240502.sha512256).
