@@ -19,6 +19,19 @@ This section contains various examples related to Application Integration: demo 
 
 ## Demos
 
+- [Oracle Process Automation - File Manager Component](https://youtu.be/ZnGPteYE_tA?si=KAFsgffX1ZsRkfer)
+
+    - The File Manager component allows end users to upload one or more documents using a process form to an external system.This video demonstrate the use of the File Manager
+
+    Demonstration Includes
+
+        - Creating a Process in Oracle Process Automation
+        - Creating a Web UI with File Manager Component
+        - Walk through of Oracle Integration Project and Integrations to Dowload, List, Delete and Upload files in OCI Object Storage
+        - Configuring Rest API Connector to Integrate with OIC Integrations
+        - Configuring File Manager Component and connecting with the Integrations
+        - Validate, Activate, Test the Process
+
 - [Cloud Coaching - Boost Your Oracle AI Services](https://youtu.be/VVWTqqlIEhg)
     - Learn how to Develop a Multi-Chain Document Evaluation Apps with Oracle Generative AI, Document Understanding, and Integration Cloud.
     - Integrate OCI AI Speech Service and Generative AI Summarization with Oracle Integration Cloud and Visual Builder
@@ -140,6 +153,15 @@ This section contains various examples related to Application Integration: demo 
     - Demo video showing how to create and run a BPM Dynamic (Case Management) Process. Shows how to manage Car Rental Process through Case Management stages, Global activities and combination of Human Tasks, Structured BPM processes and Milestones in Case Management stages. This demo implements [Oracle Live Lab](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/run-workshop?p210_wid=3362&p210_wec=&session=17064424204924), Lab 2
 
 ## Blogs
+
+- [GenAI-based Procurement Q&A App using Text-to-SQL and Low-Code Integration](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/procurement-qa-genai/files)
+    - In this article, we'll explore how to make a handy tool that helps to enable real-time purchase order feeds into a procurement DB store and also to transform procurement queries in natural language to SQL Queries and synthesize the SQL Response using Oracle Generative AI, Oracle Integration Cloud (OIC) and Oracle Autonomous Database (ADB). This application combines a low-code approach to orchestrate LLM AI services and applications using Oracle Integration Cloud and Generative AI prompting techniques for tasks like text-to-SQL transformations.
+
+- [Real-Time Email Categorization, Sentiment Analysis & "Quick Replies" using OCI AI Language, Generative AI & Oracle Integration Cloud](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/ai-language/ai-email-analyis/files)
+    - In this article, we'll explore how we can process emails from Outlook in real-time with a low-code approach using Oracle Integration Cloud (OIC), OCI API Gateway and Microsoft Graph API Webhooks, perform sentiment analysis, custom email categorization and email body PII masking using OCI AI Language, and generate email "quick replies" using OCI Generative AI. Finally all this Email Analysis data is sent to Oracle Autonomous Database for further visualization in an Oracle Analytics Cloud Dashboard.
+
+- [Invoice Document Processing from Gmail into ERP Systems using OCI Document Understanding & Oracle Integration Cloud](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/ai-document-understanding/ai-email-invoice/files)
+    - In this article, we'll explore how we can process invoice documents from Gmail into an ERP System in real-time using OCI Document Understanding and Oracle Integration Cloud (OIC). This solution combines a low-code approach to capture Gmail messages in real-time with Google Cloud Pub/Sub Adapter, extract invoice data with AI Document Understanding and create invoices in ERP systems using Oracle Integration Cloud ERP adapters.
 
 - [Document Evaluation Tool using OCI Generative AI, Document Understanding & Integration Cloud](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/doc-evaluation-genai)
     - In this article, we'll explore how to make a handy tool that helps to evaluate documents using Oracle Generative AI, OCI Document Understanding, and Oracle Integration Cloud (OIC). This application combines a low-code approach to orchestrate LLM AI services and applications using Oracle Integration Cloud and Generative AI prompting techniques for tasks like document key criteria extraction, summarization, and evaluation.
