@@ -3,6 +3,8 @@ OCI Search with OpenSearch is a managed service that you can use to build in-app
 
 Search with OpenSearch handles all the management and operations of search clusters, including operations such as security updates, upgrades, resizing, and scheduled backups. This allows you to focus your resources on building features for your OpenSearch solutions.
 
+Reviewed: 04.06.2024
+
 # Table of Contents
 
 1. [Team Publications](#team-publications) 
@@ -11,8 +13,8 @@ Search with OpenSearch handles all the management and operations of search clust
 
 # Team Publications
 
-- [Step by step migration guide](https://docs.oracle.com/en-us/iaas/Content/search-opensearch/Concepts/importingacluster.htm)
-- [LiveLabs: Search Documents stored in Object Storage using Opensearch, Generative AI, Semantic Search, RAG](https://apexapps.oracle.com/pls/apex/f?p=133:180:239256605646::::wid:3762)
+- [Step-by-step migration guide](https://docs.oracle.com/en-us/iaas/Content/search-opensearch/Concepts/importingacluster.htm)
+- [LiveLabs: Search Documents stored in Object Storage using OpenSearch, Generative AI, Semantic Search, RAG](https://apexapps.oracle.com/pls/apex/f?p=133:180:239256605646::::wid:3762)
 - [LiveLabs: Search and visualize data with OCI Search Service with OpenSearch](https://apexapps.oracle.com/pls/apex/f?p=133:180:6071760449919::::wid:3427)
 
 
