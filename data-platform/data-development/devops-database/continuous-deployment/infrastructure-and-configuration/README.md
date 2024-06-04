@@ -1,7 +1,6 @@
 # Oracle Database on OCI Infrastructure and Configuration Management
-Reviewed: "21.12.2023"
 
-
+Reviewed: 21.12.2023
 
 # Table of Contents
  
@@ -18,7 +17,7 @@ Reviewed: "21.12.2023"
 ## Scripts
 - TBD
 
-# Tutorials / How To's
+# Tutorials / How-To's
 - TBD
 
 
