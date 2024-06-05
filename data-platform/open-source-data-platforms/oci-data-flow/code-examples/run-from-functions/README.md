@@ -4,7 +4,7 @@ Reviewed: 05.06.2024
 
 # When to use this asset?
 
-When in your overall flow OCI Functions is used (e.g., based on event) to start a OCI Data Flow job run.
+When in your overall flow OCI Functions are used (e.g., based on an event) to start an OCI Data Flow job run.
 
 # How to use this asset?
 
