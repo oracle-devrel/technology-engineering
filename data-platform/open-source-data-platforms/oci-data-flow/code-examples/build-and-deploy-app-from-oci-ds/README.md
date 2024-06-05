@@ -8,8 +8,8 @@ When using OCI Data Science to build and deploy an OCI Data Flow application. Us
 
 # How to use this asset?
 
-- Upload the notebook in an OCI Data Science notebook session, run the notebook.
-- Upload the .py file in an object storage bucket to be used as script in the application.
+- Upload the notebook in an OCI Data Science notebook session, and run the notebook.
+- Upload the .py file in an object storage bucket to be used as the script in the application.
 
 # License
 
