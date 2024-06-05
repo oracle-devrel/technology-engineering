@@ -1,6 +1,8 @@
-# OCI Cache with Redis
+# OCI Cache (Redis/Valkey)
 OCI Cache with Redis is a comprehensive, managed in-memory caching solution built on the foundation of open source Redis. 
 This fully managed service accelerates data reads and writes, significantly enhancing application response times and database performance to provide an improved customer experience.
+
+Reviewed: 05.06.2024
 
 # Table of Contents
 

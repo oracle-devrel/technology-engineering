@@ -1,35 +1,36 @@
 # Oracle Database Continuous Integration Supporting Features
-Reviewed: "15.01.2024"
 
-To support LifeCycle changes the Oracle Database & APEX provide serveral PL/SQL Packages to support Metadata management. Maintianing a log or history of changes provides the abaility to track changes over time, associate updates with modification requests or bugs and support analysis of code.
+To support LifeCycle changes the Oracle Database & APEX provide several PL/SQL Packages to support Metadata management. Maintaining a log or history of changes provides the ability to track changes over time, associate updates with modification requests or bugs and support analysis of code.
 
-Databases, like files on the desktop, only a single version is saved by the storage engine in a consistent manner, ensuring the data's (metadata) integrity. Metadata artifacts must be generated and exported from the various data dictionary and respositories and commited into Source Control & Version Management Systems. 
+In databases, like files on the desktop, only a single version is saved by the storage engine in a consistent manner, ensuring the data's (metadata) integrity. Metadata artifacts must be generated and exported from the various data dictionaries and repositories and committed into Source Control & Version Management Systems. 
 
-After development, automating this first stage of integration is crucial step to include database development into CICD. APEX development includes artifacts spanning multiple metadata repositories: APEX's own, schema objects in the database's data dictionary and ORDS.
+After development, automating this first stage of integration is a crucial step to include database development into CICD. APEX development includes artifacts spanning multiple metadata repositories: APEX's own, schema objects in the database's data dictionary and ORDS.
 
 Each area provides a series of packages for using metadata in Software LifeCycle Management.
 
-The primary PL/SQL package are: 
+The primary PL/SQL packages are: 
 [DBMS_METADATA](https://docs.oracle.com/en/database/oracle/oracle-database/19/arpls/DBMS_METADATA.html#GUID-F72B5833-C14E-4713-A588-6BDF4D4CBA2A) 
 - The DBMS_METADATA package provides a way for you to retrieve metadata from the database dictionary as XML or creation DDL and to submit the XML to re-create the object. Use this to generate the data definition of schema objects.
+
+Reviewed: 15.01.2024
 
 ## [APEX_EXPORT](https://docs.oracle.com/en/database/oracle/apex/23.2/aeapi/APEX_EXPORT.html#GUID-6A4628A6-9F86-4394-9938-87A7FFFC7BC8) 
 - The APEX_EXPORT package provides APIs to export the definitions of applications, files, feedback, and workspaces to text files.
 
 ## [DBMS_CLOUD_REPO](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/dbms-cloud-repo-package.html#GUID-F8F0037B-6451-4742-9144-9FCE44459F64) 
-- The DBMS_CLOUD_REPO package provides for use of and management of cloud hosted code repositories from Oracle Database. Supported cloud code repositories include GitHub, AWS CodeCommit , and Azure Repos. This package is only available in OCI Autonomous Database deployments and along with integration with repositories, it provides a wrapper to DBMS_METADATA for Code Commit & Install from the repository.
+- The DBMS_CLOUD_REPO package provides for the use of and management of cloud-hosted code repositories from Oracle Database. Supported cloud code repositories include GitHub, AWS CodeCommit, and Azure Repos. This package is only available in OCI Autonomous Database deployments and along with integration with repositories, it provides a wrapper to DBMS_METADATA for Code Commit & Install from the repository.
 
 ## ORDS 
 - [ORDS REST APIs for APEX](https://docs.oracle.com/en/database/oracle/oracle-rest-data-services/23.4/orrst/api-oracle-apex.html) A set of ORDS REST APIs to retrieve APEX Workspace & Application statistics, details with support to export workspaces, applications and application components.
-- ORDS_MODULE provides PL/SQL APIs to manage ORDS objects, oauth clients, priviledges, roles and modules. Currently ORDS_MODULE is only documented in the code of the various packages, functions and views.
+- ORDS_MODULE provides PL/SQL APIs to manage ORDS objects, OAuth clients, privileges, roles and modules. Currently, ORDS_MODULE is only documented in the code of the various packages, functions and views.
 
-The simplest deployment and set of APIS for Continuous Integration are available for APEX on Autonomous Database services, with Cloud Repository integration & Schema export via DBMS_CLOUD_REPO, and APEX applications via APEX_EXPORT. These two packages provide extensice capabilities to commit code changes into the repository with little work required to manage connectivity, generation and upload and commit operations.
+The simplest deployment and set of APIS for Continuous Integration are available for APEX on Autonomous Database services, with Cloud Repository integration & Schema export via DBMS_CLOUD_REPO, and APEX applications via APEX_EXPORT. These two packages provide extensive capabilities to commit code changes into the repository with little work required to manage connectivity, generation upload and commit operations.
 
 
 # Table of Contents
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-links)
-3. [Tutorials / How To's](#tutorials-how-tos)
+3. [Tutorials / How-To's](#tutorials-how-tos)
 
  
 # Team Publications
@@ -52,11 +53,6 @@ The simplest deployment and set of APIS for Continuous Integration are available
 ### Other 
 - [CICD automation for Oracle APEX Apps](https://blogs.oracle.com/shay/post/cicd-automation-for-oracle-apex-apps)
 - [Git Version Management and CICD automation for Oracle APEX](https://blogs.oracle.com/shay/post/version-management-and-cicd-automation-for-oracle-apex)
-
-
-
-# Tutorials / How To's
-- TBD
 
 
 # License
