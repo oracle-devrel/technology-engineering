@@ -8,7 +8,7 @@ When you are looking to use Salesforce data in your OCI Data Flow application, y
 
 # How to use this asset?
 
-- Add both .py to your main script in your OCI Data Flow application
+- Add both .py to the main script in your OCI Data Flow application
 - In the scripts, change the credentials to connect to Salesforce and the object storage details
 
 # License
