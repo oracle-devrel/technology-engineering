@@ -4,7 +4,7 @@ Reviewed: 05.06.2024
 
 # When to use this asset?
 
-When you are looking to use build a full RAG pipeline using OCI OpenSearch (as vector database and as in-memory engine) and the GenAI service, using the OCI Data Science service. Largely, the steps are documented and automated to help you create the pipeline. The notebook includes a small interactive chatbot you can use to interact with in a conversation.
+When you are looking to use build a full RAG pipeline using OCI OpenSearch (as a vector database and as an in-memory engine) and the GenAI service, using the OCI Data Science service. Largely, the steps are documented and automated to help you create the pipeline. The notebook includes a small interactive chatbot you can use to interact within a conversation.
 
 # How to use this asset?
 
@@ -14,12 +14,12 @@ Upload the notebook to an OCI Data Science session, which will:
 
 # Pre-requisites:
 
-- Create a VCN with a private subnet. Make sure there is NAT gateway attached.
+- Create a VCN with a private subnet. Make sure there is an attached NAT gateway.
 - Add ingress rules to the security list: ports 9200 and 5601 ports on source 0.0.0.0/0, TCP
 - Create the OpenSearch cluster in the public subnet
 - Create the OCI Data Science notebook session in the private subnet
 - Add the config file (API Key) and private key to this notebook in the .oci directory
-- Install any of the latest pre-defined conda environments with latest version of OCI
+- Install any of the latest pre-defined conda environments with the latest version of OCI
 - Create an object storage bucket
 
 # License
