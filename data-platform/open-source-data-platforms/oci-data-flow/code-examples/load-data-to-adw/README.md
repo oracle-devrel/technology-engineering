@@ -4,12 +4,12 @@ Reviewed: 05.06.2024
 
 # When to use this asset?
 
-When you are planning to use Autonomous database as a source and/or Autonomous database as target when running an OCI Data Flow application.
+When you are planning to use an Autonomous Database as a source and/or Autonomous Database as a target when running an OCI Data Flow application.
 
 # How to use this asset?
 
 - Add the load-data-to-adw.py file to your main script
-- Change the credentials and make sure you are referencing to the correct tables/views
+- Change the credentials and make sure you are referencing the correct tables/views
 
 # License
 
