@@ -6,7 +6,7 @@ This section covers the new features introduced in the Oracle Database 23ai rele
 
 ### Aggregation over INTERVAL Data Types
 - **Description**: Pass INTERVAL data types to SUM and AVG aggregate functions.
-- **Example**: `SELECT SUM(interval_column) FROM table_name;`
+- **Example**: ```sqlSELECT SUM(interval_column) FROM table_name;`
 
 ### Client Describe Call Support for Tag Options
 - **Description**: Store and retrieve metadata about database objects using annotations.
@@ -68,7 +68,7 @@ This section covers the new features introduced in the Oracle Database 23ai rele
 - **Description**: Index multiple schema objects for full-text search using DBMS_SEARCH.
 - **Example**: `EXEC DBMS_SEARCH.CREATE_INDEX('index_name', 'table_name');`
 
-## Release Information
+## Release Informationnnn
 - **Version**: 23ai
 - **Applicable Offerings**: All Oracle Database offerings
 For more detailed information, please visit the [Oracle Database Features](https://apex.oracle.com/database-features/) page.
