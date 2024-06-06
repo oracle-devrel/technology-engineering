@@ -30,6 +30,8 @@ Reviewed: 03.11.2023
     - Detailed, step-by-step GoldenGate Marketplace Image installation guide for database migrations, available on Marcus Doeringer's public platform
 - [GoldenGate: Marketplace Image Docker Setup Guide](https://macsdata.netlify.app/oradb/migration/goldengate/marketplace/docker/)
     - Detailed, step-by-step GoldenGate Marketplace Image Docker setup guide for database migrations, available on Marcus Doeringer's public platform
+- [ZDM: Logical Offline Migration to Autonomous Database Dedicated ](https://wordpress.com/post/amalrajputhenchira.wordpress.com/40)
+    - Detailed, step-by-step instructions for performing logical offline migration to Autonomous Database Dedicated using NFS as data transfer medium, available on Amalraj Puthenchira's public platform
 
 ## LiveLabs Workshops
 - [Zero Downtime Migration: Physical Offline Migration to Co-Managed Databases in OCI](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=3568)
@@ -53,7 +55,8 @@ Reviewed: 03.11.2023
 - [Step-by-Step Guide – Logical Migration from On-Premises to Exadata Cloud@Customer or Exadata On-Premises using ACFS as Backup Location](https://www.oracle.com/a/tech/docs/oracle-zdm-logical-migration-acfs.pdf)
 - [Step-by-Step Guide - Physical Migration](https://www.oracle.com/docs/tech/oracle-zdm-step-by-step-guide.pdf)
 - [Step-by-Step Guide – Logical Migration and In-Flight Upgrade from On-Premises to DBCS and ExaCS](https://www.oracle.com/a/tech/docs/oracle-zdm-logical-migration-step-by-step-guide.pdf)
-
+- [Database@Azure - Blog: Oracle ZDM Physical Online Migration with direct data transfer](https://blogs.oracle.com/maa/post/oracle-zdm-for-oracle-database-at-azure)
+- [Database@Azure - Video: Migrate Oracle Databases to ExaDB-D on Oracle Database@Azure](https://www.youtube.com/watch?v=1fDDGlb7y7Y)
 
 # License
  
