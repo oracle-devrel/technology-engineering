@@ -4,16 +4,12 @@ Oracle Backend for Spring Boot is a powerful platform designed to streamline the
 
 ### Key Features
 
-#### Oracle Transaction Manager for Microservices 
 **Oracle TRansaction Manager for Microservices  (MicroTx)** ensures reliable distributed transactions across microservices. It manages complex transactions spanning multiple services, maintaining data consistency and reliability in microservices architectures.
 
-#### Oracle Database Operator for Kubernetes
 **Oracle Database Operator for Kubernetes** simplifies the deployment and management of Oracle databases within Kubernetes clusters. This operator automates database provisioning, scaling, and lifecycle management, integrating seamlessly with cloud-native applications.
 
-#### Oracle Transaction Event Queues
 **Transaction Event Queues (TxEventQ)** is available as part of Oracle Database and it enable asynchronous event processing and communication between microservices. This feature supports building event-driven architectures by providing reliable message queues for handling high volumes of transactional events, ensuring efficient data flow between services.
 
-#### OBaaS Command Line
 **OBaaS (Oracle Backend as a Service) Command Line** is a powerful tool for managing and deploying your Spring Boot applications on Oracle Cloud. It provides a simplified and efficient command-line interface for interacting with Oracle Backend services, automating deployment processes, and managing application lifecycles.
 
 ### Benefits
@@ -33,14 +29,14 @@ Reviewed: "06.06.2024"
 
 # Table of Contents
  
-1. Team Publications
-2. Useful Links
-3. Tutorials / How To's
+1. [Team Publications](#team-publications)
+2. [Useful Links](#useful-links)
+3. [Tutorials / How To's](#tutorials--how-tos)
 
  
 # Team Publications
 - [Oracle Backend for Spring Boot - Intro and demo](https://otube.oracle.com/playlist/dedicated/262835242/1_owmwlbyd/1_s20krpat)
-- [Oracle Developer Tech Days] (https://go.oracle.com/LP=138674?elqCampaignId=500067&src1=:se:lw:ie:pt:::SEO400308921SW&evite=WWMK230914P00011:se:lw:ie:pt:::SEO400308921SW) Developing Microservices Applications with Oracle (Registration Required)
+- [Oracle Developer Tech Days](https://go.oracle.com/LP=138674?elqCampaignId=500067&src1=:se:lw:ie:pt:::SEO400308921SW&evite=WWMK230914P00011:se:lw:ie:pt:::SEO400308921SW) Developing Microservices Applications with Oracle (Registration Required)
 
 # Useful Links
 
