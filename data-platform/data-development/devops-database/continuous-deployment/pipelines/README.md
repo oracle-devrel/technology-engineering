@@ -1,7 +1,6 @@
 # Building Pipelines for APEX and the Oracle Database
-Reviewed: "21.12.2023"
 
-
+Reviewed: 21.12.2023
 
 # Table of Contents
  

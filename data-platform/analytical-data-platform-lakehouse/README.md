@@ -53,7 +53,7 @@ Reviewed: 18.01.2024
   - Blog post describing how to support a lakehouse DR architecture between two regions with automatic switchover.
 - [High-Frequency Inserts into Oracle Database](https://jakubillner.github.io/2024/04/12/adw-fast-ingest.html)
   - Blog post describing and comparing the different insert methods in Autonomous Database to support low latency data ingestion for IoT workloads.
-- [Managing Active Metadata with Oracle Data Platform](https://gianlucarossi06.github.io/data-organon/2024/04/24/Active-Metadata-4-OCI-Lakehouse.html)
+- [Managing Active Metadata with Oracle Data Platform](https://gianlucarossi06.github.io/data-organon/2024/05/31/Active-Metadata-4-OCI-Data-Platform.html)
   - Blog post describing how to define and store active metadata using OCI Data Platform, using a practical example. Active Metadata can be anything stored as custom properties in a data catalog allowing users to understand, for instance, data freshness.
 
 
@@ -107,6 +107,8 @@ Reviewed: 18.01.2024
   - Blog describing how to set up data monetization on OCI using OCI native services and Stripe to process payments, explaining the mechanics of publishing data product listings as a provider and purchases as a consumer.
 - [Monetising ADW Data through Delta Sharing](https://medium.com/@gareth.smith_44910/monetising-adw-data-through-delta-sharing-dd60ad81a743)
   - Blog explaining how to use Autonomous Data Warehouse and its data sharing capabilities as an enabler to share and monetize data products.
+ - [Siebel Analytics to Oracle Cloud](https://medium.com/@DoubleUP66/siebel-analytics-to-oracle-cloud-8fe053602c39)
+  - Blog explaining the options and pre requisites to modernize Siebel Analytics (AKA OBIA) in OCI.
 
 ## Podcasts
 
