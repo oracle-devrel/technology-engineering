@@ -1,9 +1,9 @@
 # Oracle Rest Data Services (ORDS)
-Reviewed: "`17.11.2023"
 
 ORDS is a Java application that enables developers with SQL and database skills to develop REST APIs for Oracle Database, 
 Oracle Database 12c JSON Document store and higher and the Oracle NoSQL Database
 
+Reviewed: 17.11.2023
  
 # Table of Contents
  
@@ -19,15 +19,13 @@ Oracle Database 12c JSON Document store and higher and the Oracle NoSQL Database
     - Article demonstrating the performance of Customer Managed ORDS combined with the Autonomous Database
  
 # Useful Links
-- [ORDS - latest Release](https://www.oracle.com/tools/ords/ords-relnotes-24.1.html)
+- [ORDS - Latest Release](https://www.oracle.com/tools/ords/ords-relnotes-24.1.html)
 - [Webinar - ORDS & DevOps](https://www.youtube.com/watch?v=GIRdoGlqIDE)
 - [High Availability (HA) with ORDS](https://docs.oracle.com/en/solutions/deploy-ords-ha-oci/index.html)
     - A deployable HA stack showcasing flexibility of ORDS
 - [ORDS Livelabs](https://apexapps.oracle.com/pls/apex/f?p=133:100:16810034341840::::SEARCH:ORDS)
-    - Hands on examples using ORDS
- 
-# Reusable Assets Overview
-TBD
+    - Hands-on examples using ORDS
+
  
 # License
 
