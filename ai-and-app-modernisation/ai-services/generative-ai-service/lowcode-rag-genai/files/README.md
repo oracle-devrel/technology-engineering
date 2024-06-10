@@ -1,6 +1,6 @@
-# Low Code Modular RAG-based Knowledge Search Engine using OCI Generative AI, OCI Vector Search, and Oracle Integration Cloud
+# Modular GenAI-based Knowledge Search Engine using OCI Generative AI, OCI DB 23ai, and Oracle Integration Cloud
 
-Reviewed: 30.05.2024
+Reviewed: 10.06.2024
 
 # Introduction
 
