@@ -1,16 +1,16 @@
 # Development & Operations (DevOps) for the Database and APEX
-Reviewed: "05.04.2024"
 
-## The development lifecycle is the process of periodically: (Development)
+The development lifecycle is the process of periodically: (Development)
 - Selecting a set of bugs and features that will improve your app
-- Dividing up the work among teammates,and
+- Dividing up the work among teammates, and
 - Testing the result before releasing it to end users
 
-## Every development team's goal: (Operations)
-- Steady,incremental progress against prioritized list of issues and ideas
-- Delivering a fewchange requests at a time to end users
+Every development team's goal: (Operations)
+- Steady, incremental progress against prioretized list of issues and ideas
+- Delivering a few change requests at a time to end users
 - Through a series of high-quality releases on a regular cadence
 
+Reviewed: 05.04.2024
 
 # Table of Contents
  
@@ -19,6 +19,7 @@ Reviewed: "05.04.2024"
 3. [Reusable Assets Overview](#reusable-assets-overview)
  
 # Team Publications
+
 -  [Red Hot Webinars - YouTube](https://www.youtube.com/watch?v=GIRdoGlqIDE "Here is how ORDS helps you with DevOps")
    - A Webinar demonstrating how ORDS can be used to support DevOps
 - DevOps with ADB using DBMS_CLOUD
@@ -26,6 +27,7 @@ Reviewed: "05.04.2024"
    - [Part 2](https://medium.com/oracledevs/apex-service-devops-part-2-ed737a4fc583)
  
 # Useful Links
+
 - [Cloud Native DevOps](../../../app-dev/devops/README.md)
 - [Understanding the Oracle APEX Application Development Lifecycle](https://apex.oracle.com/go/lifecycle-technical-paper)
 - [Implementing DevOps principles with Oracle Database](https://www.oracle.com/a/ocom/docs/database/implementing-devops-principles-with-oracle-database.pdf)
@@ -39,10 +41,6 @@ Reviewed: "05.04.2024"
 ## Youtube Videos
    - [OCI DevOps: your complete CI/CD platform](https://www.youtube.com/watch?v=553O7ehoxFA)
    - [CI CD for Oracle Database and APEX Developers by Brian Spendolini](https://www.youtube.com/watch?v=3HMNhitBv78)
-
-# Reusable Assets Overview
-- TBD
-
 
 # License
 
