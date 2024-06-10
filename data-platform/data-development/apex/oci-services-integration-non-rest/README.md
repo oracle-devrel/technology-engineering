@@ -4,17 +4,12 @@ REST APIs are used to integrate with OCI Cloud Services from APEX. However, ther
 
 This section will highlight other integration considerations, posts and useful places to get a project going.
 
-Reviewed: 05.02.2024
+Reviewed: 10.06.2024
 
 # Table of Contents
  
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-links)
-3. [OCI Services](#oci-services)
- 
-# Team Publications
--  TBD
- 
+1. [Useful Links](#useful-links)
+
 # Useful Links
 
 ## APEX Authentication and Authorization with Identity Cloud Service
@@ -54,8 +49,6 @@ Reviewed: 05.02.2024
 
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
-
+Copyright (c) 2024 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
-
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
