@@ -138,7 +138,7 @@ The solution provided must address the following security requirements expressed
 The future state architecture for ACME \<Application Name\> database environment after a migration from on-premises to OCI is composed of the following:
 
 <figure>
-    <img src="images/oracle-database-migration-to-base-database-service-an-example-migration-LogicalArchitecture.png" title="OCI Logical Architecture"/>
+    <img src="images/LogicalArchitecture.png" title="OCI Logical Architecture"/>
     <figcaption>OCI Logical Architecture</figcaption>
 </figure>
 
@@ -482,14 +482,14 @@ Customer is responsible for setting the access rules to services and environment
 ### Physical Architecture
 
 <figure>
-    <img src="images/oracle-database-migration-to-base-database-service-an-example-migration-2NODEDB_DRwithinRegion.png" title="Production Deployment Diagram – Multi-AD with near DR Design Diagram"/>
+    <img src="images/2NODEDB_DRwithinRegion.png" title="Production Deployment Diagram – Multi-AD with near DR Design Diagram"/>
     <figcaption>Production Deployment Diagram – Multi-AD with near DR Design Diagram</figcaption>
 </figure>
 
 For the production environment Oracle RAC database will be deployed to ensure High Availability in Single AD with a Disaster Recovery across Availability Domain using Dataguard.
 
 <figure>
-    <img src="images/oracle-database-migration-to-base-database-service-an-example-migration-1NodeDB_NoDRwithinRegion.png" title="Non-Production Deployment Diagram"/>
+    <img src="images/1NodeDB_NoDRwithinRegion.png" title="Non-Production Deployment Diagram"/>
     <figcaption>Non-Production Deployment Diagram</figcaption>
 </figure>
 
