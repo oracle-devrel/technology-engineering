@@ -51,7 +51,7 @@ This section covers the new features introduced in the Oracle Database 23ai rele
 - **Example**: `EXEC DBMS_SEARCH.CREATE_INDEX('index_name', 'table_name');`
 ## Release Informationnnn
 - **Version**: 23ai
-- **Applicable Offerings**: All Oracle Database offerings
+- **Applicable Offerings**: All Oracle Database offerings .................
 For more detailed information, please visit the [Oracle Database Features](https://apex.oracle.com/database-features/) page.
 
 
