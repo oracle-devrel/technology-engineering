@@ -9,6 +9,8 @@ Reviewed: 3.5.2024
 # Team Publications
 - [SQL Developer Extension for VS Code v24.1 is now available](https://www.thatjeffsmith.com/archive/2024/04/sql-developer-extension-for-vs-code-v24-1-is-now-available/)
 
+- [23ai new features series - latest post follow #23aiSpecialists](https://www.linkedin.com/posts/cristina-varas-menadas-591825119_oracle-oracle23ai-sql-activity-7198945654272864256-wduQ?utm_source=share&utm_medium=member_ios)
+
 - Application Continuity - [Does your Database really know your application - Part 1](https://medium.com/@paulbrad71/application-continuity-on-adb-does-your-database-know-your-application-376e44d8a30) - Published on [Medium](http://www.medium.com) on 13th March 2023;
 
 - Application Continuity - [Does your Database really know your application - Part 2](https://medium.com/@paulbrad71/does-your-database-really-know-your-application-second-part-48321b0ab81) - Published on [Medium](http://www.medium.com) on 6th April 2023;
