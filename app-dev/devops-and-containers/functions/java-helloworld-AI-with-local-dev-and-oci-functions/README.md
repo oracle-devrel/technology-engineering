@@ -63,16 +63,25 @@ IAM user option will work on both cases above, as local and as OCI Function.
 
 <p>
 
-Testing with curl (or pasting the APi Gateway url to a browser):
+Testing with curl (or copy-pasting the API Gateway deployment url to a browser):
 
 <p>
 
 <pre>
 curl https://n3yu.....ghhi.apigateway.eu-frankfurt-1.oci.customer-oci.com/
-What happened today 05/31/2024 100 years ago ?
+What happened today 06/13/2024 100 years ago ?
 
-May 31, 2024 is May 31, 1924. Here are some events that occurred on this date:
-...
+June 13, 2024 is June 13, 1924. Here are some events that occurred on this date:
+
+1. The German airline Deutsche Lufthansa (DL) was officially founded on June 13, 1924. It is Germany's largest airline and is one of the world's largest airlines in terms of overall passengers carried.
+ 
+2. The British Broadcasting Corporation (BBC) aired its first radio broadcast. 
+
+3. The Hollywood Sign was officially dedicated in California, marking the beginning of Hollywood's rise to prominence in the American film industry. 
+
+4. The Ford Motor Company introduced the firstassembly line to mass produce cars, making cars more accessible to the general public. 
+
+5. The German aerospace company Zeppelin began constructing the Hindenburg, a large passenger airship.
 </pre>
 
 ## License
