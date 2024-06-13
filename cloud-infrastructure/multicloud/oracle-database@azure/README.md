@@ -1,8 +1,8 @@
-# Oracle Database@Azure --- now GA !!!
+# Oracle Database@Azure
  
 Oracle has significantly expanded its partnership with Microsoft to launch a new service called Oracle Database@Azure. With this service, Microsoft and Oracle will deliver the same Oracle database services running on OCI in Microsoft Azure data centers. Oracle database services in Azure are designed to offer high levels of performance, scale, security, and availability — at par with what we offer in OCI today.
  
-Reviewed: 22.05.2024
+Reviewed: 13.06.2024
  
 # Useful Links
 
@@ -33,6 +33,7 @@ Reviewed: 22.05.2024
 - [Secure Shell to Oracle Exadata Database Service from a Microsoft Azure Linux VM in Oracle Database@Azure](https://docs.oracle.com/en/learn/ssh-oeds-oracledbazure/)
 - [Oracle Zero Downtime Migration – Physical Online Migration to ExaDB-D on Oracle Database@Azure](https://www.oracle.com/a/otn/docs/database/zdm-physical-migration-to-oracle-at-azure.pdf)
 - [Move to Oracle Database@Azure with Oracle Zero Downtime Migration](https://docs.oracle.com/en/solutions/oracle-db-at-azure-migration/index.html)
+- [Deploy Oracle Key Vault for Oracle Database@Azure](https://docs.oracle.com/en/solutions/deploy-key-vault-database-at-azure/#GUID-3C967419-6461-470C-AC86-07F419CDF967)
 
 ## ADB-S@Azure
 

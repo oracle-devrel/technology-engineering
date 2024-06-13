@@ -1,12 +1,12 @@
-# Oracle - Google Cross-Cloud Interconnect
+# Oracle Interconnect for Google
 
 Oracle and Google Cloud announced a partnership that gives customers the choice to combine Oracle Cloud Infrastructure (OCI) and Google Cloud technologies to help accelerate their application migrations and modernization. 
 
-Enterprises can seamlessly connect Google Cloud services, such as analytics and AI, to Oracle Cloud services, such as Exadata and Autonomous Database. For organizations seeking to optimize and elevate their cloud infrastructure capabilities and commercial calculus, such a native multicloud model offers the best-of-both-clouds customer experience that encompasses a unified and interoperable technical and commercial stack.
+The new Oracle Interconnect for Google Cloud now enables flexible and simplified connection provisioning through FastConnect partner and Google Cloud Partner Interconnect using pre-provisioned capacity in eleven cloud regions. Allowing customers to deploy general purpose workloads with no cross-cloud data transfer charges.
 
-Google Cloud’s Cross-Cloud Interconnect will be initially available for customer onboarding in 11 global regions, allowing customers to deploy general purpose workloads with no cross-cloud data transfer charges.
+Enterprises can seamlessly connect Google Cloud services, such as analytics and AI, to Oracle Cloud services, such as Exadata and Autonomous Database. For organizations seeking to optimize and elevate their cloud infrastructure capabilities and commercial calculus, such a native multicloud model offers the best-of-both-clouds customer experience that encompasses a unified and interoperable technical and commercial stack.
  
-Reviewed: 12.06.2024
+Reviewed: 13.06.2024
  
 # Useful Links
 
