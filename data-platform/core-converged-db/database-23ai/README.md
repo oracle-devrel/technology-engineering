@@ -70,7 +70,7 @@ Reviewed: 03.05.2024
 - [Oracle Database 23c Free Developer Release - 10 features you should know](https://blogs.oracle.com/coretec/post/oracle-database-23c-free-developer-sql)
 - [Sample data for Oracle Database](https://blogs.oracle.com/coretec/post/sample-data-for-oracle-database)
 - [Less coding using Domains](https://blogs.oracle.com/coretec/post/less-coding-with-sql-domains-in-23c)
-- [New value constructor in 23c](https://blogs.oracle.com/coretec/post/new-value-constructor-in-23c)
+- [New value constructor in 23c](https://blogs.oracle.com/coretec/post/new-va)lue-constructor-in-23c)
 - [Schema Annotations - the new metadata](https://blogs.oracle.com/coretec/post/annotations-the-new-metadata-in-23c)
 - [Priority Transactions with high, medium and low priority](https://blogs.oracle.com/coretec/post/automatic-transaction-rollback-in-23c)
 - [Oracle Database 23c Development Edition on Docker](https://blogs.oracle.com/coretec/post/oracle-database-23c-development-edition-on-docker)
@@ -82,7 +82,9 @@ Reviewed: 03.05.2024
 - [Easy Database Search with APEX in 23c](https://blogs.oracle.com/coretec/post/easy-database-search-with-apex-in-23c)
 - [SQL statement tracking in 23c with SQL History](https://blogs.oracle.com/coretec/post/easy-sql-statement-tracking-in23c)
 - [Developing a Java application using Oracle Graph Server](https://blogs.oracle.com/coretec/post/developing-a-java-application-working-on-top-of-oracle-property-graph-server)
-- [23ai articles on blogs.oracle.com/coretec](https://blogs.oracle.com/coretec/category/crt-23ai)
+- [ETags with Oracle Database tables](https://blogs.oracle.com/coretec/post/valuebwith-table-data)
+- [Priority Transaction in 23ai (YouTube)](https://youtu.be/_JoihIHOnTY)
+- [all 23ai articles on blogs.oracle.com/coretec](https://blogs.oracle.com/coretec/category/cased-concurrency-control-rt-23ai)
 
 # License
 

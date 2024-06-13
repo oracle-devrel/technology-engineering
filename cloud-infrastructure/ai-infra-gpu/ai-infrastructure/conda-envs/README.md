@@ -1,14 +1,22 @@
-# conda-envs
+# Conda Environments
 
-A collection of ready to use conda environments
+In this repository, you can find a collection of ready-to-use conda environments.
 
+Reviewed 23.05.2024
+
+# When to use this asset?
+ 
+ML projects require final users to experiment with a lot of different tools that interact in a complex ecosystem. Conva environments greatly simplify the management of such ecosystems and the dependencies between the tools.  In this repo we provide Conda Environment templates that have been tested on OCI shapes and easily recreate ML environments.
+
+# How to use this asset?
+ 
 The templates are divided per OS version, so they should be applied to the same OS.
 
 To create an environment
 
 ```conda env create -f  environment.yml```
 
-### Pytorch ###
+## Pytorch
 
 You can check that pytorch works with GPUs with the command
 
@@ -35,7 +43,7 @@ Extracting ./data/cifar-10-python.tar.gz to ./data
 ...
 ```
 
-### vLLM
+## vLLM
 
 Login into Hugging Face HUB with
 ```huggingface-cli login```
@@ -56,12 +64,20 @@ It can be tested with `curl`.
     }'
 ```
 
-#### Load test with Locust
+## Load test with Locust
 
-1. Execute the following command in utilities folder
+1. Execute the following command in the utilities folder
 
   ```bash
   locust --host  httry utilitiesocalhost:8000
   ```
 
 This will create a web port on `http://localhost:8089`.
+
+# License
+ 
+Copyright (c) 2024 Oracle and/or its affiliates.
+ 
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+ 
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
