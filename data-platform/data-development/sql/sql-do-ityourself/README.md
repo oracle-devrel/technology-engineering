@@ -38,14 +38,14 @@ Explore a variety of Oracle SQL tools to streamline your database management tas
   - [Video Tutorials](link)
 
 - **sqlplus**: Master the command-line interface for Oracle Database with sqlplus. Learn essential commands and best practices for efficient SQL execution.
-  - [Official Documentation](link)
-  - [Command Reference](link)
-  - [Tips and Tricks](link)
+  - [Official Documentation: ](https://docs.oracle.com/en/database/oracle/oracle-database/23/sqpug/index.html)Comprehensive guide covering SQL*Plus commands and usage for Oracle Database 23ai.
+  - [Command Reference: ](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqpug/SQL-Plus-command-reference.html#GUID-177F24B7-D154-4F8B-A05B-7568079800C6)Detailed command reference for SQL*Plus in Oracle Database 21c, including syntax and examples.
+  - [Tips and Tricks: ](https://docs.oracle.com/search/?q=sql+plus)Helpful tips for efficiently using SQL*Plus, including command-line operations and PL/SQL execution.
 
 - **SQLcl**: Dive into the versatile command-line interface for Oracle Database with SQLcl. Experience its advanced features and customization options for enhanced SQL scripting and execution.
-  - [Official Documentation](link)
-  - [Installation Guide](link)
-  - [Customization Tips](link)
+  - [Official Documentation: ](https://docs.oracle.com/en/database/oracle/sql-developer-command-line/21.4/sqcug/index.html)Detailed documentation on SQLcl features, commands, and usage.
+  - [Installation Guide: ](https://docs.oracle.com/en/database/oracle/apex/23.2/aeadm/downloading-and-installing-sqlcl.html)Step-by-step instructions for installing SQLcl on different operating systems.
+  - [Customization Tips: ](https://docs.oracle.com/search/?q=sqlcl&pg=1&size=10&showfirstpage=true&cType=WM147046%2CWM147070%2CWM175021&lang=en)SCLcl Blogs, FAQs and Tutorials.
 
 ## 1.1. SQL Tips
 
@@ -75,7 +75,7 @@ Access a repository of SQL examples to learn practical applications of SQL in va
 
 Get quick access to essential SQL commands, syntax, and tips with the SQL Clue Card. Print it out or keep it handy for reference during your SQL scripting sessions.
 
-- [Download SQL Clue Card](link)
+- [Download SQL Clue Card](https://www.oracle.com/database/sqldeveloper/technologies/sqlcl/download/sqlcl-downloads-23.1.html)
 
 # 2. SQLcl
 
@@ -89,15 +89,15 @@ Discover the advanced features and functionalities of SQLcl, Oracle's command-li
 
 ## 2.2.  Resources
 
-- [Official Documentation](https://www.oracle.com/es/database/sqldeveloper/technologies/sqlcl/)
-- [Installation Guide](https://docs.oracle.com/en/database/oracle/apex/23.2/aeadm/downloading-and-installing-sqlcl.html)
-- [Tips and Tricks](link)
+- [Official Documentation: ](https://docs.oracle.com/en/database/oracle/sql-developer-command-line/21.4/sqcug/index.html)Detailed documentation on SQLcl features, commands, and usage.
+- [Installation Guide: ](https://docs.oracle.com/en/database/oracle/apex/23.2/aeadm/downloading-and-installing-sqlcl.html)Step-by-step instructions for installing SQLcl on different operating systems.
+- [Customization Tips: ](https://docs.oracle.com/search/?q=sqlcl&pg=1&size=10&showfirstpage=true&cType=WM147046%2CWM147070%2CWM175021&lang=en)SCLcl Blogs, FAQs and Tutorials.
 
 ## 2.3. Getting Started
 
 Ready to explore SQLcl? Follow these steps to install SQLcl and start leveraging its powerful features for SQL scripting and database management.
 
-1. [Download SQLcl](link) and follow the installation instructions for your operating system.
+1. [Download SQLcl](https://docs.oracle.com/en/database/oracle/apex/23.2/aeadm/downloading-and-installing-sqlcl.html) and follow the installation instructions for your operating system.
 2. Configure SQLcl settings and customize your environment according to your preferences.
 3. Explore SQLcl commands and features to familiarize yourself with its capabilities.
 4. Start scripting and executing SQL commands with ease using SQLcl's intuitive interface.
