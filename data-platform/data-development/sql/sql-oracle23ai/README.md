@@ -54,6 +54,7 @@ This section covers the new features introduced in the Oracle Database 23ai rele
 - [23ai New Features Series - Part 2](https://www.linkedin.com/posts/cristina-varas-menadas-591825119_oracle-oracle23ai-sql-activity-7198945654272864256-wduQ/?utm_source=share&utm_medium=member_ios)
 - [23ai New Features Series - Part 3](https://www.linkedin.com/posts/sonnemeyer_23aispecialists-23ainewsabrpart3-developer-activity-7201958687005982721-Oo3B?utm_source=share&utm_medium=member_desktop)
 - [23ai New Features Series - Part 4](https://www.linkedin.com/posts/sonnemeyer_23aispecialists-23ainewsabrpart4-teammates-activity-7204946957843267584-x664?utm_source=share&utm_medium=member_desktop)
+- [23ai New Features Series - Part 5](https://www.linkedin.com/posts/ppaolucci_cristinavarasmenadas-sonjameyer-activity-7207374755878887425-a--C?utm_source=share&utm_medium=member_desktop)
 ## Release Informationnnn
 - **Version**: 23ai
 - **Applicable Offerings**: All Oracle Database offerings .................
