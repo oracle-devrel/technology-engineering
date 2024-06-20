@@ -56,6 +56,7 @@ Reviewed: 18/06/2024
   - Observability and Manageability Product Managers GitHub
 - [O&M Oracle Blogs](https://blogs.oracle.com/observability/)
 - [Documentation](https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/monitoring-and-observability.htm)
+- [Cloud Coaching - Overview of AI infra monitoring in OCI](https://youtu.be/oq2x1gouSp4?si=Yfz_2JfW28Ax3ktZ)
 - [OCI Monitoring](https://docs.oracle.com/en-us/iaas/Content/Monitoring/home.htm)
 
 # License
