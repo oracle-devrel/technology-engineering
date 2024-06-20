@@ -15,7 +15,9 @@ The Single Node VM Cluster implementation is rolled out only to the MTY region. 
 # Additional links
 
 [About Single-Node VM Cluster](https://docs.oracle.com/en-us/iaas/exadata/doc/ecc-manage-vm-clusters.html#GUID-F528AA9C-2130-4E15-B8DE-DF65FD580789)
+
 [Using the Console to Create a Single-Node VM Cluster](https://docs.oracle.com/en-us/iaas/exadata/doc/ecc-manage-vm-clusters.html#GUID-6F475E61-176B-481D-92B9-5FD93326C7AA)
+
 [Using the Console to View Single-Node VM Cluster Details](https://docs.oracle.com/en-us/iaas/exadata/doc/ecc-manage-vm-clusters.html#GUID-CEDD32D1-3309-4ED3-BB28-335348CDE790)
 
 

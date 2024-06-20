@@ -23,7 +23,9 @@ End result is that ALL traffic to and from the CPS to Oracle is tunnelled in the
 # Additional Links:
 
 [Overview](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/overviewIPsec.htm)
+
 [Steps to create](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/settingupIPsec.htm)
+
 [Troubleshooting](https://www.ateam-oracle.com/post/oracle-cloud-vpn-connect-troubleshooting)
 
 # License

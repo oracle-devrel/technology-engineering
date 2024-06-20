@@ -13,8 +13,11 @@ Cloud Shell integration for the serial console allows users who have been grante
 
 # Additional Links:
 [Previous GA Announcement for VM Serial Console Access](https://einstein.oracle.com/q/ga-announcement-vm-serial-console-access-for-exadata-databa-8306)
+
 [What's New announcement in product documentation](https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-whats-new-in-exadata-cloud-at-customer-gen2.html#GUID-2A3DD1C7-D1D7-4288-A1AA-19334C0516B4)
+
 [Networking Requirements](https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-network-requirements.html#GUID-F06BD75B-E971-48ED-8699-E1004D4B4AC1) in product documentation (especially Table 3-2)
+
 OCI Cloud Shell [product documentation](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/devcloudshellintro.htm)
 
 
