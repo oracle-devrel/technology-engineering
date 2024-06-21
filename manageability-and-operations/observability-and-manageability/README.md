@@ -58,6 +58,7 @@ Reviewed: 18/06/2024
 - [O&M Oracle Blogs](https://blogs.oracle.com/observability/)
 - [Documentation](https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/monitoring-and-observability.htm)
 - [OCI Monitoring](https://docs.oracle.com/en-us/iaas/Content/Monitoring/home.htm)
+- [O&M How to video series](https://www.youtube.com/playlist?list=PLiuPvpy8QsiWO40IrhRlbY-TOLepyGXzV)
 
 # License
 
