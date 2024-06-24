@@ -4,11 +4,13 @@ Oracle Key Vault is a full-stack, security-hardened software appliance built to 
 
 Integrate your on-premises Oracle Key Vault (OKV) with Oracle Exadata Database Service on Cloud@Customer to secure your critical data on-premises. Oracle Key Vault integration enables you to take complete control of your encryption keys and store them securely on an external, centralized key management device.
 
-Additional Links:
+Reviewed: 24.06.2024
 
-[Integrating Exadata Cloud@Customer with OKV](https://docs.oracle.com/en-us/iaas/exadata/doc/adb-manage-keys-on-ext-dev.html#GUID-F231C91C-A36C-4EA8-B36F-7426F97826E3)
+# Useful Links
 
-[Customer-Managed Keys in Exadata Database Service on Cloud@Customer](https://docs.oracle.com/en-us/iaas/exadata/doc/manage-encryption-keys-on-external-devices.html#GUID-084AA149-AD28-43D5-AB7A-B5B8980810B2)
+- [Integrating Exadata Cloud@Customer with OKV](https://docs.oracle.com/en-us/iaas/exadata/doc/adb-manage-keys-on-ext-dev.html#GUID-F231C91C-A36C-4EA8-B36F-7426F97826E3)
+
+- [Customer-Managed Keys in Exadata Database Service on Cloud@Customer](https://docs.oracle.com/en-us/iaas/exadata/doc/manage-encryption-keys-on-external-devices.html#GUID-084AA149-AD28-43D5-AB7A-B5B8980810B2)
 
 # License
 
