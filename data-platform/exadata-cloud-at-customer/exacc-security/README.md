@@ -1,14 +1,16 @@
 # Exadata Cloud@Customer Security
 
-# Public Resources
+Reviewed: 24.06.2024
 
-[Security Documentation](https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-secguide.html)
+# Useful Links
 
-[Oracle Gen 2 Exadata Cloud@Customer Security Controls Technical Brief](https://www.oracle.com/a/ocom/docs/engineered-systems/exadata/exadata-cloud-at-customer-security-controls.pdf)
+- [Security Documentation](https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-secguide.html)
 
-[Operator Access Control Documentation](https://docs.oracle.com/en/cloud/paas/operator-access-control/exops/overview-of-operator-access-control.html)
+- [Oracle Gen 2 Exadata Cloud@Customer Security Controls Technical Brief](https://www.oracle.com/a/ocom/docs/engineered-systems/exadata/exadata-cloud-at-customer-security-controls.pdf)
 
-[Operator Access Control Technical Brief](https://www.oracle.com/uk/a/ocom/docs/engineered-systems/exadata/oracle-operator-access-control-tech-brief.pdf)
+- [Operator Access Control Documentation](https://docs.oracle.com/en/cloud/paas/operator-access-control/exops/overview-of-operator-access-control.html)
+
+- [Operator Access Control Technical Brief](https://www.oracle.com/uk/a/ocom/docs/engineered-systems/exadata/oracle-operator-access-control-tech-brief.pdf)
 
 # License
 
