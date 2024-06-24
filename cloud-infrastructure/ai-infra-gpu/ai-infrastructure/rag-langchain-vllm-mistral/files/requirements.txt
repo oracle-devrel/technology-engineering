@@ -165,7 +165,7 @@ triton==2.2.0
 typing-inspect==0.9.0
 typing_extensions==4.11.0
 tzdata==2024.1
-urllib3==2.2.1
+urllib3==2.2.2
 uvicorn==0.29.0
 uvloop==0.19.0
 vllm==0.4.1
