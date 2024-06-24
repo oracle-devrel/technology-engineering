@@ -1,5 +1,7 @@
 # Exadata Cloud@Customer Infrastructure
 
+Reviewed: 24.06.2024
+
 # Useful Links
 
 - [Main Oracle Product Page](https://www.oracle.com/uk/engineered-systems/exadata/cloud-at-customer/)
