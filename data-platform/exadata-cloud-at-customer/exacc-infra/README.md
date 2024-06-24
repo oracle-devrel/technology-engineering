@@ -31,7 +31,7 @@
 
 [Enhanced Infrastructure Maintenance Controls for Oracle Exadata Database Service on Cloud@Customer](https://blogs.oracle.com/database/post/enhanced-infrastructure-maintenance-controls-for-oracle-exadata-database-service-on-cc)
 
-## Snapshot technologies
+## Snapshot Technologies
 [Setting up Oracle Exadata Storage Snapshots](https://docs.oracle.com/en/engineered-systems/exadata-database-machine/sagug/exadata-storage-server-snapshots.html#GUID-3147A414-3657-4B6C-B22E-A5F5869574C2)
 
 [Oracle ACFS Snapshots](https://docs.oracle.com/en/database/oracle/oracle-database/19/ostmg/understand-acfs-concepts.html#GUID-5A3EF695-A795-4FEA-8BE2-AF657BD2238C)
