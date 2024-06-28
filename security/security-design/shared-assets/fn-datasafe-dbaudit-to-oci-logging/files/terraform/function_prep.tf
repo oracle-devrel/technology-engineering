@@ -33,7 +33,7 @@ resource "null_resource" "functionapp_push2ocir" {
   }
 
   provisioner "local-exec" {
-    command     = "docker push ${local.fn_image}"
+    command     = "docker push ${local.fn_image}" 
     working_dir = "${path.module}/${local.fn_working_dir}"
   }
 
