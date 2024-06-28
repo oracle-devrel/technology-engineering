@@ -4,7 +4,7 @@ With this enhancement, you can deploy and run multiple single-instance databases
 
 Please note. This functionality should only be used on non-production environments, where under BYOL licensing, RAC licenses are not available.
 
-The lack of RAC licenses means that it is impossible to easily instantiate the DB instance on another DB Server in the Exadata Cloud@Customer infrastructure. This means that during maintenance, there will ALWAYS be an outage of the DB service unless there is possibility to switch the service to a DR environment. 
+The lack of RAC licenses means that it is impossible to easily instantiate the DB instance on another DB Server in the Exadata Cloud@Customer infrastructure. This means that during maintenance, there will ALWAYS be an outage of the DB service unless there is a possibility to switch the service to a DR environment. 
 
 Single Node VM Cluster provides ZERO capability for local failover for either planned or unplanned outages.
 
@@ -30,3 +30,5 @@ Copyright (c) 2024 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+
+Reviewed 28/06/2024
