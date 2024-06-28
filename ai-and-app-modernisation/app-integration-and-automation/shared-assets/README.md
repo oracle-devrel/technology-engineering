@@ -19,6 +19,24 @@ This section contains various examples related to Application Integration: demo 
 
 ## Demos
 
+- [Setting Up OAuth and Calling Oracle Integration APIs: A Step-by-Step Guide](https://youtu.be/UrptzZbycm4?si=opv0_wc5F7SV86nx)
+
+    - In this demo video, we provide a step-by-step guide to setting up OAuth and calling Oracle Integration APIs. We'll walk you through registering your application, obtaining client credentials, and generating OAuth tokens. 
+
+    Using Postman, we'll demonstrate how to make authenticated API calls to Oracle Integration, ensuring secure data retrieval and manipulation.
+
+    Parameters referred in video:
+
+    Grant Type : Client Credentials/Authorization Code
+    Access Token URL : https://[idcs url]/oauth2/v1/token
+    Client ID: xxxxx
+    Client Secret: xxxxxx
+    Scope: https://xxxxx:opc:resource:consumer::all
+    Auth URL* : https://[idcs url]/oauth2/v1/authorize
+    Redirect URL* : https://[oic url]/icsapis/agent/oauth/callback
+
+    "*" parameters are required for Authorization Code flow only.
+
 - [Oracle Process Automation - File Manager Component](https://youtu.be/ZnGPteYE_tA?si=KAFsgffX1ZsRkfer)
 
     - The File Manager component allows end users to upload one or more documents using a process form to an external system.This video demonstrate the use of the File Manager
