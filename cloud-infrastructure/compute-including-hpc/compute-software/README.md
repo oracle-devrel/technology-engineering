@@ -2,7 +2,7 @@
 
 This page contains information and useful links regarding Compute services that are mostly related to OS and Licenses Management on top of OCI Compute. You can also find resources about BYOI, BYOH and Autoscaling.
 
-Review date: 19.12.2023
+<i>Review date: 24 May 2024</i>
 
 # Table of Contents
 
@@ -24,7 +24,10 @@ Review date: 19.12.2023
 - [OCI Function for Freeform Tagging](https://github.com/Olygo/OCI-FN_TagCompute_FF)
 - [OCI Function for Defined Tags](https://github.com/Olygo/OCI-FN_TagCompute_DT)
 - [Cluster software on Oracle Linux 9 using Corosync and Pacemaker - create failover IP](https://github.com/mariusscholtz/Oracle-Cloud-Infrastructure-resources/blob/main/cluster/readme.md)
-
+- [Script to install and mount OCI bucket as Filesystem using Fuse S3FS](https://github.com/Olygo/OCI_S3FS)
+- [Mount a boot volume from one compute instance (or VM) onto another compute instance in order to replace lost ssh keys](https://gitlab.com/ms76152/system-administration)
+- [Transfer data to and from Oracle Cloud Infrastructure using OS tools such as sftp, scp, oci cli, curl](https://github.com/mariusscholtz/Oracle-Cloud-Infrastructure-resources/blob/main/VM-shapes/data%20transfer%20to%20OCI%20v1.0.pdf)
+  
 # Useful Links
 
 - [Managing Custom Images](https://docs.oracle.com/en-us/iaas/Content/Compute/Tasks/managingcustomimages.htm)
@@ -41,7 +44,6 @@ Review date: 19.12.2023
 - [Video - Manage OCI instances directly from VirtualBox 7](https://www.youtube.com/watch?v=uFEN4Di-WDE)
 - [Deploy Apache Tomcat on ARM-based Kubernetes cluster in Oracle Cloud Infrastructure](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/run-workshop?p210_wid=824&p210_wec=&session=15158640819235)
 - [Changing the shape of a compute instance: X5 to X9, or VM.Standard2 series to Flexible instance](https://docs.oracle.com/en-us/iaas/Content/Compute/Tasks/resizinginstances.htm#Changing_the_Shape_of_an_Instance)
-- [Mount a boot volume from one compute instance (or VM) onto another compute instance in order to replace lost ssh keys](https://gitlab.com/ms76152/system-administration)
 - [Demo - Use autoscaling to adjust compute resources](https://docs.oracle.com/en/learn/configure_auto_scaling/index.html#introduction)
 
 # License

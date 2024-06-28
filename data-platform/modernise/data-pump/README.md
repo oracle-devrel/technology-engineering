@@ -33,6 +33,8 @@ Reviewed: 03.11.2023
     - YouTube Video by Austine Ouma explaining how to import large data pump dump files into Oracle Base Database on OCI via OCI Object Storage buckets mounted on the database file system
 - [OCI Console Data Pump Import Wizard](https://www.youtube.com/watch?v=FZAJezCQjhE)
     - YouTube Video by Austine Ouma explaining how to use the OCI DB Console Import Wizard to import data into Autonomous Database
+- [A Complete Guide to Migrate your Data to Autonomous Database and Best Practices](https://medium.com/@snoozrocks/a-complete-guide-to-migrate-your-data-to-autonomous-database-and-best-practices-8e5fbdaa26eb)
+    - This blog post provides a high-level overview of the steps to migrate data from a source Oracle Database to the Autonomous Database Cloud using Data Pump and OCI Object Storage.
 
 
 # Useful Links

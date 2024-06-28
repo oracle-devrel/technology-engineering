@@ -6,10 +6,16 @@ This section contains various examples related to Application Integration: demo 
 
 ## Architecture Center
 
+- [Enable a Low Code Modular LLM App Engine using Oracle Integration and OCI Generative AI](https://docs.oracle.com/en/solutions/oci-generative-ai-integration/index.html)
+    - This reference architecture lets you understand the necessary considerations and recommendations to enable an AI-based, modular and event-driven  LLM App Engine using a low-code approach with Oracle Integration as the LLM orchestrator, OCI Generative AI and other OCI services
+    - Build enterprise-grade, modular, scalable, secure & maintainable LLM Apps
+
 - [Enable multicloud integrations from Oracle Cloud ERP to Microsoft Azure SQL Database](https://docs.oracle.com/en/solutions/oci-multicloud-erp-azure/index.html)
     - Reference Architecture on the Oracle Architecture Center, which provides the necessary considerations and recommendations to enable a multicloud, event-driven, and no-code integration solution to receive real-time feeds from Oracle Cloud ERP and send those to a private Microsoft Azure SQL Database, leveraging a component Oracle Integration provides called the connectivity agent, to facilitate on-premises/multicloud integrations
 - [Implement message-level encryption in Oracle Integration Cloud using OCI Vault](https://docs.oracle.com/en/solutions/oic-message-level-encryption/index.html#GUID-5C843938-A470-4584-9048-4361025358C6)
     - Message-level encryption (MLE) is a security technique used to protect the confidentiality and integrity of a message during transmission. It involves using encryption algorithms to scramble the contents of a message so that only the intended recipient, with the decryption keys, can read it. This reference architecture shows how you can implement message-level encryption in OIC using OCI Vault Service.
+- [Set up a landing zone architecture with Oracle Integration](https://docs.oracle.com/en/solutions/set-up-lz-oic/index.html#GUID-E2C6E096-E695-4813-94F1-0C697EEEC8F0)
+   - To run integrations in Oracle Cloud, you need a secure environment that you can operate efficiently. Oracle Integration is a Cloud Native service designed to address your security requirements. This reference architecture describes the components and concepts that enable you to build hybrid integrations.These components conform to the landing zone template and concepts that meet the security guidance prescribed for Oracle Cloud Infrastructure's CIS Foundation Benchmark.
 
 ## Demos
 
@@ -44,6 +50,11 @@ This section contains various examples related to Application Integration: demo 
         - Configuring File Manager Component and connecting with the Integrations
         - Validate, Activate, Test the Process
 
+- [Cloud Coaching - Boost Your Oracle AI Services](https://youtu.be/VVWTqqlIEhg)
+    - Learn how to Develop a Multi-Chain Document Evaluation Apps with Oracle Generative AI, Document Understanding, and Integration Cloud.
+    - Integrate OCI AI Speech Service and Generative AI Summarization with Oracle Integration Cloud and Visual Builder
+    - Describe an image using OCI AI Vision, Generative AI Service and Oracle Integration
+
 - [Oracle Integration - Realtime File Processing from Object Storage](https://www.youtube.com/watch?v=HnpYrussmWw)
 
     - Discover a hands-on approach to processing real-time files from OCI Object Storage using Oracle Integration Cloud, OCI Events and OCI Streaming Service.No need for you to run scheduled jobs and checking the OCI Object Bucket for new files, by enabling Events in OCI Object Storage you can transmit Events like OCI Object Create, OCI Object Update, OCI Object Delete etc. to an OCI Stream in Real-time and configure OCI Stream Adapter in Oracle Integration as a trigger to receive the data in real time and process the file.
@@ -51,13 +62,13 @@ This section contains various examples related to Application Integration: demo 
 
 - [Cloud Coaching Webinar: Real-Time Outlook Email Analysis with Oracle Integration & AI](https://youtu.be/qzyzdAZjUU0?si=moC-O47m7L1nrhqx)
     - Through a Live Demo you will see how Oracle Integration Cloud work seamlessly with Oracle Cloud Streaming & API Gateway for instant Outlook Messages capture via Microsoft Graph Webhooks
-    
+
     - Explore Email Sentiment Analysis & Categorization with Oracle Cloud AI Language Service
-    
+
     - Explore Email "Quick Replies" Generation with Oracle Cloud Generative AI Service (in Beta Program, limited availability)
 
     - Explore No-Code Integration flow into Oracle Autonomous Database & Automatic Creation of Service Tickets into Customer Service Apps, all orchestrated by Oracle Integration Cloud
-    
+
     - Finally, watch live Email Classification & Analysis Dashboard with Oracle Analytics Cloud
 
 - [Cloud Coaching On-Demand: Oracle Integration (OIC3) Provisioning and User Access with Identity Domains](https://youtu.be/osuCdujq6-A)
@@ -72,11 +83,11 @@ This section contains various examples related to Application Integration: demo 
 
 - [Cloud Coaching Webinar: AI Based & Real Time Gmail Invoice Documents Processing into Oracle Fusion ERP Cloud](https://youtu.be/wq7HH-WYslU)
     - How can you speed up your Account Payable Invoice Processing Cycle? Document Understanding and OCI Intelligent Automation Engine running on top of Oracle Fusion ERP Cloud can help.
-    
+
     - Through a live demo, we show how to use it to enable an AI-based, Event-Driven and Real-Time Invoice Processing Solution into Oracle Fusion ERP Cloud on top of Gmail Invoices as Attachments.
-    
+
     - Learn how Oracle Integration Cloud combined with OCI Streaming and API Gateway allow real-time capture of Gmail Messages (leveraging Gmail Push Notifications via Google Cloud Pub/Sub).
-    
+
     - Then, using AI Document Understanding, uncover Invoice Documents Data using the Key-Value Extraction and automatically load it into Oracle Fusion ERP Cloud using Oracle Integration Cloud's native connectors.
 
 - [Usecase - Fusion HCM Payslips to FTP](https://www.youtube.com/watch?v=KxKfnmfHPc8)
@@ -102,7 +113,7 @@ This section contains various examples related to Application Integration: demo 
         - Oracle ERP Cloud FTP Server Business Event
         - SOAP Calculator Multiple Operations
 
-- [Oracle Integration Cloud - Feature - Projects](https://youtu.be/CxNDbBnWWYU) 
+- [Oracle Integration Cloud - Feature - Projects](https://youtu.be/CxNDbBnWWYU)
     -This video will explain Oracle Integration Cloud Feature Projects, and how you can use it. Enterprises often have hundreds of integrations to manage and monitor. Developers want to focus on specific integration components involved with an automated business process. With OIC Project, all related integrations and their components are in a single unified workspace. Additionally, projects provide robust life cycle management and risk-free updates to prebuilt integrations.
 
     Demonstration includes:
@@ -120,7 +131,7 @@ This section contains various examples related to Application Integration: demo 
 - [Oracle Integration Cloud - Feature - Publish & Subscribe Events](https://youtu.be/3gZcHnPJtuk)
 
     -This video will explain Oracle Integration Cloud Feature Events, and how Events can be used to create publish and subscribe integration patterns.
-    
+
     Demonstration includes:
     - Creating an Event in Oracle Integration Cloud
     - Creating an Integration that publishes the Event
@@ -129,10 +140,10 @@ This section contains various examples related to Application Integration: demo 
 
 - [Oracle Integration Cloud - Feature - Parallel Action](https://youtu.be/BTtPsDyiVLo)
     -This video demonstrates how you can use parallel action in Oracle Integration.
-    Parallel action is used to process tasks in parallel to improve integration performance and response times. 
-    
+    Parallel action is used to process tasks in parallel to improve integration performance and response times.
+
     The demonstration includes Rest Based App Driven Integration that takes Supplier Data and Creates the Supplier in parallel in two systems:
-    - Oracle ERP Cloud 
+    - Oracle ERP Cloud
     - Autonomous Database
 - [Red Hot Webinar: Event-Driven and Low-Code Document Approval Process and Lifecycle Automation](https://youtu.be/kQuF2XOYKOc)
     - Demo Video about enabling Document Lifecycle Automation using a Low-Code Approach with OCI Integration (ProcessAutomation, Integration & Visual App Builder), Content Management (embedded document mgmt & Microsoft O365 online editor plugin), Streaming (kafka-based) and Autonomous Database (document business data store).
@@ -154,8 +165,30 @@ This section contains various examples related to Application Integration: demo 
     - Demo Video (part of Red Hot Webinars) where we show how to use a Recipe (HCM Employee sync) and how to enhance it through an available accelerator.
 - [Cloud Integration is not only for SaaS: an EBS modernization ](https://www.youtube.com/watch?v=E_Kz-r26La4)
     - Demo Video (part of Red Hot Webinars) where we show an initiative to enhance and modernize the EBS platform for better reach and ease of users. No change to existing workflow approvals in EBS and standard EBS Self Service Submissions has been required. From a mobile VBCS app employees are able to submit their IQAMA Renewal (Residence renewal) or Overtime Work Requests and their managers (up to 2 management chains up) are able to check the request and perform their approval. It uses EBS Integrated SOA Gateway which exposes custom and standard EBS APIs reached through OIC REST adapter.
+- [Oracle Process Automation - BPM Structured Process - Travel Request Demo](https://www.youtube.com/watch?v=MAVZzBX8nQY)
+    - Demo video showing how to create and run a BPM structured process. Shows how to manage a Travel request through automatic decisiona and Human Task approval steps. This demo implements [Oracle Live Lab](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/run-workshop?p210_wid=3362&p210_wec=&session=17064424204924), Lab 1
+- [Oracle Process Automation - BPM Dynamic (Case Management) Process - Car Rental Demo](https://www.youtube.com/watch?v=JcB4FDIEzPo)
+    - Demo video showing how to create and run a BPM Dynamic (Case Management) Process. Shows how to manage Car Rental Process through Case Management stages, Global activities and combination of Human Tasks, Structured BPM processes and Milestones in Case Management stages. This demo implements [Oracle Live Lab](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/run-workshop?p210_wid=3362&p210_wec=&session=17064424204924), Lab 2
 
 ## Blogs
+
+- [GenAI-based Procurement Q&A App using Text-to-SQL and Low-Code Integration](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/procurement-qa-genai/files)
+    - In this article, we'll explore how to make a handy tool that helps to enable real-time purchase order feeds into a procurement DB store and also to transform procurement queries in natural language to SQL Queries and synthesize the SQL Response using Oracle Generative AI, Oracle Integration Cloud (OIC) and Oracle Autonomous Database (ADB). This application combines a low-code approach to orchestrate LLM AI services and applications using Oracle Integration Cloud and Generative AI prompting techniques for tasks like text-to-SQL transformations.
+
+- [Real-Time Email Categorization, Sentiment Analysis & "Quick Replies" using OCI AI Language, Generative AI & Oracle Integration Cloud](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/ai-language/ai-email-analyis/files)
+    - In this article, we'll explore how we can process emails from Outlook in real-time with a low-code approach using Oracle Integration Cloud (OIC), OCI API Gateway and Microsoft Graph API Webhooks, perform sentiment analysis, custom email categorization and email body PII masking using OCI AI Language, and generate email "quick replies" using OCI Generative AI. Finally all this Email Analysis data is sent to Oracle Autonomous Database for further visualization in an Oracle Analytics Cloud Dashboard.
+
+- [Invoice Document Processing from Gmail into ERP Systems using OCI Document Understanding & Oracle Integration Cloud](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/ai-document-understanding/ai-email-invoice/files)
+    - In this article, we'll explore how we can process invoice documents from Gmail into an ERP System in real-time using OCI Document Understanding and Oracle Integration Cloud (OIC). This solution combines a low-code approach to capture Gmail messages in real-time with Google Cloud Pub/Sub Adapter, extract invoice data with AI Document Understanding and create invoices in ERP systems using Oracle Integration Cloud ERP adapters.
+
+- [Document Evaluation Tool using OCI Generative AI, Document Understanding & Integration Cloud](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/doc-evaluation-genai)
+    - In this article, we'll explore how to make a handy tool that helps to evaluate documents using Oracle Generative AI, OCI Document Understanding, and Oracle Integration Cloud (OIC). This application combines a low-code approach to orchestrate LLM AI services and applications using Oracle Integration Cloud and Generative AI prompting techniques for tasks like document key criteria extraction, summarization, and evaluation.
+
+- [Describe an image using OCI AI Vision, Generative AI & Integration Cloud](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/vision-genai)
+    - In this article, we'll explore how to describe an image using OCI AI Vision Service and OCI Generative AI Service. The application is developed using Oracle VBCS, OIC, OCI AI Vision service, and OCI Generative AI Service. This integrated approach combines the strength of OCI AI Vision and OCI Generative AI Service, allowing for efficient and insightful summarization of image content.
+
+- [Integrate OCI AI Speech Service and Generative AI Summarization with Oracle Integration Cloud & Visual Builder](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/speech-genai)
+    - OCI Speech is an AI service that applies automatic speech recognition technology to transform audio-based content into text. Generative AI, The Large Language Model (LLM) analyzes the text input and can generate, summarize, transform, and extract information. Using these AI capabilities, we built a low code application- “Integrate OCI AI Speech Service and Generative AI Service for Summarization in Visual Builder " to invoke AI Speech REST API to convert audio files into text and then further invoke the Generative AI REST API to Summarize it.
 
 - [Practical Guide to using HCM Data Loader with Oracle Integration](https://blogs.oracle.com/integration/post/practical-guide-to-use-hcm-data-loader-with-oracle-integration)
     - This blog addresses some key practical steps and prerequisites needed to use HCM Data Loader with Oracle Integration Cloud. Steps like generating Business Object Mapping file in Fusion HCM. How to work with nxsd in Oracle Integration Cloud and more.

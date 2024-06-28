@@ -1,12 +1,12 @@
 # Oracle Cloud VMware Solution - Terraform Automation
 
-Terraform can be used both to provision and manage an OCVS environment. In the folders in this directory 
-you will find examples for both scenarios:
+Terraform can be used both to provision and manage an OCVS environment. In the folders in this directory  you will find examples of various scenarios:
 
 - Provisioning OCVS through terraform (3 different scenarios are included)
+- Adding an ESXi host to a multi-ad deployment, with the option to specify it's AD location
 - Manage OCVS (2-day operations), creating a new VLAN and attaching it to the OCVS environment
 
-Examples created by: richard.garsthagen@oracle.com (feedback welcome!)
+Examples created by: Richard Garsthagen, feedback is welcome! Please see the 'Issue' feature in GitHub.
 
 # License
 Copyright (c) 2024 Oracle and/or its affiliates.

@@ -26,7 +26,6 @@ Reviewed: 06.02.2024
 
 - [Introducing NPA](https://blogs.oracle.com/cloud-infrastructure/post/introducing-oracle-cloud-network-path-analyzer)
 
-
 ## Reference Architectures & Step-by-step Guides
 
  - [NPA Steps guide](https://blogs.oracle.com/ateam/post/oci-network-path-analyzer)
@@ -36,13 +35,11 @@ Reviewed: 06.02.2024
  
 - [Speed up Network Troubleshooting with Oracle Cloud Network Path Analyzer](https://blogs.oracle.com/analytics/post/fast-track-network-troubleshooting-with-oracle-cloud-network-path-analyzer-for-oracle-analytics-cloud-oac)
 
-
 ## Videos & Podcasts
 
 - [NPA in 5 mins](https://www.youtube.com/watch?v=vr8oitlkAvI)
 - [Oracle Network Path Analyzer](https://videohub.oracle.com/media/Oracle+Network+Path+Analyzer.mov/1_dm81kp7i)
 - [OCI Tips and Tricks - Troubleshooting with Oracle Cloud Infrastructure Network Path Analyzer](https://www.youtube.com/watch?v=AoTk4Aq-9Gw)
-
 
 # License
 

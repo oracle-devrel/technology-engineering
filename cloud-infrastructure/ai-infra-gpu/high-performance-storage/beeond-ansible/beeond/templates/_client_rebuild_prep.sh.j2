@@ -1,0 +1,53 @@
+#!/bin/bash
+
+set -x
+
+# For OL UEK
+# To install a kernel-uek-devel version which is for the installed kernel version.
+uname -r | grep "uek.x86_64$"
+if [ $? -eq 0 ]; then
+  echo "Oracle Linux UEK kernel found"
+  sudo yum install -y "kernel-uek-devel-uname-r == $(uname -r)"
+else
+    cat /etc/os-release | grep "^NAME=" | grep "CentOS"
+    if [ $? -eq 0 ]; then
+        # For CentOS
+        sudo yum install -y "kernel-devel-uname-r == $(uname -r)"
+        if [ $? -eq 0 ]; then
+          echo "found correct rpm"
+        else
+          kernelVersion=`uname -a  | gawk -F" " '{ print $3 }' ` ; echo $kernelVersion
+          yum install -y redhat-lsb-core
+          lsb_release -a
+          fullOSReleaseVersion=`lsb_release -a | grep "Release:" | gawk -F" " '{ print $2 }'` ; echo $fullOSReleaseVersion
+          rpmDownloadURLPrefix="http://archive.kernel.org/centos-vault/${fullOSReleaseVersion}/updates/x86_64/Packages"
+          curl -O ${rpmDownloadURLPrefix}/kernel-devel-${kernelVersion}.rpm
+          rpm -Uvh kernel-devel-${kernelVersion}.rpm  --oldpackage
+        fi
+    fi
+
+    cat /etc/os-release | grep "^NAME=" | grep -i "Oracle"
+    if [ $? -eq 0 ]; then
+      sudo yum install -y "kernel-devel-uname-r == $(uname -r)"
+    fi
+fi
+
+# For OL UEK
+# To install a kernel-uek-devel version which is for the installed kernel version.
+uname -r | grep "uek.x86_64$"
+if [ $? -eq 0 ]; then
+  echo "Oracle Linux UEK kernel found"
+  sudo yum install -y elfutils-libelf-devel
+  #  Fix for OL UEK for beegfs rebuild to work.  Should be ran after beegfs-client is installed.
+  sed -i -e '/ifeq.*compat-2.6.h/,+3 s/^/# /' /opt/beegfs/src/client/client_module_7/source/Makefile
+fi
+
+# if Node is HPC node, then rebuild using RDMA, even if you do not plan to use RDMA for beegfs.
+#/ifconfig | grep "enp94s0f0\|ens800f0"
+ibstatus | grep ACTIVE
+if [ $? -eq 0 ]; then
+  sed -i 's|^buildArgs=-j8|buildArgs=-j8 BEEGFS_OPENTK_IBVERBS=1 OFED_INCLUDE_PATH=/usr/src/ofa_kernel/default/include|g' /etc/beegfs/beegfs-client-autobuild.conf
+  # Run rebuild command
+  # ON PURPOSE not running the below, since the first time the client is mounted, it will run it .
+  ##  /etc/init.d/beegfs-client rebuild
+fi
