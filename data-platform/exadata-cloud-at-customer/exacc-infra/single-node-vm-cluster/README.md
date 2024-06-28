@@ -2,17 +2,17 @@
 
 With this enhancement, you can deploy and run multiple single-instance databases in a single-node cluster without RAC licenses being required.
 
-Please note. This functionality should only be used in non-production environments where the customer does not have RAC licenses.
+Please note. This functionality should only be used on non-production environments, where under BYOL licensing, RAC licenses are not available.
 
-The lack of RAC licenses means that the customer is unable to easily instantiate the DB instance on another DB Server in the ExaDB infrastructure. This means that during maintenance, there will ALWAYS be an outage of the DB service unless the customer moves the service to the DR environment. 
+The lack of RAC licenses means that it is impossible to easily instantiate the DB instance on another DB Server in the Exadata Cloud@Customer infrastructure. This means that during maintenance, there will ALWAYS be an outage of the DB service unless there is a possibility to switch the service to a DR environment. 
 
 Single Node VM Cluster provides ZERO capability for local failover for either planned or unplanned outages.
 
-For customers who do have a RAC license, but want to run Single Node instances, the preferred mechanism is to use clusters, as outlined in the following deck: SIDB on ExaDB
+If the RAC license is available, but for some reason running Single Node instances is preferred, the suggested way is to use one of the below options:
 
-The Single Node VM Cluster implementation is rolled out only to the MTY region. It will be rolled out to other regions in a phased manner
-
-Reviewed: 24.06.2024
+Run each single instance database as a singleton workload or PDB in a shared RAC CDB (the preferred way)
+Run each single instance database as a singleton workload or PDB in a dedicated CDB
+Run each single instance database as a two–node cluster, but shut down unnecessary instances
 
 # Useful Links
 
@@ -30,3 +30,5 @@ Copyright (c) 2024 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+
+Reviewed 28/06/2024
