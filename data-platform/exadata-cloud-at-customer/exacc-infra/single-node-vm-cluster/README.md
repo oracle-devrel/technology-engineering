@@ -8,7 +8,7 @@ The lack of RAC licenses means that it is impossible to easily instantiate the D
 
 Single Node VM Cluster provides ZERO capability for local failover for either planned or unplanned outages.
 
-If the RAC license is available, but for some reason running Single Node instances is preferred, the suggested way is to use one of the bellow options:
+If the RAC license is available, but for some reason running Single Node instances is preferred, the suggested way is to use one of the below options:
 
 Run each single instance database as a singleton workload or PDB in a shared RAC CDB (the preferred way)
 Run each single instance database as a singleton workload or PDB in a dedicated CDB
