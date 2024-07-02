@@ -1,6 +1,6 @@
 ## Database Replay Scripts
 
-This folder provides SQL scripts for the usage of Database Replay (DB Replay).
+This folder provides SQL scripts for the usage of Database Replay (DB Replay). Please adapt and change the scripts to your conditions. 
 
 ## Scripts
 
