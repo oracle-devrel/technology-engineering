@@ -6,7 +6,7 @@ The new Oracle Interconnect for Google Cloud now enables flexible and simplified
 
 Enterprises can seamlessly connect Google Cloud services, such as analytics and AI, to Oracle Cloud services, such as Exadata and Autonomous Database. For organizations seeking to optimize and elevate their cloud infrastructure capabilities and commercial calculus, such a native multicloud model offers the best-of-both-clouds customer experience that encompasses a unified and interoperable technical and commercial stack.
  
-Reviewed: 13.06.2024
+Reviewed: 02.07.2024
  
 # Useful Links
 
@@ -15,6 +15,10 @@ Reviewed: 13.06.2024
 - [Oracle and Google Cloud Announce a Groundbreaking Multicloud Partnership](https://www.oracle.com/news/announcement/oracle-and-google-cloud-announce-groundbreaking-multicloud-partnership-2024-06-11/)
 - [Step-by-Step Guide: Interconnecting Oracle Cloud Infrastructure and Google Cloud ](https://blogs.oracle.com/cloud-infrastructure/post/interconnecting-oci-google-cloud)
 - [Access to Google Cloud Platform](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/access-to-google-cloud-platform.htm)
+- [Oracle Interconnect for Google Cloud](https://www.oracle.com/cloud/google/interconnect/)
+- [Oracle and Google Cloud Partnership FAQ ](https://www.oracle.com/cloud/google/interconnect/faq/)
+- [Announcing the Oracle Interconnect for Google Cloud](https://blogs.oracle.com/cloud-infrastructure/post/announcing-oracle-interconnect-google-cloud)
+
 
 
 # License
