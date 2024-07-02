@@ -1,6 +1,6 @@
 # Database Replay (DB Replay)
 
-Database Replay can be used to capture a real workload on the production system and replay it on a test system with the exact timing, concurrency, and transaction characteristics of the original workload. This enables you to test the effects of a system change without affecting the production system. Database Replay supports workload capture on a system running Oracle Database 10g Release 2 and newer releases. Because the database workload capture is stored in a platform-independent format, you can capture workload on one OS platform, e.g. Windows, and replay on a different one, e.g. Linux. Keep in mind it should be used only within the Oracle Database. Other external components like application server, middleware or client software cannot be considered when testing with Real Application Testing. Either the graphical interface via Enterprise Manager Cloud Control or the command-line API can be used.  
+Database Replay can be used to capture a real workload on the production system and replay it on a test system with the exact timing, concurrency, and transaction characteristics of the original workload. This enables you to test the effects of a system change without affecting the production system. Database Replay supports workload capture on a system running Oracle Database 10g Release 2 and newer releases. Because the database workload capture is stored in a platform-independent format, you can capture a workload on one OS platform, e.g. Windows, and replay on a different one, e.g. Linux. Keep in mind it should be used only within the Oracle Database. Other external components like application server, middleware, or client software cannot be considered when testing with Real Application Testing. Either the graphical interface via Enterprise Manager Cloud Control or the command-line API can be used.  
 
 
 Reviewed: 02.07.2024
@@ -14,7 +14,7 @@ To learn about Database Replay using the command line API.
 See the README in the files folder.
 
 Please note: Database Replay for Autonomous Database (ADB) works differently. It can be used e.g. to replay a recorded (captured) workload from On-Premises or cloud installations in an Autonomous Database. 
-For more deatils on the usage in ADB refer to the [documentation](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/autonomous-real-application-testing.html#GUID-EB8F065E-5FBB-480D-BAF6-5A0446740073) or the posting [Autonomous Database Replay](https://blogs.oracle.com/coretec/post/adb-database-replay).
+For more details on the usage in ADB refer to the [documentation](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/autonomous-real-application-testing.html#GUID-EB8F065E-5FBB-480D-BAF6-5A0446740073) or the posting [Autonomous Database Replay](https://blogs.oracle.com/coretec/post/adb-database-replay).
  
 # Useful Links
 
