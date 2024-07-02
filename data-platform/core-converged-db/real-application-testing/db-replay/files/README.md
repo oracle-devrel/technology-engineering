@@ -4,12 +4,12 @@ This folder provides SQL scripts for the usage of Database Replay (DB Replay). P
 
 ## Scripts
 
-You can find an example workflow, the executed scripts and a detailed description in the posting [Testing with Oracle Database Replay](https://blogs.oracle.com/coretec/post/testing-with-oracle-database-replay).
+You can find an example workflow, the executed scripts, and a detailed description in the posting [Testing with Oracle Database Replay](https://blogs.oracle.com/coretec/post/testing-with-oracle-database-replay).
 
 Keep in mind that appropriate permissions are required to
 - Create directory objects
 - Use DBMS_WORKLOAD_CAPTURE and DBMS_WORKLOAD_REPLAY packages
-- Act as a replay client user (e.g. wrc someuser/somepassword or wrc USER=someuser PASSWORD=somepassword)
+- Act as a replay client user (e.g. wrc someuser/YOUR_PASSWORD or wrc USER=someuser PASSWORD=YOUR_PASSWORD) //PLEASE CHANGE YOUR_PASSWORD  TO A REAL PASSWORD!
  
 In the documentation [DBMS_WORKLOAD_CAPTURE Security Model]( https://docs.oracle.com/en/database/oracle/oracle-database/19/arpls/DBMS_WORKLOAD_CAPTURE.html#GUID-77C6507C-3DE6-4FB4-B180-530BEB840BE8) you will get the detailed information about it.
 
@@ -17,7 +17,7 @@ Before starting a workload capture, you should have a strategy in place to resto
 
 In general, please follow the suggested script order.
 
-### 1) Capture the Database Workload on the production environment 
+### 1) Capture the Database Workload in the production environment 
 
 Before starting, check the [Workload Capture restrictions](https://docs.oracle.com/en/database/oracle/oracle-database/19/ratug/capturing-a-database-workload.html#GUID-4A1995F1-78F9-4080-8DFC-1E3EBCB3F4B8).
 
@@ -36,7 +36,7 @@ Before starting, check the [Workload Capture restrictions](https://docs.oracle.c
 - Preprocess: processcapture.sql
 - (optional) Check duration: processmonitor.sql
 
-### 3) Replay the Database Workload on test environment
+### 3) Replay the Database Workload on the test environment
 
 - (optional) Add filters: replayfilter.sql and replayfilterset.sql 
 - Initialize the replay: replayinitialize.sql
