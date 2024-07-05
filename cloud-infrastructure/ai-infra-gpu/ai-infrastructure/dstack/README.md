@@ -121,7 +121,7 @@ fsdp_config:
 * `distributed_type`: `FSDP` indicates the use of Fully Sharded Data Parallel (FSDP), a technique that enables training large models that would otherwise not fit on a single GPU.
 * `fsdp_config`: These set up how FSDP operates, such as how the model is sharded (`fsdp_sharding_strategy`) and whether parameters are offloaded to CPU (`fsdp_offload_params`).
 
-![Hybrid shards](/assets/images/image2.jpg "Hybrid shards")
+![Hybrid shards](/assets/images/image2.png "Hybrid shards")
 
 With the `FSDP` of `distributed_type` and `FULL_SHARD` of `fsdp_config`’s `fsdp_sharding_strategy`, a model will be sharded across multiple GPUs in a single machine. When dealing with multiple compute nodes, each node will host an identical copy of the model, which is itself split across multiple GPUs within that node. This means each partitioned model instance on each node processes different sections or batches of your dataset. To distribute a single model across multiple GPUs spanning across multiple nodes, configure the parameter `fsdp_sharding_strategy` as `HYBRID_SHARD`.
 
@@ -208,7 +208,7 @@ curl -X POST https://black-octopus-1.mycustomdomain.com/generate \
 
 Additionally, for a deployed model, dstack automatically provides a user interface to directly interact with the model:
 
-![User interface](/assets/images/image1.jpg "User interface")
+![User interface](/assets/images/image1.png "User interface")
 
 ## Conclusion
 
