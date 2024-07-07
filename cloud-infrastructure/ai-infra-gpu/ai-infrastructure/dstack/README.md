@@ -208,7 +208,6 @@ curl -X POST https://black-octopus-1.mycustomdomain.com/generate \
 
 Additionally, for a deployed model, dstack automatically provides a user interface to directly interact with the model:
 
-![User interface](assets/images/image1.png "User interface")
 <p align="center">
     <img src="https://github.com/oracle-devrel/technology-engineering/blob/dstack-tutorial/cloud-infrastructure/ai-infra-gpu/ai-infrastructure/dstack/assets/images/image1.png" width="600">
 </p>
