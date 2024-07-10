@@ -10,19 +10,16 @@ The Liquibase feature is SQLcl extends the base utility with additional metadata
 
 You can add the functionality to read these specialized changelogs to the Liquibase client by following the instructions in the [Requirements for Using Liquibase](https://docs.oracle.com/en/database/oracle/sql-developer-command-line/23.4/sqcug/using-liquibase.html#GUID-673321E9-1C06-4B9A-A373-52C2CB5AB7B0) section of the documentation.
 
-Reviewed: 27.03.2024
- 
-## The Liquibase Feature in SQLcl
+# The Liquibase Feature in SQLcl
 SQLcl Liquibase with Oracle Database provides extended functionality to the Liquibase experience compared to the open-source Liquibase client. The Liquibase feature in SQLcl enables you to execute commands to generate a changelog for a single object or for a full schema in specialized changelogs and changesets.
 
+Reviewed: 10.06.2024
 
 # Table of Contents
  
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-links)
-3. [Tutorials / How-To's](#tutorials-how-tos)
 
- 
 # Team Publications
 
 - [Start your DevOps adventure with Liquibase on ADB](https://medium.com/@devpiotrekk/start-your-apex-devops-adventure-with-liquibase-f8e45c3d1e6a)
@@ -36,11 +33,17 @@ SQLcl Liquibase with Oracle Database provides extended functionality to the Liqu
 - [Liquibase Documentation](https://docs.liquibase.com/start/release-notes/home.html "Release Notes")
 - [Best Practices Recommended by Liquibase](https://docs.liquibase.com/concepts/bestpractices.html "Maximize the effectiveness and efficiency of the Liquibase workflow")
 
+## Videos & Demos 
+- [YouTube - Automating Your SQL and PL/SQL Deployments](https://www.youtube.com/watch?app=desktop&v=oyU11sk51ao)
+- [YouTube - Using SQLcl and Liquibase to version your Oracle Database](https://www.youtube.com/watch?v=7A-anQoi6tI)
+- [DevOps with Oracle Application Express](https://gotsysdba.com/demo-oci-adb-apex-devops-part1)
+- [Autonomous DevOps with Liquibase](https://github.com/mikarinneoracle/atp-ords-liquibase-demo)
+
 ## Scripts
 
 - [APEX Lifecycle Management Technical Paper Scripts](https://apex.oracle.com/go/lifecycle-technical-paper-files "Zip download")
 
-# Tutorials / How-To's
+## Tutorials / How-To's
 
 - [Oracle LiveLabs - Capture Oracle Database Changes for CI/CD](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3000)
 - [Oracle LiveLabs - Oracle Database Operator for Kubernetes + DevOps](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3393)
@@ -110,7 +113,5 @@ Use the directory structure to manage schema versions by following the [Best Pra
 # License
 
 Copyright (c) 2024 Oracle and/or its affiliates.
-
 Licensed under the Universal Permissive License (UPL), Version 1.0.
-
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

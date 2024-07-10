@@ -12,8 +12,6 @@ The primary PL/SQL packages are:
 [DBMS_METADATA](https://docs.oracle.com/en/database/oracle/oracle-database/19/arpls/DBMS_METADATA.html#GUID-F72B5833-C14E-4713-A588-6BDF4D4CBA2A) 
 - The DBMS_METADATA package provides a way for you to retrieve metadata from the database dictionary as XML or creation DDL and to submit the XML to re-create the object. Use this to generate the data definition of schema objects.
 
-Reviewed: 15.01.2024
-
 ## [APEX_EXPORT](https://docs.oracle.com/en/database/oracle/apex/23.2/aeapi/APEX_EXPORT.html#GUID-6A4628A6-9F86-4394-9938-87A7FFFC7BC8) 
 - The APEX_EXPORT package provides APIs to export the definitions of applications, files, feedback, and workspaces to text files.
 
@@ -26,11 +24,11 @@ Reviewed: 15.01.2024
 
 The simplest deployment and set of APIS for Continuous Integration are available for APEX on Autonomous Database services, with Cloud Repository integration & Schema export via DBMS_CLOUD_REPO, and APEX applications via APEX_EXPORT. These two packages provide extensive capabilities to commit code changes into the repository with little work required to manage connectivity, generation upload and commit operations.
 
+Reviewed: 10.06.2024
 
 # Table of Contents
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-links)
-3. [Tutorials / How-To's](#tutorials-how-tos)
 
  
 # Team Publications
@@ -54,11 +52,8 @@ The simplest deployment and set of APIS for Continuous Integration are available
 - [CICD automation for Oracle APEX Apps](https://blogs.oracle.com/shay/post/cicd-automation-for-oracle-apex-apps)
 - [Git Version Management and CICD automation for Oracle APEX](https://blogs.oracle.com/shay/post/version-management-and-cicd-automation-for-oracle-apex)
 
-
 # License
 
 Copyright (c) 2024 Oracle and/or its affiliates.
-
 Licensed under the Universal Permissive License (UPL), Version 1.0.
-
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
