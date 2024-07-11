@@ -28,10 +28,10 @@ If you're **starting with OCI landing zones**:
 &nbsp; 
 
 The following **assets** are also available to improve the OCI landing experience:
-1. **Landing Zones**: [How a Complete OCI Landing Zone Looks Like (**OCI Open LZ**)](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/design)
-2. **Workloads Extensions**: [How an OCI Workload Extensions Looks Like (**OCI EBS LZ**)](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/examples/oci-ebs-lz)
+1. **Landing Zones**: [How a Complete OCI Landing Zone Looks Like (**OCI Open LZ**)](https://github.com/oracle-quickstart/terraform-oci-open-lz)
+2. **Workloads Extensions**: [How an OCI Workload Extensions Looks Like (**OCI EBS LZ**)](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/workload-extensions/oci-lz-ext-ebs)
 3. **Infrastructure-as-Code (IaC)**: [The Configurable IaC approach to OCI Landing Zones **(CIS Modules)**](/landing-zones/commons/oci_landingzones_iac.md).
-4. **Learn/DIY**: [How to Design and Configure OCI Landing Zones (**OCI Learn LZ**)](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/examples/oci-learn-lz)
+4. **Learn/DIY**: [How to Design and Configure OCI Landing Zones (**OCI Learn LZ**)](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/addons/oci-learn-lz)
 5. **Naming Conventions**: [Resource Naming Conventions for OCI](/landing-zones/commons/resource_naming_conventions.md)
 6. **Identity**: [OCI User Identity Management](/landing-zones/commons/user_identity_management.md)
 7. **Budgets**: [OCI Budgets and Tagging Recommendations](/landing-zones/commons/budgets_and_tagging.md)
