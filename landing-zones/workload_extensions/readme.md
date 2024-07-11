@@ -8,7 +8,7 @@
 
 ## 1. What are Workload Extensions 
 
-A workload extension is an **OCI solution design ready to receive specific workloads** on top of a landing zone. Each of these extensions follows the [tailored landing zone approach](/landing-zones/tailored_landing_zones/tailored_landing_zones.md) and has a design and runtime, ready for deployment:
+A workload extension is an **OCI solution design ready to receive specific workloads** on top of a landing zone. Each of these extensions follows the [tailored landing zone approach](/landing-zones/tailored_landing_zones/readme.md) and has a design and runtime, ready for deployment:
 
 - In terms of **design**, each solution will contain the security, network, and runtime views. 
 
@@ -28,7 +28,7 @@ Find below the list of available workload landing zones and our backlog. Be free
 
 | WORKLOAD  | CONTENT | DESCRIPTION |
 |---|---|---|
-| [**EBS**](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/examples/oci-ebs-lz) | Public | An EBS Landing Zone Extension.
+| [**EBS**](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/workload-extensions/oci-lz-ext-ebs) | Public | An EBS Landing Zone Extension.
 | **OKE** | On Demand | An OKE Landing Zone Extension.
 | **ExaCS** | On Demand | An ExaCS Landing Zone Extension.
 | **ExaCC** | On Demand | An ExaCC Landing Zone Extension.
