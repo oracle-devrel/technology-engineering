@@ -41,6 +41,8 @@ Reviewed: 08/07/2024
 - [Automation of OCI Event Rule using OpenTofu/Terraform](https://karthicin.medium.com/automation-of-oci-event-rule-using-opentofu-terraform-dc3946ae7bb6)
 - [How to run Game of Active Directory in OCI — Part 1](https://learnoci.cloud/how-to-run-game-of-active-directory-in-oci-part-1-5be51387a7a2)
 - [How to monitor your OCI environment using Dynatrace](https://learnoci.cloud/how-to-monitor-your-oci-environment-using-dynatrace-8c23f376659b)
+- [OCI Management Dashboard Automation](https://karthicin.medium.com/oci-management-dashboard-automation-ea4f45cac24b)
+- [Create Dynamic Links for OCI Stack Monitoring Alarms and More](https://medium.com/@michtoeth/create-dynamic-links-for-oci-stack-monitoring-alarms-and-more-ca8e0e6fb7a5)
 
 ## Cloud Coaching Clinics (Videos)
 
