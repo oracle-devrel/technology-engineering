@@ -66,6 +66,7 @@ Start WRCs in the background on the replay machine or a separate machine (e.g. $
 - debug WRC sessions with gv$workload_replay_thread and gv$session: debug_wrc_sessions.sql
 - debug wrc waits with gv$workload_replay_thread: debug_wrc_wait.sql
 - debug slow replay info report: debug_slow_replay_info.sql
+- monitoring report using dbms_wrr_report (see also Database Replay monitor report (dbms_wrr_report) (Doc ID 2696765.1)): monitor_with_dbms_wrr_report.sql
 
 # License
 
