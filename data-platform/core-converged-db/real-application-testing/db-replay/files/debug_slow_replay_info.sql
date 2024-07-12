@@ -1,4 +1,3 @@
-rem Script name: debug_replay_info.sql
 rem Script displays some informations that may be helpfull to analyze slow running RAT-Replays
 rem See also MOS-Note 760402.1
 
