@@ -59,8 +59,14 @@ Start WRCs in the background on the replay machine or a separate machine (e.g. $
 - Replay report: replayreport.sql
 - Import capture AWRs: importAWR.sql
 - ComparePeriod report: comparereplayreport.sql 
+(Note: it may be useful to generate an additional AWR spanning the replay period.) 
 
-(Note: it may be useful to generate an additional AWR spanning the replay period.)      
+### 5) Debug Database Replay (optional, only in the case you discover slow replays)
+- debug slow replay in dba_alert_history: debug_slow_replay_alert.sql
+- debug WRC sessions with gv$workload_replay_thread and gv$session: debug_wrc_sessions.sql
+- debug wrc waits with gv$workload_replay_thread: debug_wrc_wait.sql
+- debug slow replay info report: debug_slow_replay_info.sql
+- monitoring report using dbms_wrr_report (see also Doc ID 2696765.1): monitor_with_dbms_wrr_report.sql
 
 # License
 
