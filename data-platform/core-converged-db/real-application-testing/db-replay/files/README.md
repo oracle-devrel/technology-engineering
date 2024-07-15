@@ -28,8 +28,9 @@ Before starting, check the [Workload Capture restrictions](https://docs.oracle.c
 - Check capture results: capturemon.sql
 - Export AWR: exportawr.sql
 - Capture report: capturereport.sql
+- (optional) Generate an additional AWR spanning the capture period
 
-(Note: it may be useful to generate an additional AWR spanning the capture period.) 
+Examples for capture filter usage: capturefilterusage.sql
 
 ### 2) Preprocess the (captured) Database Workload on the test environment  
 
@@ -53,6 +54,7 @@ Start WRCs in the background on the replay machine or a separate machine (e.g. $
 - Start the replay: replaystart.sql
 - Monitor the replay: replaymon.sql
 
+Examples for replay filter usage: replayfilterusage.sql
 ### 4) Generate Reports
  
 - (optional) Divergence reports: divergences.sql, divergence_detail.sql
