@@ -61,6 +61,8 @@ Reviewed: 31.10.2023
 ## OAC Latest Release and Announcements
  |Content Link |Descripton|
 | ------------ |------------|
+|[Oracle Analytics Cloud new features - Jul 2024](https://www.youtube.com/watch?v=0BVxTCvDmaQ&list=PL6gBNP-Fr8KXAOF9RgJIU5ykJvD8fHoxj)|Oracle Analytics Cloud Jul-2024 new features videos|
+|[Oracle Analytics Cloud new features - May 2024](https://www.youtube.com/watch?v=eoNmcRZ5wYI&list=PL6gBNP-Fr8KU55dSbzkEKySjSDWlL3BWm)|Oracle Analytics Cloud May-2024 new features videos|
 |[Oracle Analytics Cloud new features - March 2024](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KWlnpaELiCxQJii-F4c7Ehz)|Oracle Analytics Cloud March-2024 new features videos|
 |[Oracle Analytics Cloud new features - January 2024](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KUGvVDRGC8IyXo8yQzUtMiD)|Oracle Analytics Cloud January-2024 new features videos|
 |[Oracle Analytics New Capabilities - November 2023](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KXVh3PVwWfl1nC_TyHi_yl8)|Oracle Analytics Cloud November-2023 release|
@@ -113,7 +115,7 @@ Reviewed: 31.10.2023
 |Content Link |Descripton|
 | ------------ |------------|
 |[OAC vs PowerBI vs Tableau](https://www.oracle.com/business-analytics/comparison-chart.html)|Comparison of Oracle Analytics Cloud with other leading business analytics products|
-|[Gartner Analytics Review 2023](https://www.youtube.com/watch?v=nYNbpGeu_nw)|Oracle Analytics as visionary in the 2023 Gartner’s Magic Quadrant|
+|[Gartner Analytics Review 2024](https://www.oracle.com/news/announcement/oracle-named-leader-in-2024-gartner-magic-quadrant-for-analytics-and-business-intelligence-platforms-2024-06-24/)|Oracle Named a Leader in the 2024 Gartner® Magic Quadrant™ for Analytics and Business Intelligence Platforms|
 
 
 ## Blogs for AI/ML with Oracle Analytics Platform
