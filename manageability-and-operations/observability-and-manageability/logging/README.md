@@ -2,7 +2,7 @@
 
 The Oracle Cloud Infrastructure Logging service is a highly scalable and fully managed single pane of glass for all the logs in your tenancy. Logging provides access to logs from Oracle Cloud Infrastructure resources. These logs include critical diagnostic information that describes how resources are performing and being accessed.
 
-Reviewed: 16.11.2023
+Reviewed: 22.05.2024
 
 # Table of Contents
 

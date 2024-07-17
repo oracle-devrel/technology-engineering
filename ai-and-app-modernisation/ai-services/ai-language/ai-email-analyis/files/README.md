@@ -271,6 +271,7 @@ As an alternative, you could use the OCI Generative AI Summarization REST API in
       Email Analysis Table Scripts - emailcategorization.sql
       AI Language Custom Text Classification Model for Email Category Training Dataset - bank_complaints_category.csv
       AI Language Custom Text Classification Model for Email SubCategory Training Dataset - bank_complaints_subcategory.csv
+      Oracle Analytics Cloud Real-Time Email Analysis Dashboard - Real_Time_Outlook_Email_Analysis.dva
 
 Please find the **email_sent_analysis_categ_sol_resources** archive in <a href="./email_sent_analysis_categ_sol_resources.zip">/files/email_sent_analysis_categ_sol_resources.zip</a>
 

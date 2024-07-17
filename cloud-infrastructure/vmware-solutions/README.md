@@ -1,6 +1,12 @@
 # VMware Solutions
 
-This area focuses on Oracle Cloud VMware Solution, Oracle Cloud Migrations & Oracle Secure Desktops.
+This area focuses on Oracle Cloud VMware Solution, Oracle Secure Desktops and Oracle Cloud Migration.
+
+
+# Reusable Assets Overview
+
+- [Secure Desktop Solution Definition Document](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/vmware-solutions/oracle-secure-desktops/secure-desktops-solution-definition)
+
 
 # License
 

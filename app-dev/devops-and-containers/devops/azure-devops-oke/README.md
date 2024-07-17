@@ -60,7 +60,7 @@ To make this build and deploy to OKE to work is not a big task. First copy the f
 Before building the Docker image repo needs to be created under the desired <code>compartment</code>. This can be easily done using OCI Cloud UI. Name the repository as <b><i>Azure-test</i></b>, for example.
 
 <p>
-Then modify the <code>deployment.yaml</code> <a href="https://github.com/oracle-devrel/technology-engineering/blob/azure-devops-oke/app-dev/devops/azure-devops-oke/deployment.yaml#L19">line 19</a> by replacing the &lt;TENANCY_NAMESPACE&gt; with yours and if you gave another name for the OCIR repo then modify also that here, too. Modify also the <code>region</code> if using some other OCI region than <b><i>fra.ocir.io</i></b>.
+Then modify the <code>deployment.yaml</code> <a href="https://github.com/oracle-devrel/technology-engineering/tree/main/app-dev/devops-and-containers/devops/azure-devops-oke/deployment.yaml#L19">line 19</a> by replacing the &lt;TENANCY_NAMESPACE&gt; with yours and if you gave another name for the OCIR repo then modify also that here, too. Modify also the <code>region</code> if using some other OCI region than <b><i>fra.ocir.io</i></b>.
 
 <p>
 To be able to do <code>Docker login</code> to the repo create <code>auth token</code> for your OCI user unless you already have one.
@@ -74,7 +74,7 @@ Once the OKE cluster is up and running with <code>kubectl</code> access setup th
     <a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengaddingserviceaccttoken.htm" target="_NEW">https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengaddingserviceaccttoken.htm</a>. 
     
 <p>
-Name the secret <b><i>oke-kubeconfig-azure-token</i></b> as in <code>azure-token.yaml</code> <a href="https://github.com/oracle-devrel/technology-engineering/blob/azure-devops-oke/app-dev/devops/azure-devops-oke/azure-token.yaml#L4" target="_NEW">line 14</a>.
+Name the secret <b><i>oke-kubeconfig-azure-token</i></b> as in <code>azure-token.yaml</code> <a href="https://github.com/oracle-devrel/technology-engineering/tree/main/app-dev/devops-and-containers/devops/azure-devops-oke/azure-token.yaml#L4" target="_NEW">line 4</a>.
 
 ## Setup Azure DevOps OCI connections for OKE and OCIR
 
@@ -109,7 +109,7 @@ Edit the created pipeline and select <code>Variables</code> to create them as fo
 
 <ul>
     <li>CONTAINER_REGISTRY: OCIR</li>
-    <li>CONTAINER_REPOSITORY: Use the same name as in the <code>deployment.yaml</code> <a href="https://github.com/oracle-devrel/technology-engineering/blob/azure-devops-oke/app-dev/devops/azure-devops-oke/deployment.yaml#L19">line 19</a> but <b><i>without</i></b> the <code>region</code> and the <code>tag</code> ("1" in the example YAML file) e.g. <b><i>&lt;TENANCY_NAMESPACE&gt;/azure-test</i></b></li>
+    <li>CONTAINER_REPOSITORY: Use the same name as in the <code>deployment.yaml</code> <a href="https://github.com/oracle-devrel/technology-engineering/tree/main/app-dev/devops-and-containers/devops/azure-devops-oke/deployment.yaml#L19">line 19</a> but <b><i>without</i></b> the <code>region</code> and the <code>tag</code> ("1" in the example YAML file) e.g. <b><i>&lt;TENANCY_NAMESPACE&gt;/azure-test</i></b></li>
     <li>containerImageFullNameForK8sDeploy: The same as above but with the OCI region e.g. <b><i>fra.ocir.io/&lt;TENANCY_NAMESPACE&gt;/azure-test</i></b></li>
     <li>K8S_CONNECTION_NAME: OKE</li>
     <li>K8S_NAMESPACE: default</li>
