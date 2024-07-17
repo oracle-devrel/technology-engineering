@@ -2,7 +2,6 @@
 
 This area focuses on technologies revolving around the Oracle Converged Database.
 
-
 # License
 
 Copyright (c) 2024 Oracle and/or its affiliates.
