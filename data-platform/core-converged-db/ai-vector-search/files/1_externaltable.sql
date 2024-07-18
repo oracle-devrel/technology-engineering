@@ -1,7 +1,7 @@
 REM Create an external table and check the data set
  
 -- copy the data set in the directory DM_DUMP
--- Data set is located [here](https://objectstorage.eu-frankfurt-1.oraclecloud.com/n/fro8fl9kuqli/b/AIVECTORS/o/dataset_200K.txt)
+-- dataset_200K.txt is located in: https://objectstorage.eu-frankfurt-1.oraclecloud.com/n/fro8fl9kuqli/b/AIVECTORS/o/dataset_200K.txt
 
 -- connect as user VECTOR_USER and create an external table
 
