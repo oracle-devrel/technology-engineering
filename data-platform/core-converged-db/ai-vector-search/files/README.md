@@ -10,7 +10,7 @@ Use the scripts to learn basics about AI Vector Search.
 
 # How to use this asset?
 
-See the README in the files folder.
+Please use the posting [Getting started with vectors in 23ai](https://blogs.oracle.com/coretec/post/getting-started-with-vectors-in-23ai) for information about the scripts.
 
 # Useful Links
 
