@@ -2,7 +2,7 @@
 
 Use Monitoring to query metrics and manage alarms. Metrics and alarms help monitor the health, capacity, and performance of your cloud resources.
 
-Reviewed: 22.05.2024
+Reviewed: 22.07.2024
 
 # Table of Contents
 
@@ -15,6 +15,7 @@ Reviewed: 22.05.2024
 - [How to feed OCI metrics to Security Onion Grafana](https://learnoci.cloud/how-to-feed-oci-metrics-to-security-onion-grafana-2dd1ceac3f71)
 - [Use Oracle REST API call to manage OEM assets](https://medium.com/@eugenesimos/supercharge-your-oracle-enterprise-manager-cloud-control-13-5-d264e7371ec9)
 - [Customised Alarm Notification in OCI](https://karthicin.medium.com/customised-alarm-notification-in-oci-e5b367ca20bc)
+- [How to install Arkime(Moloch) using embedded Open Search](https://learnoci.cloud/how-to-install-arkime-moloch-using-embedded-open-search-19a7a58f8eff)
 
 # Useful Links
 
