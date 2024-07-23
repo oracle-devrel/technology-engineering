@@ -22,6 +22,8 @@ Also make sure to check the dedicated pages of the main technology areas of Data
     - Blog technical article about migrating Windows Oracle Databases to OCI using Oracle REMOTE CLONE PDB and REFRESHABLE PDB functionalities, available on Carlos Álvarez's public platform
 - [Cloning Oracle Databases from Non-CDB to PDB](https://carlosal.wordpress.com/2023/11/07/cloning-oracle-databases-from-non-cdb-to-pdb/)
     - Blog technical article about cloning Non-CDB Oracle Databases as a PDB in a Container Database (CDB) using Oracle REMOTE CLONE PDB functionality, available on Carlos Álvarez's public platform
+- [Enabling TDE after migrating a Database to OCI by Cloning](https://carlosal.wordpress.com/2024/07/17/enabling-tde-after-migrating-a-database-to-oci-by-cloning/)
+    - Blog technical article about how to check and enable Transparent Data Encryption (TDE) after migrating a Database to OCI by Cloning, available on Carlos Álvarez's public platform
 - [How to survive an Oracle Database failure without your users ever noticing - Cloud Coaching Webinar]( https://www.youtube.com/watch?v=dsUbi5dO_PU)
     - Cloud Coaching Webinar, including a technical demonstration, delivered by Amalraj Puthenchira around the use of Application Continuity to avoid unplanned application outages.
 - [Teradata to Autonomous Data Warehouse on OCI Migration Guide](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/shared-assets/teradata-to-autonomous-data-warehouse-migration-guide)
