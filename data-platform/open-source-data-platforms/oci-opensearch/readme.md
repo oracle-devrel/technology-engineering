@@ -30,6 +30,8 @@ A notebook describing and performing all steps to create and store a custom embe
 - [Create a full RAG pipeline using OCI OpenSearch and the GenAI service](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-opensearch/code-examples/rag-oci-opensearch-genai-service)
 When you are looking to use build a full RAG pipeline using OCI OpenSearch (as a vector database and as an in-memory engine) and the GenAI service, using the OCI Data Science service. Largely, the steps are documented and automated to help you create the pipeline. The notebook includes a small interactive chatbot you can use to interact within a conversation.
 
+- [Create a NGINX server to access the OCI OpenSearch Dashboards](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-opensearch/code-examples/nginx-server)
+When many people need access to the OCI OpenSearch dashboards and you want them to use one single point of entry, being the public URL. You can use these steps to install an NGINX server on a compute, providing you access to the OCI OpenSearch dashboard with full control over your security.
 
 # License
 
