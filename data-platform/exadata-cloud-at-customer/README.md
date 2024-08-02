@@ -1,6 +1,6 @@
 # Exadata Cloud@Customer
 
-Reviewed: 24.06.2024
+Reviewed: 02.08.2024
 
 # Useful Links
 
@@ -28,9 +28,9 @@ Reviewed: 24.06.2024
 
 - [OCI Foundation Associate, Oracle University training, 8+ hours](https://mylearn.oracle.com/ou/learning-path/become-an-oci-foundations-associate-2023/122043)
 
-- [Become a Exadata Database Service Cloud Administrator, Oracle University training, 6+ hours](https://mylearn.oracle.com/ou/learning-path/become-a-exadata-database-service-cloud-administrator/121071)
+- [Become an Exadata Database Service Cloud Administrator, Oracle University training, 6+ hours](https://mylearn.oracle.com/ou/learning-path/become-a-exadata-database-service-cloud-administrator/121071)
 
-- [Become An Oracle Cloud Database Services Professional (2023), Oracle University training, 10+ hours](https://mylearn.oracle.com/ou/learning-path/become-an-oracle-cloud-database-services-professional-2023/122178)
+- [Become an Oracle Cloud Database Services Professional (2023), Oracle University training, 10+ hours](https://mylearn.oracle.com/ou/learning-path/become-an-oracle-cloud-database-services-professional-2023/122178)
 
 # Customer References
 
