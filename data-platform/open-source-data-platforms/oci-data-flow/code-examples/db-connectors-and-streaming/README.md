@@ -1,4 +1,4 @@
-# OCI Data Flow Connection to ADB/PostgreSQL/OCI Streaming from OCI Data Science Notebook
+# OCI Data Flow Connection to ADB/PostgreSQL/OCI Streaming from OCI Data Science Notebook using Spark
 
 Reviewed: 9.08.2024
 
