@@ -12,7 +12,7 @@ Supported scenarios:
     - 2. Autonomous Database with a Private Endpoint 
     - 3. Autonomous Database (Wallet Connection)
 - 2. Non-Oracle Databases
-    - 1. PostgreSQL (Spark)
+    - 1. PostgreSQL 
 - 3. Other Scenarios
     - 1. PostgreSQL to Autonomous
     - 2. Configuring OCI Streaming
