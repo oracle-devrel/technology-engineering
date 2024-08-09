@@ -1,0 +1,6 @@
+time
+torch
+pynvml
+fastapi
+pydantic
+transformers
