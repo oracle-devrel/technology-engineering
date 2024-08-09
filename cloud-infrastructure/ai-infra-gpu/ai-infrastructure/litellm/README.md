@@ -2,6 +2,8 @@
 
 In this tutorial we explain how to use a LiteLLM Proxy Server to call multiple LLM inference endpoints from a single interface. LiteLLM interacts will 100+ LLMs such as OpenAI, Coheren, NVIDIA Triton and NIM, etc. Here we will use two vLLM inference servers.
 
+![Hybrid shards](assets/images/litellm.avif "LiteLLM")
+
 ## Introduction
 
 LiteLLM provides a proxy server to manage auth, loadbalancing, and spend tracking across 100+ LLMs. All in the OpenAI format.
