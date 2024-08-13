@@ -38,6 +38,8 @@ Also make sure to check the dedicated pages of the main technology areas of Data
     - Explore and compare key features of different Oracle migration methods, available on Marcus Doeringer's public platform
 - [Multicloud Network Architectures for DB Migrations to Oracle Cloud Infrastructure](https://www.youtube.com/watch?v=1ngXJRsP5jA)
     - Cloud Coaching Webinar explaining different multicloud network architectures for migrating databases to OCI using Zero Downtime Migration
+- [Migrate On-Premises Database to OCI using Oracle Database Cloud Backup Module and RMAN ](https://amalrajputhenchira.wordpress.com/2024/08/13/migrate-on-premises-oracle-database-to-oci-using-oracle-database-cloud-backup-module-and-rman/)
+    - Detailed, step-by-step instructions for performing Physical Offline Migration of On-Premises database to Co-Managed Database in OCI using Oracle Database Cloud Backup Module and RMAN , available on Amalraj Puthenchira's public platform
     
 # Useful Links
 
