@@ -35,6 +35,8 @@ Reviewed: 03.11.2023
     - YouTube Video by Austine Ouma explaining how to use the OCI DB Console Import Wizard to import data into Autonomous Database
 - [A Complete Guide to Migrate your Data to Autonomous Database and Best Practices](https://medium.com/@snoozrocks/a-complete-guide-to-migrate-your-data-to-autonomous-database-and-best-practices-8e5fbdaa26eb)
     - This blog post provides a high-level overview of the steps to migrate data from a source Oracle Database to the Autonomous Database Cloud using Data Pump and OCI Object Storage.
+- [Migrate to Oracle Autonomous DB@Azure using Azure blob storage](https://www.youtube.com/watch?v=CtTgweuLG9s)
+    - YouTube video by Mihai Costeanu showing how to import data into Oracle Autonomous DB@Azure using Data Pump and Azure blob storage to store the dump files.
 
 
 # Useful Links
