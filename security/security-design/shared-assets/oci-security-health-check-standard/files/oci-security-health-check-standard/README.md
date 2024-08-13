@@ -2,7 +2,7 @@
 
 Owner: Olaf Heimburger
 
-Version: 240617 (cis_report.py version 2.8.3)
+Version: 240730 (cis_report.py version 2.8.4)
 
 ## When to use this asset?
 
@@ -21,22 +21,22 @@ by Oracle Support.
 
 Before running the *OCI Security Health Check - Standard Edition* you should download and verify it.
 
-  - Download the latest distribution [oci-security-health-check-standard-240617.zip](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-240617.zip).
+  - Download the latest distribution [oci-security-health-check-standard-240730.zip](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-240730.zip).
   - Download the respective checksum file:
-    - [oci-security-health-check-standard-240617.sha512](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-240617.sha512).
-    - [oci-security-health-check-standard-240617.sha512256](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-240617.sha512256).
+    - [oci-security-health-check-standard-240730.sha512](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-240730.sha512).
+    - [oci-security-health-check-standard-240730.sha512256](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-240730.sha512256).
   - Verify the integrity of the distribution. Both files must be in the same directory (for example, in your downloads directory).
 
     On MacOS:
     ```
     cd <your_downloads_directory>
-    shasum -a 512256 -c oci-security-health-check-standard-240617.sha512256
+    shasum -a 512256 -c oci-security-health-check-standard-240730.sha512256
     ```
 
     On Linux (including Cloud Shell):
     ```
     cd <your_downloads_directory>
-    sha512sum -c oci-security-health-check-standard-240617.sha512
+    sha512sum -c oci-security-health-check-standard-240730.sha512
     ```
 
 **Reject the downloaded file when the check fails!**
@@ -117,7 +117,7 @@ The recommended way is to run the *OCI Security Health Check - Standard* in the 
   - Upload the distribution file.
   - Extract it
     ```
-    unzip -q oci-security-health-check-standard-240617.zip
+    unzip -q oci-security-health-check-standard-240730.zip
     ```
 
 ### Run the script
@@ -190,11 +190,11 @@ The recommended way is to run the *OCI Security Health Check - Standard* in the 
       Follow the instructions to select /usr/bin/python3.9
     - Log out
 
-  - From your desktop, upload the `oci-security-health-check-standard-240617.zip` file to the Compute VM using any SFTP client.
+  - From your desktop, upload the `oci-security-health-check-standard-240730.zip` file to the Compute VM using any SFTP client.
   - Log into the Compute VM
     - Extract the distribution
       ```
-      unzip -q oci-security-health-check-standard-240617.zip
+      unzip -q oci-security-health-check-standard-240730.zip
       ```
     - Change directory into `oci-security-health-check-standard`:
       ```
