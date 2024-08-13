@@ -5,10 +5,10 @@ Providing links to public useful documentation and articles/blogs written by Ora
 
 A SQL Clue Card is also provided.
 
-Reviewed: 3.5.2024
+Reviewed: 12.8.2024
 
 # Team Publications
-- [SQL Developer Extension for VS Code v24.1 is now available](https://www.thatjeffsmith.com/archive/2024/04/sql-developer-extension-for-vs-code-v24-1-is-now-available/)
+- [SQL Developer Extension for VS Code v24.2 is now available](https://www.thatjeffsmith.com/archive/2024/07/sql-developer-extension-for-vs-code-24-2-is-now-available/)
 - Application Continuity - [Does your Database really know your application - Part 1](https://medium.com/@paulbrad71/application-continuity-on-adb-does-your-database-know-your-application-376e44d8a30) - Published on [Medium](http://www.medium.com) on 13th March 2023;
 
 - Application Continuity - [Does your Database really know your application - Part 2](https://medium.com/@paulbrad71/does-your-database-really-know-your-application-second-part-48321b0ab81) - Published on [Medium](http://www.medium.com) on 6th April 2023;
@@ -47,9 +47,10 @@ Reviewed: 3.5.2024
 ## SQL Best Practices
 Periodical sharing of Standard Query Language Best Practices links and blog, video publications from Advocate SQL and PL/SQL Developers and PMs
 
+- The power of SQL JOIN: [The JOIN syntax in SQL that no-one knows about](https://www.youtube.com/watch?v=nb52Gx4i364) (From Connor McDonald)
 - Analytic Functions: [how to get SQL cumulative running total on each row](https://blogs.oracle.com/sql/post/cumulative-running-total-of-previous-rows-with-sql) (from Chris Saxon);
 - V$ views: [Top 10 V$ Views For DBA and Developers](https://youtu.be/oI1F4vFwM9Q?si=i1UslciVja50792t) (From Connor McDonald);
-- The Secret to a Successful Data Loading: [VALIDATE_CONVERSION and CONVERSION ERROR](https://www.youtube.com/watch?v=gjjPAQ6znlw) (From Connor McDonald)
+
 
 ## PMs Personal Websites
 
