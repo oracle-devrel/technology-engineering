@@ -8,7 +8,7 @@ When you want to expose your OCI Cache instance to the public for writes/reads f
 
 # How to use this asset?
 
-Open the connect-via-nlb.pdf and follow the steps carefully.
+Open the exposing-oci-cache-via-network-load-balancer.pdf and follow the steps carefully.
 
 # Pre-requisites:
 
