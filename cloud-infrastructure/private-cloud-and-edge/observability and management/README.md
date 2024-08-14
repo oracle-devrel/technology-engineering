@@ -162,10 +162,10 @@ oci-onm-mgmt-agent:
 
 This solution is based on OCI\'s Log Analytics and as such is a
 \"read-only\" solution, i.e. kubernetes resources can not be modified.
-Drilling in to the details soon brings up underlying log entries rather
-than deatils like k8s resource spec etc. \
+Drilling in to the details brings up underlying log entries rather
+than deatils like k8s resource spec etc.
 There are associated log storage costs beyond 10GB , see
-<https://www.oracle.com/uk/manageability/pricing/#logging-analytics>.
+<https://www.oracle.com/uk/manageability/pricing/#logging-analytics>. It is possible to set up an archive policy and/or a purge policy to control costs.
 
 There are associated monitoring costs for metrics, see
 <https://www.oracle.com/uk/manageability/pricing/#monitoring>.
