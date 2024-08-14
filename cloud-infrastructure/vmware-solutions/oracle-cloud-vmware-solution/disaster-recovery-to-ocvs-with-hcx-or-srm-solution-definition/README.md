@@ -1,20 +1,20 @@
-# Oracle Cloud VMware Solution - Discovery Questionnaire
+# Disasster recovery to Oracle Cloud VMware Solution 
 
-This document can be used as a reference questionnaire to collect the required details for a project involving Oracle Cloud VMware Solution.
+This repository contains an guide for the disaster recovery of VMware workloads to Oracle Cloud VMware Solution. It offers a high-level solution definition of the deployment architecture and tools like Site Recovery Manager or HCX. The document is aimed at capturing the current state architecture and provides a prospective state, potential project scope, RPO/RTO requirments and target OCVS architecuture. 
 
-Reviewed: 11.12.2023
+Reviewed: 14.08.2024
 
 # When to use this asset?
 
-This questionnaire can be used to capture details for the project related to Oracle Cloud VMware Solution and covers the following scenarios:
+This document serves as an integral asset for individuals and organizations seeking to deploy a VMware SDDC in Oracle Cloud VMware Solution and to protect their critical applications to the newly deployed cloud environment. 
 
-- Workload Migration
-- Disaster Recovery
-- Virtual Desktop Infrastructure with VMware Horizon
+# Instructions for Utilizing This Asset
 
-# How to use this asset?
+Use this document template as a starting point for the solution definition of your Oracle Cloud VMware Solution project. It includes example architecture diagrams, which can be replaced with customer-specific images as per requirements.
 
-The information is generic in nature and not specified for a particular customer. Appropriate changes in scope should be updated.
+# Conclusion
+
+Disaster recovery to OCVS Solution Definition is expected to serve as a definitive guide to the project. All participants are encouraged to provide feedback, raise queries, and make contributions to enhance the overall project's success.
 
 # License
 
@@ -23,3 +23,4 @@ Copyright (c) 2024 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+
