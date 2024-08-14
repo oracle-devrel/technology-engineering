@@ -26,7 +26,7 @@ tenancy across multiple C3 racks. There are 5 provided dashboards which
 work with the solution\'s log and metric collection to visualise cluster
 status.
 
-![](LogAnalyticsDashboard.png)
+![](./files/LogAnalyticsDashboard.png)
 
 The OCI Log Analytics solution for Kubernetes provides a push button
 solution for registering OKE clusters running in OCI. For other clusters
@@ -176,3 +176,12 @@ may not be desirable to allow access by k8s cluster users to the OCI
 Console and services like Log Analytics so a management utility running
 on the C3, like Rancher, or running on the users workstation, like Lens,
 may be a better choice.
+
+# License
+ 
+Copyright (c) 2024 Oracle and/or its affiliates.
+ 
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+ 
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+
