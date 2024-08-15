@@ -1,6 +1,6 @@
-# Disaster recovery to Oracle Cloud VMware Solution 
+# Oracle Cloud VMware Solution - Disaster Recovery Solution Definition
 
-This repository contains an guide for the disaster recovery of VMware workloads to Oracle Cloud VMware Solution. It offers a high-level solution definition of the deployment architecture and tools like Site Recovery Manager or HCX. The document is aimed at capturing the current state architecture and provides a prospective state, potential project scope, RPO/RTO requirments and target OCVS architecuture. 
+This repository contains a detailed guide for the disaster recovery of VMware workloads to Oracle Cloud VMware Solution. It offers a high-level solution definition of the deployment architecture and tools like Site Recovery Manager or HCX. The document is aimed at capturing the current state architecture and provides a prospective state, potential project scope, RPO/RTO requirments and target OCVS architecuture. 
 
 Reviewed: 14.08.2024
 
