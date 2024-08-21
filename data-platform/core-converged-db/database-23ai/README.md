@@ -1,7 +1,10 @@
 # Oracle Database 23ai
 
 On May 2nd 2024, Larry Ellison and Juan Loaiza announced the general availability of Oracle Database 23ai, the latest long-term support release. It enables organizations to make their data naturally smarter with built-in AI. This is a game changer for enterprises worldwide, and we are naming it Oracle Database 23ai because of the importance of its breakthrough AI technology. Oracle Database 23ai is a monumental release that includes Oracle AI Vector Search, more than 300 additional features and thousands of enhancements focused on simplifying the use of AI with data, accelerating app development, and running mission-critical workloads.
+
 Oracle Database 23ai is available cloud-first, in OCI on Oracle Exadata Database Service, Oracle Exadata Cloud@Customer and Oracle Base Database Service, as well as on Oracle Database@Azure with Exadata Database Service.
+
+If you are interested in AI Vector Search , [please see our page here](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/core-converged-db/ai-vector-search).
 
 Reviewed: 13.08.2024
  
