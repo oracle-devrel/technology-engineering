@@ -1,8 +1,8 @@
-# OracleJDBC23cNewFeatures
+# OracleJDBC23aiNewFeatures
 
 This repository contains the working code of examples demonstrating Reactive API support provided in Oracle JDBC Driver 23c. Before running the code there is a need to provide the following in the code:
 
-1. database connection string - it should point to a 21c or 23c database
+1. database connection string - it should point to a 21c or 23ai database
 2. username
 3. password
 
@@ -17,7 +17,7 @@ Review Date: 28.01.2024
 
 # When to use this asset?
 
-To learn the usage of the JDBC 23c driver in Java.
+To learn the usage of the JDBC 23ai driver in Java.
 
 # How to use this asset?
 
@@ -27,13 +27,13 @@ Run the Java main and see the inserted comments.
 
 ## Documentation
 
-- [Oracle JDBC23c Driver Developer's Guide](https://docs.oracle.com/en/database/oracle/oracle-database/23/jjdbc/index.html#Oracle%C2%AE-Database)
+- [Oracle JDBC23ai Driver Developer's Guide](https://docs.oracle.com/en/database/oracle/oracle-database/23/jjdbc/index.html#Oracle%C2%AE-Database)
 
 # Team Publications
 
 ## Blogs
 
-- [Oracle 23c JDBC driver: support for reactive programming](https://blogs.oracle.com/coretec/post/oracle-23c-jdbc-driver-support-for-reactive-programming)
+- [Oracle 23ai JDBC driver: support for reactive programming](https://blogs.oracle.com/coretec/post/oracle-23c-jdbc-driver-support-for-reactive-programming)
 
 
 # License
