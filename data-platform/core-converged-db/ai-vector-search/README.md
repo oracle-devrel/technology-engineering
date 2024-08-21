@@ -4,7 +4,7 @@ Oracle AI Vector Search is designed for Artificial Intelligence (AI) workloads a
 
 If you are interested in Database 23ai , [please see our page here](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/core-converged-db/database-23ai).
 
-Reviewed Date: 17.07.2024
+Reviewed Date: 20.08.2024
 
 # Useful Links
 
@@ -33,8 +33,14 @@ Reviewed Date: 17.07.2024
 
 # Team Publications
 
+## Blogs
+
 - [Getting started with vectors in 23ai](https://blogs.oracle.com/coretec/post/getting-started-with-vectors-in-23ai)
 
+## Videos
+
+- [Ai Vector Search](https://youtu.be/_tOGB9l8cvg)
+  
 # License
 
 Copyright (c) 2024 Oracle and/or its affiliates.
