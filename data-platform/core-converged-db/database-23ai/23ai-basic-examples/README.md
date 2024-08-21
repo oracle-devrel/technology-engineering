@@ -1,12 +1,12 @@
-# 23c-basic-examples
+# 23ai-basic-examples
 
- Examples to illustrate some SQL features in 23c using the 23c Developer FREE release.
+ Examples to illustrate some SQL features in 23c using the 23ai Developer FREE release.
  
  Review Date: 03.06.2024
 
 # When to use this asset?
 
-To learn about basic Oracle Database 23c features.
+To learn about basic Oracle Database 23ai features.
 
 # How to use this asset?
 
