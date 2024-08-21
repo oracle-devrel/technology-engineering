@@ -1,0 +1,8 @@
+schema_version: 20180708
+name: hellofunc
+version: 0.0.1
+runtime: java
+build_image: fnproject/fn-java-fdk-build:jdk17-1.0.187
+run_image: fnproject/fn-java-fdk:jre17-1.0.187
+cmd: com.example.HelloFunction::handleRequest
+timeout: 120

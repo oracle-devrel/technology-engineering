@@ -38,6 +38,15 @@ Reviewed: 20.03.2024
       
 - [How to create Autonomous Database Notifications in Slack](https://blogs.oracle.com/datawarehousing/post/how-to-create-autonomous-database-notifications-in-slack)
     - Step-by-step blog article explaining how to send an alert message, triggered by an Autonomous Database event, into a slack channel using a webhook link.
+    
+- [Oracle Database Vault on the Autonomous Database](https://www.youtube.com/watch?v=d5c2QAPrX1o)
+    - How to configure and implement Oracle Database Vault on the Autonomous Database. Use cases.
+      
+- [Switching from Oracle-Managed to Customer-Managed Keys in Autonomous Database Serverless](https://medium.com/@mmy0utu8e/switching-from-oracle-managed-to-customer-managed-keys-in-autonomous-database-serverless-b1c24d107a8f)
+    - How to switch from Oracle-Managed to Customer-Managed Keys in Autonomous Database Serverless.
+      
+- [Capture-Replay Workloads between non-Autonomous and Autonomous Databases](https://www.youtube.com/watch?v=cWZ9MPBZemc)
+    - How to Capture and Replay Workloads between non-Autonomous and Autonomous Databases.
    
 ## Tip of the Day
  

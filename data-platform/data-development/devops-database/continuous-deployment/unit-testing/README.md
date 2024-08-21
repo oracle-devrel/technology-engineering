@@ -1,22 +1,20 @@
 # Running Unit Tests for APEX and the Oracle Database
-Reviewed: "04.01.2023"
 
 [utPLSQL](https://www.utplsql.org/about.html) is an open-source testing framework for PL/SQL and SQL
 [Selenium](https://www.selenium.dev/) is an umbrella project for a range of tools and libraries that enable and support the automation of web browsers.
-[The Robot Framework](https://robotframework.org/?tab=0&example=Advanced%20Example#getting-started) is a generic open source automation framework. It can be used for test automation and robotic process automation (RPA).
 
-It allow for automated testing of Packages, Functions, Procedures, Triggers, Views, and anything else that can be execute and observed from PL/SQL.
+[The Robot Framework](https://robotframework.org/?tab=0&example=Advanced%20Example#getting-started) is a generic open-source automation framework. It can be used for test automation and robotic process automation (RPA).
+
+It allows for automated testing of Packages, Functions, Procedures, Triggers, Views, and anything else that can be executed and observed from PL/SQL.
+
+Reviewed: 10.06.2024
 
 # Table of Contents
  
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-links)
-
- 
-# Team Publications
-- TBD
+1. [Useful Links](#useful-links)
 
 # Useful Links
+
 ## utPLSQL
 - [utPLSQL Documentation](https://www.utplsql.org/documentation.html)
 - [utPLSQL Github Repository](https://github.com/utPLSQL/utPLSQL)
@@ -28,17 +26,11 @@ It allow for automated testing of Packages, Functions, Procedures, Triggers, Vie
 - [Selenium Documentation](https://www.selenium.dev/documentation/)
 
 ## The Robot Framework (TRF)
-- [The Robot Framework Documenation](https://docs.robotframework.org/docs)
+- [The Robot Framework Documentation](https://docs.robotframework.org/docs)
 - [TRF - Database Library](https://docs.robotframework.org/docs/different_libraries/database "Database Library is a Robot Framework library that provides keywords for interacting with databases.")
-
-# Tutorials / How To's
-- TBD
-
 
 # License
 
 Copyright (c) 2024 Oracle and/or its affiliates.
-
 Licensed under the Universal Permissive License (UPL), Version 1.0.
-
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

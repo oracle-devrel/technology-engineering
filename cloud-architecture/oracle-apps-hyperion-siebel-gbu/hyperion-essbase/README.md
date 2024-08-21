@@ -6,7 +6,7 @@ These resources aim to offer guidance throughout your migration, enabling you to
 
 Explore these materials to enhance your migration strategy. We appreciate your participation and are committed to supporting your cloud migration journey.
 
-Reviewed: 7.2.2024
+Reviewed: 22.7.2024
  
 # Table of Contents
  
@@ -18,11 +18,12 @@ Reviewed: 7.2.2024
  
 # Team Publications
 
-- [Cyber recovery solution on Oracle Cloud Infrastructure](https://docs.oracle.com/en/solutions/oci-automated-cyber-recovery/index.html) 
- 
+- [Automate Recovery for Oracle Enterprise Performance Management using OCI Full Stack Disaster Recovery](https://docs.oracle.com/en/learn/fsdr-integration-epm/)
+- [Cyber recovery solution on Oracle Cloud Infrastructure](https://docs.oracle.com/en/solutions/oci-automated-cyber-recovery/index.html)
+
 # Useful Links
 
-- [EPM System Release 11.2.16 announcement](https://blogs.oracle.com/proactivesupportepm/post/enterprise-performance-management-epm-11216-is-available)
+- [EPM System Release 11.2.17 announcement](https://blogs.oracle.com/proactivesupportepm/post/enterprise-performance-management-epm-11217-is-available)
 - [Essbase 21.5 New Features and Enhancements YouTube Playlist](https://www.youtube.com/playlist?list=PLdtXkK5KBY57davwRTIGtDn05A9N4ybrI) 
 - [EPM Architecture Center](https://docs.oracle.com/en/solutions/deploy-hyperion-oci/index.html)
     - Reference architecture for EPM on OCI, including high availability (HA) and disaster recovery (DR) solutions.

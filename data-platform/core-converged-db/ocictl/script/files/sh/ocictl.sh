@@ -5,9 +5,20 @@ usage () {
     printf "ocictl.sh adb     list\n"
     printf "                  start   <service_name>\n"
     printf "                  stop    <service_name>\n"
+    printf "                  clone   <source_name> <target_name> <admin_password>\n"
+    printf "                  delete  <service_name>\n"  
+    printf "                  wallet  <service_name> <password>\n"
     printf "          db      list\n"
-    printf "                  start <service-name>\n"
-    printf "                  stop <service-name>\n"
+    printf "                  start     <service-name>\n"
+    printf "                  stop      <service-name>\n"
+    printf "                  cpu-scale <service-name>  <#oCPU>\n"
+    #printf "                  storage-scale <service-name> <#GB>\n"
+    printf "                  listpdb   <service-name>\n"
+    printf "                  createpdb <service-name> <pdb-name> <pdb-admin-password> <tde-wallet-password>\n"
+    printf "                  deletepdb <service_name> <pdbname>\n"
+    printf "                  clonepdb  <service_name> <source_pdb_name> <target_pdb_name> <pdb-admin-password> <tde-wallet-password>\n"
+    printf "                  startpdb  <service_name> <pdb_name>\n"
+    printf "                  stoppdb   <service_name> <pdb_name>\n"
     printf "          compute list\n"
     printf "                  start   <service_name>\n"
     printf "                  stop    <service_name>\n"
@@ -97,6 +108,58 @@ stop_db () {
     done
 }
 
+scale_cpu() {
+    DB_SYSTEM=`oci db database list --compartment-id $OCI_CID --display-name $1`
+    DB_ID=`python3 $OCICTL_HOME/python/get_lov.py "$DB_SYSTEM" "id"`  
+    DB_SYSTEM=`oci db database get --database-id "$DB_ID"`
+    DB_SYSTEM_ID=`python3 $OCICTL_HOME/python/get_value.py "$DB_SYSTEM" "db-system-id"`
+    oci db system update --db-system-id $DB_SYSTEM_ID --cpu-core-count $2 
+}
+
+scale_storage() {
+	    DB_SYSTEM=`oci db database list --compartment-id $OCI_CID --display-name $1`                                            DB_ID=`python3 $OCICTL_HOME/python/get_lov.py "$DB_SYSTEM" "id"`                                                        DB_SYSTEM=`oci db database get --database-id "$DB_ID"`                                                                  DB_SYSTEM_ID=`python3 $OCICTL_HOME/python/get_value.py "$DB_SYSTEM" "db-system-id"`                                     oci db system update --db-system-id $DB_SYSTEM_ID --data-storage-size-in-gbs $2
+}
+
+list_pdb() {
+    DB_SYSTEM=`oci db database list --compartment-id $OCI_CID --display-name $1`
+    DB_ID=`python3 $OCICTL_HOME/python/get_lov.py "$DB_SYSTEM" "id"`
+    oci db pluggable-database list --database-id "$DB_ID"|python3 $OCICTL_HOME/python/pdb_list.py
+}
+
+start_pdb() {
+    DB_SYSTEM=`oci db database list --compartment-id $OCI_CID --display-name $1`
+    DB_ID=`python3 $OCICTL_HOME/python/get_lov.py "$DB_SYSTEM" "id"`
+    PDB_ID=`oci db pluggable-database list --database-id "$DB_ID"|python3 $OCICTL_HOME/python/pdb_list2.py "$2"|cut -d":" -f2`
+    oci db pluggable-database start --pluggable-database-id "$PDB_ID"
+}
+
+stop_pdb() {
+    DB_SYSTEM=`oci db database list --compartment-id $OCI_CID --display-name $1`
+    DB_ID=`python3 $OCICTL_HOME/python/get_lov.py "$DB_SYSTEM" "id"`
+    PDB_ID=`oci db pluggable-database list --database-id "$DB_ID"|python3 $OCICTL_HOME/python/pdb_list2.py "$2"|cut -d":" -f2`
+    oci db pluggable-database stop --pluggable-database-id "$PDB_ID"
+}
+
+create_pdb() {
+    DB_SYSTEM=`oci db database list --compartment-id $OCI_CID --display-name $1`
+    DB_ID=`python3 $OCICTL_HOME/python/get_lov.py "$DB_SYSTEM" "id"`
+    oci db pluggable-database create --container-database-id "$DB_ID" --pdb-name "$2" --pdb-admin-password "$3" --tde-wallet-password "$4"
+}
+
+clone_pdb() {
+    DB_SYSTEM=`oci db database list --compartment-id $OCI_CID --display-name $1`
+    DB_ID=`python3 $OCICTL_HOME/python/get_lov.py "$DB_SYSTEM" "id"`
+    PDB_ID=`oci db pluggable-database list --database-id "$DB_ID"|python3 $OCICTL_HOME/python/pdb_list2.py "$2"|cut -d":" -f2`
+    oci db pluggable-database local-clone --pluggable-database-id "$PDB_ID" --cloned-pdb-name "$3" --pdb-admin-password "$4" --target-tde-wallet-password "$5"
+}
+
+delete_pdb() {
+    DB_SYSTEM=`oci db database list --compartment-id $OCI_CID --display-name $1`
+    DB_ID=`python3 $OCICTL_HOME/python/get_lov.py "$DB_SYSTEM" "id"` 
+    PDB_ID=`oci db pluggable-database list --database-id "$DB_ID"|python3 $OCICTL_HOME/python/pdb_list2.py "$2"|cut -d":" -f2`
+    oci db pluggable-database delete --pluggable-database-id "$PDB_ID"
+}
+
 list_db_systems () {
     if [ $# -eq 0 ];
     then     
@@ -112,11 +175,19 @@ list_db_systems () {
         if [ "$DB_LIFECYCLE_STATE" != "TERMINATED" ];
         then        
             DB_NAME=`python3 $OCICTL_HOME/python/get_value.py "$DB_SYSTEM" "db-name"`
+            DB_SYSTEM_ID=`python3 $OCICTL_HOME/python/get_value.py "$DB_SYSTEM" "db-system-id"`
+            DB_SYSTEM_2=`oci db system get --db-system-id "$DB_SYSTEM_ID"`
+            DB_CPUS=`python3 $OCICTL_HOME/python/get_value.py "$DB_SYSTEM_2" "cpu-core-count"`
+            DB_GBS=`python3 $OCICTL_HOME/python/get_value.py "$DB_SYSTEM_2" "data-storage-size-in-gbs"`
+            DB_USED_GBS=`python3 $OCICTL_HOME/python/get_value.py "$DB_SYSTEM_2" "data-storage-percentage"`
             DB_HOME_ID=`python3 $OCICTL_HOME/python/get_value.py "$DB_SYSTEM" "db-home-id"`
             DB_HOME=`oci db db-home get --db-home-id "$DB_HOME_ID"`
             DB_VERSION=`python3 $OCICTL_HOME/python/get_value.py "$DB_HOME" "db-version"`
             printf "db system:\n %s:%s\n" $DB_NAME $id
             printf " db version: %s\n" $DB_VERSION
+            printf " #oCPUs: %s\n" $DB_CPUS
+            printf " Storage (GB): %s\n" $DB_GBS
+            printf "    used (%%) : %s\n" $DB_USED_GBS
             DB_SYSTEM_ID=`python3 $OCICTL_HOME/python/get_value.py "$DB_SYSTEM" "db-system-id"`
             DB_NODE_LIST=`oci db node list --compartment-id $OCI_CID --db-system-id $DB_SYSTEM_ID`
             NODE_IDS=`python3 $OCICTL_HOME/python/get_lov.py "$DB_NODE_LIST" "id"`
@@ -161,6 +232,24 @@ stop_adb_instance () {
     oci db autonomous-database stop --autonomous-database-id "$ADB_ID"
 }
 
+clone_adb_instance() {
+    ADB_SYSTEM=`oci db autonomous-database list --compartment-id $OCI_CID --display-name $1`
+    ADB_ID=`python3 $OCICTL_HOME/python/get_lov.py "$ADB_SYSTEM" "id"`
+    oci db autonomous-database create-from-clone --compartment-id "$OCI_CID" --source-id "$ADB_ID" --clone-type FULL --admin-password "$3" --db-name "$2" --display-name "$2" --data-storage-size-in-tbs 1 --compute-model ECPU --compute-count 2
+}
+
+delete_adb_instance() {
+    ADB_SYSTEM=`oci db autonomous-database list --compartment-id $OCI_CID --display-name $1`
+    ADB_ID=`python3 $OCICTL_HOME/python/get_lov.py "$ADB_SYSTEM" "id"`
+    oci db autonomous-database delete --autonomous-database-id "$ADB_ID"
+}
+
+download_adb_wallet() {
+    ADB_SYSTEM=`oci db autonomous-database list --compartment-id $OCI_CID --display-name $1`    
+    ADB_ID=`python3 $OCICTL_HOME/python/get_lov.py "$ADB_SYSTEM" "id"`
+    oci db autonomous-database generate-wallet --autonomous-database-id "$ADB_ID" --password "$2" --file $WALLETS_HOME/wallet_$1.zip
+}
+
 list_bucket () {
     BUCKETS=`oci os bucket list --compartment-id $OCI_CID`
     python3 $OCICTL_HOME/python/get_lov.py "$BUCKETS" "name"
@@ -199,7 +288,7 @@ groupstart () {
                         exit
                         ;;
         esac
-    done < $OCICTL_CONFIG/$1.group
+    done < $OCICTL_CONFIG/$1.oci.grp
 }
 
 groupstop () {
@@ -215,7 +304,7 @@ groupstop () {
                         exit
                         ;;
         esac
-    done < $OCICTL_CONFIG/$1.group
+    done < $OCICTL_CONFIG/$1.oci.grp
 }
 
 groupstatus() {
@@ -231,11 +320,11 @@ groupstatus() {
                         exit
                         ;;
         esac
-    done < $OCICTL_CONFIG/$1.group
+    done < $OCICTL_CONFIG/$1.oci.grp
 }
 
 grouplist() {
-    for file in $OCICTL_CONFIG/*.group;
+    for file in $OCICTL_CONFIG/*.oci.grp;
     do
         printf "%s\n" `basename $file|cut -d'.' -f1`
         while read srv type; do
@@ -306,30 +395,109 @@ case ${1} in
                               fi
                               list_adb_instances
                               ;;
+                    "clone" ) if [ $# -ne 5 ];
+                              then
+                                usage
+                                exit 0
+                              fi
+                              clone_adb_instance $3 $4 $5
+                              ;;
+                    "delete") if [ $# -ne 3 ];
+                              then
+                                usage
+                                exit 0
+                              fi
+                              delete_adb_instance ${3}
+                              ;;  
+                    "wallet") if [ $# -ne 4 ];
+                              then
+                                usage
+                                exit 0
+                              fi
+                              download_adb_wallet ${3} ${4}
+                              ;;                              
                      *      ) usage
                               ;;
                 esac
                 ;;
     "db"      ) case ${2} in
-	                "list"    ) list_db_systems 
-					            ;;
-                    "start"   ) if [ $# -ne 3 ];
+	            "list"    ) list_db_systems $3
+		   		            ;; 
+                            
+                "cpu-scale" ) if [ $# -ne 4 ];
                                 then
                                     usage
                                     exit 0
                                 fi
-                                start_db $3
+                                scale_cpu $3 $4
                                 ;;
-                    "stop"    ) if [ $# -ne 3 ];
+                "storage-scale" ) if [ $# -ne 4 ];
                                 then
                                     usage
                                     exit 0
                                 fi
-                                stop_db $3
-                                ;;                                
-							* ) usage
+                                scale_storage $3 $4
                                 ;;
-				esac ;;
+                
+	            "listpdb" ) if [ $# -ne 3 ];
+                                then
+                                    usage
+                                    exit 0
+                                fi
+                                list_pdb $3
+                                ;;
+		    "createpdb" ) if [ $# -ne 6 ];
+                                then
+                                    usage
+                                    exit 0
+                                fi
+                                create_pdb $3 $4 $5 $6
+                                ;;
+		    "clonepdb"  ) if [ $# -ne 7 ];
+                                then
+                                    usage
+                                    exit 0
+                                fi
+                                clone_pdb $3 $4 $5 $6 $7 
+                                ;;
+            "startpdb"   ) if [ $# -ne 4 ];
+                          then
+                                usage
+                                exit 0
+                          fi
+                          start_pdb $3 $4
+                          ;;
+            "stoppdb"   ) if [ $# -ne 4 ];
+                          then
+                                usage
+                                exit 0
+                          fi
+                          stop_pdb $3 $4
+                          ;;                          
+		    "deletepdb" ) if [ $# -ne 4 ];
+                                then
+                                    usage
+                                    exit 0
+                                fi
+                                delete_pdb $3 $4
+				;;
+                    "start"     ) if [ $# -ne 3 ];
+                                  then
+                                      usage
+                                      exit 0
+                                  fi
+                                  start_db $3
+                                  ;;
+                    "stop"      ) if [ $# -ne 3 ];
+                                  then
+                                      usage
+                                      exit 0
+                                  fi
+                                  stop_db $3
+                                  ;;                                
+			      * ) usage
+                                  ;;
+	esac ;;
     "compute" ) case ${2} in
                     "start"   ) if [ $# -ne 3 ];
                                 then
