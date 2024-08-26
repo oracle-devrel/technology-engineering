@@ -77,7 +77,7 @@ Under the conditions you should see that the registry is ready.
 
 <img src="files/6.Configured.png" width=500x>
 
-## 6. Complete
+## 6. Ready for deployment of your applications
 Your image registry should now be able to store images and you are now ready to start deploying applications and templates.
 
 
