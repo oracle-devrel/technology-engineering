@@ -1,2 +1,2 @@
 
-![ScreenShot](files/1.NoRegistrySetup.png | size=200x)
+![ScreenShot](files/1.NoRegistrySetup.png | size=200)
