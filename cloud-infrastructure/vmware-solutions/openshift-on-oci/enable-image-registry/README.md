@@ -62,7 +62,7 @@ Replace the [yournamespace] with your own object storage name space. You can fin
 
 Replace the 2x [your-oci-region] with the OCI region you are using, for example: eu-frankfurt-1
 
-Finally, change the <b>managementState</b> from <b>Removed</b> to <Managed>
+Finally, change the <b>managementState</b> from <b>Removed</b> to <b>Managed</b>
 
 <img src="files/5.Config_OCI-objectstorage.png" width=500x>
 
