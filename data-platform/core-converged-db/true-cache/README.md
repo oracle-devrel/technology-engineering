@@ -3,9 +3,9 @@
 Today, many Oracle users place a cache in front of the Oracle Database to speed up query response time and improve overall scalability. True Cache is a new way to have a cache in front of the Oracle Database. True Cache is an in-memory, consistent, and automatically managed cache for Oracle Database. It operates similarly to an Active Data Guard readers farm, except True Cache is mostly diskless and designed for performance and scalability, as opposed to disaster recovery. An application can connect to True Cache directly for read-only workloads. A general read-write Java application can also mark some sections of the code as read-only, and the 23ai JDBC Thin driver can automatically send read-only workloads to configured True Caches.
 True Cache has many advantages including ease of use, consistent data, more recent data, and automatically managed cache.
 
-True Cache is available with Oracle Database 23ai and later versions. It is not supported in earlier releases. True Cache is available in Oracle Database 23ai Free and Oracle Base Database Service Enterprise Edition (please read the limitations in the Licensing Guide).
+True Cache is available with Oracle Database 23ai and later versions. It is not supported in earlier releases. True Cache is available in Oracle Database 23ai Free, Oracle Base Database Service Enterprise Edition and Oracle Database Enterprise Edition on Engineered Systems (please read detailed information in the Licensing Guide).
 
-Reviewed: 06.05.2024
+Reviewed: 13.08.2024
 
 # Useful Links
 
@@ -21,10 +21,15 @@ Reviewed: 06.05.2024
 ## Blogs
 
 - [Introducing Oracle True Cache: In-memory, consistent, and automatically managed SQL cache (Oracle Database 23ai)](https://blogs.oracle.com/database/post/introducing-oracle-true-cache)
+
+## LiveLabs
+
+- [Improve application performance with True Cache](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3933&clear=180)
   
 # Team Publications
 
-- [Getting started with True Cache in Oracle Database 23ai FREE](https://blogs.oracle.com/coretec/post/true-cache-in-23ai-free)
+- [Getting started with True Cache in Oracle Database 23ai FREE (Blog)](https://blogs.oracle.com/coretec/post/true-cache-in-23ai-free)
+- [Oracle True Cache (YouTube)](https://youtu.be/ecxflHglhJo?si=Son0ec6P1MKAL2YL)
 
 
 # License

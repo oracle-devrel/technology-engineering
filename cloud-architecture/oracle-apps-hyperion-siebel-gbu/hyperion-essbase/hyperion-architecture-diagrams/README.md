@@ -8,7 +8,9 @@ They serve as a helpful resource for defining solutions, preparing designs, unde
 
 For a more professional and consistent presentation, these diagrams use the official OCI icon pack for draw.io. You can download the icons pack from the official Oracle page [here](https://docs.oracle.com/en-us/iaas/Content/General/Reference/graphicsfordiagrams.htm)
 
-Reviewed: 7.2.2024
+Hyperion EPM System Reference architecture on OCI can be found in the [Architecture Center](https://docs.oracle.com/en/solutions/deploy-hyperion-oci/index.html)
+
+Reviewed: 22.7.2024
 
 # Contents
 
