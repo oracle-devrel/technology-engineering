@@ -8,7 +8,9 @@ https://docs.openshift.com/container-platform/4.16/cli_reference/openshift_cli/g
 ## 1. What is the OpenShift Image Registry?
 The OpenShift Image Registry is a built-in, containerized, enterprise-grade registry that stores Docker-formatted container images in a Red Hat OpenShift Container Platform cluster. It is a critical component for managing container images within the OpenShift environment, providing secure storage and efficient retrieval of container images required for deployments.
 
-After you have created an OpenShift Cluster on OCI, the image registry is not yet configured with the right storage settings. This will result in errors when you are trying to deploy your projects. You will see error messages like ```Error starting build: an image stream cannot be used as build output because the integrated image registry is not configured```
+After you have created an OpenShift Cluster on OCI, the image registry is not yet configured with the right storage settings. This will result in errors when you are trying to deploy your projects. You will see error messages like 
+
+```Error starting build: an image stream cannot be used as build output because the integrated image registry is not configured```
 
 <img src="files/1.NoRegistrySetup.png" width=600x>
 
