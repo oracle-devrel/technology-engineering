@@ -11,6 +11,7 @@ Oracle Cloud VMware Solution is based on VMware Cloud Foundation (VCF) and provi
 
 # Team Publications
 
+- [Using OCI Object storage for the OpenShift Internal Registry](enable-image/registry/READMME.md)
   
 
 # Reusable Assets Overview
