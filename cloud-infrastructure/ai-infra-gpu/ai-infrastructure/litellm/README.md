@@ -4,6 +4,17 @@ In this tutorial we explain how to use a LiteLLM Proxy Server to call multiple L
 
 <!-- ![Hybrid shards](assets/images/litellm.png "LiteLLM") -->
 
+# When to use this asset?
+
+To run the inference tutorial with local deployments of Mistral 7B Instruct v0.3 using a vLLM inference server powered by an NVIDIA A10 GPU and a LiteLLM Proxy Server on top. 
+
+# How to use this asset?
+
+These are the prerequisites to run this tutorial:
+* An OCI tenancy with A10 quota
+* A Huggingface account with a valid Auth Token
+* A valid OpenAI API Key
+
 ## Introduction
 
 LiteLLM provides a proxy server to manage auth, loadbalancing, and spend tracking across 100+ LLMs. All in the OpenAI format.
@@ -14,7 +25,8 @@ The first step will be to deploy two vLLM inference servers on NVIDIA A10 powere
 
 ## vLLM inference servers deployment
 
-For each of the inference nodes a VM.GPU.A10.2 instance (2 x NVIDIA A10 GPU 24GB) is used in combination with the NVIDIA GPU-Optimized VMI image from the OCI marketplace. This Ubuntu-based image comes with all the necessary libraries (Docker, NVIDIA Container Toolkit) preinstalled.
+For each of the inference nodes a VM.GPU.A10.2 instance (2 x NVIDIA A10 GPU 24GB) is used in combination with the NVIDIA GPU-Optimized VMI image from the OCI marketplace. This Ubuntu-based image comes with all the necessary libraries (Docker, NVIDIA Container Toolkit) preinstalled. It is a good practice to deploy two instances in two different fault domains to ensure a higher availability.
+
 The vLLM inference server is deployed using the vLLM official container image.
 ```
 docker run --gpus all \
@@ -80,7 +92,7 @@ curl http://localhost:4000/chat/completions \
     }' | jq
 ```
 
-## Useful links
+## Documentation
 
 * [LiteLLM documentation](https://litellm.vercel.app/docs/providers/openai_compatible)
 * [vLLM documentation](https://docs.vllm.ai/en/latest/serving/deploying_with_docker.html)
