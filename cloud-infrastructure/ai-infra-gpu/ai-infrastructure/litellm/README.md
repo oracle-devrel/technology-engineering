@@ -2,17 +2,19 @@
 
 In this tutorial we explain how to use a LiteLLM Proxy Server to call multiple LLM inference endpoints from a single interface. LiteLLM interacts will 100+ LLMs such as OpenAI, Cohere, NVIDIA Triton and NIM, etc. Here we will use two vLLM inference servers.
 
-![Hybrid shards](assets/images/litellm.png "LiteLLM")
+<!-- ![Hybrid shards](assets/images/litellm.png "LiteLLM") -->
 
 ## Introduction
 
 LiteLLM provides a proxy server to manage auth, loadbalancing, and spend tracking across 100+ LLMs. All in the OpenAI format.
 vLLM is a fast and easy-to-use library for LLM inference and serving.
-The first step will be to deploy two vLLM inference servers on NVIDIA A10 powered virtual machine instances. In the second step, we will create a LiteLLM Proxy Server on a third no-GPU instance and explain how we can use this interface to call the two LLM from a single location. For the sake of silplicity, all 3 instances will reside in the same public subnet here.
+The first step will be to deploy two vLLM inference servers on NVIDIA A10 powered virtual machine instances. In the second step, we will create a LiteLLM Proxy Server on a third no-GPU instance and explain how we can use this interface to call the two LLM from a single location. For the sake of simplicity, all 3 instances will reside in the same public subnet here.
+
+![Hybrid shards](assets/images/litellm-architecture.png "LiteLLM")
 
 ## vLLM inference servers deployment
 
-For each of the inference servers nodes a VM.GPU.A10.2 instance (2 x NVIDIA A10 GPU 24GB) is used in combination with the NVIDIA GPU-Optimized VMI image from the OCI marketplace. This Ubuntu-based image comes with all the necessary libraries (Docker, NVIDIA Container Toolkit) preinstalled.
+For each of the inference nodes a VM.GPU.A10.2 instance (2 x NVIDIA A10 GPU 24GB) is used in combination with the NVIDIA GPU-Optimized VMI image from the OCI marketplace. This Ubuntu-based image comes with all the necessary libraries (Docker, NVIDIA Container Toolkit) preinstalled.
 The vLLM inference server is deployed using the vLLM official container image.
 ```
 docker run --gpus all \
@@ -41,7 +43,7 @@ curl http://localhost:8000/v1/chat/completions \
 
 ## LiteLLM server deployment
 
-No GPU are required for LiteLLM. Therefore, a CPU based VM.Standard.E4.flex instance (4 OCPUs, 64 GB Memory) with a standard Ubuntu 22.04 image is used. Here LiteLLM is used as a proxy server calling a vLLM endpoint. Install LiteLLM using `pip`:
+No GPU are required for LiteLLM. Therefore, a CPU based VM.Standard.E4.Flex instance (4 OCPUs, 64 GB Memory) with a standard Ubuntu 22.04 image is used. Here LiteLLM is used as a proxy server calling a vLLM endpoint. Install LiteLLM using `pip`:
 ```
 pip install 'litellm[proxy]'
 ```
@@ -51,15 +53,15 @@ model_list:
   - model_name: Mistral-7B-Instruct
     litellm_params:
       model: openai/mistralai/Mistral-7B-Instruct-v0.3
-      api_base: http://public_ip_1:8000/v1
+      api_base: http://xxx.xxx.xxx.xxx:8000/v1
       api_key: sk-0123456789
   - model_name: Mistral-7B-Instruct
     litellm_params:
       model: openai/mistralai/Mistral-7B-Instruct-v0.3
-      api_base: http://public_ip_2:8000/v1
+      api_base: http://xxx.xxx.xxx.xxx:8000/v1
       api_key: sk-0123456789
 ```
-where `sk-0123456789` is a valid OpenAI API key and `public_ip_1` and `public_ip_2` are the two GPU instances public IP addresses.
+where `sk-0123456789` is a valid OpenAI API key and `xxx.xxx.xxx.xxx` are the two GPU instances public IP addresses.
 
 Start the LiteLLM Proxy Server with the following command:
 ```
