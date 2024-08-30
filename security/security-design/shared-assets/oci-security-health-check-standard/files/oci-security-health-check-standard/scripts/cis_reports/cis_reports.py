@@ -4763,7 +4763,7 @@ class CIS_Report:
         summary_report = []
         for key, recommendation in self.cis_foundations_benchmark_2_0.items():
             if recommendation['Level'] <= level:
-                report_filename = "cis" + " " + recommendation['section'] + "_" + recommendation['recommendation_#']
+                report_filename = f'{self.__report_prefix}cis {recommendation["section"]}_{recommendation["recommendation_#"]}'
                 report_filename = report_filename.replace(" ", "_").replace(".", "-").replace("_-_", "_") + ".csv"
                 if recommendation['Status']:
                     compliant_output = "Yes"
