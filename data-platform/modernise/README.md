@@ -16,7 +16,7 @@ Also make sure to check the dedicated pages of the main technology areas of Data
 
 # Team Publications
  
-- [ZDM/DMS Comparison](https://macsdata.netlify.app/oradb/migration/zdm-dms-comparison/)
+- [ZDM/DMS Comparison](https://macsdata.com/oracle/zdm-dms-comparison)
     - Technical Comparison of Zero Downtime Migration and OCI Database Migration service, available on Marcus Doeringer's public platform
 - [CLONE PDB options as a Migration Method for Windows Databases to Oracle Cloud Infrastructure](https://carlosal.wordpress.com/2023/07/14/clone-pdb-options-as-a-migration-method-for-windows-databases-to-oracle-cloud-infrastructure/)
     - Blog technical article about migrating Windows Oracle Databases to OCI using Oracle REMOTE CLONE PDB and REFRESHABLE PDB functionalities, available on Carlos Álvarez's public platform
@@ -34,7 +34,7 @@ Also make sure to check the dedicated pages of the main technology areas of Data
     - Cloud Coaching session delivered by Austine Ouma and Marcus Doeringer around best practices for loading data and migrating databases into Oracle Autonomous Database on Oracle Cloud Infrastructure.
 - [Ace your Database Migration to Oracle Exadata Database Service on Dedicated Infrastructure](https://www.youtube.com/watch?v=luBezgN7sa0)
      - Cloud Customer Connect session delivered by Amalraj Puthenchira explaining how to use the Oracle Zero Downtime Migration (ZDM) tool to migrate Oracle Database on Linux to Exadata Database Service on Dedicated Infrastructure.
-- [Migration Methods Overview & Comparison](https://macsdata.netlify.app/oracle/migration/methods-overview-comparison/)
+- [Migration Methods Overview & Comparison](https://macsdata.com/oracle/migration-methods-overview)
     - Explore and compare key features of different Oracle migration methods, available on Marcus Doeringer's public platform
 - [Multicloud Network Architectures for DB Migrations to Oracle Cloud Infrastructure](https://www.youtube.com/watch?v=1ngXJRsP5jA)
     - Cloud Coaching Webinar explaining different multicloud network architectures for migrating databases to OCI using Zero Downtime Migration
