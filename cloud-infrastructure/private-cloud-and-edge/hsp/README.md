@@ -1,9 +1,9 @@
 # C3 Hosting Service Provider - IAM Policies for Isolation
 
-The Hosting Service Provider (HSP) model on C3 allows hosting for a
-maximum of 8 end customers, each isolated in a dedicated compartment
+The Hosting Service Provider (HSP) model on Compute Cloud@Customer (C3) allows
+hosting for multiple end customers, each isolated in a dedicated compartment
 with a single VCN per customer. To ensure the end customer can only
-create resources in just their own compartment a set of IAM policies are
+create resources in just their own compartment, a set of IAM policies are
 required.
 
 The HSP documentation suggests the following policies per end customer
@@ -83,10 +83,10 @@ path:to:CustB where all {request.region != 'LHR',request.region !=
 ## Common Policy
 
 Currently any user of a C3 needs access to certain resources located at
-the tenancy level to use IaaS resources withgout errors in the web UI.
-Backup policies, tag namespaces, platform images all reside at the
+the tenancy level to use IaaS resources in the web UI.
+Backup policies, tag namespaces, platform images, all reside at the
 tenancy level and need a further policy to allow normal use of C3 IaaS
-services. Note that this is **different** to the behaviour on OCI. 
+services. Note that this is a subtle difference to the behaviour on OCI. 
 
 An extra policy as below is required (where CommonGroup contains **all**
 HSP users on the C3):
