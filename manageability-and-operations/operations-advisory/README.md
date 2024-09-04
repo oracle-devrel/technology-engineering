@@ -3,6 +3,7 @@
 The Operations Advisory provides critical guidance to Customers on how to define their operations. Operations Excellence Advisory 'Approach Workshop' advises on best practices and their benefits from Oracle based on previous experiences and is meant to identify  an outline for Day-2 optimal operations, based on  priorities and requirements for DR, Integrations, O&M also in the following scenarios: Hybrid, Multi-cloud, DRCC. Where needed, Automation advice is also included.
 - [Multi-cloud operations - 3rd party tools that support OCI](https://learnoci.cloud/multi-cloud-operations-3rd-party-tools-that-support-oci-091207d923ed)
   
+
 Reviewed: 19.08.2024
 
 # Table of Contents
@@ -17,6 +18,7 @@ Reviewed: 19.08.2024
 - [How to use OS Management Resource Discovery to monitor your Compute resources](https://learnoci.cloud/how-to-use-os-management-resource-discovery-to-monitor-your-compute-resources-bf19800f51fe)
 - [From Terraform to OpenTofu](https://medium.com/@ralflange/667672c609c8)
 - [Using Terraform to create multiple Resource Schedules in OCI](https://karthicin.medium.com/terraform-to-create-multiple-resource-schedule-in-oracle-cloud-03aaba51b909)
+- [Bulk Tagging in OCI](https://medium.com/@ralflange/tagging-resources-in-oracle-oci-3ded10c1e28f)
 
 # Useful Links 
 

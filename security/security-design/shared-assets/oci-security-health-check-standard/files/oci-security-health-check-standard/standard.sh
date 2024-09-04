@@ -7,7 +7,7 @@
 #
 # Author: Olaf Heimburger
 #
-VERSION=240730
+VERSION=240822
 
 OS_TYPE=$(uname)
 ASSESS_DIR=$(dirname $0)
