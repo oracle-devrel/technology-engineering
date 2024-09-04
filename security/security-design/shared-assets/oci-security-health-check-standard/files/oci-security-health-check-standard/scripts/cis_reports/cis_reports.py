@@ -5054,7 +5054,7 @@ class CIS_Report:
                     if v == ' ':
                         html_file.write('<td> </td>')
                     else:
-                        html_file.write(f'<td><a href="{v}">{v}</a></td>')
+                        html_file.write(f'<td><a href="{self.__report_prefix}{v}">{v}</a></td>')
                     html_file.write('</tr></table></td>')
                     html_file.write("</tr>")
 
