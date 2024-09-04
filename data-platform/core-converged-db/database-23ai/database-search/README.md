@@ -23,14 +23,14 @@ Run the scripts in your preferred SQL environment or IDE.
 - [Text Application Developer's Guide 19c](https://docs.oracle.com/en/database/oracle/oracle-database/19/ccapp/index.html)
 - [Getting Started with Oracle Text](https://docs.oracle.com/en/database/oracle/oracle-database/19/ccapp/getting-started-with-oracle-text.html#GUID-D954F00B-1019-475A-ACD6-82E32DE8773B)
 - [Text Reference 19c](https://docs.oracle.com/en/database/oracle/oracle-database/19/ccref/index.html)
-- [Text Application Developer's Guide 23c](https://docs.oracle.com/en/database/oracle/oracle-database/23/ccapp/index.html)
-- [Text Reference 23c](https://docs.oracle.com/en/database/oracle/oracle-database/23/ccref/index.html)
+- [Text Application Developer's Guide 23ai](https://docs.oracle.com/en/database/oracle/oracle-database/23/ccapp/index.html)
+- [Text Reference 23ai](https://docs.oracle.com/en/database/oracle/oracle-database/23/ccref/index.html)
 
 ## Blogs
 
 - [Indexing Text in Object Storage](https://blogs.oracle.com/datawarehousing/post/indexing-text-object-storage)
 - [Using JSON documents and don’t know what you’re looking for? 23c Search Indexes to the rescue](https://blogs.oracle.com/database/post/23c-search-index)
-- [New full-text search in 23c: Ubiquitous Database Search](https://blogs.oracle.com/coretec/post/ubiquitous-database-search-in-23c)
+- [New full-text search in 23ai: Ubiquitous Database Search](https://blogs.oracle.com/coretec/post/ubiquitous-database-search-in-23c)
 
 ## LiveLabs Workshops
 
@@ -46,8 +46,16 @@ Run the scripts in your preferred SQL environment or IDE.
 
 # Team Publications
 
-- [New full-text search in 23c: Ubiquitous Database Search](https://blogs.oracle.com/coretec/post/ubiquitous-database-search-in-23c)
+## Blogs
 
+- [New full-text search in 23ai: Ubiquitous Database Search](https://blogs.oracle.com/coretec/post/ubiquitous-database-search-in-23c)
+- [Easy Database Search with APEX in 23](https://blogs.oracle.com/coretec/post/easy-database-search-with-apex-in-23c)
+
+## Videos
+
+- [Search in TEXT, XML, and JSON data](https://youtu.be/zmR9zq1zMJQ)
+
+  
 # License
 
 Copyright (c) 2024 Oracle and/or its affiliates.
