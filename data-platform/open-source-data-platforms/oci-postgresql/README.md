@@ -24,6 +24,12 @@ OCI Database with PostgreSQL is designed for high availability by offering durab
 - [Terraform to deploy OCI PostgreSQL database](https://blogs.oracle.com/cloud-infrastructure/post/deploy-managed-oci-database-with-postgresql-service-with-terraform)
 - [Backup and Restore an OCI Database with PostgreSQL](https://docs.oracle.com/en/learn/backup-and-restore-db-with-postgresql/index.html#introduction)
 
+# Reusable Assets
+
+- [Create a connection between OCI PostgreSQL and Oracle Analytics Cloud](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-postgresql/code-examples/connect-to-oac)
+When you are looking to establish an OCI PostgreSQL instance, connect to it, and connect to Oracle Analytics Cloud, use these steps to guide you. The steps include using DBeaver to create a new table and load data, create an OCI PostgreSQL instance, connect to it, and connect the instance as source to Oracle Analytics Cloud.
+
+
 # License
 
 Copyright (c) 2024 Oracle and/or its affiliates.
