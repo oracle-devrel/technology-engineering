@@ -95,6 +95,8 @@ Reviewed: 21.08.2024
 - [23ai blogs on blogs.oracle.com/coretec](https://blogs.oracle.com/coretec/category/cased-concurrency-control-rt-23ai)
 
 ## Videos
+- [High Performance Data Streaming with Fast Lookup and Fast Ingest](https://youtu.be/IMnbSRmFTVk)
+- [New Features in Hybrid Partitiong](https://youtu.be/xF2wKjI1ZGs)
 - [Search in TEXT, XML, and JSON data](https://www.youtube.com/watch?v=zmR9zq1zMJQ)
 - [AI Vector Search](https://www.youtube.com/watch?v=_tOGB9l8cvg)
 - [Data Types in 23ai](https://youtu.be/D9vNdkmyc4k?si=Xq96eA2laNQtHD5O)
