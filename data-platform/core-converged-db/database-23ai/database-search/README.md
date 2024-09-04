@@ -1,10 +1,20 @@
-# Oracle Text
+# Database Search
 
-Oracle Text is a full-text search that is fully integrated into the Oracle Database. It can be used to index, search, and analyze text and documents stored in different formats, including those in the Oracle database, files, and web content. Oracle Text also has advanced features like linguistic analysis, data mining, classification, and clustering capabilities and is delivered as a part of all versions of Oracle Database.
+Oracle Text is a full-text search that is fully integrated into Oracle Database and delivered as a part of all versions of Oracle Database. It uses standard SQL to index, search, and analyze text and documents in different stored in the Oracle database, in files, and on the web. 
 
 Oracle Text can perform linguistic analysis on documents, mining capabilities, classification, clustering, etc.
 
-Reviewed Date: 20.08.2024
+In 23 Ubiquitous Database Search helps in cases where you need to search in different data sources. Only one command is needed to create a self-managed index and another one to add different sources. Without writing additional PL/SQL code you can include different table data sources in your search. A new simple PL/SQL interface called DBMS_SEARCH to create an index across multiple objects, easily add data sources (specific tables or views) into the index or also remove them. This strongly simplifies indexing tasks. 
+
+For example, it is not necessary to define complex USER_DATASTORE procedures. In addition, the synchronization of the index will be maintained automatically.
+
+# When to use this asset?
+
+To learn about the database search features.
+
+# How to use this asset?
+
+Run the scripts in your preferred SQL environment or IDE.
 
 # Useful Links
 
@@ -20,7 +30,7 @@ Reviewed Date: 20.08.2024
 
 - [Indexing Text in Object Storage](https://blogs.oracle.com/datawarehousing/post/indexing-text-object-storage)
 - [Using JSON documents and don’t know what you’re looking for? 23c Search Indexes to the rescue](https://blogs.oracle.com/database/post/23c-search-index)
-- [Learn about Oracle Text](https://blogs.oracle.com/database/post/learn-about-oracle-text)
+- [New full-text search in 23ai: Ubiquitous Database Search](https://blogs.oracle.com/coretec/post/ubiquitous-database-search-in-23c)
 
 ## LiveLabs Workshops
 
@@ -39,16 +49,17 @@ Reviewed Date: 20.08.2024
 ## Blogs
 
 - [New full-text search in 23ai: Ubiquitous Database Search](https://blogs.oracle.com/coretec/post/ubiquitous-database-search-in-23c)
-- [Easy Database Search with APEX in 23ai](https://blogs.oracle.com/coretec/post/easy-database-search-with-apex-in-23c)
-- [Text Index with Automatic Maintenance](https://blogs.oracle.com/coretec/post/text-index-with-automatic-maintenance)
+- [Easy Database Search with APEX in 23](https://blogs.oracle.com/coretec/post/easy-database-search-with-apex-in-23c)
 
 ## Videos
 
 - [Search in TEXT, XML, and JSON data](https://youtu.be/zmR9zq1zMJQ)
 
-
+  
 # License
 
 Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
