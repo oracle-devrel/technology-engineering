@@ -40,7 +40,7 @@ and Frankfurt regions. Adjust the list to include all regions the
 tenancy is subscribed to.
 
 The path to the end user compartment must be explicitly stated, using
-the comma format, relative to the compartment where the policy is
+the colon delimited format, relative to the compartment where the policy is
 created. 
 
 ## Example Policies for Customer End User
