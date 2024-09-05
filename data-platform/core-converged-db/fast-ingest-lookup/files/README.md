@@ -6,11 +6,17 @@ Reviewed: 30.08.2024
 # When to use this asset?
 
 Use fastlookup.sql to learn about the Fast Lookup feature in Oracle Database. 
-Note: You may also use it in database environments before 23ai. 
+
+Note: You may also use the script in database environments before 23ai. 
+
+Use fastingest.sql to learn about the Fast Lookup feature in Oracle Database. 
+
+Note: For this demo script, 23ai is required. 
 
 # How to use this asset?
 
-Run fastlookup.sql in your preferred SQL environment or IDE.
+As a prerequisite install schema SH before you run the scripts. 
+You can find all information about the installation in this [posting here](https://blogs.oracle.com/coretec/post/sample-data-for-oracle-database)
 
 # License
 
