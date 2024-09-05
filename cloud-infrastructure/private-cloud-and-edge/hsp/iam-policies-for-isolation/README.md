@@ -2,7 +2,7 @@
 
 The Hosting Service Provider (HSP) model on Compute Cloud@Customer (C3) allows
 hosting for multiple end customers, each isolated in a dedicated compartment
-with a single VCN per customer. To ensure the end customer can only
+with separate VCN(s) per customer. To ensure the end customer can only
 create resources in just their own compartment, a set of IAM policies are
 required.
 
