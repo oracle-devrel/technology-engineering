@@ -3,6 +3,8 @@
 Oracle Cloud Infrastructure (OCI) Data Flow is a fully managed Apache Spark service that performs processing tasks on extremely large datasets—without infrastructure to deploy or manage. 
 Developers can also use Spark Streaming to perform cloud ETL on their continuously produced streaming data.
 However Spark structured streaming application can produce thousants of small files (according to microbatching and number of executors), which leads to performance degradadion.
+![small files in datalake](https://github.com/oracle-devrel/technology-engineering/blob/sylwesterdec-patch-6/data-platform/open-source-data-platforms/oci-data-flow/code-examples/DeltaLake_Optimize/files_in_datalake.png)
+
 That's why the most crucial decision is file format for your datalake.
 
 Delta Lake enables building a Lakehouse architecture on top of data lakes. Delta Lake provides ACID transactions, scalable metadata handling, and unifies streaming and batch data processing on top of existing data lakes.
