@@ -5,13 +5,51 @@ Developers can also use Spark Streaming to perform cloud ETL on their continuous
 However Spark structured streaming application can produce thousants of small files (according to microbatching and number of executors), which leads to performance degradadion.
 ![small files in datalake](https://github.com/oracle-devrel/technology-engineering/blob/sylwesterdec-patch-6/data-platform/open-source-data-platforms/oci-data-flow/code-examples/DeltaLake_Optimize/files_in_datalake.png)
 
-That's why the most crucial decision is file format for your datalake.
+That's why the most crucial decision is file format for your datalake. Small files can be a problem because they slow down your query reads. Listing, opening and closing many small files incurs expensive overhead. This is called “the Small File Problem”. 
+You can reduce the Small File Problem overhead by combining the data into bigger, more efficient files. Instead of doing it manually, pick the datalake format (delta, iceberg) and use build-in functions.
 
 Delta Lake enables building a Lakehouse architecture on top of data lakes. Delta Lake provides ACID transactions, scalable metadata handling, and unifies streaming and batch data processing on top of existing data lakes.
 For spark streaming application and realtime processing DeltaLake has one sighificant advantage - [built-in optimization](https://delta.io/blog/delta-lake-optimize/)   
-
 OCI Data Flow supports Delta Lake by default when your Applications run Spark 3.2.1 or later - [doc](https://docs.oracle.com/en-us/iaas/data-flow/using/delta-lake-about.htm)
 
+How to optimize data lake using DeltaLake functions:
+Configure your preferences (please check DeltaLake doc):
+
+spark.conf.set('spark.databricks.delta.retentionDurationCheck.enabled', 'False')
+spark.conf.set('spark.databricks.delta.optimize.repartition.enabled','True')
+spark.conf.set('spark.databricks.delta.optimize.preserveInsertionOrder', 'False')
+
+Preserve vacuum history:
+spark.conf.set('spark.databricks.delta.vacuum.logging.enabled','True')
+
+Set retention time for optimized files (ready to delete:  
+spark.conf.set("spark.databricks.delta.deletedFileRetentionDuration","0")
+
+
+Check existing table details (look for numFiles:
+spark.sql("describe detail atm").show(truncate=False)
++------+------------------------------------+-------------------------+-----------+-------------------------------------+-----------------------+-------------------+------------------+--------+-----------+-----------------------------------------------+----------------+----------------+------------------------+
+|format|id                                  |name                     |description|location                             |createdAt              |lastModified       |partitionColumns  |numFiles|sizeInBytes|properties                                     |minReaderVersion|minWriterVersion|tableFeatures           |
++------+------------------------------------+-------------------------+-----------+-------------------------------------+-----------------------+-------------------+------------------+--------+-----------+-----------------------------------------------+----------------+----------------+------------------------+
+|delta |81336019-7998-4b1d-b4da-1b7ca9d5c745|spark_catalog.default.atm|NULL       |oci://atm_data@fro8fl9kuqli/atm_delta|2024-07-15 12:57:15.812|2024-08-21 07:57:05|[year, month, day]|1822    |286807670  |{delta.deletedFileRetentionDuration -> 0 hours}|1               |2               |[appendOnly, invariants]|
++------+------------------------------------+-------------------------+-----------+-------------------------------------+-----------------------+-------------------+------------------+--------+-----------+-----------------------------------------------+----------------+----------------+------------------------+
+
+Run optimzation:
+spark.sql("OPTIMIZE atm").show(truncate=False)
+
+Check files you can delete:
+spark.sql("vacuum atm RETAIN 0 HOURS DRY RUN")
+
+Delete optimized and consolidated files:
+spark.sql("vacuum atm RETAIN 0 HOURS")
+
+and check details of your table:
+spark.sql("describe detail atm").show(truncate=False)
++------+------------------------------------+-------------------------+-----------+-------------------------------------+-----------------------+-------------------+------------------+--------+-----------+-----------------------------------------------+----------------+----------------+------------------------+
+|format|id                                  |name                     |description|location                             |createdAt              |lastModified       |partitionColumns  |numFiles|sizeInBytes|properties                                     |minReaderVersion|minWriterVersion|tableFeatures           |
++------+------------------------------------+-------------------------+-----------+-------------------------------------+-----------------------+-------------------+------------------+--------+-----------+-----------------------------------------------+----------------+----------------+------------------------+
+|delta |81336019-7998-4b1d-b4da-1b7ca9d5c745|spark_catalog.default.atm|NULL       |oci://atm_data@fro8fl9kuqli/atm_delta|2024-07-15 12:57:15.812|2024-09-06 08:26:45|[year, month, day]|21      |286807670  |{delta.deletedFileRetentionDuration -> 0 hours}|1               |2               |[appendOnly, invariants]|
++------+------------------------------------+-------------------------+-----------+-------------------------------------+-----------------------+-------------------+------------------+--------+-----------+-----------------------------------------------+----------------+----------------+------------------------+
                                                                                                      
 
                                                                                                                           
