@@ -10,7 +10,7 @@ For a more professional and consistent presentation, these diagrams use the offi
 
 Hyperion EPM System Reference architecture on OCI can be found in the [Architecture Center](https://docs.oracle.com/en/solutions/deploy-hyperion-oci/index.html)
 
-Reviewed: 22.7.2024
+Reviewed: 9.9.2024
 
 # Contents
 
