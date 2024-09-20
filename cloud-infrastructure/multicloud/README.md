@@ -2,7 +2,7 @@
 
 Multicloud architectures leverage the coordinated use of cloud services from two or more public cloud vendors. Organizations use multicloud environments to distribute computing resources and minimize the risk of downtime and data loss. Organizations may also adopt two or more public cloud providers for their unique capabilities. 
 
-Reviewed: 13.05.2024
+Reviewed: 20.09.2024
 
 # Team Publications
 
