@@ -35,6 +35,13 @@ try:
 except Exception:
     OUTPUT_TO_XLSX = False
 
+try:
+    import matplotlib.pyplot as plt
+    import numpy as np
+    OUTPUT_DIAGRAMS = True
+except Exception:
+    OUTPUT_DIAGRAMS = False
+
 RELEASE_VERSION = "2.8.4"
 PYTHON_SDK_VERSION = "2.129.4"
 UPDATED_DATE = "July 26, 2024"
@@ -4757,7 +4764,7 @@ class CIS_Report:
         summary_report = []
         for key, recommendation in self.cis_foundations_benchmark_2_0.items():
             if recommendation['Level'] <= level:
-                report_filename = "cis" + " " + recommendation['section'] + "_" + recommendation['recommendation_#']
+                report_filename = f'{self.__report_prefix}cis {recommendation["section"]}_{recommendation["recommendation_#"]}'
                 report_filename = report_filename.replace(" ", "_").replace(".", "-").replace("_-_", "_") + ".csv"
                 if recommendation['Status']:
                     compliant_output = "Yes"
@@ -4814,6 +4821,12 @@ class CIS_Report:
         summary_file_name = self.__report_generate_html_summary_report("cis", "html_summary_report", summary_report)
         summary_files.append(summary_file_name)
 
+        if OUTPUT_DIAGRAMS:
+            diagram_file_name = self.__generate_compliance_diagram("cis", "summary_compliance", summary_report)
+            summary_files.append(diagram_file_name)
+            diagram_file_name = self.__generate_compliance_by_area_diagram("cis", "summary_compliance_by_focus_area", summary_report)
+            summary_files.append(diagram_file_name)
+
         # Outputing to a bucket if I have one
         if summary_files and self.__output_bucket:
             for summary_file in summary_files:
@@ -4828,16 +4841,88 @@ class CIS_Report:
                         self.__output_bucket, report_file_name)
 
     ##########################################################################
+    # Generate summary diagrams
+    ##########################################################################
+    diagram_colors = ['green','#C00000']
+    diagram_values = ['Compliant', 'Non-compliant']
+    diagram_sections = (
+        'Identity and Access Management',
+        'Networking',
+        'Compute',
+        'Logging and Monitoring',
+        'Storage',
+        'Asset Management'
+    )
+    diagram_fontweight = 'bold'
+    diagram_fontcolor_reverse = 'white'
+
+    def __cis_compliance(self, filename, title, values=None):
+        plt.close('all')
+        plt.figure(figsize=(6,5))
+        wegdes, labels, pcttexts = plt.pie(values, labels=self.diagram_values, colors=self.diagram_colors, autopct='%.0f%%', wedgeprops={'linewidth': 3.0, 'edgecolor': 'white'}, startangle=90, counterclock=False, radius=1.1)
+        for t in labels:
+            t.set_fontweight(self.diagram_fontweight)
+        for p in pcttexts:
+            p.set_fontweight(self.diagram_fontweight)
+            p.set_color(self.diagram_fontcolor_reverse)
+        plt.title(title, fontweight=self.diagram_fontweight, pad=30.0)
+        plt.savefig(filename)
+
+    def __cis_compliance_by_area(self, filename, title, section_values=None):
+        plt.close('all')
+        height = 0.4
+        fig, ax = plt.subplots(figsize=(10,5), layout='compressed')
+        y = np.arange(len(self.diagram_sections))
+        p = ax.barh(y - height/2, section_values[self.diagram_values[0]], height, color=self.diagram_colors[0])
+        ax.bar_label(p, padding=-16, color=self.diagram_fontcolor_reverse, fontweight=self.diagram_fontweight)
+        p = ax.barh(y + (height/2), section_values[self.diagram_values[1]], height, color=self.diagram_colors[1])
+        ax.bar_label(p, padding=-16, color=self.diagram_fontcolor_reverse, fontweight=self.diagram_fontweight)
+        ax.set_frame_on(False)
+        ax.set_title(title, fontweight=self.diagram_fontweight, loc='left')
+        ax.set_yticks(y)
+        ax.set_yticklabels(self.diagram_sections, fontweight=self.diagram_fontweight)
+        ax.invert_yaxis()
+        plt.tick_params(left=False, right=False, labelbottom=False, bottom=False)
+        plt.savefig(filename)
+
+    def __generate_compliance_diagram(self, header, file_subject, data):
+        compliant = 0
+        non_compliant = 0
+        for finding in data:
+            if finding['Compliant'] == 'No':
+                non_compliant += 1
+            else:
+                compliant += 1
+        cis_compliance_file = self.__get_output_file_path(header, file_subject, '.png')
+        self.__cis_compliance(cis_compliance_file, 'CIS Recommendation Compliance', [compliant, non_compliant])
+        return cis_compliance_file
+
+    def __generate_compliance_by_area_diagram(self, header, file_subject, data):
+        compliants = []
+        non_compliants = []
+        for section in self.diagram_sections:
+            compliant = 0
+            non_compliant = 0
+            for finding in data:
+                if section in finding['Section']:
+                    if finding['Compliant'] == 'No':
+                        non_compliant += 1
+                    else:
+                        compliant += 1
+            compliants.append(compliant)
+            non_compliants.append(non_compliant)
+
+        cis_compliance_by_area_file = self.__get_output_file_path(header, file_subject, '.png')
+        self.__cis_compliance_by_area(cis_compliance_by_area_file, 'CIS Recommendation Compliance per Focus Area', {
+            self.diagram_values[0]: compliants,
+            self.diagram_values[1]: non_compliants,
+        })
+        return cis_compliance_by_area_file
+
+    ##########################################################################
     # Generates an HTML report
     ##########################################################################
     def __report_generate_html_summary_report(self, header, file_subject, data):
-        try:
-            # Creating report directory
-            if not os.path.isdir(self.__report_directory):
-                os.mkdir(self.__report_directory)
-
-        except Exception as e:
-            raise Exception("Error in creating report directory: " + str(e.args))
 
         try:
             # if no data
@@ -4845,9 +4930,7 @@ class CIS_Report:
                 return None
 
             # get the file name of the HTML
-            file_name = header + "_" + file_subject
-            file_name = (file_name.replace(" ", "_")).replace(".", "-").replace("_-_", "_") + ".html"
-            file_path = os.path.join(self.__report_directory, f'{self.__report_prefix}{file_name}')
+            file_path = self.__get_output_file_path(header, file_subject, '.html')
 
             # add report_datetimeto each dictionary
             result = [dict(item, extract_date=self.start_time_str)
@@ -4911,7 +4994,11 @@ class CIS_Report:
                 r = result[0]
                 extract_date = r['extract_date'].replace('T',' ')
                 html_file.write(f'<h5>Extract Date: {extract_date} UTC</h5>')
-                html_file.write("</div></section>")
+                html_file.write('</div></section>')
+                if OUTPUT_DIAGRAMS:
+                    # Include dashboard
+                    html_file.write(f'<section class="cb132 cb132v0"><div class="cb132w1 cwidth"><table><tr><td><img src="{self.__report_prefix}cis_summary_compliance.png" height="80%" width="80%"/></td>')
+                    html_file.write(f'<td><img src="{self.__report_prefix}cis_summary_compliance_by_focus_area.png" height="80%" width="80%"/></td></tr><tr><td colspan="2">&nbsp;</td></tr></table></div></section>')
                 # Navigation
                 html_file.write('<section class="rt01 rt01v0 rt01detached">')
                 html_file.write('<div class="rt01w1 cwidth">')
@@ -4965,7 +5052,7 @@ class CIS_Report:
                         if int(total) > 1:
                             tmp += 's'
                     html_file.write(f'<td><b style="color:{text_color};">{str(compliant)}</b>{tmp}</td>\n')
-                    html_file.write(f"<td>{str(row['Section'])}</td>\n")
+                    html_file.write(f'<td>{str(row["Section"])}</td>\n')
                     # Details
                     html_file.write('<td><table><tr><td style="width:10%"><b>Title</b></td>')
                     html_file.write(f'<td colspan="3">{str(row["Title"])}</td></tr>')
@@ -5054,7 +5141,7 @@ class CIS_Report:
                     if v == ' ':
                         html_file.write('<td> </td>')
                     else:
-                        html_file.write(f'<td><a href="{self.__report_prefix}{v}">{v}</a></td>')
+                        html_file.write(f'<td><a href="{v}">{v}</a></td>')
                     html_file.write('</tr></table></td>')
                     html_file.write("</tr>")
 
@@ -5085,20 +5172,19 @@ class CIS_Report:
                                 html_file.write(f"<p>{v}</p>\n")
                 html_file.write("</div></section>\n")
                 # Closing HTML
+                report_year = str(self.start_datetime.strftime('%Y'))
                 html_file.write("""<div id="resources" class="u10 u10v6"><nav class="u10w1" aria-label="Main footer">
                 <div class="u10w2"><div class="u10w3" aria-labelledby="resourcesfor"><a class="u10btn" tabindex="-1" aria-labelledby="resourcesfor"></a>
                 <h4 class="u10ttl" id="resourcesfor">Resources</h4><ul>
-                <li><a href="https://www.cisecurity.org/benchmark/Oracle_Cloud">CIS OCI Foundation Benchmark</a></li>
-                <li><a href="https://docs.oracle.com/en/solutions/cis-oci-benchmark/index.html">Deploy a secure landing zone that meets the CIS Foundations Benchmark for Oracle Cloud</a></li>
-                <li><a href="https://docs.oracle.com/en/solutions/oci-security-checklist/index.html">Security checklist for Oracle Cloud Infrastructure</a></li>
-                <li><a href="https://docs.oracle.com/en-us/iaas/Content/Security/Concepts/security.htm">OCI Documentation – Securely configure your Oracle Cloud Infrastructure services and resources</a></li>
-                <li><a href="https://docs.oracle.com/en/solutions/oci-best-practices/index.html">Best practices framework for Oracle Cloud Infrastructure</a></li>
-                <li><a href="https://www.oracle.com/security/cloud-security/what-is-cspm/">Cloud Security Posture Management</a></li>
+                <li><a target="_blank" href="https://www.cisecurity.org/benchmark/Oracle_Cloud">CIS OCI Foundation Benchmark</a></li>
+                <li><a target="_blank" href="https://docs.oracle.com/en/solutions/cis-oci-benchmark/index.html">Deploy a secure landing zone that meets the CIS Foundations Benchmark for Oracle Cloud</a></li>
+                <li><a target="_blank" href="https://docs.oracle.com/en/solutions/oci-security-checklist/index.html">Security checklist for Oracle Cloud Infrastructure</a></li>
+                <li><a target="_blank" href="https://docs.oracle.com/en-us/iaas/Content/Security/Concepts/security.htm">OCI Documentation – Securely configure your Oracle Cloud Infrastructure services and resources</a></li>
+                <li><a target="_blank" href="https://docs.oracle.com/en/solutions/oci-best-practices/index.html">Best practices framework for Oracle Cloud Infrastructure</a></li>
+                <li><a target="_blank" href="https://www.oracle.com/security/cloud-security/what-is-cspm/">Cloud Security Posture Management</a></li>
                 </ul></div></div><div class="u10w4"><hr></div></nav>
-                <div class="u10w11"><nav class="u10w5 u10w10" aria-label="Site info">
-                <ul class="u10-links"><li></li><li><a href="https://www.oracle.com/legal/copyright.html">© 2023 Oracle</a></li>
-                </ul></nav></div>""")
-                html_file.write("</div></div></body></html>\n")
+                <div class="u10w11"><nav class="u10w5 u10w10" aria-label="Site info">""")
+                html_file.write(f'<ul class="u10-links"><li></li><li><a target="_blank" href="https://www.oracle.com/legal/copyright.html">© {report_year} Oracle</a></li></ul></nav></div></div></div></body></html>\n')
 
             print("HTML: " + file_subject.ljust(22) + " --> " + file_path)
             # Used by Upload
@@ -5353,18 +5439,26 @@ class CIS_Report:
                 "Error opening file os_copy_report_to_object_storage: " + str(e.args))
 
     ##########################################################################
-    # Print to CSV
+    # Get output file path with suffix
     ##########################################################################
-    def __print_to_csv_file(self, header, file_subject, data):
-        debug("__print_to_csv_file: " + header + "_" + file_subject)
+    def __get_output_file_path(self, header, file_subject, suffix):
         try:
             # Creating report directory
             if not os.path.isdir(self.__report_directory):
                 os.mkdir(self.__report_directory)
 
         except Exception as e:
-            raise Exception(
-                "Error in creating report directory: " + str(e.args))
+            raise Exception(f'Error in creating report directory: {str(e.args)}')
+
+        file_name = f'{header}_{file_subject}'
+        file_name = f'{file_name.replace(" ", "_").replace(".", "-").replace("_-_", "_")}{suffix}'
+        return os.path.join(self.__report_directory, f'{self.__report_prefix}{file_name}')
+
+    ##########################################################################
+    # Print to CSV
+    ##########################################################################
+    def __print_to_csv_file(self, header, file_subject, data):
+        debug("__print_to_csv_file: " + header + "_" + file_subject)
 
         try:
             # if no data
@@ -5372,10 +5466,7 @@ class CIS_Report:
                 return None
 
             # get the file name of the CSV
-
-            file_name = header + "_" + file_subject
-            file_name = (file_name.replace(" ", "_")).replace(".", "-").replace("_-_", "_") + ".csv"
-            file_path = os.path.join(self.__report_directory, f'{self.__report_prefix}{file_name}')
+            file_path = self.__get_output_file_path(header, file_subject, '.csv')
 
             # add report_datetimeto each dictionary
             result = [dict(item, extract_date=self.start_time_str)
@@ -5423,26 +5514,14 @@ class CIS_Report:
     # Print to JSON
     ##########################################################################
     def __print_to_json_file(self, header, file_subject, data):
-        try:
-            # Creating report directory
-            if not os.path.isdir(self.__report_directory):
-                os.mkdir(self.__report_directory)
-
-        except Exception as e:
-            raise Exception(
-                "Error in creating report directory: " + str(e.args))
 
         try:
             # if no data
             if len(data) == 0:
                 return None
             
-            # get the file name of the CSV
-            
-            file_name = header + "_" + file_subject
-            file_name = (file_name.replace(" ", "_")
-                         ).replace(".", "-").replace("_-_","_") + ".json"
-            file_path = os.path.join(self.__report_directory, f'{self.__report_prefix}{file_name}')
+            # get the file name of the JSON
+            file_path = self.__get_output_file_path(header, file_subject, '.json')
 
             # Serializing JSON to string
             json_object = json.dumps(data, indent=4)
@@ -5470,26 +5549,14 @@ class CIS_Report:
     # Print to PKL
     ##########################################################################
     def __print_to_pkl_file(self, header, file_subject, data):
-        try:
-            # Creating report directory
-            if not os.path.isdir(self.__report_directory):
-                os.mkdir(self.__report_directory)
-
-        except Exception as e:
-            raise Exception(
-                "Error in creating report directory: " + str(e.args))
 
         try:
             # if no data
             if len(data) == 0:
                 return None
             
-            # get the file name of the CSV
-            
-            file_name = header + "_" + file_subject
-            file_name = (file_name.replace(" ", "_")
-                         ).replace(".", "-").replace("_-_","_") + ".pkl"
-            file_path = os.path.join(self.__report_directory, f'{self.__report_prefix}{file_name}')
+            # get the file name of the PKL
+            file_path = self.__get_output_file_path(header, file_subject, '.pkl')
 
             # Writing to json file
             with open(file_path, 'wb') as pkl_file:
@@ -5504,9 +5571,7 @@ class CIS_Report:
 
         except Exception as e:
             raise Exception("Error in __print_to_pkl_file: " + str(e.args))
-    
-
-    
+        
     ##########################################################################
     # Orchestrates Data collection and reports
     ##########################################################################
@@ -5765,11 +5830,20 @@ def execute_report():
                     cmd.regions, cmd.raw, cmd.obp, cmd.redact_output, oci_url=cmd.oci_url, debug=cmd.debug, all_resources=cmd.all_resources)
     csv_report_directory = report.generate_reports(int(cmd.level))
 
-    try:
-        if OUTPUT_TO_XLSX:
+    if OUTPUT_TO_XLSX:
+        try:
             report_prefix = f'{cmd.report_prefix}_' if cmd.report_prefix else ''
             workbook = Workbook(f'{csv_report_directory}/{report_prefix}Consolidated_Report.xlsx', {'in_memory': True})
-            for csvfile in glob.glob(f'{csv_report_directory}/{report_prefix}*.csv'):
+            if OUTPUT_DIAGRAMS:
+                try:
+                    worksheet = workbook.add_worksheet('cis_summary_charts')
+                    worksheet.insert_image('B2', f'{csv_report_directory}{report_prefix}cis_summary_compliance.png')
+                    worksheet.insert_image('L2', f'{csv_report_directory}{report_prefix}cis_summary_compliance_by_focus_area.png')
+                except Exception as e:
+                    pass
+            csvfiles = glob.glob(f'{csv_report_directory}/{report_prefix}*.csv')
+            csvfiles.sort()
+            for csvfile in csvfiles:
 
                 worksheet_name = csvfile.split(os.path.sep)[-1].replace(report_prefix, "").replace(".csv", "").replace("raw_data_", "raw_").replace("Findings", "fds").replace("Best_Practices", "bps")
 
@@ -5797,10 +5871,13 @@ def execute_report():
                             # Skipping the deep link due to formating errors in xlsx
                             if "=HYPERLINK" not in col:
                                 worksheet.write(r, c, col)
+                worksheet.autofilter(0, 0, r - 1, c - 1)
+                worksheet.autofit()
+
             workbook.close()
-    except Exception as e:
-        print("** Failed to output to excel. Please use CSV files. **")
-        print(e)
+        except Exception as e:
+            print("** Failed to output to Excel. Please use CSV files. **")
+            print(e)
 
 
 ##########################################################################

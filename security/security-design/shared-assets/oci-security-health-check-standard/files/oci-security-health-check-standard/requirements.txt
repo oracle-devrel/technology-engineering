@@ -4,3 +4,5 @@ openpyxl>=3.0.10
 pyyaml>=6.0
 oci>=2.119.0
 requests
+matplotlib
+numpy
