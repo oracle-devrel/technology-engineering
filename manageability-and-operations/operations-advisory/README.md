@@ -4,7 +4,7 @@ The Operations Advisory provides critical guidance to Customers on how to define
 - [Multi-cloud operations - 3rd party tools that support OCI](https://learnoci.cloud/multi-cloud-operations-3rd-party-tools-that-support-oci-091207d923ed)
   
 
-Reviewed: 19.08.2024
+Reviewed: 24.09.2024
 
 # Table of Contents
 
@@ -19,6 +19,10 @@ Reviewed: 19.08.2024
 - [From Terraform to OpenTofu](https://medium.com/@ralflange/667672c609c8)
 - [Using Terraform to create multiple Resource Schedules in OCI](https://karthicin.medium.com/terraform-to-create-multiple-resource-schedule-in-oracle-cloud-03aaba51b909)
 - [Bulk Tagging in OCI](https://medium.com/@ralflange/tagging-resources-in-oracle-oci-3ded10c1e28f)
+- [Automation to enable Logging Analytics for instances](https://karthicin.medium.com/automation-to-enable-logging-analytics-for-instances-8eef71302b36)
+- [Create a DataGuard Association on Oracle Cloud Exa servers using Ansible Collections](https://www.linkedin.com/pulse/create-dataguard-association-oracle-cloud-exa-servers-eugene-simos-hflkf/?trackingId=PdJLnJ6JSeOW8HBpIqCCVA%3D%3D)
+- [Why you should start thinking about your cloud operations right at the start of your cloud journey and what to consider](https://medium.com/@manu72tomcat/why-you-should-start-thinking-about-your-cloud-operations-right-at-the-start-of-your-cloud-journey-6000b36d9786)
+
 
 # Useful Links 
 
