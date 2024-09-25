@@ -2,7 +2,7 @@
 
 Oracle Logging Analytics is a cloud solution in Oracle Cloud Infrastructure that lets you index, enrich, aggregate, explore, search, analyze, correlate, visualize, and monitor all log data from your applications and system infrastructure.
 
-Reviewed: 20.05.2024
+Reviewed: 25.10.2024
 
 # Table of Contents
 
