@@ -92,9 +92,12 @@ Reviewed: 21.08.2024
 - [Oracle Database Advisors](https://blogs.oracle.com/coretec/post/oracle-database-advisors-overview)
 - [Getting started with vectors in 23ai](https://blogs.oracle.com/coretec/post/getting-started-with-vectors-in-23ai)
 - [JSON in Oracle Database](https://blogs.oracle.com/coretec/post/json-in-oracle-database)
+- [Bigfile Tablespace Shrink](https://blogs.oracle.com/coretec/post/bigfile-tablespace-shrink)
 - [23ai blogs on blogs.oracle.com/coretec](https://blogs.oracle.com/coretec/category/cased-concurrency-control-rt-23ai)
 
 ## Videos
+- [Lock-Free Reservation](https://youtu.be/h6YvDoBfeyg)
+- [Materialized Views on JSON Collection Tables](https://youtu.be/C2wXcJyJjUE)
 - [High Performance Data Streaming with Fast Lookup and Fast Ingest](https://youtu.be/IMnbSRmFTVk)
 - [New Features in Hybrid Partitiong](https://youtu.be/xF2wKjI1ZGs)
 - [Search in TEXT, XML, and JSON data](https://www.youtube.com/watch?v=zmR9zq1zMJQ)
