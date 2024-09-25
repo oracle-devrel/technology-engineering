@@ -60,6 +60,7 @@ Reviewed: 03.11.2023
 - [Database@Azure - Blog: Oracle ZDM Physical Online Migration with direct data transfer](https://blogs.oracle.com/maa/post/oracle-zdm-for-oracle-database-at-azure)
 - [Database@Azure - Video: Migrate Oracle Databases to ExaDB-D on Oracle Database@Azure](https://www.youtube.com/watch?v=1fDDGlb7y7Y)
 - [Overview of Oracle ZDM Migration Workflows to Exadata Database Service on Oracle Database@Azure](https://blogs.oracle.com/maa/post/overview-of-oracle-zdm-migration-workflows-to-exadata-database-service-on-oracle-databaseazure)
+- [Oracle ZDM Migration to Autonomous Database on Oracle Database@Azure](https://blogs.oracle.com/maa/post/oracle-zdm-to-autonomous-database-on-azure)
 - [Migrate Oracle Databases to ExaDB-D on Oracle Database@Google Cloud with Zero Downtime Migration](https://www.youtube.com/watch?v=GQ5xXXS3bRc)
 
 # License
