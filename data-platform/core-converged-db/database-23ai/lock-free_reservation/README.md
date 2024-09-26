@@ -13,8 +13,9 @@ Reviewed: 03.09.2024
 ## Documentation
 
 - [Database Concepts](https://docs.oracle.com/en/database/oracle/oracle-database/23/cncpt/tables-and-table-clusters.html#GUID-7C6A8E8A-F634-4D0D-877A-F948D6101066)
-- [Database Developer Guide](https://docs.oracle.com/en/database/oracle/oracle-database/23/adfns/using-lock-free-reservation.html#GUID-60D87F8F-AD9B-40A6-BB3C-193FFF0E60BB)
+- [Database Development Guide](https://docs.oracle.com/en/database/oracle/oracle-database/23/adfns/using-lock-free-reservation.html#GUID-60D87F8F-AD9B-40A6-BB3C-193FFF0E60BB)
 - [SQL Language Reference](https://docs.oracle.com/en/database/oracle/oracle-database/23/sqlrf/CREATE-TABLE.html#GUID-F9CE0CC3-13AE-4744-A43C-EAC7A71AAAB6)
+- [Guidelines and Restrictions for Lock-Free Reservation](https://docs.oracle.com/en/database/oracle/oracle-database/23/adfns/using-lock-free-reservation.html#GUID-B2C0C556-64D0-47B6-B8AE-C97AD56A0F96)
 
 
 # Team Publications
@@ -24,6 +25,7 @@ Reviewed: 03.09.2024
 - [Lock-free reservation: scale your apps](https://blogs.oracle.com/coretec/post/lockfree-reservation-in-23c-scale-your-apps)
 
 ## Videos
+- [Lock-Free Reservation](https://youtu.be/h6YvDoBfeyg)
 - [23ai Playlist](https://www.youtube.com/playlist?list=PLHA__TOeNI7MNBND0JWQUqTYOQ1up-VHX)
 
 # License
