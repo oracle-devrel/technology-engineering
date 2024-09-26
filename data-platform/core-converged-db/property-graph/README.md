@@ -4,6 +4,8 @@ The Property Graph feature of Oracle Database offers powerful graph support for 
 
 Oracle Graph Server and Client is a software package that works with the Property Graph feature in the Oracle Database. It includes graph tools, client libraries, and Oracle Graph Server for running graph analytics algorithms. Oracle Graph Server and Client releases four times a year and its release version number is not related to the Oracle Database Release version number.
 
+Review Date: 26.09.2024
+
 # Useful Links
 
 ## Documentation  
@@ -30,7 +32,7 @@ Oracle Graph Server and Client is a software package that works with the Propert
 - [Oracle Graph on medium](https://medium.com/tag/oracle-graph)
 
 
-## LiveLabs Workshops
+## LiveLabs
 
 - [Exploring Operational Property Graphs in 23c Free](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3659)
 - [Break down the Monolith - the Oracle Property Graph in Software re-engineering](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3788&clear=RR,180&session=3234280003655)
@@ -44,8 +46,14 @@ Oracle Graph Server and Client is a software package that works with the Propert
 
 # Team Publications
 
+## Blogs
+
 - [GraphQL, SQL/PGQ or SPARQL?](https://blogs.oracle.com/coretec/post/graphql-pgqql-or-sparql)
 - [Developing a Java application using Oracle Graph Server](https://blogs.oracle.com/coretec/post/developing-a-java-application-working-on-top-of-oracle-property-graph-server)
+
+## Videos
+
+- [SQL/PGQ and SQL Property Graph](https://youtu.be/cezMbCP6hvc)
 
 # License
 
