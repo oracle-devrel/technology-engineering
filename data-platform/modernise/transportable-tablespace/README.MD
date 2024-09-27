@@ -15,7 +15,7 @@ Reviewed: 04.01.2024
 
 - [Seamless Cross-Platform/Endian Database Migration with Minimal Downtime](https://www.youtube.com/watch?v=OUsaZoBUHBY)
   - Cload Coaching Webinar delivered by Marcus Doeringer and the EMEA Lift team (Poornima Veeraiah, Suresh Baral) explaining XTTSv4 and Full Transportable Export/Import FTEX migration method including a technical demo and best practices 
-- [Migration Guide: XTTSv4 / Full Transportable Export/Import](https://macsdata.netlify.app/oradb/migration/guides/xttsv4-ftex)
+- [Cross Endian Platform Migration using XTTSv4 + FTEX](https://macsdata.com/oracle/cross-endian-platform-migration-xttsv4-ftex)
   - Detailed, step-by-step guide showing how to perform a cross platform/endian database migration using XTTSv4 and Full Transportable Export/Import on Marcus Doeringer's public platform
 
 # Useful Links

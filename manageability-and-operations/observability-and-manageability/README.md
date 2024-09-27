@@ -53,6 +53,7 @@ Reviewed: 08/07/2024
 - [Leveraging Oracle Observability and Open-Source Tools](https://youtu.be/-ftEkoqfLfM)
 - [Overview of AI infra monitoring in OCI](https://youtu.be/oq2x1gouSp4?si=QnmslQXC03qPzDl4)
 - [OCI Observability for Kubernetes Monitoring](https://youtu.be/DLce-UReoKo?si=Vpw19z4rjlUb9fW2)
+- [Cloud Coaching - How to enable Oracle Observability on RAG solutions](https://www.youtube.com/watch?v=VQg3lADHwu8)
 
 # Useful Links
 
