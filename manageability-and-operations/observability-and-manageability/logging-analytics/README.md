@@ -2,7 +2,7 @@
 
 Oracle Logging Analytics is a cloud solution in Oracle Cloud Infrastructure that lets you index, enrich, aggregate, explore, search, analyze, correlate, visualize, and monitor all log data from your applications and system infrastructure.
 
-Reviewed: 20.05.2024
+Reviewed: 25.09.2024
 
 # Table of Contents
 
@@ -13,7 +13,6 @@ Reviewed: 20.05.2024
 
 - [Logging Analytics Demo](https://www.youtube.com/watch?v=1bJb92put4k)
 - [How to send Windows Logs to Logging Analytics from OCI Logging](https://learnoci.cloud/how-to-send-windows-logs-to-logging-analytics-from-oci-logging-2c2a209c180a)
-   - 	Step-by-step guide on how to send Custom Logs to OCI Logging Analytics and prepare for Threat Hunting using Windows Event ID.
 - [How to get your IDCS Logs into OCI Logging Analytics](https://learnoci.cloud/how-to-get-your-idcs-logs-into-oci-logging-analytics-897dca063198)
 - [How to get Sysmon events into Logging Analytics](https://learnoci.cloud/how-to-get-sysmon-events-into-logging-analytics-798eec1e57d5)
 - [How to ingest Windows Logs into Logging Analytics](https://learnoci.cloud/how-to-ingest-windows-logs-into-logging-analytics-ec9fa591edc5)

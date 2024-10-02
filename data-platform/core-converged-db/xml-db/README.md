@@ -5,7 +5,7 @@ Oracle XML DB is a set of Oracle Database technologies related to high-performan
 Oracle XML DB and the XMLType abstract data type make Oracle Database XML-aware. Storing XML data as an XMLType column or table lets the database perform XML-specific operations on the content. This includes XML validation and optimization. XMLType storage allows highly efficient processing of XML content in the database. Because there is a broad spectrum of XML usage, there is no one-size-fits-all storage model that offers optimal performance and flexibility for every use case. Oracle XML DB offers different storage models for XMLType, and several indexing methods appropriate to these different storage models. You can tailor performance and functionality to best fit the kind of XML data you have and the ways you use it. Oracle Database Release 23 introduced Transportable Binary XML (TBX) as a storage option, a variant built on top of CSX but without the dependency of a central dictionary.
 Transportable Binary XML is the recommended method for storing XML documents natively in the Oracle Database beginning with Oracle Database 23. 
 
-Reviewed: 2.05.2024
+Reviewed: 02.10.2024
 
 # Useful Links
 
@@ -23,6 +23,7 @@ Reviewed: 2.05.2024
 ## Blogs
 
 - [Transportable Binary XML – modern XML document storage in Oracle Database 23c](https://blogs.oracle.com/database/post/transportable-binary-xml-in-oracle-database-23)
+- [Loading XML data from your object store into Autonomous Database](https://blogs.oracle.com/datawarehousing/post/loading-xml-data-from-your-object-store-into-autonomous-database)
   
 ## Videos
 
