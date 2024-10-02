@@ -2,7 +2,7 @@
 
 The Observability and Manageability (O&M) platform is a set of Oracle Cloud Infrastructure (OCI) services that enable visibility and insight across cloud-native and traditional technology, whether deployed in multicloud or on-premises environments, with broad, standards-based ecosystem support. It’s designed to help enterprises better manage their increasingly diverse and distributed IT portfolios while reducing troubleshooting time, preventing outages, and enabling IT to manage applications from a business perspective.
 
-Reviewed: 10/05/2024
+Reviewed: 08/07/2024
 
 # Table of Contents
 
@@ -38,6 +38,11 @@ Reviewed: 10/05/2024
 - [How to enable OCI Observability for Golden Gate Cloud](https://medium.com/@erikasciunzi/how-to-enable-observability-for-golden-gate-cloud-06a9702c9313)
 - [How to enable OCI Observability on Oracle APEX](https://learnoci.cloud/oci-observability-for-oracle-apex-f25369bd771a)
 - [Cost comparison in Oracle Cloud](https://karthicin.medium.com/cost-comparison-in-oracle-cloud-166f4b12dcd3)
+- [Automation of OCI Event Rule using OpenTofu/Terraform](https://karthicin.medium.com/automation-of-oci-event-rule-using-opentofu-terraform-dc3946ae7bb6)
+- [How to run Game of Active Directory in OCI — Part 1](https://learnoci.cloud/how-to-run-game-of-active-directory-in-oci-part-1-5be51387a7a2)
+- [How to monitor your OCI environment using Dynatrace](https://learnoci.cloud/how-to-monitor-your-oci-environment-using-dynatrace-8c23f376659b)
+- [OCI Management Dashboard Automation](https://karthicin.medium.com/oci-management-dashboard-automation-ea4f45cac24b)
+- [Create Dynamic Links for OCI Stack Monitoring Alarms and More](https://medium.com/@michtoeth/create-dynamic-links-for-oci-stack-monitoring-alarms-and-more-ca8e0e6fb7a5)
 
 ## Cloud Coaching Clinics (Videos)
 
@@ -46,7 +51,9 @@ Reviewed: 10/05/2024
 - [Unveiling the Power of OCI Observability, A Short Tour and Best Practices](https://youtu.be/KEF0NeptJa8)
 - [OCI Monitoring Integration with Third-Party SIEM](https://youtu.be/UPdPZPWOZIs)
 - [Leveraging Oracle Observability and Open-Source Tools](https://youtu.be/-ftEkoqfLfM)
+- [Overview of AI infra monitoring in OCI](https://youtu.be/oq2x1gouSp4?si=QnmslQXC03qPzDl4)
 - [OCI Observability for Kubernetes Monitoring](https://youtu.be/DLce-UReoKo?si=Vpw19z4rjlUb9fW2)
+- [Cloud Coaching - How to enable Oracle Observability on RAG solutions](https://www.youtube.com/watch?v=VQg3lADHwu8)
 
 # Useful Links
 
@@ -55,6 +62,7 @@ Reviewed: 10/05/2024
 - [O&M Oracle Blogs](https://blogs.oracle.com/observability/)
 - [Documentation](https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/monitoring-and-observability.htm)
 - [OCI Monitoring](https://docs.oracle.com/en-us/iaas/Content/Monitoring/home.htm)
+- [O&M How to video series](https://www.youtube.com/playlist?list=PLiuPvpy8QsiWO40IrhRlbY-TOLepyGXzV)
 
 # License
 

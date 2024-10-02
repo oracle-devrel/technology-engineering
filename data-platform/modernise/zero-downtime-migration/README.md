@@ -20,18 +20,20 @@ Reviewed: 03.11.2023
 
 ## Technical Guides
 
-- [ZDM: Installation Guide](https://macsdata.netlify.app/oradb/migration/zdm/installation) 
+- [ZDM: Installation Guide](https://macsdata.com/oracle/zdm-installation) 
     - Detailed, step-by-step guide for ZDM installation
-- [ZDM: Patching Guide](https://macsdata.netlify.app/oradb/migration/zdm/patching) 
+- [ZDM: Patching Guide](https://macsdata.com/oracle/zdm-patching) 
     - Detailed, step-by-step guide for ZDM patching
-- [ZDM: Wallet Setup Guide](https://macsdata.netlify.app/oradb/migration/zdm/wallet)
+- [ZDM: Wallet Setup Guide](https://macsdata.com/oracle/zdm-wallet-setup)
     - Detailed, step-by-step guide for ZDM wallet setup
-- [GoldenGate: Marketplace Image Installation Guide](https://macsdata.netlify.app/oradb/migration/goldengate/marketplace/install/)
+- [GoldenGate: Marketplace Image Installation Guide](https://macsdata.com/oracle/goldengate-marketplace-installation)
     - Detailed, step-by-step GoldenGate Marketplace Image installation guide for database migrations, available on Marcus Doeringer's public platform
-- [GoldenGate: Marketplace Image Docker Setup Guide](https://macsdata.netlify.app/oradb/migration/goldengate/marketplace/docker/)
+- [GoldenGate: Marketplace Image Docker Setup Guide](https://macsdata.com/oracle/goldengate-marketplace-docker-setup)
     - Detailed, step-by-step GoldenGate Marketplace Image Docker setup guide for database migrations, available on Marcus Doeringer's public platform
 - [ZDM: Logical Offline Migration to Autonomous Database Dedicated ](https://wordpress.com/post/amalrajputhenchira.wordpress.com/40)
     - Detailed, step-by-step instructions for performing logical offline migration to Autonomous Database Dedicated using NFS as data transfer medium, available on Amalraj Puthenchira's public platform
+- [ZDM: Logical Online Migration to Autonomous Database Dedicated ](https://wordpress.com/post/amalrajputhenchira.wordpress.com/170)
+    - Detailed, step-by-step instructions for performing logical online migration to Autonomous Database Dedicated using NFS as data transfer medium, available on Amalraj Puthenchira's public platform
 
 ## LiveLabs Workshops
 - [Zero Downtime Migration: Physical Offline Migration to Co-Managed Databases in OCI](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=3568)
@@ -57,6 +59,9 @@ Reviewed: 03.11.2023
 - [Step-by-Step Guide – Logical Migration and In-Flight Upgrade from On-Premises to DBCS and ExaCS](https://www.oracle.com/a/tech/docs/oracle-zdm-logical-migration-step-by-step-guide.pdf)
 - [Database@Azure - Blog: Oracle ZDM Physical Online Migration with direct data transfer](https://blogs.oracle.com/maa/post/oracle-zdm-for-oracle-database-at-azure)
 - [Database@Azure - Video: Migrate Oracle Databases to ExaDB-D on Oracle Database@Azure](https://www.youtube.com/watch?v=1fDDGlb7y7Y)
+- [Overview of Oracle ZDM Migration Workflows to Exadata Database Service on Oracle Database@Azure](https://blogs.oracle.com/maa/post/overview-of-oracle-zdm-migration-workflows-to-exadata-database-service-on-oracle-databaseazure)
+- [Oracle ZDM Migration to Autonomous Database on Oracle Database@Azure](https://blogs.oracle.com/maa/post/oracle-zdm-to-autonomous-database-on-azure)
+- [Migrate Oracle Databases to ExaDB-D on Oracle Database@Google Cloud with Zero Downtime Migration](https://www.youtube.com/watch?v=GQ5xXXS3bRc)
 
 # License
  

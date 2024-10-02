@@ -7,6 +7,9 @@ Welcome to the **OCI Landing Zone Framework (LZF)**.
 
 The LZF was created by the EMEA Landing Zone Specialists, collaborating with worldwide Oracle, customers, and partners, to **simplify the OCI onboarding experience** and **reduce OCI day-one and day-two efforts**. It provides **best practices** covering the complete spectrum of OCI landing zones, from the **standards** to the **tailored** approaches, including landing zone extensions for specific **workloads**.
 
+Before starting we recommend viewing a [13-minutes video](https://www.linkedin.com/feed/update/urn:li:activity:7206600588216659968/) with EMEA OCI Landing Zones **approach** and **strategy**.
+
+
 &nbsp; 
 
 
@@ -28,10 +31,10 @@ If you're **starting with OCI landing zones**:
 &nbsp; 
 
 The following **assets** are also available to improve the OCI landing experience:
-1. **Landing Zones**: [How a Complete OCI Landing Zone Looks Like (**OCI Open LZ**)](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/design)
-2. **Workloads Extensions**: [How an OCI Workload Extensions Looks Like (**OCI EBS LZ**)](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/examples/oci-ebs-lz)
+1. **Landing Zones**: [How a Complete OCI Landing Zone Looks Like (**OCI Open LZ**)](https://github.com/oracle-quickstart/terraform-oci-open-lz)
+2. **Workloads Extensions**: [How an OCI Workload Extensions Looks Like (**OCI EBS LZ**)](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/workload-extensions/oci-lz-ext-ebs)
 3. **Infrastructure-as-Code (IaC)**: [The Configurable IaC approach to OCI Landing Zones **(CIS Modules)**](/landing-zones/commons/oci_landingzones_iac.md).
-4. **Learn/DIY**: [How to Design and Configure OCI Landing Zones (**OCI Learn LZ**)](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/examples/oci-learn-lz)
+4. **Learn/DIY**: [How to Design and Configure OCI Landing Zones (**OCI Learn LZ**)](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/addons/oci-learn-lz)
 5. **Naming Conventions**: [Resource Naming Conventions for OCI](/landing-zones/commons/resource_naming_conventions.md)
 6. **Identity**: [OCI User Identity Management](/landing-zones/commons/user_identity_management.md)
 7. **Budgets**: [OCI Budgets and Tagging Recommendations](/landing-zones/commons/budgets_and_tagging.md)

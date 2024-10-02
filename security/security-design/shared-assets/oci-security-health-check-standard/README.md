@@ -2,9 +2,9 @@
 
 Owner: Olaf Heimburger
 
-Version: 240502
+Version: 240822
 
-Reviewed: 05.02.2024
+Reviewed: 01.02.2024
 
 # Introduction
 ![Flyer](./files/resources/OCI_Security_Health_Check_Standard.png)
@@ -29,22 +29,22 @@ See the *OCI Security Health Check - Standard Edition* in action and watch the [
 
 Before running the *OCI Security Health Check - Standard Edition* you should download and verify it.
 
-  - Download the latest distribution [oci-security-health-check-standard-240502.zip](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-240502.zip).
+  - Download the latest distribution [oci-security-health-check-standard-240822.zip](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-240822.zip).
   - Download the respective checksum file:
-    - [oci-security-health-check-standard-240502.sha512](./files/resources/oci-security-health-check-standard-240502.sha512).
-    - [oci-security-health-check-standard-240502.sha512256](./files/resources/oci-security-health-check-standard-240502.sha512256).
+    - [oci-security-health-check-standard-240822.sha512](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-240822.sha512).
+    - [oci-security-health-check-standard-240822.sha512256](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-240822.sha512256).
   - Verify the integrity of the distribution. Both files must be in the same directory (for example, in your downloads directory).
 
     On MacOS:
     ```
     cd <your_downloads_directory>
-    shasum -a 512256 -c oci-security-health-check-standard-240502.sha512256
+    shasum -a 512256 -c oci-security-health-check-standard-240822.sha512256
     ```
 
     On Linux (including Cloud Shell):
     ```
     cd <your_downloads_directory>
-    sha512sum -c oci-security-health-check-standard-240502.sha512
+    sha512sum -c oci-security-health-check-standard-240822.sha512
     ```
 
 **Reject the downloaded file if the check fails!**

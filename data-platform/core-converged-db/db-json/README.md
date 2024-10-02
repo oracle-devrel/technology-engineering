@@ -3,7 +3,7 @@
 The Oracle Database provides various perspectives for viewing and accessing JSON data. One can view it from the SQL database point of view or from the document or collection view that comes with tools and APIs like SODA (short for Simple Oracle Document Access). With SODA you can create and store collections of documents in the Oracle Database, and retrieve, without needing to know SQL or how the documents are stored in the database. Documents can be fetched from the database by key lookup or by using query-by-example (QBE) pattern-matching. Regardless of the chosen perspective, the benefits of using Oracle Database as a Converged Database are always included. 
 In release 23, JSON Relational Duality, one of the highlights for JSON developers delivers a solution that provides the benefits of both relational tables and JSON documents, without the tradeoffs of either model. Using Duality Views, data is still stored in relational tables in a highly efficient normalized format but is accessed by apps in the form of JSON documents. 
 
-Reviewed Date: 2.5.2024
+Reviewed Date: 19.8.2024
 
 # Useful Links
 
@@ -28,11 +28,19 @@ Reviewed Date: 2.5.2024
 
 # Team Publications
 
+## Blogs
+
+- [JSON in Oracle Database](https://blogs.oracle.com/coretec/post/json-in-oracle-database)
 - [JSON, SODA, REST, and Oracle Database API for MongoDB](https://blogs.oracle.com/coretec/post/json-soda-rest-and-oracle-database-api-for-mongodb)
 - [Tutorial: JSON in the Oracle Database](https://blogs.oracle.com/coretec/post/tutorial1-json-in-oracle)
 - [NoSQL-style API SODA for beginners](https://blogs.oracle.com/coretec/post/nosql-style-api-soda-for-beginners)
 - [JSON Relational Duality Views on Github](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/core-converged-db/database-23c/json-relational-duality-views)
 - [MongoDB API 23c Workshop](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/core-converged-db/mongodb-api/workshop)
+
+## Videos
+
+- [JSON in Oracle Database 23ai](https://www.youtube.com/watch?v=KMgsb-BWWc0&list=PLHA__TOeNI7MNBND0JWQUqTYOQ1up-VHX&pp=gAQBiAQB)
+- [Materialized Views on JSON Collection Tables](https://youtu.be/C2wXcJyJjUE)
 
 # License
 

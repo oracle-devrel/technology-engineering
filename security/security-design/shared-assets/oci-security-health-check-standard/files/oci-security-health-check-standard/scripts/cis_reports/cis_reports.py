@@ -35,9 +35,9 @@ try:
 except Exception:
     OUTPUT_TO_XLSX = False
 
-RELEASE_VERSION = "2.8.2"
-PYTHON_SDK_VERSION = "2.125.3"
-UPDATED_DATE = "April 18, 2024"
+RELEASE_VERSION = "2.8.4"
+PYTHON_SDK_VERSION = "2.129.4"
+UPDATED_DATE = "July 26, 2024"
 
 
 ##########################################################################
@@ -162,7 +162,7 @@ class CIS_Report:
             '4.12': {'section': 'Logging and Monitoring', 'recommendation_#': '4.12', 'Title': 'Ensure a notification is configured for changes to network gateways.', 'Status': False, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': ['4.2'], 'CCCS Guard Rail': '11', 'Remediation': []},
             '4.13': {'section': 'Logging and Monitoring', 'recommendation_#': '4.13', 'Title': 'Ensure VCN flow logging is enabled for all subnets.', 'Status': True, 'Level': 2, 'Total': [], 'Findings': [], 'CISv8': ['8.2', '8.5', '13.6'], 'CCCS Guard Rail': '', 'Remediation': []},             
             '4.14': {'section': 'Logging and Monitoring', 'recommendation_#': '4.14', 'Title': 'Ensure Cloud Guard is enabled in the root compartment of the tenancy.', 'Status': True, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': ['8.2', '8.5', '8.11'], 'CCCS Guard Rail': '1,2,3', 'Remediation': []},
-            '4.15': {'section': 'Logging and Monitoring', 'recommendation_#': '4.15', 'Title': 'Ensure a notification is configured for Oracle Cloud Guard problems detected.', 'Status': True, 'Level': 2, 'Total': [], 'Findings': [], 'CISv8': ['8.2', '8.11'], 'CCCS Guard Rail': '', 'Remediation': []},
+            '4.15': {'section': 'Logging and Monitoring', 'recommendation_#': '4.15', 'Title': 'Ensure a notification is configured for Oracle Cloud Guard problems detected.', 'Status': False, 'Level': 2, 'Total': [], 'Findings': [], 'CISv8': ['8.2', '8.11'], 'CCCS Guard Rail': '', 'Remediation': []},
             '4.16': {'section': 'Logging and Monitoring', 'recommendation_#': '4.16', 'Title': 'Ensure customer created Customer Managed Key (CMK) is rotated at least annually.', 'Status': True, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': [], 'CCCS Guard Rail': '6,7', 'Remediation': []},
             '4.17': {'section': 'Logging and Monitoring', 'recommendation_#': '4.17', 'Title': 'Ensure write level Object Storage logging is enabled for all buckets.', 'Status': True, 'Level': 2, 'Total': [], 'Findings': [], 'CISv8': ['8.2'], 'CCCS Guard Rail': '', 'Remediation': []},
 
@@ -588,7 +588,7 @@ class CIS_Report:
             }
         }
 
-        # MAP Checks
+        # OBP Checks
         self.obp_foundations_checks = {
             'Cost_Tracking_Budgets': {'Status': False, 'Findings': [], 'OBP': [], "Documentation": "https://docs.oracle.com/en-us/iaas/Content/Billing/Concepts/budgetsoverview.htm#Budgets_Overview"},
             'SIEM_Audit_Log_All_Comps': {'Status': True, 'Findings': [], 'OBP': [], "Documentation": "https://docs.oracle.com/en/solutions/oci-aggregate-logs-siem/index.html"},  # Assuming True
@@ -600,7 +600,9 @@ class CIS_Report:
             'Cloud_Guard_Config': {'Status': None, 'Findings': [], 'OBP': [], "Documentation": "https://www.ateam-oracle.com/post/tuning-oracle-cloud-guard"},
             'Certificates_Near_Expiry': {'Status': None, 'Findings': [], 'OBP': [], "Documentation": "TBD"},
         }
-        # MAP Regional Data
+        #  CIS and OBP Regional Data
+        # 4.6 is not regional because OCI IAM Policies only exist in the home region
+        self.__cis_regional_checks = {"4.3","4.4","4.5","4.7", "4.8", "4.9", "4.10", "4.11", "4.12"}
         self.__obp_regional_checks = {}
 
         # CIS monitoring notifications check
@@ -1381,13 +1383,13 @@ class CIS_Report:
     ##########################################################################
     def __identity_domains_get_all_results(self, func, args):
                 
-        if not 'start_index' in args:
+        if "start_index" not in args:
             args['start_index'] = 1
-        if not "count" in args:
+        if "count" not in args:
             args["count"] = 1000     
-        if not "filter" in args:
+        if "filter" not in args:
             args["filter"] = ''
-        if not "attribute_sets" in args:
+        if "attribute_sets" not in args:
             args["attribute_sets"] = ['all']
 
         debug("__identity_domains_get_all_results: " + str(func.__name__) + " arguments are: " + str(args))
@@ -2664,7 +2666,7 @@ class CIS_Report:
                         self.__network_ipsec_connections[ip_sec.additional_details['drgId']] = []
                         self.__network_ipsec_connections[ip_sec.additional_details['drgId']].append(record)
 
-            print("\tProcessed " + str(len((list(itertools.chain.from_iterable(self.__network_ipsec_connections.values()))))) + " IP SEC Conenctions")
+            print("\tProcessed " + str(len((list(itertools.chain.from_iterable(self.__network_ipsec_connections.values()))))) + " IP SEC Connections")
             return self.__network_ipsec_connections
         except Exception as e:
             raise RuntimeError(
@@ -2675,7 +2677,7 @@ class CIS_Report:
     ############################################
     def __network_topology_dump(self):
         debug("__network_topology_dump: Starting")
-        if type(self.__signer) == oci.auth.signers.InstancePrincipalsDelegationTokenSigner:
+        if type(self.__signer) is not oci.auth.signers.InstancePrincipalsDelegationTokenSigner:
             self.__errors.append({"id": "__network_topology_dump", "error": "Delegated Tokens via Cloud Shell not supported." })
             return
         def api_function(region_key, region_values, tenancy_id):
@@ -2714,6 +2716,7 @@ class CIS_Report:
         try:
             for region_key, region_values in self.__regions.items():
                 # UPDATED JB
+                #adb_query_resources = self.__search_query_resource_type("AutonomousDatabase", region_values['search_client'])
                 adb_query_resources = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
@@ -2721,7 +2724,6 @@ class CIS_Report:
                 ).data
 
                 compartments = set()
-
                 for adb in adb_query_resources:
                     compartments.add(adb.compartment_id)
 
@@ -2730,268 +2732,33 @@ class CIS_Report:
                         region_values['adb_client'].list_autonomous_databases,
                         compartment_id=compartment
                     ).data
+                    # autonomous_databases = region_values['adb_client'].list_autonomous_databases(
+                    #         compartment_id=compartment
+                    #         ).data
                     for adb in autonomous_databases:
                         try:
                             deep_link = self.__oci_adb_uri + adb.id + '?region=' + region_key
                             # Issue 295 fixed
                             if adb.lifecycle_state not in [ oci.database.models.AutonomousDatabaseSummary.LIFECYCLE_STATE_TERMINATED, oci.database.models.AutonomousDatabaseSummary.LIFECYCLE_STATE_TERMINATING, oci.database.models.AutonomousDatabaseSummary.LIFECYCLE_STATE_UNAVAILABLE ]:
-                                record = {
-                                    "id": adb.id,
-                                    "display_name": adb.display_name,
-                                    "deep_link": self.__generate_csv_hyperlink(deep_link, adb.display_name),
-                                    "apex_details": adb.apex_details,
-                                    "are_primary_whitelisted_ips_used": adb.are_primary_whitelisted_ips_used,
-                                    "autonomous_container_database_id": adb.autonomous_container_database_id,
-                                    "autonomous_maintenance_schedule_type": adb.autonomous_maintenance_schedule_type,
-                                    "available_upgrade_versions": adb.available_upgrade_versions,
-                                    "backup_config": adb.backup_config,
-                                    "compartment_id": adb.compartment_id,
-                                    "connection_strings": adb.connection_strings,
-                                    "connection_urls": adb.connection_urls,
-                                    "cpu_core_count": adb.cpu_core_count,
-                                    "customer_contacts": adb.cpu_core_count,
-                                    "data_safe_status": adb.data_safe_status,
-                                    "data_storage_size_in_gbs": adb.data_storage_size_in_gbs,
-                                    "data_storage_size_in_tbs": adb.data_storage_size_in_tbs,
-                                    "database_management_status": adb.database_management_status,
-                                    "dataguard_region_type": adb.dataguard_region_type,
-                                    "db_name": adb.db_name,
-                                    "db_version": adb.db_version,
-                                    "db_workload": adb.db_workload,
-                                    "defined_tags": adb.defined_tags,
-                                    "failed_data_recovery_in_seconds": adb.failed_data_recovery_in_seconds,
-                                    "freeform_tags": adb.freeform_tags,
-                                    "infrastructure_type": adb.infrastructure_type,
-                                    "is_access_control_enabled": adb.is_access_control_enabled,
-                                    "is_auto_scaling_enabled": adb.is_auto_scaling_enabled,
-                                    "is_data_guard_enabled": adb.is_data_guard_enabled,
-                                    "is_dedicated": adb.is_dedicated,
-                                    "is_free_tier": adb.is_free_tier,
-                                    "is_mtls_connection_required": adb.is_mtls_connection_required,
-                                    "is_preview": adb.is_preview,
-                                    "is_reconnect_clone_enabled": adb.is_reconnect_clone_enabled,
-                                    "is_refreshable_clone": adb.is_refreshable_clone,
-                                    "key_history_entry": adb.key_history_entry,
-                                    "key_store_id": adb.key_store_id,
-                                    "key_store_wallet_name": adb.key_store_wallet_name,
-                                    "kms_key_id": adb.kms_key_id,
-                                    "kms_key_lifecycle_details": adb.kms_key_lifecycle_details,
-                                    "kms_key_version_id": adb.kms_key_version_id,
-                                    "license_model": adb.license_model,
-                                    "lifecycle_details": adb.lifecycle_details,
-                                    "lifecycle_state": adb.lifecycle_state,
-                                    "nsg_ids": adb.nsg_ids,
-                                    "ocpu_count": adb.ocpu_count,
-                                    "open_mode": adb.open_mode,
-                                    "operations_insights_status": adb.operations_insights_status,
-                                    "peer_db_ids": adb.peer_db_ids,
-                                    "permission_level": adb.permission_level,
-                                    "private_endpoint": adb.private_endpoint,
-                                    "private_endpoint_ip": adb.private_endpoint_ip,
-                                    "private_endpoint_label": adb.private_endpoint_label,
-                                    "refreshable_mode": adb.refreshable_mode,
-                                    "refreshable_status": adb.refreshable_status,
-                                    "role": adb.role,
-                                    "scheduled_operations": adb.scheduled_operations,
-                                    "service_console_url": adb.service_console_url,
-                                    "source_id": adb.source_id,
-                                    "standby_whitelisted_ips": adb.standby_whitelisted_ips,
-                                    "subnet_id": adb.subnet_id,
-                                    "supported_regions_to_clone_to": adb.supported_regions_to_clone_to,
-                                    "system_tags": adb.system_tags,
-                                    "time_created": adb.time_created.strftime(self.__iso_time_format),
-                                    "time_data_guard_role_changed": str(adb.time_data_guard_role_changed),
-                                    "time_deletion_of_free_autonomous_database": str(adb.time_deletion_of_free_autonomous_database),
-                                    "time_local_data_guard_enabled": str(adb.time_local_data_guard_enabled),
-                                    "time_maintenance_begin": str(adb.time_maintenance_begin),
-                                    "time_maintenance_end": str(adb.time_maintenance_end),
-                                    "time_of_last_failover": str(adb.time_of_last_failover),
-                                    "time_of_last_refresh": str(adb.time_of_last_refresh),
-                                    "time_of_last_refresh_point": str(adb.time_of_last_refresh_point),
-                                    "time_of_last_switchover": str(adb.time_of_last_switchover),
-                                    "time_of_next_refresh": str(adb.time_of_next_refresh),
-                                    "time_reclamation_of_free_autonomous_database": str(adb.time_reclamation_of_free_autonomous_database),
-                                    "time_until_reconnect_clone_enabled": str(adb.time_until_reconnect_clone_enabled),
-                                    "used_data_storage_size_in_tbs": str(adb.used_data_storage_size_in_tbs),
-                                    "vault_id": adb.vault_id,
-                                    "whitelisted_ips": adb.whitelisted_ips,
-                                    "region": region_key,
-                                    "notes": ""
-                                }
+                                record = oci.util.to_dict(adb)
+                                record['deep_link'] = self.__generate_csv_hyperlink(deep_link, adb.display_name)
+                                record['error'] = ""
+                                self.__autonomous_databases.append(record)
                             else:
-                                record = {
-                                    "id": adb.id,
-                                    "display_name": adb.display_name,
-                                    "deep_link": self.__generate_csv_hyperlink(deep_link, adb.display_name),
-                                    "apex_details": "",
-                                    "are_primary_whitelisted_ips_used": "",
-                                    "autonomous_container_database_id": "",
-                                    "autonomous_maintenance_schedule_type": "",
-                                    "available_upgrade_versions": "",
-                                    "backup_config": "",
-                                    "compartment_id": adb.compartment_id,
-                                    "connection_strings": "",
-                                    "connection_urls": "",
-                                    "cpu_core_count": "",
-                                    "customer_contacts": "",
-                                    "data_safe_status": "",
-                                    "data_storage_size_in_gbs": "",
-                                    "data_storage_size_in_tbs": "",
-                                    "database_management_status": "",
-                                    "dataguard_region_type": "",
-                                    "db_name": "",
-                                    "db_version": "",
-                                    "db_workload": "",
-                                    "defined_tags": "",
-                                    "failed_data_recovery_in_seconds": "",
-                                    "freeform_tags": "",
-                                    "infrastructure_type": "",
-                                    "is_access_control_enabled": "",
-                                    "is_auto_scaling_enabled": "",
-                                    "is_data_guard_enabled": "",
-                                    "is_dedicated": "",
-                                    "is_free_tier": "",
-                                    "is_mtls_connection_required": "",
-                                    "is_preview": "",
-                                    "is_reconnect_clone_enabled": "",
-                                    "is_refreshable_clone": "",
-                                    "key_history_entry": "",
-                                    "key_store_id": "",
-                                    "key_store_wallet_name": "",
-                                    "kms_key_id": "",
-                                    "kms_key_lifecycle_details": "",
-                                    "kms_key_version_id": "",
-                                    "license_model": "",
-                                    "lifecycle_details": "",
-                                    "lifecycle_state": adb.lifecycle_state,
-                                    "nsg_ids": "",
-                                    "ocpu_count": "",
-                                    "open_mode": "",
-                                    "operations_insights_status": "",
-                                    "peer_db_ids": "",
-                                    "permission_level": "",
-                                    "private_endpoint": "",
-                                    "private_endpoint_ip": "",
-                                    "private_endpoint_label": "",
-                                    "refreshable_mode": "",
-                                    "refreshable_status": "",
-                                    "role": "",
-                                    "scheduled_operations": "",
-                                    "service_console_url": "",
-                                    "source_id": "",
-                                    "standby_whitelisted_ips": "",
-                                    "subnet_id": "",
-                                    "supported_regions_to_clone_to": "",
-                                    "system_tags": "",
-                                    "time_created": "",
-                                    "time_data_guard_role_changed": "",
-                                    "time_deletion_of_free_autonomous_database": "",
-                                    "time_local_data_guard_enabled": "",
-                                    "time_maintenance_begin": "",
-                                    "time_maintenance_end": "",
-                                    "time_of_last_failover": "",
-                                    "time_of_last_refresh": "",
-                                    "time_of_last_refresh_point": "",
-                                    "time_of_last_switchover": "",
-                                    "time_of_next_refresh": "",
-                                    "time_reclamation_of_free_autonomous_database": "",
-                                    "time_until_reconnect_clone_enabled": "",
-                                    "used_data_storage_size_in_tbs": "",
-                                    "vault_id": "",
-                                    "whitelisted_ips": "",
-                                    "region": region_key,
-                                    "notes": ""
-                                }
+                                record = record = oci.util.to_dict(adb)
+                                record['deep_link'] = self.__generate_csv_hyperlink(deep_link, adb.display_name)
+                                record['error'] = ""
+                                self.__autonomous_databases.append(record)
                         except Exception as e:
-                            record = {
-                                "id": "",
-                                "display_name": "",
-                                "deep_link": "",
-                                "apex_details": "",
-                                "are_primary_whitelisted_ips_used": "",
-                                "autonomous_container_database_id": "",
-                                "autonomous_maintenance_schedule_type": "",
-                                "available_upgrade_versions": "",
-                                "backup_config": "",
-                                "compartment_id": "",
-                                "connection_strings": "",
-                                "connection_urls": "",
-                                "cpu_core_count": "",
-                                "customer_contacts": "",
-                                "data_safe_status": "",
-                                "data_storage_size_in_gbs": "",
-                                "data_storage_size_in_tbs": "",
-                                "database_management_status": "",
-                                "dataguard_region_type": "",
-                                "db_name": "",
-                                "db_version": "",
-                                "db_workload": "",
-                                "defined_tags": "",
-                                "failed_data_recovery_in_seconds": "",
-                                "freeform_tags": "",
-                                "infrastructure_type": "",
-                                "is_access_control_enabled": "",
-                                "is_auto_scaling_enabled": "",
-                                "is_data_guard_enabled": "",
-                                "is_dedicated": "",
-                                "is_free_tier": "",
-                                "is_mtls_connection_required": "",
-                                "is_preview": "",
-                                "is_reconnect_clone_enabled": "",
-                                "is_refreshable_clone": "",
-                                "key_history_entry": "",
-                                "key_store_id": "",
-                                "key_store_wallet_name": "",
-                                "kms_key_id": "",
-                                "kms_key_lifecycle_details": "",
-                                "kms_key_version_id": "",
-                                "license_model": "",
-                                "lifecycle_details": "",
-                                "lifecycle_state": "",
-                                "nsg_ids": "",
-                                "ocpu_count": "",
-                                "open_mode": "",
-                                "operations_insights_status": "",
-                                "peer_db_ids": "",
-                                "permission_level": "",
-                                "private_endpoint": "",
-                                "private_endpoint_ip": "",
-                                "private_endpoint_label": "",
-                                "refreshable_mode": "",
-                                "refreshable_status": "",
-                                "role": "",
-                                "scheduled_operations": "",
-                                "service_console_url": "",
-                                "source_id": "",
-                                "standby_whitelisted_ips": "",
-                                "subnet_id": "",
-                                "supported_regions_to_clone_to": "",
-                                "system_tags": "",
-                                "time_created": "",
-                                "time_data_guard_role_changed": "",
-                                "time_deletion_of_free_autonomous_database": "",
-                                "time_local_data_guard_enabled": "",
-                                "time_maintenance_begin": "",
-                                "time_maintenance_end": "",
-                                "time_of_last_failover": "",
-                                "time_of_last_refresh": "",
-                                "time_of_last_refresh_point": "",
-                                "time_of_last_switchover": "",
-                                "time_of_next_refresh": "",
-                                "time_reclamation_of_free_autonomous_database": "",
-                                "time_until_reconnect_clone_enabled": "",
-                                "used_data_storage_size_in_tbs": "",
-                                "vault_id": "",
-                                "whitelisted_ips": "",
-                                "region": region_key,
-                                "notes": str(e)
-                            }
-                        self.__autonomous_databases.append(record)
+                            record = record['deep_link'] = self.__generate_csv_hyperlink(deep_link, adb.display_name)
+                            record['error'] = str(e)
+                            self.__autonomous_databases.append(record)
 
             print("\tProcessed " + str(len(self.__autonomous_databases)) + " Autonomous Databases")
             return self.__autonomous_databases
         except Exception as e:
-            raise RuntimeError("Error in __adb_read_adbs " + str(e.args))
+            print("Error in __adb_read_adbs " + str(e.args))
+            self.__errors.append({'id' : '__adb_read_adbs', 'error' : str(e)})
 
     ############################################
     # Load Oracle Integration Cloud
@@ -3326,7 +3093,7 @@ class CIS_Report:
                         wrapping_key_id = self.__vaults[vault]['kms_client'].get_wrapping_key().data.id
                         debug("\t__kms_read_keys: Succeeded Adding Wrapping Key Id: " + str(wrapping_key_id))
                         self.__vaults[vault]['wrapping_key_id'] = wrapping_key_id
-                    except Exception as e:
+                    except Exception:
                         debug("\t__kms_read_keys: Failed Adding Wrapping Key Id for vault: " + str(vault))
                         self.__vaults[vault]['wrapping_key_id'] = None
 
@@ -3526,6 +3293,7 @@ class CIS_Report:
     # Oracle Notifications Services for Subscriptions
     ##########################################################################
     def __ons_read_subscriptions(self):
+        debug("__ons_read_subscriptions: Starting: ")
         try:
             for region_key, region_values in self.__regions.items():
                 # Iterate through compartments to get all subscriptions
@@ -3534,7 +3302,7 @@ class CIS_Report:
                     search_details=oci.resource_search.models.StructuredSearchDetails(
                         query="query OnsSubscription resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
                 ).data
-
+                debug("\t__ons_read_subscriptions: Recieved " + str(len(subs_data)) + " subscriptions in region " + str(region_key))
                 for sub in subs_data:
                     deep_link = self.__oci_onssub_uri + sub.identifier + '?region=' + region_key
                     record = {
@@ -3590,9 +3358,8 @@ class CIS_Report:
             return self.__tag_defaults
 
         except Exception as e:
-            raise RuntimeError(
-                "Error in __identity_read_tag_defaults " + str(e.args))
-
+            print("Error in __identity_read_tag_defaults " + str(e.args))
+            self.__errors.append({'id' : '__identity_read_tag_defaults', 'error' : str(e)})
     ##########################################################################
     # Get Service Connectors
     ##########################################################################
@@ -3710,7 +3477,7 @@ class CIS_Report:
                                 "region": region_key
                             }
                             self.cis_foundations_benchmark_2_0['6.2']['Total'].append(record)
-                    except:
+                    except Exception:
                         self.__errors.append({"id": "search_resources_in_root_compartment Invalid OCID", "error" : str(item)})
                         debug(f'__search_resources_in_root_compartment: Invalid OCID: {str(item)}')
 
@@ -3735,7 +3502,8 @@ class CIS_Report:
             ).data
             
             return oci.util.to_dict(results)
-        except Exception as e:
+        except Exception:
+            debug("__search_query_resource_type: failed to get type: " + str(resource_type))
             return []
     
     ##########################################################################
@@ -3858,6 +3626,15 @@ class CIS_Report:
     ##########################################################################
     def __report_cis_analyze_tenancy_data(self):
 
+        self.__cis_regional_findings_data = {}
+
+        for check in self.__cis_regional_checks:
+            self.__cis_regional_findings_data[check] = {}
+            for region_key, region_values in self.__regions.items():
+                self.__cis_regional_findings_data[check][region_key] = None
+
+
+      
         # 1.1 Check - Checking for policy statements that are not restricted to a service
 
         for policy in self.__policies:
@@ -3952,7 +3729,7 @@ class CIS_Report:
 
         # 1.7 Check - Local Users w/o MFA
         for user in self.__users:
-            if not(user['is_federated']) and user['can_use_console_password'] and not (user['is_mfa_activated']) and user['lifecycle_state']:
+            if not(user['is_federated']) and user['can_use_console_password'] and not (user['is_mfa_activated']) and  user['lifecycle_state']:
                 self.cis_foundations_benchmark_2_0['1.7']['Status'] = False
                 self.cis_foundations_benchmark_2_0['1.7']['Findings'].append(
                     user)
@@ -4283,21 +4060,39 @@ class CIS_Report:
         # Iterate through all event rules
         for event in self.__event_rules:
             # Convert Event Condition to dict
-            jsonable_str = event['condition'].lower().replace("'", "\"")
+            eventtype_jsonable_str = event['condition'].lower().replace("'", "\"")
             try:
-                event_dict = json.loads(jsonable_str)
+                eventtype_dict = json.loads(eventtype_jsonable_str)
             except Exception:
                 print("*** Invalid Event Condition for event (not in JSON format): " + event['display_name'] + " ***")
-                event_dict = {}
-            # Issue 256: 'eventtype' not in event_dict (i.e. missing in event condition)
-            if event_dict and 'eventtype' in event_dict:
+                eventtype_dict = {}
+            # Issue 256: 'eventtype' not in eventtype_dict (i.e. missing in event condition)
+            if eventtype_dict and 'eventtype' in eventtype_dict:
                 for key, changes in self.cis_monitoring_checks.items():
                     # Checking if all cis change list is a subset of event condition
                     try:
-                        if (all(x in event_dict['eventtype'] for x in changes)):
+                        # Checking if each region has the required events
+                        if (all(x in eventtype_dict['eventtype'] for x in changes)) and key in self.__cis_regional_checks:
+                            self.__cis_regional_findings_data[key][event['region']] = True
+                        
+                        # Cloud Guard Check is only required in the Cloud Guard Reporting Region
+                        elif key == "4.15" and event['region'] == self.__cloud_guard_config.reporting_region and \
+                            (all(x in eventtype_dict['eventtype'] for x in changes)):
                             self.cis_foundations_benchmark_2_0[key]['Status'] = True
+                        
+                        # For Checks that are home region based checking those
+                        elif (all(x in eventtype_dict['eventtype'] for x in changes)) and \
+                            key not in self.__cis_regional_checks and event['region'] == self.__home_region:
+                            self.cis_foundations_benchmark_2_0[key]['Status'] = True
+
                     except Exception:
                         print("*** Invalid Event Data for event: " + event['display_name'] + " ***")
+
+
+        # ******* Iterating through Regional Checks adding findings
+        for key, findings in self.__cis_regional_findings_data.items():
+            if all(findings.values()):
+                self.cis_foundations_benchmark_2_0[key]['Status'] = True
 
         # CIS Check 4.13 - VCN FlowLog enable
         # Generate list of subnets IDs
@@ -4330,7 +4125,7 @@ class CIS_Report:
                     self.cis_foundations_benchmark_2_0['4.16']['Status'] = False
                     self.cis_foundations_benchmark_2_0['4.16']['Findings'].append(
                         key)
-            except:    
+            except Exception:    
                     self.cis_foundations_benchmark_2_0['4.16']['Status'] = False
                     self.cis_foundations_benchmark_2_0['4.16']['Findings'].append(
                         key)
@@ -4370,7 +4165,7 @@ class CIS_Report:
                         bucket)
                     self.cis_foundations_benchmark_2_0['5.1.3']['Status'] = False
 
-        # CIS Check 4.1.1,4.1.2,4.1.3 Total - Adding All Buckets to total
+        # CIS Check 5.1.1,5.1.2,5.1.3 Total - Adding All Buckets to total
         self.cis_foundations_benchmark_2_0['5.1.1']['Total'] = self.__buckets
         self.cis_foundations_benchmark_2_0['5.1.2']['Total'] = self.__buckets
         self.cis_foundations_benchmark_2_0['5.1.3']['Total'] = self.__buckets
@@ -4943,7 +4738,7 @@ class CIS_Report:
                     self.obp_foundations_checks['Certificates_Near_Expiry']['OBP'].append(cert)
                 else:
                     self.obp_foundations_checks['Certificates_Near_Expiry']['Findings'].append(cert)
-            except Exception as e:
+            except Exception:
                 debug("\t__obp_analyze_tenancy_data: Certificate is missing time of validity not after" + cert['name'])
                 self.obp_foundations_checks['Certificates_Near_Expiry']['Findings'].append(cert)
 
@@ -5259,7 +5054,7 @@ class CIS_Report:
                     if v == ' ':
                         html_file.write('<td> </td>')
                     else:
-                        html_file.write(f'<td><a href="{v}">{v}</a></td>')
+                        html_file.write(f'<td><a href="{self.__report_prefix}{v}">{v}</a></td>')
                     html_file.write('</tr></table></td>')
                     html_file.write("</tr>")
 
@@ -5275,7 +5070,7 @@ class CIS_Report:
                         if item_value != "":
                             html_file.write(f"<h5>{item_key.title()}</h5>")
                             if item_key == 'Observation':
-                                if fing['Status'] == None:
+                                if fing['Status'] is None:
                                     pfx = '<b>Manually check for</b>'
                                 else:
                                     num_findings = len(fing['Findings'])
@@ -5290,19 +5085,20 @@ class CIS_Report:
                                 html_file.write(f"<p>{v}</p>\n")
                 html_file.write("</div></section>\n")
                 # Closing HTML
-                report_year = str(self.start_datetime.strftime('%Y'))
                 html_file.write("""<div id="resources" class="u10 u10v6"><nav class="u10w1" aria-label="Main footer">
                 <div class="u10w2"><div class="u10w3" aria-labelledby="resourcesfor"><a class="u10btn" tabindex="-1" aria-labelledby="resourcesfor"></a>
                 <h4 class="u10ttl" id="resourcesfor">Resources</h4><ul>
-                <li><a target="_blank" href="https://www.cisecurity.org/benchmark/Oracle_Cloud">CIS OCI Foundation Benchmark</a></li>
-                <li><a target="_blank" href="https://docs.oracle.com/en/solutions/cis-oci-benchmark/index.html">Deploy a secure landing zone that meets the CIS Foundations Benchmark for Oracle Cloud</a></li>
-                <li><a target="_blank" href="https://docs.oracle.com/en/solutions/oci-security-checklist/index.html">Security checklist for Oracle Cloud Infrastructure</a></li>
-                <li><a target="_blank" href="https://docs.oracle.com/en-us/iaas/Content/Security/Concepts/security.htm">OCI Documentation – Securely configure your Oracle Cloud Infrastructure services and resources</a></li>
-                <li><a target="_blank" href="https://docs.oracle.com/en/solutions/oci-best-practices/index.html">Best practices framework for Oracle Cloud Infrastructure</a></li>
-                <li><a target="_blank" href="https://www.oracle.com/security/cloud-security/what-is-cspm/">Cloud Security Posture Management</a></li>
+                <li><a href="https://www.cisecurity.org/benchmark/Oracle_Cloud">CIS OCI Foundation Benchmark</a></li>
+                <li><a href="https://docs.oracle.com/en/solutions/cis-oci-benchmark/index.html">Deploy a secure landing zone that meets the CIS Foundations Benchmark for Oracle Cloud</a></li>
+                <li><a href="https://docs.oracle.com/en/solutions/oci-security-checklist/index.html">Security checklist for Oracle Cloud Infrastructure</a></li>
+                <li><a href="https://docs.oracle.com/en-us/iaas/Content/Security/Concepts/security.htm">OCI Documentation – Securely configure your Oracle Cloud Infrastructure services and resources</a></li>
+                <li><a href="https://docs.oracle.com/en/solutions/oci-best-practices/index.html">Best practices framework for Oracle Cloud Infrastructure</a></li>
+                <li><a href="https://www.oracle.com/security/cloud-security/what-is-cspm/">Cloud Security Posture Management</a></li>
                 </ul></div></div><div class="u10w4"><hr></div></nav>
-                <div class="u10w11"><nav class="u10w5 u10w10" aria-label="Site info">""")
-                html_file.write(f'<ul class="u10-links"><li></li><li><a target="_blank" href="https://www.oracle.com/legal/copyright.html">© {report_year} Oracle</a></li></ul></nav></div></div></div></body></html>\n')
+                <div class="u10w11"><nav class="u10w5 u10w10" aria-label="Site info">
+                <ul class="u10-links"><li></li><li><a href="https://www.oracle.com/legal/copyright.html">© 2023 Oracle</a></li>
+                </ul></nav></div>""")
+                html_file.write("</div></div></body></html>\n")
 
             print("HTML: " + file_subject.ljust(22) + " --> " + file_path)
             # Used by Upload
@@ -5973,9 +5769,7 @@ def execute_report():
         if OUTPUT_TO_XLSX:
             report_prefix = f'{cmd.report_prefix}_' if cmd.report_prefix else ''
             workbook = Workbook(f'{csv_report_directory}/{report_prefix}Consolidated_Report.xlsx', {'in_memory': True})
-            csvfiles = glob.glob(f'{csv_report_directory}/{report_prefix}*.csv')
-            csvfiles.sort()
-            for csvfile in csvfiles:
+            for csvfile in glob.glob(f'{csv_report_directory}/{report_prefix}*.csv'):
 
                 worksheet_name = csvfile.split(os.path.sep)[-1].replace(report_prefix, "").replace(".csv", "").replace("raw_data_", "raw_").replace("Findings", "fds").replace("Best_Practices", "bps")
 
@@ -6003,11 +5797,9 @@ def execute_report():
                             # Skipping the deep link due to formating errors in xlsx
                             if "=HYPERLINK" not in col:
                                 worksheet.write(r, c, col)
-                    worksheet.autofilter(0, 0, r - 1, c - 1)
-                    worksheet.autofit()
             workbook.close()
     except Exception as e:
-        print("** Failed to output to Excel. Please use CSV files. **")
+        print("** Failed to output to excel. Please use CSV files. **")
         print(e)
 
 
