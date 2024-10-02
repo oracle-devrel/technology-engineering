@@ -40,6 +40,8 @@ Reviewed Date: 19.8.2024
 ## Videos
 
 - [JSON in Oracle Database 23ai](https://www.youtube.com/watch?v=KMgsb-BWWc0&list=PLHA__TOeNI7MNBND0JWQUqTYOQ1up-VHX&pp=gAQBiAQB)
+- [Materialized Views on JSON Collection Tables](https://youtu.be/C2wXcJyJjUE)
+
 # License
 
 Copyright (c) 2024 Oracle and/or its affiliates.
