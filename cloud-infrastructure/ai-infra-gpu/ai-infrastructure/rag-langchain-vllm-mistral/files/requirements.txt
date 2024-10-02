@@ -47,7 +47,7 @@ jsonpatch==1.33
 jsonpointer==2.4
 jsonschema==4.21.1
 jsonschema-specifications==2023.12.1
-langchain==0.1.16
+langchain==0.2.10
 langchain-community==0.2.9
 langchain-core==0.1.46
 langchain-text-splitters==0.0.1
@@ -168,7 +168,7 @@ tzdata==2024.1
 urllib3==2.2.2
 uvicorn==0.29.0
 uvloop==0.19.0
-vllm==0.4.1
+vllm==0.5.5
 vllm_nccl_cu12==2.18.1.0.4.0
 watchfiles==0.21.0
 websockets==12.0
