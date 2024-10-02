@@ -27,6 +27,7 @@ This page contains information and useful links regarding Compute services that 
 - [Script to install and mount OCI bucket as Filesystem using Fuse S3FS](https://github.com/Olygo/OCI_S3FS)
 - [Mount a boot volume from one compute instance (or VM) onto another compute instance in order to replace lost ssh keys](https://gitlab.com/ms76152/system-administration)
 - [Transfer data to and from Oracle Cloud Infrastructure using OS tools such as sftp, scp, oci cli, curl](https://github.com/mariusscholtz/Oracle-Cloud-Infrastructure-resources/blob/main/VM-shapes/data%20transfer%20to%20OCI%20v1.0.pdf)
+- [Quering Compute Capacity using CloudShell](https://github.com/Olygo/OCI_ComputeCapacityReport)
   
 # Useful Links
 

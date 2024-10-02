@@ -2,7 +2,7 @@
 
 This document serves as a standard questionnaire designed to gather crucial information necessary for the execution of  Essbase application migration projects. It captures specific data that aids in estimating the effort required for a successful migration.
 
-Reviewed: 7.2.2024
+Reviewed: 22.7.2024
 
 # When to use this asset?
 
