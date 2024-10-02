@@ -2,12 +2,13 @@
 
 Multicloud architectures leverage the coordinated use of cloud services from two or more public cloud vendors. Organizations use multicloud environments to distribute computing resources and minimize the risk of downtime and data loss. Organizations may also adopt two or more public cloud providers for their unique capabilities. 
 
-Reviewed: 08.04.2024
+Reviewed: 20.09.2024
 
 # Team Publications
 
 ## Video Content
 
+- [Networking for Oracle Database@Azure](https://www.youtube.com/watch?v=ApfFm6O4kcw)
 - [Simple & Secure OCI Multicloud Architecture with Aviatrix](https://youtu.be/9Jh9N6fouxE?feature=shared)
 - [Multicloud Is The New Norm - Part I](https://www.youtube.com/watch?v=WzyJiAXldDM)
 - [Multicloud Is The New Norm - Part II](https://www.youtube.com/watch?v=27L_ZeF1o9Q)
