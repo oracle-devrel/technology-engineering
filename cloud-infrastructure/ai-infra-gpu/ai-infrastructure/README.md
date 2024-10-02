@@ -29,6 +29,10 @@ Reviewed: 26.02.2024
     - The use case involves deploying distinct AI models, including JAIS for Arabic, and utilizing various ML libraries like PyTorch, with each model requiring different BM shapes, such as BM.GPU.H100.8, to process the expected throughput of requests efficiently.
 - [ETIQMEDIA certifies their automated video transcription and indexation solution on OCI](https://blogs.oracle.com/cloud-infrastructure/post/etiqmedia-video-transcription-indexation-oci)
     - ETIQMEDIA, in collaboration with Telefonica, has just certified their automated video transcription and indexation solution on Oracle Cloud Infrastructure (OCI)
+- [Accelerate Quantum Espresso simulations with GPU Shapes on OCI](https://blogs.oracle.com/cloud-infrastructure/post/accelerate-quantum-espresso-simulation-oci-gpu)
+    - The usage of OCI GPU shapes powered by NVIDIA can bring great benefits to running Quantum ESPRESSO
+- [How to Run NVIDIA NeMo on Oracle Cloud Infrastructure](https://blogs.oracle.com/cloud-infrastructure/post/run-nvidia-nemo-oci)
+    - We demonstrate how easy and effective it is to run NVIDIA NeMo on Oracle Cloud Infrastructure (OCI) using the NGC container powered by NVIDIA
 
 ## Tutorials
 
@@ -46,11 +50,15 @@ Reviewed: 26.02.2024
 
 - [Transform your Organization with Oracle Artificial Intelligence](https://videohub.oracle.com/media/Transform+your+Organization+with+Oracle+Artificial+Intelligence/1_8rhx6ua9)
     - Transform your Organization with Oracle Artificial Intelligence
+  - [AI Mastercall - Introduction to Oracle Cloud’s GPU and AI Infrastructure ](https://videohub.oracle.com/media/Introduction+to+Oracle+Cloud%E2%80%99s+GPU+and+AI+Infrastructure/1_bx8g4wnl)
+    - Get an overview and a demonstration of vLLM using Mistral 7B inference on the GPU compute service OCI
 
 ## Cloud Coaching Events
 
 - [Running AI on NVIDIA A10 GPUs in Oracle Cloud](https://www.youtube.com/watch?v=auvNHWoblIA)
     - How to run AI on NVIDIA A10 GPUs in Oracle Cloud
+- [Developing an AI driven Analytics Assistant on OCI](https://www.youtube.com/watch?v=jMhwDiD1Kiw)
+    - How to develop and run AI Assistants with embedded analytics and visuals, built using LLMs deployed on OCI GPUs in the customer’s preferred OCI region. 
 
 ## Re-useable Assets
 
