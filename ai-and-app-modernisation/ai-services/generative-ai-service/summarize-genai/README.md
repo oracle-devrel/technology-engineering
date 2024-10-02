@@ -4,6 +4,8 @@ Text summarization, a core NLP task, unlocks the ability to distill lengthy cont
 
 In this article, we'll delve into the creation of a powerful document summarization solution leveraging Oracle Generative AI. Through the integration of Oracle Gen AI's advanced capabilities with cutting-edge technologies such as langchain. This codebase empowers users to effortlessly summarize extensive documents, harnessing the power of Oracle Generative AI Service.
 
+Reviewed: 11.03.2024
+
 <img src="./files/docSummarize.png">
 </img>
  

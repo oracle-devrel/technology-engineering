@@ -2,7 +2,7 @@
 
 This page has information about Oracle Cloud Infrastructure (OCI) Compute hardware components such as Intel, AMD, ARM, Confidential Compute, Roving Edge Infrastructure, and Compute on HPC.
 
-<i>Review date: 23 January 2024</i>
+<i>Review date: 14 March 2024</i>
 
 # Useful Links
 
@@ -19,6 +19,7 @@ This page has information about Oracle Cloud Infrastructure (OCI) Compute hardwa
 - [Change the hostname of OCI Compute Instance Virtual Machine](https://github.com/mariusscholtz/Oracle-Cloud-Infrastructure-resources/blob/main/rename-hostname.md) - explains how to change the hostname of an Oracle Linux Virtual Machine (VM) running on Oracle Cloud Infrastructure (OCI)
 - [OCI Compute shape naming convention](https://github.com/mariusscholtz/Oracle-Cloud-Infrastructure-resources) ex VM Shape name with <b>A</b> refers to Ampere (ARM), <b>E</b> refers to AMD Epyc, <b>X</b> refers to Intel
 - [Migrate and change the Compute shape from VM.Standard2.x to flexible shape on OCI](https://github.com/mariusscholtz/Oracle-Cloud-Infrastructure-resources/blob/main/VM-shapes/Migrate-VM.Standard2%20to%20Flex%20shape.pdf)
+- [OCI Compute Capacity Report](https://github.com/Olygo/OCI_ComputeCapacityReport) - This script will display a report of the host capacity within an availability domain that is available for you to create compute instances.
 
 # License
 

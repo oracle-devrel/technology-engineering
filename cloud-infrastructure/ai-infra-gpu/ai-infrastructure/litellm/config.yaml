@@ -1,0 +1,11 @@
+model_list:
+  - model_name: Mistral-7B-Instruct
+    litellm_params:
+      model: openai/mistralai/Mistral-7B-Instruct-v0.3
+      api_base: http://public_ip_1:8000/v1
+      api_key: sk-0123456789
+  - model_name: Mistral-7B-Instruct
+    litellm_params:
+      model: openai/mistralai/Mistral-7B-Instruct-v0.3
+      api_base: http://public_ip_2:8000/v1
+      api_key: sk-0123456789
