@@ -1,14 +1,15 @@
-## .Net AQ Presentation
+## Oracle Spatial Presentations
+These folder provides information about SPATIAL in the Oracle Database, and the new features in 23ai.
 
-Reviewed: 26.03.2024
+Reviewed: 02.10.2024
 
 # When to use this asset?
 
-To present the basic .NET AQ functionality. 
+To present or to learn about SPATIAL in Oracle Database.
 
 # How to use this asset?
 
-See PDF files in the files folder.
+Use PDF as a presentation.
 
 # License
 
