@@ -40,7 +40,12 @@ Reviewed: 02.02.2024
 
 - [The recommended approach for using external identities with Oracle Cloud](https://blogs.oracle.com/cloudsecurity/post/the-recommended-approach-for-using-external-identities-with-oracle-cloud)
     - This article looks at the recommended approach for delivering SSO across your Oracle SaaS, PaaS, and IaaS estate by using OCI IAM.
- 
+
+## External Blogs
+
+- [Five considerations for OCI IAM in IDCS-migrated tenancies](https://redthunder.blog/2024/05/10/guest-blog-five-considerations-for-oci-iam-in-idcs-migrated-tenancies/)
+    - This article provides best practice recommendations for OCI tenancies that have been migrated from Identity Cloud Service to OCI IAM.
+
 ## Cloud Coaching Webinars
 
 - [Security-First approach for your OCI Tenancy](https://www.youtube.com/watch?v=ZB87VUcK6Tg)
