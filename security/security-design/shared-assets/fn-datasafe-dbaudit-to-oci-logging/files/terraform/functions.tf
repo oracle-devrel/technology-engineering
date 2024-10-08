@@ -12,6 +12,7 @@
 resource "oci_functions_application" "functionapp" {
   compartment_id = var.compartment_ocid
   display_name   = local.functionapp_display_name
+  shape = var.functionappshape
   subnet_ids     = [var.create_network ? module.setup-network[0].subnet_ocid : var.subnet_ocid] 
 }
 

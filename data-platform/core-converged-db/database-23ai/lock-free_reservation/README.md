@@ -6,7 +6,7 @@ By avoiding the traditional locking mechanism during updates, this feature allow
 to concurrently add or subtract from the same row’s reservable column without blocking each other by specifying the conditions for which the updates may proceed.
 Especially online applications updating intensively and with huge concurrency, low cardinality tables can take advantage of this new feature.
 
-Reviewed: 03.09.2024
+Reviewed: 26.09.2024
 
 # Useful Links
 
@@ -15,16 +15,20 @@ Reviewed: 03.09.2024
 - [Database Concepts](https://docs.oracle.com/en/database/oracle/oracle-database/23/cncpt/tables-and-table-clusters.html#GUID-7C6A8E8A-F634-4D0D-877A-F948D6101066)
 - [Database Developer Guide](https://docs.oracle.com/en/database/oracle/oracle-database/23/adfns/using-lock-free-reservation.html#GUID-60D87F8F-AD9B-40A6-BB3C-193FFF0E60BB)
 - [SQL Language Reference](https://docs.oracle.com/en/database/oracle/oracle-database/23/sqlrf/CREATE-TABLE.html#GUID-F9CE0CC3-13AE-4744-A43C-EAC7A71AAAB6)
+- [Documentation: Guidelines and Restrictions for Lock-Free Reservation](https://docs.oracle.com/en/database/oracle/oracle-database/23/adfns/using-lock-free-reservation.html#GUID-B2C0C556-64D0-47B6-B8AE-C97AD56A0F96)
 
 
 # Team Publications
 
 ## Blogs
+
 - [Lock-free reservation: how to start with](https://blogs.oracle.com/coretec/post/lock-free-reservation-in-23c)
 - [Lock-free reservation: scale your apps](https://blogs.oracle.com/coretec/post/lockfree-reservation-in-23c-scale-your-apps)
 
 ## Videos
+
 - [23ai Playlist](https://www.youtube.com/playlist?list=PLHA__TOeNI7MNBND0JWQUqTYOQ1up-VHX)
+- [Lock-Free Reservation](https://youtu.be/h6YvDoBfeyg)
 
 # License
 

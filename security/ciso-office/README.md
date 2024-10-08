@@ -19,7 +19,10 @@ Reviewed: 02.02.2024
 # Team Publications
  
 ## Oracle Blogs
- 
+
+- [Managing access across multiple Oracle SaaS and PaaS environments](https://blogs.oracle.com/cloud-infrastructure/post/managing-access-across-multiple-oracle-cloud-envs)
+    - This article follows on from a previous post and looks at the recommended approach for structuring OCI IAM identity domains for providing SSO within your Oracle Cloud estate across multiple environments.
+
 - [Quick tip 10: MFA user enrollment status within OCI IAM](https://blogs.oracle.com/cloudsecurity/post/quick-tip-10-mfa-user-enrollment-status-within-oci-iam)
     - In this quick tip, we look at various options for how you can report on which users have enrolled for MFA within your tenancy.
 
@@ -34,7 +37,15 @@ Reviewed: 02.02.2024
 
 - [Native Cloud Security Services or Heterogeneous Tools?](https://blogs.oracle.com/cloudsecurity/post/native-cloud-security-services-or-heterogeneous-tools)
     - This blog post examines the common question of whether should you use existing security tools, which can monitor all your different cloud environments, not just OCI, or should you use OCI-native security services.
- 
+
+- [The recommended approach for using external identities with Oracle Cloud](https://blogs.oracle.com/cloudsecurity/post/the-recommended-approach-for-using-external-identities-with-oracle-cloud)
+    - This article looks at the recommended approach for delivering SSO across your Oracle SaaS, PaaS, and IaaS estate by using OCI IAM.
+
+## External Blogs
+
+- [Five considerations for OCI IAM in IDCS-migrated tenancies](https://redthunder.blog/2024/05/10/guest-blog-five-considerations-for-oci-iam-in-idcs-migrated-tenancies/)
+    - This article provides best practice recommendations for OCI tenancies that have been migrated from Identity Cloud Service to OCI IAM.
+
 ## Cloud Coaching Webinars
 
 - [Security-First approach for your OCI Tenancy](https://www.youtube.com/watch?v=ZB87VUcK6Tg)
