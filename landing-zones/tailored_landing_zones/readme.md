@@ -67,17 +67,20 @@ To learn how to **design**, **create**, and **run IaC configurations** we recomm
 &nbsp; 
 
 
-| STEP  |   DESCRIPTION | GUIDANCE  |  
-|:---:|---|---|
-| 1 | **Understand OCI core resources**, such as compartments, groups, policies, and network elements. They are the foundations of any OCI landing zone. | [OCI Foundations](https://mylearn.oracle.com/learning-path/become-an-oci-foundations-associate/108448)<br> [OCI Architect Associate](https://mylearn.oracle.com/learning-path/become-an-oci-architect-associate/108703) <br>[OCI Architect Professional](https://mylearn.oracle.com/learning-path/become-an-oci-architect-professional/108709) |
-| 2 | **Review a Standard Landing Zone Design**: The **OCI Open LZ Blueprint** is a pedagogical and coherent end-to-end landing zone design. The **OCI Open LZ** is a reference of what a landing zone "looks like", and it's not prescriptive. The git repository contains also several useful resources and recordings to help with the next steps. | [OCI Open LZ Blueprint](https://github.com/oracle-quickstart/terraform-oci-open-lz) |
-| 3 | **Design the Security View first**, with a focus on the tenancy structure and IAM, as all resources and access to them will be defined here. | [OCI Open LZ Security View](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/docs/OCI_Open_LZ.pdf)<br> [OCI Open LZ Draw.io](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/docs/OCI_Open_LZ.drawio)
-| 4 | **Design the Network View**, with a focus on the network structure, connectivity, and isolation. | [OCI Open LZ Network View](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/docs/OCI_Open_LZ.pdf)<br> [OCI Open LZ Draw.io](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/docs/OCI_Open_LZ.drawio)
-| 5 | If applicable, **design the Operations View**, and set up the cloud operating model. It can contain also monitoring and integrations with IT Systems. | [OCI Open LZ Operations View](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/docs/OCI_Open_LZ.pdf) 
-| 6 | **Learn** how to create and run **IaC configurations** with examples and exercises. | [OCI Learn LZ](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/examples/oci-learn-lz) |
-| 8 | Create the **IaC configurations** for your design using the CIS Landing Zone Enhanced Modules.| [OCI Open LZ Rumtime View](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/docs/OCI_Open_LZ.pdf)<br> [CIS Landing Zone Enhanced Modules](https://www.ateam-oracle.com/post/cis-landing-zone-enhanced-modules)
+| # | ACTIVITY | ASSETS| DESCRIPTION   | 
+|---|---|---|---|
+| **1** | **TRAINING** | [OCI Foundations](https://mylearn.oracle.com/ou/learning-path/become-an-oci-foundations-associate-2024/139374)<br> [OCI Architect Associate](https://mylearn.oracle.com/ou/learning-path/become-an-oci-architect-associate-2024/137550) <br>[OCI Architect Professional](https://mylearn.oracle.com/ou/learning-path/become-an-oci-architect-professional-2024/139688) | **Master OCI core resources**, such as compartments, groups, policies, and network elements. They are the foundations of any OCI landing zone.
+| **2**| **PREPARE** | [EMEA OCI Landing Zones - Video](https://www.linkedin.com/feed/update/urn:li:activity:7206600588216659968/)| Understand OCI Landing Zones, **approach**, and **strategy** in **13 minutes**.
+| **3** | **ENABLE** | [OCI Learn LZ](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/addons/oci-learn-lz/readme.md)| Use the OCI Learn LZ exercises to understand how to **design** and **configure** OCI Landing Zones. |
+| **4** | **SELECT** | [OCI Open LZ Blueprints](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/blueprints)| Select you prefered blueprint. |
+| **5** | **DESIGN** | [One-OE](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/blueprints/one-oe) </br> [Multi-OE](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/blueprints/multi-oe) </br> [Network Hubs](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/addons/oci-hub-models/readme.md) | Use the selected OCI Open LZ **blueprint** to design - in drawio - your functional, security, network, and operations view, with all the diagrams in a reusable format. For network use our **Hub Menu** to select your prefered topology. |   
+| **6** | **CONFIGURE** |[Declarative IaC](https://github.com/oracle-devrel/technology-engineering/blob/main/landing-zones/commons/oci_landingzones_iac.md) | Learn about the OCI IaC declarative approach and use the OCI Open LZ runtime **configurations** as your IaC templates. These configurations are easily adjustable to any other landing zone model. |                
+| **7** | **RUN** | [One-OE](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/blueprints/one-oe) </br> [Multi-OE](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/blueprints/multi-oe)  | Run your configurations using **Terraform CLI** or **Oracle Resource Manager (ORM)** as described in the blueprint runtimes documentation. |
+| **8** | **EXTEND** | [Workload Extensions](/landing-zones/workload_extensions/readme.md) | Extend your Landing Zone with ready-made pluggable workload extensions to reduce your time-to-production with OCI best practices. |
+
 
 &nbsp; 
+
 
 ## 4. Other Considerations
    

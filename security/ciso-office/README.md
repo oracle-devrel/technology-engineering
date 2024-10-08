@@ -19,7 +19,10 @@ Reviewed: 02.02.2024
 # Team Publications
  
 ## Oracle Blogs
- 
+
+- [Managing access across multiple Oracle SaaS and PaaS environments](https://blogs.oracle.com/cloud-infrastructure/post/managing-access-across-multiple-oracle-cloud-envs)
+    - This article follows on from a previous post and looks at the recommended approach for structuring OCI IAM identity domains for providing SSO within your Oracle Cloud estate across multiple environments.
+
 - [Quick tip 10: MFA user enrollment status within OCI IAM](https://blogs.oracle.com/cloudsecurity/post/quick-tip-10-mfa-user-enrollment-status-within-oci-iam)
     - In this quick tip, we look at various options for how you can report on which users have enrolled for MFA within your tenancy.
 
@@ -34,8 +37,19 @@ Reviewed: 02.02.2024
 
 - [Native Cloud Security Services or Heterogeneous Tools?](https://blogs.oracle.com/cloudsecurity/post/native-cloud-security-services-or-heterogeneous-tools)
     - This blog post examines the common question of whether should you use existing security tools, which can monitor all your different cloud environments, not just OCI, or should you use OCI-native security services.
- 
+
+- [The recommended approach for using external identities with Oracle Cloud](https://blogs.oracle.com/cloudsecurity/post/the-recommended-approach-for-using-external-identities-with-oracle-cloud)
+    - This article looks at the recommended approach for delivering SSO across your Oracle SaaS, PaaS, and IaaS estate by using OCI IAM.
+
+## External Blogs
+
+- [Five considerations for OCI IAM in IDCS-migrated tenancies](https://redthunder.blog/2024/05/10/guest-blog-five-considerations-for-oci-iam-in-idcs-migrated-tenancies/)
+    - This article provides best practice recommendations for OCI tenancies that have been migrated from Identity Cloud Service to OCI IAM.
+
 ## Cloud Coaching Webinars
+
+- [Assess your tenancy against the CIS Benchmark](https://community.oracle.com/customerconnect/events/605558-oci-assess-your-oci-security-posture-against-cis-benchmarks-for-oci)
+    - Watch this webinar to learn more about the OCI Security Health Check, how to run it and how to interpret results. It includes a demo and lists the top 5 high priority findings and also includes a list od additional resources for more information.
 
 - [Security-First approach for your OCI Tenancy](https://www.youtube.com/watch?v=ZB87VUcK6Tg)
     - Watch this webinar to learn about the top security misconfigurations organizations should avoid when using cloud services and follow the Oracle Cloud Infrastructure Security Best practices!
@@ -54,11 +68,13 @@ Reviewed: 02.02.2024
     
 - [Oracle Espresso - Be More Resilient Against Ransomware Attacks](https://go.oracle.com/LP=114881?elqCampaignId=312068#On-Demand-Webinars)
   - The webinar addresses a number of design architectures, best practices, automation tooling, and services for your inspiration and consideration. Let us show you how to become more resilient in a systematic and consistent way.
+
 - [Cybersecurity First: why Security is better in the cloud](https://go.oracle.com/LP=122806?)
    - Join us to hear from Oracle Security expert, how your solutions could benefit from OCI built-in security. 
+
 - [OCI Tech Talk - OCI Strategy Update and Security Deep Dive](https://videohub.oracle.com/media/t/1_s6juw6by)
     - Watch this webinar as the Oracle experts will briefly go through some of the latest updates of OCI, before going in-depth into the security topic. Oracle believes security should be foundational and built-in, and customers shouldn’t be forced to make tradeoffs between security and cost.
-      
+
  ## Oracle Live Labs
 
 - [Security workshop for ORDS Deployment](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/run-workshop?p210_wid=3338&p210_wec=&session=107996902425576)
