@@ -93,9 +93,12 @@ Reviewed: 21.08.2024
 - [Getting started with vectors in 23ai](https://blogs.oracle.com/coretec/post/getting-started-with-vectors-in-23ai)
 - [JSON in Oracle Database](https://blogs.oracle.com/coretec/post/json-in-oracle-database)
 - [Bigfile Tablespace Shrink](https://blogs.oracle.com/coretec/post/bigfile-tablespace-shrink)
+- [Real-Time SQL Monitoring: a MUST for SQL Tuning](https://blogs.oracle.com/coretec/post/oracle-database-real-time-sql-monitoring-one-of-the-most-important-tools)
 - [23ai blogs on blogs.oracle.com/coretec](https://blogs.oracle.com/coretec/category/cased-concurrency-control-rt-23ai)
 
 ## Videos
+- [Monitoring, Analyzing and Diagnosing SQL Statements](https://youtu.be/rbxNPetPH7c)
+- [JSON Relational Duality Views](https://youtu.be/YMftyjrEpnU)
 - [Lock-Free Reservation](https://youtu.be/h6YvDoBfeyg)
 - [Materialized Views on JSON Collection Tables](https://youtu.be/C2wXcJyJjUE)
 - [High Performance Data Streaming with Fast Lookup and Fast Ingest](https://youtu.be/IMnbSRmFTVk)
