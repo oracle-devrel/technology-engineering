@@ -55,6 +55,10 @@ Reviewed: 01.02.2024
  - [Zero Trust Security Model](https://www.oracle.com/security/what-is-zero-trust/)
  - [Cloud Security Documentation](https://docs.oracle.com/en-us/iaas/Content/Security/Concepts/security.htm#Security_Guide_and_Announcements)
  - [OCI Architecture Center](https://www.oracle.com/uk/cloud/architecture-center/)
+- [Integrate APEX with OCI IAM Domains](https://docs.oracle.com/en/learn/apex-identitydomains-sso/index.html#task-4-create-a-new-authentication-scheme-in-oracle-apex-for-the-sample-application)
+     - Oracle APEX is the premier low code tool. With Oracle OCI IAM you can add proper governance to user management and authorization governance though OCI IAM groups mapped to APEX roles. Since APEX is using OAUTH for integration with Oracle OCI IAM, users is not required to managed within APEX, only user and group assignments to users is managed in APEX. If you want to manage user profile within APEX, this can easily be added by adding a post. In the post below, step 7 and 8 gives one example of how a post authentication function can be built. This can be extended to use REST to retrieve additional attributes from OCI IAM Domains, or more common use case, create a local user profile in a local table, if a local user profile does not exist for the current user. The elegant piece, is that the OCI IAM Domain integration provides username and authorization available though standard APEX API for later usage in your code
+The link above details how to integrate APEX with OCI IAM Domain, utilizing OAUTH, and then leave the user governance entirely to OCI IAM Domains.
+
 
 # License
 
