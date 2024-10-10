@@ -2,7 +2,7 @@
 
 This paper describes some best practices for using Git.
 
-Reviewed: 08.03.2024
+Reviewed: 08.10.2024
 
 # When to use this asset?
 
