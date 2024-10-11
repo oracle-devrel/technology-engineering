@@ -29,25 +29,39 @@ See the *OCI Security Health Check - Standard Edition* in action and watch the [
 
 Before running the *OCI Security Health Check - Standard Edition* you should download and verify it.
 
-  - Download the latest distribution [oci-security-health-check-standard-240822.zip](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-240822.zip).
+  - Download the latest distribution [oci-security-health-check-standard-241011.zip](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-241011.zip).
   - Download the respective checksum file:
-    - [oci-security-health-check-standard-240822.sha512](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-240822.sha512).
-    - [oci-security-health-check-standard-240822.sha512256](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-240822.sha512256).
+    - [oci-security-health-check-standard-241011.sha512](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-241011.sha512).
+    - [oci-security-health-check-standard-241011.sha512256](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-241011.sha512256).
   - Verify the integrity of the distribution. Both files must be in the same directory (for example, in your downloads directory).
 
     On MacOS:
     ```
     cd <your_downloads_directory>
-    shasum -a 512256 -c oci-security-health-check-standard-240822.sha512256
+    shasum -a 512256 -c oci-security-health-check-standard-241011.sha512256
     ```
 
     On Linux (including Cloud Shell):
     ```
     cd <your_downloads_directory>
-    sha512sum -c oci-security-health-check-standard-240822.sha512
+    sha512sum -c oci-security-health-check-standard-241011.sha512
     ```
 
 **Reject the downloaded file if the check fails!**
+
+### In OCI Cloud Shell
+
+In OCI Cloud Shell you can do a short cut without downloading the files mentioned above to your desktop:
+
+1. Login to your OCI console.
+2. Open Cloud Shell
+3. Run these commands in your Cloud Shell:
+  ```
+  wget -q https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-241011.zip
+  wget -q https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-241011.sha512
+  sha512sum -c oci-security-health-check-standard-241011.sha512
+  unzip -q oci-security-health-check-standard-241011.zip
+  ```
 
 ## Prepare the OCI Tenancy
 
@@ -104,6 +118,12 @@ To start with reviewing the results, open the file named `tenancy_name_YYYYMMDDH
 
 It may look like this example:
 ![Flyer](./files/resources/Example_Output.png)
+
+# Known Issues
+
+1. Diagrams are not part of the HTML page.
+   This may be because of broken `numpy installation`. The following command should resolve this:
+   `pip3 install --upgrade --force-reinstall --user numpy`
 
 # Credits
 
