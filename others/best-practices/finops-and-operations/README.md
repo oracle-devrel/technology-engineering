@@ -2,7 +2,7 @@
 
 This paper describes some best practices for managing OCI tenancy costs. 
 
-Reviewed: 07.03.2024
+Reviewed: 07.10.2024
 
 # When to use this asset?
 
