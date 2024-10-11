@@ -2,7 +2,7 @@
 
 Owner: Olaf Heimburger
 
-Version: 240822
+Version: 241011
 
 Reviewed: 01.02.2024
 
@@ -100,7 +100,10 @@ For a detailed description go to [Run the OCI Security Health Check in OCI Cloud
 
 After a completed run you will find a directory with a name starting with your tenancy name followed by a timestamp in your working directory (like `tenancy_name_YYYYMMDDHHmmss_standard`). A zip archive for easier download using the same name will be created, too. Both hold data files for your review.
 
-To start with reviewing the results, open the file named [cis_html_summary_report.html](files/resources/cis_html_summary_report.html)(sample report).
+To start with reviewing the results, open the file named `tenancy_name_YYYYMMDDHHmmss_standard_cis_html_summary_report.html`.
+
+It may look like this example:
+![Flyer](./files/resources/Example_Output.png)
 
 # Credits
 
