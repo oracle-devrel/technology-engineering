@@ -2,7 +2,7 @@
 
 This page has information about Oracle Cloud Infrastructure (OCI) Compute hardware components such as Intel, AMD, ARM, Confidential Compute, Roving Edge Infrastructure, and Compute on HPC.
 
-<i>Review date: 14 March 2024</i>
+<i>Review date: 14 October 2024</i>
 
 # Useful Links
 
@@ -20,6 +20,7 @@ This page has information about Oracle Cloud Infrastructure (OCI) Compute hardwa
 - [OCI Compute shape naming convention](https://github.com/mariusscholtz/Oracle-Cloud-Infrastructure-resources) ex VM Shape name with <b>A</b> refers to Ampere (ARM), <b>E</b> refers to AMD Epyc, <b>X</b> refers to Intel
 - [Migrate and change the Compute shape from VM.Standard2.x to flexible shape on OCI](https://github.com/mariusscholtz/Oracle-Cloud-Infrastructure-resources/blob/main/VM-shapes/Migrate-VM.Standard2%20to%20Flex%20shape.pdf)
 - [OCI Compute Capacity Report](https://github.com/Olygo/OCI_ComputeCapacityReport) - This script will display a report of the host capacity within an availability domain that is available for you to create compute instances.
+- [Migrate SPARC to OCI](https://github.com/mariusscholtz/Oracle-Cloud-Infrastructure-resources/blob/main/documents/Migrate-SPARC-to-OCI-v1.0.pdf) - This document outlines key factors to consider when transitioning from SPARC Solaris to Oracle Cloud Infrastructure.
 
 # License
 
