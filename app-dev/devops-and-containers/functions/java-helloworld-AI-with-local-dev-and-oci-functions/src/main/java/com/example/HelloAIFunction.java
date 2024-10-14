@@ -33,7 +33,7 @@ public class HelloAIFunction {
 
     // FILL IN PROPER VALUES FOR OCI GENAI SERVICE
     private static final String ENDPOINT       = "https://inference.generativeai.us-chicago-1.oci.oraclecloud.com";
-    private static final Region REGION         = Region.US_CHICAGO_1;
+    private static final Region REGION         = Region.EU_FRANKFURT_1;
 
     // FILL IN PROPER VALUES FOR IAM USER WHEN NOT USING INSTANCE_PRINCIPAL IN OCI FUNCTION
     private static final String COMPARTMENT_ID = "ocid1.compartment.oc1..";
