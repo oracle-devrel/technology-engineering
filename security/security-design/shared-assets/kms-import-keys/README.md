@@ -53,8 +53,7 @@ This example is for an RSA 2048 Asynchronous Key to be imported in OCI Vault. Th
 
 The script is provided in the OCI Documentation [here](https://docs.public.oneportal.content.oci.oraclecloud.com/en-us/iaas/Content/KeyManagement/Tasks/importing_asymmetric_keys_topic_script_to_import_rsa_key_material_as_a_new_external_key.htm)
 
-Just copy the script and place it on an environment where you have the correct version of openssl (see pre-requisites). Then modify the script to have the correct values to point to the required input files.
-The below example is when you use an OCI Compute with Oracle Linux 9:
+Just copy the script and place it on an environment where you have the correct version of openssl (see pre-requisites). Then modify the script to have the correct values to point to the required input files. The below example shows how to set the values when you use an OCI Compute with Oracle Linux 9:
 
 ```
 OPENSSL_PATH="/usr/bin/openssl"
