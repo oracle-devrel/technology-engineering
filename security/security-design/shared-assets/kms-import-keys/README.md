@@ -15,39 +15,50 @@ This example is for an RSA 2048 Asynchronous Key to be imported in OCI Vault. Th
 
 ## Prerequisites
 
-- Make sure to have a up-to-date version of OpenSSL installed that supports the RSA_OAEP_AES_SHA256 wrapping mechanism. OCI CloudShell is currently based on Oracle Linux 7, which does not have the minimum required version of OpenSSL installed. If you create an OCI Compute based on Oracle Linux 9, it should work immediately.
+- Make sure to have a up-to-date version of OpenSSL installed that supports the RSA_OAEP_AES_SHA256 wrapping mechanism. OCI CloudShell is currently based on Oracle Linux 7, which does not have the minimum required version of OpenSSL installed. If you create an OCI Compute based on Oracle Linux 9, it should work immediately. Below commandline can be used to test if your openssl version is usable.
+  ```
+  openssl enc -id-aes256-wrap-pad -iv A65959A6 -K AABBCCDDEEFFAABBCCDDEEFFAABBCCDDEEAABBCCDDEEAABBCCDDEEFFAABBCCDD -in /dev/null
+  ```
+  If the command returns an Error, please use and Oracle Linux 9 compute image or follow this [documentation](https://docs.public.oneportal.content.oci.oraclecloud.com/en-us/iaas/Content/KeyManagement/Tasks/importing_assymetric_keys.htm).
 
 - Get a RSA 2048 Key Pair to import and store in the file name ```my_keypair.pem```, or generate one via this command:
-
-  ```openssl genrsa -out my_keypair.pem 2048```
+  ```
+  openssl genrsa -out my_keypair.pem 2048
+  ```
 
 - Create an OCI Vault and copy the Public Wrapping Key. You can find it when creating a new Key in the Vault and enabling the "Import External key" checkbox. For this example store the wrapping key in file called ```pub_wrapping_key.pem```
 
 ### Manually create the wrapped key material to be imported
 
 1. Create a temporary AES key:
-
-   ```openssl rand -out temp_aes.key 32```
+   ```
+   openssl rand -out temp_aes.key 32
+   ```
 
 2. Wrap the temporary AES key with the public wrapping key using RSA-OAEP with SHA-256:
-
-   ```openssl pkeyutl -encrypt -in  temp_aes.key -inkey pub_wrapping_key.pem -pubin -out wrapped_temp_aes.key -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256```
+   ```
+   openssl pkeyutl -encrypt -in  temp_aes.key -inkey pub_wrapping_key.pem -pubin -out wrapped_temp_aes.key -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256
+   ```
 
 3. Generate hexadecimal of the temporary AES key material:
-
-   ```export temporary_AES_key_hexdump=$(hexdump -v -e '/1 "%02x"' < temp_aes.key)```
+   ```
+   export temporary_AES_key_hexdump=$(hexdump -v -e '/1 "%02x"' < temp_aes.key)
+   ```
 
 4. If the RSA private key you want to import is in PEM format, convert it to DER:
-
-   ```openssl pkcs8 -topk8 -nocrypt -inform PEM -outform DER -in my_keypair.pem -out my_private_key.key```
+   ```
+   openssl pkcs8 -topk8 -nocrypt -inform PEM -outform DER -in my_keypair.pem -out my_private_key.key
+   ```
 
 5. Wrap your RSA private key with the temporary AES key:
-
-   ```openssl enc -id-aes256-wrap-pad -iv A65959A6 -K $temporary_AES_key_hexdump -in my_private_key.key -out my_wrapped.key```
+   ```
+   openssl enc -id-aes256-wrap-pad -iv A65959A6 -K $temporary_AES_key_hexdump -in my_private_key.key -out my_wrapped.key
+   ```
 
 6. Create the wrapped key material by concatenating both wrapped keys:
-
-   ```cat wrapped_temp_aes.key my_wrapped.key > wrapped_key_material.key```
+   ```
+   cat wrapped_temp_aes.key my_wrapped.key > wrapped_key_material.key
+   ```
 
 ### Use the provided script to generate the wrapped key material to be imported
 
