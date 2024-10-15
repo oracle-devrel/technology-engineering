@@ -19,7 +19,7 @@ This example is for an RSA 2048 Asynchronous Key to be imported in OCI Vault. Th
   ```
   openssl enc -id-aes256-wrap-pad -iv A65959A6 -K AABBCCDDEEFFAABBCCDDEEFFAABBCCDDEEAABBCCDDEEAABBCCDDEEFFAABBCCDD -in /dev/null
   ```
-  If the command returns an Error, please use and Oracle Linux 9 compute image or follow this [documentation](https://docs.public.oneportal.content.oci.oraclecloud.com/en-us/iaas/Content/KeyManagement/Tasks/importing_assymetric_keys.htm).
+  If the command returns an Error, please use an Oracle Linux 9 compute image or follow this [documentation](https://docs.public.oneportal.content.oci.oraclecloud.com/en-us/iaas/Content/KeyManagement/Tasks/importing_assymetric_keys.htm).
 
 - Get a RSA 2048 Key Pair to import and store in the file name ```my_keypair.pem```, or generate one via this command:
   ```
