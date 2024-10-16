@@ -41,7 +41,6 @@ variable "external_database_connector_agent_id" {
   	condition = var.external_database_connector_agent_id != ""
 	error_message = "The value of 'managementAgentId' in the JSON-input for database systems is an empty string"
   }
-  #default = "ocid1.managementagent.oc1..XXXXXXX"
 }
 
 #Container database variables

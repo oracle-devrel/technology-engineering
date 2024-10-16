@@ -33,7 +33,6 @@ variable "ssl_secret_id" {
 variable "external_database_connector_agent_id" {
   description = "The OCID for the management agent used for database connections"
   type        = string
-  #default = "ocid1.managementagent.oc1..XXXXXXX"
 }
 
 #Pluggable database variables
