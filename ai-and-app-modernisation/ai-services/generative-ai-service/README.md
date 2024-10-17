@@ -53,6 +53,8 @@ Reviewed: 17.10.2024
     - Multilingual support for Retrieval-Augmented Generation (RAG) can be obtained either with a multilingual LLM or by interfacing a single language LLM with a translation service.
       - In this example, we’ll explore how to do the latter, by integrating Oracle Cloud Infrastructure (OCI) AI Language between LLM output and the user UI. This can be useful in many use cases, where a multilingual LLM is unavailable or RAG data sources are only available in a limited number of translations.
       - In this webinar, we will continue to use the RAG architecture presented in our previous Cloud Coaching sessions, and update it to use a multilingual embedding model.
+- [Cloud Coaching - How to enable Oracle Observability on RAG solutions](https://www.youtube.com/watch?v=VQg3lADHwu8)
+    - In this session we show you how OCI Application Performances Monitor helps to increase GenAI user satisfaction by collecting Opentelemetry traces produced by RAG and providing insight dashboard, anomaly detection and error notifications. 
 
 
 # Useful Links
