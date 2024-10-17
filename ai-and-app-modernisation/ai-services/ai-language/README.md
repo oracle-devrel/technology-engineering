@@ -20,6 +20,7 @@ Reviewed: 17.10.2024
 
 - [Saving the Bees using AI: One Positive Entity at a Time](https://www.linkedin.com/pulse/saving-bees-using-ai-one-positive-entity-time-ismail-syed/)
 - [AI Meetings: Sentiment analysis & Name Entity Recognition](https://www.oracle.com/artificial-intelligence/automate-meeting-transcriptions/)
+- [Search Documents stored in Object Storage using Opensearch, Generative AI, Semantic Search, RAG](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3762)
 
 ## Architecture Center
 
