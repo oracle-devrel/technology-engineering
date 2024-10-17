@@ -33,6 +33,7 @@ Reviewed: 30.01.2024
     - Blog post explaining how to use generative AI models in OCI.
 - [Oracle Generative AI Webinar](https://go.oracle.com/LP=138234?elqCampaignId=489428&src1=:so:ch:or:dg::::&SC=:so:ch:or:dg::::&pcode=WWMK230822P00010)
     - Deep dive into Oracle Generative AI platform.
+- [AI Meetings: Meeting summarization and chat meeting](https://www.oracle.com/artificial-intelligence/automate-meeting-transcriptions/)
 
 # Useful Links
  
