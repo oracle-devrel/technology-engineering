@@ -22,7 +22,8 @@ Reviewed: 17.10.2024
 - [Build a real-time object identifier using OCI Vision and Oracle Autonomous Database](https://docs.oracle.com/en/solutions/realtime-ocivision-object-identification/index.html#GUID-A875FB7D-29E3-4FBF-AED5-C0CF43F71469)
     - The reference architecture describes how you can integrate an OCI Vision-trained model with a front-end web app to perform real-time object identification with a mobile phone camera. 
 - [Build a meal recommmendation Engine with OCI Vision & Generative AI](https://www.oracle.com/artificial-intelligence/build-a-meal-recommendation-engine-with-ai/)
-
+- [Search Documents stored in Object Storage using Opensearch, Generative AI, Semantic Search, RAG](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3762)
+- 
 # Useful Links
  
 - [AI Solutions Hub](https://www.oracle.com/artificial-intelligence/solutions/)
