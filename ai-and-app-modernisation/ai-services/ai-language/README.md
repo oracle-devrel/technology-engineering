@@ -20,6 +20,11 @@ Reviewed: 17.10.2024
 
 - [Saving the Bees using AI: One Positive Entity at a Time](https://www.linkedin.com/pulse/saving-bees-using-ai-one-positive-entity-time-ismail-syed/)
 - [AI Meetings: Sentiment analysis & Name Entity Recognition](https://www.oracle.com/artificial-intelligence/automate-meeting-transcriptions/)
+- [Cloud Coaching - Unlock the potential of enterprise Oracle GenAI](https://www.youtube.com/watch?v=dtvP0DU7Mdg)
+    - During this cloud coaching session, we demonstrate how to leverage AI to revolutionize meeting interactions. Experience real-time transcription, summary generation, a chat interface and more that enhances collaboration and productivity. 
+- [Cloud Coaching - Oracle Integration (OIC3) and AI Language Service](https://www.youtube.com/watch?v=9gDHVjwKDR8)
+    - The aim of this video is to show practical examples when and how to use AI Language Service - Named Entity Recognition method. 
+
 
 ## Architecture Center
 

@@ -35,9 +35,28 @@ Reviewed: 17.10.2024
     - Deep dive into Oracle Generative AI platform.
 - [AI Meetings: Meeting summarization and chat meeting](https://www.oracle.com/artificial-intelligence/automate-meeting-transcriptions/)
 - [Build a meal recommmendation Engine with OCI Vision & Generative AI](https://www.oracle.com/artificial-intelligence/build-a-meal-recommendation-engine-with-ai/)
+- [Cloud Coaching - Unlock the potential of enterprise Oracle GenAI](https://www.youtube.com/watch?v=dtvP0DU7Mdg)
+    - During this cloud coaching session, we demonstrate how to leverage AI to revolutionize meeting interactions. Experience real-time transcription, summary generation, a chat interface and more that enhances collaboration and productivity. 
+- [Cloud Coaching - Unlock Culinary Creativity: AI Powered Cooking Adventure from Fridge to Fork!](https://www.youtube.com/watch?v=tRVwTLKS4rE&t)
+    - You are in the mood of cooking an exotic dish. You open the refrigerator, and using the mobile phone, access your favourite retail app to scan the items you have and submit. 
+      -  This triggers a series of actions:
+      -  OCI AI Vision identifies the items (specific vegetables, egg, chicken etc).
+      -  On choosing your favourite cuisine, OCI Generative AI suggests a list of dishes based on identified items.
+      -  On selecting your favourite dish, OCI Generative AI provides the detailed recipe. Also, the missing ingredients are listed, with an option to order the same. 
+- [Build an AI assistant you can access through Slack, Teams and more  - Oracle LiveLabs](https://livelabs.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=4015)
+- [How Generative AI helps you build smarter applications - Oracle LiveLabs](https://apexapps.oracle.com/pls/apex/f?p=133:180:109475216202632::::wid:4016)
+- [Cloud Coaching - Low Code Modular RAG-based Knowledge Search Engine using Oracle GenAI](https://www.youtube.com/watch?v=KkVomurY_0Q)
+    - In this coaching session, you’ll learn how to use low-code integration with Oracle Integration Cloud to integrate and orchestrate social media channels like WhatsApp, Business channels like a Web Application built in Oracle Visual Builder, productivity channels like OCI Object Storage, local large and small language models (LLMs), and vector databases to ingest live data into the RAG-based Knowledge Search Engine store. 
+- [Cloud Coaching - Unleashing the Power of Oracle AI to Master RFx Responses](https://www.youtube.com/watch?v=0Z-gBTgUTRM)
+  - In this session we explore the design and development of an innovative solution, leveraging Generative AI, to assist in the generation of responses to RFx (request for anything). 
+- [Cloud Coaching - Enhancing your RAG to support multiple languages](https://www.youtube.com/watch?v=1wyvWOI-Vig)
+    - Multilingual support for Retrieval-Augmented Generation (RAG) can be obtained either with a multilingual LLM or by interfacing a single language LLM with a translation service.
+      - In this example, we’ll explore how to do the latter, by integrating Oracle Cloud Infrastructure (OCI) AI Language between LLM output and the user UI. This can be useful in many use cases, where a multilingual LLM is unavailable or RAG data sources are only available in a limited number of translations.
+      - In this webinar, we will continue to use the RAG architecture presented in our previous Cloud Coaching sessions, and update it to use a multilingual embedding model.
+
 
 # Useful Links
- 
+
 - [AI Solutions Hub](https://www.oracle.com/artificial-intelligence/solutions/)
 - [Navigating the frontier: Key considerations for developing a generative AI integration strategy for the enterprise](https://blogs.oracle.com/ai-and-datascience/post/considerations-generative-ai-integration-strategy)
 - [The Future of Generative AI: What Enterprises Need to Know](https://blogs.oracle.com/ai-and-datascience/post/future-generative-ai-what-enterprises-need-to-know) 

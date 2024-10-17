@@ -22,6 +22,15 @@ Reviewed: 17.10.2024
 - [Build a real-time object identifier using OCI Vision and Oracle Autonomous Database](https://docs.oracle.com/en/solutions/realtime-ocivision-object-identification/index.html#GUID-A875FB7D-29E3-4FBF-AED5-C0CF43F71469)
     - The reference architecture describes how you can integrate an OCI Vision-trained model with a front-end web app to perform real-time object identification with a mobile phone camera. 
 - [Build a meal recommmendation Engine with OCI Vision & Generative AI](https://www.oracle.com/artificial-intelligence/build-a-meal-recommendation-engine-with-ai/)
+- [Cloud Coaching - Unlock Culinary Creativity: AI Powered Cooking Adventure from Fridge to Fork!](https://www.youtube.com/watch?v=tRVwTLKS4rE&t)
+    - You are in the mood of cooking an exotic dish. You open the refrigerator, and using the mobile phone, access your favourite retail app to scan the items you have and submit. 
+      -  This triggers a series of actions:
+      -  OCI AI Vision identifies the items (specific vegetables, egg, chicken etc).
+      -  On choosing your favourite cuisine, OCI Generative AI suggests a list of dishes based on identified items.
+      -  On selecting your favourite dish, OCI Generative AI provides the detailed recipe. Also, the missing ingredients are listed, with an option to order the same. 
+- [Cloud Coaching - Discover OCI Vision for Object Detection in Manufacturing, Retail, & More](https://www.youtube.com/watch?v=lHH_1MXGOc0)
+    - In this session you learn how OCI Vision can identify, classify, and quantify visual data in powerful ways. Watch as the service identifies objects (people, cars, trees, and so forth) and categorizes them. See how it can even detect faces or key points in faces for analysis.
+
 
 # Useful Links
  

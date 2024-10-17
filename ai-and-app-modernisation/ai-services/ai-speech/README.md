@@ -26,6 +26,14 @@ Reviewed: 17.10.2024
     - OCI Speech is an AI service that applies automatic speech recognition technology to transform audio-based content into text. Generative AI, The Large Language Model (LLM) analyzes the text input and can generate, summarize, transform, and extract information. Using these AI capabilities, we built a low code application- “Integrate OCI AI Speech Service and Generative AI Service for Summarization in Visual Builder " to invoke AI Speech REST API to convert audio files into text and then further invoke the Generative AI REST API to Summarize it.
 - [Demos built using OCI Python SDK](https://github.com/luigisaetta/oci-speech-demos)
 - [AI Speech console demo](https://youtu.be/EWBSoSLNph8)
+- [Cloud Coaching - Unlock the potential of enterprise Oracle GenAI](https://www.youtube.com/watch?v=dtvP0DU7Mdg)
+    - During this cloud coaching session, we demonstrate how to leverage AI to revolutionize meeting interactions. Experience real-time transcription, summary generation, a chat interface and more that enhances collaboration and productivity. 
+- [Cloud Coaching - Build an OCI AI Speech-to-Text App Using Visual Builder and Functions](https://www.youtube.com/watch?v=9-KiORugqGc)
+    - We guide you through building a speech-to-text application using Oracle's powerful cloud services. Leverage the Oracle Speech service to accurately transcribe audio and video files with speaker identification. We'll show you how to integrate Python and Oracle Functions for backend processing, and utilize Oracle Visual Builder Cloud Service to create a user-friendly interface. Gain the ability to upload audio/video files, download transcripts, and even preview the transcribed text within your application.
+        - Utilize Oracle Speech for accurate speaker transcription. 
+        - Integrate Python and Oracle Functions for backend processing.
+        - Build a user-friendly interface with Oracle Visual Builder Cloud Service. 
+         -Download, and preview transcribed text.
 
 ## Architecture Center
 
