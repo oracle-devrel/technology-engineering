@@ -2,17 +2,17 @@
  
 OCI Vision is an AI service for performing deep-learning–based image analysis at scale. With prebuilt models available out of the box, developers can easily build image recognition and text recognition into their applications without machine learning (ML) expertise. For industry-specific use cases, developers can automatically train custom vision models with their own data. These models can be used to detect visual anomalies in manufacturing, organize digital media assets, and tag items in images to count products or shipments.
  
-Reviewed: 30.01.2024
+Reviewed: 17.10.2024
 
 # Table of Contents
  
 - [AI Vision](#ai-vision)
 - [Table of Contents](#table-of-contents)
-  - [Team Publications](#team-publications)
+- [Team Publications](#team-publications)
+- [Useful Links](#useful-links)
   - [Architecture Center](#architecture-center)
   - [LiveLabs and Workshops](#livelabs-and-workshops)
-  - [Reusable Assets Overview](#reusable-assets-overview)
-  - [Useful Links](#useful-links)
+- [Reusable Assets Overview](#reusable-assets-overview)
 - [License](#license)
  
 # Team Publications
@@ -21,6 +21,7 @@ Reviewed: 30.01.2024
 - [OCI Vision Healthcare Image Analysis](https://blogs.oracle.com/ai-and-datascience/post/advancing-healthcare-image-analysis-on-oci)
 - [Build a real-time object identifier using OCI Vision and Oracle Autonomous Database](https://docs.oracle.com/en/solutions/realtime-ocivision-object-identification/index.html#GUID-A875FB7D-29E3-4FBF-AED5-C0CF43F71469)
     - The reference architecture describes how you can integrate an OCI Vision-trained model with a front-end web app to perform real-time object identification with a mobile phone camera. 
+- [Build a meal recommmendation Engine with OCI Vision & Generative AI](https://www.oracle.com/artificial-intelligence/build-a-meal-recommendation-engine-with-ai/)
 
 # Useful Links
  

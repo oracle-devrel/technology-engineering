@@ -2,7 +2,7 @@
  
 Oracle’s AI strategy is to make artificial intelligence (AI) pervasive across its cloud applications and cloud infrastructure. We serve business users who want to improve business processes and outcomes through prebuilt AI capabilities, data scientists and developers who want complete control to build and deploy AI models of any kind, and independent software vendors (ISVs) who want the most performant and cost-effective platform to host their AI services.
  
-Reviewed: 30.01.2024
+Reviewed: 17.10.2024
  
 # Team Publications
 
@@ -33,6 +33,8 @@ Reviewed: 30.01.2024
     - Blog post explaining how to use generative AI models in OCI.
 - [Oracle Generative AI Webinar](https://go.oracle.com/LP=138234?elqCampaignId=489428&src1=:so:ch:or:dg::::&SC=:so:ch:or:dg::::&pcode=WWMK230822P00010)
     - Deep dive into Oracle Generative AI platform.
+- [AI Meetings: Meeting summarization and chat meeting](https://www.oracle.com/artificial-intelligence/automate-meeting-transcriptions/)
+- [Build a meal recommmendation Engine with OCI Vision & Generative AI](https://www.oracle.com/artificial-intelligence/build-a-meal-recommendation-engine-with-ai/)
 
 # Useful Links
  
