@@ -35,6 +35,7 @@ Reviewed: 17.10.2024
     - Deep dive into Oracle Generative AI platform.
 - [AI Meetings: Meeting summarization and chat meeting](https://www.oracle.com/artificial-intelligence/automate-meeting-transcriptions/)
 - [Build a meal recommmendation Engine with OCI Vision & Generative AI](https://www.oracle.com/artificial-intelligence/build-a-meal-recommendation-engine-with-ai/)
+- [Search Documents stored in Object Storage using Opensearch, Generative AI, Semantic Search, RAG](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3762)
 
 # Useful Links
  
