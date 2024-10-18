@@ -8,16 +8,16 @@ Explore these materials to enhance your migration strategy. We appreciate your p
  
 # Table of Contents
 
-<!-- for future use   - [**Oracle Communications** applications](./communications)               -->
  - [**Oracle Construction and Engineering** applications](./construction-engineering)
-<!-- for future use   - [**Oracle Energy and Water** applications](./energy-water)               -->
  - [**Oracle Financial Services** applications](./financial-services)
  - [**Oracle Food and Beverage** applications](./food-beverage)
-<!-- for future use   - [**Oracle Health** applications](./health)                               -->
  - [**Oracle Hospitality** applications](./hospitality)
+ - [**Oracle Retail** applications](./retail)
+<!-- for future use   - [**Oracle Energy and Water** applications](./energy-water)               -->
+<!-- for future use   - [**Oracle Communications** applications](./communications)               -->
+<!-- for future use   - [**Oracle Health** applications](./health)                               -->
 <!-- for future use   - [**Oracle Life Sciences** applications](./life-sciences)                 -->
 <!-- for future use   - [**Oracle Local Government** applications](./local-government)           -->
- - [**Oracle Retail** applications](./retail)
 
 # License
  
