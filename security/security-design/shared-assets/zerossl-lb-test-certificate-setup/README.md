@@ -46,7 +46,7 @@ Initially, we will create the load balancer and configure the HTTP listener on p
 
 6. Select the checkbox next to your compute instance (in my case `apache`) from the list of instances.
 
-![Screenshot for selecting the backend.](lb-select-backend.png "Screenshot for selecting the backend.")
+![Screenshot for selecting the backend.](images/lb-select-backend.png "Screenshot for selecting the backend.")
 
 7. Click `Add selected backends`.
 
@@ -66,13 +66,13 @@ Initially, we will create the load balancer and configure the HTTP listener on p
 
 13. Since, this is a test, disable **Error logs** and **Access Logs** (if enabled).
 
-![Screenshot for load balancer logging.](lb-logging.png "Screenshot for load balancer logging.")
+![Screenshot for load balancer logging.](images/lb-logging.png "Screenshot for load balancer logging.")
 
 14. Click `Submit`.
 
 Your load balancer will be created after a few moments.
 
-![Screenshot for load balancer summary.](lb-created.png "Screenshot for load balancer summary.")
+![Screenshot for load balancer summary.](images/lb-created.png "Screenshot for load balancer summary.")
 
 > **Note** If you have enabled the network traffic to your HTTPD server, and if it is running, **Backend sets health** shoudl be showing as **OK**. If not, check your networking and security lists.
 
@@ -84,7 +84,7 @@ Before we enable a HTTPS connection to the web server, let's check out load bala
 
 1. Open a browser and navigate to `http://<your LB public IP address>/`, accepting the HTTP warning issued by your browser.
 
-![Screenshot for HTTP web site access.](browser-http.png "Screenshot for HTTP web site access.")
+![Screenshot for HTTP web site access.](images/browser-http.png "Screenshot for HTTP web site access.")
 
 # Generate the TLS certificate
 
@@ -102,25 +102,25 @@ For this tutorial, i'm using [ZeroSSL](https://app.zerossl.com/dashboard), prima
 
 The IP will be validated as shown by the green tick.
 
-![Screenshot for entering IP on ZeroSSL new certificate screen.](zerossl-ip.png "Screenshot for entering IP on ZeroSSL new certificate screen.")
+![Screenshot for entering IP on ZeroSSL new certificate screen.](images/zerossl-ip.png "Screenshot for entering IP on ZeroSSL new certificate screen.")
 
 5. Click **Next Step ->**
 
 4. Under **Validity**, select `90-Day Certificate`.
 
-![Screenshot for entering validity on ZeroSSL new certificate screen.](zerossl-validity.png "Screenshot for entering validity on ZeroSSL new certificate screen.")
+![Screenshot for entering validity on ZeroSSL new certificate screen.](images/zerossl-validity.png "Screenshot for entering validity on ZeroSSL new certificate screen.")
 
 5. Click **Next Step ->**
 
 6. Don't select any add-ons. 
 
-![Screenshot for entering add-ons on ZeroSSL new certificate screen.](zerossl-addons.png "Screenshot for entering add-ons on ZeroSSL new certificate screen.")
+![Screenshot for entering add-ons on ZeroSSL new certificate screen.](images/zerossl-addons.png "Screenshot for entering add-ons on ZeroSSL new certificate screen.")
 
 7. Click  **Next Step ->**
 
 8. On the **CSR & Contact** screen, ensure `Auto-Generate CSR` is enabled.
 
-![Screenshot for entering CSR on ZeroSSL new certificate screen.](zerossl-CSR.png "Screenshot for entering CSR on ZeroSSL new certificate screen.")
+![Screenshot for entering CSR on ZeroSSL new certificate screen.](images/zerossl-CSR.png "Screenshot for entering CSR on ZeroSSL new certificate screen.")
 
 9. Click **Next Step ->**
 
@@ -134,7 +134,7 @@ Before ZeroSSL will issue a certificate, you must verify that you control the IP
 
 12. Follow the instructions to upload the pki-validation file to your web server into the folder specified by ZeroSSL.
 
-![Screenshot for verifying IP address.](zerossl-verify.png "Screenshot for verifying IP address.")
+![Screenshot for verifying IP address.](images/zerossl-verify.png "Screenshot for verifying IP address.")
 
 13. Once the file is in place, click **Verify Domain** to start the verification process.
 
@@ -142,7 +142,7 @@ After successful verification, your certificate will be generated.
 
 14. Click **Download Certificate (.zip)** to obtain the necessary certificate and key files from ZeroSSL.
 
-![Screenshot for ZerosSSL certificate download.](zerossl-download.png "Screenshot for ZerosSSL certificate download.")
+![Screenshot for ZerosSSL certificate download.](images/zerossl-download.png "Screenshot for ZerosSSL certificate download.")
 
 15. Extract the zip file to a suitable folder on your local machine. It contains three files:
 
@@ -166,35 +166,35 @@ Before creating the HTTPS listener, we need to import our new certificate.
 
 4. Change the **Certificate Resources** to `Load balancer managed certificate`.
 
-![Screenshot for certificate selection.](lb-cert-list.png "Screenshot for certificate selection.")
+![Screenshot for certificate selection.](images/lb-cert-list.png "Screenshot for certificate selection.")
 
 5. Click **Add certificate**.
 
 6. Provide a name for your certificate such as its IP address.
 
-![Screenshot for certificate name.](cert-name.png "Screenshot for certificate name.")
+![Screenshot for certificate name.](images/cert-name.png "Screenshot for certificate name.")
 
 7. Under **Choose SSL certificate file**, drop your `certificate.crt` file into the box.
 
-![Screenshot for certificate file.](cert-cert.png "Screenshot for certificate file.")
+![Screenshot for certificate file.](images/cert-cert.png "Screenshot for certificate file.")
 
 8. Check the **Specify CA certificate** check box.
 
 9. Under **Choose CA certificate file**, drop your `ca_bundle.crt` file into the box.
 
-![Screenshot for CA certificate file.](cert-ca.png "Screenshot for certificate file.")
+![Screenshot for CA certificate file.](images/cert-ca.png "Screenshot for certificate file.")
 
 8. Check the **Specify private key** check box.
 
 9. Under **Choose CA private key file**, drop your `private.key` file into the box.
 
-![Screenshot for private key file.](cert-priv.png "Screenshot for private key file.")
+![Screenshot for private key file.](images/cert-priv.png "Screenshot for private key file.")
 
 10. Click **Add certificate** to to finalise the addition of the certificate.
 
 11. Click **Close** on the **Work Request** and wait for the new certificat to appear in the list of certificates (a new moments).
 
-![Screenshot for imported cert.](cert-list.png "Screenshot for imported cert.")
+![Screenshot for imported cert.](images/cert-list.png "Screenshot for imported cert.")
 
 Now that we have our certificate imported, we can create the new listener.
 
@@ -225,7 +225,7 @@ Now that we have created the HTTPS listener, we can test it.
 
 You will see that you now have a secure connection to your web server, as indicated by the padlock in your browser address bar.
 
-![Secure browser connection to web site.](browser-https.png "Secure browser connection to web site.")
+![Secure browser connection to web site.](images/browser-https.png "Secure browser connection to web site.")
 
 This completes the lab.
 
