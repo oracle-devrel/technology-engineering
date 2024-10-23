@@ -9,7 +9,8 @@ This asset uses a rest API to make it possible to show the geo-locations of the 
 The requests to ip-api.com are done in a anonymous way. The privacy policy at ip-api.com mentions that they do not track or analyse access or use in any manner. No cookies are placed during use.
 
 To protect and rate-limit the API the network IP address of the client is stored in memory (RAM) for up to 1 minute.
-Any other information provided is discarded after the request is answered. Requests are not logged.
+Any other information provided is discarded after the request is answered. Requests are not logged. 
+The usage of the ip-api.com rest API is free for non-commercial use.
 
 For more detail on the privacy policy, please visit [https://ip-api.com/privacy](https://ip-api.com/privacy).
 
