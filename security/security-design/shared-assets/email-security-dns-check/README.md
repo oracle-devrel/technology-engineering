@@ -2,6 +2,19 @@
 
 Oracle requires that certain records are added to a customers DNS to allow Oracle's email delivery service to send emails on the customers behalf. This prevents the customers emails from being flagged as spoofed. 
 
+### Disclaimer
+
+This asset uses a rest API to make it possible to show the geo-locations of the email servers in the SPF DNS records. This is done by making an HTTP request to the ip-api.com service.
+
+The requests to ip-api.com are done in a anonymous way. The privacy policy at ip-api.com mentions that they do not track or analyse access or use in any manner. No cookies are placed during use.
+
+To protect and rate-limit the API the network IP address of the client is stored in memory (RAM) for up to 1 minute.
+Any other information provided is discarded after the request is answered. Requests are not logged.
+
+For more detail on the privacy policy, please visit [https://ip-api.com/privacy](https://ip-api.com/privacy).
+
+This is not an official Oracle application and it is not supported by Oracle Support.
+
 ## Understanding SPF, DKIM, and DMARC
 
 First a high level overview of the different protocols.
