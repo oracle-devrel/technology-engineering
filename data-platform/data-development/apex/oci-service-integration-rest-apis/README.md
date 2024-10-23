@@ -4,6 +4,12 @@ REST APIs are used to integrate with OCI Cloud Services from APEX. understanding
 
 Reviewed: 10.06.2024
 
+# When to use this asset?
+Use this asset when you need to integrate Oracle APEX with OCI Cloud Services via REST APIs to automate tasks, manage resources, or access data stored in OCI services. This asset is ideal when your application requires operations such as uploading files to OCI Object Storage, querying data from Autonomous Databases, or managing OCI resources like compute instances or network configurations. It’s particularly useful for applications that need secure, scalable, and programmatic access to OCI services without requiring direct user interaction or manual handling of OCI resources. Use this asset to streamline cloud operations, automate workflows, or enable APEX apps to communicate with OCI in real time.
+
+# How to use this asset?
+This asset enables the integration of Oracle APEX with OCI Cloud Services using REST APIs. To use it, you need to set up authentication by generating API signing keys and obtaining necessary OCI identifiers (Tenancy OCID, User OCID, Compartment OCID, and API key fingerprint). Once authenticated, you can install the asset in APEX, configure it with OCI service endpoints, and use APEX’s REST capabilities or PL/SQL to interact with OCI services like Object Storage or Autonomous Database. 
+
 # Table of Contents
  
 1. [Team Publications](#team-publications)

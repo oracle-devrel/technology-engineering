@@ -29,13 +29,13 @@ MicroTx Enterprise can handle a large number of transactions and scale horizonta
 MicroTx Enterprise includes dedicated support from Oracle, offering expert assistance and quicker resolution of issues to ensure smooth operation of mission-critical applications.
 Oracle Transaction Manager for Microservices provides a robust, high-performance solution for managing distributed transactions in a microservices architecture. By ensuring transactional integrity and offering flexible transaction models, MicroTx simplifies the development and operation of complex business processes, making it a powerful tool for modern applications.
 
-Reviewed: "09.06.2024"
+Reviewed: 23.10.2024
 
 # Table of Contents
 
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-links)
-3. [Tutorials / How To's](#tutorials--how-tos)
+3. [Reusable Assets Overview](#reusable-assets-overview)
 4. [License](#license)
 
 
@@ -51,10 +51,10 @@ Reviewed: "09.06.2024"
 - Video: [Oracle Transaction Manager for Microservices High-Level Introduction](https://www.youtube.com/watch?v=4j74C4GobzY)
 
 
-# Tutorials / How To's
-- Oracle LiveLabs: [Maintain data consistency across microservices using Oracle MicroTx](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3445)
-- Oracle LiveLabs: [Simplify distributed transactions with Oracle MicroTx to prevent inconsistent data and financial losses](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3725)
-- Oracle LiveLabs: [Ensure data consistency in distributed transactions across ORDS applications using Oracle MicroTx](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3886)
+# Reusable Assets Overview
+- Oracle LiveLabs [Tutorials / How To's]: [Maintain data consistency across microservices using Oracle MicroTx](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3445)
+- Oracle LiveLabs [Tutorials / How To's]: [Simplify distributed transactions with Oracle MicroTx to prevent inconsistent data and financial losses](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3725)
+- Oracle LiveLabs [Tutorials / How To's]: [Ensure data consistency in distributed transactions across ORDS applications using Oracle MicroTx](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3886)
 - [Software project: Creating a real-life transactional microservices application on Kubernetes](https://medium.com/@mika.rinne/software-project-creating-a-real-life-transactional-microservices-application-on-kubernetes-ea490e9cdfa1)
 
 

@@ -5,7 +5,12 @@ Providing links to public useful documentation and articles/blogs written by Ora
 
 A SQL Clue Card is also provided.
 
-Reviewed: 12.8.2024
+Reviewed: 23.10.2024
+
+# Table of Contents
+ 
+1. [Team Publications](#team-publications)
+2. [Useful Links](#useful-links)
 
 # Team Publications
 - [SQL Developer Extension for VS Code v24.2 is now available](https://www.thatjeffsmith.com/archive/2024/07/sql-developer-extension-for-vs-code-24-2-is-now-available/)
