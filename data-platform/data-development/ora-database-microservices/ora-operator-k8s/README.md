@@ -1,11 +1,13 @@
 # Oracle Database Transaction Event Queuing for Event Driven Architectures
-Reviewed: "11.01.2024"
+Reviewed: 23.10.2024
 
 
 
 # Table of Contents
  
-1. TBD 
+1. [Team Publications](#team-publications)
+2. [Useful Links](#useful-links)
+3. [Reusable Assets Overview](#reusable-assets-overview)
 
  
 # Team Publications
@@ -17,7 +19,7 @@ Reviewed: "11.01.2024"
 ## Scripts
 - TBD
 
-# Tutorials / How To's
+# Reusable Assets Overview
 - TBD
 
 
