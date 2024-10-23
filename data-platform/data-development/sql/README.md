@@ -5,12 +5,12 @@ Welcome to the SQL repository of the Data Development team at Oracle. This repos
 Reviewed: 23.10.2024
 
 ## Table of Contents
-1. [What is SQL?](#what-is-sql);
-2. [Team Publications](#team-publications);
-3. [SQL Tools](#sql-tools); 
-4. [SQL Tips](#sql-tips);
-5. [SQL Oracle23ai](#sql-oracle23ai);
-6. [SQL DO It Yourself](#sql-do-it-yourself)
+- [What is SQL?](#what-is-sql);
+- [Team Publications](#team-publications);
+- [SQL Tools](#sql-tools); 
+- [SQL Tips](#sql-tips);
+- [SQL Oracle23ai](#sql-oracle23ai);
+- [SQL DO It Yourself](#sql-do-it-yourself)
 
 ## What is SQL?
 
