@@ -1,3 +1,7 @@
+## Purpose of the email security DNS check
+
+Oracle requires that certain records are added to a customers DNS to allow Oracle's email delivery service to send emails on the customers behalf. This prevents the customers emails from being flagged as spoofed. 
+
 ## Understanding SPF, DKIM, and DMARC
 
 First a high level overview of the different protocols.
@@ -43,3 +47,13 @@ Following diagram shows the flow through the different protocols:
     v
 [ Recipient's Inbox or Spam Folder ]
 ```
+
+The following links provide documentation for diferent Oracle products referencing these settings for SPF, DKIM and DMARC. 
+
+### Resources
+
+[SPF settings in Email Delivery on OCI](https://docs.oracle.com/en-us/iaas/Content/Email/Tasks/configurespf.htm)
+[DKIM settings in Email Delivery on OCI](https://docs.oracle.com/en-us/iaas/Content/Email/Tasks/configure-dkim-using-the-console.htm)
+[Setting up an Email Domain with DKIM](https://docs.oracle.com/en-us/iaas/Content/Email/Tasks/managing_dkim-setup_email_domain_with_dkim.htm)
+[Configuring Email Authentication Settings for SPF and DKIM on OCI IAM](https://docs.oracle.com/en-us/iaas/Content/Identity/notifications/configure-email-auth-spf-dkim.htm)
+[Configure Email Security on Fusion Cloud Applications](https://docs.oracle.com/en/cloud/saas/applications-common/24d/facia/configure-email-security.html)
