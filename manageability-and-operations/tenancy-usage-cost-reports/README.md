@@ -4,7 +4,7 @@ Usage2ADW is a tool that uses the Python SDK to extract the usage and cost repor
 
 OCI automatically generates usage data and is stored in an Oracle-owned Object Storage bucket. It contains one row per each OCI resource per hour along with consumption information, metadata, namespace, and tags. Usage2ADW load this data to the ADW database and OAC visualizations can be created on top of this database.
 
-Reviewed: 30.01.2024
+Reviewed: 09.10.2024
 ​
 # When to use this asset?
 ​

@@ -6,7 +6,7 @@ These resources aim to offer guidance throughout your migration, enabling you to
 
 Explore these materials to enhance your migration strategy. We appreciate your participation and are committed to supporting your cloud migration journey.
  
-Reviewed: 20.11.2023
+Reviewed: 9.9.2024
 
 # Table of Contents
  
@@ -21,6 +21,7 @@ The reusable assets available in this repository:
 
 # Useful Links
  
+- [Flexcube on OCI Architecture](https://docs.oracle.com/en/solutions/flexcube-oci/index.html)
 - [Oracle Financial Services documentation](https://docs.oracle.com/en/industries/financial-services/index.html)
 - [Oracle Applications Lifetime Support Policy](https://www.oracle.com/us/assets/lifetime-support-applications-069216.pdf)
 - [Financial Services on Oracle Cloud Infrastructure](https://www.oracle.com/financial-services/cloud/)

@@ -10,7 +10,7 @@ Included scripts:
 
 The complete tutorial is available here: [Automate Recovery for Oracle Enterprise Performance Management using OCI Full Stack Disaster Recovery](https://docs.oracle.com/en/learn/fsdr-integration-epm/)
 
-Reviewed: 22.7.2024
+Reviewed: 9.9.2024
 
 # When to use this asset?
 

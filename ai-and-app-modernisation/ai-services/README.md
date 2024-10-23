@@ -2,12 +2,20 @@
  
 Oracle Cloud Infrastructure (OCI) AI Services is a collection of services with prebuilt machine learning models that make it easier for developers to apply AI to applications and business operations. The models can be custom-trained for more accurate business results. Teams within an organization can reuse the models, datasets, and data labels across services. OCI AI Services makes it possible for developers to easily add machine learning to apps without slowing down application development.
 
-Reviewed: 30.01.2024
+Reviewed: 17.10.2024
+
+# Team Publications
+- [Cloud Coaching - Low Code embraces Oracle Cloud Infrastructure AI services](https://www.youtube.com/watch?v=0oHixpA9JDc)
+    - Learn how to create applications that read, modify, and classify documents with a couple of clicks using our low code development platform and some of the OCI AI services offering.
 
 # Table of Contents
  
-  - [Useful Links](#useful-links)
-  - [Reusable Assets](#reusable-assets)
+- [AI Services](#ai-services)
+- [Team Publications](#team-publications)
+- [Table of Contents](#table-of-contents)
+- [Useful Links](#useful-links)
+- [Reusable Assets](#reusable-assets)
+- [License](#license)
 
 # Useful Links
 
