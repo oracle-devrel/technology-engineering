@@ -2,25 +2,29 @@
 
 Welcome to the SQL repository of the Data Development team at Oracle. This repository is designed to provide comprehensive resources, tips, and tools to help you master SQL and leverage the latest features of Oracle23ai. Below you'll find an index to all the sections available in this repository, along with a brief introduction to what you can expect in each section.
 
+Reviewed: 23.10.2024
+
+## Table of Contents
+- [What is SQL?](#what-is-sql);
+- [Team Publications](#team-publications);
+- [SQL Tools](#sql-tools); 
+- [SQL Tips](#sql-tips);
+- [SQL Oracle23ai](#sql-oracle23ai);
+- [SQL DO It Yourself](#sql-do-it-yourself)
+
 ## What is SQL?
 
 Structured Query Language (SQL) is the standard programming language used for managing and manipulating relational databases. SQL allows you to perform a variety of operations such as querying data, updating records, creating and modifying schema, and controlling access to the database. It is a crucial skill for data developers and analysts, enabling efficient data retrieval and manipulation to support data-driven decision-making.
 
-## Interesting Resources for Data Development in Oracle
+## Team Publications
 
 To support your development journey, here are some valuable resources related to SQL and Oracle:
 - [Oracle SQL Documentation](https://docs.oracle.com/en/database/oracle/oracle-database/)
 - [SQL Tutorial by W3Schools](https://www.w3schools.com/sql/)
 - [Oracle Live SQL](https://livesql.oracle.com/) 
 - [Oracle Learning Library](https://www.oracle.com/learning-library/)
-- [Oracle Database 23c: New Features](https://www.oracle.com/database/technologies/appdev/whats-new-in-23c.html)
+- [Oracle Database 23ai: Application Development](https://www.oracle.com/database/technologies/application-development.html)
 
-## Index
-
-1. [SQL Tools](#sql-tools)
-2. [SQL Tips](#sql-tips)
-3. [SQL Oracle23ai](#sql-oracle23ai)
-4. [SQL Do It Yourself](#sql-do-it-yourself)
 
 ## SQL Tools
 
