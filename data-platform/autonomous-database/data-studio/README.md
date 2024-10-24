@@ -27,7 +27,8 @@ Reviewed: 23.10.2024
     - Oracle Autonomous Database - Business Models.
 - [Data Transforms or Oracle Data Integrator](https://blogs.oracle.com/datawarehousing/post/selecting-the-best-data-integration-tool-data-transforms-or-oracle-data-integrator)
     - Selecting the best Data Integration tool – Data Transforms or Oracle Data Integrator.
-      
+- [What's New?](https://blogs.oracle.com/datawarehousing/post/announcing-new-oracle-autonomous-database-data-studio-ai-capabilities)
+    - New AI Capabilities with Oracle Autonomous Database Data Studio.
 
 # LiveLabs
  
