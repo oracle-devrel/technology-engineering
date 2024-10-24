@@ -50,6 +50,9 @@ Reviewed: 20.03.2024
 
  - [Enable SQL Trace on Autonomous Database](https://blogs.oracle.com/datawarehousing/post/enable-sql-trace-on-autonomous-database)
     - Step-by-step blog article explaining how to collect a sql trace from Autonomous Database.
+  
+ - [ADB-S Top 3 Announcements for Autonomous in Cloud World 2024](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-data-ai-activity-7242082377458429952-GXeQ?utm_source=share&utm_medium=member_desktop)
+    - ADB-S Top 3 Announcements for Autonomous.
    
 ## Tip of the Day
  
@@ -117,6 +120,15 @@ Reviewed: 20.03.2024
  
 - [Autonomous Database Serverless documentation](https://docs.oracle.com/en/cloud/paas/autonomous-database/shared/index.html)
     - Full documentation about Oracle Autonomous Database Serverless.
+      
+- [Whats new?](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/whats-new-adwc.html#ADBSN-GUID-F31A86F8-012B-4235-A0BE-4ABF75164853)
+    - What is new in Autonomous Database Serverless.
+
+- [In-Memory is Now Available on Oracle Autonomous](https://blogs.oracle.com/datawarehousing/post/database-inmemory-is-now-available-on-oracle-autonomous-database-serverless)
+    - In-Memory with Autonomous Database Serverless.
+      
+- [Select AI for Synthetic Data Generation](https://blogs.oracle.com/datawarehousing/post/announcing-select-ai-for-synthetic-data-generation-adb)
+    - Using Select AI for Synthetic Data Generation.
  
 ## LiveLabs
  
