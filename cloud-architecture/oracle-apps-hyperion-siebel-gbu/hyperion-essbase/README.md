@@ -6,7 +6,7 @@ These resources aim to offer guidance throughout your migration, enabling you to
 
 Explore these materials to enhance your migration strategy. We appreciate your participation and are committed to supporting your cloud migration journey.
 
-Reviewed: 9.9.2024
+Reviewed: 24.10.2024
  
 # Table of Contents
  
@@ -20,6 +20,7 @@ Reviewed: 9.9.2024
 
 - [Automate Recovery for Oracle Enterprise Performance Management using OCI Full Stack Disaster Recovery](https://docs.oracle.com/en/learn/fsdr-integration-epm/)
 - [Cyber recovery solution on Oracle Cloud Infrastructure](https://docs.oracle.com/en/solutions/oci-automated-cyber-recovery/index.html)
+- [Design an Oracle Hyperion EPM System with an OCI Full Stack Disaster Recovery topology](https://docs.oracle.com/en/solutions/epm-dr-arch-oci/index.html)
 
 # Useful Links
 
