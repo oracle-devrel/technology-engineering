@@ -89,7 +89,7 @@ Reviewed: 25.01.2024
 - [JSON Relational Duality blog announcement](https://blogs.oracle.com/post/json-relational-duality-app-dev )
     - Duality Views introduction.
 
-## LiveLabs
+# LiveLabs
  
 - [Developing with JSON and SODA in Oracle Database](https://apexapps.oracle.com/pls/apex/f?p=133:180:109524315536663::::wid:831)
     - In this workshop, you will create a simple webshop using JSON and SODA with the Autonomous JSON Database.
@@ -97,6 +97,8 @@ Reviewed: 25.01.2024
 - [Use the Oracle Database API for MongoDB](https://apexapps.oracle.com/pls/apex/f?p=133:180:109524315536663::::wid:3152)
     - This workshop shows how you can use MongoDB programs and applications to connect to Autonomous Database, using the Oracle Database API for MongoDB.
 
+- [JSON Relational Duality Views in 23ai Free using SQL](https://apexapps.oracle.com/pls/apex/f?p=133:180:107909232041551::::wid:3968)
+    - JSON Relational Duality is a landmark capability in Oracle Database 23ai providing game-changing flexibility and simplicity for Oracle Database developers.
     
 # License
  
