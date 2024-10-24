@@ -25,6 +25,9 @@ Reviewed: 20.03.2024
 
 - [Advanced customer deployment for Oracle Autonomous Dedicated Infrastructure](https://www.youtube.com/watch?v=RqlHM1i83_w )
     - Learn how to deploy advanced Autonomous Database Dedicated deployments.
+
+- [What's new?](https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/nfccyy/#articletitle)
+    - New Feature Announcements for Autonomous Database Dedicated.
  
 ## LiveLabs
  
