@@ -57,7 +57,7 @@ Reviewed: 23.10.2024
 - [Autonomous Data Warehouse blog](https://blogs.oracle.com/datawarehousing/)
     - Find the latest articles from Oracle about Data Warehousing.
  
-## LiveLabs
+# LiveLabs
  
 - [Access the Data Lake using Autonomous Database and Data Catalog](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=877&clear=RR,180&session=100131668414396)
     - The labs in this workshop walk you through all the steps that you need to access the Data Lake (Oracle Object Storage buckets) using Autonomous Database (ADB) and Data Catalog.
