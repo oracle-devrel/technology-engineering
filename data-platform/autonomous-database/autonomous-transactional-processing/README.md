@@ -2,7 +2,7 @@
  
 Oracle Autonomous Transaction Processing is a fully automated database service optimized to run transactional, analytical, and batch workloads concurrently. To accelerate performance, it’s preconfigured for row format, indexes, and data caching while providing scalability, availability, transparent security, and real-time operational analytics.
 
-Reviewed: 20.03.2024
+Reviewed: 24.10.2024
  
 # Table of Contents
  
@@ -19,7 +19,8 @@ Reviewed: 20.03.2024
 - [Automatic Indexing for Oracle Autonomous Database](https://apexapps.oracle.com/pls/apex/f?p=133:180:109524315536663::::wid:3328)
     - Creating indexes requires a deep knowledge of the data model, how client applications behave, and the characteristics of the data stored in the database. Now, Oracle’s Autonomous Database can manage indexes without the need for manual intervention.
 
-    
+ - [.NET development with Oracle Autonomous Database Quick Start](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3359&clear=RR,180&session=111609839150181)
+    - Lab on how to develop .NET Apps with Oracle Autonomous Database.
  
 # License
  
