@@ -1,17 +1,18 @@
 # Compute Hardware
 
-This page has information about Oracle Cloud Infrastructure (OCI) Compute hardware components such as Intel, AMD, ARM, Confidential Compute, Roving Edge Infrastructure, and Compute on HPC.
+This page has information about Oracle Cloud Infrastructure (OCI) Compute hardware components such as Intel, AMD, ARM, Dedicated Virtual Host, HPC, and Confidential Compute.
 
-<i>Review date: 14 October 2024</i>
+
+<i>Review date: 15 October 2024</i>
+
 
 # Useful Links
 
-- [Arm Based Compute](https://docs.oracle.com/en-us/iaas/Content/Compute/References/arm.htm)
+- [Arm Based Compute](https://docs.oracle.com/en-us/iaas/Content/Compute/References/arm.htm) and [ARM use cases](https://developer.oracle.com/arm)
 - [Confidential Computing](https://docs.oracle.com/en-us/iaas/Content/Compute/References/confidential_compute.htm) - data, and the application processing the data, are encrypted 
-- [Oracle Blog - Oracle Cloud Infrastructure Bare Metal Shapes and Specifications](https://blogs.oracle.com/cloud-infrastructure/post/oracle-cloud-infrastructure-bare-metal-shapes-and-specifications)
+- [Bare Metal Shapes and Specifications](https://blogs.oracle.com/cloud-infrastructure/post/oracle-cloud-infrastructure-bare-metal-shapes-and-specifications) - from OCI Blog
 - [Dedicated VM Hosts](https://docs.oracle.com/en-us/iaas/Content/Compute/Concepts/dedicatedvmhosts.htm) - let you run Oracle Cloud Infrastructure Compute virtual machine (VM) instances on a dedicated server
 - [Deploy high-performance computing (HPC) on Oracle Cloud Infrastructure](https://docs.oracle.com/en/solutions/deploy-hpc-on-oci/index.html#GUID-F216B94E-33C5-44A6-92F8-2DE1E5880242)
-- [Oracle Roving Edge Infrastructure FAQ](https://www.oracle.com/cloud/roving-edge-infrastructure/faq/) - is an infrastructure service designed to host workloads and use cases that operate at the edge, in a disconnected manner.
  
 # Team Publications
 

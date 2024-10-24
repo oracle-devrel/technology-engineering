@@ -42,6 +42,7 @@ Reviewed: 01.02.2024
 - [Bastion Session Script](shared-assets/bastion-session-script/README.md)
 - [OCI Security Health Check Standard](shared-assets/oci-security-health-check-standard/README.md)
 - [Data Safe Audit Database to OCI Logging](shared-assets/fn-datasafe-dbaudit-to-oci-logging/README.md)
+- [Importing your own key into OCI Vault](shared-assets/kms-import-keys/README.md)
 
       
 # Useful Links

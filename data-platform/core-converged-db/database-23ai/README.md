@@ -97,6 +97,7 @@ Reviewed: 21.08.2024
 - [23ai blogs on blogs.oracle.com/coretec](https://blogs.oracle.com/coretec/category/cased-concurrency-control-rt-23ai)
 
 ## Videos
+- [Generative AI integration with DBMS_CLOUD_AI](https://youtu.be/V2x3XtibrjM)
 - [Monitoring, Analyzing and Diagnosing SQL Statements](https://youtu.be/rbxNPetPH7c)
 - [JSON Relational Duality Views](https://youtu.be/YMftyjrEpnU)
 - [Lock-Free Reservation](https://youtu.be/h6YvDoBfeyg)
