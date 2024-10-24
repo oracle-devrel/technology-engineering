@@ -4,7 +4,7 @@ This repository contains E-Business Suite (EBS) reference architecture, useful l
 
 __Note:__ This is a living document. We will make changes and enhance this as and when needed.  
 
-Reviewed: 21.02.2024
+Reviewed: 25.10.2024
 
 # When to use this asset?
 
@@ -22,7 +22,7 @@ We hope that you will find the 'ebs-starterpack' to be a helpful guide for any E
 
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
