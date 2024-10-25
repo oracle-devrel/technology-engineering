@@ -2,7 +2,7 @@
 
 OCI Language is a cloud-based AI service for performing sophisticated text analysis at scale. Use this service to build intelligent applications by leveraging REST APIs and SDKs to process unstructured text for sentiment analysis, entity recognition, translation, and more.
 
-Reviewed: 17.10.2024
+Reviewed: 25.10.2024
 
 # Table of Contents
  
@@ -24,7 +24,8 @@ Reviewed: 17.10.2024
     - During this cloud coaching session, we demonstrate how to leverage AI to revolutionize meeting interactions. Experience real-time transcription, summary generation, a chat interface and more that enhances collaboration and productivity. 
 - [Cloud Coaching - Oracle Integration (OIC3) and AI Language Service](https://www.youtube.com/watch?v=9gDHVjwKDR8)
     - The aim of this video is to show practical examples when and how to use AI Language Service - Named Entity Recognition method. 
-
+- [Getting Started with Oracle Cloud Infrastructure AI Language Service](https://www.youtube.com/watch?v=-t6jje8SRXU)
+- [Enabling a WhatsApp Customer HelpMate using OCI Generative AI, AI Language & Integration](https://www.youtube.com/watch?v=ryo3wVB_69E)
 
 ## Architecture Center
 
