@@ -7,7 +7,7 @@ Oracle Cloud offers a set of core infrastructure capabilities like elastic compu
 This solution guide provides a starting point for the Partners/Managed Service Providers/Consultants to understand the key technical requirements and existing business challenges that need to be addressed as part of the migration.
 
 
-Review Data: 03.12.2023
+Review Data: 25.10.2024
   
 # Table of Contents
 
