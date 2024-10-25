@@ -13,7 +13,7 @@ This document serves as an integral asset for individuals and organizations seek
 Use this document as a starting point for your Siebel migration project.
 
 # Useful Links
-The validated Solution Guide for Hyperion EPM on OCI can be found [here](https://www.oracle.com/a/ocom/docs/cloud/siebel-crm-on-oci-validated-solution-guide.pdf).
+The validated Solution Guide for Siebel on OCI can be found [here](https://www.oracle.com/a/ocom/docs/cloud/siebel-crm-on-oci-validated-solution-guide.pdf).
 
 # License
 
