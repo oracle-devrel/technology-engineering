@@ -2,7 +2,7 @@
 
 This section includes a step-by-step manual to ensure you are using the best practices and all related OCI compute services so that you can improve your performance, security and costs.
 
-Reviewed: 21.11.2023
+Reviewed: 25.10.2024
  
 # When to use this asset?
  
