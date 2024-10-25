@@ -6,7 +6,6 @@ security threats and slow performance. Oracle Cloud Infrastructure (OCI) offers 
 This solution guide provides a starting point for the Partners/Managed Service Providers/Consultants to understand the key technical requirements and existing business challenges that need to be addressed as part of the migration.
 
 Review Date: 25.10.2024
-
  
 # Table of Contents
 
