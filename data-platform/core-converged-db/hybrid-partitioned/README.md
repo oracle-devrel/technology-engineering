@@ -2,23 +2,23 @@
 
 As the name implies the partitions of hybrid partitioned tables can exist in both – inside the Oracle database in tablespaces and outside in external sources, such as Linux files, files on Hadoop Distributed File System (HDFS), and files in Cloud Object Storage. Hybrid Partitioned Tables enhance the functionality of partitioning for mixed Big Data scenarios where large portions of a table can reside in external partitions.
 
-Review Date: 03.06.2024
+Review Date: 30.10.2024
 
 # Useful Links
 
 ## Documentation
 
 - [VLDB and Partitioning Guide 19c](https://docs.oracle.com/en/database/oracle/oracle-database/19/vldbg/partition-concepts.html#GUID-C2B04585-BCFC-40D6-AFAB-47DF99A31C76)
-- [VLDB and Partitioning Guide 23c](https://docs.oracle.com/en/database/oracle/oracle-database/23/vldbg/manage_hypt.html#GUID-ACBDB3B2-0A16-4CFD-8FF1-A57C9B3D907F)
+- [VLDB and Partitioning Guide 23](https://docs.oracle.com/en/database/oracle/oracle-database/23/vldbg/manage_hypt.html#GUID-ACBDB3B2-0A16-4CFD-8FF1-A57C9B3D907F)
 
 ## Blogs
 
 - [Oracle Autonomous Data Warehouse - Access Parquet Files in Object Stores](https://blogs.oracle.com/datawarehousing/post/oracle-autonomous-data-warehouse-access-parquet-files-in-object-stores)
+- [Hybrid Partitioned Table Enhancements in Oracle Database 23ai](https://oracle-base.com/articles/23/hybrid-partitioned-table-enhancements-23)
 
 ## LiveLabs Workshops
 
 - [Database 19c - Hybrid Partitioning](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=568)
-
 
 ## Learning Library - Oracle By Example
 
@@ -30,12 +30,17 @@ Review Date: 03.06.2024
 
 # Team Publications
 
+## Blogs
+
 - [Hybrid Partitioned Tables - an introduction with examples](https://blogs.oracle.com/coretec/post/hybrid-partitioned-tables-introduction)
 - [Hybrid Partitioned Tables and Lifecycle Management](https://blogs.oracle.com/coretec/post/hybrid-partitioned-tables-and-lifecycle-management)
 - [ORAWORLD magazine article page 26-31](https://www.oraworld.org/fileadmin/documents/27-ORAWORLD.pdf)
 - [Oracle Object Storage Access for all Oracle Databases with DBMS_CLOUD](https://blogs.oracle.com/coretec/post/oracle-object-storage-access-for-all-oracle-databases-with-dbmscloud)
 - [SQL examples with DBMS_CLOUD](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/core-converged-db/dbms_cloud)
 
+## Videos
+
+- [New Features in Hybrid Partitioning](https://youtu.be/xF2wKjI1ZGs)
 
 # License
 

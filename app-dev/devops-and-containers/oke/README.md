@@ -55,6 +55,7 @@ Reviewed: 20.12.2023
 # Reusable Assets Overview
  
 - [Cluster Api OCI](https://github.com/oracle-devrel/technology-engineering/tree/main/app-dev/oke/capoci)
+- [Cloud Native QuickStart](https://github.com/alcampag/oci-cn-quickstart)
  
 # License
  

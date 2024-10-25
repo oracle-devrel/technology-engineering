@@ -2,16 +2,19 @@
  
 Oracle Cloud Infrastructure (OCI) Document Understanding is an AI service that enables developers to extract text, tables, and other key data from document files through APIs and command-line interface tools. With OCI Document Understanding, you can automate tedious business processing tasks with prebuilt AI models and customize document extraction to fit your industry-specific needs.
 
-Reviewed: 30.01.2024
+Reviewed: 17.10.2024
 
 
 # Table of Contents
  
-  - [Team Publications](#team-publications)
-  - [LiveLabs and Workshops](#livelabs-and-workshops)
+- [Document Understanding](#document-understanding)
+- [Table of Contents](#table-of-contents)
+- [Team Publications](#team-publications)
   - [Reusable Assets Overview](#reusable-assets-overview)
-  - [Useful Links](#useful-links)
+- [Useful Links](#useful-links)
+  - [LiveLabs and Workshops](#livelabs-and-workshops)
   - [Customer Stories](#customer-stories)
+- [License](#license)
 
 # Team Publications
 
@@ -43,6 +46,8 @@ Reviewed: 30.01.2024
 - [Document Understanding (Insurance Document) Key Value extraction demo](https://youtu.be/QsFqaRxtV1s)
 - [Cloud Customer Connect - How to Train Your Oracle AI Cloud Service Model](https://community.oracle.com/customerconnect/events/604740-oci-how-to-train-your-oracle-ai-cloud-service-model)
     - In this session, we demonstrate how you can use OCI AI services, to create custom models using the data labeling, vision, and document understanding service.
+- [Cloud Coaching - Low Code Modular RAG-based Knowledge Search Engine using Oracle GenAI](https://www.youtube.com/watch?v=KkVomurY_0Q)
+    - In this coaching session, you’ll learn how to use low-code integration with Oracle Integration Cloud to integrate and orchestrate social media channels like WhatsApp, Business channels like a Web Application built in Oracle Visual Builder, productivity channels like OCI Object Storage, local large and small language models (LLMs), and vector databases to ingest live data into the RAG-based Knowledge Search Engine store. 
 
 # Useful Links
 

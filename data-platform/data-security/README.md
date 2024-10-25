@@ -7,6 +7,8 @@ Security of Data is at the core of our products.   As a team, we focus on Securi
 - The stand-alone products: Audit Vault and Database Firewall, Key Vault
 - The Enterprise Manager pack: Data Masking and Subsetting
 
+Reviewd: 03.09.24
+
 # Team Publications
 
 - [Deploy Oracle KeyVault](https://medium.com/@aurelia.nita/deploy-oracle-key-vault-dbfbc2a67876)
@@ -16,6 +18,9 @@ Security of Data is at the core of our products.   As a team, we focus on Securi
 - [Compliance Reporting with Oracle Data Safe Security Assessment](https://www.linkedin.com/pulse/compliance-reporting-oracle-data-safe-security-assessment-ilyas/)
 - [Data Redaction Demo](https://youtu.be/6FMgzi2eLNk)
 - [Data Redaction - Extend it to multiple columns and Analytics](https://www.youtube.com/watch?v=Q0K2caAtGIY)
+- [Leveraging Oracle Database Vault to Defend Against Insider Threats](https://www.youtube.com/watch?v=GgHXK0IpQKE)
+- [Ransomware Defense in Oracle Cloud: Ensuring Secure Data Protection](https://medium.com/@aurelia.nita/ransomware-defense-in-oracle-cloud-ensuring-secure-data-protection-f56386bfcda3)
+  
 
 # Useful Links 
 

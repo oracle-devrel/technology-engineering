@@ -160,6 +160,10 @@ variable "functionname" {
   default = "oci-datasafe-audit-to-logging"
 }
 
+variable "functionappshape" {
+  default = "GENERIC_ARM"
+}
+
 
 ###################################
 # Logging Variables
