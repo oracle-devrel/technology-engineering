@@ -8,7 +8,7 @@ The Field CISO Specialists team is responsible for building trusted relationship
 - Reduce risk, Incident response, Resiliency and Optimize costs
 - Adopt OCI to meet their compliance needs with securely built and operated workloads
 
-Reviewed: 02.02.2024
+Last updated: 28.10.2024
 
 # Table of Contents
  
