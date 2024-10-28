@@ -6,7 +6,7 @@ In Oracle Cloud Infrastructure the customer owns and manages patching of OS and 
 
 Best practices & other useful resources around how to patch Oracle Databases on premises or on Oracle Cloud Infrastructure can be found on this page.
  
-Reviewed: 03.11.2023
+Reviewed: 25.10.2024
 
 # Team Publications
 
