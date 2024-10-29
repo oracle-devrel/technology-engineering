@@ -87,7 +87,7 @@ def load_config(config_file_name):
         config = json.load(config_file)
         config_file.close()
     except Exception as ioError:
-        print("Load of configuration file: " + args.configfile + " failed")
+        print("Load of configuration file: " + config_file_name + " failed")
         exit(1)
     except Exception as ConfigError:
         print("JSON Parse of configuration file: " + config_file_name + " failed")

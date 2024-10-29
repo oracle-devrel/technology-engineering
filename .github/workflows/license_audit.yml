@@ -31,7 +31,7 @@ jobs:
         run: echo "${{ steps.analysis.outputs.unapproved_licenses }}"
       - name: Comment if analysis finds unapproved licenses
         if: steps.analysis.outputs.unapproved_licenses == 'true'
-        uses: mshick/add-pr-comment@v1
+        uses: oracle-devrel/add-pr-comment@v1
         with:
           message: |
             :no_entry: **License Inspection**

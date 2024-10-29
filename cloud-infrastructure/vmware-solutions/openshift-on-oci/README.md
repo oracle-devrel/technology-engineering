@@ -11,7 +11,9 @@ Red Hat OpenShift can be hosted on OCI as a self-run platform. Oracle provides t
 
 # Team Publications
 
+### OpenShift Day2 - Operations ###
 - [Using OCI Object storage for the OpenShift Internal Registry](enable-image-registry/README.md)
+- [Adding extra worker nodes to your Assisted installed cluster](assisted-cluster-add-host/README.md)
   
 
 # Reusable Assets Overview

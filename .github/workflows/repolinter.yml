@@ -34,7 +34,7 @@ jobs:
           echo "Errored: ${{ steps.analysis.outputs.errored }}"
       - name: Comment if analysis finds missing disclaimer
         if: steps.analysis.outputs.disclaimer_found == 'false'
-        uses: mshick/add-pr-comment@v1
+        uses: oracle-devrel/add-pr-comment@v1
         with:
           message: |
             :no_entry: **FAILURE: Missing Disclaimer**
@@ -47,7 +47,7 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Comment if analysis finds missing readme
         if: steps.analysis.outputs.readme_file_found == 'false'
-        uses: mshick/add-pr-comment@v1
+        uses: oracle-devrel/add-pr-comment@v1
         with:
           message: |
             :no_entry: **FAILURE: Missing README**
@@ -58,7 +58,7 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Comment if analysis finds missing license
         if: steps.analysis.outputs.license_file_found == 'false'
-        uses: mshick/add-pr-comment@v1
+        uses: oracle-devrel/add-pr-comment@v1
         with:
           message: |
             :no_entry: **FAILURE: Missing LICENSE**
@@ -69,7 +69,7 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Comment if analysis finds copyright notice missing
         if: steps.analysis.outputs.copyright_found == 'false'
-        uses: mshick/add-pr-comment@v1
+        uses: oracle-devrel/add-pr-comment@v1
         with:
           message: |
             :warning: **WARNING: Missing Copyright Notice(s)**
