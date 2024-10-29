@@ -36,20 +36,28 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 -->
 
-### Author
-<a href="https://github.com/mikarinneoracle">mikarinneoracle</a>
+# Building and Deploying to OKE with Azure DevOps
 
-## Building and Deploying to OKE with Azure DevOps
-
-There are two ways (at least) to build and deploy to OKE from Azure DevOps:
+There are two ways (at least) to build and deploy to Oracle Container Registry (OCIR) and Oracle Kubernetes Engine (OKE) from Azure DevOps:
 <ul>
     <li>Use OCI VM as Azure parallel job self-hosted build agent that will run as <code>instance-principal</code> and hence no OCI credentials are needed to be shared with Azure DevOps. Here <code>kubectl</code> and OCI native tooling like <code>oci cli</code> can be used in pipelines.</li>
     <br>
-    <li>Use Azure DevOps native <code>tasks</code> that can run as either Azure-hosted or as self-hosted Azure parallel jobs. Credentials will be stored to Azure DevOps.</li>
+    <li>Use Azure DevOps native <code>tasks</code> that can run as either Azure-hosted or as self-hosted Azure parallel jobs to deploy to OCIR and OKE. Credentials will be stored to Azure DevOps.</li>
 </ul>
 
 <p>
-For this example I've used the second option. I'm also using a self-hosted agent/runner on OCI but that's just because I can use the <code>always-free</code> VM instance for it as part of the default OCI subscription and I don't have any Azure-hosted agents available in my Azure subscription. Technically that does not matter since the agent is a vanilla Oracle Linux VM instance and does not contain any customizations whatsover to do the pipeline work (it could however, but it does not).
+For this example I've used the second option. I'm also using a self-hosted agent/runner on OCI but that's just because I can use the <code>always-free</code> VM instance for it as part of the default OCI subscription and I don't have any Azure-hosted agents available in my Azure subscription. Technically that does not matter since the agent is a vanilla Oracle Linux VM instance and does not contain any customizations whatsover to do the pipeline work (it could however, but it does not). 
+ 
+Reviewed: 29.10.2024
+ 
+# When to use this asset?
+ 
+Anyone who wants to do CI/CD from Azure DevOps to deploy and run containers on Oracle Kubernetes Engine (OKE) using Azure DevOps native tasks.
+
+# Author
+<a href="https://github.com/mikarinneoracle">mikarinneoracle</a>
+
+# How to use this asset?
 
 ## Copy the files to the Azure DevOps repo
 
@@ -60,7 +68,7 @@ To make this build and deploy to OKE to work is not a big task. First copy the f
 Before building the Docker image repo needs to be created under the desired <code>compartment</code>. This can be easily done using OCI Cloud UI. Name the repository as <b><i>Azure-test</i></b>, for example.
 
 <p>
-Then modify the <code>deployment.yaml</code> <a href="https://github.com/oracle-devrel/technology-engineering/tree/main/app-dev/devops-and-containers/devops/azure-devops-oke/deployment.yaml#L19">line 19</a> by replacing the &lt;TENANCY_NAMESPACE&gt; with yours and if you gave another name for the OCIR repo then modify also that here, too. Modify also the <code>region</code> if using some other OCI region than <b><i>fra.ocir.io</i></b>.
+Then modify the <code>deployment.yaml</code> <a href="https://github.com/oracle-devrel/technology-engineering/tree/main/app-dev/devops-and-containers/devops/azure-devops-oke/files/deployment.yaml#L19">line 19</a> by replacing the &lt;TENANCY_NAMESPACE&gt; with yours and if you gave another name for the OCIR repo then modify also that here, too. Modify also the <code>region</code> if using some other OCI region than <b><i>fra.ocir.io</i></b>.
 
 <p>
 To be able to do <code>Docker login</code> to the repo create <code>auth token</code> for your OCI user unless you already have one.
@@ -74,7 +82,7 @@ Once the OKE cluster is up and running with <code>kubectl</code> access setup th
     <a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengaddingserviceaccttoken.htm" target="_NEW">https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengaddingserviceaccttoken.htm</a>. 
     
 <p>
-Name the secret <b><i>oke-kubeconfig-azure-token</i></b> as in <code>azure-token.yaml</code> <a href="https://github.com/oracle-devrel/technology-engineering/tree/main/app-dev/devops-and-containers/devops/azure-devops-oke/azure-token.yaml#L4" target="_NEW">line 4</a>.
+Name the secret <b><i>oke-kubeconfig-azure-token</i></b> as in <code>azure-token.yaml</code> <a href="https://github.com/oracle-devrel/technology-engineering/blob/repo-review-fixed/app-dev/devops-and-containers/devops/azure-devops-oke/files/azure-token.yaml#L4" target="_NEW">line 4</a>.
 
 ## Setup Azure DevOps OCI connections for OKE and OCIR
 
@@ -93,7 +101,7 @@ To make the Azure DevOps pipeline to work with OCIR and OKE two <code>Service Co
     <ul>
         <li>Type: Kubernetes</li>
         <li>Authentication method: Service Account</li>
-        <li>Server URL: OKE cluster server address from your <i>~/.kube/config</i> e.g. <i>https://145.144.233.100:6443</i></li>
+        <li>Server URL: OKE cluster server address from your <i>~/.kube/config</i> e.g. <i>https://xxx.144.233.100:6443</i></li>
         <li>Authorization Secret: Get the secret JSON by doing <i>kubectl get secret oke-kubeconfig-azure-token -n kube-system -o json</i> and paste it here</li>
         <li>Service connection name: OKE</li>
         <li>Grant access permission to all pipelines: YES</li>
@@ -109,7 +117,7 @@ Edit the created pipeline and select <code>Variables</code> to create them as fo
 
 <ul>
     <li>CONTAINER_REGISTRY: OCIR</li>
-    <li>CONTAINER_REPOSITORY: Use the same name as in the <code>deployment.yaml</code> <a href="https://github.com/oracle-devrel/technology-engineering/tree/main/app-dev/devops-and-containers/devops/azure-devops-oke/deployment.yaml#L19">line 19</a> but <b><i>without</i></b> the <code>region</code> and the <code>tag</code> ("1" in the example YAML file) e.g. <b><i>&lt;TENANCY_NAMESPACE&gt;/azure-test</i></b></li>
+    <li>CONTAINER_REPOSITORY: Use the same name as in the <code>deployment.yaml</code> <a href="https://github.com/oracle-devrel/technology-engineering/tree/main/app-dev/devops-and-containers/devops/azure-devops-oke/files/deployment.yaml#L19">line 19</a> but <b><i>without</i></b> the <code>region</code> and the <code>tag</code> ("1" in the example YAML file) e.g. <b><i>&lt;TENANCY_NAMESPACE&gt;/azure-test</i></b></li>
     <li>containerImageFullNameForK8sDeploy: The same as above but with the OCI region e.g. <b><i>fra.ocir.io/&lt;TENANCY_NAMESPACE&gt;/azure-test</i></b></li>
     <li>K8S_CONNECTION_NAME: OKE</li>
     <li>K8S_NAMESPACE: default</li>
@@ -117,14 +125,14 @@ Edit the created pipeline and select <code>Variables</code> to create them as fo
 </ul>
 
 <p>
-<img src="pipeline-vars.png" width="800" />
+<img src="files/pipeline-vars.png" width="800" />
 
 ## Run the pipeline
 
 Pipeline runs automatically after commiting changes and when all of the above are properly set it should complete succesfully.
 
 <p>
-<img src="azure-devops-oke.png" width="800" />
+<img src="files/azure-devops-oke.png" width="800" />
 
 <p>
 Pipeline will create a Kubernetes <b><i>load balancer</i></b> service to provide a public access point to the pod in the OKE cluster:
@@ -133,7 +141,7 @@ Pipeline will create a Kubernetes <b><i>load balancer</i></b> service to provide
 <PRE>
 kubectl get svc
 NAME         TYPE           CLUSTER-IP     EXTERNAL-IP      PORT(S)             AGE
-httpd-lb     LoadBalancer   10.96.175.74   144.200.51.195   80:32452/TCP        4h1m
+httpd-lb     LoadBalancer   10.96.175.74   xxx.200.51.195   80:32452/TCP        4h1m
 </PRE>
 
 <p>
@@ -145,14 +153,14 @@ curl 144.200.51.195
 {
   "path": "/",
   "headers": {
-    "host": "144.200.51.195",
+    "host": "xxx.200.51.195",
     "user-agent": "curl/8.4.0",
     "accept": "*/*"
   },
   "method": "GET",
   "body": "",
   "fresh": false,
-  "hostname": "144.200.51.195",
+  "hostname": "xxx.200.51.195",
   "ip": "::ffff:10.0.10.220",
   "ips": [],
   "protocol": "http",
@@ -165,6 +173,13 @@ curl 144.200.51.195
   "connection": {}
 }%
 </PRE>
+
+# Useful Links
+ 
+- [Oracle Kubernetes Engine (OKE)](https://www.oracle.com/uk/cloud/cloud-native/kubernetes-engine/)
+    - Simplify operations of enterprise-grade Kubernetes at scale. Easily deploy and manage resource-intensive workloads such as AI with automatic scaling, patching, and upgrades.
+- [Oracle](https://www.oracle.com/)
+    - Oracle Website
 
 ### License
 
