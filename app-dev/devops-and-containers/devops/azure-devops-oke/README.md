@@ -82,7 +82,7 @@ Once the OKE cluster is up and running with <code>kubectl</code> access setup th
     <a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengaddingserviceaccttoken.htm" target="_NEW">https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengaddingserviceaccttoken.htm</a>. 
     
 <p>
-Name the secret <b><i>oke-kubeconfig-azure-token</i></b> as in <code>azure-token.yaml</code> <a href="https://github.com/oracle-devrel/technology-engineering/tree/main/app-dev/devops-and-containers/devops/azure-devops-oke/files/azure-token.yaml#L4" target="_NEW">line 4</a>.
+Name the secret <b><i>oke-kubeconfig-azure-token</i></b> as in <code>azure-token.yaml</code> <a href="https://github.com/oracle-devrel/technology-engineering/blob/repo-review-fixed/app-dev/devops-and-containers/devops/azure-devops-oke/files/azure-token.yaml#L4" target="_NEW">line 4</a>.
 
 ## Setup Azure DevOps OCI connections for OKE and OCIR
 
@@ -176,9 +176,9 @@ curl 144.200.51.195
 
 # Useful Links
  
-- Oracle Kubernetes Engine (OKE)
+- [Oracle Kubernetes Engine (OKE)](https://www.oracle.com/uk/cloud/cloud-native/kubernetes-engine/)
     - Simplify operations of enterprise-grade Kubernetes at scale. Easily deploy and manage resource-intensive workloads such as AI with automatic scaling, patching, and upgrades.
-- [Oracle](https://www.oracle.com/uk/cloud/cloud-native/kubernetes-engine/)
+- [Oracle](https://www.oracle.com/)
     - Oracle Website
 
 ### License
