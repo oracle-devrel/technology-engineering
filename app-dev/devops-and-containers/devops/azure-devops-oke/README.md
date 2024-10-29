@@ -36,20 +36,28 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 -->
 
-### Author
-<a href="https://github.com/mikarinneoracle">mikarinneoracle</a>
+# Building and Deploying to OKE with Azure DevOps
 
-## Building and Deploying to OKE with Azure DevOps
-
-There are two ways (at least) to build and deploy to OKE from Azure DevOps:
+There are two ways (at least) to build and deploy to Oracle Container Registry (OCIR) and Oracle Kubernetes Engine (OKE) from Azure DevOps:
 <ul>
     <li>Use OCI VM as Azure parallel job self-hosted build agent that will run as <code>instance-principal</code> and hence no OCI credentials are needed to be shared with Azure DevOps. Here <code>kubectl</code> and OCI native tooling like <code>oci cli</code> can be used in pipelines.</li>
     <br>
-    <li>Use Azure DevOps native <code>tasks</code> that can run as either Azure-hosted or as self-hosted Azure parallel jobs. Credentials will be stored to Azure DevOps.</li>
+    <li>Use Azure DevOps native <code>tasks</code> that can run as either Azure-hosted or as self-hosted Azure parallel jobs to deploy to OCIR and OKE. Credentials will be stored to Azure DevOps.</li>
 </ul>
 
 <p>
-For this example I've used the second option. I'm also using a self-hosted agent/runner on OCI but that's just because I can use the <code>always-free</code> VM instance for it as part of the default OCI subscription and I don't have any Azure-hosted agents available in my Azure subscription. Technically that does not matter since the agent is a vanilla Oracle Linux VM instance and does not contain any customizations whatsover to do the pipeline work (it could however, but it does not).
+For this example I've used the second option. I'm also using a self-hosted agent/runner on OCI but that's just because I can use the <code>always-free</code> VM instance for it as part of the default OCI subscription and I don't have any Azure-hosted agents available in my Azure subscription. Technically that does not matter since the agent is a vanilla Oracle Linux VM instance and does not contain any customizations whatsover to do the pipeline work (it could however, but it does not). 
+ 
+Reviewed: 29.10.2024
+ 
+# When to use this asset?
+ 
+Anyone who wants to do CI/CD from Azure DevOps to deploy and run containers on Oracle Kubernetes Engine (OKE).
+
+# Author
+<a href="https://github.com/mikarinneoracle">mikarinneoracle</a>
+
+# How to use this asset?
 
 ## Copy the files to the Azure DevOps repo
 
@@ -93,7 +101,7 @@ To make the Azure DevOps pipeline to work with OCIR and OKE two <code>Service Co
     <ul>
         <li>Type: Kubernetes</li>
         <li>Authentication method: Service Account</li>
-        <li>Server URL: OKE cluster server address from your <i>~/.kube/config</i> e.g. <i>https://145.144.233.100:6443</i></li>
+        <li>Server URL: OKE cluster server address from your <i>~/.kube/config</i> e.g. <i>https://xxx.144.233.100:6443</i></li>
         <li>Authorization Secret: Get the secret JSON by doing <i>kubectl get secret oke-kubeconfig-azure-token -n kube-system -o json</i> and paste it here</li>
         <li>Service connection name: OKE</li>
         <li>Grant access permission to all pipelines: YES</li>
@@ -133,7 +141,7 @@ Pipeline will create a Kubernetes <b><i>load balancer</i></b> service to provide
 <PRE>
 kubectl get svc
 NAME         TYPE           CLUSTER-IP     EXTERNAL-IP      PORT(S)             AGE
-httpd-lb     LoadBalancer   10.96.175.74   144.200.51.195   80:32452/TCP        4h1m
+httpd-lb     LoadBalancer   10.96.175.74   xxx.200.51.195   80:32452/TCP        4h1m
 </PRE>
 
 <p>
@@ -145,14 +153,14 @@ curl 144.200.51.195
 {
   "path": "/",
   "headers": {
-    "host": "144.200.51.195",
+    "host": "xxx.200.51.195",
     "user-agent": "curl/8.4.0",
     "accept": "*/*"
   },
   "method": "GET",
   "body": "",
   "fresh": false,
-  "hostname": "144.200.51.195",
+  "hostname": "xxx.200.51.195",
   "ip": "::ffff:10.0.10.220",
   "ips": [],
   "protocol": "http",
@@ -165,6 +173,13 @@ curl 144.200.51.195
   "connection": {}
 }%
 </PRE>
+
+# Useful Links
+ 
+- Oracle Kubernetes Engine (OKE)
+    - Simplify operations of enterprise-grade Kubernetes at scale. Easily deploy and manage resource-intensive workloads such as AI with automatic scaling, patching, and upgrades.
+- [Oracle](https://www.oracle.com/uk/cloud/cloud-native/kubernetes-engine/)
+    - Oracle Website
 
 ### License
 
