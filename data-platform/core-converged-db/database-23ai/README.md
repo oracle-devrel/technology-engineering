@@ -15,6 +15,7 @@ Reviewed: 21.08.2024
 - [Database 23ai: Feature Highlights on oracle.com](https://www.oracle.com/database/23ai/)
 - [Online documentation for Oracle Database 23ai](https://docs.oracle.com/en/database/oracle/oracle-database/23/index.html)
 - [Oracle Database 23ai New Features](https://docs.oracle.com/en/database/oracle/oracle-database/23/nfcoa/)
+- [New Features in 23ai Release Updates](https://docs.oracle.com/en/database/oracle/oracle-database/23/nfcoa/release_updates.html)
 - [Features and Licensing page](https://apex.oracle.com/database-features/)
 - [Oracle Interactive Technical Architecture Diagrams](https://docs.oracle.com/en/database/oracle/oracle-database/23/aliad/iad_home.html)
 - [Oracle Release Analyzer Diff Utility](https://oradiff.oracle.com/ords/r/oradiff/oradiff/home?session=226168768557352)
@@ -97,6 +98,7 @@ Reviewed: 21.08.2024
 - [23ai blogs on blogs.oracle.com/coretec](https://blogs.oracle.com/coretec/category/cased-concurrency-control-rt-23ai)
 
 ## Videos
+- [Lock-Free Row Updates in Oracle Database using ETAGs](https://youtu.be/zfurzMlY3iI)
 - [Generative AI integration with DBMS_CLOUD_AI](https://youtu.be/V2x3XtibrjM)
 - [Monitoring, Analyzing and Diagnosing SQL Statements](https://youtu.be/rbxNPetPH7c)
 - [JSON Relational Duality Views](https://youtu.be/YMftyjrEpnU)
