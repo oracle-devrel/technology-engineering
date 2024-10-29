@@ -53,8 +53,8 @@ Please see the <a href="https://medium.com/@mika.rinne/ci-cd-for-nodejs-on-oci-w
 
 # Useful Links (Optional)
  
-- [Oracle](https://www.oracle.com/devops/devops-service/)
-- Oracle Cloud Infrastructure (OCI) DevOps is a continuous integration and continuous delivery (CI/CD) service for development teams building on OCI.
+- [OCI DevOps](https://www.oracle.com/devops/devops-service/)
+    - Oracle Cloud Infrastructure (OCI) DevOps is a continuous integration and continuous delivery (CI/CD) service for development teams building on OCI.
 - [Oracle](https://www.oracle.com)
     - Oracle Website
  
