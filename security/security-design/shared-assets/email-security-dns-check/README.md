@@ -1,3 +1,9 @@
+
+
+Owner: Jacco Steur
+
+Last Review: 29/11/2024
+
 ## Purpose of the email security DNS check
 
 Oracle requires that certain records are added to a customers DNS to allow Oracle's email delivery service to send emails on the customers behalf. This prevents the customers emails from being flagged as spoofed. 
