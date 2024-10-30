@@ -2,7 +2,7 @@
  
 These slides can be used to run a detailed OCI networking workshop
  
-Reviewed: 19.02.2024
+Reviewed: 30.10.2024
 
 # When to use this asset?
  
