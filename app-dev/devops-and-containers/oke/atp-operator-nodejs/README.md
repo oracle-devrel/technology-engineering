@@ -52,6 +52,15 @@ The code example is for NodeJS but should be rather similar also for PHP and Jav
 
 Please see the <a href="https://medium.com/@mika.rinne/easy-oracle-autonomous-db-access-for-nodejs-with-kubernetes-operator-cf02ea7fc59a">blog on Medium</a>.
 
+# Useful Links
+ 
+- [Oracle Database Operator for Kubernetes](https://github.com/oracle/oracle-database-operator/blob/main/README.md)
+    - Make Oracle Database Kubernetes Native
+- [Node.js node-oracledb version 6.6](https://oracle.github.io/node-oracledb/)
+    - The node-oracledb driver for Node.js powers high performance Oracle Database applications written in JavaScript or TypeScript
+- [Oracle](https://www.oracle.com/)
+    - Oracle Website
+
 ### License
 
 Copyright (c) 2024 Oracle and/or its affiliates.
