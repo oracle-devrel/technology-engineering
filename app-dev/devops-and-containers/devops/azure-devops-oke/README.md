@@ -176,7 +176,7 @@ curl 144.200.51.195
 
 # Useful Links
  
-- [Oracle Kubernetes Engine (OKE)](https://www.oracle.com/uk/cloud/cloud-native/kubernetes-engine/)
+- [Oracle Kubernetes Engine (OKE)](https://www.oracle.com/cloud/cloud-native/kubernetes-engine/)
     - Simplify operations of enterprise-grade Kubernetes at scale. Easily deploy and manage resource-intensive workloads such as AI with automatic scaling, patching, and upgrades.
 - [Oracle](https://www.oracle.com/)
     - Oracle Website
