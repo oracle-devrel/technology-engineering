@@ -1,7 +1,7 @@
 # WAF Assets
 Oracle Cloud Infrastructure Web Application Firewall (WAF) is a regional-based and edge enforcement service that is attached to an enforcement point, such as a load balancer or a web application domain name. WAF protects applications from malicious and unwanted internet traffic. WAF can protect any internet-facing endpoint, providing consistent rule enforcement across a customer's applications. A Web Application Firewall (WAF) is primarily focused on the security of web applications and operates at layer 7 (HTTP). A WAF sits between users and web applications to detect and block malicious requests and exploits of security flaws (insecure code) in the web application. WAF helps stop specific layer 7 attacks against the web application, whether it’s an attempt to exploit vulnerable code-level vulnerabilities such as SQL injection and other OWASP Top 10 vulnerabilities
 
-Reviewed: 06.02.2024
+Reviewed: 30.10.2024
 
 # When to use this asset?
 
@@ -20,6 +20,8 @@ The information is generic and not specified for a particular customer. Appropri
 # Team Publications
 
 - [Securing your Applications against Cyber Attacks with WAF](#videos--podcasts)
+- [Secure Your Applications using OCI Network Firewall and OCI WAF Regional with Let's Encrypt Certificates](https://docs.oracle.com/en/learn/waf-local-app/#introduction)
+- [Add OCI Load Balancer and OCI WAF to a Hub with Hub and Spoke VCN Routing Architecture](https://docs.oracle.com/en/learn/oci-lb-waf/)
 
 ## Reference Architectures & Step-by-step Guides
     
