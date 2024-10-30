@@ -1,11 +1,11 @@
 # AWR dumps collection - Customer Guide
 
 ## Introduction
-Below the istructions to generate the AWR Dump, required to proceed with the DB Performance Health Check.
+Below the instructions to generate the AWR Dump, required to proceed with the DB Performance Health Check.
 
 Specifically for the Performance Health Check an AWR dump collected for at least a 24 hour period is needed.
 
-NOTE: The scripts asks for Begin/End Snap which should be midnight to the next midnight to cover the 24 hours
+NOTE: The scripts ask for Begin/End Snap which should be midnight to the next midnight to cover the 24 hour period.
 
 
 ## Generate AWR Dump
@@ -38,7 +38,7 @@ NOTE: The scripts asks for Begin/End Snap which should be midnight to the next m
         Enter value for num_days: [DAYS]
 
 
-- Define the snapshots range for AWR data to be extracted by specifying a beginning and ending Snapshot Id
+- Define the snapshot range for AWR data to be extracted by specifying a beginning and ending Snapshot Id
 
 
         -- For example, to select a snapshot with a snapshot Id of 20 as the beginning snapshot, and the snapshot with a snapshot Id of 30 as the ending snapshot, enter 20 for [x] and 30 for [y].
@@ -222,3 +222,5 @@ Copyright (c) 2024 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details. 
+
+Reviewed 30/10/2024
