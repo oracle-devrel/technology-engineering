@@ -34,7 +34,7 @@ jobs:
           echo "Errored: ${{ steps.analysis.outputs.errored }}"
       - name: Comment if analysis finds missing disclaimer
         if: steps.analysis.outputs.disclaimer_found == 'false'
-        uses: oracle-devrel/add-pr-comment@v1
+        uses: oracle-devrel/add-pr-comment
         with:
           message: |
             :no_entry: **FAILURE: Missing Disclaimer**
@@ -47,34 +47,34 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Comment if analysis finds missing readme
         if: steps.analysis.outputs.readme_file_found == 'false'
-        uses: oracle-devrel/add-pr-comment@v1
+        uses: oracle-devrel/add-pr-comment
         with:
           message: |
             :no_entry: **FAILURE: Missing README**
             The README file seems to be missing.  Please add it.
-            
+
             Details:
             ${{ steps.analysis.outputs.readme_file_details }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Comment if analysis finds missing license
         if: steps.analysis.outputs.license_file_found == 'false'
-        uses: oracle-devrel/add-pr-comment@v1
+        uses: oracle-devrel/add-pr-comment
         with:
           message: |
             :no_entry: **FAILURE: Missing LICENSE**
             The LICENSE file seems to be missing.  Please add it.
-            
+
             Details:
             ${{ steps.analysis.outputs.license_file_details }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Comment if analysis finds copyright notice missing
         if: steps.analysis.outputs.copyright_found == 'false'
-        uses: oracle-devrel/add-pr-comment@v1
+        uses: oracle-devrel/add-pr-comment
         with:
           message: |
             :warning: **WARNING: Missing Copyright Notice(s)**
             It's a good idea to have copyright notices at the top of each file.  It looks like at least one file was missing this (though it might be further down in the file - this might be a false-positive).
-            
+
             Details:
             ${{ steps.analysis.outputs.copyright_details }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}

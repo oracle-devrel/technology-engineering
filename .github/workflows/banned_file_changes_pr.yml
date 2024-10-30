@@ -3,7 +3,7 @@ on:
   # pull_request:
   #   branches: [ "**/*" ]
   pull_request_target:
-  
+
 jobs:
   check_for_banned_file_changes:
     name: Look for unsupported (banned) file modifications on PRs
@@ -31,7 +31,7 @@ jobs:
           echo 'Changes to files in .github are not allowed.'
       - name: Comment if .github changed
         if: contains(steps.files.outputs.all_files_changed, '.github')
-        uses: oracle-devrel/add-pr-comment@v1
+        uses: oracle-devrel/add-pr-comment
         with:
           message: |
             :no_entry: **Banned Files Modified**
@@ -43,7 +43,7 @@ jobs:
           echo 'Changes to license_policy.yml are not allowed.'
       - name: Comment if license_policy.yml changed
         if: contains(steps.files.outputs.all_files_changed, '"license_policy.yml"')
-        uses: oracle-devrel/add-pr-comment@v1
+        uses: oracle-devrel/add-pr-comment
         with:
           message: |
             :no_entry: **Banned Files Modified**
@@ -51,7 +51,7 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Look for changes to repolinter.json
         if: contains(steps.files.outputs.all_files_changed, '"repolinter.json"')
-        uses: oracle-devrel/add-pr-comment@v1
+        uses: oracle-devrel/add-pr-comment
         with:
           message: |
             :no_entry: **Banned Files Modified**
@@ -63,7 +63,7 @@ jobs:
           echo 'Changes to repolinter.json are not allowed.'
       - name: Look for changes to sonar-project.properties
         if: contains(steps.files.outputs.all_files_changed, '"sonar-project.properties"')
-        uses: oracle-devrel/add-pr-comment@v1
+        uses: oracle-devrel/add-pr-comment
         with:
           message: |
             :no_entry: **Banned Files Modified**
