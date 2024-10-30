@@ -2,7 +2,7 @@
  
 This page will describe the various upgrade methodologies for both on-premises databases as well as for databases residing in OCI.
 
-Reviewed: 04.04.2024
+Reviewed: 22.10.2024
  
 # Table of Contents
  
@@ -19,10 +19,12 @@ Reviewed: 04.04.2024
     - Step-by-step guide by Mihai Costeanu demonstrating how to convert an Oracle Database 19c from noncdb to cdb using OCI console
 - [Upgrade from Oracle Base DB 19c to Base DB 23ai using AutoUpgrade](https://www.youtube.com/watch?v=Eo8nVJ8eC1o)
     - Step-by-step guide by Mihai Costeanu demonstrating how to upgrade from Oracle Base DB 19c to Base DB 23ai using AutoUpgrade
+- [Upgrading your 19c Autonomous Database to 23ai using OCI console cloning function](https://wordpress.com/post/mihaicosteanu.wordpress.com/142)
+    - Step-by-step guide by Mihai Costeanu demonstrating how to upgrade your 19c Autonomous Database to 23ai using OCI console ADB cloning function
 
 # Useful Links
 - [Database Server Upgrade/Downgrade Compatibility Matrix on MOS (Doc ID 551141.1)](https://support.oracle.com/epmos/faces/DocumentDisplay?id=551141.1)
-- [LiveLabs: Hitchhiker's Guide for Upgrading to Oracle Database 19c & 23c](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=606&clear=RR,180)
+- [LiveLabs: Hitchhiker's Guide for Upgrading to Oracle Database 23ai](https://apexapps.oracle.com/pls/apex/f?p=133:180:1060521706151::::wid:3943)
 - [Mike Dietrich's Personal Platform](https://mikedietrichde.com/)
 - [Daniel Overby Hansen's Personal Platform](https://dohdatabase.com/)
 

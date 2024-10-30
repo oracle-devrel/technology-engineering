@@ -14,11 +14,8 @@ Reviewed: 08/07/2024
 ## Blogs
 
 - [OCI Observability and Management best practices and checklist](https://blogs.oracle.com/observability/post/oci-observability-checklist)
-  - When starting a new project in a new environment or moving a workload to a cloud provider, one of the first questions is: how to monitor it. With this document, we are sharing our best practices.
 - [Use Cloud Guard Insight Recipes to monitor Windows Instances against Interesting Windows Event IDs for Malware/General Investigation ](https://learnoci.cloud/use-cloud-guard-insight-recipes-to-monitor-windows-instances-against-interesting-windows-event-ids-7ef796174d37?source=friends_link&sk=682c057a61e7c2707df1895420649c2c)
-   - With the new Cloud Guard Log Insight Detector you are also able to extend your existing OCI Capabilities to Endpoint Monitoring: showcase some basic options using OCI Logging, OS Custom Logging with Windows Events and Linux Audit Events, and OCI Cloud Guard Log Insight Detector.
-- [Stream OCI logs to Splunk](https://learnoci.cloud/stream-oci-logs-to-splunk-v9-1-c71c93e470fe?sk=8a7c3f6201bfcd847a83d36247eddfa7)
-  - Step-by-step guide on the Splunk Plugin Installation and setup, and how to stream OCI logs to Splunk.
+- [Stream OCI logs to Splunk](https://blogs.oracle.com/cloud-infrastructure/post/stream-oci-logs-kafka-connect-splunk)
 - [Why and how to run Wazuh on OCI](https://learnoci.cloud/why-and-how-to-run-wazuh-on-oci-6b39174b5d2d?sk=2b9185ad216f0cedbf80b2e5a8705c96)
 - [Oracle Cloud Prometheus Exporter](https://karthicin.medium.com/oracle-cloud-prometheus-exporter-c78543473d7)
 - [How to integrate Service Now with Oracle cloud Alarms](https://karthicin.medium.com/servicenow-integration-with-oracle-cloud-d3d7a1c6f68a)
@@ -43,6 +40,7 @@ Reviewed: 08/07/2024
 - [How to monitor your OCI environment using Dynatrace](https://learnoci.cloud/how-to-monitor-your-oci-environment-using-dynatrace-8c23f376659b)
 - [OCI Management Dashboard Automation](https://karthicin.medium.com/oci-management-dashboard-automation-ea4f45cac24b)
 - [Create Dynamic Links for OCI Stack Monitoring Alarms and More](https://medium.com/@michtoeth/create-dynamic-links-for-oci-stack-monitoring-alarms-and-more-ca8e0e6fb7a5)
+- [Integrating OCI Logs into IBM QRadar SIEM](https://medium.com/@guna.sekar.sun/integrating-oci-logs-in-ibm-qradar-siem-9dcea5ed036a)
 
 ## Cloud Coaching Clinics (Videos)
 
@@ -53,6 +51,7 @@ Reviewed: 08/07/2024
 - [Leveraging Oracle Observability and Open-Source Tools](https://youtu.be/-ftEkoqfLfM)
 - [Overview of AI infra monitoring in OCI](https://youtu.be/oq2x1gouSp4?si=QnmslQXC03qPzDl4)
 - [OCI Observability for Kubernetes Monitoring](https://youtu.be/DLce-UReoKo?si=Vpw19z4rjlUb9fW2)
+- [Cloud Coaching - How to enable Oracle Observability on RAG solutions](https://www.youtube.com/watch?v=VQg3lADHwu8)
 
 # Useful Links
 

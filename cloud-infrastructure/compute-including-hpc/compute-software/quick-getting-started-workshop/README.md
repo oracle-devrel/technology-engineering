@@ -2,7 +2,7 @@
 
 This section includes a Hands-on Lab manual for the OCI Getting Started Workshop.
 
-Reviewed: 21.11.2023
+Reviewed: 25.10.2024
 
 # When to use this asset?
 

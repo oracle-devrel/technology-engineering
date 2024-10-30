@@ -36,10 +36,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 -->
 
-### Author
+# Easy Oracle Autonomous DB access for NodeJS with Kubernetes Operator
+
+Reviewed: 30.10.2024
+ 
+# When to use this asset?
+ 
+Anyone who wants to manage Oracle Autonomous Database with Kubernetes Operator.
+The code example is for NodeJS but should be rather similar also for PHP and Java, for example.
+
+# Author
 <a href="https://github.com/mikarinneoracle">mikarinneoracle</a>
 
-### Blog on Medium
+# How to use this asset?
 
 Please see the <a href="https://medium.com/@mika.rinne/easy-oracle-autonomous-db-access-for-nodejs-with-kubernetes-operator-cf02ea7fc59a">blog on Medium</a>.
 

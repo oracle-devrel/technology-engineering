@@ -15,6 +15,9 @@ OCI Database with PostgreSQL is designed for high availability by offering durab
 # Team Publications
 
 - [Migrate to OCI PostgreSQL Database with OCI GoldenGate](https://blogs.oracle.com/dataintegration/post/seamlessly-migrate-an-onpremise-postgresql-database-to-oci-database-with-postgresql-online-with-oci-goldengate)
+- [OCI PostgreSQL to OCI PostgreSQL cross-region replication with OCI GoldenGate — Part 1](https://medium.com/@devpiotrekk/oci-postgresql-to-oci-postgresql-cross-region-replication-with-oci-goldengate-introduction-e0492fc37b92)
+- [OCI PostgreSQL to OCI PostgreSQL cross-region replication with OCI GoldenGate — Part 2](https://medium.com/@devpiotrekk/oci-postgresql-to-oci-postgresql-cross-region-replication-with-oci-goldengate-oci-postgresql-d4fcffc47498)
+- [OCI PostgreSQL to OCI PostgreSQL cross-region replication with OCI GoldenGate — Part 3](https://medium.com/@devpiotrekk/oci-postgresql-to-oci-postgresql-cross-region-replication-with-oci-goldengate-oci-goldengate-4ccd5dea4d6c)
 
 # Useful Links
 

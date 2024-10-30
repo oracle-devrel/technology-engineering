@@ -5,15 +5,16 @@ Providing links to public useful documentation and articles/blogs written by Ora
 
 A SQL Clue Card is also provided.
 
-Reviewed: 3.5.2024
+Reviewed: 24.10.2024
 
 # Team Publications
-- [SQL Developer Extension for VS Code v24.1 is now available](https://www.thatjeffsmith.com/archive/2024/04/sql-developer-extension-for-vs-code-v24-1-is-now-available/)
 - Application Continuity - [Does your Database really know your application - Part 1](https://medium.com/@paulbrad71/application-continuity-on-adb-does-your-database-know-your-application-376e44d8a30) - Published on [Medium](http://www.medium.com) on 13th March 2023;
 
 - Application Continuity - [Does your Database really know your application - Part 2](https://medium.com/@paulbrad71/does-your-database-really-know-your-application-second-part-48321b0ab81) - Published on [Medium](http://www.medium.com) on 6th April 2023;
 
 - Application Continuity - [Does your Database really know your application - Part 3](https://medium.com/@paulbrad71/application-continuity-on-adb-does-your-database-know-your-application-376e44d8a30) - Published on [Medium](http://www.medium.com) on 31st May 2023.
+
+- [SQL on Autonomous Database - a Rockin' Experience](https://www.youtube.com/watch?v=jcrPvP4SKLQ) - Published on [YouTube](http://www.youtube.com) on 23th November 2023.
 
 # Useful Links
 
@@ -26,8 +27,10 @@ Reviewed: 3.5.2024
 - [SQL Tools Training](https://education.oracle.com/database/oracle-database/pFamily_32)
 - [Autonomous Database Actions](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/connect-database-actions.html#GUID-102845D9-6855-4944-8937-5C688939610F)
 - [Live SQL](https://livesql.oracle.com/apex/f?p=590:1000)
+- [SQL Developer Extension for VS Code v24.2 is now available](https://www.thatjeffsmith.com/archive/2024/07/sql-developer-extension-for-vs-code-24-2-is-now-available/)
 
-## Dev Gyms 
+
+# Dev Gyms 
 - [The amazing Dev Gym](https://devgym.oracle.com/pls/apex/f?p=10001:20011::::20011::) 
     - Join the Oracle Product Management Dev Gym (FREE!) and build your Oracle technology muscles by taking workouts, quizzes, and even entire classes on SQL, PL/SQL, database design, logic and more.
 - [Dev Gym Workout Class - Getting Started on Oracle Cloud](https://devgym.oracle.com/pls/apex/f?p=10001:29:4444375111375:::29:P29_CLASS_ID:20342&cs=1qfK8bInptu93se5QM5iMzsT-iih_gFsY78j308d3ZUzrCzX2c0-kgiimo59pm0c_NblFShALC1oOB8MosiaSYQ)
@@ -47,9 +50,10 @@ Reviewed: 3.5.2024
 ## SQL Best Practices
 Periodical sharing of Standard Query Language Best Practices links and blog, video publications from Advocate SQL and PL/SQL Developers and PMs
 
+- The power of SQL JOIN: [The JOIN syntax in SQL that no-one knows about](https://www.youtube.com/watch?v=nb52Gx4i364) (From Connor McDonald)
 - Analytic Functions: [how to get SQL cumulative running total on each row](https://blogs.oracle.com/sql/post/cumulative-running-total-of-previous-rows-with-sql) (from Chris Saxon);
 - V$ views: [Top 10 V$ Views For DBA and Developers](https://youtu.be/oI1F4vFwM9Q?si=i1UslciVja50792t) (From Connor McDonald);
-- The Secret to a Successful Data Loading: [VALIDATE_CONVERSION and CONVERSION ERROR](https://www.youtube.com/watch?v=gjjPAQ6znlw) (From Connor McDonald)
+
 
 ## PMs Personal Websites
 
