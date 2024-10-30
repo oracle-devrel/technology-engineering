@@ -56,7 +56,7 @@ In the OCI cloud UI create OCI Queue and copy the Queue <i>OCID</i> and <i>Messa
 
 <p>
 When using another <code>region</code> than <code>EU_FRANKFURT_1</code> please modify the 
-<a href="index.js#L48">
+<a href="files/index.js#L48">
 <code>index.js</code></a> Line #48 accordingly:
 
 <pre>
