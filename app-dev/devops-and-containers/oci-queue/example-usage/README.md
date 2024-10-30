@@ -101,7 +101,7 @@ This example will poll for messages in the queue and finally writes a new messag
 
 ## Running locally
 
-Clone this repo, setup npm and <code>oci cli</code> and modify <a href="index.js#L46">index.js</a> line 46 by uncommenting it and removing/commenting lines 49-56 and replace lines 59-60
+Clone this repo, setup npm and <code>oci cli</code> and modify <a href="files/index.js#L46">index.js</a> line 46 by uncommenting it and removing/commenting lines 49-56 and replace lines 59-60
 with Queue details :
 
 <pre>
@@ -128,7 +128,7 @@ You can manually send messages to the queue using the OCI Queue Console
 <p>
 You can also play with the queue's <code>Dead Letter Queue</code> settings to see how many
 times the same message is being received (default is 5). To do this comment the 
-<a href="index.js#L99">line 99 of the index.js</a> and re-run the build by committing the change. 
+<a href="files/index.js#L99">line 99 of the index.js</a> and re-run the build by committing the change. 
 
 # Useful Links
  
