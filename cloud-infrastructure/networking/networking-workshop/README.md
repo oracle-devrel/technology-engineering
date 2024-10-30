@@ -2,7 +2,7 @@
 
 We have 2 slides - longer and shorter formats
 
-Reviewed: 06.02.2024
+Reviewed: 30.10.2024
 
 # When to use this asset?
 
