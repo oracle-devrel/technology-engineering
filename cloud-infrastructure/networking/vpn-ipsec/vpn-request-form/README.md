@@ -2,7 +2,7 @@
  
 The VPN request form Asset is a crucial for customer to be filled. That will help to setup OCI IPSEC part and agree on encryption algorithms, secrets, hashing, etc.
 
-Reviewed: 19.02.2024
+Reviewed: 30.10.2024
 
 # When to use this asset?
 
