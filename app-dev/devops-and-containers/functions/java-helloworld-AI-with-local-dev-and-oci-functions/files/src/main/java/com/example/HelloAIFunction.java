@@ -90,7 +90,7 @@ public class HelloAIFunction {
                     .build();
 
             ChatDetails chatDetails = ChatDetails.builder()
-                    .servingMode(OnDemandServingMode.builder().modelId("ocid1.generativeaimodel.oc1.eu-frankfurt-1.amaaaaaask7dceyazi3cpmptwa52f7dgwyskloughcxtjgrqre3pngwtig4q").build())
+                    .servingMode(OnDemandServingMode.builder().modelId("ocid1.generativeaimodel.oc1.eu-frankfurt-1.amaaaaaa....wtig4q").build()) // Replace this with the actual OCID of the GenAI service
                     .compartmentId(COMPARTMENT_ID)
                     .chatRequest(chatRequest)
                     .build();
