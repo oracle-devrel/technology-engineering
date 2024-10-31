@@ -55,12 +55,16 @@ This example is based on the <a href="../java-helloworld-with-local-dev-and-oci-
 
 To do the OCI SDK authentication and authorization to use the GenAI services the function uses two options:
 <ul>
-<li>IAM regular <b>user auth</b> for the local dev and test on mac</li>
-<li><b>InstancePrincipal</b> auth for the OCI Function by passing config key <code>AUTH_INSTANCE_PRINCIPAL</code> with any value (then not being null)</li>
+<li><b>IAM regular user</b> for the local dev and test on mac</li>
+<li><b>InstancePrincipal</b> for the OCI Function by passing config key <code>AUTH_INSTANCE_PRINCIPAL</code> with any value (then not being null)</li>
 </ul>
 
 <p>
 IAM user option will work on both cases above, as local and as OCI Function.
+
+## Build and test
+
+During following the steps of the <a href="../java-helloworld-with-local-dev-and-oci-functions">Hello function example </a> adjust the <a href="https://github.com/oracle-devrel/technology-engineering/blob/main/app-dev/devops-and-containers/functions/java-helloworld-AI-with-local-dev-and-oci-functions/files/src/main/java/com/example/HelloAIFunction.java#L93">line 93</a> to match your <code>GenAI service OCID</code>. 
 
 <p>
 
