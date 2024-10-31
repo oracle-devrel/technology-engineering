@@ -61,7 +61,6 @@ Anyone who wants to implement content distribution in Object Storage buckets acr
 <h3>Function example log when triggered by the Object Storage file upload (create/update) CloudEvent</h3>
 <img src="files/log.png" width="800">
 
-
 # Useful Links
  
 - [OCI Functions](https://docs.oracle.com/en-us/iaas/Content/Functions/Concepts/functionsoverview.htm)

@@ -36,17 +36,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 -->
 
-## Functions overview
-[Document functions-overview](files/Fn.pdf)
-
-### Author
-<a href="https://github.com/mikarinneoracle">mikarinneoracle</a>
-
 # A Java AI featured function with local dev and then building and deploying to OCI Functions
 
-This is an example how I'm locally developing and testing OCI Functions on my mac with Apple silicon that uses mainly ARM architecture and then building and deploying the same to Functions in OCI.
+Reviewed: 31.10.2024
+ 
+# When to use this asset?
+ 
+Anyone who wants to develop OCI GenAI capable Functions and this example shows how I'm doing this locally using Fn (<a href="https://fnproject.io">https://fnproject.io</a>) on my mac with Apple silicon that uses mainly ARM architecture and then building and then deploying the same to Functions in OCI.
 
-<p>
+# Author
+<a href="https://github.com/mikarinneoracle">mikarinneoracle</a>
+
+# How to use this asset?
 
 This example is based on the <a href="../java-helloworld-with-local-dev-and-oci-functions">java-helloworld-with-local-dev-and-oci-functions</a> and hence building and deploying is exactly the same but this time uses <code>OCI SDK</code> and <code>OCI Generative AI services</code> to produce the function output instead of just a simple "Hello World".
 
@@ -83,6 +84,19 @@ June 13, 2024 is June 13, 1924. Here are some events that occurred on this date:
 
 5. The German aerospace company Zeppelin began constructing the Hindenburg, a large passenger airship.
 </pre>
+
+# Useful Links
+ 
+- [OCI Functions](https://docs.oracle.com/en-us/iaas/Content/Functions/Concepts/functionsoverview.htm)
+    - Learn how the Functions service lets you create, run, and scale business logic without managing any infrastructure
+- [OCI SDK for Java](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/javasdk.htm)
+    - The Oracle Cloud Infrastructure SDK for Java enables you to write code to manage Oracle Cloud Infrastructure resources
+- [Fn](https://fnproject.io/)
+    - The Fn project is an open-source container-native serverless platform that you can run anywhere -- any cloud or on-premise. It’s easy to use, supports every programming language, and is extensible and performant
+- [OCI GenAI](https://www.oracle.com/artificial-intelligence/generative-ai/generative-ai-service/)
+    - Discover the power of generative AI models equipped with advanced language comprehension for building the next generation of enterprise applications. Oracle Cloud Infrastructure (OCI) Generative AI is a fully managed service for seamlessly integrating these versatile language models into a wide range of use cases, including writing assistance, summarization, analysis, and chat
+- [Oracle](https://www.oracle.com/)
+    - Oracle Website
 
 ## License
 
