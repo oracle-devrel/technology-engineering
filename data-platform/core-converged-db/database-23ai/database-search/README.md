@@ -8,6 +8,8 @@ In 23 Ubiquitous Database Search helps in cases where you need to search in diff
 
 For example, it is not necessary to define complex USER_DATASTORE procedures. In addition, the synchronization of the index will be maintained automatically.
 
+Reviewed: 30.10.2024
+
 # When to use this asset?
 
 To learn about the database search features.
@@ -31,6 +33,7 @@ Run the scripts in your preferred SQL environment or IDE.
 - [Indexing Text in Object Storage](https://blogs.oracle.com/datawarehousing/post/indexing-text-object-storage)
 - [Using JSON documents and don’t know what you’re looking for? 23c Search Indexes to the rescue](https://blogs.oracle.com/database/post/23c-search-index)
 - [New full-text search in 23ai: Ubiquitous Database Search](https://blogs.oracle.com/coretec/post/ubiquitous-database-search-in-23c)
+- [Learn about Oracle Text](https://blogs.oracle.com/database/post/learn-about-oracle-text)
 
 ## LiveLabs Workshops
 
@@ -50,10 +53,12 @@ Run the scripts in your preferred SQL environment or IDE.
 
 - [New full-text search in 23ai: Ubiquitous Database Search](https://blogs.oracle.com/coretec/post/ubiquitous-database-search-in-23c)
 - [Easy Database Search with APEX in 23](https://blogs.oracle.com/coretec/post/easy-database-search-with-apex-in-23c)
+- [Text Index with Automatic Maintenance](https://blogs.oracle.com/coretec/post/text-index-with-automatic-maintenance)
 
 ## Videos
 
 - [Search in TEXT, XML, and JSON data](https://youtu.be/zmR9zq1zMJQ)
+- [Oracle Database 23ai Playlist](https://www.youtube.com/playlist?list=PLHA__TOeNI7MNBND0JWQUqTYOQ1up-VHX)
 
   
 # License

@@ -4,7 +4,7 @@ Oracle Cloud Infrastructure (OCI) offers a suite of migration, provisioning, and
 
 We believe that these assets will help our Partners/Managed Service Providers/Consulting Services to expedite the migration process to OCI.
 
-Review Date: 03.12.2023
+Review Date: 25.10.2024
 
 # License
 

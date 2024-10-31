@@ -2,6 +2,8 @@
 
 Owner: Leon van Birgelen
 
+Reviewed: 29.10.2024
+
 Key Management Service is an OCI service that stores and manages keys for secure access to resources.
 
 The Oracle Cloud Infrastructure (OCI) [Key Management Service](https://oracle.com/security/cloud-security/key-management/) (KMS) is a cloud-based service that provides centralized management and control of encryption keys for data stored in OCI.

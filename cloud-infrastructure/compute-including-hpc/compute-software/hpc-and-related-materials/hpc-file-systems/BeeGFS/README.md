@@ -2,7 +2,7 @@
 
 This section includes a step-by-step manual to install and deploy a BeeGFS file system on OCI VMs without RDMA support.
 
-Reviewed: 16.02.2024
+Reviewed: 25.10.2024
  
 # When to use this asset?
  
