@@ -6,7 +6,7 @@ The Data Pump export utility writes the schema objects, including the tables and
 
 A set of best practices and other useful assets/links can be found in this page.
 
-Reviewed: 03.11.2023
+Reviewed: 31.10.2024
  
 # Table of Contents
  
@@ -45,7 +45,8 @@ Reviewed: 03.11.2023
     - The ultimate resource for mastering every option in detail and to unlock the full potential of the Python script, available on Marcus Doeringer's public platform
 
 # Useful Links
-- [Data Pump in Database 21c LiveLabs Workshop](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=742&clear=RR,180&session=1384894897131)
+- [Loading Data from Google Cloud Storage to Oracle Database](https://database-heartbeat.com/2024/10/01/google-storage-to-oracle-database/)
+- [Data Pump Features LiveLabs Workshop](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=742&clear=RR,180&session=1384894897131)
 - [Data Pump Best Practices Whitepaper](https://www.oracle.com/a/ocom/docs/oracle-data-pump-best-practices.pdf)
 - [Data Pump Basics - YouTube Video](https://www.youtube.com/watch?v=5uLDxPDErsw)
 - [Data Pump Best Practices & Real World Scenarios - YouTube Video](https://www.youtube.com/watch?v=960ToLE-ZE8)
