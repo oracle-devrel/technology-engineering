@@ -1,0 +1,29 @@
+version: 0.1             
+component: build
+timeoutInSeconds: 180
+shell: bash
+failImmediatelyOnError: true
+env:
+  exportedVariables:
+    - buildId
+steps:
+  - type: Command
+    name: "create build-id for the artifact"
+    command: |
+      buildId=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-6 | rev`
+      echo "Build ID: $buildId"
+  - type: Command
+    name: "build and run NodeJS app, create zip artifact if runs ok"
+    command: |
+      cd source
+      npm install
+      npm start &
+      sleep 2
+      res=$(curl -s localhost:5000)
+      echo ">>>> $res"
+      cd ..      
+      zip -q -r nodejs.zip source
+outputArtifacts:
+  - name: nodejs
+    type: BINARY
+    location: ./nodejs.zip

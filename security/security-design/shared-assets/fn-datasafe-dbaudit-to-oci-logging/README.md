@@ -11,7 +11,7 @@ Oracle Functions is a serverless, highly scalable, fully managed Functions-as-a-
 This Reference Architecture describes OCI Logging solution for collecting Oracle Datasafe Oracle DB Audit Logs for continuous monitoring and troubleshooting. An OCI Function pulls audit logs from Data Safe REST API Endpoints regularly and ingests them in OCI Logging. 
 From OCI Logging Data Safe DB Audit Logs, can be sent to OCI Logging Analytics, external SIEM, and OCI Object Storage. See [Design Guidance for SIEM Integration](https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/siem-integration.htm)
 
-Reviewed: 01.02.2024
+Reviewed: 20.02.2024
 
 # Prerequisites
 
@@ -53,7 +53,7 @@ If you don't have the required permissions and quota, contact your tenancy admin
 Now, you'll want a local copy of this repo. You can make that with the commands:
 
     git clone https://github.com/oracle-devrel/technology-engineering.git
-    cd security/security-design/fn-datasafe-dbaudit-to-oci-logging
+    cd security/security-design/shared-assets/fn-datasafe-dbaudit-to-oci-logging
     ls
 
 ## Prerequisites
@@ -141,7 +141,7 @@ If there is an error in destroying the object storage bucket, manually delete th
 We tested the terraform script in [Oracle Linux Cloud Developer Image](https://docs.oracle.com/en-us/iaas/oracle-linux/developer/index.htm) and Oracle Resource Manager. 
 
 ## Architecture Diagram
-![](./images/DatasafetoOCILoggingArchitecture.jpg)
+![](./files/images/DatasafetoOCILoggingArchitecture.jpg)
 
 # License
 

@@ -1,0 +1,41 @@
+#
+# Copyright (c) 2022, Oracle and/or its affiliates. 
+# Licensed under the Universal Permissive License v 1.0 as shown at http://oss.oracle.com/licenses/upl.
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: atp-nodejs
+  labels:
+    app: atp-nodejs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: atp-nodejs
+  template:
+    metadata:
+      labels:
+        app: atp-nodejs
+    spec:
+      containers:
+      - name: atp-nodejs
+        image: fra.ocir.io/<YOUR TENANCY NAMESPACE>/atp-nodejs:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+            - name: secret-volume
+              mountPath: /instantclient_23_3/network/admin
+        env:
+          - name: ATP_PWD
+            valueFrom:
+              secretKeyRef:
+                name: admin-password
+                key: admin-password
+      imagePullSecrets:
+        - name: ocirsecret
+      volumes:
+        - name: secret-volume
+          secret:
+            secretName: instance-wallet

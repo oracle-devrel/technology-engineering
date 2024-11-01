@@ -1,4 +1,4 @@
-# ODA Workshop
+# Conversational Design Experience (CDX) Workshop
  
 Organizations are looking for ways to improve the customer
 experience and employee experience. With the rise of
@@ -21,7 +21,7 @@ Conversational AI specialist this workshop is a proven
 methodology and many customers have used it as a major
 stepping stone in a successful Conversational AI strategy.
 
-Reviewed: 30.01.2024
+Reviewed: 31.10.2024
  
 # When to use this asset?
  

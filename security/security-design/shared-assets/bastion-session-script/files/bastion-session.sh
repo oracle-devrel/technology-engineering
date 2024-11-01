@@ -11,7 +11,7 @@
 ###############################################################################
 
 # Set default values.
-version="1.0.2"
+version="1.0.3"
 oci_profile="DEFAULT"
 session_name="Bastion-Session"
 session_check_counter=15  # times 10 seconds for maximum time while checking session creation status.
@@ -153,7 +153,7 @@ oci_create_bastion_session() {
    cmd="oci bastion session get --session-id ${session_id} ${oci_options}"
    until [ $session_check_counter == 0 ]
    do
-      sleep 10
+      sleep 5
       if ! run_oci_cmd; then
          echo "*** Problem retrieving OCI Bastion session status: ${session_id}"
          exit 1
@@ -165,6 +165,7 @@ oci_create_bastion_session() {
       else
          session_check_counter=0
       fi
+      sleep 5
    done
    if [ "${session_status}" != "ACTIVE" ]; then
       echo "*** Problem creating OCI Bastion session. Failed on status: ${session_status}"

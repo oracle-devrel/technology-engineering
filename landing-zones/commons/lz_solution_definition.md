@@ -4,9 +4,8 @@
 
 [1. Introduction](#1-introduction) </br>
 [2. Design Considerations](#1-design-considerations--decisions)</br>
-[3. Landing Zone Approach](#3-landing-zone-zone-approach) </br>
-[4. Standard Landing Zones](#4-standard-landing-zones) </br>
-[5. Tailored Landing Zones](#5-tailored-landing-zones)
+[3. How to Start](#3-landing-zone-zone-approach) </br>
+
 
 &nbsp; 
 
@@ -66,56 +65,28 @@ The following table presents the recommended operational topics to review in the
 &nbsp; 
 
 
-## **3. Landing Zone Zone Approach**
-
-There are two types of landing zone approaches to consider:
+## **3. How to Start**
 
 
-| APPROACH  |  DESCRIPTION | 
-|---|---|
-| [**Standard Landing Zones**](/landing-zones/standard_landing_zones/standard_landing_zones.md) | **Prescribed** and **ready to use** solutions with a **guided setup** and  **IaC**. This is the recommended approach for initial landing zone deployments covering the most common workload scenarios.  | 
-| [**Tailored Landing Zones**](/landing-zones/tailored_landing_zones/tailored_landing_zones.md) | An approach to solve **specific requirements** when the standard is not enough. These LZs run with **configuration-as-code** and are used to scale/bridge with existing **operating models**, complying with fine-grained **segregations of duties**, strong **network isolation**, and heterogeneous **workloads**.  | 
-
-&nbsp; 
-
-The **guidance** we recommend to follow is very simple:
-
-- If you're **starting** with OCI landing zones use a **standard landing zone** as they're full of best practices. If it needs adjustments or **extensions** on top of the prescribed design, customize it by code or manually. This approach is described in [next section](#4-standard-landing-zones).
-- If your [**requirements** are very **specific/detailed**](/landing-zones/tailored_landing_zones/tailored_landing_zones.md#1-what-are-tailored-landing-zones), or they imply structural changes to a standard landing zone, and/or you need a highly scalable operating model, **use the tailored approach** described in   [section 5](#5-tailored-landing-zones). 
-
-&nbsp; 
+Find in the table below a summary of the two approaches for OCI Landing Zones.
 
 
-## **4. Standard Landing Zones**
 
-
-| TOPIC  |  DESCRIPTION | 
-|---|---|
-| **APPROACH** | [Standard Landing Zones](/landing-zones/standard_landing_zones/standard_landing_zones.md) |
-| **SOLUTION** | [CIS Landing Zone](/landing-zones/standard_landing_zones/cis_lz_v2/cis_landing_zone_v2.md). CIS 1.2 [certified](https://www.cisecurity.org/partner/oracle) since september 2023. |
-| **SECURITY SCOPE** | Covers all topics in [section 2.1](#21-security).
-| **NETWORK SCOPE** | Covers all topics in [section 2.2](#22-network) exept ND.04 DNS.
-| **OPERATIONS SCOPE** | Covers OD.02 Tooling in [section 2.3](#23-operations). Note that standards landing zones normally have very simple and centralized operating models, and might not require the remaining elements. 
-| **RUNTIME** | Use the solution link for complete guidance on the **configuration** and **deployment** of this solution.
-| **EXTENSIONS** | **- Design**: For guidande on **extending** this **solution design** with OCI resources on top of the standard model review the [section 4](/landing-zones/standard_landing_zones/cis_lz_v2/cis_landing_zone_v2.md#4-extend-the-solution) of the CIS LZ solution. </br>**- Deployment/Run with IaC**: An alternative to add-ons on the solution v2 code base is using of the [CIS Landing Zone Enhanced Modules](https://www.ateam-oracle.com/post/cis-landing-zone-enhanced-modules), to **configure** the resources templates with *json/hcl* terraform native interfaces. | 
-
-&nbsp; 
-
-## **5. Tailored Landing Zones**
-
-
-| TOPIC  |  DESCRIPTION | 
-|---|---|
-| **APPROACH** | [Tailored Landing Zones](/landing-zones/tailored_landing_zones/tailored_landing_zones.md)  |
-| **SOLUTION** | Use the [OCI Open LZ Blueprint](https://github.com/oracle-quickstart/terraform-oci-open-lz) to tailor your landing zone. There are also complementar [models](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/design/models/readme.md) for initial discussions. This solution uses CIS 1.2 compliant Terraform modules.|
-| **SECURITY SCOPE** | Covers all topics in [section 2.1](#21-security).
-| **NETWORK SCOPE** | Covers all topics in [section 2.2](#22-network).
-| **OPERATIONS SCOPE** | Covers all topics in [section 2.3](#23-operations) except OD.04 Integrations.
-| **RUNTIME** | - In terms of **deployment** and **running** your landing zone design, we recommend the use of the **[CIS Landing Zone Enhanced Modules](https://www.ateam-oracle.com/post/cis-landing-zone-enhanced-modules)**, to **configure** the resources with *json/hcl* terraform native interfaces. </br> - Note the [**OCI Open LZ Blueprint**](https://github.com/oracle-quickstart/terraform-oci-open-lz) also presents the **Runtime View** of the design, with IaC configurations for each operation scenario, using these same [modules](https://www.ateam-oracle.com/post/cis-landing-zone-enhanced-modules).
-| **EXTENSIONS** | Any extension is a new operation scenario and follows the same process and cloud operating model of all other scenarios. Refer to the **OCI Open LZ** [**Runtime View**](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/examples/oci-open-lz/readme.md) for examples and the [**Operations View**](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/design/OCI_Open_LZ.pdf) for more details on the cloud operating model.| 
+| APPROACH  |  OBJECTIVE | DESCRIPTION | 
+|---|---|---|
+|  [**Standard Landing Zones**](/landing-zones/standard_landing_zones/readme.md) | **Best Practices</br>3 Shapes** | **Three standard shapes/models** for different organization scopes, **ready to use** with **design blueprints** and  **IaC configurations**. Use these models directly or tailor them to your needs.  | 
+| [**Tailored Landing Zones**](/landing-zones/tailored_landing_zones/readme.md)  | **Tailored Design </br> Any Shape** | An approach to solve **specific requirements** when the standard models are not enough. A tailored model has **dedicated design views** to match requirements and an IaC runtime. This approach is commonly used to bridge **existing customer practices** in other CSPs. |  
 
 
 &nbsp; 
+
+The general recommendation when **starting with OCI landing zones** is:
+1. Start with [**Standard Landing Zones**](/landing-zones/standard_landing_zones/readme.md) as they're full of best practices. There are [**three models/shapes**](/landing-zones/standard_landing_zones/readme.md#2-what-are-the-models-available) available for different scopes, we'll help you find the best fit [**here**](/landing-zones/standard_landing_zones/readme.md#3-decide-on-the-model-to-use).
+2. If your design is very **customized**, requiring **structural changes** to a standard landing zone (IAM or Network), and/or you need a **highly scalable operating model**, use the [**Tailored Landing Zones**](/landing-zones/tailored_landing_zones/readme.md) approach to create your solution.
+3. Complementary, if you have a **specific target workload** that is available as [**Workload Extensions**](/landing-zones/workload_extensions/readme.md), use it directly on top of your landing zone. If it's not available, be free to reach out to us or use the tailored approach to set up your extensions.
+
+&nbsp; 
+
 
 &nbsp; 
 

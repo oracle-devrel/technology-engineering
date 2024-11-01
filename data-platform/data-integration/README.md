@@ -2,6 +2,10 @@
 
 Oracle provides a fully-fledged solution for Data Integration. Our products support Batch and Real-Time use cases. We provide PaaS and IaaS solutions:
 
+Reviewed: 24.04.2024
+
+# Useful Links
+
 * [OCI GoldenGate](https://docs.oracle.com/en/cloud/paas/goldengate-service/druyg/index.html#articletitle)
 * [OCI Data Integration](https://www.oracle.com/integration/data-integration/)
 * [OCI Data Catalog](https://www.oracle.com/big-data/data-catalog/)

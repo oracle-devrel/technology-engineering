@@ -2,7 +2,7 @@
 
 This workshop will show how to start developing with Python using Oracle JSON and the latest feature Duality Views.
 
-Reviewed: 15.01.2024
+Reviewed: 25.10.2024
 
 # When to use this asset?
 

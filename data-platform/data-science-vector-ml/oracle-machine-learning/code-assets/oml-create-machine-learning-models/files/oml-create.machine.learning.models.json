@@ -1,0 +1,1147 @@
+﻿{
+  "paragraphs": [
+    {
+      "text": "%md\n<div style=\"padding:8px; background-color:#ccff99; font-family:Calibri, sans-serif; font-size:32px; font-weight:bold\">\n&nbsp;&sect;&nbsp;&nbsp;Initialize</div>",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-27T08:12:55+0000",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "graph": {
+          "mode": "table",
+          "height": 300,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "results": {},
+        "editorSetting": {
+          "language": "md",
+          "editOnDblClick": false
+        },
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div style=\"padding:8px; background-color:#ccff99; font-family:Calibri, sans-serif; font-size:32px; font-weight:bold\">\n&nbsp;&sect;&nbsp;&nbsp;Initialize</div>\n"
+          }
+        ]
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695108429767_20693821",
+      "id": "20230919-072709_775915765",
+      "dateCreated": "2023-09-11T09:03:29+0000",
+      "dateStarted": "2023-09-11T09:43:16+0000",
+      "dateFinished": "2023-09-11T09:43:16+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:41"
+    },
+    {
+      "text": "%python\n\n# check resources\ndef check_compute_performance(label, scale):\n    result = 0\n    for i in range(scale):\n        for j in range(scale):\n            result = result + i * j\ncheck_compute_performance('ADW.OML', 10000)",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-27T08:19:21+0000",
+      "progress": 0,
+      "config": {
+        "lineNumbers": true,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/undefined",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695108429767_971579079",
+      "id": "20230919-072709_864535779",
+      "dateCreated": "2023-09-11T09:43:18+0000",
+      "dateStarted": "2023-09-27T08:18:50+0000",
+      "dateFinished": "2023-09-27T08:19:23+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:42"
+    },
+    {
+      "text": "%md\n<div style=\"padding:8px; background-color:#ccff99; font-family:Calibri, sans-serif; font-size:32px; font-weight:bold\">\n&nbsp;&sect;&nbsp;&nbsp;Create models (fraud detection)</div>",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-27T08:19:13+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "md",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div style=\"padding:8px; background-color:#ccff99; font-family:Calibri, sans-serif; font-size:32px; font-weight:bold\">\n&nbsp;&sect;&nbsp;&nbsp;Create models (fraud detection)</div>\n"
+          }
+        ]
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695108429767_1382770840",
+      "id": "20230919-072709_72015511",
+      "dateCreated": "2023-09-11T09:12:47+0000",
+      "dateStarted": "2023-09-27T08:19:14+0000",
+      "dateFinished": "2023-09-27T08:19:15+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:43"
+    },
+    {
+      "text": "%python\n\n# imports\nimport warnings\nimport oml\nimport pandas\n\n# settings\nwarnings.filterwarnings('ignore')\npandas.set_option('display.width', 2000)",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-27T08:12:55+0000",
+      "progress": 0,
+      "config": {
+        "lineNumbers": true,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 6,
+        "editorMode": "ace/mode/undefined",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695108429767_1181812919",
+      "id": "20230919-072709_194169148",
+      "dateCreated": "2023-09-11T09:12:53+0000",
+      "dateStarted": "2023-09-19T07:29:56+0000",
+      "dateFinished": "2023-09-19T07:29:56+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:44"
+    },
+    {
+      "text": "%python\n\n# sync proxy objects\nTF_WIP_PG_METRICS = oml.sync(table=\"TF_WIP_PG_METRICS\")\n\n# pull data\ndata = {}\ndata['TF_WIP_PG_METRICS'] = TF_WIP_PG_METRICS.pull()",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-27T08:12:55+0000",
+      "progress": 0,
+      "config": {
+        "lineNumbers": true,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 6,
+        "editorMode": "ace/mode/undefined",
+        "fontSize": 9,
+        "editorHide": false,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695108429767_-1128008087",
+      "id": "20230919-072709_1501434047",
+      "dateCreated": "2023-09-11T09:43:51+0000",
+      "dateStarted": "2023-09-19T07:29:58+0000",
+      "dateFinished": "2023-09-19T07:29:58+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:45"
+    },
+    {
+      "text": "%python\n\n# prepare data\nTF_WIP_CL_CYCLES_IN = oml.push(data['TF_WIP_PG_METRICS'][['COMPANYID','SCORE_CYC1','SCORE_CYC2','SCORE_CYC3']])\nTF_WIP_CL_CENTRAL_IN = oml.push(data['TF_WIP_PG_METRICS'][['COMPANYID','SCORE_BCEN','SCORE_CCEN']])\n\n# build models\ntry:\n    oml.drop(model=\"TF_WIP_CL_CYCLES\")\n    oml.drop(model=\"TF_WIP_CL_CENTRAL\")\nexcept:\n    pass\nsetting = {'KMNS_ITERATIONS':100, 'KMNS_RANDOM_SEED':6}           \nTF_WIP_CL_CYCLES = oml.km(n_clusters=5, **setting).fit(TF_WIP_CL_CYCLES_IN, case_id='COMPANYID', model_name=\"TF_WIP_CL_CYCLES\")\nTF_WIP_CL_CENTRAL = oml.km(n_clusters=5, **setting).fit(TF_WIP_CL_CENTRAL_IN, case_id='COMPANYID', model_name=\"TF_WIP_CL_CENTRAL\")",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-27T08:16:55+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/undefined",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "COMPANYID": "string",
+                      "COMPANYNAME": "date",
+                      "SCORE_CYC1": "number",
+                      "SCORE_CYC2": "number",
+                      "SCORE_CYC3": "number",
+                      "SCORE_BCEN": "number",
+                      "SCORE_CCEN": "number"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true,
+        "lineNumbers": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695108429767_-2139049629",
+      "id": "20230919-072709_581750140",
+      "dateCreated": "2023-09-14T07:32:19+0000",
+      "dateStarted": "2023-09-19T07:55:45+0000",
+      "dateFinished": "2023-09-19T07:55:50+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:46"
+    },
+    {
+      "text": "%python\n\n# view model\nTF_WIP_CL_CYCLES",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-27T08:12:55+0000",
+      "progress": 0,
+      "config": {
+        "lineNumbers": true,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 6,
+        "editorMode": "ace/mode/undefined",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nModel Name: TF_WIP_CL_CYCLES\n\nModel Owner: VALENTIN\n\nAlgorithm Name: K-Means\n\nMining Function: CLUSTERING\n\nSettings: \n                    setting name            setting value\n0                      ALGO_NAME              ALGO_KMEANS\n1              CLUS_NUM_CLUSTERS                        5\n2            KMNS_CONV_TOLERANCE                     .001\n3                   KMNS_DETAILS   KMNS_DETAILS_HIERARCHY\n4                  KMNS_DISTANCE           KMNS_EUCLIDEAN\n5                KMNS_ITERATIONS                      100\n6      KMNS_MIN_PCT_ATTR_SUPPORT                       .1\n7                  KMNS_NUM_BINS                       11\n8               KMNS_RANDOM_SEED                        6\n9           KMNS_SPLIT_CRITERION            KMNS_VARIANCE\n10                  ODMS_DETAILS              ODMS_ENABLE\n11  ODMS_MISSING_VALUE_TREATMENT  ODMS_MISSING_VALUE_AUTO\n12                 ODMS_SAMPLING    ODMS_SAMPLING_DISABLE\n13                     PREP_AUTO                       ON\n\nGlobal Statistics: \n  attribute name attribute value\n0      CONVERGED             YES\n1       NUM_ROWS             200\n\nAttributes: \nSCORE_CYC1\nSCORE_CYC2\nSCORE_CYC3\n\nPartition: NO\n\nClusters: \n\n   CLUSTER_ID  ROW_CNT  PARENT_CLUSTER_ID  TREE_LEVEL  DISPERSION\n0           1      200                NaN           1    0.321597\n1           2      196                1.0           2    0.264455\n2           3        4                1.0           2    3.121553\n3           4      172                2.0           3    0.223177\n4           5       24                2.0           3    0.560281\n5           6      136                4.0           4    0.198157\n6           7       36                4.0           4    0.317695\n7           8       62                6.0           5    0.212526\n8           9       74                6.0           5    0.186119\n\nTaxonomy: \n\n    PARENT_CLUSTER_ID  CHILD_CLUSTER_ID\n0                   1               2.0\n1                   1               3.0\n2                   2               4.0\n3                   2               5.0\n4                   3               NaN\n5                   4               6.0\n6                   4               7.0\n7                   5               NaN\n8                   6               8.0\n9                   6               9.0\n10                  7               NaN\n11                  8               NaN\n12                  9               NaN\n\nLeaf Cluster Counts: \n\n   CLUSTER_ID  CNT\n0           3    4\n1           5   24\n2           7   36\n3           8   62\n4           9   74\n\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695109153821_1115515573",
+      "id": "paragraph_1695109153821_1115515573",
+      "dateCreated": "2023-09-19T07:39:13+0000",
+      "dateStarted": "2023-09-19T07:55:56+0000",
+      "dateFinished": "2023-09-19T07:55:56+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:47"
+    },
+    {
+      "text": "%python\n\n# view model\nTF_WIP_CL_CENTRAL",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-27T08:12:55+0000",
+      "progress": 0,
+      "config": {
+        "lineNumbers": true,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 6,
+        "editorMode": "ace/mode/undefined",
+        "fontSize": 9,
+        "editorHide": false,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nModel Name: TF_WIP_CL_CENTRAL\n\nModel Owner: VALENTIN\n\nAlgorithm Name: K-Means\n\nMining Function: CLUSTERING\n\nSettings: \n                    setting name            setting value\n0                      ALGO_NAME              ALGO_KMEANS\n1              CLUS_NUM_CLUSTERS                        5\n2            KMNS_CONV_TOLERANCE                     .001\n3                   KMNS_DETAILS   KMNS_DETAILS_HIERARCHY\n4                  KMNS_DISTANCE           KMNS_EUCLIDEAN\n5                KMNS_ITERATIONS                      100\n6      KMNS_MIN_PCT_ATTR_SUPPORT                       .1\n7                  KMNS_NUM_BINS                       11\n8               KMNS_RANDOM_SEED                        6\n9           KMNS_SPLIT_CRITERION            KMNS_VARIANCE\n10                  ODMS_DETAILS              ODMS_ENABLE\n11  ODMS_MISSING_VALUE_TREATMENT  ODMS_MISSING_VALUE_AUTO\n12                 ODMS_SAMPLING    ODMS_SAMPLING_DISABLE\n13                     PREP_AUTO                       ON\n\nGlobal Statistics: \n  attribute name attribute value\n0      CONVERGED             YES\n1       NUM_ROWS             200\n\nAttributes: \nSCORE_BCEN\nSCORE_CCEN\n\nPartition: NO\n\nClusters: \n\n   CLUSTER_ID  ROW_CNT  PARENT_CLUSTER_ID  TREE_LEVEL  DISPERSION\n0           1      200                NaN           1    0.292478\n1           2      178                1.0           2    0.125926\n2           3       22                1.0           2    1.640038\n3           4      158                2.0           3    0.119061\n4           5       20                2.0           3    0.180160\n5           6       30                4.0           4    0.202203\n6           7      128                4.0           4    0.099575\n7           8       66                7.0           5    0.091852\n8           9       62                7.0           5    0.107796\n\nTaxonomy: \n\n    PARENT_CLUSTER_ID  CHILD_CLUSTER_ID\n0                   1               2.0\n1                   1               3.0\n2                   2               4.0\n3                   2               5.0\n4                   3               NaN\n5                   4               6.0\n6                   4               7.0\n7                   5               NaN\n8                   6               NaN\n9                   7               8.0\n10                  7               9.0\n11                  8               NaN\n12                  9               NaN\n\nLeaf Cluster Counts: \n\n   CLUSTER_ID  CNT\n0           3   22\n1           5   20\n2           6   30\n3           8   66\n4           9   62\n\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695109177464_13918568",
+      "id": "paragraph_1695109177464_13918568",
+      "dateCreated": "2023-09-19T07:39:37+0000",
+      "dateStarted": "2023-09-19T07:56:00+0000",
+      "dateFinished": "2023-09-19T07:56:00+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:48"
+    },
+    {
+      "text": "%python\n\n# apply models to data\nTF_WIP_CL_CYCLES_PR = TF_WIP_CL_CYCLES.predict(TF_WIP_CL_CYCLES_IN, supplemental_cols=TF_WIP_CL_CYCLES_IN)\nTF_WIP_CL_CENTRAL_PR = TF_WIP_CL_CENTRAL.predict(TF_WIP_CL_CENTRAL_IN, supplemental_cols=TF_WIP_CL_CENTRAL_IN)",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-27T08:12:55+0000",
+      "progress": 0,
+      "config": {
+        "lineNumbers": true,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/undefined",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "COMPANYID": "string",
+                      "SCORE_CYC1": "number",
+                      "SCORE_CYC2": "number",
+                      "SCORE_CYC3": "number",
+                      "CLUSTER_ID": "number"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695109756072_793931298",
+      "id": "paragraph_1695109756072_793931298",
+      "dateCreated": "2023-09-19T07:49:16+0000",
+      "dateStarted": "2023-09-19T07:56:34+0000",
+      "dateFinished": "2023-09-19T07:56:34+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:49"
+    },
+    {
+      "text": "%python\n\n# view model results\nz.show(TF_WIP_CL_CYCLES_PR)",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-27T08:12:55+0000",
+      "progress": 0,
+      "config": {
+        "lineNumbers": true,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 6,
+        "editorMode": "ace/mode/undefined",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "COMPANYID": "string",
+                      "SCORE_CYC1": "number",
+                      "SCORE_CYC2": "number",
+                      "SCORE_CYC3": "number",
+                      "CLUSTER_ID": "number"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "COMPANYID\tSCORE_CYC1\tSCORE_CYC2\tSCORE_CYC3\tCLUSTER_ID\nC315592736\t0\t0\t0\t8\nC310769904\t5\t2\t2\t8\nC312022089\t2\t3\t2\t8\nC314201266\t2\t3\t2\t8\nC311348313\t2\t4\t5\t8\nC309639877\t3\t4\t4\t8\nC315509232\t3\t4\t4\t8\nC312992057\t3\t5\t5\t8\nC314986429\t7\t5\t6\t8\nC309830621\t5\t6\t5\t8\nC310691473\t7\t6\t6\t8\nC307254815\t14\t6\t5\t8\nC308732444\t3\t8\t7\t8\nC308850815\t7\t8\t7\t8\nC309542604\t7\t8\t8\t8\nC307584912\t9\t8\t8\t8\nC315910338\t3\t9\t9\t8\nC307582190\t5\t9\t9\t8\nC313158829\t5\t9\t9\t8\nC315769074\t9\t9\t9\t8\nC307256519\t12\t9\t9\t8\nC315780579\t5\t10\t10\t8\nC306878120\t5\t10\t11\t8\nC311069409\t10\t10\t10\t8\nC313647541\t10\t10\t10\t8\nC309469237\t14\t10\t10\t8\nC314934490\t14\t10\t11\t8\nC311018228\t21\t10\t9\t8\nC314006009\t21\t10\t11\t8\nC313087347\t5\t11\t11\t8\nC309250059\t9\t11\t10\t8\nC313668198\t10\t11\t10\t8\nC313229381\t10\t11\t11\t8\nC314465049\t10\t11\t11\t8\nC313341564\t14\t11\t11\t8\nC308284342\t16\t11\t11\t8\nC307940687\t5\t12\t12\t8\nC311635372\t7\t12\t12\t8\nC314178743\t7\t12\t12\t8\nC314420332\t9\t12\t11\t8\nC313289410\t10\t12\t10\t8\nC314177113\t12\t12\t12\t8\nC312668453\t12\t12\t13\t8\nC312261547\t14\t12\t13\t8\nC310744428\t5\t13\t11\t8\nC313485085\t7\t13\t13\t8\nC312856255\t10\t13\t13\t8\nC314634673\t10\t13\t13\t8\nC311909198\t12\t13\t12\t8\nC307552374\t12\t13\t13\t8\nC308913241\t14\t13\t13\t8\nC310647482\t16\t13\t12\t8\nC308137480\t17\t13\t13\t9\nC314371075\t21\t13\t13\t9\nC308401033\t22\t13\t13\t9\nC315281716\t3\t14\t13\t8\nC310093693\t7\t14\t15\t8\nC314560881\t7\t14\t15\t8\nC309047357\t10\t14\t12\t8\nC307693450\t10\t14\t13\t8\nC312069726\t10\t14\t14\t8\nC314279258\t12\t14\t15\t8\nC310848853\t14\t14\t15\t9\nC309241459\t16\t14\t14\t9\nC307375199\t16\t14\t15\t9\nC310282839\t5\t15\t14\t8\nC310180199\t10\t15\t13\t8\nC313588235\t12\t15\t14\t8\nC309663456\t12\t15\t15\t9\nC308125507\t12\t15\t16\t9\nC311555184\t14\t15\t14\t9\nC310028811\t16\t15\t14\t9\nC312164377\t16\t15\t14\t9\nC313583629\t17\t15\t16\t9\nC314876890\t19\t15\t13\t9\nC314002076\t22\t15\t16\t9\nC307343636\t26\t15\t16\t9\nC309204505\t9\t16\t18\t9\nC314882843\t10\t16\t15\t9\nC314437868\t12\t16\t15\t9\nC309341138\t12\t16\t16\t9\nC309364212\t12\t16\t16\t9\nC314699193\t14\t16\t15\t9\nC314267901\t21\t16\t15\t9\nC313134595\t22\t16\t15\t9\nC308761264\t7\t17\t17\t9\nC308187927\t9\t17\t17\t9\nC306870275\t12\t17\t17\t9\nC311376001\t14\t17\t17\t9\nC311826878\t21\t17\t17\t9\nC310844797\t21\t17\t18\t9\nC309735724\t22\t17\t17\t9\nC312961181\t9\t18\t19\t9\nC306592341\t12\t18\t18\t9\nC313156081\t19\t18\t18\t9\nC315196126\t21\t18\t18\t9\nC308240838\t24\t18\t18\t9\nC314732486\t5\t19\t19\t9\nC314792395\t10\t19\t19\t9\nC310460978\t16\t19\t17\t9\nC311436566\t16\t19\t19\t9\nC313723792\t17\t19\t20\t9\nC312597081\t19\t19\t20\t9\nC314059063\t21\t19\t18\t9\nC312761338\t21\t19\t19\t9\nC309817708\t22\t19\t19\t9\nC310901658\t24\t19\t19\t9\nC310921279\t29\t19\t19\t9\nC315834768\t12\t20\t20\t9\nC310553173\t14\t20\t20\t9\nC309637551\t16\t20\t17\t9\nC310023084\t16\t20\t20\t9\nC311232669\t16\t20\t20\t9\nC308646382\t17\t20\t19\t9\nC312082911\t19\t20\t22\t9\nC311529071\t21\t20\t20\t9\nC309003560\t22\t20\t20\t9\nC309554316\t29\t20\t22\t7\nC306487644\t31\t20\t19\t7\nC312301709\t14\t21\t21\t9\nC306519118\t16\t21\t21\t9\nC308471248\t16\t21\t21\t9\nC309865291\t17\t21\t20\t9\nC314743310\t19\t21\t20\t9\nC306972901\t19\t21\t21\t9\nC310308434\t22\t21\t21\t9\nC311561813\t26\t21\t20\t9\nC306384932\t14\t22\t21\t9\nC307174269\t14\t22\t24\t9\nC309424518\t16\t22\t24\t9\nC310202267\t17\t22\t21\t9\nC313437635\t22\t22\t20\t9\nC307990811\t24\t22\t22\t9\nC307801759\t24\t22\t25\t7\nC310767904\t21\t23\t22\t9\nC312398375\t21\t23\t24\t9\nC313789101\t22\t23\t24\t9\nC314089310\t26\t23\t21\t7\nC311469579\t26\t23\t23\t7\nC312949461\t26\t23\t23\t7\nC311167331\t9\t24\t24\t9\nC312740576\t24\t24\t24\t7\nC309414960\t31\t24\t22\t7\nC307108048\t40\t24\t24\t7\nC306714099\t16\t25\t26\t9\nC310381605\t29\t25\t26\t7\nC315064542\t19\t26\t27\t7\nC309743814\t28\t26\t25\t7\nC308569921\t31\t26\t26\t7\nC307603290\t33\t26\t26\t7\nC315412624\t34\t26\t26\t7\nC315608398\t34\t26\t26\t7\nC310736903\t38\t26\t25\t7\nC309920691\t24\t27\t28\t7\nC306853568\t16\t28\t26\t7\nC309970244\t24\t28\t26\t7\nC315453014\t26\t28\t27\t7\nC311544820\t40\t28\t27\t7\nC315853837\t26\t29\t26\t7\nC308355273\t24\t30\t29\t7\nC314407449\t33\t30\t31\t7\nC307311844\t40\t30\t28\t7\nC315101540\t28\t31\t30\t7\nC309389322\t33\t31\t30\t7\nC307665738\t36\t31\t31\t7\nC307462528\t28\t32\t31\t7\nC310176782\t21\t33\t29\t7\nC307110381\t28\t34\t33\t7\nC315786299\t28\t34\t36\t7\nC309956395\t31\t34\t35\t7\nC312510586\t41\t36\t38\t5\nC314408256\t45\t36\t35\t5\nC315734991\t31\t37\t35\t7\nC307713100\t33\t37\t37\t7\nC311677430\t43\t37\t38\t5\nC311731323\t48\t39\t39\t5\nC307032812\t40\t40\t42\t5\nC315664164\t41\t40\t42\t5\nC308849534\t45\t40\t40\t5\nC311999485\t52\t40\t42\t5\nC315970263\t38\t41\t40\t5\nC311259710\t38\t41\t41\t5\nC306778540\t53\t42\t45\t5\nC312427415\t48\t43\t45\t5\nC311943422\t28\t45\t42\t5\nC315346233\t50\t45\t47\t5\nC314174119\t52\t45\t45\t5\nC307548053\t53\t46\t49\t5\nC309113624\t45\t47\t44\t5\nC308059853\t52\t47\t44\t5\nC306558208\t41\t49\t48\t5\nC311265614\t47\t49\t49\t5\nC307894134\t57\t51\t53\t5\nC308753692\t60\t53\t53\t5\nC306634688\t53\t54\t55\t5\nC313934530\t57\t57\t60\t5\nC312947258\t71\t60\t60\t3\nC306429876\t69\t63\t66\t3\nC313862631\t76\t76\t77\t3\nC309440200\t100\t100\t100\t3\n"
+          }
+        ]
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695110032089_1723214539",
+      "id": "paragraph_1695110032089_1723214539",
+      "dateCreated": "2023-09-19T07:53:52+0000",
+      "dateStarted": "2023-09-19T07:56:44+0000",
+      "dateFinished": "2023-09-19T07:56:44+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:50"
+    },
+    {
+      "text": "%python\n\n# view model results\nz.show(TF_WIP_CL_CENTRAL_PR)",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-27T08:12:55+0000",
+      "progress": 0,
+      "config": {
+        "lineNumbers": true,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 6,
+        "editorMode": "ace/mode/undefined",
+        "fontSize": 9,
+        "editorHide": false,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "COMPANYID": "string",
+                      "SCORE_BCEN": "number",
+                      "SCORE_CCEN": "number",
+                      "CLUSTER_ID": "number"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "COMPANYID\tSCORE_BCEN\tSCORE_CCEN\tCLUSTER_ID\nC315592736\t0\t0\t5\nC310769904\t2\t7\t5\nC312022089\t2\t11\t5\nC309639877\t3\t11\t5\nC314201266\t2\t13\t5\nC307584912\t4\t15\t5\nC309830621\t4\t15\t5\nC312992057\t4\t15\t5\nC314986429\t4\t15\t5\nC310691473\t4\t16\t5\nC311018228\t10\t16\t5\nC315509232\t4\t17\t5\nC313647541\t7\t17\t5\nC308850815\t7\t18\t5\nC307256519\t11\t18\t5\nC307254815\t5\t20\t5\nC311348313\t6\t20\t5\nC309542604\t5\t21\t5\nC311069409\t9\t21\t5\nC314876890\t10\t21\t5\nC313289410\t11\t22\t8\nC310647482\t13\t22\t8\nC315769074\t9\t23\t8\nC309250059\t10\t23\t8\nC312668453\t10\t23\t8\nC314006009\t12\t24\t8\nC306878120\t12\t25\t8\nC314699193\t12\t25\t8\nC313229381\t8\t26\t8\nC313158829\t9\t26\t8\nC313668198\t9\t26\t8\nC308137480\t10\t26\t8\nC309047357\t10\t26\t8\nC308913241\t11\t26\t8\nC309469237\t11\t26\t8\nC312164377\t12\t26\t8\nC312261547\t12\t26\t8\nC313087347\t13\t26\t8\nC314882843\t14\t26\t8\nC314177113\t9\t27\t8\nC314371075\t10\t27\t8\nC314934490\t10\t27\t8\nC307693450\t12\t27\t8\nC311909198\t13\t27\t8\nC307940687\t12\t28\t8\nC308284342\t12\t28\t8\nC313134595\t15\t28\t8\nC311635372\t8\t29\t8\nC307582190\t9\t29\t8\nC307552374\t10\t29\t8\nC309204505\t11\t29\t8\nC310180199\t12\t29\t8\nC313583629\t13\t29\t8\nC311555184\t15\t29\t8\nC312069726\t15\t29\t8\nC313156081\t16\t29\t8\nC313341564\t10\t30\t8\nC314634673\t11\t30\t8\nC312856255\t12\t30\t8\nC314089310\t13\t30\t8\nC313485085\t14\t30\t8\nC309241459\t15\t30\t8\nC314267901\t16\t30\t8\nC314437868\t16\t30\t8\nC311376001\t17\t30\t8\nC314002076\t17\t30\t8\nC314279258\t17\t30\t8\nC308732444\t8\t31\t8\nC314420332\t10\t31\t8\nC313588235\t11\t31\t8\nC315910338\t12\t31\t8\nC314178743\t14\t31\t8\nC310921279\t15\t31\t8\nC311561813\t16\t31\t8\nC307343636\t18\t31\t8\nC310282839\t12\t32\t8\nC308401033\t16\t32\t8\nC309554316\t17\t32\t8\nC308240838\t19\t32\t9\nC308761264\t19\t32\t9\nC306972901\t18\t33\t9\nC310093693\t21\t33\t9\nC314465049\t11\t34\t8\nC315281716\t12\t34\t8\nC310848853\t13\t34\t8\nC310028811\t14\t34\t8\nC314059063\t15\t34\t8\nC309817708\t17\t34\t9\nC308125507\t18\t34\t9\nC312961181\t18\t34\t9\nC311826878\t19\t34\t9\nC309637551\t20\t34\t9\nC312398375\t21\t34\t9\nC309663456\t12\t35\t8\nC310744428\t12\t35\t8\nC307375199\t16\t35\t9\nC308471248\t16\t35\t9\nC310553173\t16\t35\t9\nC309341138\t18\t35\t9\nC310844797\t19\t35\t9\nC311436566\t20\t35\t9\nC306487644\t23\t35\t9\nC311469579\t24\t35\t9\nC308187927\t15\t36\t9\nC314560881\t16\t36\t9\nC313437635\t18\t36\t9\nC309865291\t21\t36\t9\nC315780579\t10\t37\t8\nC306870275\t16\t37\t9\nC308646382\t18\t37\t9\nC309003560\t20\t37\t9\nC311167331\t21\t37\t9\nC309364212\t22\t37\t9\nC307108048\t25\t37\t9\nC315608398\t27\t37\t9\nC313723792\t19\t38\t9\nC310901658\t20\t38\t9\nC307801759\t22\t38\t9\nC315853837\t22\t38\t9\nC309743814\t23\t38\t9\nC309414960\t25\t38\t9\nC309735724\t14\t39\t9\nC312082911\t17\t39\t9\nC315064542\t18\t39\t9\nC306384932\t20\t39\t9\nC310202267\t21\t39\t9\nC312949461\t22\t39\t9\nC315412624\t22\t39\t9\nC306853568\t23\t39\t9\nC310767904\t23\t39\t9\nC310381605\t24\t39\t9\nC306592341\t14\t40\t9\nC314743310\t17\t40\t9\nC310460978\t20\t40\t9\nC314792395\t21\t40\t9\nC315453014\t26\t40\t9\nC309389322\t25\t41\t9\nC315196126\t20\t42\t9\nC307174269\t22\t42\t9\nC310176782\t23\t42\t9\nC311232669\t23\t42\t9\nC309970244\t26\t42\t6\nC307311844\t28\t42\t6\nC310308434\t16\t43\t9\nC315834768\t20\t43\t9\nC309424518\t24\t43\t9\nC307462528\t29\t43\t6\nC311544820\t33\t43\t6\nC307603290\t21\t44\t9\nC311999485\t33\t44\t6\nC310023084\t17\t45\t9\nC312597081\t21\t45\t9\nC312301709\t23\t45\t6\nC314732486\t18\t46\t9\nC312761338\t23\t46\t6\nC307990811\t24\t46\t6\nC314407449\t24\t46\t6\nC307665738\t25\t46\t6\nC308355273\t26\t46\t6\nC310736903\t31\t46\t6\nC309920691\t32\t46\t6\nC308569921\t29\t47\t6\nC312740576\t32\t47\t6\nC314408256\t35\t47\t6\nC306519118\t23\t48\t6\nC306714099\t22\t49\t6\nC311529071\t23\t49\t6\nC311677430\t28\t49\t6\nC315101540\t36\t50\t6\nC307713100\t25\t51\t6\nC311259710\t38\t51\t6\nC313789101\t23\t52\t6\nC315786299\t29\t52\t6\nC309956395\t32\t52\t6\nC312510586\t35\t53\t6\nC311731323\t37\t53\t6\nC315970263\t38\t53\t6\nC315734991\t33\t54\t6\nC308753692\t48\t54\t3\nC307548053\t40\t56\t3\nC307894134\t48\t56\t3\nC306778540\t40\t58\t3\nC312427415\t43\t58\t3\nC306634688\t47\t58\t3\nC308849534\t41\t59\t3\nC314174119\t37\t60\t3\nC308059853\t43\t60\t3\nC311943422\t39\t62\t3\nC315664164\t38\t63\t3\nC306558208\t41\t63\t3\nC307032812\t50\t64\t3\nC312947258\t56\t64\t3\nC309113624\t49\t65\t3\nC311265614\t43\t66\t3\nC313934530\t51\t66\t3\nC307110381\t31\t69\t3\nC315346233\t59\t70\t3\nC306429876\t62\t72\t3\nC313862631\t75\t75\t3\nC309440200\t100\t100\t3\n"
+          }
+        ]
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695110047851_897721621",
+      "id": "paragraph_1695110047851_897721621",
+      "dateCreated": "2023-09-19T07:54:07+0000",
+      "dateStarted": "2023-09-19T07:56:47+0000",
+      "dateFinished": "2023-09-19T07:56:47+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:51"
+    },
+    {
+      "text": "%python\n\n# helpers\ndef recode_values_for_columns(df, cols):\n    for col in cols:\n        labels, uniques = pandas.factorize(df[col])\n        mapping = {label:f'Cluster #{index+1}' for index, label in enumerate(uniques)}\n        df[col] = df[col].replace(mapping)\n    return df\n    \n# pull data\ndata['TF_WIP_CL_CYCLES_PR'] = TF_WIP_CL_CYCLES_PR.pull()\ndata['TF_WIP_CL_CENTRAL_PR'] = TF_WIP_CL_CENTRAL_PR.pull()\n\n# transform data 'RESULTS'\ndata['TF_WIP_CL_RESULTS'] = pandas.merge(data['TF_WIP_CL_CYCLES_PR'], data['TF_WIP_CL_CENTRAL_PR'], left_on=['COMPANYID'], right_on=['COMPANYID'], how='inner')\ndata['TF_WIP_CL_RESULTS'] = data['TF_WIP_CL_RESULTS'].rename(columns={'CLUSTER_ID_x':'CLUSTER_CYC','CLUSTER_ID_y':'CLUSTER_CEN'})\ndata['TF_WIP_CL_RESULTS'] = data['TF_WIP_CL_RESULTS'][['COMPANYID','SCORE_CYC1','SCORE_CYC2','SCORE_CYC3','SCORE_BCEN','SCORE_CCEN','CLUSTER_CYC','CLUSTER_CEN']]\ndata['TF_WIP_CL_RESULTS'] = recode_values_for_columns(data['TF_WIP_CL_RESULTS'], ['CLUSTER_CYC','CLUSTER_CEN'])\n\n# check\nz.show(data['TF_WIP_CL_RESULTS'])",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-27T08:12:55+0000",
+      "progress": 0,
+      "config": {
+        "lineNumbers": true,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/undefined",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "COMPANYID": "string",
+                      "SCORE_CYC1": "number",
+                      "SCORE_CYC2": "number",
+                      "SCORE_CYC3": "number",
+                      "CLUSTER_CYC": "number",
+                      "SCORE_BCEN": "number",
+                      "SCORE_CCEN": "number",
+                      "CLUSTER_CEN": "number"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "COMPANYID\tSCORE_CYC1\tSCORE_CYC2\tSCORE_CYC3\tSCORE_BCEN\tSCORE_CCEN\tCLUSTER_CYC\tCLUSTER_CEN\nC315592736\t0\t0\t0\t0\t0\tCluster #1\tCluster #1\nC310769904\t5\t2\t2\t2\t7\tCluster #1\tCluster #1\nC312022089\t2\t3\t2\t2\t11\tCluster #1\tCluster #1\nC314201266\t2\t3\t2\t2\t13\tCluster #1\tCluster #1\nC311348313\t2\t4\t5\t6\t20\tCluster #1\tCluster #1\nC309639877\t3\t4\t4\t3\t11\tCluster #1\tCluster #1\nC315509232\t3\t4\t4\t4\t17\tCluster #1\tCluster #1\nC312992057\t3\t5\t5\t4\t15\tCluster #1\tCluster #1\nC314986429\t7\t5\t6\t4\t15\tCluster #1\tCluster #1\nC309830621\t5\t6\t5\t4\t15\tCluster #1\tCluster #1\nC310691473\t7\t6\t6\t4\t16\tCluster #1\tCluster #1\nC307254815\t14\t6\t5\t5\t20\tCluster #1\tCluster #1\nC308732444\t3\t8\t7\t8\t31\tCluster #1\tCluster #2\nC308850815\t7\t8\t7\t7\t18\tCluster #1\tCluster #1\nC309542604\t7\t8\t8\t5\t21\tCluster #1\tCluster #1\nC307584912\t9\t8\t8\t4\t15\tCluster #1\tCluster #1\nC315910338\t3\t9\t9\t12\t31\tCluster #1\tCluster #2\nC307582190\t5\t9\t9\t9\t29\tCluster #1\tCluster #2\nC313158829\t5\t9\t9\t9\t26\tCluster #1\tCluster #2\nC315769074\t9\t9\t9\t9\t23\tCluster #1\tCluster #2\nC307256519\t12\t9\t9\t11\t18\tCluster #1\tCluster #1\nC315780579\t5\t10\t10\t10\t37\tCluster #1\tCluster #2\nC306878120\t5\t10\t11\t12\t25\tCluster #1\tCluster #2\nC311069409\t10\t10\t10\t9\t21\tCluster #1\tCluster #1\nC313647541\t10\t10\t10\t7\t17\tCluster #1\tCluster #1\nC309469237\t14\t10\t10\t11\t26\tCluster #1\tCluster #2\nC314934490\t14\t10\t11\t10\t27\tCluster #1\tCluster #2\nC311018228\t21\t10\t9\t10\t16\tCluster #1\tCluster #1\nC314006009\t21\t10\t11\t12\t24\tCluster #1\tCluster #2\nC313087347\t5\t11\t11\t13\t26\tCluster #1\tCluster #2\nC309250059\t9\t11\t10\t10\t23\tCluster #1\tCluster #2\nC313668198\t10\t11\t10\t9\t26\tCluster #1\tCluster #2\nC313229381\t10\t11\t11\t8\t26\tCluster #1\tCluster #2\nC314465049\t10\t11\t11\t11\t34\tCluster #1\tCluster #2\nC313341564\t14\t11\t11\t10\t30\tCluster #1\tCluster #2\nC308284342\t16\t11\t11\t12\t28\tCluster #1\tCluster #2\nC307940687\t5\t12\t12\t12\t28\tCluster #1\tCluster #2\nC311635372\t7\t12\t12\t8\t29\tCluster #1\tCluster #2\nC314178743\t7\t12\t12\t14\t31\tCluster #1\tCluster #2\nC314420332\t9\t12\t11\t10\t31\tCluster #1\tCluster #2\nC313289410\t10\t12\t10\t11\t22\tCluster #1\tCluster #2\nC314177113\t12\t12\t12\t9\t27\tCluster #1\tCluster #2\nC312668453\t12\t12\t13\t10\t23\tCluster #1\tCluster #2\nC312261547\t14\t12\t13\t12\t26\tCluster #1\tCluster #2\nC310744428\t5\t13\t11\t12\t35\tCluster #1\tCluster #2\nC313485085\t7\t13\t13\t14\t30\tCluster #1\tCluster #2\nC312856255\t10\t13\t13\t12\t30\tCluster #1\tCluster #2\nC314634673\t10\t13\t13\t11\t30\tCluster #1\tCluster #2\nC311909198\t12\t13\t12\t13\t27\tCluster #1\tCluster #2\nC307552374\t12\t13\t13\t10\t29\tCluster #1\tCluster #2\nC308913241\t14\t13\t13\t11\t26\tCluster #1\tCluster #2\nC310647482\t16\t13\t12\t13\t22\tCluster #1\tCluster #2\nC308137480\t17\t13\t13\t10\t26\tCluster #2\tCluster #2\nC314371075\t21\t13\t13\t10\t27\tCluster #2\tCluster #2\nC308401033\t22\t13\t13\t16\t32\tCluster #2\tCluster #2\nC315281716\t3\t14\t13\t12\t34\tCluster #1\tCluster #2\nC310093693\t7\t14\t15\t21\t33\tCluster #1\tCluster #3\nC314560881\t7\t14\t15\t16\t36\tCluster #1\tCluster #3\nC309047357\t10\t14\t12\t10\t26\tCluster #1\tCluster #2\nC307693450\t10\t14\t13\t12\t27\tCluster #1\tCluster #2\nC312069726\t10\t14\t14\t15\t29\tCluster #1\tCluster #2\nC314279258\t12\t14\t15\t17\t30\tCluster #1\tCluster #2\nC310848853\t14\t14\t15\t13\t34\tCluster #2\tCluster #2\nC309241459\t16\t14\t14\t15\t30\tCluster #2\tCluster #2\nC307375199\t16\t14\t15\t16\t35\tCluster #2\tCluster #3\nC310282839\t5\t15\t14\t12\t32\tCluster #1\tCluster #2\nC310180199\t10\t15\t13\t12\t29\tCluster #1\tCluster #2\nC313588235\t12\t15\t14\t11\t31\tCluster #1\tCluster #2\nC309663456\t12\t15\t15\t12\t35\tCluster #2\tCluster #2\nC308125507\t12\t15\t16\t18\t34\tCluster #2\tCluster #3\nC311555184\t14\t15\t14\t15\t29\tCluster #2\tCluster #2\nC310028811\t16\t15\t14\t14\t34\tCluster #2\tCluster #2\nC312164377\t16\t15\t14\t12\t26\tCluster #2\tCluster #2\nC313583629\t17\t15\t16\t13\t29\tCluster #2\tCluster #2\nC314876890\t19\t15\t13\t10\t21\tCluster #2\tCluster #1\nC314002076\t22\t15\t16\t17\t30\tCluster #2\tCluster #2\nC307343636\t26\t15\t16\t18\t31\tCluster #2\tCluster #2\nC309204505\t9\t16\t18\t11\t29\tCluster #2\tCluster #2\nC314882843\t10\t16\t15\t14\t26\tCluster #2\tCluster #2\nC314437868\t12\t16\t15\t16\t30\tCluster #2\tCluster #2\nC309341138\t12\t16\t16\t18\t35\tCluster #2\tCluster #3\nC309364212\t12\t16\t16\t22\t37\tCluster #2\tCluster #3\nC314699193\t14\t16\t15\t12\t25\tCluster #2\tCluster #2\nC314267901\t21\t16\t15\t16\t30\tCluster #2\tCluster #2\nC313134595\t22\t16\t15\t15\t28\tCluster #2\tCluster #2\nC308761264\t7\t17\t17\t19\t32\tCluster #2\tCluster #3\nC308187927\t9\t17\t17\t15\t36\tCluster #2\tCluster #3\nC306870275\t12\t17\t17\t16\t37\tCluster #2\tCluster #3\nC311376001\t14\t17\t17\t17\t30\tCluster #2\tCluster #2\nC311826878\t21\t17\t17\t19\t34\tCluster #2\tCluster #3\nC310844797\t21\t17\t18\t19\t35\tCluster #2\tCluster #3\nC309735724\t22\t17\t17\t14\t39\tCluster #2\tCluster #3\nC312961181\t9\t18\t19\t18\t34\tCluster #2\tCluster #3\nC306592341\t12\t18\t18\t14\t40\tCluster #2\tCluster #3\nC313156081\t19\t18\t18\t16\t29\tCluster #2\tCluster #2\nC315196126\t21\t18\t18\t20\t42\tCluster #2\tCluster #3\nC308240838\t24\t18\t18\t19\t32\tCluster #2\tCluster #3\nC314732486\t5\t19\t19\t18\t46\tCluster #2\tCluster #3\nC314792395\t10\t19\t19\t21\t40\tCluster #2\tCluster #3\nC310460978\t16\t19\t17\t20\t40\tCluster #2\tCluster #3\nC311436566\t16\t19\t19\t20\t35\tCluster #2\tCluster #3\nC313723792\t17\t19\t20\t19\t38\tCluster #2\tCluster #3\nC312597081\t19\t19\t20\t21\t45\tCluster #2\tCluster #3\nC314059063\t21\t19\t18\t15\t34\tCluster #2\tCluster #2\nC312761338\t21\t19\t19\t23\t46\tCluster #2\tCluster #4\nC309817708\t22\t19\t19\t17\t34\tCluster #2\tCluster #3\nC310901658\t24\t19\t19\t20\t38\tCluster #2\tCluster #3\nC310921279\t29\t19\t19\t15\t31\tCluster #2\tCluster #2\nC315834768\t12\t20\t20\t20\t43\tCluster #2\tCluster #3\nC310553173\t14\t20\t20\t16\t35\tCluster #2\tCluster #3\nC309637551\t16\t20\t17\t20\t34\tCluster #2\tCluster #3\nC310023084\t16\t20\t20\t17\t45\tCluster #2\tCluster #3\nC311232669\t16\t20\t20\t23\t42\tCluster #2\tCluster #3\nC308646382\t17\t20\t19\t18\t37\tCluster #2\tCluster #3\nC312082911\t19\t20\t22\t17\t39\tCluster #2\tCluster #3\nC311529071\t21\t20\t20\t23\t49\tCluster #2\tCluster #4\nC309003560\t22\t20\t20\t20\t37\tCluster #2\tCluster #3\nC309554316\t29\t20\t22\t17\t32\tCluster #3\tCluster #2\nC306487644\t31\t20\t19\t23\t35\tCluster #3\tCluster #3\nC312301709\t14\t21\t21\t23\t45\tCluster #2\tCluster #4\nC306519118\t16\t21\t21\t23\t48\tCluster #2\tCluster #4\nC308471248\t16\t21\t21\t16\t35\tCluster #2\tCluster #3\nC309865291\t17\t21\t20\t21\t36\tCluster #2\tCluster #3\nC314743310\t19\t21\t20\t17\t40\tCluster #2\tCluster #3\nC306972901\t19\t21\t21\t18\t33\tCluster #2\tCluster #3\nC310308434\t22\t21\t21\t16\t43\tCluster #2\tCluster #3\nC311561813\t26\t21\t20\t16\t31\tCluster #2\tCluster #2\nC306384932\t14\t22\t21\t20\t39\tCluster #2\tCluster #3\nC307174269\t14\t22\t24\t22\t42\tCluster #2\tCluster #3\nC309424518\t16\t22\t24\t24\t43\tCluster #2\tCluster #3\nC310202267\t17\t22\t21\t21\t39\tCluster #2\tCluster #3\nC313437635\t22\t22\t20\t18\t36\tCluster #2\tCluster #3\nC307990811\t24\t22\t22\t24\t46\tCluster #2\tCluster #4\nC307801759\t24\t22\t25\t22\t38\tCluster #3\tCluster #3\nC310767904\t21\t23\t22\t23\t39\tCluster #2\tCluster #3\nC312398375\t21\t23\t24\t21\t34\tCluster #2\tCluster #3\nC313789101\t22\t23\t24\t23\t52\tCluster #2\tCluster #4\nC314089310\t26\t23\t21\t13\t30\tCluster #3\tCluster #2\nC311469579\t26\t23\t23\t24\t35\tCluster #3\tCluster #3\nC312949461\t26\t23\t23\t22\t39\tCluster #3\tCluster #3\nC311167331\t9\t24\t24\t21\t37\tCluster #2\tCluster #3\nC312740576\t24\t24\t24\t32\t47\tCluster #3\tCluster #4\nC309414960\t31\t24\t22\t25\t38\tCluster #3\tCluster #3\nC307108048\t40\t24\t24\t25\t37\tCluster #3\tCluster #3\nC306714099\t16\t25\t26\t22\t49\tCluster #2\tCluster #4\nC310381605\t29\t25\t26\t24\t39\tCluster #3\tCluster #3\nC315064542\t19\t26\t27\t18\t39\tCluster #3\tCluster #3\nC309743814\t28\t26\t25\t23\t38\tCluster #3\tCluster #3\nC308569921\t31\t26\t26\t29\t47\tCluster #3\tCluster #4\nC307603290\t33\t26\t26\t21\t44\tCluster #3\tCluster #3\nC315412624\t34\t26\t26\t22\t39\tCluster #3\tCluster #3\nC315608398\t34\t26\t26\t27\t37\tCluster #3\tCluster #3\nC310736903\t38\t26\t25\t31\t46\tCluster #3\tCluster #4\nC309920691\t24\t27\t28\t32\t46\tCluster #3\tCluster #4\nC306853568\t16\t28\t26\t23\t39\tCluster #3\tCluster #3\nC309970244\t24\t28\t26\t26\t42\tCluster #3\tCluster #4\nC315453014\t26\t28\t27\t26\t40\tCluster #3\tCluster #3\nC311544820\t40\t28\t27\t33\t43\tCluster #3\tCluster #4\nC315853837\t26\t29\t26\t22\t38\tCluster #3\tCluster #3\nC308355273\t24\t30\t29\t26\t46\tCluster #3\tCluster #4\nC314407449\t33\t30\t31\t24\t46\tCluster #3\tCluster #4\nC307311844\t40\t30\t28\t28\t42\tCluster #3\tCluster #4\nC315101540\t28\t31\t30\t36\t50\tCluster #3\tCluster #4\nC309389322\t33\t31\t30\t25\t41\tCluster #3\tCluster #3\nC307665738\t36\t31\t31\t25\t46\tCluster #3\tCluster #4\nC307462528\t28\t32\t31\t29\t43\tCluster #3\tCluster #4\nC310176782\t21\t33\t29\t23\t42\tCluster #3\tCluster #3\nC307110381\t28\t34\t33\t31\t69\tCluster #3\tCluster #5\nC315786299\t28\t34\t36\t29\t52\tCluster #3\tCluster #4\nC309956395\t31\t34\t35\t32\t52\tCluster #3\tCluster #4\nC312510586\t41\t36\t38\t35\t53\tCluster #4\tCluster #4\nC314408256\t45\t36\t35\t35\t47\tCluster #4\tCluster #4\nC315734991\t31\t37\t35\t33\t54\tCluster #3\tCluster #4\nC307713100\t33\t37\t37\t25\t51\tCluster #3\tCluster #4\nC311677430\t43\t37\t38\t28\t49\tCluster #4\tCluster #4\nC311731323\t48\t39\t39\t37\t53\tCluster #4\tCluster #4\nC307032812\t40\t40\t42\t50\t64\tCluster #4\tCluster #5\nC315664164\t41\t40\t42\t38\t63\tCluster #4\tCluster #5\nC308849534\t45\t40\t40\t41\t59\tCluster #4\tCluster #5\nC311999485\t52\t40\t42\t33\t44\tCluster #4\tCluster #4\nC315970263\t38\t41\t40\t38\t53\tCluster #4\tCluster #4\nC311259710\t38\t41\t41\t38\t51\tCluster #4\tCluster #4\nC306778540\t53\t42\t45\t40\t58\tCluster #4\tCluster #5\nC312427415\t48\t43\t45\t43\t58\tCluster #4\tCluster #5\nC311943422\t28\t45\t42\t39\t62\tCluster #4\tCluster #5\nC315346233\t50\t45\t47\t59\t70\tCluster #4\tCluster #5\nC314174119\t52\t45\t45\t37\t60\tCluster #4\tCluster #5\nC307548053\t53\t46\t49\t40\t56\tCluster #4\tCluster #5\nC309113624\t45\t47\t44\t49\t65\tCluster #4\tCluster #5\nC308059853\t52\t47\t44\t43\t60\tCluster #4\tCluster #5\nC306558208\t41\t49\t48\t41\t63\tCluster #4\tCluster #5\nC311265614\t47\t49\t49\t43\t66\tCluster #4\tCluster #5\nC307894134\t57\t51\t53\t48\t56\tCluster #4\tCluster #5\nC308753692\t60\t53\t53\t48\t54\tCluster #4\tCluster #5\nC306634688\t53\t54\t55\t47\t58\tCluster #4\tCluster #5\nC313934530\t57\t57\t60\t51\t66\tCluster #4\tCluster #5\nC312947258\t71\t60\t60\t56\t64\tCluster #5\tCluster #5\nC306429876\t69\t63\t66\t62\t72\tCluster #5\tCluster #5\nC313862631\t76\t76\t77\t75\t75\tCluster #5\tCluster #5\nC309440200\t100\t100\t100\t100\t100\tCluster #5\tCluster #5\n"
+          }
+        ]
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695110064294_2016158833",
+      "id": "paragraph_1695110064294_2016158833",
+      "dateCreated": "2023-09-19T07:54:24+0000",
+      "dateStarted": "2023-09-19T08:32:09+0000",
+      "dateFinished": "2023-09-19T08:32:09+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:52"
+    },
+    {
+      "text": "%md\n<div style=\"padding:8px; background-color:#ccff99; font-family:Calibri, sans-serif; font-size:32px; font-weight:bold\">\n&nbsp;&sect;&nbsp;&nbsp;Save data (to database)</div>",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-27T08:12:55+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "md",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div style=\"padding:8px; background-color:#ccff99; font-family:Calibri, sans-serif; font-size:32px; font-weight:bold\">\n&nbsp;&sect;&nbsp;&nbsp;Save data (to database)</div>\n"
+          }
+        ]
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695108429767_723466845",
+      "id": "20230919-072709_1497783800",
+      "dateCreated": "2023-09-19T05:53:15+0000",
+      "dateStarted": "2023-09-19T05:53:42+0000",
+      "dateFinished": "2023-09-19T05:53:42+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:53"
+    },
+    {
+      "text": "%python\n\n# push data\ntry:\n    oml.drop(table='TF_WIP_CL_RESULTS')\nexcept:\n    pass\nTF_WIP_CL_RESULTS = oml.create(data['TF_WIP_CL_RESULTS'], table='TF_WIP_CL_RESULTS', \n    dbtypes={'COMPANYID':'VARCHAR2(100)','COMPANYNAME':'VARCHAR2(100)','SCORE_CYC1':'NUMBER(10)','SCORE_CYC2':'NUMBER(10)','SCORE_CYC3':'NUMBER(10)','SCORE_BCEN':'NUMBER(10)','SCORE_CCEN':'NUMBER(10)','CLUSTER_CYC':'VARCHAR2(10)','CLUSTER_CEN':'VARCHAR2(10)'})",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-27T08:17:27+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/undefined",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "lineNumbers": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695108429767_-1399881213",
+      "id": "20230919-072709_1140892869",
+      "dateCreated": "2023-09-19T05:53:14+0000",
+      "dateStarted": "2023-09-19T08:33:20+0000",
+      "dateFinished": "2023-09-19T08:33:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:54"
+    },
+    {
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-27T08:12:55+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695108429767_1648204870",
+      "id": "20230919-072709_1834135314",
+      "dateCreated": "2023-09-14T07:32:18+0000",
+      "status": "READY",
+      "$$hashKey": "object:55"
+    },
+    {
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-27T08:12:55+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695108429767_-675413387",
+      "id": "20230919-072709_701581545",
+      "dateCreated": "2023-09-14T07:32:17+0000",
+      "status": "READY",
+      "$$hashKey": "object:56"
+    },
+    {
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-27T08:12:55+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695108429767_290156387",
+      "id": "20230919-072709_1108572598",
+      "dateCreated": "2023-09-19T07:26:18+0000",
+      "status": "READY",
+      "$$hashKey": "object:57"
+    },
+    {
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-27T08:12:55+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695108429767_-2131910464",
+      "id": "20230919-072709_66378685",
+      "dateCreated": "2023-09-14T07:32:16+0000",
+      "status": "READY",
+      "$$hashKey": "object:58"
+    },
+    {
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-27T08:12:55+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695108429767_-2041928286",
+      "id": "20230919-072709_2066145006",
+      "dateCreated": "2023-09-14T07:32:14+0000",
+      "status": "READY",
+      "$$hashKey": "object:59"
+    },
+    {
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-27T08:12:55+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695108429767_1035895576",
+      "id": "20230919-072709_1477658467",
+      "dateCreated": "2023-09-14T07:32:13+0000",
+      "status": "READY",
+      "$$hashKey": "object:60"
+    },
+    {
+      "text": "%md\n<div style=\"padding:8px; background-color:#ccff99; font-family:Calibri, sans-serif; font-size:32px; font-weight:bold\">\n&nbsp;&sect;&nbsp;&nbsp;WIP</div>",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-27T08:12:55+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "md",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div style=\"padding:8px; background-color:#ccff99; font-family:Calibri, sans-serif; font-size:32px; font-weight:bold\">\n&nbsp;&sect;&nbsp;&nbsp;WIP</div>\n"
+          }
+        ]
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695108429767_-508953923",
+      "id": "20230919-072709_18107166",
+      "dateCreated": "2023-09-14T07:32:01+0000",
+      "dateStarted": "2023-09-14T07:32:33+0000",
+      "dateFinished": "2023-09-14T07:32:33+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:61"
+    },
+    {
+      "text": "",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-27T08:12:55+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695108429767_1521509725",
+      "id": "20230919-072709_605573554",
+      "dateCreated": "2023-09-11T09:45:44+0000",
+      "status": "READY",
+      "$$hashKey": "object:62"
+    },
+    {
+      "text": "",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-27T08:12:55+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695108429767_1833432918",
+      "id": "20230919-072709_1770269297",
+      "dateCreated": "2023-09-11T09:46:54+0000",
+      "status": "READY",
+      "$$hashKey": "object:63"
+    },
+    {
+      "text": "",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-27T08:12:55+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695108429767_-1984688320",
+      "id": "20230919-072709_737038461",
+      "dateCreated": "2023-09-11T09:46:54+0000",
+      "status": "READY",
+      "$$hashKey": "object:64"
+    },
+    {
+      "text": "",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-27T08:12:55+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695108429767_1789783339",
+      "id": "20230919-072709_134324901",
+      "dateCreated": "2023-09-11T09:46:53+0000",
+      "status": "READY",
+      "$$hashKey": "object:65"
+    },
+    {
+      "text": "",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-27T08:12:55+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695108429767_-1890601234",
+      "id": "20230919-072709_1853024214",
+      "dateCreated": "2023-09-11T09:45:43+0000",
+      "status": "READY",
+      "$$hashKey": "object:66"
+    },
+    {
+      "text": "",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-27T08:19:21+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1695108429767_-1194191697",
+      "id": "20230919-072709_653107147",
+      "dateCreated": "2023-09-11T09:11:08+0000",
+      "status": "READY",
+      "$$hashKey": "object:67"
+    }
+  ],
+  "name": "07-create.machine.learning.models",
+  "id": "1430508",
+  "defaultInterpreterGroup": "spark",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/07-create.fraud.risk.models"
+}

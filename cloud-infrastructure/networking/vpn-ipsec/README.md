@@ -8,7 +8,7 @@ Key Features:
 - Flexible Configuration: Configure the VPN IPSec tunnels to meet your specific network requirements, including tunnel modes, encryption algorithms, authentication methods, and key exchange protocols. Customize the configuration to align with your security policies and compliance needs.
 - Site-to-Site Connectivity: Establish a site-to-site VPN connection, allowing seamless and secure communication between your on-premises network and your virtual cloud network (VCN) in OCI. This enables you to extend your on-premises network to OCI, facilitating hybrid cloud architectures.
 
-Reviewed: 06.02.2024
+Reviewed: 30.10.2024
 
 # Useful Links
 
@@ -20,14 +20,14 @@ Reviewed: 06.02.2024
 # Team Publications
 
 - [Use Oracle Cloud Infrastructure Site-to-Site VPN service in HA mode with ECMP routing from Linux and Libreswan](https://docs.oracle.com/en/learn/oci-site-to-site-vpn/#introduction)
-
+- [Connect On-premises to OCI using an IPSec VPN with Hub and Spoke VCN Routing Architecture](https://docs.oracle.com/en/learn/oci-onprem-env/)
+- [Set up an Oracle Cloud Infrastructure Site-to-Site VPN with Static Routing Between two OCI Regions](https://docs.oracle.com/en/learn/stsvpn-btw-ociregions/)
 
 ## Reference Architectures & Step-by-step Guides
 
 - [Steps to create an IPSec](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/settingupIPsec.htm)
 - [Steps to create IPSEC to AWS ](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/vpn_to_aws.htm)
     
-
 ## Blogs
 
  - [Enabling ECMP on IPSEC](https://www.ateam-oracle.com/post/equal-cost-multi-path-ecmp-routing-on-oci-drgv2)

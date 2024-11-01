@@ -1,7 +1,7 @@
 
 # Full Stack Disaster Recovery (FSDR) Operations Workshop
 
-Reviewed: 30.01.2024
+Reviewed: 08.10.2024
 
 ## Objectives
 

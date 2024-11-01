@@ -2,17 +2,17 @@
  
 OCI Vision is an AI service for performing deep-learning–based image analysis at scale. With prebuilt models available out of the box, developers can easily build image recognition and text recognition into their applications without machine learning (ML) expertise. For industry-specific use cases, developers can automatically train custom vision models with their own data. These models can be used to detect visual anomalies in manufacturing, organize digital media assets, and tag items in images to count products or shipments.
  
-Reviewed: 30.01.2024
+Reviewed: 17.10.2024
 
 # Table of Contents
  
 - [AI Vision](#ai-vision)
 - [Table of Contents](#table-of-contents)
-  - [Team Publications](#team-publications)
+- [Team Publications](#team-publications)
+- [Useful Links](#useful-links)
   - [Architecture Center](#architecture-center)
   - [LiveLabs and Workshops](#livelabs-and-workshops)
-  - [Reusable Assets Overview](#reusable-assets-overview)
-  - [Useful Links](#useful-links)
+- [Reusable Assets Overview](#reusable-assets-overview)
 - [License](#license)
  
 # Team Publications
@@ -21,9 +21,20 @@ Reviewed: 30.01.2024
 - [OCI Vision Healthcare Image Analysis](https://blogs.oracle.com/ai-and-datascience/post/advancing-healthcare-image-analysis-on-oci)
 - [Build a real-time object identifier using OCI Vision and Oracle Autonomous Database](https://docs.oracle.com/en/solutions/realtime-ocivision-object-identification/index.html#GUID-A875FB7D-29E3-4FBF-AED5-C0CF43F71469)
     - The reference architecture describes how you can integrate an OCI Vision-trained model with a front-end web app to perform real-time object identification with a mobile phone camera. 
+- [Build a meal recommmendation Engine with OCI Vision & Generative AI](https://www.oracle.com/artificial-intelligence/build-a-meal-recommendation-engine-with-ai/)
+- [Cloud Coaching - Unlock Culinary Creativity: AI Powered Cooking Adventure from Fridge to Fork!](https://www.youtube.com/watch?v=tRVwTLKS4rE&t)
+    - You are in the mood of cooking an exotic dish. You open the refrigerator, and using the mobile phone, access your favourite retail app to scan the items you have and submit. 
+      -  This triggers a series of actions:
+      -  OCI AI Vision identifies the items (specific vegetables, egg, chicken etc).
+      -  On choosing your favourite cuisine, OCI Generative AI suggests a list of dishes based on identified items.
+      -  On selecting your favourite dish, OCI Generative AI provides the detailed recipe. Also, the missing ingredients are listed, with an option to order the same. 
+- [Cloud Coaching - Discover OCI Vision for Object Detection in Manufacturing, Retail, & More](https://www.youtube.com/watch?v=lHH_1MXGOc0)
+    - In this session you learn how OCI Vision can identify, classify, and quantify visual data in powerful ways. Watch as the service identifies objects (people, cars, trees, and so forth) and categorizes them. See how it can even detect faces or key points in faces for analysis.
+
 
 # Useful Links
  
+- [AI Solutions Hub](https://www.oracle.com/artificial-intelligence/solutions/)
 - [Oracle AI Vision on oracle.com](https://www.oracle.com/uk/artificial-intelligence/vision/)
 - [Oracle AI Vision documentation](https://docs.oracle.com/en-us/iaas/vision/vision/using/home.htm)
 
@@ -52,7 +63,11 @@ Reviewed: 30.01.2024
 - [How to Use AI Vision and Drones for Inventory Management](https://go.oracle.com/LP=135420)
 
 # Reusable Assets Overview
- 
+
+- [Cloud Coaching - Boost Your Oracle AI Services](https://youtu.be/VVWTqqlIEhg)
+    - Describe an image using OCI AI Vision, Generative AI Service and Oracle Integration 
+- [Blog: Describe an image using OCI AI Vision, Generative AI & Integration Cloud](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/vision-genai)
+    - In this article, we'll explore how to describe an image using OCI AI Vision Service and OCI Generative AI Service. The application is developed using Oracle VBCS, OIC, OCI AI Vision service, and OCI Generative AI Service. This integrated approach combines the strength of OCI AI Vision and OCI Generative AI Service, allowing for efficient and insightful summarization of image content.
 - [OCI image classification using data labeling and vision service](https://github.com/carlgira/oci-image-classification)
 - [OCI object detection using data labeling and vision service](https://github.com/carlgira/oci-object-detection) 
 - [Perform image recognition with Oracle Cloud Infrastructure OCI Vision](https://youtu.be/G11INIVtlMY?si=ixMoLE2jSq7f_Iyi) 

@@ -2,7 +2,7 @@
  
 Oracle Autonomous JSON Database is a cloud document database service that makes it simple to develop JSON-centric applications. It features NoSQL-style document APIs (Oracle SODA and Oracle Database API for MongoDB), serverless scaling, high-performance ACID transactions, comprehensive security, and low pay-per-use pricing.
 
-Reviewed: 25.01.2024
+Reviewed: 23.10.2024
  
 # Table of Contents
  
@@ -97,6 +97,8 @@ Reviewed: 25.01.2024
 - [Use the Oracle Database API for MongoDB](https://apexapps.oracle.com/pls/apex/f?p=133:180:109524315536663::::wid:3152)
     - This workshop shows how you can use MongoDB programs and applications to connect to Autonomous Database, using the Oracle Database API for MongoDB.
 
+- [JSON Relational Duality Views in 23ai Free using SQL](https://apexapps.oracle.com/pls/apex/f?p=133:180:107909232041551::::wid:3968)
+    - JSON Relational Duality is a landmark capability in Oracle Database 23ai providing game-changing flexibility and simplicity for Oracle Database developers.
     
 # License
  

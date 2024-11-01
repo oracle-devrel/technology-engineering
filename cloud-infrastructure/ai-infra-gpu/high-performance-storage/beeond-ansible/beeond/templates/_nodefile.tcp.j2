@@ -1,0 +1,3 @@
+{% for item in groups['compute'] %}
+{{ hostvars[item]['ansible_hostname'] }}
+{% endfor %}

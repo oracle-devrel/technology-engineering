@@ -43,6 +43,8 @@ Reusable assets can be found in subfolders:
   - Architecture pattern for exposing APIs deployed in OIC using OCI API Gateway
 - [Shared Assets](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/app-integration-and-automation/shared-assets)
   - List of reusable assets spanning multiple cloud services (OIC, OPA, API Gateway)
+- [Blog: Deploying APIs to API Gateway on the command line](http://aroundmiddleware.blogspot.com/2024/05/deploying-apis-to-api-gateway-on.html)
+  - How to deploy APIs with different endpoints and other values for each environment, meant for integration with CI/CD pipeline.
 
 # License
 

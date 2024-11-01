@@ -2,23 +2,30 @@
 
 OCI Language is a cloud-based AI service for performing sophisticated text analysis at scale. Use this service to build intelligent applications by leveraging REST APIs and SDKs to process unstructured text for sentiment analysis, entity recognition, translation, and more.
 
-Reviewed: 30.01.2024
+Reviewed: 25.10.2024
 
 # Table of Contents
  
 - [AI Language](#ai-language)
 - [Table of Contents](#table-of-contents)
-  - [Team Publications](#team-publications)
+- [Team Publications](#team-publications)
   - [Architecture Center](#architecture-center)
+- [Useful Links](#useful-links)
   - [LiveLabs and Workshops](#livelabs-and-workshops)
-  - [Reusable Assets](#reusable-assets)
-  - [Useful Links](#useful-links)
   - [Customer Stories](#customer-stories)
+- [Reusable Assets](#reusable-assets)
 - [License](#license)
  
 # Team Publications
 
 - [Saving the Bees using AI: One Positive Entity at a Time](https://www.linkedin.com/pulse/saving-bees-using-ai-one-positive-entity-time-ismail-syed/)
+- [AI Meetings: Sentiment analysis & Name Entity Recognition](https://www.oracle.com/artificial-intelligence/automate-meeting-transcriptions/)
+- [Cloud Coaching - Unlock the potential of enterprise Oracle GenAI](https://www.youtube.com/watch?v=dtvP0DU7Mdg)
+    - During this cloud coaching session, we demonstrate how to leverage AI to revolutionize meeting interactions. Experience real-time transcription, summary generation, a chat interface and more that enhances collaboration and productivity. 
+- [Cloud Coaching - Oracle Integration (OIC3) and AI Language Service](https://www.youtube.com/watch?v=9gDHVjwKDR8)
+    - The aim of this video is to show practical examples when and how to use AI Language Service - Named Entity Recognition method. 
+- [Getting Started with Oracle Cloud Infrastructure AI Language Service](https://www.youtube.com/watch?v=-t6jje8SRXU)
+- [Enabling a WhatsApp Customer HelpMate using OCI Generative AI, AI Language & Integration](https://www.youtube.com/watch?v=ryo3wVB_69E)
 
 ## Architecture Center
 
@@ -26,9 +33,11 @@ Reviewed: 30.01.2024
 
 # Useful Links
  
+- [AI Solutions Hub](https://www.oracle.com/artificial-intelligence/solutions/)
 - [Oracle AI Language on oracle.com](https://www.oracle.com/uk/artificial-intelligence/language/)
 - [Oracle AI Language documentation](https://docs.oracle.com/en-us/iaas/language/using/language.htm)
-- [Oracle AI Language blog announcement](https://blogs.oracle.com/ai-and-datascience/post/announcing-oci-language)
+- [Oracle AI Language v3 announcement blog](https://blogs.oracle.com/ai-and-datascience/post/announcing-the-general-availability-of-oci-language-30)
+- [Oracle AI Language announcement blog](https://blogs.oracle.com/ai-and-datascience/post/announcing-oci-language)
 
 
 ## LiveLabs and Workshops

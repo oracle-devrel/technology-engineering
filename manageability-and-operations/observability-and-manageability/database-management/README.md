@@ -2,7 +2,7 @@
 
 Database Management provides comprehensive database performance diagnostics and management capabilities to monitor and manage Oracle Databases. In addition, you can use Database Management to discover and monitor on-premises Oracle Database System (External Database System) components and Exadata Storage Infrastructure.
 
-Reviewed: 16.11.2023
+Reviewed: 27.09.2024
 
 # Table of Contents
 
@@ -11,8 +11,9 @@ Reviewed: 16.11.2023
 
 
 # Team Publications
-
+- [Database Management Demo](https://www.youtube.com/watch?v=3k9jrkOlBkc)
 - [OCI Database Management PDB Support](https://learnoci.cloud/oci-database-management-new-features-announced-f9991cba2cc2)
+- [How to enable OCI Observability for OCI native database deploy](https://medium.com/@erikasciunzi/enable-observability-for-oci-native-database-deploy-235484953e46)
 
 # Useful Links
 

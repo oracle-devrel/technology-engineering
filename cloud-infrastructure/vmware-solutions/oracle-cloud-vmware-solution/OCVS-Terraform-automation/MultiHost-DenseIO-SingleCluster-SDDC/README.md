@@ -1,23 +1,22 @@
-## Terraform - Provisioning Multi host SDDC with single cluster
-Create by: richard.garsthagen@oracle.com
-Date: February 2024
+# OCVS Terraform Automation: Multi Host DenseIO Single Cluster SDDC
 
-This is an example Terraform script to provision a multi host SDDC with a
-single cluster based on DenseIO shape, using VSAN for storage.
+Automate the provisioning and management of an OCVS environment.
 
-The terraform creates:
-- a VCN for deploying SDDC into
-- Needed subnet for ESXi servers
-- Needed VLANS for the VMware stack
+Reviewed: 09.05.2024
 
-The vSphere VLAN will be configured to allow egress traffic to internet via 
-NAT Gateway. This is needed for provisioning to succeed. As internet access
-is needed to license registration with VMware.
+# When to use this asset?
 
-more info:
-https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/ocvp_sddc
+This is an example Terraform script to provision a multi-host SDDC with a single cluster based on DenseIO shape, using VSAN for storage.
+
+# How to use this asset?
+
+See the README in the files folder.
 
 # License
+
 Copyright (c) 2024 Oracle and/or its affiliates.
+
 Licensed under the Universal Permissive License (UPL), Version 1.0.
+
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+
