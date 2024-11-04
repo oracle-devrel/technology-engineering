@@ -36,23 +36,26 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 -->
 
-## Functions overview
-[Document functions-overview](files/Fn.pdf)
-
-### Author
-<a href="https://github.com/mikarinneoracle">mikarinneoracle</a>
-
 # A Java Hello World function with local dev and then building and deploying to OCI Functions
 
-This is an example how I'm locally developing and testing OCI Functions on my mac with Apple silicon that uses mainly ARM architecture and then building and deploying the same to Functions in OCI.
+Reviewed: 31.10.2024
+ 
+# When to use this asset?
+ 
+Anyone who wants to develop Functions and this example shows how I'm doing this locally using Fn (<a href="https://fnproject.io">https://fnproject.io</a>) on my mac with Apple silicon that uses mainly ARM architecture and then building and then deploying the same to Functions in OCI.
 
-### Local Dev
+# Author
+<a href="https://github.com/mikarinneoracle">mikarinneoracle</a>
+
+# How to use this asset?
+
+## Local Dev
 
 I've installed maven and <code>Fn cli</code> on my mac. This is how to do the <a href="https://docs.oracle.com/en-us/iaas/Content/Functions/Tasks/functionsinstallfncli.htm">Fn cli install</a> or like in here <a href="https://fnproject.io/tutorials/install/">following the Fn tutorial</a>. 
 
 <p>
 
-To develop functions locally I'm running the Fn server; to do this I'm using this command with Rancher Desktop instead of doing the usual <code>fn start</code> that works for me:
+To develop functions locally I'm running the Fn server. Normally you would start it with <code>fn start</code> command but I'm using this command with Rancher Desktop that works for me:
 
 <pre>
 docker run --rm -i --name fnserver \
@@ -76,7 +79,7 @@ fn create app hellofunction
 
 <p>
 
-Then clone this repo and project and cd to the project root directory. Then run Fn cli command to build and deploy the function locally:
+Then clone this repo and project and cd to the project root directory under <code>/files</code>. Then run Fn cli command to build and deploy the function locally:
 
 <pre>
 fn --verbose deploy --app hellofunction --local
@@ -98,7 +101,7 @@ echo 'Mika' | fn invoke hellofunction hellofunc
 Hello, Mika!
 </pre>
 
-### OCI
+## OCI
 
 Now that the function is properly working locally let's build and deploy it to OCI.
 
@@ -156,6 +159,15 @@ Optionally can create API Gateway for the function that will assign a public end
 curl -d "Mika" https://n3yu.....ghhi.apigateway.eu-frankfurt-1.oci.customer-oci.com/
 Hello, Mika!
 </pre>
+
+# Useful Links
+ 
+- [OCI Functions](https://docs.oracle.com/en-us/iaas/Content/Functions/Concepts/functionsoverview.htm)
+    - Learn how the Functions service lets you create, run, and scale business logic without managing any infrastructure
+- [Fn](https://fnproject.io/)
+    - The Fn project is an open-source container-native serverless platform that you can run anywhere -- any cloud or on-premise. It’s easy to use, supports every programming language, and is extensible and performant
+- [Oracle](https://www.oracle.com/)
+    - Oracle Website
 
 ## License
 
