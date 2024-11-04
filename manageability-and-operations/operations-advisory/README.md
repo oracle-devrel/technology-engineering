@@ -4,7 +4,7 @@ The Operations Advisory provides critical guidance to Customers on how to define
 - [Multi-cloud operations - 3rd party tools that support OCI](https://learnoci.cloud/multi-cloud-operations-3rd-party-tools-that-support-oci-091207d923ed)
   
 
-Reviewed: 24.09.2024
+Reviewed: 04.11.2024
 
 # Table of Contents
 
