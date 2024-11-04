@@ -19,6 +19,23 @@ This section contains various examples related to Application Integration: demo 
 
 ## Demos
 
+- [Developer Coaching Session : Automate Expenses - OCI Document Understanding + Oracle Process Automation](https://youtu.be/orqQoTFrKBc?si=PCCSYWtblxLWCIwn)
+
+    - OCI Process Automation enables businesses to streamline workflows, reduce manual efforts, and ensure consistent decision-making by harnessing intelligent services to automate repetitive processes and integrate seamlessly with other business applications. 
+    
+    In this session, we explore out of the box recipes, demonstrating how to optimize the expense report creation process using intelligent document processing and decision service capabilities within OCI Process Automation.
+
+    Key Takeaways:
+    1. Automated Data Extraction:
+        The process starts when users upload receipts as part of their expense reports in OCI Process Automation custom form.
+        OCI Document Understanding automatically scans and extracts data, populating the expense report with necessary line items.
+    2. Approval Workflow:
+        Once the expense report is submitted, the OCI Process Automation decision service evaluates it for automatic approval or manual review.
+        Decisions are based on total amount, cost center, expense type, and receipt attachments.
+    3. Manual Review and Integration:
+        Expense reports flagged for review are sent to line managers for approval.
+
+
 - [Setting Up OAuth and Calling Oracle Integration APIs: A Step-by-Step Guide](https://youtu.be/UrptzZbycm4?si=opv0_wc5F7SV86nx)
 
     - In this demo video, we provide a step-by-step guide to setting up OAuth and calling Oracle Integration APIs. We'll walk you through registering your application, obtaining client credentials, and generating OAuth tokens. 

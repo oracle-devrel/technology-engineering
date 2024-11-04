@@ -11,7 +11,6 @@ Reviewed: 04.06.2024
 
 # Team Publications
 
-- [Revival of the Magical Suitcase](https://medium.com/@devpiotrekk/revival-of-the-magical-suitcase-73093af23f29)
 - [LiveLabs: Deploying OCI Streaming Service](https://apexapps.oracle.com/pls/apex/f?p=133:180:107188281482541::::wid:664)
 - [LiveLabs: How do I ingest messages into OCI streaming in real-time with Oracle GoldenGate for Big Data?](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/run-workshop?p210_wid=3572&session=107188281482541)
 
@@ -20,6 +19,13 @@ Reviewed: 04.06.2024
 - [OCI Streaming Documentation](https://docs.oracle.com/en-us/iaas/Content/Streaming/Concepts/streamingoverview.htm)
 - [Overview of OCI Streaming - YouTube](https://www.youtube.com/watch?v=G8-E_j-uVak)
 
+# Reusable Assets
+
+- [Revival of the Magical Suitcase](https://medium.com/@devpiotrekk/revival-of-the-magical-suitcase-73093af23f29)
+
+- [Fake Producer and Consumer for OCI Streaming](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-streaming/code-examples/fake-producer-consumer)
+
+- [Create and run Mosquitto & Node-RED, connecting to OCI Streaming](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-streaming/code-examples/mosquitto_node-red)
 
 # License
 
