@@ -1,6 +1,6 @@
 # Document Evaluation Tool using Oracle Generative AI, OCI Document Understanding and Oracle Integration Cloud
 
-Reviewed: 14.03.2024
+Reviewed: 05.11.2024
 
 # Introduction
 
@@ -14,12 +14,14 @@ A CV Evaluation App as part of a recruitment process:
 
 <img src="./images/1_CVEvaluation.png"></img>
 <img src="./images/2_CVEvaluationResults.png"></img>
+<img src="./images/2_CVEvaluationResults_2.png"></img>
 
 
 A Supplier Proposal Evaluation App as part of a vendor bid.
 
 <img src="./images/3_RFPEvaluation.png"></img>
 <img src="./images/4_RFPEvaluationResults.png"></img>
+<img src="./images/4_RFPEvaluationResults_2.png"></img>
 
 In this article we will use as a case study: **"CV Evaluation APP"**
 
@@ -73,12 +75,20 @@ In this application:
 
 <img src="./images/8_Step2VBCS_CriteriaSelection.png"></img>
 
-**Step3.** Evaluator press the button “Evaluate”
+**Step3.** Evaluator can edit the Decision Logic in Natural Language.
+
+<img src="./images/8a_Step2VBCS_EvaluationMatrix.png"></img>
+
+**Step4.** Evaluator can edit the Evaluation Examples in Natural Language.
+
+<img src="./images/8b_Step2VBCS_EvaluationExamples.png"></img>
+
+**Step5.** Evaluator press the button “Evaluate”
 
 <img src="./images/9_Step3VBCS_Evaluation1.png"></img>
 <img src="./images/10_Step3VBCS_Evaluation2.png"></img>
 
-**Step4.** After pressing the button “Evaluate”, each CV is processed via  Document Understanding, triggering the **OIC Data Loader Low-Code Child Integration Flow** (CVs Data Extraction with Document Understanding REST API)
+**Step6.** After pressing the button “Evaluate”, each CV is processed via  Document Understanding, triggering the **OIC Data Loader Low-Code Child Integration Flow** (CVs Data Extraction with Document Understanding REST API)
 
 <img src="./images/11_Step4OIC_DataLoader.png"></img>
 <img src="./images/12_Step4OIC_DataLoaderConfig.png"></img>
@@ -88,7 +98,7 @@ In this application:
 <img src="./images/16_Step4OIC_DocUnderstanding.png"></img>
 
 
-**Step5.** At this step, using Generative AI the summary of the CV is created, and also evaluation criteria are extracted, triggering the **OIC Query Engine Low-Code Parent Integration Flow** (CV Summary Generation and Evaluation Criteria extraction with Generative AI Inference REST API).
+**Step7.** At this step, using Generative AI the summary of the CV is created, and also evaluation criteria are extracted, triggering the **OIC Query Engine Low-Code Parent Integration Flow** (CV Summary Generation and Evaluation Criteria extraction with Generative AI Inference REST API).
 
 <img src="./images/17_Step5OIC_Summarization.png"></img>
 <img src="./images/18_Step5OIC_SummarizationProperties.png"></img>
@@ -97,14 +107,15 @@ In this application:
 <img src="./images/21_Step5OIC_SummarizationJsonDetails3.png"></img>
 <img src="./images/22_Step5OIC_GenAIPrompt.png"></img>
 
-**Step6.** Decision logic together with Evaluator Criteria and Extracted Criteria from the Candidate CV are sent to  Generative AI Inference REST API, to obtain one of the responses “Good Fit”/ “No Fit” 
+**Step8.** Decision logic together with Evaluator Criteria and Extracted Criteria from the Candidate CV are sent to  Generative AI Inference REST API, to obtain one of the responses “Good Fit”/ “No Fit” 
 
 <img src="./images/23_Step6OIC_Evaluation.png"></img>
 <img src="./images/24_Step6OIC_GenAIPrompt.png"></img>
 
-**Step7.** The list of all candidates is shown on the screen together with the response if the candidate is a good fit or not. Also, a summary of each CV is available.
+**Step9.** The list of all candidates is shown on the screen together with the response if the candidate is a good fit or not. Also, a summary  and a justification of the reasoning behind the evaluation result of each CV is available.
 
-<img src="./images/25_Step6OIC_VBCSEvaluationResult.png"></img>
+<img src="./images/2_CVEvaluationResults.png"></img>
+<img src="./images/2_CVEvaluationResults_2.png"></img>
 
 # Prompting with Oracle Generative AI
 
@@ -132,8 +143,10 @@ Please access the full prompt <a href="./images/CVEvaluationAppPrompts.pdf">here
 
 # Code
       VBCS app - RecruitmentApp-1.0.zip
-      OIC CV Summary Generation and Evaluation Criteria extraction Parent Integration Flow - CV_JOB_MATCH_FINDER_01.00.0000.iar
+      OIC CV Summary Generation and Evaluation Criteria extraction Parent Integration Flow - CV_EVALUATOR_01.00.0000.iar
       OIC CVs Data Extraction Child Integration Flow - AIDOCUMENTPROCESSING_01.00.0000.iar
+      OIC Chat Completion Child Integration Flow - RESTCHATCOMPLETION_01.00.0000.iar
+      OIC OCI Generative AI Chat Completion Child Integration Flow - RESTOCIGENERATIVECHATCOMPLETION_01.00.0000.iar
       Generative AI Prompts: CVEvaluationAppPrompts.pdf
       CV Samples - cv_samples folder
 
