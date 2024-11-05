@@ -16,12 +16,14 @@ Also make sure to check the dedicated pages of the main technology areas of Data
 
 # Team Publications
  
-- [ZDM/DMS Comparison](https://macsdata.netlify.app/oradb/migration/zdm-dms-comparison/)
+- [ZDM/DMS Comparison](https://macsdata.com/oracle/zdm-dms-comparison)
     - Technical Comparison of Zero Downtime Migration and OCI Database Migration service, available on Marcus Doeringer's public platform
 - [CLONE PDB options as a Migration Method for Windows Databases to Oracle Cloud Infrastructure](https://carlosal.wordpress.com/2023/07/14/clone-pdb-options-as-a-migration-method-for-windows-databases-to-oracle-cloud-infrastructure/)
     - Blog technical article about migrating Windows Oracle Databases to OCI using Oracle REMOTE CLONE PDB and REFRESHABLE PDB functionalities, available on Carlos Álvarez's public platform
 - [Cloning Oracle Databases from Non-CDB to PDB](https://carlosal.wordpress.com/2023/11/07/cloning-oracle-databases-from-non-cdb-to-pdb/)
     - Blog technical article about cloning Non-CDB Oracle Databases as a PDB in a Container Database (CDB) using Oracle REMOTE CLONE PDB functionality, available on Carlos Álvarez's public platform
+- [Enabling TDE after migrating a Database to OCI by Cloning](https://carlosal.wordpress.com/2024/07/17/enabling-tde-after-migrating-a-database-to-oci-by-cloning/)
+    - Blog technical article about how to check and enable Transparent Data Encryption (TDE) after migrating a Database to OCI by Cloning, available on Carlos Álvarez's public platform
 - [How to survive an Oracle Database failure without your users ever noticing - Cloud Coaching Webinar]( https://www.youtube.com/watch?v=dsUbi5dO_PU)
     - Cloud Coaching Webinar, including a technical demonstration, delivered by Amalraj Puthenchira around the use of Application Continuity to avoid unplanned application outages.
 - [Teradata to Autonomous Data Warehouse on OCI Migration Guide](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/shared-assets/teradata-to-autonomous-data-warehouse-migration-guide)
@@ -32,10 +34,12 @@ Also make sure to check the dedicated pages of the main technology areas of Data
     - Cloud Coaching session delivered by Austine Ouma and Marcus Doeringer around best practices for loading data and migrating databases into Oracle Autonomous Database on Oracle Cloud Infrastructure.
 - [Ace your Database Migration to Oracle Exadata Database Service on Dedicated Infrastructure](https://www.youtube.com/watch?v=luBezgN7sa0)
      - Cloud Customer Connect session delivered by Amalraj Puthenchira explaining how to use the Oracle Zero Downtime Migration (ZDM) tool to migrate Oracle Database on Linux to Exadata Database Service on Dedicated Infrastructure.
-- [Migration Methods Overview & Comparison](https://macsdata.netlify.app/oracle/migration/methods-overview-comparison/)
+- [Migration Methods Overview & Comparison](https://macsdata.com/oracle/migration-methods-overview)
     - Explore and compare key features of different Oracle migration methods, available on Marcus Doeringer's public platform
 - [Multicloud Network Architectures for DB Migrations to Oracle Cloud Infrastructure](https://www.youtube.com/watch?v=1ngXJRsP5jA)
     - Cloud Coaching Webinar explaining different multicloud network architectures for migrating databases to OCI using Zero Downtime Migration
+- [Migrate On-Premises Database to OCI using Oracle Database Cloud Backup Module and RMAN ](https://amalrajputhenchira.wordpress.com/2024/08/13/migrate-on-premises-oracle-database-to-oci-using-oracle-database-cloud-backup-module-and-rman/)
+    - Detailed, step-by-step instructions for performing Physical Offline Migration of On-Premises database to Co-Managed Database in OCI using Oracle Database Cloud Backup Module and RMAN , available on Amalraj Puthenchira's public platform
     
 # Useful Links
 

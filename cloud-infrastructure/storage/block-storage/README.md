@@ -24,6 +24,7 @@ Reviewed: 23.01.2024
   - [Showcase 2: TRIM showcase](showcase-2)
   - [Showcase 3: boot/block volume security best practice](showcase-3)
   - [Showcase 4: boot/block volume individual (to a customer-managed bucket) backup and restore](showcase-4)
+  - [Showcase 5: Shatter the Million IOPS Barrier in the Cloud with OCI Block Storage](https://gitlab.com/hmielimo/next-generation-cloud/-/tree/main/doc/oci.block.storage.plan.and.proof)
 
 
 # Useful Links

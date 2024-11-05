@@ -1,15 +1,14 @@
 # OCI Implementation Series: Integrate Okta IAM with OCI Identity Domain in Hybrid Cloud Environment Setup
 
-# Table of Contents
+As organizations increasingly adopt multi-cloud and hybrid cloud infrastructures, managing identity and access across multiple environments can become a complex and challenging task. Traditional Identity and Access Management (IAM) solutions often struggle to keep up with the evolving cloud landscape, leaving organizations vulnerable to security breaches and compliance issues.
 
-1. [Team Publications](#team-publications)
+A multi-cloud/hybrid cloud IAM solution offers a comprehensive approach to managing identities, access, and security across multiple environments. By providing a centralized platform that can manage access to multiple cloud services and applications, a multi-cloud/hybrid cloud IAM solution simplifies IAM administration and strengthens security. Oracle Cloud Lift Services has implemented solutions that address these challenges. 
+
+Reviewed: 08.04.2024
 
 # Team Publications
 
 - [OCI Implementation Series: Integrate Okta IAM with OCI Identity Domain in Hybrid Cloud Environment Setup](https://blogs.oracle.com/futurestate/post/oci-implementation-series-integrate-okta-iam-with-oci-identity-domain-in-hybrid-cloud-environment-setup). <!-- LIFT -->
-- As organizations increasingly adopt multi-cloud and hybrid cloud infrastructures, managing identity and access across multiple environments can become a complex and challenging task. Traditional Identity and Access Management (IAM) solutions often struggle to keep up with the evolving cloud landscape, leaving organizations vulnerable to security breaches and compliance issues.
-- A multi-cloud/hybrid cloud IAM solution offers a comprehensive approach to managing identities, access, and security across multiple environments. By providing a centralized platform that can manage access to multiple cloud services and applications, a multi-cloud/hybrid cloud IAM solution simplifies IAM administration and strengthens security. Oracle Cloud Lift Services has implemented solutions that address these challenges. 
- 
 
 # License
 

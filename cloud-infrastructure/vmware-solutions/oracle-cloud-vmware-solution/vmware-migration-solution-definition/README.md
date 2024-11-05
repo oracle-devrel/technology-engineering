@@ -4,15 +4,15 @@ This repository contains an in-depth guide for the migration of VMware workloads
 
 Reviewed: 11.12.2023
 
-## When to use this asset?
+# When to use this asset?
 
-This document serves as an integral asset for individuals and organizations seeking to deploy a VMware SDDC in Oracle Cloud VMware Solution and migrting their critical applications to the newly deployed environment. 
+This document serves as an integral asset for individuals and organizations seeking to deploy a VMware SDDC in Oracle Cloud VMware Solution and migrate their critical applications to the newly deployed environment. 
 
-## Instructions for Utilizing This Asset
+# Instructions for Utilizing This Asset
 
-Use this document template as a starting point for the solution definition of your Oracle Cloud VMware Solution project. It includes example architecture diagrams, which can be replaced with customer specific images as per requirements.
+Use this document template as a starting point for the solution definition of your Oracle Cloud VMware Solution project. It includes example architecture diagrams, which can be replaced with customer-specific images as per requirements.
 
-## Conclusion
+# Conclusion
 
 The Oracle Cloud VMware Solution - Workload Migration Solution Definition is expected to serve as a definitive guide to the project. All participants are encouraged to provide feedback, raise queries, and make contributions to enhance the overall project's success.
 

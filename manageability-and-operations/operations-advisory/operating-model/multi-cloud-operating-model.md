@@ -1,6 +1,6 @@
 <!--
     Owner: Manuela Fioramonti
-    Last Change: 20 February 2024
+    Last Change: 11 April 2024
     Review Status: Live
     Review Notes: -
 -->
@@ -19,16 +19,18 @@ Let's start with the basics:
 
 # Automation &  Infrastructure as Code
 
-1. Make Automation part of your culture if this is not the case.
-If, in a single-cloud provider scenario, its importance is not always perceived as crucial, except for large-scale deployments, automation becomes paramount in a multi-cloud scenario.
+1. Make Automation part of your culture, if this is not the case.
+If in a single-cloud provider scenario, its importance is not always perceived as crucial, except for large-scale deployments, automation becomes paramount in a multi-cloud scenario.
 
 a.Define which Operating scenarios you need to automate: what will be the most frequent operations you will	need to run? what are the most complex and prone to human errors?
 
-b. Define the roles: Two typical roles in Infrastructure as Code (IaC) are IaC Developer and Cloud Operator. The IaC Developer provides essential building blocks--modules in Terraform, and Playbooks in 	Ansible--which are used by the Cloud Operator to deploy resources. The same module or playbook will be used many times to create the same type of resource, each time providing specific parameters for the instantiation. Reusable Terraform modules and Ansible playbooks ensure deployed resources adhere to company-wide or organizational standards.
-		
-c. Define Approval workflows for changes: typically you will want to protect resources from unwanted changes.
+b.Adopt DevOps philosophy to allow for quick changes and releases.
 
-d. Make your coding provider agnostic and modular.
+c. Define the roles: Two typical roles in Infrastructure as Code (IaC) are IaC Developer and Cloud Operator. The IaC Developer provides essential building blocks--modules in Terraform, and Playbooks in 	Ansible--which are used by the Cloud Operator to deploy resources. The same module or playbook will be used many times to create the same type of resource, each time providing specific parameters for the instantiation. Reusable Terraform modules and Ansible playbooks ensure deployed resources adhere to company-wide or organizational standards.
+		
+d. Define Approval workflows for changes: typically you will want to protect resources from unwanted changes.
+
+e. Make your coding provider agnostic and modular.
 
 2. Decide on the repository structure: this will need to support your Multi-cloud approach.
 
@@ -40,7 +42,11 @@ The following Diagram depicts as an example, the use of ServiceNow ITOM to opera
 
 ![alt ServiceNow Itom Integration](servicenowitomintegration.png)
 
-# Establish a FinOps practice
+# Implement SRE Function
+
+SRE inputs and on-call work are crucial to maximize reliability, hence this function should always be implemented for mission-critical workloads.
+
+# Embrace FinOps Practice
 
 Just like Automation and Observability practices, keeping consumption and usage under control and forecastable across cloud providers is another key element to be kept into consideration in a Multi-Cloud Operating Model.
 FinOps FOCUS Group, started in April 2023, defined open standard for cloud cost, usage, and billing data, followed by the creation of FOCUS Converters, aimed at providing billing data conversions for FOCUS compliance for AWS, Azure, GCP, and OCI.

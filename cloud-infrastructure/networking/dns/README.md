@@ -6,7 +6,7 @@ The Oracle Cloud Infrastructure Domain Name System (DNS) service lets you create
 
 We do have three major components around DNS: Private DNS, Public DNS, and Traffic Management.
 
-Reviewed: 06.02.2024
+Reviewed: 30.10.2024
  
 # Useful Links
 
@@ -20,6 +20,9 @@ Reviewed: 06.02.2024
 # Team Publications
 
 - [DNS in multicloud disaster recovery architectures](#blogs)
+- [DNS tutorials](https://docs.oracle.com/en/learn/bind9-in-oci/)(https://docs.oracle.com/en/learn/ha-on-bind9dns/)(https://docs.oracle.com/en/learn/ntvdmn-ocidns/)
+- [Protect your Oracle Cloud Infrastructure Internal Network using a DNS Firewall](https://docs.oracle.com/en/learn/internal-ntw-ocidns/#introduction)
+- 
 
 ## Reference Architectures & Step-by-step Guides
 

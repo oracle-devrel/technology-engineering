@@ -3,7 +3,7 @@
 This is a documentation template for an ODA solution. It's based on an architecture best-practices pattern and needs to be tailored for different use cases and requirements.
 This document provides a high-level solution definition for the Oracle Digital Assistant solution and aims at describing the current state, to-be state as well as a potential project scope and timeline.
 
-Reviewed: 30.01.2024
+Reviewed: 31.10.2024
  
 # When to use this asset?
  
