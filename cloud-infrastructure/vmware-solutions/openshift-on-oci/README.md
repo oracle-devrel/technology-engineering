@@ -12,6 +12,10 @@ Reviewed: 06.11.2024
 
 # Team Publications
 
+## Reference Architectures & Step-by-step Guides
+
+- [Enable Seamless Access to Red Hat OpenShift Container Platform on OCI from On-Premises to VCNs in the Same Region](https://docs.oracle.com/en/learn/oci-openshift-vcn/)
+
 ## OpenShift Day-2 - Operations
 - [Using OCI Object storage for the OpenShift Internal Registry](enable-image-registry/README.md)
 - [Adding extra worker nodes to your Assisted installed cluster](assisted-cluster-add-host/README.md)
