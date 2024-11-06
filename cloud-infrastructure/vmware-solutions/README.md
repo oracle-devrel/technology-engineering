@@ -2,10 +2,12 @@
 
 Cloud Virtualization Solutions area focuses on providing deep technical guidance with reusable content, solution guidelines, video tutorials and other assets in the key virutalization technologies on OCI. The covered solutions include:
 
-- Oracle Cloud VMware Solution
+- Oracle Cloud VMware Solution (OCVS)
 - OpenShift on OCI
 - Oracle Secure Desktops
-- Oracle Cloud Migration.
+- Oracle Cloud Migrations (OCM)
+
+Reviewed: 06.11.2024
 
 # License
 
