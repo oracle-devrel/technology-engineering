@@ -1,12 +1,11 @@
-# VMware Solutions
+# Virtualization Solutions
 
-This area focuses on Oracle Cloud VMware Solution, Oracle Secure Desktops and Oracle Cloud Migration.
+Cloud Virtualization Solutions area focuses on providing deep technical guidance with reusable content, solution guidelines, video tutorials and other assets in the key virutalization technologies on OCI. The covered solutions include:
 
-
-# Reusable Assets Overview
-
-- [Secure Desktop Solution Definition Document](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/vmware-solutions/oracle-secure-desktops/secure-desktops-solution-definition)
-
+- Oracle Cloud VMware Solution
+- OpenShift on OCI
+- Oracle Secure Desktops
+- Oracle Cloud Migration.
 
 # License
 
