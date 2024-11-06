@@ -127,8 +127,8 @@ Reviewed: 31.05.2024
 # Reusable Assets Overview
 
 - [Automating OCVS operations using Terraform](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/vmware-solutions/oracle-cloud-vmware-solution/OCVS-Terraform-automation)
-  
-- [Disaster Recovery to OCVS with HCX or SRM Solution Definition Document](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/vmware-solutions/oracle-cloud-vmware-solution/disaster-recovery-to-ocvs-with-hcx-or-srm-solution-definition/)
+- [Migrating Workloads to Oracle Cloud VMware Solution - Solution Definition Document](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/vmware-solutions/oracle-cloud-vmware-solution/vmware-migration-solution-definition)
+- [Disaster Recovery to OCVS with HCX or SRM - Solution Definition Document](https://github.com/oracle-devrel/technology-engineering/tree/d0c467529014c4286b3d9ccf80dfefaa1d3ebbf5/cloud-infrastructure/vmware-solutions/oracle-cloud-vmware-solution/disaster-recovery-to-ocvs-solution-definition)
 
 
 # License
