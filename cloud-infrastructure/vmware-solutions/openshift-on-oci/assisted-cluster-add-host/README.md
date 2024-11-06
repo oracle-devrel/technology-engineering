@@ -2,7 +2,7 @@
 
 This guide provides detailed instructions on adding a host to an OpenShift cluster installed via the Assisted Installer, specifically in the Oracle Cloud Infrastructure (OCI). The process includes generating a discovery ISO, creating a custom image, configuring OCI load balancers, launching a new instance, and approving the host in the OpenShift console.
 
----
+Reviewed: 06.11.2024
 
 ## Prerequisites
 
