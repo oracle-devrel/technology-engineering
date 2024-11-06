@@ -71,8 +71,6 @@ Reviewed: 31.05.2024
 - [Enable DNS resolution for On-Premises Domain from Oracle Cloud VMWare Solution NSX-T Overlay Segment](https://docs.oracle.com/en/learn/ocvs-dns-resolution-on-premises/#overview)
      -  This tutorial describes how to enable name resolution for on-premises Domain from Oracle Cloud VMWare Solution NSX-T backed Overlay segment.
        
-
-  
           
 ## Blogs
  
@@ -108,7 +106,12 @@ Reviewed: 31.05.2024
        
 - [Effectively monitor the Oracle Cloud VMware Solution environment using Grafana](https://blogs.oracle.com/cloud-infrastructure/post/monitor-oracle-cloud-vmware-solution-grafana)
      -  This blog post delves into an open source solution for monitoring Oracle Cloud VMware Solution, harnessing the power of Grafana, InfluxDB, and Telegraf.
-  
+ 
+- [Deployment and management of Oracle Cloud VMware Solution with Terraform](https://blogs.oracle.com/cloud-infrastructure/post/deploy-oracle-cloud-vmware-solution-terraform)
+     -  This blog post talks about using Terraform to deploy and manage your Oracle Cloud VMware Solution environment.
+
+- [Hybrid Deployment of Workloads across OCVS and OCI Compute](https://blogs.oracle.com/cloud-infrastructure/post/hybrid-oracle-cloud-vmware-solution-oci-compute)
+     -  This blog post talks about how customers can use the best of both Oracle Cloud VMware Solution and the Oracle Cloud Infrastructure (OCI) Compute service for their workload deployment.
 
 ## Videos & Podcasts
 
