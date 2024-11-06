@@ -2,7 +2,7 @@
  
 Oracle Cloud VMware Solution is based on VMware Cloud Foundation (VCF) and provides a fully supported, customizable cloud environment for VMware deployments and migrations. The solution delivers a full-stack software-defined data center (SDDC), including VMware’s vCenter, ESXi, NSX, and vSAN. Specific use cases targeted by Oracle Cloud VMware Solution include data center and application migration, hybrid extension, on-demand capacity, and disaster recovery. 
 
-Reviewed: 31.05.2024
+Reviewed: 06.11.2024
  
 # Table of Contents
  
@@ -70,7 +70,21 @@ Reviewed: 31.05.2024
 
 - [Enable DNS resolution for On-Premises Domain from Oracle Cloud VMWare Solution NSX-T Overlay Segment](https://docs.oracle.com/en/learn/ocvs-dns-resolution-on-premises/#overview)
      -  This tutorial describes how to enable name resolution for on-premises Domain from Oracle Cloud VMWare Solution NSX-T backed Overlay segment.
-       
+
+- [Deploy VMware NSX Advanced Load Balancer on Oracle Cloud VMware Solution SDDC](https://docs.oracle.com/en/learn/deploy-nsxalb-on-ocvs/index.html#introduction)
+     -  This tutorial describes how to deploy and configure VMware NSX ALB (Avi) controllers as a cluster on Oracle Cloud VMware Solution.
+
+- [Configure VMware NSX Advanced Load Balancer on Oracle Cloud VMware Solution SDDC](https://docs.oracle.com/en/learn/configure-nsxalb-on-ocvs/index.html#introduction)
+     -  This tutorial describes how to configure VMware NSX ALB (Avi) controller and create additional NSX-T overlay segments on the Oracle Cloud VMware Solution.
+ 
+- [Configure DNS Virtual Service on NSX Advanced Load Balancer in Oracle Cloud VMware Solution SDDC](https://docs.oracle.com/en/learn/nsxalb-dns-vs/index.html#introduction)
+     -  This tutorial describes how to configure Domain Name System (DNS) virtual service on VMware NSX Advanced Load Balancer (NSX ALB) controller hosted on an Oracle Cloud VMware Solution.
+     
+- [Configure HTTP Virtual Service on NSX Advanced Load Balancer in Oracle Cloud VMware Solution SDDC for Internal Users](https://docs.oracle.com/en/learn/nsxalb-http-vs-users/index.html#introduction)
+     -  This tutorial focuses on the deployment of an HTTP virtual service on the NSX Advanced Load Balancer (NSX ALB) within the Oracle Cloud VMware Solution.
+
+- [Configure HTTP Virtual Service on NSX Advanced Load Balancer in Oracle Cloud VMware Solution SDDC for Internet-Based Access](https://docs.oracle.com/en/learn/nsxalb-http-vs-access/index.html)
+     -  This tutorial will guide you through the deployment of a HTTP virtual service on the NSX Advanced Load Balancer (NSX ALB) within the Oracle Cloud VMware Solution Software-Defined Data Center (SDDC), with a specific focus on making it accessible over the internet.
           
 ## Blogs
  
