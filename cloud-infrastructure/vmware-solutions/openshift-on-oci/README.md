@@ -3,10 +3,11 @@
  
 Red Hat OpenShift can be hosted on OCI as a self-run platform. Oracle provides terraform templates for easy implementation and platform integration.
 
+Reviewed: 06.11.2024
  
 # Useful Links
 
-- [Red Hat OpenShift documentation - installing on OCI](https://docs.openshift.com/container-platform/4.16/installing/installing_oci/installing-oci-assisted-installer.html))
+- [Red Hat OpenShift documentation - installing on OCI](https://docs.openshift.com/container-platform/4.16/installing/installing_oci/installing-oci-assisted-installer.html)
 - [Oracle Cloud documentation - Getting started with OpenShift on OCI](https://docs.oracle.com/en-us/iaas/Content/openshift-on-oci/overview.htm)
 
 # Team Publications
