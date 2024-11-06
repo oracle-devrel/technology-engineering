@@ -8,7 +8,7 @@ We do have three major components around DNS: Private DNS, Public DNS, and Traff
 
 Reviewed: 06.02.2024
  
-# Useful Links-
+# Useful Links
 
 - [Private DNS Implementation](https://www.ateam-oracle.com/post/private-dns-implementation)
 - [Private DNS common Scenarios](https://www.ateam-oracle.com/post/oci-private-dns---common-scenarios)
