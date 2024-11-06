@@ -6,9 +6,9 @@ Terraform can be used both to provision and manage an OCVS environment. In the f
 - Adding an ESXi host to a multi-ad deployment, with the option to specify it's AD location
 - Manage OCVS (2-day operations), creating a new VLAN and attaching it to the OCVS environment
 
-Reviewed: 06.11.2024
-
 Examples created by: Richard Garsthagen, feedback is welcome! Please see the 'Issue' feature in GitHub.
+
+Reviewed: 06.11.2024
 
 # License
 
