@@ -21,6 +21,9 @@ Reviewed: 06.11.2024
 
 - [Terraform script to provision OpenShift on OCI](https://github.com/oracle-quickstart/oci-openshift)
   
+# Videos
+
+- [Red Hat OpenShift on Oracle Cloud Infrastructure ](https://www.youtube.com/watch?v=_3WMrRVRD1o)
 
 # License
 
