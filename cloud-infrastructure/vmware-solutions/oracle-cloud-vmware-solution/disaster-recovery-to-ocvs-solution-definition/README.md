@@ -2,7 +2,7 @@
 
 This repository contains a detailed guide for the disaster recovery of VMware workloads to Oracle Cloud VMware Solution. It offers a high-level solution definition of the deployment architecture and tools like Site Recovery Manager or HCX. The document is aimed at capturing the current state architecture and provides a prospective state, potential project scope, RPO/RTO requirments and target OCVS architecuture. 
 
-Reviewed: 14.08.2024
+Reviewed: 11.06.2024
 
 # When to use this asset?
 
