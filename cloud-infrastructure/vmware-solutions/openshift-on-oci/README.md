@@ -12,7 +12,7 @@ Reviewed: 06.11.2024
 
 # Team Publications
 
-## OpenShift Day2 - Operations
+## OpenShift Day-2 - Operations
 - [Using OCI Object storage for the OpenShift Internal Registry](enable-image-registry/README.md)
 - [Adding extra worker nodes to your Assisted installed cluster](assisted-cluster-add-host/README.md)
   
