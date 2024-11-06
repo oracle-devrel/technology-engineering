@@ -12,19 +12,18 @@ Reviewed: 06.11.2024
 
 # Team Publications
 
-### OpenShift Day2 - Operations ###
+## OpenShift Day2 - Operations
 - [Using OCI Object storage for the OpenShift Internal Registry](enable-image-registry/README.md)
 - [Adding extra worker nodes to your Assisted installed cluster](assisted-cluster-add-host/README.md)
   
-
-# Reusable Assets Overview
-
-- [Terraform script to provision OpenShift on OCI](https://github.com/oracle-quickstart/oci-openshift)
-  
-# Videos
+## Videos
 
 - [Red Hat OpenShift on Oracle Cloud Infrastructure ](https://www.youtube.com/watch?v=_3WMrRVRD1o)
 
+# Reusable Assets
+
+- [Terraform script to provision OpenShift on OCI](https://github.com/oracle-quickstart/oci-openshift)
+  
 # License
 
 Copyright (c) 2024 Oracle and/or its affiliates.
