@@ -28,7 +28,7 @@ Reviewed: 06.02.2024
 - [DNS in multicloud disaster recovery architectures](https://blogs.oracle.com/cloud-infrastructure/post/dns-in-multicloud-disaster-recovery-architectures)
 - [Integrate on-premises, internal DNS zones with private DNS on OCI](https://blogs.oracle.com/cloud-infrastructure/post/integrate-internal-dns-lan-private-dns-oci)
 
-## Videos & Podcasts
+## Videos & Podcasts.
 
 - [Implementing Public and Private DNS in OCI](https://www.youtube.com/watch?v=AjA-HagCye8)
 
