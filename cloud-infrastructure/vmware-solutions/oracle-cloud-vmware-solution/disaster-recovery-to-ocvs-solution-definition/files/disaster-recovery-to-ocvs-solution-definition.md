@@ -1,3 +1,4 @@
+---
 doc:
   author: Name Surname                  #Mandatory
   version: 2.5                          #Mandatory
@@ -75,7 +76,7 @@ doc:
       company: Oracle
   acronyms:
     Dev: Development
-
+---
 
 <!--
   Author: 
@@ -478,7 +479,6 @@ SDDC workload CIDR will be identified as a part of the low-level design during t
 | VLAN-SDDC-HCX               | 10.0.2.0/26   |
 | VLAN-SDDC-Replication Net   | 10.0.2.64/26  |
 | VLAN-SDDC-Provisioning Net  | 10.0.2.128/26 |
-
 
 
 
@@ -1070,74 +1070,3 @@ PPM   | None
 - You will provide the implementation team with appropriate access to your tenancy & relevant on-premises applications/database to perform implementation activities. We recommend the least-privilege access principle.
 - You will revoke implementor access on production goLive or after project completion.
 - You will take consistent and restorable backups of your existing data and application before implementation.
-
-**Add for EBS migration**
-- Your on-premise source non-prod environment would be a fresh clone from the production environment for easy simulation of issues.
-- You would be responsible for applying and testing all migration-related patches on the on-premise source environment.
-- You will ensure that the relevant pre-requisite patches have been applied on the on-premise source environment as per MOS DocID 2517025.1: Getting Started with Oracle E-Business Suite on Oracle Cloud Infrastructure:
-   * Table 5 - Source Environment Requirements with Target Database Tier on Oracle Cloud Infrastructure Compute VM (Under 4.2.2 section) and
-   * Section 4.5.5 Applying the Latest Critical Patch Updates (CPU) and Security Fixes
-
-
-### Transition Plan
-<!--
-Role  | RACI
-------|-----
-ACE   | A
-Impl. | R
-PPM   | C/I
--->
-
-*Guide:*
-
-*The Transition Plan describes the handover of the project, after the implementation. Please ensure the accepting transition party is filled out.*
-
-```{.snippet}
-uc-transition-plan
-```
-
-# Annex
-
-
-## Security Guidelines
-
-```{.snippet}
-annex-common-security
-```
-
-## Networking Requirement Considerations
-
-```{.snippet}
-annex-common-networking
-```
-
-## Networking Solutions
-
-```{.snippet}
-networking-products
-```
-
-## Manageability
-
-```{.snippet}
-manageability-annex
-```
-
-<!--
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⢠⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠸⣷⣦⣀⠀⠀⠀⠀⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠙⣿⣿⣿⣦⠀⠠⠾⠿⣿⣷⠀⠀⠀⠀⠀⣠⣤⣄⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠟⢉⣠⣤⣶⡆⠀⣠⣈⠀⢀⣠⣴⣿⣿⠋⠀⠀⠀⠀
-⠀⢀⡀⢀⣀⣀⣠⣤⡄⢀⣀⡘⣿⣿⣿⣷⣼⣿⣿⣷⡄⠹⣿⡿⠁⠀⠀⠀⠀⠀
-⠀⠀⠻⠿⢿⣿⣿⣿⠁⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⣁⠀⠋⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠈⠻⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⢰⣄⣀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⣠⡀⠀⣴⣿⣿⣿⣿⣿⣿⣿⡿⢿⡿⠀⣾⣿⣿⣿⣿⣶⡄⠀
-⠀⠀⠀⠀⠀⢀⣾⣿⣷⡀⠻⣿⣿⡿⠻⣿⣿⣿⣿⠀⠀⠈⠉⠉⠉⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⣠⣾⡿⠟⠉⠉⠀⢀⡉⠁⠀⠛⠛⢉⣠⣴⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠈⠉⠉⠀⠀⠀⠀⠀⢸⣿⣿⡿⠉⠀⠙⠿⣿⣿⣧⡀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣿⣿⠁⠀⠀⠀⠀⠀⠙⠿⣷⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠟⠀⠀⠀⠀⠀⠀⠀⠀⠃⠀⠀⠀⠀⠀⠀⠀
-
-        Have a great summer 2023!⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
--->
