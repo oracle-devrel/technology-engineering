@@ -3,9 +3,11 @@
 &nbsp; 
 
 
-Welcome to the **OCI Landing Zone Framework (LZF)**.
+Welcome to the **EMEA OCI Landing Zones**.
 
-The LZF was created by the EMEA Landing Zone Specialists, collaborating with worldwide Oracle, customers, and partners, to **simplify the OCI onboarding experience** and **reduce OCI day-one and day-two efforts**. It provides **best practices** covering the complete spectrum of OCI landing zones, from the **standards** to the **tailored** approaches, including landing zone extensions for specific **workloads**.
+This area is owned by the EMEA Landing Zone Specialists, collaborating with worldwide Oracle, customers, and partners, to **simplify the OCI onboarding experience** and **reduce OCI day-one and day-two efforts**. It provides **best practices** covering the complete spectrum of OCI landing zones, from the **standards** to the **tailored** approaches, including landing zone extensions for specific **workloads**.
+
+Note that all the EMEA OCI Landing Zones key elements are aligned with [OCI Landing Zones Framework](https://blogs.oracle.com/cloud-infrastructure/post/new-standardized-oci-landing-zones-framework) and are part of the [OCI Landing Zones Git Organization](https://github.com/oci-landing-zones).
 
 Before starting we recommend viewing a [13-minutes video](https://www.linkedin.com/feed/update/urn:li:activity:7206600588216659968/) with EMEA OCI Landing Zones **approach** and **strategy**.
 
@@ -13,11 +15,13 @@ Before starting we recommend viewing a [13-minutes video](https://www.linkedin.c
 &nbsp; 
 
 
-| APPROACH  |  OBJECTIVE | DESCRIPTION | 
+| AREA  |  OBJECTIVE | DESCRIPTION | 
 |---|---|---|
 | <a href="/landing-zones/standard_landing_zones/readme.md"><img src="images/slz.jpg" alt= “” width="500" height=""></a>  | **Best Practices</br>3 Shapes** | **Three standard shapes/models** for different organization scopes, **ready to use** with **design blueprints** and  **IaC configurations**. Use these models directly or tailor them to your needs.  | 
 | <a href="tailored_landing_zones/readme.md" ><img src="images/tlz.jpg" alt= “” width="500" height=""> </a>  | **Tailored Design </br> Any Shape** | An approach to solve **specific requirements** when the standard models are not enough. A tailored model has **dedicated design views** to match requirements and an IaC runtime. This approach is commonly used to bridge **existing customer practices** in other CSPs. |  
-| <a href="workload_extensions/readme.md" ><img src="images/wext.jpg" alt= “” width="500" height=""> </a>  | **Workload Ready</br>Plug & Play** | **Complement your landing zone** with extensions ready for **specific workloads**. Each flavor has a **design** with **IaC configurations** ready to be deployed on top of standard or tailored landing zones. Examples are EBS, ExaCC, OCVS, OIC, OKE, CCC, etc. |  
+| <a href="https://github.com/oci-landing-zones/oci-landing-zone-operating-entities/tree/master/workload-extensions" ><img src="images/wext.jpg" alt= “” width="500" height=""> </a>  | **Workload Ready</br>Plug & Play** | **Complement your landing zone** with extensions ready for **specific workloads**. Each flavor has a **design** with **IaC configurations** ready to be deployed on top of standard or tailored landing zone. Examples are EBS, ExaCC, OCVS, OIC, OKE, CCC, etc. |  
+| <a href="https://github.com/oci-landing-zones/oci-landing-zone-operating-entities/tree/master/addons" ><img src="images/addon.jpg" alt= “” width="500" height=""> </a>  | **Addons</br>Plug & Play** | **Complement your landing zone** with **addons** full of best practices. Each **addon** can be used on top of standard or tailored landing zone. Examples are Network Hubs, Oracle Access Gorvernance, Sovereign Controls etc. |  
+| <a href="/landing-zones/commons/oci_landingzones_iac.md" ><img src="images/iac_modules.jpg" alt= “” width="500" height=""> </a>  | **Declarative</br>Terraform Modules** | Use this highly **generic Terraform modules** to configure your Landing Zone instead of coding it.  |  
 
 &nbsp; 
 
@@ -31,14 +35,15 @@ If you're **starting with OCI landing zones**:
 &nbsp; 
 
 The following **assets** are also available to improve the OCI landing experience:
-1. **Landing Zones**: [How a Complete OCI Landing Zone Looks Like (**OCI Open LZ**)](https://github.com/oracle-quickstart/terraform-oci-open-lz)
-2. **Workloads Extensions**: [How an OCI Workload Extensions Looks Like (**OCI EBS LZ**)](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/workload-extensions/oci-lz-ext-ebs)
-3. **Infrastructure-as-Code (IaC)**: [The Configurable IaC approach to OCI Landing Zones **(CIS Modules)**](/landing-zones/commons/oci_landingzones_iac.md).
-4. **Learn/DIY**: [How to Design and Configure OCI Landing Zones (**OCI Learn LZ**)](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/addons/oci-learn-lz)
-5. **Naming Conventions**: [Resource Naming Conventions for OCI](/landing-zones/commons/resource_naming_conventions.md)
-6. **Identity**: [OCI User Identity Management](/landing-zones/commons/user_identity_management.md)
-7. **Budgets**: [OCI Budgets and Tagging Recommendations](/landing-zones/commons/budgets_and_tagging.md)
-8. **Solution Definition**: [Creating a Landing Zone Solution Definition (**SDD**)](/landing-zones/commons/lz_solution_definition.md)
+1. **Landing Zones**: [How a Complete OCI Landing Zone Looks Like (**OCI Open LZ**)](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities)
+2. **Workloads Extensions**: [How an OCI Workload Extensions Looks Like (**EBS Extension**)](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities/tree/master/workload-extensions/ebs)
+3. **Infrastructure-as-Code (IaC)**: [How We Configure and Not Code Landing Zones **(Landing Zone Modules)**](/landing-zones/commons/oci_landingzones_iac.md).
+4. **Network Hubs**: How OCI Network Hubs Look Like and How They Work (**[Network Addons](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities/tree/master/addons/oci-hub-models)**)
+5. **Learn/DIY**: [How to Design and Configure OCI Landing Zones (**OCI Learn LZ**)](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/addons/oci-learn-lz)
+6. **Naming Conventions**: [Resource Naming Conventions for OCI](/landing-zones/commons/resource_naming_conventions.md)
+7. **Identity**: [OCI User Identity Management](/landing-zones/commons/user_identity_management.md)
+8. **Budgets**: [OCI Budgets and Tagging Recommendations](/landing-zones/commons/budgets_and_tagging.md)
+9. **Solution Definition**: [Creating a Landing Zone Solution Definition (**SDD**)](/landing-zones/commons/lz_solution_definition.md)
 
 
 &nbsp; 
