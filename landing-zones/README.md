@@ -11,7 +11,7 @@ Before starting we recommend viewing a [13-minutes video](https://www.linkedin.c
 
 &nbsp; 
 
-<img src="images/framework.jpg" alt= “” width="800" height="value">
+<img src="images/framework.jpg" alt= “” width="1000" height="value">
 
 
 
