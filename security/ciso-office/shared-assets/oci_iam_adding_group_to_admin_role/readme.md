@@ -30,7 +30,7 @@ Before you can execute the API to add a user to a group, you need to obtain a nu
 
 ### Obtaining the Group ID
 
-The first identifier that you need to obtain is the ID of the group that you want to add to the admin role. In this tutorial, I have created a group called `SecurityAdmins`, which I will assign to the Security Administrators admin role.
+The first identifier that you need to obtain is the ID of the group that you want to add to the admin role. In this tutorial, I have created a group called `SecurityAdmins`, which I will assign to the `Security Administrators` admin role.
 
 ![Screenshot of the Security Admins group.](images/iam-securityadmins-users.png "Screenshot of the Security Admins group.")
 
@@ -38,7 +38,7 @@ To obtain the identifier for the group:
 
 1. Within the Postman collection, navigate to **Groups** -> **Search** -> **Search all groups (with search criteria)**.
 
-2. Enter the search criteria in the URL. In my example my filter is `filter=displayName sw "Security"`.
+2. Enter the search criteria in the URL. In my example, my filter is `filter=displayName sw "Security"`.
 
 > **Note** I have also added the query parameter **attributes** containing `displayname,id` so that the API only returns the attributes I need.
 
