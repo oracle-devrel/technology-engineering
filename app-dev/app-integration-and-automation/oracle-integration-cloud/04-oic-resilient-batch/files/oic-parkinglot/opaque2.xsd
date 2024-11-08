@@ -1,0 +1,7 @@
+<!--
+Copyright (c) 2020, Oracle and/or its affiliates.
+Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
+-->
+<schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/opaque/" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:encoding="UTF8">
+<element name="opaqueElement" type="base64Binary"/>
+</schema>
