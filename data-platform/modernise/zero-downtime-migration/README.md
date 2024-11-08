@@ -2,7 +2,7 @@
  
 Oracle Zero Downtime Migration (ZDM) is the Oracle Maximum Availability Architecture (MAA)-recommended solution to migrate Oracle Databases to the Oracle Cloud. ZDM automates the entire migration process, reducing the chance of human errors and providing zero to negligible downtime for the production system.
 
-Reviewed: 21.10.2024
+Reviewed: 08.11.2024
 
 # Table of Contents
  
@@ -60,6 +60,7 @@ Reviewed: 21.10.2024
 - [Database@Azure - Blog: Oracle ZDM Migration to Autonomous Database](https://blogs.oracle.com/maa/post/oracle-zdm-to-autonomous-database-on-azure)
 - [Database@Google - Video: Migrate Oracle Databases to ExaDB-D](https://www.youtube.com/watch?v=GQ5xXXS3bRc)
 - [Database@Google - Technical Brief: Physical Online Migration to ExaDB-D](https://www.oracle.com/a/otn/docs/database/zdm-physical-online-migration-to-oracle-at-google.pdf)
+- [Database@Google - Blog: Overview of Oracle ZDM Migration Workflows](https://blogs.oracle.com/maa/post/oracle-zdm-to-oracle-database-at-google-cloud)
 
 # License
  
