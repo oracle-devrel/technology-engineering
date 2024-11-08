@@ -26,7 +26,7 @@ For this tutorial, I will be using POSTMAN and the collection provided by Oracle
 
 ## Adding a Group to an Admin Role
 
-However, before you can execute the API to add a user to a group, you need to obtain a number of identifiers, which will be used to populate the variables within the appropriate request.
+Before you can execute the API to add a user to a group, you need to obtain a number of identifiers, which will be used to populate the variables within the appropriate request.
 
 ### Obtaining the Group ID
 
