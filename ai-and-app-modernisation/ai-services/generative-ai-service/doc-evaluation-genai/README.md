@@ -4,7 +4,7 @@ In this article, we'll explore how to make a handy tool that helps to evaluate d
 This application combines a low-code approach to orchestrate LLM AI services and applications using Oracle Integration Cloud
 and Generative AI prompting techniques for tasks like document key criteria extraction, summarization, and evaluation.
 
-Reviewed: 14.03.2024
+Reviewed: 07.11.2024
  
 # When to use this asset?
  

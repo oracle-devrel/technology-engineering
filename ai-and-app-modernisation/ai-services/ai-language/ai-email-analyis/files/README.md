@@ -1,6 +1,6 @@
 # Real-Time Email Categorization, Sentiment Analysis & "Quick Replies" using OCI AI Language, Generative AI & Oracle Integration Cloud
 
-Reviewed: 11.04.2024
+Reviewed: 07.11.2024
 
 # Introduction
 
