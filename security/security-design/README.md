@@ -44,9 +44,7 @@ Reviewed: 29.10.2024
 - [Data Safe Audit Database to OCI Logging](shared-assets/fn-datasafe-dbaudit-to-oci-logging/README.md)
 - [Importing your own key into OCI Vault](shared-assets/kms-import-keys/README.md)
 - [OCI IAM SDK Example](shared-assets/iam-py-sdk/README.md)
-=======
-
-
+- [Setting up IP-based TLS certificates on OCI Load Balancer](shared-assets/zerossl-lb-test-certificate-setup/README.md)
       
 # Useful Links
  
