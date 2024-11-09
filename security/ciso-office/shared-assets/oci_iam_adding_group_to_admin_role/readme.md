@@ -144,7 +144,7 @@ Now that you have the `grantId`, we can execute the final step to revoke that gr
 
 Since you already have the `grantId` in your global variables, you can execute this script.
 
-7. **Send** your query and you should get a **201 Created ** status message, showing that you request was successful. 
+7. **Send** your query and you should get a **204 No Content ** status message, showing that you request was successful. 
 
 ![Screenshot of the grant revoke success.](images/postman-delete-grant-success.png "Screenshot of the grant revoke success.")
 
