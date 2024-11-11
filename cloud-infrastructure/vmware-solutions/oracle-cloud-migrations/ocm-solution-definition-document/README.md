@@ -9,7 +9,7 @@ This document serves as an integral asset for individuals and organizations seek
 # Instructions for Utilizing This Asset
 Use this document template as a starting point for the solution definition of your VMware workload migration project. It includes example architecture diagrams, which can be replaced with customer-specific images as per requirements.
 
-#Conclusion
+# Conclusion
 The Oracle Cloud Migrations - Workload Migration Solution Definition is expected to serve as a definitive guide to the project. All participants are encouraged to provide feedback, raise queries, and make contributions to enhance the overall project's success.
 
 # License
