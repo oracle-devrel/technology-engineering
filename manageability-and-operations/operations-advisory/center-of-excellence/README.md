@@ -10,7 +10,7 @@ A **Cloud Center of Excellence**:  The CCOE is an extended multidisciplinary tea
 
 A **Change Management Plan**: Create a change management plan to make a company-wide engagement.
 
-Reviewed: 30.01.2024
+Reviewed: 09.10.2024
 
 # License
 

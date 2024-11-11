@@ -14,7 +14,6 @@ Reviewed: 20.12.2023
 
 - [Cloud Coaching - Deploy Microservices with Kubernetes (OKE)](https://www.youtube.com/watch?v=mu5jbFjKKn0)
 - [Cloud Coaching - OCI Observability for Kubernetes monitoring](https://www.youtube.com/watch?v=mu5jbFjKKn0)
-- [Disaster Recovery — Notes on Velero and OKE, Part 1: Stateless Pods](https://medium.com/oracledevs/disaster-recovery-notes-on-velero-and-oke-part-1-stateless-pods-b4ba3e737386)
 - [Advanced Kubernetes Networking: OKE in a Hub-Spoke Architectures](https://medium.com/oracledevs/advanced-kubernetes-networking-oke-in-a-hub-spoke-architectures-f0ba2256e824)
 - [Scale and optimize Jenkins on Oracle Cloud Infrastructure Container Engine for Kubernetes](https://docs.oracle.com/en/solutions/oci-jenkins-oke/index.html#GUID-23A8EB94-DFFC-4D5C-897F-5F59423447D2)
 - [Argo Workflow on OKE for limitless ML](https://www.youtube.com/watch?v=HOWrwBVuLp0)
@@ -40,7 +39,8 @@ Reviewed: 20.12.2023
 - [Disaster Recovery — Notes on Velero and OKE, Part 1: Stateless Pods](https://medium.com/oracledevs/disaster-recovery-notes-on-velero-and-oke-part-1-stateless-pods-b4ba3e737386)
 - [Disaster Recovery — Notes on Velero and OKE, Part 2: Stateful Pods with Persistent Volumes and Block Volume](https://medium.com/oracledevs/disaster-recovery-notes-on-velero-and-oke-part-2-stateful-pods-with-persistent-volumes-and-80204b3ac6d7)
 - [Disaster Recovery: Notes on Velero and OKE — part 3: Stateful Pods with Persistent Volumes and File Storage](https://medium.com/oracledevs/oke-disaster-recovery-notes-on-velero-and-oke-part-3-stateful-pods-with-persistent-volumes-and-a6eacef7600b)
-- [Test S3 Compatibility - Preparing Backups and DR for OKE and Velero](https://github.com/fharris/oci-s3-compatibility)
+- [Authentication with OAuth2-Proxy, Kubernetes and OCI](https://medium.com/oracledevs/authentication-with-oauth2-proxy-kubernetes-and-oci-6c8d87769184)
+- [Code for Authentication with OAuth2-Proxy Kubernetes and OCI](https://github.com/fharris/oauth2-proxy-demo)
 
  
 # Useful Links
@@ -55,6 +55,7 @@ Reviewed: 20.12.2023
 # Reusable Assets Overview
  
 - [Cluster Api OCI](https://github.com/oracle-devrel/technology-engineering/tree/main/app-dev/oke/capoci)
+- [Cloud Native QuickStart](https://github.com/alcampag/oci-cn-quickstart)
  
 # License
  

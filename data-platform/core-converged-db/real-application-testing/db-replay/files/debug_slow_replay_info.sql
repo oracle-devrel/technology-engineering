@@ -1,4 +1,4 @@
-rem Script displays some informations that may be helpfull to analyze slow running RAT-Replays
+rem Script displays some information that may be helpfull to analyze slow running RAT-Replays
 rem See also MOS-Note 760402.1
 
 set echo on
@@ -8,6 +8,9 @@ set pagesize 200
 set lines 500 trimspool on pages 60
 spool debug_replay.txt
 
+col repl_id format 9999999
+col capt format 9999
+col "Real_Time_Repl_Capt" format a20
 col filter_set_name format a30
 col default_action format a20
 col synchronization format a10
@@ -58,7 +61,9 @@ col "User Calls"           format 999G999G999G999G999
 col "Replay Divergences"   format 999G999G999G999G999
 col max_repl_id new_value max_repl_id heading id
 col id format 9999
-col repl format 9999REM Replay Progress
+col repl format 9999
+
+REM Replay Progress
 
 select r.id repl, r.capture_id capt,
    r.status,
@@ -115,7 +120,3 @@ and wrt.serial# = s.serial#
 order by inst_id, sid
 /
 spool off
-
-col repl_id format 9999999
-col capt format 9999
-col "Real_Time_Repl_Capt" format a20

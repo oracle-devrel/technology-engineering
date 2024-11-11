@@ -55,6 +55,8 @@ Reviewed: 18.01.2024
   - Blog post describing and comparing the different insert methods in Autonomous Database to support low latency data ingestion for IoT workloads.
 - [Managing Active Metadata with Oracle Data Platform](https://gianlucarossi06.github.io/data-organon/2024/05/31/Active-Metadata-4-OCI-Data-Platform.html)
   - Blog post describing how to define and store active metadata using OCI Data Platform, using a practical example. Active Metadata can be anything stored as custom properties in a data catalog allowing users to understand, for instance, data freshness.
+- [Streaming IoT Data into Object Storage with Streaming service](https://jakubillner.github.io/2024/06/28/streaming-ingest.html)
+  - Blog post describing how to ingest and store IoT data for an analytical workload using OCI Streaming, Connector Hub, and Object Storage.
 
 
 ## YouTube

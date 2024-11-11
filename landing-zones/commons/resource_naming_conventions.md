@@ -110,7 +110,7 @@ Examples of names are:
 | Service Gateway | sgw |
 | Service Connector Hub | sch |
 | Stream | str |
-| Subnet | sub |
+| Subnet | sn |
 | Tenancy | tcy |
 | Vault | vlt |
 | Virtual Cloud Network | vcn |

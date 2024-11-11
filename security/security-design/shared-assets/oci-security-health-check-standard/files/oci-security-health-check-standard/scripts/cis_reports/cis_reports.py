@@ -35,9 +35,16 @@ try:
 except Exception:
     OUTPUT_TO_XLSX = False
 
-RELEASE_VERSION = "2.8.3"
-PYTHON_SDK_VERSION = "2.127.0"
-UPDATED_DATE = "June 7, 2024"
+try:
+    import matplotlib.pyplot as plt
+    import numpy as np
+    OUTPUT_DIAGRAMS = True
+except Exception:
+    OUTPUT_DIAGRAMS = False
+
+RELEASE_VERSION = "2.8.4"
+PYTHON_SDK_VERSION = "2.129.4"
+UPDATED_DATE = "July 26, 2024"
 
 
 ##########################################################################
@@ -162,7 +169,7 @@ class CIS_Report:
             '4.12': {'section': 'Logging and Monitoring', 'recommendation_#': '4.12', 'Title': 'Ensure a notification is configured for changes to network gateways.', 'Status': False, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': ['4.2'], 'CCCS Guard Rail': '11', 'Remediation': []},
             '4.13': {'section': 'Logging and Monitoring', 'recommendation_#': '4.13', 'Title': 'Ensure VCN flow logging is enabled for all subnets.', 'Status': True, 'Level': 2, 'Total': [], 'Findings': [], 'CISv8': ['8.2', '8.5', '13.6'], 'CCCS Guard Rail': '', 'Remediation': []},             
             '4.14': {'section': 'Logging and Monitoring', 'recommendation_#': '4.14', 'Title': 'Ensure Cloud Guard is enabled in the root compartment of the tenancy.', 'Status': True, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': ['8.2', '8.5', '8.11'], 'CCCS Guard Rail': '1,2,3', 'Remediation': []},
-            '4.15': {'section': 'Logging and Monitoring', 'recommendation_#': '4.15', 'Title': 'Ensure a notification is configured for Oracle Cloud Guard problems detected.', 'Status': True, 'Level': 2, 'Total': [], 'Findings': [], 'CISv8': ['8.2', '8.11'], 'CCCS Guard Rail': '', 'Remediation': []},
+            '4.15': {'section': 'Logging and Monitoring', 'recommendation_#': '4.15', 'Title': 'Ensure a notification is configured for Oracle Cloud Guard problems detected.', 'Status': False, 'Level': 2, 'Total': [], 'Findings': [], 'CISv8': ['8.2', '8.11'], 'CCCS Guard Rail': '', 'Remediation': []},
             '4.16': {'section': 'Logging and Monitoring', 'recommendation_#': '4.16', 'Title': 'Ensure customer created Customer Managed Key (CMK) is rotated at least annually.', 'Status': True, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': [], 'CCCS Guard Rail': '6,7', 'Remediation': []},
             '4.17': {'section': 'Logging and Monitoring', 'recommendation_#': '4.17', 'Title': 'Ensure write level Object Storage logging is enabled for all buckets.', 'Status': True, 'Level': 2, 'Total': [], 'Findings': [], 'CISv8': ['8.2'], 'CCCS Guard Rail': '', 'Remediation': []},
 
@@ -408,7 +415,7 @@ class CIS_Report:
                 "Impact": "There is no performance impact when enabling the above described features but depending on the amount of notifications sent per month there may be a cost associated.",
                 "Remediation": "Create a Rule Condition in the Events services by selecting Identity in the Service Name Drop-down and selecting Identity Provider – Create, Identity Provider - Delete and Identity Provider – Update. In the Actions section select Notifications as Action Type and selct the compartment and topic to be used.",
                 "Recommendation": "",
-                "Observation": "notification has been configured for Identity Provider changes."
+                "Observation": "notifications have been configured for Identity Provider changes."
             },
             "4.4": {
                 "Description": "It is recommended to setup an Event Rule and Notification that gets triggered when Identity Provider Group Mappings are created, updated or deleted. Event Rules are compartment scoped and will detect events in child compartments. It is recommended to create the Event rule at the root compartment level",
@@ -416,7 +423,7 @@ class CIS_Report:
                 "Impact": "There is no performance impact when enabling the above described features but depending on the amount of notifications sent per month there may be a cost associated.",
                 "Remediation": "Find and click the Rule that handles Idp Group Mapping Changes. Click the Edit Rule button and verify that the RuleConditions section contains a condition for the Service Identity and Event Types: Idp Group Mapping – Create, Idp Group Mapping – Delete, and Idp Group Mapping – Update and confirm Action Type contains: Notifications and that a valid Topic is referenced.",
                 "Recommendation": "",
-                "Observation": "notification has been configured for Identity Provider Group Mapping changes."
+                "Observation": "notifications have been configured for Identity Provider Group Mapping changes."
             },
             "4.5": {
                 "Description": "It is recommended to setup an Event Rule and Notification that gets triggered when IAM Groups are created, updated or deleted. Event Rules are compartment scoped and will detect events in child compartments, it is recommended to create the Event rule at the root compartment level.",
@@ -424,7 +431,7 @@ class CIS_Report:
                 "Impact": "There is no performance impact when enabling the above described features but depending on the amount of notifications sent per month there may be a cost associated.",
                 "Remediation": "Create a Rule Condition by selecting Identity in the Service Name Drop-down and selecting Group – Create, Group – Delete and Group – Update. In the Actions section select Notifications as Action Type and selct the compartment and topic to be used.",
                 "Recommendation": "",
-                "Observation": "notification has been configured for Identity Provider changes."
+                "Observation": "notifications have been configured for IAM Group changes."
             },
             "4.6": {
                 "Description": "It is recommended to setup an Event Rule and Notification that gets triggered when IAM Policies are created, updated or deleted. Event Rules are compartment scoped and will detect events in child compartments, it is recommended to create the Event rule at the root compartment level.",
@@ -432,7 +439,7 @@ class CIS_Report:
                 "Impact": "There is no performance impact when enabling the above described features but depending on the amount of notifications sent per month there may be a cost associated.",
                 "Remediation": "Create a Rule Condition by selecting Identity in the Service Name Drop-down and selecting Policy – Change Compartment, Policy – Create, Policy - Delete and Policy – Update. In the Actions section select Notifications as Action Type and selct the compartment and topic to be used.",
                 "Recommendation": "",
-                "Observation": "notification has been configured for IAM Policy changes."
+                "Observation": "notifications have been configured for IAM Policy changes."
             },
             "4.7": {
                 "Description": "It is recommended to setup an Event Rule and Notification that gets triggered when IAM Users are created, updated, deleted, capabilities updated, or state updated. Event Rules are compartment scoped and will detect events in child compartments, it is recommended to create the Event rule at the root compartment level.",
@@ -440,7 +447,7 @@ class CIS_Report:
                 "Impact": "There is no performance impact when enabling the above described features but depending on the amount of notifications sent per month there may be a cost associated.",
                 "Remediation": "Edit Rule that handles IAM User Changes and verify that the Rule Conditions section contains a condition for the Service Identity and Event Types: User – Create, User – Delete, User – Update, User Capabilities – Update, User State – Update.",
                 "Recommendation": "",
-                "Observation": "notification has been configured for user changes."
+                "Observation": "notifications have been configured for user changes."
             },
             "4.8": {
                 "Description": "It is recommended to setup an Event Rule and Notification that gets triggered when Virtual Cloud Networks are created, updated or deleted. Event Rules are compartment scoped and will detect events in child compartments, it is recommended to create the Event rule at the root compartment level.",
@@ -448,7 +455,7 @@ class CIS_Report:
                 "Impact": "There is no performance impact when enabling the above described features but depending on the amount of notifications sent per month there may be a cost associated.",
                 "Remediation": "Edit Rule that handles VCN Changes and verify that the RuleConditions section contains a condition for the Service Networking and Event Types: VCN – Create, VCN - Delete, and VCN – Update.",
                 "Recommendation": "",
-                "Observation": "notification has been configured for VCN changes."
+                "Observation": "notifications have been configured for VCN changes."
             },
             "4.9": {
                 "Description": "It is recommended to setup an Event Rule and Notification that gets triggered when route tables are created, updated or deleted. Event Rules are compartment scoped and will detect events in child compartments, it is recommended to create the Event rule at the root compartment level.",
@@ -456,7 +463,7 @@ class CIS_Report:
                 "Impact": "There is no performance impact when enabling the above described features but depending on the amount of notifications sent per month there may be a cost associated.",
                 "Remediation": "Edit Rule that handles Route Table Changes and verify that the RuleConditions section contains a condition for the Service Networking and Event Types: Route Table – Change Compartment, Route Table – Create, Route Table - Delete, and Route Table – Update.",
                 "Recommendation": "",
-                "Observation": "notification has been configured for changes to route tables."
+                "Observation": "notifications have been configured for changes to route tables."
             },
             "4.10": {
                 "Description": "It is recommended to setup an Event Rule and Notification that gets triggered when security lists are created, updated or deleted. Event Rules are compartment scoped and will detect events in child compartments, it is recommended to create the Event rule at the root compartment level.",
@@ -464,7 +471,7 @@ class CIS_Report:
                 "Impact": "There is no performance impact when enabling the above described features but depending on the amount of notifications sent per month there may be a cost associated.",
                 "Remediation": "Edit Rule that handles Security List Changes and verify that the RuleConditions section contains a condition for the Service Networking and Event Types: Security List – Change Compartment, Security List – Create, Security List - Delete, and Security List – Update.",
                 "Recommendation": "",
-                "Observation": "notification has been configured for security list changes."
+                "Observation": "notifications have been configured for security list changes."
             },
             "4.11": {
                 "Description": "It is recommended to setup an Event Rule and Notification that gets triggered when network security groups are created, updated or deleted. Event Rules are compartment scoped and will detect events in child compartments, it is recommended to create the Event rule at the root compartment level.",
@@ -472,7 +479,7 @@ class CIS_Report:
                 "Impact": "There is no performance impact when enabling the above described features but depending on the amount of notifications sent per month there may be a cost associated.",
                 "Remediation": "Edit Rule that handles Network Security Group changes and verify that the RuleConditions section contains a condition for the Service Networking and Event Types: Network Security Group – Change Compartment, Network Security Group – Create, Network Security Group - Delete, and Network Security Group – Update.",
                 "Recommendation": "",
-                "Observation": "notification has been configured for changes on Network Service Groups."
+                "Observation": "notifications have been configured for changes on Network Service Groups."
             },
             "4.12": {
                 "Description": "It is recommended to setup an Event Rule and Notification that gets triggered when Network Gateways are created, updated, deleted, attached, detached, or moved. This recommendation includes Internet Gateways, Dynamic Routing Gateways, Service Gateways, Local Peering Gateways, and NAT Gateways. Event Rules are compartment scoped and will detect events in child compartments, it is recommended to create the Event rule at the root compartment level.",
@@ -480,7 +487,7 @@ class CIS_Report:
                 "Impact": "There is no performance impact when enabling the above described features but depending on the amount of notifications sent per month there may be a cost associated.",
                 "Remediation": "Edit Rule that handles Network Gateways Changes and verify that the RuleConditions section contains a condition for the Service Networking and Event Types: DRG – Create, DRG - Delete, DRG - Update, DRG Attachment – Create, DRG Attachment – Delete, DRG Attachment - Update, Internet Gateway – Create, Internet Gateway – Delete, Internet Gateway - Update, Internet Gateway – Change Compartment, Local Peering Gateway – Create, Local Peering Gateway – Delete End, Local Peering Gateway - Update, Local Peering Gateway – Change Compartment, NAT Gateway – Create, NAT Gateway – Delete, NAT Gateway - Update, NAT Gateway – Change Compartment,Compartment, Service Gateway – Create, Service Gateway – Delete Begin, Service Gateway – Delete End, Service Gateway – Update, Service Gateway – Attach Service, Service Gateway – Detach Service, Service Gateway – Change Compartment.",
                 "Recommendation": "",
-                "Observation": "notification has been configured for changes on network gateways."
+                "Observation": "notifications have been configured for changes on network gateways."
             },
             "4.13": {
                 "Description": "VCN flow logs record details about traffic that has been accepted or rejected based on the security list rule.",
@@ -504,7 +511,7 @@ class CIS_Report:
                 "Impact": "There is no performance impact when enabling the above described features but depending on the amount of notifications sent per month there may be a cost associated.",
                 "Remediation": "Create a Rule Condition by selecting Cloud Guard in the Service Name Drop-down and selecting Detected – Problem, Remediated – Problem and Dismissed - Problem. In the Actions section select Notifications as Action Type and selct the compartment and topic to be used.",
                 "Recommendation": "",
-                "Observation": "notification has been configured for Cloud Guard Problems"            
+                "Observation": "notifications have been configured for Cloud Guard Problems."            
             },
             "4.16": {
                 "Description": "Oracle Cloud Infrastructure Vault securely stores master encryption keys that protect your encrypted data. You can use the Vault service to rotate keys to generate new cryptographic material. Periodically rotating keys limits the amount of data encrypted by one key version.",
@@ -588,7 +595,7 @@ class CIS_Report:
             }
         }
 
-        # MAP Checks
+        # OBP Checks
         self.obp_foundations_checks = {
             'Cost_Tracking_Budgets': {'Status': False, 'Findings': [], 'OBP': [], "Documentation": "https://docs.oracle.com/en-us/iaas/Content/Billing/Concepts/budgetsoverview.htm#Budgets_Overview"},
             'SIEM_Audit_Log_All_Comps': {'Status': True, 'Findings': [], 'OBP': [], "Documentation": "https://docs.oracle.com/en/solutions/oci-aggregate-logs-siem/index.html"},  # Assuming True
@@ -600,7 +607,9 @@ class CIS_Report:
             'Cloud_Guard_Config': {'Status': None, 'Findings': [], 'OBP': [], "Documentation": "https://www.ateam-oracle.com/post/tuning-oracle-cloud-guard"},
             'Certificates_Near_Expiry': {'Status': None, 'Findings': [], 'OBP': [], "Documentation": "TBD"},
         }
-        # MAP Regional Data
+        #  CIS and OBP Regional Data
+        # 4.6 is not regional because OCI IAM Policies only exist in the home region
+        self.__cis_regional_checks = {"4.3","4.4","4.5","4.7", "4.8", "4.9", "4.10", "4.11", "4.12"}
         self.__obp_regional_checks = {}
 
         # CIS monitoring notifications check
@@ -1381,13 +1390,13 @@ class CIS_Report:
     ##########################################################################
     def __identity_domains_get_all_results(self, func, args):
                 
-        if not 'start_index' in args:
+        if "start_index" not in args:
             args['start_index'] = 1
-        if not "count" in args:
+        if "count" not in args:
             args["count"] = 1000     
-        if not "filter" in args:
+        if "filter" not in args:
             args["filter"] = ''
-        if not "attribute_sets" in args:
+        if "attribute_sets" not in args:
             args["attribute_sets"] = ['all']
 
         debug("__identity_domains_get_all_results: " + str(func.__name__) + " arguments are: " + str(args))
@@ -1530,6 +1539,7 @@ class CIS_Report:
         except Exception as e:
             raise RuntimeError(
                 "Error in __identity_read_users: " + str(e.args))
+
     ##########################################################################
     # Load user api keys
     ##########################################################################
@@ -2664,7 +2674,7 @@ class CIS_Report:
                         self.__network_ipsec_connections[ip_sec.additional_details['drgId']] = []
                         self.__network_ipsec_connections[ip_sec.additional_details['drgId']].append(record)
 
-            print("\tProcessed " + str(len((list(itertools.chain.from_iterable(self.__network_ipsec_connections.values()))))) + " IP SEC Conenctions")
+            print("\tProcessed " + str(len((list(itertools.chain.from_iterable(self.__network_ipsec_connections.values()))))) + " IP SEC Connections")
             return self.__network_ipsec_connections
         except Exception as e:
             raise RuntimeError(
@@ -2675,7 +2685,7 @@ class CIS_Report:
     ############################################
     def __network_topology_dump(self):
         debug("__network_topology_dump: Starting")
-        if type(self.__signer) == oci.auth.signers.InstancePrincipalsDelegationTokenSigner:
+        if type(self.__signer) is not oci.auth.signers.InstancePrincipalsDelegationTokenSigner:
             self.__errors.append({"id": "__network_topology_dump", "error": "Delegated Tokens via Cloud Shell not supported." })
             return
         def api_function(region_key, region_values, tenancy_id):
@@ -3091,7 +3101,7 @@ class CIS_Report:
                         wrapping_key_id = self.__vaults[vault]['kms_client'].get_wrapping_key().data.id
                         debug("\t__kms_read_keys: Succeeded Adding Wrapping Key Id: " + str(wrapping_key_id))
                         self.__vaults[vault]['wrapping_key_id'] = wrapping_key_id
-                    except Exception as e:
+                    except Exception:
                         debug("\t__kms_read_keys: Failed Adding Wrapping Key Id for vault: " + str(vault))
                         self.__vaults[vault]['wrapping_key_id'] = None
 
@@ -3475,7 +3485,7 @@ class CIS_Report:
                                 "region": region_key
                             }
                             self.cis_foundations_benchmark_2_0['6.2']['Total'].append(record)
-                    except:
+                    except Exception:
                         self.__errors.append({"id": "search_resources_in_root_compartment Invalid OCID", "error" : str(item)})
                         debug(f'__search_resources_in_root_compartment: Invalid OCID: {str(item)}')
 
@@ -3500,7 +3510,8 @@ class CIS_Report:
             ).data
             
             return oci.util.to_dict(results)
-        except Exception as e:
+        except Exception:
+            debug("__search_query_resource_type: failed to get type: " + str(resource_type))
             return []
     
     ##########################################################################
@@ -3623,6 +3634,15 @@ class CIS_Report:
     ##########################################################################
     def __report_cis_analyze_tenancy_data(self):
 
+        self.__cis_regional_findings_data = {}
+
+        for check in self.__cis_regional_checks:
+            self.__cis_regional_findings_data[check] = {}
+            for region_key, region_values in self.__regions.items():
+                self.__cis_regional_findings_data[check][region_key] = None
+
+
+      
         # 1.1 Check - Checking for policy statements that are not restricted to a service
 
         for policy in self.__policies:
@@ -4048,21 +4068,39 @@ class CIS_Report:
         # Iterate through all event rules
         for event in self.__event_rules:
             # Convert Event Condition to dict
-            jsonable_str = event['condition'].lower().replace("'", "\"")
+            eventtype_jsonable_str = event['condition'].lower().replace("'", "\"")
             try:
-                event_dict = json.loads(jsonable_str)
+                eventtype_dict = json.loads(eventtype_jsonable_str)
             except Exception:
                 print("*** Invalid Event Condition for event (not in JSON format): " + event['display_name'] + " ***")
-                event_dict = {}
-            # Issue 256: 'eventtype' not in event_dict (i.e. missing in event condition)
-            if event_dict and 'eventtype' in event_dict:
+                eventtype_dict = {}
+            # Issue 256: 'eventtype' not in eventtype_dict (i.e. missing in event condition)
+            if eventtype_dict and 'eventtype' in eventtype_dict:
                 for key, changes in self.cis_monitoring_checks.items():
                     # Checking if all cis change list is a subset of event condition
                     try:
-                        if (all(x in event_dict['eventtype'] for x in changes)):
+                        # Checking if each region has the required events
+                        if (all(x in eventtype_dict['eventtype'] for x in changes)) and key in self.__cis_regional_checks:
+                            self.__cis_regional_findings_data[key][event['region']] = True
+                        
+                        # Cloud Guard Check is only required in the Cloud Guard Reporting Region
+                        elif key == "4.15" and event['region'] == self.__cloud_guard_config.reporting_region and \
+                            (all(x in eventtype_dict['eventtype'] for x in changes)):
                             self.cis_foundations_benchmark_2_0[key]['Status'] = True
+                        
+                        # For Checks that are home region based checking those
+                        elif (all(x in eventtype_dict['eventtype'] for x in changes)) and \
+                            key not in self.__cis_regional_checks and event['region'] == self.__home_region:
+                            self.cis_foundations_benchmark_2_0[key]['Status'] = True
+
                     except Exception:
                         print("*** Invalid Event Data for event: " + event['display_name'] + " ***")
+
+
+        # ******* Iterating through Regional Checks adding findings
+        for key, findings in self.__cis_regional_findings_data.items():
+            if all(findings.values()):
+                self.cis_foundations_benchmark_2_0[key]['Status'] = True
 
         # CIS Check 4.13 - VCN FlowLog enable
         # Generate list of subnets IDs
@@ -4095,7 +4133,7 @@ class CIS_Report:
                     self.cis_foundations_benchmark_2_0['4.16']['Status'] = False
                     self.cis_foundations_benchmark_2_0['4.16']['Findings'].append(
                         key)
-            except:    
+            except Exception:    
                     self.cis_foundations_benchmark_2_0['4.16']['Status'] = False
                     self.cis_foundations_benchmark_2_0['4.16']['Findings'].append(
                         key)
@@ -4135,7 +4173,7 @@ class CIS_Report:
                         bucket)
                     self.cis_foundations_benchmark_2_0['5.1.3']['Status'] = False
 
-        # CIS Check 4.1.1,4.1.2,4.1.3 Total - Adding All Buckets to total
+        # CIS Check 5.1.1,5.1.2,5.1.3 Total - Adding All Buckets to total
         self.cis_foundations_benchmark_2_0['5.1.1']['Total'] = self.__buckets
         self.cis_foundations_benchmark_2_0['5.1.2']['Total'] = self.__buckets
         self.cis_foundations_benchmark_2_0['5.1.3']['Total'] = self.__buckets
@@ -4697,8 +4735,7 @@ class CIS_Report:
 
         #######################################
         # Certificate Expiry Check
-        #######################################
-        
+        #######################################        
         for cert in self.__raw_oci_certificates:
             debug("\t__obp_analyze_tenancy_data: Iterating through certificates")
             
@@ -4708,7 +4745,7 @@ class CIS_Report:
                     self.obp_foundations_checks['Certificates_Near_Expiry']['OBP'].append(cert)
                 else:
                     self.obp_foundations_checks['Certificates_Near_Expiry']['Findings'].append(cert)
-            except Exception as e:
+            except Exception:
                 debug("\t__obp_analyze_tenancy_data: Certificate is missing time of validity not after" + cert['name'])
                 self.obp_foundations_checks['Certificates_Near_Expiry']['Findings'].append(cert)
 
@@ -4727,7 +4764,7 @@ class CIS_Report:
         summary_report = []
         for key, recommendation in self.cis_foundations_benchmark_2_0.items():
             if recommendation['Level'] <= level:
-                report_filename = "cis" + " " + recommendation['section'] + "_" + recommendation['recommendation_#']
+                report_filename = f'{self.__report_prefix}cis {recommendation["section"]}_{recommendation["recommendation_#"]}'
                 report_filename = report_filename.replace(" ", "_").replace(".", "-").replace("_-_", "_") + ".csv"
                 if recommendation['Status']:
                     compliant_output = "Yes"
@@ -4784,6 +4821,12 @@ class CIS_Report:
         summary_file_name = self.__report_generate_html_summary_report("cis", "html_summary_report", summary_report)
         summary_files.append(summary_file_name)
 
+        if OUTPUT_DIAGRAMS:
+            diagram_file_name = self.__generate_compliance_diagram("cis", "summary_compliance", summary_report)
+            summary_files.append(diagram_file_name)
+            diagram_file_name = self.__generate_compliance_by_area_diagram("cis", "summary_compliance_by_focus_area", summary_report)
+            summary_files.append(diagram_file_name)
+
         # Outputing to a bucket if I have one
         if summary_files and self.__output_bucket:
             for summary_file in summary_files:
@@ -4798,16 +4841,100 @@ class CIS_Report:
                         self.__output_bucket, report_file_name)
 
     ##########################################################################
+    # Generate summary diagrams
+    ##########################################################################
+    diagram_colors = ['#4C825C','#C74634']
+    diagram_values = ['Compliant', 'Non-compliant']
+    diagram_sections = (
+        'Identity and Access Management',
+        'Networking',
+        'Compute',
+        'Logging and Monitoring',
+        'Storage',
+        'Asset Management'
+    )
+    diagram_fontweight = 'bold'
+    diagram_fontcolor_reverse = 'white'
+
+    ##########################################################################
+    # __cis_compliance
+    ##########################################################################
+    def __cis_compliance(self, filename, title, values=None):
+        plt.close('all')
+        plt.figure(figsize=(6,5))
+        wegdes, labels, pcttexts = plt.pie(values, labels=self.diagram_values, colors=self.diagram_colors, autopct='%.0f%%', wedgeprops={'linewidth': 3.0, 'edgecolor': 'white'}, startangle=90, counterclock=False, radius=1.1)
+        for t in labels:
+            t.set_fontweight(self.diagram_fontweight)
+        for p in pcttexts:
+            p.set_fontweight(self.diagram_fontweight)
+            p.set_color(self.diagram_fontcolor_reverse)
+        plt.title(title, fontweight=self.diagram_fontweight, pad=30.0)
+        plt.savefig(filename)
+
+    ##########################################################################
+    # __cis_compliance_by_area
+    ##########################################################################
+    def __cis_compliance_by_area(self, filename, title, section_values=None):
+        plt.close('all')
+        height = 0.4
+        fig, ax = plt.subplots(figsize=(10,5), layout='compressed')
+        y = np.arange(len(self.diagram_sections))
+        p = ax.barh(y - height/2, section_values[self.diagram_values[0]], height, color=self.diagram_colors[0])
+        ax.bar_label(p, padding=-16, color=self.diagram_fontcolor_reverse, fontweight=self.diagram_fontweight)
+        p = ax.barh(y + (height/2), section_values[self.diagram_values[1]], height, color=self.diagram_colors[1])
+        ax.bar_label(p, padding=-16, color=self.diagram_fontcolor_reverse, fontweight=self.diagram_fontweight)
+        ax.set_frame_on(False)
+        ax.set_title(title, fontweight=self.diagram_fontweight, loc='left')
+        ax.set_yticks(y)
+        ax.set_yticklabels(self.diagram_sections, fontweight=self.diagram_fontweight)
+        ax.invert_yaxis()
+        plt.tick_params(left=False, right=False, labelbottom=False, bottom=False)
+        plt.savefig(filename)
+
+    ##########################################################################
+    # __generate_compliance_diagram
+    ##########################################################################
+    def __generate_compliance_diagram(self, header, file_subject, data):
+        compliant = 0
+        non_compliant = 0
+        for finding in data:
+            if finding['Compliant'] == 'Yes':
+                compliant += 1
+            else:
+                non_compliant += 1
+        cis_compliance_file = self.__get_output_file_path(header, file_subject, '.png')
+        self.__cis_compliance(cis_compliance_file, 'CIS Recommendation Compliance', [compliant, non_compliant])
+        return cis_compliance_file
+
+    ##########################################################################
+    # __generate_compliance_by_area_diagram
+    ##########################################################################
+    def __generate_compliance_by_area_diagram(self, header, file_subject, data):
+        compliants = []
+        non_compliants = []
+        for section in self.diagram_sections:
+            compliant = 0
+            non_compliant = 0
+            for finding in data:
+                if section in finding['Section']:
+                    if finding['Compliant'] == 'Yes':
+                        compliant += 1
+                    else:
+                        non_compliant += 1
+            compliants.append(compliant)
+            non_compliants.append(non_compliant)
+
+        cis_compliance_by_area_file = self.__get_output_file_path(header, file_subject, '.png')
+        self.__cis_compliance_by_area(cis_compliance_by_area_file, 'CIS Recommendation Compliance per Focus Area', {
+            self.diagram_values[0]: compliants,
+            self.diagram_values[1]: non_compliants,
+        })
+        return cis_compliance_by_area_file
+
+    ##########################################################################
     # Generates an HTML report
     ##########################################################################
     def __report_generate_html_summary_report(self, header, file_subject, data):
-        try:
-            # Creating report directory
-            if not os.path.isdir(self.__report_directory):
-                os.mkdir(self.__report_directory)
-
-        except Exception as e:
-            raise Exception("Error in creating report directory: " + str(e.args))
 
         try:
             # if no data
@@ -4815,9 +4942,7 @@ class CIS_Report:
                 return None
 
             # get the file name of the HTML
-            file_name = header + "_" + file_subject
-            file_name = (file_name.replace(" ", "_")).replace(".", "-").replace("_-_", "_") + ".html"
-            file_path = os.path.join(self.__report_directory, f'{self.__report_prefix}{file_name}')
+            file_path = self.__get_output_file_path(header, file_subject, '.html')
 
             # add report_datetimeto each dictionary
             result = [dict(item, extract_date=self.start_time_str)
@@ -4881,7 +5006,11 @@ class CIS_Report:
                 r = result[0]
                 extract_date = r['extract_date'].replace('T',' ')
                 html_file.write(f'<h5>Extract Date: {extract_date} UTC</h5>')
-                html_file.write("</div></section>")
+                html_file.write('</div></section>')
+                if OUTPUT_DIAGRAMS:
+                    # Include dashboard
+                    html_file.write(f'<section class="cb132 cb132v0"><div class="cb132w1 cwidth"><table><tr><td><img src="{self.__report_prefix}cis_summary_compliance.png" height="80%" width="80%"/></td>')
+                    html_file.write(f'<td><img src="{self.__report_prefix}cis_summary_compliance_by_focus_area.png" height="80%" width="80%"/></td></tr><tr><td colspan="2">&nbsp;</td></tr></table></div></section>')
                 # Navigation
                 html_file.write('<section class="rt01 rt01v0 rt01detached">')
                 html_file.write('<div class="rt01w1 cwidth">')
@@ -4935,7 +5064,7 @@ class CIS_Report:
                         if int(total) > 1:
                             tmp += 's'
                     html_file.write(f'<td><b style="color:{text_color};">{str(compliant)}</b>{tmp}</td>\n')
-                    html_file.write(f"<td>{str(row['Section'])}</td>\n")
+                    html_file.write(f'<td>{str(row["Section"])}</td>\n')
                     # Details
                     html_file.write('<td><table><tr><td style="width:10%"><b>Title</b></td>')
                     html_file.write(f'<td colspan="3">{str(row["Title"])}</td></tr>')
@@ -5040,7 +5169,7 @@ class CIS_Report:
                         if item_value != "":
                             html_file.write(f"<h5>{item_key.title()}</h5>")
                             if item_key == 'Observation':
-                                if fing['Status'] == None:
+                                if fing['Status'] is None:
                                     pfx = '<b>Manually check for</b>'
                                 else:
                                     num_findings = len(fing['Findings'])
@@ -5055,20 +5184,19 @@ class CIS_Report:
                                 html_file.write(f"<p>{v}</p>\n")
                 html_file.write("</div></section>\n")
                 # Closing HTML
+                report_year = str(self.start_datetime.strftime('%Y'))
                 html_file.write("""<div id="resources" class="u10 u10v6"><nav class="u10w1" aria-label="Main footer">
                 <div class="u10w2"><div class="u10w3" aria-labelledby="resourcesfor"><a class="u10btn" tabindex="-1" aria-labelledby="resourcesfor"></a>
                 <h4 class="u10ttl" id="resourcesfor">Resources</h4><ul>
-                <li><a href="https://www.cisecurity.org/benchmark/Oracle_Cloud">CIS OCI Foundation Benchmark</a></li>
-                <li><a href="https://docs.oracle.com/en/solutions/cis-oci-benchmark/index.html">Deploy a secure landing zone that meets the CIS Foundations Benchmark for Oracle Cloud</a></li>
-                <li><a href="https://docs.oracle.com/en/solutions/oci-security-checklist/index.html">Security checklist for Oracle Cloud Infrastructure</a></li>
-                <li><a href="https://docs.oracle.com/en-us/iaas/Content/Security/Concepts/security.htm">OCI Documentation – Securely configure your Oracle Cloud Infrastructure services and resources</a></li>
-                <li><a href="https://docs.oracle.com/en/solutions/oci-best-practices/index.html">Best practices framework for Oracle Cloud Infrastructure</a></li>
-                <li><a href="https://www.oracle.com/security/cloud-security/what-is-cspm/">Cloud Security Posture Management</a></li>
+                <li><a target="_blank" href="https://www.cisecurity.org/benchmark/Oracle_Cloud">CIS OCI Foundation Benchmark</a></li>
+                <li><a target="_blank" href="https://docs.oracle.com/en/solutions/cis-oci-benchmark/index.html">Deploy a secure landing zone that meets the CIS Foundations Benchmark for Oracle Cloud</a></li>
+                <li><a target="_blank" href="https://docs.oracle.com/en/solutions/oci-security-checklist/index.html">Security checklist for Oracle Cloud Infrastructure</a></li>
+                <li><a target="_blank" href="https://docs.oracle.com/en-us/iaas/Content/Security/Concepts/security.htm">OCI Documentation – Securely configure your Oracle Cloud Infrastructure services and resources</a></li>
+                <li><a target="_blank" href="https://docs.oracle.com/en/solutions/oci-best-practices/index.html">Best practices framework for Oracle Cloud Infrastructure</a></li>
+                <li><a target="_blank" href="https://www.oracle.com/security/cloud-security/what-is-cspm/">Cloud Security Posture Management</a></li>
                 </ul></div></div><div class="u10w4"><hr></div></nav>
-                <div class="u10w11"><nav class="u10w5 u10w10" aria-label="Site info">
-                <ul class="u10-links"><li></li><li><a href="https://www.oracle.com/legal/copyright.html">© 2023 Oracle</a></li>
-                </ul></nav></div>""")
-                html_file.write("</div></div></body></html>\n")
+                <div class="u10w11"><nav class="u10w5 u10w10" aria-label="Site info">""")
+                html_file.write(f'<ul class="u10-links"><li></li><li><a target="_blank" href="https://www.oracle.com/legal/copyright.html">© {report_year} Oracle</a></li></ul></nav></div></div></div></body></html>\n')
 
             print("HTML: " + file_subject.ljust(22) + " --> " + file_path)
             # Used by Upload
@@ -5323,18 +5451,26 @@ class CIS_Report:
                 "Error opening file os_copy_report_to_object_storage: " + str(e.args))
 
     ##########################################################################
-    # Print to CSV
+    # Get output file path with suffix
     ##########################################################################
-    def __print_to_csv_file(self, header, file_subject, data):
-        debug("__print_to_csv_file: " + header + "_" + file_subject)
+    def __get_output_file_path(self, header, file_subject, suffix):
         try:
             # Creating report directory
             if not os.path.isdir(self.__report_directory):
                 os.mkdir(self.__report_directory)
 
         except Exception as e:
-            raise Exception(
-                "Error in creating report directory: " + str(e.args))
+            raise Exception(f'Error in creating report directory: {str(e.args)}')
+
+        file_name = f'{header}_{file_subject}'
+        file_name = f'{file_name.replace(" ", "_").replace(".", "-").replace("_-_", "_")}{suffix}'
+        return os.path.join(self.__report_directory, f'{self.__report_prefix}{file_name}')
+
+    ##########################################################################
+    # Print to CSV
+    ##########################################################################
+    def __print_to_csv_file(self, header, file_subject, data):
+        debug("__print_to_csv_file: " + header + "_" + file_subject)
 
         try:
             # if no data
@@ -5342,10 +5478,7 @@ class CIS_Report:
                 return None
 
             # get the file name of the CSV
-
-            file_name = header + "_" + file_subject
-            file_name = (file_name.replace(" ", "_")).replace(".", "-").replace("_-_", "_") + ".csv"
-            file_path = os.path.join(self.__report_directory, f'{self.__report_prefix}{file_name}')
+            file_path = self.__get_output_file_path(header, file_subject, '.csv')
 
             # add report_datetimeto each dictionary
             result = [dict(item, extract_date=self.start_time_str)
@@ -5393,26 +5526,14 @@ class CIS_Report:
     # Print to JSON
     ##########################################################################
     def __print_to_json_file(self, header, file_subject, data):
-        try:
-            # Creating report directory
-            if not os.path.isdir(self.__report_directory):
-                os.mkdir(self.__report_directory)
-
-        except Exception as e:
-            raise Exception(
-                "Error in creating report directory: " + str(e.args))
 
         try:
             # if no data
             if len(data) == 0:
                 return None
             
-            # get the file name of the CSV
-            
-            file_name = header + "_" + file_subject
-            file_name = (file_name.replace(" ", "_")
-                         ).replace(".", "-").replace("_-_","_") + ".json"
-            file_path = os.path.join(self.__report_directory, f'{self.__report_prefix}{file_name}')
+            # get the file name of the JSON
+            file_path = self.__get_output_file_path(header, file_subject, '.json')
 
             # Serializing JSON to string
             json_object = json.dumps(data, indent=4)
@@ -5440,26 +5561,14 @@ class CIS_Report:
     # Print to PKL
     ##########################################################################
     def __print_to_pkl_file(self, header, file_subject, data):
-        try:
-            # Creating report directory
-            if not os.path.isdir(self.__report_directory):
-                os.mkdir(self.__report_directory)
-
-        except Exception as e:
-            raise Exception(
-                "Error in creating report directory: " + str(e.args))
 
         try:
             # if no data
             if len(data) == 0:
                 return None
             
-            # get the file name of the CSV
-            
-            file_name = header + "_" + file_subject
-            file_name = (file_name.replace(" ", "_")
-                         ).replace(".", "-").replace("_-_","_") + ".pkl"
-            file_path = os.path.join(self.__report_directory, f'{self.__report_prefix}{file_name}')
+            # get the file name of the PKL
+            file_path = self.__get_output_file_path(header, file_subject, '.pkl')
 
             # Writing to json file
             with open(file_path, 'wb') as pkl_file:
@@ -5474,9 +5583,7 @@ class CIS_Report:
 
         except Exception as e:
             raise Exception("Error in __print_to_pkl_file: " + str(e.args))
-    
-
-    
+        
     ##########################################################################
     # Orchestrates Data collection and reports
     ##########################################################################
@@ -5735,11 +5842,20 @@ def execute_report():
                     cmd.regions, cmd.raw, cmd.obp, cmd.redact_output, oci_url=cmd.oci_url, debug=cmd.debug, all_resources=cmd.all_resources)
     csv_report_directory = report.generate_reports(int(cmd.level))
 
-    try:
-        if OUTPUT_TO_XLSX:
+    if OUTPUT_TO_XLSX:
+        try:
             report_prefix = f'{cmd.report_prefix}_' if cmd.report_prefix else ''
             workbook = Workbook(f'{csv_report_directory}/{report_prefix}Consolidated_Report.xlsx', {'in_memory': True})
-            for csvfile in glob.glob(f'{csv_report_directory}/{report_prefix}*.csv'):
+            if OUTPUT_DIAGRAMS:
+                try:
+                    worksheet = workbook.add_worksheet('cis_summary_charts')
+                    worksheet.insert_image('B2', f'{csv_report_directory}{report_prefix}cis_summary_compliance.png')
+                    worksheet.insert_image('L2', f'{csv_report_directory}{report_prefix}cis_summary_compliance_by_focus_area.png')
+                except Exception:
+                    pass
+            csvfiles = glob.glob(f'{csv_report_directory}/{report_prefix}*.csv')
+            csvfiles.sort()
+            for csvfile in csvfiles:
 
                 worksheet_name = csvfile.split(os.path.sep)[-1].replace(report_prefix, "").replace(".csv", "").replace("raw_data_", "raw_").replace("Findings", "fds").replace("Best_Practices", "bps")
 
@@ -5767,10 +5883,13 @@ def execute_report():
                             # Skipping the deep link due to formating errors in xlsx
                             if "=HYPERLINK" not in col:
                                 worksheet.write(r, c, col)
+                worksheet.autofilter(0, 0, r - 1, c - 1)
+                worksheet.autofit()
+
             workbook.close()
-    except Exception as e:
-        print("** Failed to output to excel. Please use CSV files. **")
-        print(e)
+        except Exception as e:
+            print("** Failed to output to Excel. Please use CSV files. **")
+            print(e)
 
 
 ##########################################################################

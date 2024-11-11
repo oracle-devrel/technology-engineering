@@ -5,6 +5,8 @@ This section covers Public Oracle SQL Tools: Use of SQL in extensive way: from S
 Providing links to public useful documentation about SQL use and tips. SQL Tips on Fortnight basis and and articles/blogs written by Oracle SQL and Database Advocates and Product Managers and SQL examples are shown here.
 A SQL Clue Card is also provided.
 
+Reviewed: 14.8.2024
+
 # Table of Contents
 
 1. [Public Oracle SQL Tools](#public-oracle-sql-tools)
@@ -51,7 +53,9 @@ Explore a variety of Oracle SQL tools to streamline your database management tas
 
 Stay updated with fortnightly SQL tips to sharpen your SQL skills and discover new techniques for database querying and management.
 
-- **Tip 1: [Tip Title]** - [Description/Explanation]
+- Tip 1: [3 Tips to Help You Write Better SQL](https://www.youtube.com/watch?v=Hjfvf8VqY9E&list=WL) - 
+        A chance to improve SQL skills, as an important knowledge backbone for Developers, by learning three ways to refactor your SQL and showing the pros and cons of all of them (WITH Clause, Views, Table Macros) and more! By Chris Saxon youtube videos.
+
 - **Tip 2: [Tip Title]** - [Description/Explanation]
 - ...
 
@@ -75,7 +79,8 @@ Access a repository of SQL examples to learn practical applications of SQL in va
 
 Get quick access to essential SQL commands, syntax, and tips with the SQL Clue Card. Print it out or keep it handy for reference during your SQL scripting sessions.
 
-- [Download SQL Clue Card](https://www.oracle.com/database/sqldeveloper/technologies/sqlcl/download/sqlcl-downloads-23.1.html)
+- [Download SQL Clue Card](./images/SQL_Cheat_Sheet_Version1.1.png)
+
 
 # 2. SQLcl
 

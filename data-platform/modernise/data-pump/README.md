@@ -6,7 +6,7 @@ The Data Pump export utility writes the schema objects, including the tables and
 
 A set of best practices and other useful assets/links can be found in this page.
 
-Reviewed: 03.11.2023
+Reviewed: 31.10.2024
  
 # Table of Contents
  
@@ -15,9 +15,9 @@ Reviewed: 03.11.2023
  
 # Team Publications
  
-- [Data Pump: Export Best Practices](https://macsdata.netlify.app/oradb/migration/datapump/expdp/bestpractices/)
+- [Data Pump: Export Best Practices](https://macsdata.com/oracle/data-pump-best-practices-export)
     - Detailed best practices guide around Oracle Data Pump export (expdp), available on Marcus Doeringer's public platform
-- [Data Pump: Import Best Practices](https://macsdata.netlify.app/oradb/migration/datapump/impdp/bestpractices/)
+- [Data Pump: Import Best Practices](https://macsdata.com/oracle/data-pump-best-practices-import)
     - Detailed best practices guide around Oracle Data Pump import (impdp), available on Marcus Doeringer's public platform
 - [Upload Large Data Pump Files to OCI - using OCI CLI Multipart Uploads](https://www.youtube.com/watch?v=9100uKXquic)
     - YouTube Video by Austine Ouma explaining how to use multipart uploads for large data pump files that need to be uploaded to Oracle Cloud Infrastructure
@@ -34,11 +34,19 @@ Reviewed: 03.11.2023
 - [OCI Console Data Pump Import Wizard](https://www.youtube.com/watch?v=FZAJezCQjhE)
     - YouTube Video by Austine Ouma explaining how to use the OCI DB Console Import Wizard to import data into Autonomous Database
 - [A Complete Guide to Migrate your Data to Autonomous Database and Best Practices](https://medium.com/@snoozrocks/a-complete-guide-to-migrate-your-data-to-autonomous-database-and-best-practices-8e5fbdaa26eb)
-    - This blog post provides a high-level overview of the steps to migrate data from a source Oracle Database to the Autonomous Database Cloud using Data Pump and OCI Object Storage.
-
+    - This blog post provides a high-level overview of the steps to migrate data from a source Oracle Database to the Autonomous Database Cloud using Data Pump and OCI Object Storage
+- [Migrate to Oracle Autonomous DB@Azure using Azure blob storage - Video](https://www.youtube.com/watch?v=CtTgweuLG9s)
+    - YouTube video by Mihai Costeanu showing how to import data into Oracle Autonomous DB@Azure using Data Pump and Azure blob storage to store the dump files
+- [Migrate to Oracle Autonomous DB@Azure using Azure blob storage](https://macsdata.com/oracle/data-pump-import-adb-azure-blob-storage)
+    - Migration Guide showing how to import data into Oracle Autonomous DB@Azure using Data Pump and Azure blob storage to store the dump files, available on Marcus Doeringer's public platform
+- [Data Pump Log Analyzer](https://github.com/macsdata/data-pump-log-analyzer)
+    - The Data Pump Log Analyzer is a powerful Python script designed to parse and analyze Oracle Data Pump log files. The tool provides valuable insights into Data Pump operations key metrics and performance data
+- [Data Pump Log Analyzer: Comprehensive Guide](https://macsdata.com/oracle/data-pump-log-analyzer-guide)
+    - The ultimate resource for mastering every option in detail and to unlock the full potential of the Python script, available on Marcus Doeringer's public platform
 
 # Useful Links
-- [Data Pump in Database 21c LiveLabs Workshop](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=742&clear=RR,180&session=1384894897131)
+- [Loading Data from Google Cloud Storage to Oracle Database](https://database-heartbeat.com/2024/10/01/google-storage-to-oracle-database/)
+- [Data Pump Features LiveLabs Workshop](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=742&clear=RR,180&session=1384894897131)
 - [Data Pump Best Practices Whitepaper](https://www.oracle.com/a/ocom/docs/oracle-data-pump-best-practices.pdf)
 - [Data Pump Basics - YouTube Video](https://www.youtube.com/watch?v=5uLDxPDErsw)
 - [Data Pump Best Practices & Real World Scenarios - YouTube Video](https://www.youtube.com/watch?v=960ToLE-ZE8)

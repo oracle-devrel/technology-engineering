@@ -2,7 +2,7 @@
 
 This section includes a step-by-step manual to add a secondary VNIC to an OCI Compute VM running Linux OS.
 
-Reviewed: 21.11.2023
+Reviewed: 25.10.2024
 
 # When to use this asset?
 
