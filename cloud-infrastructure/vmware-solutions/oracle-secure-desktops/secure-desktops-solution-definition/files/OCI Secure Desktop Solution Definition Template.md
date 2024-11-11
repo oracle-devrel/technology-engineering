@@ -195,7 +195,7 @@ The future setup of VDI on the Oracle Secure Desktop solution will offer a robus
 
 Additionally, comprehensive management tools will enable administrators to efficiently oversee and maintain the VDI environment, ensuring maximum uptime and productivity. This future state will empower businesses to achieve greater flexibility, security, and efficiency in their desktop management processes.
 
-![Future State Architecture](image/Futurestate-ocm-Architecture.jpg)
+![Future State Architecture](image/OSDPhysicalArchitecture.png)
 
 
 ### Licensing Model for Oracle Secure Desktop
