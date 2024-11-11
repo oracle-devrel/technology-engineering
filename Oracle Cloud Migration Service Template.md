@@ -1,10 +1,111 @@
+---
+doc:
+  author: Name Surname                  #Mandatory
+  version: 2.5                            #Mandatory
+  cover:                                #Mandatory
+    title:                              #Mandatory
+      - ${doc.customer.name}            #Mandatory
+      - \<Workload\> to OCI       #Mandatory
+    subtitle:                           #Mandatory
+      - Solution Definition             #Mandatory
+  customer:                             #Mandatory
+    name: \<Customer Name\>                           #Mandatory
+    alias: \<Customer Alias\>                          #Mandatory
+  config:
+    impl:
+      type: \<Service Provider\>            #Mandatory: Can be 'Oracle Lift', 'Oracle Fast Start', 'Partner' etc. Use with ${doc.config.impl.type}     
+      handover: ${doc.customer.name}    #Mandatory: Please specify to whom to hand over the project after implementation. eg.: The Customer, a 3rd party implementation or operations partner, etc.           
+  draft: false
+  history:
+    - version: 1.0
+      date: 1st June 2023
+      authors:
+        - Base Template
+      comments:
+        - Created a new Solution Definition document. To be used for iterative review and improvement.
+    - version: 1.1
+      date: 1st July 2023
+      authors: Base Template
+      comments:
+        - Update Template per feedback. Added security-templated texts and annex.
+    - version: 1.2
+      date: 1st August 2023
+      authors: Base Template
+      comments:
+        - Update Template per feedback. As per Confluence.
+    - version: 2
+      date: 1st September 2023
+      authors: Base Template
+      comments:
+        - Added Networking Annex
+    - version: 2.1
+      date: 1st September 2023
+      authors: Base Template
+      comments:
+        - Updated LZ Snippet
+        - Added 'Base Template' to version table instead of 'Name Surname'
+    - version: 2.2
+      date: 16th October 2023
+      authors: Base Template
+      comments:
+        - Upgraded the Logical Architecture as mandatory. It is now included in the 'Mandatory' template.
+    - version: 2.3
+      date: 16th January 2024
+      authors: Base Template
+      comments:
+        - Added comment for workload snippets
+        - Updates Acronyms
+    - version: 2.4
+      date: 26th February 2024
+      authors: Base Template
+      comments:
+        - Added the network firewall in the requirment, the solution considerations and in the Annex.
+    - version: 2.5
+      date: 25th March 2024
+      authors: Base Template
+      comments:
+        - Added 'manageability' in the requirment, the solution considerations and in the Annex.
+  team:
+    - name: ${doc.author}
+      email: example@example.com
+      role: Tech Solution Specialist
+      company: Oracle
+    - name: Ada Lovelace
+      email: example@example.com
+      role: Account Cloud Engineer
+      company: Oracle
+  acronyms:
+    Dev: Development
+---
+
+<!--
+    Last Change: 18th May 2022
+    Review Status: Development
+    Review Notes: see https://confluence.oraclecorp.com/confluence/x/9Vyyvw
+    How to use this template: https://confluence.oraclecorp.com/confluence/x/LBRBvg
+-->
+
+<!--
+If you need to control the hyphenation of words. Use the example below and remove the comment. Example of the default hyphenation De-vOps or in-fras-truc-ture. You can change it by defining a new hyphenation as in the example below 'in-fra-struc-ture'. Or define words without any hyphenation, for example for names such as ArgoCD.
+-->
+<!--
+\hyphenation{Dev-Ops ArgoCD in-fra-struc-ture re-li-a-bil-i-ty}
+-->
+
+*Guide:*
+
+*Author Responsibility*
+
+- *Chapter 1-3: Sales Consultant*
+- *Chapter 4: Implementer*
+
 # Document Control
 <!--
-| Role  | RACI |
-|:------|:-----|
-| ACE   | R/A  |
-| Impl. | None |
-| PPM   | None |
+Role  | RACI
+------|-----
+ACE   | R/A
+Impl. | None
+PPM   | None
 -->
 
 *Guide:*
@@ -17,10 +118,10 @@
 A section describing the versions of this document and its changes.
 -->
 
-| Version | Author       | Date                | Comment         |
-|:--------|:-------------|:--------------------|:----------------|
-| 1.0     | Name Surname | October 29th, 2024  | Initial version |
-| 1.1     | Name Surname | Novermber 8th, 2024 | Updated         |
+| Version | Author       | Date                 | Comment         |
+|:--------|:-------------|:---------------------|:----------------|
+| 1.0     | Name Surname  | October 29th, 2024 | Initial version |
+| 1.1     | Name Surname | Novermber 8th, 2024 | Updated |
 
 ## Team
 <!-- GUIDANCE -->
@@ -28,10 +129,10 @@ A section describing the versions of this document and its changes.
 A section describing the versions of these documents and their changes.
 -->
 
-| Name         | E-Mail              | Role                   | Company |
-|:-------------|:--------------------|:-----------------------|:--------|
+| Name         | E-Mail              | Role                              | Company |
+|:-------------|:--------------------|:----------------------------------|:--------|
 | Name Surname | example@example.com | Accound Cloud Engineer | Oracle  |
-| Name Surname | example@example.com | Lift Specialist        | Oracle  |
+| Name Surname | example@example.com | Lift Specialist | Oracle  |
 
 ## Abbreviations and Acronyms
 <!-- Guidance -->
@@ -42,18 +143,18 @@ Maintain a list of terms, if needed. Use this internal page to find and translat
 -->
 
 
-| Term | Meaning                                 |
-|:-----|:----------------------------------------|
-| OCM  | Oracle Cloud Migration Service          |
-| OCI  | Oracle Cloud Infrastructure             |
-| VCN  | Virtual Cloud Network                   |
-| IAM  | Identity and Access Management          |
-| VDDK | VMware Virtual Disk Development Kit   | |
-| VDS  | VMware vSphere Distributed Switch       |
-| ESXi | VMware vSphere Hypervisor (ESXi)        |
-| VC   | VMware vCenter Server                   |
-| OSS  | Object Storage Service                  |
-| RMS  | Resource Manager Stack                  |
+| Term  | Meaning                               |
+|:------|:--------------------------------------|
+| OCM   | Oracle Cloud Migration Service        |
+| OCI   | Oracle Cloud Infrastructure           |
+| VCN   | Virtual Cloud Network                 |
+| IAM   | Identity and Access Management        |
+| VDDK  | VMware Virtual Disk Development Kit   |       |
+| VDS   | VMware vSphere Distributed Switch     |
+| ESXi  | VMware vSphere Hypervisor (ESXi)      |
+| VC    | VMware vCenter Server                 |
+| OSS   | Object Storage Service                |
+| RMS   | Resource Manager Stack
 
 ## Document Purpose
 
@@ -141,7 +242,7 @@ Additionally, these are the high-level goals for this document:
 2.  Fitting the solution into A Company Making Everything the OCI ecosystem.
 3.  Address all OCI-related aspects at security, network, compute, storage, and other levels for implementing the target cloud architecture post migration using Oracle Cloud Migration.
 4.  Analyze and capture the design decisions and migration requirements to migrate VMware VMs to OCI.
-5.  Define the scope of the potential LIFT services migration of the A Company Making Everything workloads to Oracle Cloud.
+5.  Define the scope of the potential LIFT services migration of the A Company Making Everything workloads to Oracle Cloud. 
 
 ## Non-Functional Requirements
 
@@ -185,7 +286,7 @@ Below is the current high-level architecture of the customer's on-premises VMwar
 
 ## Current VMware Inventory On-premises
 
-The Virtual Machines identified for migration to OCI.
+The Virtual Machines identified for migration to OCI. 
 
 __VM resource allocations per location:__
 
@@ -205,7 +306,7 @@ The operating system supported by OCM service is mentioned in the OCM documentat
 
 # Future State Architecture
 
-The future state architecture of the current on-premises VMware workloads will be based on the OCI native compute VMs, OCI networking and storage.
+The future state architecture of the current on-premises VMware workloads will be based on the OCI native compute VMs, OCI networking and storage. 
 
 
 ## Solution requirements with Oracle Cloud Migration
@@ -223,7 +324,7 @@ Below is the current high-level architecture of the customer's on-premises VMwar
 - Service Policies
 - Buckets  
 - vCenter Requirements
-- Network Connectivity - We recommend to use high-spped low latency network connectivity.
+- Network Connectivity - We recommend to use high-spped low latency network connectivity. 
 - vSphere permissions
 - VDDK & Change Block Tracking
 
@@ -413,22 +514,22 @@ Review the following terms to understand the Oracle Cloud Migrations service.
 
 ## Summary Of Target Architecture Sizing
 
-- OCM will provide recommendations on sizing of the OCI compute VM and the shape.
-- The recommendations can be ignored and you can use any OCPU, Memory and Storage configuration for the migrated VM.
+- OCM will provide recommendations on sizing of the OCI compute VM and the shape. 
+- The recommendations can be ignored and you can use any OCPU, Memory and Storage configuration for the migrated VM. 
 
 **BoQ Notes:**
 
 1.  Bring Your Own License (BYOL) of Microsoft Windows should be validated with Microsfoft.
 
-| Part \# | Product Name                       | Metric                                  | Quantity |
-|:--------|:-----------------------------------|:----------------------------------------|:-|
-| BXXXXX  | OCI Compute Flex Shape             | OCPU per Hour                           | 208 |
-| XXXXXX  |                                    | OCPU Per Hour                           | 1 |
-| B91628  | OCI Object Storage                 | Gb per month                            | 52000 |
-| B91627  | OCI Object Storage Requests        | 10K requests per month (first 50k free) | 1 |
-| B91961  | OCI Block Volume Storage           | Gb per month                            | 20000 |
-| B91962  | OCI Block Volume Performance Units | Gb per month                            | 200000 |
-| XXXXX   | OCI FastConnect 1 x 10 Gbps        | Port per hour                           | 1 |
+| Part \# | Product Name                                     | Metric                                  | Quantity |
+|:--------|:-------------------------------------------------|:----------------------------------------|:---------|
+| BXXXXX  | OCI Compute Flex Shape | OCPU per Hour                           | 208      |
+| XXXXXX  |              | OCPU Per Hour                           | 1        |
+| B91628  | OCI Object Storage                               | Gb per month                            | 52000    |
+| B91627  | OCI Object Storage Requests                      | 10K requests per month (first 50k free) | 1        |
+| B91961  | OCI Block Volume Storage                         | Gb per month                            | 20000    |
+| B91962  | OCI Block Volume Performance Units               | Gb per month                            | 200000   |
+| XXXXX   | OCI FastConnect 1 x 10 Gbps                      | Port per hour                           | 1        |
 
 # Project Implementation (Only for Oracle Implementations!)
 
@@ -481,11 +582,11 @@ Following high-level scope lift scope:
 
 The following high-level Activities will be carried out by Lift:
 
--   OCI Landing Zone design
+-   OCI Landing Zone design 
 -   One Fast Connect setup between on-premises and OCI before migration
 -   OCB agent deployment and configuration
 -   Migrate VMs using OCM
--   Post migration validation.
+-   Post migration validation. 
 -   Any additional tooling to support overall migration as agreed in the design.
 
 
@@ -500,20 +601,20 @@ The following RACI matrix is applicable for the OCM migration projects:
 
 R- Responsible, I- Informed, A- Accountable, C- Consulted
 
-| Task                                            | Responsible (R)        | Accountable (A)        | Consulted (C) | Informed (I) |
-|:------------------------------------------------|:-----------------------|:-----------------------|:--------------|:-|
-| Define project scope and objectives             | Consultant             | Account Cloud Engineer | Team Members  | Stakeholders |
-| Identify migration requirements                 | Consultant             | Account Cloud Engineer | Team Members  | Stakeholders |
-| Analyze current infrastructure and applications | Consultant             | Account Cloud Engineer | Team Members  | Stakeholders |
-| Select appropriate Oracle cloud services        | Consultant             | Account Cloud Engineer | Team Members  | Stakeholders |
-| Develop migration plan and timeline             | Consultant             | Account Cloud Engineer | Team Members  | Stakeholders |
-| Allocate resources for migration                | Account Cloud Engineer | Account Cloud Engineer | Consultant    | Stakeholders |
-| Execute migration plan                          | Team Members           | Account Cloud Engineer | Consultant    | Stakeholders |
-| Monitor migration progress                      | Account Cloud Engineer | Account Cloud Engineer | Consultant    | Stakeholders |
-| Resolve migration issues and escalations        | Team Members           | Account Cloud Engineer | Consultant    | Stakeholders |
-| Validate successful migration                   | Team Members           | Account Cloud Engineer | Consultant    | Stakeholders |
-| Document migration process and outcomes         | Team Members           | Account Cloud Engineer | Consultant    | Stakeholders |
-| Conduct post-migration review                   | Consultant             | Account Cloud Engineer | Team Members  | Stakeholders |
+| Task                                           | Responsible (R) | Accountable (A) | Consulted (C) | Informed (I) |
+|------------------------------------------------|------------------|------------------|----------------|---------------|
+| Define project scope and objectives            | Consultant       | Account Cloud Engineer  | Team Members   | Stakeholders |
+| Identify migration requirements                | Consultant       | Account Cloud Engineer  | Team Members   | Stakeholders |
+| Analyze current infrastructure and applications| Consultant       | Account Cloud Engineer  | Team Members   | Stakeholders |
+| Select appropriate Oracle cloud services       | Consultant       | Account Cloud Engineer  | Team Members   | Stakeholders |
+| Develop migration plan and timeline            | Consultant       | Account Cloud Engineer  | Team Members   | Stakeholders |
+| Allocate resources for migration               | Account Cloud Engineer | Account Cloud Engineer | Consultant     | Stakeholders |
+| Execute migration plan                         | Team Members     | Account Cloud Engineer | Consultant     | Stakeholders |
+| Monitor migration progress                     | Account Cloud Engineer | Account Cloud Engineer | Consultant     | Stakeholders |
+| Resolve migration issues and escalations       | Team Members     | Account Cloud Engineer | Consultant     | Stakeholders |
+| Validate successful migration                  | Team Members     | Account Cloud Engineer | Consultant     | Stakeholders |
+| Document migration process and outcomes       | Team Members     | Account Cloud Engineer | Consultant     | Stakeholders |
+| Conduct post-migration review                  | Consultant       | Account Cloud Engineer | Team Members   | Stakeholders |
 
 
 
@@ -521,7 +622,7 @@ R- Responsible, I- Informed, A- Accountable, C- Consulted
 - Responsible (R): Individuals or roles responsible for completing the task.
 - Accountable (A): Individuals ultimately answerable for the task's completion or outcome.
 - Consulted (C): Individuals or roles to be consulted for their input or expertise.
-- Informed (I):
+- Informed (I): 
 Individuals or roles to be kept informed about the task's progress or outcome.
 
 
