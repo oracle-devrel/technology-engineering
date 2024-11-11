@@ -6,7 +6,7 @@ Reviewed: 11.11.2024
 
 # When to use this asset?
 
-This document serves as an integral asset for individuals and organizations seeking to deploy desktop instances on Oracle Service Desktop service. 
+This document serves as an integral asset for individuals and organizations seeking to deploy desktop instances on Oracle Secure Desktop service. 
 
 # Instructions for Utilizing This Asset
 
