@@ -20,7 +20,7 @@ The following source and destination scenarios are supported:
 - Internet to OCI
 - OCI to internet
 
-Reviewed: 06.02.2024
+Reviewed: 30.10.2024
  
 # Useful Links
 
@@ -29,7 +29,9 @@ Reviewed: 06.02.2024
 ## Reference Architectures & Step-by-step Guides
 
  - [NPA Steps guide](https://blogs.oracle.com/ateam/post/oci-network-path-analyzer)
- - [NPA Step-by-Step Guide](https://k21academy.com/1z0-1072/oracle-cloud-network-path-analyzer/)  
+ - [NPA Step-by-Step Guide](https://k21academy.com/1z0-1072/oracle-cloud-network-path-analyzer/)
+ - [Follow the Packets in a Hub and Spoke VCN Routing Architecture inside Oracle Cloud Infrastructure](https://docs.oracle.com/en/learn/follow-vcn-packets/#introduction)
+ - [Use Oracle Cloud Infrastructure Network Path Analyzer with On-Premises Endpoints](https://docs.oracle.com/en/learn/onpremises-oci-npa/)
 
 ## Blogs
  

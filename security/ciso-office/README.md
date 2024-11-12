@@ -8,7 +8,7 @@ The Field CISO Specialists team is responsible for building trusted relationship
 - Reduce risk, Incident response, Resiliency and Optimize costs
 - Adopt OCI to meet their compliance needs with securely built and operated workloads
 
-Reviewed: 02.02.2024
+Last updated: 28.10.2024
 
 # Table of Contents
  
@@ -79,6 +79,11 @@ Reviewed: 02.02.2024
 
 - [Security workshop for ORDS Deployment](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/run-workshop?p210_wid=3338&p210_wec=&session=107996902425576)
     - This hands-on workshop lab will help you understand how to set up a standalone ORDS (Oracle REST Data Services) server on OCI in a secure way, protecting all the resources involved through bastion services, private end-point ADB-S database, API Gateway, and monitoring with Oracle Data Safe.
+
+ ## Oracle Learn
+
+- [Create and Configure Oracle Cloud Infrastructure Zero Trust Packet Routing](https://docs.oracle.com/en/learn/config-oci-zpr/#introduction)
+    - This hands-on tutorial provides details of how to configure OCI Zero Trust Packet Routing to apply security controls to govern communication across the network within an Oracle Cloud Infrastructure (OCI) tenancy.
 
 # Useful Links
  

@@ -4,7 +4,7 @@ The Cloud Security Design Advisory team is covering end-to-end OCI security topi
 We are working closely with OCI Domain Specialists (networking, infrastructure security, data management, and observability), to provide the customer the best deep dive expertise, both on Cloud Security and Cloud Solutions.
 
 
-Reviewed: 01.02.2024
+Reviewed: 29.10.2024
 
 # Table of Contents
  
@@ -43,12 +43,13 @@ Reviewed: 01.02.2024
 - [OCI Security Health Check Standard](shared-assets/oci-security-health-check-standard/README.md)
 - [Data Safe Audit Database to OCI Logging](shared-assets/fn-datasafe-dbaudit-to-oci-logging/README.md)
 - [Importing your own key into OCI Vault](shared-assets/kms-import-keys/README.md)
-
+- [OCI IAM SDK Example](shared-assets/iam-py-sdk/README.md)
+- [Setting up IP-based TLS certificates on OCI Load Balancer](shared-assets/zerossl-lb-test-certificate-setup/README.md)
       
 # Useful Links
  
-- [Oracle Security](https://www.oracle.com/security/)
-    - Protect your most valuable data in the cloud and on-premises with Oracle’s security-first approach. Oracle has decades of experience securing data and applications; Oracle Cloud Infrastructure delivers a more secure cloud to our customers, building trust and protecting their most valuable data.
+ - [Oracle Security](https://www.oracle.com/security/)
+ - Protect your most valuable data in the cloud and on-premises with Oracle’s security-first approach. Oracle has decades of experience securing data and applications; Oracle Cloud Infrastructure delivers a more secure cloud to our customers, building trust and protecting their most valuable data.
  - [Oracle Cloud Compliance](https://www.oracle.com/corporate/cloud-compliance/)
      - Oracle is committed to helping customers operate globally in a fast-changing business environment and address the challenges of an ever more complex regulatory environment.
  - [Security in OCI - OCI Best Practices for security adoption](https://www.oracle.com/cloud/oci-best-practices-guide/#security-on-oci)
@@ -56,7 +57,7 @@ Reviewed: 01.02.2024
  - [Zero Trust Security Model](https://www.oracle.com/security/what-is-zero-trust/)
  - [Cloud Security Documentation](https://docs.oracle.com/en-us/iaas/Content/Security/Concepts/security.htm#Security_Guide_and_Announcements)
  - [OCI Architecture Center](https://www.oracle.com/uk/cloud/architecture-center/)
-- [Integrate APEX with OCI IAM Domains](https://docs.oracle.com/en/learn/apex-identitydomains-sso/index.html#task-4-create-a-new-authentication-scheme-in-oracle-apex-for-the-sample-application)
+ - [Integrate APEX with OCI IAM Domains](https://docs.oracle.com/en/learn/apex-identitydomains-sso/index.html#task-4-create-a-new-authentication-scheme-in-oracle-apex-for-the-sample-application)
      - Oracle APEX is the premier low code tool. With Oracle OCI IAM you can add proper governance to user management and authorization governance though OCI IAM groups mapped to APEX roles. Since APEX is using OAUTH for integration with Oracle OCI IAM, users is not required to managed within APEX, only user and group assignments to users is managed in APEX. If you want to manage user profile within APEX, this can easily be added by adding a post. In the post below, step 7 and 8 gives one example of how a post authentication function can be built. This can be extended to use REST to retrieve additional attributes from OCI IAM Domains, or more common use case, create a local user profile in a local table, if a local user profile does not exist for the current user. The elegant piece, is that the OCI IAM Domain integration provides username and authorization available though standard APEX API for later usage in your code
 The link above details how to integrate APEX with OCI IAM Domain, utilizing OAUTH, and then leave the user governance entirely to OCI IAM Domains.
 
@@ -68,3 +69,4 @@ Copyright (c) 2024 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+
