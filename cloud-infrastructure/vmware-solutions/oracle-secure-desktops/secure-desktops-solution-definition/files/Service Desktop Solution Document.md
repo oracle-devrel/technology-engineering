@@ -282,9 +282,9 @@ The details of the Oracle Cloud Infrastructure SLAs are found in the link below.
 [OCI Service SLA](https://www.oracle.com/ae/cloud/sla/).
 
 
-# Workload Architecture of On-prem and OCM Environement.
+# Workload Architecture of On-Prem Environment
 
-Below is the current high-level architecture of the customer's on-premises VMware environment and OCM in Oracle cloud Infrastructure.
+Below is the current high-level architecture of the customer's On-Premises/Cloud VDI (VMware/Citrix) environment
 
 
 
@@ -375,7 +375,7 @@ The participation of the following Customer stakeholders is required for the Ser
 
 ## Windows Licensing 
 
-Oracle Secure Desktop (OCM) supports Bring Your Own License (BYOL) for Windows virtual machines, it's likely that the support may vary depending on the specific version of Windows being migrated and the licensing agreements in place. OCI Windows Server Images can be used with OCI Secure Desktop as custom images however charges will be applicable. 
+Oracle Secure Desktop (OSD) supports Bring Your Own License (BYOL) for Windows virtual machines, it's likely that the support may vary depending on the specific version of Windows being migrated and the licensing agreements in place. OCI Windows Server Images can be used with OCI Secure Desktop as custom images however charges will be applicable. 
 
 For certain versions of Windows, customers may be able to migrate to dedicated virtual machine hosts on Oracle Cloud Infrastructure (OCI) to enable BYOL. Dedicated VM hosts provide physical servers dedicated to a single customer's use, offering enhanced control and security.
 
