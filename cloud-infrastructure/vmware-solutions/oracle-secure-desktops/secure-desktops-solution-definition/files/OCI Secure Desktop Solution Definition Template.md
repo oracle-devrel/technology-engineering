@@ -222,7 +222,7 @@ __Resource allocations per location:__
 
 &nbsp;
 
-# Work flow of Secure Desktop Service
+# Architectural Diagram of Secure Desktop Service
 
 
 
@@ -362,7 +362,13 @@ Additionally, comprehensive management tools will enable administrators to effic
 
 ### Licensing Model for Oracle Secure Desktop
 
-The future licensing model for Oracle Secure Desktop will be designed to offer flexibility and scalability for enterprises. It will provide various options to accommodate different organizational needs, including subscription-based and usage-based licensing. This model will allow businesses to efficiently manage costs by scaling licenses according to the number of users or virtual desktops in use. Comprehensive support and regular updates will be included, ensuring that organizations have access to the latest features and security enhancements.
+
+
+Oracle Secure Desktop (OSD) supports Bring Your Own License (BYOL) for Windows virtual machines, it's likely that the support may vary depending on the specific version of Windows being migrated and the licensing agreements in place. OCI Windows Server Images can be used with OCI Secure Desktop as custom images however charges will be applicable. 
+
+For certain versions of Windows, customers may be able to migrate to dedicated virtual machine hosts on Oracle Cloud Infrastructure (OCI) to enable BYOL. Dedicated VM hosts provide physical servers dedicated to a single customer's use, offering enhanced control and security.
+
+Customers should review their licensing agreements and consult with Oracle support or their Oracle account representative to determine the specific options available for migrating Windows virtual machines to OCI with BYOL. Additionally, they should ensure compliance with licensing requirements to avoid any potential issues.
 
 ![Current State Architecture](image/license.png)
 
@@ -460,13 +466,6 @@ The participation of the following Customer stakeholders is required for the Ser
 
 
 
-## Windows Licensing 
-
-Oracle Secure Desktop (OSD) supports Bring Your Own License (BYOL) for Windows virtual machines, it's likely that the support may vary depending on the specific version of Windows being migrated and the licensing agreements in place. OCI Windows Server Images can be used with OCI Secure Desktop as custom images however charges will be applicable. 
-
-For certain versions of Windows, customers may be able to migrate to dedicated virtual machine hosts on Oracle Cloud Infrastructure (OCI) to enable BYOL. Dedicated VM hosts provide physical servers dedicated to a single customer's use, offering enhanced control and security.
-
-Customers should review their licensing agreements and consult with Oracle support or their Oracle account representative to determine the specific options available for migrating Windows virtual machines to OCI with BYOL. Additionally, they should ensure compliance with licensing requirements to avoid any potential issues.
 
 
 &nbsp;
