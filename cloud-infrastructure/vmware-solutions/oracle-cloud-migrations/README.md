@@ -13,6 +13,7 @@ Reviewed: 06.11.2024
 
 - [Oracle Cloud Migrations](https://www.oracle.com/cloud/compute/virtual-machines/migration/)
 - [Oracle Cloud Migrations Documentation](https://docs.oracle.com/en-us/iaas/Content/cloud-migration/home.htm)
+- [OCM Scripts and policy examples](https://github.com/oracle-quickstart/oci-cloud-migrations)
 
 # Team Publications
 
