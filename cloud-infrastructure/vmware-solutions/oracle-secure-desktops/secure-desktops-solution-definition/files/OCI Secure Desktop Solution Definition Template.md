@@ -8,7 +8,7 @@ A section describing the versions of this document and its changes.
 
 | Version | Author       | Date                 | Comment         |
 |:--------|:-------------|:---------------------|:----------------|
-| 1.0     | Vaibhav Tiwari | March 14th, 2024 | Initial version |
+| 1.0     | Name Surname | March 14th, 2024 | Initial version |
 
 
 ## Team
@@ -19,7 +19,7 @@ A section describing the versions of these documents and their changes.
 
 | Name         | E-Mail              | Role                              | Company |
 |:-------------|:--------------------|:----------------------------------|:--------|
-| Vaibhav Tiwari | vaibhav.t.tiwari@oracle.com | Cloud VMware Solutions Specialist | Oracle  |
+| Name Surname | example@example.com | Designation | Oracle  |
 
 
 ## Abbreviations and Acronyms
@@ -119,7 +119,7 @@ The Oracle Secure Desktop service enables you to perform the following tasks:
 - Endusers connect to the Instance
 
 
-Oracle guides in planning, architecting, prototyping, and managing Secure Desktop. Customers can host and deploy Windows or Linux instances using custom images on Oracle Cloud Infrastructure (OCI). Instances can be launched within a few hours or even less than a day, providing rapid provisioning and deployment capabilities. Secure Desktop service has a minimal price of 5 USD per instance launched (monthly), followed by OCI resource charges.
+Oracle guides in planning, architecting, prototyping, and managing Secure Desktop. Customers can host and deploy Windows or Linux instances using custom images on Oracle Cloud Infrastructure (OCI). Instances can be launched within a few hours or even less than a day, providing rapid provisioning and deployment capabilities. Secure Desktop service has a minimal price of 20 USD per instance launched (monthly), followed by OCI resource charges.
 
 # Customer's Environment
 
@@ -153,7 +153,6 @@ For a customer with an On-Premises Datacenter, managing a hypervisor and running
 
 It's important to identify the specific versions of software being used in the data center environment to ensure compatibility and compliance with licensing agreements.
 
-![Current State Architecture](image/OnPrem-horizon.png)
 
 
 ### Current State IT Architecture Cloud Service
@@ -170,23 +169,187 @@ When customers run desktop instances from cloud vendors like AWS WorkSpaces or A
 
 By comparing these pricing details with Oracle Cloud Infrastructure (OCI) services, customers can determine the most cost-effective solution for their desktop requirements. It's essential to analyze which services are critical for their desktop infrastructure in the cloud and prioritize accordingly to optimize costs and meet business needs effectively.
 
-![Current State Architecture](image/AWS.png)
+Here is a generic diagram for OnPrem and Cloud VDI solutions
 
-![Current State Architecture](image/AVD-1.png)
-
-
-
-### Gather inventory details
-
-__VM resource allocations per location:__
+![Current State Architecture](image/Genericvdi.png)
 
 
-| Location      | Type             | Operating System Version | Total vCPU Cores | Total Memory (GB) | Used Storage (GB) | Total Storage (GB) |
-|:--------------|:-----------------|:-----------------|:------------------|:------------------|:------------------|:-|
-| Location Name | Virtual Machines | Windows or Linux    | 550              | 1800              | 23580             | 30000 |
 
 
-# Future State
+### Current Virtual Desktop Inventory 
+========================================================================= 
+
+__Resource allocations per location:__
+
+| Location      | Type             | Operating System | Total vCPU Cores | Total Memory (GB) | Used Storage (GB) | Total Storage (GB) |
+|:--------------|:-----------------|:-----------------|:-----------------|:------------------|:------------------|:-------------------|
+| Location Name | Virtual Machines | Windows/Linux              | XXX              | XXX               | XXX               | XXX                |
+| Location Name | Physical Machines | Windows/Linux              | XXX              | XXX               | XXX               | XXX                |
+
+
+&nbsp;
+
+# Oracle Secure Desktop
+
+
+## Secure Desktop Pre-requisites & Steps
+
+* Access to an active OCI Tenancy
+
+- Compartment in the tenancy where the Secure Desktop Service will be made available
+
+- VCN against against instances will be provisioned
+
+- Tenancy administrator who will execute the tasks
+
+- Valid region where the Secure Desktop Service is available
+
+- Create a Valid Image that will be used by Secure Desktop Service
+
+- Create Endusers group on OCI that will request instances
+
+- Secure Desktop Administrator will run the ORM stack.
+
+- Create a Desktop Pool with the required details
+
+- End user will login on the specified OCI portal and will request instances.
+
+- Oracle Secure Desktop service is being offered as SAAS and is deployed at tenancy level within the OCI region.  
+
+
+
+
+
+&nbsp;
+
+# Work flow of Secure Desktop Service
+
+
+
+![Future State Architecture](image/Picture1.png)
+
+&nbsp;
+
+### Mandatory Security Best Practices
+
+### **Golden Image**
+
+1. **Minimal Base Configuration:** Start with a minimal, clean operating system installation to reduce potential vulnerabilities.
+2. **Security Hardening:** Apply OS-level hardening practices, such as disabling unnecessary services, applying security patches, and configuring firewalls.
+3. **Software Inclusion:** Only include essential applications and ensure they are up-to-date.
+4. **User Profiles:** Configure user profiles with least privilege and mandatory settings for security.
+5. **Regular Updates:** Keep the golden image updated and versioned for easy rollback and compliance.
+
+
+### **VCN (Virtual Cloud Network) - Private Subnet**
+1. **Private Subnet:** Deploy Secure Desktops in a private subnet to minimize exposure to the internet.
+2. **Security Lists & NSGs:** Use security lists and Network Security Groups (NSGs) to control inbound/outbound traffic, only allowing necessary ports and IPs.
+
+### **Compartment**
+1. **Segmentation:** Use compartments to segment resources, ensuring logical separation and easier management of permissions and billing.
+2. **Access Controls:** Apply fine-grained access controls using IAM policies to ensure only authorized users can manage resources within the compartment.
+
+### **Desktop User Group**
+1. **Least Privilege Access:** Grant users the minimum privileges required for their role to reduce the risk of accidental or malicious changes.
+2. **Group Policy:** Use group policies to enforce security configurations and restrict user actions based on their role.
+
+### **Desktop Admin Group**
+1. **Restricted Access:** Limit the number of users in the Desktop Admin group to minimize the risk of administrative errors or security breaches.
+2. **Logging & Monitoring:** Enable auditing and monitoring for all actions performed by the admin group to ensure accountability and quickly detect any unauthorized activities.
+
+&nbsp;
+
+### OCI Landing Zone Solution Definition
+
+*Guide:*
+
+*This chapter describes landing zone best practices and usually does not require any changes. If changes are required please refer to [Landing Zone GitHub](https://github.com/oracle-devrel/technology-engineering/tree/main/landing-zones). The full landing zone needs to be described in the Solution Design by the service provider.*
+
+*Use this template ONLY for new cloud deployments and remove it for brownfield deployments.*
+
+
+The Oracle Secure Desktop Landing Zone is a well-architected, secure, and scalable environment where virtual desktop infrastructure (VDI) is deployed. It acts as the foundational layer, ensuring that all necessary components, such as networking, security, identity management, and monitoring, are in place to support the secure desktop environment.
+
+#### Key Components:
+* **Networking:**
+   - **VPC/Subnets:** Virtual Private Cloud (VPC) with segmented subnets for different tiers (management, application, and user access).
+   - **Internet Gateway:** Allows secure external access to the landing zone.
+   - **NAT Gateway:** Enables secure outbound internet access for resources in private subnets.
+   - **Load Balancer:** Distributes traffic across multiple instances of virtual desktops.
+
+* **Security:**
+   - **Security Groups:** Control inbound and outbound traffic at the instance level.
+   - **Network ACLs:** Additional layer of subnet-level security.
+   - **WAF (Web Application Firewall):** Protects against web exploits and attacks.
+   - **IAM (Identity and Access Management):** Manages user permissions and access controls.
+
+* **Compute:**
+   - **Hypervisor Hosts:** Run the virtual desktops.
+   - **Management Servers:** Manage VDI resources, users, and policies.
+
+* **Storage:**
+   - **Shared Storage:** Centralized storage for desktop images and user data.
+   - **Backup and Recovery:** Regular backups to ensure data integrity and availability.
+
+* **Monitoring and Logging:**
+   - **Centralized Monitoring:** Tracks the performance and health of the landing zone.
+   - **Audit Logs:** Maintains records of all access and configuration changes for compliance and security.
+
+* **Identity and Access Management:**
+   - **Single Sign-On (SSO):** Provides a seamless login experience for users.
+   - **Multi-Factor Authentication (MFA):** Adds an extra layer of security for user access.
+
+&nbsp;
+
+### Logical Architecture
+<!--
+Role  | RACI
+------|-----
+ACE   | R/A
+Impl. | None
+PPM   | None
+-->
+
+*Guide:*
+
+*Provide a high-level logical Oracle solution for the complete Workload. Indicate Oracle products as abstract groups, and not as physical detailed instances. Create an architecture diagram following the latest notation and describe the solution.*
+
+*To implement a solution the Physical Architecture is needed in the next chapter. The physical notation can show individual components with physical attributes such as IP addresses, hostnames, or sizes.*
+
+*[The Oracle Cloud Notation, OCI Architecture Diagram Toolkits](https://docs.oracle.com/en-us/iaas/Content/General/Reference/graphicsfordiagrams.htm)*
+
+![Current State Architecture](image/OSDlogicaldiagram.png)
+
+### Physical Architecture
+
+The physical architecture of Oracle Secure Desktop includes:
+
+* **Data Centers:** Geographically distributed for redundancy and disaster recovery, with strong physical security.
+* **Hypervisor Hosts:** Clustered servers running virtual desktops, ensuring high availability.
+* **Storage Systems:** Centralized, encrypted storage (SAN/NAS) with RAID for redundancy.
+* **Networking:** Redundant network paths and VLAN segmentation for secure, reliable connectivity.
+* **Management Servers:** High-availability servers for managing virtual desktops and user authentication.
+* **User Access:** Thin/zero clients connect via secure remote access gateways with SSL/TLS encryption.
+* **Backup and DR:** Regular backups and a secondary DR site with automated failover for resilience.
+
+&nbsp;
+
+This setup ensures a secure, scalable, and resilient virtual desktop environment.
+
+![Current State Architecture](image/OSDPhysicalArchitecture.png)
+
+*Guide:*
+
+*The Workload Architecture is typically described in a physical form. This should include all solution components. You do not have to provide solution build or deployment details such as IP addresses.*
+
+*Please describe the solution with an architecture image plus a written text. If you have certain specifics you like to explain, you can also use the Solution Consideration chapter to describe the details there.*
+
+*[The Oracle Cloud Notation, OCI Architecture Diagram Toolkits](https://docs.oracle.com/en-us/iaas/Content/General/Reference/graphicsfordiagrams.htm)*
+
+*Reference:*
+
+[StarterPacks (use the search)](https://github.com/oracle-devrel/technology-engineering/)
+
 
 
 ### Future State of VDI on Oracle Secure Desktop Solution
@@ -195,7 +358,6 @@ The future setup of VDI on the Oracle Secure Desktop solution will offer a robus
 
 Additionally, comprehensive management tools will enable administrators to efficiently oversee and maintain the VDI environment, ensuring maximum uptime and productivity. This future state will empower businesses to achieve greater flexibility, security, and efficiency in their desktop management processes.
 
-![Future State Architecture](image/OSDPhysicalArchitecture.png)
 
 
 ### Licensing Model for Oracle Secure Desktop
@@ -250,63 +412,9 @@ In Oracle Cloud Infrastructure (OCI), the tenant admin group refers to a user gr
 
 In Oracle Cloud Infrastructure (OCI), the tenant user group refers to a group of users who have access to resources within a specific tenancy. With reference to OCI Secure Desktop, the tenant user group would include individuals authorized to access and use virtual desktop instances hosted in the OCI environment. These users typically comprise employees or stakeholders who require access to virtual desktops for their daily work activities. The tenant user group is granted appropriate permissions and access rights to securely utilize the Secure Desktop service, enabling them to access their virtual desktop environments from any compatible device and location.
 
-PICTURE .... SHOWING SEGREGATION 
-USER REQUIREMENT 
-
-
-## Secure Desktop Pre-requisites & Steps
-
-* Access to an active OCI Tenancy
-
-- Compartment in the tenancy where the Secure Desktop Service will be made available
-
-- VCN against against instances will be provisioned
-
-- Tenancy administrator who will execute the tasks
-
-- Valid region where the Secure Desktop Service is available
-
-- Create a Valid Image that will be used by Secure Desktop Service
-
-- Create Endusers group on OCI that will request instances
-
-- Secure Desktop Administrator will run the ORM stack.
-
-- Create a Desktop Pool with the required details
-
-- End user will login on the specified OCI portal and will request instances.
-
-- Oracle Secure Desktop service is being offered as SAAS and is deployed at tenancy level within the OCI region.  
-
-The details of the Oracle Cloud Infrastructure SLAs are found in the link below.
-[OCI Service SLA](https://www.oracle.com/ae/cloud/sla/).
-
-
-# Workload Architecture of On-Prem Environment
-
-Below is the current high-level architecture of the customer's On-Premises/Cloud VDI (VMware/Citrix) environment
 
 
 
-### Current Virtual Desktop Inventory On-premises
-
-========================================================================= 
-
-__Resource allocations per location:__
-
-| Location      | Type             | Operating System | Total vCPU Cores | Total Memory (GB) | Used Storage (GB) | Total Storage (GB) |
-|:--------------|:-----------------|:-----------------|:-----------------|:------------------|:------------------|:-------------------|
-| Location Name | Virtual Machines | Windows/Linux              | XXX              | XXX               | XXX               | XXX                |
-| Location Name | Physical Machines | Windows/Linux              | XXX              | XXX               | XXX               | XXX                |
-
-
-&nbsp;
-
-# Work flow of Secure Desktop Service
-
-
-
-![Future State Architecture](image/Picture1.png)
 
 ### High Level steps
 
@@ -350,8 +458,256 @@ The participation of the following Customer stakeholders is required for the Ser
 * Windows/Linux Administrator
 * Network Operations team leads
 
+
+
+## Windows Licensing 
+
+Oracle Secure Desktop (OSD) supports Bring Your Own License (BYOL) for Windows virtual machines, it's likely that the support may vary depending on the specific version of Windows being migrated and the licensing agreements in place. OCI Windows Server Images can be used with OCI Secure Desktop as custom images however charges will be applicable. 
+
+For certain versions of Windows, customers may be able to migrate to dedicated virtual machine hosts on Oracle Cloud Infrastructure (OCI) to enable BYOL. Dedicated VM hosts provide physical servers dedicated to a single customer's use, offering enhanced control and security.
+
+Customers should review their licensing agreements and consult with Oracle support or their Oracle account representative to determine the specific options available for migrating Windows virtual machines to OCI with BYOL. Additionally, they should ensure compliance with licensing requirements to avoid any potential issues.
+
+
+&nbsp;
+
+
+## Workplan
+
+### Deliverables
+<!--
+Role  | RACI
+------|-----
+ACE   | A
+Impl. | R
+PPM   | None
+-->
+
+*Guide:*
+
+*Describe deliverables within the implementation scope. Including this documentation as Solution Definition and the later following Solution Design. This should be a generic reusable text, provided by the implementers.*
+
+### Included Activities
+
+* Access to an active OCI Tenancy
+
+- Compartment in the tenancy where the Secure Desktop Service will be made available
+
+- VCN against against instances will be provisioned
+
+- Tenancy administrator who will execute the tasks
+
+- Valid region where the Secure Desktop Service is available
+
+- Create a Valid Image that will be used by Secure Desktop Service
+
+- Create Endusers group on OCI that will request instances
+
+- Secure Desktop Administrator will run the ORM stack.
+
+- Create a Desktop Pool with the required details
+
+- End user will login on the specified OCI portal and will request instances.
+
+- Oracle Secure Desktop service is being offered as SAAS and is deployed at tenancy level within the OCI region.  
+
+The details of the Oracle Cloud Infrastructure SLAs are found in the link below.
+[OCI Service SLA](https://www.oracle.com/ae/cloud/sla/).
+
+**OCI Foundation & Network**
+
+1. **Virtual Cloud Network (VCN):**
+   - Creation of VCN with subnets dedicated to Oracle Secure Desktop.
+   - Configured routing tables, internet gateways, and NAT gateways.
+
+2. **Security List:**
+   - Security rules defining allowed traffic to and from Oracle Secure Desktop instances.
+
+
+3. **Public and Private Subnets:**
+   - Separate subnets for public-facing components and internal components.
+   - Proper routing and security configurations.
+
+
+**Security**
+
+- **Identity and Access Management (IAM):**
+   - Configuration of OCI IAM policies for role-based access control (RBAC).
+   - Integration with existing identity providers (e.g., Active Directory, LDAP).
+
+- **Data Encryption:**
+   - Encryption of data at rest using OCI Key Management.
+   - Encryption of data in transit using SSL/TLS.
+
+3. **Firewalls and Security Lists:**
+   - Configuration of firewalls to restrict unauthorized access.
+   - Security lists governing ingress and egress traffic to/from subnets.
+
+4. **Audit Logging and Monitoring:**
+   - Enablement of OCI audit logs to track administrative actions.
+   - Integration with monitoring tools for real-time alerts.
+
+5. **Compliance and Governance:**
+   - Implementation of security controls to comply with industry standards (e.g., GDPR, HIPAA).
+   - Regular security assessments and vulnerability scans.
+
+
+
+
+### Recommended Activities
+
+- **Kickoff Meeting:**
+   - Introduction of project team members.
+   - Review of project scope, objectives, and timelines.
+
+- **Requirements Gathering:**
+   - Workshops with stakeholders to gather business and technical requirements.
+   - Documentation of requirements in a requirements specification document.
+
+- **Design Phase:**
+   - Creation of a detailed architectural design.
+   - Review and approval of the design by the customer.
+
+- **Infrastructure Setup:**
+   - Provisioning of OCI resources, including compute instances, storage, and networking.
+   - Configuration of VCN, subnets, and security lists.
+
+- **Oracle Secure Desktop Installation:**
+   - Deployment of Oracle Secure Desktop components.
+   - Configuration of custom images if required (e.g., Windows Server).
+
+- **Integration:**
+   - Integration with identity providers for user authentication.
+   - Configuration of network connections to on-premises systems.
+
+- **Testing Phase:**
+   - Execution of UAT to validate functionality against customer requirements.
+   - Performance and load testing to ensure the system meets SLAs.
+   - Security testing to identify and mitigate vulnerabilities.
+
+- **Training and Documentation:**
+   - Conducting training sessions for IT administrators and end-users.
+   - Providing detailed documentation for future reference.
+
+- **Go-Live:**
+   - Transitioning the Oracle Secure Desktop solution to production.
+   - Close monitoring of system performance and user experience.
+
+- **Post-Go-Live Support:**
+    - Providing support to address any issues during the initial go-live period.
+    - Fine-tuning system configurations based on feedback.
+
+- **Final Review and Handover:**
+    - Review of project deliverables and customer satisfaction.
+    - Handover of the system to the customer’s IT team.
+
+
+
+### Timeline
+When implementing Oracle Secure Desktop for a customer, the timeline can vary depending on the scope, complexity, and specific requirements of the deployment. Here's a general timeline broken down into common phases:
+
+**Planning and Requirements Gathering (1-2 weeks)**
+   - **Customer Needs Assessment:** Understand the customer’s business requirements, number of users, types of applications, and licensing needs.
+   - **Technical Requirements:** Assess infrastructure, network, and security requirements.
+   - **Design Document:** Create a detailed design document that includes architecture, network layout, and deployment plan.
+   - **Approval:** Get customer approval on the design and timelines.
+
+**Infrastructure Preparation (2-3 weeks)**
+   - **Provisioning OCI Resources:** Set up the necessary OCI infrastructure, including virtual networks, compute instances, and storage.
+   - **BYOL Considerations:** Ensure any necessary licenses are in place, especially if leveraging BYOL for Windows VMs.
+   - **Security Configuration:** Implement security controls like firewalls, security lists, and identity access management.
+
+**Installation and Configuration (2-4 weeks)**
+   - **Deploy Oracle Secure Desktop Components:** Install and configure Oracle Secure Desktop on OCI.
+   - **Custom Image Preparation:** If using custom images, prepare and upload the necessary Windows Server Images.
+   - **Integrate with Existing Systems:** Set up any required integrations with on-premises systems, identity providers, or other cloud services.
+   - **Networking Setup:** Ensure proper network configurations for secure access, including VPN or private connectivity.
+
+**Testing and Validation (1-2 weeks)**
+   - **User Acceptance Testing (UAT):** Conduct thorough testing with key stakeholders to validate that the solution meets the agreed requirements.
+   - **Performance Testing:** Evaluate performance under load, ensuring it meets SLAs.
+   - **Security Testing:** Verify that all security measures are functioning as intended.
+
+**Training and Documentation (1 week)**
+   - **Training Sessions:** Provide training for the customer’s IT team and end-users on how to manage and use Oracle Secure Desktop.
+   - **Documentation:** Deliver comprehensive documentation, including user manuals, troubleshooting guides, and an operational handbook.
+
+**Go-Live and Support (1-2 weeks)**
+   - **Go-Live:** Transition the Oracle Secure Desktop into production.
+   - **Monitoring:** Closely monitor the environment post-deployment for any issues.
+   - **Support:** Provide post-implementation support to address any questions or problems.
+
+**Handover and Final Review (1 week)**
+   - **Handover:** Complete the handover process to the customer’s IT team.
+   - **Final Review:** Conduct a review meeting with the customer to discuss the implementation, gather feedback, and ensure customer satisfaction.
+
+**Total Estimated Timeline: 8-15 weeks**
+
+This timeline can vary depending on factors such as the complexity of the environment, the number of users, the level of customization required, and the customer’s internal processes.
+
+
+
+### Implementation RACI
+
+
+
+Guide:
+
+Describe for all activities the RACI (Responsible, Accountable, Consultant, Informed) matrix
+
+Example:
+
+| Task                                           | Responsible (R) | Accountable (A) | Consulted (C) | Informed (I) |
+|------------------------------------------------|------------------|------------------|----------------|---------------|
+| Define project scope and objectives            | Consultant       | Account Cloud Engineer  | Team Members   | Stakeholders |
+|Identify Image requirements            | Consultant       | Account Cloud Engineer  | Team Members   | Stakeholders |
+| Analyze current infrastructure and applications| Consultant       | Account Cloud Engineer  | Team Members   | Stakeholders |
+| Select appropriate Oracle cloud services       | Consultant       | Account Cloud Engineer  | Team Members   | Stakeholders |
+| Develop Desktop Pool plan            | Consultant       | Account Cloud Engineer  | Team Members   | Stakeholders |
+| Allocate resources for Secure Desktop Administrator                | Account Cloud Engineer | Account Cloud Engineer | Consultant     | Stakeholders |
+| Execute Desktop Pool plan                         | Team Members     | Account Cloud Engineer | Consultant     | Stakeholders |
+| Monitor Image and Desktop Pool progress                     | Account Cloud Engineer | Account Cloud Engineer | Consultant     | Stakeholders |
+| Resolve Image and Desktop Pool progress issues and escalations       | Team Members     | Account Cloud Engineer | Consultant     | Stakeholders |
+| Validate successful connection for the enduser                  | Team Members     | Account Cloud Engineer | Consultant     | Stakeholders |
+| Document  process and outcomes       | Team Members     | Account Cloud Engineer | Consultant     | Stakeholders |
+| Conduct review post enduser login                 | Consultant       | Account Cloud Engineer | Team Members   | Stakeholders |
+
+
+
+
+
+
+
+Responsible (R): Individuals or roles responsible for completing the task.
+Accountable (A): Individuals ultimately answerable for the task's completion or outcome.
+Consulted (C): Individuals or roles to be consulted for their input or expertise.
+Informed (I): Individuals or roles to be kept informed about the task's progress or outcome.
+
+
+
+
+
+R- Responsible, I- Informed, A- Accountable, C- Consulted
+
+The participation of the following Customer stakeholders is required for the Service to be performed:
+
+* Enterprise Architect
+* Infrastructure Architect
+* Backup/Recovery team leads
+* Windows/Linux Administrator
+* Network Operations team leads
+
+
+
 ### Assumptions
 
+Guide:
+
+List any assumptions, if any, which could impact the solution architecture or the implementation.
+
+Example:
+
+**Generic assumptions**
 * Secure Desktop Administrators have relevant permissions.
 * The Secure Desktop end-users have been created on the OCI tenancy
 * Dedicated Compartment has been setup for the Secure Desktop Pools
@@ -372,23 +728,79 @@ The participation of the following Customer stakeholders is required for the Ser
 * Any problems, issues, errors, and anomalies to be addressed through MOS SRs & will continue to be owned by the Customer.
 * Details and Naming convention will be provided for OCI resources.
 * Any additional effort outside of the scope of this proposal will be managed by change control and mutually agreed upon by both Oracle and Customer.
+* It is assumed that all required contractual agreements between Oracle and the Customer are in place to ensure uninterrupted execution of the project.
+* It is assumed that all work will be done remotely and within either central European time or India Standard Time normal office working hours.
+* It is assumed that upgrades are excluded from the scope of work and no production systems/production cutover is part of the scope of work undertaken by the Oracle Service
+* It is assumed that all required Oracle cloud technical resources are available for use during the duration of the project and that engineers involved have been granted the appropriate access to those technical resources by the customer before the start of the project.
+* It is assumed that all required customer resources, and if applicable third-party resources, are available during the duration of the project to work openly and collaboratively to realize the project goals uninterruptedly.
+* It is assumed that all required customer resources, and if applicable third-party resources are aware of all technical and non-technical details of the as-is and to-be components. All resources are committed to technical work as far as is needed for the execution of the project.
+* It is assumed that all required documentation, system details, and access needed for the execution of the project can be given/granted to parties involved when and where deemed needed for the success of the project.
+* It is assumed that the customer will have adequate licenses for all the products that may/will be used during the project and that appropriate support contracts for those products are in place where the customer will take the responsibility of managing any potential service request towards a support organization to seek resolution of a problem.
+* It is assumed the customer will provide the appropriate level of information and guidance on rules and regulations which can directly and/or indirectly influence the project or the resulting deliverables. This includes, however not limited to, customer-specific naming conventions, security implementation requirements, internal SLA requirements as well as details for legal and regulatory compliance. It will be the responsibility of the customer to ensure that the solution will adhere to this.
+* It is assumed that under the customer's responsibility, the customer will ensure and validate that the solution will be placed under the proper controls for ensuring business continuity, system availability, recoverability, security control, and monitoring and management as part of a post-project task.
+* It is assumed that the customer will take responsibility for testing all functional and non-functional parts of the solution within the provided timeline and ensure a proper test report will be shared with the full team (including customer, Oracle, and if applicable third party).
+* It is assumed that any requirement, deliverable, or expectation that is not clearly defined as in-scope of the project will not be handled as part of the project and is placed under the responsibility of the customer to be handled outside of the project.
 
-## Windows Licensing 
+**Project-specific assumptions**
 
-Oracle Secure Desktop (OSD) supports Bring Your Own License (BYOL) for Windows virtual machines, it's likely that the support may vary depending on the specific version of Windows being migrated and the licensing agreements in place. OCI Windows Server Images can be used with OCI Secure Desktop as custom images however charges will be applicable. 
 
-For certain versions of Windows, customers may be able to migrate to dedicated virtual machine hosts on Oracle Cloud Infrastructure (OCI) to enable BYOL. Dedicated VM hosts provide physical servers dedicated to a single customer's use, offering enhanced control and security.
 
-Customers should review their licensing agreements and consult with Oracle support or their Oracle account representative to determine the specific options available for migrating Windows virtual machines to OCI with BYOL. Additionally, they should ensure compliance with licensing requirements to avoid any potential issues.
+- Oracle Secure Desktop (OCM) supports Bring Your Own License (BYOL) for Windows virtual machines, but the support may vary depending on the specific version of Windows being migrated and the licensing agreements in place.
+
+- OCI Windows Server Images can be used with OCI Secure Desktop as custom images, but charges will be applicable.
+
+- For certain versions of Windows, customers may be able to migrate to dedicated virtual machine hosts on Oracle Cloud Infrastructure (OCI) to enable BYOL.
+
+- Dedicated VM hosts provide physical servers dedicated to a single customer's use, offering enhanced control and security.
+
+- Customers should review their licensing agreements and consult with Oracle support or their Oracle account representative to determine the specific options available for migrating Windows virtual machines to OCI with BYOL.
+
+- Customers should ensure compliance with licensing requirements to avoid any potential issues.
+
+### Obligations
+
+
+- You will have purchased the appropriate Universal Credits for the services required for the project.
+- The implementation team will have admin access to the customer's tenancy for implementation.
+- You will ensure the appropriate product training has been obtained to maintain and support the implementation
+- Your business team will be available for the Testing phase, which will be completed within the agreed testing window.
+- You will provide project management for the project and will manage any third-party suppliers or vendors.
+- You will provide the implementation team with appropriate access to your tenancy & relevant on-premises applications/database to perform implementation activities. We recommend the least-privilege access principle.
+- You will revoke implementor access on production goLive or after project completion.
+- You will take consistent and restorable backups of your existing data and application before implementation.
+
+
+
+### Transition Plan
+<!--
+Role  | RACI
+------|-----
+ACE   | A
+Impl. | R
+PPM   | C/I
+-->
+
+*Guide:*
+
+*The Transition Plan describes the handover of the project, after the implementation. Please ensure the accepting transition party is filled out.*
+
 
 &nbsp;
 
-**Note:** 
-
-For more information regarding the Secure Desktop Service, please refer to [Official Documentation.](https://docs.oracle.com/en-us/iaas/secure-desktops/home.htm)
 
 
 
-#### Acknowledgments
 
-•	Author - Vaibhav Tiwari (Cloud VMware Solutions Specialist)
+**Additional Resources** 
+
+Secure Desktop Service [official documentation](https://docs.oracle.com/en-us/iaas/secure-desktops/home.htm)
+
+Getting Started with OCI Secure Desktops [video](https://www.youtube.com/watch?v=azvdGTG7PQg&t=2455s)
+
+OCI Secure Desktop Administrative Workflow [video](https://www.youtube.com/watch?v=tvjRg6lhOK8)
+
+OCI Secure Desktop Image Builder Tool [video](https://www.youtube.com/watch?v=QumOEIf0R3w)
+
+OCI Secure Desktop new fatures [blog](https://blogs.oracle.com/cloud-infrastructure/post/oci-secure-desktops-new-features-cloudworld-2024)
+
+Oracle Cloud Infrastructure SLA [document](https://www.oracle.com/ae/cloud/sla/).
