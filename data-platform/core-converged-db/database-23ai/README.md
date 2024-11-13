@@ -6,7 +6,7 @@ Oracle Database 23ai is available cloud-first, in OCI on Oracle Exadata Database
 
 If you are interested in AI Vector Search, [please see our page here](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/core-converged-db/ai-vector-search).
 
-Reviewed: 05.11.2024
+Reviewed: 15.11.2024
  
 # Useful Links  
  
@@ -25,6 +25,7 @@ Reviewed: 05.11.2024
 - [Database Release Notes](https://docs.oracle.com/en/database/oracle/oracle-database/23/rnrdm/purpose-these-release-notes.html)
 - [Download Oracle Database Free Get Started](https://www.oracle.com/database/free/get-started/)
 - [Download Autonomous Database Free Container Image](https://www.oracle.com/autonomous-database/free-trial/#free-container-image)
+- [Oracle Database 23ai New Compression and SecureFiles Storage Features (Technical Brief)](https://www.oracle.com/a/ocom/docs/database/new-compression-and-securefiles-storage-features.pdf)
 - [Oracle Database on oracle.com](https://www.oracle.com/database/)
 
 ## Blogs
@@ -41,6 +42,7 @@ Reviewed: 05.11.2024
 - [SQL Firewall now built into Oracle Database 23ai](https://blogs.oracle.com/cloudsecurity/post/sql-firewall-now-built-into-oracle-database-23c)
 - [Oracle’s very own database connection proxy, CMAN-TDM, brings in per-PDB pooling capabilities in 23ai](https://medium.com/oracledevs/oracles-very-own-database-connection-proxy-cman-tdm-brings-in-per-pdb-pooling-capabilities-in-6077ee32d4b0)
 - [Oracle Globally Distributed Database supports RAFT Replication in Oracle Database 23ai](https://blogs.oracle.com/database/post/raft-replication-in-distributed-23c)
+- [New Database In-Memory Features in Oracle Database 23ai](https://blogs.oracle.com/in-memory/post/dbim-new-features-23ai)
 - [Oracle Database 23ai : Where to find information](https://blogs.oracle.com/database/post/oracle-database-23ai-where-to-find-more-information)
 
 
