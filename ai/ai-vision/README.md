@@ -2,7 +2,7 @@
  
 OCI Vision is an AI service for performing deep-learning–based image analysis at scale. With prebuilt models available out of the box, developers can easily build image recognition and text recognition into their applications without machine learning (ML) expertise. For industry-specific use cases, developers can automatically train custom vision models with their own data. These models can be used to detect visual anomalies in manufacturing, organize digital media assets, and tag items in images to count products or shipments.
  
-Reviewed: 17.10.2024
+Reviewed: 13.11.2024
 
 # Table of Contents
  
@@ -66,8 +66,6 @@ Reviewed: 17.10.2024
 
 - [Cloud Coaching - Boost Your Oracle AI Services](https://youtu.be/VVWTqqlIEhg)
     - Describe an image using OCI AI Vision, Generative AI Service and Oracle Integration 
-- [Blog: Describe an image using OCI AI Vision, Generative AI & Integration Cloud](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/vision-genai)
-    - In this article, we'll explore how to describe an image using OCI AI Vision Service and OCI Generative AI Service. The application is developed using Oracle VBCS, OIC, OCI AI Vision service, and OCI Generative AI Service. This integrated approach combines the strength of OCI AI Vision and OCI Generative AI Service, allowing for efficient and insightful summarization of image content.
 - [OCI image classification using data labeling and vision service](https://github.com/carlgira/oci-image-classification)
 - [OCI object detection using data labeling and vision service](https://github.com/carlgira/oci-object-detection) 
 - [Perform image recognition with Oracle Cloud Infrastructure OCI Vision](https://youtu.be/G11INIVtlMY?si=ixMoLE2jSq7f_Iyi) 
