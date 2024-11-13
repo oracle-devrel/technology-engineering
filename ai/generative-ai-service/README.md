@@ -2,7 +2,7 @@
  
 Oracle’s AI strategy is to make artificial intelligence (AI) pervasive across its cloud applications and cloud infrastructure. We serve business users who want to improve business processes and outcomes through prebuilt AI capabilities, data scientists and developers who want complete control to build and deploy AI models of any kind, and independent software vendors (ISVs) who want the most performant and cost-effective platform to host their AI services.
  
-Reviewed: 17.10.2024
+Reviewed: 13.11.2024
  
 # Team Publications
 
@@ -15,7 +15,7 @@ Reviewed: 17.10.2024
     - Build enterprise-grade, modular, scalable, secure & maintainable LLM Apps
 - [Oracle Generative AI webinar](https://go.oracle.com/LP=138234?elqCampaignId=489428&src1=:so:ch:or:dg::::&SC=:so:ch:or:dg::::&pcode=WWMK230822P00010)
     - Deep dive into Oracle Generative AI platform
-- [Creating a RAG (Retrieval-Augmented Generation) with Oracle Generative AI Service in just 21 lines of code](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/rag-genai)
+- [Creating a RAG (Retrieval-Augmented Generation) with Oracle Generative AI Service in just 21 lines of code](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/generative-ai-service/rag-genai)
 - [Summarize any document using Oracle Generative AI](https://www.youtube.com/watch?v=6A3KGyKy91Q)
 - [Dubai Citizen's Dream: An Oracle GenAI-Powered Oracle BOT to Answer All Your Questions (RAG on websites)](https://www.youtube.com/watch?v=5Y_k1r34Mp0)
 - [Document Chatbot with Oracle Generative AI](https://www.youtube.com/watch?v=vyJAZvYKY34) 
@@ -55,6 +55,9 @@ Reviewed: 17.10.2024
       - In this webinar, we will continue to use the RAG architecture presented in our previous Cloud Coaching sessions, and update it to use a multilingual embedding model.
 - [Cloud Coaching - How to enable Oracle Observability on RAG solutions](https://www.youtube.com/watch?v=VQg3lADHwu8)
     - In this session we show you how OCI Application Performances Monitor helps to increase GenAI user satisfaction by collecting Opentelemetry traces produced by RAG and providing insight dashboard, anomaly detection and error notifications. 
+
+## Reusable Assets Overview
+- [Podcast Generator](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/ai-speech/podcast-generator)
 
 
 # Useful Links
