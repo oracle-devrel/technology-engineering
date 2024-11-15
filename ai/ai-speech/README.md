@@ -2,7 +2,7 @@
 
 OCI Speech is an AI service that applies automatic speech recognition technology to transform audio-based content into text. Developers can easily make API calls to integrate OCI Speech’s pre-trained models into their applications. OCI Speech can be used for accurate, text-normalized, time-stamped transcription via the console and REST APIs as well as command-line interfaces or SDKs. You can also use OCI Speech in an OCI Data Science notebook session. With OCI Speech, you can filter profanities, get confidence scores for both single words and complete transcriptions, and more.
 
-Reviewed: 17.10.2024
+Reviewed: 13.11.2024
 
 # Table of Contents
  
@@ -22,8 +22,6 @@ Reviewed: 17.10.2024
 
 - [Cloud Coaching - Boost Your Oracle AI Services](https://youtu.be/VVWTqqlIEhg)
     - Integrate OCI AI Speech Service and Generative AI Summarization with Oracle Integration Cloud and Visual Builder
-- [Blog: Integrate OCI AI Speech Service and Generative AI Summarization with Oracle Integration Cloud & Visual Builder](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/speech-genai)
-    - OCI Speech is an AI service that applies automatic speech recognition technology to transform audio-based content into text. Generative AI, The Large Language Model (LLM) analyzes the text input and can generate, summarize, transform, and extract information. Using these AI capabilities, we built a low code application- “Integrate OCI AI Speech Service and Generative AI Service for Summarization in Visual Builder " to invoke AI Speech REST API to convert audio files into text and then further invoke the Generative AI REST API to Summarize it.
 - [Demos built using OCI Python SDK](https://github.com/luigisaetta/oci-speech-demos)
 - [AI Speech console demo](https://youtu.be/EWBSoSLNph8)
 - [Cloud Coaching - Unlock the potential of enterprise Oracle GenAI](https://www.youtube.com/watch?v=dtvP0DU7Mdg)
@@ -34,6 +32,7 @@ Reviewed: 17.10.2024
         - Integrate Python and Oracle Functions for backend processing.
         - Build a user-friendly interface with Oracle Visual Builder Cloud Service. 
          -Download, and preview transcribed text.
+- [Podcast Generator](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/ai-speech/podcast-generator)
 
 ## Architecture Center
 

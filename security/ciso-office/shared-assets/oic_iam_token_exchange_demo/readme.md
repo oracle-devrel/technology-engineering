@@ -29,7 +29,7 @@ In order to use this script there are a few pre-requisites that must be met:
 
 Before testing the script, the target resource and IAM must be configured within your OCI tenancy. 
 
-Refer to the [Setup Guide](/oic-target-setup.md) for details of how to configure IAM and Oracle Integration Cloud for this script.
+Refer to the [Setup Guide](./oic-target-setup.md) for details of how to configure IAM and Oracle Integration Cloud for this script.
 
 ## Running the Script
 
