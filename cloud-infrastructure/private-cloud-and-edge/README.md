@@ -1,5 +1,7 @@
 # Private Cloud and Edge
 
+Reviewed: 18.11.2024
+
 ## Useful Links
 
 - [Oracle Compute Cloud@Customer](https://www.oracle.com/uk/cloud/compute/cloud-at-customer/)

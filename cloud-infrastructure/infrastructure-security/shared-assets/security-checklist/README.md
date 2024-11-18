@@ -6,9 +6,7 @@ CIS Oracle Cloud Infrastructure Foundations Benchmark provides prescriptive guid
 baseline configuration for the Oracle Cloud Infrastructure environment. The scope of this benchmark is to
 establish a base level of security for anyone utilizing the included Oracle Cloud Infrastructure services. The current OSSA checklist is aligned with the CIS OCI Benchmark 1.2.0
 
-Owner: Ravi Agrawal
-
-Reviewed: 30.01.2024
+Reviewed: 18.11.2024
 
 # When to use this asset?
 
