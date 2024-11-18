@@ -1,0 +1,10 @@
+environment.py
+saml.xml
+signedsaml.xml
+libs/__pycache__/*.*
+libs/__init__.py
+keys/*.pem
+keys/*.pub
+keys/*.crt
+*.pyc
+.venv/*.*

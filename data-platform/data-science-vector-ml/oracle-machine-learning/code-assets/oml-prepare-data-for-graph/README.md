@@ -2,7 +2,7 @@
  
 This file covers code snippets for Oracle Machine Learning, for the Prepare Data for Graph step.
 
-Reviewed: 2024.03.25
+Reviewed: 2024.11.16
  
 
 # When to use this asset?
