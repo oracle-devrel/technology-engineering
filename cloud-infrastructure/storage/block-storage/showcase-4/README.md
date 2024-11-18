@@ -5,7 +5,7 @@
 Assets that contain a process incl. a script how to backup and restore an individual boot or block volume to a customer-managed bucket.
 
 
-Reviewed: 27.11.2023
+Reviewed: 18.11.2024
 
 # When to use this asset?
 
