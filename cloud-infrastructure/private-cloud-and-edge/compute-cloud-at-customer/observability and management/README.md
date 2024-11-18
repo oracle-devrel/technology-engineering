@@ -1,5 +1,7 @@
 # C3 OKE - Monitoring with OCI Log Analytics
 
+Reviewed: 18.11.2024
+
 ## Introduction
 
 This page details an all OCI solution for monitoring kubernetes clusters
