@@ -45,7 +45,7 @@ Reviewed: 29.10.2024
 - [Importing your own key into OCI Vault](shared-assets/kms-import-keys/README.md)
 - [OCI IAM SDK Example](shared-assets/iam-py-sdk/README.md)
 - [Setting up IP-based TLS certificates on OCI Load Balancer](shared-assets/zerossl-lb-test-certificate-setup/README.md)
-      
+- [Bastion Session Script, Python SDK version](shared-assets/bastion-py-script/README.md)      
 # Useful Links
  
  - [Oracle Security](https://www.oracle.com/security/)
