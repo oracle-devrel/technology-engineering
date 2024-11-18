@@ -85,6 +85,11 @@ Last updated: 28.10.2024
 - [Create and Configure Oracle Cloud Infrastructure Zero Trust Packet Routing](https://docs.oracle.com/en/learn/config-oci-zpr/#introduction)
     - This hands-on tutorial provides details of how to configure OCI Zero Trust Packet Routing to apply security controls to govern communication across the network within an Oracle Cloud Infrastructure (OCI) tenancy.
 
+## Reusable Assets Overview
+
+- [Identity Token Propagation Script](shared-assets/oic_iam_token_exchange_demo/readme.md)
+- [Adding a Group to an OCI IAM Admin Role](shared-assets/oci_iam_adding_group_to_admin_role/readme.md)
+
 # Useful Links
  
 - [Business Report: The mission of the Cloud-Centric CISO](https://www.oracle.com/a/ocom/docs/cloud/mission-of-the-cloud-centric-ciso-report.pdf)
