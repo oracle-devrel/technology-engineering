@@ -2,7 +2,7 @@
  
 OCI Vault lets you centrally manage and control the use of keys and secrets across a wide range of OCI services and applications. OCI Vault is a secure, resilient managed service that lets you focus on your data encryption needs without worrying about time-consuming administrative tasks such as hardware provisioning, software patching, and high availability.
  
-Reviewed: 30.01.2024
+Reviewed: 18.11.2024
 
 # Table of Contents
  
