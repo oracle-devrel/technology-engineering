@@ -2,7 +2,7 @@
  
 EU Sovereign Cloud is Oracle’s sovereign cloud offering, designed for the data laws and requirements of the EU.
 
-Reviewed: 31.01.2024
+Reviewed: 18.11.2024
 
 # Table of Contents
  
