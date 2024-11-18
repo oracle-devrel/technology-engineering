@@ -1,23 +1,23 @@
 
-# Bastion session
+# Oracle Cloud Infrastructure (OCI) Bastion Service
 
-This reusable asset consist of a Python script that creates a bastion session with the Oracle OCI bastion service.  The main purposes of this asset are:  
+This reusable asset consist of a Python script that creates a bastion session with the Oracle OCI Bastion Service.  The main purposes of this asset are:  
 
 -	Demonstrate the usage of OCI Python SDK
 -	Create a simple OS independent command-line interface for creating bastion sessions
 -	Create a simple way to make reusable configuration
 -	Create a `ssh` command that works with Linux, Mac OS and Windows by providing the flexibility to configure either `ssh` command or `putty` commands.  
 
-The script creates bastion session over SSH, and creates an example command to set up the tunnel for the target application. Other protocols like RDP can then be tunneled over the SSH session through the bastion service.  
+The script creates bastion session over SSH, and creates an example command to set up the tunnel for the target application. Other protocols like RDP can then be tunneled over the SSH session through the OCI Bastion Service.  
 
 Some documentation for inspiraton:
 
 [https://www.ateam-oracle.com/post/openssh-proxyjump-with-oci-bastion-service](https://www.ateam-oracle.com/post/openssh-proxyjump-with-oci-bastion-service)  
 [https://fluffyclouds.blog/2022/06/02/create-oci-bastion-sessions-with-python-sdk/](https://fluffyclouds.blog/2022/06/02/create-oci-bastion-sessions-with-python-sdk/)
 
-## Why use bastion service
+## Why use the OCI Bastion Service
 
-Oracle Cloud Infrastructure (OCI) Bastion service, is a fully managed service providing secure and ephemeral Secure Shell (ssh) access to the private resources in OCI. OCI Bastion service, like the bastion fortress of medieval times, improves security posture by providing an additional layer of defense against external threats.    
+Oracle Cloud Infrastructure (OCI) Bastion Service, is a fully managed service providing secure and ephemeral Secure Shell (ssh) access to the private resources in OCI. OCI Bastion Service, like the bastion fortress of medieval times, improves security posture by providing an additional layer of defense against external threats.    
 
 Accessing virtual services directly from the internet is a clear no-go. Best practices is to never expose compute resources directly, neither for SSH or RDP traffic. RDP is known to be one of the most common Initial Access Vectors for ransomware types of attacks.  
 
@@ -27,14 +27,14 @@ The main weakness with this model is:
 -	Extra set of required resources with risk of misconfiguration
 -	The jump server will require an additional layer of user governance.
   
-The OCI Bastion service removes the public and private virtual cloud networking (VCN) hassle for access to a jump host. No public IP is needed, resulting in no surface attack area or zero-day vulnerabilities with a dedicated jump host. Customers also eliminate shared credentials, broad access limits, and other bad habits of using jump hosts. OCI Bastion service integrates with OCI Identity and Access Management (IAM) and allows the organization to control who can access a bastion or a session and what they can do with those resources.
+The OCI Bastion Service removes the public and private virtual cloud networking (VCN) hassle for access to a jump host. No public IP is needed, resulting in no surface attack area or zero-day vulnerabilities with a dedicated jump host. Customers also eliminate shared credentials, broad access limits, and other bad habits of using jump hosts. OCI Bastion Service integrates with OCI Identity and Access Management (IAM) and allows the organization to control who can access a bastion or a session and what they can do with those resources.
   
-The OCI Bastion service exists in two flavors:
--	Managed session
-With managed sessions an agent is running on the compute node, and the bastion session connects to the agent and tunnels SSH through the agent. The managed Session makes it possible to connect to a compute node from other networks without configure routing between the network where the compute node resides, and the network the bastion connection is initiated from.
+The OCI Bastion Service exists in two flavors:
+-	Managed Session
+With managed sessions an agent is running on the compute node, and the bastion session connects to the agent and tunnels SSH through the agent. The managed session makes it possible to connect to a compute node from other networks without configure routing between the network where the compute node resides, and the network the bastion connection is initiated from.
 -	Port Forwarding
-In this mode the bastion service does not tunnel though the agent, but the bastion service must have access to the subnet where the compute node resides, and the subnet security list
-For additional description of the bastion service please review:
+In this mode the OCI Bastion Service does not tunnel though the agent, but the OCI Bastion Service must have access to the subnet where the compute node resides, and the subnet security list
+For additional description of the OCI Bastion Service please review:
 
 ## Requirements  
 
@@ -43,7 +43,7 @@ The following components needs to be installed in your environment:
 - Latest version of the OCI CLI 
 - Requirements, as defined in requirements.txt
 
-If you need to ru older Python versions (below 3.8), note the changes for asyncio in the exec_command procedure.  
+If you need to run older Python versions (below 3.8), note the changes for asyncio in the exec_command procedure.  
 
 [OCI CLI Install guide](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/cliinstall.htm)
 
@@ -77,7 +77,7 @@ The following elements exists in the configuration file.
 Each “session” element has the following elements:
 - "sessionType":"PORT_FORWARDING" or MANAGED
 - "OCIConfig"-: name of profile, it looked up in the ociconfigurations array 
-- "bastionOCID": OCID to the configured Bastion service 
+- "bastionOCID": OCID to the configured OCI Bastion service 
 - "bastionPublicKeyFile":file with public key to the Bastion SSH session
 - "bastionPrivateKeyFile":Private key of bastion session key pair,
 - "targetPrivateKeyFile":Used for reference in the target `ssh` command,
@@ -131,3 +131,9 @@ Client Connect:
 putty -i c:\\usr\\ssh_keys\\myprivatetkey.ppk -P 2222 ios@localhost
 Successfully completed bastion session(s)
 ```
+  
+# License
+
+Copyright (c) 2024 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
