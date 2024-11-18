@@ -1,3 +1,4 @@
 .gitignore
 shared-assets/bastion-py-script/.oci/
 shared-assets/bastion-py-script/temp/
+temp/
