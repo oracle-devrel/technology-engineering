@@ -67,7 +67,7 @@ This section covers the new features introduced in the Oracle Database 23ai rele
 - **Description**: Index multiple schema objects for full-text search using DBMS_SEARCH.
 - **Example**: `EXEC DBMS_SEARCH.CREATE_INDEX('index_name', 'table_name');`
 
-Reviewed: 23.10.2024
+Reviewed: 18.11.2024
 
 # Table of Contents
  

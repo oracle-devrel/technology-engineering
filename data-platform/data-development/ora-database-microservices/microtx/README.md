@@ -29,7 +29,7 @@ MicroTx Enterprise can handle a large number of transactions and scale horizonta
 MicroTx Enterprise includes dedicated support from Oracle, offering expert assistance and quicker resolution of issues to ensure smooth operation of mission-critical applications.
 Oracle Transaction Manager for Microservices provides a robust, high-performance solution for managing distributed transactions in a microservices architecture. By ensuring transactional integrity and offering flexible transaction models, MicroTx simplifies the development and operation of complex business processes, making it a powerful tool for modern applications.
 
-Reviewed: 23.10.2024
+Reviewed: 18.11.2024
 
 # Table of Contents
 
