@@ -12,7 +12,7 @@ Hyperion EPM System Reference architecture on OCI can be found in the [Architect
 
 For FSDR architecture review the following asset in the Architecture Center: [Design an Oracle Hyperion EPM System with an OCI Full Stack Disaster Recovery topology](https://docs.oracle.com/en/solutions/epm-dr-arch-oci/index.html)
 
-Reviewed: 24.10.2024
+Reviewed: 18.11.2024
 
 # Contents
 

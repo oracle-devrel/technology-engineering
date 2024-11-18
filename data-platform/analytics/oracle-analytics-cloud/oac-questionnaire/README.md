@@ -3,7 +3,7 @@
 This asset covers the discovery questionnaire of Oracle Analytics cloud(OAC)
  
  
-Reviewed: 19.01.2024
+Reviewed: 15.11.2024
  
 # When to use this asset?
  

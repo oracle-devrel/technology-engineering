@@ -2,7 +2,7 @@
  
 This document covers the broad topic of innovation with Artificial Intelligence, Machine Learning and Data Science.
 
-Reviewed: 2024.03.25
+Reviewed: 2024.11.16
  
 
 # When to use this asset?
