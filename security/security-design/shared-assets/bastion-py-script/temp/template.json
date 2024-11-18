@@ -1,0 +1,25 @@
+{ 	"session": {
+        "sessionname": "name",
+        "OCIConfig": "configname"
+    },
+    "OCIconfig": {
+    	"configname": "name",
+    	"bastionConfig":
+        {"user": "username",
+    	    "fingerprint": "fingerprintvalue",
+    	    "tenancy": "tenantocid",
+    	    "key_file": "fillpathto key file",
+    	    "region": "OCI Region",
+            "bastionOCID":"OCID of bastion",
+            "displayName": "DISPLAYNAME",
+            "keyType": "PUB",
+            "maxWaitSeconds": 0,
+            "sessionTtl": "'TIMETOLIVE",
+            "sshKeyDirectory": "~/.oci",
+            "sshkeyFile":"bastionkey",
+            "sshkeyFilePublicExtension":".pub",
+            "targetPort": "'${RESOURCEPORT}'",
+            "targetPrivateIp": "'${RESOURCEIPADDRESS}'"
+        }
+    }
+}
