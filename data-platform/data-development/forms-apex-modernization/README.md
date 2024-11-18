@@ -9,7 +9,7 @@ always straightforward and in many cases involves a coexistence of both technolo
 
 Providing links to public useful documentation and articles/blogs written by Oracle APEX  Advocates and Product Managers.
 
-Reviewed: 14.11.2024
+Reviewed: 18.11.2024
 
 # Table of Contents
 - [Team Publications](#team-publications);
@@ -26,8 +26,7 @@ Reviewed: 14.11.2024
 - [Modernizing Oracle Forms APEX Site](https://apex.oracle.com/en/solutions/oracle-forms/)
 - [Top 10 Reason why APEX is ideal for Forms Developers](https://apex.oracle.com/go/reasons-forms)
 - [Comparing Oracle Forms to Oracle Application Express Components](https://docs.oracle.com/en/database/oracle/application-express/20.2/aemig/comparing-Oracle-forms-to-Oracle-application-express-components.html)
-- [YouTube Oracle Developer Channels - Cloud Coaching - Modernize your Oracle Forms apps using APEX!](https://www.youtube.com/watch?v=MYzSgnzUOjA&ab_channel=OracleDevelopers)
-- [General Guide: Modernizing Oracle Forms Using APEX (Best Practices)](https://blogs.oracle.com/apex/post/modernizing-oracle-forms-using-oracle-apex)
+- [General Guide: Modernizing Oracle Forms Using APEX](https://blogs.oracle.com/apex/post/modernizing-oracle-forms-using-oracle-apex)
 
 
 # License
