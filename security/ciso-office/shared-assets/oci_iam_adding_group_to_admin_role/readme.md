@@ -16,13 +16,15 @@ In this tutorial, I will explain how to add a group to an admin role, and also h
 
 For this tutorial, I will be using POSTMAN and the collection provided by Oracle. 
 
-> **Note:** This tutorial assumes that you have a working knowledge of REST APIs and are familiar with Postman.
+> **Disclaimer** When using Postman Cloud, environment variables such as client ID and client secret may be synchronised into Postman Cloud. Ensure that your Postman account is sufficiently secure to protect any sensitive data.
 
 ## Pre-requisites
 
 - Administrative access to an OCI IAM identity domain (or its predecessor, IDCS)
 - Configuration of Postman and the OCI IAM collection as explained [here](https://www.oracle.com/webfolder/technetwork/tutorials/obe/cloud/idcs/idcs_rest_postman_obe/rest_postman.html)
 - Obtained an OAUTH Access Token through the REST API to enable authenticated REST API calls to IAM
+
+> **Note:** This tutorial assumes that you have a working knowledge of REST APIs and are familiar with Postman.
 
 ## Adding a Group to an Admin Role
 
