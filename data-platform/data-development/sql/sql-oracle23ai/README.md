@@ -13,7 +13,7 @@ To look for examples and deep dive into Oracle 23ai New Features in Database spe
 This asset contains a brief set of Oracle Database 23ai new features examples which are then included in a specific asset file for consultation.
 The list of New Features will be periodically updated and adjusted.
 
---## Features
+<!-- --## Features
 --### Aggregation over INTERVAL Data Types
 -- - **Description**: Pass INTERVAL data types to SUM and AVG aggregate functions.
 -- - **Example**: ```sqlSELECT SUM(interval_column) FROM table_name;`
@@ -61,25 +61,25 @@ The list of New Features will be periodically updated and adjusted.
 -- - **Example**: `INSERT INTO table_name VALUES (1, 'value');`
 -- ### Ubiquitous Search With DBMS_SEARCH Packages
 -- - **Description**: Index multiple schema objects for full-text search using DBMS_SEARCH.
--- - **Example**: `EXEC DBMS_SEARCH.CREATE_INDEX('index_name', 'table_name');`
+-- - **Example**: `EXEC DBMS_SEARCH.CREATE_INDEX('index_name', 'table_name');-->
 
 
-# Team Publications
+<!-- # Team Publications
 - [23ai New Features Series - Part 1](https://www.linkedin.com/posts/sonnemeyer_23aispecialists-23ainewsabrpart1-developer-activity-7196221427056889856-3HF2?utm_source=share&utm_medium=member_desktop)
 - [23ai New Features Series - Part 2](https://www.linkedin.com/posts/cristina-varas-menadas-591825119_oracle-oracle23ai-sql-activity-7198945654272864256-wduQ/?utm_source=share&utm_medium=member_ios)
 - [23ai New Features Series - Part 3](https://www.linkedin.com/posts/sonnemeyer_23aispecialists-23ainewsabrpart3-developer-activity-7201958687005982721-Oo3B?utm_source=share&utm_medium=member_desktop)
 - [23ai New Features Series - Part 4](https://www.linkedin.com/posts/sonnemeyer_23aispecialists-23ainewsabrpart4-teammates-activity-7204946957843267584-x664?utm_source=share&utm_medium=member_desktop)
-- [23ai New Features Series - Part 5](https://www.linkedin.com/posts/ppaolucci_cristinavarasmenadas-sonjameyer-activity-7207374755878887425-a--C?utm_source=share&utm_medium=member_desktop)
+- [23ai New Features Series - Part 5](https://www.linkedin.com/posts/ppaolucci_cristinavarasmenadas-sonjameyer-activity-7207374755878887425-a--C?utm_source=share&utm_medium=member_desktop) -->
 
 
 # Useful Links
 - [Oracle Database 23ai New Features](https://apex.oracle.com/database-features/)
 
 
-# Release Information
+<!-- # Release Information
 - **Version**: 23ai
 - **Applicable Offerings**: All Oracle Database offerings .................
-For more detailed information, please visit the [Oracle Database Features](https://apex.oracle.com/database-features/) page.
+For more detailed information, please visit the [Oracle Database Features](https://apex.oracle.com/database-features/) page. -->
 
 # License
  
