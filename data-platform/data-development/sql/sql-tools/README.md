@@ -3,22 +3,15 @@
 This section covers Oracle SQL Tools: from SQL Developer Desktop to SQL Developer Web on GUI ADB Database Actions to SQLcl.
 Providing links to public useful documentation and articles/blogs written by Oracle SQL and Database Advocates and Product Managers.
 
-
-
-# When to use this asset?
-When we want to explore the various SQL IDE development tools like SQL Developer, sqlcl and VS Code with SQL Developer extentions.
-
-
-
+Reviewed: 18.11.2024
 
 # Table of Contents
  
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-links)
 
-
-Reviewed: 24.10.2024
-
+# When to use this asset?
+When we want to explore the various SQL IDE development tools like SQL Developer, sqlcl and VS Code with SQL Developer extentions.
 
 # Team Publications
 
