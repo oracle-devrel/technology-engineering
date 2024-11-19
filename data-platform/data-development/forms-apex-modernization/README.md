@@ -9,9 +9,7 @@ always straightforward and in many cases involves a coexistence of both technolo
 
 Providing links to public useful documentation and articles/blogs written by Oracle APEX  Advocates and Product Managers.
 
-
 Reviewed: 18.11.2024
-
 
 # Table of Contents
 - [Team Publications](#team-publications);

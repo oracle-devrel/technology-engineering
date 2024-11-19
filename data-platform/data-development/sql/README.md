@@ -12,13 +12,6 @@ Reviewed: 18.11.2024
 - [Team Publications](#team-publications);
 - [Useful Links](#useful-links);
 
-  [What is SQL? ]: # 
-
-  [ SQL Tools ]: # 
- [ SQL Tips ]: #
- [ SQL Oracle23ai ]: #
- [ SQL DO It Yourself ]: #
-
 
 # Team Publications 
 - [23ai New Features Series - Part 1](https://www.linkedin.com/posts/sonnemeyer_23aispecialists-23ainewsabrpart1-developer-activity-7196221427056889856-3HF2?utm_source=share&utm_medium=member_desktop) - 23ai Database New Features on Linkedin Post - I 
@@ -30,41 +23,15 @@ Reviewed: 18.11.2024
 
 ## SQL Tools
 
-[SQL Tools](SQL_Tools/README.md): In this section, you'll find a collection of essential tools and utilities that can help streamline your SQL development process. This includes:
+[SQL Tools](sql-tools/README.md): In this section, you'll find a collection of essential tools and utilities that can help streamline your SQL development process. This includes:
 - SQL client software recommendations
 - Database management tools
 - Productivity-enhancing plugins and extensions
 
+<!-- ## SQL Oracle 23ai -->
 
-[# SQL Tips]: #
-
-[ The SQL Tips(SQL_Tips/README.md) section is dedicated to providing ]: #
-
-[practical advice and best practices for writing efficient and effective SQL]: # 
-
-<!-- [ queries. Topics covered include]: 
-
-[ - Query optimization techniques]: #
-[ - Common pitfalls and how to avoid them ]: #
-[ - Advanced SQL functions and their use cases]:  -->
-
-
-
-[# SQL Oracle23ai ]: #
-
-<!-- Explore the latest advancements with Oracle's cutting-edge AI capabilities in the [SQL Oracle23ai](SQL_Oracle23ai/README.md) section. Here, you will find:
-- New features and enhancements in Oracle23ai
-- Tutorials on integrating AI with your SQL queries
-- Case studies and real-world applications of Oracle23ai -->
-
-
-<!-- # SQL Do It Yourself
-
-The [SQL Do It Yourself](SQL_Do_It_Yourself/README.md) section encourages hands-on learning by providing a variety of exercises and projects. This includes:
-- Practice problems with solutions
-- Step-by-step project guides
-- Interactive SQL challenges to test your skills -->
-
+## SQL Do it yourself 
+[SQL Do it yourself](sql-do-ityourself/images/SQL_Cheat_Sheet_Version1.1.png) : here you can reach the SQL Cheat Sheet containing all the SQL principles a Developer should know.
 
 # Useful Links
 
@@ -79,9 +46,6 @@ To support your development journey, here are some valuable resources related to
 - [The Magic of SQL by Chris Saxon - YouTube Channel](https://www.youtube.com/c/TheMagicofSQL)
 - [SQL and Database explained! By Connor McDonald - YouTube Channel](https://www.youtube.com/@DatabaseDude)
 
----
-
-<!-- We hope you find these resources helpful in your SQL journey. If you have any questions or suggestions, please feel free to contribute or reach out to the team. Happy querying! -->
 
 
 # License
