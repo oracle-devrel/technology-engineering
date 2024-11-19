@@ -2,7 +2,7 @@
 
 This page contains information and useful links regarding Compute services that are mostly related to OS and Licenses Management on top of OCI Compute. You can also find resources about BYOI, BYOH and Autoscaling.
 
-<i>Review date: 23 October 2024</i>
+<i>Review date: 04 November 2024</i>
 
 # Table of Contents
 
@@ -28,6 +28,7 @@ This page contains information and useful links regarding Compute services that 
 - [Mount a boot volume from one compute instance (or VM) onto another compute instance in order to replace lost ssh keys](https://gitlab.com/ms76152/system-administration)
 - [Transfer data to and from Oracle Cloud Infrastructure using OS tools such as sftp, scp, oci cli, curl](https://github.com/mariusscholtz/Oracle-Cloud-Infrastructure-resources/blob/main/VM-shapes/data%20transfer%20to%20OCI%20v1.0.pdf)
 - [Quering Compute Capacity using CloudShell](https://github.com/Olygo/OCI_ComputeCapacityReport)
+- [Cockpit – Web console to manage Oracle Linux](https://github.com/mariusscholtz/Oracle-Cloud-Infrastructure-resources/tree/main/cockpit) - Installation instructions for Cockpit, the System administration graphical web console for Oracle Linux
   
 # Useful Links
 

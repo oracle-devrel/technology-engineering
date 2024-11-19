@@ -10,7 +10,9 @@ Included scripts:
 
 The complete tutorial is available here: [Automate Recovery for Oracle Enterprise Performance Management using OCI Full Stack Disaster Recovery](https://docs.oracle.com/en/learn/fsdr-integration-epm/)
 
-Reviewed: 9.9.2024
+The reference architecture is available here [Design an Oracle Hyperion EPM System with an OCI Full Stack Disaster Recovery topology](https://docs.oracle.com/en/solutions/epm-dr-arch-oci/index.html)
+
+Reviewed: 18.11.2024
 
 # When to use this asset?
 

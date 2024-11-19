@@ -2,7 +2,7 @@
  
 *This presentation can be used to talk about varioud peering options and its usage in OCI Networking*
  
-Reviewed: 19.02.2024
+Reviewed: 30.10.2024
 
 # When to use this asset?
  

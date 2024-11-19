@@ -2,7 +2,7 @@
  
 This document covers provisioning of OCI AI All-in-One Data Science image.
 
-Reviewed: 2024.03.25
+Reviewed: 2024.11.16
  
 
 # When to use this asset?

@@ -2,7 +2,7 @@
  
 Oracle Zero Downtime Migration (ZDM) is the Oracle Maximum Availability Architecture (MAA)-recommended solution to migrate Oracle Databases to the Oracle Cloud. ZDM automates the entire migration process, reducing the chance of human errors and providing zero to negligible downtime for the production system.
 
-Reviewed: 03.11.2023
+Reviewed: 08.11.2024 
 
 # Table of Contents
  
@@ -46,14 +46,13 @@ Reviewed: 03.11.2023
 # Useful Links
 
 - [Zero Downtime Migration Documentation](https://docs.oracle.com/en/database/oracle/zero-downtime-migration/index.html)
-- [Zero Downtime Migration page at oracle.com](https://www.oracle.com/database/zero-downtime-migration)
+- [Zero Downtime Migration Product page on oracle.com](https://www.oracle.com/database/zero-downtime-migration)
 - [LiveLab: Logical Online Migration to ADB](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=937)
 - [Video: Migrating and Upgrading Oracle Databases to OCI with Oracle Zero Downtime Migration (ZDM)](https://www.youtube.com/watch?v=WPkqwnXGSjo)
 - [White Paper: Logical Migration Performance Guidelines](https://www.oracle.com/docs/tech/zdm-gg-performance.pdf)
 - [Step-by-Step Guide: Logical Online Migration from On-Premises to ADB](https://www.oracle.com/a/tech/docs/oracle-zdm-logical-migration-to-autonomous-guide.pdf)
 - [Step-by-Step Guide: PeopleSoft Application with Autonomous Database Serverless](https://www.oracle.com/a/tech/docs/oracle-zdm-peoplesoft-adb-migration-guide.pdf)
 - [Step-by-Step Guide: Logical Migration from On-Premises to Exadata Cloud@Customer or Exadata On-Premises using ACFS as Backup Location](https://www.oracle.com/a/tech/docs/oracle-zdm-logical-migration-acfs.pdf)
-- [Step-by-Step Guide: Physical Migration](https://www.oracle.com/docs/tech/oracle-zdm-step-by-step-guide.pdf)
 - [Step-by-Step Guide: Logical Migration and In-Flight Upgrade from On-Premises to DBCS and ExaCS](https://www.oracle.com/a/tech/docs/oracle-zdm-logical-migration-step-by-step-guide.pdf)
 - [Database@Azure - Blog: Oracle ZDM Physical Online Migration with direct data transfer](https://blogs.oracle.com/maa/post/oracle-zdm-for-oracle-database-at-azure)
 - [Database@Azure - Video: Migrate Oracle Databases to ExaDB-D](https://www.youtube.com/watch?v=1fDDGlb7y7Y)
@@ -61,6 +60,7 @@ Reviewed: 03.11.2023
 - [Database@Azure - Blog: Oracle ZDM Migration to Autonomous Database](https://blogs.oracle.com/maa/post/oracle-zdm-to-autonomous-database-on-azure)
 - [Database@Google - Video: Migrate Oracle Databases to ExaDB-D](https://www.youtube.com/watch?v=GQ5xXXS3bRc)
 - [Database@Google - Technical Brief: Physical Online Migration to ExaDB-D](https://www.oracle.com/a/otn/docs/database/zdm-physical-online-migration-to-oracle-at-google.pdf)
+- [Database@Google - Blog: Overview of Oracle ZDM Migration Workflows](https://blogs.oracle.com/maa/post/oracle-zdm-to-oracle-database-at-google-cloud)
 
 # License
  
