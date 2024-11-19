@@ -24,7 +24,7 @@ The primary PL/SQL packages are:
 
 The simplest deployment and set of APIS for Continuous Integration are available for APEX on Autonomous Database services, with Cloud Repository integration & Schema export via DBMS_CLOUD_REPO, and APEX applications via APEX_EXPORT. These two packages provide extensive capabilities to commit code changes into the repository with little work required to manage connectivity, generation upload and commit operations.
 
-Reviewed: 10.06.2024
+Reviewed: 18.11.2024
 
 # Table of Contents
 1. [Team Publications](#team-publications)

@@ -6,6 +6,10 @@ Using APEX, developers don't need to be experts in a vast array of technologies 
 
 Reviewed: 14.02.2024
 
+# Table of Contents
+1. [Team Publications](#team-publications)
+2. [Useful Links](#useful-links)
+
 # Team Publications
 
 - [APEX Do it Yourself latest post](https://www.linkedin.com/posts/sonnemeyer_do-it-yourselfupload-your-time-booking-activity-7178658201943314432-1f2x?utm_source=share&utm_medium=member_desktop)

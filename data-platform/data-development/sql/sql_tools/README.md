@@ -3,16 +3,25 @@
 This section covers Oracle SQL Tools: from SQL Developer Desktop to SQL Developer Web on GUI ADB Database Actions to SQLcl.
 Providing links to public useful documentation and articles/blogs written by Oracle SQL and Database Advocates and Product Managers.
 
-<!-- A SQL Clue Card is also provided. -->
 
-Reviewed: 18.11.2024
 
 # When to use this asset?
 When we want to explore the various SQL IDE development tools like SQL Developer, sqlcl and VS Code with SQL Developer extentions.
 
-<!-- # How to use this asset? -->
 
-<!-- # Team Publications
+
+
+# Table of Contents
+ 
+1. [Team Publications](#team-publications)
+2. [Useful Links](#useful-links)
+
+
+Reviewed: 24.10.2024
+
+
+# Team Publications
+
 - Application Continuity - [Does your Database really know your application - Part 1](https://medium.com/@paulbrad71/application-continuity-on-adb-does-your-database-know-your-application-376e44d8a30) - Published on [Medium](http://www.medium.com) on 13th March 2023;
 
 - Application Continuity - [Does your Database really know your application - Part 2](https://medium.com/@paulbrad71/does-your-database-really-know-your-application-second-part-48321b0ab81) - Published on [Medium](http://www.medium.com) on 6th April 2023;
@@ -34,7 +43,7 @@ When we want to explore the various SQL IDE development tools like SQL Developer
 - [Live SQL](https://livesql.oracle.com/apex/f?p=590:1000)
 - [SQL Developer Extension for VS Code v24.2 is now available](https://www.thatjeffsmith.com/archive/2024/07/sql-developer-extension-for-vs-code-24-2-is-now-available/)
 
-<!-- >
+
 # Dev Gyms 
 - [The amazing Dev Gym](https://devgym.oracle.com/pls/apex/f?p=10001:20011::::20011::) 
     - Join the Oracle Product Management Dev Gym (FREE!) and build your Oracle technology muscles by taking workouts, quizzes, and even entire classes on SQL, PL/SQL, database design, logic and more.
