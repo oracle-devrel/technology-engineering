@@ -2,7 +2,7 @@
 
 As the name implies the partitions of hybrid partitioned tables can exist in both – inside the Oracle database in tablespaces and outside in external sources, such as Linux files, files on Hadoop Distributed File System (HDFS), and files in Cloud Object Storage. Hybrid Partitioned Tables enhance the functionality of partitioning for mixed Big Data scenarios where large portions of a table can reside in external partitions.
 
-Review Date: 03.06.2024
+Review Date: 30.10.2024
 
 # Useful Links
 
@@ -14,11 +14,11 @@ Review Date: 03.06.2024
 ## Blogs
 
 - [Oracle Autonomous Data Warehouse - Access Parquet Files in Object Stores](https://blogs.oracle.com/datawarehousing/post/oracle-autonomous-data-warehouse-access-parquet-files-in-object-stores)
+- [Hybrid Partitioned Table Enhancements in Oracle Database 23ai](https://oracle-base.com/articles/23/hybrid-partitioned-table-enhancements-23)
 
 ## LiveLabs Workshops
 
 - [Database 19c - Hybrid Partitioning](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=568)
-
 
 ## Learning Library - Oracle By Example
 

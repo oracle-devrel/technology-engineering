@@ -2,7 +2,7 @@
  
 This files cover code snippets for OCI Data Science, for jobs with ADS.
 
-Reviewed: 2024.03.25
+Reviewed: 2024.11.16
  
 
 # When to use this asset?

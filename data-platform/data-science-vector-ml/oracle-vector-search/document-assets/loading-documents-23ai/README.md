@@ -2,7 +2,7 @@
  
 This document covers the topic of loading documents to an Oracle DB 23ai (Non-Autonomous) table.
 
-Reviewed: 2024.09.06
+Reviewed: 2024.11.16
  
 
 # When to use this asset?

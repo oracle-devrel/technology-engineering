@@ -23,16 +23,13 @@ Oracle Backend for Spring Boot is a powerful platform designed to streamline the
 
 Oracle Backend for Spring Boot empowers developers to build, deploy, and manage modern applications with enhanced performance, reliability, and scalability, utilizing the comprehensive capabilities of Oracle's ecosystem.
 
-Reviewed: "06.06.2024"
-
-
+Reviewed: 18.11.2024
 
 # Table of Contents
  
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-links)
-3. [Tutorials / How To's](#tutorials--how-tos)
-
+3. [Reusable Assets Overview](#reusable-assets-overview)
  
 # Team Publications
 - [Oracle Backend for Spring Boot - Intro and demo](https://otube.oracle.com/playlist/dedicated/262835242/1_owmwlbyd/1_s20krpat)
@@ -42,16 +39,13 @@ Reviewed: "06.06.2024"
 
 - [Oracle Backend for Spring Boot home page](https://oracle.github.io/microservices-datadriven/spring/)
 - [Oracle Backend for Spring Boot Documentation](https://docs.oracle.com/en/database/oracle/backend-for-spring-boot-and-microservices/index.html)
-- [OCI Marketplace: Oracle Backend for Spring Boot and Microservices](https://cloudmarketplace.oracle.com/marketplace/en_US/listing/138899911)
-- [Blog: Deploy and Scale Spring Boot Microservices with Confidence](https://blogs.oracle.com/developers/post/deploy-and-scale-spring-boot-microservices-with-confidence)
-- [Video: Oracle Backend for Spring Boot multi-cloud install on Azure](https://www.youtube.com/watch?v=IpWe12UYeJ4)
-- [Video: Oracle Developers - Oracle’s Backend as a Service for Spring Cloud](https://www.youtube.com/watch?v=qhYTiBjql_c)
+- OCI Marketplace:[Oracle Backend for Spring Boot and Microservices](https://cloudmarketplace.oracle.com/marketplace/en_US/listing/138899911)
+- Blog: [Deploy and Scale Spring Boot Microservices with Confidence](https://blogs.oracle.com/developers/post/deploy-and-scale-spring-boot-microservices-with-confidence)
+- Video: [Oracle Backend for Spring Boot multi-cloud install on Azure](https://www.youtube.com/watch?v=IpWe12UYeJ4)
+- Video: [Oracle Developers - Oracle’s Backend as a Service for Spring Cloud](https://www.youtube.com/watch?v=qhYTiBjql_c)
 
-
-
-# Tutorials / How To's
-- [Oracle LiveLabs: CloudBank - Building an App with Spring Boot and Mobile APIs with Oracle Database and Kubernetes](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3607)
-
+# Reusable Assets Overview
+- [Tutorials / How To's]: [Oracle LiveLabs: CloudBank - Building an App with Spring Boot and Mobile APIs with Oracle Database and Kubernetes](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3607)
 
 # License
 

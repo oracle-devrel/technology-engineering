@@ -2,7 +2,7 @@
  
 This document covers the topic of creating embeddings for Vector Search using the Sentence Transformer Embedding Model.
 
-Reviewed: 2024.09.06
+Reviewed: 2024.11.16
  
 
 # When to use this asset?

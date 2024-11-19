@@ -2,7 +2,7 @@
  
 This document covers the topic of different methods to allow you to connect to Oracle DB 23ai.
 
-Reviewed: 2024.09.06
+Reviewed: 2024.11.16
  
 
 # When to use this asset?

@@ -2,7 +2,7 @@
  
 *This is an introduction slide deck to talk about Http and Network Load Balancer*
  
-Reviewed: 19.02.2024
+Reviewed: 30.10.2024
 
 # When to use this asset?
  

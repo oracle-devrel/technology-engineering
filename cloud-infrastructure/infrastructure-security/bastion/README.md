@@ -2,7 +2,7 @@
  
 Oracle Cloud Infrastructure Bastion provides restricted and time-limited access to target resources that don't have public endpoints.
  
-Reviewed: 30.01.2024
+Reviewed: 18.11.2024
 
 # Table of Contents
  

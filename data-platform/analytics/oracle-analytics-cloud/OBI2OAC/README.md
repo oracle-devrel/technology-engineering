@@ -3,7 +3,7 @@
 This asset covers the process and documentation of the migration of Oracle Business Intelligence(OBI) to the Oracle Analytics Cloud(OAC).
  
  
-Reviewed: 16.01.2024
+Reviewed: 15.11.2024
  
 # When to use this asset?
  

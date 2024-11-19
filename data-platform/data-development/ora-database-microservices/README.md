@@ -1,26 +1,13 @@
-# Oracle Database Continuous Integration Supporting Features
-Reviewed: "21.12.2023"
+# Oracle Database for Microservices
 
+This site includes solutions designed to address the unique challenges of microservices architectures with a focus on data consistency and scalability:
 
+- **Data Consistency Across Microservices**: Explore **Oracle MicroTx**, a lightweight solution for achieving transactional consistency across distributed microservices.
+- **Event-Driven Architectures**: Learn about **Transaction Event Queues (Tx EventQ)**, enabling reliable and scalable event-driven workflows integrated with Oracle Database.
+- **Oracle Database in Kubernetes**: Harness the power of containerized Oracle Databases using the **Oracle Database Operator for Kubernetes**, simplifying deployment, scaling, and management in modern cloud-native environments.
+Perfect for developers and architects building robust, distributed microservices ecosystems.
 
-# Table of Contents
- 
-1. TBD - DBMS_METADATA
-2. TBD - DBMS_CLOUD
-3. TBD - ORDS_METADATA
-
- 
-# Team Publications
-- TBD
-
-# Useful Links
-- TBD
-
-## Scripts
-- TBD
-
-# Tutorials / How To's
-- TBD
+Reviewed: 18.11.2024
 
 
 # License

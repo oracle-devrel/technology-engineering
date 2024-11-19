@@ -1,6 +1,9 @@
-xlsxwriter>=3.0.3
-pandas>=1.5.2
-openpyxl>=3.0.10
+xlsxwriter>=3.2.0
+pytz
+pandas
+openpyxl>=3.1.5
 pyyaml>=6.0
-oci>=2.119.0
+oci>=2.129.4
 requests
+matplotlib
+numpy
