@@ -2,7 +2,7 @@
 
 This section includes step-by-step manuals to import custom images from an on-premises environment to OCI.
 
-Reviewed: 21.11.2023
+Reviewed: 25.10.2024
 
 # When to use this asset?
 

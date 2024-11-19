@@ -4,7 +4,7 @@ Oracle Text is a full-text search that is fully integrated into the Oracle Datab
 
 Oracle Text can perform linguistic analysis on documents, mining capabilities, classification, clustering, etc.
 
-Reviewed Date: 10.04.2024
+Reviewed Date: 20.08.2024
 
 # Useful Links
 
@@ -13,8 +13,8 @@ Reviewed Date: 10.04.2024
 - [Text Application Developer's Guide 19c](https://docs.oracle.com/en/database/oracle/oracle-database/19/ccapp/index.html)
 - [Getting Started with Oracle Text](https://docs.oracle.com/en/database/oracle/oracle-database/19/ccapp/getting-started-with-oracle-text.html#GUID-D954F00B-1019-475A-ACD6-82E32DE8773B)
 - [Text Reference 19c](https://docs.oracle.com/en/database/oracle/oracle-database/19/ccref/index.html)
-- [Text Application Developer's Guide 23c](https://docs.oracle.com/en/database/oracle/oracle-database/23/ccapp/index.html)
-- [Text Reference 23c](https://docs.oracle.com/en/database/oracle/oracle-database/23/ccref/index.html)
+- [Text Application Developer's Guide 23ai](https://docs.oracle.com/en/database/oracle/oracle-database/23/ccapp/index.html)
+- [Text Reference 23ai](https://docs.oracle.com/en/database/oracle/oracle-database/23/ccref/index.html)
 
 ## Blogs
 
@@ -36,9 +36,16 @@ Reviewed Date: 10.04.2024
 
 # Team Publications
 
-- [New full-text search in 23c: Ubiquitous Database Search](https://blogs.oracle.com/coretec/post/ubiquitous-database-search-in-23c)
-- [Easy Database Search with APEX in 23c](https://blogs.oracle.com/coretec/post/easy-database-search-with-apex-in-23c)
+## Blogs
+
+- [New full-text search in 23ai: Ubiquitous Database Search](https://blogs.oracle.com/coretec/post/ubiquitous-database-search-in-23c)
+- [Easy Database Search with APEX in 23ai](https://blogs.oracle.com/coretec/post/easy-database-search-with-apex-in-23c)
 - [Text Index with Automatic Maintenance](https://blogs.oracle.com/coretec/post/text-index-with-automatic-maintenance)
+
+## Videos
+
+- [Search in TEXT, XML, and JSON data](https://youtu.be/zmR9zq1zMJQ)
+
 
 # License
 

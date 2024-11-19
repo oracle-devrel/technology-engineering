@@ -18,8 +18,7 @@ Chef has a suite of automation solutions for both infrastructure as code, and de
 -[Puppet](https://www.puppet.com/)
 Puppet enables you to deploy and manage infrastructure.
 
-Reviewed: 10.06.2024
-
+Reviewed: 18.11.2024
 # Table of Contents
  
 1. [Useful Links](#useful-links)
