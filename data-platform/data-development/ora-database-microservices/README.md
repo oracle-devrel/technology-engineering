@@ -9,7 +9,6 @@ Perfect for developers and architects building robust, distributed microservices
 
 Reviewed: 19.11.2024
 
-
 # License
 
 Copyright (c) 2024 Oracle and/or its affiliates.
