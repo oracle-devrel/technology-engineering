@@ -4,7 +4,7 @@
 
 Using APEX, developers don't need to be experts in a vast array of technologies to deliver sophisticated solutions. Just focus on solving the problem and let APEX take care of the rest.
 
-Reviewed: 14.02.2024
+Reviewed: 18.11.2024
 
 # Table of Contents
 1. [Team Publications](#team-publications)

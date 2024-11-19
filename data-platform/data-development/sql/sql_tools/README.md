@@ -5,7 +5,7 @@ Providing links to public useful documentation and articles/blogs written by Ora
 
 A SQL Clue Card is also provided.
 
-Reviewed: 18.11.2024
+Reviewed: 19.11.2024
 
 # Table of Contents
  

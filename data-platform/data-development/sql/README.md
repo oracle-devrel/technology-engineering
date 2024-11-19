@@ -15,7 +15,9 @@ To support your development journey, here are some valuable resources related to
 - [Oracle Learning Library](https://www.oracle.com/learning-library/)
 - [Oracle Database 23c: New Features](https://www.oracle.com/database/technologies/appdev/whats-new-in-23c.html)
 
-## Index
+Reviewed: 18.11.2024
+
+## Table of contents
 
 1. [SQL Tools](#sql-tools)
 2. [SQL Tips](#sql-tips)

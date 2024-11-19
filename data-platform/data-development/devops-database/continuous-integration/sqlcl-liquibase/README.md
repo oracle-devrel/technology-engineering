@@ -13,7 +13,7 @@ You can add the functionality to read these specialized changelogs to the Liquib
 # The Liquibase Feature in SQLcl
 SQLcl Liquibase with Oracle Database provides extended functionality to the Liquibase experience compared to the open-source Liquibase client. The Liquibase feature in SQLcl enables you to execute commands to generate a changelog for a single object or for a full schema in specialized changelogs and changesets.
 
-Reviewed: 18.11.2024
+Reviewed: 19.11.2024
 
 # Table of Contents
  

@@ -10,7 +10,7 @@ Every development team's goal: (Operations)
 - Delivering a few change requests at a time to end users
 - Through a series of high-quality releases on a regular cadence
 
-Reviewed: 18.11.2024
+Reviewed: 19.11.2024
 
 # Table of Contents
  

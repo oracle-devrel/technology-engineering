@@ -15,7 +15,7 @@ Autonomous Database Free Container Image is now available on [Oracle Container R
 
 If you are looking about information about Oracle Database running on Kubernetes check this content [here](../../../ora-database-microservices/ora-kubernetes/README.md)
 
-Reviewed: 18.11.2024
+Reviewed: 19.11.2024
 
 # Table of Contents
  
