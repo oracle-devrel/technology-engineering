@@ -4,7 +4,20 @@ REST APIs are used to integrate with OCI Cloud Services from APEX. However, ther
 
 This section will highlight other integration considerations, posts and useful places to get a project going.
 
-Reviewed: 10.06.2024
+Reviewed: 18.11.2024
+
+# When to use this asset?
+Use this asset when you need to integrate Oracle APEX with services like Identity Cloud Service (IDCS) for authentication, Oracle Analytics Cloud (OAC) for embedding analytics and reports, Oracle Digital Assistant (ODA) for chatbot functionality, or OCI AI Services for adding generative AI features. These methods are ideal when pre-built connectors and simpler integration approaches are more efficient than REST APIs, especially for tasks like SSO setup, real-time data visualization, or interactive AI-driven features in APEX.
+
+
+# How to use this asset?
+To use this asset, follow specific integration steps based on the service you're working with:
+
+- Set up SSO with IDCS for secure authentication in APEX.
+- Embed OAC for analytics or report generation, using APEX to pass data or manage visualizations.
+- Integrate ODA to add chatbot functionality to your APEX apps, allowing natural language interaction.
+- Configure Generative AI with Select AI to enable intelligent automation and AI features in APEX.
+
 
 # Table of Contents
  

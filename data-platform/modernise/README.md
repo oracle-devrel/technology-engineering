@@ -14,6 +14,8 @@ Also make sure to check the dedicated pages of the main technology areas of Data
 * [Transportable Tablespace](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/transportable-tablespace)
 * [Migration to OCI Database with PostgreSQL](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/migration-to-oci-database-with-postgresql)
 
+Reviewed: 15.11.2024
+
 # Team Publications
  
 - [ZDM/DMS Comparison](https://macsdata.com/oracle/zdm-dms-comparison)
