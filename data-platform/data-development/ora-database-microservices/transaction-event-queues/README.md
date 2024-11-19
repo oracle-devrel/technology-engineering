@@ -62,7 +62,7 @@ TxEventQs can manage and coordinate workflows by routing events between differen
 
 Oracle Transaction Event Queues provide a robust, high-performance solution for managing transactional events in event-driven architectures. By integrating seamlessly with Oracle's database and transaction management systems, TxEventQs offer reliable, scalable, and flexible event processing capabilities, making them a powerful tool for modern applications.
 
-Reviewed: 18.11.2024
+Reviewed: 19.11.2024
 
 # Table of Contents
  

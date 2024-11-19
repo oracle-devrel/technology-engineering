@@ -7,7 +7,7 @@ This site includes solutions designed to address the unique challenges of micros
 - **Oracle Database in Kubernetes**: Harness the power of containerized Oracle Databases using the **Oracle Database Operator for Kubernetes**, simplifying deployment, scaling, and management in modern cloud-native environments.
 Perfect for developers and architects building robust, distributed microservices ecosystems.
 
-Reviewed: 18.11.2024
+Reviewed: 19.11.2024
 
 
 # License
