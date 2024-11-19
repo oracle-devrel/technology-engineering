@@ -14,6 +14,8 @@ Run each single instance database as a singleton workload or PDB in a shared RAC
 Run each single instance database as a singleton workload or PDB in a dedicated CDB
 Run each single instance database as a two–node cluster, but shut down unnecessary instances
 
+Reviewed 28/06/2024
+
 # Useful Links
 
 - [About Single-Node VM Cluster](https://docs.oracle.com/en-us/iaas/exadata/doc/ecc-manage-vm-clusters.html#GUID-F528AA9C-2130-4E15-B8DE-DF65FD580789)
@@ -31,4 +33,4 @@ Licensed under the Universal Permissive License (UPL), Version 1.0.
 
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
 
-Reviewed 28/06/2024
+
