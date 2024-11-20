@@ -4,7 +4,7 @@
 
 Using APEX, developers don't need to be experts in a vast array of technologies to deliver sophisticated solutions. Just focus on solving the problem and let APEX take care of the rest.
 
-Reviewed: 14.02.2024
+Reviewed: 20.11.2024
 
 # Table of Contents
 1. [Team Publications](#team-publications)
@@ -36,19 +36,19 @@ Reviewed: 14.02.2024
 - [APEX EVENTS](https://apex.oracle.com/pls/apex/r/apex_pm/apex-events/events)
 - [APEX Office Hours](https://apex.oracle.com/en/community/office-hours/)
 - [Official APEX Landing Page](https://apex.oracle.com/en/)
-- [What's New in the latest Release APEX 23.2](https://docs.oracle.com/en/database/oracle/apex/23.2/htmrn/new-features.html)
+- [What's New in the latest Release APEX 24.1](https://docs.oracle.com/en/database/oracle/apex/24.1/htmrn/new-features.html)
 - [APEX best practice architecture](https://docs.oracle.com/solutions/?q=apex&cType=reference-architectures&sort=date-desc&lang=en)
-- [APEX Managing Application Performance](https://docs.oracle.com/en/database/oracle/apex/23.2/htmdb/managing-application-performance.html#GUID-1684F55B-7782-4B1F-96AB-0D41BCBDB1BA)
-- [APEX Managing Application Security](https://docs.oracle.com/en/database/oracle/apex/23.2/htmdb/managing-application-security.html#GUID-417EAE67-7A36-4AE0-816B-D28716829F96)
+- [APEX Managing Application Performance](https://docs.oracle.com/en/database/oracle/apex/24.1/htmdb/managing-application-performance.html)
+- [APEX Managing Application Security](https://docs.oracle.com/en/database/oracle/apex/24.1/htmdb/managing-application-security.html)
 - [Training and Certification](https://apex.oracle.com/en/learn/training/)
 - [Tutorials](https://apex.oracle.com/en/learn/tutorials/)
 
 ## Documentation
 
-- [APEX Documentation](https://docs.oracle.com/en/database/oracle/apex/23.2/index.html)
-- [APEX API Reference](https://docs.oracle.com/en/database/oracle/apex/23.2/aeapi/#Oracle%C2%AE-APEX)
+- [APEX Documentation]https://docs.oracle.com/en/database/oracle/apex/24.1/index.html)
+- [APEX API Reference](https://docs.oracle.com/en/database/oracle/apex/24.1/api-references.html)
 - [APEX Universal Theme](https://apex.oracle.com/pls/apex/r/apex_pm/ut/getting-started)
-- [APEX Managing Application Backups](https://docs.oracle.com/en/database/oracle/apex/22.1/htmdb/managing-application-backups.html)
+- [APEX Managing Application Backups](https://docs.oracle.com/en/database/oracle/apex/24.1/htmdb/managing-application-backups.html)
 - [APEX Application Development Lifecycle Technical Paper](https://www.oracle.com/a/tech/docs/apex-lifecycle-management-v3.pdf)
 
 # License
