@@ -9,7 +9,6 @@ Reviewed: 20.11.2024
  
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-links)
-3. [Reusable Assets Overview](#reusable-assets-overview)
  
 # Team Publications
 
