@@ -1,6 +1,6 @@
 # Private Cloud and Edge
 
-Reviewed: 22.11.2024
+*Reviewed: 22 November 2024*
 
 ## Useful Links
 
@@ -11,8 +11,9 @@ Reviewed: 22.11.2024
 
 **Compute Cloud@Customer**
 
-- [Local LLM Inferencing and Interaction Using the Ollama Open Source Tool](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/private-cloud-and-edge/compute-cloud-at-customer/llm-local)
 - [Hosted Service Provider](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/private-cloud-and-edge/compute-cloud-at-customer/hsp)
+- [C3 OKE - Monitoring with OCI Log Analytics](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/private-cloud-and-edge/compute-cloud-at-customer/observability%20and%20management)
+- [Local LLM Inferencing and Interaction Using the Ollama Open Source Tool](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/private-cloud-and-edge/compute-cloud-at-customer/llm-local)
 
 <!-- Add Roving Edge Device detail here --> 
 
