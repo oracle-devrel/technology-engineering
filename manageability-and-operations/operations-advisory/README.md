@@ -4,7 +4,7 @@ The Operations Advisory provides critical guidance to Customers on how to define
 - [Multi-cloud operations - 3rd party tools that support OCI](https://learnoci.cloud/multi-cloud-operations-3rd-party-tools-that-support-oci-091207d923ed)
   
 
-Reviewed: 24.09.2024
+Reviewed: 04.11.2024
 
 # Table of Contents
 
@@ -22,7 +22,8 @@ Reviewed: 24.09.2024
 - [Automation to enable Logging Analytics for instances](https://karthicin.medium.com/automation-to-enable-logging-analytics-for-instances-8eef71302b36)
 - [Create a DataGuard Association on Oracle Cloud Exa servers using Ansible Collections](https://www.linkedin.com/pulse/create-dataguard-association-oracle-cloud-exa-servers-eugene-simos-hflkf)
 - [Why you should start thinking about your cloud operations right at the start of your cloud journey and what to consider](https://medium.com/@manu72tomcat/why-you-should-start-thinking-about-your-cloud-operations-right-at-the-start-of-your-cloud-journey-6000b36d9786)
-- [Start and Stop your OCI DB Node via script](https://karthicin.medium.com/script-to-stop-start-oci-db-node-41ccad09fd35)
+- [Script to stop/start OCI DB Node](https://karthicin.medium.com/script-to-stop-start-oci-db-node-41ccad09fd35)
+
 
 
 # Useful Links 

@@ -1,5 +1,7 @@
 # C3 Hosting Service Provider - IAM Policies for Isolation
 
+Reviewed: 18.11.2024
+
 The Hosting Service Provider (HSP) model on Compute Cloud@Customer (C3) allows
 hosting for multiple end customers, each isolated in a dedicated compartment
 with separate VCN(s) per customer. To ensure the end customer can only
@@ -40,7 +42,7 @@ and Frankfurt regions. Adjust the list to include all regions the
 tenancy is subscribed to.
 
 The path to the end user compartment must be explicitly stated, using
-the comma format, relative to the compartment where the policy is
+the colon delimited format, relative to the compartment where the policy is
 created. 
 
 ## Example Policies for Customer End User

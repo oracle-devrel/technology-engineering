@@ -7,7 +7,7 @@
 
 It allows for automated testing of Packages, Functions, Procedures, Triggers, Views, and anything else that can be executed and observed from PL/SQL.
 
-Reviewed: 10.06.2024
+Reviewed: 19.11.2024
 
 # Table of Contents
  
