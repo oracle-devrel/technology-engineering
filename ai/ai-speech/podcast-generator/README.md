@@ -5,15 +5,15 @@ The application is designed to streamline podcast production through advanced AI
 This application is built using Oracle Visual Builder Cloud Service (VBCS), a powerful low-code platform that simplifies development and accelerates the creation of robust applications without extensive coding. With this low-code approach, even complex workflows are straightforward to set up, allowing developers to focus on leveraging AI's potential for high-quality audio synthesis.
 This AI-powered solution not only automates and optimizes the podcast creation process but also allows content creators to deliver professional audio content at scale efficiently.
 
-Reviewed: 12.11.2024
+Reviewed: 22.11.2024
  
 # When to use this asset?
  
-See the README document in the /files folder.
+See the README document in the /Podcast-md folder.
  
 # How to use this asset?
  
-See the README document in the /files folder.
+See the README document in the /Podcast-md folder.
  
 # License
  
