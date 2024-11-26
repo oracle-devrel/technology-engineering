@@ -60,6 +60,8 @@ Identify the compartment you're currently working within. Navigate to 'Identity'
 * Automatically a podcast script will be created and will generate the audio podcast using the Cindy and Bob voices
   ![alt text](generated.jpg)
 
+## Notes
+* It is important to note that, as of the time of writing this tutorial, the Speech-to-Text service is available exclusively in the Phoenix region.
 
 ## I hope you liked it.
 Author: Jesús Brasero
