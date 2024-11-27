@@ -1,4 +1,4 @@
-*Last Update: 23 November 2024*
+*Last Update: 27 November 2024*
 
 <br><h1 align="center">Local LLM Inferencing and Interaction<br>Using the Ollama Open Source Tool</h1>
 <p align="center"><img align="centre" src="./images/ollama-logo.png" width="10%" style="float:right"/></p>
