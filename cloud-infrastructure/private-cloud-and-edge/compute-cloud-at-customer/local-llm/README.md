@@ -1,4 +1,4 @@
-*Last Update: 23 November 2024*
+*Last Update: 27 November 2024*
 
 <br><h1 align="center">Local LLM Inferencing and Interaction<br>Using the Ollama Open Source Tool</h1>
 <p align="center"><img align="centre" src="./images/ollama-logo.png" width="10%" style="float:right"/></p>
@@ -65,8 +65,7 @@ Create a VM in a public subnet following these guidelines:
 10. Ensure that the VM is accessible via `ssh`
 11. Configure the proxy setup if required (described below)
 12. Update your local host's `/etc/hosts` file to reflect your public IP address for `llm-host`
-13. Should you have a proxy'd network follow the instruction in the "Proxy Settings" section below prior to performing the next step
-14. Perform an OS update in `llm-host` before proceeding:
+13. Perform an OS update in `llm-host` before proceeding:
 
 ```
 sudo dnf update
@@ -267,7 +266,7 @@ ollama help serve
 
 Download and test your first LLM (and you will notice the population of `/mnt/llm-repo` with data by running `ls -lR /mnt/llm-repo`):
 
-<p><img src="./images/ollama-pull-and-test.png" title="Ollama pull/test Llama3.2" width="75%" style="float:right"/></p>
+<p><img src="./images/ollama-pull-and-test.png" title="Ollama pull/test mistral" width="75%" style="float:right"/></p>
 
 Run some more tests from your client to test the APIs:
 
@@ -275,8 +274,8 @@ Run some more tests from your client to test the APIs:
 $ curl http://llm-host:11434/api/tags
 $ curl http://llm-host:11434/api/ps
 $ curl -X POST http://llm-host:11434/api/generate -d '{
-  "model": "llama3.2",
-  "prompt":"Hello Llama3.2!",
+  "model": "mistral",
+  "prompt":"Hello Mistral!",
   "stream": false
  }'
 ```
@@ -294,8 +293,8 @@ Install any of the GUI clients mentioned previously and test the connectivity an
 1. Create a Remote Models Provider
 2. Name it appropriately
 3. The Service Endpoint is `http://llm-host:11434`
-4. "Fetch Models" (that are already installed, in this case `llama3.2`)
-5. This step can be repeated as new models are added
+4. "Fetch Models" (that are already installed, in this case `mistral`)
+5. This step can be repeated as new models are added from the Ollama model repository
 
 Example output as follows:
 
