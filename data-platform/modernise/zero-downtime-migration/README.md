@@ -58,6 +58,7 @@ Reviewed: 08.11.2024
 - [Database@Azure - Video: Migrate Oracle Databases to ExaDB-D](https://www.youtube.com/watch?v=1fDDGlb7y7Y)
 - [Database@Azure - Blog: Overview of Oracle ZDM Migration Workflows to ExaDB-D](https://blogs.oracle.com/maa/post/overview-of-oracle-zdm-migration-workflows-to-exadata-database-service-on-oracle-databaseazure)
 - [Database@Azure - Blog: Oracle ZDM Migration to Autonomous Database](https://blogs.oracle.com/maa/post/oracle-zdm-to-autonomous-database-on-azure)
+- [Database@Azure - Video: Oracle ZDM Logical Online Migration to Autonomous Database@Azure](https://www.youtube.com/watch?v=SanGj96PoxI)
 - [Database@Google - Video: Migrate Oracle Databases to ExaDB-D](https://www.youtube.com/watch?v=GQ5xXXS3bRc)
 - [Database@Google - Technical Brief: Physical Online Migration to ExaDB-D](https://www.oracle.com/a/otn/docs/database/zdm-physical-online-migration-to-oracle-at-google.pdf)
 - [Database@Google - Blog: Overview of Oracle ZDM Migration Workflows](https://blogs.oracle.com/maa/post/oracle-zdm-to-oracle-database-at-google-cloud)
