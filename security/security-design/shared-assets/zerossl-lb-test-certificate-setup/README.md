@@ -76,7 +76,7 @@ Your load balancer will be created after a few moments.
 
 > **Note** If you have enabled the network traffic to your HTTPD server, and if it is running, **Backend sets health** shoudl be showing as **OK**. If not, check your networking and security lists.
 
-15. Make a note of the public IP address of your load balancer, e.g., `130.61.69.66`
+15. Make a note of the public IP address of your load balancer, e.g., `1.2.3.6`
 
 # Test the Load Balancer
 
@@ -98,7 +98,7 @@ For this tutorial, i'm using [ZeroSSL](https://app.zerossl.com/dashboard), prima
 
 3. Click on `New Certificate` to start the certificate generation wizard.
 
-4. Enter the IP address of your load balancer in the **Domain Name** field, e.g., `130.61.69.66`.
+4. Enter the IP address of your load balancer in the **Domain Name** field, e.g., `1.2.3.6`.
 
 The IP will be validated as shown by the green tick.
 
@@ -170,7 +170,7 @@ Before creating the HTTPS listener, we need to import our new certificate.
 
 5. Click **Add certificate**.
 
-6. Provide a name for your certificate such as its IP address, e.g., `130.61.69.66`
+6. Provide a name for your certificate such as its IP address, e.g., `1.2.3.6`
 
 ![Screenshot for certificate name.](cert-name.png "Screenshot for certificate name.")
 
@@ -210,7 +210,7 @@ Now that we have our certificate imported, we can create the new listener.
    - Use SSL: Checked
    - SSL certificate
       - Certificate resource: `Load balancer managed certificate`
-      - Certificate name: `130.61.69.66` (or the name you specified in step 6 above)
+      - Certificate name: `1.2.3.6` (or the name you specified in step 6 above)
    - Backend set: Select your backend set from the dropdown list
 
 15. Click **Create listener**.
