@@ -1,11 +1,11 @@
 # Private Cloud and Edge
 
-Reviewed: 18.11.2024
+Reviewed: 02.12.2024
 
 ## Useful Links
 
-- [Oracle Compute Cloud@Customer](https://www.oracle.com/uk/cloud/compute/cloud-at-customer/)
-- [Roving Edge Infrastructure](https://www.oracle.com/uk/cloud/roving-edge-infrastructure/)
+- [Oracle Compute Cloud@Customer on oracle.com](https://www.oracle.com/cloud/compute/cloud-at-customer/)
+- [Roving Edge Infrastructure on oracle.com](https://www.oracle.com/cloud/roving-edge-infrastructure/)
 
 ## License
 
