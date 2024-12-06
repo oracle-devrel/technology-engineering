@@ -4,34 +4,29 @@ Blockchain tables are insert-only tables that organize rows into a number of sys
 
 Users can verify that rows have not been tampered with. A hash value that is part of the row metadata is used to chain and validate rows.
 
-Review Date: 03.06.2024
+Review Date: 30.10.2024
 
 # Useful Links
 
 ## Documentation
 
-- [Database Administrator's Guide 21c](https://docs.oracle.com/en/database/oracle/oracle-database/21/admin/managing-tables.html#GUID-707B02F5-E589-4C20-8E2E-5ED4F7888702)
-- [Database Administrator's Guide 23c](https://docs.oracle.com/en/database/oracle/oracle-database/23/admin/managing-tables.html#GUID-707B02F5-E589-4C20-8E2E-5ED4F7888702)
-- [DBMS_BLOCKCHAIN_TABLE in 21c](https://docs.oracle.com/en/database/oracle/oracle-database/21/arpls/dbms_blockchain_table.html#GUID-8B000001-AE8B-42EA-8BF3-E590BCBA6657)
-- [DBMS_BLOCKCHAIN_TABLE in 23c](https://docs.oracle.com/en/database/oracle/oracle-database/23/arpls/dbms_blockchain_table.html#GUID-8B000001-AE8B-42EA-8BF3-E590BCBA6657)
-- [Differences Between Immutable Tables and Blockchain Tables](https://docs.oracle.com/en/database/oracle/oracle-database/21/admin/managing-tables.html#GUID-55B51BC2-6367-4728-87C2-C30E898DD6FD)
+- [Database Administrator's Guide Release 23](https://docs.oracle.com/en/database/oracle/oracle-database/23/admin/managing-tables.html#GUID-43470B0C-DE4A-4640-9278-B066901C3926)
+- [Package Reference DBMS_BLOCKCHAIN_TABLE](https://docs.oracle.com/en/database/oracle/oracle-database/23/arpls/dbms_blockchain_table.html#GUID-8B000001-AE8B-42EA-8BF3-E590BCBA6657)
+- [Differences Between Immutable Tables and Blockchain Tables](https://docs.oracle.com/en/database/oracle/oracle-database/23/admin/managing-tables.html#GUID-2CEEE181-1171-4C18-8604-2F26FC8EC7EA)
 
 ## Blogs
 
-- [Blockchain Tables in Oracle Database: Technology Convergence](https://blogs.oracle.com/blockchain/post/blockchain-tables-in-oracle-database-technology-convergence)
 - [Native Blockchain Tables Extend Oracle Database’s Multi-model Converged Architecture](https://blogs.oracle.com/blockchain/post/native-blockchain-tables-extend-oracle-databases-multi-model-converged-architecture)
+- [Blockchain Table Enhancements in Oracle Database 23ai](https://oracle-base.com/articles/23/blockchain-table-enhancements-23)
 
 ## LiveLabs Workshops
 
-- [Database 21c - Blockchain](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=746&clear=RR,180&session=11311967125302)
-- [Prevent and Detect Fraud Using Blockchain Tables on Oracle Autonomous Database](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=875&clear=RR,180&session=11311967125302)
+- [Database 21c - Blockchain](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=746&clear=RR,180&session=110714499996398)
 
-## Videos
-
-- [What's new with in-database blockchain and crypto-security? | CloudWorld 2022](https://www.youtube.com/watch?v=6rcjornuDXU)
-- [Blockchain Tables in Oracle Database - On-demand webinar](https://go.oracle.com/LP=111864?elqCampaignId=296036)
 
 # Team Publications
+
+## Blogs
 
 - [Oracle Database native Blockchain and Immutable Tables](https://blogs.oracle.com/coretec/post/blockchain-or-immutable-tables)
 

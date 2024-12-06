@@ -1,24 +1,26 @@
 # Integrating with OCI Cloud Services
-Reviewed: "08.02.2024"
 
 REST APIs are used to integrate with OCI Cloud Services from APEX. understanding the nuances of the APIs and OCI authentication can be somewhat complex. The main challenge in our experience has been translating Documentation into Implementation.
 
-To simplfy the creation of the REST Data Sources, we are assembling REST Source arctifacts into a Catalog as we gain experience using the APIs ourselves.
+Reviewed: 18.11.2024
 
-Hopefully, this will simplfy your project implementations as you work with these services.
+# When to use this asset?
+Use this asset when you need to integrate Oracle APEX with OCI Cloud Services via REST APIs to automate tasks, manage resources, or access data stored in OCI services. This asset is ideal when your application requires operations such as uploading files to OCI Object Storage, querying data from Autonomous Databases, or managing OCI resources like compute instances or network configurations. It’s particularly useful for applications that need secure, scalable, and programmatic access to OCI services without requiring direct user interaction or manual handling of OCI resources. Use this asset to streamline cloud operations, automate workflows, or enable APEX apps to communicate with OCI in real time.
 
-The first set of samples will provide REST Data Sources for the OCI Document Understanding and Vision services.
+# How to use this asset?
+This asset enables the integration of Oracle APEX with OCI Cloud Services using REST APIs. To use it, you need to set up authentication by generating API signing keys and obtaining necessary OCI identifiers (Tenancy OCID, User OCID, Compartment OCID, and API key fingerprint). Once authenticated, you can install the asset in APEX, configure it with OCI service endpoints, and use APEX’s REST capabilities or PL/SQL to interact with OCI services like Object Storage or Autonomous Database. 
 
 # Table of Contents
  
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-links)
-3. [Reusable Assets Overview](#reusable-assets-overview)
  
 # Team Publications
+
 -  [Interacting with OCI REST APIs in APEX — Empty POST Request](https://medium.com/@devpiotrekk/interacting-with-oci-rest-apis-in-apex-empty-post-request-ce270d15cbb6 "Tip: Submitting Empty Body")
  
 # Useful Links
+
 - [Oracle Documentation - Document Understanding API](https://docs.oracle.com/en-us/iaas/api/#/en/document-understanding/20221109/)
     - Document AI helps customers perform various analysis on their documents.
 - [Oracle Documentation - Vision API](https://docs.oracle.com/en-us/iaas/api/#/en/vision/20220125/)
@@ -26,37 +28,8 @@ The first set of samples will provide REST Data Sources for the OCI Document Und
 - [Blog: Empowering Search with OCI Vision in Oracle APEX](https://blogs.oracle.com/apex/post/empowering-search-with-oci-vision-in-oracle-apex)
 - [Blog: Building Innovative Q&A Experiences: Oracle APEX Meets OCI Generative AI](https://blogs.oracle.com/apex/post/building-innovative-qa-experiences-oracle-apex-meets-oci-generative-ai)
 
-# Reusable Assets Overview
-- [Sample REST Data Catalog](./sample-rest-catalog)
-    - [REST Catalog - OCI Document Understanding](./sample-rest-catalog/rest-catalog-document-understanding-api.sql)
-    - [REST Catalog - OCI Vision](./sample-rest-catalog/rest-catalog-vision-api.sql)
-
-## USAGE: Sample REST Data Catalog
-### Setup and Prerequisites
-- [Oracle Documentation - Developers Guide](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/devguidesetupprereq.htm "Setting User with Required Keys and OCIDs")
-
-### Import the REST Catalog into the APEX Workspace
-    - From the relevant application
-        - [] Navigate to REST Data Sources *from Shared Components*
-        - [] Createa a new REST Data Source *from a REST Source Catalog*
-        - [] Use the *+* to select the REST Data Source and click *Next*
-        - [] Select *Create New* from the Credentials field
-
-### Create a new Web Credential
-    - Provide
-        - [] Name
-        - [] Static ID
-        - [] Authentication Type => *Oracle Cloud Infrastructure (OCI)*
-        - [] OCI User ID => *OCI User OCID*
-        - [] OCI Private Key => *Entire contents Private Key associated with the uploaded Public PEM file in the User's API Keys*
-        - [] OCI Tenancy ID => *OCI Tenant OCID*
-        - [] OCI Public Key Fingerprint => *Fingerprint of the uploaded Public Key PEM file in the User's API Keys*
-
-
 # License
 
 Copyright (c) 2024 Oracle and/or its affiliates.
-
 Licensed under the Universal Permissive License (UPL), Version 1.0.
-
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

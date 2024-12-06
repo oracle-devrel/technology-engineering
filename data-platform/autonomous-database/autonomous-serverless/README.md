@@ -2,7 +2,7 @@
  
 Oracle Cloud provides a set of data management services built on self-driving Oracle Autonomous Database technology to deliver automated patching, upgrades, and tuning, including performing all routine database maintenance tasks while the system is running, without human intervention.
 
-Reviewed: 20.03.2024
+Reviewed: 23.10.2024
  
 # Table of Contents
  
@@ -38,6 +38,21 @@ Reviewed: 20.03.2024
       
 - [How to create Autonomous Database Notifications in Slack](https://blogs.oracle.com/datawarehousing/post/how-to-create-autonomous-database-notifications-in-slack)
     - Step-by-step blog article explaining how to send an alert message, triggered by an Autonomous Database event, into a slack channel using a webhook link.
+    
+- [Oracle Database Vault on the Autonomous Database](https://www.youtube.com/watch?v=d5c2QAPrX1o)
+    - How to configure and implement Oracle Database Vault on the Autonomous Database. Use cases.
+      
+- [Switching from Oracle-Managed to Customer-Managed Keys in Autonomous Database Serverless](https://medium.com/@mmy0utu8e/switching-from-oracle-managed-to-customer-managed-keys-in-autonomous-database-serverless-b1c24d107a8f)
+    - How to switch from Oracle-Managed to Customer-Managed Keys in Autonomous Database Serverless.
+      
+- [Capture-Replay Workloads between non-Autonomous and Autonomous Databases](https://www.youtube.com/watch?v=cWZ9MPBZemc)
+    - How to Capture and Replay Workloads between non-Autonomous and Autonomous Databases.
+
+ - [Enable SQL Trace on Autonomous Database](https://blogs.oracle.com/datawarehousing/post/enable-sql-trace-on-autonomous-database)
+    - Step-by-step blog article explaining how to collect a sql trace from Autonomous Database.
+  
+ - [ADB-S Top 3 Announcements for Autonomous in Cloud World 2024](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-data-ai-activity-7242082377458429952-GXeQ?utm_source=share&utm_medium=member_desktop)
+    - ADB-S Top 3 Announcements for Autonomous.
    
 ## Tip of the Day
  
@@ -105,13 +120,31 @@ Reviewed: 20.03.2024
  
 - [Autonomous Database Serverless documentation](https://docs.oracle.com/en/cloud/paas/autonomous-database/shared/index.html)
     - Full documentation about Oracle Autonomous Database Serverless.
+      
+- [Whats new?](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/whats-new-adwc.html#ADBSN-GUID-F31A86F8-012B-4235-A0BE-4ABF75164853)
+    - What is new in Autonomous Database Serverless.
+
+- [In-Memory is Now Available on Oracle Autonomous](https://blogs.oracle.com/datawarehousing/post/database-inmemory-is-now-available-on-oracle-autonomous-database-serverless)
+    - In-Memory with Autonomous Database Serverless.
+      
+- [Select AI for Synthetic Data Generation](https://blogs.oracle.com/datawarehousing/post/announcing-select-ai-for-synthetic-data-generation-adb)
+    - Using Select AI for Synthetic Data Generation.
  
 ## LiveLabs
  
 - [Manage and Monitor Autonomous Database](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=553&clear=RR,180)
     - Complete the course about how to administrate an Autonomous Database.
+  
+- [Chat with your Data in Autonomous Database using Generative AI](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3831&clear=RR,180&session=6652951814948)
+    - Lab on how to use Generative AI.
+      
+- [Develop Apps using GenAI, Autonomous Database and React](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3910&clear=RR,180&session=116856248894781)
+    - Lab on how to develop Apps using GenAI, Autonomous Database and React.
+      
+- [.NET development with Oracle Autonomous Database Quick Start](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3359&clear=RR,180&session=111609839150181)
+    - Lab on how to develop .NET Apps with Oracle Autonomous Database.
+      
 
- 
 # License
  
 Copyright (c) 2024 Oracle and/or its affiliates.

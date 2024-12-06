@@ -2,7 +2,7 @@
 
 This section includes a step-by-step manual for setting up your OCI environment to start using OCI Functions.
 
-Reviewed: 21.11.2023
+Reviewed: 25.10.2024
  
 # When to use this asset?
  
