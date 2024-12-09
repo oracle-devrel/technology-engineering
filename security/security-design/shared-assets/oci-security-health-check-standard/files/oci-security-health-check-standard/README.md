@@ -2,7 +2,7 @@
 
 Owner: Olaf Heimburger
 
-Version: 241011 (cis_report.py version 2.8.4+)
+Version: 241206 (cis_report.py version 2.8.6)
 
 ## When to use this asset?
 
@@ -12,8 +12,14 @@ The *OCI Security Health Check - Standard Edition* checks an OCI tenancy for CIS
 
 This asset covers the OCI platform as specified in the *CIS Oracle Cloud Infrastructure Foundations Benchmark*, only. Any workload provisioned in Databases, Compute VMs (running any Operating System), the Container Engine for Kubernetes, or in the VMware Solution is *out of scope* of the *OCI Security Health Check*.
 
-This is not an official Oracle application and it is not supported
-by Oracle Support.
+**This is not an official Oracle application and it is not supported by Oracle Support.**
+
+## Before you begin
+
+The main goals of this script are:
+
+- Make the run as easy and smooth as possible.
+- Do not affect your desktop whenever possible.
 
 ## Usage
 
@@ -21,22 +27,22 @@ by Oracle Support.
 
 Before running the *OCI Security Health Check - Standard Edition* you should download and verify it.
 
-  - Download the latest distribution [oci-security-health-check-standard-241011.zip](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-241011.zip).
+  - Download the latest distribution [oci-security-health-check-standard-241206.zip](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-241206.zip).
   - Download the respective checksum file:
-    - [oci-security-health-check-standard-241011.sha512](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-241011.sha512).
-    - [oci-security-health-check-standard-241011.sha512256](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-241011.sha512256).
+    - [oci-security-health-check-standard-241206.sha512](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-241206.sha512).
+    - [oci-security-health-check-standard-241206.sha512256](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-241206.sha512256).
   - Verify the integrity of the distribution. Both files must be in the same directory (for example, in your downloads directory).
 
     On MacOS:
     ```
     cd <your_downloads_directory>
-    shasum -a 512256 -c oci-security-health-check-standard-241011.sha512256
+    shasum -a 512256 -c oci-security-health-check-standard-241206.sha512256
     ```
 
     On Linux (including Cloud Shell):
     ```
     cd <your_downloads_directory>
-    sha512sum -c oci-security-health-check-standard-241011.sha512
+    sha512sum -c oci-security-health-check-standard-241206.sha512
     ```
 
 **Reject the downloaded file when the check fails!**
@@ -67,45 +73,109 @@ To create a group for auditing do the following steps:
     - For tenancies **without** Identity Domains use
       ```
       allow group grp-auditors to inspect all-resources in tenancy
-      allow group grp-auditors to read instances in tenancy
-      allow group grp-auditors to read load-balancers in tenancy
+      allow group grp-auditors to read audit-events in tenancy
       allow group grp-auditors to read buckets in tenancy
-      allow group grp-auditors to read nat-gateways in tenancy
-      allow group grp-auditors to read public-ips in tenancy
+      allow group grp-auditors to read dns in tenancy
+      allow group grp-auditors to read domains in tenancy
       allow group grp-auditors to read file-family in tenancy
       allow group grp-auditors to read instance-configurations in tenancy
+      allow group grp-auditors to read instances in tenancy
+      allow group grp-auditors to read load-balancers in tenancy
+      allow group grp-auditors to read nat-gateways in tenancy
       allow group grp-auditors to read network-security-groups in tenancy
+      allow group grp-auditors to read public-ips in tenancy
       allow group grp-auditors to read resource-availability in tenancy
-      allow group grp-auditors to read audit-events in tenancy
       allow group grp-auditors to read users in tenancy
       allow group grp-auditors to read vss-family in tenancy
-      allow group grp-auditors to read dns in tenancy
       allow group grp-auditors to use cloud-shell in tenancy
+      allow group grp-auditors to use cloud-shell-public-network in tenancy
       ```
     - For tenancies **with** Identity Domains use
       ```
       allow group 'Default'/'grp-auditors' to inspect all-resources in tenancy
-      allow group 'Default'/'grp-auditors' to read instances in tenancy
-      allow group 'Default'/'grp-auditors' to read load-balancers in tenancy
+      allow group 'Default'/'grp-auditors' to read audit-events in tenancy
       allow group 'Default'/'grp-auditors' to read buckets in tenancy
-      allow group 'Default'/'grp-auditors' to read nat-gateways in tenancy
-      allow group 'Default'/'grp-auditors' to read public-ips in tenancy
+      allow group 'Default'/'grp-auditors' to read dns in tenancy
+      allow group 'Default'/'grp-auditors' to read domains in tenancy
       allow group 'Default'/'grp-auditors' to read file-family in tenancy
       allow group 'Default'/'grp-auditors' to read instance-configurations in tenancy
+      allow group 'Default'/'grp-auditors' to read instances in tenancy
+      allow group 'Default'/'grp-auditors' to read load-balancers in tenancy
+      allow group 'Default'/'grp-auditors' to read nat-gateways in tenancy
       allow group 'Default'/'grp-auditors' to read network-security-groups in tenancy
+      allow group 'Default'/'grp-auditors' to read public-ips in tenancy
       allow group 'Default'/'grp-auditors' to read resource-availability in tenancy
-      allow group 'Default'/'grp-auditors' to read audit-events in tenancy
       allow group 'Default'/'grp-auditors' to read users in tenancy
       allow group 'Default'/'grp-auditors' to read vss-family in tenancy
-      allow group 'Default'/'grp-auditors' to read dns in tenancy
       allow group 'Default'/'grp-auditors' to use cloud-shell in tenancy
+      allow group 'Default'/'grp-auditors' to use cloud-shell-public-network in tenancy
       ```
   - Assign a user to the `grp-auditors` group
   - Log out of the OCI Console
 
 ### Run the OCI Security Health Check in OCI Cloud Shell
 
-The recommended way is to run the *OCI Security Health Check - Standard* in the OCI Cloud Shell. It does not require any additional configuration on a local desktop machine.
+The recommended way is to run the *OCI Security Health Check - Standard* in the [OCI Cloud Shell](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/cloudshellintro.htm). It does not require any additional configuration on a local desktop machine.
+
+#### Required IAM Policy statements
+
+The following policy statement is part of the recommended policy statements for the `grp-auditors` group:
+```
+allow group 'Default'/'grp-auditors' to use cloud-shell in tenancy
+```
+
+#### Networking Options for OCI Cloud Shell
+
+OCI Cloud Shell sessions do not allow for any incoming connections, and there is no public IP address available.
+
+So far, the *OCI Security Health Check - Standard Edition* in OCI Cloud Shell has been tested with Public Network Access only.
+
+For details on OCI Cloud Shell Networking refer to [OCI Cloud Shell Networking](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/cloudshellintro_topic-Cloud_Shell_Networking.htm#cloudshellintro_topic-Cloud_Shell_Networking) documentation.
+
+<!--
+##### Public Network Access
+
+The best networking option. When enabled the *OCI Security Health Check - Standard* can be run without any additional conifguration steps. To enable this option the following policy statement must be assigned to the `grp-auditors`:
+
+```
+allow group 'Default'/'grp-auditors' to use cloud-shell-public-network in tenancy
+```
+
+##### OCI Service Network Access
+
+The default networking option for OCI Cloud Shell. 
+
+To use this option without access to the public Internet remove any presence of this policy statement:
+
+```
+allow group ... to use cloud-shell-public-network in tenancy
+```
+
+This option requires manual configuration of these Python libraries:
+- [xlsxwriter]()
+- [pytz]()
+- [pandas]()
+- [openpyxl]()
+- [pyyaml]()
+- [requests]()
+
+For each library these steps need to done:
+
+- Download the packages
+- Upload the packages
+- Unzip the packages
+- Install the packages
+
+##### Private Network Access
+
+```
+allow group 'Default'/'grp-auditors' to use subnets in compartment <compartment>
+allow group 'Default'/'grp-auditors' to use vnics in compartment <compartment>
+allow group 'Default'/'grp-auditors' to use network-security-groups in compartment <compartment>
+allow group 'Default'/'grp-auditors' to inspect vcns in compartment <compartment>
+```
+-->
+
 
 #### Upload the release file
 
@@ -117,10 +187,10 @@ The recommended way is to run the *OCI Security Health Check - Standard* in the 
   - Upload the distribution file.
   - Extract it
     ```
-    unzip -q oci-security-health-check-standard-241011.zip
+    unzip -q oci-security-health-check-standard-241206.zip
     ```
 
-### Run the script
+#### Run the script
   - Change directory into `oci-security-health-check-standard`:
     ```
     $ cd oci-security-health-check-standard
@@ -142,6 +212,7 @@ The recommended way is to run the *OCI Security Health Check - Standard* in the 
       ```
       ./standard.sh -h
       ```
+
 ### Using an OCI Compute VM (Oracle Linux)
 
   - Create a Dynamic Group
@@ -190,11 +261,11 @@ The recommended way is to run the *OCI Security Health Check - Standard* in the 
       Follow the instructions to select /usr/bin/python3.9
     - Log out
 
-  - From your desktop, upload the `oci-security-health-check-standard-241011.zip` file to the Compute VM using any SFTP client.
+  - From your desktop, upload the `oci-security-health-check-standard-241206.zip` file to the Compute VM using any SFTP client.
   - Log into the Compute VM
     - Extract the distribution
       ```
-      unzip -q oci-security-health-check-standard-241011.zip
+      unzip -q oci-security-health-check-standard-241206.zip
       ```
     - Change directory into `oci-security-health-check-standard`:
       ```
