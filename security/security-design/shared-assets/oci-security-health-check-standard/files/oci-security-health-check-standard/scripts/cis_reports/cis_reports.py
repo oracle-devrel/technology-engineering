@@ -42,9 +42,9 @@ try:
 except Exception:
     OUTPUT_DIAGRAMS = False
 
-RELEASE_VERSION = "2.8.4"
-PYTHON_SDK_VERSION = "2.129.4"
-UPDATED_DATE = "July 26, 2024"
+RELEASE_VERSION = "2.8.6"
+PYTHON_SDK_VERSION = "2.139.0"
+UPDATED_DATE = "November 20, 2024"
 
 
 ##########################################################################
@@ -1730,7 +1730,8 @@ class CIS_Report:
             policies_data = oci.pagination.list_call_get_all_results(
                 self.__regions[self.__home_region]['search_client'].search_resources,
                 search_details=oci.resource_search.models.StructuredSearchDetails(
-                    query="query Policy resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                    query="query Policy resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id 
             ).data
 
             for policy in policies_data:
@@ -1826,7 +1827,9 @@ class CIS_Report:
                 buckets_data = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query Bucket resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query Bucket resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id 
+
                 ).data
                 # Getting Bucket Info
                 for bucket in buckets_data:
@@ -1890,7 +1893,9 @@ class CIS_Report:
                 volumes_data = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query Volume resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query Volume resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id 
+
                 ).data
 
                 # Getting Block Volume inf
@@ -1961,7 +1966,8 @@ class CIS_Report:
                 boot_volumes_data = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query BootVolume resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query BootVolume resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id 
                 ).data
 
                 for boot_volume in boot_volumes_data:
@@ -2031,7 +2037,8 @@ class CIS_Report:
                 fss_data = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query FileSystem resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query FileSystem resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 for fss in fss_data:
@@ -2093,7 +2100,8 @@ class CIS_Report:
                 nsgs_data = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query NetworkSecurityGroup resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query NetworkSecurityGroup resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 # Looping through NSGs to to get
@@ -2157,7 +2165,8 @@ class CIS_Report:
                 security_lists_data = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query SecurityList resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query SecurityList resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 # Looping through Security Lists to to get
@@ -2224,7 +2233,8 @@ class CIS_Report:
                 subnets_data = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query Subnet resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query Subnet resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 try:
@@ -2303,7 +2313,8 @@ class CIS_Report:
                 drg_resources = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query DrgAttachment resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query DrgAttachment resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 compartments = set()
@@ -2388,7 +2399,8 @@ class CIS_Report:
                 drg_resources = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query Drg resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query Drg resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 compartments = set()
@@ -2472,7 +2484,8 @@ class CIS_Report:
                 fastconnects = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query VirtualCircuit resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query VirtualCircuit resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 compartments = set()
@@ -2586,7 +2599,8 @@ class CIS_Report:
                 ip_sec_connections_data = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query IPSecConnection resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query IPSecConnection resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 for ip_sec in ip_sec_connections_data:
@@ -2728,7 +2742,8 @@ class CIS_Report:
                 adb_query_resources = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query AutonomousDatabase resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query AutonomousDatabase resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 compartments = set()
@@ -2777,7 +2792,8 @@ class CIS_Report:
                 oic_resources = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query IntegrationInstance resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query IntegrationInstance resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 compartments = set()
@@ -2854,7 +2870,8 @@ class CIS_Report:
                 oac_resources = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query AnalyticsInstance resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query AnalyticsInstance resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 compartments = set()
@@ -2924,7 +2941,8 @@ class CIS_Report:
                 events_rules_data = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query EventRule resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query EventRule resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 for event_rule in events_rules_data:
@@ -2959,7 +2977,8 @@ class CIS_Report:
                 log_groups = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query LogGroup resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query LogGroup resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 # Looping through log groups to get logs
@@ -3063,7 +3082,8 @@ class CIS_Report:
                 keys_data = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query Key resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query Key resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 vaults_set = set()
@@ -3308,7 +3328,8 @@ class CIS_Report:
                 subs_data = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query OnsSubscription resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query OnsSubscription resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
                 debug("\t__ons_read_subscriptions: Recieved " + str(len(subs_data)) + " subscriptions in region " + str(region_key))
                 for sub in subs_data:
@@ -3380,7 +3401,8 @@ class CIS_Report:
                 service_connectors_data = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query ServiceConnector resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query ServiceConnector resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 # Getting Bucket Info
@@ -3457,7 +3479,8 @@ class CIS_Report:
                 structured_search_query = oci.resource_search.models.StructuredSearchDetails(query=query_non_compliant)
                 search_results = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
-                    search_details=structured_search_query
+                    search_details=structured_search_query,
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 for item in search_results:
@@ -3472,7 +3495,8 @@ class CIS_Report:
                 structured_search_all_query = oci.resource_search.models.StructuredSearchDetails(query=query_all_resources)
                 structured_search_all_resources = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
-                    search_details=structured_search_all_query
+                    search_details=structured_search_all_query,
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 for item in structured_search_all_resources:
@@ -3506,7 +3530,8 @@ class CIS_Report:
             results = oci.pagination.list_call_get_all_results(
                 search_client.search_resources,
                 search_details=oci.resource_search.models.StructuredSearchDetails(
-                query=query)
+                query=query),
+                tenant_id=self.__tenancy.id
             ).data
             
             return oci.util.to_dict(results)
@@ -3598,7 +3623,8 @@ class CIS_Report:
                 certificates_data = oci.pagination.list_call_get_all_results(
                         region_values['search_client'].search_resources,
                         search_details=oci.resource_search.models.StructuredSearchDetails(
-                            query="query certificate resources return allAdditionalFields")
+                            query="query certificate resources return allAdditionalFields"),
+                            tenant_id=self.__tenancy.id
                     ).data
                 cert_compartments = {}
                 debug("\t__certificates_read_certificates: Got Ceritificates from ")
@@ -4608,13 +4634,16 @@ class CIS_Report:
                 elif attachment['network_type'].upper() == 'VIRTUAL_CIRCUIT':
 
                     # Checking for Provision and BGP enabled Virtual Circuits and that it is associated
-                    for virtual_circuit in self.__network_fastconnects[attachment['drg_id']]:
-                        if attachment['network_id'] == virtual_circuit['id']:
-                            if virtual_circuit['lifecycle_state'].upper() == 'PROVISIONED' and virtual_circuit['bgp_session_state'].upper() == "UP":
-                                # Good VC to increment number of VCs and append the provider name
-                                fast_connect_providers.add(virtual_circuit['provider_name'])
-                                number_of_valid_fast_connect_circuits += 1
-
+                    try:
+                        for virtual_circuit in self.__network_fastconnects[attachment['drg_id']]:
+                            if attachment['network_id'] == virtual_circuit['id']:
+                                if virtual_circuit['lifecycle_state'].upper() == 'PROVISIONED' and virtual_circuit['bgp_session_state'].upper() == "UP":
+                                    # Good VC to increment number of VCs and append the provider name
+                                    fast_connect_providers.add(virtual_circuit['provider_name'])
+                                    number_of_valid_fast_connect_circuits += 1
+                    except Exception:
+                        debug("__obp_analyze_tenancy_data: Fast Connect Connections check: DRG ID not found " + str(drg_id))
+                        self.__errors.append({"id" : str(drg_id), "error" : str("__obp_analyze_tenancy_data: Fast Connect Connections check: DRG ID not found")})
             try:
                 record = {
                     "drg_id": drg_id,
