@@ -2,6 +2,8 @@
 
 By implementing the best practices mentioned in the document before commencing the migration and upgrade process, significant downtime savings can be achieved at various stages. The best practices provide recommendations for successfully migrating a 12c on-premises database to a VM DB system (DBCS) in OCI while simultaneously upgrading the database to 19c using the dbcli utility.
 
+Reviewed:03.12.2024
+
 ## When to use this asset?
 
 This document is applicable if you are considering migration and upgrade of your on-premises Non-CDB 12c Database or database running on a compute VM in OCI to a 19c VM DB system (DBCS).
