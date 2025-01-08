@@ -25,6 +25,7 @@ Reviewed: 08.01.2025
 - [Script to stop/start OCI DB Node](https://karthicin.medium.com/script-to-stop-start-oci-db-node-41ccad09fd35)
 - [Using Digger a CI/CD tool for terraform/Opentofu](https://karthicin.medium.com/using-digger-a-ci-cd-tool-for-terraform-opentofu-712acd09d73e)
 - [Let's try k8sgp](https://karthicin.medium.com/lets-try-k8sgpt-50884e5e4ba6)
+- [Let's try kyverno-json for Terraform](https://karthicin.medium.com/lets-try-kyverno-json-for-terraform-5b468ffc7a22)
 - [Why Day-2 Operations Matter: Introduction - Episode 1](https://www.linkedin.com/posts/manuelafioramonti_why-day-2-operations-matter-and-how-to-tackle-activity-7264926567192002560-W84W?utm_source=share&utm_medium=member_desktop)
 - [Why Day-2 Operations Matter: A dive into SecOps - Episode 2](https://www.linkedin.com/posts/manuelafioramonti_cloud-operations-episode-2-a-shallow-activity-7266788536681463808-7q7O?utm_source=share&utm_medium=member_desktop)
 - [Why Day-2 Operations Matter: OS management and its challenges - Episode 3](https://www.linkedin.com/posts/manuelafioramonti_why-day-2-operations-matter-episode-3-activity-7269724104906199040-5xVi?utm_source=share&utm_medium=member_desktop)
