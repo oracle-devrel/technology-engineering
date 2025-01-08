@@ -3,7 +3,7 @@
 The Oracle Database provides various perspectives for viewing and accessing JSON data. One can view it from the SQL database point of view or from the document or collection view that comes with tools and APIs like SODA (short for Simple Oracle Document Access). With SODA you can create and store collections of documents in the Oracle Database, and retrieve, without needing to know SQL or how the documents are stored in the database. Documents can be fetched from the database by key lookup or by using query-by-example (QBE) pattern-matching. Regardless of the chosen perspective, the benefits of using Oracle Database as a Converged Database are always included. 
 In release 23, JSON Relational Duality, one of the highlights for JSON developers delivers a solution that provides the benefits of both relational tables and JSON documents, without the tradeoffs of either model. Using Duality Views, data is still stored in relational tables in a highly efficient normalized format but is accessed by apps in the form of JSON documents. 
 
-Reviewed Date: 30.10.2024
+Reviewed Date: 07.01.2025
 
 # Useful Links
 
@@ -19,6 +19,7 @@ Reviewed Date: 30.10.2024
 
 - [JSON in Oracle Database Insider](https://blogs.oracle.com/database/category/db-json)
 - [Simplify APEX App REST APIs with JSON Duality Views](https://diveintoapex.com/2024/03/05/simplify-apex-app-rest-apis-with-json-duality-views/)
+- [Search indexes for JSON](https://blogs.oracle.com/database/post/search-indexes-for-json)
 
 ## LiveLabs and Live SQL Workshops
 
