@@ -23,6 +23,8 @@ Reviewed: 22.10.2024
     - Step-by-step guide by Mihai Costeanu demonstrating how to upgrade your 19c Autonomous Database to 23ai using OCI console ADB cloning function
 - [Fast Track your Oracle Database Upgrade from 19c to 23ai in Exadata Database Service on Dedicated Infrastructure using AutoUpgrade](https://amalrajputhenchira.wordpress.com/2024/11/08/fast-track-your-oracle-database-upgrade-from-19c-to-23ai-in-exadata-database-service-on-dedicated-infrastructure-using-autoupgrade-2/)
     - Detailed, step-by-step instructions for performing Database Upgrade from 19c to 23ai in Exadata Database Service on Dedicated Infrastructure using AutoUpgrade , available on Amalraj Puthenchira's public platform
+- [Upgrade your Oracle Base Database in OCI from 19c to 23ai - Part 1 - GI Upgrade](https://amalrajputhenchira.wordpress.com/2025/01/09/upgrade-your-oracle-base-database-in-oci-to-23ai-part-1-gi-upgrade/)
+    - Detailed, step-by-step instructions for Upgrading Grid Infrastructure of Oracle Base Database in OCI from 19c to 23ai , available on Amalraj Puthenchira's public platform
 
 # Useful Links
 - [Database Server Upgrade/Downgrade Compatibility Matrix on MOS (Doc ID 551141.1)](https://support.oracle.com/epmos/faces/DocumentDisplay?id=551141.1)
