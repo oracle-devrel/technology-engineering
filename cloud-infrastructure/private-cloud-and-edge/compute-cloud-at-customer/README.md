@@ -4,7 +4,9 @@ Reviewed: 18.11.2024
 
 ## Useful Links
 
-- [Oracle Compute Cloud@Customer](https://www.oracle.com/uk/cloud/compute/cloud-at-customer/)
+- [Oracle Compute Cloud@Customer on oracle.com](https://www.oracle.com/cloud/compute/cloud-at-customer/)
+- [Oracle Compute Cloud@Customer documentation](https://docs.oracle.com/en-us/iaas/compute-cloud-at-customer/)
+- [Oracle Compute Cloud@Customer X10 datasheet](https://www.oracle.com/a/ocom/docs/oracle-cloud-at-customer-datasheet.pdf)
 
 ## License
 
