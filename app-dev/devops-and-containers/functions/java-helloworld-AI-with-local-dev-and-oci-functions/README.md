@@ -129,7 +129,7 @@ Finally deploy the container to your OCI Function by replacing the container usi
     - The Fn project is an open-source container-native serverless platform that you can run anywhere -- any cloud or on-premise. It’s easy to use, supports every programming language, and is extensible and performant
 - [OCI GenAI](https://www.oracle.com/artificial-intelligence/generative-ai/generative-ai-service/)
     - Discover the power of generative AI models equipped with advanced language comprehension for building the next generation of enterprise applications. Oracle Cloud Infrastructure (OCI) Generative AI is a fully managed service for seamlessly integrating these versatile language models into a wide range of use cases, including writing assistance, summarization, analysis, and chat
-- [OCI OCI Functions with GraalVM](https://github.com/shaunsmith/graalvm-fn-init-images)
+- [OCI Functions with GraalVM](https://github.com/shaunsmith/graalvm-fn-init-images)
     - Discover GraalVM Native Image -based functions with this example GitHub repo
 - [Oracle](https://www.oracle.com/)
     - Oracle Website
