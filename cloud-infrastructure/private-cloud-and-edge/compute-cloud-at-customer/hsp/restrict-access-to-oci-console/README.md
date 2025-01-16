@@ -32,3 +32,11 @@ as per
 <https://docs.oracle.com/en-us/iaas/Content/Identity/users/edit-users-capabilities.htm>.   
   
 Ideally a policy should be implemented that restricts permissions **only** to the C3, see [this](../iam-policies-for-isolation/README.md) note.
+
+## License
+
+Copyright (c) 2024 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
