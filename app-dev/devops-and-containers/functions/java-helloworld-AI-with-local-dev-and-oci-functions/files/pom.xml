@@ -67,6 +67,11 @@
             <scope>runtime</scope>
             <version>3.37.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk18on</artifactId>
+            <version>1.79</version>
+        </dependency>
     </dependencies>
 
 </project>

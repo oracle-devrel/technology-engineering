@@ -89,6 +89,36 @@ June 13, 2024 is June 13, 1924. Here are some events that occurred on this date:
 5. The German aerospace company Zeppelin began constructing the Hindenburg, a large passenger airship.
 </pre>
 
+# Native image using GraalVM
+
+GraalVM compiles your Java functions ahead of time into standalone binaries that start instantly, provide peak performance with no warmup, and use fewer resources. The key GraalVM benefits are: Low Resource Usage: Java applications compiled ahead-of-time by GraalVM require less memory and CPU to run.
+
+<p>
+
+To do this a <a href="./files/Dockerfile.native">Docker multi-stage build</a> is used. E.g.
+
+<pre>
+docker build -f Dockerfile.native -t fra.ocir.io/&lt;YOUR OCI TENANCY NAMESPACE&gt;/helloworldai-java:2 .
+</pre>
+
+The GraalVM compilation stage requires quite a bit resources from your localhost so in case for example using Rancher desktop
+think of increasing the CPU and memory for it to make the build faster.
+
+<p>
+
+In the <a href="./files/Dockerfile.native">Dockerfile.native</a> two things are important: Including the <a href="./files/reflection.json">reflection.json</a> with the proper function class name and passing <code>"-Djava.library.path=/lib"</code> in the container CMD along with the <code>"com.example.HelloAIFunction::handleRequest"</code> function handler.
+
+<p>
+
+After the build push the container to OCIR repo:
+
+<pre>
+docker push fra.ocir.io/&lt;YOUR OCI TENANCY NAMESPACE&gt;/helloworldai-java:2
+</pre>
+
+Finally deploy the container to your OCI Function by replacing the container using the Cloud UI by editing the function and changing the container from <code>helloworldai-java:1</code> to <code>helloworldai-java:2</code>. Then test it.
+
+
 # Useful Links
  
 - [OCI Functions](https://docs.oracle.com/en-us/iaas/Content/Functions/Concepts/functionsoverview.htm)
@@ -99,6 +129,8 @@ June 13, 2024 is June 13, 1924. Here are some events that occurred on this date:
     - The Fn project is an open-source container-native serverless platform that you can run anywhere -- any cloud or on-premise. It’s easy to use, supports every programming language, and is extensible and performant
 - [OCI GenAI](https://www.oracle.com/artificial-intelligence/generative-ai/generative-ai-service/)
     - Discover the power of generative AI models equipped with advanced language comprehension for building the next generation of enterprise applications. Oracle Cloud Infrastructure (OCI) Generative AI is a fully managed service for seamlessly integrating these versatile language models into a wide range of use cases, including writing assistance, summarization, analysis, and chat
+- [OCI Functions with GraalVM](https://github.com/shaunsmith/graalvm-fn-init-images)
+    - Discover GraalVM Native Image -based functions with this example GitHub repo
 - [Oracle](https://www.oracle.com/)
     - Oracle Website
 
