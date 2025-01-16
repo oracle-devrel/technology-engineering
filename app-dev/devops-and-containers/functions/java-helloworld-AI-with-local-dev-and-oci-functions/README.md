@@ -106,7 +106,7 @@ think of increasing the CPU and memory for it to make the build faster.
 
 <p>
 
-In the <a href="./files/Dockerfile.native">Dockerfile.native</a> two things are important: Including the <a href="./files/reflection.json"> with the proper function class name and passing <code>"-Djava.library.path=/lib"</code> in the container CMD along with the <code>"com.example.HelloAIFunction::handleRequest"</code> function handler.
+In the <a href="./files/Dockerfile.native">Dockerfile.native</a> two things are important: Including the <a href="./files/reflection.json">reflection.json</a> with the proper function class name and passing <code>"-Djava.library.path=/lib"</code> in the container CMD along with the <code>"com.example.HelloAIFunction::handleRequest"</code> function handler.
 
 <p>
 
