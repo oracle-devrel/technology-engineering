@@ -74,19 +74,14 @@ Testing with curl (or copy-pasting the API Gateway deployment url to a browser):
 
 <pre>
 curl https://n3yu.....ghhi.apigateway.eu-frankfurt-1.oci.customer-oci.com/
-What happened today 06/13/2024 100 years ago ?
 
-June 13, 2024 is June 13, 1924. Here are some events that occurred on this date:
-
-1. The German airline Deutsche Lufthansa (DL) was officially founded on June 13, 1924. It is Germany's largest airline and is one of the world's largest airlines in terms of overall passengers carried.
- 
-2. The British Broadcasting Corporation (BBC) aired its first radio broadcast. 
-
-3. The Hollywood Sign was officially dedicated in California, marking the beginning of Hollywood's rise to prominence in the American film industry. 
-
-4. The Ford Motor Company introduced the firstassembly line to mass produce cars, making cars more accessible to the general public. 
-
-5. The German aerospace company Zeppelin began constructing the Hindenburg, a large passenger airship.
+What happened today 01/17/2025 100 years ago ?
+On January 17th, 1925, 100 years ago, the following events took place:
+- In the US, President Calvin Coolidge delivered his annual State of the Union address to Congress. He discussed the thriving state of the national economy, emphasizing the record-high production of American industries and the growth of the country's merchant marine fleet. Coolidge also urged Congress to pass legislation facilitating world trade and improving diplomatic relations.
+- The first Winter Sports Week was held in Chamonix, France. This event eventually evolved into the prestigious Chamonix International Festival of Sports and Cinema.
+- The play "The New York Idea" by Langdon Mitchell premiered at the Ambassador Theatre on Broadway. It ran for 144 performances and received critical acclaim.
+- The silent film "The Gold Rush" directed by Charlie Chaplin was released in the United States. It's a classic comedy that tells the story of a prospector during the Klondike Gold Rush. Chaplin's unique brand of physical comedy and the film's innovative effects delighted audiences.
+- In Germany, the Weimar Republic experienced a political scandal known as the "German-Russian Trade and Credit Agreement." The agreement, which granted Germany a loan of 300 million marks from Russia, was signed secretly, leading to accusations of mismanagement and lack of transparency in the government. This incident further destabilized the already fragile Weimar Republic.
 </pre>
 
 # Native image using GraalVM
@@ -95,7 +90,17 @@ GraalVM compiles your Java functions ahead of time into standalone binaries that
 
 <p>
 
-To do this a <a href="./files/Dockerfile.native">Docker multi-stage build</a> is used. E.g.
+To do this a Docker multi-stage build is used.
+
+<p>
+
+Before building the native image let's do a full maven for the project to create the necessary libraries under <code>target/lib</code>:
+
+<pre>
+mvn clean install
+</pre>
+
+Then build the Docker container using <a href="./files/Dockerfile.native">multi-stage Docker file</a> including the GraalVM native image compilation:
 
 <pre>
 docker build -f Dockerfile.native -t fra.ocir.io/&lt;YOUR OCI TENANCY NAMESPACE&gt;/helloworldai-java:2 .
@@ -106,7 +111,7 @@ think of increasing the CPU and memory for it to make the build faster.
 
 <p>
 
-In the <a href="./files/Dockerfile.native">Dockerfile.native</a> two things are important: Including the <a href="./files/reflection.json">reflection.json</a> with the proper function class name and passing <code>"-Djava.library.path=/lib"</code> in the container CMD along with the <code>"com.example.HelloAIFunction::handleRequest"</code> function handler.
+In the <a href="./files/Dockerfile.native">Dockerfile.native</a> two things are important: Including the <a href="./files/reflection.json">reflection.json</a> with the proper function class name and passing Fn FDK libraries with <code>"-Djava.library.path=/lib"</code> in the container CMD along with the <code>"com.example.HelloAIFunction::handleRequest"</code> function handler.
 
 <p>
 
