@@ -94,7 +94,7 @@ To do this a Docker multi-stage build is used.
 
 <p>
 
-Before building the native image let's do a full maven for the project to create the necessary libraries under <code>target/lib</code>:
+Before building the native image let's do a full maven build for the project to create the necessary libraries under <code>target/lib</code>:
 
 <pre>
 mvn clean install
