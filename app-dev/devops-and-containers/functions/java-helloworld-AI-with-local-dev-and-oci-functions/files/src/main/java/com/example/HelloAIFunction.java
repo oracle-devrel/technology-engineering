@@ -70,7 +70,7 @@ import java.text.*;
 public class HelloAIFunction {
 
     // FILL IN PROPER VALUES FOR OCI GENAI SERVICE
-    private static final String ENDPOINT       = "https://inference.generativeai.us-chicago-1.oci.oraclecloud.com";
+    private static final String ENDPOINT       = "https://inference.generativeai.eu-frankfurt-1.oci.oraclecloud.com";
     private static final Region REGION         = Region.EU_FRANKFURT_1;
 
     // FILL IN PROPER VALUES FOR IAM USER WHEN NOT USING INSTANCE_PRINCIPAL IN OCI FUNCTION
