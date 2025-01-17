@@ -64,7 +64,7 @@ IAM user option will work on both cases above, as local and as OCI Function.
 
 ## Build and test
 
-During following the steps of the <a href="../java-helloworld-with-local-dev-and-oci-functions">Hello function example </a> adjust the <a href="https://github.com/oracle-devrel/technology-engineering/blob/main/app-dev/devops-and-containers/functions/java-helloworld-AI-with-local-dev-and-oci-functions/files/src/main/java/com/example/HelloAIFunction.java#L93">line 93</a> to match your <code>GenAI service OCID</code>. 
+During following the steps of the <a href="../java-helloworld-with-local-dev-and-oci-functions">Hello function example </a> adjust the <a href="https://github.com/oracle-devrel/technology-engineering/blob/main/app-dev/devops-and-containers/functions/java-helloworld-AI-with-local-dev-and-oci-functions/files/src/main/java/com/example/HelloAIFunction.java#L131">line 131</a> to match your <code>GenAI service model OCID</code>. 
 
 <p>
 
