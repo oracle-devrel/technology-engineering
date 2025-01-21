@@ -6,7 +6,7 @@ Oracle Database 23ai is available cloud-first, in OCI on Oracle Exadata Database
 
 If you are interested in AI Vector Search, [please see our page here](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/core-converged-db/ai-vector-search).
 
-Reviewed: 21.11.2024
+Reviewed: 21.1.2025
  
 # Useful Links  
  
@@ -100,6 +100,7 @@ Reviewed: 21.11.2024
 - [Real-Time SQL Monitoring: a MUST for SQL Tuning](https://blogs.oracle.com/coretec/post/oracle-database-real-time-sql-monitoring-one-of-the-most-important-tools)
 - [New Features and Release Updates](https://blogs.oracle.com/coretec/post/where-to-find-features-in-release-updates)
 - [Diagnose SQL performance with DBMS_SQLDIAG](https://blogs.oracle.com/coretec/post/diagnose-sql-performance-with-dbmssqldiag)
+- [Hybrid Vector Index - a combination of AI Vector Search with Text Search](https://blogs.oracle.com/coretec/post/hybrid-vector-index-the-combination-of-full-text-and-semantic-vector-search)
 - [all 23ai blogs on blogs.oracle.com/coretec](https://blogs.oracle.com/coretec/category/crt-23ai)
 
 
