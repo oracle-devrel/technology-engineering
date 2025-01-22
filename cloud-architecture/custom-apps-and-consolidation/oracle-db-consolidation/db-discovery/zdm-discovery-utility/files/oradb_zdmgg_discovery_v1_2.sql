@@ -1,4 +1,4 @@
---# Copyright (c) 2023, Oracle and/or its affiliates.
+--# Copyright (c) 2025, Oracle and/or its affiliates.
 --# Licensed under the Universal Permissive License v1.0 as shown at https://oss.oracle.com/licenses/upl.
 --# Purpose: To capture database details (Oracle database 11g onwards) for ZDM online based migration.
 --# This should be executed at discovery phase if we identify the Oracle database is to be migrated online using ZDM Tool.

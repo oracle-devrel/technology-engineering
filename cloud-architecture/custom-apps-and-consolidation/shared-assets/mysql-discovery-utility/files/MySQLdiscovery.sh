@@ -1,6 +1,6 @@
 #!/bin/bash
 #############################################################
---# Copyright (c) 2023, Oracle and/or its affiliates.
+--# Copyright (c) 2025, Oracle and/or its affiliates.
 --# Licensed under the Universal Permissive License v1.0 as shown at https://oss.oracle.com/licenses/upl.
 --# Purpose: Discovery Script for MySQL Databases. 
 --# This script is to be executed at the discovery phase before planning for migration/upgrade.

@@ -13,7 +13,7 @@ ords --config /etc/ords/config install
 
 ORDS: Release 23.3 Production on Fri Nov 10 17:26:21 2023
 
-Copyright (c) 2024, Oracle.
+Copyright (c) 2025, Oracle.
 
 Configuration:
   /etc/ords/config/

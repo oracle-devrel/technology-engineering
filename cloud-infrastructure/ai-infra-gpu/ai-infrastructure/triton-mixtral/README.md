@@ -305,7 +305,7 @@ curl -X POST localhost:8000/v2/models/ensemble/generate -d '{"text_input": "What
 
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

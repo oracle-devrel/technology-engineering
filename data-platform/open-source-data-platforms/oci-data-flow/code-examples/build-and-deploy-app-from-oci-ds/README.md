@@ -13,7 +13,7 @@ When using OCI Data Science to build and deploy an OCI Data Flow application. Us
 
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

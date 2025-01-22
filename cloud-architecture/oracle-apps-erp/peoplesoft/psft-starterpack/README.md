@@ -16,7 +16,7 @@ We hope that you will find this template to be a helpful guide for any PeopleSof
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

@@ -1,4 +1,4 @@
-# Copyright (c) 2023, Oracle and/or its affiliates.
+# Copyright (c) 2025, Oracle and/or its affiliates.
 # Licensed under the Universal Permissive License v1.0 as shown at https://oss.oracle.com/licenses/upl.
 # Purpose: Read WLS MPI template Excel, extract the variables and generate JSON variable files. 
 # @author: Vasudeva Manikandan

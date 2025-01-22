@@ -16,6 +16,6 @@ The vSphere VLAN will be configured to allow egress traffic to the internet via 
 [More Info](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/ocvp_sddc)
 
 # License
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
