@@ -43,6 +43,8 @@ Reviewed: 31.10.2024
     - The Data Pump Log Analyzer is a powerful Python script designed to parse and analyze Oracle Data Pump log files. The tool provides valuable insights into Data Pump operations key metrics and performance data
 - [Data Pump Log Analyzer: Comprehensive Guide](https://macsdata.com/oracle/data-pump-log-analyzer-guide)
     - The ultimate resource for mastering every option in detail and to unlock the full potential of the Python script, available on Marcus Doeringer's public platform
+- [How to Perform DataPump Import to Oracle 19c Database using Export dumps on OCI Object Storage ?](https://amalrajputhenchira.wordpress.com/2025/01/17/how-to-perform-datapump-import-to-oracle-19c-database-using-export-dumps-on-oci-object-storage/)
+    - Detailed, step-by-step instructions for Performing DataPump Import to Oracle Database 19c with Export dumps on OCI Object Storage , available on Amalraj Puthenchira's public platform
 
 # Useful Links
 - [Loading Data from Google Cloud Storage to Oracle Database](https://database-heartbeat.com/2024/10/01/google-storage-to-oracle-database/)

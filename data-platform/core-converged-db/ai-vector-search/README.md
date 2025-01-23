@@ -4,16 +4,19 @@ Oracle AI Vector Search is designed for Artificial Intelligence (AI) workloads a
 
 If you are interested in Database 23ai , [please see our page here](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/core-converged-db/database-23ai).
 
-Reviewed Date: 20.08.2024
+Reviewed Date: 21.01.2025
 
 # Useful Links
 
 ## Documentation  
  
+- [What is a Vector Database](https://www.oracle.com/database/vector-database/)
 - [Oracle.com](https://www.oracle.com/database/ai-vector-search/)
+- [Oracle AI Vector Search Technical Architecture (interactive diagram)](https://docs.oracle.com/en/database/oracle/oracle-database/23/vsiad/aivs_genarch.html)
 - [Oracle AI Vector Search User's Guide](https://docs.oracle.com/en/database/oracle/oracle-database/23/vecse/overview-ai-vector-search.html)
 - [PL/SQL Packages and Types Reference: DBMS_VECTOR](https://docs.oracle.com/en/database/oracle/oracle-database/23/arpls/dbms_vector1.html#GUID-F9FCB225-821A-4CCA-92B5-58B9927234FA)
 - [PL/SQL Packages and Types Reference: DBMS_VECTOR_CHAIN](https://docs.oracle.com/en/database/oracle/oracle-database/23/arpls/dbms_vector_chain1.html#GUID-D80DDBEF-F1A9-4267-9D3C-A54D237D95C1)
+- [DBMS_HYBRID_VECTOR.SEARCH PL/SQL function](https://docs.oracle.com/en/database/oracle/oracle-database/23/vecse/search.html#GUID-A386BDB0-35D0-41E1-8F41-49AEBEC13BFC)
 - [Oracle AI Vector Search FAQ](https://www.oracle.com/database/ai-vector-search/faq/)
 
 ## Blogs & Videos
@@ -36,10 +39,11 @@ Reviewed Date: 20.08.2024
 ## Blogs
 
 - [Getting started with vectors in 23ai](https://blogs.oracle.com/coretec/post/getting-started-with-vectors-in-23ai)
+- [Hybrid Vector Index - a combination of AI Vector Search with Text Search](https://blogs.oracle.com/coretec/post/hybrid-vector-index-the-combination-of-full-text-and-semantic-vector-search)
 
 ## Videos
 
-- [Ai Vector Search](https://youtu.be/_tOGB9l8cvg)
+- [AI Vector Search](https://youtu.be/_tOGB9l8cvg)
   
 # License
 
