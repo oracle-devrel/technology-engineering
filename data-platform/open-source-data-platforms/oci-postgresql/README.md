@@ -18,6 +18,8 @@ OCI Database with PostgreSQL is designed for high availability by offering durab
 - [OCI PostgreSQL to OCI PostgreSQL cross-region replication with OCI GoldenGate — Part 1](https://medium.com/@devpiotrekk/oci-postgresql-to-oci-postgresql-cross-region-replication-with-oci-goldengate-introduction-e0492fc37b92)
 - [OCI PostgreSQL to OCI PostgreSQL cross-region replication with OCI GoldenGate — Part 2](https://medium.com/@devpiotrekk/oci-postgresql-to-oci-postgresql-cross-region-replication-with-oci-goldengate-oci-postgresql-d4fcffc47498)
 - [OCI PostgreSQL to OCI PostgreSQL cross-region replication with OCI GoldenGate — Part 3](https://medium.com/@devpiotrekk/oci-postgresql-to-oci-postgresql-cross-region-replication-with-oci-goldengate-oci-goldengate-4ccd5dea4d6c)
+- [OCI PostgreSQL replication with pglogical](https://medium.com/@devpiotrekk/replicating-oci-database-with-postgresql-using-pglogical-118182ff08f9)
+- [OCI PostgreSQL vector search with pgvector - Part 1](https://medium.com/@devpiotrekk/vector-search-with-pgvector-and-oci-database-with-postgresql-part-1-0915e5296148)
 
 # Useful Links
 

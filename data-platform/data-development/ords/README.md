@@ -4,16 +4,16 @@ ORDS is a Java application that enables developers with SQL and database skills 
 Oracle Database 12c JSON Document store and higher and the Oracle NoSQL Database
 
 Reviewed: 28.01.2025
- 
+
 # Table of Contents
  
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-links)
-3. [Reusable Assets Overview](#reusable-assets-overview)
  
 # Team Publications
 
 - [ORDS version 24.4 is now available, time to upgrade!](https://www.oracle.com/database/sqldeveloper/technologies/db-actions/download/)
+
 - [JSON & Customer Managed ORDS with ADB](https://medium.com/@devpiotrekk/cloud-scalability-using-customer-managed-oracle-rest-data-service-with-autonomous-json-275fa06e8d22)
     - Article demonstrating the performance of Customer Managed ORDS combined with the Autonomous Database
  - [How ORDS help with DevOps](https://www.youtube.com/watch?v=GIRdoGlqIDE)

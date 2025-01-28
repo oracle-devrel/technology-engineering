@@ -2,7 +2,7 @@
 OCI Security Health Check - Standard Edition
 ============================================
 Owner: Olaf Heimburger
-Version: 241011 (cis_report.py version 2.8.4)
+Version: 241206 (cis_report.py version 2.8.6)
 
 When to use this asset?
 
@@ -42,36 +42,40 @@ Usage
   - Create a policy pcy-auditing with these statements:
   - For tenancies without Identity Domains use
       allow group grp-auditors to inspect all-resources in tenancy
-      allow group grp-auditors to read instances in tenancy
-      allow group grp-auditors to read load-balancers in tenancy
+      allow group grp-auditors to read audit-events in tenancy
       allow group grp-auditors to read buckets in tenancy
-      allow group grp-auditors to read nat-gateways in tenancy
-      allow group grp-auditors to read public-ips in tenancy
+      allow group grp-auditors to read dns in tenancy
+      allow group grp-auditors to read domains in tenancy
       allow group grp-auditors to read file-family in tenancy
       allow group grp-auditors to read instance-configurations in tenancy
+      allow group grp-auditors to read instances in tenancy
+      allow group grp-auditors to read load-balancers in tenancy
+      allow group grp-auditors to read nat-gateways in tenancy
       allow group grp-auditors to read network-security-groups in tenancy
+      allow group grp-auditors to read public-ips in tenancy
       allow group grp-auditors to read resource-availability in tenancy
-      allow group grp-auditors to read audit-events in tenancy
       allow group grp-auditors to read users in tenancy
       allow group grp-auditors to read vss-family in tenancy
-      allow group grp-auditors to read dns in tenancy
       allow group grp-auditors to use cloud-shell in tenancy
+      allow group grp-auditors to use cloud-shell-public-network in tenancy
   - For tenancies *with* Identity Domains use
       allow group 'Default'/'grp-auditors' to inspect all-resources in tenancy
-      allow group 'Default'/'grp-auditors' to read instances in tenancy
-      allow group 'Default'/'grp-auditors' to read load-balancers in tenancy
+      allow group 'Default'/'grp-auditors' to read audit-events in tenancy
       allow group 'Default'/'grp-auditors' to read buckets in tenancy
-      allow group 'Default'/'grp-auditors' to read nat-gateways in tenancy
-      allow group 'Default'/'grp-auditors' to read public-ips in tenancy
+      allow group 'Default'/'grp-auditors' to read dns in tenancy
+      allow group 'Default'/'grp-auditors' to read domains in tenancy
       allow group 'Default'/'grp-auditors' to read file-family in tenancy
       allow group 'Default'/'grp-auditors' to read instance-configurations in tenancy
+      allow group 'Default'/'grp-auditors' to read instances in tenancy
+      allow group 'Default'/'grp-auditors' to read load-balancers in tenancy
+      allow group 'Default'/'grp-auditors' to read nat-gateways in tenancy
       allow group 'Default'/'grp-auditors' to read network-security-groups in tenancy
+      allow group 'Default'/'grp-auditors' to read public-ips in tenancy
       allow group 'Default'/'grp-auditors' to read resource-availability in tenancy
-      allow group 'Default'/'grp-auditors' to read audit-events in tenancy
       allow group 'Default'/'grp-auditors' to read users in tenancy
       allow group 'Default'/'grp-auditors' to read vss-family in tenancy
-      allow group 'Default'/'grp-auditors' to read dns in tenancy
       allow group 'Default'/'grp-auditors' to use cloud-shell in tenancy
+      allow group 'Default'/'grp-auditors' to use cloud-shell-public-network in tenancy
   - Assign a user to the grp-auditors group
   - Log out of OCI Console
 
@@ -81,7 +85,7 @@ Usage
   - From the menu select the Cloud Shell item.
   - When running it the first time:
     - Upload the provided ZIP file.
-    - Extract it with unzip -q oci-security-health-check-standard-241011.zip
+    - Extract it with unzip -q oci-security-health-check-standard-241206.zip
   - Change directory into oci-security-health-check-standard
     $ cd oci-security-health-check-standard
     $ screen
@@ -138,11 +142,11 @@ Usage
     - Log out
 
   - From your desktop, upload the
-    "oci-security-health-check-standard-241011.zip" file to the Compute VM
+    "oci-security-health-check-standard-241206.zip" file to the Compute VM
     using any SFTP client.
   - Log into the Compute VM
     - Extract the distribution
-      unzip -q oci-security-health-check-standard-241011.zip
+      unzip -q oci-security-health-check-standard-241206.zip
 
     - Change directory into "oci-security-health-check-standard":
       cd oci-security-health-check-standard

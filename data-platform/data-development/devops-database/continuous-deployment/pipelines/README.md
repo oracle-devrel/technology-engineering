@@ -15,10 +15,11 @@ Ansible is an open source IT automation engine that automates provisioning, conf
 - [Chef](https://www.chef.io/)
 Chef has a suite of automation solutions for both infrastructure as code, and deploy applications.
 
--[Puppet](https://www.puppet.com/)
+- [Puppet](https://www.puppet.com/)
 Puppet enables you to deploy and manage infrastructure.
 
-Reviewed: 18.11.2024
+Reviewed: 19.11.2024
+
 # Table of Contents
  
 1. [Useful Links](#useful-links)
