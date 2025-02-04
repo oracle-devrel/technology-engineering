@@ -8,7 +8,7 @@ One common use case is when using an OCI IAM account as a service account to cal
 
 Whilst the recommended approach is to always use OAUTH authentication, there are situations where this can't be used and BASIC authentication must be used instead. If MFA is enabled on that user account, then BASIC authentication cannot be used as the REST endpoint returns a 401 Unauthorised status code.
 
-In this tutorial, I will show you how to configure OCI IAM sign-on policies to bypass MFA for specific accounts accessing specific resources/applications. My use case is to enable a client (which only supports BASIC authentication) to call a deployed integrations REST endpoint on OIC.
+This tutorial will show you how to configure OCI IAM sign-on policies to bypass MFA for specific accounts accessing specific resources/applications. The use case is to enable a client (which only supports BASIC authentication) to call a deployed integrations REST endpoint on OIC.
 
 > ***Note*** MFA should only be disabled for specific users and for specific use cases, such as the one described above. As best practice, MFA should be enabled and enforced for all users.
 
@@ -22,29 +22,29 @@ In this tutorial, I will show you how to configure OCI IAM sign-on policies to b
 
  # Testing User Authentication
 
- My use case assumes that there is a sign-on policy configured within OCI IAM that enforces MFA for your users (including your test user) and therefore your users get challenged for MFA when they access OIC.
+ This use case assumes that there is a sign-on policy configured within OCI IAM that enforces MFA for your users (including your test user) and therefore your users get challenged for MFA when they access OIC.
 
- Let's test this by logging into the OIC service console as our test user...
+ Let's first test this by logging into the OIC service console as our test user (Marty McFly)...
 
  ![MFA Login.](images/mfa-for-oic.gif "MFA Login.")
 
-Now that we know MFA is being enforced for our test user (Marty McFly), we can show that we are unable to call an OIC integration endpoint using basic authentication. The screenshot below show the 401 Unauthorised status code being returned by Postman.
+Now that we know MFA is being enforced for our test user, we can show that we are unable to call an OIC integration endpoint using basic authentication. The screenshot below show the 401 Unauthorised status code being returned by Postman.
 
  ![401 Unauthorised.](images/oic-endpoint-401.png "401 Unauthorised.")
 
  # Amending the Sign-On Policy
 
- To allow my service account to be able to call the REST API, I need to make a change to the OCI IAM sign-on policy so that MFA can be bypassed for my service account (marty.mcfly) when accessing the OIC application.
+ To allow the service account to be able to call the REST API, changes need to be made to the OCI IAM sign-on policy so that MFA can be bypassed for the service account (marty.mcfly) when accessing the OIC application.
 
- > ***Note*** I don't want to disable MFA for my service account for all applications as that introduces unnecessary risk. Therefore, I will only disable MFA for my service account for my OIC application.
+ > ***Note*** The aim is not to disable MFA for the service account for all applications as that introduces unnecessary risk. Therefore, MFA will only be disabled for the service account for the OIC application.
 
- In my example, MFA for OIC is being enforced by its own sign-on policy. It may be the case that the Default Sign-On policy has been amended for force MFA for all users and all applications by default. If this is the case, then, my recommendation would still be to create an application-specific sign-on policy, just for OIC (or whatever your affected application is).
+ In this example, MFA for OIC is being enforced by its own sign-on policy. It may be the case that the Default Sign-On policy has been amended to force MFA for all users and all applications by default. If this is the case, then, the recommendation would still be to create an application-specific sign-on policy, just for OIC (or whatever your target application is).
 
- Looking at my current list of sign-on policies, I can see the two out-of-the-box policies and the additional OIC policy that I created.
+ Looking at the current list of sign-on policies, there are two out-of-the-box policies and the additional OIC policy.
 
  ![List of IAM Sign-On Policies.](images/iam-sign-on-policies-list.png "List of IAM Sign-On Policies.")
  
- Editing my OIC policy and looking at the rule within it, we can see that it has no conditions current set.
+ Editing the OIC policy and looking at the rule within it, we can see that it has no conditions current set.
 
  ![Existing Sign-On Policy Rule Conditions.](images/sign-on-pol-conditions-pre.png "Existing Sign-On Policy Rule Conditions.")
 
@@ -52,7 +52,7 @@ We can also see that the actions are enforcing MFA.
 
  ![Existing Sign-On Policy Rule Actions.](images/sign-on-pol-actions.png "Existing Sign-On Policy Rule Actions.")
 
-Finally, we can see that the sign-on policy is attached to my OIC application.
+Finally, we can see that the sign-on policy is attached to the OIC application.
 
  ![Existing Sign-On Policy Rule Apps.](images/sign-on-pol-apps.png "Existing Sign-On Policy Rule Apps.")
 
@@ -66,7 +66,7 @@ Save those changes and that's it!
 
  # Testing the API call
 
- The final step is to test our API call again.
+ The final step is to test the API call again.
 
  ![200 OK.](images/oic-endpoint-200.png "200 OK.")
 
@@ -80,17 +80,17 @@ The above approach is also only appropriate when you have an application-specifi
 
   However, the good news is that you can still meet your use case in either of the above cases. The approach needed is slightly different. In these circumstances we build our application-specific sign-on policy slightly differently.
 
- Let's build a sign-on policy when the service accounts are contained in a group.
+ Let's build a sign-on policy where the service accounts are contained in a group.
 
-> ***Note*** I have reverted my sign-on policy back to its original state, i.e., removed Marty McFly from the Excluded Users so that MFA is enforced for all users accessing OIC, including Marty.
+> ***Note*** The sign-on policy has been reverted back to its original state, i.e., removed Marty McFly from the Excluded Users so that MFA is enforced for all users accessing OIC, including Marty.
 
 ![OIC Service Accounts Group.](images/oic-group.png "OIC Service Accounts Group.")
 
-As you can see, I now have created a group containing my service accounts.
+As you can see, I now have created a group containing the service account(s).
 
-Within my sign-on policy, I  add a new rule (in addition to the existing rule enforcing MFA). This rule will allow any user in the `OIC Service Accounts` group to access OIC, but the actions won't force an additional factor.
+Within the sign-on policy, add a new rule (in addition to the existing rule enforcing MFA). This rule will allow any user in the `OIC Service Accounts` group to access OIC, but the actions won't force an additional factor.
 
-Adding a new rule to my existing `Sign-On Policy for OIC`, within the conditions, I add my service accounts group.
+Adding a new rule to the existing `Sign-On Policy for OIC`, within the conditions, I add my service accounts group.
 
 ![Sign On Policy Rule Conditions.](images/sign-on-pol-group-rule-conditions.png "Sign On Policy Rule Conditions.")
 
@@ -98,11 +98,11 @@ The actions allow access without the additional factor.
 
 ![Sign On Policy Rule Actions.](images/sign-on-pol-group-rule-actions.png "Sign On Policy Rule Actions.")
 
-Lastly, I need to re-order my rules within my sign-on policy so that the more specific rule containing the group condition is executed first. I do this using the `Edit Priority` button on the list of rules.
+Lastly, the rules within the sign-on policy need to be reordered so that the more specific rule containing the group condition is executed first. This is done using the `Edit Priority` button on the list of rules.
 
 ![Sign On Policy Rules Order.](images/sign-on-pol-list-group-reorder.png "Sign On Policy Rules Order.")
 
-That's it! I can re-test my API call and it is still successful using this alternative approach.
+That's it! I can re-test the API call and it is still successful using this alternative approach.
 
 # Summary
 
