@@ -2,7 +2,7 @@
  
 FastConnect overview: FC as a network connectivity solution offered by Oracle Cloud Infrastructure (OCI) that allows customers to establish private, dedicated, and high-bandwidth connections between their on-premises data centers or network environments and the OCI cloud.
  
-Reviewed: 19.02.2024
+Reviewed: 30.10.2024
 
 # When to use this asset?
 

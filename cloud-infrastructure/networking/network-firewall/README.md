@@ -7,7 +7,7 @@ OCI's network and application layer security controls currently have the followi
 - Advanced Egress Security Controls
 - Advanced Network Firewall Features
 
-Reviewed: 06.02.2024
+Reviewed: 30.10.2024
  
 # Useful Links
 
@@ -25,6 +25,7 @@ Reviewed: 06.02.2024
 
 - [Use OCI Network Firewall for SSL forward proxy and inbound inspection using Decryption rule](https://docs.oracle.com/en/learn/oci-network-firewall/#introduction)
     -  Step-by-step guide to deploy OCI network Firewall for SSL Forward proxy and inbound inspection with Decryption rules. It does include an introduction to encryption for beginners
+- [Secure Your Applications using OCI Network Firewall and OCI WAF Regional with Let's Encrypt Certificates](https://docs.oracle.com/en/learn/waf-local-app/#introduction)
     
 ## Blogs
  

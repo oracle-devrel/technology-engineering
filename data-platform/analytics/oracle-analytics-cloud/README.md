@@ -2,7 +2,7 @@
  
 Oracle Analytics Cloud (OAC) is a cloud-native service delivered on next-generation Oracle Cloud Infrastructure (OCI). OAC brings the collaboration and visualization advantages of an Oracle-native cloud service without the need for an on-premises data center. OAC provides the capabilities required to address the entire analytics process including data ingestion and modeling, data preparation and enrichment, and visualization and collaboration, without compromising security and governance. Embedded machine learning and natural language processing technologies help increase productivity and build an analytics-driven culture in organizations.
 
-Reviewed: 31.10.2023 
+Reviewed: 15.11.2024 
 
 # Table of Contents
 1. [Team Publications](#team-publications)

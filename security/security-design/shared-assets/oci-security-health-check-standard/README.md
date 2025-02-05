@@ -2,7 +2,7 @@
 
 Owner: Olaf Heimburger
 
-Version: 241011
+Version: 241206
 
 Reviewed: 01.02.2024
 
@@ -19,6 +19,15 @@ The *OCI Security Health Check - Standard Edition* checks an OCI tenancy for [CI
 
 This asset covers the OCI platform as specified in the *CIS Oracle Cloud Infrastructure Foundations Benchmark*, only. Any workload provisioned in Databases, Compute VMs (running any Operating System), the Container Engine for Kubernetes, or in the VMware Solution is *out of scope* of the *OCI Security Health Check*.
 
+**This is not an official Oracle application and it is not supported by Oracle Support.**
+
+## Before you begin
+
+The main goals of this script are:
+
+- Make the run as easy and smooth as possible.
+- Do not affect your desktop whenever possible.
+
 ## Complete Runtime Example
 
 See the *OCI Security Health Check - Standard Edition* in action and watch the [OCI Health Checks - Self Service video](https://www.youtube.com/watch?v=EzjKLxfxaAM).
@@ -29,22 +38,22 @@ See the *OCI Security Health Check - Standard Edition* in action and watch the [
 
 Before running the *OCI Security Health Check - Standard Edition* you should download and verify it.
 
-  - Download the latest distribution [oci-security-health-check-standard-241011.zip](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-241011.zip).
+  - Download the latest distribution [oci-security-health-check-standard-241206.zip](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-241206.zip).
   - Download the respective checksum file:
-    - [oci-security-health-check-standard-241011.sha512](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-241011.sha512).
-    - [oci-security-health-check-standard-241011.sha512256](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-241011.sha512256).
+    - [oci-security-health-check-standard-241206.sha512](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-241206.sha512).
+    - [oci-security-health-check-standard-241206.sha512256](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-241206.sha512256).
   - Verify the integrity of the distribution. Both files must be in the same directory (for example, in your downloads directory).
 
     On MacOS:
     ```
     cd <your_downloads_directory>
-    shasum -a 512256 -c oci-security-health-check-standard-241011.sha512256
+    shasum -a 512256 -c oci-security-health-check-standard-241206.sha512256
     ```
 
     On Linux (including Cloud Shell):
     ```
     cd <your_downloads_directory>
-    sha512sum -c oci-security-health-check-standard-241011.sha512
+    sha512sum -c oci-security-health-check-standard-241206.sha512
     ```
 
 **Reject the downloaded file if the check fails!**
@@ -57,10 +66,10 @@ In OCI Cloud Shell you can do a short cut without downloading the files mentione
 2. Open Cloud Shell
 3. Run these commands in your Cloud Shell:
   ```
-  wget -q https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-241011.zip
-  wget -q https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-241011.sha512
-  sha512sum -c oci-security-health-check-standard-241011.sha512
-  unzip -q oci-security-health-check-standard-241011.zip
+  wget -q https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-241206.zip
+  wget -q https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-241206.sha512
+  sha512sum -c oci-security-health-check-standard-241206.sha512
+  unzip -q oci-security-health-check-standard-241206.zip
   ```
 
 ## Prepare the OCI Tenancy
@@ -76,7 +85,8 @@ quickest way. If you decide to use this option, please continue reading in
 
 ### Recurring usage
 
-For recurring usage, setting up a group for auditing is recommended. For setting this up follow the steps documented next.
+For recurring usage, setting up a group for auditing is recommended. For setting this up follow the steps documented in the next section.
+This applies for scenarios using the OCI Cloud Shell with public Internet access. For additional usage scenarios see the detailed instructions [README](files/oci-security-health-check-standard/README.md).
 
 ### Setting up an *Auditor* group and policy
 
@@ -88,20 +98,22 @@ To create a group for auditing do the following steps:
   - Create a policy `pcy-auditing` with these statements (if your tenancy does not have Domains, replace `'Default'/'grp-auditors'` with `grp-auditors`):
     ```
       allow group 'Default'/'grp-auditors' to inspect all-resources in tenancy
-      allow group 'Default'/'grp-auditors' to read instances in tenancy
-      allow group 'Default'/'grp-auditors' to read load-balancers in tenancy
+      allow group 'Default'/'grp-auditors' to read audit-events in tenancy
       allow group 'Default'/'grp-auditors' to read buckets in tenancy
-      allow group 'Default'/'grp-auditors' to read nat-gateways in tenancy
-      allow group 'Default'/'grp-auditors' to read public-ips in tenancy
+      allow group 'Default'/'grp-auditors' to read dns in tenancy
+      allow group 'Default'/'grp-auditors' to read domains in tenancy
       allow group 'Default'/'grp-auditors' to read file-family in tenancy
       allow group 'Default'/'grp-auditors' to read instance-configurations in tenancy
+      allow group 'Default'/'grp-auditors' to read instances in tenancy
+      allow group 'Default'/'grp-auditors' to read load-balancers in tenancy
+      allow group 'Default'/'grp-auditors' to read nat-gateways in tenancy
       allow group 'Default'/'grp-auditors' to read network-security-groups in tenancy
+      allow group 'Default'/'grp-auditors' to read public-ips in tenancy
       allow group 'Default'/'grp-auditors' to read resource-availability in tenancy
-      allow group 'Default'/'grp-auditors' to read audit-events in tenancy
       allow group 'Default'/'grp-auditors' to read users in tenancy
       allow group 'Default'/'grp-auditors' to read vss-family in tenancy
-      allow group 'Default'/'grp-auditors' to read dns in tenancy
       allow group 'Default'/'grp-auditors' to use cloud-shell in tenancy
+      allow group 'Default'/'grp-auditors' to use cloud-shell-public-network in tenancy
     ```
   - Assign a user to the `grp-auditors` group.
   - Log out of the OCI Console.
@@ -117,7 +129,7 @@ After a completed run you will find a directory with a name starting with your t
 To start with reviewing the results, open the file named `tenancy_name_YYYYMMDDHHmmss_standard_cis_html_summary_report.html`.
 
 It may look like this example:
-![Flyer](./files/resources/Example_Output.png)
+![Example](./files/resources/Example_Output.png)
 
 # Known Issues
 

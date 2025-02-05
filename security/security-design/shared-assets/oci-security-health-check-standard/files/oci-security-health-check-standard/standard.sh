@@ -7,7 +7,7 @@
 #
 # Author: Olaf Heimburger
 #
-VERSION=241011
+VERSION=241206
 
 OS_TYPE=$(uname)
 ASSESS_DIR=$(dirname $0)
@@ -175,12 +175,13 @@ done
 if [ $IS_ADVANCED -ne 1 ]; then
     RUN_SHOWOCI=0
     RUN_CIS=1
+    CIS_DATA_OPT=""
 else
     if [ -z "$CIS_DATA_OPT" ]; then
         CIS_DATA_OPT="--obp --all-resources"
     fi
     if [ -z "$SHOWOCI_DATA_OPT" ]; then
-        SHOWOCI_DATA_OPT="-nsum -a -dsa"
+        SHOWOCI_DATA_OPT="-ns -a -dsa"
     fi
 fi
 
@@ -214,12 +215,14 @@ if [ ! -d ${PYTHON_ENV} ]; then
     ${PYTHON_CMD} -m venv ${PYTHON_ENV}
 fi
 
-PIP_OPTS="-q --user --no-warn-script-location"
+PIP_OPTS="-q --no-warn-script-location"
 if [ -d ${PYTHON_ENV} ]; then
     source ${PYTHON_ENV}/bin/activate
-    if [ -z "${CLOUD_SHELL_TOOL_SET}" ]; then
-        ${PYTHON_CMD} -m pip install pip --upgrade ${PIP_OPTS}
-    fi
+    PYTHON_CMD=$(which python3)
+    # if [ -z "${CLOUD_SHELL_TOOL_SET}" ]; then
+    #     ${PYTHON_CMD} -m pip install pip --upgrade ${PIP_OPTS}
+    # fi
+    ${PYTHON_CMD} -m pip install pip --upgrade ${PIP_OPTS}
 fi
 
 printf "INFO: Checking for required libraries...\n"
@@ -268,37 +271,39 @@ else
 fi
 printf "INFO: %s\n" "${INFO_STR}"
 
-CIS_OPTS="-t ${TENANCY} ${CIS_REGION_OPT} ${CIS_DATA_OPT} ${AUTH_OPT}"
+CIS_OPTS="-t ${TENANCY} ${CIS_REGION_OPT} ${CIS_DATA_OPT} ${AUTH_OPT} --report-summary-json --report-prefix ${OUTPUT_DIR_NAME}"
 SHOWOCI_OPTS="-t ${TENANCY} ${SHOWOCI_REGION_OPT} ${AUTH_OPT} ${SHOWOCI_DATA_OPT}"
 
 trap "cleanup; echo The script has been canceled; exiting" 1 2 3 6
 _W_=$(which script | wc -c)
 if [ $RUN_CIS -eq 1 ]; then
     out=$(echo -n ${OUTPUT_DIR} | sed -e 's;\./;;g')
+    CIS_OPTS="${CIS_OPTS} --report-directory ${out}"
     if [ ${_W_} -gt 0 ]; then
         if [ "${OS_TYPE}" == 'Darwin' ]; then
-            ${SCRIPT_CMD} -q ${out}/assess_cis_report.txt ${PYTHON_CMD} ${CIS_SCRIPT} ${CIS_OPTS} --report-summary-json --report-directory ${out} --report-prefix ${OUTPUT_DIR_NAME}
+            ${SCRIPT_CMD} -q ${out}/assess_cis_report.txt ${PYTHON_CMD} ${CIS_SCRIPT} ${CIS_OPTS} 
         else
-            ${SCRIPT_CMD} -c "${PYTHON_CMD} ${CIS_SCRIPT} ${CIS_OPTS} --report-directory ${out} --report-prefix ${OUTPUT_DIR_NAME}" ${out}/assess_cis_report.txt
+            ${SCRIPT_CMD} -c "${PYTHON_CMD} ${CIS_SCRIPT} ${CIS_OPTS}" ${out}/assess_cis_report.txt
 fi
     else
-        ${PYTHON_CMD} ${CIS_SCRIPT} ${CIS_OPTS} --report-directory ${out}
+        ${PYTHON_CMD} ${CIS_SCRIPT} ${CIS_OPTS}
     fi
 fi
 if [ $RUN_SHOWOCI -eq 1 ]; then
     if [ -z "${BUFFERED}" ]; then
 	export PYTHONUNBUFFERED=TRUE
     fi
+    # SHOWOCI_CSV="-csv_nodate -csv ${OUTPUT_DIR}/showoci_${OUTPUT_DIR_NAME}"
+    SHOWOCI_XLSX="-xlsx_nodate -xlsx ${OUTPUT_DIR}/showoci_${OUTPUT_DIR_NAME}"
+    SHOWOCI_JSON="-jf ${OUTPUT_DIR}/showoci_${OUTPUT_DIR_NAME}.json"
     if [ ${_W_} -gt 0 ]; then
         if [ "${OS_TYPE}" == 'Darwin' ]; then
-            echo "${SCRIPT_CMD} -q ${OUTPUT_DIR}/assess_showoci.txt ${PYTHON_CMD} ${SHOWOCI_SCRIPT} ${SHOWOCI_OPTS} -jf ${OUTPUT_DIR}/showoci_${OUTPUT_DIR_NAME}.json -xlsx_nodate -xlsx ${OUTPUT_DIR}/showoci_${OUTPUT_DIR_NAME}"
-            ${SCRIPT_CMD} -q ${OUTPUT_DIR}/assess_showoci.txt ${PYTHON_CMD} ${SHOWOCI_SCRIPT} ${SHOWOCI_OPTS} -jf ${OUTPUT_DIR}/showoci_${OUTPUT_DIR_NAME}.json -xlsx_nodate -xlsx ${OUTPUT_DIR}/showoci_${OUTPUT_DIR_NAME}
+            ${SCRIPT_CMD} -q ${OUTPUT_DIR}/assess_showoci.txt ${PYTHON_CMD} ${SHOWOCI_SCRIPT} ${SHOWOCI_OPTS}  ${SHOWOCI_JSON} ${SHOWOCI_XLSX} ${SHOWOCI_CSV}
         else
-        echo "${SCRIPT_CMD} -c "${PYTHON_CMD} ${SHOWOCI_SCRIPT} ${SHOWOCI_OPTS} -jf ${OUTPUT_DIR}/showoci_${OUTPUT_DIR_NAME}.json -xlsx_nodate -xlsx ${OUTPUT_DIR}/showoci_${OUTPUT_DIR_NAME}" ${OUTPUT_DIR}/assess_showoci.txt"
-            ${SCRIPT_CMD} -c "${PYTHON_CMD} ${SHOWOCI_SCRIPT} ${SHOWOCI_OPTS} -jf ${OUTPUT_DIR}/showoci_${OUTPUT_DIR_NAME}.json -xlsx_nodate -xlsx ${OUTPUT_DIR}/showoci_${OUTPUT_DIR_NAME}" ${OUTPUT_DIR}/assess_showoci.txt
+            ${SCRIPT_CMD} -c "${PYTHON_CMD} ${SHOWOCI_SCRIPT} ${SHOWOCI_OPTS} ${SHOWOCI_JSON} ${SHOWOCI_XLSX} ${SHOWOCI_CSV}" ${OUTPUT_DIR}/assess_showoci.txt
         fi
     else
-        ${PYTHON_CMD} ${SHOWOCI_SCRIPT} ${SHOWOCI_OPTS} -jf ${OUTPUT_DIR}/showoci_${OUTPUT_DIR_NAME}.json -xlsx_nodate -xlsx ${OUTPUT_DIR}/showoci_${OUTPUT_DIR_NAME}
+        ${PYTHON_CMD} ${SHOWOCI_SCRIPT} ${SHOWOCI_OPTS}  ${SHOWOCI_JSON} ${SHOWOCI_XLSX} ${SHOWOCI_CSV}
     fi
 fi
 DIR_PARENT_OUTPUT="$(dirname ${OUTPUT_DIR})"

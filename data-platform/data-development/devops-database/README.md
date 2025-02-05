@@ -10,13 +10,12 @@ Every development team's goal: (Operations)
 - Delivering a few change requests at a time to end users
 - Through a series of high-quality releases on a regular cadence
 
-Reviewed: 05.04.2024
+Reviewed: 18.11.2024
 
 # Table of Contents
  
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-links)
-3. [Reusable Assets Overview](#reusable-assets-overview)
  
 # Team Publications
 
