@@ -130,8 +130,6 @@ docker login ams.ocir.io -u '&lt;YOUR OCI TENANCY NAMESPACE&gt;/oracleidentitycl
 docker push fra.ocir.io/&lt;YOUR OCI TENANCY NAMESPACE&gt;/helloworld-java:1
 </pre>
 
-<p>
-
 The last step is to create the Function Application and the function deployment for it. This can be easily done using the Cloud UI. 
 
 <p>

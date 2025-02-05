@@ -149,7 +149,7 @@ Calling the LB endpoint with cURL or from the browser should show an echo:
 
 <p>
 <PRE>
-curl 144.200.51.195
+curl xxx.200.51.195
 {
   "path": "/",
   "headers": {

@@ -6,7 +6,7 @@ Oracle Database 23ai is available cloud-first, in OCI on Oracle Exadata Database
 
 If you are interested in AI Vector Search, [please see our page here](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/core-converged-db/ai-vector-search).
 
-Reviewed: 05.11.2024
+Reviewed: 21.1.2025
  
 # Useful Links  
  
@@ -25,6 +25,7 @@ Reviewed: 05.11.2024
 - [Database Release Notes](https://docs.oracle.com/en/database/oracle/oracle-database/23/rnrdm/purpose-these-release-notes.html)
 - [Download Oracle Database Free Get Started](https://www.oracle.com/database/free/get-started/)
 - [Download Autonomous Database Free Container Image](https://www.oracle.com/autonomous-database/free-trial/#free-container-image)
+- [Oracle Database 23ai New Compression and SecureFiles Storage Features (Technical Brief)](https://www.oracle.com/a/ocom/docs/database/new-compression-and-securefiles-storage-features.pdf)
 - [Oracle Database on oracle.com](https://www.oracle.com/database/)
 
 ## Blogs
@@ -41,6 +42,7 @@ Reviewed: 05.11.2024
 - [SQL Firewall now built into Oracle Database 23ai](https://blogs.oracle.com/cloudsecurity/post/sql-firewall-now-built-into-oracle-database-23c)
 - [Oracle’s very own database connection proxy, CMAN-TDM, brings in per-PDB pooling capabilities in 23ai](https://medium.com/oracledevs/oracles-very-own-database-connection-proxy-cman-tdm-brings-in-per-pdb-pooling-capabilities-in-6077ee32d4b0)
 - [Oracle Globally Distributed Database supports RAFT Replication in Oracle Database 23ai](https://blogs.oracle.com/database/post/raft-replication-in-distributed-23c)
+- [New Database In-Memory Features in Oracle Database 23ai](https://blogs.oracle.com/in-memory/post/dbim-new-features-23ai)
 - [Oracle Database 23ai : Where to find information](https://blogs.oracle.com/database/post/oracle-database-23ai-where-to-find-more-information)
 
 
@@ -73,7 +75,7 @@ Reviewed: 05.11.2024
 ## Blogs
 
 - [Oracle Database Release 23ai is available now!](https://blogs.oracle.com/coretec/post/oracle-database-release-23ai)
-- [Oracle Database 23c Free Developer Release - 10 features you should know](https://blogs.oracle.com/coretec/post/oracle-database-23c-free-developer-sql)
+- [Oracle Database 23 Free Developer Release - 10 features you should know](https://blogs.oracle.com/coretec/post/oracle-database-23c-free-developer-sql)
 - [Sample data for Oracle Database](https://blogs.oracle.com/coretec/post/sample-data-for-oracle-database)
 - [Less coding using Domains](https://blogs.oracle.com/coretec/post/less-coding-with-sql-domains-in-23c)
 - [New value constructor in 23ai](https://blogs.oracle.com/coretec/post/new-value-constructor-in-23c)
@@ -86,6 +88,7 @@ Reviewed: 05.11.2024
 - [SQL Transpiler in 23ai - automatic PL/SQL conversion into SQL](https://blogs.oracle.com/coretec/post/sql-transpiler-in-23c)
 - [New full-text search in 23ai: Ubiquitous Database Search](https://blogs.oracle.com/coretec/post/sql-transpiler-in-23c)
 - [Easy Database Search with APEX in 23ai](https://blogs.oracle.com/coretec/post/easy-database-search-with-apex-in-23c)
+- [Text Index with Automatic Maintenance](https://blogs.oracle.com/coretec/post/text-index-with-automatic-maintenance)
 - [SQL statement tracking in 23ai with SQL History](https://blogs.oracle.com/coretec/post/easy-sql-statement-tracking-in23c)
 - [Developing a Java application using Oracle Graph Server](https://blogs.oracle.com/coretec/post/developing-a-java-application-working-on-top-of-oracle-property-graph-server)
 - [ETags with Oracle Database tables](https://blogs.oracle.com/coretec/post/valuebwith-table-data)
@@ -96,7 +99,9 @@ Reviewed: 05.11.2024
 - [Bigfile Tablespace Shrink](https://blogs.oracle.com/coretec/post/bigfile-tablespace-shrink)
 - [Real-Time SQL Monitoring: a MUST for SQL Tuning](https://blogs.oracle.com/coretec/post/oracle-database-real-time-sql-monitoring-one-of-the-most-important-tools)
 - [New Features and Release Updates](https://blogs.oracle.com/coretec/post/where-to-find-features-in-release-updates)
-- [23ai blogs on blogs.oracle.com/coretec](https://blogs.oracle.com/coretec/category/cased-concurrency-control-rt-23ai)
+- [Diagnose SQL performance with DBMS_SQLDIAG](https://blogs.oracle.com/coretec/post/diagnose-sql-performance-with-dbmssqldiag)
+- [Hybrid Vector Index - a combination of AI Vector Search with Text Search](https://blogs.oracle.com/coretec/post/hybrid-vector-index-the-combination-of-full-text-and-semantic-vector-search)
+- [all 23ai blogs on blogs.oracle.com/coretec](https://blogs.oracle.com/coretec/category/crt-23ai)
 
 
 ## Videos

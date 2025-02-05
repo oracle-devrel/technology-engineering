@@ -14,6 +14,8 @@ Also make sure to check the dedicated pages of the main technology areas of Data
 * [Transportable Tablespace](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/transportable-tablespace)
 * [Migration to OCI Database with PostgreSQL](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/migration-to-oci-database-with-postgresql)
 
+Reviewed: 15.11.2024
+
 # Team Publications
  
 - [ZDM/DMS Comparison](https://macsdata.com/oracle/zdm-dms-comparison)
@@ -40,6 +42,8 @@ Also make sure to check the dedicated pages of the main technology areas of Data
     - Cloud Coaching Webinar explaining different multicloud network architectures for migrating databases to OCI using Zero Downtime Migration
 - [Migrate On-Premises Database to OCI using Oracle Database Cloud Backup Module and RMAN ](https://amalrajputhenchira.wordpress.com/2024/08/13/migrate-on-premises-oracle-database-to-oci-using-oracle-database-cloud-backup-module-and-rman/)
     - Detailed, step-by-step instructions for performing Physical Offline Migration of On-Premises database to Co-Managed Database in OCI using Oracle Database Cloud Backup Module and RMAN , available on Amalraj Puthenchira's public platform
+- [How to Modernise OS and Shape of your Oracle Base Database Standalone Systems on Intel ? ](https://amalrajputhenchira.wordpress.com/2024/12/03/how-to-modernise-os-and-shape-of-your-oracle-base-database-standalone-systems-on-intel/)
+    - Detailed, step-by-step instructions for Modernising OS and Shape of Oracle Base Database Standalone Systems on Intel , available on Amalraj Puthenchira's public platform
     
 # Useful Links
 
