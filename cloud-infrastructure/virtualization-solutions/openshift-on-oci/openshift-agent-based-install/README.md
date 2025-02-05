@@ -1,24 +1,29 @@
-# Oracle Cloud VMware Solution - Workload Migration Solution Definition
+# OpenShift Agent-Based Installation 
 
-This repository contains an in-depth guide for the migration of VMware workloads to Oracle Cloud VMware Solution. It offers a high-level solution definition of the deployment architecture and migration process of workloads from a current VMware environment to Oracle Cloud VMware Solution. The document is aimed at capturing the current state architecture with requirements and provides a prospective state, potential project scope, and anticipated timelines for the migration. 
+This repository provides a comprehensive guide for performing an OpenShift Agent-based connected installation. To simplify the process and reduce manual steps, a custom script is included in the bundle to automate resource provisioning.
 
-Reviewed: 11.11.2024
+This guide is structured into two parts:
+
+Part 1: Covers the creation of necessary resources and sets up the OpenShift control plane.
+Part 2: Focuses on scaling the OpenShift cluster by adding worker nodes to support containerized workloads.
+
+Reviewed: 05.02.2025
 
 # When to use this asset?
 
-This document serves as an integral asset for individuals and organizations seeking to deploy a VMware SDDC in Oracle Cloud VMware Solution and migrate their critical applications to the newly deployed environment. 
+This document is designed for individuals and organizations looking to install OpenShift clusters on Oracle Cloud Infrastructure (OCI) starting from version 4.13 using the Agent-based installation method.
 
 # Instructions for Utilizing This Asset
 
-Use this document template as a starting point for the solution definition of your Oracle Cloud VMware Solution project. It includes example architecture diagrams, which can be replaced with customer-specific images as per requirements.
+Follow this document as a step-by-step guide to deploy OpenShift on OCI using the Agent-based installation method.
 
 # Conclusion
 
-The Oracle Cloud VMware Solution - Workload Migration Solution Definition is expected to serve as a definitive guide to the project. All participants are encouraged to provide feedback, raise queries, and make contributions to enhance the overall project's success.
+The OpenShift Agent-Based Installation Guide is intended to be a definitive resource for this deployment method. We encourage all users to share feedback, ask questions, and contribute to further improve this project.
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
