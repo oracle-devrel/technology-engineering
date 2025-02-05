@@ -6,7 +6,7 @@ The Data Pump export utility writes the schema objects, including the tables and
 
 A set of best practices and other useful assets/links can be found in this page.
 
-Reviewed: 03.11.2023
+Reviewed: 05.02.2025
  
 # Table of Contents
  
@@ -19,14 +19,14 @@ Reviewed: 03.11.2023
     - Detailed best practices guide around Oracle Data Pump export (expdp), available on Marcus Doeringer's public platform
 - [Data Pump: Import Best Practices](https://macsdata.com/oracle/data-pump-best-practices-import)
     - Detailed best practices guide around Oracle Data Pump import (impdp), available on Marcus Doeringer's public platform
-- [Upload Large Data Pump Files to OCI - using OCI CLI Multipart Uploads](https://www.youtube.com/watch?v=9100uKXquic)
-    - YouTube Video by Austine Ouma explaining how to use multipart uploads for large data pump files that need to be uploaded to Oracle Cloud Infrastructure
-- [OCI Cloud Shell Data Pump Import into an Autonomous Database](https://youtu.be/g2mnc6QvOn8)
-    - YouTube Video by Austine Ouma explaining how to perform a Data Pump Import from OCI Cloud Shell to migrate data into an Autonomous Database on OCI
+- [Upload Large Data Pump Files to OCI - using OCI CLI Multipart Uploads](https://techrochet.com/use-cli-to-upload-large-data-pump-files-to-oci)
+    - Blog post by Austine Ouma explaining how to use multipart uploads for large data pump files that need to be uploaded to Oracle Cloud Infrastructure
+- [OCI Cloud Shell Data Pump Import into an Autonomous Database](https://techrochet.com/cloud-shell-import-dumps-into-adb)
+    - Blog post by Austine Ouma explaining how to perform a Data Pump Import from OCI Cloud Shell to migrate data into an Autonomous Database on OCI
 - [Schema-based Oracle SQL Developer Data Pump Jobs](https://youtu.be/amdl4G_HWYc)
     - YouTube Video by Austine Ouma explaining how to run schema-based data pump jobs via SQL Developer
-- [SQL Developer Data Pump import into Autonomous Database](https://youtu.be/SWIKvnd2CiY)
-    - YouTube Video by Austine Ouma explaining how to run data pump jobs into Autonomous Database from SQL Developer
+- [SQL Developer Data Pump import into Autonomous Database](https://techrochet.com/sql-developer-data-pump-import)
+    - Blog post by Austine Ouma explaining how to run data pump jobs into Autonomous Database from SQL Developer
 - [Interactive Command Mode with Oracle Data Pump](https://youtu.be/Xm0Dx-P_RCs)
     - YouTube Video by Austine Ouma explaining how to manage running jobs in Oracle Data Pump
 - [Importing large Data Pump dump files into Oracle Base Database on OCI via OCI Object Storage buckets mounted on the database file system](https://youtu.be/dWlzUMcbbo8)
