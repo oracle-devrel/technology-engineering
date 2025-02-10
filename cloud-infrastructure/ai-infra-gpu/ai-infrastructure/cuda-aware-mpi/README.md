@@ -4,7 +4,7 @@ Open MPI is an open source Message Passing Interface (MPI) implementation that i
 
 ## Prerequisites
 
-In this example, we are using a type VM.GPU.A100.1 instance, a virtual machine featuring a NVIDIA A100 80 GB GPU and a standard Ubuntu 22.04 image. On this instance, we will install:
+In this example, we are using a type VM.GPU.A100.80G.1 instance, a virtual machine featuring a NVIDIA A100 80 GB GPU and a standard Ubuntu 22.04 image. On this instance, we will install:
 * NVIDIA drivers
 * CUDA Container toolkit
 * GDRCOPY
@@ -13,7 +13,7 @@ In this example, we are using a type VM.GPU.A100.1 instance, a virtual machine f
 
 ## Configuration walkthrough
 
-For the sake of simplicity, installation scripts can be found in the assets > scripts folder.
+For the sake of simplicity, installation scripts can be found in the [scripts](cloud-infrastructure/ai-infra-gpu/ai-infrastructure/cuda-aware-mpi/assets/scripts) folder.
 
 ### Installing NVIDIA drivers and CUDA
 
@@ -73,6 +73,26 @@ cd ucx
 ./configure --prefix=/usr/local/ucx --with-cuda=/usr/local/cuda --with-gdrcopy=/usr
 make -j8 install
 ```
+Additionnally, one can check the UCX build info:
+```
+ubuntu@<hostname>:~$ /usr/local/ucx/bin/ucx_info -d | grep cuda
+# Memory domain: cuda_cpy
+#     Component: cuda_cpy
+#         memory types: host (reg), cuda (access,alloc,reg,detect), cuda-managed (access,alloc,reg,cache,detect)
+#      Transport: cuda_copy
+#         Device: cuda
+# Memory domain: cuda_ipc
+#     Component: cuda_ipc
+#         memory types: cuda (access,reg,cache)
+#      Transport: cuda_ipc
+#         Device: cuda
+#         memory types: cuda (access,reg)
+#         Device: cuda
+ubuntu@<hostname>:~$ /usr/local/ucx/bin/ucx_info -d | grep gdr_copy
+# Memory domain: gdr_copy
+#     Component: gdr_copy
+#      Transport: gdr_copy
+```
 
 ### Building Open MPI with CUDA and UCX
 
@@ -96,6 +116,13 @@ which mpirun
 ```
 To make sure that the custom one is used, call `mpirun` with its full path `/opt/openmpi/bin/mpirun`.
 
+One can verify that Open MPI has been successfully built with CUDA support running either one of the below commands:
+```
+ubuntu@<hostname>:~$ /opt/openmpi/bin/ompi_info | grep "MPI extensions"
+          MPI extensions: affinity, cuda, pcollreq
+ubuntu@<hostname>:~$ /opt/openmpi/bin/ompi_info --parsable --all | grep mpi_built_with_cuda_support:value
+mca:mpi:base:param:mpi_built_with_cuda_support:value:true
+```
 
 ## Sources
 
