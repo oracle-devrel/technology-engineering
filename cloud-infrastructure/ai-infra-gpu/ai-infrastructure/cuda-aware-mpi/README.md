@@ -13,7 +13,7 @@ In this example, we are using a type VM.GPU.A100.80G.1 instance, a virtual machi
 
 ## Configuration walkthrough
 
-For the sake of simplicity, installation scripts can be found in the [scripts](cuda-aware-mpi/assets/scripts) folder.
+For the sake of simplicity, installation scripts can be found in the [scripts](assets/scripts) folder.
 
 ### Installing NVIDIA drivers and CUDA
 
