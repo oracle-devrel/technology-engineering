@@ -7,7 +7,6 @@ Reviewed: 23.01.2025
 # **Link to code**
    [Code](https://github.com/luigisaetta/oci_langflow/tree/main)
 
-# Owner Luigi Saeta 
 # License
  
 Copyright (c) 2024 Oracle and/or its affiliates.
