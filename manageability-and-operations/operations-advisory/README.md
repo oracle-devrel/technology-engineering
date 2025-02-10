@@ -4,7 +4,7 @@ The Operations Advisory provides critical guidance to Customers on how to define
 - [Multi-cloud operations - 3rd party tools that support OCI](https://learnoci.cloud/multi-cloud-operations-3rd-party-tools-that-support-oci-091207d923ed)
   
 
-Reviewed: 08.01.2025
+Reviewed: 28.01.2025
 
 # Table of Contents
 
@@ -24,7 +24,7 @@ Reviewed: 08.01.2025
 - [Why you should start thinking about your cloud operations right at the start of your cloud journey and what to consider](https://medium.com/@manu72tomcat/why-you-should-start-thinking-about-your-cloud-operations-right-at-the-start-of-your-cloud-journey-6000b36d9786)
 - [Script to stop/start OCI DB Node](https://karthicin.medium.com/script-to-stop-start-oci-db-node-41ccad09fd35)
 - [Using Digger a CI/CD tool for terraform/Opentofu](https://karthicin.medium.com/using-digger-a-ci-cd-tool-for-terraform-opentofu-712acd09d73e)
-- [Let's try k8sgp](https://karthicin.medium.com/lets-try-k8sgpt-50884e5e4ba6)
+- [Let's try k8sgpt](https://karthicin.medium.com/lets-try-k8sgpt-50884e5e4ba6)
 - [Let's try kyverno-json for Terraform](https://karthicin.medium.com/lets-try-kyverno-json-for-terraform-5b468ffc7a22)
 - [Why Day-2 Operations Matter: Introduction - Episode 1](https://www.linkedin.com/posts/manuelafioramonti_why-day-2-operations-matter-and-how-to-tackle-activity-7264926567192002560-W84W?utm_source=share&utm_medium=member_desktop)
 - [Why Day-2 Operations Matter: A dive into SecOps - Episode 2](https://www.linkedin.com/posts/manuelafioramonti_cloud-operations-episode-2-a-shallow-activity-7266788536681463808-7q7O?utm_source=share&utm_medium=member_desktop)
@@ -32,6 +32,7 @@ Reviewed: 08.01.2025
 - [Why Day-2 Operations Matter: Engineered Systems - Episode 4](https://www.linkedin.com/pulse/why-day-2-operations-matter-engineered-systems-4-manuela-fioramonti-65ccf/?trackingId=MC8FZNrum0OgCFOpJqORnw%3D%3D)
 - [Why Day-2 Operations Matter: Autonomous Database - Episode 5](https://www.linkedin.com/pulse/why-day-2-operations-matter-autonomous-database-magic-fioramonti-lhg5f/?trackingId=s3bkPoanDc0iiUglgz9Knw%3D%3D)
 - [Why Day-2 Operations Matter: Episode 6- Applications](https://www.linkedin.com/pulse/why-day-2-operations-matter-episode-6-applications-fioramonti-cwqof/?trackingId=0VGMfW8sTlfLtxWi5yIbOA%3D%3D)
+- [OCI Fleet Application Management for Oracle Base Database patching](https://karthicin.medium.com/oci-fleet-application-management-for-oracle-base-database-patching-9122db23b540)
 
 
 
@@ -46,7 +47,7 @@ OCI Functions—Integration of Monitoring for Oracle Cloud: This workshop provid
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
