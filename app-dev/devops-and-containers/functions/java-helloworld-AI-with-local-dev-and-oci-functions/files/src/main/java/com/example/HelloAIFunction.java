@@ -63,6 +63,7 @@ import com.oracle.bmc.generativeaiinference.model.ServingMode;
 import com.oracle.bmc.generativeaiinference.model.TextContent;
 import com.oracle.bmc.retrier.RetryConfiguration;
 
+import java.time.LocalDate;
 import java.io.*;
 import java.util.*;
 import java.text.*;
@@ -72,9 +73,10 @@ public class HelloAIFunction {
     // FILL IN PROPER VALUES FOR OCI GENAI SERVICE
     private static final String ENDPOINT       = "https://inference.generativeai.eu-frankfurt-1.oci.oraclecloud.com";
     private static final Region REGION         = Region.EU_FRANKFURT_1;
+    private static final String COMPARTMENT_ID = "ocid1.compartment.oc1..";
+    private static final String GENAI_OCID     = "ocid1.generativeaimodel.oc1.eu-frankfurt-1.amaaaaaa....wtig4q";
 
     // FILL IN PROPER VALUES FOR IAM USER WHEN NOT USING INSTANCE_PRINCIPAL IN OCI FUNCTION
-    private static final String COMPARTMENT_ID = "ocid1.compartment.oc1..";
     private static final String TENANCY_ID     = "ocid1.tenancy.oc1..";
     private static final String USER_ID        = "ocid1.user.oc1..";
     private static final String FINGERPRINT    = "ef:4d:..";
@@ -85,10 +87,9 @@ public class HelloAIFunction {
         GenerativeAiInferenceClient generativeAiInferenceClient;
         String answer = "";
         try {
-            Date date = new Date();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-            String currentDate = dateFormat. format(date);
-            String questionToAI = (input == null || input.isEmpty()) ? "What happened today " + currentDate + " 100 years ago ?": input;
+        
+            LocalDate date = LocalDate.now().minusYears(100);
+            String questionToAI = (input == null || input.isEmpty()) ? "What happened at " + date + " ?": input;
 
             if(System.getenv("AUTH_INSTANCE_PRINCIPAL") != null) {
                 System.out.println("AUTH_INSTANCE_PRINCIPAL");
@@ -128,7 +129,7 @@ public class HelloAIFunction {
                     .build();
 
             ChatDetails chatDetails = ChatDetails.builder()
-                    .servingMode(OnDemandServingMode.builder().modelId("ocid1.generativeaimodel.oc1.eu-frankfurt-1.amaaaaaa....wtig4q").build()) // Replace this with the actual OCID of the GenAI service
+                    .servingMode(OnDemandServingMode.builder().modelId(GENAI_OCID).build())
                     .compartmentId(COMPARTMENT_ID)
                     .chatRequest(chatRequest)
                     .build();
