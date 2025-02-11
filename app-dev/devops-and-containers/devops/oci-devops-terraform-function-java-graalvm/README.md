@@ -60,7 +60,7 @@ This can by done by doing the following in OCI Cloud Shell:
 <pre>
 oci artifacts container repository create --display-name helloworldai-java --compartment-id ocid1.compartment.oc1.....gq
 docker pull hello-world
-docker tag hello-world fra.ocir.io/&lt;YOUR_TENANCY_NAMESPACE&gt;/helloworldai-java:1
+docker tag hello-world fra.ocir.io/&lt;YOUR_TENANCY_NAMESPACE&gt;/&lt;image_name&gt:1
 docker push fra.ocir.io/&lt;YOUR_TENANCY_NAMESPACE&gt;/helloworldai-java:1
 </pre>
 Unless doing this the Stack will run into an error:
