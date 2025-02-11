@@ -69,7 +69,8 @@ Error: 400-InvalidParameter, Invalid Image fra.ocir.io/&lt;YOUR_TENANCY_NAMESPAC
 </pre>
 After doing this the Stack can be run to create the OCI DevOps project. After the project creation the build pipelines can be run to build and deploy the OCI Function with real Function code like <a href="https://github.com/oracle-devrel/technology-engineering/blob/main/app-dev/devops-and-containers/functions/java-helloworld-AI-with-local-dev-and-oci-functions/README.md">this one</a> (the dummy hello-world image won't run properly).
 <p>
-The Stack creates only a <i>private subnet</i> in the VCN and hence the Function cannot be called outside the tenancy by default.
+The Stack creates only a <i>private subnet</i> in the VCN and hence the Function cannot be called outside the tenancy by default after the build and deploy.
+<br>
 However, the Function invocation can be done from OCI Cloud Shell either by connecting to the VCN private subnet or to OCI Service Network, both options will work. The invocation can be done as follows when using the Stack <b>project_name</b> e.g. :
 <pre>
 fn invoke helloworldai-java-project helloworldai-java-project
