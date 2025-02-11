@@ -56,7 +56,7 @@ OCI DevOps IAM Policies are not part of the stack, please refer to <a href="http
 <p>
 Important! Before running the stack it is manadatory to create the OCI Registry repository for the OCI Function container and upload a dummy X86 architecture container to it. The <b>name</b> of the OCIR repo needs to match to the <code>image_name</code> of the Stack variables e.g. <b>helloworldai-java</b>. The image tag must be '<b>1</b>'. The reason for this is that the Stack canniot create the Function without pointing to an image in OCIR.
 <br>
-This can by done by doing the following in OCI Cloud Shell (assuming the image name is 'helloworldai-java'):
+This can be done by doing the following in OCI Cloud Shell (assuming the image name is 'helloworldai-java'):
 <pre>
 oci artifacts container repository create --display-name helloworldai-java --compartment-id ocid1.compartment.oc1.....gq
 docker pull hello-world
