@@ -76,7 +76,7 @@ public class HelloAIFunction {
     private static final String COMPARTMENT_ID = "ocid1.compartment.oc1..";
     private static final String GENAI_OCID     = "ocid1.generativeaimodel.oc1.eu-frankfurt-1.amaaaaaa....wtig4q";
 
-    // FILL IN PROPER VALUES FOR IAM USER WHEN NOT USING INSTANCE_PRINCIPAL IN OCI FUNCTION
+    // FILL IN PROPER VALUES FOR IAM USER WHEN RUNNING LOCALLY WITH Fn. RUNNING AS OCI FUNCTION DO NOT NEED TO SET THESE.
     private static final String TENANCY_ID     = "ocid1.tenancy.oc1..";
     private static final String USER_ID        = "ocid1.user.oc1..";
     private static final String FINGERPRINT    = "ef:4d:..";
@@ -84,15 +84,13 @@ public class HelloAIFunction {
     private static final String PASSPHRASE     = "";
 
     public String handleRequest(String input) {
-        GenerativeAiInferenceClient generativeAiInferenceClient;
+        GenerativeAiInferenceClient generativeAiInferenceClient = null;
         String answer = "";
-        try {
-        
-            LocalDate date = LocalDate.now().minusYears(100);
-            String questionToAI = (input == null || input.isEmpty()) ? "What happened at " + date + " ?": input;
 
-            if(System.getenv("AUTH_INSTANCE_PRINCIPAL") != null) {
-                System.out.println("AUTH_INSTANCE_PRINCIPAL");
+        LocalDate date = LocalDate.now().minusYears(100);
+        String questionToAI = (input == null || input.isEmpty()) ? "What happened at " + date + " ?": input;
+
+        try {
                 ResourcePrincipalAuthenticationDetailsProvider resourcePrincipalAuthenticationDetailsProvider =
                         ResourcePrincipalAuthenticationDetailsProvider.builder().build();
                 generativeAiInferenceClient =
@@ -101,53 +99,60 @@ public class HelloAIFunction {
                                 .endpoint(ENDPOINT)
                                 .build(resourcePrincipalAuthenticationDetailsProvider);
 
-            } else {
-                System.out.println("AUTH_USER");
-                AuthenticationDetailsProvider authenticationDetailsProvider =
-                        SimpleAuthenticationDetailsProvider.builder()
-                                .tenantId(TENANCY_ID)
-                                .userId(USER_ID)
-                                .fingerprint(FINGERPRINT)
-                                .privateKeySupplier(new StringPrivateKeySupplier(PRIVATEKEY))
-                                .passPhrase(PASSPHRASE)
-                                .build();
-                generativeAiInferenceClient =
-                        GenerativeAiInferenceClient.builder()
-                                .region(REGION)
-                                .endpoint(ENDPOINT)
-                                .build(authenticationDetailsProvider);
-            }
-
-            CohereChatRequest chatRequest = CohereChatRequest.builder()
-                    .message(questionToAI)
-                    .maxTokens(600)
-                    .temperature((double)0)
-                    .frequencyPenalty((double)1)
-                    .topP((double)0.75)
-                    .topK((int)0)
-                    .isStream(false)
-                    .build();
-
-            ChatDetails chatDetails = ChatDetails.builder()
-                    .servingMode(OnDemandServingMode.builder().modelId(GENAI_OCID).build())
-                    .compartmentId(COMPARTMENT_ID)
-                    .chatRequest(chatRequest)
-                    .build();
-
-            ChatRequest request = ChatRequest.builder()
-                    .chatDetails(chatDetails)
-                    .build();
-
-            ChatResponse chatResponse = generativeAiInferenceClient.chat(request);
-            String answerAI = chatResponse.toString();
-            answerAI = answerAI.substring(answerAI.indexOf("text=") + 5);
-            if(answerAI.indexOf(", chatHistory=") > 0) {
-                answerAI = answerAI.substring(0, answerAI.indexOf(", chatHistory="));
-            }
-            answer = questionToAI + "\n\n" + answerAI;
-
         } catch (Exception e) {
-            answer = answer + "\n" + e.getMessage();
+                try {
+                        AuthenticationDetailsProvider authenticationDetailsProvider =
+                                SimpleAuthenticationDetailsProvider.builder()
+                                        .tenantId(TENANCY_ID)
+                                        .userId(USER_ID)
+                                        .fingerprint(FINGERPRINT)
+                                        .privateKeySupplier(new StringPrivateKeySupplier(PRIVATEKEY))
+                                        .passPhrase(PASSPHRASE)
+                                        .build();
+                        generativeAiInferenceClient =
+                                GenerativeAiInferenceClient.builder()
+                                        .region(REGION)
+                                        .endpoint(ENDPOINT)
+                                        .build(authenticationDetailsProvider);
+                } catch (Exception ee) {
+                        answer = answer + "\n" + ee.getMessage();
+                }
+        }
+
+        if(answer.length() == 0)
+        {
+                try {
+                        CohereChatRequest chatRequest = CohereChatRequest.builder()
+                                .message(questionToAI)
+                                .maxTokens(600)
+                                .temperature((double)0)
+                                .frequencyPenalty((double)1)
+                                .topP((double)0.75)
+                                .topK((int)0)
+                                .isStream(false)
+                                .build();
+
+                        ChatDetails chatDetails = ChatDetails.builder()
+                                .servingMode(OnDemandServingMode.builder().modelId(GENAI_OCID).build())
+                                .compartmentId(COMPARTMENT_ID)
+                                .chatRequest(chatRequest)
+                                .build();
+
+                        ChatRequest request = ChatRequest.builder()
+                                .chatDetails(chatDetails)
+                                .build();
+
+                        ChatResponse chatResponse = generativeAiInferenceClient.chat(request);
+                        String answerAI = chatResponse.toString();
+                        answerAI = answerAI.substring(answerAI.indexOf("text=") + 5);
+                        if(answerAI.indexOf(", chatHistory=") > 0) {
+                                answerAI = answerAI.substring(0, answerAI.indexOf(", chatHistory="));
+                        }
+                        answer = questionToAI + "\n\n" + answerAI;
+
+                } catch (Exception e) {
+                        answer = answer + "\n" + e.getMessage();
+                }
         }
         return answer;
     }

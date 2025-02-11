@@ -55,12 +55,12 @@ This example is based on the <a href="../java-helloworld-with-local-dev-and-oci-
 
 To do the OCI SDK authentication and authorization to use the GenAI services the function uses two options:
 <ul>
-<li><b>IAM regular user</b> for the local dev and test on mac</li>
-<li><b>InstancePrincipal</b> for the OCI Function by passing config key <code>AUTH_INSTANCE_PRINCIPAL</code> with any value (then not being null)</li>
+<li><b>IAM regular user</b> for the local dev and test on mac (lines 79-84 in HelloAIFunction.java)</li>
+<li><b>ResourcePrincipal</b> for the OCI Function</li>
 </ul>
 
 <p>
-IAM user option will work on both cases above, as local and as OCI Function.
+IAM user option will work on both cases above, as local and as OCI Function. ResourcePrincipal is the default for OCI Function.
 
 ## Build and test
 
