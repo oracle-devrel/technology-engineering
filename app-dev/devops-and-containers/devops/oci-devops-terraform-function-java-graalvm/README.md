@@ -54,8 +54,10 @@ Clone this repo locally. In OCI Console click <code>Create Stack</code> under <c
 <p>
 OCI DevOps IAM Policies are not part of the stack, please refer to <a href="https://docs.oracle.com/en-us/iaas/Content/devops/using/devops_iampolicies.htm">docs</a> how to create them first.
 <p>
-Important! Before running the stack it is manadatory to create the OCI Registry repository for the OCI Function container and upload a dummy X86 architecture container to it. The <b>name</b> of the OCIR repo needs to match to the <code>image_name</code> of the Stack variables e.g. <b>helloworldai-java</b>. The image tag must be '<b>1</b>'. The reason for this is that the Stack canniot create the Function without pointing to an image in OCIR.
+Important! Before running the stack it is manadatory to create the OCI Registry repository for the OCI Function container and upload a dummy X86 architecture container to it. The <b>name</b> of the OCIR repo needs to match to the <code>image_name</code> of the Stack variables e.g. <b>helloworldai-java</b>. The image tag must be '<b>1</b>'.
 <br>
+The reason for this is that the Stack cannot create the Function without pointing to an image in OCIR.
+<p>
 This can be done by doing the following in OCI Cloud Shell (assuming the image name is 'helloworldai-java'):
 <pre>
 oci artifacts container repository create --display-name helloworldai-java --compartment-id ocid1.compartment.oc1.....gq
