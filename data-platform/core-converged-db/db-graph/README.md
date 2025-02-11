@@ -3,7 +3,7 @@
 Graphs enable you to find connections and explore relationships in your data. Oracle Graph is an AI-ready, integrated feature of Oracle's converged database that eliminates the need for a separate graph database and data movement. Analysts and developers can address various use cases, including financial fraud detection and manufacturing traceability, while gaining enterprise-grade security, ease of data ingestion, and strong support for operational workloads.Oracle Graph supports both RDF (resource description framework) and property graphs on operational data. 
 Developers can now easily build graph applications with SQL using existing SQL development tools and frameworks through SQL property graphs. The combination of AI Vector Search and RDF knowledge graph capabilities in Oracle Database makes it simple to extend retrieval-augmented generation (RAG) workflows with graph analysis, enabling improved search response accuracy—also known as GraphRAG.
 
-Reviewed: 22.01.2025
+Reviewed: 11.02.2025
 
 # Useful Links
 
@@ -17,6 +17,7 @@ Reviewed: 22.01.2025
 - [Graph JavaScript API Reference for Property Graph Visualization](https://docs.oracle.com/pls/topic/lookup?ctx=property-graph-latest&id=PGJSD)
 - [Graph Python API Reference for Property Graph](https://docs.oracle.com/pls/topic/lookup?ctx=property-graph-latest&id=python_doc)
 - [data sets for property graph (Karin Patenge)](https://github.com/karinpatenge/property-graph)
+- [ISO/IEC 9075-16:2023](https://www.iso.org/standard/79473.html)
 
 ## Blogs and Technical Briefs
 
@@ -26,6 +27,8 @@ Reviewed: 22.01.2025
 - [Get Started with Oracle Graph using SQL Developer](https://medium.com/oracledevs/get-started-with-oracle-graph-using-sql-developer-e5ccbd61c9fb)
 - [Visualizing Graphs in Oracle Graph](https://medium.com/oracledevs/visualizing-graphs-in-oracle-graph-6159c8ce2491)
 - [Run Graph Algorithms in Jupyter Notebook](https://medium.com/oracledevs/run-graph-algorithms-in-jupyter-notebook-4a612c870652)
+- [First Quarterly Update on Oracle Graph (2025)](https://blogs.oracle.com/database/post/first-quarterly-update-on-oracle-graph-2025)
+- [Provisioning analytic environments easily - like Oracle Graph](https://blogs.oracle.com/coretec/post/provisioning-analytic-environments-easily-like-oracle-graph)
 
 
 ## LiveLabs
