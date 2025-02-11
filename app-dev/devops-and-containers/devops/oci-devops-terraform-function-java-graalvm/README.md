@@ -67,7 +67,7 @@ Unless doing this the Stack will run into an error:
 <pre>
 Error: 400-InvalidParameter, Invalid Image fra.ocir.io/&lt;YOUR_TENANCY_NAMESPACE&gt;/&lt;image_name&gt:1 does not exist or you do not have access to use it
 </pre>
-After doing this the Stack can be run to create the OCI DevOps project. After the project creation the build pipelines can be run to build and deploy the OCI Function.
+After doing this the Stack can be run to create the OCI DevOps project. After the project creation the build pipelines can be run to build and deploy the OCI Function with real Function code.
 
 # Useful Links
 
