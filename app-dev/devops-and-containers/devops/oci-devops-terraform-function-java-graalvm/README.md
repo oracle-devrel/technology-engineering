@@ -54,7 +54,9 @@ Clone this repo locally. In OCI Console click <code>Create Stack</code> under <c
 <p>
 OCI DevOps IAM Policies are not part of the stack, please refer to <a href="https://docs.oracle.com/en-us/iaas/Content/devops/using/devops_iampolicies.htm">docs</a> how to create them first.
 <p>
-Important! Before running the stack it is manadatory to create the OCI Registry repository for the OCI Function container and upload a dummy X86 architecture container to it. The <b>name</b> of the OCIR repo needs to match to the <code>image_name</code> of the Stack variables e.g. <code>helloworldai-java</code>. This can by done by doing the following in OCI Cloud Shell:
+Important! Before running the stack it is manadatory to create the OCI Registry repository for the OCI Function container and upload a dummy X86 architecture container to it. The <b>name</b> of the OCIR repo needs to match to the <code>image_name</code> of the Stack variables e.g. <b>helloworldai-java</b>. The image tag must be '<b>1</b>'.
+<br>
+This can by done by doing the following in OCI Cloud Shell:
 <pre>
 oci artifacts container repository create --display-name helloworldai-java --compartment-id ocid1.compartment.oc1.....gq
 docker pull hello-world
@@ -63,7 +65,7 @@ docker push fra.ocir.io/&lt;YOUR_TENANCY_NAMESPACE&gt;/helloworldai-java:1
 </pre>
 Unless doing this the Stack will run into an error:
 <pre>
-Error: 400-InvalidParameter, Invalid Image fra.ocir.io/&lt;YOUR_TENANCY_NAMESPACE&gt;/&lt;IMAGE&gt; does not exist or you do not have access to use it
+Error: 400-InvalidParameter, Invalid Image fra.ocir.io/&lt;YOUR_TENANCY_NAMESPACE&gt;/helloworldai-java:1 does not exist or you do not have access to use it
 </pre>
 After doing this the Stack can be run and after the OCI DevOps project creation the build pipelines can be run to build and deploy the OCI Function.
 
