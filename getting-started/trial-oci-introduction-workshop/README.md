@@ -14,8 +14,7 @@ Welcome to your special guide to access the labs covering an introduction to Ora
 
 - Join the dedicated Slack channel to be part of the conversation and raise your questions to our Experts.
 
-**Step 1:**  Access the Slack Cloud Coaching Events Workspace following this link: 
-https://bit.ly/SlackCloudCoachingEvents
+**Step 1:**  Access the Slack Cloud Coaching Events Workspace following [this link](https://oracle-emea-pub.enterprise.slack.com/).
 
 **Step 2:** Search the dedicated Channel #kick-off-your-cloud-account
 
