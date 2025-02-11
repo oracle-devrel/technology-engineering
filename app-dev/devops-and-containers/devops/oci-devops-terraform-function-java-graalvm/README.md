@@ -50,7 +50,7 @@ The DevOps project is not specific to any programming language but includes <a h
 
 # How to use this asset?
 
-Clone this repo locally. In OCI Console click <code>Create Stack</code> under <code>Resource manager</code> in your project compartment. Drag-n-drop the <a href="./files">files -folder</a> to <code>Stack Configuration</code> (<b>folder type</b>).
+Clone this repo locally. In OCI Console click <code>Create Stack</code> under <code>Resource Manager</code> in your project compartment. Drag-n-drop the <a href="./files">files -folder</a> to <code>Stack Configuration</code> (<b>folder type</b>).
 <p>
 OCI DevOps IAM Policies are not part of the stack, please refer to <a href="https://docs.oracle.com/en-us/iaas/Content/devops/using/devops_iampolicies.htm">docs</a> how to create them first.
 <p>
