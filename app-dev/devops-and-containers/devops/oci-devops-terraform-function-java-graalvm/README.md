@@ -71,7 +71,7 @@ After doing this the Stack can be run to create the OCI DevOps project. After th
 <p>
 The Stack creates only a <i>private subnet</i> in the VCN and hence the Function cannot be called outside the tenancy by default after the build and deploy.
 <br>
-However, the Function invocation can be done from OCI Cloud Shell either by connecting to the VCN private subnet or to OCI Service Network, both options will work. The invocation can be done as follows when using the Stack <b>project_name</b> e.g. :
+However, the Function invocation can be done from OCI Cloud Shell either by connecting to the VCN private subnet or to OCI Service Network, both options will work. The invocation can be done as follows using the Stack <b>project_name</b> e.g. :
 <pre>
 fn invoke helloworldai-java-project helloworldai-java-project
 </pre>
