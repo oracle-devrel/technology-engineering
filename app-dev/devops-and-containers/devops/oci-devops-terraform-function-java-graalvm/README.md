@@ -43,7 +43,7 @@ Reviewed: 11.2.2025
 # When to use this asset?
  
 Anyone who wants to create OCI DevOps pipelines for OCI Functions using Terraform in OCI Resource manager.
-The DevOps project is not specific to any programming language but includes <a href="./files/build_pipeline_specs/">build pipeline specs</</a> example files to build and deploy jvm and native Java functions. Source code for a such Function can be found <a href="https://github.com/oracle-devrel/technology-engineering/blob/main/app-dev/devops-and-containers/functions/java-helloworld-AI-with-local-dev-and-oci-functions/README.md">here</a>.
+The DevOps project is not specific to any programming language but includes <a href="./files/build_pipeline_specs/">build pipeline specs</a> example files to build and deploy jvm and native Java functions. Source code for a such Function can be found <a href="https://github.com/oracle-devrel/technology-engineering/blob/main/app-dev/devops-and-containers/functions/java-helloworld-AI-with-local-dev-and-oci-functions/README.md">here</a>.
 
 # Author
 <a href="https://github.com/mikarinneoracle">mikarinneoracle</a>
