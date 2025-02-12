@@ -18,4 +18,4 @@ RUN chmod 777 /config
 RUN chmod 777 /oci_api_key.pem
 RUN sed -i '/^key_file/d' /config
 RUN echo "key_file = /oci_api_key.pem" >> /config
-CMD ["com.example.HelloAIFunction::handleRequest"]
+CMD ["com.example.fn.HelloFunction::handleRequest"]
