@@ -78,7 +78,7 @@ fn --verbose deploy --app hellofunction --local
 fn invoke hellofunction helloaifunc
 </pre>
 
-<i>Note! Do not distribute this container since it contains your OCI credentials file. Use this only for local testing purposes.</i>
+<i>Note! Do not distribute this container since it contains your OCI credentials. Use this only for local testing purposes.</i>
 
 <p>
 
