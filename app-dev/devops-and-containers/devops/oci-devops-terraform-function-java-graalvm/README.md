@@ -56,18 +56,27 @@ OCI DevOps IAM Policies are not part of the stack, please refer to <a href="http
 <p>
 Important! Before running the stack it is manadatory to create the OCI Registry repository for the OCI Function container and upload a dummy X86 architecture container to it. The <b>name</b> of the OCIR repo needs to match to the <code>image_name</code> of the Stack variables e.g. <b>helloworldai-java</b>. The image tag must be '<b>1</b>'.
 <br>
-This can by done by doing the following in OCI Cloud Shell:
+The reason for this is that the Stack cannot create the Function without pointing to an image in OCIR.
+<p>
+This can be done by doing the following in OCI Cloud Shell (assuming the image name is 'helloworldai-java'):
 <pre>
 oci artifacts container repository create --display-name helloworldai-java --compartment-id ocid1.compartment.oc1.....gq
 docker pull hello-world
-docker tag hello-world fra.ocir.io/&lt;YOUR_TENANCY_NAMESPACE&gt;/&lt;image_name&gt:1
+docker tag hello-world fra.ocir.io/&lt;YOUR_TENANCY_NAMESPACE&gt;/helloworldai-java:1
 docker push fra.ocir.io/&lt;YOUR_TENANCY_NAMESPACE&gt;/helloworldai-java:1
 </pre>
 Unless doing this the Stack will run into an error:
 <pre>
-Error: 400-InvalidParameter, Invalid Image fra.ocir.io/&lt;YOUR_TENANCY_NAMESPACE&gt;/helloworldai-java:1 does not exist or you do not have access to use it
+Error: 400-InvalidParameter, Invalid Image fra.ocir.io/&lt;YOUR_TENANCY_NAMESPACE&gt;/&lt;image_name&gt:1 does not exist or you do not have access to use it
 </pre>
-After doing this the Stack can be run and after the OCI DevOps project creation the build pipelines can be run to build and deploy the OCI Function.
+After doing this the Stack can be run to create the OCI DevOps project. After the project creation the build pipelines can be run to build and deploy the OCI Function with real Function code like <a href="https://github.com/oracle-devrel/technology-engineering/blob/main/app-dev/devops-and-containers/functions/java-helloworld-AI-with-local-dev-and-oci-functions/README.md">this one</a> (the dummy hello-world image won't run properly).
+<p>
+The Stack creates only a <i>private subnet</i> in the VCN and hence the Function cannot be called outside the tenancy by default after the build and deploy.
+<br>
+However, the Function invocation can be done from OCI Cloud Shell either by connecting to the VCN private subnet or to OCI Service Network, both options will work. The invocation can be done as follows using the Stack <code>project_name</code> e.g. :
+<pre>
+fn invoke helloworldai-java-project helloworldai-java-project
+</pre>
 
 # Useful Links
 
