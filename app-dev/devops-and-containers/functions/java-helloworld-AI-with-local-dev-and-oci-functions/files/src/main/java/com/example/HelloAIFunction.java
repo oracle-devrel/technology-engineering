@@ -101,21 +101,31 @@ public class HelloAIFunction {
 
         } catch (Exception e) {
                 try {
-                        AuthenticationDetailsProvider authenticationDetailsProvider =
-                                SimpleAuthenticationDetailsProvider.builder()
-                                        .tenantId(TENANCY_ID)
-                                        .userId(USER_ID)
-                                        .fingerprint(FINGERPRINT)
-                                        .privateKeySupplier(new StringPrivateKeySupplier(PRIVATEKEY))
-                                        .passPhrase(PASSPHRASE)
-                                        .build();
+                        ConfigFileAuthenticationDetailsProvider configFileAuthenticationDetailsProvider =
+                                new ConfigFileAuthenticationDetailsProvider("/config", "DEFAULT");
                         generativeAiInferenceClient =
                                 GenerativeAiInferenceClient.builder()
                                         .region(REGION)
                                         .endpoint(ENDPOINT)
-                                        .build(authenticationDetailsProvider);
+                                        .build(configFileAuthenticationDetailsProvider);
                 } catch (Exception ee) {
-                        answer = answer + "\n" + ee.getMessage();
+                        try {
+                                AuthenticationDetailsProvider authenticationDetailsProvider =
+                                        SimpleAuthenticationDetailsProvider.builder()
+                                                .tenantId(TENANCY_ID)
+                                                .userId(USER_ID)
+                                                .fingerprint(FINGERPRINT)
+                                                .privateKeySupplier(new StringPrivateKeySupplier(PRIVATEKEY))
+                                                .passPhrase(PASSPHRASE)
+                                                .build();
+                                generativeAiInferenceClient =
+                                        GenerativeAiInferenceClient.builder()
+                                                .region(REGION)
+                                                .endpoint(ENDPOINT)
+                                                .build(authenticationDetailsProvider);
+                        } catch (Exception eee) {
+                                answer = answer + "\n" + eee.getMessage();
+                        }
                 }
         }
 
@@ -156,5 +166,4 @@ public class HelloAIFunction {
         }
         return answer;
     }
-
 }
