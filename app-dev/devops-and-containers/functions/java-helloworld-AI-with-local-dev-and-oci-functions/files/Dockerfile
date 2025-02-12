@@ -8,4 +8,4 @@ RUN ["mvn", "package"]
 FROM fnproject/fn-java-fdk:jre17-1.0.187
 WORKDIR /function
 COPY --from=build-stage /function/target/*.jar /function/app/
-CMD ["com.example.HelloAIFunction::handleRequest"]
+CMD ["com.example.fn.HelloFunction::handleRequest"]

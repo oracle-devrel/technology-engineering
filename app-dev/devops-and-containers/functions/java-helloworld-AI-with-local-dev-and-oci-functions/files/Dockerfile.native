@@ -8,7 +8,7 @@ RUN native-image \
      -H:ReflectionConfigurationFiles=/app/reflection.json \
      -Ob \
      -H:Name=Hello \
-     -cp "/app/Helloaifunc-1.0-SNAPSHOT.jar:/app/lib/*"  \
+     -cp "/app/Hellofunc-1.0-SNAPSHOT.jar:/app/lib/*"  \
         com.fnproject.fn.runtime.EntryPoint
 
 FROM fnproject/fn-java-fdk:jre17-1.0.198 as fdk
@@ -17,4 +17,4 @@ FROM container-registry.oracle.com/os/oraclelinux:8-slim
 COPY --from=native /app/Hello .
 COPY --from=fdk /function/runtime/* ./
 ENTRYPOINT [ "./Hello" ]
-CMD [ "com.example.HelloAIFunction::handleRequest", "-Djava.library.path=/lib"]
+CMD [ "com.example.fn.HelloFunction::handleRequest", "-Djava.library.path=/lib"]

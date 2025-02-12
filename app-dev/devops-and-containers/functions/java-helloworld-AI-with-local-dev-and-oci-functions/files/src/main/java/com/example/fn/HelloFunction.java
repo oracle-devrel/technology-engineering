@@ -36,7 +36,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-package com.example;
+package com.example.fn;
 
 import com.oracle.bmc.ClientConfiguration;
 import com.oracle.bmc.ConfigFileReader;
@@ -69,7 +69,7 @@ import java.io.*;
 import java.util.*;
 import java.text.*;
 
-public class HelloAIFunction {
+public class HelloFunction {
 
     // FILL IN PROPER VALUES FOR OCI GENAI SERVICE
     private static final String ENDPOINT       = "https://inference.generativeai.eu-frankfurt-1.oci.oraclecloud.com";
