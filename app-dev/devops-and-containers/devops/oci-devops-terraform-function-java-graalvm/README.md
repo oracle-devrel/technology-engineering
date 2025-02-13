@@ -59,7 +59,7 @@ OCI DevOps IAM Policies are not part of the stack, please refer to <a href="http
 
 Before applying the Stack fill in the vars:
 
-![Stack vars](./files/stack.jpg)
+![Stack](./files/stack.jpg)
 
 <ul>
     <li><i>initial_image</i> that is used to create the OCI Function as target environment for the OCI DevOps deployment pipeline.
