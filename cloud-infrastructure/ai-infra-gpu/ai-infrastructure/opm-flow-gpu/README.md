@@ -4,7 +4,7 @@
 
 The [Open Porous Media (OPM)](https://opm-project.org/) initiative is an innovative open source project for modeling and simulating porous media processes.
 
-![OPM Flow official illustration](/assets/images/OPM-Flow.png)
+![OPM Flow official illustration](assets/images/OPM-Flow.png "Norne model")
 
 OPM Flow is a fully-implicit, black-oil simulator capable of running industry-standard simulation models. The simulator is implemented using automatic differentiation to enable rapid development of new fluid models.
 
@@ -47,7 +47,7 @@ Running OPM Flow on GPU requires to build the toolset from sources in order to s
 
 #### Installing prerequisites
 
-A collection of libraries, framework and tools are necessary to build Flow. A complete description is available [here](https://opm-project.org/?page_id=239).They can be installed using the `install_prerequisites.sh` script.
+A collection of libraries, framework and tools are necessary to build Flow. A complete description is available [here](https://opm-project.org/?page_id=239). They can be installed using the `install_prerequisites.sh` script.
 ```
 sudo ./assets/scripts/install_prerequisites.sh
 ```
