@@ -74,7 +74,7 @@ The Stack creates only a <i>private subnet</i> in the VCN and hence the Function
 <br>
 However, the Function invocation can be done from OCI Cloud Shell either by connecting to the VCN private subnet or to OCI Service Network, both options will work. The invocation can be done as follows using the Stack <code>project_name</code> e.g. :
 <pre>
-fn invoke helloworldai-java-project helloworldai-java-project
+fn invoke helloworldai-java helloworldai-java
 </pre>
 
 # Useful Links
