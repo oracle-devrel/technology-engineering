@@ -59,14 +59,13 @@ OCI DevOps IAM Policies are not part of the stack, please refer to <a href="http
 
 Before applying the Stack fill in the vars:
 
-![Stack vars](./files/stack_vars.jpg)
+![Stack vars](./files/stack.jpg)
 
 <ul>
     <li><i>initial_image</i> that is used to create the OCI Function as target environment for the OCI DevOps deployment pipeline.
     By default it is loaded from Dockerhub, but you can use any X86 arch image if want to replace this</li>
     <li><i>docker_user</i> is your OCIR Docker user to push the initial image (above) to OCIR repo for the Function. Replace &lt;namespace&gt; with your <code>tenancy namespace</code>. <code>oracleidentitycloudservice</code> is only used for federated domains/users, not local</li>
     <li><i>docker_user</i> is our OCIR Docker user password (your user profile auth token in OCI)</li>
-    <li></li>
 </ul>
 
 Run Stacks's Apply to create the OCI DevOps project. 
