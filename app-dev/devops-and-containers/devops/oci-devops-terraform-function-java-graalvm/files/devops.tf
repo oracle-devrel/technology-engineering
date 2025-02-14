@@ -402,8 +402,8 @@ resource oci_devops_build_pipeline_stage export_build {
   build_pipeline_stage_type = "BUILD"
   build_runner_shape_config {
     build_runner_type = "CUSTOM"
-    memory_in_gbs     = "512"
-    ocpus             = "8"
+    memory_in_gbs     = "8"
+    ocpus             = "2"
   }
   build_source_collection {
     items {
