@@ -53,6 +53,7 @@ The DevOps project is not specific to any programming language but includes <a h
 Clone this repo locally. In OCI Console click <code>Create Stack</code> under <code>Resource Manager</code> in your project compartment. Drag-n-drop the <a href="./files">files -folder</a> to <code>Stack Configuration</code> (<b>folder type</b>) or click this button to deploy on your OCI tenancy:
 
 <p>
+
 [![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/latest/devops-tf-stack.zip)
 
 <p>
