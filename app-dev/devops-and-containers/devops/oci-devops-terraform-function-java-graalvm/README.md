@@ -50,14 +50,19 @@ The DevOps project is not specific to any programming language but includes <a h
 
 # How to use this asset?
 
-Clone this repo locally. In OCI Console click <code>Create Stack</code> under <code>Resource Manager</code> in your project compartment. Drag-n-drop the <a href="./files">files -folder</a> to <code>Stack Configuration</code> (<b>folder type</b>).
+Clone this repo locally. In OCI Console click <code>Create Stack</code> under <code>Resource Manager</code> in your project compartment. Drag-n-drop the <a href="./files">files</a> -folder to <code>Stack Configuration</code> (<b>folder type</b>) or click this button below to create the stack on your OCI tenancy:
+
 <p>
-OCI DevOps IAM Policies are not part of the stack, please refer to <a href="https://docs.oracle.com/en-us/iaas/Content/devops/using/devops_iampolicies.htm">docs</a> how to create them first.
+
+[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/latest/devops-tf-stack.zip)
+
+<p>
+Note! OCI DevOps <code>IAM Policies</code> are not part of the stack, please refer to <a href="https://docs.oracle.com/en-us/iaas/Content/devops/using/devops_iampolicies.htm">docs</a> how to create them before running the devops project pipelines.
 <p>
 
 ### Stack settings
 
-Before applying the Stack fill in the vars:
+Creating the stack in OCI Resource Manger fill in the vars:
 
 ![Stack](./files/stack.jpg)
 
@@ -68,7 +73,7 @@ Before applying the Stack fill in the vars:
     <li><i>docker_password</i> is your OCIR Docker user password (your user profile auth token in OCI)</li>
 </ul>
 
-Run Stacks's Apply to create the OCI DevOps project. 
+After creation run Stacks's Apply to create the OCI DevOps project. 
 <p>
 The Stack creates only a <i>private subnet</i> in the VCN and hence the Function cannot be called outside the tenancy by default after the build and deploy.
 <br>
