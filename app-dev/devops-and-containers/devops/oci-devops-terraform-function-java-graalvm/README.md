@@ -50,7 +50,7 @@ The DevOps project is not specific to any programming language but includes <a h
 
 # How to use this asset?
 
-Clone this repo locally. In OCI Console click <code>Create Stack</code> under <code>Resource Manager</code> in your project compartment. Drag-n-drop the <a href="./files">files -folder</a> to <code>Stack Configuration</code> (<b>folder type</b>) or click this button to deploy on your OCI tenancy:
+Clone this repo locally. In OCI Console click <code>Create Stack</code> under <code>Resource Manager</code> in your project compartment. Drag-n-drop the <a href="./files">files</a> -folder to <code>Stack Configuration</code> (<b>folder type</b>) or click this button below to create the stack on your OCI tenancy:
 
 <p>
 
