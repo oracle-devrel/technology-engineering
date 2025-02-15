@@ -85,6 +85,11 @@ However, the Function invocation can be done from <code>OCI Cloud Shell</code> e
 fn invoke helloworldai-java helloworldai-java
 </pre>
 
+Since the stack creates this DevOps project target Function with the intial image it should already run and return:
+<pre>
+Hello, world!
+</pre>
+
 # Useful Links
 
 - [OCI DevOps](https://www.oracle.com/cloud/cloud-native/devops-service/)
