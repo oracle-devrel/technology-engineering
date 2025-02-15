@@ -79,8 +79,8 @@ Docker credentials are only used during the DevOps project creation to push the 
 After creation run Stacks's Apply to create the OCI DevOps project. 
 <p>
 The Stack creates only a <i>private subnet</i> in the VCN and hence the Function cannot be called outside the tenancy by default after the build and deploy.
-<br>
-However, the Function invocation can be done from OCI Cloud Shell either by connecting to the VCN private subnet or to OCI Service Network, both options will work. The invocation can be done as follows using the Stack <code>project_name</code> e.g. :
+<p>
+However, the Function invocation can be done from <code>OCI Cloud Shell</code> either by connecting to the <b>VCN private subnet</b> or to <b>OCI Service Network</b>, both options will work. The invocation can be done as follows using the Stack <code>project_name</code> e.g. :
 <pre>
 fn invoke helloworldai-java helloworldai-java
 </pre>
