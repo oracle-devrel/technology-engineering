@@ -70,16 +70,24 @@ Creating the stack in OCI Resource Manger fill in the vars:
     <li><i>initial_image</i> that is used to create the OCI Function as target environment for the OCI DevOps deployment pipeline.
     By default it is loaded from Dockerhub, but you can use any X86 arch image if want to replace this</li>
     <li><i>docker_user</i> is your OCIR Docker user to push the initial image (above) to OCIR repo for the Function. Replace &lt;namespace&gt; with your <code>tenancy namespace</code>. <code>oracleidentitycloudservice</code> is only used for federated domains/users, not local</li>
-    <li><i>docker_password</i> is your OCIR Docker user password (your user profile auth token in OCI)</li>
+    <li><i>docker_password</i> is an <code>auth token</code> in your OCI user profile, <i>create one for this</i></li>
 </ul>
+
+Docker credentials are only used during the DevOps project creation to push the initial Function image and the DevOps project won't need them after it's been created by Terraform. <i>Hence, you can delete the auth token from your profile after the stack has been run.</i>
+<p>
 
 After creation run Stacks's Apply to create the OCI DevOps project. 
 <p>
 The Stack creates only a <i>private subnet</i> in the VCN and hence the Function cannot be called outside the tenancy by default after the build and deploy.
-<br>
-However, the Function invocation can be done from OCI Cloud Shell either by connecting to the VCN private subnet or to OCI Service Network, both options will work. The invocation can be done as follows using the Stack <code>project_name</code> e.g. :
+<p>
+However, the Function invocation can be done from <code>OCI Cloud Shell</code> either by connecting to the <b>VCN private subnet</b> or to <b>OCI Service Network</b>, both options will work. The invocation can be done as follows using the Stack <code>project_name</code> e.g. :
 <pre>
 fn invoke helloworldai-java helloworldai-java
+</pre>
+
+Since the stack creates the DevOps project with a target Function with the intial image it should already run and return:
+<pre>
+Hello, world!
 </pre>
 
 # Useful Links
