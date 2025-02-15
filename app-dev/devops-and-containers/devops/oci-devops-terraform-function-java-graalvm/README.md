@@ -70,8 +70,11 @@ Creating the stack in OCI Resource Manger fill in the vars:
     <li><i>initial_image</i> that is used to create the OCI Function as target environment for the OCI DevOps deployment pipeline.
     By default it is loaded from Dockerhub, but you can use any X86 arch image if want to replace this</li>
     <li><i>docker_user</i> is your OCIR Docker user to push the initial image (above) to OCIR repo for the Function. Replace &lt;namespace&gt; with your <code>tenancy namespace</code>. <code>oracleidentitycloudservice</code> is only used for federated domains/users, not local</li>
-    <li><i>docker_password</i> is your OCIR Docker user password (your user profile auth token in OCI)</li>
+    <li><i>docker_password</i> is an <code>auth token</code> in your OCI user profile, <i>create one for this</i</li>
 </ul>
+
+Docker credentials are only used during the DevOps project creation to push the initial Function image and the DevOps project won't need them after it's been created by Terraform. <i>Hence, you can delete the auth token from your profile after the stack has been run.</i>
+<p>
 
 After creation run Stacks's Apply to create the OCI DevOps project. 
 <p>
