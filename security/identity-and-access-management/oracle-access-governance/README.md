@@ -2,7 +2,7 @@
 
 Access Governance is a cloud native identity governance and administration (IGA) service that provides enterprisewide visibility to govern access to cloud and on-premises environments. With an intuitive user experience, dynamic access control, and a prescriptive analytics-driven access review process, it helps customers automate access provisioning, get insights into access permission and cloud infrastructure policy reviews, identify anomalies, and remediate security risks.
 
-Reviewed: 28.10.2024
+Reviewed: 10.02.2025
 
 # Useful Links
 
@@ -23,11 +23,17 @@ Reviewed: 28.10.2024
 ## OAG Training & Live Labs
 
 - [Cloud Coaching - Oracle Access Governance - Identity Governance and Access Reviews (Video)](https://www.youtube.com/watch?v=9reHN697x6g)
-- [Demo & Labs](https://luna.oracle.com/lab/6345863c-42c4-4f17-96fc-130278ac4b1f/steps) 
+- [Demo & Labs](https://luna.oracle.com/lab/6345863c-42c4-4f17-96fc-130278ac4b1f/steps)
+
+# Reusable Assets Overview
+
+**Note:** The below assets are provided for reference purposes only and for use in demos/PoC activities where required.
+
+- [DBAT OS Account Sample integration for OAG](dbat-os-accounts-sample/README.md)
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
