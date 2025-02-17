@@ -1,4 +1,4 @@
-# security-alarms
+# Generation of Securty Alarms from OCI logs
 
 Oracle Cloud Infrastructure (OCI) and services provide effective and manageable security that enables you to run mission-critical workloads and store your data with confidence. To achieve cloud security operational excellence, it is crucial to continuously protect, detect and in the event of a protentional risky configuration change or potential attack, respond. For protection of the environment, a string security posture and essential cyber hygiene practice is imperative.
   
