@@ -48,6 +48,9 @@ Reviewed: 15.11.2024
     - Detailed, step-by-step instructions for Migrating Oracle Base Database to Oracle Exadata Database Service on ExaScale Infrastructure using Refreshable PDB feature, available on Amalraj Puthenchira's public platform    
 - [Modernise OS and Shape of your Oracle Base Database Systems with Data Guard using Refreshable PDBs ](https://amalrajputhenchira.wordpress.com/2025/02/13/modernise-os-and-shape-of-your-oracle-base-database-systems-with-data-guard-using-refreshable-pdbs/)
     - Detailed, step-by-step instructions for Modernising OS and Shape of Oracle Base Database Systems with Data Guard using Refreshable PDBs , available on Amalraj Puthenchira's public platform
+- [Migrating to latest generation of Exadata Database Service on Dedicated Infrastructure without worrying about RTO/RPO](https://amalrajputhenchira.wordpress.com/2025/02/17/migrating-to-latest-generation-of-exadata-database-service-on-dedicated-infrastructure-without-worrying-about-rto-rpo/)
+    - Detailed, step-by-step instructions for Migrating Database from existing ExaDB-D to latest generation of ExaDB-D , available on Amalraj Puthenchira's public platform
+
 # Useful Links
 
 - [OCI Migration Hub - Migrate Oracle Databases to OCI](https://www.oracle.com/database/cloud-migration/)
