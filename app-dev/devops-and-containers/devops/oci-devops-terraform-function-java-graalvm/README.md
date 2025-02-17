@@ -36,7 +36,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 -->
 
-# Terraform Stack to be used in OCI Resource Manager to create OCI DevOps pipelines for OCI Functions
+#  OCI Resource Manager Terraform Stack to create OCI DevOps CI/CD pipelines for OCI Functions
 
 Reviewed: 11.2.2025
  
