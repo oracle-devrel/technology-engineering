@@ -1,14 +1,21 @@
+FROM fnproject/fn-java-fdk-build:jdk17-1.0-latest as build-stage
+WORKDIR /function
+ENV MAVEN_OPTS -Dhttp.proxyHost= -Dhttp.proxyPort= -Dhttps.proxyHost= -Dhttps.proxyPort= -Dhttp.nonProxyHosts= -Dmaven.repo.local=/usr/share/maven/ref/repository
+ADD pom.xml /function/pom.xml
+RUN ["mvn", "package", "dependency:copy-dependencies", "-DincludeScope=runtime", "-DskipTests=true", "-Dmdep.prependGroupId=true", "-DoutputDirectory=target", "--fail-never"]
+ADD src /function/src
+RUN ["mvn", "package"]
+
 FROM container-registry.oracle.com/graalvm/native-image:23-ol8 AS native
 WORKDIR /app
-
-COPY target .
+COPY --from=build-stage /function/target .
 ADD reflection.json .
 
 RUN native-image \
      -H:ReflectionConfigurationFiles=/app/reflection.json \
      -Ob \
      -H:Name=Hello \
-     -cp "/app/Hellofunc-1.0-SNAPSHOT.jar:/app/lib/*"  \
+     -cp "/app/Hellofunc-1.0-SNAPSHOT.jar:/app/*"  \
         com.fnproject.fn.runtime.EntryPoint
 
 FROM fnproject/fn-java-fdk:jre17-1.0.198 as fdk
