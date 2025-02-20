@@ -18,7 +18,7 @@ RUN native-image \
      -cp "/app/Hellofunc-1.0-SNAPSHOT.jar:/app/*"  \
         com.fnproject.fn.runtime.EntryPoint
 
-FROM fnproject/fn-java-fdk:jre17-1.0.198 as fdk
+FROM fnproject/fn-java-fdk:jre17-latest as fdk
 
 FROM container-registry.oracle.com/os/oraclelinux:8-slim
 COPY --from=native /app/Hello .
