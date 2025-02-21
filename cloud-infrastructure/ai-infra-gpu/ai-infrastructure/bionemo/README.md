@@ -30,7 +30,7 @@ To develop a novel inhibitor for dihydrofolate reductase (DHFR), we are using NV
 
 # [Protein Structure Prediction for DHFR Inhibitor Discovery](./alphafold2-oke/README.md)
 
-This steps makes use of the Alphafold2 NIM. The detailed explanation is availbale [here](./alphafold2-oke/README.md)
+This step makes use of the Alphafold2 NIM. The detailed explanation is availbale [here](./alphafold2-oke/README.md)
 
 # Useful links
 
