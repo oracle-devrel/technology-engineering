@@ -1,5 +1,5 @@
 # Protein Structure Prediction for DHFR Inhibitor Discovery using NVIDIA NIM for Alphafold2 
-
+![protein structure visualisation after Alphafold2 prediction](./protein_image_pymol.png)
 Reviewed: 21.02.2025
 
 ## Introduction
