@@ -20,9 +20,19 @@ Reviewed: 25.10.2024
 
 # Useful Links
 
+
+
 - [Transportable Tablespace Basics](https://youtu.be/jte-W_6tJME)
+  - Youtube video by Oracle Database Upgrade and Migrate Product Management explaining basics of Transportable Tablespace
+  
 - [Transportable Tablespace Checklist](https://youtu.be/PhktQqOlNXE)
+  - Youtube video by Oracle Database Upgrade and Migrate Product Management explaining the check list for Transportable Tablespace
+
 - [Migrate Big Endian Database to OCI using Transportable Tablespace ](https://youtu.be/dyDefQxSesI)
+  - Webinar from Oracle Database Migration PMs about migrating Big Endian Database to OCI using Transportable Tablespace
+  
+- [Next-Level Platform Migration with Cross-Platform Transportable Tablespaces](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3961)
+  - Oracle Livelab with detailed instructions for performing Platform Migration using Cross-Platform Transportable Tablespaces
 
 # License
  
