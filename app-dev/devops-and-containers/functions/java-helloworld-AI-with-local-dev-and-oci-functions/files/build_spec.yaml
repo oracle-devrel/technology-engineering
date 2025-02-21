@@ -1,0 +1,20 @@
+version: 0.1             
+component: build
+timeoutInSeconds: 5000
+shell: bash
+env:
+  exportedVariables:
+    - buildId
+steps:
+  - type: Command
+    command: |
+      buildId=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-6 | rev`
+      echo "Build ID: $buildId"
+  - type: Command
+    command: |
+      docker build -t ${REGISTRY}/${NAMESPACE}/${IMAGE_NAME} .
+      docker tag ${REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:latest ${REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:$buildId
+outputArtifacts:
+  - name: image-jvm
+    type: DOCKER_IMAGE
+    location: ${REGISTRY}/${NAMESPACE}/${IMAGE_NAME}

@@ -58,7 +58,7 @@ Reviewed: 13.11.2024
 
 ## Reusable Assets Overview
 - [Podcast Generator](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/ai-speech/podcast-generator)
-
+- [Decode Images and Videos with OCI GenAI](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/generative-ai-service/decode-Images-and-Videos-with-OCI-GenAI)
 
 # Useful Links
 
