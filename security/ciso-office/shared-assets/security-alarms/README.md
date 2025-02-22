@@ -135,21 +135,21 @@ After the creation of a topic, one or many subscriptions needs to be added, whic
 The topic creation is straightforward, as illustrated below. Within the OCI console, navigate to ```Developer Services -> Application Integration -> Notifications```  
 
 ![create_topic_1](images/create_topic_1.png)  
-Topic creation, step 1  
+<small>Topic creation, step 1</small>  
 
 ![create_topic_2](images/create_topic_2.png)  
-Topic creation, step 2  
+<small>Topic creation, step 2</small>  
 
 ![create_topic_3](images/create_topic_3.png)  
-Topic creation, step 3  
+<small>Topic creation, step 3</small>  
 
 After the topic is created, a subscription is reasonable to create, the receiver of the alarm.
   
 ![create_topic_4](images/create_topic_4.png)  
-Topic creation, step 4  
+<small>Topic creation, step 4</small>  
 
 ![create_topic_5](images/create_topic_5.png)  
-Topic creation, step 5  
+<small>Topic creation, step 5</small>  
 
 When the subscription is created, the subscriber will receive an email with a link to a confirmation.
 > N.B. If a different type of subscription is chosen, the receiving user will receive a confirmation through that notification channel, e.g., Slack.
@@ -157,12 +157,12 @@ When the subscription is created, the subscriber will receive an email with a li
 Use the link in the notification to confirm the subscription.
 
 ![confirm](images/confirm.png)  
-Confirmation link mail, step 5  
+<small>Confirmation link mail</small>  
 
 The subscription will then change to Active.
 
 ![create_topic_6](images/create_topic_6.png)  
-Final status after successful confirmation of the subscription   
+<small>Final status after successful confirmation of the subscription</small>   
 
 # Define the alarm
 
@@ -182,18 +182,18 @@ Ensure the fields are completed accurately:
 This will create an alarm that trigger if the last 5 minutes egress traffic exceed 1000000 bytes.
 
 ![alarm1a](images/alarm1a.png)  
-Alarm definitions  
+<small>Alarm definitions</small>  
 
 ![alarm1](images/alarm1b.png)  
-Create Alarm definition  
+<small>Create Alarm definition</small>  
 
 ![alarm2](images/alarm2.png)  
-Create Alarm definition continued 
+<small>Create Alarm definition continued</small> 
 
 Here is an example of a mail alarm received when the egress volume exceeds 1000000 bytes within 5 min. This might indicate a potential data loss.
 
 ![alarm3](images/alarm3.png)  
-Mail received when alarm is fired 
+<small>Mail received when alarm is fired</small> 
 
 # Summary
 
