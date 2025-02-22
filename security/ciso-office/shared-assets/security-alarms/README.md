@@ -73,30 +73,30 @@ allow dynamic-group myloganalytics-detection-group to read compartments in tenan
 
 Once we have the IAM pre-requisites in place, we can start by defining our custom metrics query.
  
-NAvigate to ```Observability & Management->Logging analytics->Dashboards``` and select Network Dashboard.  
+Navigate to ```Observability & Management->Logging analytics->Dashboards``` and select Network Dashboard.  
   
 ![network_dashboard](images/network_dashboard.png)  
-Network Dashboard from Securty Fundamentals Dashboard  
+<small>Network Dashboard from Securty Fundamentals Dashboard</small>  
  
 Expand Egress traffic widget and you will see the Log Explorer
 
 ![drilldown](images/drilldown.png)  
-Piture of log explorer  
+<small>Piture of log explorer</small>  
 
 Run the modfied query:
 ```
 'Log Source' = 'OCI VCN Flow Unified Schema Logs' | where 'Destination IP' = 'Public IP' | eval vol = 'Content Size Out' / 1024 | timestats span = 10minute sum(vol) as 'Volume (KB)
 ```  
 ![runquery](images/runquery.png)  
-Picture of exection of modified query  
+<small>Picture of exection of modified query</small>  
 
 ![savequery1](images/savequery1.png)  
-Picture of save query as  
+<small>Picture of save query as</small>  
 
 Pull the list of saved queries
    
 ![savedsearches](images/savedsearches.png)  
-Picture of modified query   
+<small>Picture of modified query</small>   
     
  
 # Create detection rule 
@@ -105,7 +105,7 @@ Having created the custom query, we now need to create the detection rule.
 Navigate to ```analytics->dashboard->saved query```, and pull up the saved query.
   
 ![addmetric1](images/addmetric1.png)  
-Picture of saved query screen  
+<small>Picture of saved query screen</small>  
 
 Create the Detection rule. In the detection rule creation screen, select the folowing:
 - "Scheduled Detection Rule" is the method for running the log analytic query
@@ -116,15 +116,15 @@ Create the Detection rule. In the detection rule creation screen, select the fol
 - "Minimum interval" is 5 minutes, normally a good choice for security alarms.
 
 ![addmetric2](images/addmetric2.png)  
-Picture of first rule creation step
+<small>Picture of first rule creation step</small>
 
 ![addmetric3](images/addmetric3.png)  
-Picture of 2. step 
+<small>Picture of 2. step</small> 
 
 When the detection rule is created verify the detection rule  
   
 ![detectionrule](images/detectionrule.png)
-Picture of rule validation  
+<small>Picture of rule validation</small>  
 
 # Topic Creation
 
