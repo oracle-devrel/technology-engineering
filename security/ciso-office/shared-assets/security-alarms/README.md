@@ -25,16 +25,16 @@ As a security foundation, the following minimum are recommended
 Below are sample screenshots from the two Security Fundamentals Dashboards: Identity and Network
 
 **Security Fundamentals Dashboard - Identity Security**
-![](images/identity_security_dashboard_identity_domain.png)
+![](images/identity_security_dashboard_identity_domain.png)  
 
 **Security Fundamentals Dashboard - Network Security**
   
-![](images/network_dashboard.png)
+![](images/network_dashboard.png)  
 
 # Implementation flow
   
 Let's now focus on the case for creating a security alarm and adding it to the dashboard. The building blocks and flow for security alarm creation are:
-- **OCI Observability and Logging, with Logging Analytics** - Ingest OCI Flow Logs into Log Analytics, and use Log Analytics Explorer to create a query. The query may be run at ingestion time or at a scheduled interval. The query is saved as a custom Log Explorer query.
+- **OCI Observability & Management, with Logging Analytics** - Ingest OCI Flow Logs into Log Analytics, and use Log Analytics Explorer to create a query. The query may be run at ingestion time or at a scheduled interval. The query is saved as a custom Log Explorer query.
 The Security Fundamentals Dashboard automatically creates the ingestion from OCI Logging. Please review the [documentation](https://github.com/oracle-quickstart/oci-o11y-solutions/tree/main/knowledge-content/MAP/security-fundamentals-dashboards) on GIT.
 
 - **OCI Metric services, detection rules** - The query result can be defined as a custom metric by defining a detection rule on the saved query. In this example below, the detection rule is run at a scheduled interval.  
@@ -72,33 +72,41 @@ allow dynamic-group myloganalytics-detection-group to read compartments in tenan
 # Define custom metrics query
 
 Once we have the IAM pre-requisites in place, we can start by defining our custom metrics query.
-
-Navigate to the dashboard, and select one widget, in our case the egress widget. 
+ 
+NAvigate to ```Observability & Management->Logging analytics->Dashboards``` and select Network Dashboard.  
   
-![network_dashboard](images/network_dashboard.png)
-
+![network_dashboard](images/network_dashboard.png)  
+Network Dashboard from Securty Fundamentals Dashboard  
  
 Expand Egress traffic widget and you will see the Log Explorer
 
-![drilldown](images/drilldown.png)
+![drilldown](images/drilldown.png)  
+Piture of log explorer  
 
 Run the modfied query:
 ```
 'Log Source' = 'OCI VCN Flow Unified Schema Logs' | where 'Destination IP' = 'Public IP' | eval vol = 'Content Size Out' / 1024 | timestats span = 10minute sum(vol) as 'Volume (KB)
 ```  
-![runquery](images/runquery.png)
+![runquery](images/runquery.png)  
+Picture of exection of modified query  
 
-Now, save the modified query.
+![savequery1](images/savequery1.png)  
+Picture of save query as  
 
-![savedsearches](images/savedsearches.png)
-  
+Pull the list of saved queries
+   
+![savedsearches](images/savedsearches.png)  
+Picture of modified query   
+    
+ 
 # Create detection rule 
 Having created the custom query, we now need to create the detection rule.
 
-Navigate to Log Analytics -> Dashboard -> Saved Searches, and pull up your saved query from the previous step.
+Navigate to ```analytics->dashboard->saved query```, and pull up the saved query.
   
-![addmetric1](images/addmetric1.png)
-  
+![addmetric1](images/addmetric1.png)  
+Picture of saved query screen  
+
 Create the Detection rule. In the detection rule creation screen, select the folowing:
 - "Scheduled Detection Rule" is the method for running the log analytic query
 - "Rule Name" is self-describing
@@ -107,14 +115,16 @@ Create the Detection rule. In the detection rule creation screen, select the fol
 > The metric namespace is either an existing customer namespace or a new one. The new one will be created if the namespace name doesn't exist. If this is the first alarm, create a new descriptive name, otherwise select an existing name. If you want to group several alarms in the same namespace. 
 - "Minimum interval" is 5 minutes, normally a good choice for security alarms.
 
-![addmetric2](images/addmetric2.png)
+![addmetric2](images/addmetric2.png)  
+Picture of first rule creation step
 
-![addmetric3](images/addmetric3.png)
+![addmetric3](images/addmetric3.png)  
+Picture of 2. step 
 
-When the detection rule is created verify the detection rule
-![addmetric4](images/addmetric4.png)
+When the detection rule is created verify the detection rule  
   
 ![detectionrule](images/detectionrule.png)
+Picture of rule validation  
 
 # Topic Creation
 
@@ -122,22 +132,24 @@ Topics are the transport of an alarm to a target and needs to be present before 
 
 After the creation of a topic, one or many subscriptions needs to be added, which are the receivers of the topic.
 
-The topic creation is straightforward, as illustrated below. Within the OCI console, navigate to:
-
-```Developer Services -> Application Integration -> Notifications```  
+The topic creation is straightforward, as illustrated below. Within the OCI console, navigate to ```Developer Services -> Application Integration -> Notifications```  
 
 ![create_topic_1](images/create_topic_1.png)  
+Topic creation, step 1  
 
 ![create_topic_2](images/create_topic_2.png)  
+Topic creation, step 2  
 
 ![create_topic_3](images/create_topic_3.png)  
+Topic creation, step 3  
 
-
-After the topic is created, create a subscription, which is the receiver of the alarm.
+After the topic is created, a subscription is reasonable to create, the receiver of the alarm.
+  
 ![create_topic_4](images/create_topic_4.png)  
+Topic creation, step 4  
 
 ![create_topic_5](images/create_topic_5.png)  
-
+Topic creation, step 5  
 
 When the subscription is created, the subscriber will receive an email with a link to a confirmation.
 > N.B. If a different type of subscription is chosen, the receiving user will receive a confirmation through that notification channel, e.g., Slack.
@@ -145,16 +157,18 @@ When the subscription is created, the subscriber will receive an email with a li
 Use the link in the notification to confirm the subscription.
 
 ![confirm](images/confirm.png)  
+Confirmation link mail, step 5  
 
 The subscription will then change to Active.
 
 ![create_topic_6](images/create_topic_6.png)  
+Final status after successful confirmation of the subscription   
 
 # Define the alarm
 
 The final configuration step is to build an alarm. The Alarm is defined within the OCI console under 
 
-```Observability and Management -> Monitoring -> Alarm Definitions```  
+```Observability & Management -> Monitoring -> Alarm Definitions```  
 .
 The alarm requires a metric, in a metric namespace, a threshold value of the metric and a notification topic to trigger when the threshold is exceeded.
 
@@ -167,14 +181,19 @@ Ensure the fields are completed accurately:
 
 This will create an alarm that trigger if the last 5 minutes egress traffic exceed 1000000 bytes.
 
-![alarm1](images/alarm1.png)
+![alarm1a](images/alarm1a.png)  
+Alarm definitions  
 
-![alarm2](images/alarm2.png)
+![alarm1](images/alarm1b.png)  
+Create Alarm definition  
 
+![alarm2](images/alarm2.png)  
+Create Alarm definition continued 
 
-Here is an cxample of a mail alarm received when the egress volume exceeds 1000000 bytes within 5 min. This might indicate a potential data loss.
+Here is an example of a mail alarm received when the egress volume exceeds 1000000 bytes within 5 min. This might indicate a potential data loss.
 
-![alarm3](images/alarm3.png)
+![alarm3](images/alarm3.png)  
+Mail received when alarm is fired 
 
 # Summary
 
