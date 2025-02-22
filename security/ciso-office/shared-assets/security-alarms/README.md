@@ -26,11 +26,13 @@ Below are sample screenshots from the two Security Fundamentals Dashboards: Iden
 
 **Security Fundamentals Dashboard - Identity Security**
 ![](images/identity_security_dashboard_identity_domain.png)  
+<sub>Example Identity Dashboard</sub>  
 
 **Security Fundamentals Dashboard - Network Security**
   
 ![](images/network_dashboard.png)  
-
+<sub>Example Network Dashboard</sub>  
+  
 # Implementation flow
   
 Let's now focus on the case for creating a security alarm and adding it to the dashboard. The building blocks and flow for security alarm creation are:
