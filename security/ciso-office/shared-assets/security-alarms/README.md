@@ -76,27 +76,27 @@ Once we have the IAM pre-requisites in place, we can start by defining our custo
 Navigate to ```Observability & Management->Logging analytics->Dashboards``` and select Network Dashboard.  
   
 ![network_dashboard](images/network_dashboard.png)  
-<small>Network Dashboard from Securty Fundamentals Dashboard</small>  
+<sub>Network Dashboard from Securty Fundamentals Dashboard</sub>  
  
 Expand Egress traffic widget and you will see the Log Explorer
 
 ![drilldown](images/drilldown.png)  
-<small>Piture of log explorer</small>  
+<sub>Piture of log explorer</sub>  
 
 Run the modfied query:
 ```
 'Log Source' = 'OCI VCN Flow Unified Schema Logs' | where 'Destination IP' = 'Public IP' | eval vol = 'Content Size Out' / 1024 | timestats span = 10minute sum(vol) as 'Volume (KB)
 ```  
 ![runquery](images/runquery.png)  
-<small>Picture of exection of modified query</small>  
+<sub>Picture of exection of modified query</sub>  
 
 ![savequery1](images/savequery1.png)  
-<small>Picture of save query as</small>  
+<sub>Picture of save query as</sub>  
 
 Pull the list of saved queries
    
 ![savedsearches](images/savedsearches.png)  
-<small>Picture of modified query</small>   
+<sub>Picture of modified query</sub>   
     
  
 # Create detection rule 
@@ -105,7 +105,7 @@ Having created the custom query, we now need to create the detection rule.
 Navigate to ```analytics->dashboard->saved query```, and pull up the saved query.
   
 ![addmetric1](images/addmetric1.png)  
-<small>Picture of saved query screen</small>  
+<sub>Picture of saved query screen</sub>  
 
 Create the Detection rule. In the detection rule creation screen, select the folowing:
 - "Scheduled Detection Rule" is the method for running the log analytic query
@@ -116,15 +116,15 @@ Create the Detection rule. In the detection rule creation screen, select the fol
 - "Minimum interval" is 5 minutes, normally a good choice for security alarms.
 
 ![addmetric2](images/addmetric2.png)  
-<small>Picture of first rule creation step</small>
+<sub>Picture of first rule creation step</sub>
 
 ![addmetric3](images/addmetric3.png)  
-<small>Picture of 2. step</small> 
+<sub>Picture of 2. step</sub> 
 
 When the detection rule is created verify the detection rule  
   
 ![detectionrule](images/detectionrule.png)
-<small>Picture of rule validation</small>  
+<sub>Picture of rule validation</sub>  
 
 # Topic Creation
 
@@ -135,21 +135,21 @@ After the creation of a topic, one or many subscriptions needs to be added, whic
 The topic creation is straightforward, as illustrated below. Within the OCI console, navigate to ```Developer Services -> Application Integration -> Notifications```  
 
 ![create_topic_1](images/create_topic_1.png)  
-<small>Topic creation, step 1</small>  
+<sub>Topic creation, step 1</sub>  
 
 ![create_topic_2](images/create_topic_2.png)  
-<small>Topic creation, step 2</small>  
+<sub>Topic creation, step 2</sub>  
 
 ![create_topic_3](images/create_topic_3.png)  
-<small>Topic creation, step 3</small>  
+<sub>Topic creation, step 3</sub>  
 
 After the topic is created, a subscription is reasonable to create, the receiver of the alarm.
   
 ![create_topic_4](images/create_topic_4.png)  
-<small>Topic creation, step 4</small>  
+<sub>Topic creation, step 4</sub>  
 
 ![create_topic_5](images/create_topic_5.png)  
-<small>Topic creation, step 5</small>  
+<sub>Topic creation, step 5</sub>  
 
 When the subscription is created, the subscriber will receive an email with a link to a confirmation.
 > N.B. If a different type of subscription is chosen, the receiving user will receive a confirmation through that notification channel, e.g., Slack.
@@ -157,12 +157,12 @@ When the subscription is created, the subscriber will receive an email with a li
 Use the link in the notification to confirm the subscription.
 
 ![confirm](images/confirm.png)  
-<small>Confirmation link mail</small>  
+<sub>Confirmation link mail</sub>  
 
 The subscription will then change to Active.
 
 ![create_topic_6](images/create_topic_6.png)  
-<small>Final status after successful confirmation of the subscription</small>   
+<sub>Final status after successful confirmation of the subscription</sub>   
 
 # Define the alarm
 
@@ -182,18 +182,18 @@ Ensure the fields are completed accurately:
 This will create an alarm that trigger if the last 5 minutes egress traffic exceed 1000000 bytes.
 
 ![alarm1a](images/alarm1a.png)  
-<small>Alarm definitions</small>  
+<sub>Alarm definitions</sub>  
 
 ![alarm1](images/alarm1b.png)  
-<small>Create Alarm definition</small>  
+<sub>Create Alarm definition</sub>  
 
 ![alarm2](images/alarm2.png)  
-<small>Create Alarm definition continued</small> 
+<sub>Create Alarm definition continued</sub> 
 
 Here is an example of a mail alarm received when the egress volume exceeds 1000000 bytes within 5 min. This might indicate a potential data loss.
 
 ![alarm3](images/alarm3.png)  
-<small>Mail received when alarm is fired</small> 
+<sub>Mail received when alarm is fired</sub> 
 
 # Summary
 
