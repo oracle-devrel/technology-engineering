@@ -75,7 +75,7 @@ allow dynamic-group myloganalytics-detection-group to read compartments in tenan
 
 Once we have the IAM pre-requisites in place, we can start by defining our custom metrics query.
  
-Navigate to ```Observability & Management->Logging analytics->Dashboards``` and select Network Dashboard.  
+Navigate to `Observability & Management->Logging analytics->Dashboards` and select Network Dashboard.  
   
 ![network_dashboard](images/network_dashboard.png)  
 <sub>Network Dashboard from Securty Fundamentals Dashboard</sub>  
@@ -104,7 +104,7 @@ Pull the list of saved queries
 # Create detection rule 
 Having created the custom query, we now need to create the detection rule.
 
-Navigate to ```analytics->dashboard->saved query```, and pull up the saved query.
+Navigate to `analytics->dashboard->saved query`, and pull up the saved query.
   
 ![addmetric1](images/addmetric1.png)  
 <sub>Picture of saved query screen</sub>  
@@ -134,7 +134,7 @@ Topics are the transport of an alarm to a target and needs to be present before 
 
 After the creation of a topic, one or many subscriptions needs to be added, which are the receivers of the topic.
 
-The topic creation is straightforward, as illustrated below. Within the OCI console, navigate to ```Developer Services -> Application Integration -> Notifications```  
+The topic creation is straightforward, as illustrated below. Within the OCI console, navigate to `Developer Services -> Application Integration -> Notifications`  
 
 ![create_topic_1](images/create_topic_1.png)  
 <sub>Topic creation, step 1</sub>  
@@ -170,7 +170,7 @@ The subscription will then change to Active.
 
 The final configuration step is to build an alarm. The Alarm is defined within the OCI console under 
 
-```Observability & Management -> Monitoring -> Alarm Definitions```  
+`Observability & Management -> Monitoring -> Alarm Definitions`  
 .
 The alarm requires a metric, in a metric namespace, a threshold value of the metric and a notification topic to trigger when the threshold is exceeded.
 
