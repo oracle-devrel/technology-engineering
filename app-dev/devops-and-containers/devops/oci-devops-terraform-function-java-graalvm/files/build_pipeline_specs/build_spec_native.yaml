@@ -1,27 +1,20 @@
-FROM fnproject/fn-java-fdk-build:jdk17-1.0-latest as build-stage
-WORKDIR /function
-ENV MAVEN_OPTS -Dhttp.proxyHost= -Dhttp.proxyPort= -Dhttps.proxyHost= -Dhttps.proxyPort= -Dhttp.nonProxyHosts= -Dmaven.repo.local=/usr/share/maven/ref/repository
-ADD pom.xml /function/pom.xml
-RUN ["mvn", "package", "dependency:copy-dependencies", "-DincludeScope=runtime", "-DskipTests=true", "-Dmdep.prependGroupId=true", "-DoutputDirectory=target", "--fail-never"]
-ADD src /function/src
-RUN ["mvn", "package"]
-
-FROM container-registry.oracle.com/graalvm/native-image:23-ol8 AS native
-WORKDIR /app
-COPY --from=build-stage /function/target .
-ADD reflection.json .
-
-RUN native-image \
-     -H:ReflectionConfigurationFiles=/app/reflection.json \
-     -Ob \
-     -H:Name=Hello \
-     -cp "/app/Hellofunc-1.0-SNAPSHOT.jar:/app/*"  \
-        com.fnproject.fn.runtime.EntryPoint
-
-FROM fnproject/fn-java-fdk:jre17-latest as fdk
-
-FROM container-registry.oracle.com/os/oraclelinux:8-slim
-COPY --from=native /app/Hello .
-COPY --from=fdk /function/runtime/* ./
-ENTRYPOINT [ "./Hello" ]
-CMD [ "com.example.fn.HelloFunction::handleRequest", "-Djava.library.path=/lib"]
+version: 0.1             
+component: build
+timeoutInSeconds: 5000
+shell: bash
+env:
+  exportedVariables:
+    - buildId
+steps:
+  - type: Command
+    command: |
+      buildId=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-6 | rev`
+      echo "Build ID: $buildId"
+  - type: Command
+    command: |
+      docker build -f Dockerfile.native -t ${REGISTRY}/${NAMESPACE}/${IMAGE_NAME} .
+      docker tag ${REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:latest ${REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:$buildId
+outputArtifacts:
+  - name: image-native
+    type: DOCKER_IMAGE
+    location: ${REGISTRY}/${NAMESPACE}/${IMAGE_NAME}
