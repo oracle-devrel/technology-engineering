@@ -77,7 +77,7 @@ Once we have the IAM pre-requisites in place, we can start by defining our custo
  
 Navigate to `Observability & Management->Logging analytics->Dashboards` and select Network Dashboard.  
   
-![network_dashboard](images/network_dashboard.png)  
+![network_dashboard](images/network_dashboard_2.png)  
 <sub>Network Dashboard from Securty Fundamentals Dashboard</sub>  
  
 Expand Egress traffic widget and you will see the Log Explorer
