@@ -1,25 +1,41 @@
+
+import argparse
+import logging
+import oci
+import platform
+import asyncio
+import json
+import time
+import constants as const
+
+
 """Bastion Service script
 
-Minimum python version 3.7,  asyncio.run 
+Minimum python version 3.7,  asyncio.run
 
- Script to create a session for a named bastion services, and generates the ssh command for connection to the session
+ Script to create a session for a named bastion services, and
+ generates the ssh command for connection to the session
 
  The Session have two formats:
  - Just print the commands
- - Fork a bash shell and run the commands. In the latter case it waits for the session to expire and recreates a new, x number of times
-for PORT type SSH session, start a ssh tunnel, for managed session, connect to the target
+ - Fork a bash shell and run the commands. In the latter case it waits
+   for the session to expire and recreates a new, x number of times
+   for PORT type SSH session, start a ssh tunnel, for managed session,
+   connect to the target
 
  Command line:
- --configfile  name of json configfile with named session and OCI CLI config info
+ --configfile  name of json file with named session and OCI CLI config info
  --session     named session, section in config file
  --exec        executes the ssh command and establishes the ssh connection
  --loglevel    logging level, info or debug. default info
  --log         logging output file or stdout, defaul stdout
 
 
-  
-  If File location is missing, the default config will be used. If profile_name is missing DEFAULt fill be used
-  If the OCIconfigname parameter is missing in the session section, DEFAULT from DEFAULT location will be used.
+
+  If File location is missing, the default config will be used.
+  If profile_name is missing DEFAULt fill be used
+  If the OCIconfigname parameter is missing in the session section,
+  DEFAULT from DEFAULT location will be used.
 
 Documentation for inspiration:
 
@@ -38,24 +54,15 @@ https://fluffyclouds.blog/2022/06/02/create-oci-bastion-sessions-with-python-sdk
 }
 For contents of sessions and ociconfiguration please refer to readme file
 
+Copyright (c) 2025 Oracle and/or its affiliates
 
 """
-#
-# All imports goes here
-#
-import argparse
-import logging
-import oci
-import platform
-import asyncio
-import json
-import time
-import constants as const
+
 
 #
 # Globals
 #
-__version__ = "1.0 18.11.24"
+__version__ = "1.26.02.25"
 __author__ = "Inge Os"
 #
 # Default logger
@@ -64,10 +71,13 @@ logger = logging.getLogger(__name__)
 # Class definitions/extensions
 #
 
+
 #
 # GenericError
 #
-# Extension of Exception class, thrown when any Exception is raised and caught or any API error/Exception occurs
+# Extension of Exception class, thrown when any Exception is raised
+# and caught or any API error/Exception occurs
+#
 class GenericError(Exception):
     """
     Generic Exception for clean close of resources.
@@ -81,6 +91,7 @@ class GenericError(Exception):
         self.message = message
         super().__init__(self.message)
 
+
 #
 # MissingConfigError
 #
@@ -88,7 +99,8 @@ class GenericError(Exception):
 class MissingConfigError(Exception):
     """
     Missing configuration Error
-    thrown when the JSON file misses a mandatory parameter, or a parameter is invalid
+    thrown when the JSON file misses a mandatory parameter,
+    or a parameter is invalid
 
     Attributes:
         message -- explanation of the error
@@ -99,31 +111,38 @@ class MissingConfigError(Exception):
         self.message = message
         super().__init__(self.message)
 
+
 #
 # get_validated_config_entry
 #
 # Iterate over JSON array (list) and return first JSON object (dict)
 # where JSON element with name search_key_name matches search_key_value
 #
-# If a matching dict is found, iterate over it and verify existence of all mandator values
+# If a matching dict is found, iterate over it and verify existence of
+# all mandator values
 # Finally iterate over it and add any missing non mandatory values
 #
-# Returns a complete dict with valid entry with all default values for non mandatory values
+# Returns a complete dict with valid entry with all default values for
+# non mandatory values
 #
-# Raises MissingConfigError if no entry with search_key_value is found, or mandatory field is missing
+# Raises MissingConfigError if no entry with search_key_value is found,
+# or mandatory field is missing
 #
 # Input Parameters:
 #   config_list, list of dict (JSON Array of JSON Objects)
 #   search_key_name, string, key to look up in a dict in a list entry
 #   search_key_value, string, value to math if key exists in dict
-#   required_keys, list, when the first dict is found in config_list, verify that all keys in required keys lists exists in dict
-#   non_manadatory_key_values, dict, key/value pair. if key names is missing in the dict, add key/value (will be default value)
+#   required_keys, list, when the first dict is found in config_list,
+#   verify that all keys in required keys lists exists in dict
+#   non_manadatory_key_values, dict, key/value pair.
+#   If key names is missing in the dict, add key/value (will be default value)
 #
 # Return value:
 #   dict of config values, valid dict is found in config_list
 #   False matching search_key/search_value was not found
 # Exception:
-#   MissingConfigError, matching search_key/search_value was not found, or required key is missing
+#   MissingConfigError, matching search_key/search_value
+# was not found, or required key is missing
 
 
 def get_validated_config_entry(
@@ -133,12 +152,14 @@ def get_validated_config_entry(
     required_keys,
     non_manadatory_key_values,
 ):
-    """Function validates if all mandatory values exist in a json config object"""
+    """Function validates if all mandatory values exist in a
+       json config object"""
     #
     # To be nice collect all session names and print them if not found
     session_names = []
     #
-    # Lookup the entry in entry list that matches search_key_name and search_key_value
+    # Lookup the entry in entry list that matches search_key_name
+    # and search_key_value
     current_list_entry = False
     for idx, config_entry in enumerate(config_list):
         # Lookup entry in list, pull it if it matches the search
@@ -148,8 +169,9 @@ def get_validated_config_entry(
             break
         session_names.append(config_entry[search_key_name])
     #
-    # At this point currentSession = False if no session configs matches SessionName
-    if current_list_entry == False:
+    # At this point currentSession = False if no session configs
+    # matches SessionName
+    if current_list_entry is False:
         # In case of typo, to be nice just dump the session names found
         print("Known session names:")
         for cname in session_names:
@@ -176,19 +198,23 @@ def get_validated_config_entry(
             )
     #
     # Iterate and populate all non mandatory values with defaults
-    if not non_manadatory_key_values is None:
+    if non_manadatory_key_values is not None:
         for key in non_manadatory_key_values:
-            if not key in config_entry:
+            if key not in config_entry:
                 config_entry[key] = non_manadatory_key_values[key]
     #  Return found DICT (JSON leaf node from JSON Array/list)
     return current_list_entry
 
 
 #
-# Validates key elements of the structure of config entry of type "session" or const.OCICONFIG
-# Current code only simple verification of INT/string for some session config keys, and a few
-# mandatory parameters. For more in-depth sanity check of the config key/values, add the code here
-# The function assumes an earlier verification of mandatory and non_mandatory dict key's presence
+# Validates key elements of the structure of config entry of type
+# "session" or const.OCICONFIG
+# Current code only simple verification of INT/string for some
+# session config keys, and a few
+# mandatory parameters. For more in-depth sanity check of the
+# config key/values, add the code here
+# The function assumes an earlier verification of mandatory and
+# non_mandatory dict key's presence
 #
 # Input Parameters:
 #   config, dict of attributes to be verified
@@ -199,10 +225,12 @@ def get_validated_config_entry(
 #   True, verification and str to int conversion passed
 #   False if an error occurs
 # Exception:
-#   GenericError, if sessionType is not legal or if bastion public key can't be retreived
+#   GenericError, if sessionType is not legal or if bastion
+# public key can't be retreived
 #
 def valdate_config(config, config_type, int_list):
-    """Function sanity checks and validates some key config entries, converts  to int where string/int is optional"""
+    """Function sanity checks and validates some key config entries, converts
+       to int where string/int is optional"""
     if config_type == const.SESSION:
         # Validate session_type
 
@@ -211,7 +239,8 @@ def valdate_config(config, config_type, int_list):
             and config[const.SESSIONTYPE] != const.PORT_FORWARDING
         ):
             raise GenericError(
-                "Invalid session type, permitted values are MANAGED_SSH or PORT_FORWARDING, current value: "
+                "Invalid session type, permitted values are  \
+                 MANAGED_SSH or PORT_FORWARDING, current value: "
                 + config[const.SESSIONTYPE]
             )
 
@@ -221,11 +250,12 @@ def valdate_config(config, config_type, int_list):
             with open(config[const.BASTIONPUBLICKEYFILE], "r") as f:
                 config[const.PUBKEYCONTENT] = f.read()
             f.close()
-        except Exception as e:
+        except Exception:
             raise GenericError("Failed to load bastion public key")
 
     elif config_type == const.OCICONFIG:
-        # No real verification, leave it to OCI SDK, only allocate proper default values
+        # No real verification, leave it to OCI SDK,
+        # only allocate proper default values
         config[const.CONFIGFILENAME] = (
             config[const.CONFIGFILENAME]
             if const.CONFIGFILENAME in config
@@ -242,19 +272,24 @@ def valdate_config(config, config_type, int_list):
 
     #
     # Verify numeric conversion (integers)
-    # Only verifies INT values from config, config accepts both INT and string formats. OCI SDK requires INT
+    # Only verifies INT values from config, config accepts both INT
+    # and string formats. OCI SDK requires INT
     # Leave the rest to the OCI SDK
     #
     # Config file accepts both styles, ie."3600" and 3600 as int
     #
-    if not int_list is None:
+    if int_list is not None:
         for key in int_list:
             if not isinstance(config[key], int):
                 try:
                     config[key] = int(config[key])
-                except:
+                except Exception:
                     raise GenericError(
-                        "Integer conversion for :" + key + " " + config[key] + " failed"
+                        "Integer conversion for :"
+                        + key
+                        + " "
+                        + config[key]
+                        + " failed"
                     )
     #
     #  All good
@@ -266,9 +301,12 @@ def valdate_config(config, config_type, int_list):
 #  create_single_session
 #
 #  creates a bastion session with the SDK (API)
-#  Bastion session will normally take some time. If initial call is successful the bastion state is "CREATING"
-#  and when the creation is complete and successful, it changes state to "ACTIVE"
-#  The code loops and sleeps until max iterations is reached or "ACTIVE" state is reached
+#  Bastion session will normally take some time. If initial call is
+# successful the bastion state is "CREATING"
+#  and when the creation is complete and successful,
+# it changes state to "ACTIVE"
+#  The code loops and sleeps until max iterations is reached or
+# "ACTIVE" state is reached
 #
 # Input Parameters:
 #   session_config, attributes from session configuration from config file
@@ -279,13 +317,15 @@ def valdate_config(config, config_type, int_list):
 #   False if an error occurs
 #
 def create_single_session(session_config, bastion_client):
-    """Function creates a single bastion session of type defined in session_config, assumes valid SDK client"""
+    """Function creates a single bastion session of type
+       defined in session_config, assumes valid SDK client"""
     try:
         # Create bastion session, SDK exeption is raised if it fails
         create_session_response = bastion_client.create_session(
             create_session_details=oci.bastion.models.CreateSessionDetails(
                 bastion_id=session_config[const.BASTIONOCID],
-                target_resource_details=oci.bastion.models.CreateManagedSshSessionTargetResourceDetails(
+                target_resource_details=
+                oci.bastion.models.CreateManagedSshSessionTargetResourceDetails(
                     session_type=session_config[const.SESSIONTYPE],
                     target_resource_operating_system_user_name=session_config[
                         const.OSUSERNAME
@@ -319,13 +359,15 @@ def create_single_session(session_config, bastion_client):
         logger.error(str(e), exc_info=True)
         return False
     #
-    # Loop until max time and wait for session to be migrated from CREATING to ACTIVE
-    # The loops iterates maxWaitCount times and sleep waitRefresh seconds between each iteration
+    # Loop until max time and wait for session to be migrated
+    # from CREATING to ACTIVE
+    # The loops iterates maxWaitCount times and sleep waitRefresh
+    # seconds between each iteration
     #
     active_session = False
     count = 0
     try:
-        while active_session == False and count < session_config[const.MAXWAITCOUNT]:
+        while active_session is False and count < session_config[const.MAXWAITCOUNT]:
             get_session_response = bastion_client.get_session(
                 session_id=create_session_response.data.id
             )
@@ -342,40 +384,49 @@ def create_single_session(session_config, bastion_client):
                 count = count + 1
     except Exception as e:
         print(
-            "Failed to create Bastion session, active session poll failed, review logfile"
+            "Failed to create Bastion session,  \
+                active session poll failed, review logfile"
         )
-        logger.error("Failed to create Bastion session, active session poll failed")
+        logger.error("Failed to create Bastion session,  \
+                     active session poll failed")
         logger.error(e, exc_info=True)
         return False
     #
     # Verify if loop was exited due to ACTIVE state reached
     #
-    if active_session == False:
+    if active_session is False:
         #
         # Nope active state not reached
         #
         print(
-            "Session do not achive active-state within timelimit. Current State: "
+            "Session do not achive active-state within timelimit.  \
+                Current State: "
             + str(get_session_response.data.lifecycle_state)
         )
         logger.error(
-            "Session do not achived activestate within timelimit. Current State:",
+            "Session do not achived activestate  \
+                within timelimit. Current State:",
             str(get_session_response.data.lifecycle_state),
         )
         return False
     return get_session_response.data
 
+
 #
-# Generate the ssh or putty command for connecting to the bastion or start the tunnel
-# The command skeleton is derived from the OCI SDK return object after a successful session creation
+# Generate the ssh or putty command for connecting to the bastion or
+# start the tunnel
+# The command skeleton is derived from the OCI SDK return object after a
+# successful session creation
 #
 # Input Parameters:
 #
-#   bastion_session  = response object from createSession SDK, DICT with const.COMMAND entry
+#   bastion_session  = response object from createSession SDK, DICT with
+# const.COMMAND entry
 #   session_config, attributes from session configuration from config file
 #
 # Return value:
-#   cmd, dict with const.SERVERSIDE command for tunnel and direct connect, const.CLIENTSIDE command for connecting to the tunnel
+#   cmd, dict with const.SERVERSIDE command for tunnel and direct connect,
+# const.CLIENTSIDE command for connecting to the tunnel
 #
 #
 def get_command(bastion_session, session_config):
@@ -384,12 +435,14 @@ def get_command(bastion_session, session_config):
     session_cmd = bastion_session.ssh_metadata[const.COMMAND]
     print("Port managed start cmd")
     #
-    # The bastion service might add a note to the end of the command. Supress the note
+    # The bastion service might add a note to the end of the command.
+    # Supress the note
     #
     if session_cmd.find(" # ") > -1:
         session_cmd = session_cmd.split(" # ")[0]
     #
-    # Select session type, either port forwarding or managed (through the agent)
+    # Select session type, either port forwarding or
+    # managed (through the agent)
     #
     if session_config[const.SESSIONTYPE] == const.PORT_FORWARDING:
         print("Port forwarding start cmd")
@@ -397,7 +450,8 @@ def get_command(bastion_session, session_config):
         tunnel_cmd = session_cmd.replace(
             "<privateKey>", session_config[const.BASTIONPRIVATEKEYFILE]
         )
-        tunnel_cmd = tunnel_cmd.replace("<localPort>", str(session_config[const.LOCALPORT]))
+        tunnel_cmd = tunnel_cmd.replace("<localPort>",
+                                        str(session_config[const.LOCALPORT]))
         #
         # Setup the correct client comamnd for ssh or putty
         if session_config[const.SSHCOMMAND] == const.SSH:
@@ -405,12 +459,15 @@ def get_command(bastion_session, session_config):
                 "ssh -i "
                 + session_config[const.TARGETPRIVATEKEYFILE]
                 + " -p "
-                + str(session_config[const.LOCALPORT])
-                + " "
-                + session_config[const.OSUSERNAME]
-                + "@"
-                + "localhost"
-            )
+                + str(session_config[const.LOCALPORT]))
+            if session_config[const.SSHCOMMANDOPTIONS] is not None:
+                client_cmd = client_cmd + " " +  \
+                    session_config[const.SSHCOMMANDOPTIONS]
+            client_cmd = (client_cmd
+                          + " "
+                          + session_config[const.OSUSERNAME]
+                          + "@"
+                          + "localhost")
             cmd[const.CLIENTSIDE] = client_cmd
         else:
             client_cmd = (
@@ -429,14 +486,18 @@ def get_command(bastion_session, session_config):
         #
         if session_config[const.SSHCOMMAND] == const.SSH:
             cmd[const.SERVERSIDE] = tunnel_cmd
+            if session_config[const.SSHCOMMANDOPTIONS] is not None:
+                cmd[const.SERVERSIDE] = cmd[const.SERVERSIDE] + " " \
+                    + session_config[const.SSHCOMMAND]
             return cmd
         else:
             #
             # Adjust serverside cmd for putty.exe
             #
             cmd[const.SERVERSIDE] = (
-                (tunnel_cmd.replace("ssh", "putty", 1)).replace("-N", "-N -ssh")
-            ).replace("-p 22", "")
+                (tunnel_cmd.replace("ssh", "putty", 1))
+                .replace("-N", "-N -ssh")) \
+                .replace("-p 22", "")
             return cmd
     else:
         #
@@ -445,15 +506,18 @@ def get_command(bastion_session, session_config):
         print("Port managed start cmd")
         print(session_cmd)
         session_cmd = (
-            session_cmd.replace("<privateKey>", session_config[const.TARGETPRIVATEKEYFILE])
+            session_cmd.replace("<privateKey>",
+                                session_config[const.TARGETPRIVATEKEYFILE])
         ).replace("<localPort>", str(session_config[const.TARGETPORT]))
         if session_config[const.SSHCOMMAND] == const.SSH:
             return {const.SERVERSIDE: session_cmd}
         else:
             cmd[const.SERVERSIDE] = (
-                (session_cmd.replace("ssh", "putty.exe", 1)).replace("-N", "-N -ssh")
-            ).replace("-p 22", "")
+                (session_cmd.replace("ssh", "putty.exe", 1))
+                .replace("-N", "-N -ssh")).replace("-p 22", "")
             return {cmd}
+
+
 #
 # process_command_line_args
 #
@@ -470,12 +534,15 @@ def get_command(bastion_session, session_config):
 #       bastionconfig: config from config file
 #
 #   Exception:
-#       GenericError, raised if --session is missing, opening of log file raises IO error
-#           opening of session config file raises error, or JSON parse of session config file fails
+#       GenericError, raised if --session is missing, opening of log file
+#           raises IO error
+#           opening of session config file raises error, or JSON parse
+#           of session config file fails
 def process_command_line_args(default_bastion_config_file):
     """Function that process and validates command-line arguments"""
     # Parse args
-    args_parser = argparse.ArgumentParser(description="Bastion session manager")
+    args_parser = \
+        argparse.ArgumentParser(description="Bastion session manager")
     args_parser.add_argument(
         "--configfile",
         default=default_bastion_config_file,
@@ -483,7 +550,8 @@ def process_command_line_args(default_bastion_config_file):
         help="Bastion Config File",
     )
     args_parser.add_argument(
-        "--session", default=None, type=str, help="name of session from session config"
+        "--session", default=None, type=str,
+        help="name of session from session config"
     )
     args_parser.add_argument(
         "--exec", action="store_true", help="Forks new shell with ssh command"
@@ -498,7 +566,8 @@ def process_command_line_args(default_bastion_config_file):
         "--log",
         default=None,
         type=str,
-        help="target for the logger, default stderr, filename|-  - redirects to stderr",
+        help="target for the logger, default stderr, filename|-   \
+              - redirects to stderr",
     )
     args = args_parser.parse_args()
     #
@@ -523,7 +592,7 @@ def process_command_line_args(default_bastion_config_file):
     #
     try:
         config_file = open(bastion_config_file)
-    except Exception as ioError:
+    except Exception:
         raise GenericError(
             "Load of configuration file: " + bastion_config_file + " failed"
         )
@@ -534,19 +603,24 @@ def process_command_line_args(default_bastion_config_file):
         logger.error("Configuration load error")
         logger.error(ConfigError)
         raise GenericError(
-            "JSON Parse of configuration file: " + bastion_config_file + " failed"
+            "JSON Parse of configuration file: "
+            + bastion_config_file
+            + " failed"
         )
     #
     # Session name is the only argument that is mandatory
     #
-    if args.session == None:
+    if args.session is None:
         logger.error("Missing --session")
         raise GenericError("Missing --session command-line argument")
     #
-    # At this point, the basic command-line args has been processed, log file opened and configuration file
+    # At this point, the basic command-line args has been processed,
+    # log file opened and configuration file
     # read as a valid JSON input
     #
     return {const.CMDARGS: args, const.BASTIONCONFIG: config}
+
+
 #
 # process_bastion_config
 #
@@ -557,15 +631,19 @@ def process_command_line_args(default_bastion_config_file):
 #   dict with session config and OCI config
 #
 #   Exception:
-#       MissingConfigError if any the session name, OCI config name is not found, an missing mandatory values
+#       MissingConfigError if any the session name, OCI config
+# name is not found, an missing mandatory values
 #           or str to int conversion fails
 #
 def process_bastion_config(config, session_name):
-    """Validates all configuration elements and look up correct OCI SDK config"""
+    """Validates all configuration elements and look up
+       correct OCI SDK config"""
     #
-    # Verify integrity of config file and find the JSON dict for bastion session and OCI SDK configuration
+    # Verify integrity of config file and find the JSON dict for bastion
+    # session and OCI SDK configuration
     #
-    # List of valid and mandatory entries in the sessions object from JSON config file
+    # List of valid and mandatory entries in the sessions object
+    # from JSON config file
     #
     mandatory_session_keys = [
         const.SESSIONNAME,
@@ -579,7 +657,8 @@ def process_bastion_config(config, session_name):
         const.OCIREGION,
     ]
 
-    # dict of non mandatory keys,in the sessions object from JSON, with default values
+    # dict of non mandatory keys,in the sessions object from JSON,
+    # with default values
     non_mandatory_session_keys = {
         const.BASTIONPRIVATEKEYFILE: "<bastion private key file>",
         const.TARGETPRIVATEKEYFILE: "<target private key file>",
@@ -593,16 +672,23 @@ def process_bastion_config(config, session_name):
         const.MAXSESSIONS: "1",
     }
     #
-    # List of valid and mandatory entries in the ociconfigurations object from JSON config file
+    # List of valid and mandatory entries in the ociconfigurations object
+    # from JSON config file
     #
-    mandatory_oci_keys = [const.CONFIGNAME, const.CONFIGFILENAME, const.PROFILENAME]
+    mandatory_oci_keys = [const.CONFIGNAME,
+                          const.CONFIGFILENAME,
+                          const.PROFILENAME]
     #
-    # List of valid and non-mandatory entries in the ociconfigurations object from JSON config file
+    # List of valid and non-mandatory entries in the ociconfigurations
+    # object from JSON config file
     #
     non_mandatory_oci_keys = None  # Not required but for the readability
     #
-    # List of parameters that must be of type int, otherwise SDK call will fail, port numbers are only used
-    # for generation of command line, so non int port numbers does not affect the SDK
+    # List of parameters that must be of type int,
+    # otherwise SDK call will fail,
+    # port numbers are only used
+    # for generation of command line, so non int port numbers
+    # does not affect the SDK
     #
     session_int_list = {
         const.TIMETOLIVE,
@@ -612,7 +698,8 @@ def process_bastion_config(config, session_name):
         const.MAXSESSIONS,
     }
     #
-    # The OCI section of the configuration does not require any string to in conversion
+    # The OCI section of the configuration does not require any string
+    # to in conversion
     #
     oci_int_list = None
 
@@ -621,7 +708,8 @@ def process_bastion_config(config, session_name):
     if not (const.OCICONFIGURATIONS in config.keys()):
         raise MissingConfigError("Ociconfigurations key is missing in configuration")
     #
-    # Verify configurations, verify all mandatory elements and add defaults for non mandatory elements
+    # Verify configurations, verify all mandatory elements and add defaults
+    # for non mandatory elements
     #
     # Verify Session
     #
@@ -632,7 +720,7 @@ def process_bastion_config(config, session_name):
         mandatory_session_keys,
         non_mandatory_session_keys,
     )
-    if session_config == False:
+    if session_config is False:
         logger.error("get_validated_config_entry for sessions failed")
         raise MissingConfigError("get_validated_config_entry for sessions failed")
     #
@@ -645,7 +733,7 @@ def process_bastion_config(config, session_name):
         mandatory_oci_keys,
         non_mandatory_oci_keys,
     )
-    if oci_config == False:
+    if oci_config is False:
         logger.error("get_validated_config_entry for OCI config failed")
         raise MissingConfigError("get_validated_config_entry for OCI config failed")
     #
@@ -671,12 +759,14 @@ def process_bastion_config(config, session_name):
 #
 #   bastion_session  = response object from createSession SDK
 #   cmd, session creation command
-#   bastion_client, allocated client from successful signin process with the SDK
+#   bastion_client, allocated client from successful signin process
+#   with the SDK
 #
 # Return value:
 #
 def execBastionCmd(bastion_session, bastion_client, cmd):
-    """Function to fork new shell and execute bastion command as generated by SDK"""
+    """Function to fork new shell and execute
+       bastion command as generated by SDK"""
     #
     # Number of retry, hardcoded
     #
@@ -690,7 +780,8 @@ def execBastionCmd(bastion_session, bastion_client, cmd):
     print("Connection to target with active bastion session")
     #
     # Python code for PY 3.8 or above
-    # asynio.run requires PY38, ref: https://superfastpython.com/asyncio-run-program/
+    # asynio.run requires PY38,
+    # ref: https://superfastpython.com/asyncio-run-program/
     #
     # https://superfastpython.com/python-coroutine/
     # If the ssh command is executed to quick it will fail
@@ -739,6 +830,7 @@ async def exec_command(cmd: str):
     if proc.returncode != 0:
         print("Fork off new shell with PID: " + str(proc.pid))
 
+
 #
 # wait_for_session_deletion
 #
@@ -753,16 +845,20 @@ async def exec_command(cmd: str):
 #
 # Return value:
 #
-
-def wait_for_session_deletion(session_id, wait_refresh, max_retry, bastion_client):
-    """Function to wait for bastion session to be expired and fork new if applicable"""
+def wait_for_session_deletion(session_id,
+                              wait_refresh,
+                              max_retry,
+                              bastion_client):
+    """Function to wait for bastion session to be
+       expired and fork new if applicable"""
     session_deletion = False
     tries = 0
     #
     # max_retry = 20
     #
-    while session_deletion == False and tries < max_retry:
-        get_session_response = bastion_client.get_session(session_id=session_id)
+    while session_deletion is False and tries < max_retry:
+        get_session_response = \
+            bastion_client.get_session(session_id=session_id)
         if get_session_response.data.lifecycle_state != const.STATE_DELETED:
             print(
                 "Previous session still active. Current status is  "
@@ -782,6 +878,8 @@ def wait_for_session_deletion(session_id, wait_refresh, max_retry, bastion_clien
             print("The previous session has been deleted")
             session_deletion = True
             break
+
+
 #
 # create_sessions
 #
@@ -801,7 +899,8 @@ def wait_for_session_deletion(session_id, wait_refresh, max_retry, bastion_clien
 #   Exceptions:
 #
 def create_sessions(config, exec_ssh):
-    """Function that orchestrate creation of bastion sessions and if required starts the sessions"""
+    """Function that orchestrate creation of bastion sessions
+       and if required starts the sessions"""
     session_config = config[const.SESSIONCONFIG]
     oci_config = config[const.OCICONFIG]
     #
@@ -817,9 +916,10 @@ def create_sessions(config, exec_ssh):
         # Initialize service client, SDK exeption is raised if it fails
         #
         bastion_client = oci.bastion.BastionClient(current_oci_config)
-    except e:
+    except Exception as e:
         logger.error("Failed to allocate OCI BastionClient")
         logger.error(e, exc_info=True)
+        return False
     #
     # Process exec_ssh command only
     #
@@ -828,7 +928,7 @@ def create_sessions(config, exec_ssh):
         # Create just one session and print the command
         #
         bastion_session = create_single_session(session_config, bastion_client)
-        if isinstance(bastion_session, bool) and bastion_session == False:
+        if isinstance(bastion_session, bool) and bastion_session is False:
             print("Creation of bastion failed, review logfile")
             logger.error("Creation of bastion failed", bastion_session)
         elif bastion_session.lifecycle_state == const.STATE_ACTIVE:
@@ -845,7 +945,8 @@ def create_sessions(config, exec_ssh):
                 print(cmd[const.SERVERSIDE])
             return True
         else:
-            print("Bastion session not ACTIVE" + bastion_session.lifecycle_state)
+            print("Bastion session not ACTIVE"
+                  + bastion_session.lifecycle_state)
             logger.debug("Bastion session not ACTIVE", bastion_session)
     else:
         #
@@ -854,8 +955,9 @@ def create_sessions(config, exec_ssh):
         #
         session_count = 0
         while session_count <= session_config[const.MAXSESSIONS]:
-            bastion_session = create_single_session(session_config, bastion_client)
-            if isinstance(bastion_session, bool) and bastion_session == False:
+            bastion_session = \
+                create_single_session(session_config, bastion_client)
+            if isinstance(bastion_session, bool) and bastion_session is False:
                 print("Creation of bastion failed, review logfile")
                 logger.error("Creation of bastion failed", bastion_session)
                 break
@@ -869,9 +971,10 @@ def create_sessions(config, exec_ssh):
                     print("Connect to the client: ")
                     print(cmd[const.CLIENTSIDE])
 
-                logger.debug("Bastion session created %s", str(bastion_session))
+                logger.debug("Bastion session created %s",
+                             str(bastion_session))
                 try:
-                    ses = execBastionCmd(
+                    execBastionCmd(
                         bastion_session,
                         bastion_client,
                         cmd[const.SERVERSIDE],
@@ -882,24 +985,29 @@ def create_sessions(config, exec_ssh):
                     print("Cancelled by user, terminating")
                     return 1
             else:
-                print("Bastion session not ACTIVE" + bastion_session.lifecycle_state)
+                print("Bastion session not ACTIVE" +
+                      bastion_session.lifecycle_state)
                 logger.debug("Bastion session not ACTIVE", bastion_session)
                 break
             session_count = session_count + 1
     return False
+
+
 #
 # main
 #
 #  Main function
 #
 #  Open and reads configfile
-#  verifies JSON structure 
+#  verifies JSON structure
 #  Calls the create session API
 #  and upon success, generates example ssh or putty syntax
-#  If desired and upon successful creation the script can wait and recreate the session when it expires x number of times
+#  If desired and upon successful creation the script can wait and recreate
+# the session when it expires x number of times
 #
 # 	Exception
-# 		throws MissingConfigError if either configfile can't be read or JSO<n parse error. Underlying exceptions are passed on to caller
+# 		throws MissingConfigError if either configfile can't be read or JSON
+#       parse error. Underlying exceptions are passed on to caller
 #
 def main():
     """Main entry point, orkestrates all functions"""
@@ -912,11 +1020,14 @@ def main():
         default_bastion_config_file = "/home/users/demo/config.json"
     elif os_name == const.OS_WINDOWS:
         default_bastion_config_file = "c:\\temp\\bastion.json"
+    elif os_name == 'darwin':
+        default_bastion_config_file = "/home/users/demo/config.json"
     else:
         print("Platform: " + os_name + " is not supported")
         raise GenericError("Unsupported platform")
     #
-    # process command-line arguments, open log file read and parse config file, any exception passed up in the stack
+    # process command-line arguments, open log file read and parse config
+    # file, any exception passed up in the stack
     #
     all_config = process_command_line_args(default_bastion_config_file)
     args = all_config[const.CMDARGS]
@@ -929,7 +1040,8 @@ def main():
     session_config = config[const.SESSIONCONFIG]
     oci_config = config[const.OCICONFIG]
 
-    if session_config[const.SESSIONTYPE].upper() == const.MANAGED_SSH and (args[const.EXEC]):
+    if session_config[const.SESSIONTYPE].upper() == \
+        const.MANAGED_SSH and (args[const.EXEC]):
         raise MissingConfigError("OCIconfig validation failed")
     #
     # Then we are good
@@ -945,6 +1057,8 @@ def main():
         print("Successfully completed bastion session(s)")
     else:
         print("Bastion session returned error, please review logfile")
+
+
 #
 #  Main entry point
 #

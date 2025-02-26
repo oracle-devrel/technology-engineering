@@ -39,7 +39,7 @@ For additional description of the OCI Bastion Service please review:
 ## Requirements  
 
 The following components needs to be installed in your environment:
-- python 3.8 or above (latest patch version)  
+- Python 3.8 or above (latest patch version)  
 - Latest version of the OCI CLI 
 - Requirements, as defined in requirements.txt
 
@@ -84,6 +84,8 @@ Each “session” element has the following elements:
 - "targetPort": Portnumber for the target SSH tunnel though the bastions Service. Use standard port for RDP if target is RDP,
 - "localPort":"2222",
 - "sessionDisplayName": Display name of the session in the OCI Console
+- "sshCommand":  For linux, normally, for windows, normally putty teh command that will be generated into the tunnel command
+- "sshCommandOptions": applied to the tunnel comamndline, like ssh timeout options
 - "targetOCIDID":OCID of the target service,
 - "targetPrivateIP":IP Address of the target
 - "osUserName": Used for the generated `ssh` command ,
@@ -114,7 +116,7 @@ Example commandline:
 Sample output
 
 ```
-Bastion session manager 1.0 17.11.24
+Bastion session manager 1.0 26.02.25
 
 INFO:root:Open logfile
 Open logfile: stderr
@@ -134,6 +136,6 @@ Successfully completed bastion session(s)
   
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.

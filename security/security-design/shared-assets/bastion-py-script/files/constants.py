@@ -1,5 +1,3 @@
-
-
 BASTIONCONFIG="bastionconfig"
 BASTIONOCID="bastionOCID"
 BASTIONPRIVATEKEYFILE="bastionPrivateKeyFile"
@@ -34,6 +32,7 @@ SESSIONS="sessions"
 SESSIONTYPE="sessionType"
 SSH="ssh"
 SSHCOMMAND="sshCommand"
+SSHCOMMANDOPTIONS="sshCommandOptions"
 STATE_ACTIVE="ACTIVE"
 STATE_DELETED="DELETED"
 TIMETOLIVE="timetolive"
@@ -42,19 +41,3 @@ TARGETPORT="targetPort"
 TARGETPRIVATEIP="targetPrivateIP"
 TARGETPRIVATEKEYFILE="targetPrivateKeyFile"
 WAITREFRESH="waitRefresh"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

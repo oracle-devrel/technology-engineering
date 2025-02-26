@@ -38,7 +38,8 @@
             "timetolive":"10800",
             "maxWaitCount":"10",
             "waitRefresh":"10",
-            "sshCommand":"ssh"
+            "sshCommand":"ssh",
+            "sshCommandOptions":"-o ServerAliveInterval=180 -o ServerAliveMaxCount=2"
         }
     ],
     "ociconfigurations": 
@@ -50,6 +51,3 @@
         }
     ]
 }
-    
-    
-    
