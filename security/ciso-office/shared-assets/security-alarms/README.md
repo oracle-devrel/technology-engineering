@@ -75,7 +75,7 @@ allow dynamic-group myloganalytics-detection-group to read compartments in tenan
 
 Once we have the IAM pre-requisites in place, we can start by defining our custom metrics query.
  
-Navigate to `Observability & Management->Logging analytics->Dashboards` and select Network Dashboard.  
+Navigate to `Observability & Management -> Logging analytics -> Dashboards` and select Network Dashboard.  
   
 ![network_dashboard](images/network_dashboard_2.png)  
 <sub>Network Dashboard from Securty Fundamentals Dashboard</sub>  
@@ -104,7 +104,7 @@ Pull the list of saved queries
 # Create detection rule 
 Having created the custom query, we now need to create the detection rule.
 
-Navigate to `analytics->dashboard->saved query`, and pull up the saved query.
+Navigate to `Analytics -> Dashboard -> Saved query`, and pull up the saved query.
   
 ![addmetric1](images/addmetric1.png)  
 <sub>Picture of saved query screen</sub>  
