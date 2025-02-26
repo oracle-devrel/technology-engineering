@@ -12,7 +12,7 @@ The complete tutorial is available here: [Automate Recovery for Oracle Enterpris
 
 The reference architecture is available here [Design an Oracle Hyperion EPM System with an OCI Full Stack Disaster Recovery topology](https://docs.oracle.com/en/solutions/epm-dr-arch-oci/index.html)
 
-Reviewed: 7.02.2025
+Reviewed: 26.02.2025
 
 # When to use this asset?
 
