@@ -1,0 +1,30 @@
+{{- $fullName := include "protein-design-chart.fullname" . -}}
+{{- $labels := include "protein-design-chart.labels" . -}}
+{{- $selectorLabels := include "protein-design-chart.selectorLabels" . -}}
+
+{{- $services := list "alphafold2" -}}
+
+{{- range $serviceName := $services }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $fullName }}-{{ $serviceName }}
+  labels:
+    {{- $labels | nindent 4 }}
+  annotations:
+    oci.oraclecloud.com/load-balancer-type: "lb"
+    service.beta.kubernetes.io/oci-load-balancer-shape: "flexible"
+    service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "10"
+    service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "100"    
+spec:
+  type: {{ $.Values.service.type }}
+  ports:
+    - port: {{ index $.Values $serviceName "servicePort" }}
+      targetPort: {{ index $.Values $serviceName "containerPort" }}
+      protocol: TCP
+      name: "{{ $serviceName }}-port"
+  selector:
+    {{- $selectorLabels | nindent 4 }}
+    app.kubernetes.io/component: {{ $serviceName }}
+{{- end }}

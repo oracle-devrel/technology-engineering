@@ -41,6 +41,7 @@ Reviewed: 08/07/2024
 - [OCI Management Dashboard Automation](https://karthicin.medium.com/oci-management-dashboard-automation-ea4f45cac24b)
 - [Create Dynamic Links for OCI Stack Monitoring Alarms and More](https://medium.com/@michtoeth/create-dynamic-links-for-oci-stack-monitoring-alarms-and-more-ca8e0e6fb7a5)
 - [Integrating OCI Logs into IBM QRadar SIEM](https://medium.com/@guna.sekar.sun/integrating-oci-logs-in-ibm-qradar-siem-9dcea5ed036a)
+- [How to build an Advanced Observability solution in OCI for Security purposes](https://learnoci.cloud/start-building-an-advanced-observability-solution-in-oci-for-security-purposes-using-native-and-e2ed5d806eff)
 
 ## Cloud Coaching Clinics (Videos)
 

@@ -1,6 +1,6 @@
 [
     {
-      "name": "com.example.HelloAIFunction",
+      "name": "com.example.fn.HelloFunction",
       "allDeclaredMethods": true,
       "methods": [
         { "name": "<init>", "parameterTypes": [] }
