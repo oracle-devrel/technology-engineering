@@ -2,7 +2,7 @@
 OCI Security Health Check - Standard Edition
 ============================================
 Owner: Olaf Heimburger
-Version: 241206 (cis_report.py version 2.8.6)
+Version: 250301 (cis_report.py version 2.8.7)
 
 When to use this asset?
 
@@ -85,7 +85,7 @@ Usage
   - From the menu select the Cloud Shell item.
   - When running it the first time:
     - Upload the provided ZIP file.
-    - Extract it with unzip -q oci-security-health-check-standard-241206.zip
+    - Extract it with unzip -q oci-security-health-check-standard-250301.zip
   - Change directory into oci-security-health-check-standard
     $ cd oci-security-health-check-standard
     $ screen
@@ -142,11 +142,11 @@ Usage
     - Log out
 
   - From your desktop, upload the
-    "oci-security-health-check-standard-241206.zip" file to the Compute VM
+    "oci-security-health-check-standard-250301.zip" file to the Compute VM
     using any SFTP client.
   - Log into the Compute VM
     - Extract the distribution
-      unzip -q oci-security-health-check-standard-241206.zip
+      unzip -q oci-security-health-check-standard-250301.zip
 
     - Change directory into "oci-security-health-check-standard":
       cd oci-security-health-check-standard
@@ -215,7 +215,7 @@ The Compliance Checking Script is certified by the Center of Internet Security
 
 License
 
-Copyright (c) 2022-2024 Oracle and/or its affiliates.
+Copyright (c) 2022-2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
