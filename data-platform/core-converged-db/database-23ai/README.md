@@ -6,7 +6,7 @@ Oracle Database 23ai is available cloud-first, in OCI on Oracle Exadata Database
 
 If you are interested in AI Vector Search, [please see our page here](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/core-converged-db/ai-vector-search).
 
-Reviewed: 15.11.2024
+Reviewed: 27.2.2025
  
 # Useful Links  
  
@@ -75,7 +75,7 @@ Reviewed: 15.11.2024
 ## Blogs
 
 - [Oracle Database Release 23ai is available now!](https://blogs.oracle.com/coretec/post/oracle-database-release-23ai)
-- [Oracle Database 23c Free Developer Release - 10 features you should know](https://blogs.oracle.com/coretec/post/oracle-database-23c-free-developer-sql)
+- [Oracle Database 23 Free Developer Release - 10 features you should know](https://blogs.oracle.com/coretec/post/oracle-database-23c-free-developer-sql)
 - [Sample data for Oracle Database](https://blogs.oracle.com/coretec/post/sample-data-for-oracle-database)
 - [Less coding using Domains](https://blogs.oracle.com/coretec/post/less-coding-with-sql-domains-in-23c)
 - [New value constructor in 23ai](https://blogs.oracle.com/coretec/post/new-value-constructor-in-23c)
@@ -88,6 +88,7 @@ Reviewed: 15.11.2024
 - [SQL Transpiler in 23ai - automatic PL/SQL conversion into SQL](https://blogs.oracle.com/coretec/post/sql-transpiler-in-23c)
 - [New full-text search in 23ai: Ubiquitous Database Search](https://blogs.oracle.com/coretec/post/sql-transpiler-in-23c)
 - [Easy Database Search with APEX in 23ai](https://blogs.oracle.com/coretec/post/easy-database-search-with-apex-in-23c)
+- [Text Index with Automatic Maintenance](https://blogs.oracle.com/coretec/post/text-index-with-automatic-maintenance)
 - [SQL statement tracking in 23ai with SQL History](https://blogs.oracle.com/coretec/post/easy-sql-statement-tracking-in23c)
 - [Developing a Java application using Oracle Graph Server](https://blogs.oracle.com/coretec/post/developing-a-java-application-working-on-top-of-oracle-property-graph-server)
 - [ETags with Oracle Database tables](https://blogs.oracle.com/coretec/post/valuebwith-table-data)
@@ -95,10 +96,14 @@ Reviewed: 15.11.2024
 - [Oracle Database Advisors](https://blogs.oracle.com/coretec/post/oracle-database-advisors-overview)
 - [Getting started with vectors in 23ai](https://blogs.oracle.com/coretec/post/getting-started-with-vectors-in-23ai)
 - [JSON in Oracle Database](https://blogs.oracle.com/coretec/post/json-in-oracle-database)
-- [Bigfile Tablespace Shrink](https://blogs.oracle.com/coretec/post/bigfile-tablespace-shrink)
+- [Tablespace Shrink in 23ai](https://blogs.oracle.com/coretec/post/bigfile-tablespace-shrink)
 - [Real-Time SQL Monitoring: a MUST for SQL Tuning](https://blogs.oracle.com/coretec/post/oracle-database-real-time-sql-monitoring-one-of-the-most-important-tools)
 - [New Features and Release Updates](https://blogs.oracle.com/coretec/post/where-to-find-features-in-release-updates)
-- [23ai blogs on blogs.oracle.com/coretec](https://blogs.oracle.com/coretec/category/cased-concurrency-control-rt-23ai)
+- [Diagnose SQL performance with DBMS_SQLDIAG](https://blogs.oracle.com/coretec/post/diagnose-sql-performance-with-dbmssqldiag)
+- [Hybrid Vector Index - a combination of AI Vector Search with Text Search](https://blogs.oracle.com/coretec/post/hybrid-vector-index-the-combination-of-full-text-and-semantic-vector-search)
+- [DBMS_DEVELOPER: the new developer friendly metadata retrieval for database objects](https://blogs.oracle.com/coretec/post/dbmsdeveloper-the-new-developer-friendly-meta-data-retrieval-in-23ai)
+- [Sessionsless Transactions in 23ai](https://blogs.oracle.com/coretec/post/sessionsless-transactions-in-23ai)
+- [all 23ai blogs on blogs.oracle.com/coretec](https://blogs.oracle.com/coretec/category/crt-23ai)
 
 
 ## Videos

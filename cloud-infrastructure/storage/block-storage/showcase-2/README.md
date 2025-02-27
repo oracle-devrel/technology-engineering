@@ -9,7 +9,7 @@ Assets that contain a great opportunity to learn about Cloud Resilience or "Keep
 - A list of Oracle Architectural Best Practices
 
 
-Reviewed: 27.11.2023
+Reviewed: 03.12.2024
 
 # When to use this asset?
 

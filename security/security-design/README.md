@@ -46,6 +46,8 @@ Reviewed: 29.10.2024
 - [OCI IAM SDK Example](shared-assets/iam-py-sdk/README.md)
 - [Setting up IP-based TLS certificates on OCI Load Balancer](shared-assets/zerossl-lb-test-certificate-setup/README.md)
 - [Bastion Session Script, Python SDK version](shared-assets/bastion-py-script/README.md)      
+- [Bypassing MFA for Service Accounts for specific applications](shared-assets/iam-mfa-bypass-svc-accts/README.md)
+      
 # Useful Links
  
  - [Oracle Security](https://www.oracle.com/security/)

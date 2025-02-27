@@ -2,7 +2,7 @@
 
 Database In-Memory features a highly optimized In-Memory Column Store (IM column store) maintained alongside the existing buffer cache. The primary purpose of the IM column store is to accelerate columnoriented data accesses made by analytic operations. It is similar in spirit to having a conventional index (for analytics) on every column in a table. However, it is much more lightweight than a conventional index, requiring no logging, or any writes to the database. Just as the performance benefit to an application from conventional indexes depends on the amount of time the application spends accessing data in the tables that are indexed, the benefit from the IM column store also depends on the amount of time the application spends on data access for analytic operations. It is therefore important to understand the basic characteristics of your application to determine the potential benefits from Database In-Memory.
 
-Review Date: 03.06.2024 
+Review Date: 20.11.2024 
 
 ## Useful Links
 
@@ -10,7 +10,9 @@ Review Date: 03.06.2024
 
 - [Database In-Memory](https://www.oracle.com/database/in-memory/)
 - [Database In-Memory Guide](https://docs.oracle.com/en/database/oracle/oracle-database/23/inmem/index.html#Oracle%C2%AE-Database)
-- 
+- [Oracle Database In-Memory Option (DBIM) Basics and Interaction with Data Warehousing Features (Doc ID 1903683.1)](https://support.oracle.com/epmos/faces/DocumentDisplay?_afrLoop=286800017302956&id=1903683.1&_afrWindowMode=0&_adf.ctrl-state=k8hteq5ab_4)
+- [Oracle Database In-Memory Data Sheet](https://www.oracle.com/a/otn/docs/database/database-in-memory-datasheet.pdf)
+  
 ### Team Publications
 
 - [When and How to use Oracle Database In-Memory Advisor](https://blogs.oracle.com/coretec/post/how-to-use-oracle-database-in-memory-advisor)
@@ -19,8 +21,10 @@ Review Date: 03.06.2024
 
 ### Blogs and technical briefs
 
+- [New Database In-Memory Features in Oracle Database 23ai](https://blogs.oracle.com/in-memory/post/dbim-new-features-23ai)
 - [DBIM Resources](https://blogs.oracle.com/in-memory/post/dbim-resources)
-- [Oracle Database In-Memory](https://blogs.oracle.com/in-memory/)
+- [Oracle Database In-Memory postings](https://blogs.oracle.com/in-memory/)
+- [New In-Memory Eligibility Test](https://blogs.oracle.com/in-memory/post/inmemory-eligibility-test#:~:text=The%20purpose%20of%20the%20eligibility%20test%20is%20to,to%20get%20more%20information%20about%20your%20analytic%20workload.)
 - [When to Use Oracle Database In-Memory](https://www.oracle.com/docs/tech/when-to-use-oracle-database-in-memory.pdf)
 - [Oracle Database In-Memory Implementation Guidelines](https://www.oracle.com/technetwork/database/in-memory/learnmore/twp-oracle-dbim-implementation-3863029.pdf)
 

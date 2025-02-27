@@ -2,7 +2,7 @@
 
 This document serves as a standard questionnaire designed to gather crucial information necessary for the execution of  Essbase application migration projects. It captures specific data that aids in estimating the effort required for a successful migration.
 
-Reviewed: 24.10.2024
+Reviewed: 26.02.2025
 
 # When to use this asset?
 
@@ -14,7 +14,7 @@ This questionnaire presents generic information and is not explicitly tailored t
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

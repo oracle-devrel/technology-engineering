@@ -1,24 +1,21 @@
 # SQL Repository
 
-Welcome to the SQL repository of the Data Development team at Oracle. This repository is designed to provide comprehensive resources, tips, and tools to help you master SQL and leverage the latest features of Oracle23ai. Below you'll find an index to all the sections available in this repository, along with a brief introduction to what you can expect in each section.
-
-Reviewed: 23.10.2024
-
-# Table of Contents
-- [What is SQL?](#what-is-sql);
-- [SQL Tools](#sql-tools); 
-- [SQL Tips](#sql-tips);
-- [SQL Oracle23ai](#sql-oracle23ai);
-- [SQL DO It Yourself](#sql-do-it-yourself)
-- [Useful Links](#useful-links);
-
-
-# What is SQL?
+Welcome to the SQL repository of the Data Development team at Oracle. This repository is designed to provide comprehensive resources, tips, and tools to help you master SQL and leverage the latest features of Oracle23ai. 
 
 Structured Query Language (SQL) is the standard programming language used for managing and manipulating relational databases. SQL allows you to perform a variety of operations such as querying data, updating records, creating and modifying schema, and controlling access to the database. It is a crucial skill for data developers and analysts, enabling efficient data retrieval and manipulation to support data-driven decision-making.
 
+Below you'll find an index to all the sections available in this repository, along with a brief introduction to what you can expect in each section.
 
-# SQL Tools
+Reviewed: 20.11.2024
+
+# Table of contents
+
+1. [SQL Tools](#sql-tools)
+2. [SQL Tips](#sql-tips)
+3. [SQL Oracle23ai](#sql-oracle23ai)
+4. [SQL Do It Yourself](#sql-do-it-yourself)
+
+## SQL Tools
 
 In the [SQL Tools](SQL_Tools/README.md) section, you'll find a collection of essential tools and utilities that can help streamline your SQL development process. This includes:
 - SQL client software recommendations
@@ -26,7 +23,7 @@ In the [SQL Tools](SQL_Tools/README.md) section, you'll find a collection of ess
 - Productivity-enhancing plugins and extensions
 
 
-# SQL Tips
+## SQL Tips
 
 The [SQL Tips](SQL_Tips/README.md) section is dedicated to providing practical advice and best practices for writing efficient and effective SQL queries. Topics covered include:
 - Query optimization techniques
@@ -34,7 +31,7 @@ The [SQL Tips](SQL_Tips/README.md) section is dedicated to providing practical a
 - Advanced SQL functions and their use cases
 
 
-# SQL Oracle23ai
+## SQL Oracle23ai
 
 Explore the latest advancements with Oracle's cutting-edge AI capabilities in the [SQL Oracle23ai](SQL_Oracle23ai/README.md) section. Here, you will find:
 - New features and enhancements in Oracle23ai
@@ -42,7 +39,7 @@ Explore the latest advancements with Oracle's cutting-edge AI capabilities in th
 - Case studies and real-world applications of Oracle23ai
 
 
-# SQL Do It Yourself
+## SQL Do It Yourself
 
 The [SQL Do It Yourself](SQL_Do_It_Yourself/README.md) section encourages hands-on learning by providing a variety of exercises and projects. This includes:
 - Practice problems with solutions
@@ -58,11 +55,12 @@ To support your development journey, here are some valuable resources related to
 - [Oracle Live SQL](https://livesql.oracle.com/) 
 - [Oracle Learning Library](https://www.oracle.com/learning-library/)
 - [Oracle Database 23ai: Application Development](https://www.oracle.com/database/technologies/application-development.html)
-
----
+- [@ThatJeffSmith](https://www.thatjeffsmith.com/)
+- [SQL Blog by Chris Saxon](https://blogs.oracle.com/sql)
+- [The Magic of SQL by Chris Saxon - YouTube Channel](https://www.youtube.com/c/TheMagicofSQL)
+- [SQL and Database explained! By Connor McDonald - YouTube Channel](https://www.youtube.com/@DatabaseDude)
 
 We hope you find these resources helpful in your SQL journey. If you have any questions or suggestions, please feel free to contribute or reach out to the team. Happy querying!
-
 
 # License
  
