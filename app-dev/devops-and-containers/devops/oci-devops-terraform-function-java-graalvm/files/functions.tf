@@ -40,5 +40,5 @@ resource oci_functions_function export_project_2 {
   trace_config {
     is_enabled = "false"
   }
+  depends_on = [oci_artifacts_container_repository.export_project]
 }
-
