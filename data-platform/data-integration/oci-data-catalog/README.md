@@ -5,6 +5,19 @@ Data Catalog is a metadata management service that helps data consumers discover
 With OCI Data Catalog, data analysts, data scientists, data engineers, and data stewards have a single self-service environment to discover the data that is available in the cloud sources. Data Catalog helps data providers create a data dictionary comprising technical and business metadata. Data consumers can easily assess the suitability of data for analytics and data science projects.
 
 Reviewed: 28.02.2025
+
+
+# Table of Contents
+ 
+1. [Team Publications](#team-publications)
+2. [Useful Links](#useful-links)
+
+ 
+# Team Publications
+
+- [Get Data Catalog data using DBMS_DCAT](https://medium.com/@aporcescu/get-data-catalog-data-using-dbms-dcat-5a16d637aea0)
+    - This blog explains how to query harvested information by Data Catalog from Autonomous Database
+
  
 # Useful Links
  
@@ -22,9 +35,6 @@ Reviewed: 28.02.2025
  
 - [Public Product Page](https://www.oracle.com/be/big-data/data-catalog/what-is-a-data-catalog/)
     - High-level product and capability description
-
-- [Get Data Catalog data using DBMS_DCAT](https://medium.com/@aporcescu/get-data-catalog-data-using-dbms-dcat-5a16d637aea0)
-    - This blog explains how to query harvested information by Data Catalog from Autonomous Database
   
 - [Why Data Lakes Need a Data Catalog](https://blogs.oracle.com/bigdata/post/why-data-lakes-need-a-data-catalog)
     - Understand what is Data Lake. What is Data Catalog and Why to use a Data Catalog in Data Lakes with real use-case scenarios
