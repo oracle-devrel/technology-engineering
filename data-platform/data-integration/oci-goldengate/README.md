@@ -3,7 +3,26 @@
 Oracle Cloud Infrastructure GoldenGate is a fully managed, native cloud service that moves data in real-time, at scale. OCI GoldenGate processes data as it moves from one or more data management systems to target databases. You can also design, run, orchestrate, and monitor data replication tasks without having to allocate or manage any Compute environment.
 
 Reviewed: 28.02.2025
+
+
+# Table of Contents
  
+1. [Team Publications](#team-publications)
+2. [Useful Links](#useful-links)
+
+ 
+# Team Publications
+
+- [GoldenGate Best Pracices](https://oradocs.oracle.com/documents/fileview/D1322A709534F69090ABAEEBCD182E6DCA08632BD3F4/_Best_Practices___Reference.pptx)
+  - PowerPoint with a collection of GoldenGate Best Precices
+
+- [Sync data between DBCS and Google BigQuery using Stage and Merge](https://github.com/alexandruporcescu/Articles/blob/main/Sync%20OracleDB%20with%20Google%20BigQuery/Replicate%20data%20from%20Oracle%20DB%20to%20Google%20BigQuery%20using%20GoldenGate%20Stage%20and%20Merge%20handler.md)
+    - GitHub articles that show a step-by-step guide on how to achieve replication between Oracle Database and Google BigQuery using OCI Goldengate
+
+- [OCI GoldenGate Demo - Realtime data replication from Postgres to ADW](https://oradocs.oracle.com/documents/link/LD4145D4B24FEE57EABE0F50975040B24F20D580F947/fileview/D200667F14B944E8C21E9984CEC2A6B73DFDCF90D2A1/_Video-OCIGG-PostgresToOracle.mp4)
+  - Video of Replicating PostgreSQL to ADW using OCI GoldenGate
+
+
 # Useful Links
  
 - [Install GoldenGate Microservices 21c in silent mode](https://medium.com/@eloi-lopes29/install-goldengate-microservices-21c-in-silent-mode-48a904b97dc3)
@@ -35,9 +54,6 @@ Reviewed: 28.02.2025
 
 - [OCI GoldenGate Capture data from Azure Event Hubs to Autonomous Database](https://www.youtube.com/watch?v=IEQrE7wZLXc)
     - Video that guides you through the steps of configuring replication between Azure Event Hubs and Oracle Autonomous Database using OCI GoldenGate
-
-- [Sync data between DBCS and Google BigQuery using Stage and Merge](https://github.com/alexandruporcescu/Articles/blob/main/Sync%20OracleDB%20with%20Google%20BigQuery/Replicate%20data%20from%20Oracle%20DB%20to%20Google%20BigQuery%20using%20GoldenGate%20Stage%20and%20Merge%20handler.md)
-    - GitHub articles that show a step-by-step guide on how to achieve replication between Oracle Database and Google BigQuery using OCI Goldengate
 
 - [Access OCI GoldenGate Logs using OCI Logging](https://blogs.oracle.com/dataintegration/post/access-oci-goldengate-logs-using-oci-logging)
     - A blog article that explains the integration of OCI GoldenGate with OCI Logging
