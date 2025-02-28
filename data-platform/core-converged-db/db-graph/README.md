@@ -3,7 +3,7 @@
 Graphs enable you to find connections and explore relationships in your data. Oracle Graph is an AI-ready, integrated feature of Oracle's converged database that eliminates the need for a separate graph database and data movement. Analysts and developers can address various use cases, including financial fraud detection and manufacturing traceability, while gaining enterprise-grade security, ease of data ingestion, and strong support for operational workloads.Oracle Graph supports both RDF (resource description framework) and property graphs on operational data. 
 Developers can now easily build graph applications with SQL using existing SQL development tools and frameworks through SQL property graphs. The combination of AI Vector Search and RDF knowledge graph capabilities in Oracle Database makes it simple to extend retrieval-augmented generation (RAG) workflows with graph analysis, enabling improved search response accuracy—also known as GraphRAG.
 
-Reviewed: 11.02.2025
+Reviewed: 27.02.2025
 
 # Useful Links
 
@@ -46,6 +46,7 @@ Reviewed: 11.02.2025
 
 - [GraphQL, SQL/PGQ or SPARQL?](https://blogs.oracle.com/coretec/post/graphql-pgqql-or-sparql)
 - [Developing a Java application using Oracle Graph Server](https://blogs.oracle.com/coretec/post/developing-a-java-application-working-on-top-of-oracle-property-graph-server)
+- [Getting Started: RDF Knowledge Graphs for Pursuing Hidden Data Connections](https://blogs.oracle.com/coretec/post/getting-started-rdf-knowledge-graphs-for-pursuing-hidden-connections)
 
 ## Videos
 
