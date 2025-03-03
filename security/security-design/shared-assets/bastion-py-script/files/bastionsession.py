@@ -13,7 +13,7 @@ import constants as const
 
 Minimum python version 3.7,  asyncio.run
 
- Script to create a session for a named bastion services, and
+ Script to create a session for a named bastion service, and
  generates the ssh command for connection to the session
 
  The Session have two formats:
@@ -33,7 +33,7 @@ Minimum python version 3.7,  asyncio.run
 
 
   If File location is missing, the default config will be used.
-  If profile_name is missing DEFAULt fill be used
+  If profile_name is missing DEFAULT fill be used
   If the OCIconfigname parameter is missing in the session section,
   DEFAULT from DEFAULT location will be used.
 
@@ -76,7 +76,7 @@ logger = logging.getLogger(__name__)
 # GenericError
 #
 # Extension of Exception class, thrown when any Exception is raised
-# and caught or any API error/Exception occurs
+# and caught, or any API error/Exception occurs
 #
 class GenericError(Exception):
     """
@@ -116,14 +116,14 @@ class MissingConfigError(Exception):
 # get_validated_config_entry
 #
 # Iterate over JSON array (list) and return first JSON object (dict)
-# where JSON element with name search_key_name matches search_key_value
+# where JSON element with name search_key_name match search_key_value
 #
 # If a matching dict is found, iterate over it and verify existence of
 # all mandator values
-# Finally iterate over it and add any missing non mandatory values
+# Finally iterate over it and add any missing non-mandatory values
 #
 # Returns a complete dict with valid entry with all default values for
-# non mandatory values
+# non-mandatory values
 #
 # Raises MissingConfigError if no entry with search_key_value is found,
 # or mandatory field is missing
@@ -197,7 +197,7 @@ def get_validated_config_entry(
                 + " confguration"
             )
     #
-    # Iterate and populate all non mandatory values with defaults
+    # Iterate and populate all non-mandatory values with defaults
     if non_manadatory_key_values is not None:
         for key in non_manadatory_key_values:
             if key not in config_entry:
@@ -226,7 +226,7 @@ def get_validated_config_entry(
 #   False if an error occurs
 # Exception:
 #   GenericError, if sessionType is not legal or if bastion
-# public key can't be retreived
+# public key can't be retrieved
 #
 def valdate_config(config, config_type, int_list):
     """Function sanity checks and validates some key config entries, converts
@@ -302,7 +302,7 @@ def valdate_config(config, config_type, int_list):
 #
 #  creates a bastion session with the SDK (API)
 #  Bastion session will normally take some time. If initial call is
-# successful the bastion state is "CREATING"
+# successful, the bastion state is "CREATING"
 #  and when the creation is complete and successful,
 # it changes state to "ACTIVE"
 #  The code loops and sleeps until max iterations is reached or
@@ -361,7 +361,7 @@ def create_single_session(session_config, bastion_client):
     #
     # Loop until max time and wait for session to be migrated
     # from CREATING to ACTIVE
-    # The loops iterates maxWaitCount times and sleep waitRefresh
+    # The loops iterate maxWaitCount times and sleep waitRefresh
     # seconds between each iteration
     #
     active_session = False
@@ -436,7 +436,7 @@ def get_command(bastion_session, session_config):
     print("Port managed start cmd")
     #
     # The bastion service might add a note to the end of the command.
-    # Supress the note
+    # Suppress the note
     #
     if session_cmd.find(" # ") > -1:
         session_cmd = session_cmd.split(" # ")[0]
@@ -453,7 +453,7 @@ def get_command(bastion_session, session_config):
         tunnel_cmd = tunnel_cmd.replace("<localPort>",
                                         str(session_config[const.LOCALPORT]))
         #
-        # Setup the correct client comamnd for ssh or putty
+        # Setup the correct client command for ssh or putty
         if session_config[const.SSHCOMMAND] == const.SSH:
             client_cmd = (
                 "ssh -i "
@@ -482,7 +482,7 @@ def get_command(bastion_session, session_config):
             )
             cmd[const.CLIENTSIDE] = client_cmd
         #
-        # Build serverside command
+        # Build server-side command
         #
         if session_config[const.SSHCOMMAND] == const.SSH:
             cmd[const.SERVERSIDE] = tunnel_cmd
@@ -492,7 +492,7 @@ def get_command(bastion_session, session_config):
             return cmd
         else:
             #
-            # Adjust serverside cmd for putty.exe
+            # Adjust server-side command for putty.exe
             #
             cmd[const.SERVERSIDE] = (
                 (tunnel_cmd.replace("ssh", "putty", 1))
@@ -657,7 +657,7 @@ def process_bastion_config(config, session_name):
         const.OCIREGION,
     ]
 
-    # dict of non mandatory keys,in the sessions object from JSON,
+    # dict of non-mandatory keys, in the sessions object from JSON,
     # with default values
     non_mandatory_session_keys = {
         const.BASTIONPRIVATEKEYFILE: "<bastion private key file>",
@@ -709,7 +709,7 @@ def process_bastion_config(config, session_name):
         raise MissingConfigError("Ociconfigurations key is missing in configuration")
     #
     # Verify configurations, verify all mandatory elements and add defaults
-    # for non mandatory elements
+    # for non-mandatory elements
     #
     # Verify Session
     #
@@ -883,9 +883,9 @@ def wait_for_session_deletion(session_id,
 #
 # create_sessions
 #
-# Creates one or more consecuive bastion sessions
+# Creates one or more consecutive bastion sessions
 #  Create Bastion Session
-#  if exec_ssh is true,  A new session is created when the past expires
+#  if exec_ssh is true, a new session is created when the past expires
 #  Iterate until maxSessions is reached or session creation fail
 #
 # Input Parameters:
@@ -1010,7 +1010,7 @@ def create_sessions(config, exec_ssh):
 #       parse error. Underlying exceptions are passed on to caller
 #
 def main():
-    """Main entry point, orkestrates all functions"""
+    """Main entry point, orchestrates all functions"""
     print("Bastion session manager " + __version__ + "\n")
     #
     # Get bastion config
