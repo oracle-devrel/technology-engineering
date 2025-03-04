@@ -135,3 +135,12 @@ ALLOW any-user to manage public-ips in TENANCY where ALL {request.principal.type
 ```
 Allow any-user to use network-security-groups in compartment <network-compartment-ocid> where all { request.principal.id = '<cluster-ocid>' }
 ```
+
+### USE A STATICALLY PROVISIONED SNAPSHOT WHEN IT IS IN A DIFFERENT COMPARTMENT
+
+[https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingpersistentvolumeclaim_topic-Provisioning_PVCs_on_BV.htm#contengcreatingpersistentvolumeclaim_topic-Provisioning_PVCs_on_BV-PV_From_Snapshot_CSI__section_volume-snapshot-prerequisites](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingpersistentvolumeclaim_topic-Provisioning_PVCs_on_BV.htm#contengcreatingpersistentvolumeclaim_topic-Provisioning_PVCs_on_BV-PV_From_Snapshot_CSI__section_volume-snapshot-prerequisites)
+
+```
+ALLOW any-user to manage volume-backups in compartment <compartment-name> where request.principal.type = 'cluster'
+ALLOW any-user to use volumes in compartment <compartment-name> where request.principal.type = 'cluster'
+```
