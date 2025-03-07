@@ -10,6 +10,9 @@ A 5 Step Approach to deploy on Oracle Cloud Infrastructure (OCI)
     - [Step 3: Deploying a solution](#step-3-deploying-a-solution)
     - [Step 4: Observability: Logging, Monitoring and Alerting](#step-4-observability-logging-monitoring-and-alerting)
     - [Step 5: Resource Management and Governance](#step-5-resource-management-and-governance)
+- [License](#license)
+
+Last updated: 07.03.2025
 
 ## Introduction
 
@@ -91,3 +94,12 @@ Effective resource management is crucial to maintain control over your OCI envir
 - **Tagging:** Apply [tags](https://docs.oracle.com/en-us/iaas/Content/Tagging/Concepts/taggingoverview.htm) to all resources for better organization, cost tracking, and compliance.
 - **Cost Management:** Enable [budgets](https://docs.oracle.com/en-us/iaas/Content/Billing/Tasks/managingbudgets.htm) and [alerts](https://docs.oracle.com/en-us/iaas/Content/Billing/Tasks/managingalertrules.htm) to monitor cloud spending and proactively address cost anomalies.
 - **Governance:** Use [cloud governance practices](https://docs.oracle.com/en/solutions/foundational-oci-governance-model/index.html) to enforce policies and maintain regulatory compliance.
+
+# License
+
+Copyright (c) 2024 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+
