@@ -132,11 +132,11 @@ docker push fra.ocir.io/&lt;YOUR OCI TENANCY NAMESPACE&gt;/helloworld-java:1
 <p>
 The same as above but using OCI cli to get the &lt;YOUR OCI TENANCY NAMESPACE&gt; which is especially handy in scripting:
 
-<code>
+<pre>
 export namespace=$(oci os ns get | jq .data | tr -d '"')
 docker build -t fra.ocir.io/$namespace/helloworld-java:1 .
 docker push fra.ocir.io/$namespace/helloworld-java:1
-</code>
+</pre>
 
 <p>
 The last step is to create the Function Application and the function deployment for it. This can be easily done using the Cloud UI. 
