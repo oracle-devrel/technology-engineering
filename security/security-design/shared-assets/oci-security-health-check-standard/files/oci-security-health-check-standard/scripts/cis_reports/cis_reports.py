@@ -42,9 +42,9 @@ try:
 except Exception:
     OUTPUT_DIAGRAMS = False
 
-RELEASE_VERSION = "2.8.7"
-PYTHON_SDK_VERSION = "2.139.0"
-UPDATED_DATE = "November 20, 2024"
+RELEASE_VERSION = "2.8.8"
+PYTHON_SDK_VERSION = "2.147.0"
+UPDATED_DATE = "March 4, 2024"
 
 
 ##########################################################################
@@ -742,6 +742,12 @@ class CIS_Report:
                 "volume-backups": ["request.permission=VOLUME_BACKUP_DELETE"],
                 "boot-volume-backups": ["request.permission=BOOT_VOLUME_BACKUP_DELETE"]}}
 
+        # CIS Network Filter Check
+        self.all_traffic_rules = [{'ruleAction': 'INCLUDE', 'protocol': 'all', 'udpOptions': None, 'isEnabled': True, 'sourceCidr': None, 
+                            'samplingRate': 1, 'flowLogType': 'ALL', 'destinationCidr': None, 'icmpOptions': None, 'priority': 0, 'tcpOptions': None},
+                            {'ruleAction': 'INCLUDE','protocol': 'all','udpOptions': None,'sourceCidr': '0.0.0.0/0','isEnabled': True,'samplingRate': 1,
+                             'flowLogType': 'ALL','icmpOptions': None,'destinationCidr': '0.0.0.0/0','priority': 0,'tcpOptions': None}]
+        
         # Tenancy Data
         self.__tenancy = None
         self.__cloud_guard_config = None
@@ -763,6 +769,9 @@ class CIS_Report:
         self.__network_security_groups = []
         self.__network_security_lists = []
         self.__network_subnets = []
+        self.__network_vcns = []
+        self.__network_capturefilters = {}
+
         self.__network_fastconnects = {}  # Indexed by DRG ID
         self.__network_drgs = {}  # Indexed by DRG ID
         self.__raw_network_drgs = []
@@ -786,6 +795,7 @@ class CIS_Report:
         self.__event_rules = []
         self.__logging_list = []
         self.__subnet_logs = {}
+        self.__all_logs = {}
         self.__write_bucket_logs = {}
         self.__read_bucket_logs = {}
         self.__load_balancer_access_logs = []
@@ -997,6 +1007,7 @@ class CIS_Report:
         self.__oci_block_volumes_uri = self.__oci_cloud_url + "/block-storage/volumes/"
         self.__oci_fss_uri = self.__oci_cloud_url + "/fss/file-systems/"
         self.__oci_networking_uri = self.__oci_cloud_url + "/networking/vcns/"
+        self.__oci_network_capturefilter_uri = self.__oci_cloud_url + "/networking/network-command-center/capture-filters/"
         self.__oci_adb_uri = self.__oci_cloud_url + "/db/adb/"
         self.__oci_oicinstance_uri = self.__oci_cloud_url + "/oic/integration-instances/"
         self.__oci_oacinstance_uri = self.__oci_cloud_url + "/analytics/instances/"
@@ -1711,7 +1722,9 @@ class CIS_Report:
                     debug("__identity_read_user_database_password: Got Password")
                     deep_link = self.__oci_users_uri + user_ocid + "/db-password"
                     record = oci.util.to_dict(password)
+                    record['ocid'] = record['id']
                     record['deep_link'] = deep_link
+                    record['time_created'] = self.get_date_iso_format(record['time_created'])
                     database_password.append(record)
 
                 return database_password
@@ -2303,6 +2316,62 @@ class CIS_Report:
         except Exception as e:
             raise RuntimeError(
                 "Error in __network_read_network_subnets " + str(e.args))
+
+    ##########################################################################
+    # Network VCNs Lists
+    ##########################################################################
+    def __network_read_network_vcns(self):
+        try:
+            for region_key, region_values in self.__regions.items():
+                vcn_data = oci.pagination.list_call_get_all_results(
+                    region_values['search_client'].search_resources,
+                    search_details=oci.resource_search.models.StructuredSearchDetails(
+                        query="query VCN resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
+                ).data
+
+                for vcn in vcn_data:
+                    deep_link = self.__oci_networking_uri + vcn.identifier + '?region=' + region_key
+                    record = oci.util.to_dict(vcn)
+                    record['deep_link'] = deep_link
+                    
+                    # Adding VCN to VCN list
+                    self.__network_vcns.append(record)
+
+            print("\tProcessed " + str(len(self.__network_vcns)) + " Virtual Cloud Networks ")
+
+            return self.__network_vcns
+        except Exception as e:
+            raise RuntimeError(
+                "Error in __network_read_network_vcns " + str(e.args))
+
+    ##########################################################################
+    # Network Capture Filters Dictionary
+    ##########################################################################
+    def __network_read_network_capturefilters(self):
+        try:
+            for region_key, region_values in self.__regions.items():
+                capturefilter_data = oci.pagination.list_call_get_all_results(
+                    region_values['search_client'].search_resources,
+                    search_details=oci.resource_search.models.StructuredSearchDetails(
+                        query="query capturefilter resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
+                ).data
+
+                for filter in capturefilter_data:
+                    deep_link = self.__oci_network_capturefilter_uri + filter.identifier + '?region=' + region_key
+                    record = oci.util.to_dict(filter)
+                    record['deep_link'] = deep_link
+                    
+                    # Adding CaptureFilter to CaptureFilter Dict   
+                    self.__network_capturefilters[filter.identifier] = record
+
+            print("\tProcessed " + str(len(self.__network_capturefilters)) + " Network Capture Filters ")
+
+            return self.__network_subnets
+        except Exception as e:
+            raise RuntimeError(
+                "Error in __network_read_network_capturefilters " + str(e.args))
 
     ##########################################################################
     # Load DRG Attachments
@@ -3007,6 +3076,7 @@ class CIS_Report:
                             log_group_id=log_group.identifier
                         ).data
                         for log in logs:
+
                             deep_link = self.__oci_loggroup_uri + log_group.identifier + "/logs/" + log.id + '?region=' + region_key
                             log_record = {
                                 "compartment_id": log.compartment_id,
@@ -3021,17 +3091,76 @@ class CIS_Report:
                                 "time_created": log.time_created.strftime(self.__iso_time_format),
                                 "time_last_modified": str(log.time_last_modified),
                                 "defined_tags": log.defined_tags,
-                                "freeform_tags": log.freeform_tags
+                                "freeform_tags": log.freeform_tags,
+                                "region" : region_key
                             }
                             try:
-                                if log.configuration:
-                                    log_record["configuration_compartment_id"] = log.configuration.compartment_id,
-                                    log_record["source_category"] = log.configuration.source.category,
-                                    log_record["source_parameters"] = log.configuration.source.parameters,
-                                    log_record["source_resource"] = log.configuration.source.resource,
-                                    log_record["source_service"] = log.configuration.source.service,
-                                    log_record["source_source_type"] = log.configuration.source.source_type
-                                    log_record["archiving_enabled"] = log.configuration.archiving.is_enabled
+                                try:
+                                    if log_record["log_type"] == "SERVICE" and log_record['lifecycle_state'] == "ACTIVE":
+                                        log_record["configuration_compartment_id"] = log.configuration.compartment_id
+                                        log_record["source_category"] = log.configuration.source.category
+                                        log_record["source_parameters"] = log.configuration.source.parameters
+                                        log_record["source_source_type"] = log.configuration.source.source_type
+                                        log_record["source_service"] = log.configuration.source.service
+                                        # Object storage buckets are indexed by BucketName-region
+                                        if log_record["source_service"] == "objectstorage":
+                                            log_record["source_resource"] = log.configuration.source.resource + "-" + region_key
+                                        else:
+                                            log_record["source_resource"] = log.configuration.source.resource
+                                        log_record["archiving_enabled"] = log.configuration.archiving.is_enabled
+                                        if log_record["source_parameters"] and isinstance(log_record["source_parameters"],dict):
+                                            log_record["capture_filter"] = log.configuration.source.parameters["capture_filter"]
+                                        else:
+                                            log_record["capture_filter"] = None
+             
+                                    elif log_record["lifecycle_state"] == "ACTIVE":
+                                        log_record["source_category"] = log.log_type
+                                        log_record["source_service"] = log.log_type
+                                        log_record["source_resource"] = log.id
+                                        log_record["capture_filter"] = None
+                                except Exception as e:
+                                    print(log)
+                                    print(e)
+                                
+                                #### TESTING SOMETHING NEW ####
+
+                                try: 
+                                    ## Active means your logging
+                                    if log_record['lifecycle_state'] == 'ACTIVE':
+                                        if self.__all_logs:
+
+                                            if log_record["source_service"] in self.__all_logs:
+
+                                                if log_record["source_category"] in self.__all_logs[log_record["source_service"]]:
+                                                    debug("\t__logging_read_log_groups_and_logs: Adding log for existing service and category ")
+                                                    self.__all_logs[log_record["source_service"]][log_record["source_category"]][log_record["source_resource"]] = log_record
+                                                        
+                                                else:
+                                                    debug(f'\t__logging_read_log_groups_and_logs: Adding category {log_record["source_category"]}')
+                                                    self.__all_logs[log_record["source_service"]][log_record["source_category"]] = {}
+                                                    self.__all_logs[log_record["source_service"]][log_record["source_category"]][log_record["source_resource"]] = log_record
+                                                        
+                                            else:
+                                                debug(f'\t__logging_read_log_groups_and_logs: Adding Service {log_record["source_service"]}, and category {log_record["source_category"]}')
+                                                self.__all_logs[log_record["source_service"]] = {}
+                                                self.__all_logs[log_record["source_service"]][log_record["source_category"]] = {}
+                                                self.__all_logs[log_record["source_service"]][log_record["source_category"]][log_record["source_resource"]] = log_record
+                                                    
+                                        else:
+                                            debug(f'\t__logging_read_log_groups_and_logs: Starting Dict: Adding Service {log_record["source_service"]}, and category {log_record["source_category"]}' )
+                                            self.__all_logs[log_record["source_service"]] = {}
+                                            self.__all_logs[log_record["source_service"]][log_record["source_category"]] = {}
+                                            self.__all_logs[log_record["source_service"]][log_record["source_category"]][log_record["source_resource"]] = log_record
+                                                
+
+                                except Exception as e:
+                                    print(f'\tFailed to parse log: {log_record["id"]}')
+                                    self.__errors.append({"id" : log_record["id"], "error" : str(e)})
+                                    print("*" * 80)
+                                    print(log_record)
+                                    print("#" * 80)
+                                    print(e)
+                                    print("*" * 80)
 
                                 if log.configuration.source.service == 'flowlogs':
                                     self.__subnet_logs[log.configuration.source.resource] = {"log_group_id": log.log_group_id, "log_id": log.id}
@@ -3064,10 +3193,11 @@ class CIS_Report:
                         self.__errors.append({"id" : log_group.identifier, "error" : str(e) })
                         record['notes'] = str(e)
                         
-
                     self.__logging_list.append(record)
 
             print("\tProcessed " + str(len(self.__logging_list)) + " Log Group Logs")
+            # print(self.__all_logs)
+
             return self.__logging_list
         except Exception as e:
             raise RuntimeError(
@@ -4151,14 +4281,69 @@ class CIS_Report:
             if all(findings.values()):
                 self.cis_foundations_benchmark_2_0[key]['Status'] = True
 
+        ### Testing ###
         # CIS Check 4.13 - VCN FlowLog enable
         # Generate list of subnets IDs
         for subnet in self.__network_subnets:
-            if not (subnet['id'] in self.__subnet_logs):
-                self.cis_foundations_benchmark_2_0['4.13']['Status'] = False
-                self.cis_foundations_benchmark_2_0['4.13']['Findings'].append(
-                    subnet)
+            vcn_id = subnet['vcn_id']
+            try:              
+                if 'vcn' in self.__all_logs['flowlogs'] and vcn_id in self.__all_logs['flowlogs']['vcn']:
+                    debug(f"__report_cis_analyze_tenancy_data: Flowlogs checking VCN {vcn_id} for Subnet: {subnet['id']} ")
+                    if self.__all_logs['flowlogs']['vcn'][vcn_id]['capture_filter']:
+                        capture_filter_id = self.__all_logs['flowlogs']['vcn'][vcn_id]['capture_filter']
+                        capture_filter = self.__network_capturefilters[capture_filter_id]
 
+                        if not(self.all_traffic_rules[0] in capture_filter['additional_details']['flowLogCaptureFilterRules'] or \
+                            self.all_traffic_rules[1] in capture_filter['additional_details']['flowLogCaptureFilterRules']):
+                        # VCN is being logging but it is has a capture filter we need to check
+                            debug(f"__report_cis_analyze_tenancy_data: Flowlogs Capture Filter {capture_filter_id} Rules not compliant.")
+                            capture_filter = self.__network_capturefilters[capture_filter_id]
+                            self.cis_foundations_benchmark_2_0['4.13']['Status'] = False
+                            self.cis_foundations_benchmark_2_0['4.13']['Findings'].append(subnet)
+
+                elif 'subnet' in self.__all_logs['flowlogs'] and subnet['id'] in self.__all_logs['flowlogs']['subnet']: 
+                    debug(f"__report_cis_analyze_tenancy_data: Flowlogs checking Subnet {subnet['id']} in subnet")
+                    debug(self.__all_logs['flowlogs']['subnet'][subnet['id']]['capture_filter'])
+                    if self.__all_logs['flowlogs']['subnet'][subnet['id']]['capture_filter']:
+                        debug(f"__report_cis_analyze_tenancy_data: Flowlogs checking Subnet {subnet['id']} capture filter in subnet")
+                        capture_filter_id = self.__all_logs['flowlogs']['subnet'][subnet['id']]['capture_filter']
+                        capture_filter = self.__network_capturefilters[capture_filter_id]    
+                        if not(self.all_traffic_rules[0] in capture_filter['additional_details']['flowLogCaptureFilterRules'] or \
+                            self.all_traffic_rules[1] in capture_filter['additional_details']['flowLogCaptureFilterRules']):
+                        # VCN is being logging but it is has a capture filter we need to check
+                            debug(f"__report_cis_analyze_tenancy_data: Flowlogs Capture Filter {capture_filter_id} Rules not compliant.")
+                            self.cis_foundations_benchmark_2_0['4.13']['Status'] = False
+                            self.cis_foundations_benchmark_2_0['4.13']['Findings'].append(subnet)
+
+                elif 'all' in self.__all_logs['flowlogs'] and subnet['id'] in self.__all_logs['flowlogs']['all']:
+                    debug(f"__report_cis_analyze_tenancy_data: Flowlogs checking Subnet {subnet['id']} in all")
+                    debug(self.__all_logs['flowlogs']['all'][subnet['id']]['capture_filter'])
+                    if self.__all_logs['flowlogs']['all'][subnet['id']]['capture_filter']:
+                        debug(f"__report_cis_analyze_tenancy_data: Flowlogs checking Subnet {subnet['id']} capture filter in all")
+
+                        capture_filter_id = self.__all_logs['flowlogs']['all'][subnet['id']]['capture_filter']
+                        capture_filter = self.__network_capturefilters[capture_filter_id]    
+                        if not(self.all_traffic_rules[0] in capture_filter['additional_details']['flowLogCaptureFilterRules'] or \
+                            self.all_traffic_rules[1] in capture_filter['additional_details']['flowLogCaptureFilterRules']):
+                        # VCN is being logging but it is has a capture filter we need to check
+                            debug(f"__report_cis_analyze_tenancy_data: Flowlogs Capture Filter {capture_filter_id} Rules not compliant.")
+                            self.cis_foundations_benchmark_2_0['4.13']['Status'] = False
+                            self.cis_foundations_benchmark_2_0['4.13']['Findings'].append(subnet)
+
+                else:
+                    debug(f"__report_cis_analyze_tenancy_data: Flowlogs count not find Subnet {subnet['id']}, it is a finding")
+                    self.cis_foundations_benchmark_2_0['4.13']['Status'] = False
+                    self.cis_foundations_benchmark_2_0['4.13']['Findings'].append(subnet)
+
+            except Exception as e:
+                self.cis_foundations_benchmark_2_0['4.13']['Status'] = False            
+                if ".capturefilter." in str(e):
+                    print(f"Unable to read capturefilter rules for:  {str(e)}.\n*** Please ensure your auditor has permissions: 'to read capture-filters in tenancy' . ***")
+                    self.__errors.append({"id" : str(e), "error" : "Unable to read capturefilter rules *** Please ensure your auditor has permissions: 'to read capture-filters in tenancy'."})
+                else:
+                    print(f'Unable to process all logs and capture filter rules: {str(e)}')
+                    self.__errors.append({"id" : "__network_subnets", "error" : str(e)})
+        
         # CIS Check 4.13 Total - Adding All Subnets to total
         self.cis_foundations_benchmark_2_0['4.13']['Total'] = self.__network_subnets
 
@@ -4191,12 +4376,16 @@ class CIS_Report:
             self.cis_foundations_benchmark_2_0['4.16']['Total'].append(key)
 
         # CIS Check 4.17 - Object Storage with Logs
-        # Generating list of buckets names
-        for bucket in self.__buckets:
-            if not (bucket['name'] in self.__write_bucket_logs):
-                self.cis_foundations_benchmark_2_0['4.17']['Status'] = False
-                self.cis_foundations_benchmark_2_0['4.17']['Findings'].append(
-                    bucket)
+        # Generating list of buckets names and need to make sure they have write level bucekt logs
+        if 'objectstorage' in self.__all_logs and 'write' in self.__all_logs['objectstorage']:
+            for bucket in self.__buckets:
+                if not (bucket['name'] + "-" + bucket['region'] in self.__all_logs['objectstorage']['write']):
+                    self.cis_foundations_benchmark_2_0['4.17']['Status'] = False
+                    self.cis_foundations_benchmark_2_0['4.17']['Findings'].append(
+                        bucket)
+        else:
+            self.cis_foundations_benchmark_2_0['4.17']['Status'] = False
+            self.cis_foundations_benchmark_2_0['4.17']['Findings'] +=self.__buckets
 
         # CIS Check 4.17 Total - Adding All Buckets to total
         self.cis_foundations_benchmark_2_0['4.17']['Total'] = self.__buckets
@@ -5371,7 +5560,9 @@ class CIS_Report:
             self.__ons_read_subscriptions,
             self.__network_read_network_security_lists,
             self.__network_read_network_security_groups_rules,
+            self.__network_read_network_vcns,
             self.__network_read_network_subnets,
+            self.__network_read_network_capturefilters,
             self.__adb_read_adbs,
             self.__oic_read_oics,
             self.__oac_read_oacs,
@@ -5436,6 +5627,8 @@ class CIS_Report:
             "network_security_groups": self.__network_security_groups,
             "network_security_lists": self.__network_security_lists,
             "network_subnets": self.__network_subnets,
+            "network_vcns": self.__network_vcns,
+            "network_capture_filters": list(self.__network_capturefilters.values()),
             "autonomous_databases": self.__autonomous_databases,
             "analytics_instances": self.__analytics_instances,
             "integration_instances": self.__integration_instances,

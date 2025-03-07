@@ -7,7 +7,7 @@
 #
 # Author: Olaf Heimburger
 #
-VERSION=250301
+VERSION=250307
 
 OS_TYPE=$(uname)
 OS_PLATFORM=$(uname -m)
