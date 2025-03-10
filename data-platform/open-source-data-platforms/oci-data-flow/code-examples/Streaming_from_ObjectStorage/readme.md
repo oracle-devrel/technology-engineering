@@ -35,15 +35,15 @@ wr.stop()</br>
 
 ### Check streamed data 
 nd = spark.read.option("inferSchema", "true").parquet(stream_path+'/*.parquet')</br>
-nd.count()
+nd.count()</br>
 
 ## END of code
 
 ## Additional comments:
-You may to provide :
-option("checkpointLocation") - to persist medatada about processed files
-Option("cleanSource") — It can archive or delete the source file after processing. Values can be archive, delete and default is off.
-Option("sourceArchiveDir")  — Archive directory if the cleanSource option is set to archive.
+You may to provide :</br>
+option("checkpointLocation") - to persist medatada about processed files</br>
+Option("cleanSource") — It can archive or delete the source file after processing. Values can be archive, delete and default is off.</br>
+Option("sourceArchiveDir")  — Archive directory if the cleanSource option is set to archive.</br>
 
 
 How to use this asset?
