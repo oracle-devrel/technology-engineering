@@ -24,8 +24,8 @@ Each step in the **Establishing Your OCI Environment** section contains links to
 
 To ensure a further **structured and successful** cloud adoption journey, Oracle provides two key frameworks:  
 
-- The **[Cloud Adoption Framework for OCI (CAF)](https://www.oracle.com/cloud/cloud-adoption-framework/)**  helps organizations transition to OCI by providing best practices for governance, security, operations, and financial management. It ensures that cloud strategies align with business goals and regulatory requirements.  
-- The **[OCI Well-Architected Framework (WAF)](https://docs.oracle.com/en/solutions/oci-best-practices/index.html)**  focuses on the **technical implementation** of cloud workloads, ensuring they are secure, reliable, and optimized for performance and cost.  
+- The **[Cloud Adoption Framework for OCI (CAF)](https://www.oracle.com/cloud/cloud-adoption-framework/)** helps organizations transition to OCI by providing best practices for governance, security, operations, and financial management. It ensures that cloud strategies align with business goals and regulatory requirements.  
+- The **[OCI Well-Architected Framework (WAF)](https://docs.oracle.com/en/solutions/oci-best-practices/index.html)** focuses on the **technical implementation** of cloud workloads, ensuring they are secure, reliable, and optimized for performance and cost.  
 
 These frameworks work together with the **CAF** establishing the foundation and governance model, and the **WAF** ensuring workloads are designed according to best practices. By following both, organizations can create a cloud environment that is scalable, secure, and operationally efficient.  
 
