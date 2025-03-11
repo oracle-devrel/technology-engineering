@@ -53,18 +53,32 @@ This example is based on the <a href="../java-helloworld-with-local-dev-and-oci-
 
 <p>
 
-To do the OCI SDK authentication and authorization to use the GenAI services the function uses two options:
+To do the OCI SDK authentication and authorization to use the GenAI services the function has three options:
 <ul>
-<li><b>IAM regular user</b> for the local dev and test on mac</li>
-<li><b>InstancePrincipal</b> for the OCI Function by passing config key <code>AUTH_INSTANCE_PRINCIPAL</code> with any value (then not being null)</li>
+<li><b>ResourcePrincipal</b> for the OCI Function to run in OCI. This allows Function to be authorized as part of
+a OCI Dynamic Group that has OCI Policies attached to for the Function to do it's job.</li>
+<li><b>IAM regular user</b> for the local dev and test on mac and passing the vars in source code (lines 79-84 in HelloAIFunction.java). This works for testing locally but the container should not be distributed!</li>
+<li><b>IAM regular user</b> for the local dev and test on mac using OCI CLI config file (usually located in ~/.oci). Again, this works for testing locally but the container should not be distributed!</li>
 </ul>
 
 <p>
-IAM user option will work on both cases above, as local and as OCI Function.
+IAM user option will work on both cases above, as local and as OCI Function. ResourcePrincipal is the default for OCI Function.
+<p>
 
 ## Build and test
 
-During following the steps of the <a href="../java-helloworld-with-local-dev-and-oci-functions">Hello function example </a> adjust the <a href="https://github.com/oracle-devrel/technology-engineering/blob/main/app-dev/devops-and-containers/functions/java-helloworld-AI-with-local-dev-and-oci-functions/files/src/main/java/com/example/HelloAIFunction.java#L131">line 131</a> to match your <code>GenAI service model OCID</code>. 
+Following the steps of the <a href="../java-helloworld-with-local-dev-and-oci-functions">Hello function example </a> adjust the  <a href="https://github.com/oracle-devrel/technology-engineering/blob/main/app-dev/devops-and-containers/functions/java-helloworld-AI-with-local-dev-and-oci-functions/files/src/main/java/com/example/HelloAIFunction.java#76">line 76</a> to match your <code>compartment OCID</code> and the <a href="https://github.com/oracle-devrel/technology-engineering/blob/main/app-dev/devops-and-containers/functions/java-helloworld-AI-with-local-dev-and-oci-functions/files/src/main/java/com/example/HelloAIFunction.java#77">line 77</a> to match your <code>GenAI service model OCID</code>. 
+
+<p>
+
+To use <code>.oci config</code> for testing locally replace the contents of Dockerfile with the contents from <a href="Dockerfile.local_oci">Dockerfile.local_oci</a>. Then copy your <code>~/.oci</code> -directory under the project root and build the Function with Fn:
+
+<pre>
+fn --verbose deploy --app hellofunction --local
+fn invoke hellofunction helloaifunc
+</pre>
+
+<i>Note! Do not distribute this container since it contains your OCI credentials. Use this only for local testing purposes.</i>
 
 <p>
 
@@ -75,13 +89,25 @@ Testing with curl (or copy-pasting the API Gateway deployment url to a browser):
 <pre>
 curl https://n3yu.....ghhi.apigateway.eu-frankfurt-1.oci.customer-oci.com/
 
-What happened today 01/17/2025 100 years ago ?
-On January 17th, 1925, 100 years ago, the following events took place:
-- In the US, President Calvin Coolidge delivered his annual State of the Union address to Congress. He discussed the thriving state of the national economy, emphasizing the record-high production of American industries and the growth of the country's merchant marine fleet. Coolidge also urged Congress to pass legislation facilitating world trade and improving diplomatic relations.
-- The first Winter Sports Week was held in Chamonix, France. This event eventually evolved into the prestigious Chamonix International Festival of Sports and Cinema.
-- The play "The New York Idea" by Langdon Mitchell premiered at the Ambassador Theatre on Broadway. It ran for 144 performances and received critical acclaim.
-- The silent film "The Gold Rush" directed by Charlie Chaplin was released in the United States. It's a classic comedy that tells the story of a prospector during the Klondike Gold Rush. Chaplin's unique brand of physical comedy and the film's innovative effects delighted audiences.
-- In Germany, the Weimar Republic experienced a political scandal known as the "German-Russian Trade and Credit Agreement." The agreement, which granted Germany a loan of 300 million marks from Russia, was signed secretly, leading to accusations of mismanagement and lack of transparency in the government. This incident further destabilized the already fragile Weimar Republic.
+What happened at 1925-02-07 ?
+
+On February 7, 1925, several significant events took place around the world:
+
+- In the United States, the Grand Ole Opry, a famous country music stage and radio show, made its debut on WSM radio in Nashville, Tennessee. It was initially called the "WSM Barn Dance" and has since become one of the longest-running radio programs in history.
+
+- The first issue of "The New Yorker" magazine was published in New York City. Founded by Harold Ross, the magazine quickly gained a reputation for its sophisticated and witty writing, featuring contributions from renowned writers and artists.
+
+- In the field of aviation, the first non-stop flight from England to India was completed by Squadron Leader John Henry "Jack" Moore-Brabazon, 1st Baron Brabazon of Tara. He flew a modified Airco DH.9A biplane, covering a distance of approximately 4,130 miles (6,646 kilometers) in about 50 hours and 37 minutes.
+
+- In sports, the 1925 Rose Bowl game was played in Pasadena, California. The game, which is an annual college football bowl game, saw the Dartmouth Indians defeat the California Golden Bears by a score of 14-0.
+
+- In the world of literature, the novel "The Great Gatsby" by F. Scott Fitzgerald was published in the United States. The book, set in the 1920s, explores themes of social class, wealth, and the American Dream, and has since become a classic of American literature.
+
+- In the realm of science, the American chemist Wallace Carothers filed a patent for the synthetic polymer nylon. Nylon, known for its strength and versatility, would go on to revolutionize the textile industry and find applications in various products.
+
+- In Europe, the Locarno Treaties were signed in Switzerland. These treaties aimed to promote peace and security in Europe after World War I. They included mutual guarantees of borders and commitments to resolve disputes peacefully.
+
+These are just a few notable events that occurred on February 7, 1925. The day witnessed advancements in entertainment, aviation, sports, literature, science, and international diplomacy.
 </pre>
 
 # Native image using GraalVM
