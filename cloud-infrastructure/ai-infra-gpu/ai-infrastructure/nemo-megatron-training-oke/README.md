@@ -8,7 +8,7 @@ on the Oracle Container Engine for Kubernetes (OKE) using
 Reference results from NVIDIA to train Llama 2 can be found on the
 [NGC Catalog](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/dgxc-benchmarking/resources/llama2-dgxc-benchmarking).
 
-Reviewed: dd.mm.yyyy
+Reviewed: 13.03.2025
 
 # When to use this asset?
 
@@ -19,7 +19,7 @@ Reviewed: dd.mm.yyyy
 ## Prerequisites
 
 * You have access to an Orcale Cloud Tenancy.
-* You have access to shapes with NVIDIA GPUs such as A100.
+* You have access to shapes with NVIDIA GPUs such as H100.
 * You have a HuggingFace account and access to `meta-llama/Llama-2-70b-hf`.
 
 This guide is loosely based on the
