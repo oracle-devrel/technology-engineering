@@ -53,18 +53,32 @@ This example is based on the <a href="../java-helloworld-with-local-dev-and-oci-
 
 <p>
 
-To do the OCI SDK authentication and authorization to use the GenAI services the function uses two options:
+To do the OCI SDK authentication and authorization to use the GenAI services the function has three options:
 <ul>
-<li><b>IAM regular user</b> for the local dev and test on mac (lines 79-84 in HelloAIFunction.java)</li>
-<li><b>ResourcePrincipal</b> for the OCI Function</li>
+<li><b>ResourcePrincipal</b> for the OCI Function to run in OCI. This allows Function to be authorized as part of
+a OCI Dynamic Group that has OCI Policies attached to for the Function to do it's job.</li>
+<li><b>IAM regular user</b> for the local dev and test on mac and passing the vars in source code (lines 79-84 in HelloAIFunction.java). This works for testing locally but the container should not be distributed!</li>
+<li><b>IAM regular user</b> for the local dev and test on mac using OCI CLI config file (usually located in ~/.oci). Again, this works for testing locally but the container should not be distributed!</li>
 </ul>
 
 <p>
 IAM user option will work on both cases above, as local and as OCI Function. ResourcePrincipal is the default for OCI Function.
+<p>
 
 ## Build and test
 
 Following the steps of the <a href="../java-helloworld-with-local-dev-and-oci-functions">Hello function example </a> adjust the  <a href="https://github.com/oracle-devrel/technology-engineering/blob/main/app-dev/devops-and-containers/functions/java-helloworld-AI-with-local-dev-and-oci-functions/files/src/main/java/com/example/HelloAIFunction.java#76">line 76</a> to match your <code>compartment OCID</code> and the <a href="https://github.com/oracle-devrel/technology-engineering/blob/main/app-dev/devops-and-containers/functions/java-helloworld-AI-with-local-dev-and-oci-functions/files/src/main/java/com/example/HelloAIFunction.java#77">line 77</a> to match your <code>GenAI service model OCID</code>. 
+
+<p>
+
+To use <code>.oci config</code> for testing locally replace the contents of Dockerfile with the contents from <a href="Dockerfile.local_oci">Dockerfile.local_oci</a>. Then copy your <code>~/.oci</code> -directory under the project root and build the Function with Fn:
+
+<pre>
+fn --verbose deploy --app hellofunction --local
+fn invoke hellofunction helloaifunc
+</pre>
+
+<i>Note! Do not distribute this container since it contains your OCI credentials. Use this only for local testing purposes.</i>
 
 <p>
 

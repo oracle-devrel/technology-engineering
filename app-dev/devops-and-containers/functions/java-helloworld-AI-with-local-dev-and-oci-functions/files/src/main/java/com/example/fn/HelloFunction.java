@@ -36,13 +36,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-package com.example;
+package com.example.fn;
 
 import com.oracle.bmc.ClientConfiguration;
 import com.oracle.bmc.ConfigFileReader;
 import com.oracle.bmc.Region;
 import com.oracle.bmc.auth.AuthenticationDetailsProvider;
 import com.oracle.bmc.auth.ResourcePrincipalAuthenticationDetailsProvider;
+import com.oracle.bmc.auth.ConfigFileAuthenticationDetailsProvider;
 import com.oracle.bmc.auth.StringPrivateKeySupplier;
 import com.oracle.bmc.auth.SimpleAuthenticationDetailsProvider;
 import com.oracle.bmc.generativeaiinference.GenerativeAiInferenceClient;
@@ -68,7 +69,7 @@ import java.io.*;
 import java.util.*;
 import java.text.*;
 
-public class HelloAIFunction {
+public class HelloFunction {
 
     // FILL IN PROPER VALUES FOR OCI GENAI SERVICE
     private static final String ENDPOINT       = "https://inference.generativeai.eu-frankfurt-1.oci.oraclecloud.com";
@@ -101,21 +102,31 @@ public class HelloAIFunction {
 
         } catch (Exception e) {
                 try {
-                        AuthenticationDetailsProvider authenticationDetailsProvider =
-                                SimpleAuthenticationDetailsProvider.builder()
-                                        .tenantId(TENANCY_ID)
-                                        .userId(USER_ID)
-                                        .fingerprint(FINGERPRINT)
-                                        .privateKeySupplier(new StringPrivateKeySupplier(PRIVATEKEY))
-                                        .passPhrase(PASSPHRASE)
-                                        .build();
+                        ConfigFileAuthenticationDetailsProvider configFileAuthenticationDetailsProvider =
+                                new ConfigFileAuthenticationDetailsProvider("/config", "DEFAULT");
                         generativeAiInferenceClient =
                                 GenerativeAiInferenceClient.builder()
                                         .region(REGION)
                                         .endpoint(ENDPOINT)
-                                        .build(authenticationDetailsProvider);
+                                        .build(configFileAuthenticationDetailsProvider);
                 } catch (Exception ee) {
-                        answer = answer + "\n" + ee.getMessage();
+                        try {
+                                AuthenticationDetailsProvider authenticationDetailsProvider =
+                                        SimpleAuthenticationDetailsProvider.builder()
+                                                .tenantId(TENANCY_ID)
+                                                .userId(USER_ID)
+                                                .fingerprint(FINGERPRINT)
+                                                .privateKeySupplier(new StringPrivateKeySupplier(PRIVATEKEY))
+                                                .passPhrase(PASSPHRASE)
+                                                .build();
+                                generativeAiInferenceClient =
+                                        GenerativeAiInferenceClient.builder()
+                                                .region(REGION)
+                                                .endpoint(ENDPOINT)
+                                                .build(authenticationDetailsProvider);
+                        } catch (Exception eee) {
+                                answer = answer + "\n" + eee.getMessage();
+                        }
                 }
         }
 
@@ -156,5 +167,4 @@ public class HelloAIFunction {
         }
         return answer;
     }
-
 }

@@ -3,7 +3,7 @@ pytz
 pandas
 openpyxl>=3.1.5
 pyyaml>=6.0
-oci>=2.129.4
+oci>=2.147.0
 requests
 matplotlib
 numpy
