@@ -116,13 +116,13 @@ GraalVM compiles your Java functions ahead of time into standalone binaries that
 
 <p>
 
-To do this a <a href="https://github.com/oracle-devrel/technology-engineering/tree/main/app-dev/devops-and-containers/devops/oci-devops-terraform-function-java-graalvm">create OCI DevOps project for a Function CI/CD</a> and then clone the repo and copy the following files with the Function source and commit and push them to the repo:
+To do this <a href="https://github.com/oracle-devrel/technology-engineering/tree/main/app-dev/devops-and-containers/devops/oci-devops-terraform-function-java-graalvm">create OCI DevOps project for a Function CI/CD</a> and then clone the repo and copy the following files with the Function <a href="./files/src/">source</a> and commit and push them to the repo:
 <p>
 <ul>
-    <li>Dockerfile.native</li>
-    <li>build_spec_native.yaml</li>
-    <li>reflection.json</li>
-    <li>pom.xml</li>
+    <li><a href="./files/Dockerfile.native">Dockerfile.native</a></li>
+    <li><a href="./files/build_spec_native.yaml">build_spec_native.yaml</a></li>
+    <li><a href="./files/reflection.json">reflection.json</a></li>
+    <li><a href="./files/pom.xml">pom.xml</a></li>
 </ul>
 <p>
 After pushing run the native build pipeline and test the Function in cloud shell.
