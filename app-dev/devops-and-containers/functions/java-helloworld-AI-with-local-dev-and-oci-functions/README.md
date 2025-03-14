@@ -116,38 +116,17 @@ GraalVM compiles your Java functions ahead of time into standalone binaries that
 
 <p>
 
-To do this a Docker multi-stage build is used.
-
+To do this a <a href="https://github.com/oracle-devrel/technology-engineering/tree/main/app-dev/devops-and-containers/devops/oci-devops-terraform-function-java-graalvm">create OCI DevOps project for a Function CI/CD</a> and then clone the repo and copy the following files with the Function source and commit and push them to the repo:
 <p>
-
-Before building the native image let's do a full maven build for the project to create the necessary libraries under <code>target/lib</code>:
-
-<pre>
-mvn clean install
-</pre>
-
-Then build the Docker container using <a href="./files/Dockerfile.native">multi-stage Docker file</a> including the GraalVM native image compilation:
-
-<pre>
-docker build -f Dockerfile.native -t fra.ocir.io/&lt;YOUR OCI TENANCY NAMESPACE&gt;/helloworldai-java:2 .
-</pre>
-
-The GraalVM compilation stage requires quite a bit resources from your localhost so in case for example using Rancher desktop
-think of increasing the CPU and memory for it to make the build faster.
-
+<ul>
+    <li>Dockerfile.native</li>
+    <li>build_spec_native.yaml</li>
+    <li>reflection.json</li>
+    <li>pom.xml</li>
+</ul>
 <p>
-
-In the <a href="./files/Dockerfile.native">Dockerfile.native</a> two things are important: Including the <a href="./files/reflection.json">reflection.json</a> with the proper function class name and passing Fn FDK libraries with <code>"-Djava.library.path=/lib"</code> in the container CMD along with the <code>"com.example.HelloAIFunction::handleRequest"</code> function handler.
-
+After pushing run the native build pipeline and test the Function in cloud shell.
 <p>
-
-After the build push the container to OCIR repo:
-
-<pre>
-docker push fra.ocir.io/&lt;YOUR OCI TENANCY NAMESPACE&gt;/helloworldai-java:2
-</pre>
-
-Finally deploy the container to your OCI Function by replacing the container using the Cloud UI by editing the function and changing the container from <code>helloworldai-java:1</code> to <code>helloworldai-java:2</code>. Then test it.
 
 
 # Useful Links
