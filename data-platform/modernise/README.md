@@ -50,7 +50,8 @@ Reviewed: 15.11.2024
     - Detailed, step-by-step instructions for Modernising OS and Shape of Oracle Base Database Systems with Data Guard using Refreshable PDBs , available on Amalraj Puthenchira's public platform
 - [Migrating to latest generation of Exadata Database Service on Dedicated Infrastructure without worrying about RTO/RPO](https://amalrajputhenchira.wordpress.com/2025/02/17/migrating-to-latest-generation-of-exadata-database-service-on-dedicated-infrastructure-without-worrying-about-rto-rpo/)
     - Detailed, step-by-step instructions for Migrating Database from existing ExaDB-D to latest generation of ExaDB-D , available on Amalraj Puthenchira's public platform
-
+- [Migrate and Upgrade your Oracle Base Database to Exadata Database Service on Exascale Infrastructure using AutoUpgrade](https://amalrajputhenchira.wordpress.com/2025/03/03/migrate-your-oracle-base-database-to-exadata-database-service-on-exascale-infrastructure-using-autoupgrade/)
+    - Detailed, step-by-step instructions for Migrate and Upgrade Oracle Base Database 19c to ExaDB-XS using AutoUpgrade , available on Amalraj Puthenchira's public platform
 # Useful Links
 
 - [OCI Migration Hub - Migrate Oracle Databases to OCI](https://www.oracle.com/database/cloud-migration/)
