@@ -1,0 +1,159 @@
+apiVersion: batch.volcano.sh/v1alpha1
+kind: Job
+metadata:
+  annotations:
+  name: nemo-megatron-preprocessing
+spec:
+  minAvailable: 0
+  plugins:
+    ssh: []
+    svc: []
+  queue: default
+  schedulerName: volcano
+  tasks:
+  - name: mpimaster
+    policies:
+    - action: CompleteJob
+      event: TaskCompleted
+    replicas: 1
+    template:
+      metadata:
+      spec:
+        containers:
+        - command:
+          - /bin/bash
+          - -c
+          - |
+            set -ex -o pipefail
+            NUM_GPUS=8
+            NUM_HOSTS=$(sed -n '$=' /etc/volcano/mpiworker.host)
+            NP=$(($NUM_HOSTS*$NUM_GPUS))
+
+            HOSTFILE=$PWD/myhosts.sorted
+            bash /mnt/data/utils/sort_hosts.sh $HOSTFILE
+
+            mpirun --allow-run-as-root \
+              -mca plm_rsh_args "-p 2222" \
+              -np $NP -npernode $NUM_GPUS --bind-to none -map-by slot \
+              -hostfile $HOSTFILE \
+              $MPI_ARGS \
+              -x PYTHONPATH \
+              python3 -u /opt/NeMo-Framework-Launcher/launcher_scripts/nemo_launcher/collections/dataprep_scripts/pile_dataprep/download.py \
+                ++cluster_type=k8s \
+                ++data_dir=/mnt/mnt/data/pile \
+                ++the_pile_url=https://huggingface.co/datasets/monology/pile-uncopyrighted/resolve/main/train/ \
+                ++file_numbers=0-0 \
+                ++rm_downloaded=False \
+                ++rm_extracted=False
+            mpirun --allow-run-as-root \
+              -mca plm_rsh_args "-p 2222" \
+              -np $NP -npernode $NUM_GPUS --bind-to none -map-by slot \
+              -hostfile $HOSTFILE \
+              $MPI_ARGS \
+              -x PYTHONPATH \
+              python3 -u /opt/NeMo-Framework-Launcher/launcher_scripts/nemo_launcher/collections/dataprep_scripts/pile_dataprep/extract.py \
+                ++cluster_type=k8s \
+                ++data_dir=/mnt/mnt/data/pile \
+                ++file_numbers=0-0 \
+                ++rm_downloaded=False \
+                ++rm_extracted=False
+            mpirun --allow-run-as-root \
+              -mca plm_rsh_args "-p 2222" \
+              -np $NP -npernode $NUM_GPUS --bind-to none -map-by slot \
+              -hostfile $HOSTFILE \
+              $MPI_ARGS \
+              -x PYTHONPATH \
+              -x HF_HUB_OFFLINE=1 \
+              python3 -u /opt/NeMo-Framework-Launcher/launcher_scripts/nemo_launcher/collections/dataprep_scripts/pile_dataprep/preprocess.py \
+                ++cluster_type=k8s \
+                ++launcher_scripts_path=/opt/NeMo-Framework-Launcher/launcher_scripts \
+                ++data_dir=/mnt/mnt/data/pile \
+                ++file_numbers=0-0 \
+                ++download_vocab_url= \
+                ++download_merges_url= \
+                ++vocab_save_dir=/mnt/data/pile/vocab \
+                ++merges_save_dir=/mnt/data/pile/merges \
+                ++tokenizer_type=/mnt/data/tokenizer \
+                ++tokenizer_library=huggingface \
+                ++rm_downloaded=False \
+                ++rm_extracted=False
+          ports:
+          - { name: mpijob-port, containerPort: 2222, protocol: TCP }
+          image: nvcr.io/nvidia/nemo:24.09
+          name: mpimaster
+          env:
+          - name: OMP_NUM_THREADS
+            value: "14"
+          envFrom:
+          - configMapRef:
+              name: mpi-setup
+          resources:
+            limits:
+              ephemeral-storage: 16Gi
+            requests:
+              cpu: 4
+              ephemeral-storage: 16Gi
+              memory: 1Gi
+          securityContext:
+            privileged: true
+            capabilities:
+              add:
+              - IPC_LOCK
+          volumeMounts:
+          - { mountPath: /dev/infiniband, name: devinf }
+          - { mountPath: /dev/shm, name: shm }
+          - { mountPath: /mnt/data, name: workspace, readOnly: false }
+          workingDir: /workspace
+        dnsPolicy: ClusterFirstWithHostNet
+        hostNetwork: true
+        restartPolicy: OnFailure
+        terminationGracePeriodSeconds: 2
+        volumes:
+        - { name: devinf, hostPath: { path: /dev/infiniband }}
+        - { name: shm, emptyDir: { medium: Memory, sizeLimit: 32Gi }}
+        - { name: workspace, persistentVolumeClaim: { claimName: fss-pv }}
+  - name: mpiworker
+    minAvailable: 0
+    replicas: 1
+    template:
+      metadata:
+      spec:
+        containers:
+        - command:
+          - /bin/bash
+          - -c
+          - mkdir -p /var/run/sshd; /usr/sbin/sshd -D -p 2222 || sleep 999999999;
+          image: nvcr.io/nvidia/nemo:24.09
+          name: mpiworker
+          ports:
+          - { name: mpijob-port, containerPort: 2222, protocol: TCP }
+          resources:
+            limits:
+              ephemeral-storage: 32Gi
+              nvidia.com/gpu: 8
+            requests:
+              cpu: 112
+              ephemeral-storage: 32Gi
+              memory: 768Gi
+              nvidia.com/gpu: 8
+          securityContext:
+            privileged: true
+            capabilities:
+              add:
+              - IPC_LOCK
+              - CAP_SYS_ADMIN
+          volumeMounts:
+          - { mountPath: /dev/infiniband, name: devinf }
+          - { mountPath: /dev/shm, name: shm }
+          - { mountPath: /mnt/data, name: workspace, readOnly: false }
+          workingDir: /workspace
+        dnsPolicy: ClusterFirstWithHostNet
+        hostNetwork: true
+        restartPolicy: OnFailure
+        terminationGracePeriodSeconds: 15
+        tolerations:
+        - { key: nvidia.com/gpu, operator: Exists }
+        volumes:
+        - { name: devinf, hostPath: { path: /dev/infiniband }}
+        - { name: shm, emptyDir: { medium: Memory, sizeLimit: 32Gi }}
+        - { name: workspace, persistentVolumeClaim: { claimName: fss-pv }}
