@@ -124,8 +124,9 @@ To do this <a href="https://github.com/oracle-devrel/technology-engineering/tree
     <li><a href="./files/reflection.json">reflection.json</a></li>
     <li><a href="./files/pom.xml">pom.xml</a></li>
 </ul>
+
 <p>
-After pushing run the native build pipeline and test the Function in cloud shell.
+After pushing run the native build pipeline and <a href="https://github.com/oracle-devrel/technology-engineering/blob/main/app-dev/devops-and-containers/devops/oci-devops-terraform-function-java-graalvm/README.md#testing">test the Function in cloud shell</a>.
 <p>
 
 
