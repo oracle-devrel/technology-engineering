@@ -25,13 +25,13 @@ DATA="""\
 $(<myhosts)
 """
 
-racks = {}
+switches = {}
 for l in DATA.splitlines():
-    host, rack = l.split()
-    racks.setdefault(rack, []).append(host)
+    host, switch = l.split()
+    switches.setdefault(switch, []).append(host)
 
-for r, hs in sorted(racks.items(), key=lambda x: len(x[1]), reverse=True):
-    sys.stderr.write(f"adding rack with {len(hs)} nodes\n")
+for r, hs in sorted(switches.items(), key=lambda x: len(x[1]), reverse=True):
+    sys.stderr.write(f"adding switch with {len(hs)} nodes\n")
     for h in hs:
         print(h)
 EOF

@@ -1,8 +1,9 @@
+{{- if .Values.download_data }}
 apiVersion: batch.volcano.sh/v1alpha1
 kind: Job
 metadata:
   annotations:
-  name: nemo-megatron-preprocessing
+  name: megatron-prep-{{ .Release.Name }}
 spec:
   minAvailable: 0
   plugins:
@@ -25,41 +26,39 @@ spec:
           - -c
           - |
             set -ex -o pipefail
-            NUM_GPUS=8
+            NUM_PROCS={{ .Values.preprocessing.processes_per_node }}
             NUM_HOSTS=$(sed -n '$=' /etc/volcano/mpiworker.host)
-            NP=$(($NUM_HOSTS*$NUM_GPUS))
+            NP=$(($NUM_HOSTS*$NUM_PROCS))
 
-            HOSTFILE=$PWD/myhosts.sorted
-            bash /mnt/data/utils/sort_hosts.sh $HOSTFILE
+            HOSTFILE=/etc/volcano/mpiworker.host
 
             mpirun --allow-run-as-root \
               -mca plm_rsh_args "-p 2222" \
-              -np $NP -npernode $NUM_GPUS --bind-to none -map-by slot \
+              -np $NP -npernode $NUM_PROCS --bind-to none -map-by slot \
               -hostfile $HOSTFILE \
-              $MPI_ARGS \
               -x PYTHONPATH \
               python3 -u /opt/NeMo-Framework-Launcher/launcher_scripts/nemo_launcher/collections/dataprep_scripts/pile_dataprep/download.py \
                 ++cluster_type=k8s \
-                ++data_dir=/mnt/mnt/data/pile \
+                ++data_dir=/mnt/data/pile \
                 ++the_pile_url=https://huggingface.co/datasets/monology/pile-uncopyrighted/resolve/main/train/ \
-                ++file_numbers=0-0 \
+                ++file_numbers=0-{{ .Values.preprocessing.final_file_number }} \
                 ++rm_downloaded=False \
                 ++rm_extracted=False
             mpirun --allow-run-as-root \
               -mca plm_rsh_args "-p 2222" \
-              -np $NP -npernode $NUM_GPUS --bind-to none -map-by slot \
+              -np $NP -npernode $NUM_PROCS --bind-to none -map-by slot \
               -hostfile $HOSTFILE \
               $MPI_ARGS \
               -x PYTHONPATH \
               python3 -u /opt/NeMo-Framework-Launcher/launcher_scripts/nemo_launcher/collections/dataprep_scripts/pile_dataprep/extract.py \
                 ++cluster_type=k8s \
-                ++data_dir=/mnt/mnt/data/pile \
-                ++file_numbers=0-0 \
+                ++data_dir=/mnt/data/pile \
+                ++file_numbers=0-{{ .Values.preprocessing.final_file_number }} \
                 ++rm_downloaded=False \
                 ++rm_extracted=False
             mpirun --allow-run-as-root \
               -mca plm_rsh_args "-p 2222" \
-              -np $NP -npernode $NUM_GPUS --bind-to none -map-by slot \
+              -np $NP -npernode $NUM_PROCS --bind-to none -map-by slot \
               -hostfile $HOSTFILE \
               $MPI_ARGS \
               -x PYTHONPATH \
@@ -67,8 +66,8 @@ spec:
               python3 -u /opt/NeMo-Framework-Launcher/launcher_scripts/nemo_launcher/collections/dataprep_scripts/pile_dataprep/preprocess.py \
                 ++cluster_type=k8s \
                 ++launcher_scripts_path=/opt/NeMo-Framework-Launcher/launcher_scripts \
-                ++data_dir=/mnt/mnt/data/pile \
-                ++file_numbers=0-0 \
+                ++data_dir=/mnt/data/pile \
+                ++file_numbers=0-{{ .Values.preprocessing.final_file_number }} \
                 ++download_vocab_url= \
                 ++download_merges_url= \
                 ++vocab_save_dir=/mnt/data/pile/vocab \
@@ -86,14 +85,14 @@ spec:
             value: "14"
           envFrom:
           - configMapRef:
-              name: mpi-setup
+              name: {{ .Release.Name }}-mpi-setup
           resources:
             limits:
               ephemeral-storage: 16Gi
             requests:
-              cpu: 4
+              cpu: {{ .Values.preprocessing.processes_per_node }}
               ephemeral-storage: 16Gi
-              memory: 1Gi
+              memory: {{ mul .Values.preprocessing.processes_per_node 2 }}Gi
           securityContext:
             privileged: true
             capabilities:
@@ -111,10 +110,10 @@ spec:
         volumes:
         - { name: devinf, hostPath: { path: /dev/infiniband }}
         - { name: shm, emptyDir: { medium: Memory, sizeLimit: 32Gi }}
-        - { name: workspace, persistentVolumeClaim: { claimName: fss-pv }}
+        - { name: workspace, persistentVolumeClaim: { claimName: {{ .Release.Name }}-pv }}
   - name: mpiworker
     minAvailable: 0
-    replicas: 1
+    replicas: {{ .Values.num_nodes }}
     template:
       metadata:
       spec:
@@ -130,12 +129,10 @@ spec:
           resources:
             limits:
               ephemeral-storage: 32Gi
-              nvidia.com/gpu: 8
             requests:
-              cpu: 112
+              cpu: 8
               ephemeral-storage: 32Gi
               memory: 768Gi
-              nvidia.com/gpu: 8
           securityContext:
             privileged: true
             capabilities:
@@ -156,4 +153,5 @@ spec:
         volumes:
         - { name: devinf, hostPath: { path: /dev/infiniband }}
         - { name: shm, emptyDir: { medium: Memory, sizeLimit: 32Gi }}
-        - { name: workspace, persistentVolumeClaim: { claimName: fss-pv }}
+        - { name: workspace, persistentVolumeClaim: { claimName: {{ .Release.Name }}-pv }}
+{{- end }}

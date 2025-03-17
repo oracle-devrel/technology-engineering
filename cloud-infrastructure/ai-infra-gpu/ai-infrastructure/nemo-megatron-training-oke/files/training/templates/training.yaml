@@ -1,8 +1,9 @@
+{{- if not .Values.download_data }}
 apiVersion: batch.volcano.sh/v1alpha1
 kind: Job
 metadata:
   annotations:
-  name: nemo-megatron-training
+  name: megatron-train-{{ .Release.Name }}
 spec:
   minAvailable: 0
   plugins:
@@ -16,6 +17,9 @@ spec:
     - action: CompleteJob
       event: TaskCompleted
     replicas: 1
+    # dependsOn:
+    #   name: 
+    #   - "mpiworker"
     template:
       metadata:
       spec:
@@ -24,13 +28,17 @@ spec:
           - /bin/bash
           - -c
           - |
-            set -e -o pipefail; trap 'exit=1' SIGINT
             NUM_GPUS=8
             NUM_HOSTS=$(sed -n '$=' /etc/volcano/mpiworker.host)
             NP=$(($NUM_HOSTS*$NUM_GPUS))
 
-            HOSTFILE=$PWD/myhosts.sorted
-            bash /mnt/data/utils/sort_hosts.sh $HOSTFILE
+            HOSTFILE=/etc/volcano/mpiworker.host
+
+            # Enabling these two lines would allow for a bit more perfomance if
+            # nodes are distributed across different switches.
+            #
+            # HOSTFILE=myhosts.sorted
+            # bash /config/sort_hosts.sh $HOSTFILE
 
             mpirun --allow-run-as-root \
               -mca plm_rsh_args "-p 2222" \
@@ -50,22 +58,33 @@ spec:
                 export CUDA_DEVICE_MAX_CONNECTIONS=1
                 export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
 
-                # From NVIDIA SLURM reference setup;  These lead to performance
-                # regression.
-                # export TORCH_NCCL_AVOID_RECORD_STREAMS=1
-                # export NCCL_NVLS_ENABLE=0
-                # export NVTE_DP_AMAX_REDUCE_INTERVAL=0
-                # export NVTE_ASYNC_AMAX_REDUCTION=1
-                # export NVTE_FUSED_ATTN=0
+                # From NVIDIA SLURM reference setup;
+                export SLURM_UNBUFFEREDIO=1
+                export TORCHX_MAX_RETRIES=0
+                export CUDA_DEVICE_MAX_CONNECTIONS=1
+                export TOKENIZERS_PARALLELISM=False
+                export TRANSFORMERS_OFFLINE=1
+                export TORCH_NCCL_AVOID_RECORD_STREAMS=1
+                export NCCL_NVLS_ENABLE=0
+                export NVTE_DP_AMAX_REDUCE_INTERVAL=0
+                export NVTE_ASYNC_AMAX_REDUCTION=1
+                export NVTE_APPLY_QK_LAYER_SCALING=0
+                export NVTE_FLASH_ATTN=0
+                export NVTE_FUSED_ATTN=1
+                export NEMO_LOG_MEMORY_USAGE=1
+                export NVTE_FWD_LAYERNORM_SM_MARGIN=8
+                export NVTE_BWD_LAYERNORM_SM_MARGIN=8
+                export HYDRA_FULL_ERROR=1
 
                 # Gloo connectFullMesh failed
                 export GLOO_SOCKET_IFNAME=eth0
                 export TP_SOCKET_IFNAME=eth0
 
                 python -u /opt/NeMo/examples/nlp/language_modeling/megatron_gpt_pretraining.py \
-                    --config-path=/mnt/data/config \
-                    --config-name=config_70b.yaml"
-            while :; do { [[ $exit ]] && break; }; sleep 1; done
+                    --config-path=/config \
+                    --config-name={{ .Values.training.configuration }} \
+                    trainer.num_nodes={{ .Values.num_nodes }} \
+                    model.global_batch_size={{ mul .Values.num_nodes .Values.training.base_global_batch_size }}"
           ports:
           - { name: mpijob-port, containerPort: 2222, protocol: TCP }
           image: nvcr.io/nvidia/nemo:24.09
@@ -75,7 +94,7 @@ spec:
             value: "14"
           envFrom:
           - configMapRef:
-              name: mpi-setup
+              name: {{ .Release.Name }}-mpi-setup
           resources:
             limits:
               ephemeral-storage: 16Gi
@@ -100,10 +119,9 @@ spec:
         volumes:
         - { name: devinf, hostPath: { path: /dev/infiniband }}
         - { name: shm, emptyDir: { medium: Memory, sizeLimit: 32Gi }}
-        - { name: workspace, persistentVolumeClaim: { claimName: fss-pv }}
+        - { name: workspace, persistentVolumeClaim: { claimName: {{ .Release.Name }}-pv }}
   - name: mpiworker
-    minAvailable: 0
-    replicas: 16
+    replicas: {{ .Values.num_nodes }}
     template:
       metadata:
       spec:
@@ -117,6 +135,9 @@ spec:
           ports:
           - { name: mpijob-port, containerPort: 2222, protocol: TCP }
           - { name: c10d, containerPort: 29500, protocol: TCP }
+          envFrom:
+          - configMapRef:
+              name: {{ .Release.Name }}-mpi-setup
           resources:
             limits:
               ephemeral-storage: 32Gi
@@ -136,6 +157,7 @@ spec:
           - { mountPath: /dev/infiniband, name: devinf }
           - { mountPath: /dev/shm, name: shm }
           - { mountPath: /mnt/data, name: workspace, readOnly: false }
+          - { mountPath: /config, name: config }
           workingDir: /workspace
         dnsPolicy: ClusterFirstWithHostNet
         hostNetwork: true
@@ -146,4 +168,17 @@ spec:
         volumes:
         - { name: devinf, hostPath: { path: /dev/infiniband }}
         - { name: shm, emptyDir: { medium: Memory, sizeLimit: 32Gi }}
-        - { name: workspace, persistentVolumeClaim: { claimName: fss-pv }}
+        - { name: workspace, persistentVolumeClaim: { claimName: {{ .Release.Name }}-pv }}
+        - { name: config, configMap: { name: {{ .Release.Name }}-config }}
+        # If you need to exclude certain nodes, use this:
+        #
+        # affinity:
+        #   nodeAffinity:
+        #     requiredDuringSchedulingIgnoredDuringExecution:
+        #       nodeSelectorTerms:
+        #       - matchExpressions:
+        #         - key: kubernetes.io/hostname
+        #           operator: NotIn
+        #           values:
+        #           - <hostname>
+{{- end }}

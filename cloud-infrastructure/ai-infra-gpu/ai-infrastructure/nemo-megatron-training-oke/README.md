@@ -48,18 +48,16 @@ Data-Intensive Workloads](https://docs.oracle.com/en-us/iaas/Content/Resources/A
 3. Install Helm, the NVIDIA GPU Operator, and the Volcano scheduler according to
    [NVIDIA NeMo Framework Launcher guide for Kubernetes](https://docs.nvidia.com/nemo-framework/user-guide/24.07/playbooks/kubernetes.html).
 
-4. Apply the persistenv volume configuration and MPI parameter configuration map:
+4. Copy the [files in this repository](./files) to the Kubernetes operator node.
+   You can download them from this repository via:
    ```sh
-   kubectl apply -f mpi.yaml
-   kucectl apply -f pv.yaml
+   BRANCH=main
+   curl -L https://github.com/oracle-devrel/technology-engineering/archive/refs/heads/${BRANCH}.tar.gz|tar xzf - --strip-components=6 technology-engineering-${BRANCH}/cloud-infrastructure/ai-infra-gpu/ai-infrastructure/nemo-megatron-training-oke/files
    ```
+   
+   Then modify the values in [`training/values.yaml`](./files/training/values.yaml) to match the storage server and export path.
 
 5. Mount the file system on the Kubernetes operator node. In the following, the mount location is assumed to be `/mnt/data/`.
-
-6. Copy the node sorting script and LLM configuration into the file system:
-   ```sh
-   cp -R config utils /mnt/data
-   ```
 
 ## Data Preparation and Training
 
@@ -67,28 +65,28 @@ Data-Intensive Workloads](https://docs.oracle.com/en-us/iaas/Content/Resources/A
    ```sh
    mkdir -p /mnt/data/tokenizer
    huggingface-cli login
-   huggingface-cli download meta-llama/Llama-2-70b-hf tokenizer.model --local-dir /mnt/data/tokenizer
-   huggingface-cli download meta-llama/Llama-2-70b-hf config.json --local-dir /mnt/data/tokenizer
+   huggingface-cli download meta-llama/Llama-3.1-8B-Instruct tokenizer_config.json --local-dir /mnt/data/tokenizer
+   huggingface-cli download meta-llama/Llama-3.1-8B-Instruct tokenizer.json --local-dir /mnt/data/tokenizer
    ```
 
 2. Apply the preprocessing job that will download and tokenize parts of the Pile dataset:
    ```sh
-   kubectl apply -f preprocessing.yaml
+   helm install --set num_nodes=1 --set download_data=true "my-preprocessing" ./training
    ```
 
    The progress can then be monitored by
    ```sh
-   kubectl logs -f nemo-megatron-preprocessing-mpimaster-0
+   kubectl logs -f megatron-prep-my-preprocessing-mpimaster-0
    ```
 
 3. Following successful preprocessing, the training can be started with:
    ```sh
-   kubectl apply -f training_70b.yaml
+   helm install --set num_nodes=1 "my-training-v0" ./training
    ```
 
    The progress can then be monitored by
    ```sh
-   kubectl logs -f nemo-megatron-training-mpimaster-0
+   kubectl logs -f megatron-train-my-training-v0-mpimaster-0
    ```
 
 4. Calculate training throughput. For this, the following data is required from the training output:
@@ -97,47 +95,12 @@ Data-Intensive Workloads](https://docs.oracle.com/en-us/iaas/Content/Resources/A
    ```
    This log can be saved into a file with:
    ```sh
-   kubectl logs nemo-megatron-training-mpimaster-0 > training.log
+   kubectl logs  megatron-train-my-training-v0-mpimaster-0 > training.log
    ```
    and the performance analyzed with
    ```sh
    python3 utils/performance.py training.log
    ```
-
-## Changing the Configuration
-
-* **Increase the training file count**
-
-  To increase the amount of training data, edit the file count by modifying all
-  occurences of the `file_numbers=0-0` range in
-  [`preprocessing.yaml`](./files/preprocessing.yaml) and re-run the
-  preprocessing step.
-  E.g. change this setting to `file_numbers=0-9` to process 10 files.
-
-  Then modify the file list in the training configuration, e.g.,
-  [`config_7b.yaml`](./files/config/config_7b.yaml)
-  to match the file count:
-  ```yaml
-  data_prefix:
-  - 1
-  - /mnt/data/pile/my-gpt3_00_text_document
-  ...
-  - 1
-  - /mnt/data/pile/my-gpt3_09_text_document
-  ```
-
-* **Vary the node count for training**
-
-  Changing the node count will require modifications to both the training
-  configuration and the Volcano job. E.g. to double the node count for the 7B
-  example, modify
-
-  * [`training_7b.yaml`](./files/training_7b.yaml) to have twice the replica
-    count for the `mpiworker` definition
-  * Double the `num_nodes` and `global_batch_size` keys in
-    [`config_7b.yaml`](./files/config/config_7b.yaml).  In the optimal case,
-    this should give constant performance in terms of token throughput per
-    second per GPU.
 
 ## Potential Issues
 
@@ -149,10 +112,9 @@ Data-Intensive Workloads](https://docs.oracle.com/en-us/iaas/Content/Resources/A
 
   For convenience, this is facilitated by enhancing `mpi.yaml` via
   ```sh
-  ./utils/host_list.sh >> mpi.yaml
-  kubectl apply -f mpi.yaml
+  ./utils/host_list.sh >> ./training/files/mpi.yaml
   ```
-  and afterwards restarting the training job.
+  and afterwards reinstalling the training job via Helm.
 
 # Acknowledgments
 

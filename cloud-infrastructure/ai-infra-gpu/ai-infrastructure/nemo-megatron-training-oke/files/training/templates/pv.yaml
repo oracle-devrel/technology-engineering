@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
- name: fss-pv
+ name: {{ .Release.Name }}-pv
  labels:
    type: nfs
 spec:
@@ -12,8 +12,8 @@ spec:
    - ReadWriteMany
  persistentVolumeReclaimPolicy: Retain
  nfs:
-  path: /data
-  server: fs1.fss.zone
+  path: {{ .Values.storage.fss_path }}
+  server: {{ .Values.storage.fss_name }}
  mountOptions:
   - nconnect=16
 

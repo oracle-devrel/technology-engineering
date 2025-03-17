@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: mpi-setup
+  name: {{ .Release.Name }}-mpi-setup
   namespace: default
 data:
   MPI_ARGS:
