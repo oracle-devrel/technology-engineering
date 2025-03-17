@@ -1,3 +1,4 @@
+# Copyright (c) 2025 Oracle and/or its affiliates.
 """Generate a small performance report from PyTorch logs.
 """
 import argparse

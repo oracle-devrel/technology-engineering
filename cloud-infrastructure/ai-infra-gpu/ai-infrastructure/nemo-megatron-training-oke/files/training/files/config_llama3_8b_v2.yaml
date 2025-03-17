@@ -1,3 +1,4 @@
+# Copyright (c) 2025 Oracle and/or its affiliates.
 run:
   name: llama3_8b
   results_dir: /mnt/data/results/llama3_8b

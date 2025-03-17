@@ -1,3 +1,5 @@
+# Copyright (c) 2025 Oracle and/or its affiliates.
+
 # Enable this for the initial data download and preprocessing
 download_data: false
 
