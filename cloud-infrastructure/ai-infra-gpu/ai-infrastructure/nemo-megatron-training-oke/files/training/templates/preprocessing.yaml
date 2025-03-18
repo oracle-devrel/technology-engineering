@@ -89,10 +89,10 @@ spec:
               name: {{ .Release.Name }}-mpi-setup
           resources:
             limits:
-              ephemeral-storage: 16Gi
+              ephemeral-storage: 32Gi
             requests:
               cpu: {{ .Values.preprocessing.processes_per_node }}
-              ephemeral-storage: 16Gi
+              ephemeral-storage: 32Gi
               memory: {{ mul .Values.preprocessing.processes_per_node 2 }}Gi
           securityContext:
             privileged: true
