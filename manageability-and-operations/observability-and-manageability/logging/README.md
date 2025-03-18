@@ -2,7 +2,7 @@
 
 The Oracle Cloud Infrastructure Logging service is a highly scalable and fully managed single pane of glass for all the logs in your tenancy. Logging provides access to logs from Oracle Cloud Infrastructure resources. These logs include critical diagnostic information that describes how resources are performing and being accessed.
 
-Reviewed: 10.01.2025
+Reviewed: 14.01.2025
 
 # Table of Contents
 
@@ -21,6 +21,7 @@ Reviewed: 10.01.2025
 - [Enable OCI VCN Flow logs in an easy way](https://karthicin.medium.com/enable-oci-vcn-flow-logs-in-easy-way-c986c6cda6c0)
 - [OCI Cross-tenancy log management](https://learnoci.cloud/oci-cross-tenancy-log-management-8165c6048827)
 - [How to export OCI logs to file](https://learnoci.cloud/how-to-export-oci-logs-to-file-e0461f369f61)
+- [Use Auditd logs in OCI with Logging Service](https://learnoci.cloud/use-auditd-logs-in-oci-with-logging-service-5caa13719315)
 
 # Useful Links
 - [Logging](https://docs.oracle.com/en-us/iaas/Content/Logging/home.htm)

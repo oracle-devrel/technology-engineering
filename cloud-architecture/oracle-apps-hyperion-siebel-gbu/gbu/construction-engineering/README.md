@@ -6,7 +6,7 @@ These resources aim to offer guidance throughout your migration, enabling you to
 
 Explore these materials to enhance your migration strategy. We appreciate your participation and are committed to supporting your cloud migration journey.
  
-Reviewed: 9.9.2024
+Reviewed: 7.02.2025
 
 # Table of Contents
  
@@ -22,7 +22,8 @@ The reusable assets available in this repository:
 
 # Useful Links
 
-- Primavera P6 EPPM 23.12 is available for download from [E-deliver site](https://edelivery.oracle.com/osdc/faces/SoftwareDelivery). Read more about the latest release in [the Documentation Library](https://docs.oracle.com/en/industries/construction-engineering/index.html)
+- Primavera P6 EPPM 24.12 (December 2024) is available for download from [E-deliver site](https://edelivery.oracle.com/osdc/faces/SoftwareDelivery). Read more about the latest release in [the Documentation Library](https://docs.oracle.com/en/industries/construction-engineering/index.html)
+- [Primavera P6 24.12 Tested Configurations](https://docs.oracle.com/cd/F88967_01/English/tested_configurations/p6_eppm_tested_config.pdf)
 - [Oracle Construction and Engineering Applications documentation](https://docs.oracle.com/en/industries/construction-engineering/index.html)
 - [Oracle Construction and Engineering Applications Lifetime Support Policy](https://www.oracle.com/us/assets/lifetime-support-applications-069216.pdf)
 - [Oracle Primavera P6 EPPM Deployment Categories](https://docs.oracle.com/cd/F51302_01/English/Planning/p6_eppm_performance_sizing/index.htm)

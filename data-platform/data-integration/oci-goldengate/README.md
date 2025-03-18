@@ -2,8 +2,27 @@
 
 Oracle Cloud Infrastructure GoldenGate is a fully managed, native cloud service that moves data in real-time, at scale. OCI GoldenGate processes data as it moves from one or more data management systems to target databases. You can also design, run, orchestrate, and monitor data replication tasks without having to allocate or manage any Compute environment.
 
-Reviewed: 24.04.2024
+Reviewed: 28.02.2025
+
+
+# Table of Contents
  
+1. [Team Publications](#team-publications)
+2. [Useful Links](#useful-links)
+
+ 
+# Team Publications
+
+- [GoldenGate Best Pracices](https://oradocs.oracle.com/documents/fileview/D1322A709534F69090ABAEEBCD182E6DCA08632BD3F4/_Best_Practices___Reference.pptx)
+  - PowerPoint with a collection of GoldenGate Best Precices
+
+- [Sync data between DBCS and Google BigQuery using Stage and Merge](https://github.com/alexandruporcescu/Articles/blob/main/Sync%20OracleDB%20with%20Google%20BigQuery/Replicate%20data%20from%20Oracle%20DB%20to%20Google%20BigQuery%20using%20GoldenGate%20Stage%20and%20Merge%20handler.md)
+    - GitHub articles that show a step-by-step guide on how to achieve replication between Oracle Database and Google BigQuery using OCI Goldengate
+
+- [OCI GoldenGate Demo - Realtime data replication from Postgres to ADW](https://oradocs.oracle.com/documents/link/LD4145D4B24FEE57EABE0F50975040B24F20D580F947/fileview/D200667F14B944E8C21E9984CEC2A6B73DFDCF90D2A1/_Video-OCIGG-PostgresToOracle.mp4)
+  - Video of Replicating PostgreSQL to ADW using OCI GoldenGate
+
+
 # Useful Links
  
 - [Install GoldenGate Microservices 21c in silent mode](https://medium.com/@eloi-lopes29/install-goldengate-microservices-21c-in-silent-mode-48a904b97dc3)
@@ -36,9 +55,6 @@ Reviewed: 24.04.2024
 - [OCI GoldenGate Capture data from Azure Event Hubs to Autonomous Database](https://www.youtube.com/watch?v=IEQrE7wZLXc)
     - Video that guides you through the steps of configuring replication between Azure Event Hubs and Oracle Autonomous Database using OCI GoldenGate
 
-- [Sync data between DBCS and Google BigQuery using Stage and Merge](https://github.com/alexandruporcescu/Articles/blob/main/Sync%20OracleDB%20with%20Google%20BigQuery/Replicate%20data%20from%20Oracle%20DB%20to%20Google%20BigQuery%20using%20GoldenGate%20Stage%20and%20Merge%20handler.md)
-    - GitHub articles that show a step-by-step guide on how to achieve replication between Oracle Database and Google BigQuery using OCI Goldengate
-
 - [Access OCI GoldenGate Logs using OCI Logging](https://blogs.oracle.com/dataintegration/post/access-oci-goldengate-logs-using-oci-logging)
     - A blog article that explains the integration of OCI GoldenGate with OCI Logging
 
@@ -50,6 +66,51 @@ Reviewed: 24.04.2024
 
 - [Clean up old OCI GoldenGate trails using Python and the OCI CLI](https://blogs.oracle.com/dataintegration/post/clean-up-old-oci-goldengate-trails-using-python-and-the-oci-cli)
     - Blog article explaining the process on how to clean OCI GoldenGate unused trail files from Oracle Cloud Infrastructure
+ 
+- [Part-1/3: OCI PostgreSQL to OCI PostgreSQL cross-region replication with OCI GoldenGate — Introduction](https://medium.com/@devpiotrekk/oci-postgresql-to-oci-postgresql-cross-region-replication-with-oci-goldengate-introduction-e0492fc37b92)
+  - This introductory post details how to establish cross-region connectivity between two OCI PostgreSQL databases using VCN peering and Dynamic Routing Gateways (DRGs) to prepare for replication with OCI GoldenGate. It covers network configuration, security lists, route tables, and DNS setup.
+
+- [Part-2/3: OCI PostgreSQL to OCI PostgreSQL cross-region replication with OCI GoldenGate — OCI PostgreSQL](https://medium.com/@devpiotrekk/oci-postgresql-to-oci-postgresql-cross-region-replication-with-oci-goldengate-oci-postgresql-d4fcffc47498)
+  - Part 2 guides you through creating primary and DR OCI PostgreSQL databases, configuring essential parameters (wal_level, max_replication_slots, etc.), establishing cross-region connectivity, and migrating the schema for cross-region replication using OCI GoldenGate. It also covers exporting and importing metadata
+
+- [Part-3/3: OCI PostgreSQL to OCI PostgreSQL cross-region replication with OCI GoldenGate — OCI GoldenGate](https://medium.com/@devpiotrekk/oci-postgresql-to-oci-postgresql-cross-region-replication-with-oci-goldengate-oci-goldengate-4ccd5dea4d6c)
+  - Part 3 guides you through setting up OCI GoldenGate for PostgreSQL to perform initial load and change data capture for cross-region replication. It covers creating deployments and connections, initial load extraction and replication, change data capture setup, monitoring, starting/stopping GoldenGate, and optimization techniques, concluding with best practices and considerations
+
+- [Part 1/5: Get Started with OCI GoldenGate Data Transforms – Deployment Creation](https://blogs.oracle.com/dataintegration/post/get-started-with-oci-goldengate-data-transforms-deployment-creation)
+  - This post guides you through creating a Data Transforms deployment in OCI GoldenGate, a new deployment type that adds batch ETL/ELT processing. It covers configuring deployment options, credentials, and enabling public access, preparing you to create Generic Connections and explore the service
+
+- [Part 2/5: Get Started with OCI GoldenGate Data Transforms – Connectivity](https://blogs.oracle.com/dataintegration/post/get-started-with-oracle-cloud-infrastructure-oci-goldengate-data-transforms-connectivity)
+  - This blog shows on how to configure connectivity within OCI GoldenGate Data Transforms, detailing how to connect to various data sources
+
+- [Part 3/5: Get Started with OCI GoldenGate Data Transforms – Create a Data Load with Data Replication](https://blogs.oracle.com/dataintegration/post/get-started-with-oci-goldengate-data-transforms-create-a-data-load-with-data-replication)
+  - Blog post guides you through creating a data load process using the data replication capabilities of OCI GoldenGate Data Transforms
+
+- [Part 4/5: Get Started with OCI GoldenGate Data Transforms – Create a Data Flow](https://blogs.oracle.com/dataintegration/post/get-started-with-oci-goldengate-data-transforms-45-create-a-data-flow)
+  - Create a data flow using OCI GoldenGate Data Transforms
+
+- [Part 5/5: Get Started with OCI GoldenGate Data Transforms – Orchestrate and Run Processes](https://blogs.oracle.com/dataintegration/post/get-started-with-oci-goldengate-data-transforms-orchestrate-and-run-processes)
+  - Orchestrate and run data transformation processes within OCI GoldenGate Data Transforms: schedule, and execute data flows for ETL/ELT workloads
+
+- [GoldenGate 23ai is now available in OCI GoldenGate!](https://blogs.oracle.com/dataintegration/post/goldengate-23ai-is-now-available-in-oci-goldengate)
+  - OCI GoldenGate now includes the 23ai release, bringing the latest features and enhancements
+
+- [Oracle GoldenGate 23ai and Oracle Database 23ai Vectors](https://blogs.oracle.com/dataintegration/post/goldengate-database-23ai-vectors)
+  - Oracle GoldenGate 23ai provides real-time, bi-directional replication of AI Vector Search in Oracle Database 23ai, enabling heterogeneous data integration and high availability across cloud data stores
+
+- [OCI GoldenGate: Capture a topic data from Confluent Cloud to Autonomous Database](https://blogs.oracle.com/dataintegration/post/oci-goldengate-capture-a-topic-data-from-confluent-cloud-to-autonomous-database)
+  - This Blog explains the details how to use OCI GoldenGate to capture data from a Confluent Cloud topic and replicate it to an Oracle Autonomous Database
+
+- [Deriving Value from Data for Oracle Database@Azure Workloads with OCI GoldenGate](https://blogs.oracle.com/database/post/deriving-value-from-data-for-oracle-databaseazure-workloads-with-oci-goldengate)
+  - OCI GoldenGate enables real-time data replication between Oracle Databases and Azure applications, supporting hybrid environments, data lakes, and real-time analytics
+
+- [Announcing OCI GoldenGate ZeroETL Mirror - Putting the ZERO in ETL](https://blogs.oracle.com/dataintegration/post/announcing-oci-goldengate-and-zeroetl-putting-the-zero-in-etl)
+  - New features and capabilities in OCI GoldenGate related to ZeroETL (Zero Extract, Transform, Load) concept
+
+- [OCI GoldenGate Adds New Connectors for Databricks, Microsoft Fabric Lakehouse and Fabric Mirror, Snowflake, and Oracle Database@Azure, Google Cloud, and AWS](https://blogs.oracle.com/dataintegration/post/oci-goldengate-adds-new-connectors-for-databricks-microsoft-fabric-lakehouse-and-fabric-mirror-oracle-database-at-azure-google-cloud-and-aws)
+  - OCI GoldenGate adds new connectors for Databricks, Microsoft Fabric Lakehouse and Fabric Mirror, and Oracle Database at Azure, Google Cloud, and AWS, expanding integration capabilities
+
+
+
 
 # License
 

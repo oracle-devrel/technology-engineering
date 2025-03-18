@@ -4,7 +4,7 @@ The Operations Advisory provides critical guidance to Customers on how to define
 - [Multi-cloud operations - 3rd party tools that support OCI](https://learnoci.cloud/multi-cloud-operations-3rd-party-tools-that-support-oci-091207d923ed)
   
 
-Reviewed: 08.01.2025
+Reviewed: 30.01.2025
 
 # Table of Contents
 
@@ -14,7 +14,7 @@ Reviewed: 08.01.2025
 
 # Team Publications
 
-- [OS Management](https://github.com/hoehenunterschied/OSManagement) --> OS Management service (OSMS) reaches end of life (EOL). We recommend migrating all managed instances to the OS Management Hub service.
+- [OS Management](https://github.com/hoehenunterschied/OSManagement) --> OS Management service (OSMS) reaches the end of life (EOL) as of Apr 2025. We recommend migrating all managed instances to the OS Management Hub service.
 - [How to use OS Management Resource Discovery to monitor your Compute resources](https://learnoci.cloud/how-to-use-os-management-resource-discovery-to-monitor-your-compute-resources-bf19800f51fe)
 - [From Terraform to OpenTofu](https://medium.com/@ralflange/667672c609c8)
 - [Using Terraform to create multiple Resource Schedules in OCI](https://karthicin.medium.com/terraform-to-create-multiple-resource-schedule-in-oracle-cloud-03aaba51b909)
@@ -32,6 +32,8 @@ Reviewed: 08.01.2025
 - [Why Day-2 Operations Matter: Engineered Systems - Episode 4](https://www.linkedin.com/pulse/why-day-2-operations-matter-engineered-systems-4-manuela-fioramonti-65ccf/?trackingId=MC8FZNrum0OgCFOpJqORnw%3D%3D)
 - [Why Day-2 Operations Matter: Autonomous Database - Episode 5](https://www.linkedin.com/pulse/why-day-2-operations-matter-autonomous-database-magic-fioramonti-lhg5f/?trackingId=s3bkPoanDc0iiUglgz9Knw%3D%3D)
 - [Why Day-2 Operations Matter: Episode 6- Applications](https://www.linkedin.com/pulse/why-day-2-operations-matter-episode-6-applications-fioramonti-cwqof/?trackingId=0VGMfW8sTlfLtxWi5yIbOA%3D%3D)
+- [Create a new data ingestion job in the specified compartment using the provided data source OCID](https://github.com/karthicgit/ocifunctions-sample/blob/main/GenAIAgent/Ingestionjob.py)
+
 
 
 

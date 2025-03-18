@@ -2,7 +2,7 @@
 
 This repository contains an in-depth guide for Oracle Hyperion migration projects. It offers a high-level solution definition for migrating or establishing Hyperion Workloads on Oracle Cloud Infrastructure (OCI). With a comprehensive representation of the current state, prospective state, potential project scope, and anticipated timeline, this document aims to provide a precise understanding of the project's scope and intention to all participating entities.
 
-Reviewed date: 18.11.2024
+Reviewed: 26.02.2025
 
 # When to use this asset?
 

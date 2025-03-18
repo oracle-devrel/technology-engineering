@@ -6,7 +6,7 @@ These resources aim to offer guidance throughout your migration, enabling you to
 
 Explore these materials to enhance your migration strategy. We appreciate your participation and are committed to supporting your cloud migration journey.
  
-Reviewed: 24.10.2024
+Reviewed: 7.02.2025
 
 # Table of Contents
  
@@ -21,7 +21,10 @@ The reusable assets available in this repository:
 
 # Useful Links
  
+- [Flexcube Patchset Release 14.7.5.0.0 Innovation - September 2024](https://docs.oracle.com/cd/G14514_01/index.htm)
 - [Flexcube on OCI Architecture](https://docs.oracle.com/en/solutions/flexcube-oci/index.html)
+- [Use OCI Full Stack Disaster Recovery Service with Oracle WebLogic Server domains](https://docs.oracle.com/en/solutions/full-stack-dr-weblogic-platform/index.html)
+- [Flexcube Patchset releases](https://docs.oracle.com/cd/E56849_01/fcubsptsets.htm)
 - [Oracle Financial Services documentation](https://docs.oracle.com/en/industries/financial-services/index.html)
 - [Oracle Applications Lifetime Support Policy](https://www.oracle.com/us/assets/lifetime-support-applications-069216.pdf)
 - [Financial Services on Oracle Cloud Infrastructure](https://www.oracle.com/financial-services/cloud/)

@@ -53,18 +53,32 @@ This example is based on the <a href="../java-helloworld-with-local-dev-and-oci-
 
 <p>
 
-To do the OCI SDK authentication and authorization to use the GenAI services the function uses two options:
+To do the OCI SDK authentication and authorization to use the GenAI services the function has three options:
 <ul>
-<li><b>IAM regular user</b> for the local dev and test on mac</li>
-<li><b>InstancePrincipal</b> for the OCI Function by passing config key <code>AUTH_INSTANCE_PRINCIPAL</code> with any value (then not being null)</li>
+<li><b>ResourcePrincipal</b> for the OCI Function to run in OCI. This allows Function to be authorized as part of
+a OCI Dynamic Group that has OCI Policies attached to for the Function to do it's job.</li>
+<li><b>IAM regular user</b> for the local dev and test on mac and passing the vars in source code (lines 79-84 in HelloAIFunction.java). This works for testing locally but the container should not be distributed!</li>
+<li><b>IAM regular user</b> for the local dev and test on mac using OCI CLI config file (usually located in ~/.oci). Again, this works for testing locally but the container should not be distributed!</li>
 </ul>
 
 <p>
-IAM user option will work on both cases above, as local and as OCI Function.
+IAM user option will work on both cases above, as local and as OCI Function. ResourcePrincipal is the default for OCI Function.
+<p>
 
 ## Build and test
 
-During following the steps of the <a href="../java-helloworld-with-local-dev-and-oci-functions">Hello function example </a> adjust the <a href="https://github.com/oracle-devrel/technology-engineering/blob/main/app-dev/devops-and-containers/functions/java-helloworld-AI-with-local-dev-and-oci-functions/files/src/main/java/com/example/HelloAIFunction.java#L131">line 131</a> to match your <code>GenAI service model OCID</code>. 
+Following the steps of the <a href="../java-helloworld-with-local-dev-and-oci-functions">Hello function example </a> adjust the  <a href="https://github.com/oracle-devrel/technology-engineering/blob/main/app-dev/devops-and-containers/functions/java-helloworld-AI-with-local-dev-and-oci-functions/files/src/main/java/com/example/HelloAIFunction.java#76">line 76</a> to match your <code>compartment OCID</code> and the <a href="https://github.com/oracle-devrel/technology-engineering/blob/main/app-dev/devops-and-containers/functions/java-helloworld-AI-with-local-dev-and-oci-functions/files/src/main/java/com/example/HelloAIFunction.java#77">line 77</a> to match your <code>GenAI service model OCID</code>. 
+
+<p>
+
+To use <code>.oci config</code> for testing locally replace the contents of Dockerfile with the contents from <a href="Dockerfile.local_oci">Dockerfile.local_oci</a>. Then copy your <code>~/.oci</code> -directory under the project root and build the Function with Fn:
+
+<pre>
+fn --verbose deploy --app hellofunction --local
+fn invoke hellofunction helloaifunc
+</pre>
+
+<i>Note! Do not distribute this container since it contains your OCI credentials. Use this only for local testing purposes.</i>
 
 <p>
 
@@ -75,13 +89,25 @@ Testing with curl (or copy-pasting the API Gateway deployment url to a browser):
 <pre>
 curl https://n3yu.....ghhi.apigateway.eu-frankfurt-1.oci.customer-oci.com/
 
-What happened today 01/17/2025 100 years ago ?
-On January 17th, 1925, 100 years ago, the following events took place:
-- In the US, President Calvin Coolidge delivered his annual State of the Union address to Congress. He discussed the thriving state of the national economy, emphasizing the record-high production of American industries and the growth of the country's merchant marine fleet. Coolidge also urged Congress to pass legislation facilitating world trade and improving diplomatic relations.
-- The first Winter Sports Week was held in Chamonix, France. This event eventually evolved into the prestigious Chamonix International Festival of Sports and Cinema.
-- The play "The New York Idea" by Langdon Mitchell premiered at the Ambassador Theatre on Broadway. It ran for 144 performances and received critical acclaim.
-- The silent film "The Gold Rush" directed by Charlie Chaplin was released in the United States. It's a classic comedy that tells the story of a prospector during the Klondike Gold Rush. Chaplin's unique brand of physical comedy and the film's innovative effects delighted audiences.
-- In Germany, the Weimar Republic experienced a political scandal known as the "German-Russian Trade and Credit Agreement." The agreement, which granted Germany a loan of 300 million marks from Russia, was signed secretly, leading to accusations of mismanagement and lack of transparency in the government. This incident further destabilized the already fragile Weimar Republic.
+What happened at 1925-02-07 ?
+
+On February 7, 1925, several significant events took place around the world:
+
+- In the United States, the Grand Ole Opry, a famous country music stage and radio show, made its debut on WSM radio in Nashville, Tennessee. It was initially called the "WSM Barn Dance" and has since become one of the longest-running radio programs in history.
+
+- The first issue of "The New Yorker" magazine was published in New York City. Founded by Harold Ross, the magazine quickly gained a reputation for its sophisticated and witty writing, featuring contributions from renowned writers and artists.
+
+- In the field of aviation, the first non-stop flight from England to India was completed by Squadron Leader John Henry "Jack" Moore-Brabazon, 1st Baron Brabazon of Tara. He flew a modified Airco DH.9A biplane, covering a distance of approximately 4,130 miles (6,646 kilometers) in about 50 hours and 37 minutes.
+
+- In sports, the 1925 Rose Bowl game was played in Pasadena, California. The game, which is an annual college football bowl game, saw the Dartmouth Indians defeat the California Golden Bears by a score of 14-0.
+
+- In the world of literature, the novel "The Great Gatsby" by F. Scott Fitzgerald was published in the United States. The book, set in the 1920s, explores themes of social class, wealth, and the American Dream, and has since become a classic of American literature.
+
+- In the realm of science, the American chemist Wallace Carothers filed a patent for the synthetic polymer nylon. Nylon, known for its strength and versatility, would go on to revolutionize the textile industry and find applications in various products.
+
+- In Europe, the Locarno Treaties were signed in Switzerland. These treaties aimed to promote peace and security in Europe after World War I. They included mutual guarantees of borders and commitments to resolve disputes peacefully.
+
+These are just a few notable events that occurred on February 7, 1925. The day witnessed advancements in entertainment, aviation, sports, literature, science, and international diplomacy.
 </pre>
 
 # Native image using GraalVM
@@ -90,38 +116,18 @@ GraalVM compiles your Java functions ahead of time into standalone binaries that
 
 <p>
 
-To do this a Docker multi-stage build is used.
+To do this <a href="https://github.com/oracle-devrel/technology-engineering/tree/main/app-dev/devops-and-containers/devops/oci-devops-terraform-function-java-graalvm">create OCI DevOps project for a Function CI/CD</a> and then clone the repo and copy the following files with the Function <a href="./files/src/">source</a> and commit and push them to the repo:
+<p>
+<ul>
+    <li><a href="./files/Dockerfile.native">Dockerfile.native</a></li>
+    <li><a href="./files/build_spec_native.yaml">build_spec_native.yaml</a></li>
+    <li><a href="./files/reflection.json">reflection.json</a></li>
+    <li><a href="./files/pom.xml">pom.xml</a></li>
+</ul>
 
 <p>
-
-Before building the native image let's do a full maven build for the project to create the necessary libraries under <code>target/lib</code>:
-
-<pre>
-mvn clean install
-</pre>
-
-Then build the Docker container using <a href="./files/Dockerfile.native">multi-stage Docker file</a> including the GraalVM native image compilation:
-
-<pre>
-docker build -f Dockerfile.native -t fra.ocir.io/&lt;YOUR OCI TENANCY NAMESPACE&gt;/helloworldai-java:2 .
-</pre>
-
-The GraalVM compilation stage requires quite a bit resources from your localhost so in case for example using Rancher desktop
-think of increasing the CPU and memory for it to make the build faster.
-
+After pushing run the native build pipeline and <a href="https://github.com/oracle-devrel/technology-engineering/blob/main/app-dev/devops-and-containers/devops/oci-devops-terraform-function-java-graalvm/README.md#testing">test the Function in cloud shell</a>.
 <p>
-
-In the <a href="./files/Dockerfile.native">Dockerfile.native</a> two things are important: Including the <a href="./files/reflection.json">reflection.json</a> with the proper function class name and passing Fn FDK libraries with <code>"-Djava.library.path=/lib"</code> in the container CMD along with the <code>"com.example.HelloAIFunction::handleRequest"</code> function handler.
-
-<p>
-
-After the build push the container to OCIR repo:
-
-<pre>
-docker push fra.ocir.io/&lt;YOUR OCI TENANCY NAMESPACE&gt;/helloworldai-java:2
-</pre>
-
-Finally deploy the container to your OCI Function by replacing the container using the Cloud UI by editing the function and changing the container from <code>helloworldai-java:1</code> to <code>helloworldai-java:2</code>. Then test it.
 
 
 # Useful Links

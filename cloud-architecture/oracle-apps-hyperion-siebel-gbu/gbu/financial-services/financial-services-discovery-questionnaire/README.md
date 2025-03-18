@@ -2,7 +2,7 @@
 
 This asset helps the customer and/or the partner to conduct a thorough discovery phase gathering all the necessary information for a proper design of Financial Services applications on OCI.
 
-Reviewed: 18.11.2024
+Reviewed: 7.02.2025
 
 # When to use this asset?
 
