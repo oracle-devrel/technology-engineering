@@ -17,6 +17,8 @@ Reviewed: 08.11.2024
     - Red Hot Webinar delivered by Amalraj Puthenchira and Carlos Alvarez capturing an in depth description of Zero Downtime Migration - features, functionality, use-cases and technical demonstration
 - [Migrate your Oracle Database to OCI using ZDM (Zero-Downtime Migration) - Cloud Coaching Webinar](https://www.youtube.com/watch?v=SXb7KVZjpV8)
     - Cloud Coaching Webinar, including a technical demonstration, delivered by Amalraj Puthenchira and Bilegt Bat Ochir around the use of ZDM for efficient migration into OCI.
+- [Fast-track your Journey to AI with Oracle and Azure (Migration to Oracle ADB23ai@Azure using Zero-Downtime Migration Logical Online) - Developer Coaching Webinar](https://www.youtube.com/watch?v=SanGj96PoxI)
+    - Developer Coaching Webinar, including a technical demonstration, delivered by Mihai Costeanu and Emiel Ramakers around the use of ZDM for efficient migration to Oracle ADB23ai@Azure .
 
 ## Technical Guides
 
@@ -65,7 +67,7 @@ Reviewed: 08.11.2024
 
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

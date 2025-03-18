@@ -5,7 +5,7 @@
 Assets that contain a bash script great opportunity to learn about Customer managed (boot and block) volume backups and how to copy them to a different region.
 
 
-Reviewed: 18.11.2024
+Reviewed: 03.12.2024
 
 # When to use this asset?
 
@@ -17,7 +17,7 @@ The information is generic in nature and not specified for a particular customer
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

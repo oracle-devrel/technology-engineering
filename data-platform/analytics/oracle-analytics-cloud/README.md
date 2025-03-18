@@ -62,6 +62,8 @@ Reviewed: 15.11.2024
 ## OAC Latest Release and Announcements
  |Content Link |Descripton|
 | ------------ |------------|
+|[Oracle Analytics Cloud new features - Jan 2025](https://www.youtube.com/watch?v=nIOFGiOCAA0&list=PL6gBNP-Fr8KWr1p2ylzHOLZ7dqYz0hKOY)|Oracle Analytics Cloud Jan-2025 new features videos|
+|[Oracle Analytics Cloud new features - Nov 2024](https://www.youtube.com/watch?v=BDgpYrMGYHs&list=PL6gBNP-Fr8KX_aagSmzlKrEzztorMW2xG)|Oracle Analytics Cloud Nov-2024 new features videos|
 |[Oracle Analytics Cloud new features - Sep 2024](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KXpFBGaE9kkxviCsQxSmjjq)|Oracle Analytics Cloud Sep-2024 new features videos|
 |[Oracle Analytics Cloud new features - Jul 2024](https://www.youtube.com/watch?v=0BVxTCvDmaQ&list=PL6gBNP-Fr8KXAOF9RgJIU5ykJvD8fHoxj)|Oracle Analytics Cloud Jul-2024 new features videos|
 |[Oracle Analytics Cloud new features - May 2024](https://www.youtube.com/watch?v=eoNmcRZ5wYI&list=PL6gBNP-Fr8KU55dSbzkEKySjSDWlL3BWm)|Oracle Analytics Cloud May-2024 new features videos|
@@ -158,7 +160,7 @@ Reviewed: 15.11.2024
 
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

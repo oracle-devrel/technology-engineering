@@ -48,6 +48,9 @@ Reviewed: 23.10.2024
 - [Capture-Replay Workloads between non-Autonomous and Autonomous Databases](https://www.youtube.com/watch?v=cWZ9MPBZemc)
     - How to Capture and Replay Workloads between non-Autonomous and Autonomous Databases.
 
+- [Capture-Replay Workloads between Autonomous Databases](https://www.youtube.com/watch?v=JXpQe7zUFs8)
+    - How to Capture and Replay Workloads between Autonomous Databases.
+
  - [Enable SQL Trace on Autonomous Database](https://blogs.oracle.com/datawarehousing/post/enable-sql-trace-on-autonomous-database)
     - Step-by-step blog article explaining how to collect a sql trace from Autonomous Database.
   
@@ -147,7 +150,7 @@ Reviewed: 23.10.2024
 
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

@@ -41,7 +41,7 @@ hyperframe==6.0.1
 idna==3.7
 interegular==0.3.3
 jieba3k==0.35.1
-Jinja2==3.1.4
+Jinja2==3.1.6
 joblib==1.4.0
 jsonpatch==1.33
 jsonpointer==2.4
@@ -127,7 +127,7 @@ python-dotenv==1.0.1
 pytz==2024.1
 PyYAML==6.0.1
 qdrant-client==1.9.0
-ray==2.12.0
+ray==2.43.0
 referencing==0.35.0
 regex==2024.4.16
 requests==2.32.2
@@ -158,7 +158,7 @@ tokenizers==0.19.1
 torch==2.2.1
 torch-utils==0.1.2
 tqdm==4.66.3
-transformers==4.40.1
+transformers==4.48.0
 trio==0.25.0
 trio-websocket==0.11.1
 triton==2.2.0
@@ -168,7 +168,7 @@ tzdata==2024.1
 urllib3==2.2.2
 uvicorn==0.29.0
 uvloop==0.19.0
-vllm==0.5.5
+vllm==0.7.2
 vllm_nccl_cu12==2.18.1.0.4.0
 watchfiles==0.21.0
 websockets==12.0

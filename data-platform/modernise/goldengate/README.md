@@ -15,7 +15,7 @@ Reviewed: 21.08.2024
 
 - [How to connect OCI Goldengate using a Private IP & OCI Bastion during Database Migration](https://medium.com/@snoozrocks/how-to-connect-oci-goldengate-using-a-private-ip-oci-bastion-during-database-migration-b04012ed8e30)
     - This blog post provides a high-level overview of the steps to connect OCI Goldengate Console using OCI Bastion Service using private subnet
-
+- [Step by Step Guide for Readiness Precheck For Database Migrations using Oracle GoldenGate Microservices](https://medium.com/@snoozrocks/step-by-step-guide-for-readiness-precheck-for-database-migrations-using-oracle-goldengate-90b93876fae2)
 
 # Useful Links
 - [Oracle Goldengate 21c](https://docs.oracle.com/en/middleware/goldengate/core/21.3/index.html)
@@ -23,7 +23,7 @@ Reviewed: 21.08.2024
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

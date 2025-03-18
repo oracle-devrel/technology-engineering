@@ -4,7 +4,7 @@ from langchain_community.vectorstores import Qdrant
 from langchain_core.prompts import PromptTemplate
 from langchain_community.llms import OCIGenAI
 from langchain_community.document_loaders import UnstructuredURLLoader
-compartment_id = "ocid1.compartment.oc1..aaaaaaaa7ggqkd4ptkeb7ugk6ipsl3gqjofhkr6yacluwj4fitf2ufrdm65q"
+compartment_id = "<compartment ID>"
 embeddings = OCIGenAIEmbeddings(model_id="cohere.embed-english-light-v3.0",service_endpoint="https://inference.generativeai.us-chicago-1.oci.oraclecloud.com",compartment_id= compartment_id,)
 testurls = ['https://docs.oracle.com/iaas/odsaz/odsa-rotate-wallet.html', 'https://docs.oracle.com/iaas/odsaz/odsa-change-password.html', 'https://docs.oracle.com/iaas/odsaz/odsa-database-actions.html']
 loader = UnstructuredURLLoader(urls=testurls)
