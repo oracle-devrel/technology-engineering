@@ -17,4 +17,26 @@ spec:
   server: {{ .Values.storage.fss_name }}
  mountOptions:
   - nconnect=16
-
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Release.Name }}-pv
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  selector:
+    matchLabels:
+      type: nfs
+  storageClassName: ""
+  volumeMode: Filesystem
+  volumeName: {{ .Release.Name }}-pv
+status:
+  accessModes:
+  - ReadWriteMany
+  capacity:
+    storage: 50Gi
+  phase: Bound
