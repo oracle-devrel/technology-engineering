@@ -3,7 +3,7 @@
 This asset covers the process and documentation of the migration of Oracle Business Intelligence(OBI) to the Oracle Analytics Cloud(OAC).
  
  
-Reviewed: 16.01.2024
+Reviewed: 15.11.2024
  
 # When to use this asset?
  
@@ -31,7 +31,7 @@ Under the Files Folder you will be able to find the following materials to suppo
  
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

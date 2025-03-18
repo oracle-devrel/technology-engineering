@@ -1,5 +1,5 @@
 ##########################################################################
-# Copyright (c) 2016, 2024, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2025, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 #
 # cis_reports.py
@@ -35,9 +35,16 @@ try:
 except Exception:
     OUTPUT_TO_XLSX = False
 
-RELEASE_VERSION = "2.8.4"
-PYTHON_SDK_VERSION = "2.129.4"
-UPDATED_DATE = "July 26, 2024"
+try:
+    import matplotlib.pyplot as plt
+    import numpy as np
+    OUTPUT_DIAGRAMS = True
+except Exception:
+    OUTPUT_DIAGRAMS = False
+
+RELEASE_VERSION = "2.8.8"
+PYTHON_SDK_VERSION = "2.147.0"
+UPDATED_DATE = "March 4, 2024"
 
 
 ##########################################################################
@@ -144,7 +151,7 @@ class CIS_Report:
             '2.7': {'section': 'Networking', 'recommendation_#': '2.7', 'Title': 'Ensure Oracle Analytics Cloud (OAC) access is restricted to allowed sources or deployed within a Virtual Cloud Network.', 'Status': True, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': ['4.4', '12.3'], 'CCCS Guard Rail': '2,3,5,7,9', 'Remediation': []},
             '2.8': {'section': 'Networking', 'recommendation_#': '2.8', 'Title': 'Ensure Oracle Autonomous Shared Database (ADB) access is restricted or deployed within a VCN.', 'Status': True, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': ['4.4', '12.3'], 'CCCS Guard Rail': '2,3,5,7,9', 'Remediation': []},
 
-            '3.1': {'section': 'Compute', 'recommendation_#': '3.1', 'Title': 'Ensure Compute Instance Legacy Metadata service endpoint is disabled.', 'Status': True, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': ['4.6'], 'CCCS Guard Rail': '', 'Remediation': []},
+            '3.1': {'section': 'Compute', 'recommendation_#': '3.1', 'Title': 'Ensure Compute Instance Legacy Metadata service endpoint is disabled.', 'Status': True, 'Level': 2, 'Total': [], 'Findings': [], 'CISv8': ['4.6'], 'CCCS Guard Rail': '', 'Remediation': []},
             '3.2': {'section': 'Compute', 'recommendation_#': '3.2', 'Title': 'Ensure Secure Boot is enabled on Compute Instance.', 'Status': True, 'Level': 2, 'Total': [], 'Findings': [], 'CISv8': ['4.1'], 'CCCS Guard Rail': '', 'Remediation': []},
             '3.3': {'section': 'Compute', 'recommendation_#': '3.3', 'Title': 'Ensure In-transit Encryption is enabled on Compute Instance.', 'Status': True, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': [''], 'CCCS Guard Rail': '', 'Remediation': []},
 
@@ -160,7 +167,7 @@ class CIS_Report:
             '4.10': {'section': 'Logging and Monitoring', 'recommendation_#': '4.10', 'Title': 'Ensure a notification is configured for security list changes.', 'Status': False, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': ['4.2'], 'CCCS Guard Rail': '11', 'Remediation': []},
             '4.11': {'section': 'Logging and Monitoring', 'recommendation_#': '4.11', 'Title': 'Ensure a notification is configured for network security group changes.', 'Status': False, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': ['4.2'], 'CCCS Guard Rail': '11', 'Remediation': []},
             '4.12': {'section': 'Logging and Monitoring', 'recommendation_#': '4.12', 'Title': 'Ensure a notification is configured for changes to network gateways.', 'Status': False, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': ['4.2'], 'CCCS Guard Rail': '11', 'Remediation': []},
-            '4.13': {'section': 'Logging and Monitoring', 'recommendation_#': '4.13', 'Title': 'Ensure VCN flow logging is enabled for all subnets.', 'Status': True, 'Level': 2, 'Total': [], 'Findings': [], 'CISv8': ['8.2', '8.5', '13.6'], 'CCCS Guard Rail': '', 'Remediation': []},             
+            '4.13': {'section': 'Logging and Monitoring', 'recommendation_#': '4.13', 'Title': 'Ensure VCN flow logging is enabled for all subnets.', 'Status': True, 'Level': 2, 'Total': [], 'Findings': [], 'CISv8': ['8.2', '8.5', '13.6'], 'CCCS Guard Rail': '', 'Remediation': []},
             '4.14': {'section': 'Logging and Monitoring', 'recommendation_#': '4.14', 'Title': 'Ensure Cloud Guard is enabled in the root compartment of the tenancy.', 'Status': True, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': ['8.2', '8.5', '8.11'], 'CCCS Guard Rail': '1,2,3', 'Remediation': []},
             '4.15': {'section': 'Logging and Monitoring', 'recommendation_#': '4.15', 'Title': 'Ensure a notification is configured for Oracle Cloud Guard problems detected.', 'Status': False, 'Level': 2, 'Total': [], 'Findings': [], 'CISv8': ['8.2', '8.11'], 'CCCS Guard Rail': '', 'Remediation': []},
             '4.16': {'section': 'Logging and Monitoring', 'recommendation_#': '4.16', 'Title': 'Ensure customer created Customer Managed Key (CMK) is rotated at least annually.', 'Status': True, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': [], 'CCCS Guard Rail': '6,7', 'Remediation': []},
@@ -287,13 +294,14 @@ class CIS_Report:
                 "Description": "OCI instances, OCI database and OCI functions can access other OCI resources either via an OCI API key associated to a user or by being including in a Dynamic Group that has an IAM policy granting it the required access. Access to OCI Resources refers to making API calls to another OCI resource like Object Storage, OCI Vaults, etc.",
                 "Rationale": "Dynamic Groups reduces the risks related to hard coded credentials. Hard coded API keys can be shared and require rotation which can open them up to being compromised. Compromised credentials could allow access to OCI services outside of the expected radius.",
                 "Impact": "For an OCI instance that contains embedded credential audit the scripts and environment variables to ensure that none of them contain OCI API Keys or credentials.",
-                "Remediation": "Create Dynamic group and Enter Matching Rules to that includes the instances accessing your OCI resources. Refer:\"https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingdynamicgroups.htm\".",
+                "Remediation": "Create Dynamic group and Enter Matching Rules to that includes the instances accessing your OCI resources. Refer: \"https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingdynamicgroups.htm\".",
                 "Recommendation": "Evaluate how your instances, functions, and autonomous database interact with other OCI services.",
                 "Observation": "Dynamic Groups reduces the risks related to hard coded credentials. Hard coded API keys can be shared and require rotation which can open them up to being compromised. Compromised credentials could allow access to OCI services outside of the expected radius."
             },
             "1.15": {
                 "Description": "To apply the separation of duties security principle, one can restrict service-level administrators from being able to delete resources they are managing. It means service-level administrators can only manage resources of a specific service but not delete resources for that specific service.<br><br>Example policies for global/tenant level for block volume service-administrators:\n<pre>\nAllow group VolumeUsers to manage volumes in tenancy where request.permission!='VOLUME_DELETE'\nAllow group VolumeUsers to manage volume-backups in tenancy where request.permission!='VOLUME_BACKUP_DELETE'\n</pre><br>Example policies for global/tenant level for file storage system service-administrators:<br><pre>\nAllow group FileUsers to manage file-systems in tenancy where request.permission!='FILE_SYSTEM_DELETE'\nAllow group FileUsers to manage mount-targets in tenancy where request.permission!='MOUNT_TARGET_DELETE'\nAllow group FileUsers to manage export-sets in tenancy where request.permission!='EXPORT_SET_DELETE'\n</pre><br><br>Example policies for global/tenant level for object storage system service-administrators:<br><pre>\nAllow group BucketUsers to manage objects in tenancy where request.permission!='OBJECT_DELETE'\nAllow group BucketUsers to manage buckets in tenancy where request.permission!='BUCKET_DELETE'\n</pre>",
-                "Rationale": "Creating service-level administrators without the ability to delete the resource they are managing helps in tightly controlling access to Oracle Cloud Infrastructure (OCI) services by implementing the separation of duties security principle.", "Impact": "",
+                "Rationale": "Creating service-level administrators without the ability to delete the resource they are managing helps in tightly controlling access to Oracle Cloud Infrastructure (OCI) services by implementing the separation of duties security principle.",
+                "Impact": "",
                 "Remediation": "Add the appropriate where condition to any policy statement that allows the storage service-level to manage the storage service.",
                 "Recommendation": "To apply a separation of duties security principle, it is recommended to restrict service-level administrators from being able to delete resources they are managing.",
                 "Observation": "IAM Policies that give service administrator the ability to delete service resources."
@@ -368,7 +376,7 @@ class CIS_Report:
                 "Impact": "If you disable IMDSv1 on an instance that does not support IMDSv2, you might not be able to connect to the instance when you launch it.",
                 "Remediation": "For each instance select the instance name, under the Instance Details section, next to Instance Metadata Service, click Edit and for the Instance metadata service, select the Version 2 only option.",
                 "Recommendation": "It is recommended that all OCI instances use Instance Metadata Service version 2 (IMDSv2).",
-                "Observation": "Instances that allow Instance Metadata Service v1."  
+                "Observation": "Instances that allow Instance Metadata Service v1."
             },
             "3.2": {
                 "Description": "Shielded Instances with Secure Boot enabled prevents unauthorized boot loaders and operating systems from booting. This prevent rootkits, bootkits, and unauthorized software from running before the operating system loads. Secure Boot verifies the digital signature of the system's boot software to check its authenticity. The digital signature ensures the operating system has not been tampered with and is from a trusted source. When the system boots and attempts to execute the software, it will first check the digital signature to ensure validity. If the digital signature is not valid, the system will not allow the software to run. Secure Boot is a feature of UEFI(Unified Extensible Firmware Interface) that only allows approved operating systems to boot up.",
@@ -376,7 +384,7 @@ class CIS_Report:
                 "Impact": " To enable you have to terminate the instance and create a new one. Also, Shielded instances do not support live migration. During an infrastructure maintenance event, Oracle Cloud Infrastructure live migrates supported VM instances from the physical VM host that needs maintenance to a healthy VM host with minimal disruption to running instances. If you enable Secure Boot on an instance, the instance cannot be migrated, because the hardware TPM is not migratable. This may result in an outage because the TPM can't be migrate from a unhealthy host to healthy host.",
                 "Remediation": "Terminate the old instance. Create a new instance and ensure on Secure Boot is toggled on under the Security section.",
                 "Recommendation": "",
-                "Observation": "Instances that don't enable Secure Boot."  
+                "Observation": "Instances that don't enable Secure Boot."
             },
             "3.3": {
                 "Description": "The Block Volume service provides the option to enable in-transit encryption for paravirtualized volume attachments on virtual machine (VM) instances.",
@@ -384,7 +392,7 @@ class CIS_Report:
                 "Impact": "In-transit encryption for boot and block volumes is only available for virtual machine (VM) instances launched from platform images, along with bare metal instances that use the following shapes: BM.Standard.E3.128, BM.Standard.E4.128, BM.DenseIO.E4.128. It is not supported on other bare metal instances.",
                 "Remediation": "Terminate the old instance. Create a new instance and ensure Use in-transit encryption is toggled on under the Boot volume section.",
                 "Recommendation": "",
-                "Observation": "Instances that don't enable in-transit encryption."  
+                "Observation": "Instances that don't enable in-transit encryption."
             },
             "4.1": {
                 "Description": "Using default tags is a way to ensure all resources that support tags are tagged during creation. Tags can be based on static values or based on computed values. It is recommended to setup default tags early on to ensure all created resources will get tagged.\nTags are scoped to Compartments and are inherited by Child Compartments. The recommendation is to create default tags like “CreatedBy” at the Root Compartment level to ensure all resources get tagged.\nWhen using Tags it is important to ensure that Tag Namespaces are protected by IAM Policies otherwise this will allow users to change tags or tag values.\nDepending on the age of the OCI Tenancy there may already be Tag defaults setup at the Root Level and no need for further action to implement this action.",
@@ -498,13 +506,13 @@ class CIS_Report:
                 "Recommendation": "",
                 "Observation": "Cloud Guard has not been configured in the root compartment of the tenancy."
             },
-            "4.15" : {
+            "4.15": {
                 "Description": "Cloud Guard detects misconfigured resources and insecure activity within a tenancy and provides security administrators with the visibility to resolve these issues. Upon detection, Cloud Guard generates a Problem. It is recommended to setup an Event Rule and Notification that gets triggered when Oracle Cloud Guard Problems are created, dismissed or remediated. Event Rules are compartment scoped and will detect events in child compartments. It is recommended to create the Event rule at the root compartment level.",
                 "Rationale": "Cloud Guard provides an automated means to monitor a tenancy for resources that are configured in an insecure manner as well as risky network activity from these resources. Monitoring and alerting on Problems detected by Cloud Guard will help in identifying changes to the security posture.",
                 "Impact": "There is no performance impact when enabling the above described features but depending on the amount of notifications sent per month there may be a cost associated.",
                 "Remediation": "Create a Rule Condition by selecting Cloud Guard in the Service Name Drop-down and selecting Detected – Problem, Remediated – Problem and Dismissed - Problem. In the Actions section select Notifications as Action Type and selct the compartment and topic to be used.",
                 "Recommendation": "",
-                "Observation": "notifications have been configured for Cloud Guard Problems."            
+                "Observation": "notifications have been configured for Cloud Guard Problems."
             },
             "4.16": {
                 "Description": "Oracle Cloud Infrastructure Vault securely stores master encryption keys that protect your encrypted data. You can use the Vault service to rotate keys to generate new cryptographic material. Periodically rotating keys limits the amount of data encrypted by one key version.",
@@ -684,7 +692,7 @@ class CIS_Report:
                 'com.oraclecloud.servicegateway.updateservicegateway'
 
             ],
-            "4.15" : [
+            "4.15": [
                 'com.oraclecloud.cloudguard.problemdetected',
                 'com.oraclecloud.cloudguard.problemdismissed',
                 'com.oraclecloud.cloudguard.problemremediated'
@@ -734,6 +742,12 @@ class CIS_Report:
                 "volume-backups": ["request.permission=VOLUME_BACKUP_DELETE"],
                 "boot-volume-backups": ["request.permission=BOOT_VOLUME_BACKUP_DELETE"]}}
 
+        # CIS Network Filter Check
+        self.all_traffic_rules = [{'ruleAction': 'INCLUDE', 'protocol': 'all', 'udpOptions': None, 'isEnabled': True, 'sourceCidr': None, 
+                            'samplingRate': 1, 'flowLogType': 'ALL', 'destinationCidr': None, 'icmpOptions': None, 'priority': 0, 'tcpOptions': None},
+                            {'ruleAction': 'INCLUDE','protocol': 'all','udpOptions': None,'sourceCidr': '0.0.0.0/0','isEnabled': True,'samplingRate': 1,
+                             'flowLogType': 'ALL','icmpOptions': None,'destinationCidr': '0.0.0.0/0','priority': 0,'tcpOptions': None}]
+        
         # Tenancy Data
         self.__tenancy = None
         self.__cloud_guard_config = None
@@ -755,6 +769,9 @@ class CIS_Report:
         self.__network_security_groups = []
         self.__network_security_lists = []
         self.__network_subnets = []
+        self.__network_vcns = []
+        self.__network_capturefilters = {}
+
         self.__network_fastconnects = {}  # Indexed by DRG ID
         self.__network_drgs = {}  # Indexed by DRG ID
         self.__raw_network_drgs = []
@@ -778,6 +795,7 @@ class CIS_Report:
         self.__event_rules = []
         self.__logging_list = []
         self.__subnet_logs = {}
+        self.__all_logs = {}
         self.__write_bucket_logs = {}
         self.__read_bucket_logs = {}
         self.__load_balancer_access_logs = []
@@ -989,6 +1007,7 @@ class CIS_Report:
         self.__oci_block_volumes_uri = self.__oci_cloud_url + "/block-storage/volumes/"
         self.__oci_fss_uri = self.__oci_cloud_url + "/fss/file-systems/"
         self.__oci_networking_uri = self.__oci_cloud_url + "/networking/vcns/"
+        self.__oci_network_capturefilter_uri = self.__oci_cloud_url + "/networking/network-command-center/capture-filters/"
         self.__oci_adb_uri = self.__oci_cloud_url + "/db/adb/"
         self.__oci_oicinstance_uri = self.__oci_cloud_url + "/oic/integration-instances/"
         self.__oci_oacinstance_uri = self.__oci_cloud_url + "/analytics/instances/"
@@ -1457,13 +1476,13 @@ class CIS_Report:
                                 record['api_keys'] = self.__identity_read_user_api_key(user_ocid=user.ocid, identity_domain=identity_domain)
                                 record['auth_tokens'] = self.__identity_read_user_auth_token(user.ocid, identity_domain=identity_domain)
                                 record['customer_secret_keys'] = self.__identity_read_user_customer_secret_key(user.ocid, identity_domain=identity_domain)
-                                record['database_passowrds'] = self.__identity_read_user_database_password(user.ocid,identity_domain=identity_domain)
+                                record['database_passwords'] = self.__identity_read_user_database_password(user.ocid,identity_domain=identity_domain)
                             else:
                                 debug("__identity_read_users: skipping user API Key collection for user: " + str(user.user_name))
                                 record['api_keys'] = None
                                 record['auth_tokens'] = None
                                 record['customer_secret_keys'] = None
-                                record['database_passowrds'] = None
+                                record['database_passwords'] = None
                             self.__users.append(record)
 
                     except Exception as e:
@@ -1519,7 +1538,7 @@ class CIS_Report:
                             user.id)
                         record['customer_secret_keys'] = self.__identity_read_user_customer_secret_key(
                             user.id)
-                        record['database_passowrds'] = self.__identity_read_user_database_password(user.id)
+                        record['database_passwords'] = self.__identity_read_user_database_password(user.id)
                         self.__users.append(record)
                     print("\tProcessed " + str(len(self.__users)) + " Users")
                     return self.__users
@@ -1532,6 +1551,7 @@ class CIS_Report:
         except Exception as e:
             raise RuntimeError(
                 "Error in __identity_read_users: " + str(e.args))
+
     ##########################################################################
     # Load user api keys
     ##########################################################################
@@ -1681,6 +1701,7 @@ class CIS_Report:
                     deep_link = self.__oci_users_uri + "/domains/" + identity_domain['id'] + "/users/" + user_ocid + "/db-passwords"
                     record = oci.util.to_dict(password)
                     record['deep_link'] = deep_link
+                    record['time_created'] = self.get_date_iso_format(record['meta']['created'])
                     database_password.append(record)
 
                 return database_password
@@ -1701,7 +1722,9 @@ class CIS_Report:
                     debug("__identity_read_user_database_password: Got Password")
                     deep_link = self.__oci_users_uri + user_ocid + "/db-password"
                     record = oci.util.to_dict(password)
+                    record['ocid'] = record['id']
                     record['deep_link'] = deep_link
+                    record['time_created'] = self.get_date_iso_format(record['time_created'])
                     database_password.append(record)
 
                 return database_password
@@ -1722,7 +1745,8 @@ class CIS_Report:
             policies_data = oci.pagination.list_call_get_all_results(
                 self.__regions[self.__home_region]['search_client'].search_resources,
                 search_details=oci.resource_search.models.StructuredSearchDetails(
-                    query="query Policy resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                    query="query Policy resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id 
             ).data
 
             for policy in policies_data:
@@ -1818,7 +1842,9 @@ class CIS_Report:
                 buckets_data = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query Bucket resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query Bucket resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id 
+
                 ).data
                 # Getting Bucket Info
                 for bucket in buckets_data:
@@ -1882,7 +1908,9 @@ class CIS_Report:
                 volumes_data = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query Volume resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query Volume resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id 
+
                 ).data
 
                 # Getting Block Volume inf
@@ -1953,7 +1981,8 @@ class CIS_Report:
                 boot_volumes_data = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query BootVolume resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query BootVolume resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id 
                 ).data
 
                 for boot_volume in boot_volumes_data:
@@ -2023,7 +2052,8 @@ class CIS_Report:
                 fss_data = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query FileSystem resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query FileSystem resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 for fss in fss_data:
@@ -2085,7 +2115,8 @@ class CIS_Report:
                 nsgs_data = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query NetworkSecurityGroup resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query NetworkSecurityGroup resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 # Looping through NSGs to to get
@@ -2149,7 +2180,8 @@ class CIS_Report:
                 security_lists_data = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query SecurityList resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query SecurityList resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 # Looping through Security Lists to to get
@@ -2216,7 +2248,8 @@ class CIS_Report:
                 subnets_data = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query Subnet resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query Subnet resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 try:
@@ -2285,6 +2318,62 @@ class CIS_Report:
                 "Error in __network_read_network_subnets " + str(e.args))
 
     ##########################################################################
+    # Network VCNs Lists
+    ##########################################################################
+    def __network_read_network_vcns(self):
+        try:
+            for region_key, region_values in self.__regions.items():
+                vcn_data = oci.pagination.list_call_get_all_results(
+                    region_values['search_client'].search_resources,
+                    search_details=oci.resource_search.models.StructuredSearchDetails(
+                        query="query VCN resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
+                ).data
+
+                for vcn in vcn_data:
+                    deep_link = self.__oci_networking_uri + vcn.identifier + '?region=' + region_key
+                    record = oci.util.to_dict(vcn)
+                    record['deep_link'] = deep_link
+                    
+                    # Adding VCN to VCN list
+                    self.__network_vcns.append(record)
+
+            print("\tProcessed " + str(len(self.__network_vcns)) + " Virtual Cloud Networks ")
+
+            return self.__network_vcns
+        except Exception as e:
+            raise RuntimeError(
+                "Error in __network_read_network_vcns " + str(e.args))
+
+    ##########################################################################
+    # Network Capture Filters Dictionary
+    ##########################################################################
+    def __network_read_network_capturefilters(self):
+        try:
+            for region_key, region_values in self.__regions.items():
+                capturefilter_data = oci.pagination.list_call_get_all_results(
+                    region_values['search_client'].search_resources,
+                    search_details=oci.resource_search.models.StructuredSearchDetails(
+                        query="query capturefilter resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
+                ).data
+
+                for filter in capturefilter_data:
+                    deep_link = self.__oci_network_capturefilter_uri + filter.identifier + '?region=' + region_key
+                    record = oci.util.to_dict(filter)
+                    record['deep_link'] = deep_link
+                    
+                    # Adding CaptureFilter to CaptureFilter Dict   
+                    self.__network_capturefilters[filter.identifier] = record
+
+            print("\tProcessed " + str(len(self.__network_capturefilters)) + " Network Capture Filters ")
+
+            return self.__network_subnets
+        except Exception as e:
+            raise RuntimeError(
+                "Error in __network_read_network_capturefilters " + str(e.args))
+
+    ##########################################################################
     # Load DRG Attachments
     ##########################################################################
     def __network_read_drg_attachments(self):
@@ -2295,7 +2384,8 @@ class CIS_Report:
                 drg_resources = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query DrgAttachment resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query DrgAttachment resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 compartments = set()
@@ -2380,7 +2470,8 @@ class CIS_Report:
                 drg_resources = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query Drg resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query Drg resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 compartments = set()
@@ -2464,7 +2555,8 @@ class CIS_Report:
                 fastconnects = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query VirtualCircuit resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query VirtualCircuit resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 compartments = set()
@@ -2578,7 +2670,8 @@ class CIS_Report:
                 ip_sec_connections_data = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query IPSecConnection resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query IPSecConnection resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 for ip_sec in ip_sec_connections_data:
@@ -2720,7 +2813,8 @@ class CIS_Report:
                 adb_query_resources = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query AutonomousDatabase resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query AutonomousDatabase resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 compartments = set()
@@ -2769,7 +2863,8 @@ class CIS_Report:
                 oic_resources = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query IntegrationInstance resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query IntegrationInstance resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 compartments = set()
@@ -2846,7 +2941,8 @@ class CIS_Report:
                 oac_resources = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query AnalyticsInstance resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query AnalyticsInstance resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 compartments = set()
@@ -2916,7 +3012,8 @@ class CIS_Report:
                 events_rules_data = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query EventRule resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query EventRule resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 for event_rule in events_rules_data:
@@ -2951,7 +3048,8 @@ class CIS_Report:
                 log_groups = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query LogGroup resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query LogGroup resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 # Looping through log groups to get logs
@@ -2978,6 +3076,7 @@ class CIS_Report:
                             log_group_id=log_group.identifier
                         ).data
                         for log in logs:
+
                             deep_link = self.__oci_loggroup_uri + log_group.identifier + "/logs/" + log.id + '?region=' + region_key
                             log_record = {
                                 "compartment_id": log.compartment_id,
@@ -2992,17 +3091,76 @@ class CIS_Report:
                                 "time_created": log.time_created.strftime(self.__iso_time_format),
                                 "time_last_modified": str(log.time_last_modified),
                                 "defined_tags": log.defined_tags,
-                                "freeform_tags": log.freeform_tags
+                                "freeform_tags": log.freeform_tags,
+                                "region" : region_key
                             }
                             try:
-                                if log.configuration:
-                                    log_record["configuration_compartment_id"] = log.configuration.compartment_id,
-                                    log_record["source_category"] = log.configuration.source.category,
-                                    log_record["source_parameters"] = log.configuration.source.parameters,
-                                    log_record["source_resource"] = log.configuration.source.resource,
-                                    log_record["source_service"] = log.configuration.source.service,
-                                    log_record["source_source_type"] = log.configuration.source.source_type
-                                    log_record["archiving_enabled"] = log.configuration.archiving.is_enabled
+                                try:
+                                    if log_record["log_type"] == "SERVICE" and log_record['lifecycle_state'] == "ACTIVE":
+                                        log_record["configuration_compartment_id"] = log.configuration.compartment_id
+                                        log_record["source_category"] = log.configuration.source.category
+                                        log_record["source_parameters"] = log.configuration.source.parameters
+                                        log_record["source_source_type"] = log.configuration.source.source_type
+                                        log_record["source_service"] = log.configuration.source.service
+                                        # Object storage buckets are indexed by BucketName-region
+                                        if log_record["source_service"] == "objectstorage":
+                                            log_record["source_resource"] = log.configuration.source.resource + "-" + region_key
+                                        else:
+                                            log_record["source_resource"] = log.configuration.source.resource
+                                        log_record["archiving_enabled"] = log.configuration.archiving.is_enabled
+                                        if log_record["source_parameters"] and isinstance(log_record["source_parameters"],dict):
+                                            log_record["capture_filter"] = log.configuration.source.parameters["capture_filter"]
+                                        else:
+                                            log_record["capture_filter"] = None
+             
+                                    elif log_record["lifecycle_state"] == "ACTIVE":
+                                        log_record["source_category"] = log.log_type
+                                        log_record["source_service"] = log.log_type
+                                        log_record["source_resource"] = log.id
+                                        log_record["capture_filter"] = None
+                                except Exception as e:
+                                    print(log)
+                                    print(e)
+                                
+                                #### TESTING SOMETHING NEW ####
+
+                                try: 
+                                    ## Active means your logging
+                                    if log_record['lifecycle_state'] == 'ACTIVE':
+                                        if self.__all_logs:
+
+                                            if log_record["source_service"] in self.__all_logs:
+
+                                                if log_record["source_category"] in self.__all_logs[log_record["source_service"]]:
+                                                    debug("\t__logging_read_log_groups_and_logs: Adding log for existing service and category ")
+                                                    self.__all_logs[log_record["source_service"]][log_record["source_category"]][log_record["source_resource"]] = log_record
+                                                        
+                                                else:
+                                                    debug(f'\t__logging_read_log_groups_and_logs: Adding category {log_record["source_category"]}')
+                                                    self.__all_logs[log_record["source_service"]][log_record["source_category"]] = {}
+                                                    self.__all_logs[log_record["source_service"]][log_record["source_category"]][log_record["source_resource"]] = log_record
+                                                        
+                                            else:
+                                                debug(f'\t__logging_read_log_groups_and_logs: Adding Service {log_record["source_service"]}, and category {log_record["source_category"]}')
+                                                self.__all_logs[log_record["source_service"]] = {}
+                                                self.__all_logs[log_record["source_service"]][log_record["source_category"]] = {}
+                                                self.__all_logs[log_record["source_service"]][log_record["source_category"]][log_record["source_resource"]] = log_record
+                                                    
+                                        else:
+                                            debug(f'\t__logging_read_log_groups_and_logs: Starting Dict: Adding Service {log_record["source_service"]}, and category {log_record["source_category"]}' )
+                                            self.__all_logs[log_record["source_service"]] = {}
+                                            self.__all_logs[log_record["source_service"]][log_record["source_category"]] = {}
+                                            self.__all_logs[log_record["source_service"]][log_record["source_category"]][log_record["source_resource"]] = log_record
+                                                
+
+                                except Exception as e:
+                                    print(f'\tFailed to parse log: {log_record["id"]}')
+                                    self.__errors.append({"id" : log_record["id"], "error" : str(e)})
+                                    print("*" * 80)
+                                    print(log_record)
+                                    print("#" * 80)
+                                    print(e)
+                                    print("*" * 80)
 
                                 if log.configuration.source.service == 'flowlogs':
                                     self.__subnet_logs[log.configuration.source.resource] = {"log_group_id": log.log_group_id, "log_id": log.id}
@@ -3035,10 +3193,11 @@ class CIS_Report:
                         self.__errors.append({"id" : log_group.identifier, "error" : str(e) })
                         record['notes'] = str(e)
                         
-
                     self.__logging_list.append(record)
 
             print("\tProcessed " + str(len(self.__logging_list)) + " Log Group Logs")
+            # print(self.__all_logs)
+
             return self.__logging_list
         except Exception as e:
             raise RuntimeError(
@@ -3055,7 +3214,8 @@ class CIS_Report:
                 keys_data = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query Key resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query Key resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 vaults_set = set()
@@ -3300,7 +3460,8 @@ class CIS_Report:
                 subs_data = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query OnsSubscription resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query OnsSubscription resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
                 debug("\t__ons_read_subscriptions: Recieved " + str(len(subs_data)) + " subscriptions in region " + str(region_key))
                 for sub in subs_data:
@@ -3372,7 +3533,8 @@ class CIS_Report:
                 service_connectors_data = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
                     search_details=oci.resource_search.models.StructuredSearchDetails(
-                        query="query ServiceConnector resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'")
+                        query="query ServiceConnector resources return allAdditionalFields where compartmentId != '" + self.__managed_paas_compartment_id + "'"),
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 # Getting Bucket Info
@@ -3449,7 +3611,8 @@ class CIS_Report:
                 structured_search_query = oci.resource_search.models.StructuredSearchDetails(query=query_non_compliant)
                 search_results = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
-                    search_details=structured_search_query
+                    search_details=structured_search_query,
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 for item in search_results:
@@ -3464,7 +3627,8 @@ class CIS_Report:
                 structured_search_all_query = oci.resource_search.models.StructuredSearchDetails(query=query_all_resources)
                 structured_search_all_resources = oci.pagination.list_call_get_all_results(
                     region_values['search_client'].search_resources,
-                    search_details=structured_search_all_query
+                    search_details=structured_search_all_query,
+                    tenant_id=self.__tenancy.id
                 ).data
 
                 for item in structured_search_all_resources:
@@ -3498,7 +3662,8 @@ class CIS_Report:
             results = oci.pagination.list_call_get_all_results(
                 search_client.search_resources,
                 search_details=oci.resource_search.models.StructuredSearchDetails(
-                query=query)
+                query=query),
+                tenant_id=self.__tenancy.id
             ).data
             
             return oci.util.to_dict(results)
@@ -3590,7 +3755,8 @@ class CIS_Report:
                 certificates_data = oci.pagination.list_call_get_all_results(
                         region_values['search_client'].search_resources,
                         search_details=oci.resource_search.models.StructuredSearchDetails(
-                            query="query certificate resources return allAdditionalFields")
+                            query="query certificate resources return allAdditionalFields"),
+                            tenant_id=self.__tenancy.id
                     ).data
                 cert_compartments = {}
                 debug("\t__certificates_read_certificates: Got Ceritificates from ")
@@ -3806,6 +3972,27 @@ class CIS_Report:
                     # CIS Total 1.10 Adding - Keys to CIS Total
                     self.cis_foundations_benchmark_2_0['1.10']['Total'].append(
                         key)
+    # CIS 1.11 Check - Old DB Password
+        #__iso_time_format1 = "%Y-%m-%dT%H:%M:%S.%fZ"
+        for user in self.__users:
+            if user['database_passwords']:
+                for key in user['database_passwords']:
+                    if self.api_key_time_max_datetime >= datetime.datetime.strptime(key['time_created'], self.__iso_time_format):
+                        self.cis_foundations_benchmark_2_0['1.11']['Status'] = False
+                        
+                        finding = {
+                            "user_name": user['name'],
+                            "user_id": user['id'],
+                            "id": key['ocid'],
+                            "description": key['description'],
+                            # "expires-on": key['expires_on']
+                        }
+
+                        self.cis_foundations_benchmark_2_0['1.11']['Findings'].append(finding)
+
+                # CIS Total 1.11 Adding - Keys to CIS Total
+                    self.cis_foundations_benchmark_2_0['1.11']['Total'].append(key)
+                    
 
         # CIS 1.12 Active Admins with API keys
         # Iterating through all users to see if they have API Keys and if they are active users
@@ -4094,14 +4281,69 @@ class CIS_Report:
             if all(findings.values()):
                 self.cis_foundations_benchmark_2_0[key]['Status'] = True
 
+        ### Testing ###
         # CIS Check 4.13 - VCN FlowLog enable
         # Generate list of subnets IDs
         for subnet in self.__network_subnets:
-            if not (subnet['id'] in self.__subnet_logs):
-                self.cis_foundations_benchmark_2_0['4.13']['Status'] = False
-                self.cis_foundations_benchmark_2_0['4.13']['Findings'].append(
-                    subnet)
+            vcn_id = subnet['vcn_id']
+            try:              
+                if 'vcn' in self.__all_logs['flowlogs'] and vcn_id in self.__all_logs['flowlogs']['vcn']:
+                    debug(f"__report_cis_analyze_tenancy_data: Flowlogs checking VCN {vcn_id} for Subnet: {subnet['id']} ")
+                    if self.__all_logs['flowlogs']['vcn'][vcn_id]['capture_filter']:
+                        capture_filter_id = self.__all_logs['flowlogs']['vcn'][vcn_id]['capture_filter']
+                        capture_filter = self.__network_capturefilters[capture_filter_id]
 
+                        if not(self.all_traffic_rules[0] in capture_filter['additional_details']['flowLogCaptureFilterRules'] or \
+                            self.all_traffic_rules[1] in capture_filter['additional_details']['flowLogCaptureFilterRules']):
+                        # VCN is being logging but it is has a capture filter we need to check
+                            debug(f"__report_cis_analyze_tenancy_data: Flowlogs Capture Filter {capture_filter_id} Rules not compliant.")
+                            capture_filter = self.__network_capturefilters[capture_filter_id]
+                            self.cis_foundations_benchmark_2_0['4.13']['Status'] = False
+                            self.cis_foundations_benchmark_2_0['4.13']['Findings'].append(subnet)
+
+                elif 'subnet' in self.__all_logs['flowlogs'] and subnet['id'] in self.__all_logs['flowlogs']['subnet']: 
+                    debug(f"__report_cis_analyze_tenancy_data: Flowlogs checking Subnet {subnet['id']} in subnet")
+                    debug(self.__all_logs['flowlogs']['subnet'][subnet['id']]['capture_filter'])
+                    if self.__all_logs['flowlogs']['subnet'][subnet['id']]['capture_filter']:
+                        debug(f"__report_cis_analyze_tenancy_data: Flowlogs checking Subnet {subnet['id']} capture filter in subnet")
+                        capture_filter_id = self.__all_logs['flowlogs']['subnet'][subnet['id']]['capture_filter']
+                        capture_filter = self.__network_capturefilters[capture_filter_id]    
+                        if not(self.all_traffic_rules[0] in capture_filter['additional_details']['flowLogCaptureFilterRules'] or \
+                            self.all_traffic_rules[1] in capture_filter['additional_details']['flowLogCaptureFilterRules']):
+                        # VCN is being logging but it is has a capture filter we need to check
+                            debug(f"__report_cis_analyze_tenancy_data: Flowlogs Capture Filter {capture_filter_id} Rules not compliant.")
+                            self.cis_foundations_benchmark_2_0['4.13']['Status'] = False
+                            self.cis_foundations_benchmark_2_0['4.13']['Findings'].append(subnet)
+
+                elif 'all' in self.__all_logs['flowlogs'] and subnet['id'] in self.__all_logs['flowlogs']['all']:
+                    debug(f"__report_cis_analyze_tenancy_data: Flowlogs checking Subnet {subnet['id']} in all")
+                    debug(self.__all_logs['flowlogs']['all'][subnet['id']]['capture_filter'])
+                    if self.__all_logs['flowlogs']['all'][subnet['id']]['capture_filter']:
+                        debug(f"__report_cis_analyze_tenancy_data: Flowlogs checking Subnet {subnet['id']} capture filter in all")
+
+                        capture_filter_id = self.__all_logs['flowlogs']['all'][subnet['id']]['capture_filter']
+                        capture_filter = self.__network_capturefilters[capture_filter_id]    
+                        if not(self.all_traffic_rules[0] in capture_filter['additional_details']['flowLogCaptureFilterRules'] or \
+                            self.all_traffic_rules[1] in capture_filter['additional_details']['flowLogCaptureFilterRules']):
+                        # VCN is being logging but it is has a capture filter we need to check
+                            debug(f"__report_cis_analyze_tenancy_data: Flowlogs Capture Filter {capture_filter_id} Rules not compliant.")
+                            self.cis_foundations_benchmark_2_0['4.13']['Status'] = False
+                            self.cis_foundations_benchmark_2_0['4.13']['Findings'].append(subnet)
+
+                else:
+                    debug(f"__report_cis_analyze_tenancy_data: Flowlogs count not find Subnet {subnet['id']}, it is a finding")
+                    self.cis_foundations_benchmark_2_0['4.13']['Status'] = False
+                    self.cis_foundations_benchmark_2_0['4.13']['Findings'].append(subnet)
+
+            except Exception as e:
+                self.cis_foundations_benchmark_2_0['4.13']['Status'] = False            
+                if ".capturefilter." in str(e):
+                    print(f"Unable to read capturefilter rules for:  {str(e)}.\n*** Please ensure your auditor has permissions: 'to read capture-filters in tenancy' . ***")
+                    self.__errors.append({"id" : str(e), "error" : "Unable to read capturefilter rules *** Please ensure your auditor has permissions: 'to read capture-filters in tenancy'."})
+                else:
+                    print(f'Unable to process all logs and capture filter rules: {str(e)}')
+                    self.__errors.append({"id" : "__network_subnets", "error" : str(e)})
+        
         # CIS Check 4.13 Total - Adding All Subnets to total
         self.cis_foundations_benchmark_2_0['4.13']['Total'] = self.__network_subnets
 
@@ -4134,12 +4376,16 @@ class CIS_Report:
             self.cis_foundations_benchmark_2_0['4.16']['Total'].append(key)
 
         # CIS Check 4.17 - Object Storage with Logs
-        # Generating list of buckets names
-        for bucket in self.__buckets:
-            if not (bucket['name'] in self.__write_bucket_logs):
-                self.cis_foundations_benchmark_2_0['4.17']['Status'] = False
-                self.cis_foundations_benchmark_2_0['4.17']['Findings'].append(
-                    bucket)
+        # Generating list of buckets names and need to make sure they have write level bucekt logs
+        if 'objectstorage' in self.__all_logs and 'write' in self.__all_logs['objectstorage']:
+            for bucket in self.__buckets:
+                if not (bucket['name'] + "-" + bucket['region'] in self.__all_logs['objectstorage']['write']):
+                    self.cis_foundations_benchmark_2_0['4.17']['Status'] = False
+                    self.cis_foundations_benchmark_2_0['4.17']['Findings'].append(
+                        bucket)
+        else:
+            self.cis_foundations_benchmark_2_0['4.17']['Status'] = False
+            self.cis_foundations_benchmark_2_0['4.17']['Findings'] +=self.__buckets
 
         # CIS Check 4.17 Total - Adding All Buckets to total
         self.cis_foundations_benchmark_2_0['4.17']['Total'] = self.__buckets
@@ -4600,13 +4846,16 @@ class CIS_Report:
                 elif attachment['network_type'].upper() == 'VIRTUAL_CIRCUIT':
 
                     # Checking for Provision and BGP enabled Virtual Circuits and that it is associated
-                    for virtual_circuit in self.__network_fastconnects[attachment['drg_id']]:
-                        if attachment['network_id'] == virtual_circuit['id']:
-                            if virtual_circuit['lifecycle_state'].upper() == 'PROVISIONED' and virtual_circuit['bgp_session_state'].upper() == "UP":
-                                # Good VC to increment number of VCs and append the provider name
-                                fast_connect_providers.add(virtual_circuit['provider_name'])
-                                number_of_valid_fast_connect_circuits += 1
-
+                    try:
+                        for virtual_circuit in self.__network_fastconnects[attachment['drg_id']]:
+                            if attachment['network_id'] == virtual_circuit['id']:
+                                if virtual_circuit['lifecycle_state'].upper() == 'PROVISIONED' and virtual_circuit['bgp_session_state'].upper() == "UP":
+                                    # Good VC to increment number of VCs and append the provider name
+                                    fast_connect_providers.add(virtual_circuit['provider_name'])
+                                    number_of_valid_fast_connect_circuits += 1
+                    except Exception:
+                        debug("__obp_analyze_tenancy_data: Fast Connect Connections check: DRG ID not found " + str(drg_id))
+                        self.__errors.append({"id" : str(drg_id), "error" : str("__obp_analyze_tenancy_data: Fast Connect Connections check: DRG ID not found")})
             try:
                 record = {
                     "drg_id": drg_id,
@@ -4727,8 +4976,7 @@ class CIS_Report:
 
         #######################################
         # Certificate Expiry Check
-        #######################################
-        
+        #######################################        
         for cert in self.__raw_oci_certificates:
             debug("\t__obp_analyze_tenancy_data: Iterating through certificates")
             
@@ -4757,7 +5005,7 @@ class CIS_Report:
         summary_report = []
         for key, recommendation in self.cis_foundations_benchmark_2_0.items():
             if recommendation['Level'] <= level:
-                report_filename = "cis" + " " + recommendation['section'] + "_" + recommendation['recommendation_#']
+                report_filename = f'{self.__report_prefix}cis {recommendation["section"]}_{recommendation["recommendation_#"]}'
                 report_filename = report_filename.replace(" ", "_").replace(".", "-").replace("_-_", "_") + ".csv"
                 if recommendation['Status']:
                     compliant_output = "Yes"
@@ -4814,6 +5062,12 @@ class CIS_Report:
         summary_file_name = self.__report_generate_html_summary_report("cis", "html_summary_report", summary_report)
         summary_files.append(summary_file_name)
 
+        if OUTPUT_DIAGRAMS:
+            diagram_file_name = self.__generate_compliance_diagram("cis", "summary_compliance", summary_report)
+            summary_files.append(diagram_file_name)
+            diagram_file_name = self.__generate_compliance_by_area_diagram("cis", "summary_compliance_by_focus_area", summary_report)
+            summary_files.append(diagram_file_name)
+
         # Outputing to a bucket if I have one
         if summary_files and self.__output_bucket:
             for summary_file in summary_files:
@@ -4828,16 +5082,100 @@ class CIS_Report:
                         self.__output_bucket, report_file_name)
 
     ##########################################################################
+    # Generate summary diagrams
+    ##########################################################################
+    diagram_colors = ['#4C825C','#C74634']
+    diagram_values = ['Compliant', 'Non-compliant']
+    diagram_sections = (
+        'Identity and Access Management',
+        'Networking',
+        'Compute',
+        'Logging and Monitoring',
+        'Storage',
+        'Asset Management'
+    )
+    diagram_fontweight = 'bold'
+    diagram_fontcolor_reverse = 'white'
+
+    ##########################################################################
+    # __cis_compliance
+    ##########################################################################
+    def __cis_compliance(self, filename, title, values=None):
+        plt.close('all')
+        plt.figure(figsize=(6,5))
+        wegdes, labels, pcttexts = plt.pie(values, labels=self.diagram_values, colors=self.diagram_colors, autopct='%.0f%%', wedgeprops={'linewidth': 3.0, 'edgecolor': 'white'}, startangle=90, counterclock=False, radius=1.1)
+        for t in labels:
+            t.set_fontweight(self.diagram_fontweight)
+        for p in pcttexts:
+            p.set_fontweight(self.diagram_fontweight)
+            p.set_color(self.diagram_fontcolor_reverse)
+        plt.title(title, fontweight=self.diagram_fontweight, pad=30.0)
+        plt.savefig(filename)
+
+    ##########################################################################
+    # __cis_compliance_by_area
+    ##########################################################################
+    def __cis_compliance_by_area(self, filename, title, section_values=None):
+        plt.close('all')
+        height = 0.4
+        fig, ax = plt.subplots(figsize=(10,5), layout='compressed')
+        y = np.arange(len(self.diagram_sections))
+        p = ax.barh(y - height/2, section_values[self.diagram_values[0]], height, color=self.diagram_colors[0])
+        ax.bar_label(p, padding=-16, color=self.diagram_fontcolor_reverse, fontweight=self.diagram_fontweight)
+        p = ax.barh(y + (height/2), section_values[self.diagram_values[1]], height, color=self.diagram_colors[1])
+        ax.bar_label(p, padding=-16, color=self.diagram_fontcolor_reverse, fontweight=self.diagram_fontweight)
+        ax.set_frame_on(False)
+        ax.set_title(title, fontweight=self.diagram_fontweight, loc='left')
+        ax.set_yticks(y)
+        ax.set_yticklabels(self.diagram_sections, fontweight=self.diagram_fontweight)
+        ax.invert_yaxis()
+        plt.tick_params(left=False, right=False, labelbottom=False, bottom=False)
+        plt.savefig(filename)
+
+    ##########################################################################
+    # __generate_compliance_diagram
+    ##########################################################################
+    def __generate_compliance_diagram(self, header, file_subject, data):
+        compliant = 0
+        non_compliant = 0
+        for finding in data:
+            if finding['Compliant'] == 'Yes':
+                compliant += 1
+            else:
+                non_compliant += 1
+        cis_compliance_file = self.__get_output_file_path(header, file_subject, '.png')
+        self.__cis_compliance(cis_compliance_file, 'CIS Recommendation Compliance', [compliant, non_compliant])
+        return cis_compliance_file
+
+    ##########################################################################
+    # __generate_compliance_by_area_diagram
+    ##########################################################################
+    def __generate_compliance_by_area_diagram(self, header, file_subject, data):
+        compliants = []
+        non_compliants = []
+        for section in self.diagram_sections:
+            compliant = 0
+            non_compliant = 0
+            for finding in data:
+                if section in finding['Section']:
+                    if finding['Compliant'] == 'Yes':
+                        compliant += 1
+                    else:
+                        non_compliant += 1
+            compliants.append(compliant)
+            non_compliants.append(non_compliant)
+
+        cis_compliance_by_area_file = self.__get_output_file_path(header, file_subject, '.png')
+        self.__cis_compliance_by_area(cis_compliance_by_area_file, 'CIS Recommendation Compliance per Focus Area', {
+            self.diagram_values[0]: compliants,
+            self.diagram_values[1]: non_compliants,
+        })
+        return cis_compliance_by_area_file
+
+    ##########################################################################
     # Generates an HTML report
     ##########################################################################
     def __report_generate_html_summary_report(self, header, file_subject, data):
-        try:
-            # Creating report directory
-            if not os.path.isdir(self.__report_directory):
-                os.mkdir(self.__report_directory)
-
-        except Exception as e:
-            raise Exception("Error in creating report directory: " + str(e.args))
 
         try:
             # if no data
@@ -4845,9 +5183,7 @@ class CIS_Report:
                 return None
 
             # get the file name of the HTML
-            file_name = header + "_" + file_subject
-            file_name = (file_name.replace(" ", "_")).replace(".", "-").replace("_-_", "_") + ".html"
-            file_path = os.path.join(self.__report_directory, f'{self.__report_prefix}{file_name}')
+            file_path = self.__get_output_file_path(header, file_subject, '.html')
 
             # add report_datetimeto each dictionary
             result = [dict(item, extract_date=self.start_time_str)
@@ -4911,7 +5247,11 @@ class CIS_Report:
                 r = result[0]
                 extract_date = r['extract_date'].replace('T',' ')
                 html_file.write(f'<h5>Extract Date: {extract_date} UTC</h5>')
-                html_file.write("</div></section>")
+                html_file.write('</div></section>')
+                if OUTPUT_DIAGRAMS:
+                    # Include dashboard
+                    html_file.write(f'<section class="cb132 cb132v0"><div class="cb132w1 cwidth"><table><tr><td><img src="{self.__report_prefix}cis_summary_compliance.png" height="80%" width="80%"/></td>')
+                    html_file.write(f'<td><img src="{self.__report_prefix}cis_summary_compliance_by_focus_area.png" height="80%" width="80%"/></td></tr><tr><td colspan="2">&nbsp;</td></tr></table></div></section>')
                 # Navigation
                 html_file.write('<section class="rt01 rt01v0 rt01detached">')
                 html_file.write('<div class="rt01w1 cwidth">')
@@ -4965,7 +5305,7 @@ class CIS_Report:
                         if int(total) > 1:
                             tmp += 's'
                     html_file.write(f'<td><b style="color:{text_color};">{str(compliant)}</b>{tmp}</td>\n')
-                    html_file.write(f"<td>{str(row['Section'])}</td>\n")
+                    html_file.write(f'<td>{str(row["Section"])}</td>\n')
                     # Details
                     html_file.write('<td><table><tr><td style="width:10%"><b>Title</b></td>')
                     html_file.write(f'<td colspan="3">{str(row["Title"])}</td></tr>')
@@ -4990,9 +5330,7 @@ class CIS_Report:
                 html_file.write("</tbody></table></div></div></section></div></section></div></section>\n")
                 # Line
                 html_file.write('<section class="cb133 cb133v0 cpad" id="noncompliant">')
-                html_file.write('<div class="cb133w1 cwidth">')
-                html_file.write('<h4>Non-compliant Recommendations</h4>')
-                html_file.write('</div>')
+                html_file.write('<div class="cb133w1 cwidth"><h4>Non-compliant Recommendations</h4></div>')
                 html_file.write('<div class="cb133w1 cwidth">')
                 html_file.write('<section class="cb133 cb133v0"><div class="cb133w1 cwidth">')
                 html_file.write('<section class="cb133 cb133v0 cpad"><div class="cb133w1 cwidth">')
@@ -5028,7 +5366,7 @@ class CIS_Report:
                         html_file.write(f'<td><a href="#{v}">{v}</a></td>\n')
                     else:
                         html_file.write(f'<td>{v}</td>\n')
-                    f = row['Findings'] 
+                    f = row['Findings']
                     t = row['Total']
                     tmp = ''
                     if t != ' ':
@@ -5047,14 +5385,14 @@ class CIS_Report:
                     html_file.write('<td id="td_override" style="width: 20%;"><b>CCCS Guard Rail</b></td>')
                     html_file.write('<td id="td_override" style="width: 55%;"><b>File</b></td></tr>')
                     html_file.write(f'<tr><td>{str(row["Level"])}</td>')
-                    cis_v8 = str(row["CIS v8"]).replace("[","").replace("]","").replace("'","")
+                    cis_v8 = str(row["CIS v8"]).replace("[", "").replace("]", "").replace("'", "")
                     html_file.write(f'<td>{cis_v8}</td>')
                     html_file.write(f'<td>{str(row["CCCS Guard Rail"])}</td>')
                     v = str(row['Filename'])
                     if v == ' ':
                         html_file.write('<td> </td>')
                     else:
-                        html_file.write(f'<td><a href="{self.__report_prefix}{v}">{v}</a></td>')
+                        html_file.write(f'<td style="word-break: break-all; overflow-wrap: break-word;"><a href="{v}">{v}</a></td>')
                     html_file.write('</tr></table></td>')
                     html_file.write("</tr>")
 
@@ -5085,20 +5423,19 @@ class CIS_Report:
                                 html_file.write(f"<p>{v}</p>\n")
                 html_file.write("</div></section>\n")
                 # Closing HTML
+                report_year = str(self.start_datetime.strftime('%Y'))
                 html_file.write("""<div id="resources" class="u10 u10v6"><nav class="u10w1" aria-label="Main footer">
                 <div class="u10w2"><div class="u10w3" aria-labelledby="resourcesfor"><a class="u10btn" tabindex="-1" aria-labelledby="resourcesfor"></a>
                 <h4 class="u10ttl" id="resourcesfor">Resources</h4><ul>
-                <li><a href="https://www.cisecurity.org/benchmark/Oracle_Cloud">CIS OCI Foundation Benchmark</a></li>
-                <li><a href="https://docs.oracle.com/en/solutions/cis-oci-benchmark/index.html">Deploy a secure landing zone that meets the CIS Foundations Benchmark for Oracle Cloud</a></li>
-                <li><a href="https://docs.oracle.com/en/solutions/oci-security-checklist/index.html">Security checklist for Oracle Cloud Infrastructure</a></li>
-                <li><a href="https://docs.oracle.com/en-us/iaas/Content/Security/Concepts/security.htm">OCI Documentation – Securely configure your Oracle Cloud Infrastructure services and resources</a></li>
-                <li><a href="https://docs.oracle.com/en/solutions/oci-best-practices/index.html">Best practices framework for Oracle Cloud Infrastructure</a></li>
-                <li><a href="https://www.oracle.com/security/cloud-security/what-is-cspm/">Cloud Security Posture Management</a></li>
+                <li><a target="_blank" href="https://www.cisecurity.org/benchmark/Oracle_Cloud">CIS OCI Foundation Benchmark</a></li>
+                <li><a target="_blank" href="https://docs.oracle.com/en/solutions/cis-oci-benchmark/index.html">Deploy a secure landing zone that meets the CIS Foundations Benchmark for Oracle Cloud</a></li>
+                <li><a target="_blank" href="https://docs.oracle.com/en/solutions/oci-security-checklist/index.html">Security checklist for Oracle Cloud Infrastructure</a></li>
+                <li><a target="_blank" href="https://docs.oracle.com/en-us/iaas/Content/Security/Concepts/security.htm">OCI Documentation – Securely configure your Oracle Cloud Infrastructure services and resources</a></li>
+                <li><a target="_blank" href="https://docs.oracle.com/en/solutions/oci-best-practices/index.html">Best practices framework for Oracle Cloud Infrastructure</a></li>
+                <li><a target="_blank" href="https://www.oracle.com/security/cloud-security/what-is-cspm/">Cloud Security Posture Management</a></li>
                 </ul></div></div><div class="u10w4"><hr></div></nav>
-                <div class="u10w11"><nav class="u10w5 u10w10" aria-label="Site info">
-                <ul class="u10-links"><li></li><li><a href="https://www.oracle.com/legal/copyright.html">© 2023 Oracle</a></li>
-                </ul></nav></div>""")
-                html_file.write("</div></div></body></html>\n")
+                <div class="u10w11"><nav class="u10w5 u10w10" aria-label="Site info">""")
+                html_file.write(f'<ul class="u10-links"><li></li><li><a target="_blank" href="https://www.oracle.com/legal/copyright.html">© {report_year} Oracle</a></li></ul></nav></div></div></div></body></html>\n')
 
             print("HTML: " + file_subject.ljust(22) + " --> " + file_path)
             # Used by Upload
@@ -5223,7 +5560,9 @@ class CIS_Report:
             self.__ons_read_subscriptions,
             self.__network_read_network_security_lists,
             self.__network_read_network_security_groups_rules,
+            self.__network_read_network_vcns,
             self.__network_read_network_subnets,
+            self.__network_read_network_capturefilters,
             self.__adb_read_adbs,
             self.__oic_read_oics,
             self.__oac_read_oacs,
@@ -5288,6 +5627,8 @@ class CIS_Report:
             "network_security_groups": self.__network_security_groups,
             "network_security_lists": self.__network_security_lists,
             "network_subnets": self.__network_subnets,
+            "network_vcns": self.__network_vcns,
+            "network_capture_filters": list(self.__network_capturefilters.values()),
             "autonomous_databases": self.__autonomous_databases,
             "analytics_instances": self.__analytics_instances,
             "integration_instances": self.__integration_instances,
@@ -5353,18 +5694,26 @@ class CIS_Report:
                 "Error opening file os_copy_report_to_object_storage: " + str(e.args))
 
     ##########################################################################
-    # Print to CSV
+    # Get output file path with suffix
     ##########################################################################
-    def __print_to_csv_file(self, header, file_subject, data):
-        debug("__print_to_csv_file: " + header + "_" + file_subject)
+    def __get_output_file_path(self, header, file_subject, suffix):
         try:
             # Creating report directory
             if not os.path.isdir(self.__report_directory):
                 os.mkdir(self.__report_directory)
 
         except Exception as e:
-            raise Exception(
-                "Error in creating report directory: " + str(e.args))
+            raise Exception(f'Error in creating report directory: {str(e.args)}')
+
+        file_name = f'{header}_{file_subject}'
+        file_name = f'{file_name.replace(" ", "_").replace(".", "-").replace("_-_", "_")}{suffix}'
+        return os.path.join(self.__report_directory, f'{self.__report_prefix}{file_name}')
+
+    ##########################################################################
+    # Print to CSV
+    ##########################################################################
+    def __print_to_csv_file(self, header, file_subject, data):
+        debug("__print_to_csv_file: " + header + "_" + file_subject)
 
         try:
             # if no data
@@ -5372,10 +5721,7 @@ class CIS_Report:
                 return None
 
             # get the file name of the CSV
-
-            file_name = header + "_" + file_subject
-            file_name = (file_name.replace(" ", "_")).replace(".", "-").replace("_-_", "_") + ".csv"
-            file_path = os.path.join(self.__report_directory, f'{self.__report_prefix}{file_name}')
+            file_path = self.__get_output_file_path(header, file_subject, '.csv')
 
             # add report_datetimeto each dictionary
             result = [dict(item, extract_date=self.start_time_str)
@@ -5423,26 +5769,14 @@ class CIS_Report:
     # Print to JSON
     ##########################################################################
     def __print_to_json_file(self, header, file_subject, data):
-        try:
-            # Creating report directory
-            if not os.path.isdir(self.__report_directory):
-                os.mkdir(self.__report_directory)
-
-        except Exception as e:
-            raise Exception(
-                "Error in creating report directory: " + str(e.args))
 
         try:
             # if no data
             if len(data) == 0:
                 return None
             
-            # get the file name of the CSV
-            
-            file_name = header + "_" + file_subject
-            file_name = (file_name.replace(" ", "_")
-                         ).replace(".", "-").replace("_-_","_") + ".json"
-            file_path = os.path.join(self.__report_directory, f'{self.__report_prefix}{file_name}')
+            # get the file name of the JSON
+            file_path = self.__get_output_file_path(header, file_subject, '.json')
 
             # Serializing JSON to string
             json_object = json.dumps(data, indent=4)
@@ -5470,26 +5804,14 @@ class CIS_Report:
     # Print to PKL
     ##########################################################################
     def __print_to_pkl_file(self, header, file_subject, data):
-        try:
-            # Creating report directory
-            if not os.path.isdir(self.__report_directory):
-                os.mkdir(self.__report_directory)
-
-        except Exception as e:
-            raise Exception(
-                "Error in creating report directory: " + str(e.args))
 
         try:
             # if no data
             if len(data) == 0:
                 return None
             
-            # get the file name of the CSV
-            
-            file_name = header + "_" + file_subject
-            file_name = (file_name.replace(" ", "_")
-                         ).replace(".", "-").replace("_-_","_") + ".pkl"
-            file_path = os.path.join(self.__report_directory, f'{self.__report_prefix}{file_name}')
+            # get the file name of the PKL
+            file_path = self.__get_output_file_path(header, file_subject, '.pkl')
 
             # Writing to json file
             with open(file_path, 'wb') as pkl_file:
@@ -5504,9 +5826,7 @@ class CIS_Report:
 
         except Exception as e:
             raise Exception("Error in __print_to_pkl_file: " + str(e.args))
-    
-
-    
+        
     ##########################################################################
     # Orchestrates Data collection and reports
     ##########################################################################
@@ -5765,11 +6085,20 @@ def execute_report():
                     cmd.regions, cmd.raw, cmd.obp, cmd.redact_output, oci_url=cmd.oci_url, debug=cmd.debug, all_resources=cmd.all_resources)
     csv_report_directory = report.generate_reports(int(cmd.level))
 
-    try:
-        if OUTPUT_TO_XLSX:
+    if OUTPUT_TO_XLSX:
+        try:
             report_prefix = f'{cmd.report_prefix}_' if cmd.report_prefix else ''
             workbook = Workbook(f'{csv_report_directory}/{report_prefix}Consolidated_Report.xlsx', {'in_memory': True})
-            for csvfile in glob.glob(f'{csv_report_directory}/{report_prefix}*.csv'):
+            if OUTPUT_DIAGRAMS:
+                try:
+                    worksheet = workbook.add_worksheet('cis_summary_charts')
+                    worksheet.insert_image('B2', f'{csv_report_directory}{report_prefix}cis_summary_compliance.png')
+                    worksheet.insert_image('L2', f'{csv_report_directory}{report_prefix}cis_summary_compliance_by_focus_area.png')
+                except Exception:
+                    pass
+            csvfiles = glob.glob(f'{csv_report_directory}/{report_prefix}*.csv')
+            csvfiles.sort()
+            for csvfile in csvfiles:
 
                 worksheet_name = csvfile.split(os.path.sep)[-1].replace(report_prefix, "").replace(".csv", "").replace("raw_data_", "raw_").replace("Findings", "fds").replace("Best_Practices", "bps")
 
@@ -5797,10 +6126,13 @@ def execute_report():
                             # Skipping the deep link due to formating errors in xlsx
                             if "=HYPERLINK" not in col:
                                 worksheet.write(r, c, col)
+                worksheet.autofilter(0, 0, r - 1, c - 1)
+                worksheet.autofit()
+
             workbook.close()
-    except Exception as e:
-        print("** Failed to output to excel. Please use CSV files. **")
-        print(e)
+        except Exception as e:
+            print("** Failed to output to Excel. Please use CSV files. **")
+            print(e)
 
 
 ##########################################################################

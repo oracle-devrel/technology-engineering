@@ -28,7 +28,7 @@ We specifically want to draw your attention to the **Support** tab on the OCI-in
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

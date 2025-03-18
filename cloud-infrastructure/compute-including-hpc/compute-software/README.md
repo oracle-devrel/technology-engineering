@@ -2,7 +2,7 @@
 
 This page contains information and useful links regarding Compute services that are mostly related to OS and Licenses Management on top of OCI Compute. You can also find resources about BYOI, BYOH and Autoscaling.
 
-<i>Review date: 24 May 2024</i>
+<i>Review date: 04 November 2024</i>
 
 # Table of Contents
 
@@ -13,13 +13,13 @@ This page contains information and useful links regarding Compute services that 
 
 - [How to Deploy Self-Managed Nodes on OKE](https://www.youtube.com/watch?v=OroPnRN7arE)
 - [Cloud Coaching - Optimising performance - Deploying Red Hat Workloads on Oracle Cloud Infrastructure](https://www.youtube.com/watch?v=_18PgW4NN40)
-- [OCI PowerShell 7 Launch Instance](https://github.com/Olygo/OCI_Pwsh_Launch_Instance)
-- [OCI Cloud-Init WinPwd Update](https://github.com/Olygo/CloudInit_WinPwd_Update)
+- [OCI PowerShell 7 Launch Instance](https://github.com/Olygo/OCI_Pwsh_Launch_Instance) - This PowerShell script allows you to create a compute instance on OCI using the OCI PowerShell 7 Modules
+- [OCI Cloud-Init WinPwd Update](https://github.com/Olygo/CloudInit_WinPwd_Update) - Automates the installation of PowerShell and OCI PowerShell modules on a Windows-based OCI compute instance.
 - [OCI Object Storage Refresh Data Replication ](https://github.com/Olygo/OCI-OS_RefreshDataReplication)
 - [OCI DR with Reserved Public IPs](https://github.com/Olygo/OCI_DR-Reserved_PIP)
 - [OCI Vertical AutoScale](https://github.com/Olygo/OCI-AutoScale)
 - [OCI BackupInspector](https://github.com/Olygo/OCI-BackupInspector)
-- [OCI Freeform Tagging](https://github.com/Olygo/OCI-TagCompute)
+- [OCI Freeform Tagging](https://github.com/Olygo/OCI-TagCompute) - TagCompute is a demonstration script showing you how to apply freeform tag to a resource.
 - [OCI List Backups](https://github.com/Olygo/OCI-ShowBackups)
 - [OCI Function for Freeform Tagging](https://github.com/Olygo/OCI-FN_TagCompute_FF)
 - [OCI Function for Defined Tags](https://github.com/Olygo/OCI-FN_TagCompute_DT)
@@ -28,6 +28,8 @@ This page contains information and useful links regarding Compute services that 
 - [Mount a boot volume from one compute instance (or VM) onto another compute instance in order to replace lost ssh keys](https://gitlab.com/ms76152/system-administration)
 - [Transfer data to and from Oracle Cloud Infrastructure using OS tools such as sftp, scp, oci cli, curl](https://github.com/mariusscholtz/Oracle-Cloud-Infrastructure-resources/blob/main/VM-shapes/data%20transfer%20to%20OCI%20v1.0.pdf)
 - [Quering Compute Capacity using CloudShell](https://github.com/Olygo/OCI_ComputeCapacityReport)
+- [Cockpit – Web console to manage Oracle Linux](https://github.com/mariusscholtz/Oracle-Cloud-Infrastructure-resources/tree/main/cockpit) - Installation instructions for Cockpit, the System administration graphical web console for Oracle Linux
+- This [Document](https://github.com/skbkkl/sharkuma/blob/main/Oracle-Cloud-Infrastructure-resources/Oracle-OCI-Troubleshooting/Troubleshooting-OCI-Win-VM-Console-Connection.pdf) explain about how to troubleshoot Windows VM console connection via SAC.
   
 # Useful Links
 
@@ -49,7 +51,7 @@ This page contains information and useful links regarding Compute services that 
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

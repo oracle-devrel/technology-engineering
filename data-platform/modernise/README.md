@@ -14,6 +14,8 @@ Also make sure to check the dedicated pages of the main technology areas of Data
 * [Transportable Tablespace](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/transportable-tablespace)
 * [Migration to OCI Database with PostgreSQL](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/migration-to-oci-database-with-postgresql)
 
+Reviewed: 15.11.2024
+
 # Team Publications
  
 - [ZDM/DMS Comparison](https://macsdata.com/oracle/zdm-dms-comparison)
@@ -40,7 +42,16 @@ Also make sure to check the dedicated pages of the main technology areas of Data
     - Cloud Coaching Webinar explaining different multicloud network architectures for migrating databases to OCI using Zero Downtime Migration
 - [Migrate On-Premises Database to OCI using Oracle Database Cloud Backup Module and RMAN ](https://amalrajputhenchira.wordpress.com/2024/08/13/migrate-on-premises-oracle-database-to-oci-using-oracle-database-cloud-backup-module-and-rman/)
     - Detailed, step-by-step instructions for performing Physical Offline Migration of On-Premises database to Co-Managed Database in OCI using Oracle Database Cloud Backup Module and RMAN , available on Amalraj Puthenchira's public platform
-    
+- [How to Modernise OS and Shape of your Oracle Base Database Standalone Systems on Intel ? ](https://amalrajputhenchira.wordpress.com/2024/12/03/how-to-modernise-os-and-shape-of-your-oracle-base-database-standalone-systems-on-intel/)
+    - Detailed, step-by-step instructions for Modernising OS and Shape of Oracle Base Database Standalone Systems on Intel , available on Amalraj Puthenchira's public platform
+- [Migrate Oracle Base Database to Oracle Exadata Database Service on ExaScale Infrastructure using Refreshable PDBs ](https://amalrajputhenchira.wordpress.com/2025/02/04/migrate-oracle-base-database-to-oracle-exadata-database-service-on-exascale-infrastructure-using-refreshable-pdbs/)
+    - Detailed, step-by-step instructions for Migrating Oracle Base Database to Oracle Exadata Database Service on ExaScale Infrastructure using Refreshable PDB feature, available on Amalraj Puthenchira's public platform    
+- [Modernise OS and Shape of your Oracle Base Database Systems with Data Guard using Refreshable PDBs ](https://amalrajputhenchira.wordpress.com/2025/02/13/modernise-os-and-shape-of-your-oracle-base-database-systems-with-data-guard-using-refreshable-pdbs/)
+    - Detailed, step-by-step instructions for Modernising OS and Shape of Oracle Base Database Systems with Data Guard using Refreshable PDBs , available on Amalraj Puthenchira's public platform
+- [Migrating to latest generation of Exadata Database Service on Dedicated Infrastructure without worrying about RTO/RPO](https://amalrajputhenchira.wordpress.com/2025/02/17/migrating-to-latest-generation-of-exadata-database-service-on-dedicated-infrastructure-without-worrying-about-rto-rpo/)
+    - Detailed, step-by-step instructions for Migrating Database from existing ExaDB-D to latest generation of ExaDB-D , available on Amalraj Puthenchira's public platform
+- [Migrate and Upgrade your Oracle Base Database to Exadata Database Service on Exascale Infrastructure using AutoUpgrade](https://amalrajputhenchira.wordpress.com/2025/03/03/migrate-your-oracle-base-database-to-exadata-database-service-on-exascale-infrastructure-using-autoupgrade/)
+    - Detailed, step-by-step instructions for Migrate and Upgrade Oracle Base Database 19c to ExaDB-XS using AutoUpgrade , available on Amalraj Puthenchira's public platform
 # Useful Links
 
 - [OCI Migration Hub - Migrate Oracle Databases to OCI](https://www.oracle.com/database/cloud-migration/)
@@ -52,7 +63,7 @@ Also make sure to check the dedicated pages of the main technology areas of Data
 
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

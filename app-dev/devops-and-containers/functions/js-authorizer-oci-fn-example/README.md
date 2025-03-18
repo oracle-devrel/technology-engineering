@@ -1,5 +1,5 @@
 <!--
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 The Universal Permissive License (UPL), Version 1.0
 
@@ -36,13 +36,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 -->
 
-## Functions overview
-[Document functions-overview](files/Fn.pdf)
+# API Gateway authorizer function context var example
 
-### Author
+Reviewed: 31.10.2024
+ 
+# When to use this asset?
+ 
+Anyone who wants to test OCI Queue service using OCI SDK in JavaScript and do this from GitHub Actions.
+
+# Author
 <a href="https://github.com/mikarinneoracle">mikarinneoracle</a>
 
-# API Gateway authorizer function context var example
+# How to use this asset?
 
 ## Build and deploy the functions
 
@@ -59,7 +64,7 @@ fdk.handle(function(input){
         "principal": "myprincipal",
         "scope": ["fnsimplejs"],
         "clientId": "clientIdFromHeader",
-        "expiresAt": "2023-12-31T00:00:00+00:00",
+        "expiresAt": "2025-12-31T00:00:00+00:00",
         "context": {
             "username": input.token
         }
@@ -67,7 +72,7 @@ fdk.handle(function(input){
   } else {
       json = {
         "active": false,
-        "expiresAt": "2023-12-31T00:00:00+00:00",
+        "expiresAt": "2025-12-31T00:00:00+00:00",
         "wwwAuthenticate": "Bearer realm=\"www.com\""
       }
   }
@@ -75,7 +80,7 @@ fdk.handle(function(input){
 })
 </pre>
 
-The authorizer function will pass on the <code>username</code> in <code>auth context</code> as a custom variable. The value for it is set from REST call input as <code>token</code> on the <a href="fnauthjs/func.js#L52">line 52</a>.
+The authorizer function will pass on the <code>username</code> in <code>auth context</code> as a custom variable. The value for it is set from REST call input as <code>token</code> on the <a href="files/fnauthjs/func.js#L52">line 52</a>.
 <br>
 Here's the call using API Gateway:
 <pre>
@@ -94,7 +99,7 @@ fdk.handle(function(input, ctx){
 
 The secondary / backend function will get the authorizer passed variable <code>username</code>
 as a transformed header variable <code>Fn-Http-H-Username</code> and will print it out as the
-function REST call result on the <a href="fnsimplejs/func.js#L42">line 42</a>.
+function REST call result on the <a href="files/fnsimplejs/func.js#L42">line 42</a>.
 <br>
 Here's the call using API Gateway:
 <pre>
@@ -144,4 +149,17 @@ curl https://drp....56kvgu.apigateway.eu-amsterdam-1.oci.customer-oci.com/
 {"code":401,"message":"Unauthorized"}
 </pre>
 
+# Useful Links
 
+- [OCI Functions](https://docs.oracle.com/en-us/iaas/Content/Functions/Concepts/functionsoverview.htm)
+    - Learn how the Functions service lets you create, run, and scale business logic without managing any infrastructure
+- [Oracle](https://www.oracle.com/)
+    - Oracle Website
+
+### License
+
+Copyright (c) 2025 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

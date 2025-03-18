@@ -2,7 +2,7 @@
 
 This paper describes some best practices for managing OCI tenancy costs. 
 
-Reviewed: 07.03.2024
+Reviewed: 07.10.2024
 
 # When to use this asset?
 
@@ -14,7 +14,7 @@ follow some or all of the described best practices.
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

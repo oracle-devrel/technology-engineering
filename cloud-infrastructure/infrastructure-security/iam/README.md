@@ -2,7 +2,7 @@
  
 OCI IAM is a native service of OCI that provides enterprise-class identity and access management features such as strong, adaptive authentication, user Lifecycle Management (LCM), and Single Sign-On (SSO) to enterprise applications. OCI IAM is deployed as an identity domain(s) in OCI. Included domain(s) allow organizations to manage access to their Oracle Cloud services (network, compute, storage, etc.) and Oracle SaaS applications. Customers can choose to upgrade or create additional identity domains to accommodate other use cases such as managing workforce access to non-Oracle applications, enabling consumer access to customer-facing applications, or embedding IAM into custom-developed applications.
  
-Reviewed: 30.01.2024
+Reviewed: 18.11.2024
 
 # Table of Contents
  
@@ -19,6 +19,10 @@ Reviewed: 30.01.2024
 
 - [SAML with JIT provisioning to setup an identity broker or identity hub](  https://blogs.oracle.com/coretec/post/saml-with-just-in-time-provisioning-to-setup-an-identity-broker-or-identity-hub)
     - Video about SAML with JIT Provisioning to set up an Identity Broker
+
+- [OCI SSO with OpenID Connect Integration](https://blogs.oracle.com/coretec/post/oci-sso-with-openid-connect-integration)
+    - Blog about OCI SSO with OpenID Connect Integration
+
 
 - [SSO/Federation with Keycloak and IDCS and/or OCI IAM-Domains](https://blogs.oracle.com/coretec/post/ssofederation-with-keycloak-and-idcs-andor-oci-iam-domains)
     - Blog about SSO/Federation with Keycloak and IDCS and/or OCI IAM-Domains
@@ -48,7 +52,7 @@ Reviewed: 30.01.2024
       
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

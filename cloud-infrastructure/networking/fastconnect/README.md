@@ -6,7 +6,7 @@ Use Case
 Private peering: To extend your existing infrastructure into a virtual cloud network (VCN) in Oracle Cloud Infrastructure (for example, to implement a hybrid cloud or a lift and shift scenario). Communication across the connection is with IPv4 private addresses (typically RFC 1918).
 Public peering: To access public services in Oracle Cloud Infrastructure without using the internet. For example, Object Storage, the Oracle Cloud Infrastructure Console, and APIs, or public load balancers in your VCN
 
-Reviewed: 06.02.2024
+Reviewed: 30.10.2024
 
 # Useful Links
 
@@ -29,6 +29,7 @@ Reviewed: 06.02.2024
 
 ## Videos & Podcasts
 
+- [Oracle Interconnect for Google Cloud - Overview and demo](https://www.youtube.com/watch?v=YO659mMcoGA)
 - [Megaport: Connecting to Oracle FastConnect](https://www.youtube.com/watch?v=IfmhyBrGn3M)
 - [FastConnect Level 100 - Part 1: Introduction to OCI FastConnect](https://www.youtube.com/watch?v=2inkEQRC5hY)
 - [FastConnect Level 100 - Part 2: Demo](https://www.youtube.com/watch?v=ixS2XH99Yzs)
@@ -37,7 +38,7 @@ Reviewed: 06.02.2024
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

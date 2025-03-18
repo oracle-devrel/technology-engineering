@@ -1,8 +1,8 @@
-# Scripts for Hybrid Partitioned Tables
+## Scripts
 
-As the name implies the partitions of hybrid partitioned tables can exist in both – inside the Oracle database in tablespaces and outside in external sources, such as Linux files, files on Hadoop Distributed File System (HDFS), and files in Cloud Object Storage. Hybrid Partitioned Tables enhance the functionality of partitioning for mixed Big Data scenarios where large portions of a table can reside in external partitions.
+These are scripts to learn about hybrid partitioned tables.
 
-Reviewed: 27.03.2024
+Reviewed: 30.10.2024
 
 # When to use this asset?
 
@@ -26,7 +26,7 @@ This folder provides a step-by-step instruction to create a hybrid partitioned t
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

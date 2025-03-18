@@ -2,7 +2,7 @@
 
 We have 2 slides - longer and shorter formats
 
-Reviewed: 06.02.2024
+Reviewed: 30.10.2024
 
 # When to use this asset?
 
@@ -27,7 +27,7 @@ The information is generic and not specified for a particular customer. Appropri
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

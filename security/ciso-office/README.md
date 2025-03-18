@@ -8,7 +8,7 @@ The Field CISO Specialists team is responsible for building trusted relationship
 - Reduce risk, Incident response, Resiliency and Optimize costs
 - Adopt OCI to meet their compliance needs with securely built and operated workloads
 
-Reviewed: 02.02.2024
+Last updated: 28.10.2024
 
 # Table of Contents
  
@@ -40,8 +40,16 @@ Reviewed: 02.02.2024
 
 - [The recommended approach for using external identities with Oracle Cloud](https://blogs.oracle.com/cloudsecurity/post/the-recommended-approach-for-using-external-identities-with-oracle-cloud)
     - This article looks at the recommended approach for delivering SSO across your Oracle SaaS, PaaS, and IaaS estate by using OCI IAM.
- 
+
+## External Blogs
+
+- [Five considerations for OCI IAM in IDCS-migrated tenancies](https://redthunder.blog/2024/05/10/guest-blog-five-considerations-for-oci-iam-in-idcs-migrated-tenancies/)
+    - This article provides best practice recommendations for OCI tenancies that have been migrated from Identity Cloud Service to OCI IAM.
+
 ## Cloud Coaching Webinars
+
+- [Assess your tenancy against the CIS Benchmark](https://community.oracle.com/customerconnect/events/605558-oci-assess-your-oci-security-posture-against-cis-benchmarks-for-oci)
+    - Watch this webinar to learn more about the OCI Security Health Check, how to run it and how to interpret results. It includes a demo and lists the top 5 high priority findings and also includes a list od additional resources for more information.
 
 - [Security-First approach for your OCI Tenancy](https://www.youtube.com/watch?v=ZB87VUcK6Tg)
     - Watch this webinar to learn about the top security misconfigurations organizations should avoid when using cloud services and follow the Oracle Cloud Infrastructure Security Best practices!
@@ -60,15 +68,27 @@ Reviewed: 02.02.2024
     
 - [Oracle Espresso - Be More Resilient Against Ransomware Attacks](https://go.oracle.com/LP=114881?elqCampaignId=312068#On-Demand-Webinars)
   - The webinar addresses a number of design architectures, best practices, automation tooling, and services for your inspiration and consideration. Let us show you how to become more resilient in a systematic and consistent way.
+
 - [Cybersecurity First: why Security is better in the cloud](https://go.oracle.com/LP=122806?)
    - Join us to hear from Oracle Security expert, how your solutions could benefit from OCI built-in security. 
+
 - [OCI Tech Talk - OCI Strategy Update and Security Deep Dive](https://videohub.oracle.com/media/t/1_s6juw6by)
     - Watch this webinar as the Oracle experts will briefly go through some of the latest updates of OCI, before going in-depth into the security topic. Oracle believes security should be foundational and built-in, and customers shouldn’t be forced to make tradeoffs between security and cost.
-      
+
  ## Oracle Live Labs
 
 - [Security workshop for ORDS Deployment](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/run-workshop?p210_wid=3338&p210_wec=&session=107996902425576)
     - This hands-on workshop lab will help you understand how to set up a standalone ORDS (Oracle REST Data Services) server on OCI in a secure way, protecting all the resources involved through bastion services, private end-point ADB-S database, API Gateway, and monitoring with Oracle Data Safe.
+
+ ## Oracle Learn
+
+- [Create and Configure Oracle Cloud Infrastructure Zero Trust Packet Routing](https://docs.oracle.com/en/learn/config-oci-zpr/#introduction)
+    - This hands-on tutorial provides details of how to configure OCI Zero Trust Packet Routing to apply security controls to govern communication across the network within an Oracle Cloud Infrastructure (OCI) tenancy.
+
+## Reusable Assets Overview
+
+- [Identity Token Propagation Script](shared-assets/oic_iam_token_exchange_demo/readme.md)
+- [Adding a Group to an OCI IAM Admin Role](shared-assets/oci_iam_adding_group_to_admin_role/readme.md)
 
 # Useful Links
  
@@ -83,7 +103,7 @@ Reviewed: 02.02.2024
  
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

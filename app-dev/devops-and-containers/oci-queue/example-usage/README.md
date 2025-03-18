@@ -1,25 +1,62 @@
-# OCI Queue Example usage
+<!--
+Copyright (c) 2025 Oracle and/or its affiliates.
 
-TEXT
+The Universal Permissive License (UPL), Version 1.0
 
-Author: [mikarinneoracle](https://github.com/mikarinneoracle)
+Subject to the condition set forth below, permission is hereby granted to any
+person obtaining a copy of this software, associated documentation and/or data
+(collectively the "Software"), free of charge and under any and all copyright
+rights in the Software, and any and all patent rights owned or freely
+licensable by each licensor hereunder covering either (i) the unmodified
+Software as contributed to or provided by such licensor, or (ii) the Larger
+Works (as defined below), to deal in both
 
-Reviewed: 08.05.2024
+(a) the Software, and
+(b) any piece of software and/or hardware listed in the lrgrwrks.txt file if
+one is included with the Software (each a "Larger Work" to which the Software
+is contributed by such licensors),
 
+without restriction, including without limitation the rights to copy, create
+derivative works of, display, perform, and distribute the Software and make,
+use, sell, offer for sale, import, export, have made, and have sold the
+Software and the Larger Work(s), and to sublicense the foregoing rights on
+either these or other terms.
+
+This license is subject to the following condition:
+The above copyright notice and either this complete permission notice or at
+a minimum a reference to the UPL must be included in all copies or
+substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+
+# OCI Queue example
+
+Reviewed: 30.10.2024
+ 
 # When to use this asset?
+ 
+Anyone who wants to test OCI Queue service using OCI SDK in JavaScript and do this from GitHub Actions.
+
+# Author
+<a href="https://github.com/mikarinneoracle">mikarinneoracle</a>
 
 # How to use this asset?
 
-## OCI Queue
-
-Create Queue and copy the Queue <i>OCID</i> and <i>Messages endpoint</i>:
+In the OCI cloud UI create OCI Queue and copy the Queue <i>OCID</i> and <i>Messages endpoint</i>:
 
 <p>
 <img src="files/endpoint.png" width="800" />
 
 <p>
 When using another <code>region</code> than <code>EU_FRANKFURT_1</code> please modify the 
-<a href="index.js#L48">
+<a href="files/index.js#L48">
 <code>index.js</code></a> Line #48 accordingly:
 
 <pre>
@@ -64,7 +101,7 @@ This example will poll for messages in the queue and finally writes a new messag
 
 ## Running locally
 
-Clone this repo, setup npm and <code>oci cli</code> and modify <a href="index.js#L46">index.js</a> line 46 by uncommenting it and removing/commenting lines 49-56 and replace lines 59-60
+Clone this repo, setup npm and <code>oci cli</code> and modify <a href="files/index.js#L46">index.js</a> line 46 by uncommenting it and removing/commenting lines 49-56 and replace lines 59-60
 with Queue details :
 
 <pre>
@@ -91,14 +128,19 @@ You can manually send messages to the queue using the OCI Queue Console
 <p>
 You can also play with the queue's <code>Dead Letter Queue</code> settings to see how many
 times the same message is being received (default is 5). To do this comment the 
-<a href="index.js#L99">line 99 of the index.js</a> and re-run the build by committing the change. 
+<a href="files/index.js#L99">line 99 of the index.js</a> and re-run the build by committing the change. 
+
+# Useful Links
+ 
+- [OCI Queue](https://www.oracle.com/cloud/queue/)
+    - A Serverless Messaging Service
+- [Oracle](https://www.oracle.com/)
+    - Oracle Website
 
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
-
-

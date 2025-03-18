@@ -2,7 +2,7 @@
  
 The Network Visualizer overview Asset is group of screenshots about network Visualizer
  
-Reviewed: 19.02.2024
+Reviewed: 30.10.2024
 
 # When to use this asset?
  
@@ -18,7 +18,7 @@ This document can be used as a first introduction to network Visualizer
  
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

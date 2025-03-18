@@ -4,7 +4,7 @@ This document can be used as a reference to support the decision about migrating
 
 [asset preview](https://raw.githack.com/oracle-devrel/technology-engineering/main/cloud-architecture/oracle-apps-hyperion-siebel-gbu/gbu/retail/rms-decision-tree/files/rms-decision-tree.html)
 
-Reviewed: 30.04.2024
+Reviewed: 18.10.2024
 
 # When to use this asset?
 
@@ -16,7 +16,7 @@ The decision points of the flow chart contain the link to the official documenta
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

@@ -2,7 +2,7 @@
  
 Autonomous Database on Dedicated Exadata Infrastructure provides you with a private database cloud in the public cloud. With your database, you get a completely dedicated compute, storage, network, and database service, providing the highest security, isolation, and governance levels.
 
-Reviewed: 20.03.2024
+Reviewed: 24.10.2024
  
 # Table of Contents
  
@@ -25,8 +25,11 @@ Reviewed: 20.03.2024
 
 - [Advanced customer deployment for Oracle Autonomous Dedicated Infrastructure](https://www.youtube.com/watch?v=RqlHM1i83_w )
     - Learn how to deploy advanced Autonomous Database Dedicated deployments.
+
+- [What's new?](https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/nfccyy/#articletitle)
+    - New Feature Announcements for Autonomous Database Dedicated.
  
-## LiveLabs
+# LiveLabs
  
 - [Oracle Autonomous Database Dedicated for Fleet Administrators](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3196&clear=RR,180)
     - In this workshop designed for Oracle Autonomous Database Dedicated fleet administrators, you set up the network, users, and groups and required administrator privileges on your OCI account.
@@ -39,7 +42,7 @@ Reviewed: 20.03.2024
     
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

@@ -4,7 +4,7 @@ This asset contains the code and deployment items for an event handler that send
 
 Developed on and compatible with OIG 11g R2 PS3 and above.
 
-Review Date: 22.02.2024
+Review Date: 28.10.2024
 
 # When to use this asset?
 
@@ -41,7 +41,7 @@ Once registered the code will be run automatically when the configured lifecycle
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

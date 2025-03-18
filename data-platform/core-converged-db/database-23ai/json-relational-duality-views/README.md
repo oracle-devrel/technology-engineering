@@ -4,6 +4,8 @@ JSON relational duality views give an abstraction layer on top of your data mode
 This means that applications can access (create, query, modify) the same data as a set of JSON documents or as a set of related tables and columns, and both approaches can be employed at the same time. You can modify the data through the JRD view, just as if you were updating a JSON document .... and the relational data model is transparently updated.
 Reversely, if you update your relational data model, the JSON representation is updated too, and the changes are made visible through the JSON Relational Duality View.
 
+Reviewed: 30.10.2024
+
 # Useful Links  
 
 ## Documentation
@@ -11,27 +13,31 @@ Reversely, if you update your relational data model, the JSON representation is 
 - [JSON-Relational Duality Developer's Guide](https://docs.oracle.com/en/database/oracle/oracle-database/23/jsnvu/index.html)
 - [SQL Language Reference](https://docs.oracle.com/en/database/oracle/oracle-database/23/sqlrf/create-json-relational-duality-view.html)
 - [Restrictions for JSON-Relational Duality Views](https://docs.oracle.com/en/database/oracle/oracle-database/23/rnfre/json-duality-views-restrictions.html)
+- [oracle.com page](https://www.oracle.com/database/json-relational-duality/)
 
 ## Blogs
 
 - [JSON Relational Duality: The Revolutionary Unification of Document, Object, and Relational Models](https://blogs.oracle.com/database/post/json-relational-duality-app-dev)
-- [ODP.NET JSON Relational Duality and Oracle Database 23c Free](https://medium.com/oracledevs/odp-net-json-relational-duality-and-oracle-database-23c-free-9e4c03bdf41f)
-- [Oracle Database 23c JSON Relational Duality Views REST APIs](https://www.thatjeffsmith.com/archive/2023/04/oracle-database-23c-json-relational-duality-views-rest-apis/)
+
 
 ## LiveLabs   
 
-- [Exploring JSON Relational Duality Views in 23c Free using SQL](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3638&clear=RR,180&session=101604160358167)
-- [AutoREST with JSON Relational Duality Views in 23c Free](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3634&clear=RR,180&session=101604160358167)
-- [Exploring JSON Relational Duality Views in 23c Free with Java](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3637&clear=RR,180&session=101604160358167)
-- [Schröedinger's Document: JSON Relational Duality Views in Oracle 23c](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3753&clear=RR,180&session=101604160358167)
+- [all JSON Relational Duality LiveLabs](https://apexapps.oracle.com/pls/apex/f?p=133:100:105527022504069::::SEARCH:JSOn%20Duality) 
 
-# Team Publications 
+# Team Publications
 
-- [Demo running in a docker container](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/core-converged-db/database-23c/json-relational-duality-views/demo)
+## Blogs and Demo
+
+- [Demo in folder demo running in a docker container](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/core-converged-db/database-23c/json-relational-duality-views/demo)
+
+## Videos
+
+- [JSON Relational Duality Views](https://youtu.be/YMftyjrEpnU)
+- [23ai blogs on blogs.oracle.com/coretec](https://blogs.oracle.com/coretec/category/cased-concurrency-control-rt-23ai)
  
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

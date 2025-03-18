@@ -5,7 +5,7 @@ Oracle Analytics Server brings the modern, industry-leading capabilities of Orac
 Oracle Analytics Server enables organizations in highly regulated industries or with multi-cloud architectures to experience the latest analytics capabilities on their own terms and preferred deployment architecture. With Oracle Analytics Server, your heritage systems can be maintained while a clear, easy, and seamless path to Oracle Cloud is ready when you are.
 Oracle Analytics Server includes modern, AI-powered, self-service analytics capabilities for data preparation, visualization, enterprise reporting, augmented analysis, and natural language processing/generation.
 
-Reviewed: 08.12.2023
+Reviewed: 15.11.2024
 
 # Table of Contents
 1. [Team Publications](#team-publications)
@@ -44,7 +44,7 @@ Reviewed: 08.12.2023
  
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

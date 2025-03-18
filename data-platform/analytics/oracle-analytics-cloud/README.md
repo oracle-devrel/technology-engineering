@@ -2,7 +2,7 @@
  
 Oracle Analytics Cloud (OAC) is a cloud-native service delivered on next-generation Oracle Cloud Infrastructure (OCI). OAC brings the collaboration and visualization advantages of an Oracle-native cloud service without the need for an on-premises data center. OAC provides the capabilities required to address the entire analytics process including data ingestion and modeling, data preparation and enrichment, and visualization and collaboration, without compromising security and governance. Embedded machine learning and natural language processing technologies help increase productivity and build an analytics-driven culture in organizations.
 
-Reviewed: 31.10.2023 
+Reviewed: 15.11.2024 
 
 # Table of Contents
 1. [Team Publications](#team-publications)
@@ -62,6 +62,9 @@ Reviewed: 31.10.2023
 ## OAC Latest Release and Announcements
  |Content Link |Descripton|
 | ------------ |------------|
+|[Oracle Analytics Cloud new features - Jan 2025](https://www.youtube.com/watch?v=nIOFGiOCAA0&list=PL6gBNP-Fr8KWr1p2ylzHOLZ7dqYz0hKOY)|Oracle Analytics Cloud Jan-2025 new features videos|
+|[Oracle Analytics Cloud new features - Nov 2024](https://www.youtube.com/watch?v=BDgpYrMGYHs&list=PL6gBNP-Fr8KX_aagSmzlKrEzztorMW2xG)|Oracle Analytics Cloud Nov-2024 new features videos|
+|[Oracle Analytics Cloud new features - Sep 2024](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KXpFBGaE9kkxviCsQxSmjjq)|Oracle Analytics Cloud Sep-2024 new features videos|
 |[Oracle Analytics Cloud new features - Jul 2024](https://www.youtube.com/watch?v=0BVxTCvDmaQ&list=PL6gBNP-Fr8KXAOF9RgJIU5ykJvD8fHoxj)|Oracle Analytics Cloud Jul-2024 new features videos|
 |[Oracle Analytics Cloud new features - May 2024](https://www.youtube.com/watch?v=eoNmcRZ5wYI&list=PL6gBNP-Fr8KU55dSbzkEKySjSDWlL3BWm)|Oracle Analytics Cloud May-2024 new features videos|
 |[Oracle Analytics Cloud new features - March 2024](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KWlnpaELiCxQJii-F4c7Ehz)|Oracle Analytics Cloud March-2024 new features videos|
@@ -157,7 +160,7 @@ Reviewed: 31.10.2023
 
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

@@ -2,7 +2,7 @@
 
 This workshop will show how to start developing with Python using Oracle JSON and the latest feature Duality Views.
 
-Reviewed: 15.01.2024
+Reviewed: 25.10.2024
 
 # When to use this asset?
 
@@ -27,7 +27,7 @@ All these exercises are explained individually under the files folder. However, 
 
 # License
  
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

@@ -7,7 +7,7 @@ The Identity and Access Management group under the Technology Engineering Securi
 - Solution Assistance
 - Workshops to enable the partners/customers
 
-Reviewed: 02.02.2024
+Reviewed: 28.10.2024
      
 # Useful Links
 
@@ -18,7 +18,7 @@ Reviewed: 02.02.2024
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

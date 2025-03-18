@@ -18,10 +18,11 @@ Reviewed: 18.07.2024
 
 - [Ops Insights](https://docs.oracle.com/en-us/iaas/operations-insights/index.html)
 - [Tag Exadata and Its Members in Ops Insights with OCI API](https://medium.com/@michtoeth/tag-exadata-and-its-members-in-operations-insights-with-oci-api-48f4d5c01fae)
+- [Automation to enable OCI OpsInsight for Host](https://karthicin.medium.com/automation-to-enable-oci-opsinsight-for-host-00b333d704ff)
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

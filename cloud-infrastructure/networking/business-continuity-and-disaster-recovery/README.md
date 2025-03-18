@@ -2,7 +2,7 @@
 
 These assets help you understand various HA and DR cloud architectures.
 
-Reviewed: 06.02.2024
+Reviewed: 30.10.2024
 
 # Useful Links
 
@@ -15,7 +15,7 @@ Reviewed: 06.02.2024
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

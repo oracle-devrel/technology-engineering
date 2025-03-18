@@ -4,7 +4,7 @@ This area is focused on the core Compute Service of Oracle Cloud Infrastructure 
 
 
 
-<i>Review date: 23 January 2024</I>
+<i>Review date: 25 Oct 2024</I>
 
 # Useful Links
 
@@ -19,8 +19,6 @@ Some of the topics covered on this page:
 - Bring Your Own Hypervisor [BYOH](https://docs.oracle.com/en-us/iaas/Content/Compute/References/bringyourownimage.htm) and Bring Your Own Image [BYOI](https://docs.oracle.com/en-us/iaas/Content/Compute/References/bringyourownimage.htm) to Oracle Cloud Infrastructure (OCI)
 - [Autoscaling](https://docs.oracle.com/en-us/iaas/Content/Compute/Tasks/autoscalinginstancepools.htm) - add more compute instances during periods of high demand 
 - [Confidential Computing](https://docs.oracle.com/en-us/iaas/Content/Compute/References/confidential_compute.htm) - encrypts and isolates in-use data and the applications processing that data.
-- Roving Edge Infrastructure [FAQ](https://www.oracle.com/cloud/roving-edge-infrastructure/faq/) - an infrastructure service designed to host workloads and use cases that operate at the edge, especially the far edge, in disconnected mode
-and more...
 
 # Team Publications
 
@@ -30,7 +28,7 @@ The links below contain publications from the OCI Compute team:
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

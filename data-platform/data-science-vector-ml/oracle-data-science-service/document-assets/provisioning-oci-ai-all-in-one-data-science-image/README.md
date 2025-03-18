@@ -2,7 +2,7 @@
  
 This document covers provisioning of OCI AI All-in-One Data Science image.
 
-Reviewed: 2024.03.25
+Reviewed: 2024.11.16
  
 
 # When to use this asset?
@@ -17,7 +17,7 @@ This asset is provided as general purpose material. Please tailor the content ac
 
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
