@@ -2,7 +2,7 @@
 
 The Observability and Manageability (O&M) platform is a set of Oracle Cloud Infrastructure (OCI) services that enable visibility and insight across cloud-native and traditional technology, whether deployed in multicloud or on-premises environments, with broad, standards-based ecosystem support. It’s designed to help enterprises better manage their increasingly diverse and distributed IT portfolios while reducing troubleshooting time, preventing outages, and enabling IT to manage applications from a business perspective.
 
-Reviewed: 08/07/2024
+Reviewed: 28/02/2025
 
 # Table of Contents
 
@@ -63,10 +63,11 @@ Reviewed: 08/07/2024
 - [Documentation](https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/monitoring-and-observability.htm)
 - [OCI Monitoring](https://docs.oracle.com/en-us/iaas/Content/Monitoring/home.htm)
 - [O&M How to video series](https://www.youtube.com/playlist?list=PLiuPvpy8QsiWO40IrhRlbY-TOLepyGXzV)
+- [Building a Cyber Range in OCI. Harnessing Observability and OpenSource Tools for Threat Hunting](https://github.com/adibirzu/Building-a-Cyber-Range-in-OCI---Harnessing-Observability-and-Open-Source-Tools-for-Threat-Hunting/blob/main/README.md)
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

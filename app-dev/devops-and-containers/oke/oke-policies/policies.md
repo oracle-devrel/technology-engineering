@@ -128,10 +128,37 @@ ALLOW any-user to manage public-ips in TENANCY where ALL {request.principal.type
 
   
 
-### ATTACH NSGs WHEN THEY ARE IN DIFFERENT COMPARTMENTS THAN OKE
+### ATTACH NSGs WHEN THEY ARE IN DIFFERENT COMPARTMENT THAN OKE
 
 [https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengconfiguringloadbalancersnetworkloadbalancers-subtopic.htm#contengcreatingloadbalancer\_topic\_Specifying\_Load\_Balancer\_Network\_Security\_Group](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengconfiguringloadbalancersnetworkloadbalancers-subtopic.htm#contengcreatingloadbalancer_topic_Specifying_Load_Balancer_Network_Security_Group)  
 
 ```
 Allow any-user to use network-security-groups in compartment <network-compartment-ocid> where all { request.principal.id = '<cluster-ocid>' }
+```
+
+### USE A STATICALLY PROVISIONED SNAPSHOT WHEN IT IS IN A DIFFERENT COMPARTMENT
+
+[https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingpersistentvolumeclaim_topic-Provisioning_PVCs_on_BV.htm#contengcreatingpersistentvolumeclaim_topic-Provisioning_PVCs_on_BV-PV_From_Snapshot_CSI__section_volume-snapshot-prerequisites](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingpersistentvolumeclaim_topic-Provisioning_PVCs_on_BV.htm#contengcreatingpersistentvolumeclaim_topic-Provisioning_PVCs_on_BV-PV_From_Snapshot_CSI__section_volume-snapshot-prerequisites)
+
+```
+ALLOW any-user to manage volume-backups in compartment <compartment-name> where request.principal.type = 'cluster'
+ALLOW any-user to use volumes in compartment <compartment-name> where request.principal.type = 'cluster'
+```
+
+### PROVISION A PVC ON A NEW FILE SYSTEM USING THE CSI VOLUME PLUGIN
+
+[https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingpersistentvolumeclaim_Provisioning_PVCs_on_FSS.htm#contengcreatingpersistentvolumeclaim_topic-Provisioning_PVCs_on_FSS-Using-CSI-Volume-Plugin](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingpersistentvolumeclaim_Provisioning_PVCs_on_FSS.htm#contengcreatingpersistentvolumeclaim_topic-Provisioning_PVCs_on_FSS-Using-CSI-Volume-Plugin)
+
+Cluster will need policies to create a new file system and to handle network resources:
+
+```
+ALLOW any-user to manage file-family in compartment <oke-compartment-name> where request.principal.type = 'cluster'
+ALLOW any-user to use virtual-network-family in compartment <oke-compartment-name> where request.principal.type = 'cluster'
+```
+
+If the compartment to which a node pool, worker node subnet, file system, or mount target belongs, is different to the compartment to which a cluster belongs, IAM policies must exist to enable the CSI volume plugin to access the appropriate location.
+
+```
+ALLOW any-user to manage file-family in TENANCY where request.principal.type = 'cluster'
+ALLOW any-user to use virtual-network-family in TENANCY where request.principal.type = 'cluster'
 ```
