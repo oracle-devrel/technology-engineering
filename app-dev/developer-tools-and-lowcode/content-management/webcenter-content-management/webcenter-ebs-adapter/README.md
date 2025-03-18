@@ -23,7 +23,7 @@ This asset is provides demo to integrate Oracle E-Business suite with WebCenter 
  
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
