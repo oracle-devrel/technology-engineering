@@ -29,6 +29,7 @@ This page contains information and useful links regarding Compute services that 
 - [Transfer data to and from Oracle Cloud Infrastructure using OS tools such as sftp, scp, oci cli, curl](https://github.com/mariusscholtz/Oracle-Cloud-Infrastructure-resources/blob/main/VM-shapes/data%20transfer%20to%20OCI%20v1.0.pdf)
 - [Quering Compute Capacity using CloudShell](https://github.com/Olygo/OCI_ComputeCapacityReport)
 - [Cockpit – Web console to manage Oracle Linux](https://github.com/mariusscholtz/Oracle-Cloud-Infrastructure-resources/tree/main/cockpit) - Installation instructions for Cockpit, the System administration graphical web console for Oracle Linux
+- This [Document](https://github.com/skbkkl/sharkuma/blob/main/Oracle-Cloud-Infrastructure-resources/Oracle-OCI-Troubleshooting/Troubleshooting-OCI-Win-VM-Console-Connection.pdf) explain about how to troubleshoot Windows VM console connection via SAC.
   
 # Useful Links
 
@@ -50,7 +51,7 @@ This page contains information and useful links regarding Compute services that 
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
