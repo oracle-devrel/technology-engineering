@@ -4,7 +4,7 @@ This Terraform asset enables Database Management, Operations Insights, and/or St
 - **db_systems.json**
 - **db_credentials.json**
  
-Reviewed: 21.02.2024
+Reviewed: 18.03.25
  
 ## How does it work?
 
@@ -116,7 +116,7 @@ To remove everything previously applied by Terraform configurations, run **terra
  
 ## License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
