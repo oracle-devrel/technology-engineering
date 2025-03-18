@@ -5,14 +5,14 @@ This repository demonstrates how to train LLM using
 on the Oracle Container Engine for Kubernetes (OKE) using
 [NVIDIA Megatron](https://developer.nvidia.com/megatron-core).
 
-Reference results from NVIDIA to train Llama 2 can be found on the
-[NGC Catalog](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/dgxc-benchmarking/resources/llama2-dgxc-benchmarking).
+Reference results from NVIDIA to train Llama 3 can be found on the
+[NGC Catalog](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/dgxc-benchmarking/resources/llama3-dgxc-benchmarking).
 
-Reviewed: 13.03.2025
+Reviewed: 18.03.2025
 
 # When to use this asset?
 
-* If you want to get started with training LLM like Llama 2 on Kubernetes using OCI.
+* If you want to get started with training LLM like Llama 3 on Kubernetes using OCI.
 
 # How to use this asset?
 
@@ -20,7 +20,7 @@ Reviewed: 13.03.2025
 
 * You have access to an Orcale Cloud Tenancy.
 * You have access to shapes with NVIDIA GPUs such as H100.
-* You have a HuggingFace account and access to `meta-llama/Llama-2-70b-hf`.
+* You have a HuggingFace account and access to `meta-llama/Llama-3.1-8B-Instruct`.
 
 This guide is loosely based on the
 [NVIDIA NeMo Framework Launcher guide for Kubernetes](https://docs.nvidia.com/nemo-framework/user-guide/24.07/playbooks/kubernetes.html).
@@ -45,8 +45,11 @@ This guide is loosely based on the
 Data-Intensive Workloads](https://docs.oracle.com/en-us/iaas/Content/Resources/Assets/whitepapers/scale-out-oci-file-storage-performance-for-data-intensive-workloads.pdf)
    * [File Storage Performance Guide](https://docs.oracle.com/en-us/iaas/Content/Resources/Assets/whitepapers/file-storage-performance-guide.pdf)
 
-3. Install Helm, the NVIDIA GPU Operator, and the Volcano scheduler according to
-   [NVIDIA NeMo Framework Launcher guide for Kubernetes](https://docs.nvidia.com/nemo-framework/user-guide/24.07/playbooks/kubernetes.html).
+3. Install the NVIDIA GPU Operator according to
+   [NVIDIA NeMo Framework Launcher guide for Kubernetes](https://docs.nvidia.com/nemo-framework/user-guide/24.07/playbooks/kubernetes.html), then install the [Volcano scheduler](https://github.com/volcano-sh/volcano) with:
+   ```sh
+   kubectl apply -f https://raw.githubusercontent.com/volcano-sh/volcano/master/installer/volcano-development.yaml
+   ```
 
 4. Copy the [files in this repository](./files) to the Kubernetes operator node.
    You can download them from this repository via:
