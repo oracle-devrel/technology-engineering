@@ -46,6 +46,8 @@ Reviewed: 05.02.2025
     - The ultimate resource for mastering every option in detail and to unlock the full potential of the Python script, available on Marcus Doeringer's public platform
 - [How to Perform DataPump Import to Oracle 19c Database using Export dumps on OCI Object Storage ?](https://amalrajputhenchira.wordpress.com/2025/01/17/how-to-perform-datapump-import-to-oracle-19c-database-using-export-dumps-on-oci-object-storage/)
     - Detailed, step-by-step instructions for Performing DataPump Import to Oracle Database 19c with Export dumps on OCI Object Storage , available on Amalraj Puthenchira's public platform
+- [Data Pump Bundle Patch](https://macsdata.com/oracle/data-pump-bundle-patch)
+    - Overview and complete installation walkthrough with examples for 19c and 23ai databases, available on Marcus Doeringer's public platform
 
 # Useful Links
 - [Loading Data from Google Cloud Storage to Oracle Database](https://database-heartbeat.com/2024/10/01/google-storage-to-oracle-database/)
