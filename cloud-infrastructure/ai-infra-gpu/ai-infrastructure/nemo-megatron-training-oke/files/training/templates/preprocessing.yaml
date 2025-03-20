@@ -1,0 +1,158 @@
+# Copyright (c) 2025 Oracle and/or its affiliates.
+{{- if .Values.download_data }}
+apiVersion: batch.volcano.sh/v1alpha1
+kind: Job
+metadata:
+  annotations:
+  name: megatron-prep-{{ .Release.Name }}
+spec:
+  minAvailable: 0
+  plugins:
+    ssh: []
+    svc: []
+  queue: default
+  schedulerName: volcano
+  tasks:
+  - name: mpimaster
+    policies:
+    - action: CompleteJob
+      event: TaskCompleted
+    replicas: 1
+    template:
+      metadata:
+      spec:
+        containers:
+        - command:
+          - /bin/bash
+          - -c
+          - |
+            set -ex -o pipefail
+            NUM_PROCS={{ .Values.preprocessing.processes_per_node }}
+            NUM_HOSTS=$(sed -n '$=' /etc/volcano/mpiworker.host)
+            NP=$(($NUM_HOSTS*$NUM_PROCS))
+
+            HOSTFILE=/etc/volcano/mpiworker.host
+
+            mpirun --allow-run-as-root \
+              -mca plm_rsh_args "-p 2222" \
+              -np $NP -npernode $NUM_PROCS --bind-to none -map-by slot \
+              -hostfile $HOSTFILE \
+              -x PYTHONPATH \
+              python3 -u /opt/NeMo-Framework-Launcher/launcher_scripts/nemo_launcher/collections/dataprep_scripts/pile_dataprep/download.py \
+                ++cluster_type=k8s \
+                ++data_dir=/mnt/data/pile \
+                ++the_pile_url=https://huggingface.co/datasets/monology/pile-uncopyrighted/resolve/main/train/ \
+                ++file_numbers=0-{{ .Values.preprocessing.final_file_number }} \
+                ++rm_downloaded=False \
+                ++rm_extracted=False
+            mpirun --allow-run-as-root \
+              -mca plm_rsh_args "-p 2222" \
+              -np $NP -npernode $NUM_PROCS --bind-to none -map-by slot \
+              -hostfile $HOSTFILE \
+              $MPI_ARGS \
+              -x PYTHONPATH \
+              python3 -u /opt/NeMo-Framework-Launcher/launcher_scripts/nemo_launcher/collections/dataprep_scripts/pile_dataprep/extract.py \
+                ++cluster_type=k8s \
+                ++data_dir=/mnt/data/pile \
+                ++file_numbers=0-{{ .Values.preprocessing.final_file_number }} \
+                ++rm_downloaded=False \
+                ++rm_extracted=False
+            mpirun --allow-run-as-root \
+              -mca plm_rsh_args "-p 2222" \
+              -np $NP -npernode $NUM_PROCS --bind-to none -map-by slot \
+              -hostfile $HOSTFILE \
+              $MPI_ARGS \
+              -x PYTHONPATH \
+              -x HF_HUB_OFFLINE=1 \
+              python3 -u /opt/NeMo-Framework-Launcher/launcher_scripts/nemo_launcher/collections/dataprep_scripts/pile_dataprep/preprocess.py \
+                ++cluster_type=k8s \
+                ++launcher_scripts_path=/opt/NeMo-Framework-Launcher/launcher_scripts \
+                ++data_dir=/mnt/data/pile \
+                ++file_numbers=0-{{ .Values.preprocessing.final_file_number }} \
+                ++download_vocab_url= \
+                ++download_merges_url= \
+                ++vocab_save_dir=/mnt/data/pile/vocab \
+                ++merges_save_dir=/mnt/data/pile/merges \
+                ++tokenizer_type=/mnt/data/tokenizer \
+                ++tokenizer_library=huggingface \
+                ++rm_downloaded=False \
+                ++rm_extracted=False
+          ports:
+          - { name: mpijob-port, containerPort: 2222, protocol: TCP }
+          image: nvcr.io/nvidia/nemo:24.09
+          name: mpimaster
+          env:
+          - name: OMP_NUM_THREADS
+            value: "14"
+          envFrom:
+          - configMapRef:
+              name: {{ .Release.Name }}-mpi-setup
+          resources:
+            limits:
+              ephemeral-storage: 32Gi
+            requests:
+              cpu: {{ .Values.preprocessing.processes_per_node }}
+              ephemeral-storage: 32Gi
+              memory: {{ mul .Values.preprocessing.processes_per_node 2 }}Gi
+          securityContext:
+            privileged: true
+            capabilities:
+              add:
+              - IPC_LOCK
+          volumeMounts:
+          - { mountPath: /dev/infiniband, name: devinf }
+          - { mountPath: /dev/shm, name: shm }
+          - { mountPath: /mnt/data, name: workspace, readOnly: false }
+          workingDir: /workspace
+        dnsPolicy: ClusterFirstWithHostNet
+        hostNetwork: true
+        restartPolicy: OnFailure
+        terminationGracePeriodSeconds: 2
+        volumes:
+        - { name: devinf, hostPath: { path: /dev/infiniband }}
+        - { name: shm, emptyDir: { medium: Memory, sizeLimit: 32Gi }}
+        - { name: workspace, persistentVolumeClaim: { claimName: {{ .Release.Name }}-pv }}
+  - name: mpiworker
+    minAvailable: 0
+    replicas: {{ .Values.num_nodes }}
+    template:
+      metadata:
+      spec:
+        containers:
+        - command:
+          - /bin/bash
+          - -c
+          - mkdir -p /var/run/sshd; /usr/sbin/sshd -D -p 2222 || sleep 999999999;
+          image: nvcr.io/nvidia/nemo:24.09
+          name: mpiworker
+          ports:
+          - { name: mpijob-port, containerPort: 2222, protocol: TCP }
+          resources:
+            limits:
+              ephemeral-storage: 32Gi
+            requests:
+              cpu: 8
+              ephemeral-storage: 32Gi
+              memory: 768Gi
+          securityContext:
+            privileged: true
+            capabilities:
+              add:
+              - IPC_LOCK
+              - CAP_SYS_ADMIN
+          volumeMounts:
+          - { mountPath: /dev/infiniband, name: devinf }
+          - { mountPath: /dev/shm, name: shm }
+          - { mountPath: /mnt/data, name: workspace, readOnly: false }
+          workingDir: /workspace
+        dnsPolicy: ClusterFirstWithHostNet
+        hostNetwork: true
+        restartPolicy: OnFailure
+        terminationGracePeriodSeconds: 15
+        tolerations:
+        - { key: nvidia.com/gpu, operator: Exists }
+        volumes:
+        - { name: devinf, hostPath: { path: /dev/infiniband }}
+        - { name: shm, emptyDir: { medium: Memory, sizeLimit: 32Gi }}
+        - { name: workspace, persistentVolumeClaim: { claimName: {{ .Release.Name }}-pv }}
+{{- end }}

@@ -1,0 +1,14 @@
+# Copyright (c) 2025 Oracle and/or its affiliates.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-config
+data:
+  sort_hosts.sh: |
+    {{ .Files.Get "files/sort_hosts.sh" | nindent 4 }}
+  config_llama3_8b.yaml: |
+    {{ .Files.Get "files/config_llama3_8b.yaml" | nindent 4 }}
+  config_llama3_8b_v2.yaml: |
+    {{ .Files.Get "files/config_llama3_8b_v2.yaml" | nindent 4 }}
+  config_llama3_70b.yaml: |
+    {{ .Files.Get "files/config_llama3_70b.yaml" | nindent 4 }}

@@ -1,0 +1,7 @@
+# Copyright (c) 2025 Oracle and/or its affiliates.
+apiVersion: v2
+name: training
+description: A Helm chart to train LLM on Kubernetes using NVIDIA NeMo and Megatron
+type: application
+version: 0.1.0
+appVersion: "1.16.0"

@@ -1,0 +1,185 @@
+# Copyright (c) 2025 Oracle and/or its affiliates.
+{{- if not .Values.download_data }}
+apiVersion: batch.volcano.sh/v1alpha1
+kind: Job
+metadata:
+  annotations:
+  name: megatron-train-{{ .Release.Name }}
+spec:
+  minAvailable: 0
+  plugins:
+    ssh: []
+    svc: []
+  queue: default
+  schedulerName: volcano
+  tasks:
+  - name: mpimaster
+    policies:
+    - action: CompleteJob
+      event: TaskCompleted
+    replicas: 1
+    # dependsOn:
+    #   name: 
+    #   - "mpiworker"
+    template:
+      metadata:
+      spec:
+        containers:
+        - command:
+          - /bin/bash
+          - -c
+          - |
+            NUM_GPUS=8
+            NUM_HOSTS=$(sed -n '$=' /etc/volcano/mpiworker.host)
+            NP=$(($NUM_HOSTS*$NUM_GPUS))
+
+            HOSTFILE=/etc/volcano/mpiworker.host
+
+            # Enabling these two lines would allow for a bit more perfomance if
+            # nodes are distributed across different switches.
+            #
+            # HOSTFILE=myhosts.sorted
+            # bash /config/sort_hosts.sh $HOSTFILE
+
+            mpirun --allow-run-as-root \
+              -mca plm_rsh_args "-p 2222" \
+              -np $NP -npernode $NUM_GPUS --bind-to numa \
+              -hostfile $HOSTFILE \
+              -x NVIDIA_PYTORCH_VERSION \
+              -x PYTHONPATH \
+              -x HOST_LIST \
+              $MPI_ARGS \
+              bash -c "
+                # c10d will publish a host address based on the OCI hostname, not
+                # the labelling of OKE. We don't seem to have DNS mapping, manually
+                # do that for now.
+                [[ \${HOST_LIST:+yes} == yes ]] && echo \"\${HOST_LIST}\" >> /etc/hosts
+
+                export HYDRA_FULL_ERROR=1
+                export CUDA_DEVICE_MAX_CONNECTIONS=1
+                export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
+
+                # From NVIDIA SLURM reference setup;
+                export SLURM_UNBUFFEREDIO=1
+                export TORCHX_MAX_RETRIES=0
+                export CUDA_DEVICE_MAX_CONNECTIONS=1
+                export TOKENIZERS_PARALLELISM=False
+                export TRANSFORMERS_OFFLINE=1
+                export TORCH_NCCL_AVOID_RECORD_STREAMS=1
+                export NCCL_NVLS_ENABLE=0
+                export NVTE_DP_AMAX_REDUCE_INTERVAL=0
+                export NVTE_ASYNC_AMAX_REDUCTION=1
+                export NVTE_APPLY_QK_LAYER_SCALING=0
+                export NVTE_FLASH_ATTN=0
+                export NVTE_FUSED_ATTN=1
+                export NEMO_LOG_MEMORY_USAGE=1
+                export NVTE_FWD_LAYERNORM_SM_MARGIN=8
+                export NVTE_BWD_LAYERNORM_SM_MARGIN=8
+                export HYDRA_FULL_ERROR=1
+
+                # Gloo connectFullMesh failed
+                export GLOO_SOCKET_IFNAME=eth0
+                export TP_SOCKET_IFNAME=eth0
+
+                python -u /opt/NeMo/examples/nlp/language_modeling/megatron_gpt_pretraining.py \
+                    --config-path=/config \
+                    --config-name={{ .Values.training.configuration }} \
+                    trainer.num_nodes={{ .Values.num_nodes }} \
+                    model.global_batch_size={{ mul .Values.num_nodes .Values.training.base_global_batch_size }}"
+          ports:
+          - { name: mpijob-port, containerPort: 2222, protocol: TCP }
+          image: nvcr.io/nvidia/nemo:24.09
+          name: mpimaster
+          env:
+          - name: OMP_NUM_THREADS
+            value: "14"
+          envFrom:
+          - configMapRef:
+              name: {{ .Release.Name }}-mpi-setup
+          resources:
+            limits:
+              ephemeral-storage: 32Gi
+            requests:
+              cpu: 4
+              ephemeral-storage: 32Gi
+              memory: 1Gi
+          securityContext:
+            privileged: true
+            capabilities:
+              add:
+              - IPC_LOCK
+          volumeMounts:
+          - { mountPath: /dev/infiniband, name: devinf }
+          - { mountPath: /dev/shm, name: shm }
+          - { mountPath: /mnt/data, name: workspace, readOnly: false }
+          workingDir: /workspace
+        dnsPolicy: ClusterFirstWithHostNet
+        hostNetwork: true
+        restartPolicy: OnFailure
+        terminationGracePeriodSeconds: 2
+        volumes:
+        - { name: devinf, hostPath: { path: /dev/infiniband }}
+        - { name: shm, emptyDir: { medium: Memory, sizeLimit: 32Gi }}
+        - { name: workspace, persistentVolumeClaim: { claimName: {{ .Release.Name }}-pv }}
+  - name: mpiworker
+    replicas: {{ .Values.num_nodes }}
+    template:
+      metadata:
+      spec:
+        containers:
+        - command:
+          - /bin/bash
+          - -c
+          - mkdir -p /var/run/sshd; /usr/sbin/sshd -D -p 2222 || sleep 999999999;
+          image: nvcr.io/nvidia/nemo:24.09
+          name: mpiworker
+          ports:
+          - { name: mpijob-port, containerPort: 2222, protocol: TCP }
+          - { name: c10d, containerPort: 29500, protocol: TCP }
+          envFrom:
+          - configMapRef:
+              name: {{ .Release.Name }}-mpi-setup
+          resources:
+            limits:
+              ephemeral-storage: 32Gi
+              nvidia.com/gpu: 8
+            requests:
+              cpu: 112
+              ephemeral-storage: 32Gi
+              memory: 768Gi
+              nvidia.com/gpu: 8
+          securityContext:
+            privileged: true
+            capabilities:
+              add:
+              - IPC_LOCK
+              - CAP_SYS_ADMIN
+          volumeMounts:
+          - { mountPath: /dev/infiniband, name: devinf }
+          - { mountPath: /dev/shm, name: shm }
+          - { mountPath: /mnt/data, name: workspace, readOnly: false }
+          - { mountPath: /config, name: config }
+          workingDir: /workspace
+        dnsPolicy: ClusterFirstWithHostNet
+        hostNetwork: true
+        restartPolicy: OnFailure
+        terminationGracePeriodSeconds: 15
+        tolerations:
+        - { key: nvidia.com/gpu, operator: Exists }
+        volumes:
+        - { name: devinf, hostPath: { path: /dev/infiniband }}
+        - { name: shm, emptyDir: { medium: Memory, sizeLimit: 32Gi }}
+        - { name: workspace, persistentVolumeClaim: { claimName: {{ .Release.Name }}-pv }}
+        - { name: config, configMap: { name: {{ .Release.Name }}-config }}
+        # If you need to exclude certain nodes, use this:
+        #
+        # affinity:
+        #   nodeAffinity:
+        #     requiredDuringSchedulingIgnoredDuringExecution:
+        #       nodeSelectorTerms:
+        #       - matchExpressions:
+        #         - key: kubernetes.io/hostname
+        #           operator: NotIn
+        #           values:
+        #           - <hostname>
+{{- end }}
