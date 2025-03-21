@@ -18,6 +18,8 @@ Reviewed: 17.10.2024
 
 # Team Publications
 
+- [Search Documents stored in Object Storage using Opensearch, Generative AI, Semantic Search, RAG](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3762)
+
 ## Reusable Assets Overview
 
 - [Cloud Coaching - Boost Your Oracle AI Services](https://youtu.be/VVWTqqlIEhg)
@@ -70,7 +72,7 @@ Reviewed: 17.10.2024
 
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

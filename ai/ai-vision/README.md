@@ -30,7 +30,7 @@ Reviewed: 13.11.2024
       -  On selecting your favourite dish, OCI Generative AI provides the detailed recipe. Also, the missing ingredients are listed, with an option to order the same. 
 - [Cloud Coaching - Discover OCI Vision for Object Detection in Manufacturing, Retail, & More](https://www.youtube.com/watch?v=lHH_1MXGOc0)
     - In this session you learn how OCI Vision can identify, classify, and quantify visual data in powerful ways. Watch as the service identifies objects (people, cars, trees, and so forth) and categorizes them. See how it can even detect faces or key points in faces for analysis.
-
+- [Search Documents stored in Object Storage using Opensearch, Generative AI, Semantic Search, RAG](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3762)
 
 # Useful Links
  
@@ -80,7 +80,7 @@ Reviewed: 13.11.2024
  
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
