@@ -2,7 +2,7 @@
 
 This demo is going to showcase predicting the creditworthiness of a loan applicant.
 
-Reviewed: 2024.11.16
+Reviewed: 2025.03.02
  
 
 # When to use this asset?
