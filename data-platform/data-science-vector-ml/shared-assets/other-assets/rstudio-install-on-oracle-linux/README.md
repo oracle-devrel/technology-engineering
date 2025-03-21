@@ -2,7 +2,7 @@
  
 This document covers installation of RStudio on Oracle Linux.
 
-Reviewed: 2024.11.16
+Reviewed: 2025.03.02
  
 
 # When to use this asset?
