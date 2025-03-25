@@ -1,3 +1,4 @@
+# Copyright (c) 2025 Oracle and/or its affiliates.
 data "oci_secrets_secretbundle" "password_secret" {
   secret_id = var.password_secret_id
 }

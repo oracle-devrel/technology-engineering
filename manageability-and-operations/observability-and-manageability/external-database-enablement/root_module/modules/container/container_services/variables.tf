@@ -1,3 +1,4 @@
+# Copyright (c) 2025 Oracle and/or its affiliates.
 variable "compartment_ocid" {
   type = string
 }

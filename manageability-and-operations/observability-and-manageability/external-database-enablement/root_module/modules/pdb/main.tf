@@ -1,3 +1,4 @@
+# Copyright (c) 2025 Oracle and/or its affiliates.
 resource "oci_database_external_pluggable_database" "that" {
   compartment_id                 = var.compartment_ocid
   display_name                   = var.external_pluggable_database_display_name
