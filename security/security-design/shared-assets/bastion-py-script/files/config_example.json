@@ -1,0 +1,51 @@
+{
+"sessions":
+    [
+        {
+            "sessionName": "managed-example",
+            "sessionType":"MANAGED_SSH",
+            "OCIConfig": "alwaysfree",
+            "bastionOCID":"ocid1.bastion.oc1.eu-frankfurt-1.axaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxa",
+            "sshKeyDir":"/home/oracle/.ssh",
+            "sshPubFile":"bastion_pub",
+            "privateKey":"/home/oracle/.ssh/mykey",
+            "localPort":"22",
+            "sessionDisplayName":"Managed-oracle",
+            "resourceID":"ocid1.instance.oc1.eu-frankfurt-1.axaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxa",
+            "resourcePrivateIP":"192.168.1.100",
+            "osUserName":"jondoe",
+            "resourcePort":"22",
+            "ociRegion":"eu-frankfurt-1",
+            "timetolive":"3600",
+            "maxWaitCount":"10",
+            "waitRefresh":"10"
+        },
+        {
+            "sessionName": "port-example",
+            "sessionType":"PORT_FORWARDING",
+            "OCIConfig": "alwaysfree",
+            "bastionOCID":"ocid1.bastion.oc1.eu-frankfurt-1.axaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxa",
+            "sshKeyDir":"/home/oracle/.ssh",
+            "sshPubFile":"bastion_pub",
+            "privateKey":"/home/oracle/.ssh/mykey",
+            "localPort":"22",
+            "sessionDisplayName":"port-oracle",
+            "resourceID":"ocid1.instance.oc1.eu-frankfurt-1.axaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxa",
+            "resourcePrivateIP":"192.168.1.100",
+            "osUserName":"jondoe",
+            "resourcePort":"22",
+            "ociRegion":"eu-frankfurt-1",
+            "timetolive":"3600",
+            "maxWaitCount":"10",
+            "waitRefresh":"10"
+        }
+    ],
+"ociconfigurations": 
+    [
+        {
+          "configName": "alwaysfree",
+          "configFileName": "~/.oci/config",
+          "profileName": "alwaysfree"
+        }
+    ]
+  }
