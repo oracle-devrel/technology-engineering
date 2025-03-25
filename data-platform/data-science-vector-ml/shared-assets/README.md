@@ -2,12 +2,12 @@
 
 This page covers shared assets, meaning assets that are not single product specific, and that cover either multiple products or a broader scope.
 
-Reviewed: 2024.11.16
+Reviewed: 2025.03.02
 
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
