@@ -54,7 +54,7 @@ langchain-text-splitters==0.0.1
 langsmith==0.1.51
 lark==1.1.9
 llama-hub==0.0.79.post1
-llama-index==0.10.32
+llama-index==0.12.9
 llama-index-agent-openai==0.2.3
 llama-index-cli==0.1.12
 llama-index-core==0.10.38
