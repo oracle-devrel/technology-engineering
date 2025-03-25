@@ -2,6 +2,8 @@
  
 Oracle Autonomous Data Warehouse is the world’s first and only autonomous database optimized for analytic workloads, including data marts, data warehouses, data lakes, and data lakehouses. With Autonomous Data Warehouse, data scientists, business analysts, and nonexperts can rapidly, easily, and cost-effectively discover business insights using data of any size and type.
  
+Reviewed: 23.10.2024
+
 # Table of Contents
  
 1. [Team Publications](#team-publications)
@@ -49,6 +51,7 @@ Oracle Autonomous Data Warehouse is the world’s first and only autonomous data
  - [Financial Fraud Detection Using Graph Database](https://youtu.be/U1xc9kxMOwo?si=eVOiXlMKMTStZULR)
     - In this session, learn how graph-based queries and graph algorithms can be run against large-scale graph data, and help organizations detect cyclic patterns which is the essential step towards identifying fraud.
 
+
 # Useful Links
  
 - [Autonomous Data Warehouse blog](https://blogs.oracle.com/datawarehousing/)
@@ -56,9 +59,6 @@ Oracle Autonomous Data Warehouse is the world’s first and only autonomous data
  
 # LiveLabs
  
-- [Oracle Modern Data Warehouse Workshop](https://apexapps.oracle.com/pls/apex/f?p=133:180:109191784471974::::wid:3570)
-    - Workshop for learning about the converged capabilities, including JSON, blockchain tables, Oracle Text, Oracle Spatial, APEX, AutoML, and Oracle Graph.
-
 - [Access the Data Lake using Autonomous Database and Data Catalog](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=877&clear=RR,180&session=100131668414396)
     - The labs in this workshop walk you through all the steps that you need to access the Data Lake (Oracle Object Storage buckets) using Autonomous Database (ADB) and Data Catalog.
 
@@ -67,10 +67,16 @@ Oracle Autonomous Data Warehouse is the world’s first and only autonomous data
 
 - [Implement Data Sharing with PL/SQL in Autonomous Database](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=3747)
     - Learn how to implement data sharing with PL/SQL using the Delta Sharing protocol.
+
+- [Oracle Modern Data Warehouse Workshop](https://apexapps.oracle.com/pls/apex/f?p=133:180:109191784471974::::wid:3570)
+    - Workshop for learning about the converged capabilities, including JSON, blockchain tables, Oracle Text, Oracle Spatial, APEX, AutoML, and Oracle Graph.
+ 
+- [Automatic Partitioning in Autonomous Database](https://apexapps.oracle.com/pls/apex/f?p=133:180:101971501266185::::wid:935)
+    - The aim of this workshop is to become familiar with automatic partitioning and the several automated tasks executed by it.
     
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

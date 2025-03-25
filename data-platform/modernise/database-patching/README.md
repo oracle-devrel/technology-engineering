@@ -6,9 +6,11 @@ In Oracle Cloud Infrastructure the customer owns and manages patching of OS and 
 
 Best practices & other useful resources around how to patch Oracle Databases on premises or on Oracle Cloud Infrastructure can be found on this page.
  
-Reviewed: 03.11.2023
+Reviewed: 25.10.2024
 
 # Team Publications
+
+## Training Videos
  
 - [How to Automate DB System Patching of Oracle Base Database in OCI](https://youtu.be/o_0KdVY631Y)
     - Step by step Video demo on automating the DB System Patching of Oracle Base Database in OCI
@@ -24,10 +26,12 @@ Reviewed: 03.11.2023
     - Video explaining Exadata Fleet Update Preparation for ExaDB-D/ExaDB-C@C databases, part of the larger series available [here](https://youtu.be/mYUo0A5e178?feature=shared)
 - [How to apply Database Quarterly Patches on ExaDB-D/ExaDB-C@C - Part 5 - Exadata Fleet Update](https://youtu.be/iydZdx4_5Kw?feature=shared)
     - Video explaining Exadata Fleet Update for ExaDB-D/ExaDB-C@C databases, part of the larger series available [here](https://youtu.be/mYUo0A5e178?feature=shared)
+- [Level up your Exadata databases in OCI using Exadata Fleet Update - Cloud Coaching Webinar](https://youtu.be/DcHpYhVgmDU?feature=shared)
+    - Cloud Coaching Webinar, including a technical demonstration, delivered by Amalraj Puthenchira around the use of Exadata Fleet Update for fleet level patching in ExaDB-D.
 
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

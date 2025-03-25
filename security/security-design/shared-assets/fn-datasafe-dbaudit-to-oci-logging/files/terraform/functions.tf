@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2022, 2023, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2025, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License
 # (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.
 ###############################################################################
@@ -12,6 +12,7 @@
 resource "oci_functions_application" "functionapp" {
   compartment_id = var.compartment_ocid
   display_name   = local.functionapp_display_name
+  shape = var.functionappshape
   subnet_ids     = [var.create_network ? module.setup-network[0].subnet_ocid : var.subnet_ocid] 
 }
 

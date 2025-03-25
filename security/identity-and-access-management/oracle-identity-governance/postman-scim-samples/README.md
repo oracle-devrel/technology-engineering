@@ -2,7 +2,7 @@
 
 A Postman collection of sample SCIM API requests for Oracle Identity Governance (OIG) that showcases the ability to quickly create organizations, managers and users via SCIM API calls. Note that these samples are meant for reference only and are not intended for use in production systems.
 
-Review Date: 13.11.2023
+Review Date: 28.10.2024
 
 # When to use this asset?
 
@@ -27,7 +27,7 @@ The collection can be used for demonstration purposes, to showcase the SCIM capa
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

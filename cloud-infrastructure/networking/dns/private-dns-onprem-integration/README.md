@@ -2,17 +2,19 @@
  
 This is an  guide for Private DNS implementation
 
-## When to use this asset?
+Reviewed: 30.10.2024
+
+# When to use this asset?
  
 *Use it while implementing Private DNS with Onprem server*
  
-## How to use this asset?
+# How to use this asset?
  
 *Reference Architecture*
  
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

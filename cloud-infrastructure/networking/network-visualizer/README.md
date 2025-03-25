@@ -7,7 +7,7 @@ The Network Visualizer provides a diagram of the implemented topology of all VCN
 - Subnet Topology: You can see the resource information about the instances, load balancer, FSS, and OKE clusters in the subnet
 - Generate a .pdf with all component details and diagrams
 
-Reviewed: 06.02.2024
+Reviewed: 30.10.2024
 
 # Useful Links
 
@@ -24,7 +24,7 @@ Reviewed: 06.02.2024
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

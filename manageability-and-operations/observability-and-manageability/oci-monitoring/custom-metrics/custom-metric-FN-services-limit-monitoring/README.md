@@ -1,6 +1,6 @@
 # Using OCI Functions to create OCI Monitoring custom metric namespace: Services Limit monitoring example use case
 
-Reviewed: 15.11.2023
+Reviewed: 15.11.2024
 
 ## 1. INTRODUCTION
 
@@ -243,7 +243,7 @@ None at this point.
   
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

@@ -2,20 +2,18 @@
 
 This collection will hold various network architectures for different types of workloads
 
-Reviewed: 06.02.2024
+Reviewed: 30.10.2024
 
 # Useful Links
 
 ## Reference Architectures & Step-by-step Guides
 
 - [Define Your Network and Connectivity Architecture Best Practice](https://docs.oracle.com/en/solutions/oci-best-practices/define-your-network-and-connectivity-architecture1.html#GUID-88B208F6-62AD-44EB-BFD1-4F0ACC6FA85A)
-    
 - [Reference OCI Networking Architecture - Oracle E-Business Suite Applications](https://blogs.oracle.com/ateam/post/reference-oci-networking-architecture-oracle-ebusiness-suite-applications)
 
 ## Blogs
  
 - [OCI network architectures for multiple tenancies](https://blogs.oracle.com/ateam/post/oci-network-architectures-for-multiple-tenancies)
-
 
 ## Videos & Podcasts
 
@@ -24,7 +22,7 @@ Reviewed: 06.02.2024
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

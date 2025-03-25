@@ -25,6 +25,7 @@ Version     | Author          | Date                    | Comment
 :---        |:---             |:---                     |:---
 0.1         | Name            | June 12th, 2023     | Updates to network design
 1.0         | Name            | June 13th, 2023     | Updates to HA design
+2.5         | Name            | April 18th, 2024     | Added the manageability section in the Annex.
 
 ## Team
 
@@ -53,13 +54,24 @@ Name  | email@example.com     | Cloud Architect         | Oracle
 
 doc:
   acronyms:
-    AD:	Availability Domain
-    DRG: Dynamic Routing Gateway
     OCI: Oracle Cloud Infrastructure
-    IaaS: Infrastructure as a Service
-    LB: Load Balancer
-    NSG: Network Security Group
     VCN: Virtual Cloud Network
+    VM: Virtual Machine
+    AD:	Availability Domain
+    FD: Fault Domain
+    DR: Disaster Recovery
+    DRG: Dynamic Routing Gateway
+    IaaS: Infrastructure as a Service
+    PaaS: Platform as a Service
+    ATP: Autonomous Transaction Processing
+    ADW: Autonomous Data Wharehouse
+    OCID: Oracle Cloud Identifier
+    BYOL: Bring Your Own License
+    BYOI: Bring Your Own Image
+    DMZ: Demilitarized Zone
+    BV:	Block Volume
+    BM:	Bare Metal
+
 ---
 
 
@@ -344,6 +356,19 @@ At the time of this document creation, no Security requirements have been specif
 
 *Capture the Non-Functional Requirements for networking-related topics. You can use the networking questions in the [Annex](#networking-requirement-considerations)*
 
+*As businesses increasingly rely on Cloud Infrastructure to store, process, and transmit sensitive data, the need for comprehensive security solutions has never been more important. Potential customers evaluating network security solutions typically prioritize the following requirements: Some of the broader category considerations are below.*
+
+- *Data Protection: Safeguarding sensitive information against unauthorized access, theft, or modification is a primary concern for any organization and industry today.*
+    - *Threat Prevention: Advanced capabilities like IDPS and malware detection for blocking threats.*
+    - *Data Loss Prevention (DLP): Monitoring and controlling sensitive data transmission.*
+    - *Encryption and Decryption: Inspecting encrypted traffic without compromising privacy.*
+- *Threat Prevention: Proactively identifying and mitigating security threats is essential for maintaining the integrity of network infrastructure. *
+    - *Intrusion Detection and Prevention: Monitoring for suspicious or malicious activity.*
+    - *Application Control: Granular control over specific applications or services.*
+    - *URL Filtering: Controlling access to permitted URLs.*
+- *Security compliance: Does your organization have network security requirements based on industry or organization compliance? For example - SAMA (Saudi Arabia Monetary Authority), HIPAA (Health Insurance Portability and Accountability Act), GDPR (General Data Protection Regulation), SWIFT, etc.*
+
+
 *Example:*
 
 At the time of this document creation, no Networking requirements have been specified.
@@ -383,18 +408,28 @@ Mobile API                  | Mobile User   | HR Cloud    | Rest API  | Via API 
 
 *Also, capture requirements for tools to monitor and manage the solution.*
 
-### Management and Monitoring (Optional)
+### Management and Monitoring
 
 *Guide:*
 
-*This subsection captures any requirements for integrations into the customer's existing management and monitoring systems - e.g. system monitoring, systems management, etc. Also, if the customer requires new management or monitor capabilities, these should be recorded.*
+*This subsection helps you capture any requirements for customer management and monitoring needs - e.g. system monitoring, systems management, log analysis, etc.*
+
+*When you move or start an OCI project, you have a choice to use the tools you are familiar with (should they support modern application architectures), replace them with OCI native Observability services, or use a combination to improve your visibility. When contemplating how to proceed, here are some general questions that will guide you:*
+
+- *Does the tool manage across hybrid and multi-cloud environments?*
+- *What is the cost of integrating the existing tool with OCI?*
+- *Is my current monitor tool enabling you to prevent issues versus reacting to them?*
+- *Does the tool tell you how much impact there has been on users or just that there was an impact like something is down or unavailable? *
+- *Does the tool provide the full vision of applications and their infrastructure or just a piece of them or specific technology?*
 
 *Example:*
 
-Tool		            | Task				     | Target		    | Location   	    | New   | Notes
-:---			        |:---					 |:---		        |:---		        |:---	|:---
-Splunk		            | Log Data Consolidation | All targets	    | On-Prem           | No	|
-Enterprise Manager		| Manage DB Instances    | All Oracle DBs	| OCI	(Migration) | No	|
+Task				   | Target		    | Location   	    | New   | Notes
+:---				   |:---		    |:---		        |:---	|:---
+Application Monitoring | All targets	| On-Prem and OCI   | No	|
+Monitoring             | All targets	| OCI	(Migration) | No	|
+Log Management         | All targets	| OCI	(Migration) | No	|
+Insight                | All Oracle DBs	| OCI	(Migration) | No	|
 
 ### Performance (Optional)
 
@@ -481,40 +516,48 @@ Any deviations from these recommendations needed for the scope of this document 
 The customer is responsible for implementing, managing, and maintaining all listed topics.
 
 
-Category  |Topic   |Details
---|---|--
++--------------------------+---------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| CATEGORY                 | TOPIC                     | DETAILS                                                                                                                                                                                              |
++==========================+===========================+======================================================================================================================================================================================================+
 | User Management          | IAM Default Domain        | Multi-factor Authentication (MFA) should be enabled and enforced for every non-federated OCI user account.                                                                                           |
-|                          |                           | - For configuration details see Managing Multi-Factor Authentication.                          |
+|                          |                           | - For configuration details see [Managing Multi-Factor Authentication](https://docs.oracle.com/en-us/iaas/Content/Identity/mfa/understand-multi-factor-authentication.htm).                          |
 |                          |                           |                                                                                                                                                                                                      |
-|                          |                           | In addition to enforce MFA for local users, Adaptive Security will be enabled to track the Risk Score of each user of the Default Domain.                                                            |
-|                          |                           | - For configuration details see Managing Adaptive Security and Risk Providers.                                  |
-|                          | OCI Emergency Users       | A maximum of three non-federated OCI user accounts should be present with the following requirements:                                                                                            |
+|                          |                           | In addition to enforcing MFA for local users, Adaptive Security will be enabled to track the Risk Score of each user of the Default Domain.                                                          |
+|                          |                           | - For configuration details see [Managing Adaptive Security and Risk Providers](https://docs.oracle.com/en-us/iaas/Content/Identity/adaptivesecurity/overview.htm).                                  |
++--------------------------+---------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                          | OCI Emergency Users       | A maximum of **three** non-federated OCI user accounts should be present with the following requirements:                                                                                            |
 |                          |                           | - Username does not match any username in the Customer’s Enterprise Identity Management System                                                                                                       |
 |                          |                           | - Are real humans.                                                                                                                                                                                   |
 |                          |                           | - Have a recovery email address that differs from the primary email address.                                                                                                                         |
-|                          |                           | - User capabilities has Local Password enabled only.                                                                                                                                                 |
+|                          |                           | - User capabilities have Local Password enabled only.                                                                                                                                                |
 |                          |                           | - Has MFA enabled and enforced (see IAM Default Domain).                                                                                                                                             |
-|                          | OCI Administrators        | Daily business OCI Administrators are managed by the Customer’s Enterprise Identity Management System .                                                                                              |
++--------------------------+---------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                          | OCI Administrators        | Daily business OCI Administrators are managed by the Customer’s Enterprise Identity Management System.                                                                                               |
 |                          |                           | This system is federated with the IAM Default Domain following these configuration steps:                                                                                                            |
 |                          |                           | - Federation Setup                                                                                                                                                                                   |
 |                          |                           | - User Provisioning                                                                                                                                                                                  |
 |                          |                           | - For configuration guidance for major Identity Providers see the OCI IAM Identity Domain tutorials.                                                                                                 |
++--------------------------+---------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |                          | Application Users         | Application users like OS users, Database users, or PaaS users are not managed in the IAM Default Domain but either directly or in dedicated identity domains.                                       |
 |                          |                           | These identity domains and users are covered in the Workload design.                                                                                                                                 |
-|                          |                           | For additional information see Design Guidance for IAM Security Structure.                         |
+|                          |                           | For additional information see [Design Guidance for IAM Security Structure](https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/iam-security-structure.htm).                         |
++--------------------------+---------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | Cloud Posture Management | OCI Cloud Guard           | OCI Cloud Guard will be enabled at the root compartment of the tenancy home region. This way it covers all future extensions, like new regions or new compartments, of your tenancy automatically.   |
-|                          |                           | It will use the Oracle Managed Detector and Responder recipes at the beginning and can be customized by the Customer to fulfil the Customer’s security requirements.                                 |
-|                          |                           | - For configuration details see Getting Started with Cloud Guard.                                                             |
-|                          |                           | Customization of the Cloud Guard Detector and Responder recipes to fit with the Customer’s requirements is highly recommended. This step requires thorough planning and decisions to make.           |
-|                          |                           | - For configuration details see Customizing Cloud Guard Configuration                                                     |
+|                          |                           | It will use the Oracle Managed Detector and Responder recipes at the beginning and can be customized by the Customer to fulfill the Customer’s security requirements.                                |
+|                          |                           | - For configuration details see [Getting Started with Cloud Guard](https://docs.oracle.com/en-us/iaas/cloud-guard/using/part-start.htm).                                                             |
+|                          |                           | Customization of the Cloud Guard Detector and Responder recipes to fit the Customer’s requirements is highly recommended. This step requires thorough planning and decisions to make.                |
+|                          |                           | - For configuration details see [Customizing Cloud Guard Configuration](https://docs.oracle.com/en-us/iaas/cloud-guard/using/part-customize.htm)                                                     |
++--------------------------+---------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |                          | OCI Vulnerability         | In addition to OCI Cloud Guard, the OCI Vulnerability Scanning Service will be enabled at the root compartment in the home region.                                                                   |
 |                          | Scanning Service          | This service provides vulnerability scanning of all Compute instances once they are created.                                                                                                         |
-|                          |                           | - For configuration details see Vulnerability Scanning.                                                                                      |
-| Monitoring               | SIEM Integration          | Continuous monitoring of OCI resources is key for maintaining the required security level (see Regulations and Compliance for specific requirements).   |
-|                          |                           | See Design Guidance for SIEM Integration to implement integration with the existing SIEM system.         |
-| Additional Services      | Budget Control            | OCI Budget Control provides an easy to use and quick notification on changes of the tenancy’s budget consumption. It will be configured to quickly identify unexpected usage of the tenancy.         |
-|                          |                           | - For configuration details see Managing Budgets                                                                     |
-
+|                          |                           | - For configuration details see [Vulnerability Scanning](https://docs.oracle.com/en-us/iaas/scanning/home.htm).                                                                                      |
++--------------------------+---------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Monitoring               | SIEM Integration          | Continuous monitoring of OCI resources is key for maintaining the required security level (see [Regulations and Compliance](#regulations-and-compliances-requirements) for specific requirements).   |
+|                          |                           | See [Design Guidance for SIEM Integration](https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/siem-integration.htm) to implement integration with the existing SIEM system.         |
++--------------------------+---------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Additional Services      | Budget Control            | OCI Budget Control provides an easy-to-use and quick notification on changes in the tenancy’s budget consumption. It will be configured to quickly identify unexpected usage of the tenancy.         |
+|                          |                           | - For configuration details see [Managing Budgets](https://docs.oracle.com/en-us/iaas/Content/Billing/Tasks/managingbudgets.htm)                                                                     |
++--------------------------+------------------------
 # Naming Convention
 *Guide:*
 
@@ -532,7 +575,7 @@ A naming convention is an important part of any deployment to ensure consistency
 
 *Use this template ONLY for new cloud deployments and remove it for brownfield deployments.*
 
-An OCI Landing Zone sets the foundations for a secure tenancy, providing design best practices and operational control over OCI resources. A Landing Zone also simplifies the onboarding of workloads and teams, with clear patterns for network isolation and segregation of duties in the organization, which sets the cloud operating model for day two operations.
+An OCI Landing Zone sets the foundations for a secure tenancy, providing design best practices and operational control over OCI resources. A Landing Zone also simplifies the onboarding of workloads and teams, with clear patterns for network isolation and segregation of duties in the organization, which sets the cloud operating model for day-to-day operations.
 
 Oracle highly recommends the use of an OCI Landing Zone for any deployment. Use these [guidelines](https://github.com/oracle-devrel/technology-engineering/blob/main/landing-zones/commons/lz_solution_definition.md) to set up your OCI Landing Zone, including design considerations, approaches, and solutions to use.
 
@@ -634,10 +677,72 @@ Please see our security guidelines in the [Annex](#security-guidelines).
 
 ### Networking
 
+*Guide:*
+
+*If your customers have any or one of the needs described in the guide of the [Network Requirements](#networking-requirements), then the OCI Network Firewall (OCI NFW) is the cloud native solution that provides all of it. It is based on the industry-leading Nextgen firewall solution by Palo Alto (VM-Series). Refer to the Annex for more best practices around deployment models.*
+
 *Reference:*
 
 *A list of possible Oracle solutions can be found in the [Annex](#networking-solutions).*
 
+*Example:*
+
+The OCI Network Firewall can be deployed as a Distributed Network Firewall Model or Transit Network Firewall Model, where the firewall is hosted in the Hub VCN. In general, the OCI Network Firewall can be used to protect North-South traffic (Internet traffic) and/or East-West traffic (internal traffic). As a best practice, we do recommend using one dedicated OCI Network Firewall instance per type of traffic (North-South and East-West) in separated VCNs. This way performance will be maximized as well as ensuring the network isolation between the types of traffic.
+
+For more information please follow [this link.](https://docs.oracle.com/en/solutions/oci-network-firewall/index.html#GUID-875E911C-8D7D-4205-952B-5E8FAAD6C6D3)
+
+### Manageability and Observability
+
+Observability is a technology advancement focused on getting insights from a vast array of data, logs, and events generated within an IT environment. By implementing an Observability strategy, organizations gain the capability to anticipate system disruptions, prevent resource overconsumption, and enhance the overall application user satisfaction. That means being proactive, which is a must, especially in a distributed environment.
+
+Gone are the days when the IT landscape remained a mysterious black box. The company's digitalization and the Cloud model compel C-level executives to gain comprehensive insights into asset utilization. The efficient allocation of resources directly influences budgetary considerations.
+
+Observability helps organizations examine how well their infrastructure is working, predict future needs, and help take proactive steps to improve efficiency and protect investments. Therefore, Observability tools are needed to cover these important areas.
+
+![Observability and Manageability](images/OMAreas.png){ width=50% }
+
+#### Observability Architecture
+
+The basic monitoring OCI services collect the data and send logs and metrics to OCI Monitoring and Logging services. If you want to apply machine-learning capabilities and perform analysis, you can send the data to the Logging Analytics service. If you want to use OCI Logging Analytics to collect logs coming from both on-premises and cloud sources to analyze them for auditing, security purposes, or to integrate data with an external SIEM solution, the Connector Hub serves as the solution.
+
+It's advisable to plan your monitoring strategy by considering both the O&M (Observability and Management) native service of OCI and its integration with third-party tools, as O&M is flexible and a highly customizable solution.
+
+![OCI Architecture](images/OCIArchitecture.png)
+
+#### Real-Time Monitoring
+
+Real-time monitoring is the delivery of continuously updated data about systems, processes, or events. Such monitoring provides information streaming at zero or low latency, so there is minimal delay between data collection and analysis. It enables quick detection of anomalies, performance issues, and critical events.
+
+Please find all references for this chapter in the [Annex](#real-time-monitoring-annex).
+
+#### Performance and Tuning
+
+Performance tuning is the improvement of system performance. It can be done proactively to prevent issues or reactively in response to increased workload, which is crucial for avoiding system outages.
+
+Please find all references for this chapter in the [Annex](#performance-and-tuning-annex).
+
+
+#### Administration
+
+Administrator tasks involve upholding a data management policy and ensuring essential equipment functionality, such as instance management, backup & restore operations, key management, and allocating resources from the database to the storage.
+
+Please find all references for this chapter in the [Annex](#administration-annex).
+
+#### Troubleshooting
+
+Issues can happen on several levels. To identify the root cause, it is important to be able to correlate resources, drill down into the issues, and analyze trends in the systems. It's crucial to consider that the application itself might be the root cause of the issue. Therefore, it's essential to gather information about the application's behavior and performance to fully understand the problem and resolve it effectively. Troubleshooting also allows you to avoid an outage which is why it is important to notice issues as early as possible.
+
+Please find all references for this chapter in the [Annex](#troubleshooting-annex).
+
+#### Cost Control and Chargeback
+
+Cost control is the practice of identifying and reducing business expenses to increase profits. It starts with the budgeting process. Cost control is an important factor in maintaining and growing profitability.
+
+IT chargeback can provide greater visibility into the costs of IT services and infrastructure usage. It enables organizations to identify opportunities for cost optimization and reduce wasteful spending.
+
+Cost control and chargeback are critical concerns, especially for companies transitioning to the cloud, presenting new financial operational challenges (FinOps). In this context, reducing consumption directly impacts the company's business.
+
+Please find all references for this chapter in the [Annex](#cost-control-and-chargeback-annex).
 
 ### Operations (Optional)
 
@@ -723,7 +828,7 @@ Oracle Cloud Infrastructure (OCI) is designed to protect customer workloads with
 
 Cloud computing is fundamentally different from traditionally on-premises computing. In the traditional model, organizations are typically in full control of their technology infrastructure located on-premises (e.g., physical control of the hardware, and full control over the technology stack in production). In the cloud, organizations leverage resources and practices that are under the control of the cloud service provider, while still retaining some control and responsibility over other components of their IT solution. As a result, managing security and privacy in the cloud is often a shared responsibility between the cloud customer and the cloud service provider. The distribution of responsibilities between the cloud service provider and customer also varies based on the nature of the cloud service (IaaS, PaaS, SaaS).
 
-# Additional Resources
+## Additional Resources
 - [Oracle Cloud Compliance](https://www.oracle.com/corporate/cloud-compliance/) – Oracle is committed to helping customers operate globally in a fast-changing business environment and address the challenges of an ever more complex regulatory environment. This site is a primary reference for customers on Shared Management Model with Attestations and Advisories.
 - [Oracle Security Practices](https://www.oracle.com/corporate/security-practices/) – Oracle’s security practices are multidimensional, encompassing how the company develops and manages enterprise systems, and cloud and on-premises products and services.
 - [Oracle Cloud Security Practices](https://www.oracle.com/corporate/security-practices/cloud/) documents.
@@ -772,8 +877,21 @@ The below questions help to identify networking requirements.
 
 ## Security and Access Control
 
+<!--
 - Are you familiar with the concept of Next-Generation Firewalls (NGFW) and their benefits over traditional firewalls?
 - Have you considered the importance of protecting your web applications from potential cyber threats using a Web Application Firewall (WAF)?
+-->
+
+- Some of the below questions help you to adopt the right sizing and deployment model of the network firewall.
+    - Does the customer need to protect traffic from VCN to VCN? 
+    - Does the customer need to protect traffic from subnet to subnet in the same VCN?
+    - When deploying an OCI Network Firewall in a dedicated HUB or secure VCN, do you want to protect inter-VCN traffic and/or inter-subnet traffic from within the same VCN?
+    - Does the customer need to protect incoming or egressing traffic to the internet?
+    - Does the customer need to protect internal traffic (including on-premises via IPSEC/FC)?
+    - Is the network performance critical? 
+    - Does the customer have any requirement on network isolation (i.e., internet traffic never traverses or is mixed with internal traffic)? 
+- Have you considered the importance of protecting your web applications from potential cyber threats using a Web Application Firewall (WAF)?
+
 
 ## Monitoring and Troubleshooting
 
@@ -864,3 +982,80 @@ Easily create, deploy, and manage Secure Sockets Layer/Transport Layer Security 
 You can monitor the health, capacity, and performance of your Oracle Cloud Infrastructure resources by using metrics, alarms, and notifications. For more information, see [Monitoring](https://docs.oracle.com/iaas/Content/Monitoring/home.htm) and [Notifications](https://docs.oracle.com/en-us/iaas/Content/Notification/home.htm#top).
 
 - [Networking Metrics](https://docs.oracle.com/en-us/iaas/Content/Network/Reference/networkmetrics.htm)
+
+## Manageability
+
+OCI offers a full set of services to cover all Observability and Monitoring requirements.
+
+![OCI Observability](images/OCIObservability.png)
+
+Thanks to AI algorithms the OCI O&M (Observability and Management) solutions offer valuable insights into system status, requirements, and trends. Furthermore, it identifies SQL performance issues. This proactive approach empowers proactive measures to prevent future issues.
+
+### OCI O&M Services List
+
+The observability and management services include the following services:
+
+[Application Performance Monitoring](https://docs.oracle.com/en-us/iaas/Content/connector-hub/overview.htm) offers in-depth insight into application performance and facilitates rapid diagnostics to ensure a reliable level of service. This includes monitoring various components and application logic spread across clients, third-party services, and backend computing tiers, whether on-premises or in the cloud.
+
+[Database Management](https://docs.oracle.com/en-us/iaas/database-management/index.html) provides comprehensive database performance diagnostics and management capabilities to monitor and manage Oracle databases.
+
+[Logging](https://docs.oracle.com/en-us/iaas/Content/Logging/home.htm) lets you enable, view, and manage all the logs in your tenancy and provides access to logs from Oracle Cloud Infrastructure resources. These logs include critical diagnostic information that describes how resources are performing and being accessed.
+
+[Logging Analytics](https://docs.oracle.com/en-us/iaas/logging-analytics/home.htm) is a unified, integrated cloud solution that enables users to monitor, aggregate, index, analyze, search, explore, and correlate all log data from their applications and system infrastructure.
+
+[OCI Monitoring](https://docs.oracle.com/en-us/iaas/Content/Monitoring/home.htm) enables you to query [metrics](https://docs.oracle.com/en-us/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#SupportedServices) and manage [alarms](https://docs.oracle.com/en-us/iaas/Content/Monitoring/Tasks/managingalarms.htm). Metrics and alarms help monitor the health, capacity, and performance of your cloud resources.
+
+[Ops Insights](https://docs.oracle.com/en-us/iaas/operations-insights/index.html) provides a 360-degree insight into the resource utilization and capacity of Oracle Autonomous Databases. You can easily analyze CPU and storage resources, forecast capacity issues, and proactively identify SQL performance issues across a fleet of Autonomous Databases.
+
+[Service Connector Hub](https://docs.oracle.com/en-us/iaas/Content/connector-hub/overview.htm) is a cloud message bus platform that offers a single pane of glass for describing, running, and monitoring interactions for data moving between Oracle Cloud Infrastructure services.
+
+[Stack Monitoring](https://docs.oracle.com/en-us/iaas/stack-monitoring/index.html) enables proactive monitoring of applications and their underlying stack, including application servers and databases. By discovering all components of an application, including the application topology, Stack Monitoring automatically collects status, load, response, error, and utilization metrics for all application components. Each component of the application stack is referred to as a resource.
+
+### Real-Time Monitoring Annex
+
+| Service/Product Name  | Description | Collateral
+|---|------|---|
+| **Monitoring** |  OCI Monitoring collects PaaS and IaaS OCI services metrics. It is enabled by default for all the OCI services. | [List of metrics collected by default](https://docs.oracle.com/en-us/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#SupportedServices) |
+| **OCI Application Performance Monitor** | APM is a Distributed Tracing System as a Service. It enables DevOps teams to follow every step of every task. It uses open standards such as OpenTelemetry to monitor various programming languages. Plus, it includes a dedicated Java agent to track older J2EE applications, ensuring complete transaction tracing even in mixed environments. | [OCI Application Performance Monitoring](https://docs.oracle.com/en-us/iaas/Content/connector-hub/overview.htm) |
+| **OCI Console** | The Service Console offers a list of visual representations and basic information about critical metrics like CPU, memory, and storage. | [OCI Console ](https://docs.oracle.com/en-us/iaas/Content/GSG/Concepts/console.htm) </br> [Resource Usage Tracking](https://docs.oracle.com/en-us/iaas/Content/General/Concepts/resourcemonitoring.htm)|
+|**OCI Database Management (opt to OEM)**| It is an OCI-managed service that simplifies database operations and enhances efficiency. It offers advanced monitoring and diagnostic capabilities, enabling proactive management and optimization of database performance. | [List of metrics collected by OCI Database Management](https://docs.oracle.com/en-us/iaas/database-management/doc/database-management-metrics.html) |
+|**Stack Monitoring**| Stack Monitoring lets you proactively monitor an application and its underlying application stack, including application servers and databases. | [Stack Monitoring for Oracle Database ](https://docs.oracle.com/en-us/iaas/stack-monitoring/doc/promotion-and-discovery.html#GUID-633470D8-9FC3-4FD7-A34A-2A7208586AD6) |
+|**Third-Party Tools - Service Connector Hub**|  OCI provides complete O&M capabilities. However, for customers who prefer to use their own tools, OCI allows seamless integration through the Service Connect Hub. | [OCI Connector Hub](https://docs.oracle.com/en-us/iaas/Content/connector-hub/overview.htm)</br></br> [Third-Party Tools Use Cases](https://github.com/oracle-devrel/technology-engineering/tree/main/manageability-and-operations/observability-and-manageability)  |
+
+### Performance and Tuning Annex
+
+| Service/Product Name  | Description | Collateral
+|---|------|---|
+|**OCI Logging**| The OCI Logging service is a highly scalable and fully managed single pane of glass for all the logs in your tenancy. Logging provides access to logs from Oracle Cloud Infrastructure resources. These logs include critical diagnostic information that describes how resources are performing and being accessed. |  [OCI Logging](https://docs.oracle.com/en-us/iaas/Content/Logging/home.htm) | |
+|**OCI Monitoring**| Use the Oracle Cloud Infrastructure Monitoring service to actively and passively monitor cloud resources using the Metrics and Alarms features. Metric data posted to the Monitoring service is only presented to you or consumed by the Oracle Cloud Infrastructure features that you enable to use metric data. |  [OCI Monitoring](https://docs.oracle.com/en-us/iaas/Content/Monitoring/home.htm) | |
+|**OCI Dashboard**| The Console Dashboards service allows you to create custom dashboards in the Oracle Cloud Infrastructure Console to monitor resources, diagnostics, and key metrics for your tenancy. |  [OCI Dashboard](https://docs.oracle.com/en-us/iaas/Content/Dashboards/home.htm) | |
+|**OCI Logging Analytics**| OCI Logging Analytics empowers users to analyze log data from diverse sources across their infrastructure. It provides insights into system performance, identifies trends, and enables proactive resource optimization by correlating data from multiple layers of the infrastructure. |  [OCI Logging Analytics](https://docs.oracle.com/en-us/iaas/logging-analytics/home.htm) | |
+| **OCI Application Performance Monitor** | APM allows to drill down from user sessions till the single DB query or external call to identify performance bottleneck. | [OCI Application Performance Monitoring](https://docs.oracle.com/en-us/iaas/Content/connector-hub/overview.htm) |
+|**OCI Database Management - PerfHub** |  Is an OCI-managed service that offers performance and tuning capabilities. It provides the same performance and tuning features as the Oracle Enterprise Manager (OEM) Performance and Tuning Pack but in a managed solution. | [Database Management Performance Hub](https://docs.oracle.com/en-us/iaas/performance-hub/index.html) |
+|**Ops Insights Sql Warehouse and Capacity Planning** | OCI Ops Insights allows for the tracking of metrics charts and data collection. It allows for the correlation of resources across various infrastructure layers. Additionally, it predicts high resource utilization for computing and database instances.| [OCI Operations Insight SQL Warehouse](https://docs.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html#GUID-9F401CEC-8B90-4B0C-AF2B-6780BA3E799D) </br> [OCI Operations Insight Capacity planning](https://docs.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html#GUID-B2A3E104-494B-46A5-9F3E-8E3977C9328F) | |
+
+### Administration Annex
+
+| Service/Product Name  |  Description | Collateral
+|---|------|---|
+|**OCI Console**| The OCI Console is embedded in all cloud services. It allows basic tasks such as listing, starting, stopping, or termination of ressources. | [OCI Console](https://docs.oracle.com/en-us/iaas/database-tools/doc/using-oracle-cloud-infrastructure-console.html) |
+|**OCI Database Management**|   This OCI-managed service allows you to manage your databases. It provides a subset of functionalities offered by the OEM. | [Database Management](https://www.oracle.com/it/manageability/database-management/) |
+|**OCI Organization Management**| The OCI Console has several tenancy management features. You can use Organization Management to centrally manage your multi-tenancy environment. | [Organization Management](https://docs.oracle.com/en-us/iaas/Content/General/Concepts/organization_management_overview.htm) |
+
+
+### Troubleshooting Annex
+
+| Service/Product Name  | Description | Collateral
+|---|------|---|
+|**Logging Analytics**| OCI Logging Analytics can handle log events generated by all software applications and infrastructure on the cloud or on-premises. For Oracle software logs, a predefined severity pre-classification exists based on Oracle experience. | [OCI Logging Analytics](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/design/OCI_Open_LZ.pdf) </br> [OCI Logging Analytics for Exa](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/design/OCI_Open_LZ.pdf) | |
+| **OCI Application Performance Monitor** | APM allows to drill down from user sessions till the application logs to find the root cause. | [OCI Application Performance Monitoring](https://docs.oracle.com/en-us/iaas/Content/connector-hub/overview.htm) |
+|**OCI Database Management**|  OCI-managed service that allows you to drill down and correlate metrics and data from different layers. it provides built-in links that allow you to connect to other O&M services (ex. Ops Insights). | [Database Management](https://www.oracle.com/it/manageability/database-management/) |
+|**Ops Insights**| OCI Ops Insights allows tracking of metrics charts and data collection. It allows for the correlation of resources from different infrastructure layers. | [OCI Operations Insight](https://docs.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html) </br> [OCI ExaInsight](https://blogs.oracle.com/cloud-infrastructure/post/available-now-exadata-insights-in-oracle-cloud-infrastructure-operations-insights) | |
+
+### Cost Control and Chargeback Anne
+
+| Service/Product Name  |  Description | Collateral
+|---|------|---|
+|**Ops Insights Capacity Planning**|  This OCI-managed service allows one to predict the resource consumption for a year. With tags, you can associate the forecast and the consumption to a specific department. | [Operations Insight Capacity Planning](https://docs.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html#GUID-B2A3E104-494B-46A5-9F3E-8E3977C9328F) |
+|**Cost Analysis**|  Cost Analysis is an easy-to-use visualization tool to help you track and optimize your Oracle Cloud Infrastructure spending. It allows for the generation of charts and the download of accurate and reliable tabular reports of aggregated cost data. With tags, you can associate the forecast and the consumption to a specific department. | [OCI Cost Analysis](https://docs.oracle.com/en-us/iaas/Content/Billing/Concepts/costanalysisoverview.htm) </br>  |
+|**Usage RestAPI**|  OCI offers various RestAPI’s to manage services, including the one for cost management. | [OCI Usage RestAPI](https://docs.oracle.com/en-us/iaas/Content/Billing/Concepts/costanalysisoverview.htm#cost_analysis_using_the_api) </br>  |

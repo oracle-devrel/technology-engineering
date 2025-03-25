@@ -2,17 +2,19 @@
  
 *Overview presentation of OCI Network Firewall*
  
-## When to use this asset?
+Reviewed: 30.10.2024
+
+# When to use this asset?
  
 *To elaborate the understandings of Network Firewall*
  
-## How to use this asset?
+# How to use this asset?
  
 *Slide deck for sharing the overview of OCI Network Firewall powered by Palo Alto*
  
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

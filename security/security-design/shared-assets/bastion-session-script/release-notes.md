@@ -1,5 +1,9 @@
 # Release Notes
 
+## Feb 20, 2024 Release Notes - v1.0.3
+
+- Fixed an issue where sometimes the bastion session resource was used before it was fully ready.
+
 ## Jul 4, 2023 Release Notes - v1.0.2
 
 - Documentation and textual improvements.

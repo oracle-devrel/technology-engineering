@@ -2,13 +2,12 @@
 
 These assets help you understand various HA and DR cloud architectures.
 
-Reviewed: 06.02.2024
+Reviewed: 30.10.2024
 
 # Useful Links
+
 - [OCI Disaster Recovery Overview](https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/disaster-recovery.htm)
 - [Learning](https://learn.oracle.com/ols/event/business-continuity-disaster-recovery-on-the-cloud/89350/116373/181290)
-
-## Reference Architectures & Step-by-step Guides
 
 ## Blogs
  
@@ -16,7 +15,7 @@ Reviewed: 06.02.2024
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

@@ -1,0 +1,862 @@
+﻿{
+  "paragraphs": [
+    {
+      "text": "%md\n<div style=\"padding:8px; background-color:#ccff99; font-family:Calibri, sans-serif; font-size:32px; font-weight:bold\">\n&nbsp;&sect;&nbsp;&nbsp;Initialize</div>",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-14T08:12:36+0000",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "graph": {
+          "mode": "table",
+          "height": 300,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "results": {},
+        "editorSetting": {
+          "language": "md",
+          "editOnDblClick": false
+        },
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div style=\"padding:8px; background-color:#ccff99; font-family:Calibri, sans-serif; font-size:32px; font-weight:bold\">\n&nbsp;&sect;&nbsp;&nbsp;Initialize</div>\n"
+          }
+        ]
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1694675533271_-715425308",
+      "id": "20230914-071213_747345772",
+      "dateCreated": "2023-09-11T09:03:29+0000",
+      "dateStarted": "2023-09-11T09:43:16+0000",
+      "dateFinished": "2023-09-11T09:43:16+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:41"
+    },
+    {
+      "text": "%python\n\n# check resources\ndef check_compute_performance(label, scale):\n    result = 0\n    for i in range(scale):\n        for j in range(scale):\n            result = result + i * j\ncheck_compute_performance('ADW.OML', 10000)",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-18T12:36:05+0000",
+      "progress": 0,
+      "config": {
+        "lineNumbers": true,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/undefined",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1694675533271_951410400",
+      "id": "20230914-071213_1911961969",
+      "dateCreated": "2023-09-11T09:43:18+0000",
+      "dateStarted": "2023-09-18T12:36:05+0000",
+      "dateFinished": "2023-09-18T12:36:39+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:42"
+    },
+    {
+      "text": "%md\n<div style=\"padding:8px; background-color:#ccff99; font-family:Calibri, sans-serif; font-size:32px; font-weight:bold\">\n&nbsp;&sect;&nbsp;&nbsp;Transform data (for graph)</div>",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-14T08:12:36+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "md",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div style=\"padding:8px; background-color:#ccff99; font-family:Calibri, sans-serif; font-size:32px; font-weight:bold\">\n&nbsp;&sect;&nbsp;&nbsp;Transform data (for graph)</div>\n"
+          }
+        ]
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1694675533271_51156692",
+      "id": "20230914-071213_275328292",
+      "dateCreated": "2023-09-11T09:12:47+0000",
+      "dateStarted": "2023-09-14T07:18:54+0000",
+      "dateFinished": "2023-09-14T07:18:55+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:43"
+    },
+    {
+      "text": "%python\n\n# imports\nimport warnings\nimport oml\nimport pandas\n\n# settings\nwarnings.filterwarnings('ignore')\npandas.set_option('display.width', 2000)",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-18T12:36:48+0000",
+      "progress": 0,
+      "config": {
+        "lineNumbers": true,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 6,
+        "editorMode": "ace/mode/undefined",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1694675533271_257070996",
+      "id": "20230914-071213_170309359",
+      "dateCreated": "2023-09-11T09:12:53+0000",
+      "dateStarted": "2023-09-18T12:36:49+0000",
+      "dateFinished": "2023-09-18T12:36:49+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:44"
+    },
+    {
+      "text": "%python\n\n# sync proxy objects\nTF_COMPANIES = oml.sync(table=\"TF_COMPANIES\")\nTF_TRANSACTIONS = oml.sync(table=\"TF_TRANSACTIONS\")\n\n# pull data\ndata = {}\ndata['TF_COMPANIES'] = TF_COMPANIES.pull()\ndata['TF_TRANSACTIONS'] = TF_TRANSACTIONS.pull()",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-18T12:36:51+0000",
+      "progress": 0,
+      "config": {
+        "lineNumbers": true,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 6,
+        "editorMode": "ace/mode/undefined",
+        "fontSize": 9,
+        "editorHide": false,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1694675533271_-1931092586",
+      "id": "20230914-071213_154329100",
+      "dateCreated": "2023-09-11T09:43:51+0000",
+      "dateStarted": "2023-09-18T12:36:51+0000",
+      "dateFinished": "2023-09-18T12:36:51+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:45"
+    },
+    {
+      "text": "%python\n\n# init\ndata_pg = {}\n\n# transform data 'COMPANIES'\ndata_pg['TF_PGV_COMPANIES'] = data['TF_COMPANIES']\n\n# transform data 'TRANSACTIONS'\ndata_pg['TF_PGE_TRANSACTIONS'] = data['TF_TRANSACTIONS']\n\n# check\nprint(f'COMPANIES data now has {data_pg[\"TF_PGV_COMPANIES\"].shape[0]} rows and {data_pg[\"TF_PGV_COMPANIES\"].shape[1]} columns.')\nprint(f'TRANSACTIONS data now has {data_pg[\"TF_PGE_TRANSACTIONS\"].shape[0]} rows and {data_pg[\"TF_PGE_TRANSACTIONS\"].shape[1]} columns.')",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-18T12:36:55+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "text",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/undefined",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "TRANSACTIONID": "string",
+                      "TRANSACTIONDATE": "string",
+                      "COMPANYFROMID": "string",
+                      "COMPANYTOID": "string",
+                      "TRANSACTIONAMOUNT": "number"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true,
+        "lineNumbers": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "COMPANIES data now has 200 rows and 2 columns.\nTRANSACTIONS data now has 10000 rows and 5 columns.\n"
+          }
+        ]
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1694675533271_-1051010784",
+      "id": "20230914-071213_353031294",
+      "dateCreated": "2023-09-11T09:45:44+0000",
+      "dateStarted": "2023-09-18T12:36:55+0000",
+      "dateFinished": "2023-09-18T12:36:55+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:46"
+    },
+    {
+      "text": "%md\n<div style=\"padding:8px; background-color:#ccff99; font-family:Calibri, sans-serif; font-size:32px; font-weight:bold\">\n&nbsp;&sect;&nbsp;&nbsp;Save data (to database)</div>",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-14T08:12:36+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "md",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div style=\"padding:8px; background-color:#ccff99; font-family:Calibri, sans-serif; font-size:32px; font-weight:bold\">\n&nbsp;&sect;&nbsp;&nbsp;Save data (to database)</div>\n"
+          }
+        ]
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1694675533271_-380055379",
+      "id": "20230914-071213_1417097971",
+      "dateCreated": "2023-09-11T09:46:54+0000",
+      "dateStarted": "2023-09-14T07:29:26+0000",
+      "dateFinished": "2023-09-14T07:29:26+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:47"
+    },
+    {
+      "text": "%python\n\n# init\ndata_s = data_pg\n\n# push data\ntry:\n    oml.drop(table='TF_PGV_COMPANIES')\n    oml.drop(table='TF_PGE_TRANSACTIONS')\nexcept:\n    pass\nTF_PGV_COMPANIES = oml.create(data_s['TF_PGV_COMPANIES'], table='TF_PGV_COMPANIES', \n    dbtypes={'COMPANYID':'VARCHAR2(100)','COMPANYNAME':'VARCHAR2(100)'})\nTF_PGE_TRANSACTIONS = oml.create(data_s['TF_PGE_TRANSACTIONS'], table='TF_PGE_TRANSACTIONS', \n    dbtypes={'TRANSACTIONID':'VARCHAR2(100)','TRANSACTIONDATE':'VARCHAR2(100)','COMPANYFROMID':'VARCHAR2(100)','COMPANYTOID':'VARCHAR2(100)','TRANSACTIONAMOUNT':'NUMBER(10)'})",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-18T12:39:11+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/undefined",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "lineNumbers": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1694675533271_1575527270",
+      "id": "20230914-071213_1850951611",
+      "dateCreated": "2023-09-11T09:46:54+0000",
+      "dateStarted": "2023-09-18T12:39:00+0000",
+      "dateFinished": "2023-09-18T12:39:00+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:48"
+    },
+    {
+      "text": "%script\n\nalter table TF_PGE_TRANSACTIONS drop constraint FK_TF_PGE_TRANSACTIONS_FROM;\nalter table TF_PGE_TRANSACTIONS drop constraint FK_TF_PGE_TRANSACTIONS_TO;\nalter table TF_PGE_TRANSACTIONS drop constraint PK_TF_PGE_TRANSACTIONS;\nalter table TF_PGV_COMPANIES drop constraint PK_TF_PGV_COMPANIES",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-18T12:38:54+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "plsql",
+          "editOnDblClick": false
+        },
+        "colWidth": 5,
+        "editorMode": "ace/mode/plsql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "lineNumbers": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nTable TF_PGE_TRANSACTIONS altered.\n\n\n---------------------------\n\nTable TF_PGE_TRANSACTIONS altered.\n\n\n---------------------------\n\nTable TF_PGE_TRANSACTIONS altered.\n\n\n---------------------------\n\nTable TF_PGV_COMPANIES altered.\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1694675533271_812089770",
+      "id": "20230914-071213_894683992",
+      "dateCreated": "2023-09-11T09:46:53+0000",
+      "dateStarted": "2023-09-18T12:38:54+0000",
+      "dateFinished": "2023-09-18T12:38:54+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:49"
+    },
+    {
+      "text": "%script\n\nalter table TF_PGV_COMPANIES add constraint PK_TF_PGV_COMPANIES PRIMARY KEY (COMPANYID);\nalter table TF_PGE_TRANSACTIONS add constraint PK_TF_PGE_TRANSACTIONS PRIMARY KEY (TRANSACTIONID);\nalter table TF_PGE_TRANSACTIONS add constraint FK_TF_PGE_TRANSACTIONS_FROM FOREIGN KEY (COMPANYFROMID) references TF_PGV_COMPANIES(COMPANYID);\nalter table TF_PGE_TRANSACTIONS add constraint FK_TF_PGE_TRANSACTIONS_TO FOREIGN KEY (COMPANYTOID) references TF_PGV_COMPANIES(COMPANYID)",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-18T12:39:12+0000",
+      "progress": 0,
+      "config": {
+        "lineNumbers": true,
+        "editorSetting": {
+          "language": "plsql",
+          "editOnDblClick": false
+        },
+        "colWidth": 7,
+        "editorMode": "ace/mode/plsql",
+        "fontSize": 9,
+        "editorHide": false,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nTable TF_PGV_COMPANIES altered.\n\n\n---------------------------\n\nTable TF_PGE_TRANSACTIONS altered.\n\n\n---------------------------\n\nTable TF_PGE_TRANSACTIONS altered.\n\n\n---------------------------\n\nTable TF_PGE_TRANSACTIONS altered.\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1694676594261_417174979",
+      "id": "paragraph_1694676594261_417174979",
+      "dateCreated": "2023-09-14T07:29:54+0000",
+      "dateStarted": "2023-09-18T12:39:12+0000",
+      "dateFinished": "2023-09-18T12:39:12+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:50"
+    },
+    {
+      "text": "",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-14T08:12:36+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1694676649409_1440504911",
+      "id": "paragraph_1694676649409_1440504911",
+      "dateCreated": "2023-09-14T07:30:49+0000",
+      "status": "READY",
+      "$$hashKey": "object:51"
+    },
+    {
+      "text": "",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-14T08:12:36+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1694676655223_1034272697",
+      "id": "paragraph_1694676655223_1034272697",
+      "dateCreated": "2023-09-14T07:30:55+0000",
+      "status": "READY",
+      "$$hashKey": "object:52"
+    },
+    {
+      "text": "",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-14T08:12:36+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1694676654514_1014210427",
+      "id": "paragraph_1694676654514_1014210427",
+      "dateCreated": "2023-09-14T07:30:54+0000",
+      "status": "READY",
+      "$$hashKey": "object:53"
+    },
+    {
+      "text": "",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-14T08:12:36+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1694676653856_20613085",
+      "id": "paragraph_1694676653856_20613085",
+      "dateCreated": "2023-09-14T07:30:53+0000",
+      "status": "READY",
+      "$$hashKey": "object:54"
+    },
+    {
+      "text": "",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-14T08:12:36+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1694676653098_1149234051",
+      "id": "paragraph_1694676653098_1149234051",
+      "dateCreated": "2023-09-14T07:30:53+0000",
+      "status": "READY",
+      "$$hashKey": "object:55"
+    },
+    {
+      "text": "",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-14T08:12:36+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1694676651817_881260178",
+      "id": "paragraph_1694676651817_881260178",
+      "dateCreated": "2023-09-14T07:30:51+0000",
+      "status": "READY",
+      "$$hashKey": "object:56"
+    },
+    {
+      "text": "%md\n<div style=\"padding:8px; background-color:#ccff99; font-family:Calibri, sans-serif; font-size:32px; font-weight:bold\">\n&nbsp;&sect;&nbsp;&nbsp;WIP</div>",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-14T08:12:36+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "md",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div style=\"padding:8px; background-color:#ccff99; font-family:Calibri, sans-serif; font-size:32px; font-weight:bold\">\n&nbsp;&sect;&nbsp;&nbsp;WIP</div>\n"
+          }
+        ]
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1694676439415_1376432621",
+      "id": "paragraph_1694676439415_1376432621",
+      "dateCreated": "2023-09-14T07:27:19+0000",
+      "dateStarted": "2023-09-14T07:30:36+0000",
+      "dateFinished": "2023-09-14T07:30:36+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:57"
+    },
+    {
+      "text": "",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-14T08:12:36+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1694675533272_-2023213399",
+      "id": "20230914-071213_1991852200",
+      "dateCreated": "2023-09-11T09:45:43+0000",
+      "status": "READY",
+      "$$hashKey": "object:58"
+    },
+    {
+      "text": "",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-14T08:12:36+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1694676644423_163471112",
+      "id": "paragraph_1694676644423_163471112",
+      "dateCreated": "2023-09-14T07:30:44+0000",
+      "status": "READY",
+      "$$hashKey": "object:59"
+    },
+    {
+      "text": "",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-14T08:12:36+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1694676647613_1251889427",
+      "id": "paragraph_1694676647613_1251889427",
+      "dateCreated": "2023-09-14T07:30:47+0000",
+      "status": "READY",
+      "$$hashKey": "object:60"
+    },
+    {
+      "text": "",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-14T08:12:36+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1694676646007_1743635632",
+      "id": "paragraph_1694676646007_1743635632",
+      "dateCreated": "2023-09-14T07:30:46+0000",
+      "status": "READY",
+      "$$hashKey": "object:61"
+    },
+    {
+      "text": "",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-14T08:12:36+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1694676643681_2038704374",
+      "id": "paragraph_1694676643681_2038704374",
+      "dateCreated": "2023-09-14T07:30:43+0000",
+      "status": "READY",
+      "$$hashKey": "object:62"
+    },
+    {
+      "text": "",
+      "user": "VALENTIN",
+      "dateUpdated": "2023-09-18T12:38:46+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/osql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "interrupted": false,
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1694675533272_-1174117646",
+      "id": "20230914-071213_464782374",
+      "dateCreated": "2023-09-11T09:11:08+0000",
+      "status": "READY",
+      "$$hashKey": "object:63"
+    }
+  ],
+  "name": "03-prepare.data.for.graph",
+  "id": "1430475",
+  "defaultInterpreterGroup": "spark",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/03-prepare.data.for.graph"
+}
