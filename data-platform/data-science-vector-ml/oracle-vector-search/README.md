@@ -2,7 +2,7 @@
 
 This page covers Oracle Vector Search.
 
-Reviewed: 2024.11.16
+Reviewed: 2025.03.02
 
 
 # License

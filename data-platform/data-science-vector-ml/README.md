@@ -2,7 +2,7 @@
 
 The Data Science, Vector and Machine Learning section covers the tools and services under the broader Oracle Artificial Intelligence / Machine Learning / Data Science platform targeted at Data Science personas.
 
-Reviewed: 2024.11.16
+Reviewed: 2025.03.02
 
 
 # License
