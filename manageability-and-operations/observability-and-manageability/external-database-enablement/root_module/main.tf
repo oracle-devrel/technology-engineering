@@ -1,3 +1,4 @@
+# Copyright (c) 2025 Oracle and/or its affiliates.
 module "container_connection" {
   source           = "./modules/container/container_connection"
   compartment_ocid = var.compartment_ocid
