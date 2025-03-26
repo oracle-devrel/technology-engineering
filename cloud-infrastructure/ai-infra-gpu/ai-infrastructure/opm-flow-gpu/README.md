@@ -26,9 +26,13 @@ Oracle Cloud Infrastructure offers GPU shapes for all kinds of workloads, includ
     - BM with 8 GPUs, NVLink and RDMA cluster networking
 - AMD MI300X 192GB
     - BM with 8 GPUs, HIP and RDMA cluster networking
-This tutorial covers NVIDIA GPU shapes only but can be easily adapted for AMD GPU shapes. A single A100 80 GB virtual machine (VM.GPU.A100.80GB.1) with a Cannonical Ubuntu 22.04 image is used.
 
-It is necessary to install the NVIDIA CUDA Compiler (NVCC) to build Flow:
+This tutorial covers both NVIDIA and AMD GPU shapes. More specifically, we use here:
+- A 1 x A100 80 GB virtual machine (VM.GPU.A100.80GB.1),
+- A 8 x MI300X 192 GB bare metal (BM.GPU.MI300X.8),
+both with a Cannonical Ubuntu 22.04 image with respectively CUDA and ROCm preinstaled. 
+
+On the NVIDIA GPU shapes, it is necessary to install the NVIDIA CUDA Compiler (NVCC) to build Flow:
 ```
 sudo apt-get install -y nvidia-cuda-toolkit
 ```
@@ -71,7 +75,7 @@ However, for `opm-simulators` it is necessary to turn off the `USE_GPU_BRIDGE` o
 ```
 git clone https://github.com/OPM/opm-simulators.git
 mkdir opm-simulators/build && cd opm-simulators/build
-cmake .. -DUSE_GPU_BRIDGE=OFF
+cmake .. -DUSE_GPU_BRIDGE=OFF # add the -DCONVERT_CUDA_TO_HIP=ON option for AMD GPUs
 make
 ```
 The following error might occur at the `make` stage:
@@ -134,7 +138,7 @@ Running the Flow simulator on one or more GPUs requires to use GPU-specific solv
     }
 }
 ```
-To run the simulation, open datasets are available [here](git clone https://github.com/OPM/opm-data.git). For example, to run the Norne use case, simply execute:
+To run the simulation, open datasets are available [here](https://github.com/OPM/opm-data.git). For example, to run the Norne use case, simply execute:
 ```
 /home/ubuntu/opm-simulators/build/bin/flow NORNE_ATW2013.DATA --output-dir=out_gpu --matrix-add-well-contributions=true --linear-solver=/home/ubuntu/gpu-solver.json
 ```
@@ -149,9 +153,18 @@ for N GPUs.
 Here are a few comments to take into account when considering running Flow on GPUs:
 * The options `--matrix-add-well-contributions=true` and `--threads-per-process=1` are recommended by OPM.
 * Because of the import CPU/GPU traffic, running Flow on GPU is only relevant for models above a certain size (few hundreds of thousands of cells).
-* Using a CUDA-aware version of Open MPI may improve the overall performance of the simulation.
+* Using a CUDA-aware or ROCm-aware version of Open MPI may improve the overall performance of the simulation.
 
 ## External Links
 
 * [The Open Porous Media Initiative](https://opm-project.org/)
+* [The Best Public Cloud for Oil and Gas Reservoir Simulation](https://blogs.oracle.com/cloud-infrastructure/post/the-best-public-cloud-for-oil-and-gas-reservoir-simulation)
 * [Building CUDA-aware Open MPI](https://www.open-mpi.org/faq/?category=buildcuda)
+
+## License
+
+Copyright (c) 2024 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
