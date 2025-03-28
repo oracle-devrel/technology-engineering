@@ -23,7 +23,7 @@ Oracle’s Generative AI Agents is a fully managed service that combines the pow
 
 
 
-Reviewed: 26.03.2025
+Reviewed: 28.03.2025
 
 
 # License
