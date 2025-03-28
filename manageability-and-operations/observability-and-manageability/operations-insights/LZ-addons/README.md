@@ -13,7 +13,7 @@ Here, you will find an up-to-date, step-by-step guide to successfully enable Ops
 
 | # |  Name | Status |
 |:--:|---|---|
-| 1 | Autonomous database| [Available](./scenario-autonomous-databases/readme.md) |
+| 1 | Autonomous database| [Available](./LZ-autonomous-database/steps_to_enable_OPSI.md) |
 | 2 |  EXACS | On process| | 
 | 4 | EXACC | On process|
 | 5 |  External Databases | On process | 
