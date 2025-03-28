@@ -13,7 +13,7 @@ Here, you will find an up-to-date, step-by-step guide to successfully enable Ops
 
 | # |  Name | Status |
 |:--:|---|---|
-| 1 | Autonomous database| [Available](.steps_to_enable_DBM.md) |
+| 1 | Autonomous database| [Available](./steps_to_enable_DBM.md) |
 | 2 |  EXACS | On process| | 
 | 4 | EXACC | On process|
 | 5 |  External Databases | On process | 
