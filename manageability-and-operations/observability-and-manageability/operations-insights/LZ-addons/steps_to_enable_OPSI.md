@@ -6,7 +6,7 @@
 <tbody>
 <tr>
 <th align="left">Steps</th>
-<th align="left">Descriptón</th>
+<th align="left">Description</th>
 <th align="left">Notes</th>
 </tr>
 <tr>
