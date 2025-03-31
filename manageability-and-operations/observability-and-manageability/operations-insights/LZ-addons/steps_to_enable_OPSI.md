@@ -1,5 +1,5 @@
 
-## **Operation Insights Enabling Steps**
+## **Ops Insights Enabling Steps**
 
 
 <table>
@@ -100,7 +100,7 @@ All resources needed like the dedicated Vault and required policies was previous
 <td align="left" rowspan="2" >5</td>
 <td align="left">
 
-Enable [Operation Insights](https://docs.oracle.com/en-us/iaas/autonomous-database/doc/enable-operations-insights-dedicated-autonomous-database.html).
+Enable [Ops Insights](https://docs.oracle.com/en-us/iaas/autonomous-database/doc/enable-operations-insights-dedicated-autonomous-database.html).
 
 <img src="../images/ENABLE_OPSI.png" height="100" align="left"></img>
 &nbsp; 
