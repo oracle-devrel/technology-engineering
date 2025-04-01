@@ -1,4 +1,6 @@
 # Copyright (c) 2025 Oracle and/or its affiliates.
+# Author: Inge Os
+#
 BASTIONCONFIG = "bastionconfig"
 BASTIONOCID = "bastionOCID"
 BASTIONPRIVATEKEYFILE = "bastionPrivateKeyFile"
