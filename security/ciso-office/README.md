@@ -88,7 +88,8 @@ Last updated: 28.10.2024
 ## Reusable Assets Overview
 
 - [Identity Token Propagation Script](shared-assets/oic_iam_token_exchange_demo/readme.md)
-- [Adding a Group to an OCI IAM Admin Role](shared-assets/oci_iam_adding_group_to_admin_role/readme.md)
+- [Adding a Group to an OCI IAM Admin Role](shared-assets/oci_iam_adding_group_to_admin_role/)
+- [Adding OCI Observability alarms to security monitoring](shared-assets/security-alarms/README.md)
 
 # Useful Links
  
