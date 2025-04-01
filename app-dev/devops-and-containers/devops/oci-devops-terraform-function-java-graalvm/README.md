@@ -36,7 +36,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 -->
 
-# Terraform Stack to be used in OCI Resource Manager to create OCI DevOps pipelines for OCI Functions
+#  OCI Resource Manager Terraform Stack to create OCI DevOps CI/CD pipelines for OCI Functions
 
 Reviewed: 11.2.2025
  
@@ -75,6 +75,8 @@ Creating the stack in OCI Resource Manger fill in the vars:
 
 Docker credentials are only used during the DevOps project creation to push the initial Function image and the DevOps project won't need them after it's been created by Terraform. <i>Hence, you can delete the auth token from your profile after the stack has been run.</i>
 <p>
+
+### Testing
 
 After creation run Stacks's Apply to create the OCI DevOps project. 
 <p>

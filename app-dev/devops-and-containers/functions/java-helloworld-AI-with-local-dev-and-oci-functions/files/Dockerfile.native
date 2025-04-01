@@ -1,20 +1,4 @@
-FROM container-registry.oracle.com/graalvm/native-image:23-ol8 AS native
-WORKDIR /app
-
-COPY target .
-ADD reflection.json .
-
-RUN native-image \
-     -H:ReflectionConfigurationFiles=/app/reflection.json \
-     -Ob \
-     -H:Name=Hello \
-     -cp "/app/Hellofunc-1.0-SNAPSHOT.jar:/app/lib/*"  \
-        com.fnproject.fn.runtime.EntryPoint
-
-FROM fnproject/fn-java-fdk:jre17-1.0.198 as fdk
-
-FROM container-registry.oracle.com/os/oraclelinux:8-slim
-COPY --from=native /app/Hello .
-COPY --from=fdk /function/runtime/* ./
+FROM fnproject/fn-java-fdk:jre17-latest
+COPY Hello ./
 ENTRYPOINT [ "./Hello" ]
-CMD [ "com.example.fn.HelloFunction::handleRequest", "-Djava.library.path=/lib"]
+CMD [ "com.example.fn.HelloFunction::handleRequest", "-Djava.library.path=/function/runtime/lib"]
