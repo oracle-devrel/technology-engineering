@@ -1,3 +1,4 @@
+# Copyright (c) 2025 Oracle and/or its affiliates.
 BASTIONCONFIG = "bastionconfig"
 BASTIONOCID = "bastionOCID"
 BASTIONPRIVATEKEYFILE = "bastionPrivateKeyFile"
