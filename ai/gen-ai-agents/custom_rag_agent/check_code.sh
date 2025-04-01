@@ -1,0 +1,3 @@
+black *.py
+pylint *.py
+
