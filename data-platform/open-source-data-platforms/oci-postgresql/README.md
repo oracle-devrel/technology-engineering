@@ -37,7 +37,7 @@ When you are looking to establish an OCI PostgreSQL instance, connect to it, and
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

@@ -4,7 +4,7 @@ Oracle Text is a full-text search that is fully integrated into the Oracle Datab
 
 Oracle Text can perform linguistic analysis on documents, mining capabilities, classification, clustering, etc.
 
-Reviewed Date: 20.08.2024
+Reviewed Date: 21.01.2025
 
 # Useful Links
 
@@ -15,6 +15,9 @@ Reviewed Date: 20.08.2024
 - [Text Reference 19c](https://docs.oracle.com/en/database/oracle/oracle-database/19/ccref/index.html)
 - [Text Application Developer's Guide 23ai](https://docs.oracle.com/en/database/oracle/oracle-database/23/ccapp/index.html)
 - [Text Reference 23ai](https://docs.oracle.com/en/database/oracle/oracle-database/23/ccref/index.html)
+- [A New User's Guide to Oracle Text in Oracle Database (White paper)](https://www.oracle.com/a/otn/docs/newusersguidetooracletext.pdf) 
+- [Oracle AI Vector Search User's Guide](https://docs.oracle.com/en/database/oracle/oracle-database/23/vecse/index.html)
+- [Github AI Vector Search](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/core-converged-db/ai-vector-search)
 
 ## Blogs
 
@@ -41,6 +44,7 @@ Reviewed Date: 20.08.2024
 - [New full-text search in 23ai: Ubiquitous Database Search](https://blogs.oracle.com/coretec/post/ubiquitous-database-search-in-23c)
 - [Easy Database Search with APEX in 23ai](https://blogs.oracle.com/coretec/post/easy-database-search-with-apex-in-23c)
 - [Text Index with Automatic Maintenance](https://blogs.oracle.com/coretec/post/text-index-with-automatic-maintenance)
+- [Hybrid Vector Index - a combination of AI Vector Search with Text Search](https://blogs.oracle.com/coretec/post/hybrid-vector-index-the-combination-of-full-text-and-semantic-vector-search)
 
 ## Videos
 
@@ -49,6 +53,6 @@ Reviewed Date: 20.08.2024
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
