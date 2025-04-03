@@ -1,7 +1,7 @@
 pandas==2.1.4
 jsonschema==4.19.2
 langchain==0.1.10
-streamlit==1.30.0
+streamlit==1.37.0
 langchain-community==0.0.32
 pdf2image==1.16.3
 python-docx==0.8.11
