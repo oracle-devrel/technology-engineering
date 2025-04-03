@@ -13,11 +13,11 @@ Review Date: 03.11.2023
 - [OCI OPA 3 Documentation](https://docs.oracle.com/en-us/iaas/process-automation/index.html)
 - [Service Demo of UI Enhancements](https://videohub.oracle.com/media/New+OCI+Process+Automation+Gen3+-+UI+Enhancements+Demo/1_t31x313u)
 - [Oracle Process Automation with OCI AI Services blog](https://blogs.oracle.com/integration/post/automation-and-ai-oracle-process-automation-with-oci-ai-services)
-- [Course: Process Automation Using Oracle Integration Cloud](https://mylearn.oracle.com/ou/course/process-automation-using-oracle-integration-cloud-new/101633/)
+- [Course: Process Automation Using Oracle Integration Cloud](https://mylearn.oracle.com/ou/course/process-automation-using-oracle-integration-cloud-new/149268/)
 - [New OCI Process Automation Gen3 Demo of UI Enhancements](https://videohub.oracle.com/media/New+OCI+Process+Automation+Gen3+-+UI+Enhancements+Demo/1_t31x313u)
 
 # Team Publications
-- [Shared Assets](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/app-integration-and-automation/shared-assets)
+- [Shared Assets](https://github.com/oracle-devrel/technology-engineering/tree/main/app-dev/app-integration-and-automation/shared-assets)
   - List of reusable assets spanning multiple cloud services (OIC, OPA, API Gateway)
 
 
