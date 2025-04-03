@@ -48,6 +48,8 @@ Reviewed: 05.02.2025
     - Detailed, step-by-step instructions for Performing DataPump Import to Oracle Database 19c with Export dumps on OCI Object Storage , available on Amalraj Puthenchira's public platform
 - [Data Pump Bundle Patch](https://macsdata.com/oracle/data-pump-bundle-patch)
     - Overview and complete installation walkthrough with examples for 19c and 23ai databases, available on Marcus Doeringer's public platform
+- [Installing DBMS_CLOUD packages in Oracle 23ai (I) and how to use with Data Pump](https://carlosal.wordpress.com/2025/04/01/installing-dbms_cloud-in-oracle-23ai/)
+    - Blog article by Carlos Álvarez showing how easy it is to install DBMS_CLOUD packages in Oracle 23ai and how to export and import with Data Pump to and from Object Storage.
 
 # Useful Links
 - [Loading Data from Google Cloud Storage to Oracle Database](https://database-heartbeat.com/2024/10/01/google-storage-to-oracle-database/)
