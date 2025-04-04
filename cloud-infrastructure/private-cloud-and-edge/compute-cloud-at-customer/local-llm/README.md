@@ -1,4 +1,4 @@
-*Last Update: 27 November 2024*
+*Last Update: 04.04.2025*
 
 <br><h1 align="center">Local LLM Inferencing and Interaction<br>Using the Ollama Open Source Tool</h1>
 <p align="center"><img align="centre" src="./images/ollama-logo.png" width="10%" style="float:right"/></p>
@@ -26,7 +26,7 @@ This article is intended to demonstrate and provide directions to install and cr
 Considerations:
 * A firm grasp of C3/PCA/OCI concepts and administration is assumed.
 * The creation and integration of a development environment is outside of the scope of this document.
-* Oracle Linux 8 and macOS Sonoma 14.7.1 clients were used for testing but Windows is however widely supported.
+* Oracle Linux 8, macOS Sonoma 14.7.1 and macOS Sequoia 15.3.2 clients were used for testing but Windows is however widely supported.
 
 [Back to top](#toc)<br>
 <br>
@@ -40,12 +40,12 @@ Considerations:
 |----------|----------|
 | Operating system | Oracle Linux 8 or later<br>Ubuntu 22.04 or later<br>Windows<br> |
 | RAM | 16 GB for running models up to 7B. "The rule of thumb" is to have at least 2x memory for the size of the LLM, also allowing for LLMs that will be loaded in memory simultaneously. |
-| Disk space | 12 GB for installing Ollama and basic models. Additional space is required for storing model data depending on the used models. The LLM sizes can be obtained from the "trained models" link in the References section. For example the Llama 3.1 LLM with 405Bn parameters occupy 229GB of disk space |
-| Processor | Recommended to use a modern CPU with at least 4 cores. For running models of approximately 15B, 8 cores (OCPUs) is recommended. Allocate accordingly |
+| Disk space | 12 GB for installing Ollama and basic models. Additional space is required for storing model data depending on the used models. The LLM sizes can be obtained from the "trained models" link in the References section. For example the Llama 3.1 LLM with 405Bn parameters occupies 229GB of disk space. |
+| Processor | Recommended to use a modern CPU with at least 4 cores. For running models of approximately 15B, 8 cores (OCPUs) is recommended. Allocate accordingly. |
 | Graphics Processing Unit<br>(optional) | A GPU is not required for running Ollama, but can improve performance, especially when working with large models. If you have a GPU, you can use it to accelerate training of custom models. |
 
 >[!NOTE]
->The GPU options in the Compute Cloud@Customer will be available soon.
+>The C3 and PCA now have NVIDIA L40S GPU expansion options available. The GPU expansion nodes (providing 4x L40S GPUs) for C3 and PCA can comfortably inference, fine tune and perform RAG on LLMs with up to approximately 70bn parameters. There is however no hard limit.
 
 ### Create a Virtual Machine Instance
 
@@ -125,8 +125,6 @@ Resource constraints are often experienced on personal computers and more comput
 
 Several API endpoint vulnerabilities have been identified in the client-server deployment model of Ollama and some have been addressed successfully by means of security patching. Collectively, the vulnerabilities could allow an attacker to carry out a wide-range of malicious actions with a single HTTP request, including denial-of-service (DoS) attacks, model poisoning, model theft, and more.
 
-*A future article will describe a secure (using reverse proxying and TLS) client-server deployment architecture that can be made available for secure corporate use that also ensures data usage privacy.*
-
 >[!NOTE]
 >Refer to the article [Why You Should Trust Meta AI's Ollama for Data Security](https://myscale.com/blog/trust-meta-ai-ollama-data-security) for further information on the benefits of running LLMs locally. 
 
@@ -181,7 +179,7 @@ The installation comprises the following components:
 <sup><sub>2</sup></sub> See [Ollama documentation](https://github.com/ollama/ollama/tree/main/docs)
 
 >[!IMPORTANT]
->When GPU's become available the NVIDIA and CUDA drivers should be installed. This configuration will also be tested on the Roving Edge Device GPU model.
+>With the NVIDIA L40S GPU expansion the NVIDIA and CUDA drivers are installed. This configuration will also be tested on the Roving Edge Device GPU model.
 
 ### Installation
 
