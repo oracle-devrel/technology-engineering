@@ -1,3 +1,9 @@
+Update confluence. See video as well.
+
+https://confluence.oraclecorp.com/confluence/x/AaOR2QE
+
+
+
 # Start Right With OCI
 
 Last updated: 3 April 2025
@@ -24,7 +30,7 @@ Securing OCI Administrators in the Default identity domain is crucial because th
 
 Secure access to your OCI resources by implementing strict IAM controls:
 
-- **Set up an identity and access management (IAM) security model:** An initial version of a security model can help your organization to [mitigate risk](https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/iam-security-structure.htm)
+- **Set up an identity and access management (IAM) security model:** An initial version of a security model can help your organization to [mitigate risk](https://docs.oracle.com/en-us/iaas/Content/Identity/Concepts/overview.htm#Example)
 - **Principle of Least Privilege:** Grant only the necessary permissions and regularly audit your [IAM policies](https://www.ateam-oracle.com/post/oci-iam-policies-best-practices).
 - **Breakglass Administrator:** Do not use the out-of-the-box OCI Adminstrator account for day-to-day operations. Configure additional administrators based on least privileges and secure the OCI Administrator account as a breakglass account, reserved for emergency use only, as defined in the [OCI IAM Security Best Practices](https://docs.oracle.com/en-us/iaas/Content/Security/Reference/iam_security.htm#Securing_IAM).
 - **Multi‑Factor Authentication (MFA):** Enable MFA for all users to protect against unauthorized access. Additional best practices are detailed in the [OCI IAM Security Best Practices](https://docs.oracle.com/en-us/iaas/Content/Security/Reference/iam_security.htm#Securing_IAM).
@@ -57,7 +63,7 @@ After securing your Default OCI IAM accounts, define a secure and scalable landi
 
 Establishing robust observability is key to maintaining the health of your environment. Follow these best practices:
 
-- **SIEM Integration Pattern:** A SIEM platform is required to increase responsiveness to [security attacks](https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/siem-integration.htm)
+- **SIEM Integration Pattern:** A SIEM platform is required to increase responsiveness to [security attacks](https://www.ateam-oracle.com/post/integrating-siem-with-oracle-cloud-applications)
 - **Enable Logging and Monitoring:** Utilize OCI’s logging and monitoring services to track your resources and applications. Setting up alerts for operational insights is crucial for maintaining system health. Refer to [OCI Best Practices](https://docs.oracle.com/en/solutions/oci-best-practices/index.html) for strategies.
 - **Data Visualization Tools:** Leverage OCI Monitoring and OCI Logging to visualize data in [dashboards and track performance metrics](https://docs.oracle.com/en-us/iaas/Content/Dashboards/Tasks/dashboards.htm). A number of [security dashboards](https://blogs.oracle.com/observability/post/oracle-cloud-infrastructure-security-fundamentals-dashboards-using-oci-logging-analytics) have been published to help you gain rapid visibility into your operational security metrics.
 - **Integrate with Third-Party Tools:** Integrate OCI with a [third-party SIEM](https://docs.oracle.com/solutions/?q=SIEM&cType=reference-architectures%2Csolution-playbook%2Cbuilt-deployed&sort=date-desc&lang=en) (if you are using one) to enhance your monitoring capabilities, as suggested in the OCI Architecture Center.
