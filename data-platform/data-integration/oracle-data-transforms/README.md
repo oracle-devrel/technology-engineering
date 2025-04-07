@@ -1,6 +1,6 @@
 # Data Transforms
  
-Data Transforms is an easy-to-use graphical user interface that Oracle Autonomous Database users can use to design graphical data transformations for data integration.
+Data Transforms is an easy-to-use graphical user interface that Oracle Autonomous Database and OCI Goldengate users can use to design graphical data transformations for data integration.
 
 Data Transforms allows you to design data transformations in the form of data loads, data flows, and workflows, without requiring you to write any code. Data Load provides a convenient way of loading data into an Autonomous Database, data flows define how the data is moved and transformed between different systems, while the workflows define the sequence in which the data flows are executed.
 
