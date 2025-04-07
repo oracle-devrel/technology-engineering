@@ -7,7 +7,7 @@ This is a Generative AI-powered application that analyzes frames from uploaded v
 - Automatically extract frames from videos at a user-defined interval.
 - Use OCI Generative AI to assess frame content for PG-appropriateness.
 - Highlight frames flagged as inappropriate with detailed reasons and timecodes.
-- Adjust AI confidence threshold and frame extraction interval.
+- Adjust AI confidence threshold and frame extraction interval. (Effects the prompt for confidence)
 
 ## Prerequisites
 Before running the application, ensure you have:
