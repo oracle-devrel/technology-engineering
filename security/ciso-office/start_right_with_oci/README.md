@@ -1,9 +1,3 @@
-Update confluence. See video as well.
-
-https://confluence.oraclecorp.com/confluence/x/AaOR2QE
-
-
-
 # Start Right With OCI
 
 Last updated: 3 April 2025
@@ -43,6 +37,7 @@ Secure access to your OCI resources by implementing strict IAM controls:
 
 Effective resource management is crucial to maintain control over your OCI environment:
 
+- **Naming Convention:** A [resource naming convention](https://github.com/oracle-devrel/technology-engineering/blob/main/landing-zones/commons/resource_naming_conventions.md) helps to identify resources, their type, and location by the name, quickly.
 - **Tagging:** Apply [tags](https://docs.oracle.com/en-us/iaas/Content/Tagging/Concepts/taggingoverview.htm) to all resources for better organization, cost tracking, and compliance.
 - **Cost Management:** Enable [budgets](https://docs.oracle.com/en-us/iaas/Content/Billing/Tasks/managingbudgets.htm) and [alerts](https://docs.oracle.com/en-us/iaas/Content/Billing/Tasks/managingalertrules.htm) to monitor cloud spending and proactively address cost anomalies.
 - **Governance:** Use [cloud governance practices](https://docs.oracle.com/en/solutions/foundational-oci-governance-model/index.html) to enforce policies and maintain regulatory compliance.
