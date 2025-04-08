@@ -2,7 +2,7 @@
 
 Last updated: 3 April 2025
 
-A Five-Step Approach to Deploying on Oracle Cloud Infrastructure (OCI)
+## A Five-Step Approach to Deploying on Oracle Cloud Infrastructure (OCI)
 
 Properly setting up your Oracle Cloud Infrastructure (OCI) environment from the beginning is crucial for ensuring security, governance, and operational efficiency. This page outlines a clear, step-by-step method for configuring your tenancy, helping you implement all foundational components in line with best practices.
 
