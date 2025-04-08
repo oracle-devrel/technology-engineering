@@ -1,6 +1,6 @@
 # Digital Assistant
  
-Oracle Digital Assistant is a platform powered by artificial intelligence, specifically designed to build chatbots, also known as conversational agents. These agents are capable of mimicking human-like dialogue patterns. They leverage sophisticated machine learning algorithms and natural language processing (NLP) to interpret user requests, deliver smart responses, and carry out complex business workflows. The platform offers excellent integration possibilities with both Oracle's applications such as CX Fusion, Service Cloud, and applications like Salesforce and Genesys. This facilitates efficient automation of tasks across different business domains.
+Oracle Digital Assistant is a platform powered by artificial intelligence, specifically designed to build chatbots, also known as conversational agents. These agents are capable of mimicking human-like dialogue patterns. They leverage sophisticated machine learning algorithms and natural language processing (NLP) to interpret user requests, deliver smart responses, and carry out complex business workflows. The platform offers excellent integration possibilities with both Oracle's applications such as CX Fusion, Service Cloud, and applications like Salesforce and Genesys. This facilitates efficient automation of tasks across different business domains. 
  
 Reviewed: 31.10.2024
 

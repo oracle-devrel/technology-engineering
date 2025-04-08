@@ -1,0 +1,26 @@
+# Copyright (c) 2025 Oracle and/or its affiliates.
+
+# Enable this for the initial data download and preprocessing
+download_data: false
+
+# Number of nodes to use for training / preprocessing
+num_nodes: 16
+
+preprocessing:
+  # How many cpu cores to use on each node to preprocess data
+  processes_per_node: 16
+  # The last file number to process, indexed to 0: change to, e.g., 3 to
+  # process files 0, 1, 2, 3
+  final_file_number: 0
+
+training:
+  # Which configuration file to use
+  configuration: config_llama3_8b.yaml
+  # Global Batch Size for a single node; will be multiplied
+  base_global_batch_size: 128
+
+storage:
+  # Export path of the file storage server
+  fss_path: /data
+  # IP Address or DNS name of the file storage server
+  fss_name: fs1.fss.zone
