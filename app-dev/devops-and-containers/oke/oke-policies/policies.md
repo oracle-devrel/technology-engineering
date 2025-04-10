@@ -28,6 +28,16 @@ UNCLEAR: Maybe this policy is necessary for every IPv6 cluster
 Allow any-user to use ipv6s in compartment <compartment-ocid-of-network-resources> where all { request.principal.id = '<cluster-ocid>' }
 ```
 
+
+### ENCRYPT ETCD WITH A KEY
+
+To encrypt etcd secrets at rest using a custom key, this needs to be specified at cluster creation and the following policy must be in place:
+
+[https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengencryptingdata.htm#console](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengencryptingdata.htm#console)  
+
+```
+Allow any-user to use keys in compartment <compartment-name> where ALL {request.principal.type = 'cluster', target.key.id = '<key-ocid>'}
+```
   
 
 ### ENCRYPT BOOT VOLUME WITH KEY

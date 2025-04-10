@@ -58,6 +58,7 @@ Reviewed: 13.11.2024
 - [Search Documents stored in Object Storage using Opensearch, Generative AI, Semantic Search, RAG](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3762)
 
 ## Reusable Assets Overview
+- [Generative AI demo pack and deployment script](https://github.com/mgueury/streamlit_oke/)
 - [Podcast Generator](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/ai-speech/podcast-generator)
 - [Decode Images and Videos with OCI GenAI](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/generative-ai-service/decode-Images-and-Videos-with-OCI-GenAI)
 
