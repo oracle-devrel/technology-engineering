@@ -1,12 +1,12 @@
 # RAG with OCI, LangChain, and VLLMs
 
-This repository is a variant of the Retrieval Augmented Generation (RAG) tutorial available [here](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/rag-genai). Instead of the OCI GenAI Service, it uses a local deployment of Mistral 7B Instruct v0.2 using a vLLM inference server powered by an NVIDIA A10 GPU.
+This repository is a variant of the Retrieval Augmented Generation (RAG) tutorial available [here](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/rag-genai). Instead of the OCI GenAI Service, it uses a local deployment of Mistral 7B Instruct v0.3 using a vLLM inference server powered by an NVIDIA A10 GPU.
 
 Reviewed: 23.05.2024
 
 # When to use this asset?
 
-To run the RAG tutorial with a local deployment of Mistral 7B Instruct v0.2 using a vLLM inference server powered by an NVIDIA A10 GPU.
+To run the RAG tutorial with a local deployment of Mistral 7B Instruct v0.3 using a vLLM inference server powered by an NVIDIA A10 GPU.
 
 # How to use this asset?
 
@@ -25,7 +25,7 @@ These are the components of the Python solution being used here:
 
 * **SitemapReader**: Asynchronous sitemap reader for the web (based on beautifulsoup). Reads pages from the web based on their sitemap.xml. Other data connectors are available (Snowflake, Twitter, Wikipedia, etc.). In this example, the site mapxml file is stored in an OCI bucket.
 * **QdrantClient**: Python client for the Qdrant vector search engine.
-* **SentenceTransformerEmbeddings**: Sentence embeddings model object (from HuggingFace). Other options include Aleph Alpha, Cohere, MistralAI, SpaCy, etc.
+* **HuggingFaceEmbeddings**: Sentence embeddings model object (from HuggingFace). Other options include Aleph Alpha, Cohere, MistralAI, SpaCy, etc.
 * **VLLM**: Fast and easy-to-use LLM inference server.
 * **Settings**: Bundle of commonly used resources used during the indexing and querying stage in a LlamaIndex pipeline/application. In this example, we use global configuration.
 * **QdrantVectorStore**: Vector store where embeddings and docs are stored within a Qdrant collection.
@@ -82,23 +82,20 @@ For the sake of libraries and package compatibility, is highly recommended to up
     sudo apt-get update && sudo apt-get upgrade -y
     ```
 
-2. (*) Remove the current NVIDIA packages and replace them with the following versions.
+2. (*) Install the latest NVIDIA drivers.
 
     ```bash
-    sudo apt purge nvidia* libnvidia* -y
-    sudo apt-get install -y cuda-drivers-545
-    sudo apt-get install -y nvidia-kernel-open-545
-    sudo apt-get install -y cuda-toolkit-12-3
+    sudo apt install ubuntu-drivers-common
+    sudo ubuntu-drivers install --gpgpu nvidia:570-server
+    sudo apt install nvidia-utils-570-server
+    sudo reboot
     ```
 
-3. (*) We make sure that `nvidia-smi` is installed in our GPU instance. If it isn't, let's install it:
+3. (*) We make sure that `nvidia-smi` is installed in our GPU instance:
 
     ```bash
     # run nvidia-smi
     nvidia-smi
-    # if not found, install it.
-    sudo apt install nvidia-utils-510 -y 
-    sudo apt install nvidia-driver-535 nvidia-dkms-535 -y
     ```
 
 4. (*) After installation, we need to add the CUDA path to the PATH environment variable, to allow for NVCC (NVIDIA CUDA Compiler) is able to find the right CUDA executable for parallelizing and running code:
@@ -146,10 +143,16 @@ For the sake of libraries and package compatibility, is highly recommended to up
     conda activate rag
     pip install packaging
     pip install -r requirements.txt
-    # requirements.txt can be found in `technology-engineering/cloud-infrastructure/ai-infra-gpu/ai-infrastructure/rag-langchain-vllm-mistral/`
+    # requirements.txt can be found in `technology-engineering/cloud-infrastructure/ai-infra-gpu/ai-infrastructure/rag-langchain-vllm-mistral/files`
     ```
 
-9. Finally, reboot the instance and reconnect via SSH.
+9. Install `gcc` compiler to be able to build PyTorch (in vllm):
+
+    ```bash
+    sudo apt install -y gcc
+    ```
+
+10. Finally, reboot the instance and reconnect via SSH.
 
     ```bash
     ssh -i <private.key> ubuntu@<public-ip>
@@ -158,10 +161,13 @@ For the sake of libraries and package compatibility, is highly recommended to up
 
 ## Running the solution
 
-1. You can run an editable file with parameters to test one query by running:
+1. You can run an editable file with parameters to test one query but first set a few more details, namely the `VLLM_WORKER_MULTIPROC_METHOD` environment variable and the `ipython` interactive terminal:
 
     ```bash
-    python rag-langchain-vllm-mistral.py
+    export VLLM_WORKER_MULTIPROC_METHOD="spawn"
+    conda install ipython
+    ipython
+    run rag-langchain-vllm-mistral.py
     ```
 
 2. If you want to run a batch of queries against Mistral with the vLLM engine, execute the following script (containing an editable list of queries):
@@ -210,7 +216,7 @@ Instead of:
 from langchain_community.llms import VLLM
 
 llm = VLLM(
-    model="mistralai/Mistral-7B-v0.1",
+    model="mistralai/Mistral-7B-v0.3",
     ...
     vllm_kwargs={
         ...
@@ -226,7 +232,7 @@ from langchain_community.llms import VLLMOpenAI
 llm = VLLMOpenAI(
     openai_api_key="EMPTY",
     openai_api_base="http://localhost:8000/v1",
-    model_name="mistralai/Mistral-7B-v0.1",
+    model_name="mistralai/Mistral-7B-v0.3",
     model_kwargs={
         ...
     },
