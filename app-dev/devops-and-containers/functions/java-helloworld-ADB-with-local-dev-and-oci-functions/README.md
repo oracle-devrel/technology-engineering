@@ -36,7 +36,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 -->
 
-# A Java Hello World function with local dev and then building and deploying to OCI Functions
+# A Java Hello World function accessing ATP database with local dev and then building and deploying to OCI Functions
 
 Reviewed: 14.04.2025
  
