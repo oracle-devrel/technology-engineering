@@ -91,14 +91,14 @@ Create new ATP database instance (eg. "fntest") with a public VCN/subnet and <i>
 
 <p>
 
-To access the ATP database from local dev your <i>IP address</i> needs to be <b>whitelisted</b> the Network configuration.
+To access the ATP database from local dev your <i>IP address</i> needs to be <b>whitelisted</b> the ATP instance Network configuration.
 
 <p>
 Before running the function config for the ATP connection needs to be set:
 
 <pre>
 fn config app hellofunction DB_USER admin
-fn config app hellofunction DB_PASSWORD &lt; YOUR ATP PASSWORD HERE &gt;
+fn config app hellofunction DB_PASSWORD &lt;YOUR ATP PASSWORD HERE&gt;
 fn config app hellofunction DB_URL (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1521)(host=adb.eu-frankfurt-1.oraclecloud.com))(connect_data=(service_name=g90....6d8_fntest_tp.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
 </pre>
 
@@ -169,7 +169,7 @@ Like previously add the configuration for the ATP database connection, either on
 
 <pre>
 DB_USER admin
-DB_PASSWORD &lt; YOUR ATP PASSWORD HERE &gt;
+DB_PASSWORD &lt;YOUR ATP PASSWORD HERE&gt;
 DB_URL (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1521)(host=adb.eu-frankfurt-1.oraclecloud.com))(connect_data=(service_name=g90....6d8_fntest_tp.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
 </pre>
 
