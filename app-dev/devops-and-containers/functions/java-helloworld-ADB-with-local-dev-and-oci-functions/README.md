@@ -38,7 +38,7 @@ SOFTWARE.
 
 # A Java Hello World function with local dev and then building and deploying to OCI Functions
 
-Reviewed: 31.10.2024
+Reviewed: 14.04.2025
  
 # When to use this asset?
  
