@@ -76,6 +76,8 @@ Creating the stack in OCI Resource Manger fill in the vars:
 Docker credentials are only used during the DevOps project creation to push the initial Function image and the DevOps project won't need them after it's been created by Terraform. <i>Hence, you can delete the auth token from your profile after the stack has been run.</i>
 <p>
 
+### Testing
+
 After creation run Stacks's Apply to create the OCI DevOps project. 
 <p>
 The Stack creates only a <i>private subnet</i> in the VCN and hence the Function cannot be called outside the tenancy by default after the build and deploy.

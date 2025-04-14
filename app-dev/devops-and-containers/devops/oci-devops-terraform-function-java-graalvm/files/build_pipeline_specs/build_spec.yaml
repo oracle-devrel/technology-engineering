@@ -14,6 +14,7 @@ steps:
     command: |
       docker build -t ${REGISTRY}/${NAMESPACE}/${IMAGE_NAME} .
       docker tag ${REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:latest ${REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:$buildId
+      
 outputArtifacts:
   - name: image-jvm
     type: DOCKER_IMAGE

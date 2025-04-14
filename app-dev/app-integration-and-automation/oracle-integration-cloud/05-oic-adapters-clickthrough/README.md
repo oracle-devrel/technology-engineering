@@ -7,7 +7,7 @@ Assets that contain oic adapters configuration and implementation practice for t
 - Kafka Adapter
 - EBS Adapter
 
-Review Date: 28.11.2024
+Review Date: 04.04.2025
 
 # When to use these assets?
 
@@ -19,7 +19,7 @@ The information is generic in nature and not specified for a particular customer
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
