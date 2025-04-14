@@ -55,8 +55,10 @@ Reviewed: 13.11.2024
       - In this webinar, we will continue to use the RAG architecture presented in our previous Cloud Coaching sessions, and update it to use a multilingual embedding model.
 - [Cloud Coaching - How to enable Oracle Observability on RAG solutions](https://www.youtube.com/watch?v=VQg3lADHwu8)
     - In this session we show you how OCI Application Performances Monitor helps to increase GenAI user satisfaction by collecting Opentelemetry traces produced by RAG and providing insight dashboard, anomaly detection and error notifications. 
+- [Search Documents stored in Object Storage using Opensearch, Generative AI, Semantic Search, RAG](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3762)
 
 ## Reusable Assets Overview
+- [Generative AI demo pack and deployment script](https://github.com/mgueury/streamlit_oke/)
 - [Podcast Generator](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/ai-speech/podcast-generator)
 - [Decode Images and Videos with OCI GenAI](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/generative-ai-service/decode-Images-and-Videos-with-OCI-GenAI)
 
@@ -84,7 +86,7 @@ Reviewed: 13.11.2024
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

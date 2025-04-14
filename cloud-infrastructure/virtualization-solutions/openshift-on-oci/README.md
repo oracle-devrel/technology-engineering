@@ -14,6 +14,7 @@ Reviewed: 06.11.2024
 
 ## Reference Architectures & Step-by-step Guides
 
+- [Use multiple and floating Egress IP(s) by leveraging OCI VLANs](openshift-floating-egress-ip/README.md)
 - [Enable Seamless Access to Red Hat OpenShift Container Platform on OCI from On-Premises to VCNs in the Same Region](https://docs.oracle.com/en/learn/oci-openshift-vcn/)
 
 ## OpenShift Day-2 - Operations
@@ -30,7 +31,7 @@ Reviewed: 06.11.2024
   
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
