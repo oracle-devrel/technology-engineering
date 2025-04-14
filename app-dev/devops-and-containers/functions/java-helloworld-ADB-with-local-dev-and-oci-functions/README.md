@@ -91,7 +91,7 @@ Create new ATP database instance (eg. "fntest") with a public VCN/subnet and <i>
 
 <p>
 
-To access the ATP database from local dev your <i>IP address</i> needs to be <b>whitelisted</b> the ATP instance Network configuration.
+To access the ATP database from local dev your <i>IP address</i> needs to be <b>whitelisted</b> in the ATP instance Network configuration.
 
 <p>
 Before running the function config for the ATP connection needs to be set:
@@ -173,6 +173,8 @@ DB_PASSWORD &lt;YOUR ATP PASSWORD HERE&gt;
 DB_URL (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1521)(host=adb.eu-frankfurt-1.oraclecloud.com))(connect_data=(service_name=g90....6d8_fntest_tp.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
 </pre>
 
+<p>
+To access the ATP database from the OCI Function the <i>function VCN</i> needs to be <b>whitelisted</b> in the ATP instance Network configuration either by using it's <code>OCID</code> or <code>CIDR block</code>.
 <p>
 
 After deployment the Function can be easily tested in Cloud Shell following the Getting Started guide for the Application and giving:
