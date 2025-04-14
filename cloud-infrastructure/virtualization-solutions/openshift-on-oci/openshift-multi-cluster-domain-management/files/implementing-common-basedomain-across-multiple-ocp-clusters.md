@@ -25,7 +25,7 @@ Reviewed: 10.04.2025
 **2. On-Premises Integration**
 - Access from corporate networks is enabled via conditional DNS forwarding to a VCN-based listener. The listener IP address in this example is 10.0.26.97.
 
-<img src="images/0.png" width=500x align="top">
+![Default OCP Architecture](image.png)
 
 ## Problem Statement
 
@@ -55,7 +55,7 @@ This evaluation compares the trade-offs between these deployment strategies in t
 
 The diagram below illustrates the architecture where a single VCN contains multiple subnets, each dedicated to an OpenShift cluster.
 
-<img src="images/1.png" width=500x align="top">
+![common base domain](image-1.png)
 
 **Challenges:**
 - Zone conflicts during new cluster deployment, requiring manual intervention.
@@ -81,7 +81,7 @@ The diagram below illustrates the architecture where a single VCN contains multi
 
 The diagram below shows the architecture where each OCP cluster has a dedicated VCN with a common base domain, but DNS conditional forwarding is managed using unique subdomains.
 
-<img src="images/2.png" width=500x align="top">
+![Unique Subdomain](image-2.png)
 
 **Benefits:**
 - Maintains a common base domain for all OCP clusters.
@@ -97,7 +97,7 @@ The diagram below shows the architecture where each OCP cluster has a dedicated 
 
 The diagram below illustrates the architecture where each cluster has a dedicated VCN and a unique base domain.
 
-<img src="images/3.png" width=500x align="top">
+![Unique base domain](image-3.png)
 
 
 # Conclusion
