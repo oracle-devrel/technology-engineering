@@ -33,7 +33,9 @@ OCI Database with PostgreSQL is designed for high availability by offering durab
 
 - [Create a connection between OCI PostgreSQL and Oracle Analytics Cloud](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-postgresql/code-examples/connect-to-oac)
 When you are looking to establish an OCI PostgreSQL instance, connect to it, and connect to Oracle Analytics Cloud, use these steps to guide you. The steps include using DBeaver to create a new table and load data, create an OCI PostgreSQL instance, connect to it, and connect the instance as source to Oracle Analytics Cloud.
-
+- [Send notifications based on pg_stat_activity in OCI PostgreSQL](https://github.com/andreumdorokhinum/oci_pg_stat_activity)
+- [GitLab & Standalone Managed PostgreSQL on OCI](https://github.com/andreumdorokhinum/oci_pg_with_gitlab)
+- [Use CRON as scheduler for OCI PostgreSQL](https://github.com/andreumdorokhinum/oci_pg_with_unix_cron)
 
 # License
 
