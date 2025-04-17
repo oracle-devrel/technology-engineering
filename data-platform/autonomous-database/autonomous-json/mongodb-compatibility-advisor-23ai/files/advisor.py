@@ -1,5 +1,7 @@
 import argparse
 import sys
+import re
+from collections import defaultdict
 
 supported_keywords = ["$gt","$gte","$lt","$and","$not","$or","$nor","$ne","$eq","$in","$lte","$nin","$exists","$type","$regex","$text","$near","$nearSphere","$size","$natural","$inc","$min","$max",
                         "$rename","$set","$addToSet","$pop","$pull","$push","$pullAll","$each","$position","$sort","$bit","$count","$limit","$match","$skip","$slice","$mod","$geoIntersects",
@@ -7,8 +9,8 @@ supported_keywords = ["$gt","$gte","$lt","$and","$not","$or","$nor","$ne","$eq",
                         "$unionWith","$unset","$unwind","$add","$arrayElemAt","$arrayToObject","$bottom","$ceil","$cmp","$concatArrays","$concat","$cond","$dateFromString","$dateToString","$divide",
                         "$exp","$filter","$first","$firstN","$floor","$ifNull","$isArray","$isNumber","$last","$let","$literal","$ln","$ltrim","$mergeObjects","$multiply","$objectToArray","$pow",
                         "$reverseArray","$round","$rtrim","$setUnion","$sortArray","$sqrt","$subtract","$top","$toString","$toLower","$toUpper","$trim","$trunc","$zip","$currentDate","$lastN","$reduce",
-                        "$strcasecmp","$sql","$stdDevPop","$stdDevSamp","$replaceWith","$sample","$avg","$indexOfArray","$indexOfCP","$log","$log10","$sum","$switch","$toBool","$toDate","$toDouble"]  
- 
+                        "$strcasecmp","$sql","$stdDevPop","$stdDevSamp","$replaceWith","$sample","$avg","$indexOfArray","$indexOfCP","$log","$log10","$sum","$switch","$toBool","$toDate","$toDouble"]
+
 not_supported_keywords=["$expr","$jsonSchema","$box","$center","$centerSphere","$maxDistance","$minDistance","$polygon","$bitsAllClear","$bitsAllSet","$bitsANyClear","$bitsAnySet","$currentData",
                         "$accumulator","$acos","$acosh","$bucketAuto","$changeStream","$currentOp","$densify","$documents","$fill","$geoNear","$graphLookup","$indexStats","$lookup","$merge","$redact",
                         "$search","$searchMeta","$setWindowFields","$allElementsTrue","$anyElementTrue","$asin","$asinh","$atan","$atan2","$atanh","$binarySize","$bottomN",
@@ -23,57 +25,59 @@ operations=["\"command\":{\"find\"","\"command\":{\"update\"","\"command\":{\"in
 
 def main(argv):
     parser=argparse.ArgumentParser()
-    parser.add_argument("--file",dest="file",help="Set the MongoDB log file to analyze")
+    parser.add_argument("--file",dest="file",help="Set the MongoDB log file to analyze (if not specified, reads from stdin)")
 
     argv = parser.parse_args()
 
-    if argv.file is None:
-        parser.error("--file is required")
+    if argv.file:
+        input_file = open(argv.file, 'r')
+    else:
+        input_file = sys.stdin
 
-    mongo_log = read_log(argv.file)
-    supported_dictionary,not_supported_dictionary,operation_dictionary = search(mongo_log)
-    generate_report(supported_dictionary,not_supported_dictionary,operation_dictionary)
+    try:
+        supported_dictionary,not_supported_dictionary,operation_dictionary = search(input_file)
+        generate_report(supported_dictionary,not_supported_dictionary,operation_dictionary)
+    finally:
+        if argv.file:
+            input_file.close()
 
+def search(input_source):
+    supported_dictionary = defaultdict(int)
+    not_supported_dictionary = defaultdict(int)
+    operation_dictionary = defaultdict(int)
 
-def read_log(file):
-    with open(file, 'r') as f:
-        text = f.readlines()
-        return text
+    supported_pattern = '|'.join(f'[" ]{re.escape(kw)}[":]' for kw in supported_keywords)
+    not_supported_pattern = '|'.join(f'[" ]{re.escape(kw)}[":]' for kw in not_supported_keywords)
+    operations_pattern = '|'.join(map(re.escape, operations))
 
+    supported_regex = re.compile(f'({supported_pattern})')
+    not_supported_regex = re.compile(f'({not_supported_pattern})')
+    operations_regex = re.compile(f'({operations_pattern})')
 
-def search(input_file):
+    for i, line in enumerate(input_source):
+        unique_supported = set()
+        unique_not_supported = set()
+        unique_operations = set()
 
-    supported_dictionary = dict()
-    not_supported_dictionary = dict()
-    operation_dictionary=dict()
+        for match in supported_regex.finditer(line):
+            key = match.group(0).strip('"').strip(':').strip(' ')
+            if key not in unique_supported:
+                supported_dictionary[key] += 1
+                unique_supported.add(key)
 
-    for line in input_file:
-        for keyword in supported_keywords:
-            if keyword in line:
-                if not keyword in supported_dictionary:
-                   supported_dictionary[keyword]=1
-                else:
-                   supported_dictionary[keyword]+=1
+        for match in not_supported_regex.finditer(line):
+            key = match.group(0).strip('"').strip(':').strip(' ')
+            if key not in unique_not_supported:
+                not_supported_dictionary[key] += 1
+                unique_not_supported.add(key)
 
-        for keyword in not_supported_keywords:
-            if keyword in line:
-                if not keyword in not_supported_dictionary:
-                   not_supported_dictionary[keyword]=1
-                else:
-                   not_supported_dictionary[keyword]+=1
+        for match in operations_regex.finditer(line):
+            key = match.group(0)
+            if key not in unique_operations:
+                operation_dictionary[key] += 1
+                unique_operations.add(key)
 
-        for keyword in operations:
-            if keyword in line:
-                if not keyword in operation_dictionary:
-                   operation_dictionary[keyword]=1
-                else:
-                   operation_dictionary[keyword]+=1
-
-
-    return supported_dictionary,not_supported_dictionary,operation_dictionary
-
-
-
+    return dict(supported_dictionary), dict(not_supported_dictionary), dict(operation_dictionary)
 
 def generate_report(supported_dictionary,not_supported_dictionary,operations_dictionary):
 
