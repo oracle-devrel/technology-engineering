@@ -10,8 +10,8 @@ Reviewed: 2025.04.19
 # Useful Links
 
 - [Oracle Spatial Homepage](https://www.oracle.com/uk/database/spatial-database/)
-- [Oracle Graph on GitHub](https://github.com/oracle-quickstart/oci-arch-spatial)
-- [Oracle Graph on Oracle LiveLabs](https://apexapps.oracle.com/pls/apex/f?p=133:100:106721875431259::::SEARCH:spatial)
+- [Oracle Spatial on GitHub](https://github.com/oracle-quickstart/oci-arch-spatial)
+- [Oracle Spatial on Oracle LiveLabs](https://apexapps.oracle.com/pls/apex/f?p=133:100:106721875431259::::SEARCH:spatial)
 - [Oracle Spatial Documentation](https://docs.oracle.com/en/database/oracle/oracle-database/21/spatl/spatial-concepts.html)
 
 
