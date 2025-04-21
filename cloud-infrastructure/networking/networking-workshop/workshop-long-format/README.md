@@ -12,6 +12,10 @@ Reviewed: 30.10.2024
  
 *To introduce OCI Networking topics to anyone who is new to OCI*
  
+# Useful Links
+
+- [Load Balancer Workshop](files/OCI%20LB%202025.pdf)
+
 # License
 
 Copyright (c) 2025 Oracle and/or its affiliates.
