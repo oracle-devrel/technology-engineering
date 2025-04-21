@@ -74,7 +74,6 @@ def invoiceAnalysisPlus():
     
     with st.sidebar:
         st.title("Parameters")
-        
         # Compartment ID input
         compID = "" # Add your compartment ID here
         # User prompt input
@@ -96,11 +95,13 @@ def invoiceAnalysisPlus():
         llm = ChatOCIGenAI(
             model_id="meta.llama-3.2-90b-vision-instruct",
             compartment_id=compID,
+            compartment_id="", #TO-DO: Add your compartment ID here
             model_kwargs={"max_tokens": 2000, "temperature": 0}
         )
         llm_for_prompts = ChatOCIGenAI(
             model_id="cohere.command-r-plus-08-2024",
             compartment_id=compID,
+            compartment_id="",#TO-DO: Add your compartment ID here
             model_kwargs={"max_tokens": 2000, "temperature": 0}
         )
         
