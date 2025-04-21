@@ -151,6 +151,11 @@ Reviewed: 28.02.2025
 
 - [Using OCI GoldenGate for Multi-Region Data Replication Between Oracle Databases with Virtual Cloud Network (VCN) Peering](https://blogs.oracle.com/dataintegration/post/using-oci-goldengate-for-multi-region-data-replication-between-oracle-databases-with-virtual-cloud-network-vcn-peering)
   - This article explains how to use OCI GoldenGate for multi-region data replication between Oracle Databases using Virtual Cloud Network (VCN) Peering, ensuring high availability and disaster recovery.
+ 
+ - [ZeroETL Mirror Pipelines are now generally available in OCI GoldenGate!](https://docs.oracle.com/en/cloud/paas/goldengate-service/jppjs/)
+   - Here is the quickstart and blog for ZeroETL Mirror Pipelines. 
+  [Quickstart](https://docs.oracle.com/en/cloud/paas/goldengate-service/gzetl/) [and] 
+  [Blog](https://blogs.oracle.com/dataintegration/post/oci-goldengate-zeroetl-mirror-pipelines-now-available)
 
 
 
