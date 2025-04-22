@@ -15,6 +15,9 @@ Reviewed: 30.10.2024
 # Useful Links
 
 - [Load Balancer Workshop](files/OCI%20LB%202025.pdf)
+- [WAF Workshop](files/OCI_WAF_2025_workshop_updated.pdf)
+- [WAF Workshop](files/oci_reserved_private_ip_workshop.pdf)
+
 
 # License
 
