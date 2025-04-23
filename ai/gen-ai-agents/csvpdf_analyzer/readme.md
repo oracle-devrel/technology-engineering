@@ -6,8 +6,6 @@ It supports dynamic workflows like PDF parsing, CSV querying, and context-aware 
 
 Reviewed: April 18, 2025
 
----
-
 # When to use this asset?
 
 Use this asset when you want to:
@@ -21,8 +19,6 @@ Ideal for:
 - AI developers building document understanding tools  
 - Oracle Cloud users integrating GenAI into document workflows  
 - Data analysts exploring LLM + document orchestration using LangGraph  
-
----
 
 # How to use this asset?
 
@@ -105,13 +101,10 @@ You can easily modify or extend these prompts to change how the agent performs r
 
 The prompt for extraction can be found in `csv_analyzer_agent.py`.
 
----
-
 # Useful Links (Optional)
 
 - [OCI Generative AI](https://docs.oracle.com/en-us/iaas/Content/generative-ai/home.htm)  
   Official documentation for Oracle Generative AI
----
 
 # License
 
