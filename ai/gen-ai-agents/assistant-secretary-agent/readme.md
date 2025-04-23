@@ -4,8 +4,6 @@ An AI-powered assistant that routes user input across tools like Gmail, Google C
 
 Reviewed: 23.04.2025
 
----
-
 # When to use this asset?
 
 Use this asset when you want to:
@@ -16,10 +14,8 @@ Use this asset when you want to:
 
 Ideal for:
 - AI developers building assistants  
-- Oracle consultants showcasing GenAI + agent capabilities  
+- Showcasing GenAI + agent capabilities  
 - Technical users exploring LLM + API routing in real-world use cases  
-
----
 
 # How to use this asset?
 
