@@ -2,10 +2,10 @@
 Assets that contain oic project that can be used as template for the storing and retrieving attachments from Oracle ATP Database
 
 ## Using the Oracle Autonomous Transaction Processing Adapter to store and retrieve binary objects
-OIC project Postman collection implementing the API request signing required by the Oracle Cloud Infrastructure API, as well as capturing some sample OCI requests.
+This simple template project reflects some real use cases. E.g. customer/partner uses mobile/web application to register account based on photo of the Identity document. In our case it will be implementation of the REST services that stores the attached document to ATP and retrieval of the stored content based on some business key
 
 ## CICD - OIC3 quickstart Example
-This simple template project demonstrates how you can send multipart mixed content payload through Oracle Integration to an Autonomous Database and then later retrieve the attachment from DB. All this can be invoked/consumed from an external application through REST API.
+The template project demonstrates how you can send multipart mixed content payload through Oracle Integration to an Autonomous Database and then later retrieve the attachment from DB. All this can be invoked/consumed from an external application through REST API
 
 Review Date: 15.04.2025
 
