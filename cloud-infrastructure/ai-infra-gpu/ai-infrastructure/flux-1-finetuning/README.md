@@ -33,14 +33,13 @@ git submodule update --init --recursive
 
 ## Dataset generation ##
 
-WIP
-you can take 10 pictures of yourself .
+you can take 10 pictures of yourself.
 
 
 ## Training
 
-Aitoolkit has a large set of options that can be exploited to train a lora model for flux1. You can fin examples in the directory config/examples/.
-According to the different GPUs you can use them to eitther reduce video memory consumption, or to improve training performance. 
+Aitoolkit has a large set of options that can be exploited to train a lora model for flux1. You can find examples in the directory config/examples/.
+According to the different GPUs you can use them to either reduce video memory consumption, or to improve training performance. 
 
 
 - folder_path: "/path/to/images/folder" , speicfy where the dataset is
