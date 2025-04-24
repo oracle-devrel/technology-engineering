@@ -33,7 +33,7 @@ git submodule update --init --recursive
 
 ## Dataset generation ##
 
-you can take 10 pictures of yourself.
+You can take 20-30 pictures of yourself.Use  high-resolution images, ideally at least 1024x1024 pixels. If your images are larger, crop them to a 1:1 aspect ratio (square), centering your face or the main subject in each image. Ensure all images are sharp, in focus, and free of blur or artifacts. Avoid including any low-quality or poorly lit images. Each image should feature only you as the main subject, clearly visible and centered. Avoid group photos or images with distracting backgrounds. Maximize diversity by taking photos in different environments, with varied backgrounds, lighting conditions, facial expressions, and outfits. This helps the model generalize and prevents overfitting to a single look or scenario
 
 
 ## Training
