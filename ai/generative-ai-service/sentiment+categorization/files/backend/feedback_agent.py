@@ -47,22 +47,6 @@ class FeedbackAgent:
             model_kwargs=model_config["model_kwargs"],
         )
 
-    def initialize_embeddings(self):
-        if self.model_name not in llm_config.MODEL_REGISTRY:
-            raise ValueError(f"Unknown model: {self.model_name}")
-
-        model_config = llm_config.MODEL_REGISTRY[self.model_name]
-
-        embeddings = OCIGenAIEmbeddings(
-            model_id=model_config["embedding_model"],
-            service_endpoint=model_config["service_endpoint"],
-            truncate="NONE",
-            compartment_id=model_config["compartment_id"],
-            auth_type=model_config["auth_type"],
-            auth_profile=model_config["auth_profile"],
-        )
-        return embeddings
-
     def read_messages(self):
         messages = handler.read_messages(filepath=messages_path)
         return handler.batchify(messages, 30)

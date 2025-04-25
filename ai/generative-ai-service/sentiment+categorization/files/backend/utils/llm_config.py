@@ -22,7 +22,6 @@ MODEL_REGISTRY = {
         "auth_type": config.AUTH_TYPE,
         "auth_profile": config.CONFIG_PROFILE,
         "model_kwargs": {"temperature": 0, "max_tokens": 4000},
-        "embedding_model": config.EMBEDDING_MODEL_COHERE,
     },
     "meta_oci": {
         "model_id": config.GENERATE_MODEL_LLAMA_33,
