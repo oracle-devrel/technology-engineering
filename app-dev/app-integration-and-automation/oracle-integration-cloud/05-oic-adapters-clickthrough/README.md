@@ -7,7 +7,7 @@ Assets that contain oic adapters configuration and implementation practice for t
 - Kafka Adapter
 - EBS Adapter
 
-Review Date: 28.11.2024
+Review Date: 04.04.2025
 
 # When to use these assets?
 
