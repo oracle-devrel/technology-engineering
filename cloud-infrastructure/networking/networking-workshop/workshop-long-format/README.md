@@ -12,13 +12,6 @@ Reviewed: 30.10.2024
  
 *To introduce OCI Networking topics to anyone who is new to OCI*
  
-# Useful Links
-
-- [Load Balancer Workshop](files/OCI%20LB%202025.pdf)
-- [WAF Workshop](files/OCI_WAF_2025_workshop_updated.pdf)
-- [Reserved Private IP Workshop](files/oci_reserved_private_ip_workshop.pdf)
-
-
 # License
 
 Copyright (c) 2025 Oracle and/or its affiliates.
