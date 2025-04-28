@@ -9,6 +9,7 @@ Oracle’s Generative AI Agents is a fully managed service that combines the pow
 - [Analysis of Structured Data and Use of AI Agents](https://luigi-saetta.medium.com/analysis-of-structured-data-and-use-of-ai-agents-a40f18da4ed5)
 - [AI Agents: The Future of Intelligent Systems in 2025](https://medium.com/@anshuman4luv/ai-agents-the-future-of-intelligent-systems-in-2025-5558c13aa328)
 - [LangChain vs LangGraph vs LangFlow vs LangSmith: A Detailed Comparison](https://medium.com/@anshuman4luv/langchain-vs-langgraph-vs-langflow-vs-langsmith-a-detailed-comparison-74bc0d7ddaa9)
+- [Developer Coaching: Unlock the power of Oracle AI](https://www.youtube.com/watch?v=6weQp8BugSg&t=2460s)
 
 ## Reusable Assets Overview
 - [HCM agent created by partner Conneqtion Group which contains agents to connect to Fusion HCM, Expense and many others](https://www.youtube.com/watch?v=OhZcWx_H_tQ)
