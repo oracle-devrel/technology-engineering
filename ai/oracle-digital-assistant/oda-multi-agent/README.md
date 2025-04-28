@@ -19,5 +19,5 @@ Please import the sample below in your ODA
 Be sure to import the Weather API before to import the Skills.
 
 ## Known issue
-RagHoliday and LLamaProd use a RAG agent (you need an OCI RAG agent ocid to use it)
-LLamaProd needs more rest API to work fully. One of them is a RAG agent (you need an OCI RAG agent ocid to use it)
+- RagHoliday and LLamaProd use a RAG agent (you need an OCI RAG agent ocid to use it)
+- LLamaProd needs more rest API to work fully. One of them is a RAG agent (you need an OCI RAG agent ocid to use it)
