@@ -31,7 +31,7 @@
 
 
 # get the token to access OIC REST API
-response=$(curl -i  -H 'Authorization: Basic MzQ5M2QwOTAyNjg2NDc0M2E3MGRlYTVkZjMwZTljNDU6aWRjc2NzLTExMGNhNGI5LWZkZjAtNGJkNC04ZTQyLTZlNTNjODQ0NDIxMg==' --request POST 'https://idcs-5ba32fa3496f48289532f8fc10f47032.identity.oraclecloud.com:443/oauth2/v1/token' -H 'Content-Type:application/x-www-form-urlencoded' -d 'grant_type=client_credentials&scope=https://BA3849F019F9468B9470A19274B91010.integration.eu-frankfurt-1.ocp.oraclecloud.com:443/ic/api/')
+response=$(curl -i  -H 'Authorization: Basic <<client_id_client_secret_basictoken>>' --request POST 'https://<<your_IDom_service>>.identity.oraclecloud.com:443/oauth2/v1/token' -H 'Content-Type:application/x-www-form-urlencoded' -d 'grant_type=client_credentials&scope=https://<<your_oic_mgmt_scope>>.integration.eu-frankfurt-1.ocp.oraclecloud.com:443/ic/api/')
 
 access_token=$(echo "$response" | grep -o '"access_token":[^,}]*' | awk -F '"' '{print $4}')
 
@@ -43,12 +43,12 @@ if [ -z "$access_token" ]; then
 fi
 
 
-export_connectionSetUp_api=$(curl -X GET -H "Authorization: Bearer $access_token" -o 'POB_RESTWITH_TO_DB_ATP_PE_CONN.json' https://design.integration.eu-frankfurt-1.ocp.oraclecloud.com/ic/api/integration/v1/projects/POB_RESTWITH_TO_DB/connections/POB_ATP_DEMO_PE?integrationInstance=teamoic3-frrnyzlwrqhn-fr)
+export_connectionSetUp_api=$(curl -X GET -H "Authorization: Bearer $access_token" -o '<<my_connection_id>>.json' https://design.integration.eu-frankfurt-1.ocp.oraclecloud.com/ic/api/integration/v1/projects/<<my_project_id>>/connections/<<my_connection_id>>?integrationInstance=<<your_oic_instance_name>>)
 
 
 # Send the GET request and capture the response headers in a separate file
 response_headers=$(mktemp)
-curl -X GET -o 'TESTNESUITE_CONN.json' -H "Authorization: Bearer $access_token" -D "$response_headers" https://design.integration.eu-frankfurt-1.ocp.oraclecloud.com/ic/api/integration/v1/projects/POB_RESTWITH_TO_DB/connections/POB_ATP_DEMO_PE?integrationInstance=teamoic3-frrnyzlwrqhn-fr
+curl -X GET -o 'TESTNESUITE_CONN.json' -H "Authorization: Bearer $access_token" -D "$response_headers" https://design.integration.eu-frankfurt-1.ocp.oraclecloud.com/ic/api/integration/v1/projects/<<my_project_id>>/connections/<<my_connection_id>>?integrationInstance=<<your_oic_instance_name>>
 
 # Extract the HTTP status code from the response headers
 http_status=$(awk 'NR==1{print $2}' "$response_headers")

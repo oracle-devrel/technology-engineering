@@ -31,7 +31,7 @@
 
 
 # get the token to access OIC REST API
-response=$(curl -i  -H 'Authorization: Basic MzQ5M2QwOTAyNjg2NDc0M2E3MGRlYTVkZjMwZTljNDU6aWRjc2NzLTExMGNhNGI5LWZkZjAtNGJkNC04ZTQyLTZlNTNjODQ0NDIxMg==' --request POST 'https://idcs-5ba32fa3496f48289532f8fc10f47032.identity.oraclecloud.com:443/oauth2/v1/token' -H 'Content-Type:application/x-www-form-urlencoded' -d 'grant_type=client_credentials&scope=https://BA3849F019F9468B9470A19274B91010.integration.eu-frankfurt-1.ocp.oraclecloud.com:443/ic/api/')
+response=$(curl -i  -H 'Authorization: Basic <<client_id_client_secret_basictoken>>' --request POST 'https://<<your_IDom_service>>.identity.oraclecloud.com:443/oauth2/v1/token' -H 'Content-Type:application/x-www-form-urlencoded' -d 'grant_type=client_credentials&scope=https://<<your_oic_mgmt_scope>>.integration.eu-frankfurt-1.ocp.oraclecloud.com:443/ic/api/')
 
 access_token=$(echo "$response" | grep -o '"access_token":[^,}]*' | awk -F '"' '{print $4}')
 
@@ -45,7 +45,7 @@ if [ -z "$access_token" ]; then
 fi
 
 
-import_project_api=$(curl -X POST -H "Authorization: Bearer $access_token" -H "Accept:application/json" -F file=@ORCL-R-ERP_MSEMAIL_ORDERFULFILL-01.00.0002.car -F type=application/octet-stream https://design.integration.eu-frankfurt-1.ocp.oraclecloud.com/ic/api/integration/v1/projects/archive?integrationInstance=teamoic3-frrnyzlwrqhn-fr)
+import_project_api=$(curl -X POST -H "Authorization: Bearer $access_token" -H "Accept:application/json" -F file=@<<my_integrationproject_id>>.car -F type=application/octet-stream https://design.integration.eu-frankfurt-1.ocp.oraclecloud.com/ic/api/integration/v1/projects/archive?integrationInstance=<<your_oic_instance_name>>)
 
 
 # Error handling
@@ -53,7 +53,7 @@ status=$(echo "$import_project_api" | jq -r '.status')
 echo "Import project status: $status"
 
 if [[ $status == *"409"* ]]; then
-  update_existing_project=$(curl -X PUT -H "Authorization: Bearer $access_token" -H "Accept:application/json" -F file=@ORCL-R-ERP_MSEMAIL_ORDERFULFILL-01.00.0002.car -F type=application/octet-stream https://design.integration.eu-frankfurt-1.ocp.oraclecloud.com/ic/api/integration/v1/projects/archive?integrationInstance=teamoic3-frrnyzlwrqhn-fr)
+  update_existing_project=$(curl -X PUT -H "Authorization: Bearer $access_token" -H "Accept:application/json" -F file=@<<my_integration_id>>.car -F type=application/octet-stream https://design.integration.eu-frankfurt-1.ocp.oraclecloud.com/ic/api/integration/v1/projects/archive?integrationInstance=<<your_oic_instance_name>>)
   
   status=$(echo "$update_existing_project" | jq -r '.status')
   echo "Replace project status: $status"

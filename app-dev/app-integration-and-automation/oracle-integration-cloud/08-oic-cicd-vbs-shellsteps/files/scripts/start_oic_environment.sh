@@ -31,19 +31,19 @@
 # ****************************************************************************************
 
 
-tenancy_ocid="ocid1.tenancy.oc1..aaaaaaaaoagza4sbka57r7byaw2vy5rcaqtzg423c55gktidgh7rpbn3u7mq"
+tenancy_ocid="ocid1.tenancy.oc1..<<my_tenancy_id>>"
 
 # OCID of the user making the rest call
-user_ocid="ocid1.user.oc1..aaaaaaaahe2kix5b3pu2mhdxy2qs3zepskhcbzgvpoksgnjigkwycmn56yba"
+user_ocid="ocid1.user.oc1..<<my_cicd_user_id>>"
 
 # path to the private PEM format key for this user
-privateKeyPath="./oci_cicduser@oracle.com_api_key_priv.pem"
+privateKeyPath="./<<my_priv_key_filename>>.pem"
 
 # fingerprint of the private key for this user
-fingerprint="98:60:f8:bc:4a:86:f1:dd:05:8a:45:eb:87:d4:72:60"
+fingerprint="<<my_cicd_user_finger_print>>"
 
 # The REST api you want to call, with any required paramters.
-rest_api="/20190131/integrationInstances/ocid1.integrationinstance.oc1.eu-amsterdam-1.amaaaaaa5ipth6aahnjfq4n46axghh5ny7g256wqlq6rirm6sbzhuwxrey6a/actions/start"
+rest_api="/20190131/integrationInstances/<<oic_ocid>>/actions/start"
 
 # The host you want to make the call against
 host="integration.eu-amsterdam-1.ocp.oraclecloud.com"

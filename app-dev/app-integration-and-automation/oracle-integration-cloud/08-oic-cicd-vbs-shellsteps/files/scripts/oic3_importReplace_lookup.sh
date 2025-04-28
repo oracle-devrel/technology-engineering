@@ -31,7 +31,7 @@
 
 
 # get the token to access OIC REST API
-response=$(curl -i  -H 'Authorization: Basic MzQ5M2QwOTAyNjg2NDc0M2E3MGRlYTVkZjMwZTljNDU6aWRjc2NzLTExMGNhNGI5LWZkZjAtNGJkNC04ZTQyLTZlNTNjODQ0NDIxMg==' --request POST 'https://idcs-5ba32fa3496f48289532f8fc10f47032.identity.oraclecloud.com:443/oauth2/v1/token' -H 'Content-Type:application/x-www-form-urlencoded' -d 'grant_type=client_credentials&scope=https://BA3849F019F9468B9470A19274B91010.integration.eu-frankfurt-1.ocp.oraclecloud.com:443/ic/api/')
+response=$(curl -i  -H 'Authorization: Basic <<client_id_client_secret_basictoken>>' --request POST 'https://<<your_IDom_service>>.identity.oraclecloud.com:443/oauth2/v1/token' -H 'Content-Type:application/x-www-form-urlencoded' -d 'grant_type=client_credentials&scope=https://<<your_oic_mgmt_scope>>.integration.eu-frankfurt-1.ocp.oraclecloud.com:443/ic/api/')
 
 access_token=$(echo "$response" | grep -o '"access_token":[^,}]*' | awk -F '"' '{print $4}')
 
@@ -43,7 +43,7 @@ if [ -z "$access_token" ]; then
 fi
 
 
-import_lookup_api=$(curl -X POST -H "Authorization: Bearer $access_token" -F file=@PoC_SVC_IER_IPAS_OtlookToEBSSR_Param.csv -F type=application/octet-stream https://design.integration.eu-frankfurt-1.ocp.oraclecloud.com/ic/api/integration/v1/lookups/archive?integrationInstance=teamoic3-frrnyzlwrqhn-fr)
+import_lookup_api=$(curl -X POST -H "Authorization: Bearer $access_token" -F file=@<<my_integrationlookup_id>>.csv -F type=application/octet-stream https://design.integration.eu-frankfurt-1.ocp.oraclecloud.com/ic/api/integration/v1/lookups/archive?integrationInstance=<<your_oic_instance_name>>)
 
 echo "Import lookup info: $import_lookup_api"
 
@@ -52,7 +52,7 @@ status=$(echo "$import_lookup_api" | jq -r '.status')
 echo "Import lookup status: $status"
 
 if [[ $status == *"409"* ]]; then
-  update_existing_lookup=$(curl -X PUT -H "Authorization: Bearer $access_token" -F file=@PoC_SVC_IER_IPAS_OtlookToEBSSR_Param.csv -F type=application/octet-stream https://design.integration.eu-frankfurt-1.ocp.oraclecloud.com/ic/api/integration/v1/lookups/archive?integrationInstance=teamoic3-frrnyzlwrqhn-fr)
+  update_existing_lookup=$(curl -X PUT -H "Authorization: Bearer $access_token" -F file=@<<my_integrationlookup_id>>.csv -F type=application/octet-stream https://design.integration.eu-frankfurt-1.ocp.oraclecloud.com/ic/api/integration/v1/lookups/archive?integrationInstance=<<your_oic_instance_name>>)
   
   status=$(echo "$update_existing_lookup" | jq -r '.status')
   echo "Replace lookup status: $status"

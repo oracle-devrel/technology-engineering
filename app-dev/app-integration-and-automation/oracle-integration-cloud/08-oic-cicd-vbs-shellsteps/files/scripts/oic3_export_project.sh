@@ -31,7 +31,7 @@
 
 
 # get the token to access OIC REST API
-response=$(curl -i  -H 'Authorization: Basic MzQ5M2QwOTAyNjg2NDc0M2E3MGRlYTVkZjMwZTljNDU6aWRjc2NzLTExMGNhNGI5LWZkZjAtNGJkNC04ZTQyLTZlNTNjODQ0NDIxMg==' --request POST 'https://idcs-5ba32fa3496f48289532f8fc10f47032.identity.oraclecloud.com:443/oauth2/v1/token' -H 'Content-Type:application/x-www-form-urlencoded' -d 'grant_type=client_credentials&scope=https://BA3849F019F9468B9470A19274B91010.integration.eu-frankfurt-1.ocp.oraclecloud.com:443/ic/api/')
+response=$(curl -i  -H 'Authorization: Basic <<client_id_client_secret_basictoken>>' --request POST 'https://<<your_IDom_service>>.identity.oraclecloud.com:443/oauth2/v1/token' -H 'Content-Type:application/x-www-form-urlencoded' -d 'grant_type=client_credentials&scope=https://<<your_oic_mgmt_scope>>.integration.eu-frankfurt-1.ocp.oraclecloud.com:443/ic/api/')
 
 access_token=$(echo "$response" | grep -o '"access_token":[^,}]*' | awk -F '"' '{print $4}')
 
@@ -43,14 +43,14 @@ if [ -z "$access_token" ]; then
     exit 1
 fi
 
-echo '{"name":"pob-Oracle ERP MSEmail OrderFulfill Notification","code":"ORCL-R-ERP_MSEMAIL_ORDERFULFILL","type":"DEVELOPED","builtBy":"","label":"01.00.0002"}' > Request_payload.json
+echo '{"name":"my_project_name","code":"my_project_code","type":"DEVELOPED","builtBy":"","label":"01.00.0002"}' > Request_payload.json
 
-export_project_api=$(curl -X POST -H "Authorization: Bearer $access_token" -H "Content-Type: application/json" -d @Request_payload.json -o 'ORCL-R-ERP_MSEMAIL_ORDERFULFILL-01.00.0002.car' https://design.integration.eu-frankfurt-1.ocp.oraclecloud.com/ic/api/integration/v1/projects/ORCL-R-ERP_MSEMAIL_ORDERFULFILL/archive?integrationInstance=teamoic3-frrnyzlwrqhn-fr )
+export_project_api=$(curl -X POST -H "Authorization: Bearer $access_token" -H "Content-Type: application/json" -d @Request_payload.json -o 'my_project_export_filename-01.00.0002.car' https://design.integration.eu-frankfurt-1.ocp.oraclecloud.com/ic/api/integration/v1/projects/<<my_integrationproject_id>>/archive?integrationInstance=<<your_oic_instance_name>> )
 
 
 # Send the GET request and capture the response headers in a separate file
 response_headers=$(mktemp)
-curl -X POST -H "Authorization: Bearer $access_token" -H "Content-Type: application/json" -d @Request_payload.json -D "$response_headers" -o 'POB_USER_LOCAL_RAB.iar' https://design.integration.eu-frankfurt-1.ocp.oraclecloud.com/ic/api/integration/v1/projects/ORCL-R-ERP_MSEMAIL_ORDERFULFILL/archive?integrationInstance=teamoic3-frrnyzlwrqhn-fr 
+curl -X POST -H "Authorization: Bearer $access_token" -H "Content-Type: application/json" -d @Request_payload.json -o 'my_project_export_filename-01.00.0002.car' https://design.integration.eu-frankfurt-1.ocp.oraclecloud.com/ic/api/integration/v1/projects/<<my_integrationproject_id>>/archive?integrationInstance=<<your_oic_instance_name>> 
 
 # Extract the HTTP status code from the response headers
 http_status=$(awk 'NR==1{print $2}' "$response_headers")
