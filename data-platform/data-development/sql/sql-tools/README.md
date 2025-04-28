@@ -19,7 +19,10 @@ Reviewed: 20.11.2024
 
 - Application Continuity - [Does your Database really know your application - Part 3](https://medium.com/@paulbrad71/application-continuity-on-adb-does-your-database-know-your-application-376e44d8a30) - Published on [Medium](http://www.medium.com) on 31st May 2023.
 
-- [SQL on Autonomous Database - a Rockin' Experience](https://www.youtube.com/watch?v=jcrPvP4SKLQ) - Published on [YouTube](http://www.youtube.com) on 23th November 2023.  -->
+- SQL and ADB - [SQL on Autonomous Database - a Rockin' Experience](https://www.youtube.com/watch?v=jcrPvP4SKLQ) - Published on [YouTube](http://www.youtube.com) on 23th November 2023.  
+
+- SQL and ADB - [Oracle ADB ADMIN is not a SYSDBA..not even a DBA](https://medium.com/@paulbrad71/oracle-adb-admin-is-not-a-sysdba-not-even-a-dba-50bc6f2bbb33) - Published on [Medium](http://www.medium.com) on 14th April 2025. 
+
 
 # Useful Links
 
