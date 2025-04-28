@@ -7,7 +7,7 @@ We use this asset when we want to explore the various SQL IDE development tools 
 Reviewed: 28.04.2025
 
 # Table of Contents
- 
+
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-links)
 
@@ -21,8 +21,7 @@ Reviewed: 28.04.2025
 
 - SQL and ADB - [SQL on Autonomous Database - a Rockin' Experience](https://www.youtube.com/watch?v=jcrPvP4SKLQ) - Published on [YouTube](http://www.youtube.com) on 23th November 2023.  
 
-- SQL and ADB - [Oracle ADB ADMIN is not a SYSDBA..not even a DBA](https://medium.com/@paulbrad71/oracle-adb-admin-is-not-a-sysdba-not-even-a-dba-50bc6f2bbb33) - Published on [Medium](http://www.medium.com) on 14th April 2025. 
-
+- SQL and ADB - [Oracle ADB ADMIN is not a SYSDBA..not even a DBA](https://medium.com/@paulbrad71/oracle-adb-admin-is-not-a-sysdba-not-even-a-dba-50bc6f2bbb33) - Published on [Medium](http://www.medium.com) on 14th April 2025.
 
 # Useful Links
 
@@ -37,14 +36,13 @@ Reviewed: 28.04.2025
 - [Live SQL](https://livesql.oracle.com/apex/f?p=590:1000)
 - [SQL Developer Extension for VS Code v24.2 is now available](https://www.thatjeffsmith.com/archive/2024/07/sql-developer-extension-for-vs-code-24-2-is-now-available/)
 
-
 ## Dev Gyms 
 - [The amazing Dev Gym](https://devgym.oracle.com/pls/apex/f?p=10001:20011::::20011::) 
     - Join the Oracle Product Management Dev Gym (FREE!) and build your Oracle technology muscles by taking workouts, quizzes, and even entire classes on SQL, PL/SQL, database design, logic and more.
 - [Dev Gym Workout Class - Getting Started on Oracle Cloud](https://devgym.oracle.com/pls/apex/f?p=10001:29:4444375111375:::29:P29_CLASS_ID:20342&cs=1qfK8bInptu93se5QM5iMzsT-iih_gFsY78j308d3ZUzrCzX2c0-kgiimo59pm0c_NblFShALC1oOB8MosiaSYQ)
 
 - [Database For Developers: Foundations](https://devgym.oracle.com/pls/apex/f?p=10001:29:112499394488989:::29:P29_CLASS_ID:5481&cs=1Nx3TDJgh0w-ygq3icYMX7urIWoNPCEJuXLH5pqVOkknGnq2I33EJh57LsiiynySdqwMpwClQNviXsLC73e3-0Q);
- 
+
 - [The amazing Dev Gym](https://devgym.oracle.com/pls/apex/f?p=10001:20011::::20011::) 
     - Join the Oracle Product Management Dev Gym (FREE!) and build your Oracle technology muscles by taking workouts, quizzes, and even entire classes on SQL, PL/SQL, database design, logic and more.
 - [Dev Gym Workout Class - Getting Started on Oracle Cloud](https://devgym.oracle.com/pls/apex/f?p=10001:29:4444375111375:::29:P29_CLASS_ID:20342&cs=1qfK8bInptu93se5QM5iMzsT-iih_gFsY78j308d3ZUzrCzX2c0-kgiimo59pm0c_NblFShALC1oOB8MosiaSYQ)
