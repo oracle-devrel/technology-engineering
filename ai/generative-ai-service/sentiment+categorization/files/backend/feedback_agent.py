@@ -3,7 +3,6 @@ import logging
 from typing import List
 
 from langchain_community.chat_models.oci_generative_ai import ChatOCIGenAI
-from langchain_community.embeddings import OCIGenAIEmbeddings
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_core.pydantic_v1 import BaseModel
 from langgraph.checkpoint.memory import MemorySaver
