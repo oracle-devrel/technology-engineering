@@ -17,6 +17,7 @@ Reviewed: 13.11.2024
  
 # Team Publications
 - [AI Meetings: Meetings transcription](https://www.oracle.com/artificial-intelligence/automate-meeting-transcriptions/)
+- [Search Documents stored in Object Storage using Opensearch, Generative AI, Semantic Search, RAG](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3762)
 
 ## Reusable Assets Overview
 
@@ -53,7 +54,7 @@ Reviewed: 13.11.2024
  
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
