@@ -2,13 +2,14 @@
 
 Multicloud architectures leverage the coordinated use of cloud services from two or more public cloud vendors. Organizations use multicloud environments to distribute computing resources and minimize the risk of downtime and data loss. Organizations may also adopt two or more public cloud providers for their unique capabilities. 
 
-Reviewed: 20.09.2024
+Reviewed: 29.04.2025
 
 # Team Publications
 
 ## Video Content
 
-- [Networking for Oracle Database@Azure](https://www.youtube.com/watch?v=ApfFm6O4kcw)
+- [Cloud Coaching - Automate your OCI Multicloud connectivity with Equinix](https://youtu.be/phIpvM1MQSI?si=UXJn3ieiRZwFLVbz)
+- [Cloud Coaching - Networking for Oracle Database@Azure](https://youtu.be/ApfFm6O4kcw?si=Ni_ziz66AsQ5uVeZ)
 - [Simple & Secure OCI Multicloud Architecture with Aviatrix](https://youtu.be/9Jh9N6fouxE?feature=shared)
 - [Multicloud Is The New Norm - Part I](https://www.youtube.com/watch?v=WzyJiAXldDM)
 - [Multicloud Is The New Norm - Part II](https://www.youtube.com/watch?v=27L_ZeF1o9Q)
@@ -19,14 +20,12 @@ Reviewed: 20.09.2024
 - [DNS in multicloud disaster recovery architectures](https://blogs.oracle.com/cloud-infrastructure/post/dns-in-multicloud-disaster-recovery-architectures)
 - [Oracle OCI — encrypted connection to AWS, Azure, GCP](https://aviatrix.com/blog/oracle-oci-encrypted-connection/)
 - [Oracle and Microsoft Simplify the Path to Multicloud Choice](https://blogs.oracle.com/cloud-infrastructure/post/simplify-path-to-multicloud-choice)
-- [ODSA versus the OCI-Azure Interconnect](https://blogs.oracle.com/cloud-infrastructure/post/odsa-versus-oci-azure-interconnect)
 - [Network latency using OCI-Azure Interconnect and best practices](https://blogs.oracle.com/cloud-infrastructure/post/network-latency-oci-azure-best-practices)
 - [Transitive cloud routing in multicloud architectures](https://blogs.oracle.com/cloud-infrastructure/post/transitive-routing-in-multicloud-architectures)
 - [Implementing Oracle Database for Azure with a hub-and-spoke network](https://blogs.oracle.com/cloud-infrastructure/post/implementing-oracledb-azure-hubandspoke-network)
 - [Connecting OCI to GCP with Equinix Network Edge](https://blogs.oracle.com/cloud-infrastructure/connecting-oracle-cloud-infrastructure-to-google-cloud-platform-with-equinix-network-edge-cloud-router)
 - [Connecting OCI to AWS with Megaport](https://blogs.oracle.com/cloud-infrastructure/connecting-oracle-cloud-infrastructure-to-amazon-vpc-with-megaport-cloud-router)
 - [Connecting on-premises network to OCI with Colt on demand](https://blogs.oracle.com/cloud-infrastructure/connecting-your-on-premises-network-to-oracle-cloud-with-colt-on-demand)
-- [Oracle and Microsoft bring Oracle Database@Azure to Europe](https://blogs.oracle.com/cloud-infrastructure/post/oracle-microsoft-databaseazure-europe?source=:so:ch:or:awr::::&SC=:so:ch:or:awr::::&pcode=)
 
 ## Reference Architectures
 
@@ -46,7 +45,7 @@ Reviewed: 20.09.2024
 ## Certifications
  
 - [Become an OCI Multicloud Architect Associate](https://mylearn.oracle.com/ou/learning-path/become-an-oci-multicloud-architect/120606)
-- [Become an Oracle Database@Azure Specialist](https://mylearn.oracle.com/ou/learning-path/become-an-oracle-databaseazure-specialist/135857)
+- [Become an OCI Multicloud Architect Professional (2025)](https://mylearn.oracle.com/ou/learning-path/become-an-oracle-cloud-infrastructure-multicloud-architect-professional-2025/144472)
 
 # License
 
