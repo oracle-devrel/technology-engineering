@@ -15,7 +15,7 @@ Here, you will find an up-to-date, step-by-step guide to successfully enable Ops
 |:--:|---|---|
 | 1 | Autonomous database| [Available](./steps_to_enable_OPSI.md) |
 | 2 |  EXACS | On process| | 
-| 3 | EXACC | On process| [Available](./steps_to_enable_OPSI_ExaCC.md)|
+| 3 | EXACC | [Available](./steps_to_enable_OPSI_ExaCC.md)|
 | 4 |  External Databases | On process | 
 
 
