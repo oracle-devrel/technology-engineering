@@ -16,12 +16,33 @@ This demo showcases an AI-powered solution for analyzing batches of customer mes
 * Customer messages should be stored in a CSV file(s) within a folder named `data`.
 * Each CSV file should contain a column with the message text.
 
+## Python Version
+This project requires **Python 3.13** or later. You can check your current Python version by running:
+```
+python --version
+```
+or
+```
+python3 --version
+```
+
 ## Getting Started
 To run the demo, follow these steps:
 1. Clone the repository using `git clone`.
-2. Place your CSV files containing customer messages in the `data` folder.
-3. Install dependencies using `pip install -r requirements.txt`.
-4. Run the application using `streamlit run app.py`.
+2. *(Optional but recommended)* Create and activate a Python virtual environment:
+   - On Windows:
+     ```
+     python -m venv venv
+     venv\Scripts\activate
+     ```
+   - On macOS/Linux:
+     ```
+     python3 -m venv venv
+     source venv/bin/activate
+     ```
+3. Place your CSV files containing customer messages in the `data` folder. Ensure each includes a column with the message text.
+4. Install dependencies using `pip install -r requirements.txt`.
+5. Run the application using `streamlit run app.py`.
 
 ## Example Use Cases
 * Analyze customer feedback from surveys, reviews, or social media platforms to identify trends and patterns.
@@ -34,9 +55,34 @@ To run the demo, follow these steps:
 * All aspects of the demo, including:
 	+ Hierarchical categorization
 	+ Sentiment analysis
-	+ Structured report generation
-are powered by GenAI, ensuring accurate and efficient analysis of customer messages.
+	+ Structured report generation are powered by GenAI, ensuring accurate and efficient analysis of customer messages.
 
+
+## Project Structure
+
+The repository is organized as follows:
+
+```plaintext
+│   app.py                  # Main Streamlit application entry point
+│   README.md               # Project documentation
+│   requirements.txt        # Python dependencies
+│
+├───backend
+│   │   feedback_agent.py    # Logic for feedback processing agents
+│   │   feedback_wrapper.py  # Wrappers and interfaces for feedback functionalities
+│   │   message_handler.py   # Utilities for handling and preprocessing messages
+│   │
+│   ├───data
+│   │       complaints_messages.csv   # Example dataset of customer messages
+│   │
+│   └───utils
+│           config.py        # Configuration and setup for the project
+│           llm_config.py    # Model- and LLM-related configuration
+│           prompts.py       # Prompt templates for language models
+│
+└───pages
+        SentimentByCat.py    # Additional Streamlit page for sentiment by category
+```
 ## Output
 The demo will display an interactive dashboard with the generated report, providing valuable insights into customer messages, including:
 * Category distribution across all three levels

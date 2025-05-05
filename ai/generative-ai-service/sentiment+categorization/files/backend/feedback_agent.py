@@ -13,7 +13,7 @@ import backend.utils.llm_config as llm_config
 
 # Set up logging
 logging.getLogger("oci").setLevel(logging.DEBUG)
-messages_path = "ai/generative-ai-service/sentiment+categorization/demo_code/backend/data/complaints_messages.csv"
+messages_path = "ai/generative-ai-service/sentiment+categorization/files/backend/data/complaints_messages.csv"
 
 
 class AgentState(BaseModel):
