@@ -4,6 +4,12 @@ Database Management provides comprehensive database performance diagnostics and 
 
 Reviewed: 27.09.2024
 
+|Asset  |   Page| 
+|---|---|
+| Landing Zone Add-on  | [Link](C:\Users\NCIMITIL\Documents\GitHub\technology-engineering\manageability-and-operations\observability-and-manageability\database-management\LZ-addons\README.md) |
+
+
+
 # Table of Contents
 
 1. [Team Publications](#team-publications)
