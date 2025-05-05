@@ -4,6 +4,11 @@ Ops Insights provides comprehensive information about the resource use and capac
 
 Reviewed: 18.07.2024
 
+
+|Asset  |   Page| 
+|---|---|
+| Landing Zone Add-on  | [Link](C:\Users\NCIMITIL\Documents\GitHub\technology-engineering\manageability-and-operations\observability-and-manageability\operations-insights\LZ-addons) |
+
 # Table of Contents
 
 1. [Team Publications](#team-publications)

@@ -1,13 +1,47 @@
 # Oracle Observability and Manageability
 
-The Observability and Manageability (O&M) platform is a set of Oracle Cloud Infrastructure (OCI) services that enable visibility and insight across cloud-native and traditional technology, whether deployed in multicloud or on-premises environments, with broad, standards-based ecosystem support. It’s designed to help enterprises better manage their increasingly diverse and distributed IT portfolios while reducing troubleshooting time, preventing outages, and enabling IT to manage applications from a business perspective.
+The Observability and Manageability (O&M) platform is a suite of OCI services that provide visibility and insights across cloud-native and traditional technologies, whether in multicloud or on-premises environments. It offers broad, standards-based ecosystem support, helping enterprises manage diverse IT portfolios, reduce troubleshooting time, prevent outages, and align IT operations with business objectives.
 
-Reviewed: 28/02/2025
+&nbsp; 
 
-# Table of Contents
+Reviewed: 04/01/2025
 
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-links)
+&nbsp; 
+
+
+
+|Observability Service  |  Assets Page| Latest | 
+|---|---|---|
+| Logging Analytics  | [Link](C:\Users\NCIMITIL\Documents\GitHub\technology-engineering\manageability-and-operations\observability-and-manageability\logging-analytics) | Coming Soon
+| Logging  | [Link](C:\Users\NCIMITIL\Documents\GitHub\technology-engineering\manageability-and-operations\observability-and-manageability\logging) | Coming Soon |  
+| Database Management | [Link](C:\Users\NCIMITIL\Documents\GitHub\technology-engineering\manageability-and-operations\observability-and-manageability\database-management)| Coming Soon |  
+| Ops Insights  | [Link](C:\Users\NCIMITIL\Documents\GitHub\technology-engineering\manageability-and-operations\observability-and-manageability\operations-insights) | Coming Soon|  
+| Application Performance Monitoring | [Link](C:\Users\NCIMITIL\Documents\GitHub\technology-engineering\manageability-and-operations\observability-and-manageability\application-performance-monitoring) | Coming Soon|  
+| Stack Monitoring | WIP | Coming Soon| 
+| Organization Management | WIP | Coming Soon| 
+| Cost Management | WIP | Coming Soon| 
+| OCI Monitoring | WIP | Coming Soon| 
+
+&nbsp; 
+
+|Observability Targets  |  Assets Page| Latest | 
+|---|---|---|
+| Autonomous Database  | WIP | Coming Soon
+| Database Cloud Service  | WIP | Coming Soon  |  
+| Exadata cloud@customer | WIP| Coming Soon |  
+| Exadata Cloud Service  | WIP | Coming Soon|  
+| DB@  | WIP | Coming Soon|  
+| External Oracle DB| [Link](C:\Users\NCIMITIL\Documents\GitHub\technology-engineering\manageability-and-operations\observability-and-manageability\external-database-enablement) | Coming Soon| 
+| EBS | WIP | Coming Soon| 
+| Webogic | WIP | Coming Soon| 
+| Apex | WIP | Coming Soon| 
+| .... |  | | 
+| .... |  | | 
+| .... |  | | 
+
+&nbsp; 
+
+
 
 # Team Publications
 
