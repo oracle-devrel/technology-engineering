@@ -1,0 +1,6 @@
+**/__pycache__/
+venv/
+config.py
+.DS_Store
+data/
+*.log
