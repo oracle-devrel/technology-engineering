@@ -20,7 +20,7 @@ On each VMCluster Node:
 
 Download the agent from OCI Console Observability and Managment to each single box
 
-<img src="../images/DBM_ExaCC_1.png" height="100" width="200">
+<img src="../images/DBM_ExaCC_1.png">
 
 On the box install the agent Doc ID [3015115.1](https://support.oracle.com/epmos/faces/DocumentDisplay?_afrLoop=455266221038386&id=3015115.1&_afrWindowMode=0&_adf.ctrl-state=78xw71hh9_4)
 
@@ -45,7 +45,7 @@ usermod -a -G oinstall mgmt_agent
 ```
 Now you can see the agent check-in Observability and Management →Management Agent. Click on the three dots and enable OpsInsight and Database management and Logging Analytics Plugin
 
-<img src="../images/DBM_ExaCC_2.png" height="100" width="200"> 
+<img src="../images/DBM_ExaCC_2.png"> 
 
 </td>
 <td align="left"> 
@@ -97,12 +97,12 @@ GRANT EXECUTE ON DBMS_WORKLOAD_REPOSITORY to C##OCI_MON_USER;
 Create a secret key for C##OCI_MON_USER password (No for Autonomous)
 >Go to Identity&Security → Key Management →Secret Management
 
-<img src="../images/DBM_ExaCC_3.png" height="100" width="200">
-<img src="../images/DBM_ExaCC_4.png" height="100" width="200">
+<img src="../images/DBM_ExaCC_3.png">
+<img src="../images/DBM_ExaCC_4.png">
 
 >Go to Identity&Security → Key Management & Secret Management → Create a key → Create a secret for C##OCI_MON_USER password
 
-<img src="../images/DBM_ExaCC_5.png" height="100" width="200">
+<img src="../images/DBM_ExaCC_5.png">
 
 </td>
 <td align="left">
@@ -117,11 +117,11 @@ Create a secret key for C##OCI_MON_USER password (No for Autonomous)
 __Enable Database Management__
 >Go to Observability →Database Management →Administration → Managed databases
 
-<img src="../images/DBM_ExaCC_6.png" height="100"  width="200">
+<img src="../images/DBM_ExaCC_6.png">
 
 Select the user secret key you have just created
 
-<img src="../images/DBM_ExaCC_7.png" height="100"  width="200">
+<img src="../images/DBM_ExaCC_7.png">
 
 First you need to register CDB after that you repeat the steps for each PDB.
 </td>
