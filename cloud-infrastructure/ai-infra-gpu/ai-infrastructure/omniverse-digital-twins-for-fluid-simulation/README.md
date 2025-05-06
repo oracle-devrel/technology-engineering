@@ -13,12 +13,33 @@ To run this blueprint, you will need:
 
 ## Instance configuration
 
-In the OCI Console, create an instance using the BM.GPU.L40S-NC.4 shape (bare metal server with 4 x NVIDIA L40S GPU) and a native Canonical Ubuntu 22.04 image. NVIDIA drivers will be installed afterwards.
+### Compute part
 
+In the OCI Console, create an instance using:
+* a BM.GPU.L40S-NC.4 shape (bare metal server with 4 x NVIDIA L40S GPU)
+* a native Canonical Ubuntu 22.04 image (NVIDIA drivers will be installed afterwards)
+* a boot volume with 200 GB
+
+### Network part
+
+Running this blueprint requires to open several ports for different protocols to allow the client machine (where the blueprint will be accessed through a web browser) to communicate with the instance where the blueprint is deployed. In the Virtual Cloud Network where the instance resides, go to the default security list and add the following ingress rules:
+- web: 
+  - 5273/tcp,
+  - 1024/udp
+- kit:
+  - 8011/tcp,
+  - 8111/tcp,
+  - 47995-48012/tcp,
+  - 47995-48012/udp,
+  - 49000-49007/tcp,
+  - 49100/tcp,
+  - 49000-49007/udp
+- other:
+  - 1024/udp
 
 ### Installing NVIDIA drivers
 
-When the instance is up, a specific version NVIDIA drivers can be installed. but beforehands, we must install additional packages toi build them:
+When the instance is up, a specific version NVIDIA drivers can be installed but beforehands, we must install additional packages to build them:
 ```
 sudo apt install -y build-essential
 ```
@@ -63,7 +84,7 @@ sudo systemctl restart docker
 
 ## Downloading and building the project
 
-At this stage it is necessary to set you NGC API key as an environment variable to be able to download the right content from the NGC Catalog.
+At this stage it is necessary to set your NGC API key as an environment variable to be able to download the right content from the NGC Catalog.
 ```
 echo "export NGC_API_KEY=nvapi-xxx" >> ~/.bashrc
 source ~/.bashrc
@@ -76,7 +97,7 @@ git clone ssh://github.com/NVIDIA-Omniverse-Blueprints/digital-twins-for-fluid-s
 cd $HOME/digital_twins_for_fluid_simulation
 ./build-docker.sh
 ```
-Now 2 files have to be modified, namely `.env` and `compose.yml`.
+2 files have to be modified, namely `.env` and `compose.yml`.
 
 First, create a copy of the environment file template:
 ```
@@ -87,7 +108,7 @@ and set the `ZMQ_IP` with the instance private IP address.
 ZMQ_IP=XXX.XXX.XXX.XXX
 ```
 
-Then, modify `compose.yml` file.
+Then, modify `compose.yml` file at 3 different places:
 1. In the `kit` section, replace the `network_mode: host` line by the following block:
 ```
 networks:
@@ -116,11 +137,13 @@ To start the digital twin, simply run the following command:
 ```
 sudo docker compose up -d
 ```
-The blueprint will take some time to initialize. Expect a minimum of 10 minutes before accessing the GUI in a web browser at `http://XXX.XXX.XXX.XXX:5273` where `XXX.XXX.XXX.XXX` is the public IP address of the instance. You should something like the image below.
+The blueprint will take some time to initialize. Expect a minimum of 10 minutes before accessing the GUI in a web browser at `http://XXX.XXX.XXX.XXX:5273` where `XXX.XXX.XXX.XXX` is the public IP address of the instance. When everything is ready, you should see the sports car in the wind tunnel as on the image below.
 
 ![NVIDIA Omniverse Digital Twin for Fluid Simulation Blueprint](assets/images/omniverse-blueprint-digital-twin-gui.png "NVIDIA Omniverse Digital Twin for Fluid Simulation Blueprint")
 
-Run `sudo docker compose down` to stop the project.
+You can now interactively modify the car setup (rims, mirrors, spoilers, height, etc.) and visualize the impact it makes on the airflow.
+
+To stop the project, simply run `sudo docker compose down`.
 
 
 ## External links
