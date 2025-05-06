@@ -28,9 +28,10 @@ Oracle Cloud Infrastructure offers GPU shapes for all kinds of workloads, includ
     - BM with 8 GPUs, HIP and RDMA cluster networking
 
 This tutorial covers both NVIDIA and AMD GPU shapes. More specifically, we use here:
-- A 1 x A100 80 GB virtual machine (VM.GPU.A100.80GB.1),
-- A 8 x MI300X 192 GB bare metal (BM.GPU.MI300X.8),
-both with a Cannonical Ubuntu 22.04 image with respectively CUDA and ROCm preinstaled. 
+- A 1 x A100 80 GB virtual machine (VM.GPU.A100.80GB.1)
+- A 8 x MI300X 192 GB bare metal (BM.GPU.MI300X.8)
+
+Both shapes are configured with a Cannonical Ubuntu 22.04 image with respectively CUDA and ROCm preinstalled. 
 
 On the NVIDIA GPU shapes, it is necessary to install the NVIDIA CUDA Compiler (NVCC) to build Flow:
 ```
@@ -41,7 +42,7 @@ sudo apt-get install -y nvidia-cuda-toolkit
 
 The project can be installed from packages or built from sources. For GPU support, building from sources is mandatory.
 
-### Installing from binaries
+### Installing binaries
 
 When GPU are not required or not available, OPM Flow can run on CPU only. In this case, installing the toolset from packages is the easiest way (see tutorial [here](https://opm-project.org/?page_id=245)).
 
