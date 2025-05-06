@@ -4,7 +4,7 @@ This directory contains all of the analytical data platform workload architectur
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

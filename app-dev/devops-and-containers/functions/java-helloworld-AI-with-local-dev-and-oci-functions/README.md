@@ -1,5 +1,5 @@
 <!--
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 The Universal Permissive License (UPL), Version 1.0
 
@@ -53,18 +53,32 @@ This example is based on the <a href="../java-helloworld-with-local-dev-and-oci-
 
 <p>
 
-To do the OCI SDK authentication and authorization to use the GenAI services the function uses two options:
+To do the OCI SDK authentication and authorization to use the GenAI services the function has three options:
 <ul>
-<li><b>IAM regular user</b> for the local dev and test on mac (lines 79-84 in HelloAIFunction.java)</li>
-<li><b>ResourcePrincipal</b> for the OCI Function</li>
+<li><b>ResourcePrincipal</b> for the OCI Function to run in OCI. This allows Function to be authorized as part of
+a OCI Dynamic Group that has OCI Policies attached to for the Function to do it's job.</li>
+<li><b>IAM regular user</b> for the local dev and test on mac and passing the vars in source code (lines 79-84 in HelloAIFunction.java). This works for testing locally but the container should not be distributed!</li>
+<li><b>IAM regular user</b> for the local dev and test on mac using OCI CLI config file (usually located in ~/.oci). Again, this works for testing locally but the container should not be distributed!</li>
 </ul>
 
 <p>
 IAM user option will work on both cases above, as local and as OCI Function. ResourcePrincipal is the default for OCI Function.
+<p>
 
 ## Build and test
 
 Following the steps of the <a href="../java-helloworld-with-local-dev-and-oci-functions">Hello function example </a> adjust the  <a href="https://github.com/oracle-devrel/technology-engineering/blob/main/app-dev/devops-and-containers/functions/java-helloworld-AI-with-local-dev-and-oci-functions/files/src/main/java/com/example/HelloAIFunction.java#76">line 76</a> to match your <code>compartment OCID</code> and the <a href="https://github.com/oracle-devrel/technology-engineering/blob/main/app-dev/devops-and-containers/functions/java-helloworld-AI-with-local-dev-and-oci-functions/files/src/main/java/com/example/HelloAIFunction.java#77">line 77</a> to match your <code>GenAI service model OCID</code>. 
+
+<p>
+
+To use <code>.oci config</code> for testing locally replace the contents of Dockerfile with the contents from <a href="Dockerfile.local_oci">Dockerfile.local_oci</a>. Then copy your <code>~/.oci</code> -directory under the project root and build the Function with Fn:
+
+<pre>
+fn --verbose deploy --app hellofunction --local
+fn invoke hellofunction helloaifunc
+</pre>
+
+<i>Note! Do not distribute this container since it contains your OCI credentials. Use this only for local testing purposes.</i>
 
 <p>
 
@@ -102,38 +116,18 @@ GraalVM compiles your Java functions ahead of time into standalone binaries that
 
 <p>
 
-To do this a Docker multi-stage build is used.
+To do this <a href="https://github.com/oracle-devrel/technology-engineering/tree/main/app-dev/devops-and-containers/devops/oci-devops-terraform-function-java-graalvm">create OCI DevOps project for a Function CI/CD</a> and then clone the repo and copy the following files with the Function <a href="./files/src/">source</a> and commit and push them to the repo:
+<p>
+<ul>
+    <li><a href="./files/Dockerfile.native">Dockerfile.native</a></li>
+    <li><a href="./files/build_spec_native.yaml">build_spec_native.yaml</a></li>
+    <li><a href="./files/reflection.json">reflection.json</a></li>
+    <li><a href="./files/pom.xml">pom.xml</a></li>
+</ul>
 
 <p>
-
-Before building the native image let's do a full maven build for the project to create the necessary libraries under <code>target/lib</code>:
-
-<pre>
-mvn clean install
-</pre>
-
-Then build the Docker container using <a href="./files/Dockerfile.native">multi-stage Docker file</a> including the GraalVM native image compilation:
-
-<pre>
-docker build -f Dockerfile.native -t fra.ocir.io/&lt;YOUR OCI TENANCY NAMESPACE&gt;/helloworldai-java:2 .
-</pre>
-
-The GraalVM compilation stage requires quite a bit resources from your localhost so in case for example using Rancher desktop
-think of increasing the CPU and memory for it to make the build faster.
-
+After pushing run the native build pipeline and <a href="https://github.com/oracle-devrel/technology-engineering/blob/main/app-dev/devops-and-containers/devops/oci-devops-terraform-function-java-graalvm/README.md#testing">test the Function in cloud shell</a>.
 <p>
-
-In the <a href="./files/Dockerfile.native">Dockerfile.native</a> two things are important: Including the <a href="./files/reflection.json">reflection.json</a> with the proper function class name and passing Fn FDK libraries with <code>"-Djava.library.path=/lib"</code> in the container CMD along with the <code>"com.example.HelloAIFunction::handleRequest"</code> function handler.
-
-<p>
-
-After the build push the container to OCIR repo:
-
-<pre>
-docker push fra.ocir.io/&lt;YOUR OCI TENANCY NAMESPACE&gt;/helloworldai-java:2
-</pre>
-
-Finally deploy the container to your OCI Function by replacing the container using the Cloud UI by editing the function and changing the container from <code>helloworldai-java:1</code> to <code>helloworldai-java:2</code>. Then test it.
 
 
 # Useful Links
@@ -153,7 +147,7 @@ Finally deploy the container to your OCI Function by replacing the container usi
 
 ## License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

@@ -4,7 +4,7 @@
 
 Using APEX, developers don't need to be experts in a vast array of technologies to deliver sophisticated solutions. Just focus on solving the problem and let APEX take care of the rest.
 
-Reviewed: 20.11.2024
+Reviewed: 14.04.2025
 
 # Table of Contents
 1. [Team Publications](#team-publications)
@@ -32,7 +32,7 @@ Reviewed: 20.11.2024
 - [APEX EVENTS](https://apex.oracle.com/pls/apex/r/apex_pm/apex-events/events)
 - [APEX Office Hours](https://apex.oracle.com/en/community/office-hours/)
 - [Official APEX Landing Page](https://apex.oracle.com/en/)
-- [What's New in the latest Release APEX 24.1](https://docs.oracle.com/en/database/oracle/apex/24.1/htmrn/new-features.html)
+- [What's New in the latest Release of APEX](https://apex.oracle.com/en/platform/features/)
 - [APEX best practice architecture](https://docs.oracle.com/solutions/?q=apex&cType=reference-architectures&sort=date-desc&lang=en)
 - [APEX Managing Application Performance](https://docs.oracle.com/en/database/oracle/apex/24.1/htmdb/managing-application-performance.html)
 - [APEX Managing Application Security](https://docs.oracle.com/en/database/oracle/apex/24.1/htmdb/managing-application-security.html)
@@ -60,6 +60,6 @@ Reviewed: 20.11.2024
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
