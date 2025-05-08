@@ -2,7 +2,7 @@
 
 Owner: Olaf Heimburger
 
-Version: 250430 (cis_report.py version 2.8.8+) for CIS OCI Foundation Benchmark 2.0.0
+Version: 250430 (cis_report.py version 2.8.8.1) for CIS OCI Foundation Benchmark 2.0.0
 
 Reviewed: 01.02.2024
 
@@ -101,12 +101,12 @@ create a group for auditing and assign the respective user to it.
 
 Running the assessment script as an OCI `Administrator` is the easiest and
 quickest way. If you decide to use this option, please continue reading in
-[Run the OCI Security Health Check in Cloud Shell](files/oci-security-health-check-standard/README.md#run-the-oci-security-health-check-in-cloud-shell).
+[Run the OCI Security Health Check in Cloud Shell](./files/oci-security-health-check-standard/README.md#run_cloud_shell).
 
 ### Recurring usage
 
 For recurring usage, setting up a group for auditing is recommended. For setting this up follow the steps documented in the next section.
-This applies for scenarios using the OCI Cloud Shell with public Internet access. For additional usage scenarios see the detailed instructions [README](files/oci-security-health-check-standard/README.md).
+This applies for scenarios using the OCI Cloud Shell with public Internet access. For additional usage scenarios see the detailed instructions [README](./files/oci-security-health-check-standard/README.md).
 
 ### Setting up an *Auditor* group and policy
 
@@ -140,7 +140,7 @@ To create a group for auditing do the following steps:
 
 ## Run the OCI Security Health Check in OCI Cloud Shell
 
-For a detailed description go to [Run the OCI Security Health Check in OCI Cloud Shell](https://github.com/oracle-devrel/technology-engineering/blob/main/security/security-design/oci-security-health-check-standard/files/oci-security-health-check-standard/README.md#run-the-oci-security-health-check-in-cloud-shell)
+For a detailed description go to [Run the OCI Security Health Check in OCI Cloud Shell](./files/oci-security-health-check-standard/README.md#run_cloud_shell)
 
 ## Sample Output
 
