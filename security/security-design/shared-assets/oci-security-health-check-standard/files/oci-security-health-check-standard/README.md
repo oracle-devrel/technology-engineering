@@ -67,7 +67,7 @@ Before running the *OCI Security Health Check - Standard Edition* you should dow
 
 **Reject the downloaded file when the check fails!**
 
-### <a name="preparing"></a>Prepare the OCI Tenancy
+### Prepare the OCI Tenancy
 
 You can run the assessment as a member of the OCI `Administrator` group or
 create a group for auditing and assign the respective user to it.
@@ -133,7 +133,7 @@ To create a group for auditing do the following steps:
   - Assign a user to the `grp-auditors` group
   - Log out of the OCI Console
 
-### Run the OCI Security Health Check in OCI Cloud Shell
+### <a name="run_cloud_shell"></a>Run the OCI Security Health Check in OCI Cloud Shell
 
 The recommended way is to run the *OCI Security Health Check - Standard* in the [OCI Cloud Shell](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/cloudshellintro.htm). It does not require any additional configuration on a local desktop machine.
 
