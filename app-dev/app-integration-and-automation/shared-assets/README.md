@@ -8,15 +8,15 @@ This section contains various examples related to Application Integration: demo 
 
 - [Careem increases efficiency and cuts invoice process time 70% with Oracle AI](https://www.oracle.com/customers/careem-case-study/)
 
-    - Business Challenge
+    - Business Challenge: 
         Careem is a Dubai-based super app with operations in over 70 cities, covering 10 countries across the Middle East, Africa, and South Asia regions. The company was founded with a mission to simplify transportation and create earning opportunities as a ride-hailing marketplace. Careem wanted to enhance aspects of its back-end operations—such as manual invoice management—to enable greater scalability and accuracy. 
-    - Results
+    - Results: 
         The adoption of Oracle’s AI-powered invoice automation solution has transformed Careem Groceries’ operations, unlocking new opportunities to innovate.
         - Cut invoice processing time by 70%, from 3 minutes to under 1 minute, freeing over 332 hours monthly
         - Reduced errors while enhancing accuracy and compliance
         - Handle more than 10,000 invoices per month and scale 37% more volume without additional staff
         - Automate workflows and simplify scalability, strengthening Careem’s position in Dubai’s Q-commerce market
-    - Oracle Solutions
+    - Oracle Solutions: 
         - Oracle Integration
         - Oracle Cloud Infrastructure Document Understanding
         - Oracle Autonomous Transaction Processing
