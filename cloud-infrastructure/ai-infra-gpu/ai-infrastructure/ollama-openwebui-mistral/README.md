@@ -13,7 +13,11 @@ To run this tutorial, you will need:
 
 The first step consists in creating a Kubernetes cluster. Initially, the cluster will be configured with a CPU node pool only. GPU node pool will be added afterwards.
 
-![OKE Quick Create illustration](assets/images/oke-quick-create.png "OKE Quick Create")
+[![OKE Quick Create illustration](assets/images/oke-quick-create.png "OKE Quick Create")]: #
+
+<p align="center">
+  <img width="680" height="551" src="https://github.com/oracle-devrel/technology-engineering/blob/ollama-openwebui-mistral/cloud-infrastructure/ai-infra-gpu/ai-infrastructure/ollama-openwebui-mistral/assets/images/oke-quick-create.png">
+</p>
 
 The easiest way is to use the Quick Create cluster assistant with the following options:
 * Public Endpoint,
