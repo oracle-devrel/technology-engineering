@@ -1,6 +1,6 @@
 # Deploying Ollama and Open WebUI on OKE
 
-In this tutorial, we will explain how to use famous Mistral models in a browser using Open WebUI. The LLM will be served using Ollama and the overal infrastructure will rely on an Oracle Kubernetes Engine with a NVIDIA A10 GPU node pool.
+In this tutorial, we will explain how to use a Mistral AI large language model (LLM) in a browser using the Open WebUI graphical interface. The LLM will be served using the Ollama framework and the overall infrastructure will rely on an Oracle Kubernetes Engine cluster with a NVIDIA A10 GPU based node pool.
 
 ## Prerequisites
 
@@ -24,7 +24,7 @@ The easiest way is to use the Quick Create cluster assistant with the following 
 
 ### Accessing the cluster
 
-Click Access Cluster, choose Cloud Shell Access or Local Access and follow the instructions. If you select Local Access, you must first install and configure the OCI CLI package. Check that the nodes are there:
+Click Access Cluster, choose Cloud Shell Access or Local Access and follow the instructions. If you select Local Access, you must first install and configure the [OCI CLI package](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/cliconcepts.htm). We can now check that the nodes are there:
 ```
 kubectl get nodes
 ```
@@ -60,12 +60,10 @@ Taints:             nvidia.com/gpu=present:NoSchedule
   kube-system                 nvidia-gpu-device-plugin-8ktcj    50m (0%)      50m (0%)    200Mi (0%)       200Mi (0%)     4m48s
   nvidia.com/gpu     0           0
 ```
-(The following manifests are not tied to any GPU type.)
-
 
 ### Installing the NVIDIA GPU Operator
 
-You can access the cluster either using Cloud Shell or using a standalone instance. The NVIDIA GPU Operator enhances the GPU features visibility in Kubernetes. The easiest way to install it is to use `helm`.
+You can access the cluster either using Cloud Shell or using a standalone instance. The NVIDIA GPU Operator enhances the GPU features visibility in Kubernetes. The easiest way to install it is to use `Helm` ([Installing Helm](https://helm.sh/docs/intro/install/)).
 ```
 helm repo add nvidia https://helm.ngc.nvidia.com/nvidia
 helm repo update
@@ -118,7 +116,7 @@ Taints:             nvidia.com/gpu=present:NoSchedule
 
 ### Creating Ollama deployment
 
-To deploy Ollama, simply use the `ollama-deployment.yml` manifest.
+[Ollama](https://ollama.com/) is an open source framework for deploying and training language models on a local machine such as a cloud instance. To deploy Ollama, simply use the `ollama-deployment.yml` manifest.
 ```
 kubectl apply -f ollama-deployment.yaml
 ```
@@ -129,14 +127,13 @@ kubectl get all
 
 ### Pulling the model from pod
 
-Enter the container:
+The `ollama` image does not come with any models. Therefore, it is necessary to download it manually. Enter the container:
 ```
 kubectl exec -ti ollama-deployment-pod -- /bin/bash
 ```
 where `ollama-deployment-pod` is the name of the pod displayed by the `kubectl get pods` command.
-Check Ollama installation and pull desired model(s), here Mistral 7B version 0.3 from Mistral AI, simply referred to as `mistral`:
+Pull the desired model(s), here Mistral 7B version 0.3, simply referred to as `mistral`:
 ```
-ollama --version (optional)
 ollama pull mistral
 ```
 For more model options, the list of all supported models can be found in [here](https://ollama.com/search).
@@ -157,9 +154,9 @@ One of Mistral AI's most notable projects is "La Mesure," a large-scale French l
 Exit the container by simply typing `exit`.
 
 
-### Creating Ollama service
+### Creating an Ollama service
 
-The Ollama service can be created using the `ollama-service.yaml` manifest:
+A Service is necessary to make the model accessible from outside of the node. The Ollama (load balancer with a public IP address) service can be created using the `ollama-service.yaml` manifest:
 ```
 kubectl apply -f ollama-service.yaml
 ```
@@ -168,31 +165,40 @@ kubectl apply -f ollama-service.yaml
 
 ### Creating Open WebUI deployment
 
-Open WebUI can be deployed using the `openwebui-deployment.yaml` manifest:
+Open WebUI is a user-friendly self-hosted AI platform that supports multiple LLM runners including Ollama. It can be deployed using the `openwebui-deployment.yaml` manifest. First set the `OLLAMA_BASE_URL` value in the manifest and apply it:
 ```
 kubectl apply -f openwebui-deployment.yaml
 ```
 
 ### Creating Open WebUI service
 
-The Open WebUI service can be created using the `openwebui-service.yaml` manifest:
+Like Ollama, OpenWebUI requires a Service (load balancer with a public IP address) to be reached. The Open WebUI service can be created using the `openwebui-service.yaml` manifest:
 ```
 kubectl apply -f openwebui-service.yaml
 ```
 
 ## Testing the platform
 
-Check that everything is running:
+An easy way to check that everything is running is to run the following command:
 ```
 kubectl get all
 ```
-Go to `http://xxx.xxx.xxx.xxx:81` where xxx.xxx.xxx.xxx is the external IP address of the Open WebUI load balancer and click on `Get started` and create admin account (local).
+Go to `http://XXX.XXX.XXX.XXX:81` where XXX.XXX.XXX.XXX is the external IP address of the Open WebUI load balancer and click on `Get started` and create admin account (local).
 
-If no model can be found, go to `Profile > Settings > Admin Settings > Connections > Manage Ollama API Connections`. Verify that the Ollama address matches the Ollama service load balancer external IP address and check the connection by clicking on the `Configure icon > Verify Connection`.
+If no model can be found, go to `Profile > Settings > Admin Settings > Connections > Manage Ollama API Connections` and verify that the Ollama address matches the Ollama service load balancer external IP address and check the connection by clicking on the `Configure icon > Verify Connection`.
 
 You can now start chatting with the model.
 
 ![Open WebUI workspace illustration](assets/images/open-webui-workspace.png "Open WebUI workspace")
+
+## Deleting the platform
+
+If you want to delete all the platform, first delete all the resources deployed in the OKE cluster:
+```
+kubectl delete all --all
+```
+Then, the OKE cluster can be deleted from the OCI console.
+
 
 ## External links
 

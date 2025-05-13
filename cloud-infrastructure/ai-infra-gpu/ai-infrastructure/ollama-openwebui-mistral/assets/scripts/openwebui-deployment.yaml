@@ -19,4 +19,4 @@ spec:
         - containerPort: 8080
         env:
         - name: OLLAMA_BASE_URL
-          value: "http://129.159.241.81:80"
+          value: "http://XXX.XXX.XXX.XXX:80"
