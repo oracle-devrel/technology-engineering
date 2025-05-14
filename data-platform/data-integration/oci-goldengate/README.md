@@ -9,6 +9,7 @@ Reviewed: 28.02.2025
  
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-links)
+3. [Workshops](#workshops)
 
  
 # Team Publications
@@ -24,6 +25,9 @@ Reviewed: 28.02.2025
 
 
 # Useful Links
+
+- [OCI GoldenGate ZeroETL Mirror Pipelines](https://youtu.be/K-Qdxh4aII0?feature=shared)
+    - Step-by-step Video of How to set up and use ZeroETL Mirror Pipelines in OCI GoldenGate
  
 - [Install GoldenGate Microservices 21c in silent mode](https://medium.com/@eloi-lopes29/install-goldengate-microservices-21c-in-silent-mode-48a904b97dc3)
     - How to install GoldenGate in SilentMode
@@ -108,7 +112,73 @@ Reviewed: 28.02.2025
 
 - [OCI GoldenGate Adds New Connectors for Databricks, Microsoft Fabric Lakehouse and Fabric Mirror, Snowflake, and Oracle Database@Azure, Google Cloud, and AWS](https://blogs.oracle.com/dataintegration/post/oci-goldengate-adds-new-connectors-for-databricks-microsoft-fabric-lakehouse-and-fabric-mirror-oracle-database-at-azure-google-cloud-and-aws)
   - OCI GoldenGate adds new connectors for Databricks, Microsoft Fabric Lakehouse and Fabric Mirror, and Oracle Database at Azure, Google Cloud, and AWS, expanding integration capabilities
+ 
+- [OCI GoldenGate Real-Time Ingestion for Oracle Cloud Data Lakehouse](https://blogs.oracle.com/dataintegration/post/real-time-ingestion-for-oracle-cloud-data-lakehouse)
+  - Learn how to use OCI GoldenGate for real-time data ingestion into Oracle Cloud Data Lakehouse, ensuring timely and accurate data availability for analytics and reporting.
 
+- [OCI GoldenGate with Apache Kafka (Plain Text Authentication)](https://www.youtube.com/watch?v=cMwnT0Z60Tc)
+  - This video demonstrates how to configure OCI GoldenGate to work with Apache Kafka using plain text authentication, providing a practical guide for setting up real-time data streaming.
+
+- [Hands on with OCI GoldenGate for real-time data between two Autonomous Databases](https://www.youtube.com/watch?v=ESeukks3z70&t=10s)
+  - Follow this hands-on tutorial to implement real-time data replication between two Oracle Autonomous Databases using OCI GoldenGate, ideal for maintaining synchronized environments.
+
+- [Using Oracle Cloud Infrastructure GoldenGate with MySQL Databases](https://blogs.oracle.com/dataintegration/post/introducing-oracle-cloud-infrastructure-oci-goldengate-for-mysql)
+  - Discover how to utilize OCI GoldenGate with MySQL databases for seamless data integration, offering efficient data replication and synchronization solutions.
+
+- [OCI GoldenGate Real-Time Ingestion for Azure Data Lake Storage](https://blogs.oracle.com/dataintegration/post/ocigg-adls)
+  - Explore real-time data ingestion into Azure Data Lake Storage using OCI GoldenGate, facilitating efficient data transfer and integration for Azure-based data lakes.
+
+- [Replicate data from Amazon RDS for Oracle to Oracle Cloud Infrastructure (OCI) Object Storage using OCI GoldenGate](https://blogs.oracle.com/dataintegration/post/replicate-data-from-amazon-rds-for-oracle-to-oracle-cloud-infrastructure-oci-object-storage-using-oci-goldengate)
+  - This article details how to replicate data from Amazon RDS for Oracle to OCI Object Storage with OCI GoldenGate, enabling cross-cloud data replication for backup and recovery.
+
+- [Using Oracle Cloud Infrastructure (OCI) GoldenGate with PostgreSQL Databases](https://blogs.oracle.com/dataintegration/post/using-oracle-cloud-infrastructure-oci-goldengate-with-postgresql-databases)
+  - Learn to integrate OCI GoldenGate with PostgreSQL databases, providing real-time data replication and integration capabilities for enhanced data management.
+
+- [OCI GoldenGate Parquet format replication to OCI Object Storage](https://blogs.oracle.com/dataintegration/post/-parquet-ocios)
+  - This blog post explains how to use OCI GoldenGate to replicate data in Parquet format to OCI Object Storage, optimizing data storage and retrieval for big data applications.
+
+- [OCI GoldenGate — Collecting Diagnostics](https://medium.com/@jd.io/oci-goldengate-collecting-diagnostics-4135b4b3fb87)
+  - This article provides a guide on collecting diagnostics for OCI GoldenGate, helping users troubleshoot and maintain their OCI GoldenGate deployments effectively.
+
+- [Performance Considerations for Oracle Cloud Infrastructure GoldenGate -Data/ Delta Lakes](https://blogs.oracle.com/dataintegration/post/performance-considerations-for-oracle-cloud-infrastructure-goldengate)
+  - This article discusses performance considerations for using OCI GoldenGate with Data/Delta Lakes, providing recommendations for optimal configuration settings to ensure efficient real-time data ingestion.
+
+- [Seamlessly migrate an on-premise PostgreSQL database to OCI Database with PostgreSQL using OCI GoldenGate](https://blogs.oracle.com/dataintegration/post/seamlessly-migrate-an-onpremise-postgresql-database-to-oci-database-with-postgresql-online-with-oci-goldengate)
+  - This blog post details how to seamlessly migrate an on-premise PostgreSQL database to OCI Database with PostgreSQL using OCI GoldenGate, enabling online migration with minimal downtime.
+
+- [OCI GoldenGate Network](https://adrianotanaka.com.br/index.php/2024/03/14/network-for-oci-goldengate/)
+  - A blog that explains the network configurations for OCI GoldenGate.
+
+- [Oracle GoldenGate 21c Migration Utility](https://www.linkedin.com/pulse/oracle-goldengate-21c-migration-utility-juliana-a-gomes/)
+  - An article about the Oracle GoldenGate 21c Migration Utility.
+
+- [Using OCI GoldenGate for Multi-Region Data Replication Between Oracle Databases with Virtual Cloud Network (VCN) Peering](https://blogs.oracle.com/dataintegration/post/using-oci-goldengate-for-multi-region-data-replication-between-oracle-databases-with-virtual-cloud-network-vcn-peering)
+  - This article explains how to use OCI GoldenGate for multi-region data replication between Oracle Databases using Virtual Cloud Network (VCN) Peering, ensuring high availability and disaster recovery.
+
+- [ZeroETL Mirror Pipelines are now generally available in OCI GoldenGate!](https://docs.oracle.com/en/cloud/paas/goldengate-service/jppjs/)
+   - Here is the quickstart and blog for ZeroETL Mirror Pipelines. 
+  [Quickstart](https://docs.oracle.com/en/cloud/paas/goldengate-service/gzetl/) [and] 
+  [Blog](https://blogs.oracle.com/dataintegration/post/oci-goldengate-zeroetl-mirror-pipelines-now-available)
+
+
+
+# Workshops
+
+- [Replicate Data Using Oracle Cloud Infrastructure GoldenGate](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=797&clear=RR,180&session=112005114665181)
+    - Oracle GoldenGate, the industry-leading data replication and integration software, is now available as a fully-managed, cloud native service on Oracle Cloud Infrastructure. This workshop guides you through how to instantiate a target database using Oracle Data Pump and replicate data using Oracle Cloud Infrastructure GoldenGate.
+ 
+- [Send Data from OCI GoldenGate to Oracle GoldenGate](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=881&clear=RR,180&session=131078747755230)
+    - This workshop will guide you on how to start replicating data from OCI Goldengate to Oracle Goldengate on-prem.
+ 
+- [Set up bidirectional replication in Oracle Cloud Infrastructure GoldenGate](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3503)
+    - This workshop will help you to set a bi-directional replication using OCI GoldenGate
+
+- [Replicate data from MySQL to Autonomous Database using Oracle Cloud Infrastructure GoldenGate](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3485)
+    - This workshop will guide on on setting up replication between MySQL and Autonomous Database in Oracle using OCI GoldenGate
+ 
+- [Real Time Data Streaming into OCI Object Storage with OCI GoldenGate](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3410)
+    - LiveLab that will guide you through the steps of replicating data from a database to flat files in OCI Object Storage
+      
 
 
 
