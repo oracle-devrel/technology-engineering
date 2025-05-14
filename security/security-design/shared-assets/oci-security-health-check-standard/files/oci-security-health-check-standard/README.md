@@ -2,7 +2,7 @@
 
 Owner: Olaf Heimburger
 
-Version: 250307 (cis_report.py version 2.8.8) for CIS OCI Foundation Benchmark 2.0.0
+Version: 250430 (cis_report.py version 2.8.8.1) for CIS OCI Foundation Benchmark 2.0.0
 
 ## When to use this asset?
 
@@ -21,28 +21,48 @@ The main goals of this script are:
 - Make the run as easy and smooth as possible.
 - Do not affect your desktop whenever possible.
 
+## Benefits of this package
+
+This package includes *two* files
+- standard.sh
+- scripts/cis_reports/cis_reports.py
+
+The file standard.sh acts as the entry point and does the following:
+
+- Automatic check for Python runtime version
+- Automatic venv creation and activation
+- Automatci installation of required Python libraries
+- Automatic **OCI Cloud Shell** and tenancy name detection
+- Automatic creation of timestamped output directory
+- Call of cis_reports.py
+- Automatic output archive (ZIP file) creation
+- Automatic runtime protocol
+- Support for encrypted archive (ZIP file). New command line option `--zip-protect`.
+
+Tested on **OCI Cloud Shell** with **Public network**, **Oracle Linux**, **MacOS 12** and higher.
+
 ## Usage
 
 ### Download and verify the release file
 
 Before running the *OCI Security Health Check - Standard Edition* you should download and verify it.
 
-  - Download the latest distribution [oci-security-health-check-standard-250307.zip](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-250307.zip).
+  - Download the latest distribution [oci-security-health-check-standard-250430.zip](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-250430.zip).
   - Download the respective checksum file:
-    - [oci-security-health-check-standard-250307.sha512](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-250307.sha512).
-    - [oci-security-health-check-standard-250307.sha512256](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-250307.sha512256).
+    - [oci-security-health-check-standard-250430.sha512](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-250430.sha512).
+    - [oci-security-health-check-standard-250430.sha512256](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-250430.sha512256).
   - Verify the integrity of the distribution. Both files must be in the same directory (for example, in your downloads directory).
 
     On MacOS:
     ```
     cd <your_downloads_directory>
-    shasum -a 512256 -c oci-security-health-check-standard-250307.sha512256
+    shasum -a 512256 -c oci-security-health-check-standard-250430.sha512256
     ```
 
     On Linux (including Cloud Shell):
     ```
     cd <your_downloads_directory>
-    sha512sum -c oci-security-health-check-standard-250307.sha512
+    sha512sum -c oci-security-health-check-standard-250430.sha512
     ```
 
 **Reject the downloaded file when the check fails!**
@@ -70,26 +90,6 @@ To create a group for auditing do the following steps:
     - If "Domains" are listed you are migrated to Identity Domains
   - Create a group `grp-auditors`
   - Create a policy `pcy-auditing` with these statements:
-    - For tenancies **without** Identity Domains use
-      ```
-      allow group grp-auditors to inspect all-resources in tenancy
-      allow group grp-auditors to read audit-events in tenancy
-      allow group grp-auditors to read buckets in tenancy
-      allow group grp-auditors to read dns in tenancy
-      allow group grp-auditors to read domains in tenancy
-      allow group grp-auditors to read file-family in tenancy
-      allow group grp-auditors to read instance-configurations in tenancy
-      allow group grp-auditors to read instances in tenancy
-      allow group grp-auditors to read load-balancers in tenancy
-      allow group grp-auditors to read nat-gateways in tenancy
-      allow group grp-auditors to read network-security-groups in tenancy
-      allow group grp-auditors to read public-ips in tenancy
-      allow group grp-auditors to read resource-availability in tenancy
-      allow group grp-auditors to read users in tenancy
-      allow group grp-auditors to read vss-family in tenancy
-      allow group grp-auditors to use cloud-shell in tenancy
-      allow group grp-auditors to use cloud-shell-public-network in tenancy
-      ```
     - For tenancies **with** Identity Domains use
       ```
       allow group 'Default'/'grp-auditors' to inspect all-resources in tenancy
@@ -110,10 +110,30 @@ To create a group for auditing do the following steps:
       allow group 'Default'/'grp-auditors' to use cloud-shell in tenancy
       allow group 'Default'/'grp-auditors' to use cloud-shell-public-network in tenancy
       ```
+    - For tenancies **without** Identity Domains use
+      ```
+      allow group grp-auditors to inspect all-resources in tenancy
+      allow group grp-auditors to read audit-events in tenancy
+      allow group grp-auditors to read buckets in tenancy
+      allow group grp-auditors to read dns in tenancy
+      allow group grp-auditors to read domains in tenancy
+      allow group grp-auditors to read file-family in tenancy
+      allow group grp-auditors to read instance-configurations in tenancy
+      allow group grp-auditors to read instances in tenancy
+      allow group grp-auditors to read load-balancers in tenancy
+      allow group grp-auditors to read nat-gateways in tenancy
+      allow group grp-auditors to read network-security-groups in tenancy
+      allow group grp-auditors to read public-ips in tenancy
+      allow group grp-auditors to read resource-availability in tenancy
+      allow group grp-auditors to read users in tenancy
+      allow group grp-auditors to read vss-family in tenancy
+      allow group grp-auditors to use cloud-shell in tenancy
+      allow group grp-auditors to use cloud-shell-public-network in tenancy
+      ```
   - Assign a user to the `grp-auditors` group
   - Log out of the OCI Console
 
-### Run the OCI Security Health Check in OCI Cloud Shell
+### <a name="run_cloud_shell"></a>Run the OCI Security Health Check in OCI Cloud Shell
 
 The recommended way is to run the *OCI Security Health Check - Standard* in the [OCI Cloud Shell](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/cloudshellintro.htm). It does not require any additional configuration on a local desktop machine.
 
@@ -187,7 +207,7 @@ allow group 'Default'/'grp-auditors' to inspect vcns in compartment <compartment
   - Upload the distribution file.
   - Extract it
     ```
-    unzip -q oci-security-health-check-standard-250307.zip
+    unzip -q oci-security-health-check-standard-250430.zip
     ```
 
 #### Run the script
@@ -261,11 +281,11 @@ allow group 'Default'/'grp-auditors' to inspect vcns in compartment <compartment
       Follow the instructions to select /usr/bin/python3.9
     - Log out
 
-  - From your desktop, upload the `oci-security-health-check-standard-250307.zip` file to the Compute VM using any SFTP client.
+  - From your desktop, upload the `oci-security-health-check-standard-250430.zip` file to the Compute VM using any SFTP client.
   - Log into the Compute VM
     - Extract the distribution
       ```
-      unzip -q oci-security-health-check-standard-250307.zip
+      unzip -q oci-security-health-check-standard-250430.zip
       ```
     - Change directory into `oci-security-health-check-standard`:
       ```
@@ -321,7 +341,7 @@ The report results are summarized in two files:
 - *cis_html_summary_report.html* &ndash; The report in HTML that displays the all recommendations and their compliance status, respectively.
 - *Consolidated_Report.xslx* &ndash; An XSLX workbook with a summary and sheets for the non-compliant recommendations.
 
-### Known Issues
+## Known Issues
 
 No known issues.
 
@@ -335,7 +355,7 @@ The *OCI Security Health Check - Standard Edition* would not be possible without
 
 The Compliance Checking Script is certified by the [CIS Center of Internet Security for the OCI Oracle Cloud Foundation Benchmark v1.2, Level 1 and 2](https://www.cisecurity.org/partner/oracle).
 
-# License
+## License
 
 Copyright (c) 2022-2025 Oracle and/or its affiliates.
 

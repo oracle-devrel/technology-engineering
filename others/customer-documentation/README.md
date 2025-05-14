@@ -8,10 +8,10 @@ The SDD is created by Oracle's pre-sales teams as an investment by Oracle for ou
 
 It has four main sections:
 
-1. Context of the solution at hand 
-2. As-Is on-premises architecture (Optional)
-3. Logical and physical to-be architecture
-4. Bill of materials 
+- Context of the solution at hand
+- As-Is on-premises architecture (Optional)
+- Logical and physical to-be architecture
+- Bill of materials
 
 ## Where Can I Find SDD Templates and Related Resources?
 
