@@ -1,78 +1,81 @@
-import pandas as pd
+"""
+Module for extracting and analyzing data from invoices using AI models.
+
+Author: Ali Ottoman
+"""
+
 import json
-from langchain.chains.llm import LLMChain
-from langchain_core.prompts import PromptTemplate
+import base64
+import io
+import pandas as pd
 import streamlit as st
 from langchain_community.chat_models.oci_generative_ai import ChatOCIGenAI
 from langchain_core.messages import HumanMessage, SystemMessage
-import base64
 from pdf2image import convert_from_bytes
-import io
 
-# Helper function to convert a list of images into byte arrays for further processing
+# Function to save images in a specified format (default is JPEG)
 def save_images(images, output_format="JPEG"):
     image_list = []
-    for image in images:
+    for i, image in enumerate(images):
         img_byte_arr = io.BytesIO()
         image.save(img_byte_arr, format=output_format)
         img_byte_arr.seek(0)
         image_list.append(img_byte_arr)
     return image_list
 
-# Helper function to encode an image to base64 for sending to LLM
+# Function to encode an image file to base64 format
 def encode_image(image_path):
+    """Encodes an image to base64 format."""
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode("utf-8")
 
-# Save extracted data to a CSV file and show success message in Streamlit
+# Function to save extracted data to a CSV file
 def save_to_csv(data, file_name="extracted_data.csv"):
+    """Saves extracted data to a CSV file."""
     df = pd.DataFrame(data)
     df.to_csv(file_name, index=False)
     st.success(f"Data saved to {file_name}")
 
-# Extract key headers from the first image of a PDF invoice
+# Function to extract key elements from an invoice image using AI
 def extractor(image_list):
-    # Replace this with your own compartment ID
-    compID = "<YOUR_COMPARTMENT_OCID_HERE>"
-
-    # Load a multimodal LLM for invoice header analysis
+    # TO-DO: Add your compartment ID
+    compID = ""
+    
     llm = ChatOCIGenAI(
-        model_id="meta.llama-3.2-90b-vision-instruct",  # Replace with your model ID
+        model_id="meta.llama-3.2-90b-vision-instruct",
         compartment_id=compID,
         model_kwargs={"max_tokens": 2000, "temperature": 0}
     )
 
-    # Encode the first page as base64
+    # Extracting all key elements and providing them in a list to be selected from
     encoded_frame = base64.b64encode(image_list[0].getvalue()).decode("utf-8")
-
     with st.spinner("Extracting the key elements"):
-        # Provide system instruction to extract headers from invoice
         system_message = SystemMessage(
-            content="""Given this invoice, extract in list format, all the headers that can be needed for analysis
-            For example: [\"REF. NO.\", \"INSURED\", \"REINSURED\", \"POLICY NO.\", \"TYPE\", \"UNDERWRITER REF. NO.\", \"PERIOD\", \"PARTICULARS\", \"PPW DUE DATE\"]
-            Return the answer in a list format, and include nothing else at all in the response.
-            """
+                        content="""Given this invoice, extract in list format, all they headers that can be needed for analysis
+                            For example: ["REF. NO.", "INSURED", "REINSURED", "POLICY NO.", "TYPE", "UNDERWRITER REF. NO.", "PERIOD", "PARTICULARS", "PPW DUE DATE"]
+                            Return the answer in a list format, and include nothing else at all in the response, not even a greeting or closing.
+                        """
         )
-
-        # Human message includes the image
         human_message = HumanMessage(
             content=[
-                {"type": "text", "text": "This is my invoice"},
-                {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{encoded_frame}"}},
-            ]
+                        {"type": "text", "text": "This is my invoice"},
+                        {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{encoded_frame}"}},
+                    ]
         )
-
-        # Invoke the LLM and extract elements
-        ai_response = llm.invoke(input=[human_message, system_message])
+        ai_response_for_elements = llm.invoke(input=[human_message, system_message])
+        print(ai_response_for_elements.content)
         st.caption("Here are some key elements you may want to extract")
-        return eval(ai_response.content)
+        extracted_elements = eval(ai_response_for_elements.content)
+        return extracted_elements
 
-# Main Streamlit app function
+# Main function to handle invoice data extraction and analysis
 def invoiceAnalysisPlus():
     st.title("Invoice Data Extraction")
     
     with st.sidebar:
         st.title("Parameters")
+        # Compartment ID input
+        compID = "" # Add your compartment ID here
         # User prompt input
         user_prompt = st.text_input("Input the elements you are looking to extract here")
         st.caption("Our AI assistant has extracted the following key elements from the invoice. Please select the elements you wish to extract.")
@@ -91,11 +94,13 @@ def invoiceAnalysisPlus():
         
         llm = ChatOCIGenAI(
             model_id="meta.llama-3.2-90b-vision-instruct",
+            compartment_id=compID,
             compartment_id="", #TO-DO: Add your compartment ID here
             model_kwargs={"max_tokens": 2000, "temperature": 0}
         )
         llm_for_prompts = ChatOCIGenAI(
             model_id="cohere.command-r-plus-08-2024",
+            compartment_id=compID,
             compartment_id="",#TO-DO: Add your compartment ID here
             model_kwargs={"max_tokens": 2000, "temperature": 0}
         )
