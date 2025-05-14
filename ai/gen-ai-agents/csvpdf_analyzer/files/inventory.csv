@@ -1,0 +1,7 @@
+product_id,product_name,category,quantity_in_stock,unit_price,estimated_delivery_days
+2001,Quantum Neural Processing Unit (QNPU-X),AI Processor,35,12500,10
+2002,Optical Data Bus Extender (ODBE-5G),Networking Module,120,450,5
+2003,SLA-Fusion AI Framework License,Software,999,2200,1
+2004,Nano-Cooled GPU Array (NGPU-24),AI Hardware,0,9800,21
+2005,Cryo-Cooling Unit (CCU-2),Cooling System,10,4800,14
+2006,Quantum Sync Interface (QSI-X),AI Interface,5,15000,30
