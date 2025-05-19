@@ -1,0 +1,13 @@
+{
+    "tol": "0.01",
+    "maxiter": "200",
+    "verbosity": "0",
+    "solver": "gpubicgstab",
+    "preconditioner": {
+        "type": "GPUDILU",
+        "verbosity" : 0,
+        "split_matrix": "true",
+        "tune_gpu_kernels": "true",
+        "mixed_precision_scheme": 1
+    }
+}
