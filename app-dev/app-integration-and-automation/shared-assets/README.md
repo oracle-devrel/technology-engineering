@@ -215,6 +215,14 @@ This section contains various examples related to Application Integration: demo 
 
 ## Blogs
 
+- [From Prompt to Payload: Using JSON Response Format in OCI Gen AI with Oracle Integration](https://www.linkedin.com/pulse/from-prompt-payload-using-json-response-format-oci-gen-harris-qureshi-4yk9f)
+
+    - Tired of clunky AI integrations? Discover how to seamlessly combine OCI Generative AI’s JSON output with Oracle Integration Cloud (OIC)—unlocking smarter automation and cleaner data pipelines. 
+    In this article, I break down:
+        ✅ Step-by-step integration tactics for OIC + OCI Generative AI
+        ✅ How structured JSON responses reduce downstream complexity
+        ✅ Why this duo is a game-changer for enterprise scalability   
+
 - [GenAI-based Procurement Q&A App using Text-to-SQL and Low-Code Integration](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/procurement-qa-genai/files)
     - In this article, we'll explore how to make a handy tool that helps to enable real-time purchase order feeds into a procurement DB store and also to transform procurement queries in natural language to SQL Queries and synthesize the SQL Response using Oracle Generative AI, Oracle Integration Cloud (OIC) and Oracle Autonomous Database (ADB). This application combines a low-code approach to orchestrate LLM AI services and applications using Oracle Integration Cloud and Generative AI prompting techniques for tasks like text-to-SQL transformations.
 
