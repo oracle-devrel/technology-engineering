@@ -56,6 +56,10 @@ Reviewed: 23.10.2024
   
  - [ADB-S Top 3 Announcements for Autonomous in Cloud World 2024](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-data-ai-activity-7242082377458429952-GXeQ?utm_source=share&utm_medium=member_desktop)
     - ADB-S Top 3 Announcements for Autonomous.
+
+ - [Protecting the Autonomous Database from runaway queries](https://medium.com/@adrian.capitanu/protecting-the-autonomous-database-from-runaway-queries-eba925112bbb)
+    - Step-by-step blog article explaining how to protect the ADB from runaway queries and controlling resource usage
+  
    
 ## Tip of the Day
  
