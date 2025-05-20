@@ -2,7 +2,7 @@
 ## **Design Decisions During Setup of OCI Application Performance Monitoring**
 &nbsp; 
 
-To configure this add-on for OCI Application Performance Monitoring (OCI APM), you will need to make some key design decisions:
+To setup and configure OCI Application Performance Monitoring (OCI APM), you will need to make some key design decisions:
 
 * **Domains**. Create one APM domain per application to segregate trace data. As an optional extension, configure APM domain(s) to adjust trace data and metrics for analysis and alerting purposes.
 
@@ -13,11 +13,11 @@ To configure this add-on for OCI Application Performance Monitoring (OCI APM), y
 * **Alarms**. Determine performance indicators of application(s) and define appropriate alarms for these in accordance to available metrics and dimensions.
 &nbsp; 
 
-### 2.1 Domains
+### Domains
 
 Domains contain all trace data explored in APM. It's recommended to create one APM domain per application to segregate trace data. This means that traces from one applications are not mixed with the traces of another application when analyzing performance bottlenecks and their root causes.
 
-Cost in APM is based on ingested spans per hour. Assuming all domains will receive trace data continuously, spreading the ingested spans over more than one domain will not affect the overall cost of APM compared to centralizing spans in one domain.
+![OCI APM Domain](../images/apm_domain.png)
 
 To test APM with applications and estimate hourly cost, it's recommended to start out with a free domain before a paid domain. A free domain limits hourly span ingestions and availability monitor executions to 1,000 and 10 respectively. However, a free domain also lets you test out all APM features and estimate cost in paid domains by calculating hourly average of ingested and rejected spans with the following query in OCI Monitoring for the oci_apm namespace:
 
@@ -35,7 +35,7 @@ Optionally, an APM domain can be configured to adjust the trace data and metrics
 If it's decided to move from a free to a paid APM domain, it's possible to export and import all domain configurations to facilitate the move (click [here](https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/configure-apm-domain-export-import.html) for more).
 &nbsp;
 
-### 2.2 Data sources
+### Data sources
 
 A data source is any component made to collect data from applications for the sake of monitoring. It's important to clarify the programming languages, application servers, and frameworks used by the application environment to determine what data sources can be used for the APM domain. OCI APM provides Java and .NET agents for back-end monitoring out-of-the-box. These back-end agents are also able to automatically inject the browser agent as JavaScript for front-end monitroring. Click [here](https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/configure-application-performance-monitoring-data-sources.html) for more about the deployment and configuration of these out-of-the-box data sources. Click [here](https://mosemp.us.oracle.com/epmos/faces/DocumentDisplay?id=2759709.1) to see what kinds of application environments they support.
 
@@ -66,12 +66,14 @@ Data source configurations either serve to modify collected data or the amount o
 * **OpenTelemetry tracers**. Review any available documentation for any selected 3rd party tracer. As mentioned previously in section 2.1, you can set an enrichment rule in the APM domain to convert OpenTelemetry semantic conventions to OCI APM naming conventions. This is recommended when using a non-Oracle tracer.
 &nbsp;
 
-### 2.3 Availability Monitors
+### Availability Monitors
 
 OCI APM can be used in two ways:
 
 * Reactively monitor the application by reacting to problems when they occur during real user sessions.
 * Proactively monitor the application by creating an availability monitor which tests core features and user flows. The monitor can trigger a notification about critical issues without requiring them to occur in real user sessions first.
+
+![APM Availability Monitoring](../images/apm_availability_monitoring.png)
 
 An availability monitor consists of two components:
 
@@ -86,7 +88,7 @@ It's recommended to create availability monitors which regularly test key featur
 * Which vantage points should be used? This is mainly a matter of convenience vs. networking. When possible, it´s recommended to use Oracle-managed vantage points for the sake of convenience. However, no matter where the availability monitors run, the vantage point both needs to be able to reach the APM domain as well as the application itself. If it´s not feasible to connect to or resolve an application URL to an IP address from a Oracle-managed vantage point, a customer-managed vantage can work as an alternative.
 &nbsp;
 
-### 2.4 Alarms
+### Alarms
 
 There are a lot of different metrics provided by OCI APM and a lot of different alarm definitions that can be made from them. Please see [here](https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/application-performance-monitoring-metrics.html) for more about all available metrics in OCI APM. Please see [here](https://docs.oracle.com/en-us/iaas/Content/Monitoring/Tasks/managingalarms.htm) for more about creating alarm definitions in OCI.
 
