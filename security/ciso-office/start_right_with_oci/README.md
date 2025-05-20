@@ -1,6 +1,6 @@
 # Start Right With OCI
 
-Last updated: 3 April 2025
+Last updated: 20 May 2025
 
 ## A Five-Step Approach to Deploying on Oracle Cloud Infrastructure (OCI)
 
@@ -28,7 +28,8 @@ Secure access to your OCI resources by implementing strict IAM controls:
 - **Principle of Least Privilege:** Grant only the necessary permissions and regularly audit your [IAM policies](https://www.ateam-oracle.com/post/oci-iam-policies-best-practices).
 - **Breakglass Administrator:** Do not use the out-of-the-box OCI Adminstrator account for day-to-day operations. Configure additional administrators based on least privileges and secure the OCI Administrator account as a breakglass account, reserved for emergency use only, as defined in the [OCI IAM Security Best Practices](https://docs.oracle.com/en-us/iaas/Content/Security/Reference/iam_security.htm#Securing_IAM).
 - **Multi‑Factor Authentication (MFA):** Enable MFA for all users to protect against unauthorized access. Additional best practices are detailed in the [OCI IAM Security Best Practices](https://docs.oracle.com/en-us/iaas/Content/Security/Reference/iam_security.htm#Securing_IAM).
-- **Federation:** Configure federated identity management (e.g., using [MS EntraID](https://docs.oracle.com/en-us/iaas/Content/Identity/Concepts/federation.htm)) to streamline user access.
+- **Federation:** Configure federated identity management (e.g., using [MS EntraID](https://docs.oracle.com/en-us/iaas/Content/Identity/tutorials/azure_ad/sso_azure/azure_sso.htm) or [OKTA](https://docs.oracle.com/en/learn/integrating-identity-domains-with-okta/index.html#introduction)) to streamline user access.
+- **Life Cycle Management (LCM):** Configure [LCM between Entra ID and OCI IAM Identity Domain](https://docs.oracle.com/en-us/iaas/Content/Identity/tutorials/azure_ad/lifecycle_azure/01-config-azure-template.htm) or [OKTA](https://docs.oracle.com/en-us/iaas/Content/Identity/tutorials/okta/lifecycle_okta/okta-lifecycle.htm)
 - **Additional Resources:** [Identity and Access Management Resources](https://github.com/oracle-quickstart/oci-self-service-security-guide/tree/main/3-Identity-and-Access-Management).
 
 &nbsp;
@@ -74,7 +75,9 @@ Terraform, Resource Manager, and manual provisioning via the OCI Console, CLI, S
 - **Landing Zone Workload Extensions:** A workload extension is a tangible and self-contained set of resources with a clear functional scope, pluggable to a Landing Zone. They have a design and an implementation ready to receive a specific workloads on top of a landing zone. Each of these extensions follows the [tailored landing zone approach and is ready for deployment](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities/tree/master/workload-extensions)
 - **Marketplace Solutions:** Explore pre-configured applications and solutions available in the [OCI Marketplace](https://cloudmarketplace.oracle.com/marketplace/en_US/homePage.jspx) to accelerate deployment.
 - **Bring Your Own Image (BYOI):** If needed, you can manually provision resources through the [OCI Console](https://docs.oracle.com/en-us/iaas/Content/GSG/Tasks/launchinginstance.htm) or automate tasks with the [OCI CLI](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/cliconcepts.htm), including [Bring Your Own Image](https://docs.oracle.com/en-us/iaas/Content/Compute/References/bringyourownimage.htm)
+- **Assess OCI security posture against best practises outlined in the OCI CIS benchmark:** Available are the [OCI Security Health Check - Standard Edition](https://github.com/oracle-devrel/technology-engineering/tree/main/security/security-design/shared-assets/oci-security-health-check-standard) and the OCI Security Health Check - Advanced Edition. The OCI Security Health Check - Advanced Edition can be requested by raising a service request.  
 
+&nbsp;
 
 For detailed guidance on deploying specific workloads, refer to Oracle's [Reference Architectures](https://www.oracle.com/cloud/architecture-center/) and [Solution Playbooks](https://docs.oracle.com/solutions/).
 
@@ -87,4 +90,3 @@ Copyright (c) 2025 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
-
