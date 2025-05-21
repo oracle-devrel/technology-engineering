@@ -125,6 +125,24 @@ are gated and require an access token.
    results in the directory `./results`, containing information about the vLLM
    parameters and the shape used.
 
+   To run only certain scenarios and concurrent request settings, modify
+   [`compose.yaml`](files/compose.yaml) and have the `command` for the `perf`
+   container read, i.e:
+   ```yaml
+       command:
+         - "wait-for-it.sh"
+         - "--timeout=300"
+         - "llm:8000"
+         - "--"
+         - "/appli/scripts/benchmark.py"
+         - "--scenario"
+         - "chatbot"
+         - "--concurrency"
+         - "1"
+         - "4"
+         - "16"
+   ```
+
 5. Run the plotting:
    ```sh
    docker-compose run plot

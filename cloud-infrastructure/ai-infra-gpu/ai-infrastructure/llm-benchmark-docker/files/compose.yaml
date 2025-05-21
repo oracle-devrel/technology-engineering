@@ -32,10 +32,6 @@ services:
       - "llm:8000"
       - "--"
       - "/appli/scripts/benchmark.py"
-      - "--concurrency"
-      - "1"
-      - "4"
-      - "16"
   plot:
     build: plot
     container_name: plot
