@@ -39,7 +39,7 @@ The system integrates with Oracle Database and uses OCI's Generative AI models t
 │   └── inference.py
 ├── goal_alignment_backend.py
 ├── org_chart_backend.py
-├── Org_Chart.py
+├── org_chart.py
 ├── pages/
 │   ├── course_recommendation_chatbot.py
 │   ├── goal_alignment_chatbot.py
@@ -83,7 +83,7 @@ Download and install Graphviz from https://graphviz.org/download/
 Ensure the Graphviz /bin directory is added to your system PATH.
 
 ### 4. Configure Oracle access
-Before running the application, you need to provide your Oracle Cloud Infrastructure (OCI) and Autonomous Database credentials.
+Before running the application, you need to provide your Oracle Cloud Infrastructure (OCI) and Autonomous Database credentials. This entails that you need to have an Oracle Autonomous Database set up in advance in order for this code to work.
 
 1. Create a config file: 
     copy the provided template to a new config file
