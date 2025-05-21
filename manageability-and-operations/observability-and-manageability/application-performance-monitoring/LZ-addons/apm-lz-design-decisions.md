@@ -1,7 +1,6 @@
 # **[OCI Landing Zone Application Performance Monitoring Service](#)**
 ## **Design Decisions During Setup of OCI Application Performance Monitoring**
-&nbsp; 
-
+&nbsp;
 To setup and configure OCI Application Performance Monitoring (OCI APM), you will need to make some key design decisions:
 
 * **Domains**. Create one APM domain per application to segregate trace data. As an optional extension, configure APM domain(s) to adjust trace data and metrics for analysis and alerting purposes.
