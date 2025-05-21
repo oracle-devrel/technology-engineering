@@ -42,9 +42,9 @@ try:
 except Exception:
     OUTPUT_DIAGRAMS = False
 
-RELEASE_VERSION = "2.8.8"
+RELEASE_VERSION = "2.8.8.1"
 PYTHON_SDK_VERSION = "2.147.0"
-UPDATED_DATE = "March 4, 2024"
+UPDATED_DATE = "April 24, 2025"
 
 
 ##########################################################################
@@ -1202,7 +1202,7 @@ class CIS_Report:
 
             # Add root compartment which is not part of the list_compartments
             self.__compartments.append(self.__tenancy)
-            deep_link = self.__oci_compartment_uri + compartment.id
+            deep_link = self.__oci_compartment_uri + self.__tenancy.id
             root_compartment = {
                 "id": self.__tenancy.id,
                 "name": self.__tenancy.name,
@@ -3870,7 +3870,7 @@ class CIS_Report:
                     
 
                     if domain['password_policy']['num_passwords_in_history']:
-                        if domain['password_policy']['num_passwords_in_history'] < 24:
+                        if domain['password_policy']['num_passwords_in_history'] is None or domain['password_policy']['num_passwords_in_history'] < 24:
                             self.cis_foundations_benchmark_2_0['1.6']['Findings'].append(domain)
 
                 else:

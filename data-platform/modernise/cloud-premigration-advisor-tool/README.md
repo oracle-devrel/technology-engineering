@@ -21,6 +21,8 @@ Reviewed: 25.10.2024
     - YouTube video explaining how to review the CPAT ouptut and also Best Practices.
 - [Cloud Premigration Advisor Tool - Composer ](https://macsdata.com/oracle/cpat-composer)
     - Easily generate Oracle CPAT execution commands with a user-friendly graphical tool.
+- [Cloud Premigration Advisor Tool - Composer: Overview Video](https://youtu.be/rT28SmGl1WE?feature=shared&t=2118)
+    - YouTube video showing a walkthrough of the CPAT Composor including the main features and how to get started.
 
 # Useful Links
 - [Oracle Support Document 2758371.1 (Cloud Premigration Advisor Tool (CPAT) Analyzes Databases for Suitability of Cloud Migration)](https://support.oracle.com/epmos/faces/DocumentDisplay?id=2758371.1)

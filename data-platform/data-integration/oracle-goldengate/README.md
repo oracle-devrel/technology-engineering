@@ -116,6 +116,9 @@ Reviewed: 24.04.2024
 - [How to Edit Target Parameters using OEM PlugIn](https://youtu.be/asUItvZRF_Q)
     - How to Edit Target Parameters using OEM PlugIn
 
+- [GoldenGate Instantiation methods](https://blogs.oracle.com/dataintegration/post/goldengate-instantiation-methods)
+    - A blog that explains the GoldenGate Instantiation methods using RMAN to create a copy of a large source database for replication.    
+
 - [GoldenGate Products Livelabs](https://apexapps.oracle.com/pls/apex/f?p=133:100:3818354990791::::SEARCH:goldengate)
     - Livelabs for all the GoldenGate Products
 
