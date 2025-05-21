@@ -4,10 +4,13 @@ mock_api.py
 A simplified mock FastAPI server with two endpoints:
 - /search/transport
 - /search/hotels
+
+mock data in mock_data.py
 """
 
 from fastapi import FastAPI, Query
 from fastapi.responses import JSONResponse
+from mock_data import hotels_by_city, transport_data
 
 app = FastAPI()
 
@@ -19,24 +22,33 @@ def search_transport(
     transport_type: str = Query(...),
 ):
     """
-    Mock endpoint to simulate transport search.
+    Mock endpoint to simulate transport search from Rome.
     Args:
         destination (str): Destination city.
         start_date (str): Start date of the trip in 'YYYY-MM-DD' format.
-        transport_type (str): Type of transport (e.g., "airplane", "train").
+        transport_type (str): Type of transport ("airplane" or "train").
     Returns:
         JSONResponse: Mocked transport options.
     """
+    key = destination.strip().lower()
+    option = transport_data.get(key, {}).get(transport_type.lower())
+
+    if not option:
+        return JSONResponse(content={"options": []}, status_code=404)
+
+    departure_time = f"{start_date}T08:00"
+    duration = option["duration_hours"]
+    arrival_hour = 8 + int(duration)
+    arrival_time = f"{start_date}T{arrival_hour:02}:00"
+
     return JSONResponse(
         content={
             "options": [
                 {
-                    "provider": (
-                        "TrainItalia" if transport_type == "train" else "Ryanair"
-                    ),
-                    "price": 45.50,
-                    "departure": f"{start_date}T09:00",
-                    "arrival": f"{start_date}T13:00",
+                    "provider": option["provider"],
+                    "price": option["price"],
+                    "departure": departure_time,
+                    "arrival": arrival_time,
                     "type": transport_type,
                 }
             ]
@@ -45,7 +57,12 @@ def search_transport(
 
 
 @app.get("/search/hotels")
-def search_hotels(destination: str = Query(...), stars: int = Query(3)):
+def search_hotels(
+    destination: str = Query(...),
+    start_date: str = Query(...),
+    num_days: int = Query(1),
+    stars: int = Query(3),
+):
     """
     Mock endpoint to simulate hotel search.
     Args:
@@ -54,58 +71,11 @@ def search_hotels(destination: str = Query(...), stars: int = Query(3)):
     Returns:
         JSONResponse: Mocked hotel options.
     """
-    hotels_by_city = {
-        "valencia": {
-            "name": "Hotel Vincci Lys",
-            "price": 135.0,
-            "stars": stars,
-            "location": "Central district",
-            "amenities": ["WiFi", "Breakfast"],
-            "latitude": 39.4702,
-            "longitude": -0.3750,
-        },
-        "barcelona": {
-            "name": "Hotel Jazz",
-            "price": 160.0,
-            "stars": stars,
-            "location": "Eixample",
-            "amenities": ["WiFi", "Rooftop pool"],
-            "latitude": 41.3849,
-            "longitude": 2.1675,
-        },
-        "madrid": {
-            "name": "Only YOU Hotel Atocha",
-            "price": 170.0,
-            "stars": stars,
-            "location": "Retiro",
-            "amenities": ["WiFi", "Gym", "Restaurant"],
-            "latitude": 40.4093,
-            "longitude": -3.6828,
-        },
-        "florence": {
-            "name": "Hotel L'Orologio Firenze",
-            "price": 185.0,
-            "stars": stars,
-            "location": "Santa Maria Novella",
-            "amenities": ["WiFi", "Spa", "Bar"],
-            "latitude": 43.7760,
-            "longitude": 11.2486,
-        },
-        "amsterdam": {
-            "name": "INK Hotel Amsterdam",
-            "price": 190.0,
-            "stars": stars,
-            "location": "City Center",
-            "amenities": ["WiFi", "Breakfast", "Bar"],
-            "latitude": 52.3745,
-            "longitude": 4.8901,
-        },
-    }
-
     hotel_key = destination.strip().lower()
     hotel = hotels_by_city.get(hotel_key)
 
     if not hotel:
         return JSONResponse(content={"hotels": []}, status_code=404)
 
+    hotel["stars"] = stars
     return JSONResponse(content={"hotels": [hotel]})

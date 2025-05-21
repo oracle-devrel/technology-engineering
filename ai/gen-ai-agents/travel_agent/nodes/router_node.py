@@ -15,7 +15,7 @@ from langchain_core.output_parsers import StrOutputParser
 from base_node import BaseNode
 from model_factory import get_chat_model
 from prompt_template import router_prompt
-from config import MODEL_ID, SERVICE_ENDPOINT, DEBUG
+from config import MODEL_ID, SERVICE_ENDPOINT
 
 
 class RouterNode(BaseNode):
