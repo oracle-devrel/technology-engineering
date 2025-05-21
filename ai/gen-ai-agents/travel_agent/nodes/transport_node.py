@@ -50,7 +50,7 @@ class SearchTransportNode(BaseNode):
         self.log_info("Searching for transport options")
 
         # Simulate network delay or latency
-        time.sleep(5)
+        time.sleep(2)
 
         try:
             response = requests.get(

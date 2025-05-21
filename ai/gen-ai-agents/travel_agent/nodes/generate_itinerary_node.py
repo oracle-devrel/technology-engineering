@@ -11,14 +11,15 @@ Date: 20/10/2025
 """
 
 from base_node import BaseNode
-from langchain_core.runnables import Runnable
-from langchain_core.output_parsers import StrOutputParser
 from model_factory import get_chat_model
 from config import MODEL_ID, SERVICE_ENDPOINT, MAX_TOKENS, DEBUG
 from translations import TRANSLATIONS
 
 
 class GenerateItineraryNode(BaseNode):
+    """
+    Node in the LangGraph workflow responsible for generating a personalized travel itinerary.
+    """
     def __init__(self):
         super().__init__("GenerateItineraryNode")
 
@@ -47,9 +48,9 @@ class GenerateItineraryNode(BaseNode):
 
         if DEBUG:
             self.log_info("Generating itinerary...")
-        
+
         response = self.llm.invoke(itinerary_prompt).content
 
         state["final_plan"] += f"\n\n{t['suggested_itinerary_title']}\n{response}"
-        
+
         return state
