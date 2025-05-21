@@ -1,0 +1,44 @@
+# Copyright (c) 2025 Oracle and/or its affiliates.
+version: "3"
+services:
+  llm:
+    image: vllm/vllm-openai:v0.8.5.post1
+    container_name: llm
+    runtime: nvidia
+    volumes:
+      - "$HOME/.cache/huggingface:/huggingface"
+      - "$PWD:/appli"
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      "HF_HOME": "/huggingface"
+    working_dir: "/appli"
+    entrypoint:
+      - "/appli/scripts/startllm.py"
+  perf:
+    build: benchmark
+    container_name: perf
+    depends_on:
+      - llm
+    volumes:
+      - "$HOME/.cache/huggingface:/huggingface"
+      - "$PWD:/appli"
+    environment:
+      "HF_HOME": "/huggingface"
+    working_dir: "/appli"
+    command:
+      - "wait-for-it.sh"
+      - "--timeout=300"
+      - "llm:8000"
+      - "--"
+      - "/appli/scripts/benchmark.py"
+      - "--concurrency"
+      - "1"
+      - "4"
+      - "16"
+  plot:
+    build: plot
+    container_name: plot
+    volumes:
+      - "$PWD:/appli"
+    working_dir: "/appli"
