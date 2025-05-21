@@ -17,7 +17,7 @@ st.set_page_config(page_title="HR Chatbots", layout="centered")
 
 pages = {
     "Organization": [
-        st.Page(str(Path("Org_Chart.py")), title="Org Chart Visualizer"),
+        st.Page(str(Path("org_chart.py")), title="Org Chart Visualizer"),
     ],
     "Employee": [
         st.Page(str(Path("pages") / "course_recommendation_chatbot.py")),
