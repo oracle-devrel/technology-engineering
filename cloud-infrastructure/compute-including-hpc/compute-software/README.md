@@ -2,7 +2,7 @@
 
 This page contains information and useful links regarding Compute services that are mostly related to OS and Licenses Management on top of OCI Compute. You can also find resources about BYOI, BYOH and Autoscaling.
 
-<i>Review date: 04 November 2024</i>
+<i>Review date: 24 April 2025</i>
 
 # Table of Contents
 
@@ -30,6 +30,7 @@ This page contains information and useful links regarding Compute services that 
 - [Quering Compute Capacity using CloudShell](https://github.com/Olygo/OCI_ComputeCapacityReport)
 - [Cockpit – Web console to manage Oracle Linux](https://github.com/mariusscholtz/Oracle-Cloud-Infrastructure-resources/tree/main/cockpit) - Installation instructions for Cockpit, the System administration graphical web console for Oracle Linux
 - This [Document](https://github.com/skbkkl/sharkuma/blob/main/Oracle-Cloud-Infrastructure-resources/Oracle-OCI-Troubleshooting/Troubleshooting-OCI-Win-VM-Console-Connection.pdf) explain about how to troubleshoot Windows VM console connection via SAC.
+- This [Document](https://github.com/skbkkl/sharkuma/blob/main/Oracle-Cloud-Infrastructure-resources/Oracle-OCI-Troubleshooting/Windows-Instance-Console-Creation.pdf) explain about how to set up a console connection to an OCI Windows instance, which can help with virtual machine troubleshooting
   
 # Useful Links
 
