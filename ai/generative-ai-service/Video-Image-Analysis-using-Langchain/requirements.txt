@@ -5,4 +5,4 @@ langchain-community==0.2.19
 langchain-core==0.1.32
 oracledb==1.4.0
 tiktoken==0.6.0
-pydantic==1.10.12
+pydantic==1.10.13
