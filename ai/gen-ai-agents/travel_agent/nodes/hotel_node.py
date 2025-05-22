@@ -26,6 +26,8 @@ class SearchHotelNode(BaseNode):
     def invoke(self, state: dict, config=None, **kwargs) -> dict:
         self.log_info("Searching for hotels")
         try:
+            num_days = state.get("num_days", 1)
+            start_date = state.get("start_date")
             prefs = state.get("hotel_preferences", {})
 
             # here we call the API
@@ -33,6 +35,8 @@ class SearchHotelNode(BaseNode):
                 HOTEL_API_URL,
                 params={
                     "destination": state.get("destination"),
+                    "start_date": start_date,
+                    "num_days": num_days,
                     # default 3 stars
                     "stars": prefs.get("stars", 3),
                 },

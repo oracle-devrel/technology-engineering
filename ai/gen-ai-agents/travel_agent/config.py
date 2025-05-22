@@ -19,10 +19,14 @@ REQUIRED_FIELDS = [
 ]
 
 # OCI GenAI services configuration
+
+# can be also INSTANCE_PRINCIPAL
+AUTH_TYPE = "API_KEY"
+
 REGION = "eu-frankfurt-1"
 SERVICE_ENDPOINT = f"https://inference.generativeai.{REGION}.oci.oraclecloud.com"
 
-# seems to work with both models
+# seems to work fine with both models
 MODEL_ID = "meta.llama-3.3-70b-instruct"
 # MODEL_ID = "cohere.command-a-03-2025"
 

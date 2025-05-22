@@ -23,7 +23,7 @@ Return only a JSON, enclosed in triple backticks, with the keys:
 - end_date (YYYY-MM-DD)
 - num_days (int)
 - num_persons (int)
-- transport_type (e.g., "airplane", "train", "other")
+- transport_type (can be: "airplane", "train", "other")
 - hotel_preferences (dictionary with keys like "stars", "location", "amenities")
 
 If some information is not clear, use null for the value.

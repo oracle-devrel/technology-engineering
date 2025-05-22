@@ -61,3 +61,17 @@ class BaseNode(Runnable):
             message (str): The error message to log.
         """
         self.logger.error("[%s] %s", self.name, message)
+
+    def invoke(self, state: dict, config=None, **kwargs) -> dict:
+        """
+        Abstract method to be implemented by subclasses.
+
+        Args:
+            state (dict): The current state of the workflow.
+            config (optional): Configuration options for the node.
+            **kwargs: Additional keyword arguments.
+
+        Returns:
+            dict: Updated state after processing.
+        """
+        raise NotImplementedError("Subclasses must implement this method.")
