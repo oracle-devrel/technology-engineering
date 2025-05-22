@@ -1,4 +1,6 @@
-1.  **Introduction**
+# Creating a NL2SQL Agent on OCI
+
+**1.  Introduction**
 
 - **Objective**: Step-by-step instructions for building and implementing
   a SQL Agent.
@@ -13,25 +15,20 @@
 
 - **Database Setup:**
 
-> Create the database (Oracle Base Database or Autonomous Database).
-> Database should be in a created in a private subnet (preferred) or
-> protected by access control from VCN.
+    Create the database (Oracle Base Database or Autonomous Database).
+    Database should be in a created in a private subnet (preferred) or
+    protected by access control from VCN.
 
 - **Create Table and Load Data**
 
-> Create tables in the above database and load data. You can follow
-> instructions
-> [here](https://docs.public.content.oci.oraclecloud.com/en-us/iaas/autonomous-database-serverless/doc/load-data-autonomous.html#GUID-BCD09013-DFC9-4850-BBD2-6A90E9AE884B)
-> to connect to the DB and load data.
+    Create tables in the above database and load data. You can follow instructions
+    [here](https://docs.public.content.oci.oraclecloud.com/en-us/iaas/autonomous-database-serverless/doc/load-data-autonomous.html#GUID-BCD09013-DFC9-4850-BBD2-6A90E9AE884B)
+    to connect to the DB and load data.
 
 - **Database Tool Connection:**
 
-> Create Database Tool Connection to connect to the above database.
-> Database Tool Connection should use a Private Endpoint to connect to
-> database, You can follow this
-> [doc](https://docs.public.content.oci.oraclecloud.com/en-us/iaas/database-tools/home.htm)
-> for creating a DB tool connection to any Oracle database service in
-> OCI.
+    Create Database Tool Connection to connect to the above database.
+    Database Tool Connection should use a Private Endpoint to connect to database, You can follow this [doc](https://docs.public.content.oci.oraclecloud.com/en-us/iaas/database-tools/home.htm) for creating a DB tool connection to any Oracle database service in OCI.
 
 - **Prepare Tool Configuration Data**
 
