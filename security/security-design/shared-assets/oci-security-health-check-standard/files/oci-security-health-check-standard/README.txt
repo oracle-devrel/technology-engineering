@@ -37,7 +37,7 @@ The file standard.sh acts as the entry point and does the following:
 
 - Automatic check for Python runtime version
 - Automatic venv creation and activation
-- Automatci installation of required Python libraries
+- Automatic installation of required Python libraries
 - Automatic OCI Cloud Shell and tenancy name detection
 - Automatic creation of timestamped output directory
 - Call of cis_reports.py
