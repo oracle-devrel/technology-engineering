@@ -37,6 +37,18 @@ This section contains various examples related to Application Integration: demo 
 
 ## Demos
 
+- [Setting Up OAuth with JWT User Assertion in OIC: Identity Propagation from VBCS, OIC to OPA](https://youtu.be/UdOXA53BQMM?si=YIjvJbNrMblqhczM)
+
+    - In this step-by-step tutorial, you'll learn how to setup OAuth 2.0 using JWT User Assertion in Oracle Integration Cloud (OIC) to enable secure identity propagation between Oracle Integration and Oracle Process Automation (OPA). You will also see how idenity can easily propogate from Visual Builder to OIC to OPA.
+
+    - The video covers:
+        - Creating client confidential application
+        - Certificate creation and upload
+        - Constructing the JWT header and payload
+        - Configuring the REST connection in OIC
+        - Full OAuth and identity propagation flow
+
+
 - [Developer Coaching - Unlocking Robotic Process Automation with Oracle Integration](https://youtu.be/Gh33NJfoanU?si=iVIZQ4fgrQVTVdYc)
 
     - Developer Coaching Session "Unlocking Robotic Process Automation with Oracle Integration for Developers", where we explore the full spectrum of capabilities offered by Oracle Integration Cloud (OIC). 
@@ -219,9 +231,9 @@ This section contains various examples related to Application Integration: demo 
 
     - Tired of clunky AI integrations? Discover how to seamlessly combine OCI Generative AI’s JSON output with Oracle Integration Cloud (OIC)—unlocking smarter automation and cleaner data pipelines. 
     In this article, I break down:
-        ✅ Step-by-step integration tactics for OIC + OCI Generative AI
-        ✅ How structured JSON responses reduce downstream complexity
-        ✅ Why this duo is a game-changer for enterprise scalability   
+        - ✅ Step-by-step integration tactics for OIC + OCI Generative AI
+        - ✅ How structured JSON responses reduce downstream complexity
+        - ✅ Why this duo is a game-changer for enterprise scalability   
 
 - [GenAI-based Procurement Q&A App using Text-to-SQL and Low-Code Integration](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/procurement-qa-genai/files)
     - In this article, we'll explore how to make a handy tool that helps to enable real-time purchase order feeds into a procurement DB store and also to transform procurement queries in natural language to SQL Queries and synthesize the SQL Response using Oracle Generative AI, Oracle Integration Cloud (OIC) and Oracle Autonomous Database (ADB). This application combines a low-code approach to orchestrate LLM AI services and applications using Oracle Integration Cloud and Generative AI prompting techniques for tasks like text-to-SQL transformations.
