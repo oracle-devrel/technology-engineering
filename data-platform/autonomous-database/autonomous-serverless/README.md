@@ -59,7 +59,9 @@ Reviewed: 23.10.2024
 
  - [Protecting the Autonomous Database from runaway queries](https://medium.com/@adrian.capitanu/protecting-the-autonomous-database-from-runaway-queries-eba925112bbb)
     - Step-by-step blog article explaining how to protect the ADB from runaway queries and controlling resource usage
-  
+
+ - [The Oracle Data Marketplace](https://medium.com/@mmy0utu8e/the-oracle-data-marketplace-ddbf4ac92b87)
+    - How to share/consume data using Data Marketplace on the Autonomous Database
    
 ## Tip of the Day
  
