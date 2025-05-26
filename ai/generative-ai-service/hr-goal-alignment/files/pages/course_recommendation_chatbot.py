@@ -1,3 +1,4 @@
+# Copyright (c) 2025 Oracle and/or its affiliates.
 import streamlit as st
 import logging
 import oracledb

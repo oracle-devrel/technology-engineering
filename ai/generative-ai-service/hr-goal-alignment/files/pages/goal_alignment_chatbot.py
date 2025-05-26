@@ -1,3 +1,4 @@
+# Copyright (c) 2025 Oracle and/or its affiliates.
 import streamlit as st
 import json
 import oracledb
@@ -42,6 +43,7 @@ def render_refinement_action(refinement, idx):
     st.text_area("Refined Objective", value=refinement["refined_objective"], height=120, key=f"refined_{idx}", disabled=True)
     if not refinement["applied"]:
         if st.button(f"✅ Apply to DB (Goal: {refinement['goal_title']})", key=f"apply_{idx}"):
+            connection = None
             try:
                 connection = oracledb.connect(
                     user=config.DB_USER,
@@ -55,7 +57,7 @@ def render_refinement_action(refinement, idx):
             except Exception as e:
                 st.error(f"Error updating DB: {e}")
             finally:
-                if 'connection' in locals():
+                if connection:
                     connection.close()
 
 # --- Main Chatbot ---

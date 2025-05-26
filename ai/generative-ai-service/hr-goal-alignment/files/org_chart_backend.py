@@ -1,3 +1,4 @@
+# Copyright (c) 2025 Oracle and/or its affiliates.
 import oracledb
 import pandas as pd
 
@@ -8,13 +9,14 @@ from goal_alignment_backend import check_if_horizontal_aligned, check_if_vertica
 connection = oracledb.connect(
             **config.CONNECT_ARGS_VECTOR
         )
-def mapping_all_employees() -> dict[str, list[str]]:
+def mapping_all_employees() -> tuple[dict[str, list[str]], pd.DataFrame]:
     query = (
         "SELECT employee_id, name, role, manager_id "
         "FROM Employees"
     )
+    df_db = pd.DataFrame() # Initialize df_db
     try:
-        df_db = pd.read_sql(query, connection)
+        df_db = pd.read_sql(query, connection) # type: ignore
 
     except Exception as err:
         print(f"Query failed: {err}")
@@ -53,17 +55,20 @@ def check_smart_goal(df_row: pd.Series) -> str:
     return goal_smart.get("classification", "N/A")
 
 
-def fetch_goals_from_emp(df, emp_data) -> list[str]:
-    df_db = None
+def fetch_goals_from_emp(df, emp_data) -> pd.DataFrame:
+    df_db = pd.DataFrame() # Initialize as empty DataFrame
     try:
         emp_id = search_employee(df, emp_data)
-        query = f"SELECT title, objective, metrics, timeline FROM Goals WHERE employee_id = '{emp_id}'"
-        df_db = pd.read_sql(query, connection)
+        if emp_id: # Only proceed if emp_id is found
+            query = f"SELECT title, objective, metrics, timeline FROM Goals WHERE employee_id = '{emp_id}'"
+            df_db = pd.read_sql(query, connection) # type: ignore
 
     except oracledb.Error as err:
         print(f"Oracle connection error: {err}")
+        # df_db remains an empty DataFrame if an error occurs
     
-    df_db["smart"] = df_db.apply(check_smart_goal, axis=1)
+    if not df_db.empty: # Check if DataFrame is not empty before applying
+        df_db["smart"] = df_db.apply(check_smart_goal, axis=1)
     
     return df_db
 

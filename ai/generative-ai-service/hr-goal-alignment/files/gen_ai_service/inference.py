@@ -1,3 +1,4 @@
+# Copyright (c) 2025 Oracle and/or its affiliates.
 import json
 import logging
 import sys
@@ -65,7 +66,7 @@ def recommend_courses(profile, feedback) -> dict:
     except Exception as e:
         logger.error(f"Error during recommended_courses execution: {e}")
 
-    return response
+    return response # type: ignore
 
 
 
@@ -81,7 +82,7 @@ def classify_smart_goal(goal_description) -> dict:
     except Exception as e:
         logger.error(f"Error during recommended_courses execution: {e}")
 
-    return json.loads(response.content)
+    return json.loads(response.content) # type: ignore
 
 
 prompt_sys = """

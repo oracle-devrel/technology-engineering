@@ -1,3 +1,4 @@
+# Copyright (c) 2025 Oracle and/or its affiliates.
 import streamlit as st
 import oracledb
 import config
@@ -11,6 +12,8 @@ def run_meeting_preparation_chatbot():
     employee_name = st.text_input("Enter Employee Name:", key="prep_employee_input")
 
     if employee_name:
+        connection = None
+        cursor = None
         try:
             with st.spinner("Connecting and fetching data..."):
                 connection = oracledb.connect(
@@ -126,8 +129,8 @@ def run_meeting_preparation_chatbot():
         except Exception as e:
             st.error(f"Unexpected error: {e}")
         finally:
-            if 'cursor' in locals(): cursor.close()
-            if 'connection' in locals(): connection.close()
+            if cursor: cursor.close()
+            if connection: connection.close()
             
 
 

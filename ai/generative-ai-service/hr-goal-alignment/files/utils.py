@@ -1,3 +1,4 @@
+# Copyright (c) 2025 Oracle and/or its affiliates.
 import streamlit as st
 from io import BytesIO
 from docx import Document

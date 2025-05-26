@@ -1,3 +1,4 @@
+# Copyright (c) 2025 Oracle and/or its affiliates.
 import oracledb
 import config
 import json
@@ -14,7 +15,7 @@ llm = ChatOCIGenAI(
     model_kwargs={"temperature": 0.1, "max_tokens": 500},
 )
 
-def query_llm(prompt_template, inputs):
+def query_llm(prompt_template, inputs) -> str:
     """Formats prompt and calls the Oracle LLM"""
     if not isinstance(prompt_template, PromptTemplate):
         raise TypeError(" query_llm expected a PromptTemplate object.")
@@ -28,7 +29,7 @@ def query_llm(prompt_template, inputs):
     chain = RunnableSequence(prompt_template | llm)
     response = chain.invoke(inputs)
 
-    return response.content if isinstance(response, AIMessage) else response
+    return response.content if isinstance(response, AIMessage) else str(response) # type: ignore
 
 # --- Database Data Loading Functions ---
 
@@ -522,6 +523,3 @@ def update_employee_goal_objective(connection, employee_id, new_objective):
         print("Error updating goal objective:")
         print(error)
         return "Error updating goal objective."
-    
-
-
