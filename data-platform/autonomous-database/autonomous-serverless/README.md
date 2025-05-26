@@ -56,6 +56,12 @@ Reviewed: 23.10.2024
   
  - [ADB-S Top 3 Announcements for Autonomous in Cloud World 2024](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-data-ai-activity-7242082377458429952-GXeQ?utm_source=share&utm_medium=member_desktop)
     - ADB-S Top 3 Announcements for Autonomous.
+
+ - [Protecting the Autonomous Database from runaway queries](https://medium.com/@adrian.capitanu/protecting-the-autonomous-database-from-runaway-queries-eba925112bbb)
+    - Step-by-step blog article explaining how to protect the ADB from runaway queries and controlling resource usage
+
+ - [The Oracle Data Marketplace](https://medium.com/@mmy0utu8e/the-oracle-data-marketplace-ddbf4ac92b87)
+    - How to share/consume data using Data Marketplace on the Autonomous Database
    
 ## Tip of the Day
  
@@ -150,7 +156,7 @@ Reviewed: 23.10.2024
 
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

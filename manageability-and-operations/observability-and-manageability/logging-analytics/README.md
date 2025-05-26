@@ -2,7 +2,7 @@
 
 Oracle Logging Analytics is a cloud solution in Oracle Cloud Infrastructure that lets you index, enrich, aggregate, explore, search, analyze, correlate, visualize, and monitor all log data from your applications and system infrastructure.
 
-Reviewed: 25.09.2024
+Reviewed: 24.02.2025
 
 # Table of Contents
 
@@ -26,6 +26,7 @@ Reviewed: 25.09.2024
 - [How to Measure Raw Byte Size of Stored Logs in OCI Logging Analytics](https://medium.com/@michtoeth/how-to-measure-raw-byte-size-of-stored-logs-in-oci-logging-analytics-3f5387506c07)
 - [Kubernetes Solution in OCI Logging Analytics](https://karthicin.medium.com/kubernetes-solution-in-oci-logging-analytics-035a0eb39cb5)
 - [Log Spike detection and Alert in OCI Logging Analytics](https://karthicin.medium.com/log-spike-detection-and-alert-in-oci-logging-analytics-40a62598cc16)
+- [How To Install Suricata in OCI and send the logs to Logging Analytics](https://adibirzu.medium.com/how-to-install-suricata-in-oci-and-send-the-logs-to-logging-analytics-53587e691fbc)
 
 # Useful Links
 
@@ -33,7 +34,7 @@ Reviewed: 25.09.2024
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
