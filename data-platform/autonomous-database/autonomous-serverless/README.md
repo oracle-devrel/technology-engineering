@@ -44,9 +44,12 @@ Reviewed: 23.10.2024
       
 - [Switching from Oracle-Managed to Customer-Managed Keys in Autonomous Database Serverless](https://medium.com/@mmy0utu8e/switching-from-oracle-managed-to-customer-managed-keys-in-autonomous-database-serverless-b1c24d107a8f)
     - How to switch from Oracle-Managed to Customer-Managed Keys in Autonomous Database Serverless.
-      
+
 - [Capture-Replay Workloads between non-Autonomous and Autonomous Databases](https://www.youtube.com/watch?v=cWZ9MPBZemc)
     - How to Capture and Replay Workloads between non-Autonomous and Autonomous Databases.
+      
+- [The Oracle Autonomous Database You Can Get for Free](https://medium.com/@mmy0utu8e/oracle-autonomous-database-for-free-f93174bdb7ed)
+    - Free Autonomous Database options description
 
 - [Capture-Replay Workloads between Autonomous Databases](https://www.youtube.com/watch?v=JXpQe7zUFs8)
     - How to Capture and Replay Workloads between Autonomous Databases.

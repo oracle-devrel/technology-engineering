@@ -5,13 +5,14 @@ LangGraph node responsible for parsing natural language travel requests
 into structured data using an LLM hosted on Oracle Cloud Infrastructure (OCI).
 """
 
+import time
 from datetime import date
 from prompt_template import input_parser_prompt
 from model_factory import get_chat_model
 
 from base_node import BaseNode
 from utils import extract_json_from_text
-from config import MODEL_ID, SERVICE_ENDPOINT, DEBUG, MAX_TOKENS
+from config import MODEL_ID, SERVICE_ENDPOINT, DEBUG, MAX_TOKENS, SLEEP_TIME
 
 
 class ParseInputNode(BaseNode):
@@ -58,6 +59,9 @@ class ParseInputNode(BaseNode):
         )
 
         try:
+            # to avoid to get throttled by the OCI API
+            time.sleep(SLEEP_TIME)
+
             # Call the LLM with the formatted prompt
             result = self.llm.invoke(formatted_prompt)
 
