@@ -1,0 +1,2 @@
+PYTHONPATH=$(pwd) pylint nodes/
+

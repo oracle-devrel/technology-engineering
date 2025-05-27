@@ -4,6 +4,7 @@ utils.py
 Utility functions for text processing and JSON extraction from LLM outputs.
 """
 
+import logging
 import json
 import re
 
@@ -46,3 +47,24 @@ def remove_triple_backtics(input_text: str) -> str:
     _text = re.sub(r"```(json|python)?", "", input_text, flags=re.IGNORECASE)
     _text = _text.replace("```", "")
     return _text
+
+
+def get_console_logger(
+    name: str = "console_logger", level=logging.INFO
+) -> logging.Logger:
+    """
+    Create a console logger for debugging purposes.
+
+    Returns:
+        logging.Logger: Configured logger instance.
+    """
+    logger = logging.getLogger(name)
+    logger.setLevel(level)
+
+    if not logger.handlers:
+        handler = logging.StreamHandler()
+        formatter = logging.Formatter("[%(asctime)s] %(levelname)s - %(message)s")
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+
+    return logger
