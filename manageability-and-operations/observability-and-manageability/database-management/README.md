@@ -14,7 +14,7 @@ Reviewed: 27.09.2024
 - [Database Management Demo](https://www.youtube.com/watch?v=3k9jrkOlBkc)
 - [OCI Database Management PDB Support](https://learnoci.cloud/oci-database-management-new-features-announced-f9991cba2cc2)
 - [How to enable OCI Observability for OCI native database deploy](https://medium.com/@erikasciunzi/enable-observability-for-oci-native-database-deploy-235484953e46)
-- [Creating Metric Extensions for Oracle Database using OCI Database Management Service](./Custom%20Metrics/README.md)
+- [Creating Metric Extensions for Oracle Database using OCI Database Management Service](./custom-metrics/README.md)
 
 # Useful Links
 
