@@ -62,6 +62,8 @@ class RouterNode(BaseNode):
         Returns:
             dict: Updated state with a new key 'intent' set to either 'booking' or 'info'.
         """
+        self.log_info("Classifying user intent...")
+
         user_input = state["user_input"]
         intent = self.chain.invoke({"user_input": user_input}).strip().lower()
 

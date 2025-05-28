@@ -134,27 +134,38 @@ make_env() {
     if [ ! -d ${PYTHON_ENV} ]; then
         ${PYTHON_CMD} -m venv ${PYTHON_ENV}
     fi
-    ENV_STAMP="${PYTHON_ENV}/.ready${VERSION}"
-    if [ ! -e ${ENV_STAMP} ]; then
-        PIP_OPTS="-q --no-warn-script-location"
-        if [ -d ${PYTHON_ENV} ]; then
-            source ${PYTHON_ENV}/bin/activate
-            PYTHON_CMD=$(which python3)
-            ${PYTHON_CMD} -m pip install pip --upgrade ${PIP_OPTS}
-        fi
-
-        printf "INFO: Checking for required libraries...\n"
-        ${PYTHON_CMD} -m pip install ${PIP_OPTS} -r ${ASSESS_DIR}/requirements.txt
-        if [ $? -gt 0 ]; then
-            printf "ERROR: Permissions to install the required libraries are missing.\n"
-            printf "ERROR: Please check with your OCI administrator.\n"
-            exit 1
-        else
-            touch ${ENV_STAMP}
-        fi
-    else
-        printf "INFO: Using installed libraries...\n"
+    # ENV_STAMP="${PYTHON_ENV}/.ready${VERSION}"
+    # if [ ! -e ${ENV_STAMP} ]; then
+    #     PIP_OPTS="-q --no-warn-script-location"
+    #     if [ -d ${PYTHON_ENV} ]; then
+    #         source ${PYTHON_ENV}/bin/activate
+    #         PYTHON_CMD=$(which python3)
+    #         ${PYTHON_CMD} -m pip install pip --upgrade ${PIP_OPTS}
+    #     fi
+    #     printf "INFO: Checking for required libraries...\n"
+    #     ${PYTHON_CMD} -m pip install ${PIP_OPTS} -r ${ASSESS_DIR}/requirements.txt
+    #     if [ $? -gt 0 ]; then
+    #         printf "ERROR: Permissions to install the required libraries are missing.\n"
+    #         printf "ERROR: Please check with your OCI administrator.\n"
+    #         exit 1
+    #     else
+    #         touch ${ENV_STAMP}
+    #     fi
+    # else
+    #     printf "INFO: Using installed libraries...\n"
+    # fi
+    PIP_OPTS="-q --no-warn-script-location"
+    if [ -d ${PYTHON_ENV} ]; then
+        source ${PYTHON_ENV}/bin/activate
+        PYTHON_CMD=$(which python3)
+        ${PYTHON_CMD} -m pip install pip --upgrade ${PIP_OPTS}
     fi
+    printf "INFO: Checking for required libraries...\n"
+    ${PYTHON_CMD} -m pip install ${PIP_OPTS} -r ${ASSESS_DIR}/requirements.txt
+    if [ $? -gt 0 ]; then
+        printf "ERROR: Permissions to install the required libraries are missing.\n"
+        printf "ERROR: Please check with your OCI administrator.\n"
+        exit 1
 }
 
 check_shasum() {

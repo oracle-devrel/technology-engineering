@@ -23,9 +23,12 @@ class TravelState(TypedDict, total=False):
         num_persons (int): Number of travelers.
         transport_type (str): Preferred transport method ("airplane", "train", etc.).
         hotel_preferences (Dict): Preferences for hotel (e.g., stars, location).
-        flight_options (List): Available or suggested flight options.
+        travel_options (List): Available or suggested travel options.
         hotel_options (List): Available or suggested hotel options.
         final_plan (str): Generated summary plan to return to the user.
+        itinerary (str): Detailed itinerary proposed by the agent.
+        clarification_needed (bool): Flag indicating if clarification is needed.
+        clarification_prompt (str): Prompt to ask the user for clarification.
     """
 
     # unique_identifier for the request
@@ -42,11 +45,16 @@ class TravelState(TypedDict, total=False):
     num_persons: int
     transport_type: str
     hotel_preferences: Dict
-    flight_options: List
+    travel_options: List
+    return_travel_options: List
+    # the list of hotels
     hotel_options: List
 
     # the final plan to return to the user
     final_plan: str
+
+    # the itinerary proposed by the agent
+    itinerary: str
 
     # new fields for clarification loop
     clarification_needed: bool
