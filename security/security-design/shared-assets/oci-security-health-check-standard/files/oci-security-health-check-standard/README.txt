@@ -2,7 +2,7 @@
 OCI Security Health Check - Standard Edition
 ============================================
 Owner: Olaf Heimburger
-Version: 250430 (cis_report.py version 2.8.8.1)  for CIS OCI Foundation Benchmark 2.0.0
+Version: 250530 (cis_report.py version 3.0.0.4)  for CIS OCI Foundation Benchmark 3.0.0
 
 When to use this asset?
 
@@ -37,7 +37,7 @@ The file standard.sh acts as the entry point and does the following:
 
 - Automatic check for Python runtime version
 - Automatic venv creation and activation
-- Automatci installation of required Python libraries
+- Automatic installation of required Python libraries
 - Automatic OCI Cloud Shell and tenancy name detection
 - Automatic creation of timestamped output directory
 - Call of cis_reports.py
@@ -112,7 +112,7 @@ Usage
   - From the menu select the Cloud Shell item.
   - When running it the first time:
     - Upload the provided ZIP file.
-    - Extract it with unzip -q oci-security-health-check-standard-250430.zip
+    - Extract it with unzip -q oci-security-health-check-standard-250530.zip
   - Change directory into oci-security-health-check-standard
     $ cd oci-security-health-check-standard
     $ screen
@@ -169,11 +169,11 @@ Usage
     - Log out
 
   - From your desktop, upload the
-    "oci-security-health-check-standard-250430.zip" file to the Compute VM
+    "oci-security-health-check-standard-250530.zip" file to the Compute VM
     using any SFTP client.
   - Log into the Compute VM
     - Extract the distribution
-      unzip -q oci-security-health-check-standard-250430.zip
+      unzip -q oci-security-health-check-standard-250530.zip
 
     - Change directory into "oci-security-health-check-standard":
       cd oci-security-health-check-standard
@@ -221,7 +221,11 @@ Usage
 
 5 Known Issues
 
-No known issues.
+1. Python 3.8 is not supported anymore.
+   OCI Cloud Shell is the minimal required environment. The Python version used in OCI Cloud Shell is 3.9.
+2. Diagrams are not part of the HTML page.
+   This may be because of broken `numpy installation`. The following command should resolve this:
+   `pip3 install --upgrade --force-reinstall --user numpy`
 
 6 Credits
 
