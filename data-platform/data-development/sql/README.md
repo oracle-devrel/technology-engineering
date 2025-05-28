@@ -1,6 +1,6 @@
 # SQL Repository
 
-Welcome to the SQL repository of the Data Development team at Oracle. This repository is designed to provide comprehensive resources, tips, and tools to help you master SQL and leverage the latest features of Oracle23ai. 
+Welcome to the SQL repository of the Data Development team at Oracle. This repository is designed to provide comprehensive resources, tips, and tools to help you master SQL and leverage the latest features of Oracle23ai.
 
 Structured Query Language (SQL) is the standard programming language used for managing and manipulating relational databases. SQL allows you to perform a variety of operations such as querying data, updating records, creating and modifying schema, and controlling access to the database. It is a crucial skill for data developers and analysts, enabling efficient data retrieval and manipulation to support data-driven decision-making.
 
@@ -24,7 +24,6 @@ In the [SQL Tools](SQL_Tools/README.md) section, you'll find a collection of ess
 - Database management tools
 - Productivity-enhancing plugins and extensions
 
-
 ## SQL Tips
 
 The [SQL Tips](SQL_Tips/README.md) section is dedicated to providing practical advice and best practices for writing efficient and effective SQL queries. Topics covered include:
@@ -32,14 +31,12 @@ The [SQL Tips](SQL_Tips/README.md) section is dedicated to providing practical a
 - Common pitfalls and how to avoid them
 - Advanced SQL functions and their use cases
 
-
 ## SQL Oracle23ai
 
 Explore the latest advancements with Oracle's cutting-edge AI capabilities in the [SQL Oracle23ai](SQL_Oracle23ai/README.md) section. Here, you will find:
 - New features and enhancements in Oracle23ai
 - Tutorials on integrating AI with your SQL queries
 - Case studies and real-world applications of Oracle23ai
-
 
 ## SQL Do It Yourself
 
