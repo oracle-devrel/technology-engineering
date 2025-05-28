@@ -2,7 +2,7 @@
 
 Owner: Olaf Heimburger
 
-Version: 250530 (cis_report.py version 3.0.0) for CIS OCI Foundation Benchmark 3.0.0
+Version: 250530 (cis_report.py version 3.0.0.4) for CIS OCI Foundation Benchmark 3.0.0
 
 # Introduction
 ![Flyer](./files/resources/OCI_Security_Health_Check_Standard.png)

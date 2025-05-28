@@ -2,7 +2,7 @@
 
 Owner: Olaf Heimburger
 
-Version: 250530 (cis_report.py version 3.0.0) for CIS OCI Foundation Benchmark 3.0.0
+Version: 250530 (cis_report.py version 3.0.0.4) for CIS OCI Foundation Benchmark 3.0.0
 
 ## When to use this asset?
 
@@ -343,7 +343,11 @@ The report results are summarized in two files:
 
 ## Known Issues
 
-No known issues.
+1. Python 3.8 is not supported anymore.
+   OCI Cloud Shell is the minimal required environment. The Python version used in OCI Cloud Shell is 3.9.
+2. Diagrams are not part of the HTML page.
+   This may be because of broken `numpy installation`. The following command should resolve this:
+   `pip3 install --upgrade --force-reinstall --user numpy`
 
 ## Credits
 
