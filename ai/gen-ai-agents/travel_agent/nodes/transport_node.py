@@ -6,16 +6,15 @@ SearchTransportNode
 This module defines the SearchTransportNode class, which is responsible for retrieving
 transport options (e.g., flights or trains) based on user-provided travel details.
 
-It queries a mock or real API and stores the results in the workflow state under 'flight_options'.
+It queries a mock or real API and stores the results in the workflow state under 'travel_options'.
 
 Author: L. Saetta
-Date: 20/05/2025
+Date: 22/05/2025
 
 """
-import time
 import requests
 from base_node import BaseNode
-from config import TRANSPORT_API_URL
+from config import DEBUG, TRANSPORT_API_URL
 
 
 class SearchTransportNode(BaseNode):
@@ -36,6 +35,36 @@ class SearchTransportNode(BaseNode):
         """
         super().__init__("SearchTransportNode")
 
+    def _get_travel_option(
+        self,
+        place_of_departure: str,
+        destination: str,
+        start_date: str,
+        transport_type: str,
+    ) -> dict:
+        """
+        Helper method to query the transport API for travel options.
+
+        Args:
+            place_of_departure (str): The starting location for the travel.
+            destination (str): The destination location.
+            transport_type (str): The type of transport (e.g., flight, train).
+
+        Returns:
+            dict: Parsed JSON response from the transport API.
+        """
+        response = requests.get(
+            TRANSPORT_API_URL,
+            params={
+                "place_of_departure": place_of_departure,
+                "destination": destination,
+                "start_date": start_date,
+                "transport_type": transport_type,
+            },
+            timeout=5,
+        )
+        return response
+
     def invoke(self, state: dict, config=None, **kwargs) -> dict:
         """
         Query a transport search API and update the state with transport options.
@@ -45,26 +74,35 @@ class SearchTransportNode(BaseNode):
             config (optional): Reserved for compatibility; not used here.
 
         Returns:
-            dict: Updated state with 'flight_options' key containing a list of transport results.
+            dict: Updated state with 'travel_options' key containing a list of transport results.
         """
-        self.log_info("Searching for transport options")
-
-        # Simulate network delay or latency
-        time.sleep(2)
+        self.log_info("Searching for transport options...")
 
         try:
-            response = requests.get(
-                TRANSPORT_API_URL,
-                params={
-                    "destination": state.get("destination"),
-                    "start_date": state.get("start_date"),
-                    "transport_type": state.get("transport_type"),
-                },
-                timeout=5,
+            # first find travel to destination
+            response = self._get_travel_option(
+                state.get("place_of_departure"),
+                state.get("destination"),
+                state.get("start_date"),
+                state.get("transport_type"),
             )
+
             data = response.json()
-            state["flight_options"] = data.get("options", [])
-            self.log_info(f"Found transport: {data}")
+            state["travel_options"] = data.get("options", [])
+
+            # then find the travel back
+            response = self._get_travel_option(
+                state.get("destination"),
+                state.get("place_of_departure"),
+                state.get("end_date"),
+                state.get("transport_type"),
+            )
+
+            data = response.json()
+            state["return_travel_options"] = data.get("options", [])
+
+            if DEBUG:
+                self.log_info(f"Found transport: {data}")
         except Exception as e:
             self.log_error(f"Transport search failed: {e}")
 

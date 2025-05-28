@@ -51,26 +51,46 @@ hotels_by_city = {
     },
 }
 
-# Transport data from Rome
+# Transport data from Rome to Rome and other cities
 transport_data = {
-    "valencia": {
-        "train": {"provider": "TrainItalia", "duration_hours": 15, "price": 120.0},
-        "airplane": {"provider": "Ryanair", "duration_hours": 2.5, "price": 160.0},
+    ("rome", "valencia"): {
+        "train": {"provider": "TrainItalia", "duration_hours": 15, "price": 110.0},
+        "airplane": {"provider": "Ryanair", "duration_hours": 2.5, "price": 140.0},
     },
-    "barcelona": {
-        "train": {"provider": "TrainItalia", "duration_hours": 13, "price": 110.0},
-        "airplane": {"provider": "Vueling", "duration_hours": 2.0, "price": 155.0},
+    ("valencia", "rome"): {
+        "train": {"provider": "TrainItalia", "duration_hours": 15, "price": 110.0},
+        "airplane": {"provider": "Ryanair", "duration_hours": 2.5, "price": 140.0},
     },
-    "madrid": {
-        "train": {"provider": "TrainItalia", "duration_hours": 17, "price": 130.0},
-        "airplane": {"provider": "Iberia", "duration_hours": 2.5, "price": 165.0},
+    ("rome", "barcelona"): {
+        "train": {"provider": "TrainItalia", "duration_hours": 13, "price": 100.0},
+        "airplane": {"provider": "Vueling", "duration_hours": 2.0, "price": 130.0},
     },
-    "amsterdam": {
-        "train": {"provider": "Thalys", "duration_hours": 20, "price": 150.0},
-        "airplane": {"provider": "KLM", "duration_hours": 2.5, "price": 175.0},
+    ("barcelona", "rome"): {
+        "train": {"provider": "TrainItalia", "duration_hours": 13, "price": 100.0},
+        "airplane": {"provider": "Vueling", "duration_hours": 2.0, "price": 130.0},
     },
-    "florence": {
-        "train": {"provider": "Frecciarossa", "duration_hours": 1.5, "price": 30.0},
-        "airplane": {"provider": "ITA Airways", "duration_hours": 1.0, "price": 190.0},
+    ("rome", "madrid"): {
+        "train": {"provider": "TrainItalia", "duration_hours": 17, "price": 120.0},
+        "airplane": {"provider": "Iberia", "duration_hours": 2.5, "price": 145.0},
+    },
+    ("madrid", "rome"): {
+        "train": {"provider": "TrainItalia", "duration_hours": 17, "price": 120.0},
+        "airplane": {"provider": "Iberia", "duration_hours": 2.5, "price": 145.0},
+    },
+    ("rome", "amsterdam"): {
+        "train": {"provider": "Thalys", "duration_hours": 20, "price": 130.0},
+        "airplane": {"provider": "KLM", "duration_hours": 2.5, "price": 160.0},
+    },
+    ("amsterdam", "rome"): {
+        "train": {"provider": "Thalys", "duration_hours": 20, "price": 130.0},
+        "airplane": {"provider": "KLM", "duration_hours": 2.5, "price": 160.0},
+    },
+    ("rome", "florence"): {
+        "train": {"provider": "Frecciarossa", "duration_hours": 1.5, "price": 35.0},
+        "airplane": {"provider": "ITA Airways", "duration_hours": 1.0, "price": 80.0},
+    },
+    ("florence", "rome"): {
+        "train": {"provider": "Frecciarossa", "duration_hours": 1.5, "price": 35.0},
+        "airplane": {"provider": "ITA Airways", "duration_hours": 1.0, "price": 80.0},
     },
 }
