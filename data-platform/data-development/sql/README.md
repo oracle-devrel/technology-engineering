@@ -8,7 +8,7 @@ PL/SQL, the Oracle procedural extension of SQL, is a portable, high-performance 
 
 Below you'll find an index to all the sections available in this repository, along with a brief introduction to what you can expect in each section.
 
-Reviewed: 06.03.2024
+Reviewed: 28.05.2025
 
 # Table of contents
 
@@ -47,6 +47,7 @@ The [SQL Do It Yourself](SQL_Do_It_Yourself/README.md) section encourages hands-
 - Practice problems with solutions
 - Step-by-step project guides
 - Interactive SQL challenges to test your skills
+- Classes, Workouts and quizzes to test and strengthen your SQL and PL/SQL
 
 
 # Useful Links
@@ -59,6 +60,7 @@ To support your development journey, here are some valuable resources related to
 - [Oracle Database 23ai: Application Development](https://www.oracle.com/database/technologies/application-development.html)
 - [@ThatJeffSmith](https://www.thatjeffsmith.com/)
 - [SQL Blog by Chris Saxon](https://blogs.oracle.com/sql)
+- [DevGym](https://devgym.oracle.com/pls/apex/f?p=10001:201:15932218738087:::::)
 - [The Magic of SQL by Chris Saxon - YouTube Channel](https://www.youtube.com/c/TheMagicofSQL)
 - [SQL and Database explained! By Connor McDonald - YouTube Channel](https://www.youtube.com/@DatabaseDude)
 - [Learning is not a Spectator Sport - Connor McDonald Blog](https://connor-mcdonald.com)
