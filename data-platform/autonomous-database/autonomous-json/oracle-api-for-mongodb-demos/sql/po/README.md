@@ -18,8 +18,6 @@
 - Partitioning and Indexing JSON Collections
 ### JSON Dataguide
 - Creating Views using DATA_GUIDE. Views from Path Expressions
-### OLTP Compression for JSON Data
-- Creating JSON Collection Tables using COMPRESSION MEDIUM and COMPRESSION HIGH 
 ### JSON Schema
 - Generating JSON schemas with data guide
 - Generating JSON schemas with BMS_JSON_SCHEMA.describe
