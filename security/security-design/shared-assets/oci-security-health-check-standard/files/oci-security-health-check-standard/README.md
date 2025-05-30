@@ -2,7 +2,7 @@
 
 Owner: Olaf Heimburger
 
-Version: 250430 (cis_report.py version 2.8.8.1) for CIS OCI Foundation Benchmark 2.0.0
+Version: 250530 (cis_report.py version 3.0.0.4) for CIS OCI Foundation Benchmark 3.0.0
 
 ## When to use this asset?
 
@@ -31,7 +31,7 @@ The file standard.sh acts as the entry point and does the following:
 
 - Automatic check for Python runtime version
 - Automatic venv creation and activation
-- Automatci installation of required Python libraries
+- Automatic installation of required Python libraries
 - Automatic **OCI Cloud Shell** and tenancy name detection
 - Automatic creation of timestamped output directory
 - Call of cis_reports.py
@@ -47,22 +47,22 @@ Tested on **OCI Cloud Shell** with **Public network**, **Oracle Linux**, **MacOS
 
 Before running the *OCI Security Health Check - Standard Edition* you should download and verify it.
 
-  - Download the latest distribution [oci-security-health-check-standard-250430.zip](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-250430.zip).
+  - Download the latest distribution [oci-security-health-check-standard-250530.zip](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-250530.zip).
   - Download the respective checksum file:
-    - [oci-security-health-check-standard-250430.sha512](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-250430.sha512).
-    - [oci-security-health-check-standard-250430.sha512256](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-250430.sha512256).
+    - [oci-security-health-check-standard-250530.sha512](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-250530.sha512).
+    - [oci-security-health-check-standard-250530.sha512256](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-250530.sha512256).
   - Verify the integrity of the distribution. Both files must be in the same directory (for example, in your downloads directory).
 
     On MacOS:
     ```
     cd <your_downloads_directory>
-    shasum -a 512256 -c oci-security-health-check-standard-250430.sha512256
+    shasum -a 512256 -c oci-security-health-check-standard-250530.sha512256
     ```
 
     On Linux (including Cloud Shell):
     ```
     cd <your_downloads_directory>
-    sha512sum -c oci-security-health-check-standard-250430.sha512
+    sha512sum -c oci-security-health-check-standard-250530.sha512
     ```
 
 **Reject the downloaded file when the check fails!**
@@ -207,7 +207,7 @@ allow group 'Default'/'grp-auditors' to inspect vcns in compartment <compartment
   - Upload the distribution file.
   - Extract it
     ```
-    unzip -q oci-security-health-check-standard-250430.zip
+    unzip -q oci-security-health-check-standard-250530.zip
     ```
 
 #### Run the script
@@ -281,11 +281,11 @@ allow group 'Default'/'grp-auditors' to inspect vcns in compartment <compartment
       Follow the instructions to select /usr/bin/python3.9
     - Log out
 
-  - From your desktop, upload the `oci-security-health-check-standard-250430.zip` file to the Compute VM using any SFTP client.
+  - From your desktop, upload the `oci-security-health-check-standard-250530.zip` file to the Compute VM using any SFTP client.
   - Log into the Compute VM
     - Extract the distribution
       ```
-      unzip -q oci-security-health-check-standard-250430.zip
+      unzip -q oci-security-health-check-standard-250530.zip
       ```
     - Change directory into `oci-security-health-check-standard`:
       ```
@@ -343,7 +343,11 @@ The report results are summarized in two files:
 
 ## Known Issues
 
-No known issues.
+1. Python 3.8 is not supported anymore.
+   OCI Cloud Shell is the minimal required environment. The Python version used in OCI Cloud Shell is 3.9.
+2. Diagrams are not part of the HTML page.
+   This may be because of broken `numpy installation`. The following command should resolve this:
+   `pip3 install --upgrade --force-reinstall --user numpy`
 
 ## Credits
 
