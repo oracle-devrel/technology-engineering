@@ -14,8 +14,8 @@ This guide explains how to create metric extensions step by step.
 ## Prerequisites
 
 - OCI tenancy with Database Management enabled.
-- Target Oracle Database registered in Database Management as an [External Database](https://docs.oracle.com/en-us/iaas/database-management/doc/external-database-related-prerequisite-tasks.html#DBMGM-GUID-84B74F18-F672-4DDC-8505-ACF249293D64).
-- Required [policies](https://docs.oracle.com/en-us/iaas/database-management/doc/perform-general-oracle-cloud-infrastructure-prerequisite-tasks.html#DBMGM-GUID-DCC3067D-5123-468E-A938-D310CC685674) in place.
+- Target Oracle Database registered in Database Management as an <a href="https://docs.oracle.com/en-us/iaas/database-management/doc/external-database-related-prerequisite-tasks.html#DBMGM-GUID-84B74F18-F672-4DDC-8505-ACF249293D64" target="_blank">External Database</a>.
+- Required <a href="https://docs.oracle.com/en-us/iaas/database-management/doc/perform-general-oracle-cloud-infrastructure-prerequisite-tasks.html#DBMGM-GUID-DCC3067D-5123-468E-A938-D310CC685674" target="_blank">policies</a> in place.
 
 ## Step-by-Step Guide
 
