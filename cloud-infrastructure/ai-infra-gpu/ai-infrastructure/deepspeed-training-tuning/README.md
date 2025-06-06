@@ -1,127 +1,90 @@
-# Training LLMs with NVIDIA NeMo using Oracle Container Engine for Kubernetes
+# Overview
 
-This repository demonstrates how to train LLM using
-[NVIDIA NeMo](https://www.nvidia.com/en-gb/ai-data-science/products/nemo/)
-on the Oracle Container Engine for Kubernetes (OKE) using
-[NVIDIA Megatron](https://developer.nvidia.com/megatron-core).
+This repository provides a step-by-step deployment of DeepSpeed training for Large Language Models (LLMs) on Oracle Cloud Infrastructure (OCI), using H100 GPU clusters with RDMA and SLURM.
 
-Reference results from NVIDIA to train Llama 3 can be found on the
-[NGC Catalog](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/dgxc-benchmarking/resources/llama3-dgxc-benchmarking).
+This setup includes a tuned DeepSpeed configuration (`tuned_ds_config.json`) that provides up to **13% performance improvement** over standard configurations.
 
-Reviewed: 18.03.2025
-
+Reviewed: 06.06.2025
 # When to use this asset?
 
-* If you want to get started with training LLM like Llama 3 on Kubernetes using OCI.
+Use this asset when you need to:
+- Train large-scale language models on OCI with H100 hardware
+- Utilize RDMA-enabled SLURM clusters for distributed multi-node DeepSpeed training
+- Achieve improved throughput via custom-tuned DeepSpeed JSON configs
 
 # How to use this asset?
 
-## Prerequisites
+## Prerequisites & Docs
 
-* You have access to an Orcale Cloud Tenancy.
-* You have access to shapes with NVIDIA GPUs such as H100.
-* You have a HuggingFace account and access to `meta-llama/Llama-3.1-8B-Instruct`.
+### Prerequisites
 
-This guide is loosely based on the
-[NVIDIA NeMo Framework Launcher guide for Kubernetes](https://docs.nvidia.com/nemo-framework/user-guide/24.07/playbooks/kubernetes.html).
+* An OCI tenancy with H100 GPU quota (shape: BM.GPU.H100.8).
+* A [Huggingface](https://huggingface.co/) account with a valid Auth Token.
+* SSH access to the deployed head node of your SLURM cluster.
 
-## Infrastructure Setup
+### Documentation & Resources
 
-1. Create an OKE cluster according
-   [to the instructions](https://github.com/oracle-quickstart/oci-hpc-oke/tree/main#instructions-for-deploying-an-oke-cluster-with-gpus-and-rdma-connectivity),
-   importing one of the images and creating a GPU partition with BM.GPU.H100.8 nodes.
+* [DeepSpeed Documentation](https://www.deepspeed.ai/docs/)
+* [TinyLlama Model (HF)](https://huggingface.co/TinyLlama/TinyLlama-1.1B-Chat-v1.0)
+* [Mistral LLMs](https://mistral.ai/technology/#models)
 
-   The configuration here assumes a minimum of 16 BM.GPU.H100.8 nodes.
+## Model Training Workflow
 
-   - Ensure that the follwing setting is selected under the "OKE Cluster" section:
+### Instance Configuration
 
-     > Disable OKE GPU device plugin
+The deployment uses a cluster of `BM.GPU.H100.8` bare metal instances, provisioned with cluster networking and RDMA.
 
-     as this tutorial will install the GPU operator later.
+The DeepSpeed job is submitted via SLURM using the `run_deepspeed.slurm` script. The environment includes a shared OCI File Storage System mounted on all nodes.
 
-2. Create a new File System for NFS, and modify the [persistent volume configuration in `pv.yaml`](./files/pv.yaml) to match.
-   Optimally, this will utilize High Performance Mount Targets (HMPT) as described in the following two whitepapers:
-   * [Scale Out OCI File Storage Performance for AI/ML and
-Data-Intensive Workloads](https://docs.oracle.com/en-us/iaas/Content/Resources/Assets/whitepapers/scale-out-oci-file-storage-performance-for-data-intensive-workloads.pdf)
-   * [File Storage Performance Guide](https://docs.oracle.com/en-us/iaas/Content/Resources/Assets/whitepapers/file-storage-performance-guide.pdf)
+### DeepSpeed Tuned Configuration
 
-3. Install the NVIDIA GPU Operator according to
-   [NVIDIA NeMo Framework Launcher guide for Kubernetes](https://docs.nvidia.com/nemo-framework/user-guide/24.07/playbooks/kubernetes.html), then install the [Volcano scheduler](https://github.com/volcano-sh/volcano) with:
-   ```sh
-   kubectl apply -f https://raw.githubusercontent.com/volcano-sh/volcano/master/installer/volcano-development.yaml
-   ```
+The `tuned_ds_config.json` applies the following optimizations:
+- Switched from fp16 to bf16 (optimal for H100)
+- Enabled overlap_comm, contiguous_gradients, and increased bucket sizes
+- Used gradient_accumulation_steps=8 to balance memory use and throughput
+- Tweaked aio settings for better I/O performance during training
+- Removed optimizer/parameter offloading to fully utilize GPU RA
 
-4. Copy the [files in this repository](./files) to the Kubernetes operator node.
-   You can download them from this repository via:
-   ```sh
-   BRANCH=main
-   curl -L https://github.com/oracle-devrel/technology-engineering/archive/refs/heads/${BRANCH}.tar.gz|tar xzf - --strip-components=6 technology-engineering-${BRANCH}/cloud-infrastructure/ai-infra-gpu/ai-infrastructure/nemo-megatron-training-oke/files
-   ```
-   
-   Then modify the values in [`training/values.yaml`](./files/training/values.yaml) to match the storage server and export path.
+These optimizations are benchmarked to deliver up to **13% faster training throughput** on OCI H100 clusters.
 
-5. Mount the file system on the Kubernetes operator node. In the following, the mount location is assumed to be `/mnt/data/`.
+### Launch Training Job
 
-## Data Preparation and Training
+Submit your training job using SLURM:
 
-1. Download the tokenizer model from HuggingFace:
-   ```sh
-   mkdir -p /mnt/data/tokenizer
-   huggingface-cli login
-   huggingface-cli download meta-llama/Llama-3.1-8B-Instruct tokenizer_config.json --local-dir /mnt/data/tokenizer
-   huggingface-cli download meta-llama/Llama-3.1-8B-Instruct tokenizer.json --local-dir /mnt/data/tokenizer
-   ```
+```bash
+sbatch $HOME$/scripts/run_deepspeed.slurm
+```
 
-2. Apply the preprocessing job that will download and tokenize parts of the Pile dataset:
-   ```sh
-   helm install --set num_nodes=1 --set download_data=true "my-preprocessing" ./training
-   ```
+The job script uses:
+- `train.py`: your LLM training script
+- `tuned_ds_config.json`: DeepSpeed configuration file
+- Local datasets and Hugging Face model/tokenizer
 
-   The progress can then be monitored by
-   ```sh
-   kubectl logs -f megatron-prep-my-preprocessing-mpimaster-0
-   ```
+### Example curl Test (after model fine-tuning)
 
-3. Following successful preprocessing, the training can be started with:
-   ```sh
-   helm install --set num_nodes=1 "my-training-v0" ./training
-   ```
+To serve the trained model via OpenAI-compatible API:
 
-   The progress can then be monitored by
-   ```sh
-   kubectl logs -f megatron-train-my-training-v0-mpimaster-0
-   ```
+```bash
+curl http://localhost:8000/v1/completions \
+    -H "Content-Type: application/json" \
+    -d '{
+        "model": "your-model-name",
+        "prompt": "A GPU is a",
+        "max_tokens": 128,
+        "temperature": 0.7
+    }'
+```
 
-4. Calculate training throughput. For this, the following data is required from the training output:
-   ```
-   [NeMo I 2025-03-10 16:24:43 perf_metrics_utils:42] train_step_timing in s: [7.13, 7.12, 7.12, 7.13, 7.13, 7.13, 7.12, 7.13, 7.14, 7.13, 7.14, 7.26, 7.13, 7.13, 7.13, 7.13, 7.15, 7.14, 7.14, 7.13, 7.14, 7.14, 7.14, 7.14, 7.13, 7.14, 7.14, 7.14, 7.14, 7.14]
-   ```
-   This log can be saved into a file with:
-   ```sh
-   kubectl logs  megatron-train-my-training-v0-mpimaster-0 > training.log
-   ```
-   and the performance analyzed with
-   ```sh
-   python3 utils/performance.py training.log
-   ```
+## Notes
 
-## Potential Issues
-
-* **PyTorch can't resolve hostnames via c10d**
-
-  If the rendezvous backend for PyTorch fails to connect to an OCI style
-  hostname for Kubernetes clusters, one work around this resolution failure by
-  augmenting `/etc/hosts` for every pod.
-
-  For convenience, this is facilitated by enhancing `mpi.yaml` via
-  ```sh
-  ./utils/host_list.sh >> ./training/files/mpi.yaml
-  ```
-  and afterwards reinstalling the training job via Helm.
+To train larger models like Mixtral or Mistral 7B on H100, make sure to:
+- Scale the number of nodes appropriately
+- Use quantization or tensor parallelism when needed
+- Ensure models and datasets fit into GPU memory with DeepSpeed ZeRO optimization
 
 # Acknowledgments
 
-- **Author** - Matthias Wolf (GPU Solution Specialist)
+- **Author** - Deepak Soni (GPU Black Belt)
 
 # License
  

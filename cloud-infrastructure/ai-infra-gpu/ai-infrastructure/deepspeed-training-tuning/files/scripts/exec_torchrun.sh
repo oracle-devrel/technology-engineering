@@ -4,6 +4,7 @@ set -ex
 
 source myenv/bin/activate
 
+## NCCL parameters configuration based on OCI H100 GPU Instance deployment 
 export NCCL_TIMEOUT=1800
 
 export NCCL_IGNORE_CPU_AFFINITY=1
@@ -38,7 +39,7 @@ export DISTRIBUTED_ARGS="--nproc_per_node $GPUS_PER_NODE --nnodes $NNODES --node
 
 torchrun $DISTRIBUTED_ARGS \
 	train.py \
-	--model_config tiny_llama_1.1B_config.json \
+	--model_config tuned_ds_config.json \
 	--tokenizer_name TinyLlama/TinyLlama-1.1B-Chat-v1.0 \
 	--dataset_mixer data_mixer.json \
 	--dataset_name mix \
