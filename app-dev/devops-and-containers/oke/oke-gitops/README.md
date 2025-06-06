@@ -122,7 +122,7 @@ Understanding what these codes are and who is responsible for it is essential:
 * IaC Infrastructure = Terraform code to provision an OKE cluster
   * There should be 1 Git repository dedicated to the Terraform infrastructure for the chosen cloud provider
 
-For the IaC infrastructure in Oracle Cloud, you can use also OCI Resource Manager to manage the Terraform state and quickly provision an OKE cluster by using [this repository](https://github.com/alcampag/oci-cn-quickstart)
+For the IaC infrastructure in Oracle Cloud, you can use also OCI Resource Manager to manage the Terraform state and quickly provision an OKE cluster by using [this stack](../oke-rm)
 
 Next we will focus on the **"cluster administrator"** repository and the way to automate configurations and infra applications provisioning.
 
