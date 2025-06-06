@@ -8,11 +8,13 @@ Reviewed: 06.06.2025
 # When to use this asset?
 
 Use this asset when you need to:
-- Train large-scale language models on OCI with H100 hardware
-- Utilize RDMA-enabled SLURM clusters for distributed multi-node DeepSpeed training
-- Achieve improved throughput via custom-tuned DeepSpeed JSON configs
+- Train large-scale language models on OCI with H100 hardware.
+- Utilize RDMA-enabled SLURM clusters for distributed multi-node DeepSpeed training.
+- Achieve improved throughput via custom-tuned DeepSpeed JSON configs.
 
 # How to use this asset?
+- deploy OCI HPC stack with H100 multiple instances.
+- Improve training performance by using a tuned configuration for the deepspeed LLM model.
 
 ## Prerequisites & Docs
 
@@ -27,8 +29,10 @@ Use this asset when you need to:
 * [DeepSpeed Documentation](https://www.deepspeed.ai/docs/)
 * [TinyLlama Model (HF)](https://huggingface.co/TinyLlama/TinyLlama-1.1B-Chat-v1.0)
 * [Mistral LLMs](https://mistral.ai/technology/#models)
+* [OCI HPC Stack](https://github.com/oracle-quickstart/oci-hpc)
 
 ## Model Training Workflow
+- please refer files/README.md for more details
 
 ### Instance Configuration
 

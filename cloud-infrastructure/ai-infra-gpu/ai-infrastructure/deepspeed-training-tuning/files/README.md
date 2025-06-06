@@ -2,7 +2,7 @@
 
 This repository automates deployment of a multi-node SLURM cluster with RDMA-enabled H100 GPUs on OCI for training large language models using DeepSpeed.
 
-## 🔧 Tuned Configuration
+##  Tuned Configuration
 
 We developed a custom-tuned deepspeed_config.json tailored for:
 - Multi-node training
@@ -18,7 +18,7 @@ The `tuned_ds_config.json` includes:
 - Removed optimizer/parameter offloading to fully utilize GPU RAM
 
 
-📈 This configuration delivers up to **13% more training throughput** versus default settings on OCI H100 infrastructure.
+This configuration delivers up to **13% more training throughput** versus default settings on OCI H100 infrastructure.
 
 ## With this updated configuration:
 - Training throughput improved by ~13%
