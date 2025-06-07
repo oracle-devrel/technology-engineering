@@ -16,7 +16,19 @@ Please import the sample below in your ODA
      - translation
 
 ## Configuration
-Be sure to import the Weather API before to import the Skills.
+Be sure to import the Weather API and mgLlama API (Type LLM Service) before to import the Skills.
+
+## Add policies like this to allow ODA to call GenerativeAI
+
+```
+allow any-user to manage genai-agent-family in tenancy where request.principal.id='<ODA OCID>'
+allow any-user to manage generative-ai-family in tenancy where request.principal.id='<ODA OCID>'
+```
+or
+```
+allow any-user to manage genai-agent-family in compartment xxx where request.principal.id='<ODA OCID>'
+allow any-user to manage generative-ai-family in compartment xxx where request.principal.id='<ODA OCID>'
+```
 
 ## Known issue
 - RagHoliday and LLamaProd use a RAG agent (you need an OCI RAG agent ocid to use it)
