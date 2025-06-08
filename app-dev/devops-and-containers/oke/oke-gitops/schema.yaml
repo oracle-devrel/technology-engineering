@@ -1,0 +1,242 @@
+title: OKE GitOps Solution
+description: OKE GitOps solution based on OCI DevOps and ArgoCD
+informationalText: OKE GitOps - ArgoCD
+schemaVersion: 1.1.0
+version: "20190304"
+locale: "en"
+
+
+variableGroups:
+
+  - title: "Hidden"
+    visible: false
+    variables:
+      - tenancy_ocid
+      - region
+      - current_user_ocid
+      - compartment_ocid
+
+  - title: Create policies
+    variables:
+      - create_iam
+      - default_policy_name
+      - identity_domain_name
+      - devops_dynamic_group_name
+      - devops_policy_name
+
+  - title: DevOps Project
+    variables:
+      - devops_compartment_id
+      - devops_project_name
+      - devops_project_description
+      - devops_log_group_name
+      - devops_log_group_description
+      - devops_log_retention_period_in_days
+      - create_notification_topic
+      - notification_topic_id
+      - notification_topic_name
+      - notification_topic_description
+
+  - title: Repository
+    variables:
+      - ocir_repo_path_prefix
+      - auth_token
+
+  - title: OKE Environment
+    variables:
+      - oke_environment_name
+      - oke_environment_description
+      - oke_compartment_id
+      - oke_cluster_id
+      - is_oke_cluster_private
+      - notice_oke_cluster_private
+      - network_compartment_id
+      - oke_vcn_id
+      - oke_worker_subnet_id
+      - oke_worker_nsg_id
+
+variables:
+
+  devops_compartment_id:
+    title: "DevOps Compartment"
+    description: "Compartments where to create the OCI DevOps project"
+    type: oci:identity:compartment:id
+    default: ${compartment_ocid}
+    required: true
+
+  devops_project_name:
+    title: "DevOps project name"
+    description: "Name of the DevOps project. MUST BE UNIQUE in the tenancy."
+    type: string
+    required: true
+
+  devops_project_description:
+    title: "DevOps project description"
+    description: "Description of the DevOps project"
+    type: string
+    required: false
+
+  devops_log_group_name:
+    title: "DevOps Log Group name"
+    description: "Name of the Log Group that will be created for the DevOps project"
+    type: string
+    required: true
+
+  devops_log_group_description:
+    title: "DevOps Log Group description"
+    description: "Description for the Log Group that will be created for the DevOps project"
+    type: string
+    required: false
+
+  devops_log_retention_period_in_days:
+    title: "DevOps Log Group retention"
+    description: "Number of days the DevOps project logs will be retained"
+    type: integer
+    minimum: 30
+    maximum: 180
+    multipleOf: 30
+    required: true
+
+  create_notification_topic:
+    title: "Create Notification topic"
+    description: "If flagged, create a ONS topic for this DevOps project"
+    type: boolean
+
+  notification_topic_id:
+    title: "DevOps notification topic id"
+    description: "The OCID of the Notification topic to be used by the DevOps project"
+    type: string
+    required: true
+    visible:
+      not:
+        - ${create_notification_topic}
+
+  notification_topic_name:
+    title: "DevOps notification topic name"
+    description: "Notification topic to send notifications related to the DevOps project"
+    type: string
+    required: true
+    visible: ${create_notification_topic}
+
+  notification_topic_description:
+    title: "DevOps notification topic description"
+    description: "Description of the notification topic created for the DevOps project"
+    type: string
+    required: false
+    visible: ${create_notification_topic}
+
+  ocir_repo_path_prefix:
+    title: "OCIR Repo prefix"
+    description: "The DevOps build pipeline will create a repository with this prefix"
+    type: string
+    required: true
+
+  auth_token:
+    title: "Auth Token"
+    description: "Authentication Token of the user who is running this stack"
+    type: password
+    sensitive: true
+    required: true
+
+  oke_environment_name:
+    title: "OKE environment name"
+    description: "Name of the OKE environment where applications will be deployed"
+    type: string
+    required: true
+
+  oke_environment_description:
+    title: "OKE environment description"
+    description: "Description of the OKE environment to be created"
+    type: string
+    required: false
+
+  oke_compartment_id:
+    title: "OKE Compartment"
+    description: "Compartments where the OKE cluster is located"
+    type: oci:identity:compartment:id
+    default: ${compartment_ocid}
+    required: true
+
+  oke_cluster_id:
+    title: "OKE Cluster"
+    description: "Target OKE Cluster where applications will be deployed to"
+    type: oci:container:cluster:id
+    required: true
+    dependsOn:
+      compartmentId: ${oke_compartment_id}
+
+  is_oke_cluster_private:
+    title: "OKE Cluster private"
+    description: "Flag this if your OKE cluster has a private Control Plane subnet"
+    type: boolean
+
+  notice_oke_cluster_private:
+    title: "NOTE"
+    type: text
+    multiline: true
+    default: "NOTE that DNS MUST be enabled for the target subnet, otherwise OKE Environment creation will fail.\nAlso, NOTE that IPv6 enabled subnets are not supported."
+    required: false
+    visible: ${is_oke_cluster_private}
+
+  network_compartment_id:
+    title: "Network Compartment"
+    description: "Compartments where network resources for the OKE cluster are located"
+    type: oci:identity:compartment:id
+    default: ${compartment_ocid}
+    required: true
+    visible: ${is_oke_cluster_private}
+
+  oke_vcn_id:
+    title: "VCN id"
+    description: "VCN where the OKE cluster has been provisioned"
+    type: oci:core:vcn:id
+    dependsOn:
+      compartmentId: ${network_compartment_id}
+    required: true
+    visible: ${is_oke_cluster_private}
+
+  oke_worker_subnet_id:
+    title: "Worker Subnet"
+    description: "Subnet that will be used by the OCI DevOps service to deploy applications on the private OKE cluster"
+    type: oci:core:subnet:id
+    dependsOn:
+      compartmentId: ${network_compartment_id}
+      vcnId: ${oke_vcn_id}
+    required: true
+    visible: ${is_oke_cluster_private}
+
+  oke_worker_nsg_id:
+    title: "Worker NSG"
+    description: "Existing NSG to attach to the OCI DevOps subnet so that they can communicate with the private OKE Control Plane"
+    type: oci:core:nsg:id
+    dependsOn:
+      compartmentId: ${network_compartment_id}
+      vcnId: ${oke_vcn_id}
+    required: false
+    visible: ${is_oke_cluster_private}
+
+  create_iam:
+    title: "Create DevOps IAM policies and dynamic group"
+    description: "Let this stack create OCI DevOps policies and dynamic group"
+    type: boolean
+
+  identity_domain_name:
+    title: "Identity domain name"
+    description: "Name of the identity domain in the tenancy where to create the dynamic group"
+    type: string
+    required: true
+    visible: ${create_iam}
+
+  devops_dynamic_group_name:
+    title: "DevOps dynamic group name"
+    description: "OCI DevOps dynamic group name, MUST BE UNIQUE in the tenancy!"
+    type: string
+    required: true
+    visible: ${create_iam}
+
+  devops_policy_name:
+    title: "DevOps policy name"
+    description: "Name of the policy for the OCI DevOps service"
+    type: string
+    required: true
+    visible: ${create_iam}
