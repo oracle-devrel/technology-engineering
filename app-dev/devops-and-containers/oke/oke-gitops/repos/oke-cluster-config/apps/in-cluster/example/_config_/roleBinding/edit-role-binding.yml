@@ -1,0 +1,19 @@
+# Here I am binding to the default ClusterRole edit of Kubernetes.
+# NOTE: edit role allows read/write access to most objects in a namespace.
+# Also, this role does not allow viewing or modifying roles or role bindings, but allows accessing Secrets
+
+# You are encouraged to start from the edit ClusterRole and customize it according to your needs
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: edit-role-binding
+  namespace: example
+subjects:
+  - kind: Group
+    name: ocid...   # OCID of the OCI IAM group the developers belong to
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: edit
