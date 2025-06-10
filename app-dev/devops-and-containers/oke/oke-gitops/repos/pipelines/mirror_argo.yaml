@@ -10,7 +10,7 @@ env:
     repo_prefix: ""
     region: ""
     artifact: "argo-cd"
-    version: "8.0.14"
+    version: "8.0.17"
     source_helm_repo: "https://argoproj.github.io/argo-helm"
     namespace: "argocd"   # The Helm Chart will be deployed in this namespace
 

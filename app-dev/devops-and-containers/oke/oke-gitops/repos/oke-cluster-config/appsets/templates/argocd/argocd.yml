@@ -23,7 +23,7 @@ spec:
       sources:
         - repoURL: https://argoproj.github.io/argo-helm     # This is the repository where to pull the Helm chart. It is possible to configure even an OCI compliant repository, such as the Oracle Container Registry
           chart: argo-cd            # Name of the Chart to pull
-          targetRevision: 7.8.2     # Better always to specify the version of the Chart to deploy
+          targetRevision: 8.0.17     # Better always to specify the version of the Chart to deploy
           helm:
             releaseName: "argocd"   # Helm release name for the Chart
             valueFiles:
