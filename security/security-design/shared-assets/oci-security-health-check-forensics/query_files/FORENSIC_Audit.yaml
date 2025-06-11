@@ -1,0 +1,10 @@
+# Replace the table names for audit logs and cloudguard events
+queries:
+  - description: "[FORENSIC]: Fetch distict set of eventtypes from the fetched audit logs window."
+    sql: "SELECT DISTINCT event_type, source, data_event_name, data_compartment_name, data_identity_principal_name FROM audit_events_15042025_10"
+
+  - description: "[FORENSIC] Get all the event_types etc and order them by priciple_name for IdentityControlPlane"
+    sql: "SELECT data_identity_principal_name, data_identity_ip_address, event_type, source, data_compartment_name, data_event_name FROM audit_events_15042025_10 where source = 'IdentityControlPlane' GROUP BY data_identity_principal_name, data_identity_ip_address, event_type, source, data_compartment_name, data_event_name ORDER BY data_identity_principal_name"
+
+  - description: "[FORENSIC] Get all the event_types etc and order them by priciple_name for ConsoleSignIn"
+    sql: "SELECT data_identity_principal_name, data_identity_ip_address, event_type, source, data_compartment_name, data_event_name FROM audit_events_15042025_10 where source = 'IdentitySignOn' GROUP BY data_identity_principal_name, data_identity_ip_address, event_type, source, data_compartment_name, data_event_name ORDER BY data_identity_principal_name"
