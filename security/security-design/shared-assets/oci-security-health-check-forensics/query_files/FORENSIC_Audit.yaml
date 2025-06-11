@@ -1,10 +1,26 @@
-# Replace the table names for audit logs and cloudguard events
+snapshot_type: audit
+
 queries:
   - description: "[FORENSIC]: Fetch distict set of eventtypes from the fetched audit logs window."
-    sql: "SELECT DISTINCT event_type, source, data_event_name, data_compartment_name, data_identity_principal_name FROM audit_events_15042025_10"
+    sql: "SELECT DISTINCT event_type, source, data_event_name, data_compartment_name, data_identity_principal_name FROM {snapshot_data}"
 
   - description: "[FORENSIC] Get all the event_types etc and order them by priciple_name for IdentityControlPlane"
-    sql: "SELECT data_identity_principal_name, data_identity_ip_address, event_type, source, data_compartment_name, data_event_name FROM audit_events_15042025_10 where source = 'IdentityControlPlane' GROUP BY data_identity_principal_name, data_identity_ip_address, event_type, source, data_compartment_name, data_event_name ORDER BY data_identity_principal_name"
+    sql: "SELECT data_identity_principal_name, data_identity_ip_address, event_type, source, data_compartment_name, data_event_name FROM {snapshot_data} where source = 'IdentityControlPlane' GROUP BY data_identity_principal_name, data_identity_ip_address, event_type, source, data_compartment_name, data_event_name ORDER BY data_identity_principal_name"
 
   - description: "[FORENSIC] Get all the event_types etc and order them by priciple_name for ConsoleSignIn"
-    sql: "SELECT data_identity_principal_name, data_identity_ip_address, event_type, source, data_compartment_name, data_event_name FROM audit_events_15042025_10 where source = 'IdentitySignOn' GROUP BY data_identity_principal_name, data_identity_ip_address, event_type, source, data_compartment_name, data_event_name ORDER BY data_identity_principal_name"
+    sql: "SELECT data_identity_principal_name, data_identity_ip_address, event_type, source, data_compartment_name, data_event_name FROM {snapshot_data} where source = 'IdentitySignOn' GROUP BY data_identity_principal_name, data_identity_ip_address, event_type, source, data_compartment_name, data_event_name ORDER BY data_identity_principal_name"
+
+  - description: "[FORENSIC] Find all administrative actions in the last period"
+    sql: "SELECT event_time, data_event_name, data_identity_principal_name, data_resource_name FROM {snapshot_data} WHERE data_event_name LIKE '%Admin%' OR data_event_name LIKE '%Create%' OR data_event_name LIKE '%Delete%' OR data_event_name LIKE '%Update%' ORDER BY event_time DESC"
+    
+  - description: "[FORENSIC] Show all unique users who performed actions"
+    sql: "SELECT DISTINCT data_identity_principal_name, COUNT(*) as action_count FROM {snapshot_data} GROUP BY data_identity_principal_name ORDER BY action_count DESC"
+    
+  - description: "[FORENSIC] Find all failed authentication attempts"
+    sql: "SELECT event_time, data_identity_principal_name, data_event_name, data_response_response_time FROM {snapshot_data} WHERE data_event_name LIKE '%Failed%' OR data_response_status != 'SUCCEEDED' ORDER BY event_time DESC"
+    
+  - description: "[FORENSIC] Show resource deletions"
+    sql: "SELECT event_time, data_user_name, data_resource_name, data_event_name FROM {snapshot_data} WHERE data_event_name LIKE '%Delete%' ORDER BY event_time DESC"
+    
+  - description: "[FORENSIC] Find policy changes"
+    sql: "SELECT event_time, data_user_name, data_resource_name, data_event_name FROM {snapshot_data} WHERE event_type = 'Policy' OR event_type LIKE '%Policy%' ORDER BY event_time DESC"
