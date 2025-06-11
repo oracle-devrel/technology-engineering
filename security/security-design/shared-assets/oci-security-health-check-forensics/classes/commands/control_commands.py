@@ -13,16 +13,21 @@ from classes.file_selector import FileSelector
 from classes.query_selector import QuerySelector
 from classes.output_formatter import OutputFormatter
 from classes.commands.filter_commands import AgeFilterCommand, CompartmentFilterCommand
+import json
+import pandas as pd
+import os
 
 class SetQueriesCommand(Command):
     """
     Usage: set queries [<directory>]
     Launches an interactive YAML-file picker and loads the selected queries.
+    If the YAML file contains a snapshot_type, prompts for snapshot file selection.
     """
     description = """Loads queries from a YAML file for batch execution.
 Usage: set queries [directory]
 - If directory is not specified, uses default query directory
 - Opens an interactive file picker to select the YAML file
+- If YAML contains snapshot_type, prompts to select a snapshot file
 - Loads selected queries into the execution queue"""
 
     def execute(self, args: str):
@@ -35,9 +40,101 @@ Usage: set queries [directory]
             return
 
         qs = QuerySelector(yaml_path)
+        
+        # Check if snapshot file is needed
+        if qs.snapshot_type:
+            print(f"\nThis query file requires {qs.snapshot_type} snapshot data.")
+            
+            # Get current snapshot directory
+            snapshot_dir = self.ctx.query_executor.current_snapshot_dir
+            if not snapshot_dir:
+                print("Error: No active tenancy snapshot. Use 'set tenancy' first.")
+                return
+                
+            # Let user select snapshot file
+            snapshot_file = qs.select_snapshot_file(snapshot_dir)
+            if not snapshot_file:
+                print("No snapshot file selected. Query loading cancelled.")
+                return
+                
+            # Load the snapshot file into DuckDB
+            table_name = self._load_snapshot_to_duckdb(snapshot_file, qs.snapshot_type)
+            if table_name:
+                qs.set_snapshot_table(table_name)
+                print(f"✓ Loaded snapshot data into table: {table_name}")
+            else:
+                print("Failed to load snapshot data. Query loading cancelled.")
+                return
+        
+        # Select queries (with possible snapshot substitution)
         qs.select_queries()
         self.ctx.query_selector = qs
         print(f"Loaded queries from '{yaml_path}' into queue.")
+        
+        if qs.snapshot_type:
+            print(f"Queries will use snapshot table: {qs.snapshot_table}")
+
+    def _load_snapshot_to_duckdb(self, json_file, snapshot_type):
+        """Load JSON file into DuckDB and return the table name."""
+        try:
+            # Generate table name based on filename
+            filename = os.path.basename(json_file)
+            if snapshot_type == "audit":
+                table_name = filename.replace('audit_events_', '').replace('.json', '').replace('-', '')
+                table_name = f"audit_events_{table_name}"
+            elif snapshot_type == "cloudguard":
+                table_name = filename.replace('cloudguard_problems_', '').replace('.json', '').replace('-', '_')
+                table_name = f"cloudguard_problems_{table_name}"
+            else:
+                table_name = filename.replace('.json', '').replace('-', '_')
+            
+            print(f"Loading {filename} into table {table_name}...")
+            
+            with open(json_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+
+            if not data:
+                print("Warning: JSON file contains no data")
+                return None
+
+            # Check if table already exists
+            existing_tables = self.ctx.query_executor.show_tables()
+            if table_name in existing_tables:
+                print(f"Table '{table_name}' already exists, using existing table.")
+                return table_name
+
+            # Flatten nested JSON
+            flattened = []
+            for item in data:
+                flat_item = {}
+                self._flatten_dict(item, flat_item)
+                flattened.append(flat_item)
+
+            df = pd.DataFrame(flattened)
+            
+            # Register and create table
+            self.ctx.query_executor.conn.register(table_name, df)
+            self.ctx.query_executor.conn.execute(f"CREATE TABLE {table_name} AS SELECT * FROM {table_name}")
+            print(f"Created table '{table_name}' with {len(df)} rows and {len(df.columns)} columns")
+            
+            return table_name
+            
+        except Exception as e:
+            print(f"Error loading snapshot into DuckDB: {e}")
+            return None
+
+    def _flatten_dict(self, d, flat_dict, prefix=''):
+        """Recursively flatten nested dictionaries and handle lists"""
+        for k, v in d.items():
+            key = f"{prefix}{k}" if prefix else k
+            key = key.replace(' ', '_').replace('-', '_').replace('.', '_')
+            
+            if isinstance(v, dict):
+                self._flatten_dict(v, flat_dict, f"{key}_")
+            elif isinstance(v, list):
+                flat_dict[key] = json.dumps(v) if v else None
+            else:
+                flat_dict[key] = v
 
 class SetTenancyCommand(Command):
     """
