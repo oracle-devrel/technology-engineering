@@ -1,0 +1,4 @@
+# Replace the table names for audit logs and cloudguard events
+queries:
+  - description: "[FORENSIC] Get all the CG problems sorted by resource_name"
+    sql: "select resource_name, detector_rule_id, risk_level, labels, time_first_detected, time_last_detected, lifecycle_state, lifecycle_detail, detector_id from cloudguard_problems_10052025_12 ORDER BY resource_name"
