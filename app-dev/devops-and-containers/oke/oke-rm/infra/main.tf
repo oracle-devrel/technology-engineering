@@ -3,7 +3,7 @@ module "network" {
   source = "./modules/network"
   network_compartment_id = var.network_compartment_id
   region = var.region
-  cni_type = var.cni_type
+  cni_type = local.cni
   # VCN
   create_vcn = var.create_vcn
   vcn_id = var.vcn_id
