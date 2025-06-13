@@ -1,6 +1,6 @@
-title: OCI Native - Base Infra
-description: Basic infrastructure and network rules to start with a Cloud Native project
-informationalText: Basic infrastructure
+title: OKE RM - Base Network Infrastructure
+description: Basic network infrastructure to start with OKE
+informationalText: Basic network infrastructure
 schemaVersion: 1.1.0
 version: "20190304"
 locale: "en"
@@ -88,7 +88,7 @@ variables:
     description: "CNI to use for the OKE cluster"
     type: enum
     enum:
-      - npn
+      - vcn_native
       - flannel
     required: true
 
@@ -210,7 +210,7 @@ variables:
     visible:
       eq:
         - ${cni_type}
-        - npn
+        - vcn_native
 
   pod_subnet_cidr:
     title: "Pod subnet CIDR"
@@ -222,7 +222,7 @@ variables:
         - ${create_pod_subnet}
         - eq:
             - ${cni_type}
-            - npn
+            - vcn_native
 
   pod_subnet_dns_label:
     title: "Pod subnet DNS label"
@@ -234,7 +234,7 @@ variables:
         - ${create_pod_subnet}
         - eq:
             - ${cni_type}
-            - npn
+            - vcn_native
 
   pod_subnet_name:
     title: "Pod subnet name"
@@ -246,7 +246,7 @@ variables:
         - ${create_pod_subnet}
         - eq:
             - ${cni_type}
-            - npn
+            - vcn_native
 
 # SERVICE SUBNET
 

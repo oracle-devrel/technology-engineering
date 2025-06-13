@@ -18,7 +18,7 @@ variable "vcn_id" {
 }
 
 variable "vcn_name" {
-  default = "vcn-spoke-1"
+  default = "vcn-oke-1"
 }
 
 variable "vcn_cidr_blocks" {
@@ -27,7 +27,7 @@ variable "vcn_cidr_blocks" {
 }
 
 variable "vcn_dns_label" {
-  default = "spoke1"
+  default = "oke1"
 }
 
 # CP SUBNET

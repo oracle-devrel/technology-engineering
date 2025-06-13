@@ -46,6 +46,28 @@ variable "pods_cidr" {
   default = "10.244.0.0/16"
 }
 
+# ADD-ONS
+
+variable "enable_cert_manager" {
+  type = bool
+  default = true
+}
+
+variable "enable_metrics_server" {
+  type = bool
+  default = true
+}
+
+variable "enable_cluster_autoscaler" {
+  type = bool
+  default = false
+}
+
+variable "create_autoscaler_policies" {
+  type = bool
+  default = true
+}
+
 # SECURITY
 
 variable "oke_vault_compartment_id" {
