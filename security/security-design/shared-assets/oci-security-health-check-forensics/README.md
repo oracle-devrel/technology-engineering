@@ -1,15 +1,21 @@
-# SHOW_OCI CSV Query Tool
+# OCI Security Health Check Forensics Tool
 
-The SHOW_OCI Query Tool is designed to load and analyze data from Oracle Cloud Infrastructure (OCI) environments using SQL. This tool enables users to import CSV files containing OCI resource information (e.g., compute instances, users, compartments) and perform SQL queries on the data.
+Last updated: 11 June 2025
+
+The OCI Security Health Check Forensics Tool (the tool) is designed to load and analyze data from Oracle Cloud Infrastructure (OCI) environments. This tool enables users to import CSV files containing OCI resource information (e.g., compute instances, users, compartments) and perform SQL queries on the data. This data is used to investigate configuration issues etc.
+
+The tool can also digest audit events and cloud guard problems. These resources can be loaded with different snapshots from a certain date with a number of days prior to that date.
+
+This data can be used to investiage anomalies.
 
 ## Features
 - Automatic OCI data fetching using showoci integration
 - **Audit events** and **Cloud Guard problems** fetching with parallel processing
 - Advanced filtering capabilities for age-based and compartment analysis
-- - Load CSV files with OCI data from multiple tenancies
+- Interactive tenancy selection from combined OCI configuration files
+- Load CSV files with OCI data from multiple tenancies
 - Execute SQL queries on the loaded data using DuckDB backend. Stay tuned for autonomous DB support.
 - Support for `SHOW TABLES` and `DESCRIBE table_name` commands
-- Interactive tenancy selection from combined OCI configuration files
 - Command history and help system
 - Batch query execution from YAML files
 
@@ -282,3 +288,11 @@ The tool supports parallel fetching for large datasets:
 - Compartment hierarchy analysis and visualization
 - Support for complex nested data structures
 - Chainable filter operations on query results
+
+# License
+
+Copyright (c) 2025 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
