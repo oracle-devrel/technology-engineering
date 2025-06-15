@@ -1,6 +1,6 @@
-title: OCI Native - OKE
-description: OKE Cluster to be installed on top of an existing infrastructure
-informationalText: OKE init
+title: OKE RM - OKE Cluster
+description: Stack to provision the OKE Cluster
+informationalText: OKE Cluster stack
 schemaVersion: 1.1.0
 version: "20190304"
 locale: "en"
@@ -38,6 +38,17 @@ variableGroups:
       - services_cidr
       - pods_cidr
 
+  - title: "Add-ons"
+    visible:
+      eq:
+        - ${cluster_type}
+        - enhanced
+    variables:
+      - enable_cert_manager
+      - enable_metrics_server
+      - enable_cluster_autoscaler
+      - create_autoscaler_policies
+
   - title: "Security"
     variables:
       - oke_kms_key_notice
@@ -66,7 +77,7 @@ variables:
     description: "CNI to use for the OKE cluster"
     type: enum
     enum:
-      - npn
+      - vcn_native
       - flannel
     required: true
 
@@ -122,7 +133,7 @@ variables:
     visible:
       eq:
         - ${cni_type}
-        - npn
+        - vcn_native
 
   cp_nsg_id:
     title: "Control Plane NSG"
@@ -153,7 +164,7 @@ variables:
     visible:
       eq:
         - ${cni_type}
-        - npn
+        - vcn_native
 
   cp_allowed_cidr_list:
     title: "Control Plane allowed CIDR blocks"
@@ -217,6 +228,30 @@ variables:
       eq:
         - ${cni_type}
         - flannel
+
+# ADD-ONS
+
+  enable_cert_manager:
+    title: "Enable cert-manager"
+    description: "Enable the cert-manager add-on in the cluster"
+    type: boolean
+
+  enable_metrics_server:
+    title: "Enable metrics-server"
+    description: "Enable the metrics-server add-on in the cluster"
+    type: boolean
+    visible: ${enable_cert_manager}
+
+  enable_cluster_autoscaler:
+    title: "Enable cluster autoscaler"
+    description: "Enable the cluster autoscaler add-on in the cluster"
+    type: boolean
+
+  create_autoscaler_policies:
+    title: "Create cluster autoscaler policies"
+    description: "Policies will be created for the cluster autoscaler using Workload Identity authentication mode"
+    type: boolean
+    visible: ${enable_cluster_autoscaler}
 
 # SECURITY
 
