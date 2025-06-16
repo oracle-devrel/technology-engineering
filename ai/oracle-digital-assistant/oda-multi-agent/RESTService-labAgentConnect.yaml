@@ -1,0 +1,16 @@
+exportedRestServices:
+- endpoint: "https://agent-runtime.generativeai.eu-frankfurt-1.oci.oraclecloud.com/20240531/agentEndpoints/{agentEndpointId}/sessions"
+  name: "labAgentConnect"
+  type: "REST"
+  authType: "resourcePrincipal"
+  mock: false
+  restServiceMethods:
+  - restServiceMethodType: "POST"
+    contentType: "application/json"
+    statusCode: 200
+    requestBody: "{\n    \"idleTimeoutInSeconds\": 3600\n}"
+    mockResponsePayload: "{\n    \"displayName\": null,\n    \"welcomeMessage\": null,\n    \"timeUpdated\": null,\n    \"description\": null,\n    \"timeCreated\": \"2025-02-21T13:06:47.917Z\",\n    \"id\": \"ocid1.genaiagentsession.oc1.eu-frankfurt-1.amaaaaaa7mjirbaa2yeb4om5hs26ofeybln2an6fs3k33uagaybgocvpzqrq\"\n}"
+    restServiceParams:
+    - type: "path"
+      key: "agentEndpointId"
+      value: "ocid1.genaiagentendpoint.oc1.eu-frankfurt-1.amaaaaaa2xxap7ya6eh7bsff5qmi4vazi44fkac7z4gftgond7x65dydzj4a"
