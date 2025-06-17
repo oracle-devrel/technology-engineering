@@ -2,7 +2,7 @@
 
 This asset helps the customer and/or the partner to conduct a thorough discovery phase gathering all the necessary information for a proper design of Oracle Construction and Engineering applications on OCI.
 
-Reviewed: 18.11.2024
+Reviewed: 7.02.2025
 
 # When to use this asset?
 
@@ -14,7 +14,7 @@ The information is generic in nature and not specified for a particular customer
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

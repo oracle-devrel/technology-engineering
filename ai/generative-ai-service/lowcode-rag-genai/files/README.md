@@ -466,7 +466,7 @@ The **OCI Base Database Service 23ai** should look like this:
         $ perl -Iclient client/client.pl
         Oracle Machine Learning for Python 2.0 Client.
 
-        Copyright (c) 2018, 2024 Oracle and/or its affiliates. All rights reserved.
+        Copyright (c) 2025 Oracle and/or its affiliates. All rights reserved.
         Checking platform .................. Pass
         Checking Python .................... Pass
         Checking dependencies .............. /u01/app/oracle/product/23.0.0.0/dbhome_1/python/bin/check_deps.py:2: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
@@ -1058,7 +1058,7 @@ In conclusion, The Oracle Low-Code Modular LLM App Engine can enable enterprise-
 
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

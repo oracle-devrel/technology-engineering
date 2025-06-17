@@ -23,7 +23,7 @@ Please use the posting [Getting started with vectors in 23ai](https://blogs.orac
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

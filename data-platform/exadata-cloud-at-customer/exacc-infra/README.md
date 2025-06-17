@@ -12,6 +12,8 @@ Reviewed: 24.06.2024
 
 - [Oracle Exadata Configuration Assistant (OECA)](https://www.oracle.com/database/technologies/oeca-download.html)
 
+- [Oracle EMCC extracts sizing script and documentaion](assets/Oracle_EMCC_sizing_extracts.zip)
+
 ## Useful Documentation
 - [Managing VM Clusters](https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-manage-vm-clusters.html)
 
@@ -42,7 +44,7 @@ Reviewed: 24.06.2024
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

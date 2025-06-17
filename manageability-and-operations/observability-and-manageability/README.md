@@ -2,7 +2,7 @@
 
 The Observability and Manageability (O&M) platform is a set of Oracle Cloud Infrastructure (OCI) services that enable visibility and insight across cloud-native and traditional technology, whether deployed in multicloud or on-premises environments, with broad, standards-based ecosystem support. It’s designed to help enterprises better manage their increasingly diverse and distributed IT portfolios while reducing troubleshooting time, preventing outages, and enabling IT to manage applications from a business perspective.
 
-Reviewed: 08/07/2024
+Reviewed: 28/02/2025
 
 # Table of Contents
 
@@ -41,6 +41,7 @@ Reviewed: 08/07/2024
 - [OCI Management Dashboard Automation](https://karthicin.medium.com/oci-management-dashboard-automation-ea4f45cac24b)
 - [Create Dynamic Links for OCI Stack Monitoring Alarms and More](https://medium.com/@michtoeth/create-dynamic-links-for-oci-stack-monitoring-alarms-and-more-ca8e0e6fb7a5)
 - [Integrating OCI Logs into IBM QRadar SIEM](https://medium.com/@guna.sekar.sun/integrating-oci-logs-in-ibm-qradar-siem-9dcea5ed036a)
+- [How to build an Advanced Observability solution in OCI for Security purposes](https://learnoci.cloud/start-building-an-advanced-observability-solution-in-oci-for-security-purposes-using-native-and-e2ed5d806eff)
 
 ## Cloud Coaching Clinics (Videos)
 
@@ -52,6 +53,7 @@ Reviewed: 08/07/2024
 - [Overview of AI infra monitoring in OCI](https://youtu.be/oq2x1gouSp4?si=QnmslQXC03qPzDl4)
 - [OCI Observability for Kubernetes Monitoring](https://youtu.be/DLce-UReoKo?si=Vpw19z4rjlUb9fW2)
 - [Cloud Coaching - How to enable Oracle Observability on RAG solutions](https://www.youtube.com/watch?v=VQg3lADHwu8)
+- [Building a Cyber Range in Oracle Cloud](https://www.youtube.com/watch?v=hFGeT5pQOrw)
 
 # Useful Links
 
@@ -61,10 +63,11 @@ Reviewed: 08/07/2024
 - [Documentation](https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/monitoring-and-observability.htm)
 - [OCI Monitoring](https://docs.oracle.com/en-us/iaas/Content/Monitoring/home.htm)
 - [O&M How to video series](https://www.youtube.com/playlist?list=PLiuPvpy8QsiWO40IrhRlbY-TOLepyGXzV)
+- [Building a Cyber Range in OCI. Harnessing Observability and OpenSource Tools for Threat Hunting](https://github.com/adibirzu/Building-a-Cyber-Range-in-OCI---Harnessing-Observability-and-Open-Source-Tools-for-Threat-Hunting/blob/main/README.md)
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

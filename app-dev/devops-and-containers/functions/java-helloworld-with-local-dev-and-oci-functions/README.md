@@ -1,5 +1,5 @@
 <!--
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 The Universal Permissive License (UPL), Version 1.0
 
@@ -118,7 +118,6 @@ docker build -t fra.ocir.io/&lt;YOUR OCI TENANCY NAMESPACE&gt;/helloworld-java:1
 </pre>
 
 In the docker build command above replace the <code>region</code> if necessary and the <code>&lt;YOUR OCI TENANCY NAMESPACE&gt;</code> with yours.
-
 <p>
 
 After building let's do <code>docker login</code> and <code>docker push</code> to push the container to the OCIR repo:
@@ -131,7 +130,15 @@ docker push fra.ocir.io/&lt;YOUR OCI TENANCY NAMESPACE&gt;/helloworld-java:1
 </pre>
 
 <p>
+The same as above but using OCI cli to get the &lt;YOUR OCI TENANCY NAMESPACE&gt; which is especially handy in scripting:
 
+<pre>
+export namespace=$(oci os ns get | jq .data | tr -d '"')
+docker build -t fra.ocir.io/$namespace/helloworld-java:1 .
+docker push fra.ocir.io/$namespace/helloworld-java:1
+</pre>
+
+<p>
 The last step is to create the Function Application and the function deployment for it. This can be easily done using the Cloud UI. 
 
 <p>
@@ -171,7 +178,7 @@ Hello, Mika!
 
 ## License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
