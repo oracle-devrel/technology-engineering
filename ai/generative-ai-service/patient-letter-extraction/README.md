@@ -2,6 +2,20 @@
 
 This is a Generative AI-powered application that extracts key information from patient referral letters (in `.docx` format) and processes them using the OCI Generative AI services. This application allows users to simply and efficiently extract key data from patient referrals for expedited patient handling.
 
+## Demo
+![Demo of Patient Letter Extraction](patient_letter_demo.gif)
+
+## OCI Services used
+- **OCI Generative AI**  
+  A fully managed service offering enterprise-grade large language models for natural language processing tasks.  
+  In this project, it is used to extract structured medical data from unstructured referral letters.  
+  📘 [OCI Generative AI Documentation](https://www.oracle.com/artificial-intelligence/generative-ai/generative-ai-service/)
+
+- **OCI Python SDK**  
+  A Python library that allows secure interaction with OCI services through API calls.  
+  It is used here to authenticate and communicate with the Generative AI endpoints.  
+  📘 [OCI Python SDK Documentation](https://docs.oracle.com/en-us/iaas/tools/python/latest/)
+
 ## Features
 - Upload `.docx` files containing patient referral letters.
 - Process documents using Oracle Cloud Infrastructure (OCI) Generative AI.
