@@ -6,7 +6,7 @@ This landing zone add-on provides the necessary configuration steps to enable OC
 |Step  |  Name| Link|
 |---|---|---|
 | 1  | [Design Decisions](apm-lz-design-decisions.md) | Link |
-| 2  | [Deployment Scenario](./apm-lz-deployment-scenario.md) | Coming Soon  |
+| 2  | [Deployment Scenario](apm-lz-deployment-scenario.md) | Coming Soon  |
 &nbsp; 
 
 # License

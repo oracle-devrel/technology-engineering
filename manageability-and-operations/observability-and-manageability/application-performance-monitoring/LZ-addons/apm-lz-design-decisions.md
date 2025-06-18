@@ -3,35 +3,46 @@
 &nbsp;
 To setup and configure OCI Application Performance Monitoring (OCI APM), you will need to make some key design decisions:
 
-* **Domains**. Create one APM domain per application to segregate trace data. As an optional extension, configure APM domain(s) to adjust trace data and metrics for analysis and alerting purposes.
+* [**Domains**](#domains). Create one APM domain per application to segregate trace data. As an optional extension, configure APM domain(s) to adjust trace data and metrics for analysis and alerting purposes.
 
-* **Data sources**. Determine whether APM agent data sources cover all programming languages and application servers/frameworks used by environment to be monitored. Select appropriate additional 3rd party tracers from the OpenTelemetry community as alternative data sources where needed. As an optional extension, configure data sources to cover requirements unique to the monitored application.
+* [**Data sources**](#data-sources). Determine whether APM agent data sources cover all programming languages and application servers/frameworks used by environment to be monitored. Select appropriate additional 3rd party tracers from the OpenTelemetry community as alternative data sources where needed. As an optional extension, configure data sources to cover requirements unique to the monitored application.
 
-* **Availability Monitors**. Determine test cases, execution intervals, and whether to use vantage points provided by Oracle or privately managed vantage points to execute monitors. 
+* [**Availability Monitors**](#availability-monitors). Determine test cases, execution intervals, and whether to use vantage points provided by Oracle or privately managed vantage points to execute monitors. 
 
-* **Alarms**. Determine performance indicators of application(s) and define appropriate alarms for these in accordance to available metrics and dimensions.
+* [**Alarms**](#alarms). Determine performance indicators of application(s) and define appropriate alarms for these in accordance to available metrics and dimensions.
 &nbsp; 
 
 ### Domains
 
-Domains contain all trace data explored in APM. It's recommended to create one APM domain per application to segregate trace data. This means that traces from one applications are not mixed with the traces of another application when analyzing performance bottlenecks and their root causes.
+Domains contain all trace data explored in APM. It's recommended to create one APM domain per application in the cmp-lzp-p-platform-mon compartment to segregate trace data. This means that traces from one application are not mixed with the traces of another application when analyzing performance bottlenecks and their root causes.
 
 ![OCI APM Domain](../images/apm_domain.png)
 
-To test APM with applications and estimate hourly cost, it's recommended to start out with a free domain before a paid domain. A free domain limits hourly span ingestions and availability monitor executions to 1,000 and 10 respectively. However, a free domain also lets you test out all APM features and estimate cost in paid domains by calculating hourly average of ingested and rejected spans with the following query in OCI Monitoring for the oci_apm namespace:
+OCI APM domains have two cost factors (click [here](https://www.oracle.com/cloud/price-list/#pricing-observability) for more):
 
-INSERT QUERY HERE
+* Units of 100,000 events/spans per hour
+* Units of 10 availability monitor runs per hour
+
+You can either select a paid or a free APM domain:
+* **Paid domain**: Includes all features with no limits to hourly span ingestions or availabilty monitor runs. As long as there's one paid APM domain in a region, a minimum of 100,000 spans per hour will be charged. If there are two paid domains in a region, the minimum charge will still be 100,000 spans per hour, not 200,000. So creating multiple paid APM domains for multiple applications will not increase the regional minimum hourly charge. 
+* **Free domain**: Limits hourly span ingestions and availability monitor runs to 1,000 and 10 respectively. After the first 1,000 spans are ingested into a free domain in a given hour, any additional spans collected by data sources in the same hour will be throttled. However, a free domain does let you test out all APM features.
+
+A free domain can be used to test APM with an application and to estimate the cost of using a paid domain for the same application. By calculating a free domain's hourly sum of ingested and throttled spans, it's possible to assess what would become the average number of spans per hour for a paid domain. Use the following query in OCI Monitoring's [Metrics Explorer](https://docs.oracle.com/en-us/iaas/Content/Monitoring/Tasks/metrics-explorer-basic-query.htm) for the oci_apm namespace with the OCID of a free APM domain:
+
+```md
+SpanIngestions[1h]{ResourceId = "<INSERT APM DOMAIN OCID>"}.sum() + PayloadRejections[1h]{ResourceId = "<INSERT APM DOMAIN OCID>", RejectionCause = "PAYLOAD_THROTTLED"}.sum()
+```
 
 Optionally, an APM domain can be configured to adjust the trace data and metrics produced by the monitored application services (click [here](https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/configure-apm-domain.html) for more). Below are some import configuration to have in mind:
 
-* **Apdex thresholds (click [here](https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/configure-apdex-thresholds.html) for more)**. Apdex scores categorize spans as "satisfying", "tolerating", or "frustrating" based on execution time. Apdex is good for analysis and alerting of span execution time. For example, there's a difference between the average execution time of ajax spans and servlet spans. Apdex thresholds allow you to set different execution time thresholds for different span types. It's then possible to query or trigger alerts in a straight-forward way based on spans categorized as "frustrating" rather than basing it on changing execution time thresholds. APM does set several Apdex thresholds by default, but it's important to confirm whether these default values should be changed.
-* **Enrichment rules (click [here](https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/configure-span-rules.html) for more)**. Span enrichment rules allows the creation or modification of ingested spans and their attributes based on their pre-existing attributes set by instrumentation with agents or tracers. It's possible to create completely custom enrichment rules, but APM does provide several pre-made rules. It's recommmended to use these when applicable:
+* **Apdex thresholds (click [here](https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/configure-apdex-thresholds.html) for more)**. Apdex scores categorize spans as "satisfying", "tolerating", or "frustrating" based on execution time. Apdex is good for analysis and alerting of span execution time. For example, there's a difference between the average execution time of ajax spans and servlet spans. Apdex thresholds allow you to set different execution time thresholds for different span types. It's then possible to query or trigger alerts in a straight-forward way based on spans categorized as "frustrating" rather than basing it on changing execution time thresholds. APM does set several Apdex thresholds by default, but it's important to confirm whether these default values fulfill all monitoring requirements specific to the application's spans.
+* **Enrichment rules (click [here](https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/configure-span-rules.html) for more)**. Span enrichment rules allows the creation or modification of ingested spans and their attributes based on their pre-existing attributes set by instrumentation with data sources. It's possible to create completely custom enrichment rules, but APM does provide several pre-made rules. It's recommmended to use these when applicable:
   * **E-Business, JD Edwards, and Fusion Suite templates**. These enrichment rules add additional attributes to spans from these application environments for more meaningful context in relation to alerting and analysis.
   * **Client IP address attribute**. Adds the client IP address to a span as an attribute named ClientIP. Be aware to follow all privacy standards that apply to your scenario.
   * **OpenTelemetry to APM naming conventions**. If 3rd party tracers from the OpenTelemetry community is used to instrument applications, the attribute names defined by OpenTelemetry semantic conventions (click [here](https://opentelemetry.io/docs/concepts/semantic-conventions/) for more) can be converted to an APM naming scheme. This way the attributes from APM agents and 3rd party tracers will follow similar naming conventions.
-* **Metric groups and anomaly detection (click [here](https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/configure-metric-groups.html) for more)**. APM provides several metrics about span performance (click [here](https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/application-performance-monitoring-metrics.html) for more). Metric groups apply custom filters based on span attribute values for specified metrics. It's also possible to enable anomaly detection for metric groups to allow for analysis and alerting of metrics with more than just fixed value thresholds.
+* **Metric groups and anomaly detection (click [here](https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/configure-metric-groups.html) for more)**. APM provides several metrics about span performance (click [here](https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/application-performance-monitoring-metrics.html) for more). Metric groups apply custom filters based on span attribute values, so it's possible to query metrics belonging to a specific span group. It's also possible to enable anomaly detection for metric groups to allow for analysis and alerting of metrics with more than just fixed metric value thresholds.
 
-If it's decided to move from a free to a paid APM domain, it's possible to export and import all domain configurations to facilitate the move (click [here](https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/configure-apm-domain-export-import.html) for more).
+If it's decided to move from a free to a paid APM domain, it's possible to **export and import all domain configurations** to facilitate the move (click [here](https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/configure-apm-domain-export-import.html) for more).
 &nbsp;
 
 ### Data sources
