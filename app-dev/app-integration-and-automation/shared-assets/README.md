@@ -227,6 +227,16 @@ This section contains various examples related to Application Integration: demo 
 
 ## Blogs
 
+-[A Beginner’s Guide to Using OCI Generative AI with Oracle Integration](https://www.linkedin.com/pulse/beginners-guide-using-oci-generative-ai-oracle-harris-qureshi-wqcof/)
+
+Designed for Oracle Integration developers, this beginner-friendly guide walks you through:
+
+ • Exploring the OCI Generative AI Playground
+ • Understanding the OCI Gen AI Inference API
+ • Calling OCI Gen AI directly from Oracle Integration
+
+Whether you're experimenting or building real use cases, this step-by-step intro will help you bridge the gap between integration and Gen AI. It also includes a hands on demo.
+
 - [Agentic AI Workflows in Oracle Integration: Unlocking the Power of Generative AI](https://www.linkedin.com/pulse/agentic-ai-workflows-oracle-integration-unlocking-power-qureshi-nxm0f)
 
     What if your integrations could reason, plan, and act on their own? In this article, I explore how Agentic AI Workflows in OIC, powered by OCI Generative AI, enable dynamic, 𝙨𝙚𝙡𝙛–𝙤𝙥𝙩𝙞𝙢𝙞𝙯𝙞𝙣𝙜 𝙨𝙮𝙨𝙩𝙚𝙢𝙨 𝙩𝙝𝙖𝙩 𝙖𝙙𝙖𝙥𝙩 𝙖𝙣𝙙 𝙧𝙚𝙨𝙥𝙤𝙣𝙙 𝙞𝙣 𝙧𝙚𝙖𝙡 𝙩𝙞𝙢𝙚.
