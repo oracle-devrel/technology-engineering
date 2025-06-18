@@ -1,0 +1,76 @@
+version: 0.1
+component: build
+timeoutInSeconds: 10000
+runAs: root
+shell: bash
+
+env:
+  variables:
+    repo_compartment_id: ""
+    repo_prefix: ""
+    region: ""
+    artifact: "argo-cd"
+    version: "8.0.17"
+    source_helm_repo: "https://argoproj.github.io/argo-helm"
+    namespace: "argocd"   # The Helm Chart will be deployed in this namespace
+
+  exportedVariables:
+    - "version"
+    - "artifact"
+    - "repo_path"
+    - "namespace"
+
+steps:
+
+  - type: Command
+    name: "Load variables"
+    command: |
+      source ./variables.sh
+    onFailure:
+      - type: Command
+        command: |
+          echo "Error loading common environment variables";
+        timeoutInSeconds: 400
+
+  - type: Command
+    timeoutInSeconds: 400
+    name: "Create helm registry"
+    failImmediatelyOnError: true
+    command: |
+      export repo_path=$(bash ./script/create-container-registry.sh -r $repo_prefix -c $repo_compartment_id -a $artifact)
+    onFailure:
+      - type: Command
+        command: |
+          echo "Failed creating helm registry!";
+
+  - type: Command
+    timeoutInSeconds: 400
+    name: "Pull Helm Chart"
+    failImmediatelyOnError: true
+    command: |
+      echo "Pulling Helm chart ${artifact}";
+      helm repo add source ${source_helm_repo};
+      helm pull source/${artifact} --version ${version}
+    onFailure:
+      - type: Command
+        command: |
+          echo "Failed to pull helm chart from the remote repository!";
+        timeoutInSeconds: 400
+
+  - type: Command
+    name: "Push to Oracle Container Registry"
+    shell: bash
+    timeoutInSeconds: 400
+    failImmediatelyOnError: true
+    command: |
+      yum -y install jq;
+      region_key=$(oci iam region list --query "data[?name == '$region'].key | [0]" --raw-output);
+      region_key=$(echo "$region_key" | tr '[:upper:]' '[:lower:]');
+      TOKEN=$(oci raw-request --http-method GET --target-uri "https://${region_key}.ocir.io/20180419/docker/token" | jq -r .data.token);
+      echo $TOKEN | helm registry login ${region_key}.ocir.io -u BEARER_TOKEN --password-stdin;
+      helm push ${artifact}-${version}.tgz oci://${repo_path};
+    onFailure:
+      - type: Command
+        command: |
+          echo "Failed to upload helm chart";
+        timeoutInSeconds: 400

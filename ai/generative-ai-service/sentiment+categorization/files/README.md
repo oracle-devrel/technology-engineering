@@ -1,4 +1,4 @@
-# Batch Message Analysis and Categorization Demo
+# Customer-Agent Conversation Analysis and Categorization Demo
 This demo showcases an AI-powered solution for analyzing batches of customer messages, categorizing them into hierarchical levels, extracting sentiment scores, and generating structured reports.
 
 ## Key Features
