@@ -13,6 +13,8 @@ It has four main sections:
 - Logical and physical to-be architecture
 - Bill of materials
 
+![SDD Values](./images/sdd-values.png)
+
 ## Where Can I Find SDD Templates and Related Resources?
 
 The base templates can be found in the sub-folders of this repository. There are two versions, [Mandatory](./solution-definition-mandatory/) and [Complete](./solution-definition-complete/). The mandatory version contains fewer chapters than the complete version. 

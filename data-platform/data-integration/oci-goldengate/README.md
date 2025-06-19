@@ -25,6 +25,9 @@ Reviewed: 28.02.2025
 
 
 # Useful Links
+
+- [OCI GoldenGate ZeroETL Mirror Pipelines](https://youtu.be/K-Qdxh4aII0?feature=shared)
+    - Step-by-step Video of How to set up and use ZeroETL Mirror Pipelines in OCI GoldenGate
  
 - [Install GoldenGate Microservices 21c in silent mode](https://medium.com/@eloi-lopes29/install-goldengate-microservices-21c-in-silent-mode-48a904b97dc3)
     - How to install GoldenGate in SilentMode

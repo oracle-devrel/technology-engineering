@@ -31,22 +31,24 @@ AUTH = "API_KEY"
 
 # embeddings
 EMBED_MODEL_ID = "cohere.embed-multilingual-v3.0"
+# EMBED_MODEL_ID = "cohere.embed-multilingual-image-v3.0"
 
 # LLM
 # this is the default model
 LLM_MODEL_ID = "meta.llama-3.3-70b-instruct"
 TEMPERATURE = 0.1
-MAX_TOKENS = 1024
+MAX_TOKENS = 2048
 
 # for the UI
 LANGUAGE_LIST = ["same as the question", "en", "fr", "it", "es"]
-MODEL_LIST = ["meta.llama-3.3-70b-instruct", "cohere.command-r-plus-08-2024"]
+# replaced command-r with command-a
+MODEL_LIST = ["meta.llama-3.3-70b-instruct", "cohere.command-a-03-2025"]
 
 ENABLE_USER_FEEDBACK = True
 
 # semantic search
 TOP_K = 6
-COLLECTION_LIST = ["BOOKS", "CNAF"]
+COLLECTION_LIST = ["DEV_COACHING", "BOOKS", "CNAF"]
 
 # OCI general
 COMPARTMENT_ID = "ocid1.compartment.oc1..aaaaaaaaushuwb2evpuf7rcpl4r7ugmqoe7ekmaiik3ra3m7gec3d234eknq"
@@ -69,3 +71,8 @@ APM_CONTENT_TYPE = "application/json"
 # for loading
 CHUNK_SIZE = 2000
 CHUNK_OVERLAP = 100
+
+# for MCP server
+TRANSPORT = "streamable-http"
+HOST = "0.0.0.0"
+PORT = 9000

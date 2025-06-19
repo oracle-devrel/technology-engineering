@@ -21,7 +21,7 @@ An OCI Landing Zone sets the foundations for a **secure tenancy**, providing des
 
 ## **2. Design Considerations**
 
-Before choosing the approach and solution, it's important to understand a set of security, network, and operational considerations to successfully run OCI - or any cloud provider. It is recommended to iterate over these elements as they will guide the design process, simplify the understanding of OCI core resources, and clarify the day-two operations. For tangibles examples, find [**here**](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/design/OCI_Open_LZ.pdf) an OCI landing zone design document matching these topics.
+Before choosing the approach and solution, it's important to understand a set of security, network, and operational considerations to successfully run OCI - or any cloud provider. It is recommended to iterate over these elements as they will guide the design process, simplify the understanding of OCI core resources, and clarify the day-two operations. For tangibles examples, find [**here**](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities/tree/master/blueprints) an OCIs landing zone blueprints matching these topics.
 
 &nbsp; 
 

@@ -1,0 +1,15 @@
+# ClusterRoles should be bound to the OCID of a IAM Group in OCI, see: https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengaboutaccesscontrol.htm
+# NOTE: Be sure that users do not have the "manage cluster" policy, as that policy will grant the users the "super-admin" role
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: cluster-reader-binding
+subjects:
+  - kind: Group
+    name: ocid...
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: cluster-reader
+  apiGroup: rbac.authorization.k8s.io

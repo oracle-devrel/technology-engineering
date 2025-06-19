@@ -1,0 +1,8 @@
+pandas
+pyyaml
+duckdb
+oci
+questionary
+tqdm
+gitpython
+requests

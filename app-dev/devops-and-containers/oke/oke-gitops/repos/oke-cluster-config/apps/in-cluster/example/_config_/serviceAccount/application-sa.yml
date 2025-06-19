@@ -1,0 +1,11 @@
+# As a best practice, it is better not use the default ServiceAccount when deploying pods, so better create a new one and tell the developers to use this
+# By default, automountServiceAccountToken is set to true, but if the pod requires to use the token issued by the Kubernetes control plane, the developer can still specify it in the Pod spec
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: application-sa
+  namespace: example
+imagePullSecrets:
+  - name: ocirsecret
+automountServiceAccountToken: false
