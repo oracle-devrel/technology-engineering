@@ -7,7 +7,7 @@
 #
 # Author: Olaf Heimburger
 #
-VERSION=250430
+VERSION=250602
 
 graal_version=24.2.1
 OS_TYPE=$(uname)
@@ -166,6 +166,7 @@ make_env() {
         printf "ERROR: Permissions to install the required libraries are missing.\n"
         printf "ERROR: Please check with your OCI administrator.\n"
         exit 1
+    fi
 }
 
 check_shasum() {
