@@ -41,7 +41,7 @@ resource "oci_core_network_security_group_security_rule" "oke_pod_nsg_ingress_3"
 resource "oci_core_network_security_group_security_rule" "oke_pod_nsg_ingress_4" {
   direction                 = "INGRESS"
   network_security_group_id = oci_core_network_security_group.pod_nsg.0.id
-  protocol                  = "1"
+  protocol                  = local.icmp_protocol
   source_type = "CIDR_BLOCK"
   source = "0.0.0.0/0"
   stateless = false
@@ -56,11 +56,11 @@ resource "oci_core_network_security_group_security_rule" "oke_pod_nsg_ingress_4"
 resource "oci_core_network_security_group_security_rule" "pods_nsg_rule_lb_ingress" {
   direction                 = "INGRESS"
   network_security_group_id = oci_core_network_security_group.pod_nsg.0.id
-  protocol                  = "6"
+  protocol                  = local.tcp_protocol
   source_type = "NETWORK_SECURITY_GROUP"
   source = oci_core_network_security_group.oke_lb_nsg.id
-  stateless = true
-  description = "LBs to pods, - stateless ingress"
+  stateless = false
+  description = "LBs to pods"
   count = local.is_npn ? 1 : 0
 }
 
@@ -101,7 +101,7 @@ resource "oci_core_network_security_group_security_rule" "oke_pod_nsg_egress_3" 
 resource "oci_core_network_security_group_security_rule" "oke_pod_nsg_egress_4" {
   direction                 = "EGRESS"
   network_security_group_id = oci_core_network_security_group.pod_nsg.0.id
-  protocol                  = "6"
+  protocol                  = local.tcp_protocol
   destination_type = "NETWORK_SECURITY_GROUP"
   destination = oci_core_network_security_group.cp_nsg.id
   stateless = false
@@ -118,7 +118,7 @@ resource "oci_core_network_security_group_security_rule" "oke_pod_nsg_egress_4" 
 resource "oci_core_network_security_group_security_rule" "oke_pod_nsg_egress_5" {
   direction                 = "EGRESS"
   network_security_group_id = oci_core_network_security_group.pod_nsg.0.id
-  protocol                  = "6"
+  protocol                  = local.tcp_protocol
   destination_type = "SERVICE_CIDR_BLOCK"
   destination = lookup(data.oci_core_services.all_oci_services.services[0], "cidr_block")
   stateless = false
@@ -129,7 +129,7 @@ resource "oci_core_network_security_group_security_rule" "oke_pod_nsg_egress_5" 
 resource "oci_core_network_security_group_security_rule" "oke_pod_nsg_egress_6" {
   direction                 = "EGRESS"
   network_security_group_id = oci_core_network_security_group.pod_nsg.0.id
-  protocol                  = "1"
+  protocol                  = local.icmp_protocol
   destination_type = "CIDR_BLOCK"
   destination = "0.0.0.0/0"
   stateless = false
@@ -138,16 +138,5 @@ resource "oci_core_network_security_group_security_rule" "oke_pod_nsg_egress_6" 
     type = 3
     code = 4
   }
-  count = local.is_npn ? 1 : 0
-}
-
-resource "oci_core_network_security_group_security_rule" "pods_nsg_rule_lb_egress" {
-  direction                 = "EGRESS"
-  network_security_group_id = oci_core_network_security_group.pod_nsg.0.id
-  protocol                  = "6"
-  destination_type = "NETWORK_SECURITY_GROUP"
-  destination = oci_core_network_security_group.oke_lb_nsg.id
-  stateless = true
-  description = "Pods to LBs, - stateless egress"
   count = local.is_npn ? 1 : 0
 }
