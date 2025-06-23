@@ -2,7 +2,7 @@
 
 Owner: Olaf Heimburger
 
-Version: 250602 (cis_report.py version 3.0.0.4) for CIS OCI Foundation Benchmark 3.0.0
+Version: 250623 (cis_report.py version 3.0.0.5) for CIS OCI Foundation Benchmark 3.0.0
 
 # Introduction
 ![Flyer](./files/resources/OCI_Security_Health_Check_Standard.png)
@@ -56,22 +56,22 @@ See the *OCI Security Health Check - Standard Edition* in action and watch the [
 
 Before running the *OCI Security Health Check - Standard Edition* you should download and verify it.
 
-  - Download the latest distribution [oci-security-health-check-standard-250602.zip](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-250602.zip).
+  - Download the latest distribution [oci-security-health-check-standard-250623.zip](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-250623.zip).
   - Download the respective checksum file:
-    - [oci-security-health-check-standard-250602.sha512](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-250602.sha512).
-    - [oci-security-health-check-standard-250602.sha512256](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-250602.sha512256).
+    - [oci-security-health-check-standard-250623.sha512](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-250623.sha512).
+    - [oci-security-health-check-standard-250623.sha512256](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-250623.sha512256).
   - Verify the integrity of the distribution. Both files must be in the same directory (for example, in your downloads directory).
 
     On MacOS:
     ```
     cd <your_downloads_directory>
-    shasum -a 512256 -c oci-security-health-check-standard-250602.sha512256
+    shasum -a 512256 -c oci-security-health-check-standard-250623.sha512256
     ```
 
     On Linux (including Cloud Shell):
     ```
     cd <your_downloads_directory>
-    sha512sum -c oci-security-health-check-standard-250602.sha512
+    sha512sum -c oci-security-health-check-standard-250623.sha512
     ```
 
 **Reject the downloaded file if the check fails!**
@@ -84,10 +84,10 @@ In OCI Cloud Shell you can do a short cut without downloading the files mentione
 2. Open Cloud Shell
 3. Run these commands in your Cloud Shell:
   ```
-  wget -q https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-250602.zip
-  wget -q https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-250602.sha512
-  sha512sum -c oci-security-health-check-standard-250602.sha512
-  unzip -q oci-security-health-check-standard-250602.zip
+  wget -q https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-250623.zip
+  wget -q https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-250623.sha512
+  sha512sum -c oci-security-health-check-standard-250623.sha512
+  unzip -q oci-security-health-check-standard-250623.zip
   ```
 
 ## Prepare the OCI Tenancy

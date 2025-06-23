@@ -42,9 +42,9 @@ try:
 except Exception:
     OUTPUT_DIAGRAMS = False
 
-RELEASE_VERSION = "3.0.0.4"
+RELEASE_VERSION = "3.0.0.5"
 PYTHON_SDK_VERSION = "2.152.1"
-UPDATED_DATE = "May 27, 2025"
+UPDATED_DATE = "June 23, 2025"
 
 
 ##########################################################################
@@ -975,7 +975,7 @@ class CIS_Report:
             self.__raw_regions.append(record)
 
         # By Default it is today's date
-        self.__report_directory = f'{report_directory}/' if report_directory else f'{self.__tenancy.name}-{self.report_datetime}'
+        self.__report_directory = f'{report_directory}' if report_directory else f'{self.__tenancy.name}-{self.report_datetime}'
 
         self.__report_prefix = f'{report_prefix}_' if report_prefix else ''
         self.__report_summary_json = report_summary_json
@@ -4355,7 +4355,7 @@ class CIS_Report:
                         self.cis_foundations_benchmark_3_0['2.5']['Findings'].append(
                             sl)
                         break
-                    elif 'destination' in irule and irule['destination'] == "0.0.0.0/0":
+                    elif 'destination' in irule and irule['destination'] == "0.0.0.0/0" and irule['protocol'] != '1':
                         debug("Security List has bad egress rule")
                         self.cis_foundations_benchmark_3_0['2.5']['Status'] = False
                         self.cis_foundations_benchmark_3_0['2.5']['Findings'].append(
@@ -6349,8 +6349,8 @@ def execute_report():
             if OUTPUT_DIAGRAMS:
                 try:
                     worksheet = workbook.add_worksheet('cis_summary_charts')
-                    worksheet.insert_image('B2', f'{csv_report_directory}{report_prefix}cis_summary_compliance.png')
-                    worksheet.insert_image('L2', f'{csv_report_directory}{report_prefix}cis_summary_compliance_by_focus_area.png')
+                    worksheet.insert_image('B2', f'{csv_report_directory}/{report_prefix}cis_summary_compliance.png')
+                    worksheet.insert_image('L2', f'{csv_report_directory}/{report_prefix}cis_summary_compliance_by_focus_area.png')
                 except Exception:
                     pass
             csvfiles = glob.glob(f'{csv_report_directory}/{report_prefix}*.csv')

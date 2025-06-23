@@ -7,7 +7,7 @@
 #
 # Author: Olaf Heimburger
 #
-VERSION=250602
+VERSION=250623
 
 graal_version=24.2.1
 OS_TYPE=$(uname)
@@ -23,18 +23,25 @@ if [ ${PARENT_DIR} == "." ]; then
     PARENT_DIR=${PWD}
 fi
 
+DEBUG=0
 RUN_CIS=1
 RUN_SHOWOCI=1
 NO_ZIP=0
 NO_CSV=1
 ZIP_PROTECT=0
 QUIET=1
-NEW_STYLE=0
+NEW_STYLE=1
 PREPARE_ONLY=0
 REGION_NAME=''
 TENANCY="DEFAULT"
 INSTANCE_PRINCIPAL=0
 INSTALL_GRAAL=0
+
+debug() {
+    if [ $DEBUG -eq 1 ]; then
+        echo 'DEBUG: ' $*
+    fi
+}
 
 SCRIPT_NAME=$(basename $0)
 IS_ADVANCED=1
@@ -91,14 +98,16 @@ usage() {
         printf " --cis options                      -- Run cis_report only and provide additional options.\n"
         printf " --showoci options                  -- Run showoci only and provide additional options.\n"
         printf "                                       For example, --showoci '-h' shows available options.\n"
-        printf "                                       The options -jf, -ip, -t, -rg, -xlsx_nodate, --version can be ignored.\n"
+        printf "                                       The options -jf, -ip, -t, -rg, -xlsx_nodate, --version are detected automatically and are not required.\n"
         printf " --new-style                        -- Changes output for compliance checking.\n"
     else
         printf "\nUsage: $0 [-h] [-ip] [-r|--region region_name] [-t|--tenancy tenancy_name] [-c|--cis options]\n"
         printf "          [--no-zip] [--zip-protect] [--verbose] [-v|--version]\n"
-        printf " -h                                -- this message\n"
-        printf " -ip                               -- Use instance principal for authentication.\n"
-        printf " --cis options                     -- Run cis_report only and provide additional options.\n"
+        printf " -h                                 -- this message\n"
+        printf " -ip                                -- Use instance principal for authentication.\n"
+        printf " --cis options                      -- Run cis_report only and provide additional options.\n"
+        printf "                                       For example, --cis '-h' shows available options.\n"
+        printf "                                       The options -dt, -ip, -t, --regions are detected automatically and are not required.\n"
     fi
     printf " --no-zip                           -- Do not create a ZIP file for the contents pf the output directory.\n"
     printf " --zip-protect                      -- Encrypt ZIP file with a password of your choice.\n"
@@ -160,6 +169,7 @@ make_env() {
         PYTHON_CMD=$(which python3)
         ${PYTHON_CMD} -m pip install pip --upgrade ${PIP_OPTS}
     fi
+
     printf "INFO: Checking for required libraries...\n"
     ${PYTHON_CMD} -m pip install ${PIP_OPTS} -r ${ASSESS_DIR}/requirements.txt
     if [ $? -gt 0 ]; then
@@ -456,9 +466,9 @@ if [ $RUN_SHOWOCI -eq 1 ]; then
     fi
     SHOWOCI_XLSX="-xlsx_nodate -xlsx ${OUTPUT_DIR}/showoci_${OUTPUT_DIR_NAME}"
     SHOWOCI_JSON_FILE="${OUTPUT_DIR}/showoci_${OUTPUT_DIR_NAME}.json"
-    if [ ${NEW_STYLE} -eq 1 ]; then
-        SHOWOCI_JSON_FILE="${OUTPUT_DIR}/showoci_${OUTPUT_DIR_NAME}_new.json"
-    fi
+    # if [ ${NEW_STYLE} -eq 1 ]; then
+    #     SHOWOCI_JSON_FILE="${OUTPUT_DIR}/showoci_${OUTPUT_DIR_NAME}_new.json"
+    # fi
     SHOWOCI_JSON="-jf ${SHOWOCI_JSON_FILE}"
     SHOWOCI_QUIET=""
     if [ ${QUIET} -eq 1 ]; then
@@ -493,4 +503,7 @@ if [ ${NO_ZIP} -eq 0 ]; then
     fi
     mv ${OUTPUT_DIR_NAME}.zip ${PARENT_DIR}
     printf "\nINFO: All output can be found in the directory '%s'.\nINFO: Results are packaged as downloadable file '%s' at '%s'.\n" "${OUTPUT_DIR_NAME}" "${OUTPUT_DIR_NAME}.zip" "${PARENT_DIR}"
+    if [ ! -z "${CLOUD_SHELL_TOOL_SET}" ]; then
+        printf "\nINFO: To download the ZIP file:\nINFO: 1. Copy the filename %s\nINFO: 2. Click on the settings icon of the Cloud Shell on the right\nINFO: 3. Select 'Download'\nINFO: 4. Paste the file name into the modal window and click on 'Download'\n\n" "${OUTPUT_DIR_NAME}.zip"
+    fi
 fi
