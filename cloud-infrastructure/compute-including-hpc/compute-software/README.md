@@ -11,7 +11,7 @@ This page contains information and useful links regarding Compute services that 
 
 # Team Publications
 - [Youtube Video: Windows In-Place Migration on OCI](https://youtu.be/W6j79zRdcuE)
-- [Youtube Video: Migrating to E5 shapes on AMD EPYC GENOA](https://youtu.be/mXr5sosWdvI?feature=shared)
+- [Youtube Video: Migrating OCI Compute Instances to a newer shape](https://youtu.be/mXr5sosWdvI?feature=shared)
 - [Youtube Video: How to Deploy Self-Managed Nodes on OKE](https://www.youtube.com/watch?v=OroPnRN7arE)
 - [Youtube Video: Optimising performance - Deploying Red Hat Workloads on Oracle Cloud Infrastructure](https://www.youtube.com/watch?v=_18PgW4NN40)
 - [Youtube Video: Create KVM Guest from Oracle Linux KVM Host for Oracle Cloud Infrastructure](https://www.youtube.com/watch?v=IiSsC7EqZSE)
