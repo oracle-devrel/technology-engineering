@@ -3,7 +3,7 @@ resource "oci_core_security_list" "bastion_security_list" {
   vcn_id         = local.vcn_id
   display_name = "bastion-sec-list"
   ingress_security_rules {
-    protocol = "6"
+    protocol = local.tcp_protocol
     source_type = "CIDR_BLOCK"
     source   = "0.0.0.0/0"
     description = "Allow SSH connections to the subnet. Can be deleted if only using OCI Bastion subnet"
