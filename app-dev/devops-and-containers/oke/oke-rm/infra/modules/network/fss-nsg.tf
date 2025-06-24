@@ -7,7 +7,7 @@ resource "oci_core_network_security_group" "fss_nsg" {
 resource "oci_core_network_security_group_security_rule" "fss_ingress_rule_1" {
   direction                 = "INGRESS"
   network_security_group_id = oci_core_network_security_group.fss_nsg.id
-  protocol                  = "17"  # UDP
+  protocol                  = local.udp_protocol
   source_type = "NETWORK_SECURITY_GROUP"
   source = oci_core_network_security_group.worker_nsg.id
   stateless = false
@@ -23,7 +23,7 @@ resource "oci_core_network_security_group_security_rule" "fss_ingress_rule_1" {
 resource "oci_core_network_security_group_security_rule" "fss_ingress_rule_2" {
   direction                 = "INGRESS"
   network_security_group_id = oci_core_network_security_group.fss_nsg.id
-  protocol                  = "6"
+  protocol                  = local.tcp_protocol
   source_type = "NETWORK_SECURITY_GROUP"
   source = oci_core_network_security_group.worker_nsg.id
   stateless = false
@@ -39,7 +39,7 @@ resource "oci_core_network_security_group_security_rule" "fss_ingress_rule_2" {
 resource "oci_core_network_security_group_security_rule" "fss_ingress_rule_3" {
   direction                 = "INGRESS"
   network_security_group_id = oci_core_network_security_group.fss_nsg.id
-  protocol                  = "17"  # UDP
+  protocol                  = local.udp_protocol
   source_type = "NETWORK_SECURITY_GROUP"
   source = oci_core_network_security_group.worker_nsg.id
   stateless = false
@@ -55,7 +55,7 @@ resource "oci_core_network_security_group_security_rule" "fss_ingress_rule_3" {
 resource "oci_core_network_security_group_security_rule" "fss_ingress_rule_4" {
   direction                 = "INGRESS"
   network_security_group_id = oci_core_network_security_group.fss_nsg.id
-  protocol                  = "6"
+  protocol                  = local.tcp_protocol
   source_type = "NETWORK_SECURITY_GROUP"
   source = oci_core_network_security_group.worker_nsg.id
   stateless = false
@@ -71,7 +71,7 @@ resource "oci_core_network_security_group_security_rule" "fss_ingress_rule_4" {
 resource "oci_core_network_security_group_security_rule" "fss_ingress_rule_5" {
   direction                 = "INGRESS"
   network_security_group_id = oci_core_network_security_group.fss_nsg.id
-  protocol                  = "6"
+  protocol                  = local.tcp_protocol
   source_type = "NETWORK_SECURITY_GROUP"
   source = oci_core_network_security_group.worker_nsg.id
   stateless = false

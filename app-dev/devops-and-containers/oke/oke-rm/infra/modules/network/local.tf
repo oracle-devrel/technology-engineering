@@ -10,4 +10,9 @@ locals {
   nat_gateway_id = var.create_gateways ? oci_core_nat_gateway.nat_gateway.0.id : var.nat_gateway_id
   cp_nat_mode = local.create_cp_subnet && var.cp_subnet_private && var.cp_external_nat
   create_cp_external_traffic_rule = var.allow_external_cp_traffic && (! var.create_cp_subnet || (! var.cp_subnet_private || var.cp_external_nat))
+
+
+  tcp_protocol = "6"
+  icmp_protocol = "1"
+  udp_protocol = "17"
 }
