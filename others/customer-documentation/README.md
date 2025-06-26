@@ -4,7 +4,7 @@
 
 The Solution Definition Document (SDD) is a high-level technical architecture document focusing on the Oracle Cloud Infrastructure (OCI) architecture for a solution. Low-level design details are created later in the delivery phase of the project by the delivery team typically the Oracle partner.
 
-The SDD is created by Oracle's pre-sales teams as an investment by Oracle for our customers and partners. The SDD should provide just enough architecture to ensure a successful handover of Oracle's best practices to the implementer. 
+The SDD is created by Oracle Technology (Cloud) Engineering teams as an investment by Oracle for our customers and partners. The SDD should provide just enough architecture to ensure a successful handover of Oracle's best practices to the implementer. 
 
 It has four main sections:
 
@@ -12,6 +12,8 @@ It has four main sections:
 - As-Is on-premises architecture (Optional)
 - Logical and physical to-be architecture
 - Bill of materials
+
+![SDD Values](./images/sdd-values.png)
 
 ## Where Can I Find SDD Templates and Related Resources?
 
