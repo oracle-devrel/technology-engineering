@@ -38,7 +38,7 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_ingress
 resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_ingress_4" {
   direction                 = "INGRESS"
   network_security_group_id = oci_core_network_security_group.worker_nsg.id
-  protocol                  = "6"
+  protocol                  = local.tcp_protocol
   source_type = "NETWORK_SECURITY_GROUP"
   source = oci_core_network_security_group.oke_lb_nsg.id
   stateless = false
@@ -54,12 +54,28 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_ingress
 resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_ingress_5" {
   direction                 = "INGRESS"
   network_security_group_id = oci_core_network_security_group.worker_nsg.id
-  protocol                  = "6"
+  protocol                  = local.tcp_protocol
   source_type = "NETWORK_SECURITY_GROUP"
   source = oci_core_network_security_group.oke_lb_nsg.id
   stateless = false
-  description = "Allow TCP ingress to workers from internal load balancers"
+  description = "Allow TCP ingress to workers from load balancers"
   tcp_options {
+    destination_port_range {
+      max = 32767
+      min = 30000
+    }
+  }
+}
+
+resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_ingress_udp" {
+  direction                 = "INGRESS"
+  network_security_group_id = oci_core_network_security_group.worker_nsg.id
+  protocol                  = local.udp_protocol
+  source_type = "NETWORK_SECURITY_GROUP"
+  source = oci_core_network_security_group.oke_lb_nsg.id
+  stateless = false
+  description = "Allow UDP ingress to workers from load balancers"
+  udp_options {
     destination_port_range {
       max = 32767
       min = 30000
@@ -70,7 +86,7 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_ingress
 resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_ingress_6" {
   direction                 = "INGRESS"
   network_security_group_id = oci_core_network_security_group.worker_nsg.id
-  protocol                  = "1"
+  protocol                  = local.icmp_protocol
   source_type = "CIDR_BLOCK"
   source = "0.0.0.0/0"
   stateless = false
@@ -84,7 +100,7 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_ingress
 resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_ingress_7" {
   direction                 = "INGRESS"
   network_security_group_id = oci_core_network_security_group.worker_nsg.id
-  protocol                  = "6"
+  protocol                  = local.tcp_protocol
   source_type = "CIDR_BLOCK"
   source = var.bastion_subnet_cidr
   stateless = false
@@ -132,7 +148,7 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_
 resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_4" {
   direction                 = "EGRESS"
   network_security_group_id = oci_core_network_security_group.worker_nsg.id
-  protocol                  = "6"
+  protocol                  = local.tcp_protocol
   destination_type = "NETWORK_SECURITY_GROUP"
   destination = oci_core_network_security_group.cp_nsg.id
   stateless = false
@@ -148,7 +164,7 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_
 resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_5" {
   direction                 = "EGRESS"
   network_security_group_id = oci_core_network_security_group.worker_nsg.id
-  protocol                  = "6"
+  protocol                  = local.tcp_protocol
   destination_type = "SERVICE_CIDR_BLOCK"
   destination = lookup(data.oci_core_services.all_oci_services.services[0], "cidr_block")
   stateless = false
@@ -158,7 +174,7 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_
 resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_6" {
   direction                 = "EGRESS"
   network_security_group_id = oci_core_network_security_group.worker_nsg.id
-  protocol                  = "6"
+  protocol                  = local.tcp_protocol
   destination_type = "NETWORK_SECURITY_GROUP"
   destination = oci_core_network_security_group.cp_nsg.id
   stateless = false
@@ -174,7 +190,7 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_
 resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_7" {
   direction                 = "EGRESS"
   network_security_group_id = oci_core_network_security_group.worker_nsg.id
-  protocol                  = "6"
+  protocol                  = local.tcp_protocol
   destination_type = "NETWORK_SECURITY_GROUP"
   destination = oci_core_network_security_group.cp_nsg.id
   stateless = false
@@ -190,7 +206,7 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_
 resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_8" {
   direction                 = "EGRESS"
   network_security_group_id = oci_core_network_security_group.worker_nsg.id
-  protocol                  = "1"
+  protocol                  = local.icmp_protocol
   destination_type = "CIDR_BLOCK"
   destination = "0.0.0.0/0"
   stateless = false
@@ -204,7 +220,7 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_
 resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_9" {
   direction                 = "EGRESS"
   network_security_group_id = oci_core_network_security_group.worker_nsg.id
-  protocol                  = "17"  # UDP
+  protocol                  = local.udp_protocol
   destination_type = "NETWORK_SECURITY_GROUP"
   destination = oci_core_network_security_group.fss_nsg.id
   stateless = false
@@ -220,7 +236,7 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_
 resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_10" {
   direction                 = "EGRESS"
   network_security_group_id = oci_core_network_security_group.worker_nsg.id
-  protocol                  = "6"
+  protocol                  = local.tcp_protocol
   destination_type = "NETWORK_SECURITY_GROUP"
   destination = oci_core_network_security_group.fss_nsg.id
   stateless = false
@@ -236,7 +252,7 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_
 resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_11" {
   direction                 = "EGRESS"
   network_security_group_id = oci_core_network_security_group.worker_nsg.id
-  protocol                  = "6"
+  protocol                  = local.tcp_protocol
   destination_type = "NETWORK_SECURITY_GROUP"
   destination = oci_core_network_security_group.fss_nsg.id
   stateless = false
@@ -252,7 +268,7 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_
 resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_12" {
   direction                 = "EGRESS"
   network_security_group_id = oci_core_network_security_group.worker_nsg.id
-  protocol                  = "17"  # UDP
+  protocol                  = local.udp_protocol
   destination_type = "NETWORK_SECURITY_GROUP"
   destination = oci_core_network_security_group.fss_nsg.id
   stateless = false
@@ -268,7 +284,7 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_
 resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_13" {
   direction                 = "EGRESS"
   network_security_group_id = oci_core_network_security_group.worker_nsg.id
-  protocol                  = "6"
+  protocol                  = local.tcp_protocol
   destination_type = "NETWORK_SECURITY_GROUP"
   destination = oci_core_network_security_group.fss_nsg.id
   stateless = false

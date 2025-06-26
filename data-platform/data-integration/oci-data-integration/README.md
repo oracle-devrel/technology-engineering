@@ -34,6 +34,12 @@ Reviewed: 28.02.2025
 
 - [Remove processed files with OCI Data Integration](https://medium.com/@aporcescu/remove-processed-files-with-oci-data-integration-1aa09644189f)
   - Learn how to remove processed files from OCI Object Storage using OCI data Integration and OCI Functions
+
+- [Strategies and Performance Metrics for Initial Loads on Autonomous Database](https://medium.com/@aporcescu/strategies-and-performance-metrics-for-initial-loads-on-autonomous-database-f907b98935fa)
+  - Some benchmarks generated after a few tests were done on doing Initial Load with different services
+
+- [Orchestrating Initial Load and Replication with OCI Data Integration and OCI GoldenGate](https://medium.com/@aporcescu/orchestrating-initial-load-and-replication-with-oci-data-integration-and-oci-goldengate-e3af2d915fe2)
+  - Step-by-step guide that shows how to automate Initial Load and trigger OCI GoldenGate automatically through OCI Data Integration
  
 
 # Useful Link

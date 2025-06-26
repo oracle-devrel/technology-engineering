@@ -5,7 +5,7 @@ This section covers Public Oracle SQL Tools: Use of SQL in extensive way: from S
 Providing links to public useful documentation about SQL use and tips. SQL Tips on Fortnight basis and and articles/blogs written by Oracle SQL and Database Advocates and Product Managers and SQL examples are shown here.
 A SQL Clue Card is also provided.
 
-Reviewed: 28.05.2025
+Reviewed: 19.06.2025
 
 # Table of Contents
  
@@ -22,6 +22,8 @@ Reviewed: 28.05.2025
 ## 1. Public Oracle SQL Tools
 
 Explore a variety of Oracle SQL tools to streamline your database management tasks:
+
+- **Learn and share SQL**: the new [Livesql Portal](https://livesql.oracle.com/landing/) including Scripts, Tutorials, Tips and a Live SQL Developer Web environment to quickly get hands on practice. You can start coding straight away or access the useful Scripts and Tutorial Library section from the landing page. Legacy [Live SQL Classic](https://livesql.oracle.com/ords/f?p=590:1000::::::) is still available.
 
 - **SQL Developer**: Oracle SQL Developer provides a powerful integrated development environment (IDE) for Oracle Database. Discover its features and functionalities to optimize your SQL workflow.
   - [Official Documentation](https://docs.oracle.com/cd/E12151_01/index.htm)
