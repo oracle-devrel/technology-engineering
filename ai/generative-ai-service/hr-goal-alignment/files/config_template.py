@@ -1,4 +1,3 @@
-# Copyright (c) 2025 Oracle and/or its affiliates.
 # config_template.py
 
 # === OCI Configuration ===
