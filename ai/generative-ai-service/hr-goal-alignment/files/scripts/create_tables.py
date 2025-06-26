@@ -1,13 +1,9 @@
-# Copyright (c) 2025 Oracle and/or its affiliates.
 import oracledb
 import sys
 import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import config
-
-connection = None
-cursor = None
 try:
     # Create a connection to the database
     connection = oracledb.connect(
@@ -83,8 +79,8 @@ except oracledb.Error as error:
 
 finally:
     # Close the cursor and connection
-    if cursor:
+    if 'cursor' in locals():
         cursor.close()
-    if connection:
+    if 'connection' in locals():
         connection.close()
     print("Connection closed")

@@ -1,4 +1,3 @@
-# Copyright (c) 2025 Oracle and/or its affiliates.
 import streamlit as st
 import json
 from langchain.prompts import PromptTemplate
@@ -41,7 +40,6 @@ def run_self_assessment_chatbot():
                 st.warning("Please enter an employee name.")
                 return
 
-            connection = None
             try:
                 with st.spinner("Connecting to database and gathering data..."):
                     connection = oracledb.connect(
@@ -98,7 +96,7 @@ def run_self_assessment_chatbot():
             except Exception as e:
                 st.error(f"Error: {e}")
             finally:
-                if connection:
+                if 'connection' in locals():
                     connection.close()
 
     if st.session_state.sa_report:
@@ -114,7 +112,7 @@ def run_self_assessment_chatbot():
 
         if st.button("Stop Conversation", key="sa_stop_btn"):
             st.session_state.sa_conversation_complete = True
-            if not st.session_state.sa_chat_history[-1].get("Chatbot", "").startswith("Got it! Best of luck"): # type: ignore
+            if not st.session_state.sa_chat_history[-1].get("Chatbot", "").startswith("Got it! Best of luck"):
                 st.session_state.sa_chat_history.append(
                     {"Chatbot": "Okay, ending the conversation here. Best of luck!"}
                 )

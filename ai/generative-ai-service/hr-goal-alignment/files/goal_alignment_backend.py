@@ -1,7 +1,7 @@
-# Copyright (c) 2025 Oracle and/or its affiliates.
 import oracledb
 import config
 import json
+import uuid
 from langchain.prompts import PromptTemplate
 from langchain.schema import AIMessage
 from langchain_community.chat_models.oci_generative_ai import ChatOCIGenAI
@@ -15,7 +15,7 @@ llm = ChatOCIGenAI(
     model_kwargs={"temperature": 0.1, "max_tokens": 500},
 )
 
-def query_llm(prompt_template, inputs) -> str:
+def query_llm(prompt_template, inputs):
     """Formats prompt and calls the Oracle LLM"""
     if not isinstance(prompt_template, PromptTemplate):
         raise TypeError(" query_llm expected a PromptTemplate object.")
@@ -29,7 +29,7 @@ def query_llm(prompt_template, inputs) -> str:
     chain = RunnableSequence(prompt_template | llm)
     response = chain.invoke(inputs)
 
-    return response.content if isinstance(response, AIMessage) else str(response) # type: ignore
+    return response.content if isinstance(response, AIMessage) else response
 
 # --- Database Data Loading Functions ---
 
@@ -98,6 +98,53 @@ def load_manager_briefing_from_db(connection, employee_id):
         # Return empty dict or raise error
     return briefing_data
 
+
+
+def insert_goals_to_db(connection, employee_id, refined_goals):
+    """
+    Inserts structured goals into the 'Goals' table using the expected schema.
+    Assumes metrics are stored as serialized JSON strings in the CLOB column.
+    """
+    try:
+        cursor = connection.cursor()
+
+        for goal in refined_goals:
+            # Required fields
+            goal_id = str(uuid.uuid4())
+            title = goal.get("goal_title", "Untitled Goal")[:255]  # Truncate to fit VARCHAR2(255)
+            objective = goal.get("objective", "")
+
+            # Optional fields
+            metrics_list = goal.get("metrics", [])
+            timeline = goal.get("timeline", "TBD")[:255]  # Truncate if needed
+
+            # Convert metrics list to JSON string
+            if isinstance(metrics_list, list):
+                metrics_json = json.dumps(metrics_list, ensure_ascii=False, indent=2)
+            else:
+                metrics_json = json.dumps([str(metrics_list)])
+
+            # Insert into DB
+            cursor.execute("""
+                INSERT INTO Goals (goal_id, employee_id, title, objective, metrics, timeline)
+                VALUES (:1, :2, :3, :4, :5, :6)
+            """, (
+                goal_id,
+                employee_id,
+                title,
+                objective,
+                metrics_json,
+                timeline
+            ))
+
+        connection.commit()
+        return f"{len(refined_goals)} goal(s) successfully added for employee {employee_id}."
+
+    except oracledb.Error as error:
+        print("Error inserting goals:", error)
+        return f"⚠️ Failed to insert goals: {error}"
+
+
 # 🚀 Goal Alignment Functions (Database Version)
 
 def get_horizontal_peers(connection, employee_id):
@@ -110,7 +157,7 @@ def get_horizontal_peers(connection, employee_id):
             JOIN Employees e2 ON e1.manager_id = e2.manager_id
             WHERE e1.employee_id = :1 AND e2.employee_id != :1
             """, 
-            (employee_id, employee_id)  # 👈 Pass it twice
+            (employee_id, employee_id) 
         )
         peers = [row[0] for row in cursor.fetchall()]
         return peers
@@ -143,7 +190,6 @@ def check_vertical_alignment_upward(connection, manager_id, employee_id):
     """Checks vertical alignment between an employee and their manager."""
     try:
         cursor = connection.cursor()
-
         # Fetch manager and employee data
         cursor.execute(
             """
@@ -494,32 +540,123 @@ Provide a structured, clear, and actionable summary.
         print("Error generating final recommendations:")
         print(error)
         return "Error generating final recommendations."
-
+    
 def update_employee_goal_objective(connection, employee_id, new_objective):
-    """Updates the 'objective' field for a given employee in the Goals table."""
     try:
         cursor = connection.cursor()
 
-        # Optionally fetch to check if a goal exists
-        cursor.execute(
-            "SELECT COUNT(*) FROM Goals WHERE employee_id = :1",
-            (employee_id,)
-        )
-        if cursor.fetchone()[0] == 0:
-            return f"No goal entry found for employee ID {employee_id}."
+        # Extract numeric suffix and get max number from goal_id like 'goal_001'
+        cursor.execute("""
+            SELECT COALESCE(MAX(TO_NUMBER(REGEXP_SUBSTR(goal_id, '\\d+$'))), 0) + 1
+            FROM Goals
+        """)
+        next_number = cursor.fetchone()[0]
+
+        # Format as goal_001, goal_002, etc.
+        next_goal_id = f"goal_{next_number:03d}"
+
+        goal_title = "Updated Learning Goal"
 
         cursor.execute(
             """
-            UPDATE Goals
-            SET objective = :1
-            WHERE employee_id = :2
+            INSERT INTO Goals (goal_id, employee_id, title, objective, metrics, timeline)
+            VALUES (:1, :2, :3, :4, NULL, NULL)
             """,
-            (new_objective, employee_id)
+            (
+                next_goal_id,
+                str(employee_id),
+                goal_title,
+                new_objective
+            )
         )
+
         connection.commit()
-        return "Goal objective updated successfully."
+        return f"Inserted new goal objective with ID {next_goal_id}."
 
     except oracledb.Error as error:
-        print("Error updating goal objective:")
+        print("Error inserting goal:")
         print(error)
-        return "Error updating goal objective."
+        return f"Error inserting new goal: {error}"
+
+
+def extract_goal_lines(text):
+    """
+    Extract meaningful refined goals from chatbot messages, bullet lists, or paragraphs.
+    Splits multi-goal messages into atomic blocks.
+    """
+    lines = []
+
+    # Split by double line breaks, OR bullet symbols, OR numbered points
+    chunks = re.split(r'(?:(?:\n\s*\n)|(?:^\d+\.\s)|(?:^[-*•]))', text, flags=re.MULTILINE)
+
+    for chunk in chunks:
+        chunk = chunk.strip()
+        if len(chunk) < 30:
+            continue
+        if any(kw in chunk.lower() for kw in [
+            "next topic", "final recommendations", "let me know", "we’ve", "you could also"
+        ]):
+            continue
+        if re.match(r'^\*\*.+\*\*:$', chunk):  # e.g., "**Refined Metrics:**"
+            continue
+        lines.append(chunk)
+
+    return lines
+
+
+def extract_structured_goal(raw_text):
+    prompt = PromptTemplate(
+        input_variables=["raw_text"],
+        template="""
+You are an assistant that extracts structured, database-ready goal records.
+The input may contain markdown, bullet points, or informal formatting.
+
+Extract the following fields from the input:
+- goal_title
+- objective (one actionable sentence)
+- metrics (list of concrete KPIs)
+- timeline (inferred if not stated, e.g., "Q2 2025")
+- stakeholders (list of names or roles mentioned)
+
+Respond ONLY in this JSON format:
+{{
+  "goal_title": "...",
+  "objective": "...",
+  "metrics": ["..."],
+  "timeline": "...",
+  "stakeholders": ["..."]
+}}
+
+INPUT:
+{raw_text}
+        """
+    )
+    
+    response = query_llm(prompt, {"raw_text": raw_text})
+    try:
+        structured = json.loads(response)
+# --- Sanitize ---
+        def clean_text(t):
+            return (
+                t.replace('\\"', '"')
+                 .replace("**", "")
+                 .replace("”", '"')
+                 .replace("“", '"')
+                 .strip()
+            )
+
+        for key in ["goal_title", "objective", "timeline"]:
+            if key in structured and isinstance(structured[key], str):
+                structured[key] = clean_text(structured[key])
+
+        if "metrics" in structured and isinstance(structured["metrics"], list):
+            structured["metrics"] = [clean_text(m) for m in structured["metrics"]]
+
+        if "stakeholders" in structured and isinstance(structured["stakeholders"], list):
+            structured["stakeholders"] = [clean_text(s) for s in structured["stakeholders"]]
+
+        return structured
+
+    except json.JSONDecodeError:
+        print("LLM returned non-JSON:\n", response)
+        return None

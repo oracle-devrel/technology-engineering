@@ -18,6 +18,8 @@ circuitbreaker==1.4.0
 click==8.1.8
 cryptography==42.0.8
 dataclasses-json==0.6.7
+docx
+emoji==2.14.1
 et_xmlfile==2.0.0
 eval_type_backport==0.2.2
 filetype==1.2.0
@@ -26,6 +28,7 @@ gitdb==4.0.12
 GitPython==3.1.44
 graphviz==0.20.3
 h11==0.14.0
+html5lib==1.1
 httpcore==1.0.7
 httpx==0.28.1
 httpx-sse==0.4.0
@@ -42,6 +45,7 @@ langchain-core==0.3.49
 langchain-text-splitters==0.3.7
 langdetect==1.0.9
 langsmith==0.3.19
+lxml==5.3.2
 MarkupSafe==3.0.2
 marshmallow==3.26.1
 multidict==6.2.0
@@ -55,6 +59,7 @@ oci==2.149.1
 olefile==0.47
 openpyxl==3.1.5
 oracledb==3.0.0
+orjson==3.10.16
 packaging==24.2
 pandas==2.2.3
 pillow==11.1.0
@@ -69,9 +74,13 @@ pydantic_core==2.33.1
 pydantic-settings==2.8.1
 pydeck==0.9.1
 pyOpenSSL==24.3.0
+pypdf==5.4.0
 python-dateutil==2.9.0.post0
+python-docx==1.1.2
 python-dotenv==1.1.0
 python-iso639==2025.2.18
+python-magic==0.4.27
+python-oxmsg==0.0.2
 pytz==2025.2
 PyYAML==6.0.2
 RapidFuzz==3.13.0
@@ -95,8 +104,11 @@ typing_extensions==4.13.0
 typing-inspect==0.9.0
 typing-inspection==0.4.0
 tzdata==2025.2
+unstructured==0.17.2
+unstructured-client==0.34.0
 urllib3==2.3.0
 webencodings==0.5.1
 wrapt==1.17.2
 xlrd==2.0.1
 yarl==1.18.3
+zstandard==0.23.0

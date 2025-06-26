@@ -1,4 +1,3 @@
-# Copyright (c) 2025 Oracle and/or its affiliates.
 import streamlit as st
 from urllib.parse import quote, unquote
 
@@ -100,7 +99,7 @@ html_chart = f"""
 """
 
 # Display the chart with HTML component
-st.components.v1.html(html_chart, height=520, scrolling=True) # type: ignore
+st.components.v1.html(html_chart, height=520, scrolling=True)
 
 # Show details section for selected employee
 # ------------------------------------------------------------
@@ -182,5 +181,5 @@ if st.session_state.selected_employee:
                 else "background-color:#f8d7da;font-weight:bold"
             )
 
-        styled = goals_pretty.style.applymap(chip_style, subset=[LABEL_COL]) # type: ignore
+        styled = goals_pretty.style.applymap(chip_style, subset=[LABEL_COL])
         st.dataframe(styled, use_container_width=True, hide_index=True)
