@@ -42,9 +42,9 @@ try:
 except Exception:
     OUTPUT_DIAGRAMS = False
 
-RELEASE_VERSION = "2.8.8.1"
-PYTHON_SDK_VERSION = "2.147.0"
-UPDATED_DATE = "April 24, 2025"
+RELEASE_VERSION = "3.0.0.4"
+PYTHON_SDK_VERSION = "2.152.1"
+UPDATED_DATE = "May 27, 2025"
 
 
 ##########################################################################
@@ -93,6 +93,7 @@ class CIS_Report:
     __KMS_DAYS_OLD = 365
     __home_region = []
     __days_to_expiry = 30
+    __days_used = 45
 
     # Time Format
     __iso_time_format = "%Y-%m-%dT%H:%M:%S"
@@ -120,12 +121,17 @@ class CIS_Report:
         datetime.timedelta(days=__days_to_expiry)
     str_cert_key_time_max_datetime = cert_key_time_max_datetime.strftime(__iso_time_format)
     cert_key_time_max_datetime = datetime.datetime.strptime(str_cert_key_time_max_datetime, __iso_time_format)
+    # For Unused Credentials Check 
+    local_user_time_max_datetime = start_datetime - \
+        datetime.timedelta(days=__days_used)
+    str_local_user_time_max_datetime = local_user_time_max_datetime.strftime(__iso_time_format)
+    local_user_time_max_datetime = datetime.datetime.strptime(str_local_user_time_max_datetime, __iso_time_format)
 
 
     def __init__(self, config, signer, proxy, output_bucket, report_directory, report_prefix, report_summary_json, print_to_screen, regions_to_run_in, raw_data, obp, redact_output, oci_url=None, debug=False, all_resources=True):
 
-        # CIS Foundation benchmark 2.0.0
-        self.cis_foundations_benchmark_2_0 = {
+        # CIS Foundation benchmark 3.0.0
+        self.cis_foundations_benchmark_3_0 = {
             '1.1': {'section': 'Identity and Access Management', 'recommendation_#': '1.1', 'Title': 'Ensure service level admins are created to manage resources of particular service', 'Status': True, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': ['5.4', '6.7'], 'CCCS Guard Rail': '2,3', 'Remediation': []},
             '1.2': {'section': 'Identity and Access Management', 'recommendation_#': '1.2', 'Title': 'Ensure permissions on all resources are given only to the tenancy administrator group', 'Status': True, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': ['3.3'], 'CCCS Guard Rail': '1,2,3', 'Remediation': []},
             '1.3': {'section': 'Identity and Access Management', 'recommendation_#': '1.3', 'Title': 'Ensure IAM administrators cannot update tenancy Administrators group', 'Status': True, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': ['3.3', '5.4'], 'CCCS Guard Rail': '2,3', 'Remediation': []},
@@ -141,12 +147,14 @@ class CIS_Report:
             '1.13': {'section': 'Identity and Access Management', 'recommendation_#': '1.13', 'Title': 'Ensure all OCI IAM user accounts have a valid and current email address', 'Status': True, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': ['5.1'], 'CCCS Guard Rail': '1,2,3', 'Remediation': []},
             '1.14': {'section': 'Identity and Access Management', 'recommendation_#': '1.14', 'Title': 'Ensure Instance Principal authentication is used for OCI instances, OCI Cloud Databases and OCI Functions to access OCI resources.', 'Status': True, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': ['6.8'], 'CCCS Guard Rail': '6,7', 'Remediation': []},
             '1.15': {'section': 'Identity and Access Management', 'recommendation_#': '1.15', 'Title': 'Ensure storage service-level admins cannot delete resources they manage', 'Status': None, 'Level': 2, 'Total': [], 'Findings': [], 'CISv8': ['5.4', '6.8'], 'CCCS Guard Rail': '2,3', 'Remediation': []},
+            '1.16': {'section': 'Identity and Access Management', 'recommendation_#': '1.16', 'Title': 'Ensure OCI IAM credentials unused for 45 days or more are disabled', 'Status': None, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': ['5.3'], 'CCCS Guard Rail': '2', 'Remediation': []},
+            '1.17': {'section': 'Identity and Access Management', 'recommendation_#': '1.17', 'Title': 'Ensure there is only one active API Key for any single OCI IAM user.', 'Status': None, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': ['5'], 'CCCS Guard Rail': '2', 'Remediation': []},
 
             '2.1': {'section': 'Networking', 'recommendation_#': '2.1', 'Title': 'Ensure no security lists allow ingress from 0.0.0.0/0 to port 22.', 'Status': True, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': ['4.4', '12.3'], 'CCCS Guard Rail': '2,3,5,7,9', 'Remediation': []},
             '2.2': {'section': 'Networking', 'recommendation_#': '2.2', 'Title': 'Ensure no security lists allow ingress from 0.0.0.0/0 to port 3389.', 'Status': True, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': ['4.4', '12.3'], 'CCCS Guard Rail': '2,3,5,7,9', 'Remediation': []},
             '2.3': {'section': 'Networking', 'recommendation_#': '2.3', 'Title': 'Ensure no network security groups allow ingress from 0.0.0.0/0 to port 22.', 'Status': True, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': ['4.4', '12.3'], 'CCCS Guard Rail': '2,3,5,7,9', 'Remediation': []},
             '2.4': {'section': 'Networking', 'recommendation_#': '2.4', 'Title': 'Ensure no network security groups allow ingress from 0.0.0.0/0 to port 3389.', 'Status': True, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': ['4.4', '12.3'], 'CCCS Guard Rail': '2,3,5,7,9', 'Remediation': []},
-            '2.5': {'section': 'Networking', 'recommendation_#': '2.5', 'Title': 'Ensure the default security list of every VCN restricts all traffic except ICMP.', 'Status': True, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': ['12.3'], 'CCCS Guard Rail': '2,3,5,7,9', 'Remediation': []},
+            '2.5': {'section': 'Networking', 'recommendation_#': '2.5', 'Title': 'Ensure the default security list of every VCN restricts all traffic except ICMP within VCN.', 'Status': True, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': ['12.3'], 'CCCS Guard Rail': '2,3,5,7,9', 'Remediation': []},
             '2.6': {'section': 'Networking', 'recommendation_#': '2.6', 'Title': 'Ensure Oracle Integration Cloud (OIC) access is restricted to allowed sources.', 'Status': True, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': ['4.4', '12.3'], 'CCCS Guard Rail': '2,3,5,7,9', 'Remediation': []},
             '2.7': {'section': 'Networking', 'recommendation_#': '2.7', 'Title': 'Ensure Oracle Analytics Cloud (OAC) access is restricted to allowed sources or deployed within a Virtual Cloud Network.', 'Status': True, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': ['4.4', '12.3'], 'CCCS Guard Rail': '2,3,5,7,9', 'Remediation': []},
             '2.8': {'section': 'Networking', 'recommendation_#': '2.8', 'Title': 'Ensure Oracle Autonomous Shared Database (ADB) access is restricted or deployed within a VCN.', 'Status': True, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': ['4.4', '12.3'], 'CCCS Guard Rail': '2,3,5,7,9', 'Remediation': []},
@@ -171,7 +179,8 @@ class CIS_Report:
             '4.14': {'section': 'Logging and Monitoring', 'recommendation_#': '4.14', 'Title': 'Ensure Cloud Guard is enabled in the root compartment of the tenancy.', 'Status': True, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': ['8.2', '8.5', '8.11'], 'CCCS Guard Rail': '1,2,3', 'Remediation': []},
             '4.15': {'section': 'Logging and Monitoring', 'recommendation_#': '4.15', 'Title': 'Ensure a notification is configured for Oracle Cloud Guard problems detected.', 'Status': False, 'Level': 2, 'Total': [], 'Findings': [], 'CISv8': ['8.2', '8.11'], 'CCCS Guard Rail': '', 'Remediation': []},
             '4.16': {'section': 'Logging and Monitoring', 'recommendation_#': '4.16', 'Title': 'Ensure customer created Customer Managed Key (CMK) is rotated at least annually.', 'Status': True, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': [], 'CCCS Guard Rail': '6,7', 'Remediation': []},
-            '4.17': {'section': 'Logging and Monitoring', 'recommendation_#': '4.17', 'Title': 'Ensure write level Object Storage logging is enabled for all buckets.', 'Status': True, 'Level': 2, 'Total': [], 'Findings': [], 'CISv8': ['8.2'], 'CCCS Guard Rail': '', 'Remediation': []},
+            '4.17': {'section': 'Logging and Monitoring', 'recommendation_#': '4.17', 'Title': 'Ensure write level Object Storage logging is enabled for all buckets.', 'Status': True, 'Level': 2, 'Total': [], 'Findings': [], 'CISv8': ['8.2'], 'CCCS Guard Rail': '11', 'Remediation': []},
+            '4.18': {'section': 'Logging and Monitoring', 'recommendation_#': '4.18', 'Title': 'Ensure a notification is configured for Local OCI User Authentication.', 'Status': True, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': ['8.2'], 'CCCS Guard Rail': '11', 'Remediation': []},
 
             '5.1.1': {'section': 'Storage - Object Storage', 'recommendation_#': '5.1.1', 'Title': 'Ensure no Object Storage buckets are publicly visible.', 'Status': True, 'Level': 1, 'Total': [], 'Findings': [], 'CISv8': ['3.3'], 'CCCS Guard Rail': '', 'Remediation': []},
             '5.1.2': {'section': 'Storage - Object Storage', 'recommendation_#': '5.1.2', 'Title': 'Ensure Object Storage Buckets are encrypted with a Customer Managed Key (CMK).', 'Status': True, 'Level': 2, 'Total': [], 'Findings': [], 'CISv8': ['3.11'], 'CCCS Guard Rail': '', 'Remediation': []},
@@ -306,6 +315,20 @@ class CIS_Report:
                 "Recommendation": "To apply a separation of duties security principle, it is recommended to restrict service-level administrators from being able to delete resources they are managing.",
                 "Observation": "IAM Policies that give service administrator the ability to delete service resources."
             },
+            "1.16": {
+                "Description": "OCI IAM Local users can access OCI resources using different credentials, such as passwords or API keys. It is recommended that credentials that have been unused for 45 days or more be deactivated or removed.",
+                "Rationale": "Disabling or removing unnecessary OCI IAM local users will reduce the window of opportunity for credentials associated with a compromised or abandoned account to be used.",
+                "Impact": "Deactivating OCI IAM Local users and deleting of an OCI API Key will remove access to OCI",
+                "Remediation": "Deactivate OCI IAM Local users or delete of an OCI API Key will remove access to OCI",
+                "Observation": "User(s) with credentials unused in 45 days"
+            },
+            "1.17":{
+                "Description": "API Keys are long-term credentials for an OCI IAM user. They can be used to make programmatic requests to the OCI APIs directly or via, OCI SDKs or the OCI CLI.",
+                "Rationale": "Having a single API Key for an OCI IAM reduces attack surface area and makes it easier to manage.",
+                "Impact": "Deletion of an OCI API Key will remove programmatic access to OCI APIs.",
+                "Remediation": "Remove one of the API Keys.",
+                "Observation": "OCI API Key will grant programmatic access to OCI APIs with the same access as the user it is attached to."
+            },
             "2.1": {
                 "Description": "Security lists provide stateful or stateless filtering of ingress/egress network traffic to OCI resources on a subnet level. It is recommended that no security group allows unrestricted ingress access to port 22.",
                 "Rationale": "Removing unfettered connectivity to remote console services, such as Secure Shell (SSH), reduces a server's exposure to risk.",
@@ -339,10 +362,10 @@ class CIS_Report:
                 "Observation": "Network security groups that allow internet access to port 3389. (Note this does not necessarily mean external traffic can reach a compute instance)."
             },
             "2.5": {
-                "Description": "A default security list is created when a Virtual Cloud Network (VCN) is created. Security lists provide stateful filtering of ingress and egress network traffic to OCI resources. It is recommended no security list allows unrestricted ingress access to Secure Shell (SSH) via port 22.",
-                "Rationale": "Removing unfettered connectivity to remote console services, such as SSH on port 22, reduces a server's exposure to unauthorized access.",
+                "Description": "A default security list is created when a Virtual Cloud Network (VCN) is created and attached to the public subnets in the VCN. Security lists provide stateful or stateless filtering of ingress and egress network traffic to OCI resources in the VCN. It is recommended that the default security list does not allow unrestricted ingress and egress access to resources in the VCN.",
+                "Rationale": "Removing unfettered connectivity to OCI resource, reduces a server's exposure to unauthorized access or data exfiltration.",
                 "Impact": "For updating an existing environment, care should be taken to ensure that administrators currently relying on an existing ingress from 0.0.0.0/0 have access to ports 22 and/or 3389 through another security group.",
-                "Remediation": "Select Default Security List for <VCN Name> and Remove the Ingress Rule with Source 0.0.0.0/0, IP Protocol 22 and Destination Port Range 22.",
+                "Remediation": "For updating an existing environment, care should be taken to ensure that administrators currently relying on an existing ingress from 0.0.0.0/0 have access to port 22 through another network security group and servers have egress to specified ports and protocols through another network security group.",
                 "Recommendation": "Create specific custom security lists with workload specific rules and attach to subnets.",
                 "Observation": "Default Security lists that allow more traffic then ICMP."
             },
@@ -390,7 +413,7 @@ class CIS_Report:
                 "Description": "The Block Volume service provides the option to enable in-transit encryption for paravirtualized volume attachments on virtual machine (VM) instances.",
                 "Rationale": "All the data moving between the instance and the block volume is transferred over an internal and highly secure network. If you have specific compliance requirements related to the encryption of the data while it is moving between the instance and the block volume, you should enable the in-transit encryption option.",
                 "Impact": "In-transit encryption for boot and block volumes is only available for virtual machine (VM) instances launched from platform images, along with bare metal instances that use the following shapes: BM.Standard.E3.128, BM.Standard.E4.128, BM.DenseIO.E4.128. It is not supported on other bare metal instances.",
-                "Remediation": "Terminate the old instance. Create a new instance and ensure Use in-transit encryption is toggled on under the Boot volume section.",
+                "Remediation": "If available, edit the instance and enable in-transit encryption. If not available terminate the old instance. Create a new instance and ensure Use in-transit encryption is toggled on under the Boot volume section.",
                 "Recommendation": "",
                 "Observation": "Instances that don't enable in-transit encryption."
             },
@@ -510,7 +533,7 @@ class CIS_Report:
                 "Description": "Cloud Guard detects misconfigured resources and insecure activity within a tenancy and provides security administrators with the visibility to resolve these issues. Upon detection, Cloud Guard generates a Problem. It is recommended to setup an Event Rule and Notification that gets triggered when Oracle Cloud Guard Problems are created, dismissed or remediated. Event Rules are compartment scoped and will detect events in child compartments. It is recommended to create the Event rule at the root compartment level.",
                 "Rationale": "Cloud Guard provides an automated means to monitor a tenancy for resources that are configured in an insecure manner as well as risky network activity from these resources. Monitoring and alerting on Problems detected by Cloud Guard will help in identifying changes to the security posture.",
                 "Impact": "There is no performance impact when enabling the above described features but depending on the amount of notifications sent per month there may be a cost associated.",
-                "Remediation": "Create a Rule Condition by selecting Cloud Guard in the Service Name Drop-down and selecting Detected – Problem, Remediated – Problem and Dismissed - Problem. In the Actions section select Notifications as Action Type and selct the compartment and topic to be used.",
+                "Remediation": "Create a Rule Condition by selecting Cloud Guard in the Service Name Drop-down and selecting Detected – Problem, Remediated – Problem and Dismissed - Problem. In the Actions section select Notifications as Action Type and select the compartment and topic to be used.",
                 "Recommendation": "",
                 "Observation": "notifications have been configured for Cloud Guard Problems."
             },
@@ -529,6 +552,14 @@ class CIS_Report:
                 "Remediation": "To the relevant bucket enable log by providing Write Access Events from the Log Category. Beforehand create log group if required.",
                 "Recommendation": "",
                 "Observation": "object stores have no write level logging enabled."
+            },
+            "4.18": {
+                "Description": "It is recommended that an Event Rule and Notification be set up when a user in the via OCI local authentication. Event Rules are compartment-scoped and will detect events in child compartments. This Event rule is required to be created at the root compartment level.",
+                "Rationale": "Users should rarely use OCI local authenticated and be authenticated via organizational standard Identity providers, not local credentials. Access in this matter would represent a break glass activity and should be monitored to see if changes made impact the security posture.",
+                "Impact": "There is no performance impact when enabling the above-described features but depending on the amount of notifications sent per month there may be a cost associated.",
+                "Remediation": "Create a Rule Condition by selecting Identity SignOn in the Service Name Drop-down and selecting and Event Types: Interactive Login. In the Actions section select Notifications as Action Type and select the compartment and topic to be used.",
+                "Recommendation": "",
+                "Observation": "notifications have been configured Local User Authentication."
             },
             "5.1.1": {
                 "Description": "A bucket is a logical container for storing objects. It is associated with a single compartment that has policies that determine what action a user can perform on a bucket and on all the objects in the bucket. It is recommended that no bucket be publicly accessible.",
@@ -610,7 +641,7 @@ class CIS_Report:
         }
         #  CIS and OBP Regional Data
         # 4.6 is not regional because OCI IAM Policies only exist in the home region
-        self.__cis_regional_checks = {"4.3","4.4","4.5","4.7", "4.8", "4.9", "4.10", "4.11", "4.12"}
+        self.__cis_regional_checks = {"4.3","4.4","4.5","4.7","4.8", "4.9", "4.10", "4.11", "4.12", "4.18"}
         self.__obp_regional_checks = {}
 
         # CIS monitoring notifications check
@@ -696,6 +727,9 @@ class CIS_Report:
                 'com.oraclecloud.cloudguard.problemdetected',
                 'com.oraclecloud.cloudguard.problemdismissed',
                 'com.oraclecloud.cloudguard.problemremediated'
+            ],
+            "4.18": [
+                'com.oraclecloud.identitysignon.interactivelogin'
             ]
         }
 
@@ -948,16 +982,21 @@ class CIS_Report:
 
         # Checking if a Tenancy has Identity Domains enabled
         try:
-            domains_checking_url = "https://login.oci.oraclecloud.com/v1/tenantMetadata/" + self.__tenancy.name
-            domains_check_raw = requests.get(url=domains_checking_url)
-            domains_check_dict = json.loads(domains_check_raw.content)
-            self.__identity_domains_enabled = domains_check_dict['flights']['isHenosisEnabled']
+            oci.pagination.list_call_get_all_results(
+                    self.__regions[self.__home_region]['identity_client'].list_domains,
+                    compartment_id = self.__tenancy.id,
+                    lifecycle_state = "ACTIVE",
+                    name="Default"
+                ).data
+            self.__identity_domains_enabled=True
+            print_header("Identity Domains Enabled in Tenancy")            
         except Exception as e:
-            # To be safe if it fails I'll check
-            self.__identity_domains_enabled = True
-            debug("__init__: Exception checking identity domains status\n" + str(e))
-            self.__errors.append({"id" : "__init__", "error" : str(e)})
-        
+            if e.status == 404:
+                print_header("Identity Domains Disabled in Tenancy")            
+                self.__identity_domains_enabled = False
+            else:
+                raise RuntimeError(
+                    "Failed to list identity domains." + str(e.args))
         
         # Creating signers and config for all regions
         self.__create_regional_signers(proxy)
@@ -1136,7 +1175,12 @@ class CIS_Report:
                 if proxy:
                     search.base_client.session.proxies = {'https': proxy}
                 region_values['certificate_client'] = certificate_client 
-
+                
+                logging_search_client = oci.loggingsearch.LogSearchClient(region_config, signer=region_signer)
+                if proxy:
+                    search.base_client.session.proxies = {'https': proxy}
+                region_values['logging_search_client'] = logging_search_client 
+            
             except Exception as e:
                 debug("__create_regional_signers: error reading" + str(self.__config))
                 self.__errors.append({"id" : "__create_regional_signers", "error" : str(e)})
@@ -1163,16 +1207,17 @@ class CIS_Report:
     def get_date_iso_format(self, val):
         if not val:
             return ""
-        return str(val)[0:19]
+        return str(val)[0:19].replace(" ","T")
 
     ##########################################################################
     # Load compartments
     ##########################################################################
     def __identity_read_compartments(self):
         print("\nProcessing Compartments...")
+        self.__compartments = []
         try:
             debug("__identity_read_compartments: Processing Compartments:")
-            self.__compartments = oci.pagination.list_call_get_all_results(
+            self.__compartments += oci.pagination.list_call_get_all_results(
                 self.__regions[self.__home_region]['identity_client'].list_compartments,
                 compartment_id=self.__tenancy.id,
                 compartment_id_in_subtree=True,
@@ -1198,7 +1243,7 @@ class CIS_Report:
                     "region": ""
                 }
                 self.__raw_compartment.append(record)
-                self.cis_foundations_benchmark_2_0['6.1']['Total'].append(compartment)
+                self.cis_foundations_benchmark_3_0['6.1']['Total'].append(compartment)
 
             # Add root compartment which is not part of the list_compartments
             self.__compartments.append(self.__tenancy)
@@ -1465,6 +1510,7 @@ class CIS_Report:
                                 'can_use_db_credentials': user.urn_ietf_params_scim_schemas_oracle_idcs_extension_capabilities_user.can_use_db_credentials if user.urn_ietf_params_scim_schemas_oracle_idcs_extension_capabilities_user else None,
                                 'can_use_o_auth2_client_credentials': user.urn_ietf_params_scim_schemas_oracle_idcs_extension_capabilities_user.can_use_o_auth2_client_credentials if user.urn_ietf_params_scim_schemas_oracle_idcs_extension_capabilities_user else None,
                                 'can_use_smtp_credentials': user.urn_ietf_params_scim_schemas_oracle_idcs_extension_capabilities_user.can_use_smtp_credentials if user.urn_ietf_params_scim_schemas_oracle_idcs_extension_capabilities_user else None,
+                                'last_successful_login_date': self.get_date_iso_format(user.urn_ietf_params_scim_schemas_oracle_idcs_extension_user_state_user.last_successful_login_date) if user.urn_ietf_params_scim_schemas_oracle_idcs_extension_user_state_user else None,
                                 'groups': []
                             }
                             # Adding Groups to the user
@@ -1526,6 +1572,7 @@ class CIS_Report:
                             'can_use_db_credentials': user.capabilities.can_use_db_credentials,
                             'can_use_o_auth2_client_credentials': user.capabilities.can_use_o_auth2_client_credentials,
                             'can_use_smtp_credentials': user.capabilities.can_use_smtp_credentials,
+                            'last_successful_login_date': self.get_date_iso_format(user.last_successful_login_time),
                             'groups': []
                         }
                         # Adding Groups to the user
@@ -1571,7 +1618,10 @@ class CIS_Report:
                     record = oci.util.to_dict(api_key)
                     record['deep_link'] = self.__generate_csv_hyperlink(deep_link, api_key.fingerprint)
                     record['time_created'] = self.get_date_iso_format(record['meta']['created'])
+                    apikey_used_in_45_days = self.__identity_check_logging_for_api_activity(user_ocid=user_ocid, api_key=api_key.fingerprint)
+                    record['apikey_used_in_45_days'] = apikey_used_in_45_days
                     api_keys.append(record)
+
 
             else:
                 user_api_keys_data = oci.pagination.list_call_get_all_results(
@@ -1585,6 +1635,8 @@ class CIS_Report:
                     record['deep_link'] = self.__generate_csv_hyperlink(deep_link, api_key.fingerprint)
                     record['id'] = record['key_id']
                     record['time_created'] = self.get_date_iso_format(record['time_created'])
+                    apikey_used_in_45_days = self.__identity_check_logging_for_api_activity(user_ocid=user_ocid, api_key=api_key.fingerprint)
+                    record['apikey_used_in_45_days'] = apikey_used_in_45_days
                     api_keys.append(record)
             
             return api_keys
@@ -1596,6 +1648,112 @@ class CIS_Report:
             return api_keys
             raise RuntimeError(
                 "Error in identity_read_user_api_key: " + str(e.args))
+
+
+    ##########################################################################
+    # Search API Key Last Usage Over 45 days https://github.com/tstahl/oci-remove-unused-apikey-cg-responder/blob/main/func.py
+    ##########################################################################
+    def __identity_check_logging_for_api_activity(self, user_ocid, api_key):
+
+        apikey_used_in_45_days = []
+
+        def numOfDays(date1, date2):
+        #check which date is greater to avoid days output in -ve number
+            if date2 > date1:   
+                return (date2-date1).days
+            else:
+                return (date1-date2).days
+        
+        ##########################################################################
+        # Inputs: start_date(date), end_date(date), data_ranges(list) max_days_between(int)
+        # Returns: List of dicts with {"start_date" : start_date, "end_date" : end_date}}
+        ##########################################################################
+        def get_date_ranges(start_date, end_date, date_ranges, max_days_between=9):
+            days_between = numOfDays(start_date, end_date)
+            if days_between > max_days_between:
+                    next_date = start_date + datetime.timedelta(days=max_days_between)
+                    date_ranges.append({"start_date" : start_date, "end_date" : next_date})
+                    return get_date_ranges(next_date + datetime.timedelta(days=1), end_date, date_ranges, max_days_between=max_days_between)
+            else:
+
+                date_ranges.append({"start_date" : start_date, "end_date" : end_date})
+                return date_ranges
+            
+        ##########################################################################
+        # Inputs: search_query, start_date and end_date in datetime, results
+        # Returns: Bool if the key was used in 
+        ##########################################################################
+        def run_logging_search_query(search_query, api_key_used, start_date: datetime, end_date: datetime):
+            for region_key, region_values in self.__regions.items():
+                try:
+                    
+                    response = region_values['logging_search_client'].search_logs(
+                        search_logs_details=oci.loggingsearch.models.SearchLogsDetails(
+                            search_query=search_query,
+                            time_start=start_date,
+                            time_end=end_date,
+                            is_return_field_info=False),
+                            limit=100)
+
+                    audit_logs = response.data
+
+                    if audit_logs.summary.result_count > 0:
+                        for result in audit_logs.results:
+                            userInfo = {
+                                        "principalName" : result.data["data.identity.principalName"], 
+                                        "principalId" : result.data["data.identity.principalId"]
+                                        }
+                            debug(f'__identity_check_logging_for_api_activity: Audit search results: {userInfo}')
+                            api_key_used.append(userInfo)
+                            break
+                            
+                    else:
+                        debug('__identity_check_logging_for_api_activity: No APIKey usage records found in the past 14 days in')
+                            
+                    return api_key_used
+                except Exception as e:
+                    self.__errors.append({"id" : "run_logging_search_query", "error" : str(e)})
+                    debug('__identity_check_logging_for_api_activity: Exception is:')
+                    debug("\tException is : " + str(e))
+                    return api_key_used
+
+        debug("__identity_check_logging_for_api_activity: Checking API Key")
+        principle_id = f'{self.__tenancy.id}/{user_ocid}/{api_key}'
+        debug(f'__identity_check_logging_for_api_activity: API key is: {api_key}')
+
+        tenancy_search_str = f'\"{self.__tenancy.id}/_Audit_Include_Subcompartment\"'
+        search_query = "search " + tenancy_search_str + """ | data.identity.credentials = '""" + principle_id + """' and data.identity.tenantId = '""" + self.__tenancy.id + """' | summarize count() by data.identity.principalId,  data.identity.principalName"""
+        debug(f'__identity_check_logging_for_api_activity: Search Query is: {search_query}')
+        
+        end_date = self.start_datetime
+        start_date = end_date - datetime.timedelta(days=self.__days_used)
+       
+        search_date_range = get_date_ranges(start_date=start_date, \
+                                        end_date=end_date, \
+                                        date_ranges=[],
+                                        max_days_between=13)
+        
+        debug(f'__identity_check_logging_for_api_activity: Initiated Threads for dates range :  {str(search_date_range)}')
+
+        threads = []
+        for dates in search_date_range:
+            thread = Thread(target=run_logging_search_query, \
+                            args=(search_query, apikey_used_in_45_days, \
+                                  dates['start_date'], dates['end_date']))
+            threads.append(thread)
+
+        print("Processing Audit Logs for API Key Usage...")
+        for thread in threads:
+            thread.start()
+
+        for thread in threads:
+            thread.join()
+
+        if apikey_used_in_45_days:
+            return True
+        else:
+            return False
+
 
     ##########################################################################
     # Load user auth tokens
@@ -2770,7 +2928,7 @@ class CIS_Report:
     ############################################
     def __network_topology_dump(self):
         debug("__network_topology_dump: Starting")
-        if type(self.__signer) is not oci.auth.signers.InstancePrincipalsDelegationTokenSigner:
+        if type(self.__signer) is oci.auth.signers.InstancePrincipalsDelegationTokenSigner:
             self.__errors.append({"id": "__network_topology_dump", "error": "Delegated Tokens via Cloud Shell not supported." })
             return
         def api_function(region_key, region_values, tenancy_id):
@@ -3097,28 +3255,40 @@ class CIS_Report:
                             try:
                                 try:
                                     if log_record["log_type"] == "SERVICE" and log_record['lifecycle_state'] == "ACTIVE":
-                                        log_record["configuration_compartment_id"] = log.configuration.compartment_id
-                                        log_record["source_category"] = log.configuration.source.category
-                                        log_record["source_parameters"] = log.configuration.source.parameters
-                                        log_record["source_source_type"] = log.configuration.source.source_type
-                                        log_record["source_service"] = log.configuration.source.service
-                                        # Object storage buckets are indexed by BucketName-region
-                                        if log_record["source_service"] == "objectstorage":
-                                            log_record["source_resource"] = log.configuration.source.resource + "-" + region_key
-                                        else:
-                                            log_record["source_resource"] = log.configuration.source.resource
-                                        log_record["archiving_enabled"] = log.configuration.archiving.is_enabled
-                                        if log_record["source_parameters"] and isinstance(log_record["source_parameters"],dict):
-                                            log_record["capture_filter"] = log.configuration.source.parameters["capture_filter"]
-                                        else:
-                                            log_record["capture_filter"] = None
-             
+                                        log_record["configuration_compartment_id"] = None
+                                        log_record["source_category"] = None
+                                        log_record["source_parameters"] = None
+                                        log_record["source_source_type"] = None
+                                        log_record["source_service"] = None
+                                        log_record["source_resource"] = None
+                                        log_record["archiving_enabled"] = None
+                                        log_record["capture_filter"] = None
+                                        if log.configuration:
+                                            log_record["configuration_compartment_id"] = log.configuration.compartment_id
+                                            if log.configuration.source:
+                                                log_record["source_category"] = log.configuration.source.category
+                                                log_record["source_parameters"] = log.configuration.source.parameters
+                                                log_record["source_source_type"] = log.configuration.source.source_type
+                                                log_record["source_service"] = log.configuration.source.service
+                                                # Object storage buckets are indexed by BucketName-region
+                                                if log_record["source_service"] == "objectstorage":
+                                                    log_record["source_resource"] = log.configuration.source.resource + "-" + region_key
+                                                else:
+                                                    log_record["source_resource"] = log.configuration.source.resource
+                                            if log_record["source_parameters"] and isinstance(log_record["source_parameters"],dict):
+                                                log_record["capture_filter"] = log.configuration.source.parameters["capture_filter"]
+                                            else:
+                                                log_record["capture_filter"] = None
+                                            if log.configuration.archiving:
+                                                log_record["archiving_enabled"] = log.configuration.archiving.is_enabled
+
                                     elif log_record["lifecycle_state"] == "ACTIVE":
                                         log_record["source_category"] = log.log_type
                                         log_record["source_service"] = log.log_type
                                         log_record["source_resource"] = log.id
                                         log_record["capture_filter"] = None
                                 except Exception as e:
+                                    self.__errors.append({"id" : log_record["id"], "error" : str(e)})
                                     print(log)
                                     print(e)
                                 
@@ -3161,6 +3331,9 @@ class CIS_Report:
                                     print("#" * 80)
                                     print(e)
                                     print("*" * 80)
+
+                                if log.configuration is None:
+                                    continue
 
                                 if log.configuration.source.service == 'flowlogs':
                                     self.__subnet_logs[log.configuration.source.resource] = {"log_group_id": log.log_group_id, "log_id": log.id}
@@ -3640,7 +3813,7 @@ class CIS_Report:
                                 "id": item.identifier,
                                 "region": region_key
                             }
-                            self.cis_foundations_benchmark_2_0['6.2']['Total'].append(record)
+                            self.cis_foundations_benchmark_3_0['6.2']['Total'].append(record)
                     except Exception:
                         self.__errors.append({"id": "search_resources_in_root_compartment Invalid OCID", "error" : str(item)})
                         debug(f'__search_resources_in_root_compartment: Invalid OCID: {str(item)}')
@@ -3730,9 +3903,11 @@ class CIS_Report:
 
                 # Returning Instances
                 print("\tProcessed " + str(len(self.__Instance)) + " Compute Instances")
-                return self.__service_connectors
+                return self.__Instance
         except Exception as e:
-            raise RuntimeError("Error in __core_instance_read_compute " + str(e.args))
+            print("__core_instance_read_compute failed to process: " + str(e))
+            self.__errors.append({'id' : '__core_instance_read_compute', 'error' : str(e)})
+            return []
 
 
     ##########################################################################
@@ -3809,8 +3984,8 @@ class CIS_Report:
                     and ("to manage all-resources".upper() in statement.upper()) \
                         and policy['name'].upper() != "Tenant Admin Policy".upper():
                     # If there are more than manage all-resources in you don't meet this rule
-                    self.cis_foundations_benchmark_2_0['1.1']['Status'] = False
-                    self.cis_foundations_benchmark_2_0['1.1']['Findings'].append(policy)
+                    self.cis_foundations_benchmark_3_0['1.1']['Status'] = False
+                    self.cis_foundations_benchmark_3_0['1.1']['Findings'].append(policy)
                     break
 
         # 1.2 Check
@@ -3820,8 +3995,8 @@ class CIS_Report:
                         and "to manage all-resources in tenancy".upper() in statement.upper() \
                         and policy['name'].upper() != "Tenant Admin Policy".upper():
 
-                    self.cis_foundations_benchmark_2_0['1.2']['Status'] = False
-                    self.cis_foundations_benchmark_2_0['1.2']['Findings'].append(
+                    self.cis_foundations_benchmark_3_0['1.2']['Status'] = False
+                    self.cis_foundations_benchmark_3_0['1.2']['Findings'].append(
                         policy)
 
         # 1.3 Check - May want to add a service check
@@ -3837,24 +4012,24 @@ class CIS_Report:
                             if all(permission.upper() in clean_where_clause for permission in self.cis_iam_checks['1.3']["targets"]):
                                 pass
                             else:
-                                self.cis_foundations_benchmark_2_0['1.3']['Findings'].append(policy)
-                                self.cis_foundations_benchmark_2_0['1.3']['Status'] = False
+                                self.cis_foundations_benchmark_3_0['1.3']['Findings'].append(policy)
+                                self.cis_foundations_benchmark_3_0['1.3']['Status'] = False
 
                         else:
-                            self.cis_foundations_benchmark_2_0['1.3']['Findings'].append(policy)
-                            self.cis_foundations_benchmark_2_0['1.3']['Status'] = False
+                            self.cis_foundations_benchmark_3_0['1.3']['Findings'].append(policy)
+                            self.cis_foundations_benchmark_3_0['1.3']['Status'] = False
 
         # CIS Total 1.1,1,2,1.3 Adding - All IAM Policies for to CIS Total
-        self.cis_foundations_benchmark_2_0['1.1']['Total'] = self.__policies
-        self.cis_foundations_benchmark_2_0['1.2']['Total'] = self.__policies
-        self.cis_foundations_benchmark_2_0['1.3']['Total'] = self.__policies
+        self.cis_foundations_benchmark_3_0['1.1']['Total'] = self.__policies
+        self.cis_foundations_benchmark_3_0['1.2']['Total'] = self.__policies
+        self.cis_foundations_benchmark_3_0['1.3']['Total'] = self.__policies
 
         # 1.4 Check - Password Policy - Only in home region
         if self.__tenancy_password_policy:
             if self.__tenancy_password_policy.password_policy.is_lowercase_characters_required:
-                self.cis_foundations_benchmark_2_0['1.4']['Status'] = True
+                self.cis_foundations_benchmark_3_0['1.4']['Status'] = True
         else:
-            self.cis_foundations_benchmark_2_0['1.4']['Status'] = None
+            self.cis_foundations_benchmark_3_0['1.4']['Status'] = None
 
         # 1.5 and 1.6 Checking Identity Domains Password Policy for expiry less than 365 and 
         debug("__report_cis_analyze_tenancy_data: Identity Domains Enabled is: " + str(self.__identity_domains_enabled))
@@ -3866,49 +4041,52 @@ class CIS_Report:
 
                     if domain['password_policy']['password_expires_after']:
                         if domain['password_policy']['password_expires_after'] > 365:
-                            self.cis_foundations_benchmark_2_0['1.5']['Findings'].append(domain)
-                    
+                            self.cis_foundations_benchmark_3_0['1.5']['Findings'].append(domain)
+                    else:
+                        self.cis_foundations_benchmark_3_0['1.5']['Findings'].append(domain)
 
                     if domain['password_policy']['num_passwords_in_history']:
-                        if domain['password_policy']['num_passwords_in_history'] is None or domain['password_policy']['num_passwords_in_history'] < 24:
-                            self.cis_foundations_benchmark_2_0['1.6']['Findings'].append(domain)
+                        if domain['password_policy']['num_passwords_in_history'] < 24:
+                            self.cis_foundations_benchmark_3_0['1.6']['Findings'].append(domain)
+                    else:
+                        self.cis_foundations_benchmark_3_0['1.6']['Findings'].append(domain)
 
                 else:
                     debug("__report_cis_analyze_tenancy_data 1.5 and 1.6 no password policy")
-                    self.cis_foundations_benchmark_2_0['1.5']['Findings'].append(domain)
-                    self.cis_foundations_benchmark_2_0['1.6']['Findings'].append(domain)
+                    self.cis_foundations_benchmark_3_0['1.5']['Findings'].append(domain)
+                    self.cis_foundations_benchmark_3_0['1.6']['Findings'].append(domain)
 
 
-            if self.cis_foundations_benchmark_2_0['1.5']['Findings']:
-                self.cis_foundations_benchmark_2_0['1.5']['Status'] = False
+            if self.cis_foundations_benchmark_3_0['1.5']['Findings']:
+                self.cis_foundations_benchmark_3_0['1.5']['Status'] = False
             else:
-                self.cis_foundations_benchmark_2_0['1.5']['Status'] = True
+                self.cis_foundations_benchmark_3_0['1.5']['Status'] = True
 
-            if self.cis_foundations_benchmark_2_0['1.6']['Findings']:
-                self.cis_foundations_benchmark_2_0['1.6']['Status'] = False
+            if self.cis_foundations_benchmark_3_0['1.6']['Findings']:
+                self.cis_foundations_benchmark_3_0['1.6']['Status'] = False
             else:
-                self.cis_foundations_benchmark_2_0['1.6']['Status'] = True
+                self.cis_foundations_benchmark_3_0['1.6']['Status'] = True
             
             # Adding all identity domains to Total
-            self.cis_foundations_benchmark_2_0['1.5']['Total'] = self.__identity_domains
-            self.cis_foundations_benchmark_2_0['1.6']['Total'] = self.__identity_domains
+            self.cis_foundations_benchmark_3_0['1.5']['Total'] = self.__identity_domains
+            self.cis_foundations_benchmark_3_0['1.6']['Total'] = self.__identity_domains
 
         # 1.7 Check - Local Users w/o MFA
         for user in self.__users:
             if not(user['is_federated']) and user['can_use_console_password'] and not (user['is_mfa_activated']) and  user['lifecycle_state']:
-                self.cis_foundations_benchmark_2_0['1.7']['Status'] = False
-                self.cis_foundations_benchmark_2_0['1.7']['Findings'].append(
+                self.cis_foundations_benchmark_3_0['1.7']['Status'] = False
+                self.cis_foundations_benchmark_3_0['1.7']['Findings'].append(
                     user)
 
         # CIS Total 1.7 Adding - All Users to CIS Total
-        self.cis_foundations_benchmark_2_0['1.7']['Total'] = self.__users
+        self.cis_foundations_benchmark_3_0['1.7']['Total'] = self.__users
 
         # 1.8 Check - API Keys over 90
         for user in self.__users:
             if user['api_keys']:
                 for key in user['api_keys']:
                     if self.api_key_time_max_datetime >= datetime.datetime.strptime(key['time_created'], self.__iso_time_format):
-                        self.cis_foundations_benchmark_2_0['1.8']['Status'] = False
+                        self.cis_foundations_benchmark_3_0['1.8']['Status'] = False
                         finding = {
                             "user_name": user['name'],
                             "user_id": user['id'],
@@ -3919,18 +4097,18 @@ class CIS_Report:
                             'time_created': key['time_created']
                         }
 
-                        self.cis_foundations_benchmark_2_0['1.8']['Findings'].append(
+                        self.cis_foundations_benchmark_3_0['1.8']['Findings'].append(
                             finding)
 
                     # CIS Total 1.8 Adding - Customer Secrets to CIS Total
-                    self.cis_foundations_benchmark_2_0['1.8']['Total'].append(key)
+                    self.cis_foundations_benchmark_3_0['1.8']['Total'].append(key)
 
         # CIS 1.9 Check - Old Customer Secrets
         for user in self.__users:
             if user['customer_secret_keys']:
                 for key in user['customer_secret_keys']:
                     if self.api_key_time_max_datetime >= datetime.datetime.strptime(key['time_created'], self.__iso_time_format):
-                        self.cis_foundations_benchmark_2_0['1.9']['Status'] = False
+                        self.cis_foundations_benchmark_3_0['1.9']['Status'] = False
                         finding = {
                             "user_name": user['name'],
                             "user_id": user['id'],
@@ -3942,17 +4120,17 @@ class CIS_Report:
                             'time_expires': key['time_expires']
                         }
 
-                        self.cis_foundations_benchmark_2_0['1.9']['Findings'].append(finding)
+                        self.cis_foundations_benchmark_3_0['1.9']['Findings'].append(finding)
 
                     # CIS Total 1.9 Adding - Customer Secrets to CIS Total
-                    self.cis_foundations_benchmark_2_0['1.9']['Total'].append(key)
+                    self.cis_foundations_benchmark_3_0['1.9']['Total'].append(key)
 
         # CIS 1.10 Check - Old Auth Tokens
         for user in self.__users:
             if user['auth_tokens']:
                 for key in user['auth_tokens']:
                     if self.api_key_time_max_datetime >= datetime.datetime.strptime(key['time_created'], self.__iso_time_format): # and key['lifecycle_state'] == 'ACTIVE':
-                        self.cis_foundations_benchmark_2_0['1.10']['Status'] = False
+                        self.cis_foundations_benchmark_3_0['1.10']['Status'] = False
 
                         finding = {
                             "user_name": user['name'],
@@ -3966,11 +4144,11 @@ class CIS_Report:
                             # "token": key['token']
                         }
 
-                        self.cis_foundations_benchmark_2_0['1.10']['Findings'].append(
+                        self.cis_foundations_benchmark_3_0['1.10']['Findings'].append(
                             finding)
 
                     # CIS Total 1.10 Adding - Keys to CIS Total
-                    self.cis_foundations_benchmark_2_0['1.10']['Total'].append(
+                    self.cis_foundations_benchmark_3_0['1.10']['Total'].append(
                         key)
     # CIS 1.11 Check - Old DB Password
         #__iso_time_format1 = "%Y-%m-%dT%H:%M:%S.%fZ"
@@ -3978,7 +4156,7 @@ class CIS_Report:
             if user['database_passwords']:
                 for key in user['database_passwords']:
                     if self.api_key_time_max_datetime >= datetime.datetime.strptime(key['time_created'], self.__iso_time_format):
-                        self.cis_foundations_benchmark_2_0['1.11']['Status'] = False
+                        self.cis_foundations_benchmark_3_0['1.11']['Status'] = False
                         
                         finding = {
                             "user_name": user['name'],
@@ -3988,49 +4166,49 @@ class CIS_Report:
                             # "expires-on": key['expires_on']
                         }
 
-                        self.cis_foundations_benchmark_2_0['1.11']['Findings'].append(finding)
+                        self.cis_foundations_benchmark_3_0['1.11']['Findings'].append(finding)
 
                 # CIS Total 1.11 Adding - Keys to CIS Total
-                    self.cis_foundations_benchmark_2_0['1.11']['Total'].append(key)
+                    self.cis_foundations_benchmark_3_0['1.11']['Total'].append(key)
                     
 
         # CIS 1.12 Active Admins with API keys
         # Iterating through all users to see if they have API Keys and if they are active users
         for user in self.__users:
             if 'Administrators' in user['groups'] and user['api_keys'] and user['lifecycle_state']:
-                self.cis_foundations_benchmark_2_0['1.12']['Status'] = False
-                self.cis_foundations_benchmark_2_0['1.12']['Findings'].append(
+                self.cis_foundations_benchmark_3_0['1.12']['Status'] = False
+                self.cis_foundations_benchmark_3_0['1.12']['Findings'].append(
                     user)
 
             # CIS Total 1.12 Adding - All IAM Users in Administrator group to CIS Total
             if 'Administrators' in user['groups'] and user['lifecycle_state']:
-                self.cis_foundations_benchmark_2_0['1.12']['Total'].append(user)
+                self.cis_foundations_benchmark_3_0['1.12']['Total'].append(user)
 
         # CIS 1.13 Check - This check is complete uses email verification
         # Iterating through all users to see if they have API Keys and if they are active users
         for user in self.__users:
             if user['external_identifier'] is None and user['lifecycle_state'] and not (user['email_verified']):
-                self.cis_foundations_benchmark_2_0['1.13']['Status'] = False
-                self.cis_foundations_benchmark_2_0['1.13']['Findings'].append(
+                self.cis_foundations_benchmark_3_0['1.13']['Status'] = False
+                self.cis_foundations_benchmark_3_0['1.13']['Findings'].append(
                     user)
 
         # CIS Total 1.13 Adding - All IAM Users for to CIS Total
-        self.cis_foundations_benchmark_2_0['1.13']['Total'] = self.__users
+        self.cis_foundations_benchmark_3_0['1.13']['Total'] = self.__users
 
         # CIS 1.14 Check - Ensure Dynamic Groups are used for OCI instances, OCI Cloud Databases and OCI Function to access OCI resources
         # Iterating through all dynamic groups ensure there are some for fnfunc, instance or autonomous.  Using reverse logic so starts as a false
         for dynamic_group in self.__dynamic_groups:
             if any(oci_resource.upper() in str(dynamic_group['matching_rule'].upper()) for oci_resource in self.cis_iam_checks['1.14']['resources']):
-                self.cis_foundations_benchmark_2_0['1.14']['Status'] = True
+                self.cis_foundations_benchmark_3_0['1.14']['Status'] = True
             else:
-                self.cis_foundations_benchmark_2_0['1.14']['Findings'].append(
+                self.cis_foundations_benchmark_3_0['1.14']['Findings'].append(
                     dynamic_group)
         # Clearing finding
-        if self.cis_foundations_benchmark_2_0['1.14']['Status']:
-            self.cis_foundations_benchmark_2_0['1.14']['Findings'] = []
+        if self.cis_foundations_benchmark_3_0['1.14']['Status']:
+            self.cis_foundations_benchmark_3_0['1.14']['Findings'] = []
 
         # CIS Total 1.14 Adding - All Dynamic Groups  for to CIS Total
-        self.cis_foundations_benchmark_2_0['1.14']['Total'] = self.__dynamic_groups
+        self.cis_foundations_benchmark_3_0['1.14']['Total'] = self.__dynamic_groups
 
         # CIS 1.15 Check - Ensure storage service-level admins cannot delete resources they manage.
         # Iterating through all policies
@@ -4044,27 +4222,92 @@ class CIS_Report:
                                 clean_where_clause = split_statement[1].upper().replace(" ", "").replace("'", "")
                                 if all(permission.upper() in clean_where_clause for permission in self.cis_iam_checks['1.15'][resource]) and \
                                     not(all(permission.upper() in clean_where_clause for permission in self.cis_iam_checks['1.15-storage-admin'][resource])):
-                                    debug("__report_cis_analyze_tenancy_data no permissions to delete storage: " + str(policy['name']))
+                                    debug("__report_cis_analyze_tenancy_data CIS 1.15 no permissions to delete storage: " + str(policy['name']))
                                     pass
                                 # Checking if this is the Storage admin with allowed 
                                 elif all(permission.upper() in clean_where_clause for permission in self.cis_iam_checks['1.15-storage-admin'][resource]) and \
                                     not(all(permission.upper() in clean_where_clause for permission in self.cis_iam_checks['1.15'][resource])):
-                                    debug("__report_cis_analyze_tenancy_data storage admin policy is: " + str(policy['name']))
+                                    debug("__report_cis_analyze_tenancy_data CIS 1.15 storage admin policy is: " + str(policy['name']))
                                     pass
                                 else:
-                                    self.cis_foundations_benchmark_2_0['1.15']['Findings'].append(policy)
-                                    debug("__report_cis_analyze_tenancy_data else policy is\n: " + str(policy['name']))
+                                    self.cis_foundations_benchmark_3_0['1.15']['Findings'].append(policy)
+                                    debug("__report_cis_analyze_tenancy_data CIS 1.15 else policy is\n: " + str(policy['name']))
 
                             else:
-                                self.cis_foundations_benchmark_2_0['1.15']['Findings'].append(policy)
+                                self.cis_foundations_benchmark_3_0['1.15']['Findings'].append(policy)
 
-        if self.cis_foundations_benchmark_2_0['1.15']['Findings']:
-            self.cis_foundations_benchmark_2_0['1.15']['Status'] = False
+        if self.cis_foundations_benchmark_3_0['1.15']['Findings']:
+            self.cis_foundations_benchmark_3_0['1.15']['Status'] = False
         else:
-            self.cis_foundations_benchmark_2_0['1.15']['Status'] = True
+            self.cis_foundations_benchmark_3_0['1.15']['Status'] = True
 
         # CIS Total 1.15 Adding - All IAM Policies for to CIS Total
-        self.cis_foundations_benchmark_2_0['1.15']['Total'] = self.__policies
+        self.cis_foundations_benchmark_3_0['1.15']['Total'] = self.__policies
+
+        # CIS 1.16 Check -  Users with API Keys over 45 days
+
+        for user in self.__users:
+
+            login_over_45_days = None
+            api_key_over_45_days = None
+            if user['lifecycle_state']: # and not(user['is_federated']) and user['can_use_console_password']:
+                debug(f'__report_cis_analyze_tenancy_data CIS 1.16 Login Over 45 days is: {login_over_45_days}')
+                if user['last_successful_login_date']:
+                    last_successful_login_date = user['last_successful_login_date'].split(".")[0]
+                    if self.local_user_time_max_datetime > datetime.datetime.strptime(last_successful_login_date, self.__iso_time_format):
+                        login_over_45_days = True
+                        debug(f"__report_cis_analyze_tenancy_data CIS 1.16 Last login is {user['last_successful_login_date']} and max login is {self.local_user_time_max_datetime}")
+                    else:
+                        login_over_45_days = False
+                else:
+                    debug("__report_cis_analyze_tenancy_data CIS 1.16 No Last login")
+                    login_over_45_days = True
+
+            else:
+                debug("__report_cis_analyze_tenancy_data CIS 1.16 INACTIVE USE")
+                login_over_45_days = False
+
+            if user['api_keys']:
+                debug("__report_cis_analyze_tenancy_data CIS 1.16 API Key Check")
+                for api_key in user['api_keys']:
+                    if api_key['apikey_used_in_45_days']:
+                        api_key_over_45_days = True
+                    else: 
+                        debug("__report_cis_analyze_tenancy_data CIS 1.16 API Key used in under 45 days")
+                        api_key_over_45_days = True
+            # else:
+            #     api_key_over_45_days = False
+
+            debug(f"__report_cis_analyze_tenancy_data CIS 1.16 User: {user['id']}")
+            debug(f'__report_cis_analyze_tenancy_data CIS 1.16 Over Login Over 45: {login_over_45_days}')
+            debug(f'__report_cis_analyze_tenancy_data CIS 1.16 Over API Key Over 45: {api_key_over_45_days}')
+            if login_over_45_days or api_key_over_45_days:
+                finding = user.copy()
+                finding['login_over_45_days'] = login_over_45_days
+                finding['api_key_over_45_days'] = api_key_over_45_days
+                self.cis_foundations_benchmark_3_0['1.16']['Findings'].append(finding)
+
+        if self.cis_foundations_benchmark_3_0['1.16']['Findings']:
+            self.cis_foundations_benchmark_3_0['1.16']['Status'] = False
+        else:
+            self.cis_foundations_benchmark_3_0['1.16']['Status'] = True
+
+        # CIS Total 1.15 Adding - All IAM Policies for to CIS Total
+        self.cis_foundations_benchmark_3_0['1.16']['Total'] = self.__users
+
+
+
+        # CIS 1.17  Check - Ensure there is only one active API Key for any single OCI IAM user 
+        for user in self.__users:
+            if user['api_keys'] and not(len(user['api_keys']) < 2):
+                self.cis_foundations_benchmark_3_0['1.17']['Findings'].append(user)
+
+        if self.cis_foundations_benchmark_3_0['1.17']['Findings']:
+            self.cis_foundations_benchmark_3_0['1.17']['Status'] = False
+        else:
+            self.cis_foundations_benchmark_3_0['1.17']['Status'] = True
+        # CIS Total 1.17 Adding - All IAM Policies for to CIS Total
+        self.cis_foundations_benchmark_3_0['1.17']['Total'] = self.__users
 
         # CIS 2.1, 2.2, & 2.5 Check - Security List Ingress from 0.0.0.0/0 on ports 22, 3389
         for sl in self.__network_security_lists:
@@ -4075,40 +4318,47 @@ class CIS_Report:
                         port_max = irule['tcp_options']['destinationPortRange']['max']
                         ports_range = range(port_min, port_max + 1)
                         if 22 in ports_range:
-                            self.cis_foundations_benchmark_2_0['2.1']['Status'] = False
-                            self.cis_foundations_benchmark_2_0['2.1']['Findings'].append(sl)
+                            self.cis_foundations_benchmark_3_0['2.1']['Status'] = False
+                            self.cis_foundations_benchmark_3_0['2.1']['Findings'].append(sl)
                         if 3389 in ports_range:
-                            self.cis_foundations_benchmark_2_0['2.2']['Status'] = False
-                            self.cis_foundations_benchmark_2_0['2.2']['Findings'].append(sl)
+                            self.cis_foundations_benchmark_3_0['2.2']['Status'] = False
+                            self.cis_foundations_benchmark_3_0['2.2']['Findings'].append(sl)
                         break
                     else:
                         # If TCP Options is null it includes all ports
-                        self.cis_foundations_benchmark_2_0['2.1']['Status'] = False
-                        self.cis_foundations_benchmark_2_0['2.1']['Findings'].append(sl)
-                        self.cis_foundations_benchmark_2_0['2.2']['Status'] = False
-                        self.cis_foundations_benchmark_2_0['2.2']['Findings'].append(sl)
+                        self.cis_foundations_benchmark_3_0['2.1']['Status'] = False
+                        self.cis_foundations_benchmark_3_0['2.1']['Findings'].append(sl)
+                        self.cis_foundations_benchmark_3_0['2.2']['Status'] = False
+                        self.cis_foundations_benchmark_3_0['2.2']['Findings'].append(sl)
                         break
                 elif irule['source'] == "0.0.0.0/0" and irule['protocol'] == 'all':
                     # All Protocols allowed included TCP and all ports
-                    self.cis_foundations_benchmark_2_0['2.1']['Status'] = False
-                    self.cis_foundations_benchmark_2_0['2.1']['Findings'].append(sl)
-                    self.cis_foundations_benchmark_2_0['2.2']['Status'] = False
-                    self.cis_foundations_benchmark_2_0['2.2']['Findings'].append(sl)
+                    self.cis_foundations_benchmark_3_0['2.1']['Status'] = False
+                    self.cis_foundations_benchmark_3_0['2.1']['Findings'].append(sl)
+                    self.cis_foundations_benchmark_3_0['2.2']['Status'] = False
+                    self.cis_foundations_benchmark_3_0['2.2']['Findings'].append(sl)
                     break
 
         # CIS Total 2.1, 2.2 Adding - All SLs for to CIS Total
-        self.cis_foundations_benchmark_2_0['2.1']['Total'] = self.__network_security_lists
-        self.cis_foundations_benchmark_2_0['2.2']['Total'] = self.__network_security_lists
+        self.cis_foundations_benchmark_3_0['2.1']['Total'] = self.__network_security_lists
+        self.cis_foundations_benchmark_3_0['2.2']['Total'] = self.__network_security_lists
 
         # CIS 2.5 Check - any rule with 0.0.0.0 where protocol not 1 (ICMP)
         # CIS Total 2.5 Adding - All Default Security List for to CIS Total
         for sl in self.__network_security_lists:
             if sl['display_name'].startswith("Default Security List for "):
-                self.cis_foundations_benchmark_2_0['2.5']['Total'].append(sl)
-                for irule in sl['ingress_security_rules']:
-                    if irule['source'] == "0.0.0.0/0" and irule['protocol'] != '1':
-                        self.cis_foundations_benchmark_2_0['2.5']['Status'] = False
-                        self.cis_foundations_benchmark_2_0['2.5']['Findings'].append(
+                self.cis_foundations_benchmark_3_0['2.5']['Total'].append(sl)
+                for irule in sl['ingress_security_rules'] + sl['egress_security_rules']:
+                    if 'source' in irule and irule['source'] == "0.0.0.0/0":
+                        debug("__report_cis_analyze_tenancy_data: Security List has bad ingress rule")
+                        self.cis_foundations_benchmark_3_0['2.5']['Status'] = False
+                        self.cis_foundations_benchmark_3_0['2.5']['Findings'].append(
+                            sl)
+                        break
+                    elif 'destination' in irule and irule['destination'] == "0.0.0.0/0":
+                        debug("Security List has bad egress rule")
+                        self.cis_foundations_benchmark_3_0['2.5']['Status'] = False
+                        self.cis_foundations_benchmark_3_0['2.5']['Findings'].append(
                             sl)
                         break
 
@@ -4121,62 +4371,62 @@ class CIS_Report:
                         port_max = rule['tcp_options'].destination_port_range.max
                         ports_range = range(port_min, port_max + 1)
                         if 22 in ports_range:
-                            self.cis_foundations_benchmark_2_0['2.3']['Status'] = False
-                            self.cis_foundations_benchmark_2_0['2.3']['Findings'].append(
+                            self.cis_foundations_benchmark_3_0['2.3']['Status'] = False
+                            self.cis_foundations_benchmark_3_0['2.3']['Findings'].append(
                                 nsg)
                         if 3389 in ports_range:
-                            self.cis_foundations_benchmark_2_0['2.4']['Status'] = False
-                            self.cis_foundations_benchmark_2_0['2.4']['Findings'].append(nsg)
+                            self.cis_foundations_benchmark_3_0['2.4']['Status'] = False
+                            self.cis_foundations_benchmark_3_0['2.4']['Findings'].append(nsg)
                         break
                     else:
                         # If TCP Options is null it includes all ports
-                        self.cis_foundations_benchmark_2_0['2.3']['Status'] = False
-                        self.cis_foundations_benchmark_2_0['2.3']['Findings'].append(nsg)
-                        self.cis_foundations_benchmark_2_0['2.4']['Status'] = False
-                        self.cis_foundations_benchmark_2_0['2.4']['Findings'].append(nsg)
+                        self.cis_foundations_benchmark_3_0['2.3']['Status'] = False
+                        self.cis_foundations_benchmark_3_0['2.3']['Findings'].append(nsg)
+                        self.cis_foundations_benchmark_3_0['2.4']['Status'] = False
+                        self.cis_foundations_benchmark_3_0['2.4']['Findings'].append(nsg)
                         break
                 elif rule['source'] == "0.0.0.0/0" and rule['protocol'] == 'all':
                     # All Protocols allowed included TCP and all ports
-                    self.cis_foundations_benchmark_2_0['2.3']['Status'] = False
-                    self.cis_foundations_benchmark_2_0['2.3']['Findings'].append(nsg)
-                    self.cis_foundations_benchmark_2_0['2.4']['Status'] = False
-                    self.cis_foundations_benchmark_2_0['2.4']['Findings'].append(nsg)
+                    self.cis_foundations_benchmark_3_0['2.3']['Status'] = False
+                    self.cis_foundations_benchmark_3_0['2.3']['Findings'].append(nsg)
+                    self.cis_foundations_benchmark_3_0['2.4']['Status'] = False
+                    self.cis_foundations_benchmark_3_0['2.4']['Findings'].append(nsg)
                     break
 
         # CIS Total 2.2 & 2.4 Adding - All NSGs Instances to CIS Total
-        self.cis_foundations_benchmark_2_0['2.3']['Total'] = self.__network_security_groups
-        self.cis_foundations_benchmark_2_0['2.4']['Total'] = self.__network_security_groups
+        self.cis_foundations_benchmark_3_0['2.3']['Total'] = self.__network_security_groups
+        self.cis_foundations_benchmark_3_0['2.4']['Total'] = self.__network_security_groups
 
         # CIS 2.6 - Ensure Oracle Integration Cloud (OIC) access is restricted to allowed sources
         # Iterating through OIC instance have network access rules and ensure 0.0.0.0/0 is not in the list
         for integration_instance in self.__integration_instances:
             if not (integration_instance['network_endpoint_details']):
-                self.cis_foundations_benchmark_2_0['2.6']['Status'] = False
-                self.cis_foundations_benchmark_2_0['2.6']['Findings'].append(
+                self.cis_foundations_benchmark_3_0['2.6']['Status'] = False
+                self.cis_foundations_benchmark_3_0['2.6']['Findings'].append(
                     integration_instance)
             elif integration_instance['network_endpoint_details']:
                 if "0.0.0.0/0" in str(integration_instance['network_endpoint_details']):
-                    self.cis_foundations_benchmark_2_0['2.6']['Status'] = False
-                    self.cis_foundations_benchmark_2_0['2.6']['Findings'].append(
+                    self.cis_foundations_benchmark_3_0['2.6']['Status'] = False
+                    self.cis_foundations_benchmark_3_0['2.6']['Findings'].append(
                         integration_instance)
 
         # CIS Total 2.6 Adding - All OIC Instances to CIS Total
-        self.cis_foundations_benchmark_2_0['2.6']['Total'] = self.__integration_instances
+        self.cis_foundations_benchmark_3_0['2.6']['Total'] = self.__integration_instances
 
         # CIS 2.7 - Ensure Oracle Analytics Cloud (OAC) access is restricted to allowed sources or deployed within a VCN
         for analytics_instance in self.__analytics_instances:
             if analytics_instance['network_endpoint_type'].upper() == 'PUBLIC':
                 if not (analytics_instance['network_endpoint_details'].whitelisted_ips):
-                    self.cis_foundations_benchmark_2_0['2.7']['Status'] = False
-                    self.cis_foundations_benchmark_2_0['2.7']['Findings'].append(analytics_instance)
+                    self.cis_foundations_benchmark_3_0['2.7']['Status'] = False
+                    self.cis_foundations_benchmark_3_0['2.7']['Findings'].append(analytics_instance)
 
                 elif "0.0.0.0/0" in analytics_instance['network_endpoint_details'].whitelisted_ips:
-                    self.cis_foundations_benchmark_2_0['2.7']['Status'] = False
-                    self.cis_foundations_benchmark_2_0['2.7']['Findings'].append(
+                    self.cis_foundations_benchmark_3_0['2.7']['Status'] = False
+                    self.cis_foundations_benchmark_3_0['2.7']['Findings'].append(
                         analytics_instance)
 
         # CIS Total 2.7 Adding - All OAC Instances to CIS Total
-        self.cis_foundations_benchmark_2_0['2.7']['Total'] = self.__analytics_instances
+        self.cis_foundations_benchmark_3_0['2.7']['Total'] = self.__analytics_instances
 
         # CIS 2.8 Check - Ensure Oracle Autonomous Shared Databases (ADB) access is restricted to allowed sources or deployed within a VCN
         # Iterating through ADB Checking for null NSGs, whitelisted ip or allowed IPs 0.0.0.0/0 
@@ -4184,66 +4434,66 @@ class CIS_Report:
         for autonomous_database in self.__autonomous_databases:
             if autonomous_database['lifecycle_state'] not in [ oci.database.models.AutonomousDatabaseSummary.LIFECYCLE_STATE_TERMINATED, oci.database.models.AutonomousDatabaseSummary.LIFECYCLE_STATE_TERMINATING, oci.database.models.AutonomousDatabaseSummary.LIFECYCLE_STATE_UNAVAILABLE ]:
                 if not (autonomous_database['whitelisted_ips']) and not (autonomous_database['subnet_id']):
-                    self.cis_foundations_benchmark_2_0['2.8']['Status'] = False
-                    self.cis_foundations_benchmark_2_0['2.8']['Findings'].append(
+                    self.cis_foundations_benchmark_3_0['2.8']['Status'] = False
+                    self.cis_foundations_benchmark_3_0['2.8']['Findings'].append(
                         autonomous_database)
                 elif autonomous_database['whitelisted_ips']:
                     for value in autonomous_database['whitelisted_ips']:
                         if '0.0.0.0/0' in str(autonomous_database['whitelisted_ips']):
-                            self.cis_foundations_benchmark_2_0['2.8']['Status'] = False
-                            self.cis_foundations_benchmark_2_0['2.8']['Findings'].append(
+                            self.cis_foundations_benchmark_3_0['2.8']['Status'] = False
+                            self.cis_foundations_benchmark_3_0['2.8']['Findings'].append(
                                 autonomous_database)
 
         # CIS Total 2.8 Adding - All ADBs to CIS Total
-        self.cis_foundations_benchmark_2_0['2.8']['Total'] = self.__autonomous_databases
+        self.cis_foundations_benchmark_3_0['2.8']['Total'] = self.__autonomous_databases
 
         # From CIS 2.0 CIS 4.1 Check - Ensure Audit log retention == 365 - Only checking in home region
         # if self.__audit_retention_period >= 365:
-        #     self.cis_foundations_benchmark_2_0['4.1']['Status'] = True
+        #     self.cis_foundations_benchmark_3_0['4.1']['Status'] = True
 
         for instance in self.__Instance:
             # CIS Check 3.1 Metadata Service v2 Enabled
             if instance['instance_options'] is None or not(instance['instance_options']['are_legacy_imds_endpoints_disabled']):
                 debug(f"__report_cis_analyze_tenancy_data {instance['display_name']} doesn't disable IMDSv1")
-                self.cis_foundations_benchmark_2_0['3.1']['Status'] = False
-                self.cis_foundations_benchmark_2_0['3.1']['Findings'].append(instance)
+                self.cis_foundations_benchmark_3_0['3.1']['Status'] = False
+                self.cis_foundations_benchmark_3_0['3.1']['Findings'].append(instance)
             
             # CIS Check 3.2 Secure Boot enabled
             if instance['platform_config'] is None or not(instance['platform_config']['is_secure_boot_enabled']):
                 debug(f"__report_cis_analyze_tenancy_data {instance['display_name']} doesn't enable secure boot")
-                self.cis_foundations_benchmark_2_0['3.2']['Status'] = False
-                self.cis_foundations_benchmark_2_0['3.2']['Findings'].append(instance)
+                self.cis_foundations_benchmark_3_0['3.2']['Status'] = False
+                self.cis_foundations_benchmark_3_0['3.2']['Findings'].append(instance)
             
             # CIS Check 3.3 Encryption in Transit enabled
             if instance['launch_options'] is None or not(instance['launch_options']['is_pv_encryption_in_transit_enabled']):
                 debug(f"__report_cis_analyze_tenancy_data {instance['display_name']} doesn't enable encryption in transit")
-                self.cis_foundations_benchmark_2_0['3.3']['Status'] = False
-                self.cis_foundations_benchmark_2_0['3.3']['Findings'].append(instance)
+                self.cis_foundations_benchmark_3_0['3.3']['Status'] = False
+                self.cis_foundations_benchmark_3_0['3.3']['Findings'].append(instance)
 
         # CIS Total 3.1 Adding - All Instances to CIS Total
-        self.cis_foundations_benchmark_2_0['3.1']['Total'] = self.__Instance
+        self.cis_foundations_benchmark_3_0['3.1']['Total'] = self.__Instance
         # CIS Total 3.2 Adding - All Instances to CIS Total
-        self.cis_foundations_benchmark_2_0['3.2']['Total'] = self.__Instance
+        self.cis_foundations_benchmark_3_0['3.2']['Total'] = self.__Instance
         # CIS Total 3.3 Adding - All Instances to CIS Total
-        self.cis_foundations_benchmark_2_0['3.3']['Total'] = self.__Instance
+        self.cis_foundations_benchmark_3_0['3.3']['Total'] = self.__Instance
 
         # CIS Check 4.1 - Check for Default Tags in Root Compartment
         # Iterate through tags looking for ${iam.principal.name}
         for tag in self.__tag_defaults:
             if tag['value'] == "${iam.principal.name}":
-                self.cis_foundations_benchmark_2_0['4.1']['Status'] = True
+                self.cis_foundations_benchmark_3_0['4.1']['Status'] = True
 
         # CIS Total 4.1 Adding - All Tag Defaults to CIS Total
-        self.cis_foundations_benchmark_2_0['4.1']['Total'] = self.__tag_defaults
+        self.cis_foundations_benchmark_3_0['4.1']['Total'] = self.__tag_defaults
 
         # CIS Check 4.2 - Check for Active Notification and Subscription
         if len(self.__subscriptions) > 0:
-            self.cis_foundations_benchmark_2_0['4.2']['Status'] = True
+            self.cis_foundations_benchmark_3_0['4.2']['Status'] = True
 
         # CIS Check 4.2 Total - All Subscriptions to CIS Total
-        self.cis_foundations_benchmark_2_0['4.2']['Total'] = self.__subscriptions
+        self.cis_foundations_benchmark_3_0['4.2']['Total'] = self.__subscriptions
 
-        # CIS Checks 4.3 - 4.12 and 4.15
+        # CIS Checks 4.3 - 4.12 and 4.15 and 4.18
         # Iterate through all event rules
         for event in self.__event_rules:
             # Convert Event Condition to dict
@@ -4257,102 +4507,109 @@ class CIS_Report:
             if eventtype_dict and 'eventtype' in eventtype_dict:
                 for key, changes in self.cis_monitoring_checks.items():
                     # Checking if all cis change list is a subset of event condition
+                    debug(f"__report_cis_analyze_tenancy_data: Event checking {key}: {str(event)} ")
                     try:
                         # Checking if each region has the required events
                         if (all(x in eventtype_dict['eventtype'] for x in changes)) and key in self.__cis_regional_checks:
                             self.__cis_regional_findings_data[key][event['region']] = True
                         
                         # Cloud Guard Check is only required in the Cloud Guard Reporting Region
-                        elif key == "4.15" and event['region'] == self.__cloud_guard_config.reporting_region and \
+                        elif key == "4.15" and self.self.__cloud_guard_config_status == 'ENABLED' and event['region'] == self.__cloud_guard_config.reporting_region and \
                             (all(x in eventtype_dict['eventtype'] for x in changes)):
-                            self.cis_foundations_benchmark_2_0[key]['Status'] = True
+                            self.cis_foundations_benchmark_3_0[key]['Status'] = True
                         
                         # For Checks that are home region based checking those
                         elif (all(x in eventtype_dict['eventtype'] for x in changes)) and \
                             key not in self.__cis_regional_checks and event['region'] == self.__home_region:
-                            self.cis_foundations_benchmark_2_0[key]['Status'] = True
+                            self.cis_foundations_benchmark_3_0[key]['Status'] = True
 
-                    except Exception:
+                    except Exception as e:
+                        self.__errors.append({"id": str(e), "error": f"Invalid Event Data for event: {event['display_name']} details {str(event)}"})
                         print("*** Invalid Event Data for event: " + event['display_name'] + " ***")
 
 
         # ******* Iterating through Regional Checks adding findings
         for key, findings in self.__cis_regional_findings_data.items():
             if all(findings.values()):
-                self.cis_foundations_benchmark_2_0[key]['Status'] = True
+                self.cis_foundations_benchmark_3_0[key]['Status'] = True
 
         ### Testing ###
         # CIS Check 4.13 - VCN FlowLog enable
         # Generate list of subnets IDs
         for subnet in self.__network_subnets:
             vcn_id = subnet['vcn_id']
-            try:              
-                if 'vcn' in self.__all_logs['flowlogs'] and vcn_id in self.__all_logs['flowlogs']['vcn']:
-                    debug(f"__report_cis_analyze_tenancy_data: Flowlogs checking VCN {vcn_id} for Subnet: {subnet['id']} ")
-                    if self.__all_logs['flowlogs']['vcn'][vcn_id]['capture_filter']:
-                        capture_filter_id = self.__all_logs['flowlogs']['vcn'][vcn_id]['capture_filter']
-                        capture_filter = self.__network_capturefilters[capture_filter_id]
-
-                        if not(self.all_traffic_rules[0] in capture_filter['additional_details']['flowLogCaptureFilterRules'] or \
-                            self.all_traffic_rules[1] in capture_filter['additional_details']['flowLogCaptureFilterRules']):
-                        # VCN is being logging but it is has a capture filter we need to check
-                            debug(f"__report_cis_analyze_tenancy_data: Flowlogs Capture Filter {capture_filter_id} Rules not compliant.")
+            try:
+                if 'flowlogs' in self.__all_logs:
+                    if 'vcn' in self.__all_logs['flowlogs'] and vcn_id in self.__all_logs['flowlogs']['vcn']:
+                        debug(f"__report_cis_analyze_tenancy_data: Flowlogs checking VCN {vcn_id} for Subnet: {subnet['id']} ")
+                        if self.__all_logs['flowlogs']['vcn'][vcn_id]['capture_filter']:
+                            capture_filter_id = self.__all_logs['flowlogs']['vcn'][vcn_id]['capture_filter']
                             capture_filter = self.__network_capturefilters[capture_filter_id]
-                            self.cis_foundations_benchmark_2_0['4.13']['Status'] = False
-                            self.cis_foundations_benchmark_2_0['4.13']['Findings'].append(subnet)
 
-                elif 'subnet' in self.__all_logs['flowlogs'] and subnet['id'] in self.__all_logs['flowlogs']['subnet']: 
-                    debug(f"__report_cis_analyze_tenancy_data: Flowlogs checking Subnet {subnet['id']} in subnet")
-                    debug(self.__all_logs['flowlogs']['subnet'][subnet['id']]['capture_filter'])
-                    if self.__all_logs['flowlogs']['subnet'][subnet['id']]['capture_filter']:
-                        debug(f"__report_cis_analyze_tenancy_data: Flowlogs checking Subnet {subnet['id']} capture filter in subnet")
-                        capture_filter_id = self.__all_logs['flowlogs']['subnet'][subnet['id']]['capture_filter']
-                        capture_filter = self.__network_capturefilters[capture_filter_id]    
-                        if not(self.all_traffic_rules[0] in capture_filter['additional_details']['flowLogCaptureFilterRules'] or \
-                            self.all_traffic_rules[1] in capture_filter['additional_details']['flowLogCaptureFilterRules']):
-                        # VCN is being logging but it is has a capture filter we need to check
-                            debug(f"__report_cis_analyze_tenancy_data: Flowlogs Capture Filter {capture_filter_id} Rules not compliant.")
-                            self.cis_foundations_benchmark_2_0['4.13']['Status'] = False
-                            self.cis_foundations_benchmark_2_0['4.13']['Findings'].append(subnet)
+                            if not(self.all_traffic_rules[0] in capture_filter['additional_details']['flowLogCaptureFilterRules'] or \
+                                self.all_traffic_rules[1] in capture_filter['additional_details']['flowLogCaptureFilterRules']):
+                            # VCN is being logging but it is has a capture filter we need to check
+                                debug(f"__report_cis_analyze_tenancy_data: Flowlogs Capture Filter {capture_filter_id} Rules not compliant.")
+                                capture_filter = self.__network_capturefilters[capture_filter_id]
+                                self.cis_foundations_benchmark_3_0['4.13']['Status'] = False
+                                self.cis_foundations_benchmark_3_0['4.13']['Findings'].append(subnet)
 
-                elif 'all' in self.__all_logs['flowlogs'] and subnet['id'] in self.__all_logs['flowlogs']['all']:
-                    debug(f"__report_cis_analyze_tenancy_data: Flowlogs checking Subnet {subnet['id']} in all")
-                    debug(self.__all_logs['flowlogs']['all'][subnet['id']]['capture_filter'])
-                    if self.__all_logs['flowlogs']['all'][subnet['id']]['capture_filter']:
-                        debug(f"__report_cis_analyze_tenancy_data: Flowlogs checking Subnet {subnet['id']} capture filter in all")
+                    elif 'subnet' in self.__all_logs['flowlogs'] and subnet['id'] in self.__all_logs['flowlogs']['subnet']: 
+                        debug(f"__report_cis_analyze_tenancy_data: Flowlogs checking Subnet {subnet['id']} in subnet")
+                        debug(self.__all_logs['flowlogs']['subnet'][subnet['id']]['capture_filter'])
+                        if self.__all_logs['flowlogs']['subnet'][subnet['id']]['capture_filter']:
+                            debug(f"__report_cis_analyze_tenancy_data: Flowlogs checking Subnet {subnet['id']} capture filter in subnet")
+                            capture_filter_id = self.__all_logs['flowlogs']['subnet'][subnet['id']]['capture_filter']
+                            capture_filter = self.__network_capturefilters[capture_filter_id]    
+                            if not(self.all_traffic_rules[0] in capture_filter['additional_details']['flowLogCaptureFilterRules'] or \
+                                self.all_traffic_rules[1] in capture_filter['additional_details']['flowLogCaptureFilterRules']):
+                            # VCN is being logging but it is has a capture filter we need to check
+                                debug(f"__report_cis_analyze_tenancy_data: Flowlogs Capture Filter {capture_filter_id} Rules not compliant.")
+                                self.cis_foundations_benchmark_3_0['4.13']['Status'] = False
+                                self.cis_foundations_benchmark_3_0['4.13']['Findings'].append(subnet)
 
-                        capture_filter_id = self.__all_logs['flowlogs']['all'][subnet['id']]['capture_filter']
-                        capture_filter = self.__network_capturefilters[capture_filter_id]    
-                        if not(self.all_traffic_rules[0] in capture_filter['additional_details']['flowLogCaptureFilterRules'] or \
-                            self.all_traffic_rules[1] in capture_filter['additional_details']['flowLogCaptureFilterRules']):
-                        # VCN is being logging but it is has a capture filter we need to check
-                            debug(f"__report_cis_analyze_tenancy_data: Flowlogs Capture Filter {capture_filter_id} Rules not compliant.")
-                            self.cis_foundations_benchmark_2_0['4.13']['Status'] = False
-                            self.cis_foundations_benchmark_2_0['4.13']['Findings'].append(subnet)
+                    elif 'all' in self.__all_logs['flowlogs'] and subnet['id'] in self.__all_logs['flowlogs']['all']:
+                        debug(f"__report_cis_analyze_tenancy_data: Flowlogs checking Subnet {subnet['id']} in all")
+                        debug(self.__all_logs['flowlogs']['all'][subnet['id']]['capture_filter'])
+                        if self.__all_logs['flowlogs']['all'][subnet['id']]['capture_filter']:
+                            debug(f"__report_cis_analyze_tenancy_data: Flowlogs checking Subnet {subnet['id']} capture filter in all")
+
+                            capture_filter_id = self.__all_logs['flowlogs']['all'][subnet['id']]['capture_filter']
+                            capture_filter = self.__network_capturefilters[capture_filter_id]    
+                            if not(self.all_traffic_rules[0] in capture_filter['additional_details']['flowLogCaptureFilterRules'] or \
+                                self.all_traffic_rules[1] in capture_filter['additional_details']['flowLogCaptureFilterRules']):
+                                # VCN is being logging but it is has a capture filter we need to check
+                                debug(f"__report_cis_analyze_tenancy_data: Flowlogs Capture Filter {capture_filter_id} Rules not compliant.")
+                                self.cis_foundations_benchmark_3_0['4.13']['Status'] = False
+                                self.cis_foundations_benchmark_3_0['4.13']['Findings'].append(subnet)
+                    else:
+                        debug(f"__report_cis_analyze_tenancy_data: Flowlogs count not find Subnet {subnet['id']}, it is a finding")
+                        self.cis_foundations_benchmark_3_0['4.13']['Status'] = False
+                        self.cis_foundations_benchmark_3_0['4.13']['Findings'].append(subnet)
 
                 else:
                     debug(f"__report_cis_analyze_tenancy_data: Flowlogs count not find Subnet {subnet['id']}, it is a finding")
-                    self.cis_foundations_benchmark_2_0['4.13']['Status'] = False
-                    self.cis_foundations_benchmark_2_0['4.13']['Findings'].append(subnet)
+                    self.cis_foundations_benchmark_3_0['4.13']['Status'] = False
+                    self.cis_foundations_benchmark_3_0['4.13']['Findings'].append(subnet)
 
             except Exception as e:
-                self.cis_foundations_benchmark_2_0['4.13']['Status'] = False            
+                self.cis_foundations_benchmark_3_0['4.13']['Status'] = False            
                 if ".capturefilter." in str(e):
-                    print(f"Unable to read capturefilter rules for:  {str(e)}.\n*** Please ensure your auditor has permissions: 'to read capture-filters in tenancy' . ***")
+                    print(f"Unable to read capturefilter rules for:  {str(e)}.\n*** Please ensure your auditor has permissions: 'to read capture-filters in tenancy. ***")
                     self.__errors.append({"id" : str(e), "error" : "Unable to read capturefilter rules *** Please ensure your auditor has permissions: 'to read capture-filters in tenancy'."})
                 else:
                     print(f'Unable to process all logs and capture filter rules: {str(e)}')
                     self.__errors.append({"id" : "__network_subnets", "error" : str(e)})
         
         # CIS Check 4.13 Total - Adding All Subnets to total
-        self.cis_foundations_benchmark_2_0['4.13']['Total'] = self.__network_subnets
+        self.cis_foundations_benchmark_3_0['4.13']['Total'] = self.__network_subnets
 
         # CIS Check 4.14 - Cloud Guard enabled
         debug("__report_cis_analyze_tenancy_data Cloud Guard Check: " + str(self.__cloud_guard_config_status))
         if self.__cloud_guard_config_status == 'ENABLED':
-            self.cis_foundations_benchmark_2_0['4.14']['Status'] = True
+            self.cis_foundations_benchmark_3_0['4.14']['Status'] = True
         else:
-            self.cis_foundations_benchmark_2_0['4.14']['Status'] = False
+            self.cis_foundations_benchmark_3_0['4.14']['Status'] = False
 
         # CIS Check 4.16 - Encryption keys over 365
         # Generating list of keys
@@ -4360,107 +4617,107 @@ class CIS_Report:
 
             try:
                 if self.kms_key_time_max_datetime and self.kms_key_time_max_datetime >= datetime.datetime.strptime(key['currentKeyVersion_time_created'], self.__iso_time_format):
-                    self.cis_foundations_benchmark_2_0['4.16']['Status'] = False
-                    self.cis_foundations_benchmark_2_0['4.16']['Findings'].append(
+                    self.cis_foundations_benchmark_3_0['4.16']['Status'] = False
+                    self.cis_foundations_benchmark_3_0['4.16']['Findings'].append(
                         key)
                 if self.kms_key_time_max_datetime is None:
-                    self.cis_foundations_benchmark_2_0['4.16']['Status'] = False
-                    self.cis_foundations_benchmark_2_0['4.16']['Findings'].append(
+                    self.cis_foundations_benchmark_3_0['4.16']['Status'] = False
+                    self.cis_foundations_benchmark_3_0['4.16']['Findings'].append(
                         key)
             except Exception:    
-                    self.cis_foundations_benchmark_2_0['4.16']['Status'] = False
-                    self.cis_foundations_benchmark_2_0['4.16']['Findings'].append(
+                    self.cis_foundations_benchmark_3_0['4.16']['Status'] = False
+                    self.cis_foundations_benchmark_3_0['4.16']['Findings'].append(
                         key)
          
             # CIS Check 4.16 Total - Adding Key to total
-            self.cis_foundations_benchmark_2_0['4.16']['Total'].append(key)
+            self.cis_foundations_benchmark_3_0['4.16']['Total'].append(key)
 
         # CIS Check 4.17 - Object Storage with Logs
         # Generating list of buckets names and need to make sure they have write level bucekt logs
         if 'objectstorage' in self.__all_logs and 'write' in self.__all_logs['objectstorage']:
             for bucket in self.__buckets:
                 if not (bucket['name'] + "-" + bucket['region'] in self.__all_logs['objectstorage']['write']):
-                    self.cis_foundations_benchmark_2_0['4.17']['Status'] = False
-                    self.cis_foundations_benchmark_2_0['4.17']['Findings'].append(
+                    self.cis_foundations_benchmark_3_0['4.17']['Status'] = False
+                    self.cis_foundations_benchmark_3_0['4.17']['Findings'].append(
                         bucket)
         else:
-            self.cis_foundations_benchmark_2_0['4.17']['Status'] = False
-            self.cis_foundations_benchmark_2_0['4.17']['Findings'] +=self.__buckets
+            self.cis_foundations_benchmark_3_0['4.17']['Status'] = False
+            self.cis_foundations_benchmark_3_0['4.17']['Findings'] +=self.__buckets
 
         # CIS Check 4.17 Total - Adding All Buckets to total
-        self.cis_foundations_benchmark_2_0['4.17']['Total'] = self.__buckets
+        self.cis_foundations_benchmark_3_0['4.17']['Total'] = self.__buckets
 
         # CIS Section 5.1 Bucket Checks
         # Generating list of buckets names
         for bucket in self.__buckets:
             if 'public_access_type' in bucket:
                 if bucket['public_access_type'] != 'NoPublicAccess':
-                    self.cis_foundations_benchmark_2_0['5.1.1']['Status'] = False
-                    self.cis_foundations_benchmark_2_0['5.1.1']['Findings'].append(
+                    self.cis_foundations_benchmark_3_0['5.1.1']['Status'] = False
+                    self.cis_foundations_benchmark_3_0['5.1.1']['Findings'].append(
                         bucket)
 
             if 'kms_key_id' in bucket:
                 if not (bucket['kms_key_id']):
-                    self.cis_foundations_benchmark_2_0['5.1.2']['Findings'].append(
+                    self.cis_foundations_benchmark_3_0['5.1.2']['Findings'].append(
                         bucket)
-                    self.cis_foundations_benchmark_2_0['5.1.2']['Status'] = False
+                    self.cis_foundations_benchmark_3_0['5.1.2']['Status'] = False
 
             if 'versioning' in bucket:
                 if bucket['versioning'] != "Enabled":
-                    self.cis_foundations_benchmark_2_0['5.1.3']['Findings'].append(
+                    self.cis_foundations_benchmark_3_0['5.1.3']['Findings'].append(
                         bucket)
-                    self.cis_foundations_benchmark_2_0['5.1.3']['Status'] = False
+                    self.cis_foundations_benchmark_3_0['5.1.3']['Status'] = False
 
         # CIS Check 5.1.1,5.1.2,5.1.3 Total - Adding All Buckets to total
-        self.cis_foundations_benchmark_2_0['5.1.1']['Total'] = self.__buckets
-        self.cis_foundations_benchmark_2_0['5.1.2']['Total'] = self.__buckets
-        self.cis_foundations_benchmark_2_0['5.1.3']['Total'] = self.__buckets
+        self.cis_foundations_benchmark_3_0['5.1.1']['Total'] = self.__buckets
+        self.cis_foundations_benchmark_3_0['5.1.2']['Total'] = self.__buckets
+        self.cis_foundations_benchmark_3_0['5.1.3']['Total'] = self.__buckets
 
         # CIS Section 5.2.1 Block Volume Checks
         # Generating list of block volumes names
         for volume in self.__block_volumes:
             if 'kms_key_id' in volume:
                 if not (volume['kms_key_id']):
-                    self.cis_foundations_benchmark_2_0['5.2.1']['Findings'].append(
+                    self.cis_foundations_benchmark_3_0['5.2.1']['Findings'].append(
                         volume)
-                    self.cis_foundations_benchmark_2_0['5.2.1']['Status'] = False
+                    self.cis_foundations_benchmark_3_0['5.2.1']['Status'] = False
 
         # CIS Check 5.2.1 Total - Adding All Block Volumes to total
-        self.cis_foundations_benchmark_2_0['5.2.1']['Total'] = self.__block_volumes
+        self.cis_foundations_benchmark_3_0['5.2.1']['Total'] = self.__block_volumes
 
         # CIS Section 5.2.2 Boot Volume Checks
         # Generating list of boot names
         for boot_volume in self.__boot_volumes:
             if 'kms_key_id' in boot_volume:
                 if not (boot_volume['kms_key_id']):
-                    self.cis_foundations_benchmark_2_0['5.2.2']['Findings'].append(
+                    self.cis_foundations_benchmark_3_0['5.2.2']['Findings'].append(
                         boot_volume)
-                    self.cis_foundations_benchmark_2_0['5.2.2']['Status'] = False
+                    self.cis_foundations_benchmark_3_0['5.2.2']['Status'] = False
 
         # CIS Check 4.2.2 Total - Adding All Block Volumes to total
-        self.cis_foundations_benchmark_2_0['5.2.2']['Total'] = self.__boot_volumes
+        self.cis_foundations_benchmark_3_0['5.2.2']['Total'] = self.__boot_volumes
 
         # CIS Section 5.3.1 FSS Checks
         # Generating list of FSS names
         for file_system in self.__file_storage_system:
             if 'kms_key_id' in file_system:
                 if not (file_system['kms_key_id']):
-                    self.cis_foundations_benchmark_2_0['5.3.1']['Findings'].append(
+                    self.cis_foundations_benchmark_3_0['5.3.1']['Findings'].append(
                         file_system)
-                    self.cis_foundations_benchmark_2_0['5.3.1']['Status'] = False
+                    self.cis_foundations_benchmark_3_0['5.3.1']['Status'] = False
 
         # CIS Check 4.3.1 Total - Adding All Block Volumes to total
-        self.cis_foundations_benchmark_2_0['5.3.1']['Total'] = self.__file_storage_system
+        self.cis_foundations_benchmark_3_0['5.3.1']['Total'] = self.__file_storage_system
 
         # CIS Section 6 Checks
         # Checking if more than one compartment because of the ManagedPaaS Compartment
         if len(self.__compartments) < 2:
-            self.cis_foundations_benchmark_2_0['6.1']['Status'] = False
+            self.cis_foundations_benchmark_3_0['6.1']['Status'] = False
 
         if len(self.__resources_in_root_compartment) > 0:
             for item in self.__resources_in_root_compartment:
-                self.cis_foundations_benchmark_2_0['6.2']['Status'] = False
-                self.cis_foundations_benchmark_2_0['6.2']['Findings'].append(
+                self.cis_foundations_benchmark_3_0['6.2']['Status'] = False
+                self.cis_foundations_benchmark_3_0['6.2']['Findings'].append(
                     item)
 
     ##########################################################################
@@ -5003,7 +5260,7 @@ class CIS_Report:
 
         # Creating summary report
         summary_report = []
-        for key, recommendation in self.cis_foundations_benchmark_2_0.items():
+        for key, recommendation in self.cis_foundations_benchmark_3_0.items():
             if recommendation['Level'] <= level:
                 report_filename = f'{self.__report_prefix}cis {recommendation["section"]}_{recommendation["recommendation_#"]}'
                 report_filename = report_filename.replace(" ", "_").replace(".", "-").replace("_-_", "_") + ".csv"
@@ -5034,7 +5291,7 @@ class CIS_Report:
             # self.__print_to_csv_file("cis", recommendation['section'] + "_" + recommendation['recommendation_#'], recommendation['Findings'])
 
         # Screen output for CIS Summary Report
-        print_header("CIS Foundations Benchmark 2.0.0 Summary Report")
+        print_header("CIS Foundations Benchmark 3.0.0 Summary Report")
         print('Num' + "\t" + "Level " +
               "\t" "Compliant" + "\t" + "Findings " + "\t" + "Total  " + "\t\t" + 'Title')
         print('#' * 90)
@@ -5074,7 +5331,7 @@ class CIS_Report:
                 self.__os_copy_report_to_object_storage(
                     self.__output_bucket, summary_file)
 
-        for key, recommendation in self.cis_foundations_benchmark_2_0.items():
+        for key, recommendation in self.cis_foundations_benchmark_3_0.items():
             if recommendation['Level'] <= level:
                 report_file_name = self.__print_to_csv_file("cis", recommendation['section'] + "_" + recommendation['recommendation_#'], recommendation['Findings'])
                 if report_file_name and self.__output_bucket:
@@ -5209,7 +5466,7 @@ class CIS_Report:
             # generate fields
             fields = ['Recommendation #', 'Compliant', 'Section', 'Details']
 
-            html_title = 'CIS OCI Foundations Benchmark 2.0.0 - Compliance Report'
+            html_title = 'CIS OCI Foundations Benchmark 3.0.0 - Compliance Report'
             with open(file_path, mode='w') as html_file:
                 # Creating table header
                 html_file.write('<html class="js history hashchange cssgradients rgba no-touch boxshadow ishttps retina w11ready" lang="en-US"><head>')
@@ -5402,7 +5659,7 @@ class CIS_Report:
                 html_file.write('<div class="cb132w1 cwidth">')
                 # Creating appendix for the report
                 for finding in html_appendix:
-                    fing = self.cis_foundations_benchmark_2_0[finding]
+                    fing = self.cis_foundations_benchmark_3_0[finding]
                     html_file.write(f'<hr id="{finding}" /><h4>{finding} &ndash; {fing["Title"]}</h4>\n')
                     for item_key, item_value in self.cis_report_data[finding].items():
                         if item_value != "":
@@ -5570,7 +5827,6 @@ class CIS_Report:
             self.__boot_volume_read_boot_volumes,
             self.__fss_read_fsss,
             self.__core_instance_read_compute,
-            self.__certificates_read_certificates
         ]
 
         # Oracle Best practice functions
@@ -5581,8 +5837,8 @@ class CIS_Report:
                 self.__network_read_drgs,
                 self.__network_read_drg_attachments,
                 self.__sch_read_service_connectors,
-                self.__network_topology_dump
-            ]
+                self.__certificates_read_certificates
+                ]
         else:
             obp_functions = []
 
@@ -5590,7 +5846,8 @@ class CIS_Report:
 
         if self.__all_resources:
             all_resources = [
-                self.__search_resources_all_resources_in_tenancy,
+                self.__network_topology_dump,
+                self.__search_resources_all_resources_in_tenancy
             ]
         else:
             all_resources = []

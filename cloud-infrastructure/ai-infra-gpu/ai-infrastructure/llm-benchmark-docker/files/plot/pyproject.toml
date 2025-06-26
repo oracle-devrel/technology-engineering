@@ -1,0 +1,21 @@
+# Copyright (c) 2025 Oracle and/or its affiliates.
+[build-system]
+requires = ["flit_core >= 3.2.0"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "benchplot"
+version = "0.0.1"
+description = "Produce plots for benchmark results"
+authors = [
+  { name = "Omar Awile", email = "omar.awile@oracle.com" },
+  { name = "Matthias Wolf", email = "matthias.wolf@oracle.com" },
+]
+dependencies = [
+  "altair",
+  "polars",
+  "vl-convert-python",
+]
+
+[project.scripts]
+benchplot = "benchplot:cli"
