@@ -2,7 +2,7 @@
 
 This page contains information and useful links regarding Compute services that are mostly related to OS and Licenses Management on top of OCI Compute. You can also find resources about BYOI, BYOH and Autoscaling.
 
-<i>Review date: 18 JUN 2025</i>
+<i>Review date: 25 JUN 2025</i>
 
 # Table of Contents
 
@@ -47,6 +47,8 @@ This page contains information and useful links regarding Compute services that 
 
 - [Sharath Github: Troubleshoot Windows VM console connection via SAC](https://github.com/skbkkl/sharkuma/blob/main/Oracle-Cloud-Infrastructure-resources/Oracle-OCI-Troubleshooting/Troubleshooting-OCI-Win-VM-Console-Connection.pdf)
 - [Sharath Github: Set up a console connection to an OCI Windows instance](https://github.com/skbkkl/sharkuma/blob/main/Oracle-Cloud-Infrastructure-resources/Oracle-OCI-Troubleshooting/Windows-Instance-Console-Creation.pdf)
+- [Sharath Github: On-premise Linux migration pre-requisites BYOI oracle OCI ](https://github.com/skbkkl/sharkuma/blob/main/Oracle-Cloud-Infrastructure-resources/Oracle-OCI-Troubleshooting/On-premise-Linux-VM-migration-pre-requisites-steps-BYOI-Oracle%20OCI.pdf)
+  
   
 # Useful Links
 
