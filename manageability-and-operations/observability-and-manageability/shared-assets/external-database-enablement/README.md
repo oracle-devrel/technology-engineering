@@ -4,7 +4,7 @@ This Terraform asset enables Database Management, Operations Insights, and/or St
 - **db_systems.json**
 - **db_credentials.json**
  
-Reviewed: 18.03.25
+Reviewed: 30.06.2025
  
 ## How does it work?
 
