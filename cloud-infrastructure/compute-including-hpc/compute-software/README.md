@@ -48,6 +48,8 @@ This page contains information and useful links regarding Compute services that 
 - [Sharath Github: Troubleshoot Windows VM console connection via SAC](https://github.com/skbkkl/sharkuma/blob/main/Oracle-Cloud-Infrastructure-resources/Oracle-OCI-Troubleshooting/Troubleshooting-OCI-Win-VM-Console-Connection.pdf)
 - [Sharath Github: Set up a console connection to an OCI Windows instance](https://github.com/skbkkl/sharkuma/blob/main/Oracle-Cloud-Infrastructure-resources/Oracle-OCI-Troubleshooting/Windows-Instance-Console-Creation.pdf)
 - [Sharath Github: Troubleshooting OCI Windows VM console Fatal network error](https://github.com/skbkkl/sharkuma/blob/main/Oracle-Cloud-Infrastructure-resources/Oracle-OCI-Troubleshooting/OCI-Win-Instance-Console-Connection-FATAL%20ERROR-Network-error.pdf)
+- [Sharath Github: Deploying On-Premises Windows Server Custom
+Images to Oracle OCI](https://github.com/skbkkl/sharkuma/blob/main/Oracle-Cloud-Infrastructure-resources/Oracle-OCI-Troubleshooting/On-premise-OCI-Windows-BYOI.pdf)
   
 # Useful Links
 
