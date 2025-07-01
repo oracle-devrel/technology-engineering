@@ -4,6 +4,10 @@ Oracle Logging Analytics is a cloud solution in Oracle Cloud Infrastructure that
 
 Reviewed: 24.02.2025
 
+|Asset  |   Page| 
+|---|---|
+| How to inject Oracle Fusion HCM logs in Logging Analytics | [Link](./fusion-hcm-to-la/README.md) |
+
 # Table of Contents
 
 1. [Team Publications](#team-publications)
