@@ -7,8 +7,9 @@
 #
 # Author: Olaf Heimburger
 #
-VERSION=250307
+VERSION=250602
 
+graal_version=24.2.1
 OS_TYPE=$(uname)
 OS_PLATFORM=$(uname -m)
 ASSESS_DIR=$(dirname $0)
@@ -25,9 +26,15 @@ fi
 RUN_CIS=1
 RUN_SHOWOCI=1
 NO_ZIP=0
+NO_CSV=1
+ZIP_PROTECT=0
+QUIET=1
+NEW_STYLE=0
+PREPARE_ONLY=0
 REGION_NAME=''
 TENANCY="DEFAULT"
 INSTANCE_PRINCIPAL=0
+INSTALL_GRAAL=0
 
 SCRIPT_NAME=$(basename $0)
 IS_ADVANCED=1
@@ -46,8 +53,8 @@ if [ ${_W_} -le 0 ]; then
     exit 1
 fi
 _V_=$(${PYTHON_CMD} --version | sed -e 's,Python ,,g' -e 's;\.;;g')
-if [ ${_V_} -lt 38 ]; then
-    printf "ERROR: Please upgrade to Python 3.8 or higher.\n"
+if [ ${_V_} -lt 39 ]; then
+    printf "ERROR: Please upgrade to Python 3.9 or higher.\n"
     exit 1
 fi
 
@@ -75,26 +82,31 @@ SHOWOCI_SCRIPT="${SHOWOCI_SCRIPT_DIR}/${SHOWOCI_SCRIPT_NAME}"
 
 usage() {
     if [ $IS_ADVANCED -eq 1 ]; then
-        printf "Usage: $0 [-h] [-ip] [-s|--showoci options]|-c|--cis options] [-r region_name] [-t tenancy_name] [-u] [-v]\n"
-        printf " -h  -- This message.\n"
-        printf " -ip -- Use instance principal for authentication.\n"
-        printf " -c  -- Run cis_report only.\n"
-        printf " -s  -- Run showoci only.\n"
-        printf " --cis options     -- Run cis_report only and provide additional options.\n"
-        printf " --showoci options -- Run showoci only and provide additional options.\n"
-        printf "   For example, --showoci '-h' shows available options.\n"
-        printf "   The options -jf, -ip, -t, -rg, -xlsx_nodate, --version are already supported by this script.\n"
+        printf "\nUsage: $0 [-h] [-ip] [-s|--showoci options]|-c|--cis options] [-r region_name] [-t tenancy_name]\n"
+        printf "          [--new-style] [--no-zip] [--zip-protect] [--verbose] [-v|--version]\n"
+        printf " -h                                 -- This message.\n"
+        printf " -ip                                -- Use instance principal for authentication.\n"
+        printf " -c                                 -- Run cis_report only.\n"
+        printf " -s                                 -- Run showoci only.\n"
+        printf " --cis options                      -- Run cis_report only and provide additional options.\n"
+        printf " --showoci options                  -- Run showoci only and provide additional options.\n"
+        printf "                                       For example, --showoci '-h' shows available options.\n"
+        printf "                                       The options -jf, -ip, -t, -rg, -xlsx_nodate, --version can be ignored.\n"
+        printf " --new-style                        -- Changes output for compliance checking.\n"
     else
-        printf "Usage: $0 [-h] [-ip] [-r region_name] [-t tenancy_name] [-v]\n"
-        printf " -h -- this message\n"
-        printf " -ip -- Use instance principal for authentication.\n"
-        printf " --cis options     -- Run cis_report only and provide additional options.\n"
+        printf "\nUsage: $0 [-h] [-ip] [-r|--region region_name] [-t|--tenancy tenancy_name] [-c|--cis options]\n"
+        printf "          [--no-zip] [--zip-protect] [--verbose] [-v|--version]\n"
+        printf " -h                                -- this message\n"
+        printf " -ip                               -- Use instance principal for authentication.\n"
+        printf " --cis options                     -- Run cis_report only and provide additional options.\n"
     fi
-    printf " --no_zip -- Do not create a ZIP file for the contents pf the output directory.\n"
-    printf " -r|--region region_name -- Run assess.sh on region region_name only.\n"
+    printf " --no-zip                           -- Do not create a ZIP file for the contents pf the output directory.\n"
+    printf " --zip-protect                      -- Encrypt ZIP file with a password of your choice.\n"
+    printf " --verbose                          -- Print more details.\n"
+    printf " -r|--region region_name            -- Run assess.sh on region region_name only.\n"
     printf " -t|--tenancy tenancy_configuration -- Specify a name of the tenancy.\n"
-    printf "    Configuration in .oci/config (defaults to 'DEFAULT') will be used.\n"
-    printf " -v -- Show the versions of the scripts used.\n"
+    printf "                                       Configuration in $HOME/.oci/config (defaults to 'DEFAULT') will be used.\n"
+    printf " -v|--version                       -- Show the version numbers of the scripts used.\n"
     exit 1
 }
 
@@ -122,17 +134,33 @@ make_env() {
     if [ ! -d ${PYTHON_ENV} ]; then
         ${PYTHON_CMD} -m venv ${PYTHON_ENV}
     fi
-
+    # ENV_STAMP="${PYTHON_ENV}/.ready${VERSION}"
+    # if [ ! -e ${ENV_STAMP} ]; then
+    #     PIP_OPTS="-q --no-warn-script-location"
+    #     if [ -d ${PYTHON_ENV} ]; then
+    #         source ${PYTHON_ENV}/bin/activate
+    #         PYTHON_CMD=$(which python3)
+    #         ${PYTHON_CMD} -m pip install pip --upgrade ${PIP_OPTS}
+    #     fi
+    #     printf "INFO: Checking for required libraries...\n"
+    #     ${PYTHON_CMD} -m pip install ${PIP_OPTS} -r ${ASSESS_DIR}/requirements.txt
+    #     if [ $? -gt 0 ]; then
+    #         printf "ERROR: Permissions to install the required libraries are missing.\n"
+    #         printf "ERROR: Please check with your OCI administrator.\n"
+    #         exit 1
+    #     else
+    #         touch ${ENV_STAMP}
+    #     fi
+    # else
+    #     printf "INFO: Using installed libraries...\n"
+    # fi
     PIP_OPTS="-q --no-warn-script-location"
     if [ -d ${PYTHON_ENV} ]; then
         source ${PYTHON_ENV}/bin/activate
         PYTHON_CMD=$(which python3)
         ${PYTHON_CMD} -m pip install pip --upgrade ${PIP_OPTS}
     fi
-
     printf "INFO: Checking for required libraries...\n"
-    # PIP_OPTS=""
-    # ${PYTHON_CMD} -m pip install ${PIP_OPTS} -r ${ASSESS_DIR}/requirements.txt > ${OUTPUT_DIR_NAME}/assess_pip.txt
     ${PYTHON_CMD} -m pip install ${PIP_OPTS} -r ${ASSESS_DIR}/requirements.txt
     if [ $? -gt 0 ]; then
         printf "ERROR: Permissions to install the required libraries are missing.\n"
@@ -187,7 +215,7 @@ install_graal() {
             ;;
     esac
     CMD_CURL=$(which curl)
-    local _graal_base="graalpy-24.1.1-${_os_type}-${_os_platform}"
+    local _graal_base="graalpy-${graal_version}-${_os_type}-${_os_platform}"
     local _graal_filename="${_graal_base}.tar.gz"
     local _bin_name="graalpy"
     local _bin_graalpy="${ASSESS_DIR}/${_graal_base}/bin/${_bin_name}"
@@ -265,8 +293,29 @@ while test -n "$1"; do
             TENANCY="$2"
             shift 2
             ;;
+        --zip-protect)
+            ZIP_PROTECT=1
+            shift 1
+            ;;
         --no-zip)
             NO_ZIP=1
+            shift 1
+            ;;
+        --new-style)
+            NEW_STYLE=1
+            shift 1
+            ;;
+        -g)
+            printf "INFO: GraalPy support is experimental!\n"
+            INSTALL_GRAAL=1
+            shift 1
+            ;;
+        --prepare)
+            PREPARE_ONLY=1
+            shift 1
+            ;;
+        --verbose)
+            QUIET=0
             shift 1
             ;;
         -v|--version)
@@ -283,16 +332,32 @@ while test -n "$1"; do
 done
 
 make_env
+if [ $PREPARE_ONLY -eq 1 ]; then
+    ZIP_ENV_NAME=advanced_env.zip
+    if [ $IS_ADVANCED -eq 0 ]; then
+        ZIP_ENV_NAME=standard_env.zip
+    fi
+    (cd $HOME; zip -q -r ${HOME}/${ZIP_ENV_NAME} .venv)
+    if [ -e ${HOME}/${ZIP_ENV_NAME} ]; then
+        printf "\nPython environment copied to %s \n" "${HOME}/${ZIP_ENV_NAME}"
+    fi
+    exit 1
+fi
+
+if [ $INSTALL_GRAAL -eq 1 ]; then
+    install_graal
+fi
 
 if [ $IS_ADVANCED -ne 1 ]; then
     RUN_SHOWOCI=0
     RUN_CIS=1
+    # CIS_DATA_OPT=""
 else
     if [ -z "$CIS_DATA_OPT" ]; then
         CIS_DATA_OPT="--obp --all-resources"
     fi
     if [ -z "$SHOWOCI_DATA_OPT" ]; then
-        SHOWOCI_DATA_OPT="--quiet -a -dsa"
+        SHOWOCI_DATA_OPT="-a -dsa"
     fi
 fi
 
@@ -362,6 +427,9 @@ printf "INFO: %s\n" "${INFO_STR}"
 
 CIS_OPTS="-t ${TENANCY} ${CIS_REGION_OPT} ${CIS_DATA_OPT} ${AUTH_OPT} --report-summary-json --report-prefix ${OUTPUT_DIR_NAME}"
 SHOWOCI_OPTS="-t ${TENANCY} ${SHOWOCI_REGION_OPT} ${AUTH_OPT} ${SHOWOCI_DATA_OPT}"
+if [ ${NEW_STYLE} -eq 1 ]; then
+    SHOWOCI_OPTS="${SHOWOCI_OPTS} --new-style"
+fi
 
 trap "cleanup; echo The script has been canceled; exiting" 1 2 3 6
 _W_=$(which script | wc -c)
@@ -382,14 +450,25 @@ if [ $RUN_SHOWOCI -eq 1 ]; then
     if [ -z "${BUFFERED}" ]; then
     	export PYTHONUNBUFFERED=TRUE
     fi
-    # SHOWOCI_CSV="-csv_nodate -csv ${OUTPUT_DIR}/showoci_${OUTPUT_DIR_NAME}"
+    SHOWOCI_CSV=""
+    if [ ${NO_CSV} -eq 0 ]; then
+        SHOWOCI_CSV="-csv_nodate -csv ${OUTPUT_DIR}/showoci_${OUTPUT_DIR_NAME}"
+    fi
     SHOWOCI_XLSX="-xlsx_nodate -xlsx ${OUTPUT_DIR}/showoci_${OUTPUT_DIR_NAME}"
-    SHOWOCI_JSON="-jf ${OUTPUT_DIR}/showoci_${OUTPUT_DIR_NAME}.json"
+    SHOWOCI_JSON_FILE="${OUTPUT_DIR}/showoci_${OUTPUT_DIR_NAME}.json"
+    if [ ${NEW_STYLE} -eq 1 ]; then
+        SHOWOCI_JSON_FILE="${OUTPUT_DIR}/showoci_${OUTPUT_DIR_NAME}_new.json"
+    fi
+    SHOWOCI_JSON="-jf ${SHOWOCI_JSON_FILE}"
+    SHOWOCI_QUIET=""
+    if [ ${QUIET} -eq 1 ]; then
+        SHOWOCI_QUIET="--quiet"
+    fi
     if [ ${_W_} -gt 0 ]; then
         if [ "${OS_TYPE}" == 'Darwin' ]; then
-            ${SCRIPT_CMD} -q ${OUTPUT_DIR}/assess_showoci.txt ${PYTHON_CMD} ${SHOWOCI_SCRIPT} ${SHOWOCI_OPTS}  ${SHOWOCI_JSON} ${SHOWOCI_XLSX} ${SHOWOCI_CSV}
+            ${SCRIPT_CMD} -q ${OUTPUT_DIR}/assess_showoci.txt ${PYTHON_CMD} ${SHOWOCI_SCRIPT} ${SHOWOCI_OPTS} ${SHOWOCI_QUIET} ${SHOWOCI_JSON} ${SHOWOCI_XLSX} ${SHOWOCI_CSV}
         else
-            ${SCRIPT_CMD} -c "${PYTHON_CMD} ${SHOWOCI_SCRIPT} ${SHOWOCI_OPTS} ${SHOWOCI_JSON} ${SHOWOCI_XLSX} ${SHOWOCI_CSV}" ${OUTPUT_DIR}/assess_showoci.txt
+            ${SCRIPT_CMD} -c "${PYTHON_CMD} ${SHOWOCI_SCRIPT} ${SHOWOCI_OPTS} ${SHOWOCI_QUIET} ${SHOWOCI_JSON} ${SHOWOCI_XLSX} ${SHOWOCI_CSV}" ${OUTPUT_DIR}/assess_showoci.txt
         fi
     else
         ${PYTHON_CMD} ${SHOWOCI_SCRIPT} ${SHOWOCI_OPTS}  ${SHOWOCI_JSON} ${SHOWOCI_XLSX} ${SHOWOCI_CSV}
@@ -398,7 +477,20 @@ fi
 if [ ${NO_ZIP} -eq 0 ]; then
     DIR_PARENT_OUTPUT="$(dirname ${OUTPUT_DIR})"
     cd $DIR_PARENT_OUTPUT
-    zip -q -r ${OUTPUT_DIR_NAME}.zip ${OUTPUT_DIR_NAME}
+    if [ ${ZIP_PROTECT} -eq 1 ]; then
+        printf "\nPlease enter a password for the ZIP file. Zero length passwords are not supported!\n"
+        zip -e -q -r ${OUTPUT_DIR_NAME}.zip ${OUTPUT_DIR_NAME}
+        if [ $? -ne 0 ]; then
+            printf "Please run $0 again.\n"
+            exit 1
+        fi
+    else
+        zip -q -r ${OUTPUT_DIR_NAME}.zip ${OUTPUT_DIR_NAME}
+        if [ $? -ne 0 ]; then
+            printf "Please run $0 again.\n"
+            exit 1
+        fi
+    fi
     mv ${OUTPUT_DIR_NAME}.zip ${PARENT_DIR}
     printf "\nINFO: All output can be found in the directory '%s'.\nINFO: Results are packaged as downloadable file '%s' at '%s'.\n" "${OUTPUT_DIR_NAME}" "${OUTPUT_DIR_NAME}.zip" "${PARENT_DIR}"
 fi
