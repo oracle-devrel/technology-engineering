@@ -22,13 +22,13 @@ Download the agent from OCI Console Observability and Managment to each single b
 
 <img src="./images/OPSI_ExaCC_1.png">
 
-On the box install the agent Doc ID [3015115.1](https://support.oracle.com/epmos/faces/DocumentDisplay?_afrLoop=455266221038386&id=3015115.1&_afrWindowMode=0&_adf.ctrl-state=78xw71hh9_4)
+On the box install the agent Doc ID [3015115.1](https://support.oracle.com/epmos/faces/DocumentDisplay?id=3015115.1)
 
 ```
 sudo mkdir -p /devext/oracle/mgmt_agent
 cat<<EOF>/devext/oracle/mgmt_agent/input.rsp
 managementAgentInstallKey = 'key you created above'
-CredentialWalletPassword = 'password'
+CredentialWalletPassword = 'YOUR_PASSWORD'
 GatewayServerHost = <
 GatewayServerPort = 4480
 EOF
@@ -43,7 +43,7 @@ export OPT_ORACLE_SYMLINK=true
 usermod -a -G asmadmin mgmt_agent
 usermod -a -G oinstall mgmt_agent
 ```
-Now you can see the agent check-in Observability and Management →Management Agent. Click on the three dots and enable OpsInsight and Database management and Logging Analytics Plugin
+Now you can see the agent check-in Observability and Management →Management Agent. Click on the three dots and enable OpsInsight and Database management and Logging Analytics Plugin.
 
 <img src="./images/OPSI_ExaCC_2.png"> 
 
@@ -63,11 +63,11 @@ Now you can see the agent check-in Observability and Management →Management Ag
 __Create the Monitor user__
 
 Creeate a user on each CDB
-Download grantPrivileges.sql MOS Doc ID [2857604.1](https://support.oracle.com/epmos/faces/SearchDocDisplay?_adf.ctrl-state=1dhr4uuluw_4&_afrLoop=105039164570647#BODYTEXT) and run on the Container Database
+Download grantPrivileges.sql MOS Doc ID [2857604.1](https://support.oracle.com/epmos/faces/DocumentDisplay?id=2857604.1) and run on the Container Database.
 ```
-sqlplus sys/<password>@(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=<host>.<domain>)(PORT=1521)))(CONNECT_DATA=(SERVICE=<CDB Servicename>))) as sysdba @grantPrivileges.sql C##OCI_MON_USER <password> N Y N> grantPrivileges.log
+sqlplus sys/<YOUR_PASSWORD>@(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=<host>.<domain>)(PORT=1521)))(CONNECT_DATA=(SERVICE=<CDB Servicename>))) as sysdba @grantPrivileges.sql C##OCI_MON_USER <YOUR_PASSWORD> N Y N> grantPrivileges.log
 sqlplus 
-sys/<password>@(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=<host>.<domain>)(PORT=1521)))(CONNECT_DATA=(SERVICE=<CDB Servicename>))) as sysdba @grantPrivileges.sql C##OCI_MON_USER <password> Y Y N> grantPrivileges.log
+sys/<YOUR_PASSWORD>@(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=<host>.<domain>)(PORT=1521)))(CONNECT_DATA=(SERVICE=<CDB Servicename>))) as sysdba @grantPrivileges.sql C##OCI_MON_USER <YOUR_PASSWORD> Y Y N> grantPrivileges.log
 ```
 For each PDB/CDB
 ```
@@ -95,12 +95,12 @@ GRANT EXECUTE ON DBMS_WORKLOAD_REPOSITORY to C##OCI_MON_USER;
 <td align="left">
 
 Create a secret key for C##OCI_MON_USER password (No for Autonomous)
->Go to Identity&Security → Key Management →Secret Management
+>Go to Identity&Security → Key Management →Secret Management.
 
 <img src="./images/OPSI_ExaCC_3.png">
 <img src="./images/OPSI_ExaCC_4.png">
 
->Go to Identity&Security → Key Management & Secret Management → Create a key → Create a secret for C##OCI_MON_USER password
+>Go to Identity&Security → Key Management & Secret Management → Create a key → Create a secret for C##OCI_MON_USER password.
 
 <img src="./images/OPSI_ExaCC_5.png">
 
@@ -115,7 +115,7 @@ Create a secret key for C##OCI_MON_USER password (No for Autonomous)
 <td align="left">
 
 __Enable OpsInsight__
->Go to Observability →OpsInsight→Administration → Exadata Fleet. Select Cloud Infrastructure, ExaDB-C@C
+>Go to Observability →OpsInsight→Administration → Exadata Fleet. Select Cloud Infrastructure, ExaDB-C@C.
 <img src="./images/OPSI_ExaCC_6.png">
 
 Specify the same credentiols you use for Database management. OpsInsight will be enabled on all PDB of the specified CDB.

@@ -85,8 +85,8 @@ For a more detailed Management Agent installation guide you can use the first pa
 <td align="left">
 **After the agent is installed we need to collect the details about Fusion environment:**
 
-- Your Fusion Application Instance URL, e.g.: https://fa-xxxx-saasfademo1.xx-xx.oraclepdemos.com
-- Based on this URL, the REST API to use is: https://fa-xxxx-saasfademo1.xx-xx.oraclepdemos.com/fscmRestApi/fndAuditRESTService/audittrail/getaudithistory
+- Your Fusion Application Instance URL, e.g.: https://your-fusion-domain
+- Based on this URL, the REST API to use is: https://your-fusion-domain/fscmRestApi/fndAuditRESTService/audittrail/getaudithistory
 - Your login credential to the FA instance. In our case we are using basic authentication with username and password.
 </td>
 <td align="left">
@@ -117,7 +117,7 @@ Add the credential here:
 { "name":"HTTPSPassword", "value":"CLEAR[YourFusionPassword]" },
 { "name":"ssl_trustStoreType", "value":"JKS" },
 { "name":"ssl_trustStoreLocation", "value":"/etc/pki/ca-trust/extracted/java/cacerts" },
-{ "name":"ssl_trustStorePassword", "value":"changeit" }
+{ "name":"ssl_trustStorePassword", "value":"YOUR_PASSWORD" }
 ]
 }
 ```
