@@ -1,0 +1,39 @@
+"""
+Test Valencia
+"""
+Voglio organizzare un viaggio da Roma a Valencia
+Siamo in due
+Viaggio in aereo
+partenza da Roma il 25 maggio 2025
+Permanenza: 7 giorni
+Hotel: centrale, 4 stelle
+
+"""
+Test Valencia, in English
+"""
+I want to organize a trip from Rome to Valencia
+I'm travelling with my girlfriend
+We want to start on 25 of may
+We want to say there for 10 days
+Travel by flight
+Hotel: central, 3 stars
+
+"""
+Test Amsterdam
+"""
+Voglio organizzare un viaggio da Roma ad Amsterdam
+Siamo in due
+Viaggio in aereo
+partenza da Roma il 25 maggio 2025
+Permanenza: 7 giorni
+Hotel: centrale, 4 stelle
+
+"""
+Test Barcelona
+"""
+Voglio organizzare un viaggio da Roma a Barcellona
+Siamo in due
+Viaggio in aereo
+partenza da Roma il 25 maggio 2025
+Permanenza: 7 giorni
+Hotel: centrale, 4 stelle

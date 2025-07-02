@@ -1,16 +1,57 @@
-import pandas as pd
+"""
+Smart Invoice Extraction
+
+A Streamlit-based invoice data extraction tool leveraging Oracle Cloud Infrastructure (OCI)
+Generative AI models for multimodal (text + image) processing.
+
+This module provides:
+
+- Helper functions:
+  - save_images(images, output_format="JPEG"):
+      Convert PIL Image objects to in-memory byte streams for downstream processing.
+  - encode_image(image_path):
+      Read an image file from disk and return its Base64-encoded string.
+  - save_to_csv(data, file_name="extracted_data.csv"):
+      Persist a list of dicts to a CSV file.
+
+- extractor(image_list):
+    Uses the image of a PDF invoice to identify and extract key header fields, by:
+      • Initializing an LLM (meta.llama-3.2-90b-vision-instruct)
+      • Encoding the image as Base64
+      • Sending a system + human message prompt to extract invoice headers in list format.
+
+- invoiceAnalysisPlus():
+    The main Streamlit application which:
+      • Renders a UI for uploading PDF invoices
+      • Converts PDFs to JPEG images and prepares byte streams
+      • Invokes extractor() to propose candidate fields
+      • Constructs and sends prompts to two OCI LLMs:
+          – A vision model for image-based extraction
+          – A text-only model (cohere.command-r-plus-08-2024) for dynamic prompt generation
+      • Displays results in a DataFrame and saves them to CSV
+
+Usage:
+    Run the module as a standalone script:
+        streamlit run invoice_analysis.py
+
+Author: Ali Ottoman
+"""
+
+import io
 import json
-from langchain.chains.llm import LLMChain
-from langchain_core.prompts import PromptTemplate
+import base64
+import pandas as pd
 import streamlit as st
 from langchain_community.chat_models.oci_generative_ai import ChatOCIGenAI
 from langchain_core.messages import HumanMessage, SystemMessage
-import base64
 from pdf2image import convert_from_bytes
-import io
+
 
 # Helper function to convert a list of images into byte arrays for further processing
 def save_images(images, output_format="JPEG"):
+    """
+        Convert PIL Image objects to in-memory byte streams for downstream processing.
+    """
     image_list = []
     for image in images:
         img_byte_arr = io.BytesIO()
@@ -21,17 +62,26 @@ def save_images(images, output_format="JPEG"):
 
 # Helper function to encode an image to base64 for sending to LLM
 def encode_image(image_path):
+    """
+        Read an image file from disk and return its Base64-encoded string.
+    """
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode("utf-8")
 
 # Save extracted data to a CSV file and show success message in Streamlit
 def save_to_csv(data, file_name="extracted_data.csv"):
+    """
+        Persist a list of dicts to a CSV file.
+    """
     df = pd.DataFrame(data)
     df.to_csv(file_name, index=False)
     st.success(f"Data saved to {file_name}")
 
 # Extract key headers from the first image of a PDF invoice
 def extractor(image_list):
+    """
+        Uses the image of a PDF invoice to identify and extract key header fields
+    """
     # Replace this with your own compartment ID
     compID = "<YOUR_COMPARTMENT_OCID_HERE>"
 
@@ -68,7 +118,10 @@ def extractor(image_list):
         return eval(ai_response.content)
 
 # Main Streamlit app function
-def invoiceAnalysisPlus():
+def invoice_analysis_plus():
+    """
+        The main Streamlit application
+    """
     st.title("Invoice Data Extraction")
 
     with st.sidebar:
@@ -122,24 +175,59 @@ def invoiceAnalysisPlus():
         if elements:
             system_message_cohere = SystemMessage(
                 content=f"""
-                Based on the following set of elements {elements}, with their respective types, extract their values and respond only in valid JSON format (no explanation):
-                {', '.join([f'- {e[0]}' for e in elements])}
-                For example:
-                {{
-                    {elements[0][0]}: "296969",
-                    {elements[1][0]}: "296969",
-                    {elements[2][0]}: "296969"
-                }}
-                """
-            )
+                    Based on the following set of elements {elements}, with their respective types ({elements[0][1]}, {elements[1][1]}, {elements[2][1]}), Extract the following details and provide the response only in valid JSON format (no extra explanation or text):
+                    - {elements[0][0]}
+                    - {elements[1][0]}
+                    - {elements[2][0]}
+                    Ensure the extracted data is formatted correctly as JSON and include nothing else at all in the response, not even a greeting or closing.
+                    For example:
+                    {{
+                        {elements[0][0]}: "296969",
+                        {elements[1][0]}: "296969",
+                        {elements[2][0]}: "296969",
+                    }}
+                """)
             ai_response_cohere = system_message_cohere
         else:
             system_message_cohere = SystemMessage(
-                content=f"""
-                Generate a system prompt to extract fields based on user-defined elements: {user_prompt}.
-                Output should be JSON only. No other text.
-                """
-            )
+                content = f"""
+                    Based on the following system prompt, create a new prompt accordingly based on the elements specified in the user prompt here ({user_prompt}). 
+
+                    This is the system prompt template:
+                    "
+                    Extract the following details and provide the response only in valid JSON format (no extra explanation or text):
+                    - **Debit / Credit Note No.**
+                    - **Policy Period** 
+                    - **Insured** 
+                    - **Vessel Name** 
+                    - **Details** 
+                    - **Currency** 
+                    - **Gross Premium 100%**
+                    - **OIMSL Share** 
+                    - **Total Deductions**
+                    - **Net Premium** 
+                    - **Premium Schedule**
+                    - **Installment Amount**
+
+                    Ensure the extracted data is formatted correctly as JSON and include nothing else at all in the response, not even a greeting or closing.
+
+                    For example:
+                    
+                        "Debit / Credit Note No.": "296969",
+                        "Policy Period": "Feb 20, 2024 to Jul 15, 2025",
+                        "Insured": "Stealth Maritime Corp. S.A.",
+                        "Vessel Name": "SUPRA DUKE - HULL & MACHINERY", (Make sure this is the entire vessel name only)
+                        "Details": "SUPRA DUKE - Original Premium",
+                        "Currency": "USD",
+                        "Gross Premium 100%": 56973.63,
+                        "OIMSL Share": 4557.89,
+                        "Total Deductions": 979.92,
+                        "Net Premium": 3577.97,
+                        "Premium Schedule": ["Apr 20, 2024", "Jun 14, 2024", "Sep 13, 2024", "Dec 14, 2024", "Mar 16, 2025", "Jun 14, 2025"],
+                        "Installment Amount": [372.87, 641.02, 641.02, 641.02, 641.02, 641.02]
+                    
+                    )" ensure your response is a system prompt format with an example of what the ouput should look like. Also ensure to mention in your gernerated prompt that no other content whatsover should appear except the JSON
+            """)
             ai_response_cohere = llm_for_prompts.invoke(input=[system_message_cohere])
 
         # Extracted data list
@@ -182,4 +270,4 @@ def invoiceAnalysisPlus():
 
 # Run the app
 if __name__ == "__main__":
-    invoiceAnalysisPlus()
+    invoice_analysis_plus()
