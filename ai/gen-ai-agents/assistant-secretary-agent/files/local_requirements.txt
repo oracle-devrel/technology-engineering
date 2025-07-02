@@ -61,7 +61,7 @@ pexpect==4.9.0
 pillow==11.0.0
 prompt_toolkit==3.0.50
 propcache==0.2.0
-protobuf==5.28.3
+protobuf==5.29.5
 ptyprocess==0.7.0
 pure_eval==0.2.3
 pyarrow==18.1.0
