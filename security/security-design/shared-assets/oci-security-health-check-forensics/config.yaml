@@ -1,0 +1,28 @@
+# Directory to store CSV files
+csv_dir: "data"
+
+oci_config_file: "~/.oci/config"      # OCI config file location (default is ~/.oci/config)
+tqt_config_file: "qt_config"   # Tenancy Query Tool config file location qt_config
+
+# Prefix for CSV files
+prefix: "oci"
+
+# Resource argument for showoci (a: all, i: identity, n: network, c: compute, etc.)
+resource_argument: "a"
+
+# Output format (DataFrame, json, etc.)
+output_format: "DataFrame"
+
+# Log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+log_level: "INFO"
+
+# CSV file settings
+delimiter: ","
+case_insensitive_headers: true
+
+# Interactive mode
+interactive: true 
+
+# Audit fetch settings
+audit_worker_count: 10
+audit_worker_window: 1  # hours

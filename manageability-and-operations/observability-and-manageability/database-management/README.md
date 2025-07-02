@@ -2,7 +2,13 @@
 
 Database Management provides comprehensive database performance diagnostics and management capabilities to monitor and manage Oracle Databases. In addition, you can use Database Management to discover and monitor on-premises Oracle Database System (External Database System) components and Exadata Storage Infrastructure.
 
-Reviewed: 27.09.2024
+Reviewed: 30.06.2025
+
+|Asset  |   Page| 
+|---|---|
+| Landing Zone Add-on  | [Link](.\LZ-addons\README.md) |
+
+
 
 # Table of Contents
 
