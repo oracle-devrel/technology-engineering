@@ -44,6 +44,8 @@ async def run_agent(user_input: str, config: dict = None) -> str:
         "final_plan": final_state.get(
             "final_plan", "Sorry, I couldn't generate a travel plan."
         ),
+        "itinerary": final_state.get("itinerary", ""),
         "hotel_options": final_state.get("hotel_options", []),
+        "travel_options": final_state.get("travel_options", []),
         "clarification_needed": False,
     }

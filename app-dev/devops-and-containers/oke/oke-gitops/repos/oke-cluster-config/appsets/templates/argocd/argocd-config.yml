@@ -1,0 +1,38 @@
+# This template will deploy namespace specific config in the cluster
+
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: argocd-config
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: [ "missingkey=error" ]
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            cluster: in-cluster
+  template:
+    metadata:
+      labels:
+        type: config
+      name: 'argocd-config-{{ "{{" }}.name{{ "}}" }}'
+    spec:
+      project: {{ .Values.project }}
+      sources:
+        - repoURL: {{ .Values.repo }}
+          targetRevision: HEAD
+          path: apps/{{ "{{" }}.name{{ "}}" }}/argocd/_config_
+          directory:
+            recurse: true
+
+      destination:
+        server: '{{ "{{" }}.server{{ "}}" }}'
+        namespace: argocd
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+        automated:
+          prune: true
+          selfHeal: true

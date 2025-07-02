@@ -9,10 +9,9 @@ for a given destination and preferences, and stores the result in the LangGraph 
 Author: L. Saetta
 Date: 20/05/2025
 """
-
 import requests
 from base_node import BaseNode
-from config import HOTEL_API_URL
+from config import DEBUG, HOTEL_API_URL
 
 
 class SearchHotelNode(BaseNode):
@@ -24,7 +23,8 @@ class SearchHotelNode(BaseNode):
         super().__init__("SearchHotelNode")
 
     def invoke(self, state: dict, config=None, **kwargs) -> dict:
-        self.log_info("Searching for hotels")
+        self.log_info("Searching for hotels...")
+
         try:
             num_days = state.get("num_days", 1)
             start_date = state.get("start_date")
@@ -44,7 +44,9 @@ class SearchHotelNode(BaseNode):
             )
             data = response.json()
             state["hotel_options"] = data.get("hotels", [])
-            self.log_info(f"Found hotels: {data}")
+
+            if DEBUG:
+                self.log_info(f"Found hotels: {data}")
         except Exception as e:
             self.log_error(f"Hotel search failed: {e}")
         return state
