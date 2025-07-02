@@ -20,6 +20,7 @@ This page contains information and useful links regarding Compute services that 
 - [Youtube Video: Using a Network Bridge with KVM VMs on Oracle Linux](https://www.youtube.com/watch?v=CXBTBxFoSKI&t=120s)
 - [Youtube Video: Manage OCI instances directly from VirtualBox 7](https://www.youtube.com/watch?v=uFEN4Di-WDE)
 
+- [Olygo Github: OCI_Compute_Function_Reserved_Pip_Allocator](https://github.com/Olygo/OCI-FN_reserved_pip_allocator)
 - [Olygo Github: OCI Compute Capacity Report using CloudShell](https://github.com/Olygo/OCI_ComputeCapacityReport)
 - [Olygo Github: Learn how to troubleshoot Linux and Windows instances using OCI Console Connection](https://github.com/Olygo/OCI_Console-Connections)
 - [Olygo Github: OCI function that forces IMDSv2 on compute instances](https://github.com/Olygo/OCI-FN_IMDS-Watcher)
@@ -47,6 +48,7 @@ This page contains information and useful links regarding Compute services that 
 
 - [Sharath Github: Troubleshoot Windows VM console connection via SAC](https://github.com/skbkkl/sharkuma/blob/main/Oracle-Cloud-Infrastructure-resources/Oracle-OCI-Troubleshooting/Troubleshooting-OCI-Win-VM-Console-Connection.pdf)
 - [Sharath Github: Set up a console connection to an OCI Windows instance](https://github.com/skbkkl/sharkuma/blob/main/Oracle-Cloud-Infrastructure-resources/Oracle-OCI-Troubleshooting/Windows-Instance-Console-Creation.pdf)
+- [Sharath Github: Troubleshooting OCI Windows VM console Fatal network error](https://github.com/skbkkl/sharkuma/blob/main/Oracle-Cloud-Infrastructure-resources/Oracle-OCI-Troubleshooting/OCI-Win-Instance-Console-Connection-FATAL%20ERROR-Network-error.pdf)
   
 # Useful Links
 
