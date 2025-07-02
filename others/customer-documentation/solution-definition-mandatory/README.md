@@ -1,4 +1,4 @@
-# Solution Definition (Complete)
+# Solution Definition (Mandatory)
  
 Welcome to the Solution Definition template. It is a document structure describing pre-sales documentation for customers embarking on their cloud journey. 
 
