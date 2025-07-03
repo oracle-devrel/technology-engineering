@@ -3,8 +3,10 @@
 Reviewed: 02.07.2025
 
 ## Oracle MyLearn
-At [Oracle Mylearn](https://www.oracle.com/uk/education/training/) Here you can find Training, certification, Oracle guided learning, skill development etc. Some content is free and some you need to buy a subscription for/pay for. Below we have tried to summarise some content we think you would benefit from specifically for Exadata Cloud@Customer.
-Equally, our Customer Success Services account manager can guide you on the available training that can be purchased. If you would like me to put you in touch them let me know. Or you can reach them via [this link](https://www.oracle.com/uk/education/contact-form.html).
+At [Oracle Mylearn](https://www.oracle.com/uk/education/training/) Here you can find Training, certification, Oracle guided learning, skill development etc. Some content is free and some you need to buy a subscription for/pay for. 
+
+Below, we have summarised content we think customers would benefit from specifically to support their skills and development in using Exadata Cloud@Customer.
+Your Customer Success Services account manager can guide you on available training that can be purchased. Reach out if you would like us to put you in contact with your aligned representative or you can reach CSS via [this link](https://www.oracle.com/uk/education/contact-form.html).
 
 ## Free Customer Training
 
