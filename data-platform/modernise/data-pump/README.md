@@ -50,6 +50,10 @@ Reviewed: 05.02.2025
     - Overview and complete installation walkthrough with examples for 19c and 23ai databases, available on Marcus Doeringer's public platform
 - [Installing DBMS_CLOUD packages in Oracle 23ai (I) and how to use with Data Pump](https://carlosal.wordpress.com/2025/04/01/installing-dbms_cloud-in-oracle-23ai/)
     - Blog article by Carlos Álvarez showing how easy it is to install DBMS_CLOUD packages in Oracle 23ai and how to export and import with Data Pump to and from Object Storage.
+- [Installing DBMS_CLOUD packages in Oracle 23ai (II) ](https://carlosal.wordpress.com/2025/05/14/installing-dbms_cloud-in-oracle-23ai-ii/)
+    - Blog article by Carlos Álvarez showing how to complete the installation of DBMS_CLOUD packages in Oracle 23ai.
+- [How to Check Data Pump Log Files in Oracle Autonomous Database stored in DATA_PUMP_DIR](https://carlosal.wordpress.com/2025/06/19/how-to-check-data-pump-log-files-in-oracle-autonomous-database-stored-in-data_pump_dir/)
+    - Blog article by Carlos Álvarez about methods to access and examine Data Pump log files generated in the DATA_PUMP_DIR directory from within the Autonomous Database.
 
 # Useful Links
 - [Loading Data from Google Cloud Storage to Oracle Database](https://database-heartbeat.com/2024/10/01/google-storage-to-oracle-database/)

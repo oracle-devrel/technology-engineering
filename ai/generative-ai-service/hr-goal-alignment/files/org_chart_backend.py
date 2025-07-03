@@ -1,4 +1,3 @@
-# Copyright (c) 2025 Oracle and/or its affiliates.
 import oracledb
 import pandas as pd
 
@@ -6,24 +5,35 @@ import config
 from gen_ai_service.inference import classify_smart_goal
 from goal_alignment_backend import check_if_horizontal_aligned, check_if_vertical_aligned
 
-connection = oracledb.connect(
+try: 
+    connection = oracledb.connect(
             **config.CONNECT_ARGS_VECTOR
         )
+except oracledb.Error as err:
+    print(f"Oracle connection error: {err}")
+    connection = None
+
+    
 def mapping_all_employees() -> tuple[dict[str, list[str]], pd.DataFrame]:
-    query = (
-        "SELECT employee_id, name, role, manager_id "
-        "FROM Employees"
-    )
-    df_db = pd.DataFrame() # Initialize df_db
+    query = "SELECT employee_id, name, role, manager_id FROM Employees"
     try:
-        df_db = pd.read_sql(query, connection) # type: ignore
+        cursor = connection.cursor()
+        cursor.execute(query)
+        rows = cursor.fetchall()
+
+        # Clean LOBs (just in case any column is a LOB)
+        clean_rows = [
+            [col.read() if isinstance(col, oracledb.LOB) else col for col in row]
+            for row in rows
+        ]
+
+        df_db = pd.DataFrame(clean_rows, columns=[desc[0] for desc in cursor.description])
+        return mapping_from_df(df_db), df_db
 
     except Exception as err:
         print(f"Query failed: {err}")
         connection.close()
-
-    # connection.close()
-    return mapping_from_df(df_db), df_db
+        return {}, pd.DataFrame()
 
 
 def build_label(df_row: pd.Series) -> str:
@@ -56,21 +66,29 @@ def check_smart_goal(df_row: pd.Series) -> str:
 
 
 def fetch_goals_from_emp(df, emp_data) -> pd.DataFrame:
-    df_db = pd.DataFrame() # Initialize as empty DataFrame
     try:
         emp_id = search_employee(df, emp_data)
-        if emp_id: # Only proceed if emp_id is found
-            query = f"SELECT title, objective, metrics, timeline FROM Goals WHERE employee_id = '{emp_id}'"
-            df_db = pd.read_sql(query, connection) # type: ignore
+        query = f"SELECT title, objective, metrics, timeline FROM Goals WHERE employee_id = :1"
+        cursor = connection.cursor()
+        cursor.execute(query, (emp_id,))
+        rows = cursor.fetchall()
+
+        # Clean LOBs
+        clean_rows = [
+            [col.read() if isinstance(col, oracledb.LOB) else col for col in row]
+            for row in rows
+        ]
+
+        df_db = pd.DataFrame(clean_rows, columns=[desc[0] for desc in cursor.description])
+
+        # Check SMART criteria
+        df_db["smart"] = df_db.apply(check_smart_goal, axis=1)
+
+        return df_db
 
     except oracledb.Error as err:
         print(f"Oracle connection error: {err}")
-        # df_db remains an empty DataFrame if an error occurs
-    
-    if not df_db.empty: # Check if DataFrame is not empty before applying
-        df_db["smart"] = df_db.apply(check_smart_goal, axis=1)
-    
-    return df_db
+        return pd.DataFrame()
 
 
 def search_employee(df, param):

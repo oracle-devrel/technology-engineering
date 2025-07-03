@@ -227,6 +227,30 @@ This section contains various examples related to Application Integration: demo 
 
 ## Blogs
 
+-[A Beginner’s Guide to Using OCI Generative AI with Oracle Integration](https://www.linkedin.com/pulse/beginners-guide-using-oci-generative-ai-oracle-harris-qureshi-wqcof/)
+
+Designed for Oracle Integration developers, this beginner-friendly guide walks you through:
+
+ • Exploring the OCI Generative AI Playground
+ • Understanding the OCI Gen AI Inference API
+ • Calling OCI Gen AI directly from Oracle Integration
+
+Whether you're experimenting or building real use cases, this step-by-step intro will help you bridge the gap between integration and Gen AI. It also includes a hands on demo.
+
+- [Agentic AI Workflows in Oracle Integration: Unlocking the Power of Generative AI](https://www.linkedin.com/pulse/agentic-ai-workflows-oracle-integration-unlocking-power-qureshi-nxm0f)
+
+    What if your integrations could reason, plan, and act on their own? In this article, I explore how Agentic AI Workflows in OIC, powered by OCI Generative AI, enable dynamic, 𝙨𝙚𝙡𝙛–𝙤𝙥𝙩𝙞𝙢𝙞𝙯𝙞𝙣𝙜 𝙨𝙮𝙨𝙩𝙚𝙢𝙨 𝙩𝙝𝙖𝙩 𝙖𝙙𝙖𝙥𝙩 𝙖𝙣𝙙 𝙧𝙚𝙨𝙥𝙤𝙣𝙙 𝙞𝙣 𝙧𝙚𝙖𝙡 𝙩𝙞𝙢𝙚.
+
+    You’ll learn how to:
+
+    - Replace hard-coded logic with 𝘁𝗼𝗼𝗹-𝗰𝗮𝗹𝗹𝗶𝗻𝗴 LLMs that make decisions
+    - Design workflows that 𝗮𝗱𝗮𝗽𝘁 𝗶𝗻 𝗿𝗲𝗮𝗹 𝘁𝗶𝗺𝗲 to changing inputs and context
+    - Orchestrate 𝗮𝗰𝘁𝗶𝗼𝗻𝘀 𝗮𝗰𝗿𝗼𝘀𝘀 𝘀𝘆𝘀𝘁𝗲𝗺𝘀 without rigid dependencies
+    - Treat 𝗚𝗲𝗻𝗲𝗿𝗮𝘁𝗶𝘃𝗲 𝗔𝗜 𝗮𝘀 𝗮 𝘁𝗿𝘂𝗲 𝗶𝗻𝘁𝗲𝗴𝗿𝗮𝘁𝗶𝗼𝗻 𝗽𝗮𝗿𝘁𝗻𝗲𝗿—not just a chatbot
+
+    The article also includes 𝗵𝗮𝗻𝗱𝘀-𝗼𝗻 𝗱𝗲𝗺𝗼𝘀 to illustrate these concepts in action.
+
+
 - [From Prompt to Payload: Using JSON Response Format in OCI Gen AI with Oracle Integration](https://www.linkedin.com/pulse/from-prompt-payload-using-json-response-format-oci-gen-harris-qureshi-4yk9f)
 
     - Tired of clunky AI integrations? Discover how to seamlessly combine OCI Generative AI’s JSON output with Oracle Integration Cloud (OIC)—unlocking smarter automation and cleaner data pipelines. 
