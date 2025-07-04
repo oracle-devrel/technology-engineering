@@ -81,3 +81,34 @@ variable "oke_vault_id" {
 variable "cluster_kms_key_id" {
   default = null
 }
+
+# OIDC
+
+variable "enable_oidc_discovery" {
+  type = bool
+  default = false
+}
+
+variable "enable_oidc_authentication" {
+  type = bool
+  default = false
+}
+
+variable "oidc_issuer" {
+  default = null
+}
+variable "oidc_client_id" {
+  default = null
+}
+variable "oidc_username_claim" {
+  default = "sub"
+}
+variable "oidc_username_prefix" {
+  default = "oidc:"
+}
+variable "oidc_groups_claim" {
+  default = "groups"
+}
+variable "oidc_groups_prefix" {
+  default = "oidc:"
+}
