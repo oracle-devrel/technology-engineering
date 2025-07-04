@@ -51,6 +51,7 @@ The system integrates with Oracle Database and uses OCI's Generative AI models t
 ├── utils.py
 ├── requirements.txt
 └── README.md
+```
 
 ## Setup Instructions
 
