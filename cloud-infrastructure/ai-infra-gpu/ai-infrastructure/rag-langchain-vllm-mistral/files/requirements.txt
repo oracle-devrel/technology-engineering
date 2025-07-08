@@ -218,7 +218,7 @@ torchaudio==2.6.0
 torchvision==0.21.0
 tqdm==4.67.1
 traitlets @ file:///croot/traitlets_1718227057033/work
-transformers==4.51.1
+transformers==4.52.1
 trio==0.29.0
 trio-websocket==0.12.2
 triton==3.2.0
