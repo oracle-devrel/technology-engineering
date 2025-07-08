@@ -23,13 +23,13 @@ See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/
 
 
 ## Usage
-1. Generic requirements
+### Generic requirements
    - MR_CONFIG_DIR variable has to be set to a directory, where configuration and log files are/will be stored
    - JDK 21 (it can be Oracle or OpenJDK)
    - Oracle JDK can be downloaded from the following link: https://www.oracle.com/java/technologies/downloads/#java21
    - OpenJDK is usually available in a Linux packates repository, but also can be downloaded and installed independly from the following link: https://openjdk.org/
 
-1.MDBExtractor
+### MDBExtractor
   requirements:
   - Source MongoDB instance up and running
   - Profiling at the MongoDB instance 
@@ -113,7 +113,7 @@ See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/
       ```
       this example assumes, that INPUT_FILE parameter IS NOT SET. Instead of the tool reads data from its standard input
 
-2.MDBApplier
+### MDBApplier
   requirements
   - target MongoDB instance up and running
   - the following configuration file $MR_CONFIG_DIR/MDBApplierConfig.json needs to be existing with the following parameters
