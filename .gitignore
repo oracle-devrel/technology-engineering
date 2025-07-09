@@ -34,3 +34,9 @@ terraform.rc
 
 # Terraform lock files
 *.lock.hcl
+
+# Apple Users DS_Store
+.DS_Store
+
+#VSC files
+.vscode
