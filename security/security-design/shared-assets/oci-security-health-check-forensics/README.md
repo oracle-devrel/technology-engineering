@@ -6,7 +6,7 @@ The OCI Security Health Check Forensics Tool (the tool) is designed to load and 
 
 The tool can also digest audit events and cloud guard problems. These resources can be loaded with different snapshots from a certain date with a number of days prior to that date.
 
-This data can be used to investiage anomalies.
+This data can be used to investigate anomalies.
 
 ## Features
 - Automatic OCI data fetching using showoci integration
