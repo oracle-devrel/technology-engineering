@@ -1,8 +1,6 @@
 # ODA Pro Styled
 
-<video width="600" controls>
-  <source src="files/oda-pro-styled-demo.mp4" type="video/mp4">
-</video>
+🎥 **[View Demo Video](files/oda-pro-styled-demo.mp4)**
 
 A complete solution for creating professional, customizable chat interfaces for Oracle Digital Assistant with enterprise-grade speech recognition capabilities.
 
