@@ -6,7 +6,7 @@ These resources aim to offer guidance throughout your migration, enabling you to
 
 Explore these materials to enhance your migration strategy. We appreciate your participation and are committed to supporting your cloud migration journey.
  
-Reviewed: 7.02.2025
+Reviewed: 14.07.2025
 
 # Table of Contents
  
@@ -21,7 +21,7 @@ The reusable assets available in this repository:
 
 # Useful Links
  
-- [Flexcube Patchset Release 14.7.5.0.0 Innovation - September 2024](https://docs.oracle.com/cd/G14514_01/index.htm)
+- [Flexcube Patchset Release 14.8 Release Notes - April 2025](https://docs.oracle.com/cd/G27840_01/PDF/Release_Notes/Release_Notes.pdf)
 - [Flexcube on OCI Architecture](https://docs.oracle.com/en/solutions/flexcube-oci/index.html)
 - [Use OCI Full Stack Disaster Recovery Service with Oracle WebLogic Server domains](https://docs.oracle.com/en/solutions/full-stack-dr-weblogic-platform/index.html)
 - [Flexcube Patchset releases](https://docs.oracle.com/cd/E56849_01/fcubsptsets.htm)
