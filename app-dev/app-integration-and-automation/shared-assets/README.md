@@ -46,7 +46,7 @@ This section contains various examples related to Application Integration: demo 
         - Design agent-style workflows with tool-calling capabilities
         - Integrate Cohere LLMs with OIC to unlock intelligent automation
         - Set up preamble prompts, tool definitions, and orchestration
-        - Build real-world use cases with step-by-step demos
+        - Build real-world use cases with step-by-step demos.
 
 
 - [Setting Up OAuth with JWT User Assertion in OIC: Identity Propagation from VBCS, OIC to OPA](https://youtu.be/UdOXA53BQMM?si=YIjvJbNrMblqhczM)
