@@ -6,8 +6,9 @@ Assets that contain oic adapters configuration and implementation practice for t
 - HCM Adapter
 - Kafka Adapter
 - EBS Adapter
+- Oracle CX Sales Cloud and B2B Adapter 
 
-Review Date: 04.04.2025
+Review Date: 17.07.2025
 
 # When to use these assets?
 
