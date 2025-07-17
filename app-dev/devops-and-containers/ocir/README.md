@@ -12,5 +12,5 @@ The script will create all the required repository. But be sure to configure REM
 
 The same script is also available if you want to mirror explicitly some images, by running:
 ```bash
-./mirror-ocir-sh -i image1,image2
+./mirror-ocir.sh -i image1,image2
 ```

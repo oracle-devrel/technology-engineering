@@ -6,7 +6,7 @@ The Data Pump export utility writes the schema objects, including the tables and
 
 A set of best practices and other useful assets/links can be found in this page.
 
-Reviewed: 05.02.2025
+Reviewed: 16.07.2025
 
  
 # Table of Contents
@@ -28,12 +28,12 @@ Reviewed: 05.02.2025
     - YouTube Video by Austine Ouma explaining how to run schema-based data pump jobs via SQL Developer
 - [SQL Developer Data Pump import into Autonomous Database](https://techrochet.com/sql-developer-data-pump-import)
     - Blog post by Austine Ouma explaining how to run data pump jobs into Autonomous Database from SQL Developer
-- [Interactive Command Mode with Oracle Data Pump](https://youtu.be/Xm0Dx-P_RCs)
-    - YouTube Video by Austine Ouma explaining how to manage running jobs in Oracle Data Pump
+- [Interactive Command Mode with Oracle Data Pump](https://techrochet.com/data-pump-interactive-command-mode)
+    - Blog Post by Austine Ouma explaining how to manage running jobs in Oracle Data Pump
 - [Importing large Data Pump dump files into Oracle Base Database on OCI via OCI Object Storage buckets mounted on the database file system](https://youtu.be/dWlzUMcbbo8)
     - YouTube Video by Austine Ouma explaining how to import large data pump dump files into Oracle Base Database on OCI via OCI Object Storage buckets mounted on the database file system
-- [OCI Console Data Pump Import Wizard](https://www.youtube.com/watch?v=FZAJezCQjhE)
-    - YouTube Video by Austine Ouma explaining how to use the OCI DB Console Import Wizard to import data into Autonomous Database
+- [OCI Console Data Pump Import Wizard](https://techrochet.com/console-data-pump-import-wizard)
+    - Blog Post by Austine Ouma explaining how to use the OCI DB Console Import Wizard to import data into Autonomous Database
 - [A Complete Guide to Migrate your Data to Autonomous Database and Best Practices](https://medium.com/@snoozrocks/a-complete-guide-to-migrate-your-data-to-autonomous-database-and-best-practices-8e5fbdaa26eb)
     - This blog post provides a high-level overview of the steps to migrate data from a source Oracle Database to the Autonomous Database Cloud using Data Pump and OCI Object Storage
 - [Migrate to Oracle Autonomous DB@Azure using Azure blob storage - Video](https://www.youtube.com/watch?v=CtTgweuLG9s)
