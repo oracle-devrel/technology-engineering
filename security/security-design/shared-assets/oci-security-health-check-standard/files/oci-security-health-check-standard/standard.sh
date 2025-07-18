@@ -7,9 +7,9 @@
 #
 # Author: Olaf Heimburger
 #
-VERSION=250623
+VERSION=250718
 
-graal_version=24.2.1
+graal_version=24.2.2
 OS_TYPE=$(uname)
 OS_PLATFORM=$(uname -m)
 ASSESS_DIR=$(dirname $0)
@@ -35,6 +35,7 @@ PREPARE_ONLY=0
 REGION_NAME=''
 TENANCY="DEFAULT"
 INSTANCE_PRINCIPAL=0
+SECURITY_TOKEN=0
 INSTALL_GRAAL=0
 
 debug() {
@@ -93,6 +94,7 @@ usage() {
         printf "          [--new-style] [--no-zip] [--zip-protect] [--verbose] [-v|--version]\n"
         printf " -h                                 -- This message.\n"
         printf " -ip                                -- Use instance principal for authentication.\n"
+        printf " -st                                -- Use OCI security token for authentication.\n"
         printf " -c                                 -- Run cis_report only.\n"
         printf " -s                                 -- Run showoci only.\n"
         printf " --cis options                      -- Run cis_report only and provide additional options.\n"
@@ -105,6 +107,7 @@ usage() {
         printf "          [--no-zip] [--zip-protect] [--verbose] [-v|--version]\n"
         printf " -h                                 -- this message\n"
         printf " -ip                                -- Use instance principal for authentication.\n"
+        printf " -st                                -- Use OCI security token for authentication.\n"
         printf " --cis options                      -- Run cis_report only and provide additional options.\n"
         printf "                                       For example, --cis '-h' shows available options.\n"
         printf "                                       The options -dt, -ip, -t, --regions are detected automatically and are not required.\n"
@@ -136,6 +139,17 @@ show_version_json() {
         printf "{ \"assess\": \"%s\", \"cis_report\": \"%s\", \"showoci\": \"%s\"}" "${VERSION}" "${version_cis}" "${version_showoci}"
     else
         printf "{ \"assess\": \"%s\", \"cis_report\": \"%s\"}" "${VERSION}" "${version_cis}"
+    fi
+}
+
+check_tenancy_size() {
+    cmps=$(oci iam compartment list --all --include-root --access-level ANY -c $OCI_TENANCY --query 'data[].id' | wc -l)
+    printf "INFO: Number of compartments: %d\n" "$cmps"
+    if [ $cmps -gt 32 ]; then
+        printf "WARNING: Number of compartments is too big for a proper run in Cloud Shell.\n"
+        printf "WARNING: Please consider running in a Compute VM or from your desktop.\n"
+        printf "WARNING: See the README for details.\n"
+        exit 1
     fi
 }
 
@@ -219,6 +233,9 @@ install_graal() {
         arm64)
             _os_platform='aarch64'
             ;;
+        aarch64)
+            _os_platform='aarch64'
+            ;;
         *)
             printf "ERROR: Platform $OS_PLATFORM not supported\n"
             exit 1
@@ -293,6 +310,12 @@ while test -n "$1"; do
             ;;
         -ip)
             INSTANCE_PRINCIPAL=1
+            SECURITY_TOKEN=0
+            shift 1
+            ;;
+        -st)
+            INSTANCE_PRINCIPAL=0
+            SECURITY_TOKEN=1
             shift 1
             ;;
         -r|--region)
@@ -341,6 +364,10 @@ while test -n "$1"; do
     esac
 done
 
+if [ $INSTALL_GRAAL -eq 1 ]; then
+    install_graal
+fi
+
 make_env
 if [ $PREPARE_ONLY -eq 1 ]; then
     ZIP_ENV_NAME=advanced_env.zip
@@ -352,10 +379,6 @@ if [ $PREPARE_ONLY -eq 1 ]; then
         printf "\nPython environment copied to %s \n" "${HOME}/${ZIP_ENV_NAME}"
     fi
     exit 1
-fi
-
-if [ $INSTALL_GRAAL -eq 1 ]; then
-    install_graal
 fi
 
 if [ $IS_ADVANCED -ne 1 ]; then
@@ -371,10 +394,12 @@ else
     fi
 fi
 
-AUTH_OPT=""
+SHOWOCI_AUTH_OPT=""
+CIS_AUTH_OPT=""
 TENANCY_NAME=""
 if [ ! -z "${CLOUD_SHELL_TOOL_SET}" ]; then
-    AUTH_OPT="-dt"
+    SHOWOCI_AUTH_OPT="-dt"
+    CIS_AUTH_OPT="-dt"
     CLI_TENANCY_NAME=$(oci iam tenancy get --tenancy-id $OCI_TENANCY --query 'data.name' 2>/dev/null)
     if [ $? -gt 0 ]; then
         printf "ERROR: Permissions to run the OCI CLI are missing.\n"
@@ -382,8 +407,15 @@ if [ ! -z "${CLOUD_SHELL_TOOL_SET}" ]; then
         exit 1
     fi
     TENANCY_NAME=$(echo -n $CLI_TENANCY_NAME | sed -e 's/"//g')
+    if [ $IS_ADVANCED -gt 0 ]; then
+        check_tenancy_size
+    fi
 elif [ "${INSTANCE_PRINCIPAL}" -gt 0 ]; then
-    AUTH_OPT="-ip"
+    SHOWOCI_AUTH_OPT="-ip"
+    CIS_AUTH_OPT="-ip"
+elif [ "${SECURITY_TOKEN}" -gt 0 ]; then
+    SHOWOCI_AUTH_OPT="-is"
+    CIS_AUTH_OPT="-st"
 fi
 if [ ! -z "${TENANCY_NAME}" ]; then
     TENANCY=${TENANCY_NAME}
@@ -435,8 +467,8 @@ else
 fi
 printf "INFO: %s\n" "${INFO_STR}"
 
-CIS_OPTS="-t ${TENANCY} ${CIS_REGION_OPT} ${CIS_DATA_OPT} ${AUTH_OPT} --report-summary-json --report-prefix ${OUTPUT_DIR_NAME}"
-SHOWOCI_OPTS="-t ${TENANCY} ${SHOWOCI_REGION_OPT} ${AUTH_OPT} ${SHOWOCI_DATA_OPT}"
+CIS_OPTS="-t ${TENANCY} ${CIS_REGION_OPT} ${CIS_DATA_OPT} ${CIS_AUTH_OPT} --report-summary-json --report-prefix ${OUTPUT_DIR_NAME}"
+SHOWOCI_OPTS="-t ${TENANCY} ${SHOWOCI_REGION_OPT} ${SHOWOCI_AUTH_OPT} ${SHOWOCI_DATA_OPT}"
 if [ ${NEW_STYLE} -eq 1 ]; then
     SHOWOCI_OPTS="${SHOWOCI_OPTS} --new-style"
 fi
@@ -504,6 +536,6 @@ if [ ${NO_ZIP} -eq 0 ]; then
     mv ${OUTPUT_DIR_NAME}.zip ${PARENT_DIR}
     printf "\nINFO: All output can be found in the directory '%s'.\nINFO: Results are packaged as downloadable file '%s' at '%s'.\n" "${OUTPUT_DIR_NAME}" "${OUTPUT_DIR_NAME}.zip" "${PARENT_DIR}"
     if [ ! -z "${CLOUD_SHELL_TOOL_SET}" ]; then
-        printf "\nINFO: To download the ZIP file:\nINFO: 1. Copy the filename %s\nINFO: 2. Click on the settings icon of the Cloud Shell on the right\nINFO: 3. Select 'Download'\nINFO: 4. Paste the file name into the modal window and click on 'Download'\n\n" "${OUTPUT_DIR_NAME}.zip"
+        printf "\nINFO: To download the ZIP file:\nINFO:  1. Copy the filename %s\nINFO:  2. Click on the settings icon of the Cloud Shell on the right\nINFO:  3. Select 'Download'\nINFO:  4. Paste the file name into the modal window and click on 'Download'\n\n" "${OUTPUT_DIR_NAME}.zip"
     fi
 fi

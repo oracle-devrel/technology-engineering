@@ -2,7 +2,7 @@
 OCI Security Health Check - Standard Edition
 ============================================
 Owner: Olaf Heimburger
-Version: 250623 (cis_report.py version 3.0.0.5)  for CIS OCI Foundation Benchmark 3.0.0
+Version: 250718 (cis_report.py version 3.0.1)  for CIS OCI Foundation Benchmark 3.0.0
 
 When to use this asset?
 
@@ -67,42 +67,58 @@ Usage
     - If "Domains" are listed you are migrated to Identity Domains
   - Create a group grp-auditors
   - Create a policy pcy-auditing with these statements:
-  - For tenancies without Identity Domains use
-      allow group grp-auditors to inspect all-resources in tenancy
-      allow group grp-auditors to read audit-events in tenancy
-      allow group grp-auditors to read buckets in tenancy
-      allow group grp-auditors to read dns in tenancy
-      allow group grp-auditors to read domains in tenancy
-      allow group grp-auditors to read file-family in tenancy
-      allow group grp-auditors to read instance-configurations in tenancy
-      allow group grp-auditors to read instances in tenancy
-      allow group grp-auditors to read load-balancers in tenancy
-      allow group grp-auditors to read nat-gateways in tenancy
-      allow group grp-auditors to read network-security-groups in tenancy
-      allow group grp-auditors to read public-ips in tenancy
-      allow group grp-auditors to read resource-availability in tenancy
-      allow group grp-auditors to read users in tenancy
-      allow group grp-auditors to read vss-family in tenancy
-      allow group grp-auditors to use cloud-shell in tenancy
-      allow group grp-auditors to use cloud-shell-public-network in tenancy
-  - For tenancies *with* Identity Domains use
+  - For tenancies **with** Identity Domains use
       allow group 'Default'/'grp-auditors' to inspect all-resources in tenancy
       allow group 'Default'/'grp-auditors' to read audit-events in tenancy
       allow group 'Default'/'grp-auditors' to read buckets in tenancy
-      allow group 'Default'/'grp-auditors' to read dns in tenancy
+      allow group 'Default'/'grp-auditors' to read capture-filters in tenancy
+      allow group 'Default'/'grp-auditors' to read data-safe-family in tenancy
       allow group 'Default'/'grp-auditors' to read domains in tenancy
       allow group 'Default'/'grp-auditors' to read file-family in tenancy
       allow group 'Default'/'grp-auditors' to read instance-configurations in tenancy
       allow group 'Default'/'grp-auditors' to read instances in tenancy
+      allow group 'Default'/'grp-auditors' to read keys in tenancy
       allow group 'Default'/'grp-auditors' to read load-balancers in tenancy
+      allow group 'Default'/'grp-auditors' to read logging-family in tenancy
       allow group 'Default'/'grp-auditors' to read nat-gateways in tenancy
       allow group 'Default'/'grp-auditors' to read network-security-groups in tenancy
       allow group 'Default'/'grp-auditors' to read public-ips in tenancy
       allow group 'Default'/'grp-auditors' to read resource-availability in tenancy
+      allow group 'Default'/'grp-auditors' to read tag-namespaces in tenancy
+      allow group 'Default'/'grp-auditors' to read usage-budgets in tenancy
+      allow group 'Default'/'grp-auditors' to read usage-reports in tenancy
       allow group 'Default'/'grp-auditors' to read users in tenancy
+      allow group 'Default'/'grp-auditors' to read vaults in tenancy
       allow group 'Default'/'grp-auditors' to read vss-family in tenancy
       allow group 'Default'/'grp-auditors' to use cloud-shell in tenancy
       allow group 'Default'/'grp-auditors' to use cloud-shell-public-network in tenancy
+      allow group 'Default'/'grp-auditors' to use ons-family in tenancy where any {request.operation!=/Create*/, request.operation!=/Update*/, request.operation!=/Delete*/, request.operation!=/Change*/}
+    - For tenancies **without** Identity Domains use
+      allow group grp-auditors to inspect all-resources in tenancy
+      allow group grp-auditors to read audit-events in tenancy
+      allow group grp-auditors to read buckets in tenancy
+      allow group grp-auditors to read capture-filters in tenancy
+      allow group grp-auditors to read data-safe-family in tenancy
+      allow group grp-auditors to read domains in tenancy
+      allow group grp-auditors to read file-family in tenancy
+      allow group grp-auditors to read instance-configurations in tenancy
+      allow group grp-auditors to read instances in tenancy
+      allow group grp-auditors to read keys in tenancy
+      allow group grp-auditors to read load-balancers in tenancy
+      allow group grp-auditors to read logging-family in tenancy
+      allow group grp-auditors to read nat-gateways in tenancy
+      allow group grp-auditors to read network-security-groups in tenancy
+      allow group grp-auditors to read public-ips in tenancy
+      allow group grp-auditors to read resource-availability in tenancy
+      allow group grp-auditors to read tag-namespaces in tenancy
+      allow group grp-auditors to read usage-budgets in tenancy
+      allow group grp-auditors to read usage-reports in tenancy
+      allow group grp-auditors to read users in tenancy
+      allow group grp-auditors to read vaults in tenancy
+      allow group grp-auditors to read vss-family in tenancy
+      allow group grp-auditors to use cloud-shell in tenancy
+      allow group grp-auditors to use cloud-shell-public-network in tenancy
+      allow group grp-auditors to use ons-family in tenancy where any {request.operation!=/Create*/, request.operation!=/Update*/, request.operation!=/Delete*/, request.operation!=/Change*/}
   - Assign a user to the grp-auditors group
   - Log out of OCI Console
 
@@ -112,7 +128,7 @@ Usage
   - From the menu select the Cloud Shell item.
   - When running it the first time:
     - Upload the provided ZIP file.
-    - Extract it with unzip -q oci-security-health-check-standard-250623.zip
+    - Extract it with unzip -q oci-security-health-check-standard-250718.zip
   - Change directory into oci-security-health-check-standard
     $ cd oci-security-health-check-standard
     $ screen
@@ -134,25 +150,28 @@ Usage
       allow dynamic-group 'Default'/'dgp-instance-principal' to inspect all-resources in tenancy
       allow dynamic-group 'Default'/'dgp-instance-principal' to read audit-events in tenancy
       allow dynamic-group 'Default'/'dgp-instance-principal' to read buckets in tenancy
-      allow dynamic-group 'Default'/'dgp-instance-principal' to read cloudevents-rules in tenancy
-      allow dynamic-group 'Default'/'dgp-instance-principal' to read dns in tenancy
+      allow dynamic-group 'Default'/'dgp-instance-principal' to read capture-filters in tenancy
+      allow dynamic-group 'Default'/'dgp-instance-principal' to read data-safe-family in tenancy
       allow dynamic-group 'Default'/'dgp-instance-principal' to read domains in tenancy
       allow dynamic-group 'Default'/'dgp-instance-principal' to read file-family in tenancy
-      allow dynamic-group 'Default'/'dgp-instance-principal' to read instances in tenancy
       allow dynamic-group 'Default'/'dgp-instance-principal' to read instance-configurations in tenancy
+      allow dynamic-group 'Default'/'dgp-instance-principal' to read instances in tenancy
       allow dynamic-group 'Default'/'dgp-instance-principal' to read keys in tenancy
       allow dynamic-group 'Default'/'dgp-instance-principal' to read load-balancers in tenancy
+      allow dynamic-group 'Default'/'dgp-instance-principal' to read logging-family in tenancy
       allow dynamic-group 'Default'/'dgp-instance-principal' to read nat-gateways in tenancy
       allow dynamic-group 'Default'/'dgp-instance-principal' to read network-security-groups in tenancy
-      allow dynamic-group 'Default'/'dgp-instance-principal' to read osms-family in tenancy
       allow dynamic-group 'Default'/'dgp-instance-principal' to read public-ips in tenancy
       allow dynamic-group 'Default'/'dgp-instance-principal' to read resource-availability in tenancy
-      allow dynamic-group 'Default'/'dgp-instance-principal' to read serviceconnectors in tenancy
-      allow dynamic-group 'Default'/'dgp-instance-principal' to read stream-family in tenancy
+      allow dynamic-group 'Default'/'dgp-instance-principal' to read tag-namespaces in tenancy
+      allow dynamic-group 'Default'/'dgp-instance-principal' to read usage-budgets in tenancy
+      allow dynamic-group 'Default'/'dgp-instance-principal' to read usage-reports in tenancy
       allow dynamic-group 'Default'/'dgp-instance-principal' to read users in tenancy
-      allow dynamic-group 'Default'/'dgp-instance-principal' to read vault in tenancy
-      allow dynamic-group 'Default'/'dgp-instance-principal' to read vlans in tenancy
+      allow dynamic-group 'Default'/'dgp-instance-principal' to read vaults in tenancy
       allow dynamic-group 'Default'/'dgp-instance-principal' to read vss-family in tenancy
+      allow dynamic-group 'Default'/'dgp-instance-principal' to use cloud-shell in tenancy
+      allow dynamic-group 'Default'/'dgp-instance-principal' to use cloud-shell-public-network in tenancy
+      allow dynamic-group 'Default'/'dgp-instance-principal' to use ons-family in tenancy where any {request.operation!=/Create*/, request.operation!=/Update*/, request.operation!=/Delete*/, request.operation!=/Change*/}
 
   - Preparing the Compute VM:
     - Log into the Compute VM
@@ -169,11 +188,11 @@ Usage
     - Log out
 
   - From your desktop, upload the
-    "oci-security-health-check-standard-250623.zip" file to the Compute VM
+    "oci-security-health-check-standard-250718.zip" file to the Compute VM
     using any SFTP client.
   - Log into the Compute VM
     - Extract the distribution
-      unzip -q oci-security-health-check-standard-250623.zip
+      unzip -q oci-security-health-check-standard-250718.zip
 
     - Change directory into "oci-security-health-check-standard":
       cd oci-security-health-check-standard
@@ -229,22 +248,19 @@ Usage
 
 6 Credits
 
-The "OCI Security Health Check - Standard Edition" streamlines the usage of
-the Compliance Checking Script
-(https://github.com/oracle-quickstart/oci-cis-landingzone-quickstart/blob/main/compliance-script.md) bundled with the CIS OCI Landing Zone Quick Start Template
-(https://github.com/oracle-quickstart/oci-cis-landingzone-quickstart).
+The *OCI Security Health Check - Standard Edition* streamlines the usage of the
+CIS Compliance Script (https://github.com/oci-landing-zones/oci-cis-landingzone-quickstart/blob/main/README.md).
 
-The "OCI Security Health Check - Standard Edition" would not be possible
-without the great work of the CIS OCI Landing Zone Quick Start Template Team
-(https://github.com/oracle-quickstart/oci-cis-landingzone-quickstart/graphs/contributors).
+The *OCI Security Health Check - Standard Edition* would not be possible without the great work
+of the CIS OCI Landing Zone Quick Start Template Team
+(https://github.com/oci-landing-zones/oci-cis-landingzone-quickstart/graphs/contributors).
 
-Certification
+7 Certification
 
-The Compliance Checking Script is certified by the Center of Internet Security
-(CIS) for the OCI Oracle Cloud Foundation Benchmark v1.2, Level 1 and 2
-(https://www.cisecurity.org/partner/oracle).
+The CIS Compliance Script has been certified by the CIS Center of Internet Security for the 
+OCI Oracle Cloud Foundation Benchmark v3.0.0, Level 1 and 2 (https://www.cisecurity.org/partner/oracle).
 
-License
+8 License
 
 Copyright (c) 2022-2025 Oracle and/or its affiliates.
 
