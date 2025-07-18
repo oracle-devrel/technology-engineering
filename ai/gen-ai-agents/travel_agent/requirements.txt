@@ -107,12 +107,12 @@ pandocfilters==1.5.1
 parso==0.8.4
 pathspec==0.12.1
 pexpect==4.9.0
-pillow==11.2.1
+pillow==11.3.0
 platformdirs==4.3.8
 prometheus_client==0.22.0
 prompt_toolkit==3.0.51
 propcache==0.3.1
-protobuf==6.31.0
+protobuf==6.31.1
 psutil==7.0.0
 ptyprocess==0.7.0
 pure_eval==0.2.3
