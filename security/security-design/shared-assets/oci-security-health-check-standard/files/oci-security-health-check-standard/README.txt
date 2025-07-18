@@ -93,6 +93,7 @@ Usage
       allow group 'Default'/'grp-auditors' to use cloud-shell in tenancy
       allow group 'Default'/'grp-auditors' to use cloud-shell-public-network in tenancy
       allow group 'Default'/'grp-auditors' to use ons-family in tenancy where any {request.operation!=/Create*/, request.operation!=/Update*/, request.operation!=/Delete*/, request.operation!=/Change*/}
+
     - For tenancies **without** Identity Domains use
       allow group grp-auditors to inspect all-resources in tenancy
       allow group grp-auditors to read audit-events in tenancy
@@ -119,6 +120,7 @@ Usage
       allow group grp-auditors to use cloud-shell in tenancy
       allow group grp-auditors to use cloud-shell-public-network in tenancy
       allow group grp-auditors to use ons-family in tenancy where any {request.operation!=/Create*/, request.operation!=/Update*/, request.operation!=/Delete*/, request.operation!=/Change*/}
+
   - Assign a user to the grp-auditors group
   - Log out of OCI Console
 
