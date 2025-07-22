@@ -4137,7 +4137,7 @@ class CIS_Report:
                             "description": key['description'],
                             # "inactive_status": key['inactive_status'],
                             # "lifecycle_state": key['lifecycle_state'],
-                            # "time_created": key['time_created'],
+                            "time_created": key['time_created'],
                             # "time_expires": key['time_expires'],
                             # "token": key['token']
                         }
@@ -4148,7 +4148,7 @@ class CIS_Report:
                     # CIS Total 1.10 Adding - Keys to CIS Total
                     self.cis_foundations_benchmark_3_0['1.10']['Total'].append(
                         key)
-    # CIS 1.11 Check - Old DB Password
+        # CIS 1.11 Check - Old DB Password
         #__iso_time_format1 = "%Y-%m-%dT%H:%M:%S.%fZ"
         for user in self.__users:
             if user['database_passwords']:
@@ -4161,6 +4161,7 @@ class CIS_Report:
                             "user_id": user['id'],
                             "id": key['ocid'],
                             "description": key['description'],
+                            "time_created": key['time_created'],
                             # "expires-on": key['expires_on']
                         }
 
@@ -5355,7 +5356,7 @@ class CIS_Report:
             summary_file_name = self.__print_to_json_file("cis", "summary_report", summary_report)
             summary_files.append(summary_file_name)
 
-        summary_file_name = self.__report_generate_html_summary_report("cis", "html_summary_report", summary_report)
+        summary_file_name = self.__report_generate_html_summary_report("cis", "summary_report", summary_report)
         summary_files.append(summary_file_name)
 
         if OUTPUT_DIAGRAMS:
@@ -6425,8 +6426,7 @@ def execute_report():
                     for r, row in enumerate(reader):
                         for c, col in enumerate(row):
                             # Skipping the deep link due to formating errors in xlsx
-                            if "=HYPERLINK" not in col:
-                                worksheet.write(r, c, col)
+                            worksheet.write(r, c, col)
                 worksheet.autofilter(0, 0, r - 1, c - 1)
                 worksheet.autofit()
 
