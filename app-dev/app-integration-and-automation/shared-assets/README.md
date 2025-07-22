@@ -37,6 +37,18 @@ This section contains various examples related to Application Integration: demo 
 
 ## Demos
 
+- [Developer Coaching - Agentic AI Workflows in Oracle Integration with OCI Generative AI](https://youtu.be/xbpspBVgG8s?si=yOoX-oBotnpD0XPM)
+
+    - Discover how to build Agentic AI Workflows using Oracle Integration Cloud (OIC) and OCI Generative AI. Learn how large language models (LLMs) can reason, decide, and act by dynamically calling tools, chaining APIs, and orchestrating end-to-end processes. 
+    
+    - In this live coaching session, you’ll learn how to:
+
+        - Design agent-style workflows with tool-calling capabilities
+        - Integrate Cohere LLMs with OIC to unlock intelligent automation
+        - Set up preamble prompts, tool definitions, and orchestration
+        - Build real-world use cases with step-by-step demos.
+
+
 - [Setting Up OAuth with JWT User Assertion in OIC: Identity Propagation from VBCS, OIC to OPA](https://youtu.be/UdOXA53BQMM?si=YIjvJbNrMblqhczM)
 
     - In this step-by-step tutorial, you'll learn how to setup OAuth 2.0 using JWT User Assertion in Oracle Integration Cloud (OIC) to enable secure identity propagation between Oracle Integration and Oracle Process Automation (OPA). You will also see how idenity can easily propogate from Visual Builder to OIC to OPA.
@@ -226,6 +238,30 @@ This section contains various examples related to Application Integration: demo 
     - Demo video showing how to create and run a BPM Dynamic (Case Management) Process. Shows how to manage Car Rental Process through Case Management stages, Global activities and combination of Human Tasks, Structured BPM processes and Milestones in Case Management stages. This demo implements [Oracle Live Lab](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/run-workshop?p210_wid=3362&p210_wec=&session=17064424204924), Lab 2
 
 ## Blogs
+
+-[A Beginner’s Guide to Using OCI Generative AI with Oracle Integration](https://www.linkedin.com/pulse/beginners-guide-using-oci-generative-ai-oracle-harris-qureshi-wqcof/)
+
+Designed for Oracle Integration developers, this beginner-friendly guide walks you through:
+
+ • Exploring the OCI Generative AI Playground
+ • Understanding the OCI Gen AI Inference API
+ • Calling OCI Gen AI directly from Oracle Integration
+
+Whether you're experimenting or building real use cases, this step-by-step intro will help you bridge the gap between integration and Gen AI. It also includes a hands on demo.
+
+- [Agentic AI Workflows in Oracle Integration: Unlocking the Power of Generative AI](https://www.linkedin.com/pulse/agentic-ai-workflows-oracle-integration-unlocking-power-qureshi-nxm0f)
+
+    What if your integrations could reason, plan, and act on their own? In this article, I explore how Agentic AI Workflows in OIC, powered by OCI Generative AI, enable dynamic, 𝙨𝙚𝙡𝙛–𝙤𝙥𝙩𝙞𝙢𝙞𝙯𝙞𝙣𝙜 𝙨𝙮𝙨𝙩𝙚𝙢𝙨 𝙩𝙝𝙖𝙩 𝙖𝙙𝙖𝙥𝙩 𝙖𝙣𝙙 𝙧𝙚𝙨𝙥𝙤𝙣𝙙 𝙞𝙣 𝙧𝙚𝙖𝙡 𝙩𝙞𝙢𝙚.
+
+    You’ll learn how to:
+
+    - Replace hard-coded logic with 𝘁𝗼𝗼𝗹-𝗰𝗮𝗹𝗹𝗶𝗻𝗴 LLMs that make decisions
+    - Design workflows that 𝗮𝗱𝗮𝗽𝘁 𝗶𝗻 𝗿𝗲𝗮𝗹 𝘁𝗶𝗺𝗲 to changing inputs and context
+    - Orchestrate 𝗮𝗰𝘁𝗶𝗼𝗻𝘀 𝗮𝗰𝗿𝗼𝘀𝘀 𝘀𝘆𝘀𝘁𝗲𝗺𝘀 without rigid dependencies
+    - Treat 𝗚𝗲𝗻𝗲𝗿𝗮𝘁𝗶𝘃𝗲 𝗔𝗜 𝗮𝘀 𝗮 𝘁𝗿𝘂𝗲 𝗶𝗻𝘁𝗲𝗴𝗿𝗮𝘁𝗶𝗼𝗻 𝗽𝗮𝗿𝘁𝗻𝗲𝗿—not just a chatbot
+
+    The article also includes 𝗵𝗮𝗻𝗱𝘀-𝗼𝗻 𝗱𝗲𝗺𝗼𝘀 to illustrate these concepts in action.
+
 
 - [From Prompt to Payload: Using JSON Response Format in OCI Gen AI with Oracle Integration](https://www.linkedin.com/pulse/from-prompt-payload-using-json-response-format-oci-gen-harris-qureshi-4yk9f)
 
