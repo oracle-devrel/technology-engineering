@@ -7,7 +7,7 @@
 #
 # Author: Olaf Heimburger
 #
-VERSION=250718
+VERSION=250722
 
 graal_version=24.2.2
 OS_TYPE=$(uname)
