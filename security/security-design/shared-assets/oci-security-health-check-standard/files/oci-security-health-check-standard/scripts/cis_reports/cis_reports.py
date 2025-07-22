@@ -5356,7 +5356,7 @@ class CIS_Report:
             summary_file_name = self.__print_to_json_file("cis", "summary_report", summary_report)
             summary_files.append(summary_file_name)
 
-        summary_file_name = self.__report_generate_html_summary_report("cis", "summary_report", summary_report)
+        summary_file_name = self.__report_generate_html_summary_report("cis", "html_summary_report", summary_report)
         summary_files.append(summary_file_name)
 
         if OUTPUT_DIAGRAMS:
@@ -6426,7 +6426,8 @@ def execute_report():
                     for r, row in enumerate(reader):
                         for c, col in enumerate(row):
                             # Skipping the deep link due to formating errors in xlsx
-                            worksheet.write(r, c, col)
+                            if "=HYPERLINK" not in col:
+                                worksheet.write(r, c, col)
                 worksheet.autofilter(0, 0, r - 1, c - 1)
                 worksheet.autofit()
 
