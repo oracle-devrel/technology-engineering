@@ -1,4 +1,4 @@
-streamlit==1.33.0
+streamlit==1.37.0
 langchain
 langchain_community==0.2.7
 oci==2.129.3
