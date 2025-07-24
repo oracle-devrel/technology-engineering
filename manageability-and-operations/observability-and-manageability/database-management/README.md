@@ -6,7 +6,7 @@ Reviewed: 30.06.2025
 
 |Asset  |   Page| 
 |---|---|
-| Landing Zone Add-on  | [Link](.\LZ-addons\README.md) |
+| Landing Zone Add-on  | [Link](./LZ-addons/README.md) |
 
 
 
