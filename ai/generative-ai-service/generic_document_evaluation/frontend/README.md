@@ -21,7 +21,7 @@ A Next.js application that uses AI to compare, evaluate, and rank documents base
 npm install
 
 # Set up environment variables
-cp .env.example .env.local
+cp env.example .env
 # Edit .env.local with your backend URL
 
 # Start development server
