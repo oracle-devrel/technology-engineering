@@ -10,6 +10,19 @@
 </tr>
 <tr>
 
+<td align="left">0</td>
+<td align="left">
+Please ensure you have the OCI Operating Entities Landing Zone deployed 
+ 
+ [info here](https://github.com/oracle-devrel/technology-engineering/tree/main/landing-zones)
+
+<td align="left"> 
+ 
+</td>
+</tr>
+<tr>
+
+
 <td align="left" >1</td>
 <td align="left">
 
