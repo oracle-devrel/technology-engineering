@@ -34,3 +34,13 @@ terraform.rc
 
 # Terraform lock files
 *.lock.hcl
+
+# Apple Users DS_Store
+.DS_Store
+
+#VSC files
+.vscode
+
+# Exclude cached Python binary files
+*.pyc
+__pycache__
