@@ -1,4 +1,3 @@
-# Copyright (c) 2025 Oracle and/or its affiliates.
 from typing import List, Dict, Optional
 from langchain_community.vectorstores import OracleVS
 import os
@@ -13,7 +12,6 @@ from langchain_community.document_loaders import UnstructuredExcelLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.embeddings import OCIGenAIEmbeddings
 from langchain_core.documents import Document
-from langchain_community.vectorstores.utils import DistanceStrategy
 
 # Use the project's config file
 import config
@@ -62,7 +60,7 @@ class CourseVectorStore:
             client=self.db_conn, # Use the connection passed in __init__
             embedding_function=self.embeddings, # Use the embeddings initialized in __init__
             table_name=config.VECTOR_TABLE_NAME, # Use table name from project config
-            distance_strategy=DistanceStrategy.COSINE
+            distance_strategy="COSINE"
         )
 
     # LLM initialization removed.
@@ -169,3 +167,5 @@ class CourseVectorStore:
         except Exception as e:
             logger.error(f"Error during similarity search: {e}", exc_info=True)
             return []
+
+
