@@ -1,8 +1,8 @@
 **/__pycache__/
 venv/
-files/venv/
-**/config.py
+config.py
 .DS_Store
 data/
 *.log
 *.txt
+!requirements.txt

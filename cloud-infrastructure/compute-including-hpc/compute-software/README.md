@@ -41,6 +41,12 @@ This page contains information and useful links regarding Compute services that 
 - [Olygo Github: OCI Cloud-Init WinPwd Update](https://github.com/Olygo/CloudInit_WinPwd_Update)
 - [Olygo Github: OCI PowerShell 7 Launch Instance](https://github.com/Olygo/OCI_Pwsh_Launch_Instance)
 
+- [Dezma Github: Open MPI on OCI ARM Compute Shapes](https://github.com/dezma/OpenMPI-OCI-ARM)
+- [Dezma Github: OSU Benchmarks on OCI ARM Compute Shapes](https://github.com/dezma/OCI-HPC-ARM-EXAMPLES/tree/main/OSU-Benchmarks)
+- [Dezma Github: GROMACS on OCI ARM Compute Shapes](https://github.com/dezma/OCI-HPC-ARM-EXAMPLES/tree/main/GROMACS)
+- [Dezma Github: CP2K on OCI ARM Compute Shapes](https://github.com/dezma/OCI-HPC-ARM-EXAMPLES/tree/main/CP2K)
+- [Dezma Github: HPC on OCI Kubernetes Engine OKE](https://github.com/dezma/oci-hpc-oke)
+
 - [Marius Github: Cluster software on Oracle Linux 9 using Corosync and Pacemaker - create failover IP](https://github.com/mariusscholtz/Oracle-Cloud-Infrastructure-resources/blob/main/cluster/readme.md)
 - [Marius Github: Transfer data to and from OCI using sftp/scp/oci-cli/curl](https://github.com/mariusscholtz/Oracle-Cloud-Infrastructure-resources/blob/main/VM-shapes/data%20transfer%20to%20OCI%20v1.0.pdf)
 - [Marius Github: Cockpit – Web console to manage Oracle Linux](https://github.com/mariusscholtz/Oracle-Cloud-Infrastructure-resources/tree/main/cockpit)
