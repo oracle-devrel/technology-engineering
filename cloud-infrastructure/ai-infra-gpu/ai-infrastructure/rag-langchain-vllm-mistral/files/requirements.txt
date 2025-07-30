@@ -86,7 +86,7 @@ llama-cloud-services==0.6.10
 llama-index==0.12.41
 llama-index-agent-openai==0.4.6
 llama-index-cli==0.4.1
-llama-index-core==0.12.30
+llama-index-core==0.12.41
 llama-index-embeddings-huggingface==0.5.3
 llama-index-embeddings-langchain==0.3.0
 llama-index-embeddings-openai==0.3.1
@@ -158,7 +158,7 @@ prometheus-fastapi-instrumentator==7.1.0
 prometheus_client==0.21.1
 prompt-toolkit @ file:///croot/prompt-toolkit_1704404351921/work
 propcache==0.3.1
-protobuf==5.29.4
+protobuf==5.29.5
 psutil==7.0.0
 psycopg2-binary==2.9.10
 ptyprocess @ file:///tmp/build/80754af9/ptyprocess_1609355006118/work/dist/ptyprocess-0.7.0-py2.py3-none-any.whl
@@ -213,12 +213,12 @@ tiktoken==0.9.0
 tinysegmenter==0.3
 tldextract==5.2.0
 tokenizers==0.21.1
-torch==2.6.0
+torch==2.7.1
 torchaudio==2.6.0
 torchvision==0.21.0
 tqdm==4.67.1
 traitlets @ file:///croot/traitlets_1718227057033/work
-transformers==4.51.1
+transformers==4.52.1
 trio==0.29.0
 trio-websocket==0.12.2
 triton==3.2.0
@@ -230,7 +230,7 @@ tzdata==2025.2
 urllib3==2.3.0
 uvicorn==0.34.0
 uvloop==0.21.0
-vllm==0.8.5
+vllm==0.9.0
 watchfiles==1.0.5
 wcwidth @ file:///Users/ktietz/demo/mc3/conda-bld/wcwidth_1629357192024/work
 websocket-client==1.8.0
