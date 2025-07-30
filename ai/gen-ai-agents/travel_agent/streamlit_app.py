@@ -8,7 +8,47 @@ import pydeck as pdk
 import streamlit as st
 from run_agent import run_agent
 from translations import TRANSLATIONS
-from config import DEBUG, MAP_STYLE
+from utils import get_console_logger
+from config import DEBUG, MAP_STYLE, SUPPORTED_LANGUAGES, SUPPORTED_LANGUAGES_LONG
+
+logger = get_console_logger("streamlit_app")
+
+
+def visualize_hotel_on_map(_session_state):
+    """
+    Display the position of the hotel on a map using pydeck.
+    """
+    if hasattr(_session_state, "hotel_options") and _session_state.hotel_options:
+        # get Hotel location
+        hotel = _session_state.hotel_options[0]
+
+        if hotel:
+            lat = hotel.get("latitude")
+            lon = hotel.get("longitude")
+
+            if lat and lon:
+                # the size of the circle in pixels
+                RADIUS = 60
+
+                layer = pdk.Layer(
+                    "ScatterplotLayer",
+                    data=[{"position": [lon, lat]}],
+                    get_position="position",
+                    get_radius=RADIUS,
+                    get_fill_color=[255, 0, 0],
+                    pickable=True,
+                )
+
+                view_state = pdk.ViewState(latitude=lat, longitude=lon, zoom=14)
+
+                st.pydeck_chart(
+                    pdk.Deck(
+                        layers=[layer],
+                        initial_view_state=view_state,
+                        map_style=MAP_STYLE,
+                    )
+                )
+
 
 st.set_page_config(page_title="AI Travel Planner", layout="centered")
 
@@ -19,9 +59,9 @@ if "language" not in st.session_state:
 with st.sidebar:
     lang_code = st.selectbox(
         "🌍 Language",
-        options=["EN", "IT"],
-        index=["EN", "IT"].index(st.session_state.language),
-        format_func=lambda l: "English" if l == "EN" else "Italiano",
+        options=SUPPORTED_LANGUAGES,
+        index=SUPPORTED_LANGUAGES.index(st.session_state.language),
+        format_func=lambda code: SUPPORTED_LANGUAGES_LONG.get(code, code),
     )
     st.session_state.language = lang_code
 
@@ -32,7 +72,8 @@ st.title(t["title"])
 
 # --- Initialize session state ---
 if "conversation" not in st.session_state:
-    st.session_state.conversation = []  # stores (speaker, message)
+    # stores (speaker, message)
+    st.session_state.conversation = []
 if "clarification_mode" not in st.session_state:
     st.session_state.clarification_mode = False
 if "last_input" not in st.session_state:
@@ -69,13 +110,19 @@ with col1:
                 }
             }
 
+            logger.info("Running agent with request ID: %s", REQUEST_ID)
+
             result = asyncio.run(run_agent(combined_input, config=my_config))
 
             if DEBUG:
-                print("Final result from agent:")
-                print(result)
+                logger.info("Final result from agent:")
+                logger.info(result)
 
-            st.session_state.conversation.append(("agent", result["final_plan"]))
+            # this is not streaming
+            AGENT_MSG = ""
+            if result:
+                AGENT_MSG = result.get("final_plan", "") + result.get("itinerary", "")
+            st.session_state.conversation.append(("agent", AGENT_MSG))
             st.session_state.hotel_options = result["hotel_options"]
             st.session_state.clarification_mode = result.get(
                 "clarification_needed", False
@@ -91,41 +138,14 @@ with col2:
 
 # --- Display only last two messages ---
 if len(st.session_state.conversation) >= 2:
-    last_user = st.session_state.conversation[-2]
-    last_agent = st.session_state.conversation[-1]
+    last_user_msg = st.session_state.conversation[-2]
+    last_agent_msg = st.session_state.conversation[-1]
 
-    if last_user[0] == "user":
-        st.markdown(f"**🧑 {t['user']}:** {last_user[1]}")
-    if last_agent[0] == "agent":
+    if last_user_msg[0] == "user":
+        st.markdown(f"**🧑 {t['user']}:** {last_user_msg[1]}")
+    if last_agent_msg[0] == "agent":
         st.markdown(f"**🤖 {t['planner']}:**")
-        st.markdown(last_agent[1])
+        st.markdown(last_agent_msg[1])
 
         # Visualize Hotel on map if available
-        if (
-            hasattr(st.session_state, "hotel_options")
-            and st.session_state.hotel_options
-        ):
-            # get Hotel location
-            hotel = st.session_state.hotel_options[0]
-            lat = hotel.get("latitude")
-            lon = hotel.get("longitude")
-
-            if lat and lon:
-                layer = pdk.Layer(
-                    "ScatterplotLayer",
-                    data=[{"position": [lon, lat]}],
-                    get_position="position",
-                    get_radius=100,
-                    get_fill_color=[255, 0, 0],
-                    pickable=True,
-                )
-
-                view_state = pdk.ViewState(latitude=lat, longitude=lon, zoom=14)
-
-                st.pydeck_chart(
-                    pdk.Deck(
-                        layers=[layer],
-                        initial_view_state=view_state,
-                        map_style=MAP_STYLE,
-                    )
-                )
+        visualize_hotel_on_map(st.session_state)

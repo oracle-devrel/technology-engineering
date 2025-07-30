@@ -11,11 +11,11 @@ Author: L. Saetta
 Date: 20/05/2025
 
 """
-
+import time
 from base_node import BaseNode
 from model_factory import get_chat_model
 from translations import TRANSLATIONS
-from config import DEBUG, MODEL_ID, SERVICE_ENDPOINT, REQUIRED_FIELDS, MAX_TOKENS
+from config import MODEL_ID, SERVICE_ENDPOINT, REQUIRED_FIELDS, MAX_TOKENS, SLEEP_TIME
 
 
 class ClarificationNode(BaseNode):
@@ -67,13 +67,17 @@ class ClarificationNode(BaseNode):
         t = TRANSLATIONS[language]
 
         if missing:
-            if DEBUG:
-                self.log_info(f"Missing fields: {missing}")
+            self.log_info(f"Missing fields: {missing}")
 
             state["clarification_needed"] = True
 
             # Prompt localized for the missing fields
-            question_prompt = t["clarification_prompt_template"].format(fields=", ".join(missing))
+            question_prompt = t["clarification_prompt_template"].format(
+                fields=", ".join(missing)
+            )
+
+            # to avoid to get throttled by the OCI API
+            time.sleep(SLEEP_TIME)
 
             # Generate user-friendly clarification message using LLM
             followup_prompt = self.llm.invoke(question_prompt).content

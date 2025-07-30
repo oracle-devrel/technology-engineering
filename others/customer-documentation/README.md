@@ -4,7 +4,7 @@
 
 The Solution Definition Document (SDD) is a high-level technical architecture document focusing on the Oracle Cloud Infrastructure (OCI) architecture for a solution. Low-level design details are created later in the delivery phase of the project by the delivery team typically the Oracle partner.
 
-The SDD is created by Oracle's pre-sales teams as an investment by Oracle for our customers and partners. The SDD should provide just enough architecture to ensure a successful handover of Oracle's best practices to the implementer. 
+The SDD is created by Oracle Technology (Cloud) Engineering teams as an investment by Oracle for our customers and partners. The SDD should provide just enough architecture to ensure a successful handover of Oracle's best practices to the implementer. 
 
 It has four main sections:
 
@@ -33,16 +33,16 @@ In addition, we provide a range of predefined templates for various different us
 - [Database Migration Solution Description](../../cloud-architecture/custom-apps-and-consolidation/db-migration/solution-description/)
 - [Oracle Database Consolidation to ExaDB-CC Workload Solution Definition](../../cloud-architecture/custom-apps-and-consolidation/oracle-db-consolidation/solution-definition-exadb-cc/)
 - [WebLogic For OKE](../../cloud-architecture/custom-apps-and-consolidation/weblogic/weblogic-for-oke/)
-- [E-Business Suite](../../cloud-architecture/oracle-apps-erp/e-business-suite/ebs-starterpack/)
-- [JD Edwards](../../cloud-architecture/oracle-apps-erp/jd-edwards/jde-starterpack/)
-- [PeopleSoft](../../cloud-architecture/oracle-apps-erp/peoplesoft/psft-starterpack/)
-- [Primavera](../../cloud-architecture/oracle-apps-hyperion-siebel-gbu/gbu/construction-engineering/primavera-solution-definition/)
-- [Flexcube](../../cloud-architecture/oracle-apps-hyperion-siebel-gbu/gbu/financial-services/flexcube-solution-definition/)
+- [E-Business Suite](../../cloud-architecture/apps-to-oci/e-business-suite/ebs-starterpack/)
+- [JD Edwards](../../cloud-architecture/apps-to-oci/jd-edwards/jde-starterpack/)
+- [PeopleSoft](../../cloud-architecture/apps-to-oci/peoplesoft/psft-starterpack/)
+- [Primavera](../../cloud-architecture/apps-to-oci/giu/construction-engineering/primavera-solution-definition/)
+- [Flexcube](../../cloud-architecture/apps-to-oci/giu/financial-services/flexcube-solution-definition/)
 - [Opera](../../cloud-architecture/oracle-apps-hyperion-siebel-gbu/gbu/hospitality/opera-solution-definition/)
-- [Retail Applications](../../cloud-architecture/oracle-apps-hyperion-siebel-gbu/gbu/retail/retail-solution-definition/)
-- [Essbase](../../cloud-architecture/oracle-apps-hyperion-siebel-gbu/hyperion-essbase/essbase-solution-definition/)
-- [Hyperion](../../cloud-architecture/oracle-apps-hyperion-siebel-gbu/hyperion-essbase/hyperion-solution-definition/)
-- [Siebel](../../cloud-architecture/oracle-apps-hyperion-siebel-gbu/siebel/siebel-solution-definition/)
+- [Retail Applications](../../cloud-architecture/apps-to-oci/giu/retail/retail-solution-definition/)
+- [Essbase](../../cloud-architecture/apps-to-oci/hyperion-essbase/essbase-solution-definition/)
+- [Hyperion](../../cloud-architecture/apps-to-oci/hyperion-essbase/hyperion-solution-definition/)
+- [Siebel](../../cloud-architecture/apps-to-oci/siebel/siebel-solution-definition/)
 - [Red Hat OpenShift](../../cloud-infrastructure/virtualization-solutions/openshift-on-oci/openshift-solution-definition-document/)
 - [Oracle Cloud Migrations / VMware](../../cloud-infrastructure/virtualization-solutions/oracle-cloud-migrations/ocm-solution-definition-document/)
 - [Oracle Cloud VMware Solution - Disaster Recovery](../../cloud-infrastructure/virtualization-solutions/oracle-cloud-vmware-solution/disaster-recovery-to-ocvs-solution-definition/)

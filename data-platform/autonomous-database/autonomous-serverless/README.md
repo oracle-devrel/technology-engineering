@@ -44,9 +44,12 @@ Reviewed: 23.10.2024
       
 - [Switching from Oracle-Managed to Customer-Managed Keys in Autonomous Database Serverless](https://medium.com/@mmy0utu8e/switching-from-oracle-managed-to-customer-managed-keys-in-autonomous-database-serverless-b1c24d107a8f)
     - How to switch from Oracle-Managed to Customer-Managed Keys in Autonomous Database Serverless.
-      
+
 - [Capture-Replay Workloads between non-Autonomous and Autonomous Databases](https://www.youtube.com/watch?v=cWZ9MPBZemc)
     - How to Capture and Replay Workloads between non-Autonomous and Autonomous Databases.
+      
+- [The Oracle Autonomous Database You Can Get for Free](https://medium.com/@mmy0utu8e/oracle-autonomous-database-for-free-f93174bdb7ed)
+    - Free Autonomous Database options description
 
 - [Capture-Replay Workloads between Autonomous Databases](https://www.youtube.com/watch?v=JXpQe7zUFs8)
     - How to Capture and Replay Workloads between Autonomous Databases.
@@ -59,7 +62,9 @@ Reviewed: 23.10.2024
 
  - [Protecting the Autonomous Database from runaway queries](https://medium.com/@adrian.capitanu/protecting-the-autonomous-database-from-runaway-queries-eba925112bbb)
     - Step-by-step blog article explaining how to protect the ADB from runaway queries and controlling resource usage
-  
+
+ - [The Oracle Data Marketplace](https://medium.com/@mmy0utu8e/the-oracle-data-marketplace-ddbf4ac92b87)
+    - How to share/consume data using Data Marketplace on the Autonomous Database
    
 ## Tip of the Day
  

@@ -38,8 +38,9 @@ def create_travel_planner_graph():
     builder.add_node("search_transport", SearchTransportNode())
     builder.add_node("search_hotel", SearchHotelNode())
     builder.add_node("synthesize_plan", SynthesizePlanNode())
-    builder.add_node("answer_info", AnswerInfoNode())
     builder.add_node("generate_itinerary", GenerateItineraryNode())
+    # for the branch of the workflow that answers general information
+    builder.add_node("answer_info", AnswerInfoNode())
 
     # Define the entry and exit points of the workflow: intent classification
     builder.add_edge(START, "router")

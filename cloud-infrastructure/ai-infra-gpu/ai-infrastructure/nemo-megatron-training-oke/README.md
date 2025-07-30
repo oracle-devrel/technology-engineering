@@ -8,7 +8,7 @@ on the Oracle Container Engine for Kubernetes (OKE) using
 Reference results from NVIDIA to train Llama 3 can be found on the
 [NGC Catalog](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/dgxc-benchmarking/resources/llama3-dgxc-benchmarking).
 
-Reviewed: 18.03.2025
+Reviewed: 01.07.2025
 
 # When to use this asset?
 
@@ -31,7 +31,14 @@ This guide is loosely based on the
    [to the instructions](https://github.com/oracle-quickstart/oci-hpc-oke/tree/main#instructions-for-deploying-an-oke-cluster-with-gpus-and-rdma-connectivity),
    importing one of the images and creating a GPU partition with BM.GPU.H100.8 nodes.
 
-   The configuration here assumes a minimum of 16 BM.GPU.H100.8 nodes.
+   The configuration here assumes a minimum of 1 BM.GPU.H100.8 node for
+   training with 8B parameters, and a minimum of 8 BM.GPU.H100.8 nodes for 70B
+   parameters.
+   
+   If another shape is used, the NCCL and MPI parameters in the Kubernetes
+   [configuration map](./files/training/templates/mpi.yaml) should be adapted
+   using the same parameter values as the
+   [performance testing scripts](https://github.com/oracle-quickstart/oci-hpc-oke/tree/main/manifests/nccl-tests).
 
    - Ensure that the follwing setting is selected under the "OKE Cluster" section:
 
