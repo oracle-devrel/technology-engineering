@@ -213,7 +213,7 @@ tiktoken==0.9.0
 tinysegmenter==0.3
 tldextract==5.2.0
 tokenizers==0.21.1
-torch==2.6.0
+torch==2.7.1
 torchaudio==2.6.0
 torchvision==0.21.0
 tqdm==4.67.1
@@ -230,7 +230,7 @@ tzdata==2025.2
 urllib3==2.3.0
 uvicorn==0.34.0
 uvloop==0.21.0
-vllm==0.8.5
+vllm==0.9.0
 watchfiles==1.0.5
 wcwidth @ file:///Users/ktietz/demo/mc3/conda-bld/wcwidth_1629357192024/work
 websocket-client==1.8.0
