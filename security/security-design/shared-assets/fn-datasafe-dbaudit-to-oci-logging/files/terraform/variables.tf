@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2022, 2023, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2025, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License
 # (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.
 ###############################################################################
@@ -158,6 +158,10 @@ variable "functiontimeoutsec" {
 
 variable "functionname" {
   default = "oci-datasafe-audit-to-logging"
+}
+
+variable "functionappshape" {
+  default = "GENERIC_ARM"
 }
 
 

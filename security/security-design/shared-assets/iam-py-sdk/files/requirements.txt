@@ -1,0 +1,6 @@
+requests
+six
+simplejson
+PyJWT
+lru-ttl
+cryptography

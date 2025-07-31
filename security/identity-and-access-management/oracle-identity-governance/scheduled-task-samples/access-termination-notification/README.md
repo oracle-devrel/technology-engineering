@@ -6,7 +6,7 @@ In case access extensions or a more complex handling of email contents are also 
 
 Developed on and compatible with OIG 11g R2 PS3 and above.
 
-Review Date: 13.11.2023
+Review Date: 28.10.2024
 
 # When to use this asset?
 
@@ -40,7 +40,7 @@ The following items need to be populated as part of the scheduled job parameters
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

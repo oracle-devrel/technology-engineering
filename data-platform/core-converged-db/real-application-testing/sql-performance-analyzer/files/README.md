@@ -3,7 +3,7 @@ This folder provides SQL scripts for the usage of SQL Performance Analyzer (SPA)
 
 Before you start with SQL Performance Analyzer, you need to provide a SQL Tuning Set. 
 For more information see also:   
-- [Github scripts for SQL Tuning Sets](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/core-converged-db/sql-performance/sql-tuning-sets/scripts-for-sts)
+- [Github scripts for SQL Tuning Sets](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/core-converged-db/db-performance/sql-performance/sql-tuning-sets)
 
 Please note all SQL Performance Analyzer tasks require the privilege ADVISOR.
 
@@ -43,7 +43,7 @@ Tune regressed statements with SQL Plan Baselines
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

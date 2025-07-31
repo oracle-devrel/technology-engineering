@@ -4,7 +4,7 @@ Cloud Premigration Advisor Tool (CPAT) helps you evaluate an existing Oracle dat
 
 A set of best practices and other useful assets/links can be found on this page.
 
-Reviewed: 31.01.2024
+Reviewed: 25.10.2024
 
 # Table of Contents
  
@@ -19,6 +19,12 @@ Reviewed: 31.01.2024
     - Youtube video showcasing CPAT demo using independent Java command line tool and also SQL command line (SQLcl).
 - [Cloud Premigration Advisor Tool - Part 3 - CPAT report review and Best Practices ](https://youtu.be/YYDPey-NYE8?feature=shared)
     - YouTube video explaining how to review the CPAT ouptut and also Best Practices.
+- [Cloud Premigration Advisor Tool - Composer ](https://macsdata.com/oracle/cpat-composer)
+    - Easily generate Oracle CPAT execution commands with a user-friendly graphical tool.
+- [Cloud Premigration Advisor Tool - Composer: Overview Video](https://youtu.be/rT28SmGl1WE?feature=shared&t=2118)
+    - YouTube video showing a walkthrough of the CPAT Composor including the main features and how to get started.
+- [How to generate CPAT Report for all databases in the Estate with single command ?  ](https://amalrajputhenchira.wordpress.com/2025/07/23/how-to-generate-cpat-report-for-all-databases-in-the-estate-with-single-command/)
+    - Blog explaining the steps to generate CPAT report for multiple databases in a database estate.
 
 # Useful Links
 - [Oracle Support Document 2758371.1 (Cloud Premigration Advisor Tool (CPAT) Analyzes Databases for Suitability of Cloud Migration)](https://support.oracle.com/epmos/faces/DocumentDisplay?id=2758371.1)
@@ -30,7 +36,7 @@ Reviewed: 31.01.2024
 
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

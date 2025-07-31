@@ -2,7 +2,7 @@
  
 The VPN overview Asset is a crucial networking overview that enables secure and private communication between different networks, such as on-premises networks and cloud environments like Oracle Cloud Infrastructure (OCI).
  
-Reviewed: 19.02.2024
+Reviewed: 30.10.2024
 
 # When to use this asset?
  
@@ -19,7 +19,7 @@ This document can be used as a first introduction and overview for FC users.
  
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

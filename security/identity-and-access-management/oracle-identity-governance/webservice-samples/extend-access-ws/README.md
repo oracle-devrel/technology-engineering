@@ -6,7 +6,7 @@ The scheduled task needs to be used in conjunction with the Access Extension Not
 
 Developed on and compatible with OIG 11g R2 PS3 and above.
 
-Review Date: 13.11.2023
+Review Date: 28.10.2024
 
 # When to use this asset?
 
@@ -67,7 +67,7 @@ Please see the useful link below for detailed build and deployment steps.
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

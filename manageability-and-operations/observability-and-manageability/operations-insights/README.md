@@ -1,8 +1,13 @@
-# Operations Insights
+# Ops Insights
 
-Operations Insights provides comprehensive information about the resource use and capacity of databases and hosts. Use this service to analyze CPU and storage resources, forecast capacity issues, and proactively identify SQL performance issues across a database fleet.
+Ops Insights provides comprehensive information about the resource use and capacity of databases and hosts. Use this service to analyze CPU and storage resources, forecast capacity issues, and proactively identify SQL performance issues across a database fleet.
 
-Reviewed: 15.11.2023
+Reviewed: 30.06.2025
+
+
+|Asset  |   Page| 
+|---|---|
+| Landing Zone Add-on  | [Link](./LZ-addons/README.md) |
 
 # Table of Contents
 
@@ -11,17 +16,18 @@ Reviewed: 15.11.2023
 
 # Team Publications
 
-- [Operations Insights Demo](https://www.youtube.com/watch?v=Y45kPRn_c7s)
+- [Ops Insights Demo](https://www.youtube.com/watch?v=Y45kPRn_c7s)
 - [Auto enable hosts for Operation Insights in OCI](https://karthicin.medium.com/auto-enable-hosts-for-operation-insights-in-oci-60c9c80486b1)
 
 # Useful Links
 
-- [Operations Insights](https://docs.oracle.com/en-us/iaas/operations-insights/index.html)
-- [Tag Exadata and Its Members in Operations Insights with OCI API](https://medium.com/@michtoeth/tag-exadata-and-its-members-in-operations-insights-with-oci-api-48f4d5c01fae)
+- [Ops Insights](https://docs.oracle.com/en-us/iaas/operations-insights/index.html)
+- [Tag Exadata and Its Members in Ops Insights with OCI API](https://medium.com/@michtoeth/tag-exadata-and-its-members-in-operations-insights-with-oci-api-48f4d5c01fae)
+- [Automation to enable OCI OpsInsight for Host](https://karthicin.medium.com/automation-to-enable-oci-opsinsight-for-host-00b333d704ff)
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

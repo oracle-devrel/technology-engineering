@@ -6,17 +6,11 @@ In this folder, we will have content related to non-oracle databases to be hoste
 - Postgres SQL DB on OCI 
 - Mongo DB on OCI 
 
-# Team Publications
-
-Currently, we have the following content:
-
-## MS SQL always on  
-
-Content material to be used for MS SQL Always ON solution on OCI.
+Reviewed: 05.04.2024
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
