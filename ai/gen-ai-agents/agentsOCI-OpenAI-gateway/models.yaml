@@ -1,0 +1,88 @@
+- region: eu-frankfurt-1
+  compartment_id: ocid1.compartment.oc1..aaaaaaaa5p6nw4jewksbm3hgqfvg64urkpw3yhcdipd53zkk6o6bzideij2q
+  models:
+    ondemand:
+      - name: cohere.command-r-plus-08-2024
+        model_id: cohere.command-r-plus-08-2024
+        description: "delivers roughly 50% higher throughput and 25% lower latencies as compared to the previous Command R+ version, while keeping the hardware footprint the same."
+        "tool_call": True,  
+        "stream_tool_call": True,  
+
+      - name: cohere.command-r-08-2024
+        model_id: cohere.command-r-08-2024
+        description: "delivers roughly 50% higher throughput and 25% lower latencies as compared to the previous Command R+ version, while keeping the hardware footprint the same."
+        "tool_call": True,  
+        "stream_tool_call": True,  
+#      - name: cohere.command-r-16k
+#        model_id: cohere.command-r-16k
+#        description: "Optimized for conversational interaction and long context tasks. Ideal for text generation, summarization, translation, or text-based classification."
+
+      - name: meta.llama-3.3-70b-instruct
+        model_id: meta.llama-3.3-70b-instruct
+        description: "Model has 70 billion parameters.Accepts text-only inputs and produces text-only outputs.Delivers better performance than both Llama 3.1 70B and Llama 3.2 90B for text tasks.Maximum prompt + response length 128,000 tokens for each run.For on-demand inferencing, the response length is capped at 4,000 tokens for each run."
+        "tool_call": True,  
+        "stream_tool_call": True,  
+#      - name: meta.llama-3.2-11b-vision-instruct
+#        model_id: meta.llama-3.2-11b-vision-instruct
+#        description: "Model has 11 billion parameters.Dedicated mode only. (On-demand inferencing not available.) For dedicated inferencing, create a dedicated AI cluster and endpoint and host the model on the cluster.Context length 128,000 tokens.Maximum prompt + response length 128,000 tokens for each run.Multimodal support Input text and images and get a text output.English is the only supported language for the image plus text option.Multilingual option supported for the text only option."
+
+#      - name: meta.llama-3.2-90b-vision-instruct
+#        model_id: meta.llama-3.2-90b-vision-instruct
+#        description: "Model has 90 billion parameters.Context length: 128,000 tokens.Maximum prompt + response length: 128,000 tokens for each run.For on-demand inferencing, the response length is capped at 4,000 tokens for each run.Multimodal support: Input text and images and get a text output.English is the only supported language for the image plus text option.Multilingual option supported for the text only option."
+
+      - name: meta.llama-3-70b-instruct
+        model_id: meta.llama-3-70b-instruct
+        description: "This 70 billion-parameter generation model is perfect for content creation, conversational AI, and enterprise applications."
+        "tool_call": True,  
+        "stream_tool_call": True,  
+
+      #- name: meta.llama-3.1-405b-instruct
+      #  model_id: meta.llama-3.1-405b-instruct
+      #  description: "This 405 billion-parameter model is a high-performance option that offers speed and scalability."
+      #  "tool_call": True,  
+      #  "stream_tool_call": True, 
+
+- region: us-chicago-1
+  compartment_id: ocid1.compartment.oc1..aaaaaaaaqnutwr4jwrturmiolisk6agaal7eqcmp2sjhs3klohfxh4253ioq
+  models:
+    ondemand:
+      - name: meta.llama-3.2-90b-vision-instruct
+        model_id: meta.llama-3.2-90b-vision-instruct
+        description: "Model has 11 billion parameters.Dedicated mode only. (On-demand inferencing not available.) For dedicated inferencing, create a dedicated AI cluster and endpoint and host the model on the cluster.Context length 128,000 tokens.Maximum prompt + response length 128,000 tokens for each run.Multimodal support Input text and images and get a text output.English is the only supported language for the image plus text option.Multilingual option supported for the text only option."
+        "tool_call": True,  
+        "stream_tool_call": True, 
+        stream_multimodal: True,
+        multimodal: True,
+
+#    dedicated:
+#      - name: my-dedicated-model-name
+#        endpoint: https://ocid1.generativeaiendpoint....  # endpoint url for dedicated model
+#        description: "my dedicated model description"
+
+#    datascience:
+#      - name: my-datascience-model-name
+#        endpoint: https://modeldeployment.xxxxxx/predict  # Model deployment endpoint url
+#        description: "my dedicated model description"
+
+#- region: us-ashburn-1
+#  compartment_id: ocid1.compartment.oc1..xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+#  models:
+#    datascience:
+#      - name: ODSC-Mistral-7B-Instruct
+#        endpoint: https://modeldeployment.us-ashburn-1.oci.customer-oci.com/ocid1.datasciencemodeldeployment.oc1.iad.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/predict
+#        description: "Data science Model deployment for Mistral 7B Instruct model"
+#      - name: ODSC-DeepSeek-R1-Distill-Qwen-7B
+#        endpoint: https://modeldeployment.us-ashburn-1.oci.customer-oci.com/ocid1.datasciencemodeldeployment.oc1.iad.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/predict
+#        description: "Data science Model deployment for DeepSeek-R1-Distill-Qwen-7B model"
+
+# Modify this file to specify the call information of the model.
+# You can define 3 types of models:
+# ondemand: pre-trained model on OCI generative AI
+# dedicated: dedicated model on OCI generative AI, including dedicated infrastructure, fine-tuned model, etc.
+# datascience: model deployed by OCI data science service
+
+# Where:
+# region: the region where the model is located
+# compartment_id: the compartment where the model is located
+# name: any specified model name, use this name to point to different models when calling
+# model_id: for ondemand, it is the model id, for dedicated and datascience, it is the call endpoint
