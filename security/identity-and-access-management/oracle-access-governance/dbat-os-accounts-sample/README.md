@@ -6,7 +6,7 @@ At the time of writing, this capability is not offered natively in OAG.
 
 The described integration and data can be used for all supported user/account lifecycle operations in OAG, including use in access certification. Note that this simulates a connected system, therefore changes to OS level user access will be reflected in the targeted database tables.
 
-Review Date: 10.02.2025
+Review Date: 01.08.2025
 
 # When to use this asset?
 
@@ -29,11 +29,20 @@ Please ensure the requirements listed above have been satisfied.
 
 1. Connect to the database as dba (with sysdba role) and create a schema user for the purposes of the integration, by running:
 
-```
-CREATE USER OAG IDENTIFIED BY <your_secure_password>
-DEFAULT TABLESPACE oagts
-TEMPORARY TABLESPACE temp QUOTA UNLIMITED ON oagts;
+**Note:** Please adjust the provided sample sizes and naming as needed.
 
+```
+CREATE TABLESPACE oagts
+  DATAFILE 'oagts.dat'
+    SIZE 100M
+    REUSE
+    AUTOEXTEND ON NEXT 100M MAXSIZE 500M;
+
+CREATE USER OAG IDENTIFIED BY <your_secure_password>
+  DEFAULT TABLESPACE oagts
+  TEMPORARY TABLESPACE temp QUOTA UNLIMITED ON oagts;
+
+GRANT CREATE SESSION TO OAG;
 GRANT SELECT on dba_role_privs TO OAG;
 GRANT SELECT on dba_sys_privs TO OAG;
 GRANT SELECT on dba_ts_quotas TO OAG;
