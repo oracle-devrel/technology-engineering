@@ -1,5 +1,5 @@
 - region: eu-frankfurt-1
-  compartment_id: ocid1.compartment.oc1..aaaaaaaa5p6nw4jewksbm3hgqfvg64urkpw3yhcdipd53zkk6o6bzideij2q
+  compartment_id: ocid1.compartment.oc1..
   models:
     ondemand:
       - name: cohere.command-r-plus-08-2024
@@ -43,7 +43,7 @@
       #  "stream_tool_call": True, 
 
 - region: us-chicago-1
-  compartment_id: ocid1.compartment.oc1..aaaaaaaaqnutwr4jwrturmiolisk6agaal7eqcmp2sjhs3klohfxh4253ioq
+  compartment_id: ocid1.compartment.oc1..
   models:
     ondemand:
       - name: meta.llama-3.2-90b-vision-instruct
