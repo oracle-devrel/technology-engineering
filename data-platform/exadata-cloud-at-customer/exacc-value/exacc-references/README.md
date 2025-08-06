@@ -1,6 +1,6 @@
 # Exadata Cloud@Customer Public references
 
-Reviewed: 24.06.2024
+Reviewed: 06.08.2024
 
 - [Advania, Infromation Technology, Sweden](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/exadata-cloud-at-customer/exacc-value/exacc-references/assets/Adviana-Island-ExaDBCC.pdf)
 
