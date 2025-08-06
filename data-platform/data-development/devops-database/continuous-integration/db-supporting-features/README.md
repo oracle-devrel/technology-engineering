@@ -12,19 +12,19 @@ The primary PL/SQL packages are:
 [DBMS_METADATA](https://docs.oracle.com/en/database/oracle/oracle-database/19/arpls/DBMS_METADATA.html#GUID-F72B5833-C14E-4713-A588-6BDF4D4CBA2A) 
 - The DBMS_METADATA package provides a way for you to retrieve metadata from the database dictionary as XML or creation DDL and to submit the XML to re-create the object. Use this to generate the data definition of schema objects.
 
-## [APEX_EXPORT](https://docs.oracle.com/en/database/oracle/apex/23.2/aeapi/APEX_EXPORT.html#GUID-6A4628A6-9F86-4394-9938-87A7FFFC7BC8) 
+## [APEX_EXPORT](https://docs.oracle.com/en/database/oracle/apex/24.1/aeapi/APEX_EXPORT.html) 
 - The APEX_EXPORT package provides APIs to export the definitions of applications, files, feedback, and workspaces to text files.
 
 ## [DBMS_CLOUD_REPO](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/dbms-cloud-repo-package.html#GUID-F8F0037B-6451-4742-9144-9FCE44459F64) 
 - The DBMS_CLOUD_REPO package provides for the use of and management of cloud-hosted code repositories from Oracle Database. Supported cloud code repositories include GitHub, AWS CodeCommit, and Azure Repos. This package is only available in OCI Autonomous Database deployments and along with integration with repositories, it provides a wrapper to DBMS_METADATA for Code Commit & Install from the repository.
 
 ## ORDS 
-- [ORDS REST APIs for APEX](https://docs.oracle.com/en/database/oracle/oracle-rest-data-services/23.4/orrst/api-oracle-apex.html) A set of ORDS REST APIs to retrieve APEX Workspace & Application statistics, details with support to export workspaces, applications and application components.
+- [ORDS REST APIs for APEX](https://docs.oracle.com/en/database/oracle/oracle-rest-data-services/24.3/orrst/api-oracle-apex.html) A set of ORDS REST APIs to retrieve APEX Workspace & Application statistics, details with support to export workspaces, applications and application components.
 - ORDS_MODULE provides PL/SQL APIs to manage ORDS objects, OAuth clients, privileges, roles and modules. Currently, ORDS_MODULE is only documented in the code of the various packages, functions and views.
 
 The simplest deployment and set of APIS for Continuous Integration are available for APEX on Autonomous Database services, with Cloud Repository integration & Schema export via DBMS_CLOUD_REPO, and APEX applications via APEX_EXPORT. These two packages provide extensive capabilities to commit code changes into the repository with little work required to manage connectivity, generation upload and commit operations.
 
-Reviewed: 10.06.2024
+Reviewed: 20.11.2024
 
 # Table of Contents
 1. [Team Publications](#team-publications)
@@ -40,7 +40,7 @@ Reviewed: 10.06.2024
 ## Documentation
 - [DBMS_METADATA](https://docs.oracle.com/en/database/oracle/oracle-database/19/arpls/DBMS_METADATA.html#GUID-F72B5833-C14E-4713-A588-6BDF4D4CBA2A "Oracle Database 19c PL/SQL Packages and Types Reference") 
 - [DBMS_METADATA](https://docs.oracle.com/en/database/oracle/oracle-database/19/sutil/using-oracle-dbms_metadata-api.html#GUID-D9B1300F-B21D-416E-8B9B-C542195EF249 "Oracle Database 19c Using the Metadata APIs")
-- [APEX_EXPORT](https://docs.oracle.com/en/database/oracle/apex/23.2/aeapi/APEX_EXPORT.html#GUID-6A4628A6-9F86-4394-9938-87A7FFFC7BC8 "APEX 23.2 API Reference")
+- [APEX_EXPORT](https://docs.oracle.com/en/database/oracle/apex/24.1/aeapi/APEX_EXPORT.html "APEX 24.1 API Reference")
 - [DBMS_CLOUD_REPO](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/dbms-cloud-repo-package.html#GUID-F8F0037B-6451-4742-9144-9FCE44459F64 "Autonomous Database Supplied Package Reference") 
 
 ## Blogs
@@ -54,6 +54,6 @@ Reviewed: 10.06.2024
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

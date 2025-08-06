@@ -11,7 +11,7 @@
 
 ## **1. Introduction**
 
-Welcome to the [Landing Zone Framework (LZF)](/landing-zones/README.md) Solution Definition.
+Welcome to the [EMEA OCI Landing Zones](/landing-zones/README.md) Solution Definition.
 
 This asset provides guidance on the **landing zone design considerations**, and helps select the best **approach** and **solution** to setup and run your OCI Landing Zone.
 
@@ -21,7 +21,7 @@ An OCI Landing Zone sets the foundations for a **secure tenancy**, providing des
 
 ## **2. Design Considerations**
 
-Before choosing the approach and solution, it's important to understand a set of security, network, and operational considerations to successfully run OCI - or any cloud provider. It is recommended to iterate over these elements as they will guide the design process, simplify the understanding of OCI core resources, and clarify the day-two operations. For tangibles examples, find [**here**](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/design/OCI_Open_LZ.pdf) an OCI landing zone design document matching these topics.
+Before choosing the approach and solution, it's important to understand a set of security, network, and operational considerations to successfully run OCI - or any cloud provider. It is recommended to iterate over these elements as they will guide the design process, simplify the understanding of OCI core resources, and clarify the day-two operations. For tangibles examples, find [**here**](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities/tree/master/blueprints) an OCIs landing zone blueprints matching these topics.
 
 &nbsp; 
 
@@ -81,9 +81,10 @@ Find in the table below a summary of the two approaches for OCI Landing Zones.
 &nbsp; 
 
 The general recommendation when **starting with OCI landing zones** is:
-1. Start with [**Standard Landing Zones**](/landing-zones/standard_landing_zones/readme.md) as they're full of best practices. There are [**three models/shapes**](/landing-zones/standard_landing_zones/readme.md#2-what-are-the-models-available) available for different scopes, we'll help you find the best fit [**here**](/landing-zones/standard_landing_zones/readme.md#3-decide-on-the-model-to-use).
-2. If your design is very **customized**, requiring **structural changes** to a standard landing zone (IAM or Network), and/or you need a **highly scalable operating model**, use the [**Tailored Landing Zones**](/landing-zones/tailored_landing_zones/readme.md) approach to create your solution.
-3. Complementary, if you have a **specific target workload** that is available as [**Workload Extensions**](/landing-zones/workload_extensions/readme.md), use it directly on top of your landing zone. If it's not available, be free to reach out to us or use the tailored approach to set up your extensions.
+1. Start with [**Standard Landing Zones**](/landing-zones/standard_landing_zones/readme.md) as they're full of best practices. There are [**several blueprints/shapes**](/landing-zones/standard_landing_zones/readme.md#2-what-are-the-models-available) available for different scopes, we'll help you find the best fit [**here**](/landing-zones/standard_landing_zones/readme.md#3-decide-on-the-blueprint-to-use).
+2. Review our existing [**Addons**](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities/tree/master/addons) catalog so you can enrich your model as needed.
+3. If your design is very **customized**, requiring **structural changes** to a standard landing zone (IAM or Network), and/or you need a **highly scalable operating model**, use the [**Tailored Landing Zones**](/landing-zones/tailored_landing_zones/readme.md) approach to create your solution. The [**OCI Open LZ**](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities) is your reference model to follow and adjust.
+4. Complementary, if you have a **specific target workload** that is available as [**Workload Extensions**](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities/tree/master/workload-extensions), use it directly on top of your landing zone. If it's not available, be free to reach out to us or use the tailored approach to set up your extensions.
 
 &nbsp; 
 
@@ -93,7 +94,7 @@ The general recommendation when **starting with OCI landing zones** is:
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

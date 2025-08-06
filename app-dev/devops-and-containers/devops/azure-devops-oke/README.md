@@ -1,5 +1,5 @@
 <!--
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 The Universal Permissive License (UPL), Version 1.0
 
@@ -149,7 +149,7 @@ Calling the LB endpoint with cURL or from the browser should show an echo:
 
 <p>
 <PRE>
-curl 144.200.51.195
+curl xxx.200.51.195
 {
   "path": "/",
   "headers": {
@@ -183,7 +183,7 @@ curl 144.200.51.195
 
 ### License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

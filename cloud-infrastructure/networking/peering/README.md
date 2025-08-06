@@ -18,7 +18,7 @@ Reviewed: 30.10.2024
 - [LPG Part 2](https://blogs.oracle.com/cloud-infrastructure/post/easily-connect-isolated-networks-using-oracle-cloud-infrastructures-vcn-peering-solution-part-2)
 - [LPG inter tenancy](https://www.ateam-oracle.com/post/inter-tenancy-vcn-peering-using-remote-peering-connection)
 - [RPC 2 Regions](https://learnoci.cloud/how-to-connect-2-vcns-in-different-regions-using-remote-peering-connection-decac8b9e4de)
-
+- [RPC IAM Policy Tool](https://iwanhoogendoorn.nl/rpc-iam-policy-creator/)
 ## Videos & Podcasts
 
 - [LPG video tutorial](https://www.youtube.com/watch?v=kO1UlrwffgM)
@@ -26,7 +26,7 @@ Reviewed: 30.10.2024
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

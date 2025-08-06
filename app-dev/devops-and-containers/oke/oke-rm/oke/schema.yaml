@@ -1,0 +1,376 @@
+title: OKE RM - OKE Cluster
+description: Stack to provision the OKE Cluster
+informationalText: OKE Cluster stack
+schemaVersion: 1.1.0
+version: "20190304"
+locale: "en"
+
+
+variableGroups:
+
+  - title: "Hidden"
+    visible: false
+    variables:
+      - tenancy_ocid
+      - region
+
+  - title: "Network"
+    variables:
+      - network_compartment_id
+      - cni_type
+      - vcn_id
+      - lb_subnet_id
+      - cp_subnet_id
+      - worker_subnet_id
+      - pod_subnet_id
+      - cp_nsg_id
+      - worker_nsg_id
+      - pod_nsg_id
+      - cp_allowed_cidr_list
+
+  - title: "Cluster"
+    variables:
+      - oke_compartment_id
+      - cluster_name
+      - home_region
+      - kubernetes_version
+      - cluster_type
+      - services_cidr
+      - pods_cidr
+
+  - title: "Add-ons"
+    visible:
+      eq:
+        - ${cluster_type}
+        - enhanced
+    variables:
+      - enable_cert_manager
+      - enable_metrics_server
+      - enable_cluster_autoscaler
+      - create_autoscaler_policies
+
+  - title: "Security"
+    variables:
+      - oke_kms_key_notice
+      - oke_vault_compartment_id
+      - oke_vault_id
+      - cluster_kms_key_id
+
+  - title: "OIDC"
+    visible:
+      eq:
+        - ${cluster_type}
+        - enhanced
+    variables:
+      - enable_oidc_discovery
+      - enable_oidc_authentication
+      - oidc_issuer
+      - oidc_client_id
+      - oidc_username_claim
+      - oidc_username_prefix
+      - oidc_groups_claim
+      - oidc_groups_prefix
+
+variables:
+
+  region:
+    title: "Region"
+    type: oci:identity:region:name
+    required: true
+
+# NETWORK
+
+  network_compartment_id:
+    title: "Network Compartment"
+    description: "Compartments where the network resources for OKE are present"
+    type: oci:identity:compartment:id
+    default: ${compartment_ocid}
+    required: true
+
+  cni_type:
+    title: "CNI Type"
+    description: "CNI to use for the OKE cluster"
+    type: enum
+    enum:
+      - vcn_native
+      - flannel
+    required: true
+
+  vcn_id:
+    title: "VCN id"
+    description: "Existing VCN where to create the OKE cluster"
+    type: oci:core:vcn:id
+    dependsOn:
+      compartmentId: ${network_compartment_id}
+    required: true
+
+  lb_subnet_id:
+    title: "Load Balancer Subnet"
+    description: "Existing Subnet where all Load Balancer services will be created by default"
+    type: oci:core:subnet:id
+    dependsOn:
+      compartmentId: ${network_compartment_id}
+      vcnId: ${vcn_id}
+      hideAdSubnet: true
+    required: true
+
+  cp_subnet_id:
+    title: "Control Plane Subnet"
+    description: "Existing Subnet that will host the Control Plane"
+    type: oci:core:subnet:id
+    dependsOn:
+      compartmentId: ${network_compartment_id}
+      vcnId: ${vcn_id}
+      hideAdSubnet: true
+    required: true
+
+  worker_subnet_id:
+    title: "Worker Subnet"
+    description: "Existing Subnet that will host the OKE Worker Nodes"
+    type: oci:core:subnet:id
+    dependsOn:
+      compartmentId: ${network_compartment_id}
+      vcnId: ${vcn_id}
+      hidePublicSubnet: true
+      hideAdSubnet: true
+    required: true
+
+  pod_subnet_id:
+    title: "Pod Subnet"
+    description: "Existing Subnet that will host the OKE Pods"
+    type: oci:core:subnet:id
+    dependsOn:
+      compartmentId: ${network_compartment_id}
+      vcnId: ${vcn_id}
+      hidePublicSubnet: true
+      hideAdSubnet: true
+    required: true
+    visible:
+      eq:
+        - ${cni_type}
+        - vcn_native
+
+  cp_nsg_id:
+    title: "Control Plane NSG"
+    description: "Existing NSG to attach to the Control Plane OKE API Server"
+    type: oci:core:nsg:id
+    dependsOn:
+      compartmentId: ${network_compartment_id}
+      vcnId: ${vcn_id}
+    required: true
+
+  worker_nsg_id:
+    title: "Worker NSG"
+    description: "Existing NSG to attach to the OKE worker nodes"
+    type: oci:core:nsg:id
+    dependsOn:
+      compartmentId: ${network_compartment_id}
+      vcnId: ${vcn_id}
+    required: true
+
+  pod_nsg_id:
+    title: "Pod NSG"
+    description: "Existing NSG to attach to pods"
+    type: oci:core:nsg:id
+    dependsOn:
+      compartmentId: ${network_compartment_id}
+      vcnId: ${vcn_id}
+    required: true
+    visible:
+      eq:
+        - ${cni_type}
+        - vcn_native
+
+  cp_allowed_cidr_list:
+    title: "Control Plane allowed CIDR blocks"
+    description: "Allowed CIDR blocks that can reach the OKE Control Plane"
+    type: array
+    items:
+      type: string
+    required: true
+
+# CLUSTER
+
+  oke_compartment_id:
+    title: "OKE Cluster Compartment"
+    description: "Compartment where to create the OKE Cluster"
+    type: oci:identity:compartment:id
+    default: ${compartment_ocid}
+    required: true
+
+  cluster_name:
+    title: "OKE Cluster name"
+    description: "Name of the OKE cluster"
+    type: string
+    required: true
+
+  home_region:
+    title: "Home Region"
+    type: oci:identity:region:name
+    default: ${region}
+    required: true
+
+  kubernetes_version:
+    type: oci:kubernetes:versions:id
+    title: "Kubernetes version"
+    description: "The Oracle cloud kubernetes version for the cluster"
+    required: true
+    dependsOn:
+      compartmentId: ${oke_compartment_id}
+      clusterOptionId: "all"
+
+  cluster_type:
+    title: "OKE cluster type"
+    description: "Enhanced clusters are recommended"
+    type: enum
+    enum:
+      - enhanced
+      - basic
+    required: true
+
+  services_cidr:
+    title: "Services CIDR"
+    description: "Internal Kubernetes services CIDR block. Must not overlap with any VCN CIDR block"
+    type: string
+    required: true
+
+  pods_cidr:
+    title: "Pods CIDR"
+    description: "Internal Pod CIDR block. Must not overlap with any VCN CIDR block"
+    type: string
+    required: true
+    visible:
+      eq:
+        - ${cni_type}
+        - flannel
+
+# ADD-ONS
+
+  enable_cert_manager:
+    title: "Enable cert-manager"
+    description: "Enable the cert-manager add-on in the cluster"
+    type: boolean
+
+  enable_metrics_server:
+    title: "Enable metrics-server"
+    description: "Enable the metrics-server add-on in the cluster"
+    type: boolean
+    visible: ${enable_cert_manager}
+
+  enable_cluster_autoscaler:
+    title: "Enable cluster autoscaler"
+    description: "Enable the cluster autoscaler add-on in the cluster"
+    type: boolean
+
+  create_autoscaler_policies:
+    title: "Create cluster autoscaler policies"
+    description: "Policies will be created for the cluster autoscaler using Workload Identity authentication mode"
+    type: boolean
+    visible: ${enable_cluster_autoscaler}
+
+# SECURITY
+
+  oke_kms_key_notice:
+    title: "NOTICE"
+    type: text
+    multiline: true
+    default: "If you are planning to use a custom key to encrypt the etcd in the OKE control plane, you will need to be sure to have this policy in place:\n\nAllow any-user to use keys in compartment <compartment-name-of-kms-key> where ALL {request.principal.type = 'cluster', target.key.id = '<key-ocid>'}"
+    required: false
+
+  oke_vault_compartment_id:
+    title: "Vault Compartment"
+    description: "Compartments where the key to encrypt the OKE cluster resides"
+    type: oci:identity:compartment:id
+    default: ${compartment_ocid}
+
+  oke_vault_id:
+    type: oci:kms:vault:id
+    title: "Vault"
+    description: "Vault where the key to encrypt the OKE cluster is located"
+    dependsOn:
+      compartmentId: ${oke_vault_compartment_id}
+
+  cluster_kms_key_id:
+    type: oci:kms:key:id
+    title: "OKE encryption key"
+    description: "Key used to encrypt secrets located in etcd"
+    dependsOn:
+      compartmentId: ${oke_vault_compartment_id}
+      vaultId: ${oke_vault_id}
+
+# OIDC
+
+  enable_oidc_discovery:
+    title: "Enable OIDC Discovery"
+    description: "Enable OKE to act as an Identity Provider to exchange pod SeviceAccounts for access tokens"
+    type: boolean
+
+  enable_oidc_authentication:
+    title: "Enable OIDC Authentication"
+    description: "Enable OIDC authentication performed by an external OIDC Identity Provider"
+    type: boolean
+
+  oidc_issuer:
+    title: "OIDC Issuer URL"
+    description: "URL of the external Identity Provider token issuer. Control Plane MUST be able to reach it"
+    type: string
+    required: true
+    visible: ${enable_oidc_authentication}
+
+  oidc_client_id:
+    title: "OIDC Client Id"
+    description: "OIDC Client Id on the external Identity Provider"
+    type: string
+    required: true
+    visible: ${enable_oidc_authentication}
+
+  oidc_username_claim:
+    title: "OIDC username claim"
+    description: "Claim representing the username"
+    type: string
+    required: true
+    visible: ${enable_oidc_authentication}
+
+  oidc_username_prefix:
+    title: "OIDC username prefix"
+    description: "Prefix prepended to the username"
+    type: string
+    required: true
+    visible: ${enable_oidc_authentication}
+
+  oidc_groups_claim:
+    title: "OIDC groups claim"
+    description: "Claim representing the groups"
+    type: string
+    required: true
+    visible: ${enable_oidc_authentication}
+
+  oidc_groups_prefix:
+    title: "OIDC groups prefix"
+    description: "Prefix prepended to the groups"
+    type: string
+    required: true
+    visible: ${enable_oidc_authentication}
+
+
+# OUTPUT SECTION
+
+outputGroups:
+  - title: OKE
+    outputs:
+      - cluster_id
+      - worker_pools
+      - oidc_discovery_endpoint
+
+outputs:
+  cluster_id:
+    type: ocid
+    title: OKE Cluster OCID
+
+  worker_pools:
+    type: map
+    title: Worker Pools
+
+  oidc_discovery_endpoint:
+    type: link
+    title: OIDC Discovery Endpoint

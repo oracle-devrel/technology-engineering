@@ -3,7 +3,7 @@
 This asset covers the discovery questionnaire of Oracle Analytics cloud(OAC)
  
  
-Reviewed: 19.01.2024
+Reviewed: 15.11.2024
  
 # When to use this asset?
  
@@ -20,7 +20,7 @@ Under Files Folder you will be able to find the Analytics Discovery Questionnair
  
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

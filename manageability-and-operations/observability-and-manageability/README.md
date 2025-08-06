@@ -1,13 +1,47 @@
 # Oracle Observability and Manageability
 
-The Observability and Manageability (O&M) platform is a set of Oracle Cloud Infrastructure (OCI) services that enable visibility and insight across cloud-native and traditional technology, whether deployed in multicloud or on-premises environments, with broad, standards-based ecosystem support. It’s designed to help enterprises better manage their increasingly diverse and distributed IT portfolios while reducing troubleshooting time, preventing outages, and enabling IT to manage applications from a business perspective.
+The Observability and Manageability (O&M) platform is a suite of OCI services that provide visibility and insights across cloud-native and traditional technologies, whether in multicloud or on-premises environments. It offers broad, standards-based ecosystem support, helping enterprises manage diverse IT portfolios, reduce troubleshooting time, prevent outages, and align IT operations with business objectives.
 
-Reviewed: 08/07/2024
+&nbsp; 
 
-# Table of Contents
+Reviewed: Reviewed: 30.06.2025
 
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-links)
+&nbsp; 
+
+
+
+|Observability Service  |  Assets Page| Latest | 
+|---|---|---|
+| Logging Analytics  | [Link](./logging-analytics/README.md) | Coming Soon
+| Logging  | [Link](./logging/README.md) | Coming Soon |  
+| Database Management | [Link](./database-management/README.md)| Coming Soon |  
+| Ops Insights  | [Link](./operations-insights/README.md) | Coming Soon|  
+| Application Performance Monitoring | [Link](./application-performance-monitoring/README.md) | Coming Soon|  
+| Stack Monitoring | WIP | Coming Soon| 
+| Organization Management | WIP | Coming Soon| 
+| Cost Management | WIP | Coming Soon| 
+| OCI Monitoring | WIP | Coming Soon| 
+
+&nbsp; 
+
+|Observability Targets  |  Assets Page| Latest | 
+|---|---|---|
+| Autonomous Database  | WIP | Coming Soon
+| Database Cloud Service  | WIP | Coming Soon  |  
+| Exadata cloud@customer | WIP| Coming Soon |  
+| Exadata Cloud Service  | WIP | Coming Soon|  
+| DB@  | WIP | Coming Soon|  
+| External Oracle DB| [Link](./shared-assets/external-database-enablement/README.md) | Coming Soon| 
+| EBS | WIP | Coming Soon| 
+| Webogic | WIP | Coming Soon| 
+| Apex | WIP | Coming Soon| 
+| .... |  | | 
+| .... |  | | 
+| .... |  | | 
+
+&nbsp; 
+
+
 
 # Team Publications
 
@@ -41,6 +75,7 @@ Reviewed: 08/07/2024
 - [OCI Management Dashboard Automation](https://karthicin.medium.com/oci-management-dashboard-automation-ea4f45cac24b)
 - [Create Dynamic Links for OCI Stack Monitoring Alarms and More](https://medium.com/@michtoeth/create-dynamic-links-for-oci-stack-monitoring-alarms-and-more-ca8e0e6fb7a5)
 - [Integrating OCI Logs into IBM QRadar SIEM](https://medium.com/@guna.sekar.sun/integrating-oci-logs-in-ibm-qradar-siem-9dcea5ed036a)
+- [How to build an Advanced Observability solution in OCI for Security purposes](https://learnoci.cloud/start-building-an-advanced-observability-solution-in-oci-for-security-purposes-using-native-and-e2ed5d806eff)
 
 ## Cloud Coaching Clinics (Videos)
 
@@ -52,6 +87,7 @@ Reviewed: 08/07/2024
 - [Overview of AI infra monitoring in OCI](https://youtu.be/oq2x1gouSp4?si=QnmslQXC03qPzDl4)
 - [OCI Observability for Kubernetes Monitoring](https://youtu.be/DLce-UReoKo?si=Vpw19z4rjlUb9fW2)
 - [Cloud Coaching - How to enable Oracle Observability on RAG solutions](https://www.youtube.com/watch?v=VQg3lADHwu8)
+- [Building a Cyber Range in Oracle Cloud](https://www.youtube.com/watch?v=hFGeT5pQOrw)
 
 # Useful Links
 
@@ -61,10 +97,11 @@ Reviewed: 08/07/2024
 - [Documentation](https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/monitoring-and-observability.htm)
 - [OCI Monitoring](https://docs.oracle.com/en-us/iaas/Content/Monitoring/home.htm)
 - [O&M How to video series](https://www.youtube.com/playlist?list=PLiuPvpy8QsiWO40IrhRlbY-TOLepyGXzV)
+- [Building a Cyber Range in OCI. Harnessing Observability and OpenSource Tools for Threat Hunting](https://github.com/adibirzu/Building-a-Cyber-Range-in-OCI---Harnessing-Observability-and-Open-Source-Tools-for-Threat-Hunting/blob/main/README.md)
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

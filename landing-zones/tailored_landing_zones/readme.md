@@ -38,7 +38,7 @@ There are **two assets** for creating OCI-tailored landing zones, one for **desi
 &nbsp; 
 
 ### **2.1 Design** &ndash; With a Blueprint
-To tailor a landing zone we recommend starting with the [Standard Landing Zone Model 2](/landing-zones/standard_landing_zones/readme.md#2-what-are-the-models-available), called the **[OCI Operating Entities Landing Zone](https://github.com/oracle-quickstart/terraform-oci-open-lz)** (aka OCI Open LZ), which is a **reference solution** designed and documented with a **repeatable design process**. It presents an end-to-end coherent solution &ndash; with the security, network, and operations views &ndash; of what an organization-wide landing zone looks like, with fine-grained segregation of duties, strong isolation of resources, and a scaleable operating model.
+To tailor a landing zone we recommend starting with the [Standard Landing Zone Model 2](/landing-zones/standard_landing_zones/readme.md#2-what-are-the-models-available), called the **[OCI Operating Entities Landing Zone](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities)** (aka OCI Open LZ), which is a **reference solution** designed and documented with a **repeatable design process**. It presents an end-to-end coherent solution &ndash; with the security, network, and operations views &ndash; of what an organization-wide landing zone looks like, with fine-grained segregation of duties, strong isolation of resources, and a scaleable operating model.
 
 The **benefit** of this blueprint is that it can be completely **adjusted and easily simplified** into any other type of landing zone, by following the design steps towards your needs.  Using this reference blueprint will help **create a day-two operational model ready to scale** &ndash; using the IaC solution presented in the next section.
 
@@ -46,7 +46,7 @@ The **benefit** of this blueprint is that it can be completely **adjusted and ea
 &nbsp; 
 
 ### **2.2 Run** &ndash; with IaC Configurations
-For this type of approach we recommend the use of the **[CIS Landing Zone  Modules](/landing-zones/commons/oci_landingzones_iac.md)**, to **configure** the resources with *json/hcl* terraform native interfaces, or *yaml*, instead of coding them.
+For this type of approach we recommend the use of the **[OCI Landing Zone  Modules](/landing-zones/commons/oci_landingzones_iac.md)**, to **configure** the resources with *json/hcl* terraform native interfaces, or *yaml*, instead of coding them.
 
 The **benefits** of using this approach are: 
 - **Focus on Value**: Focus on configuring the design and resources, instead of coding them. This means shorter time-to-value, lower effort, and lower risk.
@@ -55,7 +55,7 @@ The **benefits** of using this approach are:
 
 &nbsp; 
 
-To learn how to **design**, **create**, and **run IaC configurations** we recommend reviewing the exercises on the [**OCI Learn LZ**](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/examples/oci-learn-lz). It's a guided approach to OCI Landing Zones configurations.
+To learn how to **design**, **create**, and **run IaC configurations** we recommend reviewing the exercises on the [**OCI Learn LZ**](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities/tree/master/addons/oci-learn-lz). It's a guided approach to OCI Landing Zones configurations.
 
 &nbsp; 
 
@@ -73,10 +73,10 @@ To learn how to **design**, **create**, and **run IaC configurations** we recomm
 | **2**| **PREPARE** | [EMEA OCI Landing Zones - Video](https://www.linkedin.com/feed/update/urn:li:activity:7206600588216659968/)| Understand OCI Landing Zones, **approach**, and **strategy** in **13 minutes**.
 | **3** | **ENABLE** | [OCI Learn LZ](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/addons/oci-learn-lz/readme.md)| Use the OCI Learn LZ exercises to understand how to **design** and **configure** OCI Landing Zones. |
 | **4** | **SELECT** | [OCI Open LZ Blueprints](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/blueprints)| Select you prefered blueprint. |
-| **5** | **DESIGN** | [One-OE](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/blueprints/one-oe) </br> [Multi-OE](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/blueprints/multi-oe) </br> [Network Hubs](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/addons/oci-hub-models/readme.md) | Use the selected OCI Open LZ **blueprint** to design - in drawio - your functional, security, network, and operations view, with all the diagrams in a reusable format. For network use our **Hub Menu** to select your prefered topology. |   
+| **5** | **DESIGN** | [One-OE](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities/tree/master/blueprints/one-oe) </br> [Multi-OE](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/blueprints/multi-oe) </br>[Multi-Tenancy](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities/tree/master/blueprints/multi-tenancy)</br>[Network Hubs](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities/tree/master/addons/oci-hub-models) | Use the selected OCI Open LZ **blueprint** to design - in drawio - your functional, security, network, and operations view, with all the diagrams in a reusable format. For network use our **Hub Menu** to select your prefered topology. |   
 | **6** | **CONFIGURE** |[Declarative IaC](https://github.com/oracle-devrel/technology-engineering/blob/main/landing-zones/commons/oci_landingzones_iac.md) | Learn about the OCI IaC declarative approach and use the OCI Open LZ runtime **configurations** as your IaC templates. These configurations are easily adjustable to any other landing zone model. |                
 | **7** | **RUN** | [One-OE](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/blueprints/one-oe) </br> [Multi-OE](https://github.com/oracle-quickstart/terraform-oci-open-lz/tree/master/blueprints/multi-oe)  | Run your configurations using **Terraform CLI** or **Oracle Resource Manager (ORM)** as described in the blueprint runtimes documentation. |
-| **8** | **EXTEND** | [Workload Extensions](/landing-zones/workload_extensions/readme.md) | Extend your Landing Zone with ready-made pluggable workload extensions to reduce your time-to-production with OCI best practices. |
+| **8** | **EXTEND** | [Workload Extensions](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities/tree/master/workload-extensions) | Extend your Landing Zone with ready-made pluggable workload extensions to reduce your time-to-production with OCI best practices. |
 
 
 &nbsp; 
@@ -84,7 +84,7 @@ To learn how to **design**, **create**, and **run IaC configurations** we recomm
 
 ## 4. Other Considerations
    
-Note that the **alternative** for not using the configurable approach described in [section 2.2](#2_2) is to **code your own solution**, from zero or reuse existing modules. The CIS Landing Zone Modules allow any configuration topology and allow to focus on business resources (workloads) instead of investing time coding to create OCI core resources. By using the recommended approach it's possible to avoid the **common pitfalls** associated with complex customizations:
+Note that the **alternative** for not using the configurable approach described in [section 2.2](#22-run--with-iac-configurations) is to **code your own solution**, from zero or reuse existing modules. The OCI Landing Zone Modules allow any configuration topology and allow to focus on business resources (workloads) instead of investing time coding to create OCI core resources. By using the recommended approach it's possible to avoid the **common pitfalls** associated with complex customizations:
 - **Hard-coding**. Changing or adapting code to create a new landing zone different than the original is complex and time-consuming. This also means that any change to the landing zone will be executed by code and not configurations.
 - **Waste & Late Time-to-Value**. The time spent on adapting code, or re-coding over and over for the OCI landing/core resources is time wasted and not used on the business value/workloads.
 - **Limited Scaling**. Doing OCI changes manually can work for some tactical solutions, but it will always limit the scaling and add complexity and cost to the day-two operations. Note that, for example, CIS LZ creates 100+ OCI resources.
@@ -96,7 +96,7 @@ Note that the **alternative** for not using the configurable approach described 
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

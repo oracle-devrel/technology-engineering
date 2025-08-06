@@ -1,6 +1,7 @@
 # MongoDB compatibility advisor for Autonomous MongoDB API
 
 This tool helps you to identify which MongoDB queries are supported when using the Oracle Autonomous MongoDB API. 
+**IMPORANT NOTE:** This tool is not an official product and is provided as a community-driven resource to assist in expediting the process of checking compatibility. While it aims to be helpful, it is not guaranteed to cover all scenarios or provide complete accuracy. Users are strongly encouraged to consult the official documentation for definitive guidance and support. 
 
 Reviewed: 24.10.2024
 
@@ -25,7 +26,7 @@ The script generates a report in a file called report_advisor.txt
 
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

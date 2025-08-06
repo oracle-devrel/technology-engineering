@@ -13,7 +13,7 @@ You can add the functionality to read these specialized changelogs to the Liquib
 # The Liquibase Feature in SQLcl
 SQLcl Liquibase with Oracle Database provides extended functionality to the Liquibase experience compared to the open-source Liquibase client. The Liquibase feature in SQLcl enables you to execute commands to generate a changelog for a single object or for a full schema in specialized changelogs and changesets.
 
-Reviewed: 10.06.2024
+Reviewed: 20.11.2024
 
 # Table of Contents
  
@@ -26,8 +26,8 @@ Reviewed: 10.06.2024
 
 # Useful Links
 
-- [Oracle Documentation - Oracle SQLcl Release 23.3](https://docs.oracle.com/en/database/oracle/sql-developer-command-line/23.3/sqcug/using-liquibase.html#GUID-4CA25386-E442-4D9D-B119-C1ACE6B79539 "Using Liquibase")
-- [SQLcl 23.3 Downloads](https://www.oracle.com/database/sqldeveloper/technologies/sqlcl/download/)
+- [Oracle Documentation - Oracle SQLcl Release 24.3.1](https://docs.oracle.com/en/database/oracle/sql-developer-command-line/24.3/sqcug/using-liquibase.html "Using Liquibase")
+- [SQLcl Downloads](https://www.oracle.com/database/sqldeveloper/technologies/sqlcl/download/)
 - [Liquibase Community](https://www.liquibase.org/)
 - [Liquibase Documentation](https://docs.liquibase.com/home.html "What is Liquibase?")
 - [Liquibase Documentation](https://docs.liquibase.com/start/release-notes/home.html "Release Notes")
@@ -112,6 +112,6 @@ Use the directory structure to manage schema versions by following the [Best Pra
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

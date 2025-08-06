@@ -15,10 +15,10 @@ Ansible is an open source IT automation engine that automates provisioning, conf
 - [Chef](https://www.chef.io/)
 Chef has a suite of automation solutions for both infrastructure as code, and deploy applications.
 
--[Puppet](https://www.puppet.com/)
+- [Puppet](https://www.puppet.com/)
 Puppet enables you to deploy and manage infrastructure.
 
-Reviewed: 10.06.2024
+Reviewed: 19.11.2024
 
 # Table of Contents
  
@@ -37,6 +37,6 @@ The Jenkins SQLPlus Script Runner plugin enables you run Oracle SQL*Plus scripts
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

@@ -43,7 +43,10 @@ Reviewed: 29.10.2024
 - [OCI Security Health Check Standard](shared-assets/oci-security-health-check-standard/README.md)
 - [Data Safe Audit Database to OCI Logging](shared-assets/fn-datasafe-dbaudit-to-oci-logging/README.md)
 - [Importing your own key into OCI Vault](shared-assets/kms-import-keys/README.md)
-
+- [OCI IAM SDK Example](shared-assets/iam-py-sdk/README.md)
+- [Setting up IP-based TLS certificates on OCI Load Balancer](shared-assets/zerossl-lb-test-certificate-setup/README.md)
+- [Bastion Session Script, Python SDK version](shared-assets/bastion-py-script/README.md)      
+- [Bypassing MFA for Service Accounts for specific applications](shared-assets/iam-mfa-bypass-svc-accts/README.md)
       
 # Useful Links
  
@@ -63,8 +66,9 @@ The link above details how to integrate APEX with OCI IAM Domain, utilizing OAUT
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+

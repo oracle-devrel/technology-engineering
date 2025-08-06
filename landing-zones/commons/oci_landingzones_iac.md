@@ -11,11 +11,11 @@
 
 ## 1.  Approach 
 
-To simplify and reduce overall efforts on OCI Landing Zones creation, deployment, and operations, we moved from classic Terraform programmatic/coded Landing Zones to **completely declarative IaC Landing Zones**. In other words, for [**Standard Landing Zones**](../standard_landing_zones/readme.md), [**Tailored Landing Zones**](../tailored_landing_zones/readme.md), and [**Workload Extensions**](../workload_extensions/readme.md), all OCI core resources are human-readable configuration files (json or yaml) - with zero coding needs.
+To simplify and reduce overall efforts on OCI Landing Zones creation, deployment, and operations, we moved from classic Terraform programmatic/coded Landing Zones to **completely declarative IaC Landing Zones**. In other words, for [**Standard Landing Zones**](../standard_landing_zones/readme.md), [**Tailored Landing Zones**](../tailored_landing_zones/readme.md), [**Workload Extensions**](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities/tree/master/workload-extensions), and [**Addons**](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities/tree/master/addons) all OCI core resources are human-readable configuration files (json or yaml) - with zero coding needs.
 
 &nbsp; 
 
-<img src="../images/iac_1.png" alt= “” width="500" height="value">
+<img src="../images/iac_1.jpg" alt= “” width="500" height="value">
 
 &nbsp; 
 
@@ -51,9 +51,9 @@ The diagram below presents the runtime architecture following a top-down flow, f
 
 
 
-1. **The first layer** presents the **design** elements for the [Standard Landing Zones](../standard_landing_zones/readme.md), [Tailored Landing Zones](../tailored_landing_zones/readme.md), and [Workload Extensions](../workload_extensions/readme.md).
+1. **The first layer** presents the **design** elements for the [Standard Landing Zones](../standard_landing_zones/readme.md), [Tailored Landing Zones](../tailored_landing_zones/readme.md), [Workload Extensions](../workload_extensions/readme.md), and [Addons](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities/tree/master/addons).
 2. **The second layer** (green) presents the IaC Configurations for all the design elements of the layer above. All designs are translated into declarative configurations.
-3. **The third layer** (grey) presents the **tooling** used to run the **configurations** (green) against one set of **modules** (yellow). Note all the terraform modules available including the orchestration on top of core resources. Any automation tool, or even a manual command, can provide this execution.
+3. **The third layer** (grey) presents the **tooling** used to run the **configurations** (light green) against one set of **modules** (darker green). Note all the terraform modules available including the orchestration on top of core resources. Any automation tool, or even a manual command, can provide this execution.
 4. **In the last layer**, it's possible to see the **OCI resources** instantiated by the Terraform modules in the previous layer.
 
 &nbsp; 
@@ -71,7 +71,7 @@ The next diagram depicts the key capabilities/benefits enabled by each building 
 ## 3. The IaC Engine 
 
 
-The following Git repositories contain the Terraform engine that enables the IaC Configurable approach. For a high-level overview please refer to [OCI CIS Landing Zone Modules](https://www.ateam-oracle.com/post/cis-landing-zone-enhanced-modules).
+The following Git repositories contain the Terraform engine that enables the IaC Configurable approach. For a high-level overview please refer to [OCI Landing Zone Git Organization](https://github.com/oci-landing-zones).
 
 
 
@@ -87,7 +87,7 @@ Name         | Description
 
 &nbsp; 
 
-For **unitary examples** of usage please review the examples on each repository. For **complete end-to-end examples** using the orchestrator and several other modules please refer to the [OCI Open LZ Blueprints](https://github.com/oracle-quickstart/terraform-oci-open-lz).
+For **unitary examples** of usage please review the examples on each repository. For **complete end-to-end examples** using the orchestrator and several other modules please refer to the [OCI Open LZ Blueprints](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities/tree/master/blueprints).
 
 
 &nbsp; 
@@ -95,7 +95,7 @@ For **unitary examples** of usage please review the examples on each repository.
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
