@@ -21,6 +21,7 @@ import {
   Fab,
   IconButton,
   Stack,
+  Switch,
   TextField,
   ToggleButton,
   ToggleButtonGroup,
@@ -50,6 +51,7 @@ export default function AIChat() {
 
   const [attachedFiles, setAttachedFiles] = useState([]);
   const [additionalInstructions, setAdditionalInstructions] = useState("");
+  const [includeRanking, setIncludeRanking] = useState(false);
   const [criteriaMode, setCriteriaMode] = useState("manual");
   const [manualCriteria, setManualCriteria] = useState([
     { key: "", value: "" },
@@ -132,7 +134,8 @@ export default function AIChat() {
       const evaluationResult = await evaluateDocuments(
         criteriaFile,
         criteriaJson,
-        additionalInstructions
+        additionalInstructions,
+        includeRanking
       );
       console.log("Evaluation result:", evaluationResult);
 
@@ -151,6 +154,7 @@ export default function AIChat() {
   const handleNew = () => {
     setAttachedFiles([]);
     setAdditionalInstructions("");
+    setIncludeRanking(false);
     setManualCriteria([{ key: "", value: "" }]);
     setCsvFile(null);
     setCriteriaMode("manual");
@@ -1009,6 +1013,59 @@ This is a mock evaluation for development purposes.`;
                       },
                     }}
                   />
+
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      mt: 2,
+                      p: 1.5,
+                      background: (theme) => theme.palette.background.paper,
+                      borderRadius: "12px",
+                    }}
+                  >
+                    <Box
+                      sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
+                    >
+                      <Typography
+                        variant="body2"
+                        sx={{ color: (theme) => theme.palette.text.primary }}
+                      >
+                        Include ranking
+                      </Typography>
+                      <Tooltip
+                        title="Enable this to include document ranking in the evaluation results"
+                        placement="top"
+                        arrow
+                      >
+                        <InfoOutlined
+                          sx={{
+                            fontSize: 16,
+                            color: (theme) => theme.palette.text.disabled,
+                            cursor: "pointer",
+                            "&:hover": {
+                              color: (theme) => theme.palette.text.secondary,
+                            },
+                          }}
+                        />
+                      </Tooltip>
+                    </Box>
+                    <Switch
+                      checked={includeRanking}
+                      onChange={(e) => setIncludeRanking(e.target.checked)}
+                      sx={{
+                        "& .MuiSwitch-switchBase.Mui-checked": {
+                          color: (theme) => theme.palette.success.main,
+                        },
+                        "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track":
+                          {
+                            backgroundColor: (theme) =>
+                              theme.palette.success.main,
+                          },
+                      }}
+                    />
+                  </Box>
                 </Box>
               </Stack>
             )}

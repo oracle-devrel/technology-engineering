@@ -15,7 +15,8 @@ export async function uploadDocuments(files) {
 export async function evaluateDocuments(
   criteriaFile = null,
   criteriaJson = null,
-  additionalInstructions = null
+  additionalInstructions = null,
+  includeRanking = false
 ) {
   const formData = new FormData();
 
@@ -28,6 +29,8 @@ export async function evaluateDocuments(
   if (additionalInstructions) {
     formData.append("additional_instruction", additionalInstructions);
   }
+
+  formData.append("include_ranking", includeRanking.toString());
 
   const response = await fetch(`${API_BASE_URL}/evaluate`, {
     method: "POST",
