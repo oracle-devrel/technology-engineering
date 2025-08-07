@@ -27,6 +27,12 @@ Reviewed: 24.04.2024
 - [Livelab Get started with GoldenGate Veridata](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=833)
     - Oracle GoldenGate Veridata Livelab to create connections, compare and repair data, generate SQL files
 
+ - [Relational to vector replication using Oracle GoldenGate 23ai and Oracle Database 23ai](https://youtu.be/v53CZFDbB48)
+   - Summary : In this video we are talking how any relational database ( without vector or vector supported source)  to vector conversion using data model ( to make use of to_vector and  vector-embedding to work) to create a vector data out of relational data with the help of Oracle database 23ai features and Oracle Goldengate replication using the get_vector capability to embed those columns at target side. That way we demonstrated how one can use the functionality of vector search and use of embedded AI functionality to use for future use.
+
+- [Vector to vector replication using Oracle GoldenGate 23ai and Oracle Database 23ai](https://youtu.be/uObow_e6KGs).
+   - Summary : In this video we are talking how any vector  database (supported  vector source)  to vector conversion using with the help of Oracle database 23ai features and Oracle Goldengate .That way we  have demonstrated how one can use the functionality of vector search and use of Oracle database AI/ML capability to use those data  functionality to use for future use.
+
 # Useful Links
  
 - [GoldenGate Product Page](https://www.oracle.com/uk/integration/goldengate/)
