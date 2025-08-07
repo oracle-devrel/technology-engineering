@@ -52,8 +52,11 @@ def build_prompt(criteria_df, additional_instruction=None, include_ranking_marke
     if additional_instruction is not None:
         prompt += f"Additionally, {additional_instruction}"
     if include_ranking_marker is True:
-        prompt += f"""Rank the documents from best to worst** according to how well they satisfy the criteria at the end of the evaluation.
-                     Identify the best option overall, providing a clear and detailed explanation of why it ranks highest."""
+        print('its true babes')
+        prompt += f"""At the end of the evaluation, rank all documents from best to worst according to how well they satisfy the given criteria.
+                        - Clearly identify the best option overall, providing a detailed explanation of why it ranks highest.
+                        - List and discuss the remaining documents in order, explaining their ranking by highlighting both their strengths and weaknesses relative to the criteria.
+                    """
     prompt += "\n\n"
     prompt += ( """ Your evaluation should follow these steps:
                 1. For each document, assess whether the required information is present and evaluate its quality according to the criteria.
