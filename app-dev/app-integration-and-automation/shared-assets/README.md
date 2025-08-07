@@ -37,6 +37,18 @@ This section contains various examples related to Application Integration: demo 
 
 ## Demos
 
+- [Developer Coaching - Agentic AI Workflows in Oracle Integration with OCI Generative AI](https://youtu.be/xbpspBVgG8s?si=yOoX-oBotnpD0XPM)
+
+    - Discover how to build Agentic AI Workflows using Oracle Integration Cloud (OIC) and OCI Generative AI. Learn how large language models (LLMs) can reason, decide, and act by dynamically calling tools, chaining APIs, and orchestrating end-to-end processes. 
+    
+    - In this live coaching session, you’ll learn how to:
+
+        - Design agent-style workflows with tool-calling capabilities
+        - Integrate Cohere LLMs with OIC to unlock intelligent automation
+        - Set up preamble prompts, tool definitions, and orchestration
+        - Build real-world use cases with step-by-step demos.
+
+
 - [Setting Up OAuth with JWT User Assertion in OIC: Identity Propagation from VBCS, OIC to OPA](https://youtu.be/UdOXA53BQMM?si=YIjvJbNrMblqhczM)
 
     - In this step-by-step tutorial, you'll learn how to setup OAuth 2.0 using JWT User Assertion in Oracle Integration Cloud (OIC) to enable secure identity propagation between Oracle Integration and Oracle Process Automation (OPA). You will also see how idenity can easily propogate from Visual Builder to OIC to OPA.
