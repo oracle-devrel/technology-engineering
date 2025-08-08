@@ -122,7 +122,11 @@ Reviewed: 24.04.2024
 - [GoldenGate Products Livelabs](https://apexapps.oracle.com/pls/apex/f?p=133:100:3818354990791::::SEARCH:goldengate)
     - Livelabs for all the GoldenGate Products
 
+- [Relational to vector replication using Oracle GoldenGate 23ai and Oracle Database 23ai](https://youtu.be/v53CZFDbB48)
+   - The video demonstrates how to convert relational data into vectors using Oracle Database 23ai features and Oracle GoldenGate replication, enabling vector search and AI-powered functionality by embedding data at the target using the get_vector capability.
 
+- [Vector to vector replication using Oracle GoldenGate 23ai and Oracle Database 23ai](https://youtu.be/uObow_e6KGs).
+   - The video explains how to convert data from any supported vector source into vectors using Oracle Database 23ai and Oracle GoldenGate, enabling vector search and leveraging Oracle’s AI/ML capabilities for future applications.     
 # License
 
 Copyright (c) 2025 Oracle and/or its affiliates.
