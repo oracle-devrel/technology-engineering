@@ -4,6 +4,9 @@ A web application that enables side-by-side comparison of Large Language Models 
 
 Reviewed: 23.07.2025
 
+<img width="1703" height="1280" alt="image" src="https://github.com/user-attachments/assets/2cc14579-3422-4272-a766-c48bb6c3afe4" />
+
+
 # When to use this asset?
 
 **Data Scientists, ML Engineers or Developers** would use this asset when evaluating the effectiveness of fine-tuned models against their base counterparts, demonstrating fine-tuning improvements to stakeholders, making data-driven decisions about model deployment and selection, benchmarking different fine-tuning configurations, and validating fine-tuning results before production deployment.
