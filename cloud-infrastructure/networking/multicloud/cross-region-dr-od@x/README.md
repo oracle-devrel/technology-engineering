@@ -47,6 +47,6 @@ terraform destroy
 ```
 ## Acknowledgements
 
-* **Author** - [Ricardo Anda], Oracle
-* **Contributor** [Ejaz Akram],[Julien Silverston], Oracle
+* **Author** - Ricardo Anda, Oracle
+* **Contributor** Ejaz Akram, Julien Silverston, Oracle
 * **Last update** - August 12, 2025
