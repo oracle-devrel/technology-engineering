@@ -33,6 +33,9 @@ Reviewed: 24.04.2024
 - [Vector to vector replication using Oracle GoldenGate 23ai and Oracle Database 23ai](https://youtu.be/uObow_e6KGs).
    - The video explains how to convert data from any supported vector source into vectors using Oracle Database 23ai and Oracle GoldenGate, enabling vector search and leveraging Oracle’s AI/ML capabilities for future applications.
 
+- [OracleStreams Migration to Oracle GoldenGate as a replacement](https://youtu.be/y3-PEDq9bGA)
+   - The Video explains how the remaining Oracle Stream customer should move quickly to Classic Goldengate with their contents and then migrate from Classic  to Microservice Architecture of Oracle Golden Gate.
+     
 # Useful Links
  
 - [GoldenGate Product Page](https://www.oracle.com/uk/integration/goldengate/)
