@@ -34,6 +34,9 @@ Reviewed: 18.11.2024
 
   - [Correlation between OCI native IAM, IDCS, and Service Console](https://blogs.oracle.com/coretec/post/correlation-between-oci-native-iam-idcs-and-service-console)
     - Blog about the correlation between OCI native IAM, IDCS and Service Console
+
+  - [Identity Lifecycle Management Between OCI IAM and Entra ID](https://blogs.oracle.com)
+  - Guidelines slides about Identity Lifecycle Management Between OCI IAM and Entra ID
  
 # Useful Links
  
