@@ -44,3 +44,6 @@ terraform.rc
 # Exclude cached Python binary files
 *.pyc
 __pycache__
+
+desktop.ini
+
