@@ -10,6 +10,7 @@
 |:--------|:----------------------|:--------------|:----------------------------------------------------------|
 | 1.0     | Madhusri Bhattacharya | February 2024 | First version of PeopelSoft Starter Pack in New SD Format |
 | 1.1     | Madhusri Bhattacharya | April 2024    | Edited PeopleSoft Starter Pack as per latest SD template  |
+| 1.2     | Madhusri Bhattacharya | August 2025   | Edited PeopleSoft Starter Pack as per SD template v2.6    |
 
 ## Team
 
@@ -21,7 +22,7 @@
 
 | Name          | Email                 | Role                     | Company |
 |:--------------|:----------------------|:-------------------------|:--------|
-| ${doc.author} | name.name@example.com | Tech Solution Specialist | Oracle  |
+| Name Surname | name.name@example.com | Tech Solution Specialist | Oracle  |
 | Ada lovelace  | ada@example.com       | Account Cloud Engineer   | Oracle  |
 
 ## Document Purpose
@@ -32,11 +33,11 @@
 
 *Example:*
 
-This document provides a high-level solution definition for the Oracle solution and aims at describing the current state, and to-be state as well as a potential high-level project scope and timeline for ${doc.config.impl.type}.
+This document provides a high-level solution definition for the Oracle solution and aims at describing the current state, and to-be state as well as a potential high-level project scope and timeline for \<Service Provider\> .
 
 The document may refer to a ‘Workload’, which summarizes the full technical solution for a customer (You) during a single engagement. The Workload is described in the chapter [Workload Requirements and Architecture](#workload-requirements-and-architecture).
 
-This is a living document, additional sections will be added as the engagement progresses resulting in a final Document to be handed over to the ${doc.config.impl.type}.
+This is a living document, additional sections will be added as the engagement progresses resulting in a final Document to be handed over to the \<Service Provider\> .
 
 # Business Context
 
@@ -242,11 +243,17 @@ Implementation Partner will capture the current PeopleSoft workload sizing here.
 
 The recovery time objective (downtime tolerance) and recovery point objective (data loss tolerance) details are very important considerations for the Customer. The overall DR requirement is a cross region DR strategy with the goal of minimizing RTO.
 
-#### Backup and Recovery Practices
+#### Reliability and Resilience
 
 *Guide:*
 
-*A section describing the Current PeopleSoft workload of the Customer: Backup and Recovery- RTO and RPO*
+*This section captures the resilience and recovery requirements for the Workload. Note that these may be different from the current system.*
+
+*The Recovery Point Objective (RPO) and Recovery Time Objective (RTO) requirement of each environment should be captured in the environments section above, and wherever possible.*
+
+-   *What are the RTO and RPO requirements of the Application?*
+-   *What are the SLAs of the application?*
+-   *What are the backup requirements*
 
 *Example:*
 
@@ -279,6 +286,28 @@ Current high level backup and recovery practices are described below:
 In general, the foundation of security is access control, which refers to how the system is being accessed and by whom. User security consists of three principal components: authentication, authorization and an audit trail. All current browser-based password login screens send the password as a parameter in the HTTP form submission. Using an HTTPS connection will encrypt this information. The best practice is therefore to use HTTPS for all web-based access. The requirement is to take extra steps to ensure security is not compromised either from the Infrastructure side or from the Application endpoints.
 
 At the time of this document creation, no Security requirements have been specified.
+
+### Networking Requirements
+
+*Guide*
+
+*Capture the Non-Functional Requirements for networking-related topics. You can use the networking questions in the [Annex](#networking-requirement-considerations)*
+
+*As businesses increasingly rely on Cloud Infrastructure to store, process, and transmit sensitive data, the need for comprehensive security solutions has never been more important. Potential customers evaluating network security solutions typically prioritize the following requirements: Some of the broader category considerations are below.*
+
+-   *Data Protection: Safeguarding sensitive information against unauthorized access, theft, or modification is a primary concern for any organization and industry today.*
+    -   *Threat Prevention: Advanced capabilities like IDPS and malware detection for blocking threats.*
+    -   *Data Loss Prevention (DLP): Monitoring and controlling sensitive data transmission.*
+    -   *Encryption and Decryption: Inspecting encrypted traffic without compromising privacy.*
+-   *Threat Prevention: Proactively identifying and mitigating security threats is essential for maintaining the integrity of network infrastructure. *
+    -   *Intrusion Detection and Prevention: Monitoring for suspicious or malicious activity.*
+    -   *Application Control: Granular control over specific applications or services.*
+    -   *URL Filtering: Controlling access to permitted URLs.*
+-   *Security compliance: Does your organization have network security requirements based on industry or organization compliance? For example - SAMA (Saudi Arabia Monetary Authority), HIPAA (Health Insurance Portability and Accountability Act), GDPR (General Data Protection Regulation), SWIFT, etc.*
+
+*Example:*
+
+At the time of this document creation, no Networking requirements have been specified.
 
 ### Workload Access Requirement
 
@@ -341,16 +370,6 @@ The OEM product includes the Management Agent, Oracle Management Service, Manage
 | Log Management         | All targets    | OCI (Migration) | No  |       |
 | Insight                | All Oracle DBs | OCI (Migration) | No  |       |
 
-### Networking Requirements
-
-*Guide*
-
-*Capture the Non-Functional Requirements for networking-related topics. You can use the networking questions in the [Annex](#networking-requirement-considerations)*
-
-*Example:*
-
-At the time of this document creation, no Networking requirements have been specified.
-
 ## Future State Architecture
 
 *Guide:*
@@ -359,21 +378,23 @@ At the time of this document creation, no Networking requirements have been spec
 
 *Additional architectures, in the subsections, can be used to describe needs for specific workloads.*
 
-### Mandatory Security Best Practices
+### Solution Best Practices
+
+**Mandatory Security Best Practices**
 
 *Guide:*
 
 *Use this text for every engagement. Do not change. Align with the Cloud Adoption Framework.*
 
-The safety of the ${doc.customer.name}'s Oracle Cloud Infrastructure (OCI) environment and data is the ${doc.customer.name}’s priority.
+The safety of the \<Customer Name\> 's Oracle Cloud Infrastructure (OCI) environment and data is the \<Customer Name\> ’s priority.
 
 The following table of OCI Security Best Practices lists the recommended topics to provide a secure foundation for every OCI implementation. It applies to new and existing tenancies and should be implemented before the Workload defined in this document will be implemented.
 
 Workload-related security requirements and settings like tenancy structure, groups, and permissions are defined in the respective chapters.
 
-Any deviations from these recommendations needed for the scope of this document will be documented in the chapters below. They must be approved by ${doc.customer.name}.
+Any deviations from these recommendations needed for the scope of this document will be documented in the chapters below. They must be approved by \<Customer Name\> .
 
-${doc.customer.name} is responsible for implementing, managing, and maintaining all listed topics.
+\<Customer Name\>  is responsible for implementing, managing, and maintaining all listed topics.
 
 <table style="width:25%;">
 <colgroup>
@@ -382,14 +403,14 @@ ${doc.customer.name} is responsible for implementing, managing, and maintaining 
 <col style="width: 19%" />
 </colgroup>
 <thead>
-<tr class="header">
+<tr>
 <th>CATEGORY</th>
 <th>TOPIC</th>
 <th>DETAILS</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>User Management</td>
 <td>IAM Default Domain</td>
 <td><p>Multi-factor Authentication (MFA) should be enabled and enforced for every non-federated OCI user account.</p>
@@ -401,7 +422,7 @@ ${doc.customer.name} is responsible for implementing, managing, and maintaining 
 <li>For configuration details see <a href="https://docs.oracle.com/en-us/iaas/Content/Identity/adaptivesecurity/overview.htm">Managing Adaptive Security and Risk Providers</a>.</li>
 </ul></td>
 </tr>
-<tr class="even">
+<tr>
 <td></td>
 <td>OCI Emergency Users</td>
 <td><p>A maximum of <strong>three</strong> non-federated OCI user accounts should be present with the following requirements:</p>
@@ -413,7 +434,7 @@ ${doc.customer.name} is responsible for implementing, managing, and maintaining 
 <li>Has MFA enabled and enforced (see IAM Default Domain).</li>
 </ul></td>
 </tr>
-<tr class="odd">
+<tr>
 <td></td>
 <td>OCI Administrators</td>
 <td><p>Daily business OCI Administrators are managed by the Customer’s Enterprise Identity Management System. This system is federated with the IAM Default Domain following these configuration steps:</p>
@@ -423,12 +444,12 @@ ${doc.customer.name} is responsible for implementing, managing, and maintaining 
 <li>For configuration guidance for major Identity Providers see the OCI IAM Identity Domain tutorials.</li>
 </ul></td>
 </tr>
-<tr class="even">
+<tr>
 <td></td>
 <td>Application Users</td>
 <td>Application users like OS users, Database users, or PaaS users are not managed in the IAM Default Domain but either directly or in dedicated identity domains. These identity domains and users are covered in the Workload design. For additional information see <a href="https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/iam-security-structure.htm">Design Guidance for IAM Security Structure</a>.</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Cloud Posture Management</td>
 <td>OCI Cloud Guard</td>
 <td><p>OCI Cloud Guard will be enabled at the root compartment of the tenancy home region. This way it covers all future extensions, like new regions or new compartments, of your tenancy automatically. It will use the Oracle Managed Detector and Responder recipes at the beginning and can be customized by the Customer to fulfill the Customer’s security requirements.</p>
@@ -437,7 +458,7 @@ ${doc.customer.name} is responsible for implementing, managing, and maintaining 
 <li>For configuration details see <a href="https://docs.oracle.com/en-us/iaas/cloud-guard/using/part-customize.htm">Customizing Cloud Guard Configuration</a></li>
 </ul></td>
 </tr>
-<tr class="even">
+<tr>
 <td></td>
 <td>OCI Vulnerability Scanning Service</td>
 <td><p>In addition to OCI Cloud Guard, the OCI Vulnerability Scanning Service will be enabled at the root compartment in the home region. This service provides vulnerability scanning of all Compute instances once they are created.</p>
@@ -445,12 +466,12 @@ ${doc.customer.name} is responsible for implementing, managing, and maintaining 
 <li>For configuration details see <a href="https://docs.oracle.com/en-us/iaas/scanning/home.htm">Vulnerability Scanning</a>.</li>
 </ul></td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Monitoring</td>
 <td>SIEM Integration</td>
 <td>Continuous monitoring of OCI resources is key for maintaining the required security level (see <a href="#regulations-and-compliances-requirements">Regulations and Compliance</a> for specific requirements). See <a href="https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/siem-integration.htm">Design Guidance for SIEM Integration</a> to implement integration with the existing SIEM system.</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Additional Services</td>
 <td>Budget Control</td>
 <td><p>OCI Budget Control provides an easy-to-use and quick notification on changes in the tenancy’s budget consumption. It will be configured to quickly identify unexpected usage of the tenancy.</p>
@@ -501,30 +522,25 @@ In the **following sections** we are describing the **Solution Design Diagrams f
 
 *[The Oracle Cloud Notation, OCI Architecture Diagram Toolkits](https://docs.oracle.com/en-us/iaas/Content/General/Reference/graphicsfordiagrams.htm)*
 
-```{=tex}
 \pagebreak
-```
+
 ![Future State Deployment Diagram - PeopleSoft Workload Multi-AD, DR Design Diagram](images/MultiADDR-DeploymentDiagram-V3.pdf)
 
-```{=tex}
 \pagebreak
-```
+
 ![Future State Deployment Diagram - PeopleSoft Workload Multi-AD, Non-Production Design Diagram](images/SingleADProd-DeploymentDiagram-V3.pdf)
 
-```{=tex}
 \pagebreak
-```
+
 ![Future State Deployment Diagram - PeopleSoft Workload Single AD, Customer Use case Example -1](images/SingleADCustUseCase1-V3.pdf)
 
-```{=tex}
 \pagebreak
-```
+
 ![Future State Deployment Diagram - PeopleSoft Workload Single AD, Customer Use case Example -2](images/SingleADCustUseCase2-V3.pdf)
 
-```{=tex}
 \pagebreak
-```
-## Solutions Considerations
+
+### Solutions Considerations
 
 *Guide:*
 
@@ -538,7 +554,7 @@ Proposed deployment plan is to move PeopleSoft PeopleTools **(8.59.21)** and Peo
 
 We can leverage OCI Web Application Firewall (WAF) which helps to make the application endpoints more secure by monitoring and filtering out potentially malicious traffic. It is also cloud-based, Payment Card Industry (PCI) compliant.
 
-### High Availability and Disaster Recovery
+**Reliability and Resilience:**
 
 *Guide:*
 
@@ -554,19 +570,15 @@ Please refer to the following high level MAA diagrams for PepleSoft workload.
 
 ![PeopleSoft Workload MAA High Level Design Diagram (With WAF for Internet connection)](images/PeopleSoftHighLevelMAA-WithWAF-V3.pdf)
 
-```{=tex}
 \pagebreak
-```
+
 ![PeopleSoft Workload MAA High Level Design Diagram](images/PeopleSoftHighLevelMAA-V3.pdf)
 
 *Reference:*
 
 [HA Reference for PeopleSoft](https://www.oracle.com/a/tech/docs/psft-maa-exacs-tech-brief.pdf)
 
-```{=tex}
-\pagebreak
-```
-#### Backup and Recovery
+**Backup and Recovery:**
 
 *Guide:*
 
@@ -579,7 +591,7 @@ We will follow the current Backup and Recovery strategy and practices of the Cus
 -   Official RTO practices: less than 24 hrs
 -   Official RPO practices: 4 hours
 
-### Security
+**Security:**
 
 *Guide:*
 
@@ -621,7 +633,7 @@ Please note:**WAF policy** is a **regional solution** that works as a plug-in fo
 
 \_\_Note:\_\_Please see generic OCI security guidelines in the [Annex](#security-guidelines).
 
-### Workload Access
+**Workload Access:**
 
 *Guide:*
 
@@ -631,7 +643,7 @@ Please note:**WAF policy** is a **regional solution** that works as a plug-in fo
 
 Customer will access the PeopleSoft workload internally over the OCI FastConnect connectivity solution and PeopleSoft external endpoints will be secured by OCI WAF. FastConnect is a private, dedicated connectivity that improves security. It supports bandwidths from 1Gbps to 10Gbps. An alternative option to FastConnect is Virtual Private Network (VPN). VPN could also be a backup configuration if FastConnect is down.
 
-### Workload Monitoring
+**Workload Monitoring:**
 
 *Guide:*
 
@@ -645,7 +657,7 @@ Customer will use 'Enterprise Manager Plug-in' for PeopelSoft to monitor their P
 
 [Use OEM data with OCI to unlock new insights](https://blogs.oracle.com/observability/post/em-data-to-oci-part-1) [OCI Stack Monitoring for PeopleSoft](https://blogs.oracle.com/observability/post/stack-monitoring-now-supports-windows-server-solaris-and-peoplesoft-process-monitor-and-elasticsearch)
 
-### Manageability and Observability (OCI)
+**Manageability and Observability (OCI):**
 
 *Example:*
 
@@ -699,7 +711,7 @@ Cost control and chargeback are critical concerns, especially for companies tran
 
 Please find all references for this chapter in the [Annex](#cost-control-and-chargeback-annex).
 
-### Regulations and Compliances
+**Regulations and Compliances:**
 
 *Guide:*
 
@@ -709,7 +721,7 @@ Please find all references for this chapter in the [Annex](#cost-control-and-cha
 
 None has been discussed at the time of Migration.
 
-### Cloud Manger - PeopleSoft Automation Tool
+**Cloud Manger - PeopleSoft Automation Tool:**
 
 *Guide:*
 
@@ -717,7 +729,7 @@ None has been discussed at the time of Migration.
 
 *Example:*
 
-#### What is PCM
+**What is PCM:**
 
 -   Oracle PCM is a key component of the Oracle PeopleSoft **automation** for OCI.
 
@@ -727,7 +739,7 @@ None has been discussed at the time of Migration.
 
 -   This is Oracle’s recommended way to deploy PeopleSoft on OCI.
 
-#### Requirements for PCM
+**Requirements for PCM:**
 
 -   See the PeopleTools support information on PCM Home Page **(My Oracle Support, Doc ID 2231255.2)**.
 
@@ -737,7 +749,7 @@ None has been discussed at the time of Migration.
 
 ![PeopelSoft migration workflow diagram](images/PeopelSoftMigrationPrerequisiteWorkflow.pdf)
 
-#### High level Deployment steps using PCM
+**High level Deployment steps using PCM:**
 
 Using CM, one can provision a new environment or can perform a 'lift-and-shift' as depicted in the diagram below:
 
@@ -751,7 +763,7 @@ How PeopleSoft CM can help to migrate PeopleSoft workload to OCI is depicted in 
 
 -   Another scenario could be to move Customer Workload and/or other Solution components 'as-is' to OCI using Rackware or similar tool.
 
-### Networking
+**OCI Networking:**
 
 *Guide:*
 
@@ -1025,3 +1037,19 @@ The observability and management services include the following services:
 | **Ops Insights Capacity Planning** | This OCI-managed service allows one to predict the resource consumption for a year. With tags, you can associate the forecast and the consumption to a specific department.                                                                                                                                                                    | [Operations Insight Capacity Planning](https://docs.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html#GUID-B2A3E104-494B-46A5-9F3E-8E3977C9328F) |
 | **Cost Analysis**                  | Cost Analysis is an easy-to-use visualization tool to help you track and optimize your Oracle Cloud Infrastructure spending. It allows for the generation of charts and the download of accurate and reliable tabular reports of aggregated cost data. With tags, you can associate the forecast and the consumption to a specific department. | [OCI Cost Analysis](https://docs.oracle.com/en-us/iaas/Content/Billing/Concepts/costanalysisoverview.htm) `</br>`{=html}                                              |
 | **Usage RestAPI**                  | OCI offers various RestAPI’s to manage services, including the one for cost management.                                                                                                                                                                                                                                                        | [OCI Usage RestAPI](https://docs.oracle.com/en-us/iaas/Content/Billing/Concepts/costanalysisoverview.htm#cost_analysis_using_the_api) `</br>`{=html}                  |
+
+## Onboarding
+
+Oracle offers a comprehensive onboarding program for new customers, designed to facilitate their initial journey within the OCI (Oracle Cloud Infrastructure) environment. The [OCI Digital Onboarding Home](https://github.com/oracle-devrel/oci-hub/wiki/OCI-Digital-Onboarding-Home) is an excellent starting point for customers to familiarize themselves with OCI. This resource provides a self-guided learning path covering essential aspects such as initial access, cloud console navigation, fundamental resource creation, and implementing security best practices.
+
+The onboarding process continues with a self-service kick-off workshop, tailored for EMEA customers, which includes an extensive playbook. This workshop delves deeper into various topics:
+
+-   An introduction to OCI and its features.
+-   A step-by-step guide to getting started.
+-   A guided tour of the platform.
+-   An overview of live lab sandbox environments for hands-on practice.
+-   Comprehensive best practices encompassing security, reliability, performance optimization, cost management, and monitoring strategies.
+-   A support guide to assist customers with any queries or issues.
+-   A satisfaction survey to gather feedback and ensure an optimal user experience.
+
+This structured approach ensures that new customers receive a well-rounded introduction to OCI, empowering them to make the most of their new tenancy.

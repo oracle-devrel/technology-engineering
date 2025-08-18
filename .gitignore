@@ -40,3 +40,10 @@ terraform.rc
 
 #VSC files
 .vscode
+
+# Exclude cached Python binary files
+*.pyc
+__pycache__
+
+desktop.ini
+
