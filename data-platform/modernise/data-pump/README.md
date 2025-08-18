@@ -6,7 +6,7 @@ The Data Pump export utility writes the schema objects, including the tables and
 
 A set of best practices and other useful assets/links can be found in this page.
 
-Reviewed: 16.07.2025
+Reviewed: 18.08.2025
 
  
 # Table of Contents
@@ -24,6 +24,8 @@ Reviewed: 16.07.2025
     - Blog post by Austine Ouma explaining how to use multipart uploads for large data pump files that need to be uploaded to Oracle Cloud Infrastructure
 - [OCI Cloud Shell Data Pump Import into an Autonomous Database](https://techrochet.com/cloud-shell-import-dumps-into-adb)
     - Blog post by Austine Ouma explaining how to perform a Data Pump Import from OCI Cloud Shell to migrate data into an Autonomous Database on OCI
+  [OCIFS Utility](https://techrochet.com/ocifs)
+    - Blog post by Austine Ouma explaining how to mount an Object Storage bucket as a file system on Oracle Linux 8 or 9
 - [Schema-based Oracle SQL Developer Data Pump Jobs](https://youtu.be/amdl4G_HWYc)
     - YouTube Video by Austine Ouma explaining how to run schema-based data pump jobs via SQL Developer
 - [SQL Developer Data Pump import into Autonomous Database](https://techrochet.com/sql-developer-data-pump-import)
