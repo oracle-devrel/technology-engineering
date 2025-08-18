@@ -22,6 +22,12 @@ Reviewed: 28.02.2025
 
 - [OCI GoldenGate Demo - Realtime data replication from Postgres to ADW](https://oradocs.oracle.com/documents/link/LD4145D4B24FEE57EABE0F50975040B24F20D580F947/fileview/D200667F14B944E8C21E9984CEC2A6B73DFDCF90D2A1/_Video-OCIGG-PostgresToOracle.mp4)
   - Video of Replicating PostgreSQL to ADW using OCI GoldenGate
+ 
+- [GoldenGate Data Streams - F1 Usecase](https://medium.com/@aporcescu/oracle-goldengate-data-streams-to-f1-telemetry-58532993e26a)
+  - It is a step-by-step article about implementing Oracle GoldenGate Data Streams in a usecase of streaming F1 telemetry data into a web app
+    
+
+ 
 
 
 # Useful Links
