@@ -6,7 +6,7 @@ The Data Pump export utility writes the schema objects, including the tables and
 
 A set of best practices and other useful assets/links can be found in this page.
 
-Reviewed: 05.02.2025
+Reviewed: 16.07.2025
 
  
 # Table of Contents
@@ -28,12 +28,12 @@ Reviewed: 05.02.2025
     - YouTube Video by Austine Ouma explaining how to run schema-based data pump jobs via SQL Developer
 - [SQL Developer Data Pump import into Autonomous Database](https://techrochet.com/sql-developer-data-pump-import)
     - Blog post by Austine Ouma explaining how to run data pump jobs into Autonomous Database from SQL Developer
-- [Interactive Command Mode with Oracle Data Pump](https://youtu.be/Xm0Dx-P_RCs)
-    - YouTube Video by Austine Ouma explaining how to manage running jobs in Oracle Data Pump
+- [Interactive Command Mode with Oracle Data Pump](https://techrochet.com/data-pump-interactive-command-mode)
+    - Blog Post by Austine Ouma explaining how to manage running jobs in Oracle Data Pump
 - [Importing large Data Pump dump files into Oracle Base Database on OCI via OCI Object Storage buckets mounted on the database file system](https://youtu.be/dWlzUMcbbo8)
     - YouTube Video by Austine Ouma explaining how to import large data pump dump files into Oracle Base Database on OCI via OCI Object Storage buckets mounted on the database file system
-- [OCI Console Data Pump Import Wizard](https://www.youtube.com/watch?v=FZAJezCQjhE)
-    - YouTube Video by Austine Ouma explaining how to use the OCI DB Console Import Wizard to import data into Autonomous Database
+- [OCI Console Data Pump Import Wizard](https://techrochet.com/console-data-pump-import-wizard)
+    - Blog Post by Austine Ouma explaining how to use the OCI DB Console Import Wizard to import data into Autonomous Database
 - [A Complete Guide to Migrate your Data to Autonomous Database and Best Practices](https://medium.com/@snoozrocks/a-complete-guide-to-migrate-your-data-to-autonomous-database-and-best-practices-8e5fbdaa26eb)
     - This blog post provides a high-level overview of the steps to migrate data from a source Oracle Database to the Autonomous Database Cloud using Data Pump and OCI Object Storage
 - [Migrate to Oracle Autonomous DB@Azure using Azure blob storage - Video](https://www.youtube.com/watch?v=CtTgweuLG9s)
@@ -46,6 +46,14 @@ Reviewed: 05.02.2025
     - The ultimate resource for mastering every option in detail and to unlock the full potential of the Python script, available on Marcus Doeringer's public platform
 - [How to Perform DataPump Import to Oracle 19c Database using Export dumps on OCI Object Storage ?](https://amalrajputhenchira.wordpress.com/2025/01/17/how-to-perform-datapump-import-to-oracle-19c-database-using-export-dumps-on-oci-object-storage/)
     - Detailed, step-by-step instructions for Performing DataPump Import to Oracle Database 19c with Export dumps on OCI Object Storage , available on Amalraj Puthenchira's public platform
+- [Data Pump Bundle Patch](https://macsdata.com/oracle/data-pump-bundle-patch)
+    - Overview and complete installation walkthrough with examples for 19c and 23ai databases, available on Marcus Doeringer's public platform
+- [Installing DBMS_CLOUD packages in Oracle 23ai (I) and how to use with Data Pump](https://carlosal.wordpress.com/2025/04/01/installing-dbms_cloud-in-oracle-23ai/)
+    - Blog article by Carlos Álvarez showing how easy it is to install DBMS_CLOUD packages in Oracle 23ai and how to export and import with Data Pump to and from Object Storage.
+- [Installing DBMS_CLOUD packages in Oracle 23ai (II) ](https://carlosal.wordpress.com/2025/05/14/installing-dbms_cloud-in-oracle-23ai-ii/)
+    - Blog article by Carlos Álvarez showing how to complete the installation of DBMS_CLOUD packages in Oracle 23ai.
+- [How to Check Data Pump Log Files in Oracle Autonomous Database stored in DATA_PUMP_DIR](https://carlosal.wordpress.com/2025/06/19/how-to-check-data-pump-log-files-in-oracle-autonomous-database-stored-in-data_pump_dir/)
+    - Blog article by Carlos Álvarez about methods to access and examine Data Pump log files generated in the DATA_PUMP_DIR directory from within the Autonomous Database.
 
 # Useful Links
 - [Loading Data from Google Cloud Storage to Oracle Database](https://database-heartbeat.com/2024/10/01/google-storage-to-oracle-database/)
@@ -57,7 +65,7 @@ Reviewed: 05.02.2025
 
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

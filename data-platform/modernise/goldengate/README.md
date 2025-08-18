@@ -17,13 +17,16 @@ Reviewed: 21.08.2024
     - This blog post provides a high-level overview of the steps to connect OCI Goldengate Console using OCI Bastion Service using private subnet
 - [Step by Step Guide for Readiness Precheck For Database Migrations using Oracle GoldenGate Microservices](https://medium.com/@snoozrocks/step-by-step-guide-for-readiness-precheck-for-database-migrations-using-oracle-goldengate-90b93876fae2)
 
+
+- [Migrate an IBM Db2 for i (AS/400) Database to Oracle ADB-D Using Oracle GoldenGate](https://medium.com/@snoozrocks/migrate-an-ibm-db2-for-iseries-database-to-oci-adb-d-using-oracle-goldengate-dd1cda91ce6f)
+
 # Useful Links
 - [Oracle Goldengate 21c](https://docs.oracle.com/en/middleware/goldengate/core/21.3/index.html)
 - [Learn About Migrating with Oracle GoldenGate](https://docs.oracle.com/en/solutions/reduce-database-migration-downtime/learn-migrating-oracle-goldengate1.html)
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
