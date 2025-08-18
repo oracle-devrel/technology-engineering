@@ -2,7 +2,7 @@
 
 Application Performance Monitoring service provides deep visibility into the performance of applications and provides the ability to diagnose issues quickly to deliver a consistent level of service. This includes the monitoring of the multiple components and application logic spread across clients, third-party services, and back-end computing tiers, on-premises or on the cloud.
 
-Reviewed: 19.07.2024
+Reviewed: 30.06.2025
 
 # Table of Contents
 
@@ -23,6 +23,7 @@ Reviewed: 19.07.2024
 - [How to use OCI APM in Kubernetes Environment for Java Application](https://karthicin.medium.com/how-to-use-oci-apm-in-kubernetes-environment-for-java-application-56de2c770a69)
 - [Use Postman request code snippets for Synthetic Monitoring in OCI Application Performance Monitoring](https://medium.com/@michtoeth/use-postman-request-code-snippets-for-synthetic-monitoring-in-oci-application-performance-1fa91d51677c)
 - [.NET Application monitoring using OCI APM](https://karthicin.medium.com/net-application-monitoring-using-oci-apm-7896706ed508)
+- [OCI APM for JD Edwards: Pinpoint performance bottlenecks in business-critical services](https://blogs.oracle.com/observability/post/enable-oci-apm-for-oracle-jd-edwards)
 
 
 # Useful Links
@@ -32,7 +33,7 @@ Reviewed: 19.07.2024
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

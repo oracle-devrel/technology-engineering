@@ -4,6 +4,24 @@ This section contains various examples related to Application Integration: demo 
 
 # Team Publications
 
+## Technical Case Study
+
+- [Careem increases efficiency and cuts invoice process time 70% with Oracle AI](https://www.oracle.com/customers/careem-case-study/)
+
+    - Business Challenge: 
+        Careem is a Dubai-based super app with operations in over 70 cities, covering 10 countries across the Middle East, Africa, and South Asia regions. The company was founded with a mission to simplify transportation and create earning opportunities as a ride-hailing marketplace. Careem wanted to enhance aspects of its back-end operations—such as manual invoice management—to enable greater scalability and accuracy. 
+    - Results: 
+        The adoption of Oracle’s AI-powered invoice automation solution has transformed Careem Groceries’ operations, unlocking new opportunities to innovate.
+        - Cut invoice processing time by 70%, from 3 minutes to under 1 minute, freeing over 332 hours monthly
+        - Reduced errors while enhancing accuracy and compliance
+        - Handle more than 10,000 invoices per month and scale 37% more volume without additional staff
+        - Automate workflows and simplify scalability, strengthening Careem’s position in Dubai’s Q-commerce market
+    - Oracle Solutions: 
+        - Oracle Integration
+        - Oracle Cloud Infrastructure Document Understanding
+        - Oracle Autonomous Transaction Processing
+        - Oracle APEX
+
 ## Architecture Center
 
 - [Enable a Low Code Modular LLM App Engine using Oracle Integration and OCI Generative AI](https://docs.oracle.com/en/solutions/oci-generative-ai-integration/index.html)
@@ -18,6 +36,38 @@ This section contains various examples related to Application Integration: demo 
    - To run integrations in Oracle Cloud, you need a secure environment that you can operate efficiently. Oracle Integration is a Cloud Native service designed to address your security requirements. This reference architecture describes the components and concepts that enable you to build hybrid integrations.These components conform to the landing zone template and concepts that meet the security guidance prescribed for Oracle Cloud Infrastructure's CIS Foundation Benchmark.
 
 ## Demos
+
+- [Developer Coaching - Agentic AI Workflows in Oracle Integration with OCI Generative AI](https://youtu.be/xbpspBVgG8s?si=yOoX-oBotnpD0XPM)
+
+    - Discover how to build Agentic AI Workflows using Oracle Integration Cloud (OIC) and OCI Generative AI. Learn how large language models (LLMs) can reason, decide, and act by dynamically calling tools, chaining APIs, and orchestrating end-to-end processes. 
+    
+    - In this live coaching session, you’ll learn how to:
+
+        - Design agent-style workflows with tool-calling capabilities
+        - Integrate Cohere LLMs with OIC to unlock intelligent automation
+        - Set up preamble prompts, tool definitions, and orchestration
+        - Build real-world use cases with step-by-step demos.
+
+
+- [Setting Up OAuth with JWT User Assertion in OIC: Identity Propagation from VBCS, OIC to OPA](https://youtu.be/UdOXA53BQMM?si=YIjvJbNrMblqhczM)
+
+    - In this step-by-step tutorial, you'll learn how to setup OAuth 2.0 using JWT User Assertion in Oracle Integration Cloud (OIC) to enable secure identity propagation between Oracle Integration and Oracle Process Automation (OPA). You will also see how idenity can easily propogate from Visual Builder to OIC to OPA.
+
+    - The video covers:
+        - Creating client confidential application
+        - Certificate creation and upload
+        - Constructing the JWT header and payload
+        - Configuring the REST connection in OIC
+        - Full OAuth and identity propagation flow
+
+
+- [Developer Coaching - Unlocking Robotic Process Automation with Oracle Integration](https://youtu.be/Gh33NJfoanU?si=iVIZQ4fgrQVTVdYc)
+
+    - Developer Coaching Session "Unlocking Robotic Process Automation with Oracle Integration for Developers", where we explore the full spectrum of capabilities offered by Oracle Integration Cloud (OIC). 
+
+    This powerful platform seamlessly combines integration, process automation, low-code visual development, and advanced Robotic Process Automation (RPA) to empower developers and streamline business processes. 
+
+    This session will focus on Robotic Process Automation. Learn how to automate repetitive tasks, orchestrate end-to-end workflows, and accelerate productivity using RPA tailored for modern development needs. Whether you're scaling applications, optimizing business operations, or innovating digital solutions, this session will provide you with the expertise and practical insights to harness the full potential of RPA within OIC. Don’t miss this chance to elevate your automation strategy!
 
 - [Developer Coaching Session : Automate Expenses - OCI Document Understanding + Oracle Process Automation](https://youtu.be/orqQoTFrKBc?si=PCCSYWtblxLWCIwn)
 
@@ -189,6 +239,38 @@ This section contains various examples related to Application Integration: demo 
 
 ## Blogs
 
+-[A Beginner’s Guide to Using OCI Generative AI with Oracle Integration](https://www.linkedin.com/pulse/beginners-guide-using-oci-generative-ai-oracle-harris-qureshi-wqcof/)
+
+Designed for Oracle Integration developers, this beginner-friendly guide walks you through:
+
+ • Exploring the OCI Generative AI Playground
+ • Understanding the OCI Gen AI Inference API
+ • Calling OCI Gen AI directly from Oracle Integration
+
+Whether you're experimenting or building real use cases, this step-by-step intro will help you bridge the gap between integration and Gen AI. It also includes a hands on demo.
+
+- [Agentic AI Workflows in Oracle Integration: Unlocking the Power of Generative AI](https://www.linkedin.com/pulse/agentic-ai-workflows-oracle-integration-unlocking-power-qureshi-nxm0f)
+
+    What if your integrations could reason, plan, and act on their own? In this article, I explore how Agentic AI Workflows in OIC, powered by OCI Generative AI, enable dynamic, 𝙨𝙚𝙡𝙛–𝙤𝙥𝙩𝙞𝙢𝙞𝙯𝙞𝙣𝙜 𝙨𝙮𝙨𝙩𝙚𝙢𝙨 𝙩𝙝𝙖𝙩 𝙖𝙙𝙖𝙥𝙩 𝙖𝙣𝙙 𝙧𝙚𝙨𝙥𝙤𝙣𝙙 𝙞𝙣 𝙧𝙚𝙖𝙡 𝙩𝙞𝙢𝙚.
+
+    You’ll learn how to:
+
+    - Replace hard-coded logic with 𝘁𝗼𝗼𝗹-𝗰𝗮𝗹𝗹𝗶𝗻𝗴 LLMs that make decisions
+    - Design workflows that 𝗮𝗱𝗮𝗽𝘁 𝗶𝗻 𝗿𝗲𝗮𝗹 𝘁𝗶𝗺𝗲 to changing inputs and context
+    - Orchestrate 𝗮𝗰𝘁𝗶𝗼𝗻𝘀 𝗮𝗰𝗿𝗼𝘀𝘀 𝘀𝘆𝘀𝘁𝗲𝗺𝘀 without rigid dependencies
+    - Treat 𝗚𝗲𝗻𝗲𝗿𝗮𝘁𝗶𝘃𝗲 𝗔𝗜 𝗮𝘀 𝗮 𝘁𝗿𝘂𝗲 𝗶𝗻𝘁𝗲𝗴𝗿𝗮𝘁𝗶𝗼𝗻 𝗽𝗮𝗿𝘁𝗻𝗲𝗿—not just a chatbot
+
+    The article also includes 𝗵𝗮𝗻𝗱𝘀-𝗼𝗻 𝗱𝗲𝗺𝗼𝘀 to illustrate these concepts in action.
+
+
+- [From Prompt to Payload: Using JSON Response Format in OCI Gen AI with Oracle Integration](https://www.linkedin.com/pulse/from-prompt-payload-using-json-response-format-oci-gen-harris-qureshi-4yk9f)
+
+    - Tired of clunky AI integrations? Discover how to seamlessly combine OCI Generative AI’s JSON output with Oracle Integration Cloud (OIC)—unlocking smarter automation and cleaner data pipelines. 
+    In this article, I break down:
+        - ✅ Step-by-step integration tactics for OIC + OCI Generative AI
+        - ✅ How structured JSON responses reduce downstream complexity
+        - ✅ Why this duo is a game-changer for enterprise scalability   
+
 - [GenAI-based Procurement Q&A App using Text-to-SQL and Low-Code Integration](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/procurement-qa-genai/files)
     - In this article, we'll explore how to make a handy tool that helps to enable real-time purchase order feeds into a procurement DB store and also to transform procurement queries in natural language to SQL Queries and synthesize the SQL Response using Oracle Generative AI, Oracle Integration Cloud (OIC) and Oracle Autonomous Database (ADB). This application combines a low-code approach to orchestrate LLM AI services and applications using Oracle Integration Cloud and Generative AI prompting techniques for tasks like text-to-SQL transformations.
 
@@ -216,7 +298,7 @@ This section contains various examples related to Application Integration: demo 
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

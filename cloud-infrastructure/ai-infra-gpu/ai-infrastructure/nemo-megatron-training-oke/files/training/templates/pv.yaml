@@ -1,0 +1,42 @@
+# Copyright (c) 2025 Oracle and/or its affiliates.
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+ name: {{ .Release.Name }}-pv
+ labels:
+   type: nfs
+spec:
+ capacity:
+  storage: 50Gi
+ volumeMode: Filesystem
+ accessModes:
+   - ReadWriteMany
+ persistentVolumeReclaimPolicy: Retain
+ nfs:
+  path: {{ .Values.storage.fss_path }}
+  server: {{ .Values.storage.fss_name }}
+ mountOptions:
+  - nconnect=16
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Release.Name }}-pv
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  selector:
+    matchLabels:
+      type: nfs
+  storageClassName: ""
+  volumeMode: Filesystem
+  volumeName: {{ .Release.Name }}-pv
+status:
+  accessModes:
+  - ReadWriteMany
+  capacity:
+    storage: 50Gi
+  phase: Bound

@@ -6,8 +6,9 @@ Assets that contain oic adapters configuration and implementation practice for t
 - HCM Adapter
 - Kafka Adapter
 - EBS Adapter
+- Oracle CX Sales Cloud and B2B Adapter 
 
-Review Date: 28.11.2024
+Review Date: 17.07.2025
 
 # When to use these assets?
 
@@ -19,7 +20,7 @@ The information is generic in nature and not specified for a particular customer
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

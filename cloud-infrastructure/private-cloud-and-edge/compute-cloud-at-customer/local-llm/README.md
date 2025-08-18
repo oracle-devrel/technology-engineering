@@ -1,6 +1,6 @@
-*Last Update: 27 November 2024*
+*Last Update: 15.08.2025*
 
-<br><h1 align="center">Local LLM Inferencing and Interaction<br>Using the Ollama Open Source Tool</h1>
+<br><h1 align="center">Local LLM Serving<br>Using the Ollama Open Source Tool</h1>
 <p align="center"><img align="centre" src="./images/ollama-logo.png" width="10%" style="float:right"/></p>
 
 
@@ -21,12 +21,12 @@
 
 By running models locally, you maintain full data ownership and avoid the potential security risks associated with cloud storage. Offline AI tools like Ollama also help reduce latency and reliance on external facilities, making them faster and more reliable.
 
-This article is intended to demonstrate and provide directions to install and create an Ollama LLM processing facility. Despite the fact that Ollama can be run on both personal servers and laptops, this installation is aimed at the Oracle Compute Cloud@Customer (C3) and Private Cloud Appliance (PCA) to capitalize on more readily available resources to increase performance and processing efficiency, especially if large models are used.
+This article is intended to demonstrate and provide directions to install and create an Ollama LLM processing facility. Despite the fact that Ollama can be run on both personal servers and laptops, this installation is aimed at the Oracle Compute Cloud@Customer (C3) to capitalize on more readily available resources to increase performance and processing efficiency, especially if large models are used.
 
 Considerations:
-* A firm grasp of C3/PCA/OCI concepts and administration is assumed.
+* A firm grasp of C3 and OCI concepts and administration is assumed.
 * The creation and integration of a development environment is outside of the scope of this document.
-* Oracle Linux 8 and macOS Sonoma 14.7.1 clients were used for testing but Windows is however widely supported.
+* Oracle Linux 8, macOS Sonoma 14.7.1 and macOS Sequoia 15.3.2 clients were used for testing but Windows is however widely supported.
 
 [Back to top](#toc)<br>
 <br>
@@ -40,17 +40,16 @@ Considerations:
 |----------|----------|
 | Operating system | Oracle Linux 8 or later<br>Ubuntu 22.04 or later<br>Windows<br> |
 | RAM | 16 GB for running models up to 7B. "The rule of thumb" is to have at least 2x memory for the size of the LLM, also allowing for LLMs that will be loaded in memory simultaneously. |
-| Disk space | 12 GB for installing Ollama and basic models. Additional space is required for storing model data depending on the used models. The LLM sizes can be obtained from the "trained models" link in the References section. For example the Llama 3.1 LLM with 405Bn parameters occupy 229GB of disk space |
+| Disk space | 12 GB for installing Ollama and basic models. Additional space is required for storing model data depending on the used models. The LLM sizes can be obtained from the "trained models" link in the References section. For example the Llama 3.1 LLM with 405Bn parameters occupies 229GB of disk space |
 | Processor | Recommended to use a modern CPU with at least 4 cores. For running models of approximately 15B, 8 cores (OCPUs) is recommended. Allocate accordingly |
-| Graphics Processing Unit<br>(optional) | A GPU is not required for running Ollama, but can improve performance, especially when working with large models. If you have a GPU, you can use it to accelerate training of custom models. |
+| Graphics Processing Unit<br>(optional) | A GPU is not required for running Ollama, but can improve performance, especially when working with large models. If you have a GPU, you can use it to accelerate inferencing, training, fine-tuning and RAG (Retrieval Augmented Generation). |
 
 >[!NOTE]
->The GPU options in the Compute Cloud@Customer will be available soon.
+>The C3 now has an NVIDIA L40S GPU expansion option available. Using a 4-GPU VM it is expected that performance acceleration will dramatically improve for LLMs of up to approximately 70bn parameters.
 
 ### Create a Virtual Machine Instance
 
-[C3: Creating an Instance](https://docs.oracle.com/en-us/iaas/compute-cloud-at-customer/topics/compute/creating-an-instance.htm#creating-an-instance)<br>
-[PCA 3.0: Working with Instances](https://docs.oracle.com/en/engineered-systems/private-cloud-appliance/3.0-latest/user/user-usr-instance-lifecycle.html)
+[Creating an Instance](https://docs.oracle.com/en-us/iaas/compute-cloud-at-customer/topics/compute/creating-an-instance.htm#creating-an-instance)<br>
 
 Create a VM in a public subnet following these guidelines:
 
@@ -73,8 +72,7 @@ sudo dnf update
 
 ### Create a Block Storage Device for LLMs
 
-[C3: Creating and Attaching Block Volumes](https://docs.oracle.com/en-us/iaas/compute-cloud-at-customer/topics/block/creating-and-attaching-block-volumes.htm)<br>
-[PCA 3.0: Creating and Attaching Block Volumes](https://docs.oracle.com/en/engineered-systems/private-cloud-appliance/3.0-latest/user/user-usr-blk-volume-create-attach.html)
+[Creating and Attaching Block Volumes](https://docs.oracle.com/en-us/iaas/compute-cloud-at-customer/topics/block/creating-and-attaching-block-volumes.htm)<br>
 
 1.  Create and attach a block volume to the VM
 2.  Volume name `llm-repo`
@@ -106,7 +104,7 @@ export no_proxy
 ```
 
 >[!TIP]
->The `no_proxy` environment variable can be expanded to include your internal domains. It is not required to list IP addresses in internal subnets of the C3/PCA.
+>The `no_proxy` environment variable can be expanded to include your internal domains. It is not required to list IP addresses in internal subnets of the C3.
 
 Edit the `/etc/yum.conf` file to include the following line:
 ```
@@ -181,7 +179,7 @@ The installation comprises the following components:
 <sup><sub>2</sup></sub> See [Ollama documentation](https://github.com/ollama/ollama/tree/main/docs)
 
 >[!IMPORTANT]
->When GPU's become available the NVIDIA and CUDA drivers should be installed. This configuration will also be tested on the Roving Edge Device GPU model.
+>When GPU's are available for use on the C3 the NVIDIA and CUDA drivers should be installed. This configuration will also be tested on the Roving Edge Device GPU model.
 
 ### Installation
 
@@ -319,8 +317,9 @@ Example output as follows:
 <br>
 
 ## License
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
 See [LICENSE](LICENSE) for more details.
+
