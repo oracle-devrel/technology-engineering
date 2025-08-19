@@ -1,6 +1,6 @@
-*Last Update: 04.04.2025*
+*Last Update: 15.08.2025*
 
-<br><h1 align="center">Local LLM Inferencing and Interaction<br>Using the Ollama Open Source Tool</h1>
+<br><h1 align="center">Local LLM Serving<br>Using the Ollama Open Source Tool</h1>
 <p align="center"><img align="centre" src="./images/ollama-logo.png" width="10%" style="float:right"/></p>
 
 
