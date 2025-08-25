@@ -1,7 +1,7 @@
 """
 File name: answer_generator.py
 Author: Luigi Saetta
-Date last modified: 2025-03-31
+Date last modified: 2025-04-02
 Python Version: 3.11
 
 Description:
@@ -67,10 +67,8 @@ class AnswerGenerator(Runnable):
 
         docs: list[Documents]
         """
-        _context = ""
-
-        for doc in docs:
-            _context += doc.page_content + "\n\n"
+        # more Pythonic
+        _context = "\n\n".join(doc["page_content"] for doc in docs)
 
         return _context
 
@@ -79,7 +77,7 @@ class AnswerGenerator(Runnable):
         """
         Generate the final answer
         """
-        # get the config
+        # get the model_id from config
         model_id = config["configurable"]["model_id"]
 
         if config["configurable"]["main_language"] in self.dict_languages:
@@ -102,6 +100,7 @@ class AnswerGenerator(Runnable):
         try:
             llm = get_llm(model_id=model_id)
 
+            # docs are returned from the reranker
             _context = self.build_context_for_llm(input["reranker_docs"])
 
             system_prompt = PromptTemplate(

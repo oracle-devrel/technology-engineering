@@ -24,6 +24,17 @@ from config import (
 logger = get_console_logger()
 
 
+def get_chunk_header(file_path):
+    """
+    Generate an header for the chunk.
+    """
+    doc_name = remove_path_from_ref(file_path)
+    # split to remove the extension
+    doc_title = doc_name.split(".")[0]
+
+    return f"# Doc. title: {doc_title}\n", doc_name
+
+
 def get_recursive_text_splitter(chunk_size=CHUNK_SIZE, chunk_overlap=CHUNK_OVERLAP):
     """
     return a recursive text splitter
@@ -39,7 +50,15 @@ def get_recursive_text_splitter(chunk_size=CHUNK_SIZE, chunk_overlap=CHUNK_OVERL
 
 def load_and_split_pdf(book_path, chunk_size=CHUNK_SIZE, chunk_overlap=CHUNK_OVERLAP):
     """
-    load a single book
+    Loads and splits a PDF document into chunks using a recursive character text splitter.
+
+    Args:
+        book_path (str): The file path of the PDF document.
+        chunk_size (int): Size of each text chunk.
+        chunk_overlap (int): Overlap between chunks.
+
+    Returns:
+        List[Document]: A list of LangChain Document objects with metadata.
     """
     text_splitter = get_recursive_text_splitter(chunk_size, chunk_overlap)
 
@@ -50,10 +69,7 @@ def load_and_split_pdf(book_path, chunk_size=CHUNK_SIZE, chunk_overlap=CHUNK_OVE
     chunk_header = ""
 
     if len(docs) > 0:
-        doc_name = remove_path_from_ref(book_path)
-        # split to remove the extension
-        doc_title = doc_name.split(".")[0]
-        chunk_header = f"# Doc. title: {doc_title}\n"
+        chunk_header, _ = get_chunk_header(book_path)
 
     # remove path from source and reduce the metadata (16/03/2025)
     for doc in docs:
@@ -61,17 +77,25 @@ def load_and_split_pdf(book_path, chunk_size=CHUNK_SIZE, chunk_overlap=CHUNK_OVE
         doc.page_content = chunk_header + doc.page_content
         doc.metadata = {
             "source": remove_path_from_ref(book_path),
-            "page_label": doc.metadata["page_label"],
+            "page_label": doc.metadata.get("page_label", ""),
         }
 
-    logger.info("Loaded %s chunks...", len(docs))
+    logger.info("Successfully loaded and split %d chunks from %s", len(docs), book_path)
 
     return docs
 
 
 def load_and_split_docx(file_path, chunk_size=CHUNK_SIZE, chunk_overlap=CHUNK_OVERLAP):
     """
-    To load docx files
+    Loads and splits a docx document into chunks using a recursive character text splitter.
+
+    Args:
+        file_path (str): The file path of the document.
+        chunk_size (int): Size of each text chunk.
+        chunk_overlap (int): Overlap between chunks.
+
+    Returns:
+        List[Document]: A list of LangChain Document objects with metadata.
     """
     loader = UnstructuredLoader(file_path)
     docs = loader.load()
@@ -80,12 +104,10 @@ def load_and_split_docx(file_path, chunk_size=CHUNK_SIZE, chunk_overlap=CHUNK_OV
     grouped_text = defaultdict(list)
 
     chunk_header = ""
+    doc_name = ""
 
     if len(docs) > 0:
-        doc_name = remove_path_from_ref(file_path)
-        # split to remove the extension
-        doc_title = doc_name.split(".")[0]
-        chunk_header = f"# Doc. title: {doc_title}\n"
+        chunk_header, doc_name = get_chunk_header(file_path)
 
     for doc in docs:
         # fallback to 0 if not available
@@ -115,6 +137,6 @@ def load_and_split_docx(file_path, chunk_size=CHUNK_SIZE, chunk_overlap=CHUNK_OV
                 )
             )
 
-    logger.info("Loaded %s chunks...", len(final_chunks))
+    logger.info("Successfully loaded and split %d chunks from %s", len(docs), file_path)
 
     return final_chunks
