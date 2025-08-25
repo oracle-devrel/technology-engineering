@@ -57,17 +57,22 @@ class BM25OracleSearch:
                 cursor.execute(query)
 
                 while True:
-                    rows = cursor.fetchmany(self.batch_size)  # Fetch records in batches
+                    # Fetch records in batches
+                    rows = cursor.fetchmany(self.batch_size)
                     if not rows:
-                        break  # Exit loop when no more data
+                        # Exit loop when no more data
+                        break
 
                     for row in rows:
-                        lob_data = row[0]  # This is a CLOB object
+                        # This is a CLOB object
+                        lob_data = row[0]
 
                         if isinstance(lob_data, oracledb.LOB):
-                            _results.append(lob_data.read())  # Read LOB content
+                            # Read LOB content
+                            _results.append(lob_data.read())
                         else:
-                            _results.append(str(lob_data))  # Fallback for non-LOB data
+                            # Fallback for non-LOB data
+                            _results.append(str(lob_data))
 
         return _results
 
@@ -116,18 +121,33 @@ class BM25OracleSearch:
 
 # Example Usage:
 # credential are packed in CONNECT_ARGS
-table_name = "BOOKS"
-text_column = "TEXT"
 
-# create the index
-bm25_search = BM25OracleSearch(table_name, text_column)
 
-questions = ["Chi è Luigi Saetta?", "What are the main innovation produced by GPT-4?"]
+def run_test():
+    """
+    To run a quick test.
+    """
+    table_name = "BOOKS"
+    text_column = "TEXT"
 
-for _question in questions:
-    results = bm25_search.search(_question, top_n=2)
+    # create the index
+    bm25_search = BM25OracleSearch(table_name, text_column)
 
-    # Print search results
-    for text, score in results:
-        print(f"Score: {score:.2f} - Text: {text}")
-        print("")
+    questions = [
+        "Chi è Luigi Saetta?",
+        "What are the main innovation produced by GPT-4?",
+    ]
+
+    for _question in questions:
+        results = bm25_search.search(_question, top_n=2)
+
+        # Print search results
+        for text, score in results:
+            print(f"Score: {score:.2f} - Text: {text}")
+            print("")
+
+
+#
+# Main
+#
+run_test()
