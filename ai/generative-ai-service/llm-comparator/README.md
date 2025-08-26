@@ -19,11 +19,12 @@ Configure your Oracle Cloud Infrastructure credentials and endpoints in the conf
 
 # Useful Links
 
-- [Gen AI DAC: Performance](https://docs.public.content.oci.oraclecloud.com/en-us/iaas/Content/generative-ai/performance.htm)
-- [Gen AI Data handlining](https://docs.public.content.oci.oraclecloud.com/en-us/iaas/Content/generative-ai/data-handling.htm)
-- [Hyperparameter details](https://docs.public.content.oci.oraclecloud.com/en-us/iaas/Content/generative-ai/fine-tuning-parameters.htm)
-- [Model performance details](https://docs.public.content.oci.oraclecloud.com/en-us/iaas/Content/generative-ai/concepts-metrics.htm)
-- [Available fine tunning methods](https://docs.public.content.oci.oraclecloud.com/en-us/iaas/Content/generative-ai/choose-method.htm)
+- [Gen AI DAC Performance](https://docs.public.content.oci.oraclecloud.com/en-us/iaas/Content/generative-ai/performance.htm): Understand the performance characteristics of Generative AI Dedicated AI Cluster on OCI.
+- [Gen AI Data Handling](https://docs.public.content.oci.oraclecloud.com/en-us/iaas/Content/generative-ai/data-handling.htm): Learn about data handling practices and policies for Generative AI on OCI.
+- [Hyperparameter Details](https://docs.public.content.oci.oraclecloud.com/en-us/iaas/Content/generative-ai/fine-tuning-parameters.htm): Explore the hyperparameters available for fine-tuning Generative AI models on OCI.
+- [Model Performance Details](https://docs.public.content.oci.oraclecloud.com/en-us/iaas/Content/generative-ai/concepts-metrics.htm): Understand the metrics used to evaluate the performance of Generative AI models on OCI.
+- [Available Fine-Tuning Methods](https://docs.public.content.oci.oraclecloud.com/en-us/iaas/Content/generative-ai/choose-method.htm): Discover the fine-tuning methods supported by Generative AI on OCI and how to choose the right one.
+- [Sample Fine-Tuning Dataset](https://huggingface.co/datasets/gbharti/finance-alpaca): Access a sample dataset for fine-tuning Generative AI models, specifically in the finance domain.
 
 # License
 
