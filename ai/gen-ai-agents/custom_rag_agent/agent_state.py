@@ -40,6 +40,9 @@ class State(TypedDict):
     standalone_question: str = ""
 
     # similarity_search
+    # 30/06: modified, now they're a dict with
+    # page_content and metadata
+    # populated with docs_serializable (utils.py)
     retriever_docs: Optional[list] = []
     # reranker
     reranker_docs: Optional[list] = []
