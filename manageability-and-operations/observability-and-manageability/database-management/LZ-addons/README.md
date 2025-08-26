@@ -2,15 +2,22 @@
 
 &nbsp; 
 
-### 1. Overview
+## 1. Overview
 
-Welcome to the **Database Management Add-ons page for Landing Zone**. 
-This page serves as a complement to the Landing Zone Add-ons available here.
-Here, you will find an up-to-date, step-by-step guide to successfully enable Ops Insights on your target environment.
+Welcome to the **Database Management Add-ons page for Landing Zone**
 
-Reviewed: 30.06.2025
+The OCI Open Landing Zone offers comprehensive OCI blueprints that streamline design and implementation, significantly reducing both timelines and associated costs. 
+This approach ensures a future-proof OCI environment with built-in security and scalability.
+An add-on is a complementary element or mechanism that enhances the overall Landing Zone environment by providing specific capabilities. 
+These can include solution designs, documentation, Infrastructure as Code (IaC) configurations, and more.
 
-## 2. Targets.
+This page serves as a complement to the OCI Landing Zone Add-ons available [here](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities/tree/master)
+
+Here, you will find an up-to-date, step-by-step guides to successfully enable OCI Database Management Service on your target environment.
+
+Reviewed: 24.07.2025
+
+## 2. Targets
 
 | # |  Name | Status |
 |:--:|---|---|
@@ -21,7 +28,7 @@ Reviewed: 30.06.2025
 
 
 
-# License
+### License
 
 Copyright (c) 2025 Oracle and/or its affiliates.
 
