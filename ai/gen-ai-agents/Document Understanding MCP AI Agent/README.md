@@ -1,5 +1,7 @@
 # MCP Document Understanding Invoice Agent
 
+Reviewed: 23.08.2025
+
 The **Document Understanding Agent** is an AI-powered assistant designed to extract and understand text from documents (e.g., PDFs, images) using Oracle Cloud Infrastructure (OCI) Generative AI Agents and Document Understanding services.
 
 This tool demonstrates an end-to-end workflow involving:
