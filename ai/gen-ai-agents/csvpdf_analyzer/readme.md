@@ -4,7 +4,7 @@ CSV Analyzer Agent is an AI-Agent assistant designed to automate document unders
 It intelligently routes user questions through a multi-step process that includes PDF information extraction, CSV data analysis, code generation, execution, and natural language explanation.  
 It supports dynamic workflows like PDF parsing, CSV querying, and context-aware reporting through a Streamlit UI.
 
-Reviewed: April 18, 2025
+Reviewed: August 18, 2025
 
 # When to use this asset?
 

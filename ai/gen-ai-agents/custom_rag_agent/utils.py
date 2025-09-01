@@ -12,7 +12,6 @@ Usage:
     Example:
       from utils import ...
 
-
 License:
     This code is released under the MIT License.
 
@@ -25,20 +24,22 @@ Warnings:
 """
 
 import os
+from typing import List
 import logging
 import re
 import json
+from langchain.schema import Document
 
 
-def get_console_logger():
+def get_console_logger(name: str = "ConsoleLogger", level: str = "INFO"):
     """
     To get a logger to print on console
     """
-    logger = logging.getLogger("ConsoleLogger")
+    logger = logging.getLogger(name)
 
     # to avoid duplication of logging
     if not logger.handlers:
-        logger.setLevel(logging.INFO)
+        logger.setLevel(level)
 
         handler = logging.StreamHandler()
         handler.setLevel(logging.INFO)
@@ -61,7 +62,8 @@ def extract_text_triple_backticks(_text):
     """
     logger = get_console_logger()
 
-    pattern = r"```(.*?)```"  # Uses (.*?) to capture text between backticks in a non-greedy way
+    # Uses (.*?) to capture text between backticks in a non-greedy way
+    pattern = r"```(.*?)```"
     # re.DOTALL allows capturing multiline content
 
     try:
@@ -95,7 +97,7 @@ def extract_json_from_text(text):
         # If no JSON content is found, raise an error
         raise ValueError("No JSON content found in the text.")
     except json.JSONDecodeError as e:
-        raise ValueError(f"Invalid JSON format: {e}")
+        raise ValueError(f"Invalid JSON format: {e}") from e
 
 
 # for the loading utility
@@ -109,3 +111,36 @@ def remove_path_from_ref(ref_pathname):
         ref = ref_pathname.split(os.sep)[-1]
 
     return ref
+
+
+def docs_serializable(docs: List[Document]) -> dict:
+    """
+    Convert Langchain document in dict json serializable.
+
+    (30/06/2025): this function has been introduced to transform Langchain Document in dict,
+    that can be easily serializable (for the streaming API)
+    Args:
+        docs (List[Document]): Lista     di Document da convertire.
+    Returns:
+    """
+    _docs_serializable = [
+        {"page_content": doc.page_content, "metadata": doc.metadata or {}}
+        for doc in docs
+    ]
+    return _docs_serializable
+
+
+def print_mcp_available_tools(tools):
+    """
+    Print the available tools in a readable format.
+
+    Args:
+        tools (list): List of tools to print.
+    """
+    print("\n--- MCP Available tools:")
+    for tool in tools:
+        print(f"Tool: {tool.name} - {tool.description}")
+        print("Input Schema:")
+        pretty_schema = json.dumps(tool.inputSchema, indent=4, sort_keys=True)
+        print(pretty_schema)
+        print("")
