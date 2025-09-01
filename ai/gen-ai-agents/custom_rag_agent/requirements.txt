@@ -141,7 +141,7 @@ platformdirs==4.3.6
 prometheus_client==0.21.1
 prompt_toolkit==3.0.50
 propcache==0.3.0
-protobuf==5.29.3
+protobuf==5.29.5
 psutil==7.0.0
 ptyprocess==0.7.0
 pure_eval==0.2.3
@@ -201,7 +201,7 @@ tinycss2==1.4.0
 tokenize_rt==6.1.0
 toml==0.10.2
 tomlkit==0.13.2
-tornado==6.4.2
+tornado==6.5
 tqdm==4.67.1
 traitlets==5.14.3
 txt2tags==3.9
