@@ -1,5 +1,6 @@
 """
 Semantic Search exposed as an MCP tool
+This verion use stdio (local) as transport
 
 Author: L. Saetta
 License: MIT
@@ -12,17 +13,17 @@ from typing import Annotated
 from pydantic import Field
 
 from fastmcp import FastMCP
-from fastmcp.server.dependencies import get_http_headers
 
 from utils import get_console_logger
-from jwt_utils import get_token_from_headers, verify_jwt_token
 from oci_models import get_embedding_model, get_oracle_vs
 from db_utils import get_connection, list_collections, list_books_in_collection
 
 from config import DEBUG, EMBED_MODEL_TYPE
-from config import TRANSPORT, HOST, PORT, ENABLE_JWT_TOKEN
 
 logger = get_console_logger()
+
+# local, stdio, to test Claude integration
+TRANSPORT = "stdio"
 
 mcp = FastMCP("Demo Semantic Search as MCP server")
 
@@ -30,24 +31,11 @@ mcp = FastMCP("Demo Semantic Search as MCP server")
 #
 # Helper functions
 #
-def validate_token():
-    """
-    Validate the JWT token if enabled
-    """
-    headers = get_http_headers(include_all=True)
-
-    # check that a valid JWT is provided
-    if ENABLE_JWT_TOKEN:
-        if DEBUG:
-            logger.info("Headers: %s", headers)
-
-        # the header has the format: Bearer <token>
-        token = get_token_from_headers(headers)
-        logger.info("Received auth header: %s", token)
-
-        verify_jwt_token(token)
 
 
+#
+# MCP tools definition
+#
 @mcp.tool
 def semantic_search(
     query: Annotated[
@@ -67,8 +55,6 @@ def semantic_search(
     Returns:
         dict: a dictionary containing the relevant documents.
     """
-    # to handle auth using JWT tokens
-    validate_token()
 
     try:
         # must be the same embedding model used during load in the Vector Store
@@ -82,6 +68,8 @@ def semantic_search(
                 embed_model=embed_model,
             )
             relevant_docs = v_store.similarity_search(query=query, k=top_k)
+
+            # (L.S.) we could additionally plug a reranker here
 
             if DEBUG:
                 logger.info("Result from the similarity search:")
@@ -104,8 +92,6 @@ def get_collections() -> list:
     Returns:
         list: A list of collection names.
     """
-    # to handle auth using JWT tokens
-    validate_token()
 
     return list_collections()
 
@@ -123,8 +109,6 @@ def get_books_in_collection(
     Returns:
         list: A list of book titles in the specified collection.
     """
-    # check that a valid JWT is provided
-    validate_token()
 
     try:
         books = list_books_in_collection(collection_name)
@@ -137,8 +121,4 @@ def get_books_in_collection(
 if __name__ == "__main__":
     mcp.run(
         transport=TRANSPORT,
-        # Bind to all interfaces
-        host=HOST,
-        port=PORT,
-        log_level="INFO",
     )
