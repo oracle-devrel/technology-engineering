@@ -62,7 +62,8 @@ class QueryRewriter(Runnable):
         error = None
 
         if len(input["chat_history"]) > 0:
-            logger.info("Reformulating the question...")
+            if DEBUG:
+                logger.info("Reformulating the question...")
 
             try:
                 llm = get_llm(temperature=0)
@@ -88,6 +89,7 @@ class QueryRewriter(Runnable):
                 logger.error("Error in query_rewriting: %s", e)
                 error = str(e)
         else:
+            # no previous requests, don't reformulate
             standalone_question = user_request
 
         return {"standalone_question": standalone_question, "error": error}

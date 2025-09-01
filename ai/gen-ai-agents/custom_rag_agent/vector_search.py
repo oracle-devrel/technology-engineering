@@ -27,25 +27,15 @@ Warnings:
 
 import oracledb
 from langchain_core.runnables import Runnable
-from langchain_community.vectorstores.utils import DistanceStrategy
-from langchain_community.embeddings import OCIGenAIEmbeddings
-from langchain_community.vectorstores.oraclevs import OracleVS
 
 # integration with APM
 from py_zipkin.zipkin import zipkin_span
 
 from agent_state import State
-from utils import get_console_logger
+from oci_models import get_embedding_model, get_oracle_vs
+from utils import get_console_logger, docs_serializable
 
-from config import (
-    AGENT_NAME,
-    DEBUG,
-    AUTH,
-    EMBED_MODEL_ID,
-    SERVICE_ENDPOINT,
-    COMPARTMENT_ID,
-    TOP_K,
-)
+from config import AGENT_NAME, DEBUG, TOP_K, EMBED_MODEL_TYPE
 
 from config_private import CONNECT_ARGS
 
@@ -68,19 +58,6 @@ class SemanticSearch(Runnable):
         """
         return oracledb.connect(**CONNECT_ARGS)
 
-    def get_embedding_model(self):
-        """
-        Create the Embedding Model
-        """
-        embed_model = OCIGenAIEmbeddings(
-            auth_type=AUTH,
-            model_id=EMBED_MODEL_ID,
-            service_endpoint=SERVICE_ENDPOINT,
-            compartment_id=COMPARTMENT_ID,
-        )
-
-        return embed_model
-
     @zipkin_span(service_name=AGENT_NAME, span_name="similarity_search")
     def invoke(self, input: State, config=None, **kwargs):
         """
@@ -89,6 +66,8 @@ class SemanticSearch(Runnable):
         input: the agent state
         """
         collection_name = config["configurable"]["collection_name"]
+        # (07/2025) added to support NVIDIA mbeddings
+        embed_model_type = config["configurable"]["embed_model_type"]
 
         relevant_docs = []
         error = None
@@ -99,15 +78,15 @@ class SemanticSearch(Runnable):
             logger.info("Search question: %s", standalone_question)
 
         try:
-            embed_model = self.get_embedding_model()
+            embed_model = get_embedding_model(embed_model_type)
 
             # get a connection to the DB and init VS
             with self.get_connection() as conn:
-                v_store = OracleVS(
-                    client=conn,
-                    table_name=collection_name,
-                    distance_strategy=DistanceStrategy.COSINE,
-                    embedding_function=embed_model,
+
+                v_store = get_oracle_vs(
+                    conn=conn,
+                    collection_name=collection_name,
+                    embed_model=embed_model,
                 )
 
                 relevant_docs = v_store.similarity_search(
@@ -122,38 +101,14 @@ class SemanticSearch(Runnable):
             logger.error("Error in vector_store.invoke: %s", e)
             error = str(e)
 
-        return {"retriever_docs": relevant_docs, "error": error}
+        # docs_serializable(relevant_docs)
+        # convert the documents to a serializable format
+        # to support the API
+        return {"retriever_docs": docs_serializable(relevant_docs), "error": error}
 
     #
     #  Helper functions
     #
-    def list_books_in_collection(self, collection_name: str) -> list:
-        """
-        get the list of books/documents names in the collection
-        taken from metadata
-        expect metadata contains the field source
-
-        modified to return also the numb. of chunks
-        """
-        query = f"""
-                SELECT DISTINCT json_value(METADATA, '$.source') AS books, 
-                count(*) as n_chunks 
-                FROM {collection_name}
-                group by books
-                ORDER by books ASC
-                """
-        with self.get_connection() as conn:
-            with conn.cursor() as cursor:
-                cursor.execute(query)
-
-                rows = cursor.fetchall()
-
-                list_books = []
-                for row in rows:
-                    list_books.append((row[0], row[1]))
-
-        return list_books
-
     def add_documents(self, docs: list, collection_name: str):
         """
         Add the chunks to an existing collection
@@ -161,14 +116,13 @@ class SemanticSearch(Runnable):
         docs is a list of Langchain documents
         """
         try:
-            embed_model = self.get_embedding_model()
+            embed_model = get_embedding_model(EMBED_MODEL_TYPE)
 
             with self.get_connection() as conn:
-                v_store = OracleVS(
-                    client=conn,
-                    table_name=collection_name,
-                    distance_strategy=DistanceStrategy.COSINE,
-                    embedding_function=embed_model,
+                v_store = get_oracle_vs(
+                    conn=conn,
+                    collection_name=collection_name,
+                    embed_model=embed_model,
                 )
                 v_store.add_documents(docs)
                 logger.info("Added docs to collection %s", collection_name)
