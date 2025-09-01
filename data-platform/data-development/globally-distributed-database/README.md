@@ -20,15 +20,16 @@ Shards can be deployed on all database deployment models such as single instance
 
 Oracle Globally Distributed Database relies on replication for availability. Oracle Globally Distributed Database provides various means of replication depending on your needs:
 
-- Shard-level Replication.
-
 - Oracle Data Guard.
 
 - Raft Replication.
 
-Replication provides high availability, disaster recovery, and additional scalability for reads. A unit of replication can be a shard, a part of a shard, or a group of shards
 
-Reviewed: 26.08.2025
+Replication provides high availability, disaster recovery, and additional scalability for reads. 
+A unit of replication can be a shard, a part of a shard, or a group of shards. You can choose either Oracle Data Guard or Raft replication to replicate your data. 
+Oracle Globally Distributed Database automatically deploys the specified replication topology to the procured systems, and enables data replication. Replication is declaratively specified using GDSCTL command syntax.
+
+Reviewed: 1.09.2025
 
 
 # Table of Contents
