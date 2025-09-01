@@ -51,7 +51,7 @@ griffe==1.7.2
 grpcio==1.71.0
 grpcio-tools==1.71.0
 h11==0.16.0
-h2==4.2.0
+h2==4.3.0
 hf-xet==1.0.3
 hpack==4.1.0
 html2text==2024.2.26
