@@ -170,7 +170,7 @@ pydantic-settings==2.8.1
 pydantic_core==2.33.1
 pyee==12.1.1
 Pygments @ file:///croot/pygments_1684279966437/work
-pypdf==5.4.0
+pypdf==6.0.0
 PySocks==1.7.1
 python-dateutil==2.9.0.post0
 python-dotenv==1.1.0
