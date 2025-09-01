@@ -20,7 +20,7 @@ An Oracle Generative AI Services application that uses AI to evaluate documents 
 pip install -r requirements.txt
 
 # Set up environment variables
-cp .env.example .env.local
+cp .env.example .env
 # Edit .env.local with your Configure Oracle Credentials
 
 # Start main.py
