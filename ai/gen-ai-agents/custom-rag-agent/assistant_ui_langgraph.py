@@ -158,6 +158,9 @@ st.session_state.model_id = st.sidebar.selectbox(
     "Select the Chat Model",
     config.MODEL_LIST,
 )
+
+st.sidebar.text_input(label="Embed Model", value=config.EMBED_MODEL_ID, disabled=True)
+
 st.session_state.enable_reranker = st.sidebar.checkbox(
     "Enable Reranker", value=True, disabled=False
 )

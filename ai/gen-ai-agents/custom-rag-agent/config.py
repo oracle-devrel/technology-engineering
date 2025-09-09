@@ -33,8 +33,11 @@ AUTH = "API_KEY"
 # added this to distinguish between Cohere end REST NVIDIA models
 # can be OCI or NVIDIA
 EMBED_MODEL_TYPE = "OCI"
+# EMBED_MODEL_TYPE = "NVIDIA"
 EMBED_MODEL_ID = "cohere.embed-multilingual-v3.0"
 # EMBED_MODEL_ID = "cohere.embed-multilingual-image-v3.0"
+
+# this one needs to specify the dimension, default is 1536
 # EMBED_MODEL_ID = "cohere.embed-v4.0"
 
 # to support NVIDIA NIM
@@ -64,6 +67,7 @@ if REGION == "us-chicago-1":
         "xai.grok-4",
         "openai.gpt-4.1",
         "openai.gpt-4o",
+        "openai.gpt-5",
         "meta.llama-3.3-70b-instruct",
         "cohere.command-a-03-2025",
     ]
@@ -71,6 +75,9 @@ else:
     MODEL_LIST = [
         "meta.llama-3.3-70b-instruct",
         "cohere.command-a-03-2025",
+        "openai.gpt-4.1",
+        "openai.gpt-4o",
+        "openai.gpt-5",
     ]
 
 ENABLE_USER_FEEDBACK = True
@@ -78,7 +85,7 @@ ENABLE_USER_FEEDBACK = True
 # semantic search
 TOP_K = 6
 # COLLECTION_LIST = ["BOOKS", "CNAF"]
-COLLECTION_LIST = ["BOOKS", "BOOKS2", "AMPLIFON", "AMPLIFON_EXT"]
+COLLECTION_LIST = ["BOOKS", "NVIDIA_BOOKS2"]
 DEFAULT_COLLECTION = "BOOKS"
 
 
