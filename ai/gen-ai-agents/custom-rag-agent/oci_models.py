@@ -20,7 +20,7 @@ Notes:
     This is a part of a demo showing how to implement an advanced
     RAG solution as a LangGraph agent.
 
-    modifiued to support xAI and OpenAI models through Langchain
+    modified to support xAI and OpenAI models through Langchain
 
 Warnings:
     This module is in development, may change in future versions.
@@ -50,7 +50,9 @@ logger = get_console_logger()
 
 ALLOWED_EMBED_MODELS_TYPE = {"OCI", "NVIDIA"}
 
+# for gpt5, since max tokens is not supported
 MODELS_WITHOUT_KWARGS = {
+    "openai.gpt-5",
     "openai.gpt-4o-search-preview",
     "openai.gpt-4o-search-preview-2025-03-11",
 }
@@ -126,6 +128,8 @@ def get_embedding_model(model_type="OCI"):
             api_url=NVIDIA_EMBED_MODEL_URL, model=EMBED_MODEL_ID
         )
 
+    logger.info("Embedding model is: %s", EMBED_MODEL_ID)
+    
     return embed_model
 
 
