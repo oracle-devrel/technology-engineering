@@ -202,7 +202,7 @@ tinycss2==1.4.0
 tokenize_rt==6.1.0
 toml==0.10.2
 tomlkit==0.13.2
-tornado==6.4.2
+tornado==6.5
 tqdm==4.67.1
 traitlets==5.14.3
 txt2tags==3.9
