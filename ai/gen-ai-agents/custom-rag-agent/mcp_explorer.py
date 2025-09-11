@@ -12,6 +12,7 @@ from oci_jwt_client import OCIJWTClient
 from utils import get_console_logger
 from config import DEBUG, ENABLE_JWT_TOKEN, IAM_BASE_URL
 from config_private import SECRET_OCID
+from mcp_servers_config import MCP_SERVERS_CONFIG
 
 # the scope for the JWT token
 SCOPE = "urn:opc:idm:__myscopes__"
@@ -22,7 +23,7 @@ st.set_page_config(page_title="MCP Explorer", layout="wide")
 st.title("🚀 MCP Tool Explorer")
 
 # Config
-DEFAULT_URL = "http://localhost:9000/mcp/"
+DEFAULT_URL = MCP_SERVERS_CONFIG["default"]["url"]
 server_url = st.text_input("URL MCP:", DEFAULT_URL)
 TIMEOUT = 30
 
@@ -35,7 +36,7 @@ if "error" not in st.session_state:
 
 async def fetch_tools():
     """
-    This function call the MCP sevrer to get list and descriptions of tools
+    This function call the MCP server to get list and descriptions of tools
     """
     if ENABLE_JWT_TOKEN:
         # this is a client to OCI IAM to get the JWT token

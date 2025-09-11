@@ -89,6 +89,7 @@ lab==8.4
 langchain==0.3.26
 langchain-community==0.3.26
 langchain-core==0.3.66
+langchain-mcp-adapters==0.1.9
 langchain-text-splitters==0.3.8
 langchain-unstructured==0.1.6
 langdetect==1.0.9
@@ -141,7 +142,7 @@ platformdirs==4.3.6
 prometheus_client==0.21.1
 prompt_toolkit==3.0.50
 propcache==0.3.0
-protobuf==5.29.5
+protobuf==5.29.3
 psutil==7.0.0
 ptyprocess==0.7.0
 pure_eval==0.2.3
@@ -191,7 +192,7 @@ soupsieve==2.6
 SQLAlchemy==2.0.38
 sse-starlette==2.3.6
 stack-data==0.6.3
-starlette==0.47.2
+starlette==0.46.2
 streamlit==1.43.0
 sympy==1.14.0
 tabulate==0.9.0
@@ -201,7 +202,7 @@ tinycss2==1.4.0
 tokenize_rt==6.1.0
 toml==0.10.2
 tomlkit==0.13.2
-tornado==6.5
+tornado==6.4.2
 tqdm==4.67.1
 traitlets==5.14.3
 txt2tags==3.9
@@ -209,7 +210,7 @@ typer==0.16.0
 types-python-dateutil==2.9.0.20241206
 typing-inspect==0.9.0
 typing-inspection==0.4.1
-typing_extensions==4.12.2
+typing_extensions==4.15.0
 tzdata==2025.1
 unstructured==0.18.2
 unstructured-client==0.37.2
