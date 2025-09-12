@@ -2,7 +2,7 @@
 
 A Postman collection of sample SCIM API requests for Oracle Identity Governance (OIG) that showcases the ability to quickly create organizations, managers and users via SCIM API calls. Note that these samples are meant for reference only and are not intended for use in production systems.
 
-Review Date: 28.10.2024
+Review Date: 04.08.2024
 
 # When to use this asset?
 
