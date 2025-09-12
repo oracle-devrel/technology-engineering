@@ -2,7 +2,7 @@
 File name: assistant_ui.py
 Author: Luigi Saetta
 Date created: 2024-12-04
-Date last modified: 2025-03-31
+Date last modified: 2025-07-01
 Python Version: 3.11
 
 Description:
@@ -15,7 +15,7 @@ License:
     This code is released under the MIT License.
 
 Notes:
-    This is part of a  demo fro a RAG solution implemented
+    This is part of a  demo for a RAG solution implemented
     using LangGraph
 
 Warnings:
@@ -38,7 +38,7 @@ from rag_feedback import RagFeedback
 from transport import http_transport
 from utils import get_console_logger
 
-# changed to better manage ENABLE_TRACING
+# changed to better manage ENABLE_TRACING (can be enabled from UI)
 import config
 
 # Constant
@@ -142,13 +142,14 @@ if st.sidebar.button("Clear Chat History"):
 
 st.sidebar.header("Options")
 
+st.sidebar.text_input(label="Region", value=config.REGION, disabled=True)
+
 # the collection used for semantic search
 st.session_state.collection_name = st.sidebar.selectbox(
     "Collection name",
     config.COLLECTION_LIST,
 )
 
-# add the choice of LLM (not used for now)
 st.session_state.main_language = st.sidebar.selectbox(
     "Select the language for the answer",
     config.LANGUAGE_LIST,
@@ -157,6 +158,9 @@ st.session_state.model_id = st.sidebar.selectbox(
     "Select the Chat Model",
     config.MODEL_LIST,
 )
+
+st.sidebar.text_input(label="Embed Model", value=config.EMBED_MODEL_ID, disabled=True)
+
 st.session_state.enable_reranker = st.sidebar.checkbox(
     "Enable Reranker", value=True, disabled=False
 )
@@ -203,11 +207,11 @@ if question := st.chat_input("Hello, how can I help you?"):
                     encoding=Encoding.V2_JSON,
                     sample_rate=100,
                 ) as span:
-                    # loop to manage streaming
                     # set the agent config
                     agent_config = {
                         "configurable": {
                             "model_id": st.session_state.model_id,
+                            "embed_model_type": config.EMBED_MODEL_TYPE,
                             "enable_reranker": st.session_state.enable_reranker,
                             "enable_tracing": config.ENABLE_TRACING,
                             "main_language": st.session_state.main_language,
@@ -219,6 +223,7 @@ if question := st.chat_input("Hello, how can I help you?"):
                     if config.DEBUG:
                         logger.info("Agent config: %s", agent_config)
 
+                    # loop to manage streaming
                     for event in st.session_state.workflow.stream(
                         input_state,
                         config=agent_config,
@@ -248,13 +253,13 @@ if question := st.chat_input("Hello, how can I help you?"):
                     # Stream
                     with st.chat_message(ASSISTANT):
                         response_container = st.empty()
-                        full_response = ""
+                        FULL_RESPONSE = ""
 
                         for chunk in answer_generator:
-                            full_response += chunk.content
-                            response_container.markdown(full_response + "▌")
+                            FULL_RESPONSE += chunk.content
+                            response_container.markdown(FULL_RESPONSE + "▌")
 
-                        response_container.markdown(full_response)
+                        response_container.markdown(FULL_RESPONSE)
 
                     elapsed_time = round((time.time() - time_start), 1)
                     logger.info("Elapsed time: %s sec.", elapsed_time)
@@ -268,7 +273,7 @@ if question := st.chat_input("Hello, how can I help you?"):
 
                 # Add user/assistant message to chat history
                 add_to_chat_history(HumanMessage(content=question))
-                add_to_chat_history(AIMessage(content=full_response))
+                add_to_chat_history(AIMessage(content=FULL_RESPONSE))
 
                 # get the feedback
                 if st.session_state.get_feedback:

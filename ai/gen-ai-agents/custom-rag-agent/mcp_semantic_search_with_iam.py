@@ -109,7 +109,7 @@ def semantic_search(
     Perform a semantic search based on the provided query.
     Args:
         query (str): The search query.
-        top_k (int): The number of top results to return.
+        top_k (int): The number of top results to return. Must be at least 5.
         collection_name (str): The name of the collection (DB table) to search in.
     Returns:
         dict: a dictionary containing the relevant documents.

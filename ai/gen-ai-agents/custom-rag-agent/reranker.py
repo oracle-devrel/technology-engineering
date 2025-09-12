@@ -59,7 +59,7 @@ class Reranker(Runnable):
         Returns a list of reference dictionaries used in the reranker.
         """
         return [
-            {"source": doc.metadata["source"], "page": doc.metadata["page_label"]}
+            {"source": doc["metadata"]["source"], "page": doc["metadata"]["page_label"]}
             for doc in docs
         ]
 
@@ -72,7 +72,7 @@ class Reranker(Runnable):
         retriever_docs: list of Langchain Documents
         """
         # Prepare chunk texts
-        chunks = [doc.page_content for doc in retriever_docs]
+        chunks = [doc["page_content"] for doc in retriever_docs]
 
         _prompt = PromptTemplate(
             input_variables=["query", "chunks"],
