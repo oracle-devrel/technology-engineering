@@ -1,8 +1,8 @@
+Reviewed: 16.09.2025
+
 # Exadata Cloud@Customer VM Serial Console History and Cloud Shell Integration
 
 Announcing the General Availability (GA) of Serial Console History and Cloud Shell Integration for Exadata Database Service on Cloud@Customer. These features expand upon the functionality of the serial console access features that we had announced previously. With these new features, customers can easily connect to the serial console of their VMs in order to perform corrective actions and can review/audit previous activities carried out via the serial console by users.
-
-Reviewed: 24.06.2024
 
 # Key Benefits
 These features automate certain common administrative tasks related to the usage of the VM serial console for simplicity and convenience, saving precious time and reducing guesswork for our users.
@@ -20,8 +20,6 @@ Cloud Shell integration for the serial console allows users who have been grante
 [Networking Requirements](https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-network-requirements.html#GUID-F06BD75B-E971-48ED-8699-E1004D4B4AC1) in product documentation (especially Table 3-2)
 
 OCI Cloud Shell [product documentation](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/devcloudshellintro.htm)
-
-
 
 # License
 
