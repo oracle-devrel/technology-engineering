@@ -18,6 +18,7 @@ Oracle’s Generative AI Agents is a fully managed service that combines the pow
 ## Reusable Assets Overview
 - [HCM agent created by partner Conneqtion Group which contains agents to connect to Fusion HCM, Expense and many others](https://www.youtube.com/watch?v=OhZcWx_H_tQ)
 - [Finance analytics agent created by our partner TPX impact](https://bit.ly/genai4analyst)
+- [Custom RAG agent, based on Langgraph](./custom-rag-agent)
 
 # Useful Links
 
@@ -38,3 +39,4 @@ Copyright (c) 2025 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+

@@ -11,6 +11,25 @@
 </tr>
 <tr>
 
+<td align="left" >0</td>
+<td align="left">
+ 
+Please ensure you have the OCI Operating Entities Landing Zone deployed 
+[info here](https://github.com/oracle-devrel/technology-engineering/tree/main/landing-zones)
+  
+
+
+
+</td>
+<td align="left"> 
+
+
+</td>
+</tr>
+
+<tr>
+
+
 <td align="left" >1</td>
 <td align="left">
 The database should be created in the appropriate project compartment at the database layer. Ensure that the 'Network Access' option is set to 'Private Endpoint Access Only.' Then, assign the database subnet and select the NSGs provisioned in the database compartment.

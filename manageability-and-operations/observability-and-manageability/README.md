@@ -12,11 +12,11 @@ Reviewed: Reviewed: 30.06.2025
 
 |Observability Service  |  Assets Page| Latest | 
 |---|---|---|
-| Logging Analytics  | [Link](.\logging-analytics\README.md) | Coming Soon
-| Logging  | [Link](.\logging\README.md) | Coming Soon |  
-| Database Management | [Link](.\database-management\README.md)| Coming Soon |  
-| Ops Insights  | [Link](.\operations-insights\README.md) | Coming Soon|  
-| Application Performance Monitoring | [Link](.\application-performance-monitoring\README.md) | Coming Soon|  
+| Logging Analytics  | [Link](./logging-analytics/README.md) | Coming Soon
+| Logging  | [Link](./logging/README.md) | Coming Soon |  
+| Database Management | [Link](./database-management/README.md)| Coming Soon |  
+| Ops Insights  | [Link](./operations-insights/README.md) | Coming Soon|  
+| Application Performance Monitoring | [Link](./application-performance-monitoring/README.md) | Coming Soon|  
 | Stack Monitoring | WIP | Coming Soon| 
 | Organization Management | WIP | Coming Soon| 
 | Cost Management | WIP | Coming Soon| 

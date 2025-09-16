@@ -5,24 +5,9 @@ locals {
   volume_kms_key_id = ""  # kms OCID of the key used for in-transit and at-rest encryption of block volumes
   ssh_public_key = ""     # Insert the ssh public key to access worker nodes
 
-  runcmd_bootstrap_ubuntu = "oke bootstrap"
   runcmd_growfs_oracle_linux = "sudo /usr/libexec/oci-growfs -y"
   # Kubelet extra args is mostly used to taint nodes at start up in a node pool
   kubelet_extra_args = "--register-with-taints=env=dev:NoSchedule,cluster=oke:PreferNoSchedule"
-
-  # Use this cloud init script for Oracle Linux nodes, it is important to expand the boot volume in any case
-  cloud_init_ol = {
-    runcmd = compact([
-      local.runcmd_growfs_oracle_linux,        # Modify here depending on the OS selected for the worker nodes
-    ])
-  }
-
-  # UBUNTU NODES: use this cloud init, and make sure to disable the default cloud init
-  cloud_init_ubuntu = {
-    runcmd = compact([
-      local.runcmd_bootstrap_ubuntu,        # Modify here depending on the OS selected for the worker nodes
-    ])
-  }
 
   # Cloud init to taint nodes using Oracle Linux nodes. Make sure to disable the default cloud init
   cloud_init_with_taint_ol = {
@@ -37,7 +22,7 @@ locals {
 
 module "oke" {
   source  = "oracle-terraform-modules/oke/oci"
-  version = "5.3.1"
+  version = "5.3.2"
   compartment_id = var.oke_compartment_id
   # IAM - Policies
   create_iam_autoscaler_policy = "never"
@@ -99,30 +84,43 @@ module "oke" {
   # Operator
   create_operator = false
 
-  # OKE data plane, node workers
-  worker_pool_mode = "node-pool"
-  worker_is_public = false
-  #ssh_public_key = local.ssh_public_key    # De-comment if you want a ssh key to access the worker nodes, be sure to set the local variable
-  worker_image_type = "oke"                 # NOTE: Better to use "custom" and specify the image id in a production environment
-  #worker_image_id = ""                     # The image id to use for the worker nodes. For Oracle Linux images, check this link: https://docs.oracle.com/en-us/iaas/images/oke-worker-node-oracle-linux-8x/index.htm
-                                            # For Ubuntu images, you need to import it in your tenancy, see: https://canonical-oracle.readthedocs-hosted.com/en/latest/oracle-how-to/deploy-oke-nodes-using-ubuntu-images/
+  # OKE DATA PLANE (to configure)
 
+
+  # These are global configurations valid for all the node pools declared. You can see that the prefix is "worker_" because they apply to all workers of the cluster
+  # You can override these global configurations in the node pool definition, and it will have precedence over the global ones.
+
+  worker_pool_mode = "node-pool"            # Default mode should be node-pool for managed nodes, other modes are available for self-managed nodes, like instance and instance-pool, but be careful to have the required policy: https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengdynamicgrouppolicyforselfmanagednodes.htm
+  worker_is_public = false                  # Workers should never be allowed to have a public ip
+  #ssh_public_key = local.ssh_public_key    # De-comment if you want a ssh key to access the worker nodes, be sure to set the local variable
+  worker_image_type = "oke"                 # NOTE: the oke mode will fetch the latest OKE Oracle Linux image released by the OKE team. If you want more control, better to use "custom" and specify the image id. This is because an image id is always fixed, and controlled by you.
+  #worker_image_id = ""                     # The image id to use for the worker nodes. For Oracle Linux images, check this link: https://docs.oracle.com/en-us/iaas/images/oke-worker-node-oracle-linux-8x/index.htm
+                                            # For Ubuntu images, you need to create an Ubuntu custom image in your tenancy first, and then set the OCID of the custom image here
 
   # Set this to true to enable in-transit encryption on all node pools by default
-  # NOTE: in-transit encryption is supported only for paravirtualized attached block volumes (NOT boot volumes), hence you will need to create another StorageClass in the cluster as the default oci-bv StorageClass uses iSCSI
-  # Also note that Bare Metal instances do not support paravirtualized volumes, so do not enable this in node pools that require BM instances
-  worker_pv_transit_encryption = false
+  # NOTE: in-transit encryption is supported only for paravirtualized attached block volumes and boot volumes, hence you will need to create another StorageClass in the cluster to attach volume through paravirtualization, as the default oci-bv StorageClass uses iSCSI
+  # Also note that Bare Metal instances do not support paravirtualized volumes, the oke module won't enable it on BM shapes, even if you set this to true
+  worker_pv_transit_encryption = true
+
   # Enable encryption of volumes with a key managed by you, in your OCI Vault
+
   #worker_volume_kms_key_id = local.volume_kms_key_id
 
   # When using OCI_VCN_NATIVE_CNI, set the maximum number of pods for all nodes, must be between 1 and 110
+
   #max_pods_per_node = 31
 
-  worker_disable_default_cloud_init = false # If set to true, will let you full control over the cloud init, set it when using ubuntu nodes or nodes with taints (can even be set individually at the node pool level)
-  worker_cloud_init = [{ content_type = "text/cloud-config", content = yamlencode(local.cloud_init_ol)}]         # Cloud init is different, depending if you are using Ubuntu or Oracle Linux nodes. You can also set taints with the cloud init
+  #worker_cloud_init = [{ content_type = "text/cloud-config", content = yamlencode(local.cloud_init_with_taint_ol)}]         # Cloud init to add to all node pools. This will be added to the default_cloud_init
+
+  /* ABOUT CLOUD INIT
+  The OKE module will automatically generate an optimal cloud-init for both Oracle Linux and Ubuntu nodes. This auto-generated cloud-init is called "default cloud-init".
+  There is the possibility to disable this and to define your own cloud-init. This is not suggested unless you know what you are doing.
+  For Oracle Linux, the oci-growfs command is already inserted in the default cloud-init.
+   */
 
   # GLOBAL TAGS TO BE APPLIED ON ALL NODES
   # NOTE: tags will be applied to both the node pool and the nodes
+
 /*workers_freeform_tags = {
     "oke-cluster-name" = var.cluster_name
   }
@@ -130,43 +128,124 @@ module "oke" {
   */
 
   # GLOBAL NODE POOL LABELS TO BE APPLIED ON ALL NODES (Kubernetes labels)
+
   #worker_node_labels = {}
 
+  # This is a collection of example node pools that you can use with the OKE module. Set create = true to provision them
   worker_pools = {
 
-    # SAMPLE NODE POOL, SET create = true TO PROVISION IT
+    # ORACLE LINUX - MANAGED NODE POOL
     np-ad1 = {
       shape = "VM.Standard.E4.Flex"
       size = 1
-      kubernetes_version = var.kubernetes_version   # You can set this value as fixed, so that control plane and data plane are upgraded separately
+      kubernetes_version = var.kubernetes_version   # You can set this variable with a constant, so that control plane and data plane are upgraded separately
       placement_ads = ["1"]                 # As best practice, one node pool should be associated only to one specific AD
       ocpus = 1                             # No need to specify ocpus and memory if you are not using a Flex shape
       memory = 16
-      #image_type = "custom"
-      #image_id = ""                        # You can override global worker node parameters individually in the node pool
       node_cycling_enabled = false           # Option to enable/disable node pool cycling through Terraform. Only works with Enhanced clusters!
       node_cycling_max_surge = "50%"
       node_cycling_max_unavailable = "25%"
-
-      node_cycling_mode = ["boot_volume"]   # Valid values are instance and boot_volume. Only works when (kubernetes_version, image_id, boot_volume_size, node_metadata, ssh_public_key, volume_kms_key_id) are modified. If you need to change something else, switch to instance
+      node_cycling_mode = ["boot_volume"]   # Valid values are instance and boot_volume. Only works when (kubernetes_version, image_id, boot_volume_size, node_metadata, ssh_public_key, volume_kms_key_id) are modified. If you need to change something else, switch to "instance"
                                             # NOTE: boot_volume mode seems to work only for Flannel clusters for now
-      boot_volume_size = 100                # For Oracle Linux, make sure the oci-growfs command is specified in the cloud-init script. This module already implements this
+      boot_volume_size = 100
       freeform_tags = {                     # Nodes in the node pool will be tagged with these freeform tags
         "oke-cluster-name" = var.cluster_name
       }
       # max_pods_per_node = 10               # When using VCN_NATIVE CNI, configure maximum number of pods for each node in the node pool
-      ignore_initial_pool_size = false       # If set to true, node pool size drift won't be accounted in Terraform, useful also if this pool is autoscaled by an external component (cluster-autoscaler) or manually by a user
-      create = false                          # Set it to true so that the node pool is created
+      create = false                         # Set it to true so that the node pool is created
     }
 
-    # SYSTEM NODE POOL TO BE ENABLED FOR THE CLUSTER AUTOSCALER
+    # UBUNTU - MANAGED NODE POOL
+    np-ad1-ubuntu = {
+      shape = "VM.Standard.E4.Flex"
+      size = 1
+      kubernetes_version = var.kubernetes_version
+      placement_ads = ["1"]
+      ocpus = 1
+      memory = 16
+      # NOTE! The OKE module will automatically verify the image and install the OKE Ubuntu Node package. You just need to create a custom image based on Ubuntu 22.04 or 24.04. Ubuntu Minimal is recommended
+      image_type = "custom"
+      image_id = "ocid1.image.oc1..." # Put your custom Ubuntu image here
+      node_cycling_enabled = false
+      node_cycling_max_surge = "50%"
+      node_cycling_max_unavailable = "25%"
+      node_cycling_mode = ["boot_volume"]
+      # NOTE! Make sure you create the original Ubuntu VM with a boot volume of size 50 (the default). Depending on the boot volume size of the original VM, the custom image will require that minimum storage
+      boot_volume_size = 100
+      create = false
+    }
+
+
+    # ORACLE LINUX - MANAGED NODE POOL WITH TAINTS
+    np-ad1-taints = {         # An example of a node pool using a custom cloud-init script to define taints at the node pool level
+      shape = "VM.Standard.E4.Flex"
+      size = 1
+      placement_ads = ["1"]
+      ocpus = 1
+      memory = 16
+      disable_default_cloud_init = true    # If you want to configure some kubelet arguments, make sure to disable the default cloud-init as the taints are defined through kubelet extra arguments
+      cloud_init = [{ content_type = "text/cloud-config", content = yamlencode(local.cloud_init_with_taint_ol)}]
+      node_cycling_enabled = false
+      node_cycling_max_surge = "50%"
+      node_cycling_max_unavailable = "25%"
+      node_cycling_mode = ["boot_volume"]
+      boot_volume_size = 100
+      create = false
+    }
+
+    # ORACLE LINUX/UBUNTU - SELF-MANAGED NODE
+    oke-instance = {
+      shape = "VM.Standard.E4.Flex"
+      mode = "instance"
+      description = "Self managed instance"
+      size = 1
+      placement_ads = ["1"]
+      ocpus = 1
+      memory = 16
+      # ENABLE IT FOR UBUNTU NODES
+      #image_type = "custom"
+      #image_id = "ocid1.image.oc1..."
+      boot_volume_size = 100
+      # Self-managed node specific parameters
+      boot_volume_vpus_per_gb = 10    # 10: Balanced, 20: High, 30-120: Ultra High (requires multipath)
+
+      # Burstable instance
+      #burst = "BASELINE_1_2" # Valid values BASELINE_1_8,BASELINE_1_2, only for Flex shapes!
+
+      # Enable/disable compute plugins
+      agent_config = {
+        are_all_plugins_disabled = false
+        is_management_disabled   = false
+        is_monitoring_disabled   = false
+        plugins_config = {
+          "Bastion"                             = "DISABLED"
+          "Block Volume Management"             = "DISABLED"
+          "Compute HPC RDMA Authentication"     = "DISABLED"
+          "Compute HPC RDMA Auto-Configuration" = "DISABLED"
+          "Compute Instance Monitoring"         = "ENABLED"
+          "Compute Instance Run Command"        = "DISABLED"
+          "Compute RDMA GPU Monitoring"         = "DISABLED"
+          "Custom Logs Monitoring"              = "DISABLED"
+          "Management Agent"                    = "DISABLED"
+          "Oracle Autonomous Linux"             = "DISABLED"
+          "OS Management Service Agent"         = "DISABLED"
+        }
+      }
+
+      create = false
+    }
+
+
+    # CLUSTER AUTOSCALER
+
+    # ORACLE LINUX SYSTEM NODES - MANAGED NODE POOL
     np-system-ad1 = {
       shape = "VM.Standard.E4.Flex"
       size = 1
       placement_ads = ["1"]
       ocpus = 1
       memory = 16
-      node_cycling_enabled = true         # Only works with Enhanced clusters!
+      node_cycling_enabled = false
       node_cycling_max_surge = "50%"
       node_cycling_max_unavailable = "25%"
       node_cycling_mode = ["boot_volume"]
@@ -177,51 +256,35 @@ module "oke" {
     }
 
 
-    # SAMPLE NODE POOL WITH A CLOUD INIT TO SET NODE TAINTS
-    np-taints = {         # An example of a node pool using a custom cloud-init script to define taints at the node pool level
-      shape = "VM.Standard.E4.Flex"        # No need to specify ocpus and memory if you are not using a Flex shape
-      size = 1
-      placement_ads = ["1"]                # As best practice, one node pool should be associated only to one specific AD
-      ocpus = 2
-      memory = 16
-      disable_default_cloud_init = true    # If you want to configure some kubelet arguments, make sure to disable the default cloud-init and remember to include it in your custom cloud-init
-      cloud_init = [{ content_type = "text/cloud-config", content = yamlencode(local.cloud_init_with_taint_ol)}]
-      node_cycling_enabled = true
-      node_cycling_max_surge = "50%"
-      node_cycling_max_unavailable = "25%"
-      node_cycling_mode = ["boot_volume"]
-      boot_volume_size = 100
-      create = false
-    }
-
-
-    # SAMPLE AUTOSCALED NODE POOL
-    # This is a sample pool where autoscaling is enabled, note the freeform tag
-    # REQUIREMENTS FOR ENABLING THE CLUSTER AUTOSCALER
-    # - THE CLUSTER AUTOSCALER ADDON MUST BE ENABLED
-    # - POLICIES MUST BE IN PLACE FOR THE CLUSTER AUTOSCALER
-    # - THE SYSTEM NODE POOL MUST BE CREATED, will feature nodes labelled with role:system
-    # - THE "override_coredns" local variable must be set to true in addons.tf
-    # - NODE POOLS with freeform_tags cluster_autoscaler = "enabled" will be autoscaled
+    # ORACLE LINUX AUTOSCALED - MANAGED NODE POOL
+    /* This is a sample pool where autoscaling is enabled, note the freeform tag
+     REQUIREMENTS FOR ENABLING THE CLUSTER AUTOSCALER
+     - THE CLUSTER AUTOSCALER ADDON MUST BE ENABLED
+     - POLICIES MUST BE IN PLACE FOR THE CLUSTER AUTOSCALER
+     - THE SYSTEM NODE POOL MUST BE CREATED, will feature nodes labelled with role:system
+     - THE "override_coredns" local variable must be set to true in addons.tf
+     - NODE POOLS with freeform_tags cluster_autoscaler = "enabled" will be autoscaled
+     - NODE POOL IS A MANAGED TYPE, CLUSTER AUTOSCALER DOES NOT WORK WITH SELF-MANAGED WORKER POOLS!
+     */
     np-autoscaled-ad1 = {
       shape = "VM.Standard.E4.Flex"
       size = 0
       placement_ads = ["1"]
       ocpus = 1
       memory = 16
-      node_cycling_enabled = true
+      node_cycling_enabled = false
       node_cycling_max_surge = "50%"
       node_cycling_max_unavailable = "25%"
       node_cycling_mode = ["boot_volume"]
       boot_volume_size = 100
-      ignore_initial_pool_size = true
+      ignore_initial_pool_size = true # If set to true, node pool size drift won't be accounted in Terraform, useful also if this pool is autoscaled by an external component (cluster-autoscaler) or manually by a user
       freeform_tags = {
         cluster_autoscaler = "enabled"
       }
       create = false
     }
 
-    # SAMPLE AUTOSCALED PREEMPTIBLE NODE POOL
+    # ORACLE LINUX AUTOSCALED PREEMPTIBLE - MANAGED NODE POOL
     # Often, to save money it makes sense to provision preemptible instances, as autoscaled node pools are already very dynamic
     np-autoscaled-preemptible-ad1 = {
       shape = "VM.Standard.E4.Flex"
@@ -229,12 +292,12 @@ module "oke" {
       placement_ads = ["1"]
       ocpus = 1
       memory = 16
-      node_cycling_enabled = true
+      node_cycling_enabled = false
       node_cycling_max_surge = "50%"
       node_cycling_max_unavailable = "25%"
       node_cycling_mode = ["boot_volume"]
-      boot_volume_size = 70
-      ignore_initial_pool_size = true
+      boot_volume_size = 100
+      ignore_initial_pool_size = true # If set to true, node pool size drift won't be accounted in Terraform, useful also if this pool is autoscaled by an external component (cluster-autoscaler) or manually by a user
       freeform_tags = {
         cluster_autoscaler = "enabled"
       }
@@ -244,8 +307,6 @@ module "oke" {
       }
       create = false
     }
-
-
 
   }
 
