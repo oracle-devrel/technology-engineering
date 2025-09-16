@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: ${REPO}
     targetRevision: HEAD
-    path: appset
+    path: appsets
     helm:
       parameters:
         - name: repo
