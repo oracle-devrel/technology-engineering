@@ -1,8 +1,7 @@
 ## Oracle Database 23ai support for JSON Duality and Collection Views
 
 This repository contains scripts demonstrating support for Oracle JSON views in Oracle Database 23ai and Oracle API for MongoDB
-- js directory contains mongosh scripts using Oracle API for MongoDB
-- sql directory contains SQL scripts demonstrating Oracle Database support for JSON views
+
 
 ## Requirements
 - mongosh installed
