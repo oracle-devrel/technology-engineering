@@ -10,6 +10,10 @@ locals {
   nat_gateway_id = var.create_gateways ? oci_core_nat_gateway.nat_gateway.0.id : var.nat_gateway_id
   cp_nat_mode = local.create_cp_subnet && var.cp_subnet_private && var.cp_external_nat
   create_cp_external_traffic_rule = var.allow_external_cp_traffic && (! var.create_cp_subnet || (! var.cp_subnet_private || var.cp_external_nat))
+  create_drg = var.enable_drg && var.create_drg
+  create_drg_attachment = var.enable_drg && var.create_drg_attachment
+  drg_id = var.create_drg ? oci_core_drg.vcn_drg.0.id : var.drg_id
+
 
 
   tcp_protocol = "6"
