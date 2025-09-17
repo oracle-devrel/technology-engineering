@@ -7,6 +7,7 @@ This repository contains scripts demonstrating support for Oracle JSON views in 
 - mongosh installed
 - SQL Cl installed
 - Oracle Database 23ai with Oracle API for MongoDB enabled
+- HR database sample schema installed
 
 ## License
 
