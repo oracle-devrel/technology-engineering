@@ -18,6 +18,7 @@ Reviewed: 18.09.2025
 
 # Reusable Assets
 
+- [Kafka UI & Kafka Connect Setup with OCI OpenSearch](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-streaming-with-apache-kafka/code-examples/kafka-ui-connect-setup-with-oci-opensearch)
 
 # License
 
@@ -25,4 +26,4 @@ Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
