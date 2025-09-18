@@ -12,7 +12,7 @@ locals {
   create_cp_external_traffic_rule = var.allow_external_cp_traffic && (! var.create_cp_subnet || (! var.cp_subnet_private || var.cp_external_nat))
   create_drg = var.enable_drg && var.create_drg
   create_drg_attachment = var.enable_drg && var.create_drg_attachment
-  drg_id = var.create_drg ? oci_core_drg.vcn_drg.0.id : var.drg_id
+  drg_id = var.create_drg ? try(oci_core_drg.vcn_drg.0.id, null) : var.drg_id
 
 
 
