@@ -17,13 +17,10 @@ Reviewed: 11.06.2025
 ## LiveLabs and Workshops
  
 - [AI Services: Introduction to OCI Vision](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=931&clear=RR,180&session=101189893786132)
-- [Use Data Labeling Service to Create a Biomedical Image Classification Model](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3097&clear=RR,180&session=101189893786132)
 - [Premier League Video Analysis with Deep Learning](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3489&clear=RR,180&session=101189893786132)
 - [How to Use AI Vision and Drones for Inventory Management](https://go.oracle.com/LP=135420)
 - [Classify X-Ray Images for Pneumonia using Analytics Cloud and Vision AI Services](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3576)
-- [Automate and accelerate inventory analytics](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3426)
 - [Develop with Oracle AI and Database Services: Gen, Vision, Speech, Language, OML, Select AI, RAG and Vector](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3874&clear=RR,180&session=10041712875174)
-- [Search Documents and Images stored in Object Storage using OpenSearch, AI Vision, Text Recognition](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3442)
 - [Search Documents stored in Object Storage using Opensearch, Generative AI, Semantic Search, RAG](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3762)
 
 ## GitHub
@@ -49,6 +46,7 @@ Reviewed: 11.06.2025
 - [Oracle AI Vision on oracle.com](https://www.oracle.com/uk/artificial-intelligence/vision/)
 - [Oracle AI Vision documentation](https://docs.oracle.com/en-us/iaas/vision/vision/using/home.htm)
 - [Announcing OCI Vision stored video analysis general availability](https://blogs.oracle.com/ai-and-datascience/post/oci-vision-stored-video-analysis-ga)
+- [OCI Vision stream video analysis documentation and livelab](https://docs.oracle.com/en-us/iaas/Content/vision/using/video-stream-processing-top.htm)
 
 # Reusable Assets Overview
 
