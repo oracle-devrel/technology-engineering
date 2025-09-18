@@ -14,6 +14,7 @@ Reviewed: 18.09.2025
 # Useful Links
 
 - [OCI Streaming with Apache Kafka Documentation](https://docs.oracle.com/en-us/iaas/Content/kafka/home.htm)
+- [OCI Streaming with Apache Kafka OCI CLI Documentation](https://docs.oracle.com/en-us/iaas/tools/python/2.160.0/api/managed_kafka.html#)
 
 # Reusable Assets
 
