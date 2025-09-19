@@ -4,7 +4,9 @@ The Customer Message Analyzer is a tool designed to analyze customer messages th
  
  
 Reviewed: 19.09.2025
- 
+
+<img width="2542" height="1202" alt="image" src="https://github.com/user-attachments/assets/bdb7dbb0-78ec-4896-bb93-927bf75c31d9" />
+
 # When to use this asset?
  
 Customer service teams, product managers, and marketing professionals would use this asset when they need to quickly understand large volumes of customer feedback, identify trends, and make data-driven decisions to improve products or services.
