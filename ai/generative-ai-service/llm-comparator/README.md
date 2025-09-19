@@ -2,7 +2,7 @@
 
 A web application that enables side-by-side comparison of Large Language Models (LLMs) and their fine-tuned counterparts on Oracle Cloud Infrastructure (OCI). The application provides an intuitive interface to evaluate model performance, response quality, and inference time improvements achieved through fine-tuning.
 
-Reviewed: 23.07.2025
+Reviewed: 19.09.2025
 
 <img width="1703" height="1280" alt="image" src="https://github.com/user-attachments/assets/2cc14579-3422-4272-a766-c48bb6c3afe4" />
 
