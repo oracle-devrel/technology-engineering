@@ -1,3 +1,6 @@
+Author: matsliwins
+Last review date: 19/09/2025
+
 # OCI Weather Assistant API
 
 A FastAPI-based service that integrates with Oracle Cloud Infrastructure's Generative AI Agent and uses OpenWeather API to provide real-time weather forecasts. The agent invokes the `get_weather` tool automatically when weather-related questions are asked.
@@ -33,3 +36,4 @@ uvicorn main:app --reload --port 8000
 
 To test the API via a simple UI, use the frontend from this repository:
 🔗 https://github.com/ralungei/oci-genai-agent-blackbelt
+
