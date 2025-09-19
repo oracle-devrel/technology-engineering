@@ -2,10 +2,19 @@
 
 Discover the power of generative AI models equipped with advanced language comprehension for building the next generation of enterprise applications. Oracle Cloud Infrastructure (OCI) Generative AI is a fully managed service for seamlessly integrating these versatile language models into a wide range of use cases, including writing assistance, summarization, analysis, and chat.
 
-Reviewed: 19.05.2025
+Discover below assets that can transform your business worflows across your departments. You'll find below additional resources to help you with your Generative AI transformational journey!
+
+Reviewed: 19.09.2025
 
 ## Team Publications
-
+- [Complex Report Analyzer](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/generative-ai-service/financial-analysis-chatbot)
+  - This solution focuses on providing users with the ability to converse and query complex reports (health, financial, HR, etc.) utilizing a mixture of DU and vision LLMs, users are able to query the text content of the report complemented with graphs, illustrations, etc.
+- [Generic Document Evaluation](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/generative-ai-service/generic-document-evaluation)
+  - A simple, adaptable solution for analyzing and categorizing transactional documents using predefined evaluation criteria. Perfect for analysts, auditors, or developers seeking to automate document review in enterprise, finance, education, or public sector scenarios and more.
+- [LLM Performance Comparator](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/generative-ai-service/llm-comparator)
+  - A web application that enables side-by-side comparison of Large Language Models (LLMs) and their fine-tuned counterparts on Oracle Cloud Infrastructure (OCI). The application provides an intuitive interface to evaluate model performance, response quality, and inference time improvements achieved through fine-tuning.
+- [Multi-modal Document Extraction](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/generative-ai-service/multi-modal-document-extraction)
+  - This Generative AI service application relies on OCI SDK alongside the new Llama 4 models (Scout and Maverick) to extract data from PDFs (or images) into structured data as JSON.
 - [Customer Message Analyzer](https://github.com/oracle-devrel/technology-engineering/tree/2377ee4ab9549be705f6153bfe15131720ffa0f3/ai/generative-ai-service/sentiment%2Bcategorization)
   - The Customer Message Analyzer is a tool designed to analyze customer messages through unsupervised categorization, sentiment analysis, and summary reporting. It helps businesses understand customer feedback without requiring extensive manual labeling or analysis.
 - [Patient-letter-extraction](https://github.com/oracle-devrel/technology-engineering/tree/2377ee4ab9549be705f6153bfe15131720ffa0f3/ai/generative-ai-service/patient-letter-extraction)
