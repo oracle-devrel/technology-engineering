@@ -53,14 +53,11 @@ module "network" {
   cp_external_nat = var.cp_external_nat
   allow_external_cp_traffic = var.allow_external_cp_traffic
   cp_egress_cidr = var.cp_egress_cidr
-}
-
-module "bastion" {
-  source = "./modules/bastion"
-  region = var.region
-  compartment_id = var.bastion_compartment_id
-  vcn_name = var.vcn_name
-  bastion_subnet_id = module.network.bastion_subnet_id
-  bastion_cidr_block_allow_list = var.bastion_cidr_block_allow_list
-  count = local.create_bastion ? 1 : 0
+  # DRG
+  enable_drg = var.enable_drg
+  create_drg = var.create_drg
+  drg_id = var.drg_id
+  drg_name = var.drg_name
+  create_drg_attachment = var.create_drg_attachment
+  peer_vcns = var.peer_vcns
 }

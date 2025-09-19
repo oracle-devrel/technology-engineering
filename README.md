@@ -10,7 +10,7 @@ We are a team of Oracle specialists focusing on cloud and software products. We 
 
 We create various interesting assets in our line of work, which we believe should be open-source and accessible to everyone. We want to share our architecture patterns for solutions, technical step-by-step guides, and code examples. We simplify how we work internally in Oracle, while also sharing access to the same assets with our customers, implementation partners, and everyone interested. We want to be transparent on how we work and also grow the quality of our assets and best practices, with contributions coming from the community.
 
-## Installation
+## Getting Started
 
 This is not a single software product repository, but a collection of various assets (code or not) in one single 'larger' repository. Thus, you won't 'install' this repository; rather, search it to find various interesting assets.
 
@@ -30,9 +30,9 @@ As per the previous chapter on how to install, we have various assets in this on
 
 ## Examples
 
-As per the previous chapter on how to install, we have various assets in this one larger repository. If you find a code asset, it will have a README file for installation, documentation, and example purposes.
+As per the previous chapter on *Getting Started*, we have various assets in this one larger repository. If you find a code asset, it will have a README file for installation, documentation, and example purposes.
 
-See the bullet points from the chapter *Installation* list as an example on how to navigate the repository.
+See the bullet points from the chapter *Getting Started* list as an example on how to navigate the repository.
 
 ## Help
 

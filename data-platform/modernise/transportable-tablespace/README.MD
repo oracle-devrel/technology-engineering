@@ -17,6 +17,9 @@ Reviewed: 25.10.2024
   - Cload Coaching Webinar delivered by Marcus Doeringer and the EMEA Lift team (Poornima Veeraiah, Suresh Baral) explaining XTTSv4 and Full Transportable Export/Import FTEX migration method including a technical demo and best practices 
 - [Cross Endian Platform Migration using XTTSv4 + FTEX](https://macsdata.com/oracle/cross-endian-platform-migration-xttsv4-ftex)
   - Detailed, step-by-step guide showing how to perform a cross platform/endian database migration using XTTSv4 and Full Transportable Export/Import on Marcus Doeringer's public platform
+- [Cross Platform Migration to Exadata Database Service on Dedicated Infrastructure with Cloud Native DR](https://amalrajputhenchira.wordpress.com/2025/09/05/cross-platform-migration-to-exadata-database-service-on-dedicated-infrastructure-with-cloud-native-dr/)
+  - Detailed, step-by-step guide showing how to perform a cross platform/endian database migration using M5 XTTS and Full Transportable Export/Import on Amalraj Puthenchira's public platform
+
 
 # Useful Links
 
