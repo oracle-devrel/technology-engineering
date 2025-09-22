@@ -32,7 +32,7 @@ python3 --version
 ```
 pip install -r /path/to/requirements.txt
 ```
-3. Create a `.config` file that contains the following variables:
+3. Update the `.config` file with your own `CONFIG_FILE_PATH` and `COMPARTMENT_ID`:
 ```
 CONFIG_FILE_PATH = <path_to_oci_login_config_file>
 COMPARTMENT_ID = <compartment_OCID>
