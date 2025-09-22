@@ -1,10 +1,14 @@
-Author: matsliwins
-Last review date: 19/09/2025
 
 # OCI OpenAI-Compatible Gateway
 
 Simple FastAPI gateway exposing OCI LLMs and Agents via OpenAI-compatible API.
 Big thanks to https://github.com/RETAJD/modelsOCI-toOpenAI/tree/main
+
+**Author**: matsliwins
+
+**Last review date**: 19/09/2025
+
+![](images/n8n_image.png)
 
 ## Quick Start
 
