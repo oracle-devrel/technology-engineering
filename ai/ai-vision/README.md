@@ -28,6 +28,8 @@ Reviewed: 11.06.2025
 
 ## GitHub
 
+- [OCI object detection and image segmentation using SAM2](.ai-vision-and-sam/)
+
 - [OCI image classification using data labeling and vision service](https://github.com/carlgira/oci-image-classification)
 - [OCI object detection using data labeling and vision service](https://github.com/carlgira/oci-object-detection) 
 - [AI vision web client](https://github.com/oracle-devrel/oci-tf-vision-web-client)
