@@ -60,7 +60,7 @@ Instructions on how to modify the stack and add node pools can be found in comme
 
 Alternatively, clone this repo locally and edit <code>oke.tf file</code> to add a node pool and then load the folder including the modified Terraform to your RM stack:
 
-![Edit Terraform configurations](images/edit_oci_stack_source.png)
+![Edit Terraform configurations](images/edit_stack_with_source.png)
 
 After adding the Terraform source save and apply the stack.Now, the RM should add the new pool:
 
