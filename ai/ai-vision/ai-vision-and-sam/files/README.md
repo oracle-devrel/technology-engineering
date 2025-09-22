@@ -1,4 +1,7 @@
+![Example of using this asset with a picture of a chair](images/example_use.jpg)
+
 # Image segmentation with OCI AI Vision and SAM2 from Meta
+
 In this demo, you will see how you can segment objects in images by combining **OCI AI Vision** with **Meta’s SAM2 (Segment Anything Model 2)**.
 
 **Segmenting objects in images has never been this easy!**
