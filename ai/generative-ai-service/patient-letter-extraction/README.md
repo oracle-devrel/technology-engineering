@@ -2,6 +2,8 @@
 
 This is a Generative AI-powered application that extracts key information from patient referral letters (in `.docx` format) and processes them using the OCI Generative AI services. This application allows users to simply and efficiently extract key data from patient referrals for expedited patient handling.
 
+Reviewed date: 22.09.2025
+
 ## Demo
 ![Demo of Patient Letter Extraction](patient_letter_demo.gif)
 
@@ -84,5 +86,12 @@ streamlit run <script-name>.py
 
 Replace `<script-name>.py` with the filename of the main script (e.g., `patient_triage_extraction.py`).
 
+## License
+Copyright (c) 2024 Oracle and/or its affiliates.
 
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](LICENSE.txt) for more details.
+
+ORACLE AND ITS AFFILIATES DO NOT PROVIDE ANY WARRANTY WHATSOEVER, EXPRESS OR IMPLIED, FOR ANY SOFTWARE, MATERIAL OR CONTENT OF ANY KIND CONTAINED OR PRODUCED WITHIN THIS REPOSITORY, AND IN PARTICULAR SPECIFICALLY DISCLAIM ANY AND ALL IMPLIED WARRANTIES OF TITLE, NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A PARTICULAR PURPOSE.  FURTHERMORE, ORACLE AND ITS AFFILIATES DO NOT REPRESENT THAT ANY CUSTOMARY SECURITY REVIEW HAS BEEN PERFORMED WITH RESPECT TO ANY SOFTWARE, MATERIAL OR CONTENT CONTAINED OR PRODUCED WITHIN THIS REPOSITORY. IN ADDITION, AND WITHOUT LIMITING THE FOREGOING, THIRD PARTIES MAY HAVE POSTED SOFTWARE, MATERIAL OR CONTENT TO THIS REPOSITORY WITHOUT ANY REVIEW. USE AT YOUR OWN RISK. 
 
