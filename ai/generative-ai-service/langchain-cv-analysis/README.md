@@ -1,7 +1,10 @@
-# CV Evaluation App using Oracle Gen AI
+# CV Evaluation App using Oracle Gen AI 
+
 
 This is a Streamlit-based web application that evaluates resumes (CVs) against job descriptions using Oracle Cloud Infrastructure's Generative AI via Langchain `ChatOCIGenAI`.
-Reviewed: 18th Sep 2025
+
+Reviewed: 22.09.2025
+
 ---
 
 ## 🔍 Features
@@ -82,3 +85,12 @@ Make sure you have valid OCI credentials and access to the Generative AI service
 2. Upload one or more resume PDFs.
 3. Click **Submit**.
 4. View evaluation results, summaries, and suggested improvements.
+
+## License
+Copyright (c) 2024 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](LICENSE.txt) for more details.
+
+ORACLE AND ITS AFFILIATES DO NOT PROVIDE ANY WARRANTY WHATSOEVER, EXPRESS OR IMPLIED, FOR ANY SOFTWARE, MATERIAL OR CONTENT OF ANY KIND CONTAINED OR PRODUCED WITHIN THIS REPOSITORY, AND IN PARTICULAR SPECIFICALLY DISCLAIM ANY AND ALL IMPLIED WARRANTIES OF TITLE, NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A PARTICULAR PURPOSE.  FURTHERMORE, ORACLE AND ITS AFFILIATES DO NOT REPRESENT THAT ANY CUSTOMARY SECURITY REVIEW HAS BEEN PERFORMED WITH RESPECT TO ANY SOFTWARE, MATERIAL OR CONTENT CONTAINED OR PRODUCED WITHIN THIS REPOSITORY. IN ADDITION, AND WITHOUT LIMITING THE FOREGOING, THIRD PARTIES MAY HAVE POSTED SOFTWARE, MATERIAL OR CONTENT TO THIS REPOSITORY WITHOUT ANY REVIEW. USE AT YOUR OWN RISK. 

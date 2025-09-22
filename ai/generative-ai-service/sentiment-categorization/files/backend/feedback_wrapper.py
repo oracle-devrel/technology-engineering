@@ -1,9 +1,8 @@
 from backend.feedback_agent import FeedbackAgent
 
-
 class FeedbackAgentWrapper:
-    def __init__(self):
-        self.agent = FeedbackAgent()
+    def __init__(self, data_list):
+        self.agent = FeedbackAgent(data_list)
         self.run_graph = self.agent.run_step_by_step()
 
     def get_nodes_edges(self):
@@ -15,11 +14,8 @@ class FeedbackAgentWrapper:
     def run_step_by_step(self):
         try:
             action_output = next(self.run_graph)
-            current_node = list(action_output.keys())[0]
+            current_node = list(action_output.keys())[0] if action_output else "UNKNOWN"
         except StopIteration:
             action_output = {}
             current_node = "FINALIZED"
         return current_node, action_output
-
-    def get_graph(self):
-        return self.agent.get_graph()
