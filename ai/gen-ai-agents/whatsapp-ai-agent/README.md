@@ -1,9 +1,12 @@
-Author: matsliwins
-Last review date: 19/09/2025
-
 # WhatsApp GenAI Agent on OCI
 
 This repo helps you set up a WhatsApp Generative AI Agent on Oracle Cloud Infrastructure (OCI) using WhatsApp Cloud API. For full step by step refer to the pdf instruction.
+
+**Author**: matsliwins
+
+**Last review date**: 19/09/2025
+
+![](images/WhatsAPP.png)
 
 ## Features
 - WhatsApp Cloud API integration
