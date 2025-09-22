@@ -3,6 +3,7 @@
 A Streamlit-based app comparing and expanding on traditional Document Understanding (OCI DU) + LLM approach vs. a multimodal LLM for extracting structured data from documents (PDFs, images).
 This is is aimed at highlighting the strengths of each of our services and the power GenAI brings in combining these approaches for the best handling of complex documents.
 
+Reviewed date: 22.09.2025
 ---
 
 ## 🔧 Features
