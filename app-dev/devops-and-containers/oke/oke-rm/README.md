@@ -58,7 +58,7 @@ By using this feature, we can modify the stack we deployed in Step 2 and add the
 
 Instructions on how to modify the stack and add node pools can be found in comments on the bottom of the <code>oke.tf</code> file. Set <code>create = true</code> on the pool you want to be added by Terraform.
 
-Alternatively, clone this repo locally and edit <code>oke.tf file</code> to add a node pool and then load the folder including the modified Terraform to your RM stack:
+Alternatively, clone this repo locally and edit <code>oke.tf</code> file to add a node pool and then load the folder including the modified Terraform to your RM stack:
 
 ![Edit Terraform configurations](images/edit_stack_with_source.png)
 
