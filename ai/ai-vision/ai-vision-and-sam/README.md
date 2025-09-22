@@ -14,7 +14,7 @@ When you need to compute areas from images, detect and segment objects with AI.
  
 # How to use this asset?
  
-See the full setup and usage guide in files/README.md.
+See the full setup and usage guide in [`files/README.md`](./files/README.md).
 
  
 # License
