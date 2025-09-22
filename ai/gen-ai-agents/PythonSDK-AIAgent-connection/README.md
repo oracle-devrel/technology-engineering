@@ -1,9 +1,13 @@
-Author: matsliwins
-Last review date: 19/09/2025
+
 # Generative AI Chatbot
 
-This repository contains a Flask-based chatbot application utilizing Oracle's Generative AI agent.
+This repository contains a Flask-based chat application utilizing Oracle's Generative AI Agents.
 
+**Author**: matsliwins
+
+**Last review date**: 19/09/2025
+
+![](images/image.png)
 ## Getting Started
 
 1. **Clone the Repository**:
