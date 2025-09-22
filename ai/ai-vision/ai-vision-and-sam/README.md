@@ -5,6 +5,7 @@
 The following asset is a tool designed to showcase how OCI AI Vision can be connected with SAM2 from Meta for accurate segmentations without needing high amount of data for training.
  
 Reviewed: 22.09.2025
+
 Authors: Matthias Wolf and Cristina Granés
  
 # When to use this asset?
