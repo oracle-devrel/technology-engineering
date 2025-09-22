@@ -25,7 +25,7 @@ resource "oci_devops_build_pipeline_stage" "mirror_argocd_stage" {
   display_name = "Mirror Helm Chart"
   description = "Stage to import a public Helm Chart into the tenancy Oracle Container Registry"
   primary_build_source = "pipelines"
-  image = "OL7_X86_64_STANDARD_10"
+  image = "OL8_X86_64_STANDARD_10"
   stage_execution_timeout_in_seconds = 36000
 }
 

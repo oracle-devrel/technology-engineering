@@ -1,7 +1,7 @@
 # CV Evaluation App using Oracle Gen AI
 
 This is a Streamlit-based web application that evaluates resumes (CVs) against job descriptions using Oracle Cloud Infrastructure's Generative AI via Langchain `ChatOCIGenAI`.
-
+Reviewed: 18th Sep 2025
 ---
 
 ## 🔍 Features
