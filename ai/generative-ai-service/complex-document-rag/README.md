@@ -2,6 +2,8 @@
 
 An enterprise-grade Retrieval-Augmented Generation (RAG) system for generating comprehensive business reports from multiple document sources using Oracle Cloud Infrastructure (OCI) Generative AI services.
 
+Reviewed date: 22.09.2025
+
 ## Features
 
 - **Multi-Document Processing**: Ingest and process PDF and XLSX documents
