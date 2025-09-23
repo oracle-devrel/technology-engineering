@@ -63,12 +63,14 @@ variableGroups:
       - allow_external_cp_traffic
       - cp_egress_cidr
 
-  - title: "Bastion"
-    visible: ${create_bastion_subnet}
+  - title: "DRG"
     variables:
-      - create_bastion
-      - bastion_compartment_id
-      - bastion_cidr_block_allow_list
+      - enable_drg
+      - create_drg
+      - drg_name
+      - drg_id
+      - create_drg_attachment
+      - peer_vcns
 
 variables:
 
@@ -435,25 +437,51 @@ variables:
     type: boolean
     visible: ${create_bastion_subnet}
 
-# BASTION MODULE
+# DRG
 
-  create_bastion:
-    title: "Create Bastion"
-    description: "If flagged, create an OCI Bastion instance"
+  enable_drg:
+    title: "Enable DRG"
+    description: "Enable DRG support for this VCN"
     type: boolean
 
-  bastion_compartment_id:
-    title: "Bastion Compartment"
-    description: "Compartment where to create the OCI Bastion instance"
-    type: oci:identity:compartment:id
-    required: true
-    visible: ${create_bastion}
+  create_drg:
+    title: "Create DRG"
+    description: "Create a new DRG"
+    type: boolean
+    visible: ${enable_drg}
 
-  bastion_cidr_block_allow_list:
-    title: "Bastion allow list"
-    description: "CIDR blocks in this list will be able to connect to the OCI Bastion instance"
+  drg_id:
+    title: "DRG ID"
+    description: "Existing DRG ID"
+    type: string
+    required: true
+    visible:
+      and:
+        - ${enable_drg}
+        - not:
+            - ${create_drg}
+
+  drg_name:
+    title: "DRG name"
+    description: "Name for the DRG to be created"
+    type: string
+    required: true
+    visible:
+      and:
+        - ${enable_drg}
+        - ${create_drg}
+
+  create_drg_attachment:
+    title: "Create DRG attachment"
+    description: "Attach the DRG to this VCN"
+    type: boolean
+    visible: ${enable_drg}
+
+  peer_vcns:
+    title: "Peer VCN CIDR blocks"
+    description: "A routing rule will be created on all private subnets to route traffic directed to these CIDR blocks to the DRG"
     type: array
     items:
       type: string
-    required: true
-    visible: ${create_bastion}
+    required: false
+    visible: ${enable_drg}

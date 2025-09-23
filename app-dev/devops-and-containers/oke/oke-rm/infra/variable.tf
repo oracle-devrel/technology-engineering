@@ -148,7 +148,7 @@ variable "bastion_subnet_name" {
 
 variable "create_fss" {
   type = bool
-  default = false
+  default = true
 }
 
 variable "fss_subnet_cidr" {
@@ -197,19 +197,33 @@ variable "cp_egress_cidr" {
   default = "0.0.0.0/0"
 }
 
-# BASTION MODULE
+# DRG
 
-variable "create_bastion" {
+variable "enable_drg" {
   type = bool
   default = false
 }
 
-variable "bastion_compartment_id" {
+variable "create_drg" {
+  type = bool
+  default = true
+}
+
+variable "drg_id" {
   default = null
 }
 
-variable "bastion_cidr_block_allow_list" {
+variable "drg_name" {
+  default = null
+}
+
+variable "create_drg_attachment" {
+  type = bool
+  default = true
+}
+
+variable "peer_vcns" {
   type = list(string)
-  default = ["0.0.0.0/0"]
+  default = []
 }
 
