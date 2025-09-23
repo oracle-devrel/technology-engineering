@@ -87,7 +87,7 @@ streamlit run <script-name>.py
 Replace `<script-name>.py` with the filename of the main script (e.g., `patient_triage_extraction.py`).
 
 ## License
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

@@ -1,11 +1,9 @@
 # Integration of OCI Generative AI in Langflow
 
-[![License: UPL](https://img.shields.io/badge/license-UPL-green)](https://img.shields.io/badge/license-UPL-green) [![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=oracle-devrel_test)](https://sonarcloud.io/dashboard?id=oracle-devrel_test)
-
 ## Introduction
 This repository contains the code for a prototype of the integration of OCI Generative AI in Langflow
 
-Reviewed: 25.06.2025
+Reviewed: 23.09.2025
 
 ## Components for Retrieval-Augmented Generation (RAG)
 In this release (jan 2025), we have included the essential components required to build a robust Retrieval-Augmented Generation (RAG) solution:
@@ -40,7 +38,7 @@ pip install oci -U
 ## Setup your environment for OCI
 * Clone the github repository
 ```
-git clone https://github.com/luigisaetta/oci_langflow.git
+git clone https://github.com/your-repo/oci_langflow.git
 ```
 * modify the `set_env.sh` file. Change the env variable `LANGFLOW_COMPONENTS_PATH` to point your local **oci_custom** directory
 * execute the following command to set the environment variables:
@@ -72,7 +70,7 @@ Please consult the [security guide](./SECURITY.md) for our responsible security
 vulnerability disclosure process.
 
 ## License
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

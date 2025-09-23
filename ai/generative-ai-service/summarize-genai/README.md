@@ -6,6 +6,8 @@ This project will show you how to set up such a system, feed it documents, and h
 <img src="./files/docSummarizeScreen.png">
 </img>
 
+Reviewed date: 23.09.2025
+
 ## Prerequisites
 
 1. Oracle Cloud account—[sign-up page](https://signup.cloud.oracle.com/)

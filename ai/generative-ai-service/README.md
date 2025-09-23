@@ -76,7 +76,7 @@ Reviewed: 22.09.2025
 ### Youtube Videos
 - [The future of generative AI: What enterprises need to know | Oracle CloudWorld 2023](https://www.youtube.com/watch?v=qcHpu6WA-k8&t=3s)
 - [What is Generative AI](https://www.youtube.com/watch?v=pWNAtUwnBS8&t=3s)
-- [Pre-GA OCI Generative AI (Beta) Service Product Tour](https://www.youtube.com/watch?v=1tnTyCp3GdY)
+- [Pre-GA OCI Generative AI Service Product Tour](https://www.youtube.com/watch?v=1tnTyCp3GdY)
 - [Oracle's Vision for the Future - Larry Ellison keynote Oracle Cloud World 2023](https://www.youtube.com/watch?v=63DmgBN1rSI)
 - [Summarize any document using Oracle Generative AI](https://www.youtube.com/watch?v=6A3KGyKy91Q)
 - [Dubai Citizen's Dream: An Oracle GenAI-Powered Oracle BOT to Answer All Your Questions (RAG on websites)](https://www.youtube.com/watch?v=5Y_k1r34Mp0)
@@ -101,12 +101,13 @@ Reviewed: 22.09.2025
 - [Oracle to Deliver Powerful and Secure Generative AI Services for Business](https://www.oracle.com/news/announcement/oracle-to-deliver-powerful-and-secure-generative-ai-service-for-business-2023-06-13/)
 
 ## Reusable Assets Overview
-- [Generative AI demo pack and deployment script](https://github.com/mgueury/streamlit_oke/)
+
 - [Podcast Generator](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/ai-speech/podcast-generator)
 - [Decode Images and Videos with OCI GenAI](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/generative-ai-service/decode-Images-and-Videos-with-OCI-GenAI)
 
 ## License
 
 Copyright (c) 2025 Oracle and/or its affiliates.
+
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
