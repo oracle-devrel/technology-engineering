@@ -3,7 +3,11 @@
 A Streamlit-based app comparing and expanding on traditional Document Understanding (OCI DU) + LLM approach vs. a multimodal LLM for extracting structured data from documents (PDFs, images).
 This is is aimed at highlighting the strengths of each of our services and the power GenAI brings in combining these approaches for the best handling of complex documents.
 
+<img src="./image.png">
+</img>
+
 Reviewed date: 22.09.2025
+
 ---
 
 ## 🔧 Features
@@ -129,6 +133,8 @@ This project leverages two core Oracle Cloud Infrastructure AI services:
 ---
 
 # 📄 License
+
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 MIT License — see LICENSE for details.
 

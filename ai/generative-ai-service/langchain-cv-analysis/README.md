@@ -87,7 +87,7 @@ Make sure you have valid OCI credentials and access to the Generative AI service
 4. View evaluation results, summaries, and suggested improvements.
 
 ## License
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
