@@ -1,10 +1,11 @@
-![UI](images/ui_image.png)
-
 # Custom RAG agent
 This repository contains the code for the development of a **custom RAG Agent**, based on **OCI Generative AI**, **Oracle 23AI** Vector Store and **LangGraph**
 
 **Author**: L. Saetta
-**Last updated**: 09/09/2025
+
+**Reviewed**: 23.09.2025
+
+![UI](images/ui_image.png)
 
 ## Design and implementation
 * The agent is implemented using **LangGraph**
@@ -25,14 +26,17 @@ For example, links to the documentation' chunks are displayed before the final a
 
 ### MCP support:
 (07/2025) I have added an implementation of an **MCP** server that exposes the Semantic Search feature.
-Security can be handled in two ways:
+* added a [demo LLM with MCP](./ui_mcp_agent.py) showing how to integrate a generic MCP server in a Chatbot using a LLM.
+
+**Security** can be handled in two ways:
 * custom: generate the **JWT token** using the library **PyJWT**
 * **OCI**: generate the JWT token using **OCI IAM**
 
 ## Status
-It is **WIP**.
+It is always and proudly **WIP**.
 
 ## References
+For more information:
 * [Integration with OCI APM](https://luigi-saetta.medium.com/enhancing-observability-in-rag-solutions-with-oracle-cloud-6f93b2675f40)
 
 ## Advantages of the Agentic approach
@@ -45,5 +49,5 @@ For example, to ensure that final responses do not disclose Personally Identifia
 * use Python 3.11
 * use the requirements.txt
 * create your config_private.py using the template provided
-* for MCP server: create a confidential application in OCI IAM
+* for MCP server: create a confidential application in **OCI IAM** to handle JWT tokens.
 
