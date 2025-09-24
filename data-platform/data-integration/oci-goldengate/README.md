@@ -21,7 +21,7 @@ Reviewed: 28.02.2025
 - [GoldenGate Data Streams - F1 Usecase](https://medium.com/@aporcescu/oracle-goldengate-data-streams-to-f1-telemetry-58532993e26a)
   - It is a step-by-step article about implementing Oracle GoldenGate Data Streams in a usecase of streaming F1 telemetry data into a web app
  
-- [Static Data Masking with Oracle GoldenGate]([https://medium.com/@aporcescu/oracle-goldengate-data-streams-to-f1-telemetry-58532993e26a](https://medium.com/@aporcescu/static-data-masking-with-oracle-goldengate-88d33ecaae13))
+- [Static Data Masking with Oracle GoldenGate](https://medium.com/@aporcescu/static-data-masking-with-oracle-goldengate-88d33ecaae13)
   - Article that shows a use-case of data masking using buil-in functions of GoldenGate
     
 
