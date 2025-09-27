@@ -1,6 +1,6 @@
 # Exadata Cloud@Customer
 
-Reviewed: 24.06.2024
+Reviewed: 16.09.2025
 
 # Useful Links
 

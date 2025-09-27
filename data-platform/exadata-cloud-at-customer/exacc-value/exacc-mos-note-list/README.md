@@ -1,3 +1,5 @@
+Reviewed: 16.09.2025
+
 # Exadata Cloud@Customer MOS Note List
 
 # 
@@ -44,8 +46,6 @@ The ExaDB-C@C Specialist Team is updating the list manually and refreshing it as
 - [2828699.1](https://support.oracle.com/epmos/faces/DocumentDisplay?id=2828699.1) - (ODyS) Oracle Dynamic Scaling on Podman: Setting up Dynamic Scaling on Podman
 
 - [2940064.1](https://support.oracle.com/epmos/faces/DocumentDisplay?id=2940064.1) - (ODyS) Oracle Dynamic Scaling on Kubernetes: Setting up Dynamic Scaling on Kubernetes
-
-Reviewed 22/11/2024
 
 # License
 
