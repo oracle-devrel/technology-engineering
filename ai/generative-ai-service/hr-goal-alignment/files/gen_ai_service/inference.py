@@ -1,4 +1,3 @@
-# Copyright (c) 2025 Oracle and/or its affiliates.
 import json
 import logging
 import sys
@@ -53,7 +52,8 @@ def recommend_courses(profile, feedback) -> dict:
     model = get_llm_model()
     response = {}
     try:
-        response = model.with_structured_output(schema).invoke(
+        # Get raw output first for debugging
+        raw_output = model.invoke(
             [
                 SystemMessage(content=prompt_sys),
                 HumanMessage(
@@ -63,10 +63,27 @@ def recommend_courses(profile, feedback) -> dict:
                 ),
             ]
         )
+        logger.info(f"Raw LLM response before parsing:\n{raw_output}")
+        # Now parse the structured output
+        result = model.with_structured_output(schema).invoke(
+            [
+                SystemMessage(content=prompt_sys),
+                HumanMessage(
+                    content=prompt_user.format(
+                        EMPLOYEE_PROFILE=profile, MANAGER_FEEDBACK=feedback
+                    )
+                ),
+            ]
+        )
+        if result is None:
+            logger.warning("GenAI model response couldn't be parsed into the expected schema.")
+            logger.warning("Consider inspecting the raw output.")
+        else:
+            response = dict(result) if not isinstance(result, dict) else result
     except Exception as e:
         logger.error(f"Error during recommended_courses execution: {e}")
-
-    return response # type: ignore
+    logger.info(f"Returning response from recommend_courses: {response}")
+    return response
 
 
 
@@ -82,7 +99,7 @@ def classify_smart_goal(goal_description) -> dict:
     except Exception as e:
         logger.error(f"Error during recommended_courses execution: {e}")
 
-    return json.loads(response.content) # type: ignore
+    return json.loads(response.content)
 
 
 prompt_sys = """
@@ -132,6 +149,58 @@ Example response (exactly as shown, without code formatting, backticks, or extra
 
 DO NOT wrap your response in code blocks, backticks, or any other formatting. Return ONLY the raw JSON object itself.
 """
+
+
+new_prompt_user = """
+Based on the following information about an employee and their performance, recommend appropriate training courses.
+
+**Employee Profile:**
+{EMPLOYEE_PROFILE}
+
+**Manager Feedback:**
+{MANAGER_FEEDBACK}
+
+Your task:
+
+1. Identify exactly 3 skill-based focus areas for this employee to develop, prioritized according to:
+   - The most critical issues raised in the manager's feedback
+   - Then their job title and core responsibilities
+   - Then existing skills and experience level
+
+2. For each focus area, recommend exactly 2 course titles that:
+   - Explicitly include difficulty level in the title using: "(Beginner)", "(Intermediate)", or "(Advanced)"
+   - Address the skill gap clearly
+   - Are appropriate for the employee's experience
+
+**Output Format:**
+
+Return ONLY a JSON object with a single key: `"recommended_courses"`  
+- This key must map to an object
+- Each key in that object is a focus area (string)
+- Each value is a list of exactly two course titles (strings)
+
+**Example:**
+{
+  "recommended_courses": {
+    "Strategic Communication": [
+      "Influential Communication for Technical Professionals (Intermediate)",
+      "Executive Presence and Presentation Skills (Advanced)"
+    ],
+    "Technical Leadership": [
+      "Leading High-Performance Technical Teams (Intermediate)",
+      "Strategic Technical Decision Making (Advanced)"
+    ],
+    "Project Estimation": [
+      "Fundamentals of Project Estimation (Beginner)",
+      "Advanced Techniques in Project Scoping and Estimation (Intermediate)"
+    ]
+  }
+}
+
+⚠️ Do NOT include any explanations, markdown formatting, backticks, or extra text. Only return the raw JSON object as shown.
+"""
+
+
 
 prompt_user = """
 Based on the following information about an employee and their performance, recommend appropriate training courses:
