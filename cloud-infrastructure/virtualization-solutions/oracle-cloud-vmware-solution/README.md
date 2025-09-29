@@ -20,6 +20,9 @@ Reviewed: 23.09.2025
 
 ## Reference Architectures & Step-by-step Guides
 
+- [Deploy a VMware vSAN stretched cluster across OCI regions with Oracle Cloud VMware Solution](https://docs.oracle.com/en/solutions/ocvs-vsan-stretched-cluster/index.html) 
+    - This solution playbook describes deploying Oracle Cloud VMware Solution with a VMware vSAN stretched cluster across multiple OCI regions (with a vSAN Witness in a third region) to achieve region-level availability and resilience.
+
 - [Secure web applications hosted on Oracle Cloud VMware Solution with OCI Certificates](https://docs.oracle.com/en/solutions/secure-web-applications-in-ocvs/#GUID-7FA4EA91-B3CD-4085-B1FB-6255E068928B)
     -  This reference architecture describes the integration options for Oracle Cloud VMware Solution with OCI Certificates and Oracle Cloud Infrastructure Load Balancing (LBaaS) allowing customers to securely publish their critical applications.
 
