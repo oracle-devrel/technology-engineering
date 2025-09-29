@@ -2,7 +2,7 @@
  
 This file covers code snippets for Oracle Property Graph, for the Extract Graph Metrics step.
 
-Reviewed: 2025.03.02
+Reviewed: 2025.09.26
  
 
 # When to use this asset?
