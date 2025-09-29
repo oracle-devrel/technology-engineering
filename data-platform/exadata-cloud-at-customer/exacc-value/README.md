@@ -1,6 +1,6 @@
 # Exadata Cloud@Customer Value
 
-Reviewed: 28.02.2025
+Reviewed: 16.09.2025
 
 # Videos
 A short video series covering different aspects of the Oracle Exadata Cloud@Customer - the best platform for running your Oracle Databases in the cloud behind your firewall.
