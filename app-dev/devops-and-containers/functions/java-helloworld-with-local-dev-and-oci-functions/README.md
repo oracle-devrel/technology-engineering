@@ -70,6 +70,17 @@ docker run --rm -i --name fnserver \
 -e FN_LOG_LEVEL=DEBUG fnproject/fnserver:latest
 </pre>
 
+<i>UPDATE 30.9.2025</i>
+
+I recently update my MacOS to Sequoia 15.7 and hit the issue with Fn server that it could not run Function containers. To overcome this I'm still running Rancher desktop but also installed <code>colima</code>:
+
+<pre>
+brew install colima
+/opt/homebrew/opt/colima/bin/colima start -f
+</pre>
+
+After this, I can run Functions in Fn Server succesfully on my MacOS.
+
 <p>
 Now that the Fn server is running create an application for our function using the cli:
 
