@@ -19,6 +19,7 @@ Reviewed: 18.09.2025
 # Reusable Assets
 
 - [Kafka UI & Kafka Connect Setup with OCI OpenSearch](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-streaming-with-apache-kafka/code-examples/kafka-ui-connect-setup-with-oci-opensearch)
+- [OCI GoldenGate connection to OCI Streaming with Apache Kafka](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-streaming-with-apache-kafka/code-examples/goldengate_oci_streaming-with-apache-kafka)
 
 # License
 

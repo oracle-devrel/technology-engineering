@@ -8,7 +8,7 @@ The Data Science section covers the tools and services under the broader Oracle 
 * Oracle Graph (In-Database)
 * Oracle Spatial (In-Databse)
 
-Reviewed: 2025.04.19
+Reviewed: 2025.09.26
 
 
 # License
