@@ -12,9 +12,6 @@ Reviewed: 21.08.2025
  
 # Team Publications
 
-- [Solution Definition Document - Oracle Digital Assistant](#team-publications)
-    - A Template to use for ODA projects
-
 - [ODA Multi Agent](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/oracle-digital-assistant/oda-multi-agent)
     - Using Agent calling tools in ODA
 
@@ -32,8 +29,8 @@ Reviewed: 21.08.2025
 - [Live Lab - ODA with Generative AI Agent](https://livelabs.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=4112)
     - Use ODA with Generative AI Agent to search documents like Word/Excel, Images, Video, Audio or Websites
 
-- [Live Lab - Immerse Conversational Interfaces](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3452)
-    - How to combine Digital Assistant with other AI Services
+- [Live Lab - Agentic Agents using Oracle Digital Assistant](https://livelabs.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=4212)
+    - Explore how to build Agentic AI using Oracle Digital Assistant
 
 ## Workshops
 
