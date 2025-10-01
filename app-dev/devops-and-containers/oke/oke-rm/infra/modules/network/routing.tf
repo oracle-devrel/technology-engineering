@@ -33,6 +33,17 @@ resource "oci_core_route_table" "service_route_table" {
     destination = lookup(data.oci_core_services.all_oci_services.services[0], "cidr_block")
     description = "Route for all internal OCI services in the region"
   }
+
+  dynamic "route_rules" {
+    for_each = var.enable_drg ? var.peer_vcns : []
+    content {
+      network_entity_id = local.drg_id
+      destination_type  = "CIDR_BLOCK"
+      destination       = route_rules.value
+      description       = "Route to ${route_rules.value} through the DRG"
+    }
+  }
+
 }
 
 resource "oci_core_route_table" "nat_route_table" {
@@ -51,6 +62,17 @@ resource "oci_core_route_table" "nat_route_table" {
     destination = "0.0.0.0/0"
     description = "Route to reach external Internet through a NAT gateway"
   }
+
+  dynamic "route_rules" {
+    for_each = var.enable_drg ? var.peer_vcns : []
+    content {
+      network_entity_id = local.drg_id
+      destination_type  = "CIDR_BLOCK"
+      destination       = route_rules.value
+      description       = "Route to ${route_rules.value} through the DRG"
+    }
+  }
+
 }
 
 resource "oci_core_route_table" "internet_route_table" {
