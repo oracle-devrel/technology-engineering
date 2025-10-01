@@ -102,7 +102,7 @@ class AgentWithMCP:
         Fetch tools from the MCP server using FastMCP. Must be async.
         """
         jwt = self.jwt_supplier()
-        
+
         logger.info("Listing tools from %s ...", self.mcp_url)
 
         # FastMCP requires async context + await for client ops.

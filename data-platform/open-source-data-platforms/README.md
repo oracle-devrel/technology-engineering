@@ -6,7 +6,8 @@ Open Source Data Platforms continue to extend the Oracle Data Platform with Key 
 - OCI PostgreSQL
 - OCI Cache (Redis, Valkey)
 - OCI Data Flow (Apache Spark)
-- OCI Streaming (Kafka)
+- OCI Streaming
+- OCI Streaming with Apache Kafka
 - OCI OpenSearch
 - OCI NoSQL
 

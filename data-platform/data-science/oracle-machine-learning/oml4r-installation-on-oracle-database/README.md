@@ -2,7 +2,7 @@
  
 This document covers installation of OML4R on Oracle Database.
 
-Reviewed: 2025.03.02
+Reviewed: 2025.09.26
  
 
 # When to use this asset?

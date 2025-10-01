@@ -21,7 +21,7 @@ Conversational AI specialist this workshop is a proven
 methodology and many customers have used it as a major
 stepping stone in a successful Conversational AI strategy.
 
-Reviewed: 31.10.2024
+Reviewed: 22.09.2025
  
 # When to use this asset?
  
