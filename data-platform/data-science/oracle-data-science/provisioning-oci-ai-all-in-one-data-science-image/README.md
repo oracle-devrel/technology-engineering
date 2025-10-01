@@ -2,7 +2,7 @@
  
 This document covers provisioning of the AI All-in-One Data Science Image from the OCI Markplace.
 
-Reviewed: 2025.03.02
+Reviewed: 2025.09.26
  
 
 # When to use this asset?

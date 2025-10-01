@@ -1,0 +1,60 @@
+# Deploy a single application on all qa clusters. Note that by environments we mean entire clusters, not namespaces
+
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: example-app
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: [ "missingkey=error" ]
+  generators:
+    - clusters:
+        selector:
+          matchExpressions:
+            - key: "qa"
+              operator: In
+              values:
+                - "true"
+
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  template:
+    metadata:
+      name: 'example-app-{{ "{{" }}.nameNormalized{{ "}}" }}-qa'
+    spec:
+      project: default
+      sources:
+        - repoURL: https://example.chart
+          chart: example-app
+          targetRevision: "*"       # This will fetch the latest chart, do not use it for production, specify a version
+          helm:
+            releaseName: "example-app-qa"
+            valueFiles:
+              - $values/apps/helm/values/example-app/values-common.yml
+              - $values/apps/helm/values/example-app/env-type/values-no-prod.yml
+              # If you have some image tag version that differ between environments
+              - $values/apps/helm/values/example-app/version/values-qa.yml
+              - $values/apps/helm/values/example-app/envs/values-qa.yml
+              # Cluster specific values are optional, they will override all the other values
+              - $values/apps/helm/values/example-app/clusters/values-{{ "{{" }}.metadata.labels.name{{ "}}" }}.yml
+
+
+        # We can add some kubernetes manifests that are highly coupled with this Helm release, for example, a secret needed by this system tool to work (optional)
+        - repoURL: {{ .Values.repo }}
+          targetRevision: HEAD
+          path: apps/kustomize/example-app/envs/qa
+
+        - repoURL: {{ .Values.repo }}
+          targetRevision: HEAD
+          ref: values
+      destination:
+        server: '{{ "{{" }}.server{{ "}}" }}'
+        namespace: example
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+        automated:
+          prune: true
+          selfHeal: true

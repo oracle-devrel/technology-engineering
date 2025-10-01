@@ -2,7 +2,7 @@
  
 This document covers the provisioning of Oracle Base Database Service 23ai.
 
-Reviewed: 2025.03.02
+Reviewed: 2025.09.26
  
 
 # When to use this asset?
