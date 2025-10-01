@@ -38,7 +38,7 @@ SOFTWARE.
 
 # A Java Hello World function accessing ATP database with local dev and then building and deploying to OCI Functions
 
-Reviewed: 30.09.2025
+Reviewed: 30.9.2025
  
 # When to use this asset?
  
@@ -72,14 +72,8 @@ docker run --rm -i --name fnserver \
 
 <i>UPDATE 30.9.2025</i>
 
-I recently updated my MacOS to Sequoia 15.7 and hit the issue with Fn server that it could not run Function containers. To overcome this I'm still running Rancher desktop but also installed <code>colima</code>:
-
-<pre>
-brew install colima
-/opt/homebrew/opt/colima/bin/colima start -f
-</pre>
-
-After this, I can run Functions in Fn Server succesfully on my MacOS.
+I recently updated my MacOS to Sequoia 15.7 and hit the issue with Fn server that it could not run Function containers. To have a fix for this I reloaded the Fn Server image.
+After this, I can now run Functions in Fn Server succesfully on my MacOS.
 
 <p>
 Now that the Fn server is running create an application for our function using the cli:
