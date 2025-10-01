@@ -2,6 +2,7 @@
 
 *This Generative AI service application relies on OCI SDK alongside the new Llama 4 models (Scout and Maverick) to extract data from PDFs (or images) into structured data as JSON.*
 
+
 Reviewed: 18.09.2025
 
 # When to use this asset?

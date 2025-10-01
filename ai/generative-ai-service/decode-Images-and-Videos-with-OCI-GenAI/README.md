@@ -98,7 +98,7 @@ Reviewed date: 22.09.2025
 If you have questions or feedback, feel free to reach out via [anshuman.p.panda@oracle.com](mailto:email@example.com).
 
 ## License
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

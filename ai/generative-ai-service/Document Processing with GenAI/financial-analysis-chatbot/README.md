@@ -5,6 +5,8 @@ This tool enables semantic search, summarization, and financial Q&A by leveragin
 
 Author: **Ali Ottoman**
 
+Reviewed date: 23.09.2025
+
 ---
 
 ## 🔧 Features
@@ -156,5 +158,7 @@ from langchain_community.chat_models.oci_generative_ai import ChatOCIGenAI
 ---
 
 ## 📄 License
+
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 MIT License — see [LICENSE](LICENSE) for details.
