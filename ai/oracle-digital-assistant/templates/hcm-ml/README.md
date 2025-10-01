@@ -3,7 +3,7 @@
 The HCM-ML Template is a quick start to easily add multi language and Q&A to the HCM out-of-the-box skill.
 The provided documentations describes an entry-level exercise to start working with Oracle Digital Assistant using the HCM_ML template as a starting point to use the HCM SaaS skill in a multi-lingual way.
 
-Reviewed: 31.10.2024
+Reviewed: 22.09.2025
 
 # When to use this asset?
 
