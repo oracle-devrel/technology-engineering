@@ -2,7 +2,7 @@
  
 OCI Vision is an AI service for performing deep-learning–based image analysis at scale. With prebuilt models available out of the box, developers can easily build image recognition and text recognition into their applications without machine learning (ML) expertise. For industry-specific use cases, developers can automatically train custom vision models with their own data. These models can be used to detect visual anomalies in manufacturing, organize digital media assets, and tag items in images to count products or shipments.
  
-Reviewed: 11.06.2025
+Reviewed: 21.09.2025
 
 # Table of Contents
  
@@ -17,19 +17,15 @@ Reviewed: 11.06.2025
 ## LiveLabs and Workshops
  
 - [AI Services: Introduction to OCI Vision](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=931&clear=RR,180&session=101189893786132)
-- [Use Data Labeling Service to Create a Biomedical Image Classification Model](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3097&clear=RR,180&session=101189893786132)
 - [Premier League Video Analysis with Deep Learning](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3489&clear=RR,180&session=101189893786132)
 - [How to Use AI Vision and Drones for Inventory Management](https://go.oracle.com/LP=135420)
 - [Classify X-Ray Images for Pneumonia using Analytics Cloud and Vision AI Services](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3576)
-- [Automate and accelerate inventory analytics](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3426)
 - [Develop with Oracle AI and Database Services: Gen, Vision, Speech, Language, OML, Select AI, RAG and Vector](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3874&clear=RR,180&session=10041712875174)
-- [Search Documents and Images stored in Object Storage using OpenSearch, AI Vision, Text Recognition](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3442)
 - [Search Documents stored in Object Storage using Opensearch, Generative AI, Semantic Search, RAG](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3762)
 
 ## GitHub
 
 - [OCI object detection and image segmentation using SAM2](.ai-vision-and-sam/)
-
 - [OCI image classification using data labeling and vision service](https://github.com/carlgira/oci-image-classification)
 - [OCI object detection using data labeling and vision service](https://github.com/carlgira/oci-object-detection) 
 - [AI vision web client](https://github.com/oracle-devrel/oci-tf-vision-web-client)
@@ -50,7 +46,7 @@ Reviewed: 11.06.2025
 - [AI Solutions Hub](https://www.oracle.com/artificial-intelligence/solutions/)
 - [Oracle AI Vision on oracle.com](https://www.oracle.com/uk/artificial-intelligence/vision/)
 - [Oracle AI Vision documentation](https://docs.oracle.com/en-us/iaas/vision/vision/using/home.htm)
-- [Announcing OCI Vision stored video analysis general availability](https://blogs.oracle.com/ai-and-datascience/post/oci-vision-stored-video-analysis-ga)
+- [(New Release) OCI Vision stream video analysis documentation and livelab](https://docs.oracle.com/en-us/iaas/Content/vision/using/video-stream-processing-top.htm)
 
 # Reusable Assets Overview
 
@@ -92,8 +88,6 @@ Reviewed: 11.06.2025
 ## Medium Posts
 
 - [Configure OCI AI Vision API Using POSTMAN](https://medium.com/@nitish.joshi_74493/configure-oci-ai-vision-api-using-postman-27dabe39a5a7)
-- [Terraform script to build a web app for OCI vision service](https://medium.com/@carlgira/terraform-script-to-build-a-web-app-for-oci-vision-service-b67e88d446c1)
-- [Creating Composable Analytic Applications with Oracle Visual Builder, Analytics and OCI Vision AI Services](https://medium.com/oracledevs/creating-composable-analytic-applications-with-oracle-visual-builder-analytics-and-oci-vision-ai-705236c1de07)
  
 # License
  

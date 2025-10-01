@@ -13,7 +13,7 @@ astroid==3.3.8
 asttokens==3.0.0
 async-lru==2.0.4
 attrs==25.1.0
-Authlib==1.6.0
+Authlib==1.6.4
 babel==2.17.0
 backoff==2.2.1
 beautifulsoup4==4.13.3
