@@ -1,9 +1,0 @@
-# Compared to the default view clusterrole, this one is more generic and will allow to also view secrets
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: cluster-reader
-rules:
-  - apiGroups: [""]
-    resources: [""]
-    verbs: ["get", "watch", "list"]

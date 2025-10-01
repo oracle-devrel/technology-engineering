@@ -1,11 +1,11 @@
-![UI](images/ui_image.png)
-
 # Custom RAG agent
 This repository contains the code for the development of a **custom RAG Agent**, based on **OCI Generative AI**, **Oracle 23AI** Vector Store and **LangGraph**
 
 **Author**: L. Saetta
 
-**Last updated**: 11/09/2025
+**Reviewed**: 23.09.2025
+
+![UI](images/ui_image.png)
 
 ## Design and implementation
 * The agent is implemented using **LangGraph**
