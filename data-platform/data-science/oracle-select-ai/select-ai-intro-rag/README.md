@@ -2,7 +2,7 @@
  
 This file covers OML code snippets for utilising the Select AI Retrieval Augment Generation capabilities. Please run the select-ai-intro-setup content first located in the GitHub directory above.
 
-Reviewed: 2025.03.02
+Reviewed: 2025.09.26
  
 
 # When to use this asset?

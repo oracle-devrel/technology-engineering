@@ -16,13 +16,13 @@ This stack is used to create the initial network infrastructure for OKE. When co
 * By default, everything is private, but there is the possibility to create public subnets
 * Be careful when modifying the default values, as inputs are not validated
 
-[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-rm-1.1.4/infra.zip)
+[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-rm-1.1.5/infra.zip)
 
 ## Step 2: Create the OKE control plane
 
 This stack is used to create the OKE control plane ONLY.
 
-[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-rm-1.1.4/oke.zip)
+[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-rm-1.1.5/oke.zip)
 
 Also note that if the network infrastructure is located in a different compartment than the OKE cluster AND you are planning to use the OCI_VCN_NATIVE CNI,
 you must add these policies:
@@ -56,7 +56,15 @@ By using this feature, we can modify the stack we deployed in Step 2 and add the
 
 ![Edit Terraform configurations](images/edit_oci_stack.png)
 
-Instructions on how to modify the stack and add node pools can be found in the comments of the oke.tf file.
+Instructions on how to modify the stack and add node pools can be found in comments on the bottom of the <code>oke.tf</code> file. Set <code>create = true</code> on the pool you want to be added by Terraform.
+
+Alternatively, clone this repo locally and edit <code>oke.tf</code> file to add a node pool and then load the folder including the modified Terraform to your RM stack:
+
+![Edit Terraform configurations](images/edit_stack_with_source.png)
+
+After adding the Terraform source save and apply the stack.Now, the RM should add the new pool:
+
+![Edit Terraform configurations](images/node_pool_create.png)
 
 ### Option 3.2: Create the OKE data plane with Ubuntu nodes
 
@@ -78,4 +86,3 @@ Provisioning an OKE cluster is just the first step, be sure to also check out th
 * [OKE policies](../oke-policies/policies.md)
 * [GitOps with ArgoCD](../oke-gitops/README.md)
 * [Ingress guide](ingress.md)
-

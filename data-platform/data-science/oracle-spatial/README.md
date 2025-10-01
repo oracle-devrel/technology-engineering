@@ -4,7 +4,7 @@ This page covers Oracle Spatial.
 
 Oracle’s spatial database is an integrated part of Oracle's converged database, enabling developers, analysts, and geographic information system (GIS) professionals to manage geospatial data, perform analysis, add location-based services to applications, and visualize through interactive maps.
 
-Reviewed: 2025.04.19
+Reviewed: 2025.09.26
 
 
 # Useful Links

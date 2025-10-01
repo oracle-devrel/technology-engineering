@@ -149,3 +149,25 @@ variable "nat_gateway_id" {}
 variable "create_internet_gateway" {
   type = bool
 }
+
+# DRG
+
+variable "enable_drg" {
+  type = bool
+}
+
+variable "create_drg" {
+  type = bool
+}
+
+variable "drg_name" {}
+
+variable "drg_id" {}
+
+variable "create_drg_attachment" {
+  type = bool
+}
+
+variable "peer_vcns" {
+  type = list(string)
+}
