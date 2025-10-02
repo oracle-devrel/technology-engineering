@@ -1,10 +1,12 @@
 # Oracle Text
 
-Oracle Text is a full-text search that is fully integrated into the Oracle Database. It can be used to index, search, and analyze text and documents stored in different formats, including those in the Oracle database, files, and web content. Oracle Text also has advanced features like linguistic analysis, data mining, classification, and clustering capabilities and is delivered as a part of all versions of Oracle Database.
+These days, getting useful insights from all kinds of information is more important than ever. Vector search is becoming really popular because it lets you search by meaning, not just specific words, and it can quickly find answers based on similarities. To make searches even more accurate and relevant, keyword search (known as Oracle Text) comes into play. This is the foundation of Hybrid Search, which combines both keyword search and vector-based search. By integrating these methods, hybrid search can address a broader range of queries, including those requiring both precise results and a deeper understanding of user intent.
 
-Oracle Text can perform linguistic analysis on documents, mining capabilities, classification, clustering, etc.
+Nevertheless, Oracle Text, Oracle’s full-text search tool, included in all database editions, remains popular and significant on its own, and it is utilized in numerous customer projects. For example, it’s used for all sorts of use cases, like searching for company names, spotting financial fraud by matching partial or misspelled names and addresses, managing documents with checkin/checkout/download features, searching through metadata, and much more. Oracle Text, is built into every edition of Oracle Database and works both in the cloud and on-premises.  
 
-Reviewed Date: 22.08.2025
+In addition there is a deep integration with other Oracle Database features and technologies including but not limited to JSON, Spatial, Graph, but also security, availability, performance, partitioning, sharding (aka Oracle Global Distributed Databases), RAC, Exadata, and more. In general, data held in the Oracle Database can be directly accessed via SQL, without the need to convert it into an intermediary form. Combining data in different formats is easy – all you need to do is join! 
+
+Reviewed Date: 09.09.2025
 
 # Useful Links
 
@@ -19,13 +21,13 @@ Reviewed Date: 22.08.2025
 - [A New User's Guide to Oracle Text in Oracle Database (White paper)](https://www.oracle.com/a/otn/docs/newusersguidetooracletext.pdf) 
 - [Oracle AI Vector Search User's Guide](https://docs.oracle.com/en/database/oracle/oracle-database/23/vecse/index.html)
 - [Github AI Vector Search](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/core-converged-db/ai-vector-search)
-- [Github APEX Text demo](github.com/chipbaber/apex_textdemo)
+- [Github APEX Text demo](https://github.com/chipbaber/apex_textdemo)
 
 ## Blogs
 
+- [Learn about Oracle Text](https://blogs.oracle.com/database/post/learn-about-oracle-text)
 - [Indexing Text in Object Storage](https://blogs.oracle.com/datawarehousing/post/indexing-text-object-storage)
 - [Using JSON documents and don’t know what you’re looking for? Search Indexes in Oracle Database 23ai to the rescue](https://blogs.oracle.com/database/post/23c-search-index)
-- [Learn about Oracle Text](https://blogs.oracle.com/database/post/learn-about-oracle-text)
 - [New full-text search in 23ai: Ubiquitous Database Search](https://blogs.oracle.com/coretec/post/ubiquitous-database-search-in-23c)
 - [Easy Database Search with APEX in 23ai](https://blogs.oracle.com/coretec/post/easy-database-search-with-apex-in-23c)
 - [Text Index with Automatic Maintenance](https://blogs.oracle.com/coretec/post/text-index-with-automatic-maintenance)

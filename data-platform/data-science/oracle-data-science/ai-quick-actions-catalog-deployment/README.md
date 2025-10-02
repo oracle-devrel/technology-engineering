@@ -2,7 +2,7 @@
  
 This document covers how to use AI Quick Actions within OCI Data Science to deploy an out of the box foundational model from the AI Quick Actions Catalog.
 
-Reviewed: 2025.03.02
+Reviewed: 2025.09.26
  
 
 # When to use this asset?

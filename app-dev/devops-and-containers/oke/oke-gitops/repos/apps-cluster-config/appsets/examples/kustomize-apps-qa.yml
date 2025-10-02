@@ -1,0 +1,50 @@
+# Deploy all helm application on all qa clusters.
+
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: helm-apps-qa
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: [ "missingkey=error" ]
+  generators:
+    - matrix:
+        generators:
+          - git:
+              repoURL: {{ .Values.repo }}
+              revision: HEAD
+              directories:
+                - path: apps/kustomize/*/envs/qa
+          - clusters:
+              selector:
+                matchLabels:
+                  type: "workload"
+                matchExpressions:
+                  - key: "qa"
+                    operator: In
+                    values:
+                      - "true"
+
+  syncPolicy:
+    preserveResourcesOnDeletion: false     # If true, application will be kept even if removed from ArgoCD
+  template:
+    metadata:
+      name: '{{ "{{" }}index .path.segments 2{{ "}}" }}-{{ "{{" }}.nameNormalized{{ "}}" }}-qa'
+    spec:
+      project: team-project    # Project dedicated to this development team
+      sources:
+        - repoURL: {{ .Values.repo }}
+          path: '{{ "{{" }}.path.path{{ "}}" }}'
+          targetRevision: HEAD       # Git HEAD will represent the latest state of the applications
+
+      destination:
+        server: '{{ "{{" }}.server{{ "}}" }}'
+        namespace: 'namespace-qa'       # This is just the default qa namespace. If an application needs to be deployed on another namespace, it must be set in the helm values
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=false       # qa namespace should already have been created
+          - ServerSideApply=true
+        automated:
+          prune: true
+          selfHeal: true
