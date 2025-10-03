@@ -8,7 +8,7 @@ PL/SQL, the Oracle procedural extension of SQL, is a portable, high-performance 
 
 Below you'll find an index to all the sections available in this repository, along with a brief introduction to what you can expect in each section.
 
-Reviewed: 19.06.2025
+Reviewed: 03.10.2025
 
 # Table of contents
 
