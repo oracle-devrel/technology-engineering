@@ -68,6 +68,9 @@ Reviewed: 23.10.2024
       
  - [Using the new graphical interface for Database Replay to test new patches on Autonomous Database](https://medium.com/@adrian.capitanu/using-database-replay-to-test-new-patches-on-autonomous-database-6701ed9def6e)
     - How to automate testing of new patches before implementing them in a Production Autonomous Database
+
+ - [Prevent Performance Drops: Proactively Managing Capacity with Oracle’s Autonomous Database ResourceUtilizationWarning](https://medium.com/@mmy0utu8e/prevent-performance-drops-611677160f35)
+    - How to automate testing of new patches before implementing them in a Production Autonomous Database
    
 ## Tip of the Day
  
