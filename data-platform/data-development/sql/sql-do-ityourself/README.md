@@ -5,7 +5,7 @@ This section covers Public Oracle SQL Tools: Use of SQL in extensive way: from S
 Providing links to public useful documentation about SQL use and tips. SQL Tips on Fortnight basis and and articles/blogs written by Oracle SQL and Database Advocates and Product Managers and SQL examples are shown here.
 A SQL Clue Card is also provided.
 
-Reviewed: 19.06.2025
+Reviewed: 03.10.2025
 
 # Table of Contents
  
