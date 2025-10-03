@@ -70,7 +70,7 @@ Reviewed: 23.10.2024
     - How to automate testing of new patches before implementing them in a Production Autonomous Database
 
  - [Prevent Performance Drops: Proactively Managing Capacity with Oracle’s Autonomous Database ResourceUtilizationWarning](https://medium.com/@mmy0utu8e/prevent-performance-drops-611677160f35)
-    - How to automate testing of new patches before implementing them in a Production Autonomous Database
+    - Proactively Manage Capacity
    
 ## Tip of the Day
  
