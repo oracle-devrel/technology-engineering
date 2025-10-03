@@ -65,6 +65,12 @@ Reviewed: 23.10.2024
 
  - [The Oracle Data Marketplace](https://medium.com/@mmy0utu8e/the-oracle-data-marketplace-ddbf4ac92b87)
     - How to share/consume data using Data Marketplace on the Autonomous Database
+      
+ - [Using the new graphical interface for Database Replay to test new patches on Autonomous Database](https://medium.com/@adrian.capitanu/using-database-replay-to-test-new-patches-on-autonomous-database-6701ed9def6e)
+    - How to automate testing of new patches before implementing them in a Production Autonomous Database
+
+ - [Prevent Performance Drops: Proactively Managing Capacity with Oracle’s Autonomous Database ResourceUtilizationWarning](https://medium.com/@mmy0utu8e/prevent-performance-drops-611677160f35)
+    - Proactively Manage Capacity
    
 ## Tip of the Day
  
