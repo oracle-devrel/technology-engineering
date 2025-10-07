@@ -230,7 +230,7 @@ tzdata==2025.2
 urllib3==2.3.0
 uvicorn==0.34.0
 uvloop==0.21.0
-vllm==0.10.1.1
+vllm==0.11.0
 watchfiles==1.0.5
 wcwidth @ file:///Users/ktietz/demo/mc3/conda-bld/wcwidth_1629357192024/work
 websocket-client==1.8.0
