@@ -2,7 +2,7 @@
 
 Data Integration is a fully managed, multi-tenant service that helps data engineers and developers with data movement and data loading tasks. Powered by Spark ETL or ELT processes, a large volume of data can be ingested from a variety of data assets; cleansed; transformed and reshaped; and efficiently loaded to Oracle Cloud Infrastructure target data assets.
 
-Reviewed: 28.02.2025
+Reviewed: 07.10.2025
 
 # Table of Contents
  
