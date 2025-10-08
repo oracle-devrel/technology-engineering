@@ -30,7 +30,7 @@ Reviewed: 28.02.2025
 - [Enrich metadata with OCI Data Catalog](https://blogs.oracle.com/dataintegration/post/enrich-metadata-with-oracle-cloud-infrastructure-data-catalog)
     - Harvest, enrich and curate technical and business metadata
     
-- [Using AI and ML to enrich metadata in OCI Data Catalog](https://blogs.oracle.com/dataintegration/post/using-ai-and-ml-to-enrich-metadata-in-data-catalog)
+- [Using AI and ML to enrich metadata in OCI Data Catalog](https://blogs.oracle.com/dataintegration/post/building-meaningful-catalogs-for-data-lakes)
     - Recommendation engine to enrich your metadata in the data catalog
  
 - [Public Product Page](https://www.oracle.com/be/big-data/data-catalog/what-is-a-data-catalog/)
