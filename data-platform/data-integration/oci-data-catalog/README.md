@@ -4,7 +4,7 @@ Data Catalog is a metadata management service that helps data consumers discover
 
 With OCI Data Catalog, data analysts, data scientists, data engineers, and data stewards have a single self-service environment to discover the data that is available in the cloud sources. Data Catalog helps data providers create a data dictionary comprising technical and business metadata. Data consumers can easily assess the suitability of data for analytics and data science projects.
 
-Reviewed: 28.02.2025
+Reviewed: 07.10.2025
 
 
 # Table of Contents
