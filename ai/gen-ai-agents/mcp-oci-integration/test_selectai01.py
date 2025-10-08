@@ -2,18 +2,21 @@
 Test Select AI on SH schema
 """
 
-from db_utils import run_select_ai
+import select_ai
+from config_private import CONNECT_ARGS
 
 PROFILE_NAME = "OCI_GENERATIVE_AI_PROFILE"
 NL_REQUEST = "List top 10 customers by sales in Europe"
 
-# Option A: one-shot (generate → execute)
-cols, rows, sql_text = run_select_ai(NL_REQUEST, PROFILE_NAME)
+# generate
+select_ai.connect(**CONNECT_ARGS)
+print("Connected to DB...")
+print("")
 
-print("=== Generated SQL ===")
-print(sql_text)
+print(f"Using profile: {PROFILE_NAME}")
+profile = select_ai.Profile(profile_name=PROFILE_NAME)
 
-print("----------------------")
-print("Result columns:", cols)
-for r in rows:
-    print(r)
+sql = profile.show_sql(prompt=NL_REQUEST)
+print("Generated SQL:")
+print(sql)
+print()
