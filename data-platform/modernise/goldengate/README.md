@@ -4,7 +4,7 @@ Oracle GoldenGate provides real-time capture, transformation, routing, and deliv
 
 A set of best practices and other useful assets/links can be found in this page.
 
-Reviewed: 21.08.2024
+Reviewed: 07.10.2025
 
 # Table of Contents
 
@@ -21,8 +21,12 @@ Reviewed: 21.08.2024
 - [Migrate an IBM Db2 for i (AS/400) Database to Oracle ADB-D Using Oracle GoldenGate](https://medium.com/@snoozrocks/migrate-an-ibm-db2-for-iseries-database-to-oci-adb-d-using-oracle-goldengate-dd1cda91ce6f)
 
 # Useful Links
-- [Oracle Goldengate 21c](https://docs.oracle.com/en/middleware/goldengate/core/21.3/index.html)
-- [Learn About Migrating with Oracle GoldenGate](https://docs.oracle.com/en/solutions/reduce-database-migration-downtime/learn-migrating-oracle-goldengate1.html)
+
+- [Oracle Goldengate 23ai](https://docs.oracle.com/en/middleware/goldengate/core/23/)
+- [Learn About OCI GoldenGate](https://docs.oracle.com/en/cloud/paas/goldengate-service/)
+
+
+
 
 # License
 
