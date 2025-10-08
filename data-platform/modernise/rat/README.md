@@ -13,21 +13,15 @@ Reviewed: 08.10.2025
  
 # Table of Contents
  
-1. [Essential Training](#essential-training)
-2. [Internal Links](#internal-links)
+1. [Useful Links](#useful-links)
  
-# Essential Training
- 
-- [Oracle Real Application Testing Webinar & Live Demo](hhttps://otube.oracle.com/media/Oracle%20Real%20Application%20Testing%20Webinar%20%20Live%20Demo/0_nw4q6mlu)
-    - Detailed video and demo that focuses on SPA, Data Masking & Subsetting
-- [SQL Performance Analyser & Database Replay](https://apexapps.oracle.com/pls/apex/f?p=133:180:110908450042950::::wid:858)
-    - Live Lab guide on SQL Performance Analyzer and Database Replay
-- [RAT Best Practices](https://bolltoftoracle.wordpress.com/2017/09/29/real-application-testing-best-practices-part-1/)
-    - Blog post by Bjorn Bolltoft detailling RAT best practices
-
-# Internal Links
-- [RAT Collateral: Essentials](https://apex.oraclecorp.com/pls/apex/r/database/dbus-2021/product-home?p300_txn_id=21753578841115742271947858437101326604&clear=300&session=33565878525136)
+# Useful Links
+- [Database Replay Introduction](https://docs.oracle.com/en/database/oracle/oracle-database/19/ratug/introduction-to-database-replay.html#GUID-5AA30327-74FB-4406-8F7C-5D442F307534)
+- [RAT: Database Replay Demo](https://blogs.oracle.com/coretec/post/rat-demo)
+- [Why RAT vs. Artificial Load Generators](https://bolltoftoracle.wordpress.com/2017/10/03/why-real-application-testing-database-replay-should-be-used-instead-of-artificial-load-generator/)
 - [Subsetting](https://db-blog.web.cern.ch/blog/szymon-skorupinski/2016-01-how-generate-subset-out-real-application-testing-captures)
+- [SQL Performance Analyser & Database Replay Lab Guide](https://apexapps.oracle.com/pls/apex/f?p=133:180:110908450042950::::wid:858)
+- [RAT Best Practices](https://bolltoftoracle.wordpress.com/2017/09/29/real-application-testing-best-practices-part-1/)
 
 # License
  
