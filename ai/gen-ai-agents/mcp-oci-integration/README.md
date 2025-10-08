@@ -6,6 +6,7 @@ This repository contains code and examples to help in the following tasks:
 * **Integrate** MCP servers with other **OCI resources** (ADB, Select AI, ...)
 * **Integrate** MCP Servers running on OCI with AI Assistants like **ChatGPT**, Claude.ai, MS Copilot
 * **Integrate** MCP Servers with OCI **APM** for **Observability**
+* **how-to** create a **docker** image for your MCP server
 
 ![MCP console](./images/mcp_cli.png)
 
@@ -64,7 +65,7 @@ Using **OCI services** there are several things you can do to get the right leve
 * You can use **OCI IAM** to generate **JWT** tokens
 * You can use OCI network security
 
-More details in a dedicate page.
+More details in a dedicated page.
 
 ## Integrate MCP Semantic Search with ChatGPT
 If you deploy the [MCP Semantic Search](./mcp_semantic_search_with_iam.py) server you can test the integration with **ChatGPT** in **Developer Mode**. It provides a **search** tool, compliant with **OpenAI** specs. 
@@ -80,5 +81,7 @@ Another option is to use an MCP server to be able to integrate OCI **SelectAI** 
 In this way you have an option to do full **Text2SQL** search, over your database schema. Then, the AI assistant can process your retrieved data.
 
 An example is [here](./mcp_selectai.py)
+
+For **Select AI** configuration, see [here](./configure_select_ai.md)
 
 
