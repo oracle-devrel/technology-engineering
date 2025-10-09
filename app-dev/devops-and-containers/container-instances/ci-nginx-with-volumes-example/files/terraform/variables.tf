@@ -8,14 +8,13 @@ variable "tenancy_ocid" {
 
 }
 
-variable "subnet_id" {
+variable "subnet_ocid" {
   type = string
 
 }
 
 variable "sidecar_image" {
   type = string
-
 }
 
 variable "ad_number" {

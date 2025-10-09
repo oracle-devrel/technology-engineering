@@ -150,20 +150,24 @@ Then drag-and-drop the directory folder to the Stack Configuration box on the Cl
 <p>
 <ul>
     <li><b>ad_number</b> : 1 (or 2 or 3 if your region supports it)</li>
-    <li><b>compartment_ocid</b> : <i>prefilled with the current compartment OCID</i></li>
+    <li><b>compartment_ocid</b> : current compartment OCID</li>
     <li><b>log_file</b> : access.log</li>
     <li><b>log_mount_name</b> : nginxlogs</li>
     <li><b>log_mount_path</b> : /var/log/nginx</li>
-    <li><b>log_ocid</b> : <i>Here copy the OCID of the Log created in earlier step</i></li>
-    <li><b>sidecar_image</b> : fra.ocir.io/&lt;<i>Here put the OS namespace according to your sidecar image</i>&gt;/nginx-sidecar:1</li>
-    <li><b>subnet_id</b> : <i>Here copy the OCID of the public subnet created in previous step</i></li>
-    <li><b>tenancy_ocid</b> : <i>prefilled with the current compartment OCID</i></li>
+    <li><b>log_ocid</b> : Here copy the OCID of the Log created in earlier step</li>
+    <li><b>sidecar_image</b> : Here copy the sidecar image url e.g. fra.ocir.io/namespace/nginx-sidecar:1</li>
+    <li><b>subnet_ocid</b> : Here copy the OCID of the public subnet created in previous step</li>
+    <li><b>tenancy_ocid</b> : current tenancy OCID</li>
     <li><b>www_data_bucket</b> : nginx-www-data</li>
     <li><b>www_mount_name</b> : nginxdata</li>
     <li><b>www_mount_path</b> : /usr/share/nginx/html</li>
 </ul>
 
-As it can be seen we are using NGINX defaults for access.log and html data directory to create CI <code>volumes</code> and <code>volume_mounts</code> for the containers in the deployment (i.e. NGINX and the custom sidecar container).
+So, there are only 3 variables to be filled in by you (other are defaults):
+<code>log_ocid</code>, <code>subnet_ocid</code> and the <code>sidecar_image</code>.
+
+<p>
+Also, as it can be seen we are using NGINX defaults for access.log and html data directory to create CI <code>volumes</code> and <code>volume_mounts</code> for the containers in the deployment (i.e. NGINX and the custom sidecar container).
 
 ### Run the the RM stack to create the CI deployment and test NGINX
 

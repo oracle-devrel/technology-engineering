@@ -52,7 +52,7 @@ resource "oci_container_instances_container_instance" "container_instance" {
     ocpus         = "1"
   }
   vnics {
-    subnet_id = var.subnet_id
+    subnet_id = var.subnet_ocid
   }
 
   container_restart_policy = "ON_FAILURE"
