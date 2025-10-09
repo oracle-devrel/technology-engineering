@@ -116,6 +116,16 @@ As always you can change the <code>region</code> to match yours, I'm using the <
 
 ### Create Object Storage bucket with html in www-data
 
+In Cloud UI create the Object Storage bucket to your compartment with name <code>nginx-www-data</code>.
+<p>
+You can manually upload the files under <code>nginx-www-data</code> in this repo after cloning using Cloud UI or use OCI CLI bulk upload in localhost to do this:
+<pre>
+cd www-data
+oci os object bulk-upload --bucket-name nginx-www-data --overwrite --src-dir . 
+</pre>
+There is one consideration though:<br>
+CLI bulk upload uploads sub-directories but it does not seem to set the "directory" type for directory names unlike the Cloud UI, and since the container sidecar code expects this type to be able to copy the directory structure from OS I suggest first creating the directories to the bucket before using the CLI bulk upload. Hence, in this create also the directory <code>images</code> manually to the bucket after creating it.
+
 ### Create OCI Logging Log target
 
 ### Create Resource Manager Stack from terraform files
