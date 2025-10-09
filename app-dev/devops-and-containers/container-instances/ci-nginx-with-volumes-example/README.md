@@ -147,19 +147,20 @@ In Cloud UI create a RM new stack in your home compartment.
 First copying the <code>terraform</code> directory to your localhost either by cloning this repo or copy-pasting the 2 files manually into a local directory named <code>terraform</code>.
 <p>
 Then drag-and-drop the directory folder to the Stack Configuration box on the Cloud UI's Create Stack screen. Now, click "Next" to setup the variables for the stack:
+<p>
 <ul>
-    <li>ad_number : 1 (or 2 or 3)</li>
-    <li>compartment_ocid : <i>prefilled with the current compartment OCID</i></li>
-    <li>log_file : access.log</li>
-    <li>log_mount_name : nginxlogs</li>
-    <li>log_mount_path : /var/log/nginx</li>
-    <li>log_ocid : <i>Here copy the OCID of the Log created in earlier step</i></li>
-    <li>sidecar_image : fra.ocir.io/&lt;<i>Here put the OS namespace according to your sidecar image</i>&gt;/nginx-sidecar:1</li>
-    <li>subnet_id : <i>Here copy the OCID of the public subnet created in previous step</i></li>
-    <li>tenancy_ocid: <i>prefilled with the current compartment OCID</i></li>
-    <li>www_data_bucket: nginx-www-data</li>
-    <li>www_mount_name: nginxdata</li>
-    <li>www_mount_path: /usr/share/nginx/html</li>
+    <li><b>ad_number</b> : 1 (or 2 or 3 if your region supports it)</li>
+    <li><b>compartment_ocid</b> : <i>prefilled with the current compartment OCID</i></li>
+    <li><b>log_file</b> : access.log</li>
+    <li><b>log_mount_name</b> : nginxlogs</li>
+    <li><b>log_mount_path</b> : /var/log/nginx</li>
+    <li><b>log_ocid</b> : <i>Here copy the OCID of the Log created in earlier step</i></li>
+    <li><b>sidecar_image</b> : fra.ocir.io/&lt;<i>Here put the OS namespace according to your sidecar image</i>&gt;/nginx-sidecar:1</li>
+    <li><b>subnet_id</b> : <i>Here copy the OCID of the public subnet created in previous step</i></li>
+    <li><b>tenancy_ocid</b> : <i>prefilled with the current compartment OCID</i></li>
+    <li><b>www_data_bucket</b> : nginx-www-data</li>
+    <li><b>www_mount_name</b> : nginxdata</li>
+    <li><b>www_mount_path</b> : /usr/share/nginx/html</li>
 </ul>
 
 As it can be seen we are using NGINX defaults for access.log and html data directory to create CI <code>volumes</code> and <code>volume_mounts</code> for the containers in the deployment (i.e. NGINX and the custom sidecar container).
@@ -171,17 +172,20 @@ This is the final step to apply the RM stack in the Cloud UI, simply navigate to
 The result is a CI instance named <code>Nginx with OCI SDK sidecar</code> and navigate to it in the Cloud UI.
 <p>
 Navigate to containers and 2 containers should be running as part of the CI instance deployment:
+<p>
 <ul>
     <li>nginx</li>
     <li>nginx-sidecar</li>
 </ul>
 Navigate to <code>nginx-sidecar</code>, click the "View environment variables" -button and you should these key-values on the screen:
+<p>
 <ul>
     <li>log_file : /var/log/nginx/access.log</li>
     <li>log_ocid : <i>OCID of the Log that was created in earlier step</i></li>
     <li>os_bucket : nginx-www-data</li>
     <li>www_path : /usr/share/nginx/html</li>
 </ul>
+<p>
 Now, close this, click the "View logs" -button and this log should appear on the screen (example):
 <pre>
 2025-10-09T11:45:19.882545929Z stdout F OCI LOG:ocid1.log.oc1.eu-frankfurt-1.amaaaaaauev...ae5q
@@ -207,12 +211,14 @@ Now go back to Cloud UI to check the OCI Logging. Under Logs find the log <code>
 
 ## Useful Links
  
-- [OCI Functions](https://docs.oracle.com/en-us/iaas/Content/Functions/Concepts/functionsoverview.htm)
-    - Learn how the Functions service lets you create, run, and scale business logic without managing any infrastructure
-- [Fn](https://fnproject.io/)
-    - The Fn project is an open-source container-native serverless platform that you can run anywhere -- any cloud or on-premise. It’s easy to use, supports every programming language, and is extensible and performant
-- [Autonomous Database](https://www.oracle.com/autonomous-database/)
-    - Develop scalable AI-powered apps with any data using built-in AI capabilities. Use your choice of large language model (LLM) and deploy in the cloud or your data center
+- [OCI Container Instances](https://www.oracle.com/cloud/cloud-native/container-instances/)
+    - Learn how OCI Container Instances lets you easily run applications on serverless compute optimized for containers
+- [OCI SDK](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/sdks.htm)
+    - Oracle Cloud Infrastructure provides a number of Software Development Kits (SDKs) and a Command Line Interface (CLI) to facilitate development of custom solutions
+- [OCI Logging](https://docs.oracle.com/en-us/iaas/Content/Logging/Concepts/loggingoverview.htm)
+    - The Oracle Cloud Infrastructure Logging service is a highly scalable and fully managed single pane of glass for all the logs in your tenancy. Logging provides access to logs from Oracle Cloud Infrastructure resources
+- [OCI Object Storage](https://www.oracle.com/cloud/storage/object-storage/)
+    - Oracle Cloud Infrastructure (OCI) Object Storage provides scalable, durable, low-cost storage for any type of data. Benefit from 11 nines of durability. Scale storage to nearly unlimited capacity for your unstructured data
 - [Oracle](https://www.oracle.com/)
     - Oracle Website
 
