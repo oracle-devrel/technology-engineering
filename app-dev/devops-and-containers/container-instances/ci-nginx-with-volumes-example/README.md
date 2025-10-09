@@ -48,7 +48,7 @@ Anyone who wants to experiment with OCI Container Instances and setup a multi-co
     <li>Tail NGINX access log to OCI Logging for monitoring</li>
 </ul>
 These operations will be handled by a custom container that is being built in this example.<br>
-The NGINX container is a default one without modification from Docker Hub.<br>
+The NGINX container is the latest one from Docker Hub without modifications.<br>
 The sidecar container is built using <code>OCI SDK</code> in NodeJS, but this could be done also in an other language like Java, Go, Python or .net.
 
 # Author
