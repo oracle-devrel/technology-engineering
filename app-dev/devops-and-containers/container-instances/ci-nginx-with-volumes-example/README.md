@@ -62,7 +62,7 @@ Once built it is pushed to OCI Registry (OCIR) repo for deployment as part of th
 <p>
 Then, the CI deployment is created in OCI Resource Manager (RM) from the <code>terraform</code> in this repo.
 <p>
-However, before creating the RM terraform Stack a few other OCI resources need to be created for the CI deployment:
+However, before creating the RM terraform stack a few other OCI resources need to be created for the CI deployment:
 <ul>
     <li>Object Storage (OS) bucket for the NGINX filesystem. The example content is under <code>www-data</code> in this repo. The NGINX container custom sidecar will mount these files to NGINX <code>/usr/share/nginx/html</code> volume directory</li>
     <li>OCI Logging target for the container sidecar to send the <code>access.log</code> with <code>tail</code> to</li>
@@ -124,10 +124,104 @@ cd www-data
 oci os object bulk-upload --bucket-name nginx-www-data --overwrite --src-dir . 
 </pre>
 There is one consideration though:<br>
-CLI bulk upload uploads directories but it does not seem to set the "directory" type for directories unlike the Cloud UI by default, and since the container sidecar code expects this type to be able to copy the directory structure from OS I suggest first creating the directories to the bucket before using the CLI bulk upload. Hence, in this create also the directory <code>images</code> manually to the bucket after creating it.
+CLI bulk upload uploads directories but it does not seem to set the "directory" type for directories unlike the Cloud UI by default, and since the container sidecar code expects this type to be able to copy the directory structure from OS I suggest first creating the directories to the bucket before using the CLI bulk upload.<br>
+Hence, in this example create also the <code>images</code> directory manually using Cloud UI to the bucket after creating it, before using the bulk upload to copy the files to the bucket.
 
-### Create OCI Logging Log target
+### Create OCI Logging target for NGINX access log
 
-### Create Resource Manager Stack from terraform files
+In Cloud UI navigate to OCI Logging and create a Log with name <code>nginx-log</code> using the Default Log Group (if you don't have that one then create a Log Group first and then the Log itself).
+<p>
+The log's OCID need to be then configured to the Resorce Manager Terraform stack variables in the later step.
 
-### Run the the RM Stack to create the CI deployment and test NGINX
+### Create a VCN with a public subnet for NGINX access to port 80 from Internet
+
+In Cloud create a new Virtual Cloud Network with a subnet having public Internet access.
+The adjust the public subnet's security list ingress rule to allow traffic from CIDR <code>0.0.0.0/</code> to port 80.
+<p>
+The subnet's OCID need to be then configured to the Resorce Manager Terraform stack variables in next step.
+
+### Create Resource Manager stack from terraform files
+
+In Cloud UI create a RM new stack in your home compartment.
+<p>
+First copying the <code>terraform</code> directory to your localhost either by cloning this repo or copy-pasting the 2 files manually into a local directory named <code>terraform</code>.
+<p>
+Then drag-and-drop the directory folder to the Stack Configuration box on the Cloud UI's Create Stack screen. Now, click "Next" to setup the variables for the stack:
+<ul>
+    <li>ad_number : 1 (or 2 or 3)</li>
+    <li>compartment_ocid : <i>prefilled with the current compartment OCID</i></li>
+    <li>log_file : access.log</li>
+    <li>log_mount_name : nginxlogs</li>
+    <li>log_mount_path : /var/log/nginx</li>
+    <li>log_ocid : <i>Here copy the OCID of the Log created in earlier step</i></li>
+    <li>sidecar_image : fra.ocir.io/&lt;<i>Here put the OS namespace according to your sidecar image</i>&gt;/nginx-sidecar:1</li>
+    <li>subnet_id : <i>Here copy the OCID of the public subnet created in previous step</i></li>
+    <li>tenancy_ocid: <i>prefilled with the current compartment OCID</i></li>
+    <li>www_data_bucket: nginx-www-data</li>
+    <li>www_mount_name: nginxdata</li>
+    <li>www_mount_path: /usr/share/nginx/html</li>
+</ul>
+
+As it can be seen we are using NGINX defaults for access.log and html data directory to create CI <code>volumes</code> and <code>volume_mounts</code> for the containers in the deployment (i.e. NGINX and the custom sidecar container).
+
+### Run the the RM stack to create the CI deployment and test NGINX
+
+This is the final step to apply the RM stack in the Cloud UI, simply navigate to the stack details and click "Apply" which will run the stack.
+<p>
+The result is a CI instance named <code>Nginx with OCI SDK sidecar</code> and navigate to it in the Cloud UI.
+<p>
+Navigate to containers and 2 containers should be running as part of the CI instance deployment:
+<ul>
+    <li>nginx</li>
+    <li>nginx-sidecar</li>
+</ul>
+Navigate to <code>nginx-sidecar</code>, click the "View environment variables" -button and you should these key-values on the screen:
+<ul>
+    <li>log_file : /var/log/nginx/access.log</li>
+    <li>log_ocid : <i>OCID of the Log that was created in earlier step</i></li>
+    <li>os_bucket : nginx-www-data</li>
+    <li>www_path : /usr/share/nginx/html</li>
+</ul>
+Now, close this, click the "View logs" -button and this log should appear on the screen (example):
+<pre>
+2025-10-09T11:45:19.882545929Z stdout F OCI LOG:ocid1.log.oc1.eu-frankfurt-1.amaaaaaauev...ae5q
+2025-10-09T11:45:19.88275791Z stdout F ACCESS LOG:/var/log/nginx/access.log
+2025-10-09T11:45:19.88276303Z stdout F WWW DATA:/usr/share/nginx/html
+2025-10-09T11:45:19.882795Z stdout F OS BUCKET:nginx-www-data
+2025-10-09T11:45:20.046498505Z stdout F images/
+2025-10-09T11:45:20.085388327Z stdout F images/ is a directory, creating .. 
+2025-10-09T11:45:20.08573349Z stdout F images/nginx_logo.svg
+2025-10-09T11:45:20.117605278Z stdout F /usr/share/nginx/html/images/nginx_logo.svg
+2025-10-09T11:45:20.117760561Z stdout F index.html
+2025-10-09T11:45:20.121175176Z stdout F File written successfully to/usr/share/nginx/html/images/nginx_logo.svg
+2025-10-09T11:45:20.141964765Z stdout F /usr/share/nginx/html/index.html
+2025-10-09T11:45:20.142309646Z stdout F File written successfully to/usr/share/nginx/html/index.html
+</pre>
+
+Close this, copy the <code>Public IP address</code> and paste it to your browser. Now, the NGINX website should show up with the html content mounted from OS bucket:
+<p>
+<img src="files/nginx.jpg" width=800 />
+<p>
+
+Now go back to Cloud UI to check the OCI Logging. Under Logs find the log <code>nginx-log</code> and see log rows from the NGINX access.log starting to appear on the screen.
+
+## Useful Links
+ 
+- [OCI Functions](https://docs.oracle.com/en-us/iaas/Content/Functions/Concepts/functionsoverview.htm)
+    - Learn how the Functions service lets you create, run, and scale business logic without managing any infrastructure
+- [Fn](https://fnproject.io/)
+    - The Fn project is an open-source container-native serverless platform that you can run anywhere -- any cloud or on-premise. It’s easy to use, supports every programming language, and is extensible and performant
+- [Autonomous Database](https://www.oracle.com/autonomous-database/)
+    - Develop scalable AI-powered apps with any data using built-in AI capabilities. Use your choice of large language model (LLM) and deploy in the cloud or your data center
+- [Oracle](https://www.oracle.com/)
+    - Oracle Website
+
+## License
+
+Copyright (c) 2025 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](LICENSE) for more details.
+
+ORACLE AND ITS AFFILIATES DO NOT PROVIDE ANY WARRANTY WHATSOEVER, EXPRESS OR IMPLIED, FOR ANY SOFTWARE, MATERIAL OR CONTENT OF ANY KIND CONTAINED OR PRODUCED WITHIN THIS REPOSITORY, AND IN PARTICULAR SPECIFICALLY DISCLAIM ANY AND ALL IMPLIED WARRANTIES OF TITLE, NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A PARTICULAR PURPOSE.  FURTHERMORE, ORACLE AND ITS AFFILIATES DO NOT REPRESENT THAT ANY CUSTOMARY SECURITY REVIEW HAS BEEN PERFORMED WITH RESPECT TO ANY SOFTWARE, MATERIAL OR CONTENT CONTAINED OR PRODUCED WITHIN THIS REPOSITORY. IN ADDITION, AND WITHOUT LIMITING THE FOREGOING, THIRD PARTIES MAY HAVE POSTED SOFTWARE, MATERIAL OR CONTENT TO THIS REPOSITORY WITHOUT ANY REVIEW. USE AT YOUR OWN RISK. 

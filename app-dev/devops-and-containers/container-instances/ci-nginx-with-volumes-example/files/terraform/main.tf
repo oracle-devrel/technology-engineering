@@ -56,7 +56,7 @@ resource "oci_container_instances_container_instance" "container_instance" {
   }
 
   container_restart_policy = "ON_FAILURE"
-  display_name             = "Nginx with OCI Logging sidecar"
+  display_name             = "Nginx with OCI SDK sidecar"
 
   graceful_shutdown_timeout_in_seconds = "10"
 
