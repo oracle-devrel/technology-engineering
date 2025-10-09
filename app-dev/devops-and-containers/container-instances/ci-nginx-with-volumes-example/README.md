@@ -64,7 +64,7 @@ Then, the CI deployment is created in OCI Resource Manager (RM) from the <code>t
 However, before creating the RM terraform Stack a few other OCI resources need to be created for the CI deployment:
 <ul>
     <li>Object Storage (OS) bucket for the NGINX filesystem. The example content is under <code>www-data</code> in this repo. The NGINX container custom sidecar will mount these files to NGINX <code>/usr/share/nginx/html</code> volume directory</li>
-    <li>OCI Logging target for the container sidecar to send the <code>access.log with tail</code> to</li>
+    <li>OCI Logging target for the container sidecar to send the <code>access.log</code> with <code>tail</code> to</li>
 </ul>
 Once these are created, the RM stack can be created with a configuration that incudes these above among other variables and deployed.<br>
 The result will be a working NGINX with html content from OS and access logs being to OCI Logging for monitoring.
