@@ -36,7 +36,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 -->
 
-# OCI Container Instances NGINX example with multiple volumes and a custom sidecar to tail access log to OCI Logging and mount the filesystem from OCI Object Storage bucket  
+# OCI Container Instances NGINX example 
+## With multiple volumes and a custom sidecar to tail access log to OCI Logging and mount the filesystem from OCI Object Storage bucket  
 
 Reviewed: 9.10.2025
  
