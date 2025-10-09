@@ -1,0 +1,9 @@
+{
+  "chart": {
+    "repo": "https://example-app/chart",
+    "name": "app",
+    "version": "1.0.0",
+    "release-name": "example-app"
+  },
+  "namespace": "default"
+}
