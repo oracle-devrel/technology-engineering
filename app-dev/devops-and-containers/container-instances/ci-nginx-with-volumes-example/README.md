@@ -72,9 +72,47 @@ The result will be a working NGINX with html content from OS and access logs bei
 
 ## Steps to complete
 
-### Create the container sidecar from source in Cloud Shell
+### Create OCIR repo
 
-### Push the container sidecar to OCIR in Cloud Shell
+In your OCI tenancy open Cloud UI.
+<p>
+Create a new repo <code>nginx-sidecar</code> to your home compartment. Keep it as private repo (the default setting).
+
+### Create the sidecar container from source in Cloud Shell
+
+#### Copy source from this repo
+
+In your OCI tenancy open Cloud shell. 
+<p>
+In cloud shell create subdir for the sidecar container with <code>mkdir nginx-sidecar</code> and cd to it.
+<br>
+Create the 3 files in <code>source</code> directory. There are several ways to do this but probably easiest is to just a <code>nano</code> editor and copy-paste file contents and save.
+<br>
+Other ways are to use the file upload from the cloud shell menu after cloning this repo to your localhost and using the Code Editor in the Cloud UI. Choose the one which suits you the best.
+<br>
+
+#### Setup OCI SDK Authentication
+
+Since the sidecar container uses OCI SDk to use other OCI services in tenancy we need authenticate and authorize it for the use.
+<p>
+Normally with any SDK code that runs inside OCI we use use either <code>instance-principal</code> or <code>resource-principal</code> for this purpose depending on the case. Anything that runs on a Virtual Machine (VM) uses <code>instance-principal</code> and services like OCI Functions and Container Instances like in this case use <code>resource-principal</code>. See <a href="https://docs.oracle.com/en-us/iaas/Content/API/Concepts/sdk_authentication_methods.htm">https://docs.oracle.com/en-us/iaas/Content/API/Concepts/sdk_authentication_methods.htm</a> for more info.
+<p>
+To make testing this example slightly easier let's use your IAM user instead. To do this we package your OCI CLI config into the container image. But be aware not to distribute the container outside your OCI tenancy since it contains your tenancy <code>API KEY</code>.
+<p>
+To do this create OCI config with OCI CLI in your localhost with <code>oci setup config</code> and copy the created config to your directory in cloud shell. After adding the created API KEY to your profile in OCI tenancy copy the created private key file to your directory in cloud shell, too. Modify the config with nano editor to remove the path from the keyfile e.g.
+<pre>key_file = oci_api_key.pem</pre>
+
+#### Build and push to OCIR
+
+After adding the CLI config and API Key build the container and push it to OCIR repo:
+
+<pre>
+export ns=$(oci os ns get | jq .data | tr -d '"')
+docker build . -t "fra.ocir.io/$ns/nginx-sidecar:1"
+docker push  "fra.ocir.io/$ns/nginx-sidecar:1"
+</pre>
+
+As always you can change the <code>region</code> to match yours, I'm using the <i>EU-frankurt-1</i> region in this case.
 
 ### Create Object Storage bucket with html in www-data
 
@@ -83,11 +121,3 @@ The result will be a working NGINX with html content from OS and access logs bei
 ### Create Resource Manager Stack from terraform files
 
 ### Run the the RM Stack to create the CI deployment and test NGINX
-
-### Policies
-
-oci config file
-resource-principal
-
-
-
