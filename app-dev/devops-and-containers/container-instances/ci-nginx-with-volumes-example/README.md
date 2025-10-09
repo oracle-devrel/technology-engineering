@@ -101,7 +101,11 @@ To make testing this example slightly easier let's use your IAM user instead. To
 <p>
 To do this create OCI config with OCI CLI in your localhost with <code>oci setup config</code> and copy the created config to your directory in cloud shell. After adding the created API KEY to your profile in OCI tenancy copy the created private key file to your directory in cloud shell, too. Modify the config with nano editor to remove the path from the keyfile e.g.
 <pre>key_file = oci_api_key.pem</pre>
-
+<p>
+Alternatively you can use <code>resource-principal</code> and to do this comment line 22 in index.js under <code>source</code> and respectively uncomment line 23.<br>
+To make resource-principal to work create also a dynamic group based on your compartment and apply necessary policies to make the SDK to be able to access both Object Storage and Logs.
+See <a href="https://docs.oracle.com/en-us/iaas/Content/Identity/dynamicgroups/To_create_a_dynamic_group.htm">https://docs.oracle.com/en-us/iaas/Content/Identity/dynamicgroups/To_create_a_dynamic_group.htm</a> for more info.
+    
 #### Build and push to OCIR
 
 After adding the CLI config and API Key build the container and push it to OCIR repo:
