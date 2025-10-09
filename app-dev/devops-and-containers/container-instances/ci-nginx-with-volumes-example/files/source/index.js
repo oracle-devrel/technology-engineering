@@ -63,6 +63,10 @@ async function mount(osClient, namespace, bucket, www_path)
     console.log(files[i].name);
     await downloadFile(osClient, namespace, bucket, files[i], www_path);
  }
+ 
+  setTimeout(function() {
+    mount(osClient, namespace, bucket, www_path);
+  }, 5000);
 }
 
 async function downloadFile(osClient, namespace, bucket, file, path)
