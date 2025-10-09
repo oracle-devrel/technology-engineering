@@ -44,8 +44,8 @@ Reviewed: 9.10.2025
  
 Anyone who wants to experiment with OCI Container Instances and setup a multi-container instance with multiple volumes. In this example I'm using volumes to:
 <ul>
-    <li>Mount the NGINX filesystem from OCI Object Storage bucket</li>
-    <li>Tail NGINX access log to OCI Logging</li>
+    <li>Mount the NGINX filesystem for html data from OCI Object Storage bucket</li>
+    <li>Tail NGINX access log to OCI Logging for monitoring</li>
 </ul>
 These operations will be handled by a custom container that is being built in this example.<br>
 The NGINX container is a default one without modification from Docker Hub.<br>
