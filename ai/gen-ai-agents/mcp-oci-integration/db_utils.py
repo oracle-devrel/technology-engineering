@@ -70,13 +70,32 @@ def normalize_sql(sql_text: str) -> str:
 
 def is_safe_select(sql_text: str) -> bool:
     """
-    Minimal safety check: only allow pure SELECTs (no DML/DDL/PLSQL).
+    Minimal safety check: only allow pure SELECT statements (no DML/DDL/PLSQL).
     """
+    forbidden_commands = [
+        "INSERT",
+        "UPDATE",
+        "DELETE",
+        "MERGE",
+        "ALTER",
+        "DROP",
+        "CREATE",
+        "GRANT",
+        "REVOKE",
+        "TRUNCATE",
+        "BEGIN",
+        "EXEC",
+        "CALL",
+    ]
+
     s = sql_text.strip().upper()
     if not s.startswith("SELECT "):
         return False
-    forbidden = r"\b(INSERT|UPDATE|DELETE|MERGE|ALTER|DROP|CREATE|GRANT|REVOKE|TRUNCATE|BEGIN|EXEC|CALL)\b"
-    return not re.search(forbidden, s)
+
+    # Build regex from forbidden command list
+    pattern = r"\b(" + "|".join(forbidden_commands) + r")\b"
+
+    return not re.search(pattern, s)
 
 
 def _to_jsonable(value: Any):
@@ -129,7 +148,7 @@ def list_books_in_collection(collection_name: str) -> list:
     taken from metadata
     expect metadata contains the field source
 
-    modified to return also the numb. of chunks
+    modified to return also the num. of chunks
     """
     query = f"""
                 SELECT DISTINCT json_value(METADATA, '$.source') AS books, 
@@ -197,13 +216,33 @@ def generate_sql_from_prompt(profile_name: str, prompt: str) -> str:
                )
         FROM dual
     """
-    with get_connection() as conn:
-        with conn.cursor() as cursor:
-            cursor.execute(stmt, {"p": prompt, "prof": profile_name})
-            # CLOB (LOB) or str
-            raw = cursor.fetchone()[0]
-            sql_text = read_lob(raw) or ""
-            return normalize_sql(sql_text)
+    try:
+        with get_connection() as conn:
+            with conn.cursor() as cursor:
+                cursor.execute(stmt, {"p": prompt, "prof": profile_name})
+                # CLOB (LOB) or str
+                raw = cursor.fetchone()[0]
+                sql_text = read_lob(raw) or ""
+                return {"sql": normalize_sql(sql_text)}
+
+    except oracledb.DatabaseError as e:
+        error = e.args[0] if e.args else None
+        logger.error(
+            "[generate_sql_from_prompt] Database error: %s "
+            "(code=%s | prompt='%s' profile='%s'",
+            error.message,
+            error.code,
+            prompt,
+            profile_name,
+        )
+        raise
+    except Exception:
+        logger.error(
+            "[generate_sql_from_prompt] Unexpected error for prompt=%s, profile=%s",
+            prompt,
+            profile_name,
+        )
+        raise
 
 
 def execute_generated_sql(
@@ -217,25 +256,41 @@ def execute_generated_sql(
         "sql": "..."
       }
     """
-    with get_connection() as conn:
-        with conn.cursor() as cursor:
-            cursor.execute(generated_sql)
+    try:
+        with get_connection() as conn:
+            with conn.cursor() as cursor:
+                cursor.execute(generated_sql)
 
-            columns: List[str] = [d[0] for d in cursor.description]
+                columns: List[str] = [d[0] for d in cursor.description]
 
-            # Fetch
-            raw_rows = cursor.fetchmany(limit) if limit else cursor.fetchall()
+                # Fetch
+                raw_rows = cursor.fetchmany(limit) if limit else cursor.fetchall()
 
-            # Normalize every cell to JSON-safe
-            rows: List[List[Any]] = [
-                [_to_jsonable(cell) for cell in row] for row in raw_rows
-            ]
+                # Normalize every cell to JSON-safe
+                rows: List[List[Any]] = [
+                    [_to_jsonable(cell) for cell in row] for row in raw_rows
+                ]
 
-            return {
-                "columns": columns,
-                "rows": rows,  # list of lists (JSON arrays)
-                "sql": generated_sql,  # useful for logging/debug
-            }
+                return {
+                    "columns": columns,
+                    "rows": rows,  # list of lists (JSON arrays)
+                    "sql": generated_sql,  # useful for logging/debug
+                }
+    except oracledb.DatabaseError as e:
+        error = e.args[0] if e.args else None
+        logger.error(
+            "[execute_generated_sql] Database error: %s (code=%s) | sql='%s'",
+            error.message,
+            error.code,
+            generated_sql,
+        )
+        raise
+    except Exception:
+        logger.error(
+            "[execute_generated_sql] Unexpected error executing sql='%s'",
+            generated_sql,
+        )
+        raise
 
 
 def run_select_ai(
@@ -247,12 +302,12 @@ def run_select_ai(
 
     If 'limit' is provided, fetch at most that many rows.
     """
-    generated_sql = generate_sql_from_prompt(profile_name, prompt)
+    result = generate_sql_from_prompt(profile_name, prompt)
 
     if DEBUG:
-        logger.info(generated_sql)
+        logger.info(result)
 
     # if not is_safe_select(generated_sql):
     # raise ValueError("Refusing to execute non-SELECT SQL generated by Select AI.")
 
-    return execute_generated_sql(prompt, limit)
+    return execute_generated_sql(result["sql"], limit)
