@@ -57,7 +57,7 @@ The sidecar container is built using <code>OCI SDK</code> in NodeJS, but this co
 # How to use this asset?
 
 First, the sidecar container is built from the <code>source</code> in this repo. This can be done in OCI tenancy Cloud Shell.<br>
-Once built it is pushed to OCI Registry (OCIR) repo for deployment to Container Instances (CI) as part of the deployment.
+Once built it is pushed to OCI Registry (OCIR) repo for deployment as part of the to Container Instances (CI) deployment.
 <p>
 Then, the CI deployment is created in OCI Resource Manager (RM) from the <code>terraform</code> in this repo.
 <p>
@@ -66,8 +66,27 @@ However, before creating the RM terraform Stack a few other OCI resources need t
     <li>Object Storage (OS) bucket for the NGINX filesystem. The example content is under <code>www-data</code> in this repo. The NGINX container custom sidecar will mount these files to NGINX <code>/usr/share/nginx/html</code> volume directory</li>
     <li>OCI Logging target for the container sidecar to send the <code>access.log</code> with <code>tail</code> to</li>
 </ul>
-Once these are created, the RM stack can be created with a configuration that incudes these above among other variables and deployed.<br>
+Once these are created, the RM stack can be created with a configuration that incudes these above among other variables and be deployed.<br>
 The result will be a working NGINX with html content from OS and access logs being to OCI Logging for monitoring.
+
+# Steps to complete
+
+## Create the container sidecar from source in Cloud Shell
+
+## Push the container sidecar to OCIR in Cloud Shell
+
+## Create Object Storage bucket with html in www-data
+
+## Create OCI Logging Log target
+
+## Create Resource Manager Stack from terraform files
+
+## Run the the RM Stack to create the CI deployment and test NGINX
+
+## Policies
+
+oci config file
+resource-principal
 
 
 
