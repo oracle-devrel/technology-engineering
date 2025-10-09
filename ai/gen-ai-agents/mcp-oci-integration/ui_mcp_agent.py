@@ -5,7 +5,7 @@ Streamlit UI for MCP servers
 import asyncio
 import traceback
 import streamlit as st
-from config import MODEL_LIST
+from config import MODEL_LIST, UI_TITLE
 from mcp_servers_config import MCP_SERVERS_CONFIG
 
 # this one contains the backend and the test code only for console
@@ -17,7 +17,7 @@ logger = get_console_logger()
 
 # ---------- Page setup ----------
 st.set_page_config(page_title="MCP UI", page_icon="🛠️", layout="wide")
-st.title("🛠️ LLM powered by MCP")
+st.title(UI_TITLE)
 
 # ---------- Sidebar: connection settings ----------
 with st.sidebar:

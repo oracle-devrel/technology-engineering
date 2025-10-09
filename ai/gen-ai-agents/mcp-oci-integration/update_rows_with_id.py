@@ -1,7 +1,7 @@
 """
 Update metadata adding ID
 
-SQL to chek (it must return zero rows)
+SQL to check (it must return zero rows)
 
 SELECT ID,
        RAWTOHEX(ID)         AS ID_COLONNA,

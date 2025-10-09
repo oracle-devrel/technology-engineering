@@ -4,7 +4,7 @@ Data Catalog is a metadata management service that helps data consumers discover
 
 With OCI Data Catalog, data analysts, data scientists, data engineers, and data stewards have a single self-service environment to discover the data that is available in the cloud sources. Data Catalog helps data providers create a data dictionary comprising technical and business metadata. Data consumers can easily assess the suitability of data for analytics and data science projects.
 
-Reviewed: 28.02.2025
+Reviewed: 07.10.2025
 
 
 # Table of Contents
@@ -30,7 +30,7 @@ Reviewed: 28.02.2025
 - [Enrich metadata with OCI Data Catalog](https://blogs.oracle.com/dataintegration/post/enrich-metadata-with-oracle-cloud-infrastructure-data-catalog)
     - Harvest, enrich and curate technical and business metadata
     
-- [Using AI and ML to enrich metadata in OCI Data Catalog](https://blogs.oracle.com/dataintegration/post/using-ai-and-ml-to-enrich-metadata-in-data-catalog)
+- [Using AI and ML to enrich metadata in OCI Data Catalog](https://blogs.oracle.com/dataintegration/post/building-meaningful-catalogs-for-data-lakes)
     - Recommendation engine to enrich your metadata in the data catalog
  
 - [Public Product Page](https://www.oracle.com/be/big-data/data-catalog/what-is-a-data-catalog/)
