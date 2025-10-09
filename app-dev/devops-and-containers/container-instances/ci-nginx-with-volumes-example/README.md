@@ -40,7 +40,7 @@ SOFTWARE.
 
 Reviewed: 9.10.2025
  
-# When to use this asset?
+## When to use this asset?
  
 Anyone who wants to experiment with OCI Container Instances and setup a multi-container instance with multiple volumes. In this example I'm using volumes to:
 <ul>
@@ -51,10 +51,10 @@ These operations will be handled by a custom container that is being built in th
 The NGINX container is the latest one from Docker Hub without modifications.<br>
 The sidecar container is built using <code>OCI SDK</code> in NodeJS, but this could be done also in an other language like Java, Go, Python or .net.
 
-# Author
+## Author
 <a href="https://github.com/mikarinneoracle">mikarinneoracle</a>
 
-# How to use this asset?
+## How to use this asset?
 
 First, the sidecar container is built from the <code>source</code> in this repo. This can be done in OCI tenancy Cloud Shell.<br>
 Once built it is pushed to OCI Registry (OCIR) repo for deployment as part of the to Container Instances (CI) deployment.
@@ -69,21 +69,21 @@ However, before creating the RM terraform Stack a few other OCI resources need t
 Once these are created, the RM stack can be created with a configuration that incudes these above among other variables and be deployed.<br>
 The result will be a working NGINX with html content from OS and access logs being to OCI Logging for monitoring.
 
-# Steps to complete
+## Steps to complete
 
-## Create the container sidecar from source in Cloud Shell
+### Create the container sidecar from source in Cloud Shell
 
-## Push the container sidecar to OCIR in Cloud Shell
+### Push the container sidecar to OCIR in Cloud Shell
 
-## Create Object Storage bucket with html in www-data
+### Create Object Storage bucket with html in www-data
 
-## Create OCI Logging Log target
+### Create OCI Logging Log target
 
-## Create Resource Manager Stack from terraform files
+### Create Resource Manager Stack from terraform files
 
-## Run the the RM Stack to create the CI deployment and test NGINX
+### Run the the RM Stack to create the CI deployment and test NGINX
 
-## Policies
+### Policies
 
 oci config file
 resource-principal
