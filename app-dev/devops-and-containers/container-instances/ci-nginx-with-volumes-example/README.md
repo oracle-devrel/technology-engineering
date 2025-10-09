@@ -56,7 +56,8 @@ The sidecar container is built using <code>OCI SDK</code> in NodeJS, but this co
 
 # How to use this asset?
 
-First, the sidecar container is built from the <code>source</code> in this repo. This can be done in OCI tenancy Cloud Shell. Once built it is pushed to OCI Registry (OCIR) repo for deployment to Container Instances (CI) as part of the CI deployment.
+First, the sidecar container is built from the <code>source</code> in this repo. This can be done in OCI tenancy Cloud Shell.<br>
+Once built it is pushed to OCI Registry (OCIR) repo for deployment to Container Instances (CI) as part of the CI deployment.
 <p>
 Then, the CI deployment is created in OCI Resource Manager (RM) from the <code>terraform</code> in this repo.
 <p>
