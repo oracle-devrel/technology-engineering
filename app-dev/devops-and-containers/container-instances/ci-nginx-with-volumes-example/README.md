@@ -68,7 +68,7 @@ However, before creating the RM terraform stack a few other OCI resources need t
     <li>OCI Logging target for the container sidecar to send the <code>access.log</code> with <code>tail</code> to</li>
 </ul>
 Once these are created, the RM stack can be created with a configuration that incudes these above among other variables and be deployed.<br>
-The result will be a working NGINX with html content from OS and access logs being to OCI Logging for monitoring.
+The result will be a working NGINX with html content from OS and access logs being sent to OCI Logging for monitoring.
 
 ## Steps to complete
 
