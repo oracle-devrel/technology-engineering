@@ -2,7 +2,7 @@
  
 Oracle Cloud VMware Solution is based on VMware Cloud Foundation (VCF) and provides a fully supported, customizable cloud environment for VMware deployments and migrations. The solution delivers a full-stack software-defined data center (SDDC), including VMware’s vCenter, ESXi, NSX, and vSAN. Specific use cases targeted by Oracle Cloud VMware Solution include data center and application migration, hybrid extension, on-demand capacity, and disaster recovery. 
 
-Reviewed: 23.09.2025
+Reviewed: 10.10.2025
  
 # Table of Contents
  
@@ -145,6 +145,10 @@ Reviewed: 23.09.2025
  
 - [Workload Migration to OCVS - Solution Definition Document](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/virtualization-solutions/oracle-cloud-vmware-solution/vmware-migration-solution-definition)
 - [Disaster Recovery to OCVS with HCX or SRM Solution Definition Document](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/virtualization-solutions/oracle-cloud-vmware-solution/disaster-recovery-to-ocvs-solution-definition)
+
+- [Workload Migration to OCI – Comprehensive Guide](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/virtualization-solutions/oracle-cloud-vmware-solution/workload-migration-to-oci-comprehensive-guide)
+
+
 
 
 # License
