@@ -1,35 +1,22 @@
-
 package com.oracle;
-
-import java.sql.Connection;
 
 import oracle.soda.*;
 import oracle.soda.rdbms.OracleRDBMSClient;
 import oracle.jdbc.datasource.impl.OracleDataSource;
-/*import oracle.soda.OracleCursor;
-import oracle.soda.OracleCollection;
-import oracle.soda.OracleDocument;
-*/
-
-import java.sql.DriverManager;
 import java.util.List;
-import java.util.Properties;
 
 public class Main {
-    //private static OracleDatabase sodaDb;
-
     private static OracleDatabase sodaDb;
     private static OracleDatabaseAdmin sodaDbAdmin;
     private static OracleCollection sodaSampleCollection;
 
-
     public static void prepareSODAConnection() throws Exception {
-        Properties props = new Properties();
-        props.setProperty("user",System.getenv("DB_USERNAME"));
-        props.setProperty("password",System.getenv("DB_PASSWORD"));
-        Connection con = DriverManager.getConnection(System.getenv("DB_URL"),props);
+        OracleDataSource ods = new OracleDataSource();
+        ods.setURL(System.getenv("DB_URL"));
+        ods.setUser(System.getenv("DB_USERNAME"));
+        ods.setPassword(System.getenv("DB_PASSWORD"));
         OracleRDBMSClient client = new OracleRDBMSClient();
-        sodaDb = client.getDatabase(con);
+        sodaDb = client.getDatabase(ods.getConnection());
         sodaDbAdmin = sodaDb.admin();
     }
 
@@ -73,7 +60,6 @@ public class Main {
     }
 
     public static void findSampleData() throws Exception {
-
         System.out.println("Looking for document 12");
         OracleCursor cursor = sodaSampleCollection.find().filter("{\"value\":12}").getCursor();
         System.out.println("Results : ");
@@ -85,6 +71,11 @@ public class Main {
         }
     }
 
+    public static void closeSODAConnection() throws Exception {
+        sodaDbAdmin.getConnection().close();
+        System.out.println("Database connection closed succesfully.");
+    }
+
     public static void main(String[] args) {
         try {
             prepareSODAConnection();
@@ -92,6 +83,7 @@ public class Main {
             resetSampleCollection();
             insertSampleData();
             findSampleData();
+            closeSODAConnection();
         }
         catch (Exception e) {e.printStackTrace();}
     }
