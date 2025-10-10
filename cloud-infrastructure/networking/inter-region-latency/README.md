@@ -8,7 +8,7 @@ The Current Inter-Region Round-Trip Time is a current snapshot expressed in mill
 
 The Inter-Region Round-Trip Time (ms) for the last 30 days is a historical view of the last 30 days.
 
-Reviewed: 30.10.2024
+Reviewed: 10.10.2025
 
 # Useful Links
 

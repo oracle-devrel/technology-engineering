@@ -20,7 +20,7 @@ The following source and destination scenarios are supported:
 - Internet to OCI
 - OCI to internet
 
-Reviewed: 30.10.2024
+Reviewed: 10.10.2025
  
 # Useful Links
 
