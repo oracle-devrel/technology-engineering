@@ -130,6 +130,8 @@ def llm_multimodal_call(images_b64: List[str], user_text: str, system_prompt: st
 # ======= Insurance System Prompt =======
 INSURANCE_PROMPT = (
     """
+    You are a vehicle damage triage specialist in an insurance claims pipeline.
+    
     Produce a concise but comprehensive written assessment for an insurance adjuster, considering ALL provided images.
 
     Structure:
