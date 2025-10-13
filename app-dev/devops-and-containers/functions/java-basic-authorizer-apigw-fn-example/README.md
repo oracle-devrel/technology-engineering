@@ -61,6 +61,7 @@ aGk6aGk=,Zm9vOmJhcg==
 </pre>
 
 <b>aGk6aGk=</b> is <b>hi:hi</b> => username is <b>hi</b>, password <b>hi</b>
+<p>
 <b>aGk6aGk=</b> is <b>foo:bar</b> => username is <b>foo</b>, password <b>bar</b>
 <p>
 (You can modify the config by adding new pairs as you like and remove the existing ones)
