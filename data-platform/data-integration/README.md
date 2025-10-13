@@ -2,7 +2,7 @@
 
 Oracle provides a fully-fledged solution for Data Integration. Our products support Batch and Real-Time use cases. We provide PaaS and IaaS solutions:
 
-Reviewed: 24.04.2024
+Reviewed: 08.10.2025
 
 # Useful Links
 
