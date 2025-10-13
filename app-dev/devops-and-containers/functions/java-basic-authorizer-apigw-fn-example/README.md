@@ -85,12 +85,12 @@ Configure the route for the backend function:
 <img src="files/backend-function.png" width="800" />
 <p>
     
-Set <i>auth context</i> variable <i>username</i> transformation in <i>Route Request Policies</i>:
+Configure Route Request Policies Header transformations:
 
 <img src="files/header-transformations.png" width="800" />
 <p>
 
-Use these settings for the <b><i>Header transformations</i></b>:
+Settings for the <b><i>Header transformations</i></b>:
 <p>
 Behavior: <b>Overwrite</b>
 <br>
