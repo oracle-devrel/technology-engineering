@@ -49,7 +49,7 @@ Anyone who wants to implement an API Gateway authorizer Function for HTTP basic-
 
 # How to use this asset?
 
-Build and deploy both functions <code>authorizer-auth-basic</code> and <code>authorizer-auth-basic-test</code> under <code>/files</code> to a Function Application in OCI.
+Build and deploy both functions <code>fn-authorizer-auth-basic</code> and <code>fn-authorizer-auth-basic-test</code> under <code>/files</code> to a Function Application in OCI.
 <p>
 Create a config for the <code>basicauthorizerfnjava</code> Function:
 <p>
