@@ -11,7 +11,7 @@ Reviewed: 08.10.2025
 - [ODI Marketplace Documentation](https://docs.oracle.com/en/middleware/fusion-middleware/data-integrator/12.2.1.4/dimgs/getting-started-oracle-cloud-marketplace.html#GUID-1793F6A6-8581-465D-BBE3-8F0C8ADD6536)
 
 - [ODI Certification Matrix](https://www.oracle.com/middleware/technologies/fusion-certification.html)
-    - System Requirements and Supported Platforms for Oracle Fusion Middleware 12c (12.2.1.4.0)
+    - System Requirements and Supported Platforms for Oracle Fusion Middleware 14c (14.1.2.0.0)
 
 - [Install ODI Agent on ExaCC with ODI Marketplace](https://eloi-lopes29.medium.com/install-odi-agent-on-exacc-with-odi-marketplace-c98a1a422f55)
 
