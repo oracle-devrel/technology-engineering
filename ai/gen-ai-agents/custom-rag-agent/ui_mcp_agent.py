@@ -3,11 +3,15 @@ Streamlit UI for MCP servers
 """
 
 import asyncio
+import traceback
 import streamlit as st
 from mcp_servers_config import MCP_SERVERS_CONFIG
 
 # this one contains the backend and the test code only for console
 from llm_with_mcp import AgentWithMCP, default_jwt_supplier
+from utils import get_console_logger
+
+logger = get_console_logger()
 
 # ---------- Page setup ----------
 st.set_page_config(page_title="MCP UI", page_icon="🛠️", layout="wide")
@@ -50,6 +54,9 @@ if connect:
         except Exception as e:
             st.session_state.agent = None
             st.error(f"Failed to connect: {e}")
+            logger.error(e)
+            stack_str = traceback.format_exc()
+            logger.error(stack_str)
 
 # ---------- Chat history (display) ----------
 for msg in st.session_state.chat:

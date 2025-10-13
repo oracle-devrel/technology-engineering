@@ -51,7 +51,7 @@ griffe==1.7.2
 grpcio==1.71.0
 grpcio-tools==1.71.0
 h11==0.16.0
-h2==4.2.0
+h2==4.3.0
 hf-xet==1.0.3
 hpack==4.1.0
 html2text==2024.2.26
@@ -86,7 +86,7 @@ llama-cloud-services==0.6.10
 llama-index==0.12.41
 llama-index-agent-openai==0.4.6
 llama-index-cli==0.4.1
-llama-index-core==0.12.41
+llama-index-core==0.13.0
 llama-index-embeddings-huggingface==0.5.3
 llama-index-embeddings-langchain==0.3.0
 llama-index-embeddings-openai==0.3.1
@@ -238,7 +238,7 @@ websockets==15.0.1
 wrapt==1.17.2
 wsproto==1.2.0
 xformers==0.0.29.post2
-xgrammar==0.1.18
+xgrammar==0.1.21
 yarl==1.19.0
 zipp==3.21.0
 zstandard==0.23.0
