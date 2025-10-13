@@ -77,14 +77,14 @@ public class HelloFunction {
             ret = "{ " +
                     "\"active\": true," +
                     "\"principal\": \"myprincipal\"," +
-                    "\"scope\": [\"fnsimplejava\"]," +
+                    "\"scope\": [\"fnbasicauthtest\"]," +
                     "\"expiresAt\": \"" + expiryDate + "\"," +
                     "\"context\": { \"username\": \"" + username + "\" }" +
                     " }";
         } else {
             ret = "{ " +
                     "\"active\": false," +
-                    "\"wwwAuthenticate\": \"Basic realm=\\\"fnsimplejava.com\\\"\"" +
+                    "\"wwwAuthenticate\": \"Basic realm=\\\"fnbasicauthtest.io\\\"\"" +
                     " }";
         }
         System.out.println(ret);

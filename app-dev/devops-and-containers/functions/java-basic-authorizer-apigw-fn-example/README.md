@@ -66,7 +66,7 @@ aGk6aGk=,Zm9vOmJhcg==
 <p>
 (You can modify the config by adding new pairs as you like and remove the existing ones)
 <p>
-After deploing the functions add an API Gateway instance and configure the Functions:
+After deploying the functions add an API Gateway instance and configure the Functions:
 
 <p>
 <img src="files/authorizer-function.png" width="800" />
