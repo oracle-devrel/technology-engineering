@@ -2,7 +2,7 @@
 
 This page covers shared assets, meaning assets that are not single product specific, and that cover either multiple products or a broader scope.
 
-Reviewed: 2025.03.02
+Reviewed: 2025.09.26
 
 
 # License

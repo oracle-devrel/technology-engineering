@@ -1,6 +1,6 @@
 # Teradata to Autonomous Data Warehouse on OCI Migration Guide
 
-Reviewed: 08.05.2025
+Reviewed: 07.10.2025
 
 ## Why move Teradata to Autonomous Data Warehouse on OCI?
 

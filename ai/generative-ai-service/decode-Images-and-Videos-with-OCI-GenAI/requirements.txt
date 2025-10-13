@@ -1,5 +1,5 @@
 streamlit==1.37.0
-oci==3.50.1
+oci>=2.161.0,<3
 Pillow
 opencv-python-headless==4.10.0.84
 tqdm==4.66.3

@@ -2,7 +2,7 @@
  
 OCI Database with PostgreSQL is the ideal solution for organizations aiming to gain effortless scaling in the cloud without changing their applications. It provides full PostgreSQL compatibility while letting users take advantage of OCI’s flexible, high-performance, high-availability infrastructure with built-in security and simple pricing. In addition, this OCI implementation delivers superior scalability combined with reduced administrative demands. Migration to Oracle Database with PostgreSQL can be performed using the pg_dump utility or via online methods using GoldenGate. This page contains links to documentation and assets that better explain how to perform offline and online migrations to the OCI Database with PostgreSQL.
 
-Reviewed: 04.11.2024
+Reviewed: 08.10.2025
  
 # Table of Contents
  
@@ -12,7 +12,7 @@ Reviewed: 04.11.2024
 # Team Publications
  
 - [Seamlessly migrate an on-premise PostgreSQL database to OCI Database with PostgreSQL using OCI GoldenGate](https://blogs.oracle.com/dataintegration/post/seamlessly-migrate-an-onpremise-postgresql-database-to-oci-database-with-postgresql-online-with-oci-goldengate)
-    - Oracle Blogs article explaining how to use OCI GoldenGate to perform an online migration of an on-premises PostgreSQL Database to OCI Database with PostgreSQL
+    - Oracle Blogs article explaining how to use OCI GoldenGate to perform an online migration from  an on-premises PostgreSQL Database to OCI Database with PostgreSQL
  
 # Useful Links
 

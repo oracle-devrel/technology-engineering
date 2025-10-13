@@ -23,7 +23,7 @@ Reviewed: 22.09.2025
 
 ## GitHub
 
-- [Enhanced Document Understanding with LLMs](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/generative-ai-service/doc-understanding-and-genAI)
+- [Enhanced Document Understanding with LLMs](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/generative-ai-service/Document%20Processing%20with%20GenAI/doc-understanding-and-genAI)
     - A Streamlit-based app comparing and expanding on traditional Document Understanding (OCI DU) + LLM approach vs. a multimodal LLM for extracting structured data from documents (PDFs, images). This is is aimed at highlighting the strengths of each of our services and the power GenAI brings in combining these approaches for the best handling of complex documents.
 - [Invoice Document Processing from Gmail into ERP systems using OCI Document Understanding & Oracle Integration Cloud](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/ai-document-understanding/ai-email-invoice)
     - Explore how we can process invoice documents from Gmail into an ERP System in real-time using OCI Document Understanding and Oracle Integration Cloud (OIC). This solution combines a low-code approach to capture Gmail messages in real-time with Google Cloud Pub/Sub Adapter, extract invoice data with AI Document Understanding and create invoices in ERP systems using Oracle Integration Cloud ERP adapters.

@@ -2,7 +2,7 @@
  
 This files cover code snippets to get started with OCI Data Science jobs utilising the ADS library.
 
-Reviewed: 2025.03.02
+Reviewed: 2025.09.26
  
 
 # When to use this asset?
