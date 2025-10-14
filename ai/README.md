@@ -1,37 +1,31 @@
-# AI Services
+# OCI Generative AI and AI Services
  
-Oracle Cloud Infrastructure (OCI) AI Services and Generative AI Services are a collection of services with prebuilt machine learning and Generative AI models that make it easier for developers to apply AI to applications and business operations. The models can be custom-trained (or fine-tuned) for more accurate business results. Teams within an organization can reuse the models, datasets, and data labels across services. OCI AI Services makes it possible for developers to easily add machine learning to apps without slowing down application development.
+Oracle Cloud Infrastructure (OCI) [Generative AI Service](https://docs.oracle.com/en-us/iaas/Content/generative-ai/overview.htm), [Generative AI Agents](https://docs.oracle.com/en-us/iaas/Content/generative-ai-agents/overview.htm) and [AI Services](https://www.oracle.com/uk/artificial-intelligence/ai-services/) are a collection of services with prebuilt machine learning and Generative AI models that make it easy for developers to apply AI to applications and business processes. The models can be custom-trained (or fine-tuned) for more accurate business results. Teams within an organization can reuse the models, datasets, and data labels across services. OCI AI makes it possible for developers to easily add AI to applications without slowing down application development.
 
-Reviewed: 17.10.2024
+Reviewed: 21.08.2025
 
-# Team Publications
-- [Cloud Coaching - Low Code embraces Oracle Cloud Infrastructure AI services](https://www.youtube.com/watch?v=0oHixpA9JDc)
-    - Learn how to create applications that read, modify, and classify documents with a couple of clicks using our low code development platform and some of the OCI AI services offering.
-
-# Table of Contents
- 
-- [AI Services](#ai-services)
-- [Team Publications](#team-publications)
-- [Table of Contents](#table-of-contents)
-- [Useful Links](#useful-links)
-- [Reusable Assets](#reusable-assets)
-- [License](#license)
 
 # Useful Links
 
+## Examples and hands-on workshops
 - [AI Solutions Hub](https://www.oracle.com/artificial-intelligence/solutions/)
-- [Oracle AI Services on Oracle.com](https://www.oracle.com/artificial-intelligence/ai-services/)
+- [Oracle LiveLabs](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/home)
+- [This repository](https://github.com/oracle-devrel/technology-engineering/tree/main/ai) and [Oracle-samples repository](https://github.com/oracle-samples/oci-data-science-ai-samples)
+- [Oracle Developer Coaching channel on Youtube](https://www.youtube.com/@oracledevs)
+
+## Discover Oracle AI
+- [Oracle AI on Oracle.com](https://www.oracle.com/artificial-intelligence/)
 - [Oracle Generative AI on Oracle.com](https://www.oracle.com/artificial-intelligence/generative-ai/generative-ai-service/)
+- [Oracle AI First Principles - Youtube series](https://www.youtube.com/watch?v=ZCX-gT1q0ZQ)
 - [Oracle’s Generative AI strategy](https://blogs.oracle.com/ai-and-datascience/post/generative-ai-strategy)
+- [Oracle AI & Data Science Blog](https://blogs.oracle.com/ai-and-datascience/)
+- [AI use cases - 11 examples](https://www.oracle.com/a/ocom/docs/gated/ai-use-cases-ebook.pdf)
+- [Availability of AI Services across OCI datacenters](https://www.oracle.com/cloud/distributed-cloud/#service-availability)
+
+## Learning paths and certifications
 - [OCI AI Foundations Certification](https://mylearn.oracle.com/ou/learning-path/become-an-oci-ai-foundations-associate-2024/140164)
 - [OCI Generative AI Professional](https://mylearn.oracle.com/ou/learning-path/become-an-oci-generative-ai-professional/136227)
-- [AI use cases - 10 examples](https://www.oracle.com/a/ocom/docs/gated/ai-use-cases-ebook.pdf)
-- [Availability of AI Services across OCI datacenters](https://www.oracle.com/uk/cloud/public-cloud-regions/service-availability/#commercial)
-- [Oracle LiveLabs](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/home)
-
-# Reusable Assets
-- [Smarter Applications with AI Services](https://go.oracle.com/LP=138234?elqCampaignId=489428&src1=:so:ch:or:dg::::&SC=:so:ch:or:dg::::&pcode=WWMK230822P00010)
-- [Oracle AI Strategy and Platform webinar](https://go.oracle.com/LP=138234?elqCampaignId=489428&src1=:so:ch:or:dg::::&SC=:so:ch:or:dg::::&pcode=WWMK230822P00010)
+- [Become a Digital Assistant developer](https://mylearn.oracle.com/ou/learning-path/become-a-digital-assistant-developer-2025/147740)
 
 # License
 

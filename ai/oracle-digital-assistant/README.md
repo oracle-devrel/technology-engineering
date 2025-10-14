@@ -2,7 +2,7 @@
  
 Oracle Digital Assistant is a platform powered by artificial intelligence, specifically designed to build chatbots, also known as conversational agents. These agents are capable of mimicking human-like dialogue patterns. They leverage sophisticated machine learning algorithms and natural language processing (NLP) to interpret user requests, deliver smart responses, and carry out complex business workflows. The platform offers excellent integration possibilities with both Oracle's applications such as CX Fusion, Service Cloud, and applications like Salesforce and Genesys. This facilitates efficient automation of tasks across different business domains. 
  
-Reviewed: 31.10.2024
+Reviewed: 21.08.2025
 
 # Table of Contents
  
@@ -12,8 +12,11 @@ Reviewed: 31.10.2024
  
 # Team Publications
 
-- [Solution Definition Document - Oracle Digital Assistant](#team-publications)
-    - A Template to use for ODA projects
+- [ODA Multi Agent](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/oracle-digital-assistant/oda-multi-agent)
+    - Using Agent calling tools in ODA
+
+- [ODA Pro styled](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/oracle-digital-assistant/oda-pro-styled)
+    - A customizable chat interface for ODA
 
 ## Cloud Coaching & Live Labs
  
@@ -23,8 +26,11 @@ Reviewed: 31.10.2024
 - [Cloud Coaching - Digital Assistant SQL Dialogs & AI Services](https://www.youtube.com/watch?v=HcS2GIxc7DM)
     - Leverage SQL Dialogs and other AI services with Digital Assistant
 
-- [Live Lab - Immerse Conversational Interfaces](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3452&clear=RR,180&session=112146561197244)
-    - How to combine Digital Assistant with other AI Services
+- [Live Lab - ODA with Generative AI Agent](https://livelabs.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=4112)
+    - Use ODA with Generative AI Agent to search documents like Word/Excel, Images, Video, Audio or Websites
+
+- [Live Lab - Agentic Agents using Oracle Digital Assistant](https://livelabs.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=4212)
+    - Explore how to build Agentic AI using Oracle Digital Assistant
 
 ## Workshops
 

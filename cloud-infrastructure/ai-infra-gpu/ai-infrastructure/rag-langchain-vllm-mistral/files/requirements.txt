@@ -50,8 +50,8 @@ greenlet==3.1.1
 griffe==1.7.2
 grpcio==1.71.0
 grpcio-tools==1.71.0
-h11==0.14.0
-h2==4.2.0
+h11==0.16.0
+h2==4.3.0
 hf-xet==1.0.3
 hpack==4.1.0
 html2text==2024.2.26
@@ -83,10 +83,10 @@ langsmith==0.3.28
 lark==1.2.2
 llama-cloud==0.1.18
 llama-cloud-services==0.6.10
-llama-index==0.12.29
+llama-index==0.12.41
 llama-index-agent-openai==0.4.6
 llama-index-cli==0.4.1
-llama-index-core==0.12.30
+llama-index-core==0.13.0
 llama-index-embeddings-huggingface==0.5.3
 llama-index-embeddings-langchain==0.3.0
 llama-index-embeddings-openai==0.3.1
@@ -158,7 +158,7 @@ prometheus-fastapi-instrumentator==7.1.0
 prometheus_client==0.21.1
 prompt-toolkit @ file:///croot/prompt-toolkit_1704404351921/work
 propcache==0.3.1
-protobuf==5.29.4
+protobuf==5.29.5
 psutil==7.0.0
 psycopg2-binary==2.9.10
 ptyprocess @ file:///tmp/build/80754af9/ptyprocess_1609355006118/work/dist/ptyprocess-0.7.0-py2.py3-none-any.whl
@@ -170,7 +170,7 @@ pydantic-settings==2.8.1
 pydantic_core==2.33.1
 pyee==12.1.1
 Pygments @ file:///croot/pygments_1684279966437/work
-pypdf==5.4.0
+pypdf==6.0.0
 PySocks==1.7.1
 python-dateutil==2.9.0.post0
 python-dotenv==1.1.0
@@ -204,7 +204,7 @@ soupsieve==2.6
 spider-client==0.0.27
 SQLAlchemy==2.0.40
 stack-data @ file:///opt/conda/conda-bld/stack_data_1646927590127/work
-starlette==0.46.1
+starlette==0.47.2
 striprtf==0.0.26
 sympy==1.13.1
 tenacity==9.1.2
@@ -213,12 +213,12 @@ tiktoken==0.9.0
 tinysegmenter==0.3
 tldextract==5.2.0
 tokenizers==0.21.1
-torch==2.6.0
+torch==2.7.1
 torchaudio==2.6.0
 torchvision==0.21.0
 tqdm==4.67.1
 traitlets @ file:///croot/traitlets_1718227057033/work
-transformers==4.51.1
+transformers==4.53.0
 trio==0.29.0
 trio-websocket==0.12.2
 triton==3.2.0
@@ -230,7 +230,7 @@ tzdata==2025.2
 urllib3==2.3.0
 uvicorn==0.34.0
 uvloop==0.21.0
-vllm==0.8.3
+vllm==0.10.1.1
 watchfiles==1.0.5
 wcwidth @ file:///Users/ktietz/demo/mc3/conda-bld/wcwidth_1629357192024/work
 websocket-client==1.8.0
@@ -238,7 +238,7 @@ websockets==15.0.1
 wrapt==1.17.2
 wsproto==1.2.0
 xformers==0.0.29.post2
-xgrammar==0.1.17
+xgrammar==0.1.21
 yarl==1.19.0
 zipp==3.21.0
 zstandard==0.23.0

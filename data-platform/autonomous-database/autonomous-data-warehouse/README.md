@@ -2,7 +2,7 @@
  
 Oracle Autonomous Data Warehouse is the world’s first and only autonomous database optimized for analytic workloads, including data marts, data warehouses, data lakes, and data lakehouses. With Autonomous Data Warehouse, data scientists, business analysts, and nonexperts can rapidly, easily, and cost-effectively discover business insights using data of any size and type.
  
-Reviewed: 23.10.2024
+Reviewed: 30.06.2025
 
 # Table of Contents
  
@@ -11,7 +11,19 @@ Reviewed: 23.10.2024
 3. [LiveLabs](#livelabs)
  
 # Team Publications
- 
+
+- [Connect Claude Desktop to Oracle Autonomous Database Using SQLcl MCP Server](https://javidatatech.com/i-connected-claude-desktop-to-oracle-autonomous-database-using-sqlcl-mcp-server/)
+    - Step by step guide connecting Claude Desktop to Autonomous Database.
+
+- [5 Autonomous Data Warehouse Advanced Features Made Easy with AI and MCP](https://javidatatech.com/5-oracle-autonomous-database-advanced-features-made-easy-with-ai-mcp/)
+    - Demos showing how to use Oracle capabilities using AI.
+
+- [Consume REST data using Data Transforms](https://javidatatech.com/consume-rest-data-using-data-transforms/)
+    - Guide about how to configure REST connector with Autonomous Data Transforms.
+
+- [Create the AI Profile for Data Studio](https://javidatatech.com/create-your-ai-profile-for-data-studio/)
+    - Guide for configuring the AI Profile.
+      
 - [Recording: Oracle Modern Data Warehouse Workshop](https://videohub.oracle.com/media/Autonomous%20Database%20Hands-on%20Lab%3A%20Unique%20Modern%20Data%20Warehouse%20Experience/1_qdk9tpmh?elq_mid=235427&sh=172605182209232215260712090922142223181326162818193534&cmid=WWMK220729P00013C0002)
     - Full recording of the Oracle Modern Data Warehouse Workshop.
 
