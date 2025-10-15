@@ -69,7 +69,7 @@ The list of New Features will be periodically updated and adjusted.
 - **Description**: Index multiple schema objects for full-text search using DBMS_SEARCH.
 - **Example**: `EXEC DBMS_SEARCH.CREATE_INDEX('index_name', 'table_name');`
 
-Reviewed: 20.11.2024
+Reviewed: 03.10.2025
 
 # Table of Contents
  

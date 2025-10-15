@@ -5,7 +5,7 @@ This is an AI-powered application designed to unlock insights hidden within medi
 
 <img src="./image.png">
 </img>
----
+Reviewed date: 09.10.2025
 
 ## Features
 
@@ -39,8 +39,7 @@ This is an AI-powered application designed to unlock insights hidden within medi
 
 ## Installation
 
-1. **Clone the repository:**
-   
+1. **Clone this repository.**
 
 2. **Install dependencies:**
    Make sure you have Python 3.8+ installed. Then, install the required libraries:
@@ -50,7 +49,7 @@ This is an AI-powered application designed to unlock insights hidden within medi
 
 3. **Configure OCI:**
    - Set up your OCI configuration by creating or updating the `~/.oci/config` file with your credentials and profile.
-   - Replace placeholders like `compartmentId`, `llm_service_endpoint`, and `visionModel` in the code with your actual values.
+   - Replace placeholders like `compartmentId`, `llm_service_endpoint`, and `visionModel` in [`app.py`](./app.py) with your actual values.
 
 ---
 
@@ -96,3 +95,12 @@ This is an AI-powered application designed to unlock insights hidden within medi
 
 ## Contact
 If you have questions or feedback, feel free to reach out via [anshuman.p.panda@oracle.com](mailto:email@example.com).
+
+## License
+Copyright (c) 2025 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](LICENSE.txt) for more details.
+
+ORACLE AND ITS AFFILIATES DO NOT PROVIDE ANY WARRANTY WHATSOEVER, EXPRESS OR IMPLIED, FOR ANY SOFTWARE, MATERIAL OR CONTENT OF ANY KIND CONTAINED OR PRODUCED WITHIN THIS REPOSITORY, AND IN PARTICULAR SPECIFICALLY DISCLAIM ANY AND ALL IMPLIED WARRANTIES OF TITLE, NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A PARTICULAR PURPOSE.  FURTHERMORE, ORACLE AND ITS AFFILIATES DO NOT REPRESENT THAT ANY CUSTOMARY SECURITY REVIEW HAS BEEN PERFORMED WITH RESPECT TO ANY SOFTWARE, MATERIAL OR CONTENT CONTAINED OR PRODUCED WITHIN THIS REPOSITORY. IN ADDITION, AND WITHOUT LIMITING THE FOREGOING, THIRD PARTIES MAY HAVE POSTED SOFTWARE, MATERIAL OR CONTENT TO THIS REPOSITORY WITHOUT ANY REVIEW. USE AT YOUR OWN RISK. 

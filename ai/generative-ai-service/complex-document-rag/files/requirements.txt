@@ -1,0 +1,25 @@
+# Core Dependencies
+gradio==4.44.0
+chromadb==0.5.3
+python-dotenv==1.0.1
+
+# OCI SDK
+oci==2.135.1
+
+# Document Processing
+pandas==2.2.2
+openpyxl==3.1.5
+pdfplumber==0.11.4
+python-docx==1.1.2
+
+# NLP and Embeddings
+transformers==4.53.0
+tokenizers==0.19.1
+tiktoken==0.7.0
+
+# Utilities
+numpy==1.26.4
+
+# Agent Framework Dependencies
+langchain==0.2.14
+pydantic==2.8.2

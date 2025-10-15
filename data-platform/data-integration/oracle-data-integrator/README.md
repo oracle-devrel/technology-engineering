@@ -2,7 +2,7 @@
 
 Oracle Data Integrator is a comprehensive data integration platform that covers all data integration requirements: from high-volume, high-performance batch loads, to event-driven, trickle-feed integration processes, to SOA-enabled data services. Oracle Data Integrator (ODI) 12c, the latest version of Oracle’s strategic Data Integration offering, provides superior developer productivity and improved user experience with a redesigned flow-based declarative user interface and deeper integration with Oracle GoldenGate. ODI12c further builds on its flexible and high-performance architecture with comprehensive big data support and added parallelism when executing data integration processes. It includes interoperability with Oracle Warehouse Builder (OWB) for a quick and simple migration for OWB customers to ODI12c. 
 
-Reviewed: 24.04.2024
+Reviewed: 08.10.2025
  
 # Useful Links
  
@@ -11,7 +11,7 @@ Reviewed: 24.04.2024
 - [ODI Marketplace Documentation](https://docs.oracle.com/en/middleware/fusion-middleware/data-integrator/12.2.1.4/dimgs/getting-started-oracle-cloud-marketplace.html#GUID-1793F6A6-8581-465D-BBE3-8F0C8ADD6536)
 
 - [ODI Certification Matrix](https://www.oracle.com/middleware/technologies/fusion-certification.html)
-    - System Requirements and Supported Platforms for Oracle Fusion Middleware 12c (12.2.1.4.0)
+    - System Requirements and Supported Platforms for Oracle Fusion Middleware 14c (14.1.2.0.0)
 
 - [Install ODI Agent on ExaCC with ODI Marketplace](https://eloi-lopes29.medium.com/install-odi-agent-on-exacc-with-odi-marketplace-c98a1a422f55)
 
