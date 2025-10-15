@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  labels:
+    argocd.argoproj.io/secret-type: cluster
+    type: "hub"     # hub cluster is where ArgoCD is deployed, all other cluster will be "workload"
+    #region: "uk"
+    provider: "oci"
+    # prod: "true"    # By "environment" we mean NOT an application environment, rather a common set of clusters where applications are deployed
+  name: in-cluster
+  namespace: argocd
+stringData:
+  config: '{"bearerToken":"","tlsClientConfig":{"insecure":false,"caData":""}}'
+  name: in-cluster
+  server: https://kubernetes.default.svc
+type: Opaque

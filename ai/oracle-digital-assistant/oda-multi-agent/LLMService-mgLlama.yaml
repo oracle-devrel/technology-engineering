@@ -1,0 +1,12 @@
+exportedRestServices:
+- endpoint: "https://inference.generativeai.eu-frankfurt-1.oci.oraclecloud.com/20231130/actions/chat"
+  name: "mgLlama"
+  type: "LLM"
+  authType: "resourcePrincipal"
+  llmType: "CUSTOM"
+  mock: false
+  restServiceMethods:
+  - restServiceMethodType: "POST"
+    contentType: "application/json"
+    requestBody: "{\n    \"compartmentId\": \"ocid1.compartment.oc1..aaaaaaaa2mromzqpk6aju4dpp6dwrf7c5bibieroemdhywxfy4tfcoh2qruq\",\n    \"servingMode\": {\n        \"modelId\": \"cohere.command-a-03-2025\",\n        \"servingType\": \"ON_DEMAND\"\n    },\n    \"chatRequest\": {\n        \"message\": \"tell a joke\",\n        \"apiFormat\": \"COHERE\",\n        \"maxTokens\": 4000,\n        \"isStream\": false,\n        \"frequencyPenalty\": 0,\n        \"presencePenalty\": 0,\n        \"temperature\": 0,\n        \"topP\": 1,\n        \"topK\": 1\n    }\n}"
+    restServiceParams: []

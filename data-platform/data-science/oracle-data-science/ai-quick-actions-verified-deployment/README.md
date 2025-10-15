@@ -2,7 +2,7 @@
  
 This document covers how to use AI Quick Actions within OCI Data Science to deploy a verified foundational model downloaded from Hugging Face.
 
-Reviewed: 2025.03.02
+Reviewed: 2025.09.26
  
 
 # When to use this asset?
