@@ -4,7 +4,7 @@ The Observability and Manageability (O&M) platform is a suite of OCI services th
 
 &nbsp; 
 
-Reviewed: Reviewed: 30.06.2025
+Reviewed: Reviewed: 15.10.2025
 
 &nbsp; 
 
@@ -88,6 +88,7 @@ Reviewed: Reviewed: 30.06.2025
 - [OCI Observability for Kubernetes Monitoring](https://youtu.be/DLce-UReoKo?si=Vpw19z4rjlUb9fW2)
 - [Cloud Coaching - How to enable Oracle Observability on RAG solutions](https://www.youtube.com/watch?v=VQg3lADHwu8)
 - [Building a Cyber Range in Oracle Cloud](https://www.youtube.com/watch?v=hFGeT5pQOrw)
+- -[OCI Log Analytics & Gen AI Real-Time Intelligence](https://www.youtube.com/watch?v=ftScF8ZBXos)
 
 # Useful Links
 
