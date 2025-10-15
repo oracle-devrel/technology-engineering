@@ -90,15 +90,23 @@ async function downloadFile(osClient, namespace, bucket, file, path)
          chunks.push(chunk);
      }
      var buffer = Buffer.concat(chunks);
-     //console.log(buffer.toString());
-     console.log(path + "/" + file.name);
-     await fs.writeFile(path + "/" + file.name, buffer.toString(), 'utf8', (err) => {
-      if (err) {
-        console.log('Error writing file:', err);
-        return;
-      }
-      console.log('File written to' + path + "/" + file.name);
-     });
+     if(file.name.indexOf(".htm") >  0) {
+      await fs.writeFile(path + "/" + file.name, buffer.toString(), 'utf8', (err) => {
+       if (err) {
+         console.log('Error writing file:', err);
+         return;
+       }
+       console.log('File written successfully to' + path + "/" + file.name);
+       });
+     } else {
+       await fs.writeFile(path + "/" + file.name, buffer, null, (err) => {
+       if (err) {
+         console.log('Error writing file:', err);
+         return;
+       }
+       console.log('File written successfully to' + path + "/" + file.name);
+       });
+     }
     }
 }
 
