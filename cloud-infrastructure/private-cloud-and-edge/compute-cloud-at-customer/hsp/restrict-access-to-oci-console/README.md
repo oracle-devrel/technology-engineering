@@ -16,7 +16,7 @@ Once the new Sign-On rule is created then it should be added to the Policy as sh
 
 Note!
 
-Even with OCI console access disabled there are still "live" OCI users who will have access to create/delete/modify resources via teh API in the OCI tenancy as well as the C3 as the policies and compartments are common across both. It would be wise to further restrict the capability of these users as per
+Even with OCI console access disabled there are still "live" OCI users who will have access to create/delete/modify resources via the API in the OCI tenancy as well as the C3 as the policies and compartments are common across both. It would be wise to further restrict the capability of these users as per
 <https://docs.oracle.com/en-us/iaas/Content/Identity/users/edit-users-capabilities.htm>.   
   
 Ideally a policy should be implemented that restricts permissions **only** to the C3, see [this](../iam-policies-for-isolation/README.md) note.
