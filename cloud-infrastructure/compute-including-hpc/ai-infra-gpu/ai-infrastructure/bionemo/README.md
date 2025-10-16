@@ -2,7 +2,7 @@
 
 This repository showcases how to deploy NVIDIA NIM's from the BioNeMo suite on OCI at scale in order to tackle a practical problem of drug discovery. 
 
-Reviewed: 21.02.2025
+Reviewed: 16.10.2025
 
 # Table of Contents
 
