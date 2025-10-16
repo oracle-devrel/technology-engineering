@@ -19,12 +19,87 @@
 
 *Example:*
 
-| Version | Authors      | Date               | Comments                                                                                     |
-|:--------|:-------------|:-------------------|:---------------------------------------------------------------------------------------------|
-| 1.0     | Name Surname | 1st June 2023      | Created a new Solution Definition document. To be used for iterative review and improvement. |
-| 1.1     | Name Surname | 1st July 2023      | Update Template per feedback. Added security-templated texts and annex.                      |
-| 1.2     | Name Surname | 1st August 2023    | Update Template per feedback. As per Confluence.                                             |
-| 2.0     | Name Surname | 1st September 2023 | Added Networking Annex                                                                       |
+<table>
+<caption></caption>
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 30%" />
+<col style="width: 20%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;"><span>Version</span></th>
+<th style="text-align: left;"><span>Authors</span></th>
+<th style="text-align: left;"><span>Date</span></th>
+<th style="text-align: left;"><span>Comments</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><span>1.0</span></td>
+<td style="text-align: left;">Base Template</td>
+<td style="text-align: left;"><span>1st June 2023</span></td>
+<td style="text-align: left;">Created a new Solution Definition document. To be used for iterative review and improvement.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><span>1.1</span></td>
+<td style="text-align: left;">Base Template</td>
+<td style="text-align: left;"><span>1st July 2023</span></td>
+<td style="text-align: left;">Update Template per feedback. Added security-templated texts and annex.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><span>1.2</span></td>
+<td style="text-align: left;">Base Template</td>
+<td style="text-align: left;"><span>1st August 2023</span></td>
+<td style="text-align: left;">Update Template per feedback. As per Confluence.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><span>2.0</span></td>
+<td style="text-align: left;">Base Template</td>
+<td style="text-align: left;"><span>1st September 2023</span></td>
+<td style="text-align: left;">Added Networking Annex</td>
+</tr>
+<tr>
+<td style="text-align: left;"><span>2.1</span></td>
+<td style="text-align: left;">Base Template</td>
+<td style="text-align: left;"><span>1st September 2023</span></td>
+<td style="text-align: left;">Updated LZ Snippet<br />
+Added 'Base Template' to the version table instead of 'Name Surname'</td>
+</tr>
+<tr>
+<td style="text-align: left;"><span>2.2</span></td>
+<td style="text-align: left;">Base Template</td>
+<td style="text-align: left;"><span>16th October 2023</span></td>
+<td style="text-align: left;">Upgraded the Logical Architecture as mandatory. It is now included in the 'Mandatory' template.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><span>2.3</span></td>
+<td style="text-align: left;">Base Template</td>
+<td style="text-align: left;"><span>16th January 2024</span></td>
+<td style="text-align: left;">Added comment for solution snippets<br />
+Updates Acronyms</td>
+</tr>
+<tr>
+<td style="text-align: left;"><span>2.4</span></td>
+<td style="text-align: left;">Base Template</td>
+<td style="text-align: left;"><span>26th February 2024</span></td>
+<td style="text-align: left;">Added the network firewall in the requirement, the solution considerations, and in the Annex.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><span>2.5</span></td>
+<td style="text-align: left;">Base Template</td>
+<td style="text-align: left;"><span>8th April 2024</span></td>
+<td style="text-align: left;">Added 'manageability' in the requirement, the solution considerations, and in the Annex.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><span>2.6</span></td>
+<td style="text-align: left;">Base Template</td>
+<td style="text-align: left;"><span>26th February 2025</span></td>
+<td style="text-align: left;">Removed 'ACME', added BoM example, updated NFR's, consolidated Solution Considerations, consolidated Business Context, added Onboarding, and replaced 'Workload' with 'Solution'.</td>
+</tr>
+</tbody>
+</table>
 
 ## Team
 
@@ -34,10 +109,10 @@
 
 *Example:*
 
-| Name         | Email               | Role                     | Company |
-|:-------------|:--------------------|:-------------------------|:--------|
-| Name Surname | example@example.com | Tech Solution Specialist | Oracle  |
-| Ada Lovelace | example@example.com | Account Cloud Engineer   | Oracle  |
+| Name          | Email               | Role                     | Company |
+|:--------------|:--------------------|:-------------------------|:--------|
+| ${doc.author} | example@example.com | Tech Solution Specialist | Oracle  |
+| Ada Lovelace  | example@example.com | Account Cloud Engineer   | Oracle  |
 
 ## Abbreviations and Acronyms (Optional)
 
@@ -50,57 +125,79 @@
 
 *Example:*
 
-| Term | Meaning                     |
-|:-----|:----------------------------|
-| AD   | Availability Domain         |
-| Dev  | Development                 |
-| DRG  | Dynamic Routing Gateway     |
-| DWH  | Data Warehouse              |
-| IaaS | Infrastructure as a Service |
-| LB   | Load Balancer               |
-| NSG  | Network Security Group      |
-| OCI  | Oracle Cloud Infrastructure |
-| VCN  | Virtual Cloud Network       |
+| Term    | Meaning                                    |
+|:--------|:-------------------------------------------|
+| AD      | Availability Domain                        |
+| ADW     | Autonomous Data Wharehouse                 |
+| ATP     | Autonomous Transaction Processing          |
+| BDS     | Big Data Service                           |
+| BI      | Business Intelligence                      |
+| BIP     | Business Intelligence Publisher            |
+| BM      | Bare Metal                                 |
+| BV      | Block Volume                               |
+| BYOI    | Bring Your Own Image                       |
+| BYOL    | Bring Your Own License                     |
+| Dev     | Development                                |
+| DMZ     | Demilitarized Zone                         |
+| DR      | Disaster Recovery                          |
+| DRG     | Dynamic Routing Gateway                    |
+| DWH     | Data Warehouse                             |
+| FD      | Fault Domain                               |
+| GGSA    | Golden Gate Stream Analytics               |
+| IaaS    | Infrastructure as a Service                |
+| OAC     | Oracle Analytics Cloud                     |
+| OAS     | Oracle Application Server                  |
+| OBIA    | Oracle Business Intelligence Applications  |
+| OCI     | Oracle Cloud Infrastructure                |
+| OCID    | Oracle Cloud Identifier                    |
+| OCIDC   | OCI Data Catalog                           |
+| OCIDF   | OCI Data Flow                              |
+| OCIDI   | OCI Data Integration                       |
+| OCIDS   | OCI Data Science                           |
+| OCIGG   | OCI Golden Gate                            |
+| OCIGGSA | OCI Golden Gate Stream Analytics           |
+| ODI     | Data Integration                           |
+| ODIMP   | OCI on Marketplace                         |
+| OML     | Oracle Machine Learning                    |
+| ORDS    | Oracle REST Data Services                  |
+| OTBI    | Oracle Transactional Business Intelligence |
+| PaaS    | Platform as a Service                      |
+| VCN     | Virtual Cloud Network                      |
+| VM      | Virtual Machine                            |
 
 ## Document Purpose
 
 *Guide:*
 
-*Describe the purpose of this document and the Oracle-specific terminology, specifically around 'Workload'.*
+*Describe the purpose of this document and the Oracle-specific terminology*
 
 *Example:*
 
-This document provides a high-level solution definition for the Oracle solution and aims at describing the current state, and to-be state as well as a potential high-level project scope and timeline for \<Service Provider\>.
+This document provides a high-level solution definition for the Oracle solution and aims at describing the current state, and to-be state as well as a potential high-level project scope and timeline for ${doc.config.impl.type}.
 
 The document may refer to a ‘Workload’, which summarizes the full technical solution for a customer (You) during a single engagement. The Workload is described in the chapter [Workload Requirements and Architecture](#workload-requirements-and-architecture).
 
-This is a living document, additional sections will be added as the engagement progresses resulting in a final Document to be handed over to the \<Service Provider\>.
+This is a living document, additional sections will be added as the engagement progresses resulting in a final Document to be handed over to the ${doc.config.impl.type}.
 
 # Business Context
 
 *Guide:*
 
-*Describe the customer's business and background. What is the context of the customer's industry and LoB? What are the business needs and goals that this Workload is an enabler for? How does this technical solution impact and support the customer's business goals? Does this solution support a specific customer strategy, or maybe certain customer values? How does this solution help our customers to either generate more revenue or save costs?*
+*Describe the customer's business and background. What is the context of the customer's industry and LoB? What are the business needs and goals that this solution is an enabler for? How does this technical solution impact and support the customer's business goals? Does this solution support a specific customer strategy, or maybe certain customer values? How does this solution help our customers to either generate more revenue or save costs?*
 
-## Executive Summary
+*Describe a clear statement of a business value as part of the full solution scope. Try to keep it SMART: Specific, Measurable, Assignable, Realistic, and Time-Related - Agree on the business value with the customer. Keep it business-focused, and speak the language of the LoB: "Increase Customer Retention by 3% in the next year" or "Grow Customer Base with Executive Decision-Making from our Sales and Support Data". Avoid technical success criteria such as "Migrate App X to Oracle Cloud" or "Provision 5 Compute Instances". Avoid Oracle success criteria and language "Get Solution Consuming on OCI".*
 
-*Guide:*
+*Furthermore, highlight Oracle differentiator and key values of the solution of our solution for the customer, allowing the customer to make decisions quickly.*
 
-*A section describing the Oracle differentiator and key values of the solution of our solution for the customer, allowing the customer to make decisions quickly.*
-
-## Workload Business Value
-
-*Guide:*
-
-*A clear statement of specific business value as part of the full workload scope. Try to keep it SMART: Specific, Measurable, Assignable, Realistic, and Time-Related - Agree on the business value with the customer. Keep it business-focused, and speak the language of the LoB which benefits from this Workload: "Increase Customer Retention by 3% in the next year" or "Grow Customer Base with Executive Decision-Making from our Sales and Support Data". Avoid technical success criteria such as "Migrate App X to Oracle Cloud" or "Provision 5 Compute Instances". Avoid Oracle success criteria and language "Get Workload Consuming on OCI".*
-
-# Workload Requirements and Architecture
+# Solution Requirements and Architecture
 
 ## Overview
 
 *Guide:*
 
-*Describe the Workload: What applications and environments are part of this Workload migration or new implementation project, and what are their names? The implementation will be scoped later and can be a subset of the Solution Definition and proposed overall solution. For example, a Workload could exist of two applications, but the implementer would only include one environment of one application. The workload chapter is about the whole Workload and the implementation scope will be described later in the chapter [Solution Scope](#solution-scope).*
+*Describe the Solution: What applications and environments are part of this migration or new implementation project, and what are their names? A possible implementation will be scoped later and can be a subset of the Solution Definition and proposed overall solution. For example, a solution could exist of two applications, but the implementer would only include one environment of one application. The solution chapter is about the whole solution and the implementation scope will be described later in the chapter [Solution Scope](#solution-scope).*
+
+*You can describe an existing solution in the optional chapter for a Current State Architecture , which is typically located after the Non functional requirements and before the Future State Architecture.*
 
 ## Functional Requirements (Optional)
 
@@ -154,7 +251,7 @@ For example, rows can list required functional capabilities and columns can list
 
 *Guide:*
 
-*Describe the high-level technical requirements for the Workload. Consider all sub-chapters, but decide and choose which Non-Functional Requirements are necessary for your engagement. You might not need to capture all requirements for all sub-chapters.*
+*Describe the high-level technical requirements for the solution. Consider all sub-chapters, but decide and choose which Non-Functional Requirements are necessary for your engagement. You might not need to capture all requirements for all sub-chapters.*
 
 *This chapter is for describing customer-specific requirements (needs), not to explain Oracle solutions or capabilities.*
 
@@ -162,7 +259,7 @@ For example, rows can list required functional capabilities and columns can list
 
 *Guide:*
 
-*This section captures specific regulatory or compliance requirements for the Workload. These may limit the types of technologies that can be used and may drive some architectural decisions.*
+*This section captures specific regulatory or compliance requirements for the solution. These may limit the types of technologies that can be used and may drive some architectural decisions.*
 
 *The Oracle Cloud Infrastructure Compliance Documents service lets you view and download compliance documents: https://docs.oracle.com/en-us/iaas/Content/ComplianceDocuments/Concepts/compliancedocsoverview.htm*
 
@@ -172,7 +269,7 @@ For example, rows can list required functional capabilities and columns can list
 
 At the time of this document creation, no Regulatory and Compliance requirements have been specified.
 
-In addition to these requirements, the [CIS Oracle Cloud Infrastructure Foundation Benchmark, v1.2](https://www.cisecurity.org/benchmark/Oracle_Cloud) will be applied to the Customer tenancy.
+In addition to these requirements, the latest version of the [CIS Oracle Cloud Infrastructure Foundation Benchmark](https://www.cisecurity.org/benchmark/Oracle_Cloud) will be applied to the Customer tenancy.
 
 ### Environments
 
@@ -184,17 +281,17 @@ In addition to these requirements, the [CIS Oracle Cloud Infrastructure Foundati
 
 Example:
 
-| Name       | Size of Prod | Location | DR  | Scope                           |
-|:-----------|:-------------|:---------|:----|:--------------------------------|
-| Production | 100%         | Malaga   | Yes | Not in Scope / On-prem          |
-| DR         | 50%          | Sevilla  | No  | Workload                        |
-| Dev & Test | 25%          | Sevilla  | No  | Workload - \<Service Provider\> |
+| Name       | Size of Prod | Location | DR  | Scope                              |
+|:-----------|:-------------|:---------|:----|:-----------------------------------|
+| Production | 100%         | Malaga   | Yes | Not in Scope / On-prem             |
+| DR         | 50%          | Sevilla  | No  | Solution                           |
+| Dev & Test | 25%          | Sevilla  | No  | Solution - ${doc.config.impl.type} |
 
-### High Availability and Disaster Recovery Requirements
+### Reliability and Resilience
 
 *Guide:*
 
-*This section captures the resilience and recovery requirements for the Workload. Note that these may be different from the current system.*
+*This section captures the resilience and recovery requirements for the solution. Note that these may be different from the current system.*
 
 *The Recovery Point Objective (RPO) and Recovery Time Objective (RTO) requirement of each environment should be captured in the environments section above, and wherever possible.*
 
@@ -286,6 +383,18 @@ At the time of this document creation, no Security requirements have been specif
 
 *Capture the Non-Functional Requirements for networking-related topics. You can use the networking questions in the [Annex](#networking-requirement-considerations)*
 
+*As businesses increasingly rely on Cloud Infrastructure to store, process, and transmit sensitive data, the need for comprehensive security solutions has never been more important. Potential customers evaluating network security solutions typically prioritize the following requirements: Some of the broader category considerations are below.*
+
+-   *Data Protection: Safeguarding sensitive information against unauthorized access, theft, or modification is a primary concern for any organization and industry today.*
+    -   *Threat Prevention: Advanced capabilities like IDPS and malware detection for blocking threats.*
+    -   *Data Loss Prevention (DLP): Monitoring and controlling sensitive data transmission.*
+    -   *Encryption and Decryption: Inspecting encrypted traffic without compromising privacy.*
+-   *Threat Prevention: Proactively identifying and mitigating security threats is essential for maintaining the integrity of network infrastructure. *
+    -   *Intrusion Detection and Prevention: Monitoring for suspicious or malicious activity.*
+    -   *Application Control: Granular control over specific applications or services.*
+    -   *URL Filtering: Controlling access to permitted URLs.*
+-   *Security compliance: Does your organization have network security requirements based on industry or organization compliance? For example - SAMA (Saudi Arabia Monetary Authority), HIPAA (Health Insurance Portability and Accountability Act), GDPR (General Data Protection Regulation), SWIFT, etc.*
+
 *Example:*
 
 At the time of this document creation, no Networking requirements have been specified.
@@ -326,18 +435,28 @@ At the time of this document creation, no Networking requirements have been spec
 
 *Also, capture requirements for tools to monitor and manage the solution.*
 
-### Management and Monitoring (Optional)
+### Management and Monitoring
 
 *Guide:*
 
-*This subsection captures any requirements for integrations into the customer's existing management and monitoring systems - e.g. system monitoring, systems management, etc. Also, if the customer requires new management or monitor capabilities, these should be recorded.*
+*This subsection helps you capture any requirements for customer management and monitoring needs - e.g. system monitoring, systems management, log analysis, etc.*
+
+*When you move or start an OCI project, you have a choice to use the tools you are familiar with (should they support modern application architectures), replace them with OCI native Observability services, or use a combination to improve your visibility. When contemplating how to proceed, here are some general questions that will guide you:*
+
+-   *Does the tool manage across hybrid and multi-cloud environments?*
+-   *What is the cost of integrating the existing tool with OCI?*
+-   *Is my current monitor tool enabling you to prevent issues versus reacting to them?*
+-   *Does the tool tell you how much impact there has been on users or just that there was an impact like something is down or unavailable? *
+-   *Does the tool provide the full vision of applications and their infrastructure or just a piece of them or specific technology?*
 
 *Example:*
 
-| Tool               | Task                   | Target         | Location        | New | Notes |
-|:-------------------|:-----------------------|:---------------|:----------------|:----|:------|
-| Splunk             | Log Data Consolidation | All targets    | On-Prem         | No  |       |
-| Enterprise Manager | Manage DB Instances    | All Oracle DBs | OCI (Migration) | No  |       |
+| Task                   | Target         | Location        | New | Notes |
+|:-----------------------|:---------------|:----------------|:----|:------|
+| Application Monitoring | All targets    | On-Prem and OCI | No  |       |
+| Monitoring             | All targets    | OCI (Migration) | No  |       |
+| Log Management         | All targets    | OCI (Migration) | No  |       |
+| Insight                | All Oracle DBs | OCI (Migration) | No  |       |
 
 ### Performance (Optional)
 
@@ -399,27 +518,27 @@ At the time of this document creation, no Networking requirements have been spec
 
 *Guide:*
 
-*The Workload Future State Architecture can be described in various forms. In the easiest case, we describe a Logical Architecture, possibly with a System Context Diagram. A high-level physical architecture is mandatory as a description of your solution.*
+*The Future State Architecture can be described in various forms. In the easiest case, we describe a Logical Architecture, possibly with a System Context Diagram. A high-level physical architecture is mandatory as a description of your solution.*
 
 *This should be the final architecture as part of the pre-sales solution, not an intermediate or draft version*
 
-*Additional architectures, in the subsections, can be used to describe needs for specific workloads.*
+*Additional architectures, in the subsections, can be used to describe needs for specific solution.*
 
-### Mandatory Security Best Practices
+### Solution Best Practices
 
-*Guide:*
+Oracle highly recommends following best practices to protect your solution on OCI:
 
-*Use this text for every engagement. Do not change. Aligned with the Cloud Adoption Framework*
+**Mandatory security best practices:**
 
-The safety of the \<Customer Name\>'s Oracle Cloud Infrastructure (OCI) environment and data is the \<Customer Name\>’s priority.
+The safety of the ${doc.customer.name}'s Oracle Cloud Infrastructure (OCI) environment and data is the ${doc.customer.name}’s priority.
 
-To following table of OCI Security Best Practices lists the recommended topics to provide a secure foundation for every OCI implementation. It applies to new and existing tenancies and should be implemented before the Workload defined in this document will be implemented.
+The following table of OCI Security Best Practices lists the recommended topics to provide a secure foundation for every OCI implementation. It applies to new and existing tenancies and should be implemented before the Workload defined in this document will be implemented.
 
 Workload-related security requirements and settings like tenancy structure, groups, and permissions are defined in the respective chapters.
 
-Any deviations from these recommendations needed for the scope of this document will be documented in the chapters below. They must be approved by \<Customer Name\>.
+Any deviations from these recommendations needed for the scope of this document will be documented in the chapters below. They must be approved by ${doc.customer.name}.
 
-\<Customer Name\> is responsible for implementing, managing, and maintaining all listed topics.
+${doc.customer.name} is responsible for implementing, managing, and maintaining all listed topics.
 
 <table style="width:25%;">
 <colgroup>
@@ -428,14 +547,14 @@ Any deviations from these recommendations needed for the scope of this document 
 <col style="width: 19%" />
 </colgroup>
 <thead>
-<tr class="header">
+<tr>
 <th>CATEGORY</th>
 <th>TOPIC</th>
 <th>DETAILS</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>User Management</td>
 <td>IAM Default Domain</td>
 <td><p>Multi-factor Authentication (MFA) should be enabled and enforced for every non-federated OCI user account.</p>
@@ -447,7 +566,7 @@ Any deviations from these recommendations needed for the scope of this document 
 <li>For configuration details see <a href="https://docs.oracle.com/en-us/iaas/Content/Identity/adaptivesecurity/overview.htm">Managing Adaptive Security and Risk Providers</a>.</li>
 </ul></td>
 </tr>
-<tr class="even">
+<tr>
 <td></td>
 <td>OCI Emergency Users</td>
 <td><p>A maximum of <strong>three</strong> non-federated OCI user accounts should be present with the following requirements:</p>
@@ -459,7 +578,7 @@ Any deviations from these recommendations needed for the scope of this document 
 <li>Has MFA enabled and enforced (see IAM Default Domain).</li>
 </ul></td>
 </tr>
-<tr class="odd">
+<tr>
 <td></td>
 <td>OCI Administrators</td>
 <td><p>Daily business OCI Administrators are managed by the Customer’s Enterprise Identity Management System. This system is federated with the IAM Default Domain following these configuration steps:</p>
@@ -469,12 +588,12 @@ Any deviations from these recommendations needed for the scope of this document 
 <li>For configuration guidance for major Identity Providers see the OCI IAM Identity Domain tutorials.</li>
 </ul></td>
 </tr>
-<tr class="even">
+<tr>
 <td></td>
 <td>Application Users</td>
 <td>Application users like OS users, Database users, or PaaS users are not managed in the IAM Default Domain but either directly or in dedicated identity domains. These identity domains and users are covered in the Workload design. For additional information see <a href="https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/iam-security-structure.htm">Design Guidance for IAM Security Structure</a>.</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Cloud Posture Management</td>
 <td>OCI Cloud Guard</td>
 <td><p>OCI Cloud Guard will be enabled at the root compartment of the tenancy home region. This way it covers all future extensions, like new regions or new compartments, of your tenancy automatically. It will use the Oracle Managed Detector and Responder recipes at the beginning and can be customized by the Customer to fulfill the Customer’s security requirements.</p>
@@ -483,7 +602,7 @@ Any deviations from these recommendations needed for the scope of this document 
 <li>For configuration details see <a href="https://docs.oracle.com/en-us/iaas/cloud-guard/using/part-customize.htm">Customizing Cloud Guard Configuration</a></li>
 </ul></td>
 </tr>
-<tr class="even">
+<tr>
 <td></td>
 <td>OCI Vulnerability Scanning Service</td>
 <td><p>In addition to OCI Cloud Guard, the OCI Vulnerability Scanning Service will be enabled at the root compartment in the home region. This service provides vulnerability scanning of all Compute instances once they are created.</p>
@@ -491,12 +610,12 @@ Any deviations from these recommendations needed for the scope of this document 
 <li>For configuration details see <a href="https://docs.oracle.com/en-us/iaas/scanning/home.htm">Vulnerability Scanning</a>.</li>
 </ul></td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Monitoring</td>
 <td>SIEM Integration</td>
 <td>Continuous monitoring of OCI resources is key for maintaining the required security level (see <a href="#regulations-and-compliances-requirements">Regulations and Compliance</a> for specific requirements). See <a href="https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/siem-integration.htm">Design Guidance for SIEM Integration</a> to implement integration with the existing SIEM system.</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Additional Services</td>
 <td>Budget Control</td>
 <td><p>OCI Budget Control provides an easy-to-use and quick notification on changes in the tenancy’s budget consumption. It will be configured to quickly identify unexpected usage of the tenancy.</p>
@@ -507,259 +626,29 @@ Any deviations from these recommendations needed for the scope of this document 
 </tbody>
 </table>
 
-### OCI Secure Landing Zone Architecture
+**OCI Landing Zones:**
+
+An OCI Landing Zone sets the foundations for a secure tenancy, providing design best practices and operational control over OCI resources. A Landing Zone also simplifies the onboarding of workloads and teams, with clear patterns for network isolation and segregation of duties in the organization, which sets the cloud operating model for day-to-day operations.
+
+Oracle highly recommends the use of an OCI Landing Zone for any deployment. Use these [guidelines](https://github.com/oracle-devrel/technology-engineering/blob/main/landing-zones/commons/lz_solution_definition.md) to set up your OCI Landing Zone, including design considerations, approaches, and solutions to use.
+
+Note that all workloads in a tenancy should sit on top of a Landing Zone, meaning that the workload architecture defined in the next section can be subject to adjustments (e.g., network structure) towards the landing zone model, along with other future workloads.
+
+**Naming conventions:**
+
+An OCI Landing Zone sets the foundations for a secure tenancy, providing design best practices and operational control over OCI resources. A Landing Zone also simplifies the onboarding of workloads and teams, with clear patterns for network isolation and segregation of duties in the organization, which sets the cloud operating model for day-to-day operations.
+
+Oracle highly recommends the use of an OCI Landing Zone for any deployment. Use these [guidelines](https://github.com/oracle-devrel/technology-engineering/blob/main/landing-zones/commons/lz_solution_definition.md) to set up your OCI Landing Zone, including design considerations, approaches, and solutions to use.
+
+Note that all workloads in a tenancy should sit on top of a Landing Zone, meaning that the workload architecture defined in the next section can be subject to adjustments (e.g., network structure) towards the landing zone model, along with other future workloads.
+
+### Logical Architecture
 
 *Guide:*
 
-*This chapter describes landing zone best practices and usually does not require any changes. If changes are required please refer to [Landing Zone GitHub](https://github.com/oracle-devrel/technology-engineering/tree/main/landing-zones). The full landing zone needs to be described in the Solution Design by the service provider.*
+*Provide a high-level logical Oracle solution for the complete solution. Indicate Oracle products as abstract groups, and not as physical detailed instances. Create an architecture diagram following the latest notation and describe the solution.*
 
-*Use this template ONLY for new cloud deployments and remove it for brownfield deployments.*
-
-The design considerations for an OCI Cloud Landing Zone have to do with OCI and industry architecture best practices, along with \<Customer Name\> specific architecture requirements that reflect the Cloud Strategy (hybrid, multi-cloud, etc.). An OCI Cloud Landing zone involves a variety of fundamental aspects that have a broad level of sophistication. A good summary of a Cloud Landing Zone has been published in the [OCI User Guide](https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/landing-zone.htm).
-
-#### Naming Convention
-
-A naming convention is an important part of any deployment to ensure consistency as well as security within your tenancy. Hence we jointly agree on a naming convention, that matches Oracle's best practices and \<Customer Name\> requirements.
-
-Oracle recommends the following Resource Naming Convention:
-
--   The name segments are separated by “-“
--   Within a name segment avoid using `<space>`{=html} and “.”
--   Where possible intuitive/standard abbreviations should be considered (e.g. “shared“ compared to "shared.cloud.team”)
--   When referring to the compartment full path, use “:” as a separator, e.g. cmp-shared:cmp-security
-
-Some examples of naming are given below:
-
--   cmp-shared
--   cmp-\<workload\>
--   cmp-networking
-
-The patterns used are these:
-
--   \<resource-type\>-\<environment\>-\<location\>-\<purpose\>
--   \<resource-type\>-\<environment\>-\<source-location\>-\<destination-location\>-\<purpose\>
--   \<resource-type\>-\<entity/sub-entity\>-\<environment\>-\<function/department\>-\<project\>-\<custom\>
--   \<resource-type\>-\<environment\>-\<location\>-\<purpose\>
-
-Abbreviations per resource type are listed below. This list may not be complete.
-
-| Resource Type                      | Abbreviation       | Example                                                     |
-|------------------------------------|--------------------|-------------------------------------------------------------|
-| Bastion Service                    | bst                | bst-\<location\>-\<network\>                                |
-| Block Volume                       | blk                | blk-\<location\>-\<project\>-\<purpose\>                    |
-| Compartment                        | cmp                | cmp-shared, cmp-shared-security                             |
-| Customer Premise Equipment         | cpe                | cpe-\<location\>-\<destination\>                            |
-| DNS Endpoint Forwarder             | dnsepf             | dnsepf-\<location\>                                         |
-| DNS Endpoint Listener              | dnsepl             | dnsepl-\<location\>                                         |
-| Dynamic Group                      | dgp                | dpg-security-functions                                      |
-| Dynamic Routing Gateway            | drg                | drg-prod-\<location\>                                       |
-| Dynamic Routing Gateway Attachment | drgatt             | drgatt-prod-\<location\>-\<source_vcn\>-\<destination_vcn\> |
-| Fast Connect                       | fc# \<# := 1...n\> | fc0-\<location\>-\<destination\>                            |
-| File Storage                       | fss                | fss-prod-\<location\>-\<project\>                           |
-| Internet Gateway                   | igw                | igw-dev-\<location\>-\<project\>                            |
-| Jump Server                        | js                 | js-\<location\>-xxxxx                                       |
-| Load Balancer                      | lb                 | lb-prod-\<location\>-\<project\>                            |
-| Local Peering Gateway              | lpg                | lpg-prod-\<source_vcn\>-\<destination_vcn\>                 |
-| NAT Gateway                        | nat                | nat-prod-\<location\>-\<project\>                           |
-| Network Security Group             | nsg                | nsg-prod-\<location\>-waf                                   |
-| Managed key                        | key                | key-prod-\<location\>-\<project\>-database01                |
-| OCI Function Application           | fn                 | fn-security-logs                                            |
-| Object Storage Bucket              | bkt                | bkt-audit-logs                                              |
-| Policy                             | pcy                | pcy-services, pcy-tc-security-administration                |
-| Region Code, Location              | xxx                | fra, ams, zch \# three letter region code                   |
-| Routing Table                      | rt                 | rt-prod-\<location\>-network                                |
-| Secret                             | sec                | sec-prod-wls-admin                                          |
-| Security List                      | sl                 | sl-\<location\>                                             |
-| Service Connector Hub              | sch                | sch-\<location\>                                            |
-| Service Gateway                    | sgw                | sgw-\<location\>                                            |
-| Subnet                             | sn                 | sn-\<location\>                                             |
-| Tenancy                            | tc                 | tc                                                          |
-| Vault                              | vlt                | vlt-\<location\>                                            |
-| Virtual Cloud Network              | vcn                | vcn-\<location\>                                            |
-| Virtual Machine                    | vm                 | vm-xxxx                                                     |
-
-#### Security and Identity Management
-
-This chapter covers the Security and Identity Management definitions and resources that will be implemented for \<Customer Name\>.
-
-##### Universal Security and Identity and Access Management Principles
-
--   Groups will be configured at the tenancy level and access will be governed by policies configured in OCI.
--   Any new project deployment in OCI will start with the creation of a new compartment. Compartments follow a hierarchy, and the compartment structure will be decided as per the application requirements.
--   It is also proposed to keep any shared resources, such as Object Storage, Networks, etc. in a shared services compartment. This will allow the various resources in different compartments to access and use the resources deployed in the shared services compartment and user access can be controlled by policies related to specific resource types and user roles.
--   Policies will be configured in OCI to maintain the level of access/control that should exist between resources in different compartments. These will also control user access to the various resources deployed in the tenancy.
--   The tenancy will include a pre-provisioned Identity Cloud Service (IDCS) instance (the primary IDCS instance) or, where applicable, the Default Identity Domain. Both provide access management across all Oracle cloud services for IaaS, PaaS, and SaaS cloud offerings.
--   The primary IDCS or the Default Identity Domain will be used as the access management system for all users administrating (OCI Administrators) the OCI tenant.
-
-##### Authentication and Authorization for OCI
-
-The provisioning of respective OCI administration users will be handled by \<Customer Name\>.
-
-###### User Management
-
-Only OCI Administrators are granted access to the OCI Infrastructure. As a good practice, these users are managed within the pre-provisioned and pre-integrated Oracle Identity Cloud Service (primary IDCS) or, where applicable, the OCI Default Identity Domain, of OCI tenancy. These users are members of groups. IDCS Groups can be mapped to OCI groups while Identity Domains groups do not require any mapping. Each mapped group membership will be considered during login.
-
-**Local Users**
-
-The usage of OCI Local Users is not recommended for the majority of users and is restricted to a few users only. These users include the initial OCI Administrator created during the tenancy setup and additional emergency administrators.
-
-**Local Users are considered Emergency Administrators and should not be used for daily administration activities!**
-
-**No additional users are to be, nor should be, configured as local users.**
-
-**\<Customer Name\> is responsible to manage and maintain local users for emergency use cases.**
-
-**Federated Users**
-
-Unlike Local Users, Federated Users are managed in the Federated or Enterprise User Management system. In the OCI User list Federated Users may be distinguished by a prefix that consists of the name of the federated service in lower case, a '/' character followed by the user name of the federated user, for example:
-
-`oracleidentityservicecloud/user@example.com`
-
-Providing the same attributes (OCI API Keys, Auth Tokens, Customer Secret Keys, OAuth 2.0 Client Credentials, and SMTP Credentials) for Local and *Federated Users* federation with third-party Identity Providers should only be done in the pre-configured primary IDCS or the Default Identity Domain where applicable.
-
-All users have the same OCI-specific attributes (OCI API Keys, Auth Tokens, Customer Secret Keys, OAuth 2.0 Client Credentials, and SMTP Credentials).
-
-OCI Administration users should only be configured in the pre-configured primary IDCS or the Default Identity Domain where applicable.
-
-**Note:** Any federated user can be a member of 100 groups only. The OCI Console limits the number of groups in a SAML assertion to 100 groups. User Management in the Enterprise Identity Management system will be handled by \<Customer Name\>.
-
-**Authorization**
-
-In general, policies hold permissions granted to groups. Policy and Group naming follows the Resource Naming Conventions.
-
-**Tenant Level Authorization**
-
-The policies and groups defined at the tenant level will provide access to administrators and authorized users, to manage or view resources across the entire tenancy. The tenant-level authorization will be granted to tenant administrators only.
-
-These policies follow the recommendations of the [CIS Oracle Cloud Infrastructure Foundations Benchmark v1.2.0, recommendations 1.1, 1.2, 1.3](https://www.cisecurity.org/cis-benchmarks).
-
-**Service Policy**
-
-A Service Policy is used to enable services at the tenancy level. It is not assigned to any group.
-
-**Shared Compartment Authorization**
-
-Compartment-level authorization for the cmp-shared compartment structure uses the following specific policies and groups.
-
-Apart from tenant-level authorization, authorization for the cmp-shared compartment provides specific policies and groups. In general, policies will be designed so that lower-level compartments are not able to modify the resources of higher-level compartments.
-
-Policies for the cmp-shared compartment follow the recommendations of the [CIS Oracle Cloud Infrastructure Foundations Benchmark v1.2.0, recommendations 1.1, 1.2, 1.3](https://www.cisecurity.org/cis-benchmarks).
-
-**Compartment Level Authorization**
-
-Apart from tenant-level authorization, compartment-level authorization provides compartment structure-specific policies and groups. In general, policies will be designed so that lower-level compartments are not able to modify the resources of higher-level compartments.
-
-**Authentication and Authorization for Applications and Databases**
-
-Application (including Compute Instances) and Database User management are completely separate and done outside of the primary IDCS or Default Identity Domain. The management of these users is the sole responsibility of \<Customer Name\> using the application, compute instance, and database-specific authorization.
-
-##### Security Posture Management
-
-**Oracle Cloud Guard**
-
-Oracle Cloud Guard Service will be enabled using the pcy-service policy and with the following default configuration. Customization of the Detector and Responder Recipes will result in clones of the default (Oracle Managed) recipes.
-
-Cloud Guard default configuration provides a number of good settings. It is expected that these settings may not match \<Customer Name\>'s requirements.
-
-**Targets**
-
-In accordance with the [CIS Oracle Cloud Infrastructure Foundations Benchmark, v1.2.0, Chapter 3.15](https://www.cisecurity.org/cis-benchmarks), Cloud Guard will be enabled in the root compartment.
-
-**Detectors**
-
-The Oracle Default Configuration Detector Recipes and Oracle Default Activity Detector Recipes are implemented. To better meet the requirements, the default detectors must be cloned and configured by \<Customer Name\>.
-
-**Responder Rules**
-
-The default Cloud Guard Responders will be implemented. To better meet the requirements, the default detectors must be cloned and configured by \<Customer Name\>.
-
-**Vulnerability Scanning Service**
-
-In accordance with the [CIS Oracle Cloud Infrastructure Foundations Benchmark, v1.2.0, OCI Vulnerability Scanning](https://www.cisecurity.org/cis-benchmarks) will be enabled using the pcy-service policy.
-
-Compute instances that should be scanned *must* implement the *Oracle Cloud Agent* and enable the *Vulnerability Scanning plugin*.
-
-**OCI OS Management Service**
-
-Required policy statements for OCI OS Management Service are included in the pcy-service policy.
-
-By default, the *OS Management Service Agent plugin* of the *Oracle Cloud Agent* is enabled and running on current Oracle Linux 6, 7, 8, and 9 platform images.
-
-##### Monitoring, Auditing, and Logging
-
-In accordance with the [CIS Oracle Cloud Infrastructure Foundations Benchmark, v1.2.0, Chapter 3 Logging and Monitoring](https://www.cisecurity.org/cis-benchmarks) the following configurations will be made:
-
--   OCI Audit log retention period set to 365 days.
--   At least one notification topic and subscription to receive monitoring alerts.
--   Notification for Identity Provider changes.
--   Notification for IdP group mapping changes.
--   Notification for IAM policy changes.
--   Notification for IAM group changes.
--   Notification for user changes.
--   Notification for VCN changes.
--   Notification for changes to route tables.
--   Notification for security list changes.
--   Notification for network security group changes.
--   Notification for changes to network gateways.
--   VCN flow logging for all subnets.
--   Write level logging for all Object Storage Buckets.
--   Notification for Cloud Guard detected problems.
--   Notification for Cloud Guard remedied problems.
-
-For IDCS or OCI Identity Domain Auditing events, the respective Auditing API can be used to retrieve all required information.
-
-##### Data Encryption
-
-All data will be encrypted at rest and in transit. Encryption keys can be managed by Oracle or the customer and will be implemented for identified resources.
-
-###### Key Management
-
-All keys for **OCI Block Volume**, **OCI Container Engine for Kubernetes**, **OCI Database**, **OCI File Storage**, **OCI Object Storage**, and **OCI Streaming** are centrally managed in a shared or a private virtual vault will be implemented and placed in the compartment cmp-security.
-
-**Object Storage Security**
-
-For Object Storage security the following guidelines are considered.
-
--   **Access to Buckets** -- Assign least privileged access for IAM users and groups to resource types in the object-family (Object Storage Buckets & Object)
--   **Encryption at rest** -- All data in the Object Storage is encrypted at rest using AES-256 and is on by default. This cannot be turned off and objects are encrypted with a master encryption key.
-
-**Data Residency**
-
-It is expected that data will be held in the respective region and additional steps will be taken when exporting the data to other regions to comply with the applicable laws and regulations. This should be reviewed for every project onboard into the tenancy.
-
-##### Operational Security
-
-**Security Zones**
-
-Whenever possible OCI Security Zones will be used to implement a security compartment for Compute instances or Database resources. For more information on Security Zones refer to the *Oracle Cloud Infrastructure User Guide* chapter on [Security Zones](https://docs.oracle.com/en-us/iaas/security-zone/using/security-zones.htm).
-
-**Remote Access to Compute Instances or Private Database Endpoints**
-
-To allow remote access to Compute Instances or Private Database Endpoints, the OCI Bastion will be implemented for defined compartments.
-
-To be able to use OCI services for OS management, Vulnerability Scanning, Bastion Service, etc. it is highly recommended to implement the Oracle Cloud Agent as documented in the *Oracle Cloud Infrastructure User Guide* chapter [Managing Plugins with Oracle Cloud Agent](https://docs.oracle.com/en-us/iaas/Content/Compute/Tasks/manage-plugins.htm).
-
-##### Network Time Protocol Configuration for Compute Instance
-
-Synchronized clocks are a necessity for securely operating environments. OCI provides a Network Time Protocol (NTP) server using the OCI global IP number 169.254.169.254. All compute instances should be configured to use this NTP service.
-
-##### Regulations and Compliance
-
-\<Customer Name\> is responsible for setting the access rules to services and environments that require stakeholders’ integration into the tenancy to comply with all applicable regulations. Oracle will support in accomplishing this task.
-
-### Functional Architecture (Optional)
-
-*Guide:*
-
-*Provide a brief description of the functional architecture, split into two main areas: application capabilities and data.*
-
-### Logical Architecture (Optional)
-
-*Guide:*
-
-*Use [System Context Diagram](https://online.visual-paradigm.com/knowledge/system-context-diagram/what-is-system-context-diagram/) to show integration for the Workload solution.*
-
-*Provide a high-level logical Oracle solution for the complete Workload. Indicate Oracle products as abstract groups, and not as physical detailed instances. Create an architecture diagram following the latest notation and describe the solution.*
+*To implement a solution the Physical Architecture is needed in the next chapter. The physical notation can show individual components with physical attributes such as IP addresses, hostnames, or sizes.*
 
 *[The Oracle Cloud Notation, OCI Architecture Diagram Toolkits](https://docs.oracle.com/en-us/iaas/Content/General/Reference/graphicsfordiagrams.htm)*
 
@@ -767,9 +656,9 @@ Synchronized clocks are a necessity for securely operating environments. OCI pro
 
 *Guide:*
 
-*The Workload Architecture is typically described in a physical form. This should include all solution components. You do not have to provide solution build or deployment details such as IP addresses.*
+*The solution architecture is typically described in a physical form. This should include all solution components. You do not have to provide solution build or deployment details such as IP addresses.*
 
-*Please describe the solution as a written text. If you have certain specifics you like to explain, you can also use the Solution Consideration chapter to describe the details there.*
+*Please describe the solution with an architecture image plus a written text. If you have certain specifics you like to explain, you can also use the Solution Consideration chapter to describe the details there.*
 
 *[The Oracle Cloud Notation, OCI Architecture Diagram Toolkits](https://docs.oracle.com/en-us/iaas/Content/General/Reference/graphicsfordiagrams.htm)*
 
@@ -779,88 +668,64 @@ Synchronized clocks are a necessity for securely operating environments. OCI pro
 
 *Example:*
 
-![Future State Deployment Diagram - EBS Workload Multi-AD, DR Design Diagram](images/MultiADDR-DeploymentDiagram-V2.pdf)
+![Future State Deployment Diagram - EBS Multi-AD, DR Design Diagram](images/MultiADDR-DeploymentDiagram-V2.pdf)
 
-### Data Architecture (Optional)
-
-*Guide:*
-
-*Show how data is acquired, transported, stored, queried, and secured as in the scope of this Workload. This could include Data Ecosystem Reference Architectures, Master Data Management models, or any other data-centric model.*
-
-## Solution Considerations
+### Solution Considerations
 
 *Guide:*
 
 *Describe certain aspects of your solution in detail. What are the security, resilience, networking, and operations decisions you have taken that are important for your customer?*
 
-### High Availability and Disaster Recovery
+*Typical key considerations are:*
 
-*Reference:*
+-   *High Availability and Disaster Recovery*
+-   *Security*
+-   *Networking*
+-   *Manageability and Observability*
 
--   [Resilliance on OCI](https://docs.public.oneportal.content.oci.oraclecloud.com/en-us/iaas/Content/cloud-adoption-framework/era-resiliency.htm)
--   [Workload Related Content](https://github.com/oracle-devrel/technology-engineering/)
+*Feel free to describe other aspects and important requirements for your customer, and how your solution addresses them in this chapter.*
 
-### Security
+**Security:**
 
-*Guide:*
+*Generic security guidelines are in the [Annex](#security-guidelines)*
 
-*Please describe your solution from a security point of view. Generic security guidelines are in the Annex chapter.*
+**Networking:**
 
-*Example:*
+*If your customers have any or one of the needs described in the guide of the [Network Requirements](#networking-requirements), then the OCI Network Firewall (OCI NFW) is the cloud native solution that provides all of it. It is based on the industry-leading Nextgen firewall solution by Palo Alto (VM-Series). Refer to the Annex for more best practices around deployment models.*
 
-Please see our security guidelines in the [Annex](#security-guidelines).
+*Networking Example*
 
-### Networking
+The OCI Network Firewall can be deployed as a Distributed Network Firewall Model or Transit Network Firewall Model, where the firewall is hosted in the Hub VCN. In general, the OCI Network Firewall can be used to protect North-South traffic (Internet traffic) and/or East-West traffic (internal traffic). As a best practice, we do recommend using one dedicated OCI Network Firewall instance per type of traffic (North-South and East-West) in separated VCNs. This way performance will be maximized as well as ensuring the network isolation between the types of traffic.
 
-*Reference:*
+For more information please follow [this link.](https://docs.oracle.com/en/solutions/oci-network-firewall/index.html#GUID-875E911C-8D7D-4205-952B-5E8FAAD6C6D3)
 
-*A list of possible Oracle solutions can be found in the [Annex](#networking-solutions).*
+**Reliability and Resilience:**
 
-### Operations (Optional)
+*Some useful links for this topic:*
 
-*Guide:*
-
-*In this chapter, we provide a high-level introduction to various operations-related topics around OCI. We do not design, plan, or execute any detailed operations for our customers. We can provide some best practices and workload-specific recommendations.*
-
-*[Please visit our Operations Catalogue for more information, best practices, and examples](https://github.com/oracle-devrel/technology-engineering/tree/main/manageability-and-operations/operations-advisory)*
-
-*The below example text represents the first asset from this catalog PCO#01. Please consider including other assets as well. You can find MD text snippets within each asset.*
-
-*Example:*
-
-This chapter provides an introduction and collection of useful resources, on relevant topics to operate the solution on Oracle Infrastructure Cloud.
-
-| Cloud Operations Topic                     | Short Summary                                                                                                                                                                                                                                                                                                                                                                                                | References                                                                                                                                                                                                  |
-|:-------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Cloud Shared Responsibility Model          | The shared responsibility model conveys how a cloud service provider is responsible for managing the security of the public cloud while the subscriber of the service is responsible for securing what is in the cloud.                                                                                                                                                                                      | [Shared Services Link](https://www.oracle.com/a/ocom/docs/cloud/oracle-ctr-2020-shared-responsibility.pdf)                                                                                                  |
-| Oracle Support Portal                      | Search Oracle knowledge base and engage communities to learn about products, and services, and to find help resolving issues.                                                                                                                                                                                                                                                                                | [Oracle Support Link](https://support.oracle.com/portal/)                                                                                                                                                   |
-| Support Management API                     | Use the Support Management API to manage support requests                                                                                                                                                                                                                                                                                                                                                    | [API Documentation Link](https://docs.oracle.com/en-us/iaas/api/#/en/incidentmanagement/20181231/) and [Other OCI Support Link](https://docs.oracle.com/en-us/iaas/Content/GSG/Tasks/contactingsupport.htm) |
-| OCI Status                                 | Use this link to check the global status of all OCI Cloud Services in all Regions and Availability Domains.                                                                                                                                                                                                                                                                                                  | [OCI Status Link](https://ocistatus.oraclecloud.com/)                                                                                                                                                       |
-| Oracle Incident Response                   | Reflecting the recommended practices in prevalent security standards issued by the International Organization for Standardization (ISO), the United States National Institute of Standards and Technology (NIST), and other industry sources, Oracle has implemented a wide variety of preventive, detective, and corrective security controls with the objective of protecting information assets.          | [Oracle Incident Response Link](https://ocistatus.oraclecloud.com/)                                                                                                                                         |
-| Oracle Cloud Hosting and Delivery Policies | Describe the Oracle Cloud hosting and delivery policies in terms of security, continuity, SLAs, change management, support, and termination.                                                                                                                                                                                                                                                                 | [Oracle Cloud Hosting and Delivery Policies](https://www.oracle.com/us/corporate/contracts/ocloud-hosting-delivery-policies-3089853.pdf)                                                                    |
-| OCI SLAs                                   | Mission-critical workloads require consistent performance, and the ability to manage, monitor, and modify resources running in the cloud at any time. Only Oracle offers end-to-end SLAs covering the performance, availability, and manageability of services. This document applies to Oracle PaaS and IaaS Public Cloud Services purchased and supplements the Oracle Cloud Hosting and Delivery Policies | [OCI SLAs](https://www.oracle.com/cloud/sla/) and [PDF Link](https://www.oracle.com/assets/paas-iaas-pub-cld-srvs-pillar-4021422.pdf)                                                                       |
-
-## Roadmap (Optional)
-
-*Guide:*
-
-*Explain a high-level roadmap for this Workload. Include a few easy high-level steps to success (See Business Context). Include implementation services (if possible) as a first fast step. Add other implementation partners and their work as part of your roadmap as well. Do not include details about the implementation scope or timeline. This is not about product roadmaps.*
+-   [*Resilience on OCI*](https://docs.public.oneportal.content.oci.oraclecloud.com/en-us/iaas/Content/cloud-adoption-framework/era-resiliency.htm)
+-   [*Solution Related Content*](https://github.com/oracle-devrel/technology-engineering/)
 
 ## Sizing and Bill of Materials
 
 *Guide:*
 
-*Estimate and size the physically needed resources of the Workload. The information can be collected and is based upon previously gathered capacities, business user numbers, integration points, or translated existing on-premises resources. The sizing is possibly done with or even without a Physical Architecture. It is okay to make assumptions and to clearly state them!*
+*Estimate and size the physically needed resources of the solution. The information can be collected and is based upon previously gathered capacities, business user numbers, integration points, or translated existing on-premises resources. The sizing is possibly done with or even without a Physical Architecture. It is okay to make assumptions and to clearly state them!*
 
 *Clarify with sales your assumptions and your sizing. Get your sales to finalize the BoM with discounts or other sales calculations. Review the final BoM and ensure the sales are using the correct product SKUs / Part Number.*
 
 *Even if the BoM and sizing were done with the help of Excel between the different teams, ensure that this chapter includes or links to the final BoM as well.*
 
-*WIP*
+*Example:*
 
--   *Revision of existing discovery templates*
--   *Consolidated data gathering sheet (sizing focused)*
--   *Workload-specific sizing process/methodology*
+Production environment:
+
+| Part   | Description       | Part Qty | Instance Qty | Usage Qty | Environment |
+|--------|-------------------|----------|--------------|-----------|-------------|
+|        | Category A        |          |              |           |             |
+| B12345 | Example Service A | 10       | 1            | 1         | Prod        |
+|        | Category B        |          |              |           |             |
+| B98765 | Example Service B | 500      | 1            | 1         | Dev&Test    |
 
 # Project Implementation (Only for Oracle Implementations!)
 
@@ -874,15 +739,15 @@ This chapter provides an introduction and collection of useful resources, on rel
 
 *Example:*
 
-As part of the Oracle \<Service Provider\> Project, any scope needs to be agreed upon by both the customer and Oracle. A scope can change but must be confirmed again by both parties. Oracle can reject scope changes for any reason and may only design and implement a previously agreed scope. A change of scope can change any previously agreed milestone and needs to be technically feasible.
+As part of the Oracle ${doc.config.impl.type} Project, any scope needs to be agreed upon by both the customer and Oracle. A scope can change but must be confirmed again by both parties. Oracle can reject scope changes for any reason and may only design and implement a previously agreed scope. A change of scope can change any previously agreed milestone and needs to be technically feasible.
 
-All items not explicitly stated to be within the scope of the \<Service Provider\> project will be considered out of scope. Oracle recommends the use of professional services to implement extensions or customizations beyond the original scope, as well as to operate the solution, with an Oracle-certified partner.
+All items not explicitly stated to be within the scope of the ${doc.config.impl.type} project will be considered out of scope. Oracle recommends the use of professional services to implement extensions or customizations beyond the original scope, as well as to operate the solution, with an Oracle-certified partner.
 
 ### Overview
 
 *Guide:*
 
-*Describe the scope of the implementation as a sub-set of the Workload scope. For example one environment from one application.*
+*Describe the scope of the implementation as a sub-set of the solution scope. For example one environment from one application.*
 
 *Example:*
 
@@ -897,19 +762,21 @@ All items not explicitly stated to be within the scope of the \<Service Provider
 
 *Example:*
 
-The Oracle \<Service Provider\> service brings several benefits to this project. All the activities mentioned within the scope will ensure the deployment of workload as per Oracle's best practices. As a tried and tested methodology by many customers, Oracle \<Service Provider\> brings the speed of deployment resulting in successful projects without any setbacks. Oracle \<Service Provider\> services will bring value to the overall project provisioning OCI environments for the application workload.
+The Oracle ${doc.config.impl.type} service brings several benefits to this project. All the activities mentioned within the scope will ensure the deployment of workload as per Oracle's best practices. As a tried and tested methodology by many customers, Oracle ${doc.config.impl.type} brings the speed of deployment resulting in successful projects without any setbacks. Oracle ${doc.config.impl.type} services will bring value to the overall project provisioning OCI environments for the application workload.
 
-Oracle Cloud \<Service Provider\> services provide guidance from cloud engineers and project managers on planning, project management, architecting, deploying, and managing cloud migrations.
+Oracle Cloud ${doc.config.impl.type} services provide guidance from cloud engineers and project managers on planning, project management, architecting, deploying, and managing cloud migrations.
 
 ### Success Criteria
 
 *Guide:*
 
-*Technical success criteria for the implementation. As always be S.M.A.R.T: Specific, Measurable, Achievable, Relevant, Timebound. Example: 'Deployment of all OCI resources for the scoped environments in 3 months'.*
+\*Technical success criteria for the implementation. As always be S.M.A.R.T: Specific, Measurable, Achievable, Relevant, Timebound. Example: 'Deployment of all OCI resources for the scoped environments in 3 months'.
+
+The success criteria below are an example - Please replace them with your tailored success criteria.\*
 
 *Example:*
 
-The below-listed success criteria are for the \<Service Provider\> implementation only. Partner activities and success criteria are not listed in this documentation.
+The below-listed success criteria are for the ${doc.config.impl.type} implementation only. Partner activities and success criteria are not listed in this documentation.
 
 -   Finish provisioning of all OCI resources
 -   Establish all required network connectivity
@@ -990,7 +857,7 @@ All items not explicitly stated to be within the scope of the implementation pro
 
 *Guide:*
 
-*Provide a high-level implementation plan. Use phases to communicate an iterative implementation if needed. Include prerequisites in the plan*
+*Provide a high-level implementation plan. Use phases to communicate an iterative implementation if needed. Include prerequisites in the plan.*
 
 #### Phase 1: `<Name>`{=html}
 
@@ -1091,11 +958,11 @@ All items not explicitly stated to be within the scope of the implementation pro
 
 #### Introduction
 
-Following the deployment of the solution to Oracle Cloud Infrastructure by the \<Service Provider\> team, it is important to ensure a smooth handover to a technical team, or a partner. \<Service Provider\> values the continuation of the cloud journey and we focus our efforts to ensure you start with the best possible foundation, to set you up for success in OCI.
+Following the deployment of the solution to Oracle Cloud Infrastructure by the ${doc.config.impl.type} team, it is important to ensure a smooth handover to a technical team, or a partner. ${doc.config.impl.type} values the continuation of the cloud journey and we focus our efforts to ensure you start with the best possible foundation, to set you up for success in OCI.
 
-When \<Service Provider\> completes the deliverables as described in the [Workplan](#workplan) section of this document, \<Service Provider\> will hand over the controls of the new OCI environment.
+When ${doc.config.impl.type} completes the deliverables as described in the [Workplan](#workplan) section of this document, ${doc.config.impl.type} will hand over the controls of the new OCI environment.
 
-\<Customer Name\>, or a partner of your choice, will assume the ownership of the OCI tenancy and responsibility for further development of the OCI environment. From that moment forward, having completed the [Solution Scope](#solution-scope), \<Service Provider\> will disengage. For post-implementation support, Oracle provides you with three distinct resources:
+${doc.customer.name}, or a partner of your choice, will assume the ownership of the OCI tenancy and responsibility for further development of the OCI environment. From that moment forward, having completed the [Solution Scope](#solution-scope), ${doc.config.impl.type} will disengage. For post-implementation support, Oracle provides you with three distinct resources:
 
 1.  Oracle Account Cloud Engineer (ACE) – This is your first point of contact and will provide technical leadership and support for Oracle cloud technologies and your cloud transformation.
 2.  Cloud Adoption Manager (CAM) - Introduces and plans operation monitoring and optimization advisory activities, and continues working with you on the next milestones. Please contact your ACE for further information.
@@ -1103,9 +970,9 @@ When \<Service Provider\> completes the deliverables as described in the [Workpl
 
 #### Transition Acceptance
 
-When \<Service Provider\> completes the deliverables as specified in the [Workplan](#workplan) section of this document, a closure session will be scheduled within 1-2 weeks to recap the project and to hand it over to the accepting party. In the case of this project, the accepting party is \<Customer Name\>. \<Customer Name\> is now responsible for the OCI tenancy.
+When ${doc.config.impl.type} completes the deliverables as specified in the [Workplan](#workplan) section of this document, a closure session will be scheduled within 1-2 weeks to recap the project and to hand it over to the accepting party. In the case of this project, the accepting party is ${doc.config.impl.handover}. ${doc.config.impl.handover} is now responsible for the OCI tenancy.
 
-From this moment forward, the Oracle \<Service Provider\> team will fully remove their access from your OCI tenancy and provide the access credentials to the accepting party. This marks the completion of the \<Service Provider\> project. There is no sign-off signature required.
+From this moment forward, the Oracle ${doc.config.impl.type} team will fully remove their access from your OCI tenancy and provide the access credentials to the accepting party. This marks the completion of the ${doc.config.impl.type} project. There is no sign-off signature required.
 
 # Glossary (Optional)
 
@@ -1140,7 +1007,7 @@ Oracle Cloud Infrastructure (OCI) is designed to protect customer workloads with
 -   [Security Strategy](https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/security-strategy.htm) – To create a successful security strategy and architecture for your deployments on OCI, it's helpful to understand Oracle's security principles and the OCI security services landscape.
 -   The [security pillar capabilities](https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/security.htm#capabilities) reflect fundamental security principles for architecture, deployment, and maintenance. The best practices in the security pillar, help your organization to define a secure cloud architecture, identify and implement the right security controls, and monitor and prevent issues such as configuration drift.
 
-#### References
+### References
 
 -   The Best Practices Framework for OCI provides architectural guidance about how to build OCI services in a secure fashion, based on recommendations in the [Best practices framework for Oracle Cloud Infrastructure](https://docs.oracle.com/en/solutions/oci-best-practices).
 -   Learn more about [Oracle Cloud Security Practices](https://www.oracle.com/corporate/security-practices/cloud/).
@@ -1148,11 +1015,11 @@ Oracle Cloud Infrastructure (OCI) is designed to protect customer workloads with
 
 ### Compliance and Regulations
 
-Cloud computing is fundamentally different from traditionally on-premises computing. In the traditional model, organizations are typically in full control of their technology infrastructure located on-premises (e.g., physical control of the hardware, and full control over the technology stack in production). In the cloud, organizations leverage resources and practices that are under the control of the cloud service provider, while still retaining some control and responsibility over other components of their IT solution. As a result, managing security and privacy in the cloud is often a shared responsibility between the cloud customer and the cloud service provider. The distribution of responsibilities between the cloud service provider and the customer also varies based on the nature of the cloud service (IaaS, PaaS, SaaS).
+Cloud computing is fundamentally different from traditional on-premises computing. In the traditional model, organizations are typically in full control of their technology infrastructure located on-premises (e.g., physical control of the hardware, and full control over the technology stack in production). In the cloud, organizations leverage resources and practices that are under the control of the cloud service provider, while still retaining some control and responsibility over other components of their IT solution. As a result, managing security and privacy in the cloud is often a shared responsibility between the cloud customer and the cloud service provider. The distribution of responsibilities between the cloud service provider and the customer also varies based on the nature of the cloud service (IaaS, PaaS, SaaS).
 
-## Additional Resources
+### Additional Resources
 
--   [Oracle Cloud Compliance](https://www.oracle.com/corporate/cloud-compliance/) – Oracle is committed to helping customers operate globally in a fast-changing business environment and address the challenges of an ever more complex regulatory environment. This site is a primary reference for customers on the Shared Management Model with Attestations and Advisories.
+-   [Oracle Cloud Compliance](https://www.oracle.com/corporate/cloud-compliance/) – Oracle is committed to helping customers operate globally in a fast-changing business environment and address the challenges of an evermore complex regulatory environment. This site is a primary reference for customers on the Shared Management Model with Attestations and Advisories.
 -   [Oracle Security Practices](https://www.oracle.com/corporate/security-practices/) – Oracle’s security practices are multidimensional, encompassing how the company develops and manages enterprise systems, and cloud and on-premises products and services.
 -   [Oracle Cloud Security Practices](https://www.oracle.com/corporate/security-practices/cloud/) documents.
 -   [Contract Documents](https://www.oracle.com/contracts/cloud-services/#online) for Oracle Cloud Services.
@@ -1200,7 +1067,14 @@ The below questions help to identify networking requirements.
 
 ### Security and Access Control
 
--   Are you familiar with the concept of Next-Generation Firewalls (NGFW) and their benefits over traditional firewalls?
+-   Some of the below questions help you to adopt the right sizing and deployment model of the network firewall.
+    -   Does the customer need to protect traffic from VCN to VCN?
+    -   Does the customer need to protect traffic from subnet to subnet in the same VCN?
+    -   When deploying an OCI Network Firewall in a dedicated HUB or secure VCN, do you want to protect inter-VCN traffic and/or inter-subnet traffic from within the same VCN?
+    -   Does the customer need to protect incoming or egressing traffic to the internet?
+    -   Does the customer need to protect internal traffic (including on-premises via IPSEC/FC)?
+    -   Is the network performance critical?
+    -   Does the customer have any requirement on network isolation (i.e., internet traffic never traverses or is mixed with internal traffic)?
 -   Have you considered the importance of protecting your web applications from potential cyber threats using a Web Application Firewall (WAF)?
 
 ### Monitoring and Troubleshooting
@@ -1292,3 +1166,95 @@ Easily create, deploy, and manage Secure Sockets Layer/Transport Layer Security 
 You can monitor the health, capacity, and performance of your Oracle Cloud Infrastructure resources by using metrics, alarms, and notifications. For more information, see [Monitoring](https://docs.oracle.com/iaas/Content/Monitoring/home.htm) and [Notifications](https://docs.oracle.com/en-us/iaas/Content/Notification/home.htm#top).
 
 -   [Networking Metrics](https://docs.oracle.com/en-us/iaas/Content/Network/Reference/networkmetrics.htm)
+
+## Manageability
+
+OCI offers a full set of services to cover all Observability and Monitoring requirements.
+
+![OCI Observability](snippets/observability-and-manageability/manageability-annex/images/OCIObservability.png)
+
+Thanks to AI algorithms the OCI O&M (Observability and Management) solutions offer valuable insights into system status, requirements, and trends. Furthermore, it identifies SQL performance issues. This proactive approach empowers proactive measures to prevent future issues.
+
+### OCI O&M Services List
+
+The observability and management services include the following services:
+
+[Application Performance Monitoring](https://docs.oracle.com/en-us/iaas/Content/connector-hub/overview.htm) offers in-depth insight into application performance and facilitates rapid diagnostics to ensure a reliable level of service. This includes monitoring various components and application logic spread across clients, third-party services, and backend computing tiers, whether on-premises or in the cloud.
+
+[Database Management](https://docs.oracle.com/en-us/iaas/database-management/index.html) provides comprehensive database performance diagnostics and management capabilities to monitor and manage Oracle databases.
+
+[Logging](https://docs.oracle.com/en-us/iaas/Content/Logging/home.htm) lets you enable, view, and manage all the logs in your tenancy and provides access to logs from Oracle Cloud Infrastructure resources. These logs include critical diagnostic information that describes how resources are performing and being accessed.
+
+[Logging Analytics](https://docs.oracle.com/en-us/iaas/logging-analytics/home.htm) is a unified, integrated cloud solution that enables users to monitor, aggregate, index, analyze, search, explore, and correlate all log data from their applications and system infrastructure.
+
+[OCI Monitoring](https://docs.oracle.com/en-us/iaas/Content/Monitoring/home.htm) enables you to query [metrics](https://docs.oracle.com/en-us/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#SupportedServices) and manage [alarms](https://docs.oracle.com/en-us/iaas/Content/Monitoring/Tasks/managingalarms.htm). Metrics and alarms help monitor the health, capacity, and performance of your cloud resources.
+
+[Ops Insights](https://docs.oracle.com/en-us/iaas/operations-insights/index.html) provides a 360-degree insight into the resource utilization and capacity of Oracle Autonomous Databases. You can easily analyze CPU and storage resources, forecast capacity issues, and proactively identify SQL performance issues across a fleet of Autonomous Databases.
+
+[Service Connector Hub](https://docs.oracle.com/en-us/iaas/Content/connector-hub/overview.htm) is a cloud message bus platform that offers a single pane of glass for describing, running, and monitoring interactions for data moving between Oracle Cloud Infrastructure services.
+
+[Stack Monitoring](https://docs.oracle.com/en-us/iaas/stack-monitoring/index.html) enables proactive monitoring of applications and their underlying stack, including application servers and databases. By discovering all components of an application, including the application topology, Stack Monitoring automatically collects status, load, response, error, and utilization metrics for all application components. Each component of the application stack is referred to as a resource.
+
+### Real-Time Monitoring Annex
+
+| Service/Product Name                          | Description                                                                                                                                                                                                                                                                                                                                       | Collateral                                                                                                                                                                                                                                                                           |
+|-----------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Monitoring**                                | OCI Monitoring collects PaaS and IaaS OCI services metrics. It is enabled by default for all the OCI services.                                                                                                                                                                                                                                    | [List of metrics collected by default](https://docs.oracle.com/en-us/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#SupportedServices)                                                                                                                                      |
+| **OCI Application Performance Monitor**       | APM is a Distributed Tracing System as a Service. It enables DevOps teams to follow every step of every task. It uses open standards such as OpenTelemetry to monitor various programming languages. Plus, it includes a dedicated Java agent to track older J2EE applications, ensuring complete transaction tracing even in mixed environments. | [OCI Application Performance Monitoring](https://docs.oracle.com/en-us/iaas/Content/connector-hub/overview.htm)                                                                                                                                                                      |
+| **OCI Console**                               | The Service Console offers a list of visual representations and basic information about critical metrics like CPU, memory, and storage.                                                                                                                                                                                                           | [OCI Console](https://docs.oracle.com/en-us/iaas/Content/GSG/Concepts/console.htm) `</br>`{=html} [Resource Usage Tracking](https://docs.oracle.com/en-us/iaas/Content/General/Concepts/resourcemonitoring.htm)                                                                      |
+| **OCI Database Management (opt to OEM)**      | It is an OCI-managed service that simplifies database operations and enhances efficiency. It offers advanced monitoring and diagnostic capabilities, enabling proactive management and optimization of database performance.                                                                                                                      | [List of metrics collected by OCI Database Management](https://docs.oracle.com/en-us/iaas/database-management/doc/database-management-metrics.html)                                                                                                                                  |
+| **Stack Monitoring**                          | Stack Monitoring lets you proactively monitor an application and its underlying application stack, including application servers and databases.                                                                                                                                                                                                   | [Stack Monitoring for Oracle Database](https://docs.oracle.com/en-us/iaas/stack-monitoring/doc/promotion-and-discovery.html#GUID-633470D8-9FC3-4FD7-A34A-2A7208586AD6)                                                                                                               |
+| **Third-Party Tools - Service Connector Hub** | OCI provides complete O&M capabilities. However, for customers who prefer to use their own tools, OCI allows seamless integration through the Service Connect Hub.                                                                                                                                                                                | [OCI Connector Hub](https://docs.oracle.com/en-us/iaas/Content/connector-hub/overview.htm)`</br>`{=html}`</br>`{=html} [Third-Party Tools Use Cases](https://github.com/oracle-devrel/technology-engineering/tree/main/manageability-and-operations/observability-and-manageability) |
+
+### Performance and Tuning Annex
+
+| Service/Product Name                                 | Description                                                                                                                                                                                                                                                                                                          | Collateral                                                                                                                                                                                                                                                                                                                                                     |
+|------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **OCI Logging**                                      | The OCI Logging service is a highly scalable and fully managed single pane of glass for all the logs in your tenancy. Logging provides access to logs from Oracle Cloud Infrastructure resources. These logs include critical diagnostic information that describes how resources are performing and being accessed. | [OCI Logging](https://docs.oracle.com/en-us/iaas/Content/Logging/home.htm)                                                                                                                                                                                                                                                                                     |
+| **OCI Monitoring**                                   | Use the Oracle Cloud Infrastructure Monitoring service to actively and passively monitor cloud resources using the Metrics and Alarms features. Metric data posted to the Monitoring service is only presented to you or consumed by the Oracle Cloud Infrastructure features that you enable to use metric data.    | [OCI Monitoring](https://docs.oracle.com/en-us/iaas/Content/Monitoring/home.htm)                                                                                                                                                                                                                                                                               |
+| **OCI Dashboard**                                    | The Console Dashboards service allows you to create custom dashboards in the Oracle Cloud Infrastructure Console to monitor resources, diagnostics, and key metrics for your tenancy.                                                                                                                                | [OCI Dashboard](https://docs.oracle.com/en-us/iaas/Content/Dashboards/home.htm)                                                                                                                                                                                                                                                                                |
+| **OCI Logging Analytics**                            | OCI Logging Analytics empowers users to analyze log data from diverse sources across their infrastructure. It provides insights into system performance, identifies trends, and enables proactive resource optimization by correlating data from multiple layers of the infrastructure.                              | [OCI Logging Analytics](https://docs.oracle.com/en-us/iaas/logging-analytics/home.htm)                                                                                                                                                                                                                                                                         |
+| **OCI Application Performance Monitor**              | APM allows to drill down from user sessions till the single DB query or external call to identify performance bottleneck.                                                                                                                                                                                            | [OCI Application Performance Monitoring](https://docs.oracle.com/en-us/iaas/Content/connector-hub/overview.htm)                                                                                                                                                                                                                                                |
+| **OCI Database Management - PerfHub**                | Is an OCI-managed service that offers performance and tuning capabilities. It provides the same performance and tuning features as the Oracle Enterprise Manager (OEM) Performance and Tuning Pack but in a managed solution.                                                                                        | [Database Management Performance Hub](https://docs.oracle.com/en-us/iaas/performance-hub/index.html)                                                                                                                                                                                                                                                           |
+| **Ops Insights Sql Warehouse and Capacity Planning** | OCI Ops Insights allows for the tracking of metrics charts and data collection. It allows for the correlation of resources across various infrastructure layers. Additionally, it predicts high resource utilization for computing and database instances.                                                           | [OCI Operations Insight SQL Warehouse](https://docs.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html#GUID-9F401CEC-8B90-4B0C-AF2B-6780BA3E799D) `</br>`{=html} [OCI Operations Insight Capacity planning](https://docs.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html#GUID-B2A3E104-494B-46A5-9F3E-8E3977C9328F) |
+
+### Administration Annex
+
+| Service/Product Name            | Description                                                                                                                                      | Collateral                                                                                                                  |
+|---------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|
+| **OCI Console**                 | The OCI Console is embedded in all cloud services. It allows basic tasks such as listing, starting, stopping, or termination of ressources.      | [OCI Console](https://docs.oracle.com/en-us/iaas/database-tools/doc/using-oracle-cloud-infrastructure-console.html)         |
+| **OCI Database Management**     | This OCI-managed service allows you to manage your databases. It provides a subset of functionalities offered by the OEM.                        | [Database Management](https://www.oracle.com/it/manageability/database-management/)                                         |
+| **OCI Organization Management** | The OCI Console has several tenancy management features. You can use Organization Management to centrally manage your multi-tenancy environment. | [Organization Management](https://docs.oracle.com/en-us/iaas/Content/General/Concepts/organization_management_overview.htm) |
+
+### Troubleshooting Annex
+
+| Service/Product Name                    | Description                                                                                                                                                                                                                              | Collateral                                                                                                                                                                                                                                                                          |
+|-----------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Logging Analytics**                   | OCI Logging Analytics can handle log events generated by all software applications and infrastructure on the cloud or on-premises. For Oracle software logs, a predefined severity pre-classification exists based on Oracle experience. | [OCI Logging Analytics](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/design/OCI_Open_LZ.pdf) `</br>`{=html} [OCI Logging Analytics for Exa](https://github.com/oracle-quickstart/terraform-oci-open-lz/blob/master/design/OCI_Open_LZ.pdf)                |
+| **OCI Application Performance Monitor** | APM allows to drill down from user sessions till the application logs to find the root cause.                                                                                                                                            | [OCI Application Performance Monitoring](https://docs.oracle.com/en-us/iaas/Content/connector-hub/overview.htm)                                                                                                                                                                     |
+| **OCI Database Management**             | OCI-managed service that allows you to drill down and correlate metrics and data from different layers. it provides built-in links that allow you to connect to other O&M services (ex. Ops Insights).                                   | [Database Management](https://www.oracle.com/it/manageability/database-management/)                                                                                                                                                                                                 |
+| **Ops Insights**                        | OCI Ops Insights allows tracking of metrics charts and data collection. It allows for the correlation of resources from different infrastructure layers.                                                                                 | [OCI Operations Insight](https://docs.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html) `</br>`{=html} [OCI ExaInsight](https://blogs.oracle.com/cloud-infrastructure/post/available-now-exadata-insights-in-oracle-cloud-infrastructure-operations-insights) |
+
+### Cost Control and Chargeback Annex
+
+| Service/Product Name               | Description                                                                                                                                                                                                                                                                                                                                    | Collateral                                                                                                                                                            |
+|------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Ops Insights Capacity Planning** | This OCI-managed service allows one to predict the resource consumption for a year. With tags, you can associate the forecast and the consumption to a specific department.                                                                                                                                                                    | [Operations Insight Capacity Planning](https://docs.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html#GUID-B2A3E104-494B-46A5-9F3E-8E3977C9328F) |
+| **Cost Analysis**                  | Cost Analysis is an easy-to-use visualization tool to help you track and optimize your Oracle Cloud Infrastructure spending. It allows for the generation of charts and the download of accurate and reliable tabular reports of aggregated cost data. With tags, you can associate the forecast and the consumption to a specific department. | [OCI Cost Analysis](https://docs.oracle.com/en-us/iaas/Content/Billing/Concepts/costanalysisoverview.htm) `</br>`{=html}                                              |
+| **Usage RestAPI**                  | OCI offers various RestAPI’s to manage services, including the one for cost management.                                                                                                                                                                                                                                                        | [OCI Usage RestAPI](https://docs.oracle.com/en-us/iaas/Content/Billing/Concepts/costanalysisoverview.htm#cost_analysis_using_the_api) `</br>`{=html}                  |
+
+## Onboarding
+
+Oracle offers a comprehensive onboarding program for new customers, designed to facilitate their initial journey within the OCI (Oracle Cloud Infrastructure) environment. The [OCI Digital Onboarding Home](https://github.com/oracle-devrel/oci-hub/wiki/OCI-Digital-Onboarding-Home) is an excellent starting point for customers to familiarize themselves with OCI. This resource provides a self-guided learning path covering essential aspects such as initial access, cloud console navigation, fundamental resource creation, and implementing security best practices.
+
+The onboarding process continues with a self-service kick-off workshop, tailored for EMEA customers, which includes an extensive playbook. This workshop delves deeper into various topics:
+
+-   An introduction to OCI and its features.
+-   A step-by-step guide to getting started.
+-   A guided tour of the platform.
+-   An overview of live lab sandbox environments for hands-on practice.
+-   Comprehensive best practices encompassing security, reliability, performance optimization, cost management, and monitoring strategies.
+-   A support guide to assist customers with any queries or issues.
+-   A satisfaction survey to gather feedback and ensure an optimal user experience.
+
+This structured approach ensures that new customers receive a well-rounded introduction to OCI, empowering them to make the most of their new tenancy.

@@ -6,7 +6,8 @@ The Data Pump export utility writes the schema objects, including the tables and
 
 A set of best practices and other useful assets/links can be found in this page.
 
-Reviewed: 31.10.2024
+Reviewed: 07.10.2025
+
  
 # Table of Contents
  
@@ -19,30 +20,36 @@ Reviewed: 31.10.2024
     - Detailed best practices guide around Oracle Data Pump export (expdp), available on Marcus Doeringer's public platform
 - [Data Pump: Import Best Practices](https://macsdata.com/oracle/data-pump-best-practices-import)
     - Detailed best practices guide around Oracle Data Pump import (impdp), available on Marcus Doeringer's public platform
-- [Upload Large Data Pump Files to OCI - using OCI CLI Multipart Uploads](https://www.youtube.com/watch?v=9100uKXquic)
-    - YouTube Video by Austine Ouma explaining how to use multipart uploads for large data pump files that need to be uploaded to Oracle Cloud Infrastructure
-- [OCI Cloud Shell Data Pump Import into an Autonomous Database](https://youtu.be/g2mnc6QvOn8)
-    - YouTube Video by Austine Ouma explaining how to perform a Data Pump Import from OCI Cloud Shell to migrate data into an Autonomous Database on OCI
-- [Schema-based Oracle SQL Developer Data Pump Jobs](https://youtu.be/amdl4G_HWYc)
-    - YouTube Video by Austine Ouma explaining how to run schema-based data pump jobs via SQL Developer
-- [SQL Developer Data Pump import into Autonomous Database](https://youtu.be/SWIKvnd2CiY)
-    - YouTube Video by Austine Ouma explaining how to run data pump jobs into Autonomous Database from SQL Developer
-- [Interactive Command Mode with Oracle Data Pump](https://youtu.be/Xm0Dx-P_RCs)
-    - YouTube Video by Austine Ouma explaining how to manage running jobs in Oracle Data Pump
-- [Importing large Data Pump dump files into Oracle Base Database on OCI via OCI Object Storage buckets mounted on the database file system](https://youtu.be/dWlzUMcbbo8)
-    - YouTube Video by Austine Ouma explaining how to import large data pump dump files into Oracle Base Database on OCI via OCI Object Storage buckets mounted on the database file system
-- [OCI Console Data Pump Import Wizard](https://www.youtube.com/watch?v=FZAJezCQjhE)
-    - YouTube Video by Austine Ouma explaining how to use the OCI DB Console Import Wizard to import data into Autonomous Database
+- [Upload Large Data Pump Files to OCI - using OCI CLI Multipart Uploads](https://techrochet.com/use-cli-to-upload-large-data-pump-files-to-oci)
+    - Blog post by Austine Ouma explaining how to use multipart uploads for large data pump files that need to be uploaded to Oracle Cloud Infrastructure
+- [OCI Cloud Shell Data Pump Import into an Autonomous Database](https://techrochet.com/cloud-shell-import-dumps-into-adb)
+    - Blog post by Austine Ouma explaining how to perform a Data Pump Import from OCI Cloud Shell to migrate data into an Autonomous Database on OCI
+- [Import large data pump files on Base DB with the OCIFS Utility](https://techrochet.com/ocifs)
+    - Blog post by Austine Ouma explaining how to mount an Object Storage bucket as a file system on Oracle Linux 8 or 9. When dump files are larger than the default file system
+- [SQL Developer Data Pump import into Autonomous Database](https://techrochet.com/sql-developer-data-pump-import)
+    - Blog post by Austine Ouma explaining how to run data pump jobs into Autonomous Database from SQL Developer
+- [Interactive Command Mode with Oracle Data Pump](https://techrochet.com/data-pump-interactive-command-mode-copy)
+    - Blog Post by Austine Ouma explaining how to manage running jobs in Oracle Data Pump
+- [OCI Console Data Pump Import Wizard](https://techrochet.com/console-data-pump-import-wizard)
+    - Blog Post by Austine Ouma explaining how to use the OCI DB Console Import Wizard to import data into Autonomous Database
 - [A Complete Guide to Migrate your Data to Autonomous Database and Best Practices](https://medium.com/@snoozrocks/a-complete-guide-to-migrate-your-data-to-autonomous-database-and-best-practices-8e5fbdaa26eb)
     - This blog post provides a high-level overview of the steps to migrate data from a source Oracle Database to the Autonomous Database Cloud using Data Pump and OCI Object Storage
-- [Migrate to Oracle Autonomous DB@Azure using Azure blob storage - Video](https://www.youtube.com/watch?v=CtTgweuLG9s)
-    - YouTube video by Mihai Costeanu showing how to import data into Oracle Autonomous DB@Azure using Data Pump and Azure blob storage to store the dump files
 - [Migrate to Oracle Autonomous DB@Azure using Azure blob storage](https://macsdata.com/oracle/data-pump-import-adb-azure-blob-storage)
     - Migration Guide showing how to import data into Oracle Autonomous DB@Azure using Data Pump and Azure blob storage to store the dump files, available on Marcus Doeringer's public platform
 - [Data Pump Log Analyzer](https://github.com/macsdata/data-pump-log-analyzer)
     - The Data Pump Log Analyzer is a powerful Python script designed to parse and analyze Oracle Data Pump log files. The tool provides valuable insights into Data Pump operations key metrics and performance data
 - [Data Pump Log Analyzer: Comprehensive Guide](https://macsdata.com/oracle/data-pump-log-analyzer-guide)
     - The ultimate resource for mastering every option in detail and to unlock the full potential of the Python script, available on Marcus Doeringer's public platform
+- [How to Perform DataPump Import to Oracle 19c Database using Export dumps on OCI Object Storage ?](https://amalrajputhenchira.wordpress.com/2025/01/17/how-to-perform-datapump-import-to-oracle-19c-database-using-export-dumps-on-oci-object-storage/)
+    - Detailed, step-by-step instructions for Performing DataPump Import to Oracle Database 19c with Export dumps on OCI Object Storage , available on Amalraj Puthenchira's public platform
+- [Data Pump Bundle Patch](https://macsdata.com/oracle/data-pump-bundle-patch)
+    - Overview and complete installation walkthrough with examples for 19c and 23ai databases, available on Marcus Doeringer's public platform
+- [Installing DBMS_CLOUD packages in Oracle 23ai (I) and how to use with Data Pump](https://carlosal.wordpress.com/2025/04/01/installing-dbms_cloud-in-oracle-23ai/)
+    - Blog article by Carlos Álvarez showing how easy it is to install DBMS_CLOUD packages in Oracle 23ai and how to export and import with Data Pump to and from Object Storage.
+- [Installing DBMS_CLOUD packages in Oracle 23ai (II) ](https://carlosal.wordpress.com/2025/05/14/installing-dbms_cloud-in-oracle-23ai-ii/)
+    - Blog article by Carlos Álvarez showing how to complete the installation of DBMS_CLOUD packages in Oracle 23ai.
+- [How to Check Data Pump Log Files in Oracle Autonomous Database stored in DATA_PUMP_DIR](https://carlosal.wordpress.com/2025/06/19/how-to-check-data-pump-log-files-in-oracle-autonomous-database-stored-in-data_pump_dir/)
+    - Blog article by Carlos Álvarez about methods to access and examine Data Pump log files generated in the DATA_PUMP_DIR directory from within the Autonomous Database.
 
 # Useful Links
 - [Loading Data from Google Cloud Storage to Oracle Database](https://database-heartbeat.com/2024/10/01/google-storage-to-oracle-database/)
@@ -54,7 +61,7 @@ Reviewed: 31.10.2024
 
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

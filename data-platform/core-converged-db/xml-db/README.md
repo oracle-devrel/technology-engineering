@@ -5,7 +5,7 @@ Oracle XML DB is a set of Oracle Database technologies related to high-performan
 Oracle XML DB and the XMLType abstract data type make Oracle Database XML-aware. Storing XML data as an XMLType column or table lets the database perform XML-specific operations on the content. This includes XML validation and optimization. XMLType storage allows highly efficient processing of XML content in the database. Because there is a broad spectrum of XML usage, there is no one-size-fits-all storage model that offers optimal performance and flexibility for every use case. Oracle XML DB offers different storage models for XMLType, and several indexing methods appropriate to these different storage models. You can tailor performance and functionality to best fit the kind of XML data you have and the ways you use it. Oracle Database Release 23 introduced Transportable Binary XML (TBX) as a storage option, a variant built on top of CSX but without the dependency of a central dictionary.
 Transportable Binary XML is the recommended method for storing XML documents natively in the Oracle Database beginning with Oracle Database 23. 
 
-Reviewed: 02.10.2024
+Reviewed: 19.03.2025
 
 # Useful Links
 
@@ -24,10 +24,13 @@ Reviewed: 02.10.2024
 
 - [Transportable Binary XML – modern XML document storage in Oracle Database 23c](https://blogs.oracle.com/database/post/transportable-binary-xml-in-oracle-database-23)
 - [Loading XML data from your object store into Autonomous Database](https://blogs.oracle.com/datawarehousing/post/loading-xml-data-from-your-object-store-into-autonomous-database)
+- [DBMS_XMLSCHEMA_UTIL for XML schema validation](https://blogs.oracle.com/coretec/post/dbmsxmlschemautil-for-xml-schema-validation)
   
 ## Videos
 
 - [Oracle XML DB in Oracle Database 19c and 23c](https://www.youtube.com/watch?v=s1Bc8KKLbpw)
+- [Search in TEXT, XML, and JSON data](https://youtu.be/zmR9zq1zMJQ)
+- [Data Types in 23ai - BOOLEAN, VECTOR, JSON, and XMLTYPE](https://youtu.be/D9vNdkmyc4k)
 
 ## Oracle LiveSQL and LiveLabs Workshops
 
@@ -37,6 +40,6 @@ Reviewed: 02.10.2024
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.

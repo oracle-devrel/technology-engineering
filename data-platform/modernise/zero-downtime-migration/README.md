@@ -2,7 +2,7 @@
  
 Oracle Zero Downtime Migration (ZDM) is the Oracle Maximum Availability Architecture (MAA)-recommended solution to migrate Oracle Databases to the Oracle Cloud. ZDM automates the entire migration process, reducing the chance of human errors and providing zero to negligible downtime for the production system.
 
-Reviewed: 08.11.2024 
+Reviewed: 07.10.2025 
 
 # Table of Contents
  
@@ -17,6 +17,8 @@ Reviewed: 08.11.2024
     - Red Hot Webinar delivered by Amalraj Puthenchira and Carlos Alvarez capturing an in depth description of Zero Downtime Migration - features, functionality, use-cases and technical demonstration
 - [Migrate your Oracle Database to OCI using ZDM (Zero-Downtime Migration) - Cloud Coaching Webinar](https://www.youtube.com/watch?v=SXb7KVZjpV8)
     - Cloud Coaching Webinar, including a technical demonstration, delivered by Amalraj Puthenchira and Bilegt Bat Ochir around the use of ZDM for efficient migration into OCI.
+- [Fast-track your Journey to AI with Oracle and Azure (Migration to Oracle ADB23ai@Azure using Zero-Downtime Migration Logical Online) - Developer Coaching Webinar](https://www.youtube.com/watch?v=SanGj96PoxI)
+    - Developer Coaching Webinar, including a technical demonstration, delivered by Mihai Costeanu and Emiel Ramakers around the use of ZDM for efficient migration to Oracle ADB23ai@Azure .
 
 ## Technical Guides
 
@@ -34,6 +36,8 @@ Reviewed: 08.11.2024
     - Detailed, step-by-step instructions for performing logical offline migration to Autonomous Database Dedicated using NFS as data transfer medium, available on Amalraj Puthenchira's public platform
 - [ZDM: Logical Online Migration to Autonomous Database Dedicated ](https://wordpress.com/post/amalrajputhenchira.wordpress.com/170)
     - Detailed, step-by-step instructions for performing logical online migration to Autonomous Database Dedicated using NFS as data transfer medium, available on Amalraj Puthenchira's public platform
+- [ZDM: Migration to Exadata Database Service on Dedicated Infrastructure with Cloud Native DR ](https://amalrajputhenchira.wordpress.com/2025/08/04/oracle-zero-downtime-migration-to-exadata-database-service-on-dedicated-infrastructure-with-cloud-native-dr/)
+    - Detailed, step-by-step instructions for performing Physical online migration to Exadata Database Service on Dedicated Infrastructure with Cloud Native DR , available on Amalraj Puthenchira's public platform
 
 ## LiveLabs Workshops
 - [Zero Downtime Migration: Physical Offline Migration to Co-Managed Databases in OCI](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=3568)
@@ -58,13 +62,16 @@ Reviewed: 08.11.2024
 - [Database@Azure - Video: Migrate Oracle Databases to ExaDB-D](https://www.youtube.com/watch?v=1fDDGlb7y7Y)
 - [Database@Azure - Blog: Overview of Oracle ZDM Migration Workflows to ExaDB-D](https://blogs.oracle.com/maa/post/overview-of-oracle-zdm-migration-workflows-to-exadata-database-service-on-oracle-databaseazure)
 - [Database@Azure - Blog: Oracle ZDM Migration to Autonomous Database](https://blogs.oracle.com/maa/post/oracle-zdm-to-autonomous-database-on-azure)
+- [Database@Azure - Video: Oracle ZDM Logical Online Migration to Autonomous Database@Azure](https://www.youtube.com/watch?v=SanGj96PoxI)
+- [Database@Azure - Exploring NFS Storage Options](https://blogs.oracle.com/maa/post/nfs-options-zdm-migration-oracle-database-azure)
 - [Database@Google - Video: Migrate Oracle Databases to ExaDB-D](https://www.youtube.com/watch?v=GQ5xXXS3bRc)
 - [Database@Google - Technical Brief: Physical Online Migration to ExaDB-D](https://www.oracle.com/a/otn/docs/database/zdm-physical-online-migration-to-oracle-at-google.pdf)
 - [Database@Google - Blog: Overview of Oracle ZDM Migration Workflows](https://blogs.oracle.com/maa/post/oracle-zdm-to-oracle-database-at-google-cloud)
+- [Database@Google - Exploring NFS Storage Options](https://blogs.oracle.com/maa/post/nfs-options-zdm-migration-oracle-database-gcp)
 
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

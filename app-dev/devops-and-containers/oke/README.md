@@ -51,6 +51,7 @@ Reviewed: 20.12.2023
 - [Selecting a cloud native microservice framework](https://louwersj.medium.com/selecting-a-cloud-native-microservice-framework-9974e9534da1)
 - [Deploying a spring boot microservice in K8s](https://techdozo.dev/deploying-a-restful-spring-boot-microservice-on-kubernetes/)
 - [Collection of Labs](https://oracle.github.io/cloudtestdrive/AppDev/cloud-native/livelabs/)
+- [OKE policies](./oke-policies/policies.md)
  
 # Reusable Assets Overview
  
@@ -59,7 +60,7 @@ Reviewed: 20.12.2023
  
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

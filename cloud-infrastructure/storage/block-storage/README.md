@@ -4,7 +4,7 @@ High-performance block storage at any scale.
 
 We've designed our storage platform as an ideal complement to Oracle compute and networking services to support the highest performance requirements. OCI Block Volume uses the latest NVMe SSDs and provides nonblocking network connectivity to every host. Oracle delivers a consistent, low-latency performance of up to 225 IOPS/GB to a maximum of 300,000 IOPS and 2,680 MB/sec of throughput per volume.
 
-Reviewed: 18.11.2024
+Reviewed: 03.12.2024
 
 # Table of Contents
 
@@ -46,7 +46,7 @@ Reviewed: 18.11.2024
 
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
