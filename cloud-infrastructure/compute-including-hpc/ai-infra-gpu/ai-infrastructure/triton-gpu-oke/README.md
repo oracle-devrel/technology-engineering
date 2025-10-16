@@ -2,7 +2,7 @@
 
 This repository intends to demonstrate how to deploy NVIDIA Triton Inference Server on Oracle Kubernetes Engine (OKE) with TensorRT-LLM Backend in order to server Large Language Models (LLMs) in a Kubernetes architecture.
 
-Reviewed 23.05.2024
+Reviewed 16.10.2025
 
 # When to use this asset?
 

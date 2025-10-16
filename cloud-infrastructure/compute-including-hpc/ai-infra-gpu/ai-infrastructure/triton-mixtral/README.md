@@ -2,7 +2,7 @@
 
 This repository provides a step-by-step tutorial for deploying and using Mixtral 8x7B Large Language Model using the NVIDIA Triton Inference Server and the TensorRT-LLM backend.
 
-Reviewed: 23.05.2024
+Reviewed: 16.10.2025
 
 # When to use this asset?
 
