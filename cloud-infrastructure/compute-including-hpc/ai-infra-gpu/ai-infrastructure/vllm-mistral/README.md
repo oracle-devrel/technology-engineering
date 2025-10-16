@@ -2,7 +2,7 @@
 
 This repository provides a step-by-step tutorial for deploying and using [Mistral 7B Instruct](https://mistral.ai/technology/#models) Large Language Model using the [vLLM](https://github.com/vllm-project/vllm?tab=readme-ov-file) library.
 
-Reviewed: 23.05.2024
+Reviewed: 16.10.2025
 
 # When to use this asset?
 

@@ -4,7 +4,7 @@ This repository provides a step-by-step deployment of DeepSpeed training for Lar
 
 This setup includes a tuned DeepSpeed configuration (`tuned_ds_config.json`) that provides up to **13% performance improvement** over standard configurations.
 
-Reviewed: 06.06.2025
+Reviewed: 16.10.2025
 # When to use this asset?
 
 Use this asset when you need to:
