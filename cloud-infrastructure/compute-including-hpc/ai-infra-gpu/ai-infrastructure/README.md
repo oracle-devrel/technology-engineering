@@ -2,7 +2,7 @@
 
 This repository contains detailed information related to Oracle Cloud Infrastructure GPU compute instances.
 
-Reviewed: 16.10.202
+Reviewed: 16.10.2025
 
 # Table of Contents
 
