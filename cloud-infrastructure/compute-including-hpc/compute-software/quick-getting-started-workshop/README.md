@@ -2,7 +2,7 @@
 
 This section includes a Hands-on Lab manual for the OCI Getting Started Workshop.
 
-Reviewed: 25.10.2024
+Reviewed: 16.10.2025
 
 # When to use this asset?
 
@@ -14,7 +14,7 @@ The details can be found in the files folder.
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

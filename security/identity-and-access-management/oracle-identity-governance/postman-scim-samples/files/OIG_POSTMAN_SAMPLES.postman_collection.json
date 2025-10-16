@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "2b5ecb24-88a5-4390-8246-0b848f6c6050",
 		"name": "OIG_POSTMAN_SAMPLES",
-		"description": "Copyright (c) 2023 Oracle and/or its affiliates.\n\nLicensed under the Universal Permissive License (UPL), Version 1.0.\n\nSee https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE for more details.",
+		"description": "Copyright (c) 2025 Oracle and/or its affiliates.\n\nLicensed under the Universal Permissive License (UPL), Version 1.0.\n\nSee https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE for more details.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -219,7 +219,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"schemas\":\r\n  [\r\n    \"urn:ietf:params:scim:schemas:core:2.0:User\",\r\n    \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\",\r\n    \"urn:ietf:params:scim:schemas:extension:oracle:2.0:OIG:User\"\r\n  ],\r\n  \"userName\": \"{{login}}\",\r\n  \"name\": {\r\n    \"familyName\": \"{{lastname}}\",\r\n    \"givenName\": \"{{firstname}}\"\r\n  },\r\n  \"displayName\": \"{{firstname}} {{lastname}}\",\r\n  \"emails\":\r\n  [\r\n    {\r\n      \"value\": \"{{email}}\",\r\n      \"type\": \"work\"\r\n    }\r\n  ],\r\n  \"userType\": \"{{emptype}}\",\r\n    \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\":\r\n  {\r\n    \"manager\":\r\n    {\r\n      \"value\": \"{{manager_id}}\",\r\n      \"$ref\": \"http://{{host}}:{{port}}/iam/governance/scim/v1/Users/{{manager_id}}\"\r\n    }\r\n  },\r\n  \"urn:ietf:params:scim:schemas:extension:oracle:2.0:OIG:User\":\r\n  {\r\n    \"startDate\": \"{{startdate}}\",\r\n    \"homeOrganization\":\r\n    {\r\n      \"value\": {{organization_id}},\r\n      \"$ref\": \"http://{{host}}:{{port}}/iam/governance/scim/v1/Organizations/{{organization_id}}\"\r\n    }\r\n  }\r\n}"
+					"raw": "{\r\n  \"schemas\":\r\n  [\r\n    \"urn:ietf:params:scim:schemas:core:2.0:User\",\r\n    \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\",\r\n    \"urn:ietf:params:scim:schemas:extension:oracle:2.0:OIG:User\"\r\n  ],\r\n  \"userName\": \"{{login}}\",\r\n  \"name\": {\r\n    \"familyName\": \"{{lastname}}\",\r\n    \"givenName\": \"{{firstname}}\"\r\n  },\r\n  \"displayName\": \"{{firstname}} {{lastname}}\",\r\n  \"emails\":\r\n  [\r\n    {\r\n      \"value\": \"{{email}}\",\r\n      \"type\": \"work\"\r\n    }\r\n  ],\r\n  \"userType\": \"{{emptype}}\",\r\n    \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\":\r\n  {\r\n    \"manager\":\r\n    {\r\n      \"value\": \"{{manager_id}}\",\r\n      \"$ref\": \"http://{{host}}:{{port}}/iam/governance/scim/v1/Users/{{manager_id}}\"\r\n    }\r\n  },\r\n  \"urn:ietf:params:scim:schemas:extension:oracle:2.0:OIG:User\":\r\n  {\r\n    \"startDate\": \"{{startdate}}\",\r\n    \"homeOrganization\":\r\n    {\r\n      \"value\": \"{{organization_id}}\",\r\n      \"$ref\": \"http://{{host}}:{{port}}/iam/governance/scim/v1/Organizations/{{organization_id}}\"\r\n    }\r\n  }\r\n}"
 				},
 				"url": {
 					"raw": "http://{{host}}:{{port}}/iam/governance/scim/v1/Users",

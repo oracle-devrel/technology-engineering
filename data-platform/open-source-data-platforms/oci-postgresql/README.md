@@ -13,12 +13,14 @@ OCI Database with PostgreSQL is designed for high availability by offering durab
 3. [Reusable Assets](#reusable-assets)
 
 # Team Publications
-
+- [Automate Cold Disaster Recovery for OCI Database with PostgreSQL using OCI Full Stack Disaster Recovery
+](https://docs.oracle.com/en/learn/full-stack-dr-pgsql-cold-dr/#introduction)
 - [Migrate to OCI PostgreSQL Database with OCI GoldenGate](https://blogs.oracle.com/dataintegration/post/seamlessly-migrate-an-onpremise-postgresql-database-to-oci-database-with-postgresql-online-with-oci-goldengate)
 - [OCI PostgreSQL to OCI PostgreSQL cross-region replication with OCI GoldenGate — Part 1](https://medium.com/@devpiotrekk/oci-postgresql-to-oci-postgresql-cross-region-replication-with-oci-goldengate-introduction-e0492fc37b92)
 - [OCI PostgreSQL to OCI PostgreSQL cross-region replication with OCI GoldenGate — Part 2](https://medium.com/@devpiotrekk/oci-postgresql-to-oci-postgresql-cross-region-replication-with-oci-goldengate-oci-postgresql-d4fcffc47498)
 - [OCI PostgreSQL to OCI PostgreSQL cross-region replication with OCI GoldenGate — Part 3](https://medium.com/@devpiotrekk/oci-postgresql-to-oci-postgresql-cross-region-replication-with-oci-goldengate-oci-goldengate-4ccd5dea4d6c)
 - [OCI PostgreSQL replication with pglogical](https://medium.com/@devpiotrekk/replicating-oci-database-with-postgresql-using-pglogical-118182ff08f9)
+- [OCI PostgreSQL vector search with pgvector - Part 1](https://medium.com/@devpiotrekk/vector-search-with-pgvector-and-oci-database-with-postgresql-part-1-0915e5296148)
 
 # Useful Links
 
@@ -32,11 +34,14 @@ OCI Database with PostgreSQL is designed for high availability by offering durab
 
 - [Create a connection between OCI PostgreSQL and Oracle Analytics Cloud](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-postgresql/code-examples/connect-to-oac)
 When you are looking to establish an OCI PostgreSQL instance, connect to it, and connect to Oracle Analytics Cloud, use these steps to guide you. The steps include using DBeaver to create a new table and load data, create an OCI PostgreSQL instance, connect to it, and connect the instance as source to Oracle Analytics Cloud.
-
+- [Send notifications based on pg_stat_activity in OCI PostgreSQL](https://github.com/andreumdorokhinum/oci_pg_stat_activity)
+- [GitLab & Standalone Managed PostgreSQL on OCI](https://github.com/andreumdorokhinum/oci_pg_with_gitlab)
+- [Use CRON as scheduler for OCI PostgreSQL](https://github.com/andreumdorokhinum/oci_pg_with_unix_cron)
+- [Integrate Geoserver and PostGIS using OCI Database with PostgreSQL](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-postgresql/code-examples/postgis-geoserver)
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

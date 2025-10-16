@@ -2,7 +2,7 @@
 
 We have 2 slides - longer and shorter formats
 
-Reviewed: 30.10.2024
+Reviewed: 10.10.2025
 
 # When to use this asset?
 
@@ -11,10 +11,6 @@ These documents can be used as reusable assets on different technologies around 
 # How to use this asset?
 
 The information is generic and not specified for a particular customer. Appropriate changes in scope should be updated.
-
-# Useful Links
-
- - [Oracle Cloud Infrastructure (OCI) Basic Workshop](https://learn.oracle.com/ols/event/oracle-cloud-infrastructure-oci-basic-workshop/89350/126248/197976)
  
 ## Blogs
  
@@ -27,7 +23,7 @@ The information is generic and not specified for a particular customer. Appropri
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

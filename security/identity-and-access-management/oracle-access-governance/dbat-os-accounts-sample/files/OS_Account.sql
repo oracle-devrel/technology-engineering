@@ -1,0 +1,113 @@
+/*******************************************************************************
+ * Copyright (c) 2025 Oracle and/or its affiliates. All rights reserved. DO NOT
+ * ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * The Universal Permissive License (UPL), Version 1.0
+ *
+ * Subject to the condition set forth below, permission is hereby granted to any
+ * person obtaining a copy of this software, associated documentation and/or
+ * data (collectively the "Software"), free of charge and under any and all
+ * copyright rights in the Software, and any and all patent rights owned or
+ * freely licensable by each licensor hereunder covering either (i) the
+ * unmodified Software as contributed to or provided by such licensor, or (ii)
+ * the Larger Works (as defined below), to deal in both
+ *
+ * (a) the Software, and
+ *
+ * (b) any piece of software and/or hardware listed in the lrgrwrks.txt file if
+ * one is included with the Software each a "Larger Work" to which the Software
+ * is contributed by such licensors),
+ *
+ * without restriction, including without limitation the rights to copy, create
+ * derivative works of, display, perform, and distribute the Software and make,
+ * use, sell, offer for sale, import, export, have made, and have sold the
+ * Software and the Larger Work(s), and to sublicense the foregoing rights on
+ * either these or other terms.
+ *
+ * This license is subject to the following condition:
+ *
+ * The above copyright notice and either this complete permission notice or at a
+ * minimum a reference to the UPL must be included in all copies or substantial
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *******************************************************************************/
+
+CREATE TABLE OS_ACCOUNT
+  (USERID VARCHAR2(255 BYTE) NOT NULL ENABLE,
+   USERNAME VARCHAR2(255 BYTE) NOT NULL ENABLE,
+   FIRSTNAME VARCHAR2(255 BYTE),
+   LASTNAME VARCHAR2(255 BYTE),
+   PASSWORD VARCHAR2(255 BYTE),
+   EMAIL VARCHAR2(255 BYTE) NOT NULL ENABLE,
+   PROVISIONDATE DATE,
+   STATUS VARCHAR2(32 BYTE),
+   CONSTRAINT OSACCOUNT_PK PRIMARY KEY (USERID));
+
+CREATE TABLE OS_HOST
+  (HOSTID VARCHAR2(255 BYTE) NOT NULL ENABLE,
+   HOSTNAME VARCHAR2(255 BYTE) NOT NULL ENABLE,
+   CONSTRAINT OSHOSTS_PK PRIMARY KEY (HOSTID));
+
+CREATE TABLE OS_ACCOUNT_HOST
+  (USERID VARCHAR2(255 BYTE) NOT NULL ENABLE,
+   HOSTID VARCHAR2(255 BYTE) NOT NULL ENABLE,
+   CONSTRAINT OSACCOUNTHOST_PK PRIMARY KEY (USERID, HOSTID),
+   CONSTRAINT OSACCOUNT_FK FOREIGN KEY(USERID) REFERENCES OS_ACCOUNT(USERID) ON DELETE CASCADE,
+   CONSTRAINT OSHOST_FK FOREIGN KEY(HOSTID) REFERENCES OS_HOST(HOSTID) ON DELETE CASCADE);
+
+/* NOTE: Below entries are provided as sample/reference only.
+         Included names and dates are randomly generated and used fictitiously.
+         Any resemblance to locales or persons, living or dead, is entirely coincidental. */
+
+INSERT INTO OS_ACCOUNT (USERID,USERNAME,FIRSTNAME,LASTNAME,PASSWORD,EMAIL,PROVISIONDATE,STATUS) VALUES ('BFRANK','BFRANK','Bernd','Frank','','bernd.frank@example.com',to_date('24-OCT-24','DD-MON-RR'),'ACTIVE');
+INSERT INTO OS_ACCOUNT (USERID,USERNAME,FIRSTNAME,LASTNAME,PASSWORD,EMAIL,PROVISIONDATE,STATUS) VALUES ('DSTAUSS','DSTAUSS','Dirk','Stauss','','dirk.stauss@example.com',to_date('24-OCT-24','DD-MON-RR'),'ACTIVE');
+INSERT INTO OS_ACCOUNT (USERID,USERNAME,FIRSTNAME,LASTNAME,PASSWORD,EMAIL,PROVISIONDATE,STATUS) VALUES ('DJONES','DJONES','Dora','Jones','','dora.jones@example.com',to_date('24-OCT-24','DD-MON-RR'),'ACTIVE');
+INSERT INTO OS_ACCOUNT (USERID,USERNAME,FIRSTNAME,LASTNAME,PASSWORD,EMAIL,PROVISIONDATE,STATUS) VALUES ('EBRANDT','EBRANDT','Ewald','Brandt','','ewald.brandt@example.com',to_date('24-OCT-24','DD-MON-RR'),'ACTIVE');
+INSERT INTO OS_ACCOUNT (USERID,USERNAME,FIRSTNAME,LASTNAME,PASSWORD,EMAIL,PROVISIONDATE,STATUS) VALUES ('GKLEIN','GKLEIN','Gerrit','Klein','','gerrit.klein@example.com',to_date('24-OCT-24','DD-MON-RR'),'ACTIVE');
+INSERT INTO OS_ACCOUNT (USERID,USERNAME,FIRSTNAME,LASTNAME,PASSWORD,EMAIL,PROVISIONDATE,STATUS) VALUES ('GVOGT','GVOGT','Gitta','Vogt','','gitta.vogt@example.com',to_date('24-OCT-24','DD-MON-RR'),'ACTIVE');
+INSERT INTO OS_ACCOUNT (USERID,USERNAME,FIRSTNAME,LASTNAME,PASSWORD,EMAIL,PROVISIONDATE,STATUS) VALUES ('HSCHUMACHER','HSCHUMACHER','Helene','Schumacher','','helene.schumacher@example.com',to_date('24-OCT-24','DD-MON-RR'),'ACTIVE');
+INSERT INTO OS_ACCOUNT (USERID,USERNAME,FIRSTNAME,LASTNAME,PASSWORD,EMAIL,PROVISIONDATE,STATUS) VALUES ('LSCHULTE','LSCHULTE','Lothur','Schulte','','lothur.schulte@example.com',to_date('24-OCT-24','DD-MON-RR'),'ACTIVE');
+INSERT INTO OS_ACCOUNT (USERID,USERNAME,FIRSTNAME,LASTNAME,PASSWORD,EMAIL,PROVISIONDATE,STATUS) VALUES ('LDERICHS','LDERICHS','Lutz','Derichs','','lutz.derichs@example.com',to_date('24-OCT-24','DD-MON-RR'),'ACTIVE');
+INSERT INTO OS_ACCOUNT (USERID,USERNAME,FIRSTNAME,LASTNAME,PASSWORD,EMAIL,PROVISIONDATE,STATUS) VALUES ('RPROTZ','RPROTZ','Rosemarie','Protz','','rosemarie.protz@example.com',to_date('24-OCT-24','DD-MON-RR'),'ACTIVE');
+INSERT INTO OS_ACCOUNT (USERID,USERNAME,FIRSTNAME,LASTNAME,PASSWORD,EMAIL,PROVISIONDATE,STATUS) VALUES ('WSCHUBERT','WSCHUBERT','Wolf','Schubert','','wolf.schubert@example.com',to_date('24-OCT-24','DD-MON-RR'),'ACTIVE');
+
+INSERT INTO OS_HOST (HOSTID,HOSTNAME) VALUES ('host001','unixhost1');
+INSERT INTO OS_HOST (HOSTID,HOSTNAME) VALUES ('host002','unixhost2');
+INSERT INTO OS_HOST (HOSTID,HOSTNAME) VALUES ('host003','linuxhost1');
+INSERT INTO OS_HOST (HOSTID,HOSTNAME) VALUES ('host004','linuxhost2');
+
+INSERT INTO OS_ACCOUNT_HOST (USERID,HOSTID) VALUES ('BFRANK','host001');
+INSERT INTO OS_ACCOUNT_HOST (USERID,HOSTID) VALUES ('BFRANK','host002');
+INSERT INTO OS_ACCOUNT_HOST (USERID,HOSTID) VALUES ('BFRANK','host003');
+INSERT INTO OS_ACCOUNT_HOST (USERID,HOSTID) VALUES ('DJONES','host001');
+INSERT INTO OS_ACCOUNT_HOST (USERID,HOSTID) VALUES ('DJONES','host002');
+INSERT INTO OS_ACCOUNT_HOST (USERID,HOSTID) VALUES ('DJONES','host003');
+INSERT INTO OS_ACCOUNT_HOST (USERID,HOSTID) VALUES ('DSTAUSS','host001');
+INSERT INTO OS_ACCOUNT_HOST (USERID,HOSTID) VALUES ('DSTAUSS','host003');
+INSERT INTO OS_ACCOUNT_HOST (USERID,HOSTID) VALUES ('EBRANDT','host001');
+INSERT INTO OS_ACCOUNT_HOST (USERID,HOSTID) VALUES ('EBRANDT','host003');
+INSERT INTO OS_ACCOUNT_HOST (USERID,HOSTID) VALUES ('GKLEIN','host001');
+INSERT INTO OS_ACCOUNT_HOST (USERID,HOSTID) VALUES ('GKLEIN','host003');
+INSERT INTO OS_ACCOUNT_HOST (USERID,HOSTID) VALUES ('GKLEIN','host004');
+INSERT INTO OS_ACCOUNT_HOST (USERID,HOSTID) VALUES ('GVOGT','host001');
+INSERT INTO OS_ACCOUNT_HOST (USERID,HOSTID) VALUES ('GVOGT','host003');
+INSERT INTO OS_ACCOUNT_HOST (USERID,HOSTID) VALUES ('HSCHUMACHER','host001');
+INSERT INTO OS_ACCOUNT_HOST (USERID,HOSTID) VALUES ('HSCHUMACHER','host003');
+INSERT INTO OS_ACCOUNT_HOST (USERID,HOSTID) VALUES ('LDERICHS','host001');
+INSERT INTO OS_ACCOUNT_HOST (USERID,HOSTID) VALUES ('LDERICHS','host003');
+INSERT INTO OS_ACCOUNT_HOST (USERID,HOSTID) VALUES ('LSCHULTE','host001');
+INSERT INTO OS_ACCOUNT_HOST (USERID,HOSTID) VALUES ('LSCHULTE','host003');
+INSERT INTO OS_ACCOUNT_HOST (USERID,HOSTID) VALUES ('RPROTZ','host001');
+INSERT INTO OS_ACCOUNT_HOST (USERID,HOSTID) VALUES ('RPROTZ','host003');
+INSERT INTO OS_ACCOUNT_HOST (USERID,HOSTID) VALUES ('RPROTZ','host004');
+INSERT INTO OS_ACCOUNT_HOST (USERID,HOSTID) VALUES ('WSCHUBERT','host001');
+INSERT INTO OS_ACCOUNT_HOST (USERID,HOSTID) VALUES ('WSCHUBERT','host003');
+
+COMMIT;

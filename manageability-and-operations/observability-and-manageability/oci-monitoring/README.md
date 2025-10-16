@@ -2,7 +2,7 @@
 
 Use Monitoring to query metrics and manage alarms. Metrics and alarms help monitor the health, capacity, and performance of your cloud resources.
 
-Reviewed: 25.11.2024
+Reviewed: 01.07.2025
 
 # Table of Contents
 
@@ -26,7 +26,7 @@ Reviewed: 25.11.2024
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
