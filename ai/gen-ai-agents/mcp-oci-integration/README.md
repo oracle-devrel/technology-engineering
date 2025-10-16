@@ -8,6 +8,10 @@ This repository contains code and examples to help in the following tasks:
 * **Integrate** MCP Servers with OCI **APM** for **Observability**
 * **how-to** create a **docker** image for your MCP server
 
+**Author**: L. Saetta
+
+**Reviewed**: 15.10.2025
+
 ![MCP console](./images/mcp_cli.png)
 
 ## What is MCP?
@@ -51,7 +55,7 @@ The code is available [here](./mcp_semantic_search_with_iam.py).
 
 Access to Oracle 23AI Vector Search is through the **new** [langchain-oci integration library](https://github.com/oracle/langchain-oracle)
 
-## Adding security
+## Adding Security
 If you want to put your **MCP** server in production, you need to add security, at several levels.
 
 Just to mention few important points:
@@ -84,4 +88,22 @@ An example is [here](./mcp_selectai.py)
 
 For **Select AI** configuration, see [here](./configure_select_ai.md)
 
+## OCI Consumption Analysis
+Another use case demonstrated in this set of demos is leveraging an AI Assistant powered by MCP servers to analyze the **OCI tenant consumption** in a natural and interactive way.
+
+Using the [MCP Consumption Server](./mcp_consumption.py), you can explore various dimensions of consumption and ask questions such as:
+* List the top 10 services by total amount for a given period (start_date, end_date).
+* List the top 10 compartments by total consumption.
+* For a specific service (or list of services), show the consumption breakdown across the top 5 compartments.
+
+The key advantage of this approach is that you don’t need to export or replicate data into a Data Warehouse (DWH) — all information is retrieved directly from the OCI Usage API in real time.
+
+How to Use:
+* Configure your OCI credentials.
+* Start the MCP Consumption Server
+* Launch the AI Assistant
+* Point the Assistant to the MCP URL (or to your MCP Aggregator).
+
+### Security (Optional)
+You can enhance security by placing the MCP server behind an OCI API Gateway and enabling JWT-based authentication using OCI IAM.
 
