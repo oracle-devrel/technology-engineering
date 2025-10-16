@@ -2,7 +2,7 @@
  
 FastConnect How-to guide: Step by step guide to create a FC connection with MegaPort
 
-Reviewed: 30.10.2024
+Reviewed: 10.10.2025
  
 # When to use this asset?
  
@@ -18,7 +18,7 @@ This document can be used to deploy FC when the provider is Megaport
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

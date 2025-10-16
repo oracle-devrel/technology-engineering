@@ -1,10 +1,19 @@
 # Data Transforms
  
-Data Transforms is an easy-to-use graphical user interface that Oracle Autonomous Database users can use to design graphical data transformations for data integration.
+Data Transforms is an easy-to-use graphical user interface that Oracle Autonomous Database and OCI Goldengate users can use to design graphical data transformations for data integration.
 
 Data Transforms allows you to design data transformations in the form of data loads, data flows, and workflows, without requiring you to write any code. Data Load provides a convenient way of loading data into an Autonomous Database, data flows define how the data is moved and transformed between different systems, while the workflows define the sequence in which the data flows are executed.
 
-Reviewed: 24.04.2024
+Reviewed: 07.10.2025
+
+# Table of Contents
+ 
+1. [Team Publications](#team-publications)
+2. [Useful Links](#useful-links)
+
+# Team Publications
+
+- [Geo-Coding using ADB Geo Coder and Oracle Spatial - YouTube](https://www.youtube.com/watch?v=2rJfWM2cOpA)
 
 # Useful Links
 
@@ -16,15 +25,12 @@ Reviewed: 24.04.2024
 
 - [Oracle Data Transforms Supported Connection Types](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/adp-odt-data-transforms-page.html#ADBSB-GUID-0FCBCBDB-4016-4EDC-B6E0-38E4D1BC0A)
 
-- [Deploying and launching Data Transforms](https://blogs.oracle.com/dataintegration/post/deploying-and-launching-oracle-data-transforms)
-    - Blog entry about how to deploy and launch Data Transforms
- 
 
 
  
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

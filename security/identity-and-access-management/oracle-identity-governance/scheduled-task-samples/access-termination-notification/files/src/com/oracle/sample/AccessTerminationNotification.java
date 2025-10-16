@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2023 Oracle and/or its affiliates. All rights reserved. DO NOT
+ * Copyright (c) 2025 Oracle and/or its affiliates. All rights reserved. DO NOT
  * ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * The Universal Permissive License (UPL), Version 1.0
@@ -250,7 +250,7 @@ public class AccessTerminationNotification extends TaskSupport {
 					logger.log(Level.INFO, "The account is in the expiration notification window.");
 					sendEmailAccounts = true;
 
-					expiringItemsText.append("• " + currentAccountAppInstName + "\n");
+					expiringItemsText.append("ï¿½ " + currentAccountAppInstName + "\n");
 				}
 
 				sendEmailEntitlements = processEntitlements(userKey, currentAccount);
@@ -300,7 +300,7 @@ public class AccessTerminationNotification extends TaskSupport {
 
 					sendEmailEntitlements = true;
 
-					expiringItemsText.append("› " + currentEntitlementName + "\n");
+					expiringItemsText.append("ï¿½ " + currentEntitlementName + "\n");
 				}
 			} else {
 				logger.log(Level.FINE, "Processed item does not have a valid end date. Skipping.");
