@@ -1,15 +1,15 @@
 # C3 OKE - Monitoring with OCI Log Analytics
 
-Reviewed: 18.11.2024
+Reviewed: 17.10.2025
 
 ## Introduction
 
 This page details an all OCI solution for monitoring kubernetes clusters
-running on a C3. 
+running on a Compute Cloud@Customer (C3). 
 
 ## Overview
 
-C3 includes an OKE compatible Kubernetes-as-a-Service that allows the
+C3 includes an OCI OKE-compatible Kubernetes-as-a-Service that allows the
 easy provisioning of kubernetes clusters. Currently the C3 contains no
 utilities to aid the user in management of multiple clusters on the
 rack, currently up to 20 per rack. While it is possible to use widely
@@ -181,9 +181,9 @@ may be a better choice.
 
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE.txt) for more details.
 
