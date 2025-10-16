@@ -6,4 +6,4 @@ Reviewed: 16.10.2025
 
 ## GitHub
 
-- [NVIDIA Omniverse Digital Twin](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/ai-ecosystem/nvidia-omniverse-digital-twin) demonstrates how to deploy an Omniverse digital twin on OCI
+- [NVIDIA Omniverse Digital Twin](./nvidia-omniverse-digital-twin) demonstrates how to deploy an Omniverse digital twin on OCI
