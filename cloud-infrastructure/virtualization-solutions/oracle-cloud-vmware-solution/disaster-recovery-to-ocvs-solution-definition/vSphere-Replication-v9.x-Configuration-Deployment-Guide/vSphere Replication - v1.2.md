@@ -306,6 +306,6 @@ Confirm everything and select **Finish.**
 
 As the replication is being redone, you can monitor its progress and see how much data it is transferring along with its verification of the seed data
 
-![Screenshot 2025-09-08 154609.png](images\Screenshot%202025-09-08%20154609.png)
+![Screenshot 2025-09-08 154609.png](images/Screenshot%202025-09-08%20154609.png)
 
 Thank you for joining me on this journey into vSphere Replication v9.x
