@@ -70,11 +70,11 @@ As of vSphere Replication v9.x there are now 2 modes of replication:
 
 **Enhanced Replication** - New default choice
 
-![EnhancedVR.png](images\EnhancedVR.png)
+![EnhancedVR.png](images/EnhancedVR.png)
 
 **Standard Replication** - Legacy choice
 
-![standardVR.png](images\standardVR.png)
+![standardVR.png](images/standardVR.png)
 
 | Feature        | Enhanced Replication                                  | Standard Replication                    |
 | -------------- | ----------------------------------------------------- | --------------------------------------- |
@@ -94,7 +94,7 @@ In OCVS this could be done with Cluster 1 being in AD1 and Cluster 2 being in AD
 
 Cluster 2 would have different storage to Cluster 1. Cluster 1 could be VSAN or OCI Block Storage  and Cluster 2 could also be VSAN or OCI Block Storage. By doing this the replicated VM data is stored on different storage to the original workloads providing resiliency against a cluster/AD outage.
 
-![](images\EnhancedVR_single%20site.png)
+![](images/EnhancedVR_single%20site.png)
 
 The downsides of using vSphere Replication in this way is that it requires vCenter to do the recovery of VMs, and if the outage impacts the vCenter server, then recovery becomes harder to do and could possibly require the assistance of VMware support.
 
@@ -114,11 +114,11 @@ Right lick on the host/cluster/resource pool within vCenter and select "Deploy O
 
 You will then be prompted to select the required files as shown below
 
-![ovfselectfiles.png](images\ovfselectfiles.png)
+![ovfselectfiles.png](images/ovfselectfiles.png)
 
-![Screenshot 2025-08-26 152330.png](images\Screenshot%202025-08-26%20152330.png)
+![Screenshot 2025-08-26 152330.png](images/Screenshot%202025-08-26%20152330.png)
 
-![Screenshot 2025-08-26 152339.png](images\Screenshot%202025-08-26%20152339.png)
+![Screenshot 2025-08-26 152339.png](images/Screenshot%202025-08-26%20152339.png)
 
 You then follow the prompts, and you will eventually be asked to pick the network for the OVF deployment
 
@@ -174,7 +174,7 @@ Once this has been completed you are able to configure a new site pairing betwee
 
 You have the option to peer with a vCenter in the same or different SSO domain, with OCVS it is most likely that your vCenter servers/SDDCs will be in different vSphere SSO domains.
 
-![Screenshot 2025-08-27 111347.png](images\Screenshot%202025-08-27%20111347.png)
+![Screenshot 2025-08-27 111347.png](images/Screenshot%202025-08-27%20111347.png)
 
 <img title="" src="images/Screenshot%202025-08-26%20161939.png" alt="Screenshot 2025-08-26 161939.png" data-align="center">
 
@@ -186,7 +186,7 @@ It will then check the remote vCenter and confirm that vSphere Replication has b
 
 Once the pairing has completed successfully you will then be presented with the following screen, and you can login to start configuring replications
 
-![sitepairingcomplete.png](images\sitepairingcomplete.png)
+![sitepairingcomplete.png](images/sitepairingcomplete.png)
 
 <img title="" src="images/Screenshot%202025-08-27%20111710.png" alt="Screenshot 2025-08-27 111710.png" data-align="center">
 
@@ -194,7 +194,7 @@ When configuring replications for VMs, you will be offered the choice between St
 
 You will select the VMs you wish to replicate and protect.
 
-![Screenshot 2025-08-27 111820.png](images\Screenshot%202025-08-27%20111820.png)
+![Screenshot 2025-08-27 111820.png](images/Screenshot%202025-08-27%20111820.png)
 
 Select the destination datastore for the replicated VMDK and VM files
 
@@ -206,7 +206,7 @@ Test mappings to confirm there are no errors.
 
 Configure replication settings such as RPO/Snapshots, compression and encryption.
 
-![Screenshot 2025-08-27 111852.png](images\Screenshot%202025-09-08%20154507.png)
+![Screenshot 2025-08-27 111852.png](images/Screenshot%202025-09-08%20154507.png)
 
 Once this has been completed you will see this screen
 
@@ -264,7 +264,7 @@ Now you can pick which cluster/host/resource pool the VM will sit in
 
 As mentioned in the yellow box, the recovered VM will not be connected to any network, this is done to avoid all possible chances of conflict across the network. So as part of your recovery process you will have to connect the VMs vnic to the required network after the recover has completed.
 
-![Screenshot 2025-09-08 153626.png](images\Screenshot%202025-09-08%20153626.png)
+![Screenshot 2025-09-08 153626.png](images/Screenshot%202025-09-08%20153626.png)
 
 The VM will now be added to the inventory in the vCenter and powered on if that option was selected. 
 
@@ -284,7 +284,7 @@ At the destination side, where the VM was recovered to, you would select outgoin
 
 <img title="" src="images/Screenshot 2025-09-15 144139.png" alt="Screenshot 2025-09-08 154355.png" data-align="center">
 
-![Screenshot 2025-09-08 154411.png](images\Screenshot%202025-09-08%20154411.png)
+![Screenshot 2025-09-08 154411.png](images/Screenshot%202025-09-08%20154411.png)
 
 If the original source VM is still in the inventory of the vCenter, you can remove it from the inventory *but do not delete from disk**. The vmdks can now be used as seeds, so only replicated changes need to be transferred minimizing the amount of time and b/w needed to get the replication running.
 
@@ -294,11 +294,11 @@ If this has been done correctly you will see the following information and be gi
 
 vSphere Replication will automatically map the seed disks, but if for some reason it maps them incorrectly you can modify the selection. **please be careful as if you map them incorrectly it could cause unrecoverable data loss.**
 
-![Screenshot 2025-09-08 154435.png](images\Screenshot%202025-09-08%20154424.png)
+![Screenshot 2025-09-08 154435.png](images/Screenshot%202025-09-08%20154424.png)
 
 Select the RPO schedule just as before.
 
-![Screenshot 2025-09-08 154507.png](images\Screenshot%202025-09-08%20154507.png)
+![Screenshot 2025-09-08 154507.png](images/Screenshot%202025-09-08%20154507.png)
 
 Confirm everything and select **Finish.**
 
