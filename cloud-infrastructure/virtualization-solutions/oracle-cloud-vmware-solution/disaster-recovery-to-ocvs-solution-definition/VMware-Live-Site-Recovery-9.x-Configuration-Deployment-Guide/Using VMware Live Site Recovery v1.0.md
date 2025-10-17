@@ -46,43 +46,43 @@ Now select the file files from the bin folder
 
 Now work through the rest of the steps as shown in the screenshots
 
-![Screenshot 2025-09-12 102004.png](images\Screenshot%202025-09-12%20102004.png)
+![Screenshot 2025-09-12 102004.png](images/Screenshot%202025-09-12%20102004.png)
 
 Select which compute resource the OVF will be deployed into
 
-![Screenshot 2025-09-12 102010.png](images\Screenshot%202025-09-12%20102010.png)
+![Screenshot 2025-09-12 102010.png](images/Screenshot%202025-09-12%20102010.png)
 
 Confirm the details of the appliance
 
-![Screenshot 2025-09-12 102030.png](images\Screenshot%202025-09-12%20102030.png)
+![Screenshot 2025-09-12 102030.png](images/Screenshot%202025-09-12%20102030.png)
 
 Accept the license agreement
 
-![Screenshot 2025-09-12 102047.png](images\Screenshot%202025-09-12%20102047.png)
+![Screenshot 2025-09-12 102047.png](images/Screenshot%202025-09-12%20102047.png)
 
 Select the storage the OVF will be deployed onto
 
-![Screenshot 2025-09-12 102054.png](images\Screenshot%202025-09-12%20102054.png)
+![Screenshot 2025-09-12 102054.png](images/Screenshot%202025-09-12%20102054.png)
 
 Select the VDS/VSS network the appliance will use once deployed
 
-![Screenshot 2025-09-12 102108.png](images\Screenshot%202025-09-12%20102108.png)
+![Screenshot 2025-09-12 102108.png](images/Screenshot%202025-09-12%20102108.png)
 
 Configure the appliance, including all passwords, DNS/NTP etc.
 
-![Screenshot 2025-09-12 102132.png](images\Screenshot%202025-09-12%20102132.png)
+![Screenshot 2025-09-12 102132.png](images/Screenshot%202025-09-12%20102132.png)
 
-![Screenshot 2025-09-12 104816.png](images\Screenshot%202025-09-12%20104816.png)
+![Screenshot 2025-09-12 104816.png](images/Screenshot%202025-09-12%20104816.png)
 
 Once it has been deployed you can power it on and if everything has been done correctly you will be able to login to its management interface, https://applianceIP/FQDN:5480 and you will be presented with the option to configure the appliance further
 
-![Screenshot 2025-09-12 105330.png](images\Screenshot%202025-09-12%20105330.png)
+![Screenshot 2025-09-12 105330.png](images/Screenshot%202025-09-12%20105330.png)
 
 This is where you have to pair it to the local vCenter (Configure Appliance) with a login that meets the requirements (in most cases customers use adminsitrator@vsphere.local or similar)
 
 Once that has been done, you will be presented with the following screen
 
-![Screenshot 2025-09-12 103344.png](images\Screenshot%202025-09-12%20103344.png)
+![Screenshot 2025-09-12 103344.png](images/Screenshot%202025-09-12%20103344.png)
 
 You will then see the VMware Live Site Recovery Plugins be deployed into the vCenter
 
@@ -90,7 +90,7 @@ You will then see the VMware Live Site Recovery Plugins be deployed into the vCe
 
 This will then take you to the Live Recovery Landing page, which will confirm the status of VLR in general for the site
 
-![Screenshot 2025-09-12 104146.png](images\Screenshot%202025-09-12%20104146.png)
+![Screenshot 2025-09-12 104146.png](images/Screenshot%202025-09-12%20104146.png)
 
 Once you have selected **OPEN VMware Live Site Recovery** you will be shown the current Site Pair, this will allow you to use vSphere Replication within the same vCenter, for example if you wanted to protect VMs between clusters.
 
@@ -104,7 +104,7 @@ Once that has been completed we can continue from the source site and create a *
 
 You will now be asked to pair with a vCenter in the same SSO domain or in a different SSO domain. **In most cases it will be a different SSO domain.**
 
-![Screenshot 2025-09-12 105721.png](images\Screenshot%202025-09-12%20105721.png)
+![Screenshot 2025-09-12 105721.png](images/Screenshot%202025-09-12%20105721.png)
 
 Now enter in the credentials of the remote vCenter Server 
 
@@ -420,6 +420,6 @@ Depending on the state of the original/primary site this process may not be poss
 
 <img title="" src="images/Screenshot%202025-09-15%20121751.png" alt="Screenshot 2025-09-15 121751.png" data-align="center">
 
-![Screenshot 2025-09-15 121851.png](images\Screenshot%202025-09-15%20121851.png)
+![Screenshot 2025-09-15 121851.png](images/Screenshot%202025-09-15%20121851.png)
 
 Once the reprotect operation has been completed, the Recovery Plan will be ready to use. You can run Test and Failover operations as normal 
