@@ -402,9 +402,9 @@ After you have failed over, the DR site has become the Primary Site and the orig
 
 The VMs need to be protected again and replication needs to be reversed to ensure the recovered VMs are protected again.
 
-**Reprotect reverses the direction of protection using the configuration defined prior to the original recovery. **This process can only be initiated once the recovery has completed successfully without errors. If any errors occur during recovery, they must be resolved and the recovery rerun until it completes cleanly.**
+Reprotect reverses the direction of protection using the configuration defined prior to the original recovery. **This process can only be initiated once the recovery has completed successfully without errors. If any errors occur during recovery, they must be resolved and the recovery rerun until it completes cleanly.**
 
-**If you did a full DR failover, once the original site is available a gain, you must run a Planned Migration operation, so VSLR at both sites, is fully in sync and all errors have been resolved.****
+**If you did a full DR failover, once the original site is available a gain, you must run a Planned Migration operation, so VSLR at both sites, is fully in sync and all errors have been resolved.**
 
 During reprotection with vSphere Replication, VLSR leverages the original VMDK files as seed copies. The full sync phase primarily involves checksum validation, resulting in minimal actual data transfer over the network.
 
