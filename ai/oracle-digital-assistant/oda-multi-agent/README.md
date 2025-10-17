@@ -1,6 +1,17 @@
 # ODA Multi-Agent samples
 
+Reviewed: 22.09.2025
+
+Author: Marc Gueury
+
 ## Installation
+
+See Livelab: AI Agents with ODA: Simple Agent to advanced Multi-Agent Supervisors
+
+https://livelabs.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=4212
+
+## Import
+
 Please import the sample below in your ODA 
 - Llm1
      - contains a agent calling tools

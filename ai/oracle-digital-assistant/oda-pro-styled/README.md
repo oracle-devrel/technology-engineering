@@ -1,5 +1,9 @@
 # ODA Pro Styled
 
+Review date: 17-10-2025
+
+Author: Ras Alungei
+
 🎥 **[View Demo Video](files/oda-pro-styled-demo.mp4)**
 
 A complete solution for creating professional, customizable chat interfaces for Oracle Digital Assistant with enterprise-grade speech recognition capabilities.

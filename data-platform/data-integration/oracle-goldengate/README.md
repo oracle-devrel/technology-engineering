@@ -2,7 +2,7 @@
 
 Oracle GoldenGate is a comprehensive software package for enabling the replication of data in heterogeneous data environments. The product set enables high-availability solutions, real-time data integration, transactional change data capture, data replication, transformations, and verification between operational and analytical enterprise systems.
 
-Reviewed: 24.04.2024
+Reviewed: 08.10.2025
 
 # Table of Contents
  
