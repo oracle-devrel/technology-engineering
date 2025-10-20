@@ -33,6 +33,19 @@ The MCP server is defined in [`oci_mcp_server.py`](./oci_mcp_server.py) and can
 be started independently of the agent.  For simplicity, the agent will
 automatically start the MCP server.
 
+To inspect and debug the MCP server, use 
+```console
+source .venv/bin/activate
+npx @modelcontextprotocol/inspector
+```
+in the working directory.  Then configure the MCP server:
+
+- set the "Command" field to `python`
+- set the "Arguments" field to `oci_mcp_server.py`
+
+And in the "Configuration" dropdown, increase the timeouts by a factor of 10.
+Now click "Connect" and explore the tools.
+
 ## Authors
 
 - Omar Salem
