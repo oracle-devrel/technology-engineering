@@ -1,7 +1,7 @@
 # Protein Structure Prediction for DHFR Inhibitor Discovery using NVIDIA NIM for Alphafold2 
 ![protein structure visualisation after Alphafold2 prediction](./protein_image_pymol.png)
 
-Reviewed: 21.02.2025
+Reviewed: 16.10.2025
 
 ## Introduction
 This tutorial demonstrates how to deploy [NVIDIA NIM for Alphafold2](https://docs.nvidia.com/nim/bionemo/alphafold2/latest/index.html) on Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE) in order to do protein structure prediction. 

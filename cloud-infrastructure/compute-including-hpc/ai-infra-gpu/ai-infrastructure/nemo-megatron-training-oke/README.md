@@ -8,7 +8,7 @@ on the Oracle Container Engine for Kubernetes (OKE) using
 Reference results from NVIDIA to train Llama 3 can be found on the
 [NGC Catalog](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/dgxc-benchmarking/resources/llama3-dgxc-benchmarking).
 
-Reviewed: 01.07.2025
+Reviewed: 16.10.2025
 
 # When to use this asset?
 
