@@ -2,7 +2,7 @@
 
 In this repository, you can find a collection of ready-to-use conda environments.
 
-Reviewed 23.05.2024
+Reviewed 16.10.2025
 
 # When to use this asset?
  
