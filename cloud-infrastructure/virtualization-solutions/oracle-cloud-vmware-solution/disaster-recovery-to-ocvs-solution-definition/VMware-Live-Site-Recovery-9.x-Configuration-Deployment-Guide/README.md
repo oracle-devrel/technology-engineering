@@ -1,6 +1,6 @@
-# Oracle Cloud VMware Solution -vSphere Replication 9.x
+# Oracle Cloud VMware Solution - vSphere Replication 9.x
 
-This repository contains a detailed guide for using VR with Oracle Cloud VMware Solution.
+This repository contains a detailed guide for using vSphere Replication with Oracle Cloud VMware Solution.
 
 Reviewed: 17.10.2025
 
