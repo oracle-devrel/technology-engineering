@@ -9,7 +9,7 @@ oci==2.119.1
 
 # LangChain
 langchain==0.1.0
-langchain-core==0.1.10
+langchain-core==0.1.53
 langchain-community==0.0.13
 
 # Data visualization
