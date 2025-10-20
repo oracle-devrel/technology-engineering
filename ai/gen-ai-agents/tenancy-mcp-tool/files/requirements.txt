@@ -1,0 +1,7 @@
+langchain-mcp-adapters
+langchain-oci
+langgraph
+mcp
+oci
+python-dotenv
+streamlit
