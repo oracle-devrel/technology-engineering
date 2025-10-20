@@ -2,6 +2,12 @@
 
 Oracle AI Data Strategy material and resources.
 
+# Useful Links
+
+EMEA Technology Engineering AI Github page: https://github.com/oracle-devrel/technology-engineering/tree/main/ai 
+EMEA Technology Engineering Data Platform Github page: https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform 
+
+
 # License
  
 Copyright (c) 2025 Oracle and/or its affiliates.
