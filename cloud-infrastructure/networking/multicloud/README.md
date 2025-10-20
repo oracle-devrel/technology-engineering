@@ -2,7 +2,7 @@
 
 Multicloud architectures leverage the coordinated use of cloud services from two or more public cloud vendors. Organizations use multicloud environments to distribute computing resources and minimize the risk of downtime and data loss. Organizations may also adopt two or more public cloud providers for their unique capabilities. 
 
-Reviewed: 29.04.2025
+Reviewed: 10.10.2025
 
 # Team Publications
 
@@ -35,7 +35,6 @@ Reviewed: 29.04.2025
 - [Connect Oracle Data Safe to Oracle databases on multicloud and hybrid cloud environments](https://docs.oracle.com/en/solutions/data-safe-multicloud-ods-hybrid/index.html)
 - [Extend your high availability database architecture to multicloud using OCI GoldenGate replication](https://docs.oracle.com/en/solutions/oci-multicloud-db-replication-goldengate/index.html)
 - [Deploy multicloud Oracle Database Service for Microsoft Azure in a hub and spoke topology](https://docs.oracle.com/en/solutions/odsa-azure-hub-spoke/index.html)
-- [Deploy a Multicloud split-stack solution across OCI, AWS, and GCP](https://docs.oracle.com/en/solutions/oci-aws-gcp-multicloud/index)
 - [Best practices for hybrid and multicloud OCI networking design](https://docs.oracle.com/en/solutions/oci-best-practices-networking/index.html)
 - [Multicloud patterns to deploy Oracle Applications (EBS, PeopleSoft, JD Edwards) to Azure and OCI](https://learn.microsoft.com/en-us/azure/virtual-machines/workloads/oracle/oracle-oci-applications)
 - [Extend Active Directory integration in Hybrid Cloud](https://docs.oracle.com/en/solutions/integrate-oci-msft-ad/)
@@ -43,8 +42,7 @@ Reviewed: 29.04.2025
 - [Multicloud split-stack architecture with OCI, GCP, and AWS](https://docs.oracle.com/en/solutions/oci-aws-gcp-multicloud/index.html)
 
 ## Certifications
- 
-- [Become an OCI Multicloud Architect Associate](https://mylearn.oracle.com/ou/learning-path/become-an-oci-multicloud-architect/120606)
+
 - [Become an OCI Multicloud Architect Professional (2025)](https://mylearn.oracle.com/ou/learning-path/become-an-oracle-cloud-infrastructure-multicloud-architect-professional-2025/144472)
 
 # License

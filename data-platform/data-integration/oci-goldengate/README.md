@@ -2,7 +2,7 @@
 
 Oracle Cloud Infrastructure GoldenGate is a fully managed, native cloud service that moves data in real-time, at scale. OCI GoldenGate processes data as it moves from one or more data management systems to target databases. You can also design, run, orchestrate, and monitor data replication tasks without having to allocate or manage any Compute environment.
 
-Reviewed: 28.02.2025
+Reviewed: 08.10.2025
 
 
 # Table of Contents
