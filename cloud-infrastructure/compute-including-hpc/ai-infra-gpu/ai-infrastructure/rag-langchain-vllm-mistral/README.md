@@ -2,7 +2,7 @@
 
 This repository is a variant of the Retrieval Augmented Generation (RAG) tutorial available [here](https://github.com/oracle-devrel/technology-engineering/tree/main/ai-and-app-modernisation/ai-services/generative-ai-service/rag-genai). Instead of the OCI GenAI Service, it uses a local deployment of Mistral 7B Instruct v0.3 using a vLLM inference server powered by an NVIDIA A10 GPU.
 
-Reviewed: 23.05.2024
+Reviewed: 16.10.2025
 
 # When to use this asset?
 

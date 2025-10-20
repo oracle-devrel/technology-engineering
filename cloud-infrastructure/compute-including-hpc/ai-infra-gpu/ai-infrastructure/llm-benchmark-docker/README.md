@@ -7,7 +7,7 @@ and
 using
 [Docker Compose](https://docs.docker.com/compose/).
 
-Reviewed: 20.05.2025
+Reviewed: 16.10.2025
 
 # When should this asset be used?
 

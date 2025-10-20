@@ -4,7 +4,7 @@ This repository intends to demonstrate how to deploy [NVIDIA NIM](https://develo
 
 The model used is `Llama2-7B-chat`, running on an NVIDIA A10 Tensor Core GPU hosted on OCI. For scalability, we are hosting the model repository on a Bucket in Oracle Cloud Object Storage.
 
-Reviewed 23.05.2024
+Reviewed 16.10.2025
 
 # When to use this asset?
 
