@@ -8,7 +8,7 @@ with pre-formulated prompts to show the capabilities of modern LLMs to
 concisely generate descriptions, classifications, as well as populate property
 templates.
 
-Reviewed: 06.10.2025
+Reviewed: 14.10.2025
 
 Author: Matthias Wolf
 

@@ -4,6 +4,10 @@ The AI Agent enables a customer to get information about available destinations 
 
 The agent has been developed using **OCI Generative AI** and **LangGraph**.
 
+**Author**: L. Saetta
+
+**Reviewed**: 15.10.2025
+
 ## Configuration
 You only need to create a file, named config_private.py, with the value for **COMPARTMENT_OCID**.
 The compartment must be a compartment where you have setup the right policies to access OCI Generative AI.
