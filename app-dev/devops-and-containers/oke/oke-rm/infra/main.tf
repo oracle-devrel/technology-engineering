@@ -17,12 +17,15 @@ module "network" {
   cp_subnet_name = var.cp_subnet_name
   cp_subnet_private = var.cp_subnet_private
   cp_allowed_source_cidr = var.cp_allowed_source_cidr
-  # SERVICE SUBNET
-  create_service_subnet = var.create_service_subnet
-  service_subnet_cidr = var.service_subnet_cidr
-  service_subnet_dns_label = var.service_subnet_dns_label
-  service_subnet_name = var.service_subnet_name
-  service_subnet_private = var.service_subnet_private
+  # LB SUBNETS
+  create_external_lb_subnet = var.create_external_lb_subnet
+  external_lb_cidr = var.external_lb_subnet_cidr
+  external_lb_subnet_dns_label = var.external_lb_subnet_dns_label
+  external_lb_subnet_name = var.external_lb_subnet_name
+  create_internal_lb_subnet = var.create_internal_lb_subnet
+  internal_lb_cidr = var.internal_lb_subnet_cidr
+  internal_lb_subnet_dns_label = var.internal_lb_subnet_dns_label
+  internal_lb_subnet_name = var.internal_lb_subnet_name
   # WORKER SUBNET
   create_worker_subnet = var.create_worker_subnet
   worker_subnet_cidr = var.worker_subnet_cidr

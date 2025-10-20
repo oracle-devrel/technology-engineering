@@ -20,7 +20,7 @@ resource "oci_core_internet_gateway" "internet_gateway" {
   compartment_id = var.network_compartment_id
   vcn_id         = local.vcn_id
   display_name = "IG"
-  count = local.all_subnet_private && ! var.create_internet_gateway ? 0 : 1
+  count = local.all_subnet_private && ! local.create_internet_gateway ? 0 : 1
 }
 
 resource "oci_core_route_table" "service_route_table" {
@@ -85,5 +85,5 @@ resource "oci_core_route_table" "internet_route_table" {
     destination = "0.0.0.0/0"
     description = "Route to reach external Internet through the Internet gateway"
   }
-  count = local.all_subnet_private && ! var.create_internet_gateway ? 0 : 1
+  count = local.all_subnet_private && ! local.create_internet_gateway ? 0 : 1
 }

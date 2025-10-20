@@ -1,13 +1,24 @@
 
-resource "oci_core_subnet" "service_subnet" {
-  cidr_block     = var.service_subnet_cidr
+resource "oci_core_subnet" "external_lb_subnet" {
+  cidr_block     = var.external_lb_cidr
   compartment_id = var.network_compartment_id
   vcn_id         = local.vcn_id
-  prohibit_public_ip_on_vnic = var.service_subnet_private
-  dns_label = var.service_subnet_dns_label
-  display_name = var.service_subnet_name
-  route_table_id = var.service_subnet_private ? oci_core_route_table.service_route_table.id : oci_core_route_table.internet_route_table[0].id
-  count = local.create_service_subnet ? 1 : 0
+  prohibit_public_ip_on_vnic = false
+  dns_label = var.external_lb_subnet_dns_label
+  display_name = var.external_lb_subnet_name
+  route_table_id = oci_core_route_table.internet_route_table[0].id
+  count = local.create_external_lb_subnet ? 1 : 0
+}
+
+resource "oci_core_subnet" "internal_lb_subnet" {
+  cidr_block     = var.internal_lb_cidr
+  compartment_id = var.network_compartment_id
+  vcn_id         = local.vcn_id
+  prohibit_public_ip_on_vnic = true
+  dns_label = var.internal_lb_subnet_dns_label
+  display_name = var.internal_lb_subnet_name
+  route_table_id = oci_core_route_table.service_route_table.id
+  count = local.create_internal_lb_subnet ? 1 : 0
 }
 
 resource "oci_core_subnet" "oke_cp_subnet" {

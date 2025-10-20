@@ -39,6 +39,14 @@ resource "oci_core_security_list" "bastion_security_list" {
     description = "Enable the bastion hosts to reach the entire VCN"
   }
 
+  egress_security_rules {
+    destination = "0.0.0.0/0"
+    destination_type = "CIDR_BLOCK"
+    protocol    = "all"
+    stateless = false
+    description = "Let bastion instances connect to Internet"
+  }
+
   ingress_security_rules {
     protocol = "all"
     source_type = "CIDR_BLOCK"

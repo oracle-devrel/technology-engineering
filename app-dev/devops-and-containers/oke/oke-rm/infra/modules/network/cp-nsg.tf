@@ -1,7 +1,7 @@
 resource "oci_core_network_security_group" "cp_nsg" {
   compartment_id = var.network_compartment_id
   vcn_id         = local.vcn_id
-  display_name = "cp-nsg"
+  display_name = "cp"
 }
 
 resource "oci_core_network_security_group_security_rule" "oke_cp_nsg_ingress_1" {
@@ -205,20 +205,6 @@ resource "oci_core_network_security_group_security_rule" "oke_cp_nsg_ingress_6_s
 resource "oci_core_network_security_group_security_rule" "oke_cp_nsg_ingress_7" {
   direction                 = "INGRESS"
   network_security_group_id = oci_core_network_security_group.cp_nsg.id
-  protocol                  = local.icmp_protocol
-  source_type = "NETWORK_SECURITY_GROUP"
-  source = oci_core_network_security_group.worker_nsg.id
-  stateless = true
-  description = "Allow ICMP ingress for path discovery from worker nodes"
-  icmp_options {
-    type = 3
-    code = 4
-  }
-}
-
-resource "oci_core_network_security_group_security_rule" "oke_cp_nsg_ingress_8" {
-  direction                 = "INGRESS"
-  network_security_group_id = oci_core_network_security_group.cp_nsg.id
   protocol                  = local.tcp_protocol
   source_type = "CIDR_BLOCK"
   source = var.cp_allowed_source_cidr
@@ -232,7 +218,7 @@ resource "oci_core_network_security_group_security_rule" "oke_cp_nsg_ingress_8" 
   }
 }
 
-resource "oci_core_network_security_group_security_rule" "oke_cp_nsg_ingress_8_stateless_egress" {
+resource "oci_core_network_security_group_security_rule" "oke_cp_nsg_ingress_7_stateless_egress" {
   direction                 = "EGRESS"
   network_security_group_id = oci_core_network_security_group.cp_nsg.id
   protocol                  = local.tcp_protocol
@@ -257,7 +243,7 @@ resource "oci_core_network_security_group_security_rule" "oke_cp_nsg_egress_1_st
   stateless = true
   description = "Allow TCP ingress to OKE control plane from worker nodes for Kubelet responses"
   tcp_options {
-    destination_port_range {
+    source_port_range {
       max = 10250
       min = 10250
     }
@@ -331,7 +317,7 @@ resource "oci_core_network_security_group_security_rule" "oke_cp_nsg_egress_4_st
   stateless = true
   description = "Allow TCP ingress from worker nodes to control plane for responses"
   tcp_options {
-    destination_port_range {
+    source_port_range {
       max = 12250
       min = 12250
     }
@@ -363,7 +349,7 @@ resource "oci_core_network_security_group_security_rule" "oke_cp_nsg_egress_5_st
   stateless = true
   description = "Allow TCP ingress from control plane to control plane for responses"
   tcp_options {
-    destination_port_range {
+    source_port_range {
       max = 6443
       min = 6443
     }
@@ -386,52 +372,13 @@ resource "oci_core_network_security_group_security_rule" "oke_cp_nsg_egress_5" {
   }
 }
 
-resource "oci_core_network_security_group_security_rule" "oke_cp_nsg_egress_6_stateless_ingress" {
-  direction                 = "INGRESS"
-  network_security_group_id = oci_core_network_security_group.cp_nsg.id
-  protocol                  = local.icmp_protocol
-  source_type = "NETWORK_SECURITY_GROUP"
-  source = oci_core_network_security_group.worker_nsg.id
-  stateless = true
-  description = "Allow ICMP ingress from worker nodes to control plane for responses"
-  icmp_options {
-    type = 3
-    code = 4
-  }
-}
-
 resource "oci_core_network_security_group_security_rule" "oke_cp_nsg_egress_6" {
-  direction                 = "EGRESS"
-  network_security_group_id = oci_core_network_security_group.cp_nsg.id
-  protocol                  = local.icmp_protocol
-  destination_type = "NETWORK_SECURITY_GROUP"
-  destination = oci_core_network_security_group.worker_nsg.id
-  stateless = true
-  description = "Allow ICMP egress for path discovery to worker nodes"
-  icmp_options {
-    type = 3
-    code = 4
-  }
-}
-
-resource "oci_core_network_security_group_security_rule" "oke_cp_nsg_egress_7_stateless_ingress" {
-  direction                 = "INGRESS"
-  network_security_group_id = oci_core_network_security_group.cp_nsg.id
-  protocol                  = local.tcp_protocol
-  source_type = "CIDR_BLOCK"
-  source = var.cp_egress_cidr
-  stateless = true
-  description = "Allow TCP ingress from external sources to control plane for responses"
-  count = local.create_cp_external_traffic_rule ? 1 : 0
-}
-
-resource "oci_core_network_security_group_security_rule" "oke_cp_nsg_egress_7" {
   direction                 = "EGRESS"
   network_security_group_id = oci_core_network_security_group.cp_nsg.id
   protocol                  = local.tcp_protocol
   destination_type = "CIDR_BLOCK"
   destination = var.cp_egress_cidr
-  stateless = true
+  stateless = false
   description = "Allow external traffic communication"
   count = local.create_cp_external_traffic_rule ? 1 : 0
 }

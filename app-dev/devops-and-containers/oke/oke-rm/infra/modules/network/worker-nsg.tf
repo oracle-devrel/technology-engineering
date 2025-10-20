@@ -1,7 +1,7 @@
 resource "oci_core_network_security_group" "worker_nsg" {
   compartment_id = var.network_compartment_id
   vcn_id         = local.vcn_id
-  display_name = "worker-nsg"
+  display_name = "worker"
 }
 
 # Ingress rules and their corresponding egress
@@ -163,33 +163,6 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_ingress
   }
 }
 
-resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_ingress_6" {
-  direction                 = "INGRESS"
-  network_security_group_id = oci_core_network_security_group.worker_nsg.id
-  protocol                  = local.icmp_protocol
-  source_type = "CIDR_BLOCK"
-  source = "0.0.0.0/0"
-  stateless = true
-  description = "Allow ICMP ingress to workers for path discovery"
-  icmp_options {
-    type = 3
-    code = 4
-  }
-}
-
-resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_ingress_6_stateless_egress" {
-  direction                 = "EGRESS"
-  network_security_group_id = oci_core_network_security_group.worker_nsg.id
-  protocol                  = local.icmp_protocol
-  destination_type = "CIDR_BLOCK"
-  destination = "0.0.0.0/0"
-  stateless = true
-  description = "Allow ICMP egress to internet from workers"
-  icmp_options {
-    type = 3
-    code = 4
-  }
-}
 
 resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_ingress_7" {
   direction                 = "INGRESS"
@@ -232,18 +205,8 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_
   protocol                  = "all"
   destination_type = "CIDR_BLOCK"
   destination = "0.0.0.0/0"
-  stateless = true
+  stateless = false
   description = "Allow ALL egress from workers to internet"
-}
-
-resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_1_stateless_ingress" {
-  direction                 = "INGRESS"
-  network_security_group_id = oci_core_network_security_group.worker_nsg.id
-  protocol                  = "all"
-  source_type = "CIDR_BLOCK"
-  source = "0.0.0.0/0"
-  stateless = true
-  description = "Allow ALL ingress from internet to workers"
 }
 
 resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_2" {
@@ -313,7 +276,7 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_
   stateless = true
   description = "Allow TCP ingress from control plane to workers"
   tcp_options {
-    destination_port_range {
+    source_port_range {
       max = 6443
       min = 6443
     }
@@ -365,7 +328,7 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_
   stateless = true
   description = "Allow TCP ingress from control plane to workers"
   tcp_options {
-    destination_port_range {
+    source_port_range {
       max = 10250
       min = 10250
     }
@@ -397,7 +360,7 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_
   stateless = true
   description = "Allow TCP ingress from control plane to workers"
   tcp_options {
-    destination_port_range {
+    source_port_range {
       max = 12250
       min = 12250
     }
@@ -405,34 +368,6 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_
 }
 
 resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_8" {
-  direction                 = "EGRESS"
-  network_security_group_id = oci_core_network_security_group.worker_nsg.id
-  protocol                  = local.icmp_protocol
-  destination_type = "CIDR_BLOCK"
-  destination = "0.0.0.0/0"
-  stateless = true
-  description = "Allow ICMP egress from workers for path discovery"
-  icmp_options {
-    type = 3
-    code = 4
-  }
-}
-
-resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_8_stateless_ingress" {
-  direction                 = "INGRESS"
-  network_security_group_id = oci_core_network_security_group.worker_nsg.id
-  protocol                  = local.icmp_protocol
-  source_type = "CIDR_BLOCK"
-  source = "0.0.0.0/0"
-  stateless = true
-  description = "Allow ICMP ingress from internet to workers"
-  icmp_options {
-    type = 3
-    code = 4
-  }
-}
-
-resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_9" {
   direction                 = "EGRESS"
   network_security_group_id = oci_core_network_security_group.worker_nsg.id
   protocol                  = local.udp_protocol
@@ -448,7 +383,7 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_
   }
 }
 
-resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_9_stateless_ingress" {
+resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_8_stateless_ingress" {
   direction                 = "INGRESS"
   network_security_group_id = oci_core_network_security_group.worker_nsg.id
   protocol                  = local.udp_protocol
@@ -457,14 +392,14 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_
   stateless = true
   description = "Allow UDP ingress from FSS to workers"
   udp_options {
-    destination_port_range {
+    source_port_range {
       max = 111
       min = 111
     }
   }
 }
 
-resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_10" {
+resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_9" {
   direction                 = "EGRESS"
   network_security_group_id = oci_core_network_security_group.worker_nsg.id
   protocol                  = local.tcp_protocol
@@ -480,7 +415,7 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_
   }
 }
 
-resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_10_stateless_ingress" {
+resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_9_stateless_ingress" {
   direction                 = "INGRESS"
   network_security_group_id = oci_core_network_security_group.worker_nsg.id
   protocol                  = local.tcp_protocol
@@ -489,14 +424,14 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_
   stateless = true
   description = "Allow TCP ingress from FSS to workers"
   tcp_options {
-    destination_port_range {
+    source_port_range {
       max = 111
       min = 111
     }
   }
 }
 
-resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_11" {
+resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_10" {
   direction                 = "EGRESS"
   network_security_group_id = oci_core_network_security_group.worker_nsg.id
   protocol                  = local.tcp_protocol
@@ -512,7 +447,7 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_
   }
 }
 
-resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_11_stateless_ingress" {
+resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_10_stateless_ingress" {
   direction                 = "INGRESS"
   network_security_group_id = oci_core_network_security_group.worker_nsg.id
   protocol                  = local.tcp_protocol
@@ -521,14 +456,14 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_
   stateless = true
   description = "Allow TCP ingress from FSS to workers"
   tcp_options {
-    destination_port_range {
+    source_port_range {
       max = 2050
       min = 2048
     }
   }
 }
 
-resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_12" {
+resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_11" {
   direction                 = "EGRESS"
   network_security_group_id = oci_core_network_security_group.worker_nsg.id
   protocol                  = local.udp_protocol
@@ -544,7 +479,7 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_
   }
 }
 
-resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_12_stateless_ingress" {
+resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_11_stateless_ingress" {
   direction                 = "INGRESS"
   network_security_group_id = oci_core_network_security_group.worker_nsg.id
   protocol                  = local.udp_protocol
@@ -553,14 +488,14 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_
   stateless = true
   description = "Allow UDP ingress from FSS to workers"
   udp_options {
-    destination_port_range {
+    source_port_range {
       max = 2048
       min = 2048
     }
   }
 }
 
-resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_13" {
+resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_12" {
   direction                 = "EGRESS"
   network_security_group_id = oci_core_network_security_group.worker_nsg.id
   protocol                  = local.tcp_protocol
@@ -576,7 +511,7 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_
   }
 }
 
-resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_13_stateless_ingress" {
+resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_12_stateless_ingress" {
   direction                 = "INGRESS"
   network_security_group_id = oci_core_network_security_group.worker_nsg.id
   protocol                  = local.tcp_protocol
@@ -585,7 +520,7 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_egress_
   stateless = true
   description = "Allow TCP ingress from FSS to workers"
   tcp_options {
-    destination_port_range {
+    source_port_range {
       max = 2051
       min = 2051
     }

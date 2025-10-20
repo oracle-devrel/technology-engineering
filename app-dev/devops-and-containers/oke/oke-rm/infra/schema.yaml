@@ -27,8 +27,6 @@ variableGroups:
       - cp_subnet_name
       - cp_subnet_cidr
       - cp_subnet_dns_label
-      - cp_subnet_private
-      - cp_allowed_source_cidr
       - create_worker_subnet
       - worker_subnet_name
       - worker_subnet_cidr
@@ -37,11 +35,14 @@ variableGroups:
       - pod_subnet_name
       - pod_subnet_cidr
       - pod_subnet_dns_label
-      - create_service_subnet
-      - service_subnet_name
-      - service_subnet_cidr
-      - service_subnet_dns_label
-      - service_subnet_private
+      - create_external_lb_subnet
+      - external_lb_subnet_name
+      - external_lb_subnet_cidr
+      - external_lb_subnet_dns_label
+      - create_internal_lb_subnet
+      - internal_lb_subnet_name
+      - internal_lb_subnet_cidr
+      - internal_lb_subnet_dns_label
       - create_fss
       - fss_subnet_name
       - fss_subnet_cidr
@@ -56,9 +57,11 @@ variableGroups:
       - service_gateway_id
       - create_internet_gateway
 
-  - title: "Control Plane External Connection"
+  - title: "Control Plane Connectivity"
     variables:
       - cp_connection_notice
+      - cp_subnet_private
+      - cp_allowed_source_cidr
       - cp_external_nat
       - allow_external_cp_traffic
       - cp_egress_cidr
@@ -250,39 +253,59 @@ variables:
             - ${cni_type}
             - vcn_native
 
-# SERVICE SUBNET
+# LB SUBNETS
 
-  create_service_subnet:
-    title: "Create Service subnet"
-    description: "If flagged, this Terraform module will create the Kubernetes Service subnet"
+  create_external_lb_subnet:
+    title: "Create external LB subnet"
+    description: "If flagged, create a LB subnet to host publicly exposed services"
     type: boolean
 
-  service_subnet_cidr:
-    title: "Service subnet CIDR"
-    description: "CIDR block for the Service subnet"
+  external_lb_subnet_cidr:
+    title: "External LB subnet CIDR"
+    description: "CIDR block for the external LB subnet"
     type: string
     required: true
-    visible: ${create_service_subnet}
+    visible: ${create_external_lb_subnet}
 
-  service_subnet_dns_label:
-    title: "Service subnet DNS label"
-    description: "DNS label for the Service subnet"
+  external_lb_subnet_dns_label:
+    title: "External LB subnet DNS label"
+    description: "DNS label for the external LB subnet"
     type: string
     required: true
-    visible: ${create_service_subnet}
+    visible: ${create_external_lb_subnet}
 
-  service_subnet_name:
+  external_lb_subnet_name:
     title: "Service subnet name"
-    description: "The Service subnet will host all the network appliances necessary to expose services, so Load Balancers and API Gateways"
+    description: "Name of the external LB subnet"
     type: string
     required: true
-    visible: ${create_service_subnet}
+    visible: ${create_external_lb_subnet}
 
-  service_subnet_private:
-    title: "Service Subnet is private"
-    description: "If flagged, the service subnet will be a private one, otherwise it's a public subnet"
+  create_internal_lb_subnet:
+    title: "Create internal LB subnet"
+    description: "If flagged, create a LB subnet to host internally exposed services"
     type: boolean
-    visible: ${create_service_subnet}
+
+  internal_lb_subnet_cidr:
+    title: "Internal LB subnet CIDR"
+    description: "CIDR block for the internal LB subnet"
+    type: string
+    required: true
+    visible: ${create_internal_lb_subnet}
+
+  internal_lb_subnet_dns_label:
+    title: "Internal LB subnet DNS label"
+    description: "DNS label for the internal LB subnet"
+    type: string
+    required: true
+    visible: ${create_internal_lb_subnet}
+
+  internal_lb_subnet_name:
+    title: "Service subnet name"
+    description: "Name of the internal LB subnet"
+    type: string
+    required: true
+    visible: ${create_internal_lb_subnet}
 
 # FSS SUBNET
 
@@ -391,7 +414,7 @@ variables:
           - ${cp_external_nat}
 
   cp_egress_cidr:
-    title: "Egress CIDR block"
+    title: "Control Plane allowed egress cidr"
     description: "Allowed egress IP range that the Control Plane is allowed to call"
     type: string
     required: true

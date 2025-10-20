@@ -1,7 +1,7 @@
 resource "oci_core_network_security_group" "pod_nsg" {
   compartment_id = var.network_compartment_id
   vcn_id         = local.vcn_id
-  display_name = "pod-nsg"
+  display_name = "pod"
   count = local.is_npn ? 1 : 0
 }
 
@@ -72,35 +72,7 @@ resource "oci_core_network_security_group_security_rule" "oke_pod_nsg_ingress_3_
   count = local.is_npn ? 1 : 0
 }
 
-resource "oci_core_network_security_group_security_rule" "oke_pod_nsg_ingress_4" {
-  direction                 = "INGRESS"
-  network_security_group_id = oci_core_network_security_group.pod_nsg.0.id
-  protocol                  = local.icmp_protocol
-  source_type = "CIDR_BLOCK"
-  source = "0.0.0.0/0"
-  stateless = true
-  description = "Allow ICMP ingress to pods for path discovery"
-  icmp_options {
-    type = 3
-    code = 4
-  }
-  count = local.is_npn ? 1 : 0
-}
-
-resource "oci_core_network_security_group_security_rule" "oke_pod_nsg_ingress_4_stateless_egress" {
-  direction                 = "EGRESS"
-  network_security_group_id = oci_core_network_security_group.pod_nsg.0.id
-  protocol                  = local.icmp_protocol
-  destination_type = "CIDR_BLOCK"
-  destination = "0.0.0.0/0"
-  stateless = true
-  description = "Allow ICMP egress to internet from pods"
-  icmp_options {
-    type = 3
-    code = 4
-  }
-  count = local.is_npn ? 1 : 0
-}
+# Native Ingress + Pods to Backends
 
 resource "oci_core_network_security_group_security_rule" "pods_nsg_rule_lb_ingress" {
   direction                 = "INGRESS"
@@ -113,6 +85,41 @@ resource "oci_core_network_security_group_security_rule" "pods_nsg_rule_lb_ingre
   count = local.is_npn ? 1 : 0
 }
 
+resource "oci_core_network_security_group_security_rule" "pods_nsg_rule_lb_egress_stateless" {
+  direction                 = "EGRESS"
+  network_security_group_id = oci_core_network_security_group.pod_nsg.0.id
+  protocol                  = local.tcp_protocol
+  destination_type = "NETWORK_SECURITY_GROUP"
+  destination = oci_core_network_security_group.oke_lb_nsg.id
+  stateless = true
+  description = "pods to LBs"
+  count = local.is_npn ? 1 : 0
+}
+
+resource "oci_core_network_security_group_security_rule" "pods_nsg_rule_lb_udp_ingress" {
+  direction                 = "INGRESS"
+  network_security_group_id = oci_core_network_security_group.pod_nsg.0.id
+  protocol                  = local.udp_protocol
+  source_type = "NETWORK_SECURITY_GROUP"
+  source = oci_core_network_security_group.oke_lb_nsg.id
+  stateless = true
+  description = "LBs to pods"
+  count = local.is_npn ? 1 : 0
+}
+
+resource "oci_core_network_security_group_security_rule" "pods_nsg_rule_lb_udp_egress_stateless" {
+  direction                 = "EGRESS"
+  network_security_group_id = oci_core_network_security_group.pod_nsg.0.id
+  protocol                  = local.udp_protocol
+  destination_type = "NETWORK_SECURITY_GROUP"
+  destination = oci_core_network_security_group.oke_lb_nsg.id
+  stateless = true
+  description = "pods to LBs"
+  count = local.is_npn ? 1 : 0
+}
+
+###
+
 # Egress rules and their corresponding ingress
 resource "oci_core_network_security_group_security_rule" "oke_pod_nsg_egress_1" {
   direction                 = "EGRESS"
@@ -120,19 +127,8 @@ resource "oci_core_network_security_group_security_rule" "oke_pod_nsg_egress_1" 
   protocol                  = "all"
   destination_type = "CIDR_BLOCK"
   destination = "0.0.0.0/0"
-  stateless = true
+  stateless = false
   description = "Allow ALL egress from pods to internet"
-  count = local.is_npn ? 1 : 0
-}
-
-resource "oci_core_network_security_group_security_rule" "oke_pod_nsg_egress_1_stateless_ingress" {
-  direction                 = "INGRESS"
-  network_security_group_id = oci_core_network_security_group.pod_nsg.0.id
-  protocol                  = "all"
-  source_type = "CIDR_BLOCK"
-  source = "0.0.0.0/0"
-  stateless = true
-  description = "Allow ALL ingress from internet to pods"
   count = local.is_npn ? 1 : 0
 }
 
@@ -206,7 +202,7 @@ resource "oci_core_network_security_group_security_rule" "oke_pod_nsg_egress_4_s
   stateless = true
   description = "Allow TCP ingress from control plane to pods"
   tcp_options {
-    destination_port_range {
+    source_port_range {
       max = 6443
       min = 6443
     }
@@ -233,35 +229,5 @@ resource "oci_core_network_security_group_security_rule" "oke_pod_nsg_egress_5_s
   source = lookup(data.oci_core_services.all_oci_services.services[0], "cidr_block")
   stateless = true
   description = "Allow TCP ingress from OCI services to pods"
-  count = local.is_npn ? 1 : 0
-}
-
-resource "oci_core_network_security_group_security_rule" "oke_pod_nsg_egress_6" {
-  direction                 = "EGRESS"
-  network_security_group_id = oci_core_network_security_group.pod_nsg.0.id
-  protocol                  = local.icmp_protocol
-  destination_type = "CIDR_BLOCK"
-  destination = "0.0.0.0/0"
-  stateless = true
-  description = "Allow ICMP egress from pods for path discovery"
-  icmp_options {
-    type = 3
-    code = 4
-  }
-  count = local.is_npn ? 1 : 0
-}
-
-resource "oci_core_network_security_group_security_rule" "oke_pod_nsg_egress_6_stateless_ingress" {
-  direction                 = "INGRESS"
-  network_security_group_id = oci_core_network_security_group.pod_nsg.0.id
-  protocol                  = local.icmp_protocol
-  source_type = "CIDR_BLOCK"
-  source = "0.0.0.0/0"
-  stateless = true
-  description = "Allow ICMP ingress from internet to pods"
-  icmp_options {
-    type = 3
-    code = 4
-  }
   count = local.is_npn ? 1 : 0
 }

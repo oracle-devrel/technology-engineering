@@ -16,7 +16,7 @@ resource "oci_core_default_security_list" "lockdown" {
       code = "4"
       type = "3"
     }
-    protocol    = "1"
+    protocol    = local.icmp_protocol
     source      = "0.0.0.0/0"
     source_type = "CIDR_BLOCK"
     stateless   = "true"
@@ -28,7 +28,7 @@ resource "oci_core_default_security_list" "lockdown" {
       code = "4"
       type = "3"
     }
-    protocol    = "1"
+    protocol    = local.icmp_protocol
     destination = "0.0.0.0/0"
     destination_type = "CIDR_BLOCK"
     stateless   = "true"
@@ -39,7 +39,7 @@ resource "oci_core_default_security_list" "lockdown" {
     icmp_options {
       type = "3"
     }
-    protocol    = "1"
+    protocol    = local.icmp_protocol
     source      = oci_core_vcn.spoke_vcn[0].cidr_block
     source_type = "CIDR_BLOCK"
     stateless   = "true"
@@ -50,7 +50,7 @@ resource "oci_core_default_security_list" "lockdown" {
     icmp_options {
       type = "3"
     }
-    protocol    = "1"
+    protocol    = local.icmp_protocol
     destination = oci_core_vcn.spoke_vcn[0].cidr_block
     destination_type = "CIDR_BLOCK"
     stateless   = "true"

@@ -1,7 +1,7 @@
 resource "oci_core_network_security_group" "fss_nsg" {
   compartment_id = var.network_compartment_id
   vcn_id         = local.vcn_id
-  display_name = "fss-nsg"
+  display_name = "fss"
 }
 
 # Ingress rules and their corresponding egress
