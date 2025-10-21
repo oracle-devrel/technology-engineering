@@ -24,8 +24,6 @@ VMware have their own built in tools to help with this, the first of which is vS
 
 # OCVS - vSphere Replication 9.x Overview and Deployment Guide
 
-
-
 ## What is vSphere Replication?
 
 **vSphere Replication** is a hypervisor-based replication and recovery solution, delivered as an extension to **vCenter Server**. It provides **cost-efficient, per-VM protection** without requiring array-based replication.
@@ -94,7 +92,7 @@ In OCVS this could be done with Cluster 1 being in AD1 and Cluster 2 being in AD
 
 Cluster 2 would have different storage to Cluster 1. Cluster 1 could be VSAN or OCI Block Storage  and Cluster 2 could also be VSAN or OCI Block Storage. By doing this the replicated VM data is stored on different storage to the original workloads providing resiliency against a cluster/AD outage.
 
-![](images/EnhancedVR_single%20site.png)
+<img title="" src="images/EnhancedVR_singlesite.png" alt="EnhancedVR_singlesite data-align="center">
 
 The downsides of using vSphere Replication in this way is that it requires vCenter to do the recovery of VMs, and if the outage impacts the vCenter server, then recovery becomes harder to do and could possibly require the assistance of VMware support.
 
@@ -116,53 +114,53 @@ You will then be prompted to select the required files as shown below
 
 ![ovfselectfiles.png](images/ovfselectfiles.png)
 
-![Screenshot 2025-08-26 152330.png](images/Screenshot%202025-08-26%20152330.png)
+![Screenshot_1.png](images/Screenshot_1.png)
 
-![Screenshot 2025-08-26 152339.png](images/Screenshot%202025-08-26%20152339.png)
+![Screenshot_2.png](images/Screenshot_2.png)
 
 You then follow the prompts, and you will eventually be asked to pick the network for the OVF deployment
 
 You can put it in any network you like, as long as the required networking ports are allowed. The easiest option as per the screenshot below is to put it into the same network and the vSphere Management components.
 
-<img title="" src="images/Screenshot%202025-08-26%20154254.png" alt="Screenshot 2025-08-26 154254.png" data-align="center">
+<img title="" src="images/Screenshot_3.png" alt="Screenshot_3.png" data-align="center">
 
 You will then be required to fill in the deployment details such as admin/root passwords and networking IP details.
 
-<img title="" src="images/Screenshot%202025-08-26%20155045.png" alt="Screenshot 2025-08-26 155045.png" data-align="center">
+<img title="" src="images/Screenshot_4.png" alt="Screenshot_4.png" data-align="center">
 
 Once it has been deployed and powered on, you can then access the management interface on port 5480 as shown here using the admin/root login and password that was configured during the appliance deployment.
 
-<img title="" src="images\Screenshot%202025-08-26%20155603.png" alt="Screenshot 2025-08-26 155603.png" data-align="center">
+<img title="" src="images\Screenshot_5.png" alt="Screenshot_5.png" data-align="center">
 
 You will then have to configure vSphere Replication and connect it to the local vCenter/PSC.
 
-<img title="" src="images/configure%20appliance%20.png" alt="configure appliance .png" data-align="center">
+<img title="" src="images/configure_appliance.png" alt="configure appliance .png" data-align="center">
 
-<img title="" src="images/Screenshot%202025-08-26%20155710.png" alt="Screenshot 2025-08-26 155710.png" data-align="center">
+<img title="" src="images/Screenshot_6.png" alt="SScreenshot_6.png" data-align="center">
 
 You will accept the security certificate.
 
-<img title="" src="images/Screenshot%202025-08-26%20155726.png" alt="Screenshot 2025-08-26 155726.png" data-align="center">
+<img title="" src="images/Screenshot_7.png" alt="Screenshot_7.png" data-align="center">
 
 and configure the site name.
 
-<img title="" src="images/Screenshot%202025-08-26%20155819.png" alt="Screenshot 2025-08-26 155819.png" data-align="center">
+<img title="" src="images/Screenshot_8.png" alt="Screenshot_8.png" data-align="center">
 
 After it has been configured you will see the following
 
-<img title="" src="images/Screenshot%202025-08-26%20160004.png" alt="Screenshot 2025-08-26 160004.png" data-align="center">
+<img title="" src="images/Screenshot_9.png" alt="Screenshot_9.png" data-align="center">
 
 When you login vCenter you will see the Site Recovery Plugin has been deployed
 
-<img title="" src="images/Screenshot%202025-08-26%20160024.png" alt="Screenshot 2025-08-26 160024.png" data-align="center">
+<img title="" src="images/Screenshot_10.png" alt="Screenshot_10.png" data-align="center">
 
 <img title="" src="images/SiteRecovery.png" alt="SiteRecovery.png" data-align="center">
 
 **If at this point you see errors in vCenter regarding the plugin failed to download, this is most likely a DNS issue of some kind. If in OCI/OCVS please ensure the correct A records are present for the VR appliances in OCVS and on prem in the OCVS VCN. This way it ensures the vCenter can reach them correctly**
 
-<img title="" src="images/Screenshot%202025-08-26%20160102.png" alt="Screenshot 2025-08-26 160102.png" data-align="center">
+<img title="" src="images/Screenshot_11.png" alt="Screenshot_11.png" data-align="center">
 
-<img title="" src="images/Screenshot%202025-08-26%20160115.png" alt="Screenshot 2025-08-26 160115.png" data-align="center">
+<img title="" src="images/Screenshot_12.png" alt="Screenshot_12.png" data-align="center">
 
 By default, you will have the option to configure replications within the same vCenter. 
 
@@ -174,47 +172,47 @@ Once this has been completed you are able to configure a new site pairing betwee
 
 You have the option to peer with a vCenter in the same or different SSO domain, with OCVS it is most likely that your vCenter servers/SDDCs will be in different vSphere SSO domains.
 
-![Screenshot 2025-08-27 111347.png](images/Screenshot%202025-08-27%20111347.png)
+![Screenshot_13.png](images/Screenshot_13.png)
 
-<img title="" src="images/Screenshot%202025-08-26%20161939.png" alt="Screenshot 2025-08-26 161939.png" data-align="center">
+<img title="" src="images/Screenshot_14.png" alt="Screenshot_14.png" data-align="center">
 
 It will then check the remote vCenter and confirm that vSphere Replication has been installed and configured with that remote vCenter.
 
-<img title="" src="images/Screenshot%202025-08-26%20175001.png" alt="Screenshot 2025-08-26 175001.png" data-align="center">
+<img title="" src="images/Screenshot_15.png" alt="Screenshot_15.png" data-align="center">
 
-<img title="" src="images/Screenshot%202025-08-26%20175017.png" alt="Screenshot 2025-08-26 175017.png" data-align="center">
+<img title="" src="images/Screenshot_16.png" alt="Screenshot_16.png" data-align="center">
 
 Once the pairing has completed successfully you will then be presented with the following screen, and you can login to start configuring replications
 
 ![sitepairingcomplete.png](images/sitepairingcomplete.png)
 
-<img title="" src="images/Screenshot%202025-08-27%20111710.png" alt="Screenshot 2025-08-27 111710.png" data-align="center">
+<img title="" src="images/Screenshot_17.png" alt="Screenshot_17.png" data-align="center">
 
 When configuring replications for VMs, you will be offered the choice between Standard and Enhanced Replication, the default should always be Enhanced for new replications.
 
 You will select the VMs you wish to replicate and protect.
 
-![Screenshot 2025-08-27 111820.png](images/Screenshot%202025-08-27%20111820.png)
+![Screenshot_18.png](images/Screenshot_18.png)
 
 Select the destination datastore for the replicated VMDK and VM files
 
-<img title="" src="images/Screenshot%202025-08-27%20111831.png" alt="Screenshot 2025-08-27 111831.png" data-align="center">
+<img title="" src="images/Screenshot_19.png" alt="Screenshot_19.png" data-align="center">
 
 Test mappings to confirm there are no errors.
 
-<img title="" src="images/Screenshot%202025-08-27%20111839.png" alt="Screenshot 2025-08-27 111839.png" data-align="center">
+<img title="" src="images/Screenshot_20.png" alt="Screenshot_20.png" data-align="center">
 
 Configure replication settings such as RPO/Snapshots, compression and encryption.
 
-![Screenshot 2025-08-27 111852.png](images/Screenshot%202025-09-08%20154507.png)
+![Screenshot_21.png](images/Screenshot_21.png)
 
 Once this has been completed you will see this screen
 
-<img title="" src="images/Screenshot%202025-08-27%20112007.png" alt="Screenshot 2025-08-27 112007.png" data-align="center">
+<img title="" src="images/Screenshot_22.png" alt="Screenshot_22.png" data-align="center">
 
 and in vCenter you will see the following
 
-<img title="" src="images/Screenshot%202025-08-27%20111952.png" alt="Screenshot 2025-08-27 111952.png" data-align="center">
+<img title="" src="images/Screenshot_23.png" alt="Screenshot_23.png" data-align="center">
 
 **If at this point the progress bar stays at 0%, or you get an error which states "No connection to VR Server" this is a routing/firewall issue.**
 
@@ -236,7 +234,7 @@ You have 3 options:
 
 To failover a VM or multiple VMs, you must log into Site Recovery at the destination.
 
-<img title="" src="images/Screenshot%202025-09-08%20155023.png" alt="Screenshot 2025-09-08 155023.png" data-align="center">
+<img title="" src="images/Screenshot_24.png" alt="Screenshot_24.png" data-align="center">
 
 Then select the **Incoming Replications**, right click on the VM you want to recover and select **Recover.**
 
@@ -244,7 +242,7 @@ Then select the **Incoming Replications**, right click on the VM you want to rec
 
 You will now be presented with 2 options:
 
-<img title="" src="images/Screenshot 2025-09-08 153459.png" alt="Screenshot 2025-09-08 153459.png" data-align="center">
+<img title="" src="images/Screenshot_25.png" alt="Screenshot_25.png" data-align="center">
 
 * Syncronise recent changes - This is if the source site is still active and the source VM is powered off. If both these requirements are met, it will do an offline sync and copy the changes from the last RPO sync, making sure you have the latest data available.
 
@@ -252,29 +250,31 @@ You have the option to have the VM power on after recovery, this is enabled by d
 
 If you do not meet the criteria as mentioned, you will be given an error message as follows:
 
-<img title="" src="images/Screenshot 2025-09-08 153529.png" alt="Screenshot 2025-09-08 153529.png" data-align="center">
+<img title="" src="images/Screenshot_26.png" alt="Screenshot_26.png" data-align="center">
+
+You will then have to use option 2, which will use whatever data has already been replicated and recover using only this.
 
 You can now decide on which folder the recovered VM will sit in under the destination vCenter
 
-<img title="" src="images/Screenshot 2025-09-08 153547.png" alt="Screenshot 2025-09-08 153547.png" data-align="center">
+<img title="" src="images/Screenshot_27.png" alt="Screenshot_27.png" data-align="center">
 
 Now you can pick which cluster/host/resource pool the VM will sit in
 
-<img title="" src="images/Screenshot 2025-09-08 153603.png" alt="Screenshot 2025-09-08 153603.png" data-align="center">
+<img title="" src="images/Screenshot_28.png" alt="Screenshot_28.png" data-align="center">
 
 As mentioned in the yellow box, the recovered VM will not be connected to any network, this is done to avoid all possible chances of conflict across the network. So as part of your recovery process you will have to connect the VMs vnic to the required network after the recover has completed.
 
-![Screenshot 2025-09-08 153626.png](images/Screenshot%202025-09-08%20153626.png)
+![Screenshot_29.png](images/Screenshot_29.png)
 
 The VM will now be added to the inventory in the vCenter and powered on if that option was selected. 
 
 The vSphere Replication interface will now show it as a **Recovered VM**
 
-<img title="" src="images/Screenshot 2025-09-08 160757.png" alt="Screenshot 2025-09-08 160757.png" data-align="center">
+<img title="" src="images/Screenshot_30.png" alt="Screenshot_30.png" data-align="center">
 
 In vCenter you will see the following tasks/events on the recovered VM
 
-<img title="" src="images/Screenshot 2025-09-08 160832.png" alt="Screenshot 2025-09-08 160832.png" data-align="center">
+<img title="" src="images/Screenshot_31.png" alt="Screenshot_31.png" data-align="center">
 
 ### Failback
 
@@ -282,30 +282,30 @@ Is a very similar process to failover.
 
 At the destination side, where the VM was recovered to, you would select outgoing replications and configure a new replication.
 
-<img title="" src="images/Screenshot 2025-09-15 144139.png" alt="Screenshot 2025-09-08 154355.png" data-align="center">
+<img title="" src="images/Screenshot_32.png" alt="Screenshot_32.png" data-align="center">
 
-![Screenshot 2025-09-08 154411.png](images/Screenshot%202025-09-08%20154411.png)
+![Screenshot_33.png](images/Screenshot_33.png)
 
 If the original source VM is still in the inventory of the vCenter, you can remove it from the inventory *but do not delete from disk**. The vmdks can now be used as seeds, so only replicated changes need to be transferred minimizing the amount of time and b/w needed to get the replication running.
 
 If this has been done correctly you will see the following information and be given the option to **select seeds**
 
-<img title="" src="images/Screenshot 2025-09-08 154424.png" alt="Screenshot 2025-09-08 154424.png" data-align="center">
+<img title="" src="images/Screenshot_34.png" alt="Screenshot_34.png" data-align="center">
 
 vSphere Replication will automatically map the seed disks, but if for some reason it maps them incorrectly you can modify the selection. **please be careful as if you map them incorrectly it could cause unrecoverable data loss.**
 
-![Screenshot 2025-09-08 154435.png](images/Screenshot%202025-09-08%20154424.png)
+![Screenshot_35.png](images/Screenshot_35.png)
 
 Select the RPO schedule just as before.
 
-![Screenshot 2025-09-08 154507.png](images/Screenshot%202025-09-08%20154507.png)
+![Screenshot_36.png](images/Screenshot_36.png)
 
 Confirm everything and select **Finish.**
 
-<img title="" src="images/Screenshot 2025-09-08 154517.png" alt="Screenshot 2025-09-08 154517.png" data-align="center">
+<img title="" src="images/Screenshot_39.png" alt="Screenshot_39.png" data-align="center">
 
 As the replication is being redone, you can monitor its progress and see how much data it is transferring along with its verification of the seed data
 
-![Screenshot 2025-09-08 154609.png](images/Screenshot%202025-09-08%20154609.png)
+![Screenshot_40.png](images/Screenshot_40.png)
 
 Thank you for joining me on this journey into vSphere Replication v9.x
