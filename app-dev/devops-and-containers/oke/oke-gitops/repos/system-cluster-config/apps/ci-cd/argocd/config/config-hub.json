@@ -3,7 +3,7 @@
     "repo": "https://argoproj.github.io/argo-helm",
     "name": "argo-cd",
     "version": "*",
-    "release-name": "argocd"
+    "releaseName": "argocd"
   },
   "namespace": "argocd"
 }
