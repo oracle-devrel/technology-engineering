@@ -2,7 +2,7 @@
 
 This document provides a step-by-step guide for setting up a Secure Desktop image using a local (operating system) account. It also includes detailed architecture information to help users understand the overall deployment design.
 
-Reviewed: 22.10.2025
+Reviewed: 22.10.2025 
 
 # When to use this asset?
 
