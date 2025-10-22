@@ -1,0 +1,83 @@
+# Enable access logs
+logs:
+  access:
+    enabled: true
+    format: "json"
+
+
+# Choose if this ingressClass will be the default one, or customize the ingress class name
+ingressClass:
+  enabled: true
+  isDefaultClass: true
+  name: "traefik"
+
+
+# Tracing configurations, here is an example with OpenTelemetry Collector
+#tracing:
+#  sampleRate: 0.01
+#  otlp:
+#    enabled: true
+#    grpc:
+#      enabled: true
+#      endpoint: "otel-agent-collector.otel:4317"
+#      insecure: true
+
+# Create an ingressRule for health
+ingressRoute:
+  healthcheck:
+    enabled: true
+    matchRule: PathPrefix(`/healthz`)
+    entryPoints: ["traefik"]
+
+# HPA configurations
+autoscaling:
+  enabled: true
+  maxReplicas: 5
+  minReplicas: 3
+
+updateStrategy:
+  # -- Customize updateStrategy of Deployment or DaemonSet
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 0
+    maxSurge: "50%"
+
+resources:
+  limits:
+    cpu: 1
+    memory: 500Mi
+  requests:
+    cpu: 200m
+    memory: 200Mi
+
+# Sample topologySpreadConstraints to spread PODS across multiple ADs or FDs
+topologySpreadConstraints:
+  - maxSkew: 1
+    topologyKey: "topology.kubernetes.io/zone"
+    whenUnsatisfiable: "ScheduleAnyway"
+    labelSelector:
+      matchLabels:
+        app.kubernetes.io/name: '{{ template "traefik.name" . }}'
+#  - maxSkew: 1
+#    topologyKey: "oci.oraclecloud.com/fault-domain"
+#    whenUnsatisfiable: "ScheduleAnyway"
+#    labelSelector:
+#      matchLabels:
+#        app.kubernetes.io/name: '{{ template "traefik.name" . }}'
+
+
+# Better to define podAntiAffinity so that Traefik pods are distributed across different nodes
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - podAffinityTerm:
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: '{{ template "traefik.name" . }}'
+          topologyKey: "kubernetes.io/hostname"
+        weight: 100
+
+# Specify podDisruptionBudget to protect this workload from voluntary disruptions
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
