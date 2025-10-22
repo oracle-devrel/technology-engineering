@@ -63,9 +63,9 @@ The first step in setting up OCI Secure Desktops (OSD) is to run the OCI OSD Mar
 
 - Choose the compartment where the OSD resources (VCN, instances, etc.) will be provisioned.
 
-![OSD Architecture](./images/1.png "OCI Secure Desktops Architecture Diagram") 
+![OSD Architecture](./images/1.png "OCI Secure Desktops Market Place Stack") 
 
-![OSD Architecture](./images/2.png "OCI Secure Desktops Architecture Diagram")
+![OSD Architecture](./images/2.png "OCI Secure Desktops Market Place Stack")
 
 **Step 2: Provide Stack Information**
 
@@ -87,9 +87,9 @@ The first step in setting up OCI Secure Desktops (OSD) is to run the OCI OSD Mar
 
   - OSD End User Group – users who will request and use virtual desktops
 
-![OSD Architecture](./images/3.png "OCI Secure Desktops Architecture Diagram") 
+![OSD Architecture](./images/3.png "OCI Secure Desktops Market Place Stack") 
 
-![OSD Architecture](./images/4.png "OCI Secure Desktops Architecture Diagram")
+![OSD Architecture](./images/4.png "OCI Secure Desktops Market Place Stack")
 
 - Enter a name for the Dynamic Group.
   - This group will be automatically created and used to assign policies for OSD instance access
@@ -104,11 +104,11 @@ The first step in setting up OCI Secure Desktops (OSD) is to run the OCI OSD Mar
 
 Finish the Wizard and deploy the ORM Stack.
 
-![OSD Architecture](./images/5.png "OCI Secure Desktops Architecture Diagram") 
+![OSD Architecture](./images/5.png "OCI Secure Desktops Market Place Stack") 
 
-![OSD Architecture](./images/6.png "OCI Secure Desktops Architecture Diagram")
+![OSD Architecture](./images/6.png "OCI Secure Desktops Stack Completion")
 
-![OSD Architecture](./images/7.png "OCI Secure Desktops Architecture Diagram") 
+![OSD Architecture](./images/7.png "OCI Secure Desktops Stack Completion log output") 
 
 &nbsp;
 
@@ -116,11 +116,11 @@ Finish the Wizard and deploy the ORM Stack.
 
 1. Create a Desktop pool with tag "oci:desktops:is_auth" as false. Here is documentation about [tags](https://docs.oracle.com/en-us/iaas/secure-desktops/tags.htm).
 
-![OSD Architecture](./images/8.png "OCI Secure Desktops Architecture Diagram")
+![OSD Architecture](./images/8.png "OCI Secure Desktops Desktop Pool")
 
 2. Copy the client URL from the Desktop pool and request an instance
 
-![OSD Architecture](./images/9.png "OCI Secure Desktops Architecture Diagram")
+![OSD Architecture](./images/9.png "OCI Secure Desktops Desktop Pool")
 
 3. On the OSD instance install the required custom/third-party softwares as needed.
 
@@ -132,15 +132,15 @@ Finish the Wizard and deploy the ORM Stack.
 
 5. Create a local account on the OS (for example opc) and add it to the administrators group
 
-![OSD Architecture](./images/11.png "OCI Secure Desktops Architecture Diagram")
+![OSD Architecture](./images/11.png "OCI Secure Desktops Image info")
 
 6. If you do not wish to provide administrator access to the opc user, then it is mandatory to add them to the 'Remote Desktop Users' group.
 
-![OSD Architecture](./images/20.png "OCI Secure Desktops Architecture Diagram")
+![OSD Architecture](./images/20.png "OCI Secure Desktops Image info")
 
 7. On the OSD instance navigate to C:\TEMP and you should see run_sysprep1 powershell script. On the OSD instance launch PowerShell v7 as Administrator and execute run_sysprep1 powershell script. It will start the sysprep process.
 
-![OSD Architecture](./images/12.png "OCI Secure Desktops Architecture Diagram")
+![OSD Architecture](./images/12.png "OCI Secure Desktops Image info")
 
 &nbsp;
 
@@ -158,7 +158,7 @@ Finish the Wizard and deploy the ORM Stack.
 
     - oci:desktops:is_desktop_image       true
 
-![OSD Architecture](./images/14.png "OCI Secure Desktops Architecture Diagram")
+![OSD Architecture](./images/14.png "OCI Secure Desktops Image info")
 
 &nbsp;
 
@@ -168,19 +168,19 @@ With the new customized image, we will create a Desktop pool and endusers will r
 
 1. Create a Desktop pool with tag "oci:desktops:is_auth" as true. The end users need to the enter the OPC user credentials created above.
 
-![OSD Architecture](./images/16.png "OCI Secure Desktops Architecture Diagram")
+![OSD Architecture](./images/16.png "OCI Secure Desktops Desktop Pool")
 
 2. Copy the client URL from the Desktop pool and request an instance
 
-![OSD Architecture](./images/15.png "OCI Secure Desktops Architecture Diagram")
+![OSD Architecture](./images/15.png "OCI Secure Desktops Desktop Pool")
 
 3. The user needs to enter the OPC credentials and should be able to get the OS home window
 
-![OSD Architecture](./images/19.png "OCI Secure Desktops Architecture Diagram") 
+![OSD Architecture](./images/19.png "OCI Secure Desktops Enduser access") 
 
-![OSD Architecture](./images/17.png "OCI Secure Desktops Architecture Diagram") 
+![OSD Architecture](./images/17.png "OCI Secure Desktops Enduser access") 
 
-![OSD Architecture](./images/18.png "OCI Secure Desktops Architecture Diagram")
+![OSD Architecture](./images/18.png "OCI Secure Desktops Enduser access")
 
 &nbsp;
 
