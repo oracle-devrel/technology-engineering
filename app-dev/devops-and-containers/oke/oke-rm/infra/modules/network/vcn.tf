@@ -8,6 +8,8 @@ resource "oci_core_vcn" "spoke_vcn" {
 
 resource "oci_core_default_security_list" "lockdown" {
   manage_default_resource_id = oci_core_vcn.spoke_vcn.0.default_security_list_id
+
+  # Ingress rules and their corresponding egress
   ingress_security_rules {
     description = "Required to enable Path MTU Discovery to work, and non-OCI communication"
     icmp_options {
@@ -17,8 +19,21 @@ resource "oci_core_default_security_list" "lockdown" {
     protocol    = "1"
     source      = "0.0.0.0/0"
     source_type = "CIDR_BLOCK"
-    stateless   = "false"
+    stateless   = "true"
   }
+
+  egress_security_rules {
+    description = "Required to enable Path MTU Discovery responses to work, and non-OCI communication"
+    icmp_options {
+      code = "4"
+      type = "3"
+    }
+    protocol    = "1"
+    destination = "0.0.0.0/0"
+    destination_type = "CIDR_BLOCK"
+    stateless   = "true"
+  }
+
   ingress_security_rules {
     description = "Required to allow application within VCN to fail fast"
     icmp_options {
@@ -27,10 +42,22 @@ resource "oci_core_default_security_list" "lockdown" {
     protocol    = "1"
     source      = oci_core_vcn.spoke_vcn[0].cidr_block
     source_type = "CIDR_BLOCK"
-    stateless   = "false"
+    stateless   = "true"
   }
+
+  egress_security_rules {
+    description = "Required to allow application within VCN responses to fail fast"
+    icmp_options {
+      type = "3"
+    }
+    protocol    = "1"
+    destination = oci_core_vcn.spoke_vcn[0].cidr_block
+    destination_type = "CIDR_BLOCK"
+    stateless   = "true"
+  }
+
   lifecycle {
-    ignore_changes = [egress_security_rules, ingress_security_rules, defined_tags]
+    ignore_changes = [defined_tags]
   }
   count = var.create_vcn ? 1 : 0
 }
