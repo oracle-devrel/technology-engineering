@@ -33,12 +33,16 @@ Reviewed: 22.10.2025
 - [Move to Oracle Database@Azure with Oracle Zero Downtime Migration](https://docs.oracle.com/en/solutions/oracle-db-at-azure-migration/index.html)
 - [Deploy Oracle Key Vault for Oracle Database@Azure](https://docs.oracle.com/en/solutions/deploy-key-vault-database-at-azure/)
 - [Deploy Azure Key Vault for Oracle Database@Azure](https://docs.oracle.com/en-us/iaas/exadatacloud/doc/azure-key-vault-integration-for-oracle-database-at-azure.html)
+- [OD@Azure Backup Options](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/azubr-backup-and-restore-prerequisites.html)
+- [OD@Azure Monitoring](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/azumn-monitor.html)
 
 ## ADB-S@Azure
 
 - [The public ADB-S@Azure documentation](https://docs.oracle.com/en-us/iaas/odaaz/odaaz-provisioning-autonomous-database.html)
 - [The public ADB-S@Azure documentation](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/azucr-create-autonomous-database.html)
 - [Available Database Services](https://docs.oracle.com/en-us/iaas/Content/multicloud/oaa.htm#oaasystems)
+- [OD@Azure Backup Options](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/azubr-backup-and-restore-backup-autonomous-database.html)
+- [OD@Azure Monitoring](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/azumn-monitor.html)
 
 # License
  
