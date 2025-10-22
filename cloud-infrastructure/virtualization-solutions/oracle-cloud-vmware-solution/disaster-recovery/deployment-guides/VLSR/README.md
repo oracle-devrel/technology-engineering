@@ -1,8 +1,8 @@
-# Oracle Cloud VMware Solution -vSphere Replication 9.x
+# Oracle Cloud VMware Solution -Vmware Live Site Recovery 9.x
 
-This repository contains a detailed guide for using VR with Oracle Cloud VMware Solution.
+This repository contains a detailed guide for using VLSR 9.x with Oracle Cloud VMware Solution.
 
-Reviewed: 17.10.2025
+Reviewed: 21.10.2025
 
 # License
 
