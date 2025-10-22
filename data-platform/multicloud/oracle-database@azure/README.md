@@ -17,10 +17,9 @@ Reviewed: 22.10.2025
 - [Service Landing Page](https://www.oracle.com/cloud/azure/oracle-database-at-azure/?source=:so:ch:or:awr::::)
 - [Service FAQs](https://www.oracle.com/cloud/azure/oracle-database-at-azure/faq/?source=:so:ch:or:awr::::)
 
-## ExaDB-D@Azure
+## Oracle-DB@Azure Services
 
-## ExaDB-D@Azure
-
+- [OD@Azure Onbording](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/oaaonboard.htm)
 - [OD@Azure Getting Started Architecture](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/getting-started-architecture.htm)
 - [Networking for Oracle Database@Azure-Doc](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/network.htm)
 - [Networking for Oracle Database@Azure-Video](https://www.youtube.com/watch?v=ApfFm6O4kcw)
@@ -35,9 +34,6 @@ Reviewed: 22.10.2025
 - [Deploy Azure Key Vault for Oracle Database@Azure](https://docs.oracle.com/en-us/iaas/exadatacloud/doc/azure-key-vault-integration-for-oracle-database-at-azure.html)
 - [OD@Azure Backup Options](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/azubr-backup-and-restore-prerequisites.html)
 - [OD@Azure Monitoring](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/azumn-monitor.html)
-
-## ADB-S@Azure
-
 - [The public ADB-S@Azure documentation](https://docs.oracle.com/en-us/iaas/odaaz/odaaz-provisioning-autonomous-database.html)
 - [The public ADB-S@Azure documentation](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/azucr-create-autonomous-database.html)
 - [Available Database Services](https://docs.oracle.com/en-us/iaas/Content/multicloud/oaa.htm#oaasystems)
