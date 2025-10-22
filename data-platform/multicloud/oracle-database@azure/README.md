@@ -19,8 +19,6 @@ Reviewed: 22.10.2025
 
 ## ExaDB-D@Azure
 
-## ExaDB-D@Azure
-
 - [OD@Azure Getting Started Architecture](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/getting-started-architecture.htm)
 - [Networking for Oracle Database@Azure-Doc](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/network.htm)
 - [Networking for Oracle Database@Azure-Video](https://www.youtube.com/watch?v=ApfFm6O4kcw)
