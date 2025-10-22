@@ -12,8 +12,9 @@ Reviewed: 11.11.2024
 - [Announcing Oracle Cloud Infrastructure Secure Desktops](https://blogs.oracle.com/cloud-infrastructure/post/secure-desktops-cloud-native-virtualization)
 
 # Reusable Assets
-- [Oracle Cloud Infrastructure Secure Desktops Solution Definition Document](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/vmware-solutions/oracle-secure-desktops/secure-desktops-solution-definition)
-  
+- [Oracle Cloud Infrastructure Secure Desktops Solution Definition Document](./secure-desktops-solution-definition/README.md)
+- [Oracle Secure Desktops - Active Directory Integration Document](./ad-integration/files/index.md)
+- [Customizing OCI Secure Desktops Image Using Local User Account Document](./using-local-account/index.md)
 
 # License
 
