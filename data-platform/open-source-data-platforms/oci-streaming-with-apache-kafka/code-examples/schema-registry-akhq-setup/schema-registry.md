@@ -108,8 +108,8 @@ Under clusters -> external clusters the below will be available
 * Schema Registry
 * Connect
 
-![alt text](/Users/jevonrowan/technology-engineering/data-platform/open-source-data-platforms/oci-streaming-with-apache-kafka/code-examples/schema-registry-akhq-setup/images/AKHQ1.png)
+![alt text](data-platform/open-source-data-platforms/oci-streaming-with-apache-kafka/code-examples/schema-registry-akhq-setup/images/AKHQ1.png)
 
 Click Schema Registry. 
 
-![alt text](/Users/jevonrowan/technology-engineering/data-platform/open-source-data-platforms/oci-streaming-with-apache-kafka/code-examples/schema-registry-akhq-setup/images/schema-registry.png)
+![alt text](data-platform/open-source-data-platforms/oci-streaming-with-apache-kafka/code-examples/schema-registry-akhq-setup/images/schema-registry.png)
