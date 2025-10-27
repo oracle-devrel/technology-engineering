@@ -17,28 +17,26 @@ Reviewed: 22.10.2025
 - [Service Landing Page](https://www.oracle.com/cloud/azure/oracle-database-at-azure/?source=:so:ch:or:awr::::)
 - [Service FAQs](https://www.oracle.com/cloud/azure/oracle-database-at-azure/faq/?source=:so:ch:or:awr::::)
 
-## Oracle-DB@Azure Services
+## Oracle-DB@Azure Services and Reference Architecture and Step-by-Step Guides 
 
 - [OD@Azure Onbording](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/oaaonboard.htm)
+- [OD@Azure Overview and Servcies](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/overview.htm)
 - [OD@Azure Getting Started Architecture](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/getting-started-architecture.htm)
 - [Networking for Oracle Database@Azure-Doc](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/network.htm)
 - [Networking for Oracle Database@Azure-Video](https://www.youtube.com/watch?v=ApfFm6O4kcw)
 - [Learn about Oracle Maximum Availability Architecture for Oracle Database@Azure](https://docs.oracle.com/en/database/oracle/oracle-database/19/haovw/oracle-maximum-availability-architecture-oracle-databaseazure.html)
 - [Disaster recovery with multi-region standby for Oracle Database@Azure-Doc](https://docs.oracle.com/en/solutions/multi-region-standby-dr-db-at-azure/index.html)
 - [Oracle Database@Azure is Gold Maximum Availability Architecture endorsed](https://blogs.oracle.com/cloud-infrastructure/post/oracle-database-at-azure-gold-maa-goldengate)
-- [The public ExaDB-D@Azure documentation](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/oaa.htm)
 - [Secure Shell to Oracle Exadata Database Service from a Microsoft Azure Linux VM in Oracle Database@Azure](https://docs.oracle.com/en/learn/ssh-oeds-oracledbazure/)
-- [Oracle Zero Downtime Migration – Physical Online Migration to ExaDB-D on Oracle Database@Azure](https://www.oracle.com/a/otn/docs/database/zdm-physical-migration-to-oracle-at-azure.pdf)
-- [Move to Oracle Database@Azure with Oracle Zero Downtime Migration](https://docs.oracle.com/en/solutions/oracle-db-at-azure-migration/index.html)
+- [OD@Azure Security](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/azusr-security.html)
 - [Deploy Oracle Key Vault for Oracle Database@Azure](https://docs.oracle.com/en/solutions/deploy-key-vault-database-at-azure/)
 - [Deploy Azure Key Vault for Oracle Database@Azure](https://docs.oracle.com/en-us/iaas/exadatacloud/doc/azure-key-vault-integration-for-oracle-database-at-azure.html)
 - [OD@Azure Backup Options](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/azubr-backup-and-restore-prerequisites.html)
 - [OD@Azure Monitoring](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/azumn-monitor.html)
-- [The public ADB-S@Azure documentation](https://docs.oracle.com/en-us/iaas/odaaz/odaaz-provisioning-autonomous-database.html)
-- [The public ADB-S@Azure documentation](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/azucr-create-autonomous-database.html)
-- [Available Database Services](https://docs.oracle.com/en-us/iaas/Content/multicloud/oaa.htm#oaasystems)
-- [OD@Azure Backup Options](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/azubr-backup-and-restore-backup-autonomous-database.html)
-- [OD@Azure Monitoring](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/azumn-monitor.html)
+- [Move to Oracle Database@Azure with Oracle Zero Downtime Migration](https://docs.oracle.com/en/solutions/oracle-db-at-azure-migration/index.html)
+  
+# Live Labs
+- [https://livelabs.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=4010&clear=RR,180&session=7689646881249]
 
 # License
  
