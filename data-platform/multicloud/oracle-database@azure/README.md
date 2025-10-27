@@ -36,7 +36,7 @@ Reviewed: 22.10.2025
 - [Move to Oracle Database@Azure with Oracle Zero Downtime Migration](https://docs.oracle.com/en/solutions/oracle-db-at-azure-migration/index.html)
   
 # Live Labs
-- [https://livelabs.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=4010&clear=RR,180&session=7689646881249]
+- [Live Lab: Getting started with ODB@Azure](https://livelabs.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=4010&clear=RR,180&session=7689646881249)
 
 # License
  
