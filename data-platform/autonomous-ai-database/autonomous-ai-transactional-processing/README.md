@@ -1,8 +1,8 @@
-# Autonomous Transactional Database
+# Autonomous AI Transactional Database
  
 Oracle Autonomous Transaction Processing is a fully automated database service optimized to run transactional, analytical, and batch workloads concurrently. To accelerate performance, it’s preconfigured for row format, indexes, and data caching while providing scalability, availability, transparent security, and real-time operational analytics.
 
-Reviewed: 24.10.2024
+Reviewed: 28.10.2025
  
 # Table of Contents
  
@@ -28,4 +28,4 @@ Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
