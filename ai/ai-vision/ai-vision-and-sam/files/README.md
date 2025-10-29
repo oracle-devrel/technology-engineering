@@ -22,7 +22,6 @@ You would need some space and at least a CPU with 300MB of memory, for `sam2.1-h
 
 ## Setup
 1. Install Python (this project requires Python 3.13.5 or later). You can check your current Python version by running:
-</br>
 ```
 python --version
 ```
@@ -31,7 +30,6 @@ or
 python3 --version
 ```
 2. Install the requirements from `requirements.txt` file.
-</br>
 ```
 pip install -r /path/to/requirements.txt
 ```
