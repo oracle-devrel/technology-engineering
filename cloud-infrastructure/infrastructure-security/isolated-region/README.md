@@ -2,7 +2,7 @@
 
 Oracle Cloud Isolated Region is a secure, air-gapped Oracle Cloud Infrastructure (OCI) solution designed to meet the higher demands of global customers’ mission-critical classified workloads.
 
-Reviewed: 18.11.2024
+Reviewed: 20.10.2025
 
 # Table of Contents
 
