@@ -1,8 +1,8 @@
-# Autonomous Database Serverless
+# Autonomous AI Database Serverless
  
 Oracle Cloud provides a set of data management services built on self-driving Oracle Autonomous Database technology to deliver automated patching, upgrades, and tuning, including performing all routine database maintenance tasks while the system is running, without human intervention.
 
-Reviewed: 23.10.2024
+Reviewed: 28.10.2025
  
 # Table of Contents
  
@@ -156,9 +156,6 @@ Reviewed: 23.10.2024
 - [Chat with your Data in Autonomous Database using Generative AI](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3831&clear=RR,180&session=6652951814948)
     - Lab on how to use Generative AI.
       
-- [Develop Apps using GenAI, Autonomous Database and React](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3910&clear=RR,180&session=116856248894781)
-    - Lab on how to develop Apps using GenAI, Autonomous Database and React.
-      
 - [.NET development with Oracle Autonomous Database Quick Start](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3359&clear=RR,180&session=111609839150181)
     - Lab on how to develop .NET Apps with Oracle Autonomous Database.
       
@@ -169,4 +166,4 @@ Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

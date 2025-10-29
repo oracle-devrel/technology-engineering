@@ -2,7 +2,8 @@
 
 This tool helps you to identify which MongoDB queries are supported when using the Oracle Autonomous MongoDB API. 
 **IMPORANT NOTE:** This tool is not an official product and is provided as a community-driven resource to assist in expediting the process of checking compatibility. While it aims to be helpful, it is not guaranteed to cover all scenarios or provide complete accuracy. Users are strongly encouraged to consult the official documentation for definitive guidance and support. 
-Reviewed: 04.11.2024
+
+Reviewed: 28.10.2025
 
 # When to use this asset?
 

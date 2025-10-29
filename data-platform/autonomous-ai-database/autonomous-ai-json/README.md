@@ -1,14 +1,17 @@
-# Autonomous JSON Database
+# Autonomous AI JSON Database
  
 Oracle Autonomous JSON Database is a cloud document database service that makes it simple to develop JSON-centric applications. It features NoSQL-style document APIs (Oracle SODA and Oracle Database API for MongoDB), serverless scaling, high-performance ACID transactions, comprehensive security, and low pay-per-use pricing.
 
-Reviewed: 23.10.2024
+Reviewed: 28.10.2025
  
 # Table of Contents
  
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-links)
-3. [LiveLabs](#livelabs)
+- [Autonomous AI JSON Database](#autonomous-ai-json-database)
+- [Table of Contents](#table-of-contents)
+- [Team Publications](#team-publications)
+- [Useful Links](#useful-links)
+- [LiveLabs](#livelabs)
+- [License](#license)
  
 # Team Publications
  
@@ -106,4 +109,4 @@ Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
