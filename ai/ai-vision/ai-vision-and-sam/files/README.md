@@ -22,24 +22,24 @@ You would need some space and at least a CPU with 300MB of memory, for `sam2.1-h
 
 ## Setup
 1. Install Python (this project requires Python 3.13.5 or later). You can check your current Python version by running:
-```
-python --version
-```
-or
-```
-python3 --version
-```
+   ```
+   python --version
+   ```
+   or
+   ```
+   python3 --version
+   ```
 2. Install the requirements from `requirements.txt` file.
-```
-pip install -r /path/to/requirements.txt
-```
+   ```
+   pip install -r /path/to/requirements.txt
+   ```
 3. Update the `.config` file with your own `CONFIG_FILE_PATH` and `COMPARTMENT_ID`:
-```
-CONFIG_FILE_PATH = <path_to_oci_login_config_file>
-COMPARTMENT_ID = <compartment_OCID>
-# Change the endpoint to match your account's region
-ENDPOINT = "https://inference.generativeai.eu-frankfurt-1.oci.oraclecloud.com" 
-```
+   ```
+   CONFIG_FILE_PATH = <path_to_oci_login_config_file>
+   COMPARTMENT_ID = <compartment_OCID>
+   # Change the endpoint to match your account's region
+   ENDPOINT = "https://inference.generativeai.eu-frankfurt-1.oci.oraclecloud.com" 
+   ```
 4. Run the application using `streamlit run app.py`.
 
 ## Technical Details
