@@ -43,7 +43,7 @@ executing==2.2.0
 faiss-cpu==1.11.0.post1
 fastapi==0.115.14
 fastjsonschema==2.21.1
-fastmcp==2.9.2
+fastmcp==2.13.0
 filetype==1.2.0
 flatbuffers==25.2.10
 fonttools==4.56.0
