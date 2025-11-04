@@ -348,6 +348,9 @@ According to the feature requirements, the HCX license type should be carefully 
 
 [HCX License types](https://docs.oracle.com/en-us/iaas/Content/VMware/Concepts/ocvsoverview.htm#aboutsoftware__hcx-license-types)
 
+__Please note:__ According to [Broadcom’s official release notes for VMware HCX 4.11](https://techdocs.broadcom.com/us/en/vmware-cis/hcx/vmware-hcx/4-11/hcx-4-11-release-notes/vmware-hcx-411-release-notes.html),
+the **HCX Disaster Recovery (HCX DR)** feature has been **deprecated** and is planned for removal in a future release.
+
 __Please note:__ If you are using OCVS with Standard Shapes, then the HCX enterprise is included in the subscription and no additional cost is required.
 
 __Please Note:__ Please check the VMware interoperability matrix for version compatibility of VMware HCX with the source vSphere environment.
