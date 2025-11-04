@@ -7,7 +7,7 @@ Security of Data is at the core of our products.   As a team, we focus on Securi
 - The stand-alone products: Audit Vault and Database Firewall, Key Vault
 - The Enterprise Manager pack: Data Masking and Subsetting
 
-Reviewd: 03.09.24
+Reviewed: 30.10.25
 
 # Team Publications
 
@@ -27,7 +27,6 @@ Reviewd: 03.09.24
 - [Oracle.com](https://www.oracle.com) 
 - [Oracle Security Blog](https://blogs.oracle.com/security/)
 - [Oracle Cloud Security Database Blogs](https://blogs.oracle.com/cloudsecurity/category/ocs-database-security)
-- [Oracle Autonomous Database Security](https://videohub.oracle.com/media/Safeguarding%20your%20data%3A%20Oracle%20Autonomous%20Database%20Security/1_c4f4qui6?elq_mid=231948&sh=25121261326111887129186815826312&cmid=)
  
 # License
  
@@ -35,4 +34,4 @@ Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

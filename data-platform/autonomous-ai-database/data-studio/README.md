@@ -2,7 +2,7 @@
  
 The Data Studio Tools enables you to load data from the cloud and other diverse sources, analyze it, and gain insights from it. You can share the result of the analysis with other users. It is a one-stop application of your analytics tool from multiple data sources. This tool makes sure that there is a seamless transition between different applications. The multiple ways of navigation do not impact the progress of your work.
  
-Reviewed: 23.10.2024
+Reviewed: 28.10.2025
  
 # Table of Contents
  
@@ -41,4 +41,4 @@ Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

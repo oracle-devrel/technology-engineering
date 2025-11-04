@@ -2,13 +2,16 @@
  
 Autonomous Database on Dedicated Exadata Infrastructure provides you with a private database cloud in the public cloud. With your database, you get a completely dedicated compute, storage, network, and database service, providing the highest security, isolation, and governance levels.
 
-Reviewed: 24.10.2024
+Reviewed: 28.10.2025
  
 # Table of Contents
  
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-links)
-3. [LiveLabs](#livelabs)
+- [Autonomous Database Dedicated](#autonomous-database-dedicated)
+- [Table of Contents](#table-of-contents)
+- [Team Publications](#team-publications)
+- [Useful Links](#useful-links)
+- [LiveLabs](#livelabs)
+- [License](#license)
  
 # Team Publications
  
@@ -46,4 +49,4 @@ Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
