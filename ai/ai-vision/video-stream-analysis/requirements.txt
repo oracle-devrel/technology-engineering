@@ -1,0 +1,8 @@
+streamlit
+pillow
+numpy
+opencv-python
+pandas
+altair
+oci
+vision-service-python-client
