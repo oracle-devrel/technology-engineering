@@ -7,7 +7,7 @@ resource "oci_core_drg" "vcn_drg" {
 
 resource "oci_core_drg_attachment" "oke_drg_attachment" {
   drg_id = local.drg_id
-  display_name = "${var.vcn_name}-attachment"
+  display_name = var.vcn_name
 
   network_details {
     id = local.vcn_id
