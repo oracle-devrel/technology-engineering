@@ -21,9 +21,9 @@ variable "vcn_name" {
   default = "vcn-oke-1"
 }
 
-variable "vcn_cidr_blocks" {
-  type = list(string)
-  default = ["10.1.0.0/16"]
+variable "vcn_cidr_block" {
+  type = string
+  default = "10.0.0.0/16"
 }
 
 variable "vcn_dns_label" {
@@ -37,16 +37,8 @@ variable "create_cp_subnet" {
   default = true
 }
 
-variable "cp_subnet_cidr" {
-  default = "10.1.0.0/29"
-}
-
-variable "cp_subnet_dns_label" {
-  default = "cp"
-}
-
 variable "cp_subnet_name" {
-  default = "cp-subnet"
+  default = "cp"
 }
 
 variable "cp_subnet_private" {
@@ -65,16 +57,8 @@ variable "create_worker_subnet" {
   default = true
 }
 
-variable "worker_subnet_cidr" {
-  default = "10.1.8.0/21"
-}
-
-variable "worker_subnet_dns_label" {
-  default = "worker"
-}
-
 variable "worker_subnet_name" {
-  default = "worker-subnet"
+  default = "worker"
 }
 
 # POD SUBNET
@@ -84,40 +68,28 @@ variable "create_pod_subnet" {
   default = true
 }
 
-variable "pod_subnet_cidr" {
-  default = "10.1.128.0/18"
-}
-
-variable "pod_subnet_dns_label" {
+variable "pod_subnet_name" {
   default = "pod"
 }
 
-variable "pod_subnet_name" {
-  default = "pod-subnet"
+# LB SUBNETS
+
+variable "create_external_lb_subnet" {
+  type = bool
+  default = false
 }
 
-# SERVICE SUBNET
+variable "external_lb_subnet_name" {
+  default = "lb-ext"
+}
 
-variable "create_service_subnet" {
+variable "create_internal_lb_subnet" {
   type = bool
   default = true
 }
 
-variable "service_subnet_cidr" {
-  default = "10.1.0.32/27"
-}
-
-variable "service_subnet_private" {
-  type = bool
-  default = true
-}
-
-variable "service_subnet_dns_label" {
-  default = "service"
-}
-
-variable "service_subnet_name" {
-  default = "service-subnet"
+variable "internal_lb_subnet_name" {
+  default = "lb-int"
 }
 
 # BASTION SUBNET
@@ -127,21 +99,13 @@ variable "create_bastion_subnet" {
   default = true
 }
 
-variable "bastion_subnet_cidr" {
-  default = "10.1.0.8/29"
-}
-
 variable "bastion_subnet_private" {
   type = bool
   default = false
 }
 
-variable "bastion_subnet_dns_label" {
-  default = "bastion"
-}
-
 variable "bastion_subnet_name" {
-  default = "bastion-subnet"
+  default = "bastion"
 }
 
 # FSS SUBNET
@@ -151,16 +115,8 @@ variable "create_fss" {
   default = true
 }
 
-variable "fss_subnet_cidr" {
-  default = "10.1.0.64/26"
-}
-
-variable "fss_subnet_dns_label" {
-  default = "fss"
-}
-
 variable "fss_subnet_name" {
-  default = "fss-subnet"
+  default = "fss"
 }
 
 variable "create_gateways" {
