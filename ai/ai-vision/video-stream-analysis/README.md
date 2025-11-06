@@ -2,6 +2,10 @@
 
 ## Quick Start Guide
 
+- The code files in this demo are 
+  - OCIVisionStreamSetup.ipynb - Notebook containing cells to run to start the stream job(streaming frames from the RTSP server to the OCI Vision).
+  - Stream-analysis.py - Streamlit application that can be used to consume the generated outputs of stream video analysis
+
 ## 1. Region Selection
 
 OCI Vision Streaming is available in multiple regions.
