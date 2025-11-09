@@ -2,7 +2,7 @@
 
 OCI Zero Trust Packet Routing enables organizations to set security attributes on resources and write natural language policies that limit network traffic based on the resources and data services accessed. This effort is based on the 2023 initiative to develop a new open standard for Zero Trust Packet Routing (ZPR) with Applied Invention and other organizations. With ZPR, organizations can protect themselves from one of the most common causes of compromise—network misconfigurations. OCI is the first cloud provider to implement Zero Trust Packet Routing into its platform.
 
-Reviewed: 29.04.2025
+Reviewed: 10.10.2025
 
 # Useful Links
 

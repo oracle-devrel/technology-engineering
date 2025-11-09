@@ -4,7 +4,7 @@ This section covers Oracle SQL Tools: from SQL Developer Desktop to SQL Develope
 Providing links to public useful documentation and articles/blogs written by Oracle SQL and Database Advocates and Product Managers.
 We use this asset when we want to explore the various SQL IDE development tools like SQL Developer, sqlcl and VS Code with SQL Developer extentions.
 
-Reviewed: 22.07.2025
+Reviewed: 03.10.2025
 
 # Table of Contents
  
