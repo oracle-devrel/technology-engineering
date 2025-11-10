@@ -85,23 +85,32 @@ variable "pod_subnet_dns_label" {
 variable "pod_subnet_name" {
 }
 
-# SERVICE SUBNET
+# LB SUBNETS
 
-variable "create_service_subnet" {
+variable "create_external_lb_subnet" {
   type = bool
 }
 
-variable "service_subnet_cidr" {
+variable "external_lb_cidr" {
 }
 
-variable "service_subnet_private" {
+variable "external_lb_subnet_dns_label" {
+}
+
+variable "external_lb_subnet_name" {
+}
+
+variable "create_internal_lb_subnet" {
   type = bool
 }
 
-variable "service_subnet_dns_label" {
+variable "internal_lb_cidr" {
 }
 
-variable "service_subnet_name" {
+variable "internal_lb_subnet_dns_label" {
+}
+
+variable "internal_lb_subnet_name" {
 }
 
 
