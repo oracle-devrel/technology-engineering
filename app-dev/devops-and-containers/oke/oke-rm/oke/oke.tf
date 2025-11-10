@@ -22,7 +22,7 @@ locals {
 
 module "oke" {
   source  = "oracle-terraform-modules/oke/oci"
-  version = "5.3.2"
+  version = "5.3.3"
   compartment_id = var.oke_compartment_id
   # IAM - Policies
   create_iam_autoscaler_policy = "never"
