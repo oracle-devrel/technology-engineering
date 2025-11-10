@@ -37,3 +37,11 @@ Open the provided notebook in your OCI Data Science Notebook Session.
 Select the following conda environment: automlx234_p310_cpu_x86_64_v1
 
 Run the notebook cells in sequence to reproduce the complete workflow.
+
+# License
+ 
+Copyright (c) 2025 Oracle and/or its affiliates.
+ 
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+ 
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
