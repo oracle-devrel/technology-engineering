@@ -178,7 +178,7 @@ We recommend carefully planning the deployment — including the compartment str
 
     h. Choose the latest CSI driver followed by Cloud agent details. Verify the information, apply and run the stack.
 
-    At the time of writing the tutorial v1.32.0-UHP is the latest. Here is the link for future references
+    At the time of writing the tutorial v1.32.0-UHP is the latest. Here is the [link](https://github.com/oracle-quickstart/oci-openshift/tree/main/custom_manifests/oci-ccm-csi-drivers) for future references
 
     ![OSD Architecture](./images/22.png "OCI Secure Desktops Desktop Pool") ![OSD Architecture](./images/23.png "OCI Secure Desktops Desktop Pool")
 
