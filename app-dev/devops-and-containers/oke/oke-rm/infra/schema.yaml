@@ -20,45 +20,34 @@ variableGroups:
       - create_vcn
       - vcn_id
       - vcn_name
-      - vcn_cidr_blocks
+      - vcn_cidr_block
       - vcn_dns_label
       - cni_type
       - create_cp_subnet
       - cp_subnet_name
-      - cp_subnet_cidr
-      - cp_subnet_dns_label
-      - cp_subnet_private
-      - cp_allowed_source_cidr
       - create_worker_subnet
       - worker_subnet_name
-      - worker_subnet_cidr
-      - worker_subnet_dns_label
       - create_pod_subnet
       - pod_subnet_name
-      - pod_subnet_cidr
-      - pod_subnet_dns_label
-      - create_service_subnet
-      - service_subnet_name
-      - service_subnet_cidr
-      - service_subnet_dns_label
-      - service_subnet_private
+      - create_external_lb_subnet
+      - external_lb_subnet_name
+      - create_internal_lb_subnet
+      - internal_lb_subnet_name
       - create_fss
       - fss_subnet_name
-      - fss_subnet_cidr
-      - fss_subnet_dns_label
       - create_bastion_subnet
       - bastion_subnet_name
-      - bastion_subnet_cidr
-      - bastion_subnet_dns_label
       - bastion_subnet_private
       - create_gateways
       - nat_gateway_id
       - service_gateway_id
       - create_internet_gateway
 
-  - title: "Control Plane External Connection"
+  - title: "Control Plane Connectivity"
     variables:
       - cp_connection_notice
+      - cp_subnet_private
+      - cp_allowed_source_cidr
       - cp_external_nat
       - allow_external_cp_traffic
       - cp_egress_cidr
@@ -83,6 +72,7 @@ variables:
     title: "Network Compartment"
     description: "All resources in this section will be created within the compartment chosen"
     type: oci:identity:compartment:id
+    default: ${compartment_ocid}
     required: true
 
   cni_type:
@@ -118,20 +108,20 @@ variables:
     required: true
     visible: ${create_vcn}
 
-  vcn_cidr_blocks:
-    title: "VCN CIDR blocks"
-    description: "CIDR blocks to be allocated for the VCN"
-    type: array
-    items:
-      type: string
+  vcn_cidr_block:
+    title: "VCN CIDR block"
+    description: "CIDR blocks to be allocated for the VCN. MUST BE A /16 VCN"
+    type: string
     required: true
+    pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).){2}0.0\/16$"
     visible: ${create_vcn}
 
   vcn_dns_label:
     title: "VCN DNS name"
-    description: "This dns label will be present by default whenever a new instance is created in the VCN"
+    description: "DNS label fot the VCN. MUST BE UNIQUE across all the VCNs"
     type: string
     required: true
+    pattern: "^[a-zA-Z][a-zA-Z0-9]{0,14}$"
     visible: ${create_vcn}
 
 # CP SUBNET
@@ -140,20 +130,6 @@ variables:
     title: "Create Control Plane subnet"
     description: "If flagged, this Terraform module will create the Kubernetes Control Plane subnet"
     type: boolean
-
-  cp_subnet_cidr:
-    title: "Kubernetes Control Plane Subnet CIDR"
-    description: "CIDR block to allocate for Kubernetes Control Plane API Server. As it is just one endpoint, it can be small"
-    type: string
-    required: true
-    visible: ${create_cp_subnet}
-
-  cp_subnet_dns_label:
-    title: "Kubernetes Control Plane DNS label"
-    description: "DNS label for the Kubernetes Control Plane subnet"
-    type: string
-    required: true
-    visible: ${create_cp_subnet}
 
   cp_subnet_name:
     title: "Kubernetes Control Plane subnet name"
@@ -182,20 +158,6 @@ variables:
     description: "If flagged, this Terraform module will create the Kubernetes Worker subnet"
     type: boolean
 
-  worker_subnet_cidr:
-    title: "Worker subnet CIDR"
-    description: "CIDR block for OKE worker nodes and other VM or workload like functions"
-    type: string
-    required: true
-    visible: ${create_worker_subnet}
-
-  worker_subnet_dns_label:
-    title: "Worker subnet DNS label"
-    description: "DNS label for the Worker subnet"
-    type: string
-    required: true
-    visible: ${create_worker_subnet}
-
   worker_subnet_name:
     title: "Worker subnet name"
     description: "Name of the Worker subnet"
@@ -214,30 +176,6 @@ variables:
         - ${cni_type}
         - vcn_native
 
-  pod_subnet_cidr:
-    title: "Pod subnet CIDR"
-    description: "CIDR block for OKE pods"
-    type: string
-    required: true
-    visible:
-      and:
-        - ${create_pod_subnet}
-        - eq:
-            - ${cni_type}
-            - vcn_native
-
-  pod_subnet_dns_label:
-    title: "Pod subnet DNS label"
-    description: "DNS label for the Pod subnet"
-    type: string
-    required: true
-    visible:
-      and:
-        - ${create_pod_subnet}
-        - eq:
-            - ${cni_type}
-            - vcn_native
-
   pod_subnet_name:
     title: "Pod subnet name"
     description: "OKE pods will have an IP address assigned from this subnet"
@@ -250,39 +188,31 @@ variables:
             - ${cni_type}
             - vcn_native
 
-# SERVICE SUBNET
+# LB SUBNETS
 
-  create_service_subnet:
-    title: "Create Service subnet"
-    description: "If flagged, this Terraform module will create the Kubernetes Service subnet"
+  create_external_lb_subnet:
+    title: "Create external LB subnet"
+    description: "If flagged, create a LB subnet to host publicly exposed services"
     type: boolean
 
-  service_subnet_cidr:
-    title: "Service subnet CIDR"
-    description: "CIDR block for the Service subnet"
-    type: string
-    required: true
-    visible: ${create_service_subnet}
-
-  service_subnet_dns_label:
-    title: "Service subnet DNS label"
-    description: "DNS label for the Service subnet"
-    type: string
-    required: true
-    visible: ${create_service_subnet}
-
-  service_subnet_name:
+  external_lb_subnet_name:
     title: "Service subnet name"
-    description: "The Service subnet will host all the network appliances necessary to expose services, so Load Balancers and API Gateways"
+    description: "Name of the external LB subnet"
     type: string
     required: true
-    visible: ${create_service_subnet}
+    visible: ${create_external_lb_subnet}
 
-  service_subnet_private:
-    title: "Service Subnet is private"
-    description: "If flagged, the service subnet will be a private one, otherwise it's a public subnet"
+  create_internal_lb_subnet:
+    title: "Create internal LB subnet"
+    description: "If flagged, create a LB subnet to host internally exposed services"
     type: boolean
-    visible: ${create_service_subnet}
+
+  internal_lb_subnet_name:
+    title: "Service subnet name"
+    description: "Name of the internal LB subnet"
+    type: string
+    required: true
+    visible: ${create_internal_lb_subnet}
 
 # FSS SUBNET
 
@@ -294,18 +224,6 @@ variables:
   fss_subnet_name:
     title: "FSS subnet name"
     description: "Name of the FSS subnet to create"
-    required: true
-    visible: ${create_fss}
-
-  fss_subnet_cidr:
-    title: "FSS subnet CIDR"
-    description: "CIDR block for the FSS subnet"
-    required: true
-    visible: ${create_fss}
-
-  fss_subnet_dns_label:
-    title: "FSS subnet DNS label"
-    description: "DNS label for the FSS subnet"
     required: true
     visible: ${create_fss}
 
@@ -391,7 +309,7 @@ variables:
           - ${cp_external_nat}
 
   cp_egress_cidr:
-    title: "Egress CIDR block"
+    title: "Control Plane allowed egress cidr"
     description: "Allowed egress IP range that the Control Plane is allowed to call"
     type: string
     required: true
@@ -413,20 +331,6 @@ variables:
   bastion_subnet_name:
     title: "Bastion subnet name"
     description: "Name of the subnet for Bastions"
-    type: string
-    required: true
-    visible: ${create_bastion_subnet}
-
-  bastion_subnet_cidr:
-    title: "Bastion subnet CIDR"
-    description: "CIDR block to allocate for the Bastion subnet"
-    type: string
-    required: true
-    visible: ${create_bastion_subnet}
-
-  bastion_subnet_dns_label:
-    title: "Bastion subnet DNS label"
-    description: "DNS label for the Bastion subnet"
     type: string
     required: true
     visible: ${create_bastion_subnet}

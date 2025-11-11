@@ -6,7 +6,7 @@ The scheduled task needs to be used in conjunction with the Access Extension Not
 
 Developed on and compatible with OIG 11g R2 PS3 and above.
 
-Review Date: 28.10.2024
+Review Date: 11.11.2025
 
 # When to use this asset?
 
@@ -63,7 +63,7 @@ Please see the useful link below for detailed build and deployment steps.
 
 [The Java API for RESTful Web Services (JAX-RS)](https://www.oracle.com/technical-resources/articles/java/jax-rs.html)
 [JSR 311: JAX-RS: The JavaTM API for RESTful Web Services](https://jcp.org/en/jsr/detail?id=311)
-[Oracle Identity Governance developer's guide - Developing scheduled tasks](https://docs.oracle.com/en/middleware/idm/identity-governance/12.2.1.4/omdev/developing-scheduled-tasks.html#GUID-F62EF833-1E70-41FC-9DCC-C1EAB407D151)
+[Oracle Identity Governance developer's guide - Developing scheduled tasks](https://docs.oracle.com/en/middleware/idm/identity-governance/14.1.2/omdev/developing-scheduled-tasks.html)
 
 # License
 
