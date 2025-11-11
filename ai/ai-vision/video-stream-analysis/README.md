@@ -93,4 +93,4 @@ If you encounter a 405 – Request Not Allowed error while running the stream jo
 ## 8. License
 Copyright (c) 2025 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
-See [License](https://github.com/facebookresearch/sam2/blob/main/LICENSE) for more details.
+See [LICENSE](LICENSE) for more details.
