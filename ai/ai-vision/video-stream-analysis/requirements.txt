@@ -1,8 +1,6 @@
-streamlit
-pillow
-numpy
-opencv-python
-pandas
-altair
-oci
-vision-service-python-client
+altair==5.5.0
+numpy==2.3.4
+oci==2.155.2
+pandas==1.5.3
+Pillow==12.0.0
+streamlit==1.47.0
