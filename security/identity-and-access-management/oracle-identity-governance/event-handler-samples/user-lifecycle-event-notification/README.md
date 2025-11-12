@@ -4,7 +4,7 @@ This asset contains the code and deployment items for an event handler that send
 
 Developed on and compatible with OIG 11g R2 PS3 and above.
 
-Review Date: 28.10.2024
+Review Date: 11.11.2025
 
 # When to use this asset?
 
@@ -37,7 +37,7 @@ Once registered the code will be run automatically when the configured lifecycle
 
 # Useful Links
 
-[Oracle Identity Governance developer's guide - Developing plugins](https://docs.oracle.com/en/middleware/idm/identity-governance/12.2.1.4/omdev/developing-plug-ins.html#GUID-7F4EE3EA-076C-45DB-B13D-2905AB5AF6CB)
+[Oracle Identity Governance developer's guide - Developing plugins](https://docs.oracle.com/en/middleware/idm/identity-governance/14.1.2/omdev/developing-plug-ins.html)
 
 # License
 

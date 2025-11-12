@@ -16,14 +16,12 @@ Reviewed: 12.11.2025
 
 - [Use multiple and floating Egress IP(s) by leveraging OCI VLANs](openshift-floating-egress-ip/README.md)
 - [Enable Seamless Access to Red Hat OpenShift Container Platform on OCI from On-Premises to VCNs in the Same Region](https://docs.oracle.com/en/learn/oci-openshift-vcn/)
+- [Deploying Red Hat OpenShift on OCI using Assisted Installer Method](https://github.com/oracle-devrel/technology-engineering/blob/main/cloud-infrastructure/virtualization-solutions/openshift-on-oci/deploy-new-cluster-assisted-method/files/index.md)
 
 ## OpenShift Day-2 - Operations
 - [Using OCI Object storage for the OpenShift Internal Registry](enable-image-registry/README.md)
-- [Adding extra worker nodes to your Assisted installed cluster](assisted-cluster-add-host/README.md)
-  
-## Videos
-
-- [Red Hat OpenShift on Oracle Cloud Infrastructure ](https://www.youtube.com/watch?v=_3WMrRVRD1o)
+- [Add a New Worker Node to an Existing OpenShift Cluster Using the Assisted Installer](https://github.com/oracle-devrel/technology-engineering/blob/main/cloud-infrastructure/virtualization-solutions/openshift-on-oci/add-new-host-assisted-method/files/index.md)
+ 
 
 # Reusable Assets
 

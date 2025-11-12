@@ -1,6 +1,6 @@
 # Private Cloud and Edge
 
-Reviewed: 16.10.2025
+Updated: 7.11.2025
 
 Oracle’s distributed cloud delivers the benefits of cloud with greater control and flexibility. Oracle’s distributed cloud lineup includes:
 
@@ -15,9 +15,10 @@ This section focuses on Dedicated Cloud and Hybrid Cloud services.
 
 - [Oracle Compute Cloud@Customer on oracle.com](https://www.oracle.com/cloud/compute/cloud-at-customer/)
 - [Oracle Compute Cloud@Customer Isolated on oracle.com](https://www.oracle.com/cloud/compute/cloud-at-customer-isolated/)
+- [Oracle Roving Edge Infrastructure on oracle.com](https://www.oracle.com/cloud/roving-edge-infrastructure/)
 - [Oracle Dedicated Region on oracle.com](https://www.oracle.com/cloud/cloud-at-customer/dedicated-region/)
 - [Oracle Alloy on oracle.com](https://www.oracle.com/cloud/alloy/)
-- [Oracle Cloud Isolated Region](https://www.oracle.com/government/govcloud/isolated/)
+- [Oracle Cloud Isolated Region on oracle.com](https://www.oracle.com/government/govcloud/isolated/)
 
 ## License
 
