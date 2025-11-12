@@ -1,6 +1,6 @@
 # Compute Cloud@Customer Support Notes 
 
-Updated: 17.6.2025
+Updated: 10.11.2025
 
 Collection of My Cloud Oracle Support (MCOS) & My Oracle Support (MOS) notes relevant to Compute Cloud@Customer (CCATC) and Private Cloud Appliance (PCA) notes that are relevant to CCATC. The collection will continue to be updated as needed and is intended for use by CCATC administrators or anyone working on the CCATC service.
 
@@ -24,6 +24,7 @@ Collection of My Cloud Oracle Support (MCOS) & My Oracle Support (MOS) notes rel
 - [[CCATC] How to Update a Compute Cloud@Customer x509 Certificate in OCI's IDP (Doc ID 3056675.1)](https://support.oracle.com/epmos/faces/DocumentDisplay?id=3056675.1)
 - [[PCA 3.x] How to Add a Secondary VNIC to an Instance (Doc ID 3059065.1)](https://support.oracle.com/epmos/faces/DocumentDisplay?id=3059065.1)
 - [OCI Edge Cloud Supported Database Releases (Doc ID 3061220.1)](https://support.oracle.com/epmos/faces/DocumentDisplay?id=3061220.1)
+- [[PCA 3.x] How to create a PCS cluster between instances (Doc ID 3080424.1)](https://support.oracle.com/epmos/faces/DocumentDisplay?id=3080424.1)
 
 
 ## License
@@ -32,4 +33,4 @@ Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

@@ -139,7 +139,7 @@ This stack will:
 * Create 2 OCI Code Repositories: one with pipelines definitions, and another one called "oke-cluster-config" with the git template for the OKE cluster administrators
 * Create an OCI Build Pipeline that will mirror the ArgoCD Helm Chart inside the Oracle Cloud Registry, and deploy it in the chosen cluster
 
-[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-gitops-1.1.0/stack.zip)
+[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-gitops-1.1.2/stack.zip)
 
 Once the stack has been provisioned, you can modify the ArgoCD version to deploy by editing the `mirror_argo.yaml` file in the `pipelines` repository.
 By default, ArgoCD will be deployed in an "insecure" mode to disable the default SSL certificate, but feel free to modify the chart values in the `argo-cd-chart-values` artifact.

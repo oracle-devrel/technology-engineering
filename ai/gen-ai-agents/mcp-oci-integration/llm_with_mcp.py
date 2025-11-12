@@ -56,12 +56,13 @@ SCOPE = "urn:opc:idm:__myscopes__"
 
 # eventually you can taylor the SYSTEM prompt here
 # modified to be compliant to OpenAI spec.
-SYSTEM_PROMPT = """You are an AI assistant equipped with an MCP server and several tools.
+SYSTEM_PROMPT = """You are an AI assistant equipped with MCP servers and several tools.
 Provide all the needed information with a detailed query when you use a tool.
-If the collection name is not provided in the user's prompt, 
+If you need to search and the collection name is not provided in the user's prompt, 
 use the collection BOOKS to get the additional information you need to answer.
 If you need to use a tool called **fetch**, remember that the document ID is provided by the result of a search call. 
 It is NOT the document name.
+If you're requested to read data from database, use the tools: generate_sql and execute_sql.
 """
 
 

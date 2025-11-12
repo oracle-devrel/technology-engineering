@@ -43,7 +43,7 @@ executing==2.2.0
 faiss-cpu==1.11.0.post1
 fastapi==0.115.14
 fastjsonschema==2.21.1
-fastmcp==2.9.2
+fastmcp==2.13.0
 filetype==1.2.0
 flatbuffers==25.2.10
 fonttools==4.56.0
@@ -80,7 +80,7 @@ jupyter_client==8.6.3
 jupyter_core==5.7.2
 jupyter_server==2.15.0
 jupyter_server_terminals==0.5.3
-jupyterlab==4.3.5
+jupyterlab==4.4.8
 jupyterlab_pygments==0.3.0
 jupyterlab_server==2.27.3
 jupyterlab_widgets==3.0.13
@@ -192,7 +192,7 @@ soupsieve==2.6
 SQLAlchemy==2.0.38
 sse-starlette==2.3.6
 stack-data==0.6.3
-starlette==0.47.2
+starlette==0.49.1
 streamlit==1.43.0
 sympy==1.14.0
 tabulate==0.9.0

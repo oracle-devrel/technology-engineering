@@ -37,6 +37,16 @@ This section contains various examples related to Application Integration: demo 
 
 ## Demos
 
+- [Managing OIC File Server Capacity: Moving Old Files to Object Storage](https://www.linkedin.com/pulse/managing-oic-file-server-capacity-moving-old-files-object-qureshi-km1jf/)
+
+    Managing storage efficiently is a key part of keeping your Oracle Integration Cloud (OIC) File Server environments healthy. 
+
+    In this article, I walk through a simple integration pattern with a detailed demo that:
+
+    - Detects and moves older files from OIC File Server
+    - Stores them safely in OCI Object Storage
+    - Helps you maintain performance while keeping your data accessible
+
 - [Developer Coaching - Agentic AI Workflows in Oracle Integration with OCI Generative AI](https://youtu.be/xbpspBVgG8s?si=yOoX-oBotnpD0XPM)
 
     - Discover how to build Agentic AI Workflows using Oracle Integration Cloud (OIC) and OCI Generative AI. Learn how large language models (LLMs) can reason, decide, and act by dynamically calling tools, chaining APIs, and orchestrating end-to-end processes. 

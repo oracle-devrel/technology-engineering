@@ -2,7 +2,7 @@
  
 This page will describe the various upgrade methodologies for both on-premises databases as well as for databases residing in OCI.
 
-Reviewed: 22.10.2024
+Reviewed: 08.10.2025
  
 # Table of Contents
  
@@ -19,8 +19,6 @@ Reviewed: 22.10.2024
     - Step-by-step guide by Mihai Costeanu demonstrating how to convert an Oracle Database 19c from noncdb to cdb using OCI console
 - [Upgrade from Oracle Base DB 19c to Base DB 23ai using AutoUpgrade](https://www.youtube.com/watch?v=Eo8nVJ8eC1o)
     - Step-by-step guide by Mihai Costeanu demonstrating how to upgrade from Oracle Base DB 19c to Base DB 23ai using AutoUpgrade
-- [Upgrading your 19c Autonomous Database to 23ai using OCI console cloning function](https://wordpress.com/post/mihaicosteanu.wordpress.com/142)
-    - Step-by-step guide by Mihai Costeanu demonstrating how to upgrade your 19c Autonomous Database to 23ai using OCI console ADB cloning function
 - [Fast Track your Oracle Database Upgrade from 19c to 23ai in Exadata Database Service on Dedicated Infrastructure using AutoUpgrade](https://amalrajputhenchira.wordpress.com/2024/11/08/fast-track-your-oracle-database-upgrade-from-19c-to-23ai-in-exadata-database-service-on-dedicated-infrastructure-using-autoupgrade-2/)
     - Detailed, step-by-step instructions for performing Database Upgrade from 19c to 23ai in Exadata Database Service on Dedicated Infrastructure using AutoUpgrade , available on Amalraj Puthenchira's public platform
 - [Upgrade your Oracle Base Database in OCI from 19c to 23ai - Part 1 - GI Upgrade](https://amalrajputhenchira.wordpress.com/2025/01/09/upgrade-your-oracle-base-database-in-oci-to-23ai-part-1-gi-upgrade/)
