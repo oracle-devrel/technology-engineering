@@ -2,7 +2,7 @@
 
 This is a guide on how to migrate source environments based on the Microsoft Windows operating system.
 
-Reviewed: 11.11.2024
+Reviewed: 12.11.2025
 
 # When to use this asset?
 
