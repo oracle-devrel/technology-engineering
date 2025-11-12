@@ -2,7 +2,7 @@
 
 This guide provides a detailed technical overview of migration methodologies and tooling — including VMware HCX, RackWare, and Oracle Cloud Migrations (OCM) — used to transition workloads from both VMware and non-VMware environments to Oracle Cloud Infrastructure (OCI). It outlines key requirements, tool capabilities, architectural approaches, and decision frameworks to support large-scale enterprise migrations with minimal disruption.
 
-Reviewed: 29.10.2025
+Reviewed: 12.11.2025
 
 # When to use this asset?
 
