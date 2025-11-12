@@ -1,8 +1,10 @@
 # Compute Cloud@Customer
 
-Reviewed: 16.10.2025
+Updated: 10.11.2025
 
-## Blogs, Press Releases, News Articles, Videos & Podcasts
+Collection of blogs and other publications (Press Releases, News Articles, Videos & Podcasts) relevant to Compute Cloud@Customer (CCATC). The collection will continue to be updated as needed.
+
+## Blogs and other publications
 
 Blogs / Press Releases
 1. [Oracle Recognized as a Leader in the 2025 Gartner® Magic Quadrant™ for Distributed Hybrid Infrastructure](https://www.oracle.com/news/announcement/oracle-recognized-as-a-leader-in-the-2025-gartner-magic-quadrant-for-distributed-hybrid-infrastructure-2025-09-10/) (10/Sep/2025)
@@ -30,8 +32,10 @@ Blogs / Press Releases
 23. [Oracle Linux Powers Oracle Compute Cloud@Customer](https://blogs.oracle.com/linux/post/oracle-linux-powers-oracle-compute-cloud-at-customer) (9/Aug/2023)  
 24. [Oracle Compute Cloud@Customer](https://blogs.oracle.com/cloud-infrastructure/post/oracle-compute-cloud-at-customer) (9/Aug/2023)  
 25. [Druid Software Delivers 3GPP-Compliant Enterprise Core on Oracle Cloud](https://blogs.oracle.com/cloud-infrastructure/post/druid-software-3gpp-compliant-enterprise-core) (17/Apr/2023)
-26. [Unlocking 5G with End-to-End Distributed Cloud](https://blogs.oracle.com/cloud-infrastructure/post/unlocking-5g-with-end-to-end-distributed-cloud) (21/Jun/2022)
-27. [Compute Cloud@Customer: Hybrid Cloud Compute for Your Data Center](https://blogs.oracle.com/infrastructure/post/compute-cloud-at-customer-hybrid-cloud-compute-for-your-data-center) (13/Jun/2022)
+26. [Pacemaker / Corosync fencing on Oracle Private Cloud Appliance X9-2](https://blogs.oracle.com/oracle-systems/post/pacemaker-corosync-fencing-on-oracle-private-cloud-appliance-x9-2) (8/Oct/2022)
+27. [Unlocking 5G with End-to-End Distributed Cloud](https://blogs.oracle.com/cloud-infrastructure/post/unlocking-5g-with-end-to-end-distributed-cloud) (21/Jun/2022)
+28. [Announcing: Preview of Compute Cloud@Customer](https://blogs.oracle.com/cloud-infrastructure/post/dedicated-regions-now-available-with-smaller-footprint-and-lower-price-point) (21/Jun/2022)
+29. [Compute Cloud@Customer: Hybrid Cloud Compute for Your Data Center](https://blogs.oracle.com/infrastructure/post/compute-cloud-at-customer-hybrid-cloud-compute-for-your-data-center) (13/Jun/2022)
 
 ## License
 

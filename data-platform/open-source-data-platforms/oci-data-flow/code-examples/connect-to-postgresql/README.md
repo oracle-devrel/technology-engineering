@@ -1,6 +1,6 @@
 # OCI Data Flow Connection to PostgreSQL
 
-Reviewed: 10.07.2024
+Reviewed: 11.11.2025
 
 # When to use this asset?
 

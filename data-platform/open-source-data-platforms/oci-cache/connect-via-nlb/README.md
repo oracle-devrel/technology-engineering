@@ -1,6 +1,6 @@
 # Connect OCI Cache from a local machine via a Network Load Balancer(NLB)
 
-Reviewed: 13.08.2024
+Reviewed: 11.11.2025
 
 # When to use this asset?
 
