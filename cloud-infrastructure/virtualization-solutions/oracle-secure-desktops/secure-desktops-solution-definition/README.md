@@ -2,7 +2,7 @@
 
 This repository contains a detailed guide for hosting VDI instances on Oracle Secure Desktop. It offers a high-level solution definition of the deployment architecture. The document is aimed at capturing the current state architecture and provides a prospective state, potential project scope, deployment requirments and target Secure Desktop architecuture. 
 
-Reviewed: 11.11.2024
+Reviewed: 11.11.2025
 
 # When to use this asset?
 
