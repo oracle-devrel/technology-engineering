@@ -1,7 +1,7 @@
 # Multi-Cluster OpenShift on OCI: Implementing Shared and Unique Domain Architectures
 This repository provides architectural guidance for implementing a common base domain across multiple OpenShift Container Platform (OCP) clusters in Oracle Cloud Infrastructure (OCI). Designed for customers requiring unified DNS naming while maintaining cluster isolation. 
 
-Reviewed: 14.11.2025
+Reviewed: 12.11.2025
 
 # When to use this asset?
 Use this guide when:
