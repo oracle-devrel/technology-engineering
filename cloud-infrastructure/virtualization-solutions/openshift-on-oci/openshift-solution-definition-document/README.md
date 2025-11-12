@@ -2,7 +2,7 @@
 
 This repository provides a comprehensive guide for deploying the Red Hat OpenShift Container Platform on Oracle Cloud Infrastructure (OCI). It outlines a high-level solution definition, including deployment architecture and the migration process for containerized workloads from an existing OpenShift environment—whether on-premises or in another cloud. The document captures the current state architecture, requirements, and a prospective state, along with potential project scope and anticipated timelines for implementation. 
 
-Reviewed: 11.04.2025
+Reviewed: 11.11.2025
 
 # When to use this asset?
 
