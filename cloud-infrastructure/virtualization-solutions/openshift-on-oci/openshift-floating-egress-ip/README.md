@@ -13,6 +13,9 @@ https://docs.oracle.com/en-us/iaas/Content/VMware/Tasks/ocvsmanagingl2net.htm
 
 We can use these VLANs for our OpenShift worker nodes as secondary NIC interfaces and route the EgressIP traffic over.
 
+This document provides the guidelines to configure Floating Egress IP for OpenShift environments on OCI.
+
+Reviewed: 12.11.2025
 
 ## Create VLAN and assign addition vNIC(s) to worker nodes attached to the VLAN in OCI
 

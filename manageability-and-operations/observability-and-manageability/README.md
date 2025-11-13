@@ -4,7 +4,7 @@ The Observability and Manageability (O&M) platform is a suite of OCI services th
 
 &nbsp; 
 
-Reviewed: Reviewed: 15.10.2025
+Reviewed: Reviewed: 05.11.2025
 
 &nbsp; 
 
@@ -35,7 +35,7 @@ Reviewed: Reviewed: 15.10.2025
 | EBS | WIP | Coming Soon| 
 | Webogic | WIP | Coming Soon| 
 | Apex | WIP | Coming Soon| 
-| .... |  | | 
+| OCI CI Container Instance | [Link](https://github.com/adibirzu/oci-container-monitoring)  | | 
 | .... |  | | 
 | .... |  | | 
 

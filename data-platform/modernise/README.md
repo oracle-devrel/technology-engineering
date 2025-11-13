@@ -52,6 +52,8 @@ Reviewed: 07.10.2025
     - Detailed, step-by-step instructions for Migrating Database from existing ExaDB-D to latest generation of ExaDB-D , available on Amalraj Puthenchira's public platform
 - [Migrate and Upgrade your Oracle Base Database to Exadata Database Service on Exascale Infrastructure using AutoUpgrade](https://amalrajputhenchira.wordpress.com/2025/03/03/migrate-your-oracle-base-database-to-exadata-database-service-on-exascale-infrastructure-using-autoupgrade/)
     - Detailed, step-by-step instructions for Migrate and Upgrade Oracle Base Database 19c to ExaDB-XS using AutoUpgrade , available on Amalraj Puthenchira's public platform
+- [Exadata Cloud Infrastructure Migration Automation Utility for ExaDB-D and ExaDB-C@C ](https://youtu.be/0GA-c24nFd4?si=Rl7E0Fd0jfSglxb8)
+    - Detailed Oracle Developer On Demand video with step-by-step instructions for migrating Infrastucture , VM Cluster and Databases on ExaDB-D and ExaDB-C@C using new Automation Utility , delivered by Amalraj Puthenchira in collaboration with Black Belts from Mission Critical Team and Exadata Cloud@Customer Team.
 # Useful Links
 
 - [OCI Migration Hub - Migrate Oracle Databases to OCI](https://www.oracle.com/database/cloud-migration/)

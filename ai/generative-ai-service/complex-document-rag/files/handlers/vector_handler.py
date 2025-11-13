@@ -319,8 +319,13 @@ def delete_all_chunks_in_collection(collection_name: str, embedding_model: str, 
         client = rag_system.vector_store.client
         all_colls = client.list_collections()
 
-        # Find all physical collections for this logical group (e.g., xlsx_documents_*)
-        targets = [c for c in all_colls if c.name.startswith(f"{base_prefix}_")]
+        # Find all physical collections for this logical group (e.g., xlsx_documents_* or pdf_documents_*)
+        targets = []
+        for c in all_colls:
+            # Handle both collection objects and dict representations
+            coll_name = getattr(c, 'name', None) or (c.get('name') if isinstance(c, dict) else str(c))
+            if coll_name and coll_name.startswith(f"{base_prefix}_"):
+                targets.append((coll_name, c))
 
         if not targets:
             return f"Collection group '{collection_name}' has no collections to delete."
@@ -328,21 +333,31 @@ def delete_all_chunks_in_collection(collection_name: str, embedding_model: str, 
         # Delete them all
         total_deleted_chunks = 0
         deleted_names = []
-        for coll in targets:
+        for coll_name, coll_obj in targets:
             try:
                 count = 0
                 try:
-                    count = coll.count()
+                    # Get the actual collection object if we only have the name
+                    if isinstance(coll_obj, str):
+                        actual_coll = client.get_collection(coll_name)
+                    else:
+                        actual_coll = coll_obj
+                    count = actual_coll.count()
                 except Exception:
                     pass
+                    
                 total_deleted_chunks += count
-                client.delete_collection(coll.name)
-                deleted_names.append(coll.name)
-                # Also drop from in-memory map if present
+                client.delete_collection(coll_name)
+                deleted_names.append(coll_name)
+                
+                # Clean up all in-memory references
                 if hasattr(rag_system.vector_store, "collections"):
-                    rag_system.vector_store.collections.pop(coll.name, None)
+                    rag_system.vector_store.collections.pop(coll_name, None)
+                if hasattr(rag_system.vector_store, "collection_map"):
+                    rag_system.vector_store.collection_map.pop(coll_name, None)
+                    
             except Exception as e:
-                logging.error(f"Failed to delete collection '{coll.name}': {e}")
+                logging.error(f"Failed to delete collection '{coll_name}': {e}")
 
         # Recreate the CURRENT model's empty collection so the app keeps a live handle
         # Build full name like: {base_prefix}_{model_name}_{dimensions}
@@ -357,16 +372,28 @@ def delete_all_chunks_in_collection(collection_name: str, embedding_model: str, 
         new_full_name = f"{base_prefix}_{model_name}_{dims}"
         new_collection = client.get_or_create_collection(name=new_full_name, metadata=metadata)
 
-        # Refresh vector_store references for this base prefix
+        # Refresh ALL vector_store references comprehensively
         if hasattr(rag_system.vector_store, "collections"):
             rag_system.vector_store.collections[new_full_name] = new_collection
-            # Also store under the base key for compatibility with older code paths
-            rag_system.vector_store.collections[base_prefix] = new_collection
+            
+        if hasattr(rag_system.vector_store, "collection_map"):
+            rag_system.vector_store.collection_map[new_full_name] = new_collection
+            # Also ensure the collection_map is properly updated
+            rag_system.vector_store.collection_map = {
+                k: v for k, v in rag_system.vector_store.collection_map.items()
+                if not k.startswith(f"{base_prefix}_") or k == new_full_name
+            }
+            rag_system.vector_store.collection_map[new_full_name] = new_collection
 
+        # Update the specific collection references
         if base_prefix == "xlsx_documents":
             rag_system.vector_store.xlsx_collection = new_collection
+            if hasattr(rag_system.vector_store, "current_xlsx_collection_name"):
+                rag_system.vector_store.current_xlsx_collection_name = new_full_name
         elif base_prefix == "pdf_documents":
             rag_system.vector_store.pdf_collection = new_collection
+            if hasattr(rag_system.vector_store, "current_pdf_collection_name"):
+                rag_system.vector_store.current_pdf_collection_name = new_full_name
 
         # Nice summary
         deleted_list = "\n".join(f"  • {name}" for name in deleted_names) if deleted_names else "  • (none)"
@@ -374,7 +401,7 @@ def delete_all_chunks_in_collection(collection_name: str, embedding_model: str, 
             "✅ DELETION COMPLETED\n\n"
             f"Logical collection: {collection_name}\n"
             f"Collections removed: {len(deleted_names)}\n"
-            f"Total chunks deleted (best-effort): {total_deleted_chunks}\n"
+            f"Total chunks deleted: {total_deleted_chunks}\n"
             f"Deleted collections:\n{deleted_list}\n\n"
             "Recreated empty collection for current model:\n"
             f"  • {new_full_name}\n"
