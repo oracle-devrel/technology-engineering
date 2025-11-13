@@ -7,7 +7,7 @@ This guide is structured into two parts:
 Part 1: Covers the creation of necessary resources and sets up the OpenShift control plane.
 Part 2: Focuses on scaling the OpenShift cluster by adding worker nodes to support containerized workloads.
 
-Reviewed: 05.02.2025
+Reviewed: 05.11.2025
 
 # When to use this asset?
 
