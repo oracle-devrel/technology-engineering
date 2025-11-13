@@ -1,6 +1,6 @@
 # Setting up OpenShift Image Registry to use OCI Object Storage Bucket
 
-Reviewed: 06.11.2024
+Reviewed: 11.11.2025
 
 ## Prerequisites
 You need to have the OpenShift CLI tool installed and properly configured.
