@@ -25,7 +25,7 @@ Storage is backed by OCI Block Volume.
 
 We recommend carefully planning the deployment — including the compartment structure, VCN range, and the placement of all components.
 
-![OSD Architecture](./images/0.png "OCI Secure Desktops Market Place Stack")
+![OpenShift Architecture](./images/0.png "OpenShift Assisted Cluster Deployment")
 
 &nbsp;
 
@@ -56,7 +56,7 @@ We recommend carefully planning the deployment — including the compartment str
 1. Login to RedHat console on console.redhat.com 
 2. Click on the navigation console and click on RedHat OpenShift. Click on Cluster List followed by Create Cluster
 
-![OSD Architecture](./images/1.png "OCI Secure Desktops Desktop Pool") ![OSD Architecture](./images/2.png "OCI Secure Desktops Desktop Pool")
+![OpenShift Architecture](./images/1.png "OpenShift Assisted Cluster Deployment") ![OpenShift Architecture](./images/2.png "OpenShift Assisted Cluster Deployment")
 
 3. Under Cloud tab scroll down and click on Oracle Cloud Infrastructure 
 
@@ -64,11 +64,11 @@ We recommend carefully planning the deployment — including the compartment str
 
 5. Enter the Cluster name followed by base domain. Choose stable version. We would recommend to choose the latest one.
 
-![OSD Architecture](./images/3.png "OCI Secure Desktops Desktop Pool")
+![OpenShift Architecture](./images/3.png "OpenShift Assisted Cluster Deployment")
 
 6. Click on the drop down for Integrate with external partner platforms and choose Oracle Cloud Infrastructure and click Next
 
-![OSD Architecture](./images/4.png "OCI Secure Desktops Desktop Pool")
+![OpenShift Architecture](./images/4.png "OpenShift Assisted Cluster Deployment")
 
 7. Hit Next on the Operators screen. On the Host Discovery tab click on add hosts, paste the public SSH key and click on Generate Discovery ISO.
 
@@ -76,7 +76,7 @@ We recommend carefully planning the deployment — including the compartment str
 
     b. Do not close this page as we will come back to it post the installation.
 
-![OSD Architecture](./images/5.png "OCI Secure Desktops Desktop Pool")
+![OpenShift Architecture](./images/5.png "OpenShift Assisted Cluster Deployment")
 
 &nbsp;
 
@@ -86,7 +86,7 @@ We recommend carefully planning the deployment — including the compartment str
 2. Select the compartment (vaibhav-demo in my exmaple). Create a bucket if you don't have one or select the bucket where you wish to upload the ISO
 3. Under the objects tab click on upload objects and upload the ISO downloaded earlier
 
-![OSD Architecture](./images/6.png "OCI Secure Desktops Desktop Pool")
+![OpenShift Architecture](./images/6.png "OpenShift Assisted Cluster Deployment")
 
 4. Click on the three dots on the right of the uploaded image and click on create pre-authenticated request
 
@@ -94,7 +94,7 @@ We recommend carefully planning the deployment — including the compartment str
 
 6. Have the link handy as it will be needed later 
 
-![OSD Architecture](./images/7.png "OCI Secure Desktops Desktop Pool") ![OSD Architecture](./images/8.png "OCI Secure Desktops Desktop Pool")
+![OpenShift Architecture](./images/7.png "OpenShift Assisted Cluster Deployment") ![OpenShift Architecture](./images/8.png "OpenShift Assisted Cluster Deployment")
 
 
 
@@ -104,7 +104,7 @@ We recommend carefully planning the deployment — including the compartment str
 2. At the time of document the tutorial create-resource-attribution-tags-v1.4.2.zip is the latest.
 3. Click on the file name and it will download it
 
-![OSD Architecture](./images/9.png "OCI Secure Desktops Desktop Pool")
+![OpenShift Architecture](./images/9.png "OpenShift Assisted Cluster Deployment")
 
 4. Login to the OCI tenancy, from the navigation menu click on Developer Services.
 
@@ -112,11 +112,11 @@ We recommend carefully planning the deployment — including the compartment str
 
 6. Click on create stack button and select the zip file downloaded above. Click next.
 
-![OSD Architecture](./images/10.png "OCI Secure Desktops Desktop Pool")
+![OpenShift Architecture](./images/10.png "OpenShift Assisted Cluster Deployment")
 
 7.  Select the right compartment (vaibhav-demo in my exmaple) and click next. Select run apply and click on the create button.
 
-![OSD Architecture](./images/11.png "OCI Secure Desktops Desktop Pool")
+![OpenShift Architecture](./images/11.png "OpenShift Assisted Cluster Deployment")
 
 8. Once the stack finishes successfully. From the navigation menu, click on Governance & Administration.
 
@@ -124,7 +124,7 @@ We recommend carefully planning the deployment — including the compartment str
 
 10. Choose the right compartment (vaibhav-demo in my exmaple) and you should see the openshift-tags
 
-![OSD Architecture](./images/12.png "OCI Secure Desktops Desktop Pool")
+![OpenShift Architecture](./images/12.png "OpenShift Assisted Cluster Deployment")
 
 &nbsp;
 
@@ -136,13 +136,13 @@ We recommend carefully planning the deployment — including the compartment str
 2. Type Cloud Agent and click on the terraform stack
 3. Click on the export button on the far right
 
-![OSD Architecture](./images/13.png "OCI Secure Desktops Desktop Pool") ![OSD Architecture](./images/14.png "OCI Secure Desktops Desktop Pool")
+![OpenShift Architecture](./images/13.png "OpenShift Assisted Cluster Deployment") ![OpenShift Architecture](./images/14.png "OpenShift Assisted Cluster Deployment")
 
 4. Choose the right compartment (vaibhav-demo in my exmaple), create a new public repository. Accept the terms and click on export package button on top right.
 
 5. Verify the work request completes successfully.
 
-![OSD Architecture](./images/15.png "OCI Secure Desktops Desktop Pool") ![OSD Architecture](./images/16.png "OCI Secure Desktops Desktop Pool")
+![OpenShift Architecture](./images/15.png "OpenShift Assisted Cluster Deployment") ![OpenShift Architecture](./images/16.png "OpenShift Assisted Cluster Deployment")
 
 &nbsp;
 
@@ -150,7 +150,7 @@ We recommend carefully planning the deployment — including the compartment str
 
 1. From the navigation menu, click on the Developer Services followed by RedHat OpenShift
 
-![OSD Architecture](./images/17.png "OCI Secure Desktops Desktop Pool")
+![OpenShift Architecture](./images/17.png "OpenShift Assisted Cluster Deployment")
 
 2. The process will redirect you and we now need to run Terraform stack to initiate the cluster deployment process. Click Next.
 
@@ -162,11 +162,11 @@ We recommend carefully planning the deployment — including the compartment str
 
     c. Enter the ISO PAR link generated from step 2.
 
-    ![OSD Architecture](./images/18.png "OCI Secure Desktops Desktop Pool")
+    ![OpenShift Architecture](./images/18.png "OpenShift Assisted Cluster Deployment")
 
     d. Choose the compartment (vaibhav-demo in my exmaple) where we created the tag namespace in step 3
 
-    ![OSD Architecture](./images/19.png "OCI Secure Desktops Desktop Pool") 
+    ![OpenShift Architecture](./images/19.png "OpenShift Assisted Cluster Deployment") 
 
     e. We can keep the defaults for the Control Plane and Compute nodes or change them as per the requirement.
 
@@ -174,21 +174,21 @@ We recommend carefully planning the deployment — including the compartment str
 
     g. Enter the same domain name as mentioned on step 1. I will let the wizard create the VCN for us. Enter the VCN details
 
-    ![OSD Architecture](./images/20.png "OCI Secure Desktops Desktop Pool") ![OSD Architecture](./images/21.png "OCI Secure Desktops Desktop Pool")
+    ![OpenShift Architecture](./images/20.png "OpenShift Assisted Cluster Deployment") ![OpenShift Architecture](./images/21.png "OpenShift Assisted Cluster Deployment")
 
     h. Choose the latest CSI driver followed by Cloud agent details. Verify the information, apply and run the stack.
 
     At the time of writing the tutorial v1.32.0-UHP is the latest. Here is the [link](https://github.com/oracle-quickstart/oci-openshift/tree/main/custom_manifests/oci-ccm-csi-drivers) for future references
 
-    ![OSD Architecture](./images/22.png "OCI Secure Desktops Desktop Pool") ![OSD Architecture](./images/23.png "OCI Secure Desktops Desktop Pool")
+    ![OpenShift Architecture](./images/22.png "OpenShift Assisted Cluster Deployment") ![OpenShift Architecture](./images/23.png "OpenShift Assisted Cluster Deployment")
 
     i. Monitor and verify the stack completes successfully. Click on the outputs tab and copy dynamic_custom_manifest. Save the content in a notepad file with extension .yml (for example demo-cluster.yml). This will be used later
 
-    ![OSD Architecture](./images/24.png "OCI Secure Desktops Desktop Pool")
+    ![OpenShift Architecture](./images/24.png "OpenShift Assisted Cluster Deployment")
 
     j. On the OCI console, you should see Instances, VCN and the Load Balancers.
 
-    ![OSD Architecture](./images/25.png "OCI Secure Desktops Desktop Pool") ![OSD Architecture](./images/26.png "OCI Secure Desktops Desktop Pool") ![OSD Architecture](./images/27.png "OCI Secure Desktops Desktop Pool")
+    ![OpenShift Architecture](./images/25.png "OpenShift Assisted Cluster Deployment") ![OpenShift Architecture](./images/26.png "OpenShift Assisted Cluster Deployment") ![OpenShift Architecture](./images/27.png "OpenShift Assisted Cluster Deployment")
 
 &nbsp;
 
@@ -198,19 +198,19 @@ We recommend carefully planning the deployment — including the compartment str
 
 2. Mark the Compute Nodes as Worker and Control Plane as Control Plane Nodes, click next. 
 
-![OSD Architecture](./images/28.png "OCI Secure Desktops Desktop Pool")
+![OpenShift Architecture](./images/28.png "OpenShift Assisted Cluster Deployment")
 
 3. Click next on the storage & networking tab with the default values. It is not recommended to make any changes. 
 
 4. On the Custom Manifest tab, enter the file name as saved above in the notepad file. Drag and drop the yml file in the content box. Click next
 
-![OSD Architecture](./images/29.png "OCI Secure Desktops Desktop Pool")
+![OpenShift Architecture](./images/29.png "OpenShift Assisted Cluster Deployment")
 
 5. Validate the summary and click on the Install Cluster button. Post successful installation we will see the cluster details on the RedHat portal.
 
 6. Download the Kubeconfig file. Copy the kubeadmin password and the URL. These will be needed to access the cluster.
 
-![OSD Architecture](./images/30.png "OCI Secure Desktops Desktop Pool") ![OSD Architecture](./images/31.png "OCI Secure Desktops Desktop Pool")
+![OpenShift Architecture](./images/30.png "OpenShift Assisted Cluster Deployment") ![OpenShift Architecture](./images/31.png "OpenShift Assisted Cluster Deployment")
 
 &nbsp;
 

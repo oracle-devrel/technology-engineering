@@ -26,6 +26,7 @@ Here is a sample architecture
 
 <h1>Before we begin</h1>
 
+- Active OpenShift Cluster installed via Assisted Installer Method
 - RedHat account details that was used for cluster deployment
 - Access to OCI Console with appropriate privileges. Please refer to Oracle [documentation](https://docs.oracle.com/en-us/iaas/Content/openshift-on-oci/install-prereq.htm#install-prereq-account)
 - SSH key pair
@@ -52,7 +53,7 @@ Here is a sample architecture
 
 ![OpenShift Architecture](./images/1.png "Node Addition")
 
-5. Click next on the cluster details page
+5. Click next on the cluster details page (choose x86_64)
 
 6. On the generate ISO tab, paste the public key and click on Generate Discovery ISO button.
 
