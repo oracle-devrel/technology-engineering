@@ -1,0 +1,57 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: example-app-hub
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: [ "missingkey=error" ]
+  generators:
+    - matrix:
+        generators:
+          - clusters:
+              selector:
+                matchLabels:
+                  type: "hub"
+          - git:
+              repoURL: #REPOURL
+              revision: HEAD
+              files:
+                - path: "apps/app-category/example-app/config/config-{{.metadata.labels.type}}.json"
+
+  # If you want to delete everything if the Application is deleted, set this to false and then delete the Application. This is just a safeguard
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  template:
+    metadata:
+      name: '{{index .path.segments 2}}-{{.nameNormalized}}'
+    spec:
+      project: default
+      sources:
+
+        - repoURL: '{{.chart.repo}}'
+          chart: '{{.chart.name}}'
+          targetRevision: '{{.chart.version}}'
+          helm:
+            releaseName: '{{.chart.releaseName}}'
+            valueFiles:
+              - $values/apps/{{index .path.segments 1}}/{{index .path.segments 2}}/helm/values/values-common.yml
+              - $values/apps/{{index .path.segments 1}}/{{index .path.segments 2}}/helm/values/{{.metadata.labels.type}}/values.yml
+
+        - repoURL: #REPOURL
+          targetRevision: HEAD
+          path: apps/{{index .path.segments 1}}/{{index .path.segments 2}}/kustomize/overlays/{{ .metadata.labels.type }}
+
+        - repoURL: #REPOURL
+          targetRevision: HEAD
+          ref: values
+      destination:
+        server: '{{.server}}'
+        namespace: '{{.namespace}}'
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+        automated:
+          prune: true
+          selfHeal: true

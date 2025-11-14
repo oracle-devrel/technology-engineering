@@ -1,6 +1,6 @@
 # GenAI-based Procurement Q&A App using Text-to-SQL and Low-Code Integration
 
-Reviewed: 07.11.2024
+Reviewed: 23.09.2025
 
 # Introduction
 
@@ -209,7 +209,7 @@ In conclusion, using OCI Generative AI and Oracle Integration Cloud (OIC) you ma
 
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

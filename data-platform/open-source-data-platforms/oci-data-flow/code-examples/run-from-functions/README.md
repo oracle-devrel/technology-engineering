@@ -1,6 +1,6 @@
 # Triggering OCI Data Flow from OCI Functions
 
-Reviewed: 05.06.2024
+Reviewed: 11.11.2025
 
 # When to use this asset?
 
@@ -13,7 +13,7 @@ When in your overall flow OCI Functions are used (e.g., based on an event) to st
 
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

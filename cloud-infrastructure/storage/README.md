@@ -2,7 +2,7 @@
 
 Oracle Cloud Infrastructure provides customers with high-performance computing and low-cost cloud storage options. Through on-demand local, object, file, block, and archive storage, Oracle Cloud addresses key storage workload requirements and use cases. Customers can use the storage gateway and data transfer service to safely and securely move their data to the cloud.
 
-Reviewed: 03.12.2024
+Reviewed: 17.10.2025
 
 # Useful Links
 
@@ -31,7 +31,7 @@ Reviewed: 03.12.2024
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

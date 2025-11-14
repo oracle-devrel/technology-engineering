@@ -1,6 +1,6 @@
 # Exadata Cloud@Customer
 
-Reviewed: 24.06.2024
+Reviewed: 16.09.2025
 
 # Useful Links
 
@@ -26,7 +26,7 @@ Reviewed: 24.06.2024
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

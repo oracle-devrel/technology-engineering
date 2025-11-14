@@ -7,11 +7,11 @@ Cloud Virtualization Solutions area focuses on providing deep technical guidance
 - Oracle Secure Desktops
 - Oracle Cloud Migrations (OCM)
 
-Reviewed: 06.11.2024
+Reviewed: 12.11.2025
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

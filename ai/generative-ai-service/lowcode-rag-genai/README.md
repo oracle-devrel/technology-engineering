@@ -6,7 +6,7 @@ You’ll learn how to use Oracle Integration Cloud to integrate and orchestrate 
 
 You'll use Oracle Cloud Infrastructure (OCI) Document Understanding to extract information from different document types. Leverage OCI Generative AI for document summarization, generation and synthesis of answers to questions on documents. Use OCI DB Cloud Service 23ai for Document Extraction, Vector Search and Embedding (using ONNX local models to the DB) capabilities , and apply local OCI Data Science models for better answers from advanced RAG.
 
-Reviewed: 07.11.2024
+Reviewed: 23.09.2025
  
 # When to use this asset?
  
@@ -18,7 +18,7 @@ See the README document in the /files folder.
  
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

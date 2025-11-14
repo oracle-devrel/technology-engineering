@@ -61,7 +61,6 @@ def get_chat_request(encoded_image=None, user_prompt=None):
     return chat_request
 
 def cohere_chat_request(encoded_image=None, user_prompt=None):
-    print(" i am here")
     chat_request = oci.generative_ai_inference.models.CohereChatRequest()
     chat_request.api_format = oci.generative_ai_inference.models.BaseChatRequest.API_FORMAT_COHERE
     message = get_message(encoded_image, user_prompt)
@@ -92,7 +91,7 @@ def extract_frames(video_path, interval=1):
 
     while success:
         if count % (frame_rate * interval) == 0:
-            frames.append(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+            frames.append(frame)
         success, frame = cap.read()
         count += 1
     cap.release()

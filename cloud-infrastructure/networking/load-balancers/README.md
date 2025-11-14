@@ -8,7 +8,7 @@ Network Load Balancer provides automated traffic distribution from one entry poi
 
 Network Load Balancer provides the benefits of flow high availability, source and destination IP addresses, and port preservation. It is designed to handle volatile traffic patterns and millions of flows, offering high throughput while maintaining ultra-low latency. Network load balancers have a default 1 million concurrent connection limit. A network Load Balancer is the ideal load-balancing solution for latency-sensitive workloads.
 
-Reviewed: 30.10.2024
+Reviewed: 10.10.2025
  
 # Useful Links
 
@@ -43,7 +43,7 @@ Reviewed: 30.10.2024
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

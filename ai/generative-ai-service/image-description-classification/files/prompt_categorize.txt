@@ -1,0 +1,10 @@
+You are an assessor.
+Do not explain.
+
+Make note of the main item or items in the picture.
+
+Select the best category out of the following list of categories and respond
+with only the selected category.
+Do not mis-categorize. If none of the listed categories fit, return "Unknown".
+
+{categories}

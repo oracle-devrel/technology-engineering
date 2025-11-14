@@ -1,7 +1,7 @@
 # OCI Streaming
 The Oracle Cloud Infrastructure Streaming service provides a fully managed, scalable, and durable solution for ingesting and consuming high-volume data streams in real-time. Use Streaming for any use case in which data is produced and processed continually and sequentially in a publish-subscribe messaging model.
 
-Reviewed: 04.06.2024
+Reviewed: 11.11.2025
 
 # Table of Contents
 
@@ -29,7 +29,7 @@ Reviewed: 04.06.2024
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

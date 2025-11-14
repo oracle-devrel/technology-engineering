@@ -1,6 +1,6 @@
 # Setting up OpenShift Image Registry to use OCI Object Storage Bucket
 
-Reviewed: 06.11.2024
+Reviewed: 11.11.2025
 
 ## Prerequisites
 You need to have the OpenShift CLI tool installed and properly configured.
@@ -88,7 +88,7 @@ Your image registry should now be able to store images and you are now ready to 
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

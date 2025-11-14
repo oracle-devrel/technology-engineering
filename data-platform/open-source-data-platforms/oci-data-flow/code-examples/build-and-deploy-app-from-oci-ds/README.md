@@ -1,6 +1,6 @@
 # Build and Deploy an OCI Data Flow application using OCI Data Science
 
-Reviewed: 04.06.2024
+Reviewed: 11.11.2025
 
 # When to use this asset?
 
@@ -13,7 +13,7 @@ When using OCI Data Science to build and deploy an OCI Data Flow application. Us
 
 # License
 
-Copyright (c) 2023 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

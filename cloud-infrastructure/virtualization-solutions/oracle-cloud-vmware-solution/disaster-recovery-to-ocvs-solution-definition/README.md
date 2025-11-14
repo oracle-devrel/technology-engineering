@@ -2,7 +2,7 @@
 
 This repository contains a detailed guide for the disaster recovery of VMware workloads to Oracle Cloud VMware Solution. It offers a high-level solution definition of the deployment architecture and tools like Site Recovery Manager or HCX. The document is aimed at capturing the current state architecture and provides a prospective state, potential project scope, RPO/RTO requirements and target OCVS architecture.
 
-Reviewed: 11.06.2024
+Reviewed: 12.11.2025
 
 # When to use this asset?
 
@@ -18,7 +18,7 @@ Disaster recovery to OCVS Solution Definition is expected to serve as a definiti
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

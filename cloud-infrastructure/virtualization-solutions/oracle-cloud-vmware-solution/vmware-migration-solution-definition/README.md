@@ -2,7 +2,7 @@
 
 This repository contains an in-depth guide for the migration of VMware workloads to Oracle Cloud VMware Solution. It offers a high-level solution definition of the deployment architecture and migration process of workloads from a current VMware environment to Oracle Cloud VMware Solution. The document is aimed at capturing the current state architecture with requirements and provides a prospective state, potential project scope, and anticipated timelines for the migration. 
 
-Reviewed: 11.11.2024
+Reviewed: 12.11.2025
 
 # When to use this asset?
 
@@ -18,7 +18,7 @@ The Oracle Cloud VMware Solution - Workload Migration Solution Definition is exp
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

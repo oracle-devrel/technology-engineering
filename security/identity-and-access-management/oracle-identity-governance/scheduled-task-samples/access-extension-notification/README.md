@@ -6,7 +6,7 @@ The scheduled task needs to be used in conjunction with the Extend Access WebSer
 
 Developed on and compatible with OIG 11g R2 PS3 and above.
 
-Review Date: 28.10.2024
+Review Date: 11.11.2025
 
 # When to use this asset?
 
@@ -47,15 +47,15 @@ The following items need to be populated as part of the scheduled job parameters
 - SMTP Mail Server TLS: Enable or disable SMTP TLS, e.g. No
 - SMTP Mail Server Port: Port of the SMTP Mail server, e.g. 25
 
-[Consult this section](https://docs.oracle.com/en/middleware/idm/identity-governance/12.2.1.4/omusg/managing-jobs-1.html#GUID-71BB3623-AEE2-4F64-BBD4-D921DCA39D7C) on how to manually start or schedule a job.
+[Consult this section](https://docs.oracle.com/en/middleware/idm/identity-governance/14.1.2/omadm/managing-scheduler.html#GUID-32651CE3-2B3B-4BAA-8DDA-CEFD6AB26EBF) on how to manually start or schedule a job.
 
 # Useful Links
 
-[Oracle Identity Governance developer's guide - Developing scheduled tasks](https://docs.oracle.com/en/middleware/idm/identity-governance/12.2.1.4/omdev/developing-scheduled-tasks.html#GUID-F62EF833-1E70-41FC-9DCC-C1EAB407D151)
+[Oracle Identity Governance developer's guide - Developing scheduled tasks](https://docs.oracle.com/en/middleware/idm/identity-governance/14.1.2/omdev/developing-scheduled-tasks.html)
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
