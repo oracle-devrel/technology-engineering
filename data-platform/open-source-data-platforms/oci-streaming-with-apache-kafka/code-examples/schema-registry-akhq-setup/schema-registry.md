@@ -1,5 +1,7 @@
 # Configuring Schema registry and Kafka connect with AKHQ(UI) for OSAK
 
+Review: 11.11.2025
+
 ### Prerequistes
     
     Working instance of OCI Streaming with Apache Kafka
