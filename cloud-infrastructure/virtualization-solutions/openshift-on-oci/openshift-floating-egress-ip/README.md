@@ -26,7 +26,7 @@ In this example, we have created a VLAN with the CIDR: 10.0.101.0/24. Hence the 
 
 2. On each worker node VM add a vNIC attached to the created VLAN
 
-**TIP: Automate Step 1 and Step 2**: Use the provided [vlan.tf](tf_Create_and_Add_VLAN/vlan.tf) file to automate the creation of the VLAN and the assignment of vNICs to worker nodes. This Terraform script will handle the setup for you, ensuring that the VLAN is created with the specified CIDR range and that each worker node VM has a vNIC attached to the created VLAN.
+**TIP: Automate Step 1 and Step 2**: Use the provided [vlan.tf](files/vlan.tf) file to automate the creation of the VLAN and the assignment of vNICs to worker nodes. This Terraform script will handle the setup for you, ensuring that the VLAN is created with the specified CIDR range and that each worker node VM has a vNIC attached to the created VLAN.
 
 
 3. Login to one of the worker nodes and confirm a 2nd NIC is visible and note down the device name (In this example it is ens5)
