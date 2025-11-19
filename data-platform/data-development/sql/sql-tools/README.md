@@ -4,7 +4,7 @@ This section covers Oracle SQL Tools: from SQL Developer Desktop to SQL Develope
 Providing links to public useful documentation and articles/blogs written by Oracle SQL and Database Advocates and Product Managers.
 We use this asset when we want to explore the various SQL IDE development tools like SQL Developer, sqlcl and VS Code with SQL Developer extentions.
 
-Reviewed: 20.11.2024
+Reviewed: 19.11.2025
 
 # Table of Contents
  
@@ -33,6 +33,7 @@ Reviewed: 20.11.2024
 - [Autonomous Database Actions](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/connect-database-actions.html#GUID-102845D9-6855-4944-8937-5C688939610F)
 - [Live SQL](https://livesql.oracle.com/apex/f?p=590:1000)
 - [SQL Developer Extension for VS Code v24.2 is now available](https://www.thatjeffsmith.com/archive/2024/07/sql-developer-extension-for-vs-code-24-2-is-now-available/)
+- [SQL Dev Extension for VS Code for MCP with Cline](https://www.thatjeffsmith.com/archive/2025/11/using-sqlcl-in-sql-developer-for-vs-code-for-mcp-with-cline/)
 
 
 ## Dev Gyms 
