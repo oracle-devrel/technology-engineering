@@ -1,4 +1,7 @@
 # OCI PostgreSQL 
+
+Reviewed: 11.11.2025
+
 OCI Database with PostgreSQL is a fully managed PostgreSQL-compatible service with intelligent sizing, tuning, and high durability.
 
 The service automatically scales storage as database tables are created and dropped, making management easier on you and optimizing storage spend. 
@@ -21,6 +24,8 @@ OCI Database with PostgreSQL is designed for high availability by offering durab
 - [OCI PostgreSQL to OCI PostgreSQL cross-region replication with OCI GoldenGate — Part 3](https://medium.com/@devpiotrekk/oci-postgresql-to-oci-postgresql-cross-region-replication-with-oci-goldengate-oci-goldengate-4ccd5dea4d6c)
 - [OCI PostgreSQL replication with pglogical](https://medium.com/@devpiotrekk/replicating-oci-database-with-postgresql-using-pglogical-118182ff08f9)
 - [OCI PostgreSQL vector search with pgvector - Part 1](https://medium.com/@devpiotrekk/vector-search-with-pgvector-and-oci-database-with-postgresql-part-1-0915e5296148)
+- [Benchmarking OCI Database with PostgreSQL](https://medium.com/@andreumdorokhinum/benchmarking-oci-database-with-postgresql-0a665e575fde)
+- [Migrate PostgreSQL to OCI PostgreSQL using OCI Object Storage and Rclone](https://medium.com/@sylwekdec/migrate-postgresql-to-oci-postgresql-using-oci-object-storage-and-rclone-a61ef97c5b96)
 
 # Useful Links
 
@@ -38,6 +43,7 @@ When you are looking to establish an OCI PostgreSQL instance, connect to it, and
 - [GitLab & Standalone Managed PostgreSQL on OCI](https://github.com/andreumdorokhinum/oci_pg_with_gitlab)
 - [Use CRON as scheduler for OCI PostgreSQL](https://github.com/andreumdorokhinum/oci_pg_with_unix_cron)
 - [Integrate Geoserver and PostGIS using OCI Database with PostgreSQL](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-postgresql/code-examples/postgis-geoserver)
+- [Set up PgBouncer for Connection Pooling with OCI Database with PostgreSQL](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-postgresql/code-examples/pgbouncer-setup)
 
 # License
 

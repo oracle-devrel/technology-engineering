@@ -2,7 +2,7 @@
 
 This section includes a step-by-step manual for using Porting Advisor for Graviton to check the compatibility of Java Applications on X86 and ARM.
  
-Reviewed: 25.10.2024
+Reviewed: 16.10.2025
  
 # When to use this asset?
  

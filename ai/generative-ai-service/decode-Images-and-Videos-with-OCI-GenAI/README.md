@@ -5,7 +5,7 @@ This is an AI-powered application designed to unlock insights hidden within medi
 
 <img src="./image.png">
 </img>
-Reviewed date: 22.09.2025
+Reviewed date: 09.10.2025
 
 ## Features
 
@@ -39,8 +39,7 @@ Reviewed date: 22.09.2025
 
 ## Installation
 
-1. **Clone the repository:**
-   
+1. **Clone this repository.**
 
 2. **Install dependencies:**
    Make sure you have Python 3.8+ installed. Then, install the required libraries:
@@ -50,7 +49,7 @@ Reviewed date: 22.09.2025
 
 3. **Configure OCI:**
    - Set up your OCI configuration by creating or updating the `~/.oci/config` file with your credentials and profile.
-   - Replace placeholders like `compartmentId`, `llm_service_endpoint`, and `visionModel` in the code with your actual values.
+   - Replace placeholders like `compartmentId`, `llm_service_endpoint`, and `visionModel` in [`app.py`](./app.py) with your actual values.
 
 ---
 

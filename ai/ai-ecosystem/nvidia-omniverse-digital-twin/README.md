@@ -8,7 +8,7 @@ nodes on Oracle Cloud Infrastructure (OCI) to visualize the airflow over the
 car as well as AI inference to quickly assess how changes to the car will
 affect the airflow.
 
-Reviewed: 02.07.2025
+Reviewed: 16.10.2025
 
 # When to use this asset?
 
@@ -108,4 +108,4 @@ Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](./LICENSE) for more details.

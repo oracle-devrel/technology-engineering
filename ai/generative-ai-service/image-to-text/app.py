@@ -9,10 +9,6 @@ compartmentId = "ocid1.compartment.oc1..***************************"
 llm_service_endpoint = "https://inference.generativeai.us-chicago-1.oci.oraclecloud.com"
 
 # Define functions
-def encode_image(image_path):
-    with open(image_path, "rb") as image_file:
-        return base64.b64encode(image_file.read()).decode("utf-8")
-
 def get_message(encoded_image, user_prompt):
     content1 = oci.generative_ai_inference.models.TextContent()
     content1.text = user_prompt
@@ -57,20 +53,15 @@ uploaded_file = st.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
 user_prompt = st.text_input("Enter your prompt for the image:", value="Tell me about this image.")
 
 if uploaded_file:
-    # Save the uploaded image temporarily
-    temp_image_path = "temp_uploaded_image.jpg"
-    with open(temp_image_path, "wb") as f:
-        f.write(uploaded_file.getbuffer())
-    
     # Display the uploaded image
-    st.image(temp_image_path, caption="Uploaded Image", use_column_width=True)
+    st.image(uploaded_file, caption="Uploaded Image", use_column_width=True)
     
     # Process and call the model
     if st.button("Generate Response"):
         with st.spinner("Please wait while the model processes the image..."):
             try:
                 # Encode the image
-                encoded_image = encode_image(temp_image_path)
+                encoded_image = base64.b64encode(uploaded_file.getvalue()).decode("utf-8")
                 
                 # Setup OCI client
                 CONFIG_PROFILE = "DEFAULT"

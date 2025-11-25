@@ -2,7 +2,7 @@
  
 Oracle Cloud Infrastructure Database Migration (DMS) is a fully managed cloud service for migrating Oracle and MySQL databases to Oracle Cloud Infrastructure (OCI). The Oracle database migration is powered by the Zero Downtime Migration engine and provides a complete self-service experience for logical offline or online migration using Oracle GoldenGate for minimal downtime. As a source, DMS supports on-premises Oracle databases running on Linux, AIX, or Solaris as well as Amazon RDS and co-managed databases in OCI that can be migrated to Autonomous Database Serverless/Dedicated, OCI co-managed databases and Oracle Database@Azure. For MySQL migrations DMS supports MySQL Database Server installations as well as MySQL services from OCI, Amazon, Azure and Google Cloud that can be migrated to OCI MySQL Heatwave.
 
-Reviewed: 15.05.2025
+Reviewed: 07.10.2025
  
 # Table of Contents
  
@@ -29,7 +29,7 @@ Reviewed: 15.05.2025
 - [OCI Database Migration Documentation](https://docs.oracle.com/en/cloud/paas/database-migration)
 - [OCI Database Migration Product page on oracle.com](https://www.oracle.com/cloud/database-migration)
 - [OCI Database Migration LiveLabs Workshop](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=3326)
-- [OCI Database Migration Demo Video](https://www.youtube.com/watch?v=LBCMudosCYI)
+- [OCI Database Migration Demo Video](https://www.youtube.com/watch?v=6Ji3EOPsRjg)
     - Short OCI Database Migration overview demo video
 - [Cloud Premigration Advisor Tool (CPAT) in DMS](https://www.youtube.com/watch?v=kYUqh4O1Owo)
     - Short video that shows the integration of the Cloud Premigration Advisor Tool (CPAT) in DMS

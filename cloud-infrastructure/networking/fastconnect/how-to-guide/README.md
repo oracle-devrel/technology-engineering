@@ -2,7 +2,7 @@
  
 FastConnect How-to guide: Step by step guide to create a FC connection with MegaPort
 
-Reviewed: 30.10.2024
+Reviewed: 10.10.2025
  
 # When to use this asset?
  

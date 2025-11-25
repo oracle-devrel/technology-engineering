@@ -15,10 +15,8 @@ License: MIT
 from typing import Annotated, Dict, Any
 from pydantic import Field
 
-from fastmcp import FastMCP
 
 # to verify the JWT token
-from fastmcp.server.auth.providers.jwt import JWTVerifier
 from fastmcp.server.dependencies import get_http_headers
 
 from utils import get_console_logger
@@ -29,28 +27,15 @@ from db_utils import (
     list_books_in_collection,
     fetch_text_by_id,
 )
+from mcp_utils import create_server, run_server
 from config import EMBED_MODEL_TYPE, DEFAULT_COLLECTION
-from config import DEBUG, IAM_BASE_URL, ENABLE_JWT_TOKEN, ISSUER, AUDIENCE
-from config import TRANSPORT, HOST, PORT
+from config import DEBUG, ENABLE_JWT_TOKEN
 
 logger = get_console_logger()
 
-AUTH = None
-
-if ENABLE_JWT_TOKEN:
-    # check that a valid JWT token is provided
-    # see docs here: https://gofastmcp.com/servers/auth/bearer
-    AUTH = JWTVerifier(
-        # this is the url to get the public key from IAM
-        # the PK is used to check the JWT
-        jwks_uri=f"{IAM_BASE_URL}/admin/v1/SigningCert/jwk",
-        issuer=ISSUER,
-        audience=AUDIENCE,
-    )
-
 # create the app
 # cool, the OAUTH 2.1 provider is pluggable
-mcp = FastMCP("Demo Deep Search as MCP server", auth=AUTH)
+mcp = create_server("Demo Deep Search as MCP server")
 
 
 #
@@ -226,10 +211,5 @@ if __name__ == "__main__":
     else:
         LOG_LEVEL = "INFO"
 
-    mcp.run(
-        transport=TRANSPORT,
-        # Bind to all interfaces
-        host=HOST,
-        port=PORT,
-        log_level=LOG_LEVEL,
-    )
+    # this one takes care of HOST, PORT settings
+    run_server(mcp)
