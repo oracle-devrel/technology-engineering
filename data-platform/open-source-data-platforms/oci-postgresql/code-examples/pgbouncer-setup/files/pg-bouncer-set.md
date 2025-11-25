@@ -46,8 +46,8 @@ The below example uses Canonical Ubuntu 24.04 and assumes your PostgreSQL databa
     ```
     [databases]
 
-    writer = host=primary.qlwcxxcenybecgyoxdw7upktikq-primary.postgresql.eu-frankfurt-1.oc1.oraclecloud.com port=5432 dbname=postgres
-    reader = host=reader.qwcxxcenybecgyoxdw7upktikq-reader.postgresql.eu-frankfurt-1.oc1.oraclecloud.com port=5432 dbname=postgres
+    writer = host=[YOUR_PRIMARY_ENDPOINT] port=5432 dbname=postgres
+    reader = host=[YOUR_READER_ENDPOINT] port=5432 dbname=postgres
     ```
 
   - Change the list_addr to *
