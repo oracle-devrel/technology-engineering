@@ -22,7 +22,8 @@ Reviewed: 15.05.2025
 - [Mordenise VMware Workloads with Autonomous Database](https://techrochet.com/mordenize-vmware-workloads-with-autonomous-database)
     - A step-by-step guide on how to migrate an Oracle Database 11g on VMware On-Premise to an Autonomous Database using the Database Migration Service (DMS) with Integrated Goldengate
 
- 
+- [Modernizing MySQL: A Hands-On Approach to Online Migration from On-Premises MySQL to OCI HeatWave using OCI DMS](https://sanojbehera.wixsite.com/blogsphere/post/modernizing-mysql-a-hands-on-approach-to-online-migration-from-on-premises-mysql-to-oci-heatwave-us)
+    - A Hands-On Practical Approach to Online Migration from On-Premises MySQL to OCI HeatWave using OCI DMS 
 # Useful Links
 
 - [OCI Database Migration Documentation](https://docs.oracle.com/en/cloud/paas/database-migration)
