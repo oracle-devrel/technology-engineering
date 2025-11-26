@@ -20,6 +20,7 @@ A notebook describing and performing all steps to create and store a custom embe
 - [LiveLabs: Search and visualize data with OCI Search Service with OpenSearch](https://apexapps.oracle.com/pls/apex/f?p=133:180:6071760449919::::wid:3427)
 - [How to Interact with OpenSearch?](https://www.linkedin.com/pulse/how-interact-opensearch-isma%C3%ABl-hassane-j7z9f/?trackingId=TbuchZqCSDa9X65sWhx8xw%3D%3D)
 - [Architecting with OpenSearch](https://www.linkedin.com/pulse/architecting-opensearch-isma%C3%ABl-hassane-gz1jf/?trackingId=xw1G1Yq9SMutkogC3FIJmg%3D%3D)
+- [Developer Coaching - Building Real-Time Streams with OCI Streaming with Apache Kafka](https://www.youtube.com/watch?v=AUiuGH05MPE)
 
 # Useful Links
 
