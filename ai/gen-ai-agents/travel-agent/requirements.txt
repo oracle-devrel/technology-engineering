@@ -74,7 +74,7 @@ kiwisolver==1.4.8
 lab==8.4
 langchain==0.3.25
 langchain-community==0.3.24
-langchain-core==0.3.60
+langchain-core==0.3.80
 langchain-text-splitters==0.3.8
 langgraph==0.4.5
 langgraph-checkpoint==3.0.0
