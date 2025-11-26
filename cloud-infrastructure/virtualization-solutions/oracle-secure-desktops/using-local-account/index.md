@@ -22,7 +22,7 @@ This tutorial provides a step-by-step walkthrough for setting up OCI Secure Desk
 <h1>Pre-Requisites</h1>
 
 1. We need to design the setup. We need VCN, a private subnet and a compartment where we plan to run the service.
-2. Raise OCI support SR requesting Windows 11 image. Follow this guide to import the image
+2. Raise OCI support SR requesting Windows 11 image. Follow this [guide](https://support.oracle.com/support/?anchorId=&kmContentId=10213132&page=sptemplate&sptemplate=km-article) to import the image
 
 From the OCI Cloud Shell, we need to run below commands to import it
 
