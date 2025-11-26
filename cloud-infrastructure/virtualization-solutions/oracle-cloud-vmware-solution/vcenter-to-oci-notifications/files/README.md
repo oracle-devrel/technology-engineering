@@ -44,7 +44,7 @@ sudo chmod +x notify.py
 
 run the notify scrypt, if properly configured it will send out a dummy test notifcation
 
-<img src="img/test_notification.png">
+<img src="../img/test_notification.png">
 
 ### 4. Configure the alarms in vCenter to use the script
 
@@ -57,14 +57,14 @@ Some key example critical alarms:
 
 Edit the alarm and on each alarm rule page, toggle the [run script] option and specify the script: /usr/bin/python /home/vpxd/notify.py
 
-<img src="img/alarm_definition.png">
+<img src="../img/alarm_definition.png">
 
 
 ### 5. Example notifaction
 
 If you have setup the Notification topic and for instance have an user subscribe to it using their email, they will receive an email notification for instance when a host goes down:
 
-<img src="img/email_notification.png">
+<img src="../img/email_notification.png">
 
 
 Script created by: richard.garsthagen@oracle.com, feedback is welcome! Please see the 'Issue' feature in GitHub.
@@ -78,6 +78,7 @@ Copyright (c) 2025 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
+
 
 
 
