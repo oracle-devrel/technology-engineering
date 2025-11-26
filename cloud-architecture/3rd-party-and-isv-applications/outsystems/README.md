@@ -1,6 +1,6 @@
 # Outsystems
 
-Reviewed: 05.04.2024
+Reviewed: 25.11.2025
 
 # License
 
