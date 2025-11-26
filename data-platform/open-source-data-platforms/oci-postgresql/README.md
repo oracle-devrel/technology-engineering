@@ -43,6 +43,7 @@ When you are looking to establish an OCI PostgreSQL instance, connect to it, and
 - [GitLab & Standalone Managed PostgreSQL on OCI](https://github.com/andreumdorokhinum/oci_pg_with_gitlab)
 - [Use CRON as scheduler for OCI PostgreSQL](https://github.com/andreumdorokhinum/oci_pg_with_unix_cron)
 - [Integrate Geoserver and PostGIS using OCI Database with PostgreSQL](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-postgresql/code-examples/postgis-geoserver)
+- [Set up PgBouncer for Connection Pooling with OCI Database with PostgreSQL](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-postgresql/code-examples/pgbouncer-setup)
 
 # License
 
