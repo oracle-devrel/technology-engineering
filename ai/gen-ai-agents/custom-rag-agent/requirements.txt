@@ -88,13 +88,13 @@ kiwisolver==1.4.8
 lab==8.4
 langchain==0.3.26
 langchain-community==0.3.27
-langchain-core==0.3.66
+langchain-core==0.3.80
 langchain-mcp-adapters==0.1.9
 langchain-text-splitters==0.3.8
 langchain-unstructured==0.1.6
 langdetect==1.0.9
 langgraph==0.5.0
-langgraph-checkpoint==2.1.0
+langgraph-checkpoint==3.0.0
 langgraph-prebuilt==0.5.1
 langgraph-sdk==0.1.55
 langsmith==0.4.4
@@ -159,7 +159,7 @@ pylint==3.3.4
 PyMuPDF==1.25.4
 pyOpenSSL==24.3.0
 pyparsing==3.2.1
-pypdf==6.0.0
+pypdf==6.4.0
 pypdfium2==4.30.1
 python-dateutil==2.9.0.post0
 python-docx==1.2.0
