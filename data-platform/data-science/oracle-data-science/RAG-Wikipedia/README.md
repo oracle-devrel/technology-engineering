@@ -1,4 +1,4 @@
-# Overview
+# RAG Wikipedia
 This package provides an end-to-end example of performing vector search and Retrieval-Augmented Generation (RAG) from an OCI Data Science Notebook Session using Wikipedia's Artificial Intelligence page.
 
 Reviewed: 2025.11.27
