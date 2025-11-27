@@ -1,6 +1,11 @@
 # Overview
 This package provides an end-to-end example of performing vector search and Retrieval-Augmented Generation (RAG) from an OCI Data Science Notebook Session using Wikipedia's Artificial Intelligence page.
-It uses OCI AI Vector Search with an Oracle AI Database 26ai and includes explanations along with advanced RAG techniques, including:
+
+Reviewed: 2025.11.27
+
+# When to use this asset?
+
+Use this asset as support material when wanting to showcase Oracle AI Vector Search within Oracle AI Database 26ai. The asset includes explanations along with advanced RAG techniques, including:
 
 1. Comparing rule-based and semantic-based text splitters
 2. Connecting to the Oracle AI Database 26ai and creating vector-enabled tables
@@ -19,3 +24,11 @@ To use this package, you need:
 # Environment
 
 Run the examples in a Jupyter Notebook inside an OCI Data Science Notebook Session.
+
+# License
+ 
+Copyright (c) 2025 Oracle and/or its affiliates.
+ 
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+ 
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
