@@ -35,7 +35,7 @@ Reviewed: 19.11.2025
 - [SQL Tools Training](https://education.oracle.com/database/oracle-database/pFamily_32)
 - [Autonomous Database Actions](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/connect-database-actions.html#GUID-102845D9-6855-4944-8937-5C688939610F)
 - [Live SQL](https://livesql.oracle.com/apex/f?p=590:1000)
-- [SQL Developer Extension for VS Code v24.2 is now available](https://www.thatjeffsmith.com/archive/2024/07/sql-developer-extension-for-vs-code-24-2-is-now-available/)
+- [SQL Notebooks in Oracle SQL Developer for VS Code](https://www.thatjeffsmith.com/archive/2025/07/sql-notebooks-in-oracle-sql-developer-for-vs-code/)
 - [SQL Dev Extension for VS Code for MCP with Cline](https://www.thatjeffsmith.com/archive/2025/11/using-sqlcl-in-sql-developer-for-vs-code-for-mcp-with-cline/)
 
 
