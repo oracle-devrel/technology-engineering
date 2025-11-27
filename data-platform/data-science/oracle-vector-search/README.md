@@ -19,7 +19,7 @@ Reviewed: 2025.11.26
 
 ## Blogs
 
-- [Oracle Database Insider AI vector search blogs - complete list](https://blogs.oracle.com/database/category/db-vector-search)
+- [Oracle Database Insider AI Vector Search Blogs](https://blogs.oracle.com/database/category/db-vector-search)
 - [Getting Started with Oracle AI Database AI Vector Search](https://blogs.oracle.com/database/post/getting-started-with-oracle-database-23ai-ai-vector-search)
 - [Indexing Guidelines with AI Vector Search](https://blogs.oracle.com/database/post/indexing-guidelines-with-ai-vector-search)
 - [Using HNSW Vector Indexes in AI Vector Search](https://blogs.oracle.com/database/post/using-hnsw-vector-indexes-in-ai-vector-search)
