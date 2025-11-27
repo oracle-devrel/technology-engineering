@@ -10,6 +10,7 @@ Reviewed: 11.11.2025
 3. [Reusable Assets](#reusable-assets)
 
 # Team Publications
+- [Developer Coaching - Building Real-Time Streams with OCI Streaming with Apache Kafka](https://www.youtube.com/watch?v=AUiuGH05MPE)
 
 # Useful Links
 
