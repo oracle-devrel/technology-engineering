@@ -4,7 +4,7 @@ The content of this folder is about WebLogic's workloads _discovery_. The term _
 
 A simple, reusable Excel spreadsheet questionnaire to use as a guideline to do a proper WebLogic workload discovery.  
 
-Reviewed: 18.04.2024
+Reviewed: 26.11.2025
 
 # When to use this asset?
 
@@ -19,9 +19,9 @@ If we are talking about a _Lift & Shift_ (L&S) project from on-premises to OCI, 
 5. Define the migration approach.
 6. Define a detailed migration plan.
 
-## WebLogic Modernization 
+## WebLogic Modernization
 
-In this case, one of the goals of the project is to modernize the application framework and in particular WebLogic. Most of the previous tasks 
+In this case, one of the goals of the project is to modernize the application framework and in particular WebLogic. Most of the previous tasks
 will remain the same, but, now we have also:
 
 1. Define the possible modernization paths and their requirements.
@@ -35,7 +35,7 @@ Use the questionnaire to discover your customers weblogic workload.
 
 ## License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

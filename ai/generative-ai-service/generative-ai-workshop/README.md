@@ -1,5 +1,7 @@
 # Generative AI Approach Workshop
 
+Reviewed date: 22.09.2025
+
 ## Overview
 
 This Approach workshop is targeted to LOB and Digital Officers to discover and design powerful use cases for Oracle Generative AI.
@@ -38,7 +40,7 @@ Officers
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

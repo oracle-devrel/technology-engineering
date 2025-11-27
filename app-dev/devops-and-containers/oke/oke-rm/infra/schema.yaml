@@ -1,0 +1,391 @@
+title: OKE RM - Base Network Infrastructure
+description: Basic network infrastructure to start with OKE
+informationalText: Basic network infrastructure
+schemaVersion: 1.1.0
+version: "20190304"
+locale: "en"
+
+variableGroups:
+
+  - title: "Hidden"
+    visible: false
+    variables:
+      - tenancy_ocid
+      - compartment_ocid
+      - region
+
+  - title: "Network"
+    variables:
+      - network_compartment_id
+      - create_vcn
+      - vcn_id
+      - vcn_name
+      - vcn_cidr_block
+      - vcn_dns_label
+      - cni_type
+      - create_cp_subnet
+      - cp_subnet_name
+      - create_worker_subnet
+      - worker_subnet_name
+      - create_pod_subnet
+      - pod_subnet_name
+      - create_external_lb_subnet
+      - external_lb_subnet_name
+      - create_internal_lb_subnet
+      - internal_lb_subnet_name
+      - create_fss
+      - fss_subnet_name
+      - create_bastion_subnet
+      - bastion_subnet_name
+      - bastion_subnet_private
+      - create_gateways
+      - nat_gateway_id
+      - service_gateway_id
+      - create_internet_gateway
+
+  - title: "Control Plane Connectivity"
+    variables:
+      - cp_connection_notice
+      - cp_subnet_private
+      - cp_allowed_source_cidr
+      - cp_external_nat
+      - allow_external_cp_traffic
+      - cp_egress_cidr
+
+  - title: "DRG"
+    variables:
+      - enable_drg
+      - create_drg
+      - drg_name
+      - drg_id
+      - create_drg_attachment
+      - peer_vcns
+
+variables:
+
+  region:
+    title: "Region"
+    type: oci:identity:region:name
+    required: true
+
+  network_compartment_id:
+    title: "Network Compartment"
+    description: "All resources in this section will be created within the compartment chosen"
+    type: oci:identity:compartment:id
+    default: ${compartment_ocid}
+    required: true
+
+  cni_type:
+    title: "CNI Type"
+    description: "CNI to use for the OKE cluster"
+    type: enum
+    enum:
+      - vcn_native
+      - flannel
+    required: true
+
+# VCN
+
+  create_vcn:
+    title: "Create VCN"
+    description: "If flagged, this Terraform module will create a VCN"
+    type: boolean
+
+  vcn_id:
+    title: "Existing VCN"
+    type: oci:core:vcn:id
+    dependsOn:
+      compartmentId: ${network_compartment_id}
+    required: true
+    visible:
+      not:
+        - ${create_vcn}
+
+  vcn_name:
+    title: "VCN Name"
+    description: "Name of the VCN to create"
+    type: string
+    required: true
+    visible: ${create_vcn}
+
+  vcn_cidr_block:
+    title: "VCN CIDR block"
+    description: "CIDR blocks to be allocated for the VCN. MUST BE A /16 VCN"
+    type: string
+    required: true
+    pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).){2}0.0\/16$"
+    visible: ${create_vcn}
+
+  vcn_dns_label:
+    title: "VCN DNS name"
+    description: "DNS label fot the VCN. MUST BE UNIQUE across all the VCNs"
+    type: string
+    required: true
+    pattern: "^[a-zA-Z][a-zA-Z0-9]{0,14}$"
+    visible: ${create_vcn}
+
+# CP SUBNET
+
+  create_cp_subnet:
+    title: "Create Control Plane subnet"
+    description: "If flagged, this Terraform module will create the Kubernetes Control Plane subnet"
+    type: boolean
+
+  cp_subnet_name:
+    title: "Kubernetes Control Plane subnet name"
+    description: "Name of the subnet containing the Kubernetes Control Plane API Server"
+    type: string
+    required: true
+    visible: ${create_cp_subnet}
+
+  cp_subnet_private:
+    title: "Control Plane subnet is private"
+    description: "Flag this if the Control Plane subnet is supposed to be private"
+    type: boolean
+    visible: ${create_cp_subnet}
+
+  cp_allowed_source_cidr:
+    title: "Control Plane allowed source cidr"
+    description: "This source CIDR block will be able to contact the OKE API server"
+    type: string
+    required: true
+
+
+# WORKER SUBNET
+
+  create_worker_subnet:
+    title: "Create Worker subnet"
+    description: "If flagged, this Terraform module will create the Kubernetes Worker subnet"
+    type: boolean
+
+  worker_subnet_name:
+    title: "Worker subnet name"
+    description: "Name of the Worker subnet"
+    type: string
+    required: true
+    visible: ${create_worker_subnet}
+
+# POD SUBNET
+
+  create_pod_subnet:
+    title: "Create Pod subnet"
+    description: "If flagged, this Terraform module will create the Kubernetes Pod subnet"
+    type: boolean
+    visible:
+      eq:
+        - ${cni_type}
+        - vcn_native
+
+  pod_subnet_name:
+    title: "Pod subnet name"
+    description: "OKE pods will have an IP address assigned from this subnet"
+    type: string
+    required: true
+    visible:
+      and:
+        - ${create_pod_subnet}
+        - eq:
+            - ${cni_type}
+            - vcn_native
+
+# LB SUBNETS
+
+  create_external_lb_subnet:
+    title: "Create external LB subnet"
+    description: "If flagged, create a LB subnet to host publicly exposed services"
+    type: boolean
+
+  external_lb_subnet_name:
+    title: "Service subnet name"
+    description: "Name of the external LB subnet"
+    type: string
+    required: true
+    visible: ${create_external_lb_subnet}
+
+  create_internal_lb_subnet:
+    title: "Create internal LB subnet"
+    description: "If flagged, create a LB subnet to host internally exposed services"
+    type: boolean
+
+  internal_lb_subnet_name:
+    title: "Service subnet name"
+    description: "Name of the internal LB subnet"
+    type: string
+    required: true
+    visible: ${create_internal_lb_subnet}
+
+# FSS SUBNET
+
+  create_fss:
+    title: "Create FSS subnet"
+    description: "Create a subnet for the File System Storage service"
+    type: boolean
+
+  fss_subnet_name:
+    title: "FSS subnet name"
+    description: "Name of the FSS subnet to create"
+    required: true
+    visible: ${create_fss}
+
+# VCN GATEWAYS
+
+  create_gateways:
+    title: "Create VCN Gateways"
+    description: "If not flagged, the stack will reuse the VCN gateways"
+    type: boolean
+    default: true
+    visible:
+      not:
+        - ${create_vcn}
+
+  service_gateway_id:
+    type: oci:core:servicegateway:id
+    title: Service Gateway
+    dependsOn:
+      compartmentId: ${network_compartment_id}
+      vcnId: ${vcn_id}
+    required: true
+    visible:
+      and:
+        - not:
+          - ${create_vcn}
+        - not:
+            - ${create_gateways}
+
+  nat_gateway_id:
+    type: oci:core:natgateway:id
+    title: NAT Gateway
+    dependsOn:
+      compartmentId: ${network_compartment_id}
+      vcnId: ${vcn_id}
+    required: true
+    visible:
+      and:
+        - not:
+            - ${create_vcn}
+        - not:
+            - ${create_gateways}
+
+  create_internet_gateway:
+    title: "Create_internet_gateway"
+    description: "The stack will try to create an Internet Gateway if a public subnet is present. If not flagged, an Internet Gateway will not be created"
+    type: boolean
+    visible:
+      and:
+        - not:
+            - ${create_vcn}
+        - not:
+            - ${create_gateways}
+
+
+# CONTROL PLANE EXTERNAL CONNECTION
+  cp_connection_notice:
+    title: "NOTICE"
+    type: text
+    multiline: true
+    default: "The OKE Control Plane sometimes requires connection to Internet, and so it requires a NAT for some use cases.\nOne of this use case is to integrate OKE with an external OIDC Identity Provider.\nYou have here the option to choose between having a NAT or only enable routing for the required Service Gateway"
+    required: false
+
+  cp_external_nat:
+    title: "I want the Control Plane to be able to reach external Internet services"
+    description: "A routing rule to the NAT gateway will be created for the control plane"
+    type: boolean
+    visible:
+      and:
+        - ${cp_subnet_private}
+        - ${create_cp_subnet}
+
+  allow_external_cp_traffic:
+    title: "Allow external Control Plane traffic"
+    description: "Allow external traffic to Internet from the Control Plane"
+    type: boolean
+    visible:
+      or:
+        - not:
+            - ${create_cp_subnet}
+        - or:
+          - not:
+              - ${cp_subnet_private}
+          - ${cp_external_nat}
+
+  cp_egress_cidr:
+    title: "Control Plane allowed egress cidr"
+    description: "Allowed egress IP range that the Control Plane is allowed to call"
+    type: string
+    required: true
+    visible:
+      and:
+        - ${allow_external_cp_traffic}
+        - or:
+            - not:
+                - ${cp_subnet_private}
+            - ${cp_external_nat}
+
+  # BASTION SUBNET
+
+  create_bastion_subnet:
+    title: "Create Bastion Subnet"
+    description: "If flagged, the Stack creates the Bastion Subnet"
+    type: boolean
+
+  bastion_subnet_name:
+    title: "Bastion subnet name"
+    description: "Name of the subnet for Bastions"
+    type: string
+    required: true
+    visible: ${create_bastion_subnet}
+
+  bastion_subnet_private:
+    title: "Bastion subnet is private"
+    description: "Note that if you use the OCI Bastion, the bastion subnet can also be private"
+    type: boolean
+    visible: ${create_bastion_subnet}
+
+# DRG
+
+  enable_drg:
+    title: "Enable DRG"
+    description: "Enable DRG support for this VCN"
+    type: boolean
+
+  create_drg:
+    title: "Create DRG"
+    description: "Create a new DRG"
+    type: boolean
+    visible: ${enable_drg}
+
+  drg_id:
+    title: "DRG ID"
+    description: "Existing DRG ID"
+    type: string
+    required: true
+    visible:
+      and:
+        - ${enable_drg}
+        - not:
+            - ${create_drg}
+
+  drg_name:
+    title: "DRG name"
+    description: "Name for the DRG to be created"
+    type: string
+    required: true
+    visible:
+      and:
+        - ${enable_drg}
+        - ${create_drg}
+
+  create_drg_attachment:
+    title: "Create DRG attachment"
+    description: "Attach the DRG to this VCN"
+    type: boolean
+    visible: ${enable_drg}
+
+  peer_vcns:
+    title: "Peer VCN CIDR blocks"
+    description: "A routing rule will be created on all private subnets to route traffic directed to these CIDR blocks to the DRG"
+    type: array
+    items:
+      type: string
+    required: false
+    visible: ${enable_drg}

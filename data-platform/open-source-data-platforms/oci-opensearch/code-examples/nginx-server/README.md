@@ -1,6 +1,6 @@
 # Create a NGINX server to access the OCI OpenSearch Dashboards
 
-Reviewed: 22.07.2024
+Reviewed: 11.11.2025
 
 # When to use this asset?
 
@@ -18,7 +18,7 @@ Open the .md file and follow the steps carefully.
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

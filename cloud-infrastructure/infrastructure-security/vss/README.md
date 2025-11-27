@@ -2,7 +2,7 @@
  
 Oracle Cloud Infrastructure Vulnerability Scanning Service eliminates risk from new, unpatched vulnerabilities and open ports by assessing and monitoring cloud hosts.
  
-Reviewed: 18.11.2024
+Reviewed: 20.10.2025
 
 # Table of Contents
  
@@ -22,12 +22,11 @@ Reviewed: 18.11.2024
 - [OCI VSS FAQs](https://www.oracle.com/uk/security/cloud-security/vulnerability-scanning-service/faq/)
     - This page provides the answers to the most frequently asked questions about OCI VSS
 
-- [OCI VSS Live Lab](https://blogs.oracle.com/cloudsecurity/post/oci-vss-qualys-agent-livelabs)
-    - This is the Lab for OCI VSS
+
  
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

@@ -15,7 +15,7 @@ DRG instances support the following attachment types:
     
  Service Gateway (SGW)  lets resources in your VCN privately access specific Oracle services, without exposing the data to an internet gateway or NAT.
 
- Reviewed: 30.10.2024
+ Reviewed: 10.10.2025
  
 # Useful Links
 
@@ -32,7 +32,7 @@ DRG instances support the following attachment types:
  
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

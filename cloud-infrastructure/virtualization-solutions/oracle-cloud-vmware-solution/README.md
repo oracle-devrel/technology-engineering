@@ -2,7 +2,7 @@
  
 Oracle Cloud VMware Solution is based on VMware Cloud Foundation (VCF) and provides a fully supported, customizable cloud environment for VMware deployments and migrations. The solution delivers a full-stack software-defined data center (SDDC), including VMware’s vCenter, ESXi, NSX, and vSAN. Specific use cases targeted by Oracle Cloud VMware Solution include data center and application migration, hybrid extension, on-demand capacity, and disaster recovery. 
 
-Reviewed: 06.11.2024
+Reviewed: 26.11.2025
  
 # Table of Contents
  
@@ -19,6 +19,9 @@ Reviewed: 06.11.2024
 # Team Publications
 
 ## Reference Architectures & Step-by-step Guides
+
+- [Deploy a VMware vSAN stretched cluster across OCI regions with Oracle Cloud VMware Solution](https://docs.oracle.com/en/solutions/ocvs-vsan-stretched-cluster/index.html) 
+    - This solution playbook describes deploying Oracle Cloud VMware Solution with a VMware vSAN stretched cluster across multiple OCI regions (with a vSAN Witness in a third region) to achieve region-level availability and resilience.
 
 - [Secure web applications hosted on Oracle Cloud VMware Solution with OCI Certificates](https://docs.oracle.com/en/solutions/secure-web-applications-in-ocvs/#GUID-7FA4EA91-B3CD-4085-B1FB-6255E068928B)
     -  This reference architecture describes the integration options for Oracle Cloud VMware Solution with OCI Certificates and Oracle Cloud Infrastructure Load Balancing (LBaaS) allowing customers to securely publish their critical applications.
@@ -47,11 +50,9 @@ Reviewed: 06.11.2024
 -  [Configure Disaster Recovery using RackWare® with Oracle Cloud VMware Solution](https://docs.oracle.com/en/learn/oci-ocvs-dr-rw/index.html#introduction)
     -  This tutorial summarizes how the entire lifecycle of disaster recovery and business continuity can be effectively managed with Oracle Cloud VMware Solution using RackWare.
       
--  [Configure Disaster Recovery - Cold Standby using RackWare® with Oracle Cloud VMware Solution](https://docs.oracle.com/en/learn/oci-ocvs-dr-rw/index.html#introduction)
+-  [Configure Disaster Recovery - Cold Standby using RackWare® with Oracle Cloud VMware Solution](https://docs.oracle.com/en/learn/oci-ocvs-dr-cs-rw/index.html#introduction)
     -  This tutorial summarizes how RackWare RMM can seamlessly auto provision replicated data from the image repository to the Oracle Cloud VMware Solution for a Cold Standby Disaster Recovery use case and will only be provisioned in the event of Disaster Recovery.
 
--  [Configure Disaster Recovery using RackWare® with Oracle Cloud VMware Solution](https://docs.oracle.com/en/learn/oci-ocvs-dr-cs-rw/index.html#introduction)
-    -  This tutorial describes how you can enable Name Resolution between On-Premises vCenter and Oracle Cloud VMware Solution-powered vCenter.
 
 -  [Oracle Cloud VMware Solution - in-place upgrade how-to guide](https://docs.oracle.com/en/learn/ocvs-inplace-upgrade-6x-7x/)
     -  This tutorial provides an operational overview of how to perform the in-place upgrade for software components running in the 6.x version of SDDC to 7.x. 
@@ -112,9 +113,6 @@ Reviewed: 06.11.2024
 - [Establishing connectivity from an Oracle Cloud VMware Solution NSX-T overlay segment to another VCN in a different region](https://blogs.oracle.com/cloud-infrastructure/post/establishing-connectivity-from-ocvs-nsx-t-overlay-segment-to-another-vcn-in-different-region)
      -  This blog post talks about the setup of communication between overlay segments in Oracle Cloud VMware Solutions and workloads deployed in a VCN in a different OCI region.
  
-- [Establishing connectivity from an Oracle Cloud VMware Solution NSX-T overlay segment to another VCN in a different region](https://blogs.oracle.com/cloud-infrastructure/post/establishing-connectivity-from-ocvs-nsx-t-overlay-segment-to-another-vcn-in-different-region)
-     -  This blog post talks about the setup of communication between overlay segments in Oracle Cloud VMware Solutions and workloads deployed in a VCN in a different OCI region.
-
 - [VMware Tanzu deployment option with Oracle Cloud VMware Solution](https://blogs.oracle.com/cloud-infrastructure/post/vmware-tanzu-deploy-oracle-cloud-vmware-solution)
      -  This blog post talks about the deployment of VMware Tanzu on Oracle Cloud VMware Solution.
        
@@ -143,18 +141,19 @@ Reviewed: 06.11.2024
 
 # Reusable Assets
 
-- [Automating OCVS operations using Terraform](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/vmware-solutions/oracle-cloud-vmware-solution/OCVS-Terraform-automation)
-- [Workload Migration to OCVS - Solution Definition Document](https://github.com/oracle-devrel/technology-engineering/tree/GitHubReview/cloud-infrastructure/vmware-solutions/oracle-cloud-vmware-solution/vmware-migration-solution-definition)
-- [Disaster Recovery to OCVS with HCX or SRM Solution Definition Document](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/vmware-solutions/oracle-cloud-vmware-solution/disaster-recovery-to-ocvs-solution-definition)
-
+- [Automating OCVS operations using Terraform](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/virtualization-solutions/oracle-cloud-vmware-solution/ocvs-terrafom-automation)
+ 
+- [Workload Migration to OCVS - Solution Definition Document](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/virtualization-solutions/oracle-cloud-vmware-solution/vmware-migration-solution-definition)
+- [Disaster Recovery to OCVS with HCX or SRM Solution Definition Document](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/virtualization-solutions/oracle-cloud-vmware-solution/disaster-recovery-to-ocvs-solution-definition)
+- [Sending vCenter Alarms to OCI Notification Service](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/virtualization-solutions/oracle-cloud-vmware-solution/vcenter-to-oci-notifications)
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
 
 [def]: #useful-links
 [def2]: def

@@ -3,7 +3,7 @@
  
 Red Hat OpenShift can be hosted on OCI as a self-run platform. Oracle provides terraform templates for easy implementation and platform integration.
 
-Reviewed: 06.11.2024
+Reviewed: 12.11.2025
  
 # Useful Links
 
@@ -14,15 +14,14 @@ Reviewed: 06.11.2024
 
 ## Reference Architectures & Step-by-step Guides
 
+- [Use multiple and floating Egress IP(s) by leveraging OCI VLANs](openshift-floating-egress-ip/README.md)
 - [Enable Seamless Access to Red Hat OpenShift Container Platform on OCI from On-Premises to VCNs in the Same Region](https://docs.oracle.com/en/learn/oci-openshift-vcn/)
+- [Deploying Red Hat OpenShift on OCI using Assisted Installer Method](https://github.com/oracle-devrel/technology-engineering/blob/main/cloud-infrastructure/virtualization-solutions/openshift-on-oci/deploy-new-cluster-assisted-method/files/index.md)
 
 ## OpenShift Day-2 - Operations
 - [Using OCI Object storage for the OpenShift Internal Registry](enable-image-registry/README.md)
-- [Adding extra worker nodes to your Assisted installed cluster](assisted-cluster-add-host/README.md)
-  
-## Videos
-
-- [Red Hat OpenShift on Oracle Cloud Infrastructure ](https://www.youtube.com/watch?v=_3WMrRVRD1o)
+- [Add a New Worker Node to an Existing OpenShift Cluster Using the Assisted Installer](https://github.com/oracle-devrel/technology-engineering/blob/main/cloud-infrastructure/virtualization-solutions/openshift-on-oci/add-new-host-assisted-method/files/index.md)
+ 
 
 # Reusable Assets
 
@@ -30,11 +29,11 @@ Reviewed: 06.11.2024
   
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
 
 [def]: #useful-links
 [def2]: def

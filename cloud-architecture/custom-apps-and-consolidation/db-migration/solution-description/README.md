@@ -2,7 +2,7 @@
 
 This repository contains some sample architecture documents that describe Oracle database migration from on-premises to various Cloud Database Services.
 
-Reviewed: 05.04.2024
+Reviewed: 26.11.2025
 
 # When to use this asset?
 
@@ -14,7 +14,7 @@ Review the MD file under the files folder and amend to your workload.
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

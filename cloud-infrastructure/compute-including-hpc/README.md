@@ -4,7 +4,7 @@ This area is focused on the core Compute Service of Oracle Cloud Infrastructure 
 
 
 
-<i>Review date: 25 Oct 2024</I>
+<i>Review date: 16 Oct 2025</I>
 
 # Useful Links
 
@@ -28,8 +28,8 @@ The links below contain publications from the OCI Compute team:
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

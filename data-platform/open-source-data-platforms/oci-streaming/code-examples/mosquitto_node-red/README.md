@@ -1,5 +1,7 @@
 # Create and run Mosquitto & Node-RED, connecting to OCI Streaming
 
+Reviewed: 11.11.2025
+
 The below creates a Mosquitto instance on OCI and adds configuration to handle the incoming KPN IoT platform traffic. KPN needs CA signed certificates and encrypted messages, and username/password auth.
 
 - Create instance with CentOS 7 image
@@ -29,9 +31,9 @@ The below creates a Mosquitto instance on OCI and adds configuration to handle t
   mosquitto_pub -h localhost -t test_topic -m "hello world"
   ```
 
-- Create a password file. Run the below. In the example, 'bob' is the username. Password will be prompted when you run.
+- Create a password file. Run the below. In the example, 'username' is the username. Password will be prompted when you run.
   ```
-  sudo mosquitto_passwd -c /etc/mosquitto/passwd bob
+  sudo mosquitto_passwd -c /etc/mosquitto/passwd username
   ```
 
 - Create the CA keys. Public IP should be added to public DNS. When prompted for domain, use the full Domain.
@@ -65,13 +67,13 @@ The below creates a Mosquitto instance on OCI and adds configuration to handle t
 
 - Test with credentials
   ```
-  mosquitto_sub -h localhost -t kpnthings -u "bob" -P "password" -p 8883
-  mosquitto_pub -h localhost -t "kpnthings" -m "hello world" -u "bob" -P "password" -p 8883
+  mosquitto_sub -h localhost -t kpnthings -u "username" -P "password" -p 8883
+  mosquitto_pub -h localhost -t "kpnthings" -m "hello world" -u "username" -P "password" -p 8883
 
 - Test with credentials and certificate. 
   ```
-  mosquitto_pub -h mosquitto-demo.cooldemo.org -t kpnthings -m "hello again" -p 8883 --cafile /etc/ssl/certs/ca-bundle.crt -u "bob" -P "password"
-  mosquitto_sub -h mosquitto-demo.cooldemo.org -t kpnthings -p 8883 --cafile /etc/ssl/certs/ca-bundle.crt -u "bob" -P "password"
+  mosquitto_pub -h mosquitto-demo.cooldemo.org -t kpnthings -m "hello again" -p 8883 --cafile /etc/ssl/certs/ca-bundle.crt -u "username" -P "password"
+  mosquitto_sub -h mosquitto-demo.cooldemo.org -t kpnthings -p 8883 --cafile /etc/ssl/certs/ca-bundle.crt -u "username" -P "password"
   ```
 
 
@@ -96,7 +98,7 @@ The below creates a Mosquitto instance on OCI and adds configuration to handle t
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

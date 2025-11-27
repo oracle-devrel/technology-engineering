@@ -13,6 +13,8 @@ Reviewed: 15.11.2024
 ## Specialists Blogs for various features & functionality
 |Content Link |Functionality|Descripton|
 | ------------ |------------|----------|
+|[Oracle Analytics Cloud: All About Oracle Analytics AI Assistant](https://blogs.oracle.com/analytics/oracle-analytics-cloud-all-about-oracle-analytics-ai-assistant)|Oracle Analytics Cloud AI Assistant|This blog discusses the setup of the Oracle Analytics AI Assistant, ways to efficiently leverage this feature, and the best practices for configuring it.
+|[Set up Oracle Analytics Cloud in a multi-Virtual Cloud Network architecture](https://blogs.oracle.com/analytics/post/set-up-oracle-analytics-cloud-in-a-multivirtual-cloud-network-architecture)|OAC Setup & Configure|How to set up Oracle Analytics Cloud in a multi-Virtual Cloud Network architecture.
 |[Unleash the Power of Template Viewer: Streamlined Testing for Flawless Oracle Analytics Publisher Reports](https://www.linkedin.com/pulse/unleash-power-template-viewer-streamlined-testing-flawless-kasetty-bxiqc/)|Oracle Analytics Publisher Template Viewer|How to leverage Template Viewer to test Oracle Analytics Publisher templates.
 |[Leverage the OCI Modern Data Platform to implement an Enterprise Analytics Solution](https://blogs.oracle.com/coretec/post/leverage-oci-modern-data-platform-to-implement-enterprise-analytics-solution)|OAC-Enterprise Analytics Solution |How to leverage the OCI modern data platform to implement an enterprise analytics solution.
 |[Top 5 reasons Oracle Analytics Cloud stands apart in the ML/AI Analytics landscape](https://blogs.oracle.com/analytics/post/top-5-reasons-oracle-analytics-cloud-stands-apart-in-the-mlai-analytics-landscape)|OAC Machine Learning|What are primary reasons to choose Oracle Analytics Cloud (OAC) from an ML/AI perspective.
@@ -30,6 +32,7 @@ Reviewed: 15.11.2024
  ## Specialists Cloud Coaching
  |Content Link |Descripton|
 | ------------ |------------|
+|[Oracle Analytics Cloud - AI Assistant](https://www.youtube.com/watch?v=fJM4eXBPLZE&t=605s)|Discover how you can use in built Assistant of Oracle Analytics Cloud to uncover insights using natural language.|
 |[Seamless integration of Oracle Autonomous Database and Leverage ML Feature](https://www.youtube.com/watch?v=lWW1klePXgU)|Explore how to leverage Autonomous Database Machine Leaning and Automated Machine Learning features in Oracle Analytics cloud and perform predictive analytics to know the future outcomes.|
 |[Oracle Analytics: Pioneering ESG Intelligence](https://www.youtube.com/watch?v=ImuRe_cWf58)|"Oracle Analytics: Pioneering ESG Intelligence" is a dynamic session tailored to explore the pivotal role of Environment, Social, and Governance (ESG) in today's business landscape through Oracle Analytics. |
 |[Exploring Oracle Expense Analytics: A Hands-On Lab for Data-driven Insights](https://www.youtube.com/watch?v=TqUBFCo13gk)|Exploring Oracle Expense Analytics: A Hands-On Lab for Data-driven Insights.|
@@ -62,6 +65,11 @@ Reviewed: 15.11.2024
 ## OAC Latest Release and Announcements
  |Content Link |Descripton|
 | ------------ |------------|
+|[Oracle Analytics Cloud new features - Nov 2025](https://www.youtube.com/watch?v=YUoo7CaJ_Vg&list=PL6gBNP-Fr8KWLSpTa0vrHSWle8iHgOGIM)|Oracle Analytics Cloud Nov-2025 new features videos|
+|[Oracle Analytics Cloud new features - Sep 2025](https://www.youtube.com/watch?v=JpaVLiVLfEA&list=PL6gBNP-Fr8KXBh-wE96il0tpW2bEHGEts)|Oracle Analytics Cloud Sep-2025 new features videos|
+|[Oracle Analytics Cloud new features - Jul 2025](https://www.youtube.com/watch?v=3yJdmhKLQ2E&list=PL6gBNP-Fr8KUvfDxdl_dnIRbmitZmr746)|Oracle Analytics Cloud Jul-2025 new features videos|
+|[Oracle Analytics Cloud new features - May 2025](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KV_UvB0tyOYKVmkaHWMw630)|Oracle Analytics Cloud May-2025 new features videos|
+|[Oracle Analytics Cloud new features - Mar 2025](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KUr9RJkeu9L1ujX7yNvyree)|Oracle Analytics Cloud Mar-2025 new features videos|
 |[Oracle Analytics Cloud new features - Jan 2025](https://www.youtube.com/watch?v=nIOFGiOCAA0&list=PL6gBNP-Fr8KWr1p2ylzHOLZ7dqYz0hKOY)|Oracle Analytics Cloud Jan-2025 new features videos|
 |[Oracle Analytics Cloud new features - Nov 2024](https://www.youtube.com/watch?v=BDgpYrMGYHs&list=PL6gBNP-Fr8KX_aagSmzlKrEzztorMW2xG)|Oracle Analytics Cloud Nov-2024 new features videos|
 |[Oracle Analytics Cloud new features - Sep 2024](https://www.youtube.com/playlist?list=PL6gBNP-Fr8KXpFBGaE9kkxviCsQxSmjjq)|Oracle Analytics Cloud Sep-2024 new features videos|
@@ -160,7 +168,7 @@ Reviewed: 15.11.2024
 
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

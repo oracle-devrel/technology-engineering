@@ -6,7 +6,7 @@ In Oracle Cloud Infrastructure the customer owns and manages patching of OS and 
 
 Best practices & other useful resources around how to patch Oracle Databases on premises or on Oracle Cloud Infrastructure can be found on this page.
  
-Reviewed: 25.10.2024
+Reviewed: 08.10.2025
 
 # Team Publications
 
@@ -31,7 +31,7 @@ Reviewed: 25.10.2024
 
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

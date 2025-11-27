@@ -1,5 +1,5 @@
 <!--
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 The Universal Permissive License (UPL), Version 1.0
 
@@ -38,7 +38,7 @@ SOFTWARE.
 
 # A Java Hello World function with local dev and then building and deploying to OCI Functions
 
-Reviewed: 31.10.2024
+Reviewed: 30.9.2025
  
 # When to use this asset?
  
@@ -69,6 +69,11 @@ docker run --rm -i --name fnserver \
 --entrypoint ./fnserver \
 -e FN_LOG_LEVEL=DEBUG fnproject/fnserver:latest
 </pre>
+
+<i>UPDATE 30.9.2025</i>
+
+I recently updated my MacOS to Sequoia 15.7 and hit the issue with Fn server that it could not run Function containers. To have a fix for this I reloaded the Fn Server image.
+After this, I can now run Functions in Fn Server succesfully on my MacOS.
 
 <p>
 Now that the Fn server is running create an application for our function using the cli:
@@ -118,7 +123,6 @@ docker build -t fra.ocir.io/&lt;YOUR OCI TENANCY NAMESPACE&gt;/helloworld-java:1
 </pre>
 
 In the docker build command above replace the <code>region</code> if necessary and the <code>&lt;YOUR OCI TENANCY NAMESPACE&gt;</code> with yours.
-
 <p>
 
 After building let's do <code>docker login</code> and <code>docker push</code> to push the container to the OCIR repo:
@@ -130,6 +134,16 @@ docker login ams.ocir.io -u '&lt;YOUR OCI TENANCY NAMESPACE&gt;/oracleidentitycl
 docker push fra.ocir.io/&lt;YOUR OCI TENANCY NAMESPACE&gt;/helloworld-java:1
 </pre>
 
+<p>
+The same as above but using OCI cli to get the &lt;YOUR OCI TENANCY NAMESPACE&gt; which is especially handy in scripting:
+
+<pre>
+export namespace=$(oci os ns get | jq .data | tr -d '"')
+docker build -t fra.ocir.io/$namespace/helloworld-java:1 .
+docker push fra.ocir.io/$namespace/helloworld-java:1
+</pre>
+
+<p>
 The last step is to create the Function Application and the function deployment for it. This can be easily done using the Cloud UI. 
 
 <p>
@@ -169,7 +183,7 @@ Hello, Mika!
 
 ## License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

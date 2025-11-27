@@ -1,3 +1,5 @@
+Reviewed: 16.09.2025
+
 # Exadata Cloud@Customer Single Node VM Cluster
 
 With this enhancement, you can deploy and run multiple single-instance databases in a single-node cluster without RAC licenses being required.
@@ -14,8 +16,6 @@ Run each single instance database as a singleton workload or PDB in a shared RAC
 Run each single instance database as a singleton workload or PDB in a dedicated CDB
 Run each single instance database as a two–node cluster, but shut down unnecessary instances
 
-Reviewed 19/11/2024
-
 # Useful Links
 
 * [About Single-Node VM Cluster](https://docs.oracle.com/en-us/iaas/exadata/doc/ecc-manage-vm-clusters.html#GUID-F528AA9C-2130-4E15-B8DE-DF65FD580789)
@@ -27,7 +27,7 @@ Reviewed 19/11/2024
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

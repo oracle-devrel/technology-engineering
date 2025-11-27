@@ -1,6 +1,6 @@
 # Connect OCI Cache from a local machine via a Network Load Balancer(NLB)
 
-Reviewed: 13.08.2024
+Reviewed: 11.11.2025
 
 # When to use this asset?
 
@@ -18,7 +18,7 @@ Open the exposing-oci-cache-via-network-load-balancer.pdf and follow the steps c
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

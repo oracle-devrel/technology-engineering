@@ -2,7 +2,7 @@
 
 In this folder, we are making available several useful resources that can be used when deploying, using or configuring MS SQL Server.
 
-Reviewed: 05.04.2024
+Reviewed: 26.11.2025
 
 # When to use this asset?
 
@@ -14,7 +14,7 @@ Reuse the document in the files folder. Amend for your workload.
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

@@ -1,6 +1,6 @@
 # Example of Producing and Consuming for OCI Streaming
 
-Reviewed: 22.10.2024
+Reviewed: 11.11.2025
 
 1. Create compute instance. Oracle Linux 7.
 2. Run the below to install Git, clone the repo, and install several packages
@@ -35,7 +35,7 @@ python apache_kafka/oci_streaming/producer.py  \
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

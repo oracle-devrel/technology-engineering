@@ -6,7 +6,7 @@ Cloud Guard detects security problems within a customer tenancy by ingesting aud
 
 Responders can mitigate, correct, and prevent security issues based on a problem.
  
-Reviewed: 18.11.2024
+Reviewed: 20.10.2025
 
 # Table of Contents
  
@@ -32,11 +32,13 @@ Reviewed: 18.11.2024
     - Video by Clay Magouyrk showing Cloud Guard and Security Zones
 - [Oracle Cloud Guard Instance Security](https://www.oracle.com/security/cloud-security/cloud-guard/instance-security/)
     - Oracle Cloud Guard Instance Security Overview
+- [Securing Oracle Cloud Guard](https://docs.oracle.com/en-us/iaas/Content/Security/Reference/cloud-guard_security.htm)
+    - Securing Oracle Cloud Guard Overview
 
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

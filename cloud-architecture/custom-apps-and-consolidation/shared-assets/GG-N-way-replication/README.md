@@ -2,7 +2,7 @@
 
 This document articulates the best practices for OCI Goldengate N-way replication in terms of generic capabilities and provides guidance and options on how those capabilities can be implemented.
 
-Reviewed: 18.04.2024
+Reviewed: 26.11.2025
 
 # When to use this asset?
 
@@ -13,12 +13,12 @@ This will provide methods and best practices to achieve real-time data replicati
 Users of this document should have a working knowledge of GoldenGate and OCI Oracle Databases.
 
 - GoldenGate to set up bi-directional replication between DBCS (Region1) and DBCS(Region2).
-- GoldenGate to set up uni-directional replication between DBCS and ADW for both regions. 
+- GoldenGate to set up uni-directional replication between DBCS and ADW for both regions.
 
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

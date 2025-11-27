@@ -1,0 +1,13 @@
+[theme]
+primaryColor = "#e83610"               # Red
+backgroundColor = "#1E1E1E"            # Dark gray background 
+secondaryBackgroundColor = "#2C2C2C"   # Slightly lighter sidebar 
+textColor = "#FFFFFF"                  # Clean white text
+font = "sans serif"                   
+
+[client]
+showSidebarNavigation = false
+toolbarMode = "minimal"
+
+[server]
+headless = true

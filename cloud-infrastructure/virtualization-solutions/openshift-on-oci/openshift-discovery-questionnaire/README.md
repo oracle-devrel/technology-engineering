@@ -2,7 +2,7 @@
 
 This document can be used as a reference questionnaire to collect the required details for a project involving Red Hat OpenShift.
 
-Reviewed: 11.11.2024
+Reviewed: 12.11.2025
 
 # When to use this asset?
 
@@ -18,8 +18,8 @@ The information is generic in nature and not specified for a particular customer
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

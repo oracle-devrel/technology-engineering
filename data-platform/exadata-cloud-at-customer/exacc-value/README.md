@@ -1,6 +1,6 @@
 # Exadata Cloud@Customer Value
 
-Reviewed: 28.02.2025
+Reviewed: 16.09.2025
 
 # Videos
 A short video series covering different aspects of the Oracle Exadata Cloud@Customer - the best platform for running your Oracle Databases in the cloud behind your firewall.
@@ -35,7 +35,7 @@ The below videos are showcasing best practices and how-to's with a technical and
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

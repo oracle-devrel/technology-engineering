@@ -1,3 +1,5 @@
+Reviewed: 16.09.2025
+
 # AHF Reports - Customer Guide
 
 **NOTE**: Before generating the AHF reports it is important to install the latest version of the AHF suite.
@@ -412,10 +414,8 @@ To generate the AHF Insight Report, please, follow the below instructions.
 
 ## License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details. 
-
-reviewed 30/10/2024

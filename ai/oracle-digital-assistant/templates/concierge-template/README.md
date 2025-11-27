@@ -2,7 +2,7 @@
  
 The Concierge Template is a skill for quickly setting up a Knowledge bot.
 
-Reviewed: 31.10.2024
+Reviewed: 31.10.2025
 
 Concierge Template WebSDK
 
@@ -38,7 +38,7 @@ In your freemarker expression you can use them like profile.properties.value.com
  
 # License
  
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

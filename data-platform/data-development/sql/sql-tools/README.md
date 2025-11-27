@@ -19,7 +19,10 @@ Reviewed: 19.11.2025
 
 - Application Continuity - [Does your Database really know your application - Part 3](https://medium.com/@paulbrad71/application-continuity-on-adb-does-your-database-know-your-application-376e44d8a30) - Published on [Medium](http://www.medium.com) on 31st May 2023.
 
-- [SQL on Autonomous Database - a Rockin' Experience](https://www.youtube.com/watch?v=jcrPvP4SKLQ) - Published on [YouTube](http://www.youtube.com) on 23th November 2023.  -->
+- SQL and ADB - [SQL on Autonomous Database - a Rockin' Experience](https://www.youtube.com/watch?v=jcrPvP4SKLQ) - Published on [YouTube](http://www.youtube.com) on 23th November 2023.  
+
+- SQL and ADB - [Oracle ADB ADMIN is not a SYSDBA..not even a DBA](https://medium.com/@paulbrad71/oracle-adb-admin-is-not-a-sysdba-not-even-a-dba-50bc6f2bbb33) - Published on [Medium](http://www.medium.com) on 14th April 2025. 
+
 
 # Useful Links
 
@@ -59,6 +62,7 @@ Periodical sharing of Standard Query Language Best Practices links and blog, vid
 - The power of SQL JOIN: [The JOIN syntax in SQL that no-one knows about](https://www.youtube.com/watch?v=nb52Gx4i364) (From Connor McDonald)
 - Analytic Functions: [how to get SQL cumulative running total on each row](https://blogs.oracle.com/sql/post/cumulative-running-total-of-previous-rows-with-sql) (from Chris Saxon);
 - V$ views: [Top 10 V$ Views For DBA and Developers](https://youtu.be/oI1F4vFwM9Q?si=i1UslciVja50792t) (From Connor McDonald);
+- LiveSQL - SQL Macro: [Working with SQL Macro](https://livesql.oracle.com/next/library/tutorials/sql-macros-creating-parameterised-views-mgEdl9)
 
 
 ## PMs Personal Websites
@@ -71,7 +75,7 @@ Periodical sharing of Standard Query Language Best Practices links and blog, vid
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

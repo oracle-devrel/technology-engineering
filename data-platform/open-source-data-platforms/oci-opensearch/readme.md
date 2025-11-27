@@ -3,7 +3,7 @@ OCI Search with OpenSearch is a managed service that you can use to build in-app
 
 Search with OpenSearch handles all the management and operations of search clusters, including operations such as security updates, upgrades, resizing, and scheduled backups. This allows you to focus your resources on building features for your OpenSearch solutions.
 
-Reviewed: 04.06.2024
+Reviewed: 11.11.2025
 
 # Table of Contents
 
@@ -18,6 +18,9 @@ Reviewed: 04.06.2024
 - [Retrieval Augmented Generation with OCI OpenSearch and GenAI service](https://github.com/bobpeulen/oci_opensearch/blob/main/oci_opensearch_rag_auto.ipynb)
 A notebook describing and performing all steps to create and store a custom embedding model in the OCI OpenSearch cluster and create a full RAG pipeline (OCI OpenSearch as Vector database and in-memory engine and the GenAI service (cohere) as LLM)
 - [LiveLabs: Search and visualize data with OCI Search Service with OpenSearch](https://apexapps.oracle.com/pls/apex/f?p=133:180:6071760449919::::wid:3427)
+- [How to Interact with OpenSearch?](https://www.linkedin.com/pulse/how-interact-opensearch-isma%C3%ABl-hassane-j7z9f/?trackingId=TbuchZqCSDa9X65sWhx8xw%3D%3D)
+- [Architecting with OpenSearch](https://www.linkedin.com/pulse/architecting-opensearch-isma%C3%ABl-hassane-gz1jf/?trackingId=xw1G1Yq9SMutkogC3FIJmg%3D%3D)
+- [Developer Coaching - Building Real-Time Streams with OCI Streaming with Apache Kafka](https://www.youtube.com/watch?v=AUiuGH05MPE)
 
 # Useful Links
 
@@ -29,13 +32,15 @@ A notebook describing and performing all steps to create and store a custom embe
 
 - [Create a full RAG pipeline using OCI OpenSearch and the GenAI service](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-opensearch/code-examples/rag-oci-opensearch-genai-service)
 When you are looking to use build a full RAG pipeline using OCI OpenSearch (as a vector database and as an in-memory engine) and the GenAI service, using the OCI Data Science service. Largely, the steps are documented and automated to help you create the pipeline. The notebook includes a small interactive chatbot you can use to interact within a conversation.
-
 - [Create a NGINX server to access the OCI OpenSearch Dashboards](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-opensearch/code-examples/nginx-server)
 When many people need access to the OCI OpenSearch dashboards and you want them to use one single point of entry, being the public URL. You can use these steps to install an NGINX server on a compute, providing you access to the OCI OpenSearch dashboard with full control over your security.
+- [Run Anomaly Detection in OCI OpenSearch and receive an alert using Oracle Notification Service](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-opensearch/code-examples/anomaly-detection-onsh)
+- [Exporting Kubernetes Logs to OCI OpenSearch Using Fluent-Bit](https://github.com/andreumdorokhinum/oci_k8s_logs_to_opensearch)
+
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
