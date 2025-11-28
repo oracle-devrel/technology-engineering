@@ -1,7 +1,7 @@
 # Oracle Graph Presentations
 This presentations provide information about general Oracle Graph functions. 
 
-Reviewed: 22.01.2025
+Reviewed: 2025.11.17
 
 # When to use this asset?
 
