@@ -130,7 +130,7 @@ Usage
   - From the menu select the Cloud Shell item.
   - When running it the first time:
     - Upload the provided ZIP file.
-    - Extract it with unzip -q oci-security-health-check-standard-251104.zip
+    - Extract it with unzip -q oci-security-health-check-standard-251128.zip
   - Change directory into oci-security-health-check-standard
     $ cd oci-security-health-check-standard
     $ screen
@@ -190,11 +190,11 @@ Usage
     - Log out
 
   - From your desktop, upload the
-    "oci-security-health-check-standard-251104.zip" file to the Compute VM
+    "oci-security-health-check-standard-251128.zip" file to the Compute VM
     using any SFTP client.
   - Log into the Compute VM
     - Extract the distribution
-      unzip -q oci-security-health-check-standard-251104.zip
+      unzip -q oci-security-health-check-standard-251128.zip
 
     - Change directory into "oci-security-health-check-standard":
       cd oci-security-health-check-standard
