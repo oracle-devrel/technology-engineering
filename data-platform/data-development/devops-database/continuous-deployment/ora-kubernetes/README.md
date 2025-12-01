@@ -8,7 +8,7 @@ Oracle Supports Oracle Database running in Kubernetes, Furthermore, Oracle offer
 
 In this way, developers can operate our database in the same manner as any other component of their applications, and utilize our best solutions (Exadata, Autonomous, etc.) to run these databases, and DBAs maintain control of such important topics as security, high availability, disaster recovery...
 
-Reviewed: 19.11.2024
+Reviewed: 01.12.2025
 
 # Table of Contents
  

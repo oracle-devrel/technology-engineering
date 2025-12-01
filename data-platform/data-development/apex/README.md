@@ -26,8 +26,10 @@ Reviewed: 01.12.2025
 - [Build a ChatGPT-like Oracle APEX Application Using OpenAI’s Fine-tuned Model](https://medium.com/@cristina.varas98/build-a-chatgpt-like-oracle-apex-application-using-openais-fine-tuned-model-acb8bac4b7c8)
 
 ## Team Member Blog Sites
-- [to_clob(hands_om.experience)](https://synuora.hashnode.dev/)
 
+- [Paolo Paolucci](https://medium.com/@paulbrad71)
+- [Sydney Nurse](https://synuora.hashnode.dev/ "to_clob(hands_om.experience")
+- [Victor Mendo](https://medium.com/@vmendo/)
 
 # Useful Links
 
