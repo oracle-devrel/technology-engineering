@@ -10,7 +10,7 @@ Every development team's goal: (Operations)
 - Delivering a few change requests at a time to end users
 - Through a series of high-quality releases on a regular cadence
 
-Reviewed: 18.11.2024
+Reviewed: 01.12.2025
 
 # Table of Contents
  
@@ -24,6 +24,8 @@ Reviewed: 18.11.2024
 - DevOps with ADB using DBMS_CLOUD
    - [Part 1](https://medium.com/oracledevs/apex-service-can-devops-too-dbms-cloud-on-autonomous-72be9842d2f8)
    - [Part 2](https://medium.com/oracledevs/apex-service-devops-part-2-ed737a4fc583)
+- [DB Containers: Free Oracle Database for Developers](https://synuora.hashnode.dev/db-containers-free-oracle-database-for-developers)
+- [APEX + DB Operator: Deploying Customer Managed ORDS for ADB with the Oracle Database Operator on OKE](https://synuora.hashnode.dev/apex-db-operator-deploying-customer-managed-ords-for-adb-with-the-oracle-database-operator-on-oke)
  
 # Useful Links
 
