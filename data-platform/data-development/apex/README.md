@@ -4,7 +4,7 @@
 
 Using APEX, developers don't need to be experts in a vast array of technologies to deliver sophisticated solutions. Just focus on solving the problem and let APEX take care of the rest.
 
-Reviewed: 14.04.2025
+Reviewed: 01.12.2025
 
 # Table of Contents
 1. [Team Publications](#team-publications)
@@ -24,6 +24,10 @@ Reviewed: 14.04.2025
 - [Configuring Email in Oracle APEX on an Autonomous Database (ADB)](https://medium.com/@cristina.varas98/configuring-email-in-oracle-apex-on-an-autonomous-database-adb-d46fa015be95)
 - [Creating my own specialized ChatGPT for Oracle APEX Development using Fine-Tuned OpenAI model](https://medium.com/@cristina.varas98/creating-my-own-specialized-chatgpt-for-oracle-apex-development-using-fine-tuned-openai-models-78263062aaf4)
 - [Build a ChatGPT-like Oracle APEX Application Using OpenAI’s Fine-tuned Model](https://medium.com/@cristina.varas98/build-a-chatgpt-like-oracle-apex-application-using-openais-fine-tuned-model-acb8bac4b7c8)
+
+## Team Member Blog Sites
+- [to_clob(hands_om.experience)](https://synuora.hashnode.dev/)
+
 
 # Useful Links
 
