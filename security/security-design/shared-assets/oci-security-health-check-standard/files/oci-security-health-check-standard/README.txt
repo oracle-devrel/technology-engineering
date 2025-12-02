@@ -2,7 +2,7 @@
 OCI Security Health Check - Standard Edition
 ============================================
 Owner: Olaf Heimburger
-Version: 251104 (cis_report.py version 3.1.0)  for CIS OCI Foundation Benchmark 3.0.0
+Version: 251104 (cis_report.py version 3.1.0.1)  for CIS OCI Foundation Benchmark 3.0.0
 
 When to use this asset?
 

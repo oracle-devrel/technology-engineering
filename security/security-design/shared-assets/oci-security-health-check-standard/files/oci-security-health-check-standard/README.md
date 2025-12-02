@@ -2,7 +2,7 @@
 
 Owner: Olaf Heimburger
 
-Version: 251128 (cis_report.py version 3.1.0) for CIS OCI Foundation Benchmark 3.0.0
+Version: 251128 (cis_report.py version 3.1.0.1) for CIS OCI Foundation Benchmark 3.0.0
 
 ## When to use this asset?
 
