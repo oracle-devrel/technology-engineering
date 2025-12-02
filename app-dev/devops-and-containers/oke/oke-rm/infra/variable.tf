@@ -4,7 +4,7 @@ variable "compartment_ocid" {}
 variable "network_compartment_id" {}
 
 variable "cni_type" {
-  default = "flannel"
+  default = "vcn_native"
 }
 
 # VCN
@@ -76,7 +76,7 @@ variable "pod_subnet_name" {
 
 variable "create_external_lb_subnet" {
   type = bool
-  default = false
+  default = true
 }
 
 variable "external_lb_subnet_name" {
@@ -122,14 +122,6 @@ variable "fss_subnet_name" {
 variable "create_gateways" {
   type = bool
   default = true
-}
-
-variable "service_gateway_id" {
-  default = null
-}
-
-variable "nat_gateway_id" {
-  default = null
 }
 
 variable "create_internet_gateway" {
