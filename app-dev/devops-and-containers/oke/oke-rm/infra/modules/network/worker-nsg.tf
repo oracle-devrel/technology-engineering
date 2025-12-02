@@ -183,7 +183,7 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_bastion
       min = 22
     }
   }
-  count = var.create_bastion_subnet ? 1 : 0
+  count = local.create_bastion_subnet ? 1 : 0
 }
 
 resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_bastion_ssh_egress" {
@@ -200,7 +200,7 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_bastion
       min = 22
     }
   }
-  count = var.create_bastion_subnet ? 1 : 0
+  count = local.create_bastion_subnet ? 1 : 0
 }
 
 # Internet - ALL protocols
