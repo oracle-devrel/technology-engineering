@@ -46,6 +46,8 @@ The included PDF presentation provides additional context on the concepts and re
 
 # Useful Links
 
+- [Reference documentation](https://github.com/oracle-devrel/technology-engineering/blob/7cb366773fb0b9f5e025fd50467decbc18c288b7/ai/generative-ai-service/timeout-prevention/files/AvoidingTimeouts.pdf)
+
 - [OCI Python SDK Documentation](https://docs.oracle.com/en-us/iaas/tools/python/latest/index.html)
 
   - Reference for retry behavior, SDK configuration, and Generative AI APIs.
