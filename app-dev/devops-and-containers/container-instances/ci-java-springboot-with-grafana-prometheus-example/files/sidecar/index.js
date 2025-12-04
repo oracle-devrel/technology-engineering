@@ -112,7 +112,7 @@ async function downloadFile(osClient, namespace, bucket, file, path)
          chunks.push(chunk);
      }
      var buffer = Buffer.concat(chunks);
-     await fs.writeFile(path + "/" + file.name, buffer, null, (err) => {
+     fs.writeFile(path + "/" + file.name, buffer, null, (err) => {
        if (err) {
          //console.log('Error writing file:', err);
          return;
