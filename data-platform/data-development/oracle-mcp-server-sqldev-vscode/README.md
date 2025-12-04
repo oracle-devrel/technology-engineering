@@ -40,10 +40,16 @@ Reviewed: 12.12.2025
 
 
 # Useful Links
+- [Oracle SQLcl MCP Page](https://docs.oracle.com/en/database/oracle/sql-developer-command-line/25.3/sqcug/using-oracle-sqlcl-mcp-server.html)
 - [Model Context Protocol - Overview](https://modelcontextprotocol.io/docs/getting-started/intro)
 - [Introducing SQL Developer Copilot Integration in Microsoft VSCode & MCP Support for Oracle Database](https://www.youtube.com/watch?v=hj6WoZVGUBg)
 - [Introducing MCP Server for Oracle Database](https://blogs.oracle.com/database/post/introducing-mcp-server-for-oracle-database)
-- [AI/MCP Page](https://www.thatjeffsmith.com/ai/)
+- [Jeff Smith AI/MCP Page](https://www.thatjeffsmith.com/ai/)
+- [How can Developers and DBAs benefit from MCP Server for Oracle Database?](https://blogs.oracle.com/database/post/how-can-developers-and-dbas-benefit-from-mcp-server-for-oracle-database)
+- [What's all the fuss about MCP? See some amazing things that you can really do with SQLcl MCP server](https://www.youtube.com/watch?v=8NNypzsRa0g)
+- [Elevating Oracle Database Security for Safer SQLcl MCP Server and Agentic AI Usage](https://medium.com/@thomas.minne/elevating-oracle-database-security-for-safer-sqlcl-mcp-server-and-agentic-ai-usage-1adb976d0f92)
+- [Unlocking the Power of Model Context Protocol (MCP) and Oracle Database 23ai: A Step-by-Step Guide](https://www.linkedin.com/pulse/unlocking-power-model-context-protocol-mcp-oracle-database-rao-l2hsf/)
+- [Oracle github mcp repo](https://github.com/oracle/mcp/tree/main/src)
 
 # License
 
