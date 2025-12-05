@@ -1,6 +1,6 @@
 # Create a NGINX server to access the OCI OpenSearch Dashboards
 
-Reviewed: 22.07.2024
+Reviewed: 11.11.2025
 
 # When to use this asset?
 

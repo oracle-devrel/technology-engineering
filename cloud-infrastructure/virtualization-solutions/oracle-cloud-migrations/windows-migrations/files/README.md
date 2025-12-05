@@ -10,7 +10,7 @@ Microsoft Windows instances run on OCI Compute shapes using paravirtualized driv
 
 [You can download the Oracle VirtIO drivers for Windows for Oracle's e-delivery site](https://docs.oracle.com/en/operating-systems/oracle-linux/kvm-virtio/)
 
-**IMPORTANT**: Use the new VirtIO 2.0.1 or 2.1.0 Drivers, as the previous version (2.0) will result in an inaccessible boot device error.
+**IMPORTANT**: Use the new VirtIO 2.3 Drivers
 
 ### Replication issues with source instances running Microsoft Windows
 

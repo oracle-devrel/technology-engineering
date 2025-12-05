@@ -88,6 +88,9 @@ class OCIEmbeddingHandler:
             config_profile: OCI config profile to use
             compartment_id: OCI compartment ID
         """
+        # Load environment variables from .env file if not already loaded
+        load_dotenv()
+        
         self.model_name = model_name
         
         # Validate model name
@@ -99,6 +102,10 @@ class OCIEmbeddingHandler:
         
         # Set compartment ID - check both OCI_COMPARTMENT_ID and COMPARTMENT_ID for compatibility
         self.compartment_id = compartment_id or os.getenv("OCI_COMPARTMENT_ID") or os.getenv("COMPARTMENT_ID")
+        
+        # Log if compartment ID is missing
+        if not self.compartment_id:
+            logger.error("❌ No compartment ID found. Please set COMPARTMENT_ID or OCI_COMPARTMENT_ID in .env file")
         
        # Set endpoint region based on model configuration (supports multiple OCI regions)
         endpoint_region = self.model_config.get("endpoint", "us-chicago-1")
