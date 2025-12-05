@@ -37,7 +37,6 @@ Everything runs in a loop until you stop it with `Ctrl+C`.
 
 - `main.py` – the script you shared; runs the whole loop.
 - `requirements.txt` – Python dependencies.
-- `.env` – **local**, not committed, real values.
 - `example.env` – safe template with placeholder values for others.
 
 ---
@@ -45,8 +44,9 @@ Everything runs in a loop until you stop it with `Ctrl+C`.
 ## Requirements
 
 - Python 3.11+ (recommended)
-- Valid OCI tenancy and user with:
+- Valid OCI tenancy and user with:  
   - Permission to use **AI Speech** (STT + TTS),
   - Permission to use **Generative AI Agent Runtime**.
 - Configured `~/.oci/config` with a profile matching your env (`OCI_PROFILE`).
+
 - A working microphone on your machine (Windows, since it uses `winsound`).
