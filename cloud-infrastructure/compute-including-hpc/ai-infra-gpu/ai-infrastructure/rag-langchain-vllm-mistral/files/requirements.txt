@@ -227,7 +227,7 @@ typing-inspect==0.9.0
 typing-inspection==0.4.0
 typing_extensions @ file:///croot/typing_extensions_1734714854207/work
 tzdata==2025.2
-urllib3==2.5.0
+urllib3==2.6.0
 uvicorn==0.34.0
 uvloop==0.21.0
 vllm==0.10.1.1
