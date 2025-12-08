@@ -15,7 +15,7 @@ from enum import Enum
 
 #------------------ Constants -----------------
 OBJECT_LIMIT = 500
-OCCUPANCY_WINDOW_SEC = 20
+OCCUPANCY_WINDOW_SEC = 20  #time frame covered by the line graph for face detection 
 FRAME_WIDTH = 700
 FRAME_HEIGHT = 350
 

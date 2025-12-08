@@ -3,50 +3,51 @@
 ## Quick Start Guide
 
 - The code files in this demo are 
-  - OCIVisionStreamSetup.ipynb - Notebook containing cells to run to start the stream job(streaming frames from the RTSP server to the OCI Vision).
+  - stream-job.py - Python script to start a stream job.
   - Stream-analysis.py - Streamlit application that can be used to consume the generated outputs of stream video analysis
 
 ## 1. Region Selection
 
 OCI Vision Streaming is available in multiple regions.
 
-- For the **simplest setup**, run your pipeline within the **Ashburn** region.  
-  No subnet or private endpoint creation is required in Ashburn.
-
-- To run in a region other than Ashburn, **[follow these steps](https://docs.oracle.com/en-us/iaas/Content/vision/using/video-stream-processing-top.htm)**.
-  > _Running in other regions may require additional VCN/Subnet/Endpoint configuration._
+- **[follow these steps](https://docs.oracle.com/en-us/iaas/Content/vision/using/video-stream-processing-top.htm)**.
 
 ---
 
 ## 2. Prerequisites
 
 - **An active RTSP stream URL** (e.g., from an IP camera or RTSP streaming source)
-- Access to a **Jupyter environment**
+- An Active OCI subnet configured according to the steps mentioned in the previous link.
 - Required permissions in your OCI compartment to use Vision, Stream Jobs, and Object Storage buckets
 
 ---
 
 ## 3. Setting up the Vision Streaming Job
 
-1. **Open the** `OCIVisionStreamSetup.ipynb` **notebook in Jupyter**.
+1. **Run the stream-job.py script**
 
-2. **Fill out the required fields at the top of the notebook:**
+2. **Pass the required parameters when running the script**
 
-    - `CONFIG_PROFILE` &mdash; OCI CLI profile to use (e.g., `"DEFAULT"`)
-    - `COMPARTMENT_ID` &mdash; your OCI compartment's OCID
-    - `STREAM_JOB_DISPLAY_NAME` &mdash; a display name for your stream job
-    - `CAMERA_URL` &mdash; your RTSP stream URL
-    - `NAMESPACE` &mdash; your Object Storage namespace
-    - `BUCKET` &mdash; target Object Storage bucket
-    - `PREFIX` &mdash; (Optional) Prefix for output files in Object Storage
-    - `FEATURES` &mdash; Detection features (`face`, `object`, etc.)
+    - `subnet_id` &mdash; ID of the subnet you created (e.g., 'ocid1.subnet.oc1.phx.......')
+    - `compartment_id` &mdash; your OCI compartment's OCID
+    - `camera-url` &mdash; your RTSP stream URL
+    - `namespace` &mdash; your Object Storage namespace
+    - `bucket` &mdash; target Object Storage bucket
+    - `prefix` &mdash; (Optional) Prefix for output files in Object Storage
 
-3. **Run the following notebook cells in order:**
-    - Create Stream Source
-    - Create Stream Job
-    - Run Stream Job
+3. **The following commands will run in order, if you want to keep the stream job running**
+    - create_private_endpoint - creates a private endpoint inside the subnet to stream the frames to 
+    - create_stream_source, create_stream_job, create_stream_group - define the features (object/face detection/tracking) and create the stream.
+    - start_stream_job - this function begins streaming of frames from your rtsp url to OCI vision through the private endpoint and updates the bucket defined in real time with json files containing the embeddings of the images and the bounding boxes of the detected objects.
+     _This will start streaming frames from your camera to OCI Vision for detection (e.g., face or object recognition). The results (bounding box coordinates, frame encodings, etc.) will be stored as JSON files in the specified Object Storage bucket._
+    - Comment out the other function calls in case you want to keep the stream job running - the way the code is setup - it will automatically call the stop_stream_job function after a 60 second timeout
+    
+    *** ps:
+    - each subnet can only have one private endpoint, if you try to generate another private endpoint within the same subnet you will get an error
+    - the streaming will keep running as long as you did not shutdown the stream or the stream job - bucket storage can expand greatly if not managed properly.
+    - Refer to the documentation for the API Specs where you can list the active stream jobs in a subnet and have more control over them.
 
-    _This will start streaming frames from your camera to OCI Vision for detection (e.g., face or object recognition). The results (bounding box coordinates, frame encodings, etc.) will be stored as JSON files in the specified Object Storage bucket._
+   
 
 ---
 
