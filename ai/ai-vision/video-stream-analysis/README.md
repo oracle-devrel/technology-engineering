@@ -8,15 +8,8 @@ This demo includes two main components:
 
 ---
 
-##  1. Region Availability
-OCI Vision Streaming is available only in supported regions.
 
- **Check regional availability:**  
-https://docs.oracle.com/en-us/iaas/Content/vision/using/video-stream-processing-top.htm
-
----
-
-##  2. Prerequisites
+##  1. Prerequisites
 
 Before you start, ensure you have:
 
@@ -35,7 +28,7 @@ Install required dependencies:
 
 - pip install -r requirements.txt
 
-##  3. Setting Up a Vision Stream Job
+##  2. Setting Up a Vision Stream Job
 
 ### **Step 1 — Run the script**
 
@@ -61,7 +54,7 @@ python stream-job.py
 
 ---
 
-##  4. Understanding the Stream Job Steps
+##  3. Understanding the Stream Job Steps
 
 The script automatically performs the following actions (in order):
 
@@ -83,12 +76,13 @@ The script automatically performs the following actions (in order):
 
 - Each subnet can contain **only one** Vision Private Endpoint  
 - Streaming continues indefinitely unless explicitly stopped  
-- Buckets may grow rapidly — remember to clean up  
-- You can list active stream jobs via OCI APIs for more control  
+- Buckets may grow rapidly as they are being filled with json files as the stream runs — remember to clean up  
+- You can list active stream jobs via OCI APIs for more control - the api documentation to do that is available [here](https://docs.oracle.com/en-us/iaas/api/#/en/vision/20220125/)
+
 
 ---
 
-##  5. Consuming Streams with Streamlit
+##  4. Consuming Streams with Streamlit
 
 
 Run the Streamlit app:
@@ -109,7 +103,7 @@ Click **Consume Stream** to view annotated video frames.
 
 ---
 
-##  6. Resource Management (IMPORTANT)
+##  5. Resource Management (IMPORTANT)
 
 - Always **stop the Stream Job** when you're done.  
 - Delete resources using the provided cleanup cells in the notebook.  
@@ -117,7 +111,7 @@ Click **Consume Stream** to view annotated video frames.
 
 ---
 
-##  7. Troubleshooting
+##  6. Troubleshooting
 
 **405 – Request Not Allowed**
 
@@ -126,7 +120,7 @@ Click **Consume Stream** to view annotated video frames.
 
 ---
 
-##  8. References
+##  7. References
 
 - OCI Vision Streaming Docs  
   https://docs.oracle.com/en-us/iaas/Content/vision/using/video-stream-processing-top.htm
@@ -136,7 +130,7 @@ Click **Consume Stream** to view annotated video frames.
 
 ---
 
-##  9. License
+##  8. License
 Copyright (c) 2025 Oracle and/or its affiliates.  
 Licensed under UPL 1.0.  
 See *LICENSE* file for details.
