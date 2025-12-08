@@ -88,7 +88,8 @@ The script automatically performs the following actions (in order):
 Run the Streamlit app:
 
 - streamlit run Stream-analysis.py
-
+- There are 2 modes to analyze the stream from the streamlit app - object detection or face detection - specify it in the defaults section.
+  
 In the Streamlit UI, enter:
 
 - Stream Job OCID  
