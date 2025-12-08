@@ -1,6 +1,6 @@
 # Create a full RAG pipeline using OCI OpenSearch and the GenAI service
 
-Reviewed: 05.06.2024
+Reviewed: 11.11.2025
 
 # When to use this asset?
 
