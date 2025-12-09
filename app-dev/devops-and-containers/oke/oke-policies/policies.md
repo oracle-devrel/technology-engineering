@@ -172,3 +172,12 @@ If the compartment to which a node pool, worker node subnet, file system, or mou
 ALLOW any-user to manage file-family in TENANCY where request.principal.type = 'cluster'
 ALLOW any-user to use virtual-network-family in TENANCY where request.principal.type = 'cluster'
 ```
+
+### Replace boot volume /Reboot instance through Kubernetes API when using a custom image
+
+[https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/replace-boot-volume-worker-node-top.htm](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/replace-boot-volume-worker-node-top.htm)
+[https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/reboot-worker-node-top.htm](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/reboot-worker-node-top.htm)
+
+```
+ALLOW any-user to read instance-images in TENANCY where request.principal.type = 'cluster'
+```

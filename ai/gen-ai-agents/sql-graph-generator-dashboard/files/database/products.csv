@@ -1,0 +1,16 @@
+product_id,product_name,category,price,cost,stock_quantity,launch_date
+2001,AI Analytics Platform,Software,2999.99,1200.00,100,2023-01-15
+2002,Cloud Infrastructure,Software,1899.99,800.00,150,2023-02-01
+2003,Data Visualization Tool,Software,899.99,350.00,200,2023-01-20
+2004,Enterprise Security Suite,Software,3499.99,1500.00,75,2023-03-01
+2005,Mobile App Framework,Software,1299.99,550.00,120,2023-02-15
+2006,IoT Sensor Kit,Hardware,599.99,250.00,300,2023-04-01
+2007,Smart Dashboard Display,Hardware,1599.99,700.00,80,2023-03-15
+2008,Network Monitoring Device,Hardware,899.99,400.00,150,2023-05-01
+2009,Premium Consulting,Services,5000.00,2000.00,999,2023-01-01
+2010,Training Program,Services,2500.00,800.00,999,2023-02-01
+2011,Support Package,Services,1200.00,400.00,999,2023-01-15
+2012,API Gateway,Software,1799.99,750.00,90,2023-06-01
+2013,Backup Solution,Software,999.99,420.00,180,2023-04-15
+2014,Load Balancer,Hardware,2299.99,1000.00,60,2023-07-01
+2015,Custom Integration,Services,7500.00,3000.00,999,2023-03-01
