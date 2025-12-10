@@ -37,9 +37,9 @@ This section contains various examples related to Application Integration: demo 
 
 ## Demos
 
--[Outbound IP & Access Types in Oracle Integration](https://www.linkedin.com/pulse/outbound-ip-access-types-oracle-integration-harris-qureshi-exurf)
+- [Outbound IP & Access Types in Oracle Integration](https://www.linkedin.com/pulse/outbound-ip-access-types-oracle-integration-harris-qureshi-exurf)
 
-    Outbound IP behavior in OIC often becomes a critical requirement—especially when integrating with systems that demand strict whitelisting, such as banks or regulated platforms. In this article, I explain how each 𝐀𝐜𝐜𝐞𝐬𝐬 𝐓𝐲𝐩𝐞—Public Gateway, Private Endpoint, and Connectivity Agent—changes the 𝐩𝐚𝐭𝐡 𝐭𝐫𝐚𝐟𝐟𝐢𝐜 𝐭𝐚𝐤𝐞𝐬 and the 𝐈𝐏 𝐚𝐝𝐝𝐫𝐞𝐬𝐬 𝐬𝐞𝐞𝐧 𝐛𝐲 𝐭𝐡𝐞 𝐭𝐚𝐫𝐠𝐞𝐭 𝐬𝐲𝐬𝐭𝐞𝐦. Also it includes a demo to showcase the scenario.
+   Outbound IP behavior in OIC often becomes a critical requirement—especially when integrating with systems that demand strict whitelisting, such as banks or regulated platforms. In this article, I explain how each 𝐀𝐜𝐜𝐞𝐬𝐬 𝐓𝐲𝐩𝐞—Public Gateway, Private Endpoint, and Connectivity Agent—changes the 𝐩𝐚𝐭𝐡 𝐭𝐫𝐚𝐟𝐟𝐢𝐜 𝐭𝐚𝐤𝐞𝐬 and the 𝐈𝐏 𝐚𝐝𝐝𝐫𝐞𝐬𝐬 𝐬𝐞𝐞𝐧 𝐛𝐲 𝐭𝐡𝐞 𝐭𝐚𝐫𝐠𝐞𝐭 𝐬𝐲𝐬𝐭𝐞𝐦. Also it includes a demo to showcase the scenario.
 
     This is a must-read for architects and integration teams designing secure and compliant cloud integrations.
 
