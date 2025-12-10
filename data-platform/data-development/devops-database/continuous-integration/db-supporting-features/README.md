@@ -12,7 +12,7 @@ The primary PL/SQL packages are:
 [DBMS_METADATA](https://docs.oracle.com/en/database/oracle/oracle-database/19/arpls/DBMS_METADATA.html#GUID-F72B5833-C14E-4713-A588-6BDF4D4CBA2A) 
 - The DBMS_METADATA package provides a way for you to retrieve metadata from the database dictionary as XML or creation DDL and to submit the XML to re-create the object. Use this to generate the data definition of schema objects.
 
-## [APEX_EXPORT](https://docs.oracle.com/en/database/oracle/apex/24.1/aeapi/APEX_EXPORT.html) 
+## [APEX_EXPORT](https://docs.oracle.com/en/database/oracle/apex/24.2/aeapi/APEX_EXPORT.html) 
 - The APEX_EXPORT package provides APIs to export the definitions of applications, files, feedback, and workspaces to text files.
 
 ## [DBMS_CLOUD_REPO](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/dbms-cloud-repo-package.html#GUID-F8F0037B-6451-4742-9144-9FCE44459F64) 
@@ -24,7 +24,7 @@ The primary PL/SQL packages are:
 
 The simplest deployment and set of APIS for Continuous Integration are available for APEX on Autonomous Database services, with Cloud Repository integration & Schema export via DBMS_CLOUD_REPO, and APEX applications via APEX_EXPORT. These two packages provide extensive capabilities to commit code changes into the repository with little work required to manage connectivity, generation upload and commit operations.
 
-Reviewed: 20.11.2024
+Reviewed: 01.12.2025
 
 # Table of Contents
 1. [Team Publications](#team-publications)
@@ -40,10 +40,11 @@ Reviewed: 20.11.2024
 ## Documentation
 - [DBMS_METADATA](https://docs.oracle.com/en/database/oracle/oracle-database/19/arpls/DBMS_METADATA.html#GUID-F72B5833-C14E-4713-A588-6BDF4D4CBA2A "Oracle Database 19c PL/SQL Packages and Types Reference") 
 - [DBMS_METADATA](https://docs.oracle.com/en/database/oracle/oracle-database/19/sutil/using-oracle-dbms_metadata-api.html#GUID-D9B1300F-B21D-416E-8B9B-C542195EF249 "Oracle Database 19c Using the Metadata APIs")
-- [APEX_EXPORT](https://docs.oracle.com/en/database/oracle/apex/24.1/aeapi/APEX_EXPORT.html "APEX 24.1 API Reference")
+- [APEX_EXPORT](https://docs.oracle.com/en/database/oracle/apex/24.2/aeapi/APEX_EXPORT.html "APEX 24.1 API Reference")
 - [DBMS_CLOUD_REPO](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/dbms-cloud-repo-package.html#GUID-F8F0037B-6451-4742-9144-9FCE44459F64 "Autonomous Database Supplied Package Reference") 
 
 ## Blogs
+### [ThatJeffSmith](https://www.thatjeffsmith.com/archive/tag/project/ "That Jeff Smith and SQLcl PRojects")
 ### [ThatJeffSmith](https://www.thatjeffsmith.com/archive/tag/liquibase/ "That Jeff Smith and Liquibase")
 - [BLOG: How to Export Your RESTful Services](https://www.thatjeffsmith.com/archive/2018/12/how-to-export-your-restful-services/)
 

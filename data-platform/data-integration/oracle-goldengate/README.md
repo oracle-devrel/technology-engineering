@@ -2,7 +2,7 @@
 
 Oracle GoldenGate is a comprehensive software package for enabling the replication of data in heterogeneous data environments. The product set enables high-availability solutions, real-time data integration, transactional change data capture, data replication, transformations, and verification between operational and analytical enterprise systems.
 
-Reviewed: 24.04.2024
+Reviewed: 08.10.2025
 
 # Table of Contents
  
@@ -27,6 +27,15 @@ Reviewed: 24.04.2024
 - [Livelab Get started with GoldenGate Veridata](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=833)
     - Oracle GoldenGate Veridata Livelab to create connections, compare and repair data, generate SQL files
 
+ - [Relational to vector replication using Oracle GoldenGate 23ai and Oracle Database 23ai](https://youtu.be/v53CZFDbB48)
+   - The video demonstrates how to convert relational data into vectors using Oracle Database 23ai features and Oracle GoldenGate replication, enabling vector search and AI-powered functionality by embedding data at the target using the get_vector capability.
+
+- [Vector to vector replication using Oracle GoldenGate 23ai and Oracle Database 23ai](https://youtu.be/uObow_e6KGs).
+   - The video explains how to convert data from any supported vector source into vectors using Oracle Database 23ai and Oracle GoldenGate, enabling vector search and leveraging Oracle’s AI/ML capabilities for future applications.
+
+- [OracleStreams Migration to Oracle GoldenGate as a replacement](https://youtu.be/y3-PEDq9bGA)
+   - The Video explains how the remaining Oracle Stream customer should move quickly to Classic Goldengate with their contents and then migrate from Classic  to Microservice Architecture of Oracle Golden Gate.
+     
 # Useful Links
  
 - [GoldenGate Product Page](https://www.oracle.com/uk/integration/goldengate/)
@@ -116,10 +125,13 @@ Reviewed: 24.04.2024
 - [How to Edit Target Parameters using OEM PlugIn](https://youtu.be/asUItvZRF_Q)
     - How to Edit Target Parameters using OEM PlugIn
 
+- [GoldenGate Instantiation methods](https://blogs.oracle.com/dataintegration/post/goldengate-instantiation-methods)
+    - A blog that explains the GoldenGate Instantiation methods using RMAN to create a copy of a large source database for replication.    
+
 - [GoldenGate Products Livelabs](https://apexapps.oracle.com/pls/apex/f?p=133:100:3818354990791::::SEARCH:goldengate)
     - Livelabs for all the GoldenGate Products
 
-
+     
 # License
 
 Copyright (c) 2025 Oracle and/or its affiliates.

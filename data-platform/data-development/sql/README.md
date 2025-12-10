@@ -1,6 +1,6 @@
 # SQL Repository
 
-Welcome to the SQL repository of the Data Development team at Oracle. This repository is designed to provide comprehensive resources, tips, and tools to help you master SQL and leverage the latest features of Oracle23ai. 
+Welcome to the SQL repository of the Data Development team at Oracle. This repository is designed to provide comprehensive resources, tips, and tools to help you master SQL and leverage the latest features of Oracle23ai.
 
 Structured Query Language (SQL) is the standard programming language used for managing and manipulating relational databases. SQL allows you to perform a variety of operations such as querying data, updating records, creating and modifying schema, and controlling access to the database. It is a crucial skill for data developers and analysts, enabling efficient data retrieval and manipulation to support data-driven decision-making.
 
@@ -8,13 +8,13 @@ PL/SQL, the Oracle procedural extension of SQL, is a portable, high-performance 
 
 Below you'll find an index to all the sections available in this repository, along with a brief introduction to what you can expect in each section.
 
-Reviewed: 06.03.2024
+Reviewed: 12.12.2025
 
 # Table of contents
 
 1. [SQL Tools](#sql-tools)
 2. [SQL Tips](#sql-tips)
-3. [SQL Oracle23ai](#sql-oracle23ai)
+3. [SQL Oracle 26ai](#sql-oracle26ai)
 4. [SQL Do It Yourself](#sql-do-it-yourself)
 
 ## SQL Tools
@@ -24,7 +24,6 @@ In the [SQL Tools](SQL_Tools/README.md) section, you'll find a collection of ess
 - Database management tools
 - Productivity-enhancing plugins and extensions
 
-
 ## SQL Tips
 
 The [SQL Tips](SQL_Tips/README.md) section is dedicated to providing practical advice and best practices for writing efficient and effective SQL queries. Topics covered include:
@@ -32,14 +31,12 @@ The [SQL Tips](SQL_Tips/README.md) section is dedicated to providing practical a
 - Common pitfalls and how to avoid them
 - Advanced SQL functions and their use cases
 
+## SQL Oracle26ai
 
-## SQL Oracle23ai
-
-Explore the latest advancements with Oracle's cutting-edge AI capabilities in the [SQL Oracle23ai](SQL_Oracle23ai/README.md) section. Here, you will find:
-- New features and enhancements in Oracle23ai
+Explore the latest advancements with Oracle's cutting-edge AI capabilities in the [SQL Oracle23ai](SQL_Oracle23ai/README.md) section (now Oracle26ai). Here, you will find:
+- New features and enhancements in Oracle26ai
 - Tutorials on integrating AI with your SQL queries
-- Case studies and real-world applications of Oracle23ai
-
+- Case studies and real-world applications of Oracle26ai
 
 ## SQL Do It Yourself
 
@@ -47,6 +44,7 @@ The [SQL Do It Yourself](SQL_Do_It_Yourself/README.md) section encourages hands-
 - Practice problems with solutions
 - Step-by-step project guides
 - Interactive SQL challenges to test your skills
+- Classes, Workouts and quizzes to test and strengthen your SQL and PL/SQL
 
 
 # Useful Links
@@ -59,6 +57,7 @@ To support your development journey, here are some valuable resources related to
 - [Oracle Database 23ai: Application Development](https://www.oracle.com/database/technologies/application-development.html)
 - [@ThatJeffSmith](https://www.thatjeffsmith.com/)
 - [SQL Blog by Chris Saxon](https://blogs.oracle.com/sql)
+- [DevGym](https://devgym.oracle.com/pls/apex/f?p=10001:201:15932218738087:::::)
 - [The Magic of SQL by Chris Saxon - YouTube Channel](https://www.youtube.com/c/TheMagicofSQL)
 - [SQL and Database explained! By Connor McDonald - YouTube Channel](https://www.youtube.com/@DatabaseDude)
 - [Learning is not a Spectator Sport - Connor McDonald Blog](https://connor-mcdonald.com)

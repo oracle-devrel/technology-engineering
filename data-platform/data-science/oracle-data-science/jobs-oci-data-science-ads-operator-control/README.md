@@ -2,7 +2,7 @@
  
 This document covers the topic of submitting local code as OCI Data Science Jobs using the ADS Operator Control.
 
-Reviewed: 2025.03.02
+Reviewed: 2025.09.26
  
 
 # When to use this asset?

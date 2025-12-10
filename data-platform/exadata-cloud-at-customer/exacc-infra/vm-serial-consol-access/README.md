@@ -1,3 +1,5 @@
+Reviewed: 16.09.2025
+
 # Exadata Cloud@Customer VM Serial Console Access
 
 Announcing the General Availability (GA) of VM Serial Console Access for Exadata Cloud@Customer. With this new feature, customers can:
@@ -5,8 +7,6 @@ Announcing the General Availability (GA) of VM Serial Console Access for Exadata
 - Enable a serial console connection to each individual VM
 - Access the virtual serial console via SSH (via proxy and hypervisor)
 - Terminate the serial console connection when the required actions have been completed
-
-Reviewed: 24.06.2024
 
 # Key Benefit
 
