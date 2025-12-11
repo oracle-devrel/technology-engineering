@@ -59,7 +59,7 @@ Anyone who wants to experiment with OCI Container Instances and setup a multi-co
 
 ## Build containers
 
-Build containers with GitHub Actions <code>containers.yml</code>pipeline
+Build containers with GitHub Actions <code>github_workflows_containers.yaml</code>pipeline
 <p>
     
 This requires three secrets:
