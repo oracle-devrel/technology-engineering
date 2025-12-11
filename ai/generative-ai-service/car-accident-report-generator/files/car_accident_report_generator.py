@@ -161,100 +161,192 @@ def maverick_extract_party(party_label, all_images_bytes):
     # we use Arabic but also tell model which logical party this is
     party_num = "الأول" if party_label == "party_1" else "الثاني"
 
+    # system_msg = SystemMessage(
+    #     content=f"""
+    #     أنت مساعد ذكاء اصطناعي متخصص في تقارير حوادث السيارات لشركة نجم.
+
+    #     جميع الصور في هذا الطلب تخص طرفاً واحداً فقط في الحادث، وهو:
+    #     - الطرف {party_num} (يجب أن تسجله في الحقل "{party_label}").
+
+    #     الصور تتضمن (قد يكون بعضها مفقوداً):
+    #     - رخصة القيادة لهذا الطرف
+    #     - رخصة السير / استمارة المركبة لهذا الطرف
+    #     - وثيقة أو أكثر من وثائق التأمين لهذا الطرف
+    #     - صور أضرار سيارة هذا الطرف
+
+    #     مهمتك:
+    #     1. استخراج المعلومات الأساسية لهذا الطرف فقط (سائق، مركبة، تأمين).
+    #     2. تحليل صور الأضرار وتحديد الجهات المتضررة من السيارة (أمام، خلف، يمين، يسار، أمام يمين، أمام يسار، خلف يمين، خلف يسار).
+    #     3. تلخيص حالة الأضرار لهذه السيارة.
+
+    #     إرشادات مهمة:
+    #     - أعد جميع القيم النصية باللغة العربية فقط.
+    #     - إذا كانت المعلومة غير موجودة أو غير واضحة، أعد القيمة null.
+    #     - لا تضف أي نص خارج عن صيغة JSON.
+    #     - التزم تماماً بالهيكل التالي، مع استبدال PARTY_LABEL باسم الطرف ({party_label}):
+    #     ملاحظة مهمة جداً:
+    #     اسم السائق الموجود في رخصة القيادة قد يكون مختلفاً تماماً عن اسم مالك المركبة الموجود في استمارة السيارة. 
+    #     لا تفترض أبداً أن السائق هو مالك المركبة. 
+    #     يجب استخراج:
+    #     - اسم السائق فقط من رخصة القيادة.
+    #     - اسم مالك المركبة فقط من استمارة السيارة أو وثائق التأمين.
+
+    #     إذا كان هناك اختلاف بين الاسمين فهذا طبيعي ويجب الاحتفاظ به كما هو.
+
+    #     شرط إضافي مهم جداً:
+    #     - يجب أن يأتي اسم السائق فقط من رخصة القيادة، وليس من أي مستند آخر.
+    #     - يجب أن يأتي اسم مالك المركبة فقط من رخصة السير (الاستمارة) أو وثيقة التأمين، وليس من رخصة القيادة.
+
+    #     لا يجوز للذكاء الاصطناعي أن يستنتج أو يفترض أسماء السائق أو المالك من أي مصدر آخر غير المستند الصحيح.
+    #     إذا لم يظهر الاسم في المستند الصحيح، يجب إعادة القيمة null.
+
+    #     تذكر: "مهيم مياه" هو اسم يظهر في المستندات.
+    #     تذكر: رقم الهيكل ليس هو نفسه رقم اللوحة
+
+    #     قاعدة إلزامية لتمثيل اللغة:
+    #     - يجب أن تكون جميع القيم النصية بالأحرف العربية فقط، ولا يسمح باستخدام أي حروف لاتينية (A–Z).
+    #     - الاستثناء الوحيد هو الحقول التي تحتوي على أرقام أو أكواد مثل:
+    #     id_number, plate_no, policy_no, رقم الوثيقة، أرقام هويات، أرقام لوحات، أرقام وثائق التأمين.
+    #     - إذا كان النص في المستند مكتوباً بالإنجليزية فقط (مثل اسم دولة أو اسم شخص)، قم بترجمته أو كتابته بحروف عربية (تعريب/نقل صوتي).
+    #     - لا تكتب أبداً أسماء أو جنسيات أو أنواع رخصة أو شركات تأمين بحروف لاتينية.
+
+    #     أمثلة:
+    #     - "BANGLADESH" → "بنجلاديش"
+    #     - "Toyota" → "تويوتا"
+    #     - "Abdullah" → "عبد الله"
+
+    #     {{
+    #     "{party_label}": {{
+    #         "driver": {{
+    #         "name": "<string or null>",
+    #         "nationality": "<string or null>",
+    #         "age": "<string or null>",
+    #         "mobile": "<string or null>",
+    #         "id_number": "<string or null>",
+    #         "license_type": "<string or null>",
+    #         "license_expiry": "<string or null>",
+    #         "license_issue_date": "<string or null>"
+    #         }},
+    #         "vehicle": {{
+    #         "owner_name": "<string or null>",
+    #         "make_model": "<string or null>",
+    #         "year_color": "<string or null>",
+    #         "plate_no": "<string or null>"
+    #         }},
+    #         "insurance": {{
+    #         "company_name": "<string or null>",
+    #         "policy_no": "<string or null>",
+    #         "expiry_date": "<string or null>",
+    #         "start_date": "<string or null>",
+    #         "insurance_type": "<string or null>"
+    #         }}
+    #     }},
+    #     "damage": {{
+    #         "{party_label}": {{
+    #         "damage_summary": "<ملخص الأضرار بالعربية أو null>",
+    #         "primary_areas": [
+    #             "<واحد أو أكثر من: front, rear, left, right, front-left, front-right, rear-left, rear-right>"
+    #         ],
+    #         "driveable": true
+    #         }}
+    #     }}
+    #     }}
+
+    #     أعد استجابة بصيغة JSON فقط، بدون ``` أو أي نص إضافي.
+    #     """
+    # )
+    
     system_msg = SystemMessage(
-        content=f"""
-        أنت مساعد ذكاء اصطناعي متخصص في تقارير حوادث السيارات لشركة نجم.
+    content=f"""
+        You are an AI assistant specialized in generating car-accident reports for Najm.
 
-        جميع الصور في هذا الطلب تخص طرفاً واحداً فقط في الحادث، وهو:
-        - الطرف {party_num} (يجب أن تسجله في الحقل "{party_label}").
+        All images in this request belong to **one party only**, which is:
+        - Party {party_num} (you must record it under the field "{party_label}").
 
-        الصور تتضمن (قد يكون بعضها مفقوداً):
-        - رخصة القيادة لهذا الطرف
-        - رخصة السير / استمارة المركبة لهذا الطرف
-        - وثيقة أو أكثر من وثائق التأمين لهذا الطرف
-        - صور أضرار سيارة هذا الطرف
+        The images may include (some may be missing):
+        - Driver’s license for this party
+        - Vehicle registration (Istimara) for this party
+        - One or more insurance documents for this party
+        - Photos of this party’s vehicle damages
 
-        مهمتك:
-        1. استخراج المعلومات الأساسية لهذا الطرف فقط (سائق، مركبة، تأمين).
-        2. تحليل صور الأضرار وتحديد الجهات المتضررة من السيارة (أمام، خلف، يمين، يسار، أمام يمين، أمام يسار، خلف يمين، خلف يسار).
-        3. تلخيص حالة الأضرار لهذه السيارة.
+        Your tasks:
+        1. Extract only the essential information for this party (driver, vehicle, insurance).
+        2. Analyze the damage photos and identify the damaged areas of the vehicle (front, rear, left, right, front-left, front-right, rear-left, rear-right).
+        3. Produce a summary of the vehicle damage.
 
-        إرشادات مهمة:
-        - أعد جميع القيم النصية باللغة العربية فقط.
-        - إذا كانت المعلومة غير موجودة أو غير واضحة، أعد القيمة null.
-        - لا تضف أي نص خارج عن صيغة JSON.
-        - التزم تماماً بالهيكل التالي، مع استبدال PARTY_LABEL باسم الطرف ({party_label}):
-        ملاحظة مهمة جداً:
-        اسم السائق الموجود في رخصة القيادة قد يكون مختلفاً تماماً عن اسم مالك المركبة الموجود في استمارة السيارة. 
-        لا تفترض أبداً أن السائق هو مالك المركبة. 
-        يجب استخراج:
-        - اسم السائق فقط من رخصة القيادة.
-        - اسم مالك المركبة فقط من استمارة السيارة أو وثائق التأمين.
+        Important rules:
+        - **All returned text values must be in Arabic only.**
+        - If any information is missing or unclear, return **null**.
+        - Do NOT add any text outside the JSON format.
+        - Follow the exact JSON structure below, using PARTY_LABEL as ({party_label}).
 
-        إذا كان هناك اختلاف بين الاسمين فهذا طبيعي ويجب الاحتفاظ به كما هو.
+        Critical note:
+        The driver’s name in the driver’s license may be completely different from the vehicle owner’s name in the registration or insurance documents.  
+        Never assume the driver is the owner.
 
-        شرط إضافي مهم جداً:
-        - يجب أن يأتي اسم السائق فقط من رخصة القيادة، وليس من أي مستند آخر.
-        - يجب أن يأتي اسم مالك المركبة فقط من رخصة السير (الاستمارة) أو وثيقة التأمين، وليس من رخصة القيادة.
+        You must extract:
+        - Driver’s name **only** from the driver’s license.
+        - Owner’s name **only** from the vehicle registration (Istimara) or insurance document.
 
-        لا يجوز للذكاء الاصطناعي أن يستنتج أو يفترض أسماء السائق أو المالك من أي مصدر آخر غير المستند الصحيح.
-        إذا لم يظهر الاسم في المستند الصحيح، يجب إعادة القيمة null.
+        If the correct document does not contain the name, return **null**.  
+        The model must never infer or guess the driver or owner name from another source.
 
-        تذكر: "مهيم مياه" هو اسم يظهر في المستندات.
-        تذكر: رقم الهيكل ليس هو نفسه رقم اللوحة
+        Remember:
+        - "مهيم مياه" is an actual name that may appear in documents.
+        - The chassis number is **not** the same as the plate number.
 
-        قاعدة إلزامية لتمثيل اللغة:
-        - يجب أن تكون جميع القيم النصية بالأحرف العربية فقط، ولا يسمح باستخدام أي حروف لاتينية (A–Z).
-        - الاستثناء الوحيد هو الحقول التي تحتوي على أرقام أو أكواد مثل:
-        id_number, plate_no, policy_no, رقم الوثيقة، أرقام هويات، أرقام لوحات، أرقام وثائق التأمين.
-        - إذا كان النص في المستند مكتوباً بالإنجليزية فقط (مثل اسم دولة أو اسم شخص)، قم بترجمته أو كتابته بحروف عربية (تعريب/نقل صوتي).
-        - لا تكتب أبداً أسماء أو جنسيات أو أنواع رخصة أو شركات تأمين بحروف لاتينية.
+        Mandatory language rule:
+        - All text values must be in **Arabic letters only**, never English (A–Z).
+        - Exception: fields containing numbers or codes (e.g., id_number, plate_no, policy_no, document numbers).
+        - If a value appears **only in English** in the document (e.g., person name, country name, brand), **transliterate or translate it into Arabic**.
+        - Never output English letters in names, nationalities, license types, or insurance company names.
 
-        أمثلة:
+        Examples:
         - "BANGLADESH" → "بنجلاديش"
         - "Toyota" → "تويوتا"
         - "Abdullah" → "عبد الله"
 
+        Expected JSON structure:
         {{
-        "{party_label}": {{
-            "driver": {{
-            "name": "<string or null>",
-            "nationality": "<string or null>",
-            "age": "<string or null>",
-            "mobile": "<string or null>",
-            "id_number": "<string or null>",
-            "license_type": "<string or null>",
-            "license_expiry": "<string or null>",
-            "license_issue_date": "<string or null>"
-            }},
-            "vehicle": {{
-            "owner_name": "<string or null>",
-            "make_model": "<string or null>",
-            "year_color": "<string or null>",
-            "plate_no": "<string or null>"
-            }},
-            "insurance": {{
-            "company_name": "<string or null>",
-            "policy_no": "<string or null>",
-            "expiry_date": "<string or null>",
-            "start_date": "<string or null>",
-            "insurance_type": "<string or null>"
-            }}
-        }},
-        "damage": {{
             "{party_label}": {{
-            "damage_summary": "<ملخص الأضرار بالعربية أو null>",
-            "primary_areas": [
-                "<واحد أو أكثر من: front, rear, left, right, front-left, front-right, rear-left, rear-right>"
-            ],
-            "driveable": true
+                "driver": {{
+                    "name": "<string or null>",
+                    "nationality": "<string or null>",
+                    "age": "<string or null>",
+                    "mobile": "<string or null>",
+                    "id_number": "<string or null>",
+                    "license_type": "<string or null>",
+                    "license_expiry": "<string or null>",
+                    "license_issue_date": "<string or null>"
+                }},
+                "vehicle": {{
+                    "owner_name": "<string or null>",
+                    "make_model": "<string or null>",
+                    "year_color": "<string or null>",
+                    "plate_no": "<string or null>"
+                }},
+                "insurance": {{
+                    "company_name": "<string or null>",
+                    "policy_no": "<string or null>",
+                    "expiry_date": "<string or null>",
+                    "start_date": "<string or null>",
+                    "insurance_type": "<string or null>"
+                }}
+            }},
+            "damage": {{
+                "{party_label}": {{
+                    "damage_summary": "<Arabic damage summary or null>",
+                    "primary_areas": [
+                        "<one or more of: front, rear, left, right, front-left, front-right, rear-left, rear-right>"
+                    ],
+                    "driveable": true
+                }}
             }}
-        }}
         }}
 
-        أعد استجابة بصيغة JSON فقط، بدون ``` أو أي نص إضافي.
+        Return the response **as JSON only**, with no ``` or any additional text.
         """
-    )
+        )
 
     content = [
         {
