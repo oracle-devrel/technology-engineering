@@ -78,12 +78,12 @@ langchain==0.3.23
 langchain-community==0.3.21
 langchain-core==0.3.51
 langchain-huggingface==0.1.2
-langchain-text-splitters==0.3.8
+langchain-text-splitters==0.3.9
 langsmith==0.3.28
 lark==1.2.2
 llama-cloud==0.1.18
 llama-cloud-services==0.6.10
-llama-index==0.12.41
+llama-index==0.13.0
 llama-index-agent-openai==0.4.6
 llama-index-cli==0.4.1
 llama-index-core==0.13.0
@@ -180,7 +180,7 @@ pytz==2025.2
 PyYAML==6.0.2
 pyzmq==26.4.0
 qdrant-client==1.13.3
-ray==2.43.0
+ray==2.52.0
 referencing==0.36.2
 regex==2024.11.6
 requests==2.32.3
