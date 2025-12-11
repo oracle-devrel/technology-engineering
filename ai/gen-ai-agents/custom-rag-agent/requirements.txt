@@ -46,7 +46,7 @@ fastjsonschema==2.21.1
 fastmcp==2.13.0
 filetype==1.2.0
 flatbuffers==25.2.10
-fonttools==4.56.0
+fonttools==4.61.0
 fqdn==1.5.1
 frozenlist==1.5.0
 gitdb==4.0.12
