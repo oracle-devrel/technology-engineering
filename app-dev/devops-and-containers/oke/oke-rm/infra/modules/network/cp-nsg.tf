@@ -85,7 +85,7 @@ resource "oci_core_network_security_group_security_rule" "oke_cp_nsg_bastion_api
       min = 6443
     }
   }
-  count = var.create_bastion_subnet ? 1 : 0
+  count = local.create_bastion_subnet ? 1 : 0
 }
 
 resource "oci_core_network_security_group_security_rule" "oke_cp_nsg_bastion_apiserver_egress" {
@@ -102,7 +102,7 @@ resource "oci_core_network_security_group_security_rule" "oke_cp_nsg_bastion_api
       min = 6443
     }
   }
-  count = var.create_bastion_subnet ? 1 : 0
+  count = local.create_bastion_subnet ? 1 : 0
 }
 
 # Pods to control plane - Kubelet communication (port 12250)
