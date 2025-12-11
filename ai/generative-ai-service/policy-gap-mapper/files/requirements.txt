@@ -1,0 +1,10 @@
+streamlit==1.51.0
+pillow==12.0.0
+pandas==2.3.3
+pdf2image==1.17.0
+
+oci==2.164.0
+
+langchain==1.1.2
+langchain-core==1.1.1
+langchain-community==0.4.1
