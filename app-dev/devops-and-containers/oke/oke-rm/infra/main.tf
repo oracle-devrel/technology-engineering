@@ -49,8 +49,6 @@ module "network" {
   fss_subnet_name = var.fss_subnet_name
   # GATEWAYS
   create_gateways = var.create_gateways
-  nat_gateway_id = var.nat_gateway_id
-  service_gateway_id = var.service_gateway_id
   create_internet_gateway = var.create_internet_gateway
   # CONTROL PLANE EXTERNAL CONNECTION
   cp_external_nat = var.cp_external_nat

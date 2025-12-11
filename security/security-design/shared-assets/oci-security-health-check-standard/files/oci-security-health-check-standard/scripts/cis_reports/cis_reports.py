@@ -41,9 +41,9 @@ try:
 except Exception:
     OUTPUT_DIAGRAMS = False
 
-RELEASE_VERSION = "3.1.0"
+RELEASE_VERSION = "3.1.0.1"
 PYTHON_SDK_VERSION = "2.161.1"
-UPDATED_DATE = "October 24, 2025"
+UPDATED_DATE = "November 28, 2025"
 
 
 ##########################################################################
@@ -52,7 +52,9 @@ UPDATED_DATE = "October 24, 2025"
 # DEBUG = False
 def debug(msg):
     if DEBUG:
-        print(msg)
+        log_datetime = datetime.datetime.now().replace(tzinfo=pytz.UTC)
+        log_time_str = str(log_datetime.strftime("%Y-%m-%dT%H:%M:%S"))
+        print(log_time_str+": "+msg)
 
 ##########################################################################
 # Print header centered
@@ -475,7 +477,7 @@ class CIS_Report:
                 "Description": "Using default tags is a way to ensure all resources that support tags are tagged during creation. Tags can be based on static values or based on computed values. It is recommended to setup default tags early on to ensure all created resources will get tagged.\nTags are scoped to Compartments and are inherited by Child Compartments. The recommendation is to create default tags like “CreatedBy” at the Root Compartment level to ensure all resources get tagged.\nWhen using Tags it is important to ensure that Tag Namespaces are protected by IAM Policies otherwise this will allow users to change tags or tag values.\nDepending on the age of the OCI Tenancy there may already be Tag defaults setup at the Root Level and no need for further action to implement this action.",
                 "Rationale": "In the case of an incident having default tags like “CreatedBy” applied will provide info on who created the resource without having to search the Audit logs.",
                 "Impact": "There is no performance impact when enabling the above described features",
-                "Remediation": "Update the root compartments tag default link.In the Tag Defaults table verify that there is a Tag with a value of \"${iam.principal.name}\" and a Tag Key Status of Active. Also create a Tag key definition by providing a Tag Key, Description and selecting 'Static Value' for Tag Value Type.",
+                "Remediation": "Update the root compartments tag default link. In the Tag Defaults table verify that there is a Tag with a value of \"${iam.principal.name}\" and a Tag Key Status of Active. Also create a Tag key definition by providing a Tag Key, Description and selecting 'Static Value' for Tag Value Type.",
                 "Recommendation": "",
                 "Observation": "default tags are used on resources."
             },
@@ -491,7 +493,7 @@ class CIS_Report:
                 "Description": "It is recommended to setup an Event Rule and Notification that gets triggered when Identity Providers are created, updated or deleted. Event Rules are compartment scoped and will detect events in child compartments. It is recommended to create the Event rule at the root compartment level.",
                 "Rationale": "OCI Identity Providers allow management of User ID / passwords in external systems and use of those credentials to access OCI resources. Identity Providers allow users to single sign-on to OCI console and have other OCI credentials like API Keys.\nMonitoring and alerting on changes to Identity Providers will help in identifying changes to the security posture.",
                 "Impact": "There is no performance impact when enabling the above described features but depending on the amount of notifications sent per month there may be a cost associated.",
-                "Remediation": "Create a Rule Condition in the Events services by selecting Identity in the Service Name Drop-down and selecting Identity Provider – Create, Identity Provider - Delete and Identity Provider – Update. In the Actions section select Notifications as Action Type and selct the compartment and topic to be used.",
+                "Remediation": "Create a Rule Condition in the Events services by selecting Identity in the Service Name Drop-down and selecting Identity Provider – Create, Identity Provider - Delete and Identity Provider – Update. In the Actions section select Notifications as Action Type and select the compartment and topic to be used.",
                 "Recommendation": "",
                 "Observation": "notifications have been configured for Identity Provider changes."
             },
@@ -507,7 +509,7 @@ class CIS_Report:
                 "Description": "It is recommended to setup an Event Rule and Notification that gets triggered when IAM Groups are created, updated or deleted. Event Rules are compartment scoped and will detect events in child compartments, it is recommended to create the Event rule at the root compartment level.",
                 "Rationale": "IAM Groups control access to all resources within an OCI Tenancy.\n Monitoring and alerting on changes to IAM Groups will help in identifying changes to satisfy least privilege principle.",
                 "Impact": "There is no performance impact when enabling the above described features but depending on the amount of notifications sent per month there may be a cost associated.",
-                "Remediation": "Create a Rule Condition by selecting Identity in the Service Name Drop-down and selecting Group – Create, Group – Delete and Group – Update. In the Actions section select Notifications as Action Type and selct the compartment and topic to be used.",
+                "Remediation": "Create a Rule Condition by selecting Identity in the Service Name Drop-down and selecting Group – Create, Group – Delete and Group – Update. In the Actions section select Notifications as Action Type and select the compartment and topic to be used.",
                 "Recommendation": "",
                 "Observation": "notifications have been configured for IAM Group changes."
             },
@@ -515,7 +517,7 @@ class CIS_Report:
                 "Description": "It is recommended to setup an Event Rule and Notification that gets triggered when IAM Policies are created, updated or deleted. Event Rules are compartment scoped and will detect events in child compartments, it is recommended to create the Event rule at the root compartment level.",
                 "Rationale": "IAM Policies govern access to all resources within an OCI Tenancy.\n Monitoring and alerting on changes to IAM policies will help in identifying changes to the security posture.",
                 "Impact": "There is no performance impact when enabling the above described features but depending on the amount of notifications sent per month there may be a cost associated.",
-                "Remediation": "Create a Rule Condition by selecting Identity in the Service Name Drop-down and selecting Policy – Change Compartment, Policy – Create, Policy - Delete and Policy – Update. In the Actions section select Notifications as Action Type and selct the compartment and topic to be used.",
+                "Remediation": "Create a Rule Condition by selecting Identity in the Service Name Drop-down and selecting Policy – Change Compartment, Policy – Create, Policy - Delete and Policy – Update. In the Actions section select Notifications as Action Type and select the compartment and topic to be used.",
                 "Recommendation": "",
                 "Observation": "notifications have been configured for IAM Policy changes."
             },
@@ -1744,7 +1746,7 @@ class CIS_Report:
         ##########################################################################
         def run_logging_search_query_api_usage(search_query, api_key_used, start_date: datetime, end_date: datetime):
             if self.__disable_api_keys:
-                print("***Skipping Processing Audit Logs for API Key Usage...***")
+                # print("***Skipping Processing Audit Logs for API Key Usage...***")
                 return api_key_used
             else:
                 print("Processing Audit Logs for API Key Usage...")
@@ -2017,7 +2019,7 @@ class CIS_Report:
                     id_domain_deep_link = self.__oci_identity_domains_uri + identity_domain['id']
                     for dynamic_group in dynamic_groups_data:
                         debug("__identity_read_dynamic_groups: reading dynamic groups" + str(dynamic_group.display_name))
-                        deep_link = self.__oci_identity_domains_uri + "/domains/" + identity_domain['id'] + "/dynamic-groups/" + dynamic_group.id
+                        deep_link = f"{self.__oci_identity_domains_uri}/domains/{identity_domain['id']}/dynamic-groups/{dynamic_group.id}"
                         record = oci.util.to_dict(dynamic_group)
                         record['deep_link'] = self.__generate_csv_hyperlink(deep_link, dynamic_group.display_name)
                         record['domain_deeplink'] = self.__generate_csv_hyperlink(id_domain_deep_link, identity_domain['display_name'])
@@ -2716,7 +2718,6 @@ class CIS_Report:
             for region_key, region_values in self.__regions.items():
                 # Looping through compartments in tenancy
                 fastconnects = self.__search_resource_in_region("VirtualCircuit", region_values)
-
 
                 compartments = set()
 
@@ -3610,7 +3611,7 @@ class CIS_Report:
             return self.__subscriptions
 
         except Exception as e:
-            raise RuntimeError("Error in ons_read_subscription " + str(e.args))
+            print("Error in ons_read_subscription " + str(e.args))
 
     ##########################################################################
     # Identity Tag Default
@@ -4279,8 +4280,8 @@ class CIS_Report:
                     # CIS Total 1.10 Adding - Keys to CIS Total
                     self.cis_foundations_benchmark_3_0['1.10']['Total'].append(
                         key)
-    # CIS 1.11  Check - Old DB Password
-        #__iso_time_format1 = "%Y-%m-%dT%H:%M:%S.%fZ"
+        # CIS 1.11 Check - Old DB Password
+        # __iso_time_format1 = "%Y-%m-%dT%H:%M:%S.%fZ"
         for user in self.__users:
             if user['database_passwords']:
                 for key in user['database_passwords']:
@@ -4351,7 +4352,7 @@ class CIS_Report:
                 login_over_45_days = False
 
             if user['api_keys'] and user['lifecycle_state']:
-                print("__report_cis_analyze_tenancy_data CIS 1.16 API Key Check")
+                debug("__report_cis_analyze_tenancy_data CIS 1.16 API Key Check")
                 api_key_over_45_days = not(all(key.get('apikey_used_in_45_days', False) for key in user['api_keys']))
             else:
                 api_key_over_45_days = False
@@ -4392,11 +4393,16 @@ class CIS_Report:
         # CIS 1.14 Check - Ensure Dynamic Groups are used for OCI instances, OCI Cloud Databases and OCI Function to access OCI resources
         # Iterating through all dynamic groups ensure there are some for fnfunc, instance or autonomous.  Using reverse logic so starts as a false
         for dynamic_group in self.__dynamic_groups:
-            if any(oci_resource.upper() in str(dynamic_group['matching_rule'].upper()) for oci_resource in self.cis_iam_checks['1.14']['resources']):
-                self.cis_foundations_benchmark_3_0['1.14']['Status'] = True
-            else:
-                self.cis_foundations_benchmark_3_0['1.14']['Findings'].append(
-                    dynamic_group)
+            for oci_resource in self.cis_iam_checks['1.14']['resources']:
+                if dynamic_group['matching_rule'] and any(oci_resource.upper() in str(dynamic_group['matching_rule'].upper())):
+                    self.cis_foundations_benchmark_3_0['1.14']['Status'] = True
+                else:
+                    self.cis_foundations_benchmark_3_0['1.14']['Findings'].append(dynamic_group)
+
+            # if (oci_resource and any(oci_resource.upper() in str(dynamic_group['matching_rule'].upper())) for oci_resource in self.cis_iam_checks['1.14']['resources']):
+            #     self.cis_foundations_benchmark_3_0['1.14']['Status'] = True
+            # else:
+            #     self.cis_foundations_benchmark_3_0['1.14']['Findings'].append(dynamic_group)
         # Clearing finding
         if self.cis_foundations_benchmark_3_0['1.14']['Status']:
             self.cis_foundations_benchmark_3_0['1.14']['Findings'] = []
@@ -5414,7 +5420,7 @@ class CIS_Report:
                 self.obp_foundations_checks['ADB_MTLS']['Findings'].append(adb)
             else:
                 self.obp_foundations_checks['ADB_MTLS']['OBP'].append(adb)
-            if not adb['encryption_key']['provider'] == 'ORACLE_MANAGED':
+            if adb['encryption_key'] and adb['encryption_key']['provider'] and not adb['encryption_key']['provider'] == 'ORACLE_MANAGED':
                 self.obp_foundations_checks['ADB_CMK']['Findings'].append(adb)
             else:
                 self.obp_foundations_checks['ADB_CMK']['OBP'].append(adb)
@@ -5860,6 +5866,8 @@ class CIS_Report:
                     t = row['Total']
                     tmp = ''
                     if t != ' ':
+                        if f == ' ':
+                            f = t
                         tmp = f'<br><br><b>{str(f)}</b> of <b>{str(t)}</b> item'
                         if int(t) > 1:
                             tmp += 's'
