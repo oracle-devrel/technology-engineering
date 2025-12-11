@@ -6,7 +6,7 @@ variable "home_region" {}
 
 variable "network_compartment_id" {}
 variable "cni_type" {
-  default = "flannel"
+  default = "vcn_native"
 }
 variable "vcn_id" {}
 variable "lb_subnet_id" {}
