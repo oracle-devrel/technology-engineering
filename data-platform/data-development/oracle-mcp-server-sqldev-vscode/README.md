@@ -16,16 +16,17 @@ Oracle SQLcl version 25.2 extends Oracle SQLcl to support MCP-based communicatio
 SQLcl MCP Mode:
 - Works with all supported Oracle Database releases (19c, 21c, 23ai) on-prem and in the Cloud (OCI, Azure, AWS, GCP).
 - Comes with an offer of Server Tools (SQLcl MCP Server Tools):
-  - list-connections: discovers all saved Oracle DB connections
-  - connect: establishes a connection to DB
-  - disconnect: terminates the current DB connection
-  - run-sql: runs standard SQL queries/DDLs/DMLs and PL/SQL code against DB
-  - run-sqlcl: runs specific SQLcl commands 
+  - <i><b>list-connections</b></i>: discovers all saved Oracle DB connections
+  - <i><b>connect</b></i>: establishes a connection to DB
+  - <i><b>disconnect</b></i>: terminates the current DB connection
+  - <i><b>run-sql</b></i>: runs standard SQL queries/DDLs/DMLs and PL/SQL code against DB
+  - <i><b>run-sqlcl</b></i>: runs specific SQLcl commands 
+  - <i><b>schema-information</b></i>: provides insight metadata details about currently connected schema enriching info returned by query executions (from 25.3.1 version)  
 
 The SQL Developer Extension for VS Code 25.2 offers Oracle SQLcl MCP Server Integration. The extension when install auto-registers our MCP Server for Copilot, making your SQL Developer database connections available for agentic chat requests, including running SQL and PL/SQL against your database.
 
 
-Reviewed: 12.08.2025
+Reviewed: 04.12.2025
 
 
 # Table of Contents
@@ -35,14 +36,20 @@ Reviewed: 12.08.2025
 
 
 # Team Publications
-N/A
+- [Introducing SQL Developer SQLcl integration in MS VSCode & MCP support for Oracle Database](https://www.youtube.com/watch?v=521GBhrmrmw&t=2s)
 
 
 # Useful Links
+- [Oracle SQLcl MCP Page](https://docs.oracle.com/en/database/oracle/sql-developer-command-line/25.3/sqcug/using-oracle-sqlcl-mcp-server.html)
 - [Model Context Protocol - Overview](https://modelcontextprotocol.io/docs/getting-started/intro)
 - [Introducing SQL Developer Copilot Integration in Microsoft VSCode & MCP Support for Oracle Database](https://www.youtube.com/watch?v=hj6WoZVGUBg)
 - [Introducing MCP Server for Oracle Database](https://blogs.oracle.com/database/post/introducing-mcp-server-for-oracle-database)
-
+- [Jeff Smith AI/MCP Page](https://www.thatjeffsmith.com/ai/)
+- [How can Developers and DBAs benefit from MCP Server for Oracle Database?](https://blogs.oracle.com/database/post/how-can-developers-and-dbas-benefit-from-mcp-server-for-oracle-database)
+- [What's all the fuss about MCP? See some amazing things that you can really do with SQLcl MCP server](https://www.youtube.com/watch?v=8NNypzsRa0g)
+- [Elevating Oracle Database Security for Safer SQLcl MCP Server and Agentic AI Usage](https://medium.com/@thomas.minne/elevating-oracle-database-security-for-safer-sqlcl-mcp-server-and-agentic-ai-usage-1adb976d0f92)
+- [Unlocking the Power of Model Context Protocol (MCP) and Oracle Database 23ai: A Step-by-Step Guide](https://www.linkedin.com/pulse/unlocking-power-model-context-protocol-mcp-oracle-database-rao-l2hsf/)
+- [Oracle github mcp repo](https://github.com/oracle/mcp/tree/main/src)
 
 # License
 
