@@ -12,7 +12,7 @@ pytorch_lightning==2.6.0
 scikit_learn==1.8.0
 scipy==1.16.3
 streamlit==1.43.2
-torch==2.5.1
+torch==2.8.0
 torchaudio==2.5.1
 torchvision==0.20.1
 tqdm==4.66.5
