@@ -80,6 +80,11 @@ Once we have an image, we can modify the Terraform configurations directly from 
 
 If you are looking to provision an OKE cluster for RDMA and GPUs using this stack and approach, feel free to contact one of the [EMEA AppDev team](../../../README.md) as we prefer to help you, and to give you some tips to go faster.
 
+## Step 4: Expose a simple application using Envoy Gateway and Gateway API
+
+[![Open in Code Editor](https://raw.githubusercontent.com/oracle-devrel/oci-code-editor-samples/main/images/open-in-code-editor.png)](https://cloud.oracle.com/?region=home&cs_repo_url=https://github.com/alcampag/oci-envoy-gateway-api.git&cs_branch=main&cs_readme_path=README.md&cs_open_ce=true)
+
+
 # What to do next?
 
 Provisioning an OKE cluster is just the first step, be sure to also check out these guides to learn how to configure it:
