@@ -1,4 +1,4 @@
-# OKE Quickstart
+# OKE Resource Manager
 
 This repository was created with the intent of facilitating users with the creation of an OKE cluster from scratch.
 
@@ -8,13 +8,14 @@ In this repository we are going to provision all the components one by one (netw
 
 NOTE: If you want to create an OKE cluster with GPU and RDMA, then the stack that creates everything is public and available [here](https://github.com/oracle-quickstart/oci-hpc-oke)
 
+# Architecture
+![Architecture](images/architecture.png)
+
 ## Step 1: Create the network infrastructure for OKE
 
 This stack is used to create the initial network infrastructure for OKE. When configuring it, pay attention to some details:
-* Select Flannel as CNI if you are planning to use Bare Metal shapes for the OKE data plane, or if you do not have many IPs available in the VCN
 * You can apply this stack even on an existing VCN, so that only the NSGs for OKE will be created
-* By default, everything is private, but there is the possibility to create public subnets
-* Be careful when modifying the default values, as inputs are not validated
+* The default CNI is the VCN Native CNI, and it is the recommended one
 
 [![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-rm-1.1.9/infra.zip)
 
@@ -90,4 +91,3 @@ If you are looking to provision an OKE cluster for RDMA and GPUs using this stac
 Provisioning an OKE cluster is just the first step, be sure to also check out these guides to learn how to configure it:
 * [OKE policies](../oke-policies/policies.md)
 * [GitOps with ArgoCD](../oke-gitops/README.md)
-* [Ingress guide](ingress.md)
