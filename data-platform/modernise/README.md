@@ -56,7 +56,7 @@ Reviewed: 07.10.2025
     - Detailed Oracle Developer On Demand video with step-by-step instructions for migrating Infrastucture , VM Cluster and Databases on ExaDB-D and ExaDB-C@C using new Automation Utility , delivered by Amalraj Puthenchira in collaboration with Black Belts from Mission Critical Team and Exadata Cloud@Customer Team.
 - [Migrating to Exadata Database Service on Dedicated Infrastructure using Cloud native command line ](https://amalrajputhenchira.wordpress.com/2025/12/02/migrating-to-exadata-database-on-dedicated-infrastructure-using-cloud-native-command-line/)
     - Detailed, step-by-step instructions for performing physical offline migration to Exdata Database Service on Dedicated Infrastructure using Cloud native command line , available on Amalraj Puthenchira's public platform
-- [Migration Toolkit](https://https://macsdata.com/migration-toolkit)
+- [Migration Toolkit](https://macsdata.com/migration-toolkit)
     - Professional calculators and tools for planning, executing, and monitoring data migrations, available on Marcus Doeringer's public platform
 
 # Useful Links
