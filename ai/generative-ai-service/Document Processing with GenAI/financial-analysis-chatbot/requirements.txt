@@ -7,7 +7,7 @@ oci
 oci-cli                     
 
 langchain==0.3.27           
-langchain-core==0.3.72      
+langchain-core==0.3.81      
 langchain-community
 
 # Additional dependencies 
