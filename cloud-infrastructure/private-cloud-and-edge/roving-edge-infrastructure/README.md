@@ -1,6 +1,6 @@
 # Roving Edge Infrastructure
 
-Reviewed: 17.10.2025
+Updated: 23.12.2025
 
 ## Useful Links
 
@@ -9,6 +9,8 @@ Reviewed: 17.10.2025
 - [Roving Edge Device (2nd generation) datasheet](https://www.oracle.com/a/ocom/docs/data-sheet-roving-edge-device.pdf)
 - [Roving Edge Ultra datasheet](https://www.oracle.com/a/ocom/docs/data-sheet-roving-edge-ultra.pdf)
 - [Roving Edge Station datasheet](https://www.oracle.com/a/ocom/docs/data-sheet-roving-edge-station.pdf)
+- [Oracle Architecture Center filtered for Roving Edge Infrastructure](https://docs.oracle.com/solutions/?q=%22Roving%20Edge%22&cType=reference-architectures%2Csolution-playbook%2Cbuilt-deployed&sort=date-desc&lang=en)
+- [Oracle Help Center Learn filtered for Roving Edge Infrastructure](https://docs.oracle.com/learn/?q=&product=en%2Fcloud%2Foracle-cloud-infrastructure%2Frover&sort=date-desc&lang=en)
 
 ## License
 
