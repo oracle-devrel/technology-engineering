@@ -382,7 +382,7 @@ The CIS Compliance Script has been certified by the [CIS Center of Internet Secu
 
 ## License
 
-Copyright (c) 2022-2025 Oracle and/or its affiliates.
+Copyright (c) 2022-2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
