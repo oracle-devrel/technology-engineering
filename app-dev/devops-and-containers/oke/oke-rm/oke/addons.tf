@@ -92,8 +92,8 @@ resource "oci_containerengine_addon" "oke_cert_manager" {
   addon_name                       = "CertManager"
   cluster_id                       = module.oke.cluster_id
   remove_addon_resources_on_delete = true
-  depends_on = [module.oke]
-  count = local.enable_cert_manager ? 1 : 0
+  depends_on                       = [module.oke]
+  count                            = local.enable_cert_manager ? 1 : 0
 }
 
 resource "oci_containerengine_addon" "oke_metrics_server" {
@@ -103,41 +103,41 @@ resource "oci_containerengine_addon" "oke_metrics_server" {
   dynamic "configurations" {
     for_each = local.metrics_server_addon_configs
     content {
-      key = configurations.key
+      key   = configurations.key
       value = configurations.value
     }
   }
   depends_on = [module.oke, oci_containerengine_addon.oke_cert_manager]
-  count = local.enable_metrics_server ? 1 : 0
+  count      = local.enable_metrics_server ? 1 : 0
 }
 
 resource "oci_containerengine_addon" "oke_coredns" {
   addon_name                       = "CoreDNS"
   cluster_id                       = module.oke.cluster_id
   remove_addon_resources_on_delete = false
-  override_existing = true
+  override_existing                = true
   dynamic "configurations" {
     for_each = local.coredns_addon_configs
     content {
-      key = configurations.key
+      key   = configurations.key
       value = configurations.value
     }
   }
   depends_on = [module.oke]
-  count = var.cluster_type == "enhanced" && local.override_coredns ? 1 : 0
+  count      = var.cluster_type == "enhanced" && local.override_coredns ? 1 : 0
 }
 
 resource "oci_containerengine_addon" "oke_cluster_autoscaler" {
-  addon_name = "ClusterAutoscaler"
-  cluster_id = module.oke.cluster_id
+  addon_name                       = "ClusterAutoscaler"
+  cluster_id                       = module.oke.cluster_id
   remove_addon_resources_on_delete = true
   dynamic "configurations" {
     for_each = local.cluster_autoscaler_addon_configs
     content {
-      key = configurations.key
+      key   = configurations.key
       value = configurations.value
     }
   }
   depends_on = [module.oke]
-  count = local.enable_cluster_autoscaler ? 1 : 0
+  count      = local.enable_cluster_autoscaler ? 1 : 0
 }

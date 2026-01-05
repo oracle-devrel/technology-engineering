@@ -43,12 +43,12 @@ jsonschema-path==0.3.4
 jsonschema-specifications==2025.9.1
 langchain==0.3.27
 langchain-community==0.3.29
-langchain-core==0.3.76
+langchain-core==0.3.80
 langchain-oci==0.1.5
 langchain-oracledb==1.0.2
 langchain-text-splitters==0.3.11
 langgraph==0.6.7
-langgraph-checkpoint==2.1.1
+langgraph-checkpoint==3.0.0
 langgraph-prebuilt==0.6.4
 langgraph-sdk==0.2.6
 langsmith==0.4.27
@@ -57,7 +57,7 @@ markdown-it-py==4.0.0
 MarkupSafe==3.0.2
 marshmallow==3.26.1
 mccabe==0.7.0
-mcp==1.14.0
+mcp==1.23.0
 mdurl==0.1.2
 more-itertools==10.8.0
 multidict==6.6.4
@@ -120,10 +120,10 @@ typing-inspect==0.9.0
 typing-inspection==0.4.1
 typing_extensions==4.15.0
 tzdata==2025.2
-urllib3==2.5.0
+urllib3==2.6.0
 uvicorn==0.35.0
 watchdog==6.0.0
-Werkzeug==3.1.1
+Werkzeug==3.1.4
 xxhash==3.5.0
 yarl==1.20.1
 zstandard==0.24.0

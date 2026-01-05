@@ -35,7 +35,7 @@ dill==0.4.0
 executing==2.2.0
 fastapi==0.115.12
 fastjsonschema==2.21.1
-fonttools==4.58.0
+fonttools==4.60.2
 fqdn==1.5.1
 frozenlist==1.6.0
 gitdb==4.0.12
@@ -74,7 +74,7 @@ kiwisolver==1.4.8
 lab==8.4
 langchain==0.3.25
 langchain-community==0.3.24
-langchain-core==0.3.60
+langchain-core==0.3.80
 langchain-text-splitters==0.3.8
 langgraph==0.4.5
 langgraph-checkpoint==3.0.0
