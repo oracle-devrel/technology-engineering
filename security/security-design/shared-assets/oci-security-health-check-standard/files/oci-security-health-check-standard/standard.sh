@@ -136,9 +136,9 @@ show_version_json() {
     if [ $IS_ADVANCED -eq 1 ]; then
         # Example: showoci_xlsx.py 24.03.02
         version_showoci=`${PYTHON_CMD} ${SHOWOCI_SCRIPT} --version | sed -e 's;^.* ;;g'`
-        printf "{ \"assess\": \"%s\", \"cis_report\": \"%s\", \"showoci\": \"%s\"}" "${VERSION}" "${version_cis}" "${version_showoci}"
+        printf "{ \"standard.sh\": \"%s\", \"cis_report.py\": \"%s\", \"showoci\": \"%s\"}" "${VERSION}" "${version_cis}" "${version_showoci}"
     else
-        printf "{ \"assess\": \"%s\", \"cis_report\": \"%s\"}" "${VERSION}" "${version_cis}"
+        printf "{ \"standard.sh\": \"%s\", \"cis_report.py\": \"%s\"}" "${VERSION}" "${version_cis}"
     fi
 }
 
