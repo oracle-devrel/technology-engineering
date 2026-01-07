@@ -69,7 +69,7 @@ After adding the Terraform source save and apply the stack.Now, the RM should ad
 
 ### Option 3.2: Create the OKE data plane with Ubuntu nodes
 
-This option is most commonly used for AI workloads and GPU nodes, as Nvidia officially supports the Nvidia GPU plugin and DCGM exporter only on Ubuntu.
+This option is most commonly used for AI workloads and GPU nodes.
 
 #### Option 3.2.1: Create worker nodes by modifying the Terraform Resource Manager stack
 
