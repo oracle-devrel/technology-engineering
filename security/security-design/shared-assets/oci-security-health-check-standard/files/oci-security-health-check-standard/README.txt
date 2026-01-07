@@ -26,6 +26,7 @@ The main goals of this script are:
 
 - Make the run as easy and smooth as possible.
 - Do not affect your desktop whenever possible.
+- For a successful run, this script requires an Internet connection.
 
 Benefits of this package
 
