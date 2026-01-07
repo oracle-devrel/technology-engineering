@@ -1,15 +1,15 @@
 #!/bin/bash
 ###############################################################################
-# Copyright (c) 2022, 2025, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2022-2026, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License
 # (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.
 ###############################################################################
 #
 # Author: Olaf Heimburger
 #
-VERSION=250722
+VERSION=260105
 
-graal_version=24.2.2
+graal_version=25.0.1
 OS_TYPE=$(uname)
 OS_PLATFORM=$(uname -m)
 ASSESS_DIR=$(dirname $0)
@@ -136,9 +136,9 @@ show_version_json() {
     if [ $IS_ADVANCED -eq 1 ]; then
         # Example: showoci_xlsx.py 24.03.02
         version_showoci=`${PYTHON_CMD} ${SHOWOCI_SCRIPT} --version | sed -e 's;^.* ;;g'`
-        printf "{ \"assess\": \"%s\", \"cis_report\": \"%s\", \"showoci\": \"%s\"}" "${VERSION}" "${version_cis}" "${version_showoci}"
+        printf "{ \"standard.sh\": \"%s\", \"cis_report.py\": \"%s\", \"showoci\": \"%s\"}" "${VERSION}" "${version_cis}" "${version_showoci}"
     else
-        printf "{ \"assess\": \"%s\", \"cis_report\": \"%s\"}" "${VERSION}" "${version_cis}"
+        printf "{ \"standard.sh\": \"%s\", \"cis_report.py\": \"%s\"}" "${VERSION}" "${version_cis}"
     fi
 }
 

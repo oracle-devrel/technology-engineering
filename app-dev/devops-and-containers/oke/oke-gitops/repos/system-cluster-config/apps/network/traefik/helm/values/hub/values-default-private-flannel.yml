@@ -1,0 +1,61 @@
+# There are 2 entryPoints here: web and websecure, one for http, the other for https on the default private load balancer
+ports:
+  # Set this so that all HTTP traffic is redirected and upgraded to HTTPS
+  web:
+    redirections:
+      entryPoint:
+        to: websecure
+        scheme: https
+  websecure:
+    # asDefault sets websecure as the default entryPoint if no entryPoint is specified in an ingressRoute
+    asDefault: true
+
+    # Traefik will need to handle TLS termination for private network load balancers
+    tls:
+      enabled: true
+    # By default, Traefik will discard x-forwarded-for and proxy protocol headers if the source Load Balancer ip is not trusted
+    # Specify the range of trusted IPs here
+#    forwardedHeaders:
+#      trustedIPs:
+#        - "10.0.0.0/16"
+#    proxyProtocol:
+#      trustedIPs:
+#        - "10.0.0.0/16"
+
+# To expose private APIs, generally a Network Load Balancer is used, and no WAF is needed. This depends on your security posture.
+
+# TLS passthrough, the Traefik ingress will manage certificates. Be sure that the websecure entrypoint is configured to receive tls traffic
+
+service:
+  type: LoadBalancer
+  annotations:
+    oci.oraclecloud.com/load-balancer-type: "nlb"
+    # Always specify the NLB to be internal, or creation will fail
+    oci-network-load-balancer.oraclecloud.com/internal: "true"
+
+    # If needed, you can specify a private subnet OCID where to create the NLB. If not specified, will default to OKE service subnet
+    #oci-network-load-balancer.oraclecloud.com/subnet: "<subnet-OCID>"
+
+    # Better to attach 2 NSGs, one containing only ingress rules, the other containing only egress rules
+    oci-network-load-balancer.oraclecloud.com/oci-network-security-groups: "ocid1.networksecuritygroup...,ocid1.networksecuritygroup..."
+    # By setting this to None, you will be in charge of writing all the security rules, CCM will not be allowed to set automatically any security rule
+    oci.oraclecloud.com/security-rule-management-mode: "None"
+
+    # Defaults to FIVE_TUPLE, other values are TWO_TUPLE and THREE_TUPLE
+    #oci-network-load-balancer.oraclecloud.com/backend-policy: "FIVE_TUPLE"
+
+    # Health check configurations
+    oci-network-load-balancer.oraclecloud.com/health-check-interval: "10000"
+    oci-network-load-balancer.oraclecloud.com/health-check-timeout: "2000"
+    oci-network-load-balancer.oraclecloud.com/health-check-retries: "3"
+
+    # If needed, you can reserve and assign a private IP address
+    #oci-network-load-balancer.oraclecloud.com/assigned-private-ipv4: "<ipv4-address>"
+
+    # Default value is true. Set this to false if you do not want to preserve source IP address or if you need proxy protocol
+    #oci-network-load-balancer.oraclecloud.com/is-preserve-source: "true"
+
+    # Enable proxy protocol for IP preservation. NOTE: oci-network-load-balancer.oraclecloud.com/is-preserve-source must be explicitly set to false for this to work
+    #oci-network-load-balancer.oraclecloud.com/is-ppv2-enabled: "true"
+  spec:
+    externalTrafficPolicy: "Local"

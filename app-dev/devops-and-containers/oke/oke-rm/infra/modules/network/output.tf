@@ -16,12 +16,16 @@ output "worker_subnet_id" {
   value = local.create_worker_subnet ? oci_core_subnet.worker_subnet.0.id : null
 }
 
-output "service_subnet_id" {
-  value = local.create_service_subnet ? oci_core_subnet.service_subnet.0.id : null
+output "external_lb_subnet_id" {
+  value = local.create_external_lb_subnet ? oci_core_subnet.external_lb_subnet.0.id : null
+}
+
+output "internal_lb_subnet_id" {
+  value = local.create_internal_lb_subnet ? oci_core_subnet.internal_lb_subnet.0.id : null
 }
 
 output "bastion_subnet_id" {
-  value = var.create_bastion_subnet ? oci_core_subnet.bastion_subnet[0].id : null
+  value = local.create_bastion_subnet ? oci_core_subnet.bastion_subnet[0].id : null
 }
 
 # NSG

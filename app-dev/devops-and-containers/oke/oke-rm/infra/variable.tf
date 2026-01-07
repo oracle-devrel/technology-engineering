@@ -4,12 +4,12 @@ variable "compartment_ocid" {}
 variable "network_compartment_id" {}
 
 variable "cni_type" {
-  default = "flannel"
+  default = "vcn_native"
 }
 
 # VCN
 variable "create_vcn" {
-  type = bool
+  type    = bool
   default = true
 }
 
@@ -21,9 +21,9 @@ variable "vcn_name" {
   default = "vcn-oke-1"
 }
 
-variable "vcn_cidr_blocks" {
-  type = list(string)
-  default = ["10.1.0.0/16"]
+variable "vcn_cidr_block" {
+  type    = string
+  default = "10.0.0.0/16"
 }
 
 variable "vcn_dns_label" {
@@ -33,24 +33,16 @@ variable "vcn_dns_label" {
 # CP SUBNET
 
 variable "create_cp_subnet" {
-  type = bool
+  type    = bool
   default = true
 }
 
-variable "cp_subnet_cidr" {
-  default = "10.1.0.0/29"
-}
-
-variable "cp_subnet_dns_label" {
+variable "cp_subnet_name" {
   default = "cp"
 }
 
-variable "cp_subnet_name" {
-  default = "cp-subnet"
-}
-
 variable "cp_subnet_private" {
-  type = bool
+  type    = bool
   default = true
 }
 
@@ -61,135 +53,91 @@ variable "cp_allowed_source_cidr" {
 # WORKER SUBNET
 
 variable "create_worker_subnet" {
-  type = bool
+  type    = bool
   default = true
 }
 
-variable "worker_subnet_cidr" {
-  default = "10.1.8.0/21"
-}
-
-variable "worker_subnet_dns_label" {
-  default = "worker"
-}
-
 variable "worker_subnet_name" {
-  default = "worker-subnet"
+  default = "worker"
 }
 
 # POD SUBNET
 
 variable "create_pod_subnet" {
-  type = bool
+  type    = bool
   default = true
-}
-
-variable "pod_subnet_cidr" {
-  default = "10.1.128.0/18"
-}
-
-variable "pod_subnet_dns_label" {
-  default = "pod"
 }
 
 variable "pod_subnet_name" {
-  default = "pod-subnet"
+  default = "pod"
 }
 
-# SERVICE SUBNET
+# LB SUBNETS
 
-variable "create_service_subnet" {
-  type = bool
+variable "create_external_lb_subnet" {
+  type    = bool
   default = true
 }
 
-variable "service_subnet_cidr" {
-  default = "10.1.0.32/27"
+variable "external_lb_subnet_name" {
+  default = "lb-ext"
 }
 
-variable "service_subnet_private" {
-  type = bool
+variable "create_internal_lb_subnet" {
+  type    = bool
   default = true
 }
 
-variable "service_subnet_dns_label" {
-  default = "service"
-}
-
-variable "service_subnet_name" {
-  default = "service-subnet"
+variable "internal_lb_subnet_name" {
+  default = "lb-int"
 }
 
 # BASTION SUBNET
 
 variable "create_bastion_subnet" {
-  type = bool
+  type    = bool
   default = true
 }
 
-variable "bastion_subnet_cidr" {
-  default = "10.1.0.8/29"
-}
-
 variable "bastion_subnet_private" {
-  type = bool
+  type    = bool
   default = false
 }
 
-variable "bastion_subnet_dns_label" {
-  default = "bastion"
-}
-
 variable "bastion_subnet_name" {
-  default = "bastion-subnet"
+  default = "bastion"
 }
 
 # FSS SUBNET
 
 variable "create_fss" {
-  type = bool
+  type    = bool
   default = true
-}
-
-variable "fss_subnet_cidr" {
-  default = "10.1.0.64/26"
-}
-
-variable "fss_subnet_dns_label" {
-  default = "fss"
 }
 
 variable "fss_subnet_name" {
-  default = "fss-subnet"
+  default = "fss"
 }
 
 variable "create_gateways" {
-  type = bool
+  type    = bool
   default = true
 }
 
-variable "service_gateway_id" {
-  default = null
-}
-
-variable "nat_gateway_id" {
-  default = null
-}
-
 variable "create_internet_gateway" {
-  type = bool
+  type    = bool
   default = true
 }
 
 #CONTROL PLANE EXTERNAL CONNECTION
 
 variable "cp_external_nat" {
-  type = bool
+  type    = bool
   default = true
 }
 
 variable "allow_external_cp_traffic" {
-  type = bool
+  type    = bool
   default = true
 }
 
@@ -200,12 +148,12 @@ variable "cp_egress_cidr" {
 # DRG
 
 variable "enable_drg" {
-  type = bool
+  type    = bool
   default = false
 }
 
 variable "create_drg" {
-  type = bool
+  type    = bool
   default = true
 }
 
@@ -218,12 +166,12 @@ variable "drg_name" {
 }
 
 variable "create_drg_attachment" {
-  type = bool
+  type    = bool
   default = true
 }
 
 variable "peer_vcns" {
-  type = list(string)
+  type    = list(string)
   default = []
 }
 
