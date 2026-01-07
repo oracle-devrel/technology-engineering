@@ -40,6 +40,9 @@ service:
     # Set listener to HTTP if you want to use WAF, otherwise TCP
     service.beta.kubernetes.io/oci-load-balancer-backend-protocol: "HTTP"
 
+    # A HTTP listener will automatically put the x-forwarded-for header with the real IP address, but not the TCP listener.
+    #service.beta.kubernetes.io/oci-load-balancer-connection-proxy-protocol-version: "2"
+
     # If needed, you can specify a public subnet OCID where to create the LB. If not specified, will default to OKE service subnet
     #service.beta.kubernetes.io/oci-load-balancer-subnet1: "<subnet-OCID>"
 

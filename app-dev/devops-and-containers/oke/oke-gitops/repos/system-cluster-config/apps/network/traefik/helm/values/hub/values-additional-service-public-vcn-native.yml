@@ -44,6 +44,9 @@ service:
         # Set listener to HTTP if you want to use WAF, otherwise TCP
         service.beta.kubernetes.io/oci-load-balancer-backend-protocol: "HTTP"
 
+        # A HTTP listener will automatically put the x-forwarded-for header with the real IP address, but not the TCP listener. So we need to enable proxy protocol. By default it's disabled here, because we are forced to relay on externalTrafficPolicy: "Cluster"
+        #service.beta.kubernetes.io/oci-load-balancer-connection-proxy-protocol-version: "2"
+
         # TLS termination. The secret must be present in the traefik namespace. Only 1 certificate is supported, and to rotate you need to create a new secret and modify this annotation
         service.beta.kubernetes.io/oci-load-balancer-ssl-ports: "443"
         service.beta.kubernetes.io/oci-load-balancer-tls-secret: "ssl-certificate-secret"
