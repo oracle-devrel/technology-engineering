@@ -1,6 +1,6 @@
 # Dedicated Cloud
 
-Updated: 10.11.2025
+Updated: 23.12.2025
 
 Collection of blogs and other publications (Press Releases, News Articles, Videos & Podcasts) relevant to Oracle Dedicated Cloud (Dedicated Region and Alloy). The collection will continue to be updated as needed.
 
