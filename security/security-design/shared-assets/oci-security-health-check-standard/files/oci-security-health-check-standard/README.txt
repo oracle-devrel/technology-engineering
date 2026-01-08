@@ -2,7 +2,7 @@
 OCI Security Health Check - Standard Edition
 ============================================
 Owner: Olaf Heimburger
-Version: 251104 (cis_report.py version 3.1.0.1)  for CIS OCI Foundation Benchmark 3.0.0
+Version: 260105 (cis_report.py version 3.1.1.1)  for CIS OCI Foundation Benchmark 3.0.0
 
 When to use this asset?
 
@@ -26,6 +26,7 @@ The main goals of this script are:
 
 - Make the run as easy and smooth as possible.
 - Do not affect your desktop whenever possible.
+- For a successful run, this script requires an Internet connection.
 
 Benefits of this package
 
@@ -130,7 +131,7 @@ Usage
   - From the menu select the Cloud Shell item.
   - When running it the first time:
     - Upload the provided ZIP file.
-    - Extract it with unzip -q oci-security-health-check-standard-251128.zip
+    - Extract it with unzip -q oci-security-health-check-standard-260105.zip
   - Change directory into oci-security-health-check-standard
     $ cd oci-security-health-check-standard
     $ screen
@@ -190,11 +191,11 @@ Usage
     - Log out
 
   - From your desktop, upload the
-    "oci-security-health-check-standard-251128.zip" file to the Compute VM
+    "oci-security-health-check-standard-260105.zip" file to the Compute VM
     using any SFTP client.
   - Log into the Compute VM
     - Extract the distribution
-      unzip -q oci-security-health-check-standard-251128.zip
+      unzip -q oci-security-health-check-standard-260105.zip
 
     - Change directory into "oci-security-health-check-standard":
       cd oci-security-health-check-standard
