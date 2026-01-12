@@ -47,7 +47,7 @@ langdetect==1.0.9
 langsmith==0.3.19
 lxml==5.3.2
 MarkupSafe==3.0.2
-marshmallow==3.26.1
+marshmallow==3.26.2
 multidict==6.2.0
 mypy-extensions==1.0.0
 narwhals==1.32.0
