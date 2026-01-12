@@ -106,7 +106,7 @@ typing-inspection==0.4.0
 tzdata==2025.2
 unstructured==0.17.2
 unstructured-client==0.34.0
-urllib3==2.6.0
+urllib3==2.6.3
 webencodings==0.5.1
 wrapt==1.17.2
 xlrd==2.0.1
