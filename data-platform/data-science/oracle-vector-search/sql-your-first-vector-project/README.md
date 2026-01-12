@@ -2,7 +2,7 @@
 
 This folder contains the files in order to carry out the AI Vector Search Tutorial [Getting started with vectors in 26ai](https://blogs.oracle.com/coretec/post/getting-started-with-vectors-in-23ai).
 
-Reviewed: 2025.11.26
+Reviewed: 2026.01.05
 
 # When to use this asset?
 
@@ -23,7 +23,7 @@ Please use the posting [Getting started with vectors in 26ai](https://blogs.orac
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
