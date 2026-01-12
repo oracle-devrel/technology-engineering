@@ -43,7 +43,7 @@ langgraph-sdk==0.1.51
 langsmith==0.2.11
 markdown-it-py==3.0.0
 MarkupSafe==3.0.2
-marshmallow==3.23.1
+marshmallow==3.26.2
 matplotlib-inline==0.1.7
 mdurl==0.1.2
 msgpack==1.1.0

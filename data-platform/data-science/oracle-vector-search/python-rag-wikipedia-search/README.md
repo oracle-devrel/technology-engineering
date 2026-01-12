@@ -1,7 +1,7 @@
 # RAG Wikipedia
 This package provides an end-to-end example of performing vector search and Retrieval-Augmented Generation (RAG) from an OCI Data Science Notebook Session using Wikipedia's Artificial Intelligence page.
 
-Reviewed: 2025.11.27
+Reviewed: 2026.01.05
 
 # When to use this asset?
 
@@ -27,7 +27,7 @@ Run the examples in a Jupyter Notebook inside an OCI Data Science Notebook Sessi
 
 # License
  
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
