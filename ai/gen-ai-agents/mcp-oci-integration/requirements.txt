@@ -1,12 +1,12 @@
 aiohappyeyeballs==2.6.1
-aiohttp==3.12.15
+aiohttp==3.13.3
 aiosignal==1.4.0
 altair==5.5.0
 annotated-types==0.7.0
 anyio==4.10.0
 astroid==3.3.11
 attrs==25.3.0
-Authlib==1.6.5
+Authlib==1.6.6
 black==25.1.0
 blinker==1.9.0
 cachetools==6.2.0
