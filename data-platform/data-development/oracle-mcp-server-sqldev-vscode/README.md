@@ -26,21 +26,24 @@ SQLcl MCP Mode:
 The SQL Developer Extension for VS Code 25.2 offers Oracle SQLcl MCP Server Integration. The extension when install auto-registers our MCP Server for Copilot, making your SQL Developer database connections available for agentic chat requests, including running SQL and PL/SQL against your database.
 
 
-Reviewed: 04.12.2025
+Reviewed: 19.12.2025
 
 
 # Table of Contents
  
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-links)
+1. [Latest SQLcl Version](#latest-version)
+2. [Team Publications](#team-publications)
+3. [Useful Links](#useful-links)
 
+# Latest Version
+- [SQLcl 25.4](https://docs.oracle.com/en/database/oracle/sql-developer-command-line/25.4/sqcug/changes-release-25.4-oracle-sqlcl.html#SQCUG-GUID-6A7574A3-10C7-4911-883A-3C11F0D7D1D0)
 
 # Team Publications
 - [Introducing SQL Developer SQLcl integration in MS VSCode & MCP support for Oracle Database](https://www.youtube.com/watch?v=521GBhrmrmw&t=2s)
 
 
 # Useful Links
-- [Oracle SQLcl MCP Page](https://docs.oracle.com/en/database/oracle/sql-developer-command-line/25.3/sqcug/using-oracle-sqlcl-mcp-server.html)
+- [Oracle SQLcl MCP Page](https://docs.oracle.com/en/database/oracle/sql-developer-command-line/25.4/sqcug/using-oracle-sqlcl-mcp-server.html)
 - [Model Context Protocol - Overview](https://modelcontextprotocol.io/docs/getting-started/intro)
 - [Introducing SQL Developer Copilot Integration in Microsoft VSCode & MCP Support for Oracle Database](https://www.youtube.com/watch?v=hj6WoZVGUBg)
 - [Introducing MCP Server for Oracle Database](https://blogs.oracle.com/database/post/introducing-mcp-server-for-oracle-database)
