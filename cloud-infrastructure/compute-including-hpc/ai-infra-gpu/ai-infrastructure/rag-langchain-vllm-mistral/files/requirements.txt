@@ -41,7 +41,7 @@ fastapi-cli==0.0.7
 fastrlock==0.8.3
 feedfinder2==0.0.4
 feedparser==6.0.11
-filelock==3.18.0
+filelock==3.20.1
 filetype==1.2.0
 frozenlist==1.5.0
 fsspec==2025.3.2
@@ -76,7 +76,7 @@ jsonschema==4.23.0
 jsonschema-specifications==2024.10.1
 langchain==0.3.23
 langchain-community==0.3.21
-langchain-core==0.3.51
+langchain-core==0.3.81
 langchain-huggingface==0.1.2
 langchain-text-splitters==0.3.9
 langsmith==0.3.28

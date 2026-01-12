@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Kustomization to configure all namespaces from a system administrator perspective
+
+resources:
+# Import global resources and patch them if required
+- ../../base
+- ./namespaces/dev-team
