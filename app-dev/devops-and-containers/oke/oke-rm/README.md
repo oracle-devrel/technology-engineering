@@ -17,13 +17,13 @@ This stack is used to create the initial network infrastructure for OKE. When co
 * You can apply this stack even on an existing VCN, so that only the NSGs for OKE will be created
 * The default CNI is the VCN Native CNI, and it is the recommended one
 
-[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-rm-1.1.9/infra.zip)
+[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-rm-1.2.0/infra.zip)
 
 ## Step 2: Create the OKE control plane
 
 This stack is used to create the OKE control plane ONLY.
 
-[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-rm-1.1.9/oke.zip)
+[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-rm-1.2.0/oke.zip)
 
 Also note that if the network infrastructure is located in a different compartment than the OKE cluster AND you are planning to use the OCI_VCN_NATIVE CNI,
 you must add these policies:
@@ -69,7 +69,7 @@ After adding the Terraform source save and apply the stack.Now, the RM should ad
 
 ### Option 3.2: Create the OKE data plane with Ubuntu nodes
 
-This option is most commonly used for AI workloads and GPU nodes, as Nvidia officially supports the Nvidia GPU plugin and DCGM exporter only on Ubuntu.
+This option is most commonly used for AI workloads and GPU nodes.
 
 #### Option 3.2.1: Create worker nodes by modifying the Terraform Resource Manager stack
 
