@@ -26,6 +26,9 @@ Reviewed: 28.10.2025
 
 - [Real-time AI-augmented Inventory Management Demo](https://www.youtube.com/watch?v=Z8NNtGPtlA4)
   - Recorded demo showcasing OCI GoldenGate 23ai leveraging embedding capabilities to replicate data from Autonomous AI Transaction Processing to an Autonomous AI Lakehouse, feeding vectors to an LLM, and enabling interactive queries via the AI Assistant chatbot
+
+- [Real-Time Embedding with Oracle GoldenGate: A Step-by-Step Guide](https://blogs.oracle.com/dataintegration/real-time-embedding-with-oracle-goldengate-a-step-by-step-guide)
+  - Learn how to use Oracle GoldenGate’s real-time embedding generation and VECTOR support to seamlessly power AI and RAG applications with up-to-date data
     
 
  

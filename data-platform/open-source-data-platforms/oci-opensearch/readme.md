@@ -3,7 +3,7 @@ OCI Search with OpenSearch is a managed service that you can use to build in-app
 
 Search with OpenSearch handles all the management and operations of search clusters, including operations such as security updates, upgrades, resizing, and scheduled backups. This allows you to focus your resources on building features for your OpenSearch solutions.
 
-Reviewed: 04.06.2024
+Reviewed: 11.11.2025
 
 # Table of Contents
 
@@ -18,6 +18,9 @@ Reviewed: 04.06.2024
 - [Retrieval Augmented Generation with OCI OpenSearch and GenAI service](https://github.com/bobpeulen/oci_opensearch/blob/main/oci_opensearch_rag_auto.ipynb)
 A notebook describing and performing all steps to create and store a custom embedding model in the OCI OpenSearch cluster and create a full RAG pipeline (OCI OpenSearch as Vector database and in-memory engine and the GenAI service (cohere) as LLM)
 - [LiveLabs: Search and visualize data with OCI Search Service with OpenSearch](https://apexapps.oracle.com/pls/apex/f?p=133:180:6071760449919::::wid:3427)
+- [How to Interact with OpenSearch?](https://www.linkedin.com/pulse/how-interact-opensearch-isma%C3%ABl-hassane-j7z9f/?trackingId=TbuchZqCSDa9X65sWhx8xw%3D%3D)
+- [Architecting with OpenSearch](https://www.linkedin.com/pulse/architecting-opensearch-isma%C3%ABl-hassane-gz1jf/?trackingId=xw1G1Yq9SMutkogC3FIJmg%3D%3D)
+- [Developer Coaching - Building Real-Time Streams with OCI Streaming with Apache Kafka](https://www.youtube.com/watch?v=AUiuGH05MPE)
 
 # Useful Links
 

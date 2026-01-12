@@ -1,6 +1,6 @@
 # Build and Deploy an OCI Data Flow application using OCI Data Science
 
-Reviewed: 04.06.2024
+Reviewed: 11.11.2025
 
 # When to use this asset?
 
