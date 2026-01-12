@@ -86,17 +86,55 @@ system-cluster-config/
 │       └── infra.yml       # ApplicationSet for infrastructure apps
 └── infra/                  # Cluster-level infrastructure resources
     ├── base/               # Base kustomize resources (quotas, namespaces, etc.)
-    └── overlays/           # Profile-specific overlays (e.g., hub/)
+    └── overlays/           # Profile-specific overlays
+        └── hub/            # Hub cluster infrastructure
+            ├── common/     # Resources common to all namespaces (RBAC, configmaps)
+            ├── namespaces/ # Namespace-specific resources
+            │   └── dev-team/  # Example namespace (dev-team)
+            └── kustomization.yaml  # Main overlay combining all resources
 ```
 
 ### Infrastructure Folder
 
-The `infra/` folder contains cluster-level resources deployed via Kustomize, similar to application structures. It includes base resources and profile-specific overlays.
+The `infra/` folder manages cluster-level infrastructure resources using a **3-tier hierarchical structure** deployed via Kustomize. This approach provides clear separation of concerns and promotes reusability across namespaces.
 
-- **Base Resources**: Common cluster resources like ResourceQuotas, Namespaces, PersistentVolumeClaims, ValidatingAdmissionPolicies, etc.
-- **Overlays**: Customizations per profile (e.g., `overlays/hub/` for hub-specific infra).
+#### 3-Tier Structure Explained
 
-This ensures foundational cluster configurations are managed consistently across profiles.
+**1. Base Layer (`infra/base/`)**
+- Contains **global cluster resources** that apply to the entire cluster
+- Examples: ResourceQuotas, PersistentVolumeClaims, ValidatingAdmissionPolicies, cluster-wide ConfigMaps
+- These resources are shared across all namespaces and profiles
+
+**2. Common Layer (`infra/overlays/hub/common/`)**
+- Contains **cross-namespace resources** shared by multiple namespaces
+- Examples: RBAC roles/cluster roles, shared ConfigMaps, NetworkPolicies that apply to multiple namespaces
+- These resources are applied to all namespaces within a profile (e.g., hub)
+
+**3. Namespace Layer (`infra/overlays/hub/namespaces/dev-team/`)**
+- Contains **namespace-specific resources**
+- Examples: Namespace definitions, namespace-scoped RBAC, namespace-specific quotas
+- Each namespace gets its own folder following the pattern `namespaces/<namespace-name>/`
+
+#### How It Works
+
+The main overlay (`infra/overlays/hub/kustomization.yaml`) combines all layers:
+1. **First**: Imports base resources (global scope)
+2. **Then**: Includes namespace-specific configurations, which automatically include common resources
+
+This hierarchical approach ensures:
+- **DRY Principle**: Common resources aren't duplicated
+- **Scalability**: Easy to add new namespaces following the same pattern
+- **Maintainability**: Clear organization makes it easy to find and modify resources
+- **Consistency**: Base and common resources are applied uniformly across the cluster
+
+#### Example Workflow
+
+When deploying infrastructure to a hub cluster:
+1. Base resources (quotas, PVCs) are applied cluster-wide
+2. Common resources (shared RBAC, configmaps) are applied to all namespaces
+3. Namespace-specific resources (namespace definition, local RBAC) are applied to each namespace
+
+This structure provides a solid foundation for managing complex multi-tenant Kubernetes clusters.
 
 ### Workflow
 
