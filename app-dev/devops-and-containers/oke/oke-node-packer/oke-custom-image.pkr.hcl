@@ -47,6 +47,13 @@ build {
 
   provisioner "shell" {
     inline = [
+      "sudo systemctl stop dnf-makecache.timer",
+      "sudo systemctl disable dnf-makecache.timer"
+    ]
+  }
+
+  provisioner "shell" {
+    inline = [
       "sudo grubby --update-kernel=ALL --args=\"systemd.unified_cgroup_hierarchy=1\"",
       "sudo reboot"
     ]
