@@ -1,0 +1,17 @@
+# This cloud init will configure Oracle Cloud Agent on the managed nodes created by OKE
+# There are some prerequisites in order to use this:
+# 1. A custom image containing the Oracle CLI preinstalled must be used. You can create it by using the Packer solution: https://github.com/oracle-devrel/technology-engineering/tree/main/app-dev/devops-and-containers/oke/oke-node-packer
+# 2. A dynamic group "oke-instances" representing all the instances in the compartment must be created:
+# instance.compartment.id = '<node-pool-compartment-ocid>'
+# 3. Create this policy:
+# Allow dynamic-group oke-instances to use instances in compartment <node-pool-compartment-ocid>
+
+runcmd:
+  - "instance_id=$(curl -H \"Authorization: Bearer Oracle\" -L http://169.254.169.254/opc/v2/instance/id)"
+  - "oci compute instance update --instance-id $instance_id --force --agent-config '{
+      \"is-agent-disabled\": false,
+      \"plugins-config\": [
+        {\"name\": \"Vulnerability Scanning\", \"desiredState\": \"ENABLED\" },
+        {\"name\": \"Block Volume Management\", \"desiredState\": \"ENABLED\" }
+      ]
+    }' --auth instance_principal"
