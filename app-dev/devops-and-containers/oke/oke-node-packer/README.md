@@ -3,8 +3,9 @@
 This project uses Packer to create custom images for Oracle Kubernetes Engine (OKE) nodes based on Oracle-provided base images. The customizations include:
 1. Updating all packages to their latest versions.
 2. Installing `oci-fss-utils` for in-transit encryption support.
-3. Stop the `dnf-makecache` timer to improve stability and resource utilization.
-4. Upgrading to cgroups v2.
+3. Installing `oci` cli to enable cloud-init to modify oracle cloud agent capabilities
+4. Stop the `dnf-makecache` timer to improve stability and resource utilization.
+5. Upgrading to cgroups v2.
 
 ## Prerequisites
 - Packer installed (version compatible with the oracle plugin ~>1).
