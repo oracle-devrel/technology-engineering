@@ -1,19 +1,6 @@
 # NOTE: OKE often requires some policies to work with depending on the use case. You can find a complete list at this link:
 # https://github.com/oracle-devrel/technology-engineering/blob/main/app-dev/devops-and-containers/oke/oke-policies/policies.md
 
-locals {
-  volume_kms_key_id = "" # kms OCID of the key used for in-transit and at-rest encryption of block volumes
-  ssh_public_key    = "" # Insert the ssh public key to access worker nodes
-
-  # Cloud init to taint nodes using Oracle Linux nodes. Make sure to disable the default cloud init
-  cloud_init_example = {
-    runcmd = [
-      "echo \"example cloud init\""
-    ]
-  }
-
-}
-
 module "oke" {
   source         = "oracle-terraform-modules/oke/oci"
   version        = "5.3.3"
@@ -76,7 +63,7 @@ module "oke" {
   # You can override these global configurations in the node pool definition, and it will have precedence over the global ones.
 
   worker_pool_mode = "node-pool" # Default mode should be node-pool for managed nodes, other modes are available for self-managed nodes, like instance and instance-pool, but be careful to have the required policy: https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengdynamicgrouppolicyforselfmanagednodes.htm
-  #ssh_public_key = local.ssh_public_key    # De-comment if you want a ssh key to access the worker nodes, be sure to set the local variable
+  #ssh_public_key = ""    # Insert the ssh public key to access worker nodes
   worker_image_type = "oke" # NOTE: the oke mode will fetch the latest OKE Oracle Linux image released by the OKE team. If you want more control, better to use "custom" and specify the image id. This is because an image id is always fixed, and controlled by you.
   #worker_image_id = ""                     # The image id to use for the worker nodes. For Oracle Linux images, check this link: https://docs.oracle.com/en-us/iaas/images/oke-worker-node-oracle-linux-8x/index.htm
   # For Ubuntu images, you need to create an Ubuntu custom image in your tenancy first, and then set the OCID of the custom image here
@@ -87,15 +74,17 @@ module "oke" {
   # Also note that Bare Metal instances do not support paravirtualized volumes, the oke module won't enable it on BM shapes, even if you set this to true
   worker_pv_transit_encryption = true
 
-  # Enable encryption of volumes with a key managed by you, in your OCI Vault
-  #worker_volume_kms_key_id = local.volume_kms_key_id
+  # Enable encryption of volumes with a key managed by you, in your OCI Vault. KMS OCID of the key used for in-transit and at-rest encryption of block volumes
+  #worker_volume_kms_key_id = ""
 
   /* ABOUT CLOUD INIT
   The OKE module will automatically generate an optimal cloud-init for both Oracle Linux and Ubuntu nodes. This auto-generated cloud-init is called "default cloud-init".
   There is the possibility to disable this and to define your own cloud-init. This is not suggested unless you know what you are doing.
   For Oracle Linux, the oci-growfs command is already inserted in the default cloud-init.
    */
-  #worker_cloud_init = [{ content_type = "text/cloud-config", content = yamlencode(local.cloud_init_example)}]         # Cloud init to add to all node pools. This will be added to the default_cloud_init
+
+  # Cloud init to add to all node pools. This will be added to the default_cloud_init
+  #worker_cloud_init = [{ content_type = "text/cloud-config", content = file("cloud-init/oca.yml")}]
 
   # GLOBAL TAGS TO BE APPLIED ON ALL NODES
   # NOTE: tags will be applied to both the node pool and the nodes
@@ -136,13 +125,13 @@ module "oke" {
       placement_ads                = ["1"]                  # As best practice, one node pool should be associated only to one specific AD
       ocpus                        = 1                      # No need to specify ocpus and memory if you are not using a Flex shape
       memory                       = 16
-      node_cycling_enabled         = false                  # Option to enable/disable node pool cycling through Terraform. Only works with Enhanced clusters!
+      node_cycling_enabled         = false # Option to enable/disable node pool cycling through Terraform. Only works with Enhanced clusters!
       node_cycling_max_surge       = "50%"
-      node_cycling_max_unavailable = "25%"
-      node_cycling_mode            = ["instance"]            # Valid values are instance and boot_volume. The boot_volume mode only works when (kubernetes_version, image_id, boot_volume_size, node_metadata, ssh_public_key, volume_kms_key_id) are modified.
+      node_cycling_max_unavailable = "0%"
+      node_cycling_mode            = ["instace"] # Valid values are instance and boot_volume. The boot_volume mode only works when (kubernetes_version, image_id, boot_volume_size, node_metadata, ssh_public_key, volume_kms_key_id) are modified.
       boot_volume_size             = 50
       # max_pods_per_node = 10                              # When using VCN_NATIVE CNI, configure maximum number of pods for each node in the node pool
-      create = false                                        # Set it to true so that the node pool is created
+      create = false # Set it to true so that the node pool is created
     }
 
     # VIRTUAL NODE POOL
@@ -174,7 +163,7 @@ module "oke" {
       image_id                     = "ocid1.image..." # Put your custom Ubuntu image here
       node_cycling_enabled         = false
       node_cycling_max_surge       = "50%"
-      node_cycling_max_unavailable = "25%"
+      node_cycling_max_unavailable = "0%"
       # NOTE! Make sure you create the original Ubuntu VM with a boot volume of size 50 (the default). Depending on the boot volume size of the original VM, the custom image will require that minimum storage
       boot_volume_size = 100
       create           = false
@@ -195,7 +184,7 @@ module "oke" {
       }
       node_cycling_enabled         = false
       node_cycling_max_surge       = "50%"
-      node_cycling_max_unavailable = "25%"
+      node_cycling_max_unavailable = "0%"
       boot_volume_size             = 100
       create                       = false
     }
@@ -252,7 +241,7 @@ module "oke" {
       memory                       = 16
       node_cycling_enabled         = false
       node_cycling_max_surge       = "50%"
-      node_cycling_max_unavailable = "25%"
+      node_cycling_max_unavailable = "0%"
       node_labels = {
         role = "system"
       }
@@ -277,7 +266,7 @@ module "oke" {
       memory                       = 16
       node_cycling_enabled         = false
       node_cycling_max_surge       = "50%"
-      node_cycling_max_unavailable = "25%"
+      node_cycling_max_unavailable = "0%"
       boot_volume_size             = 100
       ignore_initial_pool_size     = true # If set to true, node pool size drift won't be accounted in Terraform, useful also if this pool is autoscaled by an external component (cluster-autoscaler) or manually by a user
       freeform_tags = {
@@ -296,7 +285,7 @@ module "oke" {
       memory                       = 16
       node_cycling_enabled         = false
       node_cycling_max_surge       = "50%"
-      node_cycling_max_unavailable = "25%"
+      node_cycling_max_unavailable = "0%"
       boot_volume_size             = 100
       ignore_initial_pool_size     = true # If set to true, node pool size drift won't be accounted in Terraform, useful also if this pool is autoscaled by an external component (cluster-autoscaler) or manually by a user
       freeform_tags = {
