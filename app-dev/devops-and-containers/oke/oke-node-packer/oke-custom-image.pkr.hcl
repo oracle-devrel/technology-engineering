@@ -31,6 +31,7 @@ source "oracle-oci" "oke_builder" {
 build {
   sources = ["source.oracle-oci.oke_builder"]
 
+  # Update the base image
   provisioner "shell" {
     inline = [
       "sudo yum-config-manager --enable ol8_developer",
@@ -39,12 +40,21 @@ build {
     ]
   }
 
+  # Install oci-fss-utils, required for in-transit encryption while using OCI FSS
   provisioner "shell" {
     inline = [
       "sudo dnf install -y oci-fss-utils"
     ]
   }
 
+  # Install OCI CLI, as it is needed to update the Oracle Cloud Agent and for enabling Ultra High Performance block volume attachments
+  provisioner "shell" {
+    inline = [
+      "sudo dnf install -y python36-oci-cli"
+    ]
+  }
+
+  # Stop the dnf-makecache timer so that node resources are not periodically wasted
   provisioner "shell" {
     inline = [
       "sudo systemctl stop dnf-makecache.timer",
@@ -52,12 +62,13 @@ build {
     ]
   }
 
+  # Enable cgroups v2
   provisioner "shell" {
     inline = [
       "sudo grubby --update-kernel=ALL --args=\"systemd.unified_cgroup_hierarchy=1\"",
       "sudo reboot"
     ]
     expect_disconnect = true
-    pause_before = "10s"
+    pause_before      = "10s"
   }
 }
