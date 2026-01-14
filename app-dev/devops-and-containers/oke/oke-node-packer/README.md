@@ -71,3 +71,9 @@ Alternatively, run `find-oke-images.sh` to find the latest available images for 
 - Base images are constantly updated by Oracle, ensure you use the latest OCID.
 
 For more details on Packer and OCI integration, refer to the [Packer OCI Plugin documentation](https://developer.hashicorp.com/packer/integrations/hashicorp/oracle/latest/components/builder/oci).
+
+# OKE Custom Node Image Builder - Cloud Shell
+
+For users who prefer to use the cloud shell, there is a version of this script that runs on a cloud shell.
+
+[![Open in Code Editor](https://raw.githubusercontent.com/oracle-devrel/oci-code-editor-samples/main/images/open-in-code-editor.png)](https://cloud.oracle.com/?region=home&cs_repo_url=https://github.com/alcampag/oke-node-packer-cs.git&cs_branch=main&cs_readme_path=README.md&cs_open_ce=true)
