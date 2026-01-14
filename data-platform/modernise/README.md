@@ -14,6 +14,7 @@ Also make sure to check the dedicated pages of the main technology areas of Data
 * [Transportable Tablespace](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/transportable-tablespace)
 * [Migration to OCI Database with PostgreSQL](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/migration-to-oci-database-with-postgresql)
 
+
 Reviewed: 07.10.2025
 
 # Team Publications
@@ -58,6 +59,8 @@ Reviewed: 07.10.2025
     - Detailed, step-by-step instructions for performing physical offline migration to Exdata Database Service on Dedicated Infrastructure using Cloud native command line , available on Amalraj Puthenchira's public platform
 - [Migration Toolkit](https://macsdata.com/migration-toolkit)
     - Professional calculators and tools for planning, executing, and monitoring data migrations, available on Marcus Doeringer's public platform
+- [How to create a Non Container Database on Exadata Database Service on Dedicated Infrastructure ? ](https://amalrajputhenchira.wordpress.com/2026/01/12/how-to-create-a-non-container-database-on-exadata-database-service-on-dedicated-infrastructure/)
+    - Detailed, step-by-step instructions for creating a non-cdb database on exadb-d using Cloud native command line , available on Amalraj Puthenchira's public platform
 
 # Useful Links
 
