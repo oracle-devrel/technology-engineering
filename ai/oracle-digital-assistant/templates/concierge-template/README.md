@@ -2,7 +2,7 @@
  
 The Concierge Template is a skill for quickly setting up a Knowledge bot.
 
-Reviewed: 31.10.2024
+Reviewed: 31.10.2025
 
 Concierge Template WebSDK
 

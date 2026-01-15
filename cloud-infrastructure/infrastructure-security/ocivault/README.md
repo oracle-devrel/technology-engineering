@@ -2,7 +2,7 @@
  
 OCI KMS lets you centrally manage and control the use of keys and secrets across a wide range of OCI services and applications. OCI KMS is a secure, resilient managed service that lets you focus on your data encryption needs without worrying about time-consuming administrative tasks such as hardware provisioning, software patching, and high availability.
  
-Reviewed: 18.11.2024
+Reviewed: 20.10.2025
 
 # Table of Contents
  
@@ -34,6 +34,11 @@ Reviewed: 18.11.2024
  
 - [OCI Dedicated KMS](https://blogs.oracle.com/cloud-infrastructure/post/dedicated-kms-owning-keys-hsm-partitions-cloud)
     - OCI Dedicated KMS: Owning your keys and HSM partitions in the cloud
+
+- [OCI KMS Cross Region Replication for Virtual vault](  https://blogs.oracle.com/cloud-infrastructure/post/kms-crossregion-replication-virtual-vault-ga)
+    - OCI KMS Cross Region Replication for Virtual Vault overview
+ 
+
     
 # License
  

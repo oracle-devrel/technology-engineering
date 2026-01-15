@@ -2,7 +2,7 @@
 
 Oracle Identity Governance provides complete user lifecycle management and rich access entitlement controls across a wide range of services for both on-premises and cloud. Now supports microservices to discover common access patterns, optimize role-based access control, and automate the process of role publishing to Oracle Identity Governance. Oracle Identity Governance manages user provisioning and de-provisioning and provides actionable identity intelligence that enables rapid remediation of high-risk user entitlements.
 
-Review Date: 28.10.2024
+Review Date: 11.11.2025
 
 # Useful Links
 
@@ -10,14 +10,14 @@ Review Date: 28.10.2024
 
 - [Oracle Identity Governance Product Page](https://www.oracle.com/security/identity-management/governance/)
 - Oracle Identity Governance Documentation
-    - [OIG Public Documentation](https://docs.oracle.com/en/middleware/idm/suite/12.2.1.4/books.html)
+    - [OIG Public Documentation](https://docs.oracle.com/en/middleware/idm/identity-governance/14.1.2/index.html)
     - [OIG Connectors Documentation](https://docs.oracle.com/en/middleware/idm/identity-governance-connectors/12.2.1.3/index.html)
 
 ## Oracle University OIG course
 
 In this course, you learn essential concepts about implementing identity management solutions with Oracle Identity Governance.
 
-- https://education.oracle.com/oracle-identity-governance-12c-essentials/courP_9411
+- https://learn.oracle.com/ols/course/oracle-identity-governance-12c-essentials/67157/67772
 
 ## Application Onboarding with Oracle Identity Governance (OIG)
 
