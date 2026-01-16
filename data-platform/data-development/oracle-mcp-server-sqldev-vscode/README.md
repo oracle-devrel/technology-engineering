@@ -11,16 +11,16 @@ MCP has three primary constructs:
 
 - Prompts:  define reusable prompt templates than can be surfaced by clients to LLMs provide a powerful way to standardize and share common LLM interactions.
 
-Oracle SQLcl version 25.2 extends Oracle SQLcl to support MCP-based communication. It enables you to perform operations, create reports, and run queries on Oracle Database using natural language through AI-powered interactions. 
+Oracle SQLcl version 25.2 extends Oracle SQLcl to support MCP-based communication. It enables you to perform operations, create reports, and run queries on Oracle Database using natural language through AI-powered interactions.
 
 SQLcl MCP Mode:
-- Works with all supported Oracle Database releases (19c, 21c, 23ai) on-prem and in the Cloud (OCI, Azure, AWS, GCP).
+- Works with all supported Oracle Database releases (19c, 21c, 23ai) on-prem and in the Cloud (OCI, Azure, AWS, GCP)
 - Comes with an offer of Server Tools (SQLcl MCP Server Tools):
   - <i><b>list-connections</b></i>: discovers all saved Oracle DB connections
   - <i><b>connect</b></i>: establishes a connection to DB
   - <i><b>disconnect</b></i>: terminates the current DB connection
   - <i><b>run-sql</b></i>: runs standard SQL queries/DDLs/DMLs and PL/SQL code against DB
-  - <i><b>run-sqlcl</b></i>: runs specific SQLcl commands 
+  - <i><b>run-sqlcl</b></i>: runs specific SQLcl commands
   - <i><b>schema-information</b></i>: provides insight metadata details about currently connected schema enriching info returned by query executions (from 25.3.1 version)  
 
 The SQL Developer Extension for VS Code 25.2 offers Oracle SQLcl MCP Server Integration. The extension when install auto-registers our MCP Server for Copilot, making your SQL Developer database connections available for agentic chat requests, including running SQL and PL/SQL against your database.
@@ -40,7 +40,6 @@ Reviewed: 19.12.2025
 
 # Team Publications
 - [Introducing SQL Developer SQLcl integration in MS VSCode & MCP support for Oracle Database](https://www.youtube.com/watch?v=521GBhrmrmw&t=2s)
-
 
 # Useful Links
 - [Oracle SQLcl MCP Page](https://docs.oracle.com/en/database/oracle/sql-developer-command-line/25.4/sqcug/using-oracle-sqlcl-mcp-server.html)
