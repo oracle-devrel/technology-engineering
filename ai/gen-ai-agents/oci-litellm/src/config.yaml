@@ -1,0 +1,40 @@
+model_list:
+  - model_name: oci_cohere_command_latest
+    litellm_params:
+      model: oci/cohere.command-latest
+      oci_serving_mode: "ON_DEMAND"
+      oci_compartment_id: "##TF_VAR_compartment_ocid##"
+      oci_region: "##TF_VAR_region##"
+      oci_user: "##TF_VAR_current_user_ocid##"
+      oci_tenancy: "##TF_VAR_tenancy_ocid##"
+      oci_fingerprint: "__YOUR_OCI_FINGER_PRINT__"
+      oci_key_file: "/home/opc/app/oci_api_key.pem"
+      drop_params: True
+      # oci_serving_mode: "DEDICATED"
+      # oci_endpoint_id: "ocid1.generativeaiendpoint.oc1.us-chicago-1..."
+  - model_name: oci_xai_grok_code
+    litellm_params:
+      model: oci/xai.grok-code-fast-1  
+      oci_serving_mode: "ON_DEMAND"
+      oci_compartment_id: "##TF_VAR_compartment_ocid##"
+      oci_region: "us-chicago-1"
+      oci_user: "##TF_VAR_current_user_ocid##"
+      oci_tenancy: "##TF_VAR_tenancy_ocid##"
+      oci_fingerprint: "__YOUR_OCI_FINGER_PRINT__"
+      oci_key_file: "/home/opc/app/oci_api_key.pem"
+      drop_params: True
+      # oci_serving_mode: "DEDICATED"
+      # oci_endpoint_id: "ocid1.generativeaiendpoint.oc1.us-chicago-1..."
+  - model_name: oci_meta_llama
+    litellm_params:
+      model: oci/meta.llama-3.3-70b-instruct
+      oci_serving_mode: "ON_DEMAND"
+      oci_compartment_id: "##TF_VAR_compartment_ocid##"
+      oci_region: "##TF_VAR_region##"
+      oci_user: "##TF_VAR_current_user_ocid##"
+      oci_tenancy: "##TF_VAR_tenancy_ocid##"
+      oci_fingerprint: "__YOUR_OCI_FINGER_PRINT__"
+      oci_key_file: "/home/opc/app/oci_api_key.pem"
+      drop_params: True
+      # oci_serving_mode: "DEDICATED"
+      # oci_endpoint_id: "ocid1.generativeaiendpoint.oc1.us-chicago-1..."      
