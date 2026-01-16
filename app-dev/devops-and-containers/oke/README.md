@@ -54,9 +54,11 @@ Reviewed: 20.12.2023
 - [OKE policies](./oke-policies/policies.md)
  
 # Reusable Assets Overview
- 
+
+- [OKE Resource Manager QuickStart](https://github.com/oracle-devrel/technology-engineering/tree/main/app-dev/oke/oke-rm)
+- [OKE GitOps Solution](https://github.com/oracle-devrel/technology-engineering/tree/main/app-dev/oke/oke-gitops)
+- [OKE Node Packer Solution](https://github.com/oracle-devrel/technology-engineering/tree/main/app-dev/oke/oke-node-packer)
 - [Cluster Api OCI](https://github.com/oracle-devrel/technology-engineering/tree/main/app-dev/oke/capoci)
-- [Cloud Native QuickStart](https://github.com/alcampag/oci-cn-quickstart)
  
 # License
  

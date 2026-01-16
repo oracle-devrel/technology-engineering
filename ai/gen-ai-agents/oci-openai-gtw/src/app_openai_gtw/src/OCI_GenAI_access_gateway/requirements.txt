@@ -1,0 +1,11 @@
+fastapi>=0.111.0
+pydantic>=2.7.1
+uvicorn>=0.29.0
+# tiktoken>=0.6.0
+requests>=2.32.3
+numpy>=1.26.4
+oci==2.158.2
+openai==1.104.2
+sseclient-py
+pyyaml
+gunicorn>=23.0.0
