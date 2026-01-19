@@ -6,7 +6,7 @@ A FastAPI-based service that integrates with Oracle Cloud Infrastructure's Gener
 
 **Last review date**: 19/09/2025
 
-![](images/ADK.png)
+![](files/images/ADK.png)
 
 ## Features
 
@@ -39,4 +39,5 @@ uvicorn main:app --reload --port 8000
 
 To test the API via a simple UI, use the frontend from this repository:
 🔗 https://github.com/ralungei/oci-genai-agent-blackbelt
+
 
