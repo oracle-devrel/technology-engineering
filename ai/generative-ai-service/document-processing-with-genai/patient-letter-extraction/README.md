@@ -7,7 +7,7 @@ Reviewed date: 22.09.2025
 ## Demo
 ![Demo of Patient Letter Extraction](patient_letter_demo.gif)
 
-## 🎯 When to Use This Asset (Who & When)
+# 🎯 When to Use This Asset (Who & When)
 
 ### Who
 - **Hospital intake & referral teams** triaging incoming patient letters  
@@ -45,6 +45,7 @@ Before running the application, ensure you have:
 - Required Python dependencies installed
 - OCI Generative AI model name and compartment ID
 
+# How to use this asset
 ## How It Works
 1. **Upload Files:** Users upload patient referral letters in .pdf or .docx format.
 2. **Processing:**
@@ -100,12 +101,18 @@ streamlit run <script-name>.py
 
 Replace `<script-name>.py` with the filename of the main script (e.g., `patient_triage_extraction.py`).
 
-## License
-Copyright (c) 2025 Oracle and/or its affiliates.
+---
 
+## Docs & References
+
+📘 [OCI Generative AI Overview](https://docs.oracle.com/en-us/iaas/Content/generative-ai/home.htm)
+
+---
+
+## License
+
+Copyright (c) 2026 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](LICENSE.txt) for more details.
-
-ORACLE AND ITS AFFILIATES DO NOT PROVIDE ANY WARRANTY WHATSOEVER, EXPRESS OR IMPLIED, FOR ANY SOFTWARE, MATERIAL OR CONTENT OF ANY KIND CONTAINED OR PRODUCED WITHIN THIS REPOSITORY, AND IN PARTICULAR SPECIFICALLY DISCLAIM ANY AND ALL IMPLIED WARRANTIES OF TITLE, NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A PARTICULAR PURPOSE.  FURTHERMORE, ORACLE AND ITS AFFILIATES DO NOT REPRESENT THAT ANY CUSTOMARY SECURITY REVIEW HAS BEEN PERFORMED WITH RESPECT TO ANY SOFTWARE, MATERIAL OR CONTENT CONTAINED OR PRODUCED WITHIN THIS REPOSITORY. IN ADDITION, AND WITHOUT LIMITING THE FOREGOING, THIRD PARTIES MAY HAVE POSTED SOFTWARE, MATERIAL OR CONTENT TO THIS REPOSITORY WITHOUT ANY REVIEW. USE AT YOUR OWN RISK. 
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
 
