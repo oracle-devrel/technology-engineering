@@ -6,7 +6,7 @@ Contrary to the belief that database-intensive workloads like JD Edwards often d
 
 This solution guide provides a starting point for the Partners/Managed Service Providers/Consultants to understand the key technical requirements and existing business challenges that need to be addressed as part of the migration.
 
-Review Date: 25.10.2024
+Review Date: 26.11.2025
   
 # Table of Contents
 

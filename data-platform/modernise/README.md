@@ -14,6 +14,7 @@ Also make sure to check the dedicated pages of the main technology areas of Data
 * [Transportable Tablespace](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/transportable-tablespace)
 * [Migration to OCI Database with PostgreSQL](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/migration-to-oci-database-with-postgresql)
 
+
 Reviewed: 07.10.2025
 
 # Team Publications
@@ -54,6 +55,13 @@ Reviewed: 07.10.2025
     - Detailed, step-by-step instructions for Migrate and Upgrade Oracle Base Database 19c to ExaDB-XS using AutoUpgrade , available on Amalraj Puthenchira's public platform
 - [Exadata Cloud Infrastructure Migration Automation Utility for ExaDB-D and ExaDB-C@C ](https://youtu.be/0GA-c24nFd4?si=Rl7E0Fd0jfSglxb8)
     - Detailed Oracle Developer On Demand video with step-by-step instructions for migrating Infrastucture , VM Cluster and Databases on ExaDB-D and ExaDB-C@C using new Automation Utility , delivered by Amalraj Puthenchira in collaboration with Black Belts from Mission Critical Team and Exadata Cloud@Customer Team.
+- [Migrating to Exadata Database Service on Dedicated Infrastructure using Cloud native command line ](https://amalrajputhenchira.wordpress.com/2025/12/02/migrating-to-exadata-database-on-dedicated-infrastructure-using-cloud-native-command-line/)
+    - Detailed, step-by-step instructions for performing physical offline migration to Exdata Database Service on Dedicated Infrastructure using Cloud native command line , available on Amalraj Puthenchira's public platform
+- [Migration Toolkit](https://macsdata.com/migration-toolkit)
+    - Professional calculators and tools for planning, executing, and monitoring data migrations, available on Marcus Doeringer's public platform
+- [How to create a Non Container Database on Exadata Database Service on Dedicated Infrastructure ? ](https://amalrajputhenchira.wordpress.com/2026/01/12/how-to-create-a-non-container-database-on-exadata-database-service-on-dedicated-infrastructure/)
+    - Detailed, step-by-step instructions for creating a non-cdb database on exadb-d using Cloud native command line , available on Amalraj Puthenchira's public platform
+
 # Useful Links
 
 - [OCI Migration Hub - Migrate Oracle Databases to OCI](https://www.oracle.com/database/cloud-migration/)

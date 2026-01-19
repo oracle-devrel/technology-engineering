@@ -2,7 +2,7 @@
 
 This repository contains an in-depth guide for Oracle Hospitality Opera migration project. It offers a high-level solution definition for migrating or establishing Oracle Hospitality Opera workloads on Oracle Cloud Infrastructure (OCI). With a comprehensive representation of the current state, prospective state, potential project scope, and anticipated timeline, this document aims to provide a precise understanding of the project's scope and intention to all participating entities.
 
-Reviewed: 18.10.2024
+Reviewed: 25.11.2025
 
 # When to use this asset?
 
