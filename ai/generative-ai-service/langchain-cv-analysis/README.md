@@ -7,17 +7,6 @@ Reviewed: 22.09.2025
 
 ---
 
-## 🔍 How to use this asset
-
-- Upload multiple resumes in PDF format
-- Select or input a job description
-- Evaluate resumes using Oracle Gen AI
-- Receive classification like `Excellent`, `Strong`, `Possible`, etc.
-- Get profile summaries, missing keywords, and improvement suggestions
-- Interactive Streamlit interface
-
----
-
 ## 🎯 When to Use This Asset (Who & When)
 
 ### Who
@@ -33,7 +22,7 @@ Reviewed: 22.09.2025
 
 ---
 
-## 📁 Project Structure
+### 📁 Project Structure
 
 ```
 .
@@ -43,8 +32,16 @@ Reviewed: 22.09.2025
 ```
 
 ---
+## How to use this asset
 
-## ⚙️ Setup Instructions
+### Flow
+- Upload multiple resumes in PDF format
+- Select or input a job description
+- Evaluate resumes using Oracle Gen AI
+- Receive classification like `Excellent`, `Strong`, `Possible`, etc.
+- Get profile summaries, missing keywords, and improvement suggestions
+- Interactive Streamlit interface
+### ⚙️ Setup Instructions
 
 1. **Clone the repository**  
    ```bash
@@ -75,7 +72,7 @@ Reviewed: 22.09.2025
 
 ---
 
-## 📦 Dependencies
+### 📦 Dependencies
 
 - `streamlit`
 - `PyPDF2`
@@ -86,7 +83,7 @@ Make sure you have valid OCI credentials and access to the Generative AI service
 
 ---
 
-## 🧠 Technologies
+### 🧠 Technologies
 
 - **Oracle Generative AI**: For advanced natural language processing and resume evaluation
 - **LangChain**: For structured LLM integration
@@ -94,18 +91,25 @@ Make sure you have valid OCI credentials and access to the Generative AI service
 
 ---
 
-## ✅ Example Use Case
+### ✅ Example Use Case
 
 1. Choose a job role or paste your custom Job Description.
 2. Upload one or more resume PDFs.
 3. Click **Submit**.
 4. View evaluation results, summaries, and suggested improvements.
 
-## License
-Copyright (c) 2025 Oracle and/or its affiliates.
+---
 
+## Docs & References
+
+📘 [OCI Generative AI Overview](https://docs.oracle.com/en-us/iaas/Content/generative-ai/home.htm)
+
+---
+
+## License
+
+Copyright (c) 2026 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](LICENSE.txt) for more details.
-
-ORACLE AND ITS AFFILIATES DO NOT PROVIDE ANY WARRANTY WHATSOEVER, EXPRESS OR IMPLIED, FOR ANY SOFTWARE, MATERIAL OR CONTENT OF ANY KIND CONTAINED OR PRODUCED WITHIN THIS REPOSITORY, AND IN PARTICULAR SPECIFICALLY DISCLAIM ANY AND ALL IMPLIED WARRANTIES OF TITLE, NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A PARTICULAR PURPOSE.  FURTHERMORE, ORACLE AND ITS AFFILIATES DO NOT REPRESENT THAT ANY CUSTOMARY SECURITY REVIEW HAS BEEN PERFORMED WITH RESPECT TO ANY SOFTWARE, MATERIAL OR CONTENT CONTAINED OR PRODUCED WITHIN THIS REPOSITORY. IN ADDITION, AND WITHOUT LIMITING THE FOREGOING, THIRD PARTIES MAY HAVE POSTED SOFTWARE, MATERIAL OR CONTENT TO THIS REPOSITORY WITHOUT ANY REVIEW. USE AT YOUR OWN RISK. 
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
+OR CONTENT TO THIS REPOSITORY WITHOUT ANY REVIEW. USE AT YOUR OWN RISK. 

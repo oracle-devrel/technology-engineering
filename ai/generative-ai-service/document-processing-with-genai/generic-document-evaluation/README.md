@@ -167,6 +167,7 @@ npm run dev
 - LocalStorage for project persistence
 
 ---
+# License
 
 Copyright (c) 2025 Oracle and/or its affiliates.
  

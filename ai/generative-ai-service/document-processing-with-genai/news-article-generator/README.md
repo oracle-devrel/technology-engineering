@@ -4,11 +4,10 @@ A Streamlit-based application for generating newsroom-quality articles from a he
 This tool lets you upload one or more `.txt` sample articles you wrote before, extracts a compact “style guide”, and then generates a fresh article in the same voice — outputting **TXT**, **Markdown**, and **JSON** formats.
 
 Author: **Ali Ottoman**
-
 Reviewed date: 14.01.2026
 
 ---
-
+# When to use this asset
 ## 🔧 Features
 
 ### Headline + Key Facts → Full Article
@@ -58,7 +57,7 @@ Reviewed date: 14.01.2026
 ```
 
 ---
-
+# How to use this asset
 ## ⚙️ Setup & Installation
 
 ### 1. Clone the Repository
@@ -166,8 +165,9 @@ from langchain_community.chat_models.oci_generative_ai import ChatOCIGenAI
 
 ---
 
-## 📄 License
+## License
 
 Copyright (c) 2026 Oracle and/or its affiliates.
+Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-MIT License — see [LICENSE](LICENSE) for details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

@@ -3,13 +3,14 @@
 A Streamlit-based app comparing and expanding on traditional Document Understanding (OCI DU) + LLM approach vs. a multimodal LLM for extracting structured data from documents (PDFs, images).
 This is is aimed at highlighting the strengths of each of our services and the power GenAI brings in combining these approaches for the best handling of complex documents.
 
-<img src="./image.png">
+<img src="./files/image.png">
 </img>
 
+Author: Ali Ottoman
 Reviewed date: 22.09.2025
 
 ---
-
+# When to use this asset?
 ## 🔧 Features
 
 - **DU + LLM pipeline**:  
@@ -48,6 +49,7 @@ Reviewed date: 22.09.2025
 
 ---
 
+# How to use this asset?
 ## ⚙️ Setup & Installation
 
 ### 1. Clone the repo  
@@ -71,7 +73,7 @@ pip install -r requirements.txt
 ```
 ---
 
-# 🚀 Run the App
+## 🚀 Run the App
 
 ```bash
 streamlit run doc_llm.py
@@ -84,13 +86,13 @@ streamlit run doc_llm.py
 4. View their outputs side-by-side and inspect the JSON comparison.
 ---
 
-# 🛠️ How to use this asset
+### 🛠️ Notes
 
 - Adjust max_tokens, temperature, or model_id parameters in ChatOCIGenAI calls (du_extractor() and llm_extractor()).
 - Extend the compare_outputs() logic to handle more fields or nested JSON structures.
 - Though optimized for invoice-like documents, you can extract any structured data by simply changing the sidebar field inputs.
 
-# 📝 Example
+### 📝 Example
 
 - **Sidebar inputs:**
 ```bash
@@ -110,7 +112,7 @@ Field 3 → Total Amount
 }
 ```
 ---
-## 🔧 OCI Services Used & Documentation
+## 🔧 Useful Links
 
 This project leverages two core Oracle Cloud Infrastructure AI services:
 
@@ -130,11 +132,12 @@ This project leverages two core Oracle Cloud Infrastructure AI services:
     ```
 - Documentation:
     - Service overview: https://docs.oracle.com/en-us/iaas/Content/generative-ai/home.htm
+
 ---
 
-# 📄 License
+# License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
+Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-MIT License — see LICENSE for details.
-
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

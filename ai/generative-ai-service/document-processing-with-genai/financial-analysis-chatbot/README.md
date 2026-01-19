@@ -4,11 +4,11 @@ A Streamlit-based application for extracting insights from financial documents b
 This tool enables semantic search, summarization, and financial Q&A by leveraging OCI GenAI services — providing rich context-aware answers grounded in both OCR-extracted text and chart images.
 
 Author: **Ali Ottoman**
-
 Reviewed date: 23.09.2025
 
 ---
 
+# When to use this asset?
 ## 🔧 Features
 
 ### Multimodal Financial Document Processing
@@ -58,7 +58,7 @@ Reviewed date: 23.09.2025
 ```
 
 ---
-
+# How to use this asset
 ## ⚙️ Setup & Installation
 
 ### 1. Clone the Repository
@@ -95,7 +95,7 @@ streamlit run doc_analysis_with_graphs.py
 
 ---
 
-## 📝 How to Use this asset
+## 📝 Flow
 
 ### 1. Upload your documents  
 → PDFs or images containing **financial reports, charts, balance sheets**
@@ -157,8 +157,9 @@ from langchain_community.chat_models.oci_generative_ai import ChatOCIGenAI
 
 ---
 
-## 📄 License
+# License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
+Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-MIT License — see [LICENSE](LICENSE) for details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

@@ -9,6 +9,7 @@ This tool allows insurance professionals and adjusters to upload accident images
 
 ---
 
+# When to use this asset?
 ## 🔧 Features
 
 ### Unified Image & Video Analysis
@@ -63,6 +64,7 @@ This tool allows insurance professionals and adjusters to upload accident images
 
 ---
 
+# How to use this asset?
 ## ⚙️ Setup & Installation
 
 ### 1. Clone the Repository
@@ -96,7 +98,7 @@ streamlit run motor-insurance-chatbot.py
 
 ---
 
-## 📝 How to Use
+## 📝 Get it running
 
 1. **Upload your files**  
    → Images (`.jpg`, `.png`) or one video (`.mp4`, `.avi`, `.mov`)  
@@ -151,13 +153,15 @@ streamlit run motor-insurance-chatbot.py
 
 ---
 
-## 🔗 Docs & References
+# Docs & References
 
 📘 [OCI Generative AI Overview](https://docs.oracle.com/en-us/iaas/Content/generative-ai/home.htm)
 
 ---
 
-## 📄 License
+# License
 
-Copyright (c) 2025 Oracle and/or its affiliates.  
-**MIT License** — see `LICENSE` for details.
+Copyright (c) 2026 Oracle and/or its affiliates.
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
