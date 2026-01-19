@@ -6,7 +6,7 @@ It contains two examples with increasing levels of sophistication:
 1. Model Catalog Fundamentals – introduces core Model Catalog concepts and operations.
 2. Automated Model Registration – demonstrates how to automate model registration using Data Science Jobs and model version sets.
 
-* Created: 2026-01-19
+Reviewed: 2026.01.19
 
 # Project Scope
 
