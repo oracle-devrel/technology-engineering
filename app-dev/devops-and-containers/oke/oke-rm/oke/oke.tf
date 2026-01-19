@@ -128,7 +128,7 @@ module "oke" {
       node_cycling_enabled         = false # Option to enable/disable node pool cycling through Terraform. Only works with Enhanced clusters!
       node_cycling_max_surge       = "50%"
       node_cycling_max_unavailable = "0%"
-      node_cycling_mode            = ["instace"] # Valid values are instance and boot_volume. The boot_volume mode only works when (kubernetes_version, image_id, boot_volume_size, node_metadata, ssh_public_key, volume_kms_key_id) are modified.
+      node_cycling_mode            = ["instance"] # Valid values are instance and boot_volume. The boot_volume mode only works when (kubernetes_version, image_id, boot_volume_size, node_metadata, ssh_public_key, volume_kms_key_id) are modified.
       boot_volume_size             = 50
       # max_pods_per_node = 10                              # When using VCN_NATIVE CNI, configure maximum number of pods for each node in the node pool
       create = false # Set it to true so that the node pool is created
