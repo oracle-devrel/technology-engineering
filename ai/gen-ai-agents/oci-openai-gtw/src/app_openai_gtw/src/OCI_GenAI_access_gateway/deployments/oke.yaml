@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oci-openaigateway-deployment
+  namespace: ns-oci-openaigateway
+spec:
+  selector:
+    matchLabels:
+      app: oci-openaigateway-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: oci-openaigateway-app
+    spec:
+      containers:
+        - name: oci-openaigateway
+          # enter the path to your image, be sure to include the correct region prefix
+          image: <OCI_Region>.ocir.io/<Registry namespace>/<repo>:<version> #Example - ord.ocir.io/ax6ymbvwiimc/oci-openai-gateway:0.0.6
+          imagePullPolicy: Always
+          securityContext:
+            allowPrivilegeEscalation: false
+          resizePolicy:
+          - resourceName: cpu
+            restartPolicy: NotRequired # Default, but explicit here
+          - resourceName: memory
+            restartPolicy: RestartContainer
+          resources:
+            limits:
+              memory: "1024Mi"
+              cpu: "100m"
+            requests:
+              memory: "200Mi"
+              cpu: "70m"
+          env:
+            - name: DEFAULT_API_KEYS
+              valueFrom:
+                secretKeyRef:
+                  name: app-api-key
+                  key: DEFAULT_API_KEYS
+          ports:
+            - containerPort: 8088
+              protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: oci-openaigateway-service
+  namespace: ns-oci-openaigateway
+  annotations: 
+    service.beta.kubernetes.io/oci-load-balancer-shape: "10Mbps"
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8088
+      protocol: TCP
+      targetPort: 8088
+  selector:
+    app: oci-openaigateway-app
