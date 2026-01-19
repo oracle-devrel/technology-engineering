@@ -14,6 +14,31 @@ Everything runs in a loop until you stop it with `Ctrl+C`.
 
 ---
 
+# When to use this asset?
+
+Use this asset when you want a local, loop-based **voice assistant** that integrates:
+
+- **OCI Realtime Speech** for speech-to-text (STT),
+- **OCI Generative AI Agent Runtime** for conversational responses and tools,
+- **OCI AI Speech** for text-to-speech (TTS),
+
+and you want a simple reference implementation for demos, prototyping, or internal experimentation.
+
+---
+
+# How to use this asset?
+
+A small voice assistant that:
+
+1. Listens to your microphone with VAD (voice activity detection),
+2. Streams audio to **OCI Realtime Speech** for STT,
+3. Sends the recognized text to an **OCI Generative AI Agent Endpoint**,
+4. Uses **OCI Text-to-Speech** to speak the answer back.
+
+Everything runs in a loop until you stop it with `Ctrl+C`.
+
+---
+
 ## Features
 
 - 🎙️ Voice Activity Detection (VAD)  
@@ -44,9 +69,17 @@ Everything runs in a loop until you stop it with `Ctrl+C`.
 ## Requirements
 
 - Python 3.11+ (recommended)
-- Valid OCI tenancy and user with:  
+- Valid OCI tenancy and user with:
   - Permission to use **AI Speech** (STT + TTS),
   - Permission to use **Generative AI Agent Runtime**.
 - Configured `~/.oci/config` with a profile matching your env (`OCI_PROFILE`).
-
 - A working microphone on your machine (Windows, since it uses `winsound`).
+
+---
+
+# License
+
+Copyright (c) 2026 Oracle and/or its affiliates.  
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
