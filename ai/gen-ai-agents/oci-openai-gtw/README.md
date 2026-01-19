@@ -1,25 +1,26 @@
-## OCI-Starter
-### Usage
+# Install OCI LiteLLM on OCI Compute
 
-### Commands
-- starter.sh         : Show the menu
-- starter.sh help    : Show the list of commands
-- starter.sh build   : Build the whole program: Run Terraform, Configure the DB, Build the App, Build the UI
-- starter.sh destroy : Destroy the objects created by Terraform
-- starter.sh env     : Set the env variables in BASH Shell
+Author: M. Gueury
 
-### Directories
-- src           : Sources files
-    - app       : Source of the Backend Application
-    - ui        : Source of the User Interface
-    - db        : SQL files of the database
-    - terraform : Terraform scripts
-    - compute   : Contains the deployment files to Compute
+Reviewed: 19.01.2026
 
-Help (Tutorial + How to customize): https://www.ocistarter.com/help
+**1.  Introduction**
 
-### Next Steps:
+- **Objective**: Step-by-step instructions for installing OCI_GenAI_access_gateway on OCI
+- **Overview**: Install OCI_GenAI_access_gateway on OCI Compute
+- **Software Installed**: https://github.com/jin38324/OCI_GenAI_access_gateway
+- **Goal**: OCI_GenAI_access_gateway is a OpenAI Gateway that allow to reroute LLM calls. It is very useful if:
+  - You want to call a fixed endpoint and change the LLM used without changing the program
+  - You want to work in a production environment and load-balance request based on server up time or other criterias.
+  - It supports out of the box all OCI models as well as Dedicated AI Clusters.
 
-- Run:
-  cd starter
-  ./starter.sh
+![genai_access_gateway.png](genai_access_gateway.png)
+
+**2. Prerequisites**
+
+- None
+
+**3. Setting Up the OCI Environment**
+
+- Follow the [files/README.md](files/README.md) to do the installation
+

@@ -12,7 +12,7 @@ https://livelabs.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=4212
 
 ## Import
 
-Please import the sample below in your ODA 
+Please import the samples in the *files* directory in your ODA 
 - Llm1
      - contains a agent calling tools
 - LlmHistory1
