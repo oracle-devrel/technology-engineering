@@ -5,7 +5,20 @@ This is an AI-powered application designed to unlock insights hidden within medi
 
 <img src="./image.png">
 </img>
-Reviewed date: 09.10.2025
+Reviewed date: 19.01.2026
+
+## 🎯 When to Use This Asset (Who & When)
+
+### Who
+- **Content creators & media teams** needing fast visual summaries  
+- **Researchers & analysts** extracting insights from images or videos  
+- **Marketing & communications teams** reviewing visual content at scale    
+
+### When
+- When insights must be extracted from **images or long videos**  
+- When **multi-language summaries** are required from the same media  
+- When selective analysis of **specific video frames or intervals** is needed  
+- When quick, parallel processing is required for large or media-heavy files  
 
 ## Features
 
@@ -53,7 +66,7 @@ Reviewed date: 09.10.2025
 
 ---
 
-## Usage
+## How to use this asset
 
 1. **Run the application:**
    ```bash
