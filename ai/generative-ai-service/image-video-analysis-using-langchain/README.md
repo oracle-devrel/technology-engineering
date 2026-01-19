@@ -14,7 +14,7 @@ Reviewed date: 19.01.2026
 - Highlight frames flagged as inappropriate with detailed reasons and timecodes.
 - Adjust AI confidence threshold and frame extraction interval. (Effects the prompt for confidence)
 
-## 🎯 When to Use This Asset (Who & When)
+## When to Use This Asset (Who & When)
 
 ### Who
 - **Media & content moderation teams** reviewing user-generated content  
@@ -91,7 +91,7 @@ Replace `<script-name>.py` with the filename of your main script (e.g., `video_a
 
 ## Docs & References
 
-📘 [OCI Generative AI Overview](https://docs.oracle.com/en-us/iaas/Content/generative-ai/home.htm)
+- [OCI Generative AI Overview](https://docs.oracle.com/en-us/iaas/Content/generative-ai/home.htm)
 
 ---
 
