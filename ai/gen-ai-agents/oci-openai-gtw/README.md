@@ -1,4 +1,4 @@
-# Install OCI LiteLLM on OCI Compute
+# Install OCI GenAI Access Gateway on OCI Compute
 
 Author: M. Gueury
 
