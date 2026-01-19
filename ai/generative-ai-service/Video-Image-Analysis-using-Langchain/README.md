@@ -14,7 +14,20 @@ Reviewed date: 22.09.2025
 - Highlight frames flagged as inappropriate with detailed reasons and timecodes.
 - Adjust AI confidence threshold and frame extraction interval. (Effects the prompt for confidence)
 
-## Getting Started
+## 🎯 When to Use This Asset (Who & When)
+
+### Who
+- **Media & content moderation teams** reviewing user-generated content  
+- **Streaming platforms & broadcasters** enforcing age-rating policies  
+- **Compliance & trust & safety teams** monitoring visual content  
+
+### When
+- When images or videos must be checked for **PG-rating compliance**  
+- When large volumes of **visual media** require automated screening  
+- When flagged content must include **explanations and timecodes**  
+- When configurable **confidence thresholds** are required for review workflows  
+
+## How to use this asset
 1. **Upload Media:**
    - Users upload a video or image file for analysis.
 2. **Frame Extraction:**

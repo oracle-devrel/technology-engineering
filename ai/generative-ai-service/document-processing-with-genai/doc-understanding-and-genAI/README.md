@@ -84,7 +84,7 @@ streamlit run doc_llm.py
 4. View their outputs side-by-side and inspect the JSON comparison.
 ---
 
-# 🛠️ Customization & Usage Tips
+# 🛠️ How to use this asset
 
 - Adjust max_tokens, temperature, or model_id parameters in ChatOCIGenAI calls (du_extractor() and llm_extractor()).
 - Extend the compare_outputs() logic to handle more fields or nested JSON structures.
