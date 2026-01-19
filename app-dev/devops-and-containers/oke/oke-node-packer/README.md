@@ -46,7 +46,7 @@ Update the file with your values:
    ```
 3. Packer will provision a temporary instance, apply customizations, and create the custom image in your compartment.
 
-## Find OKE base images
+## Find OKE Worker Node base images
 
 The latest Oracle Linux 8 OKE images can be found on the official release page: [Oracle Linux 8 OKE Worker Node Images](https://docs.oracle.com/en-us/iaas/images/oke-worker-node-oracle-linux-8x/index.htm).
 
