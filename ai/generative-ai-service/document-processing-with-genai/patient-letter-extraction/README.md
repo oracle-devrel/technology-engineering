@@ -7,6 +7,20 @@ Reviewed date: 22.09.2025
 ## Demo
 ![Demo of Patient Letter Extraction](patient_letter_demo.gif)
 
+## 🎯 When to Use This Asset (Who & When)
+
+### Who
+- **Hospital intake & referral teams** triaging incoming patient letters  
+- **Clinical operations staff** standardising referral data entry  
+- **Digital health & innovation teams** modernising referral workflows  
+
+### When
+- When referrals arrive as **unstructured DOCX/PDF letters**  
+- When fast extraction of **key clinical routing fields** is required  
+- When referrals must be **classified to the correct clinic/service**  
+- When reducing **manual review time** and improving patient throughput  
+
+
 ## OCI Services used
 - **OCI Generative AI**  
   A fully managed service offering enterprise-grade large language models for natural language processing tasks.  

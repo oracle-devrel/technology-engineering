@@ -9,6 +9,20 @@ Reviewed date: 22.09.2025
 
 ---
 
+## 🎯 When to Use This Asset (Who & When)
+
+### Who
+- **Finance & accounting teams** processing inbound invoices  
+- **Insurance & operations teams** extracting policy-linked invoice data  
+- **AP automation & digital transformation teams** reducing manual entry  
+
+### When
+- When invoices arrive as **unstructured PDF scans**  
+- When required fields **vary by invoice type or vendor**  
+- When high accuracy is needed from **visual + textual context**  
+- When structured **JSON/CSV outputs** are needed for downstream systems  
+
+
 ## 🚀 Features
 
 - 🔍 Automatically identifies key invoice headers using OCI Vision LLM (LLaMA 3.2 90B Vision or Llama 4 Maverick)

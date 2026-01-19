@@ -7,7 +7,7 @@ Reviewed: 22.09.2025
 
 ---
 
-## 🔍 Features
+## 🔍 How to use this asset
 
 - Upload multiple resumes in PDF format
 - Select or input a job description
@@ -15,6 +15,21 @@ Reviewed: 22.09.2025
 - Receive classification like `Excellent`, `Strong`, `Possible`, etc.
 - Get profile summaries, missing keywords, and improvement suggestions
 - Interactive Streamlit interface
+
+---
+
+## 🎯 When to Use This Asset (Who & When)
+
+### Who
+- **HR & talent acquisition teams** screening large volumes of CVs  
+- **Hiring managers** comparing candidates against role requirements  
+- **Recruitment operations teams** standardising resume evaluations   
+
+### When
+- When evaluating **multiple PDF resumes** against a single role  
+- When consistent, explainable **candidate classification** is needed  
+- When identifying **skill gaps and missing keywords** is important  
+- When reducing **manual CV screening time** is a priority  
 
 ---
 
@@ -71,7 +86,7 @@ Make sure you have valid OCI credentials and access to the Generative AI service
 
 ---
 
-## 🧠 Powered By
+## 🧠 Technologies
 
 - **Oracle Generative AI**: For advanced natural language processing and resume evaluation
 - **LangChain**: For structured LLM integration
