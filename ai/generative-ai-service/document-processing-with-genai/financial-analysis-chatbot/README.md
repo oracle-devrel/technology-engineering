@@ -95,7 +95,7 @@ streamlit run doc_analysis_with_graphs.py
 
 ---
 
-## 📝 How to Use
+## 📝 How to Use this asset
 
 ### 1. Upload your documents  
 → PDFs or images containing **financial reports, charts, balance sheets**

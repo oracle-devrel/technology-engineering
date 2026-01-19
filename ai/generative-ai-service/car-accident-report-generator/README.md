@@ -9,9 +9,22 @@ This asset automates end‑to‑end extraction for insurance reporting, producin
 - Arabic text rendering and right‑to‑left formatting  
 
 **Author:** Ali Ottoman  
-**Reviewed date:** 11.12.2025
+**Reviewed date:** 19.01.2026
 
 ---
+
+## 🎯 When to Use This Asset (Who & When)
+
+### Who
+- **Motor insurance teams** handling accident and liability reports  
+- **Claims adjusters** needing fast, structured damage assessments  
+- **Digital transformation teams** modernising manual accident workflows
+
+### When
+- When accident files contain **mixed documents + photos**  
+- When **Arabic-first extraction** and RTL rendering are mandatory  
+- When consistent, schema-validated **JSON + PDF outputs** are required  
+- When reducing **manual data entry** and report preparation time is a priority
 
 ## 🔧 Features
 
@@ -133,16 +146,19 @@ streamlit run car_accident_report_generator.py
 
 ## 🔧 OCI Services Used
 
-- **Generative AI Service (Llama 4 Maverick)**  
+- **Generative AI Service (Llama 4 Maverick)**  - [Link](https://docs.oracle.com/en-us/iaas/Content/generative-ai/home.htm)
   Multimodal image reasoning + structured extraction  
 - **Object Storage** (optional for extension)  
 - **Streamlit** UI  
 
 ---
 
-## 📄 License
-MIT License — free to use and modify.
+## License
 
+Copyright (c) 2026 Oracle and/or its affiliates.
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+##### See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
 ---
 
 ## 🔗 Docs & References
