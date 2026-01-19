@@ -14,7 +14,20 @@ Reviewed date: 22.09.2025
 - Highlight frames flagged as inappropriate with detailed reasons and timecodes.
 - Adjust AI confidence threshold and frame extraction interval. (Effects the prompt for confidence)
 
-## Getting Started
+## 🎯 When to Use This Asset (Who & When)
+
+### Who
+- **Media & content moderation teams** reviewing user-generated content  
+- **Streaming platforms & broadcasters** enforcing age-rating policies  
+- **Compliance & trust & safety teams** monitoring visual content  
+
+### When
+- When images or videos must be checked for **PG-rating compliance**  
+- When large volumes of **visual media** require automated screening  
+- When flagged content must include **explanations and timecodes**  
+- When configurable **confidence thresholds** are required for review workflows  
+
+## How to use this asset
 1. **Upload Media:**
    - Users upload a video or image file for analysis.
 2. **Frame Extraction:**
@@ -74,11 +87,18 @@ Replace `<script-name>.py` with the filename of your main script (e.g., `video_a
 }
 ```
 
-## License
-Copyright (c) 2025 Oracle and/or its affiliates.
+---
 
+## Docs & References
+
+📘 [OCI Generative AI Overview](https://docs.oracle.com/en-us/iaas/Content/generative-ai/home.htm)
+
+---
+
+## License
+
+Copyright (c) 2026 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](LICENSE.txt) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
 
-ORACLE AND ITS AFFILIATES DO NOT PROVIDE ANY WARRANTY WHATSOEVER, EXPRESS OR IMPLIED, FOR ANY SOFTWARE, MATERIAL OR CONTENT OF ANY KIND CONTAINED OR PRODUCED WITHIN THIS REPOSITORY, AND IN PARTICULAR SPECIFICALLY DISCLAIM ANY AND ALL IMPLIED WARRANTIES OF TITLE, NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A PARTICULAR PURPOSE.  FURTHERMORE, ORACLE AND ITS AFFILIATES DO NOT REPRESENT THAT ANY CUSTOMARY SECURITY REVIEW HAS BEEN PERFORMED WITH RESPECT TO ANY SOFTWARE, MATERIAL OR CONTENT CONTAINED OR PRODUCED WITHIN THIS REPOSITORY. IN ADDITION, AND WITHOUT LIMITING THE FOREGOING, THIRD PARTIES MAY HAVE POSTED SOFTWARE, MATERIAL OR CONTENT TO THIS REPOSITORY WITHOUT ANY REVIEW. USE AT YOUR OWN RISK. 

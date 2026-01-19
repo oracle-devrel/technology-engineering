@@ -21,10 +21,18 @@ metadata from them.
  
 See the full setup and usage guide in [`files/README.md`](./files/README.md).
 
+---
+
+# Docs & References
+
+📘 [OCI Generative AI Overview](https://docs.oracle.com/en-us/iaas/Content/generative-ai/home.htm)
+
+---
+
 # License
- 
-Copyright (c) 2025 Oracle and/or its affiliates.
- 
+
+Copyright (c) 2026 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
- 
-See [LICENSE](LICENSE) for more details.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
+
