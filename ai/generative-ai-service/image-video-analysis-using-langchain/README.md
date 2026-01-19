@@ -5,7 +5,7 @@ This is a Generative AI-powered application that analyzes frames from uploaded v
 <img src="./image.png">
 </img>
 
-Reviewed date: 22.09.2025
+Reviewed date: 19.01.2026
 
 ## Features
 - Upload image or video files (`.jpg`, `.png`, `.mp4`, `.avi`, `.mov`).
