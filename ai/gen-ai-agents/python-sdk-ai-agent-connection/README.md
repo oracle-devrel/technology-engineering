@@ -7,7 +7,7 @@ This repository contains a Flask-based chat application utilizing Oracle's Gener
 
 **Last review date**: 19/09/2025
 
-![](images/image.png)
+![](files/images/image.png)
 ## Getting Started
 
 1. **Clone the Repository**:
