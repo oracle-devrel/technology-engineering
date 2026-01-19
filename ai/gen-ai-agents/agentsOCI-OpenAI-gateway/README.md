@@ -8,16 +8,30 @@ Big thanks to https://github.com/RETAJD/modelsOCI-toOpenAI/tree/main
 
 **Last review date**: 19/09/2025
 
-![](images/n8n_image.png)
+![](files/images/n8n_image.png)
+
+# When to use this asset?
+
+Use this asset when you want to access **OCI LLMs and OCI Agents** through an **OpenAI-compatible API**, for example to:
+
+- reuse existing OpenAI SDK-based apps without rewriting client code,
+- connect tools like **n8n** or **Open WebUI** to OCI-backed models/agents,
+- provide a single local gateway endpoint for multiple OCI regions/models/agents.
+
+---
+
+# How to use this asset?
 
 ## Quick Start
 
 1. **Install dependencies**:
+
 ```bash
 pip install fastapi uvicorn oci pyyaml openai
 ```
 
 2. **Set API key (optional)**:
+
 ```bash
 export GATEWAY_API_KEYS="ocigenerativeai" #default
 ```
@@ -25,6 +39,7 @@ export GATEWAY_API_KEYS="ocigenerativeai" #default
 3. **Prepare config files** (`agents.yaml`, `models.yaml`) next to `app.py`:
 
 Example `agents.yaml`:
+
 ```yaml
 agents:
   - id: "sales-kb"
@@ -35,6 +50,7 @@ agents:
 ```
 
 Example `models.yaml`:
+
 ```yaml
 region: eu-frankfurt-1
 compartment_id: "ocid1.compartment.oc1..xxx"
@@ -46,10 +62,13 @@ models:
 ```
 
 4. **Run the app**:
+
 ```bash
 uvicorn app:app --host 0.0.0.0 --port 8088
 ```
+
 or
+
 ```bash
 python app.py
 ```
@@ -70,10 +89,18 @@ r1 = client.chat.completions.create(
     },
 )
 print(r1.choices[0].message.content)
-
 ```
 
 ## n8n/Open WebUI Integration
 
 - URL: `http://localhost:8088/v1`
 - Model: `agent:sales-kb` or model names from `models.yaml`
+
+---
+
+# License
+
+Copyright (c) 2026 Oracle and/or its affiliates.  
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
