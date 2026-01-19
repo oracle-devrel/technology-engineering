@@ -1,17 +1,18 @@
 # Copyright (c) 2025 Oracle and/or its affiliates.
-version: "3"
 services:
   llm:
-    image: vllm/vllm-openai:v0.8.5.post1
+    image: lmsysorg/sglang:latest
     container_name: llm
     runtime: nvidia
+    ipc: host
     volumes:
       - "$HOME/.cache/huggingface:/huggingface"
       - "$PWD:/appli"
     ports:
-      - "127.0.0.1:8000:8000"
+      - "30000:30000"
     environment:
       "HF_HOME": "/huggingface"
+      "NCCL_IB_DISABLE": "1"
     working_dir: "/appli"
     entrypoint:
       - "/appli/scripts/startllm.py"
@@ -29,9 +30,11 @@ services:
     command:
       - "wait-for-it.sh"
       - "--timeout=300"
-      - "llm:8000"
+      - "llm:30000"
       - "--"
       - "/appli/scripts/benchmark.py"
+      - "--scenario"
+      - "gen_heavy"
   plot:
     build: plot
     container_name: plot
