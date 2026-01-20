@@ -3,6 +3,7 @@
 *A Streamlit-based compliance application that uses Oracle Document Understanding (DU) and Generative AI to analyze regulatory documents and internal policies, identify coverage gaps, and produce structured gap analysis outputs.*
 
 Author: Ali Ottoman
+
 Reviewed: 05.12.2025
 
 # When to use this asset?

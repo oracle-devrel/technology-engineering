@@ -3,6 +3,7 @@
 *A Streamlit-based multimodal application that extracts driver, vehicle, insurance, and damage assessment details from uploaded documents and accident photos using Oracle Generative AI (Llama 4 Maverick). The asset automates end‑to‑end extraction for insurance reporting, producing structured Arabic JSON output, a professionally formatted PDF report, car damage visualisations, and full Arabic RTL rendering.*
 
 Author: Ali Ottoman
+
 Reviewed: 19.01.2026
 
 # When to use this asset?
