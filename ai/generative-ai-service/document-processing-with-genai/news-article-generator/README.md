@@ -4,6 +4,7 @@ A Streamlit-based application for generating newsroom-quality articles from a he
 This tool lets you upload one or more `.txt` sample articles you wrote before, extracts a compact “style guide”, and then generates a fresh article in the same voice — outputting **TXT**, **Markdown**, and **JSON** formats.
 
 Author: **Ali Ottoman**
+
 Reviewed date: 14.01.2026
 
 ---
