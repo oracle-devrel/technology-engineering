@@ -4,6 +4,7 @@ A Streamlit-based application for extracting insights from financial documents b
 This tool enables semantic search, summarization, and financial Q&A by leveraging OCI GenAI services — providing rich context-aware answers grounded in both OCR-extracted text and chart images.
 
 Author: **Ali Ottoman**
+
 Reviewed date: 23.09.2025
 
 ---
