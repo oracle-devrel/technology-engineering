@@ -1,5 +1,0 @@
-"""
-Private config
-"""
-
-COMPARTMENT_ID = "YOUR_COMPARTMENT_OCID"
