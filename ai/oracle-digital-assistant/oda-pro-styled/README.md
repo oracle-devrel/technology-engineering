@@ -1,6 +1,6 @@
 # ODA Pro Styled
 
-Review date: 17-10-2025
+Review date: 22-01-2026
 
 Author: Ras Alungei
 
@@ -153,8 +153,10 @@ Detailed setup instructions are available in each component's README.
 - Web Speech API (for browser speech mode)
 - LocalStorage for project persistence
 
-## License
+# License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
-Licensed under the Universal Permissive License v1.0.
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](../../LICENSE.txt) for more details.
