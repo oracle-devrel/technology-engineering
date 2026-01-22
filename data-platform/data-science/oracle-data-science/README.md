@@ -73,6 +73,7 @@ Reviewed: 2026.01.12
 - [Model Inference from SQL using OCI Functions](https://medium.com/data-science-collective/model-inference-from-sql-using-oci-functions-c5765ed6a3a2)
 - [OCI Data Science for Optimisation Operational Research](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-data-science/operational-research)
 - [Self-Hosting Stable Diffusion XL with OCI Data Science](https://medium.com/data-science-collective/self-hosting-stable-diffusion-xl-3e6528ded78b)
+- [Model Catalog Fundamentals and Automation](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-data-science/model-catalog-fundamentals-and-automation)
 </br></br>
 
 # License
