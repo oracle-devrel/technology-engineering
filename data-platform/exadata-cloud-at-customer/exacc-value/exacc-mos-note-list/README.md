@@ -1,9 +1,6 @@
-Reviewed: 16.09.2025
-
 # Exadata Cloud@Customer MOS Note List
 
-# 
-Collecting all ExaDB-C@C relevant My Oracle Support (MOS) notes
+## Collecting all ExaDB-C@C relevant My Oracle Support (MOS) notes
 
 To provide an easily accessible repository pointing to MOS notes and keeping this repository up-to-date.
 
@@ -15,7 +12,7 @@ The ExaDB-C@C Specialist Team is updating the list manually and refreshing it as
 
 - [2333222.1](https://support.oracle.com/epmos/faces/DocumentDisplay?id=2333222.1)- Exadata Cloud Service Software Versions: Grid, OS and DB versions
   
-- [2768569.1](https://support.oracle.com/epmos/faces/DocumentDisplay?id=2768569.1) - Exadata Database Service API/CLI Alignment Matrix]: Feature and functionality comparison of the different ExaDB-C@C management tools
+- [2768569.1](https://support.oracle.com/epmos/faces/DocumentDisplay?id=2768569.1) - Exadata Database Service API/CLI Alignment Matrix: Feature and functionality comparison of the different ExaDB-C@C management tools
 
 - [2997504.1](https://support.oracle.com/epmos/faces/DocumentDisplay?id=2997504.1) - Patching Guidelines For Lower Database Versions (Upgrade Support Required) 
 
@@ -46,6 +43,8 @@ The ExaDB-C@C Specialist Team is updating the list manually and refreshing it as
 - [2828699.1](https://support.oracle.com/epmos/faces/DocumentDisplay?id=2828699.1) - (ODyS) Oracle Dynamic Scaling on Podman: Setting up Dynamic Scaling on Podman
 
 - [2940064.1](https://support.oracle.com/epmos/faces/DocumentDisplay?id=2940064.1) - (ODyS) Oracle Dynamic Scaling on Kubernetes: Setting up Dynamic Scaling on Kubernetes
+
+Reviewed:
 
 # License
 
