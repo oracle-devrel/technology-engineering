@@ -194,7 +194,7 @@ scikit-learn==1.6.1
 scipy==1.15.2
 selenium==4.31.0
 sentence-transformers==4.0.2
-sentencepiece==0.2.0
+sentencepiece==0.2.1
 sgmllib3k==1.0.0
 shellingham==1.5.4
 six==1.17.0
