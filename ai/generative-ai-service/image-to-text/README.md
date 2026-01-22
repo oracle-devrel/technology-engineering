@@ -5,10 +5,28 @@ This application is built using **Streamlit** and **Oracle OCI Generative AI**, 
 
 Reviewed: 09.10.2025
 
-<img src="./image1.png">
+<img src="./files/image1.png">
 </img>
 
 ---
+# When to use this asset
+
+- When you need **natural-language understanding of images** using AI  
+- When extracting **descriptions, insights, or explanations** from visual content  
+- When building **multimodal AI demos or prototypes** on OCI  
+- When validating or testing **OCI Generative AI multimodal models**  
+- When converting **visual content into structured or descriptive text**  
+- When enabling **image-based Q&A** workflows  
+- When integrating **vision + language AI** into business applications  
+
+**Typical use cases:**
+- Image analysis assistants  
+- Visual inspection tools  
+- AI-powered image search  
+- Accessibility (image-to-text explanations)  
+- Document + image reasoning pipelines  
+- Multimodal AI proof-of-concepts
+
 
 ## Features
 
@@ -18,7 +36,7 @@ Reviewed: 09.10.2025
 - Easy-to-use interface built with Streamlit.
 
 ---
-
+# How to use this asset
 ## Prerequisites
 
 1. **Oracle OCI Configuration**
