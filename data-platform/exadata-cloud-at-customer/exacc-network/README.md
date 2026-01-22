@@ -12,7 +12,7 @@ Network connection related ExaDB-C@C information.
 
 - [Using Data Guard](https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-using-data-guard.html)
 
-Reviewed:
+Reviewed: 01/22/26
 
 # License
 

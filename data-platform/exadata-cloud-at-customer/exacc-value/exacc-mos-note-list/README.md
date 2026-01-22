@@ -44,7 +44,7 @@ The ExaDB-C@C Specialist Team is updating the list manually and refreshing it as
 
 - [2940064.1](https://support.oracle.com/epmos/faces/DocumentDisplay?id=2940064.1) - (ODyS) Oracle Dynamic Scaling on Kubernetes: Setting up Dynamic Scaling on Kubernetes
 
-Reviewed:
+Reviewed: 01/22/26
 
 # License
 

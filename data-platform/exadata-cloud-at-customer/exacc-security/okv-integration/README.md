@@ -10,7 +10,7 @@ Integrate your on-premises Oracle Key Vault (OKV) with Oracle Exadata Database S
 
 - [Customer-Managed Keys in Exadata Database Service on Cloud@Customer](https://docs.oracle.com/en-us/iaas/exadata/doc/manage-encryption-keys-on-external-devices.html#GUID-084AA149-AD28-43D5-AB7A-B5B8980810B2)
 
-Reviewed:
+Reviewed: 01/22/26
 
 # License
 

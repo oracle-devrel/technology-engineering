@@ -41,7 +41,7 @@ options:
 ```
 The above script is creating JSON file with all the configuration information which can be shared with Oracle for further analysis. 
 
-Reviewed:
+Reviewed: 01/22/26
 
 # License
  

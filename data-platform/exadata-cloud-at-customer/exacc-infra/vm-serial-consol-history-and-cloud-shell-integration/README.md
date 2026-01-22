@@ -19,7 +19,7 @@ Cloud Shell integration for the serial console allows users who have been grante
 
 OCI Cloud Shell [product documentation](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/devcloudshellintro.htm)
 
-Reviewed: 
+Reviewed: 01/22/26
 
 # License
 

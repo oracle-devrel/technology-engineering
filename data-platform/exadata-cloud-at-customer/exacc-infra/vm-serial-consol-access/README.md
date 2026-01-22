@@ -16,7 +16,7 @@ This new feature allows customers to access the serial console of their Virtual 
 
 - Proper OCI user permissions are required to create a serial console connection - see [product documentation](https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-policy-details.html#GUID-CBEEA1B3-8CFC-4E9C-ACA8-6675F4582920) for details
 
-Reviewed:
+Reviewed: 01/22/26
 
 # License
 

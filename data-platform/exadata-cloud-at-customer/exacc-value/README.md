@@ -33,7 +33,7 @@ The below videos are showcasing best practices and how-to's with a technical and
 
 - [Oracle PaaS and IaaS Universal Credits Service Description](https://www.oracle.com/oce/dc/assets/CONT66B9F94D4751422F8C46B87B9FECB5B1/native/oracle-paas-and-iaas-universal-credits-service-descriptions.pdf)
 
-Reviewed: 
+Reviewed: 01/22/26
 
 # License
 

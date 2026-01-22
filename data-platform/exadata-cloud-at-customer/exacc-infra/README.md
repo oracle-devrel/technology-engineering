@@ -42,7 +42,7 @@ Assests, best practices and how-to's regarding the infrastructure components of 
 
 [Oracle ACFS Snapshot Use Cases on Exadata (Doc ID 2761360.1)](https://support.oracle.com/epmos/faces/DocumentDisplay?_afrLoop=274346774362287&id=2761360.1&_afrWindowMode=0&_adf.ctrl-state=jgdocci36_4)
 
-Reviewed: 
+Reviewed: 01/22/26
 
 # License
 

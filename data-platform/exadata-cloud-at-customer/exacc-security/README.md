@@ -12,7 +12,7 @@ Security related information for ExaDB-C@C.
 
 - [Operator Access Control Technical Brief](https://www.oracle.com/uk/a/ocom/docs/engineered-systems/exadata/oracle-operator-access-control-tech-brief.pdf)
 
-Reviewed: 16.09.2025
+Reviewed: 01/22/26
 
 # License
 

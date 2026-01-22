@@ -14,7 +14,7 @@ Run each single instance database as a singleton workload or PDB in a shared RAC
 Run each single instance database as a singleton workload or PDB in a dedicated CDB
 Run each single instance database as a two–node cluster, but shut down unnecessary instances
 
-Reviewed: 
+Reviewed: 01/22/26
 
 # Useful Links
 

@@ -42,7 +42,7 @@ There are other YouTube channels which have relevant training videos published, 
 
 - [Oracle Universiy](https://shop.oracle.com/apex/f?p=dstore:2:0::NO:RIR,2:PROD_HIER_ID:38022788136100320034918191)
 
-Reviewed:
+Reviewed: 01/22/26
 
 # License
 

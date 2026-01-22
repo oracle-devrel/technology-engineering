@@ -14,7 +14,7 @@
 
 - [HUS, Healthcare, Finland](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/exadata-cloud-at-customer/exacc-value/exacc-references/assets/HUS-yhtyma-ExaDBCC.pdf)
 
-Reviewed:
+Reviewed: 01/22/26
 
 # License
 
