@@ -21,6 +21,10 @@ UPLOAD_PATH = "uploaded_files"
 GENAI_MODELS = {
     "OpenAI GPT-OSS 120b": "openai.gpt-oss-120b",
     "OpenAI GPT-OSS 20b": "openai.gpt-oss-20b",
-
+    # Grok models (xAI)
+    "Grok Non Reasoning": "xai.grok-4-fast-non-reasoning",
+    # Meta models
+    "Meta Llama 3.3 70B": "meta.llama-3.3-70b-instruct",
+    # Add more models as needed - check OCI documentation for exact model IDs
 }
 LIST_GENAI_MODELS = list(GENAI_MODELS.keys())
