@@ -78,32 +78,25 @@ def encode_logo():
 
 def render_header():
     """
-    Use the .main-header / .header-content / .oracle-logo styles
-    from styles.css.
+    Render header using Streamlit native components for better compatibility.
     """
     logo_b64 = encode_logo()
-    logo_html = ""
-    if logo_b64:
-        logo_html = (
-            f'<img src="data:image/png;base64,{logo_b64}" '
-            f'class="oracle-logo" alt="Oracle logo" />'
+    
+    # Use columns for centered layout
+    col1, col2, col3 = st.columns([1, 2, 1])
+    
+    with col2:
+        if logo_b64:
+            st.image(
+                f"data:image/png;base64,{logo_b64}",
+                width=200
+            )
+        st.markdown("### Audio Call Analyzer")
+        st.markdown(
+            "Upload one or more calls, generate diarized transcripts and LLM-powered "
+            "summaries, and explore batch-level insights."
         )
-
-    st.markdown(
-        f"""
-        <header class="main-header">
-            <div class="header-content">
-                {logo_html}
-                <h1>Audio Call Analyzer</h1>
-                <p>
-                    Upload one or more calls, generate diarized transcripts and LLM-powered
-                    summaries, and explore batch-level insights.
-                </p>
-            </div>
-        </header>
-        """,
-        unsafe_allow_html=True,
-    )
+        st.markdown("---")
 
 
 def parse_llm_json(raw_summary: str):

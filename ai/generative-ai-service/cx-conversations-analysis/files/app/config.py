@@ -16,7 +16,7 @@ BUCKET_FILE_PREFIX = "uploads"
 SPEECH_BUCKET_OUTPUT_PREFIX = "speech_output"
 
 ## Other config params
-ORACLE_LOGO = "app_images/oracle_logo.png"
+ORACLE_LOGO = "frontend/Oracle logo.png"
 UPLOAD_PATH = "uploaded_files"
 GENAI_MODELS = {
     "OpenAI GPT-OSS 120b": "openai.gpt-oss-120b",
