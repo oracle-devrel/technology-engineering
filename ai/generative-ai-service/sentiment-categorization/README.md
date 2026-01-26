@@ -3,7 +3,7 @@
 The Customer Message Analyzer is a tool designed to analyze customer messages through unsupervised categorization, sentiment analysis, and summary reporting. It helps businesses understand customer feedback without requiring extensive manual labeling or analysis.
  
  
-Reviewed: 19.09.2025
+Reviewed: 23.01.2026
 
 <img width="2542" height="1202" alt="image" src="https://github.com/user-attachments/assets/bdb7dbb0-78ec-4896-bb93-927bf75c31d9" />
 
