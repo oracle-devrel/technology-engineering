@@ -4,7 +4,7 @@ This section covers Oracle SQL Tools: from SQL Developer Desktop to SQL Develope
 Providing links to public useful documentation and articles/blogs written by Oracle SQL and Database Advocates and Product Managers.
 We use this asset when we want to explore the various SQL IDE development tools like SQL Developer, sqlcl and VS Code with SQL Developer extentions.
 
-Reviewed: 28.04.2025
+Reviewed: 19.11.2025
 
 # Table of Contents
  
@@ -35,7 +35,8 @@ Reviewed: 28.04.2025
 - [SQL Tools Training](https://education.oracle.com/database/oracle-database/pFamily_32)
 - [Autonomous Database Actions](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/connect-database-actions.html#GUID-102845D9-6855-4944-8937-5C688939610F)
 - [Live SQL](https://livesql.oracle.com/apex/f?p=590:1000)
-- [SQL Developer Extension for VS Code v24.2 is now available](https://www.thatjeffsmith.com/archive/2024/07/sql-developer-extension-for-vs-code-24-2-is-now-available/)
+- [SQL Notebooks in Oracle SQL Developer for VS Code](https://www.thatjeffsmith.com/archive/2025/07/sql-notebooks-in-oracle-sql-developer-for-vs-code/)
+- [SQL Dev Extension for VS Code for MCP with Cline](https://www.thatjeffsmith.com/archive/2025/11/using-sqlcl-in-sql-developer-for-vs-code-for-mcp-with-cline/)
 
 
 ## Dev Gyms 
@@ -61,6 +62,7 @@ Periodical sharing of Standard Query Language Best Practices links and blog, vid
 - The power of SQL JOIN: [The JOIN syntax in SQL that no-one knows about](https://www.youtube.com/watch?v=nb52Gx4i364) (From Connor McDonald)
 - Analytic Functions: [how to get SQL cumulative running total on each row](https://blogs.oracle.com/sql/post/cumulative-running-total-of-previous-rows-with-sql) (from Chris Saxon);
 - V$ views: [Top 10 V$ Views For DBA and Developers](https://youtu.be/oI1F4vFwM9Q?si=i1UslciVja50792t) (From Connor McDonald);
+- LiveSQL - SQL Macro: [Working with SQL Macro](https://livesql.oracle.com/next/library/tutorials/sql-macros-creating-parameterised-views-mgEdl9)
 
 
 ## PMs Personal Websites

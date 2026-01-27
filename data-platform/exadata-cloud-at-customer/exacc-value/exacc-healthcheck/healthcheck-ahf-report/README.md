@@ -409,6 +409,7 @@ To generate the AHF Insight Report, please, follow the below instructions.
     From Date : 10/24/2024 12:55:39 - To Date : 10/24/2024 14:55:39
     Report is generated at :  /u02/oracle.ahf/data/repository/collection_Thu_Oct_24_14_55_45_UTC_2024_node_all/custexcclu2-l9lkn1_insights_2024_10_24_14_56_36.zip
 
+Reviewed: 01/22/26
 
 ## License
 
@@ -417,5 +418,3 @@ Copyright (c) 2025 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details. 
-
-reviewed 30/10/2024

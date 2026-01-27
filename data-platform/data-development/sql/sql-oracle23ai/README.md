@@ -1,7 +1,9 @@
 # SQL Oracle Database 23ai 
-This section covers the new features introduced in the Oracle Database 23ai release, focusing on enhancements and functionalities in SQL for application development.
-This asset contains a brief set of Oracle Database 23ai new features examples which are then included in a specific asset file for consultation.
+This section covers the new features introduced in the Oracle Database 23ai release (now taking <b>Oracle26ai</b> as name), focusing on enhancements and functionalities in SQL for application development.
+This asset contains a brief set of Oracle Database 26ai new features examples which are then included in a specific asset file for consultation.
 The list of New Features will be periodically updated and adjusted.
+
+Reviewed: 12.12.2025
 
 ## Features
 
@@ -69,7 +71,7 @@ The list of New Features will be periodically updated and adjusted.
 - **Description**: Index multiple schema objects for full-text search using DBMS_SEARCH.
 - **Example**: `EXEC DBMS_SEARCH.CREATE_INDEX('index_name', 'table_name');`
 
-Reviewed: 20.11.2024
+Reviewed: 03.10.2025
 
 # Table of Contents
  

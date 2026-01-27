@@ -1,0 +1,43 @@
+# Copyright (c) 2025 Oracle and/or its affiliates.
+services:
+  llm:
+    image: lmsysorg/sglang:latest
+    container_name: llm
+    runtime: nvidia
+    ipc: host
+    volumes:
+      - "$HOME/.cache/huggingface:/huggingface"
+      - "$PWD:/appli"
+    ports:
+      - "30000:30000"
+    environment:
+      "HF_HOME": "/huggingface"
+      "NCCL_IB_DISABLE": "1"
+    working_dir: "/appli"
+    entrypoint:
+      - "/appli/scripts/startllm.py"
+  perf:
+    build: benchmark
+    container_name: perf
+    depends_on:
+      - llm
+    volumes:
+      - "$HOME/.cache/huggingface:/huggingface"
+      - "$PWD:/appli"
+    environment:
+      "HF_HOME": "/huggingface"
+    working_dir: "/appli"
+    command:
+      - "wait-for-it.sh"
+      - "--timeout=300"
+      - "llm:30000"
+      - "--"
+      - "/appli/scripts/benchmark.py"
+      - "--scenario"
+      - "gen_heavy"
+  plot:
+    build: plot
+    container_name: plot
+    volumes:
+      - "$PWD:/appli"
+    working_dir: "/appli"

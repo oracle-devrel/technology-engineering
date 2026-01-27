@@ -3,9 +3,22 @@
 
 This is an AI-powered application designed to unlock insights hidden within media files using the Oracle Cloud Infrastructure (OCI) Generative AI services. This application enables users to analyze images and videos, generating detailed summaries in multiple languages. Whether you are a content creator, researcher, or media enthusiast, this app helps you interpret visual content with ease.
 
-<img src="./image.png">
+<img src="./files/image.png">
 </img>
----
+Reviewed date: 19.01.2026
+
+## 🎯 When to Use This Asset (Who & When)
+
+### Who
+- **Content creators & media teams** needing fast visual summaries  
+- **Researchers & analysts** extracting insights from images or videos  
+- **Marketing & communications teams** reviewing visual content at scale    
+
+### When
+- When insights must be extracted from **images or long videos**  
+- When **multi-language summaries** are required from the same media  
+- When selective analysis of **specific video frames or intervals** is needed  
+- When quick, parallel processing is required for large or media-heavy files  
 
 ## Features
 
@@ -39,8 +52,7 @@ This is an AI-powered application designed to unlock insights hidden within medi
 
 ## Installation
 
-1. **Clone the repository:**
-   
+1. **Clone this repository.**
 
 2. **Install dependencies:**
    Make sure you have Python 3.8+ installed. Then, install the required libraries:
@@ -50,11 +62,11 @@ This is an AI-powered application designed to unlock insights hidden within medi
 
 3. **Configure OCI:**
    - Set up your OCI configuration by creating or updating the `~/.oci/config` file with your credentials and profile.
-   - Replace placeholders like `compartmentId`, `llm_service_endpoint`, and `visionModel` in the code with your actual values.
+   - Replace placeholders like `compartmentId`, `llm_service_endpoint`, and `visionModel` in [`app.py`](./app.py) with your actual values.
 
 ---
 
-## Usage
+## How to use this asset
 
 1. **Run the application:**
    ```bash
@@ -78,21 +90,24 @@ This is an AI-powered application designed to unlock insights hidden within medi
 
 ## Screenshots
 ### Image Analysis
-<img src="./image2.png">
+<img src="./files/image2.png">
 </img>
 
 ### Video Analysis
-<img src="./image3.png">
+<img src="./files/image3.png">
 </img>
 
 ---
 
+# Docs & References
 
-## Acknowledgments
-- Oracle Cloud Infrastructure Generative AI for enabling state-of-the-art visual content analysis.
-- Open-source libraries like OpenCV, Pillow, and Streamlit for providing powerful tools to build this application.
+📘 [OCI Generative AI Overview](https://docs.oracle.com/en-us/iaas/Content/generative-ai/home.htm)
 
 ---
 
-## Contact
-If you have questions or feedback, feel free to reach out via [anshuman.p.panda@oracle.com](mailto:email@example.com).
+# License
+
+Copyright (c) 2026 Oracle and/or its affiliates.
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

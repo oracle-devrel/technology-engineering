@@ -2,7 +2,12 @@
 
 Ops Insights provides comprehensive information about the resource use and capacity of databases and hosts. Use this service to analyze CPU and storage resources, forecast capacity issues, and proactively identify SQL performance issues across a database fleet.
 
-Reviewed: 18.07.2024
+Reviewed: 30.06.2025
+
+
+|Asset  |   Page| 
+|---|---|
+| Landing Zone Add-on  | [Link](./LZ-addons/README.md) |
 
 # Table of Contents
 
@@ -13,6 +18,8 @@ Reviewed: 18.07.2024
 
 - [Ops Insights Demo](https://www.youtube.com/watch?v=Y45kPRn_c7s)
 - [Auto enable hosts for Operation Insights in OCI](https://karthicin.medium.com/auto-enable-hosts-for-operation-insights-in-oci-60c9c80486b1)
+- [How to enable Ops Insight for Oracle DBCS](https://learnoci.cloud/how-to-enable-operations-insight-for-oracle-dbcs-51dac10da833)
+- [How to enable Ops Insights on Oracle Autonomous Database Serverless](https://medium.com/@rishabhghosh24/enable-oci-ops-insight-on-oracle-autonomous-database-serverless-61efab78f927)
 
 # Useful Links
 

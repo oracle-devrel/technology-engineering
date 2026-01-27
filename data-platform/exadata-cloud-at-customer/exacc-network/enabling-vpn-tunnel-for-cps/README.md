@@ -20,8 +20,6 @@ All the customer has to do is ensure that this config is in place, and then ensu
 
 End result is that ALL traffic to and from the CPS to Oracle is tunneled in the VPN.
 
-Reviewed: 24.06.2024
-
 # Useful Links
 
 - [Overview](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/overviewIPsec.htm)
@@ -29,6 +27,8 @@ Reviewed: 24.06.2024
 - [Steps to create](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/settingupIPsec.htm)
 
 - [Troubleshooting](https://www.ateam-oracle.com/post/oracle-cloud-vpn-connect-troubleshooting)
+
+Reviewed: 01/22/26
 
 # License
 

@@ -38,7 +38,7 @@ SOFTWARE.
 
 # A Java AI featured function with local dev and then building and deploying to OCI Functions
 
-Reviewed: 31.10.2024
+Reviewed: 30.9.2025
  
 # When to use this asset?
  

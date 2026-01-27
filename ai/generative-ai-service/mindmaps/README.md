@@ -2,7 +2,7 @@
 
 MindMapGenerator, can take a text, analyze it, classify it into levels and sublevels, and generate a structured mind map based on the content using Generative AI. It also works with PDF documents by leveraging Oracle Document Understanding to analyze and extract information from the file before creating the mind map. Additionally, the demo can capture information in real-time using the Speech service, processing spoken input to generate an insightful and organized mind map on the fly. Can be complementary to AI Meetings or other different use cases.
 
-Reviewed: 24.04.2025
+Reviewed: 23.09.2025
 
 # When to use this asset?
 This asset is perfect for professionals and teams who need to organize information dynamically and visually:
@@ -16,6 +16,7 @@ This asset is perfect for professionals and teams who need to organize informati
 
 Use this asset when you want to transform free text, structured documents, or even speech into organized, visually impactful mind maps—quickly and intelligently.
 
+# How to use this asset
 
 ## **1. Prepare your user**
    
