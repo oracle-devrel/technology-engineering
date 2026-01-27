@@ -21,7 +21,7 @@ Conversational AI specialist this workshop is a proven
 methodology and many customers have used it as a major
 stepping stone in a successful Conversational AI strategy.
 
-Reviewed: 22.09.2025
+Reviewed: 22.01.2026
  
 # When to use this asset?
  
@@ -32,9 +32,9 @@ See the README document in the /files folder.
 See the README document in the /files folder.
  
 # License
- 
-Copyright (c) 2025 Oracle and/or its affiliates.
- 
+
+Copyright (c) 2026 Oracle and/or its affiliates.
+
 Licensed under the Universal Permissive License (UPL), Version 1.0.
- 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+
+See [LICENSE](../../LICENSE.txt) for more details.

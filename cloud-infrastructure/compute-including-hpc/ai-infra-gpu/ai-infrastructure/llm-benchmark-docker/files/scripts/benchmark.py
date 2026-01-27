@@ -85,7 +85,7 @@ parser.add_argument(
 parser.add_argument(
     "--port",
     type=int,
-    default=8000,
+    default=30_000,
     help="Port to use for vLLM.",
 )
 parser.add_argument(
@@ -105,6 +105,10 @@ logging.warning(f"started on {shape}")
 
 model_name = server_configuration["model"].rsplit("/", 1)[-1]
 model_stub = model_name.lower()
+
+extra_inputs = []
+for k, v in server_configuration.get("genai-perf", {}).get("inputs", {}).items():
+    extra_inputs.extend(["--extra-inputs", f"{k}:{v}"])
 
 benchmark_command = [
     "genai-perf",
@@ -151,7 +155,7 @@ for scenario in args.scenario:
             f"--extra-inputs=min_tokens:{tokens_mean - tokens_stddev}",
         ] + [
             f"--{k}={v}" for k, v in scfg.items()
-        ]
+        ] + extra_inputs
 
         logging.warning("running: %s", " ".join(cmd))
         subprocess.check_call(cmd)
