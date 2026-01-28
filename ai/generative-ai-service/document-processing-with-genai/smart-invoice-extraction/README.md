@@ -4,7 +4,7 @@ An intelligent invoice data extractor built with **OCI Generative AI**, **LangCh
 
 Reviewed date: 22.09.2025
 
-<img src="./image.png">
+<img src="./files/image.png">
 </img>
 
 ---

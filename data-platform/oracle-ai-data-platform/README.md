@@ -26,7 +26,19 @@ Reviewed: 13.11.2025
    
 # Team Publications
 
+## AI Data Platform Features Videos
+- [AI Data Platform - Instance Provisioning](https://videohub.oracle.com/playlist/dedicated/188027173/1_3ke8pbum/1_rulyqupq)
+- [AI Data Platform - Instance User Access Management](https://videohub.oracle.com/playlist/dedicated/188027173/1_3ke8pbum/1_rajskx2v)
+- [AI Data Platform - Workspace and Cluster Setup](https://videohub.oracle.com/playlist/dedicated/188027173/1_3ke8pbum/1_6el4k7u2)
+- [AI Data Platform - Setting Up Catalogs with OCI Object Storage Data](https://videohub.oracle.com/playlist/dedicated/188027173/1_3ke8pbum/1_gegiotqu)
+- [AI Data Platform - Setting Up Catalogs with Oracle Autonomous AI Database](https://videohub.oracle.com/playlist/dedicated/188027173/1_3ke8pbum/1_gifxnqm6)
+- [AI Data Platform - Notebook Management: Export & Import](https://videohub.oracle.com/playlist/dedicated/188027173/1_3ke8pbum/1_rx97d53y)
+- [AI Data Platform - End-to-End Medallion Architecture Implementation Example](https://videohub.oracle.com/playlist/dedicated/188027173/1_3ke8pbum/1_tgzhvzci)
+
 ## Specialists Blogs for various features & functionality
+- [Continuing Your Oracle AI Data Platform Journey: Quick  Start Guide](https://blogs.oracle.com/ai-data-platform/continuing-your-oracle-ai-data-platform-journey-quick-start-guide)
+
+- [Getting Started on your Oracle AI Data Platform Journey](https://blogs.oracle.com/ai-data-platform/getting-started-on-your-oracle-ai-data-platform-journey)
 
 - [Bringing Fusion Applications Data and eBusiness Suite data together in Oracle AI Data platform](https://medium.com/@DoubleUP66/bringing-fusion-applications-data-and-ebusiness-suite-data-together-in-oracle-ai-data-platform-3efd01c42dbc)
 

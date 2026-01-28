@@ -11,6 +11,13 @@ A lightweight **LangGraph-based** agent that scans a local codebase (read-only) 
 
 It produces artifacts in a separate output folder (no in-place edits).
 
+**Reviewed**: 26.01.2026
+
+---
+
+## When to use this assett
+Use this asset when you need a read-only, automated pre-review of a Python codebase to surface common compliance and quality issues—headers, licenses (project and dependencies), potential secrets/PII—and to generate review artifacts (reports, header fix snippets, optional per-file docs) without touching the source code.
+It’s especially useful before PRs, releases, demos, or CI gates to speed up human review with consistent, reproducible findings—while keeping final judgment in human hands.
 
 ---
 
@@ -30,7 +37,7 @@ It also performs a **date alignment check** (header date vs. file `mtime` in UTC
 
 ### Secrets scanning (heuristic)
 The agent searches each file for:
-- known patterns (AWS keys, GitHub tokens, OCI OCIDs, private key blocks, bearer headers, etc.)
+- known patterns (API keys, GitHub tokens, OCI OCIDs, private key blocks, bearer headers, etc.)
 - suspicious string assignments / dict values with sensitive names (password, token, secret, api_key, …)
 
 Findings are reported with:
@@ -64,28 +71,9 @@ For now, tests have been done using:
 
 ---
 
-## Repository layout
 
-```text
-.
-├── agent/
-│   ├── graph_agent.py        # LangGraph pipeline (discover → check → scan → docgen → report)
-│   ├── fs_ro.py              # Read-only sandboxed filesystem access
-│   ├── header_rules.py       # Header policy checker
-│   ├── secrets_scan.py       # Heuristic secrets scanner
-│   ├── docgen.py             # Per-file documentation generation
-│   ├── docgen_prompt.py      # Prompts for doc generation + final report
-│   ├── docgen_utils.py       # LLM invocation + output normalization
-│   ├── oci_models.py         # OCI GenAI / OCI OpenAI LangChain adapters
-│   └── utils.py              # Logging helpers, etc.
-├── out/                      # Default output folder (generated artifacts)
-├── run_agent.py              # CLI entry point
-├── run_agent.sh              # Convenience runner
-├── requirements.txt
-└── LICENSE
-```
+## How to use this assett
 
-## Setup
 1. Create a python 3.11+ environment
 
 For example, 
@@ -128,7 +116,8 @@ See: https://docs.oracle.com/en-us/iaas/Content/generative-ai/iam-policies.htm
 
 Ask your tenancy admin for help.
 
-## How-to use it
+## How-to run it
+
 Modify the [run_agent.sh](./run_agent.sh) file. 
 
 Change the params:
@@ -175,3 +164,43 @@ For this reason:
 
 This is especially important for compliance-critical areas such as **licenses, personal data (PII), and security findings**.
 
+## Repository layout
+
+```text
+.
+├── agent/
+│   ├── graph_agent.py          # LangGraph pipeline
+│   ├── fs_ro.py                # Read-only sandboxed filesystem access
+│   ├── header_rules.py         # Header policy checker
+│   ├── header_fix.py           # Header auto-generation (cut&paste snippets)
+│   ├── secrets_scan.py         # Heuristic secrets scanner
+│   ├── pii_scan.py             # PII detection (hard fail / warn)
+│   ├── docgen.py               # Per-file documentation generation
+│   ├── docgen_prompt.py        # Prompts for doc generation + final report
+│   ├── docgen_utils.py         # LLM invocation + output normalization
+│   ├── oci_models.py           # OCI GenAI / OCI OpenAI adapters
+│   ├── license_check.py        # Project LICENSE file checker
+│   ├── requirements_check.py   # Presence + sanity of requirements.txt
+│   ├── dep_license_check.py    # Dependency license resolution (PyPI + local)
+│   ├── gitignore_utils.py      # .gitignore helpers
+│   ├── utils.py                # Logging helpers, shared utilities
+│   │
+│   ├── config.py               # Global agent configuration
+│   ├── config_private.py       # Local/private settings (not committed)
+│   ├── config_private_template.py
+│
+├── out/                        # Generated artifacts (reports, docs, headers)
+│   ├── header_fixes/           # Generated compliant headers (manual cut&paste)
+│   └── reports/                # Final compliance reports
+│
+├── requirements.txt            # Project dependencies
+├── run_agent.py                # CLI entry point
+├── run_agent.sh                # Convenience runner
+```
+
+---
+
+## License
+
+Licensed under MIT license. 
+See [LICENSE](./LICENSE)

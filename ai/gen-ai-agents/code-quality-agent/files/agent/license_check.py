@@ -43,10 +43,11 @@ DEFAULT_LICENSE_FILENAMES = (
 _LICENSE_PATTERNS: list[tuple[str, str]] = [
     ("MIT", r"\bMIT License\b"),
     ("Apache-2.0", r"\bApache License\b.*\bVersion 2\.0\b"),
-
     # Universal Permissive License (UPL) v1.0
-    ("UPL-1.0", r"\bThe\s+Universal\s+Permissive\s+License\s*\(UPL\)\s*,?\s*Version\s*1\.0\b"),
-
+    (
+        "UPL-1.0",
+        r"\bThe\s+Universal\s+Permissive\s+License\s*\(UPL\)\s*,?\s*Version\s*1\.0\b",
+    ),
     (
         "BSD-3-Clause",
         r"\bRedistribution and use in source and binary forms\b.*\bNeither the name\b",
