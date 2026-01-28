@@ -5,7 +5,7 @@ This is a Generative AI-powered application that extracts key information from p
 Reviewed date: 22.09.2025
 
 ## Demo
-![Demo of Patient Letter Extraction](patient_letter_demo.gif)
+![Demo of Patient Letter Extraction](./files/patient_letter_demo.gif)
 
 # 🎯 When to Use This Asset (Who & When)
 

@@ -2,7 +2,7 @@
 
 This is a Generative AI-powered application that analyzes frames from uploaded videos or images to determine their suitability for PG-rated audiences. The application leverages Oracle Cloud Infrastructure (OCI) Generative AI Vision models, specifically Llama 3.2 in this case, to evaluate visual content for explicit or age-inappropriate material. This can also be adapted as needed to extract specific elements, text (such as license plates) and other use-cases.
 
-<img src="./image.png">
+<img src="./files/image.png">
 </img>
 
 Reviewed date: 19.01.2026

@@ -31,6 +31,7 @@ from importlib import metadata
 from typing import Any, Iterable
 
 from agent.utils import get_console_logger
+from agent.config import DEP_LICENSE_OVERRIDES
 
 
 logger = get_console_logger()
@@ -110,6 +111,16 @@ def extract_dist_name(requirement: str) -> str | None:
 
 
 # ---- License extraction helpers ----
+def _get_override_license(dist_name: str) -> str | None:
+    """
+    Return override license for a dependency, if configured.
+
+    Uses canonical PyPI name normalization, so that:
+      mypy_extensions / mypy-extensions / mypy.extensions -> mypy-extensions
+    """
+    key = _normalize_dist_for_pypi(dist_name)
+    lic = DEP_LICENSE_OVERRIDES.get(key)
+    return lic.strip() if isinstance(lic, str) and lic.strip() else None
 
 
 def _normalize_license_string(s: str) -> str:
@@ -191,6 +202,7 @@ def _normalize_license_string(s: str) -> str:
 def _license_from_classifiers(classifiers: Iterable[str]) -> str | None:
     """
     Map Trove classifiers to normalized license ids.
+    Robust against spacing / formatting variations in PyPI metadata.
     """
     trove_map = {
         "License :: OSI Approved :: MIT License": "MIT",
@@ -200,31 +212,40 @@ def _license_from_classifiers(classifiers: Iterable[str]) -> str | None:
         "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)": "MPL-2.0",
         'License :: OSI Approved :: BSD 3-Clause "New" or "Revised" License': "BSD-3-Clause",
         'License :: OSI Approved :: BSD 2-Clause "Simplified" License': "BSD-2-Clause",
-        # Note: UPL does not reliably appear as a Trove classifier; use license_expression instead.
     }
+
+    # 1) Exact Trove matches (fast path)
     for c in classifiers:
-        c = c.strip()
+        c = (c or "").strip()
         if c in trove_map:
             return trove_map[c]
 
-    # fallback: keyword scan
+    # 2) Robust keyword-based detection
     for c in classifiers:
-        u = c.upper()
-        if "LICENSE ::" not in u:
+        u = (c or "").upper()
+
+        # Only consider real license classifiers
+        # Trove format is: "License :: ..."
+        if "LICENSE" not in u or "::" not in u:
             continue
+
         if "MIT" in u:
             return "MIT"
         if "APACHE" in u:
             return "Apache-2.0"
-        if "BSD 3-CLAUSE" in u or ("BSD" in u and "3" in u):
+        if "BSD" in u and "3" in u:
             return "BSD-3-Clause"
-        if "BSD 2-CLAUSE" in u or ("BSD" in u and "2" in u):
+        if "BSD" in u and "2" in u:
             return "BSD-2-Clause"
+        if "BSD" in u:
+            return "BSD"
         if "MPL" in u and "2" in u:
             return "MPL-2.0"
         if "ISC" in u:
             return "ISC"
+
     return None
+
 
 
 def _normalize_dist_for_pypi(name: str) -> str:
@@ -280,7 +301,33 @@ def _license_from_pypi_json(payload: dict[str, Any]) -> str | None:
         if lic_norm != "UNKNOWN":
             return lic_norm
 
+    # ---- DIAG (only when we cannot determine) ----
+    # Keep logs compact and safe; don't print the whole payload.
+    name = info.get("name")
+    version = info.get("version")
+    cls_count = len(classifiers) if isinstance(classifiers, list) else 0
+
+    # Show only license-related signals (not the whole classifier list).
+    # Classifiers can be long; print the first few only.
+    cls_preview = []
+    if isinstance(classifiers, list) and classifiers:
+        cls_preview = [c for c in classifiers if "License ::" in str(c)][:8]
+
+    logger.warning(
+        "[dep_license_check] PyPI license unresolved: name=%r version=%r "
+        "license_expression=%r license_field_type=%s license_field_preview=%r "
+        "classifiers=%d license_classifier_preview=%r",
+        name,
+        version,
+        (info.get("license_expression") or None),
+        type(lic_obj).__name__,
+        (str(lic_obj)[:120] if lic_obj is not None else None),
+        cls_count,
+        cls_preview,
+    )
+
     return None
+
 
 
 def _get_license_from_pypi(
@@ -303,8 +350,6 @@ def _get_license_from_pypi(
     else:
         url = f"https://pypi.org/pypi/{pypi_name}/json"
 
-    logger.info("   Fetching license info from PyPI for %s", dist_name)
-
     req = urllib.request.Request(
         url,
         headers={
@@ -316,14 +361,40 @@ def _get_license_from_pypi(
 
     try:
         with urllib.request.urlopen(req, timeout=timeout_s) as resp:
-            data = json.loads(resp.read().decode("utf-8", errors="replace"))
-    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, ValueError):
+            raw = resp.read().decode("utf-8", errors="replace")
+            data = json.loads(raw)
+    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, ValueError) as e:
+        # ---- DIAG (only when call fails) ----
+        logger.warning(
+            "[dep_license_check] PyPI fetch failed: dist_name=%r normalized=%r version=%r url=%r error=%r",
+            dist_name,
+            pypi_name,
+            version,
+            url,
+            e,
+        )
         _PYPI_LICENSE_CACHE[key] = None
         return None
 
     lic = _license_from_pypi_json(data)
+
+    # ---- DIAG (only when license cannot be extracted) ----
+    if lic is None:
+        info = data.get("info") or {}
+        logger.warning(
+            "[dep_license_check] PyPI fetch ok but license unresolved: dist_name=%r normalized=%r "
+            "version_hint=%r url=%r pypi_info_name=%r pypi_info_version=%r",
+            dist_name,
+            pypi_name,
+            version,
+            url,
+            info.get("name"),
+            info.get("version"),
+        )
+
     _PYPI_LICENSE_CACHE[key] = lic
     return lic
+
 
 
 def extract_pinned_version(requirement: str) -> str | None:
@@ -344,8 +415,20 @@ def get_installed_dist_license(
 
     Returns DepLicenseInfo with license info from installed metadata.
     If not installed, tries PyPI fallback (prefer version_hint if provided).
-    If license cannot be determined, license is UNKNOWN.
+    If license cannot be determined, checks an override map (config).
+    If still cannot be determined, license is UNKNOWN/NOT_INSTALLED (per current policy).
     """
+    # --- 0) Overrides (fast path, deterministic) ---
+    override = _get_override_license(dist_name)
+    if override:
+        return DepLicenseInfo(
+            requirement=dist_name,
+            distribution=_normalize_dist_for_pypi(dist_name),
+            version=version_hint,
+            license=override,
+            source="override",
+        )
+
     try:
         md = metadata.metadata(dist_name)
         ver = metadata.version(dist_name)
@@ -355,7 +438,7 @@ def get_installed_dist_license(
         ver = None
         installed = False
 
-    # CHANGE: If not installed, try PyPI fallback instead of returning immediately
+    # --- 1) Not installed: try PyPI fallback ---
     if not installed:
         lic_web = _get_license_from_pypi(dist_name, version_hint)
         if lic_web:
@@ -366,6 +449,18 @@ def get_installed_dist_license(
                 license=lic_web,
                 source="pypi_json",
             )
+
+        # --- 1b) Overrides after PyPI miss (covers name-mismatch edge cases) ---
+        override2 = _get_override_license(dist_name)
+        if override2:
+            return DepLicenseInfo(
+                requirement=dist_name,
+                distribution=_normalize_dist_for_pypi(dist_name),
+                version=version_hint,
+                license=override2,
+                source="override",
+            )
+
         return DepLicenseInfo(
             requirement=dist_name,
             distribution=dist_name,
@@ -374,7 +469,7 @@ def get_installed_dist_license(
             source="not_installed",
         )
 
-    # 1) Local metadata: License field
+    # --- 2) Installed metadata: License field ---
     lic_raw = (md.get("License") or "").strip()
     lic = _normalize_license_string(lic_raw)
     if lic not in {"UNKNOWN"} and lic_raw:
@@ -386,7 +481,7 @@ def get_installed_dist_license(
             source="license_field",
         )
 
-    # 2) Local metadata: Trove classifiers
+    # --- 3) Installed metadata: Trove classifiers ---
     classifiers = md.get_all("Classifier") or []
     lic2 = _license_from_classifiers(classifiers)
     if lic2:
@@ -398,7 +493,7 @@ def get_installed_dist_license(
             source="classifier",
         )
 
-    # CHANGE: PyPI fallback when local metadata is insufficient (license would be UNKNOWN)
+    # --- 4) PyPI fallback when local metadata is insufficient ---
     lic3 = _get_license_from_pypi(dist_name, ver)
     if lic3:
         return DepLicenseInfo(
@@ -409,6 +504,17 @@ def get_installed_dist_license(
             source="pypi_json",
         )
 
+    # --- 4b) Overrides when everything else is unknown ---
+    override3 = _get_override_license(dist_name)
+    if override3:
+        return DepLicenseInfo(
+            requirement=dist_name,
+            distribution=_normalize_dist_for_pypi(dist_name),
+            version=ver,
+            license=override3,
+            source="override",
+        )
+
     return DepLicenseInfo(
         requirement=dist_name,
         distribution=dist_name,
@@ -416,6 +522,7 @@ def get_installed_dist_license(
         license="UNKNOWN",
         source="unknown",
     )
+
 
 
 def check_dependency_licenses(
@@ -434,6 +541,8 @@ def check_dependency_licenses(
     # Process each requirement in requirements.txt
     for req in req_lines:
         dist = extract_dist_name(req)
+        logger.info("Checking license for %s...", dist)
+        
         if not dist:
             warnings.append(
                 DepLicenseInfo(

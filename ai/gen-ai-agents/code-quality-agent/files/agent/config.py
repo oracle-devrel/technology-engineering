@@ -68,16 +68,26 @@ ACCEPTED_LICENSE_TYPES = [
     "BSD-2-Clause",
 ]
 
+# Dependency license overrides (canonical PyPI names -> SPDX-ish license)
+# Use ONLY when PyPI + installed metadata cannot determine the license reliably.
+DEP_LICENSE_OVERRIDES = {
+    # Example: PyPI metadata for mypy-extensions can be incomplete
+    "mypy-extensions": "MIT",
+}
+
 # set this flag to True if you want to create local docs in md format.
 # Not needed to check code quality.
 ENABLE_DOC_GENERATION = False
 
-# used for header generation. 
+# set this flag to True if you want to generate header snippet
+ENABLE_HEADER_SNIPPET_GENERATION = False
+
+# used for header generation.
 # It is the minimum version accepted.
 PYTHON_VERSION = "3.11"
 
 # Licenses you allow for dependencies (use SPDX-ish IDs where possible)
-# see docs here: 
+# see docs here:
 # https://confluence.oraclecorp.com/confluence/display/CORPARCH/Licenses+Eligible+for+Pre-Approval+-+Distribution
 ACCEPTED_DEP_LICENSES = {
     "MIT",

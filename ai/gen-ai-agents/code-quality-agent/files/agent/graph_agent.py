@@ -53,6 +53,7 @@ from agent.config import (
     FAIL_ON_NOT_INSTALLED_DEP,
     LLM_MODEL_ID,
     ENABLE_DOC_GENERATION,
+    ENABLE_HEADER_SNIPPET_GENERATION
 )
 
 
@@ -72,12 +73,14 @@ def get_config_value(
         return default
     return configurable.get(key, default)
 
+
 def _is_excluded(relpath: str) -> bool:
     """
     Check if a given repo-relative path matches any of the excluded patterns.
     """
     posix = relpath.replace("\\", "/")
     return any(fnmatch(posix, pat) for pat in EXCLUDED_PATHS)
+
 
 # ---- State ----
 @dataclass
@@ -357,6 +360,10 @@ async def node_generate_header_fixes(
     if not state.header_issues:
         return state
 
+    if not ENABLE_HEADER_SNIPPET_GENERATION:
+        logger.info("Header snippet generation disabled. Skipping this step.")
+        return state
+    
     fs = ReadOnlySandboxFS(Path(state.root_dir))
 
     model_id = get_config_value(config, "model_id")
@@ -523,7 +530,7 @@ def node_load_gitignore(state: AgentState) -> AgentState:
     logger.info("Loaded .gitignore: %d ignored files.", len(ignored))
     for p in ignored:
         logger.info(" - %s", p)
-        
+
     return state
 
 

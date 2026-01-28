@@ -8,6 +8,20 @@ This project will show you how to set up such a system, feed it documents, and h
 
 Reviewed date: 23.09.2025
 
+# When to use this asset
+
+- When teams need **rapid understanding of long or complex documents** without full manual reading  
+- When decision-makers require **high-level summaries** for fast review and prioritization  
+- When handling **large volumes of documents** where manual summarization is impractical  
+- When enabling **knowledge workers** to consume information more efficiently  
+- When building **AI-powered document intelligence tools** on OCI  
+- When integrating summarization into **enterprise workflows** (HR, legal, procurement, operations)  
+- When supporting **research, analysis, and reporting** use cases  
+
+**Who it’s for:**  
+Business users, analysts, legal teams, HR teams, consultants, operations teams, and digital transformation teams that need fast, reliable document insight without reading full documents end-to-end.
+
+# How to use this asset
 ## Prerequisites
 
 1. Oracle Cloud account—[sign-up page](https://signup.cloud.oracle.com/)

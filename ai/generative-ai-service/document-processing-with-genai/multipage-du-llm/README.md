@@ -12,6 +12,25 @@ A set of Python command-line and Streamlit apps that combine Oracle Document Und
 - **Sensitive Document Detection**: Automatically flags potentially sensitive documents
 - **Multi-language OCR Support**: English, Japanese, Chinese, Arabic, German, French, and more
 
+##  When to Use This Asset
+
+- When dealing with **large scanned document bundles** containing multiple mixed document types  
+- When documents are **unstructured, merged, or poorly separated** (e.g. long PDFs with many embedded documents)  
+- When automated **OCR + AI classification** is needed instead of manual sorting  
+- When organizations need **fast triage and categorization** of HR, finance, or operational documents  
+- When **sensitive document detection** is required for compliance and security  
+- When processing **high-volume document ingestion pipelines**  
+- When multilingual document classification is needed (Arabic, English, Japanese, Chinese, etc.)  
+
+**Typical scenarios:**
+- Employee file digitization  
+- HR onboarding archives  
+- Compliance document processing  
+- Enterprise document migration projects  
+- Digital transformation of paper archives  
+- Shared service document hubs
+
+
 ## Project Structure
 
 ```
@@ -85,7 +104,8 @@ Upload a multi-page PDF bundle to:
 - OCI CLI configured (`~/.oci/config`)
 - Poppler (for PDF processing): `brew install poppler` on macOS
 
-## Setup
+
+## How to use this asset: Setup
 
 1. **Clone the repository**
    ```bash
