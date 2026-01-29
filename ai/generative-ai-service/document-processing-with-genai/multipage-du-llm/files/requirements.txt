@@ -1,0 +1,48 @@
+# Document Understanding + LLM Classification
+# Requirements for all scripts and Streamlit apps
+
+# ============================================================================
+# Core Python Libraries
+# ============================================================================
+numpy>=1.24.0
+Pillow>=10.3.0
+
+# ============================================================================
+# Excel Processing (for 1_categorize_excel_documents.py)
+# ============================================================================
+openpyxl>=3.1.0
+
+# ============================================================================
+# PDF Processing
+# ============================================================================
+pdf2image>=1.16.3
+# Note: Requires Poppler installed on system
+# macOS: brew install poppler
+# Ubuntu: apt-get install poppler-utils
+# Windows: https://github.com/oschwartz10612/poppler-windows/releases
+
+# ============================================================================
+# Image Hashing (for document boundary detection)
+# ============================================================================
+imagehash>=4.3.0
+# Note: imagehash depends on scipy and PyWavelets (installed automatically)
+
+# ============================================================================
+# Oracle Cloud Infrastructure SDK
+# ============================================================================
+oci>=2.155.2
+# Provides:
+# - Document Understanding (OCR)
+# - Generative AI (Llama 3.3)
+
+# ============================================================================
+# LangChain (for Streamlit LLM integration)
+# ============================================================================
+langchain>=0.1.0
+langchain-core>=0.1.0
+langchain-community>=0.0.20
+
+# ============================================================================
+# Streamlit (for web applications)
+# ============================================================================
+streamlit>=1.30.0

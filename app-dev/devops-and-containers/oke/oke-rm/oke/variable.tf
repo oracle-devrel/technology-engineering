@@ -21,7 +21,7 @@ variable "pod_subnet_id" {
   default = null
 }
 variable "cp_allowed_cidr_list" {
-  type = list(string)
+  type    = list(string)
   default = ["0.0.0.0/0"]
 }
 
@@ -49,22 +49,22 @@ variable "pods_cidr" {
 # ADD-ONS
 
 variable "enable_cert_manager" {
-  type = bool
+  type    = bool
   default = true
 }
 
 variable "enable_metrics_server" {
-  type = bool
+  type    = bool
   default = true
 }
 
 variable "enable_cluster_autoscaler" {
-  type = bool
+  type    = bool
   default = false
 }
 
 variable "create_autoscaler_policies" {
-  type = bool
+  type    = bool
   default = true
 }
 
@@ -85,12 +85,12 @@ variable "cluster_kms_key_id" {
 # OIDC
 
 variable "enable_oidc_discovery" {
-  type = bool
+  type    = bool
   default = false
 }
 
 variable "enable_oidc_authentication" {
-  type = bool
+  type    = bool
   default = false
 }
 

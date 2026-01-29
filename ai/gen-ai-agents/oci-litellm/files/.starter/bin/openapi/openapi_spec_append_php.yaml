@@ -1,0 +1,10 @@
+  /app/index.php:
+    get:
+      summary: PHP Page
+      responses:
+        200:
+          description: PHP dynamic page
+          content:
+            text/html:
+              schema:
+                type: string

@@ -3,11 +3,19 @@
 This repository provides examples and configuration guidelines for integrating **[CrewAI](https://github.com/joaomdmoura/crewAI)** with **Oracle Cloud Infrastructure (OCI) Generative AI** services.  
 The goal is to demonstrate how CrewAI agents can seamlessly leverage OCI-hosted models through the **LiteLLM gateway**.
 
-Reviewed: 31.10.2025
+**Reviewed**: 26.01.2026
 
 ---
 
-## 🔐 Security Configuration
+## When to use this assett
+
+You should use this assett as a demo showing how-to build an integration between **CrewAI** and OCI Generative AI.
+
+---
+
+## How to use this assett
+
+###  🔐 Security Configuration
 
 Before running the demos, you must configure access credentials for OCI.
 
@@ -23,7 +31,7 @@ In addition, you should be **enabled** to use OCI Generative AI Service in your 
 ## 🧩 Demos Included
 
 - [Simple CrewAI Agent](./simple_test_crewai_agent.py) — basic CrewAI agent interacting with an LLM through OCI
-- [OCi Consumption Report](./crew_agent_mcp02.py)
+- [OCI Consumption Report](./crew_agent_mcp02.py)
 - *(More demos to be added soon)*
 
 ---
@@ -85,7 +93,7 @@ Install this additional package:
 pip install 'crewai-tools[mcp]'
 ```
 
-You can test the integration with **MCP** using [OCI Consumption report](./crew_agent_mcp02.py) that generates a report
+You can test the integration with **MCP** using [OCI Consumption report](./files/crew_agent_mcp02.py) that generates a report
 of the consumption in your tenant (top 5 compartments, for 4 weeks).
 
 To have this demo up&running:
@@ -105,3 +113,12 @@ ENABLE_JWT_TOKEN = False
 ```
 in the config.py file.
 
+## Comparison with LangGraph
+You can find a detailed comparison with LangGraph [here](./files/crewai-vs-langgraph.md)
+
+---
+
+## License
+This assett is licensed under **MIT** license.
+
+see [LICENSE](./LICENSE)

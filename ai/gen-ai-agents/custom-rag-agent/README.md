@@ -3,9 +3,13 @@ This repository contains the code for the development of a **custom RAG Agent**,
 
 **Author**: L. Saetta
 
-**Reviewed**: 23.09.2025
+**Reviewed**: 28.01.2026
 
 ![UI](images/ui_image.png)
+
+## When to use this assett
+Thios assett shows you how to build a Custom RAG Agent based on LangGraph and OCI Generatice AI.
+It is fully customizable.
 
 ## Design and implementation
 * The agent is implemented using **LangGraph**
@@ -51,3 +55,7 @@ For example, to ensure that final responses do not disclose Personally Identifia
 * create your config_private.py using the template provided
 * for MCP server: create a confidential application in **OCI IAM** to handle JWT tokens.
 
+## License
+The assett is licensed under **MIT** license.
+
+See [LICENSE](./LICENSE)

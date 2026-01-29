@@ -36,25 +36,25 @@ resource "oci_identity_policy" "cluster_autoscaler_policy_all" {
   compartment_id = var.oke_compartment_id
   description    = "Policies for the OKE cluster autoscaler using workload identity"
   name           = "${var.cluster_name}-cluster-autoscaler-policies"
-  statements = local.cluster_autoscaler_addon_all_statements
-  provider = oci.home
-  count = local.node_pool_network_compartment_same && local.create_autoscaler_policies ? 1 : 0
+  statements     = local.cluster_autoscaler_addon_all_statements
+  provider       = oci.home
+  count          = local.node_pool_network_compartment_same && local.create_autoscaler_policies ? 1 : 0
 }
 
 resource "oci_identity_policy" "cluster_autoscaler_policy_network" {
   compartment_id = var.network_compartment_id
   description    = "Policies for the OKE cluster autoscaler using workload identity"
   name           = "${var.cluster_name}-cluster-autoscaler-policies-network"
-  statements = local.cluster_autoscaler_addon_network_statements
-  provider = oci.home
-  count = !local.node_pool_network_compartment_same && local.create_autoscaler_policies ? 1 : 0
+  statements     = local.cluster_autoscaler_addon_network_statements
+  provider       = oci.home
+  count          = !local.node_pool_network_compartment_same && local.create_autoscaler_policies ? 1 : 0
 }
 
 resource "oci_identity_policy" "cluster_autoscaler_policy_nodepool" {
   compartment_id = var.oke_compartment_id
   description    = "Policies for the OKE cluster autoscaler using workload identity"
   name           = "${var.cluster_name}-cluster-autoscaler-policies-nodepool"
-  statements = local.cluster_autoscaler_addon_nodepool_statements
-  provider = oci.home
-  count =  !local.node_pool_network_compartment_same && local.create_autoscaler_policies ? 1 : 0
+  statements     = local.cluster_autoscaler_addon_nodepool_statements
+  provider       = oci.home
+  count          = !local.node_pool_network_compartment_same && local.create_autoscaler_policies ? 1 : 0
 }
