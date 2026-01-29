@@ -5,9 +5,15 @@ A **unified declarative standard for AI agents**, designed to bring interoperabi
 > From fragmented agent frameworks to interoperable agentic systems  
 > 📄 Source: [arXiv 2510.04173 (October 2025)](https://arxiv.org/abs/2510.04173)
 
+**Reviewed**: 28.01.2029
+
 ---
 
-## 🎯 Design Objectives
+## When to use this asset?
+
+Use this assett if you want to get more information about the **Open Agent Specification**.
+
+## 🎯 Design Objectives for Open Agent Spec
 
 | Objective | Description |
 |------------|--------------|
@@ -119,7 +125,7 @@ Planned enhancements include:
 
 ---
 
-## 🧾 Summary & References
+## Useful links
 
 The **Open Agent Specification** defines a **declarative, interoperable schema** for building modular AI agents across multiple runtimes and ecosystems.
 
@@ -138,4 +144,7 @@ The **Open Agent Specification** defines a **declarative, interoperable schema**
 
 ---
 
+## License
+Licensed under **MIT** LICENSE
 
+see [LICENSE](./LICENSE)
