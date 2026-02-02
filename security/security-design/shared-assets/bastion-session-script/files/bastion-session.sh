@@ -11,7 +11,7 @@
 ###############################################################################
 
 # Set default values.
-version="1.0.3"
+version="1.1.0"
 oci_profile="DEFAULT"
 session_name="Bastion-Session"
 session_check_counter=15  # times 10 seconds for maximum time while checking session creation status.
@@ -32,10 +32,12 @@ usage() {
    echo "Usage: $0 COMMAND [ARGS]..."
    echo ""
    echo "Example: $0 ssh -b bst001 -i instance-001 -u opc [-p <oci profile>]"
+   echo "         $0 scp -b bst001 -i instance-001 -u opc [-p <oci profile>] <source> <destination>"
    echo "         $0 pf  -b bst001 -d 10.0.0.1 -e 3389 [-p <oci profile>] [-l <local port>] "
    echo ""
    echo "Commands:"
    echo "  ssh              The session type \"ssh\" for Managed SSH session."
+   echo "  scp              The session type \"scp\" for Managed SSH session including SCP."
    echo "  pf               The session type \"pf\" for Port Forwarding session."
    echo ""
    echo "Arguments:"
@@ -131,10 +133,10 @@ oci_get_resource_ocid() {
 ###############################################################################
 oci_create_bastion_session() {
    echo "*** Creating OCI Bastion session."
-   if [ "$1" == "ssh" ]; then
-      cmd="oci bastion session create-managed-ssh --bastion-id ${bastion_ocid} --display-name ${session_name} --session-ttl ${ttl} --key-type PUB  --ssh-public-key-file ${public_key_file} --target-resource-id ${instance_ocid} --target-port ${target_port} --target-os-username ${username} ${oci_options}"
+   if [ "$1" == "pf" ]; then
+      cmd="oci bastion session create-port-forwarding ${oci_options} --bastion-id ${bastion_ocid} --display-name ${session_name} --session-ttl ${ttl} --key-type PUB  --ssh-public-key-file ${public_key_file} --target-private-ip ${target_ip} --target-port ${target_port}"
    else
-      cmd="oci bastion session create-port-forwarding --bastion-id ${bastion_ocid} --display-name ${session_name} --session-ttl ${ttl} --key-type PUB  --ssh-public-key-file ${public_key_file} --target-private-ip ${target_ip} --target-port ${target_port} ${oci_options}"
+      cmd="oci bastion session create-managed-ssh ${oci_options} --bastion-id ${bastion_ocid} --display-name ${session_name} --session-ttl ${ttl} --key-type PUB  --ssh-public-key-file ${public_key_file} --target-resource-id ${instance_ocid} --target-port ${target_port} --target-os-username ${username}"
    fi
    if ! run_oci_cmd; then
       echo "*** Problem creating OCI Bastion session."
@@ -179,7 +181,14 @@ oci_create_bastion_session() {
    if [ "${verbose}" ]; then
       echo "*** OCI Bastion session command: ${session_command}"
    fi
-
+   if [ "$1" == "scp" ]; then
+      session_command_scp=$(echo "scp ${session_command:4}")
+      user_and_ip=$(echo "${session_command_scp}" | awk '{print $NF}')
+      session_command_scp=${session_command_scp//"-p ${target_port} ${user_and_ip}"/"-P ${target_port} ${source} ${user_and_ip}:${destination}"}
+      if [ "${verbose}" ]; then
+         echo "*** OCI Bastion SCP session command: ${session_command_scp}"
+      fi
+   fi
 }
 
 ###############################################################################
@@ -230,6 +239,10 @@ cleanup() {
 while [[ $# -gt 0 ]]; do
   case $1 in
     ssh)
+      session_type="$1"
+      shift # past argument
+      ;;
+    scp)
       session_type="$1"
       shift # past argument
       ;;
@@ -319,15 +332,30 @@ while [[ $# -gt 0 ]]; do
       shift # past argument
       ;;
     *)
-      echo "Unknown option $1"
-      usage
-      exit 1
+      if ! [ "${session_type}" == "scp" ]; then
+         echo "Unknown option $1"
+         usage
+         exit 1
+      fi
+      if [ -z "${source}" ]; then
+         source="$1"
+         shift # past value
+      else
+         if [ -z "${destination}" ]; then
+            destination="$1"
+            shift # past value
+         else
+            echo "Unknown option $1"
+            usage
+            exit 1
+         fi
+      fi
       ;;
   esac
 done
 
 # Check for mandatory cmdline arguments.
-if ! { [ "${session_type}" == "ssh" ] || [ "${session_type}" == "pf" ]; }; then
+if ! { [ "${session_type}" == "ssh" ] || [ "${session_type}" == "scp" ]  || [ "${session_type}" == "pf" ]; }; then
     usage
 fi
 if [ -z "${bastion_ocid}" ] && [ -z "${bastion_name}" ]; then
@@ -335,6 +363,10 @@ if [ -z "${bastion_ocid}" ] && [ -z "${bastion_name}" ]; then
 fi
 if [ "${session_type}" == "ssh" ] && { [ -z "${instance_name}" ] && [ -z "${instance_ocid}" ]; }; then
     echo "Missing ssh session type argument!"
+    usage
+fi
+if [ "${session_type}" == "scp" ] && { [ -z "${source}" ] || [ -z "${destination}" ] || { [ -z "${instance_name}" ] && [ -z "${instance_ocid}" ]; }; }; then
+    echo "Missing scp session type argument!"
     usage
 fi
 if [ "${session_type}" == "pf" ] && { [ -z "${target_port}" ] || { [ -z "${instance_name}" ] && [ -z "${instance_ocid}" ] && [ -z "${target_ip}" ]; }; }; then
@@ -357,7 +389,7 @@ if [ $? == 0 ]; then
     if [ "${verbose}" ]; then
        echo "*** Detected valid OCI CLI session security_token."
     fi
-    oci_options=" --auth security_token --profile=${oci_profile}"
+    oci_options="--auth security_token --profile=${oci_profile}"
     oci_session_refresh &
     oci_refresh_pid=$!
 else
@@ -365,7 +397,7 @@ else
         echo "*** OCI CLI session security_token has expired! Use \"oci session authenticate --profile-name=${oci_profile}\" to renew."
         exit 1
     fi
-    oci_options=" --profile=${oci_profile}"
+    oci_options="--profile=${oci_profile}"
 fi
 
 # Fetch the bastion OCID from the displayname.
@@ -452,12 +484,21 @@ if [ "${session_type}" == "ssh" ]; then
    echo "*** Enter \"exit\" to end session."
    echo "***"
 else
-   echo "*** Starting port forwarding through OCI Bastion from localhost:${local_port} to ${target_ip}:${target_port}."
-   echo "*** Press CTRL-C to end session."
-   echo "***"
+   if [ "${session_type}" == "scp" ]; then
+      echo "*** Starting SSH session through OCI Bastion for user ${username} to ${target_ip}:${target_port} including SCP to copy file ${source} to ${destination}."
+      echo "*** Enter \"exit\" to end session."
+      echo "***"
+   else
+      echo "*** Starting port forwarding through OCI Bastion from localhost:${local_port} to ${target_ip}:${target_port}."
+      echo "*** Press CTRL-C to end session."
+      echo "***"
+   fi
 fi
 
 # Execute the ssh command for the bastion session.
+if [ "${session_type}" == "scp" ]; then
+   eval "$session_command_scp"
+fi
 eval "$session_command"
 
 # Cleanup.
