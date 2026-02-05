@@ -9,7 +9,7 @@ oci==2.155.2
 oci-cli==3.62.2                  
 
 langchain==0.3.26                
-langchain-core==0.3.80           
+langchain-core==0.3.81           
 langchain-community==0.2.19      
 
 # Additional dependencies
