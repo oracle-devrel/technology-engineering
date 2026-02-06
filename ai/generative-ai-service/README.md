@@ -41,6 +41,7 @@ Reviewed: 22.09.2025
   - Application that processes audio files (recordings of CX conversations, e.g. in call centers), transcribing with OCI Speech and makes analytics using Generative AI.
 
 ### Cloud Coaching
+- [Developer Coaching - Discovering Multi-modal models for Complex Documents](https://youtu.be/kJsuk_fTrAQ?si=PnTLNHQwElazNX2O)
 - [Cloud Coaching - Boost Your Oracle AI Services](https://youtu.be/VVWTqqlIEhg)
   - Learn how to Develop a Multi-Chain Document Evaluation Apps with Oracle Generative AI, Document Understanding, and Integration Cloud.
   - Integrate OCI AI Speech Service and Generative AI Summarization with Oracle Integration Cloud and Visual Builder
