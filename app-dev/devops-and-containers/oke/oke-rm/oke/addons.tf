@@ -51,8 +51,8 @@ locals {
   } : null)
 
   metrics_server_addon_configs_base = {
-    # At least 3 replicas for high availability
-    numOfReplicas = "3"
+    # Replicas should be increased for high availability
+    numOfReplicas = "1"
     # Spread the replicas across ADs if possible
     topologySpreadConstraints = jsonencode(
       yamldecode(
