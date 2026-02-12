@@ -26,10 +26,11 @@ Reviewed: 11.11.2025
 # Reusable Assets
 
 - [Connect OCI Cache through Network Load Balancer](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-cache/connect-via-nlb)
+- [Vector Search with OCI Cache (Valkey 8.1) and OCI Data Science Notebook](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-cache/vector-search)
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
