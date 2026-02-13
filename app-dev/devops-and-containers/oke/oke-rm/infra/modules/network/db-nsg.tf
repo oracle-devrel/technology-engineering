@@ -2,7 +2,7 @@ locals {
   create_db_nsg = local.create_db_subnet || ! var.create_vcn
   app_nsg_lookup = {
     npn = {
-      nsg_id = oci_core_network_security_group.pod_nsg.0.id
+      nsg_id = local.is_npn ? oci_core_network_security_group.pod_nsg.0.id : null
       nsg_db = oci_core_network_security_group.pod_db
     }
     flannel = {

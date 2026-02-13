@@ -407,8 +407,8 @@ variables:
         - ${create_vcn}
 
   db_service_list:
-    title: "Additional Services"
-    description: "Create network rules for some additional services you are planning to use"
+    title: "Additional Database Services"
+    description: "Create network rules for additional database services you are planning to use"
     type: enum
     additionalProps:
       allowMultiple: true
