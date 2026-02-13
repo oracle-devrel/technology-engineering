@@ -26,7 +26,7 @@ This cross-region DR topology spans two OCI regions and includes:
   - Standby database in Region B
 - **SRM** orchestrating VMware application recovery
 - Secure, low-latency inter-region connectivity via **DRG**, **VCN Peering**, and **NSX-T** networking
-- 
+  
 ![OCVS DR Architecture](ocvs-exadb-xs-dr-architecture.png)
 
 This ensures operational consistency for VMware workloads while delivering Exascale-level I/O performance for Oracle Databases.
