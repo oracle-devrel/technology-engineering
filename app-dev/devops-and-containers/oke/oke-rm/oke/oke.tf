@@ -3,7 +3,7 @@
 
 module "oke" {
   source         = "oracle-terraform-modules/oke/oci"
-  version        = "5.3.3"
+  version        = "5.4.0"
   compartment_id = var.oke_compartment_id
   # Network module - VCN
   create_vcn                        = false
@@ -48,9 +48,8 @@ module "oke" {
   oidc_token_auth_enabled          = local.oidc_authentication_enabled
   oidc_token_authentication_config = local.oidc_token_authentication_config
 
-  cluster_freeform_tags = {
-    cluster = var.cluster_name
-  }
+  cluster_freeform_tags = local.tag_value.freeformTags
+  cluster_defined_tags  = local.tag_value.definedTags
 
   # Bastion
   create_bastion = false
@@ -72,7 +71,7 @@ module "oke" {
   # Set this to true to enable in-transit encryption on all node pools by default
   # NOTE: in-transit encryption is supported only for paravirtualized attached block volumes and boot volumes, hence you will need to create another StorageClass in the cluster to attach volume through paravirtualization, as the default oci-bv StorageClass uses iSCSI
   # Also note that Bare Metal instances do not support paravirtualized volumes, the oke module won't enable it on BM shapes, even if you set this to true
-  worker_pv_transit_encryption = true
+  worker_pv_transit_encryption = false
 
   # Enable encryption of volumes with a key managed by you, in your OCI Vault. KMS OCID of the key used for in-transit and at-rest encryption of block volumes
   #worker_volume_kms_key_id = ""
@@ -86,13 +85,19 @@ module "oke" {
   # Cloud init to add to all node pools. This will be added to the default_cloud_init
   #worker_cloud_init = [{ content_type = "text/cloud-config", content = file("cloud-init/oca.yml")}]
 
+
+  # Default Persistent Volume Tags
+  #persistent_volume_defined_tags = {}
+  #persistent_volume_freeform_tags = {}
+
+  # Default Load Balancer Tags
+  #service_lb_defined_tags = {}
+  #service_lb_freeform_tags = {}
+
   # GLOBAL TAGS TO BE APPLIED ON ALL NODES
   # NOTE: tags will be applied to both the node pool and the nodes
-  /*workers_freeform_tags = {
-    "oke-cluster-name" = var.cluster_name
-  }
-  workers_defined_tags = {}
-  */
+  #workers_freeform_tags = {}
+  #workers_defined_tags = {}
 
   # GLOBAL NODE POOL LABELS TO BE APPLIED ON ALL NODES (Kubernetes labels)
   #worker_node_labels = {}
@@ -129,7 +134,7 @@ module "oke" {
       node_cycling_max_surge       = "50%"
       node_cycling_max_unavailable = "0%"
       node_cycling_mode            = ["instance"] # Valid values are instance and boot_volume. The boot_volume mode only works when (kubernetes_version, image_id, boot_volume_size, node_metadata, ssh_public_key, volume_kms_key_id) are modified.
-      boot_volume_size             = 50
+      boot_volume_size             = 100
       # max_pods_per_node = 10                              # When using VCN_NATIVE CNI, configure maximum number of pods for each node in the node pool
       create = false # Set it to true so that the node pool is created
     }

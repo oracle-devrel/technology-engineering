@@ -37,6 +37,8 @@ resource "oci_identity_policy" "cluster_autoscaler_policy_all" {
   description    = "Policies for the OKE cluster autoscaler using workload identity"
   name           = "${var.cluster_name}-cluster-autoscaler-policies"
   statements     = local.cluster_autoscaler_addon_all_statements
+  freeform_tags  = local.tag_value.freeformTags
+  defined_tags   = local.tag_value.definedTags
   provider       = oci.home
   count          = local.node_pool_network_compartment_same && local.create_autoscaler_policies ? 1 : 0
 }
@@ -46,6 +48,8 @@ resource "oci_identity_policy" "cluster_autoscaler_policy_network" {
   description    = "Policies for the OKE cluster autoscaler using workload identity"
   name           = "${var.cluster_name}-cluster-autoscaler-policies-network"
   statements     = local.cluster_autoscaler_addon_network_statements
+  freeform_tags  = local.tag_value.freeformTags
+  defined_tags   = local.tag_value.definedTags
   provider       = oci.home
   count          = !local.node_pool_network_compartment_same && local.create_autoscaler_policies ? 1 : 0
 }
@@ -55,6 +59,8 @@ resource "oci_identity_policy" "cluster_autoscaler_policy_nodepool" {
   description    = "Policies for the OKE cluster autoscaler using workload identity"
   name           = "${var.cluster_name}-cluster-autoscaler-policies-nodepool"
   statements     = local.cluster_autoscaler_addon_nodepool_statements
+  freeform_tags  = local.tag_value.freeformTags
+  defined_tags   = local.tag_value.definedTags
   provider       = oci.home
   count          = !local.node_pool_network_compartment_same && local.create_autoscaler_policies ? 1 : 0
 }

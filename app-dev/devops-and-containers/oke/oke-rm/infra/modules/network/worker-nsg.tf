@@ -1,6 +1,8 @@
 resource "oci_core_network_security_group" "worker_nsg" {
   compartment_id = var.network_compartment_id
   vcn_id         = local.vcn_id
+  freeform_tags  = var.tag_value.freeformTags
+  defined_tags   = var.tag_value.definedTags
   display_name   = "worker"
 }
 
@@ -212,6 +214,7 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_interne
   destination               = "0.0.0.0/0"
   stateless                 = false
   description               = "Allow ALL egress from workers to internet"
+  count                     = var.allow_worker_nat_egress ? 1 : 0
 }
 
 # Control plane - API server (TCP 6443)
@@ -497,4 +500,112 @@ resource "oci_core_network_security_group_security_rule" "oke_worker_nsg_fss_nfs
       min = 2051
     }
   }
+}
+
+# POSTGRES
+
+resource "oci_core_network_security_group_security_rule" "postgres_worker_egress" {
+  direction                 = "EGRESS"
+  network_security_group_id = oci_core_network_security_group.worker_nsg.id
+  protocol                  = local.tcp_protocol
+  destination_type          = "NETWORK_SECURITY_GROUP"
+  destination               = oci_core_network_security_group.db[local.postgres_service].id
+  stateless                 = true
+  description               = "Allow communication from worker nodes to postgres"
+  tcp_options {
+    destination_port_range {
+      max = 5432
+      min = 5432
+    }
+  }
+  count = !local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list, local.postgres_service) ? 1 : 0
+}
+
+resource "oci_core_network_security_group_security_rule" "postgres_worker_ingress" {
+  direction                 = "INGRESS"
+  network_security_group_id = oci_core_network_security_group.worker_nsg.id
+  protocol                  = local.tcp_protocol
+  source_type               = "NETWORK_SECURITY_GROUP"
+  source                    = oci_core_network_security_group.db[local.postgres_service].id
+  stateless                 = true
+  description               = "Allow communication from postgres to worker nodes"
+  tcp_options {
+    source_port_range {
+      max = 5432
+      min = 5432
+    }
+  }
+  count = !local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list, local.postgres_service) ? 1 : 0
+}
+
+# OCI CACHE
+
+resource "oci_core_network_security_group_security_rule" "cache_worker_egress" {
+  direction                 = "EGRESS"
+  network_security_group_id = oci_core_network_security_group.worker_nsg.id
+  protocol                  = local.tcp_protocol
+  destination_type          = "NETWORK_SECURITY_GROUP"
+  destination               = oci_core_network_security_group.db[local.cache_service].id
+  stateless                 = true
+  description               = "Allow communication from workers to oci cache"
+  tcp_options {
+    destination_port_range {
+      max = 6379
+      min = 6379
+    }
+  }
+  count = !local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list, local.cache_service) ? 1 : 0
+}
+
+resource "oci_core_network_security_group_security_rule" "cache_worker_ingress" {
+  direction                 = "INGRESS"
+  network_security_group_id = oci_core_network_security_group.worker_nsg.id
+  protocol                  = local.tcp_protocol
+  source_type               = "NETWORK_SECURITY_GROUP"
+  source                    = oci_core_network_security_group.db[local.cache_service].id
+  stateless                 = true
+  description               = "Allow communication from oci cache to workers"
+  tcp_options {
+    source_port_range {
+      max = 6379
+      min = 6379
+    }
+  }
+  count = !local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list, local.cache_service) ? 1 : 0
+}
+
+# Oracle database
+
+resource "oci_core_network_security_group_security_rule" "oracle_worker_egress" {
+  direction                 = "EGRESS"
+  network_security_group_id = oci_core_network_security_group.worker_nsg.id
+  protocol                  = local.tcp_protocol
+  destination_type          = "NETWORK_SECURITY_GROUP"
+  destination               = oci_core_network_security_group.db[local.oracledb_service].id
+  stateless                 = true
+  description               = "Allow communication from workers to oracle database"
+  tcp_options {
+    destination_port_range {
+      max = 1522
+      min = 1521
+    }
+  }
+  count = !local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list, local.oracledb_service) ? 1 : 0
+}
+
+resource "oci_core_network_security_group_security_rule" "oracle_worker_ingress" {
+  direction                 = "INGRESS"
+  network_security_group_id = oci_core_network_security_group.worker_nsg.id
+  protocol                  = local.tcp_protocol
+  source_type               = "NETWORK_SECURITY_GROUP"
+  source                    = oci_core_network_security_group.db[local.oracledb_service].id
+  stateless                 = true
+  description               = "Allow communication from oracle database to workers"
+  tcp_options {
+    source_port_range {
+      max = 1522
+      min = 1521
+    }
+  }
+  count = !local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list, local.oracledb_service) ? 1 : 0
 }

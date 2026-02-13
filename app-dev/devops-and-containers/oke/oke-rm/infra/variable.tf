@@ -61,6 +61,11 @@ variable "worker_subnet_name" {
   default = "worker"
 }
 
+variable "allow_worker_nat_egress" {
+  type    = bool
+  default = true
+}
+
 # POD SUBNET
 
 variable "create_pod_subnet" {
@@ -70,6 +75,11 @@ variable "create_pod_subnet" {
 
 variable "pod_subnet_name" {
   default = "pod"
+}
+
+variable "allow_pod_nat_egress" {
+  type    = bool
+  default = true
 }
 
 # LB SUBNETS
@@ -129,7 +139,7 @@ variable "create_internet_gateway" {
   default = true
 }
 
-#CONTROL PLANE EXTERNAL CONNECTION
+# CONTROL PLANE EXTERNAL CONNECTION
 
 variable "cp_external_nat" {
   type    = bool
@@ -144,6 +154,28 @@ variable "allow_external_cp_traffic" {
 variable "cp_egress_cidr" {
   default = "0.0.0.0/0"
 }
+
+# ADDITIONAL NETWORK
+
+variable "create_db_subnet" {
+  type    = bool
+  default = false
+}
+
+variable "db_subnet_name" {
+  default = "db"
+}
+
+variable "db_service_list" {
+  type    = list(string)
+  default = []
+}
+
+variable "separate_db_nsg" {
+  type    = bool
+  default = true
+}
+
 
 # DRG
 
@@ -173,5 +205,15 @@ variable "create_drg_attachment" {
 variable "peer_vcns" {
   type    = list(string)
   default = []
+}
+
+# Tagging
+
+variable "tag_value" {
+  type = object({
+    freeformTags = map(string)
+    definedTags  = map(string)
+  })
+  default = null
 }
 

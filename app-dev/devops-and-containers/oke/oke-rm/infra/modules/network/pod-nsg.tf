@@ -2,6 +2,8 @@ resource "oci_core_network_security_group" "pod_nsg" {
   compartment_id = var.network_compartment_id
   vcn_id         = local.vcn_id
   display_name   = "pod"
+  freeform_tags  = var.tag_value.freeformTags
+  defined_tags   = var.tag_value.definedTags
   count          = local.is_npn ? 1 : 0
 }
 
@@ -129,7 +131,7 @@ resource "oci_core_network_security_group_security_rule" "oke_pod_nsg_internet_a
   destination               = "0.0.0.0/0"
   stateless                 = false
   description               = "Allow ALL egress from pods to internet"
-  count                     = local.is_npn ? 1 : 0
+  count                     = local.is_npn && var.allow_pod_nat_egress ? 1 : 0
 }
 
 # Control plane - API server (TCP 6443)
@@ -188,4 +190,112 @@ resource "oci_core_network_security_group_security_rule" "oke_pod_nsg_services_i
   stateless                 = true
   description               = "Allow TCP ingress from OCI services to pods"
   count                     = local.is_npn ? 1 : 0
+}
+
+# POSTGRES
+
+resource "oci_core_network_security_group_security_rule" "postgres_pod_egress" {
+  direction                 = "EGRESS"
+  network_security_group_id = oci_core_network_security_group.pod_nsg.0.id
+  protocol                  = local.tcp_protocol
+  destination_type          = "NETWORK_SECURITY_GROUP"
+  destination               = oci_core_network_security_group.db[local.postgres_service].id
+  stateless                 = true
+  description               = "Allow communication from pods to postgres"
+  tcp_options {
+    destination_port_range {
+      max = 5432
+      min = 5432
+    }
+  }
+  count = local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list, local.postgres_service) ? 1 : 0
+}
+
+resource "oci_core_network_security_group_security_rule" "postgres_pod_ingress" {
+  direction                 = "INGRESS"
+  network_security_group_id = oci_core_network_security_group.pod_nsg.0.id
+  protocol                  = local.tcp_protocol
+  source_type               = "NETWORK_SECURITY_GROUP"
+  source                    = oci_core_network_security_group.db[local.postgres_service].id
+  stateless                 = true
+  description               = "Allow communication from postgres to pods"
+  tcp_options {
+    source_port_range {
+      max = 5432
+      min = 5432
+    }
+  }
+  count = local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list, local.postgres_service) ? 1 : 0
+}
+
+# OCI CACHE
+
+resource "oci_core_network_security_group_security_rule" "cache_pod_egress" {
+  direction                 = "EGRESS"
+  network_security_group_id = oci_core_network_security_group.pod_nsg.0.id
+  protocol                  = local.tcp_protocol
+  destination_type          = "NETWORK_SECURITY_GROUP"
+  destination               = oci_core_network_security_group.db[local.cache_service].id
+  stateless                 = true
+  description               = "Allow communication from pods to oci cache"
+  tcp_options {
+    destination_port_range {
+      max = 6379
+      min = 6379
+    }
+  }
+  count = local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list, local.cache_service) ? 1 : 0
+}
+
+resource "oci_core_network_security_group_security_rule" "cache_pod_ingress" {
+  direction                 = "INGRESS"
+  network_security_group_id = oci_core_network_security_group.pod_nsg.0.id
+  protocol                  = local.tcp_protocol
+  source_type               = "NETWORK_SECURITY_GROUP"
+  source                    = oci_core_network_security_group.db[local.cache_service].id
+  stateless                 = true
+  description               = "Allow communication from oci cache to pods"
+  tcp_options {
+    source_port_range {
+      max = 6379
+      min = 6379
+    }
+  }
+  count = local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list, local.cache_service) ? 1 : 0
+}
+
+# Oracle database
+
+resource "oci_core_network_security_group_security_rule" "oracle_pod_egress" {
+  direction                 = "EGRESS"
+  network_security_group_id = oci_core_network_security_group.pod_nsg.0.id
+  protocol                  = local.tcp_protocol
+  destination_type          = "NETWORK_SECURITY_GROUP"
+  destination               = oci_core_network_security_group.db[local.oracledb_service].id
+  stateless                 = true
+  description               = "Allow communication from pods to oracle database"
+  tcp_options {
+    destination_port_range {
+      max = 1522
+      min = 1521
+    }
+  }
+  count = local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list, local.oracledb_service) ? 1 : 0
+}
+
+resource "oci_core_network_security_group_security_rule" "oracle_pod_ingress" {
+  direction                 = "INGRESS"
+  network_security_group_id = oci_core_network_security_group.pod_nsg.0.id
+  protocol                  = local.tcp_protocol
+  source_type               = "NETWORK_SECURITY_GROUP"
+  source                    = oci_core_network_security_group.db[local.oracledb_service].id
+  stateless                 = true
+  description               = "Allow communication from oracle database to pods"
+  tcp_options {
+    source_port_range {
+      max = 1522
+      min = 1521
+    }
+  }
+  count = local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list, local.oracledb_service) ? 1 : 0
 }

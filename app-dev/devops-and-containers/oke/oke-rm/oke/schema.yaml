@@ -187,6 +187,7 @@ variables:
     type: array
     items:
       type: string
+      pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\/(?:[0-9]|[1-2][0-9]|3[0-2])$"
     required: true
 
 # CLUSTER
@@ -232,12 +233,14 @@ variables:
     title: "Services CIDR"
     description: "Internal Kubernetes services CIDR block. Must not overlap with any VCN CIDR block"
     type: string
+    pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\/(?:[0-9]|[1-2][0-9]|3[0-2])$"
     required: true
 
   pods_cidr:
     title: "Pods CIDR"
     description: "Internal Pod CIDR block. Must not overlap with any VCN CIDR block"
     type: string
+    pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\/(?:[0-9]|[1-2][0-9]|3[0-2])$"
     required: true
     visible:
       eq:
@@ -351,6 +354,10 @@ variables:
     type: string
     required: true
     visible: ${enable_oidc_authentication}
+
+  tag_value:
+    type: oci:identity:tag:value
+    title: Tags
 
 
 # OUTPUT SECTION
