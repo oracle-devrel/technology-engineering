@@ -54,7 +54,7 @@ module "network" {
   db_subnet_cidr      = local.subnets.cidr.db
   db_subnet_dns_label = local.subnets.dns.db
   db_subnet_name      = var.db_subnet_name
-  db_service_list     = var.db_service_list
+  db_service_list     = local.db_service_list
   separate_db_nsg     = var.separate_db_nsg
   # GATEWAYS
   create_gateways         = var.create_gateways

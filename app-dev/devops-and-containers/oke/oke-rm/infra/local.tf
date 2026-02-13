@@ -3,6 +3,7 @@ locals {
   cni             = var.cni_type == "vcn_native" ? "npn" : var.cni_type
   vcn_cidr_blocks = [var.vcn_cidr_block]
   tag_value       = var.tag_value == null ? { "freeformTags" = {}, "definedTags" = {} } : var.tag_value
+  db_service_list = var.db_service_list == null ? [] : var.db_service_list
   subnets = {
     cidr = {
       pod         = var.create_vcn ? cidrsubnet(var.vcn_cidr_block, 1, 0) : null     # e.g., "10.0.0.0/17"
