@@ -417,6 +417,7 @@ variables:
       - cache
       - oracledb
     required: false
+    default: []
 
   separate_db_nsg:
     title: "Create Separate database NSGs"
