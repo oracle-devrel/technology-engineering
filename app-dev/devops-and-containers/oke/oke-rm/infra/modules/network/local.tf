@@ -32,5 +32,6 @@ locals {
   postgres_service   = "postgres"
   cache_service      = "cache"
   oracledb_service   = "oracledb"
+  mysql_service = "mysql"
   service_cidr_block = lookup(data.oci_core_services.all_oci_services.services[0], "cidr_block")
 }

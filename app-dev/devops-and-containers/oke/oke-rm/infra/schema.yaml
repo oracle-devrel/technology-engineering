@@ -416,6 +416,7 @@ variables:
       - postgres
       - cache
       - oracledb
+      - mysql
     required: false
     default: []
 
