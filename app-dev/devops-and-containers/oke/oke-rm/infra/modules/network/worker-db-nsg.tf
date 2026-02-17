@@ -119,3 +119,73 @@ resource "oci_core_network_security_group_security_rule" "oracle_worker_db_ingre
   }
   count = local.create_worker_db && contains(var.db_service_list, local.oracledb_service) ? 1 : 0
 }
+
+# MySQL
+
+resource "oci_core_network_security_group_security_rule" "mysql_classic_worker_db_egress" {
+  direction                 = "EGRESS"
+  network_security_group_id = oci_core_network_security_group.worker_db[local.mysql_service].id
+  protocol                  = local.tcp_protocol
+  destination_type          = "NETWORK_SECURITY_GROUP"
+  destination               = oci_core_network_security_group.db[local.mysql_service].id
+  stateless                 = true
+  description               = "Allow communication from workers to mysql classic database port"
+  tcp_options {
+    destination_port_range {
+      max = 3306
+      min = 3306
+    }
+  }
+  count = local.create_worker_db && contains(var.db_service_list, local.mysql_service) ? 1 : 0
+}
+
+resource "oci_core_network_security_group_security_rule" "mysql_classic_worker_db_ingress" {
+  direction                 = "INGRESS"
+  network_security_group_id = oci_core_network_security_group.worker_db[local.mysql_service].id
+  protocol                  = local.tcp_protocol
+  source_type               = "NETWORK_SECURITY_GROUP"
+  source                    = oci_core_network_security_group.db[local.mysql_service].id
+  stateless                 = true
+  description               = "Allow communication from mysql classic database port to workers"
+  tcp_options {
+    source_port_range {
+      max = 3306
+      min = 3306
+    }
+  }
+  count = local.create_worker_db && contains(var.db_service_list, local.mysql_service) ? 1 : 0
+}
+
+resource "oci_core_network_security_group_security_rule" "mysql_x_worker_db_egress" {
+  direction                 = "EGRESS"
+  network_security_group_id = oci_core_network_security_group.worker_db[local.mysql_service].id
+  protocol                  = local.tcp_protocol
+  destination_type          = "NETWORK_SECURITY_GROUP"
+  destination               = oci_core_network_security_group.db[local.mysql_service].id
+  stateless                 = true
+  description               = "Allow communication from workers to mysql x database port"
+  tcp_options {
+    destination_port_range {
+      max = 33060
+      min = 33060
+    }
+  }
+  count = local.create_worker_db && contains(var.db_service_list, local.mysql_service) ? 1 : 0
+}
+
+resource "oci_core_network_security_group_security_rule" "mysql_x_worker_db_ingress" {
+  direction                 = "INGRESS"
+  network_security_group_id = oci_core_network_security_group.worker_db[local.mysql_service].id
+  protocol                  = local.tcp_protocol
+  source_type               = "NETWORK_SECURITY_GROUP"
+  source                    = oci_core_network_security_group.db[local.mysql_service].id
+  stateless                 = true
+  description               = "Allow communication from mysql x database port to workers"
+  tcp_options {
+    source_port_range {
+      max = 33060
+      min = 33060
+    }
+  }
+  count = local.create_worker_db && contains(var.db_service_list, local.mysql_service) ? 1 : 0
+}
