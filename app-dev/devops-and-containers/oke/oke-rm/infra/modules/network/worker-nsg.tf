@@ -610,6 +610,40 @@ resource "oci_core_network_security_group_security_rule" "oracle_worker_ingress"
   count = !local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list, local.oracledb_service) ? 1 : 0
 }
 
+resource "oci_core_network_security_group_security_rule" "oracle_mongo_worker_egress" {
+  direction                 = "EGRESS"
+  network_security_group_id = oci_core_network_security_group.worker_nsg.id
+  protocol                  = local.tcp_protocol
+  destination_type          = "NETWORK_SECURITY_GROUP"
+  destination               = oci_core_network_security_group.db[local.oracledb_service].id
+  stateless                 = true
+  description               = "Allow communication from workers to oracle mongodb API"
+  tcp_options {
+    destination_port_range {
+      max = 27017
+      min = 27017
+    }
+  }
+  count = !local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list, local.oracledb_service) ? 1 : 0
+}
+
+resource "oci_core_network_security_group_security_rule" "oracle_mongo_worker_ingress" {
+  direction                 = "INGRESS"
+  network_security_group_id = oci_core_network_security_group.worker_nsg.id
+  protocol                  = local.tcp_protocol
+  source_type               = "NETWORK_SECURITY_GROUP"
+  source                    = oci_core_network_security_group.db[local.oracledb_service].id
+  stateless                 = true
+  description               = "Allow communication from oracle mongodb API to workers"
+  tcp_options {
+    source_port_range {
+      max = 27017
+      min = 27017
+    }
+  }
+  count = !local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list, local.oracledb_service) ? 1 : 0
+}
+
 # MySQL
 
 resource "oci_core_network_security_group_security_rule" "mysql_classic_worker_egress" {
