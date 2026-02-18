@@ -208,17 +208,17 @@ Ensure:
 
 Confirm:
 - wallet is correctly unzipped
-- TNS name exists
+- TNS name exists and is the same as the one in the wallet
 - network access to Autonomous Database is allowed
 
 ---
 
 ## 9. References
 
-- OCI Vision documentation  
-- OCI Vision Python SDK  
-- OCI Generative AI Inference  
-- Oracle Database Vector Search
+- OCI Vision documentation https://docs.oracle.com/en-us/iaas/Content/vision/using/home.htm
+- OCI Vision Python SDK https://docs.oracle.com/en-us/iaas/tools/python/latest/api/ai_vision.html  
+- OCI Generative AI documentation https://docs.oracle.com/en-us/iaas/Content/generative-ai/home.htm
+- Oracle Database Vector Search https://www.oracle.com/in/database/ai-vector-search/
 
 ---
 
