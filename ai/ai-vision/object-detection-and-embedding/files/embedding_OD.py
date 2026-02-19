@@ -87,9 +87,9 @@ img {{
 """
 st.markdown(custom_css, unsafe_allow_html=True)
 
-#------------------------#
+#-------------------------#
 # DB + OCI Client Config #
-#------------------------#
+#-------------------------#
 conn = oracledb.connect(
     user="",
     password="",
