@@ -1,3 +1,4 @@
+import base64
 import copy
 import json
 import os
@@ -22,6 +23,8 @@ if "processed" not in st.session_state:
     st.session_state["processed"] = False
 if "selected_model" not in st.session_state:
     st.session_state["selected_model"] = None
+if "selected_speech_model" not in st.session_state:
+    st.session_state["selected_speech_model"] = None
 
 
 def load_css():
@@ -62,25 +65,38 @@ def upload_audio(uploaded_file):
     return audio_file
 
 
+def encode_logo():
+    """
+    Return base64 string of the Oracle logo from config.ORACLE_LOGO.
+    """
+    try:
+        with open(config.ORACLE_LOGO, "rb") as f:
+            return base64.b64encode(f.read()).decode()
+    except Exception:
+        return None
+
+
 def render_header():
     """
-    Use the .main-header / .header-content / .oracle-logo styles
-    from styles.css.
+    Render header using Streamlit native components for better compatibility.
     """
-    st.markdown(
-        """
-        <header class="main-header">
-            <div class="header-content">
-                <h1>Audio Call Analyzer</h1>
-                <p>
-                    Upload one or more calls, generate diarized transcripts and LLM-powered
-                    summaries, and explore batch-level insights.
-                </p>
-            </div>
-        </header>
-        """,
-        unsafe_allow_html=True,
-    )
+    logo_b64 = encode_logo()
+    
+    # Use columns for centered layout
+    col1, col2, col3 = st.columns([1, 2, 1])
+    
+    with col2:
+        if logo_b64:
+            st.image(
+                f"data:image/png;base64,{logo_b64}",
+                width=200
+            )
+        st.markdown("### Audio Call Analyzer")
+        st.markdown(
+            "Upload one or more calls, generate diarized transcripts and LLM-powered "
+            "summaries, and explore batch-level insights."
+        )
+        st.markdown("---")
 
 
 def parse_llm_json(raw_summary: str):
@@ -119,45 +135,62 @@ def parse_llm_json(raw_summary: str):
     return summary_json
 
 
-def process_batch(uploaded_files, selected_model):
+def process_batch(uploaded_files, selected_model, selected_speech_model):
     """
     Run the speech + LLM pipeline on a batch of uploaded files.
     Stores structured results in st.session_state.
     """
     speech_pipeline = ai_tools.SpeechPipeline(config)
     genai_pipeline = ai_tools.GenAIPipeline(config)
+    sentiment_pipeline = ai_tools.SentimentAnalysisPipeline(config)
 
     do_diarization = True
     results = []
 
-    progress = st.progress(0.0)
+    total_files = len(uploaded_files)
+    progress = st.progress(0.0, text=f"Processing 0/{total_files} files...")
     status_box = st.empty()
 
-    total_files = len(uploaded_files)
-
     for idx, uploaded_file in enumerate(uploaded_files):
+        file_progress = (idx + 1) / total_files
+        progress.progress(
+            file_progress,
+            text=f"Processing {idx + 1}/{total_files}: {uploaded_file.name}"
+        )
         status_box.info(
-            f"Processing **{uploaded_file.name}** "
-            f"({idx + 1}/{total_files}) - transcribing & summarizing..."
+            f"**{uploaded_file.name}** - Transcribing, analyzing sentiment & summarizing..."
         )
 
         # 1. Save audio
         audio_path = upload_audio(uploaded_file)
 
         # 2. Transcription
-        whisper_trans = speech_pipeline.get_transcription(
-            audio_path,
-            model_type="Oracle",  # or "Whisper"
-            whisper_prompt=None,
-            diarization=do_diarization,
-            number_of_speakers=2,
-        )
-        processed_trans, speakers_list = ai_tools.post_process_trans(
-            whisper_trans,
-            diarization=do_diarization,
+        try:
+            whisper_trans = speech_pipeline.get_transcription(
+                audio_path,
+                model_type=selected_speech_model,
+                whisper_prompt=None,
+                diarization=do_diarization,
+                number_of_speakers=2,
+            )
+            processed_trans, speakers_list = ai_tools.post_process_trans(
+                whisper_trans,
+                diarization=do_diarization,
+            )
+        except (ValueError, AttributeError) as e:
+            status_box.error(f"Transcription failed for {uploaded_file.name}: {str(e)}")
+            # Skip this file and continue with next
+            continue
+        except Exception as e:
+            status_box.error(f"Unexpected error during transcription for {uploaded_file.name}: {str(e)}")
+            continue
+
+        # 3. Sentiment Analysis using OCI Language Service
+        sentiment_result = sentiment_pipeline.analyze_sentiment(
+            processed_trans, level="SENTENCE"
         )
 
-        # 3. LLM JSON summary
+        # 4. LLM JSON summary (without sentiment_score - we'll add it from Language Service)
         prompt = prompts.SUMMARIZE_SYSTEM_PROMPT.format(format=prompts.SUMMARY_FORMAT)
         summary_json = genai_pipeline.get_chat_response(
             prompt,
@@ -165,7 +198,13 @@ def process_batch(uploaded_files, selected_model):
             model_id=config.GENAI_MODELS[selected_model],
         )
 
-        # summary_json = parse_llm_json(raw_summary)
+        # 5. Merge sentiment score from OCI Language Service into summary_json
+        # Override any sentiment_score from LLM with the one from Language Service
+        summary_json["sentiment_score"] = sentiment_result["sentiment_score"]
+        summary_json["sentiment_details"] = {
+            "sentiment": sentiment_result["sentiment"],
+            "confidence": sentiment_result["confidence"],
+        }
 
         results.append(
             {
@@ -173,12 +212,11 @@ def process_batch(uploaded_files, selected_model):
                 "audio_path": audio_path,
                 "transcription": processed_trans,
                 "speakers_list": speakers_list,
-                # "summary_raw": raw_summary,
                 "summary_json": summary_json,
             }
         )
 
-        progress.progress((idx + 1) / total_files)
+        # Progress is already updated at the start of the loop
 
     status_box.success("All files processed successfully ✅")
 
@@ -186,20 +224,23 @@ def process_batch(uploaded_files, selected_model):
     st.session_state["results"] = results
     st.session_state["processed"] = True
     st.session_state["selected_model"] = selected_model
+    st.session_state["selected_speech_model"] = selected_speech_model
 
 
 # ---------- Page renderers ----------
-def render_per_call_view(results, selected_model):
+def render_per_call_view(results, selected_model, selected_speech_model):
     do_diarization = True
 
     # KPIs
     if results:
-        col1, col2, col3 = st.columns(3)
+        col1, col2, col3, col4 = st.columns(4)
         with col1:
             st.metric("Calls in batch", len(results))
         with col2:
-            st.metric("LLM model", selected_model)
+            st.metric("Speech model", selected_speech_model)
         with col3:
+            st.metric("LLM model", selected_model)
+        with col4:
             st.metric("Diarization", "On")
 
     if not results:
@@ -229,7 +270,8 @@ def render_per_call_view(results, selected_model):
                 <div class="file-header">
                     <div class="file-name">{res["name"]}</div>
                     <div>
-                        <span class="pill">Model: {selected_model}</span>
+                        <span class="pill">Speech: {selected_speech_model}</span>
+                        <span class="pill">LLM: {selected_model}</span>
                         <span class="pill">Diarization: On</span>
                     </div>
                 </div>
@@ -327,7 +369,7 @@ def render_per_call_view(results, selected_model):
                 )
 
 
-def render_batch_overview(results, selected_model):
+def render_batch_overview(results, selected_model, selected_speech_model):
     if not results:
         st.info(
             "Batch overview is disabled until you process at least one batch of audio. "
@@ -647,7 +689,7 @@ def main():
     render_header()
 
     # --- Sidebar controls & page selection ---
-    uploaded_files, run_button, selected_model, page = navbar.make_sidebar(config)
+    uploaded_files, run_button, selected_model, selected_speech_model, page = navbar.make_sidebar(config)
 
     # Ensure list type for multi-file support
     if uploaded_files and not isinstance(uploaded_files, list):
@@ -655,16 +697,17 @@ def main():
 
     # --- Run processing when button clicked ---
     if uploaded_files and run_button:
-        process_batch(uploaded_files, selected_model)
+        process_batch(uploaded_files, selected_model, selected_speech_model)
 
     # Get last processed batch from session_state
     results = st.session_state.get("results")
     processed = st.session_state.get("processed", False)
     selected_model_state = st.session_state.get("selected_model") or selected_model
+    selected_speech_model_state = st.session_state.get("selected_speech_model") or selected_speech_model
 
     # --- Route to the selected "page" ---
     if page == "Per-call view":
-        render_per_call_view(results if processed else None, selected_model_state)
+        render_per_call_view(results if processed else None, selected_model_state, selected_speech_model_state)
     elif page == "Batch overview":
         if not processed:
             st.info(
@@ -672,7 +715,7 @@ def main():
                 "Go to **Per-call view**, upload files, and click **Run** first."
             )
             st.stop()
-        render_batch_overview(results, selected_model_state)
+        render_batch_overview(results, selected_model_state, selected_speech_model_state)
 
     render_footer()
 
