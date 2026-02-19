@@ -28,7 +28,6 @@ def get_base64(image_path):
 
 bg_base64 = get_base64(IMAGES_DIR / "background.png")
 sidebar_bg = get_base64(IMAGES_DIR / "banner.jpg")
-oracle_img = get_base64(IMAGES_DIR / "logo.png")
 
 custom_css = f"""
 <style>
@@ -60,7 +59,7 @@ button {{
 }}
 header[data-testid="stHeader"] {{
     background: #271b18 !important;
-    min-height: 120px !important;
+    min-height: 50px !important;
 }}
 header[data-testid="stHeader"]::after {{
     content: "";
@@ -68,8 +67,7 @@ header[data-testid="stHeader"]::after {{
     top: 20px;
     left: 35px;
     height: 85px;
-    width: 220px;
-    background-image: url('data:image/png;base64,{oracle_img}');
+    width: 100px;
     background-size: contain;
     background-repeat: no-repeat;
 }}
@@ -92,7 +90,6 @@ st.markdown(custom_css, unsafe_allow_html=True)
 #------------------------#
 # DB + OCI Client Config #
 #------------------------#
-# Security note: avoid hardcoding passwords/OCIDs in source; prefer st.secrets/env vars.
 conn = oracledb.connect(
     user="",
     password="",
