@@ -180,7 +180,7 @@ pytz==2025.2
 PyYAML==6.0.2
 pyzmq==26.4.0
 qdrant-client==1.13.3
-ray==2.52.0
+ray==2.54.0
 referencing==0.36.2
 regex==2024.11.6
 requests==2.32.3
