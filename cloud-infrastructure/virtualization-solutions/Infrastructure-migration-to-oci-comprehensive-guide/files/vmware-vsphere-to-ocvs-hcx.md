@@ -99,12 +99,12 @@ With RAV, multiple VMs are replicated simultaneously. When the replication phase
 - HCX Deactivates Change Block Tracking (CBT) before migration
 
 
-### Key Capabilities for Networking
+## Key Capabilities for Networking
 
 - **L2 Network Extension:** Seamless IP preservation and extended subnets across OCI and on-premises.
 - **Mobility Optimized Networking:** Allowing VMs using a layer 2 extension to route more efficiently.
 
-## Layer 2 Network Extension
+### Layer 2 Network Extension
 
 L2 Network Extension enables seamless extension of Layer 2 broadcast domains from an on-premises datacenter to OCVS. This allows virtual machines to retain their existing IP addresses, avoiding the need for re-IPing during migration.
 
