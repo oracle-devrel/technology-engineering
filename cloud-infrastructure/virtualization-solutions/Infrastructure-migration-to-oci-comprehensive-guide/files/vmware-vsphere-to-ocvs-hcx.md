@@ -27,15 +27,19 @@ Migrating VMware workloads to OCVS using HCX enables advanced capabilities such 
 
 **Licensing:** HCX is bundled with OCVS deployments. Depending on the chosen Bare Metal shape, customers receive HCX Advanced or HCX Enterprise licenses.
 
-### Key Capabilities
+### Key Capabilities for Migrations
 
 - **Bulk Migration:** Parallel batch migration of VMs with scheduled cutovers. (Advanced Licensing)
 - **vMotion:** Live migration of a single powered-on workload with zero downtime (Advanced Licensing)
 - **Cold Migration:** Migration of a powered off VM (Advanced Licensing)
 - **Replicated Assisted vMotion:** Live migration of multiple powered-on workloads with zero downtime. (Enterprise Licensing)
 - **OS-Assisted Migration (OSAM):** Enables guest-based migration of Hyper-V or KVM VMs to OCVS. (Enterprise licensing)
-- **L2 Network Extension:** Seamless IP preservation and extended subnets across OCI and on-premises.
-- **Mobility Optimized Networking:** Allowing VMs using a layer 2 extension to route more efficiently.
+  
+<p align="center">
+
+![Deciding on the correct HCX migration type](./images/HCX-decision-tree1.5.jpg)
+
+</p>
 
 ## Migration Methods
 
@@ -94,11 +98,11 @@ With RAV, multiple VMs are replicated simultaneously. When the replication phase
 - VMs must be at a hardware level of 9 or above to be migrated
 - HCX Deactivates Change Block Tracking (CBT) before migration
 
-<p align="center">
 
-![Deciding on the correct HCX migration type](./images/HCX-decision-tree1.5.jpg)
+### Key Capabilities for Networking
 
-</p>
+- **L2 Network Extension:** Seamless IP preservation and extended subnets across OCI and on-premises.
+- **Mobility Optimized Networking:** Allowing VMs using a layer 2 extension to route more efficiently.
 
 ## Layer 2 Network Extension
 
