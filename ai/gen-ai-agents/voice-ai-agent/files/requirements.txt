@@ -1,0 +1,4 @@
+oci
+sounddevice
+numpy
+websocket-client

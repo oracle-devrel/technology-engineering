@@ -15,12 +15,15 @@ Autonomous Database Free Container Image is now available on [Oracle Container R
 
 If you are looking about information about Oracle Database running on Kubernetes check this content [here](../../../ora-database-microservices/ora-kubernetes/README.md)
 
-Reviewed: 19.11.2024
+Reviewed: 01.12.2025
 
 # Table of Contents
- 
-1. [Useful Links](#useful-links)
+1. [Team Publications](#team-publications)
+2. [Useful Links](#useful-links)
 
+# Team Publications
+
+- [DB Containers: Free Oracle Database for Developers](https://synuora.hashnode.dev/db-containers-free-oracle-database-for-developers)
 # Useful Links
 
 - [Oracle Databases for Containers Home Page](https://www.oracle.com/uk/database/kubernetes-for-container-database/#containers)

@@ -1,7 +1,7 @@
 
 # Using Python SDK to create OCI Monitoring custom metric namespace: Services Limit monitoring example use case
 
-Reviewed: 15.11.2024
+Reviewed: 05.11.2025
 
 ## 1. INTRODUCTION
 

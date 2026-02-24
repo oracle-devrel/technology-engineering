@@ -1,0 +1,24 @@
+# Insert Git repository with .git postfix. This template has to be applied manually
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hub-apps
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: #RepoURL
+    targetRevision: HEAD
+    path: appsets/hub
+    directory:
+      recurse: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: false
+      selfHeal: true

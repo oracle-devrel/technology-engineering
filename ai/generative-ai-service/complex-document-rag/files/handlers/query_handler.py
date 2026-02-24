@@ -20,9 +20,11 @@ def process_query(
     include_xlsx: bool,
     agentic: bool,
     rag_system,
+    entity1: str = "",
+    entity2: str = "",
     progress=gr.Progress()
 ) -> Tuple[str, Optional[str]]:
-    """Process a query using the RAG system"""
+    """Process a query using the RAG system with optional entity specification"""
 
     if not query.strip():
         return "ERROR: Please enter a query", None
@@ -108,11 +110,24 @@ def process_query(
 
             progress(0.8, desc="Generating response...")
 
+            # Prepare provided entities if any
+            provided_entities = []
+            if entity1 and entity1.strip():
+                provided_entities.append(entity1.strip().lower())
+            if entity2 and entity2.strip():
+                provided_entities.append(entity2.strip().lower())
+            
+            # Log entities being used
+            if provided_entities:
+                logger.info(f"Using provided entities: {provided_entities}")
+
             if all_results:
+                # Pass provided entities to the RAG system
                 result = rag_system.rag_agent.process_query_with_multi_collection_context(
                     query,
                     all_results,
-                    collection_mode=active_collection
+                    collection_mode=active_collection,
+                    provided_entities=provided_entities if provided_entities else None
                 )
                 # Ensure result is a dictionary
                 if not isinstance(result, dict):
@@ -140,12 +155,12 @@ def process_query(
                 """Query a single collection in parallel"""
                 try:
                     if collection_type == "pdf":
-                        # Increased to 20 chunks for non-agentic workflows
-                        results = _safe_query("pdf", query, n=20)
+                        # Optimized to 10 chunks for faster processing
+                        results = _safe_query("pdf", query, n=10)
                         return ("PDF", results if results else [])
                     elif collection_type == "xlsx":
-                        # Increased to 20 chunks for non-agentic workflows
-                        results = _safe_query("xlsx", query, n=20)
+                        # Optimized to 10 chunks for faster processing
+                        results = _safe_query("xlsx", query, n=10)
                         return ("XLSX", results if results else [])
                     else:
                         return (collection_type.upper(), [])
@@ -178,8 +193,11 @@ def process_query(
                 return "No relevant information found in selected collections.", None
 
             # Use more chunks for better context in non-agentic mode
-            # Take top 20 chunks total (or all if less than 20)
-            chunks_to_use = retrieved_chunks[:20]
+            # Optimize chunk usage based on model
+            if llm_model == "grok-4":
+                chunks_to_use = retrieved_chunks[:15]  # Can handle more context
+            else:
+                chunks_to_use = retrieved_chunks[:10]  # Optimized for speed
             context_str = "\n\n".join(chunk["content"] for chunk in chunks_to_use)
             prompt = f"""You are an expert assistant.
 

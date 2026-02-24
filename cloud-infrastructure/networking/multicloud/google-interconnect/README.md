@@ -6,7 +6,7 @@ The new Oracle Interconnect for Google Cloud now enables flexible and simplified
 
 Enterprises can seamlessly connect Google Cloud services, such as analytics and AI, to Oracle Cloud services, such as Exadata and Autonomous Database. For organizations seeking to optimize and elevate their cloud infrastructure capabilities and commercial calculus, such a native multicloud model offers the best-of-both-clouds customer experience that encompasses a unified and interoperable technical and commercial stack.
  
-Reviewed: 29.04.2025
+Reviewed: 10.10.2025
  
 # Useful Links
 

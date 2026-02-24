@@ -2,7 +2,7 @@
 
 In this article, we'll explore how we can process emails from Outlook in real-time with a low-code approach using Oracle Integration Cloud (OIC), OCI API Gateway and Microsoft Graph API Webhooks, perform sentiment analysis, custom email categorization and email body PII masking using OCI AI Language, and generate email "quick replies" using OCI Generative AI. Finally all this Email Analysis data is sent to Oracle Autonomous Database for further visualization in an Oracle Analytics Cloud Dashboard. 
 
-Reviewed: 25.10.2024
+Reviewed: 19.01.2026
  
 # When to use this asset?
  

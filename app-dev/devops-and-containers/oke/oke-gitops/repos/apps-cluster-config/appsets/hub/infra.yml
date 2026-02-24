@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: hub-infra
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: [ "missingkey=error" ]
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            type: "hub"
+
+
+  # If you want to delete everything if the Application is deleted, set this to false and then delete the Application. This is just a safeguard
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  template:
+    metadata:
+      name: 'hub-infra'
+    spec:
+      project: default
+      sources:
+        - repoURL: #REPOURL
+          targetRevision: HEAD
+          path: infra/overlays/{{ .metadata.labels.type }}
+
+        - repoURL: #REPOURL
+          targetRevision: HEAD
+          ref: values
+      destination:
+        server: '{{.server}}'
+        namespace: default
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+        automated:
+          prune: true
+          selfHeal: true

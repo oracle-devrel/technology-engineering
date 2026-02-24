@@ -2,7 +2,7 @@
 
 This section includes information about the difference between OCPU and vCPU
  
-Reviewed: 25.10.2024
+Reviewed: 16.10.2025
  
 # When to use this asset?
  

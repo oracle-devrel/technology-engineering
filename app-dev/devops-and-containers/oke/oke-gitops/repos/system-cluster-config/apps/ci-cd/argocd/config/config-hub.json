@@ -1,0 +1,9 @@
+{
+  "chart": {
+    "repo": "https://argoproj.github.io/argo-helm",
+    "name": "argo-cd",
+    "version": "*",
+    "releaseName": "argocd"
+  },
+  "namespace": "argocd"
+}

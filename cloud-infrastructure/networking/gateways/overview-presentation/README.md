@@ -2,7 +2,7 @@
  
 *This is an introduction slide deck for OCI Networking gateways*
  
-Reviewed: 30.10.2024
+Reviewed: 10.10.2025
 
 # When to use this asset?
  

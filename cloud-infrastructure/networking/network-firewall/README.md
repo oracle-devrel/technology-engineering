@@ -7,13 +7,16 @@ OCI's network and application layer security controls currently have the followi
 - Advanced Egress Security Controls
 - Advanced Network Firewall Features
 
-Reviewed: 30.10.2024
+Reviewed: 10.10.2025
  
 # Useful Links
 
 - [OCI Network Firewall Documentation](https://docs.oracle.com/en-us/iaas/Content/network-firewall/home.htm)
 - [OCI Network Firewall Overview](https://docs.oracle.com/en-us/iaas/Content/network-firewall/overview.htm)
 - [OCI Network Firewall LiveLabs workshop](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=3499) 
+- [Network design considerations when using OCI Network Firewall](https://www.ateam-oracle.com/post/network-design-considerations-when-using-oci-network-firewall)
+- [NAT on OCI Network Firewall](https://www.ateam-oracle.com/post/nat-on-oci-network-firewall)
+- [Learn OCI Network Firewall in Oracle Cloud Infrastructure with Examples](https://docs.oracle.com/en-us/iaas/Content/Resources/Assets/whitepapers/learn-oci-network-firewall-with-examples.pdf)
 - [Fortinet Terraform templates](https://github.com/fortinet/fortigate-terraform-deploy/tree/main/oci) 
 - [Fortinet OCI Deployments](https://github.com/40net-cloud/fortinet-oci-solutions) 
 

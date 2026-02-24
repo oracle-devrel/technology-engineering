@@ -2,7 +2,7 @@
  
 Oracle Cloud Migrations enables customers to migrate virtual machines to Oracle Cloud Infrastructure (OCI) Compute instances. It helps customers eliminate manual migration tasks and ultimately reduces errors in asset discovery and migration planning and execution.
 
-Reviewed: 06.11.2024
+Reviewed: 012.11.2025
  
 # Table of Contents
  
@@ -21,7 +21,7 @@ Reviewed: 06.11.2024
 
 - [OCM Deployment Guide - Migrate VMs from an on-premises VMware environment to Oracle Cloud Compute VMs using Oracle Cloud Migrations service](https://docs.oracle.com/en/learn/ocm-migrate-on-prem-vm/)
   - This tutorial provides step-by-step guidelines for configuring the Oracle Cloud Migrations service, to enable customers to migrate their virtual machines from an on-premises VMware environment to Oracle Cloud Compute VMs.
-- [Preparing your Windows VMs for successful migrations](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/vmware-solutions/oracle-cloud-migrations/windows-migrations)
+- [Preparing your Windows VMs for successful migrations](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/virtualization-solutions/oracle-cloud-migrations/windows-migrations)
 
 
 ## Videos
@@ -31,7 +31,7 @@ Reviewed: 06.11.2024
 
 # Reusable Assets
 
-- [OCM Solution Definition Document](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/vmware-solutions/oracle-cloud-migrations/ocm-solution-definition-document)
+- [OCM Solution Definition Document](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/virtualization-solutions/oracle-cloud-migrations/ocm-solution-definition-document)
 
 
  
@@ -41,4 +41,4 @@ Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

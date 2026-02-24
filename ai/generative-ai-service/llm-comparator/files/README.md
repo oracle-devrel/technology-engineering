@@ -124,9 +124,9 @@ The project includes a utility script for converting datasets to OCI Generative 
 
 ### Dataset Format Conversion (`format_dataset\dataset_to_oci_format.py`)
 
-**Purpose**: Converts standard instruction-following datasets to OCI-compatible JSONL format.
+**Purpose**: Converts standard instruction-following datasets (e.g., [gbharti/finance-alpaca](https://huggingface.co/datasets/gbharti/finance-alpaca) on Hugging Face) to OCI-compatible JSONL format.
 
-**Input Format** (e.g., `finance_data.json`):
+**Input Format** (e.g., `finance_data.json` in JSON format):
 ```json
 [
   {

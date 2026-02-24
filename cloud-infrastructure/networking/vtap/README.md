@@ -12,13 +12,12 @@ VTAP sources can be:
 - An Exadata VM Cluster
 - An Autonomous Database for Analytics and Data Warehousing instance using a private endpoint
 
-Reviewed: 30.10.2024
+Reviewed: 10.10.2025
 
 # Useful Links
 
 - [VTAP Introduction and Setup](https://blogs.oracle.com/cloud-infrastructure/post/announcing-vtap-for-oracle-cloud-infrastructure)
 - [Exploring traffic Mirroring with VTAP](https://blogs.oracle.com/cloud-infrastructure/post/explore-traffic-mirroring-vtap-functionality-with-network-and-monitoring-partners-on-oci)
-- [Troubleshoot network issues with vTAP and Wireshark](https://docs.oracle.com/en/solutions/oci-network-vtap-wireshark/index.htm)
 
 ## Reference Architectures & Step-by-step Guides
 

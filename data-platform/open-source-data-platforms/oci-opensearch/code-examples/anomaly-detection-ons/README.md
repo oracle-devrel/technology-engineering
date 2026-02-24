@@ -1,6 +1,6 @@
 # Run Anomaly Detection in OCI OpenSearch and receive an alert using Oracle Notification Service
 
-Reviewed: 10.04.2025
+Reviewed: 11.11.2025
 
 # When to use this asset?
 
@@ -17,7 +17,7 @@ Open the README.md file and follow the steps closely. The steps assume the OCI O
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

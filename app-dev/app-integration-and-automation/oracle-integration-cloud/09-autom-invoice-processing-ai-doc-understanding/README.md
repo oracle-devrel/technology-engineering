@@ -8,3 +8,20 @@ Discover how Oracle Integration with AI Document Understanding Service can seaml
 - [Automate Invoice - DU Demo](./files/demos/Automate%20Invoice%20-%20DU%20Demo.mp4)
 - [Automate Invoice - OIC Demo](./files/demos/Automate%20Invoice%20-%20OIC%20Demo.mp4)
 
+Review Date: 14.11.2025
+
+# When to use these assets?
+
+These assets should be used whenever needed to design automatic Integrations deployment or OIC instance management using shell steps with cURL commands - OIC API calls
+
+# How to use these asset?
+
+The information is generic in nature and not specified for a particular customer. 
+
+# License
+
+Copyright (c) 2025 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](./LICENSE) for more details.

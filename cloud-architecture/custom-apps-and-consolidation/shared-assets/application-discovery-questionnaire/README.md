@@ -2,7 +2,7 @@
 
 This document can be used as a reference questionnaire to collect the required details for an application project implementation.
 
-Reviewed: 18.04.2024
+Reviewed: 26.11.2025
 
 # When to use this asset?
 

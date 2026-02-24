@@ -36,13 +36,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 -->
 
-# API Gateway authorizer function context var example
+# API Gateway authorizer Function context var example
 
-Reviewed: 31.10.2024
+Reviewed: 13.10.2025
  
 # When to use this asset?
  
-Anyone who wants to test OCI Queue service using OCI SDK in JavaScript and do this from GitHub Actions.
+Anyone who wants to test an API Gateway authorizer Function context var in NodeJS
 
 # Author
 <a href="https://github.com/mikarinneoracle">mikarinneoracle</a>

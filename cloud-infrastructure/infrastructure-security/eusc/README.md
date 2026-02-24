@@ -2,7 +2,7 @@
  
 EU Sovereign Cloud is Oracle’s sovereign cloud offering, designed for the data laws and requirements of the EU.
 
-Reviewed: 18.11.2024
+Reviewed: 20.10.2025
 
 # Table of Contents
  
@@ -16,7 +16,7 @@ Reviewed: 18.11.2024
 - [EUSC Overview](https://www.oracle.com/uk/cloud/eu-sovereign-cloud/)
     - This page provides an overview of the EU Sovereign Cloud
       
-- EUSC Documentation](https://docs.public.oneportal.content.oci.oraclecloud.com/en-us/iaas/Content/General/eu-sovereign-cloud.htm)
+- [EUSC Documentation](https://docs.public.oneportal.content.oci.oraclecloud.com/en-us/iaas/Content/General/eu-sovereign-cloud.htm)
     - This page provides detailed documentation of the EU Sovereign Cloud
 
 - [EUSC FAQs](https://www.oracle.com/uk/cloud/eu-sovereign-cloud/faq/)
@@ -24,6 +24,9 @@ Reviewed: 18.11.2024
 
 - [Oracle Sovereign Cloud Principles ](https://docs.oracle.com/en-us/iaas/Content/Resources/Assets/whitepapers/oracle-sovereign-cloud-principles.pdf)
     - This page provides the overview of OCI Sovereign Cloud Principles
+
+- [Oracle Sovereign Cloud for Fusion ](https://www.oracle.com/uk/a/ocom/docs/cloud/oracle-eu-sovereign-cloud-for-fusion-apps-datasheet.pdf)
+    - This page provides the overview of Oracle European Union Sovereign Cloud Service for Oracle Fusion Applications
 
 # License
 

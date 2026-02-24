@@ -1,11 +1,11 @@
 # Microsoft Dynamics365 CRM
- 
-This page comprises the OCI architecture for an enterprise-grade deployment of Microsoft Dynamics 365 Customer Engagement (evolution of Dynamics CRM) in OCI. 
- 
-Reviewed: 05.04.2024
+
+This page comprises the OCI architecture for an enterprise-grade deployment of Microsoft Dynamics 365 Customer Engagement (evolution of Dynamics CRM) in OCI.
+
+Reviewed: 25.11.2025
 
 # Useful Links
- 
+
 - [SQL Server Always On Availability Groups in OCI](https://docs.oracle.com/en/solutions/deploy-microsoft-sql-on-oci/index.html#GUID-4CF77046-5045-492A-9229-FB8A7A7EF4C3)
     - Live Lab for deploying SQL Server Always On Availability Groups in OCI
 - [SQL Server on OCI](https://blogs.oracle.com/cloud-infrastructure/post/microsoft-sql-server-on-oci)
@@ -35,9 +35,9 @@ Reviewed: 05.04.2024
 
 
 # License
- 
+
 Copyright (c) 2025 Oracle and/or its affiliates.
- 
+
 Licensed under the Universal Permissive License (UPL), Version 1.0.
- 
+
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

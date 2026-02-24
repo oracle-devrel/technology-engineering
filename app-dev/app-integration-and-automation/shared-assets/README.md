@@ -37,6 +37,61 @@ This section contains various examples related to Application Integration: demo 
 
 ## Demos
 
+- [Developer Coaching - From Build to Insight Oracle Integration’s Embedded AI Features](https://youtu.be/yXXxpwrbacQ?si=Qs1dabQm_sQHoFGy)
+
+    This developer coaching session highlights how Oracle Integration’s embedded AI features simplify and accelerate the design, build, and optimization of integrations.
+
+    **Key takeaways:**
+
+    - **Accelerated Development with Embedded AI**   
+    Oracle Integration can auto-generate integration flows using natural
+    language, creating an initial skeleton that helps developers get
+    started faster.
+    
+    - **Smarter Error Handling & Recommendations**
+    AI analyzes activity stream logs and provides actionable
+    recommendations for resolving errors, including suggested fixes and
+    best practices.
+    
+    
+    - **Automated Documentation Generation**
+        The platform can automatically generate detailed integration
+    descriptions and full project documentation, including audit records
+    and change history—removing the need for manual documentation.
+    
+    - **Enhanced Scheduling with AI**
+    Generative AI can create complex ICAL scheduling expressions from
+    natural language descriptions, simplifying advanced scheduling
+    scenarios.
+    
+    - **Extending with OCI AI Services**
+        Oracle Integration can easily embed OCI AI services such as Document
+    Understanding and OCI Generative AI using drag-and-drop
+    configuration.
+
+    - **Exposing Integrations as MCP Tools (Agentic AI)**  
+    Integrations can be enabled as MCP servers and exposed as tools that
+    AI agents can discover and invoke directly, enabling true agentic
+    automations across enterprise systems.
+
+
+
+- [Outbound IP & Access Types in Oracle Integration](https://www.linkedin.com/pulse/outbound-ip-access-types-oracle-integration-harris-qureshi-exurf)
+
+   Outbound IP behavior in OIC often becomes a critical requirement—especially when integrating with systems that demand strict whitelisting, such as banks or regulated platforms. In this article, I explain how each 𝐀𝐜𝐜𝐞𝐬𝐬 𝐓𝐲𝐩𝐞—Public Gateway, Private Endpoint, and Connectivity Agent—changes the 𝐩𝐚𝐭𝐡 𝐭𝐫𝐚𝐟𝐟𝐢𝐜 𝐭𝐚𝐤𝐞𝐬 and the 𝐈𝐏 𝐚𝐝𝐝𝐫𝐞𝐬𝐬 𝐬𝐞𝐞𝐧 𝐛𝐲 𝐭𝐡𝐞 𝐭𝐚𝐫𝐠𝐞𝐭 𝐬𝐲𝐬𝐭𝐞𝐦. Also it includes a demo to showcase the scenario.
+
+    This is a must-read for architects and integration teams designing secure and compliant cloud integrations.
+
+- [Managing OIC File Server Capacity: Moving Old Files to Object Storage](https://www.linkedin.com/pulse/managing-oic-file-server-capacity-moving-old-files-object-qureshi-km1jf/)
+
+    Managing storage efficiently is a key part of keeping your Oracle Integration Cloud (OIC) File Server environments healthy. 
+
+    In this article, I walk through a simple integration pattern with a detailed demo that:
+
+    - Detects and moves older files from OIC File Server
+    - Stores them safely in OCI Object Storage
+    - Helps you maintain performance while keeping your data accessible
+
 - [Developer Coaching - Agentic AI Workflows in Oracle Integration with OCI Generative AI](https://youtu.be/xbpspBVgG8s?si=yOoX-oBotnpD0XPM)
 
     - Discover how to build Agentic AI Workflows using Oracle Integration Cloud (OIC) and OCI Generative AI. Learn how large language models (LLMs) can reason, decide, and act by dynamically calling tools, chaining APIs, and orchestrating end-to-end processes. 

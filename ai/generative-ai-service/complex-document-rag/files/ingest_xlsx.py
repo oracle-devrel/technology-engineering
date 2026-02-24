@@ -116,8 +116,8 @@ class XLSXIngester:
         
         return chunks
     
-    def _batch_rewrite_chunks(self, chunks_to_rewrite: List[Tuple[str, Dict[str, Any]]]) -> List[Tuple[str, Dict[str, Any]]]:
-        """Fast parallel batch rewriting"""
+    def _batch_rewrite_chunks(self, chunks_to_rewrite: List[Tuple[str, Dict[str, Any], int]]) -> List[Tuple[str, Dict[str, Any], int]]:
+        """Fast parallel batch rewriting - now returns tuples with indices"""
         if not chunks_to_rewrite or not self.chunk_rewriter:
             return chunks_to_rewrite
         
@@ -140,22 +140,29 @@ class XLSXIngester:
             
             logger.info(f"📦 Processing {len(batches)} batches of size {BATCH_SIZE}")
             
-            def process_batch(batch_idx: int, batch: List[Tuple[str, Dict[str, Any]]]):
-                batch_input = [{'text': text, 'metadata': metadata} for text, metadata in batch]
+            def process_batch(batch_idx: int, batch: List[Tuple[str, Dict[str, Any], int]]):
+                batch_input = [{'text': text, 'metadata': metadata} for text, metadata, _ in batch]
                 try:
                     logger.info(f"  Processing batch {batch_idx + 1}/{len(batches)}")
                     rewritten_texts = self.chunk_rewriter.rewrite_chunks_batch(batch_input, batch_size=BATCH_SIZE)
                     
                     batch_result = []
-                    for i, (original_text, metadata) in enumerate(batch):
+                    for i, (original_text, metadata, chunk_idx) in enumerate(batch):
                         rewritten_text = rewritten_texts[i] if i < len(rewritten_texts) else None
-                        if rewritten_text and rewritten_text != original_text:
+                        # Check for None (failure) or empty string (failure) explicitly
+                        if rewritten_text is None or rewritten_text == "":
+                            logger.warning(f"  ⚠️ Chunk {chunk_idx} rewriting failed, keeping original")
+                            batch_result.append((original_text, metadata, chunk_idx))
+                        elif rewritten_text != original_text:
+                            # Successfully rewritten and different from original
                             metadata = metadata.copy()
                             metadata["rewritten"] = True
+                            metadata["original_chunk_id"] = f"{metadata.get('document_id', '')}_chunk_{chunk_idx}"
                             self.stats['rewritten_chunks'] += 1
-                            batch_result.append((rewritten_text, metadata))
+                            batch_result.append((rewritten_text, metadata, chunk_idx))
                         else:
-                            batch_result.append((original_text, metadata))
+                            # Rewritten but same as original (no changes needed)
+                            batch_result.append((original_text, metadata, chunk_idx))
                     
                     logger.info(f"  ✅ Batch {batch_idx + 1} complete")
                     return batch_result
@@ -178,19 +185,20 @@ class XLSXIngester:
         else:
             # Fallback to sequential processing
             logger.info(f"🔄 Sequential rewriting for {len(chunks_to_rewrite)} chunks")
-            for text, metadata in chunks_to_rewrite:
+            for text, metadata, chunk_idx in chunks_to_rewrite:
                 try:
                     rewritten = self.chunk_rewriter.rewrite_chunk(text, metadata=metadata).strip()
                     if rewritten:
                         metadata = metadata.copy()
                         metadata["rewritten"] = True
+                        metadata["original_chunk_id"] = f"{metadata.get('document_id', '')}_chunk_{chunk_idx}"
                         self.stats['rewritten_chunks'] += 1
-                        results.append((rewritten, metadata))
+                        results.append((rewritten, metadata, chunk_idx))
                     else:
-                        results.append((text, metadata))
+                        results.append((text, metadata, chunk_idx))
                 except Exception as e:
                     logger.warning(f"Failed to rewrite chunk: {e}")
-                    results.append((text, metadata))
+                    results.append((text, metadata, chunk_idx))
             
             self.stats['rewriting_time'] = time.time() - start_time
             return results
@@ -200,9 +208,14 @@ class XLSXIngester:
         file_path: str | Path,
         entity: Optional[str] = None,
         max_rewrite_chunks: int = 30,  # Reasonable default
-        min_chunk_score: int = 2  # Only rewrite chunks with score >= 2
-    ) -> Tuple[List[Dict[str, Any]], str]:
-        """Fast XLSX processing with smart chunk selection"""
+        min_chunk_score: int = 2,  # Only rewrite chunks with score >= 2
+        delete_original_if_rewritten: bool = True  # New parameter
+    ) -> Tuple[List[Dict[str, Any]], str, List[str]]:
+        """Fast XLSX processing with smart chunk selection
+        
+        Returns:
+            Tuple of (chunks, document_id, original_chunk_ids_to_delete)
+        """
         
         start_time = time.time()
         self.stats = {
@@ -216,6 +229,7 @@ class XLSXIngester:
         }
         all_chunks = []
         document_id = str(uuid.uuid4())
+        original_chunks_to_delete = []
         
         # Validate inputs
         file = Path(file_path)
@@ -297,38 +311,43 @@ class XLSXIngester:
         # Smart chunk selection for rewriting
         selection_start = time.time()
         if self.chunk_rewriter and max_rewrite_chunks > 0:
-            # Score all chunks
+            # Score all chunks and include their indices
             scored_chunks = []
-            for chunk in all_chunks:
+            for i, chunk in enumerate(all_chunks):
                 score = self._is_high_value_chunk(chunk['content'], chunk['metadata'])
                 if score >= min_chunk_score:
-                    scored_chunks.append((chunk['content'], chunk['metadata'], score))
+                    scored_chunks.append((chunk['content'], chunk['metadata'], i, score))
                     self.stats['high_value_chunks'] += 1
             
             # Sort by score and take top N
-            scored_chunks.sort(key=lambda x: x[2], reverse=True)
-            chunks_to_rewrite = [(text, meta) for text, meta, _ in scored_chunks[:max_rewrite_chunks]]
+            scored_chunks.sort(key=lambda x: x[3], reverse=True)
+            chunks_to_rewrite = [(text, meta, idx) for text, meta, idx, _ in scored_chunks[:max_rewrite_chunks]]
             
             self.stats['selection_time'] = time.time() - selection_start
-            logger.info(f"🎯 Selected {len(chunks_to_rewrite)} high-value chunks from {self.stats['high_value_chunks']} candidates in {self.stats['selection_time']:.2f}s")
+            logger.info(f"Selected {len(chunks_to_rewrite)} high-value chunks from {self.stats['high_value_chunks']} candidates in {self.stats['selection_time']:.2f}s")
             
             if chunks_to_rewrite:
                 # Rewrite selected chunks
                 rewritten = self._batch_rewrite_chunks(chunks_to_rewrite)
                 
-                # Create mapping for quick lookup
-                rewritten_map = {}
-                for text, meta in rewritten:
-                    if meta.get('rewritten'):
-                        key = f"{meta['sheet']}_{meta.get('chunk_index', 0)}"
-                        rewritten_map[key] = text
-                
                 # Update original chunks with rewritten content
-                for chunk in all_chunks:
-                    key = f"{chunk['metadata']['sheet']}_{chunk['metadata'].get('chunk_index', 0)}"
-                    if key in rewritten_map:
-                        chunk['content'] = rewritten_map[key]
-                        chunk['metadata']['rewritten'] = True
+                for rewritten_text, rewritten_meta, original_idx in rewritten:
+                    if rewritten_meta.get('rewritten'):
+                        # Store the original chunk ID for deletion
+                        original_chunk_id = all_chunks[original_idx]['id']
+                        if delete_original_if_rewritten:
+                            original_chunks_to_delete.append(original_chunk_id)
+                        
+                        # Create NEW ID for rewritten chunk (append _rewritten)
+                        new_chunk_id = f"{original_chunk_id}_rewritten"
+                        
+                        # Update the chunk with rewritten content and NEW ID
+                        all_chunks[original_idx]['id'] = new_chunk_id
+                        all_chunks[original_idx]['content'] = rewritten_text
+                        all_chunks[original_idx]['metadata'] = rewritten_meta
+                        all_chunks[original_idx]['metadata']['original_chunk_id'] = original_chunk_id
+                        
+                        logger.info(f"✅ Replaced chunk {original_idx} with rewritten version (new ID: {new_chunk_id})")
         
         self.stats['processing_time'] = time.time() - start_time
         
@@ -339,6 +358,8 @@ class XLSXIngester:
         logger.info(f"📊 Total chunks: {len(all_chunks)}")
         logger.info(f"🎯 High-value chunks: {self.stats['high_value_chunks']}")
         logger.info(f"🔥 Rewritten chunks: {self.stats['rewritten_chunks']}")
+        if original_chunks_to_delete:
+            logger.info(f"🗑️ Original chunks to delete: {len(original_chunks_to_delete)}")
         logger.info(f"\n⏱️ TIMING BREAKDOWN:")
         logger.info(f"  Extraction:    {self.stats['extraction_time']:.2f}s")
         logger.info(f"  Selection:     {self.stats['selection_time']:.2f}s")
@@ -348,7 +369,7 @@ class XLSXIngester:
         logger.info(f"  Speed:         {len(all_chunks)/self.stats['processing_time']:.1f} chunks/sec")
         logger.info(f"{'='*60}\n")
         
-        return all_chunks, document_id
+        return all_chunks, document_id, original_chunks_to_delete
 
 def main():
     """CLI interface"""
@@ -359,6 +380,7 @@ def main():
     parser.add_argument("--max-rewrite", type=int, default=30, help="Maximum chunks to rewrite")
     parser.add_argument("--min-score", type=int, default=2, help="Minimum score for rewriting (0-5)")
     parser.add_argument("--no-rewrite", action="store_true", help="Skip chunk rewriting")
+    parser.add_argument("--keep-originals", action="store_true", help="Keep original chunks even if rewritten")
     
     args = parser.parse_args()
     
@@ -388,11 +410,12 @@ def main():
     
     # Process file
     try:
-        chunks, doc_id = processor.ingest_xlsx(
+        chunks, doc_id, chunks_to_delete = processor.ingest_xlsx(
             args.input, 
             entity=args.entity,
             max_rewrite_chunks=args.max_rewrite,
-            min_chunk_score=args.min_score
+            min_chunk_score=args.min_score,
+            delete_original_if_rewritten=not args.keep_originals
         )
         
         # Save results
@@ -400,7 +423,8 @@ def main():
         result_data = {
             "document_id": doc_id,
             "chunks": chunks,
-            "stats": processor.stats
+            "stats": processor.stats,
+            "original_chunks_to_delete": chunks_to_delete
         }
         
         with open(args.output, "w", encoding="utf-8") as f:

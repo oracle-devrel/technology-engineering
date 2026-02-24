@@ -2,7 +2,7 @@
 
 This section provides a step-by-step guidance for importing RHEL9 as Custom Image to OCI
 
-Reviewed: 09.05.2025
+Reviewed: 16.10.2025
 
 # When to use this asset?
 

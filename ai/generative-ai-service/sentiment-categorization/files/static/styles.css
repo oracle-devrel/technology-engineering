@@ -1,0 +1,99 @@
+.stApp {
+    background: #fafafa;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Header styles */
+.main-header {
+    background: white;
+    padding: 1.5rem 0;
+    border-bottom: 3px solid #C74634;
+}
+
+.header-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.main-header h1 {
+    margin: 0;
+    padding-top: 0px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #2c3e50;
+    text-align: center;
+}
+
+.main-header p {
+    margin: 0.5rem 0 0 0;
+    font-size: 0.9rem;
+    color: #6c757d;
+    text-align: center;
+}
+
+/* Sidebar styles */
+.stSidebar > div:first-child {
+    background: white;
+    border-right: 1px solid #e9ecef;
+}
+
+.stSidebar .stMarkdown h3 {
+    color: #C74634;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.stSidebar .stMarkdown h4 {
+    color: #495057;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin: 1.5rem 0 0.8rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stSidebar .stSelectbox > label,
+.stSidebar .stTextInput > label,
+.stSidebar .stSlider > label,
+.stSidebar .stNumberInput > label {
+    color: #495057;
+    font-weight: 500;
+    font-size: 0.8rem;
+}
+
+/* Main content */
+.stSidebar .stButton > button {
+    background: #C74634 !important;
+    color: #ffffff !important;
+    border: none !important;
+    padding: 0.6rem 1.5rem;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: background 0.2s ease;
+}
+
+.stSidebar .stButton > button:hover {
+    background: #A63529 !important;
+}
+
+.stTextArea textarea:focus {
+    border-color: #C74634;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(199, 70, 52, 0.1);
+}
+
+.oracle-footer {
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    padding: 1rem;
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.8rem;
+    color: #6c757d;
+}

@@ -1,0 +1,30 @@
+litellm_settings:
+  drop_params: true            
+  # drop unsupported params instead of 500 errors
+  additional_drop_params: ["max_retries"]
+
+# Common OCI connection parameters
+common_oci: &common_oci
+  provider: oci
+  oci_region: "##TF_VAR_region##"
+  oci_user: "##TF_VAR_current_user_ocid##"
+  oci_fingerprint: "__YOUR_OCI_FINGER_PRINT__"
+  oci_tenancy: "##TF_VAR_tenancy_ocid##"
+  oci_compartment_id: "##TF_VAR_compartment_ocid##"
+  oci_key_file: "/home/opc/app/oci_api_key.pem"
+  # supports_tool_calls: true
+  # api_key: key1234
+
+model_list:
+  - model_name: oci_cohere_command_latest
+    litellm_params:   
+      model: oci/cohere.command-latest
+      <<: *common_oci           # merge common OCI params      
+      oci_serving_mode: "ON_DEMAND"
+      # oci_serving_mode: "DEDICATED"
+      # oci_endpoint_id: "ocid1.generativeaiendpoint.oc1.us-chicago-1..."
+
+general_settings:
+  telemetry: false
+  proxy_logging: false
+  allow_model_alias: true

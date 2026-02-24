@@ -181,3 +181,12 @@ ALLOW any-user to use virtual-network-family in TENANCY where request.principal.
 ```
 ALLOW any-user to read instance-images in TENANCY where request.principal.type = 'cluster'
 ```
+
+### Allow OKE to create a LB/NLB on a different compartment
+
+[https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengconfiguringloadbalancersnetworkloadbalancers-subtopic.htm#contengcreatingloadbalancer_topic_Specifying_compartment](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengconfiguringloadbalancersnetworkloadbalancers-subtopic.htm#contengcreatingloadbalancer_topic_Specifying_compartment)
+
+```
+Allow any-user to manage load-balancers in compartment id <compartment-ocid> where all { request.principal.type = 'cluster' }
+Allow any-user to manage network-load-balancers in compartment id <compartment-ocid> where all { request.principal.type = 'cluster' }
+```

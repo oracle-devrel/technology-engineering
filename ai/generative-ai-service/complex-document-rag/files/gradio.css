@@ -1,12 +1,15 @@
 /* ===== CLEAN LIGHT THEME ===== */
 :root {
-    --primary-color: #ff6b35;
-    --secondary-color: #6c757d;
-    --background-color: #ffffff;
-    --surface-color: #ffffff;
+    --primary-color: #c74634;
+    --oracle-red: #c74634;
+    --secondary-color: #6f757e;
+    --background-color: #fffefe;
+    --surface-color: #fffefe;
+    --off-white: #fffefe;
     --border-color: #dee2e6;
-    --text-color: #212529;
-    --text-muted: #6c757d;
+    --text-color: #312d2a;
+    --text-muted: #6f7572;
+    --dark-grey: #404040;
 }
 
 /* ===== GLOBAL STYLING ===== */
@@ -36,7 +39,7 @@
 
 /* ===== BUTTONS ===== */
 .gr-button, button, .primary-button, .secondary-button {
-    background: white !important;
+    background: var(--off-white) !important;
     color: var(--primary-color) !important;
     border: 1px solid var(--primary-color) !important;
     padding: 10px 20px !important;
@@ -46,43 +49,95 @@
     letter-spacing: 0.5px !important;
     cursor: pointer !important;
     font-size: 12px !important;
-    transition: color 0.2s ease !important;
+    transition: background-color 0.2s ease, color 0.2s ease !important;
 }
 
 .gr-button:hover, button:hover, .primary-button:hover, .secondary-button:hover {
     background: #f8f8f8 !important;
     color: var(--primary-color) !important;
+    padding: 10px 20px !important; /* Keep same padding to prevent jumpy behavior */
 }
 
 .gr-button:active, button:active, .primary-button:active, .secondary-button:active {
     background: #f0f0f0 !important;
     color: var(--primary-color) !important;
+    padding: 10px 20px !important; /* Keep same padding to prevent jumpy behavior */
 }
 
 /* ===== TABS ===== */
-.gr-tabs .gr-tab-nav button {
-    background: #6c757d !important;
-    color: white !important;
+/* Target all possible tab button selectors for Gradio */
+.gr-tabs .tab-nav button,
+.gr-tabs .gr-tab-nav button,
+div[role="tablist"] button,
+button[role="tab"],
+.gradio-container .gr-tabs button[role="tab"],
+.gradio-container button.tab-nav-button {
+    background: #c74634 !important;
+    background-color: #c74634 !important;
+    color: #fffefe !important;
     border: none !important;
+    border-bottom: 3px solid transparent !important; /* Remove orange underline */
     padding: 12px 20px !important;
     font-weight: 500 !important;
     text-transform: uppercase !important;
     letter-spacing: 0.5px !important;
     border-radius: 4px 4px 0 0 !important;
     margin-right: 2px !important;
+    transition: background-color 0.3s ease, border-bottom 0.3s ease !important;
+    opacity: 0.8 !important;
 }
 
-.gr-tabs .gr-tab-nav button.selected {
-    background: #495057 !important;
+/* Selected/Active tab with black underline */
+.gr-tabs .tab-nav button.selected,
+.gr-tabs .gr-tab-nav button.selected,
+div[role="tablist"] button.selected,
+button[role="tab"][aria-selected="true"],
+button[role="tab"].selected,
+.gradio-container .gr-tabs button[role="tab"].selected,
+.gradio-container button.tab-nav-button.selected {
+    background: #c74634 !important;
+    background-color: #c74634 !important;
+    opacity: 1 !important;
+    color: #fffefe !important;
+    font-weight: 500 !important; /* Keep same weight as non-selected to prevent jumpy behavior */
+    border-bottom: 3px solid #312d2a !important; /* Black underline for active tab */
+    padding: 12px 20px !important; /* Keep same padding */
 }
 
-.gr-tabs .gr-tab-nav button:hover {
-    background: #5a6268 !important;
+/* Hover state for non-selected tabs */
+.gr-tabs .tab-nav button:hover:not(.selected),
+.gr-tabs .gr-tab-nav button:hover:not(.selected),
+div[role="tablist"] button:hover:not(.selected),
+button[role="tab"]:hover:not([aria-selected="true"]),
+button[role="tab"]:hover:not(.selected),
+.gradio-container .gr-tabs button[role="tab"]:hover:not(.selected),
+.gradio-container button.tab-nav-button:hover:not(.selected) {
+    background: #404040 !important;
+    background-color: #404040 !important;
+    color: #fffefe !important;
+    opacity: 1 !important;
+    padding: 12px 20px !important; /* Keep same padding */
+}
+
+/* Additional override for any nested spans or text elements in tabs */
+.gr-tabs button span,
+button[role="tab"] span,
+.gr-tabs button *,
+button[role="tab"] * {
+    color: inherit !important;
+}
+
+/* Remove any orange borders/underlines that might appear */
+button[role="tab"]::after,
+button[role="tab"]::before,
+.gr-tabs button::after,
+.gr-tabs button::before {
+    display: none !important;
 }
 
 /* ===== COMPACT UPLOAD SECTIONS ===== */
 .upload-section {
-    background: white !important;
+    background: var(--off-white) !important;
     border: 1px solid var(--border-color) !important;
     border-radius: 8px !important;
     padding: 12px !important;
@@ -113,13 +168,13 @@
     margin: 8px 0 !important;
     display: block !important;
     padding: 12px !important;
-    background: white !important;
+    background: var(--off-white) !important;
     border: 1px solid var(--primary-color) !important;
 }
 
 /* ===== INFERENCE LAYOUT ===== */
 .inference-left-column, .inference-right-column {
-    background: white !important;
+    background: var(--off-white) !important;
     padding: 20px !important;
 }
 
@@ -127,30 +182,37 @@
     margin-bottom: 16px !important;
 }
 
-.model-controls, .collection-controls {
-    background: white !important;
+/* Make control sections more compact */
+.model-controls, .collection-controls, .processing-controls {
+    background: var(--off-white) !important;
     border: 1px solid var(--border-color) !important;
     border-radius: 6px !important;
-    padding: 12px !important;
-    margin-bottom: 12px !important;
+    padding: 8px !important; /* Reduced padding for compactness */
+    margin-bottom: 8px !important; /* Reduced margin */
 }
 
 .processing-controls {
-    background: white !important;
     border: 1px solid var(--primary-color) !important;
-    border-radius: 6px !important;
-    padding: 12px !important;
-    margin-bottom: 12px !important;
 }
 
-.compact-query textarea {
-    min-height: 120px !important;
-    max-height: 150px !important;
+/* Compact headers in control sections */
+.model-controls h4,
+.collection-controls h4,
+.processing-controls h4 {
+    font-size: 12px !important;
+    margin-bottom: 4px !important;
+}
+
+/* Make query textarea much larger */
+.compact-query textarea,
+.query-section textarea {
+    min-height: 360px !important; /* 3x larger than before */
+    max-height: 450px !important;
 }
 
 /* ===== INPUT FIELDS ===== */
 .gr-textbox, .gr-textbox textarea, .gr-textbox input {
-    background: white !important;
+    background: var(--off-white) !important;
     border: 1px solid var(--border-color) !important;
     border-radius: 4px !important;
     color: var(--text-color) !important;
@@ -159,15 +221,22 @@
 
 /* ===== DROPDOWNS ===== */
 .gr-dropdown, .gr-dropdown select {
-    background: white !important;
+    background: var(--off-white) !important;
     border: 1px solid var(--border-color) !important;
     border-radius: 4px !important;
     color: var(--text-color) !important;
 }
 
+/* Make dropdowns more compact */
+.model-controls .gr-dropdown,
+.collection-controls .gr-dropdown {
+    padding: 6px !important;
+    font-size: 13px !important;
+}
+
 /* ===== FILE UPLOAD ===== */
 .gr-file {
-    background: white !important;
+    background: var(--off-white) !important;
     border: 2px dashed var(--primary-color) !important;
     border-radius: 8px !important;
     padding: 20px !important;
@@ -212,17 +281,68 @@
     display: none !important;
 }
 
-/* ===== FORCE WHITE BACKGROUNDS ===== */
+/* ===== FORCE OFF-WHITE BACKGROUNDS ===== */
 .gr-group, .gr-form, .gr-block {
-    background: white !important;
+    background: var(--off-white) !important;
 }
 
 /* ===== DELETE BUTTON ===== */
 .gr-button[variant="stop"] {
-    background: #dc3545 !important;
-    color: white !important;
+    background: var(--oracle-red) !important;
+    color: var(--off-white) !important;
+    border: 1px solid var(--oracle-red) !important;
 }
 
 .gr-button[variant="stop"]:hover {
-    background: #c82333 !important;
+    background: #a13527 !important;
+    border: 1px solid #a13527 !important;
+}
+
+/* ===== CHECKBOXES - MORE COMPACT ===== */
+.gr-checkbox-group {
+    display: flex !important;
+    gap: 12px !important;
+    flex-wrap: wrap !important;
+}
+
+.gr-checkbox-group label {
+    font-size: 13px !important;
+    margin-bottom: 0 !important;
+}
+
+/* ===== COMPACT SETTINGS SECTION ===== */
+.compact-settings {
+    background: var(--off-white) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 6px !important;
+    padding: 8px !important;
+    margin-top: 8px !important;
+}
+
+.compact-settings .gr-row {
+    margin-bottom: 4px !important;
+}
+
+.compact-settings .gr-dropdown {
+    margin-bottom: 4px !important;
+}
+
+.compact-settings .gr-dropdown label {
+    font-size: 12px !important;
+    margin-bottom: 2px !important;
+}
+
+.compact-settings .gr-checkbox {
+    margin: 0 !important;
+    padding: 4px !important;
+}
+
+.compact-settings .gr-checkbox label {
+    font-size: 12px !important;
+    margin: 0 !important;
+}
+
+/* Remove extra spacing in compact settings */
+.compact-settings > div {
+    gap: 4px !important;
 }

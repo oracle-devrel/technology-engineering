@@ -29,11 +29,11 @@ Please see the useful link below for detailed build and deployment steps.
 
 - Ensure you have specified a relevant value for the `LOA end date user attribute` scheduler parameter field in the scheduled task definition. Note that a either a UDF (User-defined field) or a pre-existing user attribute can be used. This value needs to contain the attribute's display label, not the backend name (e.g., `User Login`, not `USR_LOGIN`).
 
-- [Consult this section](https://docs.oracle.com/en/middleware/idm/identity-governance/12.2.1.4/omusg/managing-jobs-1.html#GUID-71BB3623-AEE2-4F64-BBD4-D921DCA39D7C) on how to manually start or schedule a job.
+- [Consult this section](https://docs.oracle.com/en/middleware/idm/identity-governance/14.1.2/omadm/managing-scheduler.html#GUID-32651CE3-2B3B-4BAA-8DDA-CEFD6AB26EBF) on how to manually start or schedule a job.
 
 # Useful Links
 
-[Oracle Identity Governance developer's guide - Developing scheduled tasks](https://docs.oracle.com/en/middleware/idm/identity-governance/12.2.1.4/omdev/developing-scheduled-tasks.html#GUID-F62EF833-1E70-41FC-9DCC-C1EAB407D151)
+[Oracle Identity Governance developer's guide - Developing scheduled tasks](https://docs.oracle.com/en/middleware/idm/identity-governance/14.1.2/omdev/developing-scheduled-tasks.html)
 
 # License
 

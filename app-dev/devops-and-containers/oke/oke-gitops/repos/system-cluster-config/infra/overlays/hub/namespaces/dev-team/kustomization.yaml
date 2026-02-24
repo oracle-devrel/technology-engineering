@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Namespace specific resources
+resources:
+# Import common resources for all namespaces and patch them, if needed
+- ../../common
+- namespace.yml
+
+# Ensure that all resources are deployed in the right namespcae
+namespace: dev-team

@@ -3,7 +3,7 @@
 
 This section includes a step-by-step manual and Cloudbase-init scripts to set your own password to a newly launched Windows Instance 
 
-Reviewed: 25.10.2024
+Reviewed: 16.10.2025
  
 # When to use this asset?
  

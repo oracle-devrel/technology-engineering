@@ -1,6 +1,6 @@
 # Invoice Document Processing from Gmail into ERP Systems using OCI Document Understanding & Oracle Integration Cloud
 
-Reviewed: 30.10.2024
+Reviewed: 04.11.2025
 
 # Introduction
 

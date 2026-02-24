@@ -1,0 +1,5 @@
+pip install oci -U
+pip install langchain -U
+pip install langchain-oci -U
+pip install langgraph -U
+

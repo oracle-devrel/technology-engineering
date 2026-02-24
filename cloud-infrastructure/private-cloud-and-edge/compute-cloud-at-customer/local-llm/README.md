@@ -1,9 +1,8 @@
-*Last Update: 15.08.2025*
+# Local LLM Serving Using the Ollama Open Source Tool
 
-<br><h1 align="center">Local LLM Serving<br>Using the Ollama Open Source Tool</h1>
+Reviewed: 16.10.2025
+
 <p align="center"><img align="centre" src="./images/ollama-logo.png" width="10%" style="float:right"/></p>
-
-
 
 <a id="toc"></a>
 ## Table of Content
@@ -321,5 +320,4 @@ Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](LICENSE) for more details.
-
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

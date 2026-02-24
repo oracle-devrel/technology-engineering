@@ -5,7 +5,7 @@
 Assets that contain a bash script great opportunity to learn about Customer managed (boot and block) volume backups and how to copy them to a different region.
 
 
-Reviewed: 03.12.2024
+Reviewed: 17.10.2025
 
 # When to use this asset?
 

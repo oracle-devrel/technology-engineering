@@ -4,7 +4,7 @@ This demo will showcase Oracle Data Science capabilities to predict the likeliho
 The objective is not only to make accurate predictions but also to understand the reasons why our Machine Learning Model has predicted each patient to be a show or a no-show.
 By exploring the explainability of a model we will be able to answer the question of ‘why’ a patient will likely be a no-show so that the practice operational team can follow up with a friendly reminder or reschedule for a more convenient time.
 
-Reviewed: 2025.03.02
+Reviewed: 2026.01.05
 
 
 # When to use this asset?
@@ -24,7 +24,7 @@ This asset is provided as general purpose material. Please tailor the content ac
  
 # License
  
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

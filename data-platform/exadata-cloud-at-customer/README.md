@@ -1,6 +1,6 @@
 # Exadata Cloud@Customer
 
-Reviewed: 24.06.2024
+Oracle Exadata Cloud@Customer brings the performance, automation, and economics of Exadata Database Service and the fully managed Autonomous AI Database into enterprise data centers. It’s the simplest way for customers to start using cloud database resources in their data centers and help address strict data residency requirements. Exadata Cloud@Customer incorporates unique optimizations that let Oracle AI Database workloads run faster with less management and lower costs so organizations can get more value from their data.
 
 # Useful Links
 
@@ -14,8 +14,6 @@ Reviewed: 24.06.2024
 
 - [What’s New in ADB-D on Exadata Cloud@Customer](https://docs.oracle.com/en-us/iaas/exadata/doc/adb-okv-integration.html)
 
-![Alt text](Specialistdivider1small.jpg?raw=true "Subsections")
-
 - [ExaCC Infra](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/exadata-cloud-at-customer/exacc-infra)
 
 - [ExaCC Network](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/exadata-cloud-at-customer/exacc-network)
@@ -23,6 +21,8 @@ Reviewed: 24.06.2024
 - [ExaCC Security](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/exadata-cloud-at-customer/exacc-security)
 
 - [ExaCC Value](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/exadata-cloud-at-customer/exacc-value)
+
+Reviewed: 01/22/26
 
 # License
 

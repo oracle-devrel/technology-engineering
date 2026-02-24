@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Oracle Enterprise RAG System Interface."""
 
+# Disable telemetry first to prevent startup errors
+import disable_telemetry
+
 import gradio as gr
 import logging
 import os
@@ -82,7 +85,7 @@ class RAGAppController:
         self._initialize_vector_store(self.current_embedding_model)
         self._initialize_rag_agent(
             self.current_llm_model,
-            collection="Multi-Collection",
+            collection="multi",
             embedding_model=self.current_embedding_model
         )
 
@@ -257,7 +260,7 @@ class RAGAppController:
     def _initialize_rag_agent(
         self,
         llm_model: str,
-        collection: str = "Multi-Collection",
+        collection: str = "multi",
         embedding_model: Optional[str] = None
     ) -> bool:
         """
@@ -265,7 +268,7 @@ class RAGAppController:
         
         Args:
             llm_model: Name of the LLM model to use
-            collection: Name of the collection to use (default: "Multi-Collection")
+            collection: Name of the collection to use (default: "multi")
             embedding_model: Optional embedding model to switch to
             
         Returns:
@@ -483,72 +486,30 @@ def create_oracle_interface():
                 placeholder="Deletion results will appear here..."
             )
 
-        with gr.Tab("SEARCH COLLECTIONS", id="search"):
-            gr.Markdown("### Search through your vector store collections")
-            
-            # Add embedding model selector for search tab
-            with gr.Row():
-                embedding_model_selector_search = gr.Dropdown(
-                    choices=rag_system.available_embedding_models,
-                    value=rag_system.current_embedding_model,
-                    label="Embedding Model for Search",
-                    info="Select the embedding model to use for searching"
-                )
-            
-            with gr.Row():
-                search_query = gr.Textbox(
-                    label="Search Query",
-                    placeholder="Enter search terms...",
-                    scale=3
-                )
-                search_collection = gr.Dropdown(
-                    choices=["PDF Documents", "XLSX Documents"],
-                    value="XLSX Documents",
-                    label="Collection",
-                    scale=1
-                )
-                search_results_count = gr.Slider(
-                    minimum=1,
-                    maximum=20,
-                    value=5,
-                    step=1,
-                    label="Results",
-                    scale=1
-                )
-            
-            search_btn = gr.Button("Search", variant="secondary", elem_classes=["secondary-button"])
-            
-            search_results = gr.Textbox(
-                elem_id="scientific-results-box",
-                label="Search Results",
-                lines=25,
-                max_lines=30,
-                placeholder="Search results will appear here..."
-            )
-
         with gr.Tab("INFERENCE & QUERY", id="inference"):
             with gr.Row():
-                # Left Column - Input Controls
+                # Left Column - Query Input
                 with gr.Column(scale=1, elem_classes=["inference-left-column"]):
-                    # Query Section
+                    # Large Query Section
                     with gr.Group(elem_classes=["query-section"]):
                         query_input = gr.Textbox(
                             label="Query", 
-                            lines=4,
-                            max_lines=6,
+                            lines=15,  # Much larger query area
+                            max_lines=20,
                             placeholder="Enter your query here...",
                             elem_classes=["compact-query"]
                         )
+                        
                         query_btn = gr.Button(
                             "Run Query", 
                             elem_classes=["primary-button"], 
-                            size="sm",
+                            size="lg",
                             elem_id="run-query-btn"
                         )
                     
-                    # Model Configuration
-                    with gr.Group(elem_classes=["model-controls"]):
-                        gr.HTML("<h4>Model Configuration</h4>")
+                    # Compact Configuration Section - All in one group
+                    with gr.Group(elem_classes=["compact-settings"]):
+                        # Model Configuration in one row
                         with gr.Row():
                             llm_model_selector = gr.Dropdown(
                                 choices=rag_system.available_llm_models,
@@ -559,26 +520,16 @@ def create_oracle_interface():
                             embedding_model_selector_query = gr.Dropdown(
                                 choices=rag_system.available_embedding_models,
                                 value=rag_system.current_embedding_model,
-                                label="Embedding Model",
+                                label="Embeddings",
                                 interactive=True,
                                 scale=1
                             )
-                    
-                    # Data Sources
-                    with gr.Group(elem_classes=["collection-controls"]):
-                        gr.HTML("<h4>Data Sources</h4>")
+                        
+                        # Data Sources and Processing Mode in one compact row
                         with gr.Row():
-                            collection_pdf = gr.Checkbox(label="Include PDF Collection", value=False)
-                            collection_xlsx = gr.Checkbox(label="Include XLSX Collection", value=False)
-                    
-                    # Processing Mode
-                    with gr.Group(elem_classes=["processing-controls"]):
-                        gr.HTML("<h4>Processing Mode</h4>")
-                        agent_mode = gr.Checkbox(
-                            label="Use Agentic Workflow", 
-                            value=False,
-                            info="Enable advanced reasoning and multi-step processing"
-                        )
+                            collection_pdf = gr.Checkbox(label="Include PDF", value=False, scale=1)
+                            collection_xlsx = gr.Checkbox(label="Include XLSX", value=False, scale=1)
+                            agent_mode = gr.Checkbox(label="Agentic Mode", value=False, scale=1)
                 
                 # Right Column - Results
                 with gr.Column(scale=1, elem_classes=["inference-right-column"]):
@@ -636,11 +587,11 @@ def create_oracle_interface():
             outputs=[collection_documents]
         )
 
-        search_btn.click(
-            fn=lambda q, coll, emb, n: search_chunks(q, coll, emb, rag_system, n),
-            inputs=[search_query, search_collection, embedding_model_selector_search, search_results_count],
-            outputs=[search_results]
-        )
+        # search_btn.click(
+        #     fn=lambda q, coll, emb, n: search_chunks(q, coll, emb, rag_system, n),
+        #     inputs=[search_query, search_collection, embedding_model_selector_search, search_results_count],
+        #     outputs=[search_results]
+        # )
 
         list_chunks_btn.click(
             fn=lambda coll, emb: list_all_chunks(coll, emb, rag_system),
@@ -697,8 +648,11 @@ def create_oracle_interface():
                     gr.update(visible=False)
                 )
             
-            # Actually process the query
-            response, report_path = process_query(query, llm_model, embedding_model, include_pdf, include_xlsx, agentic, rag_system)
+            # Actually process the query with entity parameters
+            # Pass empty strings for entities to trigger automatic detection
+            entity1 = ""  # Will be automatically detected by the LLM
+            entity2 = ""  # Will be automatically detected by the LLM
+            response, report_path = process_query(query, llm_model, embedding_model, include_pdf, include_xlsx, agentic, rag_system, entity1, entity2)
             
             progress(1.0, desc="Complete!")
             
@@ -720,6 +674,7 @@ def create_oracle_interface():
 
         query_btn.click(
             fn=handle_query_with_download,
+            # inputs=[query_input, llm_model_selector, embedding_model_selector_query, collection_pdf, collection_xlsx, agent_mode, entity1_input, entity2_input],
             inputs=[query_input, llm_model_selector, embedding_model_selector_query, collection_pdf, collection_xlsx, agent_mode],
             outputs=[status_box, response_box, download_file],
             show_progress="full"

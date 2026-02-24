@@ -2,7 +2,7 @@
 OCI Cache with Redis is a comprehensive, managed in-memory caching solution built on the foundation of open source Redis. 
 This fully managed service accelerates data reads and writes, significantly enhancing application response times and database performance to provide an improved customer experience.
 
-Reviewed: 05.06.2024
+Reviewed: 11.11.2025
 
 # Table of Contents
 
@@ -14,6 +14,7 @@ Reviewed: 05.06.2024
 
 - [Leverage OCI-managed Redis and PostgreSQL for your e-commerce application](https://docs.oracle.com/en/solutions/oci-redis-postgresql/index.html#GUID-DD63C617-DEEE-4357-B203-A3CFDF1B34EC)
 - [Enable a Low Code Modular LLM App Engine using Oracle Integration and OCI Generative AI](https://docs.oracle.com/en/solutions/oci-generative-ai-integration/index.html#GUID-0C310162-34D9-4EB2-978D-FBAFB931E637)
+- [Upgrade OCI Cache with Redis to Valkey](https://medium.com/@devpiotrekk/upgrade-oci-cache-with-redis-to-valkey-d3c01deb8733)
 
 
 # Useful Links
@@ -25,10 +26,11 @@ Reviewed: 05.06.2024
 # Reusable Assets
 
 - [Connect OCI Cache through Network Load Balancer](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-cache/connect-via-nlb)
+- [Vector Search with OCI Cache (Valkey 8.1) and OCI Data Science Notebook](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-cache/vector-search)
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

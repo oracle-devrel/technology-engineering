@@ -4,7 +4,7 @@ Data Transforms is an easy-to-use graphical user interface that Oracle Autonomou
 
 Data Transforms allows you to design data transformations in the form of data loads, data flows, and workflows, without requiring you to write any code. Data Load provides a convenient way of loading data into an Autonomous Database, data flows define how the data is moved and transformed between different systems, while the workflows define the sequence in which the data flows are executed.
 
-Reviewed: 28.02.2025
+Reviewed: 07.10.2025
 
 # Table of Contents
  
@@ -25,9 +25,6 @@ Reviewed: 28.02.2025
 
 - [Oracle Data Transforms Supported Connection Types](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/adp-odt-data-transforms-page.html#ADBSB-GUID-0FCBCBDB-4016-4EDC-B6E0-38E4D1BC0A)
 
-- [Deploying and launching Data Transforms](https://blogs.oracle.com/dataintegration/post/deploying-and-launching-oracle-data-transforms)
-    - Blog entry about how to deploy and launch Data Transforms
- 
 
 
  

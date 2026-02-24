@@ -1,21 +1,28 @@
-# CV Evaluation App using Oracle Gen AI
+# CV Evaluation App using Oracle Gen AI 
+
 
 This is a Streamlit-based web application that evaluates resumes (CVs) against job descriptions using Oracle Cloud Infrastructure's Generative AI via Langchain `ChatOCIGenAI`.
-Reviewed: 18th Sep 2025
----
 
-## 🔍 Features
-
-- Upload multiple resumes in PDF format
-- Select or input a job description
-- Evaluate resumes using Oracle Gen AI
-- Receive classification like `Excellent`, `Strong`, `Possible`, etc.
-- Get profile summaries, missing keywords, and improvement suggestions
-- Interactive Streamlit interface
+Reviewed: 22.09.2025
 
 ---
 
-## 📁 Project Structure
+## 🎯 When to Use This Asset (Who & When)
+
+### Who
+- **HR & talent acquisition teams** screening large volumes of CVs  
+- **Hiring managers** comparing candidates against role requirements  
+- **Recruitment operations teams** standardising resume evaluations   
+
+### When
+- When evaluating **multiple PDF resumes** against a single role  
+- When consistent, explainable **candidate classification** is needed  
+- When identifying **skill gaps and missing keywords** is important  
+- When reducing **manual CV screening time** is a priority  
+
+---
+
+### 📁 Project Structure
 
 ```
 .
@@ -25,8 +32,16 @@ Reviewed: 18th Sep 2025
 ```
 
 ---
+## How to use this asset
 
-## ⚙️ Setup Instructions
+### Flow
+- Upload multiple resumes in PDF format
+- Select or input a job description
+- Evaluate resumes using Oracle Gen AI
+- Receive classification like `Excellent`, `Strong`, `Possible`, etc.
+- Get profile summaries, missing keywords, and improvement suggestions
+- Interactive Streamlit interface
+### ⚙️ Setup Instructions
 
 1. **Clone the repository**  
    ```bash
@@ -57,7 +72,7 @@ Reviewed: 18th Sep 2025
 
 ---
 
-## 📦 Dependencies
+### 📦 Dependencies
 
 - `streamlit`
 - `PyPDF2`
@@ -68,7 +83,7 @@ Make sure you have valid OCI credentials and access to the Generative AI service
 
 ---
 
-## 🧠 Powered By
+### 🧠 Technologies
 
 - **Oracle Generative AI**: For advanced natural language processing and resume evaluation
 - **LangChain**: For structured LLM integration
@@ -76,9 +91,25 @@ Make sure you have valid OCI credentials and access to the Generative AI service
 
 ---
 
-## ✅ Example Use Case
+### ✅ Example Use Case
 
 1. Choose a job role or paste your custom Job Description.
 2. Upload one or more resume PDFs.
 3. Click **Submit**.
 4. View evaluation results, summaries, and suggested improvements.
+
+---
+
+## Docs & References
+
+📘 [OCI Generative AI Overview](https://docs.oracle.com/en-us/iaas/Content/generative-ai/home.htm)
+
+---
+
+## License
+
+Copyright (c) 2026 Oracle and/or its affiliates.
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
+OR CONTENT TO THIS REPOSITORY WITHOUT ANY REVIEW. USE AT YOUR OWN RISK. 

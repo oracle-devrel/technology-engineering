@@ -2,7 +2,7 @@
  
 Oracle has integrated the FastConnect service with a geographically diverse set of IP, VPN, and Ethernet network providers and cloud exchanges to make it easy for you to establish a connection to Oracle Cloud services. You can establish a FastConnect connection from your on-premise or other cloud service providers to the data center where your Oracle Cloud resources are provisioned by requesting cloud connectivity services from any of Oracle's FastConnect partners.
  
-Reviewed: 08.04.2024
+Reviewed: 10.10.2025
 
 # Useful Links
  

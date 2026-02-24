@@ -1,110 +1,109 @@
 import json
 import logging
-from typing import List
+from typing import Annotated, List, Optional
+from pydantic import BaseModel, ValidationError, Field, conint
 
 from langchain_community.chat_models.oci_generative_ai import ChatOCIGenAI
 from langchain_core.messages import HumanMessage, SystemMessage
-from langchain_core.pydantic_v1 import BaseModel
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import END, StateGraph
 
-import backend.message_handler as handler
-import backend.utils.llm_config as llm_config
+from backend.utils import config
+from backend.utils import prompts as prompts
 
-# Set up logging
-logging.getLogger("oci").setLevel(logging.DEBUG)
-messages_path = "ai/generative-ai-service/sentiment+categorization/files/backend/data/complaints_messages.csv"
+logging.getLogger("oci").setLevel(logging.INFO)
+logger = logging.getLogger(__name__)
 
+class SummaryItem(BaseModel):
+    id: str
+    topic: str
+    summary: str
+    sentiment_score: Annotated[int, Field(ge=1, le=10)]
+
+class CategoryItem(BaseModel):
+    id: str
+    primary_category: str
+    secondary_category: str
+    tertiary_category: str
 
 class AgentState(BaseModel):
-    messages_info: List = []
-    categories: List = []
-    reports: List = []
-
+    messages_info: List[SummaryItem] = Field(default_factory=list)
+    categories: List[CategoryItem] = Field(default_factory=list)
+    reports: List[str] = Field(default_factory=list)
 
 class FeedbackAgent:
-    def __init__(self, model_name: str = "cohere_oci"):
-        self.model_name = model_name
+    def __init__(self, data_list, thread_id: Optional[str] = None):
         self.model = self.initialize_model()
         self.memory = MemorySaver()
         self.builder = self.setup_graph()
-        self.messages = self.read_messages()
+        self.messages = data_list
+        self.thread_id = thread_id or "session"  # avoid global '1'
 
     def initialize_model(self):
-        if self.model_name not in llm_config.MODEL_REGISTRY:
-            raise ValueError(f"Unknown model: {self.model_name}")
-
-        model_config = llm_config.MODEL_REGISTRY[self.model_name]
-
         return ChatOCIGenAI(
-            model_id=model_config["model_id"],
-            service_endpoint=model_config["service_endpoint"],
-            compartment_id=model_config["compartment_id"],
-            provider=model_config["provider"],
-            auth_type=model_config["auth_type"],
-            auth_profile=model_config["auth_profile"],
-            model_kwargs=model_config["model_kwargs"],
+            model_id=config.GENERATE_MODEL_COHERE,
+            service_endpoint=config.ENDPOINT,
+            compartment_id=config.COMPARTMENT_ID,
+            provider=config.PROVIDER_COHERE,
+            auth_type=config.AUTH_TYPE,
+            auth_profile=config.CONFIG_PROFILE,
+            model_kwargs={"temperature": 0, "max_tokens": 4000},
         )
 
-    def read_messages(self):
-        messages = handler.read_messages(filepath=messages_path)
-        return handler.batchify(messages, 30)
+    def _parse_json_array(self, content: str, item_model):
+        try:
+            raw = json.loads(content)
+            if not isinstance(raw, list):
+                raise ValueError("Expected a JSON array.")
+            items = [item_model(**elem) for elem in raw]
+            return items
+        except (json.JSONDecodeError, ValidationError, ValueError) as e:
+            logger.error(f"Failed to parse/validate model output: {e}")
+            raise
 
     def summarization_node(self, state: AgentState):
-        batch = self.messages
         response = self.model.invoke(
             [
-                SystemMessage(
-                    content=llm_config.get_prompt(self.model_name, "SUMMARIZATION")
-                ),
-                HumanMessage(content=f"Message batch: {batch}"),
+                SystemMessage(content=prompts.SUMMARIZATION),
+                HumanMessage(content=f"Messages: {self.messages}"),
             ]
         )
-        state.messages_info = state.messages_info + [json.loads(response.content)]
+        items = self._parse_json_array(response.content, SummaryItem)
+        state.messages_info = items
         return {"messages_info": state.messages_info}
 
     def categorization_node(self, state: AgentState):
-        batch = state.messages_info
         response = self.model.invoke(
             [
-                SystemMessage(
-                    content=llm_config.get_prompt(
-                        self.model_name, "CATEGORIZATION_SYSTEM"
-                    )
-                ),
-                HumanMessage(
-                    content=llm_config.get_prompt(
-                        self.model_name, "CATEGORIZATION_USER"
-                    ).format(MESSAGE_BATCH=batch)
-                ),
+                SystemMessage(content=prompts.CATEGORIZATION_SYSTEM),
+                HumanMessage(content=prompts.CATEGORIZATION_USER.format(MESSAGE_BATCH=[item.model_dump() for item in state.messages_info])),
             ]
         )
-        content = [json.loads(response.content)]
-        state.categories = state.categories + handler.match_categories(batch, content)
+        state.categories = self._parse_json_array(response.content, CategoryItem)
         return {"categories": state.categories}
 
     def generate_report_node(self, state: AgentState):
+        payload = {
+            "categorized_messages": [c.model_dump() for c in state.categories],
+            "summaries": [s.model_dump() for s in state.messages_info],
+        }
         response = self.model.invoke(
             [
-                SystemMessage(
-                    content=llm_config.get_prompt(self.model_name, "REPORT_GEN")
-                ),
-                HumanMessage(content=f"Message info: {state.categories}"),
+                SystemMessage(content=prompts.REPORT_GEN),
+                HumanMessage(content=json.dumps(payload)),
             ]
         )
-        state.reports = response.content
-        return {"reports": [response.content]}
+        state.reports = [response.content]
+        return {"reports": state.reports}
 
     def setup_graph(self):
         builder = StateGraph(AgentState)
         builder.add_node("summarize", self.summarization_node)
         builder.add_node("categorize", self.categorization_node)
         builder.add_node("generate_report", self.generate_report_node)
-
         builder.set_entry_point("summarize")
         builder.add_edge("summarize", "categorize")
         builder.add_edge("categorize", "generate_report")
-
         builder.add_edge("generate_report", END)
         return builder.compile(checkpointer=self.memory)
 
@@ -112,18 +111,12 @@ class FeedbackAgent:
         return self.builder.get_graph()
 
     def run(self):
-        thread = {"configurable": {"thread_id": "1"}}
-        for s in self.builder.stream(
-            config=thread,
-        ):
-            print(f"\n \n{s}")
+        thread = {"configurable": {"thread_id": self.thread_id}}
+        for s in self.builder.stream(config=thread):
+            print(f"\\n\\n{s}")
 
     def run_step_by_step(self):
-        thread = {"configurable": {"thread_id": "1"}}
-        initial_state = {
-            "messages_info": [],
-            "categories": [],
-            "reports": [],
-        }
+        thread = {"configurable": {"thread_id": self.thread_id}}
+        initial_state = {"messages_info": [], "categories": [], "reports": []}
         for state in self.builder.stream(initial_state, thread):
-            yield state  # Yield each intermediate step to allow step-by-step execution
+            yield state

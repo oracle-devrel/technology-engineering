@@ -1,6 +1,6 @@
 # SQLcl and Liquibase
 
-[Oracle SQLcl (SQL Developer Command Line)](https://docs.oracle.com/en/database/oracle/sql-developer-command-line/index.html) is a Java-based command line interface for Oracle Database. Using SQLcl, you can execute SQL and PL/SQL statements in interactive or batch mode
+[Oracle SQLcl (SQL Developer Command Line)](https://docs.oracle.com/en/database/oracle/sql-developer-command-line/index.html) is a Java-based command line interface for Oracle Database. Using SQLcl, you can execute SQL and PL/SQL statements in interactive or batch mode. The Project command was introduced in release 24.3, allowing users to manage the creation and administration of a database application. It is targeted towards enterprise-level applications that require structured release processes.
 
 [Liquibase](https://www.liquibase.org/) is an open-source database-independent library for tracking, managing and applying database schema changes. This feature is included in the standalone SQLcl offering, which is different from the SQL Developer installation.
 
@@ -13,7 +13,7 @@ You can add the functionality to read these specialized changelogs to the Liquib
 # The Liquibase Feature in SQLcl
 SQLcl Liquibase with Oracle Database provides extended functionality to the Liquibase experience compared to the open-source Liquibase client. The Liquibase feature in SQLcl enables you to execute commands to generate a changelog for a single object or for a full schema in specialized changelogs and changesets.
 
-Reviewed: 20.11.2024
+Reviewed: 01.12.2025
 
 # Table of Contents
  
@@ -26,12 +26,16 @@ Reviewed: 20.11.2024
 
 # Useful Links
 
-- [Oracle Documentation - Oracle SQLcl Release 24.3.1](https://docs.oracle.com/en/database/oracle/sql-developer-command-line/24.3/sqcug/using-liquibase.html "Using Liquibase")
+- [Oracle Documentation - Oracle SQLcl Release](https://docs.oracle.com/en/database/oracle/sql-developer-command-line/)
 - [SQLcl Downloads](https://www.oracle.com/database/sqldeveloper/technologies/sqlcl/download/)
+- [Oracle Documentation - Introduction to Database Application CI/CD](https://docs.oracle.com/en/database/oracle/sql-developer-command-line/25.3/sqcug/introduction.html)
 - [Liquibase Community](https://www.liquibase.org/)
 - [Liquibase Documentation](https://docs.liquibase.com/home.html "What is Liquibase?")
 - [Liquibase Documentation](https://docs.liquibase.com/start/release-notes/home.html "Release Notes")
 - [Best Practices Recommended by Liquibase](https://docs.liquibase.com/concepts/bestpractices.html "Maximize the effectiveness and efficiency of the Liquibase workflow")
+
+## Blogs
+- [ThatJeffSmith - Getting started with Oracle Database CI/CD & SQLcl Projects](https://www.thatjeffsmith.com/archive/2025/05/getting-started-with-sqlcl-projects/)
 
 ## Videos & Demos 
 - [YouTube - Automating Your SQL and PL/SQL Deployments](https://www.youtube.com/watch?app=desktop&v=oyU11sk51ao)
@@ -45,70 +49,11 @@ Reviewed: 20.11.2024
 
 ## Tutorials / How-To's
 
+- [Database CI/CD Project Automation for a React JS Application](https://livelabs.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=4139)
 - [Oracle LiveLabs - Capture Oracle Database Changes for CI/CD](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3000)
+- [Take Control of Your Database With Automated Schema Changes](https://livelabs.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3692)
 - [Oracle LiveLabs - Oracle Database Operator for Kubernetes + DevOps](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3393)
 
-## Using SQLcl to Capture and Apply Database Changes
-
-### Setting the format of the DDL generated
-Using the SET command to set DDL variables, will modify the behavior of the DDL transform option on DBMS_METADATA. 
-
-```
-SET DDL [[ PRETTY | SQLTERMINATOR | CONSTRAINTS | REF_CONSTRAINTS | CONSTRAINTS_AS_ALTER|OID | SIZE_BYTE_KEYWORD | PARTITIONING | SEGMENT_ATTRIBUTES | STORAGE | TABLESPACE | SPECIFICATION | BODY | FORCE | INSERT | |INHERIT | RESET] {on|off} ] | OFF ]
-```
-
-For example to exclude table properties such as partitions, compression or tablespace details:
-
-```
-set ddl partitioning off
-set ddl segment_attributes off
-set ddl tablespace off
-```
-
-### Generating Change Log - Database Definitions
-Connect to the source database with sqlcl and use the Liquibase feature to generate object, schema, APEX and ORDS change logs. The sqlcl generates change logs in the current directory only. Liquibase writes to a single file and the location can be specified.
-
-The examples below will be shown using both full syntax and then again with short commands.
-
-```
--- After connection was made to the source system and changing to the output directory.
--- Generate Liquibase Changelog
-liquibase generate-changelog -changelog-file lb-changelog.xml
-
-lb gec -chf lb-changelog.xml
-
--- Generate Schema (change log file will be controller.xml)
-liquibase generate-schema
-
-lb ges
-
--- Generate Schema split the output with SQL format
-liquibase generate-db-object -sql
-
-lb geo -sp -sq
-
--- Generate Schema Object
-liquibase generate-schema
-
-lb ges
-```
-
-### Apply Change Log - Database Definitions
-Connect to the target database with sqlcl to apply object, schema, APEX and ORDS change logs.
-
-```
--- After connection was made to the target system and changing to the output directory.
-liquibase update -changelog-file lb-changelog.xml
-
-lb up -chf lb-changelog.xml
-
--- Using the controller.xml
-liquibase update
-
-lb -up
-```
-
-Use the directory structure to manage schema versions by following the [Best Practices recommended by Liquibase](https://docs.liquibase.com/concepts/bestpractices.html)
 
 # License
 
