@@ -62,10 +62,10 @@ oracledb==3.0.0
 orjson==3.10.16
 packaging==24.2
 pandas==2.2.3
-pillow==11.1.0
+pillow==12.1.1
 pip==25.2
 propcache==0.3.1
-protobuf==5.29.5
+protobuf==5.29.6
 psutil==7.0.0
 pyarrow==19.0.1
 pycparser==2.22
@@ -74,7 +74,7 @@ pydantic_core==2.33.1
 pydantic-settings==2.8.1
 pydeck==0.9.1
 pyOpenSSL==24.3.0
-pypdf==6.4.0
+pypdf==6.7.1
 python-dateutil==2.9.0.post0
 python-docx==1.1.2
 python-dotenv==1.1.0

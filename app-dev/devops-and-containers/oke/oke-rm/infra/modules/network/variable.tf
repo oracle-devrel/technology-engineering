@@ -70,6 +70,10 @@ variable "worker_subnet_dns_label" {
 variable "worker_subnet_name" {
 }
 
+variable "allow_worker_nat_egress" {
+  type = bool
+}
+
 # POD SUBNET
 
 variable "create_pod_subnet" {
@@ -83,6 +87,10 @@ variable "pod_subnet_dns_label" {
 }
 
 variable "pod_subnet_name" {
+}
+
+variable "allow_pod_nat_egress" {
+  type = bool
 }
 
 # LB SUBNETS
@@ -145,6 +153,26 @@ variable "fss_subnet_dns_label" {}
 
 variable "fss_subnet_name" {}
 
+# DB
+
+variable "create_db_subnet" {
+  type = bool
+}
+
+variable "db_subnet_cidr" {}
+
+variable "db_subnet_dns_label" {}
+
+variable "db_subnet_name" {}
+
+variable "db_service_list" {
+  type = list(string)
+}
+
+variable "separate_db_nsg" {
+  type = bool
+}
+
 # GATEWAYS
 
 variable "create_gateways" {
@@ -175,4 +203,13 @@ variable "create_drg_attachment" {
 
 variable "peer_vcns" {
   type = list(string)
+}
+
+# Tagging
+
+variable "tag_value" {
+  type = object({
+    freeformTags = map(string)
+    definedTags  = map(string)
+  })
 }
