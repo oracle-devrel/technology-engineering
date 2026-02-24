@@ -9,6 +9,8 @@ resource "oci_core_subnet" "external_lb_subnet" {
   route_table_id             = oci_core_route_table.lb_ext_route_table.0.id
   security_list_ids          = [oci_core_security_list.external_lb_sl.0.id]
   dhcp_options_id            = oci_core_dhcp_options.external_lb_dhcp[0].id
+  freeform_tags              = var.tag_value.freeformTags
+  defined_tags               = var.tag_value.definedTags
   count                      = local.create_external_lb_subnet ? 1 : 0
 }
 
@@ -22,6 +24,8 @@ resource "oci_core_subnet" "internal_lb_subnet" {
   route_table_id             = oci_core_route_table.lb_int_route_table.0.id
   security_list_ids          = [oci_core_security_list.internal_lb_sl.0.id]
   dhcp_options_id            = oci_core_dhcp_options.internal_lb_dhcp[0].id
+  freeform_tags              = var.tag_value.freeformTags
+  defined_tags               = var.tag_value.definedTags
   count                      = local.create_internal_lb_subnet ? 1 : 0
 }
 
@@ -35,6 +39,8 @@ resource "oci_core_subnet" "oke_cp_subnet" {
   route_table_id             = oci_core_route_table.cp_route_table.0.id
   security_list_ids          = [oci_core_security_list.cp_sl.0.id]
   dhcp_options_id            = oci_core_dhcp_options.oke_cp_dhcp[0].id
+  freeform_tags              = var.tag_value.freeformTags
+  defined_tags               = var.tag_value.definedTags
   count                      = local.create_cp_subnet ? 1 : 0
 }
 
@@ -48,6 +54,8 @@ resource "oci_core_subnet" "worker_subnet" {
   route_table_id             = oci_core_route_table.worker_route_table.0.id
   security_list_ids          = [oci_core_security_list.worker_sl.0.id]
   dhcp_options_id            = oci_core_dhcp_options.worker_dhcp[0].id
+  freeform_tags              = var.tag_value.freeformTags
+  defined_tags               = var.tag_value.definedTags
   count                      = local.create_worker_subnet ? 1 : 0
 }
 
@@ -61,6 +69,8 @@ resource "oci_core_subnet" "pods_subnet" {
   route_table_id             = oci_core_route_table.pod_route_table.0.id
   security_list_ids          = [oci_core_security_list.pod_sl.0.id]
   dhcp_options_id            = oci_core_dhcp_options.pods_dhcp[0].id
+  freeform_tags              = var.tag_value.freeformTags
+  defined_tags               = var.tag_value.definedTags
   count                      = local.create_pod_subnet ? 1 : 0
 }
 
@@ -74,6 +84,8 @@ resource "oci_core_subnet" "bastion_subnet" {
   route_table_id             = oci_core_route_table.bastion_route_table.0.id
   security_list_ids          = [oci_core_security_list.bastion_security_list.0.id]
   dhcp_options_id            = oci_core_dhcp_options.bastion_dhcp[0].id
+  freeform_tags              = var.tag_value.freeformTags
+  defined_tags               = var.tag_value.definedTags
   count                      = local.create_bastion_subnet ? 1 : 0
 }
 
@@ -87,5 +99,22 @@ resource "oci_core_subnet" "fss_subnet" {
   route_table_id             = oci_core_route_table.fss_route_table.0.id
   security_list_ids          = [oci_core_security_list.fss_sl.0.id]
   dhcp_options_id            = oci_core_dhcp_options.fss_dhcp[0].id
+  freeform_tags              = var.tag_value.freeformTags
+  defined_tags               = var.tag_value.definedTags
   count                      = local.create_fss_subnet ? 1 : 0
+}
+
+resource "oci_core_subnet" "db_subnet" {
+  cidr_block                 = var.db_subnet_cidr
+  compartment_id             = var.network_compartment_id
+  vcn_id                     = local.vcn_id
+  dns_label                  = var.db_subnet_dns_label
+  display_name               = var.db_subnet_name
+  prohibit_public_ip_on_vnic = true
+  route_table_id             = oci_core_route_table.db_route_table.0.id
+  security_list_ids          = [oci_core_security_list.db_sl.0.id]
+  dhcp_options_id            = oci_core_dhcp_options.db_dhcp[0].id
+  freeform_tags              = var.tag_value.freeformTags
+  defined_tags               = var.tag_value.definedTags
+  count                      = local.create_db_subnet ? 1 : 0
 }
