@@ -118,3 +118,18 @@ resource "oci_core_subnet" "db_subnet" {
   defined_tags               = var.tag_value.definedTags
   count                      = local.create_db_subnet ? 1 : 0
 }
+
+resource "oci_core_subnet" "msg_subnet" {
+  cidr_block                 = var.msg_subnet_cidr
+  compartment_id             = var.network_compartment_id
+  vcn_id                     = local.vcn_id
+  dns_label                  = var.msg_subnet_dns_label
+  display_name               = var.msg_subnet_name
+  prohibit_public_ip_on_vnic = true
+  route_table_id             = oci_core_route_table.msg_route_table.0.id
+  security_list_ids          = [oci_core_security_list.msg_sl.0.id]
+  dhcp_options_id            = oci_core_dhcp_options.msg_dhcp[0].id
+  freeform_tags              = var.tag_value.freeformTags
+  defined_tags               = var.tag_value.definedTags
+  count                      = local.create_msg_subnet ? 1 : 0
+}
