@@ -1,4 +1,4 @@
-# Cline Integration with Oracle Cloud Assist (OCA)
+# Cline Integration with Oracle Code Assist (OCA)
 Cline is an autonomous coding agent, integrated as a plugin into Visual Studio Code (VS Code) that enhances developer productivity. Oracle Code Assist is available as a model provider on Cline, which gives Oracle developers secure access to Oracle-approved large language models (LLMs) with built-in protections for open-source code license scanning and content moderation.
 
 ## Key Features
