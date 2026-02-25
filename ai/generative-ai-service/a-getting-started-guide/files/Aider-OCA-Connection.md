@@ -58,4 +58,4 @@ Aider is a command-line tool (CLI) that leverages AI to help developers modify a
 * For issues, run `/opc-request-id` to get the request ID and include it when reporting to the OCA team (attach chat history).
 * Common fixes: Ensure Git integration, limit file additions, or check Python compatibility. Refer to the PDF's troubleshooting section or Aider docs for errors like model access or command failures.
 
-This setup enables terminal-based AI coding assistance with OCA, focusing on secure, compliant use at Oracle. Always select only Oracle providers. For advanced coding support,. offers enhanced tools. join the `#help-oracle-genai-chat` Slack channel for more info.
+This setup enables terminal-based AI coding assistance with OCA, focusing on secure, compliant use at Oracle. Always select only Oracle providers. For advanced coding support,. offers enhanced tools. join the `#oracle-code-assist-users` Slack channel for more info.
