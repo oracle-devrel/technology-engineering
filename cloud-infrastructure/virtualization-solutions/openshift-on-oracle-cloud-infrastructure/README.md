@@ -3,7 +3,7 @@
 
 # OpenShift on Oracle Cloud Infrastructure
 
-`Reviewed: 12.11.2025` | [last commit](https://github.com/oracle-devrel/technology-engineering/commits/main/cloud-infrastructure/virtualization-solutions/openshift-on-oci/)
+`Reviewed: 12.11.2025` | [last commit](https://github.com/oracle-devrel/technology-engineering/commits/main/cloud-infrastructure/virtualization-solutions/openshift-on-oracle-cloud-infrastructure/)
 
 This repository is a curated documentation and asset hub for running Red Hat OpenShift on Oracle Cloud Infrastructure (OCI) as a self-managed platform. It provides structured, field-tested guidance, proven architecture patterns, and practical examples to support consistent and repeatable cluster design, deployment, and operations on OCI.
 
