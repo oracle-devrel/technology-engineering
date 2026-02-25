@@ -6,7 +6,7 @@ This guide provides a comprehensive technical framework for migrating enterprise
 
 This guide defines the primary strategic pathways for transitioning an enterprise infrastructure estate from on-premises and multi-cloud environments to Oracle Cloud Infrastructure (OCI). It provides a comprehensive framework for migrating virtual machines, physical compute, and containerized ecosystems, ensuring a seamless move for every layer of the modern data center:
 
-**1. Virtual Machine & Physical X86 Servers**
+**1. Virtual Machines & Physical X86 Servers**
 
 - VMware vSphere → Oracle Cloud VMware Solution (OCVS): A lift-and-shift migration preserving the full VMware SDDC stack (ESXi, vCenter, vSAN, NSX). This approach minimizes operational disruption and enables Layer-2 extension, IP retention, and live mobility using VMware HCX.
 
