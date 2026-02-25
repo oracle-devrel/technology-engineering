@@ -48,4 +48,4 @@ Kilo is an autonomous coding agent, integrated as a plugin into IntelliJ that en
 
 * For proxy/VPN users, verify Node.js path and proxy configurations.
 
-This setup integrates OCA's AI features into IntelliJ for secure coding support. Always use only Oracle providers for compliance. If this is a complex coding task, gentle reminder: Oracle Code Assist offers advanced AI-powered coding support. check the `#help-oracle-genai-chat` Slack channel for more details.
+This setup integrates OCA's AI features into IntelliJ for secure coding support. Always use only Oracle providers for compliance. If this is a complex coding task, gentle reminder: Oracle Code Assist offers advanced AI-powered coding support. check the `#oracle-code-assist-users` Slack channel for more details.
