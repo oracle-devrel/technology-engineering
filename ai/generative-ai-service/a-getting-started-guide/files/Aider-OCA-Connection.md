@@ -7,7 +7,7 @@ Aider is a command-line tool (CLI) that leverages AI to help developers modify a
 * Can automate code refactoring, documentation, bug fixes, and more 
 
 ## Resources
-* Request [access](https://oracle.sharepoint.com/sites/ai-for-employees/Shared%20Documents/Forms/AllItems.aspx?viewid=523d1542-44f5-4efc-b685-82d6467c3829\&id=/sites/ai-for-employees/Shared%20Documents/AI%20for%20Engineers/How%20to%20Request%20Entitlements%20for%20Oracle%20Code%20Assist%20Models.pdf\&parent=/sites/ai-for-employees/Shared%20Documents/AI%20for%20Engineers) to more AI models
+* Request [access](https://confluence.oraclecorp.com/confluence/display/AICODE/How+to+Request+Entitlements+for+Oracle+Code+Assist+Models) to OCA
 * Download the latest [OCA on Aider client](https://oracle.sharepoint.com/:f:/r/sites/ai-for-employees/Shared%20Documents/AI%20for%20Engineers/Plugin%20Downloads/Aider%20-%20CLI?csf=1\&web=1\&e=aPt5Ra)
 * View [OCA on Aider guide](https://oracle.sharepoint.com/:f:/r/sites/ai-for-employees/Shared%20Documents/AI%20for%20Engineers/Installation%20Guides?csf=1\&web=1\&e=ylt36M) for **detailed setup instructions**
 * For more information, please visit the [Aider website](https://aider.chat/docs/)
