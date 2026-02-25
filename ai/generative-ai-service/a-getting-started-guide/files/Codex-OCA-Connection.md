@@ -9,7 +9,7 @@ Codex is an AI coding assistant, integrated as a plugin into Visual Studio Code 
 * Fits seamlessly into VS Code workflows with quick accept/edit flows and chat‑based assistance
 
 ## Resources
-* Request [access](/sites/ai-for-employees/Shared%20Documents/Forms/AllItems.aspx?viewid=523d1542-44f5-4efc-b685-82d6467c3829\&id=/sites/ai-for-employees/Shared%20Documents/AI%20for%20Engineers/How%20to%20Request%20Entitlements%20for%20Oracle%20Code%20Assist%20Models.pdf\&parent=/sites/ai-for-employees/Shared%20Documents/AI%20for%20Engineers) to more AI models
+* Request [access](https://confluence.oraclecorp.com/confluence/display/AICODE/How+to+Request+Entitlements+for+Oracle+Code+Assist+Models) to OCA
 * View [OCA on Codex ](https://oracle.sharepoint.com/sites/ai-for-employees/SitePages/Oracle-Code-Assist.aspx)for **detailed setup instructions**
 * For more information, please visit: [developers.openai.com/codex/ide](https://developers.openai.com/codex/ide/)
 
