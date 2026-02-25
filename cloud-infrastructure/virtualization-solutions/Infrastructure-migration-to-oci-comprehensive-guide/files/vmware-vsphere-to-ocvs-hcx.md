@@ -34,6 +34,8 @@ Migrating VMware workloads to OCVS using HCX enables advanced capabilities such 
 - **Cold Migration:** Migration of a powered off VM (Advanced Licensing)
 - **Replicated Assisted vMotion:** Live migration of multiple powered-on workloads with zero downtime. (Enterprise Licensing)
 - **OS-Assisted Migration (OSAM):** Enables guest-based migration of Hyper-V or KVM VMs to OCVS. (Enterprise licensing)
+- L2 Network Extension: Seamless IP preservation and extended subnets across OCI and on-premises.
+- Mobility Optimized Networking: Allowing VMs using a layer 2 extension to route more efficiently.
   
 <p align="center">
 
