@@ -53,4 +53,4 @@ Codex is an AI coding assistant, integrated as a plugin into Visual Studio Code 
 
 * Always use OCA profiles/models; avoid external ones for compliance.
 
-This setup allows secure, OCA-powered coding in your terminal or VS Code, emphasizing local execution and Git integration. Adhere to Oracle's data policies. For complex coding tasks, gentle reminder: Oracle Code Assist offers advanced AI-powered coding support; join the `#help-oracle-genai-chat` Slack channel for more information.
+This setup allows secure, OCA-powered coding in your terminal or VS Code, emphasizing local execution and Git integration. Adhere to Oracle's data policies. For complex coding tasks, gentle reminder: Oracle Code Assist offers advanced AI-powered coding support; join the `#oracle-code-assist-users` Slack channel for more information.
