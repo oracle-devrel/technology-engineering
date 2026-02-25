@@ -6,7 +6,7 @@ This guide provides a comprehensive technical framework for migrating enterprise
 
 This guide defines the primary strategic pathways for transitioning an enterprise infrastructure estate from on-premises and multi-cloud environments to Oracle Cloud Infrastructure (OCI). It provides a comprehensive framework for migrating virtual machines, physical compute, and containerized ecosystems, ensuring a seamless move for every layer of the modern data center:
 
-**Virtual Machine & Physical Workloads**
+**1. Virtual Machines & Physical X86 Servers**
 
 - VMware vSphere → Oracle Cloud VMware Solution (OCVS): A lift-and-shift migration preserving the full VMware SDDC stack (ESXi, vCenter, vSAN, NSX). This approach minimizes operational disruption and enables Layer-2 extension, IP retention, and live mobility using VMware HCX.
 
@@ -16,11 +16,10 @@ This guide defines the primary strategic pathways for transitioning an enterpris
 
 - Microsoft Hyper-V / KVM → Oracle Cloud VMware Solution (OCVS): Consolidates non-VMware workloads into a VMware SDDC on OCI. Cross-platform migration tooling such as HCX OSAM or Rackware preserves VM configurations while enabling VMware-based operational standardization.
 
-- Physical x86 Servers → OCI Native Compute or OCVS
-Bare-metal workloads are migrated directly to OCI, either into OCI Compute or virtualized within OCVS. OS-level replication tools such as RackWare enable smooth transition for legacy and modernization-driven workloads.
+- Physical x86 Servers → OCI Native Compute or OCVS: Bare-metal workloads are migrated directly to OCI, either into OCI Compute or virtualized within OCVS. OS-level replication tools such as RackWare enable smooth transition for legacy and modernization-driven workloads.
 
 This diagram assists architects in choosing a migration strategy based on the Source Platform and the desired Target Environment (OCI Native vs. VMware Solution).
-Decision Logic by Source Platform.
+Decision logic by source and destination platform.
 
 <p align = "center">
 
@@ -36,29 +35,7 @@ Decision Logic by Source Platform.
 | Microsoft Hyper-V / KVM     | Oracle Cloud VMware Solution (OCVS)              | HCX Enterprise (OSAM) / RackWare              | [Hyper-V/KVM to OCVS](./files/hyper-v-kvm-to-ocvs.md)                              |
 | Physical x86 Servers        | OCI Native Compute Instances / OCVS              | RackWare                                      | [Physical x86 to OCI](./files/physical-to-oci.md)|
 
-
-**Public Cloud to OCI**
-
-- AWS EC2 / VMs → OCI Native Compute Instances: Replatforming of AWS-based virtual machines into OCI Compute. Migration tooling such as Oracle Cloud Migrations (OCM) or RackWare enables replication, format conversion, and staged cutover to OCI-native infrastructure.
-
-- Other Public Clouds (Azure, GCP, etc.) → OCI Native Compute Instances: Cross-cloud workload migration into OCI Compute. RackWare provides automated discovery, replication, and deployment capabilities to support consolidation or cost optimization strategies.
-
-This diagram outlines the migration path for instances currently hosted on other major public cloud providers. The goal is to transition these workloads into Target OCI Native Instances.
-
-<p align = "center">
-
-![Decision tree ](./files/images/Public_Cloud_to_OCI_Decision_tree.jpg)
-
-</p>
-
-
-| Source Environment                     | Target Platform              | Migration Tooling                         | Migration Guide            |
-|----------------------------------------|------------------------------|-------------------------------------------|----------------------------|
-| AWS EC2 / VMs                          | OCI Native Compute Instances | Oracle Cloud Migrations (OCM) / RackWare  | [AWS to OCI Native](./files/aws-to-oci-native.md)         |
-| Other Public Clouds (Azure, GCP, etc.) | OCI Native Compute Instances | RackWare                                  | [Other Clouds to OCI Native](./files/other-clouds-to-oci-native.md)|
-
-
-**OpenShift-Based Platform Migration**
+**2. OpenShift-Based Platform Migration**
 
 - Kubernetes → OpenShift Container Platform on OCI: Intended for organizations in the process of standardizing on OpenShift. Applications are redeployed onto OpenShift on OCI under a Bring-Your-Own-Subscription (BYOS) model, enabling enterprise governance and Red Hat ecosystem alignment.
 
@@ -80,6 +57,27 @@ This diagram focuses on the transition of containerized and hybrid workloads spe
 | Kubernetes        | OpenShift Container Platform on OCI      | Container Redeployment (CI/CD, Helm, GitOps)      | [Kubernetes to OpenShift on OCI (Redeploy)](./files/k8s-openshift-on-oci-redeploy.md)                 |
 | Red Hat OpenShift  | OpenShift Container Platform on OCI      | Migration Toolkit for Containers (MTC)            | [OpenShift to OpenShift on OCI using MTC](./files/openshift-openshift-on-oci-using-mtc.md)                   |
 | Mixed VM-based + Containerized Workloads    | OpenShift Virtualization on OCI          | Containers: Redeploy or MTC<br>VMs: MTV           | [Mixed VM + Container to OpenShift Virtualization](./files/mixed-workloads-openshift-virtualization-on-oci-using-mtv.md)
+
+
+**3. Public Cloud to OCI**
+
+- AWS EC2 / VMs → OCI Native Compute Instances: Replatforming of AWS-based virtual machines into OCI Compute. Migration tooling such as Oracle Cloud Migrations (OCM) or RackWare enables replication, format conversion, and staged cutover to OCI-native infrastructure.
+
+- Other Public Clouds (Azure, GCP, etc.) → OCI Native Compute Instances: Cross-cloud workload migration into OCI Compute. RackWare provides automated discovery, replication, and deployment capabilities to support consolidation or cost optimization strategies.
+
+This diagram outlines the migration path for instances currently hosted on other major public cloud providers. The goal is to transition these workloads into OCI Native Instances.
+
+<p align = "center">
+
+![Decision tree ](./files/images/Public_Cloud_to_OCI_Decision_tree.jpg)
+
+</p>
+
+
+| Source Environment                     | Target Platform              | Migration Tooling                         | Migration Guide            |
+|----------------------------------------|------------------------------|-------------------------------------------|----------------------------|
+| AWS EC2 / VMs                          | OCI Native Compute Instances | Oracle Cloud Migrations (OCM) / RackWare  | [AWS to OCI Native](./files/aws-to-oci-native.md)         |
+| Other Public Clouds (Azure, GCP, etc.) | OCI Native Compute Instances | RackWare                                  | [Other Clouds to OCI Native](./files/other-clouds-to-oci-native.md)|
 
 
 # When to use this asset?
