@@ -9,8 +9,8 @@ Kilo is an autonomous coding agent, integrated as a plugin into IntelliJ that en
 * Understands large code projects with intelligent context management
   
 ## Resources
-* Request [access](/sites/ai-for-employees/Shared%20Documents/Forms/AllItems.aspx?viewid=523d1542-44f5-4efc-b685-82d6467c3829\&id=/sites/ai-for-employees/Shared%20Documents/AI%20for%20Engineers/How%20to%20Request%20Entitlements%20for%20Oracle%20Code%20Assist%20Models.pdf\&parent=/sites/ai-for-employees/Shared%20Documents/AI%20for%20Engineers) to more AI models
-* View [OCA on Kilo Code for IntelliJ](/sites/ai-for-employees/Shared%20Documents/Forms/AllItems.aspx?viewid=523d1542-44f5-4efc-b685-82d6467c3829\&id=/sites/ai-for-employees/Shared%20Documents/AI%20for%20Engineers/Installation%20Guides/Oracle%20Code%20Assist%20on%20Kilocode.pdf\&parent=/sites/ai-for-employees/Shared%20Documents/AI%20for%20Engineers/Installation%20Guides)[ ](/sites/ai-for-employees/Shared%20Documents/AI%20for%20Engineers/Installation%20Guides/Oracle%20Code%20Assist%20on%20Cline%20for%20VS%20Code.pdf?CT=1759188695679\&OR=ItemsView)for **detailed setup instructions**
+* Request [access](https://oracle.sharepoint.com/sites/ai-for-employees/SitePages/Oracle-Code-Assist.aspx) OCA
+* View [OCA on Kilo Code for IntelliJ](https://oracle.sharepoint.com/sites/ai-for-employees/SitePages/Oracle-Code-Assist.aspx) for **detailed setup instructions**
 * For more information visit: https://kilocode.ai/docs 
 
 ## Step-by-Step Guide
@@ -22,8 +22,7 @@ Kilo is an autonomous coding agent, integrated as a plugin into IntelliJ that en
 * If needed, install or update Node.js (e.g., via `brew install node` on macOS or nvm). For proxy users, ensure the path points to the correct version.
 
 ### 3. **Download and Install Kilocode Plugin**
-* Download the latest Kilocode binary (e.g., `Kilo Code-0.0.1.zip`) from the [Oracle SharePoint](https://oracle-my.sharepoint.com/personal/benjamin_poland_oracle_com/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fbenjamin%5Fpoland%5Foracle%5Fcom%2FDocuments%2FOracle%20Code%20Assist%20Internal%20Plugins%2FKilo%20Code%2FKilo%20Code%2D0%2E0%2E1%2Ezip&parent=%2Fpersonal%2Fbenjamin%5Fpoland%5Foracle%5Fcom%2FDocuments%2FOracle%20Code%20Assist%20Internal%20Plugins%2FKilo%20Code&ga=1).
-* Launch IntelliJ.
+* Download the latest Kilocode binary (e.g., `Kilo Code-0.0.1.zip`) from the latest version specified in the `OCA on Kilo Code for IntelliJ PDF`
 * Do **not** install from the marketplace; uninstall any existing marketplace version if present.
 * Go to Settings > Plugins > Gear icon > "Install Plugin from Disk" > Select the downloaded ZIP > Apply > OK.
 * Disable auto-updates in plugin settings to prevent overwrites from external sources.
