@@ -9,7 +9,7 @@ Cline is an autonomous coding agent, integrated as a plugin into Visual Studio C
 * Understands large code projects with intelligent context management
 
 ## Resources
-* Request [access](https://oracle.sharepoint.com/sites/ai-for-employees/Shared%20Documents/Forms/AllItems.aspx?viewid=523d1542-44f5-4efc-b685-82d6467c3829\&id=/sites/ai-for-employees/Shared%20Documents/AI%20for%20Engineers/How%20to%20Request%20Entitlements%20for%20Oracle%20Code%20Assist%20Models.pdf\&parent=/sites/ai-for-employees/Shared%20Documents/AI%20for%20Engineers) to more AI models
+* Request [access](https://confluence.oraclecorp.com/confluence/display/AICODE/How+to+Request+Entitlements+for+Oracle+Code+Assist+Models) to OCA
 * View [OCA on Cline for VS Code](https://oracle.sharepoint.com/sites/ai-for-employees/SitePages/Oracle-Code-Assist.aspx) for **detailed setup instructions**.
 * For more information, please visit the [Cline website](https://docs.cline.bot/getting-started/what-is-cline)
 
