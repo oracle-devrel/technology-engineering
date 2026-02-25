@@ -27,7 +27,7 @@ Migrating VMware workloads to OCVS using HCX enables advanced capabilities such 
 
 **Licensing:** HCX is bundled with OCVS deployments. Depending on the chosen Bare Metal shape, customers receive HCX Advanced or HCX Enterprise licenses.
 
-### Key Capabilities for Migrations
+### Key Migration Methods
 
 - **Bulk Migration:** Parallel batch migration of VMs with scheduled cutovers. (Advanced Licensing)
 - **vMotion:** Live migration of a single powered-on workload with zero downtime (Advanced Licensing)
