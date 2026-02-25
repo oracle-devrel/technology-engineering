@@ -222,3 +222,18 @@ resource "oci_core_route_table" "db_route_table" {
   }
   count = local.create_db_subnet ? 1 : 0
 }
+
+resource "oci_core_route_table" "msg_route_table" {
+  compartment_id = var.network_compartment_id
+  vcn_id         = local.vcn_id
+  display_name   = var.msg_subnet_name
+  freeform_tags  = var.tag_value.freeformTags
+  defined_tags   = var.tag_value.definedTags
+  route_rules {
+    network_entity_id = local.service_gateway_id
+    destination_type  = "SERVICE_CIDR_BLOCK"
+    destination       = local.service_cidr_block
+    description       = "Route for all internal OCI services in the region"
+  }
+  count = local.create_msg_subnet ? 1 : 0
+}

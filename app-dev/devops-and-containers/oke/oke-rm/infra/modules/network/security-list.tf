@@ -462,3 +462,60 @@ resource "oci_core_security_list" "db_sl" {
 
   count = local.create_db_subnet ? 1 : 0
 }
+
+resource "oci_core_security_list" "msg_sl" {
+  compartment_id = var.network_compartment_id
+  vcn_id         = local.vcn_id
+  display_name   = var.msg_subnet_name
+  freeform_tags  = var.tag_value.freeformTags
+  defined_tags   = var.tag_value.definedTags
+
+  # Ingress rules and their corresponding egress
+  ingress_security_rules {
+    description = "Required to enable Path MTU Discovery to work, and non-OCI communication"
+    icmp_options {
+      code = "4"
+      type = "3"
+    }
+    protocol    = local.icmp_protocol
+    source      = "0.0.0.0/0"
+    source_type = "CIDR_BLOCK"
+    stateless   = "true"
+  }
+
+  egress_security_rules {
+    description = "Required to enable Path MTU Discovery responses to work, and non-OCI communication"
+    icmp_options {
+      code = "4"
+      type = "3"
+    }
+    protocol         = local.icmp_protocol
+    destination      = "0.0.0.0/0"
+    destination_type = "CIDR_BLOCK"
+    stateless        = "true"
+  }
+
+  ingress_security_rules {
+    description = "Required to allow application within VCN to fail fast"
+    icmp_options {
+      type = "3"
+    }
+    protocol    = local.icmp_protocol
+    source      = oci_core_vcn.spoke_vcn[0].cidr_block
+    source_type = "CIDR_BLOCK"
+    stateless   = "true"
+  }
+
+  egress_security_rules {
+    description = "Required to allow application within VCN responses to fail fast"
+    icmp_options {
+      type = "3"
+    }
+    protocol         = local.icmp_protocol
+    destination      = oci_core_vcn.spoke_vcn[0].cidr_block
+    destination_type = "CIDR_BLOCK"
+    stateless        = "true"
+  }
+
+  count = local.create_msg_subnet ? 1 : 0
+}
