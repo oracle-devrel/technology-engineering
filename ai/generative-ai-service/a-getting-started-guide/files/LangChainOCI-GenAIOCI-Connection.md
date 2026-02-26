@@ -20,12 +20,13 @@ To learn about OCI Generative AI's integration with LangChain, see the [Generati
    * Set up IAM policies: Grant your user/group access to `generative-ai-family` in a sandbox compartment (e.g., `allow group <group-name> to manage generative-ai-family in compartment <compartment-name>`).
    * Gather: Compartment OCID (from OCI Console > Identity & Security > Compartments).
    * Docs: [OCI Generative AI Getting Started](https://docs.oracle.com/en-us/iaas/Content/generative-ai/home.htm) and [IAM Policies](https://docs.oracle.com/en-us/iaas/Content/Identity/Concepts/policygetstarted.htm).
-2. **OCI CLI and SDK Installation:**
+2. **OCI CLI (Optional) and SDK Installation:**
+   * OCI CLI is only needed for command line-access
    * Install the OCI CLI (includes Python SDK for authentication).
    * Command: `pip install oci-cli`.
    * Verify: `oci --version`.
    * Docs: [Install OCI CLI](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/cliinstall.htm).
-3. **Python Packages:**
+4. **Python Packages:**
    * Install core libraries:
      ```bash
      pip install langchain langchain-oci oci
@@ -33,7 +34,7 @@ To learn about OCI Generative AI's integration with LangChain, see the [Generati
    * `langchain`: Core framework.
    * `langchain-oci`: Support for the OCI chat and embedding models.
    * `oci`: SDK for auth and API calls.
-4. **[Set up OCI API key](https://docs.oracle.com/en-us/iaas/Content/generative-ai/setup-oci-api-auth.htm) authentication locally.**
+5. **[Set up OCI API key](https://docs.oracle.com/en-us/iaas/Content/generative-ai/setup-oci-api-auth.htm) authentication locally.**
 
 ## Connecting LangChain to OCI Generative AI
 - Using a Chat Model: `ChatOCIGenAI` class exposes chat models from OCI Generative AI
@@ -44,19 +45,35 @@ To learn about OCI Generative AI's integration with LangChain, see the [Generati
 Start with a simple call to an on-demand model using API Key auth (default). This invokes the LLM directly.
 ```python
 from langchain_oci import OCIGenAI
+from langchain_core.prompts import PromptTemplate
 
-# Initialize the OCI GenAI LLM interface
+# Initialize with Session Token auth and model parameters
 llm = OCIGenAI(
-    model_id="cohere.command",  # On-demand model ID
+    model_id="meta.llama-3.3-70b-instruct",
     service_endpoint="https://inference.generativeai.us-chicago-1.oci.oraclecloud.com",
-    compartment_id="MY_OCID",  # Your compartment OCID
-    # Auth uses ~/.oci/config by default (API Key)
+    compartment_id="MY_OCID",
+    auth_type="SECURITY_TOKEN",
+    auth_profile="MY_PROFILE",
+    model_kwargs={
+        "temperature": 0.7,
+        "top_p": 0.75,
+        "max_tokens": 200
+    }
 )
 
-# Basic invocation with optional parameters
-response = llm.invoke("Tell me one fact about Earth", temperature=0.7)
+# Define a prompt template
+prompt = PromptTemplate(
+    input_variables=["query"],
+    template="{query}"
+)
+
+# Create the chain using LCEL (pipe operator)
+chain = prompt | llm
+
+# Invoke the chain
+response = chain.invoke({"query": "What is the capital of France?"})
 print(response)
-# Expected output: A generated fact, e.g., "Earth is the third planet from the Sun."
+# Expected output: "The capital of France is Paris."
 ```
 
 ### 2. Prompt Chaining with LLMChain

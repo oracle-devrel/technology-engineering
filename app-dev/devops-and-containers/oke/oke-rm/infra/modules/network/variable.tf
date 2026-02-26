@@ -205,6 +205,22 @@ variable "peer_vcns" {
   type = list(string)
 }
 
+# MESSAGING
+
+variable "create_msg_subnet" {
+  type = bool
+}
+
+variable "msg_subnet_cidr" {}
+
+variable "msg_subnet_dns_label" {}
+
+variable "msg_subnet_name" {}
+
+variable "create_streaming_nsg" {
+  type = bool
+}
+
 # Tagging
 
 variable "tag_value" {
