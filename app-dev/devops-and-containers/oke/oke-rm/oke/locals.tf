@@ -7,6 +7,7 @@ locals {
   enable_metrics_server      = var.cluster_type == "enhanced" && var.enable_cert_manager && var.enable_metrics_server
   enable_cluster_autoscaler  = var.cluster_type == "enhanced" && var.enable_cluster_autoscaler
   create_autoscaler_policies = var.cluster_type == "enhanced" && var.enable_cluster_autoscaler && var.create_autoscaler_policies
+  tag_value                  = var.tag_value == null ? { "freeformTags" = {}, "definedTags" = {} } : var.tag_value
 }
 
 # OIDC
