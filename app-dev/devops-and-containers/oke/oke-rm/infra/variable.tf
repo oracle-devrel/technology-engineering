@@ -176,6 +176,20 @@ variable "separate_db_nsg" {
   default = true
 }
 
+variable "create_msg_subnet" {
+  type    = bool
+  default = false
+}
+
+variable "msg_subnet_name" {
+  default = "msg"
+}
+
+variable "create_streaming_nsg" {
+  type    = bool
+  default = false
+}
+
 
 # DRG
 

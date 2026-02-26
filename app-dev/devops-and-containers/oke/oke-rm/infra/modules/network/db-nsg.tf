@@ -48,7 +48,7 @@ resource "oci_core_network_security_group_security_rule" "postgres_db_egress" {
   destination_type          = "NETWORK_SECURITY_GROUP"
   destination               = local.create_app_db_nsg ? local.app_nsg.nsg_db[local.postgres_service].id : local.app_nsg.nsg_id
   stateless                 = true
-  description               = "Allow communication from applications to pods"
+  description               = "Allow communication from postgres to applications"
   tcp_options {
     source_port_range {
       max = 5432
