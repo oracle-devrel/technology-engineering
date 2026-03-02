@@ -1,8 +1,10 @@
-# Customer Experience Conversations Analysis
+# CX Conversations Analyzer Agent
 
-Transcribes audio from Call Centers using OCI AI Speech and extracts insights using OCI Generative AI Service with OpenAI GPT-OSS models. Built with Streamlit and LangChain, the asset is structured as a reusable `cx_tools` package that can be deployed as a Streamlit UI or integrated directly into OCI Generative AI Agents Hub.
+The **CX Conversations Analyzer** is an AI agent that listens to your call center recordings and tells you what happened, why customers called, whether their issues were resolved, and how they felt — automatically, at scale.
 
-Example to test it out: [Gridspace-Stanford Harper Valley Dataset](https://github.com/cricketclub/gridspace-stanford-harper-valley)
+Drop in one audio file or a full batch. The agent transcribes each call using **OCI AI Speech**, identifies the two speakers, and then uses **OCI Generative AI** with OpenAI GPT-OSS models to extract a structured summary, sentiment score, call reason, resolution status, and the information the agent requested. When processing a batch, it goes further: it groups calls into topic categories and generates an aggregated report with resolution rates, sentiment trends, and actionable insights across all calls.
+
+Example dataset to test it out: [Gridspace-Stanford Harper Valley Dataset](https://github.com/cricketclub/gridspace-stanford-harper-valley)
 
 Reviewed: 27.02.2026
 
