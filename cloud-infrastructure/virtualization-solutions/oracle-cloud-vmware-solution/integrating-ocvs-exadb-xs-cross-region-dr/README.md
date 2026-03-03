@@ -10,10 +10,10 @@ Organizations operating mission-critical applications on VMware often depend on 
 
 Oracle Cloud Infrastructure (OCI) addresses this by combining:
 
-- **Oracle Cloud VMware Solution (OCVS)** – a fully customer-controlled VMware SDDC with native vSphere, vSAN, and NSX-T
+- **Oracle Cloud VMware Solution (OCVS)** – a fully customer-controlled VMware SDDC with native vSphere, vSAN, NSX-T and VCF
 - **Oracle Exadata Database Service on Exascale Infrastructure (ExaDB-XS)** – leverages Exadata Exascale technology within OCI and is designed to deliver extreme performance, reliability and availability of Exadata with the cost and elasticity benefits of modern clouds
 - **Oracle Data Guard** – for real-time cross-region database protection
-- **VMware Site Recovery Manager (SRM)** – for automated application disaster recovery
+- **VMware Live Site Recovery (VLSR)** – for automated application disaster recovery
 
 Together, these services deliver a unified, end-to-end DR architecture that maintains VMware consistency while enabling Exadata-grade database resilience.
 
@@ -24,7 +24,7 @@ This cross-region DR topology spans two OCI regions and includes:
 - **Oracle Exadata Database Service on Exascale Infrastructure (ExaDB-XS)** using Data Guard
   - Primary database in Region A
   - Standby database in Region B
-- **SRM** orchestrating VMware application recovery
+- **VLSR** orchestrating VMware application recovery
 - Secure, low-latency inter-region connectivity via **DRG**, **VCN Peering**, and **NSX-T** networking
   
 ![OCVS DR Architecture](ocvs-exadb-xs-dr-architecture.png)
@@ -45,12 +45,18 @@ Oracle Exadata Database Service on Exascale Infrastructure (ExaDB-XS) brings a m
 ## 2. Built-in multi-region DR with Data Guard
 - Real-time redo apply
 - Synchronous (zero-data-loss) or asynchronous modes
+  
+> **Note on network requirements:**  
+> In synchronous mode (Maximum Availability), network latency and bandwidth must meet strict requirements to avoid application performance impact. Low-latency inter-region connectivity and sufficient bandwidth to sustain redo generation rates are typically required.  
+>  
+> Asynchronous mode (Maximum Performance) tolerates higher latency and is better suited for long-distance deployments.
+
 - Automated failover using Data Guard Broker
 
 ## 3. Perfect integration with OCVS
 - Private app–DB connectivity with predictable latency
 - No re-engineering or app redesign for VMware workloads
-- Seamless failover when paired with SRM orchestration
+- Seamless failover when paired with VLSR orchestration
 
 ## 4. Full customer control
 - Use any Oracle Database feature or option
@@ -70,14 +76,18 @@ Data Guard forms the resilient foundation for the database DR stack with:
 
 During a failure in Region A:
 
-- Standby in Region B promotes to **Primary**
+- The standby database in Region B is promoted to **Primary**
 - Database services and endpoints automatically switch
-- VMware applications reconnect after SRM recovers the VMs in Region B
+- VMware applications reconnect after VLSR recovers the VMs into Region B
 
-# Application Layer DR: VMware Site Recovery Manager (SRM)
-SRM orchestrates application-level disaster recovery across OCI regions:
+# Application Layer DR: VMware Live Site Recovery (VLSR)
 
-- vSphere Replication protects VM data
+*VMware Site Recovery Manager (SRM) has reached End of Support (EOS) as of October 2025. Broadcom recommends upgrading to the supported VMware Live Site Recovery (VLSR) offering, which effectively combines SRM capabilities with vSphere Replication under a subscription-based model.
+All architectural principles described in this document for SRM remain fully applicable to VMware Live Site Recovery.*
+
+VLSR orchestrates application-level disaster recovery across OCI regions:
+
+- Integrated vSphere Replication protects VM data as part of VMware Live Site Recovery
 - Recovery Plans define VM startup order, dependencies, and network mapping
 - NSX-T provides consistent network overlays across regions
 - Automated failover and controlled failback
@@ -85,8 +95,8 @@ SRM orchestrates application-level disaster recovery across OCI regions:
 
 During a disaster:
 
-- SRM initiates failover
-- Applications are restarted on OCVS Region B
+- VLSR initiates failover
+- Applications are restarted on OCVS in Region B
 - ExaDB-XS Standby database in Region B is now the primary database
 - Application-to-database communication resumes automatically
 
@@ -98,7 +108,7 @@ During a disaster:
 - Zero data loss (if synchronous)
 - Database becomes immediately available
 
-## 3 - SRM triggers recovery plans
+## 3 - VLSR triggers recovery plans
 - VMs power up in OCVS cluster in Region B
 - NSX-T networks map seamlessly
 
@@ -109,7 +119,7 @@ During a disaster:
 # Key Benefits
 - Next-generation architecture of Oracle Exadata
 - Zero application refactoring for VMware workloads
-- Full-stack DR with Data Guard + SRM
+- Full-stack DR with Data Guard + VLSR
 - Zero or near-zero RPO depending on sync mode
 - Predictable RTO via VMware orchestration
 - Secure private connectivity between app and DB tiers
@@ -120,7 +130,7 @@ OCI supports a comprehensive disaster recovery architecture by combining:
 
 - OCVS for VMware-based applications
 - ExaDB-XS for Oracle Databases
-- Data Guard and SRM for coordinated, cross-region protection
+- Data Guard and VLSR for coordinated, cross-region protection
 
 This integration enables a consistent and unified approach to disaster recovery for organizations running Oracle Database and VMware workloads in the cloud.
 
