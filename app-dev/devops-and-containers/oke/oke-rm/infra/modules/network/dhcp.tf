@@ -101,3 +101,16 @@ resource "oci_core_dhcp_options" "db_dhcp" {
   }
   count = local.create_db_subnet ? 1 : 0
 }
+
+resource "oci_core_dhcp_options" "msg_dhcp" {
+  compartment_id = var.network_compartment_id
+  vcn_id         = local.vcn_id
+  display_name   = var.msg_subnet_name
+  freeform_tags  = var.tag_value.freeformTags
+  defined_tags   = var.tag_value.definedTags
+  options {
+    type        = "DomainNameServer"
+    server_type = "VcnLocalPlusInternet"
+  }
+  count = local.create_msg_subnet ? 1 : 0
+}

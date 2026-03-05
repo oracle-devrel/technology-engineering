@@ -25,6 +25,7 @@ locals {
   create_db_subnet  = var.create_db_subnet && var.create_vcn && length(var.db_service_list) > 0
   create_app_db_nsg = length(var.db_service_list) > 0 && var.separate_db_nsg
 
+  create_msg_subnet = var.create_msg_subnet && var.create_vcn
 
   tcp_protocol       = "6"
   icmp_protocol      = "1"
@@ -32,6 +33,6 @@ locals {
   postgres_service   = "postgres"
   cache_service      = "cache"
   oracledb_service   = "oracledb"
-  mysql_service = "mysql"
+  mysql_service      = "mysql"
   service_cidr_block = lookup(data.oci_core_services.all_oci_services.services[0], "cidr_block")
 }
