@@ -1,4 +1,4 @@
-# OCI Object detection and Embedding
+# OCI Object detection and Embedding. 
 
 The following asset is a tool designed to display how Embedding models can be used with OCI vision Object Detection to detect and identify different objects within an image.
 
