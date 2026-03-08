@@ -2,7 +2,7 @@
  
 OCI IAM is a native service of OCI that provides enterprise-class identity and access management features such as strong, adaptive authentication, user Lifecycle Management (LCM), and Single Sign-On (SSO) to enterprise applications. OCI IAM is deployed as an identity domain(s) in OCI. Included domain(s) allow organizations to manage access to their Oracle Cloud services (network, compute, storage, etc.) and Oracle SaaS applications. Customers can choose to upgrade or create additional identity domains to accommodate other use cases such as managing workforce access to non-Oracle applications, enabling consumer access to customer-facing applications, or embedding IAM into custom-developed applications.
  
-Reviewed: 20.10.2025
+Reviewed: 21.01.2026
 
 # Table of Contents
  
@@ -10,6 +10,9 @@ Reviewed: 20.10.2025
 2. [Useful Links](#useful-links)
  
 # Team Publications
+
+- [OCI IAM Deny Policies](https://blogs.oracle.com/cloud-infrastructure/announcing-support-for-iam-deny-policies-in-oci?source=:so:ch:or:awr::::IAMDeny&SC=:so:ch:or:awr::::IAMDeny&pcode=)
+    - Blog post on OCI IAM Deny Policy Announcement
 
 - [OCI Security Services & OCI IAM](https://www.oracle.com/europe/cloud/events/developer-coaching/on-demand/#security)
     - Videos about OCI Security Services & OCI IAM Solution
