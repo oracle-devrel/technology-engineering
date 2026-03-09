@@ -295,22 +295,23 @@ class SentimentAnalysisPipeline:
                 doc_result = response.data.documents[0]
                 document_sentiment = doc_result.document_sentiment.lower()
                 document_scores = doc_result.document_scores
+                normalized_scores = self._normalize_scores(document_scores)
 
                 # Convert OCI sentiment (positive/negative/neutral/mixed) to 1-10 scale
                 sentiment_score = self._convert_to_scale_1_10(
-                    document_sentiment, document_scores
+                    document_sentiment, normalized_scores
                 )
 
                 return {
                     "sentiment_score": sentiment_score,
                     "sentiment": document_sentiment,
                     "confidence": max(
-                        document_scores.get("positive", 0),
-                        document_scores.get("negative", 0),
-                        document_scores.get("neutral", 0),
-                        document_scores.get("mixed", 0),
+                        normalized_scores.get("positive", 0),
+                        normalized_scores.get("negative", 0),
+                        normalized_scores.get("neutral", 0),
+                        normalized_scores.get("mixed", 0),
                     ),
-                    "scores": document_scores,
+                    "scores": normalized_scores,
                 }
         except Exception as e:
             print(f"Error in sentiment analysis: {e}")
@@ -320,6 +321,13 @@ class SentimentAnalysisPipeline:
                 "sentiment": "neutral",
                 "confidence": 0.0,
             }
+
+    def _normalize_scores(self, scores: dict) -> dict:
+        normalized_scores = {}
+        if isinstance(scores, dict):
+            for key, value in scores.items():
+                normalized_scores[str(key).lower()] = value
+        return normalized_scores
 
     def _convert_to_scale_1_10(
         self, sentiment: str, scores: dict
