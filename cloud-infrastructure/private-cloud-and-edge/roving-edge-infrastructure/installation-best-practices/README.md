@@ -51,11 +51,12 @@ As described in **Task 2** of **Ensure the Host Has OpenSSL Installed** in the U
 If your computer is running **Microsoft Windows** with **Google Chrome version 135.0.7049.42**, follow these steps:
 1. In the Chrome address bar, enter the device address and port number: `https://<device_hostname>:8015`
 2. Click the **Not secure** icon next to the URL field.
-3. Click Certificate details.
-4. Click the Details tab.
-5. Under Certificate Hierarchy, click the top certificate.
-6. Click **Export** for each certificate in the hierarchy **one by one**, starting from the top. This ensures that **all related certificates are saved correctly** into the **Trusted Root Certificate Authorities** folder on **Windows**, or into **Keychain Access** on **macOS**.
-7. Click Save.
+   <p><img src="./images/RED-signing.png"/></p>
+4. Click Certificate details.
+5. Click the Details tab.
+6. Under Certificate Hierarchy, click the top certificate.
+7. Click **Export** for each certificate in the hierarchy **one by one**, starting from the top. This ensures that **all related certificates are saved correctly** into the **Trusted Root Certificate Authorities** folder on **Windows**, or into **Keychain Access** on **macOS**.
+8. Click Save.
 
 **Clear your browser’s cache and restart the session.**
 
