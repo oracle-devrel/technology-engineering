@@ -81,7 +81,7 @@ class SpeechPipeline:
         else:
             # Available Whisper models: WHISPER_MEDIUM, WHISPER_LARGE_V2 (requires service request)
             # Using WHISPER_MEDIUM as default since WHISPER_LARGE_V2 requires service request
-            model_config.model_type = "WHISPER_MEDIUM"
+            model_config.model_type = "WHISPER_LARGE_V3T"
             model_config.domain = "GENERIC"
             model_config.language_code = "en"
 
