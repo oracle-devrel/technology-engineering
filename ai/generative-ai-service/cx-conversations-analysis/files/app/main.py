@@ -84,20 +84,17 @@ def render_header():
     """
     logo_b64 = encode_logo()
 
-    col1, col2, col3 = st.columns([1, 2, 1])
-
-    with col2:
-        if logo_b64:
-            st.image(
-                f"data:image/png;base64,{logo_b64}",
-                width=200,
-            )
-        st.markdown("### Audio Call Analyzer")
-        st.markdown(
-            "Upload one or more calls, generate diarized transcripts and LLM-powered "
-            "summaries, and explore batch-level insights."
+    if logo_b64:
+        st.image(
+            f"data:image/png;base64,{logo_b64}",
+            width=200,
         )
-        st.markdown("---")
+    st.markdown("### Audio Call Analyzer")
+    st.markdown(
+        "Upload one or more calls, generate diarized transcripts and LLM-powered "
+        "summaries, and explore batch-level insights."
+    )
+    st.markdown("---")
 
 
 def parse_llm_json(raw_summary: str):
