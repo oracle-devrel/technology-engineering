@@ -11,7 +11,7 @@ Added: 09.03.2026
 - [Driver Issue Troubleshooting⚠️](#driver-)
   - [Microsoft Windows](#windows)
   - [Apple MAC](#mac)
-- [Importing the Root CA Certificate 📥](#importing-)
+- [Importing the Root CA Certificate 📥](#import-)
 
 <a id="overview"></a>
 ## Overview
@@ -60,11 +60,11 @@ Purge and reinstall the USB-to-Serial driver using the following package:
 
 
 <sub><a href="#toc">Back to top</a></sub>
-<br>
-<br>
+<br><br>
 
 
-<a id="importing"></a>
+
+<a id="import"></a>
 ## Importing the Root CA Certificate 📥
 
 As described in **Task 2** of **Ensure the Host Has OpenSSL Installed** in the User Guide, the Root Certificate must be downloaded and imported into your browser after configuring the host file.
