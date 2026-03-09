@@ -45,6 +45,13 @@ def make_sidebar(config):
             config.LIST_GENAI_MODELS,
         )
 
+        sentiment_method = st.selectbox(
+            "Sentiment analysis method",
+            ("GenAI", "OCI Language"),
+            index=0,
+            help="GenAI uses prompt-based custom criteria. OCI Language uses the managed sentiment service.",
+        )
+
         run_button = st.button("Run")
 
         # Sidebar info card using .sidebar-tips / .param-display styles
@@ -79,9 +86,20 @@ def make_sidebar(config):
                         <span class="param-label">GenAI model</span>
                         <span class="param-value">{selected_model}</span>
                     </div>
+                    <div class="param-row">
+                        <span class="param-label">Sentiment method</span>
+                        <span class="param-value">{sentiment_method}</span>
+                    </div>
                 </div>
                 """,
                 unsafe_allow_html=True,
             )
 
-        return uploaded_files, run_button, selected_model, selected_speech_model, page
+        return (
+            uploaded_files,
+            run_button,
+            selected_model,
+            selected_speech_model,
+            sentiment_method,
+            page,
+        )

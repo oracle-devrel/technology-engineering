@@ -25,6 +25,8 @@ if "selected_model" not in st.session_state:
     st.session_state["selected_model"] = None
 if "selected_speech_model" not in st.session_state:
     st.session_state["selected_speech_model"] = None
+if "selected_sentiment_method" not in st.session_state:
+    st.session_state["selected_sentiment_method"] = None
 
 
 def load_css():
@@ -81,15 +83,14 @@ def render_header():
     Render header using Streamlit native components for better compatibility.
     """
     logo_b64 = encode_logo()
-    
-    # Use columns for centered layout
+
     col1, col2, col3 = st.columns([1, 2, 1])
-    
+
     with col2:
         if logo_b64:
             st.image(
                 f"data:image/png;base64,{logo_b64}",
-                width=200
+                width=200,
             )
         st.markdown("### Audio Call Analyzer")
         st.markdown(
@@ -135,14 +136,21 @@ def parse_llm_json(raw_summary: str):
     return summary_json
 
 
-def process_batch(uploaded_files, selected_model, selected_speech_model):
+def process_batch(
+    uploaded_files,
+    selected_model,
+    selected_speech_model,
+    selected_sentiment_method,
+):
     """
     Run the speech + LLM pipeline on a batch of uploaded files.
     Stores structured results in st.session_state.
     """
     speech_pipeline = ai_tools.SpeechPipeline(config)
     genai_pipeline = ai_tools.GenAIPipeline(config)
-    sentiment_pipeline = ai_tools.SentimentAnalysisPipeline(config)
+    sentiment_pipeline = None
+    if selected_sentiment_method == "OCI Language":
+        sentiment_pipeline = ai_tools.SentimentAnalysisPipeline(config)
 
     do_diarization = True
     results = []
@@ -158,7 +166,7 @@ def process_batch(uploaded_files, selected_model, selected_speech_model):
             text=f"Processing {idx + 1}/{total_files}: {uploaded_file.name}"
         )
         status_box.info(
-            f"**{uploaded_file.name}** - Transcribing, analyzing sentiment & summarizing..."
+            f"**{uploaded_file.name}** - Transcribing, analyzing sentiment ({selected_sentiment_method}) & summarizing..."
         )
 
         # 1. Save audio
@@ -185,12 +193,6 @@ def process_batch(uploaded_files, selected_model, selected_speech_model):
             status_box.error(f"Unexpected error during transcription for {uploaded_file.name}: {str(e)}")
             continue
 
-        # 3. Sentiment Analysis using OCI Language Service
-        sentiment_result = sentiment_pipeline.analyze_sentiment(
-            processed_trans, level="SENTENCE"
-        )
-
-        # 4. LLM JSON summary (without sentiment_score - we'll add it from Language Service)
         prompt = prompts.SUMMARIZE_SYSTEM_PROMPT.format(format=prompts.SUMMARY_FORMAT)
         summary_json = genai_pipeline.get_chat_response(
             prompt,
@@ -198,13 +200,17 @@ def process_batch(uploaded_files, selected_model, selected_speech_model):
             model_id=config.GENAI_MODELS[selected_model],
         )
 
-        # 5. Merge sentiment score from OCI Language Service into summary_json
-        # Override any sentiment_score from LLM with the one from Language Service
-        summary_json["sentiment_score"] = sentiment_result["sentiment_score"]
-        summary_json["sentiment_details"] = {
-            "sentiment": sentiment_result["sentiment"],
-            "confidence": sentiment_result["confidence"],
-        }
+        if selected_sentiment_method == "OCI Language" and sentiment_pipeline:
+            sentiment_result = sentiment_pipeline.analyze_sentiment(
+                processed_trans, level="SENTENCE"
+            )
+            summary_json["sentiment_score"] = sentiment_result["sentiment_score"]
+            summary_json["sentiment_details"] = {
+                "sentiment": sentiment_result["sentiment"],
+                "confidence": sentiment_result["confidence"],
+            }
+
+        summary_json["sentiment_method"] = selected_sentiment_method
 
         results.append(
             {
@@ -225,6 +231,7 @@ def process_batch(uploaded_files, selected_model, selected_speech_model):
     st.session_state["processed"] = True
     st.session_state["selected_model"] = selected_model
     st.session_state["selected_speech_model"] = selected_speech_model
+    st.session_state["selected_sentiment_method"] = selected_sentiment_method
 
 
 # ---------- Page renderers ----------
@@ -689,7 +696,14 @@ def main():
     render_header()
 
     # --- Sidebar controls & page selection ---
-    uploaded_files, run_button, selected_model, selected_speech_model, page = navbar.make_sidebar(config)
+    (
+        uploaded_files,
+        run_button,
+        selected_model,
+        selected_speech_model,
+        selected_sentiment_method,
+        page,
+    ) = navbar.make_sidebar(config)
 
     # Ensure list type for multi-file support
     if uploaded_files and not isinstance(uploaded_files, list):
@@ -697,17 +711,25 @@ def main():
 
     # --- Run processing when button clicked ---
     if uploaded_files and run_button:
-        process_batch(uploaded_files, selected_model, selected_speech_model)
+        process_batch(
+            uploaded_files,
+            selected_model,
+            selected_speech_model,
+            selected_sentiment_method,
+        )
 
     # Get last processed batch from session_state
     results = st.session_state.get("results")
     processed = st.session_state.get("processed", False)
     selected_model_state = st.session_state.get("selected_model") or selected_model
     selected_speech_model_state = st.session_state.get("selected_speech_model") or selected_speech_model
-
     # --- Route to the selected "page" ---
     if page == "Per-call view":
-        render_per_call_view(results if processed else None, selected_model_state, selected_speech_model_state)
+        render_per_call_view(
+            results if processed else None,
+            selected_model_state,
+            selected_speech_model_state,
+        )
     elif page == "Batch overview":
         if not processed:
             st.info(
