@@ -11,8 +11,8 @@ parser = argparse.ArgumentParser("Start a LLM")
 parser.add_argument(
     "--port",
     type=int,
-    default=8000,
-    help="Port to use for vLLM.",
+    default=30000,
+    help="Port to use for sglang.",
 )
 parser.add_argument(
     "server_configuration",
@@ -26,12 +26,19 @@ args = parser.parse_args()
 with args.server_configuration.open() as fd:
     configuration = json.load(fd)
 
+# Remove performance measurement parameters
+configuration.pop("genai-perf", None)
+
 model = configuration.pop("model")
 server_command = [
-    "vllm",
-    "serve",
-    "--disable-log-requests",
+    "python3",
+    "-m",
+    "sglang.launch_server",
+    "--log-requests-level",
+    "0",
+    "--host=0.0.0.0",
     f"--port={args.port}",
+    "--model-path",
     model,
 ] + [
     f"--{k}={v}" for k, v in configuration.items()

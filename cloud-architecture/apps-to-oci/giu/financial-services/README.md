@@ -6,7 +6,7 @@ These resources aim to offer guidance throughout your migration, enabling you to
 
 Explore these materials to enhance your migration strategy. We appreciate your participation and are committed to supporting your cloud migration journey.
  
-Reviewed: 14.07.2025
+Reviewed: 25.11.2025
 
 # Table of Contents
  

@@ -6,7 +6,7 @@ Assets that contain oic related elementary commands and API interactions to achi
 ## OIC CICD - Files
 Collection of the atomic steps implementing the OIC Management API requests calls from the unix shell. Outh2 Authorization is the auth schema and Integratged Application for the Authorization Code or Client Credentials with OIC management API scope is needed(clientId, clientSecret). OCI user key and OCIDs needed to build the OCI V1 signature for the OCI commands for the start/stop OIC service instance.
 
-Review Date: 28.04.2025
+Review Date: 14.11.2025
 
 # When to use these assets?
 
@@ -22,4 +22,4 @@ Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](./LICENSE) for more details.

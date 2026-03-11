@@ -1,9 +1,0 @@
-{
-  "chart": {
-    "repo": "https://traefik.github.io/charts",
-    "name": "traefik",
-    "version": "*",
-    "releaseName": "traefik"
-  },
-  "namespace": "traefik"
-}

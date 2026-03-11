@@ -1,0 +1,10 @@
+  /app/index.jsp:
+    get:
+      summary: JSP Page
+      responses:
+        200:
+          description: JSP dynamic page
+          content:
+            text/html:
+              schema:
+                type: string

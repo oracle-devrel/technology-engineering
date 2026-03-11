@@ -10,6 +10,7 @@ Reviewed: 11.11.2025
 3. [Reusable Assets](#reusable-assets)
 
 # Team Publications
+- [Developer Coaching - Building Real-Time Streams with OCI Streaming with Apache Kafka](https://www.youtube.com/watch?v=AUiuGH05MPE)
 
 # Useful Links
 
@@ -24,7 +25,7 @@ Reviewed: 11.11.2025
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

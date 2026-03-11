@@ -1,6 +1,6 @@
 # Compute Cloud@Customer Support Notes 
 
-Updated: 10.11.2025
+Updated: 23.12.2025
 
 Collection of My Cloud Oracle Support (MCOS) & My Oracle Support (MOS) notes relevant to Compute Cloud@Customer (CCATC) and Private Cloud Appliance (PCA) notes that are relevant to CCATC. The collection will continue to be updated as needed and is intended for use by CCATC administrators or anyone working on the CCATC service.
 
@@ -12,11 +12,12 @@ Collection of My Cloud Oracle Support (MCOS) & My Oracle Support (MOS) notes rel
 
 # My Oracle Support
 
-- [[PCA 3.x] Private Cloud Appliance: Software Updates (Doc ID 2906831.1)](https://support.oracle.com/epmos/faces/DocumentDisplay?id=2906831.1)
-- [Information Center: [CCATC] Oracle Compute Cloud at Customer (Doc ID 2936731.2)](https://support.oracle.com/epmos/faces/DocumentDisplay?id=2966540.1)
-- [[CCATC] Application Verification Matrix (Doc ID 2966540.1)](https://support.oracle.com/epmos/faces/DocumentDisplay?id=2966540.1)
-- [[CCATC] OCI Compute Cloud at Customer - Service Request (SR) Creation (Doc ID 2969961.1)](https://support.oracle.com/epmos/faces/DocumentDisplay?id=2969961.1)
-- [[CCATC] Network Validation Tool (Doc ID 2974831.1)](https://support.oracle.com/epmos/faces/DocumentDisplay?id=2974831.1)
+- [[PCA 3.x] Importing Microsoft Windows 'bring your own instance' Custom Image (Doc ID 2852064.1)](https://support.oracle.com/support/?kmContentId=2852064)
+- [[PCA 3.x] Private Cloud Appliance: Software Updates (Doc ID 2906831.1)](https://support.oracle.com/support/?kmContentId=2906831)
+- [Information Center: [CCATC] Oracle Compute Cloud at Customer (Doc ID 2936731.2)](https://support.oracle.com/support/?kmContentId=2966540)
+- [[CCATC] Application Verification Matrix (Doc ID 2966540.1)](https://support.oracle.com/support/?kmContentId=2966540)
+- [[CCATC] OCI Compute Cloud at Customer - Service Request (SR) Creation (Doc ID 2969961.1)](https://support.oracle.com/support/?kmContentId=2969961)
+- [[CCATC] Network Validation Tool (Doc ID 2974831.1)](https://support.oracle.com/support/?kmContentId=2974831)
 - [[CCATC] Oracle Compute Cloud at Customer Federation (Doc ID 3004017.2)](https://support.oracle.com/epmos/faces/DocumentDisplay?id=3004017.2)
 - [[CCATC] How to Setup IDP as a Provider for the Compute Cloud at Customer (Doc ID 3006544.1)](https://support.oracle.com/epmos/faces/DocumentDisplay?id=3006544.1)
 - [[CCATC] How to Re-bootstrap a Compute Cloud @ Customer Rack (Doc ID 3010344.1)](https://support.oracle.com/epmos/faces/DocumentDisplay?id=3010344.1)

@@ -23,34 +23,52 @@ variableGroups:
       - vcn_cidr_block
       - vcn_dns_label
       - cni_type
+
+  - title: "Control Plane"
+    variables:
       - create_cp_subnet
       - cp_subnet_name
-      - create_worker_subnet
-      - worker_subnet_name
-      - create_pod_subnet
-      - pod_subnet_name
-      - create_external_lb_subnet
-      - external_lb_subnet_name
-      - create_internal_lb_subnet
-      - internal_lb_subnet_name
-      - create_fss
-      - fss_subnet_name
-      - create_bastion_subnet
-      - bastion_subnet_name
-      - bastion_subnet_private
-      - create_gateways
-      - nat_gateway_id
-      - service_gateway_id
-      - create_internet_gateway
-
-  - title: "Control Plane Connectivity"
-    variables:
       - cp_connection_notice
       - cp_subnet_private
       - cp_allowed_source_cidr
       - cp_external_nat
       - allow_external_cp_traffic
       - cp_egress_cidr
+
+  - title: "Load Balancer"
+    variables:
+      - create_external_lb_subnet
+      - external_lb_subnet_name
+      - create_internal_lb_subnet
+      - internal_lb_subnet_name
+
+  - title: "Worker"
+    variables:
+      - create_worker_subnet
+      - worker_subnet_name
+      - allow_worker_nat_egress
+
+  - title: "Pod"
+    variables:
+      - create_pod_subnet
+      - pod_subnet_name
+      - allow_pod_nat_egress
+
+  - title: "FSS"
+    variables:
+      - create_fss
+      - fss_subnet_name
+
+  - title: "Bastion"
+    variables:
+      - create_bastion_subnet
+      - bastion_subnet_name
+      - bastion_subnet_private
+
+  - title: "Gateways"
+    variables:
+      - create_gateways
+      - create_internet_gateway
 
   - title: "DRG"
     variables:
@@ -60,6 +78,16 @@ variableGroups:
       - drg_id
       - create_drg_attachment
       - peer_vcns
+
+  - title: "Additional Network"
+    variables:
+      - create_db_subnet
+      - db_subnet_name
+      - db_service_list
+      - separate_db_nsg
+      - create_msg_subnet
+      - msg_subnet_name
+      - create_streaming_nsg
 
 variables:
 
@@ -88,7 +116,7 @@ variables:
 
   create_vcn:
     title: "Create VCN"
-    description: "If flagged, this Terraform module will create a VCN"
+    description: "If false, stack will create only the required NSGs"
     type: boolean
 
   vcn_id:
@@ -130,24 +158,32 @@ variables:
     title: "Create Control Plane subnet"
     description: "If flagged, this Terraform module will create the Kubernetes Control Plane subnet"
     type: boolean
+    visible: ${create_vcn}
 
   cp_subnet_name:
     title: "Kubernetes Control Plane subnet name"
     description: "Name of the subnet containing the Kubernetes Control Plane API Server"
     type: string
     required: true
-    visible: ${create_cp_subnet}
+    visible:
+      and:
+        - ${create_cp_subnet}
+        - ${create_vcn}
 
   cp_subnet_private:
     title: "Control Plane subnet is private"
     description: "Flag this if the Control Plane subnet is supposed to be private"
     type: boolean
-    visible: ${create_cp_subnet}
+    visible:
+      and:
+        - ${create_cp_subnet}
+        - ${create_vcn}
 
   cp_allowed_source_cidr:
     title: "Control Plane allowed source cidr"
     description: "This source CIDR block will be able to contact the OKE API server"
     type: string
+    pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\/(?:[0-9]|[1-2][0-9]|3[0-2])$"
     required: true
 
 
@@ -157,13 +193,22 @@ variables:
     title: "Create Worker subnet"
     description: "If flagged, this Terraform module will create the Kubernetes Worker subnet"
     type: boolean
+    visible: ${create_vcn}
 
   worker_subnet_name:
     title: "Worker subnet name"
     description: "Name of the Worker subnet"
     type: string
     required: true
-    visible: ${create_worker_subnet}
+    visible:
+      and:
+        - ${create_worker_subnet}
+        - ${create_vcn}
+
+  allow_worker_nat_egress:
+    title: "Allow outbound traffic via NAT"
+    description: "Allow worker node to reach external Internet through a NAT"
+    type: boolean
 
 # POD SUBNET
 
@@ -172,9 +217,12 @@ variables:
     description: "If flagged, this Terraform module will create the Kubernetes Pod subnet"
     type: boolean
     visible:
-      eq:
-        - ${cni_type}
-        - vcn_native
+      and:
+        - ${create_vcn}
+        - eq:
+            - ${cni_type}
+            - vcn_native
+
 
   pod_subnet_name:
     title: "Pod subnet name"
@@ -184,9 +232,19 @@ variables:
     visible:
       and:
         - ${create_pod_subnet}
+        - ${create_vcn}
         - eq:
             - ${cni_type}
             - vcn_native
+
+  allow_pod_nat_egress:
+    title: "Allow outbound traffic via NAT"
+    description: "Allow pods to reach external Internet through a NAT"
+    type: boolean
+    visible:
+      eq:
+        - ${cni_type}
+        - vcn_native
 
 # LB SUBNETS
 
@@ -194,25 +252,33 @@ variables:
     title: "Create external LB subnet"
     description: "If flagged, create a LB subnet to host publicly exposed services"
     type: boolean
+    visible: ${create_vcn}
 
   external_lb_subnet_name:
     title: "Service subnet name"
     description: "Name of the external LB subnet"
     type: string
     required: true
-    visible: ${create_external_lb_subnet}
+    visible:
+      and:
+        - ${create_external_lb_subnet}
+        - ${create_vcn}
 
   create_internal_lb_subnet:
     title: "Create internal LB subnet"
     description: "If flagged, create a LB subnet to host internally exposed services"
     type: boolean
+    visible: ${create_vcn}
 
   internal_lb_subnet_name:
     title: "Service subnet name"
     description: "Name of the internal LB subnet"
     type: string
     required: true
-    visible: ${create_internal_lb_subnet}
+    visible:
+      and:
+        - ${create_internal_lb_subnet}
+        - ${create_vcn}
 
 # FSS SUBNET
 
@@ -220,62 +286,65 @@ variables:
     title: "Create FSS subnet"
     description: "Create a subnet for the File System Storage service"
     type: boolean
+    visible: ${create_vcn}
 
   fss_subnet_name:
     title: "FSS subnet name"
     description: "Name of the FSS subnet to create"
     required: true
-    visible: ${create_fss}
+    visible:
+      and:
+        - ${create_fss}
+        - ${create_vcn}
+
+# BASTION SUBNET
+
+  create_bastion_subnet:
+    title: "Create Bastion Subnet"
+    description: "If flagged, the Stack creates the Bastion Subnet"
+    type: boolean
+    visible: ${create_vcn}
+
+  bastion_subnet_name:
+    title: "Bastion subnet name"
+    description: "Name of the subnet for Bastions"
+    type: string
+    required: true
+    visible:
+      and:
+        - ${create_bastion_subnet}
+        - ${create_vcn}
+
+  bastion_subnet_private:
+    title: "Bastion subnet is private"
+    description: "Note that if you use the OCI Bastion, the bastion subnet can also be private"
+    type: boolean
+    visible:
+      and:
+        - ${create_bastion_subnet}
+        - ${create_vcn}
+
 
 # VCN GATEWAYS
 
   create_gateways:
-    title: "Create VCN Gateways"
-    description: "If not flagged, the stack will reuse the VCN gateways"
+    title: "Create Gateways"
+    description: "Create both NAT and Service Gateways"
     type: boolean
     default: true
     visible:
       not:
         - ${create_vcn}
 
-  service_gateway_id:
-    type: oci:core:servicegateway:id
-    title: Service Gateway
-    dependsOn:
-      compartmentId: ${network_compartment_id}
-      vcnId: ${vcn_id}
-    required: true
-    visible:
-      and:
-        - not:
-          - ${create_vcn}
-        - not:
-            - ${create_gateways}
-
-  nat_gateway_id:
-    type: oci:core:natgateway:id
-    title: NAT Gateway
-    dependsOn:
-      compartmentId: ${network_compartment_id}
-      vcnId: ${vcn_id}
-    required: true
-    visible:
-      and:
-        - not:
-            - ${create_vcn}
-        - not:
-            - ${create_gateways}
-
   create_internet_gateway:
-    title: "Create_internet_gateway"
-    description: "The stack will try to create an Internet Gateway if a public subnet is present. If not flagged, an Internet Gateway will not be created"
+    title: "Create Internet Gateway"
+    description: "Create also an Internet Gateway"
     type: boolean
     visible:
       and:
+        - ${create_gateways}
         - not:
             - ${create_vcn}
-        - not:
-            - ${create_gateways}
 
 
 # CONTROL PLANE EXTERNAL CONNECTION
@@ -287,8 +356,8 @@ variables:
     required: false
 
   cp_external_nat:
-    title: "I want the Control Plane to be able to reach external Internet services"
-    description: "A routing rule to the NAT gateway will be created for the control plane"
+    title: "Allow outbound traffic via NAT"
+    description: "Allow the OKE control plane to reach external Internet through a NAT"
     type: boolean
     visible:
       and:
@@ -296,8 +365,8 @@ variables:
         - ${create_cp_subnet}
 
   allow_external_cp_traffic:
-    title: "Allow external Control Plane traffic"
-    description: "Allow external traffic to Internet from the Control Plane"
+    title: "Allow external traffic"
+    description: "Allow external traffic from the Control Plane"
     type: boolean
     visible:
       or:
@@ -313,6 +382,7 @@ variables:
     description: "Allowed egress IP range that the Control Plane is allowed to call"
     type: string
     required: true
+    pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\/(?:[0-9]|[1-2][0-9]|3[0-2])$"
     visible:
       and:
         - ${allow_external_cp_traffic}
@@ -321,25 +391,64 @@ variables:
                 - ${cp_subnet_private}
             - ${cp_external_nat}
 
-  # BASTION SUBNET
+# ADDITIONAL NETWORK
 
-  create_bastion_subnet:
-    title: "Create Bastion Subnet"
-    description: "If flagged, the Stack creates the Bastion Subnet"
+  create_db_subnet:
+    title: "Create Database Subnet"
+    description: "Create a subnet for all databases"
     type: boolean
+    visible: ${create_vcn}
 
-  bastion_subnet_name:
-    title: "Bastion subnet name"
-    description: "Name of the subnet for Bastions"
+  db_subnet_name:
+    title: "Database subnet name"
+    description: "Name of the subnet for databases"
     type: string
     required: true
-    visible: ${create_bastion_subnet}
+    visible:
+      and:
+        - ${create_db_subnet}
+        - ${create_vcn}
 
-  bastion_subnet_private:
-    title: "Bastion subnet is private"
-    description: "Note that if you use the OCI Bastion, the bastion subnet can also be private"
+  db_service_list:
+    title: "Additional Database Services"
+    description: "Create network rules for additional database services you are planning to use"
+    type: enum
+    additionalProps:
+      allowMultiple: true
+    enum:
+      - postgres
+      - cache
+      - oracledb
+      - mysql
+    required: false
+    default: []
+
+  separate_db_nsg:
+    title: "Create Separate database NSGs"
+    description: "Create separate database NSGs to manually select which applications will be granted access to the database"
     type: boolean
-    visible: ${create_bastion_subnet}
+
+  create_msg_subnet:
+    title: "Create Messaging Subnet"
+    description: "Create a subnet for messaging brokers (eg. Kafka)"
+    type: boolean
+    visible: ${create_vcn}
+
+  msg_subnet_name:
+    title: "Messaging subnet name"
+    description: "Name of the subnet for messaging brokers"
+    type: string
+    required: true
+    visible:
+      and:
+        - ${create_msg_subnet}
+        - ${create_vcn}
+
+  create_streaming_nsg:
+    title: "Create OCI Streaming NSG"
+    description: "Create a NSG to use for OCI Streaming (Kafka). Rules will be also created to connect all the applications in the cluster to OCI Streaming"
+    type: boolean
+
 
 # DRG
 
@@ -379,7 +488,10 @@ variables:
     title: "Create DRG attachment"
     description: "Attach the DRG to this VCN"
     type: boolean
-    visible: ${enable_drg}
+    visible:
+      and:
+        - ${enable_drg}
+        - ${create_vcn}
 
   peer_vcns:
     title: "Peer VCN CIDR blocks"
@@ -387,5 +499,14 @@ variables:
     type: array
     items:
       type: string
+      pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\/(?:[0-9]|[1-2][0-9]|3[0-2])$"
     required: false
-    visible: ${enable_drg}
+    visible:
+      and:
+        - ${enable_drg}
+        - ${create_vcn}
+        - ${create_drg_attachment}
+
+  tag_value:
+    type: oci:identity:tag:value
+    title: Tags

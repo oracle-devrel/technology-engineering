@@ -7,7 +7,7 @@ Postman collection implementing the API request signing required by the Oracle C
 ## CICD - OIC3 quickstart Example
 Postman collection implementing the OIC Management API requests. Outh2 Authorization is the auth schema and Integratged Application for the Authorization Code or Client Credentials with OIC management API scope is needed(clientId, clientSecret)
 
-Review Date: 04.04.2025
+Review Date: 14.11.2025
 
 # When to use these assets?
 
@@ -23,4 +23,4 @@ Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](./LICENSE) for more details.

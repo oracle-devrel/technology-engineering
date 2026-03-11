@@ -62,7 +62,7 @@ TxEventQs can manage and coordinate workflows by routing events between differen
 
 Oracle Transaction Event Queues provide a robust, high-performance solution for managing transactional events in event-driven architectures. By integrating seamlessly with Oracle's database and transaction management systems, TxEventQs offer reliable, scalable, and flexible event processing capabilities, making them a powerful tool for modern applications.
 
-Reviewed: 18.11.2024
+Reviewed: 01.12.2025
 
 # Table of Contents
  
@@ -77,7 +77,7 @@ Reviewed: 18.11.2024
 
 # Useful Links
 - [Oracle Transactional Event Queues Home Page](https://www.oracle.com/database/advanced-queuing/)
-- Oracle 23ai Documentation: [Transactional Event Queues and Advanced Queuing User's Guide](https://docs.oracle.com/en/database/oracle/oracle-database/23/adque/index.html)
+- Oracle 23ai Documentation: [Transactional Event Queues and Advanced Queuing User's Guide](https://docs.oracle.com/en/database/oracle/oracle-database/26/adque/index.html)
 - Blog: [Building a event streaming architecture using a simple and breakthrough solution](https://luca-bindi.medium.com/building-a-event-streaming-architecture-using-a-simple-and-breakthrough-solution-db6270ea6183)
 - Article: Develop With Oracle Transactional Event Queues (https://dzone.com/articles/develop-with-oracle-transactional-event-queues-kaf)
 - Video: [Tour of Oracle Transactional Event Queues](https://www.youtube.com/watch?v=_udsAs0GRkU)

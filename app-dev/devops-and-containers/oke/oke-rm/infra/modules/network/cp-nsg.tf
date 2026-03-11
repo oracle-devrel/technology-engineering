@@ -2,6 +2,8 @@ resource "oci_core_network_security_group" "cp_nsg" {
   compartment_id = var.network_compartment_id
   vcn_id         = local.vcn_id
   display_name   = "cp"
+  freeform_tags  = var.tag_value.freeformTags
+  defined_tags   = var.tag_value.definedTags
 }
 
 # Worker nodes to control plane - Kubelet communication (port 12250)
@@ -85,7 +87,7 @@ resource "oci_core_network_security_group_security_rule" "oke_cp_nsg_bastion_api
       min = 6443
     }
   }
-  count = var.create_bastion_subnet ? 1 : 0
+  count = local.create_bastion_subnet ? 1 : 0
 }
 
 resource "oci_core_network_security_group_security_rule" "oke_cp_nsg_bastion_apiserver_egress" {
@@ -102,7 +104,7 @@ resource "oci_core_network_security_group_security_rule" "oke_cp_nsg_bastion_api
       min = 6443
     }
   }
-  count = var.create_bastion_subnet ? 1 : 0
+  count = local.create_bastion_subnet ? 1 : 0
 }
 
 # Pods to control plane - Kubelet communication (port 12250)

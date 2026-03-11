@@ -25,7 +25,7 @@ output "internal_lb_subnet_id" {
 }
 
 output "bastion_subnet_id" {
-  value = var.create_bastion_subnet ? oci_core_subnet.bastion_subnet[0].id : null
+  value = local.create_bastion_subnet ? oci_core_subnet.bastion_subnet[0].id : null
 }
 
 # NSG

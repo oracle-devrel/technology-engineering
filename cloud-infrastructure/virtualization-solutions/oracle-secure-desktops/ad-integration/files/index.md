@@ -306,7 +306,13 @@ To allow the OSD instances in the dynamic group to read specific AD-related secr
 
 Allow dynamic-group 'osd-demo-AD-dyn-grp' to read secret-bundles in compartment OSD-Demo where any {target.secret.id = 'ocid1.vaultsecret.oc1.uk-london-1.amaaaaaaxxxxxxxxxxxxxxxxxxxxx7gyjrqn2dttym64346azq', target.secret.id = 'ocid1.vaultsecret.oc1.uk-london-1.amaaaaaaxxxxxxxxxxxxxxxxxxxxxfklaxcj5b2zxhcnc5emcvssijpq'}
 
-![OSD Architecture](./images/12.png "OCI Secure Desktops AD Policy") ![OSD Architecture](./images/13.png "OCI Secure Desktops AD Policy") ![OSD Architecture](./images/14.png "OCI Secure Desktops AD Policy")
+![OSD Architecture](./images/12.png "OCI Secure Desktops AD Policy") ![OSD Architecture](./images/13.png "OCI Secure Desktops AD Policy") 
+
+Edit the policy and add below statement
+
+Allow dynamic-group 'osd-demo-AD-dyn-grp' to use keys in compartment OSD-Demo
+
+![OSD Architecture](./images/14a.png "OCI Secure Desktops AD Policy") ![OSD Architecture](./images/14b.png "OCI Secure Desktops AD Policy")
 
 
 &nbsp;

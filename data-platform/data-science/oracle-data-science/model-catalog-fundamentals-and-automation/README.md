@@ -6,7 +6,7 @@ It contains two examples with increasing levels of sophistication:
 1. Model Catalog Fundamentals – introduces core Model Catalog concepts and operations.
 2. Automated Model Registration – demonstrates how to automate model registration using Data Science Jobs and model version sets.
 
-* Created: 2026-01-19
+Reviewed: 2026.01.19
 
 # Project Scope
 
@@ -46,3 +46,11 @@ This project covers the following topics:
 3. Run the notebook cells sequentially to reproduce each workflow:
 4. Start with the Model Catalog Fundamentals notebook
 5. Proceed to the Automated Model Registration notebook for advanced automation
+
+# License
+ 
+Copyright (c) 2026 Oracle and/or its affiliates.
+ 
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+ 
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

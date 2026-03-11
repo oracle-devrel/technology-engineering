@@ -2,7 +2,7 @@
  
 This is common use-case derived from the Publish-Subscribe style and Master Data Management solutions. For example, there can be Customer Data Management (CDM) application that may contain all customer data in organization and this data needs to be synced from the Master Data application (CDM) to other applications. This is Centralized MDM. However data and business objects can be modified and published by other systems. Then we are talking about Decentralized MDM.
 
-Review Date: 19.01.2024
+Review Date: 14.11.2025
 
 # How to use this asset?
  
@@ -14,4 +14,4 @@ Copyright (c) 2025 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](./LICENSE) for more details.
