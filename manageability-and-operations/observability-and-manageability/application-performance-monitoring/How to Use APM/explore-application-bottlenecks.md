@@ -1,6 +1,6 @@
-# Explore into Application Bottlenecks
+# Explore Application Bottlenecks
 
-This article is all about OCI APM's **Trace Explorer** for delving into the details of traces and spaces. In [Discover Application Bottlenecks](discover-application-bottlenecks.md), we discussed how to identify performance and security issues in OCI APM using tools outside of the Trace Explorer, including dashboards, Availability Monitoring, and alarms. It's finally time to drill down and explore the traces behind everything.
+This article is all about OCI APM's **Trace Explorer** for delving into the details of traces and spans. In [Discover Application Bottlenecks](discover-application-bottlenecks.md), we discussed how to identify performance and security issues in OCI APM using tools outside of the Trace Explorer, including dashboards, Availability Monitoring, and alarms. It's finally time to drill down and explore the traces behind everything.
 
 For this section, we will cover the following:
 
@@ -46,7 +46,7 @@ Dimensions:
 
 Metrics:
 
-- **Trace-**/**SpanDuration**: This gives the duration of the trace's root span or a child span's execution time in milliseconds.
+- **Trace-**/**SpanDuration**: This is the execution time in milliseconds of the trace's root span or a child span.
 
 - **ErrorCount**: The number of errors caught for a single span or across all the spans of a trace (not just the root). If you look at single spans, ErrorCount will at most be 1. If you group spans by, e.g., the app server's DisplayName, the ErrorCount can be the sum of all spans.
 
@@ -123,7 +123,9 @@ ADD FINAL LINKS <If specified, displays calls to external services not instrumen
 INCLUDE ROOTS <If specified, displays calls that represent the initial calls to root spans>
 ```
 
-Topologies have their own dedicated query language. It consists of two main components: **nodes** and **call links**. The nodes are the colored circles aggregating spans or traces by a chosen attribute. The links are the arrows connecting the node circles based on how the spans in the aggregated groups call each other in traces. For example, the nodes could be spans grouped by OperationName or ServiceName, while the links would be the calls between different operations or services. In fact, that's how it's visualized by default, and how you might see it a lot of the time. The thickness of the call links can then vary based on metrics such as avg(SpanDuration), max(SpanDuration), and sum(ErrorCount) for all the call links between nodes. Grey links are calls for external endpoints represented by grey nodes. These are external services not instrumented by APM agents. Because APM captures all outgoing calls from instrumented application services, we can track all external dependencies that might affect performance, even if these dependencies have no local agent watching them directly.
+Topologies have their own dedicated query language. It consists of two main components: **nodes** and **call links**. The nodes are the colored circles aggregating spans or traces by a chosen attribute. The links are the arrows connecting the node circles based on how the spans in the aggregated groups call each other in traces. For example, the nodes could be spans grouped by OperationName or ServiceName, while the links would be the calls between different operations or services. In fact, that's how it's visualized by default, and how you might see it a lot of the time.
+
+The thickness of the call links can then vary based on metrics such as avg(SpanDuration), max(SpanDuration), and sum(ErrorCount) for all the call links between nodes. Grey links are calls for external endpoints represented by grey nodes. These are external services not instrumented by APM agents. Because APM captures all outgoing calls from instrumented application services, we can track all external dependencies that might affect performance, even if these dependencies have no local agent watching them directly.
 
 A bit more about the syntax of topology queries:
 
@@ -164,6 +166,8 @@ Above the query field, you also have the **query bar**. It contains shortcuts to
 In relation to premade queries, the **global filter** can be a helpful tool. It's like a where-filter separated from the main query field. Reuse generic queries while using the global filter with criteria fitting only specific scenarios without overwriting the saved query. The global filter can also be used when exploring with different queries that all need to be filtered the same way. Instead of writing the same where-clause in every query, just write it once in the global filter, so it's applied no matter what. You can even flip a switch to enable and disable the global filter criteria as needed.
 
 ![Use the global filter to separate the where-statement from queries for frequent reuse](images/global-filter.png)
+
+With the right query in place, the next step is drilling down into the results to understand the trace and span details behind the numbers.
 
 ## Drill Down to Trace and Span Details to Locate Bottlenecks and their Context
 
@@ -221,7 +225,7 @@ If we go back to the slow database call found previously, it would be good to cr
 
 ![Configuration for custom drilldown to look up information about SQL ID in OCI Database Management Performance Hub](images/create-drilldown.png)
 
-Anything with <>'s are placeholders replaced by the actual span attribute values. In this case, the drilldown URL takes the values of **APMStartTimeMs**, **APMEndTimeMs**, and **DbOracleSqlId**, so it leads to information about that specific query in that period in Performance Hub. When the configuration is complete and enabled, it will show up as part of span details when the relevant attributes have values:
+Anything with <>'s is a placeholder replaced by actual span attribute values. In this case, the drilldown URL takes the values of **APMStartTimeMs**, **APMEndTimeMs**, and **DbOracleSqlId**, so it leads to information about that specific query in that period in Performance Hub. When the configuration is complete and enabled, it will show up as part of span details when the relevant attributes have values:
 
 ![Click on custom drilldowns to look up information elsewhere based on dynamic URLs and span attribute values](images/span-details-custom-drilldown.png)
 
@@ -239,7 +243,7 @@ For example, it could be good to know if the database call slowdown just happene
 
 ![Histogram dividing database call performance into intervals](images/db-call-histogram.png)
 
-Remember the topology queries from before? You can use them to aggregate traces like the one we previously looked at ("Full Update /winestore/cart"). You can interact with this topology view exactly like before by adjusting the arrow width to reflect either call duration or error counts. However, you are no longer looking at data from a single trace. You are looking at data from multiple traces layered on top of each other. Use this to check for things like the average or max duration of span calls such as the database call:
+Topology queries are also useful here. You can use them to aggregate traces like the one we previously looked at ("Full Update /winestore/cart"). You can interact with this topology view exactly like before by adjusting the arrow width to reflect either call duration or error counts. However, you are no longer looking at data from a single trace. You are looking at data from multiple traces layered on top of each other. Use this to check for things like the average or max duration of span calls such as the database call:
 
 ![Aggregate view of page update trace in the Trace Explorer](images/page-update-aggregate-topology.png)
 
@@ -257,7 +261,7 @@ Whenever the selected spans have different values for the same attribute, it wil
 
 ![Compare span details side by side](images/compare-span-details.png)
 
-Lastly, I have one more query to share. After drilling down into trace and span details to understand the context, we now know that there could be performance issues related to a specific DbOracleSqlId. Are any other traces performing the same database call span? Often when you query traces, you are exploring based on the attributes of the root span. But it's also possible to query traces based on the attributes of the child spans or vice versa using "from spans" or "from traces" clauses. For example, the query below returns all traces which contain spans with a specific DbOracleSqlId. It's obligatory to mention the number of resulting rows you want returned. The "\*" at the end just means you want to see the default set of attributes for the resulting traces. It's essentially just a normal query with an extra section between "show traces" and the attributes you want to display in the result table:
+Lastly, one more query is worth sharing. After drilling down into trace and span details to understand the context, we now know that there could be performance issues related to a specific DbOracleSqlId. Are there other traces that include the same database call span? Often when you query traces, you are exploring based on the attributes of the root span. But it's also possible to query traces based on the attributes of the child spans or vice versa using "from spans" or "from traces" clauses. For example, the query below returns all traces which contain spans with a specific DbOracleSqlId. It's required to specify the number of resulting rows to return. The "\*" at the end just means you want to see the default set of attributes for the resulting traces. It's essentially just a normal query with an extra section between "show traces" and the attributes you want to display in the result table:
 
 ```md
 show traces from spans where DbOracleSqlId='XXXXXXX' first 100 rows *
@@ -267,9 +271,9 @@ show traces from spans where DbOracleSqlId='XXXXXXX' first 100 rows *
 
 ## Enhance Trace Exploration with APM configurations
 
-OCI APM captures a lot of metrics and dimensions along with the traces of your application - especially from Oracle applications such as E-Business Suite, SOA, Visual Builder Studio Apps, PeopleSoft etc. But there are also several ways to customize the trace collection to enrich your exploration with more context attributes, e.g., for custom applications. You need to ask yourself "in relation to which context do I need to see the slowdowns, errors, and threats"?
+OCI APM captures a lot of metrics and dimensions along with the traces of your application - especially from Oracle applications such as E-Business Suite, SOA, Visual Builder Studio Apps, PeopleSoft, etc. But there are also several ways to customize the trace collection to enrich your exploration with more context attributes, e.g., for custom applications. The key question to consider is "in relation to which context do we need to see the slowdowns, errors, and threats"?
 
-There are two areas where you can configure: The APM domain as a data store, and the APM agents as data sources. These configurations involve creating custom attributes, sampling trace data according to your preferences, or otherwise just configuring different agent components or span groups.
+There are two areas to configure: the APM domain as a data store, and the APM agents as data sources. These configurations involve creating custom attributes, sampling trace data according to your preferences, or otherwise just configuring different agent components or span groups.
 
 For more about how to configure your APM experience on the agent side, click [here](https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/configure-application-performance-monitoring-data-sources.html).
 
@@ -277,7 +281,7 @@ For more about how to configure the APM domain receiving trace data, click [here
 
 ## Summary
 
-In this blog, we have covered maybe the most essential parts of OCI APM:
+In this blog, we have covered some of the most essential parts of OCI APM:
 
 - How to query traces or spans and visualize the results in the Trace Explorer.
 
