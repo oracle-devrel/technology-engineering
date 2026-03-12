@@ -168,6 +168,8 @@ In these first steps into the APM journey, we have covered how to become aware o
 
 - **Alarms**: Create alarm definitions to be notified about issues like those seen in dashboards or from availability monitor results.
 
+Next we will look into [how to explore performance bottlenecks in APM's Trace Explorer](./explore-application-bottlenecks.md).
+
 # License
 
 Copyright (c) 2026 Oracle and/or its affiliates.
