@@ -167,7 +167,7 @@ In relation to premade queries, the **global filter** can be a helpful tool. It'
 
 ![Use the global filter to separate the where-statement from queries for frequent reuse](images/global-filter.png)
 
-With the right query in place, the next step is drilling down into the results to understand the trace and span details behind the numbers.
+With the right query in place, the next step is examining the trace and span details to understand the context behind the results.
 
 ## Drill Down to Trace and Span Details to Locate Bottlenecks and their Context
 
@@ -273,7 +273,7 @@ show traces from spans where DbOracleSqlId='XXXXXXX' first 100 rows *
 
 OCI APM captures a lot of metrics and dimensions along with the traces of your application - especially from Oracle applications such as E-Business Suite, SOA, Visual Builder Studio Apps, PeopleSoft, etc. But there are also several ways to customize the trace collection to enrich your exploration with more context attributes, e.g., for custom applications. The key question to consider is "in relation to which context do we need to see the slowdowns, errors, and threats"?
 
-There are two areas to configure: the APM domain as a data store, and the APM agents as data sources. These configurations involve creating custom attributes, sampling trace data according to your preferences, or otherwise just configuring different agent components or span groups.
+There are two areas to configure: the APM domain as a data store, and the APM agents as data sources. These configurations involve creating custom attributes, sampling trace data according to your preferences, or configuring different agent components or span groups.
 
 For more about how to configure your APM experience on the agent side, click [here](https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/configure-application-performance-monitoring-data-sources.html).
 
@@ -293,7 +293,7 @@ In this blog, we have covered some of the most essential parts of OCI APM:
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
