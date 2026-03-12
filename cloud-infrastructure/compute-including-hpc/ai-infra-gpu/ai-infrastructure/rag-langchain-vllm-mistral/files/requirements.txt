@@ -140,7 +140,7 @@ nvidia-nvjitlink-cu12==12.4.127
 nvidia-nvtx-cu12==12.4.127
 openai==1.72.0
 opencv-python-headless==4.11.0.86
-orjson==3.10.16
+orjson==3.11.6
 outcome==1.3.0.post0
 outlines==0.1.11
 outlines_core==0.1.26
