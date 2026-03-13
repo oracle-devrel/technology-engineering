@@ -43,15 +43,45 @@ Deploy an OpenAI-compatible gateway that proxies requests to OCI GenAI, configur
 
 **[Read the guide &rarr;](files/N8N-GenAIOCI-Connection.md)**
 
+### Guide 4 — Cline + Oracle Code Assist
+
+**VS Code Extension (Agent)** that autonomously manages the file system, terminal, and browser to execute multi-step engineering tasks.
+
+**[Read the guide &rarr;](files/Cline-OCA-Connection.md)**
+
+### Guide 5 — Codex + Oracle Code Assist
+
+**VS Code Extension (Agent)** that reads, edits, and runs code in your workspace to autonomously build applications and fix bugs.
+
+**[Read the guide &rarr;](files/Codex-OCA-Connection.md)**
+
+### Guide 6 — Aider + Oracle Code Assist
+
+**Command-Line Tool (Agent)** that enables conversational code editing and refactoring directly within a local git repository.
+
+**[Read the guide &rarr;](files/Aider-OCA-Connection.md)**
+
+### Guide 7 — Kilo + Oracle Code Assist
+
+**JetBrains Plugin (Agent)** that provides an autonomous workflow within IntelliJ to plan, write, and debug code across multiple files.
+
+**[Read the guide &rarr;](files/Kilo-OCA-Connection.md)**
+
 ### Common Prerequisites
 
-All three guides share the same foundational setup:
+All three GenAI service guides share the same foundational setup:
 
 1. An active OCI tenancy with Generative AI enabled
 2. IAM policies granting access to `generative-ai-family`
 3. OCI API key authentication configured locally (`~/.oci/config`)
 
 Each guide then adds tool-specific requirements (Python packages, LangChain, n8n, etc.).
+
+All guides relating to Oracle Code Assist share the following setup:
+
+1. Request access to [Oracle Code Assist Models](https://confluence.oraclecorp.com/confluence/display/AICODE/How+to+Request+Entitlements+for+Oracle+Code+Assist+Models)
+2. Find the most up-to-date information on [Oracle Code Assist](https://oracle.sharepoint.com/sites/ai-for-employees/SitePages/Oracle-Code-Assist.aspx)
+3. Ask for further help in the `#oracle-code-assist-users` slack channel
 
 ### File Structure
 ```
@@ -61,7 +91,12 @@ Each guide then adds tool-specific requirements (Python packages, LangChain, n8n
 └── files/
     ├── OracleDB-GenAIOCI-Connection.md    # Guide 1 – OCI SDK + Oracle DB 26ai
     ├── LangChainOCI-GenAIOCI-Connection.md # Guide 2 – LangChain integration
-    └── N8N-GenAIOCI-Connection.md          # Guide 3 – n8n / low-code integration
+    ├── N8N-GenAIOCI-Connection.md          # Guide 3 – n8n / low-code integration
+    ├── Cline-OCA-Connection.md             # Guide 4 – Cline + Oracle Code Assist
+    ├── Codex-OCA-Connection.md             # Guide 5 – Codex + Oracle Code Assist
+    ├── Aider-OCA-Connection.md             # Guide 6 – Aider + Oracle Code Assist
+    └── Kilo-OCA-Connection.md              # Guide 7 – Kilo + Oracle Code Assist
+
 ```
 
 # Useful Links
@@ -70,6 +105,8 @@ Each guide then adds tool-specific requirements (Python packages, LangChain, n8n
 - [OCI Generative AI — LangChain Integration](https://docs.oracle.com/en-us/iaas/Content/generative-ai/langchain.htm)
 - [OCI IAM Policies — Getting Started](https://docs.oracle.com/en-us/iaas/Content/Identity/Concepts/policygetstarted.htm)
 - [OCI API Key Authentication Setup](https://docs.oracle.com/en-us/iaas/Content/generative-ai/setup-oci-api-auth.htm)
+- [Oracle Code Assist Tutorials](https://oracle.sharepoint.com/sites/ai-for-employees/SitePages/Oracle-Code-Assist.aspx)
+- [Oracle Code Assist Models Request](https://confluence.oraclecorp.com/confluence/display/AICODE/How+to+Request+Entitlements+for+Oracle+Code+Assist+Models)
 
 # License
 
