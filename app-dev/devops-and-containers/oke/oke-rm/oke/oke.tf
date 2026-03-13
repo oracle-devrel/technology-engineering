@@ -3,7 +3,7 @@
 
 module "oke" {
   source         = "oracle-terraform-modules/oke/oci"
-  version        = "5.4.0"
+  version        = "5.4.1"
   compartment_id = var.oke_compartment_id
   # Network module - VCN
   create_vcn                        = false

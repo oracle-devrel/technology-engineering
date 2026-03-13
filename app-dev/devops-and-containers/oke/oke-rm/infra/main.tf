@@ -56,6 +56,12 @@ module "network" {
   db_subnet_name      = var.db_subnet_name
   db_service_list     = local.db_service_list
   separate_db_nsg     = var.separate_db_nsg
+  # MESSAGING
+  create_msg_subnet    = var.create_msg_subnet
+  msg_subnet_cidr      = local.subnets.cidr.msg
+  msg_subnet_dns_label = local.subnets.dns.msg
+  msg_subnet_name      = var.msg_subnet_name
+  create_streaming_nsg = var.create_streaming_nsg
   # GATEWAYS
   create_gateways         = var.create_gateways
   create_internet_gateway = var.create_internet_gateway

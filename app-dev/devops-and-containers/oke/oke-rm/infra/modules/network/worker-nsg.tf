@@ -609,3 +609,177 @@ resource "oci_core_network_security_group_security_rule" "oracle_worker_ingress"
   }
   count = !local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list, local.oracledb_service) ? 1 : 0
 }
+
+resource "oci_core_network_security_group_security_rule" "oracle_mongo_worker_egress" {
+  direction                 = "EGRESS"
+  network_security_group_id = oci_core_network_security_group.worker_nsg.id
+  protocol                  = local.tcp_protocol
+  destination_type          = "NETWORK_SECURITY_GROUP"
+  destination               = oci_core_network_security_group.db[local.oracledb_service].id
+  stateless                 = true
+  description               = "Allow communication from workers to oracle mongodb API"
+  tcp_options {
+    destination_port_range {
+      max = 27017
+      min = 27017
+    }
+  }
+  count = !local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list, local.oracledb_service) ? 1 : 0
+}
+
+resource "oci_core_network_security_group_security_rule" "oracle_mongo_worker_ingress" {
+  direction                 = "INGRESS"
+  network_security_group_id = oci_core_network_security_group.worker_nsg.id
+  protocol                  = local.tcp_protocol
+  source_type               = "NETWORK_SECURITY_GROUP"
+  source                    = oci_core_network_security_group.db[local.oracledb_service].id
+  stateless                 = true
+  description               = "Allow communication from oracle mongodb API to workers"
+  tcp_options {
+    source_port_range {
+      max = 27017
+      min = 27017
+    }
+  }
+  count = !local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list, local.oracledb_service) ? 1 : 0
+}
+
+# MySQL
+
+resource "oci_core_network_security_group_security_rule" "mysql_classic_worker_egress" {
+  direction                 = "EGRESS"
+  network_security_group_id = oci_core_network_security_group.worker_nsg.id
+  protocol                  = local.tcp_protocol
+  destination_type          = "NETWORK_SECURITY_GROUP"
+  destination               = oci_core_network_security_group.db[local.mysql_service].id
+  stateless                 = true
+  description               = "Allow communication from workers to mysql classic database port"
+  tcp_options {
+    destination_port_range {
+      max = 3306
+      min = 3306
+    }
+  }
+  count = !local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list, local.mysql_service) ? 1 : 0
+}
+
+resource "oci_core_network_security_group_security_rule" "mysql_classic_worker_ingress" {
+  direction                 = "INGRESS"
+  network_security_group_id = oci_core_network_security_group.worker_nsg.id
+  protocol                  = local.tcp_protocol
+  source_type               = "NETWORK_SECURITY_GROUP"
+  source                    = oci_core_network_security_group.db[local.mysql_service].id
+  stateless                 = true
+  description               = "Allow communication from mysql classic database port to workers"
+  tcp_options {
+    source_port_range {
+      max = 3306
+      min = 3306
+    }
+  }
+  count = !local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list, local.mysql_service) ? 1 : 0
+}
+
+resource "oci_core_network_security_group_security_rule" "mysql_x_worker_egress" {
+  direction                 = "EGRESS"
+  network_security_group_id = oci_core_network_security_group.worker_nsg.id
+  protocol                  = local.tcp_protocol
+  destination_type          = "NETWORK_SECURITY_GROUP"
+  destination               = oci_core_network_security_group.db[local.mysql_service].id
+  stateless                 = true
+  description               = "Allow communication from workers to mysql x database port"
+  tcp_options {
+    destination_port_range {
+      max = 33060
+      min = 33060
+    }
+  }
+  count = !local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list, local.mysql_service) ? 1 : 0
+}
+
+resource "oci_core_network_security_group_security_rule" "mysql_x_worker_ingress" {
+  direction                 = "INGRESS"
+  network_security_group_id = oci_core_network_security_group.worker_nsg.id
+  protocol                  = local.tcp_protocol
+  source_type               = "NETWORK_SECURITY_GROUP"
+  source                    = oci_core_network_security_group.db[local.mysql_service].id
+  stateless                 = true
+  description               = "Allow communication from mysql x database port to workers"
+  tcp_options {
+    source_port_range {
+      max = 33060
+      min = 33060
+    }
+  }
+  count = !local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list, local.mysql_service) ? 1 : 0
+}
+
+# OCI Streaming
+
+resource "oci_core_network_security_group_security_rule" "streaming_kafka_worker_ingress" {
+  direction                 = "EGRESS"
+  network_security_group_id = oci_core_network_security_group.worker_nsg.id
+  protocol                  = local.tcp_protocol
+  destination_type          = "NETWORK_SECURITY_GROUP"
+  destination               = oci_core_network_security_group.streaming.0.id
+  stateless                 = true
+  description               = "Allow communication from workers to OCI Streaming Kafka API"
+  tcp_options {
+    destination_port_range {
+      max = 9092
+      min = 9092
+    }
+  }
+  count = !local.is_npn && var.create_streaming_nsg ? 1 : 0
+}
+
+resource "oci_core_network_security_group_security_rule" "streaming_kafka_worker_egress" {
+  direction                 = "INGRESS"
+  network_security_group_id = oci_core_network_security_group.worker_nsg.id
+  protocol                  = local.tcp_protocol
+  source_type               = "NETWORK_SECURITY_GROUP"
+  source                    = oci_core_network_security_group.streaming.0.id
+  stateless                 = true
+  description               = "Allow communication from OCI Streaming Kafka API to workers"
+  tcp_options {
+    source_port_range {
+      max = 9092
+      min = 9092
+    }
+  }
+  count = !local.is_npn && var.create_streaming_nsg ? 1 : 0
+}
+
+resource "oci_core_network_security_group_security_rule" "streaming_rest_worker_ingress" {
+  direction                 = "EGRESS"
+  network_security_group_id = oci_core_network_security_group.worker_nsg.id
+  protocol                  = local.tcp_protocol
+  destination_type          = "NETWORK_SECURITY_GROUP"
+  destination               = oci_core_network_security_group.streaming.0.id
+  stateless                 = true
+  description               = "Allow communication from workers to OCI Streaming REST API (SDK)"
+  tcp_options {
+    destination_port_range {
+      max = 443
+      min = 443
+    }
+  }
+  count = !local.is_npn && var.create_streaming_nsg ? 1 : 0
+}
+
+resource "oci_core_network_security_group_security_rule" "streaming_rest_worker_egress" {
+  direction                 = "INGRESS"
+  network_security_group_id = oci_core_network_security_group.worker_nsg.id
+  protocol                  = local.tcp_protocol
+  source_type               = "NETWORK_SECURITY_GROUP"
+  source                    = oci_core_network_security_group.streaming.0.id
+  stateless                 = true
+  description               = "Allow communication from OCI Streaming REST API (SDK) to workers"
+  tcp_options {
+    source_port_range {
+      max = 443
+      min = 443
+    }
+  }
+  count = !local.is_npn && var.create_streaming_nsg ? 1 : 0
+}

@@ -35,18 +35,18 @@ variableGroups:
       - allow_external_cp_traffic
       - cp_egress_cidr
 
-  - title: "Worker"
-    variables:
-      - create_worker_subnet
-      - worker_subnet_name
-      - allow_worker_nat_egress
-
   - title: "Load Balancer"
     variables:
       - create_external_lb_subnet
       - external_lb_subnet_name
       - create_internal_lb_subnet
       - internal_lb_subnet_name
+
+  - title: "Worker"
+    variables:
+      - create_worker_subnet
+      - worker_subnet_name
+      - allow_worker_nat_egress
 
   - title: "Pod"
     variables:
@@ -85,6 +85,9 @@ variableGroups:
       - db_subnet_name
       - db_service_list
       - separate_db_nsg
+      - create_msg_subnet
+      - msg_subnet_name
+      - create_streaming_nsg
 
 variables:
 
@@ -416,12 +419,34 @@ variables:
       - postgres
       - cache
       - oracledb
+      - mysql
     required: false
     default: []
 
   separate_db_nsg:
     title: "Create Separate database NSGs"
     description: "Create separate database NSGs to manually select which applications will be granted access to the database"
+    type: boolean
+
+  create_msg_subnet:
+    title: "Create Messaging Subnet"
+    description: "Create a subnet for messaging brokers (eg. Kafka)"
+    type: boolean
+    visible: ${create_vcn}
+
+  msg_subnet_name:
+    title: "Messaging subnet name"
+    description: "Name of the subnet for messaging brokers"
+    type: string
+    required: true
+    visible:
+      and:
+        - ${create_msg_subnet}
+        - ${create_vcn}
+
+  create_streaming_nsg:
+    title: "Create OCI Streaming NSG"
+    description: "Create a NSG to use for OCI Streaming (Kafka). Rules will be also created to connect all the applications in the cluster to OCI Streaming"
     type: boolean
 
 

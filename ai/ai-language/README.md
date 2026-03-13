@@ -2,7 +2,7 @@
 
 OCI Language is a cloud-based AI service for performing sophisticated text analysis at scale. Use this service to build intelligent applications by leveraging REST APIs and SDKs to process unstructured text for sentiment analysis, entity recognition, translation, and more.
 
-Reviewed: 22.09.2025
+Reviewed: 09.03.2026
 
 # Table of Contents
  
@@ -17,14 +17,13 @@ Reviewed: 22.09.2025
 
 ## LiveLabs and Workshops
  
-- [Get started with Oracle Cloud Infrastructure Language](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=887&clear=RR,180&session=5298742340912)
-- [Perform Sentiment Analysis with OCI AI Language Service and OAC](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3214&clear=RR,180&session=5298742340912)
-- [Develop with Oracle AI and Database Services: Gen, Vision, Speech, Language, OML, Select AI, RAG and Vector](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3874&clear=RR,180&session=10041712875174)
+- [Get started with Oracle Cloud Infrastructure Language](https://livelabs.oracle.com/ords/r/dbpm/livelabs/view-workshop?wid=887&clear=RR%2C180&session=5298742340912)
+- [Perform Sentiment Analysis with OCI AI Language Service and OAC](https://livelabs.oracle.com/ords/r/dbpm/livelabs/view-workshop?wid=3214&clear=RR%2C180&session=5298742340912)
+- [Develop with Oracle AI and Database Services: Gen, Vision, Speech, Language, OML, Select AI, RAG and Vector](https://livelabs.oracle.com/ords/r/dbpm/livelabs/view-workshop?wid=3874&clear=RR%2C180&session=10041712875174)
 
 
 ## Architecture Center
 
-- [Use OCI Language for customer feedback analysis](https://docs.oracle.com/en/solutions/oci-ai-language/index.html)
 - [Enhance and automate review replies with OCI Generative AI, OCI Language, and OCI Integration](https://docs.oracle.com/en/solutions/enhance-auto-replies-oci/index.html)
 - [Enable a Low Code Modular LLM App Engine using Oracle Integration and OCI Generative AI](https://docs.oracle.com/en/solutions/oci-generative-ai-integration/index.html)
 
@@ -35,9 +34,6 @@ Reviewed: 22.09.2025
 - [Oracle AI Language documentation](https://docs.oracle.com/en-us/iaas/language/using/language.htm)
 - [Oracle AI Language v4.1: Enhanced accuracy, control and performance](https://blogs.oracle.com/ai-and-datascience/post/oci-language-v41)
 - [Oracle AI Language v4 announcement blog](https://blogs.oracle.com/ai-and-datascience/post/oci-ai-language-4-0)
-- [Oracle AI Language v3 announcement blog](https://blogs.oracle.com/ai-and-datascience/post/announcing-the-general-availability-of-oci-language-30)
-- [Oracle AI Language announcement blog](https://blogs.oracle.com/ai-and-datascience/post/announcing-oci-language)
-- [Getting Started with Oracle Cloud Infrastructure AI Language Service](https://www.youtube.com/watch?v=-t6jje8SRXU)
 
 ## Customer Stories
  
@@ -53,7 +49,6 @@ Reviewed: 22.09.2025
 ## Blogs
 - [Customer sentiment analysis with OCI AI Language](https://blogs.oracle.com/cloud-infrastructure/post/oci-ai-language-nonenglish-language-use-case)
 - [Speech-to-speech translation using Oracle AI services](https://blogs.oracle.com/ai-and-datascience/post/speech-to-speech-using-ai-services)
-- [Oracle B2C Service Built-in Thread Translation](https://blogs.oracle.com/cx/post/thread-translation)
 
 ## Demos & Events
 - [AI Language demo](https://youtu.be/w8vFTKp4JME)
@@ -74,17 +69,14 @@ Reviewed: 22.09.2025
     - Explore No-Code Integration flow into Oracle Autonomous Database & Automatic Creation of Service Tickets into Customer Service Apps, all orchestrated by Oracle Integration Cloud
     
     - Live Email Classification & Analysis Dashboard with Oracle Analytics Cloud
-- [Enabling a WhatsApp Customer HelpMate using OCI Generative AI, AI Language & Integration](https://www.youtube.com/watch?v=ryo3wVB_69E)
-    - Use OCI Generative AI (in pre-availability) for "Customer Service Quick Replies" Generation for Whatsapp Neutral Messages (customer questions, queries, etc.), sentence-level sentiment analysis from OCI AI Language to uncover overall sentiment and set service ticket severity for negative Whatsapp messages, automatically classify Customer Service tickets through OCI AI Language custom text classification and aspect-based sentiment analysis (ABSA) services.
-    - Learn how Oracle Integration Cloud and Oracle Cloud Infrastructure (OCI) Streaming allow real-time capture of WhatsApp messages.
-    - All this automation using OCI AI Services APIs orchestrated by Oracle Integration Cloud (using no-code integration approach)
 - [Enabling an Event-Driven, Real-Time Twitter Sentiment Analysis Dashboard Demo](https://www.youtube.com/watch?v=9hvUxLSE3Vg)
     - How can you enable a real-time and event-driven sentiment analysis dashboard on top of Twitter feeds? We show how, by using an Oracle Cloud Infrastructure (OCI) Python Twitter Stream Listener, OCI Streaming (Kafka-like service), OCI AI Language Bulk Sentiment Analysis, Oracle Integration Cloud, Oracle Autonomous Database, and Oracle Analytics Cloud. See how this can keep retention and referrals high. Take part by tweeting positively and/or negatively about a specific hashtag—and see how OCI AI Language Sentiment Analysis services work in real time.
-- [Smarter Apps with AI, OIC partner community webcast June 2023](https://videohub.oracle.com/media/Smarter+AI+Apps+with+OIC+partner+community+webcast+June+2023-1080p30/1_m2yjnvf9)
-    - OCI Language and Document Understanding are cloud-based AI services for performing sophisticated text analysis and extracting data from all kinds of documents e.g. Passport, Driving License, Invoices, Receipt etc. You can use these services to build intelligent applications by leveraging REST APIs. You can use these services to build intelligent applications by leveraging REST APIs and automate using Oracle Integration Cloud. This allows you to process unstructured text for use cases such as sentiment analysis, service ticket classification, document extraction, and more using pretrained models or your own custom models leveraging OCI Data Labelling.
 - [AI Language - Hotel Reviews (AI Language, OAC)](https://youtu.be/pmf90oUZGH4)
     - Count key words and evaluate sentiment of hotel reviews using OCI AI Language.
-
+- [Text Translation Using OCI Language](https://www.youtube.com/watch?v=IKkyPLddM-0)
+    - Oracle Cloud Infrastructure (OCI) Language lets you perform sophisticated text analysis at scale. The service supports the ability to identify terms that are unique to your domain, such as product part codes, manufacturing terms, and specific financial entities, and provides pretrained models, customizable models, and automatic text translation across 30 languages.
+- [Real-Time Customer Sentiment Insights with OCI Language](https://www.youtube.com/watch?v=zzcTSSxuGr8)
+    - In this solution, Oracle Cloud Infrastructure (OCI) Generative AI and OCI Language are used to analyze customer interactions as they occur in support tickets and emails in an IT service management (ITSM) application. Using advanced natural language processing (NLP) and machine learning, the solution detects sentiment, emotion, and intent, providing early detection of customer dissatisfaction. Sentiment data is then fed to a reporting dashboard, complete with automated alerts that notify the service provider of an issue.
 
 # License
  
