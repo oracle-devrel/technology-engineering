@@ -10,7 +10,7 @@
 3. **[AI-enable](https://docs.oracle.com/en/database/oracle/oracle-database/26/aienb/ai-enablement-guide.pdf) the 26ai database schema.**
 4. Install packages:
    ```bash
-   pip install oci python-oracledb
+   pip install oci oracledb
    ```
 
 ## Working Example
@@ -45,22 +45,17 @@ This is the “query vector” used for vector search in the DB.
 
 ```python
 import oci
-from oci.generative_ai_inference.models import EmbedTextDetails, OnDemandServingMode, CohereEmbedTextRequest
-
+from oci.generative_ai_inference.models import EmbedTextDetails, OnDemandServingMode
 def embed_query(genai_client, question: str) -> list[float]:
     embed_details = EmbedTextDetails(
         compartment_id=os.environ["OCI_COMPARTMENT_ID"],
         serving_mode=OnDemandServingMode(model_id=os.environ["EMBED_MODEL_ID"]),
-        embed_text_request=CohereEmbedTextRequest(
-            texts=[question],
-            # Common Cohere v3 pattern:
-            input_type="SEARCH_QUERY",
-        ),
+        inputs=[question],
+        input_type="SEARCH_QUERY",
     )
     resp = genai_client.embed_text(embed_details)
-    # Response parsing can differ slightly across SDK versions; this is the common shape.
-    payload = oci.util.to_dict(resp.data)
-    vector = payload["embeddings"][0]
+    # resp.data is EmbedTextResult with .embeddings attribute
+    vector = resp.data.embeddings[0]
     return vector
 ```
 
