@@ -13,7 +13,7 @@ cffi==1.17.1
 charset-normalizer==3.4.1
 circuitbreaker==2.0.0
 click==8.1.7
-cryptography==44.0.1
+cryptography==46.0.5
 dataclasses-json==0.6.7
 decorator==5.1.1
 executing==2.2.0
