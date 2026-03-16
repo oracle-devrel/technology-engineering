@@ -407,7 +407,7 @@ resource "oci_core_network_security_group_security_rule" "mysql_x_pod_ingress" {
 
 # OCI Streaming
 
-resource "oci_core_network_security_group_security_rule" "streaming_kafka_pod_ingress" {
+resource "oci_core_network_security_group_security_rule" "streaming_kafka_pod_egress" {
   direction                 = "EGRESS"
   network_security_group_id = oci_core_network_security_group.pod_nsg.0.id
   protocol                  = local.tcp_protocol
@@ -424,7 +424,7 @@ resource "oci_core_network_security_group_security_rule" "streaming_kafka_pod_in
   count = local.is_npn && var.create_streaming_nsg ? 1 : 0
 }
 
-resource "oci_core_network_security_group_security_rule" "streaming_kafka_pod_egress" {
+resource "oci_core_network_security_group_security_rule" "streaming_kafka_pod_ingress" {
   direction                 = "INGRESS"
   network_security_group_id = oci_core_network_security_group.pod_nsg.0.id
   protocol                  = local.tcp_protocol
@@ -441,7 +441,7 @@ resource "oci_core_network_security_group_security_rule" "streaming_kafka_pod_eg
   count = local.is_npn && var.create_streaming_nsg ? 1 : 0
 }
 
-resource "oci_core_network_security_group_security_rule" "streaming_rest_pod_ingress" {
+resource "oci_core_network_security_group_security_rule" "streaming_rest_pod_egress" {
   direction                 = "EGRESS"
   network_security_group_id = oci_core_network_security_group.pod_nsg.0.id
   protocol                  = local.tcp_protocol
@@ -458,7 +458,7 @@ resource "oci_core_network_security_group_security_rule" "streaming_rest_pod_ing
   count = local.is_npn && var.create_streaming_nsg ? 1 : 0
 }
 
-resource "oci_core_network_security_group_security_rule" "streaming_rest_pod_egress" {
+resource "oci_core_network_security_group_security_rule" "streaming_rest_pod_ingress" {
   direction                 = "INGRESS"
   network_security_group_id = oci_core_network_security_group.pod_nsg.0.id
   protocol                  = local.tcp_protocol
