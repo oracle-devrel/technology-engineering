@@ -76,6 +76,7 @@ Reviewed: Reviewed: 05.11.2025
 - [Create Dynamic Links for OCI Stack Monitoring Alarms and More](https://medium.com/@michtoeth/create-dynamic-links-for-oci-stack-monitoring-alarms-and-more-ca8e0e6fb7a5)
 - [Integrating OCI Logs into IBM QRadar SIEM](https://medium.com/@guna.sekar.sun/integrating-oci-logs-in-ibm-qradar-siem-9dcea5ed036a)
 - [How to build an Advanced Observability solution in OCI for Security purposes](https://learnoci.cloud/start-building-an-advanced-observability-solution-in-oci-for-security-purposes-using-native-and-e2ed5d806eff)
+- [Send OCI Logs to Azure Sentinel using Oracle Functions](https://medium.com/@rishabhghosh24/send-oci-logs-to-azure-sentinel-using-oracle-functions-b55c9b352d71)
 
 ## Cloud Coaching Clinics (Videos)
 
