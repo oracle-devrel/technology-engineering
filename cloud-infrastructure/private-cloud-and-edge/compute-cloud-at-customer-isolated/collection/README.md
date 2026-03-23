@@ -1,4 +1,4 @@
-# Compute Cloud@Customer Isolatedd
+# Compute Cloud@Customer Isolated
 
 Updated: 23.03.2026
 
