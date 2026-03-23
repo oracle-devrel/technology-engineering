@@ -19,6 +19,8 @@ Reviewed: 08.10.2025
   - Detailed, step-by-step guide showing how to perform a cross platform/endian database migration using XTTSv4 and Full Transportable Export/Import on Marcus Doeringer's public platform
 - [Cross Platform Migration to Exadata Database Service on Dedicated Infrastructure with Cloud Native DR](https://amalrajputhenchira.wordpress.com/2025/09/05/cross-platform-migration-to-exadata-database-service-on-dedicated-infrastructure-with-cloud-native-dr/)
   - Detailed, step-by-step guide showing how to perform a cross platform/endian database migration using M5 XTTS and Full Transportable Export/Import on Amalraj Puthenchira's public platform
+- [Migrating to Oracle Autonomous AI Database Serverless using Transportable Tablespace and Object Storage](https://amalrajputhenchira.wordpress.com/2026/01/07/migrating-to-oracle-autonomous-ai-database-serverless-using-transportable-tablespace-and-object-storage/)
+  - Detailed, step-by-step guide showing how to migrate to Oracle Autonomous AI Datbase serverless using Transportable Tablespace on Amalraj Puthenchira's public platform
 
 
 # Useful Links

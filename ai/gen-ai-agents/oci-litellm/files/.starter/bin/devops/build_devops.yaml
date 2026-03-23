@@ -1,0 +1,16 @@
+version: 0.1
+component: build
+timeoutInSeconds: 28000
+runAs: root
+shell: bash
+env:
+  exportedVariables:
+    - BUILDRUN_HASH
+
+steps:
+
+  - type: Command
+    name: "Build and Deploy using the build_all.sh script"
+    timeoutInSeconds: 28000
+    command: |
+      yum install -y jq jdk-17; export JAVA_HOME=/usr/java/latest; env; ls -al; ./starter.sh build

@@ -8,18 +8,19 @@ In this article, we'll explore how to make a handy tool that helps to evaluate d
 This tool can be super useful in different situations:
 For example, it could help recruiters in identifying the top nN% of resumes to get the best candidate for a job, as well it could help to check the RFP compliance in a vendor bid, or easily figure out what's in a bunch of email attachments without opening each one, but these are only a few examples. It can be applied to any industry and is adaptable to any department like HR, Procurement, Marketing, Customer Service, and others.
 
+## How to use this asset
 Here are 2 use cases for how you may use the document evaluation sample application:
 
 A CV Evaluation App as part of a recruitment process:
 
-<img src="./images/1_CVEvaluation.png"></img>
-<img src="./images/2_CVEvaluationResults.png"></img>
+<img src="./files/images/1_CVEvaluation.png"></img>
+<img src="./files/images/2_CVEvaluationResults.png"></img>
 
 
 A Supplier Proposal Evaluation App as part of a vendor bid.
 
-<img src="./images/3_RFPEvaluation.png"></img>
-<img src="./images/4_RFPEvaluationResults.png"></img>
+<img src="./files/images/3_RFPEvaluation.png"></img>
+<img src="./files/images/4_RFPEvaluationResults.png"></img>
 
 In this article we will use as a case study: **"CV Evaluation APP"**
 
@@ -36,7 +37,7 @@ Before getting started, make sure you have access to the following Oracle Cloud 
 # Solution Architecture
 
 In this section, we'll dive into the building blocks of the solution architecture.
-<img src="./images/5_SolutionArchitecture-oci-lowcode-ai-rag-logical-blocks.png"></img>
+<img src="./files/images/5_SolutionArchitecture-oci-lowcode-ai-rag-logical-blocks.png"></img>
 
 We've built the application using Oracle Visual Builder (as part of OIC), and it smoothly runs through Oracle Integration Cloud  as the main, low-code orchestration tool. OCI Document Understanding is there to handle the document processing, and Generative AI Multi-Chain Prompt technique for extracting key information from these CVs, summarizing them, and helping to facilitate the decision-making process:
 
@@ -65,46 +66,46 @@ In this application:
 
 **Step1.** The File Picker action in VBCS allows the Recruiter to upload all the CVs.
 
-<img src="./images/6_Step1VBCS_FilePicker.png"></img>
+<img src="./files/images/6_Step1VBCS_FilePicker.png"></img>
 
-<img src="./images/7_Step1VBCS_FilePicker2.png"></img>
+<img src="./files/images/7_Step1VBCS_FilePicker2.png"></img>
 
 **Step2.** Evaluator select hard and soft criteria(input fields) from a predifined list.
 
-<img src="./images/8_Step2VBCS_CriteriaSelection.png"></img>
+<img src="./files/images/8_Step2VBCS_CriteriaSelection.png"></img>
 
 **Step3.** Evaluator press the button “Evaluate”
 
-<img src="./images/9_Step3VBCS_Evaluation1.png"></img>
-<img src="./images/10_Step3VBCS_Evaluation2.png"></img>
+<img src="./files/images/9_Step3VBCS_Evaluation1.png"></img>
+<img src="./files/images/10_Step3VBCS_Evaluation2.png"></img>
 
 **Step4.** After pressing the button “Evaluate”, each CV is processed via  Document Understanding, triggering the **OIC Data Loader Low-Code Child Integration Flow** (CVs Data Extraction with Document Understanding REST API)
 
-<img src="./images/11_Step4OIC_DataLoader.png"></img>
-<img src="./images/12_Step4OIC_DataLoaderConfig.png"></img>
-<img src="./images/13_Step4OIC_DataLoaderRestInvoke.png"></img>
-<img src="./images/14_Step4OIC_DataLoaderSampleJson.png"></img>
-<img src="./images/15_Step4OIC_DataLoaderSapleJson2.png"></img>
-<img src="./images/16_Step4OIC_DocUnderstanding.png"></img>
+<img src="./files/images/11_Step4OIC_DataLoader.png"></img>
+<img src="./files/images/12_Step4OIC_DataLoaderConfig.png"></img>
+<img src="./files/images/13_Step4OIC_DataLoaderRestInvoke.png"></img>
+<img src="./files/images/14_Step4OIC_DataLoaderSampleJson.png"></img>
+<img src="./files/images/15_Step4OIC_DataLoaderSapleJson2.png"></img>
+<img src="./files/images/16_Step4OIC_DocUnderstanding.png"></img>
 
 
 **Step5.** At this step, using Generative AI the summary of the CV is created, and also evaluation criteria are extracted, triggering the **OIC Query Engine Low-Code Parent Integration Flow** (CV Summary Generation and Evaluation Criteria extraction with Generative AI Inference REST API).
 
-<img src="./images/17_Step5OIC_Summarization.png"></img>
-<img src="./images/18_Step5OIC_SummarizationProperties.png"></img>
-<img src="./images/19_Step5OIC_SummarizationJsonDetails1.png"></img>
-<img src="./images/20_Step5OIC_SummarizationJsonDetails2.png"></img>
-<img src="./images/21_Step5OIC_SummarizationJsonDetails3.png"></img>
-<img src="./images/22_Step5OIC_GenAIPrompt.png"></img>
+<img src="./files/images/17_Step5OIC_Summarization.png"></img>
+<img src="./files/images/18_Step5OIC_SummarizationProperties.png"></img>
+<img src="./files/images/19_Step5OIC_SummarizationJsonDetails1.png"></img>
+<img src="./files/images/20_Step5OIC_SummarizationJsonDetails2.png"></img>
+<img src="./files/images/21_Step5OIC_SummarizationJsonDetails3.png"></img>
+<img src="./files/images/22_Step5OIC_GenAIPrompt.png"></img>
 
 **Step6.** Decision logic together with Evaluator Criteria and Extracted Criteria from the Candidate CV are sent to  Generative AI Inference REST API, to obtain one of the responses “Good Fit”/ “No Fit” 
 
-<img src="./images/23_Step6OIC_Evaluation.png"></img>
-<img src="./images/24_Step6OIC_GenAIPrompt.png"></img>
+<img src="./files/images/23_Step6OIC_Evaluation.png"></img>
+<img src="./files/images/24_Step6OIC_GenAIPrompt.png"></img>
 
 **Step7.** The list of all candidates is shown on the screen together with the response if the candidate is a good fit or not. Also, a summary of each CV is available.
 
-<img src="./images/25_Step6OIC_VBCSEvaluationResult.png"></img>
+<img src="./files/images/25_Step6OIC_VBCSEvaluationResult.png"></img>
 
 # Prompting with Oracle Generative AI
 
@@ -118,17 +119,17 @@ In the following CV Evaluation APP use case we are using a Generative AI Multi-C
 To extract the right skills from the CV that match the Evaluator input, we have created a prompt in a Zero-shot technique, where we explicitly mention the output we need to gather out of the document:
 
 
-<img src="./images/22_Step5OIC_GenAIPrompt.png"></img>
+<img src="./files/images/22_Step5OIC_GenAIPrompt.png"></img>
 
-Please access the full prompt <a href="./images/CVEvaluationAppPrompts.pdf">here</a>
+Please access the full prompt <a href="./files/images/CVEvaluationAppPrompts.pdf">here</a>
 
 ## Prompt 2: Final candidate skills evaluation
 
 To evaluate all the CVs, a single prompt was built using two combined techniques: **Few-shot Prompting** and **Chain-of-Thought Prompting**.
 
-<img src="./images/24_Step6OIC_GenAIPrompt.png"></img>
+<img src="./files/images/24_Step6OIC_GenAIPrompt.png"></img>
 
-Please access the full prompt <a href="./images/CVEvaluationAppPrompts.pdf">here</a>
+Please access the full prompt <a href="./files/images/CVEvaluationAppPrompts.pdf">here</a>
 
 # Code
       VBCS app - RecruitmentApp-1.0.zip
@@ -137,7 +138,19 @@ Please access the full prompt <a href="./images/CVEvaluationAppPrompts.pdf">here
       Generative AI Prompts: CVEvaluationAppPrompts.pdf
       CV Samples - cv_samples folder
 
-Please find the **document_evaluation_app_resources.zip** archive in <a href="./document_evaluation_app_resources.zip">/files/document_evaluation_app_resources.zip</a>
+Please find the **document_evaluation_app_resources.zip** archive in <a href="./files/document_evaluation_app_resources.zip">/files/document_evaluation_app_resources.zip</a>
+
+## 👥 Who Can Use This Asset
+
+- **HR & Talent Acquisition Teams** — CV screening, candidate ranking, recruitment automation  
+- **Compliance & Risk Teams** — regulatory analysis, policy evaluation, audit support  
+- **Procurement Teams** — RFP and vendor proposal assessment  
+- **Legal & Regulatory Teams** — obligation mapping, policy alignment  
+- **Business Operations & Shared Services** — large-scale document evaluation workflows  
+- **Digital Transformation & IT Teams** — AI-enabled document processing systems  
+
+**Industry-agnostic** — applicable across government, finance, insurance, healthcare, telecom, education, and enterprise operations.
+
 
 # Conclusion
 

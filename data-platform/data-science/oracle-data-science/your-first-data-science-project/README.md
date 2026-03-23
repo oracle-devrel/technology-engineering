@@ -4,7 +4,7 @@
 Your First Data Science Project demonstrates how to build a complete end-to-end data science workflow using Oracle Cloud Infrastructure (OCI) Data Science Platform.
 The project walks through the main stages of a typical machine learning lifecycle — from data preparation to model deployment and inference — using practical examples.
 
-Reviewed: 2025.11.10
+Reviewed: 2026.01.05
 
 # What You’ll Learn
 
@@ -40,7 +40,7 @@ Run the notebook cells in sequence to reproduce the complete workflow.
 
 # License
  
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

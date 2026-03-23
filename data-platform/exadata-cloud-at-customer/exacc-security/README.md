@@ -1,6 +1,6 @@
 # Exadata Cloud@Customer Security
 
-Reviewed: 16.09.2025
+Security related information for ExaDB-C@C.
 
 # Useful Links
 
@@ -11,6 +11,8 @@ Reviewed: 16.09.2025
 - [Operator Access Control Documentation](https://docs.oracle.com/en/cloud/paas/operator-access-control/exops/overview-of-operator-access-control.html)
 
 - [Operator Access Control Technical Brief](https://www.oracle.com/uk/a/ocom/docs/engineered-systems/exadata/oracle-operator-access-control-tech-brief.pdf)
+
+Reviewed: 01/22/26
 
 # License
 

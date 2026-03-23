@@ -1,13 +1,13 @@
-# Provisioning Oracle Base DB 23ai (Cloud Service)
+# Provisioning Oracle Base DB 26ai (Cloud Service)
  
-This document covers the provisioning of Oracle Base Database Service 23ai.
+This document covers the provisioning of Oracle Base Database Service 26ai.
 
-Reviewed: 2025.09.26
+Reviewed: 2026.01.05
  
 
 # When to use this asset?
 
-Use this asset as support material when provisioning the Oracle Base Database Service (23ai).
+Use this asset as support material when provisioning the Oracle Base Database Service (26ai).
 
 
 # How to use this asset?
@@ -17,7 +17,7 @@ This asset is provided as general purpose material. Please tailor the content ac
 
 # License
  
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

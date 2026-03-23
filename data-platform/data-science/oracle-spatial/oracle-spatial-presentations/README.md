@@ -1,7 +1,7 @@
 ## Oracle Spatial Presentations
 These folder provides information about SPATIAL in the Oracle Database, and the new features in 23ai.
 
-Reviewed: 2025.11.17
+Reviewed: 2026.01.05
 
 # When to use this asset?
 
@@ -13,7 +13,7 @@ Use PDF as a presentation.
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

@@ -1,10 +1,12 @@
-# Overview
+# Jobs & Pipelines
 
 This package provides examples for creating and managing OCI Data Science Jobs and Pipelines using the ADS SDK. It includes three use cases:
 
 1. Basic Job Creation – simple job using a single script
 2. Advanced Job – job using a source folder, custom variables, and flexible configuration
 3. Pipeline Creation – multi-step workflows using jobs as pipeline steps
+
+Reviewed: 2026.01.05
 
 # Prerequisites
 
@@ -17,3 +19,11 @@ To use this package, you need:
 # Environment
 
 Run the examples in a Jupyter Notebook inside an OCI Data Science Notebook Session using: generaml_p311_cpu_x86_64_v1
+
+# License
+ 
+Copyright (c) 2026 Oracle and/or its affiliates.
+ 
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+ 
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

@@ -1,4 +1,3 @@
-import base64
 import copy
 import json
 import os
@@ -63,35 +62,15 @@ def upload_audio(uploaded_file):
     return audio_file
 
 
-def encode_logo():
-    """
-    Return base64 string of the Oracle logo from config.ORACLE_LOGO.
-    """
-    try:
-        with open(config.ORACLE_LOGO, "rb") as f:
-            return base64.b64encode(f.read()).decode()
-    except Exception:
-        return None
-
-
 def render_header():
     """
     Use the .main-header / .header-content / .oracle-logo styles
     from styles.css.
     """
-    logo_b64 = encode_logo()
-    logo_html = ""
-    if logo_b64:
-        logo_html = (
-            f'<img src="data:image/png;base64,{logo_b64}" '
-            f'class="oracle-logo" alt="Oracle logo" />'
-        )
-
     st.markdown(
-        f"""
+        """
         <header class="main-header">
             <div class="header-content">
-                {logo_html}
                 <h1>Audio Call Analyzer</h1>
                 <p>
                     Upload one or more calls, generate diarized transcripts and LLM-powered

@@ -1,13 +1,13 @@
-# Connecting to Oracle Database 23ai
+# Connecting to Oracle Database 26ai
  
-This document covers the topic of different methods to allow you to connect to Oracle DB 23ai.
+This document covers the topic of different methods to allow you to connect to Oracle DB 26ai.
 
-Reviewed: 2025.09.26
+Reviewed: 2026.01.05
  
 
 # When to use this asset?
 
-Use this asset as support material when trying to connect to Oracle Database 23ai (Non-Autonomous) via various mediums, whether that be via SSH, SQL Developer Desktop, or via oracledb Python SDK from within OCI Data Science.
+Use this asset as support material when trying to connect to Oracle Database 26ai (Non-Autonomous) via various mediums, whether that be via SSH, SQL Developer Desktop, or via oracledb Python SDK from within OCI Data Science.
 
 
 # How to use this asset?
@@ -17,7 +17,7 @@ This asset is provided as general purpose material. Please tailor the content ac
 
 # License
  
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

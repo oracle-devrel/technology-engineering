@@ -35,6 +35,13 @@ Reviewed: 08.10.2025
 
 - [OracleStreams Migration to Oracle GoldenGate as a replacement](https://youtu.be/y3-PEDq9bGA)
    - The Video explains how the remaining Oracle Stream customer should move quickly to Classic Goldengate with their contents and then migrate from Classic  to Microservice Architecture of Oracle Golden Gate.
+
+ - [Veridata 23c- SCN based Comparison](https://medium.com/@amuduli2002/veridata-23c-scn-based-comparison-0a6ba23394a1)
+  - Learn how SCN-based comparison in GoldenGate Veridata 23c which offers performance benefits by enabling point-in-time comparison of a specific subset of data, which is more efficient than a full table scan.
+
+ - [Delta-based comparison using Veridata 23c](https://medium.com/@amuduli2002/delta-based-comparison-using-veridata-23c-613a9668b4ba)
+  - Learn how Delta-based comparison in Oracle GoldenGate Veridata 23c provides significant performance benefits by only comparing data that has changed since the previous job run, rather than the entire dataset. 
+
      
 # Useful Links
  
