@@ -41,9 +41,9 @@ try:
 except Exception:
     OUTPUT_DIAGRAMS = False
 
-RELEASE_VERSION = "3.1.2"
-PYTHON_SDK_VERSION = "2.165.1"
-UPDATED_DATE = "January 22, 2025"
+RELEASE_VERSION = "3.2.0"
+PYTHON_SDK_VERSION = "2.165.x"
+UPDATED_DATE = "March 19, 2026"
 
 
 ##########################################################################
@@ -154,10 +154,15 @@ class CIS_Report:
     __days_to_expiry = 30
     __days_used = 45
 
+    # Global Service Limit threshold
+    __service_utilization_limit = 80.0
+
     # Time Format
     __iso_time_format = "%Y-%m-%dT%H:%M:%S"
 
     __oci_ocid_pattern = r'ocid1.[a-z0-9_]+.[a-z0-9]+.(?:[a-z0-9._-]+.|.)[a-z0-9]{20,}'
+
+    __simple_email = r'[a-zA-Z0-9.!#$%&\'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}'
 
     # Start print time info
     start_datetime = datetime.datetime.now().replace(tzinfo=pytz.UTC)
@@ -685,14 +690,20 @@ class CIS_Report:
 
         # OBP Checks
         self.obp_foundations_checks = {
-            'SIEM_Audit_Log_All_Comps': {'id': 'OBP-SIEM-1', 'section': "SIEM Logging", 'Title': 'All compartment audit logs sent to SIEM', 'Status': True, 'Findings': [], 'OBP': [], "Documentation": "https://docs.oracle.com/en/solutions/oci-aggregate-logs-siem/index.html"},  # Assuming True
-            'SIEM_Audit_Incl_Sub_Comp': {'id': 'OBP-SIEM-2', 'section': "SIEM Logging", 'Title': 'Include all sub compartments', 'Status': True, 'Findings': [], 'OBP': [], "Documentation": "https://docs.oracle.com/en/solutions/oci-aggregate-logs-siem/index.html"},  # Assuming True
+            'SIEM_Audit_Log_All_Comps': {'id': 'OBP-SIEM-1', 'section': "SIEM Logging", 'Title': 'All compartment audit logs sent to SIEM in all regions', 'Status': True, 'Findings': [], 'OBP': [], "Documentation": "https://docs.oracle.com/en/solutions/oci-aggregate-logs-siem/index.html"},  # Assuming True
+            'SIEM_Audit_Incl_Sub_Comp': {'id': 'OBP-SIEM-2', 'section': "SIEM Logging", 'Title': 'Include all sub-compartments flag checked at the tenancy root compartment', 'Status': True, 'Findings': [], 'OBP': [], "Documentation": "https://docs.oracle.com/en/solutions/oci-aggregate-logs-siem/index.html"},  # Assuming True
             'SIEM_VCN_Flow_Logging': {'id': 'OBP-SIEM-3', 'section': "SIEM Logging", 'Title': 'VCN Flow logs sent to SIEM', 'Status': None, 'Findings': [], 'OBP': [], "Documentation": "https://docs.oracle.com/en/solutions/oci-aggregate-logs-siem/index.html"},
             'SIEM_Write_Bucket_Logs': {'id': 'OBP-SIEM-4', 'section': "SIEM Logging", 'Title': 'Bucket write logs sent to SIEM', 'Status': None, 'Findings': [], 'OBP': [], "Documentation": "https://docs.oracle.com/en/solutions/oci-aggregate-logs-siem/index.html"},
             'SIEM_Read_Bucket_Logs': {'id': 'OBP-SIEM-5', 'section': "SIEM Logging", 'Title': 'Bucket read logs sent to SIEM', 'Status': None, 'Findings': [], 'OBP': [], "Documentation": "https://docs.oracle.com/en/solutions/oci-aggregate-logs-siem/index.html"},
-            'Networking_Connectivity': {'id': 'OBP-NTW-1', 'section': "Advanced Networking", 'Title': 'Scalable and secure topology in OCI', 'Status': True, 'Findings': [], 'OBP': [], "Documentation": "https://docs.oracle.com/en-us/iaas/Content/Network/Troubleshoot/drgredundancy.htm"},
-            'Cloud_Guard_Config': {'id': 'OBP-CSP-1', 'section': "CSPM", 'Title': 'Cloud Guard enabled and configured', 'Status': None, 'Findings': [], 'OBP': [], "Documentation": "https://www.ateam-oracle.com/post/tuning-oracle-cloud-guard"},
-            'Certificates_Near_Expiry': {'id': 'OBP-CRT-1', 'section': "Certificates", 'Title': 'Certificates to expire in 30 days', 'Status': None, 'Findings': [], 'OBP': [], "Documentation": "TBD"},
+            'Log_Retention': {'id': 'LAM-19', 'section': "Logging", 'Title': 'Retain Audit Logs for 90 days', 'Status': None, 'Findings': [], 'OBP': [], "Documentation": "https://docs.oracle.com/en-us/iaas/Content/Logging/Task/update-logging-log.htm"},
+            'Networking_Redudancy': {'id': 'OBP-NTW-1', 'section': "Advanced Networking", 'Title': 'Scalable and secure topology in OCI', 'Status': True, 'Findings': [], 'OBP': [], "Documentation": "https://docs.oracle.com/en-us/iaas/Content/Network/Troubleshoot/drgredundancy.htm"},
+            'Networking_DRG_Upgraded': {'id': 'OBP-NTW-2', 'section': "Advanced Networking", 'Title': 'Dynamic Route Gateway (DRG) upgraded to version 2', 'Status': None, 'Findings': [], 'OBP': [], "Documentation": "https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/drg-upgrade.htm"},
+            'Networking_Hub_Spoke': {'id': 'OBP-NTW-3', 'section': "Advanced Networking", 'Title': 'Hub and Spoke Network Architecture', 'Status': None, 'Findings': [], 'OBP': [], "Documentation": "https://docs.oracle.com/en/solutions/hub-spoke-network/index.html"},
+            'Networking_IPSec_connections': {'id': 'OBP-NTW-4', 'section': "Advanced Networking", 'Title': 'IPSec connections with two tunnels', 'Status': None, 'Findings': [], 'OBP': [], "Documentation": "https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/overviewIPsec.htm"},
+            'Networking_IPSec_bgp': {'id': 'OBP-NTW-5', 'section': "Advanced Networking", 'Title': 'IPSec connections with BGP Routing', 'Status': None, 'Findings': [], 'OBP': [], "Documentation": "https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/overviewIPsec.htm"},
+            'Cloud_Guard_Config': {'id': 'OBP-CSP-1', 'section': "CSPM", 'Title': 'Cloud Guard enabled and configured', 'Status': None, 'Findings': [], 'OBP': [], "Documentation": "https://docs.oracle.com/en-us/iaas/Content/cloud-guard/using/part-customize.htm"},
+            'Cloud_Guard_Problems': {'id': 'OBP-CSP-2', 'section': "CSPM", 'Title': 'Cloud Guard problems with Risk Level Critical or High', 'Status': None, 'Findings': [], 'OBP': [], "Documentation": "https://docs.oracle.com/en-us/iaas/Content/cloud-guard/using/part-problems.htm"},
+            'Certificates_Near_Expiry': {'id': 'OBP-CRT-1', 'section': "Certificates", 'Title': 'Certificates to expire in 30 days', 'Status': None, 'Findings': [], 'OBP': [], "Documentation": "https://docs.oracle.com/en-us/iaas/Content/certificates/renewing-certificate.htm"},
             'Service_Limits': {'id': 'OBP-GOV-1', 'section': "Governance", 'Title': 'Visibility into OCI Limits', 'Status': None, 'Findings': [], 'OBP': [], "Documentation": "https://docs.oracle.com/en/solutions/oci-best-practices/manage-your-service-limits1.html#GUID-457D23F7-98C4-4F74-9E1B-A8F3BCA60C6E"},
             'Cost_Tracking_Budgets': {'id': 'OBP-GOV-2', 'section': "Governance", 'Title': 'Alerting on unexpected spending', 'Status': False, 'Findings': [], 'OBP': [], "Documentation": "https://docs.oracle.com/en-us/iaas/Content/Billing/Concepts/budgetsoverview.htm#Budgets_Overview"},
             'Quotas': {'id': 'OBP-GOV-3', 'section': "Governance", 'Title': 'Quota policies are used', 'Status': False, 'Findings': [], 'OBP': [], "Documentation": "https://docs.oracle.com/en-us/iaas/Content/Quotas/Concepts/resourcequotas.htm"},
@@ -701,6 +712,9 @@ class CIS_Report:
             'ADB_CMK': {'id': 'OBP-ADB-3', 'section': "Autonoumous Database", 'Title': 'ADB Database data is encrypted with a customer managed key', 'Status': None, 'Findings': [], 'OBP': [], "Documentation": "https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/support-tls-mtls-authentication.html#GUID-3F3F1FA4-DD7D-4211-A1D3-A74ED35C0AF5"},
             'ADB_Contacts': {'id': 'OBP-ADB-4', 'section': "Autonoumous Database", 'Title': 'ABD Databases have a contact listed', 'Status': None, 'Findings': [], 'OBP': [], "Documentation": "https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/support-tls-mtls-authentication.html#GUID-3F3F1FA4-DD7D-4211-A1D3-A74ED35C0AF5"},
             'ADB_Private_IP': {'id': 'OBP-ADB-5', 'section': "Autonoumous Database", 'Title': 'ADB Database are have private endpoints into a customer managed VCN', 'Status': None, 'Findings': [], 'OBP': [], "Documentation": "https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/support-tls-mtls-authentication.html#GUID-3F3F1FA4-DD7D-4211-A1D3-A74ED35C0AF5"},
+            'IAM_Stmt_Root_Count': {'id': 'IAM-18', 'section': "Identity and Access Management", 'Title': 'IAM Policies are created at appropriate ', 'Status': None, 'Findings': [], 'OBP': [], "Documentation": "https://docs.oracle.com/en-us/iaas/Content/Identity/policymgmt/policy-limits-compartment-hierarchy.htm"},
+            'IAM_Stmt_Comp_Hierarchy_Count': {'id': 'IAM-19', 'section': "Identity and Access Management", 'Title': 'IAM Policy Statements Limit per Compartment Hierarchy', 'Status': None, 'Findings': [], 'OBP': [], "Documentation": "https://docs.oracle.com/en-us/iaas/Content/Identity/policymgmt/policy-limits-compartment-hierarchy.htm"},
+            'IAM_Account_Lockout': {'id': 'IAM-20', 'section': "Identity and Access Management", 'Title': 'Account Lockout 5 or more', 'Status': None, 'Findings': [], 'OBP': [], "Documentation": "https://docs.oracle.com/en-us/iaas/Content/Identity/passwordpolicies/Managing-Password-Policies_set-password-policies-your-identity-domain.htm"},     
         }
         #  CIS and OBP Regional Data
         # 4.6 is not regional because OCI IAM Policies only exist in the home region
@@ -856,7 +870,7 @@ class CIS_Report:
         # For IAM Checks
         self.__tenancy_password_policy = None
         self.__compartments = []
-        self.__raw_compartment = []
+        self.__raw_compartment = {}
         self.__policies = []
         self.__users = []
         self.__groups = {} # Indexed by GRP OCID
@@ -864,6 +878,7 @@ class CIS_Report:
         self.__tag_defaults = []
         self.__dynamic_groups = []
         self.__identity_domains = []
+        self.__compartment_hierarchy_info = []
 
         # For Networking checks
         self.__network_security_groups = []
@@ -903,6 +918,7 @@ class CIS_Report:
 
         # Cloud Guard checks
         self.__cloud_guard_targets = {}
+        self.__cloud_guard_problems = []
 
         # For Storage Checks
         self.__buckets = []
@@ -1128,6 +1144,7 @@ class CIS_Report:
         self.__oci_vault_uri = self.__oci_cloud_url + "/security/kms/vaults/"
         self.__oci_budget_uri = self.__oci_cloud_url + "/usage/budgets/"
         self.__oci_cgtarget_uri = self.__oci_cloud_url + "/cloud-guard/targets/"
+        self.__oci_cgproblems_uri = self.__oci_cloud_url + "/cloud-guard/problems/"
         self.__oci_onssub_uri = self.__oci_cloud_url + "/notification/subscriptions/"
         self.__oci_serviceconnector_uri = self.__oci_cloud_url + "/connector-hub/service-connectors/"
         self.__oci_fastconnect_uri = self.__oci_cloud_url + "/networking/fast-connect/virtual-circuit/"
@@ -1279,9 +1296,10 @@ class CIS_Report:
                     "is_accessible": compartment.is_accessible,
                     "lifecycle_state": compartment.lifecycle_state,
                     "time_created": compartment.time_created.strftime(self.__iso_time_format),
+                    "statements_in_compartment" : 0,
                     "region": ""
                 }
-                self.__raw_compartment.append(record)
+                self.__raw_compartment[compartment.id] = record
                 self.cis_foundations_benchmark_3_0['6.1']['Total'].append(compartment)
 
             # Add root compartment which is not part of the list_compartments
@@ -1299,10 +1317,11 @@ class CIS_Report:
                 "is_accessible": "",
                 "lifecycle_state": "",
                 "time_created": "",
+                "statements_in_compartment" : 0,
                 "region": ""
 
             }
-            self.__raw_compartment.append(root_compartment)
+            self.__raw_compartment[self.__tenancy.id] = root_compartment
 
             self.__set_managed_paas_compartment()
 
@@ -1605,7 +1624,7 @@ class CIS_Report:
         except Exception as e:
             debug("__identity_read_users_per_domain: Identity Domains are : " + str(self.__identity_domains_enabled))
             self.__errors.append({'id' : "__identity_read_users", 'error' : str(e)})
-            raise RuntimeError(f"Error in __identity_read_users_per_domain: Identity Domain: {identity_domain['display_name']}, User: {user.user_name}, Error: {str(e)}")
+            raise RuntimeError(f"Error in __identity_read_users_per_domain: Identity Domain: {identity_domain['display_name']}, Error: {str(e)}")
 
 
     def __identity_read_users(self):
@@ -1702,10 +1721,9 @@ class CIS_Report:
                 debug("__identity_read_user_api_key: Collected total keys: " + str(len(user_api_keys_data)))
 
                 for api_key in user_api_keys_data:
-                    deep_link = self.__oci_users_uri + "/domains/" + identity_domain['id'] + "/users/" + user_ocid + "/api-keys"
-                    record = oci.util.to_dict(api_key)
-                    record['deep_link'] = self.__generate_csv_hyperlink(deep_link, api_key.fingerprint)
-                    record['time_created'] = self.get_date_iso_format(record['meta']['created'])
+                    full_record = oci.util.to_dict(api_key)
+                    record = {k: v for k, v in full_record.items() if k in ["id","ocid","fingerprint"]}
+                    record['time_created'] = self.get_date_iso_format(full_record['meta']['created'])
                     apikey_used_in_45_days = self.__identity_check_logging_for_api_activity(user_ocid=user_ocid, api_key=api_key.fingerprint)
                     record['apikey_used_in_45_days'] = apikey_used_in_45_days
                     api_keys.append(record)
@@ -1718,11 +1736,10 @@ class CIS_Report:
                 ).data
 
                 for api_key in user_api_keys_data:
-                    deep_link = self.__oci_users_uri + user_ocid + "/api-keys"
-                    record = oci.util.to_dict(api_key)
-                    record['deep_link'] = self.__generate_csv_hyperlink(deep_link, api_key.fingerprint)
-                    record['id'] = record['key_id']
-                    record['time_created'] = self.get_date_iso_format(record['time_created'])
+                    full_record = oci.util.to_dict(api_key)
+                    record = {k: v for k, v in full_record.items() if k in ["id","ocid","fingerprint"]}
+                    record['id'] = full_record['key_id']
+                    record['time_created'] = self.get_date_iso_format(full_record['time_created'])
                     apikey_used_in_45_days = self.__identity_check_logging_for_api_activity(user_ocid=user_ocid, api_key=api_key.fingerprint)
                     record['apikey_used_in_45_days'] = apikey_used_in_45_days
                     api_keys.append(record)
@@ -1730,8 +1747,8 @@ class CIS_Report:
             return api_keys
 
         except Exception as e:
-            self.__errors.append({"id" : user_ocid, "error" : "Failed to API Keys for User ID"})
-            debug("__identity_read_user_api_key: Failed to API Keys for User ID: " + user_ocid)
+            self.__errors.append({"id" : user_ocid, "error" : "Failed to read API Keys metadata for User ID. "})
+            debug("__identity_read_user_api_key: Failed to read API Keys for User ID: " + user_ocid)
             debug("__identity_read_user_api_key: Error for API Keys: " + str(e))
             return api_keys
             raise RuntimeError(
@@ -1848,7 +1865,7 @@ class CIS_Report:
 
 
     ##########################################################################
-    # Load user auth tokens
+    # Load user auth tokens metadata
     ##########################################################################
     def __identity_read_user_auth_token(self, user_ocid, identity_domain=None):
         auth_tokens = []
@@ -1860,10 +1877,9 @@ class CIS_Report:
                 debug("__identity_read_user_auth_token: Collected total keys: " + str(len(auth_tokens_data)))
 
                 for token in auth_tokens_data:
-                    record = oci.util.to_dict(token)
-                    deep_link = self.__oci_users_uri + "/domains/" + identity_domain['id'] + "/users/" + user_ocid + "/auth-tokens"
-                    record['deep_link'] = self.__generate_csv_hyperlink(deep_link, token.description)
-                    record['time_created'] = self.get_date_iso_format(record['meta']['created'])
+                    full_record = oci.util.to_dict(token)
+                    record = {k: v for k, v in full_record.items() if k in ["id","ocid","description"]}
+                    record['time_created'] = self.get_date_iso_format(full_record['meta']['created'])
                     auth_tokens.append(record)
 
             else:
@@ -1873,23 +1889,21 @@ class CIS_Report:
                 ).data
 
                 for token in auth_tokens_data:
-                    deep_link = self.__oci_users_uri + user_ocid + "/swift-credentials"
                     record = oci.util.to_dict(token)
                     record['time_created'] = self.get_date_iso_format(record['time_created'])
-                    record['deep_link'] = self.__generate_csv_hyperlink(deep_link, token.description)
                     auth_tokens.append(record)
 
             return auth_tokens
 
         except Exception as e:
-            self.__errors.append({"id" : user_ocid, "error" : "Failed to auth tokens for User ID"})
+            self.__errors.append({"id" : user_ocid, "error" : "Failed to read auth token metadata for User ID"})
             debug("__identity_read_user_auth_token: Failed to auth tokens for User ID: " + user_ocid)
             return auth_tokens
             raise RuntimeError(
                 "Error in identity_read_user_auth_token: " + str(e.args))
 
     ##########################################################################
-    # Load user customer secret key
+    # Load user customer secret keys metadata
     ##########################################################################
     def __identity_read_user_customer_secret_key(self, user_ocid, identity_domain=None):
         customer_secret_key = []
@@ -1901,11 +1915,10 @@ class CIS_Report:
                 debug("__identity_read_user_customer_secret_key: Collected total keys: " + str(len(customer_secret_key_data)))
 
                 for key in customer_secret_key_data:
-                    deep_link = self.__oci_users_uri + "/domains/" + identity_domain['id'] + "/users/" + user_ocid + "/secret-keys"
-                    record = oci.util.to_dict(key)
-                    record['deep_link'] = self.__generate_csv_hyperlink(deep_link, key.display_name)
-                    record['time_created'] = self.get_date_iso_format(record['meta']['created'])
-                    record['time_expires'] = record['expires_on']
+                    full_record = oci.util.to_dict(key)
+                    record = {k: v for k, v in full_record.items() if k in ["id","ocid","display_name"]}
+                    record['time_created'] = self.get_date_iso_format(full_record['meta']['created'])
+                    record['time_expires'] = full_record['expires_on']
                     customer_secret_key.append(record)
                 
                 return customer_secret_key
@@ -1918,8 +1931,6 @@ class CIS_Report:
 
                 for key in customer_secret_key_data:
                     record = oci.util.to_dict(key)
-                    deep_link = self.__oci_users_uri + user_ocid + "/secret-keys"
-                    record['deep_link'] = self.__generate_csv_hyperlink(deep_link, key.display_name)
                     record['time_created'] = self.get_date_iso_format(record['time_created'])
                     record['time_expires'] = record['time_expires']
                     customer_secret_key.append(record)
@@ -1927,14 +1938,14 @@ class CIS_Report:
                 return customer_secret_key
 
         except Exception as e:
-            self.__errors.append({"id" : user_ocid, "error" : "Failed to customer secrets for User ID"})
+            self.__errors.append({"id" : user_ocid, "error" : "Failed to read customer secrets metadata for User ID"})
             debug("__identity_read_user_customer_secret_key: Failed to customer secrets for User ID: " + user_ocid)
             return customer_secret_key
             raise RuntimeError(
                 "Error in identity_read_user_customer_secret_key: " + str(e.args))
 
     ##########################################################################
-    # Load Database Passwords
+    # Load Database Passwords metadata
     ##########################################################################
     def __identity_read_user_database_password(self, user_ocid, identity_domain=None):
         database_password = []
@@ -1948,16 +1959,15 @@ class CIS_Report:
 
                 for password in raw_database_password:
                     debug("__identity_read_user_database_password: Got Password")
-                    deep_link = self.__oci_users_uri + "/domains/" + identity_domain['id'] + "/users/" + user_ocid + "/db-passwords"
-                    record = oci.util.to_dict(password)
-                    record['deep_link'] = self.__generate_csv_hyperlink(deep_link, record['name'])
-                    record['time_created'] = self.get_date_iso_format(record['meta']['created'])
+                    full_record = oci.util.to_dict(password)
+                    record = {k: v for k, v in full_record.items() if k in ["id","ocid","description"]}
+                    record['time_created'] = self.get_date_iso_format(full_record['meta']['created'])
                     database_password.append(record)
 
                 return database_password
 
             except Exception as e:
-                self.__errors.append({"id" : user_ocid, "error" : "Failed to get database passwords for User ID"})
+                self.__errors.append({"id" : user_ocid, "error" : "Failed to read database password metadata for User ID"})
                 debug("__identity_read_user_database_password: Failed to get database passwords for User ID: " + user_ocid)
                 debug("__identity_read_user_database_password: Error: " + str(e))
                 return database_password
@@ -1970,17 +1980,15 @@ class CIS_Report:
 
                 for password in raw_database_password:
                     debug("__identity_read_user_database_password: Got Password")
-                    deep_link = self.__oci_users_uri + user_ocid + "/db-password"
                     record = oci.util.to_dict(password)
                     record['ocid'] = record['id']
-                    record['deep_link'] = deep_link
                     record['time_created'] = self.get_date_iso_format(record['time_created'])
                     database_password.append(record)
 
                 return database_password
 
             except Exception as e:
-                self.__errors.append({"id" : user_ocid, "error" : "Failed to get database passwords for User ID"})
+                self.__errors.append({"id" : user_ocid, "error" : "Failed to read database passwords metadata for User ID"})
                 debug("__identity_read_user_database_password: Failed to get database passwords for User ID: " + user_ocid)
                 debug("__identity_read_user_database_password: Error: " + str(e))
 
@@ -2022,8 +2030,10 @@ class CIS_Report:
                     "compartment_id": policy.compartment_id,
                     "description": policy.additional_details['description'],
                     "lifecycle_state": policy.lifecycle_state,
-                    "statements": policy.additional_details['statements']
+                    "statements": policy.additional_details['statements'],
+                    "number_of_statements" : len(policy.additional_details['statements'])
                 }
+                self.__raw_compartment[policy.compartment_id]['statements_in_compartment'] += len(policy.additional_details['statements'])
                 self.__policies.append(record)
             print("\tProcessed " + str(len(self.__policies)) + " IAM Policies")
             return self.__policies
@@ -2042,7 +2052,8 @@ class CIS_Report:
             if self.__identity_domains_enabled:
                 for identity_domain in self.__identity_domains:
                     dynamic_groups_data =  self.__identity_domains_get_all_results(func=identity_domain['IdentityDomainClient'].list_dynamic_resource_groups,
-                                                                             args={})
+                                                                             args={'attributes' : 'ocid,displayName,description,compartmentOcid,domainOcid,'
+                                                                             'tenancyOcid,matchingRule,idcsCreatedBy,idcsLastModifiedBy,meta,urn:ietf:params:scim:schemas:oracle:idcs:extension:OCITags'})
                     id_domain_deep_link = self.__oci_identity_domains_uri + identity_domain['id']
                     for dynamic_group in dynamic_groups_data:
                         debug("__identity_read_dynamic_groups: reading dynamic groups" + str(dynamic_group.display_name))
@@ -2702,7 +2713,7 @@ class CIS_Report:
                                 "default_export_drg_route_distribution_id": drg.default_export_drg_route_distribution_id,
                                 "compartment_id": drg.compartment_id,
                                 "lifecycle_state": drg.lifecycle_state,
-                                "upgrade_status": upgrade_status,
+                                "upgrade_status": upgrade_status.upper(),
                                 "time_created": drg.time_created.strftime(self.__iso_time_format),
                                 "freeform_tags": drg.freeform_tags,
                                 "define_tags": drg.defined_tags,
@@ -2880,6 +2891,8 @@ class CIS_Report:
                             "tunnels": [],
                             "number_tunnels_up": 0,
                             "tunnels_up": True,  # It is true unless I find out otherwise
+                            "number_tunnels_bgp": 0,
+                            "tunnels_bgp": True, # It is true unless I find out otherwise 
                             "notes": ""
                         }
                         # Getting Tunnel Data
@@ -2915,6 +2928,10 @@ class CIS_Report:
                                     record['number_tunnels_up'] += 1
                                 else:
                                     record['tunnels_up'] = False
+                                if tunnel_record['routing'].upper() == "BGP":
+                                    record['number_tunnels_bgp'] += 1
+                                else:
+                                    record['tunnels_bgp'] = False
                                 record["tunnels"].append(tunnel_record)
                         except Exception:
                             print("\t Unable to tunnels for ip_sec_connection: " + ip_sec.display_name + " id: " + ip_sec.identifier)
@@ -3296,29 +3313,6 @@ class CIS_Report:
                                     print(e)
                                     print("*" * 80)
 
-                                # if log.configuration.source.service == 'flowlogs':
-                                #     self.__subnet_logs[log.configuration.source.resource] = {"log_group_id": log.log_group_id, "log_id": log.id}
-
-                                # elif log.configuration.source.service == 'objectstorage' and 'write' in log.configuration.source.category:
-                                #     # Only write logs
-                                #     self.__write_bucket_logs[log.configuration.source.resource] = {"log_group_id": log.log_group_id, "log_id": log.id, "region": region_key}
-
-                                # elif log.configuration.source.service == 'objectstorage' and 'read' in log.configuration.source.category:
-                                #     # Only read logs
-                                #     self.__read_bucket_logs[log.configuration.source.resource] = {"log_group_id": log.log_group_id, "log_id": log.id, "region": region_key}
-
-                                # elif log.configuration.source.service == 'loadbalancer' and 'error' in log.configuration.source.category:
-                                #     self.__load_balancer_error_logs.append(
-                                #         log.configuration.source.resource)
-                                # elif log.configuration.source.service == 'loadbalancer' and 'access' in log.configuration.source.category:
-                                #     self.__load_balancer_access_logs.append(
-                                #         log.configuration.source.resource)
-                                # elif log.configuration.source.service == 'apigateway' and 'access' in log.configuration.source.category:
-                                #     self.__api_gateway_access_logs.append(
-                                #         log.configuration.source.resource)
-                                # elif log.configuration.source.service == 'apigateway' and 'error' in log.configuration.source.category:
-                                #     self.__api_gateway_error_logs.append(
-                                #         log.configuration.source.resource)
                             except Exception as e:
                                 self.__errors.append({"id" : log.id, "error" : str(e)})
                             # Append Log to log List
@@ -3357,6 +3351,10 @@ class CIS_Report:
                         vault_details = region_values['vault_client'].get_vault(vault_id=vault).data
                         debug("\t__kms_read_keys: Succeeded getting Vault details for: " + str(vault_details))
                         vault_dict = oci.util.to_dict(vault_details)
+                        vault_dict['region'] = region_key
+                        vault_deep_link = self.__oci_vault_uri + vault_dict['id'] + '?region=' + region_key
+                        vault_dict['deep_link'] = self.__generate_csv_hyperlink(name=vault_dict['display_name'],
+                                                                                url=vault_deep_link)
                         vault_dict['keys'] = []
                         self.__vaults[vault] = vault_dict
                         debug("\t__kms_read_keys: Building KMS Client: " + str(vault))
@@ -3390,6 +3388,9 @@ class CIS_Report:
                     if key.identifier != self.__vaults[key.additional_details['vaultId']]['wrapping_key_id']:
                         deep_link = self.__oci_vault_uri + key.additional_details['vaultId'] + "/vaults/" + key.identifier + '?region=' + region_key
                         key_record = oci.util.to_dict(key)
+                        key_record['region'] = region_key
+                        key_record['is_primary'] = self.__vaults[key.additional_details['vaultId']].get('is_primary')
+                        key_record['is_vault_replicable'] = self.__vaults[key.additional_details['vaultId']].get('is_vault_replicable')
                         key_record['deep_link'] = self.__generate_csv_hyperlink(deep_link, key_record['display_name'])
                         try:
                             if self.__vaults[key.additional_details['vaultId']]['kms_client']:
@@ -3416,7 +3417,7 @@ class CIS_Report:
                     else:
                         debug("\t__kms_read_keys: Ignoring wrapping key: " + key.display_name)
 
-            print("\tProcessed " + str(len(self.__kms_keys)) + " Keys")
+            print(f"\tProcessed {str(len(self.__kms_keys))} Keys in {str(len(self.__vaults))} Vaults")
             return self.__vaults
         except Exception as e:
             raise RuntimeError(
@@ -3507,6 +3508,36 @@ class CIS_Report:
             raise RuntimeError(
                 "Error in __quota_read " + str(e.args))
 
+    ##########################################################################
+    # Cloud Guard Problems
+    ##########################################################################
+    def __read_cloud_guard_problems(self):
+        """
+        Retrieves every Cloud Guard problem for the reporting region,
+        converts each OCI model to a plain ``dict`` (via ``oci.util.to_dict``)
+        and stores the result in ``self.__cloud_guard_problems``.
+        """
+        cg_client = self.__regions[self.__cloud_guard_config.reporting_region]['cloud_guard_client']
+
+        try:
+            response = oci.pagination.list_call_get_all_results(
+                cg_client.list_problems,
+                compartment_id=self.__tenancy.id,
+                lifecycle_state='ACTIVE',
+                compartment_id_in_subtree=True,
+                access_level="ACCESSIBLE"
+            )
+            for problem in response.data:
+                record = oci.util.to_dict(problem)
+                deep_link = self.__oci_cgproblems_uri + record['id'] + "?region=" + record['region']
+                record['deep_link'] = self.__generate_csv_hyperlink(deep_link, record['resource_name']),
+                self.__cloud_guard_problems.append(record)
+        except Exception as e:
+            self.__errors.append({'id' : '__read_cloud_guard_problems', 'error' : str(e)})
+            debug("__read_cloud_guard_problems failed to process: " + str(e))
+
+        print("\tProcessed " + str(len(self.__cloud_guard_problems)) + " Cloud Guard Problems")
+
     
     ##########################################################################
     # Cloud Guard Configuration
@@ -3533,54 +3564,52 @@ class CIS_Report:
         if self.__cloud_guard_config_status == "ENABLED":
             cloud_guard_targets = 0
             try:
-                for compartment in self.__compartments:
-                    if self.__if_not_managed_paas_compartment(compartment.name):
-                        # Getting a compartments target
-                        cg_targets = self.__regions[self.__cloud_guard_config.reporting_region]['cloud_guard_client'].list_targets(
-                            compartment_id=compartment.id).data.items
-                        debug("__cloud_guard_read_cloud_guard_targets: " + str(cg_targets) )
-                        # Looping throufh targets to get target data
-                        for target in cg_targets:
-                            try:
-                                # Getting Target data like recipes
-                                try:
-                                    target_data = self.__regions[self.__cloud_guard_config.reporting_region]['cloud_guard_client'].get_target(
-                                        target_id=target.id
-                                    ).data
+                # Getting a compartments target
+                cg_targets = self.__regions[self.__cloud_guard_config.reporting_region]['cloud_guard_client'].list_targets(
+                    compartment_id=self.__tenancy.id, compartment_id_in_subtree=True, access_level="RESTRICTED",).data.items
+                debug("__cloud_guard_read_cloud_guard_targets: " + str(cg_targets) )
+                # Looping throufh targets to get target data
+                for target in cg_targets:
+                    try:
+                        # Getting Target data like recipes
+                        try:
+                            target_data = self.__regions[self.__cloud_guard_config.reporting_region]['cloud_guard_client'].get_target(
+                                target_id=target.id
+                            ).data
 
-                                except Exception:
-                                    target_data = None
-                                deep_link = self.__oci_cgtarget_uri + target.id
-                                record = {
-                                    "compartment_id": target.compartment_id,
-                                    "defined_tags": target.defined_tags,
-                                    "display_name": target.display_name,
-                                    "deep_link": self.__generate_csv_hyperlink(deep_link, target.display_name),
-                                    "freeform_tags": target.freeform_tags,
-                                    "id": target.id,
-                                    "lifecycle_state": target.lifecycle_state,
-                                    "lifecyle_details": target.lifecyle_details,
-                                    "system_tags": target.system_tags,
-                                    "recipe_count": target.recipe_count,
-                                    "target_resource_id": target.target_resource_id,
-                                    "target_resource_type": target.target_resource_type,
-                                    "time_created": target.time_created.strftime(self.__iso_time_format),
-                                    "time_updated": str(target.time_updated),
-                                    "inherited_by_compartments": target_data.inherited_by_compartments if target_data else "",
-                                    "description": target_data.description if target_data else "",
-                                    "target_details": target_data.target_details if target_data else "",
-                                    "target_detector_recipes": target_data.target_detector_recipes if target_data else "",
-                                    "target_responder_recipes": target_data.target_responder_recipes if target_data else ""
-                                }
-                                # Indexing by compartment_id
+                        except Exception:
+                            target_data = None
+                        deep_link = self.__oci_cgtarget_uri + target.id
+                        record = {
+                            "compartment_id": target.compartment_id,
+                            "defined_tags": target.defined_tags,
+                            "display_name": target.display_name,
+                            "deep_link": self.__generate_csv_hyperlink(deep_link, target.display_name),
+                            "freeform_tags": target.freeform_tags,
+                            "id": target.id,
+                            "lifecycle_state": target.lifecycle_state,
+                            "lifecyle_details": target.lifecyle_details,
+                            "system_tags": target.system_tags,
+                            "recipe_count": target.recipe_count,
+                            "target_resource_id": target.target_resource_id,
+                            "target_resource_type": target.target_resource_type,
+                            "time_created": target.time_created.strftime(self.__iso_time_format),
+                            "time_updated": str(target.time_updated),
+                            "inherited_by_compartments": target_data.inherited_by_compartments if target_data else "",
+                            "description": target_data.description if target_data else "",
+                            "target_details": target_data.target_details if target_data else "",
+                            "target_detector_recipes": target_data.target_detector_recipes if target_data else "",
+                            "target_responder_recipes": target_data.target_responder_recipes if target_data else ""
+                        }
+                        # Indexing by compartment_id
 
-                                self.__cloud_guard_targets[compartment.id] = record
+                        self.__cloud_guard_targets[target.compartment_id] = record
 
-                                cloud_guard_targets += 1
+                        cloud_guard_targets += 1
 
-                            except Exception:
-                                print("\t Failed to Cloud Guard Target Data for: " + target.display_name + " id: " + target.id)
-                                self.__errors.append({"id" :  target.id, "error" : "Failed to Cloud Guard Target Data for: " + target.display_name + " id: " + target.id })
+                    except Exception:
+                        print("\t Failed to read Cloud Guard Target Data for: " + target.display_name + " id: " + target.id)
+                        self.__errors.append({"id" :  target.id, "error" : "Failed to read Cloud Guard Target Data for: " + target.display_name + " id: " + target.id })
 
                 print("\tProcessed " + str(cloud_guard_targets) + " Cloud Guard Targets")
                 return self.__cloud_guard_targets
@@ -3593,13 +3622,17 @@ class CIS_Report:
     # Identity Password Policy
     ##########################################################################
     def __identity_read_tenancy_password_policy(self):
+        if self.__identity_domains_enabled:
+            self.__tenancy_password_policy = None
+            return self.__tenancy_password_policy 
+        
+        print("\tProcessed Tenancy Password Policy...")
+
         try:
             self.__tenancy_password_policy = self.__regions[self.__home_region]['identity_client'].get_authentication_policy(
                 self.__tenancy.id
             ).data
 
-            print("\tProcessed Tenancy Password Policy...")
-            return self.__tenancy_password_policy
         except Exception as e:
             if "NotAuthorizedOrNotFound" in str(e):
                 self.__tenancy_password_policy = None
@@ -3607,6 +3640,7 @@ class CIS_Report:
                 self.__errors.append({"id" : self.__tenancy.id, "error" : "*** Access to password policies in this tenancy requires elevated permissions. ***"})
             else:
                 raise RuntimeError("Error in __identity_read_tenancy_password_policy " + str(e.args))
+        return self.__tenancy_password_policy
 
     ##########################################################################
     # Oracle Notifications Services for Subscriptions 
@@ -3867,7 +3901,10 @@ class CIS_Report:
                             instance_data = region_values['instance'].get_instance(
                                 instance_id=instance['identifier']
                             ).data
-                            record = oci.util.to_dict(instance_data)
+                            full_record = oci.util.to_dict(instance_data)
+                            #Remove extended_metadata and metadata fields
+                            record = {k: v for k, v in full_record.items() if k not in ["metadata","extended_metadata"]}
+                            
                             record['deep_link'] = self.__generate_csv_hyperlink(deep_link, instance['display_name'])
                             record['error'] = ""
                             # self.__all_resources_json[region_key]['Instance'].append(record)
@@ -4133,6 +4170,7 @@ class CIS_Report:
         # Iterating through all policies
         for policy in self.__policies:
             if policy['name'].lower() not in ['tenant admin policy', 'psm-root-policy']:
+                insert_policy = None
                 for statement in policy['statements']:
                     for resource in self.cis_iam_checks['1.15']:
                         if "allow group".upper() in statement.upper() and "to manage ".upper() in statement.upper() and resource.upper() in statement.upper():
@@ -4149,11 +4187,13 @@ class CIS_Report:
                                     debug("__report_cis_analyze_tenancy_data CIS 1.15 storage admin policy is: " + str(policy['name']))
                                     pass
                                 else:
-                                    self.cis_foundations_benchmark_3_0['1.15']['Findings'].append(policy)
+                                    insert_policy = True
                                     debug("__report_cis_analyze_tenancy_data CIS 1.15 else policy is\n: " + str(policy['name']))
 
                             else:
-                                self.cis_foundations_benchmark_3_0['1.15']['Findings'].append(policy)
+                                insert_policy = True
+                if insert_policy:
+                    self.cis_foundations_benchmark_3_0['1.15']['Findings'].append(policy)
 
         if self.cis_foundations_benchmark_3_0['1.15']['Findings']:
             self.cis_foundations_benchmark_3_0['1.15']['Status'] = False
@@ -4562,10 +4602,16 @@ class CIS_Report:
         self.cis_foundations_benchmark_3_0['2.7']['Total'] = self.__analytics_instances
 
         # CIS 2.8 Check - Ensure Oracle Autonomous Shared Databases (ADB) access is restricted to allowed sources or deployed within a VCN
-        # Iterating through ADB Checking for null NSGs, whitelisted ip or allowed IPs 0.0.0.0/0 
-        # Issue 295 fixed
+        # Control applies to Serverless only, so dedicated ADBs are excluded.
         for autonomous_database in self.__autonomous_databases:
-            if autonomous_database['lifecycle_state'] not in [ oci.database.models.AutonomousDatabaseSummary.LIFECYCLE_STATE_TERMINATED, oci.database.models.AutonomousDatabaseSummary.LIFECYCLE_STATE_TERMINATING, oci.database.models.AutonomousDatabaseSummary.LIFECYCLE_STATE_UNAVAILABLE ]:
+            if (
+                autonomous_database['lifecycle_state'] not in [
+                    oci.database.models.AutonomousDatabaseSummary.LIFECYCLE_STATE_TERMINATED,
+                    oci.database.models.AutonomousDatabaseSummary.LIFECYCLE_STATE_TERMINATING,
+                    oci.database.models.AutonomousDatabaseSummary.LIFECYCLE_STATE_UNAVAILABLE,
+                ]
+                and not autonomous_database.get('is_dedicated', False)
+            ):
                 if not (autonomous_database['whitelisted_ips']) and not (autonomous_database['subnet_id']):
                     self.cis_foundations_benchmark_3_0['2.8']['Status'] = False
                     self.cis_foundations_benchmark_3_0['2.8']['Findings'].append(autonomous_database)
@@ -4575,7 +4621,6 @@ class CIS_Report:
                             self.cis_foundations_benchmark_3_0['2.8']['Status'] = False
                             self.cis_foundations_benchmark_3_0['2.8']['Findings'].append(autonomous_database)
 
-        # CIS Total 2.8 Adding - All ADBs to CIS Total
         self.cis_foundations_benchmark_3_0['2.8']['Total'] = self.__autonomous_databases
 
     def __cis_check_compute_instances(self):
@@ -4761,21 +4806,21 @@ class CIS_Report:
         # CIS Check 4.16 - Encryption keys over 365
         # Generating list of keys
         for key in self.__kms_keys:
-
-            try:
-                if self.kms_key_time_max_datetime and self.kms_key_time_max_datetime >= datetime.datetime.strptime(key['currentKeyVersion_time_created'], self.__iso_time_format):
-                    self.cis_foundations_benchmark_3_0['4.16']['Status'] = False
-                    self.cis_foundations_benchmark_3_0['4.16']['Findings'].append(
-                        key)
-                if self.kms_key_time_max_datetime is None:
-                    self.cis_foundations_benchmark_3_0['4.16']['Status'] = False
-                    self.cis_foundations_benchmark_3_0['4.16']['Findings'].append(
-                        key)
-            except Exception:    
-                    self.cis_foundations_benchmark_3_0['4.16']['Status'] = False
-                    self.cis_foundations_benchmark_3_0['4.16']['Findings'].append(
-                        key)
-         
+            if key.get('is_primary'):
+                try:
+                    if self.kms_key_time_max_datetime and self.kms_key_time_max_datetime >= datetime.datetime.strptime(key['currentKeyVersion_time_created'], self.__iso_time_format):
+                        self.cis_foundations_benchmark_3_0['4.16']['Status'] = False
+                        self.cis_foundations_benchmark_3_0['4.16']['Findings'].append(
+                            key)
+                    if self.kms_key_time_max_datetime is None:
+                        self.cis_foundations_benchmark_3_0['4.16']['Status'] = False
+                        self.cis_foundations_benchmark_3_0['4.16']['Findings'].append(
+                            key)
+                except Exception:    
+                        self.cis_foundations_benchmark_3_0['4.16']['Status'] = False
+                        self.cis_foundations_benchmark_3_0['4.16']['Findings'].append(
+                            key)
+            
             # CIS Check 4.16 Total - Adding Key to total
             self.cis_foundations_benchmark_3_0['4.16']['Total'].append(key)
 
@@ -4960,7 +5005,6 @@ class CIS_Report:
                 except Exception:
                     dict_of_compartments[compartment.compartment_id] = []
                     dict_of_compartments[compartment.compartment_id].append(compartment.id)
-    
         # Collecting Service Connectors Logs related to compartments
         for sch_id, sch_values in self.__service_connectors.items():
             # Only Active SCH with a target that is configured
@@ -5011,7 +5055,7 @@ class CIS_Report:
             # Compartment Logs that are missed in the region
             for compartment in region_values['Audit']['findings']:
                 try:
-                    finding = list(filter(lambda source: source['id'] == compartment, self.__raw_compartment))[0]
+                    finding = list(filter(lambda source: source['id'] == compartment, self.__raw_compartment.values()))[0]
                     record = {
                         "id": finding['id'],
                         "name": finding['name'],
@@ -5049,7 +5093,7 @@ class CIS_Report:
             # Compartment logs that are not missed in the region
             for compartment in region_values['Audit']['compartments']:
                 try:
-                    finding = list(filter(lambda source: source['id'] == compartment, self.__raw_compartment))[0]
+                    finding = list(filter(lambda source: source['id'] == compartment, self.__raw_compartment.values()))[0]
                     record = {
                         "id": finding['id'],
                         "name": finding['name'],
@@ -5108,7 +5152,6 @@ class CIS_Report:
         try:
             # Cloud Guard Target attached to the root compartment with activity, config, and threat detector plus a responder
             if self.__cloud_guard_targets[self.__tenancy.id]:
-
                 cloud_guard_record['target_at_root'] = True
 
                 if self.__cloud_guard_targets[self.__tenancy.id]:
@@ -5146,7 +5189,7 @@ class CIS_Report:
             pass
 
         all_cloud_guard_checks = True
-        for key, value in cloud_guard_record.items():
+        for value in cloud_guard_record.values():
             if not (value):
                 all_cloud_guard_checks = False
 
@@ -5156,6 +5199,20 @@ class CIS_Report:
         else:
             self.obp_foundations_checks['Cloud_Guard_Config']['Findings'].append(cloud_guard_record)
 
+        for problem in self.__cloud_guard_problems:
+            if problem['risk_level'] in ['HIGH','CRITICAL']:
+                self.obp_foundations_checks['Cloud_Guard_Problems']['Findings'].append(problem)
+            else:
+                self.obp_foundations_checks['Cloud_Guard_Problems']['OBP'].append(problem)
+
+        for key in self.obp_foundations_checks.keys():
+            if key.startswith("Cloud_Guard_"):
+                if self.obp_foundations_checks[key]['Findings']:
+                    self.obp_foundations_checks[key]['Status'] = False
+                else:
+                    self.obp_foundations_checks[key]['Status'] = True    
+
+      
     #######################################
     # OBP Networking Checks
     #######################################
@@ -5166,9 +5223,11 @@ class CIS_Report:
             number_of_valid_connected_vcns = 0
             number_of_valid_fast_connect_circuits = 0
             number_of_valid_site_to_site_connection = 0
+            number_of_valid_bgp_site_to_site_connection = 0
 
             fast_connect_providers = set()
             customer_premises_equipment = set()
+            drg_upgrade_status = self.__network_drgs[drg_id]['upgrade_status']
 
             for attachment in drg_values:
                 if attachment['network_type'].upper() == 'VCN':
@@ -5180,8 +5239,10 @@ class CIS_Report:
                     for ipsec_connection in self.__network_ipsec_connections[drg_id]:
                         if ipsec_connection['tunnels_up']:
                             # Good IP Sec Connection increment valid site to site and track CPEs
-                            customer_premises_equipment.add(ipsec_connection['cpe_id'])
                             number_of_valid_site_to_site_connection += 1
+                            customer_premises_equipment.add(ipsec_connection['cpe_id'])
+                        if ipsec_connection['tunnels_bgp']:
+                            number_of_valid_bgp_site_to_site_connection += 1
 
                 elif attachment['network_type'].upper() == 'VIRTUAL_CIRCUIT':
 
@@ -5200,10 +5261,12 @@ class CIS_Report:
                 record = {
                     "drg_id": drg_id,
                     "drg_display_name": self.__network_drgs[drg_id]['display_name'],
+                    "upgrade_status": drg_upgrade_status,
                     "region": self.__network_drgs[drg_id]['region'],
                     "number_of_connected_vcns": number_of_valid_connected_vcns,
                     "number_of_customer_premises_equipment": len(customer_premises_equipment),
                     "number_of_connected_ipsec_connections": number_of_valid_site_to_site_connection,
+                    "number_of_valid_bgp_site_to_site_connection": number_of_valid_bgp_site_to_site_connection,
                     "number_of_fastconnects_cicruits": number_of_valid_fast_connect_circuits,
                     "number_of_fastconnect_providers": len(fast_connect_providers),
                 }
@@ -5211,40 +5274,73 @@ class CIS_Report:
                 record = {
                     "drg_id": drg_id,
                     "drg_display_name": "Deleted with an active attachement",
+                    "upgrade_status" : None,
                     "region": attachment['region'],
                     "number_of_connected_vcns": 0,
                     "number_of_customer_premises_equipment": 0,
                     "number_of_connected_ipsec_connections": 0,
+                    "number_of_valid_bgp_site_to_site_connection": 0,
                     "number_of_fastconnects_cicruits": 0,
                     "number_of_fastconnect_providers": 0,
                 }
                 print(f"This DRG: {drg_id} is deleted with an active attachement: {attachment['display_name']}")
+                self.__errors.append({"id" : str(drg_id), "error" : f"This DRG: {drg_id} is deleted with an active attachement: {attachment['display_name']}"})
+
 
             # Checking if the DRG and connected resourcs are aligned with best practices
             # One attached VCN, One VPN connection and one fast connect
-            if number_of_valid_connected_vcns and number_of_valid_site_to_site_connection and number_of_valid_fast_connect_circuits:
+            if number_of_valid_connected_vcns >= 2 and number_of_valid_site_to_site_connection and number_of_valid_fast_connect_circuits:
                 self.__obp_regional_checks[record['region']]["Network_Connectivity"]["drgs"].append(record)
                 self.__obp_regional_checks[record['region']]["Network_Connectivity"]["status"] = True
             # Two VPN site to site connections to seperate CPEs
-            elif number_of_valid_connected_vcns and number_of_valid_site_to_site_connection and len(customer_premises_equipment) >= 2:
+            elif number_of_valid_connected_vcns >= 2 and number_of_valid_site_to_site_connection and len(customer_premises_equipment) >= 2:
                 self.__obp_regional_checks[record['region']]["Network_Connectivity"]["drgs"].append(record)
                 self.__obp_regional_checks[record['region']]["Network_Connectivity"]["status"] = True
             # Two FastConnects from Different providers
-            elif number_of_valid_connected_vcns and number_of_valid_fast_connect_circuits and len(fast_connect_providers) >= 2:
+            elif number_of_valid_connected_vcns >= 2 and number_of_valid_fast_connect_circuits and len(fast_connect_providers) >= 2:
                 self.__obp_regional_checks[record['region']]["Network_Connectivity"]["drgs"].append(record)
                 self.__obp_regional_checks[record['region']]["Network_Connectivity"]["status"] = True
             else:
                 self.__obp_regional_checks[record['region']]["Network_Connectivity"]["findings"].append(record)
 
+            # Checking if this there is a hub and spoke basically two VCNs to one DRG
+            if not number_of_valid_connected_vcns >= 2:
+                self.obp_foundations_checks['Networking_Hub_Spoke']['Findings'].append(record)
+            else: 
+                self.obp_foundations_checks['Networking_Hub_Spoke']['OBP'].append(record)
+
+            # Checking if this DRG has been upgraded to Version 2
+            if not drg_upgrade_status == "UPGRADED":
+                self.obp_foundations_checks["Networking_DRG_Upgraded"]["Findings"].append(record)
+            else: 
+                self.obp_foundations_checks["Networking_DRG_Upgraded"]["OBP"].append(record)
+
+          # Checking if this DRG IPSec connection has two connetions
+            if not number_of_valid_site_to_site_connection >= 2:
+                self.obp_foundations_checks["Networking_IPSec_connections"]["Findings"].append(record)
+            else: 
+                self.obp_foundations_checks["Networking_IPSec_connections"]["OBP"].append(record)
+          
+          # Checking if this DRG IPSec connection has two connetions
+            if not number_of_valid_bgp_site_to_site_connection >= 2:
+                self.obp_foundations_checks["Networking_IPSec_bgp"]["Findings"].append(record)
+            else: 
+                self.obp_foundations_checks["Networking_IPSec_bgp"]["OBP"].append(record)
+
+
         # Consolidating Regional
 
-        for region_key, region_values in self.__obp_regional_checks.items():
+        for region_values in self.__obp_regional_checks.values():
             # I assume you are well connected in all regions if find one region that is not it fails
-            if not region_values["Network_Connectivity"]["status"]:
-                self.obp_foundations_checks['Networking_Connectivity']['Status'] = False
-
-            self.obp_foundations_checks["Networking_Connectivity"]["Findings"] += region_values["Network_Connectivity"]["findings"]
-            self.obp_foundations_checks["Networking_Connectivity"]["OBP"] += region_values["Network_Connectivity"]["drgs"]
+            self.obp_foundations_checks["Networking_Redudancy"]["Findings"] += region_values["Network_Connectivity"]["findings"]
+            self.obp_foundations_checks["Networking_Redudancy"]["OBP"] += region_values["Network_Connectivity"]["drgs"]
+        
+        for key in self.obp_foundations_checks.keys():
+            if key.startswith("Networking_"):
+                if self.obp_foundations_checks[key]['Findings']:
+                    self.obp_foundations_checks[key]['Status'] = False
+                else:
+                    self.obp_foundations_checks[key]['Status'] = True    
 
     #######################################
     # OBP Certificate Expiry Check
@@ -5433,6 +5529,64 @@ class CIS_Report:
         else:
             self.obp_foundations_checks['SIEM_Read_Bucket_Logs']['Status'] = True
     
+    #######################################
+    # OBP Subnet and Bucket Log Checks
+    #######################################
+    def __obp_check_log_retention(self):
+        for log_group in self.__logging_list:
+            for log in log_group['logs']:
+                required_keys = ['id', 'display_name', 'deep_link', 'compartment_id', 'is_enabled', 
+                                 'lifecycle_state', 'log_group_id', 'log_type', 'retention_duration', 
+                                 'time_created', 'time_last_modified', 'defined_tags', 'freeform_tags', 'region']
+                record = {key: log[key] for key in required_keys if key in log}
+
+                if log.get('retention_duration') < 90:
+                    self.obp_foundations_checks['Log_Retention']['Findings'].append(record)
+                else:
+                    self.obp_foundations_checks['Log_Retention']['OBP'].append(record)
+        
+        if self.obp_foundations_checks['Log_Retention']['Findings']:
+            self.obp_foundations_checks['Log_Retention']['Status'] = False
+        elif self.obp_foundations_checks['Log_Retention']['OBP']:
+            self.obp_foundations_checks['Log_Retention']['Status'] = True
+    
+    #######################################
+    # OBP Account Lockout Duration 5 or more
+    #######################################
+    def __obp_check_iam_account_lockout(self):
+        for domain in self.__identity_domains:
+            required_keys = ['id', 'display_name', 'url', 'errors']
+            record = {key: domain[key] for key in required_keys if key in domain}
+            pwd_policy = domain.get('password_policy') or {}
+            record['max_incorrect_attempts'] = pwd_policy.get('max_incorrect_attempts')
+            record['lockout_duration'] = pwd_policy.get('lockout_duration')
+            try:
+                record['automatic_account_unlock_enabled'] = (
+                    record['lockout_duration'] is not None and int(record['lockout_duration']) > 0
+                )
+            except Exception:
+                record['automatic_account_unlock_enabled'] = None
+            try:
+                # Missing/invalid max_incorrect_attempts is non-compliant.
+                # Require lockout to trigger at 5 failed attempts or fewer.
+                if record['max_incorrect_attempts'] is None or str(record['max_incorrect_attempts']).strip() == "":
+                    max_incorrect_attempts_compliant = False
+                else:
+                    max_incorrect_attempts_compliant = (int(record['max_incorrect_attempts']) <= 5)
+            except Exception:
+                max_incorrect_attempts_compliant = False
+            # automatic_account_unlock_enabled is captured for visibility only and
+            # is not used as a compliance gate unless policy requires it.
+            if max_incorrect_attempts_compliant:
+                self.obp_foundations_checks['IAM_Account_Lockout']['OBP'].append(record)
+            else:
+                self.obp_foundations_checks['IAM_Account_Lockout']['Findings'].append(record)
+        
+        if self.obp_foundations_checks['IAM_Account_Lockout']['Findings']:
+            self.obp_foundations_checks['IAM_Account_Lockout']['Status'] = False
+        elif self.obp_foundations_checks['IAM_Account_Lockout']['OBP']:
+            self.obp_foundations_checks['IAM_Account_Lockout']['Status'] = True
+    
 
     #######################################
     # OBP Service Limit Check
@@ -5441,7 +5595,7 @@ class CIS_Report:
         if True:
             for limit in self.__service_limits:
                 # If the limit is greater than 80% we should note it for an OBP
-                if limit['service_limit_availability'] and limit['service_limit_availability'] >= 80.0:
+                if limit['service_limit_availability'] and limit['service_limit_availability'] >= self.__service_utilization_limit:
                     self.obp_foundations_checks['Service_Limits']['Findings'].append(limit)
                 else:
                     self.obp_foundations_checks['Service_Limits']['OBP'].append(limit)
@@ -5484,7 +5638,62 @@ class CIS_Report:
                 if self.obp_foundations_checks[key]['Findings']:
                     self.obp_foundations_checks[key]['Status'] = False
                 else:
-                    self.obp_foundations_checks[key]['Status'] = True                    
+                    self.obp_foundations_checks[key]['Status'] = True       
+
+    ##########################################################################
+    # OBP Check Aggregated Policy statements in all Compartment Chains
+    ##########################################################################
+    def __obp_check_policy_statements_in_comp_chains(self):
+        policy_stmt_limit = 500.0 #Should be returned by the Service Limit API
+        parent_ids = {v.get("compartment_id") for v in self.__raw_compartment.values() if v.get("compartment_id") }
+        leaf_nodes = [cid for cid in self.__raw_compartment.keys() if cid not in parent_ids]
+
+        for leaf in leaf_nodes:
+            path = []
+            cid = leaf
+            total = 0
+            while cid is not None:
+                path.append(cid)
+                if cid == self.__tenancy.id:
+                    break
+                cid = self.__raw_compartment[cid]['compartment_id']
+            parts = [f"{self.__raw_compartment[x]['name']}({self.__raw_compartment[x]['statements_in_compartment']})" for x in reversed(path)]
+            total = sum(self.__raw_compartment[x]['statements_in_compartment'] for x in path)
+             
+            record = {
+                "total":total, 
+                "compartment_hierarchy": ' --> '.join(parts)
+                }
+            
+            #Check compartment hierarchy total statements against the statement threshold. 
+            policy_stmt_utilization_per_hierarchy = round((total*100.0)/policy_stmt_limit)
+            if policy_stmt_utilization_per_hierarchy >= self.__service_utilization_limit or total >= policy_stmt_limit:
+                self.obp_foundations_checks['IAM_Stmt_Comp_Hierarchy_Count']['Findings'].append(record)
+            else:
+                self.obp_foundations_checks['IAM_Stmt_Comp_Hierarchy_Count']['OBP'].append(record)
+            
+            if self.obp_foundations_checks['IAM_Stmt_Comp_Hierarchy_Count']['Findings']:
+                self.obp_foundations_checks['IAM_Stmt_Comp_Hierarchy_Count']['Status'] = False
+            elif self.obp_foundations_checks['IAM_Stmt_Comp_Hierarchy_Count']['OBP']:
+                self.obp_foundations_checks['IAM_Stmt_Comp_Hierarchy_Count']['Status'] = True
+
+            self.__compartment_hierarchy_info.append(record)
+
+        #Check root compartment total statements against the statement threshold. 
+        policy_stmt_utilization_at_root = round((self.__raw_compartment[self.__tenancy.id]["statements_in_compartment"]*100.0)/policy_stmt_limit)
+        record = {"Statements_at_root":self.__raw_compartment[self.__tenancy.id]["statements_in_compartment"]}
+        if policy_stmt_utilization_at_root >= self.__service_utilization_limit or self.__raw_compartment[self.__tenancy.id]["statements_in_compartment"] >= policy_stmt_limit:
+            self.obp_foundations_checks['IAM_Stmt_Root_Count']['Findings'].append(record)
+        else:
+            self.obp_foundations_checks['IAM_Stmt_Root_Count']['OBP'].append(record)
+        
+        if self.obp_foundations_checks['IAM_Stmt_Root_Count']['Findings']:
+            self.obp_foundations_checks['IAM_Stmt_Root_Count']['Status'] = False
+        elif self.obp_foundations_checks['IAM_Stmt_Root_Count']['OBP']:
+            self.obp_foundations_checks['IAM_Stmt_Root_Count']['Status'] = True
+
+        
+         
 
     ##########################################################################
     # Analyzes Tenancy Data for Oracle Best Practices Report
@@ -5498,9 +5707,12 @@ class CIS_Report:
         self.__obp_check_certificates()
         self.__obp_check_bucket_logs()
         self.__obp_check_subnet_logs()
+        self.__obp_check_log_retention()
         self.__obp_check_close_service_limits()
         self.__obp_check_adbs()
         self.__obp_check_quotas()
+        self.__obp_check_policy_statements_in_comp_chains()
+        self.__obp_check_iam_account_lockout() 
 
     ##########################################################################
     # Orchestrates data collection and CIS report generation
@@ -5725,6 +5937,8 @@ class CIS_Report:
                     for key in item.keys():
                         str_item = str(item[key])
                         items_to_redact = re.findall(self.__oci_ocid_pattern, str_item)
+                        emails_to_redact = re.findall(self.__simple_email, str_item)
+                        items_to_redact += emails_to_redact                        
                         for redact_me in items_to_redact:
                             str_item = str_item.replace(redact_me, hashlib.sha256(str.encode(redact_me)).hexdigest())
 
@@ -6000,9 +6214,12 @@ class CIS_Report:
             print(padding + "\t\t" + compliant + "\t" + "\t" + str(len(recommendation['Findings'])) + "\t" + "\t" + str(len(recommendation['OBP'])))
             record = {
                 "Recommendation": str(key),
+                "ID" : recommendation['id'],
+                "Section": recommendation['section'],
                 "Compliant": compliant,
                 "OBP": (str(len(recommendation['OBP'])) if len(recommendation['OBP']) > 0 else " "),
                 "Findings": (str(len(recommendation['Findings'])) if len(recommendation['Findings']) > 0 else " "),
+                "Title": recommendation['Title'],
                 "Documentation": recommendation['Documentation']
             }
             obp_summary_report.append(record)
@@ -6060,6 +6277,7 @@ class CIS_Report:
             self.__identity_read_availability_domains,
             self.__identity_read_tag_defaults,
             self.__identity_read_tenancy_policies,
+            self.__read_cloud_guard_problems
         ]
 
         # Budgets is global construct
@@ -6165,7 +6383,7 @@ class CIS_Report:
             "identity_policies": self.__policies,
             "identity_dynamic_groups": self.__dynamic_groups,
             "identity_tags": self.__tag_defaults,
-            "identity_compartments": self.__raw_compartment,
+            "identity_compartments": list(self.__raw_compartment.values()),
             "network_security_groups": self.__network_security_groups,
             "network_security_lists": self.__network_security_lists,
             "network_subnets": self.__network_subnets,
@@ -6180,7 +6398,8 @@ class CIS_Report:
             "boot_volumes": self.__boot_volumes,
             "block_volumes": self.__block_volumes,
             "file_storage_system": self.__file_storage_system,
-            "keys_and_vaults": self.__kms_keys,
+            "kms_keys": self.__kms_keys,
+            "kms_vaults": list(self.__vaults.values()),
             "ons_subscriptions": self.__subscriptions,
             "budgets": self.__budgets,
             "quotas" : self.__quotas,
@@ -6189,11 +6408,13 @@ class CIS_Report:
             "network_ipsec_connections": list(itertools.chain.from_iterable(self.__network_ipsec_connections.values())),
             "network_drgs": self.__raw_network_drgs,
             "cloud_guard_target": list(self.__cloud_guard_targets.values()),
+            "cloud_guard_problems" : self.__cloud_guard_problems,
             "regions": self.__raw_regions,
             "network_drg_attachments": list(itertools.chain.from_iterable(self.__network_drg_attachments.values())),
             "instances": self.__Instance,
             "certificates" : self.__raw_oci_certificates,
-            "service_limits" : self.__service_limits
+            "service_limits" : self.__service_limits,
+            "compartment_hierarchy_policy_count" : self.__compartment_hierarchy_info
         }
         for key in raw_csv_files:
             rfn = self.__print_to_csv_file('raw_data', key, raw_csv_files[key])
@@ -6271,6 +6492,8 @@ class CIS_Report:
                     for key in item.keys():
                         str_item = str(item[key])
                         items_to_redact = re.findall(self.__oci_ocid_pattern, str_item)
+                        emails_to_redact = re.findall(self.__simple_email, str_item)
+                        items_to_redact += emails_to_redact
                         for redact_me in items_to_redact:
                             str_item = str_item.replace(redact_me, hashlib.sha256(str.encode(redact_me)).hexdigest())
 
@@ -6322,6 +6545,8 @@ class CIS_Report:
             # If this flag is set all OCIDs are Hashed to redact them
             if self.__redact_output:
                 items_to_redact = re.findall(self.__oci_ocid_pattern,json_object)
+                emails_to_redact = re.findall(self.__simple_email, json_object)
+                items_to_redact += emails_to_redact
                 for redact_me in items_to_redact:
                     json_object = json_object.replace(redact_me,hashlib.sha256(str.encode(redact_me)).hexdigest() )
 
