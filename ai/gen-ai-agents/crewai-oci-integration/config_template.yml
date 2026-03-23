@@ -1,0 +1,36 @@
+# config.yaml for litellm with OCI Grok models
+litellm_settings:
+  drop_params: true            
+  # drop unsupported params instead of 500 errors
+  additional_drop_params: ["max_retries"]
+
+# Common OCI connection parameters
+common_oci: &common_oci
+  provider: oci
+  oci_region: us-chicago-1
+  oci_serving_mode: ON_DEMAND
+  supports_tool_calls: true
+  oci_user: your-oci-user-ocid
+  oci_fingerprint: your-oci-api-key-fingerprint
+  oci_tenancy: your-oci-tenancy-ocid
+  oci_compartment_id:   your-oci-compartment-ocid
+  oci_key_file:   /path/to/your/oci_api_key.pem
+  api_key: key4321
+  
+
+# List of models
+model_list:
+  - model_name: grok4-oci
+    litellm_params:
+      <<: *common_oci           # merge common OCI params
+      model: oci/xai.grok-4
+
+  - model_name: grok4-fast-oci
+    litellm_params:
+      <<: *common_oci
+      model: oci/xai.grok-4-fast-reasoning
+
+general_settings:
+  telemetry: false
+  proxy_logging: false
+  allow_model_alias: true

@@ -1,0 +1,22 @@
+{
+    "HR-general.pdf": {
+        "metadataAttributes": {
+            "type": "HCM"
+        }
+    },
+    "ITsupport.pdf": {
+        "metadataAttributes": {
+            "type": "ICT"
+        }
+    },
+    "expenses.pdf": {
+        "metadataAttributes": {
+            "type": "HCM"
+        }
+    },
+		"SALES/revrec.pdf": {
+        "metadataAttributes": {
+            "type": "SALES"
+        }
+    }
+}

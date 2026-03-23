@@ -2,7 +2,7 @@
 
 Oracle Cloud Infrastructure GoldenGate is a fully managed, native cloud service that moves data in real-time, at scale. OCI GoldenGate processes data as it moves from one or more data management systems to target databases. You can also design, run, orchestrate, and monitor data replication tasks without having to allocate or manage any Compute environment.
 
-Reviewed: 08.10.2025
+Reviewed: 28.10.2025
 
 
 # Table of Contents
@@ -23,6 +23,12 @@ Reviewed: 08.10.2025
  
 - [Static Data Masking with Oracle GoldenGate](https://medium.com/@aporcescu/static-data-masking-with-oracle-goldengate-88d33ecaae13)
   - Article that shows a use-case of data masking using buil-in functions of GoldenGate
+
+- [Real-time AI-augmented Inventory Management Demo](https://www.youtube.com/watch?v=Z8NNtGPtlA4)
+  - Recorded demo showcasing OCI GoldenGate 23ai leveraging embedding capabilities to replicate data from Autonomous AI Transaction Processing to an Autonomous AI Lakehouse, feeding vectors to an LLM, and enabling interactive queries via the AI Assistant chatbot
+
+- [Real-Time Embedding with Oracle GoldenGate: A Step-by-Step Guide](https://blogs.oracle.com/dataintegration/real-time-embedding-with-oracle-goldengate-a-step-by-step-guide)
+  - Learn how to use Oracle GoldenGate’s real-time embedding generation and VECTOR support to seamlessly power AI and RAG applications with up-to-date data
     
 
  

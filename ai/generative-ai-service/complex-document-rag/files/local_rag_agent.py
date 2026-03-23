@@ -74,7 +74,7 @@ class OCIModelHandler:
         "grok-4": {
             "model_id": os.getenv("OCI_GROK_4_MODEL_ID"),
             "request_type": "generic",
-            "max_output_tokens": 120000,  
+            "max_output_tokens": 8000,  # Reduced from 120000 for faster response  
             "default_params": {
                 "temperature": 1,
                 "top_p": 1
@@ -84,7 +84,7 @@ class OCIModelHandler:
             "model_id": os.getenv("OCI_GROK_3_MODEL_ID", 
                                  os.getenv("GROK_MODEL_ID")),
             "request_type": "generic",
-            "max_output_tokens": 16000, 
+            "max_output_tokens": 8000,  # Reduced from 16000 for consistency 
             "default_params": {
                 "temperature": 0.7,
                 "top_p": 0.9
@@ -94,7 +94,7 @@ class OCIModelHandler:
             "model_id": os.getenv("OCI_GROK_3_FAST_MODEL_ID", 
                                  os.getenv("GROK_MODEL_ID")),
             "request_type": "generic",
-            "max_output_tokens": 16000,  
+            "max_output_tokens": 4000,  # Optimized for speed  
             "default_params": {
                 "temperature": 0.7,
                 "top_p": 0.9
@@ -197,13 +197,29 @@ class OCIModelHandler:
         region = self.model_config.get("region", "us-chicago-1")
         self.endpoint = f"https://inference.generativeai.{region}.oci.oraclecloud.com"
 
-        # Initialize OCI client
+        # Initialize OCI client with better retry and timeout settings
         config = oci.config.from_file("~/.oci/config", config_profile)
+        
+        # Create a custom retry strategy for chunk rewriting operations
+        retry_strategy = oci.retry.RetryStrategyBuilder(
+            max_attempts=3,
+            retry_max_wait_between_calls_seconds=10,
+            retry_base_sleep_time_seconds=2,
+            retry_exponential_growth_multiplier=2,
+            retry_eligible_service_errors=[429, 500, 502, 503, 504],
+            service_error_retry_config={
+                -1: []  # Retry on timeout errors
+            }
+        ).add_service_error_check(
+            service_error_retry_config={-1: []},
+            service_error_retry_on_any_5xx=True
+        ).get_retry_strategy()
+        
         self.client = oci.generative_ai_inference.GenerativeAiInferenceClient(
             config=config,
             service_endpoint=self.endpoint,
-            retry_strategy=oci.retry.NoneRetryStrategy(),
-            timeout=(10, 240)
+            retry_strategy=retry_strategy,
+            timeout=(30, 120)  # Increased timeout: 30s connect, 120s read for chunk rewriting
         )
         
         print(f"✅ Initialized OCI handler for {model_name}")
@@ -359,7 +375,7 @@ class OCIModelHandler:
 class RAGSystem:
     def __init__(self, vector_store: EnhancedVectorStore = None, model_name: str = None, 
                  use_cot: bool = False, skip_analysis: bool = False,
-                 quantization: str = None, use_oracle_db: bool = True, collection: str = "Multi-Collection",
+                 quantization: str = None, use_oracle_db: bool = True, collection: str = "multi",
                  embedding_model: str = "cohere-embed-multilingual-v3.0"):
         """Initialize local RAG agent with vector store and local LLM
         
@@ -484,9 +500,54 @@ class RAGSystem:
             tokenizer=self.tokenizer
         )
         logger.info(f"Agents initialized: {list(self.agents.keys())}")
+        # --- known tag cache loaded from vector store - helps identify entities in the query ---
+        self.known_tags: set[str] = set()
+        try:
+            self.refresh_known_tags()
+        except Exception as e:
+            logger.warning(f"[RAG] Could not load known tags on init: {e}")
 
+    def _vector_store_all_ids(self) -> list[str]:
+        """
+        Return ALL canonical document/entity IDs (tags) from the vector store.
+        Tries a few common method names to avoid tight coupling.
+        """
+        vs = self.vector_store
+        # Try common APIs
+        for attr in ("list_ids", "get_all_ids", "get_all_document_ids", "all_ids"):
+            if hasattr(vs, attr) and callable(getattr(vs, attr)):
+                try:
+                    ids = getattr(vs, attr)()
+                    return [str(x) for x in ids]
+                except Exception as e:
+                    logger.debug(f"[RAG] {_safe_name(vs)}.{attr} failed: {e}")
+        # Fallback: try listing collections and aggregating
+        try:
+            if hasattr(vs, "list_collections"):
+                coll_names = vs.list_collections()
+                ids = []
+                for c in coll_names:
+                    try:
+                        ids.extend(vs.list_ids(collection=c))
+                    except Exception:
+                        pass
+                return [str(x) for x in ids]
+        except Exception as e:
+            logger.debug(f"[RAG] Could not enumerate collections: {e}")
+        return []
 
+    def refresh_known_tags(self) -> None:
+        """
+        Populate self.known_tags (lowercased) from the vector store.
+        Call this after any ingest/update that changes IDs.
+        """
+        ids = self._vector_store_all_ids()
+        self.known_tags = {s.lower() for s in ids if isinstance(s, str)}
+        logger.info(f"[RAG] known_tags loaded: {len(self.known_tags)}")
 
+    def _safe_name(obj) -> str:
+        return getattr(obj, "__class__", type(obj)).__name__
+    
     def _initialize_sub_agents(self, llm_model: str) -> bool:
         """
         Initializes agents for agentic workflows (planner, researcher, etc.)
@@ -521,22 +582,28 @@ class RAGSystem:
     def process_query_with_multi_collection_context(self, query: str, 
                                                     multi_collection_context: List[Dict[str, Any]], 
                                                     is_comparison_report: bool = False,
-                                                    collection_mode: str = "multi") -> Dict[str, Any]:
-        """Process a query with pre-retrieved multi-collection context"""
+                                                    collection_mode: str = "multi",
+                                                    provided_entities: Optional[List[str]] = None) -> Dict[str, Any]:
+        """Process a query with pre-retrieved multi-collection context and optional provided entities"""
         logger.info(f"Processing query with {len(multi_collection_context)} multi-collection chunks")
+        if provided_entities:
+            logger.info(f"Using provided entities: {provided_entities}")
         
         if self.use_cot:
-            return self._process_query_with_report_agent(query, multi_collection_context, is_comparison_report, collection_mode=collection_mode)
+            return self._process_query_with_report_agent(query, multi_collection_context, is_comparison_report, 
+                                                        collection_mode=collection_mode, provided_entities=provided_entities)
         else:
             # For non-CoT mode, use the context directly
             return self._generate_response(query, multi_collection_context)
+        
             
     def _process_query_with_report_agent(
         self,
         query: str,
         multi_collection_context: Optional[List[Dict[str, Any]]] = None,
         is_comparison_report: bool = False,
-        collection_mode: str = "multi"   
+        collection_mode: str = "multi",
+        provided_entities: Optional[List[str]] = None
     ) -> Dict[str, Any]:
         """
         Report agent pipeline:
@@ -558,8 +625,10 @@ class RAGSystem:
 
         # STEP 1: Plan the report
         logger.info("Planning report sections...")
+        if provided_entities:
+            logger.info(f"Using provided entities for planning: {provided_entities}")
         try:
-            result = planner.plan(query, is_comparison_report=is_comparison_report)
+            result = planner.plan(query, is_comparison_report=is_comparison_report, provided_entities=provided_entities)
             if not isinstance(result, tuple) or len(result) != 3:
                 raise ValueError(f"Planner returned unexpected format: {type(result)} → {result}")
             plan, entities, is_comparison = result
@@ -799,7 +868,7 @@ def main():
     parser = argparse.ArgumentParser(description="Query documents using local LLM")
     parser.add_argument("--query", required=True, help="Query to search for")
     parser.add_argument("--embed", default="oracle", choices=["oracle", "chromadb"], help="embed backend to use")
-    parser.add_argument("--model", default="qwen2", help="Model to use (default: qwen2)")
+    parser.add_argument("--model", default="grok3", help="Model to use (default: qwen2)")
     parser.add_argument("--collection", help="Collection to search (PDF, Repository, General Knowledge)")
     parser.add_argument("--use-cot", action="store_true", help="Use Chain of Thought reasoning")
     parser.add_argument("--store-path", default="embed", help="Path to ChromaDB store")

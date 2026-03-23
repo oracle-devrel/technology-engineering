@@ -1,7 +1,7 @@
 # OCI Streaming with Apache Kafka
 A fully managed Kafka service that allows you to build real-time, distributed data streaming pipelines so you can collect, process, store, and move millions of events per minute in a cost-efficient manner that’s 100% compatible with open source Apache Kafka.
 
-Reviewed: 18.09.2025
+Reviewed: 11.11.2025
 
 # Table of Contents
 
@@ -10,6 +10,7 @@ Reviewed: 18.09.2025
 3. [Reusable Assets](#reusable-assets)
 
 # Team Publications
+- [Developer Coaching - Building Real-Time Streams with OCI Streaming with Apache Kafka](https://www.youtube.com/watch?v=AUiuGH05MPE)
 
 # Useful Links
 
@@ -20,6 +21,7 @@ Reviewed: 18.09.2025
 
 - [Kafka UI & Kafka Connect Setup with OCI OpenSearch](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-streaming-with-apache-kafka/code-examples/kafka-ui-connect-setup-with-oci-opensearch)
 - [OCI GoldenGate connection to OCI Streaming with Apache Kafka](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-streaming-with-apache-kafka/code-examples/goldengate_oci_streaming-with-apache-kafka)
+- [Configuring Schema registry and Kafka connect with AKHQ(UI) for OSAK](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-streaming-with-apache-kafka/code-examples/schema-registry-akhq-setup)
 
 # License
 

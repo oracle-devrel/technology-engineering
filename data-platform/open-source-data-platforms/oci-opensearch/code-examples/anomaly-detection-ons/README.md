@@ -1,6 +1,6 @@
 # Run Anomaly Detection in OCI OpenSearch and receive an alert using Oracle Notification Service
 
-Reviewed: 10.04.2025
+Reviewed: 11.11.2025
 
 # When to use this asset?
 

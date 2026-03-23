@@ -1,0 +1,16 @@
+CUSTOMER_ID,CUSTOMER_NAME,EMAIL,SIGNUP_DATE,SEGMENT,COUNTRY,LIFETIME_VALUE
+1001,Tech Innovators Inc,contact@techinnovators.com,2023-01-15,Enterprise,USA,25000
+1002,Global Retail Corp,orders@globalretail.com,2023-02-20,Enterprise,Canada,18500
+1003,Startup Solutions,hello@startupsol.com,2023-01-30,SMB,UK,8500
+1004,Digital Commerce Co,sales@digitalcom.com,2023-03-10,Enterprise,Australia,22000
+1005,Local Business Hub,info@localbiz.com,2023-02-05,SMB,USA,6200
+1006,European Distributors,contact@eudist.com,2023-04-12,SMB,Germany,7800
+1007,Premium Brands Ltd,premium@brands.com,2023-03-25,Enterprise,Spain,28500
+1008,Creative Studios,studio@creative.com,2023-01-08,SMB,France,9200
+1009,Asia Pacific Trade,trade@apac.com,2023-02-18,Enterprise,Japan,31000
+1010,Market Leaders Inc,leaders@market.com,2023-04-05,Enterprise,Mexico,24800
+1011,Regional Partners,partners@regional.com,2023-05-12,SMB,Brazil,5900
+1012,Innovation Labs,labs@innovation.com,2023-06-08,Enterprise,Singapore,19500
+1013,Growth Ventures,growth@ventures.com,2023-07-15,SMB,India,7100
+1014,Excellence Corp,corp@excellence.com,2023-08-22,Enterprise,South Korea,26800
+1015,Future Tech,future@tech.com,2023-09-10,SMB,Netherlands,8900

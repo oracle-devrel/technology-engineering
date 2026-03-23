@@ -8,13 +8,13 @@ PL/SQL, the Oracle procedural extension of SQL, is a portable, high-performance 
 
 Below you'll find an index to all the sections available in this repository, along with a brief introduction to what you can expect in each section.
 
-Reviewed: 03.10.2025
+Reviewed: 12.12.2025
 
 # Table of contents
 
 1. [SQL Tools](#sql-tools)
 2. [SQL Tips](#sql-tips)
-3. [SQL Oracle23ai](#sql-oracle23ai)
+3. [SQL Oracle 26ai](#sql-oracle26ai)
 4. [SQL Do It Yourself](#sql-do-it-yourself)
 
 ## SQL Tools
@@ -31,12 +31,12 @@ The [SQL Tips](SQL_Tips/README.md) section is dedicated to providing practical a
 - Common pitfalls and how to avoid them
 - Advanced SQL functions and their use cases
 
-## SQL Oracle23ai
+## SQL Oracle26ai
 
-Explore the latest advancements with Oracle's cutting-edge AI capabilities in the [SQL Oracle23ai](SQL_Oracle23ai/README.md) section. Here, you will find:
-- New features and enhancements in Oracle23ai
+Explore the latest advancements with Oracle's cutting-edge AI capabilities in the [SQL Oracle23ai](SQL_Oracle23ai/README.md) section (now Oracle26ai). Here, you will find:
+- New features and enhancements in Oracle26ai
 - Tutorials on integrating AI with your SQL queries
-- Case studies and real-world applications of Oracle23ai
+- Case studies and real-world applications of Oracle26ai
 
 ## SQL Do It Yourself
 

@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: example-app
+  name: example-app-hub
   namespace: argocd
 spec:
   goTemplate: true
@@ -36,7 +36,7 @@ spec:
             releaseName: '{{.chart.releaseName}}'
             valueFiles:
               - $values/apps/{{index .path.segments 1}}/{{index .path.segments 2}}/helm/values/values-common.yml
-              - $values/apps/{{index .path.segments 1}}/{{index .path.segments 2}}/helm/values/values-{{.metadata.labels.type }}.yml
+              - $values/apps/{{index .path.segments 1}}/{{index .path.segments 2}}/helm/values/{{.metadata.labels.type}}/values.yml
 
         - repoURL: #REPOURL
           targetRevision: HEAD

@@ -37,6 +37,8 @@ Reviewed: 22.09.2025
 - [AI Meetings: Meeting summarization and chat meeting](https://www.oracle.com/artificial-intelligence/automate-meeting-transcriptions/)
 - [Build a meal recommmendation Engine with OCI Vision & Generative AI](https://www.oracle.com/artificial-intelligence/build-a-meal-recommendation-engine-with-ai/)
 - [Search Documents stored in Object Storage using Opensearch, Generative AI, Semantic Search, RAG](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3762)
+- [CX Conversations Analysis with OCI Speech and OCI Generative AI](../generative-ai-service/cx-conversations-analysis/)
+  - Application that processes audio files (recordings of CX conversations, e.g. in call centers), transcribing with OCI Speech and makes analytics using Generative AI.
 
 ### Cloud Coaching
 - [Cloud Coaching - Boost Your Oracle AI Services](https://youtu.be/VVWTqqlIEhg)

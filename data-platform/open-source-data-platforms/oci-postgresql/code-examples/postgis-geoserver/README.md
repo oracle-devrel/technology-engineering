@@ -1,6 +1,6 @@
 # Connect OCI PostgreSQL to Oracle Analytics Cloud
 
-Reviewed: 30.09.2025
+Reviewed: 11.11.2025
 
 # When to use this asset?
 

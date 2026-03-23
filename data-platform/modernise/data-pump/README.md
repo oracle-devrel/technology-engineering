@@ -50,6 +50,8 @@ Reviewed: 07.10.2025
     - Blog article by Carlos Álvarez showing how to complete the installation of DBMS_CLOUD packages in Oracle 23ai.
 - [How to Check Data Pump Log Files in Oracle Autonomous Database stored in DATA_PUMP_DIR](https://carlosal.wordpress.com/2025/06/19/how-to-check-data-pump-log-files-in-oracle-autonomous-database-stored-in-data_pump_dir/)
     - Blog article by Carlos Álvarez about methods to access and examine Data Pump log files generated in the DATA_PUMP_DIR directory from within the Autonomous Database.
+- [How to import Data Pump dump files into OCI Autonomous Database using Database Actions](https://carlosal.wordpress.com/2025/12/17/how-to-import-dump-files-into-oci-autonomous-database-using-database-actions/)
+    - Blog article by Carlos Álvarez about using the Data Pump module in the Database Actions tool to import Data Pump dump files stored in Buckets into Autonomous Database.
 
 # Useful Links
 - [Loading Data from Google Cloud Storage to Oracle Database](https://database-heartbeat.com/2024/10/01/google-storage-to-oracle-database/)

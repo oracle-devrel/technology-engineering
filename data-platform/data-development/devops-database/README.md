@@ -10,7 +10,7 @@ Every development team's goal: (Operations)
 - Delivering a few change requests at a time to end users
 - Through a series of high-quality releases on a regular cadence
 
-Reviewed: 18.11.2024
+Reviewed: 01.12.2025
 
 # Table of Contents
  
@@ -19,11 +19,18 @@ Reviewed: 18.11.2024
  
 # Team Publications
 
+- [Oracle Database and Kubernetes: Overview](https://medium.com/devops-dev/oracle-database-and-kubernetes-overview-6584710228e7)
+- [Oracle Database and Kubernetes: Running databases within K8S Cluster](https://medium.com/@vmendo/oracle-database-and-kubernetes-running-databases-within-k8s-cluster-20a5beadfaaf)
+- [Oracle Database and Kubernetes: Creating an Oracle Autonomous Database from Kubernetes](https://medium.com/@vmendo/oracle-database-and-kubernetes-creating-an-oracle-autonomous-database-from-kubernetes-1637204dffc4)
+- [Oracle Database and Kubernetes: Managing an Autonomous Database from Kubernetes](https://medium.com/@vmendo/oracle-database-and-kubernetes-managing-an-autonomous-database-from-kubernetes-1c317a468bef)
+- [DB Containers: Free Oracle Database for Developers](https://synuora.hashnode.dev/db-containers-free-oracle-database-for-developers)
+- [APEX + DB Operator: Deploying Customer Managed ORDS for ADB with the Oracle Database Operator on OKE](https://synuora.hashnode.dev/apex-db-operator-deploying-customer-managed-ords-for-adb-with-the-oracle-database-operator-on-oke)
 -  [Red Hot Webinars - YouTube](https://www.youtube.com/watch?v=GIRdoGlqIDE "Here is how ORDS helps you with DevOps")
    - A Webinar demonstrating how ORDS can be used to support DevOps
 - DevOps with ADB using DBMS_CLOUD
    - [Part 1](https://medium.com/oracledevs/apex-service-can-devops-too-dbms-cloud-on-autonomous-72be9842d2f8)
    - [Part 2](https://medium.com/oracledevs/apex-service-devops-part-2-ed737a4fc583)
+
  
 # Useful Links
 

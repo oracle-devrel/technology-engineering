@@ -1,6 +1,6 @@
 # Connect to Salesforce using OCI Data Flow
 
-Reviewed: 05.06.2024
+Reviewed: 11.11.2025
 
 # When to use this asset?
 

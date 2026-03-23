@@ -233,20 +233,19 @@ Below is the current high-level architecture of the customer's on-premises VMwar
 
 * A Compartment in the tenancy. This can be a new or existing compartment.
 
-* Appropriate policy and permissions in place to manage Oracle Cloud Migrations and required components in the selected compartment.
+* Run the prerequisites provided on the Cloud Migration Console page, this will:
 
-* Please find details about required IAM Polices at: IAM and Oracle Cloud Migrations Policies. and On-prem vCenter roles and permissions.
+    * Creates tenancy and compartment specific policies
+    * Creates object storage bucket for replication
+    * Creates Namespaces for use by OCM
+    * Creates Vault for holding vCenter credentials
 
 * Supported vSphere environment (6.5 and Above). Supported vSphere versions & Operating systems. Supported vSphere versions and Operating systems.
 
-* Provide agent dependency, which is a 3rd party package required by remote agent appliance for it’s function. Oracle Cloud Migrations replication function running on the remote agent appliance depends on the appropriate VMware Virtual Disk Development Kit (VDDK) agent to perform the snapshot operations on the VMware VM disk. This can be downloaded from theVMware portal.
+* Provide agent dependency, which is a 3rd party package required by remote agent appliance for it’s function. Oracle Cloud Migrations replication function running on the remote agent appliance depends on the appropriate VMware Virtual Disk Development Kit (VDDK) agent to perform the snapshot operations on the VMware VM disk. This can be downloaded from theVMware portal. At this moment OCM only supports the VDDK 7.0.2 version
 For more information and download links for vSphere VDDK, see vSphere VDDK.
 
-* Create a Private Object Storage bucket in the OCI tenancy, to store the source asset snapshots.
 
-* Create a vault to store the credentials used by the Oracle Cloud Migrations Service.
-
-* Object Storage Configuration: OCI Object Storage will be used to store the replicated VM data by Oracle Cloud Migrations service from on-premises environment.
 
 Oracle Cloud migration service Being a SAAS offering is deployed at tenancy level within the OCI region.  
 

@@ -11,6 +11,7 @@ Open Source Data Platforms continue to extend the Oracle Data Platform with Key 
 - OCI OpenSearch
 - OCI NoSQL
 
+
 # License
 
 Copyright (c) 2025 Oracle and/or its affiliates.

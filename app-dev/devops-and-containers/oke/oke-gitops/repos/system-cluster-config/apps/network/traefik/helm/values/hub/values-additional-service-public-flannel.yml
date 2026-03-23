@@ -1,0 +1,74 @@
+# If your default LB is a private one, and you also want to expose Traefik externally through a public LB, these are the configurations
+
+ports:
+  public-web:
+    # Ports must be different
+    port: 8001
+    expose:
+      default: false    # do not expose on the default that is private
+      external: true    # this entrypoint is exposed to the external additional service
+    exposedPort: 80
+    redirections:
+      entryPoint:
+        to: public-websecure
+        scheme: https
+  public-websecure:
+    # Ports must be different
+    port: 8444
+    expose:
+      default: false
+      external: true
+    exposedPort: 443
+    # LB will handle TLS termination
+    tls:
+      enabled: false
+
+service:
+  additionalServices:
+    external:
+      type: LoadBalancer
+      annotations:
+        oci.oraclecloud.com/load-balancer-type: "lb"
+        service.beta.kubernetes.io/oci-load-balancer-shape: "flexible"
+        # Set suitable values for min-max bandwidth
+        service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "10"
+        service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "10"
+        # Better to attach 2 NSGs, one containing only ingress rules, the other containing only egress rules
+        oci.oraclecloud.com/oci-network-security-groups: "ocid1.networksecuritygroup...,ocid1.networksecuritygroup..."
+        # By setting this to None, you will be in charge of writing all the security rules, CCM will not be allowed to set automatically any security rule
+        oci.oraclecloud.com/security-rule-management-mode: "None"
+        # Set listener to HTTP if you want to use WAF, otherwise TCP
+        service.beta.kubernetes.io/oci-load-balancer-backend-protocol: "HTTP"
+
+        # MUST specify a public subnet where to create the LB
+        service.beta.kubernetes.io/oci-load-balancer-subnet1: "<subnet-OCID>"
+
+        # TLS termination. The secret must be present in the traefik namespace. Only 1 certificate is supported, and to rotate you need to create a new secret and modify this annotation
+        service.beta.kubernetes.io/oci-load-balancer-ssl-ports: "443"
+        service.beta.kubernetes.io/oci-load-balancer-tls-secret: "ssl-certificate-secret"
+        #oci.oraclecloud.com/oci-load-balancer-listener-ssl-config: '{"CipherSuiteName":"oci-default-http2-tls-12-13-ssl-cipher-suite-v1", "Protocols":["TLSv1.3"]}'
+
+        # Specify load balancer policy if needed, supported values are ROUND_ROBIN, LEAST_CONNECTIONS, IP_HASH
+        oci.oraclecloud.com/loadbalancer-policy: "ROUND_ROBIN"
+        # Health check configurations
+        service.beta.kubernetes.io/oci-load-balancer-health-check-interval: "3000"
+        service.beta.kubernetes.io/oci-load-balancer-health-check-timeout: "2000"
+        service.beta.kubernetes.io/oci-load-balancer-health-check-retries: "3"
+        # Connection idle timeout, for TCP listener max is 300 seconds, for HTTP max is 60 seconds
+        service.beta.kubernetes.io/oci-load-balancer-connection-idle-timeout: "60"
+        # For security, better limit the HTTP header size
+        oci.oraclecloud.com/oci-load-balancer-rule-sets: |
+          {
+            "header_size": {
+              "items": [
+                {
+                  "action": "HTTP_HEADER",
+                  "httpLargeHeaderSizeInKB": 16
+                }
+              ]
+            }
+          }
+      spec:
+        externalTrafficPolicy: "Local"
+        # Public Reserved IP
+        #loadBalancerIP: "140.121.164.12"

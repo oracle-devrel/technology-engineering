@@ -25,7 +25,9 @@ Reviewed: 25.09.2025
 
 ## GitHub
 - [Podcast Generator](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/ai-speech/podcast-generator)
-
+- [CX Conversations Analysis with OCI Speech and OCI Generative AI](../generative-ai-service/cx-conversations-analysis/)
+  - Application that processes audio files (recordings of CX conversations, e.g. in call centers), transcribing with OCI Speech and makes analytics using Generative AI.
+  
 ## Architecture Center
 - [Implement a web-based user interface for interacting with Oracle Cloud Infrastructure Generative AI Agents](https://docs.oracle.com/en/solutions/oci-genai-speech/index.html)
 - [Use OCI Speech to transcribe natural language](https://docs.oracle.com/en/solutions/ai-speech/index.html)

@@ -7,8 +7,8 @@ The Identity and Access Management group under the Technology Engineering Securi
 - Solution Assistance
 - Workshops to enable the partners/customers
 
-Reviewed: 01.04.2025
-     
+Reviewed: 11.11.2025
+
 Table of Contents
 
 1. [Team Publications](#team-publications)

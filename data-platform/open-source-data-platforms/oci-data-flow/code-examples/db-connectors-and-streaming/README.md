@@ -1,6 +1,6 @@
 # OCI Data Flow Connection to ADB/PostgreSQL/OCI Streaming from OCI Data Science Notebook using Spark
 
-Reviewed: 9.08.2024
+Reviewed: 11.11.2025
 
 # When to use this asset?
 

@@ -1,0 +1,85 @@
+# There are 2 entryPoints here: web and websecure, one for http, the other for https on the default public load balancer
+ports:
+  # Set this so that all HTTP traffic is redirected and upgraded to HTTPS
+  web:
+    redirections:
+      entryPoint:
+        to: websecure
+        scheme: https
+  websecure:
+    # asDefault sets websecure as the default entryPoint if no entryPoint is specified in an ingressRoute
+    asDefault: true
+
+    # Be sure to set tls enabled if you are planning to use Traefik with TLS passthrough
+    tls:
+      enabled: false
+    # By default, Traefik will discard x-forwarded-for and proxy protocol headers if the source Load Balancer ip is not trusted
+    # Specify the range of trusted IPs here
+#    forwardedHeaders:
+#      trustedIPs:
+#        - "10.0.0.0/16"
+#    proxyProtocol:
+#      trustedIPs:
+#        - "10.0.0.0/16"
+
+
+# To expose public APIs, usually a Load Balancer is used with TLS termination so that a WAF can be enforced.
+
+# VCN Native CNI is capable of Pods as Backends feature, see https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengconfiguringloadbalancersnetworkloadbalancers-subtopic.htm#contengcreatingloadbalancer_topic_Specifying_pods_as_backends
+
+# Do not forget to configure the Pod Readiness Gate:
+# kubectl label ns traefik loadbalancer.oci.oraclecloud.com/pod-readiness-gate-inject=enabled
+
+# Once satisfied, better create a Kustomize with the namespace definition and the label, so that GitOps principles are followed
+
+service:
+  type: LoadBalancer
+  annotations:
+    oci.oraclecloud.com/load-balancer-type: "lb"
+    service.beta.kubernetes.io/oci-load-balancer-shape: "flexible"
+    # Set suitable values for min-max bandwidth
+    service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "10"
+    service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "10"
+
+    # If needed, you can specify a public subnet OCID where to create the LB. If not specified, will default to OKE service subnet
+    #service.beta.kubernetes.io/oci-load-balancer-subnet1: "<subnet-OCID>"
+
+    # Better to attach 2 NSGs, one containing only ingress rules, the other containing only egress rules
+    oci.oraclecloud.com/oci-network-security-groups: "ocid1.networksecuritygroup...,ocid1.networksecuritygroup..."
+    # By setting this to None, you will be in charge of writing all the security rules, CCM will not be allowed to set automatically any security rule
+    oci.oraclecloud.com/security-rule-management-mode: "None"
+    # Set listener to HTTP if you want to use WAF, otherwise TCP
+    service.beta.kubernetes.io/oci-load-balancer-backend-protocol: "HTTP"
+
+    # TLS termination. The secret must be present in the traefik namespace. Only 1 certificate is supported, and to rotate you need to create a new secret and modify this annotation
+    service.beta.kubernetes.io/oci-load-balancer-ssl-ports: "443"
+    service.beta.kubernetes.io/oci-load-balancer-tls-secret: "ssl-certificate-secret"
+    #oci.oraclecloud.com/oci-load-balancer-listener-ssl-config: '{"CipherSuiteName":"oci-default-http2-tls-12-13-ssl-cipher-suite-v1", "Protocols":["TLSv1.3"]}'
+
+    # Specify load balancer policy if needed, supported values are ROUND_ROBIN, LEAST_CONNECTIONS, IP_HASH
+    oci.oraclecloud.com/loadbalancer-policy: "ROUND_ROBIN"
+    # Connection idle timeout, for TCP listener max is 300 seconds, for HTTP max is 60 seconds
+    service.beta.kubernetes.io/oci-load-balancer-connection-idle-timeout: "60"
+    # For security, better limit the HTTP header size
+    oci.oraclecloud.com/oci-load-balancer-rule-sets: |
+      {
+        "header_size": {
+          "items": [
+            {
+              "action": "HTTP_HEADER",
+              "httpLargeHeaderSizeInKB": 16
+            }
+          ]
+        }
+      }
+    # Pods as Backends configuration: health check
+    oci-load-balancer.oraclecloud.com/health-check: '{"protocol": "HTTP", "port": 8080, "urlPath": "/healthz", "returnCode": 200, "retries": 3, "timeoutInMillis": 2000}'
+  spec:
+    # We are forced to put Cluster here because of the risk of packet drops when a readiness gate is implemented.
+    # Example: LB health check is OK before readiness, the packet will be forwarded, but the ingress is still not available from a Kubernetes perspective.
+    # Then, if the externalTrafficPolicy is Local, the packet will just be dropped, instead of being re-routed to an ingress pod in another node
+    externalTrafficPolicy: "Cluster"
+    # Public Reserved IP
+    #loadBalancerIP: "140.121.164.12"
+    # Necessary for Pods as Backends
+    allocateLoadBalancerNodePorts: false

@@ -1,7 +1,7 @@
 # OCI Data Flow
 Oracle Cloud Infrastructure (OCI) Data Flow is a fully managed Apache Spark service that performs processing tasks on extremely large datasets—without infrastructure to deploy or manage. Developers can also use Spark Streaming to perform cloud ETL on their continuously produced streaming data. This enables rapid application delivery because developers can focus on app development, not infrastructure management
 
-Reviewed: 05.06.2024
+Reviewed: 11.11.2025
 
 # Table of Contents
 
@@ -15,6 +15,8 @@ Reviewed: 05.06.2024
 - [Machine Learning with OCI Data Flow](https://www.youtube.com/watch?v=A6uVbK7wQb4)  
 - [Extracting data from Salesforce in near real-time using OCI Data Flow — Part 1](https://medium.com/@eloi-lopes29/extracting-data-from-salesforce-in-near-real-time-using-oci-data-flow-part-1-f096886b9fcd)
 - [OCI Audit Logs to Object Storage with Data Flow](https://blogs.oracle.com/cloud-infrastructure/post/behind-the-scenes-shrinking-log-analysis)
+- [Predict energy consumption with OCI Data Flow and Spark MLlib](https://medium.com/data-engineer-things/predict-energy-consumption-with-oci-data-flow-and-spark-mllib-74626c4db56a)
+- [Apache Spark with OCI Data Flow and Oracle Autonomous Database](https://medium.com/@sylwekdec/apache-spark-with-oci-data-flow-and-oracle-autonomous-database-bd96055445ee)
 
 # Useful Links
 

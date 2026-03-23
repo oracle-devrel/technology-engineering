@@ -105,7 +105,7 @@ variables:
     required: true
 
   lb_subnet_id:
-    title: "Load Balancer Subnet"
+    title: "Default Load Balancer Subnet"
     description: "Existing Subnet where all Load Balancer services will be created by default"
     type: oci:core:subnet:id
     dependsOn:

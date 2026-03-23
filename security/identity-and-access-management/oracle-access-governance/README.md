@@ -6,7 +6,7 @@ Access Governance is a cloud native identity governance and administration (IGA)
 
 Oracle Access Governance enables integration with a wide range of authoritative sources (trusted source of identities and their attributes) and managed systems (applications containing account and permissions). **For the most common integration patterns, please see the [Reusable Assets Overview](#reusable-assets-overview) section below**.
 
-Reviewed: 20.03.2025
+Reviewed: 11.11.2025
 
 # Useful Links
 
@@ -24,10 +24,10 @@ Reviewed: 20.03.2025
 - [Oracle Access Governance: Securing the identity posture for enterprise and cloud applications](https://blogs.oracle.com/cloud-infrastructure/post/securing-identity-posture)
 - [Intelligent Cloud Delivered Access Governance with Prescriptive Analytics](https://blogs.oracle.com/cloudsecurity/post/intelligent-cloud-delivered-access-governance-with-prescriptive-analytics)
 
-## OAG Training & Live Labs
+## OAG Training & Tutorials
 
 - [Cloud Coaching - Oracle Access Governance - Identity Governance and Access Reviews (Video)](https://www.youtube.com/watch?v=9reHN697x6g)
-- [Demo & Labs](https://luna.oracle.com/lab/6345863c-42c4-4f17-96fc-130278ac4b1f/steps)
+- [Oracle Access Governance Tutorials](https://docs.oracle.com/en/cloud/paas/access-governance/tutorials.html)
 
 # Reusable Assets Overview
 

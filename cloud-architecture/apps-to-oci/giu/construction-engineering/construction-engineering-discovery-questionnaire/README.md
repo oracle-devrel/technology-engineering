@@ -2,7 +2,7 @@
 
 This asset helps the customer and/or the partner to conduct a thorough discovery phase gathering all the necessary information for a proper design of Oracle Construction and Engineering applications on OCI.
 
-Reviewed: 14.07.2025
+Reviewed: 25.11.2025
 
 # When to use this asset?
 

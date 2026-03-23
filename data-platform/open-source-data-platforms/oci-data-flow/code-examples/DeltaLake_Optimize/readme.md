@@ -1,5 +1,7 @@
 # Delta Lake Optimization
 
+Reviewed: 11.11.2025
+
 Oracle Cloud Infrastructure (OCI) Data Flow is a fully managed Apache Spark service that performs processing tasks on extremely large datasets—without infrastructure to deploy or manage. 
 Developers can also use Spark Streaming to perform cloud ETL on their continuously produced streaming data.
 However Spark structured streaming application can produce thousants of small files (according to microbatching and number of executors), which leads to performance degradadion.

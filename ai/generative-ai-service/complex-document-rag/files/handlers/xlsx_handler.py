@@ -56,7 +56,15 @@ def process_xlsx_file(
             return "❌ ERROR: Vector store not initialized", ""
 
         file_path = Path(file.name)
-        chunks, doc_id = rag_system.xlsx_processor.ingest_xlsx(file_path, entity=entity)
+        # Now returns 3 values: chunks, doc_id, and chunks_to_delete
+        result = rag_system.xlsx_processor.ingest_xlsx(file_path, entity=entity)
+        
+        # Handle both old (2-tuple) and new (3-tuple) return formats
+        if len(result) == 3:
+            chunks, doc_id, chunks_to_delete = result
+        else:
+            chunks, doc_id = result
+            chunks_to_delete = []
 
         progress(0.7, desc="Adding to vector store...")
 
@@ -69,6 +77,17 @@ def process_xlsx_file(
             for chunk in chunks
         ]
 
+        # Delete original chunks FIRST if they were rewritten
+        if chunks_to_delete and hasattr(rag_system.vector_store, 'delete_chunks'):
+            progress(0.7, desc="Removing original chunks that were rewritten...")
+            try:
+                rag_system.vector_store.delete_chunks('xlsx_documents', chunks_to_delete)
+                logger.info(f"Deleted {len(chunks_to_delete)} original chunks that were rewritten")
+            except Exception as e:
+                logger.warning(f"Could not delete original chunks: {e}")
+        
+        # THEN add the new rewritten chunks to vector store
+        progress(0.8, desc="Adding rewritten chunks to vector store...")
         rag_system.vector_store.add_xlsx_chunks(converted_chunks, doc_id)
 
         progress(1.0, desc="Complete!")
@@ -78,6 +97,9 @@ def process_xlsx_file(
 
         actual_collection_name = rag_system.vector_store.xlsx_collection.name
         collection_name = f"{actual_collection_name} ({embedding_model})"
+        
+        # Count rewritten chunks
+        rewritten_count = sum(1 for chunk in chunks if chunk.get('metadata', {}).get('rewritten', False))
 
         summary = f"""
 ✅ **XLSX PROCESSING COMPLETE**
@@ -86,6 +108,7 @@ def process_xlsx_file(
 **Document ID:** {doc_id}  
 **Entity:** {entity}  
 **Chunks created:** {len(chunks)}  
+**Chunks with rewritten content:** {rewritten_count}  
 **Embedding model:** {embedding_model}  
 **Collection:** {collection_name}  
 
@@ -123,4 +146,3 @@ Sample Chunks:
         error_msg = f"❌ ERROR: Processing XLSX file failed: {str(e)}"
         logger.error(f"{error_msg}\n{traceback.format_exc()}")
         return error_msg, traceback.format_exc()
-

@@ -1,0 +1,26 @@
+# macOS system files
+.DS_Store
+
+.env
+# Python cache
+**/__pycache__/
+
+# Virtual environments
+venv/
+
+# Local config
+config.py
+
+# Data folders
+data/
+embeddings/
+charts/
+reports/
+
+# Logs
+*.log
+logs/
+
+# Text files (except requirements.txt)
+*.txt
+!requirements.txt

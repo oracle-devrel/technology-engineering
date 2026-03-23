@@ -24,8 +24,9 @@ Under `Settings --> Repositories` click on **CONNECT REPO** and select to connec
 Fill the form with the following values:
 1. `Repository type`: "git"
 2. `Repository URL`: <oke-cluster-config clone URL>
-3. `Username`: \<OCI username of a user with access to the git repository>
-4. `Password`: \<Auth Token of the user>
+3. `Project`. "None" (leave blank)
+4. `Username`: \<OCI username of a user with access to the git repository>
+5. `Password`: \<Auth Token of the user>
 
 The repository we want to connect to is the system-cluster-config repository in OCI DevOps, already created by the Resource Manager Stack.
 It's better to go into the OCI DevOps, find the repository, and find the right HTTPS clone URL.
@@ -64,7 +65,7 @@ This repository organizes configurations to install tools and configure clusters
 ## Repository Structure
 
 ```
-repos/system-cluster-config/
+system-cluster-config/
 ├── hub.yml                 # ArgoCD Application to deploy ApplicationSets to the hub cluster
 ├── in-cluster.yml          # Secret defining the hub cluster itself
 ├── apps/                   # Application definitions, organized by category

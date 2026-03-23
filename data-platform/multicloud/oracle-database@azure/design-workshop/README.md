@@ -2,7 +2,7 @@
  
 A workshop designed to dive into all aspects of the Oracle Database@Azure (OD@A) architectural design for customers Azure setup.
  
-Reviewed: 12.04.2024
+Reviewed: 22.10.2025
 
 # When to use this asset?
  

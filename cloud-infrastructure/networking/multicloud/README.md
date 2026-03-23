@@ -29,6 +29,7 @@ Reviewed: 10.10.2025
 
 ## Reference Architectures
 
+- [About DNS resolution in Oracle Database@Google Cloud](https://docs.oracle.com/en/solutions/dns-resolution-oracle-db-at-google-cloud/index.html)
 - [Learn About multicloud Architecture Framework](https://docs.oracle.com/en/solutions/learn-about-multicloud-arch-framework/index.html)
 - [Use AWS endpoint service to securely connect applications to Oracle Autonomous Database](https://docs.oracle.com/en/solutions/adb-endpoint-in-aws/index.html)
 - [Resolve DNS records seamlessly in OCI multicloud architectures](https://docs.oracle.com/en/solutions/resolve-dns-oci/index.html#GUID-84375E55-F207-4A72-84E8-C17CE0CE6BF3)

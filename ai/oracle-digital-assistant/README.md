@@ -18,6 +18,21 @@ Reviewed: 21.08.2025
 - [ODA Pro styled](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/oracle-digital-assistant/oda-pro-styled)
     - A customizable chat interface for ODA
 
+- [ODA Concierge Template](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/oracle-digital-assistant/templates/concierge-template)
+    - An easy to use Q&A template for ODA
+
+- [ODA Concierge+Agent Template](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/oracle-digital-assistant/templates/concierge-agent-template)
+    - An easy to use Q&A with Agent template for ODA
+
+- [ODA HCM Template](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/oracle-digital-assistant/templates/hcm-ml)
+    - Multilingual HCM template to combine with Fusion HCM skill
+
+- [ODA AI Services](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/oracle-digital-assistant/templates/ai-services)
+    - Template skill to consume AI Services speech/vision/document/language
+
+- [ODA AI Agent with doc-groups](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/oracle-digital-assistant/templates/agent-doc-groups)
+    - Template skill to use AI Agent with different document groups
+
 ## Cloud Coaching & Live Labs
  
 - [Cloud Coaching - Art of the possible Digital Assistant](https://www.youtube.com/watch?v=zPmfjuYQCGg&t=49s)
