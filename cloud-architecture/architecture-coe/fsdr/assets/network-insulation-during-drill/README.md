@@ -58,7 +58,7 @@ for example, using a _Remote Peering Connection_ between VCN.
 To showcase how to solve the problem previously described, we consider a simple scenario with a three tiers workload and
 an Active Directory replication between the primary and the standby region. AD provides DHCP and DNS services to the VMs in scope.
 While for _Cross-Region Block Storage Replication_ and _Autonomous DataGuard_ the VCNs don't need to be connected, the _AD Replication_ 
-is done by its own mechanism and requires network connectivity between the two ADs.
+is done by its own mechanism and requires network connectivity between the two ADs. 
  
 
 ![Three Tiers Workload With Active Directory](./files/images/fsdr-normal-status.png)
@@ -88,6 +88,10 @@ The pillars of the solution are the following:
 - the functions will be implemented in Python from the standard template and they will use the OCI SDK
 - we will use _Oracle Code Assist_ (OCA) to generate the Python code 
 - the authentication in the functions will be done using the _Instance Principal_ method
+- in this specific environment and with this kind of workload, interrupting the _Cross-Region_ VCNs connection doesn't 
+  affect neither the _Block Storage_ replication nor the _Autonomous Dataguard_ replication and only affects Active 
+  Directory replication. Of course in other scenarios, there could be different implications, for example, when using _Base DB System Dataguard_, 
+  Cross-Region VCN connection needs to be established. 
 
 
 # Solution Implementation  
