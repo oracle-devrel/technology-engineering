@@ -1,8 +1,8 @@
 # -----------------------------------------------------------------------------
-# evaluate_pg_rpo.py
+# evaluate-pg-rpo.py
 #
-# Script that evaluates the RPO of a FSDR Protection Group for now only the 
-# following services are supported:
+# Script that evaluates the RPO of a FSDR Protection Group. Currently supports the 
+# following services:
 #  - Volume Groups
 #  - Buckets
 #  - File Systems
@@ -12,10 +12,11 @@
 #  - Load Balancers
 #   
 # Version Control:
-# 1.0 - 13/10/2025 - First realesed version  
+# 1.0 - 13/10/2025 - First released version  
 # 1.1 - 21/10/2025 - License updated  
-# 1.2 - 31/10/2015 - Added information about OKE metadata backup when a cluster is in the 
+# 1.2 - 31/10/2025 - Added information about OKE metadata backup when a cluster is in the 
 #                    in the protection group.  
+# 1.3 - 24/03/2026 - Cleanup and better date management
 #
 # Copyright (c) 2025 Oracle and/or its affiliates.
 #
@@ -27,8 +28,8 @@
 # of any kind.
 #
 # Oracle does not provide support for this script; community support only.
-# This software is still under development and it is meant to be an example
-# of a possible implementation rather than a general use tool. 
+# This software is provided as it is and need to be considered an example
+# of a possible implementation rather than for general use. 
 #
 # Script provided by: Cristiano Ghirardi, Oracle employee
 # -----------------------------------------------------------------------------
@@ -43,10 +44,27 @@ import yaml
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
 
-VERSION = "1.2"
-VERSION_DATE = "31/10/2025"
+VERSION = "1.3"
+VERSION_DATE = "24/03/2026"
+
+def to_utc_aware(dt):
+    """Return a timezone-aware UTC datetime, or None."""
+    if dt is None:
+        return None
+    if dt.tzinfo is None:
+        # Assume naive timestamps are UTC (common OCI behavior fallback)
+        return dt.replace(tzinfo=timezone.utc)
+    return dt.astimezone(timezone.utc)
+
+def lag_seconds_from(now_utc, ts):
+    """Compute lag in seconds from timestamp; inf if missing."""
+    ts_utc = to_utc_aware(ts)
+    if ts_utc is None:
+        return float('inf')
+    return (now_utc - ts_utc).total_seconds()
 
 def parse_apply_lag(apply_lag):
+    """ Apply Lag to seconds"""
     time_units = {
         'hour': 3600,
         'hours': 3600,
@@ -58,8 +76,12 @@ def parse_apply_lag(apply_lag):
 
     # Match patterns like: 3 hour, 30 minute, 13 seconds
     pattern = r'(\d+)\s*(hour|hours|minute|minutes|second|seconds)'
-    matches = re.findall(pattern, apply_lag)
+    matches = re.findall(pattern, apply_lag.lower())
 
+    if not matches:
+        logging.warning("Unrecognized apply_lag format: %r", apply_lag)
+        return None
+    
     total_seconds = 0
     for value, unit in matches:
         total_seconds += int(value) * time_units[unit]
@@ -80,11 +102,11 @@ def main():
     
     if args.version:
         print("Version: ", VERSION,"-", VERSION_DATE)
-        exit(0)
+        sys.exit(0)
         
     if args.protection_group_id == None:
         print("-p/--protection_group_id <Protection Group OCID> is required.")
-        exit(1)
+        sys.exit(1)
         
     # Setup basic logging
     logging.basicConfig(
@@ -102,7 +124,7 @@ def main():
             stby_config = {}
         except Exception as ex:
             logging.error('Error in getting instance principal authentication: %s', ex)
-            exit(1)
+            sys.exit(1)
     else:
         logging.debug("File authentication requested.")
         # Expand tilde for config file paths
@@ -112,7 +134,7 @@ def main():
             stby_config = oci.config.from_file(config_path)
         except Exception as ex:
             logging.error('Error in OCI configuration: %s', ex)
-            exit(1)
+            sys.exit(1)
     
     if args.region:
         logging.debug("Region set to: %s", args.region)
@@ -121,7 +143,7 @@ def main():
             stby_config.update({"region": args.region})
         except Exception as ex:
             logging.error('Error in OCI configuration, when changing region: %s', ex)
-            exit(1)
+            sys.exit(1)
 
     try:
         if inst_signer:
@@ -152,7 +174,7 @@ def main():
             get_dr_pg_res = dr_client_prim.get_dr_protection_group(dr_protection_group_id=primary_pg_id)
     except Exception as ex:
         logging.error('Error in DisasterRecoveryClient: %s', ex)
-        exit(1)
+        sys.exit(1)
 
     try:
         components = get_dr_pg_res.data.members
@@ -219,10 +241,11 @@ def main():
                 for r in replicas:
                     get_vg_rep_res = bs_client_stby.get_volume_group_replica(r.volume_group_replica_id)
                     sync_time = get_vg_rep_res.data.time_last_synced
-                    if sync_time:
-                        sync_lag = (now_utc - sync_time).total_seconds()
-                    else:
-                        sync_lag = float('inf')
+                    sync_lag = lag_seconds_from(now_utc, sync_time)
+                    # if sync_time:
+                    #    sync_lag = (now_utc - sync_time).total_seconds()
+                    # else:
+                    #    sync_lag = float('inf')
                     vol_rpo = sync_lag
                     logging.debug("%s : %s RPO is: %s sec", c.member_type, get_vg_res.data.display_name, vol_rpo)
                     comp_rpo.append({'type': c.member_type, 'name': get_vg_res.data.display_name, 'rpo': vol_rpo})
@@ -238,10 +261,11 @@ def main():
                     sync_time = None
                     if hasattr(p, 'time_last_sync'):
                         sync_time = p.time_last_sync
-                    if sync_time:
-                        sync_lag = (now_utc - sync_time).total_seconds()
-                    else:
-                        sync_lag = float('inf')
+                    sync_lag = lag_seconds_from(now_utc, sync_time)
+                    # if sync_time:
+                    #     sync_lag = (now_utc - sync_time).total_seconds()
+                    # else:
+                    #     sync_lag = float('inf')
                     obj_rpo = sync_lag
                     logging.debug("%s : %s RPO is: %s sec", c.member_type, get_bucket_res.data.name, obj_rpo)
                     comp_rpo.append({'type': c.member_type, 'name': get_bucket_res.data.name, 'rpo': obj_rpo})
@@ -260,10 +284,11 @@ def main():
                 replications = list_fs_reps_res.data
                 for r in replications:
                     sync_time = getattr(r, 'recovery_point_time', None)
-                    if sync_time:
-                        sync_lag = (now_utc - sync_time).total_seconds()
-                    else:
-                        sync_lag = float('inf')
+                    sync_lag = lag_seconds_from(now_utc, sync_time)
+                    # if sync_time:
+                    #     sync_lag = (now_utc - sync_time).total_seconds()
+                    # else:
+                    #     sync_lag = float('inf')
                     fs_rpo = sync_lag
                     logging.debug("%s : %s RPO is: %s sec", c.member_type, get_fs_res.data.display_name, fs_rpo)
                     comp_rpo.append({'type': c.member_type, 'name': get_fs_res.data.display_name, 'rpo': fs_rpo})
@@ -297,7 +322,7 @@ def main():
                 logging.debug("Unknown member type; skipped.")
     except Exception as ex:
         logging.error('Error in Evaluation: %s', ex)
-        exit(1)
+        sys.exit(1)
         
     end_time = time.time()
     logging.debug("===> Evaluation End")
@@ -313,7 +338,7 @@ def main():
             dr_client_stby.update_dr_protection_group(upd_rec, standby_pg_id)
         except Exception as ex:
             logging.error('Error in updating RPO tags: %s', ex)
-            exit(1)
+            sys.exit(1)
 
     # Output
     print("\nComponents RPO:")    
@@ -327,7 +352,7 @@ def main():
     print("Component driving RPO :", rpo_driving_component)
     print("")
     
-    if oke_string != None:
+    if oke_string:
         print("OKE clusters are present:")  
         print("-----------------------------------------------------------------")  
         for o in oke_string:
