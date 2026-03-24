@@ -18,7 +18,7 @@
 #                    in the protection group.  
 # 1.3 - 24/03/2026 - Cleanup and better date management
 #
-# Copyright (c) 2025 Oracle and/or its affiliates.
+# Copyright (c) 2026 Oracle and/or its affiliates.
 #
 # Licensed under the Universal Permissive License v 1.0 as shown at
 # https://oss.oracle.com/licenses/upl/
@@ -39,6 +39,7 @@ import re
 import argparse
 import time
 import os
+import sys
 import logging
 import yaml
 from datetime import datetime, timezone
@@ -64,7 +65,7 @@ def lag_seconds_from(now_utc, ts):
     return (now_utc - ts_utc).total_seconds()
 
 def parse_apply_lag(apply_lag):
-    """ Apply Lag to seconds"""
+    """Apply Lag to seconds"""
     time_units = {
         'hour': 3600,
         'hours': 3600,
@@ -89,7 +90,7 @@ def parse_apply_lag(apply_lag):
 
 def main():
     # Set up argument parser
-    parser = argparse.ArgumentParser(prog="evaluate_pg_rpo", description="Evaluate the RPO of a FSDR Protection Group.")
+    parser = argparse.ArgumentParser(prog="evaluate-pg-rpo", description="Evaluate the RPO of a FSDR Protection Group.")
     parser.add_argument("-p", "--protection_group_id", type=str, required=False)
     parser.add_argument("-r", "--region", type=str)
     parser.add_argument("-t", "--tagging", action='store_true', help="Tagging flag, when enabled write the RPO in a free-form tag on the PG. Defaulting to no tagging.")
@@ -104,7 +105,7 @@ def main():
         print("Version: ", VERSION,"-", VERSION_DATE)
         sys.exit(0)
         
-    if args.protection_group_id == None:
+    if args.protection_group_id is None:
         print("-p/--protection_group_id <Protection Group OCID> is required.")
         sys.exit(1)
         
