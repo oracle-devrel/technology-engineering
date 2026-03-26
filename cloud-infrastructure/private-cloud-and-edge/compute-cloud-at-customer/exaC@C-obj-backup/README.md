@@ -1,10 +1,8 @@
 
-Reviewed: 24.03.2026
+Reviewed: 26.03.2026
 
 
 # Creating a C3 Object Storage Backup Destination for ExaDB-C@C
-
-**_Related article:_** [ExaDB-C@C Data Protection Supplementary Information Confluence page for ExaDB-C@C backup configuration and implementation details.](https://confluence.oraclecorp.com/confluence/x/brSdhwQ)
 
 # Introduction
 
