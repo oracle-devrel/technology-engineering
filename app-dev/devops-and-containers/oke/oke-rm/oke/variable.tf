@@ -112,3 +112,13 @@ variable "oidc_groups_claim" {
 variable "oidc_groups_prefix" {
   default = "oidc:"
 }
+
+# Tagging
+
+variable "tag_value" {
+  type = object({
+    freeformTags = map(string)
+    definedTags  = map(string)
+  })
+  default = null
+}

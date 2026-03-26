@@ -52,7 +52,9 @@ Reviewed: 07.10.2025
     - Blog article by Carlos Álvarez about methods to access and examine Data Pump log files generated in the DATA_PUMP_DIR directory from within the Autonomous Database.
 - [How to import Data Pump dump files into OCI Autonomous Database using Database Actions](https://carlosal.wordpress.com/2025/12/17/how-to-import-dump-files-into-oci-autonomous-database-using-database-actions/)
     - Blog article by Carlos Álvarez about using the Data Pump module in the Database Actions tool to import Data Pump dump files stored in Buckets into Autonomous Database.
-
+- [How to perform DataPump Import to Autonomous AI Database with Private Service Access to Export Dumps on Object Storage Bucket ?](https://amalrajputhenchira.wordpress.com/2026/01/26/how-to-perform-datapump-import-to-autonomous-ai-database-with-private-service-access-to-export-dumps-on-object-storage-bucket/)
+    - Blog article by Amalraj Puthenchira about performing DataPump Import to Autonomous AI Database by accessing the Export Dumps on Object Storage using Private Service Access.
+    
 # Useful Links
 - [Loading Data from Google Cloud Storage to Oracle Database](https://database-heartbeat.com/2024/10/01/google-storage-to-oracle-database/)
 - [Data Pump Features LiveLabs Workshop](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=742&clear=RR,180&session=1384894897131)

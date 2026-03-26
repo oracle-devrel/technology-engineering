@@ -1,20 +1,20 @@
-# Oracle AI Data Platform
+# Oracle AI Data Platform Workbench
  
-Oracle AI Data Platform provides streamlined, secure, and seamless data management,
+Oracle AI Data Platform Workbench provides streamlined, secure, and seamless data management,
 analysis, and collaboration.
-Oracle AI Data Platform is designed for enterprises that need to:
-• Streamline Data Discovery and Governance: AI Data Platform provides a centralized
+Oracle AI Data Platform Workbench is designed for enterprises that need to:
+• Streamline Data Discovery and Governance: AI Data Platform Workbench provides a centralized
 metadata repository (Master Catalog) that enhances searchability and governance of
 structured and unstructured data.
 • Enable Secure Data Collaboration: Through RBAC-based access control, AI Data
-Platform allows different teams to work on shared datasets while maintaining strict security
+Platform Workbench allows different teams to work on shared datasets while maintaining strict security
 policies.
 • Accelerate Data Preparation and Processing: With built-in notebooks and workflow
 orchestration, users can clean, transform, and enrich data efficiently.
-• Support Advanced Analytics and AI/ML: AI Data Platform integrates with Apache Spark,
+• Support Advanced Analytics and AI/ML: AI Data Platform Workbench integrates with Apache Spark,
 allowing data scientists and analysts to run complex computations and model training
 directly within their data lake.
-• Ensure Seamless Integration Across Data Sources: AI Data Platform supports external
+• Ensure Seamless Integration Across Data Sources: AI Data Platform Workbench supports external
 catalogs from Autonomous Database (ADB), Object Storage (OS), and third-party data
 sources, enabling users to query and analyze data without duplication.
 
@@ -26,17 +26,29 @@ Reviewed: 13.11.2025
    
 # Team Publications
 
-## Specialists Blogs for various features & functionality
+## AI Data Platform Features Videos
+- [AI Data Platform Workbench - Instance Provisioning](https://videohub.oracle.com/playlist/dedicated/188027173/1_3ke8pbum/1_rulyqupq)
+- [AI Data Platform Workbench - Instance User Access Management](https://videohub.oracle.com/playlist/dedicated/188027173/1_3ke8pbum/1_rajskx2v)
+- [AI Data Platform Workbench - Workspace and Cluster Setup](https://videohub.oracle.com/playlist/dedicated/188027173/1_3ke8pbum/1_6el4k7u2)
+- [AI Data Platform Workbench - Setting Up Catalogs with OCI Object Storage Data](https://videohub.oracle.com/playlist/dedicated/188027173/1_3ke8pbum/1_gegiotqu)
+- [AI Data Platform Workbench - Setting Up Catalogs with Oracle Autonomous AI Database](https://videohub.oracle.com/playlist/dedicated/188027173/1_3ke8pbum/1_gifxnqm6)
+- [AI Data Platform Workbench - Notebook Management: Export & Import](https://videohub.oracle.com/playlist/dedicated/188027173/1_3ke8pbum/1_rx97d53y)
+- [AI Data Platform Workbench - End-to-End Medallion Architecture Implementation Example](https://videohub.oracle.com/playlist/dedicated/188027173/1_3ke8pbum/1_tgzhvzci)
 
-- [Bringing Fusion Applications Data and eBusiness Suite data together in Oracle AI Data platform](https://medium.com/@DoubleUP66/bringing-fusion-applications-data-and-ebusiness-suite-data-together-in-oracle-ai-data-platform-3efd01c42dbc)
+## Specialists Blogs for various features & functionality
+- [Continuing Your Oracle AI Data Platform Workbench Journey: Quick  Start Guide](https://blogs.oracle.com/ai-data-platform/continuing-your-oracle-ai-data-platform-journey-quick-start-guide)
+
+- [Getting Started on your Oracle AI Data Platform Workbench Journey](https://blogs.oracle.com/ai-data-platform/getting-started-on-your-oracle-ai-data-platform-journey)
+
+- [Bringing Fusion Applications Data and eBusiness Suite data together in Oracle AI Data platform Workbench](https://medium.com/@DoubleUP66/bringing-fusion-applications-data-and-ebusiness-suite-data-together-in-oracle-ai-data-platform-3efd01c42dbc)
 
 # Useful Links
 
 ## Public Homepage and official documentation content
 
-- [Oracle AI Data Platform: Public Homepage](https://www.oracle.com/ai-data-platform/)
-- [Oracle AI Data Platform: Official documentation](https://docs.oracle.com/en/cloud/paas/ai-data-platform/)
-- [Oracle AI Data Platform: Product Guides](https://docs.oracle.com/en/cloud/paas/ai-data-platform/books.html)
+- [Oracle AI Data Platform Workbench: Public Homepage](https://www.oracle.com/ai-data-platform/)
+- [Oracle AI Data Platform Workbench: Official documentation](https://docs.oracle.com/en/cloud/paas/ai-data-platform/)
+- [Oracle AI Data Platform Workbench: Product Guides](https://docs.oracle.com/en/cloud/paas/ai-data-platform/books.html)
  
 # License
  
