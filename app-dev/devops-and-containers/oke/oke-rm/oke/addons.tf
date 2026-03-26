@@ -145,7 +145,8 @@ resource "oci_containerengine_addon" "oke_cluster_autoscaler" {
 resource "oci_containerengine_addon" "oke_nodeProblemDetector" {
   addon_name                       = "NodeProblemDetector"
   cluster_id                       = module.oke.cluster_id
-  remove_addon_resources_on_delete = true
+  remove_addon_resources_on_delete = false
+  override_existing                = true
   configurations {
     key   = "enableKubernetesExporter"
     value = "true"
