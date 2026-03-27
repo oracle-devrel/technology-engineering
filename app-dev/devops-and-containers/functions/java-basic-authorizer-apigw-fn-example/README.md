@@ -38,7 +38,7 @@ SOFTWARE.
 
 # API Gateway basic-auth Authorizer Function example
 
-Reviewed: 13.10.2025
+Reviewed: 19.02.2026
  
 # When to use this asset?
  
@@ -62,7 +62,7 @@ aGk6aGk=,Zm9vOmJhcg==
 
 <b>aGk6aGk=</b> is <b>hi:hi</b> => username is <b>hi</b>, password <b>hi</b>
 <p>
-<b>aGk6aGk=</b> is <b>foo:bar</b> => username is <b>foo</b>, password <b>bar</b>
+<b>Zm9vOmJhcg==</b> is <b>foo:bar</b> => username is <b>foo</b>, password <b>bar</b>
 <p>
 (You can modify the config by adding new pairs as you like and remove the existing ones)
 <p>

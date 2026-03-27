@@ -41,6 +41,7 @@ Reviewed: 22.09.2025
   - Application that processes audio files (recordings of CX conversations, e.g. in call centers), transcribing with OCI Speech and makes analytics using Generative AI.
 
 ### Cloud Coaching
+- [Developer Coaching - Discovering Multi-modal models for Complex Documents](https://youtu.be/kJsuk_fTrAQ?si=PnTLNHQwElazNX2O)
 - [Cloud Coaching - Boost Your Oracle AI Services](https://youtu.be/VVWTqqlIEhg)
   - Learn how to Develop a Multi-Chain Document Evaluation Apps with Oracle Generative AI, Document Understanding, and Integration Cloud.
   - Integrate OCI AI Speech Service and Generative AI Summarization with Oracle Integration Cloud and Visual Builder
@@ -89,6 +90,8 @@ Reviewed: 22.09.2025
   - Use OCI Generative AI (in pre-availability) for "Customer Service Quick Replies" Generation for Whatsapp Neutral Messages (customer questions, queries, etc.), sentence-level sentiment analysis from OCI AI-Language to uncover overall sentiment and set service ticket severity for negative Whatsapp messages, automatically classify Customer Service tickets through OCI AI-Language custom text classification and aspect-based sentiment analysis (ABSA) services
   - Learn how Oracle Integration Cloud and Oracle Cloud Infrastructure (OCI) Streaming allow real-time capture of WhatsApp messages.
   - All this automation using OCI Generative AI and AI-Language Services APIs orchestrated by Oracle Integration Cloud (using a no-code integration approach)
+- [Creating Real Business Value with Generative AI w/ Cohere - Webcast](https://videohub.oracle.com/media/1_hfwseeg8?elq_mid=272044&sh=%2035&cmid=CORP260121P00006C00002)
+  - Oracle and Cohere experts discuss how to unlock tangible ROI, strengthen security and compliance, and accelerate your AI journey using OCI Generative AI Service and Cohere’s enterprise models
 
 ### Blogs & Announcements
 - [Generative AI in OCI](https://medium.com/oracledevs/generative-ai-in-oci-c0467e1a68f7)
