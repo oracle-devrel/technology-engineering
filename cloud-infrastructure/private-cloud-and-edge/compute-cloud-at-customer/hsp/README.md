@@ -1,13 +1,13 @@
 # Hosting Service Provider
 
-Reviewed: 16.10.2025
+Reviewed: 23.03.2026
 
 Compute Cloud@Customer provides the option for organizations to act as Hosting Service Providers to host End-Customers / Tenants.
 This section describes security and isolation topics for this scenario.
 
 ## License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
