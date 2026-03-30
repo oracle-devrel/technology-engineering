@@ -28,9 +28,9 @@ needs to remain always in place.
 Full Stack Disaster Recovery (FSDR) _Drill_ feature allows to test the DR without affecting the primary system. The feature works by starting
 up the workload in the standby region as a _copy_ of the primary system. To make a simple example let's assume having a three-tier workload with
 
-- a Load Balancer
-- two Movable Compute Instances 
-- one Autonomous DB
+- a _Load Balancer_
+- two _Movable Compute Instances_ 
+- one _Autonomous DB_
 
 When starting the drill (_Start Drill Plan_) FSDR executes the following actions:
 
