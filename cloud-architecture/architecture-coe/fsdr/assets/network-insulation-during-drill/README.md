@@ -20,6 +20,8 @@ This asset can be used as boilerplate to implement the solution in any applicabl
 What is presented here is just an example of a possible solution and its implementation. It has been tested for a specific
 use-case in a specific environment and it should be tested extensively before using it in a production environment. Please
 note that. all OCIDs and environment-specific identifiers in this guide are masked placeholders for demonstration purposes only.
+Please consider that the example presented here has a very specific use case in which __the VCNs communication between the primary and the secondary region is severed__ during the FSDR Drill, __this could be potentially dangerous__ in some scenarios where that connection
+needs to remain always in place. 
 
 # FSDR Drill Feature Overview
 
