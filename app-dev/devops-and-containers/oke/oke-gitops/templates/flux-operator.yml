@@ -50,7 +50,7 @@ spec:
           kind: GitRepository
           name: flux-system
           namespace: flux-system
-        path: "./infra-apps/<< inputs.provider.namespace >>/<< inputs.provider.name >>/helm/values/profiles/<< inputs.profile >>"
+        path: "./infra-apps/<< inputs.namespace >>/<< inputs.provider.name >>/helm/values/profiles/<< inputs.profile >>"
         postBuild:
           substitute:
             component: << inputs.provider.name >>
@@ -103,7 +103,7 @@ spec:
 #          kind: GitRepository
 #          name: flux-system
 #          namespace: flux-system
-#        path: "./infra-apps/<< inputs.provider.namespace >>/<< inputs.provider.name >>/kustomize/profiles/<< inputs.profile >>"
+#        path: "./infra-apps/<< inputs.namespace >>/<< inputs.provider.name >>/kustomize/profiles/<< inputs.profile >>"
 #        decryption:
 #          provider: sops
 #          secretRef:
