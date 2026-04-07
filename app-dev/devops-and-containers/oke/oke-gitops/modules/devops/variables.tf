@@ -2,6 +2,8 @@ variable "compartment_id" {}
 variable "region" {}
 variable "tenancy_id" {}
 
+variable "gitops_agent" {}
+
 # NOTIFICATION
 variable "create_notification_topic" {
   type = bool
@@ -27,6 +29,7 @@ variable "git_password" {}
 
 # TEMPLATE
 variable "ocir_repo_path_prefix" {}
+variable "flux_agent_chart_version" {}
 
 # OKE ENVIRONMENT
 variable "oke_cluster_id" {}

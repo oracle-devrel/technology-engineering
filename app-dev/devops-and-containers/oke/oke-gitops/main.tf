@@ -12,10 +12,12 @@ module "devops" {
   devops_log_group_name = var.devops_log_group_name
   devops_log_group_description = var.devops_log_group_description
   devops_log_retention_period_in_days = var.devops_log_retention_period_in_days
+  gitops_agent = var.gitops_agent
 
   git_username = local.git_username
   git_password = var.auth_token
   ocir_repo_path_prefix = var.ocir_repo_path_prefix
+  flux_agent_chart_version = var.flux_agent_chart_version
 
   # OKE ENVIRONMENT
   oke_cluster_id = var.oke_cluster_id

@@ -3,7 +3,7 @@ terraform {
   required_providers {
     oci = {
       source  = "oracle/oci"
-      version = "7.18.0"
+      version = "8.8.0"
     }
     null = {
       source = "hashicorp/null"
@@ -15,7 +15,7 @@ terraform {
     }
     local = {
       source = "hashicorp/local"
-      version = "2.5.3"
+      version = "2.8.0"
     }
   }
 }
