@@ -69,7 +69,6 @@ spec:
       spec:
         interval: 30m
         releaseName: << inputs.provider.name >>
-        serviceAccountName: << inputs.provider.name >>
         chartRef:
           kind: OCIRepository
           name: << inputs.provider.name >>
