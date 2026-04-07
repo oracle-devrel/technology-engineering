@@ -1,0 +1,110 @@
+apiVersion: fluxcd.controlplane.io/v1
+kind: ResourceSet
+metadata:
+  name: "flux-operator"
+  namespace: flux-system
+spec:
+  commonMetadata:
+    annotations:
+      fluxcd.controlplane.io/prune: disabled      # Avoid pruning these resources
+  inputs:
+    - version: "*"
+      namespace: flux-system
+      profile: example
+  # SOPS private key must be deployed in the namespace if you have encrypted some values
+#  dependsOn:
+#    - apiVersion: v1
+#      kind: Secret
+#      name: sops-keys
+#      namespace: flux-system
+  resources:
+    # Helm Chart source, can be Git or Helm repo
+    - apiVersion: source.toolkit.fluxcd.io/v1
+      kind: OCIRepository
+      metadata:
+        name: << inputs.provider.name >>
+        namespace: << inputs.namespace >>
+      spec:
+        interval: 30m
+        url: oci://${region_key}.ocir.io/${tenancy_namespace}/${repo_prefix}/helm/flux-operator
+        secretRef:
+          name: ocirsecret
+        ref:
+          semver: << inputs.version | quote >>
+
+    # ConfigMap/Secret Helm value generation, targeting a profile/variant type or cluster-type
+    - apiVersion: kustomize.toolkit.fluxcd.io/v1
+      kind: Kustomization
+      metadata:
+        name: << inputs.provider.name >>-helm-values
+        namespace: << inputs.namespace >>
+      spec:
+        interval: 3m0s
+        wait: true
+        timeout: 3m0s
+        retryInterval: 2m0s
+        prune: true
+        force: false
+        targetNamespace: << inputs.namespace >>
+        sourceRef:
+          kind: GitRepository
+          name: flux-system
+          namespace: flux-system
+        path: "./infra-apps/<< inputs.namespace >>/<< inputs.provider.name >>/helm/values/profiles/<< inputs.profile >>"
+        postBuild:
+          substitute:
+            component: << inputs.provider.name >>
+            profile: << inputs.profile >>
+#        decryption:
+#          provider: sops
+#          secretRef:
+#            name: sops-keys
+
+    # HelmRelease, putting together the source Helm with the generated ConfigMap/Secret values
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      metadata:
+        name: << inputs.provider.name >>
+        namespace: << inputs.namespace >>
+      spec:
+        interval: 30m
+        releaseName: << inputs.provider.name >>
+        serviceAccountName: << inputs.provider.name >>
+        chartRef:
+          kind: OCIRepository
+          name: << inputs.provider.name >>
+        valuesFrom:
+          - kind: ConfigMap
+            name: << inputs.provider.name >>-values-base
+            valuesKey: values.yaml
+            # Values will be merged by key. Last one will win
+#          - kind: ConfigMap
+#            name: << inputs.provider.name >>-values-<< inputs.profile >>
+#            valuesKey: values.yaml
+#          - kind: Secret
+#            name: << inputs.provider.name >>-values-<< inputs.profile >>
+#            valuesKey: values.yaml
+
+    # Kustomization of namespaced resources tied to this specific component. SOPS enabled only if there are some secrets
+#    - apiVersion: kustomize.toolkit.fluxcd.io/v1
+#      kind: Kustomization
+#      metadata:
+#        name: << inputs.provider.name >>
+#        namespace: << inputs.namespace >>
+#      spec:
+#        interval: 3m0s
+#        wait: true
+#        timeout: 3m0s
+#        retryInterval: 2m0s
+#        prune: true
+#        force: false
+#        targetNamespace: << inputs.namespace >>
+#        sourceRef:
+#          kind: GitRepository
+#          name: flux-system
+#          namespace: flux-system
+#        path: "./infra-apps/<< inputs.namespace >>/<< inputs.provider.name >>/kustomize/profiles/<< inputs.profile >>"
+#        decryption:
+#          provider: sops
+#          secretRef:
+#            name: sops-keys

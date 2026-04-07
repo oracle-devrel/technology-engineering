@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../environments/dev
+
+patches:
+  - path: patch-configmap.yml
+    target:
+      group: ""
+      version: v1
+      kind: ConfigMap
+      name: sample-component-settings
+  - path: patch-deployment.yml
+    target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: sample-component

@@ -1,0 +1,48 @@
+version: 0.1
+component: build
+timeoutInSeconds: 10000
+runAs: root
+shell: bash
+
+env:
+  variables:
+    repo_compartment_id: ""
+    repo_prefix: ""
+    region: ""
+    region_key: ""
+
+steps:
+
+  - type: Command
+    name: "Load variables"
+    failImmediatelyOnError: true
+    command: |
+      source ./variables.sh
+      # Export other variables here to override them
+      # export region="eu-frankfurt-1"
+      export OCI_CLI_REGION=${region}
+      region_key=$(oci iam region list --query "data[?name == '$region'].key | [0]" --raw-output);
+      export region_key=$(echo "$region_key" | tr '[:upper:]' '[:lower:]');
+    onFailure:
+      - type: Command
+        command: |
+          echo "Error loading common environment variables";
+        timeoutInSeconds: 400
+
+  - type: Command
+    timeoutInSeconds: 600
+    name: "Mirror Images"
+    failImmediatelyOnError: true
+    command: |
+      export OCI_CLI_REGION=${region}
+      IMAGES=(
+        "<image>:<tag>" # TODO: Insert images to mirror here
+      )
+      for image in "${IMAGES[@]}"; do
+        ./script/mirror-image.sh -c "${repo_compartment_id}" -k "${region_key}" -p "${repo_prefix}" -i "$image"
+      done
+    onFailure:
+      - type: Command
+        command: |
+          echo "Failed to mirror images to OCIR!";
+        timeoutInSeconds: 400

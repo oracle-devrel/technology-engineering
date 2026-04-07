@@ -3,6 +3,11 @@ variable "tenancy_ocid" {}
 variable "current_user_ocid" {}
 variable "compartment_ocid" {}
 
+
+variable "gitops_agent" {
+  default = "fluxcd"
+}
+
 # DEVOPS PROJECT
 variable "devops_compartment_id" {}
 variable "devops_project_name" {
@@ -48,6 +53,10 @@ variable "ocir_repo_path_prefix" {
 }
 variable "auth_token" {
   sensitive = true
+}
+
+variable "flux_agent_chart_version" {
+  default = "0.45.1"
 }
 
 # OKE ENVIRONMENT
