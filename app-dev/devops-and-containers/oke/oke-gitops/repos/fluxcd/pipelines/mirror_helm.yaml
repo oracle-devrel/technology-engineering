@@ -1,0 +1,58 @@
+version: 0.1
+component: build
+timeoutInSeconds: 10000
+runAs: root
+shell: bash
+
+env:
+  variables:
+    repo_compartment_id: ""
+    repo_prefix: ""
+    region: ""
+    region_key: ""
+    chart_name: ""    # TODO: Insert chart name here
+    chart_repo: ""    # TODO: Insert the chart repository here
+    chart_version: "" # TODO: Insert Chart version to mirror
+
+steps:
+
+  - type: Command
+    name: "Load variables"
+    failImmediatelyOnError: true
+    command: |
+      source ./variables.sh
+      # Export other variables here to override them
+      # export region="eu-frankfurt-1"
+      export OCI_CLI_REGION=${region}
+      region_key=$(oci iam region list --query "data[?name == '$region'].key | [0]" --raw-output);
+      export region_key=$(echo "$region_key" | tr '[:upper:]' '[:lower:]');
+    onFailure:
+      - type: Command
+        command: |
+          echo "Error loading common environment variables";
+        timeoutInSeconds: 400
+
+  - type: Command
+    name: "Mirror Helm Chart"
+    failImmediatelyOnError: true
+    command: |
+      export OCI_CLI_REGION=${region}
+      helm_repo_prefix="${repo_prefix}/helm"
+      ./script/mirror-helm.sh -c "${repo_compartment_id}" -k "${region_key}" -v "${chart_version}" -n "${chart_name}" -p "${helm_repo_prefix}" -r "${chart_repo}"
+    onFailure:
+      - type: Command
+        command: |
+          echo "Error mirroring Helm Chart to OCIR";
+        timeoutInSeconds: 400
+
+  - type: Command
+    timeoutInSeconds: 400
+    name: "Mirror Helm Images"
+    failImmediatelyOnError: true
+    command: |
+      export OCI_CLI_REGION=${region}
+      ./script/mirror-helm-image.sh -c "${repo_compartment_id}" -k "${region_key}" -v "${chart_version}" -n "${chart_name}" -r "${chart_repo}" -p "${repo_prefix}"
+    onFailure:
+      - type: Command
+        command: |
+          echo "Failed mirrored images in the Helm Chart!";

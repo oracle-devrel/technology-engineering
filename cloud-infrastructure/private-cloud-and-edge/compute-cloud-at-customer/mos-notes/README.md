@@ -6,6 +6,7 @@ Collection of My Cloud Oracle Support (MCOS) & My Oracle Support (MOS) notes rel
 
 # My Oracle Cloud Support
 
+- [[CCATC] How to Setup IDP as a Provider for the Compute Cloud at Customer](https://support.oracle.com/knowledgefs?docId=3006544) KB577100 / 3006544.1
 - [[PCA 3.x] Support Process for Private Cloud Appliace and Compute Cloud@Customer Technical Briefs and 3rd Party Solutions](https://support.oracle.com/ic/builder/rt/customer_portal/live/webApps/customer-portal/?kmExternalId=KB159007)
 - [[CCATC] How to Re-bootstrap a Compute Cloud @ Customer Rack (Doc ID 3010344.1)](https://support.oracle.com/ic/builder/rt/customer_portal/live/webApps/customer-portal/?anchorId=&documentId=KB161124)
 - [OCI Edge Cloud Supported Database Releases SRDC2217](https://support.oracle.com/ic/builder/rt/customer_portal/live/webApps/customer-portal/?anchorId=&documentId=SRDC2217&page=sptemplate&sptemplate=km-article)
@@ -19,7 +20,6 @@ Collection of My Cloud Oracle Support (MCOS) & My Oracle Support (MOS) notes rel
 - [[CCATC] OCI Compute Cloud at Customer - Service Request (SR) Creation (Doc ID 2969961.1)](https://support.oracle.com/support/?kmContentId=2969961)
 - [[CCATC] Network Validation Tool (Doc ID 2974831.1)](https://support.oracle.com/support/?kmContentId=2974831)
 - [[CCATC] Oracle Compute Cloud at Customer Federation (Doc ID 3004017.2)](https://support.oracle.com/epmos/faces/DocumentDisplay?id=3004017.2)
-- [[CCATC] How to Setup IDP as a Provider for the Compute Cloud at Customer (Doc ID 3006544.1)](https://support.oracle.com/epmos/faces/DocumentDisplay?id=3006544.1)
 - [[CCATC] How to Re-bootstrap a Compute Cloud @ Customer Rack (Doc ID 3010344.1)](https://support.oracle.com/epmos/faces/DocumentDisplay?id=3010344.1)
 - [[PCA 3.x] How to Setup and Gather Periscope Data (Doc ID 3023200.1)](https://support.oracle.com/epmos/faces/DocumentDisplay?id=3023200.1)
 - [[CCATC] How to Update a Compute Cloud@Customer x509 Certificate in OCI's IDP (Doc ID 3056675.1)](https://support.oracle.com/epmos/faces/DocumentDisplay?id=3056675.1)

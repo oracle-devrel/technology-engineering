@@ -3,7 +3,7 @@
 
 module "oke" {
   source         = "oracle-terraform-modules/oke/oci"
-  version        = "5.4.1"
+  version        = "5.4.2"
   compartment_id = var.oke_compartment_id
   # Network module - VCN
   create_vcn                        = false
@@ -100,13 +100,18 @@ module "oke" {
   #workers_defined_tags = {}
 
   # GLOBAL NODE POOL LABELS TO BE APPLIED ON ALL NODES (Kubernetes labels)
-  #worker_node_labels = {}
+  worker_node_labels = {
+    "oci.oraclecloud.com/oke-node-problem-detector-enabled" : "true"
+  }
 
   # Additional NSGs to ba attached to all pods
   # pod_nsg_ids = []
 
   # Additional NSGs to be attached to all workers
   #worker_nsg_ids = []
+
+  # Additional NSGs to be attached to the control plane API server
+  #control_plane_nsg_ids = []
 
   # When using VCN_NATIVE_CNI, set the maximum number of pods for all nodes, must be between 1 and 110
   #max_pods_per_node = 31
