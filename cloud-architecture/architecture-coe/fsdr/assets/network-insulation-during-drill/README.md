@@ -2,6 +2,29 @@
 
 Reviewed: 23.03.2026
 
+
+- [Network Insulation During FSDR Drill](#network-insulation-during-fsdr-drill)
+  - [When to use this asset?](#when-to-use-this-asset)
+  - [How to use this asset?](#how-to-use-this-asset)
+- [Disclaimer](#disclaimer)
+- [FSDR Drill Feature Overview](#fsdr-drill-feature-overview)
+- [Use Case](#use-case)
+- [The Scenario](#the-scenario)
+- [Solution Design](#solution-design)
+- [Solution Implementation](#solution-implementation)
+  - [Instance Principal Configurations](#instance-principal-configurations)
+    - [Functions Creation and Deployment](#functions-creation-and-deployment)
+  - [Deployment Using Cloud Shell](#deployment-using-cloud-shell)
+  - [Testing](#testing)
+    - [Functions Testing and Payloads](#functions-testing-and-payloads)
+  - [FSR Plans Update](#fsr-plans-update)
+    - [Start Drill](#start-drill)
+    - [Stop Drill](#stop-drill)
+- [Takeaways](#takeaways)
+- [References](#references)
+- [License](#license)
+
+
 ## When to use this asset?
 
 This asset shows how to update the network posture of a standby environment during an _FSDR Drill_. It can be used as an example and 
@@ -138,17 +161,20 @@ To build the function image on a PC or Mac we need:
 As preliminary step we need to setup the fn context.
 
 ```sh
-fn create context oracle --provider oracle --registry <region code>.ocir.io/<tenant namespace> \
+fn create context --provider oracle --registry <region code>.ocir.io/<tenant namespace> \
 --api-url https://functions.<region-name>.oci.oraclecloud.com <context name>
 fn use context <context name>
-fn update context oracle.compartment-id <compartment ocid>
+# compartment for functions
+fn update context oracle.compartment-id <functions compartment ocid>
+# compartment for OCIR registries 
+fn update context oracle.image-compartment-id <OCIR registries compartment ocid>
 ```
 
 for example:
 
 ```
-fn create context oracle --provider oracle --registry fra.ocir.io<hidden>/fsdr-net-insulation \
---api-url https://functions.eu-frankfurt-1.oci.oraclecloud.com oracle 
+fn create context --provider oracle --registry fra.ocir.io<hidden>/fsdr-net-insulation \
+--api-url https://functions.<hidden>.oci.oraclecloud.com oracle 
 fn use context oracle
 # Compartment where to store the functions
 fn update context oracle.compartment-id ocid1.compartment.oc1..<hidden>
@@ -209,14 +235,16 @@ At this point, before actually deploying the hello function we need to login to 
 
 ```sh
 echo "<authentication token>" \
-| docker login --username <tenancy namespace>/<Identity Domain >/<account name> --password-stdin  <region code>.ocir.io
+| docker login --username <tenancy namespace>/<Identity Domain >/<account name> \
+--password-stdin  <region code>.ocir.io
 ```
 
 so, for example:
 
 ```sh
 echo "<hidden>" \
-| docker login --username <tenancy namespace>/oracleidentitycloudservice/demouser@demo.com --password-stdin  fra.ocir.io
+| docker login --username <hidden>/oracleidentitycloudservice/demouser@demo.com \
+--password-stdin  fra.ocir.io
 ```
 
 (to see how to create an authentication token please see the [references](#references)
@@ -554,6 +582,80 @@ And, of course, the command to deploy it is:
 fn deploy --verbose --app fsdr-net-insulation files/functions/add-route
 ```
 
+## Deployment Using Cloud Shell 
+
+What presented before was tested on a Mac desktop using:
+
+- the OCI Client for Mac with a local configuration and a pre-created API Key (pem file)
+- fn client for Mac
+- Rancher Desktop for Mac 
+- docker client for Mac
+
+The same can be done using the Cloud Shell opened directly on the standby region. Using the Cloud Shell has some advantages and some 
+peculiarities.The advantages are that in CS everything is already available:
+
+- OCI Client is installed and already configured
+- fn client is installed with a ready-to-go context we can customize 
+- docker client and server are available out-of-the-box
+
+In the meantime there are some peculiarities that we need to pay attention to:
+
+- the Cloud Shell architecture must be equal to the function architecture (in this case X86_64)
+- the provider to use for the fn context setup is not _oracle_ but _oracle-cs_.
+
+Regarding the Cloud Shell architecture, that can be changed directly from the console as shown in the images below:
+
+![Cloud Shell architecture menu](./files/images/cloud-shell_01.png)
+
+![Cloud Shell architecture options](./files/images/cloud-shell_02.png)
+ 
+Initially in the Cloud Shell the out-of-the-box available fn contexts are:
+
+```sh
+<short username>_@cloudshell:~ (<current region>)$ fn list context
+CURRENT NAME            PROVIDER        API URL                                                 REGISTRY
+        default         oracle-cs
+        <home region>   oracle-cs       https://functions.<home region>.oci.oraclecloud.com    
+*      <current region> oracle-cs       https://functions.<current region>.oci.oraclecloud.com
+```
+
+then we have to create a custom context:
+
+```sh 
+fn create context --provider oracle-cs --registry <region code>.ocir.io/<tenancy namespace>/fsdr-net-insulation \
+--api-url https://functions.<region>>.oci.oraclecloud.com <context-name>
+fn use <context-name> oracle
+# compartment for functions 
+fn update context oracle.compartment-id <functions compartment ocid>
+# compartment for OCIR registries 
+fn update context oracle.image-compartment-id <OCIR registries compartment ocid>
+```
+
+For example:
+
+```sh
+fn create context --provider oracle-cs --registry <hidden>.ocir.io/<hidden>/fsdr-net-insulation \
+--api-url https://functions.<hidden>.oci.oraclecloud.com oracle
+fn use context oracle
+fn update context oracle.compartment-id ocid1.compartment.oc1..<hidden>
+fn update context oracle.image-compartment-id ocid1.compartment.oc1..<hidden>
+```
+
+The final configuration will be:
+
+```sh
+<username>_@cloudshell:~ (<current region>)$ fn inspect context
+Current context: oracle
+
+api-url: https://functions.<current region>.oci.oraclecloud.com
+oracle.compartment-id: ocid1.compartment.oc1..<hidden>
+oracle.image-compartment-id: ocid1.compartment.oc1..<hidden>>
+provider: oracle-cs
+registry: lin.ocir.io/<tenancy namespace>>/fsdr-net-insulation
+```
+
+Once the configuration is finalized in Cloud Shell all the remaining steps are the same.
+
 ## Testing
 
 ### Functions Testing and Payloads
@@ -689,6 +791,7 @@ Some useful links.
 5. [FSDR Documentation](https://docs.oracle.com/en-us/iaas/disaster-recovery/index.html)
 6. [DR Drills with FSDR](https://blogs.oracle.com/maa/fullstackdr-drill-plans)
 7. [Oracle Code Assist](https://www.oracle.com/application-development/code-assist/)
+8. [OCI Cloud Shell](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/cloudshellintro.htm)
 
 # License
 
