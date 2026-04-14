@@ -117,4 +117,7 @@ Supports open standards:
 
 ## 📄 License
 
-MIT License (or your preferred license)
+License
+This asset is licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See LICENSE.
