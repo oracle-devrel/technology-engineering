@@ -2,7 +2,7 @@
 
 Ops Insights provides comprehensive information about the resource use and capacity of databases and hosts. Use this service to analyze CPU and storage resources, forecast capacity issues, and proactively identify SQL performance issues across a database fleet.
 
-Reviewed: 12.03.2025
+Reviewed: 09.04.2026
 
 
 |Asset  |   Page| 
