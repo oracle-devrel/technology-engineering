@@ -37,6 +37,8 @@ Reviewed: 07.10.2025
 - [Step-by-Step guide and tutorial - AWS RDS to ADB-S](https://www.oracle.com/a/ocom/docs/cloud/dms-rds-to-adb.pdf)
 - [OCI Database Migration GoldenGate Integration](https://blogs.oracle.com/dataintegration/post/oci-database-migration-announces-oci-goldengate-integration)
     - Blog article that shows the GoldenGate integration in DMS
+- [OCI Database Migration Assessment](https://blogs.oracle.com/dataintegration/announcing-oci-dms-assessment-simplifying-your-database-migration-journey)
+    - Blog article announcing OCI DMS Assessment: Simplifying Your Database Migration Journey
   
 # License
  

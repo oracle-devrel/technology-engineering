@@ -1,6 +1,6 @@
 title: OKE GitOps Solution
-description: OKE GitOps solution based on OCI DevOps and ArgoCD
-informationalText: OKE GitOps - ArgoCD
+description: OKE GitOps solution based on OCI DevOps
+informationalText: OKE GitOps Solution
 schemaVersion: 1.1.0
 version: "20190304"
 locale: "en"
@@ -15,6 +15,10 @@ variableGroups:
       - region
       - current_user_ocid
       - compartment_ocid
+
+  - title: "GitOps Agent"
+    variables:
+      - gitops_agent
 
   - title: Create policies
     variables:
@@ -41,6 +45,7 @@ variableGroups:
     variables:
       - ocir_repo_path_prefix
       - auth_token
+      - flux_agent_chart_version
 
   - title: OKE Environment
     variables:
@@ -56,6 +61,14 @@ variableGroups:
       - oke_worker_nsg_id
 
 variables:
+
+  gitops_agent:
+    title: "GitOps Agent"
+    description: "GitOps Agent to use for deployments on the cluster"
+    type: enum
+    enum:
+      - fluxcd
+    required: true
 
   devops_compartment_id:
     title: "DevOps Compartment"
@@ -137,6 +150,18 @@ variables:
     type: password
     sensitive: true
     required: true
+
+  flux_agent_chart_version:
+    title: "Flux Agent version"
+    description: "Version of Flux Operator Helm chart to be deployed"
+    type: enum
+    enum:
+      - 0.45.1
+    required: true
+    visible:
+      eq:
+        - ${gitops_agent}
+        - fluxcd
 
   oke_environment_name:
     title: "OKE environment name"

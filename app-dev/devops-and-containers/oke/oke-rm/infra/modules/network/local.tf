@@ -9,6 +9,7 @@ locals {
   create_internal_lb_subnet       = var.create_internal_lb_subnet && var.create_vcn
   all_subnet_private              = (var.cp_subnet_private || !local.create_cp_subnet) && (!local.create_external_lb_subnet) && (var.bastion_subnet_private || !var.create_bastion_subnet)
   vcn_id                          = var.create_vcn ? oci_core_vcn.spoke_vcn.0.id : var.vcn_id
+  vcn_search_domain               = var.create_vcn ? oci_core_vcn.spoke_vcn.0.vcn_domain_name : null
   cp_nat_mode                     = local.create_cp_subnet && var.cp_subnet_private && var.cp_external_nat
   create_cp_external_traffic_rule = var.allow_external_cp_traffic && (!var.create_cp_subnet || (!var.cp_subnet_private || var.cp_external_nat))
 

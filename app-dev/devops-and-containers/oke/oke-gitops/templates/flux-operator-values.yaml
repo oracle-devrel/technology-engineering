@@ -1,0 +1,5 @@
+image:
+  repository: ${region_key}.ocir.io/${tenancy_namespace}/${repo_prefix}/controlplaneio-fluxcd/flux-operator
+  tag: "v${chart_version}"
+  pullSecrets:
+    - name: ocirsecret
