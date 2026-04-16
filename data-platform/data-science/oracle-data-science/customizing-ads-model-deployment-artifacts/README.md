@@ -1,4 +1,7 @@
 # Overview
+
+Reviewed: 2026.04.16
+
 This project demonstrates how to deploy a machine learning model using the ADS SDK while customizing the default generated model artifacts, which is often required in production scenarios.
 
 While ADS provides a standard template for model artifacts, real-world use cases frequently require additional logic. In this notebook, we focus on modifying the generated artifacts to incorporate feature engineering directly into the deployment pipeline.
