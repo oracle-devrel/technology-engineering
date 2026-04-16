@@ -141,3 +141,15 @@ resource "oci_containerengine_addon" "oke_cluster_autoscaler" {
   depends_on = [module.oke]
   count      = local.enable_cluster_autoscaler ? 1 : 0
 }
+
+resource "oci_containerengine_addon" "oke_nodeProblemDetector" {
+  addon_name                       = "NodeProblemDetector"
+  cluster_id                       = module.oke.cluster_id
+  remove_addon_resources_on_delete = false
+  override_existing                = true
+  configurations {
+    key   = "enableKubernetesExporter"
+    value = "true"
+  }
+  depends_on = [module.oke]
+}

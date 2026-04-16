@@ -1,6 +1,6 @@
 # Local LLM Serving Using the Ollama Open Source Tool
 
-Reviewed: 16.10.2025
+Reviewed: 23.03.2026
 
 <p align="center"><img align="centre" src="./images/ollama-logo.png" width="10%" style="float:right"/></p>
 
@@ -316,7 +316,7 @@ Example output as follows:
 <br>
 
 ## License
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

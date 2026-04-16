@@ -36,7 +36,7 @@ Reviewed: 19.12.2025
 3. [Useful Links](#useful-links)
 
 # Latest Version
-- [SQLcl 25.4](https://docs.oracle.com/en/database/oracle/sql-developer-command-line/25.4/sqcug/changes-release-25.4-oracle-sqlcl.html#SQCUG-GUID-6A7574A3-10C7-4911-883A-3C11F0D7D1D0)
+- [SQLcl 26.1](https://docs.oracle.com/en/database/oracle/sql-developer-command-line/26.1/sqcug/changes-release-26.1-oracle-sqlcl.html)
 
 # Team Publications
 - [Introducing SQL Developer SQLcl integration in MS VSCode & MCP support for Oracle Database](https://www.youtube.com/watch?v=521GBhrmrmw&t=2s)

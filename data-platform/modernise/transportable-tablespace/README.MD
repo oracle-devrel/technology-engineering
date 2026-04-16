@@ -25,6 +25,10 @@ Reviewed: 08.10.2025
 
 # Useful Links
 
+- [V4 Reduce Transportable Tablespace Downtime using Cross Platform Incremental Backup (KB147608)](https://support.oracle.com/support/?anchorId=&page=sptemplate&sptemplate=km-article&documentId=KB147608)
+    - My Oracle Support article for the V4 XTTS method
+- [M5 Cross Endian Platform Migration using Full Transportable Data Pump Export/Import and RMAN Incremental Backups (KB144840)](https://support.oracle.com/support/?anchorId=&page=sptemplate&sptemplate=km-article&documentId=KB144840)
+    - My Oracle Support article for the M5 XTTS method
 - [Transportable Tablespace Basics](https://youtu.be/jte-W_6tJME)
    - Youtube Video from Oracle Database Upgrades and Migrations Product Management explaining the basics of Transportable Tablespace. 
 - [Transportable Tablespace Checklist](https://youtu.be/PhktQqOlNXE)
