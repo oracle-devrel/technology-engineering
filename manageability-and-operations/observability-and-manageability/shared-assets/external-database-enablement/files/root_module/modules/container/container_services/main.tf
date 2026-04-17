@@ -1,4 +1,4 @@
-# Copyright (c) 2025 Oracle and/or its affiliates.
+# Copyright (c) 2026 Oracle and/or its affiliates.
 resource "oci_database_external_container_database_management" "this" {
   count = var.enable_database_management_cdb == "enable" ? 1 : 0
 
