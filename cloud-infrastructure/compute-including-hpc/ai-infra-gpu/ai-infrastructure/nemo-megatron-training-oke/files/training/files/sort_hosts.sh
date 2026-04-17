@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2025 Oracle and/or its affiliates.
+# Copyright (c) 2026 Oracle and/or its affiliates.
 
 # Use this script inside a Volcano Kubernetes job.
 #
