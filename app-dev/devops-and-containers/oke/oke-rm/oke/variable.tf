@@ -58,19 +58,9 @@ variable "enable_metrics_server" {
   default = true
 }
 
-variable "enable_cluster_autoscaler" {
-  type    = bool
-  default = false
-}
-
-variable "create_autoscaler_policies" {
-  type    = bool
-  default = true
-}
-
 # SECURITY
 
-variable "oke_vault_compartment_id" {
+variable "kms_compartment_id" {
   default = null
 }
 
@@ -81,6 +71,65 @@ variable "oke_vault_id" {
 variable "cluster_kms_key_id" {
   default = null
 }
+
+# POLICIES
+
+variable "enable_policies" {
+  type    = bool
+  default = false
+}
+
+variable "policies_dry_run" {
+  type    = bool
+  default = false
+}
+
+variable "create_karpenter_policies" {
+  type    = bool
+  default = false
+}
+
+variable "iam_domain_compartment_id" {
+  default = null
+}
+
+variable "karpenter_iam_domain_id" {
+  default = null
+}
+
+variable "karpenter_dynamic_group_name" {
+  default = null
+}
+
+variable "create_karpenter_cluster_placement_group_policy_optional" {
+  type    = bool
+  default = false
+}
+
+variable "create_karpenter_tag_policy_optional" {
+  type    = bool
+  default = false
+}
+
+variable "tag_compartment_id" {
+  default = null
+}
+
+variable "create_karpenter_capacity_reservation_policy_optional" {
+  type    = bool
+  default = false
+}
+
+variable "create_karpenter_compute_cluster_policy_optional" {
+  type    = bool
+  default = false
+}
+
+variable "create_autoscaler_policies" {
+  type    = bool
+  default = false
+}
+
 
 # OIDC
 

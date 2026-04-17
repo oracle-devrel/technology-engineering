@@ -1,3 +1,18 @@
+locals {
+  peer_vcns_default_set     = local.create_drg_attachment ? toset([for cidr in var.peer_vcns : cidr if cidr == "0.0.0.0/0"]) : toset([])
+  peer_vcns_non_default_set = local.create_drg_attachment ? toset([for cidr in var.peer_vcns : cidr if cidr != "0.0.0.0/0"]) : toset([])
+
+  cp_has_default_route     = (!var.cp_subnet_private) || local.cp_nat_mode
+  lb_int_has_default_route = false
+  worker_has_default_route = local.create_nat_gateway && var.allow_worker_nat_egress
+  pod_has_default_route    = local.create_nat_gateway && var.allow_pod_nat_egress
+
+  cp_drg_peer_vcns     = setunion(local.peer_vcns_non_default_set, local.cp_has_default_route ? toset([]) : local.peer_vcns_default_set)
+  lb_int_drg_peer_vcns = setunion(local.peer_vcns_non_default_set, local.lb_int_has_default_route ? toset([]) : local.peer_vcns_default_set)
+  worker_drg_peer_vcns = setunion(local.peer_vcns_non_default_set, local.worker_has_default_route ? toset([]) : local.peer_vcns_default_set)
+  pod_drg_peer_vcns    = setunion(local.peer_vcns_non_default_set, local.pod_has_default_route ? toset([]) : local.peer_vcns_default_set)
+}
+
 resource "oci_core_route_table" "bastion_route_table" {
   compartment_id = var.network_compartment_id
   vcn_id         = local.vcn_id
@@ -59,7 +74,7 @@ resource "oci_core_route_table" "cp_route_table" {
     }
   }
   dynamic "route_rules" {
-    for_each = local.create_drg_attachment ? var.peer_vcns : []
+    for_each = local.cp_drg_peer_vcns
     content {
       network_entity_id = local.drg_id
       destination_type  = "CIDR_BLOCK"
@@ -98,7 +113,7 @@ resource "oci_core_route_table" "lb_int_route_table" {
     description       = "Route for all internal OCI services in the region"
   }
   dynamic "route_rules" {
-    for_each = local.create_drg_attachment ? var.peer_vcns : []
+    for_each = local.lb_int_drg_peer_vcns
     content {
       network_entity_id = local.drg_id
       destination_type  = "CIDR_BLOCK"
@@ -131,7 +146,7 @@ resource "oci_core_route_table" "worker_route_table" {
     }
   }
   dynamic "route_rules" {
-    for_each = local.create_drg_attachment ? var.peer_vcns : []
+    for_each = local.worker_drg_peer_vcns
     content {
       network_entity_id = local.drg_id
       destination_type  = "CIDR_BLOCK"
@@ -164,7 +179,7 @@ resource "oci_core_route_table" "pod_route_table" {
     }
   }
   dynamic "route_rules" {
-    for_each = local.create_drg_attachment ? var.peer_vcns : []
+    for_each = local.pod_drg_peer_vcns
     content {
       network_entity_id = local.drg_id
       destination_type  = "CIDR_BLOCK"
