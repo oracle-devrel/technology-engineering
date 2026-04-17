@@ -14,6 +14,8 @@ Reviewed: 28.10.2025
  
 # Team Publications
 
+- [Real-Time Data Replication to Oracle AI Data Platform Using OCI GoldenGate](https://blogs.oracle.com/dataintegration/real-time-data-replication-to-oracle-ai-data-platform-using-oci-goldengate)
+    - This blog post explains how you can replicate data with OCI GoldenGate directly to AIDP internal storage and OCI bucket for an external storage. 
 
 - [Sync data between DBCS and Google BigQuery using Stage and Merge](https://github.com/alexandruporcescu/Articles/blob/main/Sync%20OracleDB%20with%20Google%20BigQuery/Replicate%20data%20from%20Oracle%20DB%20to%20Google%20BigQuery%20using%20GoldenGate%20Stage%20and%20Merge%20handler.md)
     - GitHub articles that show a step-by-step guide on how to achieve replication between Oracle Database and Google BigQuery using OCI Goldengate
