@@ -4,7 +4,7 @@ The Observability and Manageability (O&M) platform is a suite of OCI services th
 
 &nbsp; 
 
-Reviewed: Reviewed: 05.11.2025
+Reviewed: Reviewed: 20.06.2025
 
 &nbsp; 
 
@@ -17,7 +17,6 @@ Reviewed: Reviewed: 05.11.2025
 | Database Management | [Link](./database-management/README.md)| Coming Soon |  
 | Ops Insights  | [Link](./operations-insights/README.md) | Coming Soon|  
 | Application Performance Monitoring | [Link](./application-performance-monitoring/README.md) | Coming Soon|  
-| Stack Monitoring | WIP | Coming Soon| 
 | Organization Management | WIP | Coming Soon| 
 | Cost Management | WIP | Coming Soon| 
 | OCI Monitoring | WIP | Coming Soon| 
