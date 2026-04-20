@@ -1,6 +1,6 @@
 # Unlisted Model Deployment in OCI Generative AI
 
-A comprehensive guide for deploying Hugging Face models on Oracle Cloud Infrastructure (OCI) Generative AI using Imported Models and Dedicated AI Clusters (DAC).
+A comprehensive guide for deploying Hugging Face models via Object Storage on Oracle Cloud Infrastructure (OCI) Generative AI using Imported Models and Dedicated AI Clusters (DAC).
 
 ## Overview
 
@@ -24,7 +24,7 @@ Before starting, ensure you have:
 - Hugging Face token (Read access)
 - Access to the model (license accepted if required)
 - Object Storage bucket
-- Permissions set for GPU capacity (e.g., H100)
+- Permissions set for GPU capacity (e.g., limit is increased for 1 H100)
 
 ## Steps
 
@@ -51,7 +51,7 @@ hf download <model-name> --local-dir <model-folder> --force-download
 
 Example:
 ```bash
-hf download google/medgemma-27b-text-it --local-dir medgemma-27b --force-download
+hf download google/gemma-3-4b-it --local-dir gemma-3-4b --force-download
 ```
 
 ### 3. Verify Local Folder Structure
@@ -63,7 +63,7 @@ ls <model-folder>
 
 Example:
 ```bash
-ls medgemma-27b
+ls gemma-3-4b
 ```
 
 You should see files like:
@@ -95,10 +95,10 @@ oci os object bulk-upload --bucket-name <bucket-name> --src-dir <model-folder> -
 
 Example:
 ```bash
-oci os object bulk-upload --bucket-name HuggingFaceModels --src-dir medgemma-27b --object-prefix medgemma-27b/ --overwrite
+oci os object bulk-upload --bucket-name HuggingFaceModels --src-dir gemma-3-4b --object-prefix gemma-3-4b/ --overwrite
 ```
 
-**Important:** OCI does not use real folders. The object prefix defines the model directory.
+**Note:** OCI does not use real folders. The object prefix defines the model directory.
 
 ### 6. Verify Upload
 
@@ -122,7 +122,7 @@ You should see objects like:
 2. Click **Create Imported Model**
 
 **Basic Configuration**
-- Name: model name (e.g., `medgemma-27b`)
+- Name: model name (e.g., `gemma-3-4b`)
 - Description: optional
 - Click **Next**
 
@@ -131,7 +131,7 @@ You should see objects like:
 - Region: where your bucket is located
 - Compartment: where your bucket is located
 - Bucket name: your bucket
-- Model artifact directory: `<model-folder>/` (e.g., `medgemma-27b/`)
+- Model artifact directory: `<model-folder>/` (e.g., `gemma-3-4b/`)
 
 **Important:** This must point to the root folder containing model files.
 
@@ -148,17 +148,17 @@ You should see objects like:
 
 **Basic Configuration**
 - Compartment: select your compartment
-- Name: model name (e.g., `medgemma-27b`)
+- Name: model name (e.g., `gemma-3-4b`)
 - Description: optional
 
 **Cluster Type**
 - Select: **Hosting**
 
 **Base Model**
-- Select: model name (e.g., `medgemma-27b-1`)
+- Select: model name (e.g., `gemma-3-4b-1`)
 
 **Compute Configuration**
-- Generic unit shape: put necessary shape (e.g., `H100_X1`)
+- Generic unit shape: put necessary shape as recommended in our documentation (e.g., `H100_X1`)
 - Model replica: 1
 
 **Commitment**
