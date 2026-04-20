@@ -1,4 +1,4 @@
-# Unlisted Model Deployment in OCI Generative AI
+# Model Deployment in OCI Generative AI through Object Storage
 
 A comprehensive guide for deploying Hugging Face models via Object Storage on Oracle Cloud Infrastructure (OCI) Generative AI using Imported Models and Dedicated AI Clusters (DAC).
 
