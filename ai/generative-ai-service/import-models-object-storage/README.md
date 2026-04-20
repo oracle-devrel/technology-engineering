@@ -207,7 +207,7 @@ Run the following tests:
 - Long input (~5K tokens)
 - Near max context
 
-### 12. Cleanup (Important)
+### 12. Cleanup
 
 1. Delete endpoints first
 2. Then delete DAC:
