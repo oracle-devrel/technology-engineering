@@ -183,7 +183,7 @@ qdrant-client==1.13.3
 ray==2.52.0
 referencing==0.36.2
 regex==2024.11.6
-requests==2.32.3
+requests==2.33.0
 requests-file==2.1.0
 requests-toolbelt==1.0.0
 rich==14.0.0
