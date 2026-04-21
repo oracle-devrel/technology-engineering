@@ -36,7 +36,7 @@ OCI APM provides several dashboards out-of-the-box with insights into issues bot
 
 - Where is there potentially malicious activity?
 
-We will look at the out-of-the-box dashboards for this article. You can also customize your own dashboards to highlight additional performance or security issues more specific to your application services (click [here](https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/create-custom-dashboard.html) for more). My advice is to design your dashboard widgets so they can give a proper overview of application health and drill down to relevant data in the Trace Explorer for further investigation.
+We will look at the out-of-the-box dashboards for this article. You can also customize your own dashboards to highlight additional performance or security issues more specific to your application services (click [here](https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/create-custom-dashboard.html) for more). A good approach is to design dashboard widgets so they can give a proper overview of application health and drill down to relevant data in the Trace Explorer for further investigation.
 
 ### Real User Monitoring Overview: Drill down to traces based on frontend request performance
 
@@ -70,7 +70,7 @@ At the app service level, you can drill down to the Trace Explorer based on back
 
 ![Services dashboard in Service Monitoring](images/services.png)
 
-The table in the upper left corner lets you drill down to a dashboard with insights about a specific app service, the requests it handles,and their performance. The widgets are similar in terms of visualizing performance and throughput as execution count values - but from here you can drill down to the Trace Explorer based on information from a specific service request rather than information from an overall app service:
+The table in the upper left corner lets you drill down to a dashboard with insights about a specific app service, the requests it handles, and their performance. The widgets are similar in terms of visualizing performance and throughput as execution count values - but from here you can drill down to the Trace Explorer based on information from a specific service request rather than information from an overall app service:
 
 ![App service overview in Service Monitoring](images/service-overview.png)
 
@@ -106,13 +106,13 @@ So far, we've looked at dashboards that help you react to issues already occurri
 
 **Availability monitors** proactively test the availability and performance of your application services' core features and critical user flows at set intervals, e.g., once per hour or once per day. Every monitor has a vantage point, which is a host running your tests from a certain geographic location. You can select vantage points managed by Oracle that run in one of their data centers around the world - or use your own managed host with a Docker container running as a vantage point (click [here](https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/set-synthetic-monitoring.html) for more about the setup of availability monitors).
 
-Different types of availability monitors test different aspects of your application. You can get a full overview of these in the official documentation (click [here](https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/create-monitor.html) for more). In this article, I will mention two types:
+Different types of availability monitors test different aspects of your application. You can get a full overview of these in the official documentation (click [here](https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/create-monitor.html) for more). The focus here will be on two types:
 
 - **Browser monitor**: Tests a single URL load like your application's login page.
 
 - **Scripted Browser monitor**: Tests a user flow of multiple browser actions in a script written with Selenium or Playwright. An example could be a dummy user in an online web shop. The user puts some items in a shopping cart and then completes the purchase. This flow tests multiple core features for users. It should preferably be fast and encounter no errors.
 
-Like with dashboards, you can use an availability monitor as the starting point for a deeper investigation of related data in the Trace Explorer. Below is the run history of a single Scripted Browser monitor, which performs the web shop test I just described above. One of the monitor runs is considerably slower than the others:
+Like with dashboards, you can use an availability monitor as the starting point for a deeper investigation of related data in the Trace Explorer. Below is the run history of a single Scripted Browser monitor, which performs the web shop test described above. One of the monitor runs is considerably slower than the others:
 
 ![The history of a single availability monitor. Some of the monitor runs last significantly longer than others including this one at 26 seconds](images/availability-monitor-history.png)
 
@@ -140,7 +140,7 @@ Alarms deserve their own deep dive, but here's what you need to know to get star
 
 - **oracle_apm_synthetics**: Metrics emitted by availability monitor runs. Use this namespace to create alarms for issues with availability or performance encountered by all defined monitors.
 
-Remember to take advantage of Apdex thresholds set in your APM domain to easily send alarm notifications about any span not living up to expectations for "satisfying" or "tolerating" execution times. For instance, you might create an alarm that triggers when your checkout service's Apdex score drops below 0.8 for more than 5 minutes. When triggered, the alarm could send notifications via email or Slack, prompting immediate investigation in the Trace Explorer.
+Remember to take advantage of Apdex thresholds set in your APM domain to easily send alarm notifications about any span not living up to expectations for "satisfying" or "tolerating" execution times. For instance, you might create an alarm that triggers when your application's checkout service's Apdex score drops below 0.8 for more than 5 minutes. When triggered, the alarm could send notifications via email or Slack, prompting immediate investigation in the Trace Explorer.
 
 **Span Metric Groups with Anomaly Detection for Advanced Alarms**
 
