@@ -39,6 +39,29 @@ Reviewed: 22.09.2025
 - [Search Documents stored in Object Storage using Opensearch, Generative AI, Semantic Search, RAG](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3762)
 - [CX Conversations Analysis with OCI Speech and OCI Generative AI](../generative-ai-service/cx-conversations-analysis/)
   - Application that processes audio files (recordings of CX conversations, e.g. in call centers), transcribing with OCI Speech and makes analytics using Generative AI.
+- [Liability Determination Report Generator](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/generative-ai-service/car-accident-report-generator)
+  - Application that extracts driver, vehcile, insurance, and damage assesment details from uploadeed documents and accident photos using Oracle Generative AI (Llama 4 Maverick)
+- [Car Insurance Chatbot](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/generative-ai-service/car-insurance-chatbot)
+  - Application that analyzes vehicle images or videos for insurance claim triage using Oracle Generative AI.
+- [Complex Document RAG Report Generator](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/generative-ai-service/complex-document-rag)
+  -  An enterprise-grade Retrieval-Augmented Generation (RAG) system for generating comprehensive business reports from multiple document sources using Oracle Cloud Infrastructure (OCI) Generative AI services.
+- [Document Processing With GenAI](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/generative-ai-service/document-processing-with-genai)
+  - [Doc Understanding and GenAI](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/generative-ai-service/document-processing-with-genai/doc-understanding-and-genAI)
+    - Application used for comparing and expanding on traditional Document Understanding (OCI DU) + LLM approach vs. a multimodal LLM for extracting structured data from documents (PDFs, images).
+  - [Financial Analysis Chatbot](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/generative-ai-service/document-processing-with-genai/financial-analysis-chatbot)
+    - Application for extracting insights from financial documents by combining text and visual (chart/image) content using Oracle Generative AI.
+  - [Generic Document Evaluation](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/generative-ai-service/document-processing-with-genai/generic-document-evaluation)
+    - A simple, adaptable solution for analyzing and categorizing transactional documents using predefined evaluation criteria. Perfect for analysts, auditors, or developers seeking to automate document review in enterprise, finance, education, or public sector scenarios and more.
+  - [Multi Modal Document Extraction](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/generative-ai-service/document-processing-with-genai/multi-modal-document-extraction)
+    - This Generative AI service application relies on OCI SDK alongside the new Llama 4 models (Scout and Maverick) to extract data from PDFs (or images) into structured data as JSON.
+  - [Multi-page DU LLM](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/generative-ai-service/document-processing-with-genai/multipage-du-llm)
+    - A set of Python command-line and Streamlit apps that combine Oracle Document Understanding (OCR) with Gen AI to classify documents, in particular those that have been bundled together (and scanned) into one long document. The samples demoed here are HR documents but they could be of any type.  
+  - [News Article Generator](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/generative-ai-service/document-processing-with-genai/news-article-generator)
+    - A Streamlit-based application for generating newsroom-quality articles from a headline + key facts, while mimicking the tone and structure of your own writing samples using Oracle Generative AI.
+  - [Patient Letter Extraction](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/generative-ai-service/document-processing-with-genai/patient-letter-extraction)
+    - This is a Generative AI-powered application that extracts key information from patient referral letters (in .docx format) and processes them using the OCI Generative AI services. This application allows users to simply and efficiently extract key data from patient referrals for expedited patient handling.
+  - [Smart Invoice Extraction](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/generative-ai-service/document-processing-with-genai/smart-invoice-extraction)
+    - An intelligent invoice data extractor built with OCI Generative AI, LangChain, and Streamlit. Upload any invoice PDF and this app will extract structured data like REF. NO., POLICY NO., DATES, etc. using multimodal LLMs.
 
 ### Cloud Coaching
 - [Developer Coaching - Discovering Multi-modal models for Complex Documents](https://youtu.be/kJsuk_fTrAQ?si=PnTLNHQwElazNX2O)
@@ -75,6 +98,8 @@ Reviewed: 22.09.2025
 - [Deploy 3rd party generative AI models to OCI](https://docs.oracle.com/en/solutions/deploy-generative-ai-to-oci/index.html#GUID-5567B1F2-4733-4D9C-B4BE-5B5429CA8C02)
   - The reference architecture shows generative AI models deployed to an OCI GPU instance for image and text generation.
 - [Implement Oracle Cloud Infrastructure Generative AI based on Cohere Large Language Model - Blog & Architecture](https://docs.oracle.com/en/solutions/oci-generative-ai-llm/index.html#GUID-76987F35-F646-40CF-9CF2-42724BA57191)
+- [Automate the Document Life Cycle](https://docs.oracle.com/en/solutions/automate-docs-genai/#GUID-AEF6D71D-5F6A-49CD-AD61-86158DC5C00D)
+  - This reference architecture shows how to apply Oracle Cloud Infrastructure Generative AI services to automate the document lifecycle.
 
 ### Youtube Videos
 - [The future of generative AI: What enterprises need to know | Oracle CloudWorld 2023](https://www.youtube.com/watch?v=qcHpu6WA-k8&t=3s)
@@ -90,6 +115,13 @@ Reviewed: 22.09.2025
   - Use OCI Generative AI (in pre-availability) for "Customer Service Quick Replies" Generation for Whatsapp Neutral Messages (customer questions, queries, etc.), sentence-level sentiment analysis from OCI AI-Language to uncover overall sentiment and set service ticket severity for negative Whatsapp messages, automatically classify Customer Service tickets through OCI AI-Language custom text classification and aspect-based sentiment analysis (ABSA) services
   - Learn how Oracle Integration Cloud and Oracle Cloud Infrastructure (OCI) Streaming allow real-time capture of WhatsApp messages.
   - All this automation using OCI Generative AI and AI-Language Services APIs orchestrated by Oracle Integration Cloud (using a no-code integration approach)
+- [Creating Real Business Value with Generative AI w/ Cohere - Webcast](https://videohub.oracle.com/media/1_hfwseeg8?elq_mid=272044&sh=%2035&cmid=CORP260121P00006C00002)
+  - Oracle and Cohere experts discuss how to unlock tangible ROI, strengthen security and compliance, and accelerate your AI journey using OCI Generative AI Service and Cohere’s enterprise models
+- [Strategic Scale with Dedicated AI Clusters](https://otube.oracle.com/media/1_stow29d2)
+- [Developer Coaching - Discovering Multi-modal models for Complex Documents](https://www.youtube.com/watch?v=kJsuk_fTrAQ&t=2s)
+  - This session explores the use of multi-modal models for complex document processing, demonstrating how generative AI can enhance tasks such as extracting key information from contracts, digitizing scanned policies, analyzing transactional documents, and evaluating reports with both textual and visual content.
+- [Developer Coaching - Speak, Analyze, Summarize: OCI GenAI’s Smart Conversation Revolution](https://www.youtube.com/watch?v=gFQtQk98BKA&t=3s)
+  - Unlock the technical potential of OCI GenAI in conversational analytics! This session dives deep into how developers can leverage OCI GenAI to transform large volumes of recorded agent-customer interactions into actionable intelligence.
 
 ### Blogs & Announcements
 - [Generative AI in OCI](https://medium.com/oracledevs/generative-ai-in-oci-c0467e1a68f7)
@@ -102,6 +134,8 @@ Reviewed: 22.09.2025
 - [Guide to prompt engineering: Translating natural language to SQL with Llama 2](https://blogs.oracle.com/ai-and-datascience/post/prompt-engineering-natural-language-sql-llama2)
 - [Oracle Embeds Generative AI Across the Technology Stack to Enable Enterprise AI Adoption at Scale](https://www.oracle.com/news/announcement/oracle-announces-availability-oci-generative-ai-service-2024-01-23/)
 - [Oracle to Deliver Powerful and Secure Generative AI Services for Business](https://www.oracle.com/news/announcement/oracle-to-deliver-powerful-and-secure-generative-ai-service-for-business-2023-06-13/)
+- [AI-Driven Task & Motion Planning for Service Robots with Oracle Cloud Infrastructure](https://blogs.oracle.com/ai-and-datascience/ai-driven-task-motion-planning-service-robots-with-oci)
+- [Unlocking Enterprise Value: From Experimentation to Impact with OCI Generative AI Dedicated AI Clusters (DACs)](https://blogs.oracle.com/ai-and-datascience/oci-generative-ai-dac)
 
 ## Reusable Assets Overview
 
@@ -110,7 +144,7 @@ Reviewed: 22.09.2025
 
 ## License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

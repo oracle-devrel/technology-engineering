@@ -3,7 +3,7 @@
 Since last year we have got many requests on how to gain more visibility in Oracle Fusion HCM using Logging Analytics. Since then Logging Analytics team simplified the collection model of the logs, and now we have predefined Parsers and Sources for Fusion Logs.
  
  
-Reviewed: 30.06.2025
+Reviewed: 20.04.2026
  
 # When to use this asset?
  
@@ -30,7 +30,7 @@ You can follow the instruction of the [step by step guide](./files/fusion-hcm-to
  
 # License
  
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
