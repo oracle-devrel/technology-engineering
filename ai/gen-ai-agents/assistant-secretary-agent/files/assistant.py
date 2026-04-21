@@ -1,4 +1,4 @@
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 """
 By Omar Salem
 assistant.py - AI Assistant Chatbot (Dynamic Routing).
