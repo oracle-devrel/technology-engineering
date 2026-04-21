@@ -68,7 +68,7 @@ ptyprocess==0.7.0
 pure_eval==0.2.3
 py3Dmol==2.4.2
 pycparser==2.22
-Pygments==2.19.1
+Pygments==2.20.0
 python-dateutil==2.9.0.post0
 python-json-logger==3.2.1
 PyYAML==6.0.2
