@@ -61,6 +61,8 @@ Reviewed: 07.10.2025
     - Professional calculators and tools for planning, executing, and monitoring data migrations, available on Marcus Doeringer's public platform
 - [How to create a Non Container Database on Exadata Database Service on Dedicated Infrastructure ? ](https://amalrajputhenchira.wordpress.com/2026/01/12/how-to-create-a-non-container-database-on-exadata-database-service-on-dedicated-infrastructure/)
     - Detailed, step-by-step instructions for creating a non-cdb database on exadb-d using Cloud native command line , available on Amalraj Puthenchira's public platform
+- [Migration between different Oracle versions using Remote Clone and DBUpgrade](https://carlosal.wordpress.com/2026/01/21/remote-clone-between-different-database-versions-a-real-case-remote-clone-dbupgrade/https://carlosal.wordpress.com/2026/01/21/remote-clone-between-different-database-versions-a-real-case-remote-clone-dbupgrade/)
+    - Blog technical article about how to migrate databases with different versions using Remote Clone and DBUpgrade: a real case. Available on Carlos Álvarez's public platform.
 
 # Useful Links
 
@@ -74,7 +76,7 @@ Reviewed: 07.10.2025
 
 # License
  
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

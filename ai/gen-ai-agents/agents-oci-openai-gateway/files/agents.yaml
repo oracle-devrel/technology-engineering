@@ -1,0 +1,7 @@
+# agents.yaml
+agents:
+  - id: "sales-kb"                       # your local handle
+    name: "Sales KB Agent"
+    description: "Grounded in sales docs"
+    region: "eu-frankfurt-1"             # agent region
+    endpoint_ocid: "ocid1.genaiagentendpoint.oc1.eu-frankfurt-1." # ai agent **endpoint OCID**

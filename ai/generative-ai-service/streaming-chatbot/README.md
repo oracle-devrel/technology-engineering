@@ -1,7 +1,7 @@
 # Streaming Chatbot
 This asset is a Python-based chatbot that utilizes Oracle Cloud Infrastructure (OCI) Generative AI services to provide real-time, streaming responses. It is designed to interact with Cohere models available within OCI's Generative AI service. Users interested in leveraging other models, such as those from Meta or Google, can refer to the OCI Generative AI documentation for guidance on integrating these alternatives.
 
-Reviewed: 22.10.2025
+Reviewed: 23.01.2026
 
 # When to use this asset?
 
@@ -77,7 +77,7 @@ To set up and run the `genai-streaming-chatbot`, follow these steps:
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

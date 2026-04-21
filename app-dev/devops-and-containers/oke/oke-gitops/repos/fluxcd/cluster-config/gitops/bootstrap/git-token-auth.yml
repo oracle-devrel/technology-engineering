@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: git-token-auth
+  namespace: flux-system
+type: Opaque
+stringData:
+  username: ""  # Username for the GitOps repository
+  password: ""  # Password for the GitOps repository (auth token)

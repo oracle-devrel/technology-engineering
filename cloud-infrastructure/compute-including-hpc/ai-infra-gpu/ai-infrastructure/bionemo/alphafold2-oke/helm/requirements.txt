@@ -19,7 +19,7 @@ defusedxml==0.7.1
 executing==2.2.0
 fastjsonschema==2.21.1
 fqdn==1.5.1
-h11==0.14.0
+h11==0.16.0
 httpcore==1.0.7
 httpx==0.28.1
 idna==3.10
@@ -49,7 +49,7 @@ MarkupSafe==3.0.2
 matplotlib-inline==0.1.7
 mistune==3.1.1
 nbclient==0.10.2
-nbconvert==7.16.6
+nbconvert==7.17.0
 nbformat==5.10.4
 nest-asyncio==1.6.0
 notebook==7.3.2
@@ -86,7 +86,7 @@ soupsieve==2.6
 stack-data==0.6.3
 terminado==0.18.1
 tinycss2==1.4.0
-tornado==6.5.1
+tornado==6.5.5
 traitlets==5.14.3
 types-python-dateutil==2.9.0.20241206
 typing_extensions==4.12.2
