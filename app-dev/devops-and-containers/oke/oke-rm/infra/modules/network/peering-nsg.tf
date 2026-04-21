@@ -1,6 +1,7 @@
 locals {
   # Only used when NSG exists
-  peer_vcns_set = local.create_drg_attachment ? toset(var.peer_vcns) : []
+  peer_vcns_open_set = local.create_drg_attachment ? toset([for cidr in var.peer_vcns : cidr if cidr == "0.0.0.0/0"]) : []
+  peer_vcns_safe_set = local.create_drg_attachment ? toset([for cidr in var.peer_vcns : cidr if cidr != "0.0.0.0/0"]) : []
 }
 
 resource "oci_core_network_security_group" "peering" {
@@ -13,7 +14,7 @@ resource "oci_core_network_security_group" "peering" {
 }
 
 resource "oci_core_network_security_group_security_rule" "peering_egress" {
-  for_each                  = local.peer_vcns_set
+  for_each                  = local.peer_vcns_safe_set
   direction                 = "EGRESS"
   network_security_group_id = oci_core_network_security_group.peering.0.id
   protocol                  = "all"
@@ -24,7 +25,7 @@ resource "oci_core_network_security_group_security_rule" "peering_egress" {
 }
 
 resource "oci_core_network_security_group_security_rule" "peering_ingress" {
-  for_each                  = local.peer_vcns_set
+  for_each                  = local.peer_vcns_safe_set
   direction                 = "INGRESS"
   network_security_group_id = oci_core_network_security_group.peering.0.id
   protocol                  = "all"
@@ -32,4 +33,15 @@ resource "oci_core_network_security_group_security_rule" "peering_ingress" {
   source                    = each.value
   stateless                 = true
   description               = "Allow ingress traffic from peered VCN ${each.value}"
+}
+
+resource "oci_core_network_security_group_security_rule" "peering_egress_open_stateful" {
+  for_each                  = local.peer_vcns_open_set
+  direction                 = "EGRESS"
+  network_security_group_id = oci_core_network_security_group.peering.0.id
+  protocol                  = "all"
+  destination_type          = "CIDR_BLOCK"
+  destination               = each.value
+  stateless                 = false
+  description               = "Allow stateful egress traffic for open peering CIDR ${each.value}"
 }
