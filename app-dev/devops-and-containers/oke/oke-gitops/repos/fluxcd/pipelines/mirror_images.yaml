@@ -10,6 +10,8 @@ env:
     repo_prefix: ""
     region: ""
     region_key: ""
+    images_to_mirror: ""
+    tenancy_namespace: ""
 
 steps:
 
@@ -23,6 +25,7 @@ steps:
       export OCI_CLI_REGION=${region}
       region_key=$(oci iam region list --query "data[?name == '$region'].key | [0]" --raw-output);
       export region_key=$(echo "$region_key" | tr '[:upper:]' '[:lower:]');
+      export tenancy_namespace=$(oci artifacts container configuration get --compartment-id "${repo_compartment_id}" --query data.namespace --raw-output);
     onFailure:
       - type: Command
         command: |
@@ -35,12 +38,7 @@ steps:
     failImmediatelyOnError: true
     command: |
       export OCI_CLI_REGION=${region}
-      IMAGES=(
-        "<image>:<tag>" # TODO: Insert images to mirror here
-      )
-      for image in "${IMAGES[@]}"; do
-        ./script/mirror-image.sh -c "${repo_compartment_id}" -k "${region_key}" -p "${repo_prefix}" -i "$image"
-      done
+      ./script/mirror-image.sh -c "${repo_compartment_id}" -k "${region_key}" -p "${repo_prefix}" -i "${images_to_mirror}" -t "${tenancy_namespace}"
     onFailure:
       - type: Command
         command: |

@@ -23,7 +23,7 @@ spec:
       kind: OCIRepository
       metadata:
         name: << inputs.provider.name >>
-        namespace: << inputs.namespace >>
+        namespace: << inputs.provider.namespace >>
       spec:
         interval: 30m
         url: oci://${region_key}.ocir.io/${tenancy_namespace}/${repo_prefix}/helm/flux-operator
@@ -37,7 +37,7 @@ spec:
       kind: Kustomization
       metadata:
         name: << inputs.provider.name >>-helm-values
-        namespace: << inputs.namespace >>
+        namespace: << inputs.provider.namespace >>
       spec:
         interval: 3m0s
         wait: true
@@ -45,12 +45,12 @@ spec:
         retryInterval: 2m0s
         prune: true
         force: false
-        targetNamespace: << inputs.namespace >>
+        targetNamespace: << inputs.provider.namespace >>
         sourceRef:
           kind: GitRepository
           name: flux-system
           namespace: flux-system
-        path: "./infra-apps/<< inputs.namespace >>/<< inputs.provider.name >>/helm/values/profiles/<< inputs.profile >>"
+        path: "./infra-apps/<< inputs.provider.namespace >>/<< inputs.provider.name >>/helm/values/profiles/<< inputs.profile >>"
         postBuild:
           substitute:
             component: << inputs.provider.name >>
@@ -65,7 +65,7 @@ spec:
       kind: HelmRelease
       metadata:
         name: << inputs.provider.name >>
-        namespace: << inputs.namespace >>
+        namespace: << inputs.provider.namespace >>
       spec:
         interval: 30m
         releaseName: << inputs.provider.name >>
@@ -89,7 +89,7 @@ spec:
 #      kind: Kustomization
 #      metadata:
 #        name: << inputs.provider.name >>
-#        namespace: << inputs.namespace >>
+#        namespace: << inputs.provider.namespace >>
 #      spec:
 #        interval: 3m0s
 #        wait: true
@@ -97,12 +97,12 @@ spec:
 #        retryInterval: 2m0s
 #        prune: true
 #        force: false
-#        targetNamespace: << inputs.namespace >>
+#        targetNamespace: << inputs.provider.namespace >>
 #        sourceRef:
 #          kind: GitRepository
 #          name: flux-system
 #          namespace: flux-system
-#        path: "./infra-apps/<< inputs.namespace >>/<< inputs.provider.name >>/kustomize/profiles/<< inputs.profile >>"
+#        path: "./infra-apps/<< inputs.provider.namespace >>/<< inputs.provider.name >>/kustomize/profiles/<< inputs.profile >>"
 #        decryption:
 #          provider: sops
 #          secretRef:

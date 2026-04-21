@@ -25,13 +25,13 @@ variable "devops_log_group_description" {
   default = null
 }
 variable "devops_log_retention_period_in_days" {
-  type = number
+  type    = number
   default = 30
 }
 
 # NOTIFICATION
 variable "create_notification_topic" {
-  type = bool
+  type    = bool
   default = false
 }
 
@@ -55,10 +55,6 @@ variable "auth_token" {
   sensitive = true
 }
 
-variable "flux_agent_chart_version" {
-  default = "0.45.1"
-}
-
 # OKE ENVIRONMENT
 
 variable "network_compartment_id" {
@@ -80,7 +76,7 @@ variable "oke_environment_description" {
   default = null
 }
 variable "is_oke_cluster_private" {
-  type = bool
+  type    = bool
   default = false
 }
 variable "oke_worker_subnet_id" {
@@ -92,15 +88,26 @@ variable "oke_worker_nsg_id" {
 
 # IAM
 variable "create_iam" {
-  type = bool
+  type    = bool
   default = false
 }
-variable "devops_policy_name" {
+
+variable "iam_domain_compartment_id" {
   default = null
 }
-variable "identity_domain_name" {
-  default = "Default"
+
+variable "devops_iam_domain_id" {
+  default = null
 }
+
 variable "devops_dynamic_group_name" {
   default = "DevOpsDynamicGroup"
 }
+
+variable "devops_policy_name" {
+  default = null
+}
+variable "kms_compartment_id" {
+  default = null
+}
+

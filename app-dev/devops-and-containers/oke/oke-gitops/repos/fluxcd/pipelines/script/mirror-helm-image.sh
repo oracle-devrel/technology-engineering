@@ -8,6 +8,10 @@ require_cmd() {
   }
 }
 
+log_info() {
+  echo "[INFO] $*"
+}
+
 CREATE_OCIR_PUBLIC_REGISTRY=false
 
 unset -v COMPARTMENT_ID;
@@ -16,8 +20,9 @@ unset -v CHART_VERSION;
 unset -v CHART_NAME;
 unset -v HELM_REGISTRY;
 unset -v IMAGE_PREFIX;
+unset -v TENANCY_NAMESPACE;
 
-while getopts c:k:v:n:r:p:a: flag
+while getopts c:k:v:n:r:p:t:a: flag
 do
     case "${flag}" in
         c) COMPARTMENT_ID=${OPTARG};;
@@ -26,6 +31,7 @@ do
         n) CHART_NAME=${OPTARG};;
         r) HELM_REGISTRY=${OPTARG};;
         p) IMAGE_PREFIX=${OPTARG};;
+        t) TENANCY_NAMESPACE=${OPTARG};;
         a) : ;; # kept for backward compatibility, ignored
         *) echo 'Error in command line parsing' >&2
            exit 1
@@ -46,10 +52,27 @@ require_cmd tr
 REMOTE_REGISTRY="${OCIR_REGION_KEY}.ocir.io"
 SKOPEO_IMAGE="quay.io/skopeo/stable:latest"
 
+log_info "Starting Helm image mirroring workflow"
+log_info "Chart: ${CHART_NAME}"
+log_info "Chart version: ${CHART_VERSION}"
+log_info "Source Helm registry: ${HELM_REGISTRY}"
+log_info "Image destination prefix: ${IMAGE_PREFIX}"
+log_info "Target OCIR registry: ${REMOTE_REGISTRY}"
+
+REPO_NAMESPACE="${TENANCY_NAMESPACE:-}"
+if [ -z "$REPO_NAMESPACE" ]; then
+  log_info "TENANCY_NAMESPACE not provided. Resolving from OCI compartment"
+  REPO_NAMESPACE=$(oci artifacts container configuration get --compartment-id "$COMPARTMENT_ID" --query data.namespace --raw-output)
+else
+  log_info "Using TENANCY_NAMESPACE from input parameters"
+fi
+log_info "Resolved tenancy namespace: ${REPO_NAMESPACE}"
+
 # Extract image names and tags
 images=$(helm template "$CHART_NAME" "${HELM_REGISTRY}/${CHART_NAME}" --version "$CHART_VERSION" | grep -oE 'image:[[:space:]]*[^[:space:]]+' | sed 's/image:[[:space:]]*//')
 # Remove duplicates
 images=$(echo "$images" | tr ' ' '\n' | sort -u | tr '\n' ' ')
+log_info "Resolved image list from chart template"
 
 create_repo(){
   local repo_name="$1"
@@ -95,33 +118,37 @@ run_skopeo_copy() {
 }
 
 # Ensure the skopeo container image is available before starting the loop.
+log_info "Ensuring skopeo helper image is available: ${SKOPEO_IMAGE}"
 docker image inspect "$SKOPEO_IMAGE" >/dev/null 2>&1 || docker pull "$SKOPEO_IMAGE" >/dev/null
+
+log_info "Requesting OCIR bearer token"
+TOKEN="$(oci raw-request --http-method GET --target-uri "https://${REMOTE_REGISTRY}/20180419/docker/token" | tr -d '\n' | sed -E 's/.*"token"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/')"
+if [ -z "$TOKEN" ]; then
+  echo "Failed to fetch OCIR bearer token" >&2
+  exit 1
+fi
 
 for image in $images; do
 
   # Remove quotes and double quotes
   image=${image//[\"\']/}
 
-  echo "Processing image: $image"
+  log_info "Processing source image: ${image}"
   base_image="${image#*/}"
   image_name="${base_image%%:*}"
   image_tag="${base_image#*:}"
 
   image_name=$IMAGE_PREFIX/"$image_name"
-
-  REPO_NAMESPACE=$(oci artifacts container configuration get --compartment-id "$COMPARTMENT_ID" --query data.namespace --raw-output);
+  log_info "Ensuring destination repository exists: ${image_name}"
 
   create_repo "$image_name"
 
-  TOKEN="$(oci raw-request --http-method GET --target-uri "https://${REMOTE_REGISTRY}/20180419/docker/token" | tr -d '\n' | sed -E 's/.*"token"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/')"
-  if [ -z "$TOKEN" ]; then
-    echo "Failed to fetch OCIR bearer token" >&2
-    exit 1
-  fi
-
   # Copy all manifests/platforms to preserve digest references used by Flux.
+  log_info "Mirroring image to OCIR: ${REMOTE_REGISTRY}/${REPO_NAMESPACE}/${image_name}:${image_tag}"
   run_skopeo_copy "$image" "$REMOTE_REGISTRY/$REPO_NAMESPACE/$image_name:$image_tag" "$TOKEN"
 
-  echo "Mirrored $image to $REMOTE_REGISTRY/$REPO_NAMESPACE/$image_name:$image_tag"
+  log_info "Mirrored $image to $REMOTE_REGISTRY/$REPO_NAMESPACE/$image_name:$image_tag"
 
 done
+
+log_info "Helm image mirroring completed successfully"

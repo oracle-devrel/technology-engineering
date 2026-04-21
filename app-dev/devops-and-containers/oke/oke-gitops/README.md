@@ -20,8 +20,6 @@ For the complete operational guide (architecture, repository model, bootstrap fl
 
 - [Flux Operator solution documentation](./flux-solution.md)
 
-[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-gitops-1.2.0/stack.zip)
-
 ## IAM Policies
 This stack requires specific OCI IAM policies (created by the stack when enabled, or pre-created by the user).
 

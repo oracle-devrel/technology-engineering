@@ -5,7 +5,7 @@
 locals {
   # SET THIS TO TRUE IF YOU WANT TO OVERRIDE THE COREDNS PLUGIN AND MANAGE IT THROUGH TERRAFORM
   # It requires at least 1 node in the cluster where CoreDNS can be scheduled
-  override_coredns = true
+  override_coredns = false
 
   coredns_addon_configs = {
     # Distribute replicas on nodes belonging to different ADs, if possible
