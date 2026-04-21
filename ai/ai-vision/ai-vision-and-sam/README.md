@@ -19,7 +19,7 @@ See the full setup and usage guide in [`files/README.md`](./files/README.md).
  
 # License
  
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

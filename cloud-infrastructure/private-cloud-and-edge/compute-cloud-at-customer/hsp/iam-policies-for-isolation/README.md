@@ -1,6 +1,6 @@
 # C3 Hosting Service Provider - IAM Policies for Isolation
 
-Reviewed: 16.10.2025
+Reviewed: 23.03.2026
 
 The Hosting Service Provider (HSP) model on Compute Cloud@Customer (C3) allows
 hosting for multiple end customers, each isolated in a dedicated compartment
@@ -98,7 +98,7 @@ target.compartment.name='root-compartment-name'
 ```
 ## License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

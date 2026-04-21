@@ -3,7 +3,7 @@
 
 module "oke" {
   source         = "oracle-terraform-modules/oke/oci"
-  version        = "5.4.1"
+  version        = "5.4.3"
   compartment_id = var.oke_compartment_id
   # Network module - VCN
   create_vcn                        = false
@@ -108,6 +108,9 @@ module "oke" {
   # Additional NSGs to be attached to all workers
   #worker_nsg_ids = []
 
+  # Additional NSGs to be attached to the control plane API server
+  #control_plane_nsg_ids = []
+
   # When using VCN_NATIVE_CNI, set the maximum number of pods for all nodes, must be between 1 and 110
   #max_pods_per_node = 31
 
@@ -124,12 +127,12 @@ module "oke" {
 
     # ORACLE LINUX - MANAGED NODE POOL
     np-ad1 = {
-      shape                        = "VM.Standard.E4.Flex"
+      shape                        = "VM.Standard.E5.Flex"
       size                         = 1
       kubernetes_version           = var.kubernetes_version # You can set this variable with a constant, so that control plane and data plane are upgraded separately
       placement_ads                = ["1"]                  # As best practice, one node pool should be associated only to one specific AD
       ocpus                        = 1                      # No need to specify ocpus and memory if you are not using a Flex shape
-      memory                       = 16
+      memory                       = 8
       node_cycling_enabled         = false # Option to enable/disable node pool cycling through Terraform. Only works with Enhanced clusters!
       node_cycling_max_surge       = "50%"
       node_cycling_max_unavailable = "0%"
@@ -137,6 +140,30 @@ module "oke" {
       boot_volume_size             = 100
       # max_pods_per_node = 10                              # When using VCN_NATIVE CNI, configure maximum number of pods for each node in the node pool
       create = false # Set it to true so that the node pool is created
+    }
+
+    # Node Pool reserved for Karpenter and CoreDNS
+    # 1. Provision this node pool by setting create=true, set also local.override_coredns = true in addons.tf and apply
+    # 2. This node pool has a Taint, you can disable it, but it is not recommended
+    np-system = {
+      shape                        = "VM.Standard.E5.Flex"
+      size                         = 1
+      kubernetes_version           = var.kubernetes_version
+      ocpus                        = 1
+      memory                       = 8
+      node_cycling_enabled         = false
+      node_cycling_max_surge       = "25%"
+      node_cycling_max_unavailable = "0%"
+      node_cycling_mode            = ["instance"] # Valid values are instance and boot_volume. Only works when (kubernetes_version, image_id, boot_volume_size, node_metadata, ssh_public_key, volume_kms_key_id) are modified. If you need to change something else, switch to "instance"
+      # Label the node and use a nodeSelector with Karpenter
+      node_labels = {
+        "node-role/system" : "true"
+      }
+      # Node Tainting is done through a cloud init script
+      disable_default_cloud_init = true
+      cloud_init                 = [{ content_type = "text/cloud-config", content = file("cloud-init/system.yml") }]
+      boot_volume_size           = 100
+      create                     = false
     }
 
     # VIRTUAL NODE POOL
@@ -154,155 +181,6 @@ module "oke" {
       size   = 1
       create = false
     }
-
-    # UBUNTU - MANAGED NODE POOL
-    np-ad1-ubuntu = {
-      shape              = "VM.Standard.E4.Flex"
-      size               = 1
-      kubernetes_version = var.kubernetes_version
-      placement_ads      = ["1"]
-      ocpus              = 1
-      memory             = 16
-      # NOTE! The OKE module will automatically verify the image and install the OKE Ubuntu Node package. You just need to create a custom image based on Ubuntu 22.04 or 24.04. Ubuntu Minimal is recommended
-      image_type                   = "custom"
-      image_id                     = "ocid1.image..." # Put your custom Ubuntu image here
-      node_cycling_enabled         = false
-      node_cycling_max_surge       = "50%"
-      node_cycling_max_unavailable = "0%"
-      # NOTE! Make sure you create the original Ubuntu VM with a boot volume of size 50 (the default). Depending on the boot volume size of the original VM, the custom image will require that minimum storage
-      boot_volume_size = 100
-      create           = false
-    }
-
-    # ORACLE LINUX - MANAGED NODE POOL WITH TAINTS
-    np-ad1-taints = { # An example of a node pool using a custom cloud-init script to define taints at the node pool level
-      shape         = "VM.Standard.E4.Flex"
-      size          = 1
-      placement_ads = ["1"]
-      ocpus         = 1
-      memory        = 16
-      taints = {
-        my-taint = {
-          value  = "true"
-          effect = "NoSchedule"
-        }
-      }
-      node_cycling_enabled         = false
-      node_cycling_max_surge       = "50%"
-      node_cycling_max_unavailable = "0%"
-      boot_volume_size             = 100
-      create                       = false
-    }
-
-    # ORACLE LINUX/UBUNTU - SELF-MANAGED NODE
-    oke-instance = {
-      shape              = "VM.Standard.E4.Flex"
-      mode               = "instance"
-      kubernetes_version = "v1.32.1"
-      description        = "Self managed instance"
-      size               = 1
-      placement_ads      = ["1"]
-      ocpus              = 1
-      memory             = 16
-      # ENABLE IT FOR UBUNTU NODES
-      image_type       = "custom"
-      image_id         = "ocid1.image..."
-      boot_volume_size = 100
-      # Self-managed node specific parameters
-      boot_volume_vpus_per_gb = 10 # 10: Balanced, 20: High, 30-120: Ultra High (requires multipath)
-
-      # Burstable instance
-      #burst = "BASELINE_1_2" # Valid values BASELINE_1_8,BASELINE_1_2, only for Flex shapes!
-
-      # Enable/disable compute plugins
-      agent_config = {
-        are_all_plugins_disabled = false
-        is_management_disabled   = false
-        is_monitoring_disabled   = false
-        plugins_config = {
-          "Bastion"                             = "DISABLED"
-          "Block Volume Management"             = "DISABLED"
-          "Compute HPC RDMA Authentication"     = "DISABLED"
-          "Compute HPC RDMA Auto-Configuration" = "DISABLED"
-          "Compute Instance Monitoring"         = "ENABLED"
-          "Compute Instance Run Command"        = "DISABLED"
-          "Compute RDMA GPU Monitoring"         = "DISABLED"
-          "Custom Logs Monitoring"              = "DISABLED"
-          "Management Agent"                    = "DISABLED"
-          "Oracle Autonomous Linux"             = "DISABLED"
-          "OS Management Service Agent"         = "DISABLED"
-        }
-      }
-      create = false
-    }
-
-    ### CLUSTER AUTOSCALER
-    # ORACLE LINUX SYSTEM NODES - MANAGED NODE POOL
-    np-system-ad1 = {
-      shape                        = "VM.Standard.E4.Flex"
-      size                         = 1
-      placement_ads                = ["1"]
-      ocpus                        = 1
-      memory                       = 16
-      node_cycling_enabled         = false
-      node_cycling_max_surge       = "50%"
-      node_cycling_max_unavailable = "0%"
-      node_labels = {
-        role = "system"
-      }
-      create = false
-    }
-
-    # ORACLE LINUX AUTOSCALED - MANAGED NODE POOL
-    /* This is a sample pool where autoscaling is enabled, note the freeform tag
-     REQUIREMENTS FOR ENABLING THE CLUSTER AUTOSCALER
-     - THE CLUSTER AUTOSCALER ADDON MUST BE ENABLED
-     - POLICIES MUST BE IN PLACE FOR THE CLUSTER AUTOSCALER
-     - THE SYSTEM NODE POOL MUST BE CREATED, will feature nodes labelled with role:system
-     - THE "override_coredns" local variable must be set to true in addons.tf
-     - NODE POOLS with freeform_tags cluster_autoscaler = "enabled" will be autoscaled
-     - NODE POOL IS A MANAGED TYPE, CLUSTER AUTOSCALER DOES NOT WORK WITH SELF-MANAGED WORKER POOLS!
-     */
-    np-autoscaled-ad1 = {
-      shape                        = "VM.Standard.E4.Flex"
-      size                         = 0
-      placement_ads                = ["1"]
-      ocpus                        = 1
-      memory                       = 16
-      node_cycling_enabled         = false
-      node_cycling_max_surge       = "50%"
-      node_cycling_max_unavailable = "0%"
-      boot_volume_size             = 100
-      ignore_initial_pool_size     = true # If set to true, node pool size drift won't be accounted in Terraform, useful also if this pool is autoscaled by an external component (cluster-autoscaler) or manually by a user
-      freeform_tags = {
-        cluster_autoscaler = "enabled"
-      }
-      create = false
-    }
-
-    # ORACLE LINUX AUTOSCALED PREEMPTIBLE - MANAGED NODE POOL
-    # Often, to save money it makes sense to provision preemptible instances, as autoscaled node pools are already very dynamic
-    np-autoscaled-preemptible-ad1 = {
-      shape                        = "VM.Standard.E4.Flex"
-      size                         = 1
-      placement_ads                = ["1"]
-      ocpus                        = 1
-      memory                       = 16
-      node_cycling_enabled         = false
-      node_cycling_max_surge       = "50%"
-      node_cycling_max_unavailable = "0%"
-      boot_volume_size             = 100
-      ignore_initial_pool_size     = true # If set to true, node pool size drift won't be accounted in Terraform, useful also if this pool is autoscaled by an external component (cluster-autoscaler) or manually by a user
-      freeform_tags = {
-        cluster_autoscaler = "enabled"
-      }
-      preemptible_config = {
-        enable                  = true
-        is_preserve_boot_volume = false
-      }
-      create = false
-    }
-
   }
 
   providers = {

@@ -3,14 +3,13 @@
 # See also https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengconfiguringclusteraddons-configurationarguments.htm
 
 locals {
-
   # SET THIS TO TRUE IF YOU WANT TO OVERRIDE THE COREDNS PLUGIN AND MANAGE IT THROUGH TERRAFORM
-  # REQUIRES AT LEAST 1 NODE IN THE CLUSTER. THAT NODE MUST BE FROM THE SYSTEM NODE POOL IF CLUSTER AUTOSCALER IS ENABLED!
+  # It requires at least 1 node in the cluster where CoreDNS can be scheduled
   override_coredns = false
 
-  coredns_addon_configs_base = {
+  coredns_addon_configs = {
     # Distribute replicas on nodes belonging to different ADs, if possible
-    topologySpreadConstraints = jsonencode(
+    /*    topologySpreadConstraints = jsonencode(
       yamldecode(
         <<-YAML
           - maxSkew: "1"
@@ -21,69 +20,54 @@ locals {
                 k8s-app: kube-dns
           YAML
       )
-    )
+    )*/
     # Try to spread CoreDNS pods across different nodes
     affinity = jsonencode(
       yamldecode(
         <<-YAML
+          nodeAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                - key: node-role/system
+                  operator: In
+                  values:
+                  - "true"
           podAntiAffinity:
             preferredDuringSchedulingIgnoredDuringExecution:
-              - podAffinityTerm:
-                  labelSelector:
-                    matchLabels:
-                      k8s-app: "kube-dns"
-                  topologyKey: "kubernetes.io/hostname"
-                weight: 100
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    k8s-app: kube-dns
+                topologyKey: kubernetes.io/hostname
+            - weight: 80
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    k8s-app: kube-dns
+                topologyKey: topology.kubernetes.io/zone
+            - weight: 50
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    k8s-app: kube-dns
+                topologyKey: oci.oraclecloud.com/fault-domain
           YAML
       )
     )
-    # Rolling update configurations for CoreDNS
-    rollingUpdate = "{\"maxSurge\": \"50%\", \"maxUnavailable\":\"25%\"}"
+
     # For large clusters, it's better to increase this value. The default behaviour is to create a new CoreDNS for every new node. Also, resources for single CoreDNS pods should be increased
     nodesPerReplica = "1"
     # In case you need to customize the coredns ConfigMap in kube-system
     customizeCoreDNSConfigMap = "false"
+
+    tolerations = "[{\"key\":\"CriticalAddonsOnly\", \"operator\":\"Exists\"}]"
   }
 
-  # COREDNS MUST be scheduled to the system node pool in case cluster autoscaler is enabled
-  coredns_addon_configs = merge(local.coredns_addon_configs_base, local.enable_cluster_autoscaler ? {
-    nodeSelectors = "{\"role\": \"system\"}"
-  } : null)
-
-  metrics_server_addon_configs_base = {
-    # Replicas should be increased for high availability
-    numOfReplicas = "1"
-    # Spread the replicas across ADs if possible
-    topologySpreadConstraints = jsonencode(
-      yamldecode(
-        <<-YAML
-          - maxSkew: "1"
-            topologyKey: topology.kubernetes.io/zone
-            whenUnsatisfiable: ScheduleAnyway
-            labelSelector:
-              matchLabels:
-                k8s-app: metrics-server
-          YAML
-      )
-    )
-  }
-
-  # METRICS-SERVER MUST be scheduled to the system node pool in case cluster autoscaler is enabled
-  metrics_server_addon_configs = merge(local.metrics_server_addon_configs_base, local.enable_cluster_autoscaler ? {
-    nodeSelectors = "{\"role\": \"system\"}"
-  } : null)
-
-  cluster_autoscaler_addon_configs = {
-    authType = "workload"
-    # Enable balancing of similar node groups
-    balanceSimilarNodeGroups = "true"
-    # We should never group by fault domain when balancing for similarity, only by AD
-    balancingIgnoreLabel = "oci.oraclecloud.com/fault-domain"
-    # Supported from OKE v1.30.10, autoscale based on freeform or defined tags in the node pools
-    # DEFINE HERE YOUR AUTOSCALER POLICY, DEFAULT IS MIN: 0, MAX: 5
-    nodeGroupAutoDiscovery = "compartmentId:${var.oke_compartment_id},nodepoolTags:cluster_autoscaler=enabled,min:0,max:5"
-    # Make sure to schedule the cluster autoscaler in a node that it is NOT autoscaled, in the system node pool
-    nodeSelectors = "{\"role\": \"system\"}"
+  metrics_server_addon_configs = {
+    numOfReplicas = "2"
   }
 }
 
@@ -127,17 +111,15 @@ resource "oci_containerengine_addon" "oke_coredns" {
   count      = var.cluster_type == "enhanced" && local.override_coredns ? 1 : 0
 }
 
-resource "oci_containerengine_addon" "oke_cluster_autoscaler" {
-  addon_name                       = "ClusterAutoscaler"
+resource "oci_containerengine_addon" "oke_nodeProblemDetector" {
+  addon_name                       = "NodeProblemDetector"
   cluster_id                       = module.oke.cluster_id
   remove_addon_resources_on_delete = true
-  dynamic "configurations" {
-    for_each = local.cluster_autoscaler_addon_configs
-    content {
-      key   = configurations.key
-      value = configurations.value
-    }
+  override_existing                = true
+  configurations {
+    key   = "enableKubernetesExporter"
+    value = "true"
   }
   depends_on = [module.oke]
-  count      = local.enable_cluster_autoscaler ? 1 : 0
+  count      = var.cluster_type == "enhanced" ? 1 : 0
 }

@@ -112,7 +112,7 @@ As stated at the top of this tutorial, OAUTH is the preferred mechanism for auth
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
