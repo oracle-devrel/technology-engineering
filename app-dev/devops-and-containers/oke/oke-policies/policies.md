@@ -190,3 +190,12 @@ ALLOW any-user to read instance-images in TENANCY where request.principal.type =
 Allow any-user to manage load-balancers in compartment id <compartment-ocid> where all { request.principal.type = 'cluster' }
 Allow any-user to manage network-load-balancers in compartment id <compartment-ocid> where all { request.principal.type = 'cluster' }
 ```
+
+
+### Allow OKE to attach certificates from OCI Certificate service to the Load Balancer
+
+[https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingloadbalancers-subtopic.htm#creatinglbhttps-OCICertificates](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingloadbalancers-subtopic.htm#creatinglbhttps-OCICertificates)
+
+```
+Allow any-user to manage certificate-authority-family in compartment <certificate-compartment-name> where ALL {request.principal.type = 'cluster'}
+```

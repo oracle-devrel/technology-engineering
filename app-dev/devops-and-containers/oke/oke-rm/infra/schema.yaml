@@ -23,32 +23,54 @@ variableGroups:
       - vcn_cidr_block
       - vcn_dns_label
       - cni_type
+
+  - title: "Control Plane"
+    variables:
       - create_cp_subnet
       - cp_subnet_name
-      - create_worker_subnet
-      - worker_subnet_name
-      - create_pod_subnet
-      - pod_subnet_name
-      - create_external_lb_subnet
-      - external_lb_subnet_name
-      - create_internal_lb_subnet
-      - internal_lb_subnet_name
-      - create_fss
-      - fss_subnet_name
-      - create_bastion_subnet
-      - bastion_subnet_name
-      - bastion_subnet_private
-      - create_gateways
-      - create_internet_gateway
-
-  - title: "Control Plane Connectivity"
-    variables:
       - cp_connection_notice
       - cp_subnet_private
       - cp_allowed_source_cidr
       - cp_external_nat
       - allow_external_cp_traffic
       - cp_egress_cidr
+
+  - title: "Load Balancer"
+    variables:
+      - create_external_lb_subnet
+      - external_lb_subnet_name
+      - create_internal_lb_subnet
+      - internal_lb_subnet_name
+
+  - title: "Worker"
+    variables:
+      - create_worker_subnet
+      - worker_subnet_name
+      - allow_worker_nat_egress
+
+  - title: "Pod"
+    variables:
+      - create_pod_subnet
+      - pod_subnet_name
+      - allow_pod_nat_egress
+      - create_additional_pod_cidr
+      - additional_pod_cidr
+
+  - title: "FSS"
+    variables:
+      - create_fss
+      - fss_subnet_name
+
+  - title: "Bastion"
+    variables:
+      - create_bastion_subnet
+      - bastion_subnet_name
+      - bastion_subnet_private
+
+  - title: "Gateways"
+    variables:
+      - create_gateways
+      - create_internet_gateway
 
   - title: "DRG"
     variables:
@@ -58,6 +80,16 @@ variableGroups:
       - drg_id
       - create_drg_attachment
       - peer_vcns
+
+  - title: "Additional Network"
+    variables:
+      - create_db_subnet
+      - db_subnet_name
+      - db_service_list
+      - separate_db_nsg
+      - create_msg_subnet
+      - msg_subnet_name
+      - create_streaming_nsg
 
 variables:
 
@@ -108,10 +140,10 @@ variables:
 
   vcn_cidr_block:
     title: "VCN CIDR block"
-    description: "CIDR blocks to be allocated for the VCN. MUST BE A /16 VCN"
+    description: "CIDR blocks to be allocated for the VCN. MUST BE (x.y.0.0/16) OR (x.y.(0|64|128|192).0/18) OR (x.y.(multiple of 16).0/20)"
     type: string
     required: true
-    pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).){2}0.0\/16$"
+    pattern: "^(?:(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){2}0\\.0\\/(?:16)|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){2}(?:0|64|128|192)\\.0\\/(?:18)|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){2}(?:0|16|32|48|64|80|96|112|128|144|160|176|192|208|224|240)\\.0\\/(?:20))$"
     visible: ${create_vcn}
 
   vcn_dns_label:
@@ -153,6 +185,7 @@ variables:
     title: "Control Plane allowed source cidr"
     description: "This source CIDR block will be able to contact the OKE API server"
     type: string
+    pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\/(?:[0-9]|[1-2][0-9]|3[0-2])$"
     required: true
 
 
@@ -174,6 +207,11 @@ variables:
         - ${create_worker_subnet}
         - ${create_vcn}
 
+  allow_worker_nat_egress:
+    title: "Allow outbound traffic via NAT"
+    description: "Allow worker node to reach external Internet through a NAT"
+    type: boolean
+
 # POD SUBNET
 
   create_pod_subnet:
@@ -187,7 +225,6 @@ variables:
             - ${cni_type}
             - vcn_native
 
-
   pod_subnet_name:
     title: "Pod subnet name"
     description: "OKE pods will have an IP address assigned from this subnet"
@@ -196,6 +233,45 @@ variables:
     visible:
       and:
         - ${create_pod_subnet}
+        - ${create_vcn}
+        - eq:
+            - ${cni_type}
+            - vcn_native
+
+  allow_pod_nat_egress:
+    title: "Allow outbound traffic via NAT"
+    description: "Allow pods to reach external Internet through a NAT"
+    type: boolean
+    visible:
+      eq:
+        - ${cni_type}
+        - vcn_native
+
+  create_additional_pod_cidr:
+    title: "Create additional CIDR blocks for Pod subnet"
+    description: "Extend the pod subnet with additional CIDR blocks"
+    type: boolean
+    visible:
+      and:
+        - ${create_pod_subnet}
+        - ${create_vcn}
+        - eq:
+            - ${cni_type}
+            - vcn_native
+
+  additional_pod_cidr:
+    title: "Additional Pod CIDR"
+    description: "Additional Pod CIDR block to be added on the pod subnet. MUST be between /16 and /30 NOTE: only one add/remove or modification is allowed at once"
+    type: array
+    items:
+      type: string
+      pattern: "^(?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){2}0\\.0\\/16|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){2}(?:0|128)\\.0\\/17|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){2}(?:0|64|128|192)\\.0\\/18|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){2}(?:0|32|64|96|128|160|192|224)\\.0\\/19|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){2}(?:0|16|32|48|64|80|96|112|128|144|160|176|192|208|224|240)\\.0\\/20|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){2}(?:0|8|16|24|32|40|48|56|64|72|80|88|96|104|112|120|128|136|144|152|160|168|176|184|192|200|208|216|224|232|240|248)\\.0\\/21|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){2}(?:0|4|8|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96|100|104|108|112|116|120|124|128|132|136|140|144|148|152|156|160|164|168|172|176|180|184|188|192|196|200|204|208|212|216|220|224|228|232|236|240|244|248|252)\\.0\\/22|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){2}(?:0|2|4|6|8|[1-9][02468]|[1-9][13579][02468]|1[0-9][02468]|2[0-4][02468]|25[024])\\.0\\/23|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}0\\/24|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(?:0|128)\\/25|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(?:0|64|128|192)\\/26|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(?:0|32|64|96|128|160|192|224)\\/27|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(?:0|16|32|48|64|80|96|112|128|144|160|176|192|208|224|240)\\/28|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(?:0|8|16|24|32|40|48|56|64|72|80|88|96|104|112|120|128|136|144|152|160|168|176|184|192|200|208|216|224|232|240|248)\\/29|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(?:0|4|8|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96|100|104|108|112|116|120|124|128|132|136|140|144|148|152|156|160|164|168|172|176|180|184|188|192|196|200|204|208|212|216|220|224|228|232|236|240|244|248|252)\\/30)$"
+    required: true
+    minItems: 1
+    visible:
+      and:
+        - ${create_pod_subnet}
+        - ${create_additional_pod_cidr}
         - ${create_vcn}
         - eq:
             - ${cni_type}
@@ -311,8 +387,8 @@ variables:
     required: false
 
   cp_external_nat:
-    title: "I want the Control Plane to be able to reach external Internet services"
-    description: "Add a routing rule to the NAT Gateway for the Control Plane"
+    title: "Allow outbound traffic via NAT"
+    description: "Allow the OKE control plane to reach external Internet through a NAT"
     type: boolean
     visible:
       and:
@@ -320,8 +396,8 @@ variables:
         - ${create_cp_subnet}
 
   allow_external_cp_traffic:
-    title: "Allow external Control Plane traffic"
-    description: "Allow external traffic to Internet from the Control Plane - NSG rule"
+    title: "Allow external traffic"
+    description: "Allow external traffic from the Control Plane"
     type: boolean
     visible:
       or:
@@ -337,6 +413,7 @@ variables:
     description: "Allowed egress IP range that the Control Plane is allowed to call"
     type: string
     required: true
+    pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\/(?:[0-9]|[1-2][0-9]|3[0-2])$"
     visible:
       and:
         - ${allow_external_cp_traffic}
@@ -344,6 +421,65 @@ variables:
             - not:
                 - ${cp_subnet_private}
             - ${cp_external_nat}
+
+# ADDITIONAL NETWORK
+
+  create_db_subnet:
+    title: "Create Database Subnet"
+    description: "Create a subnet for all databases"
+    type: boolean
+    visible: ${create_vcn}
+
+  db_subnet_name:
+    title: "Database subnet name"
+    description: "Name of the subnet for databases"
+    type: string
+    required: true
+    visible:
+      and:
+        - ${create_db_subnet}
+        - ${create_vcn}
+
+  db_service_list:
+    title: "Additional Database Services"
+    description: "Create network rules for additional database services you are planning to use"
+    type: enum
+    additionalProps:
+      allowMultiple: true
+    enum:
+      - postgres
+      - cache
+      - oracledb
+      - mysql
+    required: false
+    default: []
+
+  separate_db_nsg:
+    title: "Create Separate database NSGs"
+    description: "Create separate database NSGs to manually select which applications will be granted access to the database"
+    type: boolean
+
+  create_msg_subnet:
+    title: "Create Messaging Subnet"
+    description: "Create a subnet for messaging brokers (eg. Kafka)"
+    type: boolean
+    visible: ${create_vcn}
+
+  msg_subnet_name:
+    title: "Messaging subnet name"
+    description: "Name of the subnet for messaging brokers"
+    type: string
+    required: true
+    visible:
+      and:
+        - ${create_msg_subnet}
+        - ${create_vcn}
+
+  create_streaming_nsg:
+    title: "Create OCI Streaming NSG"
+    description: "Create a NSG to use for OCI Streaming (Kafka). Rules will be also created to connect all the applications in the cluster to OCI Streaming"
+    type: boolean
+
 
 # DRG
 
@@ -390,13 +526,18 @@ variables:
 
   peer_vcns:
     title: "Peer VCN CIDR blocks"
-    description: "A routing rule will be created on all private subnets to route traffic directed to these CIDR blocks to the DRG"
+    description: "A routing rule will be created on all private subnets to route traffic directed to these CIDR blocks to the DRG. If 0.0.0.0/0 is specified, only a stateful egress rule will be inserted in the peering NSG"
     type: array
     items:
       type: string
+      pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\/(?:[0-9]|[1-2][0-9]|3[0-2])$"
     required: false
     visible:
       and:
         - ${enable_drg}
         - ${create_vcn}
         - ${create_drg_attachment}
+
+  tag_value:
+    type: oci:identity:tag:value
+    title: Tags

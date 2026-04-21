@@ -2,7 +2,7 @@
  
 Oracle Cloud Infrastructure (OCI) Document Understanding is an AI service that enables developers to extract text, tables, and other key data from document files through APIs and command-line interface tools. With OCI Document Understanding, you can automate tedious business processing tasks with prebuilt AI models and customize document extraction to fit your industry-specific needs.
 
-Reviewed: 22.09.2025
+Reviewed: 05.03.2026
 
 
 # Table of Contents
@@ -15,15 +15,15 @@ Reviewed: 22.09.2025
 
 ## LiveLabs and Workshops
 
-- [Introduction to OCI Document Understanding](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3585)
-- [Search Documents stored in Object Storage using Opensearch, Generative AI, Semantic Search, RAG](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3762)
-- [Develop with Oracle AI and Database Services: Gen, Vision, Speech, Language, OML, Select AI, RAG and Vector](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3874&clear=RR,180&session=10041712875174)
+- [Search Documents stored in Object Storage using Opensearch, Generative AI, Semantic Search, RAG](https://livelabs.oracle.com/ords/r/dbpm/livelabs/view-workshop?wid=3762)
+- [Develop with Oracle AI and Database Services: Gen, Vision, Speech, Language, OML, Select AI, RAG and Vector](https://livelabs.oracle.com/ords/r/dbpm/livelabs/view-workshop?wid=3874&clear=RR%2C180&session=10041712875174)
 - [Oracle Integration 3 - Build Intelligent Invoice Automation with OCI Document Understanding and OIC Decisions](https://livelabs.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=4193)
 - [Automate Invoice handling using Oracle APEX and OCI Document Understanding](https://livelabs.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3948)
+- [Create custom models using OCI Document Understanding and Label Studio](https://livelabs.oracle.com/ords/r/dbpm/livelabs/view-workshop?wid=4246&clear=RR,180&session=12269307335732)
 
 ## GitHub
 
-- [Enhanced Document Understanding with LLMs](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/generative-ai-service/Document%20Processing%20with%20GenAI/doc-understanding-and-genAI)
+- [Enhanced Document Understanding with LLMs](https://github.com/oracle-devrel/technology-engineering/tree/639cfff8b27caa853f002cbbf31f8f5c6d36bc06/ai/generative-ai-service/document-processing-with-genai)
     - A Streamlit-based app comparing and expanding on traditional Document Understanding (OCI DU) + LLM approach vs. a multimodal LLM for extracting structured data from documents (PDFs, images). This is is aimed at highlighting the strengths of each of our services and the power GenAI brings in combining these approaches for the best handling of complex documents.
 - [Invoice Document Processing from Gmail into ERP systems using OCI Document Understanding & Oracle Integration Cloud](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/ai-document-understanding/ai-email-invoice)
     - Explore how we can process invoice documents from Gmail into an ERP System in real-time using OCI Document Understanding and Oracle Integration Cloud (OIC). This solution combines a low-code approach to capture Gmail messages in real-time with Google Cloud Pub/Sub Adapter, extract invoice data with AI Document Understanding and create invoices in ERP systems using Oracle Integration Cloud ERP adapters.
@@ -36,6 +36,7 @@ Reviewed: 22.09.2025
 - [Process unstructured documents intelligently](https://docs.oracle.com/en/solutions/oracle-integration-process-documents-intelligently/index.html)
 - [Implement an API management platform for enterprise AI models and services](https://docs.oracle.com/en/solutions/implement-ai-model-api-management/index.html)
 - [Data platform - decentralized data platform](https://docs.oracle.com/en/solutions/data-platform-decentralized/index.html)
+- [Automate the document life cycle with OCI GenAI](https://docs.oracle.com/en/solutions/automate-docs-genai/)
 
 # Useful Links
 
@@ -90,9 +91,13 @@ Reviewed: 22.09.2025
 
 ## Blogs
 
-- [OCI Document Understanding: Using OJET apps with TypeScript](https://blogs.oracle.com/developers/post/oci-document-understanding-using-ojet-apps-with-typescript)
+- [Announcing AI-powered generative extraction in OCI Document Understanding](https://blogs.oracle.com/ai-and-datascience/announcing-ai-powered-generative-extraction)
 
-- [Extract key values with Oracle Analytics and OCI Document Understanding](https://blogs.oracle.com/analytics/post/innovate-with-oracle-analytics-and-ai-document-understanding)
+- [Using OCI Document Understanding SDK in Python Functions for document classification and key-value recognition](https://www.ateam-oracle.com/using-oci-document-understanding-sdk-in-python-functions-for-document-classification-and-key-value-recognition)
+
+- [OCI Document Understanding: Unleashing the Power of Multilingual Document Analysis](https://blogs.oracle.com/ai-and-datascience/oci-document-understanding-multilingual-analysis)
+
+- [Automate Invoice handling using Oracle APEX and OCI Document Understanding](https://blogs.oracle.com/apex/automate-invoice-handling-by-integrating-your-oracle-apex-app-with-oci-document-understanding)
 
 
 ## Demos & Events
@@ -111,7 +116,7 @@ Reviewed: 22.09.2025
 
 # License
  
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
