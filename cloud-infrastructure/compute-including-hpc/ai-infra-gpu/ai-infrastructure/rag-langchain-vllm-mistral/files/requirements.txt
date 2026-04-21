@@ -150,7 +150,7 @@ parso @ file:///croot/parso_1733963305961/work
 partial-json-parser==0.2.1.1.post5
 pexpect @ file:///tmp/build/80754af9/pexpect_1605563209008/work
 pgvector==0.4.0
-pillow==11.1.0
+pillow==12.1.1
 platformdirs==4.3.7
 playwright==1.51.0
 portalocker==2.10.1
