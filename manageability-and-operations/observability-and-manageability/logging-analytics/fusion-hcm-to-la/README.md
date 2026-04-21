@@ -3,7 +3,7 @@
 Since last year we have got many requests on how to gain more visibility in Oracle Fusion HCM using Logging Analytics. Since then Logging Analytics team simplified the collection model of the logs, and now we have predefined Parsers and Sources for Fusion Logs.
  
  
-Reviewed: 30.06.2025
+Reviewed: 20.04.2026
  
 # When to use this asset?
  
