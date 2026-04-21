@@ -55,6 +55,23 @@ Open the created OCI DevOps project and confirm:
 4. OKE environment exists and points to the expected cluster.
 
 ### 3. Run Mirror Build Pipeline
+Before running build pipeline `mirror-gitops-agent`, create these Kubernetes prerequisites in the target cluster:
+
+1. Namespace `flux-system`.
+2. Image pull secret `ocirsecret` in namespace `flux-system` with OCIR credentials.
+
+Example:
+
+```bash
+kubectl create namespace flux-system
+kubectl create secret docker-registry ocirsecret \
+  --namespace flux-system \
+  --docker-server=<region-key>.ocir.io \
+  --docker-username='<tenancy-namespace>/<identity-domain/<username>' \
+  --docker-password='<auth-token>' \
+  --docker-email='<email>'
+```
+
 Run build pipeline `mirror-gitops-agent`:
 
 1. Trigger pipeline run on `main`.
