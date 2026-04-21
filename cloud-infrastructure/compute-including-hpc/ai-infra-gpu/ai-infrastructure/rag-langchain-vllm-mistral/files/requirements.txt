@@ -41,7 +41,7 @@ fastapi-cli==0.0.7
 fastrlock==0.8.3
 feedfinder2==0.0.4
 feedparser==6.0.11
-filelock==3.20.1
+filelock==3.20.3
 filetype==1.2.0
 frozenlist==1.5.0
 fsspec==2025.3.2
