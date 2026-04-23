@@ -58,12 +58,24 @@ Currently, Oracle Database@AWS is available in two Availability Zones in both th
 
 
 
-# Team Publications and Blog Posts
+# Blog Posts
 
 - [AWS Oracle Database Network](https://blogs.oracle.com/oracleuniversity/post/aws-odb-network)
 - [Oracle ZDM Migrations to Autonomous Database on Oracle Database@AWS](https://blogs.oracle.com/maa/post/oracle-zdm-migration-adb-aws)
 - [Oracle ZDM Migrations to Exadata Database Services on Oracle Database@AWS](https://blogs.oracle.com/maa/oracle-zdm-migration-exadata-aws)
-- [Video - Provisioning Oracle cloud services on Oracle Database@AWS](https://www.youtube.com/watch?v=it2uamkKRpM)
+
+
+
+# Videos
+
+- [Provisioning Oracle cloud services on Oracle Database@AWS](https://www.youtube.com/watch?v=it2uamkKRpM)
+- [Provisioning Exadata Database Service in Oracle Database@AWS](https://youtu.be/cHJZuZZvPD0?si=lfQQucwsKGvPRMjq)
+- [Provisioning Autonomous AI Database Dedicated in Oracle Database@AWS](https://www.youtube.com/watch?v=vJXKIfBVbRo)
+- [High Performance Networking for Oracle Database@AWS](https://www.youtube.com/watch?v=Yv8PT3OVcJI)
+- [Backup ADB-D@AWS to ZRCV@AWS](https://youtu.be/RLy5kIeNtEw?si=tdyMdQ5IIyjkRyBk)
+- [AWS KMS Integration with ExaDB-D@AWS](https://youtu.be/_r1NT8hkCvg?si=g938vtqkUB7sAeNx)
+- [Developer Coaching - Oracle Database@AWS - A Deep Dive into Subscription Sharing & Network Topology](https://youtu.be/g1AS0jT3JxA?si=8gN9bYz9TKiy0yZ-)
+- [Migrate Oracle Databases to ExaDB-D on Oracle Database@AWS with ZDM](https://youtu.be/DS-JyMZUip0?si=YsObji5h67g8gvi-)
 
 
 
