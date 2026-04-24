@@ -12,7 +12,7 @@ The asset is broken down into three sections:
 
 ![What will we cover in this series about OCI APM?](images/series-scope-introduction.png)
 
-Reviewed: 16.01.2026
+Reviewed: 24.04.2026
 
 # When to use this asset?
 
