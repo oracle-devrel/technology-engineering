@@ -33,11 +33,13 @@ module "network" {
   worker_subnet_name      = var.worker_subnet_name
   allow_worker_nat_egress = var.allow_worker_nat_egress
   # POD SUBNET
-  create_pod_subnet    = var.create_pod_subnet
-  pod_subnet_cidr      = local.subnets.cidr.pod
-  pod_subnet_dns_label = local.subnets.dns.pod
-  pod_subnet_name      = var.pod_subnet_name
-  allow_pod_nat_egress = var.allow_pod_nat_egress
+  create_pod_subnet          = var.create_pod_subnet
+  pod_subnet_cidr            = local.subnets.cidr.pod
+  pod_subnet_dns_label       = local.subnets.dns.pod
+  pod_subnet_name            = var.pod_subnet_name
+  allow_pod_nat_egress       = var.allow_pod_nat_egress
+  create_additional_pod_cidr = var.create_additional_pod_cidr
+  additional_pod_cidr        = var.additional_pod_cidr
   # BASTION SUBNET
   create_bastion_subnet    = var.create_bastion_subnet
   bastion_subnet_cidr      = local.subnets.cidr.bastion

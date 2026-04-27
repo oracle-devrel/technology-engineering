@@ -1,4 +1,4 @@
-# Copyright (c) 2025 Oracle and/or its affiliates.
+# Copyright (c) 2026 Oracle and/or its affiliates.
 [build-system]
 requires = ["flit_core >= 3.2.0"]
 build-backend = "flit_core.buildapi"

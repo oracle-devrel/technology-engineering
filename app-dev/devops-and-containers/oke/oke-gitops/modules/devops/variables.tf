@@ -29,7 +29,6 @@ variable "git_password" {}
 
 # TEMPLATE
 variable "ocir_repo_path_prefix" {}
-variable "flux_agent_chart_version" {}
 
 # OKE ENVIRONMENT
 variable "oke_cluster_id" {}
