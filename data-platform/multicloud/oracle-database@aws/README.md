@@ -72,6 +72,8 @@ Currently, Oracle Database@AWS is available in two Availability Zones in both th
 - [Provisioning Exadata Database Service in Oracle Database@AWS](https://youtu.be/cHJZuZZvPD0?si=lfQQucwsKGvPRMjq)
 - [Provisioning Autonomous AI Database Dedicated in Oracle Database@AWS](https://www.youtube.com/watch?v=vJXKIfBVbRo)
 - [High Performance Networking for Oracle Database@AWS](https://www.youtube.com/watch?v=Yv8PT3OVcJI)
+- [Configure OCI to AWS DNS Resolution](https://www.youtube.com/watch?v=K7FHEig0M_g)
+- [Configure AWS to OCI DNS Resolution](https://www.youtube.com/watch?v=ERSnXGsSoPE)
 - [Backup ADB-D@AWS to ZRCV@AWS](https://youtu.be/RLy5kIeNtEw?si=tdyMdQ5IIyjkRyBk)
 - [AWS KMS Integration with ExaDB-D@AWS](https://youtu.be/_r1NT8hkCvg?si=g938vtqkUB7sAeNx)
 - [Developer Coaching - Oracle Database@AWS - A Deep Dive into Subscription Sharing & Network Topology](https://youtu.be/g1AS0jT3JxA?si=8gN9bYz9TKiy0yZ-)
