@@ -15,7 +15,7 @@ Prerequisites
   as demo.js assumes that all database structures (views, tables, etc) are already created.
 
 License
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

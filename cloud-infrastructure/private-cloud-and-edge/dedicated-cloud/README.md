@@ -1,6 +1,6 @@
 # Dedicated Cloud
 
-Updated: 10.11.2025
+Updated: 23.03.2026
 
 Oracle Dedicated Cloud includes two distinct deployment models: Oracle Dedicated Region and Oracle Alloy
 
@@ -16,7 +16,7 @@ Oracle Alloy is a complete cloud infrastructure platform that enables partners t
 
 ## License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
