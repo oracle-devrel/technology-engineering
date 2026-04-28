@@ -30,10 +30,10 @@ async function aggregations() {
         result = await db.collection("EMPLOYEES_COL").aggregate([
             { $group : { _id : '$department_id', avgsalary : { $avg : "$salary" } } }
         ]).explain();
-        if (!oracle_api)
-            console.log(result.queryPlanner.winningPlan);
-        else
-            console.log(result.stages[0].$sql);
+        //if (!oracle_api)
+        //    console.log(result.queryPlanner.winningPlan);
+        //else
+        //    console.log(result.stages[0].$sql);
     }   
     catch (e) {
         console.error(e);
