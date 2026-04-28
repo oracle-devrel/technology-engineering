@@ -2,12 +2,14 @@
 
 Oracle Logging Analytics is a cloud solution in Oracle Cloud Infrastructure that lets you index, enrich, aggregate, explore, search, analyze, correlate, visualize, and monitor all log data from your applications and system infrastructure.
 
-Reviewed: 07.01.2026
+Reviewed: 28.04.2026
 
 |Asset  |   Page| 
 |---|---|
-| How to inject Oracle Fusion HCM logs in Logging Analytics | [Link](./fusion-hcm-to-la/README.md) |
+| How to inject Oracle Fusion HCM logs in Logging Analytics | [Link](./fusion-hcm-to-la/README.md)|
 |Forward Azure logs to OCI |[Link](https://github.com/adibirzu/azurelogs2oci)|
+|Log Analytics Advanced Security Detection|[Link](https://github.com/adibirzu/oci-log-analytics-detections)|
+|Log Analytics Security Dashboards|[Link](https://github.com/adibirzu/logan-security-dashboard)|
 
 # Table of Contents
 
