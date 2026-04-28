@@ -1,3 +1,21 @@
+# -----------------------------------------------------------------------------
+# Copyright (c) 2026 Oracle and/or its affiliates.
+#
+# Licensed under the Universal Permissive License v 1.0 as shown at
+# https://oss.oracle.com/licenses/upl/
+#
+# You may use, copy, modify, and distribute this software and its documentation
+# under the terms of the UPL. This software is provided "AS IS" without warranty
+# of any kind.
+#
+# Oracle does not provide support for this script; community support only.
+# This software is provided as it is and need to be considered an example
+# of a possible implementation rather than for general use. 
+#
+# Script provided by: Cristiano Ghirardi, Oracle employee
+# -----------------------------------------------------------------------------
+
+
 """OCI Function to add a route rule to a specific route table.
 
 The function expects a JSON payload with the following keys:
