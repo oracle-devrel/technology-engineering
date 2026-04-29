@@ -13,10 +13,5 @@ configMapGenerator:
     files:
       - values.yaml=./values.yml
 
-secretGenerator:
-  - name: ${component}-values-env-${environment}
-    files:
-      - values.yaml=./secrets.yml
-
 generatorOptions:
   disableNameSuffixHash: true

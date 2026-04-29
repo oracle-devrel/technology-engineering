@@ -13,11 +13,5 @@ configMapGenerator:
     files:
       - values.yaml=./values.yml
 
-# In case you have some values that contains secrets, encrypt them with SOPS beforehand
-secretGenerator:
-  - name: ${component}-values-${profile}
-    files:
-      - values.yaml=./secrets.yml
-
 generatorOptions:
   disableNameSuffixHash: true

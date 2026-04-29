@@ -24,7 +24,7 @@ unset -v TENANCY_NAMESPACE;
 unset -v DOCKER_AUTH_DIR;
 
 GITOPS_AGENT_NAME="flux-operator"
-COMPONENTS="source-controller,kustomize-controller,helm-controller"
+COMPONENTS="source-controller,kustomize-controller,helm-controller,notification-controller"
 
 while getopts c:k:v:p:t: flag
 do

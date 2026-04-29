@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: flux-system
+
+# Here will go all namespace-wide resources that will impact all the components in the namespace
+
+
+#resources:
+#  - file.yml

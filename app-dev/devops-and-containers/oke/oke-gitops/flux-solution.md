@@ -152,21 +152,21 @@ Schema (logical view):
 ```mermaid
 flowchart TD
   A["cluster-config repository"] --> B["gitops/"]
-  A --> C["infra-apps/"]
+  A --> C["infra-apps/&lt;namespace&gt;"]
   A --> D["cluster-resources/"]
 
   B --> B1["bootstrap (Flux bootstrap objects, repo auth)"]
   B --> B2["types/profiles wiring"]
 
-  C --> C1["<namespace>/infrastructure (namespace-wide namespaced resources)"]
-  C --> C2["<namespace>/<component> (unit of deployment)"]
+  C --> C1["/infrastructure (namespace-wide namespaced resources)"]
+  C --> C2["/&lt;component&gt; (unit of deployment)"]
 
   C2 --> C3["helm/values"]
   C2 --> C4["kustomize/"]
 
   C3 --> E1["base"]
-  C3 --> E2["profiles/<profile>"]
-  C3 --> E3["variants/<profile-variant>"]
+  C3 --> E2["profiles/&lt;profile&gt;"]
+  C3 --> E3["variants/&lt;profile-variant&gt;"]
 
   E1 --> F["merge order: base -> profile -> variant"]
   E2 --> F
