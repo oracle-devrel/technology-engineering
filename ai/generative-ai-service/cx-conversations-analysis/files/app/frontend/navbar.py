@@ -12,10 +12,11 @@ def make_sidebar(config):
         # --- Page selector (view) ---
         st.markdown("#### Analysis view")
         page = st.radio(
-            "",
+            "View",
             ("Per-call view", "Batch overview"),
             index=0,
             help="Switch between single-call inspection and batch-level insights.",
+            label_visibility="collapsed",
         )
 
         if not processed and page == "Batch overview":
@@ -31,10 +32,24 @@ def make_sidebar(config):
             accept_multiple_files=True,
         )
 
-        st.markdown("#### Model")
+        st.markdown("#### Models")
+        selected_speech_model = st.selectbox(
+            "Speech transcription model",
+            ("Oracle", "Whisper"),
+            index=0,
+            help="Oracle: OCI's native speech model. Whisper: OpenAI Whisper Large V3.",
+        )
+        
         selected_model = st.selectbox(
             "Oracle Generative AI model",
             config.LIST_GENAI_MODELS,
+        )
+
+        sentiment_method = st.selectbox(
+            "Sentiment analysis method",
+            ("GenAI", "OCI Language"),
+            index=0,
+            help="GenAI uses prompt-based custom criteria. OCI Language uses the managed sentiment service.",
         )
 
         run_button = st.button("Run")
@@ -64,12 +79,27 @@ def make_sidebar(config):
                         <span class="param-value">{file_count}</span>
                     </div>
                     <div class="param-row">
-                        <span class="param-label">Model</span>
+                        <span class="param-label">Speech model</span>
+                        <span class="param-value">{selected_speech_model}</span>
+                    </div>
+                    <div class="param-row">
+                        <span class="param-label">GenAI model</span>
                         <span class="param-value">{selected_model}</span>
+                    </div>
+                    <div class="param-row">
+                        <span class="param-label">Sentiment method</span>
+                        <span class="param-value">{sentiment_method}</span>
                     </div>
                 </div>
                 """,
                 unsafe_allow_html=True,
             )
 
-        return uploaded_files, run_button, selected_model, page
+        return (
+            uploaded_files,
+            run_button,
+            selected_model,
+            selected_speech_model,
+            sentiment_method,
+            page,
+        )

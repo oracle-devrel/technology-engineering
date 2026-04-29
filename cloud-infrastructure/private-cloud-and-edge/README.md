@@ -1,6 +1,6 @@
 # Private Cloud and Edge
 
-Updated: 7.11.2025
+Reviewed: 23.03.2026
 
 Oracle’s distributed cloud delivers the benefits of cloud with greater control and flexibility. Oracle’s distributed cloud lineup includes:
 
@@ -22,7 +22,7 @@ This section focuses on Dedicated Cloud and Hybrid Cloud services.
 
 ## License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
