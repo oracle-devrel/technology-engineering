@@ -1,0 +1,58 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: argocd-example
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: [ "missingkey=error" ]
+  generators:
+    - matrix:
+        generators:
+          - git:
+              repoURL: ${git_repo_url}.git
+              revision: HEAD
+              files:
+                - path: "gitops/types/example/config.json"
+              values:
+                namespace: argocd
+                component: argocd
+          - clusters:
+              selector:
+                matchLabels:
+                  profile: "{{.profile}}"
+
+  # If you want to delete everything if the Application is deleted, set this to false and then delete the Application. This is just a safeguard
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+
+  template:
+    metadata:
+      name: '{{.values.component}}-{{.nameNormalized}}-{{.profile}}'
+    spec:
+      project: default
+      sources:
+
+        - repoURL: oci://${region_key}.ocir.io/${tenancy_namespace}/${repo_prefix}/charts/argo-cd
+          chart: 'argo-cd'
+          targetRevision: '*'
+          helm:
+            releaseName: 'argocd'
+            valueFiles:
+              - $values/infra-apps/{{.values.namespace}}/{{.values.component}}/helm/values/base/values.yml
+              - $values/infra-apps/{{.values.namespace}}/{{.values.component}}/helm/values/profiles/{{.profile}}/values.yml
+
+        - repoURL: ${git_repo_url}.git
+          targetRevision: HEAD
+          ref: values
+      destination:
+        server: '{{.server}}'
+        namespace: '{{.values.namespace}}'
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+          - ApplyOutOfSyncOnly=true
+        automated:
+          prune: true
+          selfHeal: true
