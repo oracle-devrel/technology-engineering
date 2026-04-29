@@ -59,7 +59,7 @@ oci==2.149.1
 olefile==0.47
 openpyxl==3.1.5
 oracledb==3.0.0
-orjson==3.10.16
+orjson==3.11.6
 packaging==24.2
 pandas==2.2.3
 pillow==12.2.0
