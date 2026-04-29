@@ -1,0 +1,69 @@
+apiVersion: fluxcd.controlplane.io/v1
+kind: FluxInstance
+metadata:
+  name: flux
+  namespace: flux-system
+spec:
+  distribution:
+    version: "2.x"
+    registry: "${region_key}.ocir.io/${tenancy_namespace}/${repo_prefix}/fluxcd"
+    variant: "upstream-alpine"
+    imagePullSecret: "ocirsecret"
+  components:
+    - source-controller
+    - kustomize-controller
+    - helm-controller
+  cluster:
+    type: kubernetes
+    size: medium
+
+---
+apiVersion: fluxcd.controlplane.io/v1
+kind: ResourceSet
+metadata:
+  name: flux-bootstrap
+  namespace: flux-system
+spec:
+  commonMetadata:
+    annotations:
+      fluxcd.controlplane.io/prune: disabled      # Avoid pruning these resources
+  inputs:
+    - bootstrap_path: "./gitops/types/example"
+  dependsOn:
+    - apiVersion: fluxcd.controlplane.io/v1
+      kind: FluxInstance
+      name: flux
+      namespace: flux-system
+    - apiVersion: v1
+      kind: Secret
+      name: git-token-auth
+      namespace: flux-system
+  resources:
+
+    - apiVersion: source.toolkit.fluxcd.io/v1
+      kind: GitRepository
+      metadata:
+        name: flux-system
+        namespace: << inputs.provider.namespace >>
+      spec:
+        interval: 3m0s
+        url: "${git_repo_url}"
+        ref:
+          branch: main
+        secretRef:
+          name: "git-token-auth"
+
+    - apiVersion: kustomize.toolkit.fluxcd.io/v1
+      kind: Kustomization
+      metadata:
+        name: flux-resourcesets
+        namespace: << inputs.provider.namespace >>
+      spec:
+        interval: 5m
+        targetNamespace: << inputs.provider.namespace >>
+        sourceRef:
+          kind: GitRepository
+          name: flux-system
+        path: << inputs.bootstrap_path >>
+        prune: true
+        timeout: 1m

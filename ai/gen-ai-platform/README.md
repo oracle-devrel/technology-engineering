@@ -7,7 +7,7 @@ Reviewed: 27.10.2025
 - [OCI Generative AI Platfrom - technical overview](https://github.com/oracle-devrel/technology-engineering/blob/main/ai/gen-ai-platform/files/OCI%20GenAI%20-%20public.pdf) - Technical overview for Oracle Generative AI Platform, including OCI Generative AI Service, Generative AI Agents, AI Services.
 
 ## License
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

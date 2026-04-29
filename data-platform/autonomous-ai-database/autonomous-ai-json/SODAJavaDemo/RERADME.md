@@ -4,7 +4,7 @@ Instead of this it uses SODA JDBC driver to perform SODA operations on document 
 
 # License
 
-Copyright (c) 2024 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

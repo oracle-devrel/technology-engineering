@@ -28,7 +28,7 @@ customized dashboards, run advanced queries, and perform granular
 analysis tailored to your organization’s specific needs.
  
  
-Reviewed: 29.10.2025
+Reviewed: 17.04.2026
  
 # When to use this asset?
  
@@ -47,7 +47,7 @@ You can follow the instruction of the [step by step guide](https://github.com/or
  
 # License
  
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
