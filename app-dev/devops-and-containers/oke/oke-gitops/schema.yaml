@@ -1,6 +1,6 @@
 title: OKE GitOps Solution
-description: OKE GitOps solution based on OCI DevOps and ArgoCD
-informationalText: OKE GitOps - ArgoCD
+description: OKE GitOps solution based on OCI DevOps
+informationalText: OKE GitOps Solution
 schemaVersion: 1.1.0
 version: "20190304"
 locale: "en"
@@ -16,13 +16,18 @@ variableGroups:
       - current_user_ocid
       - compartment_ocid
 
+  - title: "GitOps Agent"
+    variables:
+      - gitops_agent
+
   - title: Create policies
     variables:
       - create_iam
-      - default_policy_name
-      - identity_domain_name
+      - iam_domain_compartment_id
+      - devops_iam_domain_id
       - devops_dynamic_group_name
       - devops_policy_name
+      - kms_compartment_id
 
   - title: DevOps Project
     variables:
@@ -56,6 +61,14 @@ variableGroups:
       - oke_worker_nsg_id
 
 variables:
+
+  gitops_agent:
+    title: "GitOps Agent"
+    description: "GitOps Agent to use for deployments on the cluster"
+    type: enum
+    enum:
+      - fluxcd
+    required: true
 
   devops_compartment_id:
     title: "DevOps Compartment"
@@ -220,10 +233,20 @@ variables:
     description: "Let this stack create OCI DevOps policies and dynamic group"
     type: boolean
 
-  identity_domain_name:
-    title: "Identity domain name"
-    description: "Name of the identity domain in the tenancy where to create the dynamic group"
-    type: string
+  iam_domain_compartment_id:
+    title: "Domain Compartment"
+    description: "Compartment where the IAM domain is located"
+    type: oci:identity:compartment:id
+    default: ${tenancy_ocid}
+    required: true
+    visible: ${create_iam}
+
+  devops_iam_domain_id:
+    type: oci:identity:domains:id
+    title: "OCI DevOps Identity Domain"
+    description: "Domain where to create the OCI DevOps Dynamic Group"
+    dependsOn:
+      compartmentId: ${iam_domain_compartment_id}
     required: true
     visible: ${create_iam}
 
@@ -239,4 +262,11 @@ variables:
     description: "Name of the policy for the OCI DevOps service"
     type: string
     required: true
+    visible: ${create_iam}
+
+  kms_compartment_id:
+    title: "Vault Compartment"
+    description: "Compartments where the Vault Secrets will be located"
+    type: oci:identity:compartment:id
+    default: ${compartment_ocid}
     visible: ${create_iam}

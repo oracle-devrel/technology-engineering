@@ -1,0 +1,4 @@
+image:
+  repository: ${region_key}.ocir.io/${tenancy_namespace}/${repo_prefix}/flux-operator
+  pullSecrets:
+    - name: ocirsecret
