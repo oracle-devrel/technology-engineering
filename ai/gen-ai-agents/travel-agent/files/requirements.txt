@@ -80,7 +80,7 @@ langgraph==0.4.5
 langgraph-checkpoint==3.0.0
 langgraph-prebuilt==0.1.8
 langgraph-sdk==0.1.69
-langsmith==0.3.42
+langsmith==0.7.31
 MarkupSafe==3.0.2
 marshmallow==3.26.2
 matplotlib==3.10.3
