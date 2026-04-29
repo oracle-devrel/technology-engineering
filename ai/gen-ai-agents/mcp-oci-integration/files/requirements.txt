@@ -51,7 +51,7 @@ langgraph==0.6.7
 langgraph-checkpoint==3.0.0
 langgraph-prebuilt==0.6.4
 langgraph-sdk==0.2.6
-langsmith==0.4.27
+langsmith==0.6.3
 lazy-object-proxy==1.12.0
 markdown-it-py==4.0.0
 MarkupSafe==3.0.2
