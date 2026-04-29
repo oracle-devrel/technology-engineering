@@ -11,7 +11,15 @@ Reviewed: 08.10.2025
 3. [Reusable Assets Overview](#reusable-assets-overview)
  
 # Team Publications
- 
+- [Apache Iceberg on OCI Object Storage with GoldenGate for DAA 26ai](https://blogs.oracle.com/dataintegration/apache-iceberg-on-oci-object-storage-with-goldengate-for-daa-26ai)
+    - With GoldenGate for DAA 26ai, you can now configure Apache Iceberg replication with OCI Object Storage. GoldenGate for DAA leverages the S3 endpoint of OCI Object Storage for connectivity
+
+- [GoldenGate 23ai Silent Install Made Simple](https://blogs.oracle.com/dataintegration/goldengate-23ai-silent-install-made-simple)
+    - GoldenGate 23ai Silent Install simple and predictable.
+
+- [A Step-by-Step Guide to Setting Up GoldenGate DAA 23ai for MongoDB and Oracle JSON Database Integration](https://blogs.oracle.com/dataintegration/a-stepbystep-guide-to-setting-up-goldengate-daa-23ai-for-mongodb-and-oracle-json-database-integration)
+    - Step-by-step how to migrate MongoDB documents to Oracle JSON Database on-premises
+       
 - [On-Demand Video Oracle GoldenGate for Multicloud, Data Lakes, and Big Data Deep Dive](https://go.oracle.com/LP=137345?elqCampaignId=468926&src1=:eng:lw:ie::::Odlwtlw_David_Horgan#On-Demand-Webinars)
     - Oracle GoldenGate deep dive session discussing various use cases for Multicloud, Data Lakes, and Big Data
  
@@ -141,7 +149,7 @@ Reviewed: 08.10.2025
      
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

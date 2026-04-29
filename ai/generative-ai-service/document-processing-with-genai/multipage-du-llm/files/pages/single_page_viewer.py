@@ -1,6 +1,6 @@
 # pages/run_document_classifier.py
 """
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 MIT License — see LICENSE for details.Streamlit Document Classifier Application
 Uses OCI Document Understanding for OCR and OCI Generative AI (Llama 3.3) for classification.

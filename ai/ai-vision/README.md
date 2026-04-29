@@ -26,8 +26,15 @@ Reviewed: 21.09.2025
 ## GitHub
 
 - [OCI object detection and image segmentation using SAM2](./ai-vision-and-sam/)
+    - Asset displaying the capability to connect OCI AI vision with SAM2 for accurate segmentations without needing high amounts of data for training.
+- [OCI object detection and embedding with Autonmous Database 26ai](./object-detection-and-embedding/)
+    - Asset showcasing how OCI vision object detection and Embedding models can be used together to identify custom (non-generic) objects within images.
+- [OCI vision streaming analysis](./video-stream-analysis/)
+    - Asset showcasing how to set up and use OCI vision streaming to analyze live RTSP streams to extract insights and data.
 - [OCI image classification using data labeling and vision service](https://github.com/carlgira/oci-image-classification)
-- [OCI object detection using data labeling and vision service](https://github.com/carlgira/oci-object-detection) 
+    - Asset displaying how to create a custom model within OCI Vision service to classify different images.
+- [OCI object detection using data labeling and vision service](https://github.com/carlgira/oci-object-detection)
+    - Asset displaying how to create a custom model within OCI Vision service to classify different images.
 - [AI vision web client](https://github.com/oracle-devrel/oci-tf-vision-web-client)
     - Terraform script that will create a set of resources on OCI to create a web app to test an existing vision model.
 
@@ -91,7 +98,7 @@ Reviewed: 21.09.2025
  
 # License
  
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

@@ -19,7 +19,7 @@ Oracle True Cache provides several business benefits related to application deve
 
 Oracle True Cache is available starting from Oracle AI Database 26ai release (not supported in 19c).
 
-Reviewed: 22.01.2025
+Reviewed: 24.04.2026
 
 
 # Table of Contents
@@ -33,11 +33,17 @@ N/A
 
 # Useful Links
 - [Oracle True Cache](https://www.oracle.com/database/truecache/)
-- [True Cache AI World 2025](https://www.oracle.com/database/truecache/)
+- [Documentation](https://docs.oracle.com/en/database/oracle/oracle-database/26/odbtc/index.html)
+- [Oracle True Cache Users Guide](https://docs.oracle.com/en/database/oracle/oracle-database/26/odbtc/oracle-true-cache-users-guide.pdf)
+- [Blog - Accelerate Your Application Performance with Oracle True Cache](https://blogs.oracle.com/database/accelerate-your-application-performance-with-oracle-true-cache)
+- [Oracle True Cache Technical Architectures](https://docs.oracle.com/en/database/oracle/oracle-database/26/tciad/tc_genarch.html)
+- [Blog - True Cache and Active Data Guard Transparent JDBC Redirection](https://blogs.oracle.com/maa/true-cache-and-active-data-guard-jdbc-redirection)
+- [LiveLabs-Improve application performance with True Cache](https://livelabs.oracle.com/ords/r/dbpm/livelabs/view-workshop?wid=3933&clear=RR%2C180&session=103853267931988)
+- [YouTube - Application Acceleration with Oracle True Cache: Oracle DatabaseWorld 2025](https://www.youtube.com/watch?v=akCz6tskFLU)
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

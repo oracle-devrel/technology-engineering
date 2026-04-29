@@ -1,6 +1,6 @@
 # C3 OKE - Monitoring with OCI Log Analytics
 
-Reviewed: 17.10.2025
+Reviewed: 23.03.2026
 
 ## Introduction
 
@@ -181,7 +181,7 @@ may be a better choice.
 
 # License
  
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

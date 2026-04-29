@@ -1,6 +1,6 @@
 # Roving Edge Infrastructure
 
-Updated: 23.12.2025
+Updated: 23.03.2026
 
 # Solutions - Architecture Center
 
@@ -22,10 +22,12 @@ Tutorials
 ## Blogs, Press Releases, News Articles, Videos & Podcasts
 
 Blogs / Press Releases
+- [Royal Navy Expands AI-Driven Defence Capabilities with Oracle Cloud Infrastructure](https://www.oracle.com/uk/news/announcement/royal-navy-expands-ai-driven-defence-oci-2026-01-20/) (20/Jan/2026)
 - [Oracle Recognized as a Leader in the 2025 Gartner® Magic Quadrant™ for Distributed Hybrid Infrastructure](https://www.oracle.com/news/announcement/oracle-recognized-as-a-leader-in-the-2025-gartner-magic-quadrant-for-distributed-hybrid-infrastructure-2025-09-10/) (10/Sep/2025)
 - [Rancher Government Solutions and Oracle to Deliver Secure Edge-to-Cloud Capabilities for Federal Agencies](https://www.businesswire.com/news/home/20250617657229/en/Rancher-Government-Solutions-and-Oracle-to-Deliver-Secure-Edge-to-Cloud-Capabilities-for-Federal-Agencies) (17/Jun/2025)
 - [Oracle Delivers Sovereign AI Anywhere Using NVIDIA Accelerated Computing](https://blogs.oracle.com/cloud-infrastructure/oracle-and-nvidia-deliver-sovereign-ai-anywhere) (18/Mar/2025)
 - [Esri at AUSA 2024: Empowering Defense with Data on the Edge](https://www.esri.com/en-us/industries/blog/articles/esri-at-ausa-2024-empowering-defense-with-data-on-the-edge/) (24/Feb/2025)
+- [Oracle Supercharges Retail Operations with New POS](https://www.oracle.com/news/announcement/oraclexstore-2025-01-13/) (13/Jan/2025)
 - [Run AI at the Edge: Oracle’s Next‑Gen Roving Edge Device](https://blogs.oracle.com/cloud-infrastructure/post/performance-enhancements-next-gen-roving-edge-red) (10/Oct/2024)
 - [Oracle recognized as a Leader for a second year in the 2024 Gartner Magic Quadrant™ for Distributed Hybrid Infrastructure](https://blogs.oracle.com/cloud-infrastructure/post/2024-gartner-mq-distributed-hybrid-infrastructure) (10/Oct/2024)
 - [New capabilities at the Edge: Key takeaways from Oracle CloudWorld 2024](https://blogs.oracle.com/cloud-infrastructure/post/new-capabilities-at-the-edge-key-takeaways-from-oracle-cloudworld-2024) (30/Sep/2024)
@@ -76,7 +78,7 @@ Videos
 
 ## License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
