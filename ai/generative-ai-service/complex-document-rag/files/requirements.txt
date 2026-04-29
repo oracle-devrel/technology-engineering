@@ -1,7 +1,7 @@
 # Core Dependencies
 gradio==4.44.0
 chromadb==0.5.3
-python-dotenv==1.0.1
+python-dotenv==1.2.2
 
 # OCI SDK
 oci==2.135.1
