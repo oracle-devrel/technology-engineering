@@ -25,7 +25,7 @@ eval_type_backport==0.2.2
 filetype==1.2.0
 frozenlist==1.5.0
 gitdb==4.0.12
-GitPython==3.1.44
+GitPython==3.1.47
 graphviz==0.20.3
 h11==0.14.0
 html5lib==1.1
