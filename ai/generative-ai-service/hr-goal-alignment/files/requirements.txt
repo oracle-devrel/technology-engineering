@@ -77,7 +77,7 @@ pyOpenSSL==26.0.0
 pypdf==6.7.1
 python-dateutil==2.9.0.post0
 python-docx==1.1.2
-python-dotenv==1.1.0
+python-dotenv==1.2.2
 python-iso639==2025.2.18
 python-magic==0.4.27
 python-oxmsg==0.0.2
