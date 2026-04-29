@@ -90,7 +90,7 @@ langchain==0.3.26
 langchain-community==0.3.27
 langchain-core==0.3.81
 langchain-mcp-adapters==0.1.9
-langchain-text-splitters==0.3.8
+langchain-text-splitters==0.3.9
 langchain-unstructured==0.1.6
 langdetect==1.0.9
 langgraph==0.5.0
