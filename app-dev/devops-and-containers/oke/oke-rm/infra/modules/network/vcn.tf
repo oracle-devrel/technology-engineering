@@ -1,7 +1,7 @@
 resource "oci_core_vcn" "spoke_vcn" {
   compartment_id = var.network_compartment_id
   display_name   = var.vcn_name
-  cidr_blocks    = var.vcn_cidr_blocks
+  cidr_blocks    = local.vcn_cidr_blocks
   dns_label      = var.vcn_dns_label
   freeform_tags  = var.tag_value.freeformTags
   defined_tags   = var.tag_value.definedTags

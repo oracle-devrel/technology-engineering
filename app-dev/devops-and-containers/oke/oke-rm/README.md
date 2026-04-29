@@ -17,13 +17,13 @@ This stack is used to create the initial network infrastructure for OKE. When co
 * You can apply this stack even on an existing VCN, so that only the NSGs for OKE will be created
 * The default CNI is the VCN Native CNI, and it is the recommended one
 
-[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-rm-1.3.2/infra.zip)
+[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-rm-1.3.4/infra.zip)
 
 ## Step 2: Create the OKE control plane
 
 This stack is used to create the OKE control plane ONLY.
 
-[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-rm-1.3.2/oke.zip)
+[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-rm-1.3.4/oke.zip)
 
 Also note that if the network infrastructure is located in a different compartment than the OKE cluster AND you are planning to use the OCI_VCN_NATIVE CNI,
 you must add these policies:
@@ -90,4 +90,5 @@ If you are looking to provision an OKE cluster for RDMA and GPUs using this stac
 
 Provisioning an OKE cluster is just the first step, be sure to also check out these guides to learn how to configure it:
 * [OKE policies](../oke-policies/policies.md)
-* [GitOps with ArgoCD](../oke-gitops/README.md)
+* [Karpenter guide](oke-oci-karpenter-guide.md)
+* [OKE GitOps Solution](../oke-gitops/README.md)
