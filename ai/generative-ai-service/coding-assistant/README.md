@@ -211,7 +211,6 @@ Check that:
 ```
 
 - Your network can reach OCI public endpoints
-- Private endpoints are reachable from your machine if using private networking
 
 ## Recommended Tests
 
