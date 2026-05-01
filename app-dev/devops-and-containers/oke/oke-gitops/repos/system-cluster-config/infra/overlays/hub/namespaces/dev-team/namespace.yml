@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: dev-team
-  # Label namespace, enforce PSS
-#  labels:
-#    pod-security.kubernetes.io/enforce: baseline
-

@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+labels:
+  - pairs:
+      reconcile.fluxcd.io/watch: Enabled
+
+resources:
+  - ../../environments/dev
+
+configMapGenerator:
+  - name: ${component}-values-${environment}-${profile}
+    files:
+      - values.yaml=./values.yml
+
+generatorOptions:
+  disableNameSuffixHash: true

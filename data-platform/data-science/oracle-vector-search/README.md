@@ -1,8 +1,10 @@
 # Oracle AI Vector Search
 
-Oracle AI Vector Search is designed for Artificial Intelligence (AI) workloads and allows you to query data based on semantics, rather than keywords. The VECTOR data type is introduced with the release of Oracle AI Database 26ai, providing the foundation to store vector embeddings alongside business data in the database. Using embedding models, you can transform unstructured data into vector embeddings that can then be used for semantic queries on business data. In order to use the VECTOR data type and its related features, the COMPATIBLE initialization parameter must be set to 23.4.0 or higher. 
+Oracle AI Vector Search is designed for Artificial Intelligence (AI) workloads and allows you to query data based on semantics, rather than keywords. The VECTOR data type is introduced with the release of Oracle AI Database 26ai, providing the foundation to store vector embeddings alongside business data in the database. Using embedding models, you can transform unstructured data into vector embeddings that can then be used for semantic queries on business data. In order to use the VECTOR data type and its related features, the COMPATIBLE initialization parameter must be set to 23.4.0 or higher.
 
-Reviewed: 2026.01.12
+The Autonomous AI Vector Database (Limited Availability) is a fully managed vector database that helps AI developers and data scientists quickly build semantic search, RAG, and agentic applications using easy-to-use vector APIs with enterprise-grade reliability, security, and stock-exchange robustness to help you meet compliance requirements.
+
+Reviewed: 2026.04.23
 </br></br>
 
 # Table of Contents
@@ -12,15 +14,18 @@ Reviewed: 2026.01.12
 </br></br>
 
 # Useful Links
-
-- [What is a Vector Database](https://www.oracle.com/database/vector-database/)
-- [Oracle AI Vector Search Homepage](https://www.oracle.com/uk/database/ai-vector-search/)
-- [Oracle AI Vector Search Features](https://www.oracle.com/uk/database/ai-vector-search/features)
-- [Oracle AI Vector Search FAQ](https://www.oracle.com/database/ai-vector-search/faq/)
-- [Oracle AI Vector Search Technical Architecture](https://docs.oracle.com/en/database/oracle/oracle-database/26/vsiad/aivs_genarch.html)
-- [Oracle AI Vector Search Documentation](https://docs.oracle.com/en/database/oracle/oracle-database/26/vecse/overview-ai-vector-search.html)
-- [Vector Search PL/SQL Packages](https://docs.oracle.com/en/database/oracle/oracle-database/26/vecse/vector-search-pl-sql-packages-node.html)
-- [Oracle AI Database Blogs](https://blogs.oracle.com/database/category/db-vector-search)
+* Oracle AI Vector Search:
+    - [What is a Vector Database](https://www.oracle.com/database/vector-database/)
+    - [Oracle AI Vector Search Homepage](https://www.oracle.com/uk/database/ai-vector-search/)
+    - [Oracle AI Vector Search Features](https://www.oracle.com/uk/database/ai-vector-search/features)
+    - [Oracle AI Vector Search FAQ](https://www.oracle.com/database/ai-vector-search/faq/)
+    - [Oracle AI Vector Search Technical Architecture](https://docs.oracle.com/en/database/oracle/oracle-database/26/vsiad/aivs_genarch.html)
+    - [Oracle AI Vector Search Documentation](https://docs.oracle.com/en/database/oracle/oracle-database/26/vecse/overview-ai-vector-search.html)
+    - [Vector Search PL/SQL Packages](https://docs.oracle.com/en/database/oracle/oracle-database/26/vecse/vector-search-pl-sql-packages-node.html)
+    - [Oracle AI Database Blogs](https://blogs.oracle.com/database/category/db-vector-search)</br></br>
+* Oracle Autonomous Vector Database:
+    - [Oracle Autonomous Vector Database Anncouement](https://blogs.oracle.com/database/announcing-oracle-autonomous-ai-vector-database-limited-availability)
+    - [Oracle AI Database Blogs](https://blogs.oracle.com/database/)
 </br></br>
 
 # Team Publications

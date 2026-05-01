@@ -10,9 +10,29 @@ This repository contains code and examples to help in the following tasks:
 
 **Author**: L. Saetta
 
-**Reviewed**: 15.10.2025
+**Reviewed**: 28.01.2026
 
 ![MCP console](./images/mcp_cli.png)
+
+## Who should use this asset
+Use this assett if you want to experiment how-to build an AI Assistant integrated with several **MCP** servers.
+
+# When to use this asset?
+
+Use this asset to **prototype, demonstrate, or build** MCP-based integrations on **Oracle OCI**, especially in **enterprise or pre-production contexts**.
+
+It is a good fit if you need to:
+- **Expose enterprise data or services** (ADB, Select AI, Vector Search, OCI APIs) to AI Agents or Assistants via **MCP**
+- **Experiment with agentic workflows** (tool calling, chaining, reasoning) using **Python-based MCP servers**
+- **Validate architectural patterns** for running MCP servers on OCI (Compute, API Gateway, IAM, APM)
+- **Demonstrate end-to-end integrations** between OCI services and assistants like ChatGPT, Claude, or Copilot
+- **Assess security and observability approaches** (JWT, IAM, API Gateway, APM) before moving to a hardened production design
+
+You **should not** use this asset:
+- As a **drop-in production service** without additional hardening, reviews, and testing
+- When you only need **simple one-off scripts** without MCP, agent orchestration, or observability concerns
+
+In short: this asset is meant to **accelerate learning, validation, and architectural decisions** around MCP on OCI—not to replace a full production-grade platform.
 
 ## What is MCP?
 **MCP (Model Context Protocol)** is an **open-source standard** that lets AI models (e.g. LLMs or agents) connect bidirectionally with external tools, data sources, and services via a unified interface. 
@@ -27,13 +47,15 @@ It’s quickly gaining traction: major players like OpenAI, Google DeepMind, Ora
 
 In today’s landscape of agentic AI, MCP is critical because it allows models to act meaningfully in real-world systems rather than remaining isolated black boxes.
 
+# How to use this asset?
+
 ## Develop MCP Servers in Python
 The easiest way is to use the [FastMCP](https://gofastmcp.com/getting-started/welcome) library.
 
 **Examples**:
-* in [Minimal MCP Server](./minimal_mcp_server.py) you'll find a **good, minimal example** of a server exposing two tools, with the option to protect them using [JWT](https://www.jwt.io/introduction#what-is-json-web-token).
+* in [Minimal MCP Server](./mcp_servers/minimal_mcp_server.py) you'll find a **good, minimal example** of a server exposing two tools, with the option to protect them using [JWT](https://www.jwt.io/introduction#what-is-json-web-token).
 
-If you want to start with **something simpler**, have a look at [how to start developing MCP](./how_to_start_mcp.md). It is simpler, with no support for JWT tokens.
+If you want to start with **something simpler**, have a look at [how to start developing MCP](./docs/how_to_start_mcp.md). It is simpler, with no support for JWT tokens.
 
 ## How to test
 If you want to quickly test the MCP server you developed (or the minimal example provided here) you can use the [Streamlit UI](./ui_mcp_agent.py).
@@ -51,7 +73,7 @@ To use it, you need only:
 * To load the documents in the Oracle DB
 * To put the right configuration, to connect to DB, in config_private.py.
 
-The code is available [here](./mcp_semantic_search_with_iam.py). 
+The code is available [here](./mcp_servers/mcp_semantic_search_with_iam.py). 
 
 Access to Oracle 23AI Vector Search is through the **new** [langchain-oci integration library](https://github.com/oracle/langchain-oracle)
 
@@ -72,26 +94,26 @@ Using **OCI services** there are several things you can do to get the right leve
 More details in a dedicated page.
 
 ## Integrate MCP Semantic Search with ChatGPT
-If you deploy the [MCP Semantic Search](./mcp_semantic_search_with_iam.py) server you can test the integration with **ChatGPT** in **Developer Mode**. It provides a **search** tool, compliant with **OpenAI** specs. 
+If you deploy the [MCP Semantic Search](./mcp_servers/mcp_semantic_search_with_iam.py) server you can test the integration with **ChatGPT** in **Developer Mode**. It provides a **search** tool, compliant with **OpenAI** specs. 
 
 Soon, we'll add a server fully compliant with **OpenAI** specifications, that can be integrated in **Deep Research**. The server must implement two methods (**search** and **fetch**) with a different behaviour, following srictly OpenAI specs.
 
-An initial implementation is available [here](./mcp_deep_research_with_iam.py)
+An initial implementation is available [here](./mcp_servers/mcp_deep_research_with_iam.py)
 
-Details available [here](./integrate_chatgpt.md)
+Details available [here](./docs/integrate_chatgpt.md)
 
 ## Integrate OCI ADB Select AI
 Another option is to use an MCP server to be able to integrate OCI **SelectAI** in ChatGPT or other assistants supporting MCP.
 In this way you have an option to do full **Text2SQL** search, over your database schema. Then, the AI assistant can process your retrieved data.
 
-An example is [here](./mcp_selectai.py)
+An example is [here](./mcp_servers/mcp_selectai.py)
 
-For **Select AI** configuration, see [here](./configure_select_ai.md)
+For **Select AI** configuration, see [here](./docs/configure_select_ai.md)
 
 ## OCI Consumption Analysis
-Another use case demonstrated in this set of demos is leveraging an AI Assistant powered by MCP servers to analyze the **OCI tenant consumption** in a natural and interactive way.
+Another use-case demonstrated in this set of demos is leveraging an AI Assistant powered by MCP servers to analyze the **OCI tenant consumption** in a natural and interactive way.
 
-Using the [MCP Consumption Server](./mcp_consumption.py), you can explore various dimensions of consumption and ask questions such as:
+Using the [MCP Consumption Server](./mcp_servers/mcp_consumption.py), you can explore various dimensions of consumption and ask questions such as:
 * List the top 10 services by total amount for a given period (start_date, end_date).
 * List the top 10 compartments by total consumption.
 * For a specific service (or list of services), show the consumption breakdown across the top 5 compartments.
@@ -104,6 +126,11 @@ How to Use:
 * Launch the AI Assistant
 * Point the Assistant to the MCP URL (or to your MCP Aggregator).
 
-### Security (Optional)
-You can enhance security by placing the MCP server behind an OCI API Gateway and enabling JWT-based authentication using OCI IAM.
+## Integrate with OCI APM
+For more information, see [here](./docs/integrate_apm.md)
 
+
+## License
+
+Licensed under the **MIT** license.
+See [LICENSE](./LICENSE).

@@ -1,4 +1,6 @@
-*Last Update: 15.08.2025*
+# Compute Cloud@Customer
+
+Reviewed: 23.03.2026
 
 <br><h1 align="center">GPU-Assisted Local LLM Serving<br>Using the Ollama Open Source Tool and Compute Cloud@Customer</h1>
 
@@ -341,7 +343,7 @@ Where:<br><br>
 <br>
 
 ## License
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

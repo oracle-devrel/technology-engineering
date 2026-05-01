@@ -15,7 +15,7 @@ This page serves as a complement to the OCI Landing Zone Add-ons available [here
 
 Here, you will find an up-to-date, step-by-step guides to successfully enable OCI Database Management Service on your target environment.
 
-Reviewed: 24.07.2025
+Reviewed: 17.04.2026
 
 ## 2. Targets
 
@@ -30,7 +30,7 @@ Reviewed: 24.07.2025
 
 ### License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

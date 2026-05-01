@@ -1,8 +1,26 @@
 # Compute Cloud@Customer
 
-Updated: 23.12.2025
+Updated: 23.03.2026
 
 Collection of blogs and other publications (Press Releases, News Articles, Videos & Podcasts) relevant to Compute Cloud@Customer (CCATC). The collection will continue to be updated as needed.
+
+## Whitepapers
+
+Whitepapers
+- [Deploying Cisco Secure Firewall Threat Defense (FTD) with Cisco Firepower Management Center (FMC) on Oracle Compute Cloud@Customer (C3) or Private Cloud Appliance](https://www.oracle.com/a/ocom/docs/cloud/deploy-cisco-ftd-with-fmc-on-oracle-c3-or-pca.pdf) (18/Mar/2026)
+- [Citrix Virtual Apps and Desktops deployment on Compute Cloud@Customer or Private Cloud Appliance](https://www.oracle.com/a/ocom/docs/cloud/citrix-virtual-apps-and-desktop-deployment.pdf) (6/Mar/2026)
+- [Deploying Oracle Database Operator Cluster Add-on for Oracle Kubernetes Engine (OKE) on Compute Cloud@Customer or Private Cloud Appliance](https://www.oracle.com/a/ocom/docs/cloud/deploying-oke-on-compute-cloud@customer-or-pca.pdf) (28/Jan/2026)
+- [Deploying Fortinet’s FortiGate Next-Generation HA Clusters on Oracle Compute Cloud@Customer and Oracle Private Cloud Appliance](https://www.oracle.com/a/ocom/docs/cloud/fortigate-white-paper.pdf) (Jun/2025)
+- [Best Practices for Deploying Commvault on Oracle Private Cloud Appliance](https://www.oracle.com/a/otn/docs/best_practices_for_deploying-_commvault_on_oracle_private_cloud-_appliance.pdf?source=:em:nl:mt::::PCATP) (11/Apr/2025)
+- [Deploying Distributed Multinode Solution for Roving Edge Devices with Compute Cloud@Customer](https://www.oracle.com/a/ocom/docs/cloud/multinode-solution-for-roving-edge-with-compute-cloud-at-customer.pdf) (Mar/2025)
+- [Cloudera Data Platform on Oracle Private Cloud Appliance and Oracle Compute Cloud@Customer](https://www.oracle.com/a/otn/docs/Cloudera_Data_Platform_on_Oracle_PCA_and_Oracle_C3.pdf?source=:em:nl:mt::::PCATP) (Apr/2024, released Jul/2024)
+- [Oracle Compute Cloud@Customer, Oracle Private Cloud Appliance, and Roving Edge Operating Systems Deployment](https://www.oracle.com/a/otn/docs/computecloudatcustomer_privatecloudappliance_rovingedge_operating-systems.pdf?source=:em:nl:mt::::PCATP) (Jul/2024)
+- [Deploying the OCI Observability & Monitoring Platform within an Oracle Distributed Cloud Environment](https://www.oracle.com/a/otn/docs/oracle_distributed_cloud_systems_oci_observability_and_management_v.0.2.pdf?source=:em:nl:mt::::PCATP) (May/2024)
+- [Implementing Oracle Key Vault on the Oracle Compute Cloud@Customer: Whitepaper, Video, Marketplace Image, Blog](https://www.oracle.com/a/otn/docs/implementing_oracle_key_vault_on_the_compute_cloud@customer.pdf) (May/2024)
+- [Deploying MySQL Enterprise Edition in Oracle Compute Cloud@Customer](https://www.oracle.com/a/otn/docs/deploying-mysql-enterprise-edition-in-oracle-compute-cloud.pdf) (May/2024)
+- [Deploying SD-WAN in Oracle Roving Edge Infrastructure and Compute Cloud@Customer](https://www.oracle.com/a/otn/docs/deploying_sd-wan_in_oracle_roving_edge_infrastructure_and_compute-_cloudatcustomer.pdf) (May/2024)
+- [VM Instance Observability, Monitoring and Alerting within an Oracle Distributed Cloud Environment](https://www.oracle.com/a/otn/docs/Oracle_Distributed_Cloud_Systems_VM_Instance_Observability_v1.0.1_Sept2023.pdf?source=:em:nl:mt::::PCATP) (Sep/2023)
+- [Automatic Virtual IP Failover in Cluster Deployment](https://www.oracle.com/a/otn/docs/oracle_pca_x9_2_automatic-virtual-ip-failover-in-cluster-deployment.pdf?source=:em:nl:mt::::PCATP) (25/Aug/2022)
 
 ## Solutions - Architecture Center
 
@@ -28,6 +46,7 @@ Tutorials
 ## Blogs and other publications
 
 Blogs / Press Releases
+- [Oracle EU Sovereign Cloud – Reflecting on the Journey and Lessons Learned](https://blogs.oracle.com/cloud-infrastructure/oracle-eu-sovereign-cloud-lessons-learned) (9/Mar/2026)
 - [Automating SR-IOV/VFIO bond creation on Oracle Compute Cloud@Customer and Private Cloud Appliance](https://blogs.oracle.com/oracle-systems/automating-sriovvfio-bond-creation-on-oracle-compute-cloudcustomer-and-private-cloud-appliance) (22/Oct/2025)
 - [Oracle Recognized as a Leader in the 2025 Gartner® Magic Quadrant™ for Distributed Hybrid Infrastructure](https://www.oracle.com/news/announcement/oracle-recognized-as-a-leader-in-the-2025-gartner-magic-quadrant-for-distributed-hybrid-infrastructure-2025-09-10/) (10/Sep/2025)
 - [Introducing the Next Generation of Oracle Compute Cloud@Customer X11 and Oracle Private Cloud Appliance X11](https://blogs.oracle.com/cloud-infrastructure/post/cloudatcustomer-privatecloudappliance-x11) (7/Aug/2025)
@@ -53,7 +72,6 @@ Blogs / Press Releases
 - [Oracle Linux Powers Oracle Compute Cloud@Customer](https://blogs.oracle.com/linux/post/oracle-linux-powers-oracle-compute-cloud-at-customer) (9/Aug/2023)  
 - [Oracle Compute Cloud@Customer](https://blogs.oracle.com/cloud-infrastructure/post/oracle-compute-cloud-at-customer) (9/Aug/2023)  
 - [Druid Software Delivers 3GPP-Compliant Enterprise Core on Oracle Cloud](https://blogs.oracle.com/cloud-infrastructure/post/druid-software-3gpp-compliant-enterprise-core) (17/Apr/2023)
-- [Pacemaker / Corosync fencing on Oracle Private Cloud Appliance X9-2](https://blogs.oracle.com/oracle-systems/post/pacemaker-corosync-fencing-on-oracle-private-cloud-appliance-x9-2) (8/Oct/2022)
 - [Unlocking 5G with End-to-End Distributed Cloud](https://blogs.oracle.com/cloud-infrastructure/post/unlocking-5g-with-end-to-end-distributed-cloud) (21/Jun/2022)
 - [Announcing: Preview of Compute Cloud@Customer](https://blogs.oracle.com/cloud-infrastructure/post/dedicated-regions-now-available-with-smaller-footprint-and-lower-price-point) (21/Jun/2022)
 - [Compute Cloud@Customer: Hybrid Cloud Compute for Your Data Center](https://blogs.oracle.com/infrastructure/post/compute-cloud-at-customer-hybrid-cloud-compute-for-your-data-center) (13/Jun/2022)
@@ -73,9 +91,8 @@ Videos
 - [Installing Oracle Key Vault on Oracle Compute Cloud@Customer](https://videohub.oracle.com/channel/Solutions+Engineering+for+Distributed+Cloud/325424942) (10/May/2024)
 - [RackWare on Oracle Compute Cloud@Customer](https://videohub.oracle.com/media/RackWare+on+Oracle+Compute+Cloud%40Customer/1_uhwd0psk/325424942) (20/Mar/2024)
 - [AsterionDB Object Tracking Demo on Roving Edge and Compute Cloud@Customer](https://videohub.oracle.com/media/AsterionDB+Object+Tracking+Demo+on+Roving+Edge+and+Compute+Cloud%40Customer/1_g9rs3b5v/325424942) (21/Feb/2024)
-- [Solutions Engineering for Distributed Cloud - Oracle Video Hub]
 - [Installing Oracle E Business Suite Marketplace Demo Image on Oracle Compute Cloud@Customer](https://videohub.oracle.com/media/Installing+Oracle+E+Business+Suite+Marketplace+Demo+Image+on+Oracle+Compute+Cloud%40Customer/1_3537iv7i/325424942) (7/Dec/2023)
-- [OCW 2023 Systems Demos and Material - PCA / C3 - Oracle Video Hub](https://videohub.oracle.com/playlist/dedicated/316050732/1_jlm55oj6/1_rqw9wfgs) (13/Sep/2023)
+- [OCW 2023 Systems Demos and Material - PCA / C3](https://videohub.oracle.com/playlist/dedicated/316050732/1_jlm55oj6/1_rqw9wfgs) (13/Sep/2023)
 - [Bring OCI Compute to Your Data Center with Oracle Compute Cloud@Customer - YouTube](https://www.youtube.com/watch?v=VGfpuNKVhBY) (16/May/2024)
 - [Oracle Compute Cloud@Customer by Oracle Learning - YouTube](https://www.youtube.com/playlist?list=PLKCk3OyNwIzvtU6ZBQDRL6cXjRBEwMODj) (9/Aug/2023)
 - [Announcing Oracle Compute Cloud@Customer - YouTube](https://www.youtube.com/watch?v=bUpohAivSl4) (9/Aug/2023)
@@ -83,7 +100,7 @@ Videos
 
 ## License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

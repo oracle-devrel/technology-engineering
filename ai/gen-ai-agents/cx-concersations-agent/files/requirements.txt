@@ -1,0 +1,15 @@
+# OCI SDK
+oci>=2.165.1
+
+# LangChain
+langchain>=1.2.10
+langchain-core>=1.2.16
+langchain-community>=0.4.1
+
+
+# Streamlit UI
+streamlit>=1.52.1
+pandas>=2.3.3
+
+# Config
+python-dotenv>=1.2.1

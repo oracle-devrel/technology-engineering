@@ -31,11 +31,15 @@ module "network" {
   worker_subnet_cidr      = local.subnets.cidr.worker
   worker_subnet_dns_label = local.subnets.dns.worker
   worker_subnet_name      = var.worker_subnet_name
+  allow_worker_nat_egress = var.allow_worker_nat_egress
   # POD SUBNET
-  create_pod_subnet    = var.create_pod_subnet
-  pod_subnet_cidr      = local.subnets.cidr.pod
-  pod_subnet_dns_label = local.subnets.dns.pod
-  pod_subnet_name      = var.pod_subnet_name
+  create_pod_subnet          = var.create_pod_subnet
+  pod_subnet_cidr            = local.subnets.cidr.pod
+  pod_subnet_dns_label       = local.subnets.dns.pod
+  pod_subnet_name            = var.pod_subnet_name
+  allow_pod_nat_egress       = var.allow_pod_nat_egress
+  create_additional_pod_cidr = var.create_additional_pod_cidr
+  additional_pod_cidr        = var.additional_pod_cidr
   # BASTION SUBNET
   create_bastion_subnet    = var.create_bastion_subnet
   bastion_subnet_cidr      = local.subnets.cidr.bastion
@@ -47,6 +51,19 @@ module "network" {
   fss_subnet_cidr      = local.subnets.cidr.fss
   fss_subnet_dns_label = local.subnets.dns.fss
   fss_subnet_name      = var.fss_subnet_name
+  # DB SUBNET
+  create_db_subnet    = var.create_db_subnet
+  db_subnet_cidr      = local.subnets.cidr.db
+  db_subnet_dns_label = local.subnets.dns.db
+  db_subnet_name      = var.db_subnet_name
+  db_service_list     = local.db_service_list
+  separate_db_nsg     = var.separate_db_nsg
+  # MESSAGING
+  create_msg_subnet    = var.create_msg_subnet
+  msg_subnet_cidr      = local.subnets.cidr.msg
+  msg_subnet_dns_label = local.subnets.dns.msg
+  msg_subnet_name      = var.msg_subnet_name
+  create_streaming_nsg = var.create_streaming_nsg
   # GATEWAYS
   create_gateways         = var.create_gateways
   create_internet_gateway = var.create_internet_gateway
@@ -61,4 +78,6 @@ module "network" {
   drg_name              = var.drg_name
   create_drg_attachment = var.create_drg_attachment
   peer_vcns             = var.peer_vcns
+  # Tagging
+  tag_value = local.tag_value
 }

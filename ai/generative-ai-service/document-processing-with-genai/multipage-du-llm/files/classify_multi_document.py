@@ -1,5 +1,5 @@
 """
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 MIT License — see LICENSE for details.
 

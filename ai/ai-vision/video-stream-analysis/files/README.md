@@ -132,6 +132,6 @@ Click **Consume Stream** to view annotated video frames.
 ---
 
 ##  8. License
-Copyright (c) 2025 Oracle and/or its affiliates.  
+Copyright (c) 2026 Oracle and/or its affiliates.  
 Licensed under UPL 1.0.  
 See *LICENSE* file for details.

@@ -1,6 +1,6 @@
-# Compute Cloud@Customer
+# Compute Cloud@Customer Isolated
 
-Updated: 23.12.2025
+Updated: 23.03.2026
 
 Collection of blogs and other publications (Press Releases, News Articles, Videos & Podcasts) relevant to Compute Cloud@Customer (CCATC). The collection will continue to be updated as needed.
 
@@ -26,7 +26,7 @@ Videos
 
 ## License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

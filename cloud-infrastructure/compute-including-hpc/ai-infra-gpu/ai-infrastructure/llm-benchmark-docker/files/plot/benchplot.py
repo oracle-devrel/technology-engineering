@@ -1,4 +1,4 @@
-# Copyright (c) 2025 Oracle and/or its affiliates.
+# Copyright (c) 2026 Oracle and/or its affiliates.
 from pathlib import Path
 
 import altair as alt

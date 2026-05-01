@@ -1,6 +1,6 @@
 # C3 Hosting Service Provider - Restricting Access to the OCI Console
 
-Reviewed: 16.10.2025
+Reviewed: 23.03.2026
 
 In the Hosting Service Provider (HSP) scenario where end users are not employees of the rack operator it's probably not appropriate for them to be able to access the OCI console and to, possibly, create resources in the public cloud.
 
@@ -23,7 +23,7 @@ Ideally a policy should be implemented that restricts permissions **only** to th
 
 ## License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
