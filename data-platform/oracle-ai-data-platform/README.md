@@ -36,6 +36,10 @@ Reviewed: 13.11.2025
 - [AI Data Platform - End-to-End Medallion Architecture Implementation Example](https://videohub.oracle.com/playlist/dedicated/188027173/1_3ke8pbum/1_tgzhvzci)
 
 ## Specialists Blogs for various features & functionality
+- [Oracle AI Data Platform Workbench – Drive AI-Powered Workflows and Insights Across Enterprise and Oracle Fusion Cloud ERP Data](https://blogs.oracle.com/ai-data-platform/oracle-ai-data-platform-workbench-drive-ai-powered-workflows-and-insights-across-enterprise-and-oracle-fusion-cloud-erp-data)
+
+- [Real-Time Data Replication to Oracle AI Data Platform Using OCI GoldenGate](https://blogs.oracle.com/dataintegration/real-time-data-replication-to-oracle-ai-data-platform-using-oci-goldengate)
+
 - [Continuing Your Oracle AI Data Platform Journey: Quick  Start Guide](https://blogs.oracle.com/ai-data-platform/continuing-your-oracle-ai-data-platform-journey-quick-start-guide)
 
 - [Getting Started on your Oracle AI Data Platform Journey](https://blogs.oracle.com/ai-data-platform/getting-started-on-your-oracle-ai-data-platform-journey)
