@@ -78,7 +78,7 @@ resource "local_file" "export_flux_operator" {
   count = var.gitops_agent == "fluxcd" ? 1 : 0
 }
 
-resource "null_resource" "push_cluster_config_repo_content" {
+resource "null_resource" "push_cluster_config_repo_content_flux" {
 
   provisioner "local-exec" {
     command = "chmod +x ./script/push_repo.sh && ./script/push_repo.sh"
@@ -109,7 +109,7 @@ resource "oci_devops_repository" "apps_config_repo_flux" {
   count           = var.gitops_agent == "fluxcd" ? 1 : 0
 }
 
-resource "null_resource" "push_apps_config_repo_content" {
+resource "null_resource" "push_apps_config_repo_content_flux" {
 
   provisioner "local-exec" {
     command = "chmod +x ./script/push_repo.sh && ./script/push_repo.sh"

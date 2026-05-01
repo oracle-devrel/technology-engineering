@@ -17,11 +17,11 @@ resource "oci_devops_build_pipeline_stage" "mirror_gitops_agent_stage" {
       connection_type = "DEVOPS_CODE_REPOSITORY"
       branch          = "main"
       name            = "pipelines"
-      repository_id   = oci_devops_repository.devops_pipelines_repo_flux.0.id
-      repository_url  = oci_devops_repository.devops_pipelines_repo_flux.0.http_url
+      repository_id   = var.gitops_agent == "fluxcd" ? oci_devops_repository.devops_pipelines_repo_flux.0.id : oci_devops_repository.devops_pipelines_repo_argocd.0.id
+      repository_url  = var.gitops_agent == "fluxcd" ? oci_devops_repository.devops_pipelines_repo_flux.0.http_url : oci_devops_repository.devops_pipelines_repo_argocd.0.http_url
     }
   }
-  build_spec_file                    = "mirror_flux_operator.yaml"
+  build_spec_file                    = var.gitops_agent == "fluxcd" ? "mirror_flux_operator.yaml" : "mirror_argocd.yaml"
   display_name                       = "Mirror GitOps Agent Helm Chart"
   description                        = "Stage to import a public Helm Chart into the tenancy Oracle Container Registry"
   primary_build_source               = "pipelines"

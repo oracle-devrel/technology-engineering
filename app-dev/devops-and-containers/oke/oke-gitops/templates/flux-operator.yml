@@ -26,7 +26,7 @@ spec:
         namespace: << inputs.provider.namespace >>
       spec:
         interval: 30m
-        url: oci://${region_key}.ocir.io/${tenancy_namespace}/${repo_prefix}/helm/flux-operator
+        url: oci://${region_key}.ocir.io/${tenancy_namespace}/${repo_prefix}/charts/flux-operator
         secretRef:
           name: ocirsecret
         ref:

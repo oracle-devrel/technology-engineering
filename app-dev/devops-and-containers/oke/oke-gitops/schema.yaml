@@ -68,6 +68,7 @@ variables:
     type: enum
     enum:
       - fluxcd
+      - argocd
     required: true
 
   devops_compartment_id:
@@ -142,6 +143,7 @@ variables:
     title: "OCIR Repo prefix"
     description: "The DevOps build pipeline will create a repository with this prefix"
     type: string
+    pattern: "^[a-z0-9]+([._-][a-z0-9]+)*(/[a-z0-9]+([._-][a-z0-9]+)*)*$"
     required: true
 
   auth_token:
