@@ -23,6 +23,11 @@ This asset is provided as general purpose material. Please tailor the content ac
 
 This asset contains two versions of the same script, a SQL Script (`.sql`) to be used with an IDE such as SQLDeveloper Web or the VS Code Extension, and an OML Notebook (`.dsnb`) which can be used within the Oracle Machine Learning UI available through the Autonomous Oracle AI Database. Please use the version that is appropriate for your development environment.
 
+As supporting material, we have also included:
+* A technical guide (`Select_AI_Proxy_Integration_ADB_PostgreSQL.pdf`) that provides a step-by-step walkthrough of provisioning the Autonomous AI Database, the OCI PostgreSQL Database, configuring the Networking between the two.
+* A sample dataset (`SALES.csv`) that can be loaded into the PostgreSQL Database to test the integration.
+* A Jupyter Notebook (`00 - Connect PostgreSQL - Anon.ipynb`) that demonstrates how to connect to the PostgreSQL Database using Python and load our sample dataset.
+
 
 # License
  
