@@ -26,7 +26,7 @@ SQLcl MCP Mode:
 The SQL Developer Extension for VS Code 25.2 offers Oracle SQLcl MCP Server Integration. The extension when install auto-registers our MCP Server for Copilot, making your SQL Developer database connections available for agentic chat requests, including running SQL and PL/SQL against your database.
 
 
-Reviewed: 19.12.2025
+Reviewed: 9.4.2026
 
 
 # Table of Contents
@@ -40,6 +40,7 @@ Reviewed: 19.12.2025
 
 # Team Publications
 - [Introducing SQL Developer SQLcl integration in MS VSCode & MCP support for Oracle Database](https://www.youtube.com/watch?v=521GBhrmrmw&t=2s)
+- [Unlocking EM and RMAN Catalog data with SQLcl Oracle MCP Server AI Bridge - Medium article](https://medium.com/@umutnazlica/unlocking-oracle-enterprise-manager-and-rman-catalog-data-with-oracle-mcp-servers-ai-bridge-sqlcl-e05dd4aa01d9)
 
 # Useful Links
 - [Oracle SQLcl MCP Page](https://docs.oracle.com/en/database/oracle/sql-developer-command-line/25.4/sqcug/using-oracle-sqlcl-mcp-server.html)
