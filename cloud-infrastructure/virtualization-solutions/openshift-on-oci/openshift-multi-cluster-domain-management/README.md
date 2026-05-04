@@ -18,7 +18,7 @@ Follow this document as a design principles when using common and unique base do
 The OpenShift implementation on OCI relies on DNS Zones for cluster access. This document provides guidance on deploying OCP clusters using dedicated VCNs, with the option to assign either cluster-specific subdomains or unique base domains for more efficient DNS management.
 
 # License
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

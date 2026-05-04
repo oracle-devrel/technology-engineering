@@ -71,6 +71,9 @@ Reviewed: 28.10.2025
 
  - [Prevent Performance Drops: Proactively Managing Capacity with Oracle’s Autonomous Database ResourceUtilizationWarning](https://medium.com/@mmy0utu8e/prevent-performance-drops-611677160f35)
     - Proactively Manage Capacity
+ 
+ - [Talk to Your Data: Querying Oracle Autonomous AI Database with SQLcl MCP and Codex](https://medium.com/@mmy0utu8e/talk-to-your-data-querying-oracle-autonomous-ai-database-with-sqlcl-and-codex-b2df48f204cd)
+    - The way users interact with databases is shifting. We are no longer limited to typing manual queries or navigating complex UI trees to figure out what is happening inside our database. With native Model Context Protocol (MCP) support in Oracle SQLcl, users can now securely attach local AI assistants directly to the Oracle Autonomous AI Database.
    
 ## Tip of the Day
  
@@ -162,7 +165,7 @@ Reviewed: 28.10.2025
 
 # License
  
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

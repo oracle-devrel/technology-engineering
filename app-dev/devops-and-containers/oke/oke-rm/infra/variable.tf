@@ -82,6 +82,21 @@ variable "allow_pod_nat_egress" {
   default = true
 }
 
+variable "create_additional_pod_cidr" {
+  type    = bool
+  default = false
+}
+
+variable "additional_pod_cidr" {
+  type    = list(string)
+  default = []
+
+  validation {
+    condition     = length(var.additional_pod_cidr) <= 4
+    error_message = "names can contain at most 4 elements."
+  }
+}
+
 # LB SUBNETS
 
 variable "create_external_lb_subnet" {

@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-component
+  labels:
+    app.kubernetes.io/name: sample-component
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: sample-component
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: sample-component
+    spec:
+      containers:
+        - name: app
+          image: nginx:1.27.5
+          ports:
+            - containerPort: 80

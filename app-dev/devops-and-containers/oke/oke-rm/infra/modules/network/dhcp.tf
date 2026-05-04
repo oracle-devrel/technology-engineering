@@ -8,6 +8,10 @@ resource "oci_core_dhcp_options" "external_lb_dhcp" {
     type        = "DomainNameServer"
     server_type = "VcnLocalPlusInternet"
   }
+  options {
+    type                = "SearchDomain"
+    search_domain_names = [local.vcn_search_domain]
+  }
   count = local.create_external_lb_subnet ? 1 : 0
 }
 
@@ -20,6 +24,10 @@ resource "oci_core_dhcp_options" "internal_lb_dhcp" {
   options {
     type        = "DomainNameServer"
     server_type = "VcnLocalPlusInternet"
+  }
+  options {
+    type                = "SearchDomain"
+    search_domain_names = [local.vcn_search_domain]
   }
   count = local.create_internal_lb_subnet ? 1 : 0
 }
@@ -34,6 +42,10 @@ resource "oci_core_dhcp_options" "oke_cp_dhcp" {
     type        = "DomainNameServer"
     server_type = "VcnLocalPlusInternet"
   }
+  options {
+    type                = "SearchDomain"
+    search_domain_names = [local.vcn_search_domain]
+  }
   count = local.create_cp_subnet ? 1 : 0
 }
 
@@ -46,6 +58,10 @@ resource "oci_core_dhcp_options" "worker_dhcp" {
   options {
     type        = "DomainNameServer"
     server_type = "VcnLocalPlusInternet"
+  }
+  options {
+    type                = "SearchDomain"
+    search_domain_names = [local.vcn_search_domain]
   }
   count = local.create_worker_subnet ? 1 : 0
 }
@@ -60,6 +76,10 @@ resource "oci_core_dhcp_options" "pods_dhcp" {
     type        = "DomainNameServer"
     server_type = "VcnLocalPlusInternet"
   }
+  options {
+    type                = "SearchDomain"
+    search_domain_names = [local.vcn_search_domain]
+  }
   count = local.create_pod_subnet ? 1 : 0
 }
 
@@ -72,6 +92,10 @@ resource "oci_core_dhcp_options" "bastion_dhcp" {
   options {
     type        = "DomainNameServer"
     server_type = "VcnLocalPlusInternet"
+  }
+  options {
+    type                = "SearchDomain"
+    search_domain_names = [local.vcn_search_domain]
   }
   count = local.create_bastion_subnet ? 1 : 0
 }
@@ -86,6 +110,10 @@ resource "oci_core_dhcp_options" "fss_dhcp" {
     type        = "DomainNameServer"
     server_type = "VcnLocalPlusInternet"
   }
+  options {
+    type                = "SearchDomain"
+    search_domain_names = [local.vcn_search_domain]
+  }
   count = local.create_fss_subnet ? 1 : 0
 }
 
@@ -99,6 +127,10 @@ resource "oci_core_dhcp_options" "db_dhcp" {
     type        = "DomainNameServer"
     server_type = "VcnLocalPlusInternet"
   }
+  options {
+    type                = "SearchDomain"
+    search_domain_names = [local.vcn_search_domain]
+  }
   count = local.create_db_subnet ? 1 : 0
 }
 
@@ -111,6 +143,10 @@ resource "oci_core_dhcp_options" "msg_dhcp" {
   options {
     type        = "DomainNameServer"
     server_type = "VcnLocalPlusInternet"
+  }
+  options {
+    type                = "SearchDomain"
+    search_domain_names = [local.vcn_search_domain]
   }
   count = local.create_msg_subnet ? 1 : 0
 }

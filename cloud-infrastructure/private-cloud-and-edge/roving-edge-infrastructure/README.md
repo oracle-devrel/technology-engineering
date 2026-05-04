@@ -1,11 +1,12 @@
 # Roving Edge Infrastructure
 
-Updated: 23.12.2025
+Updated: 23.03.2026
 
 ## Useful Links
 
 - [Roving Edge Infrastructure on oracle.com](https://www.oracle.com/cloud/roving-edge-infrastructure/)
-- [Roving Edge Infrastructure documentation](https://docs.oracle.com/en-us/iaas/Content/Rover/)
+- [Roving Edge Infrastructure documentation](https://docs.oracle.com/en-us/iaas/roving-edge-infrastructure/rvr/home.htm)
+- [Roving Edge Classic documentation](https://docs.oracle.com/en-us/iaas/Content/Rover/)
 - [Roving Edge Device (2nd generation) datasheet](https://www.oracle.com/a/ocom/docs/data-sheet-roving-edge-device.pdf)
 - [Roving Edge Ultra datasheet](https://www.oracle.com/a/ocom/docs/data-sheet-roving-edge-ultra.pdf)
 - [Roving Edge Station datasheet](https://www.oracle.com/a/ocom/docs/data-sheet-roving-edge-station.pdf)
@@ -14,7 +15,7 @@ Updated: 23.12.2025
 
 ## License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
