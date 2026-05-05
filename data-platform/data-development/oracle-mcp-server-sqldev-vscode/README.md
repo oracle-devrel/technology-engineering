@@ -40,6 +40,7 @@ Reviewed: 20.04.2026
 
 # Team Publications
 - [Introducing SQL Developer SQLcl integration in MS VSCode & MCP support for Oracle Database](https://www.youtube.com/watch?v=521GBhrmrmw&t=2s)
+- [Unlocking EM and RMAN Catalog data with SQLcl Oracle MCP Server AI Bridge - Medium article](https://medium.com/@umutnazlica/unlocking-oracle-enterprise-manager-and-rman-catalog-data-with-oracle-mcp-servers-ai-bridge-sqlcl-e05dd4aa01d9)
 
 # Useful Links
 - [Oracle SQLcl MCP Page](https://docs.oracle.com/en/database/oracle/sql-developer-command-line/25.4/sqcug/using-oracle-sqlcl-mcp-server.html)
