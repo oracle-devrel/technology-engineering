@@ -1,5 +1,5 @@
 ##########################################################################
-# Copyright (c) 2016, 2025, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2026, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 #
 # cis_reports.py
@@ -41,9 +41,11 @@ try:
 except Exception:
     OUTPUT_DIAGRAMS = False
 
-RELEASE_VERSION = "3.2.0"
-PYTHON_SDK_VERSION = "2.165.x"
-UPDATED_DATE = "March 19, 2026"
+csv.field_size_limit(sys.maxsize)
+
+RELEASE_VERSION = "3.2.1"
+PYTHON_SDK_VERSION = "2.173.0"
+UPDATED_DATE = "May 1, 2026"
 
 
 ##########################################################################
@@ -4675,6 +4677,40 @@ class CIS_Report:
 
         # CIS Checks 4.3 - 4.12 and 4.15 and 4.18
         # Iterate through all event rules
+        def __event_with_topic_has_active_sub(event_actions):
+            """
+            Checks event actions
+            returns True if it finds either a non-ONS action or an ONS action whose topicId has at least one ACTIVE subscription.
+            Returns False when no qualifying action exists.
+            """
+            for action in event_actions or []:
+                if action.get('actionType') == 'ONS' and action.get('topicId'):
+                    topic_id = action.get('topicId')
+                    if topic_id and __has_active_subscription_for_topic(topic_id=topic_id):
+                        debug("*** Active Subscription found for event: " + event['display_name'] + " ***")
+                        return True
+                elif not action.get('actionType') == 'ONS':
+                    # None ONS based notifications are assumed to be ok
+                    return True
+            return False
+        def __has_active_subscription_for_topic(topic_id: str) -> bool:
+            """
+            Return True if any subscription in self.__subscriptions has:
+            - subscription["topic_id"] == topic_id and subscription["lifecycle_state"] == "ACTIVE"
+            Otherwise return False.
+            """
+            if not topic_id:
+                return False
+
+            for subscription in self.__subscriptions:
+                if (
+                    subscription.get("topic_id") == topic_id
+                    and subscription.get("lifecycle_state") == "ACTIVE"
+                ):
+                    return True
+
+            return False
+
         for event in self.__event_rules:
             if event['lifecycle_state'] == "ACTIVE" and event['compartment_id'] == self.__tenancy.id:
                 # Convert Event Condition to dict
@@ -4692,18 +4728,22 @@ class CIS_Report:
                         try:
                             # Checking if each region has the required events
                             if (all(x in eventtype_dict['eventtype'] for x in changes)) and key in self.__cis_regional_checks:
-                                self.__cis_regional_findings_data[key][event['region']] = True
-                            
+                                if __event_with_topic_has_active_sub(event.get('actions')):
+                                    self.__cis_regional_findings_data[key][event['region']] = True
+
                             # Cloud Guard Check is only required in the Cloud Guard Reporting Region
                             elif self.__cloud_guard_config and key == "4.15" and \
                                 event['region'] == self.__cloud_guard_config.reporting_region and \
                                 (all(x in eventtype_dict['eventtype'] for x in changes)):
-                                self.cis_foundations_benchmark_3_0[key]['Status'] = True
-                            
+                                if __event_with_topic_has_active_sub(event.get('actions')):
+                                    self.cis_foundations_benchmark_3_0[key]['Status'] = True
+
                             # For Checks that are home region based checking those
                             elif (all(x in eventtype_dict['eventtype'] for x in changes)) and \
                                 key not in self.__cis_regional_checks and event['region'] == self.__home_region:
-                                self.cis_foundations_benchmark_3_0[key]['Status'] = True
+                                if __event_with_topic_has_active_sub(event.get('actions')):
+                                    self.cis_foundations_benchmark_3_0[key]['Status'] = True
+
                         except Exception as e:
                             print(e)
                             print("*** Invalid Event Data for event: " + event['display_name'] + " ***")
@@ -6437,7 +6477,7 @@ class CIS_Report:
     ##########################################################################
     def __os_copy_report_to_object_storage(self, bucketname, filename):
         object_name = filename
-        # print(self.__os_namespace)
+        debug(f"__os_copy_report_to_object_storage: Writing to {filename} to namespace: {self.__os_namespace} bucket: {bucketname}")
         try:
             with open(filename, "rb") as f:
                 try:
@@ -6586,13 +6626,11 @@ class CIS_Report:
         if self.__output_raw_data:
             self.__report_generate_raw_data_output()
 
-        if self.__errors:
-            error_report = self.__print_to_csv_file("error", "report", self.__errors)
+        error_report_file_name = self.__print_to_csv_file("error", "report", self.__errors)
 
-        if self.__output_bucket:
-            if error_report:
-                self.__os_copy_report_to_object_storage(
-                    self.__output_bucket, error_report)
+        if error_report_file_name and self.__output_bucket:
+            self.__os_copy_report_to_object_storage(
+                self.__output_bucket, error_report_file_name)
 
         end_datetime = datetime.datetime.now().replace(tzinfo=pytz.UTC)
         end_time_str = str(end_datetime.strftime("%Y-%m-%dT%H:%M:%S"))
@@ -6766,6 +6804,56 @@ def set_parser_arguments():
 ##########################################################################
 # execute_report
 ##########################################################################
+def _build_worksheet_name(csv_path, report_prefix, seen_names):
+    """Return a workbook-safe worksheet name or None if the sheet should be skipped."""
+    base_name = os.path.basename(csv_path)
+    if report_prefix:
+        base_name = base_name.replace(report_prefix, "")
+
+    name = (base_name
+            .replace(".csv", "")
+            .replace("raw_data_", "raw_")
+            .replace("Findings", "fds")
+            .replace("Best_Practices", "OBP"))
+
+    if "raw_cloud_guard_target" in name:
+        return None
+
+    replacement_rules = (
+        ("Identity_and_Access_Management", "IAM"),
+        ("Storage_Object_Storage", "Object_Storage"),
+        ("raw_identity_groups_and_membership", "raw_iam_groups_and_membership"),
+        ("Cost_Tracking_Budgets_Best_Practices", "Budgets_Best_Practices"),
+        ("Cost_Tracking", "Cost"),
+        ("Storage_File_Storage_Service", "FSS"),
+        ("Networking_IPSec_connections", "Networking_IPSec"),
+        ("IAM_Stmt_Comp_Hierarchy_Count", "IAM_Stmt_Comp_Count"),
+        ("compartment_hierarchy_policy_count", "compartment_policy_cnt"),
+    )
+
+    for pattern, replacement in replacement_rules:
+        if pattern in name:
+            name = name.replace(pattern, replacement)
+            break
+
+    name = re.sub(r"_+", "_", name).strip("_") or "worksheet"
+
+    if len(name) > 31:
+        name = name.replace("_", "")
+    if len(name) > 31:
+        name = name[:28]
+
+    candidate = name
+    counter = 1
+    while candidate in seen_names or len(candidate) > 31:
+        suffix = f"_{counter}"
+        candidate = f"{name[:31 - len(suffix)]}{suffix}" if len(name) + len(suffix) > 31 else f"{name}{suffix}"
+        counter += 1
+
+    seen_names.add(candidate)
+    return candidate
+
+
 def execute_report():
 
     # Get Command Line Parser
@@ -6837,40 +6925,38 @@ def execute_report():
                     pass
             csvfiles = glob.glob(f'{csv_report_directory}/{report_prefix}*.csv')
             csvfiles.sort()
+            seen_worksheet_names = set()
             for csvfile in csvfiles:
-
-                worksheet_name = csvfile.split(os.path.sep)[-1].replace(report_prefix, "").replace(".csv", "").replace("raw_data_", "raw_").replace("Findings", "fds").replace("Best_Practices", "bps")
-
-                if "Identity_and_Access_Management" in worksheet_name:
-                    worksheet_name = worksheet_name.replace("Identity_and_Access_Management", "IAM")
-                elif "Storage_Object_Storage" in worksheet_name:
-                    worksheet_name = worksheet_name.replace("Storage_Object_Storage", "Object_Storage")
-                elif "raw_identity_groups_and_membership" in worksheet_name:
-                    worksheet_name = worksheet_name.replace("raw_identity", "raw_iam")
-                elif "Cost_Tracking_Budgets_Best_Practices" in worksheet_name:
-                    worksheet_name = worksheet_name.replace("Cost_Tracking_", "")
-                elif "Storage_File_Storage_Service" in worksheet_name:
-                    worksheet_name = worksheet_name.replace("Storage_File_Storage_Service", "FSS")
-                elif "raw_cloud_guard_target" in worksheet_name:
-                    # cloud guard targets are too large for a cell
+                worksheet_name = _build_worksheet_name(csvfile, report_prefix, seen_worksheet_names)
+                if not worksheet_name:
                     continue
-                elif len(worksheet_name) > 31:
-                    worksheet_name = worksheet_name.replace("_", "")
 
-                worksheet = workbook.add_worksheet(worksheet_name)
-                with open(csvfile, 'rt', encoding='unicode_escape') as f:
-                    reader = csv.reader(f)
-                    for r, row in enumerate(reader):
-                        for c, col in enumerate(row):
-                            # Format URL only if the column starts with "=HYPERLINK"
-                            if col.startswith("=HYPERLINK"):
-                                url_info = re.findall(r'"(.*?)"', col)
-                                if url_info and len(url_info[0]) < 2079:  # Excel Link limit
-                                    worksheet.write_url(r, c, url_info[0], string=url_info[1])
-                            else:
-                                worksheet.write(r, c, col)
-                worksheet.autofilter(0, 0, r - 1, c - 1)
-                worksheet.autofit()
+                try:
+                    worksheet = workbook.add_worksheet(worksheet_name)
+                    with open(csvfile, 'rt', encoding='unicode_escape') as f:
+                        reader = csv.reader(f)
+                        last_row = 0
+                        last_col = 0
+                        has_data = False
+                        for r, row in enumerate(reader):
+                            has_data = True
+                            last_row = r
+                            for c, col in enumerate(row):
+                                last_col = c
+                                # Format URL only if the column starts with "=HYPERLINK"
+                                if col.startswith("=HYPERLINK"):
+                                    url_info = re.findall(r'"(.*?)"', col)
+                                    if url_info and len(url_info[0]) < 2079:  # Excel Link limit
+                                        worksheet.write_url(r, c, url_info[0], string=url_info[1])
+                                else:
+                                    worksheet.write(r, c, col)
+                    if has_data:
+                        worksheet.autofilter(0, 0, last_row, last_col)
+                    worksheet.autofit()
+                except Exception as e:
+                    print(f"** Failed to output to Excel worksheet {worksheet_name} **")
+                    print(e)
+                    continue
 
             workbook.close()
         except Exception as e:
