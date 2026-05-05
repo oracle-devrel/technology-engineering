@@ -12,7 +12,7 @@ Oracle True Cache provides several business benefits related to application deve
 
 - Improves scalability and performance by offloading queries from the primary database.
 - Reduces application response time and network latency by deploying True Cache closer to the application.
-- Creates a large, in-memory storage area by dividing data across multiple True Caches making the total size of the cached data much   
+- Creates a large, in-memory storage area by dividing data across multiple True Caches making the total size of the cached data much
   larger than it would be for a single primary database or cache.
 - Automatically maintains the cache contents.
 - It's transparent to the applications
@@ -21,12 +21,9 @@ Oracle True Cache is available starting from Oracle AI Database 26ai release (no
 
 Reviewed: 24.04.2026
 
-
-# Table of Contents
- 
+# Table of Contents 
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-links)
-
 
 # Team Publications
 N/A
