@@ -2,6 +2,10 @@
 
 A practical guide for configuring Cline to call OCI Generative AI models through OCI's OpenAI-compatible API.
 
+Cline is an AI coding assistant that works inside your IDE and can help with day-to-day development tasks such as explaining unfamiliar code, generating new files, refactoring existing logic, writing tests, debugging errors, and summarizing repository structure. By connecting Cline to OCI Generative AI, developers can use OCI-hosted models directly from their coding environment while keeping model access, deployment choices, and enterprise controls within Oracle Cloud Infrastructure.
+
+This setup is useful when teams want AI-assisted development workflows that can use either on-demand OCI Generative AI models for quick setup or Dedicated AI Cluster (DAC)-hosted models for production-grade isolation, performance, and customization.
+
 ## Overview
 
 This tutorial walks through configuring Cline to use OCI Generative AI models through the OCI OpenAI-compatible API.
@@ -9,10 +13,11 @@ This tutorial walks through configuring Cline to use OCI Generative AI models th
 The process involves:
 
 1. Selecting an OCI Generative AI model
-2. Understanding the OCI OpenAI-compatible API endpoint URL
-3. Creating an OCI Generative AI API key
-4. Configuring Cline with the OCI OpenAI-compatible base URL, API key, and model ID
-5. Testing the setup with an example prompt
+2. Choosing whether to use the model on demand or from a Dedicated AI Cluster (DAC)
+3. Understanding the OCI OpenAI-compatible API endpoint URL
+4. Creating an OCI Generative AI API key
+5. Configuring Cline with the OCI OpenAI-compatible base URL, API key, and model ID
+6. Testing the setup with an example prompt
 
 OCI provides OpenAI-compatible APIs for model inference, including Chat Completions and Responses. This tutorial uses the OCI Generative AI OpenAI-compatible API documented here:
 
@@ -42,21 +47,30 @@ Example regions include:
 - `uk-london-1`
 - `eu-frankfurt-1`
 
-The region is used in the OpenAI-compatible base URL.
+The region is used in the OpenAI-compatible URL.
 
-Example:
+On-demand example:
 
 ```text
 https://inference.generativeai.us-chicago-1.oci.oraclecloud.com/openai/v1
 ```
 
-**Important:** Create the OCI Generative AI API key in the same region where you plan to use the model.
+DAC Chat Completions example:
+
+```text
+https://inference.generativeai.us-chicago-1.oci.oraclecloud.com/openai/v1/chat/completions
+```
+
 
 ### 2. Choose a Model
 
-Select the OCI Generative AI model that you want Cline to use.
+Select the OCI Generative AI model that you want Cline to use. OCI Generative AI models can be used either on demand or from a Dedicated AI Cluster (DAC). The Cline setup is different for each option, so choose the deployment path first.
 
-Example model IDs:
+#### On-Demand Models
+
+On-demand models are shared, OCI-hosted models that are ready to call directly through the OpenAI-compatible API. This is the simplest setup for testing, prototyping, and lighter usage patterns.
+
+Example OCI Model Names:
 
 ```text
 xai.grok-code-fast-1
@@ -66,20 +80,54 @@ openai.gpt-oss-120b
 google.gemini-2.5-flash
 ```
 
+For on-demand models, the Cline **Model ID** is the OCI Model Name.
+
+#### Dedicated AI Cluster (DAC)-Hosted Models
+
+DAC-hosted models run on dedicated infrastructure in your tenancy. Use a DAC-hosted model when you need production-grade control over model hosting and inference. DACs provide several advantages:
+
+- **Flexibility:** Import supported Hugging Face-format models from Hugging Face or Object Storage, test imported models with shorter commitments, choose fine-tuned or quantized versions, and right-size based on visible hardware specifications.
+- **Isolation:** Run workloads on dedicated GPU resources inside your tenancy, which helps protect sensitive data, avoids shared-resource contention, and supports regulated workloads.
+- **Predictable latency:** Dedicated infrastructure can provide more stable time-to-first-token and inference response times than shared model endpoints, especially for scaling production applications.
+- **Fine-tuning support:** Host fine-tuned models alongside base models, run multiple fine-tuned models on a single cluster, and control model lifecycle and upgrade cadence.
+- **Cost efficiency at scale:** For inference-heavy workloads, DACs can reduce effective price per token by keeping dedicated resources highly utilized and hosting multiple models on one cluster.
+- **Deployment near data:** Deploy in supported OCI regions, including regulated regions where available, to support data residency, lower latency, and simpler security reviews.
+- **Simplified management:** OCI manages the infrastructure while you manage model deployment, scaling, fine-tuning, and application integration.
+
+Before configuring Cline for a DAC-hosted model, make sure the model endpoint is already created and active.
+
+1. Open the OCI Console
+2. Navigate to **Analytics & AI -> Generative AI**
+3. Go to **Endpoints**
+4. Confirm that the endpoint for your DAC-hosted model is **Active**
+5. Keep note of the endpoint region and DAC endpoint OCID
+
+For DAC-hosted models, the Cline **Model ID** is the DAC endpoint OCID.
+
+```text
+ocid1.generativeaiendpoint.<region>..<unique_id>
+```
+
 ### 3. Understand the OCI OpenAI-Compatible API Endpoint URL
 
-All calls from Cline go through the OCI OpenAI-compatible API endpoint URL:
+Cline uses a different OCI OpenAI-compatible endpoint format depending on whether the model is on demand or DAC-hosted.
+
+For on-demand models, configure the base URL **without** `/chat/completions`:
 
 ```text
 https://inference.generativeai.<region>.oci.oraclecloud.com/openai/v1
 ```
 
-This base URL is the endpoint you configure in Cline.
+For DAC-hosted models, configure the full Chat Completions URL **with** `/chat/completions`:
+
+```text
+https://inference.generativeai.<region>.oci.oraclecloud.com/openai/v1/chat/completions
+```
 
 Keep note of the following values:
 
 - Region
-- Model ID
+- OCI Model Name or DAC endpoint OCID
 - Compartment
 
 ### 4. Create an OCI Generative AI API Key
@@ -94,18 +142,18 @@ Keep note of the following values:
 cline-genai-key
 ```
 
-6. Optionally add a description
+6. Add a description if needed
 7. Configure key names and expiration dates
 8. Click **Create**
-9. Copy one of the generated key values immediately
+9. Copy one of the generated key values
 
 OCI Generative AI API keys are service-specific credentials and are different from OCI IAM API keys.
 
-**Important:** Store the key securely. Do not commit it to GitHub or place it in source code.
+⚠️ Store the key securely. Do not commit it to GitHub or place it in source code.
 
-### 5. Build the OCI OpenAI-Compatible Base URL
+### 5. Build the OCI OpenAI-Compatible URL
 
-Use the following base URL format for Cline:
+For on-demand models, use the following base URL format for Cline:
 
 ```text
 https://inference.generativeai.<region>.oci.oraclecloud.com/openai/v1
@@ -115,6 +163,14 @@ Example for US Midwest Chicago:
 
 ```text
 https://inference.generativeai.us-chicago-1.oci.oraclecloud.com/openai/v1
+```
+
+For DAC-hosted models, use the full Chat Completions URL shown in the DAC section.
+
+Example for UK South London:
+
+```text
+https://inference.generativeai.uk-london-1.oci.oraclecloud.com/openai/v1/chat/completions
 ```
 
 
@@ -130,19 +186,33 @@ Open VS Code or PyCharm and configure Cline:
 OpenAI Compatible
 ```
 
-4. Set **Base URL** to your OCI base URL:
+4. Set **Base URL** to your OCI URL.
+
+For on-demand models:
 
 ```text
 https://inference.generativeai.us-chicago-1.oci.oraclecloud.com/openai/v1
 ```
 
+For DAC-hosted models:
+
+```text
+https://inference.generativeai.uk-london-1.oci.oraclecloud.com/openai/v1/chat/completions
+```
+
 5. Paste your OCI Generative AI API key into the **API Key** field
-6. Set **Model ID** to your OCI model ID
+6. Set **Model ID** to your OCI Model Name or DAC endpoint OCID
 
 Example:
 
 ```text
 xai.grok-code-fast-1
+```
+
+For a DAC-hosted model, use the DAC endpoint OCID instead:
+
+```text
+ocid1.generativeaiendpoint.<region>..<unique_id>
 ```
 
 7. Save the configuration
@@ -152,7 +222,7 @@ xai.grok-code-fast-1
 Use a simple prompt first:
 
 ```text
-Write a one-sentence commit message for a change that adds OCI Generative AI support to a Cline tutorial.
+Hello. Reply with one sentence confirming that the connection works.
 ```
 
 If the setup is correct, Cline should return a normal response from the OCI-hosted model.
@@ -186,9 +256,9 @@ Check that:
 
 Check that:
 
-- The model ID is correct
 - The model is available in the selected region
 - The model supports OpenAI-compatible chat completion requests
+- If using a DAC-hosted model, the OCI Generative AI endpoint is active and the Model ID field uses the DAC endpoint OCID
 
 ### Authorization Error
 
@@ -204,19 +274,25 @@ Check that:
 Check that:
 
 - The base URL uses the correct region
-- The URL ends with:
+- For on-demand models, the URL ends with:
 
 ```text
 /openai/v1
 ```
 
+- For DAC-hosted models, the URL ends with:
+
+```text
+/openai/v1/chat/completions
+```
+
 - Your network can reach OCI public endpoints
+- Private endpoints are reachable from your machine if using private networking
 
 ## Recommended Tests
 
 Run the following tests in Cline:
 
-- Simple math prompt
 - Short coding task
 - Code explanation prompt
 - Refactoring prompt
@@ -229,10 +305,12 @@ If this was only a test setup:
 
 1. Remove the API key from Cline
 2. Revoke or deactivate the OCI Generative AI API key
+3. If using a DAC-hosted model only for testing, delete the endpoint before deleting the Dedicated AI Cluster
 
 ## OCI Services Used
 
-- **OCI Generative AI** - Model inference
+- **OCI Generative AI** - Model inference and endpoints
+- **OCI Generative AI Dedicated AI Clusters** - Dedicated hosting for deployed models
 - **OCI IAM** - Policies and authorization
 - **OCI Generative AI API Keys** - API key authentication
 - **Cline** - AI coding assistant in VS Code or PyCharm
