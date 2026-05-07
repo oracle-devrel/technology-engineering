@@ -17,41 +17,57 @@ OCI Data Flow supports Delta Lake by default when your Applications run Spark 3.
 How to optimize data lake using DeltaLake functions:
 Configure your preferences (please check DeltaLake doc):
 
+```
 spark.conf.set('spark.databricks.delta.retentionDurationCheck.enabled', 'False')
 spark.conf.set('spark.databricks.delta.optimize.repartition.enabled','True')
 spark.conf.set('spark.databricks.delta.optimize.preserveInsertionOrder', 'False')
 
-Preserve vacuum history:
+#Preserve vacuum history:
 spark.conf.set('spark.databricks.delta.vacuum.logging.enabled','True')
 
-Set retention time for optimized files (ready to delete:  
+#Set retention time for optimized files (ready to delete:  
 spark.conf.set("spark.databricks.delta.deletedFileRetentionDuration","0")
+```
 
 
 Check existing table details (look for numFiles and sizeInBytes:
+```
 spark.sql("describe detail atm").show(truncate=False)
+```
+```
 +------+------------------------------------+--------------------------------+-----------+----------------------------------------------------+-----------------------+-------------------+------------------+--------+-----------+----------+----------------+----------------+------------------------+
 |format|id                                  |name                            |description|location                                            |createdAt              |lastModified       |partitionColumns  |numFiles|sizeInBytes|properties|minReaderVersion|minWriterVersion|tableFeatures           |
 +------+------------------------------------+--------------------------------+-----------+----------------------------------------------------+-----------------------+-------------------+------------------+--------+-----------+----------+----------------+----------------+------------------------+
 |delta |c15ad4ca-8c0f-4747-b064-1492d7b4b3c4|spark_catalog.default.hsl_trains|NULL       |oci://dataflow_app@fro8fl9kuqli/hsl_trains_data_part|2024-09-05 10:19:10.057|2024-09-06 08:45:01|[year, month, day]|2024    |16333676   |{}        |1               |2               |[appendOnly, invariants]|
 +------+------------------------------------+--------------------------------+-----------+----------------------------------------------------+-----------------------+-------------------+------------------+--------+-----------+----------+----------------+----------------+------------------------+
+```
 
 Run optimzation:
+```
 spark.sql("OPTIMIZE atm").show(truncate=False)
+```
 
 Check files you can delete:
+```
 spark.sql("vacuum atm RETAIN 0 HOURS DRY RUN")
+```
 
 Delete optimized and consolidated files:
+```
 spark.sql("vacuum atm RETAIN 0 HOURS")
+```
 
 and check details of your table:
+```
 spark.sql("describe detail atm").show(truncate=False)
+```
+```
 +----------------+----------------+------------------------+
 |format|id                                  |name                            |description|location                                            |createdAt              |lastModified       |partitionColumns  |numFiles|sizeInBytes|properties|minReaderVersion|minWriterVersion|tableFeatures           |
 +------+------------------------------------+--------------------------------+-----------+----------------------------------------------------+-----------------------+-------------------+------------------+--------+-----------+----------+----------------+----------------+------------------------+
 |delta |c15ad4ca-8c0f-4747-b064-1492d7b4b3c4|spark_catalog.default.hsl_trains|NULL       |oci://dataflow_app@fro8fl9kuqli/hsl_trains_data_part|2024-09-05 10:19:10.057|2024-09-06 08:47:48|[year, month, day]|7       |1583521    |{}        |1               |2               |[appendOnly, invariants]|
-+------+------------------------------------+--------------------------------+-----------+----------------------------------------------------+-----------------------+-------------------+------------------+--------+-----------+----------+----------------+----------------+------------------------+                                                                                                 
++------+------------------------------------+--------------------------------+-----------+----------------------------------------------------+-----------------------+-------------------+------------------+--------+-----------+----------+----------------+----------------+------------------------+
+```                                                                                             
 
 Enjoy increased performance of your queries!                                                                                                                 
                                                                                                                           
