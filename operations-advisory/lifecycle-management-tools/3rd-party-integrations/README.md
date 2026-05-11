@@ -1,6 +1,6 @@
 # Integration Patterns 
 
-This chapter highlights the most common patterns for Audit Logs Integrations
+This chapter highlights the most common patterns for Audit Logs Integrations.
 
 # License
 
