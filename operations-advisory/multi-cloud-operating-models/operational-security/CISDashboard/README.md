@@ -56,7 +56,7 @@ flowchart LR
 flowchart LR
     operator["Security / Cloud Operations User"]
 
-    subgraph tenancy["OCI Tenancy"]
+    subgraph tenancy["<b><span style='font-size:20px'>OCI Tenancy</span></b>"]
         resources["OCI Resources<br/>IAM, Networking, Compute,<br/>Logging, Storage"]
         cis_script["OCI CIS Compliance Script<br/>cis_reports.py"]
         csv_reports["CIS CSV Reports<br/>summary and finding files"]
