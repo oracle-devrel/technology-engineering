@@ -113,7 +113,9 @@ Create a [log group](https://docs.oracle.com/en-us/iaas/Content/Logging/Task/cre
 
 Use the terraform code [here](./files/terraform/) to import logsources. Use the dashboard JSON to import via console. While importing select *"Specify a compartment for all dashboards"* and for *"Specify a compartment for all saved searches"* as well. 
 
-![image](./files/images/import_dashboard.png)
+<p align="center">
+  <img src="./files/images/import_dashboard.png" alt="Import dashboard" width="50%">
+</p>
 
 ## Step 3: Create IAM Policies for log upload and run CIS Script
 
