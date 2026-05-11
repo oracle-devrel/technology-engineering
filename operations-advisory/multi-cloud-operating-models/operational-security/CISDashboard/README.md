@@ -10,8 +10,6 @@ This document implements a solution to import and visualize the results from the
 
 The **CIS Compliance Dashboard** solution builds the following:
 
-**Architecture diagram**
-
 **Setup flow**
 
 ```mermaid
@@ -96,8 +94,6 @@ flowchart LR
     class la_upload,log_sources service
     linkStyle default stroke:#2f4858,stroke-width:2px,stroke-dasharray:5 4
 ```
-
-The dashboard has two main paths: a setup path that imports the Log Analytics custom content and dashboard definition, and an operational path that runs the CIS assessment, uploads selected CSV outputs, and visualizes the parsed findings in the OCI Management Dashboard.
 
 You can see an example of how the CIS Dashboard looks like below:
 
