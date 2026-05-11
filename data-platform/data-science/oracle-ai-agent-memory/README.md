@@ -24,7 +24,7 @@ Reviewed: 2026.04.23
 
 # Team Publications
 
-- Coming Soon
+- [Oracle AI Agent Memory - Tracking Engagements Over Time](https://medium.com/@harrysnart/exploring-oracle-agent-memory-32ef77ef178f?postPublishedType=initial)
 
 </br></br>
 
