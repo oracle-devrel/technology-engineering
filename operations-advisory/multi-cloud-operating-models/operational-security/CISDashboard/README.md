@@ -1,5 +1,17 @@
 # CIS Compliance Dashboard
 
+## Table of Contents
+
+- [1. Overview](#1-overview)
+- [2. Pre-requisites](#2-pre-requisites)
+- [3. Setup](#3-setup)
+  - [Step 1: Create Log Group in Log Analytics](#step-1-create-log-group-in-log-analytics)
+  - [Step 2: Import Logsources and Dashboard using Terraform](#step-2-import-logsources-and-dashboard-using-terraform)
+  - [Step 3: Create IAM Policies for log upload and run CIS Script](#step-3-create-iam-policies-for-log-upload-and-run-cis-script)
+  - [Step 4: Upload CSV to Log Analytics](#step-4-upload-csv-to-log-analytics)
+  - [Step 5: Analyze Data using the CIS Compliance Dashboard](#step-5-analyze-data-using-the-cis-compliance-dashboard)
+- [4. Purging Logs](#4-purging-logs)
+
 ## 1. Overview
 
 The [**Center of Internet Security (CIS)**](https://www.cisecurity.org) is a global IT community that safeguards public and private organizations against cyber threats. They create different benchmarks, consisting in different secure configuration guidelines recommended to protect your IT assets and data.
