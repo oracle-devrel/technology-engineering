@@ -6,7 +6,7 @@ This section contains operational security assets and examples for OCI operating
 
 | Asset | Purpose |
 |-------|---------|
-| [CIS Dashboard](./CISDashboard/) | Dashboard assets for CIS-oriented operational security visibility. |
+| [CIS Dashboard](./CISDashboard/) | Visualise and control your OCI CIS Compliance from an OCI Log Analytics Dashboard. |
 | [OCI Terraform GitHub Actions Worload Identity Federation Example](https://github.com/dgutierrezcolodra/oci-terraform-github-actions-wif-example) | Step-by-step example for GitHub Actions OIDC to OCI IAM Workload Identity Federation using JWT-to-UPST token exchange and Terraform `SecurityToken` authentication. See the [setup guide](https://github.com/dgutierrezcolodra/oci-terraform-github-actions-wif-example/blob/main/SETUP.md). |
 
 # License
