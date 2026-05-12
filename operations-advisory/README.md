@@ -1,6 +1,7 @@
 # Operations Advisory
 
-The Operations Advisory provides critical guidance to Customers on how to define their operations. Operations Excellence Advisory 'Approach Workshop' advises on best practices and their benefits from Oracle based on previous experiences and is meant to identify  an outline for Day-2 optimal operations, based on  priorities and requirements for DR, Integrations, O&M also in the following scenarios: Hybrid, Multi-cloud, DRCC. Where needed, Automation advice is also included.
+The Operations Advisory provides critical guidance to Customers on how to define their operations. Operations Excellence Advisory 'Approach Workshop' advises on best practices and their benefits from Oracle based on previous experiences and is meant to identify  an outline for Day 2 optimal operations, based on  priorities and requirements for DR, Integrations, O&M also in the following scenarios: Hybrid, Multi-cloud, Dedicated Cloud. Where needed, Automation advice is also included.
+
 - [Multi-cloud operations - 3rd party tools that support OCI](https://learnoci.cloud/multi-cloud-operations-3rd-party-tools-that-support-oci-091207d923ed)
   
 
@@ -33,9 +34,6 @@ Reviewed: 30.01.2025
 - [Why Day-2 Operations Matter: Autonomous Database - Episode 5](https://www.linkedin.com/pulse/why-day-2-operations-matter-autonomous-database-magic-fioramonti-lhg5f/?trackingId=s3bkPoanDc0iiUglgz9Knw%3D%3D)
 - [Why Day-2 Operations Matter: Episode 6- Applications](https://www.linkedin.com/pulse/why-day-2-operations-matter-episode-6-applications-fioramonti-cwqof/?trackingId=0VGMfW8sTlfLtxWi5yIbOA%3D%3D)
 - [Create a new data ingestion job in the specified compartment using the provided data source OCID](https://github.com/karthicgit/ocifunctions-sample/blob/main/GenAIAgent/Ingestionjob.py)
-
-
-
 
 # Useful Links 
 

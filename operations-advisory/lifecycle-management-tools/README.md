@@ -1,6 +1,6 @@
-# ExaCC and ExaCS Dynamic Scaling
+# Lifecycle Management Tools
 
-Reviewed: 30.01.2024
+This section includes assets that can be used to manage Day 1 & Day 2 operations of different OCI resources with OCI Managed Services or automation practices.
 
 # License
 

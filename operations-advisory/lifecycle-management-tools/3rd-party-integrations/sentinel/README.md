@@ -1,6 +1,6 @@
-# Integration Patterns 
+# Sentinel
 
-This chapter highlights the most common patterns for Audit Logs Integrations
+Reviewed: 2026-05-12
 
 # License
 
