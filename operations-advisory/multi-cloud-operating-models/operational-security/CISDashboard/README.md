@@ -210,7 +210,6 @@ $ python3 cis_reports.py -dt --region eu-frankfurt-1 --report-directory CISRESUL
     'cis_Storage_Object_Storage_5-1-2.csv',  
     'cis_Storage_Object_Storage_5-1-3.csv'.  
    
-
 ### Step 5: Analyze Data using the CIS Compliance Dashboard
 
 Use the imported CIS Compliance dashboard to analyze the CIS data uploaded to Log Analytics.

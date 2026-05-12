@@ -36,3 +36,11 @@ namespace = "your_log_analytics_namespace"
 
 * The `is_overwrite` flag is set to `true` by default, which means that existing custom content with the same name will be overwritten.
 * Make sure to replace the filepaths and namespace with your actual values in the `terraform.tfvars` file.
+
+# License
+
+Copyright (c) 2026 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
