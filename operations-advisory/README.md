@@ -35,9 +35,6 @@ Reviewed: 30.01.2025
 - [Why Day-2 Operations Matter: Episode 6- Applications](https://www.linkedin.com/pulse/why-day-2-operations-matter-episode-6-applications-fioramonti-cwqof/?trackingId=0VGMfW8sTlfLtxWi5yIbOA%3D%3D)
 - [Create a new data ingestion job in the specified compartment using the provided data source OCID](https://github.com/karthicgit/ocifunctions-sample/blob/main/GenAIAgent/Ingestionjob.py)
 
-
-
-
 # Useful Links 
 
 ## Cloud Coaching Clinic

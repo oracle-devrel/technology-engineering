@@ -2,15 +2,18 @@
 
 ## Table of Contents
 
-- [1. Overview](#1-overview)
-- [2. Pre-requisites](#2-pre-requisites)
-- [3. Setup](#3-setup)
-  - [Step 1: Create Log Group in Log Analytics](#step-1-create-log-group-in-log-analytics)
-  - [Step 2: Import Logsources and Dashboard using Terraform](#step-2-import-logsources-and-dashboard-using-terraform)
-  - [Step 3: Create IAM Policies for log upload and run CIS Script](#step-3-create-iam-policies-for-log-upload-and-run-cis-script)
-  - [Step 4: Upload CSV to Log Analytics](#step-4-upload-csv-to-log-analytics)
-  - [Step 5: Analyze Data using the CIS Compliance Dashboard](#step-5-analyze-data-using-the-cis-compliance-dashboard)
-- [4. Purging Logs](#4-purging-logs)
+- [CIS Compliance Dashboard](#cis-compliance-dashboard)
+  - [Table of Contents](#table-of-contents)
+  - [1. Overview](#1-overview)
+  - [2. Pre-requisites](#2-pre-requisites)
+  - [3. Setup](#3-setup)
+    - [Step 1: Create Log Group in Log Analytics](#step-1-create-log-group-in-log-analytics)
+    - [Step 2: Import Logsources and Dashboard using Terraform](#step-2-import-logsources-and-dashboard-using-terraform)
+    - [Step 3: Create IAM Policies for log upload and run CIS Script](#step-3-create-iam-policies-for-log-upload-and-run-cis-script)
+    - [Step 4: Upload CSV to Log Analytics](#step-4-upload-csv-to-log-analytics)
+    - [Step 5: Analyze Data using the CIS Compliance Dashboard](#step-5-analyze-data-using-the-cis-compliance-dashboard)
+  - [4. Purging Logs](#4-purging-logs)
+- [License](#license)
 
 ## 1. Overview
 
@@ -215,3 +218,11 @@ Use the imported CIS Compliance dashboard to analyze the CIS data uploaded to Lo
 ## 4. Purging Logs
 
 If you want to remove the logs sent to Log Analytics you can follow the steps documented [here](https://docs.oracle.com/en-us/iaas/log-analytics/doc/manage-storage.html).
+
+# License
+
+Copyright (c) 2026 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

@@ -1,7 +1,7 @@
 # How OCI Can Support FinOps Discipline
 
 In Cloud, the ability to spin up infrastructure by the simple push of a button has shifted costs from a fixed model to a variable model, 
-increasing the distance from Engineerig and Finance teams. At the same time, this increases the chance for resources to be deployed and under-utilized,
+increasing the distance from Engineering and Finance teams. At the same time, this increases the chance for resources to be deployed and under-utilized,
 or to be under-utilized under particular circumstances.
 OCI provides tools and constructs to ensure FinOps discipline can be applied:
 
@@ -36,12 +36,6 @@ OCI provides powerful tools to support FinOps discipline.
 3. Reporting needs across multiple cloud providers can be met by **3rd Party tools** such as Flexera, CloudHealth, and Cloudvane.
 
 4. **Cloud Advisor** enables cost-saving opportunities with resource-specific recommendations and customizable profiles. These recommendations can be immediately implemented via the 'fix-it' flow, without navigating to the specific resource.
-
-
-
-
-
-
 
 # Useful Links
 

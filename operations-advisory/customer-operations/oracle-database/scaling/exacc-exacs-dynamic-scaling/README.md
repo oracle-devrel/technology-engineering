@@ -1,6 +1,6 @@
 # ExaCC and ExaCS Dynamic Scaling
 
-Reviewed: 30.01.2024
+Reviewed: 2026-05-12
 
 # License
 

@@ -2,8 +2,7 @@
 
 **FinOps** is a cloud financial management practice that supports organizations to optimize their cloud spending by providing a dedicated framework to achieve maximum business value by helping engineering, finance & business teams to collaborate on data-driven spending decision
 
-Reviewed: 10.10.2024
-
+Reviewed: 2026-10-10
 
 **The FinOps Framework** describes 
 1. The Principles that drive FinOps practices
@@ -33,8 +32,6 @@ Reviewed: 10.10.2024
 
 Attribution
 [FinOps Principles](https://www.finops.org/framework/principles/) by [FinOps Foundation](https://finops.org/about/)
-
-
 
 # License
 
