@@ -37,6 +37,42 @@ This section contains various examples related to Application Integration: demo 
 
 ## Demos
 
+- [Developer Coaching - Unlocking AI-Driven Automation with Oracle Integration Cloud](https://youtu.be/uXpIVhgdvDA?si=RSbBr4XS-ep0jUrC)
+
+    In this session we have explored how developers can build intelligent, real-world AI workflows using Oracle Integration Cloud together with OCI AI Services, with minimal custom code. Key theme is around Customer Support.
+
+    Some of the live demos included:
+
+    ✅ OCI Language for real-time sentiment analysis of customer interactions  
+    ✅ OCI Speech for converting speech to text in automated workflows  
+    ✅ Human-in-the-loop escalation
+
+    ✅ OCI Generative AI for dynamic AI-powered content generation  
+    ✅ Native Actions in OIC to orchestrate end-to-end intelligent automation
+
+    ✅ Exposing Integrations as AI-callable tools with MCP Server in OIC  
+
+    The focus is on practical implementation patterns for AI-driven customer support scenarios, showing how quickly developers can bring AI capabilities directly into enterprise workflows.
+
+- [Developer Coaching - Beyond Integration - Designing Agentic AI with Oracle Integration & MCP](https://youtu.be/UyU3-TwGSGU?si=X1zCN3CFqksgBl8t)
+
+    This session covers following key topic
+
+    ✅ 𝗔𝗴𝗲𝗻𝘁𝗶𝗰 𝗔𝗜 𝘄𝗶𝘁𝗵 𝗢𝗿𝗮𝗰𝗹𝗲 𝗜𝗻𝘁𝗲𝗴𝗿𝗮𝘁𝗶𝗼𝗻 — How OIC fits into agentic architectures where AI agents reason, select tools, and invoke OIC flows to orchestrate real business processes.
+
+    ✅ 𝗘𝘅𝗽𝗼𝘀𝗲 𝗜𝗻𝘁𝗲𝗴𝗿𝗮𝘁𝗶𝗼𝗻𝘀 𝗮𝘀 𝗠𝗖𝗣 𝗧𝗼𝗼𝗹𝘀 — Publishing OIC integrations as Model Context Protocol (MCP) endpoints — discoverable, callable, and OAuth-secured for AI agents.
+
+    𝗟𝗶𝘃𝗲 𝗠𝗖𝗣 𝘁𝗼𝗼𝗹 𝗰𝗮𝗹𝗹𝘀 𝗱𝗲𝗺𝗼𝗻𝘀𝘁𝗿𝗮𝘁𝗲𝗱 𝗳𝗿𝗼𝗺:
+    → 𝗣𝗼𝘀𝘁𝗺𝗮𝗻
+    → 𝗟𝗮𝗻𝗴𝗙𝗹𝗼𝘄
+    → 𝗙𝘂𝘀𝗶𝗼𝗻 𝗔𝗜 𝗔𝗴𝗲𝗻𝘁 𝗦𝘁𝘂𝗱𝗶𝗼
+
+    ✅ 𝗢𝗜𝗖 𝗔𝗜 𝗔𝗴𝗲𝗻𝘁 — Building workflows where AI agents invoke multiple integrations to trigger, orchestrate, and enrich enterprise processes.
+
+    ✅ 𝗥𝗲𝗮𝗹-𝘄𝗼𝗿𝗹𝗱 𝗗𝗲𝗺𝗼𝘀 — Invoice automation using OCI Document Understanding & ERP Cloud, and Expense Report approval with human-in-the-loop workflows.
+
+    If you're building new integrations or modernising existing ones, this session offers practical skills to design intelligent, scalable, and secure agentic solutions.
+
 - [Developer Coaching - From Build to Insight Oracle Integration’s Embedded AI Features](https://youtu.be/yXXxpwrbacQ?si=Qs1dabQm_sQHoFGy)
 
     This developer coaching session highlights how Oracle Integration’s embedded AI features simplify and accelerate the design, build, and optimization of integrations.
@@ -293,6 +329,28 @@ This section contains various examples related to Application Integration: demo 
     - Demo video showing how to create and run a BPM Dynamic (Case Management) Process. Shows how to manage Car Rental Process through Case Management stages, Global activities and combination of Human Tasks, Structured BPM processes and Milestones in Case Management stages. This demo implements [Oracle Live Lab](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/run-workshop?p210_wid=3362&p210_wec=&session=17064424204924), Lab 2
 
 ## Blogs
+
+-[How We Built an AI Agent on Top of Enterprise Systems](https://www.linkedin.com/pulse/how-we-built-ai-agent-top-enterprise-systems-harris-qureshi-ask2f/)
+
+One thing most enterprise AI projects get wrong:
+
+They connect the AI directly to the API and call it done.
+
+No governance. No audit trail. No identity propagation. No error handling. No way to reach systems securely on-premise, multi-cloud, or legacy.
+
+In Part 1, I wrote about why the future is AI unlocking enterprise systems — not replacing them.
+
+This is Part 2. The architecture. The protocol. Exactly how we built it.
+
+-[The Enterprise AI Moment Nobody Is Talking About](https://www.linkedin.com/pulse/enterprise-ai-moment-nobody-talking-harris-qureshi-ct0nf/)
+
+The future isn't AI replacing your enterprise systems.
+
+It's AI unlocking them.
+
+Most enterprises are sitting on years of data, logic, and investment — and their people still can't get a straight answer without navigating a maze of screens.
+
+That's changing. Here's how — and what to get right before you start.
 
 -[A Beginner’s Guide to Using OCI Generative AI with Oracle Integration](https://www.linkedin.com/pulse/beginners-guide-using-oci-generative-ai-oracle-harris-qureshi-wqcof/)
 
