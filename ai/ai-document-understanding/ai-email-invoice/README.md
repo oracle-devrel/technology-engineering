@@ -3,7 +3,7 @@
 In this article, we'll explore how we can process invoice documents from Gmail into an ERP System in real-time using OCI Document Understanding and Oracle Integration Cloud (OIC). 
 This solution combines a low-code approach to capture Gmail messages in real-time with Google Cloud Pub/Sub Adapter, extract invoice data with AI Document Understanding and create invoices in ERP systems using Oracle Integration Cloud ERP adapters.
 
-Reviewed: 30.10.2024
+Reviewed: 19.01.2026
  
 # When to use this asset?
  
@@ -15,7 +15,7 @@ See the README document in the /files folder.
  
 # License
  
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

@@ -18,7 +18,7 @@ Chef has a suite of automation solutions for both infrastructure as code, and de
 - [Puppet](https://www.puppet.com/)
 Puppet enables you to deploy and manage infrastructure.
 
-Reviewed: 19.11.2024
+Reviewed: 01.12.2025
 
 # Table of Contents
  
@@ -34,9 +34,10 @@ The Jenkins SQLPlus Script Runner plugin enables you run Oracle SQL*Plus scripts
 ## Tutorials / How To's
 - [Oracle LiveLabs - DevOps and CI/CD for Microservices Deployments with Oracle Database Cloud](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3314)
 - [Oracle LiveLabs - Oracle Database Operator for Kubernetes + DevOps](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3393)
+- [Oracle LiveLabs - Build MultiCloud DevOps using Azure CI/CD Pipelines with Kubernetes and Oracle Database Cloud Services](https://livelabs.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3914)
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

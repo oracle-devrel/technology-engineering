@@ -1,0 +1,8 @@
+# The compartment where the Identity Domain will be placed in.
+compartment_id      = "ocid1.compartment.oc1..aaaaaaaa..."
+tenancy_ocid        = "ocid1.tenancy.oc1..aaaaaaaa..."
+region              = "eu-frankfurt-1"
+domain_display_name = "my-identity-domain"
+domain_description  = "OCI Identity Domain created with Terraform."
+license_type        = "premium"
+oci_profile         = "DEFAULT"

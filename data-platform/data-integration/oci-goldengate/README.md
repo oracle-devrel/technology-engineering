@@ -2,7 +2,7 @@
 
 Oracle Cloud Infrastructure GoldenGate is a fully managed, native cloud service that moves data in real-time, at scale. OCI GoldenGate processes data as it moves from one or more data management systems to target databases. You can also design, run, orchestrate, and monitor data replication tasks without having to allocate or manage any Compute environment.
 
-Reviewed: 28.02.2025
+Reviewed: 28.10.2025
 
 
 # Table of Contents
@@ -14,14 +14,26 @@ Reviewed: 28.02.2025
  
 # Team Publications
 
-- [GoldenGate Best Pracices](https://oradocs.oracle.com/documents/fileview/D1322A709534F69090ABAEEBCD182E6DCA08632BD3F4/_Best_Practices___Reference.pptx)
-  - PowerPoint with a collection of GoldenGate Best Precices
+- [Real-Time Data Replication to Oracle AI Data Platform Using OCI GoldenGate](https://blogs.oracle.com/dataintegration/real-time-data-replication-to-oracle-ai-data-platform-using-oci-goldengate)
+    - This blog post explains how you can replicate data with OCI GoldenGate directly to AIDP internal storage and OCI bucket for an external storage. 
 
 - [Sync data between DBCS and Google BigQuery using Stage and Merge](https://github.com/alexandruporcescu/Articles/blob/main/Sync%20OracleDB%20with%20Google%20BigQuery/Replicate%20data%20from%20Oracle%20DB%20to%20Google%20BigQuery%20using%20GoldenGate%20Stage%20and%20Merge%20handler.md)
     - GitHub articles that show a step-by-step guide on how to achieve replication between Oracle Database and Google BigQuery using OCI Goldengate
 
-- [OCI GoldenGate Demo - Realtime data replication from Postgres to ADW](https://oradocs.oracle.com/documents/link/LD4145D4B24FEE57EABE0F50975040B24F20D580F947/fileview/D200667F14B944E8C21E9984CEC2A6B73DFDCF90D2A1/_Video-OCIGG-PostgresToOracle.mp4)
-  - Video of Replicating PostgreSQL to ADW using OCI GoldenGate
+- [GoldenGate Data Streams - F1 Usecase](https://medium.com/@aporcescu/oracle-goldengate-data-streams-to-f1-telemetry-58532993e26a)
+  - It is a step-by-step article about implementing Oracle GoldenGate Data Streams in a usecase of streaming F1 telemetry data into a web app
+ 
+- [Static Data Masking with Oracle GoldenGate](https://medium.com/@aporcescu/static-data-masking-with-oracle-goldengate-88d33ecaae13)
+  - Article that shows a use-case of data masking using buil-in functions of GoldenGate
+
+- [Real-time AI-augmented Inventory Management Demo](https://www.youtube.com/watch?v=Z8NNtGPtlA4)
+  - Recorded demo showcasing OCI GoldenGate 23ai leveraging embedding capabilities to replicate data from Autonomous AI Transaction Processing to an Autonomous AI Lakehouse, feeding vectors to an LLM, and enabling interactive queries via the AI Assistant chatbot
+
+- [Real-Time Embedding with Oracle GoldenGate: A Step-by-Step Guide](https://blogs.oracle.com/dataintegration/real-time-embedding-with-oracle-goldengate-a-step-by-step-guide)
+  - Learn how to use Oracle GoldenGate’s real-time embedding generation and VECTOR support to seamlessly power AI and RAG applications with up-to-date data
+    
+
+ 
 
 
 # Useful Links
@@ -184,7 +196,7 @@ Reviewed: 28.02.2025
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

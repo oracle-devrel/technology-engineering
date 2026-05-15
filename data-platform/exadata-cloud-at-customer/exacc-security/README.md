@@ -1,6 +1,6 @@
 # Exadata Cloud@Customer Security
 
-Reviewed: 24.06.2024
+Security related information for ExaDB-C@C.
 
 # Useful Links
 
@@ -12,9 +12,11 @@ Reviewed: 24.06.2024
 
 - [Operator Access Control Technical Brief](https://www.oracle.com/uk/a/ocom/docs/engineered-systems/exadata/oracle-operator-access-control-tech-brief.pdf)
 
+Reviewed: 01/22/26
+
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

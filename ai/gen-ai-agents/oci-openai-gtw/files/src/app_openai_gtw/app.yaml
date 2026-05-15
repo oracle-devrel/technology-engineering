@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: starter-dep
+  labels:
+      app: starter-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: starter-app
+  template:
+    metadata:
+      labels:
+        app: starter-app
+    spec:
+      containers:
+      - name: app
+        image: ##DOCKER_PREFIX##/starter-app
+        ports:
+        - containerPort: 8080
+          name: app-port
+        env:        
+        - name: DB_URL
+          valueFrom:
+            secretKeyRef:
+              name: starter-db-secret
+              key: db_url      
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: starter-db-secret
+              key: db_user
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: starter-db-secret
+              key: db_password
+#        - name: POD_IP
+#          valueFrom:
+#            fieldRef:
+#              fieldPath: status.podIP
+      imagePullSecrets:
+      - name: ocirsecret        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: starter-app-service
+spec:
+  selector:
+    app: starter-app
+  ports:
+  - name: http-service-port
+    protocol: TCP
+    port: 80
+    targetPort: app-port
+---

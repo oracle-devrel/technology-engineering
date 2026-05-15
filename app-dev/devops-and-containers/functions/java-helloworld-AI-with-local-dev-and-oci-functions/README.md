@@ -1,5 +1,5 @@
 <!--
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 The Universal Permissive License (UPL), Version 1.0
 
@@ -38,7 +38,7 @@ SOFTWARE.
 
 # A Java AI featured function with local dev and then building and deploying to OCI Functions
 
-Reviewed: 31.10.2024
+Reviewed: 30.9.2025
  
 # When to use this asset?
  
@@ -147,7 +147,7 @@ After pushing run the native build pipeline and <a href="https://github.com/orac
 
 ## License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

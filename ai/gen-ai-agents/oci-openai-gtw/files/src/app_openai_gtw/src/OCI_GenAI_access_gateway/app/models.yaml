@@ -1,0 +1,262 @@
+- region: us-chicago-1
+  compartment_id: ocid1.compartment.oc1........
+  models:
+    ondemand:
+
+    # Cohere Command Family
+      - name: cohere.command-latest
+        model_id: cohere.command-a-03-2025
+        tool_call: true
+        stream_tool_call: true
+        description: "Map the latest model id to cohere.command-latest"
+      
+      - name: cohere.command-a-03-2025
+        model_id: cohere.command-a-03-2025
+        tool_call: true
+        stream_tool_call: true
+
+      - name: cohere.command-r-plus-08-2024
+        model_id: cohere.command-r-plus-08-2024
+        tool_call: true
+        stream_tool_call: true
+
+      - name: cohere.command-r-08-2024
+        model_id: cohere.command-r-08-2024
+        tool_call: true
+        stream_tool_call: true
+
+    # Meta Llama Family
+      - name: meta.llama-latest
+        model_id: meta.llama-4-maverick-17b-128e-instruct-fp8
+        tool_call: true
+        stream_tool_call: true
+
+      - name: meta.llama-4-maverick-17b-128e-instruct-fp8
+        model_id: meta.llama-4-maverick-17b-128e-instruct-fp8
+        tool_call: true
+        stream_tool_call: true
+
+      - name: meta.llama-4-scout-17b-16e-instruct
+        model_id: meta.llama-4-scout-17b-16e-instruct
+        tool_call: true
+        stream_tool_call: true
+        
+      - name: meta.llama-3.3-70b-instruct
+        model_id: meta.llama-3.3-70b-instruct
+        tool_call: true
+        stream_tool_call: true
+
+      - name: meta.llama-3.2-11b-vision-instruct
+        model_id: meta.llama-3.2-11b-vision-instruct
+        tool_call: true
+        stream_tool_call: true
+        multimodal: true
+
+      - name: meta.llama-3.2-90b-vision-instruct
+        model_id: meta.llama-3.2-90b-vision-instruct
+        tool_call: true
+        stream_tool_call: true
+        multimodal: true
+
+    # Grok Familly
+      - name: xai.grok-default
+        model_id: xai.grok-3
+        tool_call: true
+        stream_tool_call: true
+        multimodal: false
+
+      - name: xai.grok-4
+        model_id: xai.grok-4
+        tool_call: true
+        stream_tool_call: true
+        multimodal: true
+
+      - name: xai.grok-3
+        model_id: xai.grok-3
+        tool_call: true
+        stream_tool_call: true
+        multimodal: false
+
+      - name: xai.grok-3-fast
+        model_id: xai.grok-3-fast
+        tool_call: true
+        stream_tool_call: true
+        multimodal: false
+
+      - name: xai.grok-3-mini
+        model_id: xai.grok-3-mini
+        tool_call: true
+        stream_tool_call: true
+        multimodal: false
+
+      - name: xai.grok-3-mini-fast
+        model_id: xai.grok-3-mini-fast
+        tool_call: true
+        stream_tool_call: true
+        multimodal: false   
+
+
+    # OpenAI Family
+      - name: openai.gpt-4.1
+        model_id: openai.gpt-4.1
+        tool_call: true
+        stream_tool_call: true
+      - name: openai.gpt-4.1-2025-04-14
+        model_id: openai.gpt-4.1-2025-04-14
+        tool_call: true
+        stream_tool_call: true
+      - name: openai.gpt-4.1-mini
+        model_id: openai.gpt-4.1-mini
+        tool_call: true
+        stream_tool_call: true
+      - name: openai.gpt-4.1-mini-2025-04-14
+        model_id: openai.gpt-4.1-mini-2025-04-14
+        tool_call: true
+        stream_tool_call: true
+      - name: openai.gpt-4.1-nano
+        model_id: openai.gpt-4.1-nano
+        tool_call: true
+        stream_tool_call: true
+      - name: openai.gpt-4.1-nano-2025-04-14
+        model_id: openai.gpt-4.1-nano-2025-04-14
+        tool_call: true
+        stream_tool_call: true
+      - name: openai.gpt-4o
+        model_id: openai.gpt-4o
+        tool_call: true
+        stream_tool_call: true
+        multimodal: true
+      - name: openai.gpt-4o-2024-08-06
+        model_id: openai.gpt-4o-2024-08-06
+        tool_call: true
+        stream_tool_call: true
+        multimodal: true
+      - name: openai.gpt-4o-2024-11-20
+        model_id: openai.gpt-4o-2024-11-20
+        tool_call: true
+        stream_tool_call: true
+        multimodal: true
+      - name: openai.gpt-4o-mini
+        model_id: openai.gpt-4o-mini
+        tool_call: true
+        stream_tool_call: true
+        multimodal: true
+      - name: openai.gpt-4o-mini-2024-07-18
+        model_id: openai.gpt-4o-mini-2024-07-18
+        tool_call: true
+        stream_tool_call: true
+        multimodal: true
+      - name: openai.gpt-4o-mini-search-preview
+        model_id: openai.gpt-4o-mini-search-preview
+        tool_call: true
+        stream_tool_call: true
+        multimodal: true
+      - name: openai.gpt-4o-mini-search-preview-2025-03-11
+        model_id: openai.gpt-4o-mini-search-preview-2025-03-11
+        tool_call: true
+        stream_tool_call: true
+        multimodal: true
+      - name: openai.gpt-4o-search-preview
+        model_id: openai.gpt-4o-search-preview
+        tool_call: true
+        stream_tool_call: true
+        multimodal: true
+      - name: openai.gpt-4o-search-preview-2025-03-11
+        model_id: openai.gpt-4o-search-preview-2025-03-11
+        tool_call: true
+        stream_tool_call: true
+        multimodal: true
+      - name: openai.o1
+        model_id: openai.o1
+        tool_call: true
+        stream_tool_call: true
+      - name: openai.o1-2024-12-17
+        model_id: openai.o1-2024-12-17
+        tool_call: true
+        stream_tool_call: true
+      - name: openai.o3
+        model_id: openai.o3
+        tool_call: true
+        stream_tool_call: true
+      - name: openai.o3-2025-04-16
+        model_id: openai.o3-2025-04-16
+        tool_call: true
+        stream_tool_call: true
+      - name: openai.o3-mini
+        model_id: openai.o3-mini
+        tool_call: true
+        stream_tool_call: true
+      - name: openai.o3-mini-2025-01-31
+        model_id: openai.o3-mini-2025-01-31
+        tool_call: true
+        stream_tool_call: true
+      - name: openai.o4-mini
+        model_id: openai.o4-mini
+        tool_call: true
+        stream_tool_call: true
+
+    embedding:
+      - name: cohere.embed-multilingual-v3.0
+        model_id: cohere.embed-multilingual-v3.0
+        description: "Provides multilingual classification and embedding support."
+
+      - name: cohere.embed-multilingual-v3.1
+        model_id: cohere.embed-multilingual-v3.1
+        description: "Provides multilingual classification and embedding support."
+
+      - name: cohere.embed-english-v3.0
+        model_id: cohere.embed-english-v3.0
+        description: "A model that allows for text to be classified or turned into embeddings. English only."
+
+      - name: cohere.embed-english-v3.1
+        model_id: cohere.embed-english-v3.1
+        description: "A model that allows for text to be classified or turned into embeddings. English only."
+
+      - name: cohere.embed-english-light-v3.0
+        model_id: cohere.embed-english-light-v3.0
+        description: "A smaller, faster version of embed-english-v3.0. Almost as capable, but a lot faster. English only."
+
+      - name: cohere.embed-multilingual-light-v3.0
+        model_id: cohere.embed-multilingual-light-v3.0
+        description: "A smaller, faster version of embed-multilingual-v3.0. Almost as capable, but a lot faster. Supports multiple languages."
+
+    dedicated:
+      - name: dac
+        provider: cohere
+        endpoint: ocid1.generativeaiendpoint.oc1.us-chicago-1................
+        description: "DAC"
+
+      - name: my-dedicated-model-name
+        endpoint: ocid1.generativeaiendpoint.....  # endpoint ocid for dedicated model
+        description: "my dedicated model description"
+
+    datascience:
+      - name: my-datascience-model-name
+        endpoint: https://modeldeployment.xxxxxx/predict  # Model deployment endpoint url
+        description: "my dedicated model description"
+
+- region: us-ashburn-1
+  compartment_id: ocid1.compartment.oc1............
+  models:
+    datascience:
+      - name: ODSC-Mistral-7B-Instruct
+        endpoint: https://modeldeployment.us-ashburn-1.oci.customer-oci.com/ocid1.datasciencemodeldeployment.oc1.iad............/predict
+        description: "Data science Model deployment for Mistral 7B Instruct model"
+      - name: ODSC-DeepSeek-R1-Distill-Qwen-7B
+        endpoint: https://modeldeployment.us-ashburn-1.oci.customer-oci.com/ocid1.datasciencemodeldeployment.oc1.iad............/predict
+        description: "Data science Model deployment for DeepSeek-R1-Distill-Qwen-7B model"
+      - name: ODSC-sql-coder-graph
+        endpoint: https://modeldeployment.us-ashburn-1.oci.customer-oci.com/ocid1.datasciencemodeldeployment.oc1.iad............/predict
+        
+
+# Modify this file to specify the call information of the model.
+# You can define 3 types of models:
+# ondemand: pre-trained model on OCI generative AI
+# dedicated: dedicated model on OCI generative AI, including dedicated infrastructure, fine-tuned model, etc.
+# datascience: model deployed by OCI data science service
+
+# Where:
+# region: the region where the model is located
+# compartment_id: the compartment where the model is located
+# name: any specified model name, use this name to point to different models when calling
+# model_id: for ondemand, it is the model id, for dedicated and datascience, it is the call endpoint

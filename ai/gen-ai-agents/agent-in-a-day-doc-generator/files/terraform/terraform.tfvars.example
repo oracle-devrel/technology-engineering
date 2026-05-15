@@ -1,0 +1,8 @@
+# --- Required ---
+tenancy_ocid     = "ocid1.tenancy.oc1..aaaaaaa..."
+compartment_ocid = "ocid1.compartment.oc1..aaaaaaa..."
+
+# --- Optional (defaults shown) ---
+prefix           = "docreport"
+region           = "eu-frankfurt-1"
+genai_model      = "meta.llama-3.3-70b-instruct"

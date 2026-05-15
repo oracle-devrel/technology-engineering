@@ -3,7 +3,7 @@
 ORDS is a Java application that enables developers with SQL and database skills to develop REST APIs for Oracle Database, 
 Oracle Database 12c JSON Document store and higher and the Oracle NoSQL Database
 
-Reviewed: 28.01.2025
+Reviewed: 05.05.2026
 
 # Table of Contents
  
@@ -12,7 +12,7 @@ Reviewed: 28.01.2025
  
 # Team Publications
 
-- [ORDS version 24.4 is now available, time to upgrade!](https://www.oracle.com/database/sqldeveloper/technologies/db-actions/download/)
+- [ORDS version 26.1 is now available, time to upgrade!](https://www.oracle.com/database/sqldeveloper/technologies/db-actions/download/)
 
 - [JSON & Customer Managed ORDS with ADB](https://medium.com/@devpiotrekk/cloud-scalability-using-customer-managed-oracle-rest-data-service-with-autonomous-json-275fa06e8d22)
     - Article demonstrating the performance of Customer Managed ORDS combined with the Autonomous Database
@@ -21,7 +21,7 @@ Reviewed: 28.01.2025
 
 # Useful Links
 
-- [ORDS - Latest Release](https://www.oracle.com/tools/ords/ords-relnotes-24.4.html)
+- [ORDS - Latest Release](https://www.oracle.com/tools/ords/ords-relnotes-26.1.0.html)
 - [Webinar - ORDS & DevOps](https://www.youtube.com/watch?v=GIRdoGlqIDE)
 - [High Availability (HA) with ORDS](https://docs.oracle.com/en/solutions/deploy-ords-ha-oci/index.html)
     - A deployable HA stack showcasing flexibility of ORDS
@@ -30,10 +30,11 @@ Reviewed: 28.01.2025
 - [REST APIs for Oracle Database, everything you need to know](https://www.thatjeffsmith.com/oracle-database-rest-apis/)
 - [Jeff Smith ORDS Main Page](https://www.thatjeffsmith.com/archive/tag/ords/)
    - Main reference page on Oracle REST Data Services curated by Product Manager Jeff Smith
+- [Follow The Coffee - Chris Hoina Blog](https://followthecoffee.com/)   
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

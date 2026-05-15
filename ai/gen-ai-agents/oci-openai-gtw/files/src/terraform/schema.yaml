@@ -1,0 +1,194 @@
+title: "OCI Starter: From Resource Manager starter "
+stackDescription: "Resource Manager stack created by OCI Starter " 
+description: "Stack will deploy the component used in the OCI Starter project" 
+schemaVersion: 1.1.0
+version: "20221004"
+locale: "en"
+
+#################
+# Variable Groups
+#################
+variableGroups:
+
+- title: Starter Project
+  visible: true  
+  variables:
+  - prefix
+  - license_model
+  - compartment_ocid
+  - show_optional
+
+- title: Fixed
+  visible: ${show_optional}
+  variables:
+  - db_type
+  - deploy_type
+  - language
+  - ui_type
+
+- title: Optional
+  visible: ${show_optional}  
+  variables:
+  - auth_token
+  - availability_domain_number
+  - certificate_ocid
+  - db_password
+  - db_user
+  - group_name
+  - home_region
+  - idcs_domain_name
+  - idcs_url
+  - infra_as_code
+  - instance_ocpus
+  - instance_shape
+  - instance_shape_config_memory_in_gbs
+  - log_group_ocid
+  - lz_app_cmp_ocid
+  - lz_db_cmp_ocid
+  - lz_network_cmp_ocid
+  - lz_security_cmp_ocid
+  - lz_serv_cmp_ocid
+  - lz_web_cmp_ocid
+  - region
+  - ssh_private_key
+  - ssh_public_key
+  - tenancy_ocid
+
+#################
+# Output Groups
+#################
+
+######################
+# Variable Definitions
+######################
+
+variables:
+# Env Params
+  auth_token:    
+    type: string
+    title: auth_token
+    description: "See doc: https://docs.oracle.com/en-us/iaas/Content/Registry/Tasks/registrygettingauthtoken.htm"
+    required: false
+  availability_domain_number:    
+    type: string
+    title: availability_domain_number
+    required: false
+  certificate_ocid:    
+    type: string
+    title: certificate_ocid
+    description: "OCID of the OCI Certificate"
+    required: false
+  compartment_ocid:
+    type: oci:identity:compartment:id
+    title: Compartment
+    description: "Compartment OCID"
+    required: true
+  db_password:
+    type: password
+    confirmation: true
+    title: Database Password
+    description: "Min length 12 characters, 2 lowercase, 2 uppercase, 2 numbers, 2 special characters. Ex: LiveLab__12345"
+    required: false
+  db_user:    
+    type: string
+    title: Database User
+    required: false
+  group_name:    
+    type: string
+    title: group_name
+    required: false
+  home_region:    
+    type: string
+    title: home_region
+    required: false
+  idcs_domain_name:    
+    type: string
+    title: idcs_domain_name
+    required: false
+  idcs_url:    
+    type: string
+    title: idcs_url
+    required: false
+  infra_as_code:
+    type: enum
+    enum:
+      - terraform_local
+      - resource_manager
+      - terraform_object_storage
+      - from_resource_manager
+    title: infra_as_code
+    required: false
+  instance_ocpus:    
+    type: string
+    title: instance_ocpus
+    required: false
+  instance_shape:    
+    type: string
+    title: instance_shape
+    required: false
+  instance_shape_config_memory_in_gbs:    
+    type: string
+    title: instance_shape_config_memory_in_gbs
+    required: false
+  license_model:
+    type: enum
+    enum:
+      - LICENSE_INCLUDED
+      - BRING_YOUR_OWN_LICENSE
+    title: Licence Model
+    description: "BRING_YOUR_OWN_LICENSE or LICENSE_INCLUDED"
+    required: true
+  log_group_ocid:    
+    type: string
+    title: log_group_ocid
+    required: false
+  lz_app_cmp_ocid:
+    type: oci:identity:compartment:id
+    title: lz_app_cmp_ocid
+    required: false
+  lz_db_cmp_ocid:
+    type: oci:identity:compartment:id
+    title: lz_db_cmp_ocid
+    required: false
+  lz_network_cmp_ocid:
+    type: oci:identity:compartment:id
+    title: lz_network_cmp_ocid
+    required: false
+  lz_security_cmp_ocid:
+    type: oci:identity:compartment:id
+    title: lz_security_cmp_ocid
+    required: false
+  lz_serv_cmp_ocid:
+    type: oci:identity:compartment:id
+    title: lz_serv_cmp_ocid
+    required: false
+  lz_web_cmp_ocid:
+    type: oci:identity:compartment:id
+    title: lz_web_cmp_ocid
+    required: false
+  prefix:    
+    type: string
+    title: Prefix
+    description: "Prefix to all resources created by terraform"
+    required: true
+  region:
+    type: oci:identity:region:name
+    title: Region
+    required: false
+  ssh_private_key:    
+    type: string
+    title: ssh_private_key
+    required: false
+  ssh_public_key:
+    type: oci:core:ssh:publickey
+    title: ssh_public_key
+    required: false
+  tenancy_ocid:    
+    type: string
+    title: Tenancy
+    required: false
+  show_optional:
+    type: boolean
+    title: Advanced
+    description: Show Advanced Parameters
+    default: false

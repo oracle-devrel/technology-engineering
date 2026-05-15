@@ -2,7 +2,7 @@
 
 This section provides a step-by-step guidance for applying in place upgrade from OEL7 to OEL8 with LEAPP Utility
 
-Reviewed: 08.05.2025
+Reviewed: 16.10.2025
 
 # When to use this asset?
 
@@ -14,7 +14,7 @@ The details can be found in the files folder.
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

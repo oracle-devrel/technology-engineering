@@ -23,7 +23,7 @@ Oracle Backend for Spring Boot is a powerful platform designed to streamline the
 
 Oracle Backend for Spring Boot empowers developers to build, deploy, and manage modern applications with enhanced performance, reliability, and scalability, utilizing the comprehensive capabilities of Oracle's ecosystem.
 
-Reviewed: 19.11.2024
+Reviewed: 01.12.2025
 
 # Table of Contents
  
@@ -49,7 +49,7 @@ Reviewed: 19.11.2024
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

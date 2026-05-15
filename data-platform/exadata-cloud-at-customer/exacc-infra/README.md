@@ -1,6 +1,6 @@
 # Exadata Cloud@Customer Infrastructure
 
-Reviewed: 24.06.2024
+Assests, best practices and how-to's regarding the infrastructure components of the ExaDB-C@C services. 
 
 # Useful Links
 
@@ -42,9 +42,11 @@ Reviewed: 24.06.2024
 
 [Oracle ACFS Snapshot Use Cases on Exadata (Doc ID 2761360.1)](https://support.oracle.com/epmos/faces/DocumentDisplay?_afrLoop=274346774362287&id=2761360.1&_afrWindowMode=0&_adf.ctrl-state=jgdocci36_4)
 
+Reviewed: 01/22/26
+
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

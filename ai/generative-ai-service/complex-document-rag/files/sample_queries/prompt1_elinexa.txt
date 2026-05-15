@@ -1,0 +1,53 @@
+Task: ESG Report
+
+Objective:
+Prepare a comprehensive Environmental, Social, and Governance (ESG) report for Elinexa using their official 2023 ESG disclosures.
+Enhance the report with charts, graphs, or other visuals to clearly highlight key differences in ESG performance.
+It should be at least 3000 words, so add a conclusion at the end. 
+
+Scope:
+
+Climate Impact & Financed Emissions
+
+Outline the bank’s net-zero commitments and target timelines.
+
+Detail sector-specific financed emissions reduction targets for 2030.
+
+Review their phase-out strategies for coal, oil, and gas financing.
+
+Outline their greenhouse gas (GHG) emissions targets across Scope 1, 2, and 3.
+
+Explain their methodologies for reporting financed emissions (e.g., BlueTrack™, NZBA).
+
+Sustainable & Transition Finance
+
+Summarize each bank’s total sustainable finance commitment by 2030.
+
+Include details on green bond issuance and sustainable lending programs.
+
+Assess alignment with key frameworks such as the EU Taxonomy, TNFD, and Science-Based Targets for Nature (SBTN).
+
+Social & Governance Impact
+
+Report on gender and racial diversity targets in leadership roles.
+
+Analyze policies on human rights, labor practices, and broader social responsibility.
+
+Describe ESG governance structures, including board-level oversight.
+
+Additional ESG Metrics
+
+Evaluate water usage and risk management in water-stressed areas.
+
+Include reporting on biodiversity impacts and land use practices.
+
+State total employee numbers and workforce sustainability initiatives.
+
+Review charitable giving and corporate social responsibility (CSR) investments.
+
+Key Requirements:
+
+
+Provide full citations for each data point or comparison metric.
+
+Do not download from a website, just use the documents provided here.

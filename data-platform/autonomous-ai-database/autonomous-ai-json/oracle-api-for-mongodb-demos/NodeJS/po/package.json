@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "mongoose-execution-time": "^1.1.1"
+  }
+}
