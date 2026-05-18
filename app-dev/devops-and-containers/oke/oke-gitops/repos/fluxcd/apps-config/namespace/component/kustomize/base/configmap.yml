@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sample-component-settings
+data:
+  environment: base
+  profile: base
+  provider: base
+  region: base

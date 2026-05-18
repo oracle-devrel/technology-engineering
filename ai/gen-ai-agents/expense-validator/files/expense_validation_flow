@@ -1,0 +1,17 @@
+digraph {
+	A [label="Upload Expense Claim PDF"]
+	B [label="Extract Data from PDF (LLM)"]
+	C [label="Policy Check
+(conformance to rules)"]
+	D [label="Category Check
+(mislabeling detection)"]
+	E [label="Declared Amount Check
+(vs backend/API)"]
+	F [label="Display Results
+(Green/Red Status)"]
+	A -> B
+	B -> C
+	C -> D
+	D -> E
+	E -> F
+}

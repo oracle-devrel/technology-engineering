@@ -1,0 +1,40 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.markdown-content > * + * {
+  margin-top: 1rem;
+}
+
+.markdown-content ol,
+.markdown-content ul {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.markdown-content {
+  font-family: var(--font-roboto);
+}
+
+* span {
+  font-family: var(--font-exo2), sans-serif !important;
+  font-size: 0.88rem !important;
+  line-height: 1.5 !important;
+  letter-spacing: 0.01px !important;
+}

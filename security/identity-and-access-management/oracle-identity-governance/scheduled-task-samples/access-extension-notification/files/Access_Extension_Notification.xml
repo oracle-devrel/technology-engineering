@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<scheduledTasks xmlns="http://xmlns.oracle.com/oim/scheduler">
+<task>
+<name>Access Extension Notification</name>
+<class>com.oracle.sample.AccessExtensionNotification</class>
+<description>Access Extension Notification</description>
+<retry>1</retry>
+<parameters>
+<string-param required="true" encrypted="false" helpText="Number of days before the email is sent.">Days Before Expiration</string-param>
+<string-param required="true" encrypted="false" helpText="Extension days to be added to existing end dates.">Extension Days</string-param>
+<string-param required="true" encrypted="false" helpText="Text to be included part of the actionable extension links">Extension Link Text</string-param>
+<string-param required="true" encrypted="false" helpText="Endpoint URL for the access extension REST webservice.">REST WS Endpoint URL</string-param>
+<string-param required="true" encrypted="false" helpText="Email template name for the email.">Email Template Name</string-param>
+<string-param required="true" encrypted="false" helpText="Hostname of the SMTP Mail server.">SMTP Mail Server Hostname</string-param>
+<boolean-param required="true" encrypted="false" helpText="Enable or disable SMTP TLS.">SMTP Mail Server TLS</boolean-param>
+<string-param required="true" encrypted="false" helpText="Port of the SMTP Mail server (typically 25).">SMTP Mail Server Port</string-param>
+</parameters>
+</task>
+</scheduledTasks>

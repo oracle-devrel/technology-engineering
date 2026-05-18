@@ -1,0 +1,6 @@
+streamlit
+langchain
+unstructured
+langchain_community
+pypdf
+transformers

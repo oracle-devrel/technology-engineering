@@ -1,0 +1,13 @@
+exportedRestServices:
+- endpoint: "http://api.openweathermap.org/data/2.5/weather?units=metric"
+  name: "fetchWeather"
+  type: "REST"
+  authType: "apiKey"
+  mock: false
+  restServiceMethods:
+  - restServiceMethodType: "GET"
+    contentType: "application/json"
+    restServiceParams:
+    - type: "query"
+      key: "q"
+      value: "bangalore"

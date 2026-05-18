@@ -1,0 +1,33 @@
+model_repo_path: "/model-store/"
+use_ensemble: false
+model_type: "LLAMA"
+backend: "trt_llm"
+base_model_id: "ensemble"
+prompt_timer: 60
+gateway_ip: "gateway-api"
+server_port_internal: 9009
+customization_cache_capacity: 10000
+logging_level: "INFO"
+enable_chat: true
+pipeline:
+  model_name: "ensemble"
+  num_instances: 1
+trt_llm:
+  use: true
+  ckpt_type: "hf"
+  model_name: "trt_llm"
+  backend: "python"
+  num_gpus: 1
+  model_path: /engine_dir
+  max_queue_delay_microseconds: 10000
+  model_type: "llama"
+  max_batch_size: 1
+  max_input_len: 256
+  max_output_len: 256
+  max_beam_width: 1
+  tensor_para_size: 1
+  pipeline_para_size: 1
+  data_type: "float16"
+  int8_mode: 0
+  enable_custom_all_reduce: 0
+  per_column_scaling: false

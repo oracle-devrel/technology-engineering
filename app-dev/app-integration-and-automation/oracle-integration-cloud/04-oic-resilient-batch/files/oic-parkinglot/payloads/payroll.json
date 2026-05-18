@@ -1,0 +1,9 @@
+{ "PayrollAPIRequest":
+	{
+	"employeeNumber":123456789,
+	"iban":"GB29 NWBK 6016 1331 9268 19",
+	"bankIdentifier": "NWBK",
+	"branchIdentifier": "601613",
+	"accountNumber": "31926819"
+	}
+}

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<scheduledTasks xmlns="http://xmlns.oracle.com/oim/scheduler">
+<task>
+<name>LOA Account Disable</name>
+<class>com.oracle.sample.LOAAccountDisable</class>
+<description>LOA Account Disable</description>
+<retry>1</retry>
+<parameters>
+<string-param required="true" encrypted="false" helpText="The name of the user attribute storing the LOA end date.">LOA end date user attribute</string-param>
+</parameters>
+</task>
+</scheduledTasks>

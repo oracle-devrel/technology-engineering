@@ -1,0 +1,15 @@
+{
+	"name": "os-replication",
+        "version": "1.0.0",
+	"description": "os replication example function",
+	"main": "func.js",
+	"author": "",
+	"license": "Apache-2.0",
+	"dependencies": {
+		"@fnproject/fdk": ">=0.0.56",
+        "oci-core": "^2.52.0",
+        "oci-common": "^2.52.0",
+        "oci-objectstorage": "^2.52.0"
+	}
+}
+

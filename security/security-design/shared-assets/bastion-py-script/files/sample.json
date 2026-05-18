@@ -1,0 +1,53 @@
+
+{
+    "sessions":
+    [
+        {
+            "sessionName": "managed-demo",
+            "sessionType":"MANAGED_SSH",
+            "OCIConfig": "ociconfig1",
+            "bastionOCID":"ocid1.bastion.oc1.eu-frankfurt-1.am…ma",
+            "bastionPublicKeyFile":"/home/opc/.ssh/bastion_pub",
+            "bastionPrivateKeyFile":"/home/opc/.ssh/bastion_private.pem",
+            "targetPrivateKeyFile":"/home/opc/.ssh/myprivatekey.pem",
+            "sessionDisplayName":"DEMO-MANAGED",
+            "targetOCID":"ocid1.instance.oc1.eu-frankfurt-1.an…na",
+            "targetPrivateIP":"10.10.1.2",
+            "osUserName":"opc",
+            "targetPort":"22",
+            "ociRegion":"eu-frankfurt-1",
+            "timetolive":"3600",
+            "maxWaitCount":"10",
+            "waitRefresh":"10"
+        },
+        {
+            "sessionName": "port-demo",
+            "sessionType":"PORT_FORWARDING",
+            "OCIConfig": "oraconfig1",
+            "bastionOCID":"ocid1.bastion.oc1.eu-frankfurt-1.am…ma",
+            "bastionPublicKeyFile":"/home/ios/.ssh/bastion_pub",
+            "bastionPrivateKeyFile":"/home/ios/.ssh/bastion_private.pem",
+            "targetPrivateKeyFile":"/home/ios/.ssh/myprivate.pem",
+            "targetPort":"22",
+            "localPort":"2222",
+            "sessionDisplayName":"demo-PORT",
+            "targetOCID":"",
+            "targetPrivateIP":"10.10.1.2",
+            "osUserName":"opc",
+            "ociRegion":"eu-frankfurt-1",
+            "timetolive":"10800",
+            "maxWaitCount":"10",
+            "waitRefresh":"10",
+            "sshCommand":"ssh",
+            "sshCommandOptions":"-o ServerAliveInterval=180 -o ServerAliveMaxCount=2"
+        }
+    ],
+    "ociconfigurations": 
+    [
+        {
+            "configName": "ociconfig1",
+            "configFileName": "/home/opc/.oci/config",
+            "profileName": "mytenantprofile"
+        }
+    ]
+}

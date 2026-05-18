@@ -1,0 +1,8 @@
+[DEFAULT]
+user=ocid1.user.oc
+fingerprint=c6:4f:66:e7:
+tenancy=ocid1.tenancy.oc
+region=eu-frankfurt-1
+key_file=~/.oci/
+
+

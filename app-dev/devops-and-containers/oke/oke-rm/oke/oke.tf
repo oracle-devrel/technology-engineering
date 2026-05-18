@@ -1,0 +1,189 @@
+# NOTE: OKE often requires some policies to work with depending on the use case. You can find a complete list at this link:
+# https://github.com/oracle-devrel/technology-engineering/blob/main/app-dev/devops-and-containers/oke/oke-policies/policies.md
+
+module "oke" {
+  source         = "oracle-terraform-modules/oke/oci"
+  version        = "5.4.3"
+  compartment_id = var.oke_compartment_id
+  # Network module - VCN
+  create_vcn                        = false
+  vcn_id                            = var.vcn_id
+  network_compartment_id            = var.network_compartment_id
+  assign_public_ip_to_control_plane = !local.is_cp_subnet_private
+  subnets = {
+    bastion  = { create = "never" }
+    operator = { create = "never" }
+    pub_lb   = { id = local.is_lb_subnet_private ? null : var.lb_subnet_id }
+    int_lb   = { id = local.is_lb_subnet_private ? var.lb_subnet_id : null }
+    cp       = { id = var.cp_subnet_id }
+    workers  = { id = var.worker_subnet_id }
+    pods     = { id = local.is_flannel ? null : var.pod_subnet_id }
+  }
+  nsgs = {
+    bastion  = { create = "never" }
+    operator = { create = "never" }
+    pub_lb   = { create = "never" }
+    int_lb   = { create = "never" }
+    cp       = { id = var.cp_nsg_id }
+    workers  = { id = var.worker_nsg_id }
+    pods     = { create = "never", id = var.cni_type == "flannel" ? null : var.pod_nsg_id }
+  }
+  # Network module - security
+  control_plane_allowed_cidrs = var.cp_allowed_cidr_list
+  control_plane_is_public     = !local.is_cp_subnet_private
+  load_balancers              = local.is_lb_subnet_private ? "internal" : "public"
+  preferred_load_balancer     = local.is_lb_subnet_private ? "internal" : "public"
+  # Cluster module
+  create_cluster     = true
+  cluster_kms_key_id = var.cluster_kms_key_id
+  cluster_name       = var.cluster_name
+  cluster_type       = var.cluster_type
+  cni_type           = local.cni
+  kubernetes_version = var.kubernetes_version
+  services_cidr      = var.services_cidr
+  pods_cidr          = var.pods_cidr
+
+  # OIDC
+  oidc_discovery_enabled           = local.oidc_discovery_enabled
+  oidc_token_auth_enabled          = local.oidc_authentication_enabled
+  oidc_token_authentication_config = local.oidc_token_authentication_config
+
+  cluster_freeform_tags = local.tag_value.freeformTags
+  cluster_defined_tags  = local.tag_value.definedTags
+
+  # Bastion
+  create_bastion = false
+  # Operator
+  create_operator = false
+
+  ########################## OKE DATA PLANE (to configure) ##############################
+
+  # These are global configurations valid for all the node pools declared. You can see that the prefix is "worker_" because they apply to all workers of the cluster
+  # You can override these global configurations in the node pool definition, and it will have precedence over the global ones.
+
+  worker_pool_mode = "node-pool" # Default mode should be node-pool for managed nodes, other modes are available for self-managed nodes, like instance and instance-pool, but be careful to have the required policy: https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengdynamicgrouppolicyforselfmanagednodes.htm
+  #ssh_public_key = ""    # Insert the ssh public key to access worker nodes
+  worker_image_type = "oke" # NOTE: the oke mode will fetch the latest OKE Oracle Linux image released by the OKE team. If you want more control, better to use "custom" and specify the image id. This is because an image id is always fixed, and controlled by you.
+  #worker_image_id = ""                     # The image id to use for the worker nodes. For Oracle Linux images, check this link: https://docs.oracle.com/en-us/iaas/images/oke-worker-node-oracle-linux-8x/index.htm
+  # For Ubuntu images, you need to create an Ubuntu custom image in your tenancy first, and then set the OCID of the custom image here
+  # NOTE: set worker_image_type to "custom" and specify an image id to use custom images for all workers
+
+  # Set this to true to enable in-transit encryption on all node pools by default
+  # NOTE: in-transit encryption is supported only for paravirtualized attached block volumes and boot volumes, hence you will need to create another StorageClass in the cluster to attach volume through paravirtualization, as the default oci-bv StorageClass uses iSCSI
+  # Also note that Bare Metal instances do not support paravirtualized volumes, the oke module won't enable it on BM shapes, even if you set this to true
+  worker_pv_transit_encryption = false
+
+  # Enable encryption of volumes with a key managed by you, in your OCI Vault. KMS OCID of the key used for in-transit and at-rest encryption of block volumes
+  #worker_volume_kms_key_id = ""
+
+  /* ABOUT CLOUD INIT
+  The OKE module will automatically generate an optimal cloud-init for both Oracle Linux and Ubuntu nodes. This auto-generated cloud-init is called "default cloud-init".
+  There is the possibility to disable this and to define your own cloud-init. This is not suggested unless you know what you are doing.
+  For Oracle Linux, the oci-growfs command is already inserted in the default cloud-init.
+   */
+
+  # Cloud init to add to all node pools. This will be added to the default_cloud_init
+  #worker_cloud_init = [{ content_type = "text/cloud-config", content = file("cloud-init/oca.yml")}]
+
+
+  # Default Persistent Volume Tags
+  #persistent_volume_defined_tags = {}
+  #persistent_volume_freeform_tags = {}
+
+  # Default Load Balancer Tags
+  #service_lb_defined_tags = {}
+  #service_lb_freeform_tags = {}
+
+  # GLOBAL TAGS TO BE APPLIED ON ALL NODES
+  # NOTE: tags will be applied to both the node pool and the nodes
+  #workers_freeform_tags = {}
+  #workers_defined_tags = {}
+
+  # GLOBAL NODE POOL LABELS TO BE APPLIED ON ALL NODES (Kubernetes labels)
+  #worker_node_labels = {}
+
+  # Additional NSGs to ba attached to all pods
+  # pod_nsg_ids = []
+
+  # Additional NSGs to be attached to all workers
+  #worker_nsg_ids = []
+
+  # Additional NSGs to be attached to the control plane API server
+  #control_plane_nsg_ids = []
+
+  # When using VCN_NATIVE_CNI, set the maximum number of pods for all nodes, must be between 1 and 110
+  #max_pods_per_node = 31
+
+  # Disable IMDSv1 endpoints for self-managed nodes
+  worker_legacy_imds_endpoints_disabled = true
+
+  # Disable IMDSv1 endpoints for managed nodes
+  worker_node_metadata = {
+    areLegacyImdsEndpointsDisabled : "true"
+  }
+
+  # This is a collection of example node pools that you can use with the OKE module. Set create = true to provision them
+  worker_pools = {
+
+    # ORACLE LINUX - MANAGED NODE POOL
+    np-ad1 = {
+      shape                        = "VM.Standard.E5.Flex"
+      size                         = 1
+      kubernetes_version           = var.kubernetes_version # You can set this variable with a constant, so that control plane and data plane are upgraded separately
+      placement_ads                = ["1"]                  # As best practice, one node pool should be associated only to one specific AD
+      ocpus                        = 1                      # No need to specify ocpus and memory if you are not using a Flex shape
+      memory                       = 8
+      node_cycling_enabled         = false # Option to enable/disable node pool cycling through Terraform. Only works with Enhanced clusters!
+      node_cycling_max_surge       = "50%"
+      node_cycling_max_unavailable = "0%"
+      node_cycling_mode            = ["instance"] # Valid values are instance and boot_volume. The boot_volume mode only works when (kubernetes_version, image_id, boot_volume_size, node_metadata, ssh_public_key, volume_kms_key_id) are modified.
+      boot_volume_size             = 100
+      # max_pods_per_node = 10                              # When using VCN_NATIVE CNI, configure maximum number of pods for each node in the node pool
+      create = false # Set it to true so that the node pool is created
+    }
+
+    # Node Pool reserved for Karpenter and CoreDNS
+    # 1. Provision this node pool by setting create=true, set also local.override_coredns = true in addons.tf and apply
+    # 2. This node pool has a Taint, you can disable it, but it is not recommended
+    np-system = {
+      shape                        = "VM.Standard.E5.Flex"
+      size                         = 1
+      kubernetes_version           = var.kubernetes_version
+      ocpus                        = 1
+      memory                       = 8
+      node_cycling_enabled         = false
+      node_cycling_max_surge       = "25%"
+      node_cycling_max_unavailable = "0%"
+      node_cycling_mode            = ["instance"] # Valid values are instance and boot_volume. Only works when (kubernetes_version, image_id, boot_volume_size, node_metadata, ssh_public_key, volume_kms_key_id) are modified. If you need to change something else, switch to "instance"
+      # Label the node and use a nodeSelector with Karpenter
+      node_labels = {
+        "node-role/system" : "true"
+      }
+      # Node Tainting is done through a cloud init script
+      disable_default_cloud_init = true
+      cloud_init                 = [{ content_type = "text/cloud-config", content = file("cloud-init/system.yml") }]
+      boot_volume_size           = 100
+      create                     = false
+    }
+
+    # VIRTUAL NODE POOL
+    oke-virtual = {
+      description   = "OKE-managed Virtual Node Pool"
+      shape         = "Pod.Standard.E4.Flex"
+      mode          = "virtual-node-pool"
+      placement_ads = ["1"]
+      taints = {
+        virtual-node-workload = {
+          value  = "true"
+          effect = "NoSchedule"
+        }
+      }
+      size   = 1
+      create = false
+    }
+  }
+
+  providers = {
+    oci.home = oci.home
+  }
+}

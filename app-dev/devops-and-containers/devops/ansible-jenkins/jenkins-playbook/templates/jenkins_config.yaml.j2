@@ -1,0 +1,23 @@
+jenkins:
+  systemMessage: |
+    Welcome to our Jenkins build service!
+
+  slaveAgentPort: 50000
+  crumbIssuer:
+    standard:
+      excludeClientIPFromCrumb: true
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+        - id: "admin"
+          password: {{ jenkins_admin_pwd }}
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
+  numExecutors: 0
+  mode: EXCLUSIVE
+
+unclassified:
+  location:
+    url: "http://{{ public_ip }}:{{ jenkins_port }}"

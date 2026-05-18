@@ -1,0 +1,48 @@
+version: 0.1             
+component: build
+timeoutInSeconds: 5000
+shell: bash
+env:
+  variables:
+    "JAVA_HOME" : "/usr/lib64/graalvm/graalvm-java23"
+  exportedVariables:
+    - buildId
+# https://docs.oracle.com/en/graalvm/jdk/23/docs/getting-started/oci/devops-build-pipeline/#prerequisites
+steps:
+  - type: Command
+    command: |
+      buildId=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-6 | rev`
+      echo "Build ID: $buildId"
+  - type: Command
+    command: |
+      yum -y install graalvm-23-native-image
+  - type: Command
+    command: |
+      export PATH=$JAVA_HOME/bin:$PATH
+  - type: Command
+    command: |
+      mvn package
+  - type: Command
+    command: |
+      native-image \
+      -H:ReflectionConfigurationFiles=reflection.json \
+      -Ob \
+      -H:Name=Hello \
+      -cp "target/Hellofunc-1.0-SNAPSHOT-jar-with-dependencies.jar"  \
+          com.fnproject.fn.runtime.EntryPoint
+  - type: Command
+    command: |
+      docker build -f Dockerfile.native -t ${REGISTRY}/${NAMESPACE}/${IMAGE_NAME} .
+      docker tag ${REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:latest ${REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:$buildId
+  # Alternate (faster) method of pushing if don't want to wait outputArtifacts getting executed (stage can be removed from build pipeline)
+  # This does not require personal Docker credentials (!)
+  - type: Command
+    command: |
+      yum install jq -y
+      oci raw-request --region eu-frankfurt-1 --http-method GET --target-uri 'https://fra.ocir.io/20180419/docker/token' --auth=resource_principal  | jq -r .data.token | docker login -u BEARER_TOKEN --password-stdin fra.ocir.io
+      docker push ${REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:$buildId
+
+outputArtifacts:
+  - name: image-native
+    type: DOCKER_IMAGE
+    location: ${REGISTRY}/${NAMESPACE}/${IMAGE_NAME}

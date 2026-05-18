@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<oimplugins>
+	<plugins pluginpoint="oracle.iam.platform.kernel.spi.EventHandler">
+		<plugin pluginclass="com.oracle.sample.UserLifecycleEventNotification"
+		version="1.0"
+		name="UserLifecycleEventNotification">
+		</plugin>
+	</plugins>
+</oimplugins>

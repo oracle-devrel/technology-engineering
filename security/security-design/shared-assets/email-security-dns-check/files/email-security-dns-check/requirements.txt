@@ -1,0 +1,5 @@
+dnspython
+tabulate
+pyspf
+dkimpy
+geoip2

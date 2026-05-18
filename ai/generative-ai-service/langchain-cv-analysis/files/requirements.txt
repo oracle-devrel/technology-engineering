@@ -1,0 +1,4 @@
+streamlit
+PyPDF2
+langchain-community
+oci

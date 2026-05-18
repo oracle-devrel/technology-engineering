@@ -1,0 +1,115 @@
+# CV Evaluation App using Oracle Gen AI 
+
+
+This is a Streamlit-based web application that evaluates resumes (CVs) against job descriptions using Oracle Cloud Infrastructure's Generative AI via Langchain `ChatOCIGenAI`.
+
+Reviewed: 22.09.2025
+
+---
+
+## 🎯 When to Use This Asset (Who & When)
+
+### Who
+- **HR & talent acquisition teams** screening large volumes of CVs  
+- **Hiring managers** comparing candidates against role requirements  
+- **Recruitment operations teams** standardising resume evaluations   
+
+### When
+- When evaluating **multiple PDF resumes** against a single role  
+- When consistent, explainable **candidate classification** is needed  
+- When identifying **skill gaps and missing keywords** is important  
+- When reducing **manual CV screening time** is a priority  
+
+---
+
+### 📁 Project Structure
+
+```
+.
+├── main.py                  # Streamlit application file
+├── LoadProperties2.py       # Loads configuration details (custom module)
+├── requirements.txt         # Required packages
+```
+
+---
+## How to use this asset
+
+### Flow
+- Upload multiple resumes in PDF format
+- Select or input a job description
+- Evaluate resumes using Oracle Gen AI
+- Receive classification like `Excellent`, `Strong`, `Possible`, etc.
+- Get profile summaries, missing keywords, and improvement suggestions
+- Interactive Streamlit interface
+### ⚙️ Setup Instructions
+
+1. **Clone the repository**  
+   ```bash
+   git clone https://github.com/your-repo/cv-evaluation-genai.git
+   cd cv-evaluation-genai
+   ```
+
+2. **Create a virtual environment (optional but recommended)**  
+   ```bash
+   python -m venv venv
+   source venv/bin/activate   # On Windows: venv\Scripts\activate
+   ```
+
+3. **Install dependencies**  
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Update the model name and compartment ID**  
+   ```bash
+   streamlit run main.py
+   ```
+
+5. **Run the Streamlit app**  
+   ```bash
+   streamlit run main.py
+   ```
+
+---
+
+### 📦 Dependencies
+
+- `streamlit`
+- `PyPDF2`
+- `langchain_community`
+- `oci` (for Oracle Cloud access)
+
+Make sure you have valid OCI credentials and access to the Generative AI service.
+
+---
+
+### 🧠 Technologies
+
+- **Oracle Generative AI**: For advanced natural language processing and resume evaluation
+- **LangChain**: For structured LLM integration
+- **Streamlit**: For building a fast, interactive UI
+
+---
+
+### ✅ Example Use Case
+
+1. Choose a job role or paste your custom Job Description.
+2. Upload one or more resume PDFs.
+3. Click **Submit**.
+4. View evaluation results, summaries, and suggested improvements.
+
+---
+
+## Docs & References
+
+📘 [OCI Generative AI Overview](https://docs.oracle.com/en-us/iaas/Content/generative-ai/home.htm)
+
+---
+
+## License
+
+Copyright (c) 2026 Oracle and/or its affiliates.
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
+OR CONTENT TO THIS REPOSITORY WITHOUT ANY REVIEW. USE AT YOUR OWN RISK. 

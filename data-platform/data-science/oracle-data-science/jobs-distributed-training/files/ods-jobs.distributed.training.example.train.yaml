@@ -1,0 +1,60 @@
+kind: distributed
+apiVersion: v1.0
+spec:
+  infrastructure: # This section maps to Job definition. Does not include environment variables
+    kind: infrastructure
+    type: dataScienceJob
+    apiVersion: v1.0
+    spec:
+      projectId:
+      compartmentId: 
+      displayName: HVD-Distributed-TF
+      logGroupId: 
+      subnetId:
+      shapeName: VM.Standard2.4 #use a gpu shape such as VM.GPU2.1 incase you have built a gpu based docker image.
+      blockStorageSize: 50
+  cluster:
+    kind: HOROVOD
+    apiVersion: v1.0
+    spec:
+      image: 
+      workDir:
+      name:
+      config:
+        env:
+          # MIN_NP, MAX_NP and SLOTS are inferred from the shape. Modify only when needed.
+          # - name: MIN_NP
+          #   value: 2
+          # - name: MAX_NP
+          #   value: 4
+          # - name: SLOTS
+          #   value: 2
+          - name: WORKER_PORT
+            value: 12345
+          - name: START_TIMEOUT #Optional: Defaults to 600.
+            value: 600
+          - name: ENABLE_TIMELINE # Optional: Disabled by Default.Significantly increases training duration if switched on (1).
+            value: 0
+          - name: SYNC_ARTIFACTS #Mandatory: Switched on by Default.
+            value: 1
+          - name: WORKSPACE #Mandatory if SYNC_ARTIFACTS==1: Destination object bucket to sync generated artifacts to.
+            value: 
+          - name: WORKSPACE_PREFIX #Mandatory if SYNC_ARTIFACTS==1: Destination object bucket folder to sync generated artifacts to.
+            value: "tf-distributed-training-v1"
+          - name: HOROVOD_ARGS # Parameters for cluster tuning.
+            value: "--verbose"
+      main:
+        name: "worker-main"
+        replicas: 1 #this will be always 1. Handles scheduler's responsibilities too.
+      worker:
+        name: "worker-0"
+        replicas: 1 #number of workers. This is in addition to the 'worker-main' worker. Could be more than 1
+  runtime:
+    kind: python
+    apiVersion: v1.0
+    spec:
+      entryPoint: "/code/train.py" #location of user's training script in docker image.
+      args:  #any arguments that the training script requires.
+          #- --data-dir    # assuming data folder has been bundled in the docker image.
+          #- /code/data/mnist.npz
+      env:

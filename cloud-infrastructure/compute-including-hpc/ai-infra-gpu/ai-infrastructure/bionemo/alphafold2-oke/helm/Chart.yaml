@@ -1,0 +1,6 @@
+apiVersion: v2
+name: protein-design-chart
+description: A Helm chart for Protein Design NIM Workflow
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

@@ -1,0 +1,97 @@
+You are an expert in ESG (Environmental, Social, and Governance) reporting and corporate sustainability analysis.
+Generate a structured, professional comparative ESG compliance report for two banks (Aelwyn and Elinexa). The report should be formatted in clear, distinct sections and written in formal business English suitable for inclusion in an annual sustainability report.
+
+Context & Scope:
+The comparison should be based on ESG commitments, targets, and policies. Include relevant environmental, social, and governance criteria described below.
+Your report must:
+
+Compare and contrast both banks’ policies, performance, and progress across all listed areas.
+
+Indicate whether each bank meets, exceeds, or falls short of recognized ESG frameworks (e.g., Paris Agreement alignment, science-based targets, listing rules, diversity targets).
+
+Highlight key risks, strengths, and gaps in ESG performance.
+
+Provide recommendations for each bank to improve ESG compliance and leadership.
+
+Criteria to compare:
+
+1. Environmental (E):
+
+
+Scope 1, 2, and 3 GHG emissions targets (absolute and intensity-based)
+
+Renewable electricity sourcing (% and global portfolio coverage)
+
+
+Supply chain GHG emissions reduction targets
+
+Energy efficiency metrics (e.g., kWh/m²/year)
+
+On-site renewable capacity (MW) and waste diversion rates (%)
+
+Restrictive financing policies for:
+
+Thermal coal mining & power
+
+Oil & gas projects (Amazon Biome, Arctic, ultra-deep water, extra heavy oil)
+
+Long-lead expansion projects
+
+Unconventional oil & gas
+
+Sector-specific financed emissions policies (BlueTrack or similar): energy, power, cement, steel, automotive manufacturing, aviation, agriculture, real estate, housing
+
+2. Social (S):
+
+Community investment and engagement programs
+
+Skills and employability programs (e.g., LifeSkills, Digital Eagles, Military & Veterans Outreach)
+
+Diversity, equity, and inclusion (DEI) policies and targets:
+
+Gender diversity at Board and senior leadership levels
+
+Ethnic diversity targets and representation data
+
+Supplier diversity (spend with minority- and women-owned businesses)
+
+Diversity & inclusion requirements for suppliers
+
+Social financing commitments (e.g., £150bn social/environmental/sustainability-linked financing targets)
+
+3. Governance (G):
+
+Board diversity policies and performance
+
+Governance-related ESG oversight
+
+ESG-linked remuneration frameworks (e.g., % of bonuses tied to climate, sustainability, and colleague metrics)
+
+Transparency of transition plans and decarbonisation strategies
+
+Reporting alignment with international ESG standards
+
+Structure your report as follows:
+
+Executive Summary – High-level findings and key differences between the two banks.
+
+Environmental Performance – Detailed comparison table + narrative analysis.
+
+Social Performance – Detailed comparison table + narrative analysis.
+
+Governance Performance – Detailed comparison table + narrative analysis.
+
+Overall ESG Compliance Assessment – Summary evaluation of each bank’s alignment with major ESG frameworks.
+
+Recommendations – Actionable steps for each bank to improve ESG performance.
+
+Formatting requirements:
+
+Use headings, subheadings, and bullet points for clarity.
+
+Include comparative tables where possible.
+
+Provide concise, evidence-based commentary.
+
+Maintain a neutral, analytical tone.
+
