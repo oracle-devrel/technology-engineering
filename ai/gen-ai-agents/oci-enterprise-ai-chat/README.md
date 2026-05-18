@@ -4,7 +4,7 @@ A chat interface and agent hub for [Oracle Cloud Infrastructure Enterprise AI](h
 
 Built with **Next.js 16**, **React 19**, and **MUI v7**.
 
-![Chat home](docs/screenshots/01-chat-home.png)
+![Chat home](images/01-chat-home.png)
 
 ---
 
@@ -73,7 +73,7 @@ Models are **discovered dynamically** via `listModels` against the configured co
 
 ## Architecture
 
-![Architecture overview](docs/diagrams/architecture.png)
+![Architecture overview](images/architecture.png)
 
 The browser hits `middleware.js` first (session guard). If the user has a valid IDCS session cookie, the request continues to the UI / API layers. The `/api/responses` route signs every request and streams from OCI's Generative AI Responses API; tool calls executed by the model run **on OCI's side** against the registered MCP servers. The app talks directly to MCP servers only when it needs to discover tools or proxy a manual JSON-RPC call.
 
@@ -87,16 +87,16 @@ Real-time SSE streaming, conversation history persisted in OCI Conversation Stor
 ### Model picker
 Switch models per conversation. The list is discovered dynamically from the configured compartment, so anything enabled in your tenancy shows up automatically.
 
-![Model picker](docs/screenshots/06-model-selector.png)
+![Model picker](images/06-model-selector.png)
 
 ### File attachments: PDF, CSV, TXT, code, spreadsheets
 Drop or paste documents straight into the chat. Each file is shown as a card and its contents are sent as context to the model.
 
-![Attachments + prompt](docs/screenshots/07-attachments-prompt.png)
+![Attachments + prompt](images/07-attachments-prompt.png)
 
 The model returns structured analysis across all attached files in one go:
 
-![Conversation result](docs/screenshots/08-conversation-result.png)
+![Conversation result](images/08-conversation-result.png)
 
 Supported extensions: `.pdf`, `.txt`, `.md`, `.csv`, `.json`, `.xml`, `.html`, `.css`, `.js`, `.ts`, `.jsx`, `.tsx`, `.py`, `.java`, `.c`, `.cpp`, `.h`, `.yml`, `.yaml`, `.toml`, `.ini`, `.log`, `.sql`, `.sh`, `.bat`, `.xlsx`, `.xls`, plus images.
 
@@ -107,23 +107,23 @@ Toggle per-tool from Settings → Tools → Native:
 - **Code Interpreter**: Python sandbox with 420+ libraries
 - **Text-to-SQL** *(coming soon)*, natural language → SQL against your semantic stores
 
-![Tools settings](docs/screenshots/03-settings-tools.png)
+![Tools settings](images/03-settings-tools.png)
 
 ### Custom MCP servers
 Add any MCP endpoint (API key, Bearer token, OAuth2 client credentials, or OAuth 2.1). Test the connection, discover tools, and selectively enable individual functions. Tokens persist through a signed-cookie flow, no secrets stored in localStorage.
 
-![Custom MCP servers](docs/screenshots/03b-settings-tools-custom.png)
+![Custom MCP servers](images/03b-settings-tools-custom.png)
 
 ### Prompts: Instructions + System
 Two separate things on the same tab:
 
 - **Instructions**: free-text field where you put anything you want the assistant to know about you, your tone, or the context. This is where each user/team customizes the assistant.
 
-  ![Prompts: Instructions](docs/screenshots/02-settings-prompts.png)
+  ![Prompts: Instructions](images/02-settings-prompts.png)
 
 - **System**: read-only viewer of the base system prompt that ships with the app. It's already tuned for OCI workflows (response style, tool transparency, formatting), so you don't need to edit it; if you ever do want to change it, edit `src/app/utils/baseSystemPrompt.js` in code.
 
-  ![Prompts: System](docs/screenshots/02b-settings-prompts-system.png)
+  ![Prompts: System](images/02b-settings-prompts-system.png)
 
 ### Memory: long-term and short-term
 Two independent memory layers, both backed by OCI's native memory subjects:
@@ -134,16 +134,16 @@ Two independent memory layers, both backed by OCI's native memory subjects:
 
 Both can be turned on independently. LTM needs a memory subject ID; STMO is just a toggle.
 
-![Memory settings](docs/screenshots/04-settings-memory.png)
+![Memory settings](images/04-settings-memory.png)
 
 ### Appearance: fully white-label
 App title, logo, welcome message, accent color, dark mode, background, and live preview. Useful when shipping the app to multiple internal teams or external customers.
 
-![Appearance settings](docs/screenshots/05-settings-appearance.png)
+![Appearance settings](images/05-settings-appearance.png)
 
 The same chat in dark mode:
 
-![Dark mode](docs/screenshots/09-dark-mode.png)
+![Dark mode](images/09-dark-mode.png)
 
 ### Authentication
 - **Oracle IDCS SSO** with OAuth2 Authorization Code (handled by `src/middleware.js` + `src/app/lib/auth.js`)
@@ -221,7 +221,7 @@ src/
 
 ### Chat streaming
 
-![Chat streaming sequence](docs/diagrams/chat-streaming.png)
+![Chat streaming sequence](images/chat-streaming.png)
 
 1. User sends a message → `useChat.js` calls `genaiAgentsService.sendMessage`
 2. Client POSTs to `/api/responses`; the route signs the request and streams from OCI's `/openai/v1/responses` endpoint
@@ -229,7 +229,7 @@ src/
 
 ### IDCS SSO (OAuth2 Authorization Code)
 
-![SSO sequence](docs/diagrams/sso-flow.png)
+![SSO sequence](images/sso-flow.png)
 
 ### MCP tool invocation
 1. OCI executes MCP tools natively via the Responses API. the app **does not run tools itself**
