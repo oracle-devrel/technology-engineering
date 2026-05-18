@@ -71,7 +71,7 @@ The services run from this cloned repository folder.
 bash scripts/start_services.sh
 ```
 
-This starts the HTTP services for the consumer and producer. It does not start processing messages yet.
+This starts the Flask services for the consumer and producer. It does not start processing messages yet.
 
 ## 6. Start Pipeline
 
