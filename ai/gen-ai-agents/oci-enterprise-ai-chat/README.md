@@ -239,14 +239,12 @@ src/
 ### Settings persistence
 All UI-level preferences live in `localStorage`:
 
-| Key | Purpose |
-|-----|---------|
-| `systemPrompt` | Custom system instructions |
-| `selectedModel` | Current model ID |
-| `uiSettings` | App title, logo, welcome message, dark mode, accent color |
-| `nativeToolsEnabled` | Native OCI tools (web search, RAG, code, text-to-SQL) |
-| `mcpServers` | Configured custom MCP endpoints |
-| `enabledTools` | Per-function MCP tool selection |
+- **`systemPrompt`** — Custom system instructions
+- **`selectedModel`** — Current model ID
+- **`uiSettings`** — App title, logo, welcome message, dark mode, accent color
+- **`nativeToolsEnabled`** — Native OCI tools (web search, RAG, code, text-to-SQL)
+- **`mcpServers`** — Configured custom MCP endpoints
+- **`enabledTools`** — Per-function MCP tool selection
 
 ---
 
@@ -390,15 +388,13 @@ Harmless. Emitted during SSG when charts render with zero-size containers; they 
 
 ## Tech Stack
 
-| Layer | Choice |
-|-------|--------|
-| Framework | Next.js 16 (App Router, standalone output, Turbopack) |
-| UI | React 19, MUI v7, Framer Motion, Lucide icons |
-| Charts | Recharts |
-| OCI | `oci-sdk` (ConfigFile / Resource Principal auth) |
-| Protocols | Server-Sent Events, JSON-RPC 2.0 (MCP), OAuth 2.1 + PKCE |
-| Observability | Langfuse (optional) |
-| Testing | Playwright |
+- **Framework** — Next.js 16 (App Router, standalone output, Turbopack)
+- **UI** — React 19, MUI v7, Framer Motion, Lucide icons
+- **Charts** — Recharts
+- **OCI** — `oci-sdk` (ConfigFile / Resource Principal auth)
+- **Protocols** — Server-Sent Events, JSON-RPC 2.0 (MCP), OAuth 2.1 + PKCE
+- **Observability** — Langfuse (optional)
+- **Testing** — Playwright
 
 ---
 
