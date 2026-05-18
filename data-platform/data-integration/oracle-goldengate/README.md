@@ -11,6 +11,12 @@ Reviewed: 08.10.2025
 3. [Reusable Assets Overview](#reusable-assets-overview)
  
 # Team Publications
+- [Achieving Data Resiliency with GoldenGate](https://medium.com/@nishar.soneji/achieving-data-resiliency-with-oracle-goldengate-56504b00ac32)
+    - True data resiliency is the assurance that enterprise data pipelines are not only highly available under normal and disaster recovery scenarios but are also fully recoverable and restartable after a disruption to provide consistent and complete data to all downstream systems.
+
+- [Unlocking AI Solutions Powered by Golden Gate 26ai with Microservices Architecture](https://videohub.oracle.com/media/Clip+of+Clip+of+Clip+of+Oracle+Masterclass%3A+Unlocking+AI+Solutions+Powered+by+GoldenGate+23ai+with+Microservices+Architecture/1_372s1e2o?elq_mid=270590&sh=1318081926092619142223081213221718141713230112&cmid=CORP251009P00011C00001)
+    - With GoldenGate 26ai, you can unlock the whole new AI Solutions in the BYOL Models, Vector hub using Microservices Architecture
+
 - [Apache Iceberg on OCI Object Storage with GoldenGate for DAA 26ai](https://blogs.oracle.com/dataintegration/apache-iceberg-on-oci-object-storage-with-goldengate-for-daa-26ai)
     - With GoldenGate for DAA 26ai, you can now configure Apache Iceberg replication with OCI Object Storage. GoldenGate for DAA leverages the S3 endpoint of OCI Object Storage for connectivity
 
