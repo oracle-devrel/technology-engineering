@@ -1,0 +1,44 @@
+{
+  "id": "parts-autonomy-flow",
+  "name": "Parts Autonomy Selection Flow",
+  "triggerPhrases": [
+    "I need a 15HP motor with 380V for standard shift operation"
+  ],
+  "messages": [
+    {
+      "type": "chip",
+      "chipData": {
+        "label": "Planning",
+        "status": "info",
+        "icon": "Lightbulb",
+        "content": "The user asked for parts for the production line and specified they need a 15HP motor with 380V for standard shift operation. I need to search Oracle Fusion ERP for matching motors and analyze technical documentation. Before proceeding, I should ask whether they want me to handle the entire process autonomously or if they prefer to make the final decisions themselves."
+      },
+      "delay": 100
+    },
+    {
+      "type": "text",
+      "content": "Would you like the AI Agent to autonomously finalize the selection and ordering process?",
+      "delay": 50
+    },
+    {
+      "type": "interactive",
+      "interactiveData": {
+        "inputType": "choice",
+        "title": "",
+        "options": [
+          {
+            "value": "advise_decide",
+            "label": "Advise me, but I want to decide",
+            "type": "action"
+          },
+          {
+            "value": "autonomous",
+            "label": "Complete the tasks autonomously",
+            "type": "action"
+          }
+        ]
+      },
+      "delay": 80
+    }
+  ]
+}

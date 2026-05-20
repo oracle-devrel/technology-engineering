@@ -1,0 +1,10 @@
+{
+  "id": "thank-you",
+  "triggerPhrases": ["thank you", "thanks", "gracias", "appreciate"],
+  "messages": [
+    {
+      "type": "text",
+      "content": "You're very welcome! 😊 It was my pleasure to help you today. If you need any assistance in the future with production parts, supplier management, or any other industrial operations, don't hesitate to reach out. Have a wonderful day!"
+    }
+  ]
+}
