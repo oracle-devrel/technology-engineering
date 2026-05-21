@@ -2,7 +2,7 @@
 
 Last reviewed: 2026-05-20
 
-This runbook is the implementation companion to [Operational Best Practices for Oracle Database@Google Cloud](./odgcp-operations-best-practices.md). It shows one practical way to wire the OD@GCP Google Cloud-side modules to the OCI Exadata Database module.
+This runbook is the implementation companion to [Operational Best Practices for Oracle Database@Google Cloud](./README.md). It shows one practical way to wire the OD@GCP Google Cloud-side modules to the OCI Exadata Database module.
 
 The best-practices document remains the source of truth for control-plane ownership, drift contracts, Day 2 tool selection, and exception rules. This runbook focuses only on the normal implementation path and post-handoff checks.
 
@@ -35,7 +35,7 @@ This runbook covers the normal handoff path across four steps:
 3. **OCI database layer** — connect the OCI database stack to the VM Cluster OCID and create DB Homes, CDBs/databases, PDBs, and database-level backup configuration where required.
 4. **Post-handoff checks** — verify ownership and drift contracts after OCI-side operations that may affect Terraform-managed or handoff-relevant fields.
 
-This runbook does not cover patching, upgrades, support procedures, or the OCI Terraform exception path for Infrastructure / VM Cluster updates. Those topics are covered in [Operational Best Practices for Oracle Database@Google Cloud](./odgcp-operations-best-practices.md).
+This runbook does not cover patching, upgrades, support procedures, or the OCI Terraform exception path for Infrastructure / VM Cluster updates. Those topics are covered in [Operational Best Practices for Oracle Database@Google Cloud](./README.md).
 
 This runbook also does not define the full GitOps repository and state model. That design is covered in [GitOps Repository, State, and Operations Design for Oracle Database@Google Cloud](./odgcp-gitops-repository-state-and-operations-design.md).
 
@@ -63,7 +63,7 @@ Executable module references in the examples below use pinned tags. For producti
 
 ## 4. Target Layout
 
-For the normal path, use separate Terraform states. The rationale — ownership boundaries, blast radius, change windows, and lifecycle — is defined in [Operational Best Practices for Oracle Database@Google Cloud](./odgcp-operations-best-practices.md).
+For the normal path, use separate Terraform states. The rationale — ownership boundaries, blast radius, change windows, and lifecycle — is defined in [Operational Best Practices for Oracle Database@Google Cloud](./README.md).
 
 ### Implementation Flow
 
@@ -226,6 +226,8 @@ module "exadb" {
 ```
 
 Publish a small, sanitized handoff contract. The `ocid` field is the key value consumed by the OCI database layer and OCI-native tools. The `oci_region` field should be used by the OCI provider configuration. The `state` field is used by the optional handoff wrapper for pre-flight validation.
+
+The `oci_region` field is not a direct module output. Derive it from the OCID — it is the fourth dot-separated segment (e.g., `ocid1.cloudvmcluster.oc1.<oci-region>.<unique-id>`) — or resolve it in the orchestration layer. Including it explicitly in the handoff contract prevents the OCI provider configuration from depending on manual region mapping.
 
 ```hcl
 gcp_cloud_vm_clusters_dependency = {

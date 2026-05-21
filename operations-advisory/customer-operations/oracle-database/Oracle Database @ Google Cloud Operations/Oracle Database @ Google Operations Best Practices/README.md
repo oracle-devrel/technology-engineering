@@ -33,6 +33,8 @@ OD@GCP uses two control planes with a clear operational split:
 3. Use the OCI Exadata Database module for the OCI database layer — DB Homes, CDBs, PDBs, and backup configuration — only when that layer must be declarative.
 4. Use OCI Terraform for Infrastructure or VM Cluster updates only as a controlled exception, not as a second uncontrolled owner.
 
+The provider evidence behind these rules is in [Section 4](#4-provider-evidence-behind-the-ownership-split).
+
 Scope: Oracle Database@Google Cloud Exadata Infrastructure and VM Clusters created from Google Cloud and operated through OCI.
 
 ## 2. Recommended Workflow
@@ -81,7 +83,7 @@ flowchart LR
   class EXCEPTION exception
 ```
 
-Detailed handoff mechanics are intentionally not duplicated here. For the concrete dependency maps, wrapper pattern, direct OCID pattern, and post-handoff checks, see [OD@GCP Module Handoff Reference](./odgcp-module-handoff-reference.md).
+For the concrete dependency maps, wrapper pattern, direct OCID pattern, and post-handoff checks, see [OD@GCP Module Handoff Reference](./odgcp-module-handoff-reference.md).
 
 ## 3. Control-Plane Ownership and State Boundaries
 
@@ -118,12 +120,12 @@ It should not be used for in-place Day 2 operations such as Exadata Infrastructu
 
 | Resource | Recommended role | Update position |
 |---|---|---|
-| `google_oracle_database_odb_network` | Create and own ODB Network identity on an existing VPC. | Only labels, Terraform labels, and virtual fields are expected to be mutable. Network identity fields are replacement-only. |
-| `google_oracle_database_odb_subnet` | Create and own client and backup ODB Subnets. | Only labels, Terraform labels, and virtual fields are expected to be mutable. CIDR, purpose, location, and resource identity fields are replacement-only. |
+| `google_oracle_database_odb_network` | Create and own ODB Network identity on an existing VPC. | Only Terraform-managed virtual fields (`deletion_protection`, `timeouts`) can be changed without replacement. All API-managed fields, including `labels`, network identity, location, and resource identifiers, are replacement-only. |
+| `google_oracle_database_odb_subnet` | Create and own client and backup ODB Subnets. | Only Terraform-managed virtual fields (`deletion_protection`, `timeouts`) can be changed without replacement. All API-managed fields, including `labels`, CIDR, purpose, location, and resource identifiers, are replacement-only. |
 | `google_oracle_database_cloud_exadata_infrastructure` | Create Cloud Exadata Infrastructure and publish OCI/cloud identifiers. | Most operational fields, including capacity and maintenance-related fields, are replacement-only from the Google provider perspective. |
 | `google_oracle_database_cloud_vm_cluster` | Create Cloud VM Cluster and publish the VM Cluster OCI OCID. | Most operational fields, including CPU/ECPU/OCPU, storage, memory, Grid Infrastructure version, node count, SSH keys, and network references, are replacement-only from the Google provider perspective. |
 
-Metadata-only changes, such as labels or Terraform lifecycle controls, may be possible depending on provider and API support, but they should not be treated as OD@GCP Day 2 operations. Validate them with `terraform plan` against the pinned provider version before use.
+Terraform-managed virtual fields (`deletion_protection`, `timeouts`) can be changed without replacement because they are not sent to the API. All API-managed fields, including `labels`, are replacement-only for these OD@GCP resources. Validate any update assumption with `terraform plan` against the pinned provider version before use.
 
 What this means: `ignore_changes` in the Google Cloud-side module is a drift contract for OCI-side operations. It prevents Terraform from trying to revert or replace resources for changes that the Google provider should not own. It does not make those fields safe to update through the Google provider.
 
