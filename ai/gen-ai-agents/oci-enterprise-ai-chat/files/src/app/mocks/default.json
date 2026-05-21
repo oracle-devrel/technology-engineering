@@ -1,0 +1,9 @@
+{
+  "triggerPhrases": [],
+  "messages": [
+    {
+      "type": "text",
+      "content": "Hi! Ready to help with your tasks.\n\nHere is a list of **common activities** for your role:\n- **Self-service** for daily admin\n- **Interaction** with suppliers\n- **Analyse** operational data\n- **System** performance and monitoring\n\nWhat would you like to start with?"
+    }
+  ]
+}
