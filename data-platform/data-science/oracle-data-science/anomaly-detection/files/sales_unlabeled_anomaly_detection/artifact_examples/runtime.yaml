@@ -2,7 +2,7 @@
 MODEL_ARTIFACT_VERSION: '3.0'
 MODEL_DEPLOYMENT:
   INFERENCE_CONDA_ENV:
-    INFERENCE_ENV_PATH: 'oci://pub-conda-env@fro8fl9kuqli/conda_environments/cpu/General Machine Learning for CPUs on Python 3.11/1.0/generalml_p311_cpu_x86_64_v1' #changed to private conda environment paht
+    INFERENCE_ENV_PATH: '<enter-path-to-published-conda-environment>' #changed to private conda environment paht
     INFERENCE_ENV_SLUG: ''
     INFERENCE_ENV_TYPE: published
     INFERENCE_PYTHON_VERSION: '3.11'
