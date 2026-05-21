@@ -114,9 +114,9 @@ This section explains why the ownership split is recommended. The Google provide
 
 ### 4.2 Google Provider Position
 
-The Google provider is the Day 1 creation and ownership provider for the Google Cloud-side OD@GCP resources. After deployment, use it mainly for state ownership, outputs, lifecycle/deletion controls, and drift visibility.
+The Google provider is the Day 1 creation and ownership provider for the Google Cloud-side OD@GCP resources. After deployment, use it for state ownership, outputs, lifecycle/deletion controls, drift visibility, and plan checks.
 
-Do not use it for in-place Day 2 operations such as Exadata Infrastructure capacity changes or Cloud VM Cluster CPU/ECPU/OCPU scaling.
+Do not use it for OD@GCP Day 2 operations. Operational changes such as Exadata Infrastructure capacity updates, VM Cluster CPU/ECPU/OCPU scaling, patching, upgrades, maintenance changes, and database lifecycle work belong to OCI-native tooling or to the controlled OCI Terraform exception path where supported.
 
 Terraform-managed lifecycle fields (`deletion_protection`, `deletion_policy`, and `timeouts`) can change without replacing the OD@GCP resource because they do not update the OD@GCP service configuration. API-managed fields must be treated as creation-time fields from the Google provider. For `labels`, do not assume update support even if the provider schema looks mutable; existing OD@GCP resources can reject label changes as not updatable.
 
@@ -133,22 +133,23 @@ Validate any update assumption with `terraform plan` against the pinned provider
 
 ### 4.3 OCI Provider Position
 
-The OCI provider is the normal Terraform provider for the OCI database layer. It is also the exception provider for selected Infrastructure or VM Cluster Day 2 updates when the customer’s OD@GCP service model, Oracle documentation, and provider schema support the intended field.
+The OCI provider is the normal Terraform provider for the OCI database layer. It can also be used as a controlled exception path for selected Infrastructure or VM Cluster updates when the customer’s OD@GCP service model, Oracle documentation, and provider schema support the intended field.
 
 | Resource | Recommended role | Update position |
 |---|---|---|
-| `oci_database_cloud_exadata_infrastructure` | Exception path only when Terraform must update selected Infrastructure fields for a resource originally created from the Google Cloud side. | Use only for approved and supported fields, such as capacity, maintenance-related settings, display name, tags, or compartment-related changes where valid for the service model. |
-| `oci_database_cloud_vm_cluster` | Exception path only when Terraform must update selected VM Cluster fields. | Use only for approved and supported fields, such as CPU/ECPU/OCPU, storage, memory, NSGs, license model, SSH keys, diagnostics, tags, or display name where valid for the service model. |
-| `oci_database_db_home` | Normal OCI-side DB Home and initial database resource. | Suitable for declarative DB Home and initial CDB/database creation when the database layer must be managed through Terraform. |
-| `oci_database_database` | Normal OCI-side CDB/database resource when separated from DB Home lifecycle. | Suitable for selected declarative database settings, including database-level backup configuration where required and supported. |
-| `oci_database_pluggable_database` | Normal OCI-side PDB resource. | Suitable for declarative PDB creation and selected supported PDB lifecycle attributes. |
+| `oci_database_db_home` | Normal OCI-side DB Home and initial database resource. | Use for declarative DB Home and initial CDB/database creation when the database layer must be managed through Terraform. |
+| `oci_database_database` | Normal OCI-side CDB/database resource when separated from DB Home lifecycle. | Use for selected declarative database settings, including database-level backup configuration where required and supported. |
+| `oci_database_pluggable_database` | Normal OCI-side PDB resource. | Use for declarative PDB creation and selected supported PDB lifecycle attributes. |
+| `oci_database_cloud_exadata_infrastructure` | Controlled exception only. | Use only for approved and supported Infrastructure fields, such as capacity, maintenance-related settings, display name, tags, or compartment-related changes where valid for the OD@GCP service model. |
+| `oci_database_cloud_vm_cluster` | Controlled exception only. | Use only for approved and supported VM Cluster fields, such as CPU/ECPU/OCPU, storage, memory, NSGs, license model, SSH keys, diagnostics, tags, or display name where valid for the OD@GCP service model. |
 
-The OCI provider has the resource support for selected Terraform-driven changes that the Google provider should not own. However, this must not create a second long-lived owner for Google-created Infrastructure or VM Cluster resources.
+The OCI provider has resource support for selected Terraform-driven changes that the Google provider should not own. However, it must not become a second long-lived owner for Google-created Infrastructure or VM Cluster resources.
 
-For OD@GCP, use the OCI provider in two different ways:
+For OD@GCP, use the OCI provider in two ways:
 
 1. **Normal path** — manage the OCI database layer: DB Homes, CDBs/databases, PDBs, and database-level backup configuration where required.
 2. **Controlled exception path** — manage selected Infrastructure or VM Cluster updates only when the operation is explicitly approved, supported, evidenced, and protected by the matching Google Cloud-side drift contract. See [Section 6](#6-oci-terraform-exception-path) for the preconditions and execution guardrails.
+
 
 ## 5. Day 2 Operations, State, And Drift
 
