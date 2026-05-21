@@ -109,27 +109,27 @@ This section explains why the ownership split is recommended. The Google provide
 
 | Evidence item               |                Version / baseline | Notes                                                                                                                                              |
 | --------------------------- | --------------------------------: | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| HashiCorp Google provider   |                          `7.32.0` | Provider schema reviewed for OD@GCP resources. Revalidate if using a newer provider.                                                               |
-| Oracle OCI provider         |                          `8.14.0` | Provider schema reviewed for Exadata Infrastructure, Cloud VM Cluster, DB Home, Database, and PDB resources. Revalidate if using a newer provider. |
+| HashiCorp Google provider   |                          `7.33.0` | Provider schema reviewed for OD@GCP resources. Revalidate if using a newer provider.                                                               |
+| Oracle OCI provider         |                          `8.15.0` | Provider schema reviewed for Exadata Infrastructure, Cloud VM Cluster, DB Home, Database, and PDB resources. Revalidate if using a newer provider. |
 
 ### 4.2 Google Provider Position
 
-The Google provider is the Day 1 creation and ownership provider for the Google Cloud-side OD@GCP resources. After deployment, use it mainly for state ownership, outputs, lifecycle controls, deletion control, and drift visibility.
+The Google provider is the Day 1 creation and ownership provider for the Google Cloud-side OD@GCP resources. After deployment, use it mainly for state ownership, outputs, lifecycle/deletion controls, and drift visibility.
 
-It should not be used for in-place Day 2 operations such as Exadata Infrastructure capacity changes or Cloud VM Cluster CPU/ECPU/OCPU scaling.
+Do not use it for in-place Day 2 operations such as Exadata Infrastructure capacity changes or Cloud VM Cluster CPU/ECPU/OCPU scaling.
 
-| Resource | Recommended role | Update position |
+Terraform-managed lifecycle fields (`deletion_protection`, `deletion_policy`, and `timeouts`) can change without replacing the OD@GCP resource because they do not update the OD@GCP service configuration. API-managed fields must be treated as creation-time fields from the Google provider. For `labels`, do not assume update support even if the provider schema looks mutable; existing OD@GCP resources can reject label changes as not updatable.
+
+| Resource | Recommended role | API-managed fields to treat as creation-time |
 |---|---|---|
-| `google_oracle_database_odb_network` | Create and own ODB Network identity on an existing VPC. | Only Terraform-managed virtual fields (`deletion_protection`, `timeouts`) can be changed without replacement. All API-managed fields, including `labels`, network identity, location, and resource identifiers, are replacement-only. |
-| `google_oracle_database_odb_subnet` | Create and own client and backup ODB Subnets. | Only Terraform-managed virtual fields (`deletion_protection`, `timeouts`) can be changed without replacement. All API-managed fields, including `labels`, CIDR, purpose, location, and resource identifiers, are replacement-only. |
-| `google_oracle_database_cloud_exadata_infrastructure` | Create Cloud Exadata Infrastructure and publish OCI/cloud identifiers. | Most operational fields, including capacity and maintenance-related fields, are replacement-only from the Google provider perspective. |
-| `google_oracle_database_cloud_vm_cluster` | Create Cloud VM Cluster and publish the VM Cluster OCI OCID. | Most operational fields, including CPU/ECPU/OCPU, storage, memory, Grid Infrastructure version, node count, SSH keys, and network references, are replacement-only from the Google provider perspective. |
+| `google_oracle_database_odb_network` | Create and own ODB Network identity on an existing VPC. | `labels`, `network`, `location`, `odb_network_id`, `gcp_oracle_zone`, `project`. |
+| `google_oracle_database_odb_subnet` | Create and own client and backup ODB Subnets. | `labels`, `cidr_range`, `purpose`, `odbnetwork`, `location`, `odb_subnet_id`, `project`. |
+| `google_oracle_database_cloud_exadata_infrastructure` | Create Cloud Exadata Infrastructure and publish OCI/cloud identifiers. | `labels`, `display_name`, `gcp_oracle_zone`, `properties`, capacity, maintenance window, customer contacts. |
+| `google_oracle_database_cloud_vm_cluster` | Create Cloud VM Cluster and publish the VM Cluster OCID. | `labels`, `display_name`, network/subnet references, `properties`, CPU/ECPU/OCPU, storage, memory, Grid Infrastructure version, node count, DB servers, SSH keys. |
 
-Terraform-managed virtual fields (`deletion_protection`, `timeouts`) can be changed without replacement because they are not sent to the API. All API-managed fields, including `labels`, are replacement-only for these OD@GCP resources. Validate any update assumption with `terraform plan` against the pinned provider version before use.
+Validate any update assumption with `terraform plan` against the pinned provider version and, where needed, with the documented service behavior before use.
 
-What this means: `ignore_changes` in the Google Cloud-side module is a drift contract for OCI-side operations. It prevents Terraform from trying to revert or replace resources for changes that the Google provider should not own. It does not make those fields safe to update through the Google provider.
-
-Do not use the Google provider for in-place VM Cluster ECPU/OCPU scaling.
+`ignore_changes` in the Google Cloud-side module is a drift contract for OCI-side operations. It prevents Terraform from trying to revert or replace resources for changes that the Google provider should not own. It does not make those fields safe to update through the Google provider.
 
 ### 4.3 OCI Provider Position
 
