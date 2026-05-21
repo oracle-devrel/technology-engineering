@@ -92,7 +92,7 @@ To train larger models like Mixtral or Mistral 7B on H100, make sure to:
 
 # License
  
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

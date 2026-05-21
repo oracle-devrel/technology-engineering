@@ -39,7 +39,7 @@ Reviewed: 08.10.2025
    - Oracle Livelab with detailed steps for performing Database Plaform Migration with Cross-Platform Transportable Tablespaces.
 # License
  
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

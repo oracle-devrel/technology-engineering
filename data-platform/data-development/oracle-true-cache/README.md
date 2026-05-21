@@ -12,32 +12,35 @@ Oracle True Cache provides several business benefits related to application deve
 
 - Improves scalability and performance by offloading queries from the primary database.
 - Reduces application response time and network latency by deploying True Cache closer to the application.
-- Creates a large, in-memory storage area by dividing data across multiple True Caches making the total size of the cached data much   
+- Creates a large, in-memory storage area by dividing data across multiple True Caches making the total size of the cached data much
   larger than it would be for a single primary database or cache.
 - Automatically maintains the cache contents.
 - It's transparent to the applications
 
 Oracle True Cache is available starting from Oracle AI Database 26ai release (not supported in 19c).
 
-Reviewed: 22.01.2025
+Reviewed: 06.05.2026
 
-
-# Table of Contents
- 
+# Table of Contents 
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-links)
-
 
 # Team Publications
 N/A
 
 # Useful Links
 - [Oracle True Cache](https://www.oracle.com/database/truecache/)
+- [Oracle True Cache Technical Architectures](https://docs.oracle.com/en/database/oracle/oracle-database/26/tciad/tc_genarch.html)
 - [True Cache AI World 2025](https://www.oracle.com/database/truecache/)
+- [True Cache - Learn about cache warmup - Oracle Blogs](https://blogs.oracle.com/database/oracle-true-cache-learn-about-cache-warmup)
+- [Blog - Accelerate Your Application Performance with Oracle True Cache](https://blogs.oracle.com/database/accelerate-your-application-performance-with-oracle-true-cache)
+- [Blog - True Cache and Active Data Guard Transparent JDBC Redirection](https://blogs.oracle.com/maa/true-cache-and-active-data-guard-jdbc-redirection)
+- [LiveLabs-Improve application performance with True Cache](https://livelabs.oracle.com/ords/r/dbpm/livelabs/view-workshop?wid=3933&clear=RR%2C180&session=103853267931988)
+- [YouTube - Application Acceleration with Oracle True Cache: Oracle DatabaseWorld 2025](https://www.youtube.com/watch?v=akCz6tskFLU)
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

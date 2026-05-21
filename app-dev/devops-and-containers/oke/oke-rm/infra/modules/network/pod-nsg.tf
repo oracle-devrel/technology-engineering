@@ -2,7 +2,7 @@ resource "oci_core_network_security_group" "pod_nsg" {
   compartment_id = var.network_compartment_id
   vcn_id         = local.vcn_id
   display_name   = "pod"
-  freeform_tags  = var.tag_value.freeformTags
+  freeform_tags  = merge(var.tag_value.freeformTags, local.karpenter_pod_role_freeform_tag)
   defined_tags   = var.tag_value.definedTags
   count          = local.is_npn ? 1 : 0
 }

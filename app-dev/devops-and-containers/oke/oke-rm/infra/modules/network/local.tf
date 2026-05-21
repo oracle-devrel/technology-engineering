@@ -28,6 +28,16 @@ locals {
 
   create_msg_subnet = var.create_msg_subnet && var.create_vcn
 
+  karpenter_role_tag_key          = "karpenter-oci/role"
+  karpenter_worker_role_tag_value = "worker"
+  karpenter_pod_role_tag_value    = "pod"
+
+  karpenter_worker_role_freeform_tag = { (local.karpenter_role_tag_key) = local.karpenter_worker_role_tag_value }
+  karpenter_pod_role_freeform_tag    = { (local.karpenter_role_tag_key) = local.karpenter_pod_role_tag_value }
+
+  vcn_cidr_blocks     = var.create_additional_pod_cidr ? distinct(concat(var.vcn_cidr_blocks, var.additional_pod_cidr)) : var.vcn_cidr_blocks
+  pod_ipv4cidr_blocks = var.create_additional_pod_cidr && length(var.additional_pod_cidr) > 0 ? concat([var.pod_subnet_cidr], var.additional_pod_cidr) : [var.pod_subnet_cidr]
+
   tcp_protocol       = "6"
   icmp_protocol      = "1"
   udp_protocol       = "17"

@@ -4,40 +4,41 @@ The Observability and Manageability (O&M) platform is a suite of OCI services th
 
 &nbsp; 
 
-Reviewed: Reviewed: 05.11.2025
+Reviewed: Reviewed: 20.04.2026
 
 &nbsp; 
 
 
 
-|Observability Service  |  Assets Page| Latest | 
-|---|---|---|
-| Logging Analytics  | [Link](./logging-analytics/README.md) | Coming Soon
-| Logging  | [Link](./logging/README.md) | Coming Soon |  
-| Database Management | [Link](./database-management/README.md)| Coming Soon |  
-| Ops Insights  | [Link](./operations-insights/README.md) | Coming Soon|  
-| Application Performance Monitoring | [Link](./application-performance-monitoring/README.md) | Coming Soon|  
-| Stack Monitoring | WIP | Coming Soon| 
-| Organization Management | WIP | Coming Soon| 
-| Cost Management | WIP | Coming Soon| 
-| OCI Monitoring | WIP | Coming Soon| 
+|Observability Service  |  Assets Page| 
+|---|---|
+| Logging Analytics  | [Link](./logging-analytics/README.md) | 
+| Logging  | [Link](./logging/README.md) |  
+| Database Management | [Link](./database-management/README.md)|  
+| Ops Insights  | [Link](./operations-insights/README.md) | 
+| Application Performance Monitoring | [Link](./application-performance-monitoring/README.md) |   
+| Organization Management | WIP |  
+| Cost Management | WIP |  
+| OCI Monitoring | WIP |  
 
 &nbsp; 
 
-|Observability Targets  |  Assets Page| Latest | 
-|---|---|---|
-| Autonomous Database  | WIP | Coming Soon
-| Database Cloud Service  | WIP | Coming Soon  |  
-| Exadata cloud@customer | WIP| Coming Soon |  
-| Exadata Cloud Service  | WIP | Coming Soon|  
-| DB@  | WIP | Coming Soon|  
-| External Oracle DB| [Link](./shared-assets/external-database-enablement/README.md) | Coming Soon| 
-| EBS | WIP | Coming Soon| 
-| Webogic | WIP | Coming Soon| 
-| Apex | WIP | Coming Soon| 
-| OCI CI Container Instance | [Link](https://github.com/adibirzu/oci-container-monitoring)  | | 
-| .... |  | | 
-| .... |  | | 
+|Observability Targets  |  Assets Page|  
+|---|---|
+| Autonomous Database  | [Link](https://medium.com/@erikasciunzi/how-to-enable-oci-observability-on-autonomous-shared-database-716b623d1f15) | 
+| Database Cloud Service  | [Link](https://medium.com/learnoci/enable-observability-for-oci-native-database-deploy-235484953e46) |  
+| Exadata cloud@customer | [Link](https://learnoci.cloud/how-to-enable-oci-observability-services-on-exadata-cloud-customer-9501dcaa356e) |  
+| Exadata Cloud Service  | [Link](https://medium.com/learnoci/enable-observability-for-oci-native-database-deploy-235484953e46)|  
+| DB@GCP  | [Link](https://docs.oracle.com/en-us/iaas/Content/database-at-gcp/gcpmn-monitor.html)|  
+| DB@Azure |[Link](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/azumn-monitor.html)| 
+| DB@AWS | [Link](https://docs.oracle.com/en-us/iaas/Content/database-at-aws-exadata-awsmn/awsmn-monitor.html)| 
+| External Oracle DB| [Link](./shared-assets/external-database-enablement/README.md) | 
+| EBS | WIP | 
+| Webogic | WIP |
+| Apex | WIP | 
+| OCI CI Container Instance | [Link](https://github.com/adibirzu/oci-container-monitoring)  |
+| .... |  |
+| .... |  | 
 
 &nbsp; 
 
@@ -89,7 +90,7 @@ Reviewed: Reviewed: 05.11.2025
 - [OCI Observability for Kubernetes Monitoring](https://youtu.be/DLce-UReoKo?si=Vpw19z4rjlUb9fW2)
 - [Cloud Coaching - How to enable Oracle Observability on RAG solutions](https://www.youtube.com/watch?v=VQg3lADHwu8)
 - [Building a Cyber Range in Oracle Cloud](https://www.youtube.com/watch?v=hFGeT5pQOrw)
-- -[OCI Log Analytics & Gen AI Real-Time Intelligence](https://www.youtube.com/watch?v=ftScF8ZBXos)
+- [OCI Log Analytics & Gen AI Real-Time Intelligence](https://www.youtube.com/watch?v=ftScF8ZBXos)
 
 # Useful Links
 
@@ -103,7 +104,7 @@ Reviewed: Reviewed: 05.11.2025
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

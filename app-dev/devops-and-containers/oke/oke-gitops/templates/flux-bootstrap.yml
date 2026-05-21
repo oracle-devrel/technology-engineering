@@ -6,13 +6,14 @@ metadata:
 spec:
   distribution:
     version: "2.x"
-    registry: "${region_key}.ocir.io/${tenancy_namespace}/${repo_prefix}/fluxcd"
+    registry: "${region_key}.ocir.io/${tenancy_namespace}/${repo_prefix}"
     variant: "upstream-alpine"
     imagePullSecret: "ocirsecret"
   components:
     - source-controller
     - kustomize-controller
     - helm-controller
+    - notification-controller
   cluster:
     type: kubernetes
     size: medium

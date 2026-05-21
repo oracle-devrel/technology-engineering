@@ -53,6 +53,8 @@ variableGroups:
       - create_pod_subnet
       - pod_subnet_name
       - allow_pod_nat_egress
+      - create_additional_pod_cidr
+      - additional_pod_cidr
 
   - title: "FSS"
     variables:
@@ -223,7 +225,6 @@ variables:
             - ${cni_type}
             - vcn_native
 
-
   pod_subnet_name:
     title: "Pod subnet name"
     description: "OKE pods will have an IP address assigned from this subnet"
@@ -245,6 +246,36 @@ variables:
       eq:
         - ${cni_type}
         - vcn_native
+
+  create_additional_pod_cidr:
+    title: "Create additional CIDR blocks for Pod subnet"
+    description: "Extend the pod subnet with additional CIDR blocks"
+    type: boolean
+    visible:
+      and:
+        - ${create_pod_subnet}
+        - ${create_vcn}
+        - eq:
+            - ${cni_type}
+            - vcn_native
+
+  additional_pod_cidr:
+    title: "Additional Pod CIDR"
+    description: "Additional Pod CIDR block to be added on the pod subnet. MUST be between /16 and /30 NOTE: only one add/remove or modification is allowed at once"
+    type: array
+    items:
+      type: string
+      pattern: "^(?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){2}0\\.0\\/16|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){2}(?:0|128)\\.0\\/17|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){2}(?:0|64|128|192)\\.0\\/18|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){2}(?:0|32|64|96|128|160|192|224)\\.0\\/19|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){2}(?:0|16|32|48|64|80|96|112|128|144|160|176|192|208|224|240)\\.0\\/20|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){2}(?:0|8|16|24|32|40|48|56|64|72|80|88|96|104|112|120|128|136|144|152|160|168|176|184|192|200|208|216|224|232|240|248)\\.0\\/21|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){2}(?:0|4|8|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96|100|104|108|112|116|120|124|128|132|136|140|144|148|152|156|160|164|168|172|176|180|184|188|192|196|200|204|208|212|216|220|224|228|232|236|240|244|248|252)\\.0\\/22|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){2}(?:0|2|4|6|8|[1-9][02468]|[1-9][13579][02468]|1[0-9][02468]|2[0-4][02468]|25[024])\\.0\\/23|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}0\\/24|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(?:0|128)\\/25|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(?:0|64|128|192)\\/26|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(?:0|32|64|96|128|160|192|224)\\/27|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(?:0|16|32|48|64|80|96|112|128|144|160|176|192|208|224|240)\\/28|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(?:0|8|16|24|32|40|48|56|64|72|80|88|96|104|112|120|128|136|144|152|160|168|176|184|192|200|208|216|224|232|240|248)\\/29|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(?:0|4|8|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96|100|104|108|112|116|120|124|128|132|136|140|144|148|152|156|160|164|168|172|176|180|184|188|192|196|200|204|208|212|216|220|224|228|232|236|240|244|248|252)\\/30)$"
+    required: true
+    minItems: 1
+    visible:
+      and:
+        - ${create_pod_subnet}
+        - ${create_additional_pod_cidr}
+        - ${create_vcn}
+        - eq:
+            - ${cni_type}
+            - vcn_native
 
 # LB SUBNETS
 
@@ -495,7 +526,7 @@ variables:
 
   peer_vcns:
     title: "Peer VCN CIDR blocks"
-    description: "A routing rule will be created on all private subnets to route traffic directed to these CIDR blocks to the DRG"
+    description: "A routing rule will be created on all private subnets to route traffic directed to these CIDR blocks to the DRG. If 0.0.0.0/0 is specified, only a stateful egress rule will be inserted in the peering NSG"
     type: array
     items:
       type: string

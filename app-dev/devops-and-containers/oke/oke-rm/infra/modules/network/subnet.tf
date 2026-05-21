@@ -54,13 +54,13 @@ resource "oci_core_subnet" "worker_subnet" {
   route_table_id             = oci_core_route_table.worker_route_table.0.id
   security_list_ids          = [oci_core_security_list.worker_sl.0.id]
   dhcp_options_id            = oci_core_dhcp_options.worker_dhcp[0].id
-  freeform_tags              = var.tag_value.freeformTags
+  freeform_tags              = merge(var.tag_value.freeformTags, local.karpenter_worker_role_freeform_tag)
   defined_tags               = var.tag_value.definedTags
   count                      = local.create_worker_subnet ? 1 : 0
 }
 
 resource "oci_core_subnet" "pods_subnet" {
-  cidr_block                 = var.pod_subnet_cidr
+  ipv4cidr_blocks            = local.pod_ipv4cidr_blocks
   compartment_id             = var.network_compartment_id
   vcn_id                     = local.vcn_id
   dns_label                  = var.pod_subnet_dns_label
@@ -69,7 +69,7 @@ resource "oci_core_subnet" "pods_subnet" {
   route_table_id             = oci_core_route_table.pod_route_table.0.id
   security_list_ids          = [oci_core_security_list.pod_sl.0.id]
   dhcp_options_id            = oci_core_dhcp_options.pods_dhcp[0].id
-  freeform_tags              = var.tag_value.freeformTags
+  freeform_tags              = merge(var.tag_value.freeformTags, local.karpenter_pod_role_freeform_tag)
   defined_tags               = var.tag_value.definedTags
   count                      = local.create_pod_subnet ? 1 : 0
 }

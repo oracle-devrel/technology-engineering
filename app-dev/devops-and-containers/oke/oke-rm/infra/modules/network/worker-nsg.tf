@@ -1,7 +1,7 @@
 resource "oci_core_network_security_group" "worker_nsg" {
   compartment_id = var.network_compartment_id
   vcn_id         = local.vcn_id
-  freeform_tags  = var.tag_value.freeformTags
+  freeform_tags  = merge(var.tag_value.freeformTags, local.karpenter_worker_role_freeform_tag)
   defined_tags   = var.tag_value.definedTags
   display_name   = "worker"
 }

@@ -12,7 +12,7 @@ The asset is broken down into three sections:
 
 ![What will we cover in this series about OCI APM?](images/series-scope-introduction.png)
 
-Reviewed: 16.01.2026
+Reviewed: 24.04.2026
 
 # When to use this asset?
 
@@ -30,4 +30,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

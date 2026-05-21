@@ -10,7 +10,7 @@ Today, IT observability is made up of three types of telemetry, which all show t
 
 - **Traces**: Hierarchical records of execution showing how operations call each other, captured either within a single process (stack trace) or across distributed systems of servers/containers (distributed trace). Each level records what operation ran, how long it took, and its relationship to parent and child operations. This structure helps understand execution flow for troubleshooting and identify bottlenecks.
 
-OCI's Observability & Management platform provides tools for all telemetry, but I want to focus on the distributed traces. OCI APM collects frontend-to-backend traces. This helps you spot performance bottlenecks in a distributed application environment running as servers or containers:
+OCI's Observability & Management platform provides tools for all telemetry, but this series will focus on the distributed traces. OCI APM collects frontend-to-backend traces. This helps you spot performance bottlenecks in a distributed application environment running as servers or containers:
 
 ![Frontend-to-backend application trace in distributed environment](images/distributed-trace-flow.png)
 
@@ -20,13 +20,13 @@ If a user clicks on a button in a browser, this creates a request to a service t
 
 Some basic APM terminology that we are going to stick to from now on:
 
-- The servers/containers of distributed environments are referred to as **services**.
+- A **service** is a logical grouping of servers or containers. Each service represents a distinct part of a distributed application, such as a frontend or a backend component.
 
 - A sequence of operations is called a **trace**.
 
 - Individual operations in a trace are called **spans**. A trace starts with a **root span**, which can be the parent of several **child spans**.
 
-- Enabling APM trace collection on an application is called **instrumentation** or **to instrument**.
+- Enabling APM trace collection on an application is called **instrumentation**.
 
 We will first have a look at [how to discover performance bottlenecks in APM](./discover-application-bottlenecks.md) before investigating the relevant traces for more details in the Trace Explorer.
 
@@ -36,4 +36,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

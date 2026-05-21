@@ -93,6 +93,14 @@ variable "allow_pod_nat_egress" {
   type = bool
 }
 
+variable "create_additional_pod_cidr" {
+  type = bool
+}
+
+variable "additional_pod_cidr" {
+  type = list(string)
+}
+
 # LB SUBNETS
 
 variable "create_external_lb_subnet" {

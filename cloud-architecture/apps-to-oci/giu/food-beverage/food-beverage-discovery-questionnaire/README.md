@@ -2,7 +2,7 @@
 
 This asset helps the customer and/or the partner to conduct a thorough discovery phase gathering all the necessary information for a proper design of Oracle Food and Beverage applications on OCI.
 
-Reviewed: 25.11.2025
+Reviewed: 15.05.2026
 
 # When to use this asset?
 
@@ -14,7 +14,7 @@ The information is generic in nature and not specified for a particular customer
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
