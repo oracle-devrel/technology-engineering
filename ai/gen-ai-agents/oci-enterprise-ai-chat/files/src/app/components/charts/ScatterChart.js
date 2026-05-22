@@ -130,7 +130,7 @@ export default function ScatterChart({ data, title = "Defect Analysis" }) {
     xLabel.setAttribute("y", plotHeight + 35);
     xLabel.setAttribute("text-anchor", "middle");
     xLabel.setAttribute("font-size", "12");
-    xLabel.setAttribute("font-family", "var(--font-exo2), sans-serif");
+    xLabel.setAttribute("font-family", "var(--font-oracle-sans), sans-serif");
     xLabel.setAttribute("fill", "#666");
     xLabel.textContent = "Operating Hours per Day";
     g.appendChild(xLabel);
@@ -141,7 +141,7 @@ export default function ScatterChart({ data, title = "Defect Analysis" }) {
     yLabel.setAttribute("text-anchor", "middle");
     yLabel.setAttribute("transform", `rotate(-90, -35, ${plotHeight / 2})`);
     yLabel.setAttribute("font-size", "12");
-    yLabel.setAttribute("font-family", "var(--font-exo2), sans-serif");
+    yLabel.setAttribute("font-family", "var(--font-oracle-sans), sans-serif");
     yLabel.setAttribute("fill", "#666");
     yLabel.textContent = "Defect Rate (%)";
     g.appendChild(yLabel);
@@ -152,7 +152,7 @@ export default function ScatterChart({ data, title = "Defect Analysis" }) {
     safeLabel.setAttribute("y", 15);
     safeLabel.setAttribute("text-anchor", "middle");
     safeLabel.setAttribute("font-size", "10");
-    safeLabel.setAttribute("font-family", "var(--font-exo2), sans-serif");
+    safeLabel.setAttribute("font-family", "var(--font-oracle-sans), sans-serif");
     safeLabel.setAttribute("fill", "#4caf50");
     safeLabel.setAttribute("font-weight", "bold");
     safeLabel.textContent = "SAFE ZONE";
@@ -163,7 +163,7 @@ export default function ScatterChart({ data, title = "Defect Analysis" }) {
     dangerLabel.setAttribute("y", 15);
     dangerLabel.setAttribute("text-anchor", "middle");
     dangerLabel.setAttribute("font-size", "10");
-    dangerLabel.setAttribute("font-family", "var(--font-exo2), sans-serif");
+    dangerLabel.setAttribute("font-family", "var(--font-oracle-sans), sans-serif");
     dangerLabel.setAttribute("fill", "#f44336");
     dangerLabel.setAttribute("font-weight", "bold");
     dangerLabel.textContent = "HIGH RISK";
@@ -216,7 +216,7 @@ export default function ScatterChart({ data, title = "Defect Analysis" }) {
             fontSize: "1.1rem",
             fontWeight: 500,
             color: "#333",
-            fontFamily: "var(--font-exo2), sans-serif",
+            fontFamily: "var(--font-oracle-sans), sans-serif",
           }}
         >
           {title}

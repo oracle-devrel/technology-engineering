@@ -17,7 +17,7 @@ const STORAGE_KEYS = {
 };
 
 const DEFAULT_UI_SETTINGS = {
-  appTitle: "OCI Enterprise AI Agents",
+  appTitle: "OCI Enterprise AI",
   appLogo: "",
   welcomeMessage: "Welcome back!",
   inputPlaceholder: "Type anything...",

@@ -7,7 +7,7 @@ import { palette } from "./palette";
 const theme = createTheme({
   palette,
   typography: {
-    fontFamily: "var(--font-exo2), sans-serif",
+    fontFamily: "var(--font-oracle-sans), sans-serif",
   },
   shape: {
     borderRadius: 14,
