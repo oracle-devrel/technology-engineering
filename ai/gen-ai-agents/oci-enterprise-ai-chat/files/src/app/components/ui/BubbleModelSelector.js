@@ -339,7 +339,7 @@ export default function BubbleModelSelector({
                               borderRadius: "8px",
                               bgcolor: isSelected ? "rgba(255,255,255,0.2)" : "rgba(245,158,11,0.12)",
                               color: isSelected ? "rgba(255,255,255,0.8)" : "#b45309",
-                              fontFamily: "var(--font-exo2), sans-serif",
+                              fontFamily: "var(--font-oracle-sans), sans-serif",
                               fontSize: "0.6rem",
                               fontWeight: 600,
                               lineHeight: 1.2,

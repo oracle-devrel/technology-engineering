@@ -10,7 +10,7 @@ export default function SplashPage() {
   const router = useRouter();
   const [isLoaded, setIsLoaded] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
-  const [appTitle, setAppTitle] = useState("OCI Enterprise AI Agents");
+  const [appTitle, setAppTitle] = useState("OCI Enterprise AI");
   const [appLogo, setAppLogo] = useState("");
 
   useEffect(() => {
@@ -20,10 +20,10 @@ export default function SplashPage() {
       if (stored) {
         try {
           const parsedSettings = JSON.parse(stored);
-          setAppTitle(parsedSettings.appTitle || "OCI Enterprise AI Agents");
+          setAppTitle(parsedSettings.appTitle || "OCI Enterprise AI");
           setAppLogo(parsedSettings.appLogo || "");
           // Update document title
-          document.title = parsedSettings.appTitle || "OCI Enterprise AI Agents";
+          document.title = parsedSettings.appTitle || "OCI Enterprise AI";
         } catch (e) {
           console.error('Error parsing UI settings:', e);
         }

@@ -258,7 +258,11 @@ export default function ToolsTab() {
 
   // Sync addon tools as MCP servers based on enabled state
   const syncAddonServers = (enabledState) => {
-    const currentServers = MCPService.getServers();
+    let currentServers = MCPService.getServers();
+
+    // Prune orphaned addon entries (addon was removed from ADDON_TOOLS, e.g. INTERNAL_ADDONS cleared on public branch)
+    const validAddonIds = new Set(ADDON_TOOLS.filter(a => !a.isNative).map(a => a.id));
+    currentServers = currentServers.filter(s => !s.isAddon || validAddonIds.has(s.id));
 
     ADDON_TOOLS.filter(a => !a.isNative).forEach(addon => {
       const exists = currentServers.find(s => s.id === addon.id);
@@ -930,6 +934,9 @@ export default function ToolsTab() {
       authType: serverData.authType,
       authKey: serverData.authKey,
       oauth: serverData.oauth,
+      requireApproval: !!serverData.requireApproval,
+      // Strip the legacy per-tool array if it was present in storage.
+      requireApprovalTools: undefined,
     };
     MCPService.updateServer(id, updates);
     setServers(prev => prev.map(s => (s.id === id ? { ...s, ...updates } : s)));
@@ -2154,7 +2161,7 @@ export default function ToolsTab() {
               <Box sx={{ p: 2 }}>
                 <ToolForm
                   mode="edit"
-                  initialValues={server}
+                  initialValues={{ ...server, tools: serverTools[server.id] || [] }}
                   onSave={handleSaveEdit}
                   onCancel={handleCancelEdit}
                 />

@@ -9,9 +9,12 @@ async function initAuth() {
   if (authProvider) return;
 
   const useResourcePrincipal = process.env.USE_RESOURCE_PRINCIPAL === 'true';
+  const useInstancePrincipal = process.env.USE_INSTANCE_PRINCIPAL === 'true';
 
   if (useResourcePrincipal) {
     authProvider = oci.common.ResourcePrincipalAuthenticationDetailsProvider.builder();
+  } else if (useInstancePrincipal) {
+    authProvider = await oci.common.InstancePrincipalsAuthenticationDetailsProviderBuilder().build();
   } else {
     authProvider = new oci.ConfigFileAuthenticationDetailsProvider(
       process.env.OCI_CONFIG_FILE || '~/.oci/config',
