@@ -21,5 +21,5 @@ tiktoken==0.7.0
 numpy==1.26.4
 
 # Agent Framework Dependencies
-langchain==0.2.14
+langchain==0.3.30
 pydantic==2.8.2
