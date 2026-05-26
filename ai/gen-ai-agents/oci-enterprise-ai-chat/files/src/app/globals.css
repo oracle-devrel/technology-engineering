@@ -29,9 +29,9 @@ h6 {
 }
 
 .markdown-content {
-  font-family: var(--font-exo2), sans-serif !important;
+  font-family: var(--font-oracle-sans), sans-serif !important;
 }
 
 .markdown-content span {
-  font-family: var(--font-exo2), sans-serif !important;
+  font-family: var(--font-oracle-sans), sans-serif !important;
 }

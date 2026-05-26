@@ -1,4 +1,4 @@
-# OCI Enterprise AI Agents
+# OCI Enterprise AI
 
 A chat interface and agent hub for [Oracle Cloud Infrastructure Enterprise AI](https://www.oracle.com/artificial-intelligence/enterprise-ai/). Streaming responses, MCP tool integration, OAuth2 SSO, and a full settings workbench to tailor the assistant to each deployment.
 
@@ -21,7 +21,7 @@ Open [http://localhost:3000](http://localhost:3000). On first run, create a `.en
 - Node.js 22+ (the Dockerfile uses `node:22-alpine`)
 - An OCI tenancy with access to **Generative AI** (Projects, inference, vector & semantic stores) and **Generative AI Agents** (memory, agent flows)
 - Locally: `~/.oci/config` with a valid API key
-- In a container: **Resource Principal** configured on the Container Instance
+- In a Container Instance: **Resource Principal** (or **Instance Principal** for a Compute VM)
 
 ---
 
@@ -39,8 +39,16 @@ OCI_GENAI_PROJECT_ID=ocid1.generativeaiproject.oc1..xxxxx
 OCI_CONFIG_FILE=~/.oci/config
 OCI_CONFIG_PROFILE=DEFAULT
 
-# Container deployments (Resource Principal instead of config file)
+# Container Instance deployments (Resource Principal instead of config file)
 USE_RESOURCE_PRINCIPAL=true
+
+# Compute VM deployments (Instance Principal instead of config file)
+# USE_INSTANCE_PRINCIPAL=true
+
+# Frontend → backend API base URL. Only needed when the browser cannot reach the
+# Next.js API routes via a relative path — e.g. when fronted by an API Gateway
+# with a path prefix. Default: same origin + /api.
+# NEXT_PUBLIC_GENAI_API_URL=https://your-apigw.example.com/api
 ```
 
 > **About the Project.** A **Project** is the OCI Generative AI resource that organizes conversations, responses, files, and sandboxes: it's required for any OpenAI-compatible API call. It's also where you configure data retention (max 720h for both responses and conversations), short-term memory compaction, and long-term memory extraction/embedding models. Memory and compaction settings are **set at project creation and cannot be changed later**, so plan ahead. Create one in the OCI Console under *Analytics & AI → Generative AI → Projects*.
@@ -67,7 +75,7 @@ LOG_LEVEL=info
 
 ### Models
 
-Models are **discovered dynamically** via `listModels` against the configured compartment. Whatever is enabled in your tenancy shows up in the model picker. No env var needed.
+Models are defined as a static list in `src/app/page.js` (`STATIC_MODELS`). To add or remove a model available in your tenancy, edit that array. No env var needed.
 
 ---
 
@@ -85,7 +93,7 @@ The browser hits `middleware.js` first (session guard). If the user has a valid 
 Real-time SSE streaming, conversation history persisted in OCI Conversation Store and cached locally (IndexedDB), automatic title generation, markdown rendering with code blocks and tables, multi-file attachments.
 
 ### Model picker
-Switch models per conversation. The list is discovered dynamically from the configured compartment, so anything enabled in your tenancy shows up automatically.
+Switch models per conversation. The list is curated in `src/app/page.js` (`STATIC_MODELS`); add the models your tenancy has enabled.
 
 ![Model picker](images/06-model-selector.png)
 
@@ -110,7 +118,7 @@ Toggle per-tool from Settings → Tools → Native:
 ![Tools settings](images/03-settings-tools.png)
 
 ### Custom MCP servers
-Add any MCP endpoint (API key, Bearer token, OAuth2 client credentials, or OAuth 2.1). Test the connection, discover tools, and selectively enable individual functions. Tokens persist through a signed-cookie flow, no secrets stored in localStorage.
+Add any MCP endpoint (API key, Bearer token, OAuth2 client credentials, or OAuth 2.1). Test the connection, discover tools, and selectively enable individual functions. OAuth 2.1 tokens persist through a signed-cookie flow. API keys and OAuth 2.0 `client_secret` values currently live in `localStorage` — for a production multi-user deployment, consider sourcing them from server-side env vars instead.
 
 ![Custom MCP servers](images/03b-settings-tools-custom.png)
 
@@ -148,7 +156,7 @@ The same chat in dark mode:
 ### Authentication
 - **Oracle IDCS SSO** with OAuth2 Authorization Code (handled by `src/middleware.js` + `src/app/lib/auth.js`)
 - **MCP OAuth 2.1** with PKCE for per-tool authorization (`src/app/lib/mcp-oauth.js`)
-- Resource Principal auth when running in an OCI Container Instance
+- Resource Principal auth when running in an OCI Container Instance, or Instance Principal when running on a Compute VM
 
 ### Observability
 Langfuse traces every request when `LANGFUSE_*` env vars are set. The Settings → Observability tab provides an in-app trace viewer.
@@ -182,12 +190,15 @@ src/
     │
     ├── config/
     │   ├── app.js                   # App-wide constants
-    │   └── darkMode.js              # Dark-mode CSS vars + MUI overrides
+    │   ├── darkMode.js              # Dark-mode CSS vars + MUI overrides
+    │   ├── version.js               # APP_VERSION shown in Settings
+    │   ├── models-internal.js       # Internal-only model IDs (empty stub on public branch)
+    │   └── tools-internal.js        # Internal-only marketplace + addons (empty stub on public branch)
     │
     ├── lib/                         # Server-side helpers
     │   ├── auth.js                  #   IDCS session + cookie signing
     │   ├── mcp-oauth.js             #   MCP OAuth 2.1 + PKCE
-    │   ├── oci-auth.js              #   ConfigFile / ResourcePrincipal
+    │   ├── oci-auth.js              #   ConfigFile / Resource Principal / Instance Principal
     │   ├── oci-proxy.js             #   Request signing helpers
     │   ├── oci-headers.js           #   Required OCI headers
     │   └── logger.js                #   Structured logging
@@ -197,8 +208,9 @@ src/
     │   ├── conversationStorage.js   #   IndexedDB cache
     │   ├── mcpService.js            #   MCP client/server mgmt
     │   ├── titleService.js          #   Auto title generation
-    │   ├── oracleSpeechService.js   #   Speech integration
-    │   └── flowService.js           #   Agent flows
+    │   ├── oracleSpeechService.js   #   Oracle speech-to-text
+    │   ├── speechService.js         #   Browser speech-to-text fallback
+    │   └── mockService.js           #   Mock responses for offline demos
     │
     ├── hooks/
     │   └── useChat.js               # Streaming chunk processing + state
@@ -232,7 +244,7 @@ src/
 ![SSO sequence](images/sso-flow.png)
 
 ### MCP tool invocation
-1. OCI executes MCP tools natively via the Responses API. the app **does not run tools itself**
+1. OCI executes MCP tools natively via the Responses API. The app **does not run tools itself** during chat (only for Test Connection / Refresh in Settings).
 2. For OAuth 2.1 MCP servers (e.g. SDD Generator), the client obtains an access token via `/api/mcp/oauth/*` and passes it to OCI in the tool's `authorization` field
 3. Custom servers use the more generic `/api/mcp` JSON-RPC proxy for discovery and direct invocation (outside OCI)
 
@@ -288,11 +300,10 @@ The app runs as a **standalone Next.js build** inside an [OCI Container Instance
    ```
    ALL {resource.type='computecontainerinstance', resource.compartment.id='<compartment-ocid>'}
    ```
-4. **IAM policies**: `Identity → Policies → Create`. Grant the dynamic group access to GenAI, Conversation Store, and any other services you use:
+4. **IAM policies**: `Identity → Policies → Create`. Grant the dynamic group access to GenAI:
    ```
    allow dynamic-group <dg-name> to use generative-ai-family in compartment <compartment-name>
    allow dynamic-group <dg-name> to manage genai-agent-family in compartment <compartment-name>
-   allow dynamic-group <dg-name> to manage objects in compartment <compartment-name>
    ```
 5. **(SSO only)** Register the app in **IDCS** as a Confidential Application with redirect URI `https://<your-domain>/api/auth/callback/oci`. Save the Client ID + Secret for the env vars.
 
@@ -348,6 +359,29 @@ oci container-instances container-instance restart \
 - When the LB-to-backend connection is HTTP (not HTTPS end-to-end), cookies must **not** carry the `Secure` flag. `mcp-oauth.js` and the IDCS auth code already handle this automatically when running over HTTP.
 - All secrets (Client Secret, Session Secret, Langfuse keys) should be set as **environment variables on the Container Instance**, never baked into the image.
 
+### Alternative: deploy on a Compute VM
+
+The app also runs on a regular OCI Compute instance using **Instance Principal** auth. Same flow as above with three differences:
+
+1. **Dynamic Group**: match the Compute instance instead of Container Instances, e.g.
+   ```
+   ALL {instance.compartment.id = '<compartment-ocid>'}
+   ```
+   or pin to a specific instance: `ALL {instance.id = 'ocid1.instance.oc1...'}`
+2. **No OCIR / image step**: clone the repo on the VM and run `npm install && npm run build && npm start` (or use a systemd unit / pm2). The Dockerfile + image push are not needed.
+3. **Env var**: set `USE_INSTANCE_PRINCIPAL=true` instead of `USE_RESOURCE_PRINCIPAL=true`.
+
+The IAM policies and the Load Balancer setup are identical.
+
+### Fronting the app with an API Gateway
+
+If you put an **API Gateway** in front of the app instead of (or in addition to) a Load Balancer, configure the deployment to forward two headers to the backend:
+
+- `Host` — the original public hostname the client used
+- `X-Forwarded-Proto` — `https`
+
+Without these, `getBaseUrl()` builds the wrong `redirect_uri` (using the gateway's internal hostname) and IDCS rejects the SSO callback with `redirect_uri_mismatch`. The same applies to the Load Balancer setup — both should pass `Host` and `X-Forwarded-Proto` through.
+
 ---
 
 ## Commands
@@ -365,7 +399,7 @@ npm run test     # Playwright tests
 ## Troubleshooting
 
 **`Invalid value for required field 'model'`**
-The model you selected is not available on the OpenAI-compatible endpoint. Pick a different model in Settings → AI, or extend the app to hit the native endpoint.
+The model you selected is not available on the OpenAI-compatible endpoint. Pick a different model from the model selector in the chat header, or extend the app to hit the native endpoint.
 
 **`OCI_COMPARTMENT_ID is required`**
 Missing env var. Set it in `.env.local` for local dev or in the Container Instance env for deployment.
@@ -391,7 +425,7 @@ Harmless. Emitted during SSG when charts render with zero-size containers; they 
 - **Framework** — Next.js 16 (App Router, standalone output, Turbopack)
 - **UI** — React 19, MUI v7, Framer Motion, Lucide icons
 - **Charts** — Recharts
-- **OCI** — `oci-sdk` (ConfigFile / Resource Principal auth)
+- **OCI** — `oci-sdk` (ConfigFile / Resource Principal / Instance Principal auth)
 - **Protocols** — Server-Sent Events, JSON-RPC 2.0 (MCP), OAuth 2.1 + PKCE
 - **Observability** — Langfuse (optional)
 - **Testing** — Playwright

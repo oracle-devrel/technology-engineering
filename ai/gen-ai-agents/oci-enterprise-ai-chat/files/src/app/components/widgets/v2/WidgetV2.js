@@ -96,7 +96,7 @@ function WidgetV2({ tree, isComplete, onSubmit, disabled }) {
           ref={scrollRef}
           onScroll={checkScroll}
           sx={{
-            fontFamily: "var(--font-exo2), sans-serif",
+            fontFamily: "var(--font-oracle-sans), sans-serif",
             width: "100%",
             maxWidth: "100%",
             overflowX: "auto",

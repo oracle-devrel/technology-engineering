@@ -59,7 +59,7 @@ export default function CostBenefitChart({ data, title = "Cost-Benefit Analysis"
       valueLabel.setAttribute("y", plotHeight - y + 4);
       valueLabel.setAttribute("text-anchor", "end");
       valueLabel.setAttribute("font-size", "10");
-      valueLabel.setAttribute("font-family", "var(--font-exo2), sans-serif");
+      valueLabel.setAttribute("font-family", "var(--font-oracle-sans), sans-serif");
       valueLabel.setAttribute("fill", "#666");
       valueLabel.textContent = `$${Math.round((maxValue / 5) * i / 1000)}k`;
       g.appendChild(valueLabel);
@@ -99,7 +99,7 @@ export default function CostBenefitChart({ data, title = "Cost-Benefit Analysis"
       value2024.setAttribute("y", plotHeight - bar2024Height - 5);
       value2024.setAttribute("text-anchor", "middle");
       value2024.setAttribute("font-size", "10");
-      value2024.setAttribute("font-family", "var(--font-exo2), sans-serif");
+      value2024.setAttribute("font-family", "var(--font-oracle-sans), sans-serif");
       value2024.setAttribute("fill", "#333");
       value2024.setAttribute("font-weight", "bold");
       value2024.textContent = `$${category.hd2024}`;
@@ -112,7 +112,7 @@ export default function CostBenefitChart({ data, title = "Cost-Benefit Analysis"
       value2025.setAttribute("y", plotHeight - bar2025Height - 5);
       value2025.setAttribute("text-anchor", "middle");
       value2025.setAttribute("font-size", "10");
-      value2025.setAttribute("font-family", "var(--font-exo2), sans-serif");
+      value2025.setAttribute("font-family", "var(--font-oracle-sans), sans-serif");
       value2025.setAttribute("fill", "#333");
       value2025.setAttribute("font-weight", "bold");
       value2025.textContent = `$${category.hd2025}`;
@@ -126,7 +126,7 @@ export default function CostBenefitChart({ data, title = "Cost-Benefit Analysis"
       categoryLabel.setAttribute("y", plotHeight + 25);
       categoryLabel.setAttribute("text-anchor", "middle");
       categoryLabel.setAttribute("font-size", "11");
-      categoryLabel.setAttribute("font-family", "var(--font-exo2), sans-serif");
+      categoryLabel.setAttribute("font-family", "var(--font-oracle-sans), sans-serif");
       categoryLabel.setAttribute("fill", "#666");
       categoryLabel.setAttribute("font-weight", "500");
       
@@ -174,7 +174,7 @@ export default function CostBenefitChart({ data, title = "Cost-Benefit Analysis"
     winnerText.setAttribute("y", plotHeight - chartData[0].hd2024 * scale - 12);
     winnerText.setAttribute("text-anchor", "middle");
     winnerText.setAttribute("font-size", "10");
-    winnerText.setAttribute("font-family", "var(--font-exo2), sans-serif");
+    winnerText.setAttribute("font-family", "var(--font-oracle-sans), sans-serif");
     winnerText.setAttribute("fill", "#4caf50");
     winnerText.setAttribute("font-weight", "bold");
     winnerText.textContent = "WINNER";
@@ -189,7 +189,7 @@ export default function CostBenefitChart({ data, title = "Cost-Benefit Analysis"
     yLabel.setAttribute("text-anchor", "middle");
     yLabel.setAttribute("transform", `rotate(-90, -50, ${plotHeight / 2})`);
     yLabel.setAttribute("font-size", "12");
-    yLabel.setAttribute("font-family", "var(--font-exo2), sans-serif");
+    yLabel.setAttribute("font-family", "var(--font-oracle-sans), sans-serif");
     yLabel.setAttribute("fill", "#666");
     yLabel.textContent = "Cost (USD)";
     g.appendChild(yLabel);
@@ -213,7 +213,7 @@ export default function CostBenefitChart({ data, title = "Cost-Benefit Analysis"
     conclusionTitle.setAttribute("y", 28);
     conclusionTitle.setAttribute("text-anchor", "middle");
     conclusionTitle.setAttribute("font-size", "11");
-    conclusionTitle.setAttribute("font-family", "var(--font-exo2), sans-serif");
+    conclusionTitle.setAttribute("font-family", "var(--font-oracle-sans), sans-serif");
     conclusionTitle.setAttribute("fill", "#2e7d32");
     conclusionTitle.setAttribute("font-weight", "bold");
     conclusionTitle.textContent = "8-Hour Shifts";
@@ -226,7 +226,7 @@ export default function CostBenefitChart({ data, title = "Cost-Benefit Analysis"
     conclusionText1.setAttribute("y", 45);
     conclusionText1.setAttribute("text-anchor", "middle");
     conclusionText1.setAttribute("font-size", "9");
-    conclusionText1.setAttribute("font-family", "var(--font-exo2), sans-serif");
+    conclusionText1.setAttribute("font-family", "var(--font-oracle-sans), sans-serif");
     conclusionText1.setAttribute("fill", "#2e7d32");
     conclusionText1.textContent = "HD-2024 saves";
     conclusionText1.style.opacity = "0";
@@ -238,7 +238,7 @@ export default function CostBenefitChart({ data, title = "Cost-Benefit Analysis"
     conclusionText2.setAttribute("y", 58);
     conclusionText2.setAttribute("text-anchor", "middle");
     conclusionText2.setAttribute("font-size", "9");
-    conclusionText2.setAttribute("font-family", "var(--font-exo2), sans-serif");
+    conclusionText2.setAttribute("font-family", "var(--font-oracle-sans), sans-serif");
     conclusionText2.setAttribute("fill", "#2e7d32");
     conclusionText2.setAttribute("font-weight", "bold");
     conclusionText2.textContent = "$1,300 initially";
@@ -251,7 +251,7 @@ export default function CostBenefitChart({ data, title = "Cost-Benefit Analysis"
     conclusionText3.setAttribute("y", 75);
     conclusionText3.setAttribute("text-anchor", "middle");
     conclusionText3.setAttribute("font-size", "9");
-    conclusionText3.setAttribute("font-family", "var(--font-exo2), sans-serif");
+    conclusionText3.setAttribute("font-family", "var(--font-oracle-sans), sans-serif");
     conclusionText3.setAttribute("fill", "#2e7d32");
     conclusionText3.textContent = "Perfect for your needs!";
     conclusionText3.style.opacity = "0";
@@ -314,7 +314,7 @@ export default function CostBenefitChart({ data, title = "Cost-Benefit Analysis"
             fontSize: "1.1rem",
             fontWeight: 500,
             color: "#333",
-            fontFamily: "var(--font-exo2), sans-serif",
+            fontFamily: "var(--font-oracle-sans), sans-serif",
           }}
         >
           {title}

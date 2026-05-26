@@ -180,11 +180,18 @@ const createGenaiAgentService = () => {
       // try to parse a generic 424 that doesn't tell us who failed.
       const tokenMissing = [];
       const mcpTools = await Promise.all(activeServers.map(async (server) => {
+        // Per-server human approval. OCI Responses API only supports the string forms
+        // ("always" / "never") — the OpenAI-spec object form `{always:{tool_names:[…]}}`
+        // crashes their runtime with a 500. So the toggle is whole-server.
+        // Backward-compat: legacy configs may carry `requireApprovalTools: string[]`.
+        const legacyApprovalNames = Array.isArray(server.requireApprovalTools) ? server.requireApprovalTools : [];
+        const approvalOn = server.requireApproval === true || legacyApprovalNames.length > 0;
+        const requireApproval = approvalOn ? 'always' : 'never';
         const tool = {
           type: 'mcp',
           server_label: sanitizeLabel(server.name),
           server_url: server.endpoint,
-          require_approval: 'never'
+          require_approval: requireApproval,
         };
         if (server.authType === 'oauth2.1') {
           try {
@@ -470,13 +477,21 @@ const createGenaiAgentService = () => {
             onChunk({ function_call: data.function_call });
           }
 
+          // Forward MCP approval request (human-in-the-loop) — the UI renders an
+          // Approve/Reject card; on click we chain a new sendMessage with
+          // previousResponseId and mcp_approval_response input.
+          if (data.mcp_approval_request && onChunk) {
+            onChunk({ mcp_approval_request: data.mcp_approval_request });
+          }
+
           // Track response ID for potential chaining
           if (data.response_id) {
             lastResponseId = data.response_id;
+            if (onChunk) onChunk({ response_id: data.response_id });
           }
 
           // Log unhandled chunk types for debugging
-          if (!data.text && !data.mcp && !data.thinking && !data.annotations && !data.generated_image && !data.reasoning && !data.code_execution && !data.code_delta && !data.code_status && !data.item_error && !data.function_call && !data.done && !data.text_done && !data.conversation_id && !data.response_id && !data.error && !data.response_incomplete) {
+          if (!data.text && !data.mcp && !data.thinking && !data.annotations && !data.generated_image && !data.reasoning && !data.code_execution && !data.code_delta && !data.code_status && !data.item_error && !data.function_call && !data.mcp_approval_request && !data.done && !data.text_done && !data.conversation_id && !data.response_id && !data.error && !data.response_incomplete) {
             console.warn('[Stream] Unhandled chunk type:', Object.keys(data), data);
           }
         }
