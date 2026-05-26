@@ -1,12 +1,12 @@
 # OD@GCP Module Handoff Reference
 
-Last reviewed: 2026-05-20
+Last reviewed: 2026-05-26
 
 This runbook is the implementation companion to [Operational Best Practices for Oracle Database@Google Cloud](./README.md). It shows one practical way to wire the OD@GCP Google Cloud-side modules to the OCI Exadata Database module.
 
 The best-practices document remains the source of truth for control-plane ownership, drift contracts, Day 2 tool selection, and exception rules. This runbook focuses only on the normal implementation path and post-handoff checks.
 
-For the recommended GitOps repository, state, and operations model, see [GitOps Repository, State, and Operations Design for Oracle Database@Google Cloud](./odgcp-gitops-repository-state-and-operations-design.md).
+For the recommended GitOps repository, state, and operations model, see [GitOps Repository, State, and Operations Design for Oracle Database@Google Cloud](./gitops-design.md).
 
 ## Table Of Contents
 
@@ -37,7 +37,7 @@ This runbook covers the normal handoff path across four steps:
 
 This runbook does not cover patching, upgrades, support procedures, or the OCI Terraform exception path for Infrastructure / VM Cluster updates. Those topics are covered in [Operational Best Practices for Oracle Database@Google Cloud](./README.md).
 
-This runbook also does not define the full GitOps repository and state model. That design is covered in [GitOps Repository, State, and Operations Design for Oracle Database@Google Cloud](./odgcp-gitops-repository-state-and-operations-design.md).
+This runbook also does not define the full GitOps repository and state model. That design is covered in [GitOps Repository, State, and Operations Design for Oracle Database@Google Cloud](./gitops-design.md).
 
 ## 2. Reference Examples
 
@@ -46,7 +46,7 @@ This runbook also does not define the full GitOps repository and state model. Th
 | [`modules/odb-networking/examples/basic`](https://github.com/oci-landing-zones/terraform-oci-multicloud-google/tree/release-0.2.0/modules/odb-networking/examples/basic) | A standalone networking stack that creates ODB Network and ODB Subnets. |
 | [`modules/exadb/examples/cluster`](https://github.com/oci-landing-zones/terraform-oci-multicloud-google/tree/release-0.2.0/modules/exadb/examples/cluster) | A VM Cluster consumer stack that receives dependency maps from upstream stacks. |
 | [`modules/exadb/examples/vision`](https://github.com/oci-landing-zones/terraform-oci-multicloud-google/tree/release-0.2.0/modules/exadb/examples/vision) | A single-root local validation example. Useful for labs, not the preferred production split. |
-| [`modules/exadb/examples/oci-dbhome-handoff`](https://github.com/oci-landing-zones/terraform-oci-multicloud-google/tree/release-0.2.0/modules/exadb/examples/oci-dbhome-handoff) | A wrapper pattern that resolves `vm_cluster_key` from the Google Cloud-side VM Cluster output and passes the OCI Cloud VM Cluster OCID to the OCI Exadata Database module. |
+| [`modules/exadb/examples/oci-dbhome-handoff`](https://github.com/oci-landing-zones/terraform-oci-multicloud-google/tree/release-0.2.0/modules/exadb/examples/oci-dbhome-handoff) | A wrapper pattern that resolves `vm_cluster_id` from the Google Cloud-side VM Cluster output and passes the OCI Cloud VM Cluster OCID to the OCI Exadata Database module. |
 | [`terraform-oci-modules-exadata/exadata-database`](https://github.com/oci-landing-zones/terraform-oci-modules-exadata/tree/main/exadata-database) | The OCI module used for DB Homes, CDBs/databases, PDBs, database-level backup configuration where required, and controlled exceptions. |
 
 Executable module references in the examples below use pinned tags. For production, replace those tags with the release tag or commit SHA validated by the customer.
@@ -74,10 +74,10 @@ flowchart LR
   NET["<b>01 - gcp-networking state</b><br/>module: modules/odb-networking<br/><br/>Creates:<br/>ODB Network<br/>Client ODB Subnet<br/>Backup ODB Subnet"]
   NETOUT["<b>Networking dependency maps</b><br/>gcp_odb_networks_dependency<br/>gcp_odb_subnets_dependency<br/><br/>Passed by orchestration layer"]
   EXA["<b>02 - gcp-exadb state</b><br/>module: modules/exadb<br/><br/>Creates:<br/>Cloud Exadata Infrastructure<br/>Cloud VM Cluster"]
-  EXAOUT["<b>VM Cluster handoff contract</b><br/>gcp_cloud_vm_clusters_dependency<br/><br/>id = Google Cloud resource name<br/>ocid = OCI Cloud VM Cluster OCID<br/>oci_region = OCI region<br/>state = AVAILABLE"]
+  EXAOUT["<b>VM Cluster handoff contract</b><br/>gcp_cloud_vm_clusters_dependency<br/><br/>id = Google Cloud resource name<br/>ocid = OCI Cloud VM Cluster OCID<br/>state = AVAILABLE"]
   CHOICE{"<b>OCI DB layer input</b>"}
   DIRECT["<b>Path A - Direct OCID</b><br/>recommended for orchestrated flows<br/><br/>Input:<br/>vm_cluster_id = OCI OCID"]
-  WRAP["<b>Path B - Handoff wrapper</b><br/>optional adapter<br/><br/>Input:<br/>vm_cluster_key<br/><br/>Resolves OCI OCID"]
+  WRAP["<b>Path B - Handoff wrapper</b><br/>optional adapter<br/><br/>Input:<br/>vm_cluster_id = dependency key<br/><br/>Resolves OCI OCID"]
   OCI["<b>03 - oci-db-layer state</b><br/>module: exadata-database<br/><br/>Creates:<br/>DB Homes<br/>CDBs / Databases<br/>PDBs<br/>Database-level backup config"]
   CHECK["<b>04 - Post-handoff checks</b><br/>plan owning stacks<br/>expected drift accepted<br/>unexpected drift visible"]
 
@@ -103,8 +103,6 @@ flowchart LR
 
 For production, pass dependency maps through the selected orchestration layer, such as Terragrunt dependencies, `terraform_remote_state`, HCP Terraform / Terraform Enterprise workspace outputs, or CI/CD pipeline variables/artifacts.
 
-File-based JSON handoff with `output_path` and `*_dependency_file_path` is useful for local validation, examples, and demos, but it should not be the default production integration contract.
-
 | Stack | Module | Long-lived owner |
 |---|---|---|
 | `01-gcp-networking` | `modules/odb-networking` | ODB Network and ODB Subnets. |
@@ -126,24 +124,24 @@ module "odb_networking" {
   default_gcp_oracle_zone = var.gcp_oracle_zone
 
   gcp_odb_networks_configuration = {
-    primary = {
+    PRIMARY = {
       odb_network_id = "odbnet-${var.env}"
       network        = var.shared_vpc_self_link
     }
   }
 
   gcp_odb_subnets_configuration = {
-    client = {
-      odb_subnet_id   = "odbsub-client-${var.env}"
-      cidr_range      = var.client_cidr
-      purpose         = "CLIENT_SUBNET"
-      odb_network_key = "primary"
+    CLIENT = {
+      odb_subnet_id = "odbsub-client-${var.env}"
+      cidr_range    = var.client_cidr
+      purpose       = "CLIENT_SUBNET"
+      odb_network   = "PRIMARY"
     }
-    backup = {
-      odb_subnet_id   = "odbsub-backup-${var.env}"
-      cidr_range      = var.backup_cidr
-      purpose         = "BACKUP_SUBNET"
-      odb_network_key = "primary"
+    BACKUP = {
+      odb_subnet_id = "odbsub-backup-${var.env}"
+      cidr_range    = var.backup_cidr
+      purpose       = "BACKUP_SUBNET"
+      odb_network   = "PRIMARY"
     }
   }
 }
@@ -153,22 +151,20 @@ The networking stack publishes the following dependency maps for downstream stac
 
 ```hcl
 gcp_odb_networks_dependency = {
-  primary = { id = "<odb-network-resource-name>" }
+  PRIMARY = { id = "<odb-network-resource-name>" }
 }
 
 gcp_odb_subnets_dependency = {
-  client = {
+  CLIENT = {
     id      = "<client-odb-subnet-resource-name>"
     purpose = "CLIENT_SUBNET"
   }
-  backup = {
+  BACKUP = {
     id      = "<backup-odb-subnet-resource-name>"
     purpose = "BACKUP_SUBNET"
   }
 }
 ```
-
-For local validation or demos, `output_path` and example-level `*_dependency_file_path` inputs can be used if the selected example supports file-based handoff.
 
 ## 6. Step 2 - Google Cloud Exadata Stack
 
@@ -188,7 +184,7 @@ module "exadb" {
   ssh_public_keys_file_path = var.ssh_public_keys_file_path
 
   gcp_cloud_exadata_infrastructures_configuration = {
-    primary = {
+    PRIMARY = {
       cloud_exadata_infrastructure_id = "exa-${var.env}"
       display_name                    = "exa-${var.env}"
       properties = {
@@ -200,13 +196,13 @@ module "exadb" {
   }
 
   gcp_cloud_vm_clusters_configuration = {
-    primary = {
+    PRIMARY = {
       cloud_vm_cluster_id        = "vmc-${var.env}"
       display_name               = "vmc-${var.env}"
-      exadata_infrastructure_key = "primary"
-      odb_network_key            = "primary"
-      odb_subnet_key             = "client"
-      backup_odb_subnet_key      = "backup"
+      exadata_infrastructure     = "PRIMARY"
+      odb_network                = "PRIMARY"
+      odb_subnet                 = "CLIENT"
+      backup_odb_subnet          = "BACKUP"
       properties = {
         license_type            = "BRING_YOUR_OWN_LICENSE"
         gi_version              = var.gi_version
@@ -225,26 +221,27 @@ module "exadb" {
 }
 ```
 
-Publish a small, sanitized handoff contract. The `ocid` field is the key value consumed by the OCI database layer and OCI-native tools. The `oci_region` field should be used by the OCI provider configuration. The `state` field is used by the optional handoff wrapper for pre-flight validation.
+Publish a small, sanitized handoff contract. The `ocid` field is the key value consumed by the OCI database layer and OCI-native tools. The `state` field is used by the optional handoff wrapper for pre-flight validation.
 
-The `oci_region` field is not a direct module output. Derive it from the OCID — it is the fourth dot-separated segment (e.g., `ocid1.cloudvmcluster.oc1.<oci-region>.<unique-id>`) — or resolve it in the orchestration layer. Including it explicitly in the handoff contract prevents the OCI provider configuration from depending on manual region mapping.
+The OCI region is not a direct module output. Derive it from the OCID — it is the fourth dot-separated segment (e.g., `ocid1.cloudvmcluster.oc1.<oci-region>.<unique-id>`) — or resolve it in the orchestration layer. Pass it as a separate input to the OCI provider configuration; do not add it to the `gcp_cloud_vm_clusters_dependency` map, which only accepts `id`, `name`, `ocid`, and `state`.
 
 ```hcl
+# gcp_cloud_vm_clusters_dependency passed to the OCI database stack
 gcp_cloud_vm_clusters_dependency = {
-  primary = {
-    id         = "projects/<project>/locations/<gcp-region>/cloudVmClusters/<name>"
-    ocid       = "ocid1.cloudvmcluster.oc1.<unique-id>"
-    oci_region = "<oci-region>"
-    state      = "AVAILABLE"
+  PRIMARY = {
+    id    = "projects/<project>/locations/<gcp-region>/cloudVmClusters/<name>"
+    ocid  = "ocid1.cloudvmcluster.oc1.<unique-id>"
+    state = "AVAILABLE"
   }
 }
+
+# oci_region resolved separately from the OCID and passed to the OCI provider
+oci_region = "<oci-region>"
 ```
 
 Useful evidence fields to capture alongside the OCID: VM Cluster state, OCI compartment ID, OCI region, Google Cloud location, Google Cloud Oracle Database zone, SCAN DNS, listener ports, initial capacity, Grid Infrastructure version, and system version.
 
 Do not copy full real outputs into Git or tickets unless they are sanitized.
-
-For local validation or demos, `output_path` and example-level `*_dependency_file_path` inputs can be used if the selected example supports file-based handoff.
 
 ## 7. Step 3 - OCI Database Layer
 
@@ -258,10 +255,8 @@ Use this path when Terragrunt, `terraform_remote_state`, HCP Terraform / Terrafo
 module "oci_db_layer" {
   source = "git::https://github.com/oci-landing-zones/terraform-oci-modules-exadata.git//exadata-database?ref=v1.1.0"
 
-  default_compartment_id = var.oci_compartment_id
-
   cloud_db_homes_configuration = {
-    dbhome1 = {
+    DBHOME1 = {
       vm_cluster_id = var.vm_cluster_ocid
       display_name  = "dbh-cdb1-${var.env}"
       db_version    = var.db_version
@@ -276,28 +271,29 @@ module "oci_db_layer" {
 
 Do not pass the Google Cloud resource name as `vm_cluster_id`. The OCI module requires the OCI Cloud VM Cluster OCID.
 
-Set the OCI provider region from the validated handoff contract, for example `oci_region`, not from the Google Cloud region.
+Set the OCI provider region from the validated handoff contract, for example the `oci_region` value resolved from the OCID, not from the Google Cloud region.
 
 ### 7.2 Path B - Handoff Wrapper Optional Adapter
 
-Use this path when the OCI stack should reference the Google Cloud-side VM Cluster by logical key, or when no orchestration layer resolves the OCI Cloud VM Cluster OCID before calling the OCI database module. The wrapper resolves the key from the dependency map and validates the handoff contract before forwarding the OCI Cloud VM Cluster OCID to `exadata-database`.
+Use this path when no orchestration layer resolves the OCI Cloud VM Cluster OCID before calling the OCI database module. The wrapper accepts `vm_cluster_id` set to either a direct OCI Cloud VM Cluster OCID or a lookup key from `gcp_cloud_vm_clusters_dependency`. When a lookup key is provided, the wrapper resolves the OCID from the dependency map and validates the handoff contract before forwarding the OCI Cloud VM Cluster OCID to `exadata-database`.
+
+Keys in `gcp_cloud_vm_clusters_dependency` and `cloud_db_homes_configuration` must be uppercase semantic identifiers (e.g., `PRIMARY`, `DBHOME1`).
 
 ```hcl
 module "oci_dbhome_handoff" {
   source = "git::https://github.com/oci-landing-zones/terraform-oci-multicloud-google.git//modules/exadb/examples/oci-dbhome-handoff?ref=release-0.2.0"
 
-  tenancy_ocid           = var.tenancy_ocid
-  region                 = var.oci_region
-  default_compartment_id = var.oci_compartment_id
+  tenancy_ocid = var.tenancy_ocid
+  region       = var.oci_region
 
   gcp_cloud_vm_clusters_dependency = var.gcp_cloud_vm_clusters_dependency
 
   cloud_db_homes_configuration = {
-    dbhome1 = {
-      vm_cluster_key = "primary"
-      display_name   = "dbh-cdb1-${var.env}"
-      db_version     = var.db_version
-      source         = "VM_CLUSTER_NEW"
+    DBHOME1 = {
+      vm_cluster_id = "PRIMARY"   # lookup key resolved against gcp_cloud_vm_clusters_dependency
+      display_name  = "dbh-cdb1-${var.env}"
+      db_version    = var.db_version
+      source        = "VM_CLUSTER_NEW"
     }
   }
 
@@ -306,18 +302,16 @@ module "oci_dbhome_handoff" {
 }
 ```
 
-For local/demo file handoff, use `gcp_cloud_vm_clusters_dependency_file_path` instead of `gcp_cloud_vm_clusters_dependency`. Do not set both.
-
-If the wrapper pattern is used in production, treat it as approved module code: pin the source to a validated tag or commit SHA, or promote the wrapper into the customer’s approved module repository.
+If the wrapper pattern is used in production, treat it as approved module code: pin the source to a validated tag or commit SHA, or promote the wrapper into the customer's approved module repository.
 
 The wrapper validates that:
 
-- only one handoff input style is used;
-- each DB Home sets exactly one of `vm_cluster_key` or `vm_cluster_id`;
-- direct `vm_cluster_id` values are OCI Cloud VM Cluster OCIDs;
-- `vm_cluster_key` exists in the Google Cloud-side VM Cluster dependency map;
-- the referenced VM Cluster has an OCI Cloud VM Cluster OCID;
-- the referenced VM Cluster is `AVAILABLE` when state is present.
+- each DB Home sets `vm_cluster_id` to either an OCI Cloud VM Cluster OCID or a key from `gcp_cloud_vm_clusters_dependency`;
+- `vm_cluster_id` values are not empty or whitespace;
+- direct `vm_cluster_id` values that match the `ocid1.cloudvmcluster.` prefix use the full `ocid1.cloudvmcluster.{realm}.{region}.{id}` format;
+- lookup key values exist in the `gcp_cloud_vm_clusters_dependency` map;
+- each referenced VM Cluster dependency includes a non-null OCI Cloud VM Cluster OCID;
+- each referenced VM Cluster dependency is `AVAILABLE` when state is present.
 
 ## 8. Step 4 - Post-Handoff Checks
 
@@ -335,8 +329,9 @@ After the database layer is created, and after any OCI-side operation that may a
 | Mistake | Why it is a problem |
 |---|---|
 | Passing the Google Cloud resource name as `vm_cluster_id`. | The OCI module requires the OCI Cloud VM Cluster OCID. |
-| Assuming the Google Cloud region is the OCI provider region. | Use the OCI region from the validated handoff contract. The Google Cloud region and OCI region are not the same configuration value. |
-| Treating JSON file handoff as the default production pattern. | JSON handoff is useful for local validation, examples, and demos. Production should use the selected orchestration layer. |
+| Assuming the Google Cloud region is the OCI provider region. | Use the OCI region derived from the VM Cluster OCID. The Google Cloud region and OCI region are not the same configuration value. |
+| Adding `oci_region` to the `gcp_cloud_vm_clusters_dependency` map. | The map type only accepts `id`, `name`, `ocid`, and `state`. Extra attributes cause a Terraform type constraint error. Resolve and pass `oci_region` separately. |
+| Using lowercase keys in `gcp_cloud_vm_clusters_dependency` or `cloud_db_homes_configuration` with the handoff wrapper. | The wrapper validates that these keys are uppercase semantic identifiers. Lowercase keys fail the precondition check. |
 | Importing Infrastructure or VM Cluster into the normal OCI database-layer stack. | It creates a second long-lived owner for resources that the Google Cloud-side stack owns. |
 | Using broad `ignore_changes` blocks. | Broad ignores can hide unknown drift. Keep `ignore_changes` narrow and module-owned. |
 | Copying full real outputs into Git or tickets. | Outputs can include sensitive identifiers or operational details. Sanitize first. |
