@@ -7,7 +7,7 @@ Reviewed: 20.04.2026
  
 # When to use this asset?
  
-[**Logging Analytics: Support for ingesting Fusion Apps logs**](https://docs.oracle.com/en-us/iaas/releasenotes/logging-analytics/nov24-ingest-new-logs.htm) - Logging Analytics now supports the collection of the following 10 Fusion Apps logs. Oracle-defined sources and parsers are now available for ingesting the logs.
+[**Logging Analytics: Support for ingesting Fusion Apps logs**](https://docs.oracle.com/en-us/iaas/releasenotes/log-analytics/nov24-ingest-new-logs.htm) - Logging Analytics now supports the collection of the following 10 Fusion Apps logs. Oracle-defined sources and parsers are now available for ingesting the logs.
 
 During a POC for ingesting this Logs I have used this resources:
 - [**OCI Logging Analytics Collect Logs Using REST API Collection Method**](https://www.ateam-oracle.com/post/oci-logging-analytics-collect-logs-using-rest-api-collection-method)
