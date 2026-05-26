@@ -63,6 +63,8 @@ Reviewed: 07.10.2025
     - Detailed, step-by-step instructions for creating a non-cdb database on exadb-d using Cloud native command line , available on Amalraj Puthenchira's public platform
 - [Migration between different Oracle versions using Remote Clone and DBUpgrade](https://carlosal.wordpress.com/2026/01/21/remote-clone-between-different-database-versions-a-real-case-remote-clone-dbupgrade/https://carlosal.wordpress.com/2026/01/21/remote-clone-between-different-database-versions-a-real-case-remote-clone-dbupgrade/)
     - Blog technical article about how to migrate databases with different versions using Remote Clone and DBUpgrade: a real case. Available on Carlos Álvarez's public platform.
+- [Migrating a 19c PDB Oracle Database to 26ai Using autoupgrade and Refreshable Clone](https://carlosal.wordpress.com/2026/05/25/migrating-a-19c-pdb-oracle-database-to-26ai-using-autoupgrade-and-refreshable-clone/)
+    - Blog technical article that explains in detail how to migrate a 19c PDB to a 26ai CDB using autoupgrade and Refreshable Clone. Available on Carlos Álvarez's public platform.
 
 # Useful Links
 

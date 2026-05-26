@@ -1,5 +1,7 @@
 # CIS Compliance Dashboard
 
+Last update: 2026-05-25.
+
 ## Table of Contents
 
 - [CIS Compliance Dashboard](#cis-compliance-dashboard)
@@ -13,6 +15,8 @@
     - [Step 4: Upload CSV to Log Analytics](#step-4-upload-csv-to-log-analytics)
     - [Step 5: Analyze Data using the CIS Compliance Dashboard](#step-5-analyze-data-using-the-cis-compliance-dashboard)
   - [4. Purging Logs](#4-purging-logs)
+  - [5. Known Issues](#5-known-issues)
+    - [5.1. Failed to upload xxxx.csv: upload\_log\_file() missing 1 required positional argument… 'upload\_name'](#51-failed-to-upload-xxxxcsv-upload_log_file-missing-1-required-positional-argument-upload_name)
 - [License](#license)
 
 ## 1. Overview
@@ -217,6 +221,27 @@ Use the imported CIS Compliance dashboard to analyze the CIS data uploaded to Lo
 ## 4. Purging Logs
 
 If you want to remove the logs sent to Log Analytics you can follow the steps documented [here](https://docs.oracle.com/en-us/iaas/log-analytics/doc/manage-storage.html).
+
+## 5. Known Issues
+
+Here you can find some information about error messages you may find and what to do.
+
+### 5.1. Failed to upload xxxx.csv: upload_log_file() missing 1 required positional argument… 'upload_name'
+
+If while executing the `cisla_upload.py` you find an error like the one below, probably you've an old version of the OCI Python SDK in your machine:
+
+```
+Failed to upload cis_Logging_and_Monitoring_4-17.csv: upload_log_file() missing 1 required positional argument: 'upload_name'
+```
+Problem:
+
+In older versions of the OCI SDK the upload_log_file function required to include the upload_name while in the newer ones it is optional.
+
+Solution:
+
+Update the OCI Python SDK in your machine to >= 2.151.0.
+
+For instructions on how to upgrade, check [OCI Python SDK Installation](https://docs.oracle.com/en-us/iaas/tools/python/latest/installation.html).
 
 # License
 

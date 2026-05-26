@@ -11,6 +11,9 @@ Reviewed: 08.10.2025
 3. [Reusable Assets Overview](#reusable-assets-overview)
  
 # Team Publications
+- [Edition-Aware Upgrade Control with GoldenGate](https://medium.com/@nishar.soneji/edition-aware-upgrade-control-with-oracle-goldengate-48fd5114bb7d)
+    - How to control installer-edition replication during Oracle EBR-based application upgrades
+      
 - [Achieving Data Resiliency with GoldenGate](https://medium.com/@nishar.soneji/achieving-data-resiliency-with-oracle-goldengate-56504b00ac32)
     - True data resiliency is the assurance that enterprise data pipelines are not only highly available under normal and disaster recovery scenarios but are also fully recoverable and restartable after a disruption to provide consistent and complete data to all downstream systems.
 

@@ -1,0 +1,68 @@
+{
+  "triggerPhrases": [
+    "critical",
+    "db",
+    "database",
+    "errors",
+    "prod",
+    "production",
+    "spikes",
+    "ora-",
+    "tns-",
+    "12 hours",
+    "last 12"
+  ],
+  "messages": [
+    {
+      "type": "chip",
+      "chipData": {
+        "icon": "ListTodo",
+        "label": "Planning",
+        "status": "success",
+        "content": "The user asks for critical DB errors over the last 12 hours in PROD and whether there are spikes. I will query the Telemetry API for a summarized view grouped by database and error type, including counts and timestamps. Then I will highlight spikes using hourly deltas and recommend next steps. Tool to call: getDbErrorsSummary."
+      }
+    },
+    {
+      "type": "chip",
+      "chipData": {
+        "icon": "Wrench",
+        "label": "Querying API",
+        "status": "success",
+        "content": {
+          "endpoint": "POST /telemetry/errors-summary",
+          "payload": {
+            "timeWindow": "PT12H",
+            "env": "PROD",
+            "errorCodes": [
+              "ORA-00600",
+              "ORA-07445",
+              "ORA-04031",
+              "TNS-12541",
+              "ORA-00060"
+            ],
+            "groupBy": ["dbName", "errorCode", "hour"]
+          },
+          "backstage": "GAA (Frankfurt) → API Gateway (UAE) → OCI Functions – Telemetry → LQL in OLA"
+        }
+      }
+    },
+    {
+      "type": "chip",
+      "chipData": {
+        "icon": "ScanEye",
+        "label": "Analyzing",
+        "status": "success",
+        "content": {
+          "summary": "Found 41 critical errors across 3 databases in last 12h",
+          "spikes_detected": 2,
+          "databases_affected": ["FIN_PROD", "DISTR_PROD", "BOROUGE_PROD"],
+          "severity": "High - Multiple ORA-00600 errors detected"
+        }
+      }
+    },
+    {
+      "type": "text",
+      "content": "## Summary — last 12h (PROD)\n\n**Total:** 41 errors across 3 databases\n\n| DB | Host | Total | Top errors | Last seen |\n|---|---|---|---|---|\n| FIN_PROD | shdexadbp01 | 27 | ORA‑00600:12, ORA‑04031:9, ORA‑00060:6 | 06:02Z |\n| DISTR_PROD | shdexadbp03 | 9 | TNS‑12541:7, ORA‑00060:2 | 04:16Z |\n| BOROUGE_PROD | shdexadbp07 | 5 | ORA‑04031:5 | 06:02Z |\n\n## 🚨 Spikes detected\n\n**FIN_PROD** — ORA‑00600 spike at 01:00Z (+10 vs previous hour).\n\n**DISTR_PROD** — TNS‑12541 spike at 03:00Z (+6 vs previous hour).\n\n## 📋 Recommendations\n\n**FIN_PROD:** Treat as P1 if ORA‑00600 repeats; collect incident evidence and check recent changes.\n\n**DISTR_PROD:** Validate listener on shdexadbp03 (TNS‑12541).\n\n**BOROUGE_PROD:** Review shared pool/SGA sizing (ORA‑04031).\n\n---\n\n💡 *Tell me if you want me to prepare a ticket draft for FIN_PROD.*"
+    }
+  ]
+}
