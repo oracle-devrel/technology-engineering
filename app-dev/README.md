@@ -16,12 +16,12 @@ Choose your goal:
 OCI, OKE, Java, WebLogic, GraalVM, Helidon, Micronaut, Terraform, OCI DevOps, Visual Builder, Integration Cloud, etc.
 
 ## Latest news
-[OKE support HTTP2 for managed load balancers](https://docs.oracle.com/en-us/iaas/releasenotes/conteng/conteng-LB_HTTP2-support.htm)
-[Structured logging in OCI Functions](https://blogs.oracle.com/cloud-infrastructure/structured-logging-in-oci-functions)
-[Debug Support and Hot Reload for Faster OCI Functions Local Development](https://blogs.oracle.com/cloud-infrastructure/debug-support-hot-reload-for-functions-local-dev)
-[Building a mixed OKE cluster with Karpenter and Virtual Nodes](https://blogs.oracle.com/cloud-infrastructure/mixed-oke-cluster-karpenter-and-virtual-nodes)
-[Unlocking AI-Driven Automation with Oracle Integration Cloud](https://www.youtube.com/watch?v=uXpIVhgdvDA)
-[Oracle Fusion Middleware Statement of Direction Is Now Available](https://blogs.oracle.com/fusionmiddlewaresupport/oracle-fusion-middleware-statement-of-direction-is-now-available)
+- [OKE support HTTP2 for managed load balancers](https://docs.oracle.com/en-us/iaas/releasenotes/conteng/conteng-LB_HTTP2-support.htm)
+- [Structured logging in OCI Functions](https://blogs.oracle.com/cloud-infrastructure/structured-logging-in-oci-functions)
+- [Debug Support and Hot Reload for Faster OCI Functions Local Development](https://blogs.oracle.com/cloud-infrastructure/debug-support-hot-reload-for-functions-local-dev)
+- [Building a mixed OKE cluster with Karpenter and Virtual Nodes](https://blogs.oracle.com/cloud-infrastructure/mixed-oke-cluster-karpenter-and-virtual-nodes)
+- [Unlocking AI-Driven Automation with Oracle Integration Cloud](https://www.youtube.com/watch?v=uXpIVhgdvDA)
+- [Oracle Fusion Middleware Statement of Direction Is Now Available](https://blogs.oracle.com/fusionmiddlewaresupport/oracle-fusion-middleware-statement-of-direction-is-now-available)
 
 # License
  
