@@ -4,8 +4,8 @@ Reviewed: 2026-05-14
 
 # Team Publications
 
-- [Oracle Database@Google Automation Workshop](./Oracle%20Database%20@%20Google%20Automation%20Workshop/files/Public_OD@GCP_Automation_v0.1.pdf)
-- [Oracle Database@Google Operations Best Practices](./Oracle%20Database%20@%20Google%20Operations%20Best%20Practices/README.md)
+- [Oracle Database@Google Automation Workshop](./oracle-database-at-google-automation-workshop/files/Public_OD@GCP_Automation_v0.1.pdf)
+- [Oracle Database@Google Operations Best Practices](./oracle-database-at-google-operations-best-practices/README.md)
   
 # License
 
