@@ -1,0 +1,12 @@
+.gitattributes text eol=lf
+*.sh text eol=lf
+*.ps1 text eol=crlf
+*.py text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.txt text eol=lf
+.env.example text eol=lf

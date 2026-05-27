@@ -19,6 +19,7 @@ Reviewed: 12.02.2026
 - Setting up a new project that calls OCI Generative AI (chat, embeddings, or RAG)
 - Integrating LangChain with OCI-hosted models for AI application development
 - Connecting low-code / no-code platforms (n8n, etc.) to OCI Generative AI via an OpenAI-compatible gateway
+- Testing multimodal video understanding with OCI Generative AI and Gemini models
 - Onboarding workshops and enablement sessions
 
 # How to use this asset?
@@ -43,6 +44,12 @@ Deploy an OpenAI-compatible gateway that proxies requests to OCI GenAI, configur
 
 **[Read the guide &rarr;](files/N8N-GenAIOCI-Connection.md)**
 
+### Guide 4 - OCI GenAI Video Analysis Studio
+
+Run a local FastAPI and React app that uploads a video, sends it to OCI Generative AI with Gemini, and shows the model output, latency, token metadata, and model comparison results.
+
+**[Run the app &rarr;](files/video-analysis-studio/README.md)**
+
 ### Common Prerequisites
 
 All three guides share the same foundational setup:
@@ -54,6 +61,9 @@ All three guides share the same foundational setup:
 Each guide then adds tool-specific requirements (Python packages, LangChain, n8n, etc.).
 
 ### File Structure
+
+The video analysis app is under `files/video-analysis-studio/`.
+
 ```
 .
 ├── README.md                              # This file
