@@ -1,0 +1,4 @@
+employee_id,first_name,full_name,employee_email,role,department,region,latest_win,recognition_category,manager_name,tone,language,photo_asset_id,output_channel
+E12345,Sara,Sara Al-Farsi,sara.alfarsi@example.com,Senior HR Analyst,HR,Middle East,Led onboarding improvements for 500 new hires,Operational Excellence,Omar Hassan,"warm, professional, celebratory",English,/employee-photos/sara-alfarsi.png,email
+E12346,David,David Clarke,david.clarke@example.com,Engineering Manager,Engineering,EMEA,Completed first 90 days with strong team impact,Team Integration,Emma Wright,"warm, professional, celebratory",English,/employee-photos/david-clarke.png,intranet
+E12347,Ana,Ana Rodrigues,ana.rodrigues@example.com,People Partner,HR,Americas,Launched mentorship circles across 4 offices,Employee Experience,Maria Torres,"warm, professional, celebratory",English,/employee-photos/ana-rodrigues.png,email

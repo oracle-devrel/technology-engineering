@@ -1,0 +1,195 @@
+{
+  "id": "part-selection-hd2024",
+  "name": "Part Selection - HD-2024 Motor",
+  "triggerPhrases": ["HD-2024 - Heavy-duty conveyor belt motor (15HP, 380V)"],
+  "messages": [
+    {
+      "type": "chip",
+      "chipData": {
+        "label": "Planning",
+        "status": "info",
+        "icon": "Lightbulb",
+        "content": "Perfect! The user has selected the HD-2024 heavy-duty conveyor belt motor. This is exactly what they need for their production line - 15HP power and 380V operation. Now I need to retrieve complete technical specifications from Oracle Fusion Product Master to provide detailed information about this motor, including compatibility, warranty details, and available suppliers."
+      },
+      "delay": 120
+    },
+    {
+      "type": "chip",
+      "chipData": {
+        "label": "Calling Product Master API",
+        "status": "warning",
+        "icon": "SatelliteDish",
+        "content": {
+          "description": "Retrieving complete product master data for HD-2024 heavy-duty conveyor motor including technical specifications and supplier network.",
+          "function": "getProductDetails",
+          "endpoint": "/fusion/erp/api/v1/products/details",
+          "parameters": {
+            "partNumber": "HD-2024",
+            "includeSpecifications": true,
+            "includeCompatibility": true,
+            "includeSuppliers": true,
+            "includeWarranty": true,
+            "includePricing": true
+          }
+        }
+      },
+      "delay": 100
+    },
+    {
+      "type": "chip",
+      "chipData": {
+        "label": "Receiving Product Details",
+        "status": "success",
+        "icon": "FileSpreadsheet",
+        "content": {
+          "response": {
+            "status": "success",
+            "timestamp": "2025-07-30T10:16:25Z",
+            "productId": "HD-2024",
+            "productDetails": {
+              "description": "Heavy-duty conveyor belt motor",
+              "specifications": {
+                "power": "15HP",
+                "voltage": "380V",
+                "rpm": 1750,
+                "enclosure": "TEFC",
+                "efficiency": "91.2%",
+                "mounting": "Foot-mounted"
+              },
+              "compatibility": ["Conveyor systems", "Production lines"],
+              "warranty": "24 months",
+              "certifications": ["CE", "UL", "CSA"]
+            }
+          }
+        }
+      },
+      "delay": 100
+    },
+    {
+      "type": "agent_state",
+      "agentStateData": {
+        "partNumber": "HD-2024",
+        "description": "Heavy-duty conveyor belt motor",
+        "specifications": {
+          "power": "15HP",
+          "voltage": "380V",
+          "rpm": "1750",
+          "mounting": "Foot mounted",
+          "enclosure": "TEFC",
+          "efficiency": "IE3 Premium"
+        },
+        "compatibility": [
+          "Conveyor systems",
+          "Production lines",
+          "Material handling"
+        ],
+        "warranty": "24 months",
+        "leadTime": "5-10 business days"
+      },
+      "delay": 80
+    },
+    {
+      "type": "chip",
+      "chipData": {
+        "label": "Planning",
+        "status": "info",
+        "icon": "Lightbulb",
+        "content": "Excellent! I've retrieved complete technical specifications for the HD-2024 motor. Let me analyze these details: 15HP power matches perfectly for production line needs, 380V is exactly the required voltage, TEFC enclosure is ideal for industrial environments, and 24-month warranty provides excellent coverage. The 5-10 business days lead time is reasonable. Now I need to find qualified suppliers who can provide this specific model and have it in stock."
+      },
+      "delay": 100
+    },
+    {
+      "type": "chip",
+      "chipData": {
+        "label": "Calling Oracle Fusion ERP API",
+        "status": "warning",
+        "icon": "SatelliteDish",
+        "content": {
+          "description": "Searching qualified suppliers who can provide HD-2024 motor with required certifications and inventory availability.",
+          "function": "searchQualifiedSuppliers",
+          "endpoint": "/fusion/erp/api/v1/suppliers/search",
+          "parameters": {
+            "partNumber": "HD-2024",
+            "requiredCertifications": [
+              "ISO 9001",
+              "Industrial Equipment Authorization"
+            ],
+            "inventoryStatus": "in_stock",
+            "proximityTo": "Meridian Industries",
+            "minQualityRating": 4.0
+          }
+        }
+      },
+      "delay": 100
+    },
+    {
+      "type": "chip",
+      "chipData": {
+        "label": "Receiving Supplier List",
+        "status": "success",
+        "icon": "FileSpreadsheet",
+        "content": {
+          "response": {
+            "status": "success",
+            "timestamp": "2025-07-30T10:16:45Z",
+            "suppliersFound": 3,
+            "qualifiedSuppliers": [
+              {
+                "name": "TechParts Inc",
+                "rating": 4.8,
+                "certification": "ISO 9001",
+                "stockStatus": "available",
+                "leadTime": "5 days"
+              },
+              {
+                "name": "Industrial Motors Co",
+                "rating": 4.6,
+                "certification": "ISO 9001",
+                "stockStatus": "available",
+                "leadTime": "3 days"
+              },
+              {
+                "name": "PowerTech Solutions",
+                "rating": 4.4,
+                "certification": "ISO 9001",
+                "stockStatus": "limited",
+                "leadTime": "7 days"
+              }
+            ]
+          }
+        }
+      },
+      "delay": 120
+    },
+    {
+      "type": "chip",
+      "chipData": {
+        "label": "Planning",
+        "status": "info",
+        "icon": "Lightbulb",
+        "content": "Perfect! I've identified 3 qualified suppliers from our network of 47 evaluated options. All three suppliers have the HD-2024 motor in stock, meet our quality certifications (ISO 9001), and are geographically well-positioned to serve the Meridian Industries. They all have excellent track records for industrial equipment supply. Now I can present this information to the user and offer to proceed with quote requests."
+      },
+      "delay": 100
+    },
+    {
+      "type": "text",
+      "content": "Great choice! You've selected the **HD-2024 motor** (15HP, 380V, 1,750 RPM) with TEFC enclosure and 24-month warranty - perfect match for your production line requirements.\n\n**Available Suppliers:**\n\n**🏢 TechParts Inc**\n- Rating: ⭐⭐⭐⭐⭐ (4.8/5)\n- Stock: ✅ Available\n- Lead time: 5 days\n- Certifications: ISO 9001, Authorized HD-2024 dealer\n\n**🏢 Industrial Motors Co** \n- Rating: ⭐⭐⭐⭐ (4.6/5)\n- Stock: ✅ Available  \n- Lead time: 3 days\n- Certifications: ISO 9001, Authorized HD-2024 dealer\n\n**🏢 GlobalTech Solutions**\n- Rating: ⭐⭐⭐⭐ (4.4/5)\n- Stock: ⚠️ Limited availability\n- Lead time: 7 days\n- Certifications: ISO 9001, Authorized HD-2024 dealer\n\nI can request quotes from all 3 suppliers to get you the best price and delivery terms. Would you like me to proceed?",
+      "delay": 50
+    },
+    {
+      "type": "interactive",
+      "interactiveData": {
+        "inputType": "choice",
+        "title": "",
+        "options": [
+          {
+            "value": "request_quotes",
+            "label": "Ask all 3 suppliers for their prices",
+            "type": "action"
+          }
+        ]
+      },
+      "delay": 30
+    }
+  ]
+}
