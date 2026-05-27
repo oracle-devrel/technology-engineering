@@ -351,6 +351,37 @@ export default function useChat({ initialConversationId = null, selectedModel, o
       return [...state.responses];
     }
 
+    // MCP tool the model wants to invoke but OCI did NOT execute itself
+    // (typical with gpt-oss-120b). Show a chip in "calling" state and queue
+    // the call for client-side execution + chained response after the stream
+    // ends. Handled in sendAndStreamMessage's finally block.
+    if (typeof chunk === 'object' && chunk.mcp_function_call) {
+      const fc = chunk.mcp_function_call;
+      state.responses = state.responses.filter(r => r.type !== 'thinking' && r.type !== 'mcp_connecting');
+      const existing = state.responses.find(r => r.type === 'mcp_chip' && r.mcpItemId === fc.item_id);
+      if (!existing) {
+        state.responses.push({
+          type: 'mcp_chip',
+          mcpItemId: fc.item_id,
+          server: fc.server_label,
+          tool: fc.tool_name,
+          arguments: fc.arguments,
+          status: 'calling',
+          label: `Using ${formatToolName(fc.tool_name)}...`,
+        });
+      }
+      state.pendingMcpFunctionCalls = state.pendingMcpFunctionCalls || [];
+      state.pendingMcpFunctionCalls.push({
+        item_id: fc.item_id,
+        call_id: fc.call_id,
+        fn_name: fc.fn_name,
+        server_label: fc.server_label,
+        tool_name: fc.tool_name,
+        arguments: fc.arguments,
+      });
+      return [...state.responses];
+    }
+
     // Handle function call (client-side tool or OCI internal tool)
     if (typeof chunk === 'object' && chunk.function_call) {
       const fcName = chunk.function_call.name;
@@ -672,59 +703,47 @@ export default function useChat({ initialConversationId = null, selectedModel, o
     return [...state.responses];
   }, []);
 
+  // Cleanup after a stream ends. Only acts on REAL errors (user abort, network
+  // failure, explicit stall). For ambiguous endings (e.g. OCI closed without
+  // response.completed) we leave the chips as they are — the UI will render
+  // their natural state. No fabricated error messages.
   const markIncompleteMcpChipsAsFailed = useCallback(() => {
     const state = streamingStateRef.current;
-    const streamCompleted = state?.streamCompleted || false;
     const streamError = state?.streamError;
     const elapsed = state?.streamStartedAt ? Math.round((Date.now() - state.streamStartedAt) / 1000) : null;
 
+    const isRealError = !!streamError && (
+      streamError.name === 'AbortError' ||
+      streamError.name === 'StreamStallError' ||
+      streamError.message?.includes('STREAM_STALL') ||
+      streamError.message?.includes('Failed to fetch') ||
+      streamError.message?.includes('NetworkError')
+    );
+
     updateLatestExchange(exchange => {
-      const sourcesCount = exchange.responses.filter(r => r.type === 'sources').length;
-      if (sourcesCount > 0) console.log('[Sources] Before cleanup:', sourcesCount, 'sources entries in', exchange.responses.length, 'total responses');
       const responses = exchange.responses
-        .filter(r => r.type !== "thinking" && r.type !== "mcp_connecting") // Remove leftover indicators
+        .filter(r => r.type !== "thinking" && r.type !== "mcp_connecting")
         .map(r => {
-          if (r.type === "mcp_chip" && (r.status === "connecting" || r.status === "calling")) {
-            // Build a descriptive error message for debugging
+          // Close any reasoning blocks left mid-stream so the UI stops the
+          // loading dots animation. This is cosmetic only.
+          if (r.type === "reasoning" && r.done === false) return { ...r, done: true };
+
+          // Only mark calling chips as failed on REAL errors (abort/network/stall).
+          // Otherwise leave them — the chain loop or normal flow will update them.
+          if (r.type === "mcp_chip" && (r.status === "connecting" || r.status === "calling") && isRealError) {
             const toolName = formatToolName(r.tool) || r.server || "unknown tool";
             let reason;
-            if (r.error) {
-              reason = r.error;
-            } else if (streamCompleted) {
-              reason = `OCI completed the response while ${toolName} was still running (${elapsed}s). The tool was called but OCI closed the stream before receiving its result. This is a known OCI behavior when an MCP tool call is the model's last action.`;
-            } else if (streamError?.name === 'AbortError') {
-              reason = `Stopped by user while ${toolName} was running (${elapsed}s)`;
-            } else if (streamError?.name === 'StreamStallError' || streamError?.message?.includes('STREAM_STALL')) {
-              reason = `Stream stalled — no data from server for 2+ min while ${toolName} was ${r.status} (${elapsed}s). ${streamError.message}`;
-            } else if (streamError?.name === 'PrematureStreamClose') {
-              reason = `OCI closed connection while ${toolName} was ${r.status} (${elapsed}s). ${streamError.message}`;
-            } else if (streamError?.message?.includes('Failed to fetch') || streamError?.message?.includes('NetworkError')) {
-              reason = `Network error while ${toolName} was ${r.status} (${elapsed}s) — check connection or server`;
-            } else if (streamError) {
-              reason = `${toolName} interrupted after ${elapsed}s: ${streamError.message || String(streamError)}`;
-            } else {
-              reason = `${toolName} was still ${r.status} when stream ended (${elapsed}s) — no error captured, possible silent disconnect`;
-            }
-            console.error(`[MCP] Tool failed: ${toolName}`, { status: r.status, elapsed, streamCompleted, error: streamError?.message });
-            return {
-              ...r,
-              status: "failed",
-              label: formatToolName(r.tool) || r.server || "Failed",
-              error: reason
-            };
+            if (streamError.name === 'AbortError') reason = `Stopped by user while ${toolName} was running (${elapsed}s)`;
+            else if (streamError.name === 'StreamStallError' || streamError.message?.includes('STREAM_STALL'))
+              reason = `Stream stalled while ${toolName} was ${r.status} (${elapsed}s)`;
+            else reason = `Network error while ${toolName} was ${r.status} (${elapsed}s)`;
+            return { ...r, status: "failed", label: formatToolName(r.tool) || r.server || "Failed", error: reason };
           }
-          // Stream ended while a reasoning block was still open — close it so
-          // the UI stops showing the loading dots.
-          if (r.type === "reasoning" && r.done === false) {
-            return { ...r, done: true };
-          }
-          // Code interpreter block still writing/interpreting when stream died.
-          if (r.type === "code_execution" && r.status && r.status !== "completed") {
+          if (r.type === "code_execution" && r.status && r.status !== "completed" && isRealError) {
             return { ...r, status: "failed" };
           }
           return r;
         });
-      // Attach trace to exchange for UI diagnostics
       const requestTrace = streamingStateRef.current?.trace || null;
       return { ...exchange, responses, ...(requestTrace && { trace: requestTrace }) };
     });
@@ -737,32 +756,170 @@ export default function useChat({ initialConversationId = null, selectedModel, o
     const { isNewConversation = false, inputText = "", previousResponseId } = options;
     const sessionActiveServers = inputRef.current?.getSessionActiveServers?.() || undefined;
 
-    try {
-      if (isNewConversation) {
-        await genaiService.createConversation("New conversation");
-        const newConvId = genaiService.getConversationId();
-        if (newConvId) {
-          const storedConv = await ConversationStorage.get(newConvId);
-          if (storedConv?.urlId) {
-            window.history.pushState(null, "", `/c/${storedConv.urlId}`);
-            loadedConversationRef.current = storedConv.urlId;
+    if (isNewConversation) {
+      await genaiService.createConversation("New conversation");
+      const newConvId = genaiService.getConversationId();
+      if (newConvId) {
+        const storedConv = await ConversationStorage.get(newConvId);
+        if (storedConv?.urlId) {
+          window.history.pushState(null, "", `/c/${storedConv.urlId}`);
+          loadedConversationRef.current = storedConv.urlId;
+        }
+      }
+    }
+
+    let result = null;
+    let primaryError = null;
+
+      // Initial send — capture its error (if any) but DON'T let it short-circuit
+      // the client-side MCP execution loop below. Some failures (e.g. OCI closing
+      // the stream after a function_call) leave pendingMcpFunctionCalls populated
+      // and we still want to execute the tool + chain a follow-up.
+      try {
+        result = await genaiService.sendMessage(
+          input,
+          (chunk) => {
+            const responsesCopy = processStreamingChunk(chunk, streamingStateRef.current);
+            updateLatestExchange(exchange => ({ ...exchange, responses: responsesCopy }));
+          },
+          { model: selectedModel || undefined, sessionActiveServers, previousResponseId }
+        );
+      } catch (err) {
+        primaryError = err;
+        if (streamingStateRef.current) streamingStateRef.current.streamError = err;
+      }
+
+      // Client-side MCP execution loop. Some models (gpt-oss-120b) emit MCP
+      // tool calls as OpenAI-style function_call and expect the client to
+      // execute them and submit a function_call_output back via a chained
+      // Responses request. Runs regardless of whether the initial stream errored.
+      let chainDepth = 0;
+      let needsAuthFor = null; // { name, endpoint, authType } when an MCP server needs OAuth
+      while ((streamingStateRef.current.pendingMcpFunctionCalls || []).length > 0 && chainDepth < 5) {
+        chainDepth++;
+        const pending = streamingStateRef.current.pendingMcpFunctionCalls;
+        streamingStateRef.current.pendingMcpFunctionCalls = [];
+
+        const chainInput = [];
+        for (const fc of pending) {
+          const server = (typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('mcpServers') || '[]') : [])
+            .find(s => {
+              let label = (s.name || '').replace(/[^a-zA-Z0-9_-]/g, '_');
+              if (!/^[a-zA-Z]/.test(label)) label = 'mcp_' + label;
+              return label === fc.server_label;
+            });
+          let parsedArgs;
+          try { parsedArgs = JSON.parse(fc.arguments || '{}'); } catch { parsedArgs = {}; }
+
+          let output;
+          let authRequired = false;
+          if (!server) {
+            output = JSON.stringify({ error: `Server '${fc.server_label}' not configured` });
+          } else {
+            try {
+              const res = await fetch('/api/mcp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  endpoint: server.endpoint,
+                  method: 'tools/call',
+                  params: { name: fc.tool_name, arguments: parsedArgs },
+                  authType: server.authType,
+                  authKey: server.authKey,
+                  oauth: server.oauth,
+                }),
+              });
+              const data = await res.json();
+              if (res.status === 401 && data.error === 'needs_auth') {
+                // OAuth token missing/expired — abort the chain and surface a
+                // banner inviting the user to authorize. The model NEVER sees
+                // the auth failure, so it doesn't try to summarise it.
+                authRequired = true;
+                needsAuthFor = { name: server.name, endpoint: server.endpoint, authType: server.authType };
+              } else if (data.result?.content) {
+                output = data.result.content.map(c => c.text || JSON.stringify(c)).join('\n');
+              } else if (data.error) {
+                output = JSON.stringify({ error: data.error.message || JSON.stringify(data.error) });
+              } else {
+                output = JSON.stringify(data);
+              }
+            } catch (err) {
+              output = JSON.stringify({ error: err.message || String(err) });
+            }
           }
+
+          // Update the chip in BOTH the React exchange AND the streaming state.
+          // The chained sendMessage will replace exchange.responses with
+          // state.responses on every chunk, so updating just exchange would be
+          // overwritten the moment the chained stream starts. We mutate
+          // state.responses in place so subsequent chunks preserve the update.
+          const applyChipUpdate = (chip) => {
+            if (chip.type !== 'mcp_chip') return chip;
+            // Match by mcpItemId first; fall back to tool+server for the case
+            // where output_item.added(mcp_call) never fired (rare).
+            const matches = chip.mcpItemId === fc.item_id
+              || (fc.item_id == null && chip.tool === fc.tool_name && chip.server === fc.server_label && (chip.status === 'calling' || chip.status === 'connecting'));
+            if (!matches) return chip;
+            if (authRequired) {
+              return { ...chip, status: 'failed', label: formatToolName(fc.tool_name) || 'Authorization required', error: 'Authorization required' };
+            }
+            return { ...chip, status: 'completed', output, label: formatToolName(fc.tool_name) || 'Completed' };
+          };
+          if (streamingStateRef.current?.responses) {
+            streamingStateRef.current.responses = streamingStateRef.current.responses.map(applyChipUpdate);
+          }
+          updateLatestExchange(exchange => ({
+            ...exchange,
+            responses: (exchange.responses || []).map(applyChipUpdate),
+          }));
+
+          if (!authRequired) {
+            chainInput.push(
+              { type: 'function_call', name: fc.fn_name, arguments: fc.arguments, call_id: fc.call_id },
+              { type: 'function_call_output', call_id: fc.call_id, output },
+            );
+          }
+        }
+
+        if (needsAuthFor) break; // skip chained call, surface banner instead
+
+        try {
+          result = await genaiService.sendMessage(
+            chainInput,
+            (chunk) => {
+              const responsesCopy = processStreamingChunk(chunk, streamingStateRef.current);
+              updateLatestExchange(exchange => ({ ...exchange, responses: responsesCopy }));
+            },
+            { model: selectedModel || undefined, sessionActiveServers },
+          );
+          // If the chained request succeeds we no longer need to surface the
+          // original error (the tool ran, the model summarised, the user is fine).
+          primaryError = null;
+        } catch (err) {
+          if (streamingStateRef.current) streamingStateRef.current.streamError = err;
+          primaryError = err;
+          break;
         }
       }
 
-      const result = await genaiService.sendMessage(
-        input,
-        (chunk) => {
-          const responsesCopy = processStreamingChunk(chunk, streamingStateRef.current);
-          updateLatestExchange(exchange => ({
-            ...exchange,
-            responses: responsesCopy,
-          }));
-        },
-        { model: selectedModel || undefined, sessionActiveServers, previousResponseId }
-      );
+      // Auth required somewhere along the chain — push the existing
+      // mcp_auth_expired banner so the user can re-authorize from the chat.
+      if (needsAuthFor) {
+        updateLatestExchange(exchange => ({
+          ...exchange,
+          responses: [...(exchange.responses || []), {
+            type: 'error',
+            content: 'mcp_auth_expired',
+            serverLabel: needsAuthFor.name || null,
+            serverEndpoint: needsAuthFor.endpoint || null,
+            serverAuthType: needsAuthFor.authType || null,
+          }],
+        }));
+        // Don't surface a generic error on top of the banner.
+        primaryError = null;
+      }
 
-      // Persist the raw accumulated text and trace for export/diagnostics
+      // Persist accumulated text + trace
       const rawText = streamingStateRef.current.accumulatedText || '';
       const requestTrace = streamingStateRef.current.trace || null;
       if (rawText || requestTrace) {
@@ -773,8 +930,8 @@ export default function useChat({ initialConversationId = null, selectedModel, o
         }));
       }
 
-      // Generate title for new conversations or conversations that were stopped before getting a title
-      if (result.answer && inputText) {
+      // Generate title for new conversations
+      if (result?.answer && inputText) {
         const convId = genaiService.getConversationId();
         if (convId) {
           const needsTitle = isNewConversation || await ConversationStorage.get(convId).then(c => !c?.title || c.title === "New conversation").catch(() => false);
@@ -788,42 +945,38 @@ export default function useChat({ initialConversationId = null, selectedModel, o
         }
       }
 
+      if (primaryError) {
+        if (primaryError.name === 'AbortError') {
+          return { answer: streamingStateRef.current?.accumulatedText || '', stopped: true };
+        }
+        console.error('Error calling agent:', primaryError);
+        if (primaryError.type === 'mcp_auth_expired') {
+          updateLatestExchange(exchange => ({
+            ...exchange,
+            responses: [...(exchange.responses || []), {
+              type: 'error',
+              content: 'mcp_auth_expired',
+              serverLabel: primaryError.serverLabel || null,
+              serverEndpoint: primaryError.serverEndpoint || null,
+              serverAuthType: primaryError.serverAuthType || null,
+            }],
+          }));
+        } else {
+          updateLatestExchange(exchange => ({
+            ...exchange,
+            responses: [...(exchange.responses || []), {
+              type: 'error',
+              content: primaryError.message || String(primaryError),
+              opcRequestId: primaryError.opcRequestId || null,
+              model: primaryError.model || null,
+              timestamp: primaryError.timestamp || null,
+            }],
+          }));
+        }
+        throw primaryError;
+      }
+
       return result;
-    } catch (error) {
-      // Capture error for markIncompleteMcpChipsAsFailed
-      if (streamingStateRef.current) {
-        streamingStateRef.current.streamError = error;
-      }
-      if (error.name === 'AbortError') {
-        // User stopped generation — keep partial content, don't show error
-        return { answer: streamingStateRef.current?.accumulatedText || '', stopped: true };
-      }
-      console.error("Error calling agent:", error);
-      if (error.type === 'mcp_auth_expired') {
-        updateLatestExchange(exchange => ({
-          ...exchange,
-          responses: [...(exchange.responses || []), {
-            type: "error",
-            content: "mcp_auth_expired",
-            serverLabel: error.serverLabel || null,
-            serverEndpoint: error.serverEndpoint || null,
-            serverAuthType: error.serverAuthType || null,
-          }],
-        }));
-      } else {
-        updateLatestExchange(exchange => ({
-          ...exchange,
-          responses: [...(exchange.responses || []), {
-            type: "error",
-            content: error?.message || String(error),
-            opcRequestId: error?.opcRequestId || null,
-            model: error?.model || null,
-            timestamp: error?.timestamp || null,
-          }],
-        }));
-      }
-      throw error;
-    }
   }, [genaiService, selectedModel, processStreamingChunk, updateLatestExchange, refreshRecentConversations]);
 
   useEffect(() => {

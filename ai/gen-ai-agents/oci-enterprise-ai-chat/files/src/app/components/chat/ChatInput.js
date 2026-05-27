@@ -54,7 +54,6 @@ const DrawioLogoSmall = ({ size = 14, color = "#F08705" }) => (
 
 const ADDON_TOOLS_META = {
   addon_drawio: { name: "OCI Draw.io", color: "#F08705", LogoComponent: DrawioLogoSmall },
-  addon_sdd: { name: "OCI SDD Generator", color: "#0EA5E9", icon: FileText },
   addon_ppt: { name: "OCI PPT Generator", color: "#EF4444", icon: Presentation },
 };
 

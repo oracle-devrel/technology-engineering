@@ -551,11 +551,53 @@ export async function POST(request) {
                   else if (itemType === 'image_generation_call') {
                     controller.enqueue(encoder.encode(JSON.stringify({ generated_image: data.item.result || '' }) + '\n'));
                   }
-                  // Function call completed
+                  // Function call completed.
+                  //
+                  // Two distinct flavors:
+                  // (a) mcp__<server>__<tool> name → the model wants an MCP tool
+                  //     run but OCI did NOT execute it itself (typical with
+                  //     gpt-oss-120b). The output field is empty. We must run
+                  //     the tool on the client side and submit a
+                  //     function_call_output back via a chained Responses call.
+                  // (b) anything else → legacy client-side function_call path.
                   else if (itemType === 'function_call') {
-                    controller.enqueue(encoder.encode(JSON.stringify({
-                      function_call: { id: itemId, callId: data.item.call_id, name: data.item.name, arguments: data.item.arguments }
-                    }) + '\n'));
+                    const fname = data.item.name || '';
+                    const mcpMatch = fname.match(/^mcp__([^_]+(?:_[^_]+)*?)__(.+)$/);
+                    if (mcpMatch) {
+                      const [, serverLabel, toolName] = mcpMatch;
+                      // Find the pending mcp_call entry (added at output_item.added);
+                      // its id is what the UI chip uses.
+                      const tc = toolCalls.find(t =>
+                        t.tool === toolName && t.server === serverLabel && !t.outputSent
+                      );
+                      const chipItemId = tc?.id || itemId;
+                      // Signal to the client that this is an MCP tool the client
+                      // must execute itself (gpt-oss-120b et al). Includes the
+                      // call_id + arguments needed to do the round-trip.
+                      controller.enqueue(encoder.encode(JSON.stringify({
+                        mcp_function_call: {
+                          item_id: chipItemId,
+                          call_id: data.item.call_id,
+                          fn_name: fname,
+                          server_label: serverLabel,
+                          tool_name: toolName,
+                          arguments: data.item.arguments || '{}',
+                        }
+                      }) + '\n'));
+                      // Mark the toolCall entry as "delegated" so the soft-close
+                      // detector doesn't classify it as a hard error.
+                      if (tc) {
+                        tc.outputSent = true;
+                        tc.delegated = true;
+                      }
+                      traceEvent('mcp_call_delegated', { tool: toolName, server: serverLabel, call_id: data.item.call_id });
+                      log.info('MCP tool delegated to client-side executor', { tool: toolName, server: serverLabel, callId: data.item.call_id });
+                    } else {
+                      // Real client-side function call (legacy path)
+                      controller.enqueue(encoder.encode(JSON.stringify({
+                        function_call: { id: itemId, callId: data.item.call_id, name: data.item.name, arguments: data.item.arguments }
+                      }) + '\n'));
+                    }
                   }
                   // Reasoning item done — signal end-of-reasoning to the UI
                   else if (itemType === 'reasoning') {
@@ -984,24 +1026,17 @@ export async function POST(request) {
             } catch (_) { /* controller may already be closing */ }
           }
 
-          // Detect premature close: OCI dropped connection without response.completed
+          // Stream ended. If OCI didn't explicitly send response.completed we just
+          // treat the close as a normal end — the UI shows whatever state the
+          // chips reached. No fabricated error, no soft/hard classification.
+          // Network-level failures still bubble through the outer try/catch.
           if (!responseCompleted && !stalled) {
-            log.error('PREMATURE STREAM CLOSE — OCI never sent response.completed', {
-              elapsed, eventCount, lastEventType, toolCalls, textLength: fullOutputText.length, opcRequestId,
-              buffer: buffer.substring(0, 500),
+            log.info('Stream ended without response.completed (treated as normal end)', {
+              elapsed, eventCount, lastEventType, toolCalls: toolCalls.map(t => t.tool), opcRequestId,
             });
             trace.opcRequestId = opcRequestId;
-            trace.error = `OCI closed connection after ${Math.round(elapsed / 1000)}s without response.completed. ` +
-              `Received ${eventCount} events, last was "${lastEventType || 'none'}". ` +
-              `${toolCalls.length > 0 ? `Active tools: ${toolCalls.map(t => t.tool).join(', ')}. ` : ''}` +
-              `This is an OCI Responses API issue — the upstream closed the SSE stream prematurely.`;
-            traceEvent('premature_close', { eventCount, lastEventType });
             try {
-              controller.enqueue(encoder.encode(JSON.stringify({
-                error: trace.error,
-                done: true,
-                trace,
-              }) + '\n'));
+              controller.enqueue(encoder.encode(JSON.stringify({ done: true, trace }) + '\n'));
             } catch (_) { /* controller may already be closing */ }
           }
 

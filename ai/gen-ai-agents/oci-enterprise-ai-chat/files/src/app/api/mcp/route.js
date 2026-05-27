@@ -75,8 +75,9 @@ export async function POST(request) {
     // Add auth headers if provided
     let updatedTokenCookie = null; // set if oauth2.1 token was refreshed
 
-    if (authType === 'oauth2.1') {
-      // Read tokens from httpOnly cookie set by /api/mcp/oauth/callback
+    if (authType === 'oauth2.1' || authType === 'oauth2-user') {
+      // Read tokens from httpOnly cookie set by /api/mcp/oauth/callback.
+      // Both interactive authTypes share the same callback + cookie storage.
       const cookieName = tokenCookieName(endpoint);
       const tokenCookie = request.cookies.get(cookieName)?.value;
       const tokens = await verifyPayload(tokenCookie);
@@ -144,8 +145,8 @@ export async function POST(request) {
     if (!response.ok) {
       log.error('MCP server error', { status: response.status, body: responseText.slice(0, 500) });
 
-      // If the MCP server rejects our OAuth 2.1 token, clear it and ask for re-auth
-      if (authType === 'oauth2.1' && response.status === 401) {
+      // If the MCP server rejects our OAuth token, clear it and ask for re-auth
+      if ((authType === 'oauth2.1' || authType === 'oauth2-user') && response.status === 401) {
         const clearResponse = NextResponse.json({
           error: 'needs_auth',
           authorizeUrl: `/api/mcp/oauth/authorize?endpoint=${encodeURIComponent(endpoint)}`,

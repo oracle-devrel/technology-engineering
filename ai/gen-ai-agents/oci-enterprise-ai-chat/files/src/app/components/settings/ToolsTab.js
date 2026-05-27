@@ -31,6 +31,7 @@ import { Plus, Trash2, ChevronDown, ChevronRight, ChevronLeft, RefreshCw, Wrench
 import IOSSwitch from "../ui/IOSSwitch";
 import mcpService, { MCPService } from "../../services/mcpService";
 import ToolForm from "./ToolForm";
+import { darkCssVars, darkModeOverrides, DARK_SURFACE } from "../../config/darkMode";
 import { INTERNAL_TOOL_TABS, INTERNAL_ADDONS } from "../../config/tools-internal";
 
 const NATIVE_TOOLS = [
@@ -801,7 +802,7 @@ export default function ToolsTab() {
   // Check OAuth 2.1 token presence for each oauth2.1 server
   useEffect(() => {
     const checkOauth21Tokens = async () => {
-      const oauth21Servers = servers.filter(s => s.authType === 'oauth2.1');
+      const oauth21Servers = servers.filter(s => s.authType === 'oauth2.1' || s.authType === 'oauth2-user');
       if (oauth21Servers.length === 0) return;
       const updates = {};
       await Promise.all(
@@ -897,12 +898,12 @@ export default function ToolsTab() {
       const toolIds = tools.map(t => `${newServer.id}:${t.name}`);
       setEnabledTools(prev => [...prev, ...toolIds]);
       setToast({ message: `${newServer.name} added · ${tools.length} tools enabled`, severity: 'success' });
-    } else if (newServer.authType === 'oauth2.1') {
+    } else if (newServer.authType === 'oauth2.1' || newServer.authType === 'oauth2-user') {
       // Interactive flow — kick off authorization right away. The user comes back to /settings
       // when done. After return, the server's tools/list will succeed and the chip will load.
       setServerStatus(prev => ({ ...prev, [newServer.id]: null }));
       const returnTo = typeof window !== 'undefined' ? window.location.pathname + window.location.search : '/settings';
-      window.location.href = `/api/mcp/oauth/authorize?endpoint=${encodeURIComponent(newServer.endpoint)}&returnTo=${encodeURIComponent(returnTo)}`;
+      window.location.href = MCPService.buildAuthorizeUrl(newServer, returnTo);
     } else {
       loadServerTools(newServer);
     }
@@ -1199,11 +1200,19 @@ export default function ToolsTab() {
                         }}>
                           {tool.name}
                         </Typography>
-                        <Typography sx={{
-                          fontSize: "0.78rem",
-                          color: "var(--dm-muted, rgba(0,0,0,0.55))",
-                          lineHeight: 1.6,
-                        }}>
+                        <Typography
+                          title={tool.description}
+                          sx={{
+                            fontSize: "0.78rem",
+                            color: "var(--dm-muted, rgba(0,0,0,0.55))",
+                            lineHeight: 1.6,
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: "vertical",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
                           {tool.description}
                         </Typography>
                       </Box>
@@ -2114,26 +2123,26 @@ export default function ToolsTab() {
         </Button>
       </Box>
 
-      {/* Add Tool Form — single component handles state, validation, test, OAuth discovery */}
-      {showAddForm && (
-        <Box
-          sx={{
-            border: "1px dashed var(--dm-border, rgba(0,0,0,0.2))",
-            borderRadius: 2,
-            p: 2,
-            mb: 2,
-            mt: 2,
-          }}
-        >
-          <ToolForm
-            mode="add"
-            onSave={handleAddServer}
-            onCancel={() => {
+      {/* Add/Edit Tool dialog — single modal reused by both flows. The state
+          drivers are showAddForm (add) and editingServerId (edit). The mode
+          and initialValues are derived from whichever is set. ToolForm exposes
+          imperative save()/test() via ref so the buttons can live in
+          DialogActions (anchored to the bottom while content scrolls). */}
+      {(showAddForm || editingServerId) && (
+        <ToolDialog
+          mode={editingServerId ? "edit" : "add"}
+          server={editingServerId ? servers.find(s => s.id === editingServerId) : null}
+          serverToolsForEdit={editingServerId ? (serverTools[editingServerId] || []) : []}
+          onSave={editingServerId ? handleSaveEdit : handleAddServer}
+          onClose={() => {
+            if (editingServerId) {
+              handleCancelEdit();
+            } else {
               setShowAddForm(false);
               mcpService.servers.delete('test-new');
-            }}
-          />
-        </Box>
+            }
+          }}
+        />
       )}
 
       {/* Server List */}
@@ -2155,19 +2164,8 @@ export default function ToolsTab() {
               boxShadow: focusedServerId === server.id ? "0 0 0 4px rgba(255, 152, 0, 0.12)" : "none",
             }}
           >
-            {/* Server Header */}
-            {editingServerId === server.id ? (
-              /* Edit Mode — same form as add, prefilled with server values */
-              <Box sx={{ p: 2 }}>
-                <ToolForm
-                  mode="edit"
-                  initialValues={{ ...server, tools: serverTools[server.id] || [] }}
-                  onSave={handleSaveEdit}
-                  onCancel={handleCancelEdit}
-                />
-              </Box>
-            ) : (
-              /* View Mode */
+            {/* Server Header — edit form moved to a shared Dialog above */}
+            {(
               <Box
                 sx={{
                   display: "flex",
@@ -2232,8 +2230,8 @@ export default function ToolsTab() {
                       sx={{ height: 24, backgroundColor: "rgba(198, 40, 40, 0.1)", color: "#c62828", "& .MuiChip-icon": { fontSize: 14, ml: 0.5, color: "#c62828" } }}
                     />
                   )}
-                  {/* OAuth 2.1 authorization status — only shown for oauth2.1 servers */}
-                  {server.authType === 'oauth2.1' && oauth21Status[server.id] === 'needs_auth' && (
+                  {/* User-sign-in authorization status — shown for oauth2.1 (auto-discovery) and oauth2-user (manual setup) */}
+                  {(server.authType === 'oauth2.1' || server.authType === 'oauth2-user') && oauth21Status[server.id] === 'needs_auth' && (
                     <Button
                       size="small"
                       variant="outlined"
@@ -2241,7 +2239,7 @@ export default function ToolsTab() {
                       onClick={(e) => {
                         e.stopPropagation();
                         const returnTo = window.location.pathname + window.location.search;
-                        window.location.href = `/api/mcp/oauth/authorize?endpoint=${encodeURIComponent(server.endpoint)}&returnTo=${encodeURIComponent(returnTo)}`;
+                        window.location.href = MCPService.buildAuthorizeUrl(server, returnTo);
                       }}
                       sx={{
                         height: 26,
@@ -2256,20 +2254,28 @@ export default function ToolsTab() {
                       Authorize
                     </Button>
                   )}
-                  {server.authType === 'oauth2.1' && oauth21Status[server.id] === 'authorized' && (
-                    <Tooltip title="Re-authorize">
-                      <IconButton
-                        size="small"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          const returnTo = window.location.pathname + window.location.search;
-                          window.location.href = `/api/mcp/oauth/authorize?endpoint=${encodeURIComponent(server.endpoint)}&returnTo=${encodeURIComponent(returnTo)}`;
-                        }}
-                        sx={{ color: "rgba(46, 125, 50, 0.7)" }}
-                      >
-                        <KeyRound size={15} />
-                      </IconButton>
-                    </Tooltip>
+                  {(server.authType === 'oauth2.1' || server.authType === 'oauth2-user') && oauth21Status[server.id] === 'authorized' && (
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      startIcon={<KeyRound size={14} />}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        const returnTo = window.location.pathname + window.location.search;
+                        window.location.href = MCPService.buildAuthorizeUrl(server, returnTo);
+                      }}
+                      sx={{
+                        height: 26,
+                        textTransform: "none",
+                        borderColor: "rgba(46, 125, 50, 0.4)",
+                        color: "#2e7d32",
+                        fontSize: "0.72rem",
+                        fontWeight: 500,
+                        "&:hover": { borderColor: "#2e7d32", backgroundColor: "rgba(46, 125, 50, 0.06)" },
+                      }}
+                    >
+                      Re-authorize
+                    </Button>
                   )}
                   {loadingServers[server.id] && (
                     <CircularProgress size={18} />
@@ -2357,7 +2363,19 @@ export default function ToolsTab() {
                           <Typography sx={{ fontWeight: 500, fontSize: "0.9rem" }}>
                             {tool.name}
                           </Typography>
-                          <Typography variant="caption" sx={{ color: "var(--dm-text, rgba(0,0,0,0.6))" }}>
+                          <Typography
+                            variant="caption"
+                            title={tool.description}
+                            sx={{
+                              color: "var(--dm-text, rgba(0,0,0,0.6))",
+                              display: "-webkit-box",
+                              WebkitLineClamp: 2,
+                              WebkitBoxOrient: "vertical",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              lineHeight: 1.45,
+                            }}
+                          >
                             {tool.description}
                           </Typography>
                         </Box>
@@ -2411,5 +2429,97 @@ export default function ToolsTab() {
         ) : null}
       </Snackbar>
     </motion.div>
+  );
+}
+
+/**
+ * Add/Edit Tool dialog. Encapsulates the local ref + formState plumbing so
+ * the buttons can live in DialogActions (anchored to the bottom while the
+ * form content scrolls naturally inside DialogContent).
+ */
+function ToolDialog({ mode, server, serverToolsForEdit, onSave, onClose }) {
+  const isEdit = mode === "edit";
+  const formRef = useRef(null);
+  const [formState, setFormState] = useState({ isValid: false, isLoading: false, authType: null, testStatus: null, testToolsCount: 0 });
+
+  // The Dialog renders inside a React portal at document.body, so the page-
+  // level dark-mode wrapper does NOT cascade into it. Read the flag locally
+  // and apply darkCssVars + darkModeOverrides directly to the Paper so the
+  // entire dialog subtree is themed correctly.
+  const [isDark, setIsDark] = useState(false);
+  useEffect(() => {
+    try {
+      const ui = JSON.parse(localStorage.getItem("uiSettings") || "{}");
+      setIsDark(ui.darkMode === true);
+    } catch { /* ignore */ }
+  }, []);
+
+  return (
+    <Dialog
+      open
+      onClose={onClose}
+      maxWidth="md"
+      fullWidth
+      scroll="paper"
+      PaperProps={{
+        sx: {
+          borderRadius: 2,
+          ...(isDark && {
+            backgroundColor: DARK_SURFACE,
+            ...darkCssVars,
+            ...darkModeOverrides,
+          }),
+        },
+      }}
+    >
+      <DialogTitle sx={{ fontSize: "1rem", fontWeight: 600, pb: 1, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        {isEdit ? "Edit Tool" : "Add MCP Tool"}
+        <IconButton size="small" onClick={onClose} sx={{ ml: 1 }}>
+          <X size={16} />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent dividers sx={{ pt: "8px !important" }}>
+        <ToolForm
+          ref={formRef}
+          mode={mode}
+          initialValues={isEdit && server ? { ...server, tools: serverToolsForEdit } : null}
+          onSave={onSave}
+          onCancel={onClose}
+          onStateChange={setFormState}
+        />
+      </DialogContent>
+      <DialogActions sx={{ px: 3, py: 2 }}>
+        {formState.testStatus === "connected" && (
+          <Chip
+            icon={<Plug size={14} />}
+            label={formState.testToolsCount > 0 ? `Connected · ${formState.testToolsCount} tools` : "Connected"}
+            size="small"
+            color="success"
+            variant="outlined"
+            sx={{ mr: 1 }}
+          />
+        )}
+        {formState.authType !== "oauth2.1" && (
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={() => formRef.current?.test()}
+            disabled={!formState.isValid || formState.isLoading}
+            startIcon={formState.isLoading ? <CircularProgress size={14} /> : <Plug size={14} />}
+          >
+            Test Connection
+          </Button>
+        )}
+        <Button
+          variant="contained"
+          size="small"
+          onClick={() => formRef.current?.save()}
+          disabled={!formState.isValid || formState.isLoading}
+          startIcon={formState.isLoading ? <CircularProgress size={14} /> : <Check size={14} />}
+        >
+          {isEdit ? "Save" : "Add Tool"}
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }

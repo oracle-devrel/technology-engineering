@@ -400,12 +400,17 @@ const createGenaiAgentService = () => {
           // the "PrematureStreamClose" thrown in the finally block and the user
           // sees a misleading "OCI dropped the connection" message.
           if (data.done) {
+            // Always flag serverDone so the finally block doesn't double-report
+            // a PrematureStreamClose. But ONLY forward done:true to the chunk
+            // handler when there is NO error: marking the stream as completed
+            // when it actually failed makes markIncompleteMcpChipsAsFailed pick
+            // the wrong reason ("OCI completed while X was running") instead of
+            // the real interruption message.
             serverDone = true;
-            if (onChunk) onChunk({ done: true, trace: data.trace || null });
+            if (!data.error && onChunk) onChunk({ done: true, trace: data.trace || null });
           }
 
           if (data.error) {
-            // Forward trace even on error so UI can show diagnostics
             if (data.trace && onChunk) onChunk({ trace: data.trace });
             throw new Error(data.error);
           }
@@ -484,6 +489,14 @@ const createGenaiAgentService = () => {
             onChunk({ mcp_approval_request: data.mcp_approval_request });
           }
 
+          // Forward MCP function call (client-side execution path). For models
+          // that emit MCP tool calls as OpenAI-style function_call (gpt-oss-120b
+          // et al.), useChat will execute the tool itself and chain a follow-up
+          // request with function_call_output.
+          if (data.mcp_function_call && onChunk) {
+            onChunk({ mcp_function_call: data.mcp_function_call });
+          }
+
           // Track response ID for potential chaining
           if (data.response_id) {
             lastResponseId = data.response_id;
@@ -491,7 +504,7 @@ const createGenaiAgentService = () => {
           }
 
           // Log unhandled chunk types for debugging
-          if (!data.text && !data.mcp && !data.thinking && !data.annotations && !data.generated_image && !data.reasoning && !data.code_execution && !data.code_delta && !data.code_status && !data.item_error && !data.function_call && !data.mcp_approval_request && !data.done && !data.text_done && !data.conversation_id && !data.response_id && !data.error && !data.response_incomplete) {
+          if (!data.text && !data.mcp && !data.thinking && !data.annotations && !data.generated_image && !data.reasoning && !data.code_execution && !data.code_delta && !data.code_status && !data.item_error && !data.function_call && !data.mcp_approval_request && !data.mcp_function_call && !data.done && !data.text_done && !data.conversation_id && !data.response_id && !data.error && !data.response_incomplete && !data.no_summary) {
             console.warn('[Stream] Unhandled chunk type:', Object.keys(data), data);
           }
         }

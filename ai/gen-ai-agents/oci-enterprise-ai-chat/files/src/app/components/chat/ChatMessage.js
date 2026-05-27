@@ -22,6 +22,7 @@ import { Check, Copy, ChevronDown as ChevronDownIcon, Code, FileText, X, Brain, 
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import JsonView from "@uiw/react-json-view";
+import { MCPService } from "../../services/mcpService";
 
 import Sources from "../agent/Sources";
 import DotMatrixLoader from "../ui/DotMatrixLoader";
@@ -1389,10 +1390,10 @@ const ChatMessage = memo(function ChatMessage({
               let buttonLabel;
               let onClickAction;
               const returnTo = typeof window !== 'undefined' ? window.location.pathname + window.location.search : '/';
-              const openOAuth = () => { window.location.href = `/api/mcp/oauth/authorize?endpoint=${encodeURIComponent(server.endpoint)}&returnTo=${encodeURIComponent(returnTo)}`; };
+              const openOAuth = () => { window.location.href = MCPService.buildAuthorizeUrl(server, returnTo); };
               const openSettings = () => { window.location.href = server ? `/settings/tools?focus=${encodeURIComponent(server.id)}` : '/settings/tools'; };
 
-              if (authType === 'oauth2.1') {
+              if (authType === 'oauth2.1' || authType === 'oauth2-user') {
                 title = `Authorization needed — ${displayName}`;
                 description = `Sign in to "${displayName}" to grant access. After authorizing you'll return here.`;
                 buttonLabel = 'Authorize';
