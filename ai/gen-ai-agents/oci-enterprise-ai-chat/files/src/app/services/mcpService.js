@@ -258,6 +258,30 @@ ${toolDescriptions}
   }
 
   /**
+   * Build the `/api/mcp/oauth/authorize` URL for a given server, including the
+   * static OAuth params when the server uses `oauth2-user` (no dynamic
+   * registration). For `oauth2.1` only the endpoint is needed — the backend
+   * discovers everything from the MCP server's metadata.
+   *
+   * @param {MCPServer} server
+   * @param {string} returnTo Where to send the user once the flow completes
+   * @returns {string} Full URL ready for `window.location.href = ...`
+   */
+  static buildAuthorizeUrl(server, returnTo) {
+    const qs = new URLSearchParams();
+    qs.set('endpoint', server.endpoint);
+    qs.set('returnTo', returnTo);
+    if (server.authType === 'oauth2-user' && server.oauth) {
+      if (server.oauth.clientId)     qs.set('clientId',     server.oauth.clientId);
+      if (server.oauth.clientSecret) qs.set('clientSecret', server.oauth.clientSecret);
+      if (server.oauth.authorizeUrl) qs.set('authorizeUrl', server.oauth.authorizeUrl);
+      if (server.oauth.tokenUrl)     qs.set('tokenUrl',     server.oauth.tokenUrl);
+      if (server.oauth.scope)        qs.set('scope',        server.oauth.scope);
+    }
+    return `/api/mcp/oauth/authorize?${qs.toString()}`;
+  }
+
+  /**
    * Add a new MCP server
    * @param {Omit<MCPServer, 'id'>} server
    * @returns {MCPServer}

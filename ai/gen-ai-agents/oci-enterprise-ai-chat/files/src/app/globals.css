@@ -4,6 +4,14 @@ body {
   padding: 0;
 }
 
+/* Global font baseline — any element that doesn't set its own font-family
+   inherits Oracle Sans. This is the single source of truth so we don't have
+   to wrap every loose <div>/<Box> text in <Typography> just to get the right
+   font. Code/pre and explicit monospace usages still override locally. */
+body {
+  font-family: var(--font-oracle-sans), sans-serif;
+}
+
 body,
 h1,
 h2,

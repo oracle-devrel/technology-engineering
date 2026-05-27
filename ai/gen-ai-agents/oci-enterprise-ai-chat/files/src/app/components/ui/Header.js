@@ -242,7 +242,19 @@ export default function Header({
                       style={{ display: "flex", alignItems: "center", gap: 8 }}
                     >
                       <BrainFreezeIcon size={20} color={isDarkBg ? "rgba(255,255,255,0.5)" : "rgba(0, 0, 0, 0.4)"} />
-                      {/* Model name label hidden temporarily — tooltip still shows it on hover */}
+                      <Typography
+                        sx={{
+                          fontSize: "1rem",
+                          color: isDarkBg ? "rgba(255,255,255,0.6)" : "rgba(0, 0, 0, 0.5)",
+                          fontWeight: 400,
+                          maxWidth: 250,
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {selectedModel?.replace(/^[a-z]+\./, "") || "Select model"}
+                      </Typography>
                     </motion.div>
                   )}
                 </AnimatePresence>
