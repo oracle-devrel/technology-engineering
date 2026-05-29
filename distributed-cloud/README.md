@@ -24,10 +24,12 @@ Oracle’s distributed cloud delivers the benefits of cloud with greater control
 
 ## Distributed Cloud - Common Assets
 
+- [How OCI Delivers Cloud Consistency and Isolation: Gartner® Names Oracle in Report](https://blogs.oracle.com/cloud-infrastructure/oci-delivers-private-cloud) (28/Apr/2026)
 - [Oracle EU Sovereign Cloud – Reflecting on the Journey and Lessons Learned](https://blogs.oracle.com/cloud-infrastructure/oracle-eu-sovereign-cloud-lessons-learned) (9/Mar/2026)
 - [Oracle’s Full Cloud, Available On Premises – Industry Leading Sovereignty with Public Cloud Service Parity](https://blogs.oracle.com/cloud-infrastructure/oracle-full-cloud-on-prem) (19/Dec/2025)
 - [Explore the Future of Cloud with OCI Dedicated Region and Oracle Alloy at AI World](https://blogs.oracle.com/cloud-infrastructure/post/ai-world-2025-dedicated-region) (14/Oct/2025)
 - [Enhancing Cloud Security and Sovereignty with Thales & Oracle Alloy - Post-Webinar Recap](https://blogs.oracle.com/cloud-infrastructure/post/oracle-alloy-thales-cloud-security-sovereignty-webinar-recap) (29/Sep/2025)
+- [Oracle named a Leader, furthest in completeness of vision in the 2025 Gartner® Magic Quadrant™ for Distributed Hybrid Infrastructure](https://www.oracle.com/cloud/distributed-cloud/gartner-leadership-report/) (8/Sep/2025)
 - [Unveiling the Future of Cloud Computing: A Sneak Peek into Dedicated Cloud at Oracle AI World 2025](https://blogs.oracle.com/cloud-infrastructure/post/dedicated-cloud-at-oracle-ai-world-2025) (27/Aug/2025)
 - [Tackle your sovereignty obligations with Oracle Cloud Infrastructure](https://blogs.oracle.com/cloud-infrastructure/post/tackle-sovereignty-obligations-with-oci) (22/Apr/2025)
 - [Announcing New AI Infrastructure Capabilities with NVIDIA Blackwell for Public, On-Premises, and Service Provider Clouds](https://blogs.oracle.com/cloud-infrastructure/post/supercluster-nvidia-blackwell-dedicated-alloy) (27/Mar/2025)
