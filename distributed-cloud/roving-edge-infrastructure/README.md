@@ -1,6 +1,19 @@
 # Roving Edge Infrastructure
 
-Updated: 23.03.2026
+Updated: 29.05.2026
+
+## Useful Links
+
+- [Roving Edge Infrastructure on oracle.com](https://www.oracle.com/cloud/roving-edge-infrastructure/)
+- [Roving Edge Infrastructure documentation](https://docs.oracle.com/en-us/iaas/roving-edge-infrastructure/rvr/home.htm)
+- [Roving Edge Infrastructure release notes](https://docs.oracle.com/en-us/iaas/releasenotes/services/roving-edge-infrastructure/index.htm)
+- [Roving Edge Classic documentation](https://docs.oracle.com/en-us/iaas/Content/Rover/)
+- [Roving Edge Classic release notes](https://docs.oracle.com/en-us/iaas/releasenotes/services/rover/index.htm)
+- [Roving Edge Device (2nd generation) datasheet](https://www.oracle.com/a/ocom/docs/data-sheet-roving-edge-device.pdf)
+- [Roving Edge Ultra datasheet](https://www.oracle.com/a/ocom/docs/data-sheet-roving-edge-ultra.pdf)
+- [Roving Edge Station datasheet](https://www.oracle.com/a/ocom/docs/data-sheet-roving-edge-station.pdf)
+- [Oracle Architecture Center filtered for Roving Edge Infrastructure](https://docs.oracle.com/solutions/?q=%22Roving%20Edge%22&cType=reference-architectures%2Csolution-playbook%2Cbuilt-deployed&sort=date-desc&lang=en)
+- [Oracle Help Center Learn filtered for Roving Edge Infrastructure](https://docs.oracle.com/learn/?q=&product=en%2Fcloud%2Foracle-cloud-infrastructure%2Frover&sort=date-desc&lang=en)
 
 # Solutions - Architecture Center
 
