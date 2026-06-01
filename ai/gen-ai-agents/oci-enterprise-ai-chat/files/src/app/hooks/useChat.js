@@ -180,6 +180,33 @@ export default function useChat({ initialConversationId = null, selectedModel, o
       return [...state.responses];
     }
 
+    // Capture response.id as soon as OCI emits it (response.created). Stored on the
+    // streaming state so any approval card created mid-stream can read it.
+    if (typeof chunk === 'object' && chunk.response_id) {
+      state.responseId = chunk.response_id;
+      // Backfill any approval card that was created before the id arrived
+      for (const r of state.responses) {
+        if (r.type === 'mcp_approval_request' && !r.responseId) r.responseId = chunk.response_id;
+      }
+      return [...state.responses];
+    }
+
+    // MCP approval request — push a card that the user must Approve or Reject.
+    if (typeof chunk === 'object' && chunk.mcp_approval_request) {
+      const ar = chunk.mcp_approval_request;
+      state.responses = state.responses.filter(r => r.type !== 'thinking');
+      state.responses.push({
+        type: 'mcp_approval_request',
+        requestId: ar.request_id,
+        serverLabel: ar.server_label,
+        toolName: ar.tool_name,
+        arguments: ar.arguments,
+        responseId: state.responseId || null,
+        decision: null, // 'approved' | 'rejected' | null
+      });
+      return [...state.responses];
+    }
+
     // Capture trace from error path
     if (typeof chunk === 'object' && chunk.trace && !chunk.done) {
       state.trace = chunk.trace;
@@ -707,7 +734,7 @@ export default function useChat({ initialConversationId = null, selectedModel, o
    * Send a message - OCI manages conversation history automatically
    */
   const sendAndStreamMessage = useCallback(async (input, options = {}) => {
-    const { isNewConversation = false, inputText = "" } = options;
+    const { isNewConversation = false, inputText = "", previousResponseId } = options;
     const sessionActiveServers = inputRef.current?.getSessionActiveServers?.() || undefined;
 
     try {
@@ -732,7 +759,7 @@ export default function useChat({ initialConversationId = null, selectedModel, o
             responses: responsesCopy,
           }));
         },
-        { model: selectedModel || undefined, sessionActiveServers }
+        { model: selectedModel || undefined, sessionActiveServers, previousResponseId }
       );
 
       // Persist the raw accumulated text and trace for export/diagnostics
@@ -979,6 +1006,27 @@ export default function useChat({ initialConversationId = null, selectedModel, o
         let currentExchange = null;
 
         for (const item of sortedItems) {
+          // Approval items don't follow the role-based pattern even if OCI tags them
+          // with role='user'. Route them to the dedicated branches below before the
+          // generic user-message branch can spawn a spurious new exchange.
+          if (item.type === 'mcp_approval_request' && currentExchange) {
+            currentExchange.responses.push({
+              type: 'mcp_approval_request',
+              requestId: item.id,
+              serverLabel: item.server_label,
+              toolName: item.name,
+              arguments: item.arguments,
+              decision: null,
+            });
+            continue;
+          }
+          if (item.type === 'mcp_approval_response' && currentExchange) {
+            const card = currentExchange.responses.find(
+              r => r.type === 'mcp_approval_request' && r.requestId === item.approval_request_id
+            );
+            if (card) card.decision = item.approve ? 'approved' : 'rejected';
+            continue;
+          }
           if (item.role === 'user') {
             if (currentExchange) exchanges.push(currentExchange);
 
@@ -1345,6 +1393,45 @@ export default function useChat({ initialConversationId = null, selectedModel, o
     handleSubmit(optionLabel);
   }, [handleSubmit]);
 
+  /**
+   * User clicked Approve / Reject on an MCP approval card.
+   * Submits an mcp_approval_response item under the same `conversation` — OCI
+   * locates the pending approval_request_id from the conversation context, no
+   * previous_response_id needed (and OCI rejects sending both together).
+   * The new stream appends into the SAME exchange — no new user message.
+   */
+  const handleApprovalSubmit = useCallback(async (requestId, approve) => {
+    if (!genaiService) return;
+
+    let existingResponses = null;
+    setChatHistory(prev => {
+      if (prev.length === 0) return prev;
+      const last = prev[prev.length - 1];
+      const updated = (last.responses || []).map(r => {
+        if (r.type === 'mcp_approval_request' && r.requestId === requestId) {
+          return { ...r, decision: approve ? 'approved' : 'rejected' };
+        }
+        return r;
+      });
+      existingResponses = updated;
+      return [...prev.slice(0, -1), { ...last, responses: updated, isLatest: true }];
+    });
+
+    setIsLoading(true);
+    initStreamingState();
+    // Preserve already-rendered content so the new stream appends below the card.
+    streamingStateRef.current.responses = [...(existingResponses || [])];
+
+    try {
+      await sendAndStreamMessage(
+        [{ type: 'mcp_approval_response', approval_request_id: requestId, approve }]
+      );
+    } finally {
+      setIsLoading(false);
+      markIncompleteMcpChipsAsFailed();
+    }
+  }, [genaiService, initStreamingState, sendAndStreamMessage, markIncompleteMcpChipsAsFailed]);
+
   const handleRetry = useCallback(() => {
     setChatHistory(prev => {
       if (prev.length === 0) return prev;
@@ -1374,6 +1461,7 @@ export default function useChat({ initialConversationId = null, selectedModel, o
     inputRef,
     handleSubmit,
     handleRetry,
+    handleApprovalSubmit,
     stopGeneration,
     handleWidgetSubmit,
     handleOptionSelect,

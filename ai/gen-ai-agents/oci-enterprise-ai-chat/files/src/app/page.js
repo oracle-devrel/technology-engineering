@@ -54,7 +54,7 @@ export default function Home({ initialConversationId = null }) {
 
   // UI Settings from localStorage
   const [uiSettings, setUiSettings] = useState({
-    appTitle: "OCI Enterprise AI Agents",
+    appTitle: "OCI Enterprise AI",
     appLogo: "",
     welcomeMessage: "Welcome back!",
     inputPlaceholder: "Type anything...",
@@ -161,6 +161,7 @@ export default function Home({ initialConversationId = null }) {
     inputRef,
     handleSubmit,
     handleRetry,
+    handleApprovalSubmit,
     stopGeneration,
     handleWidgetSubmit,
     handleOptionSelect,
@@ -233,7 +234,7 @@ export default function Home({ initialConversationId = null }) {
         try {
           const parsedSettings = JSON.parse(stored);
           setUiSettings(parsedSettings);
-          document.title = parsedSettings.appTitle || "OCI Enterprise AI Agents";
+          document.title = parsedSettings.appTitle || "OCI Enterprise AI";
         } catch (e) {
           console.error("Error parsing UI settings:", e);
         }
@@ -242,7 +243,7 @@ export default function Home({ initialConversationId = null }) {
 
     const handleUiSettingsChanged = (e) => {
       setUiSettings(e.detail);
-      document.title = e.detail.appTitle || "OCI Enterprise AI Agents";
+      document.title = e.detail.appTitle || "OCI Enterprise AI";
     };
     window.addEventListener('uiSettingsChanged', handleUiSettingsChanged);
 
@@ -821,6 +822,7 @@ export default function Home({ initialConversationId = null }) {
                 onWidgetSubmit={handleWidgetSubmit}
                 onOptionSelect={handleOptionSelect}
                 onRetry={handleRetry}
+                onApprovalSubmit={handleApprovalSubmit}
                 isLoading={isLoading}
         
               />

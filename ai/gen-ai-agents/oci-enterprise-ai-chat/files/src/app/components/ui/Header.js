@@ -36,6 +36,7 @@ export default function Header({
   const [menuAnchor, setMenuAnchor] = useState(null);
   const [user, setUser] = useState(null);
   const [loadingUser, setLoadingUser] = useState(true);
+  const [authEnabled, setAuthEnabled] = useState(null); // null until we know
   const [userMenuAnchor, setUserMenuAnchor] = useState(null);
   const [shareOpen, setShareOpen] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -94,9 +95,10 @@ export default function Header({
     fetch('/api/auth/session')
       .then(res => res.json())
       .then(data => {
+        setAuthEnabled(data.authEnabled !== false);
         if (data.authenticated) setUser(data.user);
       })
-      .catch(() => {})
+      .catch(() => setAuthEnabled(false))
       .finally(() => setLoadingUser(false));
   }, []);
 
@@ -167,7 +169,7 @@ export default function Header({
                 lineHeight: 1.3,
               }}
             >
-              {appTitle || (<><Box component="span" sx={{ fontWeight: 600 }}>OCI</Box>{" "}Enterprise AI Agents</>)}
+              {appTitle || (<><Box component="span" sx={{ fontWeight: 600 }}>OCI</Box>{" "}Enterprise AI</>)}
             </Typography>
             {showLabChip && (
               <Chip
@@ -240,19 +242,7 @@ export default function Header({
                       style={{ display: "flex", alignItems: "center", gap: 8 }}
                     >
                       <BrainFreezeIcon size={20} color={isDarkBg ? "rgba(255,255,255,0.5)" : "rgba(0, 0, 0, 0.4)"} />
-                      <Typography
-                        sx={{
-                          fontSize: "1rem",
-                          color: isDarkBg ? "rgba(255,255,255,0.6)" : "rgba(0, 0, 0, 0.5)",
-                          fontWeight: 400,
-                          maxWidth: 250,
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        {selectedModel?.replace(/^[a-z]+\./, "") || "Select model"}
-                      </Typography>
+                      {/* Model name label hidden temporarily — tooltip still shows it on hover */}
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -329,8 +319,8 @@ export default function Header({
           </IconButton>
         </Tooltip>
 
-        {/* User avatar - desktop only */}
-        {!isMobile && loadingUser && (
+        {/* User avatar - desktop only. Skeleton only when auth is on. */}
+        {!isMobile && loadingUser && authEnabled !== false && (
           <IconButton disabled sx={{ ml: 0.5 }}>
             <Skeleton variant="circular" width={36} height={36} />
           </IconButton>

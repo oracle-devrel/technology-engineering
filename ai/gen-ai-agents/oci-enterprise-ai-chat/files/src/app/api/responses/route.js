@@ -65,9 +65,13 @@ export async function POST(request) {
       }
     }
 
-    // Chain to a previous response (for function calling round-trips)
+    // Chain to a previous response (for function calling round-trips or
+    // mcp_approval_response continuations). OCI rejects `previous_response_id`
+    // and `conversation` together (400 mutually_exclusive_parameters), so the
+    // previous-response id wins when both are present.
     if (previousResponseId) {
       requestBody.previous_response_id = previousResponseId;
+      if (requestBody.conversation) delete requestBody.conversation;
     }
 
     log.info('OCI request payload', {
@@ -356,6 +360,12 @@ export async function POST(request) {
                 // Lifecycle events (created, in_progress) — debug level
                 if (eventType === 'response.created' || eventType === 'response.in_progress') {
                   log.debug('Response lifecycle', { event: eventType, elapsed, responseId: data.response?.id });
+                  // Expose response.id to the client as soon as we know it so a UI that needs
+                  // to chain (e.g. mcp_approval_response) has the previous_response_id ready
+                  // before the stream completes.
+                  if (eventType === 'response.created' && data.response?.id) {
+                    controller.enqueue(encoder.encode(JSON.stringify({ response_id: data.response.id }) + '\n'));
+                  }
                 }
 
                 // ═══ TEXT STREAMING ═══
@@ -374,6 +384,21 @@ export async function POST(request) {
                   if (itemType === 'mcp_list_tools') {
                     controller.enqueue(encoder.encode(JSON.stringify({
                       mcp: { type: 'connecting', server: data.item.server_label }
+                    }) + '\n'));
+                  }
+                  else if (itemType === 'mcp_approval_request') {
+                    // Human-in-the-loop: tool call awaiting user approval.
+                    // The frontend renders a card with Approve/Reject buttons; on click
+                    // it chains a new request with previous_response_id and an input of
+                    // [{type:'mcp_approval_response', approval_request_id, approve}].
+                    log.info('MCP approval request', { tool: data.item.name, server: data.item.server_label, id: itemId });
+                    controller.enqueue(encoder.encode(JSON.stringify({
+                      mcp_approval_request: {
+                        request_id: itemId,
+                        server_label: data.item.server_label,
+                        tool_name: data.item.name,
+                        arguments: data.item.arguments,
+                      }
                     }) + '\n'));
                   }
                   else if (itemType === 'mcp_call') {

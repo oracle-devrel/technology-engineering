@@ -415,6 +415,18 @@ export const groupMessages = (messages) => {
       case "code_execution":
         groups.push({ type: "code_execution", id: message.id, code: message.code, output: message.output, containerId: message.containerId, status: message.status, messageIndex: index });
         break;
+      case "mcp_approval_request":
+        groups.push({
+          type: "mcp_approval_request",
+          requestId: message.requestId,
+          serverLabel: message.serverLabel,
+          toolName: message.toolName,
+          arguments: message.arguments,
+          responseId: message.responseId,
+          decision: message.decision,
+          messageIndex: index,
+        });
+        break;
     }
   });
 

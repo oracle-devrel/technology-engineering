@@ -10,13 +10,15 @@ import {
   InputLabel,
   Button,
   Chip,
+  Switch,
   IconButton,
   InputAdornment,
   CircularProgress,
   Typography,
   Tooltip,
+  FormControlLabel,
 } from "@mui/material";
-import { Plug, Eye, EyeOff, X, Check, Wand2, Wrench } from "lucide-react";
+import { Plug, Eye, EyeOff, X, Check, Wand2, Wrench, ShieldAlert } from "lucide-react";
 import mcpService from "../../services/mcpService";
 
 function makeInitial(initial) {
@@ -36,6 +38,11 @@ function makeInitial(initial) {
     showSecret: false,
     detecting: false,
     detectMsg: null,
+    // Server-level human approval. OCI only supports per-server granularity for
+    // `require_approval`, so we use a single boolean. Legacy configs may have
+    // `requireApprovalTools` (array) — treat any non-empty array as "on".
+    requireApproval: initial?.requireApproval === true
+      || (Array.isArray(initial?.requireApprovalTools) && initial.requireApprovalTools.length > 0),
   };
 }
 
@@ -106,6 +113,7 @@ export default function ToolForm({ mode = "add", initialValues = null, onSave, o
       };
     }
     // oauth2.1 is handled by the OAuth flow (no creds in form)
+    server.requireApproval = !!s.requireApproval;
     return server;
   };
 
@@ -405,50 +413,89 @@ export default function ToolForm({ mode = "add", initialValues = null, onSave, o
         </Button>
       </Box>
 
-      {/* Test results — list discovered tools so the user can verify */}
-      {s.testStatus === "connected" && s.testTools && s.testTools.length > 0 && (
-        <Box
-          sx={{
-            mt: 1,
-            p: 2,
-            backgroundColor: "rgba(46, 125, 50, 0.04)",
-            borderRadius: 1.5,
-            border: "1px solid rgba(46, 125, 50, 0.15)",
-          }}
-        >
-          <Typography sx={{ fontSize: "0.8rem", fontWeight: 600, color: "#2e7d32", mb: 1.5 }}>
-            {s.testTools.length} function{s.testTools.length !== 1 ? "s" : ""}
+      {/* Server-level human approval. OCI Responses API only supports per-server
+          granularity for require_approval, so this is a single switch. */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 1.5,
+          p: 1.5,
+          borderRadius: 1.5,
+          border: `1px solid ${s.requireApproval ? "rgba(240, 162, 59, 0.45)" : "var(--dm-border, rgba(0,0,0,0.08))"}`,
+          backgroundColor: s.requireApproval ? "rgba(240, 162, 59, 0.06)" : "transparent",
+        }}
+      >
+        <ShieldAlert size={18} style={{ color: s.requireApproval ? "#b26a00" : "var(--dm-muted, rgba(0,0,0,0.35))", flexShrink: 0 }} />
+        <Box sx={{ flex: 1, minWidth: 0 }}>
+          <Typography sx={{ fontSize: "0.85rem", fontWeight: 600, color: "var(--dm-text, #1a1a1a)" }}>
+            Require user approval
           </Typography>
-          <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-            {s.testTools.map((tool) => (
-              <Box
-                key={tool.name}
-                sx={{
-                  display: "flex",
-                  alignItems: "flex-start",
-                  gap: 1.5,
-                  p: 1.5,
-                  backgroundColor: "var(--dm-surface)",
-                  borderRadius: 1,
-                  border: "1px solid var(--dm-border, rgba(0,0,0,0.06))",
-                }}
-              >
-                <Wrench size={15} style={{ color: "var(--dm-muted, rgba(0,0,0,0.35))", marginTop: 2, flexShrink: 0 }} />
-                <Box sx={{ flex: 1, minWidth: 0 }}>
-                  <Typography sx={{ fontWeight: 500, fontSize: "0.85rem" }}>{tool.name}</Typography>
-                  {tool.description && (
-                    <Typography
-                      sx={{ fontSize: "0.75rem", color: "var(--dm-muted, rgba(0,0,0,0.5))", lineHeight: 1.5, mt: 0.25 }}
-                    >
-                      {tool.description}
-                    </Typography>
-                  )}
-                </Box>
-              </Box>
-            ))}
-          </Box>
+          <Typography sx={{ fontSize: "0.72rem", color: "var(--dm-muted, rgba(0,0,0,0.55))", lineHeight: 1.4 }}>
+            Ask the user to confirm before any tool from this server runs. Applies to all tools — OCI does not support per-tool granularity.
+          </Typography>
         </Box>
-      )}
+        <Switch
+          size="small"
+          checked={!!s.requireApproval}
+          onChange={(e) => d({ type: "set", field: "requireApproval", value: e.target.checked })}
+          sx={{
+            "& .MuiSwitch-switchBase.Mui-checked": { color: "#b26a00" },
+            "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": { backgroundColor: "#b26a00" },
+          }}
+        />
+      </Box>
+
+      {/* Test results — list discovered tools so the user can verify the connection. */}
+      {(() => {
+        const toolsList = (s.testStatus === "connected" && s.testTools)
+          ? s.testTools
+          : (Array.isArray(initialValues?.tools) ? initialValues.tools : null);
+        if (!toolsList || toolsList.length === 0) return null;
+        return (
+          <Box
+            sx={{
+              mt: 1,
+              p: 2,
+              backgroundColor: "rgba(46, 125, 50, 0.04)",
+              borderRadius: 1.5,
+              border: "1px solid rgba(46, 125, 50, 0.15)",
+            }}
+          >
+            <Typography sx={{ fontSize: "0.8rem", fontWeight: 600, color: "#2e7d32", mb: 1.5 }}>
+              {toolsList.length} function{toolsList.length !== 1 ? "s" : ""}
+            </Typography>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+              {toolsList.map((tool) => (
+                <Box
+                  key={tool.name}
+                  sx={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    gap: 1.5,
+                    p: 1.5,
+                    backgroundColor: "var(--dm-surface)",
+                    borderRadius: 1,
+                    border: "1px solid var(--dm-border, rgba(0,0,0,0.06))",
+                  }}
+                >
+                  <Wrench size={15} style={{ color: "var(--dm-muted, rgba(0,0,0,0.35))", marginTop: 2, flexShrink: 0 }} />
+                  <Box sx={{ flex: 1, minWidth: 0 }}>
+                    <Typography sx={{ fontWeight: 500, fontSize: "0.85rem" }}>{tool.name}</Typography>
+                    {tool.description && (
+                      <Typography
+                        sx={{ fontSize: "0.75rem", color: "var(--dm-muted, rgba(0,0,0,0.5))", lineHeight: 1.5, mt: 0.25 }}
+                      >
+                        {tool.description}
+                      </Typography>
+                    )}
+                  </Box>
+                </Box>
+              ))}
+            </Box>
+          </Box>
+        );
+      })()}
     </Box>
   );
 }

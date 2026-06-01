@@ -1,4 +1,4 @@
-# Autonomous AI Lakehouse
+<img width="624" height="70" alt="image" src="https://github.com/user-attachments/assets/a912fabd-80ce-4fd0-9920-d943d785283f" /># Autonomous AI Lakehouse
  
 Oracle Autonomous AI Lakehouse is the world’s first and only autonomous database optimized for analytic workloads, including data marts, data warehouses, data lakes, and data lakehouses. With Autonomous Data Warehouse, data scientists, business analysts, and nonexperts can rapidly, easily, and cost-effectively discover business insights using data of any size and type.
  
@@ -15,6 +15,27 @@ Reviewed: 28.10.2025
  
 # Team Publications
 
+- [Lakehouse Control Room: Your First Step into Agentic Data Engineering with Oracle and OpenClaw](https://www.javidatatech.com/lakehouse-control-room-your-first-step-into-agentic-data-engineering-with-oracle-and-openclaw/)
+    - Using OpenClaw to manage an Autonomous AI Lakehouse Databaes.
+      
+- [Using OpenAI Codex and MCP to Build Autonomous AI Lakehouse Data Transforms Pipelines](https://www.javidatatech.com/using-openai-codex-and-mcp-to-build-autonomous-ai-lakehouse-data-transforms-pipelines/ )
+    - Using Codex to build Data Transforms Pipelines.
+ 
+- [I connected Gemini CLI to ADB](https://www.javidatatech.com/i-connected-gemini-cli-to-oracle-autonomous/ )
+    - Connecting Gemini CLI to Autonomous AI Lakehouse.
+      
+- [7 reasons to choose ADB AI Lakehouse](https://www.javidatatech.com/7-reasons-to-choose-autonomous-ai-lakehouse/)
+    - Reasons to choose Autonomous AI Lakehouse.
+
+- [Data Products in ADB AI Lakehouse: 4 different ways to share data](https://www.javidatatech.com/data-products-in-oracle-autonomous-ai-lakehouse-4-different-ways-to-share-data/)
+    - Different ways of sharing data in Autonomous AI Lakehouse.
+      
+- [Open Data Pipelines with Oracle Autonomous Database and Delta Sharing](https://www.javidatatech.com/open-data-pipelines-with-oracle-autonomous-database-and-delta-sharing/)
+    - Build Data Transforms Data Pipelines with Delta Sharing.
+      
+- [Supercharge Apache Iceberg Tables on ADB with AI Table Assist](https://www.javidatatech.com/supercharge-apache-iceberg-tables-on-autonomous-with-ai-table-assist/)
+    - Enhance Apache Iceberg Tables with AI Table Assist.
+      
 - [Connect Claude Desktop to Oracle Autonomous Database Using SQLcl MCP Server](https://javidatatech.com/i-connected-claude-desktop-to-oracle-autonomous-database-using-sqlcl-mcp-server/)
     - Step by step guide connecting Claude Desktop to Autonomous Database.
 
