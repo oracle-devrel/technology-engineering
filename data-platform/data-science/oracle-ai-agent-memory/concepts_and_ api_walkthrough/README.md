@@ -10,11 +10,11 @@ The notebook includes:
 
 This notebook does not cover agent creation. Instead, it focuses on using Large Language Models (LLMs) to explore and demonstrate Oracle Agent Memory capabilities and API usage.
 
+Reviewed: 2026.05.15
+
 # Environment
 
 Conda environment: python3 (ipykernel)
-
-Created: 15/05/2026
 
 # Prerequisites
 * Access to an Oracle Database 26ai instance with Oracle Agent Memory enabled
