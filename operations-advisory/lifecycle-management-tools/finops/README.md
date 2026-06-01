@@ -2,7 +2,7 @@
 
 **FinOps** is a cloud financial management practice that supports organizations to optimize their cloud spending by providing a dedicated framework to achieve maximum business value by helping engineering, finance & business teams to collaborate on data-driven spending decision
 
-Reviewed: 2026-05-27
+Reviewed: 2026-06-01
 
 **The FinOps Framework** describes 
 1. The Principles that drive FinOps practices
@@ -26,7 +26,8 @@ Reviewed: 2026-05-27
 **Operate**: Create a culture for cost optimization.
 
 # Team Publications
-- [How OCI can support FinOps Workshop](./files/Public_Finops%20Overview%20feb%202026_v0.2.pdf)
+- [How OCI can support FinOps Workshop.](./files/Public_Finops%20Overview%20feb%202026_v0.2.pdf)
+- [OCI Tagging - Driving Governance, Visibility and Cost Control.](./files/Public_FinOps_Tagging_v0.1.pdf)
 
 # Useful Links
 
