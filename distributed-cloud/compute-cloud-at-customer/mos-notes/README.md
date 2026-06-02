@@ -1,18 +1,15 @@
 # Compute Cloud@Customer Support Notes 
 
-Updated: 23.12.2025
+Updated: 29.05.2026
 
-Collection of My Cloud Oracle Support (MCOS) & My Oracle Support (MOS) notes relevant to Compute Cloud@Customer (CCATC) and Private Cloud Appliance (PCA) notes that are relevant to CCATC. The collection will continue to be updated as needed and is intended for use by CCATC administrators or anyone working on the CCATC service.
+Collection of My Oracle Support notes relevant to Compute Cloud@Customer (CCATC) and Private Cloud Appliance (PCA) notes that are relevant to CCATC. The collection is intended for use by CCATC administrators or anyone working on the CCATC service.
 
-# My Oracle Cloud Support
+# My Oracle Support
 
 - [[CCATC] How to Setup IDP as a Provider for the Compute Cloud at Customer](https://support.oracle.com/knowledgefs?docId=3006544) KB577100 / 3006544.1
 - [[PCA 3.x] Support Process for Private Cloud Appliace and Compute Cloud@Customer Technical Briefs and 3rd Party Solutions](https://support.oracle.com/ic/builder/rt/customer_portal/live/webApps/customer-portal/?kmExternalId=KB159007)
 - [[CCATC] How to Re-bootstrap a Compute Cloud @ Customer Rack (Doc ID 3010344.1)](https://support.oracle.com/ic/builder/rt/customer_portal/live/webApps/customer-portal/?anchorId=&documentId=KB161124)
 - [OCI Edge Cloud Supported Database Releases SRDC2217](https://support.oracle.com/ic/builder/rt/customer_portal/live/webApps/customer-portal/?anchorId=&documentId=SRDC2217&page=sptemplate&sptemplate=km-article)
-
-# My Oracle Support
-
 - [[PCA 3.x] Importing Microsoft Windows 'bring your own instance' Custom Image (Doc ID 2852064.1)](https://support.oracle.com/support/?kmContentId=2852064)
 - [[PCA 3.x] Private Cloud Appliance: Software Updates (Doc ID 2906831.1)](https://support.oracle.com/support/?kmContentId=2906831)
 - [Information Center: [CCATC] Oracle Compute Cloud at Customer (Doc ID 2936731.2)](https://support.oracle.com/support/?kmContentId=2966540)
