@@ -1,10 +1,10 @@
 # OD@GCP Module Handoff Reference
 
-Last reviewed: 2026-05-26
+Last reviewed: 2026-06-02
 
 This runbook is the implementation companion to [Operational Best Practices for Oracle Database@Google Cloud](./README.md). It shows one practical way to wire the OD@GCP Google Cloud-side modules to the OCI Exadata Database module.
 
-The best-practices document remains the source of truth for control-plane ownership, drift contracts, Day 2 tool selection, and exception rules. This runbook focuses only on the normal implementation path and post-handoff checks.
+The best-practices document remains the source of truth for control-plane ownership, drift contracts, Day 2 tool selection, and the single-writer rule for the declarative Day 2 path. This runbook focuses only on the normal implementation path and post-handoff checks.
 
 For the recommended GitOps repository, state, and operations model, see [GitOps Repository, State, and Operations Design for Oracle Database@Google Cloud](./gitops-design.md).
 
@@ -20,8 +20,8 @@ For the recommended GitOps repository, state, and operations model, see [GitOps 
   - [5. Step 1 - Google Cloud Networking Stack](#5-step-1---google-cloud-networking-stack)
   - [6. Step 2 - Google Cloud Exadata Stack](#6-step-2---google-cloud-exadata-stack)
   - [7. Step 3 - OCI Database Layer](#7-step-3---oci-database-layer)
-    - [7.1 Path A - Direct OCID Recommended for Orchestrated Flows](#71-path-a---direct-ocid-recommended-for-orchestrated-flows)
-    - [7.2 Path B - Handoff Wrapper Optional Adapter](#72-path-b---handoff-wrapper-optional-adapter)
+    - [7.1 Path A (recommended for orchestrated flows)](#71-path-a-recommended-for-orchestrated-flows)
+    - [7.2 Path B (optional handoff wrapper)](#72-path-b-optional-handoff-wrapper)
   - [8. Step 4 - Post-Handoff Checks](#8-step-4---post-handoff-checks)
   - [9. Common Mistakes](#9-common-mistakes)
 - [License](#license)
@@ -35,9 +35,7 @@ This runbook covers the normal handoff path across four steps:
 3. **OCI database layer** — connect the OCI database stack to the VM Cluster OCID and create DB Homes, CDBs/databases, PDBs, and database-level backup configuration where required.
 4. **Post-handoff checks** — verify ownership and drift contracts after OCI-side operations that may affect Terraform-managed or handoff-relevant fields.
 
-This runbook does not cover patching, upgrades, support procedures, or the OCI Terraform exception path for Infrastructure / VM Cluster updates. Those topics are covered in [Operational Best Practices for Oracle Database@Google Cloud](./README.md).
-
-This runbook also does not define the full GitOps repository and state model. That design is covered in [GitOps Repository, State, and Operations Design for Oracle Database@Google Cloud](./gitops-design.md).
+Patching, upgrades, support procedures, the declarative Day 2 path for Infrastructure / VM Cluster updates, and the full GitOps repository and state model are out of scope here; see the linked documents above.
 
 ## 2. Reference Examples
 
@@ -45,11 +43,11 @@ This runbook also does not define the full GitOps repository and state model. Th
 |---|---|
 | [`modules/odb-networking/examples/basic`](https://github.com/oci-landing-zones/terraform-oci-multicloud-google/tree/release-0.2.0/modules/odb-networking/examples/basic) | A standalone networking stack that creates ODB Network and ODB Subnets. |
 | [`modules/exadb/examples/cluster`](https://github.com/oci-landing-zones/terraform-oci-multicloud-google/tree/release-0.2.0/modules/exadb/examples/cluster) | A VM Cluster consumer stack that receives dependency maps from upstream stacks. |
-| [`modules/exadb/examples/vision`](https://github.com/oci-landing-zones/terraform-oci-multicloud-google/tree/release-0.2.0/modules/exadb/examples/vision) | A single-root local validation example. Useful for labs, not the preferred production split. |
+| [`modules/exadb/examples/vision`](https://github.com/oci-landing-zones/terraform-oci-multicloud-google/tree/release-0.2.0/modules/exadb/examples/vision) | A single-root example that provisions the stack from one configuration. Larger environments, with multiple teams and separate ownership boundaries, use the separate-state split described below. |
 | [`modules/exadb/examples/oci-dbhome-handoff`](https://github.com/oci-landing-zones/terraform-oci-multicloud-google/tree/release-0.2.0/modules/exadb/examples/oci-dbhome-handoff) | A wrapper pattern that resolves `vm_cluster_id` from the Google Cloud-side VM Cluster output and passes the OCI Cloud VM Cluster OCID to the OCI Exadata Database module. |
-| [`terraform-oci-modules-exadata/exadata-database`](https://github.com/oci-landing-zones/terraform-oci-modules-exadata/tree/main/exadata-database) | The OCI module used for DB Homes, CDBs/databases, PDBs, database-level backup configuration where required, and controlled exceptions. |
+| [`terraform-oci-modules-exadata/exadata-database`](https://github.com/oci-landing-zones/terraform-oci-modules-exadata/tree/v1.1.0/exadata-database) | The OCI module used, in this runbook, for the database layer: DB Homes, CDBs/databases, PDBs, and database-level backup configuration where required. (The same module can drive the declarative Day 2 path for Infrastructure / VM Cluster updates — out of scope here; see the best-practices document.) |
 
-Executable module references in the examples below use pinned tags. For production, replace those tags with the release tag or commit SHA validated by the customer.
+For production, replace the example tags with the release tag or commit SHA validated by the customer.
 
 ## 3. Prerequisites
 
@@ -109,7 +107,7 @@ For production, pass dependency maps through the selected orchestration layer, s
 | `02-gcp-exadb` | `modules/exadb` | Cloud Exadata Infrastructure and Cloud VM Cluster identity. |
 | `03-oci-db-layer` | `exadata-database` | OCI database layer: DB Homes, CDBs/databases, PDBs, and database-level backup configuration where required. |
 
-Add a fourth, temporary stack only for the controlled OCI Terraform exception path described in the best-practices document. The exception stack must not become a second long-lived owner unless ownership is formally transferred.
+Add a fourth stack only for the declarative Day 2 path for selected Infrastructure or VM Cluster updates described in the best-practices document. Per the single-writer rule, that stack owns only the agreed mutable fields — not resource identity, and never as a second owner of fields the Google Cloud-side stack already owns.
 
 ## 5. Step 1 - Google Cloud Networking Stack
 
@@ -247,9 +245,11 @@ Do not copy full real outputs into Git or tickets unless they are sanitized.
 
 Both paths below deploy the same OCI database layer. In orchestrated production flows, prefer the direct OCID path. Use the handoff wrapper only when the OCI stack should resolve the VM Cluster by logical key, or when no orchestration layer is resolving the OCID before calling the OCI database module.
 
-### 7.1 Path A - Direct OCID Recommended for Orchestrated Flows
+In either path, the OCI module requires the OCI Cloud VM Cluster OCID, not the Google Cloud resource name, and the OCI provider region is the one resolved from the OCID, not the Google Cloud region (see Step 2).
 
-Use this path when Terragrunt, `terraform_remote_state`, HCP Terraform / Terraform Enterprise workspace outputs, CI/CD variables/artifacts, or another orchestration layer already resolves and passes the OCI Cloud VM Cluster OCID directly. In this case, the handoff wrapper is not required.
+### 7.1 Path A (recommended for orchestrated flows)
+
+Use this path when an orchestration layer (see Section 4) already resolves and passes the OCI Cloud VM Cluster OCID directly. In this case, the handoff wrapper is not required.
 
 ```hcl
 module "oci_db_layer" {
@@ -269,11 +269,7 @@ module "oci_db_layer" {
 }
 ```
 
-Do not pass the Google Cloud resource name as `vm_cluster_id`. The OCI module requires the OCI Cloud VM Cluster OCID.
-
-Set the OCI provider region from the validated handoff contract, for example the `oci_region` value resolved from the OCID, not from the Google Cloud region.
-
-### 7.2 Path B - Handoff Wrapper Optional Adapter
+### 7.2 Path B (optional handoff wrapper)
 
 Use this path when no orchestration layer resolves the OCI Cloud VM Cluster OCID before calling the OCI database module. The wrapper accepts `vm_cluster_id` set to either a direct OCI Cloud VM Cluster OCID or a lookup key from `gcp_cloud_vm_clusters_dependency`. When a lookup key is provided, the wrapper resolves the OCID from the dependency map and validates the handoff contract before forwarding the OCI Cloud VM Cluster OCID to `exadata-database`.
 
@@ -320,7 +316,7 @@ After the database layer is created, and after any OCI-side operation that may a
 1. The Google Cloud networking stack still owns only ODB Network and ODB Subnets.
 2. The Google Cloud Exadata stack still owns Cloud Exadata Infrastructure and Cloud VM Cluster identity.
 3. The OCI database stack owns only DB Homes, CDBs/databases, PDBs, and database-level backup configuration where required.
-4. Expected drift from OCI-side operations is covered by the narrow module `ignore_changes` contract.
+4. Expected drift from OCI-side operations matches the owning module's `ignore_changes` contract — and since that coverage is not uniform across resources, confirm what each resource actually ignores.
 5. Unexpected network, placement, or identity drift remains visible in the owning module plans.
 6. Evidence is captured: ticket, operator, work request where applicable, relevant output, plan output, and final state.
 
@@ -330,7 +326,7 @@ After the database layer is created, and after any OCI-side operation that may a
 |---|---|
 | Passing the Google Cloud resource name as `vm_cluster_id`. | The OCI module requires the OCI Cloud VM Cluster OCID. |
 | Assuming the Google Cloud region is the OCI provider region. | Use the OCI region derived from the VM Cluster OCID. The Google Cloud region and OCI region are not the same configuration value. |
-| Adding `oci_region` to the `gcp_cloud_vm_clusters_dependency` map. | The map type only accepts `id`, `name`, `ocid`, and `state`. Extra attributes cause a Terraform type constraint error. Resolve and pass `oci_region` separately. |
+| Adding `oci_region` to the `gcp_cloud_vm_clusters_dependency` map. | The map's object type declares only `id`, `name`, `ocid`, and `state`; an extra `oci_region` attribute will not reach the OCI provider through this map. Resolve and pass `oci_region` separately. |
 | Using lowercase keys in `gcp_cloud_vm_clusters_dependency` or `cloud_db_homes_configuration` with the handoff wrapper. | The wrapper validates that these keys are uppercase semantic identifiers. Lowercase keys fail the precondition check. |
 | Importing Infrastructure or VM Cluster into the normal OCI database-layer stack. | It creates a second long-lived owner for resources that the Google Cloud-side stack owns. |
 | Using broad `ignore_changes` blocks. | Broad ignores can hide unknown drift. Keep `ignore_changes` narrow and module-owned. |

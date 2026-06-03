@@ -1,10 +1,8 @@
 # Operational Best Practices for Oracle Database@Google Cloud
 
-Last reviewed: 2026-05-26
+Last reviewed: 2026-06-02
 
-This document does not define the overall operating model. The operating model is GitOps: Git remains the source of truth, changes are reviewed through pull requests, pipelines execute approved changes, and the desired state is applied, validated, or reconciled through the appropriate automation layer.
-
-This document defines the Oracle Database@Google Cloud operational best practices that fit into that GitOps model. It explains control-plane ownership, Terraform state boundaries, Day 1 and Day 2 tool selection, handoff contracts, and drift handling for OD@GCP.
+This document sits inside a GitOps operating model. Git is the source of truth, changes are reviewed through pull requests, and pipelines apply the approved desired state. Within that model, it defines the OD@GCP operational practices: control-plane ownership, Terraform state boundaries, Day 1 and Day 2 tool selection, handoff contracts, and drift handling.
 
 For the implementation runbook, dependency handoff examples, and module wiring patterns, see [OD@GCP Module Handoff Reference](./handoff-reference.md).
 
@@ -20,7 +18,7 @@ For the implementation runbook, dependency handoff examples, and module wiring p
     - [4.2 Google Provider Position](#42-google-provider-position)
     - [4.3 OCI Provider Position](#43-oci-provider-position)
   - [5. Day 2 Operations, State, And Drift](#5-day-2-operations-state-and-drift)
-  - [6. OCI Terraform Exception Path](#6-oci-terraform-exception-path)
+  - [6. OCI Terraform Path for Infrastructure and VM Cluster Updates](#6-oci-terraform-path-for-infrastructure-and-vm-cluster-updates)
   - [7. Module Alignment And Handoff Reference](#7-module-alignment-and-handoff-reference)
 - [License](#license)
 
@@ -29,9 +27,9 @@ For the implementation runbook, dependency handoff examples, and module wiring p
 OD@GCP uses two control planes with a clear operational split:
 
 1. Use the Google Cloud-side Terraform module for Day 1 creation and stable ownership of OD@GCP networking, Cloud Exadata Infrastructure, and Cloud VM Cluster.
-2. Use OCI-native tools by default for Day 2 operations: scale, patching, upgrades, diagnostics, health checks, and support-guided work.
-3. Use the OCI Exadata Database module for the OCI database layer — DB Homes, CDBs, PDBs, and backup configuration — only when that layer must be declarative.
-4. Use OCI Terraform for Infrastructure or VM Cluster updates only as a controlled exception, not as a second uncontrolled owner.
+2. Use OCI-native tools as the default Day 2 engine for scale, patching, upgrades, diagnostics, health checks, and support-guided work, because they are the path that scales across a fleet.
+3. Use the OCI Exadata Database module for the OCI database layer (DB Homes, CDBs, PDBs, and backup configuration) only when that layer must be declarative.
+4. Use OCI Terraform for Infrastructure or VM Cluster updates only when a team manages specific configuration fields declaratively in Git. This is a supported but optional path, governed by the single-writer invariant in [Section 6](#6-oci-terraform-path-for-infrastructure-and-vm-cluster-updates).
 
 The provider evidence behind these rules is in [Section 4](#4-provider-evidence-behind-the-ownership-split).
 
@@ -39,13 +37,13 @@ Scope: Oracle Database@Google Cloud Exadata Infrastructure and VM Clusters creat
 
 ## 2. Recommended Workflow
 
-The normal execution sequence is:
+Execution sequence:
 
 1. Create OD@GCP networking with the Google Cloud-side networking module.
 2. Create Cloud Exadata Infrastructure and Cloud VM Cluster with the Google Cloud-side Exadata module.
 3. Handoff the VM Cluster OCI OCID to OCI-native tools and, if needed, to the OCI Exadata Database module.
 4. Use OCI-native tooling for Day 2 operations.
-5. Run the owning module plans after operational changes so expected drift is accepted and unexpected drift remains visible.
+5. Run the owning module plans after operational changes to surface drift.
 
 ```mermaid
 %%{init: {"look": "classic", "theme": "dark", "fontFamily": "Oracle Sans Tab, Oracle Sans, Arial, sans-serif", "themeVariables": {"fontFamily": "Oracle Sans Tab, Oracle Sans, Arial, sans-serif"}}}%%
@@ -56,15 +54,15 @@ flowchart LR
   DBLAYER["<b>OCI database module</b><br/>DB Homes + CDBs + PDBs + backups"]
   OPERATE["<b>OCI-native operations</b><br/>scale / patch / upgrade / diagnostics / health"]
   CHECK["<b>Control check</b><br/>plan owning stacks<br/>expected drift accepted<br/>unexpected drift visible"]
-  EXCEPTION["<b>Controlled exception</b><br/>constrained OCI Terraform stack<br/>only for supported Infra / VM Cluster updates"]
+  DECLDAY2["<b>Declarative Day 2 path</b><br/>single-writer OCI Terraform stack<br/>selected Infra / VM Cluster config fields"]
 
   START --> GCP --> HANDOFF
   HANDOFF --> DBLAYER
   HANDOFF --> OPERATE
   DBLAYER --> CHECK
   OPERATE --> CHECK
-  HANDOFF -. "not default" .-> EXCEPTION
-  EXCEPTION -. "then check drift" .-> CHECK
+  HANDOFF -. "declarative Day 2" .-> DECLDAY2
+  DECLDAY2 -. "then check drift" .-> CHECK
 
   classDef start fill:#f8fafc,stroke:#64748b,color:#0f172a,stroke-width:1px
   classDef google fill:#e0f2fe,stroke:#0284c7,color:#0f172a,stroke-width:2px
@@ -72,7 +70,7 @@ flowchart LR
   classDef ociDb fill:#dcfce7,stroke:#16a34a,color:#0f172a,stroke-width:2px
   classDef ociOps fill:#ede9fe,stroke:#7c3aed,color:#0f172a,stroke-width:2px
   classDef check fill:#f1f5f9,stroke:#475569,color:#0f172a,stroke-width:2px
-  classDef exception fill:#fee2e2,stroke:#dc2626,color:#0f172a,stroke-width:2px,stroke-dasharray: 5 5
+  classDef declDay2 fill:#cffafe,stroke:#0891b2,color:#0f172a,stroke-width:2px,stroke-dasharray: 5 5
 
   class START start
   class GCP google
@@ -80,30 +78,25 @@ flowchart LR
   class DBLAYER ociDb
   class OPERATE ociOps
   class CHECK check
-  class EXCEPTION exception
+  class DECLDAY2 declDay2
 ```
 
 For the concrete dependency maps, wrapper pattern, direct OCID pattern, and post-handoff checks, see [OD@GCP Module Handoff Reference](./handoff-reference.md).
 
 ## 3. Control-Plane Ownership and State Boundaries
 
-Terraform must be split according to lifecycle, ownership, permissions, change windows, and blast radius. This is not a single-stack Terraform lifecycle.
+Terraform must be split according to lifecycle, ownership, permissions, change windows, and blast radius.
 
 | Area                                | Recommended practice                                                                                                                                                                                                                     |
 | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Infrastructure and VM Cluster Day 1 | Use the Google Cloud-side Terraform module to create ODB Network, ODB Subnets, Cloud Exadata Infrastructure, and Cloud VM Cluster.                                                                                                       |
-| Infrastructure and VM Cluster Day 2 | Use OCI-native tools by default for supported scale, patching, upgrade, diagnostics, health checks, and support-guided operations.                                                                                                       |
 | Infrastructure and VM Cluster drift | Use narrow `lifecycle.ignore_changes` entries in the Google Cloud-side module for expected OCI-side operational changes. These ignores prevent unwanted replacement attempts; they do not make Google Terraform the Day 2 update engine. |
 | DB layer Day 1                      | Use the OCI Exadata Database module, or another approved OCI Terraform module, only when the database layer must be declarative.                                                                                                         |
 | DB layer drift                      | Use narrow module-owned `ignore_changes` entries for expected OCI-native, Ansible, patching, password, backup, or node-local changes.                                                                                                    |
-| Node-local DBA operations           | Use `dbaascli` only for supported tasks inside the Exadata VM or DB node. It does not own the VM Cluster, Google Cloud-side resources, or Terraform state.                                                                               |
-| CLI / API operations                | Use for bootstrap, discovery, evidence capture, and supported operational changes. Any mutation that affects Terraform-managed resources must be reconciled through the owning state, drift contract, or documented exception path.      |
-
-In short: Terraform owns the declarative layers where it fits best; OCI-native tooling owns the operational lifecycle.
 
 ## 4. Provider Evidence Behind the Ownership Split
 
-This section explains why the ownership split is recommended. The Google provider is well suited for Day 1 creation and long-lived ownership of the Google Cloud-side OD@GCP resources, but it should not be positioned as the Day 2 operations engine for Exadata Infrastructure or Cloud VM Cluster changes. The provider tables below show why.
+This section explains why the ownership split is recommended. The Google provider is well suited for Day 1 creation and long-lived ownership of the Google Cloud-side OD@GCP resources, but it should not be the Day 2 operations engine for Exadata Infrastructure or Cloud VM Cluster changes.
 
 ### 4.1 Evidence Baseline
 
@@ -116,9 +109,9 @@ This section explains why the ownership split is recommended. The Google provide
 
 The Google provider is the Day 1 creation and ownership provider for the Google Cloud-side OD@GCP resources. After deployment, use it for state ownership, outputs, lifecycle/deletion controls, drift visibility, and plan checks.
 
-Do not use it for OD@GCP Day 2 operations. Operational changes such as Exadata Infrastructure capacity updates, VM Cluster CPU/OCPU scaling, patching, upgrades, maintenance changes, and database lifecycle work belong to OCI-native tooling or to the controlled OCI Terraform exception path where supported.
+Do not use it for OD@GCP Day 2 operations: those changes belong to OCI-native tooling or to the OCI Terraform declarative Day 2 path where supported.
 
-Terraform-managed lifecycle fields (`deletion_protection` and `timeouts`) can change without replacing the OD@GCP resource because they do not update the OD@GCP service configuration. API-managed fields must be treated as creation-time fields from the Google provider. For `labels`, do not assume update support even if the provider schema looks mutable; existing OD@GCP resources can reject label changes as not updatable.
+Terraform-managed lifecycle fields (`deletion_protection` and `timeouts`) can change without replacing the OD@GCP resource, because they do not update the OD@GCP service configuration. API-managed fields must be treated as creation-time fields from the Google provider. For `labels`, do not assume update support even if the provider schema looks mutable; existing OD@GCP resources can reject label changes as not updatable.
 
 | Resource | Recommended role | API-managed fields to treat as creation-time |
 |---|---|---|
@@ -129,31 +122,25 @@ Terraform-managed lifecycle fields (`deletion_protection` and `timeouts`) can ch
 
 Validate any update assumption with `terraform plan` against the pinned provider version and, where needed, with the documented service behavior before use.
 
-`ignore_changes` in the Google Cloud-side module is a drift contract for OCI-side operations. It prevents Terraform from trying to revert or replace resources for changes that the Google provider should not own. It does not make those fields safe to update through the Google provider.
+`ignore_changes` in the Google Cloud-side module is a drift contract for OCI-side operations: it stops Terraform from reverting or replacing resources for changes the Google provider should not own. It does not make those fields safe to update through the Google provider.
 
 ### 4.3 OCI Provider Position
 
-The OCI provider is the normal Terraform provider for the OCI database layer. It can also be used as a controlled exception path for selected Infrastructure or VM Cluster updates when the customer's OD@GCP service model, Oracle documentation, and provider schema support the intended field.
+The OCI provider is the normal Terraform provider for the OCI database layer. It is also the supported provider for selected Infrastructure or VM Cluster updates when the customer's OD@GCP service model, Oracle documentation, and provider schema support the intended field.
 
 | Resource | Recommended role | Update position |
 |---|---|---|
 | `oci_database_db_home` | Normal OCI-side DB Home and initial database resource. | Use for declarative DB Home and initial CDB/database creation when the database layer must be managed through Terraform. |
 | `oci_database_database` | Normal OCI-side CDB/database resource when separated from DB Home lifecycle. | Use for selected declarative database settings, including database-level backup configuration where required and supported. |
 | `oci_database_pluggable_database` | Normal OCI-side PDB resource. | Use for declarative PDB creation and selected supported PDB lifecycle attributes. |
-| `oci_database_cloud_exadata_infrastructure` | Controlled exception only. | Use only for approved and supported Infrastructure fields, such as capacity, maintenance-related settings, display name, tags, or compartment-related changes where valid for the OD@GCP service model. |
-| `oci_database_cloud_vm_cluster` | Controlled exception only. | Use only for approved and supported VM Cluster fields, such as CPU/OCPU, storage, memory, NSGs, license model, SSH keys, diagnostics, tags, or display name where valid for the OD@GCP service model. |
+| `oci_database_cloud_exadata_infrastructure` | Declarative Day 2 path (single writer). | Manage approved, updatable Infrastructure fields, such as capacity, maintenance-related settings, display name, tags, and compartment, when valid for the OD@GCP service model. |
+| `oci_database_cloud_vm_cluster` | Declarative Day 2 path (single writer). | Manage approved, updatable VM Cluster fields, such as CPU/OCPU, storage, memory, NSGs, license model, SSH keys, diagnostics, tags, and display name, when valid for the OD@GCP service model. |
 
-The OCI provider has resource support for selected Terraform-driven changes that the Google provider should not own. However, it must not become a second long-lived owner for Google-created Infrastructure or VM Cluster resources.
-
-For OD@GCP, use the OCI provider in two ways:
-
-1. **Normal path** — manage the OCI database layer: DB Homes, CDBs/databases, PDBs, and database-level backup configuration where required.
-2. **Controlled exception path** — manage selected Infrastructure or VM Cluster updates only when the operation is explicitly approved, supported, evidenced, and protected by the matching Google Cloud-side drift contract. See [Section 6](#6-oci-terraform-exception-path) for the preconditions and execution guardrails.
-
+Ownership is split by field, not duplicated: the Google Cloud-side stack stays the owner of identity and creation-time fields, while the declarative Day 2 stack owns only the agreed mutable fields. [Section 6](#6-oci-terraform-path-for-infrastructure-and-vm-cluster-updates) covers when to use the declarative Day 2 path, the trade-off, the conditions, and the single-writer contract that governs it.
 
 ## 5. Day 2 Operations, State, And Drift
 
-Terraform is not the patching or upgrade engine for the operational layer. Use it for declarative database-layer resources, and for the controlled Infrastructure or VM Cluster exception path only.
+Terraform is not the patching, upgrade, or scaling engine for the bulk of Day 2 work. Across a fleet, patching and upgrades run through Exadata Fleet Update, scaling through the API, and node-local work through `dbaascli`; one `terraform apply` per cluster scales worse than fleet tooling. Use Terraform only for declarative database-layer resources and for the declarative Infrastructure or VM Cluster Day 2 path, and there only for the specific configuration fields a team has chosen to manage in Git.
 
 | Tooling | Use for | Do not use it for |
 |---|---|---|
@@ -163,37 +150,44 @@ Terraform is not the patching or upgrade engine for the operational layer. Use i
 | `dbaascli` | Supported node-local DBA tasks inside the VM or DB node: diagnostics, PDB administration, password work, cloud tooling tasks, and database / DB Home / Grid Infrastructure patch or upgrade commands when Oracle documentation says to use it. | Owning the VM Cluster, Google Cloud-side resources, or Terraform state. |
 | Support-guided tools | Interim patches, one-off fixes, or procedures required by Oracle documentation, My Oracle Support, or Oracle Support. | Standard automation unless the exception is recorded and reconciled. |
 
-Drift is expected when OCI-native operations, provider automation, patching, out-of-place workflows, generated values, passwords, backup settings, or support-guided workflows change fields outside the Terraform stack that created the resource.
+Drift is expected. OCI-native operations, provider automation, patching, out-of-place workflows, generated values, passwords, backup settings, and support-guided workflows all change fields outside the Terraform stack that created the resource. Both reference modules use narrow `ignore_changes` contracts to keep ownership explicit, but that coverage is per-resource and per-field, not uniform. A resource that declares no `ignore_changes` treats any out-of-band change as drift and tries to revert it, so confirm what each resource actually ignores before relying on it. If OCI Terraform manages a field that the Google Cloud-side stack can also see, the matching Google-side drift contract must be in place before the change.
 
-Both reference modules use narrow `ignore_changes` contracts to keep ownership explicit. These ignores are not a mechanism to hide unknown drift, and broad ignores should never replace understanding which attributes actually move. If OCI Terraform manages a field that the Google Cloud-side stack can also see, the matching Google-side drift contract must be in place before the change.
-
-The following operational guardrails keep the GitOps model consistent while allowing controlled OCI-native Day 2 operations:
+Operational guardrails:
 
 - Split Terraform states only when there is a clear lifecycle, ownership, permission, change-window, or blast-radius reason.
+- Never create a second declarative owner of the same resource. If a team uses the optional declarative Day 2 path, apply the single-writer controls in [Section 6](#6-oci-terraform-path-for-infrastructure-and-vm-cluster-updates).
 - For break-glass or OCI-native changes, capture the ticket, operator, work request where applicable, command output, plan output, and post-change validation.
 - Do not modify service-managed resources or provider-generated dependencies unless Oracle documentation or Oracle Support explicitly directs it.
 - Do not store secrets, private keys, sensitive tfvars, credentials, or Terraform state files in Git.
 - After OCI-side operations that may affect fields visible to the Google Cloud-side stack, run the owning Google Cloud-side Terraform plan so expected drift is accepted and unexpected drift, especially network, placement, or identity drift, remains visible.
 
-## 6. OCI Terraform Exception Path
+## 6. OCI Terraform Path for Infrastructure and VM Cluster Updates
 
-This is not the default Day 2 operations path. Use it only for approved Infrastructure or VM Cluster changes when all of the following are true:
+This is a supported declarative path for selected Day 2 Infrastructure and VM Cluster *configuration* changes. It is not the default Day 2 engine, and not the scalable one: patching, upgrades, scaling, and node-local work stay on OCI-native tooling (see [Section 5](#5-day-2-operations-state-and-drift)). Choose it deliberately, for low-cardinality, slow-changing fields such as OCPU, tags, NSGs, or license model that a team wants auditable in Git. The trade-off is explicit: Git auditability is paid for with dual-state maintenance.
 
-1. The customer requires or has approved Terraform-driven Day 2 updates.
-2. The OD@GCP resource is exposed through the OCI control plane.
-3. The OCI provider supports the target field as updatable.
-4. Oracle documentation, the official provider schema, or Oracle Support confirms that the operation is valid for the customer's OD@GCP service model.
-5. The matching Google Cloud-side `ignore_changes` contract is already in place.
-6. The change is evidenced with a ticket, work request where applicable, plan output, command output where applicable, and final state.
+The governing invariant is **one declarative writer per resource**. The Google and OCI providers expose the same VM Cluster as two Terraform resources, so only one stack may write a given field. This path does not hand the resource over to OCI: the Google Cloud-side stack stays the owner, while a separate, constrained OCI stack takes over only the agreed mutable fields, for example OCPU. Both stacks stay live, each writing a different set of fields on the same object.
 
-Execution guardrails:
+Use this path only when all of these conditions hold:
 
-1. The Google Cloud-side module creates and remains the normal owner of the Google Cloud-side resources.
-2. A separate, constrained OCI Exadata module stack handles only the approved Infrastructure or VM Cluster change.
-3. After the change, capture the post-change evidence: ticket, work request where applicable, plan output, and final state.
-4. The exception state must be temporary, or ownership must be formally transferred.
+| Condition | Requirement |
+|---|---|
+| Governance | The team operates these changes declaratively (GitOps), per the customer's governance. |
+| Exposure | The OD@GCP resource is exposed through the OCI control plane, and the OCI provider supports the target field as updatable. |
+| Validity | Oracle documentation, the provider schema, or Oracle Support confirms the operation is valid for the customer's OD@GCP service model. |
+| Drift contract | The matching Google Cloud-side `ignore_changes` contract is already in place. |
 
-Do not import Infrastructure or VM Cluster resources into the normal OCI database-layer stack. Do not leave OCI Terraform and the Google Cloud-side stack as two concurrent long-lived owners of the same resource.
+To avoid a destroy-and-recreate, the field is moved, not the resource: the OCI stack imports the VM Cluster and manages the agreed fields, and the Google Cloud-side stack adds an `ignore_changes` entry for those fields so it stops reverting them. Oracle documents this import-and-`ignore_changes` workflow. In Oracle's example both sides are OCI, so the `ignore_changes` sits in the OCI configuration; in OD@GCP the resource is created from the Google side, so it goes on the Google Cloud-side stack instead. See [Modify an Exadata VM Cluster (Terraform)](https://docs.oracle.com/en-us/iaas/Content/database-at-gcp/gcpmd-modify-exadata-vm-cluster.html#terraform).
+
+The OCI side can be managed with direct OCI resources or through a module such as `exadata-database` (Section 7). Direct resources keep the field split explicit and owned in your own stack, which fits the few fields this path targets. A module wraps those resources and suits teams already running this at fleet scale, managing the `ignore_changes` contract on their behalf. Either way, the single-writer boundary is what matters.
+
+A few controls keep the single-writer boundary honest:
+
+| Control | Purpose |
+|---|---|
+| Pin the providers | New fields appear only on a deliberate upgrade, not by surprise. |
+| Review fields at each upgrade | Assign every new field on the shared resources to a single stack, because an unclassified field is an unowned field. |
+| Gate on a clean `terraform plan` | An unowned field shows up the moment it drifts. |
+| Evidence every change | Record the ticket, the work request where applicable, the plan output, and the final state. |
 
 ## 7. Module Alignment And Handoff Reference
 
@@ -204,7 +198,7 @@ The two reference module families share a single contract: the Google Cloud-side
 | Google Cloud networking | `modules/odb-networking` | Owns ODB Network and ODB Subnets. |
 | Google Cloud Exadata | `modules/exadb` | Owns Cloud Exadata Infrastructure and Cloud VM Cluster identity. |
 | OCI database layer | `exadata-database` | Owns DB Homes, CDBs, PDBs, and backups when that layer must be declarative. |
-| Handoff example | `oci-dbhome-handoff` | Resolves `vm_cluster_id` — either a direct OCI Cloud VM Cluster OCID or a lookup key from `gcp_cloud_vm_clusters_dependency` — and passes the resolved OCI OCID to the OCI Exadata Database module. |
+| Handoff example | `oci-dbhome-handoff` | Resolves `vm_cluster_id`, either a direct OCI Cloud VM Cluster OCID or a lookup key from `gcp_cloud_vm_clusters_dependency`, and passes the resolved OCI OCID to the OCI Exadata Database module. |
 
 Use [OD@GCP Module Handoff Reference](./handoff-reference.md) for the practical wiring details: dependency maps, direct OCID handoff, wrapper-based handoff, post-handoff checks, and common mistakes.
 
