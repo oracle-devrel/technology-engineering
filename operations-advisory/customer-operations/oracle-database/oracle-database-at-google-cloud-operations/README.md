@@ -1,11 +1,11 @@
-# Oracle Database @ Google Cloud Operations
+# Oracle Database@Google Cloud Operations
 
 Reviewed: 2026-05-14
 
 # Team Publications
 
 - [Oracle Database@Google Automation Workshop](./oracle-database-at-google-automation-workshop/files/Public_OD@GCP_Automation_v0.1.pdf)
-- [Oracle Database@Google Operations Best Practices](./oracle-database-at-google-operations-best-practices/README.md)
+- [Oracle Database@Google Cloud Operations Best Practices](./oracle-database-at-google-operations-best-practices/README.md)
   
 # License
 
