@@ -96,7 +96,7 @@ Terraform must be split according to lifecycle, ownership, permissions, change w
 
 ## 4. Provider Evidence Behind the Ownership Split
 
-This section explains why the ownership split is recommended. The Google provider is well suited for Day 1 creation and long-lived ownership of the Google Cloud-side OD@GCP resources, but it should not be the Day 2 operations engine for Exadata Infrastructure or Cloud VM Cluster changes.
+This section explains why the ownership split is recommended. The Google provider is well suited for Day 1 creation and long-lived ownership of the Google Cloud-side OD@GCP resources, but it should not be the Day 2 operations engine for Exadata Infrastructure or Cloud VM Cluster changes, because those are procedural operations rather than declarative state changes.
 
 ### 4.1 Evidence Baseline
 
@@ -140,7 +140,7 @@ Ownership is split by field, not duplicated: the Google Cloud-side stack stays t
 
 ## 5. Day 2 Operations, State, And Drift
 
-Terraform is not the patching, upgrade, or scaling engine for the bulk of Day 2 work. Across a fleet, patching and upgrades run through Exadata Fleet Update, scaling through the API, and node-local work through `dbaascli`; one `terraform apply` per cluster scales worse than fleet tooling. Use Terraform only for declarative database-layer resources and for the declarative Infrastructure or VM Cluster Day 2 path, and there only for the specific configuration fields a team has chosen to manage in Git.
+Terraform is declarative, so it is the right tool for the declarative layer but not for procedural operations like patching and upgrades, which have prechecks, ordered steps, and rollback. Those run through OCI-native tooling such as Exadata Fleet Update, the OCI CLI/API, and `dbaascli`, which also scales better across a fleet than per-cluster Terraform. Use Terraform only for declarative database-layer resources and for the declarative Infrastructure or VM Cluster Day 2 path, and there only for the specific configuration fields a team has chosen to manage in Git.
 
 | Tooling | Use for | Do not use it for |
 |---|---|---|
@@ -163,7 +163,7 @@ Operational guardrails:
 
 ## 6. OCI Terraform Path for Infrastructure and VM Cluster Updates
 
-This is a supported declarative path for selected Day 2 Infrastructure and VM Cluster *configuration* changes. It is not the default Day 2 engine, and not the scalable one: patching, upgrades, scaling, and node-local work stay on OCI-native tooling (see [Section 5](#5-day-2-operations-state-and-drift)). Choose it deliberately, for low-cardinality, slow-changing fields such as OCPU, tags, NSGs, or license model that a team wants auditable in Git. The trade-off is explicit: Git auditability is paid for with dual-state maintenance.
+This is a supported declarative path for selected Day 2 Infrastructure and VM Cluster *configuration* changes. It is the exception, not the default Day 2 engine: the procedural work (patching, upgrades, scaling, node-local tasks) stays on OCI-native tooling (see [Section 5](#5-day-2-operations-state-and-drift)). Choose it deliberately, for low-cardinality, slow-changing fields such as OCPU, tags, NSGs, or license model that a team wants auditable in Git. The trade-off is explicit: Git auditability is paid for with dual-state maintenance.
 
 The governing invariant is **one declarative writer per resource**. The Google and OCI providers expose the same VM Cluster as two Terraform resources, so only one stack may write a given field. This path does not hand the resource over to OCI: the Google Cloud-side stack stays the owner, while a separate, constrained OCI stack takes over only the agreed mutable fields, for example OCPU. Both stacks stay live, each writing a different set of fields on the same object.
 
