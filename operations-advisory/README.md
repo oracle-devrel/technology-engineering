@@ -6,24 +6,36 @@ Reviewed: 2026-06-04
 
 # Table of Contents
 
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-links)
+- [Operations Advisory](#operations-advisory)
+- [Table of Contents](#table-of-contents)
+- [Team Publications](#team-publications)
+  - [Multi-Cloud Operating Models](#multi-cloud-operating-models)
+    - [Operational Security](#operational-security)
+  - [Customer Operations](#customer-operations)
+    - [Core Infrastructure Operations](#core-infrastructure-operations)
+    - [Oracle Database Operations](#oracle-database-operations)
+  - [Lifecycle Management](#lifecycle-management)
+- [Useful Links](#useful-links)
+  - [Cloud Coaching Clinic](#cloud-coaching-clinic)
+- [License](#license)
 
 # Team Publications
 
 ## Multi-Cloud Operating Models
 
+- [Landing Zone Deep Dive - Operations workshop session video.](https://www.youtube.com/watch?v=Kqp0i42ds7Y&t=2825s)
+
 ### Operational Security
 
 - [CIS Compliance Dashboard.](./multi-cloud-operating-models/operational-security/CISDashboard/README.md)
-- [OCI Terraform GitHub Actions Worload Identity Federation Example.]([./multi-cloud-operating-models/operational-security/programatic-access-cicd/README.md](https://github.com/dgutierrezcolodra/oci-terraform-github-actions-wif-example)
+- [OCI Terraform GitHub Actions Worload Identity Federation Example.](./multi-cloud-operating-models/operational-security/programatic-access-cicd/README.md)
 - [Programmatic Access to OCI for CI/CD Pipelines.](./multi-cloud-operating-models/operational-security/programatic-access-cicd/README.md)
 - [Cloud Guard Activity Reporter.](./multi-cloud-operating-models/operational-security/cloud-guard-activity-reporter/README.md)
 - [Automate Security List Updates.](./multi-cloud-operating-models/operational-security/automate-security-list-updates/README.md)  
 
 ## Customer Operations
 
-### Core Instrastructure Operations
+### Core Infrastructure Operations
 
 - [Compute Operations Deep Dive Workshop.](./customer-operations/core-infrastructure/compute-operations/files/Public_Compute_Operations_v0.1.pdf)
   
@@ -39,6 +51,7 @@ Reviewed: 2026-06-04
 - [ExaDB-XS Maintenance.](./customer-operations/oracle-database/exadb-xs/files/Public_03_ExaDBXS_Maintenance_v1.0.pdf)
 - [ExaDB-XS Backup & Recovery.](./customer-operations/oracle-database/exadb-xs/files/Public_04_ExaDBXS_DB_Backup_Recovery_v1.0.pdf)
 - [ExaDB-D/ExaDB-C@C Dynamic Scaling.](./customer-operations/oracle-database/scaling/README.md)
+- [Streamline Backups for Oracle Autonomous AI Database on Exadata Cloud@Customer with ZDLRA as the Destination.](https://blogs.oracle.com/autonomous-ai-database/streamline-backups-for-oracle-autonomous-ai-database-on-exadata-cloudcustomer-with-zdlra-as-the-destination)
 
 ## Lifecycle Management
 
