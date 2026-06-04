@@ -2,6 +2,6 @@ altair==5.5.0
 numpy==2.2.2
 oci==2.164.0
 pandas==1.5.3
-Pillow==11.1.0
+Pillow==12.2.0
 streamlit==1.47.0
 opencv-python==4.12.0.88
