@@ -85,13 +85,13 @@ Reviewed: 04.06.2026
 - [GoldenGate Hub using Maximum Availability Architecture](https://docs.oracle.com/en/database/oracle/oracle-database/26/haovw/cloud-gghub-region.html#GUID-FB908805-CD78-4F0C-BB98-BF147E4E3727)
     - How to make GoldenGate highly available
 
-- [Platinum MAA: Oracle GoldenGate Microservices Architecture Integrated with Oracle Active Data Guard] (https://docs.oracle.com/en/database/oracle/oracle-database/26/haovw/premises-maa-platinum-oracle-goldengate-microservices-architecture-integrated-active-data-guard.html#GUID-6437D988-6045-4228-BBE0-D0669F49F5CF)
+- [Platinum MAA: Oracle GoldenGate Microservices Architecture Integrated with Oracle Active Data Guard](https://docs.oracle.com/en/database/oracle/oracle-database/26/haovw/premises-maa-platinum-oracle-goldengate-microservices-architecture-integrated-active-data-guard.html#GUID-6437D988-6045-4228-BBE0-D0669F49F5CF)
     - Seamless role transition to ADG standby with GoldenGate on-premises
 
 - [Oracle GoldenGate Microservices Architecture with Oracle Real Application Clusters Configuration Best Practices](https://docs.oracle.com/en/database/oracle/oracle-database/26/haovw/ogg-microservices-premises1.html#GUID-55FA8876-984F-4E88-9157-CAF1550C261E)
     - How to use GoldenGate On-Prem with RAC, ACFS, DBFS, & Clusterware
 
-- [Global Data Services Concepts and Administration Guide]([https://docs.oracle.com/en/database/oracle/oracle-database/19/gsmug/intro-global-data-services.html)](https://docs.oracle.com/en/database/oracle/oracle-database/26/haovw/oracle-global-data-services-best-practices.html#GUID-D1E1C05D-0BE9-4E1C-B759-D3D0F69133FA)
+- [Global Data Services Concepts and Administration Guide](https://docs.oracle.com/en/database/oracle/oracle-database/26/haovw/oracle-global-data-services-best-practices.html#GUID-D1E1C05D-0BE9-4E1C-B759-D3D0F69133FA)
     - Application Failover Options for Oracle GoldenGate
 
 - [Set Up Bidirectional Replication for Oracle GoldenGate Microservices Architecture](https://docs.oracle.com/en/middleware/goldengate/core/21.3/coredoc/quickstart-bidirectional-replication.html)
