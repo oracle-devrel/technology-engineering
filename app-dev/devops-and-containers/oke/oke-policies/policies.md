@@ -200,7 +200,7 @@ Allow any-user to manage network-load-balancers in compartment id <compartment-o
 Allow any-user to manage certificate-authority-family in compartment <certificate-compartment-name> where ALL {request.principal.type = 'cluster'}
 ```
 
-### Assigning security attributes to LB, NLB or POD VNICs
+### Assigning security attributes
 
 [https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengusingzpr.htm#contengusingzpr_topic_permissions](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengusingzpr.htm#contengusingzpr_topic_permissions)
 
