@@ -10,6 +10,7 @@ Reviewed: 03.06.2026
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-links)
 3. [Workshops](#workshops)
+4. [OCI GoldenGate Stream Analytics](#OCI-GoldenGate-Stream-Analytics)
 
  
 # Team Publications
@@ -166,7 +167,13 @@ Reviewed: 03.06.2026
     - This workshop will guide on on setting up replication between MySQL and Autonomous Database in Oracle using OCI GoldenGate
 
       
+# OCI-GoldenGate-Stream-Analytics
+Oracle GoldenGate Stream Analytics in OCI helps users to create custom operational dashboards that provide real time monitoring and analyses of event streams. Identify events of interest, run queries against the event streams in real time, or raise alerts based on your analysis.
+- [OCI GoldenGate Stream Analytics Documentation](https://docs.oracle.com/en/cloud/paas/goldengate-service/apead/)
+  - Public documentation for OCI GoldenGate Stream Analytics 26ai.
 
+- [OCI GoldenGate Stream Analytics Blogs](https://blogs.oracle.com/?s=oci%20goldengate%20streams%20analytics)
+  - Oracle Blogs about OCI GoldenGate Streams Analytics.
 
 
 # License
