@@ -126,7 +126,7 @@ olefile==0.47
 onnxruntime==1.19.2
 openapi-pydantic==0.5.1
 oracledb==3.0.0
-orjson==3.10.15
+orjson==3.11.6
 ormsgpack==1.10.0
 overrides==7.7.0
 packaging==24.2
