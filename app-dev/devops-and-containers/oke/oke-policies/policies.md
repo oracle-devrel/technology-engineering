@@ -202,8 +202,9 @@ Allow any-user to manage certificate-authority-family in compartment <certificat
 
 ### Assigning security attributes to LB, NLB or POD VNICs
 
-[https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengusingzpr.htm#contengusingzpr_topic_prerequisites](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengusingzpr.htm#contengusingzpr_topic_prerequisites)
+[https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengusingzpr.htm#contengusingzpr_topic_permissions](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengusingzpr.htm#contengusingzpr_topic_permissions)
 
 ```
-Allow any-user to use security-attribute-namespace in tenancy where request.principal.type = 'cluster'
+Allow any-user to use security-attribute-namespace in compartment <security_attribute_compartment_name> where request.principal.type = 'cluster'
+Allow any-user to manage security-attribute-namespace in compartment <security_attribute_compartment_name> where request.principal.type = 'nodepool'
 ```
