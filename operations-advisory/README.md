@@ -44,10 +44,10 @@ Reviewed: 2026-06-04
   
 ### Oracle Database Operations
 
-- [Oracle Database@Azure Automation Workshop](./customer-operations/oracle-database/oracle-database-at-azure-cloud-operations/oracle-database-at-azure-automation-workshop/files/Public_OD@AZ_Automation_v0.1.pdf)
-- [Oracle Database@GCP Automation Workshop](./customer-operations/oracle-database/oracle-database-at-google-cloud-operations/oracle-database-at-google-automation-workshop/files/Public_OD@GCP_Automation_v0.1.pdf)
-- [Oracle Database@GCP Operational Best Practices](./customer-operations/oracle-database/oracle-database-at-google-cloud-operations/oracle-database-at-google-operations-best-practices/README.md)
-- [Oracle Database@AWS Automation Workshop](./customer-operations/oracle-database/oracle-database-at-aws-cloud-operations/oracle-database-at-aws-automation-workshop/files/Public_OD@AWS_Automation_v0.1.pdf)
+- [Oracle Database@Azure Automation Workshop.](./customer-operations/oracle-database/oracle-database-at-azure-cloud-operations/oracle-database-at-azure-automation-workshop/files/Public_OD@AZ_Automation_v0.1.pdf)
+- [Oracle Database@GCP Automation Workshop.](./customer-operations/oracle-database/oracle-database-at-google-cloud-operations/oracle-database-at-google-automation-workshop/files/Public_OD@GCP_Automation_v0.1.pdf)
+- [Oracle Database@GCP Operational Best Practices.](./customer-operations/oracle-database/oracle-database-at-google-cloud-operations/oracle-database-at-google-operations-best-practices/README.md)
+- [Oracle Database@AWS Automation Workshop.](./customer-operations/oracle-database/oracle-database-at-aws-cloud-operations/oracle-database-at-aws-automation-workshop/files/Public_OD@AWS_Automation_v0.1.pdf)
 - [ExaDB-XS Management Interfaces.](./customer-operations/oracle-database/exadb-xs/files/Public_00_ExaDBXS_Management_Interfaces_v1.0.pdf)
 - [ExaDB-XS Provision.](./customer-operations/oracle-database/exadb-xs/files/Public_01_ExaDBXS_Provision_v1.0.pdf)
 - [ExaDB-XS Change.](./customer-operations/oracle-database/exadb-xs/files/Public_02_ExaDBXS_Change_v1.0.pdf)
