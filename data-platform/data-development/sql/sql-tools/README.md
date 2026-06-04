@@ -4,7 +4,11 @@ This section covers Oracle SQL Tools: from SQL Developer Desktop to SQL Develope
 Providing links to public useful documentation and articles/blogs written by Oracle SQL and Database Advocates and Product Managers.
 We use this asset when we want to explore the various SQL IDE development tools like SQL Developer, sqlcl and VS Code with SQL Developer extentions.
 
-Reviewed: 03.10.2025
+An additional managed offering in Oracle Cloud Infrastructure (OCI) called <b>Oracle Database Tools Service</b> enables the creation of multiple connections to oracle databases which can be reused by multiple users. This OCI service has been introduced in 2021 and ehnanced over the years.
+You establish the connection and then access your database resources via web-based SQL Worksheet or use the SQLcl connection via OCI Cloud Shell.
+Security is preserved as passwords and ADB credentials are securely stored and encrypted in OCI Vault resource. 
+
+Reviewed: 18.05.2026
 
 # Table of Contents
  
@@ -26,6 +30,8 @@ Reviewed: 03.10.2025
 
 # Useful Links
 
+- [Oracle Database Tool Service](https://www.oracle.com/database/tools-service/)
+- [Announcing the Oracle Cloud Database Tools Service](https://www.thatjeffsmith.com/archive/2021/11/announcing-the-database-tools-oracle-cloud-service/)
 - [SQL Developer](https://www.oracle.com/uk/database/sqldeveloper/)
 - [SQL Developer Releases](https://docs.oracle.com/en/database/oracle/sql-developer/)
 - [SQL Developer - Jeff Smith Page](https://www.thatjeffsmith.com/sql-developer/)
@@ -35,7 +41,8 @@ Reviewed: 03.10.2025
 - [SQL Tools Training](https://education.oracle.com/database/oracle-database/pFamily_32)
 - [Autonomous Database Actions](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/connect-database-actions.html#GUID-102845D9-6855-4944-8937-5C688939610F)
 - [Live SQL](https://livesql.oracle.com/apex/f?p=590:1000)
-- [SQL Developer Extension for VS Code v25.2 is now available](https://www.oracle.com/database/sqldeveloper/vscode/)
+- [SQL Notebooks in Oracle SQL Developer for VS Code](https://www.thatjeffsmith.com/archive/2025/07/sql-notebooks-in-oracle-sql-developer-for-vs-code/)
+- [SQL Dev Extension for VS Code for MCP with Cline](https://www.thatjeffsmith.com/archive/2025/11/using-sqlcl-in-sql-developer-for-vs-code-for-mcp-with-cline/)
 
 
 ## Dev Gyms 
@@ -74,7 +81,7 @@ Periodical sharing of Standard Query Language Best Practices links and blog, vid
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

@@ -2,6 +2,8 @@ variable "compartment_id" {}
 variable "region" {}
 variable "tenancy_id" {}
 
+variable "gitops_agent" {}
+
 # NOTIFICATION
 variable "create_notification_topic" {
   type = bool

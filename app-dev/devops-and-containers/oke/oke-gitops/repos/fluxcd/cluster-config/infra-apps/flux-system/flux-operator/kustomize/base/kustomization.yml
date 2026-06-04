@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: flux-system
+
+labels:
+  - pairs:
+      component: flux-operator
+
+# Here will go all the resources that are tightly coupled with the component deployed. Some components may also be made of just Kustomize manifests, other are deployed through Helm, and other require both Helm and Kustomize
+
+#resources:
+#  - file.yml

@@ -53,8 +53,8 @@ def process_pdf_file(
             return "❌ ERROR: Vector store not initialized", ""
 
         file_path = Path(file.name)
-        chunks, doc_id = rag_system.pdf_processor.process_pdf(file_path, entity=entity)
-
+        chunks, doc_id, _ = rag_system.pdf_processor.ingest_pdf(file_path, entity=entity)
+        print("PDF processor type:", type(rag_system.pdf_processor))
         progress(0.7, desc="Adding to vector store...")
 
         converted_chunks = [

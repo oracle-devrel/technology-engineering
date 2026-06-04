@@ -1,7 +1,9 @@
 # SQL Oracle Database 23ai 
-This section covers the new features introduced in the Oracle Database 23ai release, focusing on enhancements and functionalities in SQL for application development.
-This asset contains a brief set of Oracle Database 23ai new features examples which are then included in a specific asset file for consultation.
+This section covers the new features introduced in the Oracle Database 23ai release (now taking <b>Oracle26ai</b> as name), focusing on enhancements and functionalities in SQL for application development.
+This asset contains a brief set of Oracle Database 26ai new features examples which are then included in a specific asset file for consultation.
 The list of New Features will be periodically updated and adjusted.
+
+Reviewed: 12.12.2025
 
 ## Features
 
@@ -94,7 +96,7 @@ For more detailed information, please visit the [Oracle Database Features](https
 
 # License
  
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

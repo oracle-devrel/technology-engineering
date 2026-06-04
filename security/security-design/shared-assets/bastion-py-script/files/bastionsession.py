@@ -1,4 +1,4 @@
-# Copyright (c) 2025 Oracle and/or its affiliates.
+# Copyright (c) 2026 Oracle and/or its affiliates.
 # Author: Inge Os
 import argparse
 import logging
@@ -55,7 +55,7 @@ https://fluffyclouds.blog/2022/06/02/create-oci-bastion-sessions-with-python-sdk
 }
 For contents of sessions and ociconfiguration please refer to readme file
 
-Copyright (c) 2025 Oracle and/or its affiliates
+Copyright (c) 2026 Oracle and/or its affiliates
 
 """
 

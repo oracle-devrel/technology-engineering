@@ -17,6 +17,8 @@ MULTIMODALS = [
     "meta.llama-3.2-90b-vision-instruct",
     "meta.llama-4-maverick-17b-128e-instruct-fp8",
     "xai.grok-4",
+    "xai.grok-4-fast-non-reasoning",
+    "xai.grok-4-fast-reasoning",
 ]
 DEFAULT_LLM = "xai.grok-4"
 DEFAULT_REGION = "us-chicago-1"
@@ -24,6 +26,8 @@ DEFAULT_REGION = "us-chicago-1"
 
 load_dotenv()
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 compartment_id = os.environ.get("COMPARTMENT_ID", get_tenancy_id())
 
@@ -140,10 +144,11 @@ with st.sidebar:
     region = st.selectbox("Region", regions, region_idx)
     logging.info("Selected region %s", region)
 
-    models = sorted(
-        set(st.cache_data(list_genai_models)(compartment_id, region))
-        & set(MULTIMODALS)
-    )
+    available_models = st.cache_data(list_genai_models)(compartment_id, region)
+    for model in sorted(available_models):
+        logger.debug("Found available model: '%s'", model)
+
+    models = sorted(set(available_models) & set(MULTIMODALS))
     model_idx = 0
     if DEFAULT_LLM in models:
         model_idx = models.index(DEFAULT_LLM)

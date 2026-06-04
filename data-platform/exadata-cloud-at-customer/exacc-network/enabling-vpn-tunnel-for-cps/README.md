@@ -1,5 +1,3 @@
-Reviewed: 16.09.2025
-
 # Exadata Cloud@Customer Enabling VPN Tunnel for CPS Connections
 
 A number of customers have expressed a requirement that ALL traffic between the ExaC@C and Oracle be tunneled using IPSec VPN.
@@ -30,9 +28,11 @@ End result is that ALL traffic to and from the CPS to Oracle is tunneled in the 
 
 - [Troubleshooting](https://www.ateam-oracle.com/post/oracle-cloud-vpn-connect-troubleshooting)
 
+Reviewed: 01/22/26
+
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

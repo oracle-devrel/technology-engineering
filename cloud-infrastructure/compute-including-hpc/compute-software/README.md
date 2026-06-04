@@ -2,7 +2,7 @@
 
 This page contains information and useful links regarding Compute services that are mostly related to OS and Licenses Management on top of OCI Compute. You can also find resources about BYOI, BYOH and Autoscaling.
 
-<i>Review date: 18 JUN 2025</i>
+<i>Review date: 16 OCT 2025</i>
 
 # Table of Contents
 
@@ -71,7 +71,7 @@ This page contains information and useful links regarding Compute services that 
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

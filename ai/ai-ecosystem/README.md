@@ -1,9 +1,17 @@
 # Generative AI Ecosystem
 
-Reviewed: 02.07.2025
+Reviewed: 16.10.2025
 
 # Team Publications
 
 ## GitHub
 
-- [NVIDIA Omniverse Digital Twin](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/ai-ecosystem/nvidia-omniverse-digital-twin)
+- [NVIDIA Omniverse Digital Twin](./nvidia-omniverse-digital-twin) demonstrates how to deploy an Omniverse digital twin on OCI
+
+# License
+ 
+Copyright (c) 2026 Oracle and/or its affiliates.
+ 
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+ 
+See [LICENSE](../../LICENSE.txt) for more details.

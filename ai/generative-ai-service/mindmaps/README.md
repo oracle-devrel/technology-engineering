@@ -16,6 +16,7 @@ This asset is perfect for professionals and teams who need to organize informati
 
 Use this asset when you want to transform free text, structured documents, or even speech into organized, visually impactful mind maps—quickly and intelligently.
 
+# How to use this asset
 
 ## **1. Prepare your user**
    
@@ -81,7 +82,7 @@ Author: Jesús Brasero
  
 # License
  
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

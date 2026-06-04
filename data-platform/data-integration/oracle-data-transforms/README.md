@@ -4,7 +4,7 @@ Data Transforms is an easy-to-use graphical user interface that Oracle Autonomou
 
 Data Transforms allows you to design data transformations in the form of data loads, data flows, and workflows, without requiring you to write any code. Data Load provides a convenient way of loading data into an Autonomous Database, data flows define how the data is moved and transformed between different systems, while the workflows define the sequence in which the data flows are executed.
 
-Reviewed: 28.02.2025
+Reviewed: 03.06.2026
 
 # Table of Contents
  
@@ -23,17 +23,18 @@ Reviewed: 28.02.2025
 
 - [Oracle Data Transforms Documentation](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/adp-odt-data-transforms-page.html)
 
-- [Oracle Data Transforms Supported Connection Types](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/adp-odt-data-transforms-page.html#ADBSB-GUID-0FCBCBDB-4016-4EDC-B6E0-38E4D1BC0A)
+- [Selecting the best Data Integration tool – Data Transforms or Oracle Data Integrator](https://blogs.oracle.com/autonomous-ai-database/selecting-the-best-data-integration-tool-data-transforms-or-oracle-data-integrator)
 
-- [Deploying and launching Data Transforms](https://blogs.oracle.com/dataintegration/post/deploying-and-launching-oracle-data-transforms)
-    - Blog entry about how to deploy and launch Data Transforms
- 
+- [Oracle Data Transforms – Python API – What, Why, How?](https://www.ateam-oracle.com/oracle-data-transforms-python-sdk-introduction)
+
+- [Leveraging Oracle Data Transforms for Efficient Incremental Data Loads](https://blogs.oracle.com/dataintegration/leveraging-oracle-data-transforms-for-efficient-incremental-data-loads)
+
 
 
  
 # License
  
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

@@ -445,38 +445,45 @@ class ChunkRewriteAgent(Agent):
         prompt = "\n".join(prompt_parts)
         self.log_prompt(prompt, f"ChunkRewriter (Batch of {len(batch)})")
 
-        response = self.llm.invoke([DummyMessage(prompt)])
+        try:
+            response = self.llm.invoke([DummyMessage(prompt)])
 
-        # Handle different LLM response styles
-        if hasattr(response, "content"):
-            text = response.content.strip()
-        elif isinstance(response, list) and isinstance(response[0], dict):
-            text = response[0].get("generated_text") or response[0].get("text")
-            if not text:
-                raise ValueError("⚠️ No valid 'generated_text' found in response.")
-            text = text.strip()
-        else:
-            raise TypeError(f"⚠️ Unexpected response type: {type(response)} — {response}")
-
-        self.log_response(text, f"ChunkRewriter (Batch of {len(batch)})")
-        rewritten_chunks = self._parse_batch_response(text, len(batch))
-        rewritten_chunks = [self._clean_chunk_text(chunk) for chunk in rewritten_chunks]
-
-        # Enhanced logging with side-by-side comparison
-        paired = list(zip(batch, rewritten_chunks))
-        for i, (original_chunk, rewritten_text) in enumerate(paired, 1):
-            # Get the actual raw chunk text, not the metadata
-            original_text = original_chunk.get("text", "")
-            metadata = original_chunk.get("metadata", {})
-            
-            # Use demo logger for visual comparison if available
-            if DEMO_MODE and hasattr(logger, 'chunk_comparison'):
-                # Pass the actual chunk text, not metadata
-                logger.chunk_comparison(original_text, rewritten_text, metadata)
+            # Handle different LLM response styles
+            if hasattr(response, "content"):
+                text = response.content.strip()
+            elif isinstance(response, list) and isinstance(response[0], dict):
+                text = response[0].get("generated_text") or response[0].get("text")
+                if not text:
+                    raise ValueError("⚠️ No valid 'generated_text' found in response.")
+                text = text.strip()
             else:
-                logger.info(f"⚙ Rewritten Chunk {i}:\n{rewritten_text}\nMetadata: {json.dumps(metadata, indent=2)}\n")
+                raise TypeError(f"⚠️ Unexpected response type: {type(response)} — {response}")
 
-        return rewritten_chunks
+            self.log_response(text, f"ChunkRewriter (Batch of {len(batch)})")
+            rewritten_chunks = self._parse_batch_response(text, len(batch))
+            rewritten_chunks = [self._clean_chunk_text(chunk) for chunk in rewritten_chunks]
+
+            # Enhanced logging with side-by-side comparison
+            paired = list(zip(batch, rewritten_chunks))
+            for i, (original_chunk, rewritten_text) in enumerate(paired, 1):
+                # Get the actual raw chunk text, not the metadata
+                original_text = original_chunk.get("text", "")
+                metadata = original_chunk.get("metadata", {})
+                
+                # Use demo logger for visual comparison if available
+                if DEMO_MODE and hasattr(logger, 'chunk_comparison'):
+                    # Pass the actual chunk text, not metadata
+                    logger.chunk_comparison(original_text, rewritten_text, metadata)
+                else:
+                    logger.info(f"⚙ Rewritten Chunk {i}:\n{rewritten_text}\nMetadata: {json.dumps(metadata, indent=2)}\n")
+
+            return rewritten_chunks
+            
+        except Exception as e:
+            # Handle timeout and other errors gracefully
+            logger.error(f"❌ Batch processing failed: {e}")
+            # Return None for each chunk to indicate failure (not empty strings!)
+            return [None] * len(batch)
 
     
     def _parse_batch_response(self, response_text: str, expected_chunks: int) -> List[str]:
@@ -581,8 +588,7 @@ class PlannerAgent(Agent):
             """Use LLM to detect whether the query involves a comparison."""
             prompt = f"""
 Does the query below involve a **side-by-side comparison between two or more named entities such as companies, organizations, or products**?
-
-Exclude comparisons to frameworks (e.g., CSRD, ESRS), legal standards, or regulations — those do not count.
+Include comparisons to frameworks (e.g., CSRD, ESRS), legal standards, or regulations.
 
 Query:
 "{query}"
@@ -641,228 +647,206 @@ Respond with a single word: "yes" or "no".
         return re.findall(r'"([^"]+)"', text)
 
     def _extract_entities(self, query: str) -> List[str]:
-        """Use LLM to extract entity names, then normalize + dedupe."""
+        """Prefer exact vector-store tags typed by the user; LLM only as fallback."""
+        import re
+        logger = getattr(self, "logger", None) or __import__("logging").getLogger(__name__)
+
+        # --- 0) known tag set from your vector store (lowercased) ---
+        # Populate this once at init: self.known_tags = {id.lower() for id in vector_store_ids()}
+        known = getattr(self, "known_tags", None)
+
+        tagged = []
+
+        # A) Existing FY/Q pattern (kept)
+        tagged += [m.group(0) for m in re.finditer(
+            r"\b[A-Za-z][A-Za-z0-9\-]*_(?:FY|Q[1-4])\d{2,4}\b", query, flags=re.I
+        )]
+
+        # B) NEW: generic "<slug>_<year>" e.g., "mof_2022", "mof_2024"
+        tagged += [m.group(0) for m in re.finditer(
+            r"\b[A-Za-z][A-Za-z0-9\-]*_\d{2,4}\b", query
+        )]
+
+        # C) (Optional but useful) quoted tokens like "mof_2022"
+        tagged += [m.group(1) for m in re.finditer(
+            r'"([A-Za-z0-9][A-Za-z0-9_\-]{1,80})"', query
+        )]
+
+        # De-dup preserve order (case-insensitive)
+        seen = set()
+        tagged_unique: List[str] = []
+        for t in tagged:
+            k = t.lower()
+            if k not in seen:
+                # If we know the store IDs, only keep those that exist
+                if not known or k in known:
+                    seen.add(k)
+                    tagged_unique.append(t)
+
+        # --- Early return: if user typed valid tags, trust them verbatim ---
+        if tagged_unique:
+            if logger:
+                logger.info(f"[Entity Extractor] Exact tags: {tagged_unique}")
+            return tagged_unique
+
+        # --- Fallback: your original LLM extraction (unchanged) ---
         prompt = f"""
-Extract company/organization names mentioned in the query and return a CLEANED JSON list.
+    Extract company/organization names mentioned in the query and return a CLEANED JSON list.
 
-CLEANING RULES (apply to each name before returning):
-- Lowercase everything.
-- Remove legal suffixes at the end: plc, ltd, inc, llc, lp, l.p., corp, corporation, co., co, s.a., s.a.s., ag, gmbh, bv, nv, oy, ab, sa, spa, pte, pvt, pty, srl, sro, k.k., kk, kabushiki kaisha.
-- Remove punctuation except internal ampersands (&). Collapse multiple spaces.
-- No duplicates.
+    CLEANING RULES (apply to each name before returning):
+    - Lowercase everything.
+    - Remove legal suffixes at the end: plc, ltd, inc, llc, lp, l.p., corp, corporation, co., co, s.a., s.a.s., ag, gmbh, bv, nv, oy, ab, sa, spa, pte, pvt, pty, srl, sro, k.k., kk, kabushiki kaisha.
+    - Remove punctuation except internal ampersands (&). Collapse multiple spaces.
+    - No duplicates.
 
-CONSTRAINTS:
-- Return ONLY a JSON list of strings, e.g. ["aelwyn","elinexa"]
-- No prose, no keys, no explanations.
-- Do not include standards, clause numbers, sectors, or generic words like "entity".
-- If none are present, return [].
+    CONSTRAINTS:
+    - Return ONLY a JSON list of strings, e.g. ["aelwyn","elinexa"]
+    - No prose, no keys, no explanations.
+    - Do not include standards, clause numbers, sectors, or generic words like "entity".
+    - If none are present, return [].
 
-Examples:
-Query: "Compare Aelwyn vs Elinexa PLC policies"
-Return: ["aelwyn","elinexa"]
+    Now process this query:
 
-Query: "Barclays (UK) and JPMorgan Chase & Co."
-Return: ["barclays","jpmorgan chase & co"]
-
-Query: "What are Microsoft’s 2030 targets?"
-Return: ["microsoft"]
-
-Query: "No company here"
-Return: []
-
-Now process this query:
-
-{query}
-"""
+    {query}
+    """
         try:
             raw = self.llm(prompt).strip()
-            print(raw)
             entities = self.extract_first_json_list(raw)
-            # Keep strings only and strip whitespace
             entities = [e.strip() for e in entities if isinstance(e, str) and e.strip()]
 
-            # Deduplicate while preserving order
-            seen = set()
-            cleaned: List[str] = []
+            final: List[str] = []
+            seen2 = set()
+
             for e in entities:
-                if e.lower() not in seen:
-                    seen.add(e.lower())
-                    cleaned.append(e)
+                k = e.lower()
+                if (not known or k in known) and k not in seen2:
+                    seen2.add(k)
+                    final.append(e)
 
-            if not cleaned:
-                logger.warning(f"[Entity Extractor] No plausible entities extracted from LLM output: {entities}")
+            if not final and logger:
+                logger.warning(f"[Entity Extractor] No plausible entities extracted. LLM: {entities} | tags: []")
 
-            logger.info(f"[Entity Extractor] Raw: {raw} | Cleaned: {cleaned}")
-            return cleaned
+            if logger:
+                logger.info(f"[Entity Extractor] Raw: {raw} | Tags: [] | Final: {final}")
+            return final
 
         except Exception as e:
-            logger.warning(f"⚠️ Failed to robustly extract entities via LLM: {e}")
+            if logger:
+                logger.warning(f"⚠️ Failed to robustly extract entities via LLM: {e}")
             return []
 
 
+
     def plan(
-            self,
-            query: str,
-            context: List[Dict[str, Any]] | None = None,
-            is_comparison_report: bool = False
-        ) -> tuple[list[Dict[str, Any]], list[str], bool]:
+        self,
+        query: str,
+        context: List[Dict[str, Any]] | None = None,
+        is_comparison_report: bool = False,
+        comparison_mode: str | None = None,   # kept for compatibility, not used to hardcode content
+        provided_entities: Optional[List[str]] = None
+    ) -> tuple[list[Dict[str, Any]], list[str], bool]:
         """
-        Strategic planner that returns structured topics with steps.
-        Supports both comparison and single-entity analysis with consistent output format.
+        PROMPT-DRIVEN PLANNER
+        - Derive section topics from the user's TASK PROMPT (not hardcoded).
+        - For each topic, emit one mirrored retrieval step per entity.
+        - Output shape: List[{"topic": str, "steps": List[str]}], plus (entities, is_comparison).
+
+        Returns:
+            (plan, entities, is_comparison)
         """
-        raw = None
+
+        # 1) Determine comparison intent and entities (keep your existing logic)
         is_comparison = self._detect_comparison_query(query) or is_comparison_report
-        entities = self._extract_entities(query) 
-        logger.info(f"[Planner] Detected entities: {entities} | Comparison task: {is_comparison}")
 
-        if is_comparison and len(entities) < 2:
-            logger.warning(f"⚠️ Comparison task detected but only {len(entities)} entity found: {entities}")
-            is_comparison = False  # fallback to single-entity mode
-
-        ctx = "\n".join(f"{i+1}. {c['content']}" for i, c in enumerate(context or []))
-
-        if is_comparison:
-            template = """
-    You are a strategic planning agent generating grouped research steps for a comparative analysis report.
-
-    TASK: {query}
-
-    OBJECTIVE:
-    Break the task into high-level comparison **topics**. For each topic, generate **two steps** — one per entity.
-
-    RULES:
-    - Keep topic titles focused and distinct (e.g., "Scope 1 Emissions")
-    - Use a consistent step format: "Find (something) for (Entity)"
-    - Use only these entities: {entities}
-
-
-        EXAMPLE:
-    [
-    {{
-        "topic": "Net-Zero Targets",
-        "steps": [
-        "Find net-zero targets for Company-A",
-        "Find net-zero targets for Company-B"
-        ]
-    }}
-    ]
-
-    TASK: {query}
-
-    ENTITIES: {entities}
-    Respond ONLY with valid JSON.
-    Use standard double quotes (") for all JSON keys and string values.
-    You MAY and SHOULD use single quotes (') *inside* string values for possessives (e.g., "CEO's").
-    Do NOT use curly or smart quotes.
-    Do NOT write `"CEO"s"`, only `"CEO's"`.
-    """
+        if provided_entities:
+            entities = [e for e in provided_entities if isinstance(e, str) and e.strip()]
+            logger.info(f"[Planner] Using provided entities: {entities}")
         else:
-            if not entities:
-                logger.warning("⚠️ No entity found in query — using fallback")
-                entities = ["The Company"]
-            template = """
-    You are a planning agent decomposing a task for a single entity into structured research topics.
+            entities = self._extract_entities(query)
+            logger.info(f"[Planner] Detected entities: {entities} | Comparison task: {is_comparison}")
 
-TASK: {query}
+        # If comparison requested but <2 entities, degrade gracefully to single-entity mode
+        if is_comparison and len(entities) < 2:
+            logger.warning(f"⚠️ Comparison requested but only {len(entities)} entity found: {entities}. Falling back to single-entity.")
+            is_comparison = False
 
-OBJECTIVE:
-Break this into 3–10 key topics. Under each topic, include 1–2 retrieval-friendly steps.
+        # 2) Ask the LLM ONLY for topics (strings), not full objects — we’ll build steps ourselves
+        #    This avoids fragile JSON with missing "topic" keys.
+        topic_prompt = f"""
+Extract the main section topics from the TASK PROMPT. 
+Use the user's own headings/bullets/order when present. 
+If none are explicit, infer 5–10 concise, non-overlapping topics that reflect the user's request.
 
-RULES:
-- Keep topics distinct and concrete (e.g., Carbon Disclosure)
-- Use only these entities: {entities}
-- Use a consistent step format: "Find (something) for (Entity)"
+TASK PROMPT:
+{query}
 
-EXAMPLE:
-[
-{{
-    "topic": "Carbon Disclosure for Company-A",
-    "steps": [
-    "Find 2023 Scope 1 and 2 emissions for Company-A"
-    ]
-}},
-{{
-    "topic": "Company-A Diversity Strategy",
-    "steps": [
-    "Analyze gender and ethnicity diversity at Company-A"
-    ]
-}}
-]
-Respond ONLY with valid JSON.
-Do NOT use possessive forms (e.g., do NOT write "Aelwyn's Impact"). Instead, write "Impact for Aelwyn" or "Impact of Aelwyn".
-Use the format: "Find (something) for (Entity)"
-Do NOT use curly or smart quotes.
-
-    """
-
-        messages = ChatPromptTemplate.from_template(template).format_messages(
-            query=query,
-            context=ctx,
-            entities=entities
-        )
-        full_prompt = "\n".join(str(m.content) for m in messages)
-        self.log_prompt(full_prompt, "Planner")
-
+Return ONLY a JSON array of strings, e.g. ["Executive Summary","Revenue Analysis","Profitability"]. 
+No prose, no keys, no markdown.
+"""
+        self.log_prompt(topic_prompt, "Planner: Topic Extraction")
+        raw_topics = None
+        topics: list[str] = []
         try:
-            raw = self.llm.invoke(messages).content.strip()
-            self.log_response(raw, "Planner")
-            cleaned = UniversalJSONCleaner.clean_and_extract_json(raw, expected_type="array")
-
-            plan = UniversalJSONCleaner.parse_with_validation(
-                cleaned, expected_structure="Array of objects with 'topic' and 'steps' keys"
-            )
-
-            if not isinstance(plan, list):
-                raise ValueError("Parsed plan is not a list")
-
-            for section in plan:
-                if not isinstance(section, dict):
-                    raise ValueError("Section is not a dict")
-                if "topic" not in section or "steps" not in section:
-                    raise ValueError("Missing 'topic' or 'steps'")
-                if not isinstance(section["topic"], str):
-                    raise ValueError("Topic must be a string")
-                if not isinstance(section["steps"], list):
-                    raise ValueError("Steps must be a list")
-                if not all(isinstance(s, str) for s in section["steps"]):
-                    raise ValueError("Each step must be a string")
-                
-            # Optional: Validate entity inclusion if this was a comparison task
-            if is_comparison and entities:
-                for section in plan:
-                    step_text = " ".join(section["steps"]).lower()
-                    for entity in entities:
-                        if entity.lower() not in step_text:
-                            logger.warning(
-                                f"⚠️ Entity '{entity}' not found in steps for topic: '{section['topic']}'"
-                            )
-
-            return plan, entities, is_comparison
-
+            raw_topics = self.llm(topic_prompt).strip()
+            json_str = UniversalJSONCleaner.clean_and_extract_json(raw_topics, expected_type="array")
+            parsed = UniversalJSONCleaner.parse_with_validation(json_str, expected_structure=None)
+            if isinstance(parsed, list):
+                # Keep only non-empty strings
+                topics = [str(t).strip() for t in parsed if isinstance(t, (str, int, float)) and str(t).strip()]
         except Exception as e:
-            logger.error(f"❌ Failed to parse planner output: {e}")
-            logger.error(f"Raw response:\n{raw}")
+            logger.error(f"❌ Topic extraction failed: {e}")
+            logger.debug(f"Raw topic response:\n{raw_topics}")
 
-            # Attempt a minimal prompt instead of hardcoded fallback
-            try:
-                fallback_prompt = f"""
-        Return a JSON list of 5 objects like this:
-        [{{
-            "topic": "X and Y",
-            "steps": ["Find X for The Company", "Analyze Y for The Company"]
-        }}]
-        TASK: {query}
-        Respond with valid JSON
-        """
-                raw_fallback = self.llm(fallback_prompt).strip()
-                cleaned_fallback = UniversalJSONCleaner.clean_and_extract_json(raw_fallback)
-                fallback_plan = UniversalJSONCleaner.parse_with_validation(
-                    cleaned_fallback, expected_structure="Array of objects with 'topic' and 'steps' keys"
-    )
-                return fallback_plan, entities, is_comparison
-            except Exception as inner_e:
-                logger.error(f"🛑 Fallback planner also failed: {inner_e}")
-                raise RuntimeError("Both planner and fallback planner failed") from inner_e
+        # 2b) Hard fallback: if still empty, derive topics from obvious headings in the query
+        if not topics:
+            # Grab capitalized/bulleted lines as headings
+            lines = [ln.strip() for ln in (query or "").splitlines()]
+            bullets = [ln.lstrip("-*• ").strip() for ln in lines if ln.strip().startswith(("-", "*", "•"))]
+            caps = [ln for ln in lines if ln and ln == ln.title() and len(ln.split()) <= 8]
+            candidates = bullets or caps
+            if candidates:
+                topics = [t for t in candidates if len(t) >= 3][:10]
+
+        # 2c) Ultimate fallback: generic buckets (kept minimal, not domain-specific)
+        if not topics:
+            topics = [
+                "Executive Summary",
+                "Key Metrics",
+                "Section 1",
+                "Section 2",
+                "Section 3",
+                "Risks & Considerations",
+                "Conclusion"
+            ]
+
+        # 3) Build plan objects and MIRROR steps across entities (no hardcoded content)
+        plan: list[dict] = []
+        for t in topics:
+            t_clean = str(t).strip()
+            if not t_clean:
+                continue
+
+            if is_comparison and len(entities) >= 2:
+                # One retrieval step per entity — mirrored wording
+                steps = [f"Find all items requested under '{t_clean}' for {entities[0]}",
+                         f"Find all items requested under '{t_clean}' for {entities[1]}"]
+            else:
+                # Single entity (or unknown)
+                e0 = entities[0] if entities else "The Entity"
+                steps = [f"Find all items requested under '{t_clean}' for {e0}"]
+
+            plan.append({"topic": t_clean, "steps": steps})
+
+        # 4) Log and return
+        try:
+            self.log_response(json.dumps(plan, ensure_ascii=False, indent=2), "Planner: Plan (topics→steps)")
+        except Exception:
+            pass
+
+        return plan, entities, is_comparison
+
+
+
 
 
 class ResearchAgent(Agent):

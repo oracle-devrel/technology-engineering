@@ -1,6 +1,6 @@
 # Exadata Cloud@Customer Networking
 
-Reviewed: 16.09.2025
+Network connection related ExaDB-C@C information. 
 
 # Useful Links
 
@@ -12,9 +12,11 @@ Reviewed: 16.09.2025
 
 - [Using Data Guard](https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-using-data-guard.html)
 
+Reviewed: 01/22/26
+
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

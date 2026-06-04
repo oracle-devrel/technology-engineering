@@ -7,7 +7,7 @@ Oracle Cloud offers a set of core infrastructure capabilities like elastic compu
 This solution guide provides a starting point for the Partners/Managed Service Providers/Consultants to understand the key technical requirements and existing business challenges that need to be addressed as part of the migration.
 
 
-Review Data: 25.10.2024
+Review Data: 26.11.2025
   
 # Table of Contents
 
@@ -33,7 +33,7 @@ Review Data: 25.10.2024
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

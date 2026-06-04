@@ -1,5 +1,9 @@
 # Creating a NL2SQL Agent on OCI
 
+Author: M. Gueury, A. Panda
+
+Reviewed: 15.10.2025
+
 **1.  Introduction**
 
 - **Objective**: Step-by-step instructions for building and implementing
@@ -32,11 +36,11 @@
 
 - **Prepare Tool Configuration Data**
 
-> User must keep the table DDLs handy before creating agent. Optionally,
-> they can also prepare Table Column Descriptions, In Context Examples
-> and Custom Instructions. These can be provided to inline to the Agent
-> creation wizard. Alternately, these can be uploaded Object Storage
-> Bucket and same be used in Agent creation wizard.
+    User must keep the table DDLs handy before creating agent. Optionally,
+    they can also prepare Table Column Descriptions, In Context Examples
+    and Custom Instructions. These can be provided to inline to the Agent
+    creation wizard. Alternately, these can be uploaded Object Storage 
+    Bucket and same be used in Agent creation wizard.
 
 - **Policies**
 
@@ -46,13 +50,15 @@
 
   - Add Policies to allow above dynamic group to access resources**:**
 
-allow dynamic-group \<dg-name\> to read database-tools-family in
-compartment \<compartment_name\>  
-allow dynamic-group \<dg-name\> to use database-tools-connections in
-compartment \<compartment_name\>  
-allow dynamic-group \<dg-name\> to read secret-family in compartment
-\<compartment_name\>  
-allow dynamic-group \<dg-name\> to read objects in tenancy
+    ````
+    allow dynamic-group \<dg-name\> to read database-tools-family in
+    compartment \<compartment_name\>  
+    allow dynamic-group \<dg-name\> to use database-tools-connections in
+    compartment \<compartment_name\>  
+    allow dynamic-group \<dg-name\> to read secret-family in compartment
+    \<compartment_name\>  
+    allow dynamic-group \<dg-name\> to read objects in tenancy
+    ````
 
 **3. Setting Up the OCI Environment**
 
@@ -60,9 +66,9 @@ allow dynamic-group \<dg-name\> to read objects in tenancy
 
 1.  Navigate to the [OCI Console](https://www.oracle.com/cloud/).
 
-2.  <img src="./media/image2.png"
-    style="width:6.34306in;height:3.30694in" />Enter your credentials
-    and click **Sign In** and open Generative AI Agents service.
+    <img src="./media/image2.png" style="width:6.34306in;height:3.30694in" />
+2.  Enter your credential
+3.  Click **Sign In** and open Generative AI Agents service.
 
 **4. Creating an agent**
 
@@ -78,9 +84,9 @@ allow dynamic-group \<dg-name\> to read objects in tenancy
             Message**. The **Description** field is optional.
 
         2.  Check the box to create endpoints for the agent.
-
-        3.  <img src="./media/image3.png"
-            style="width:6.94583in;height:3.29028in" />You can also
+        
+              <img src="./media/image3.png" style="width:6.94583in;height:3.29028in" />
+        3.  You can also
             allow to add tags to organise this resource. For more info
             check
             [this](https://docs.oracle.com/en-us/iaas/Content/Tagging/Concepts/taggingoverview.htm).
@@ -161,9 +167,10 @@ allow dynamic-group \<dg-name\> to read objects in tenancy
             inline, or left blank (none).  
             <img src="./media/image11.png" style="width:6.5in;height:2.02917in" />
 
-3.  <img src="./media/image12.png"
-    style="width:6.91319in;height:3.10278in" />Click on next button,
-    review and create an agent.
+3.  Click on next button, review and create an agent.
+
+   <img src="./media/image12.png"
+    style="width:6.91319in;height:3.10278in" />
 
 **4. Launch chat**
 

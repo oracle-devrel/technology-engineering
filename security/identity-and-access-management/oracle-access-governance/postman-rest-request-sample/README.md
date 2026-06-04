@@ -2,7 +2,7 @@
 
 A Postman collection of sample REST API requests for Oracle Access Governance (OAG) that showcases the ability to submit requests, trigger guardrail violations and interrogate OAG objects using REST API calls. Note that these samples are meant for reference only and are not intended for use in production systems.
 
-Review Date: 12.09.2025
+Review Date: 11.11.2025
 
 # When to use this asset?
 
@@ -29,7 +29,7 @@ The collection can be used for demonstration purposes, to showcase the REST API 
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

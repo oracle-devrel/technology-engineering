@@ -1,5 +1,9 @@
 # ODA Pro Styled
 
+Review date: 22-01-2026
+
+Author: Ras Alungei
+
 🎥 **[View Demo Video](files/oda-pro-styled-demo.mp4)**
 
 A complete solution for creating professional, customizable chat interfaces for Oracle Digital Assistant with enterprise-grade speech recognition capabilities.
@@ -149,8 +153,10 @@ Detailed setup instructions are available in each component's README.
 - Web Speech API (for browser speech mode)
 - LocalStorage for project persistence
 
-## License
+# License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
-Licensed under the Universal Permissive License v1.0.
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](../../LICENSE.txt) for more details.

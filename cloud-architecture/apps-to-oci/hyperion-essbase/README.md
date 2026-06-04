@@ -6,7 +6,7 @@ These resources aim to offer guidance throughout your migration, enabling you to
 
 Explore these materials to enhance your migration strategy. We appreciate your participation and are committed to supporting your cloud migration journey.
 
-Reviewed: 14.07.2025
+Reviewed: 15.05.2026
  
 # Table of Contents
  
@@ -25,9 +25,10 @@ Reviewed: 14.07.2025
 # Useful Links
 
 
-- [EPM System Release 11.2.21 readme (April 2025)](https://docs.oracle.com/en/applications/enterprise-performance-management/11.2/rmapl/index.html)
-- [Essbase 21.7 Release update features (December 2024)](https://blogs.oracle.com/proactivesupportepm/post/essbase-217-marketplace-and-independent-deployment-is-live)
-- [Essbase 21.5 New Features and Enhancements YouTube Playlist](https://www.youtube.com/playlist?list=PLdtXkK5KBY57davwRTIGtDn05A9N4ybrI)
+- [EPM System Release 11.2.25 release (April 2026)](https://docs.oracle.com/en/applications/enterprise-performance-management/11.2/rmocb/index.html)
+- [Essbase 21.8.1 release notes (April 2026)](https://blogs.oracle.com/autonomous-ai-database/essbase-21-8-1-is-now-available-on-oci-marketplace-and-for-independent-deployment)
+- [Essbase AI Query - Talk to your data (April 2026)](https://blogs.oracle.com/autonomous-ai-database/talk-to-your-data-introducing-essbase-ai-query)
+- [Essbase on OCI: Cross-region disaster recovery](https://blogs.oracle.com/cloud-infrastructure/essbase-on-oci-crossregion-disaster-recovery)
 - [EPM Architecture Center](https://docs.oracle.com/en/solutions/deploy-hyperion-oci/index.html)
     - Reference architecture for EPM on OCI, including high availability (HA) and disaster recovery (DR) solutions.
 - [Design an Oracle Hyperion EPM System with an OCI Full Stack Disaster Recovery topology](https://docs.oracle.com/en/solutions/epm-dr-arch-oci/index.html)
@@ -49,7 +50,7 @@ Reviewed: 14.07.2025
 
 # License
  
-Copyright (c) 2025 Oracle and/or its affiliates. 
+Copyright (c) 2026 Oracle and/or its affiliates. 
  
 Licensed under the Universal Permissive License (UPL), Version 1.0. 
  

@@ -10,7 +10,7 @@ For a more professional and consistent presentation, these diagrams use the offi
 
 Siebel System Reference architecture on OCI can be found in the [Architecture Center](https://docs.oracle.com/en/solutions/learn-architecture-deploy-siebel/index.html)
 
-Reviewed: 25.10.2024
+Reviewed: 25.11.2025
 
 # Contents
 
@@ -28,7 +28,7 @@ For designing Hyperion Deployments on OCI
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

@@ -8,7 +8,7 @@ Assets that contain oic adapters configuration and implementation practice for t
 - EBS Adapter
 - Oracle CX Sales Cloud and B2B Adapter 
 
-Review Date: 17.07.2025
+Review Date: 14.11.2025
 
 # When to use these assets?
 
@@ -20,8 +20,8 @@ The information is generic in nature and not specified for a particular customer
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](./LICENSE) for more details.

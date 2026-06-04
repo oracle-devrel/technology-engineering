@@ -1,7 +1,5 @@
 # Exadata Cloud@Customer Training
 
-Reviewed: 02.07.2025
-
 ## Oracle MyLearn
 At [Oracle Mylearn](https://www.oracle.com/uk/education/training/) Here you can find Training, certification, Oracle guided learning, skill development etc. Some content is free and some you need to buy a subscription for/pay for. 
 
@@ -44,9 +42,11 @@ There are other YouTube channels which have relevant training videos published, 
 
 - [Oracle Universiy](https://shop.oracle.com/apex/f?p=dstore:2:0::NO:RIR,2:PROD_HIER_ID:38022788136100320034918191)
 
+Reviewed: 01/22/26
+
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

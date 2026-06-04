@@ -9,7 +9,7 @@ always straightforward and in many cases involves a coexistence of both technolo
 
 Providing links to public useful documentation and articles/blogs written by Oracle APEX  Advocates and Product Managers.
 
-Reviewed: 03.10.2025
+Reviewed: 12.12.2025
 
 # Table of Contents
 - [Team Publications](#team-publications);
@@ -32,7 +32,7 @@ Reviewed: 03.10.2025
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

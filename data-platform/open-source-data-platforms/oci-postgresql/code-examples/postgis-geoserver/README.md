@@ -1,6 +1,6 @@
-# Connect OCI PostgreSQL to Oracle Analytics Cloud
+# Integrate Geoserver and PostGIS using OCI Database with PostgreSQL
 
-Reviewed: 30.09.2025
+Reviewed: 11.11.2025
 
 # When to use this asset?
 
@@ -19,7 +19,7 @@ Open the postgis-geoserver.md file and follow the steps carefully.
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

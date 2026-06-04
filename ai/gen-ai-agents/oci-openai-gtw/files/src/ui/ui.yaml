@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ##PREFIX##-ui
+  labels:
+    app: ##PREFIX##-ui
+spec:
+  containers:
+  - name: ##PREFIX##-ui
+    image: ##DOCKER_PREFIX##/##PREFIX##-ui:latest
+    ports:
+      - containerPort: 80
+        name: http-port
+  imagePullSecrets:
+  - name: ocirsecret        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ##PREFIX##-ui-service
+spec:
+  selector:
+    app: ##PREFIX##-ui
+  ports:
+  - name: http-service-port
+    protocol: TCP
+    port: 80
+    targetPort: http-port
+---    

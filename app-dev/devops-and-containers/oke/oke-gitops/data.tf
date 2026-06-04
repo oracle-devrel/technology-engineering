@@ -9,3 +9,7 @@ data "oci_identity_tenancy" "current_tenancy" {
 data "oci_identity_region_subscriptions" "region_subscriptions_data" {
   tenancy_id = var.tenancy_ocid
 }
+
+output "user_name" {
+  value = data.oci_identity_user.current_user.name
+}

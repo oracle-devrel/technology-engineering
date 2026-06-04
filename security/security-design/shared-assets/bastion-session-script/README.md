@@ -19,6 +19,7 @@ Example:
 
 ```text
 ./bastion-session.sh ssh -b bst001 -i instance-001 -u opc [-p <oci profile>]
+./bastion-session.sh scp -b bst001 -i instance-001 -u opc [-p <oci profile>] <source> <destination>
 ./bastion-session.sh pf  -b bst001 -d 10.0.0.1 -e 3389 [-p <oci profile>] [-l <local port>] 
 ```
 
@@ -27,6 +28,7 @@ Example:
 | Command | Description |
 |-----|-----------------------------|
 | ssh | The session type "ssh" for Managed SSH session.|
+| scp | The session type "scp" for Managed SSH session including SCP.|
 | pf  | The session type "pf" for Port Forwarding session.|
 
 **Arguments:**
@@ -59,7 +61,7 @@ Prerequisites:
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

@@ -6,7 +6,7 @@ At the time of writing, this capability is not offered natively in OAG.
 
 The described integration and data can be used for all supported user/account lifecycle operations in OAG, including use in access certification. Note that this simulates a connected system, therefore changes to OS level user access will be reflected in the targeted database tables.
 
-Review Date: 04.08.2025
+Review Date: 11.11.2025
 
 # When to use this asset?
 
@@ -109,7 +109,7 @@ Please also see the useful link below for more detailed deployment steps.
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

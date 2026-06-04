@@ -2,7 +2,7 @@
 
 This GitHub repository hosts a decision path designed to guide you through the process of upgrading of Siebel System and Essbase or migrating these products to Oracle Cloud Infrastructure (OCI).
 
-Reviewed: 25.10.2024
+Reviewed: 25.11.2025
 
 # When to use this asset?
 
@@ -17,7 +17,7 @@ The validated Solution Guide for Siebel on OCI can be found [here](https://www.o
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

@@ -3,7 +3,7 @@
 
 This section includes documentation and manuals on configuring and managing virtualization environments on OCI Compute.
 
-Reviewed: 19 August 2025
+Reviewed: 16 October 2025
  
 # Team Publications
  
@@ -17,7 +17,7 @@ Use this asset to set up KVM as a Bring Your Own Hypervisor (BYOH) on OCI Comput
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

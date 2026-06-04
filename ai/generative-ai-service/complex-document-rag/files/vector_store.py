@@ -4,7 +4,7 @@ Enhanced Vector Store with Multi-Embedding Model Support
 Extends the existing VectorStore to support OCI Cohere embeddings alongside ChromaDB defaults
 """
 from oci_embedding_handler import OCIEmbeddingHandler, EmbeddingModelManager
-import logging
+import logging, numbers
 from typing import List, Dict, Any, Optional, Union, Tuple
 from pathlib import Path
 import chromadb
@@ -27,143 +27,137 @@ class VectorStore:
                 "VectorStore is an abstract base class. Use EnhancedVectorStore instead."
             )
        
-
-
 class EnhancedVectorStore(VectorStore):
     """Enhanced vector store with multi-embedding model support (SAFER VERSION)"""
 
-    def __init__(self, persist_directory: str = "embeddings", embedding_model: str = "cohere-embed-multilingual-v3.0", embedder=None):
+    def __init__(self, persist_directory: str = "embeddings",
+                 embedding_model: str = "cohere-embed-multilingual-v3.0",
+                 embedder=None):
         self.embedding_manager = EmbeddingModelManager()
-        self.embedding_model_name = embedding_model  # string (name)
-        self.embedder = embedder                     # object (has .embed_query/.embed_documents)
+        self.embedding_model_name = embedding_model
+        self.embedder = embedder
         self.embedding_dimensions = getattr(embedder, "model_config", {}).get("dimensions", None) if embedder else None
-        
-        # If embedder is provided, use it; otherwise fall back to embedding manager
-        if embedder:
-            self.embedding_model = embedder
-        else:
-            self.embedding_model = self.embedding_manager.get_model(embedding_model)
 
+        # Resolve embedding handler
+        self.embedding_model = embedder or self.embedding_manager.get_model(embedding_model)
+
+        # Chroma client (ensure Settings import: from chromadb.config import Settings)
         self.client = chromadb.PersistentClient(
             path=persist_directory,
-            settings=Settings(allow_reset=True)
+            settings=Settings(allow_reset=True, anonymized_telemetry=False)
         )
 
-        # Always get dimensions from the embedding manager or embedder
-        embedding_dim = None
-        if embedder:
-            # Use the provided embedder's dimensions
-            info = embedder.get_model_info()
-            if info and "dimensions" in info:
-                embedding_dim = info["dimensions"]
-            else:
-                raise ValueError(
-                    f"Cannot determine embedding dimensions from provided embedder."
-                )
-        elif isinstance(self.embedding_model, str):
-            # Try to get from embedding_manager
-            embedding_info = self.embedding_manager.get_model_info(self.embedding_model_name)
-            if embedding_info and "dimensions" in embedding_info:
-                embedding_dim = embedding_info["dimensions"]
-            else:
-                raise ValueError(
-                    f"Unknown embedding dimension for model '{self.embedding_model_name}'."
-                    " Please update your EmbeddingModelManager to include this info."
-                )
-        else:
-            # Should have a get_model_info() method
-            info = self.embedding_model.get_model_info()
-            if info and "dimensions" in info:
-                embedding_dim = info["dimensions"]
-            else:
-                raise ValueError(
-                    f"Cannot determine embedding dimensions for non-string embedding model {self.embedding_model}."
-                )
+        # Resolve dimensions once
+        self._embedding_dim = self._resolve_dimensions()
 
+        # Internal maps/handles
+        self.collections: dict[str, Any] = {}
+        self.collection_map = self.collections  # alias
+
+        # Create/bind base collections (pdf/xlsx) for current model+dim
+        self._ensure_base_collections(self._embedding_dim)
+
+        logger.info(f"✅ Enhanced vector store initialized with {self.embedding_model_name} ({self._embedding_dim}D)")
+
+    # --- Utility: sanitize metadata before sending to Chroma ---
+    def _safe_metadata(self, metadata: dict) -> dict:
+        """Ensure Chroma-compatible metadata (convert everything non-str → str)."""
+        safe = {}
+        for k, v in (metadata or {}).items():
+            key = str(k)
+            if isinstance(v, str):
+                safe[key] = v
+            elif isinstance(v, numbers.Number):  # catches numpy.int64, Decimal, etc.
+                safe[key] = str(v)
+            elif v is None:
+                continue
+            else:
+                safe[key] = str(v)
+        return safe
+
+    def _as_int(self, x):
+        try:
+            return int(x)
+        except Exception:
+            return None
+
+    def _resolve_dimensions(self) -> int:
+        if self.embedder:
+            info = self.embedder.get_model_info()
+            if info and "dimensions" in info:
+                return int(info["dimensions"])
+            raise ValueError("Cannot determine embedding dimensions from provided embedder.")
+        if isinstance(self.embedding_model, str):
+            info = self.embedding_manager.get_model_info(self.embedding_model_name)
+            if info and "dimensions" in info:
+                return int(info["dimensions"])
+            raise ValueError(f"Unknown embedding dimension for model '{self.embedding_model_name}'.")
+        # non-string handler
+        info = self.embedding_model.get_model_info()
+        if info and "dimensions" in info:
+            return int(info["dimensions"])
+        raise ValueError("Cannot determine embedding dimensions for non-string embedding model.")
+
+    def _ensure_base_collections(self, embedding_dim: int):
+        base_collection_names = ["pdf_documents", "xlsx_documents"]
         metadata = {
             "hnsw:space": "cosine",
-            "embedding_model": self.embedding_model_name,
-            "embedding_dimensions": embedding_dim
+            "embedding_model": self.embedding_model_name,  # keep int in memory
+            "embedding_dimensions": embedding_dim         # keep int in memory
         }
-
-        base_collection_names = [
-            "pdf_documents", "xlsx_documents"
-        ]
-
-        self.collections = {}
 
         for base_name in base_collection_names:
             full_name = f"{base_name}_{self.embedding_model_name}_{embedding_dim}"
-
             try:
-                # Check for exact match first
-                existing_collections = self.client.list_collections()
-                by_name = {c.name: c for c in existing_collections}
-                if full_name in by_name:
-                    coll = by_name[full_name]
-                    actual_dim = coll.metadata.get("embedding_dimensions", None)
-                    if actual_dim != embedding_dim:
-                        # This should never happen unless DB is corrupt
-                        logger.error(
-                            f"❌ Dimension mismatch for collection '{full_name}'. Expected {embedding_dim}, found {actual_dim}."
-                        )
-                        raise ValueError(
-                            f"Collection '{full_name}' has dim {actual_dim}, but expected {embedding_dim}."
-                        )
-                    collection = coll
-                    logger.info(f"🎯 Using existing collection '{full_name}' ({embedding_dim}D, {coll.count()} chunks)")
-                else:
-                    # Safe: only ever create the *fully qualified* name
-                    collection = self.client.get_or_create_collection(
-                        name=full_name,
-                        metadata=metadata
-                    )
-                    logger.info(f"🗂️  Created new collection '{full_name}' with dimension {embedding_dim}")
+                # Prefer fast path: get_or_create with safe metadata
+                coll = self.client.get_or_create_collection(
+                    name=full_name,
+                    metadata=self._safe_metadata(metadata)  # ← sanitize only here
+                )
 
-                self.collections[full_name] = collection
+                # Defensive dim check (cast back to int if Chroma stored as str)
+                actual_dim = self._as_int((coll.metadata or {}).get("embedding_dimensions"))
+                if actual_dim and actual_dim != embedding_dim:
+                    logger.error(f"❌ Dimension mismatch for '{full_name}'. Expected {embedding_dim}, found {actual_dim}.")
+                    raise ValueError(f"Collection '{full_name}' has dim {actual_dim}, expected {embedding_dim}.")
 
-                # For direct access: always the selected model/dim
+                self.collections[full_name] = coll
                 if base_name == "pdf_documents":
-                    self.pdf_collection = collection
-                elif base_name == "xlsx_documents":
-                    self.xlsx_collection = collection
+                    self.pdf_collection = coll
+                    self.current_pdf_collection_name = full_name
+                else:
+                    self.xlsx_collection = coll
+                    self.current_xlsx_collection_name = full_name
 
+                logger.info(f"🗂️  Ready collection '{full_name}' ({embedding_dim}D, {coll.count()} chunks)")
             except Exception as e:
                 logger.error(f"❌ Failed to create or get collection '{full_name}': {e}")
                 raise
 
-        # Only include full names in the map; never ambiguous short names
-        self.collection_map = self.collections
-
-        logger.info(f"✅ Enhanced vector store initialized with {embedding_model} ({embedding_dim}D)")
-
-
     def get_collection_key(self, base_name: str) -> str:
-        # Build the correct key for a base collection name
-        embedding_dim = (
-            self.get_embedding_info()["dimensions"]
-            if hasattr(self, "get_embedding_info")
-            else 1024
-    )
-        return f"{base_name}_{self.embedding_model_name}_{embedding_dim}"
+        return f"{base_name}_{self.embedding_model_name}_{self._embedding_dim}"
 
 
     def _find_collection_variants(self, base_name: str):
         """
-        Yield (name, collection) for all collections in the DB that start with base_name + "_",
-        across ANY embedding model/dimension (not just the ones cached at init).
+        Yield (name, collection) for all collections that start with base_name+"_".
+        Never create here—only fetch existing collections.
         """
         for c in self.client.list_collections():
             try:
-                name = c.name
-            except Exception:
-                # Some clients return plain dicts
                 name = getattr(c, "name", None) or (c.get("name") if isinstance(c, dict) else None)
+            except Exception:
+                name = None
             if not name:
                 continue
-            if name.startswith(base_name + "_"):
-                # get_or_create is fine; if it exists it just returns it
-                yield name, self.client.get_or_create_collection(name=name)
+            if not name.startswith(base_name + "_"):
+                continue
+            try:
+                coll = self.client.get_collection(name=name)  # ← get (NOT get_or_create)
+                yield name, coll
+            except Exception as e:
+                logger.warning(f"Skip collection {name}: {e}")
+
 
     def list_documents(self, collection_name: str) -> List[Dict[str, Any]]:
         """
@@ -524,145 +518,249 @@ class EnhancedVectorStore(VectorStore):
         return meta
 
     
+    def delete_chunks(self, collection_name: str, chunk_ids: List[str]):
+        """Delete specific chunks from a collection by their IDs
+        
+        Args:
+            collection_name: Name of the collection (e.g., 'xlsx_documents', 'pdf_documents')
+            chunk_ids: List of chunk IDs to delete
+        """
+        if not chunk_ids:
+            return
+            
+        try:
+            # Get the appropriate collection
+            if collection_name == "xlsx_documents":
+                collection = self.xlsx_collection
+            elif collection_name == "pdf_documents":
+                collection = self.pdf_collection
+            else:
+                # Try to get from collection map
+                collection = self.collection_map.get(collection_name)
+                if not collection:
+                    # Try with current model/dimension suffix
+                    full_name = self.get_collection_key(collection_name)
+                    collection = self.collection_map.get(full_name)
+                    
+            if not collection:
+                logger.error(f"Collection {collection_name} not found")
+                return
+                
+            # Delete the chunks
+            collection.delete(ids=chunk_ids)
+            logger.info(f"✅ Deleted {len(chunk_ids)} chunks from {collection_name}")
+            
+        except Exception as e:
+            logger.error(f"❌ Failed to delete chunks: {e}")
+            raise
+    
     def add_xlsx_chunks(self, chunks: List[Dict[str, Any]], document_id: str):
         """Add XLSX chunks to the vector store with proper embedding handling"""
         if not chunks:
             return
-        
+
         # Extract texts and metadata
-        texts = [chunk["content"] for chunk in chunks]
-        metadatas = [chunk["metadata"] for chunk in chunks]
-        ids = [chunk["id"] for chunk in chunks]
-        
-        # Check collection metadata to see what dimensions are expected
+        texts = [c["content"] for c in chunks]
+        metadatas = [self._add_cite(c.get("metadata", {})) for c in chunks]  # add cite & normalize
+        ids = [c["id"] for c in chunks]
+
+        # Normalize expected dimensions/model from collection metadata
         collection_metadata = self.xlsx_collection.metadata or {}
-        expected_dimensions = collection_metadata.get('embedding_dimensions')
-        expected_model = collection_metadata.get('embedding_model')
-        
-        # Handle embeddings based on model type
+        expected_dimensions = self._as_int(collection_metadata.get("embedding_dimensions"))
+        expected_model = collection_metadata.get("embedding_model")
+
+        # Path A: chroma-default (Chroma embeds on add)
         if isinstance(self.embedding_model, str):
-            # ChromaDB default - let ChromaDB handle embeddings
+            # If the collection expects non-384, error early (your policy)
             if expected_dimensions and expected_dimensions != 384:
                 logger.error(f"❌ Collection expects {expected_dimensions}D but using ChromaDB default (384D)")
-                raise ValueError(f"Dimension mismatch: collection expects {expected_dimensions}D, ChromaDB default is 384D")
-            
-            self.xlsx_collection.add(
-                documents=texts,
-                metadatas=metadatas,
-                ids=ids
-            )
-        else:
-            # Use OCI embeddings
-            try:
-                embeddings = self.embedding_model.embed_documents(texts)
-                actual_dimensions = len(embeddings[0]) if embeddings and embeddings[0] else 0
-                
-                if expected_dimensions and actual_dimensions != expected_dimensions:
-                    # Try to find or create the correct collection
-                    correct_collection_name = f"xlsx_documents_{self.embedding_model_name}_{actual_dimensions}"
-                    logger.warning(f"⚠️ Dimension mismatch: collection '{self.xlsx_collection.name}' expects {expected_dimensions}D, embedder produces {actual_dimensions}D")
-                    logger.info(f"🔍 Looking for correct collection: {correct_collection_name}")
-                    
-                    try:
-                        # Try to get the correct collection
-                        correct_collection = self.client.get_collection(correct_collection_name)
-                        logger.info(f"✅ Found correct collection: {correct_collection_name}")
-                    except:
-                        # Create new collection with correct dimensions
-                        metadata = {
-                            "hnsw:space": "cosine",
-                            "embedding_model": self.embedding_model_name,
-                            "embedding_dimensions": actual_dimensions
-                        }
-                        correct_collection = self.client.create_collection(
-                            name=correct_collection_name,
-                            metadata=metadata
-                        )
-                        logger.info(f"✅ Created new collection: {correct_collection_name}")
-                    
-                    # Add to the correct collection
-                    correct_collection.add(
-                        documents=texts,
-                        metadatas=metadatas,
-                        ids=ids,
-                        embeddings=embeddings
-                    )
-                    
-                    # Update the reference for future use
-                    self.xlsx_collection = correct_collection
-                    self.collections[correct_collection_name] = correct_collection
-                    
-                    logger.info(f"✅ Added {len(chunks)} XLSX chunks to {correct_collection_name}")
-                else:
-                    # Dimensions match, proceed normally
-                    self.xlsx_collection.add(
-                        documents=texts,
-                        metadatas=metadatas,
-                        ids=ids,
-                        embeddings=embeddings
-                    )
-                    logger.info(f"✅ Added {len(chunks)} XLSX chunks to {self.embedding_model_name}")
-                    
-            except Exception as e:
-                logger.error(f"❌ Failed to add chunks with OCI embeddings: {e}")
-                raise  # Don't silently fall back - this causes dimension mismatches
+                raise ValueError(
+                    f"Dimension mismatch: collection expects {expected_dimensions}D, ChromaDB default is 384D"
+                )
 
-    def add_pdf_chunks(self, chunks: List[Dict[str, Any]], document_id: str):
-        """Add PDF chunks to the vector store with proper embedding handling"""
-        if not chunks:
+            # Optional: warn if the collection was created without an embedding function bound (older Chroma)
+            try:
+                self.xlsx_collection.add(documents=["probe"], metadatas=[{}], ids=["__probe__tmp__"])
+                self.xlsx_collection.delete(ids=["__probe__tmp__"])
+            except Exception as e:
+                logger.warning(f"⚠️ Chroma default embedding may not be bound; add() failed probe: {e}")
+
+            # Add documents directly (Chroma will embed)
+            # Consider batching if many chunks
+            self.xlsx_collection.add(documents=texts, metadatas=metadatas, ids=ids)
+            logger.info(f"✅ Added {len(chunks)} XLSX chunks to {self.embedding_model_name} (chroma-default)")
             return
-        
-        # Extract texts and metadata
-        texts = [chunk["content"] for chunk in chunks]
-        metadatas = [chunk["metadata"] for chunk in chunks]
-        ids = [chunk["id"] for chunk in chunks]
-        
-        # Check collection metadata to see what dimensions are expected
-        collection_metadata = self.pdf_collection.metadata or {}
-        expected_dimensions = collection_metadata.get('embedding_dimensions')
-        expected_model = collection_metadata.get('embedding_model')
-        
-        # Handle embeddings based on model type and expected dimensions
-        if isinstance(self.embedding_model, str):
-            # String identifier - check if it matches expected model
-            if expected_model and self.embedding_model_name != expected_model:
-                logger.warning(f"⚠️ Model mismatch: collection expects '{expected_model}', got '{self.embedding_model_name}'")
-            
-            if expected_dimensions == 384 or self.embedding_model_name == "chromadb-default":
-                # ChromaDB default - let ChromaDB handle embeddings
-                logger.info(f"📝 Using ChromaDB default embeddings ({expected_dimensions or 384}D)")
-                self.pdf_collection.add(
+
+        # Path B: OCI (you provide embeddings explicitly)
+        try:
+            embeddings = self.embedding_model.embed_documents(texts)
+            if not embeddings or not embeddings[0] or not hasattr(embeddings[0], "__len__"):
+                raise RuntimeError("Embedder returned empty/invalid embeddings")
+
+            actual_dimensions = len(embeddings[0])
+
+            if expected_dimensions and actual_dimensions != expected_dimensions:
+                # Try to find or create the correct collection
+                correct_collection_name = f"xlsx_documents_{self.embedding_model_name}_{actual_dimensions}"
+                logger.warning(
+                    f"⚠️ Dimension mismatch: collection '{self.xlsx_collection.name}' "
+                    f"expects {expected_dimensions}D, embedder produces {actual_dimensions}D"
+                )
+                logger.info(f"🔍 Looking for correct collection: {correct_collection_name}")
+
+                try:
+                    correct_collection = self.client.get_collection(correct_collection_name)
+                    logger.info(f"✅ Found correct collection: {correct_collection_name}")
+                except Exception:
+                    # Create new collection with correct dimensions (sanitize metadata for Chroma)
+                    metadata = {
+                        "hnsw:space": "cosine",
+                        "embedding_model": self.embedding_model_name,
+                        "embedding_dimensions": actual_dimensions,  # keep as int internally
+                    }
+                    correct_collection = self.client.create_collection(
+                        name=correct_collection_name,
+                        metadata=self._safe_metadata(metadata)     # ← sanitize only here
+                    )
+                    logger.info(f"✅ Created new collection: {correct_collection_name}")
+
+                # Add to the correct collection (explicit vectors)
+                # Consider batching if many chunks
+                correct_collection.add(
                     documents=texts,
                     metadatas=metadatas,
-                    ids=ids
+                    ids=ids,
+                    embeddings=embeddings
                 )
+
+                # Update the reference for future use
+                self.xlsx_collection = correct_collection
+                self.collections[correct_collection_name] = correct_collection
+
+                logger.info(f"✅ Added {len(chunks)} XLSX chunks to {correct_collection_name}")
             else:
-                # Expected OCI model but got string - this is a configuration error
-                logger.error(f"❌ Configuration error: Expected {expected_model} ({expected_dimensions}D) but OCI embedding handler failed to initialize")
-                logger.error(f"💡 Falling back to ChromaDB default, but this will cause dimension mismatch!")
-                raise ValueError(f"Cannot add {expected_dimensions}D embeddings using ChromaDB default (384D). Please fix OCI configuration or recreate collection with chromadb-default.")
-        else:
-            # Use OCI embeddings
+                # Dimensions match, proceed normally
+                self.xlsx_collection.add(
+                    documents=texts,
+                    metadatas=metadatas,
+                    ids=ids,
+                    embeddings=embeddings
+                )
+                logger.info(f"✅ Added {len(chunks)} XLSX chunks to {self.embedding_model_name}")
+
+        except Exception as e:
+            logger.error(f"❌ Failed to add chunks with OCI embeddings: {e}")
+            raise  # Keep explicit; prevents silent dimension drift
+
+
+    def add_pdf_chunks(self, chunks: List[Dict[str, Any]], document_id: str):
+        """Add PDF chunks to the vector store with proper embedding handling."""
+        if not chunks:
+            return
+
+        # Extract texts and metadata; add cite + normalize metadata
+        texts = [c["content"] for c in chunks]
+        metadatas = [self._add_cite(c.get("metadata", {})) for c in chunks]
+        ids = [c["id"] for c in chunks]
+
+        # Collection expectations (cast back to int to avoid string/int mismatches)
+        coll_meta = self.pdf_collection.metadata or {}
+        expected_dimensions = self._as_int(coll_meta.get("embedding_dimensions"))
+        expected_model = coll_meta.get("embedding_model")
+
+        # A) chroma-default path (Chroma embeds on add)
+        if isinstance(self.embedding_model, str):
+            if expected_model and self.embedding_model_name != expected_model:
+                logger.warning(
+                    f"⚠️ Model mismatch: collection expects '{expected_model}', got '{self.embedding_model_name}'"
+                )
+
+            # Your policy: chroma-default is 384D only
+            if expected_dimensions and expected_dimensions != 384:
+                raise ValueError(
+                    f"Dimension mismatch: collection expects {expected_dimensions}D, "
+                    f"but chroma-default produces 384D. Recreate the collection with chroma-default "
+                    f"or switch to the correct OCI embedder."
+                )
+
+            # Optional: probe add for older Chroma builds without an embedding_function bound
             try:
-                embeddings = self.embedding_model.embed_documents(texts)
-                actual_dimensions = len(embeddings[0]) if embeddings and embeddings[0] else 0
-                
-                if expected_dimensions and actual_dimensions != expected_dimensions:
-                    logger.error(f"❌ Dimension mismatch: collection expects {expected_dimensions}D, embedder produces {actual_dimensions}D")
-                    raise ValueError(f"Dimension mismatch: collection expects {expected_dimensions}D, got {actual_dimensions}D")
-                
-                logger.info(f"📝 Using OCI embeddings ({actual_dimensions}D)")
+                self.pdf_collection.add(documents=["__probe__"], metadatas=[{}], ids=["__probe__"])
+                self.pdf_collection.delete(ids=["__probe__"])
+            except Exception as e:
+                logger.warning(f"⚠️ Chroma default embedder may not be bound; add() probe failed: {e}")
+
+            # Add (consider batching if very large)
+            self.pdf_collection.add(documents=texts, metadatas=metadatas, ids=ids)
+            logger.info(f"✅ Added {len(chunks)} PDF chunks via chroma-default (384D)")
+            return
+
+        # B) OCI path (explicit embeddings)
+        try:
+            embeddings = self.embedding_model.embed_documents(texts)
+            if not embeddings or not embeddings[0] or not hasattr(embeddings[0], "__len__"):
+                raise RuntimeError("Embedder returned empty/invalid embeddings")
+
+            actual_dimensions = len(embeddings[0])
+
+            # If the target collection's dim doesn't match, route/create the correct one
+            if expected_dimensions and actual_dimensions != expected_dimensions:
+                logger.warning(
+                    f"⚠️ Dimension mismatch: collection '{self.pdf_collection.name}' expects "
+                    f"{expected_dimensions}D, embedder produced {actual_dimensions}D"
+                )
+                correct_name = f"pdf_documents_{self.embedding_model_name}_{actual_dimensions}"
+                try:
+                    correct_collection = self.client.get_collection(correct_name)
+                    # Sanity check: if it already contains data of a different dim (shouldn’t happen), bail
+                    probe_meta = correct_collection.metadata or {}
+                    probe_dim = self._as_int(probe_meta.get("embedding_dimensions"))
+                    if probe_dim and probe_dim != actual_dimensions:
+                        raise RuntimeError(
+                            f"Existing collection '{correct_name}' is {probe_dim}D, expected {actual_dimensions}D"
+                        )
+                    logger.info(f"✅ Found correct PDF collection: {correct_name}")
+                except Exception:
+                    # Create with sanitized metadata (only at API boundary)
+                    md = {
+                        "hnsw:space": "cosine",
+                        "embedding_model": self.embedding_model_name,
+                        "embedding_dimensions": actual_dimensions,  # keep int internally
+                    }
+                    correct_collection = self.client.get_or_create_collection(
+                        name=correct_name,
+                        metadata=self._safe_metadata(md)  # sanitize here
+                    )
+                    logger.info(f"🆕 Created PDF collection: {correct_name}")
+
+                # Add to the correct collection
+                correct_collection.add(
+                    documents=texts,
+                    metadatas=metadatas,
+                    ids=ids,
+                    embeddings=embeddings
+                )
+
+                # Re-point handles
+                self.pdf_collection = correct_collection
+                self.collections[correct_name] = correct_collection
+                self.current_pdf_collection_name = correct_name
+
+                logger.info(f"✅ Added {len(chunks)} PDF chunks to {correct_name}")
+            else:
+                # Dimensions match; add directly
                 self.pdf_collection.add(
                     documents=texts,
                     metadatas=metadatas,
                     ids=ids,
                     embeddings=embeddings
                 )
-            except Exception as e:
-                logger.error(f"❌ Failed to add PDF chunks with OCI embeddings: {e}")
-                raise  # Don't fall back silently - this causes dimension mismatches
-        
-        logger.info(f"✅ Added {len(chunks)} PDF chunks to {self.embedding_model_name}")
+                logger.info(f"✅ Added {len(chunks)} PDF chunks ({actual_dimensions}D)")
+
+        except Exception as e:
+            logger.error(f"❌ Failed to add PDF chunks with OCI embeddings: {e}")
+            raise  # keep explicit; prevents silent dimension drift
+
     
 
 
@@ -875,7 +973,7 @@ class EnhancedVectorStore(VectorStore):
                         }
                         self.pdf_collection = self.client.get_or_create_collection(
                             name=correct_collection_name,
-                            metadata=metadata
+                            metadata=self._safe_metadata(metadata) 
                         )
                         logger.info(f"✅ Created new PDF collection: {correct_collection_name}")
                         actual_dim = handler_dim
@@ -921,75 +1019,6 @@ class EnhancedVectorStore(VectorStore):
             if "dimension" in str(e).lower():
                 logger.error("💡 Suggestion: Try recreating the PDF collection with the correct embedding model")
             return []
-
-
-    def OLD_query_pdf_collection(self, query: str, n_results: int = 3, entity: Optional[str] = None, add_cite: bool = False) -> List[Dict[str, Any]]:
-        """Query PDF collection with embedding support and optional citation markup."""
-        try:
-            # Build filter
-            where_filter = {"entity": entity.lower()} if entity else None
-
-            # ✅ Minimal guard – blow up early if dims mismatch
-            if (self.pdf_collection.metadata or {}).get("embedding_dimensions") != (self.get_embedding_info() or {}).get("dimensions"):
-                raise ValueError(
-                    f"EMBEDDING_DIMENSION_MISMATCH: collection expects "
-                    f"{(self.pdf_collection.metadata or {}).get('embedding_dimensions')}D, "
-                    f"current handler has {(self.get_embedding_info() or {}).get('dimensions')}D"
-    )
-
-            # Query by embedding or text, depending on backend
-            if isinstance(self.embedding_model, str):
-                # ChromaDB default
-                results = self.pdf_collection.query(
-                    query_texts=[query],
-                    n_results=n_results,
-                    where=where_filter,
-                    include=["documents", "metadatas", "distances"]
-                )
-            else:
-                try:
-                    query_embedding = self.embedding_model.embed_query(query)
-                    results = self.pdf_collection.query(
-                        query_embeddings=[query_embedding],
-                        n_results=n_results,
-                        where=where_filter,
-                        include=["documents", "metadatas", "distances"]
-                    )
-                except Exception as e:
-                    logger.error(f"❌ OCI query embedding failed: {e}")
-                    # Fallback to text query
-                    results = self.pdf_collection.query(
-                        query_texts=[query],
-                        n_results=n_results,
-                        where=where_filter,
-                        include=["documents", "metadatas", "distances"]
-                    )
-
-            # Format results with optional citation
-            formatted_results = []
-            docs = results.get("documents", [[]])[0]
-            metas = results.get("metadatas", [[]])[0]
-            dists = results.get("distances", [[]])[0] if "distances" in results else [0.0] * len(docs)
-
-            for i, (doc, meta, dist) in enumerate(zip(docs, metas, dists)):
-                out = {
-                    "content": doc,
-                    "metadata": meta if meta else {},
-                    "distance": dist
-                }
-                if add_cite and hasattr(self, "_add_cite"):
-                    meta_with_cite = self._add_cite(meta)
-                    out["metadata"] = meta_with_cite
-                    out["content"] = f"{doc} {meta_with_cite['cite']}"
-                formatted_results.append(out)
-
-            return formatted_results
-
-        except Exception as e:
-            logger.error(f"❌ Error querying PDF collection: {e}")
-            return []
-
-    
 
 
     def inspect_xlsx_chunk_metadata(self, limit: int = 10):
@@ -1070,14 +1099,21 @@ class EnhancedVectorStore(VectorStore):
             "embedding_model": self.embedding_model_name,
             "embedding_dimensions": embedding_dim
         }
-        
+        logger.info(
+            "Create/get collections: PDF=%r, XLSX=%r | meta=%r (dim_field=%s:%s)",
+            pdf_name,
+            xlsx_name,
+            metadata,
+            "embedding_dimensions",
+            type(metadata.get("embedding_dimensions")).__name__,
+        )
         self.pdf_collection  = self.client.get_or_create_collection(
             name=pdf_name,
-            metadata=metadata
+            metadata=self._safe_metadata(metadata) 
         )
         self.xlsx_collection = self.client.get_or_create_collection(
             name=xlsx_name,
-            metadata=metadata
+            metadata=self._safe_metadata(metadata) 
         )
 
         # Cache for debugging

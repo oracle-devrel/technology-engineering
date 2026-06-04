@@ -17,6 +17,7 @@ Powered by Meta or Cohere models, this component handles conversational AI tasks
 3. OCI Vector Store
 Built on Oracle Database 23AI, this component provides a highly efficient and scalable vector store for managing and querying embeddings.
 
+# How to use this asset
 ## Langflow setup
 To setup an environment with Langflow this is the recommended sequence of steps:
 
@@ -57,6 +58,7 @@ As a result the installation is really slow.
 The preferred way to do (as suggested also in the official documentation) is to use
 uv.
 
+# When to use this asset
 ### The **Philosophy**
 The main idea is to provide the code as an easy way that can be used from people. 
 Then, if they want, they can add all the details they really need.
@@ -69,11 +71,18 @@ For the remaining:
 Please consult the [security guide](./SECURITY.md) for our responsible security
 vulnerability disclosure process.
 
-## License
-Copyright (c) 2025 Oracle and/or its affiliates.
+---
 
+# Docs & References
+
+📘 [OCI Generative AI Overview](https://docs.oracle.com/en-us/iaas/Content/generative-ai/home.htm)
+
+---
+
+# License
+
+Copyright (c) 2026 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](LICENSE.txt) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
 
-ORACLE AND ITS AFFILIATES DO NOT PROVIDE ANY WARRANTY WHATSOEVER, EXPRESS OR IMPLIED, FOR ANY SOFTWARE, MATERIAL OR CONTENT OF ANY KIND CONTAINED OR PRODUCED WITHIN THIS REPOSITORY, AND IN PARTICULAR SPECIFICALLY DISCLAIM ANY AND ALL IMPLIED WARRANTIES OF TITLE, NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A PARTICULAR PURPOSE.  FURTHERMORE, ORACLE AND ITS AFFILIATES DO NOT REPRESENT THAT ANY CUSTOMARY SECURITY REVIEW HAS BEEN PERFORMED WITH RESPECT TO ANY SOFTWARE, MATERIAL OR CONTENT CONTAINED OR PRODUCED WITHIN THIS REPOSITORY. IN ADDITION, AND WITHOUT LIMITING THE FOREGOING, THIRD PARTIES MAY HAVE POSTED SOFTWARE, MATERIAL OR CONTENT TO THIS REPOSITORY WITHOUT ANY REVIEW. USE AT YOUR OWN RISK. 

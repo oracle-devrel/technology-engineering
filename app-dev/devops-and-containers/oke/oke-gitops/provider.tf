@@ -3,19 +3,15 @@ terraform {
   required_providers {
     oci = {
       source  = "oracle/oci"
-      version = "7.18.0"
+      version = "8.8.0"
     }
     null = {
-      source = "hashicorp/null"
+      source  = "hashicorp/null"
       version = "3.2.4"
     }
-    archive = {
-      source = "hashicorp/archive"
-      version = "2.7.1"
-    }
     local = {
-      source = "hashicorp/local"
-      version = "2.5.3"
+      source  = "hashicorp/local"
+      version = "2.8.0"
     }
   }
 }
@@ -25,6 +21,6 @@ provider "oci" {
 }
 
 provider "oci" {
-  region = element([for reg in data.oci_identity_region_subscriptions.region_subscriptions_data.region_subscriptions : reg if reg.is_home_region ],0).region_name
-  alias = "home"
+  region = element([for reg in data.oci_identity_region_subscriptions.region_subscriptions_data.region_subscriptions : reg if reg.is_home_region], 0).region_name
+  alias  = "home"
 }

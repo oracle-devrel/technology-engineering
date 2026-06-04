@@ -14,6 +14,13 @@ git clone $REPO_CLONE_URL || exit
 rm -rf ./$CLONED_DIR/*
 cp -a ./$SOURCE_REPO/. ./$CLONED_DIR/
 cd $CLONED_DIR || exit
+
+# Make all shell scripts executable in the working tree.
+find . -type f -name "*.sh" -exec chmod +x {} \;
+
+# Force Git index to record executable bit for all tracked/staged .sh files.
+git ls-files '*.sh' -z | xargs -0 -r git update-index --chmod=+x
+
 git add . && \
 git add -u && \
 git commit -m "Committed by Terraform script" && \

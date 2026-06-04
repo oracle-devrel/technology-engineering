@@ -70,6 +70,10 @@ variable "worker_subnet_dns_label" {
 variable "worker_subnet_name" {
 }
 
+variable "allow_worker_nat_egress" {
+  type = bool
+}
+
 # POD SUBNET
 
 variable "create_pod_subnet" {
@@ -85,23 +89,44 @@ variable "pod_subnet_dns_label" {
 variable "pod_subnet_name" {
 }
 
-# SERVICE SUBNET
-
-variable "create_service_subnet" {
+variable "allow_pod_nat_egress" {
   type = bool
 }
 
-variable "service_subnet_cidr" {
-}
-
-variable "service_subnet_private" {
+variable "create_additional_pod_cidr" {
   type = bool
 }
 
-variable "service_subnet_dns_label" {
+variable "additional_pod_cidr" {
+  type = list(string)
 }
 
-variable "service_subnet_name" {
+# LB SUBNETS
+
+variable "create_external_lb_subnet" {
+  type = bool
+}
+
+variable "external_lb_cidr" {
+}
+
+variable "external_lb_subnet_dns_label" {
+}
+
+variable "external_lb_subnet_name" {
+}
+
+variable "create_internal_lb_subnet" {
+  type = bool
+}
+
+variable "internal_lb_cidr" {
+}
+
+variable "internal_lb_subnet_dns_label" {
+}
+
+variable "internal_lb_subnet_name" {
 }
 
 
@@ -136,15 +161,31 @@ variable "fss_subnet_dns_label" {}
 
 variable "fss_subnet_name" {}
 
+# DB
+
+variable "create_db_subnet" {
+  type = bool
+}
+
+variable "db_subnet_cidr" {}
+
+variable "db_subnet_dns_label" {}
+
+variable "db_subnet_name" {}
+
+variable "db_service_list" {
+  type = list(string)
+}
+
+variable "separate_db_nsg" {
+  type = bool
+}
+
 # GATEWAYS
 
 variable "create_gateways" {
   type = bool
 }
-
-variable "service_gateway_id" {}
-
-variable "nat_gateway_id" {}
 
 variable "create_internet_gateway" {
   type = bool
@@ -170,4 +211,29 @@ variable "create_drg_attachment" {
 
 variable "peer_vcns" {
   type = list(string)
+}
+
+# MESSAGING
+
+variable "create_msg_subnet" {
+  type = bool
+}
+
+variable "msg_subnet_cidr" {}
+
+variable "msg_subnet_dns_label" {}
+
+variable "msg_subnet_name" {}
+
+variable "create_streaming_nsg" {
+  type = bool
+}
+
+# Tagging
+
+variable "tag_value" {
+  type = object({
+    freeformTags = map(string)
+    definedTags  = map(string)
+  })
 }

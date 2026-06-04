@@ -2,7 +2,7 @@
  
 Oracle Digital Assistant is a platform powered by artificial intelligence, specifically designed to build chatbots, also known as conversational agents. These agents are capable of mimicking human-like dialogue patterns. They leverage sophisticated machine learning algorithms and natural language processing (NLP) to interpret user requests, deliver smart responses, and carry out complex business workflows. The platform offers excellent integration possibilities with both Oracle's applications such as CX Fusion, Service Cloud, and applications like Salesforce and Genesys. This facilitates efficient automation of tasks across different business domains. 
  
-Reviewed: 21.08.2025
+Reviewed: 22.01.2026
 
 # Table of Contents
  
@@ -17,6 +17,21 @@ Reviewed: 21.08.2025
 
 - [ODA Pro styled](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/oracle-digital-assistant/oda-pro-styled)
     - A customizable chat interface for ODA
+
+- [ODA Concierge Template](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/oracle-digital-assistant/templates/concierge-template)
+    - An easy to use Q&A template for ODA
+
+- [ODA Concierge+Agent Template](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/oracle-digital-assistant/templates/concierge-agent-template)
+    - An easy to use Q&A with Agent template for ODA
+
+- [ODA HCM Template](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/oracle-digital-assistant/templates/hcm-ml)
+    - Multilingual HCM template to combine with Fusion HCM skill
+
+- [ODA AI Services](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/oracle-digital-assistant/templates/ai-services)
+    - Template skill to consume AI Services speech/vision/document/language
+
+- [ODA AI Agent with doc-groups](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/oracle-digital-assistant/templates/agent-doc-groups)
+    - Template skill to use AI Agent with different document groups
 
 ## Cloud Coaching & Live Labs
  
@@ -70,8 +85,8 @@ If you navigate to the templates folder you will find our Digital Assistant temp
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](../../LICENSE.txt) for more details.

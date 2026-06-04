@@ -1,0 +1,17 @@
+{
+  "settings": {
+    "region": "eu-amsterdam-1",
+    "db_system_id": "ocid1.postgresqldbsystem.oc1.eu-amsterdam-1.xxx",
+    "auth_mode": "config",
+    "oci_config_file": "/home/opc/.oci/config",
+    "oci_profile": "DEFAULT",
+    "poll_interval_seconds": 10,
+    "max_wait_seconds": 3600,
+    "wait": true
+  },
+  "payload": {
+    "changeMode": "REPLAY_PENDING_UPDATES",
+    "replicaDbSystemId": "ocid1.postgresqldbsystem.oc1.eu-frankfurt-1.xxx",
+    "primaryDbSystemId": "ocid1.postgresqldbsystem.oc1.eu-frankfurt-1.xxx"
+  }
+}

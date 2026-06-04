@@ -1,5 +1,9 @@
 # Release Notes
 
+## Jan 30, 2026 Release Notes - v1.1.0
+
+- Added option to use SCP (secure file copy) via SSH session.
+
 ## Feb 20, 2024 Release Notes - v1.0.3
 
 - Fixed an issue where sometimes the bastion session resource was used before it was fully ready.

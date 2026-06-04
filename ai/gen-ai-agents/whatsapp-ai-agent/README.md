@@ -6,7 +6,15 @@ This repo helps you set up a WhatsApp Generative AI Agent on Oracle Cloud Infras
 
 **Last review date**: 19/09/2025
 
-![](images/WhatsAPP.png)
+![](files/images/WhatsAPP.png)
+
+# When to use this asset?
+
+Use this asset when you want to connect WhatsApp (via the WhatsApp Cloud API) to an Oracle Generative AI Agent on OCI to enable intelligent messaging, demos, or prototypes.
+
+---
+
+# How to use this asset?
 
 ## Features
 - WhatsApp Cloud API integration
@@ -19,8 +27,10 @@ This repo helps you set up a WhatsApp Generative AI Agent on Oracle Cloud Infras
 - Python ≥ 3.12
 
 ## Quick Setup
+
 1. Create a WhatsApp Business App in [Meta for Developers](https://developers.facebook.com).
 2. Configure `.env`:
+
 ```env
 ACCESS_TOKEN="<token>"
 APP_ID="<app id>"
@@ -33,8 +43,10 @@ ENDPOINT="<OCI endpoint>"
 COMPARTMENT_ID="<OCI compartment ID>"
 AGENT_ENDPOINT_OCID="<OCI agent endpoint>"
 ```
+
 3. Deploy webhook using OCI Starter and OCI Cloud Shell.
 4. Run your app:
+
 ```bash
 pip3 install -r requirements.txt
 python3 run.py
@@ -49,3 +61,11 @@ Use Meta’s WhatsApp sandbox for testing, then switch to verified business numb
 
 Refer to full guide for detailed instructions.
 
+---
+
+# License
+
+Copyright (c) 2026 Oracle and/or its affiliates.  
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

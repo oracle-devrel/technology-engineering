@@ -1,0 +1,6 @@
+fastmcp>=2.0
+oci
+requests
+python-docx
+matplotlib
+numpy

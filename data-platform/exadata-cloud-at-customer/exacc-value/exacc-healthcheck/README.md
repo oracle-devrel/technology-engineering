@@ -1,5 +1,3 @@
-Reviewed: 16.09.2025
-
 # Exadata Cloud@Customer - Health Check
 
 ## Introduction
@@ -40,9 +38,11 @@ Below is a list with the instructions on how to retrieve the solution data usefu
 * [AHF Reports](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/exadata-cloud-at-customer/exacc-value/exacc-healthcheck/healthcheck-ahf-report)
 * [AWR Dumps](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/exadata-cloud-at-customer/exacc-value/exacc-healthcheck/healthcheck-awr-dump)
 
-## License
+Reviewed: 01/22/26
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+# License
+
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
