@@ -80,7 +80,7 @@ pathspec==0.12.1
 pillow==11.3.0
 platformdirs==4.4.0
 propcache==0.3.2
-protobuf==6.32.1
+protobuf==6.33.5
 pyarrow==21.0.0
 pycparser==2.23
 pydantic==2.11.7
