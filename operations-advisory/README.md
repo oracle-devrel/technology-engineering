@@ -15,6 +15,9 @@ Reviewed: 2026-06-04
     - [Core Infrastructure Operations](#core-infrastructure-operations)
     - [Oracle Database Operations](#oracle-database-operations)
   - [Lifecycle Management](#lifecycle-management)
+    - [Advanced Operational Integrations](#advanced-operational-integrations)
+    - [Email Delivery Service](#email-delivery-service)
+    - [OS Management Hub](#os-management-hub)
 - [Useful Links](#useful-links)
   - [Cloud Coaching Clinic](#cloud-coaching-clinic)
 - [License](#license)
@@ -55,7 +58,14 @@ Reviewed: 2026-06-04
 
 ## Lifecycle Management
 
+### Advanced Operational Integrations
+- [Sentinel](./lifecycle-management-tools/advanced-operational-integrations/sentinel/files/IntegratingLoggingwithSentinel.pdf)
+- [Exabeam](./lifecycle-management-tools/advanced-operational-integrations/Exabeam/README.md)
+  
+### Email Delivery Service
 - [OCI Email Delivery Service Deep Dive Workshop.](./lifecycle-management-tools/email-delivery-service/files/Public_EmailDeliveryDeepDive_v0.1.pdf)
+
+### OS Management Hub
 - [OCI OS Management Hub.](./lifecycle-management-tools/os-management-hub/files/Public_OS_Management_Hub_v0.2.pdf)
 
 # Useful Links 
