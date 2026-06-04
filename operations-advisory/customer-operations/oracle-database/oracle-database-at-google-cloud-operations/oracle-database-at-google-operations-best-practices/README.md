@@ -2,11 +2,9 @@
 
 &nbsp;
 
-Last reviewed: 2026-06-03
+Last reviewed: 2026-06-04
 
-Welcome to the **Operational Best Practices for Oracle Database@Google Cloud**.
-
-This asset sits inside a **GitOps operating model**. Git is the source of truth, changes are reviewed through pull requests, and pipelines apply the approved desired state. Within that model, it defines the OD@GCP operational practices: **control-plane ownership**, **Terraform state boundaries**, **Day 1 and Day 2 tool selection**, **handoff contracts**, and **drift handling**.
+This asset relays in the **GitOps Multi-Cloud operating model**. Git is the single source of truth, changes are reviewed through pull requests, and pipelines apply the approved desired state. Within that model, it defines the Oracle Database@Google Cloud (OD@GCP) operational practices: **Control-plane ownership**, **Terraform state boundaries**, **Day 1 and Day 2 tool selection**, **handoff contracts**, and **drift handling**.
 
 For the implementation runbook, dependency handoff examples, and module wiring patterns, see [OD@GCP Module Handoff Reference](./handoff-reference.md).
 
@@ -14,13 +12,20 @@ For the implementation runbook, dependency handoff examples, and module wiring p
 
 ## **Table of Contents**
 
-[1. Overview](#1-overview)</br>
-[2. Operational Pattern](#2-operational-pattern)</br>
-[3. Design and Ownership Considerations](#3-design-and-ownership-considerations)</br>
-[4. Recommended Control-Plane Split](#4-recommended-control-plane-split)</br>
-[5. Day 2 Operations, State, and Drift](#5-day-2-operations-state-and-drift)</br>
-[6. How to Start](#6-how-to-start)</br>
-[7. Module Alignment and Handoff Reference](#7-module-alignment-and-handoff-reference)</br>
+- [**Operational Best Practices for Oracle Database@Google Cloud**](#operational-best-practices-for-oracle-databasegoogle-cloud)
+  - [**Table of Contents**](#table-of-contents)
+  - [**1. Overview**](#1-overview)
+  - [**2. Operational Pattern**](#2-operational-pattern)
+  - [**3. Design and Ownership Considerations**](#3-design-and-ownership-considerations)
+  - [**4. How to Start**](#4-how-to-start)
+  - [**5. Module Alignment and Handoff Reference**](#5-module-alignment-and-handoff-reference)
+  - [**6. Recommended Control-Plane Split**](#6-recommended-control-plane-split)
+    - [**6.1 Evidence Baseline**](#61-evidence-baseline)
+    - [**6.2 Google Provider Position**](#62-google-provider-position)
+    - [**6.3 OCI Provider Position**](#63-oci-provider-position)
+    - [**6.4 OCI Terraform Path for Infrastructure and VM Cluster Updates**](#64-oci-terraform-path-for-infrastructure-and-vm-cluster-updates)
+  - [**7. Day 2 Operations, State, and Drift**](#7-day-2-operations-state-and-drift)
+- [License](#license)
 
 &nbsp;
 
@@ -36,10 +41,10 @@ This document defines the OD@GCP **operational best practices** that apply insid
 
 OD@GCP uses two control planes with a clear operational split:
 
-| AREA | RECOMMENDATION |
+| Area | Recommended approach |
 |---|---|
-| **Infrastructure and VM Cluster Day 1** | **Default:** Use the Google Cloud-side Terraform module for creation and stable ownership of OD@GCP networking, Cloud Exadata Infrastructure, and Cloud VM Cluster. |
-| **Day 2 procedural operations** | **Default:** Use OCI-native tools for patching, upgrades, diagnostics, health checks, service-operation driven scaling, and support-guided work, because they are the path that scales across a fleet. |
+| **Day 1 declarative operations** | **Default:** Use the Google Cloud-side Terraform module for creation and stable ownership of OD@GCP networking, Cloud Exadata Infrastructure, and Cloud VM Cluster. |
+| **Day 2 procedural operations** | **Default:** Use OCI-native tools for patching, upgrading, diagnostics, health checks, service-operation driven scaling, and support-guided work as they are the right path that scales across a fleet. |
 | **OCI database layer** | **Conditional:** Use the OCI Exadata Database module for DB Homes, CDBs, PDBs, and backup configuration when that layer should be managed declaratively. |
 | **Infrastructure or VM Cluster updates** | **Optional exception:** Use OCI Terraform only when a team manages specific configuration fields declaratively in Git. This path is governed by the single-writer invariant in [Section 4.4](#44-oci-terraform-path-for-infrastructure-and-vm-cluster-updates). |
 
@@ -49,24 +54,57 @@ The provider evidence behind these rules is in [Section 4](#4-recommended-contro
 
 ## **3. Design and Ownership Considerations**
 
-Terraform must be split according to lifecycle, ownership, permissions, change windows, and blast radius.
+Terraform stacks (configurations + state file) must be split according to lifecycle, ownership, permissions, change windows, and blast radius.
 
 | Area                                | Recommended practice                                                                                                                                                                                                                     |
 | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Infrastructure and VM Cluster Day 1 | Use the Google Cloud-side Terraform module to create ODB Network, ODB Subnets, Cloud Exadata Infrastructure, and Cloud VM Cluster.                                                                                                       |
 | Infrastructure and VM Cluster drift | Use narrow `lifecycle.ignore_changes` entries in the Google Cloud-side module for expected OCI-side operational changes. These ignores prevent unwanted replacement attempts; they do not make Google Terraform the Day 2 update engine. |
 | DB layer Day 1                      | Use the OCI Exadata Database module, or another approved OCI Terraform module, when the database layer should be managed declaratively.                                                                                                |
-| DB layer drift                      | Use narrow module-owned `ignore_changes` entries for expected OCI-native, Ansible, patching, password, backup, or node-local changes.                                                                                                    |
+| DB layer drift                      | Use narrow module-owned `ignore_changes` entries for expected OCI-native, Ansible, patching, password, backup, or node-local changes.    
 
 &nbsp;
 
-## **4. Recommended Control-Plane Split**
+## **4. How to Start**
+
+The recommended execution sequence is summarized below.
+
+| STEP | AREA | DESCRIPTION |
+|:---:|---|---|
+| **1** | **Google Cloud Networking** | Create OD@GCP networking with the Google Cloud-side networking module. |
+| **2** | **Google Cloud Exadata** | Create Cloud Exadata Infrastructure and Cloud VM Cluster with the Google Cloud-side Exadata module. |
+| **3** | **Handoff Contract** | Publish the VM Cluster OCI OCID, placement, region, and evidence to OCI-native tools and, if needed, to the OCI Exadata Database module. |
+| **4** | **OCI Database Layer** | Use the OCI database module for DB Homes, CDBs, PDBs, and backups when that layer should be managed declaratively. |
+| **5** | **OCI-Native Operations** | Use OCI-native tooling for patching, upgrades, diagnostics, health checks, service-operation driven scaling, and support-guided work. |
+| **6** | **Declarative Day 2 Path** | Use a single-writer OCI Terraform stack only for selected Infrastructure or VM Cluster configuration fields managed declaratively in Git. |
+| **7** | **Control Check** | Run the owning module plans after operational changes so expected drift is accepted and unexpected drift remains visible. |
+
+Use this sequence as the starting order before applying the module alignment and handoff guidance in the next section.
+
+&nbsp;
+
+## **5. Module Alignment and Handoff Reference**
+
+The two reference module families share a single contract: the Google Cloud-side stack creates and publishes identifiers; the OCI-side stack consumes them.
+
+| Area | Reference module | Role |
+|---|---|---|
+| Google Cloud networking | `modules/odb-networking` | Owns ODB Network and ODB Subnets. |
+| Google Cloud Exadata | `modules/exadb` | Owns Cloud Exadata Infrastructure and Cloud VM Cluster identity. |
+| OCI database layer | `exadata-database` | Owns DB Homes, CDBs, PDBs, and backups when that layer should be managed declaratively. |
+| Handoff example | `oci-dbhome-handoff` | Resolves `vm_cluster_id`, either a direct OCI Cloud VM Cluster OCID or a lookup key from `gcp_cloud_vm_clusters_dependency`, and passes the resolved OCI OCID to the OCI Exadata Database module. |
+
+Use [OD@GCP Module Handoff Reference](./handoff-reference.md) for the practical wiring details: dependency maps, direct OCID handoff, wrapper-based handoff, post-handoff checks, and common mistakes.
+
+&nbsp;
+
+## **6. Recommended Control-Plane Split**
 
 This section explains why the ownership split is recommended. The Google provider is well suited for Day 1 creation and long-lived ownership of the Google Cloud-side OD@GCP resources, but it should not be the Day 2 engine for procedural operations on Exadata Infrastructure or Cloud VM Clusters. A constrained OCI Terraform stack can manage selected slow-changing configuration fields when the operation is valid for the service model and the single-writer contract is in place.
 
 &nbsp;
 
-### **4.1 Evidence Baseline**
+### **6.1 Evidence Baseline**
 
 | Evidence item               |                Version / baseline | Notes                                                                                                                                              |
 | --------------------------- | --------------------------------: | -------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -75,7 +113,7 @@ This section explains why the ownership split is recommended. The Google provide
 
 &nbsp;
 
-### **4.2 Google Provider Position**
+### **6.2 Google Provider Position**
 
 The Google provider is the Day 1 creation and ownership provider for the Google Cloud-side OD@GCP resources. After deployment, use it for state ownership, outputs, lifecycle/deletion controls, drift visibility, and plan checks.
 
@@ -96,7 +134,7 @@ Validate any update assumption with `terraform plan` against the pinned provider
 
 &nbsp;
 
-### **4.3 OCI Provider Position**
+### **6.3 OCI Provider Position**
 
 The OCI provider is the normal Terraform provider for the OCI database layer. It is also the supported provider for selected Infrastructure or VM Cluster updates when the customer's OD@GCP service model, Oracle documentation, and provider schema support the intended field.
 
@@ -112,7 +150,7 @@ Ownership is split by field, not duplicated: the Google Cloud-side stack stays t
 
 &nbsp;
 
-### **4.4 OCI Terraform Path for Infrastructure and VM Cluster Updates**
+### **6.4 OCI Terraform Path for Infrastructure and VM Cluster Updates**
 
 This is a supported declarative path for selected Day 2 Infrastructure and VM Cluster *configuration* changes. It is the exception, not the default Day 2 engine: procedural work such as patching, upgrades, support-guided operations, and node-local tasks stays on OCI-native tooling (see [Section 5](#5-day-2-operations-state-and-drift)).
 
@@ -133,7 +171,7 @@ Operationally, move the field, not the resource: import the target object into t
 
 &nbsp;
 
-## **5. Day 2 Operations, State, and Drift**
+## **7. Day 2 Operations, State, and Drift**
 
 Terraform is declarative, so it is the right tool for the declarative layer but not for procedural operations like patching, upgrades, support-guided work, or node-local tasks, which have prechecks, ordered steps, and rollback. Those run through OCI-native tooling such as Exadata Fleet Update, the OCI CLI/API, and `dbaascli`, which also scales better across a fleet than per-cluster Terraform. Use Terraform only for declarative database-layer resources and for the declarative Infrastructure or VM Cluster Day 2 path, and there only for the specific slow-changing configuration fields a team has chosen to manage in Git.
 
@@ -155,39 +193,6 @@ The following **operational guardrails** apply:
 - Do not modify service-managed resources or provider-generated dependencies unless Oracle documentation or Oracle Support explicitly directs it.
 - Do not store secrets, private keys, sensitive tfvars, credentials, or Terraform state files in Git.
 - After OCI-side operations that may affect fields visible to the Google Cloud-side stack, run the owning Google Cloud-side Terraform plan so expected drift is accepted and unexpected drift, especially network, placement, or identity drift, remains visible.
-
-&nbsp;
-
-## **6. How to Start**
-
-The recommended execution sequence is summarized below.
-
-| STEP | AREA | DESCRIPTION |
-|:---:|---|---|
-| **1** | **Google Cloud Networking** | Create OD@GCP networking with the Google Cloud-side networking module. |
-| **2** | **Google Cloud Exadata** | Create Cloud Exadata Infrastructure and Cloud VM Cluster with the Google Cloud-side Exadata module. |
-| **3** | **Handoff Contract** | Publish the VM Cluster OCI OCID, placement, region, and evidence to OCI-native tools and, if needed, to the OCI Exadata Database module. |
-| **4** | **OCI Database Layer** | Use the OCI database module for DB Homes, CDBs, PDBs, and backups when that layer should be managed declaratively. |
-| **5** | **OCI-Native Operations** | Use OCI-native tooling for patching, upgrades, diagnostics, health checks, service-operation driven scaling, and support-guided work. |
-| **6** | **Declarative Day 2 Path** | Use a single-writer OCI Terraform stack only for selected Infrastructure or VM Cluster configuration fields managed declaratively in Git. |
-| **7** | **Control Check** | Run the owning module plans after operational changes so expected drift is accepted and unexpected drift remains visible. |
-
-Use this sequence as the starting order before applying the module alignment and handoff guidance in the next section.
-
-&nbsp;
-
-## **7. Module Alignment and Handoff Reference**
-
-The two reference module families share a single contract: the Google Cloud-side stack creates and publishes identifiers; the OCI-side stack consumes them.
-
-| Area | Reference module | Role |
-|---|---|---|
-| Google Cloud networking | `modules/odb-networking` | Owns ODB Network and ODB Subnets. |
-| Google Cloud Exadata | `modules/exadb` | Owns Cloud Exadata Infrastructure and Cloud VM Cluster identity. |
-| OCI database layer | `exadata-database` | Owns DB Homes, CDBs, PDBs, and backups when that layer should be managed declaratively. |
-| Handoff example | `oci-dbhome-handoff` | Resolves `vm_cluster_id`, either a direct OCI Cloud VM Cluster OCID or a lookup key from `gcp_cloud_vm_clusters_dependency`, and passes the resolved OCI OCID to the OCI Exadata Database module. |
-
-Use [OD@GCP Module Handoff Reference](./handoff-reference.md) for the practical wiring details: dependency maps, direct OCID handoff, wrapper-based handoff, post-handoff checks, and common mistakes.
 
 &nbsp;
 
