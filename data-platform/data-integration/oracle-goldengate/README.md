@@ -2,7 +2,7 @@
 
 Oracle GoldenGate is a comprehensive software package for enabling the replication of data in heterogeneous data environments. The product set enables high-availability solutions, real-time data integration, transactional change data capture, data replication, transformations, and verification between operational and analytical enterprise systems.
 
-Reviewed: 08.10.2025
+Reviewed: 03.06.2026
 
 # Table of Contents
  
@@ -59,9 +59,8 @@ Reviewed: 08.10.2025
  - [Delta-based comparison using Veridata 23c](https://medium.com/@amuduli2002/delta-based-comparison-using-veridata-23c-613a9668b4ba)
   - Learn how Delta-based comparison in Oracle GoldenGate Veridata 23c provides significant performance benefits by only comparing data that has changed since the previous job run, rather than the entire dataset. 
 
-     
 # Useful Links
- 
+### Various Help Forums:
 - [GoldenGate Product Page](https://www.oracle.com/uk/integration/goldengate/)
     - Oracle GoldenGate Product Details and use-cases
 
@@ -80,9 +79,10 @@ Reviewed: 08.10.2025
 - [GoldenGate Community Help Forum](https://forums.oracle.com/ords/apexds/domain/dev-community/category/goldengatenested?tags=goldengate)
     - Oracle GoldenGate Product Community Help Center
 
-- [GoldenGate 23C Free](https://docs.oracle.com/en/middleware/goldengate/free/23/uggfe/what-is-goldengate-free.html#GUID-27DF4E00-4359-4266-81E7-2972DC3BE498)
-    - What is Oracle GoldenGate 23C Free Version?
+- [GoldenGate Family of Products & Services Livelabs](https://livelabs.oracle.com/ords/r/dbpm/livelabs/livelabs-workshop-cards?clear=100&search=GoldenGate&session=284057881594)
+    - Livelabs for all the GoldenGate Family of Products and Services
 
+### MAA and High Availability:
 - [GoldenGate High Availability Overview and Best Practices](https://docs.oracle.com/en/database/oracle/oracle-database/19/haovw/overview-oracle-goldengate-high-availability-best-practices.html#GUID-BF26CB63-31FE-42F9-A418-CF9725A3CD72)
     - Oracle GoldenGate High Availability Overview and Best Practices
 
@@ -110,14 +110,69 @@ Reviewed: 08.10.2025
 - [Set up Bidirectional Replication for Oracle GoldenGate Classic Architecture](https://docs.oracle.com/en/middleware/goldengate/core/19.1/admin/configuring-oracle-goldengate-active-active-high-availability.html)
     - How to Configure GoldenGate Classic Architecture in an Active-Active Scenario?
 
+### Best Practices & Customization:
 - [Oracle GoldenGate Performance Best Practices](https://www.oracle.com/technetwork/database/availability/maa-gg-performance-1969630.pdf)
     - How to use GoldenGate to achieve the maximum performance
 
 - [Customizing Oracle GoldenGate Processing](https://docs.oracle.com/en/middleware/goldengate/core/21.3/admin/customizing-oracle-goldengate-processing.html)
     - How to customize GoldenGate Processing
 
-- [How to migrate from Classic Architecture to Microservices](https://www.linkedin.com/pulse/oracle-goldengate-21c-migration-utility-juliana-a-gomes/?trk=public_post-content_share-article)
-    - How to migrate from GoldenGate Classic to Microservices Architecture?
+- [GoldenGate DAA Best Practices for various Data Sources](https://docs.oracle.com/en/database/goldengate/big-data/26/gadbd/best-practices2.html)
+    - How to customize GoldenGate Processing
+
+### Core & Microservices Architecture:
+
+- [GoldenGate Instantiation methods](https://blogs.oracle.com/dataintegration/post/goldengate-instantiation-methods)
+    - A blog that explains the GoldenGate Instantiation methods using RMAN to create a copy of a large source database for replication.    
+
+- [Scaling GoldenGate Instantiation](https://blogs.oracle.com/dataintegration/scaling-goldengate-sourceistable-initial-load-extracts)
+    - How to scale the GoldenGate SOURCEISTABLE Instantiation method
+      
+- [GoldenGate 23C Free](https://docs.oracle.com/en/middleware/goldengate/free/23/uggfe/what-is-goldengate-free.html#GUID-27DF4E00-4359-4266-81E7-2972DC3BE498)
+    - What is Oracle GoldenGate 23C Free Version?
+
+- [Secure GoldenGate Microservices Deployment](https://blogs.oracle.com/dataintegration/oracle-goldengate-microservices-secure-deployment)
+    - How to Secure GoldenGate Microservices Deployment? 
+
+- [Manage Streampool in Oracle Database for GoldenGate Replication](https://blogs.oracle.com/dataintegration/goldengate-how-to-manage-the-streams-pool-in-the-oracle-database)
+    - How to Manage the streampool in Oracle Database to efficiently run the GoldenGate?
+
+- [RESTAPI in GoldenGate Microservices Architecture](https://blogs.oracle.com/dataintegration/goldengate-how-to-manage-the-streams-pool-in-the-oracle-database)
+    - How to use RESTAPI in GoldenGate Microservices Architecture?
+
+- [Improve GoldenGate Observability with StasD and Telegraph](https://blogs.oracle.com/dataintegration/goldengate-statsd-telegraf)
+    - How to improve GoldenGate Observability with StasD and Telegraph?
+
+### BigData:
+- [Capture Data from Kafka using OCI GoldenGate](https://docs.oracle.com/en/cloud/paas/goldengate-service/cdrfg/index.html#articletitle)
+    - How to capture kafka using OCI GoldenGate?
+
+- [Capture Data from Confluent Kafka to Autonomous Database using OCI GoldenGate](https://blogs.oracle.com/dataintegration/oci-goldengate-capture-a-topic-data-from-confluent-cloud-to-autonomous-database)
+    - How to Replicate data from Confluent Kafka to Autonomous Database using OCI GoldenGate?
+
+### Migration:
+- How to migrate from Classic Architecture to Microservices
+    - [GoldenGate 21C Migration Utility](https://www.linkedin.com/pulse/oracle-goldengate-21c-migration-utility-juliana-a-gomes/?trk=public_post-content_share-article)
+    - [Migration Utility Demo](https://oraclespin.com/2021/12/07/demo-goldengate-migration-utility/)
+
+- [GoldenGate for MongoDB Migrations 23ai](https://blogs.oracle.com/dataintegration/goldengate-for-mongodb-migrations)
+    - How to migrate the MongoDB workload to Oracle Database
+
+- [Migrate Veridata Configurations 12C to 26C](https://docs.oracle.com/en/database/goldengate/core/26/gvdug/migrate1.html#GUID-8E76E05F-FE2A-4221-BFFA-36829BC12F6A)
+    - How to migrate the Veridata Configurations from 12C to 26C
+
+### Veridata, OEM PlugIn:
+- [Sizing GoldenGate Veridata](https://blogs.oracle.com/dataintegration/how-to-size-oracle-goldengate-veridata)
+    - How to size GoldenGate Veridata?
+
+- [GoldenGate Veridata 23C Overview Video](https://www.youtube.com/watch?app=desktop&v=fHSg9ZlX0UY)
+    - Overview of the new GoldenGate Veridata 23C with new User Interface and Microservices Architecture
+
+- [GoldenGate Veridata 26C DataSheet](https://www.oracle.com/a/ocom/docs/middleware/veridata-datasheet.pdf)
+    - Overview of the new GoldenGate Veridata 26C with new User Interface and Microservices Architecture
+
+- [GoldenGate Veridata 26C - How it works?](https://blogs.oracle.com/dataintegration/post/oracle-goldengate-veridata-23c-how-it-works)
+    - Overview of the how GoldenGate 26C works? What is the flow and architectural components involved?
 
 - [Delta Comparison in Oracle GoldenGate Veridata](https://youtu.be/4sj_2j3dIvc)
     - How to perform Delta Comparison in GoldenGate Veridata
@@ -149,13 +204,6 @@ Reviewed: 08.10.2025
 - [How to Edit Target Parameters using OEM PlugIn](https://youtu.be/asUItvZRF_Q)
     - How to Edit Target Parameters using OEM PlugIn
 
-- [GoldenGate Instantiation methods](https://blogs.oracle.com/dataintegration/post/goldengate-instantiation-methods)
-    - A blog that explains the GoldenGate Instantiation methods using RMAN to create a copy of a large source database for replication.    
-
-- [GoldenGate Products Livelabs](https://apexapps.oracle.com/pls/apex/f?p=133:100:3818354990791::::SEARCH:goldengate)
-    - Livelabs for all the GoldenGate Products
-
-     
 # License
 
 Copyright (c) 2026 Oracle and/or its affiliates.
