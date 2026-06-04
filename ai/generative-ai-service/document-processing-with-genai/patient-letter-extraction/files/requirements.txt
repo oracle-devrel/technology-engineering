@@ -2,7 +2,7 @@ pandas==2.1.4
 jsonschema==4.19.2
 streamlit==1.37.0
 langchain==0.2.5
-langchain-community==0.2.19
+langchain-community==0.3.27
 pdf2image==1.16.3
 python-docx==0.8.11
 poppler-utils==22.12.0
