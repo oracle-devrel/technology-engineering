@@ -2,13 +2,12 @@
 
 Oracle GoldenGate is a comprehensive software package for enabling the replication of data in heterogeneous data environments. The product set enables high-availability solutions, real-time data integration, transactional change data capture, data replication, transformations, and verification between operational and analytical enterprise systems.
 
-Reviewed: 03.06.2026
+Reviewed: 04.06.2026
 
 # Table of Contents
  
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-links)
-3. [Reusable Assets Overview](#reusable-assets-overview)
  
 # Team Publications
 - [Edition-Aware Upgrade Control with GoldenGate](https://medium.com/@nishar.soneji/edition-aware-upgrade-control-with-oracle-goldengate-48fd5114bb7d)
@@ -29,9 +28,6 @@ Reviewed: 03.06.2026
 - [A Step-by-Step Guide to Setting Up GoldenGate DAA 23ai for MongoDB and Oracle JSON Database Integration](https://blogs.oracle.com/dataintegration/a-stepbystep-guide-to-setting-up-goldengate-daa-23ai-for-mongodb-and-oracle-json-database-integration)
     - Step-by-step how to migrate MongoDB documents to Oracle JSON Database on-premises
        
-- [On-Demand Video Oracle GoldenGate for Multicloud, Data Lakes, and Big Data Deep Dive](https://go.oracle.com/LP=137345?elqCampaignId=468926&src1=:eng:lw:ie::::Odlwtlw_David_Horgan#On-Demand-Webinars)
-    - Oracle GoldenGate deep dive session discussing various use cases for Multicloud, Data Lakes, and Big Data
- 
 - [Datasheet Oracle GoldenGate Management Pack](https://www.oracle.com/a/ocom/docs/goldengate-management-pack-datasheet.pdf)
     - Oracle GoldenGate Monitoring capabilities
 
@@ -40,9 +36,6 @@ Reviewed: 03.06.2026
 
 - [Datasheet GoldenGate Veridata](https://www.oracle.com/a/ocom/docs/middleware/veridata-datasheet.pdf)
     - Oracle GoldenGate Veridata capabilities
-
-- [Livelab Get started with GoldenGate Veridata](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=833)
-    - Oracle GoldenGate Veridata Livelab to create connections, compare and repair data, generate SQL files
 
  - [Relational to vector replication using Oracle GoldenGate 23ai and Oracle Database 23ai](https://youtu.be/v53CZFDbB48)
    - The video demonstrates how to convert relational data into vectors using Oracle Database 23ai features and Oracle GoldenGate replication, enabling vector search and AI-powered functionality by embedding data at the target using the get_vector capability.
@@ -83,26 +76,23 @@ Reviewed: 03.06.2026
     - Livelabs for all the GoldenGate Family of Products and Services
 
 ### MAA and High Availability:
-- [GoldenGate High Availability Overview and Best Practices](https://docs.oracle.com/en/database/oracle/oracle-database/19/haovw/overview-oracle-goldengate-high-availability-best-practices.html#GUID-BF26CB63-31FE-42F9-A418-CF9725A3CD72)
-    - Oracle GoldenGate High Availability Overview and Best Practices
-
+- [Oracle GoldenGate MAA Best Practices](https://docs.oracle.com/en/database/oracle/oracle-database/26/haovw/overview-oracle-goldengate-high-availability-best-practices.html)
+    - MAA Best Practices for Oracle GoldenGate across cloud services and on-prem products
+      
 - [Oracle Database Migration with GoldenGate Hub](https://www.oracle.com/a/tech/docs/maa-database-migration-with-a-goldengate-hub.pdf)
     - How to use GoldenGate for Database & App Migration
 
-- [GoldenGate Hub using Maximum Availability Architecture](https://www.oracle.com/a/tech/docs/maa-goldengate-hub.pdf)
+- [GoldenGate Hub using Maximum Availability Architecture](https://docs.oracle.com/en/database/oracle/oracle-database/26/haovw/cloud-gghub-region.html#GUID-FB908805-CD78-4F0C-BB98-BF147E4E3727)
     - How to make GoldenGate highly available
 
-- [Platinum MAA: Oracle GoldenGate Microservices Architecture Integrated with Oracle Active Data Guard](https://www.oracle.com/a/tech/docs/platinum-maa-ogg-microservices-architecture-with-adg.pdf)
-    - Seamless role transition to ADG standby
+- [Platinum MAA: Oracle GoldenGate Microservices Architecture Integrated with Oracle Active Data Guard] (https://docs.oracle.com/en/database/oracle/oracle-database/26/haovw/premises-maa-platinum-oracle-goldengate-microservices-architecture-integrated-active-data-guard.html#GUID-6437D988-6045-4228-BBE0-D0669F49F5CF)
+    - Seamless role transition to ADG standby with GoldenGate on-premises
 
-- [Oracle GoldenGate Microservices Architecture with Oracle Real Application Clusters Configuration Best Practices](https://www.oracle.com/a/tech/docs/maa-ggmicroservices-on-rac.pdf)
-    - How to use GoldenGate with RAC, ACFS, DBFS, & Clusterware
+- [Oracle GoldenGate Microservices Architecture with Oracle Real Application Clusters Configuration Best Practices](https://docs.oracle.com/en/database/oracle/oracle-database/26/haovw/ogg-microservices-premises1.html#GUID-55FA8876-984F-4E88-9157-CAF1550C261E)
+    - How to use GoldenGate On-Prem with RAC, ACFS, DBFS, & Clusterware
 
-- [Global Data Services Concepts and Administration Guide](https://docs.oracle.com/en/database/oracle/oracle-database/19/gsmug/intro-global-data-services.html)
+- [Global Data Services Concepts and Administration Guide]([https://docs.oracle.com/en/database/oracle/oracle-database/19/gsmug/intro-global-data-services.html)](https://docs.oracle.com/en/database/oracle/oracle-database/26/haovw/oracle-global-data-services-best-practices.html#GUID-D1E1C05D-0BE9-4E1C-B759-D3D0F69133FA)
     - Application Failover Options for Oracle GoldenGate
-
-- [Oracle GoldenGate Best Practices: Active-Active Configuration](https://www.oracle.com/a/ocom/docs/ogg-best-practices-active-active.pdf)
-    - How to configure and manage GoldenGate in an Active-Active use case?
 
 - [Set Up Bidirectional Replication for Oracle GoldenGate Microservices Architecture](https://docs.oracle.com/en/middleware/goldengate/core/21.3/coredoc/quickstart-bidirectional-replication.html)
     - How to Configure GoldenGate Microservices Architecture in an Active-Active Scenario?
@@ -111,17 +101,19 @@ Reviewed: 03.06.2026
     - How to Configure GoldenGate Classic Architecture in an Active-Active Scenario?
 
 ### Best Practices & Customization:
-- [Oracle GoldenGate Performance Best Practices](https://www.oracle.com/technetwork/database/availability/maa-gg-performance-1969630.pdf)
-    - How to use GoldenGate to achieve the maximum performance
+- [Oracle GoldenGate Best Practices: Active-Active Configuration](https://www.oracle.com/a/ocom/docs/ogg-best-practices-active-active.pdf)
+    - How to configure and manage GoldenGate in an Active-Active use case?
+
+- [Oracle GoldenGate Best Practices: Active-Active Configuration](https://docs.oracle.com/en/database/oracle/oracle-database/26/haovw/ogg-active-active-guidance-dev-and-admin1.html#GUID-4040CEAF-17AE-4476-B02F-6C7749A4A2D4)
+    - Best practices for Developers and administrators for Active-Active configurations
+    
+- [GoldenGate DAA Best Practices for various Data Sources](https://docs.oracle.com/en/database/goldengate/big-data/26/gadbd/best-practices2.html)
+    - How to customize GoldenGate Processing
 
 - [Customizing Oracle GoldenGate Processing](https://docs.oracle.com/en/middleware/goldengate/core/21.3/admin/customizing-oracle-goldengate-processing.html)
     - How to customize GoldenGate Processing
 
-- [GoldenGate DAA Best Practices for various Data Sources](https://docs.oracle.com/en/database/goldengate/big-data/26/gadbd/best-practices2.html)
-    - How to customize GoldenGate Processing
-
 ### Core & Microservices Architecture:
-
 - [GoldenGate Instantiation methods](https://blogs.oracle.com/dataintegration/post/goldengate-instantiation-methods)
     - A blog that explains the GoldenGate Instantiation methods using RMAN to create a copy of a large source database for replication.    
 
@@ -142,6 +134,9 @@ Reviewed: 03.06.2026
 
 - [Improve GoldenGate Observability with StasD and Telegraph](https://blogs.oracle.com/dataintegration/goldengate-statsd-telegraf)
     - How to improve GoldenGate Observability with StasD and Telegraph?
+
+- [GoldenGate Open Source MCP Server for agent driven architecture](https://blogs.oracle.com/dataintegration/enabling-agent-driven-operations-in-oracle-goldengate-with-mcp-an-open-source-mcp-server)
+    - Understand and utilize the GoldenGate Open Source MCP Server for the agentic AI use-cases.
 
 ### BigData:
 - [Capture Data from Kafka using OCI GoldenGate](https://docs.oracle.com/en/cloud/paas/goldengate-service/cdrfg/index.html#articletitle)
