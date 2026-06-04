@@ -2,7 +2,7 @@
 
 Oracle GoldenGate Stream Analytics helps users process and analyze large-scale real-time information through correlation patterns, enrichment, and machine learning. It provides actionable business insight from streaming data and helps automate responses for modern, agile businesses.
 
-Reviewed: 03 Jun 2026
+Reviewed: 03.06.2026
 
 ## Table of Contents
 
