@@ -38,6 +38,12 @@ Reviewed: 03.06.2026
 
 # Useful Links
 
+- [OCI GoldenGate Stream Analytics Documentation](https://docs.oracle.com/en/cloud/paas/goldengate-service/apead/)
+  - Public documentation for OCI GoldenGate Stream Analytics 26ai.
+
+- [OCI GoldenGate Stream Analytics Blogs](https://blogs.oracle.com/?s=oci%20goldengate%20streams%20analytics)
+  - Oracle Blogs about OCI GoldenGate Streams Analytics.
+
 - [How to Provision Oracle GoldenGate on Oracle Database@Azure](https://blogs.oracle.com/dataintegration/how-to-provision-oci-goldengate-within-oracle-databaseazure)
     - This blog will guide you through the steps of provisioning GG@Azure and all the necessary pre-requisites and requirements
 
