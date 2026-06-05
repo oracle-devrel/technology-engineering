@@ -8,7 +8,7 @@ Also make sure to check the dedicated pages of the main technology areas mention
 
 * [Oracle GoldenGate](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-integration/oracle-goldengate)
 * [OCI GoldenGate](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-integration/oci-goldengate)
-* [Oracle GoldenGate Stream Analytics](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-integration/oracle-goldengate-streams-analytics)
+* [Oracle GoldenGate Stream Analytics](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-integration/oracle-goldengate-stream-analytics)
 * [Oracle Data Transform](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-integration/oracle-data-transforms)
 * [Oracle Data Integrator](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-integration/oracle-data-integrator)
 * [OCI Data Integration](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-integration/oci-data-integration)
