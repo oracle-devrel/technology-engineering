@@ -8,7 +8,7 @@ When performing real-world testing, there is the risk of exposing sensitive data
 
 A set of best practices and other useful assets/links can be found in this page.
 
-Reviewed: 08.10.2025
+Reviewed: 04.06.2026
 
  
 # Table of Contents
@@ -22,6 +22,9 @@ Reviewed: 08.10.2025
 - [Subsetting](https://db-blog.web.cern.ch/blog/szymon-skorupinski/2016-01-how-generate-subset-out-real-application-testing-captures)
 - [SQL Performance Analyser & Database Replay Lab Guide](https://apexapps.oracle.com/pls/apex/f?p=133:180:110908450042950::::wid:858)
 - [RAT Best Practices](https://bolltoftoracle.wordpress.com/2017/09/29/real-application-testing-best-practices-part-1/)
+- [RAT Live Labs](https://livelabs.oracle.com/ords/r/dbpm/livelabs/view-workshop?clear=RR,180&wid=858&session=107159561994685)
+- [RAT Best Practices & Deep Dive](https://www.youtube.com/watch?v=Aa8ujC4sX7E)
+- [Autonomous Database: Test Workloads with RAT](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/autonomous-real-application-testing.html)
 
 # License
  
