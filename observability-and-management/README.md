@@ -35,7 +35,7 @@ Reviewed: Reviewed: 27.05.2026
 | External Oracle DB| [Link](./shared-assets/external-database-enablement/README.md) | 
 | EBS | [Link](https://docs.oracle.com/en/solutions/enable-om-stack-monitoring-ebs/index.html#GUID-6D9E091F-3614-4E3E-A082-5FC82B27CD7C) | 
 | Webogic | [Link](https://karthicin.medium.com/how-to-monitor-weblogic-in-oci-and-collect-logs-for-analysis-7c5007426010) |
-| Apex | [](https://blogs.oracle.com/observability/oci-observability-for-oracle-apex) | 
+| Apex | [Link](https://blogs.oracle.com/observability/oci-observability-for-oracle-apex) | 
 | OCI CI Container Instance | [Link](https://github.com/adibirzu/oci-container-monitoring)  |
 | .... |  |
 | .... |  | 
