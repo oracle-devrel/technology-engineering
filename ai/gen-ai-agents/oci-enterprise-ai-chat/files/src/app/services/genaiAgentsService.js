@@ -144,15 +144,32 @@ const createGenaiAgentService = () => {
         systemPrompt += `\n\n${CONCISE_SYSTEM_PROMPT}`;
       }
 
-      // Add RAG instruction if file_search is enabled with vector stores
+      // Add RAG instruction if file_search is enabled with vector stores.
+      // Skip for gpt-oss family: OCI doesn't run file_search natively for it,
+      // so telling the model "you have file_search" makes it emit a function_call
+      // mirror that strands the response. Tools are stripped below for the
+      // same reason; the prompt has to match.
       try {
         const nativeState = JSON.parse(localStorage.getItem('nativeToolsEnabled') || '{}');
-        if (nativeState.native_rag) {
+        const isGptOssForPrompt = (options.model || '').includes('gpt-oss');
+        if (nativeState.native_rag && !isGptOssForPrompt) {
           const vsIds = JSON.parse(localStorage.getItem('ragVectorStoreIds') || '[]');
           const validVsIds = JSON.parse(localStorage.getItem('ragValidVectorStoreIds') || '[]');
           const activeIds = vsIds.filter(id => validVsIds.includes(id));
           if (activeIds.length > 0) {
             systemPrompt += `\n\n## KNOWLEDGE BASE (RAG)\nYou have access to a knowledge base via the file_search tool. ALWAYS search the knowledge base FIRST before answering questions, especially when the user asks about specific topics, projects, documents, or data. Use file_search proactively — do not rely solely on your training data when relevant documents may exist in the knowledge base.`;
+          }
+        }
+        // NL2SQL routing hints: tell the model which databases (semantic stores)
+        // it can query via the Nl2Sql MCP tool, and how to pass the store id.
+        if (nativeState.native_text_to_sql && !isGptOssForPrompt) {
+          const nl2sqlUrl = process.env.NEXT_PUBLIC_NL2SQL_MCP_URL || '';
+          const stores = JSON.parse(localStorage.getItem('nl2sqlSemanticStores') || '[]');
+          if (nl2sqlUrl && stores.length > 0) {
+            const list = stores
+              .map(s => `- ${s.displayName} (semanticStoreId: ${s.id})${s.schemas ? ` — schema(s): ${s.schemas}` : ''}`)
+              .join('\n');
+            systemPrompt += `\n\n## TEXT-TO-SQL (NL2SQL)\nYou can answer questions about enterprise data using the "Nl2Sql" MCP tool (call its generate_sql function). Available databases:\n${list}\n\nWhen the user asks something answerable from this data, call generate_sql with arguments:\n{"inputNaturalLanguageQuery": "<the user's question, in English>", "metadata": {"semanticStoreId": "<the matching semanticStoreId from the list above>"}}\nChoose the database whose schema best matches the question. If a question spans multiple databases, make one call per database. Then present the generated SQL and its results to the user.`;
           }
         }
       } catch { /* ignore */ }
@@ -280,22 +297,65 @@ const createGenaiAgentService = () => {
             if (activeIds.length > 0) nativeTools.push({ type: 'file_search', vector_store_ids: activeIds });
           }
           if (nativeState.native_text_to_sql) {
-            const semanticStoreId = localStorage.getItem('nl2sqlSemanticStoreId') || '';
-            if (semanticStoreId) {
-              nativeTools.push({ type: 'nl2sql', semantic_store_id: semanticStoreId });
+            // NL2SQL ("Text to SQL") is delivered as a remote MCP tool
+            // (server_label "Nl2Sql" → generate_sql), NOT a native OCI tool type:
+            // OCI rejects {type:'nl2sql'} with 400 "Unsupported tool type". See the
+            // NL2SQL User Guide §1.5. The hosted DBTools/NL2SQL MCP endpoint comes
+            // from NEXT_PUBLIC_NL2SQL_MCP_URL. The selected semantic store(s) are
+            // passed by the model as metadata.semanticStoreId per the system-prompt
+            // routing block (built above). One endpoint serves many stores/DBs.
+            const nl2sqlUrl = process.env.NEXT_PUBLIC_NL2SQL_MCP_URL || '';
+            const nl2sqlIds = JSON.parse(localStorage.getItem('nl2sqlSemanticStoreIds') || '[]');
+            if (nl2sqlUrl && nl2sqlIds.length > 0) {
+              const tool = {
+                type: 'mcp',
+                server_label: 'Nl2Sql',
+                server_url: nl2sqlUrl,
+                require_approval: 'never',
+              };
+              // The DBTools NL2SQL MCP server uses OAuth 2.1 (IAM Identity Domain).
+              // Reuse the same per-endpoint token store as custom oauth2.1 servers.
+              // No token yet → skip the tool (chat keeps working); the user authorizes
+              // from Settings → Tools → Text to SQL.
+              try {
+                const res = await fetch(`/api/mcp/oauth/token?endpoint=${encodeURIComponent(nl2sqlUrl)}`);
+                const data = await res.json();
+                if (data.hasToken && data.accessToken) {
+                  tool.authorization = data.accessToken;
+                  nativeTools.push(tool);
+                } else {
+                  console.warn('[NL2SQL] No OAuth token yet — authorize in Settings → Tools → Text to SQL');
+                }
+              } catch {
+                console.warn('[NL2SQL] OAuth token check failed — authorize in Settings → Tools → Text to SQL');
+              }
             }
           }
         }
       } catch { /* ignore */ }
 
-      const allTools = [...mcpTools, ...nativeTools];
+      // OCI's docs claim gpt-oss-120b supports the native tool set, but in
+      // practice OCI's pipeline doesn't actually run them for this model — it
+      // just emits a `function_call` mirror that strands the response (model
+      // waits for a function_call_output that never arrives, stream closes
+      // with stream_final_event_missing). Strip native tools from the request
+      // for the gpt-oss family so the model answers from its own training
+      // instead of stalling. Use Gemini or Grok if RAG is required.
+      const currentModelId = options.model || '';
+      const isGptOss = currentModelId.includes('gpt-oss');
+      const effectiveNativeTools = isGptOss ? [] : nativeTools;
+      if (isGptOss && nativeTools.length > 0) {
+        console.warn('[Tools] Stripping native tools for gpt-oss family (OCI does not execute them):', nativeTools.map(t => t.type));
+      }
+
+      const allTools = [...mcpTools, ...effectiveNativeTools];
       if (allTools.length > 0) {
         payload.tools = allTools;
         console.log('[Tools] Passing to OCI:', allTools.map(t => t.type === 'mcp' ? t.server_label : t.type));
       }
 
       // Add reasoning params automatically for reasoning-capable models
-      const reasoningPatterns = ['o4-mini', 'gpt-5.4', 'grok-4-reasoning', 'o3', 'o4'];
+      const reasoningPatterns = []; // client-safe models (gpt-oss / gemini) don't take a reasoning param here
       const currentModel = options.model || '';
       if (reasoningPatterns.some(p => currentModel.includes(p))) {
         const effort = localStorage.getItem('reasoningEffort') || 'off';
@@ -400,12 +460,17 @@ const createGenaiAgentService = () => {
           // the "PrematureStreamClose" thrown in the finally block and the user
           // sees a misleading "OCI dropped the connection" message.
           if (data.done) {
+            // Always flag serverDone so the finally block doesn't double-report
+            // a PrematureStreamClose. But ONLY forward done:true to the chunk
+            // handler when there is NO error: marking the stream as completed
+            // when it actually failed makes markIncompleteMcpChipsAsFailed pick
+            // the wrong reason ("OCI completed while X was running") instead of
+            // the real interruption message.
             serverDone = true;
-            if (onChunk) onChunk({ done: true, trace: data.trace || null });
+            if (!data.error && onChunk) onChunk({ done: true, trace: data.trace || null });
           }
 
           if (data.error) {
-            // Forward trace even on error so UI can show diagnostics
             if (data.trace && onChunk) onChunk({ trace: data.trace });
             throw new Error(data.error);
           }
@@ -484,6 +549,14 @@ const createGenaiAgentService = () => {
             onChunk({ mcp_approval_request: data.mcp_approval_request });
           }
 
+          // Forward MCP function call (client-side execution path). For models
+          // that emit MCP tool calls as OpenAI-style function_call (gpt-oss-120b
+          // et al.), useChat will execute the tool itself and chain a follow-up
+          // request with function_call_output.
+          if (data.mcp_function_call && onChunk) {
+            onChunk({ mcp_function_call: data.mcp_function_call });
+          }
+
           // Track response ID for potential chaining
           if (data.response_id) {
             lastResponseId = data.response_id;
@@ -491,10 +564,15 @@ const createGenaiAgentService = () => {
           }
 
           // Log unhandled chunk types for debugging
-          if (!data.text && !data.mcp && !data.thinking && !data.annotations && !data.generated_image && !data.reasoning && !data.code_execution && !data.code_delta && !data.code_status && !data.item_error && !data.function_call && !data.mcp_approval_request && !data.done && !data.text_done && !data.conversation_id && !data.response_id && !data.error && !data.response_incomplete) {
+          if (!data.text && !data.mcp && !data.thinking && !data.annotations && !data.generated_image && !data.reasoning && !data.code_execution && !data.code_delta && !data.code_status && !data.item_error && !data.function_call && !data.mcp_approval_request && !data.mcp_function_call && !data.done && !data.text_done && !data.conversation_id && !data.response_id && !data.error && !data.response_incomplete && !data.no_summary) {
             console.warn('[Stream] Unhandled chunk type:', Object.keys(data), data);
           }
         }
+        // Server signalled completion (done:true). Don't wait for the socket to
+        // close to break — some gateways (e.g. OCI Hosted Deployment) hold the
+        // SSE connection open after the final event, which hangs the reader and
+        // leaves the UI spinning forever. Stop as soon as done:true has arrived.
+        if (serverDone) break;
       }
     } finally {
       const elapsed = Math.round((Date.now() - streamStartTime) / 1000);

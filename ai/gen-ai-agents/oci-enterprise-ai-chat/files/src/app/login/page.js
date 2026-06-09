@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Box, Button, Typography, Paper, Alert, CircularProgress } from '@mui/material';
 import { FlaskConical } from 'lucide-react';
+import { withBase } from '@/lib/withBase';
 
 export default function LoginPage() {
   const [error, setError] = useState('');
@@ -14,9 +15,9 @@ export default function LoginPage() {
       .then(res => res.json())
       .then(data => {
         if (data.authenticated) {
-          window.location.href = '/';
+          window.location.href = withBase('/');
         } else if (!data.authEnabled) {
-          window.location.href = '/';
+          window.location.href = withBase('/');
         } else {
           setChecking(false);
         }
@@ -74,7 +75,7 @@ export default function LoginPage() {
         <Button
           fullWidth
           variant="contained"
-          href="/api/auth/login"
+          href={withBase("/api/auth/login")}
           sx={{
             py: 1.2,
             borderRadius: 2,

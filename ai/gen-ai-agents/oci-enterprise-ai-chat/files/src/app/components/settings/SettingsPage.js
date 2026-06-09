@@ -11,7 +11,8 @@ import PromptsTab from "./PromptsTab";
 import ToolsTab from "./ToolsTab";
 import MemoryTab from "./MemoryTab";
 import ObservabilityTab from "./ObservabilityTab";
-import { useRouter } from "next/navigation";
+import { useBaseRouter as useRouter } from "@/lib/useBaseRouter";
+import { withBase } from "@/lib/withBase";
 import { useState, useEffect } from "react";
 import { APP_VERSION } from "../../config/version";
 import { INTERNAL_MODELS } from "../../config/models-internal";
@@ -76,7 +77,7 @@ export default function SettingsPage({ defaultTab = 'prompts' }) {
     setActiveTab(newTab);
     const route = TAB_ROUTES[newTab];
     if (route) {
-      window.history.replaceState(null, '', route);
+      window.history.replaceState(null, '', withBase(route));
     }
   };
 

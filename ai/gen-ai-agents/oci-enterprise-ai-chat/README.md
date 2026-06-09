@@ -73,6 +73,18 @@ LANGFUSE_BASE_URL=https://cloud.langfuse.com
 LOG_LEVEL=info
 ```
 
+### Text-to-SQL via MCP, optional
+
+```env
+NEXT_PUBLIC_NL2SQL_MCP_URL=https://your-nl2sql-mcp.example.com/mcp
+```
+
+When set, points the in-chat Text-to-SQL flow at a hosted DBTools MCP server that exposes `generate_sql`. When unset, the Text-to-SQL toggle stays hidden.
+
+### OCI Generative AI Hosted Deployments, optional
+
+When the app is deployed via OCI Generative AI Hosted Applications, the platform injects `APPLICATION_BASE_URL` (the full invocation prefix) into the container. `entrypoint.sh` honors it automatically and falls back to a manual `BASE_PATH=/your-path` for non-hosted deployments behind a subpath. Nothing to set if you do not use either.
+
 ### Models
 
 Models are defined as a static list in `src/app/page.js` (`STATIC_MODELS`). To add or remove a model available in your tenancy, edit that array. No env var needed.
@@ -113,7 +125,7 @@ Toggle per-tool from Settings → Tools → Native:
 - **Web Search** *(coming soon)*, real-time web lookups
 - **File Search (RAG)**: vector retrieval over Knowledge Bases
 - **Code Interpreter**: Python sandbox with 420+ libraries
-- **Text-to-SQL** *(coming soon)*, natural language → SQL against your semantic stores
+- **Text-to-SQL**: natural language to SQL against your semantic stores, fronted by a hosted DBTools MCP server (set `NEXT_PUBLIC_NL2SQL_MCP_URL` in [Configuration](#text-to-sql-via-mcp-optional))
 
 ![Tools settings](images/03-settings-tools.png)
 
@@ -245,7 +257,7 @@ src/
 
 ### MCP tool invocation
 1. OCI executes MCP tools natively via the Responses API. The app **does not run tools itself** during chat (only for Test Connection / Refresh in Settings).
-2. For OAuth 2.1 MCP servers (e.g. SDD Generator), the client obtains an access token via `/api/mcp/oauth/*` and passes it to OCI in the tool's `authorization` field
+2. For OAuth 2.1 MCP servers, the client obtains an access token via `/api/mcp/oauth/*` and passes it to OCI in the tool's `authorization` field
 3. Custom servers use the more generic `/api/mcp` JSON-RPC proxy for discovery and direct invocation (outside OCI)
 
 ### Settings persistence
@@ -355,7 +367,7 @@ oci container-instances container-instance restart \
 
 ### Notes
 - A `/ready` healthcheck endpoint is exposed for the LB.
-- If you mount the app under a subpath, set `BASE_PATH=/your-path`.
+- For subpath deployments, set `BASE_PATH=/your-path`. On OCI Generative AI Hosted Deployments the platform injects `APPLICATION_BASE_URL` automatically and `entrypoint.sh` honors it (falling back to `BASE_PATH` otherwise).
 - When the LB-to-backend connection is HTTP (not HTTPS end-to-end), cookies must **not** carry the `Secure` flag. `mcp-oauth.js` and the IDCS auth code already handle this automatically when running over HTTP.
 - All secrets (Client Secret, Session Secret, Langfuse keys) should be set as **environment variables on the Container Instance**, never baked into the image.
 

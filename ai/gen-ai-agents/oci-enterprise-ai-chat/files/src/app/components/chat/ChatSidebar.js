@@ -3,7 +3,7 @@
 import { Box, IconButton, Typography } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
 import { Settings, Upload } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useBaseRouter as useRouter } from "@/lib/useBaseRouter";
 import BlinkingEye from "../ui/BlinkingEye";
 import { memo, useState, useCallback, useRef, useEffect } from "react";
 import TypingEffect from "../ui/TypingEffect";
