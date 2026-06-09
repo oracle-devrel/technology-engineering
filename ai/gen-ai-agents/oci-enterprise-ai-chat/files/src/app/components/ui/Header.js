@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Building2, Check, ChevronDown, ClipboardCopy, Download, LogOut, Menu as MenuIcon, Share2, SquarePen, Users, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import BubbleModelSelector from "./BubbleModelSelector";
+import { withBase } from "@/lib/withBase";
 
 const BrainFreezeIcon = ({ size = 16, color = "currentColor" }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24">
@@ -242,7 +243,19 @@ export default function Header({
                       style={{ display: "flex", alignItems: "center", gap: 8 }}
                     >
                       <BrainFreezeIcon size={20} color={isDarkBg ? "rgba(255,255,255,0.5)" : "rgba(0, 0, 0, 0.4)"} />
-                      {/* Model name label hidden temporarily — tooltip still shows it on hover */}
+                      <Typography
+                        sx={{
+                          fontSize: "1rem",
+                          color: isDarkBg ? "rgba(255,255,255,0.6)" : "rgba(0, 0, 0, 0.5)",
+                          fontWeight: 400,
+                          maxWidth: 250,
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {selectedModel?.replace(/^[a-z]+\./, "") || "Select model"}
+                      </Typography>
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -376,7 +389,7 @@ export default function Header({
               </MenuItem>
               <Divider />
               <MenuItem
-                onClick={() => { window.location.href = '/api/auth/logout'; }}
+                onClick={() => { window.location.href = withBase('/api/auth/logout'); }}
                 sx={{ fontSize: "0.85rem", color: "error.main" }}
               >
                 <ListItemIcon sx={{ minWidth: 28 }}>

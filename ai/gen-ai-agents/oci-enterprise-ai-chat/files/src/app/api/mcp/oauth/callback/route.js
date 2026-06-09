@@ -4,43 +4,50 @@ import {
   signPayload,
   exchangeCode,
   tokenCookieName,
+  basePrefix,
   PENDING_COOKIE,
 } from '../../../../lib/mcp-oauth';
 import { createLogger } from '../../../../lib/logger';
 
-function returnUrl(request, result, pending) {
-  const dest = pending?.returnTo || '/settings';
+function returnUrl(request, result, pending, detail) {
+  // returnTo from the client already carries the deployment prefix (it's the
+  // browser's window.location.pathname); only the fallback needs basePrefix().
+  const dest = pending?.returnTo || `${basePrefix()}/settings`;
   let host = request.headers.get('x-forwarded-host') || request.headers.get('host');
   const proto = request.headers.get('x-forwarded-proto') || 'http';
   host = host.replace(/:80$/, '').replace(/:443$/, '');
   const base = `${proto}://${host}`;
   const url = new URL(dest, base);
   url.searchParams.set('mcp_auth', result);
+  if (detail) url.searchParams.set('mcp_error', String(detail).slice(0, 300));
   return url.toString();
 }
 
 export async function GET(request) {
   const log = createLogger('mcp-oauth-callback');
 
+  // Declared at function scope so the catch block (and the early error paths)
+  // can use it to build returnTo without a ReferenceError.
+  let pending = null;
   try {
     const params = new URL(request.url).searchParams;
     const code = params.get('code');
-    const state = params.get('state');
     const error = params.get('error');
+
+    // 1. Read pending state from cookie early — so returnTo works even when the
+    //    IdP redirects back with ?error=... (e.g. unauthorized_client / bad scope).
+    const pendingCookie = request.cookies.get(PENDING_COOKIE)?.value;
+    pending = await verifyPayload(pendingCookie);
 
     if (error) {
       log.error('Authorization denied', { error, description: params.get('error_description') });
-      return NextResponse.redirect(returnUrl(request, 'error', pending));
+      return NextResponse.redirect(returnUrl(request, 'error', pending, params.get('error_description') || error));
     }
 
     if (!code) {
       log.error('Missing code');
-      return NextResponse.redirect(returnUrl(request, 'error', null));
+      return NextResponse.redirect(returnUrl(request, 'error', pending, 'No authorization code returned'));
     }
-
-    // 1. Read pending state from cookie
-    const pendingCookie = request.cookies.get(PENDING_COOKIE)?.value;
-    const pending = await verifyPayload(pendingCookie);
 
     if (!pending) {
       log.error('Missing or invalid pending cookie', {
@@ -67,7 +74,10 @@ export async function GET(request) {
       clientId: pending.clientId,
       clientSecret: pending.clientSecret,
       tokenEndpoint: pending.tokenEndpoint,
-      accessToken: tokenData.access_token,
+      // Access JWT (~3KB for IDCS) is NOT stored — it would push the signed cookie
+      // past the browser's ~4KB limit and the cookie gets dropped (hasToken=false).
+      // Store only the small refresh token; /api/mcp/oauth/token mints a fresh
+      // access token on demand. This also fixes access-token expiry.
       refreshToken: tokenData.refresh_token,
       expiresAt: Date.now() + (tokenData.expires_in || 3600) * 1000,
     });
@@ -89,6 +99,6 @@ export async function GET(request) {
     return response;
   } catch (error) {
     log.error('OAuth callback failed', { error: error.message });
-    return NextResponse.redirect(returnUrl(request, 'error', pending));
+    return NextResponse.redirect(returnUrl(request, 'error', pending, error.message));
   }
 }
