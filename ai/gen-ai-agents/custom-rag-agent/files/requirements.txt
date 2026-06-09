@@ -137,7 +137,7 @@ pathspec==0.12.1
 pdfminer.six==20231228
 pdfplumber==0.11.5
 pexpect==4.9.0
-pillow==11.1.0
+pillow==12.1.1
 platformdirs==4.3.6
 prometheus_client==0.21.1
 prompt_toolkit==3.0.50
