@@ -2,7 +2,7 @@
 
 Data Integration is a fully managed, multi-tenant service that helps data engineers and developers with data movement and data loading tasks. Powered by Spark ETL or ELT processes, a large volume of data can be ingested from a variety of data assets; cleansed; transformed and reshaped; and efficiently loaded to Oracle Cloud Infrastructure target data assets.
 
-Reviewed: 07.10.2025
+Reviewed: 03.06.2026
 
 # Table of Contents
  
@@ -61,9 +61,6 @@ Reviewed: 07.10.2025
 
 - [OCI Data Integration Service Templates](https://blogs.oracle.com/dataintegration/post/oci-data-integration-service-templates)
   - Leverage prebuilt templates in OCI Data Integration to simplify data operations, automate tasks, and customize data flows across OCI and multi-cloud environments
-
-- [Using OCI DI and Functions for Fusion SaaS data load](https://www.ateam-oracle.com/post/using-oci-di-and-functions-for-fusion-saas-data-load)
-  - Load data from Fusion SaaS using OCI Data Integration and Functions
 
 - [Extract data from Fusion Application using BI Publisher in OCI DI](https://blogs.oracle.com/cloud-infrastructure/post/extract-data-from-fusion-application-using-bi-publisher-in-oci-di)
   - Extract data from Oracle Fusion Applications using BI Publisher and OCI Data Integration
