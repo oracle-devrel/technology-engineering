@@ -6,7 +6,8 @@ import InteractiveEditor from "../../../components/settings/flows/InteractiveEdi
 import TextEditor from "../../../components/settings/flows/TextEditor";
 import VerticalTabs from "../../../components/ui/VerticalTabs";
 import { Box, IconButton, TextField, Typography, Button, Card, List, ListItem, ListItemText, ToggleButton, ToggleButtonGroup, Switch, FormControlLabel } from "@mui/material";
-import { useRouter, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
+import { useBaseRouter as useRouter } from "@/lib/useBaseRouter";
 import { useState, useEffect } from "react";
 import { getAllMockFlows } from "../../../services/mockService";
 

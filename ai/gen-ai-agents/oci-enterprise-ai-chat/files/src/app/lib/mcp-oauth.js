@@ -2,6 +2,15 @@ import { createHash, randomBytes } from 'crypto';
 
 const SESSION_SECRET = process.env.SESSION_SECRET || 'change-me-in-production';
 
+// ── Base path (OCI Hosted Deployment) ────────────────────────────────────────
+// OCI strips the /.../actions/invoke prefix before requests reach us and injects
+// it as APPLICATION_BASE_URL. Server-built browser-facing URLs (OAuth
+// redirect_uri, post-login returnTo) must re-add it so the browser can route
+// back through the gateway. Empty for dev / root (Container Instance) deploys.
+export function basePrefix() {
+  return (process.env.APPLICATION_BASE_URL || process.env.BASE_PATH || '').replace(/\/+$/, '');
+}
+
 // ── PKCE ────────────────────────────────────────────────────────────────────
 
 export function generateCodeVerifier() {
@@ -63,12 +72,50 @@ export const PENDING_COOKIE = 'mcp-oauth-pending';
  * Some servers return endpoint URLs missing the MCP base path — we detect and fix that.
  */
 export async function fetchOAuthMetadata(mcpEndpoint) {
+  // RFC 9728 (OAuth Protected Resource Metadata) — the modern MCP pattern used by
+  // e.g. the OCI DBTools/NL2SQL MCP server. The MCP endpoint exposes a
+  // protected-resource document at {origin}/.well-known/oauth-protected-resource{path}
+  // that points to a SEPARATE authorization server (e.g. an IAM Identity Domain),
+  // whose own metadata holds the authorize/token/registration endpoints.
+  const u = new URL(mcpEndpoint);
+  const resourcePath = u.pathname.replace(/\/$/, '');
+  const prCandidates = [
+    `${u.origin}/.well-known/oauth-protected-resource${resourcePath}`, // path-based (DBTools)
+    `${u.origin}/.well-known/oauth-protected-resource`,                // origin-based
+  ];
+  for (const prUrl of prCandidates) {
+    try {
+      const pr = await fetch(prUrl);
+      if (!pr.ok) continue;
+      const prMeta = await pr.json();
+      const authServer = (prMeta.authorization_servers || [])[0];
+      if (!authServer) continue;
+      const asMeta = await fetchAuthServerMetadata(authServer);
+      if (!asMeta) continue;
+      // The resource's own scopes_supported tells us exactly what to request.
+      return { ...asMeta, scopes_supported: prMeta.scopes_supported || asMeta.scopes_supported };
+    } catch { /* try next candidate */ }
+  }
+
+  // Fallback: some MCP servers serve the authorization-server metadata directly
+  // under the MCP endpoint (older one-level pattern).
   const base = mcpEndpoint.replace(/\/$/, '');
   const res = await fetch(`${base}/.well-known/oauth-authorization-server`);
   if (!res.ok) return null;
-
   const metadata = await res.json();
   return fixMetadataUrls(metadata, mcpEndpoint);
+}
+
+/** Fetch an authorization server's metadata (RFC 8414 or OIDC discovery). */
+async function fetchAuthServerMetadata(authServer) {
+  const root = authServer.replace(/\/$/, '');
+  for (const path of ['/.well-known/oauth-authorization-server', '/.well-known/openid-configuration']) {
+    try {
+      const r = await fetch(`${root}${path}`);
+      if (r.ok) return await r.json();
+    } catch { /* try next */ }
+  }
+  return null;
 }
 
 function fixMetadataUrls(metadata, mcpEndpoint) {

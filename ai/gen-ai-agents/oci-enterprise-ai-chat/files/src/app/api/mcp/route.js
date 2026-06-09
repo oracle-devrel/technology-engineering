@@ -1,12 +1,16 @@
 import { NextResponse } from 'next/server';
 import { createLogger } from '../../lib/logger';
-import { verifyPayload, signPayload, refreshAccessToken, tokenCookieName } from '../../lib/mcp-oauth';
+import { verifyPayload, signPayload, refreshAccessToken, tokenCookieName, basePrefix } from '../../lib/mcp-oauth';
 
 // Store session IDs per endpoint (in production, use Redis or similar)
 const sessionIds = new Map();
 
 // Cache OAuth tokens per token URL + client ID
 const oauthTokenCache = new Map();
+
+// Monotonic small int for JSON-RPC `id`. Some MCP servers (e.g. Oracle Analytics)
+// reject large int ids (e.g. Date.now()) as "Invalid JSON-RPC message format".
+let jsonRpcIdCounter = 0;
 
 async function getOAuthToken(tokenUrl, clientId, clientSecret, scope) {
   const cacheKey = `${tokenUrl}:${clientId}`;
@@ -62,7 +66,7 @@ export async function POST(request) {
     // Build JSON-RPC request
     const jsonRpcRequest = {
       jsonrpc: '2.0',
-      id: Date.now(),
+      id: ++jsonRpcIdCounter,
       method: method,
       params: params
     };
@@ -75,8 +79,9 @@ export async function POST(request) {
     // Add auth headers if provided
     let updatedTokenCookie = null; // set if oauth2.1 token was refreshed
 
-    if (authType === 'oauth2.1') {
-      // Read tokens from httpOnly cookie set by /api/mcp/oauth/callback
+    if (authType === 'oauth2.1' || authType === 'oauth2-user') {
+      // Read tokens from httpOnly cookie set by /api/mcp/oauth/callback.
+      // Both interactive authTypes share the same callback + cookie storage.
       const cookieName = tokenCookieName(endpoint);
       const tokenCookie = request.cookies.get(cookieName)?.value;
       const tokens = await verifyPayload(tokenCookie);
@@ -84,7 +89,7 @@ export async function POST(request) {
       if (!tokens) {
         return NextResponse.json({
           error: 'needs_auth',
-          authorizeUrl: `/api/mcp/oauth/authorize?endpoint=${encodeURIComponent(endpoint)}`,
+          authorizeUrl: `${basePrefix()}/api/mcp/oauth/authorize?endpoint=${encodeURIComponent(endpoint)}`,
         }, { status: 401 });
       }
 
@@ -101,7 +106,7 @@ export async function POST(request) {
         } catch {
           return NextResponse.json({
             error: 'needs_auth',
-            authorizeUrl: `/api/mcp/oauth/authorize?endpoint=${encodeURIComponent(endpoint)}`,
+            authorizeUrl: `${basePrefix()}/api/mcp/oauth/authorize?endpoint=${encodeURIComponent(endpoint)}`,
           }, { status: 401 });
         }
       }
@@ -144,11 +149,11 @@ export async function POST(request) {
     if (!response.ok) {
       log.error('MCP server error', { status: response.status, body: responseText.slice(0, 500) });
 
-      // If the MCP server rejects our OAuth 2.1 token, clear it and ask for re-auth
-      if (authType === 'oauth2.1' && response.status === 401) {
+      // If the MCP server rejects our OAuth token, clear it and ask for re-auth
+      if ((authType === 'oauth2.1' || authType === 'oauth2-user') && response.status === 401) {
         const clearResponse = NextResponse.json({
           error: 'needs_auth',
-          authorizeUrl: `/api/mcp/oauth/authorize?endpoint=${encodeURIComponent(endpoint)}`,
+          authorizeUrl: `${basePrefix()}/api/mcp/oauth/authorize?endpoint=${encodeURIComponent(endpoint)}`,
         }, { status: 401 });
         clearResponse.cookies.delete(tokenCookieName(endpoint));
         return clearResponse;

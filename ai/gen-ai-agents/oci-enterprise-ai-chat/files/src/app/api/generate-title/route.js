@@ -19,7 +19,7 @@ export async function POST(request) {
 "${userMessage.substring(0, 150)}" → "`;
 
     const requestBody = {
-      model: 'openai.gpt-4o-mini',
+      model: 'google.gemini-2.5-flash-lite',
       input: [{ role: 'user', content: prompt }],
       stream: false
     };

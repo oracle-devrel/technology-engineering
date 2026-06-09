@@ -31,7 +31,15 @@ import { Plus, Trash2, ChevronDown, ChevronRight, ChevronLeft, RefreshCw, Wrench
 import IOSSwitch from "../ui/IOSSwitch";
 import mcpService, { MCPService } from "../../services/mcpService";
 import ToolForm from "./ToolForm";
+import { darkCssVars, darkModeOverrides, DARK_SURFACE } from "../../config/darkMode";
 import { INTERNAL_TOOL_TABS, INTERNAL_ADDONS } from "../../config/tools-internal";
+
+// NL2SQL is presented as a native tool ("Text to SQL") but is delivered under
+// the hood as a remote MCP tool (server_label "Nl2Sql", tool generate_sql) per
+// the OCI NL2SQL User Guide §1.5. The hosted DBTools/NL2SQL MCP endpoint is
+// supplied by the service team and configured via this env var. When empty, the
+// toggle still works in the UI but no tool is sent to OCI (see genaiAgentsService).
+const NL2SQL_MCP_URL = process.env.NEXT_PUBLIC_NL2SQL_MCP_URL || '';
 
 const NATIVE_TOOLS = [
   {
@@ -68,7 +76,6 @@ const NATIVE_TOOLS = [
     color: "#F59E0B",
     endpoint: null,
     hasConfig: true,
-    comingSoon: true,
     configType: "semantic_store",
   },
 ];
@@ -123,7 +130,9 @@ export default function ToolsTab() {
   const [nativeToolsEnabled, setNativeToolsEnabled] = useState({});
   const [semanticStores, setSemanticStores] = useState([]);
   const [loadingSemanticStores, setLoadingSemanticStores] = useState(false);
-  const [selectedSemanticStoreId, setSelectedSemanticStoreId] = useState("");
+  const [selectedSemanticStoreIds, setSelectedSemanticStoreIds] = useState([]);
+  // OAuth 2.1 status for the NL2SQL MCP endpoint: 'authorized' | 'needs_auth' | null
+  const [nl2sqlAuth, setNl2sqlAuth] = useState(null);
 
   // Edit server — only need to know which one is being edited; values live in <ToolForm>
   const [editingServerId, setEditingServerId] = useState(null);
@@ -375,7 +384,19 @@ export default function ToolsTab() {
       }
     } catch { /* ignore */ }
     setNativeToolsEnabled(nativeState);
-    setSelectedSemanticStoreId(localStorage.getItem('nl2sqlSemanticStoreId') || '');
+    try {
+      let ssIds = JSON.parse(localStorage.getItem('nl2sqlSemanticStoreIds') || '[]');
+      // Migrate legacy single-store key → array
+      if (ssIds.length === 0) {
+        const legacy = localStorage.getItem('nl2sqlSemanticStoreId');
+        if (legacy) {
+          ssIds = [legacy];
+          localStorage.setItem('nl2sqlSemanticStoreIds', JSON.stringify(ssIds));
+          localStorage.removeItem('nl2sqlSemanticStoreId');
+        }
+      }
+      setSelectedSemanticStoreIds(ssIds);
+    } catch { /* ignore */ }
 
     try {
       const savedVsIds = JSON.parse(localStorage.getItem('ragVectorStoreIds') || '[]');
@@ -499,7 +520,12 @@ export default function ToolsTab() {
       const res = await fetch('/api/semantic-stores');
       if (res.ok) {
         const data = await res.json();
-        setSemanticStores(data.items || []);
+        // Hide stores being torn down — the control plane lists DELETED/DELETING
+        // entries for a while after deletion (eventual consistency).
+        const usable = (data.items || []).filter(
+          (s) => s.lifecycleState !== 'DELETED' && s.lifecycleState !== 'DELETING'
+        );
+        setSemanticStores(usable);
       }
     } catch (error) {
       console.error('Failed to fetch semantic stores:', error);
@@ -509,9 +535,23 @@ export default function ToolsTab() {
   };
 
   const handleSelectSemanticStore = (storeId) => {
-    const next = selectedSemanticStoreId === storeId ? '' : storeId;
-    setSelectedSemanticStoreId(next);
-    localStorage.setItem('nl2sqlSemanticStoreId', next);
+    setSelectedSemanticStoreIds((prev) => {
+      const next = prev.includes(storeId)
+        ? prev.filter((id) => id !== storeId)
+        : [...prev, storeId];
+      localStorage.setItem('nl2sqlSemanticStoreIds', JSON.stringify(next));
+      // Persist {id, name, schema} for each selected store so genaiAgentsService can
+      // build the system-prompt routing hints (which DB maps to which question).
+      const meta = semanticStores
+        .filter((s) => next.includes(s.id))
+        .map((s) => ({
+          id: s.id,
+          displayName: s.displayName,
+          schemas: (s.schemas?.schemas || []).map((x) => x.name).join(', '),
+        }));
+      localStorage.setItem('nl2sqlSemanticStores', JSON.stringify(meta));
+      return next;
+    });
   };
 
   const deleteVectorStore = async (vsId) => {
@@ -801,7 +841,7 @@ export default function ToolsTab() {
   // Check OAuth 2.1 token presence for each oauth2.1 server
   useEffect(() => {
     const checkOauth21Tokens = async () => {
-      const oauth21Servers = servers.filter(s => s.authType === 'oauth2.1');
+      const oauth21Servers = servers.filter(s => s.authType === 'oauth2.1' || s.authType === 'oauth2-user');
       if (oauth21Servers.length === 0) return;
       const updates = {};
       await Promise.all(
@@ -820,6 +860,32 @@ export default function ToolsTab() {
     if (isHydrated) checkOauth21Tokens();
   }, [servers, isHydrated]);
 
+  // Check OAuth 2.1 token for the NL2SQL (Text to SQL) MCP endpoint
+  useEffect(() => {
+    if (!isHydrated || !NL2SQL_MCP_URL || !nativeToolsEnabled.native_text_to_sql) {
+      setNl2sqlAuth(null);
+      return;
+    }
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch(`/api/mcp/oauth/token?endpoint=${encodeURIComponent(NL2SQL_MCP_URL)}&probe=true`);
+        const data = await res.json().catch(() => ({}));
+        if (!cancelled) setNl2sqlAuth(data.hasToken ? 'authorized' : 'needs_auth');
+      } catch {
+        if (!cancelled) setNl2sqlAuth('needs_auth');
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [isHydrated, nativeToolsEnabled.native_text_to_sql]);
+
+  // Kick off the OAuth 2.1 flow for the NL2SQL MCP endpoint (same flow as custom
+  // oauth2.1 servers — backend discovers metadata from the endpoint).
+  const authorizeNl2sql = () => {
+    const returnTo = typeof window !== 'undefined' ? window.location.pathname : '/settings/tools';
+    window.location.href = MCPService.buildAuthorizeUrl({ endpoint: NL2SQL_MCP_URL, authType: 'oauth2.1' }, returnTo);
+  };
+
   // Show feedback when returning from an OAuth callback (success or error)
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -828,11 +894,13 @@ export default function ToolsTab() {
     if (result === 'success') {
       setToast({ message: 'Tool authorized successfully', severity: 'success' });
     } else if (result === 'error') {
-      setToast({ message: 'Authorization failed. Try again or check the tool configuration.', severity: 'error' });
+      const detail = params.get('mcp_error');
+      setToast({ message: detail ? `Authorization failed: ${detail}` : 'Authorization failed. Try again or check the tool configuration.', severity: 'error' });
     }
     if (result) {
       // Clean the URL so a refresh doesn't re-trigger the toast
       params.delete('mcp_auth');
+      params.delete('mcp_error');
       const newUrl = window.location.pathname + (params.toString() ? `?${params.toString()}` : '') + window.location.hash;
       window.history.replaceState({}, '', newUrl);
     }
@@ -897,12 +965,12 @@ export default function ToolsTab() {
       const toolIds = tools.map(t => `${newServer.id}:${t.name}`);
       setEnabledTools(prev => [...prev, ...toolIds]);
       setToast({ message: `${newServer.name} added · ${tools.length} tools enabled`, severity: 'success' });
-    } else if (newServer.authType === 'oauth2.1') {
+    } else if (newServer.authType === 'oauth2.1' || newServer.authType === 'oauth2-user') {
       // Interactive flow — kick off authorization right away. The user comes back to /settings
       // when done. After return, the server's tools/list will succeed and the chip will load.
       setServerStatus(prev => ({ ...prev, [newServer.id]: null }));
       const returnTo = typeof window !== 'undefined' ? window.location.pathname + window.location.search : '/settings';
-      window.location.href = `/api/mcp/oauth/authorize?endpoint=${encodeURIComponent(newServer.endpoint)}&returnTo=${encodeURIComponent(returnTo)}`;
+      window.location.href = MCPService.buildAuthorizeUrl(newServer, returnTo);
     } else {
       loadServerTools(newServer);
     }
@@ -939,9 +1007,18 @@ export default function ToolsTab() {
       requireApprovalTools: undefined,
     };
     MCPService.updateServer(id, updates);
+    const updatedServer = { ...(servers.find(s => s.id === id) || {}), ...updates, id };
     setServers(prev => prev.map(s => (s.id === id ? { ...s, ...updates } : s)));
     setEditingServerId(null);
     setToast({ message: `${updates.name} updated`, severity: 'success' });
+
+    // Drop any cached runtime state (e.g. an "initialized" flag from a previous
+    // failed test under the old config) and re-probe so the status chip reflects
+    // the new config. Skip for interactive OAuth — those need user authorization.
+    mcpService.resetServerState(id);
+    if (updates.authType !== 'oauth2.1' && updates.authType !== 'oauth2-user') {
+      loadServerTools(updatedServer);
+    }
   };
 
   // Test connection and update tools list
@@ -1199,11 +1276,19 @@ export default function ToolsTab() {
                         }}>
                           {tool.name}
                         </Typography>
-                        <Typography sx={{
-                          fontSize: "0.78rem",
-                          color: "var(--dm-muted, rgba(0,0,0,0.55))",
-                          lineHeight: 1.6,
-                        }}>
+                        <Typography
+                          title={tool.description}
+                          sx={{
+                            fontSize: "0.78rem",
+                            color: "var(--dm-muted, rgba(0,0,0,0.55))",
+                            lineHeight: 1.6,
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: "vertical",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
                           {tool.description}
                         </Typography>
                       </Box>
@@ -1235,6 +1320,34 @@ export default function ToolsTab() {
                             </IconButton>
                           </Box>
 
+                          {!NL2SQL_MCP_URL ? (
+                            <Box sx={{ mb: 1, px: 1, py: 0.75, borderRadius: 1.5, backgroundColor: "rgba(245, 158, 11, 0.08)" }}>
+                              <Typography sx={{ fontSize: "0.72rem", color: "var(--dm-muted, rgba(0,0,0,0.55))", lineHeight: 1.4 }}>
+                                ⚠️ NL2SQL endpoint not configured. You can select databases here, but queries won&apos;t run until <code>NEXT_PUBLIC_NL2SQL_MCP_URL</code> (the hosted DBTools MCP endpoint) is set.
+                              </Typography>
+                            </Box>
+                          ) : nl2sqlAuth === 'needs_auth' ? (
+                            <Box sx={{ mb: 1, px: 1, py: 1, borderRadius: 1.5, backgroundColor: "rgba(245, 158, 11, 0.08)", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 1 }}>
+                              <Typography sx={{ fontSize: "0.72rem", color: "var(--dm-muted, rgba(0,0,0,0.6))", lineHeight: 1.4 }}>
+                                🔒 Authorization required to run SQL queries.
+                              </Typography>
+                              <Button
+                                size="small"
+                                variant="contained"
+                                startIcon={<KeyRound size={14} />}
+                                onClick={authorizeNl2sql}
+                                sx={{ textTransform: "none", fontSize: "0.72rem", py: 0.4, px: 1.2, backgroundColor: "#F59E0B", "&:hover": { backgroundColor: "#D97706" }, flexShrink: 0 }}
+                              >
+                                Authorize
+                              </Button>
+                            </Box>
+                          ) : nl2sqlAuth === 'authorized' ? (
+                            <Box sx={{ mb: 1, px: 1, py: 0.5, display: "flex", alignItems: "center", gap: 0.5 }}>
+                              <Check size={13} color="#059669" />
+                              <Typography sx={{ fontSize: "0.72rem", color: "#059669" }}>Authorized</Typography>
+                            </Box>
+                          ) : null}
+
                           {loadingSemanticStores ? (
                             <Box sx={{ display: "flex", alignItems: "center", gap: 1, py: 1.5 }}>
                               <CircularProgress size={14} />
@@ -1245,7 +1358,7 @@ export default function ToolsTab() {
                           ) : semanticStores.length > 0 ? (
                             <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
                               {semanticStores.map((ss) => {
-                                const isSelected = selectedSemanticStoreId === ss.id;
+                                const isSelected = selectedSemanticStoreIds.includes(ss.id);
                                 const schemas = (ss.schemas?.schemas || []).map(s => s.name).join(', ');
                                 return (
                                   <Box
@@ -2114,26 +2227,26 @@ export default function ToolsTab() {
         </Button>
       </Box>
 
-      {/* Add Tool Form — single component handles state, validation, test, OAuth discovery */}
-      {showAddForm && (
-        <Box
-          sx={{
-            border: "1px dashed var(--dm-border, rgba(0,0,0,0.2))",
-            borderRadius: 2,
-            p: 2,
-            mb: 2,
-            mt: 2,
-          }}
-        >
-          <ToolForm
-            mode="add"
-            onSave={handleAddServer}
-            onCancel={() => {
+      {/* Add/Edit Tool dialog — single modal reused by both flows. The state
+          drivers are showAddForm (add) and editingServerId (edit). The mode
+          and initialValues are derived from whichever is set. ToolForm exposes
+          imperative save()/test() via ref so the buttons can live in
+          DialogActions (anchored to the bottom while content scrolls). */}
+      {(showAddForm || editingServerId) && (
+        <ToolDialog
+          mode={editingServerId ? "edit" : "add"}
+          server={editingServerId ? servers.find(s => s.id === editingServerId) : null}
+          serverToolsForEdit={editingServerId ? (serverTools[editingServerId] || []) : []}
+          onSave={editingServerId ? handleSaveEdit : handleAddServer}
+          onClose={() => {
+            if (editingServerId) {
+              handleCancelEdit();
+            } else {
               setShowAddForm(false);
               mcpService.servers.delete('test-new');
-            }}
-          />
-        </Box>
+            }
+          }}
+        />
       )}
 
       {/* Server List */}
@@ -2155,19 +2268,8 @@ export default function ToolsTab() {
               boxShadow: focusedServerId === server.id ? "0 0 0 4px rgba(255, 152, 0, 0.12)" : "none",
             }}
           >
-            {/* Server Header */}
-            {editingServerId === server.id ? (
-              /* Edit Mode — same form as add, prefilled with server values */
-              <Box sx={{ p: 2 }}>
-                <ToolForm
-                  mode="edit"
-                  initialValues={{ ...server, tools: serverTools[server.id] || [] }}
-                  onSave={handleSaveEdit}
-                  onCancel={handleCancelEdit}
-                />
-              </Box>
-            ) : (
-              /* View Mode */
+            {/* Server Header — edit form moved to a shared Dialog above */}
+            {(
               <Box
                 sx={{
                   display: "flex",
@@ -2232,8 +2334,8 @@ export default function ToolsTab() {
                       sx={{ height: 24, backgroundColor: "rgba(198, 40, 40, 0.1)", color: "#c62828", "& .MuiChip-icon": { fontSize: 14, ml: 0.5, color: "#c62828" } }}
                     />
                   )}
-                  {/* OAuth 2.1 authorization status — only shown for oauth2.1 servers */}
-                  {server.authType === 'oauth2.1' && oauth21Status[server.id] === 'needs_auth' && (
+                  {/* User-sign-in authorization status — shown for oauth2.1 (auto-discovery) and oauth2-user (manual setup) */}
+                  {(server.authType === 'oauth2.1' || server.authType === 'oauth2-user') && oauth21Status[server.id] === 'needs_auth' && (
                     <Button
                       size="small"
                       variant="outlined"
@@ -2241,7 +2343,7 @@ export default function ToolsTab() {
                       onClick={(e) => {
                         e.stopPropagation();
                         const returnTo = window.location.pathname + window.location.search;
-                        window.location.href = `/api/mcp/oauth/authorize?endpoint=${encodeURIComponent(server.endpoint)}&returnTo=${encodeURIComponent(returnTo)}`;
+                        window.location.href = MCPService.buildAuthorizeUrl(server, returnTo);
                       }}
                       sx={{
                         height: 26,
@@ -2256,20 +2358,28 @@ export default function ToolsTab() {
                       Authorize
                     </Button>
                   )}
-                  {server.authType === 'oauth2.1' && oauth21Status[server.id] === 'authorized' && (
-                    <Tooltip title="Re-authorize">
-                      <IconButton
-                        size="small"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          const returnTo = window.location.pathname + window.location.search;
-                          window.location.href = `/api/mcp/oauth/authorize?endpoint=${encodeURIComponent(server.endpoint)}&returnTo=${encodeURIComponent(returnTo)}`;
-                        }}
-                        sx={{ color: "rgba(46, 125, 50, 0.7)" }}
-                      >
-                        <KeyRound size={15} />
-                      </IconButton>
-                    </Tooltip>
+                  {(server.authType === 'oauth2.1' || server.authType === 'oauth2-user') && oauth21Status[server.id] === 'authorized' && (
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      startIcon={<KeyRound size={14} />}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        const returnTo = window.location.pathname + window.location.search;
+                        window.location.href = MCPService.buildAuthorizeUrl(server, returnTo);
+                      }}
+                      sx={{
+                        height: 26,
+                        textTransform: "none",
+                        borderColor: "rgba(46, 125, 50, 0.4)",
+                        color: "#2e7d32",
+                        fontSize: "0.72rem",
+                        fontWeight: 500,
+                        "&:hover": { borderColor: "#2e7d32", backgroundColor: "rgba(46, 125, 50, 0.06)" },
+                      }}
+                    >
+                      Re-authorize
+                    </Button>
                   )}
                   {loadingServers[server.id] && (
                     <CircularProgress size={18} />
@@ -2357,7 +2467,19 @@ export default function ToolsTab() {
                           <Typography sx={{ fontWeight: 500, fontSize: "0.9rem" }}>
                             {tool.name}
                           </Typography>
-                          <Typography variant="caption" sx={{ color: "var(--dm-text, rgba(0,0,0,0.6))" }}>
+                          <Typography
+                            variant="caption"
+                            title={tool.description}
+                            sx={{
+                              color: "var(--dm-text, rgba(0,0,0,0.6))",
+                              display: "-webkit-box",
+                              WebkitLineClamp: 2,
+                              WebkitBoxOrient: "vertical",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              lineHeight: 1.45,
+                            }}
+                          >
                             {tool.description}
                           </Typography>
                         </Box>
@@ -2411,5 +2533,100 @@ export default function ToolsTab() {
         ) : null}
       </Snackbar>
     </motion.div>
+  );
+}
+
+/**
+ * Add/Edit Tool dialog. Encapsulates the local ref + formState plumbing so
+ * the buttons can live in DialogActions (anchored to the bottom while the
+ * form content scrolls naturally inside DialogContent).
+ */
+function ToolDialog({ mode, server, serverToolsForEdit, onSave, onClose }) {
+  const isEdit = mode === "edit";
+  const formRef = useRef(null);
+  const [formState, setFormState] = useState({ isValid: false, isLoading: false, authType: null, testStatus: null, testToolsCount: 0 });
+
+  // The Dialog renders inside a React portal at document.body, so the page-
+  // level dark-mode wrapper does NOT cascade into it. Read the flag locally
+  // and apply darkCssVars + darkModeOverrides directly to the Paper so the
+  // entire dialog subtree is themed correctly.
+  const [isDark, setIsDark] = useState(false);
+  useEffect(() => {
+    try {
+      const ui = JSON.parse(localStorage.getItem("uiSettings") || "{}");
+      setIsDark(ui.darkMode === true);
+    } catch { /* ignore */ }
+  }, []);
+
+  return (
+    <Dialog
+      open
+      onClose={(_, reason) => {
+        if (reason === 'backdropClick' || reason === 'escapeKeyDown') return;
+        onClose();
+      }}
+      maxWidth="md"
+      fullWidth
+      scroll="paper"
+      PaperProps={{
+        sx: {
+          borderRadius: 2,
+          ...(isDark && {
+            backgroundColor: DARK_SURFACE,
+            ...darkCssVars,
+            ...darkModeOverrides,
+          }),
+        },
+      }}
+    >
+      <DialogTitle sx={{ fontSize: "1rem", fontWeight: 600, pb: 1, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        {isEdit ? "Edit Tool" : "Add MCP Tool"}
+        <IconButton size="small" onClick={onClose} sx={{ ml: 1 }}>
+          <X size={16} />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent dividers sx={{ pt: "8px !important" }}>
+        <ToolForm
+          ref={formRef}
+          mode={mode}
+          initialValues={isEdit && server ? { ...server, tools: serverToolsForEdit } : null}
+          onSave={onSave}
+          onCancel={onClose}
+          onStateChange={setFormState}
+        />
+      </DialogContent>
+      <DialogActions sx={{ px: 3, py: 2 }}>
+        {formState.testStatus === "connected" && (
+          <Chip
+            icon={<Plug size={14} />}
+            label={formState.testToolsCount > 0 ? `Connected · ${formState.testToolsCount} tools` : "Connected"}
+            size="small"
+            color="success"
+            variant="outlined"
+            sx={{ mr: 1 }}
+          />
+        )}
+        {formState.authType !== "oauth2.1" && (
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={() => formRef.current?.test()}
+            disabled={!formState.isValid || formState.isLoading}
+            startIcon={formState.isLoading ? <CircularProgress size={14} /> : <Plug size={14} />}
+          >
+            Test Connection
+          </Button>
+        )}
+        <Button
+          variant="contained"
+          size="small"
+          onClick={() => formRef.current?.save()}
+          disabled={!formState.isValid || formState.isLoading}
+          startIcon={formState.isLoading ? <CircularProgress size={14} /> : <Check size={14} />}
+        >
+          {isEdit ? "Save" : "Add Tool"}
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }

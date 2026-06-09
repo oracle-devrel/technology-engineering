@@ -7,6 +7,7 @@ import { generateTitle } from "../services/titleService";
 import { groupMessages, parseContentWithWidgets } from "../utils/messageUtils";
 import { createWidgetStreamParser } from "../utils/widgetParser";
 import { createWidgetV2StreamParser, serializeWidgetV2Tree } from "../utils/widgetV2Parser";
+import { withBase } from "@/lib/withBase";
 
 // Friendly names for OCI internal tools
 const OCI_INTERNAL_LABELS = {
@@ -83,7 +84,10 @@ export default function useChat({ initialConversationId = null, selectedModel, o
       const containerRect = container.getBoundingClientRect();
       const messageRect = message.getBoundingClientRect();
       const scrollOffset = messageRect.top - containerRect.top + container.scrollTop - 60;
-      container.scrollTo({ top: scrollOffset, behavior: 'smooth' });
+      // Instant — smooth scroll fights with mid-stream layout changes (chips,
+      // text deltas) because the target offset is computed once and the page
+      // geometry then mutates underneath it, producing a visible "bounce".
+      container.scrollTo({ top: scrollOffset, behavior: 'auto' });
     }, 150);
   }, []);
 
@@ -102,7 +106,6 @@ export default function useChat({ initialConversationId = null, selectedModel, o
     id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
     userMessage,
     responses: [],
-    sources: [],
     isLatest: true,
     ...extras,
   }), []);
@@ -110,7 +113,6 @@ export default function useChat({ initialConversationId = null, selectedModel, o
   const initStreamingState = useCallback(() => {
     streamingStateRef.current = {
       responses: [],
-      sources: [],
       accumulatedText: "",
       currentTextContent: "",
       widgetParser: createWidgetStreamParser(),
@@ -122,6 +124,7 @@ export default function useChat({ initialConversationId = null, selectedModel, o
       streamCompleted: false,  // Track if OCI sent response.completed (done: true)
       streamStartedAt: Date.now(),  // For debugging timing
       streamError: null,            // Capture the actual error reason
+      pendingMcpFunctionCalls: [],  // function_calls the client must execute and chain back
     };
   }, []);
 
@@ -173,10 +176,15 @@ export default function useChat({ initialConversationId = null, selectedModel, o
   }, []);
 
   const processStreamingChunk = useCallback((chunk, state) => {
-    // Track stream completion and capture trace
+    // Track stream completion and capture trace.
+    // Also drop any lingering "thinking"/"mcp_connecting" indicators — the stream
+    // is over so no further chunk will clean them up, and the finally-block
+    // cleanup runs across `await` boundaries which produces a visible spinner
+    // flash on the last render before unmount.
     if (typeof chunk === 'object' && chunk.done) {
       state.streamCompleted = true;
       if (chunk.trace) state.trace = chunk.trace;
+      state.responses = state.responses.filter(r => r.type !== "thinking" && r.type !== "mcp_connecting");
       return [...state.responses];
     }
 
@@ -351,6 +359,42 @@ export default function useChat({ initialConversationId = null, selectedModel, o
       return [...state.responses];
     }
 
+    // MCP tool the model wants to invoke but OCI did NOT execute itself
+    // (typical with gpt-oss-120b). Show a chip in "calling" state and queue
+    // the call for client-side execution + chained response after the stream
+    // ends. Handled in sendAndStreamMessage's finally block.
+    if (typeof chunk === 'object' && chunk.mcp_function_call) {
+      const fc = chunk.mcp_function_call;
+      state.responses = state.responses.filter(r => r.type !== 'thinking' && r.type !== 'mcp_connecting');
+      // Normalize id: mcp.calling stores `mcp.id || null`, so any earlier
+      // chip emitted with a falsy id has `mcpItemId === null`. If we used
+      // raw `fc.item_id` (which can be undefined for gpt-oss-120b) the
+      // strict-equals lookup would miss the existing chip and we'd push a
+      // second one for the same call. Fall back to call_id, then null.
+      const fcItemId = fc.item_id || fc.call_id || null;
+      const existing = state.responses.find(r => r.type === 'mcp_chip' && r.mcpItemId === fcItemId);
+      if (!existing) {
+        state.responses.push({
+          type: 'mcp_chip',
+          mcpItemId: fcItemId,
+          server: fc.server_label,
+          tool: fc.tool_name,
+          arguments: fc.arguments,
+          status: 'calling',
+          label: `Using ${formatToolName(fc.tool_name)}...`,
+        });
+      }
+      state.pendingMcpFunctionCalls.push({
+        item_id: fcItemId,
+        call_id: fc.call_id,
+        fn_name: fc.fn_name,
+        server_label: fc.server_label,
+        tool_name: fc.tool_name,
+        arguments: fc.arguments,
+      });
+      return [...state.responses];
+    }
+
     // Handle function call (client-side tool or OCI internal tool)
     if (typeof chunk === 'object' && chunk.function_call) {
       const fcName = chunk.function_call.name;
@@ -469,8 +513,15 @@ export default function useChat({ initialConversationId = null, selectedModel, o
             state.responses[chipIdx].arguments = mcp.arguments;
           }
         }
-        // Re-add thinking indicator while the model generates text after the tool call
-        if (!state.responses.some(r => r.type === "thinking")) {
+        // Re-add the "thinking" placeholder only if the model is expected to
+        // speak AFTER the tool — i.e. no text has been streamed yet. For models
+        // that emit native MCP results late (Gemini path: tool_output arrives at
+        // response.completed AFTER the text), adding thinking here produces a
+        // visible spinner flash between this event and the final done:true.
+        const hasStreamedText = state.responses.some(
+          r => r.type === "text" && (r.content || "").length > 0
+        );
+        if (!hasStreamedText && !state.responses.some(r => r.type === "thinking")) {
           state.responses.push({ type: "thinking" });
         }
       } else if (mcp.type === 'error') {
@@ -672,59 +723,47 @@ export default function useChat({ initialConversationId = null, selectedModel, o
     return [...state.responses];
   }, []);
 
+  // Cleanup after a stream ends. Only acts on REAL errors (user abort, network
+  // failure, explicit stall). For ambiguous endings (e.g. OCI closed without
+  // response.completed) we leave the chips as they are — the UI will render
+  // their natural state. No fabricated error messages.
   const markIncompleteMcpChipsAsFailed = useCallback(() => {
     const state = streamingStateRef.current;
-    const streamCompleted = state?.streamCompleted || false;
     const streamError = state?.streamError;
     const elapsed = state?.streamStartedAt ? Math.round((Date.now() - state.streamStartedAt) / 1000) : null;
 
+    const isRealError = !!streamError && (
+      streamError.name === 'AbortError' ||
+      streamError.name === 'StreamStallError' ||
+      streamError.message?.includes('STREAM_STALL') ||
+      streamError.message?.includes('Failed to fetch') ||
+      streamError.message?.includes('NetworkError')
+    );
+
     updateLatestExchange(exchange => {
-      const sourcesCount = exchange.responses.filter(r => r.type === 'sources').length;
-      if (sourcesCount > 0) console.log('[Sources] Before cleanup:', sourcesCount, 'sources entries in', exchange.responses.length, 'total responses');
       const responses = exchange.responses
-        .filter(r => r.type !== "thinking" && r.type !== "mcp_connecting") // Remove leftover indicators
+        .filter(r => r.type !== "thinking" && r.type !== "mcp_connecting")
         .map(r => {
-          if (r.type === "mcp_chip" && (r.status === "connecting" || r.status === "calling")) {
-            // Build a descriptive error message for debugging
+          // Close any reasoning blocks left mid-stream so the UI stops the
+          // loading dots animation. This is cosmetic only.
+          if (r.type === "reasoning" && r.done === false) return { ...r, done: true };
+
+          // Only mark calling chips as failed on REAL errors (abort/network/stall).
+          // Otherwise leave them — the chain loop or normal flow will update them.
+          if (r.type === "mcp_chip" && (r.status === "connecting" || r.status === "calling") && isRealError) {
             const toolName = formatToolName(r.tool) || r.server || "unknown tool";
             let reason;
-            if (r.error) {
-              reason = r.error;
-            } else if (streamCompleted) {
-              reason = `OCI completed the response while ${toolName} was still running (${elapsed}s). The tool was called but OCI closed the stream before receiving its result. This is a known OCI behavior when an MCP tool call is the model's last action.`;
-            } else if (streamError?.name === 'AbortError') {
-              reason = `Stopped by user while ${toolName} was running (${elapsed}s)`;
-            } else if (streamError?.name === 'StreamStallError' || streamError?.message?.includes('STREAM_STALL')) {
-              reason = `Stream stalled — no data from server for 2+ min while ${toolName} was ${r.status} (${elapsed}s). ${streamError.message}`;
-            } else if (streamError?.name === 'PrematureStreamClose') {
-              reason = `OCI closed connection while ${toolName} was ${r.status} (${elapsed}s). ${streamError.message}`;
-            } else if (streamError?.message?.includes('Failed to fetch') || streamError?.message?.includes('NetworkError')) {
-              reason = `Network error while ${toolName} was ${r.status} (${elapsed}s) — check connection or server`;
-            } else if (streamError) {
-              reason = `${toolName} interrupted after ${elapsed}s: ${streamError.message || String(streamError)}`;
-            } else {
-              reason = `${toolName} was still ${r.status} when stream ended (${elapsed}s) — no error captured, possible silent disconnect`;
-            }
-            console.error(`[MCP] Tool failed: ${toolName}`, { status: r.status, elapsed, streamCompleted, error: streamError?.message });
-            return {
-              ...r,
-              status: "failed",
-              label: formatToolName(r.tool) || r.server || "Failed",
-              error: reason
-            };
+            if (streamError.name === 'AbortError') reason = `Stopped by user while ${toolName} was running (${elapsed}s)`;
+            else if (streamError.name === 'StreamStallError' || streamError.message?.includes('STREAM_STALL'))
+              reason = `Stream stalled while ${toolName} was ${r.status} (${elapsed}s)`;
+            else reason = `Network error while ${toolName} was ${r.status} (${elapsed}s)`;
+            return { ...r, status: "failed", label: formatToolName(r.tool) || r.server || "Failed", error: reason };
           }
-          // Stream ended while a reasoning block was still open — close it so
-          // the UI stops showing the loading dots.
-          if (r.type === "reasoning" && r.done === false) {
-            return { ...r, done: true };
-          }
-          // Code interpreter block still writing/interpreting when stream died.
-          if (r.type === "code_execution" && r.status && r.status !== "completed") {
+          if (r.type === "code_execution" && r.status && r.status !== "completed" && isRealError) {
             return { ...r, status: "failed" };
           }
           return r;
         });
-      // Attach trace to exchange for UI diagnostics
       const requestTrace = streamingStateRef.current?.trace || null;
       return { ...exchange, responses, ...(requestTrace && { trace: requestTrace }) };
     });
@@ -737,32 +776,228 @@ export default function useChat({ initialConversationId = null, selectedModel, o
     const { isNewConversation = false, inputText = "", previousResponseId } = options;
     const sessionActiveServers = inputRef.current?.getSessionActiveServers?.() || undefined;
 
-    try {
-      if (isNewConversation) {
-        await genaiService.createConversation("New conversation");
-        const newConvId = genaiService.getConversationId();
-        if (newConvId) {
-          const storedConv = await ConversationStorage.get(newConvId);
-          if (storedConv?.urlId) {
-            window.history.pushState(null, "", `/c/${storedConv.urlId}`);
-            loadedConversationRef.current = storedConv.urlId;
+    if (isNewConversation) {
+      await genaiService.createConversation("New conversation");
+      const newConvId = genaiService.getConversationId();
+      if (newConvId) {
+        const storedConv = await ConversationStorage.get(newConvId);
+        if (storedConv?.urlId) {
+          window.history.pushState(null, "", withBase(`/c/${storedConv.urlId}`));
+          loadedConversationRef.current = storedConv.urlId;
+        }
+      }
+    }
+
+    let result = null;
+    let primaryError = null;
+
+      // Initial send — capture its error (if any) but DON'T let it short-circuit
+      // the client-side MCP execution loop below. Some failures (e.g. OCI closing
+      // the stream after a function_call) leave pendingMcpFunctionCalls populated
+      // and we still want to execute the tool + chain a follow-up.
+      try {
+        result = await genaiService.sendMessage(
+          input,
+          (chunk) => {
+            const responsesCopy = processStreamingChunk(chunk, streamingStateRef.current);
+            updateLatestExchange(exchange => ({ ...exchange, responses: responsesCopy }));
+          },
+          { model: selectedModel || undefined, sessionActiveServers, previousResponseId }
+        );
+      } catch (err) {
+        primaryError = err;
+        if (streamingStateRef.current) streamingStateRef.current.streamError = err;
+      }
+
+      // Client-side MCP execution loop. Some models (gpt-oss-120b) emit MCP
+      // tool calls as OpenAI-style function_call and expect the client to
+      // execute them and submit a function_call_output back via a chained
+      // Responses request. Runs regardless of whether the initial stream errored.
+      // Hoist server list out of the per-pending loop — same value the whole chain.
+      const mcpServers = typeof window !== 'undefined'
+        ? JSON.parse(localStorage.getItem('mcpServers') || '[]')
+        : [];
+      const findServerByLabel = (serverLabel) => mcpServers.find(s => {
+        let label = (s.name || '').replace(/[^a-zA-Z0-9_-]/g, '_');
+        if (!/^[a-zA-Z]/.test(label)) label = 'mcp_' + label;
+        return label === serverLabel;
+      });
+
+      let chainDepth = 0;
+      const MAX_CHAIN_DEPTH = 5;
+      let needsAuthFor = null; // { name, endpoint, authType } when an MCP server needs OAuth
+      while ((streamingStateRef.current.pendingMcpFunctionCalls).length > 0 && chainDepth < MAX_CHAIN_DEPTH) {
+        chainDepth++;
+        const pending = streamingStateRef.current.pendingMcpFunctionCalls;
+        streamingStateRef.current.pendingMcpFunctionCalls = [];
+
+        const chainInput = [];
+        for (const fc of pending) {
+          // If a prior tool in this batch already needed auth, stop running.
+          // The user will authorize + retry; running more tools just wastes
+          // calls and confuses the user (chips completing while the chain dies).
+          if (needsAuthFor) {
+            const markAuthPending = (chip) => {
+              if (chip.type !== 'mcp_chip') return chip;
+              const matches = chip.mcpItemId === fc.item_id
+                || (fc.item_id == null && chip.tool === fc.tool_name && chip.server === fc.server_label && (chip.status === 'calling' || chip.status === 'connecting'));
+              if (!matches) return chip;
+              return { ...chip, status: 'failed', label: formatToolName(fc.tool_name) || 'Authorization required', error: 'Authorization required for another tool in this turn' };
+            };
+            streamingStateRef.current.responses = streamingStateRef.current.responses.map(markAuthPending);
+            updateLatestExchange(exchange => ({ ...exchange, responses: (exchange.responses || []).map(markAuthPending) }));
+            continue;
           }
+
+          const server = findServerByLabel(fc.server_label);
+          let parsedArgs;
+          try { parsedArgs = JSON.parse(fc.arguments || '{}'); } catch { parsedArgs = {}; }
+
+          let output;
+          let authRequired = false;
+          if (!server) {
+            output = JSON.stringify({ error: `Server '${fc.server_label}' not configured` });
+          } else {
+            try {
+              const res = await fetch('/api/mcp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  endpoint: server.endpoint,
+                  method: 'tools/call',
+                  params: { name: fc.tool_name, arguments: parsedArgs },
+                  authType: server.authType,
+                  authKey: server.authKey,
+                  oauth: server.oauth,
+                }),
+              });
+              const data = await res.json();
+              if (res.status === 401 && data.error === 'needs_auth') {
+                // OAuth token missing/expired — abort the chain and surface a
+                // banner inviting the user to authorize. The model NEVER sees
+                // the auth failure, so it doesn't try to summarise it.
+                authRequired = true;
+                needsAuthFor = { name: server.name, endpoint: server.endpoint, authType: server.authType };
+              } else if (data.result?.content) {
+                output = data.result.content.map(c => c.text || JSON.stringify(c)).join('\n');
+              } else if (data.error) {
+                output = JSON.stringify({ error: data.error.message || JSON.stringify(data.error) });
+              } else {
+                output = JSON.stringify(data);
+              }
+            } catch (err) {
+              output = JSON.stringify({ error: err.message || String(err) });
+            }
+          }
+
+          // Update the chip in BOTH the React exchange AND the streaming state.
+          // The chained sendMessage will replace exchange.responses with
+          // state.responses on every chunk, so updating just exchange would be
+          // overwritten the moment the chained stream starts. We mutate
+          // state.responses in place so subsequent chunks preserve the update.
+          const applyChipUpdate = (chip) => {
+            if (chip.type !== 'mcp_chip') return chip;
+            // Match by mcpItemId first; fall back to tool+server for the case
+            // where output_item.added(mcp_call) never fired (rare).
+            const matches = chip.mcpItemId === fc.item_id
+              || (fc.item_id == null && chip.tool === fc.tool_name && chip.server === fc.server_label && (chip.status === 'calling' || chip.status === 'connecting'));
+            if (!matches) return chip;
+            if (authRequired) {
+              return { ...chip, status: 'failed', label: formatToolName(fc.tool_name) || 'Authorization required', error: 'Authorization required' };
+            }
+            return { ...chip, status: 'completed', output, label: formatToolName(fc.tool_name) || 'Completed' };
+          };
+          streamingStateRef.current.responses = streamingStateRef.current.responses.map(applyChipUpdate);
+          updateLatestExchange(exchange => ({
+            ...exchange,
+            responses: (exchange.responses || []).map(applyChipUpdate),
+          }));
+
+          if (!authRequired) {
+            chainInput.push(
+              { type: 'function_call', name: fc.fn_name, arguments: fc.arguments, call_id: fc.call_id },
+              { type: 'function_call_output', call_id: fc.call_id, output },
+            );
+          }
+        }
+
+        if (needsAuthFor) break; // skip chained call, surface banner instead
+
+        // Finalise the previous stream's open text item BEFORE the chained
+        // sendMessage starts. Otherwise its output_text deltas append to the
+        // accumulator and we render duplicate text (the first stream's summary
+        // + the chained stream's identical summary concatenated).
+        if (streamingStateRef.current) {
+          const st = streamingStateRef.current;
+          const idx = (st.responses || []).findIndex(r => r.type === 'text' && r.isStreaming);
+          if (idx >= 0) st.responses[idx].isStreaming = false;
+          st.currentTextContent = '';
+        }
+
+        try {
+          result = await genaiService.sendMessage(
+            chainInput,
+            (chunk) => {
+              const responsesCopy = processStreamingChunk(chunk, streamingStateRef.current);
+              updateLatestExchange(exchange => ({ ...exchange, responses: responsesCopy }));
+            },
+            { model: selectedModel || undefined, sessionActiveServers },
+          );
+          // If the chained request succeeds we no longer need to surface the
+          // original error (the tool ran, the model summarised, the user is fine).
+          primaryError = null;
+        } catch (err) {
+          if (streamingStateRef.current) streamingStateRef.current.streamError = err;
+          primaryError = err;
+          break;
         }
       }
 
-      const result = await genaiService.sendMessage(
-        input,
-        (chunk) => {
-          const responsesCopy = processStreamingChunk(chunk, streamingStateRef.current);
-          updateLatestExchange(exchange => ({
-            ...exchange,
-            responses: responsesCopy,
-          }));
-        },
-        { model: selectedModel || undefined, sessionActiveServers, previousResponseId }
-      );
+      // Chain exhausted its depth budget with pending tool calls still queued.
+      // Without this, chips stay "calling" forever (markIncompleteMcpChipsAsFailed
+      // only acts on real errors). Mark them failed with a clear reason and
+      // surface an error so the user knows the model is stuck looping.
+      if (
+        chainDepth >= MAX_CHAIN_DEPTH &&
+        (streamingStateRef.current.pendingMcpFunctionCalls || []).length > 0
+      ) {
+        const stuck = streamingStateRef.current.pendingMcpFunctionCalls;
+        const stuckIds = new Set(stuck.map(p => p.item_id).filter(Boolean));
+        const failStuck = (chip) => {
+          if (chip.type !== 'mcp_chip') return chip;
+          const isStuck = stuckIds.has(chip.mcpItemId) || chip.status === 'calling' || chip.status === 'connecting';
+          if (!isStuck) return chip;
+          return { ...chip, status: 'failed', label: formatToolName(chip.tool) || 'Failed', error: `Chain depth limit reached (${MAX_CHAIN_DEPTH}) — model kept calling tools without finishing.` };
+        };
+        streamingStateRef.current.responses = streamingStateRef.current.responses.map(failStuck);
+        updateLatestExchange(exchange => ({
+          ...exchange,
+          responses: [
+            ...(exchange.responses || []).map(failStuck),
+            { type: 'error', content: `The model called tools ${MAX_CHAIN_DEPTH}+ times in a row without producing a final answer. Stopping to avoid an infinite loop. Try rephrasing your request.` },
+          ],
+        }));
+        streamingStateRef.current.pendingMcpFunctionCalls = [];
+      }
 
-      // Persist the raw accumulated text and trace for export/diagnostics
+      // Auth required somewhere along the chain — push the existing
+      // mcp_auth_expired banner so the user can re-authorize from the chat.
+      if (needsAuthFor) {
+        updateLatestExchange(exchange => ({
+          ...exchange,
+          responses: [...(exchange.responses || []), {
+            type: 'error',
+            content: 'mcp_auth_expired',
+            serverLabel: needsAuthFor.name || null,
+            serverEndpoint: needsAuthFor.endpoint || null,
+            serverAuthType: needsAuthFor.authType || null,
+          }],
+        }));
+        // Don't surface a generic error on top of the banner.
+        primaryError = null;
+      }
+
+      // Persist accumulated text + trace
       const rawText = streamingStateRef.current.accumulatedText || '';
       const requestTrace = streamingStateRef.current.trace || null;
       if (rawText || requestTrace) {
@@ -773,8 +1008,8 @@ export default function useChat({ initialConversationId = null, selectedModel, o
         }));
       }
 
-      // Generate title for new conversations or conversations that were stopped before getting a title
-      if (result.answer && inputText) {
+      // Generate title for new conversations
+      if (result?.answer && inputText) {
         const convId = genaiService.getConversationId();
         if (convId) {
           const needsTitle = isNewConversation || await ConversationStorage.get(convId).then(c => !c?.title || c.title === "New conversation").catch(() => false);
@@ -788,42 +1023,38 @@ export default function useChat({ initialConversationId = null, selectedModel, o
         }
       }
 
+      if (primaryError) {
+        if (primaryError.name === 'AbortError') {
+          return { answer: streamingStateRef.current?.accumulatedText || '', stopped: true };
+        }
+        console.error('Error calling agent:', primaryError);
+        if (primaryError.type === 'mcp_auth_expired') {
+          updateLatestExchange(exchange => ({
+            ...exchange,
+            responses: [...(exchange.responses || []), {
+              type: 'error',
+              content: 'mcp_auth_expired',
+              serverLabel: primaryError.serverLabel || null,
+              serverEndpoint: primaryError.serverEndpoint || null,
+              serverAuthType: primaryError.serverAuthType || null,
+            }],
+          }));
+        } else {
+          updateLatestExchange(exchange => ({
+            ...exchange,
+            responses: [...(exchange.responses || []), {
+              type: 'error',
+              content: primaryError.message || String(primaryError),
+              opcRequestId: primaryError.opcRequestId || null,
+              model: primaryError.model || null,
+              timestamp: primaryError.timestamp || null,
+            }],
+          }));
+        }
+        throw primaryError;
+      }
+
       return result;
-    } catch (error) {
-      // Capture error for markIncompleteMcpChipsAsFailed
-      if (streamingStateRef.current) {
-        streamingStateRef.current.streamError = error;
-      }
-      if (error.name === 'AbortError') {
-        // User stopped generation — keep partial content, don't show error
-        return { answer: streamingStateRef.current?.accumulatedText || '', stopped: true };
-      }
-      console.error("Error calling agent:", error);
-      if (error.type === 'mcp_auth_expired') {
-        updateLatestExchange(exchange => ({
-          ...exchange,
-          responses: [...(exchange.responses || []), {
-            type: "error",
-            content: "mcp_auth_expired",
-            serverLabel: error.serverLabel || null,
-            serverEndpoint: error.serverEndpoint || null,
-            serverAuthType: error.serverAuthType || null,
-          }],
-        }));
-      } else {
-        updateLatestExchange(exchange => ({
-          ...exchange,
-          responses: [...(exchange.responses || []), {
-            type: "error",
-            content: error?.message || String(error),
-            opcRequestId: error?.opcRequestId || null,
-            model: error?.model || null,
-            timestamp: error?.timestamp || null,
-          }],
-        }));
-      }
-      throw error;
-    }
   }, [genaiService, selectedModel, processStreamingChunk, updateLatestExchange, refreshRecentConversations]);
 
   useEffect(() => {
@@ -845,13 +1076,13 @@ export default function useChat({ initialConversationId = null, selectedModel, o
           await handleConversationClick(conversation);
         } else {
           loadedConversationRef.current = null;
-          window.history.replaceState(null, "", "/");
+          window.history.replaceState(null, "", withBase("/"));
           setIsLoadingConversation(false);
         }
       } catch (error) {
         console.error("Error loading conversation from URL:", error);
         loadedConversationRef.current = null;
-        window.history.replaceState(null, "", "/");
+        window.history.replaceState(null, "", withBase("/"));
         setIsLoadingConversation(false);
       }
     };
@@ -871,6 +1102,8 @@ export default function useChat({ initialConversationId = null, selectedModel, o
         }
       } else if (path === "/" || path === "") {
         if (genaiService?.getConversationId()) {
+          genaiService.abortCurrentRequest?.();
+          setIsLoading(false);
           genaiService.resetConversation();
           resetChatState();
         }
@@ -881,24 +1114,34 @@ export default function useChat({ initialConversationId = null, selectedModel, o
     return () => window.removeEventListener("popstate", handlePopState);
   }, [genaiService, resetChatState]);
 
+  // Re-attach ResizeObserver ONLY when the latest exchange changes (new turn
+  // means latestMessageRef points to a different DOM node). Within a streaming
+  // turn, exchange.responses mutates on every chunk but the latest exchange ID
+  // is stable — the existing observer already fires for height changes, so
+  // there's no reason to tear down + recreate on every delta.
+  const latestExchangeId = chatHistory[chatHistory.length - 1]?.id;
   useEffect(() => {
     const updateSpacerHeight = () => {
-      if (!chatContainerRef.current || !latestMessageRef.current || chatHistory.length === 0) {
-        setSpacerHeight(0);
+      if (!chatContainerRef.current || !latestMessageRef.current) {
+        setSpacerHeight(prev => (prev === 0 ? prev : 0));
         return;
       }
       const containerHeight = chatContainerRef.current.clientHeight;
       const messageHeight = latestMessageRef.current.offsetHeight;
-      setSpacerHeight(Math.max(0, containerHeight - 80 - messageHeight));
+      const next = Math.max(0, containerHeight - 80 - messageHeight);
+      // Avoid a render if the value didn't actually change (very common when
+      // text streams: many ResizeObserver callbacks resolve to the same value).
+      setSpacerHeight(prev => (prev === next ? prev : next));
     };
 
     updateSpacerHeight();
+    if (!latestExchangeId) return;
     const resizeObserver = new ResizeObserver(updateSpacerHeight);
     if (chatContainerRef.current) resizeObserver.observe(chatContainerRef.current);
     if (latestMessageRef.current) resizeObserver.observe(latestMessageRef.current);
 
     return () => resizeObserver.disconnect();
-  }, [chatHistory]);
+  }, [latestExchangeId]);
 
   const handleCopy = useCallback(async (text, id) => {
     try {
@@ -960,7 +1203,7 @@ export default function useChat({ initialConversationId = null, selectedModel, o
     genaiService?.resetConversation();
     resetChatState();
     inputRef.current?.clear();
-    window.history.pushState(null, "", "/");
+    window.history.pushState(null, "", withBase("/"));
     setTimeout(() => inputRef.current?.focus(), 100);
   }, [genaiService, resetChatState]);
 
@@ -979,7 +1222,7 @@ export default function useChat({ initialConversationId = null, selectedModel, o
       if (genaiService?.getConversationId() === conversation.id) {
         genaiService.resetConversation();
         resetChatState();
-        window.history.pushState(null, "", "/");
+        window.history.pushState(null, "", withBase("/"));
       }
     } catch (error) {
       console.error("Error deleting conversation:", error);
@@ -989,6 +1232,11 @@ export default function useChat({ initialConversationId = null, selectedModel, o
 
   const handleConversationClick = useCallback(async (conversation) => {
     if (!genaiService) return;
+
+    // Abort any in-flight stream — otherwise it keeps writing into
+    // streamingStateRef and the events will land on the new conversation.
+    genaiService.abortCurrentRequest?.();
+    setIsLoading(false);
 
     loadedConversationRef.current = conversation.urlId || conversation.id;
     genaiService.setConversationId(conversation.id);
@@ -1000,7 +1248,6 @@ export default function useChat({ initialConversationId = null, selectedModel, o
 
       if (items?.length > 0) {
         const sortedItems = [...items].reverse();
-        console.log('[History] Items:', sortedItems.map(i => `${i.type}(${i.role||'-'}) ann:${(i.content||[]).flatMap?.(c=>c.annotations||[]).length||0}`));
 
         const exchanges = [];
         let currentExchange = null;
@@ -1101,14 +1348,27 @@ export default function useChat({ initialConversationId = null, selectedModel, o
             // annotations from the first (rich).
             const existingHasText = currentExchange.responses.some(r => r.type === 'text');
 
+            // Defensive parse: a corrupted widget (V1 or V2) in stored history would
+            // throw and abort loading the whole conversation. Fall back to plain text.
+            const safeParse = (content) => {
+              try {
+                return parseContentWithWidgets(content);
+              } catch (err) {
+                console.warn('[History] parseContentWithWidgets failed, falling back to plain text:', err.message);
+                const fallbackText = Array.isArray(content)
+                  ? (content.find(c => c.type === 'output_text' || c.type === 'text')?.text || '')
+                  : (typeof content === 'string' ? content : '');
+                return fallbackText ? [{ type: 'text', content: fallbackText, isStreaming: false }] : [];
+              }
+            };
+
             if (existingHasText) {
               // Second assistant message — replace text with this one (plain)
-              const parsedMessages = parseContentWithWidgets(item.content);
+              const parsedMessages = safeParse(item.content);
               currentExchange.responses = currentExchange.responses.filter(r => r.type !== 'text');
 
               // Merge annotations: from previous (rich) + from current
               const allCitations = [...(currentExchange._harvestedAnnotations || []), ...urlCitations];
-              console.log(`[History] Dedup: replacing text, harvested=${(currentExchange._harvestedAnnotations||[]).length} + current=${urlCitations.length} = ${allCitations.length} citations`);
               if (allCitations.length > 0) {
                 const lastText = [...parsedMessages].reverse().find(m => m.type === 'text');
                 if (lastText) lastText.sources = allCitations;
@@ -1125,8 +1385,7 @@ export default function useChat({ initialConversationId = null, selectedModel, o
               ? (item.content.find(c => c.type === 'output_text' || c.type === 'text')?.text || '')
               : (typeof item.content === 'string' ? item.content : '');
             if (rawText) currentExchange.rawAssistantText = rawText;
-            const parsedMessages = parseContentWithWidgets(item.content);
-            console.log(`[History] First assistant: ${urlCitations.length} citations, text length=${(parsedMessages.find(m=>m.type==='text')?.content||'').length}`);
+            const parsedMessages = safeParse(item.content);
             if (urlCitations.length > 0) {
               currentExchange._harvestedAnnotations = urlCitations;
               const lastText = [...parsedMessages].reverse().find(m => m.type === 'text');
@@ -1162,7 +1421,6 @@ export default function useChat({ initialConversationId = null, selectedModel, o
             const toolType = item.type.replace(/_call$/, '');
             const toolOutput = item.output || item.error || (item.action?.query) || '';
             const toolStatus = item.status === 'incomplete' ? 'failed' : (item.status || 'completed');
-            console.log(`[History] Tool call: ${item.name || toolType}, status=${item.status}, output=${(toolOutput || '').substring(0, 100)}, keys=${Object.keys(item).join(',')}`);
             currentExchange.responses.push({
               type: "mcp_chip",
               server: item.server_label || toolType,
@@ -1257,17 +1515,11 @@ export default function useChat({ initialConversationId = null, selectedModel, o
           console.warn('[History] file_search enrichment failed:', e.message);
         }
 
-        // Debug: verify sources are set
-        exchanges.forEach((ex, i) => {
-          const sourcesCount = groupMessages(ex.responses).filter(g => g.sources?.length > 0).length;
-          if (sourcesCount > 0) console.log(`[History] Exchange ${i}: ${sourcesCount} groups with sources`);
-        });
-
         setChatHistory(exchanges);
       }
 
       if (conversation.urlId && !window.location.pathname.includes(`/c/${conversation.urlId}`)) {
-        window.history.pushState(null, "", `/c/${conversation.urlId}`);
+        window.history.pushState(null, "", withBase(`/c/${conversation.urlId}`));
       }
     } catch (error) {
       console.error("Error loading conversation:", error);
@@ -1283,7 +1535,10 @@ export default function useChat({ initialConversationId = null, selectedModel, o
     const hasTexts = attachedTexts && attachedTexts.length > 0;
 
     if (!trimmedInput && !hasImages && !hasTexts) return;
-    if (!genaiService) return;
+    if (!genaiService) {
+      onError?.("Service is still initializing — please try again in a moment.");
+      return;
+    }
 
     setIsLoading(true);
     setActiveChips({});
@@ -1344,7 +1599,7 @@ export default function useChat({ initialConversationId = null, selectedModel, o
       markIncompleteMcpChipsAsFailed();
       refreshRecentConversations();
     }
-  }, [genaiService, createNewExchange, scrollToLatestMessage, initStreamingState, sendAndStreamMessage, markIncompleteMcpChipsAsFailed, refreshRecentConversations, updateLatestExchange]);
+  }, [genaiService, createNewExchange, scrollToLatestMessage, initStreamingState, sendAndStreamMessage, markIncompleteMcpChipsAsFailed, refreshRecentConversations, onError]);
 
   const handleWidgetSubmit = useCallback(async (data, widgetId) => {
     if (!genaiService) return;
