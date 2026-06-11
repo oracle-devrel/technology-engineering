@@ -29,9 +29,9 @@ Reviewed: Reviewed: 27.05.2026
 |Observability Targets  |  Assets Page|  
 |---|---|
 | Autonomous Database  | [Link](https://medium.com/@erikasciunzi/how-to-enable-oci-observability-on-autonomous-shared-database-716b623d1f15) | 
-| Database Cloud Service  | [Link](https://medium.com/learnoci/enable-observability-for-oci-native-database-deploy-235484953e46) |  
+| Database Cloud Service  | [Link](observability-and-management/database-observability/exacs-and-dbcs-observability-assets) |  
 | Exadata cloud@customer | [Link](observability-and-management/database-observability/exacc-observability-assets) |  
-| Exadata Cloud Service  | [Link](https://medium.com/learnoci/enable-observability-for-oci-native-database-deploy-235484953e46)|  
+| Exadata Cloud Service  | [Link](observability-and-management/database-observability/exacs-and-dbcs-observability-assets)|  
 | DB@GCP  | [Link](https://docs.oracle.com/en-us/iaas/Content/database-at-gcp/gcpmn-monitor.html)|  
 | DB@Azure |[Link](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/azumn-monitor.html)| 
 | DB@AWS | [Link](https://docs.oracle.com/en-us/iaas/Content/database-at-aws-exadata-awsmn/awsmn-monitor.html)| 
