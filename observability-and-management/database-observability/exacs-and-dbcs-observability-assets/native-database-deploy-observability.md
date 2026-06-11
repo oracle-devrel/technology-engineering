@@ -1,19 +1,17 @@
 # How to enable OCI Observability for OCI native database deploy
 
 
+![image 1](./files/image-01.png)
 
-1
+In this article describes how to implement Observability capabilities on OCI Oracle database and ExaCS. The services allow you to create alert based on metrics automatically produced by database itself or specific message from the alert logs. It is also possible prevents issues like high resource utilization creating early warning alert to knows days in advance which systems is running out of resource.
 
-![Medium article image 1](./files/image-01.png)
+This document will guide you through the activation of the different services (Database Management, Ops Insights and Log Analytics) and suggest actions like Alert creation.
 
-In this article I want to show you how to implement Observability capabilities on OCI Oracle database and ExaCS. The services allow you to create alert based on metrics automatically produced by database itself or specific message from the alert logs. It is also possible prevents issues like high resource utilization creating early warning alert to knows days in advance which systems is running out of resource.
-
-I will guide you through the activation of the different services and I will suggest actions like Alert creation.
 
 ## Requirements
 
 1. Define Observability Admin admin user: obs_admin
-2. Define Dynamic Group for mng agent: obs_agent (required by Logging analytics)
+2. Define Dynamic Group for mng agent: obs_agent (required by Log analytics)
 
 ```text
 ALL {resource.type='managementagent'}
@@ -21,7 +19,29 @@ ALL {resource.type='managementagent'}
 
 3. Policies
 
+
+#### IAM Policy Considerations
+
+The sample IAM policies provided for OCI Database Management, Operations Insights, Log Analytics, Dashboards, and Alerts are intended as a reference implementation and grant permissions at the **tenancy level** to simplify deployment and onboarding.
+
+In production environments, these policies should be reviewed and customized to align with the organization's **tenancy structure, compartment hierarchy, and segregation-of-duties requirements**. Most enterprises organize resources across multiple compartments, environments (e.g., Development, Test, Production), business units, or teams, and not all OCI users or administrators should have visibility into or management privileges for all observability resources across the tenancy.
+
+As a result, permissions granted to groups such as **obs_admin** and dynamic groups such as **obs_agent** should be scoped to the appropriate compartments whenever possible, following the principle of least privilege. This ensures that administrators and operators can manage and monitor only the databases, agents, dashboards, logs, and observability resources that fall within their area of responsibility.
+
+The final IAM design should therefore be adapted to:
+
+* The organization's compartment and resource segregation model.
+* Environment separation requirements (Development, Test, Production, etc.).
+* Team and application ownership boundaries.
+* Security and compliance requirements governing access to operational and monitoring data.
+
+The policies included in this addon should be considered a baseline starting point and may require compartment-level scoping, group separation, or additional access restrictions before deployment in a production environment.
+
+
+
+
 ### For OCI Database Management
+
 
 ```text
 Allow service dpd to read secret-family in tenancy
@@ -115,31 +135,31 @@ GRANT EXECUTE ON DBMS_WORKLOAD_REPOSITORY to C##OCI_MON_USER;
 
 Go to Identity&Security → Key Management →Secret Management
 
-![Medium article image 2](./files/image-02.png)
+![image 2](./files/image-02.png)
 
-![Medium article image 3](./files/image-03.png)
+![image 3](./files/image-03.png)
 
 Go to Identity&Security → Key Management & Secret Management → Create a key → Create a secret for C##OCI_MON_USER password
 
-![Medium article image 4](./files/image-04.png)
+![image 4](./files/image-04.png)
 
 7. Create Private End Point for Database Management
 
 Go to Observability&Management → Database Management → Administration →Private End Point →Create End Point
 
-![Medium article image 5](./files/image-05.png)
+![image 5](./files/image-05.png)
 
 If you are creating for RAC database or ExaCS select the “use private endpoint”
 
 Go to Observability&Management →Operations Insights →Administration →Private End Point → Create End Point
 
-![Medium article image 6](./files/image-06.png)
+![image 6](./files/image-06.png)
 
 If you are creating for RAC database or ExaCS select the “use private endpoint”
 
 There are several ways to configure the connectivity between the target DB and Private Endpoint. Here you can find the official doc. In this tutorial, I modify the Target Security list so the Private Endpoint network can reach the Target network on 1521 on both way.
 
-![Medium article image 7](./files/image-07.png)
+![image 7](./files/image-07.png)
 
 ## Enable Database Management for DBCS/ExaCS
 
@@ -149,19 +169,19 @@ or in case you are enabling on DBCS
 
 ( For each Database you want to enable) Go to Oracle Database → Oracle Base Database →DB Systems →DB System Details →Database Details
 
-![Medium article image 8](./files/image-08.png)
+![image 8](./files/image-08.png)
 
 Select Database Management Enable
 
-![Medium article image 9](./files/image-09.png)
+![image 9](./files/image-09.png)
 
 Select ADD Policy
 
-![Medium article image 10](./files/image-10.png)
+![image 10](./files/image-10.png)
 
 Once the Policy has been added, insert the username and the Secret for the user you created in the requirement session
 
-![Medium article image 11](./files/image-11.png)
+![image 11](./files/image-11.png)
 
 Select Full Management (here you can see the difference between the Basic/ and Full)
 
@@ -169,11 +189,11 @@ Become a Medium member
 
 (For each Pluggable Database) Go to Oracle Database →Oracle Exadata Database Service on Dedicated Infrastructure →Exadata VM Clusters →Exadata VM Cluster Details →Database Home Details →Database Details →Pluggable Database
 
-![Medium article image 12](./files/image-12.png)
+![image 12](./files/image-12.png)
 
 To identify the PDB service name use lsnrctl status
 
-![Medium article image 13](./files/image-13.png)
+![image 13](./files/image-13.png)
 
 ## Enable Operations Insights for ExaCS/DBCS
 
@@ -181,11 +201,11 @@ Operations Insight can be enabled on all ExaCS, CDB, PDB in one single step. Go 
 
 for ExaCS select Exadata Database, for DBCS select Bare metal, virtual machine
 
-![Medium article image 14](./files/image-14.png)
+![image 14](./files/image-14.png)
 
 Insert the credentials created in the prereq section
 
-![Medium article image 15](./files/image-15.png)
+![image 15](./files/image-15.png)
 
 ## Enable Logging Analytics for ExaCS/DBCS
 
@@ -193,15 +213,15 @@ ExaCS and DBCS logs contain several informations about the systems that can’t 
 
 Create the Registration Key. Go to → Observability and Management →Management Agents → Download and Keys
 
-![Medium article image 16](./files/image-16.png)
+![image 16](./files/image-16.png)
 
 Copy The registration key
 
-![Medium article image 17](./files/image-17.png)
+![image 17](./files/image-17.png)
 
 Download the agent from OCI Console Observability and Managment to each single box
 
-![Medium article image 18](./files/image-18.png)
+![image 18](./files/image-18.png)
 
 On the box install the agent
 
@@ -225,50 +245,44 @@ sudo systemctl start mgmt_agent
 
 Now you can see the agent check-in Observability and Management →Management Agent. Click on the three dots and enable Logging Analytics Plugin
 
-![Medium article image 19](./files/image-19.png)
+![image 19](./files/image-19.png)
 
 Create a Logging Analytics log Group. Go to Observability and Management → Logging Analytics → Administration and Select Log Group
 
-![Medium article image 20](./files/image-20.png)
+![image 20](./files/image-20.png)
 
 Create Database Entity. Go to Observability and Management → Logging Analytics → Administration and Select Create Entity
 
-![Medium article image 21](./files/image-21.png)
+![image 21](./files/image-21.png)
 
-![Medium article image 22](./files/image-22.png)
+![image 22](./files/image-22.png)
 
 To get alerts, traces logs populate the Properties adr_home
 
-![Medium article image 23](./files/image-23.png)
+![image 23](./files/image-23.png)
 
 Go to Observability and Management → Logging Analytics → Administration and Select Add Data
 
-![Medium article image 24](./files/image-24.png)
+![image 24](./files/image-24.png)
 
 Select Custom Selection
 
-![Medium article image 25](./files/image-25.png)
+![image 25](./files/image-25.png)
 
 Select the entity you have just created
 
-![Medium article image 26](./files/image-26.png)
+![image 26](./files/image-26.png)
 
 Select Database and Trace logs
 
-![Medium article image 27](./files/image-27.png)
+![image 27](./files/image-27.png)
 
-![Medium article image 28](./files/image-28.png)
+![image 28](./files/image-28.png)
 
 Wait 5 minutes and then go on the Log Explorer. You will see the logs are there and you can start analyzing them.
 
-![Medium article image 29](./files/image-29.png)
+![image 29](./files/image-29.png)
 
-![Medium article image 30](./files/image-30.png)
+![image 30](./files/image-30.png)
 
 For more logs and dashboard, you can use the Knowledge Content GitHub.
-
-## Conclusion
-
-Now you enable full Observability on all your OCI database fleet. You will be able to ise diagnostic functionalities offered by Database Management and Operations insights.
-
-OCI Observability can be extend to Oracle database deployed on premises or in other Cloud vendor.
