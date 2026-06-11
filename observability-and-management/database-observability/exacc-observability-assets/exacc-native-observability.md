@@ -10,7 +10,7 @@ This document will provide a step-by-step guide on how to enable the OCI Observa
 
 ## Architecture
 
-![image 1](./files/image-01.png)
+![image 1](./files/image-1.png)
 
 ## Prerequisite
 
