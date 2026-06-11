@@ -28,18 +28,19 @@ Reviewed: Reviewed: 27.05.2026
 
 |Observability Targets  |  Assets Page|  
 |---|---|
-| Autonomous Database  | [Link](https://medium.com/@erikasciunzi/how-to-enable-oci-observability-on-autonomous-shared-database-716b623d1f15) | 
-| Database Cloud Service  | [Link](observability-and-management/database-observability/exacs-and-dbcs-observability-assets) |  
-| Exadata cloud@customer | [Link](observability-and-management/database-observability/exacc-observability-assets) |  
-| Exadata Cloud Service  | [Link](observability-and-management/database-observability/exacs-and-dbcs-observability-assets)|  
+| Autonomous Database  | [Link](/observability-and-management/database-observability/autonomous-observability-asset/README.md) | 
+| Database Cloud Service  | [Link](/observability-and-management/database-observability//exacs-and-dbcs-observability-assets/README.md) |  
+| Exadata cloud@customer | [Link](/observability-and-management/database-observability//exacc-observability-assets/README.md) |  
+| Exadata Cloud Service  | [Link](/observability-and-management/database-observability//exacs-and-dbcs-observability-assets/README.md)|  
+| Automated Observability Enablement for External Oracle Databases| [Link](/observability-and-management/database-observability//external-database-enablement/README.md) | 
+| Automated Observability Enablement for OCI Cloud-Native Databases| [Link](https://github.com/adibirzu/oci-dbman-opsi) | 
 | DB@GCP  | [Link](https://docs.oracle.com/en-us/iaas/Content/database-at-gcp/gcpmn-monitor.html)|  
 | DB@Azure |[Link](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/azumn-monitor.html)| 
-| DB@AWS | [Link](https://docs.oracle.com/en-us/iaas/Content/database-at-aws-exadata-awsmn/awsmn-monitor.html)| 
-| External Oracle DB| [Link](./shared-assets/external-database-enablement/README.md) | 
+| DB@AWS | [Link](https://docs.oracle.com/en-us/iaas/Content/database-at-aws-exadata-awsmn/awsmn-monitor.html)|
 | EBS | [Link](https://docs.oracle.com/en/solutions/enable-om-stack-monitoring-ebs/index.html#GUID-6D9E091F-3614-4E3E-A082-5FC82B27CD7C) | 
 | Webogic | [Link](https://karthicin.medium.com/how-to-monitor-weblogic-in-oci-and-collect-logs-for-analysis-7c5007426010) |
 | Apex | [Link](https://blogs.oracle.com/observability/oci-observability-for-oracle-apex) | 
-| OCI CI Container Instance | [Link](https://github.com/adibirzu/oci-container-monitoring)  |
+| OCI CI Container Instance | [Link](https://github.com/adibirzu/oci-container-monitoring) |
 | .... |  |
 | .... |  | 
 
