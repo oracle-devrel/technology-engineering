@@ -6,7 +6,7 @@ Structured Query Language (SQL) is the standard programming language used for ma
 
 PL/SQL, the Oracle procedural extension of SQL, is a portable, high-performance transaction-processing language. PL/SQL offers several advantages over other programming languages: from being tightly integrated with SQL to leveraging High Performance and High Productivity. PL/SQL is a portable and scalable Procedural Language which also increase Manageability and support for Object Oriented Programming. 
 
-SQL and in general Database Development Tools like SQL Command Line Interface (SQLcl) and SQL Developer Extension for Visual Studio Code leverages the Oracle user Developers, together with the tight integration of these two tools with Model Context Protocol (MCP) Server tooling to allow AI Agents to interact with the database. SQL Developer Web (a.k.a Database Actions) for Autonomous Database and other non-ADB ORDS-enabled Oracle database provide an additional IDE for Developers and Administrators. 
+SQL and in general Database Development Tools like SQL Command Line Interface (SQLcl) and SQL Developer Extension for Visual Studio Code leverages the Oracle user Developers, together with the tight integration of these two tools with Model Context Protocol (MCP) Server tooling to allow AI Agents to interact with the database. SQL Developer Web (a.k.a Database Actions) for Autonomous Database and other non-ADB ORDS-enabled Oracle database provide an additional IDE for Developers and Administrators. Furthermore, Database Tools OCI-managed service to offer a set of reusable connections to any Oracle Database. 
 
 Below you'll find an index to all the sections available in this repository, along with a brief introduction to what you can expect in each section.
 
@@ -35,7 +35,7 @@ The SQL Tips section is dedicated to providing practical advice and best practic
 
 ## SQL Oracle26ai
 
-Explore the latest advancements with Oracle's cutting-edge AI capabilities in the [SQL Oracle23ai](sql-oracle23ai/README.md) section (now rebranded Oracle26ai). Here, you will find:
+Explore the latest advancements with Oracle's cutting-edge AI capabilities in the [SQL Oracle26ai](sql-oracle26ai/README.md) section (now rebranded Oracle26ai). Here, you will find:
 - New features and enhancements in Oracle26ai
 - Tutorials on integrating AI with your SQL queries
 - Case studies and real-world applications of Oracle26ai
