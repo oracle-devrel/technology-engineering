@@ -1,4 +1,4 @@
-# How to enable OCI Native Observability Services on Exadata Cloud@Customer
+# OCI Observability Services on Exadata Cloud@Customer
 
 
 Implementing an observability strategy involves collecting data from your IT environment, such as metrics, logs, events, and traces. Effective observability means leveraging this data wisely to proactively predict issues like outages, excessive resource usage, or poor application performance before they occur.
