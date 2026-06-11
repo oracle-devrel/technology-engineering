@@ -1,4 +1,4 @@
-# How to enable OCI Observability for OCI native database deploments
+# OCI Observability for OCI native database deploments
 
 
 ![image 1](./files/image-01.png)
