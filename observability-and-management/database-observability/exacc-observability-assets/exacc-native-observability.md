@@ -1,30 +1,16 @@
 # How to enable OCI Native Observability Services on Exadata Cloud@Customer
 
-Author: Erikasciunzi
-
-Source: [Medium article](https://medium.com/@erikasciunzi/how-to-enable-oci-native-observability-services-on-exadata-cloud-customer-8220cea85ecc)
-
-Original publication date: 2025-03-07
-
-Last updated on Medium: 2025-07-23
-
-Converted: 2026-06-10
-
-Assets: `exacc-native-observability-assets/`
 
 Implementing an observability strategy involves collecting data from your IT environment, such as metrics, logs, events, and traces. Effective observability means leveraging this data wisely to proactively predict issues like outages, excessive resource usage, or poor application performance before they occur.
 
-A common practice is to monitor ExaCC using Enterprise Manager. However, you can enhance your monitoring strategy by [incorporating the OCI Observability service](https://medium.com/learnoci/how-to-enable-oci-observability-services-on-exadata-cloud-customer-9501dcaa356e).
 
-If you’re seeking a fully managed solution because the maintenance costs of Enterprise Manager are too high, going completely native might be the right choice.
+This document will provide a step-by-step guide on how to enable the OCI Observability services: Database Management, Ops Insights and Log Analytics.
 
-In this blog, I will provide a step-by-step guide on how to enable the OCI Observability service.
-
-**This document does not apply to Autonomous Cluster.**
+**This document does not apply to Autonomous Clusters.** 
 
 ## Architecture
 
-![Medium article image 1](/Users/esciunzi/Documents/New%20project/infra/oci/exacc-native-observability-assets/image-01.png)
+![image 1](./files/image-01.png)
 
 ## Prerequisite
 
@@ -42,6 +28,27 @@ In this blog, I will provide a step-by-step guide on how to enable the OCI Obser
     https://certificatesmanagement.<OCI_REGION>.oci.oraclecloud.com
     https://management-agent.<OCI_REGION>.oci.oraclecloud.com
 
+## IAM Policy Customization Considerations
+
+The policies listed below represent a reference configuration required to enable OCI Database Management, Operations Insights, Log Analytics, Dashboards, and Alerts for Exadata Cloud@Customer environments.
+
+Many of these permissions are granted at the **tenancy level** to simplify deployment and ensure all observability services can function correctly. However, in production environments, organizations typically implement compartment-based resource segregation and role-based access controls to restrict visibility and administrative privileges according to operational responsibilities.
+
+As a result, the sample policies should be reviewed and customized based on:
+
+* Compartment structure and resource ownership.
+* Environment separation (Development, Test, UAT, Production).
+* Application or business-unit boundaries.
+* Security, compliance, and segregation-of-duties requirements.
+* Database administration and observability team responsibilities.
+
+In particular, permissions assigned to the **obs_admin** group may need to be scoped to specific compartments rather than the entire tenancy to ensure administrators can only access and manage the databases, observability resources, dashboards, agents, logs, and alerts that fall within their authorized scope.
+
+Similarly, dynamic groups such as **obs_agent** and **Credential_Dynamic_Group** should be reviewed to ensure they are granted only the minimum permissions required for certificate management, vault access, agent lifecycle operations, and log ingestion.
+
+The policies provided in this document should therefore be considered a baseline implementation and may require tenancy-specific adjustments before deployment in production environments.
+
+
 ## OCI Policies and Group
 
 1.  *Define Observability Admin admin user: obs_admin*
@@ -54,6 +61,8 @@ In this blog, I will provide a step-by-step guide on how to enable the OCI Obser
     ALL  {resource.type='certificateauthority'}
 
 3. *Policies*
+
+
 
 For Agents
 
@@ -131,15 +140,15 @@ For Dashboard/Alerts
 
 Create the Registration Key. Go to → Observability and Management →Management Agents → Download and Keys
 
-![Medium article image 2](/Users/esciunzi/Documents/New%20project/infra/oci/exacc-native-observability-assets/image-02.png)
+![image 2](./files/image-02.png)
 
 Copy The registration key
 
-![Medium article image 3](/Users/esciunzi/Documents/New%20project/infra/oci/exacc-native-observability-assets/image-03.png)
+![image 3](./files/image-03.png)
 
 Download the agent from OCI Console Observability and Managment to each single box
 
-![Medium article image 4](/Users/esciunzi/Documents/New%20project/infra/oci/exacc-native-observability-assets/image-04.png)
+![image 4](./files/image-04.png)
 
 On the box install the gateway
 
@@ -160,7 +169,7 @@ On each VMCluster Node:
 
 Download the agent from OCI Console Observability and Managment to each single box
 
-![Medium article image 5](/Users/esciunzi/Documents/New%20project/infra/oci/exacc-native-observability-assets/image-05.png)
+![image 5](./files/image-05.png)
 
 On the box install the agent ([**Doc ID 3015115.1**](https://support.oracle.com/epmos/faces/DocumentDisplay?_afrLoop=455266221038386&id=3015115.1&_afrWindowMode=0&_adf.ctrl-state=78xw71hh9_4)**)**
 
@@ -185,7 +194,7 @@ On the box install the agent ([**Doc ID 3015115.1**](https://support.oracle.com/
 
 Now you can see the agent check-in Observability and Management →Management Agent. Click on the three dots and enable OpsInsight and Database management and Logging Analytics Plugin
 
-![Medium article image 6](/Users/esciunzi/Documents/New%20project/infra/oci/exacc-native-observability-assets/image-06.png)
+![image 6](./files/image-06.png)
 
 ## Create the Monitor user
 
@@ -209,23 +218,23 @@ For each PDB/CDB
 
 Go to Identity&Security → Key Management →Secret Management
 
-![Medium article image 7](/Users/esciunzi/Documents/New%20project/infra/oci/exacc-native-observability-assets/image-07.png)
+![image 7](./files/image-07.png)
 
-![Medium article image 8](/Users/esciunzi/Documents/New%20project/infra/oci/exacc-native-observability-assets/image-08.png)
+![image 8](./files/image-08.png)
 
 Go to Identity&Security → Key Management & Secret Management → Create a key → Create a secret for C##OCI_MON_USER password
 
-![Medium article image 9](/Users/esciunzi/Documents/New%20project/infra/oci/exacc-native-observability-assets/image-09.png)
+![image 9](./files/image-09.png)
 
 ## Enable Database Management
 
 Go to Observability →Database Management →Administration → Managed databases
 
-![Medium article image 10](/Users/esciunzi/Documents/New%20project/infra/oci/exacc-native-observability-assets/image-10.png)
+![10](./files/image-10.png)
 
 Select the user secret key you have just created
 
-![Medium article image 11](/Users/esciunzi/Documents/New%20project/infra/oci/exacc-native-observability-assets/image-11.png)
+![image 11](./files/image-11.png)
 
 First you need to register CDB after that you repeat the steps for each PDB.
 
@@ -233,39 +242,39 @@ First you need to register CDB after that you repeat the steps for each PDB.
 
 Go to Observability →OpsInsight→Administration → Exadata Fleet. Select Cloud Infrastructure, ExaDB-C@C
 
-![Medium article image 12](/Users/esciunzi/Documents/New%20project/infra/oci/exacc-native-observability-assets/image-12.png)
+![image 12](./files/image-12.png)
 
 Specify the same credentiols you use for Database management. OpsInsight will be enabled on all PDB of the specified CDB.
 
-## Enable Logging Analytics
+## Enable Log Analytics
 
 Create the log group mngt-log-group (Observability →Logging analytics →Administration → LogGroup)
 
-![Medium article image 13](/Users/esciunzi/Documents/New%20project/infra/oci/exacc-native-observability-assets/image-13.png)
+![image 13](./files/image-13.png)
 
 Check if these property are there. If they are not, add them
 
 Database Istance
 
-![Medium article image 14](/Users/esciunzi/Documents/New%20project/infra/oci/exacc-native-observability-assets/image-14.png)
+![image 14](./files/image-14.png)
 
 Cluster Node
 
-![Medium article image 15](/Users/esciunzi/Documents/New%20project/infra/oci/exacc-native-observability-assets/image-15.png)
+![image 15](./files/image-15.png)
 
 Listener
 
-![Medium article image 16](/Users/esciunzi/Documents/New%20project/infra/oci/exacc-native-observability-assets/image-16.png)
+![image 16](./files/image-16.png)
 
 Select the entity and chose the files you want to import
 
-![Medium article image 17](/Users/esciunzi/Documents/New%20project/infra/oci/exacc-native-observability-assets/image-17.png)
+![image 17](./files/image-17.png)
 
-![Medium article image 18](/Users/esciunzi/Documents/New%20project/infra/oci/exacc-native-observability-assets/image-18.png)
+![image 18](./files/image-18.png)
 
 16\. Check the Collection Warning.
 
-![Medium article image 19](/Users/esciunzi/Documents/New%20project/infra/oci/exacc-native-observability-assets/image-19.png)
+![image 19](./files/image-19.png)
 
 As it is the first time you ingest log you can get large “Directory errors”. If it happens modify the agent properties on the Exa Server
 
