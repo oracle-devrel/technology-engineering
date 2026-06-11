@@ -87,7 +87,56 @@ The expected output:
 }
 ```
 
-Now you can connect to your cluster using provided bootstrap-url from any location (or restriced to CIDRs ranges)
+Now you can connect to your cluster using provided bootstrap-url from any location (or restriced to CIDRs ranges):
+
+```
+import getpass
+import os
+import ssl
+import sys
+
+from kafka import KafkaAdminClient
+
+
+CLUSTER = "my.bootstrap_url.com:port"
+USERNAME = os.getenv("KAFKA_SASL_USERNAME", "mykafka_username")
+PASSWORD = os.getenv("KAFKA_SASL_PASSWORD") or getpass.getpass("Kafka password: ")
+
+
+try:
+    admin = KafkaAdminClient(
+        bootstrap_servers=CLUSTER,
+        security_protocol="SASL_SSL",
+        sasl_mechanism="SCRAM-SHA-512",
+        sasl_plain_username=USERNAME,
+        sasl_plain_password=PASSWORD,
+        ssl_context=ssl._create_unverified_context(),
+        request_timeout_ms=10000,
+        api_version_auto_timeout_ms=10000,
+    )
+    topics = sorted(admin.list_topics())
+    print(f"connected: {len(topics)} topics visible")
+    for topic in topics:
+        print(topic)
+    admin.close()
+except Exception as exc:
+    print(f"failed: {type(exc).__name__}: {exc}")
+    sys.exit(1)
+```
+and the response:
+```
+connected: 23 topics visible
+AMER_CUSTOMERS
+AMER_CUSTOMERS_INFO
+AMER_NEXT_CUST
+AMER_NEXT_ORDER
+AMER_ORDERS
+AMER_ORDERS_PRODUCTS
+AMER_ORDERS_STATUS_HISTORY
+AMER_PRODUCTS
+.....
+```
+
 
 
 
