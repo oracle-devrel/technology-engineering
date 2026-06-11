@@ -216,49 +216,19 @@ Management, Ops Insights, Log Analytics, Vault, and network resources; the
 database username controls what the service can do after it connects to the
 database.
 
-Choose the username based on the integration:
-
-- `ADMIN`: use for initial setup or advanced diagnostics when the service needs
-  broad database privileges. Avoid using it as the long-term collection user
-  when a narrower user is enough.
-- `ADBSNMP`: use when it is available and the requirement is basic Database
-  Management monitoring.
-- dedicated user, such as `OBS_MONITOR` or `LOGAN_READER`: use for
-  least-privilege monitoring, Log Analytics SQL collection, and repeatable
-  production setup.
-
-To create a dedicated user, sign in to **Database Actions** as `ADMIN`, open
-**SQL Worksheet**, and run:
+The easiest way is to use adbsnmp user:
 
 ```sql
-CREATE USER obs_monitor IDENTIFIED BY "<strong_password>";
-GRANT CREATE SESSION TO obs_monitor;
+sqlplus ADMIN@'(description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=bbbbbb.eu-frankfurt-1.oraclecloud.com))(connect_data=(service_name=umqbbbbbbb_testops_tpurgent.adb.oraclecloud.com))(security=(ssl_server_dn_match=no)))'
+ALTER USER adbsnmp ACCOUNT UNLOCK;
+ALTER USER adbsnmp IDENTIFIED BY adbsnmp_password; 
+grant SELECT ANY DICTIONARY to adbsnmp;
+grant SELECT_CATALOG_ROLE to adbsnmp;
+grant read on awr_pdb_snapshot to adbsnmp;
+grant execute on dbms_workload_repository to adbsnmp;
+exit;
 ```
-
-For Log Analytics or other read-only collection, grant access only to the
-approved tables or views:
-
-```sql
-GRANT SELECT ON dba_owner.adb_alert_log_v TO obs_monitor;
-```
-
-If the source object belongs to an application schema, prefer granting access to
-a curated view rather than a broad application table. The view should expose
-only the columns needed for observability.
-
-To reuse an existing username, confirm the account is open and rotate the
-password if required:
-
-```sql
-SELECT username, account_status
-FROM dba_users
-WHERE username IN ('ADMIN', 'ADBSNMP', 'OBS_MONITOR', 'LOGAN_READER');
-
-ALTER USER obs_monitor ACCOUNT UNLOCK;
-ALTER USER obs_monitor IDENTIFIED BY "<new_strong_password>";
-```
-
-After choosing the username:
+After that
 
 1. Test the connection with the same service name, wallet, and network path
    that the OCI service or Management Agent will use.
@@ -382,7 +352,7 @@ or queries that can full-scan busy production tables. For each source, document:
 - unique increasing sequence column
 - expected row volume
 
-### 5.2 Prepare A Read-Only Database User
+### 5.2 Prepare A Read-Only Database User (if you don't want to use adbsnmp)
 
 Use a least-privilege account for collection. This example assumes a DBA-owned
 view named `DBA_OWNER.ADB_ALERT_LOG_V` exposes only the alert-log fields that
