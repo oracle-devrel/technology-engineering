@@ -30,7 +30,7 @@ Reviewed: Reviewed: 27.05.2026
 |---|---|
 | Autonomous Database  | [Link](https://medium.com/@erikasciunzi/how-to-enable-oci-observability-on-autonomous-shared-database-716b623d1f15) | 
 | Database Cloud Service  | [Link](https://medium.com/learnoci/enable-observability-for-oci-native-database-deploy-235484953e46) |  
-| Exadata cloud@customer | [Link](https://learnoci.cloud/how-to-enable-oci-observability-services-on-exadata-cloud-customer-9501dcaa356e) |  
+| Exadata cloud@customer | [Link](observability-and-management/database-observability/exacc-observability-assets) |  
 | Exadata Cloud Service  | [Link](https://medium.com/learnoci/enable-observability-for-oci-native-database-deploy-235484953e46)|  
 | DB@GCP  | [Link](https://docs.oracle.com/en-us/iaas/Content/database-at-gcp/gcpmn-monitor.html)|  
 | DB@Azure |[Link](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/azumn-monitor.html)| 
