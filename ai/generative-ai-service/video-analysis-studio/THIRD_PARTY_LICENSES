@@ -1,0 +1,39 @@
+Third-Party Licenses
+
+This project declares third-party dependencies in package.json and
+requirements.txt. The dependency packages are not vendored in this repository.
+
+Direct dependencies use permissive licenses. Transitive dependency metadata
+includes CC-BY-4.0 and MPL-2.0 components; review these against Oracle
+OSSA/pre-approved license policy before publication.
+
+Direct npm dependencies:
+
+- @vitejs/plugin-react 4.7.0 - MIT
+- lucide-react 0.468.0 - ISC
+- react 18.3.1 - MIT
+- react-dom 18.3.1 - MIT
+- vite 6.4.2 - MIT
+
+Direct npm development dependencies:
+
+- @types/node 22.10.2 - MIT
+- @types/react 18.3.28 - MIT
+- @types/react-dom 18.3.7 - MIT
+- typescript 5.9.3 - Apache-2.0
+
+Direct Python dependencies:
+
+- fastapi 0.136.1 - MIT
+- uvicorn 0.47.0 - BSD-3-Clause
+- python-multipart 0.0.28 - Apache-2.0
+- langchain-core 1.4.0 - MIT
+- langchain-oci 0.2.6 - UPL-1.0
+- python-dotenv 1.2.2 - BSD-3-Clause
+
+Transitive dependency notes:
+
+- caniuse-lite 1.0.30001792 - CC-BY-4.0
+- certifi 2026.4.22 - MPL-2.0
+- orjson 3.11.9 - MPL-2.0 AND (Apache-2.0 OR MIT)
+- tqdm 4.67.3 - MPL-2.0 AND MIT

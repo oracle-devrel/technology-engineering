@@ -1,0 +1,5 @@
+bootstrap.servers=<replace-me-bootstrap-server>
+security.protocol=SASL_SSL
+sasl.mechanism=SCRAM-SHA-512
+sasl.username=<replace-me-username>
+sasl.password=<replace-me-password>

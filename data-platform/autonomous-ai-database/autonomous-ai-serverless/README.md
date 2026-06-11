@@ -74,7 +74,10 @@ Reviewed: 28.10.2025
  
  - [Talk to Your Data: Querying Oracle Autonomous AI Database with SQLcl MCP and Codex](https://medium.com/@mmy0utu8e/talk-to-your-data-querying-oracle-autonomous-ai-database-with-sqlcl-and-codex-b2df48f204cd)
     - The way users interact with databases is shifting. We are no longer limited to typing manual queries or navigating complex UI trees to figure out what is happening inside our database. With native Model Context Protocol (MCP) support in Oracle SQLcl, users can now securely attach local AI assistants directly to the Oracle Autonomous AI Database.
-   
+
+ - [Zero Data Loss Protection in Autonomous Database Serverless](https://medium.com/p/da091463c516?postPublishedType=initial)
+    - Starting this month (May 2026) the Oracle Autonomous Database Serverless supports Zero Data Loss Protection for local Autonomous Data Guard standby databases, bringing enterprise-grade resilience and automatic failover to mission-critical workloads with RPO = 0.
+      
 ## Tip of the Day
  
 - [Tip 1](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7104394940436164609-LSa-?)
