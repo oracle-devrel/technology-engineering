@@ -1,4 +1,4 @@
-# OCI Observability On Autonomous Shared Database
+# OCI Observability for Autonomous Shared Database
 
 
 Oracle documentation now generally uses **Autonomous AI Database Serverless**
