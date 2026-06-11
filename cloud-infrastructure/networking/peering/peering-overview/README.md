@@ -2,7 +2,7 @@
  
 *This presentation can be used to talk about varioud peering options and its usage in OCI Networking*
  
-Reviewed: 10.10.2025
+Reviewed: 12.06.2026
 
 # When to use this asset?
  
@@ -12,6 +12,10 @@ Reviewed: 10.10.2025
  
 *To explore and understand both local and remote peering usages and understanding in the content of OCI Networking*
  
+# Useful Links 
+
+- [OCI Peering ](files/OCI-peering.pdf)
+
 # License
 
 Copyright (c) 2026 Oracle and/or its affiliates.

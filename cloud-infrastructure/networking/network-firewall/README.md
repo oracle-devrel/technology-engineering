@@ -7,7 +7,7 @@ OCI's network and application layer security controls currently have the followi
 - Advanced Egress Security Controls
 - Advanced Network Firewall Features
 
-Reviewed: 10.10.2025
+Reviewed: 12.06.2026
  
 # Useful Links
 
@@ -32,6 +32,7 @@ Reviewed: 10.10.2025
     
 ## Blogs
  
+- [Scaling Deep Inspection: What Our Benchmark Shows About OCI Network Firewall Under Real Concurrent Load](https://blogs.oracle.com/cloud-infrastructure/oci-networkfw-benchmark)
 - [Using OCI Network Firewall for SSL Decryption](https://blogs.oracle.com/cloud-infrastructure/post/oci-network-firewall-ssl-decryption)
     -  Blog describing OCI Network Firewall, focusing on SSL Decryption techniques
 - [Announcing Network Firewall Services](https://blogs.oracle.com/cloudsecurity/post/announcing-oracle-cloud-infrastructure-network-firewall)

@@ -2,7 +2,7 @@
  
 The Network Visualizer overview Asset is group of screenshots about network Visualizer
  
-Reviewed: 10.10.2025
+Reviewed: 12.06.2026
 
 # When to use this asset?
  
