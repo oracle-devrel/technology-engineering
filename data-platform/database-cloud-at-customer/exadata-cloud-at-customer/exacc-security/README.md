@@ -1,6 +1,6 @@
 # Exadata Cloud@Customer Security
 
-Security related information for ExaDB-C@C.
+Exadata Cloud@Customer incorporates multiple layers of security across the infrastructure, network, and database stack to help protect business-critical data and applications. Features such as network segregation, encryption in transit and at rest, role-based access controls, customer-managed encryption keys, and audited operational access work together to provide a secure and compliant database platform.
 
 # Useful Links
 
@@ -8,11 +8,18 @@ Security related information for ExaDB-C@C.
 
 - [Oracle Gen 2 Exadata Cloud@Customer Security Controls Technical Brief](https://www.oracle.com/a/ocom/docs/engineered-systems/exadata/exadata-cloud-at-customer-security-controls.pdf)
 
+- [List of all the attestation and certifications achieved by OCI](https://www.oracle.com/corporate/cloud-compliance/#hdi-mqr-attestations)
+
 - [Operator Access Control Documentation](https://docs.oracle.com/en/cloud/paas/operator-access-control/exops/overview-of-operator-access-control.html)
 
 - [Operator Access Control Technical Brief](https://www.oracle.com/uk/a/ocom/docs/engineered-systems/exadata/oracle-operator-access-control-tech-brief.pdf)
 
-Reviewed: 01/22/26
+- [Security Testing in the Oracle Cloud (applies to ExaDB-C@C)](https://www.oracle.com/corporate/security-practices/testing/cloud/)
+
+- [Oracle Cloud Compliance (oracle.com)](https://www.oracle.com/corporate/cloud-compliance/)
+
+
+Reviewed: 06/11/26
 
 # License
 
