@@ -1,19 +1,5 @@
-# OCI Observability for Autonomous Shared Database
+# OCI Observability for Autonomous 
 
-
-Oracle documentation now generally uses **Autonomous AI Database Serverless**
-for the service historically described as Autonomous Shared Database or ADB-S.
-This runbook uses **Autonomous Shared Database** where it matches the source
-article title and **Autonomous AI Database Serverless** where it matches current
-Oracle Console and documentation labels.
-
-Note: The Medium article body was not directly accessible from this environment
-during conversion. This file keeps the requested Medium URL as the source
-reference and builds the operational runbook from the article topic plus current
-Oracle documentation. Verify against the original article before external
-publication.
-
-## Goal
 
 Enable OCI observability for an Autonomous Shared Database so cloud and database
 teams can monitor single databases, manage fleets, investigate SQL performance,
@@ -79,45 +65,61 @@ Collect these values before starting:
 Confirm the region in the OCI Console before enabling each service. Database
 Management does not provide cross-region monitoring for Oracle Databases.
 
-## 1. Prepare IAM
+## IAM Policy Customization Considerations
 
-Create separate groups when possible:
+The policies listed below represent a reference configuration required to enable OCI Database Management, Operations Insights, Log Analytics, Dashboards, and Alerts for Exadata Cloud@Customer environments.
 
-- `ADB-OBS-ADMINS` for users who enable integrations
-- `ADB-OBS-USERS` for users who view dashboards and performance data
-- `OPSI-ADMINS` for Ops Insights enablement and administration
-- `OPSI-USERS` for Ops Insights users who view fleet and SQL analytics
-- `LOG-ANALYTICS-ADMINS` for Logging Analytics setup
-- `LOG-ANALYTICS-USERS` for search and dashboard users
+Many of these permissions are granted at the **tenancy level** to simplify deployment and ensure all observability services can function correctly. However, in production environments, organizations typically implement compartment-based resource segregation and role-based access controls to restrict visibility and administrative privileges according to operational responsibilities.
+
+As a result, the sample policies should be reviewed and customized based on:
+
+* Compartment structure and resource ownership.
+* Environment separation (Development, Test, UAT, Production).
+* Application or business-unit boundaries.
+* Security, compliance, and segregation-of-duties requirements.
+* Database administration and observability team responsibilities.
+
+In particular, permissions assigned to the **obs_admin** group may need to be scoped to specific compartments rather than the entire tenancy to ensure administrators can only access and manage the databases, observability resources, dashboards, agents, logs, and alerts that fall within their authorized scope.
+
+Similarly, dynamic groups such as **obs_agent** and **Credential_Dynamic_Group** should be reviewed to ensure they are granted only the minimum permissions required for certificate management, vault access, agent lifecycle operations, and log ingestion.
+
+The policies provided in this document should therefore be considered a baseline implementation and may require tenancy-specific adjustments before deployment in production environments.
+
+
+## OCI Policies and Group
+
+1.  *Define Observability Admin admin user: obs_admin*
+2.  *Define Dynamic Group for mng agent: obs_agent (required by Logging analytics)*
+
 
 Database Management policy template:
 
 ```text
-allow group ADB-OBS-ADMINS to manage dbmgmt-family in compartment <compartment_name>
-allow group ADB-OBS-ADMINS to read dbmgmt-work-requests in compartment <compartment_name>
-allow group ADB-OBS-ADMINS to manage autonomous-database-family in compartment <compartment_name>
-allow group ADB-OBS-ADMINS to manage secret-family in compartment <compartment_name>
-allow group ADB-OBS-ADMINS to use subnets in compartment <network_compartment_name>
-allow group ADB-OBS-ADMINS to manage vnics in compartment <network_compartment_name>
-allow group ADB-OBS-ADMINS to use network-security-groups in compartment <network_compartment_name>
+allow group obs_admin to manage dbmgmt-family in tenancy 
+allow group obs_admin to read dbmgmt-work-requests in tenancy 
+allow group obs_admin to manage autonomous-database-family in tenancy 
+allow group obs_admin to manage secret-family in tenancy 
+allow group obs_admin to use subnets in tenancy 
+allow group obs_admin to manage vnics in tenancy 
+allow group obs_admin to use network-security-groups in tenancy 
 ```
 
 Vault resource principal policy for Database Management secrets:
 
 ```text
-allow any-user to read secret-family in compartment <secret_compartment_name>
+allow any-user to read secret-family in tenancy
   where ALL {request.principal.type = dbmgmtmanageddatabase}
 ```
 
 Ops Insights policy template:
 
 ```text
-allow group OPSI-ADMINS to manage opsi-family in compartment <compartment_name>
-allow group OPSI-ADMINS to use autonomous-database-family in compartment <compartment_name>
-allow group OPSI-ADMINS to manage virtual-network-family in compartment <network_compartment_name>
-allow group OPSI-ADMINS to read secret-family in compartment <secret_compartment_name>
-allow group OPSI-USERS to use opsi-family in compartment <compartment_name>
-allow group OPSI-USERS to read management-dashboard-family in compartment <compartment_name>
+allow group obs_admin to manage opsi-family in tenancy 
+allow group obs_admin to use autonomous-database-family in tenancy 
+allow group obs_admin to manage virtual-network-family in tenancy 
+allow group obs_admin to read secret-family in compartment <secret_compartment_name>
+allow group obs_admin to use opsi-family in tenancy 
+allow group obs_admin to read management-dashboard-family in tenancy 
 ```
 
 For Ops Insights full feature support, add resource principal policies so Ops
@@ -125,32 +127,32 @@ Insights can read the database password secret and generate an Autonomous
 Database wallet when needed:
 
 ```text
-allow any-user to read secret-family in compartment <secret_compartment_name>
-  where ALL {request.principal.type = 'opsidatabaseinsight', target.vault.id = '<vault_ocid>'}
-allow any-user to read autonomous-database-family in compartment <compartment_name>
+allow any-user to read secret-family in tenancy
+  where ALL {request.principal.type = 'opsidatabaseinsight'}
+allow any-user to read autonomous-database-family in tenancy 
   where ALL {request.principal.type = 'opsidatabaseinsight', request.operation = 'GenerateAutonomousDatabaseWallet'}
 ```
 
 Logging Analytics policy template:
 
 ```text
-allow group LOG-ANALYTICS-ADMINS to manage loganalytics-features-family in tenancy
-allow group LOG-ANALYTICS-ADMINS to manage loganalytics-resources-family in compartment <compartment_name>
-allow group LOG-ANALYTICS-ADMINS to manage management-dashboard-family in compartment <compartment_name>
-allow group LOG-ANALYTICS-USERS to read loganalytics-resources-family in compartment <compartment_name>
-allow group LOG-ANALYTICS-USERS to read management-dashboard-family in compartment <compartment_name>
-allow group LOG-ANALYTICS-USERS to read compartments in tenancy
+allow group obs_admin to manage loganalytics-features-family in tenancy
+allow group obs_admin to manage loganalytics-resources-family in tenancy 
+allow group obs_admin to manage management-dashboard-family in tenancy 
+allow group obs_admin to read loganalytics-resources-family in tenancy 
+allow group obs_admin to read management-dashboard-family in tenancy 
+allow group obs_admin to read compartments in tenancy
 ```
 
 Management Agent dynamic group and policy template:
 
 ```text
-ALL {resource.type='managementagent', resource.compartment.id='<agent_compartment_ocid>'}
+ALL {resource.type='managementagent'}
 ```
 
 ```text
-allow dynamic-group <management_agent_dynamic_group> to use metrics in compartment <compartment_name>
-allow dynamic-group <management_agent_dynamic_group> to {LOG_ANALYTICS_LOG_GROUP_UPLOAD_LOGS} in compartment <compartment_name>
+allow dynamic-group <management_agent_dynamic_group> to use metrics in tenancy 
+allow dynamic-group <management_agent_dynamic_group> to {LOG_ANALYTICS_LOG_GROUP_UPLOAD_LOGS} in tenancy 
 ```
 
 Restrict tenancy-wide examples to compartments whenever your tenancy design
@@ -191,24 +193,15 @@ administration, user administration, parameter views, and database jobs from OCI
 
 1. Decide whether to use an existing administrative account or a dedicated
    monitoring user.
-2. For basic monitoring, Oracle documentation identifies `ADBSNMP` as a common
-   preferred credential.
-3. For advanced diagnostics, Oracle documentation recommends `ADMIN` or a user
-   with equivalent privileges because some advanced Performance Hub features
-   require privileges that `ADBSNMP` does not have.
+2. Different monitoring db user
+      basic monitoring use `ADBSNMP` 
+      advanced diagnostics use `ADMIN` 
 4. Store the password in OCI Vault as a secret.
 5. If mTLS is required, download the Autonomous Database wallet, extract
    `cwallet.sso`, and store it in OCI Vault as a secret.
-6. Tag a pre-created wallet secret so Database Management can discover it:
 
-```text
-DBM_Wallet_Type: "DATABASE"
-```
 
-When passwords rotate, create a new Vault secret version and update the
-Database Management configuration if needed.
-
-#### Create Or Use A Database Username
+#### Unlock the Database Username
 
 The database username is a user inside the Autonomous Database. It is separate
 from OCI IAM users and groups. OCI IAM controls who can enable Database
@@ -311,19 +304,13 @@ analytics, and trend reporting.
    - IAM credential or local credential for Autonomous Database Serverless.
    - database user and Vault password secret for local credential.
    - connection string or service name as prompted.
-   - Database Management private endpoint if the database is ACL-restricted or
+   - Opsinsights Management private endpoint if the database is ACL-restricted or
      uses private endpoint access.
 9. Select **Add Databases**.
 10. Wait for the fleet page to show the database in `Active` state.
 
 Ops Insights data can take up to 24 hours to appear after enablement.
 
-CLI example for basic enablement:
-
-```sh
-oci db autonomous-database enable-operations-insights \
-  --autonomous-database-id <autonomous_database_ocid>
-```
 
 ## 5. Enable Logging Analytics For Autonomous Database Data
 
@@ -395,11 +382,6 @@ to the Autonomous Database.
 
 1. Install or select an OCI Management Agent.
 2. Enable the Log Analytics plugin during installation or deploy it afterward:
-
-```text
-Service.plugin.logan.download=true
-```
-
 3. Confirm the Management Agent is `Active`.
 4. Confirm the Log Analytics service plugin is `Running`.
 5. Open the Autonomous Database **DB Connection** page.
