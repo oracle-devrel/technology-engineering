@@ -35,10 +35,10 @@ Once the Health Check is completed, the initiator will receive a commprehensive 
 
 Below is a list with the instructions on how to retrieve the solution data useful for the analysis:
 
-* [AHF Reports](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/exadata-cloud-at-customer/exacc-value/exacc-healthcheck/healthcheck-ahf-report)
-* [AWR Dumps](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/exadata-cloud-at-customer/exacc-value/exacc-healthcheck/healthcheck-awr-dump)
+* [AHF Reports](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-infra/exacc-healthcheck/healthcheck-ahf-report)
+* [AWR Dumps](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-infra/exacc-healthcheck/healthcheck-awr-dump)
 
-Reviewed: 01/22/26
+Reviewed: 06/11/26
 
 # License
 
