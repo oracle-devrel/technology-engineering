@@ -117,7 +117,7 @@ Ops Insights policy template:
 allow group obs_admin to manage opsi-family in tenancy 
 allow group obs_admin to use autonomous-database-family in tenancy 
 allow group obs_admin to manage virtual-network-family in tenancy 
-allow group obs_admin to read secret-family in compartment <secret_compartment_name>
+allow group obs_admin to read secret-family in tenancy
 allow group obs_admin to use opsi-family in tenancy 
 allow group obs_admin to read management-dashboard-family in tenancy 
 ```

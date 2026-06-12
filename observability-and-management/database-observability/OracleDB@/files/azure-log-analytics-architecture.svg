@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Oracle AI Database at Azure Log Analytics Architecture</title>
+  <desc id="desc">Architecture diagram showing Oracle AI Database at Azure resources sending diagnostic events through Azure Diagnostic Settings into an Azure Log Analytics workspace for query, visualization, alerting, and action groups.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto">
+      <path d="M2 2 L10 6 L2 10 Z" fill="#6b7280"/>
+    </marker>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#111827" flood-opacity="0.12"/>
+    </filter>
+    <style>
+      .bg { fill: #f8fafc; }
+      .panel { fill: #ffffff; stroke: #d1d5db; stroke-width: 2; filter: url(#shadow); }
+      .soft { fill: #fff7ed; stroke: #fb923c; stroke-width: 2; }
+      .azure { fill: #eff6ff; stroke: #3b82f6; stroke-width: 2; }
+      .green { fill: #ecfdf5; stroke: #10b981; stroke-width: 2; }
+      .red { fill: #fff1f2; stroke: #ef4444; stroke-width: 2; }
+      .dark { fill: #111827; }
+      .muted { fill: #6b7280; }
+      .label { font: 600 30px Arial, Helvetica, sans-serif; fill: #111827; }
+      .title { font: 700 42px Arial, Helvetica, sans-serif; fill: #111827; }
+      .subtitle { font: 400 22px Arial, Helvetica, sans-serif; fill: #4b5563; }
+      .body { font: 400 21px Arial, Helvetica, sans-serif; fill: #374151; }
+      .small { font: 400 18px Arial, Helvetica, sans-serif; fill: #4b5563; }
+      .tiny { font: 400 15px Arial, Helvetica, sans-serif; fill: #6b7280; }
+      .tag { font: 700 16px Arial, Helvetica, sans-serif; fill: #991b1b; }
+      .arrow { stroke: #6b7280; stroke-width: 4; fill: none; marker-end: url(#arrow); }
+      .dash { stroke: #9ca3af; stroke-width: 3; stroke-dasharray: 10 9; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1600" height="900"/>
+
+  <text x="80" y="78" class="title">Oracle AI Database@Azure monitoring with Azure Log Analytics</text>
+  <text x="80" y="116" class="subtitle">Diagnostic settings route database events and metrics into Azure Monitor Logs for query, visualization, and alerting.</text>
+
+  <rect x="70" y="165" width="360" height="590" rx="20" class="panel"/>
+  <text x="105" y="220" class="label">Oracle AI Database@Azure</text>
+  <text x="105" y="255" class="small">Supported resource sources</text>
+
+  <rect x="105" y="295" width="290" height="92" rx="14" class="soft"/>
+  <text x="128" y="331" class="body">Exadata Database Service</text>
+  <text x="128" y="361" class="small">Dedicated Infrastructure</text>
+
+  <rect x="105" y="415" width="290" height="92" rx="14" class="soft"/>
+  <text x="128" y="451" class="body">Autonomous AI Database</text>
+  <text x="128" y="481" class="small">Serverless service</text>
+
+  <rect x="105" y="535" width="290" height="92" rx="14" class="soft"/>
+  <text x="128" y="571" class="body">Base Database Service</text>
+  <text x="128" y="601" class="small">Database resources</text>
+
+  <rect x="105" y="660" width="290" height="60" rx="14" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+  <text x="128" y="697" class="small">Azure services telemetry</text>
+
+  <rect x="520" y="232" width="285" height="416" rx="20" class="azure"/>
+  <text x="552" y="286" class="label">Diagnostic Settings</text>
+  <text x="552" y="323" class="small">Configure per resource</text>
+  <text x="552" y="370" class="body">Event categories</text>
+  <text x="578" y="410" class="small">Creation, Update, Delete</text>
+  <text x="578" y="444" class="small">Backup and Restore</text>
+  <text x="578" y="478" class="small">Critical and Information</text>
+  <text x="552" y="540" class="body">Destination</text>
+  <text x="578" y="580" class="small">Log Analytics Workspace</text>
+  <text x="578" y="614" class="small">Subscription and region</text>
+
+  <rect x="895" y="185" width="385" height="510" rx="22" class="panel"/>
+  <text x="930" y="242" class="label">Azure Log Analytics</text>
+  <text x="930" y="276" class="small">Azure Monitor Logs workspace</text>
+  <rect x="930" y="318" width="315" height="72" rx="14" class="green"/>
+  <text x="955" y="362" class="body">Central log data store</text>
+  <rect x="930" y="418" width="315" height="118" rx="14" fill="#f9fafb" stroke="#d1d5db" stroke-width="2"/>
+  <text x="955" y="457" class="body">Workspace tables</text>
+  <text x="980" y="492" class="small">AzureMetrics</text>
+  <text x="980" y="520" class="small">OracleCloudDatabase, Usage</text>
+  <rect x="930" y="565" width="315" height="88" rx="14" fill="#f9fafb" stroke="#d1d5db" stroke-width="2"/>
+  <text x="955" y="602" class="body">Query modes</text>
+  <text x="980" y="635" class="small">Simple mode and KQL</text>
+
+  <rect x="1360" y="190" width="170" height="115" rx="18" class="red"/>
+  <text x="1387" y="238" class="body">Search</text>
+  <text x="1387" y="268" class="small">Troubleshoot</text>
+
+  <rect x="1360" y="340" width="170" height="115" rx="18" class="red"/>
+  <text x="1387" y="388" class="body">Visualize</text>
+  <text x="1387" y="418" class="small">Charts, tables</text>
+
+  <rect x="1360" y="490" width="170" height="150" rx="18" class="red"/>
+  <text x="1387" y="538" class="body">Alert</text>
+  <text x="1387" y="568" class="small">Rules and</text>
+  <text x="1387" y="596" class="small">thresholds</text>
+
+  <rect x="1308" y="700" width="222" height="84" rx="18" fill="#f9fafb" stroke="#d1d5db" stroke-width="2"/>
+  <text x="1330" y="735" class="body">Action Group</text>
+  <text x="1330" y="764" class="small">Email, webhook, Logic App</text>
+
+  <path d="M430 460 C460 460 485 440 520 440" class="arrow"/>
+  <path d="M805 440 C835 440 860 440 895 440" class="arrow"/>
+  <path d="M1280 360 C1310 330 1330 265 1360 247" class="arrow"/>
+  <path d="M1280 440 C1315 440 1327 400 1360 398" class="arrow"/>
+  <path d="M1280 515 C1315 515 1328 565 1360 565" class="arrow"/>
+  <path d="M1445 640 C1445 665 1430 680 1420 700" class="arrow"/>
+  <path d="M250 720 C500 815 980 825 1308 742" class="dash"/>
+
+  <rect x="80" y="802" width="1440" height="54" rx="16" fill="#ffffff" stroke="#e5e7eb" stroke-width="2"/>
+  <text x="105" y="836" class="tag">Key idea:</text>
+  <text x="195" y="836" class="small">Azure Log Analytics becomes the single workspace for Oracle AI Database@Azure audit events, metrics, queries, charts, and alerts.</text>
+</svg>
