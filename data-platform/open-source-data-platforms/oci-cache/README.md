@@ -2,7 +2,7 @@
 OCI Cache with Redis is a comprehensive, managed in-memory caching solution built on the foundation of open source Redis. 
 This fully managed service accelerates data reads and writes, significantly enhancing application response times and database performance to provide an improved customer experience.
 
-Reviewed: 11.11.2025
+Reviewed: 10.06.2026
 
 # Table of Contents
 
@@ -12,21 +12,34 @@ Reviewed: 11.11.2025
 
 # Team Publications
 
-- [Leverage OCI-managed Redis and PostgreSQL for your e-commerce application](https://docs.oracle.com/en/solutions/oci-redis-postgresql/index.html#GUID-DD63C617-DEEE-4357-B203-A3CFDF1B34EC)
-- [Enable a Low Code Modular LLM App Engine using Oracle Integration and OCI Generative AI](https://docs.oracle.com/en/solutions/oci-generative-ai-integration/index.html#GUID-0C310162-34D9-4EB2-978D-FBAFB931E637)
+## Github
+- [Connect OCI Cache through Network Load Balancer](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-cache/connect-via-nlb)
+- [Vector Search with OCI Cache (Valkey 8.1) and OCI Data Science Notebook](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-cache/vector-search)
+
+
+## Architecture Center & Oracle Learn
+- [Modernize your application development with OCI-managed PostgreSQL, Redis, and OpenSearch](https://docs.oracle.com/en/solutions/modernize-app-dev-oci-postgresql-redis-opensearch/#GUID-DA0594DA-D549-481E-9CBD-46735766CA82)
+- [Connect to Oracle Cloud Infrastructure Cache with Redis using Redis Insight](https://docs.oracle.com/en/learn/oci-cache-redis/#introduction)
+
+
+## Blogs
 - [Upgrade OCI Cache with Redis to Valkey](https://medium.com/@devpiotrekk/upgrade-oci-cache-with-redis-to-valkey-d3c01deb8733)
+- [Serverless Deployment of Valkey Admin with OCI Container Instances](https://medium.com/@devpiotrekk/serverless-deployment-of-valkey-admin-with-oci-container-instances-dd1cb3debab2)
+
+
+## LiveLabs
+- [LiveLabs: Accelerating IoT applications with OCI Cache and OCI PostgreSQL](https://livelabs.oracle.com/ords/r/dbpm/livelabs/run-workshop?p210_wid=4383&p210_wec=&session=119324071827764)
 
 
 # Useful Links
-
 - [OCI Cache with Redis Documentation](https://docs.oracle.com/en-us/iaas/Content/redis/home.htm)
 - [OCI Cache with Redis FAQ](https://www.oracle.com/uk/cloud/redis/faq/)
 - [OCI Cache with Redis Introduction](https://blogs.oracle.com/cloud-infrastructure/post/oci-cache-redis)
 
 # Reusable Assets
+- [Leverage OCI-managed Redis and PostgreSQL for your e-commerce application](https://docs.oracle.com/en/solutions/oci-redis-postgresql/index.html#GUID-DD63C617-DEEE-4357-B203-A3CFDF1B34EC)
+- [Enable a Low Code Modular LLM App Engine using Oracle Integration and OCI Generative AI](https://docs.oracle.com/en/solutions/oci-generative-ai-integration/index.html#GUID-0C310162-34D9-4EB2-978D-FBAFB931E637)
 
-- [Connect OCI Cache through Network Load Balancer](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-cache/connect-via-nlb)
-- [Vector Search with OCI Cache (Valkey 8.1) and OCI Data Science Notebook](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-cache/vector-search)
 
 # License
 

@@ -2,7 +2,7 @@
  
 This page will describe the various upgrade methodologies for both on-premises databases as well as for databases residing in OCI.
 
-Reviewed: 08.10.2025
+Reviewed: 04.06.2026
  
 # Table of Contents
  
@@ -25,9 +25,10 @@ Reviewed: 08.10.2025
     - Detailed, step-by-step instructions for Upgrading Grid Infrastructure of Oracle Base Database in OCI from 19c to 23ai , available on Amalraj Puthenchira's public platform
 - [Upgrade your Oracle Base Database in OCI from 19c to 23ai - Part 2 - Database Upgrade](https://amalrajputhenchira.wordpress.com/2025/01/15/upgrade-your-oracle-base-database-in-oci-from-19c-to-23ai-part-2-database-upgrade/)
     - Detailed, step-by-step instructions for Upgrading Database of Oracle Base Database in OCI from 19c to 23ai , available on Amalraj Puthenchira's public platform
+
 # Useful Links
 - [Database Server Upgrade/Downgrade Compatibility Matrix on MOS (Doc ID 551141.1)](https://support.oracle.com/epmos/faces/DocumentDisplay?id=551141.1)
-- [LiveLabs: Hitchhiker's Guide for Upgrading to Oracle Database 23ai](https://apexapps.oracle.com/pls/apex/f?p=133:180:1060521706151::::wid:3943)
+- [LiveLabs: Hitchhiker's Guide for Upgrading to Oracle AI Database ](https://livelabs.oracle.com/ords/r/dbpm/livelabs/view-workshop?wid=3943)
 - [Mike Dietrich's Personal Platform](https://mikedietrichde.com/)
 - [Daniel Overby Hansen's Personal Platform](https://dohdatabase.com/)
 

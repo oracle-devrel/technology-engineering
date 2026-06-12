@@ -6,7 +6,7 @@ The Data Pump export utility writes the schema objects, including the tables and
 
 A set of best practices and other useful assets/links can be found in this page.
 
-Reviewed: 07.10.2025
+Reviewed: 04.06.2026
 
  
 # Table of Contents
@@ -62,6 +62,8 @@ Reviewed: 07.10.2025
 - [Data Pump Basics - YouTube Video](https://www.youtube.com/watch?v=5uLDxPDErsw)
 - [Data Pump Best Practices & Real World Scenarios - YouTube Video](https://www.youtube.com/watch?v=960ToLE-ZE8)
 - [Data Pump & SQL Developer Web for Oracle Autonomous Database](https://www.thatjeffsmith.com/archive/2023/02/data-pump-sql-developer-web-for-oracle-autonomous-database/)
+- [Data Pump Extreme Deep Dive](https://www.youtube.com/playlist?list=PLIUJ4jBaPQxyrmIHXOSZwdKRzeGFmWeKI/)
+- [Data Pump Overview](https://docs.oracle.com/en/database/oracle/oracle-database/21/sutil/oracle-data-pump-overview.html)
 
 # License
  
