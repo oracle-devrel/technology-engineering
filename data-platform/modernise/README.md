@@ -17,8 +17,6 @@ Also make sure to check the dedicated pages of the main technology areas of Data
 * [Translate SQL Code](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/translate-sql-code)
 
 
-
-
 Reviewed: 15.06.2026
 
 # Team Publications
