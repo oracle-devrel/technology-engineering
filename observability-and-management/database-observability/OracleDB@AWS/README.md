@@ -33,49 +33,7 @@ CloudWatch answers the first operational question: is something wrong at the ser
 
 ## Reference architecture
 
-```text
-Oracle Database@AWS
-  |
-  |-- OCI metrics and events
-  |       |
-  |       +--> Amazon EventBridge
-  |              |
-  |              +--> Amazon CloudWatch
-  |                     |-- Metrics and dashboards
-  |                     |-- Alarms
-  |                     |-- Logs, where configured
-  |                     +-- Notification and automation targets
-  |
-  |-- AWS account activity and API usage
-  |       |
-  |       +--> AWS CloudTrail
-  |              |-- Event history
-  |              |-- Trails delivered to Amazon S3
-  |              |-- CloudTrail Lake queries
-  |              +-- CloudTrail Insights for unusual activity
-  |
-  +-- Database, listener, audit, trace, application, and OCI logs
-          |
-          +--> OCI Log Analytics
-          |      |-- Log ingestion and parsing
-          |      |-- Search and saved searches
-          |      |-- Dashboards and visualizations
-          |      |-- Pattern detection and correlation
-          |      +-- Log-based alerts
-          |
-          +--> OCI Database Management
-          |      |-- Diagnostics & Management
-          |      |-- Performance Hub
-          |      |-- ASH analytics
-          |      |-- AWR Explorer
-          |      +-- SQL tuning workflows
-          |
-          +--> OCI Ops Insights
-                 |-- Capacity planning
-                 |-- SQL Insights
-                 |-- SQL Explorer
-                 +-- ADDM Spotlight, where supported
-```
+![Oracle Database@AWS Reference architecture](./files/architecture.drawio.png)
 
 ## Prerequisites
 
