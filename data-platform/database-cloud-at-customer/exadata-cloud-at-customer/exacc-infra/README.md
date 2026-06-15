@@ -1,6 +1,6 @@
 # Exadata Cloud@Customer Infrastructure
 
-Assests, best practices and how-to's regarding the infrastructure components of the ExaDB-C@C services. 
+Exadata Database Service on Cloud@Customer infrastructure brings Oracle's industry-leading Exadata platform directly into your data center, providing a dedicated, high-performance foundation for mission-critical database workloads. Fully engineered, integrated, and managed by Oracle, it combines the scalability and automation of cloud services with the security, compliance, and data sovereignty benefits of on-premises deployment.
 
 # Useful Links
 
@@ -35,14 +35,11 @@ Assests, best practices and how-to's regarding the infrastructure components of 
 
 - [Enhanced Infrastructure Maintenance Controls for Oracle Exadata Database Service on Cloud@Customer](https://blogs.oracle.com/database/post/enhanced-infrastructure-maintenance-controls-for-oracle-exadata-database-service-on-cc)
 
-## Snapshot Technologies
-[Setting up Oracle Exadata Storage Snapshots](https://docs.oracle.com/en/engineered-systems/exadata-database-machine/sagug/exadata-storage-server-snapshots.html#GUID-3147A414-3657-4B6C-B22E-A5F5869574C2)
+- [Managing Exadata Cloud@Customer Resources with Oracle Enterprise Manager Cloud Control)](https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-managing-resources-with-emcc.html)
 
-[Oracle ACFS Snapshots](https://docs.oracle.com/en/database/oracle/oracle-database/19/ostmg/understand-acfs-concepts.html#GUID-5A3EF695-A795-4FEA-8BE2-AF657BD2238C)
+- [OCI Ops Insights - Cloud native support for Exadata Cloud@Customer Databases)](https://blogs.oracle.com/observability/post/oci-ops-insights-cloud-native-support-for-exadata-cloudcustomer-databases)
 
-[Oracle ACFS Snapshot Use Cases on Exadata (Doc ID 2761360.1)](https://support.oracle.com/epmos/faces/DocumentDisplay?_afrLoop=274346774362287&id=2761360.1&_afrWindowMode=0&_adf.ctrl-state=jgdocci36_4)
-
-Reviewed: 01/22/26
+Reviewed: 06/11/26
 
 # License
 
