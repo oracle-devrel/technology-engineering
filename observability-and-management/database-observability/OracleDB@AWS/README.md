@@ -1,4 +1,4 @@
-# Oracle Database@ With Native Cloud Tools
+# Oracle Database@AWS With Native Cloud Tools
 
 
 ## Scope
