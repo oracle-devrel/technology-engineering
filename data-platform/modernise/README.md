@@ -1,6 +1,6 @@
 # Data Platform - Modernise
  
-The Data Platform - Modernisation Black Belt team in Oracle EMEA provides dedicated specialist support to Oracle customers around our entire Oracle Database Migration & Upgrade technology portfolio. The topics we cover include Oracle Data Pump, OCI Database Migration, Zero Downtime Migration, Transportable Tablespaces, Database Patching, Cloud Pre-Migration Advisor Tool (CPAT), Oracle GoldenGate for Migrations, and Database Upgrades.
+The Data Platform - Modernisation Black Belt team in Oracle EMEA provides dedicated specialist support to Oracle customers around our entire Oracle Database Migration & Upgrade technology portfolio. The topics we cover include Oracle Data Pump, OCI Database Migration, Zero Downtime Migration, Transportable Tablespaces, Database Patching, Cloud Pre-Migration Advisor Tool (CPAT), Oracle GoldenGate for Migrations, Database Upgrades as well as SQL code translations.
 
 Check out the links below to detailed videos, technical demonstrations, blog articles, and technical workshops, as well as the rest of the repository for additional documentation including technical guides, and detailed best practices, aimed to support anyone who is at a Database Migration or Upgrade project, either On-Premises or to Oracle Cloud Infrastructure.
 
@@ -14,9 +14,12 @@ Also make sure to check the dedicated pages of the main technology areas of Data
 * [Transportable Tablespace](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/transportable-tablespace)
 * [Real Application Testing](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/real-application-testing)
 * [Migration to OCI Database with PostgreSQL](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/migration-to-oci-database-with-postgresql)
+* [Translate SQL Code](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/translate-sql-code)
 
 
-Reviewed: 05.06.2026
+
+
+Reviewed: 15.06.2026
 
 # Team Publications
  
