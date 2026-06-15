@@ -4,7 +4,7 @@ Cloud Premigration Advisor Tool (CPAT) helps you evaluate an existing Oracle dat
 
 A set of best practices and other useful assets/links can be found on this page.
 
-Reviewed: 08.10.2025
+Reviewed: 04.06.2026
 
 # Table of Contents
  

@@ -1,7 +1,7 @@
 # OCI NoSQL
 Oracle NoSQL Database Cloud Service makes it easy for developers to build applications using document, fixed schema, and key-value database models, delivering predictable single-digit millisecond response times with data replication for high availability. The service offers active-active regional replication, ACID transactions, serverless scaling, comprehensive security, and low pay-per-use pricing for both on-demand and provisioned capacity modes, including 100% compatibility with on-premises Oracle NoSQL Database.
 
-Reviewed: 11.11.2025
+Reviewed: 10.06.2026
 
 # Table of Contents
 

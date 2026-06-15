@@ -1,6 +1,6 @@
 # Data Platform - Modernise
  
-The Data Platform - Modernisation Black Belt team in Oracle EMEA provides dedicated specialist support to Oracle customers around our entire Oracle Database Migration & Upgrade technology portfolio. The topics we cover include Oracle Data Pump, OCI Database Migration, Zero Downtime Migration, Transportable Tablespaces, Database Patching, Cloud Pre-Migration Advisor Tool (CPAT), Oracle GoldenGate for Migrations, and Database Upgrades.
+The Data Platform - Modernisation Black Belt team in Oracle EMEA provides dedicated specialist support to Oracle customers around our entire Oracle Database Migration & Upgrade technology portfolio. The topics we cover include Oracle Data Pump, OCI Database Migration, Zero Downtime Migration, Transportable Tablespaces, Database Patching, Cloud Pre-Migration Advisor Tool (CPAT), Oracle GoldenGate for Migrations, Database Upgrades as well as SQL code translations.
 
 Check out the links below to detailed videos, technical demonstrations, blog articles, and technical workshops, as well as the rest of the repository for additional documentation including technical guides, and detailed best practices, aimed to support anyone who is at a Database Migration or Upgrade project, either On-Premises or to Oracle Cloud Infrastructure.
 
@@ -12,10 +12,12 @@ Also make sure to check the dedicated pages of the main technology areas of Data
 * [Database Patching](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/database-patching)
 * [Cloud Premigration Advisor Tool](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/cloud-premigration-advisor-tool)
 * [Transportable Tablespace](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/transportable-tablespace)
+* [Real Application Testing](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/real-application-testing)
 * [Migration to OCI Database with PostgreSQL](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/migration-to-oci-database-with-postgresql)
+* [Translate SQL Code](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/translate-sql-code)
 
 
-Reviewed: 07.10.2025
+Reviewed: 15.06.2026
 
 # Team Publications
  
@@ -63,6 +65,8 @@ Reviewed: 07.10.2025
     - Detailed, step-by-step instructions for creating a non-cdb database on exadb-d using Cloud native command line , available on Amalraj Puthenchira's public platform
 - [Migration between different Oracle versions using Remote Clone and DBUpgrade](https://carlosal.wordpress.com/2026/01/21/remote-clone-between-different-database-versions-a-real-case-remote-clone-dbupgrade/https://carlosal.wordpress.com/2026/01/21/remote-clone-between-different-database-versions-a-real-case-remote-clone-dbupgrade/)
     - Blog technical article about how to migrate databases with different versions using Remote Clone and DBUpgrade: a real case. Available on Carlos Álvarez's public platform.
+- [Migrating a 19c PDB Oracle Database to 26ai Using autoupgrade and Refreshable Clone](https://carlosal.wordpress.com/2026/05/25/migrating-a-19c-pdb-oracle-database-to-26ai-using-autoupgrade-and-refreshable-clone/)
+    - Blog technical article that explains in detail how to migrate a 19c PDB to a 26ai CDB using autoupgrade and Refreshable Clone. Available on Carlos Álvarez's public platform.
 
 # Useful Links
 

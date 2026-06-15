@@ -3,7 +3,7 @@ Oracle Big Data Service is a fully managed, automated cloud service that provide
 Easily create secure and scalable Hadoop-based data lakes that can quickly process large amounts of data.
 BDS is based on Oracle [Hadoop Distribution](https://docs.oracle.com/en-us/iaas/Content/bigdata/overview.htm#overview-odh).
 
-Reviewed: 11.11.2025
+Reviewed: 10.06.2026
 
 # Table of Contents
 

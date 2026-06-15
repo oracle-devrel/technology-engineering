@@ -24,6 +24,9 @@ Currently, Oracle Database@AWS is available in two Availability Zones in both th
 - [OD@AWS Monitoring](https://docs.oracle.com/en-us/iaas/Content/database-at-aws-exadata-awsmn/awsmn-monitor.html)
 
 
+# Architecture
+- [Oracle Database@AWS Architecture Examples - with drawio files](./architecture/)
+
 
 # Step-by-step Guides
 
