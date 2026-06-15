@@ -33,7 +33,7 @@ The same Java options can be passed to `oci_bootstrap_management_agent_vm.sh`.
 When `--java-tarball <java8_tarball_path>` is used with the bootstrap script,
 the tarball is copied to the VM and then passed to the VM-side installer.
 
-## Example 1. Public Internet Java Download
+## Deploy management agent including JDK 8
 
 If the VM has outbound HTTPS access, the bootstrap script can ask the remote
 installer to download Eclipse Temurin Java 8 directly from Adoptium:
@@ -46,13 +46,22 @@ bash scripts/oci_bootstrap_management_agent_vm.sh \
   --ssh-key <ssh_private_key_path> \
   --java-url "https://api.adoptium.net/v3/binary/latest/8/ga/linux/x64/jdk/hotspot/normal/eclipse"
 ```
+On Windows PowerShell, run the same Bash script through WSL or Git Bash:
+
+```powershell
+$env:OCI_MGMT_AGENT_DOWNLOAD_DIR = "<local_agent_download_dir>"
+bash scripts/oci_bootstrap_management_agent_vm.sh `
+  --compartment-name "<compartment_name>" `
+  --vm-host "<vm_public_ip_or_dns>" `
+  --ssh-key "<ssh_private_key_path_visible_to_bash>" `
+  --java-url "https://api.adoptium.net/v3/binary/latest/8/ga/linux/x64/jdk/hotspot/normal/eclipse"
+Remove-Item Env:\OCI_MGMT_AGENT_DOWNLOAD_DIR
+```
 
 The VM needs outbound HTTPS access to `api.adoptium.net` and the redirected
 binary download location. See the Adoptium Temurin releases page for Java 8 LTS
 and REST API download options:
 <https://adoptium.net/temurin/releases/?version=8>.
-
-## Example 2. Standalone Java Location
 
 Unless `--java-install-dir <standalone_java_install_dir>` is provided, the
 VM-side installer extracts standalone Java to:
@@ -86,17 +95,33 @@ If you press Enter at the wallet prompt, the bootstrap script generates a
 compliant wallet password automatically. Do not commit install keys, response
 files, or wallet passwords.
 
-## Full Bootstrap Install
+## Deploy management agent (JDK 8 already in the VM)
+
 
 Run this from the workspace root:
 
 ```bash
 OCI_MGMT_AGENT_DOWNLOAD_DIR=/tmp \
-bash oci_bootstrap_management_agent_vm.sh \
+bash scripts/oci_bootstrap_management_agent_vm.sh \
   --compartment-name <compartment_name> \
   --vm-host <vm_public_ip_or_dns> \
   --ssh-key <ssh_private_key_path>
 ```
+
+On Windows PowerShell, run the same Bash script through WSL or Git Bash:
+
+```powershell
+$env:OCI_MGMT_AGENT_DOWNLOAD_DIR = "/tmp"
+bash scripts/oci_bootstrap_management_agent_vm.sh `
+  --compartment-name "<compartment_name>" `
+  --vm-host "<vm_public_ip_or_dns>" `
+  --ssh-key "<ssh_private_key_path_visible_to_bash>"
+Remove-Item Env:\OCI_MGMT_AGENT_DOWNLOAD_DIR
+```
+
+Use a key path format that the selected Bash runtime can read, such as
+`/mnt/c/Users/<windows_user>/Downloads/<key_file>` for WSL or
+`/c/Users/<windows_user>/Downloads/<key_file>` for Git Bash.
 
 The bootstrap script:
 
@@ -108,17 +133,6 @@ The bootstrap script:
 6. Copies the installer, package, and response file to the VM.
 7. Runs the VM-side installer through `sudo`.
 8. Removes the generated response file after installation.
-
-## VM-Side Local Package Install
-
-If the RPM is already on the VM, run the VM-side installer directly:
-
-```bash
-sudo OCI_MGMT_AGENT_INSTALL_KEY_FILE=<install_key_file_path> \
-  OCI_MGMT_AGENT_WALLET_PASSWORD_FILE=<wallet_password_file_path> \
-  OCI_MGMT_AGENT_PACKAGE=<remote_agent_package_path> \
-  bash <remote_installer_script_path>
-```
 
 ## Verify
 
