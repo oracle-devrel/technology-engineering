@@ -33,7 +33,7 @@ CloudWatch answers the first operational question: is something wrong at the ser
 
 ## Reference architecture
 
-![Oracle Database@AWS Reference architecture](./files/architecture.drawio.png)
+![Oracle Database@AWS Reference architecture](./files/architectureAWS.drawio.png)
 
 ## Prerequisites
 
