@@ -9,4 +9,4 @@
 | Automated Observability Enablement for OCI Cloud-Native Databases| [Link](https://github.com/adibirzu/oci-dbman-opsi) | 
 | DB@GCP  | [Link](https://docs.oracle.com/en-us/iaas/Content/database-at-gcp/gcpmn-monitor.html)|  
 | DB@Azure |[Link](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/azumn-monitor.html)| 
-| DB@AWS | [Link](https://docs.oracle.com/en-us/iaas/Content/database-at-aws-exadata-awsmn/awsmn-monitor.html)|
+| DB@AWS | [Link](observability-and-management/database-observability/oracleaws)|
