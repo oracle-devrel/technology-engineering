@@ -77,6 +77,9 @@ Reviewed: 28.10.2025
 
  - [Zero Data Loss Protection in Autonomous Database Serverless](https://medium.com/p/da091463c516?postPublishedType=initial)
     - Starting this month (May 2026) the Oracle Autonomous Database Serverless supports Zero Data Loss Protection for local Autonomous Data Guard standby databases, bringing enterprise-grade resilience and automatic failover to mission-critical workloads with RPO = 0.
+ - [From Shared ADMIN to Named DBAs with CLONE_ADMIN_PRIVILEGES in Autonomous AI Database Serverless](https://medium.com/@mmy0utu8e/from-shared-admin-to-named-dbas-with-clone-admin-privileges-in-autonomous-ai-database-serverless-fbee577c45c1)
+    - Oracle recently introduced a useful enhancement in Autonomous AI Database Serverless: the ability to clone ADMIN privileges to a named user. 
+
       
 ## Tip of the Day
  
