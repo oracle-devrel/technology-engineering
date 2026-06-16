@@ -30,18 +30,23 @@ Oracle Exadata Cloud@Customer (ExaDB-C@C) brings the performance, automation, an
 A short video series covering different aspects of the Oracle Exadata Cloud@Customer - the best platform for running your Oracle Databases in the cloud behind your firewall.
 
 **Episode 1 - Introductions to Exadata Cloud@Customer:**
+
 [![Episode 1 - Introduction](files/images/Ep1_TN.jpg "Episode 1 - Introduction")](https://lnkd.in/gb9pHt8Z)
 
 **Episode 2 - Exadata Cloud@Customer Networking:**
+
 [![Episode 2 - Networking](files/images/Ep2_TN.jpg "Episode 2 - Networking")](https://lnkd.in/e2YcMUn5)
 
 **Episode 3 - VM Clusters on Exadata Cloud@Customer:**
+
 [![Episode 3 - VM Clusters](files/images/Ep3_TN.jpg "Episode 3 - VM Clusters")](https://lnkd.in/gdTmDbFw)
 
 **Episode 4 - Exadata Cloud@Customer X11M Introduction:**
+
 [![Episode 4 - X11M](files/images/Ep4_TN.jpg "Episode 4 - X11M")](https://lnkd.in/e7C96jBx)
 
 **Episode 5 - Autonomous Database on Exadata Cloud@Customer:**
+
 [![Episode 5 - X11M](files/images/Ep5_TN.jpg "Episode 5 - Autonomous Database")](https://lnkd.in/eQkZzKvk)
 
 The below videos are showcasing best practices and how-to's with a technical and hands-on approach.
