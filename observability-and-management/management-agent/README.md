@@ -3,7 +3,7 @@
 This folder contains the OCI Management Agent software package used for the
 VM installation workflow.
 
-[Download bootstrap script](./files/install_oci_management_agent.sh)
+[Download and extract the bootstrap script](./files/scripts.zip)
 
 
 ## Prerequisites
@@ -44,7 +44,9 @@ bash scripts/oci_bootstrap_management_agent_vm.sh \
   --compartment-name <compartment_name> \
   --vm-host <vm_public_ip_or_dns> \
   --ssh-key <ssh_private_key_path> \
-  --java-url "https://api.adoptium.net/v3/binary/latest/8/ga/linux/x64/jdk/hotspot/normal/eclipse"
+  --java-url "https://api.adoptium.net/v3/binary/latest/8/ga/linux/x64/jdk/hotspot/normal/eclipse" \
+  --use-oci-image-download 
+  
 ```
 On Windows PowerShell, run the same Bash script through WSL or Git Bash:
 
@@ -54,7 +56,8 @@ bash scripts/oci_bootstrap_management_agent_vm.sh `
   --compartment-name "<compartment_name>" `
   --vm-host "<vm_public_ip_or_dns>" `
   --ssh-key "<ssh_private_key_path_visible_to_bash>" `
-  --java-url "https://api.adoptium.net/v3/binary/latest/8/ga/linux/x64/jdk/hotspot/normal/eclipse"
+  --java-url "https://api.adoptium.net/v3/binary/latest/8/ga/linux/x64/jdk/hotspot/normal/eclipse" `
+  --use-oci-image-download 
 Remove-Item Env:\OCI_MGMT_AGENT_DOWNLOAD_DIR
 ```
 
@@ -105,7 +108,8 @@ OCI_MGMT_AGENT_DOWNLOAD_DIR=/tmp \
 bash scripts/oci_bootstrap_management_agent_vm.sh \
   --compartment-name <compartment_name> \
   --vm-host <vm_public_ip_or_dns> \
-  --ssh-key <ssh_private_key_path>
+  --ssh-key <ssh_private_key_path> \
+  --use-oci-image-download 
 ```
 
 On Windows PowerShell, run the same Bash script through WSL or Git Bash:
@@ -115,7 +119,8 @@ $env:OCI_MGMT_AGENT_DOWNLOAD_DIR = "/tmp"
 bash scripts/oci_bootstrap_management_agent_vm.sh `
   --compartment-name "<compartment_name>" `
   --vm-host "<vm_public_ip_or_dns>" `
-  --ssh-key "<ssh_private_key_path_visible_to_bash>"
+  --ssh-key "<ssh_private_key_path_visible_to_bash>" `
+  --use-oci-image-download 
 Remove-Item Env:\OCI_MGMT_AGENT_DOWNLOAD_DIR
 ```
 
