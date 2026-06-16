@@ -10,6 +10,9 @@ Reviewed: 04.06.2026
 2. [Useful Links](#useful-links)
  
 # Team Publications
+- [Real-Time AML/Fraud Triage with Oracle GoldenGate AIService and Vector Search](https://medium.com/@nishar.soneji/real-time-aml-fraud-triage-with-oracle-goldengate-aiservice-and-vector-search-4f3dc9c3755a)
+    - The blog shows a real-time pattern for operational AML/fraud triage using Oracle GoldenGate AIService, OCI Generative AI embeddings, Oracle Database vector search, and a lightweight analyst review page.
+
 - [Edition-Aware Upgrade Control with GoldenGate](https://medium.com/@nishar.soneji/edition-aware-upgrade-control-with-oracle-goldengate-48fd5114bb7d)
     - How to control installer-edition replication during Oracle EBR-based application upgrades
       
