@@ -1,7 +1,0 @@
-PyJWT
-requests
-constants
-lxml
-signxml
-environment
-oci

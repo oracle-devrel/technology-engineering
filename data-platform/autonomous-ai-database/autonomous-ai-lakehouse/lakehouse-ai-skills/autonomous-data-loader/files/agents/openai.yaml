@@ -1,3 +1,0 @@
-interface:
-  display_name: "Autonomous AI Lakehouse Data Loader"
-  short_description: "Load OCI Object Storage data and create Iceberg query access with DBMS_CLOUD."

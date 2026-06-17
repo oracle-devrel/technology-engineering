@@ -1,5 +1,0 @@
-[client]
-toolbarMode = "minimal"
-
-[server]
-headless = true

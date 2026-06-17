@@ -1,3 +1,0 @@
-streamlit==1.37.0
-oci>=2.161.0,<3
-Pillow

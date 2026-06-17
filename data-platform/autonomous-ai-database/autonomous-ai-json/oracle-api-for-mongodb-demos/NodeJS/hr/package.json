@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "mongodb": "^6.15.0",
-    "n-readlines": "^1.0.1"
-  }
-}
