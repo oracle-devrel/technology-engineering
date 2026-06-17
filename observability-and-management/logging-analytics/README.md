@@ -7,11 +7,6 @@ Reviewed: 05.05.2026
 |Asset  |   Page| 
 |---|---|
 | How to inject Oracle Fusion HCM logs in Logging Analytics | [Link](./fusion-hcm-to-la/README.md)|
-|Forward Azure logs to OCI |[Link](https://github.com/adibirzu/azurelogs2oci)|
-|Log Analytics Advanced Security Detection|[Link](https://github.com/adibirzu/oci-log-analytics-detections)|
-|Log Analytics Security Dashboards|[Link](https://github.com/adibirzu/logan-security-dashboard)|
-|Stream Azure Event Hub logs into Log Analytics|[Link](https://github.com/adibirzu/azurelogs2oci/)|
-|Stream GCP logs into Log Analytics|[Link](https://github.com/adibirzu/gcplogs2oci)|
 
 # Table of Contents
 
