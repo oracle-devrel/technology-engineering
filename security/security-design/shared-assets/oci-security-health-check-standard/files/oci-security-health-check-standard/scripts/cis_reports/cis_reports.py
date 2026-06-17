@@ -196,7 +196,7 @@ class CIS_Report:
     def __init__(self, config, signer, proxy, output_bucket, report_directory, report_prefix,
                  report_summary_json, print_to_screen, regions_to_run_in, raw_data, obp,
                  redact_output, oci_url=None, debug=False, all_resources=True,
-                 disable_api_keys=False):
+                 disable_api_keys=False, mapping_report_mode="cis"):
 
         # CIS Foundation benchmark 3.0.0
         self.cis_foundations_benchmark_3_0 = { 
@@ -1063,6 +1063,19 @@ class CIS_Report:
 
         self.__report_prefix = f'{report_prefix}_' if report_prefix else ''
         self.__report_summary_json = report_summary_json
+        self.__mapping_report_mode = mapping_report_mode or "cis"
+        if self.__mapping_report_mode not in ("cis", "nist", "combined"):
+            raise ValueError("mapping_report_mode must be one of: cis, nist, combined")
+        self.__mapping_report_header = {
+            "cis": "cis",
+            "nist": "nist",
+            "combined": "combined"
+        }[self.__mapping_report_mode]
+        self.__include_nist_mappings = self.__mapping_report_mode in ("nist", "combined")
+        self.__nist_mappings = None
+        if self.__include_nist_mappings:
+            from nist_reports import NISTMappings
+            self.__nist_mappings = NISTMappings()
 
         # Checking if a Tenancy has Identity Domains enabled
         try:
@@ -5762,9 +5775,10 @@ class CIS_Report:
 
         # Creating summary report
         summary_report = []
+        report_header = self.__mapping_report_header
         for key, recommendation in self.cis_foundations_benchmark_3_0.items():
             if recommendation['Level'] <= level:
-                report_filename = f'{self.__report_prefix}cis {recommendation["section"]}_{recommendation["recommendation_#"]}'
+                report_filename = f'{self.__report_prefix}{report_header} {recommendation["section"]}_{recommendation["recommendation_#"]}'
                 report_filename = report_filename.replace(" ", "_").replace(".", "-").replace("_-_", "_") + ".csv"
                 if recommendation['Status']:
                     compliant_output = "Yes"
@@ -5789,11 +5803,17 @@ class CIS_Report:
                     "Total": (str(len(recommendation['Total'])) if len(recommendation['Total']) > 0 else " "),
                     "Compliance Percentage Per Recommendation": compliance_percentage,
                     "Title": recommendation['Title'],
-                    self.__primary_framework_name : recommendation[self.__primary_framework_name],
-                    self.__other_framework_name : recommendation[self.__other_framework_name],
+                }
+                if self.__mapping_report_mode in ("cis", "combined"):
+                    record[self.__primary_framework_name] = recommendation[self.__primary_framework_name]
+                if self.__mapping_report_mode in ("nist", "combined"):
+                    record["NIST Controls"] = self.__nist_mappings.get_control_identifiers(recommendation[self.__primary_framework_name])
+                if self.__mapping_report_mode in ("cis", "combined"):
+                    record[self.__other_framework_name] = recommendation[self.__other_framework_name]
+                record.update({
                     "Filename": report_filename if len(recommendation['Findings']) > 0 else " ",
                     "Remediation": self.cis_report_data[key]['Remediation']
-                }
+                })
                 # Add record to summary report for CSV output
                 summary_report.append(record)
 
@@ -5817,22 +5837,22 @@ class CIS_Report:
                       finding['Total'] + "\t\t" + finding['Title'])
 
         # Generating Summary report CSV
-        print_header("Writing CIS reports to CSV")
+        print_header(f"Writing {report_header.upper()} reports to CSV")
         summary_files = []
-        summary_file_name = self.__print_to_csv_file("cis", "summary_report", summary_report)
+        summary_file_name = self.__print_to_csv_file(report_header, "summary_report", summary_report)
         summary_files.append(summary_file_name)
 
         if self.__report_summary_json:
-            summary_file_name = self.__print_to_json_file("cis", "summary_report", summary_report)
+            summary_file_name = self.__print_to_json_file(report_header, "summary_report", summary_report)
             summary_files.append(summary_file_name)
 
-        summary_file_name = self.__report_generate_html_summary_report("cis", "summary_report", summary_report)
+        summary_file_name = self.__report_generate_html_summary_report(report_header, "summary_report", summary_report)
         summary_files.append(summary_file_name)
 
         if OUTPUT_DIAGRAMS:
-            diagram_file_name = self.__generate_compliance_diagram("cis", "summary_compliance", summary_report)
+            diagram_file_name = self.__generate_compliance_diagram(report_header, "summary_compliance", summary_report)
             summary_files.append(diagram_file_name)
-            diagram_file_name = self.__generate_compliance_by_area_diagram("cis", "summary_compliance_by_focus_area", summary_report)
+            diagram_file_name = self.__generate_compliance_by_area_diagram(report_header, "summary_compliance_by_focus_area", summary_report)
             summary_files.append(diagram_file_name)
 
         # Outputing to a bucket if I have one
@@ -5843,7 +5863,7 @@ class CIS_Report:
 
         for key, recommendation in self.cis_foundations_benchmark_3_0.items():
             if recommendation['Level'] <= level:
-                report_file_name = self.__print_to_csv_file("cis", f"{recommendation['section']}_{recommendation['recommendation_#']}", recommendation['Findings'])
+                report_file_name = self.__print_to_csv_file(report_header, f"{recommendation['section']}_{recommendation['recommendation_#']}", recommendation['Findings'])
                 if report_file_name and self.__output_bucket:
                     self.__os_copy_report_to_object_storage(
                         self.__output_bucket, report_file_name)
@@ -5990,8 +6010,30 @@ class CIS_Report:
 
             # generate fields
             fields = ['Recommendation #', 'Compliant', 'Section', 'Details']
+            if self.__mapping_report_mode == "nist":
+                mapping_columns = [("NIST Controls", "NIST Controls", "35%")]
+                file_column_width = "55%"
+            elif self.__mapping_report_mode == "combined":
+                mapping_columns = [
+                    (self.__primary_framework_name, self.__primary_framework_name, "15%"),
+                    ("NIST Controls", "NIST Controls", "25%"),
+                    (self.__other_framework_name, self.__other_framework_name, "15%")
+                ]
+                file_column_width = "35%"
+            else:
+                mapping_columns = [
+                    (self.__primary_framework_name, self.__primary_framework_name, "15%"),
+                    (self.__other_framework_name, self.__other_framework_name, "20%")
+                ]
+                file_column_width = "55%"
+            detail_colspan = len(mapping_columns) + 1
 
-            html_title = 'CIS OCI Foundations Benchmark 3.0.0 - Compliance Report'
+            if self.__mapping_report_mode == "nist":
+                html_title = 'NIST SP 800-53 Mapping for CIS OCI Foundations Benchmark 3.0.0 - Compliance Report'
+            elif self.__mapping_report_mode == "combined":
+                html_title = 'Combined Mapping for CIS OCI Foundations Benchmark 3.0.0 - Compliance Report'
+            else:
+                html_title = 'CIS OCI Foundations Benchmark 3.0.0 - Compliance Report'
             with open(file_path, mode='w') as html_file:
                 # Creating table header
                 html_file.write('<html class="js history hashchange cssgradients rgba no-touch boxshadow ishttps retina w11ready" lang="en-US"><head>')
@@ -6038,8 +6080,8 @@ class CIS_Report:
                 html_file.write('</div></section>')
                 if OUTPUT_DIAGRAMS:
                     # Include dashboard
-                    html_file.write(f'<section class="cb132 cb132v0"><div class="cb132w1 cwidth"><table><tr><td><img src="{self.__report_prefix}cis_summary_compliance.png" height="80%" width="80%"/></td>')
-                    html_file.write(f'<td><img src="{self.__report_prefix}cis_summary_compliance_by_focus_area.png" height="80%" width="80%"/></td></tr><tr><td colspan="2">&nbsp;</td></tr></table></div></section>')
+                    html_file.write(f'<section class="cb132 cb132v0"><div class="cb132w1 cwidth"><table><tr><td><img src="{self.__report_prefix}{header}_summary_compliance.png" height="80%" width="80%"/></td>')
+                    html_file.write(f'<td><img src="{self.__report_prefix}{header}_summary_compliance_by_focus_area.png" height="80%" width="80%"/></td></tr><tr><td colspan="2">&nbsp;</td></tr></table></div></section>')
                 # Navigation
                 html_file.write('<section class="rt01 rt01v0 rt01detached">')
                 html_file.write('<div class="rt01w1 cwidth">')
@@ -6096,18 +6138,17 @@ class CIS_Report:
                     html_file.write(f'<td>{str(row["Section"])}</td>\n')
                     # Details
                     html_file.write('<td><table><tr><td style="width:10%"><b>Title</b></td>')
-                    html_file.write(f'<td colspan="3">{str(row["Title"])}</td></tr>')
+                    html_file.write(f'<td colspan="{detail_colspan}">{str(row["Title"])}</td></tr>')
                     html_file.write('<tr><td><b>Remediation</b></td>')
-                    html_file.write(f'<td colspan="3">{str(row["Remediation"])}</td></tr>')
+                    html_file.write(f'<td colspan="{detail_colspan}">{str(row["Remediation"])}</td></tr>')
                     html_file.write('<tr><td><b>Level</b></td>')
-                    html_file.write(f'<td id="td_override" style="width: 15%;"><b>{self.__primary_framework_name}</b></td>')
-                    html_file.write(f'<td id="td_override" style="width: 20%;"><b>{self.__other_framework_name}</b></td>')
-                    html_file.write('<td id="td_override" style="width: 55%;"><b>File</b></td></tr>')
+                    for _, mapping_label, mapping_width in mapping_columns:
+                        html_file.write(f'<td id="td_override" style="width: {mapping_width};"><b>{mapping_label}</b></td>')
+                    html_file.write(f'<td id="td_override" style="width: {file_column_width};"><b>File</b></td></tr>')
                     html_file.write(f'<tr><td>{str(row["Level"])}</td>')
-                    primary_framework = str(row[self.__primary_framework_name]).replace("[", "").replace("]", "").replace("'", "")
-                    other_framework = str(row[self.__other_framework_name]).replace("[", "").replace("]", "").replace("'", "")
-                    html_file.write(f'<td>{primary_framework}</td>')
-                    html_file.write(f'<td>{other_framework}</td>')
+                    for mapping_key, _, _ in mapping_columns:
+                        mapping_value = str(row.get(mapping_key, [])).replace("[", "").replace("]", "").replace("'", "")
+                        html_file.write(f'<td>{mapping_value}</td>')
                     v = str(row['Filename'])
                     if v == ' ':
                         html_file.write('<td> </td>')
@@ -6168,18 +6209,17 @@ class CIS_Report:
                     html_file.write(f'<td>{str(row["Section"])}</td>\n')
                     # Details
                     html_file.write('<td><table><tr><td style="width:10%"><b>Title</b></td>')
-                    html_file.write(f'<td colspan="3">{str(row["Title"])}</td></tr>')
+                    html_file.write(f'<td colspan="{detail_colspan}">{str(row["Title"])}</td></tr>')
                     html_file.write('<tr><td><b>Remediation</b></td>')
-                    html_file.write(f'<td colspan="3">{str(row["Remediation"])}</td></tr>')
+                    html_file.write(f'<td colspan="{detail_colspan}">{str(row["Remediation"])}</td></tr>')
                     html_file.write('<tr><td><b>Level</b></td>')
-                    html_file.write(f'<td id="td_override" style="width: 15%;"><b>{self.__primary_framework_name}</b></td>')
-                    html_file.write(f'<td id="td_override" style="width: 20%;"><b>{self.__other_framework_name}</b></td>')
-                    html_file.write('<td id="td_override" style="width: 55%;"><b>File</b></td></tr>')
+                    for _, mapping_label, mapping_width in mapping_columns:
+                        html_file.write(f'<td id="td_override" style="width: {mapping_width};"><b>{mapping_label}</b></td>')
+                    html_file.write(f'<td id="td_override" style="width: {file_column_width};"><b>File</b></td></tr>')
                     html_file.write(f'<tr><td>{str(row["Level"])}</td>')
-                    primary_framework = str(row[self.__primary_framework_name]).replace("[", "").replace("]", "").replace("'", "")
-                    other_framework = str(row[self.__other_framework_name]).replace("[", "").replace("]", "").replace("'", "")
-                    html_file.write(f'<td>{primary_framework}</td>')
-                    html_file.write(f'<td>{other_framework}</td>')
+                    for mapping_key, _, _ in mapping_columns:
+                        mapping_value = str(row.get(mapping_key, [])).replace("[", "").replace("]", "").replace("'", "")
+                        html_file.write(f'<td>{mapping_value}</td>')
                     v = str(row['Filename'])
                     if v == ' ':
                         html_file.write('<td> </td>')
@@ -6872,6 +6912,11 @@ def execute_report():
                         help='Set Output report prefix to allow unique files for better baseline comparison.')
     parser.add_argument('--report-summary-json', action='store_true', default=None, dest='report_summary_json',
                         help='Write summary report as JSON file, too.')
+    mapping_group = parser.add_mutually_exclusive_group()
+    mapping_group.add_argument('--nist-mappings', action='store_const', const='nist', default='cis', dest='mapping_report_mode',
+                               help='Write NIST SP 800-53 mapping-focused report output.')
+    mapping_group.add_argument('--all-mappings', action='store_const', const='combined', dest='mapping_report_mode',
+                               help='Write verbose report output with CIS, NIST, and CCCS mappings.')
     parser.add_argument('--print-to-screen', default='True', dest='print_to_screen',
                         help='Set to False if you want to see only non-compliant findings (i.e. False).')
     parser.add_argument('--level', default=2, dest='level',
@@ -6909,18 +6954,22 @@ def execute_report():
     config, signer = create_signer(cmd.file_location, cmd.config_profile, cmd.is_instance_principals, cmd.is_delegation_token, cmd.is_security_token)
     config['retry_strategy'] = oci.retry.DEFAULT_RETRY_STRATEGY
     report = CIS_Report(config, signer, cmd.proxy, cmd.output_bucket, cmd.report_directory, cmd.report_prefix, cmd.report_summary_json, cmd.print_to_screen, \
-                        cmd.regions, cmd.raw, cmd.obp, cmd.redact_output, oci_url=cmd.oci_url, debug=cmd.debug, all_resources=cmd.all_resources, disable_api_keys=cmd.disable_api_usage_check)
+                        cmd.regions, cmd.raw, cmd.obp, cmd.redact_output, oci_url=cmd.oci_url, debug=cmd.debug, all_resources=cmd.all_resources, \
+                        disable_api_keys=cmd.disable_api_usage_check, mapping_report_mode=cmd.mapping_report_mode)
     csv_report_directory = report.generate_reports(int(cmd.level))
 
     if OUTPUT_TO_XLSX:
         try:
             report_prefix = f'{cmd.report_prefix}_' if cmd.report_prefix else ''
-            workbook = Workbook(f'{csv_report_directory}/{report_prefix}Consolidated_Report.xlsx', {'in_memory': True})
+            workbook_subject = "Consolidated_Report"
+            if cmd.mapping_report_mode != "cis":
+                workbook_subject = f'{cmd.mapping_report_mode}_Consolidated_Report'
+            workbook = Workbook(f'{csv_report_directory}/{report_prefix}{workbook_subject}.xlsx', {'in_memory': True})
             if OUTPUT_DIAGRAMS:
                 try:
-                    worksheet = workbook.add_worksheet('cis_summary_charts')
-                    worksheet.insert_image('B2', f'{csv_report_directory}/{report_prefix}cis_summary_compliance.png')
-                    worksheet.insert_image('L2', f'{csv_report_directory}/{report_prefix}cis_summary_compliance_by_focus_area.png')
+                    worksheet = workbook.add_worksheet(f'{cmd.mapping_report_mode}_summary_charts')
+                    worksheet.insert_image('B2', f'{csv_report_directory}/{report_prefix}{cmd.mapping_report_mode}_summary_compliance.png')
+                    worksheet.insert_image('L2', f'{csv_report_directory}/{report_prefix}{cmd.mapping_report_mode}_summary_compliance_by_focus_area.png')
                 except Exception:
                     pass
             csvfiles = glob.glob(f'{csv_report_directory}/{report_prefix}*.csv')
