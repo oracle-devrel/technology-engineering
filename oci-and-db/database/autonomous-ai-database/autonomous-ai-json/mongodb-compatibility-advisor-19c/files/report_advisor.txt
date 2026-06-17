@@ -1,0 +1,38 @@
+Report Summary: 
+*****************************
+Your application is: 98.5% compatible with MongoDB API
+
+
+Summary of aggregation operators found: your operators are 100% compatible with MongoDB API 
+****************************************************************************************************
+ - Total Aggregation Pipelines found: 68
+ - Total Supported Aggregation Pipelines: 68
+ - Total Not Supported Aggregation Pipelines: 0
+
+
+List of supported aggregation operators and the number of times it appears: 
+********************************************************************************
+{'$gt': 1, '$in': 5, '$inc': 5, '$set': 10, '$lt': 47}
+
+
+List of NOT supported aggregation operators and the number of times it appears: 
+********************************************************************************
+{}
+
+
+Summary of operations found: your operations are 97% compatible with MongoDB API 
+*************************************************************************************
+ - Query operations using find: 52
+ - Delete operations : 4
+ - Insert operations : 2
+ - Update operations : 4
+ - findAndModify operations : 5
+ - getMore operations : 8
+ - mapReduce operations** : 2
+
+
+
+
+
+ ** Operations not supported.
+ Insert and updates could not be accurate number as appears more in the log.

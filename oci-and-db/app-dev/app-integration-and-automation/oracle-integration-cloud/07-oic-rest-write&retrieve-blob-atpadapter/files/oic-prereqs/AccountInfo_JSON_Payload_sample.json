@@ -1,0 +1,50 @@
+{
+    "AccountInfo": {
+	"id": "<<your_attachment_id>>",
+        "detectedDocumentTypes": [
+            {
+                "confidence": 1.0,
+                "documentType": "PASSPORT"
+            }
+        ],
+        "documentFields": [
+            {
+                "fieldLabel": "FirstName",
+                "fieldValue": "BARBARA"
+            },
+            {
+                "fieldLabel": "LastName",
+                "fieldValue": "SPECIMEN"
+            },
+            {
+                "fieldLabel": "Country",
+                "fieldValue": "BEL"
+            },
+            {
+                "fieldLabel": "Nationality",
+                "fieldValue": "BEL"
+            },
+            {
+                "fieldLabel": "BirthDate",
+                "fieldValue": "1999/11/06"
+            },
+            {
+                "fieldLabel": "ExpiryDate",
+                "fieldValue": "2013/02/24"
+            },
+            {
+                "fieldLabel": "Gender",
+                "fieldValue": "F"
+            },
+            {
+                "fieldLabel": "DocumentType",
+                "fieldValue": "P"
+            },
+            {
+                "fieldLabel": "DocumentNumber",
+                "fieldValue": "EH000000"
+            }
+        ]
+        
+    }
+}

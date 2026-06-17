@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "protein-design-chart.fullname" . }}-alphafold2
+  labels:
+    {{- include "protein-design-chart.labels" . | nindent 4 }}
+    app.kubernetes.io/component: alphafold2
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "protein-design-chart.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: alphafold2
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "protein-design-chart.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: alphafold2
+    spec:
+      {{- if .Values.imagePullSecret }}
+      imagePullSecrets:
+        - name: {{ .Values.imagePullSecret.name }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: volume-permissions
+          image: busybox:1.31.1
+          command:
+            - sh
+            - -c
+            - |
+              mkdir -p {{ .Values.alphafold2.cacheFolder | quote }} && 
+              chmod -R 777 {{ .Values.alphafold2.cacheFolder | quote }}
+          volumeMounts:
+            - name: af2-pv1
+              mountPath: {{ .Values.alphafold2.cacheFolder | quote }}
+          securityContext:
+            runAsUser: 0
+      containers:
+        - name: {{ .Values.alphafold2.containerName }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.alphafold2.repository }}:{{ .Values.alphafold2.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.alphafold2.pullPolicy }}
+          env:
+            - name: NGC_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.imagePullSecret.secretName }}
+                  key: {{ .Values.imagePullSecret.secretKey }}
+            - name: NIM_CACHE_PATH
+              value: {{ .Values.alphafold2.cacheFolder | quote }} 
+            - name: NIM_HTTP_API_PORT
+              value: {{ .Values.alphafold2.containerPort | quote }}
+          volumeMounts:
+            - mountPath : {{ .Values.alphafold2.cacheFolder | quote }}
+              name: af2-pv1
+          ports:
+            - name: http
+              containerPort: {{ .Values.alphafold2.containerPort }}
+              protocol: TCP
+          livenessProbe:
+            initialDelaySeconds: 21600
+            httpGet:
+              path: /v1/health/live
+              port: {{ .Values.alphafold2.containerPort }}
+          readinessProbe:
+            initialDelaySeconds: 21600
+            httpGet:
+              path: /v1/health/ready
+              port: {{ .Values.alphafold2.containerPort }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: af2-pv1
+          persistentVolumeClaim:
+            claimName: protein-design-shared-vol
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

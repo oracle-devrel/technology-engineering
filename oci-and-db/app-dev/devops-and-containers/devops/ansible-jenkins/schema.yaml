@@ -1,0 +1,143 @@
+# URL of Logo Icon used on Application Information tab. Logo must be 130x130 pixels.
+# (Optional)
+#logoUrl:
+
+title: "Jenkins OCI initializer"
+description: "A Terraform stack to deploy a Jenkins instance on an ARM Flex shape"
+informationalText: "A Terraform stack to initialize Jenkins on OCI"
+schemaVersion: 1.1.0
+version: "20190304"
+
+locale: "en"
+variableGroups:
+
+  - title: "Resources"
+    variables:
+      - region
+      - compartment_ocid
+
+  - title: "Instance"
+    variables:
+      - instance_name
+      - instance_ad
+      - image_ocid
+      - instance_ocpu
+      - instance_memory
+      - custom_boot_volume_size
+
+  - title: "Network"
+    variables:
+      - network_vcn_compartment_id
+      - network_vcn_id
+      - instance_subnet
+
+  - title: "Jenkins"
+    variables:
+      - jenkins_port
+      - jenkins_admin_password
+      - ansible_rerun
+
+variables:
+
+  tenancy_ocid:
+    type: string
+    title: Tenancy id
+    description: ID of the current tenancy
+    visible: false
+    required: true
+
+  region:
+    type: oci:identity:region:name
+    title: Region
+    description: Region where to create all resources
+    required: true
+
+  compartment_ocid:
+    type: oci:identity:compartment:id
+    title: Compartment Id
+    description: Compartment Id where to create all resources
+    required: true
+
+  instance_name:
+    type: string
+    title: Instance name
+    required: true
+
+  instance_ad:
+    type: oci:identity:availabilitydomain:name
+    required: true
+    dependsOn:
+      compartmentId: ${compartment_ocid}
+
+  network_vcn_compartment_id:
+    type: oci:identity:compartment:id
+    default: ${compartment_ocid}
+    required: true
+
+  network_vcn_id:
+    type: oci:core:vcn:id
+    required: true
+    dependsOn:
+      compartmentId: ${network_vcn_compartment_id}
+
+  instance_subnet:
+    type: oci:core:subnet:id
+    required: true
+    dependsOn:
+      compartmentId: ${network_vcn_compartment_id}
+      vcnId: ${network_vcn_id}
+
+  image_ocid:
+    type: oci:core:image:id
+    required: true
+    dependsOn:
+      compartmentId: ${compartment_ocid}
+      shape: "VM.Standard.A1.Flex"
+
+  custom_boot_volume_size:
+    type: integer
+
+  instance_ocpu:
+    type: integer
+    required: true
+    default: 2
+
+  instance_memory:
+    type: integer
+    required: true
+    default: 16
+
+  jenkins_admin_password:
+    type: password
+    title: Jenkins admin password
+    required: true
+    sensitive: true
+
+  jenkins_port:
+    type: integer
+    default: 8080
+    required: true
+
+  ansible_rerun:
+    type: boolean
+    title: Rerun Ansible playbook
+    required: true
+    default: true
+
+# Output section
+outputs:
+  jenkins_url:
+    type: link
+    title: "Your Jenkins instance"
+  generated_ssh_private_key:
+    title: "Generated SSH private key"
+    sensitive: true
+
+outputGroups:
+  - title: "Service endpoints"
+    outputs:
+      - jenkins_url
+  - title: "Secret content"
+    outputs:
+      - generated_ssh_private_key
+
