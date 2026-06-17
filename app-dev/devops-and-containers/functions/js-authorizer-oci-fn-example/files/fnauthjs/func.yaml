@@ -1,7 +1,0 @@
-schema_version: 20180708
-name: fnauthjs
-version: 1.0.0
-runtime: node
-build_image: fnproject/node:14-dev
-run_image: fnproject/node:14
-entrypoint: node func.js

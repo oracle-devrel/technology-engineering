@@ -1,4 +1,0 @@
-FROM fnproject/fn-java-fdk:jre17-latest
-COPY Hello ./
-ENTRYPOINT [ "./Hello" ]
-CMD [ "com.example.fn.HelloFunction::handleRequest", "-Djava.library.path=/function/runtime/lib"]
