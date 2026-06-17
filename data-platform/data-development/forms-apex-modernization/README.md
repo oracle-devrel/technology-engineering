@@ -7,18 +7,28 @@ APEX is the ideal technology for modernizing applications developed in Oracle Fo
 Modernization of Forms, and not Migration from Forms to APEX, should be the correct way to discuss transitioning from Forms to APEX as the migration process is not
 always straightforward and in many cases involves a coexistence of both technologies for a given time.
 
+Recently, with the introduction of the <b>MCP Server for Oracle AI Database</b>, there should be a faster way to modernize Oracle Forms: a couple of blog pages have been added, (see <i>Useful Links</i>), with the purpose of evaluating how efficient you can be in modernizing by using MCP, together with SQL Developer plugin for VS Code and Agentic AI framework like Cline/Codex.
+
 Providing links to public useful documentation and articles/blogs written by Oracle APEX  Advocates and Product Managers.
 
-Reviewed: 12.12.2025
+Reviewed: 12.06.2026
 
 # Table of Contents
 - [Team Publications](#team-publications);
 - [Useful Links](#useful-links).
-
+<br>
+<br>
 
 # Team Publications
 - [YouTube Oracle Developer Channels - Cloud Coaching - Modernize your Oracle Forms apps using APEX!](https://www.youtube.com/watch?v=MYzSgnzUOjA&ab_channel=OracleDevelopers)
 
+
+# Team Member Blog Sites
+[Paolo Paolucci](https://medium.com/@ppaolucc) 
+<br>
+[Victor Mendo](https://medium.com/@vmendo/)
+<br>
+<br>
 
 # Useful Links
 - [APEX Solutions: Modernizing Oracle Forms](https://apex.oracle.com/en/solutions/oracle-forms/)
@@ -28,7 +38,10 @@ Reviewed: 12.12.2025
 - [Comparing Oracle Forms to Oracle Application Express Components](https://docs.oracle.com/en/database/oracle/application-express/20.2/aemig/comparing-Oracle-forms-to-Oracle-application-express-components.html)
 - [General Guide: Modernizing Oracle Forms Using APEX](https://blogs.oracle.com/apex/post/modernizing-oracle-forms-using-oracle-apex)
 - [Modernize Oracle Forms applications to Oracle APEX and an autonomous database](https://docs.oracle.com/en/solutions/migrate-apps-to-apex/index.html#GUID-222A3DF2-390A-47B8-9377-BB5D1E41A60A)
-
+- [MCP+AI: Helping You Modernize Oracle Forms Apps to APEX](https://blogs.oracle.com/apex/mcp-ai-helping-you-modernize-your-oracle-forms-apps-to-oracle-apex)
+- [Transforming Oracle Forms to APEX in the AI Era: AI Agent](https://blogs.oracle.com/apex/transforming-f2a-agent)
+<br>
+<br>
 
 # License
 
