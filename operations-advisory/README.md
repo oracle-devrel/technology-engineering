@@ -17,6 +17,7 @@ Reviewed: 2026-06-04
   - [Lifecycle Management](#lifecycle-management)
     - [Advanced Operational Integrations](#advanced-operational-integrations)
     - [Email Delivery Service](#email-delivery-service)
+    - [Exadata Fleet Update](#exadata-fleet-update)
     - [OS Management Hub](#os-management-hub)
 - [Useful Links](#useful-links)
   - [Cloud Coaching Clinic](#cloud-coaching-clinic)
@@ -65,6 +66,9 @@ Reviewed: 2026-06-04
 ### Email Delivery Service
 - [OCI Email Delivery Service Deep Dive Workshop.](./lifecycle-management-tools/email-delivery-service/files/Public_EmailDeliveryDeepDive_v0.1.pdf)
 
+### Exadata Fleet Update
+- [Exadata Fleet Update Overview.](./lifecycle-management-tools/exadata-fleet-update/files/Public_Exadata_Fleet_Update_latest_v2.0.pdf)
+- 
 ### OS Management Hub
 - [OCI OS Management Hub.](./lifecycle-management-tools/os-management-hub/files/Public_OS_Management_Hub_v0.2.pdf)
 
