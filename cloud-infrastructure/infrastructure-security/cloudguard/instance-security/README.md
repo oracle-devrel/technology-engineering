@@ -19,6 +19,8 @@ Reviewed: 16.10.2025
     - Video about Oracle Cloud Guard Instance Security
 - [Cloud Coaching Cloud Guard](https://www.youtube.com/watch?v=D5L0Hy8h9aY)
     - Video about Oracle Cloud Guard
+- [Monitoring On-Premises Hosts with Instance Security](https://www.youtube.com/watch?v=LFhcto3mid8)
+    - Video about Cloud Guard Instance Security Monitoring On-Premises Hosts
  
  
 # Useful Links
