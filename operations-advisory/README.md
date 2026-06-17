@@ -21,6 +21,7 @@ Reviewed: 2026-06-17
     - [Exadata Fleet Update](#exadata-fleet-update)
     - [OS Management Hub](#os-management-hub)
 - [Useful Links](#useful-links)
+  - [Oracle My Learn](#oracle-my-learn)
   - [Cloud Coaching Clinic](#cloud-coaching-clinic)
 - [License](#license)
 
@@ -78,9 +79,10 @@ Reviewed: 2026-06-17
 
 # Useful Links 
 
-## Cloud Coaching Clinic
-
+## Oracle My Learn
 - [GitOps Partner's My Learn Workshop.](https://mylearn.oracle.com/partnersales/course/oracle-gitops-a-common-operating-model-to-run-scale-multi-cloud/156178/)
+  
+## Cloud Coaching Clinic
 - [OCI Functions—Integration of Monitoring for Oracle Cloud](https://youtu.be/_H0fqbsBvk4)
 
 # License
