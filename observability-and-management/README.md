@@ -6,6 +6,9 @@ The Observability and Manageability (O&M) platform is a suite of OCI services th
 AI agent skills for OCI observability  [Link](https://github.com/adibirzu/oci-skills)
 
 &nbsp; 
+OCI Observability Design Guide [Link](https://obs.octodemo.cloud/)
+
+&nbsp; 
 
 Reviewed: Reviewed: 17.06.2026
 
