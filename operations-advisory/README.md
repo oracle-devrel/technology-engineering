@@ -2,7 +2,7 @@
 
 The Operations Advisory provides critical guidance to Customers on how to define their operations. Operations Excellence Advisory 'Approach Workshop' advises on best practices and their benefits from Oracle based on previous experiences and is meant to identify  an outline for Day 2 optimal operations, based on  priorities and requirements for DR, Integrations, O&M also in the following scenarios: Hybrid, Multi-cloud, Dedicated Cloud. Where needed, Automation advice is also included.
   
-Reviewed: 2026-06-04
+Reviewed: 2026-06-17
 
 # Table of Contents
 
@@ -16,6 +16,7 @@ Reviewed: 2026-06-04
     - [Oracle Database Operations](#oracle-database-operations)
   - [Lifecycle Management](#lifecycle-management)
     - [Advanced Operational Integrations](#advanced-operational-integrations)
+    - [Carbon Emissions Dashboard](#carbon-emissions-dashboard)
     - [Email Delivery Service](#email-delivery-service)
     - [Exadata Fleet Update](#exadata-fleet-update)
     - [OS Management Hub](#os-management-hub)
@@ -62,7 +63,10 @@ Reviewed: 2026-06-04
 ### Advanced Operational Integrations
 - [Sentinel](./lifecycle-management-tools/advanced-operational-integrations/sentinel/files/IntegratingLoggingwithSentinel.pdf)
 - [Exabeam](./lifecycle-management-tools/advanced-operational-integrations/Exabeam/README.md)
-  
+
+### Carbon Emissions Dashboard
+- [OCI Carbon Emissions Analysis Overview.](./lifecycle-management-tools/carbon-emissions/files/Public_OCI_Carbon_Emission_v0.2.pdf)
+
 ### Email Delivery Service
 - [OCI Email Delivery Service Deep Dive Workshop.](./lifecycle-management-tools/email-delivery-service/files/Public_EmailDeliveryDeepDive_v0.1.pdf)
 

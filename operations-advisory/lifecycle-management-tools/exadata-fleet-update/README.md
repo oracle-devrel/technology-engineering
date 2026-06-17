@@ -10,6 +10,12 @@ Reviewed: 2026-06-17
 
 # Table of Contents
 
+- [OCI Exadata Fleet Update](#oci-exadata-fleet-update)
+- [Table of Contents](#table-of-contents)
+- [Team Publications](#team-publications)
+- [Useful Links](#useful-links)
+- [License](#license)
+
 # Team Publications
 - [Exadata Fleet Update Overview.](./files/Public_Exadata_Fleet_Update_latest_v2.0.pdf)
 
