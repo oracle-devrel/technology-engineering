@@ -1,30 +1,74 @@
-# Compute (Including HPC)
+# OCI Compute Including HPC
 
-This area is focused on the core Compute Service of Oracle Cloud Infrastructure (OCI) which includes and covers High Performance Computing (HPC), [Compute Hardware](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/compute-including-hpc/compute-hardware), and [Compute Software](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/compute-including-hpc/compute-software) residing on several CPU architectures.
+This repository contains Oracle Cloud Infrastructure (OCI) Compute, HPC, Operating System, Benchmarking, and related technical resources maintained by the Oracle Technology Engineering team.
 
+The content is organized by topic to improve discoverability and make it easier to locate guides, reference architectures, troubleshooting documents, benchmarks, and external resources.
 
+## Repository Structure
 
-<i>Review date: 16 Oct 2025</I>
+### Compute Shapes
 
-# Useful Links
+Resources related to OCI Compute Shapes, shape selection, shape comparisons, upgrades, migrations, and compute platform capabilities.
 
-Some of the topics covered on this page:
+### Operating Systems
 
-- Oracle Cloud Infrastructure (OCI) Compute [capabilities](https://www.oracle.com/cloud/compute/) on Intel, AMD, ARM processing architecture
-- [OCI Bare Metal](https://www.oracle.com/cloud/compute/bare-metal/) - an isolated, dedicated physical server
-- Compute on [HPC](https://www.oracle.com/cloud/hpc/) - capabilities to solve complex mathematical and scientific problems across industries
-- VM Compute [shape](https://docs.oracle.com/en-us/iaas/Content/Compute/References/computeshapes.htm) is a template that determines the number of OCPUs, amount of memory, and other resources that are allocated to an instance
-- Compute Licensing
-- [OS Management](https://docs.oracle.com/en-us/iaas/os-management/home.htm) - allows you to manage and monitor updates and patches for the operating system
-- Bring Your Own Hypervisor [BYOH](https://docs.oracle.com/en-us/iaas/Content/Compute/References/bringyourownimage.htm) and Bring Your Own Image [BYOI](https://docs.oracle.com/en-us/iaas/Content/Compute/References/bringyourownimage.htm) to Oracle Cloud Infrastructure (OCI)
-- [Autoscaling](https://docs.oracle.com/en-us/iaas/Content/Compute/Tasks/autoscalinginstancepools.htm) - add more compute instances during periods of high demand 
-- [Confidential Computing](https://docs.oracle.com/en-us/iaas/Content/Compute/References/confidential_compute.htm) - encrypts and isolates in-use data and the applications processing that data.
+Operating system-specific content for Oracle Linux, Red Hat Enterprise Linux, Windows, and other supported operating systems running on OCI Compute instances.
 
-# Team Publications
+### How-To Guides
 
-The links below contain publications from the OCI Compute team:
-- [Compute Hardware](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/compute-including-hpc/compute-hardware)
-- [Compute Software](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/compute-including-hpc/compute-software)
+Step-by-step implementation guides, deployment instructions, configuration procedures, and operational best practices for OCI Compute and HPC environments.
+
+### Troubleshooting
+
+Known issues, diagnostics, troubleshooting procedures, and operational guidance for OCI Compute and HPC workloads.
+
+### Benchmarking
+
+Performance benchmarks, testing methodologies, benchmark results, tuning recommendations, and performance optimization guidance.
+
+### Applications
+
+Application-specific deployment guides, reference implementations, and workload-focused content for OCI Compute and HPC environments.
+
+### References
+
+Additional learning resources and external content.
+
+#### YouTube
+
+Links to Oracle and community video content related to OCI Compute, HPC, performance optimization, and operational best practices.
+
+#### External GitHub Pages
+
+Links to GitHub repositories, GitHub Pages sites, and external technical resources maintained by Oracle team members and the broader community.
+
+### Archived
+
+Historical, superseded, or retired content retained for reference purposes. New projects should use the current guidance available in the active sections of this repository.
+
+## Contributing
+
+When adding new content:
+
+1. Place content in the most appropriate topic area.
+2. Include a README.md in new subfolders where necessary.
+3. Use descriptive file and folder names.
+4. Prefer topic-based organization over content-type organization.
+5. Move obsolete content to the Archived section rather than deleting it when historical reference may still be valuable.
+
+## Audience
+
+This repository is intended for:
+
+* Oracle Technology Engineering teams
+* OCI Solution Architects
+* Cloud Engineers
+* Partners
+* Customers evaluating or deploying OCI Compute and HPC solutions
+
+## Feedback
+
+For corrections, enhancements, or new content submissions, please submit a pull request or contact the repository maintainers.
 
 # License
 
