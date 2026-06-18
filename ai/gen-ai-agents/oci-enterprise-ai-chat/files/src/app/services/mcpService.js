@@ -102,7 +102,7 @@ class MCPService {
       }
       throw new Error(data.error?.message || 'Unknown error');
     } catch (error) {
-      console.error(`[MCP] Initialize error for ${server.name}:`, error);
+      console.warn(`[MCP] Initialize error for ${server.name}:`, error.message);
       throw error;
     }
   }
@@ -149,7 +149,7 @@ class MCPService {
       }
       throw new Error(data.error?.message || 'No tools found');
     } catch (error) {
-      console.error(`[MCP] List tools error for ${server.name}:`, error);
+      console.warn(`[MCP] List tools error for ${server.name}:`, error.message);
       throw error;
     }
   }
@@ -201,7 +201,7 @@ class MCPService {
       }
       return data;
     } catch (error) {
-      console.error(`[MCP] Call tool error:`, error);
+      console.warn(`[MCP] Call tool error:`, error.message);
       throw error;
     }
   }
@@ -291,6 +291,9 @@ ${toolDescriptions}
    * @returns {string} Full URL ready for `window.location.href = ...`
    */
   static buildAuthorizeUrl(server, returnTo) {
+    // Defensive: callers resolve the server from localStorage and may come up
+    // empty (e.g. pseudo-servers). Land on Settings → Tools instead of crashing.
+    if (!server?.endpoint) return withBase('/settings/tools');
     const qs = new URLSearchParams();
     qs.set('endpoint', server.endpoint);
     qs.set('returnTo', returnTo);

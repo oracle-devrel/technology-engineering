@@ -69,17 +69,28 @@ export async function GET(request) {
     log.info('Token exchange successful', { endpoint: pending.endpoint });
 
     // 3. Persist tokens in a signed cookie
+    //
+    // Two storage shapes depending on what the provider issued:
+    // - refresh_token present (IDCS, Google with offline access): store ONLY the
+    //   refresh token. The access JWT (~3KB for IDCS) would push the signed cookie
+    //   past the browser's ~4KB limit and the cookie gets dropped (hasToken=false).
+    //   /api/mcp/oauth/token mints a fresh access token on demand.
+    // - NO refresh_token (GitHub OAuth apps, Slack without rotation): store the
+    //   access token itself — those are small opaque strings, and without it the
+    //   cookie would be unusable (nothing to mint from). When the provider also
+    //   omits expires_in, the token is long-lived; cap it at the cookie's 30 days.
+    const hasRefresh = !!tokenData.refresh_token;
+    const expiresInMs = tokenData.expires_in
+      ? tokenData.expires_in * 1000
+      : (hasRefresh ? 3600 * 1000 : 30 * 24 * 60 * 60 * 1000);
     const tokens = await signPayload({
       endpoint: pending.endpoint,
       clientId: pending.clientId,
       clientSecret: pending.clientSecret,
       tokenEndpoint: pending.tokenEndpoint,
-      // Access JWT (~3KB for IDCS) is NOT stored — it would push the signed cookie
-      // past the browser's ~4KB limit and the cookie gets dropped (hasToken=false).
-      // Store only the small refresh token; /api/mcp/oauth/token mints a fresh
-      // access token on demand. This also fixes access-token expiry.
-      refreshToken: tokenData.refresh_token,
-      expiresAt: Date.now() + (tokenData.expires_in || 3600) * 1000,
+      refreshToken: tokenData.refresh_token || null,
+      ...(hasRefresh ? {} : { accessToken: tokenData.access_token }),
+      expiresAt: Date.now() + expiresInMs,
     });
 
     const response = NextResponse.redirect(returnUrl(request, 'success', pending));
