@@ -1,25 +1,538 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Technology Engineering Repository Assistant</title>
-<style>
-body{font-family:Segoe UI,Arial,sans-serif;margin:0;background:#f5f7fa}
-.header{position:sticky;top:0;background:white;padding:12px;border-bottom:1px solid #ddd;z-index:100}
-input[type=text]{width:60%;padding:10px}
-button{padding:10px 14px}
-.container{display:flex;height:calc(100vh - 80px)}
-.sidebar{width:28%;overflow:auto;background:#fff;border-right:1px solid #ddd;padding:10px}
-.main{flex:1;display:flex;flex-direction:column}
-.chat{flex:1;overflow:auto;padding:16px}
-.msg{background:white;padding:10px;border-radius:8px;margin-bottom:10px}
-.tags span{display:inline-block;background:#e8eefc;margin:3px;padding:4px 8px;border-radius:10px;cursor:pointer}
-.results{background:#fff;padding:10px;border-top:1px solid #ddd}
-.small{color:#666;font-size:12px}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Technology Engineering Umbrella Search</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #121a31;
+      --panel-2: #18213d;
+      --text: #e8eefc;
+      --muted: #a8b3d1;
+      --accent: #7aa2ff;
+      --accent-2: #5eead4;
+      --border: rgba(255,255,255,.10);
+      --shadow: 0 20px 60px rgba(0,0,0,.35);
+      --radius: 18px;
+      --radius-sm: 12px;
+      --code: #0f1730;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(1200px 700px at 15% 5%, rgba(122,162,255,.18), transparent 45%),
+        radial-gradient(1000px 650px at 85% 15%, rgba(94,234,212,.12), transparent 40%),
+        linear-gradient(180deg, #08101f 0%, #0b1020 100%);
+      color: var(--text);
+    }
+    a { color: inherit; }
+    .wrap { max-width: 1280px; margin: 0 auto; padding: 28px; }
+    .hero {
+      display: grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 18px;
+      align-items: stretch;
+      margin-bottom: 18px;
+    }
+    .card {
+      background: rgba(18,26,49,.88);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+    .hero-main { padding: 28px; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: var(--accent-2); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; font-size: 12px;
+      background: rgba(94,234,212,.08); border: 1px solid rgba(94,234,212,.16);
+      padding: 8px 12px; border-radius: 999px;
+    }
+    h1 { margin: 14px 0 12px; font-size: clamp(30px, 4vw, 52px); line-height: 1.02; }
+    .lede { color: var(--muted); font-size: 16px; line-height: 1.65; max-width: 72ch; }
+    .hero-side { padding: 22px; display: grid; gap: 14px; }
+    .stat {
+      background: rgba(24,33,61,.72);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .stat-label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+    .stat-value { font-size: 20px; margin-top: 8px; font-weight: 700; }
+    .toolbar, .filters, .results { margin-top: 18px; }
+    .toolbar {
+      display: grid;
+      grid-template-columns: 1.4fr .9fr .9fr auto;
+      gap: 12px;
+      align-items: end;
+    }
+    .field { display: grid; gap: 8px; }
+    .field label { color: var(--muted); font-size: 13px; }
+    .field input, .field select, .field textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: rgba(15,23,48,.9);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 14px 14px;
+      font-size: 14px;
+      outline: none;
+    }
+    .field input::placeholder, .field textarea::placeholder { color: #7f8ab0; }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      border-color: rgba(122,162,255,.7);
+      box-shadow: 0 0 0 4px rgba(122,162,255,.12);
+    }
+    button {
+      border: 0;
+      cursor: pointer;
+      font-weight: 700;
+      border-radius: 14px;
+      padding: 14px 16px;
+      color: #051224;
+      background: linear-gradient(135deg, var(--accent), #9dd2ff);
+      box-shadow: 0 12px 25px rgba(122,162,255,.20);
+    }
+    button.secondary {
+      color: var(--text);
+      background: rgba(24,33,61,.95);
+      border: 1px solid var(--border);
+      box-shadow: none;
+    }
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .pill-row { display: flex; flex-wrap: wrap; gap: 10px; }
+    .pill {
+      border: 1px solid var(--border);
+      background: rgba(24,33,61,.72);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+      user-select: none;
+    }
+    .pill:hover { transform: translateY(-1px); border-color: rgba(122,162,255,.5); }
+    .pill.active { background: rgba(122,162,255,.18); border-color: rgba(122,162,255,.58); }
+    .layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 18px;
+      margin-top: 18px;
+      align-items: start;
+    }
+    .sidebar, .main, .footer-card { padding: 18px; }
+    .section-title { margin: 0 0 12px; font-size: 15px; letter-spacing: .03em; text-transform: uppercase; color: var(--muted); }
+    .tree {
+      display: grid; gap: 8px;
+      max-height: 70vh; overflow: auto; padding-right: 4px;
+    }
+    .tree-item {
+      display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center;
+      padding: 12px 12px; border-radius: 14px; background: rgba(24,33,61,.6); border: 1px solid var(--border);
+    }
+    .tree-item strong { display: block; font-size: 14px; }
+    .tree-item span { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }
+    .tree-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .mini {
+      padding: 9px 11px; border-radius: 11px; font-size: 12px;
+      background: rgba(122,162,255,.16); color: var(--text); border: 1px solid rgba(122,162,255,.25);
+    }
+    .mini.secondary { background: rgba(24,33,61,.95); border-color: var(--border); }
+    .codebox {
+      background: var(--code); border: 1px solid var(--border);
+      border-radius: 14px; padding: 14px; color: #cfe0ff; overflow: auto; font-size: 13px; line-height: 1.6;
+    }
+    .results-head {
+      display: flex; justify-content: space-between; gap: 12px; align-items: center; flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .results-grid { display: grid; gap: 12px; }
+    .result {
+      background: rgba(24,33,61,.7);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .result h3 { margin: 0 0 8px; font-size: 16px; }
+    .result p { margin: 0; color: var(--muted); line-height: 1.6; }
+    .result .linkrow { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+    .result a.btnlink {
+      display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+      padding: 10px 12px; border-radius: 12px;
+      border: 1px solid var(--border); background: rgba(15,23,48,.9); color: var(--text);
+      font-size: 13px;
+    }
+    .muted { color: var(--muted); }
+    .small { font-size: 13px; line-height: 1.6; }
+    .footer-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px;
+    }
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 10px; border-radius: 999px;
+      background: rgba(94,234,212,.1); border: 1px solid rgba(94,234,212,.16);
+      color: #d7fff7; font-size: 12px;
+    }
+    .divider { height: 1px; background: var(--border); margin: 16px 0; }
+    @media (max-width: 1080px) {
+      .hero, .layout, .footer-grid, .toolbar { grid-template-columns: 1fr; }
+      .sidebar { order: 2; }
+    }
+    @media (max-width: 720px) {
+      .wrap { padding: 16px; }
+      .hero-main, .hero-side, .sidebar, .main, .footer-card { padding: 16px; }
+    }
+  </style>
 </head>
 <body>
-    This is a test
+  <div class="wrap">
+    <section class="hero">
+      <div class="card hero-main">
+        <div class="eyebrow">Technology Engineering repository search</div>
+        <h1>Find assets, docs, and code across the full repo hierarchy</h1>
+        <p class="lede">
+          This page is a single-file umbrella search UI for <strong>oracle-devrel/technology-engineering</strong>.
+          It avoids unauthenticated GitHub API calls, uses GitHub web search as the primary fallback,
+          and lets you scope searches to the whole repository or any selected folder path.
+        </p>
+        <div class="divider"></div>
+        <div class="actions">
+          <a class="mini" href="https://github.com/oracle-devrel/technology-engineering" target="_blank" rel="noreferrer">Open repo root</a>
+          <a class="mini secondary" href="https://github.com/search?q=repo%3Aoracle-devrel%2Ftechnology-engineering&type=code" target="_blank" rel="noreferrer">GitHub code search</a>
+          <a class="mini secondary" href="https://github.com/search?q=repo%3Aoracle-devrel%2Ftechnology-engineering&type=issues" target="_blank" rel="noreferrer">GitHub issue search</a>
+          <a class="mini secondary" href="https://github.com/search?q=repo%3Aoracle-devrel%2Ftechnology-engineering&type=pullrequests" target="_blank" rel="noreferrer">GitHub PR search</a>
+        </div>
+      </div>
+      <div class="card hero-side">
+        <div class="stat">
+          <div class="stat-label">How this page searches</div>
+          <div class="stat-value">Repo-wide or path-scoped</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Rate-limit resistant</div>
+          <div class="stat-value">No hard GitHub API dependency</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Best use</div>
+          <div class="stat-value">Browse, narrow, and jump to results</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card sidebar-only toolbar card" style="padding:18px; margin-top: 0;">
+      <div class="field">
+        <label for="query">Search text</label>
+        <input id="query" type="text" placeholder="Example: workshop, terraform, README, architecture, setup" />
+      </div>
+      <div class="field">
+        <label for="scope">Search scope</label>
+        <select id="scope">
+          <option value="repo">Whole repository</option>
+          <option value="folder">Selected folder path</option>
+          <option value="tree">Open folder tree</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="subpath">Folder path</label>
+        <input id="subpath" type="text" placeholder="Example: ai, cloud-infrastructure, getting-started" />
+      </div>
+      <button id="searchBtn">Search now</button>
+    </section>
+
+    <section class="filters card" style="padding:18px;">
+      <div class="results-head">
+        <div>
+          <h2 class="section-title">Quick paths</h2>
+          <div class="muted small">Click a path to scope the search, then use GitHub search to find content recursively inside that area.</div>
+        </div>
+        <div class="badge">Top-level repository areas from the README and root listing</div>
+      </div>
+      <div class="pill-row" id="pathPills"></div>
+    </section>
+
+    <section class="layout">
+      <aside class="card sidebar">
+        <h2 class="section-title">Hierarchy browser</h2>
+        <div class="small muted" style="margin-bottom: 12px;">
+          The repository is a large nested asset collection. Use these entry points to drill into the hierarchy,
+          then search within that path using GitHub web search qualifiers.
+        </div>
+        <div class="tree" id="tree"></div>
+      </aside>
+
+      <main class="card main">
+        <div class="results-head">
+          <div>
+            <h2 class="section-title">Search helpers</h2>
+            <div class="muted small">The page will generate the most useful GitHub URLs for your query.</div>
+          </div>
+          <div class="actions">
+            <button class="secondary" id="clearBtn">Clear</button>
+            <button class="secondary" id="copyBtn">Copy query</button>
+          </div>
+        </div>
+
+        <div class="results-grid" id="results">
+          <div class="result">
+            <h3>Search syntax that works well here</h3>
+            <p>
+              Use repo-scoped GitHub code search such as <code>repo:oracle-devrel/technology-engineering workshop</code>,
+              and narrow it further with <code>path:</code> when you already know the area,
+              for example <code>repo:oracle-devrel/technology-engineering path:ai workshop</code>.
+            </p>
+            <div class="linkrow">
+              <a class="btnlink" href="https://docs.github.com/en/search-github/github-code-search/understanding-github-code-search-syntax" target="_blank" rel="noreferrer">GitHub search syntax docs</a>
+              <a class="btnlink" href="https://github.com/oracle-devrel/technology-engineering/tree/main" target="_blank" rel="noreferrer">Browse repo tree</a>
+            </div>
+          </div>
+          <div class="result">
+            <h3>Fallback flow</h3>
+            <p>
+              This page never depends on unauthenticated API calls. When the local page cannot directly inspect content,
+              the buttons below route you to GitHub’s own search and folder tree views, which keeps the workflow usable even under rate limiting.
+            </p>
+          </div>
+        </div>
+      </main>
+    </section>
+
+    <section class="footer-grid">
+      <div class="card footer-card">
+        <h2 class="section-title">Example queries</h2>
+        <div class="codebox" id="examples"></div>
+      </div>
+      <div class="card footer-card">
+        <h2 class="section-title">What the repo says about finding content</h2>
+        <div class="small muted" style="line-height:1.8;">
+          The repository is organized as a larger collection of assets with a folder hierarchy that starts broad and gets more specific.
+          The README recommends manually navigating folders, using GitHub search, and entering search from a subfolder to narrow results.
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const repo = 'oracle-devrel/technology-engineering';
+    const root = `https://github.com/${repo}`;
+    const rootTree = `https://github.com/${repo}/tree/main`;
+
+    const paths = [
+      { path: '.github/workflows', label: '.github/workflows', note: 'CI and automation files' },
+      { path: '.vscode', label: '.vscode', note: 'Editor configuration' },
+      { path: 'ai-data-strategy', label: 'ai-data-strategy', note: 'AI and data strategy assets' },
+      { path: 'ai', label: 'ai', note: 'AI focused content' },
+      { path: 'app-dev', label: 'app-dev', note: 'Application development' },
+      { path: 'cloud-architecture', label: 'cloud-architecture', note: 'Architecture guidance' },
+      { path: 'cloud-infrastructure', label: 'cloud-infrastructure', note: 'Cloud infrastructure content' },
+      { path: 'data-platform', label: 'data-platform', note: 'Data platform assets' },
+      { path: 'distributed-cloud', label: 'distributed-cloud', note: 'Distributed cloud material' },
+      { path: 'getting-started', label: 'getting-started', note: 'Entry and onboarding material' },
+      { path: 'landing-zones', label: 'landing-zones', note: 'Landing zone guidance' },
+      { path: 'observability-and-management', label: 'observability-and-management', note: 'Monitoring and operations' },
+      { path: 'operations-advisory', label: 'operations-advisory', note: 'Operational advisory content' },
+      { path: 'others', label: 'others', note: 'Miscellaneous assets' },
+      { path: 'security', label: 'security', note: 'Security assets' },
+    ];
+
+    const queryEl = document.getElementById('query');
+    const scopeEl = document.getElementById('scope');
+    const subpathEl = document.getElementById('subpath');
+    const resultsEl = document.getElementById('results');
+    const pathPillsEl = document.getElementById('pathPills');
+    const treeEl = document.getElementById('tree');
+    const examplesEl = document.getElementById('examples');
+
+    let activePath = 'all';
+
+    const escapeHtml = (s) => String(s)
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#39;');
+
+    function ghCodeSearchUrl(query) {
+      return `https://github.com/search?q=${encodeURIComponent(query)}&type=code`;
+    }
+    function ghIssueSearchUrl(query) {
+      return `https://github.com/search?q=${encodeURIComponent(query)}&type=issues`;
+    }
+    function ghPrSearchUrl(query) {
+      return `https://github.com/search?q=${encodeURIComponent(query)}&type=pullrequests`;
+    }
+    function ghRepoSearchUrl(query) {
+      return `https://github.com/search?q=${encodeURIComponent(query)}&type=repositories`;
+    }
+    function ghTreeUrl(path = '') {
+      return path ? `${rootTree}/${path}` : rootTree;
+    }
+    function searchQuery() {
+      const q = queryEl.value.trim();
+      const path = subpathEl.value.trim();
+      if (!q && !path) return `repo:${repo}`;
+      if (!path || scopeEl.value === 'repo') return `repo:${repo}${q ? ' ' + q : ''}`.trim();
+      return `repo:${repo} path:${path}${q ? ' ' + q : ''}`.trim();
+    }
+    function selectedPathOrRoot() {
+      const path = subpathEl.value.trim();
+      return path || '';
+    }
+
+    function setActivePath(path) {
+      activePath = path;
+      subpathEl.value = path === 'all' ? '' : path;
+      renderPathPills();
+      renderTree();
+      renderResults();
+    }
+
+    function renderPathPills() {
+      pathPillsEl.innerHTML = paths.map(p => `
+        <button class="pill ${subpathEl.value.trim() === p.path ? 'active' : ''}" data-path="${escapeHtml(p.path)}" title="${escapeHtml(p.note)}">
+          ${escapeHtml(p.label)}
+        </button>
+      `).join('');
+      pathPillsEl.querySelectorAll('.pill').forEach(btn => {
+        btn.addEventListener('click', () => {
+          subpathEl.value = btn.dataset.path;
+          scopeEl.value = 'folder';
+          renderPathPills();
+          renderTree();
+          renderResults();
+        });
+      });
+    }
+
+    function renderTree() {
+      const active = subpathEl.value.trim();
+      treeEl.innerHTML = paths.map(p => `
+        <div class="tree-item">
+          <div>
+            <strong>${escapeHtml(p.label)}</strong>
+            <span>${escapeHtml(p.note)}</span>
+          </div>
+          <div class="tree-actions">
+            <button class="mini ${active === p.path ? '' : 'secondary'}" data-select="${escapeHtml(p.path)}">Use</button>
+            <a class="mini secondary" href="${ghTreeUrl(p.path)}" target="_blank" rel="noreferrer">Open tree</a>
+          </div>
+        </div>
+      `).join('');
+      treeEl.querySelectorAll('button[data-select]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          subpathEl.value = btn.dataset.select;
+          scopeEl.value = 'folder';
+          renderPathPills();
+          renderTree();
+          renderResults();
+          queryEl.focus();
+        });
+      });
+    }
+
+    function renderResults() {
+      const q = queryEl.value.trim();
+      const path = selectedPathOrRoot();
+      const search = searchQuery();
+      const codeUrl = ghCodeSearchUrl(search);
+      const issueUrl = ghIssueSearchUrl(`repo:${repo}${q ? ' ' + q : ''}`.trim());
+      const prUrl = ghPrSearchUrl(`repo:${repo}${q ? ' ' + q : ''}`.trim());
+      const treeUrl = ghTreeUrl(path);
+      const repoSearchUrl = ghRepoSearchUrl(q ? q : repo);
+
+      const scopeText = scopeEl.value === 'repo'
+        ? 'Whole repository'
+        : scopeEl.value === 'folder'
+          ? (path ? `Folder path: ${path}` : 'Folder path')
+          : (path ? `Tree for ${path}` : 'Repository tree');
+
+      resultsEl.innerHTML = `
+        <div class="result">
+          <h3>Current search</h3>
+          <p><strong>Scope:</strong> ${escapeHtml(scopeText)}<br><strong>GitHub query:</strong> <code>${escapeHtml(search)}</code></p>
+          <div class="linkrow">
+            <a class="btnlink" href="${codeUrl}" target="_blank" rel="noreferrer">Open code search</a>
+            <a class="btnlink" href="${issueUrl}" target="_blank" rel="noreferrer">Search issues</a>
+            <a class="btnlink" href="${prUrl}" target="_blank" rel="noreferrer">Search PRs</a>
+            <a class="btnlink" href="${treeUrl}" target="_blank" rel="noreferrer">Open tree</a>
+          </div>
+        </div>
+        <div class="result">
+          <h3>Repo-wide fallback links</h3>
+          <p>
+            These links keep the page useful even when API access is rate-limited or unavailable.
+            They rely on GitHub’s own web search and repository tree pages instead of API lookups.
+          </p>
+          <div class="linkrow">
+            <a class="btnlink" href="${root}" target="_blank" rel="noreferrer">Repository home</a>
+            <a class="btnlink" href="${rootTree}" target="_blank" rel="noreferrer">Root tree</a>
+            <a class="btnlink" href="${repoSearchUrl}" target="_blank" rel="noreferrer">Repo search</a>
+          </div>
+        </div>
+      `;
+
+      examplesEl.textContent = [
+        `repo:${repo} workshop`,
+        `repo:${repo} path:ai README`,
+        `repo:${repo} path:cloud-infrastructure terraform`,
+        `repo:${repo} path:getting-started tutorial`,
+        `repo:${repo} filename:README.md architecture`,
+        `repo:${repo} "how-to"`,
+      ].join('\n');
+    }
+
+    document.getElementById('searchBtn').addEventListener('click', () => {
+      const q = queryEl.value.trim();
+      const path = subpathEl.value.trim();
+      const scope = scopeEl.value;
+      const query = scope === 'folder' && path
+        ? `repo:${repo} path:${path}${q ? ' ' + q : ''}`.trim()
+        : `repo:${repo}${q ? ' ' + q : ''}`.trim();
+      window.open(ghCodeSearchUrl(query), '_blank', 'noopener,noreferrer');
+    });
+
+    document.getElementById('clearBtn').addEventListener('click', () => {
+      queryEl.value = '';
+      subpathEl.value = '';
+      scopeEl.value = 'repo';
+      renderPathPills();
+      renderTree();
+      renderResults();
+      queryEl.focus();
+    });
+
+    document.getElementById('copyBtn').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(searchQuery());
+        const btn = document.getElementById('copyBtn');
+        const old = btn.textContent;
+        btn.textContent = 'Copied';
+        setTimeout(() => btn.textContent = old, 1200);
+      } catch {
+        alert('Copy failed. You can manually copy: ' + searchQuery());
+      }
+    });
+
+    [queryEl, scopeEl, subpathEl].forEach(el => {
+      el.addEventListener('input', () => {
+        renderPathPills();
+        renderResults();
+      });
+      el.addEventListener('change', () => {
+        renderPathPills();
+        renderTree();
+        renderResults();
+      });
+    });
+
+    renderPathPills();
+    renderTree();
+    renderResults();
+  </script>
 </body>
 </html>
