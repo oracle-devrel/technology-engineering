@@ -81,9 +81,11 @@ Reviewed: 28.10.2025
  - [From Shared ADMIN to Named DBAs with CLONE_ADMIN_PRIVILEGES in Autonomous AI Database Serverless](https://medium.com/@mmy0utu8e/from-shared-admin-to-named-dbas-with-clone-admin-privileges-in-autonomous-ai-database-serverless-fbee577c45c1)
     - Oracle recently introduced a useful enhancement in Autonomous AI Database Serverless: the ability to clone ADMIN privileges to a named user.
 
+ - [Autonomous AI Database — Performance Hub: graph visualizations and walking through](https://medium.com/@andrea.dal84_3885/autonomous-ai-database-performance-hub-graph-visualizations-and-walking-through-ce2ac5c68b3b)
+    - The blog collects and explains some diagnostic scenarios possible with the Performance Hub by analyzing the workload present in the database.
+ 
  - [Database Link Creation between Autonomous AI Database and MS SQL Server using Oracle Database Gateway](https://medium.com/@andrea.dal84_3885/database-link-creation-between-autonomous-ai-database-and-ms-sql-server-using-oracle-database-99bb5ffd6d7c)
     - The blog explains step-by-step how to create a dblink from a serverless ADB to a MS SQL Server using an Oracle Database Gateway as a forwarder.
-
       
 ## Tip of the Day
  
