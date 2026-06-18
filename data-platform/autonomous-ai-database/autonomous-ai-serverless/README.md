@@ -87,6 +87,9 @@ Reviewed: 28.10.2025
 - [Database Link Creation between Autonomous AI Database and MS SQL Server using Oracle Database Gateway](https://medium.com/@andrea.dal84_3885/database-link-creation-between-autonomous-ai-database-and-ms-sql-server-using-oracle-database-99bb5ffd6d7c)
     - The blog explains step-by-step how to create a dblink from a serverless ADB to a MS SQL Server using an Oracle Database Gateway as a forwarder. 
 
+ - [Database Link Creation between Autonomous AI Database and MS SQL Server using Oracle Database Gateway](https://medium.com/@andrea.dal84_3885/database-link-creation-between-autonomous-ai-database-and-ms-sql-server-using-oracle-database-99bb5ffd6d7c)
+    - The blog explains step-by-step how to create a dblink from a serverless ADB to a MS SQL Server using an Oracle Database Gateway as a forwarder.
+
       
 ## Tip of the Day
  
