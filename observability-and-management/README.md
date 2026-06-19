@@ -21,7 +21,7 @@ Reviewed: Reviewed: 17.06.2026
 | Using Pulumi to create OCI resource|[Link](./assets/using-pulumi-to-create-oci-resources/README.md)|
 | ServiceNow integration with OCI using secrets stored in OCI Vault to create incidents|[Link](./)|
 | ServiceNow integration with Oracle cloud alarms|[Link](./assets/servicenow-integration-with-oracle-cloud-alarms/README.md)|
-| How to get logs into Splunk from OCI obj storage|[Link](./)|
+| How to get logs into Splunk from OCI obj storage|[Link](./assets/get-logs-into-splunk-from-oci-object-storage/README.md)|
 | Stream OCI logs to Splunk|[Link](./assets/stream-oci-logs-to-splunk/README.md)|
 | How and why to run Wazuh in OCI|[Link](./assets/why-and-how-to-run-wazuh-on-oci/README.md)|
 | Use Cloud Guard Insight Recipes to monitor Windows Instances against Interesting Windows Event IDs for Malware/General Investigation |[Link](./cloud-guard-insight-recipes-windows-event-ids/README.md)|
