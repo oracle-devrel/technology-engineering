@@ -1,0 +1,284 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "Azure region for all resources."
+      }
+    },
+    "functionAppName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the Function App (must be globally unique)."
+      }
+    },
+    "storageAccountName": {
+      "type": "string",
+      "defaultValue": "",
+      "minLength": 3,
+      "maxLength": 24,
+      "metadata": {
+        "description": "Optional storage account name. Leave empty to auto-generate."
+      }
+    },
+    "packageUri": {
+      "type": "string",
+      "metadata": {
+        "description": "HTTPS URI to the zip package that contains the function (SAS URL or GitHub release)."
+      }
+    },
+    "eventHubsConnectionString": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Event Hubs namespace connection string with Listen (RootManageSharedAccessKey)."
+      }
+    },
+    "eventHubConsumerGroup": {
+      "type": "string",
+      "defaultValue": "$Default",
+      "metadata": {
+        "description": "Consumer group to use."
+      }
+    },
+    "eventHubName": {
+      "type": "string",
+      "metadata": {
+        "description": "Single Event Hub entity name bound to the Function trigger."
+      }
+    },
+    "eventHubNamesCsv": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Optional comma-separated list of Event Hub entity names for helper scripts. Leave empty to reuse EventHubName."
+      }
+    },
+    "messageEndpoint": {
+      "type": "string",
+      "metadata": {
+        "description": "OCI Streaming message endpoint (https://cell-1.streaming.<region>.oci.oraclecloud.com)."
+      }
+    },
+    "streamOcid": {
+      "type": "string",
+      "metadata": {
+        "description": "OCI Stream OCID."
+      }
+    },
+    "ociUser": {
+      "type": "string",
+      "metadata": {
+        "description": "OCI user OCID."
+      }
+    },
+    "ociKeyContent": {
+      "type": "securestring",
+      "metadata": {
+        "description": "OCI private key content. Single-line and multi-line PEM supported."
+      }
+    },
+    "ociPassPhrase": {
+      "type": "securestring",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Pass phrase for the OCI private key (optional)."
+      }
+    },
+    "ociFingerprint": {
+      "type": "string",
+      "metadata": {
+        "description": "OCI API key fingerprint."
+      }
+    },
+    "ociTenancy": {
+      "type": "string",
+      "metadata": {
+        "description": "OCI tenancy OCID."
+      }
+    },
+    "ociRegion": {
+      "type": "string",
+      "metadata": {
+        "description": "OCI region name (e.g., us-ashburn-1)."
+      }
+    },
+    "maxBatchSize": {
+      "type": "int",
+      "defaultValue": 100,
+      "metadata": {
+        "description": "Maximum messages per OCI batch."
+      }
+    },
+    "maxBatchBytes": {
+      "type": "int",
+      "defaultValue": 1048576,
+      "metadata": {
+        "description": "Maximum bytes per OCI batch."
+      }
+    },
+    "inactivityTimeout": {
+      "type": "int",
+      "defaultValue": 10,
+      "metadata": {
+        "description": "Seconds with no events before ending a receive pass."
+      }
+    }
+  },
+  "variables": {
+    "storageAccountName": "[if(equals(parameters('storageAccountName'), ''), toLower(concat('ocilogs', uniqueString(resourceGroup().id))), parameters('storageAccountName'))]",
+    "planName": "[concat(parameters('functionAppName'), '-plan')]",
+    "contentShare": "[toLower(concat(parameters('functionAppName'), '-files'))]",
+    "storageConnectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2022-09-01').keys[0].value, ';EndpointSuffix=', environment().suffixes.storage)]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2022-09-01",
+      "name": "[variables('storageAccountName')]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "minimumTlsVersion": "TLS1_2",
+        "supportsHttpsTrafficOnly": true
+      }
+    },
+    {
+      "type": "Microsoft.Web/serverfarms",
+      "apiVersion": "2022-09-01",
+      "name": "[variables('planName')]",
+      "location": "[parameters('location')]",
+      "kind": "functionapp",
+      "sku": {
+        "name": "Y1",
+        "tier": "Dynamic",
+        "size": "Y1",
+        "family": "Y",
+        "capacity": 0
+      },
+      "properties": {
+        "maximumElasticWorkerCount": 1,
+        "reserved": true
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites",
+      "apiVersion": "2022-09-01",
+      "name": "[parameters('functionAppName')]",
+      "location": "[parameters('location')]",
+      "kind": "functionapp,linux",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', variables('planName'))]",
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
+      ],
+      "properties": {
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('planName'))]",
+        "siteConfig": {
+          "linuxFxVersion": "python|3.11",
+          "appSettings": [
+            {
+              "name": "AzureWebJobsStorage",
+              "value": "[variables('storageConnectionString')]"
+            },
+            {
+              "name": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
+              "value": "[variables('storageConnectionString')]"
+            },
+            {
+              "name": "WEBSITE_CONTENTSHARE",
+              "value": "[variables('contentShare')]"
+            },
+            {
+              "name": "FUNCTIONS_EXTENSION_VERSION",
+              "value": "~4"
+            },
+            {
+              "name": "FUNCTIONS_WORKER_RUNTIME",
+              "value": "python"
+            },
+            {
+              "name": "WEBSITE_RUN_FROM_PACKAGE",
+              "value": "[parameters('packageUri')]"
+            },
+            {
+              "name": "EventHubsConnectionString",
+              "value": "[parameters('eventHubsConnectionString')]"
+            },
+            {
+              "name": "EventHubConsumerGroup",
+              "value": "[parameters('eventHubConsumerGroup')]"
+            },
+            {
+              "name": "EventHubName",
+              "value": "[parameters('eventHubName')]"
+            },
+            {
+              "name": "EventHubNamesCsv",
+              "value": "[if(equals(parameters('eventHubNamesCsv'), ''), parameters('eventHubName'), parameters('eventHubNamesCsv'))]"
+            },
+            {
+              "name": "MessageEndpoint",
+              "value": "[parameters('messageEndpoint')]"
+            },
+            {
+              "name": "StreamOcid",
+              "value": "[parameters('streamOcid')]"
+            },
+            {
+              "name": "user",
+              "value": "[parameters('ociUser')]"
+            },
+            {
+              "name": "key_content",
+              "value": "[parameters('ociKeyContent')]"
+            },
+            {
+              "name": "pass_phrase",
+              "value": "[parameters('ociPassPhrase')]"
+            },
+            {
+              "name": "fingerprint",
+              "value": "[parameters('ociFingerprint')]"
+            },
+            {
+              "name": "tenancy",
+              "value": "[parameters('ociTenancy')]"
+            },
+            {
+              "name": "region",
+              "value": "[parameters('ociRegion')]"
+            },
+            {
+              "name": "MaxBatchSize",
+              "value": "[string(parameters('maxBatchSize'))]"
+            },
+            {
+              "name": "MaxBatchBytes",
+              "value": "[string(parameters('maxBatchBytes'))]"
+            },
+            {
+              "name": "InactivityTimeout",
+              "value": "[string(parameters('inactivityTimeout'))]"
+            }
+          ]
+        },
+        "httpsOnly": true
+      }
+    }
+  ],
+  "outputs": {
+    "functionAppName": {
+      "type": "string",
+      "value": "[parameters('functionAppName')]"
+    },
+    "storageAccountName": {
+      "type": "string",
+      "value": "[variables('storageAccountName')]"
+    }
+  }
+}
