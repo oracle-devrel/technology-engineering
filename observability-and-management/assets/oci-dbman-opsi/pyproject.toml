@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dbman-opsi"
+version = "0.1.0"
+description = "End-to-end OCI Database Management and Ops Insights enablement for DBCS, Autonomous Database, Exadata, and external databases."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "PyYAML>=6.0.1,<7",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "pytest-cov>=5.0",
+]
+
+[project.scripts]
+dbman-opsi = "dbman_opsi.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov=dbman_opsi --cov-report=term-missing --cov-fail-under=80"
+pythonpath = ["src"]
+markers = [
+  "eval: capability + regression evals — a defect-signature regression fence (see tests/evals/README.md). Run with `pytest -m eval --no-cov`.",
+]

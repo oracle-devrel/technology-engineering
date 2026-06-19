@@ -1,0 +1,133 @@
+# dbman-opsi — gitleaks configuration
+#
+# Extends the default gitleaks ruleset (generic API keys, passwords, tokens, etc.)
+# and adds custom rules for OCI-specific artifacts whose patterns are unique to
+# Oracle Cloud Infrastructure and are not covered by the default ruleset.
+#
+# Allowlist strategy
+# ──────────────────
+# This repo deliberately uses <PLACEHOLDER> tokens instead of real OCIDs/IPs
+# (see CLAUDE.md "Redaction Convention").  The global [allowlist] ensures those
+# tokens are never treated as findings.  docs/ and tests/ are intentionally NOT
+# blanket-suppressed: placeholders there are cleared by the value regexes, while a
+# real secret accidentally pasted into a doc or fixture is still caught.
+#
+# Reference: gitleaks v8 TOML format
+#   https://github.com/gitleaks/gitleaks/tree/master#configuration
+
+title = "dbman-opsi — OCI security additions"
+
+# Inherit every rule from the bundled default config.
+[extend]
+useDefault = true
+
+# ─── Custom OCI rules ──────────────────────────────────────────────────────────
+
+[[rules]]
+id          = "oci-ocid"
+description = "OCI Resource Identifier (OCID)"
+# Matches the full OCID prefix used across all OCI resource types tracked
+# in src/dbman_opsi/redact.py: tenancy, compartment, DBaaS flavours, Data Safe,
+# Ops Insights, Vault, and more.
+# Resource-type list mirrors src/dbman_opsi/redact.py AND this branch's surface
+# (bastion, managementagent, policy, group, …) so a real bastion/agent OCID can't
+# slip through the secret scan clean.
+regex = '''ocid1\.(tenancy|compartment|instance|cluster|networksecuritygroup|loadbalancer|subnet|vcn|vnic|bootvolume|loganalytics[a-z]*|user|group|dynamicgroup|policy|namespace|database|autonomousdatabase|pluggabledatabase|dbsystem|vault|key|secret|databaseinsight|datasafe[a-z]*|dataguardassociation|bastion|bastionsession|managementagent|managementdashboard|apmdomain|privateendpoint|routetable|securitylist|servicegateway)\.oc1\.[a-z0-9.-]+'''
+tags  = ["oci", "ocid", "high-value"]
+
+  [rules.allowlist]
+  description = "Placeholder OCID tokens, fixture files, and the pattern source"
+  # Applied to the matched string (the OCID value itself):
+  # any OCID that ends in a placeholder bracket token is intentional. docs/ is
+  # deliberately NOT suppressed — a real OCID pasted into prose/diagrams is still
+  # caught; only tests/ (synthetic OCID-shaped fixtures) is path-skipped.
+  regexes = [
+    '''<[A-Z][A-Z0-9_]*>$''',         # ends in <PLACEHOLDER>
+    '''\.oc1\.\.<[A-Z]''',            # ocid1.foo.oc1..<PLACEHOLDER...
+    '''<OCI_OCID>''',                  # already-redacted marker from redact.py
+  ]
+  paths = [
+    # Skip this config file itself (the regex above is not a real OCID)
+    '''(^|/)\.gitleaks\.toml$''',
+    # redact.py stores split/concatenated partial strings to avoid scanners
+    '''(^|/)redact\.py$''',
+    # Unit-test fixtures use synthetic OCID-shaped strings (…oc1..aaaaexample)
+    '''(^|/)tests/''',
+  ]
+
+[[rules]]
+id          = "oci-isk-key"
+description = "OCI internal service key (isk_<40 hex chars>)"
+# Pattern from redact.py: r"\bisk_[a-f0-9]{40}\b"
+regex = '''(?i)\bisk_[a-f0-9]{40}\b'''
+tags  = ["oci", "isk-key", "high-value"]
+
+[[rules]]
+id          = "oci-api-fingerprint"
+description = "OCI API key fingerprint — 16 colon-delimited hex pairs"
+# Pattern from redact.py: r"\b[a-f0-9]{2}(?::[a-f0-9]{2}){15}\b"
+regex = '''\b[a-f0-9]{2}(:[a-f0-9]{2}){15}\b'''
+tags  = ["oci", "fingerprint"]
+
+  [rules.allowlist]
+  # Synthetic fingerprint-shaped strings in the redactor's own unit tests.
+  paths = ['''(^|/)tests/''']
+
+[[rules]]
+id          = "oci-registry-namespace"
+description = "OCIR registry path embedding a tenancy namespace"
+# Detect a tenancy namespace in the registry-path CONTEXT (…ocir.io/<namespace>/…)
+# instead of hardcoding this tenancy's namespace strings. Embedding the real
+# namespaces in a PUBLIC config is itself the exposure we are trying to prevent —
+# the literal list that used to live here was removed for that reason. The real
+# values live only in ~/.claude/private/ (never committed).
+regex = '''\b[a-z0-9-]+\.ocir\.io/[a-z0-9]{5,}'''
+tags  = ["oci", "ocir", "namespace"]
+
+# Real infra IPs live only in ~/.claude/private; no tenancy-specific public-IP
+# prefixes are committed here.
+
+# ─── Global allowlist ──────────────────────────────────────────────────────────
+
+[allowlist]
+description = "Intentional placeholder tokens, ENV var references, and known safe paths"
+
+# Matched against the secret value that was captured by a rule regex.
+# <PLACEHOLDER> tokens (e.g. <EMDEMO_TENANCY_OCID>, <APM_PRIVATE_DATAKEY>)
+# are the deliberate redaction convention for this repo — never real secrets.
+regexes = [
+  # Any string that IS a placeholder token
+  '''^<[A-Z][A-Z0-9_]*>$''',
+  # Partial placeholder inside a longer match
+  '''<[A-Z][A-Z0-9_]{2,}>''',
+  # Shell-style ${ENV_VAR} references used in docs and templates
+  '''\$\{[A-Z_][A-Z0-9_]*\}''',
+  # Path references to ~/.oci/ that appear in documentation examples
+  '''~[/\\]\.oci[/\\]''',
+]
+
+# Files / path prefixes where all rule findings are suppressed.
+paths = [
+  # This config file itself — it deliberately contains the patterns
+  '''(^|/)\.gitleaks\.toml$''',
+  # redact.py intentionally stores partial/split patterns
+  '''(^|/)redact\.py$''',
+  # CLAUDE.md and README.md use <PLACEHOLDER> and document the grep gate
+  '''(^|/)CLAUDE\.md$''',
+  '''(^|/)README\.md$''',
+  # Workshop Markdown may reference placeholder OCIDs and example IPs
+  '''(^|/)docs/workshop/''',
+]
+
+# Words that, if present anywhere in the matched secret, mark it as safe.
+# Use sparingly — prefer path- or regex-based suppression above.
+stopwords = [
+  "PLACEHOLDER",
+  "example",
+  "EXAMPLE",
+  "REDACTED",
+  "OCI_OCID",
+  # OCI auth-mode enum, not a secret — the default hashicorp-tf-password rule
+  # fires on `password_secret_access_mode = "RESOURCE_PRINCIPAL"` in the TF module.
+  "RESOURCE_PRINCIPAL",
+]
