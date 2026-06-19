@@ -1,0 +1,883 @@
+# Architecture Overview
+
+This document explains how the OCI Metrics Report Generator works - from data fetching to report generation.
+
+## Quick Summary
+
+| Component | Technology | Purpose |
+|-----------|------------|---------|
+| **Backend** | Python + Flask | REST API server, OCI SDK integration |
+| **Frontend** | Vanilla JavaScript | Single-page application UI |
+| **Data Source** | OCI Monitoring API | Fetches metrics via MQL queries |
+| **Visualization** | Chart.js | Time-series charts with gap detection |
+| **Export** | html2canvas + jsPDF | PNG screenshots, PDF reports |
+
+---
+
+## System Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         USER'S BROWSER                                   │
+│  ┌───────────────────────────────────────────────────────────────────┐  │
+│  │                    index.html (SPA)                                │  │
+│  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────────────┐│  │
+│  │  │ Query       │  │ Chart.js    │  │ Export Tools                ││  │
+│  │  │ Builder UI  │  │ Visualization│  │ (html2canvas, jsPDF)        ││  │
+│  │  └─────────────┘  └─────────────┘  └─────────────────────────────┘│  │
+│  └───────────────────────────────────────────────────────────────────┘  │
+└──────────────────────────────────┬──────────────────────────────────────┘
+                                   │ HTTP/JSON
+                                   ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                        FLASK BACKEND (app.py)                            │
+│  ┌───────────────────────────────────────────────────────────────────┐  │
+│  │ REST API Endpoints                                                 │  │
+│  │  /api/compartments  /api/namespaces  /api/metrics  /api/query     │  │
+│  └───────────────────────────────────────────────────────────────────┘  │
+│  ┌───────────────────────────────────────────────────────────────────┐  │
+│  │ OCIRegionClientManager        │  OCIMonitoringClient              │  │
+│  │ (manages clients per region)  │  (executes OCI API calls)         │  │
+│  └───────────────────────────────────────────────────────────────────┘  │
+│  ┌───────────────────────────────────────────────────────────────────┐  │
+│  │ Authentication: Config File | Instance Principal | Security Token │  │
+│  └───────────────────────────────────────────────────────────────────┘  │
+└──────────────────────────────────┬──────────────────────────────────────┘
+                                   │ OCI Python SDK
+                                   ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    ORACLE CLOUD INFRASTRUCTURE                           │
+│  ┌────────────────────────┐  ┌────────────────────────────────────────┐ │
+│  │ Identity Service       │  │ Monitoring Service                     │ │
+│  │ - List compartments    │  │ - List metrics/namespaces              │ │
+│  │ - List regions         │  │ - Execute MQL queries                  │ │
+│  └────────────────────────┘  └────────────────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Detailed Component Diagram
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                              FRONTEND (index.html)                               │
+│                                                                                  │
+│  ┌──────────────────────────────────────────────────────────────────────────┐   │
+│  │                           STATE MANAGEMENT                                │   │
+│  │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌──────────────────┐   │   │
+│  │  │ queries[]   │ │ compartments│ │ regions[]   │ │ dimensionFilters │   │   │
+│  │  │ (MQL defs)  │ │ (selected)  │ │ (selected)  │ │ (active filters) │   │   │
+│  │  └─────────────┘ └─────────────┘ └─────────────┘ └──────────────────┘   │   │
+│  │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌──────────────────┐   │   │
+│  │  │ charts{}    │ │ timeRange   │ │ hiddenSeries│ │ currentQueryIdx  │   │   │
+│  │  │ (instances) │ │ (start/end) │ │ (toggled)   │ │ (active query)   │   │   │
+│  │  └─────────────┘ └─────────────┘ └─────────────┘ └──────────────────┘   │   │
+│  └──────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                  │
+│  ┌────────────────┐  ┌────────────────┐  ┌────────────────┐  ┌──────────────┐   │
+│  │  QUERY BUILDER │  │  CHART RENDER  │  │  EXPORT ENGINE │  │  UI CONTROLS │   │
+│  │                │  │                │  │                │  │              │   │
+│  │ • Namespace    │  │ • Chart.js     │  │ • html2canvas  │  │ • Combobox   │   │
+│  │ • Metric       │  │ • Gap detect   │  │ • jsPDF        │  │ • Multi-sel  │   │
+│  │ • Dimensions   │  │ • Legend       │  │ • CSV format   │  │ • Time pick  │   │
+│  │ • MQL builder  │  │ • Tooltips     │  │ • Batch export │  │ • Toasts     │   │
+│  └────────────────┘  └────────────────┘  └────────────────┘  └──────────────┘   │
+│                                                                                  │
+└──────────────────────────────────────────────────────────────────────────────────┘
+                                        │
+                                        │ fetch() API calls
+                                        ▼
+┌──────────────────────────────────────────────────────────────────────────────────┐
+│                              BACKEND (app.py)                                     │
+│                                                                                   │
+│  ┌─────────────────────────────────────────────────────────────────────────────┐ │
+│  │                           FLASK ROUTES                                       │ │
+│  │                                                                              │ │
+│  │   GET /api/compartments ──→ list_compartments()                             │ │
+│  │   GET /api/regions ───────→ get_available_regions()                         │ │
+│  │   GET /api/namespaces ────→ list_metric_namespaces()                        │ │
+│  │   GET /api/metrics ───────→ list_metrics()                                  │ │
+│  │   GET /api/dimensions ────→ list_dimensions()                               │ │
+│  │   POST /api/query ────────→ query_metrics()                                 │ │
+│  │   POST /api/query-unified → query_metrics() × N regions × M compartments    │ │
+│  │                                                                              │ │
+│  └─────────────────────────────────────────────────────────────────────────────┘ │
+│                                        │                                          │
+│  ┌─────────────────────────────────────┼───────────────────────────────────────┐ │
+│  │         OCIRegionClientManager      │                                        │ │
+│  │                                     ▼                                        │ │
+│  │   ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐        │ │
+│  │   │ us-ashburn-1│  │ us-phoenix-1│  │ uk-london-1 │  │ eu-frankfurt│        │ │
+│  │   │   Client    │  │   Client    │  │   Client    │  │   Client    │  ...   │ │
+│  │   └──────┬──────┘  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘        │ │
+│  │          │                │                │                │               │ │
+│  │          └────────────────┴────────────────┴────────────────┘               │ │
+│  │                                     │                                        │ │
+│  │                      OCIMonitoringClient (per region)                        │ │
+│  │                      • monitoring_client (OCI SDK)                           │ │
+│  │                      • identity_client (OCI SDK)                             │ │
+│  └─────────────────────────────────────┼───────────────────────────────────────┘ │
+│                                        │                                          │
+│  ┌─────────────────────────────────────┼───────────────────────────────────────┐ │
+│  │              AUTHENTICATION LAYER   │                                        │ │
+│  │                                     ▼                                        │ │
+│  │   detect_auth_type() ──→ get_signer() ──→ OCI SDK Clients                   │ │
+│  │                                                                              │ │
+│  │   ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐       │ │
+│  │   │ Config File  │ │  Instance    │ │  Resource    │ │  Security    │       │ │
+│  │   │ (~/.oci/     │ │  Principal   │ │  Principal   │ │  Token       │       │ │
+│  │   │  config)     │ │  (Compute)   │ │  (Functions) │ │  (CloudShell)│       │ │
+│  │   └──────────────┘ └──────────────┘ └──────────────┘ └──────────────┘       │ │
+│  └─────────────────────────────────────────────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────────────────────────────────┘
+                                        │
+                                        │ OCI Python SDK
+                                        ▼
+┌──────────────────────────────────────────────────────────────────────────────────┐
+│                         OCI CLOUD SERVICES                                        │
+│                                                                                   │
+│   ┌─────────────────────────┐          ┌─────────────────────────────────────┐   │
+│   │    Identity Service     │          │       Monitoring Service            │   │
+│   │                         │          │                                     │   │
+│   │  • ListCompartments     │          │  • ListMetrics                      │   │
+│   │  • ListRegions          │          │  • SummarizeMetricsData (MQL)       │   │
+│   │  • GetTenancy           │          │  • ListMetricNamespaces             │   │
+│   └─────────────────────────┘          └─────────────────────────────────────┘   │
+│                                                                                   │
+└──────────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Sequence Diagram: Query Execution Flow
+
+```
+┌──────┐          ┌──────────┐          ┌─────────┐          ┌─────────────┐          ┌─────┐
+│ User │          │ Frontend │          │ Flask   │          │ OCI Client  │          │ OCI │
+└──┬───┘          └────┬─────┘          └────┬────┘          └──────┬──────┘          └──┬──┘
+   │                   │                     │                      │                    │
+   │  Select options   │                     │                      │                    │
+   │──────────────────>│                     │                      │                    │
+   │                   │                     │                      │                    │
+   │  Click "Run"      │                     │                      │                    │
+   │──────────────────>│                     │                      │                    │
+   │                   │                     │                      │                    │
+   │                   │  Build MQL query    │                      │                    │
+   │                   │  from form inputs   │                      │                    │
+   │                   │─────────┐           │                      │                    │
+   │                   │         │           │                      │                    │
+   │                   │<────────┘           │                      │                    │
+   │                   │                     │                      │                    │
+   │                   │  POST /api/query-unified                   │                    │
+   │                   │  {regions, compartments, query, time}      │                    │
+   │                   │────────────────────>│                      │                    │
+   │                   │                     │                      │                    │
+   │                   │                     │  For each region:    │                    │
+   │                   │                     │  get_client(region)  │                    │
+   │                   │                     │─────────────────────>│                    │
+   │                   │                     │                      │                    │
+   │                   │                     │     For each compartment:                 │
+   │                   │                     │     summarize_metrics_data()              │
+   │                   │                     │─────────────────────────────────────────>│
+   │                   │                     │                      │                    │
+   │                   │                     │                      │    MetricData[]    │
+   │                   │                     │<─────────────────────────────────────────│
+   │                   │                     │                      │                    │
+   │                   │                     │  Add source metadata │                    │
+   │                   │                     │  (region, compartment)                    │
+   │                   │                     │─────────┐            │                    │
+   │                   │                     │         │            │                    │
+   │                   │                     │<────────┘            │                    │
+   │                   │                     │                      │                    │
+   │                   │  JSON Response      │                      │                    │
+   │                   │  {results, errors,  │                      │                    │
+   │                   │   metadata}         │                      │                    │
+   │                   │<────────────────────│                      │                    │
+   │                   │                     │                      │                    │
+   │                   │  Process datapoints │                      │                    │
+   │                   │  Detect gaps        │                      │                    │
+   │                   │  Build Chart.js     │                      │                    │
+   │                   │─────────┐           │                      │                    │
+   │                   │         │           │                      │                    │
+   │                   │<────────┘           │                      │                    │
+   │                   │                     │                      │                    │
+   │  Display chart    │                     │                      │                    │
+   │<──────────────────│                     │                      │                    │
+   │                   │                     │                      │                    │
+```
+
+---
+
+## Multi-Region Query Flow
+
+```
+                              ┌─────────────────────────┐
+                              │   /api/query-unified    │
+                              │                         │
+                              │ regions: [R1, R2, R3]   │
+                              │ compartments: [C1, C2]  │
+                              │ query: "CPU[1h].mean()" │
+                              └───────────┬─────────────┘
+                                          │
+                                          ▼
+                    ┌─────────────────────────────────────────────┐
+                    │         Generate Query Combinations          │
+                    │                                              │
+                    │   R1×C1  R1×C2  R2×C1  R2×C2  R3×C1  R3×C2  │
+                    │     │      │      │      │      │      │    │
+                    └─────┼──────┼──────┼──────┼──────┼──────┼────┘
+                          │      │      │      │      │      │
+                          ▼      ▼      ▼      ▼      ▼      ▼
+    ┌──────────────────────────────────────────────────────────────────────┐
+    │                    Execute Queries (per region client)                │
+    │                                                                       │
+    │  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐              │
+    │  │ Region: R1  │    │ Region: R2  │    │ Region: R3  │              │
+    │  │             │    │             │    │             │              │
+    │  │ Query C1 ───┼───>│ Query C1 ───┼───>│ Query C1 ───┼──> OCI API  │
+    │  │ Query C2 ───┼───>│ Query C2 ───┼───>│ Query C2 ───┼──> OCI API  │
+    │  │             │    │             │    │             │              │
+    │  │ Results:    │    │ Results:    │    │ Results:    │              │
+    │  │  ✓ C1: 3    │    │  ✓ C1: 2    │    │  ✗ C1: err  │              │
+    │  │  ✓ C2: 5    │    │  ✓ C2: 0    │    │  ✓ C2: 4    │              │
+    │  └─────────────┘    └─────────────┘    └─────────────┘              │
+    │                                                                       │
+    └───────────────────────────────┬───────────────────────────────────────┘
+                                    │
+                                    ▼
+    ┌───────────────────────────────────────────────────────────────────────┐
+    │                        Aggregate Results                               │
+    │                                                                        │
+    │   results: [                                                           │
+    │     {region: "R1", compartment: "C1", metric_data: [...], series: 3}, │
+    │     {region: "R1", compartment: "C2", metric_data: [...], series: 5}, │
+    │     {region: "R2", compartment: "C1", metric_data: [...], series: 2}, │
+    │     {region: "R2", compartment: "C2", metric_data: [],    series: 0}, │
+    │     {region: "R3", compartment: "C2", metric_data: [...], series: 4}  │
+    │   ]                                                                    │
+    │   errors: [                                                            │
+    │     {region: "R3", compartment: "C1", error: "timeout"}               │
+    │   ]                                                                    │
+    │   metadata: {successful: 5, failed: 1, total_series: 14}              │
+    │                                                                        │
+    └───────────────────────────────┬───────────────────────────────────────┘
+                                    │
+                                    ▼
+    ┌───────────────────────────────────────────────────────────────────────┐
+    │                     Frontend Chart Rendering                           │
+    │                                                                        │
+    │   Series labels include source:                                        │
+    │     "web-server-1 [R1] (C1)"                                          │
+    │     "web-server-2 [R1] (C2)"                                          │
+    │     "db-server-1  [R2] (C1)"                                          │
+    │     ...                                                                │
+    │                                                                        │
+    │   Toast message:                                                       │
+    │     "✓ 14 series loaded. Per region: R1: 8, R2: 2, R3: 4"            │
+    │     "⚠ 1 query failed (R3/C1)"                                        │
+    │                                                                        │
+    └───────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## PDF Export Flow (Detailed)
+
+```
+┌────────────────────────────────────────────────────────────────────────────────┐
+│                          USER CLICKS "Export All as PDF"                        │
+└────────────────────────────────────────────────────────────────────────────────┘
+                                        │
+                                        ▼
+┌────────────────────────────────────────────────────────────────────────────────┐
+│                           STEP 1: Gather Chart Elements                         │
+│                                                                                 │
+│   document.querySelectorAll('.chart-container')                                │
+│                                                                                 │
+│   ┌────────────┐  ┌────────────┐  ┌────────────┐  ┌────────────┐              │
+│   │  Chart 1   │  │  Chart 2   │  │  Chart 3   │  │  Chart 4   │              │
+│   │ (visible)  │  │ (visible)  │  │ (hidden)   │  │ (visible)  │              │
+│   │     ✓      │  │     ✓      │  │     ✗      │  │     ✓      │              │
+│   └────────────┘  └────────────┘  └────────────┘  └────────────┘              │
+│                                                                                 │
+└────────────────────────────────────────────────────────────────────────────────┘
+                                        │
+                                        ▼
+┌────────────────────────────────────────────────────────────────────────────────┐
+│                         STEP 2: Create PDF Document                             │
+│                                                                                 │
+│   const pdf = new jsPDF({                                                      │
+│     orientation: 'landscape',                                                  │
+│     unit: 'mm',                                                                │
+│     format: 'a4'                                                               │
+│   });                                                                          │
+│                                                                                 │
+└────────────────────────────────────────────────────────────────────────────────┘
+                                        │
+                                        ▼
+┌────────────────────────────────────────────────────────────────────────────────┐
+│                          STEP 3: Generate Title Page                            │
+│                                                                                 │
+│   ┌──────────────────────────────────────────────────────────────────────┐    │
+│   │                                                                       │    │
+│   │              ╔═══════════════════════════════════════╗               │    │
+│   │              ║     OCI METRICS REPORT                ║               │    │
+│   │              ╚═══════════════════════════════════════╝               │    │
+│   │                                                                       │    │
+│   │              Generated: 2024-01-15 14:30:00                          │    │
+│   │              Time Range: Last 24 hours                                │    │
+│   │              Charts: 3                                                │    │
+│   │              Tenancy: mycompany                                       │    │
+│   │                                                                       │    │
+│   └──────────────────────────────────────────────────────────────────────┘    │
+│                                                                                 │
+└────────────────────────────────────────────────────────────────────────────────┘
+                                        │
+                                        ▼
+┌────────────────────────────────────────────────────────────────────────────────┐
+│                    STEP 4: Capture Each Chart with html2canvas                  │
+│                                                                                 │
+│   for each visible chart:                                                      │
+│                                                                                 │
+│   ┌─────────────────────┐      html2canvas()      ┌─────────────────────┐     │
+│   │                     │  ─────────────────────> │                     │     │
+│   │    DOM Element      │                         │   Canvas Element    │     │
+│   │    (chart-card)     │                         │   (screenshot)      │     │
+│   │                     │                         │                     │     │
+│   └─────────────────────┘                         └─────────────────────┘     │
+│                                                             │                  │
+│                                                             ▼                  │
+│                                                   canvas.toDataURL('image/png')│
+│                                                             │                  │
+│                                                             ▼                  │
+│                                                   "data:image/png;base64,..."  │
+│                                                                                 │
+└────────────────────────────────────────────────────────────────────────────────┘
+                                        │
+                                        ▼
+┌────────────────────────────────────────────────────────────────────────────────┐
+│                         STEP 5: Add Charts to PDF Pages                         │
+│                                                                                 │
+│   for each chart image:                                                        │
+│                                                                                 │
+│   pdf.addPage();                                                               │
+│                                                                                 │
+│   ┌──────────────────────────────────────────────────────────────────────┐    │
+│   │  Query: CpuUtilization[1h].mean()                                     │    │
+│   │  Namespace: oci_computeagent | Compartment: Production                │    │
+│   │  ┌────────────────────────────────────────────────────────────────┐  │    │
+│   │  │                                                                 │  │    │
+│   │  │                    [Chart Image]                                │  │    │
+│   │  │                                                                 │  │    │
+│   │  └────────────────────────────────────────────────────────────────┘  │    │
+│   │                                                          Page 2 of 4  │    │
+│   └──────────────────────────────────────────────────────────────────────┘    │
+│                                                                                 │
+└────────────────────────────────────────────────────────────────────────────────┘
+                                        │
+                                        ▼
+┌────────────────────────────────────────────────────────────────────────────────┐
+│                            STEP 6: Download PDF                                 │
+│                                                                                 │
+│   pdf.save('oci-metrics-report-2024-01-15.pdf');                              │
+│                                                                                 │
+│   ┌────────────────────────────────────────┐                                   │
+│   │  📄 oci-metrics-report-2024-01-15.pdf  │                                   │
+│   │     Size: 1.2 MB                        │                                   │
+│   │     Pages: 4                            │                                   │
+│   └────────────────────────────────────────┘                                   │
+│                                                                                 │
+└────────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Gap Detection Algorithm
+
+```
+Input: Array of datapoints with timestamps
+Output: Processed data with null values for gaps
+
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                              RAW DATAPOINTS                                      │
+│                                                                                  │
+│   Time:    00:00   01:00   02:00   03:00   04:00   05:00   06:00   07:00       │
+│   Value:    45      52      48      --      --      --      61      58          │
+│                                     (missing data)                               │
+└─────────────────────────────────────────────────────────────────────────────────┘
+                                        │
+                                        ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                         STEP 1: Calculate Intervals                              │
+│                                                                                  │
+│   intervals = [1h, 1h, 1h, 1h]  (between consecutive points)                    │
+│   median_interval = 1h                                                           │
+│   gap_threshold = median × 2.5 = 2.5h                                           │
+│                                                                                  │
+└─────────────────────────────────────────────────────────────────────────────────┘
+                                        │
+                                        ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                          STEP 2: Detect Gaps                                     │
+│                                                                                  │
+│   02:00 → 06:00 = 4h gap                                                        │
+│   4h > 2.5h (threshold) → GAP DETECTED                                          │
+│                                                                                  │
+└─────────────────────────────────────────────────────────────────────────────────┘
+                                        │
+                                        ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                        STEP 3: Insert Null Points                                │
+│                                                                                  │
+│   Original: [{t: 02:00, v: 48}, {t: 06:00, v: 61}]                              │
+│                                                                                  │
+│   Modified: [{t: 02:00, v: 48},                                                 │
+│              {t: 02:01, v: null},  ← inserted                                   │
+│              {t: 05:59, v: null},  ← inserted                                   │
+│              {t: 06:00, v: 61}]                                                  │
+│                                                                                  │
+└─────────────────────────────────────────────────────────────────────────────────┘
+                                        │
+                                        ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                         CHART.JS RENDERING                                       │
+│                                                                                  │
+│   Chart.js option: spanGaps: false                                              │
+│   Result: Line breaks at null values                                            │
+│                                                                                  │
+│   100% ┤                                                                        │
+│    75% ┤                                                                        │
+│    50% ┤────●────●────●              ●────●────                                 │
+│    25% ┤                    (gap)                                               │
+│     0% ┼──────────────────────────────────────────                              │
+│         00:00  01:00  02:00  03:00  04:00  05:00  06:00  07:00                 │
+│                              └────────────┘                                     │
+│                               Visual gap in line                                │
+│                                                                                  │
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Client Caching Strategy
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                         OCIRegionClientManager                                   │
+│                                                                                  │
+│   Purpose: Avoid creating new OCI SDK clients for every request                 │
+│   Pattern: Lazy initialization with caching                                     │
+│                                                                                  │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+                        First Request for us-ashburn-1
+                                    │
+                                    ▼
+┌───────────────────────────────────────────────────────────────────────┐
+│   get_client("us-ashburn-1")                                          │
+│                                                                        │
+│   clients = {}  (empty cache)                                         │
+│                                                                        │
+│   "us-ashburn-1" not in clients?  YES                                 │
+│           │                                                            │
+│           ▼                                                            │
+│   Create new OCIMonitoringClient(region="us-ashburn-1")               │
+│           │                                                            │
+│           ▼                                                            │
+│   clients["us-ashburn-1"] = new_client                                │
+│           │                                                            │
+│           ▼                                                            │
+│   return clients["us-ashburn-1"]                                      │
+│                                                                        │
+└───────────────────────────────────────────────────────────────────────┘
+
+                       Second Request for us-ashburn-1
+                                    │
+                                    ▼
+┌───────────────────────────────────────────────────────────────────────┐
+│   get_client("us-ashburn-1")                                          │
+│                                                                        │
+│   clients = {"us-ashburn-1": <client>}                                │
+│                                                                        │
+│   "us-ashburn-1" in clients?  YES                                     │
+│           │                                                            │
+│           ▼                                                            │
+│   return clients["us-ashburn-1"]  (cached, no new creation)           │
+│                                                                        │
+└───────────────────────────────────────────────────────────────────────┘
+
+                        Request for uk-london-1
+                                    │
+                                    ▼
+┌───────────────────────────────────────────────────────────────────────┐
+│   get_client("uk-london-1")                                           │
+│                                                                        │
+│   clients = {"us-ashburn-1": <client>}                                │
+│                                                                        │
+│   "uk-london-1" not in clients?  YES                                  │
+│           │                                                            │
+│           ▼                                                            │
+│   Create new OCIMonitoringClient(region="uk-london-1")                │
+│           │                                                            │
+│           ▼                                                            │
+│   clients["uk-london-1"] = new_client                                 │
+│           │                                                            │
+│           ▼                                                            │
+│   clients = {                                                          │
+│     "us-ashburn-1": <client>,                                         │
+│     "uk-london-1": <client>                                           │
+│   }                                                                    │
+│                                                                        │
+└───────────────────────────────────────────────────────────────────────┘
+
+Benefits:
+  ✓ Faster responses (no client initialization overhead)
+  ✓ Reduced memory (reuse existing connections)
+  ✓ Efficient multi-region queries (clients persist across requests)
+```
+
+---
+
+## Frontend State Management
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                            GLOBAL STATE OBJECT                                   │
+│                                                                                  │
+│   const state = {                                                               │
+│                                                                                  │
+│     // Query Management                                                         │
+│     queries: [                                                                  │
+│       {                                                                         │
+│         namespace: "oci_computeagent",                                          │
+│         metric: "CpuUtilization",                                               │
+│         interval: "1h",                                                         │
+│         statistic: "mean",                                                      │
+│         dimensions: [{name: "resourceId", value: "ocid1..."}],                  │
+│         mql: "CpuUtilization[1h].mean()",                                       │
+│         results: [...],                                                         │
+│         visible: true                                                           │
+│       },                                                                        │
+│       { /* Query 2 */ },                                                        │
+│       { /* Query 3 */ }                                                         │
+│     ],                                                                          │
+│     currentQueryIndex: 0,                                                       │
+│                                                                                  │
+│     // Selection State                                                          │
+│     compartments: [...],              // All available compartments             │
+│     selectedCompartments: ["ocid1..", "ocid2.."],  // User selections          │
+│     selectedRegions: ["us-ashburn-1", "uk-london-1"],                          │
+│                                                                                  │
+│     // Time Range                                                               │
+│     timeRange: {                                                                │
+│       preset: "24h",                  // or "custom"                           │
+│       startTime: "2024-01-14T00:00Z",                                          │
+│       endTime: "2024-01-15T00:00Z"                                             │
+│     },                                                                          │
+│                                                                                  │
+│     // Chart State                                                              │
+│     charts: {                                                                   │
+│       "query-0": <Chart.js instance>,                                          │
+│       "query-1": <Chart.js instance>                                           │
+│     },                                                                          │
+│     hiddenSeries: {                                                             │
+│       "query-0": ["series-2", "series-5"],  // User-hidden series             │
+│       "query-1": []                                                             │
+│     },                                                                          │
+│                                                                                  │
+│     // UI State                                                                 │
+│     loading: false,                                                             │
+│     error: null,                                                                │
+│     advancedMode: false                                                         │
+│   };                                                                            │
+│                                                                                  │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+                            STATE TRANSITIONS
+
+┌─────────────┐    User adds     ┌─────────────┐    User runs    ┌─────────────┐
+│   Initial   │ ─────────────── │  Query      │ ────────────── │   Results   │
+│   State     │    new query    │  Defined    │     query      │   Loaded    │
+└─────────────┘                  └─────────────┘                 └─────────────┘
+      │                                │                               │
+      │ Load                           │ Change                        │ Toggle
+      │ compartments                   │ selections                    │ series
+      ▼                                ▼                               ▼
+┌─────────────┐                  ┌─────────────┐                 ┌─────────────┐
+│ Compartments│                  │   Query     │                 │   Chart     │
+│   Loaded    │                  │   Updated   │                 │   Updated   │
+└─────────────┘                  └─────────────┘                 └─────────────┘
+```
+
+---
+
+## Data Flow: How Metrics Are Fetched
+
+### Step 1: User Builds a Query
+```
+User selects:
+  → Compartment(s): "Production", "Development"
+  → Region(s): "us-ashburn-1", "uk-london-1"
+  → Namespace: "oci_computeagent"
+  → Metric: "CpuUtilization"
+  → Interval: "1h"
+  → Statistic: "mean()"
+```
+
+### Step 2: Frontend Builds MQL Query
+```javascript
+// MQL (Monitoring Query Language) format:
+"CpuUtilization[1h].mean()"
+
+// With dimension filter:
+"CpuUtilization[1h]{resourceDisplayName = \"web-server-1\"}.mean()"
+```
+
+### Step 3: API Request to Backend
+```javascript
+// POST /api/query-unified
+{
+  "regions": ["us-ashburn-1", "uk-london-1"],
+  "compartment_ids": ["ocid1...", "ocid1..."],
+  "namespace": "oci_computeagent",
+  "query": "CpuUtilization[1h].mean()",
+  "start_time": "2024-01-01T00:00:00Z",
+  "end_time": "2024-01-02T00:00:00Z"
+}
+```
+
+### Step 4: Backend Executes OCI API Calls
+```python
+# For each region × compartment combination:
+monitoring_client.summarize_metrics_data(
+    compartment_id=compartment_id,
+    summarize_metrics_data_details=SummarizeMetricsDataDetails(
+        namespace="oci_computeagent",
+        query="CpuUtilization[1h].mean()",
+        start_time=start_time,
+        end_time=end_time
+    )
+)
+```
+
+### Step 5: Results Returned with Source Metadata
+```json
+{
+  "results": [
+    {
+      "region": "us-ashburn-1",
+      "compartment_name": "Production",
+      "metric_data": [
+        {
+          "name": "CpuUtilization",
+          "dimensions": {"resourceDisplayName": "web-server-1"},
+          "datapoints": [
+            {"timestamp": "2024-01-01T00:00:00Z", "value": 45.2},
+            {"timestamp": "2024-01-01T01:00:00Z", "value": 52.1}
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Step 6: Chart.js Renders Visualization
+```
+┌─────────────────────────────────────────────────────────────┐
+│  CPU Utilization                                             │
+│  100% ┤                                                      │
+│   75% ┤           ╭───╮                                      │
+│   50% ┤    ╭──────╯   ╰────╮     ╭─────                      │
+│   25% ┤────╯               ╰─────╯                           │
+│    0% ┼──────────────────────────────────────────────────    │
+│        00:00    06:00    12:00    18:00    00:00             │
+└─────────────────────────────────────────────────────────────┘
+  Legend: ● web-server-1 [us-ashburn-1] (Production)
+          ● web-server-2 [uk-london-1] (Development)
+```
+
+---
+
+## Report Generation: How Exports Work
+
+### PNG Export
+```
+Chart DOM Element
+      ↓
+html2canvas.js captures canvas
+      ↓
+Canvas converted to data URL
+      ↓
+Browser downloads as .png file
+```
+
+### PDF Export
+```
+Chart DOM Element(s)
+      ↓
+html2canvas.js captures each chart
+      ↓
+jsPDF creates PDF document
+  - Adds title page (if "Export All")
+  - Adds chart images to pages
+  - Adds headers, timestamps, metadata
+      ↓
+Browser downloads as .pdf file
+```
+
+### CSV Export
+```
+Raw metric data from API
+      ↓
+JavaScript formats to CSV string
+  - Headers: timestamp, value, series_name, region, compartment
+  - One row per datapoint
+      ↓
+Browser downloads as .csv file
+```
+
+---
+
+## Key Components Explained
+
+### Backend: `app.py`
+
+| Component | Responsibility |
+|-----------|----------------|
+| `OCIMonitoringClient` | Wraps OCI SDK for metric queries |
+| `OCIRegionClientManager` | Caches SDK clients per region |
+| `detect_auth_type()` | Auto-detects authentication method |
+| `get_signer()` | Creates OCI SDK signer for auth |
+| Flask routes (`/api/*`) | REST API endpoints |
+
+### Frontend: `static/index.html`
+
+| Component | Responsibility |
+|-----------|----------------|
+| `state` object | Global application state |
+| `runQuery()` | Executes query and updates chart |
+| `renderChart()` | Creates Chart.js visualization |
+| `exportChartAsPDF()` | Generates PDF using jsPDF |
+| Multi-select UI | Manages compartment/region chips |
+
+---
+
+## Authentication Flow
+
+```
+Startup
+   │
+   ├─→ Check OCI_CLI_AUTH=instance_principal? ──→ Use Instance Principal
+   │
+   ├─→ Check OCI_RESOURCE_PRINCIPAL_VERSION? ──→ Use Resource Principal
+   │
+   ├─→ Check OCI_CLI_CLOUD_SHELL? ─────────────→ Use Security Token
+   │
+   └─→ Default ─────────────────────────────────→ Use Config File (~/.oci/config)
+```
+
+---
+
+## API Endpoints Summary
+
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/api/auth-info` | GET | Current auth type & tenancy |
+| `/api/compartments` | GET | List all compartments |
+| `/api/regions` | GET | List subscribed regions |
+| `/api/namespaces` | GET | Metric namespaces in compartment |
+| `/api/metrics` | GET | Metrics in a namespace |
+| `/api/dimensions` | GET | Dimension names/values for metric |
+| `/api/query` | POST | Execute single MQL query |
+| `/api/query-unified` | POST | Execute across regions/compartments |
+
+---
+
+## MQL Query Examples
+
+```sql
+-- Basic CPU utilization (hourly mean)
+CpuUtilization[1h].mean()
+
+-- Filter by specific instance
+CpuUtilization[1h]{resourceDisplayName = "web-server-1"}.mean()
+
+-- Group by resource ID
+CpuUtilization[1h].groupBy(resourceId).max()
+
+-- 95th percentile memory usage
+MemoryUtilization[5m].percentile(0.95)
+
+-- Multiple dimension filters
+CpuUtilization[1h]{availabilityDomain = "AD-1", faultDomain = "FD-1"}.mean()
+```
+
+---
+
+## File Structure
+
+```
+metricreport/
+├── app.py                  # Flask backend + OCI SDK integration
+├── generate_report.py      # CLI tool for standalone reports
+├── requirements.txt        # Python dependencies
+├── run.sh                  # Startup script
+├── cloudshell_report.sh    # CloudShell wrapper
+├── static/
+│   └── index.html          # Single-page web application (JS + CSS)
+├── images/                 # Screenshots for documentation
+├── README.md               # User guide & installation
+└── ARCHITECTURE.md         # This file
+```
+
+---
+
+## Dependencies
+
+### Python (Backend)
+```
+flask>=2.0.0           # Web framework
+flask-cors             # CORS support for API
+oci>=2.90.0            # Oracle Cloud SDK
+python-dateutil        # Date parsing
+```
+
+### JavaScript (Frontend - loaded via CDN)
+```
+Chart.js 4.4.1         # Time-series visualization
+chartjs-adapter-date-fns # Date axis adapter
+html2canvas 1.4.1      # Screenshot capture for PNG
+jsPDF 2.5.1            # PDF generation
+```
+
+---
+
+## Design Patterns Used
+
+1. **Client Pooling** - `OCIRegionClientManager` caches clients per region
+2. **Lazy Initialization** - Clients created on-demand, not at startup
+3. **Partial Failure Handling** - Multi-region queries return successful results even if some fail
+4. **State Persistence** - Frontend state saved when switching between queries
+5. **MQL Generation** - UI dynamically builds MQL from form inputs
+
+---
+
+## Quick Start
+
+```bash
+# 1. Install dependencies
+pip install -r requirements.txt
+
+# 2. Start the server
+python app.py
+
+# 3. Open browser
+open http://localhost:8080
+```
+
+For CLI usage:
+```bash
+python generate_report.py -c <compartment_ocid> -n oci_computeagent -m CpuUtilization
+```
