@@ -30,10 +30,10 @@ Reviewed: Reviewed: 17.06.2026
 | Logging  | [Link](./logging/README.md) |  
 | Database Management | [Link](./database-management/README.md)|  
 | Ops Insights  | [Link](./operations-insights/README.md) | 
-| Application Performance Monitoring | [Link](./application-performance-monitoring/README.md) |   
+| Application Performance Monitoring | [Link](./application-performance-monitoring/README.md) | 
+| OCI Monitoring | [Link](./oci-monitoring/README.md) |   
 | Organization Management | WIP |  
 | Cost Management | WIP |  
-| OCI Monitoring | WIP |  
 
 &nbsp; 
 
