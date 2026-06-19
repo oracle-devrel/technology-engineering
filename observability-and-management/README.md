@@ -19,7 +19,7 @@ Reviewed: Reviewed: 17.06.2026
 | OCI Management Dashboard Automation|[Link](./assets/oci-management-dashboard-automation/README.md)|
 | Multi-cloud observability using OCI Monitoring|[Link](./assets/multi-cloud-observability-using-oci-monitoring/README.md)|
 | Using Pulumi to create OCI resource|[Link](./assets/using-pulumi-to-create-oci-resources/README.md)|
-| ServiceNow integration with OCI using secrets stored in OCI Vault to create incidents|[Link](./)|
+| ServiceNow integration with OCI using secrets stored in OCI Vault to create incidents|[Link](./assets/servicenow-oci-vault-incidents/README.md)|
 | ServiceNow integration with Oracle cloud alarms|[Link](./assets/servicenow-integration-with-oracle-cloud-alarms/README.md)|
 | How to get logs into Splunk from OCI obj storage|[Link](./assets/get-logs-into-splunk-from-oci-object-storage/README.md)|
 | Stream OCI logs to Splunk|[Link](./assets/stream-oci-logs-to-splunk/README.md)|
