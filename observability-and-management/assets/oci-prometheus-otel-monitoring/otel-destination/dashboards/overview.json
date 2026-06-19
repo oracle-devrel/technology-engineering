@@ -1,0 +1,41 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "panels": [
+    {
+      "title": "Targets up (from Prometheus 'up')",
+      "type": "stat",
+      "datasource": { "type": "prometheus", "uid": "" },
+      "gridPos": { "h": 6, "w": 8, "x": 0, "y": 0 },
+      "targets": [ { "expr": "count(up) or vector(0)", "legendFormat": "series" } ]
+    },
+    {
+      "title": "Linux CPU load (node_load1) by instance",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "" },
+      "gridPos": { "h": 8, "w": 16, "x": 8, "y": 0 },
+      "targets": [ { "expr": "node_load1", "legendFormat": "{{instance}}" } ]
+    },
+    {
+      "title": "Windows CPU time rate (windows_cpu_time_total)",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "" },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "targets": [ { "expr": "rate(windows_cpu_time_total[5m])", "legendFormat": "{{instance}} {{mode}}" } ]
+    },
+    {
+      "title": "Linux memory available bytes",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "" },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+      "targets": [ { "expr": "node_memory_MemAvailable_bytes", "legendFormat": "{{instance}}" } ]
+    }
+  ],
+  "schemaVersion": 39,
+  "tags": ["oci", "prometheus", "otel"],
+  "templating": { "list": [] },
+  "time": { "from": "now-30m", "to": "now" },
+  "title": "OCI Prometheus → OTEL → Grafana (e2e test)",
+  "uid": "oci-otel-e2e",
+  "version": 1
+}

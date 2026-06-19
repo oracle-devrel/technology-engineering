@@ -1,0 +1,62 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "panels": [
+    {
+      "title": "Clouds reporting",
+      "type": "stat",
+      "datasource": { "type": "prometheus", "uid": "" },
+      "gridPos": { "h": 6, "w": 6, "x": 0, "y": 0 },
+      "targets": [ { "expr": "count(count by (cloud) (node_load1))", "legendFormat": "clouds" } ]
+    },
+    {
+      "title": "Targets up (all clouds)",
+      "type": "stat",
+      "datasource": { "type": "prometheus", "uid": "" },
+      "gridPos": { "h": 6, "w": 6, "x": 6, "y": 0 },
+      "targets": [ { "expr": "count(up) or vector(0)", "legendFormat": "up" } ]
+    },
+    {
+      "title": "CPU load (node_load1) — current by cloud",
+      "type": "bargauge",
+      "datasource": { "type": "prometheus", "uid": "" },
+      "gridPos": { "h": 6, "w": 12, "x": 12, "y": 0 },
+      "targets": [ { "expr": "avg by (cloud) (node_load1)", "legendFormat": "{{cloud}}" } ]
+    },
+    {
+      "title": "CPU load (node_load1) — by cloud",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "" },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 6 },
+      "targets": [ { "expr": "avg by (cloud) (node_load1)", "legendFormat": "{{cloud}}" } ]
+    },
+    {
+      "title": "Memory available bytes — by cloud",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "" },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 6 },
+      "targets": [ { "expr": "avg by (cloud) (node_memory_MemAvailable_bytes)", "legendFormat": "{{cloud}}" } ]
+    },
+    {
+      "title": "Network receive rate — by cloud",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "" },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 14 },
+      "targets": [ { "expr": "sum by (cloud) (rate(node_network_receive_bytes_total[5m]))", "legendFormat": "{{cloud}}" } ]
+    },
+    {
+      "title": "Filesystem used % — by cloud/instance",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "" },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 14 },
+      "targets": [ { "expr": "100 - (avg by (cloud) (node_filesystem_avail_bytes{mountpoint=\"/\"}) / avg by (cloud) (node_filesystem_size_bytes{mountpoint=\"/\"}) * 100)", "legendFormat": "{{cloud}}" } ]
+    }
+  ],
+  "schemaVersion": 39,
+  "tags": ["multicloud", "oci", "otel"],
+  "templating": { "list": [] },
+  "time": { "from": "now-30m", "to": "now" },
+  "title": "Multicloud Metric Collection — GCP · Azure · AWS → OCI + Grafana",
+  "uid": "multicloud-mc",
+  "version": 1
+}

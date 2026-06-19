@@ -1,0 +1,21 @@
+{
+    "Mode": "Proxy",
+    "WindowsExporterVersion": "0.31.7",
+    "ExporterPort": "9182",
+    "PrometheusVersion": "3.12.0",
+    "PrometheusPort": "9090",
+    "TargetNodes": [
+        "10.0.0.1:9182",
+        "10.0.0.2:9100"
+    ],
+    "GcpEnabled": true,
+    "GcpProjectId": "my-gcp-project-id",
+    "GcpCredsPath": "C:\\Keys\\gcp-service-account.json",
+    "GcpMetricPrefixes": "compute.googleapis.com/instance/cpu,compute.googleapis.com/instance/disk",
+    "OciMonitoringEnabled": true,
+    "AgentZipPathOrUrl": "C:\\Installers\\oracle-management-agent-installer.zip",
+    "RspFilePath": "C:\\Installers\\input.rsp",
+    "OtelEnabled": true,
+    "OtelOtlpEndpoint": "http://otel-collector.example.com:4318",
+    "OtelPromRemoteWriteEndpoint": "http://prometheus.example.com:9090/api/v1/write"
+}

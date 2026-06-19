@@ -1,0 +1,5 @@
+# Destination Prometheus: no scraping needed — metrics arrive via remote_write
+# (from the proxy's OTEL Collector and/or the destination OTEL Collector).
+global:
+  scrape_interval: 30s
+scrape_configs: []

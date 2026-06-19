@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1140" height="500" viewBox="0 0 1140 500" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#555"/></marker>
+    <marker id="arrowB" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#1565c0"/></marker>
+    <marker id="arrowG" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#2e7d32"/></marker>
+    <style>
+      .t{font-size:13px;fill:#1a1a1a;} .ts{font-size:11px;fill:#555;}
+      .h{font-size:13px;font-weight:600;fill:#1a1a1a;}
+      .title{font-size:18px;font-weight:700;fill:#0a0a0a;}
+      .lbl{font-size:11px;fill:#444;} .lblb{font-size:11px;fill:#1565c0;font-weight:600;} .lblg{font-size:11px;fill:#2e7d32;font-weight:600;}
+    </style>
+  </defs>
+
+  <text x="24" y="34" class="title">OCI Prometheus Monitoring — Architecture</text>
+  <text x="24" y="54" class="ts">Two independent, each-optional export paths share one Prometheus aggregation on the Windows proxy.</text>
+
+  <!-- Targets -->
+  <text x="36" y="92" class="h">Monitored targets</text>
+  <rect x="24" y="104" width="210" height="48" rx="8" fill="#fff7e6" stroke="#e0a526" stroke-width="1.5"/>
+  <text x="36" y="126" class="t">Linux node_exporter</text><text x="36" y="143" class="ts">Ubuntu / OEL · :9100</text>
+  <rect x="24" y="164" width="210" height="48" rx="8" fill="#fff7e6" stroke="#e0a526" stroke-width="1.5"/>
+  <text x="36" y="186" class="t">Windows windows_exporter</text><text x="36" y="203" class="ts">target nodes · :9182</text>
+  <rect x="24" y="224" width="210" height="48" rx="8" fill="#f3f0fb" stroke="#7e57c2" stroke-width="1.5"/>
+  <text x="36" y="246" class="t">GCP stackdriver_exporter</text><text x="36" y="263" class="ts">optional · :9255</text>
+
+  <!-- Proxy -->
+  <rect x="300" y="96" width="230" height="196" rx="8" fill="#eef4fb" stroke="#3a6ea5" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="312" y="118" class="h">Windows Proxy Node</text>
+  <rect x="318" y="132" width="194" height="58" rx="8" fill="#ffffff" stroke="#3a6ea5" stroke-width="1.5"/>
+  <text x="330" y="156" class="t">Prometheus</text><text x="330" y="174" class="ts">scrape + aggregate · :9090</text>
+  <rect x="318" y="206" width="194" height="50" rx="8" fill="#ffffff" stroke="#e0a526" stroke-width="1.5"/>
+  <text x="330" y="228" class="t">windows_exporter</text><text x="330" y="244" class="ts">self-monitor · :9182</text>
+
+  <!-- scrape arrows -->
+  <path d="M234,128 C270,128 270,150 314,156" fill="none" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <path d="M234,188 C270,180 270,165 314,162" fill="none" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <path d="M234,248 C270,210 270,178 314,170" fill="none" stroke="#7e57c2" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="246" y="120" class="lbl">scrape</text>
+
+  <!-- Path A: OCI Monitoring -->
+  <path d="M530,150 C560,150 575,150 596,150" fill="none" stroke="#1565c0" stroke-width="2" marker-end="url(#arrowB)"/>
+  <text x="536" y="142" class="lblb">/federate</text>
+  <rect x="600" y="118" width="208" height="62" rx="8" fill="#e8f0fe" stroke="#1565c0" stroke-width="1.5"/>
+  <text x="612" y="142" class="t">OCI Management Agent</text><text x="612" y="161" class="ts">Prometheus emitter · optional</text>
+  <path d="M808,149 C822,149 824,149 836,149" fill="none" stroke="#1565c0" stroke-width="2" marker-end="url(#arrowB)"/>
+  <rect x="840" y="116" width="208" height="66" rx="8" fill="#d2e3fc" stroke="#1565c0" stroke-width="1.5"/>
+  <text x="852" y="140" class="h">OCI Monitoring</text><text x="852" y="158" class="ts">metrics + alarms</text><text x="852" y="174" class="ts">— Use case 1 (optional)</text>
+
+  <!-- Path B: OTEL -->
+  <path d="M460,256 C460,300 520,320 596,320" fill="none" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrowG)"/>
+  <text x="498" y="312" class="lblg">/federate</text>
+  <rect x="600" y="290" width="208" height="62" rx="8" fill="#e6f4ea" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="612" y="314" class="t">OpenTelemetry Collector</text><text x="612" y="333" class="ts">prometheus receiver · optional</text>
+  <path d="M808,306 C822,296 826,280 836,272" fill="none" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrowG)"/>
+  <text x="812" y="292" class="lblg">OTLP/HTTP</text>
+  <path d="M808,338 C822,348 826,360 836,366" fill="none" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrowG)"/>
+  <text x="806" y="362" class="lblg">remote_write</text>
+  <rect x="840" y="232" width="208" height="168" rx="8" fill="#d7ecdb" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="852" y="256" class="h">User tooling — Use case 2</text>
+  <text x="852" y="282" class="t">• OTEL Collector</text>
+  <text x="852" y="304" class="t">• Prometheus</text>
+  <text x="852" y="326" class="t">• Grafana</text>
+  <text x="852" y="348" class="t">• 3rd-party</text>
+  <text x="864" y="366" class="ts">(Datadog, Grafana Cloud, …)</text>
+
+  <!-- Legend -->
+  <rect x="24" y="316" width="252" height="92" rx="8" fill="#fafafa" stroke="#ccc" stroke-width="1.5"/>
+  <text x="36" y="338" class="h">Legend</text>
+  <line x1="36" y1="356" x2="64" y2="356" stroke="#1565c0" stroke-width="3"/><text x="72" y="360" class="lbl">Use case 1 — push to OCI Monitoring</text>
+  <line x1="36" y1="378" x2="64" y2="378" stroke="#2e7d32" stroke-width="3"/><text x="72" y="382" class="lbl">Use case 2 — export as OTEL metrics</text>
+  <line x1="36" y1="400" x2="64" y2="400" stroke="#555" stroke-width="2"/><text x="72" y="404" class="lbl">Prometheus scrape</text>
+
+  <text x="300" y="356" class="ts">Linux: install-node-exporter.sh · GCP: install-gcp-exporter.sh</text>
+  <text x="300" y="374" class="ts">Windows proxy + agent + OTEL: Install-OCI-Prometheus.ps1</text>
+  <text x="300" y="392" class="ts">OTEL on Linux: install-otel-collector.sh · sink: otel-destination/</text>
+</svg>

@@ -1,0 +1,39 @@
+<mxfile host="app.diagrams.net" version="24.0.0">
+  <diagram id="oci-prom-otel" name="Architecture">
+    <mxGraphModel dx="1140" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="600" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="title" value="OCI Prometheus Monitoring — Architecture" style="text;html=1;fontSize=18;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="24" y="16" width="600" height="26" as="geometry"/></mxCell>
+
+        <!-- Targets -->
+        <mxCell id="lin" value="Linux node_exporter&#10;Ubuntu / OEL · :9100" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff7e6;strokeColor=#e0a526;align=left;spacingLeft=8;" vertex="1" parent="1"><mxGeometry x="24" y="104" width="210" height="48" as="geometry"/></mxCell>
+        <mxCell id="wint" value="Windows windows_exporter&#10;target nodes · :9182" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff7e6;strokeColor=#e0a526;align=left;spacingLeft=8;" vertex="1" parent="1"><mxGeometry x="24" y="164" width="210" height="48" as="geometry"/></mxCell>
+        <mxCell id="gcp" value="GCP stackdriver_exporter&#10;optional · :9255" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3f0fb;strokeColor=#7e57c2;align=left;spacingLeft=8;" vertex="1" parent="1"><mxGeometry x="24" y="224" width="210" height="48" as="geometry"/></mxCell>
+
+        <!-- Proxy -->
+        <mxCell id="proxy" value="Windows Proxy Node" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eef4fb;strokeColor=#3a6ea5;dashed=1;verticalAlign=top;fontStyle=1;spacingTop=6;" vertex="1" parent="1"><mxGeometry x="300" y="96" width="230" height="196" as="geometry"/></mxCell>
+        <mxCell id="prom" value="Prometheus&#10;scrape + aggregate · :9090" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#3a6ea5;align=left;spacingLeft=8;" vertex="1" parent="1"><mxGeometry x="318" y="132" width="194" height="58" as="geometry"/></mxCell>
+        <mxCell id="winx" value="windows_exporter&#10;self-monitor · :9182" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#e0a526;align=left;spacingLeft=8;" vertex="1" parent="1"><mxGeometry x="318" y="206" width="194" height="50" as="geometry"/></mxCell>
+
+        <!-- Path A -->
+        <mxCell id="agent" value="OCI Management Agent&#10;Prometheus emitter · optional" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f0fe;strokeColor=#1565c0;align=left;spacingLeft=8;dashed=1;" vertex="1" parent="1"><mxGeometry x="600" y="118" width="208" height="62" as="geometry"/></mxCell>
+        <mxCell id="ocimon" value="OCI Monitoring&#10;metrics + alarms — Use case 1 (optional)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d2e3fc;strokeColor=#1565c0;align=left;spacingLeft=8;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="840" y="116" width="208" height="66" as="geometry"/></mxCell>
+
+        <!-- Path B -->
+        <mxCell id="otel" value="OpenTelemetry Collector&#10;prometheus receiver · optional" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#2e7d32;align=left;spacingLeft=8;dashed=1;" vertex="1" parent="1"><mxGeometry x="600" y="290" width="208" height="62" as="geometry"/></mxCell>
+        <mxCell id="user" value="User tooling — Use case 2&#10;&#10;• OTEL Collector&#10;• Prometheus&#10;• Grafana&#10;• 3rd-party (Datadog, Grafana Cloud, …)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d7ecdb;strokeColor=#2e7d32;align=left;spacingLeft=8;verticalAlign=top;spacingTop=6;" vertex="1" parent="1"><mxGeometry x="840" y="232" width="208" height="168" as="geometry"/></mxCell>
+
+        <!-- edges -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555;endArrow=block;" edge="1" parent="1" source="lin" target="prom"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555;endArrow=block;" edge="1" parent="1" source="wint" target="prom"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#7e57c2;endArrow=block;" edge="1" parent="1" source="gcp" target="prom"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="eA1" value="/federate" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#1565c0;strokeWidth=2;endArrow=block;fontColor=#1565c0;" edge="1" parent="1" source="prom" target="agent"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="eA2" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#1565c0;strokeWidth=2;endArrow=block;" edge="1" parent="1" source="agent" target="ocimon"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="eB1" value="/federate" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#2e7d32;strokeWidth=2;endArrow=block;fontColor=#2e7d32;" edge="1" parent="1" source="prom" target="otel"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="eB2" value="OTLP/HTTP + remote_write" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#2e7d32;strokeWidth=2;endArrow=block;fontColor=#2e7d32;" edge="1" parent="1" source="otel" target="user"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

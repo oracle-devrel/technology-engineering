@@ -12,7 +12,8 @@ Reviewed: Reviewed: 17.06.2026
 |---|---|
 | AI agent skills for OCI observability  | [Link](https://github.com/adibirzu/oci-skills) | 
 | Observability Design Guide  | [Link](https://obs.octodemo.cloud/) |  
-| Oracle Cloud Prometheus Exporter|[Link](./assets/oracle-cloud-prometheus-exporter/README.md)|
+| OCI Prometheus Otel multicloud monitoring|[Link](./assets/oci-prometheus-otel-monitoring/README.md)|
+|Oracle Cloud Prometheus Exporter|[Link](./assets/oracle-cloud-prometheus-exporter/readme.md)|
 | Send OCI Logs to Azure Sentinel|[Link](./assets/send-oci-logs-to-azure-sentinel-using-oracle-functions/README.md)|
 |Streaming OCI Logs into Splunk |[Link](https://learnoci.cloud/streaming-oci-logs-into-splunk-with-soc4kafka-why-how-and-the-four-walls-i-hit-e1252024608e)|
 

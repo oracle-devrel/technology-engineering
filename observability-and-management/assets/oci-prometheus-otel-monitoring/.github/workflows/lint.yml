@@ -1,0 +1,43 @@
+name: lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  shellcheck:
+    name: ShellCheck (bash)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run shellcheck
+        run: |
+          sudo apt-get update && sudo apt-get install -y shellcheck
+          shellcheck -S warning *.sh otel-destination/*.sh
+
+  psscriptanalyzer:
+    name: PSScriptAnalyzer (PowerShell)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Analyze PowerShell
+        shell: pwsh
+        run: |
+          Set-PSRepository PSGallery -InstallationPolicy Trusted
+          Install-Module PSScriptAnalyzer -Force -Scope CurrentUser
+          # Fail only on Errors. Stylistic rules (approved-verb naming, ShouldProcess)
+          # are excluded to avoid churn on the existing function names.
+          $results = Invoke-ScriptAnalyzer -Path ./Install-OCI-Prometheus.ps1 `
+            -ExcludeRule PSUseApprovedVerbs,PSUseShouldProcessForStateChangingFunctions,PSAvoidUsingWriteHost
+          $results | Format-Table -AutoSize | Out-String | Write-Host
+          $errors = $results | Where-Object Severity -eq 'Error'
+          if ($errors) { Write-Error "PSScriptAnalyzer found $($errors.Count) error(s)."; exit 1 }
+
+  compose:
+    name: docker compose config
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate compose file
+        run: docker compose -f otel-destination/docker-compose.yml config >/dev/null
