@@ -1,0 +1,48 @@
+{
+  "title": "BLUELIGHT RAT: C2 via Microsoft Graph API",
+  "description": "Detects non-standard processes connecting to Microsoft Graph API endpoints. BLUELIGHT uses Microsoft Graph API and OneDrive for command-and-control, blending with legitimate Microsoft traffic to evade network detection.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Sysmon Network Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Event ID' = '3' and ('Destination Hostname' like '*graph.microsoft.com*' or 'Destination Hostname' like '*login.microsoftonline.com*')) and not (('Process Name' like '*\\\\OneDrive.exe' or 'Process Name' like '*\\\\Teams.exe' or 'Process Name' like '*\\\\OUTLOOK.EXE' or 'Process Name' like '*\\\\msedge.exe' or 'Process Name' like '*\\\\chrome.exe' or 'Process Name' like '*\\\\firefox.exe'))) | stats count by 'Process Name', 'Destination Hostname', 'Destination Port', 'Host Name (Server)'",
+  "sigma_id": "bl-s0657-t1071-001",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.command_and_control",
+    "attack.t1071.001",
+    "apt.apt37",
+    "malware.bluelight"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "command_and_control"
+    ],
+    "techniques": [
+      "T1071.001"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Sysmon Network Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Custom applications legitimately using Microsoft Graph API",
+    "PowerShell scripts using Graph API for administration"
+  ],
+  "atomic_red_team": {
+    "has_tests": false,
+    "test_count": 0,
+    "techniques_with_tests": [],
+    "tests": []
+  },
+  "splunk_original": "index=sysmon EventCode=3 DestinationHostname IN (\"graph.microsoft.com\",\"login.microsoftonline.com\") NOT Image IN (\"*onedrive.exe\",\"*teams.exe\",\"*outlook.exe\",\"*msedge.exe\") | stats count by Image, DestinationHostname, DestinationPort",
+  "threat_intel": {
+    "malware_family": "BLUELIGHT",
+    "mitre_software_id": "S0657",
+    "threat_actor": "APT37 (InkySquid)"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "title": "WAF Attack Frequency by Source IP (Frequency Analysis)",
+  "description": "Identifies source IPs generating the most WAF block events. Uses frequency analysis (Threat Hunter's Cookbook: Sorting/Stacking) to surface prolific attackers targeting the web application. IPs with high block counts indicate automated attack tools.",
+  "query": "('Log Source' = 'OCI WAF Logs' or 'Log Source' = 'SOC WAF Security Logs') and 'Action' = 'BLOCK' | stats count as blocked_requests, unique('Rule Key') as rules_triggered, earliest(time) as first_seen, latest(time) as last_seen by 'Client IP' | sort -blocked_requests | where blocked_requests > 10",
+  "type": "hunting",
+  "hunting_type": "frequency_analysis",
+  "cookbook_method": "sorting_stacking",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.initial_access",
+    "attack.t1190",
+    "owasp.a09"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "initial_access"
+    ],
+    "techniques": [
+      "T1190"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "waf"
+  },
+  "falsepositives": [
+    "Authorized penetration testing",
+    "WAF tuning generating false positive blocks"
+  ]
+}

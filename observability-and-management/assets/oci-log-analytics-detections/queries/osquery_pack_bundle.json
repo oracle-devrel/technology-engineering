@@ -1,0 +1,194 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-06-09T20:48:01.553863+00:00",
+  "source": "config/osquery/packs",
+  "parser_paths": {
+    "cloud_guard_instance_security": "scripts/setup_log_sources.py:CGIS_FIELD_MAPPINGS",
+    "synthetic_dataset": "test_data/cloud_guard_instance_security.jsonl"
+  },
+  "deployment_commands": [
+    "python3 scripts/setup_log_sources.py --dry-run",
+    "python3 scripts/generate_test_logs.py",
+    "python3 scripts/ingest_test_data.py --file cloud_guard_instance_security.jsonl"
+  ],
+  "linked_detections": [
+    "cloud_guard_instance_security_high_severity_pivots.json",
+    "cloud_guard_instance_security_findings_by_pack_query.json",
+    "cloud_guard_instance_security_raw_result_detail.json"
+  ],
+  "packs": [
+    {
+      "name": "baseline-linux",
+      "platform": "linux",
+      "description": "Baseline Linux posture checks for suspicious filesystem and process state.",
+      "path": "config/osquery/packs/baseline_linux.json",
+      "queries": [
+        {
+          "id": "world_writable_paths",
+          "name": "World-writable sensitive paths",
+          "sql": "SELECT path, mode FROM file WHERE path IN ('/tmp', '/var/tmp', '/dev/shm');",
+          "severity": "medium",
+          "expected_fields": [
+            "path",
+            "mode"
+          ],
+          "mitre": [
+            "T1222"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "baseline-windows",
+      "platform": "windows",
+      "description": "Baseline Windows posture checks for suspicious services and startup entries.",
+      "path": "config/osquery/packs/baseline_windows.json",
+      "queries": [
+        {
+          "id": "unexpected_services",
+          "name": "Unexpected services",
+          "sql": "SELECT name, path, start_type FROM services WHERE start_type = 'AUTO_START';",
+          "severity": "medium",
+          "expected_fields": [
+            "name",
+            "path",
+            "start_type"
+          ],
+          "mitre": [
+            "T1543.003"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "container-oke-host",
+      "platform": "linux",
+      "description": "Container and OKE host checks for namespace escape and privileged runtime abuse.",
+      "path": "config/osquery/packs/container_oke_host.json",
+      "queries": [
+        {
+          "id": "host_namespace_processes",
+          "name": "Host namespace entry processes",
+          "sql": "SELECT pid, cmdline FROM processes WHERE cmdline LIKE '%nsenter%' OR cmdline LIKE '%hostPID%';",
+          "severity": "critical",
+          "expected_fields": [
+            "pid",
+            "cmdline"
+          ],
+          "mitre": [
+            "T1611"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "malware-triage",
+      "platform": "linux,windows",
+      "description": "Malware triage checks for suspicious binaries, hashes, persistence, and active connections.",
+      "path": "config/osquery/packs/malware_triage.json",
+      "queries": [
+        {
+          "id": "recent_suspicious_processes",
+          "name": "Recent suspicious processes",
+          "sql": "SELECT pid, name, path, cmdline FROM processes WHERE cmdline LIKE '%/tmp/%' OR cmdline LIKE '%powershell%';",
+          "severity": "critical",
+          "expected_fields": [
+            "pid",
+            "name",
+            "path",
+            "cmdline"
+          ],
+          "mitre": [
+            "T1059"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "network-exposure",
+      "platform": "linux,windows",
+      "description": "Network exposure checks for unexpected listeners and suspicious sockets.",
+      "path": "config/osquery/packs/network_exposure.json",
+      "queries": [
+        {
+          "id": "unexpected_listeners",
+          "name": "Unexpected listeners",
+          "sql": "SELECT pid, port, protocol, address FROM listening_ports WHERE port NOT IN (22, 80, 443);",
+          "severity": "critical",
+          "expected_fields": [
+            "pid",
+            "port",
+            "protocol",
+            "address"
+          ],
+          "mitre": [
+            "T1095"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "persistence",
+      "platform": "linux,windows",
+      "description": "Persistence checks across cron, services, launch points, and shell profiles.",
+      "path": "config/osquery/packs/persistence.json",
+      "queries": [
+        {
+          "id": "suspicious_cron_entries",
+          "name": "Suspicious cron entries",
+          "sql": "SELECT command, path FROM crontab WHERE command LIKE '%curl%' OR command LIKE '%wget%';",
+          "severity": "high",
+          "expected_fields": [
+            "command",
+            "path"
+          ],
+          "mitre": [
+            "T1053.003"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "privilege-escalation",
+      "platform": "linux,windows",
+      "description": "Privilege escalation checks for sudoers, token abuse, and elevated service state.",
+      "path": "config/osquery/packs/privilege_escalation.json",
+      "queries": [
+        {
+          "id": "sudoers_nopasswd",
+          "name": "NOPASSWD sudoers entries",
+          "sql": "SELECT path, line FROM file_lines WHERE path LIKE '/etc/sudoers%' AND line LIKE '%NOPASSWD%';",
+          "severity": "high",
+          "expected_fields": [
+            "path",
+            "line"
+          ],
+          "mitre": [
+            "T1548"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "web-server-compromise",
+      "platform": "linux",
+      "description": "Web server compromise checks for webshells, suspicious child processes, and modified content roots.",
+      "path": "config/osquery/packs/web_server_compromise.json",
+      "queries": [
+        {
+          "id": "webshell_like_files",
+          "name": "Webshell-like files",
+          "sql": "SELECT path, filename FROM file WHERE directory IN ('/var/www/html', '/usr/share/nginx/html') AND filename LIKE '%.php';",
+          "severity": "high",
+          "expected_fields": [
+            "path",
+            "filename"
+          ],
+          "mitre": [
+            "T1505.003"
+          ]
+        }
+      ]
+    }
+  ]
+}

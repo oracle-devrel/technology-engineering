@@ -1,0 +1,122 @@
+{
+  "title": "Screen Capture via PowerShell",
+  "description": "Detects PowerShell commands capturing screenshots using .NET classes.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*CopyFromScreen*' or 'Command Line' like '*Drawing.Bitmap*' or 'Command Line' like '*screenshot*')))",
+  "sigma_id": "2ae6d2f4-69c3-4bf6-931a-a7569d717e67",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.collection",
+    "attack.t1113"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "collection"
+    ],
+    "techniques": [
+      "T1113"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate screenshot utilities",
+    "Automated testing tools"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 10,
+    "techniques_with_tests": [
+      "T1113"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1113",
+        "test_name": "Screencapture",
+        "test_guid": "0f47ceb1-720f-4275-96b8-21f0562217ac",
+        "executor": "bash",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1113/T1113.md"
+      },
+      {
+        "technique_id": "T1113",
+        "test_name": "Screencapture (silent)",
+        "test_guid": "deb7d358-5fbd-4dc4-aecc-ee0054d2d9a4",
+        "executor": "bash",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1113/T1113.md"
+      },
+      {
+        "technique_id": "T1113",
+        "test_name": "X Windows Capture",
+        "test_guid": "8206dd0c-faf6-4d74-ba13-7fbe13dce6ac",
+        "executor": "bash",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1113/T1113.md"
+      },
+      {
+        "technique_id": "T1113",
+        "test_name": "X Windows Capture (freebsd)",
+        "test_guid": "562f3bc2-74e8-46c5-95c7-0e01f9ccc65c",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1113/T1113.md"
+      },
+      {
+        "technique_id": "T1113",
+        "test_name": "Capture Linux Desktop using Import Tool",
+        "test_guid": "9cd1cccb-91e4-4550-9139-e20a586fcea1",
+        "executor": "bash",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1113/T1113.md"
+      },
+      {
+        "technique_id": "T1113",
+        "test_name": "Capture Linux Desktop using Import Tool (freebsd)",
+        "test_guid": "18397d87-38aa-4443-a098-8a48a8ca5d8d",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1113/T1113.md"
+      },
+      {
+        "technique_id": "T1113",
+        "test_name": "Windows Screencapture",
+        "test_guid": "3c898f62-626c-47d5-aad2-6de873d69153",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1113/T1113.md"
+      },
+      {
+        "technique_id": "T1113",
+        "test_name": "Windows Screen Capture (CopyFromScreen)",
+        "test_guid": "e9313014-985a-48ef-80d9-cde604ffc187",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1113/T1113.md"
+      },
+      {
+        "technique_id": "T1113",
+        "test_name": "Windows Recall Feature Enabled - DisableAIDataAnalysis Value Deleted",
+        "test_guid": "5a496325-0115-4274-8eb9-755b649ad0fb",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1113/T1113.md"
+      },
+      {
+        "technique_id": "T1113",
+        "test_name": "RDP Bitmap Cache Extraction via bmc-tools",
+        "test_guid": "98f19852-7348-4f99-9e15-6ff4320464c7",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1113/T1113.md"
+      }
+    ]
+  }
+}

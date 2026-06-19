@@ -1,0 +1,49 @@
+{
+  "title": "Port Monitor DLL Persistence",
+  "description": "Detects registration of port monitor DLLs which run in the context of the Print Spooler service.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*Monitors*' and 'Command Line' like '*Driver*' and 'Command Line' like '*reg*' and 'Command Line' like '*add*')))",
+  "sigma_id": "27dc99d0-bfbd-46f8-9174-f5dedf14a2d6",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.persistence",
+    "attack.t1547.010"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence"
+    ],
+    "techniques": [
+      "T1547.010"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate print port monitor installation"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 1,
+    "techniques_with_tests": [
+      "T1547.010"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1547.010",
+        "test_name": "Add Port Monitor persistence in Registry",
+        "test_guid": "d34ef297-f178-4462-871e-9ce618d44e50",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1547.010/T1547.010.md"
+      }
+    ]
+  }
+}

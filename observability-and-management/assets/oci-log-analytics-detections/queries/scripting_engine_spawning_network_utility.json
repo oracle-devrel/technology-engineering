@@ -1,0 +1,65 @@
+{
+  "title": "Scripting Engine Spawning Network Utility",
+  "description": "Detects scripting engines spawning network utilities like curl, wget, or net.exe.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Parent Process Name' like '*\\\\wscript.exe' or 'Parent Process Name' like '*\\\\cscript.exe' or 'Parent Process Name' like '*\\\\mshta.exe') and ('Process Name' like '*\\\\cmd.exe' or 'Process Name' like '*\\\\powershell.exe' or 'Process Name' like '*\\\\net.exe' or 'Process Name' like '*\\\\net1.exe')))",
+  "sigma_id": "dd93ff28-0930-4cba-9f95-2efff6d8bc28",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.execution",
+    "attack.t1059.005"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "execution"
+    ],
+    "techniques": [
+      "T1059.005"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate deployment scripts"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 3,
+    "techniques_with_tests": [
+      "T1059.005"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1059.005",
+        "test_name": "Visual Basic script execution to gather local computer information",
+        "test_guid": "1620de42-160a-4fe5-bbaf-d3fef0181ce9",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.005/T1059.005.md"
+      },
+      {
+        "technique_id": "T1059.005",
+        "test_name": "Encoded VBS code execution",
+        "test_guid": "e8209d5f-e42d-45e6-9c2f-633ac4f1eefa",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.005/T1059.005.md"
+      },
+      {
+        "technique_id": "T1059.005",
+        "test_name": "Extract Memory via VBA",
+        "test_guid": "8faff437-a114-4547-9a60-749652a03df6",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.005/T1059.005.md"
+      }
+    ]
+  }
+}

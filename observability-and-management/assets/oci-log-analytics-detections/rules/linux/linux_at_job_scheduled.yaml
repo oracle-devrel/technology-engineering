@@ -1,0 +1,22 @@
+title: Linux At Job Scheduled
+id: e1f2a3b4-4014-4000-8000-000000000014
+status: stable
+description: Detects scheduling of at jobs for deferred command execution. Attackers
+  use at jobs for timed persistence or delayed payload execution.
+logsource:
+  product: linux
+  service: audit
+detection:
+  sel_at:
+    process_name: at
+  sel_batch:
+    process_name: batch
+  condition: sel_at or sel_batch
+level: medium
+tags:
+- attack.persistence
+- attack.t1053.002
+falsepositives:
+- Legitimate scheduled maintenance tasks
+- Batch processing systems
+version: 1

@@ -1,0 +1,96 @@
+{
+  "title": "ApexOne - Top sources with alerts",
+  "description": "'Query shows list of top sources with alerts.'\n",
+  "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and (('Source IP' != null and 'Source IP' != '')) | stats count as IpCount by 'Source IP' | sort -IpCount | head 20",
+  "level": "medium",
+  "source_type": "microsoft_sentinel",
+  "sentinel_id": "8bb86556-67b4-11ec-90d6-0242ac120003",
+  "sentinel_source_path": "Solutions/Trend Micro Apex One/Hunting Queries/TMApexOneTopSources.yaml",
+  "sentinel_source_url": "https://github.com/Azure/Azure-Sentinel/blob/63ff8eedc58e7df0d22eba05ca73c92b59a66634/Solutions/Trend Micro Apex One/Hunting Queries/TMApexOneTopSources.yaml",
+  "required_data_connectors": [
+    {
+      "connector_id": "CefAma",
+      "data_types": [
+        "CommonSecurityLog"
+      ]
+    }
+  ],
+  "conversion_status": "promoted",
+  "conversion_confidence": "medium",
+  "source_confidence": "high",
+  "live_validation_status": "passed",
+  "sentinel_tables": [
+    "TMApexOneEvent"
+  ],
+  "sentinel_category": "endpoint",
+  "tags": [
+    "microsoft_sentinel",
+    "sentinel.endpoint"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "execution",
+      "initial_access",
+      "privilege_escalation",
+      "defense_evasion",
+      "command_and_control",
+      "exfiltration"
+    ],
+    "techniques": [
+      "T1204",
+      "T1189",
+      "T1068",
+      "T1202",
+      "T1112",
+      "T1055",
+      "T1071",
+      "T1095",
+      "T1537",
+      "T1567"
+    ]
+  },
+  "logsource": {
+    "product": "microsoft_sentinel",
+    "service": "endpoint_security",
+    "candidates": [
+      "SOC Windows Sysmon Logs",
+      "Windows Security Events"
+    ],
+    "original_tables": [
+      "TMApexOneEvent"
+    ]
+  },
+  "references": [
+    {
+      "name": "Microsoft Sentinel source rule",
+      "url": "https://github.com/Azure/Azure-Sentinel/blob/63ff8eedc58e7df0d22eba05ca73c92b59a66634/Solutions/Trend Micro Apex One/Hunting Queries/TMApexOneTopSources.yaml"
+    },
+    {
+      "name": "Microsoft Sentinel repository",
+      "url": "https://github.com/Azure/Azure-Sentinel"
+    },
+    {
+      "name": "Azure/Azure-Sentinel license",
+      "url": "https://github.com/Azure/Azure-Sentinel/blob/master/LICENSE"
+    }
+  ],
+  "attribution": {
+    "source": "Microsoft Sentinel",
+    "repository": "Azure/Azure-Sentinel",
+    "license": "MIT",
+    "license_url": "https://github.com/Azure/Azure-Sentinel/blob/master/LICENSE"
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "timeSelection": {
+      "timePeriod": "l21d"
+    },
+    "ask_ai_prompts": [
+      "Summarize the Microsoft Sentinel converted detection results and identify the highest-risk pivots."
+    ]
+  },
+  "detection_maturity": "source_converted",
+  "field_coverage": "mapped_subset",
+  "test_data_coverage": "not_evaluated",
+  "scheduled_rule_eligibility": "not_evaluated"
+}

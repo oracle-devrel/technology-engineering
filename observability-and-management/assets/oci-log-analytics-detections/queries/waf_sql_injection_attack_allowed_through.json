@@ -1,0 +1,34 @@
+{
+  "title": "WAF SQL Injection Attack Allowed Through",
+  "description": "Detects SQL injection attempts that were ALLOWED through WAF (detection-only mode or rule bypass). Critical alert indicating potential successful exploitation.",
+  "query": "('Log Source' = 'OCI WAF Logs' or 'Log Source' = 'SOC WAF Security Logs') and (('Action' = 'DETECT') and (('Request URL' like '* OR 1=1*' or 'Request URL' like '* or 1=1*' or 'Request URL' like '*1=1*' or 'Request URL' like '*\\' OR 1=1*' or 'Request URL' like '*\\' or 1=1*' or 'Request URL' like '*\\' OR \\'1\\'=\\'1*' or 'Request URL' like '*\\' or \\'1\\'=\\'1*' or 'Request URL' like '*\\' AND 1=1*' or 'Request URL' like '*%27%20OR%201%3D1*' or 'Request URL' like '*%27+OR+1%3D1*' or 'Request URL' like '*UNION SELECT*' or 'Request URL' like '*union select*' or 'Request URL' like '*UNION%20SELECT*' or 'Request URL' like '*DROP TABLE*' or 'Request URL' like '*drop table*' or 'Request URL' like '*--*' or 'Request URL' like '*INFORMATION_SCHEMA*' or 'Request URL' like '*information_schema*' or 'Request URL' like '*SLEEP(*' or 'Request URL' like '*BENCHMARK(*' or 'Request URL' like '*EXTRACTVALUE(*')))",
+  "sigma_id": "a1010002-owasp-a03-sqli-allow-001",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.initial_access",
+    "attack.t1190",
+    "attack.t1059.007",
+    "owasp.a03"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "initial_access"
+    ],
+    "techniques": [
+      "T1190",
+      "T1059.007"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "waf",
+    "candidates": [
+      "OCI WAF Logs",
+      "SOC WAF Security Logs"
+    ]
+  },
+  "falsepositives": [
+    "WAF in detection-only mode during initial tuning"
+  ]
+}

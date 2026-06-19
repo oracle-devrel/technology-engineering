@@ -1,0 +1,30 @@
+{
+  "title": "OCI Audit Configuration Retention Reduced",
+  "description": "Detects changes to audit configuration that may shorten retention period to destroy evidence.",
+  "query": "'Log Source' = 'OCI Audit Logs' and (('Event Type' = 'com.oraclecloud.audit.updateconfiguration') and ('Original Log Content' like '*retentionPeriodDays*'))",
+  "sigma_id": "9ce2dcb4-704a-4726-9081-9b03a316f50e",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.t1562.008"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1562.008"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Compliance-driven audit configuration changes"
+  ]
+}

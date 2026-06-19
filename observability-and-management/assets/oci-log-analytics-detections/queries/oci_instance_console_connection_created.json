@@ -1,0 +1,35 @@
+{
+  "title": "OCI Instance Console Connection Created",
+  "description": "Detects creation of serial or VNC console connections to compute instances. Console connections bypass network controls and may indicate unauthorized access.",
+  "query": "'Log Source' = 'OCI Audit Logs' and (('Event Type' = 'com.oraclecloud.computeapi.createinstanceconsoleconnection'))",
+  "sigma_id": "e1f2a3b4-4004-4000-8000-000000000004",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.lateral_movement",
+    "attack.t1021",
+    "stig.AC-17"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "lateral_movement"
+    ],
+    "techniques": [
+      "T1021"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "stig_ids": [
+    "AC-17"
+  ],
+  "falsepositives": [
+    "Troubleshooting instances with network connectivity issues",
+    "Emergency break-glass procedures"
+  ]
+}

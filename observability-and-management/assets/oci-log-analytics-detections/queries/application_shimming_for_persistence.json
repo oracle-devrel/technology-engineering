@@ -1,0 +1,65 @@
+{
+  "title": "Application Shimming for Persistence",
+  "description": "Detects creation of application compatibility shims using sdbinst.exe.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Process Name' like '*\\\\sdbinst.exe'))",
+  "sigma_id": "d1ddde6e-fc36-494e-b9c6-30430981156f",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.persistence",
+    "attack.t1546.011"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence"
+    ],
+    "techniques": [
+      "T1546.011"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate application compatibility fixes"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 3,
+    "techniques_with_tests": [
+      "T1546.011"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1546.011",
+        "test_name": "Application Shim Installation",
+        "test_guid": "9ab27e22-ee62-4211-962b-d36d9a0e6a18",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.011/T1546.011.md"
+      },
+      {
+        "technique_id": "T1546.011",
+        "test_name": "New shim database files created in the default shim database directory",
+        "test_guid": "aefd6866-d753-431f-a7a4-215ca7e3f13d",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.011/T1546.011.md"
+      },
+      {
+        "technique_id": "T1546.011",
+        "test_name": "Registry key creation and/or modification events for SDB",
+        "test_guid": "9b6a06f9-ab5e-4e8d-8289-1df4289db02f",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.011/T1546.011.md"
+      }
+    ]
+  }
+}

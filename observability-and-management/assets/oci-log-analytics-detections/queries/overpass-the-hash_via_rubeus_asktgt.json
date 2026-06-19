@@ -1,0 +1,34 @@
+{
+  "title": "Overpass-the-Hash via Rubeus asktgt",
+  "description": "Detects overpass-the-hash (pass-the-key), where a stolen NTLM hash or AES key is used with Rubeus 'asktgt' to request a fresh TGT, converting an NTLM hash into full Kerberos access. Indicators: asktgt with /rc4, /aes256, or /des and a /user + /domain.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*asktgt*' and 'Command Line' like '*/user:*')) and (('Command Line' like '*/rc4:*' or 'Command Line' like '*/aes256:*' or 'Command Line' like '*/aes128:*' or 'Command Line' like '*/des:*' or 'Command Line' like '*/ntlm:*')))",
+  "sigma_id": "22580978-36a5-4e45-a8e1-ae5996e3f7b6",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.lateral_movement",
+    "attack.t1550.002",
+    "attack.credential_access"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "lateral_movement",
+      "credential_access"
+    ],
+    "techniques": [
+      "T1550.002"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Authorized Kerberos testing"
+  ]
+}

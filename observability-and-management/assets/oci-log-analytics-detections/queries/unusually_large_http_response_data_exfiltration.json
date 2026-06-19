@@ -1,0 +1,35 @@
+{
+  "title": "Unusually Large HTTP Response (Data Exfiltration)",
+  "description": "Detects unusually large HTTP responses that may indicate successful data exfiltration (database dumps, bulk user data extraction). OWASP A01:2021 Broken Access Control.",
+  "query": "('Log Source' = 'OCI Load Balancer Access Logs' or 'Log Source' = 'SOC Load Balancer Access Logs') and (('Response Code' = '200') and (('Request URL' like '*/api/*' or 'Request URL' like '*/export*' or 'Request URL' like '*/download*' or 'Request URL' like '*/dump*' or 'Request URL' like '*/backup*' or 'Request URL' like '*/users*' or 'Request URL' like '*/data*' or 'Request URL' like '*/report*' or 'Request URL' like '*/vulnerable*')))",
+  "sigma_id": "a1010014-owasp-a01-exfil-001",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.exfiltration",
+    "attack.t1041",
+    "attack.t1048",
+    "owasp.a01"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "exfiltration"
+    ],
+    "techniques": [
+      "T1041",
+      "T1048"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "loadbalancer",
+    "candidates": [
+      "OCI Load Balancer Access Logs",
+      "SOC Load Balancer Access Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate large file downloads",
+    "Report generation endpoints"
+  ]
+}

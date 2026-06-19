@@ -1,0 +1,33 @@
+{
+  "title": "Cloud Guard Problem: VCN Security List Port RDP",
+  "description": "Detects Cloud Guard reporting problem: VCN_Security_List_Port_RDP.",
+  "query": "('Log Source' = 'OCI Cloud Guard Problems' or 'Log Source' = 'OCI Cloud Guard Logs' or 'Log Source' = 'SOC Cloud Guard Logs') and (('Problem Name' = 'VCN_Security_List_Port_RDP'))",
+  "sigma_id": "7f8abb6a-4159-42ac-b20a-8eac660e3100",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "oci.cloud_guard",
+    "attack.initial_access",
+    "attack.t1133"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "initial_access"
+    ],
+    "techniques": [
+      "T1133"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "cloud_guard",
+    "candidates": [
+      "OCI Cloud Guard Problems",
+      "OCI Cloud Guard Logs",
+      "SOC Cloud Guard Logs"
+    ]
+  },
+  "falsepositives": [
+    "Authorized administrative operations"
+  ]
+}

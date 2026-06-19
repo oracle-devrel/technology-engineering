@@ -1,0 +1,50 @@
+{
+  "title": "Windows Privileged Group Membership Changed",
+  "description": "Detects additions to privileged local, global, or universal groups through Security Event IDs 4728, 4732, and 4756.",
+  "query": "('Log Source' = 'Windows Security Events' or 'Log Source' = 'Windows Event Security Logs') and 'Event ID' in ('4728', '4732', '4756') and ('Target User Name' like '*Domain Admins*' or 'Target User Name' like '*Enterprise Admins*' or 'Target User Name' like '*Administrators*' or 'Target User Name' like '*Remote Desktop Users*' or msg like '*Domain Admins*' or msg like '*Administrators*') | stats count as GroupChanges, unique('Target User Name') as Groups by User, 'Host Name (Server)', Entity | sort -GroupChanges",
+  "sigma_id": "logan-winsec-privileged-group-membership-change",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.persistence",
+    "attack.privilege_escalation",
+    "attack.t1098"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence",
+      "privilege_escalation"
+    ],
+    "techniques": [
+      "T1098"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "security",
+    "candidates": [
+      "Windows Security Events",
+      "Windows Event Security Logs"
+    ]
+  },
+  "falsepositives": [
+    "Approved identity administration changes"
+  ],
+  "requires_aggregation": true,
+  "references": [
+    {
+      "name": "Microsoft Learn: 4728(S) A member was added to a security-enabled global group",
+      "url": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4728"
+    },
+    {
+      "name": "Microsoft Learn: 4732(S) A member was added to a security-enabled local group",
+      "url": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4732"
+    }
+  ],
+  "atomic_red_team": {
+    "has_tests": false,
+    "test_count": 0,
+    "techniques_with_tests": [],
+    "tests": []
+  }
+}

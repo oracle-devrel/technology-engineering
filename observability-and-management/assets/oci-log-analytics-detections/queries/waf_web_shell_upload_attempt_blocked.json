@@ -1,0 +1,35 @@
+{
+  "title": "WAF Web Shell Upload Attempt Blocked",
+  "description": "Detects attempts to upload web shell files blocked by WAF. Web shells provide persistent remote access through the web server. OWASP A03:2021 Injection.",
+  "query": "('Log Source' = 'OCI WAF Logs' or 'Log Source' = 'SOC WAF Security Logs') and (('Action' = 'BLOCK' and 'HTTP Method' = 'POST') and (('Request URL' like '*.php*' or 'Request URL' like '*.jsp*' or 'Request URL' like '*.asp*' or 'Request URL' like '*.aspx*' or 'Request URL' like '*.cgi*' or 'Request URL' like '*upload*' or 'Request URL' like '*file*')) and (('Request Body' like '*<?php*' or 'Request Body' like '*system(*' or 'Request Body' like '*exec(*' or 'Request Body' like '*passthru(*' or 'Request Body' like '*shell_exec(*' or 'Request Body' like '*eval(*' or 'Request Body' like '*base64_decode(*' or 'Request Body' like '*<%@ page*' or 'Request Body' like '*Runtime.getRuntime*' or 'Request Body' like '*ProcessBuilder*' or 'Request Body' like '*cmd.exe*' or 'Request Body' like '*/bin/sh*' or 'Request Body' like '*c99shell*' or 'Request Body' like '*r57shell*')))",
+  "sigma_id": "a1010021-owasp-a03-webshell-001",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.persistence",
+    "attack.t1505.003",
+    "attack.t1190",
+    "owasp.a03"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence"
+    ],
+    "techniques": [
+      "T1505.003",
+      "T1190"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "waf",
+    "candidates": [
+      "OCI WAF Logs",
+      "SOC WAF Security Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate file upload functionality",
+    "CMS plugin installations"
+  ]
+}

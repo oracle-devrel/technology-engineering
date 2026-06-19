@@ -1,0 +1,34 @@
+{
+  "title": "WAF Server-Side Request Forgery Blocked",
+  "description": "Detects SSRF attempts blocked by WAF where attackers try to make the server fetch internal resources. OWASP A10:2021 Server-Side Request Forgery.",
+  "query": "('Log Source' = 'OCI WAF Logs' or 'Log Source' = 'SOC WAF Security Logs') and (('Action' = 'BLOCK') and (('Request URL' like '*169.254.169.254*' or 'Request URL' like '*metadata.google*' or 'Request URL' like '*100.100.100.200*' or 'Request URL' like '*localhost*' or 'Request URL' like '*127.0.0.1*' or 'Request URL' like '*0.0.0.0*' or 'Request URL' like '*[::]*' or 'Request URL' like '*0x7f000001*' or 'Request URL' like '*2130706433*' or 'Request URL' like '*http://10.*' or 'Request URL' like '*http://172.16*' or 'Request URL' like '*http://172.17*' or 'Request URL' like '*http://172.18*' or 'Request URL' like '*http://192.168*' or 'Request URL' like '*file:///*' or 'Request URL' like '*gopher://*' or 'Request URL' like '*dict://*' or 'Request URL' like '*oraclecloud.com/opc*' or 'Request URL' like '*metadata.oraclecloud.com*')))",
+  "sigma_id": "a1010006-owasp-a10-ssrf-block-001",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.initial_access",
+    "attack.t1190",
+    "attack.t1552.005",
+    "owasp.a10"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "initial_access"
+    ],
+    "techniques": [
+      "T1190",
+      "T1552.005"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "waf",
+    "candidates": [
+      "OCI WAF Logs",
+      "SOC WAF Security Logs"
+    ]
+  },
+  "falsepositives": [
+    "Internal health check endpoints configured through URL parameters"
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "title": "AppInit DLLs Persistence",
+  "description": "Detects modification of AppInit_DLLs registry value to inject DLLs into every process that loads User32.dll.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*AppInit_DLLs*' and 'Command Line' like '*reg*')))",
+  "sigma_id": "e0d404a0-c47f-410d-b816-c91c570fe68c",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.persistence",
+    "attack.t1546.010"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence"
+    ],
+    "techniques": [
+      "T1546.010"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate AppInit DLL registration"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 1,
+    "techniques_with_tests": [
+      "T1546.010"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1546.010",
+        "test_name": "Install AppInit Shim",
+        "test_guid": "a58d9386-3080-4242-ab5f-454c16503d18",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.010/T1546.010.md"
+      }
+    ]
+  }
+}

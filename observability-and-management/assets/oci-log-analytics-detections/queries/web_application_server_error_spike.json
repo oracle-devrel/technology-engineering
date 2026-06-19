@@ -1,0 +1,34 @@
+{
+  "title": "Web Application Server Error Spike",
+  "description": "Detects HTTP 500 Internal Server Error responses which may indicate successful injection attacks causing application errors, or application instability from attack traffic.",
+  "query": "('Log Source' = 'OCI Load Balancer Access Logs' or 'Log Source' = 'SOC Load Balancer Access Logs') and ((('Response Code' = '500' or 'Response Code' = '502' or 'Response Code' = '503')))",
+  "sigma_id": "a1010015-owasp-a05-servererror-001",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.impact",
+    "attack.t1499",
+    "owasp.a05"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "impact"
+    ],
+    "techniques": [
+      "T1499"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "loadbalancer",
+    "candidates": [
+      "OCI Load Balancer Access Logs",
+      "SOC Load Balancer Access Logs"
+    ]
+  },
+  "falsepositives": [
+    "Application deployment or restart",
+    "Backend service outages",
+    "Legitimate application bugs"
+  ]
+}

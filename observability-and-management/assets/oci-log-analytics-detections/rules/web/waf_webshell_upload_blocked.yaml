@@ -1,0 +1,47 @@
+title: WAF Web Shell Upload Attempt Blocked
+id: a1010021-owasp-a03-webshell-001
+status: stable
+version: 1
+description: Detects attempts to upload web shell files blocked by WAF. Web shells provide persistent remote access through the web server. OWASP A03:2021 Injection.
+logsource:
+  product: oci
+  service: waf
+detection:
+  selection:
+    waf_action: BLOCK
+    http_method: POST
+  shell_patterns:
+    request_url|contains:
+    - ".php"
+    - ".jsp"
+    - ".asp"
+    - ".aspx"
+    - ".cgi"
+    - upload
+    - file
+  shell_content:
+    request_body|contains:
+    - "<?php"
+    - "system("
+    - "exec("
+    - "passthru("
+    - "shell_exec("
+    - "eval("
+    - "base64_decode("
+    - "<%@ page"
+    - "Runtime.getRuntime"
+    - "ProcessBuilder"
+    - "cmd.exe"
+    - "/bin/sh"
+    - "c99shell"
+    - "r57shell"
+  condition: selection and shell_patterns and shell_content
+level: critical
+tags:
+- attack.persistence
+- attack.t1505.003
+- attack.t1190
+- owasp.a03
+falsepositives:
+- Legitimate file upload functionality
+- CMS plugin installations

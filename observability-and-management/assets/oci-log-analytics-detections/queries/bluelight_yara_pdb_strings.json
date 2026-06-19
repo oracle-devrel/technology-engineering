@@ -1,0 +1,60 @@
+{
+  "title": "BLUELIGHT RAT: YARA PDB Path Indicators (APT_MAL_Win_BlueLight)",
+  "description": "Detects BLUELIGHT malware PDB path strings in process memory, file content, or Sysmon ImageLoaded events. Based on Volexity YARA rule APT_MAL_Win_BlueLight (id: 3ec2d44c). The PDB paths 'Development\\BACKDOOR\\ncov\\' and 'Release\\bluelight.pdb' are unique to BLUELIGHT compilation artifacts.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*\\\\Development\\\\BACKDOOR\\\\ncov\\\\*' or 'Command Line' like '*Release\\\\bluelight.pdb*') and 'Original File Name' like '*bluelight*') or (('Target Filename' like '*bluelight.pdb*' or 'Target Filename' like '*BACKDOOR\\\\ncov*'))) | stats count by 'Host Name (Server)', Entity, 'Process Name'",
+  "sigma_id": "bl-s0657-yara-pdb-001",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.execution",
+    "attack.t1204.002",
+    "apt.apt37",
+    "malware.bluelight",
+    "yara.APT_MAL_Win_BlueLight"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "execution"
+    ],
+    "techniques": [
+      "T1204.002"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "None expected - PDB paths are unique compilation artifacts"
+  ],
+  "atomic_red_team": {
+    "has_tests": false,
+    "test_count": 0,
+    "techniques_with_tests": [],
+    "tests": []
+  },
+  "yara_source": {
+    "rule_name": "APT_MAL_Win_BlueLight",
+    "rule_id": "3ec2d44c-4c08-514d-a839-acef3f53f7dc",
+    "author": "threatintel@volexity.com",
+    "strings_used": [
+      "$pdb1",
+      "$pdb2"
+    ],
+    "repository": "https://github.com/Neo23x0/signature-base/blob/master/yara/apt_apt37_bluelight.yar"
+  },
+  "threat_intel": {
+    "malware_family": "BLUELIGHT",
+    "mitre_software_id": "S0657",
+    "threat_actor": "APT37 (InkySquid)",
+    "hashes": [
+      "7c40019c1d4cef2ffdd1dd8f388aaba537440b1bffee41789c900122d075a86d",
+      "94b71ee0861cc7cfbbae53ad2e411a76f296fd5684edf6b25ebe79bf6a2a600a"
+    ]
+  }
+}

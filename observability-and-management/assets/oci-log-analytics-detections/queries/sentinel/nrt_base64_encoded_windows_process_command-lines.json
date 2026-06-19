@@ -1,0 +1,91 @@
+{
+  "title": "NRT Base64 Encoded Windows Process Command-lines",
+  "description": "'This detection identifies instances of a base64 encoded PE file header seen in the process command line parameter.'\n",
+  "query": "('Log Source' = 'Windows Security Events' or 'Log Source' = 'Windows Event Security Logs') and ('Event ID' = '4688') and (('Command Line' != null and 'Command Line' != '')) and ('Command Line' like '*TVqQAAMAAAAEAAA*')",
+  "level": "medium",
+  "source_type": "microsoft_sentinel",
+  "sentinel_id": "c3e5dbaa-a540-408c-8b36-68bdfb3df088",
+  "sentinel_source_path": "Solutions/Windows Security Events/Analytic Rules/NRT_base64_encoded_pefile.yaml",
+  "sentinel_source_url": "https://github.com/Azure/Azure-Sentinel/blob/63ff8eedc58e7df0d22eba05ca73c92b59a66634/Solutions/Windows Security Events/Analytic Rules/NRT_base64_encoded_pefile.yaml",
+  "required_data_connectors": [
+    {
+      "connector_id": "SecurityEvents",
+      "data_types": [
+        "SecurityEvent"
+      ]
+    },
+    {
+      "connector_id": "WindowsSecurityEvents",
+      "data_types": [
+        "SecurityEvent"
+      ]
+    }
+  ],
+  "conversion_status": "promoted",
+  "conversion_confidence": "medium",
+  "source_confidence": "high",
+  "live_validation_status": "passed",
+  "sentinel_tables": [
+    "SecurityEvent"
+  ],
+  "sentinel_category": "endpoint",
+  "tags": [
+    "microsoft_sentinel",
+    "sentinel.endpoint"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "execution",
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1059",
+      "T1027",
+      "T1140"
+    ]
+  },
+  "logsource": {
+    "product": "microsoft_sentinel",
+    "service": "windows_security",
+    "candidates": [
+      "Windows Security Events",
+      "Windows Event Security Logs"
+    ],
+    "original_tables": [
+      "SecurityEvent"
+    ]
+  },
+  "references": [
+    {
+      "name": "Microsoft Sentinel source rule",
+      "url": "https://github.com/Azure/Azure-Sentinel/blob/63ff8eedc58e7df0d22eba05ca73c92b59a66634/Solutions/Windows Security Events/Analytic Rules/NRT_base64_encoded_pefile.yaml"
+    },
+    {
+      "name": "Microsoft Sentinel repository",
+      "url": "https://github.com/Azure/Azure-Sentinel"
+    },
+    {
+      "name": "Azure/Azure-Sentinel license",
+      "url": "https://github.com/Azure/Azure-Sentinel/blob/master/LICENSE"
+    }
+  ],
+  "attribution": {
+    "source": "Microsoft Sentinel",
+    "repository": "Azure/Azure-Sentinel",
+    "license": "MIT",
+    "license_url": "https://github.com/Azure/Azure-Sentinel/blob/master/LICENSE"
+  },
+  "dashboard": {
+    "visualizationType": "table",
+    "timeSelection": {
+      "timePeriod": "l21d"
+    },
+    "ask_ai_prompts": [
+      "Summarize the Microsoft Sentinel converted detection results and identify the highest-risk pivots."
+    ]
+  },
+  "detection_maturity": "source_converted",
+  "field_coverage": "mapped_subset",
+  "test_data_coverage": "not_evaluated",
+  "scheduled_rule_eligibility": "not_evaluated"
+}

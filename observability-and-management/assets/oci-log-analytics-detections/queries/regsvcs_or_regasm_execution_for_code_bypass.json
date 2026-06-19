@@ -1,0 +1,57 @@
+{
+  "title": "Regsvcs or Regasm Execution for Code Bypass",
+  "description": "Detects execution of Regsvcs.exe or Regasm.exe to register COM objects from untrusted locations.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Process Name' like '*\\\\RegSvcs.exe' or 'Process Name' like '*\\\\RegAsm.exe')) and not ('Command Line' like '*Microsoft.NET*'))",
+  "sigma_id": "0d1f0c20-5600-4948-8120-ce4184542246",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.t1218.009"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1218.009"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    ".NET COM component registration"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 2,
+    "techniques_with_tests": [
+      "T1218.009"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1218.009",
+        "test_name": "Regasm Uninstall Method Call Test",
+        "test_guid": "71bfbfac-60b1-4fc0-ac8b-2cedbbdcb112",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.009/T1218.009.md"
+      },
+      {
+        "technique_id": "T1218.009",
+        "test_name": "Regsvcs Uninstall Method Call Test",
+        "test_guid": "fd3c1c6a-02d2-4b72-82d9-71c527abb126",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.009/T1218.009.md"
+      }
+    ]
+  }
+}

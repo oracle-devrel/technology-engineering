@@ -1,0 +1,1779 @@
+{
+  "version": 1,
+  "generated_at": "2026-05-15T04:23:42.669583+00:00",
+  "scope": "octo-apm-demo-workshop",
+  "log_source": "SOC Application Logs",
+  "dashboard": {
+    "name": "OCI-DEMO: Octo APM Demo Dashboard",
+    "description": "Dedicated APM correlation dashboard for octo-apm-demo data in SOC Application Logs. Correlates request logs, APM span hierarchy, DB spans, Java sidecar errors, API Gateway edge decisions, OSQuery host evidence, payment threats, and metric samples by Trace ID, Span ID, Parent Span ID, Request ID, Run ID, and Attack ID.",
+    "widget_count": 17,
+    "widgets": [
+      {
+        "title": "Octo APM: RED Metrics",
+        "query_file": "apps/apm_octo_red_metrics.json",
+        "time_selection": {
+          "timePeriod": "l21d"
+        }
+      },
+      {
+        "title": "Octo APM: Request Timeline",
+        "query_file": "apps/apm_octo_request_timeline.json",
+        "time_selection": {
+          "timePeriod": "l21d"
+        }
+      },
+      {
+        "title": "Octo APM: Span Hotspots",
+        "query_file": "apps/apm_octo_span_latency_hotspots.json",
+        "time_selection": {
+          "timePeriod": "l21d"
+        }
+      },
+      {
+        "title": "Octo APM: Trace Logs Correlation",
+        "query_file": "apps/apm_octo_trace_logs_correlation.json",
+        "time_selection": {
+          "timePeriod": "l21d"
+        }
+      },
+      {
+        "title": "Octo APM: Trace Investigation Tiles",
+        "query_file": "apps/apm_octo_trace_investigation_tiles.json",
+        "time_selection": {
+          "timePeriod": "l21d"
+        }
+      },
+      {
+        "title": "Octo APM: Span Link Analysis",
+        "query_file": "apps/apm_octo_span_link.json",
+        "time_selection": {
+          "timePeriod": "l21d"
+        }
+      },
+      {
+        "title": "Octo APM: Error Logs",
+        "query_file": "apps/apm_octo_error_logs.json",
+        "time_selection": {
+          "timePeriod": "l21d"
+        }
+      },
+      {
+        "title": "Octo APM: Metric Samples",
+        "query_file": "apps/apm_octo_metric_samples.json",
+        "time_selection": {
+          "timePeriod": "l21d"
+        }
+      },
+      {
+        "title": "Octo APM: Database Spans",
+        "query_file": "apps/apm_octo_db_spans.json",
+        "time_selection": {
+          "timePeriod": "l21d"
+        }
+      },
+      {
+        "title": "Octo APM: Java Sidecar Errors",
+        "query_file": "apps/apm_octo_java_sidecar_errors.json",
+        "time_selection": {
+          "timePeriod": "l21d"
+        }
+      },
+      {
+        "title": "Octo APM: API Gateway Edge Decisions",
+        "query_file": "apps/apm_octo_api_gateway_edge.json",
+        "time_selection": {
+          "timePeriod": "l21d"
+        }
+      },
+      {
+        "title": "Octo APM: Attack Timeline",
+        "query_file": "apps/apm_octo_attack_timeline.json",
+        "time_selection": {
+          "timePeriod": "l21d"
+        }
+      },
+      {
+        "title": "Octo APM: Attack Path Link",
+        "query_file": "apps/apm_octo_attack_path_link.json",
+        "time_selection": {
+          "timePeriod": "l21d"
+        }
+      },
+      {
+        "title": "Octo APM: Attack Trace Correlation",
+        "query_file": "apps/apm_octo_attack_trace_correlation.json",
+        "time_selection": {
+          "timePeriod": "l21d"
+        }
+      },
+      {
+        "title": "Octo APM: Payment Threats",
+        "query_file": "apps/apm_octo_payment_threats.json",
+        "time_selection": {
+          "timePeriod": "l21d"
+        }
+      },
+      {
+        "title": "Octo APM: OSQuery Host Evidence",
+        "query_file": "apps/apm_octo_osquery_findings.json",
+        "time_selection": {
+          "timePeriod": "l21d"
+        }
+      },
+      {
+        "title": "Octo APM: Compromised VM Pivots",
+        "query_file": "apps/apm_octo_compromised_vm_pivots.json",
+        "time_selection": {
+          "timePeriod": "l21d"
+        }
+      }
+    ]
+  },
+  "queries": [
+    {
+      "query_file": "apps/apm_octo_red_metrics.json",
+      "title": "APM: Octo Demo RED Metrics",
+      "description": "Request, error, and duration-oriented telemetry for the Octo APM demo application. Groups metric samples by service, route, and response code so operators can find request volume, error concentration, and slow-path symptoms.",
+      "level": "informational",
+      "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and ('Service Name' = 'octo-apm-demo' or 'APM Domain' = 'octo-apm-demo') and 'Metric Name' in ('http.server.duration', 'http.server.requests', 'apm.service.errors', 'http.server.duration.p95', 'apm.span.duration') | stats count as Samples, distinctcount('Trace ID') as Traces, distinctcount('Span ID') as Spans by 'Metric Name', 'Service Name', 'Workflow ID', 'Workflow Step' | sort -Samples",
+      "logsource": {
+        "product": "application",
+        "service": "soc_application_logs",
+        "candidates": [
+          "SOC Application Logs"
+        ]
+      },
+      "tags": [
+        "apm",
+        "octo-apm-demo",
+        "metrics",
+        "red"
+      ],
+      "visualization_type": "summary_table",
+      "visualization_options": {}
+    },
+    {
+      "query_file": "apps/apm_octo_request_timeline.json",
+      "title": "APM: Octo Demo Request and Error Timeline",
+      "description": "Timeline of octo-apm-demo application events by severity, suitable for spotting bursts of warnings, errors, and normal request flow.",
+      "level": "informational",
+      "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and ('Service Name' = 'octo-apm-demo' or 'APM Domain' = 'octo-apm-demo') | timestats span = 5minute count as Events by 'Severity Level'",
+      "logsource": {
+        "product": "application",
+        "service": "soc_application_logs",
+        "candidates": [
+          "SOC Application Logs"
+        ]
+      },
+      "tags": [
+        "apm",
+        "octo-apm-demo",
+        "timeline",
+        "logs"
+      ],
+      "visualization_type": "line",
+      "visualization_options": {}
+    },
+    {
+      "query_file": "apps/apm_octo_span_latency_hotspots.json",
+      "title": "APM: Octo Demo Span Latency Hotspots",
+      "description": "Span-level rollup for octo-apm-demo. Shows which span names, DB targets, slow request flags, and error types concentrate the most events.",
+      "level": "medium",
+      "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and ('Service Name' = 'octo-apm-demo' or 'APM Domain' = 'octo-apm-demo') and 'Span ID' != null | stats count as Spans, distinctcount('Trace ID') as Traces, unique('DB Elapsed ms') as DBLatencyMs by 'Span Name', 'Workflow ID', 'Workflow Step', 'Error Type' | sort -Spans",
+      "logsource": {
+        "product": "application",
+        "service": "soc_application_logs",
+        "candidates": [
+          "SOC Application Logs"
+        ]
+      },
+      "tags": [
+        "apm",
+        "octo-apm-demo",
+        "spans",
+        "latency"
+      ],
+      "visualization_type": "summary_table",
+      "visualization_options": {}
+    },
+    {
+      "query_file": "apps/apm_octo_trace_logs_correlation.json",
+      "title": "APM: Octo Demo Trace to Log Correlation",
+      "description": "Correlates octo-apm-demo logs and span context by Trace ID. Use this table to pivot from a trace to its spans, routes, response codes, and error types.",
+      "level": "medium",
+      "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and ('Service Name' = 'octo-apm-demo' or 'APM Domain' = 'octo-apm-demo' or 'Attack ID' != null) and 'Trace ID' != null | stats count as Events, distinctcount('Span ID') as Spans, unique('Error Type') as Errors, unique('Attack Stage') as AttackStages by 'Trace ID', 'Workflow ID', 'Workflow Step', 'Service Name' | sort -Events",
+      "logsource": {
+        "product": "application",
+        "service": "soc_application_logs",
+        "candidates": [
+          "SOC Application Logs"
+        ]
+      },
+      "tags": [
+        "apm",
+        "octo-apm-demo",
+        "trace",
+        "logs",
+        "correlation"
+      ],
+      "visualization_type": "summary_table",
+      "visualization_options": {}
+    },
+    {
+      "query_file": "apps/apm_octo_trace_investigation_tiles.json",
+      "title": "APM: Octo Demo Trace Investigation Tiles",
+      "description": "A link-and-tiles investigation view for Octo APM traces. It groups logs, spans, attack evidence, API Gateway edge signals, Java errors, DB spans, and payment redirect indicators by Trace ID so analysts can move from APM Trace Explorer into Log Analytics without losing context.",
+      "level": "high",
+      "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and 'Trace ID' != null and ('Service Name' = 'octo-apm-demo' or 'APM Domain' = 'octo-apm-demo' or 'Attack ID' != null or 'Java APM Path' != null or 'API Gateway Threat Signal' != null or 'Payment Redirect URL' != null) | link span = 5minute 'Trace ID', 'Service Name', 'Span ID', 'Attack Stage' | eventstats distinctcount('Trace ID') as Traces, sum(Count) as Events, distinctcount('Service Name') as Services, distinctcount('Span ID') as Spans, distinctcount('Attack Stage') as Stages",
+      "logsource": {
+        "product": "application",
+        "service": "soc_application_logs",
+        "candidates": [
+          "SOC Application Logs"
+        ]
+      },
+      "tags": [
+        "apm",
+        "octo-apm-demo",
+        "trace",
+        "link",
+        "tile-layout",
+        "ask-ai",
+        "correlation"
+      ],
+      "visualization_type": "link",
+      "visualization_options": {}
+    },
+    {
+      "query_file": "apps/apm_octo_span_link.json",
+      "title": "APM: Octo Demo Span Link Analysis",
+      "description": "Link analysis for octo-apm-demo spans. Groups events by Trace ID, Span ID, Parent Span ID, and Span Name to make parent-child span correlation visible in the dashboard.",
+      "level": "medium",
+      "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and ('Service Name' = 'octo-apm-demo' or 'APM Domain' = 'octo-apm-demo' or 'Attack ID' != null) and 'Trace ID' != null | link span = 5minute 'Trace ID', 'Span ID', 'Parent Span ID', 'Span Name' | eventstats distinctcount('Trace ID') as Traces, sum(Count) as Events, distinctcount('Span ID') as Spans, distinctcount('Parent Span ID') as Parents",
+      "logsource": {
+        "product": "application",
+        "service": "soc_application_logs",
+        "candidates": [
+          "SOC Application Logs"
+        ]
+      },
+      "tags": [
+        "apm",
+        "octo-apm-demo",
+        "spans",
+        "link"
+      ],
+      "visualization_type": "link",
+      "visualization_options": {}
+    },
+    {
+      "query_file": "apps/apm_octo_error_logs.json",
+      "title": "APM: Octo Demo Error Logs by Span",
+      "description": "Error and warning logs for octo-apm-demo grouped by severity, error type, span name, and trace. Use this to jump from a failed log line to the span that produced it.",
+      "level": "high",
+      "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and ('Service Name' = 'octo-apm-demo' or 'APM Domain' = 'octo-apm-demo') and 'Severity Level' in ('ERROR', 'WARN', 'WARNING') | stats count as Events, distinctcount('Trace ID') as Traces by 'Severity Level', 'Error Type', 'Span Name', 'Response Code' | sort -Events",
+      "logsource": {
+        "product": "application",
+        "service": "soc_application_logs",
+        "candidates": [
+          "SOC Application Logs"
+        ]
+      },
+      "tags": [
+        "apm",
+        "octo-apm-demo",
+        "errors",
+        "logs",
+        "spans"
+      ],
+      "visualization_type": "summary_table",
+      "visualization_options": {}
+    },
+    {
+      "query_file": "apps/apm_octo_metric_samples.json",
+      "title": "APM: Octo Demo Metric Samples",
+      "description": "Metric sample inventory for octo-apm-demo. Displays metric names, values, units, and routes as parsed from SOC Application Logs.",
+      "level": "informational",
+      "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and ('Service Name' = 'octo-apm-demo' or 'APM Domain' = 'octo-apm-demo') and 'Metric Name' != null | stats count as Samples, unique('Metric Unit') as Units, unique('Metric Value') as Values, distinctcount('Trace ID') as Traces by 'Metric Name', 'Service Name', 'Workflow ID', 'Workflow Step' | sort -Samples",
+      "logsource": {
+        "product": "application",
+        "service": "soc_application_logs",
+        "candidates": [
+          "SOC Application Logs"
+        ]
+      },
+      "tags": [
+        "apm",
+        "octo-apm-demo",
+        "metrics"
+      ],
+      "visualization_type": "summary_table",
+      "visualization_options": {}
+    },
+    {
+      "query_file": "apps/apm_octo_db_spans.json",
+      "title": "APM: Octo Demo Database Spans",
+      "description": "Database-related APM spans for octo-apm-demo, grouped by target, span name, slow request flag, and error type.",
+      "level": "medium",
+      "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and ('Service Name' = 'octo-apm-demo' or 'APM Domain' = 'octo-apm-demo') and 'DB Target' != null | stats count as DBSpans, distinctcount('Trace ID') as Traces, unique('DB Elapsed ms') as LatencyMs by 'DB Target', 'DB Connection Name', 'Span Name', 'Error Type' | sort -DBSpans",
+      "logsource": {
+        "product": "application",
+        "service": "soc_application_logs",
+        "candidates": [
+          "SOC Application Logs"
+        ]
+      },
+      "tags": [
+        "apm",
+        "octo-apm-demo",
+        "database",
+        "spans"
+      ],
+      "visualization_type": "summary_table",
+      "visualization_options": {}
+    },
+    {
+      "query_file": "apps/apm_octo_java_sidecar_errors.json",
+      "title": "APM: Octo Demo Java Sidecar Error Correlation",
+      "description": "Java APM sidecar and payment-gateway error evidence correlated with Octo checkout and attack-lab traces. Highlights the Java path, error type, status code, and workflow step that should be investigated in APM Trace Explorer.",
+      "level": "medium",
+      "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and ('Java APM Path' != null or 'Java APM Error Type' != null) | stats count as Events, distinctcount('Trace ID') as Traces, unique('Java APM Latency ms') as LatencyMs, unique('Response Code') as Statuses by 'Java APM Path', 'Java APM Error Type', 'Service Name', 'Workflow Step' | sort -Events",
+      "logsource": {
+        "category": "application",
+        "product": "oci-log-analytics",
+        "service": "soc_application_logs",
+        "candidates": [
+          "SOC Application Logs"
+        ]
+      },
+      "tags": [
+        "application",
+        "apm",
+        "octo-apm-demo",
+        "java-apm",
+        "payment-gateway",
+        "trace-correlation"
+      ],
+      "visualization_type": "summary_table",
+      "visualization_options": {}
+    },
+    {
+      "query_file": "apps/apm_octo_api_gateway_edge.json",
+      "title": "APM: Octo Demo API Gateway Edge Decisions",
+      "description": "API Gateway edge-policy, quota, auth, and backend decisions captured by the Octo attack lab and correlated to the same Attack ID, Request ID, and Trace ID used by APM spans and application logs.",
+      "level": "high",
+      "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and 'Attack ID' != null and 'API Gateway Request ID' != null | stats count as Events, distinctcount('Trace ID') as Traces, unique('API Gateway Policy Decision') as Decisions, unique('API Gateway Threat Signal') as ThreatSignals by 'Attack ID', 'API Gateway Action', 'API Gateway Route', 'Security Severity' | sort -Events",
+      "logsource": {
+        "category": "application",
+        "product": "oci-log-analytics",
+        "service": "soc_application_logs",
+        "candidates": [
+          "SOC Application Logs"
+        ]
+      },
+      "tags": [
+        "application",
+        "apm",
+        "octo-apm-demo",
+        "api-gateway",
+        "attack-lab",
+        "trace-correlation"
+      ],
+      "visualization_type": "summary_table",
+      "visualization_options": {}
+    },
+    {
+      "query_file": "apps/apm_octo_attack_timeline.json",
+      "title": "APM: Octo Demo Attack Timeline",
+      "description": "Chronological attack-lab events from the Octo APM demo, keyed by Attack ID, Run ID, Request ID, Trace ID, and Span ID so operators can pivot from security logs into APM spans.",
+      "level": "high",
+      "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and 'Attack ID' != null | sort Time | fields Time, 'Attack ID', 'Run ID', 'Attack Stage', 'Security Severity', 'MITRE Technique ID', 'Service Name', 'Workflow Step', 'Request ID', 'Trace ID', 'Span ID', 'Instance OCID', 'Payment Redirect URL', msg",
+      "logsource": {
+        "product": "application",
+        "service": "soc_application_logs",
+        "candidates": [
+          "SOC Application Logs"
+        ]
+      },
+      "tags": [
+        "apm",
+        "octo-apm-demo",
+        "attack-lab",
+        "threat-hunting"
+      ],
+      "visualization_type": "table",
+      "visualization_options": {}
+    },
+    {
+      "query_file": "apps/apm_octo_attack_path_link.json",
+      "title": "APM: Octo Demo Attack Path Link",
+      "description": "Link analysis for the Octo attack-lab path. Groups attack stages, traces, and spans into a single investigation canvas with custom tiles for the number of attacks, events, traces, and stages.",
+      "level": "critical",
+      "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and 'Attack ID' != null and 'Trace ID' != null | link span = 5minute 'Attack ID', 'Attack Stage', 'Trace ID', 'Span ID' | eventstats distinctcount('Attack ID') as Attacks, sum(Count) as Events, distinctcount('Trace ID') as Traces, distinctcount('Attack Stage') as Stages",
+      "logsource": {
+        "category": "application",
+        "product": "oci-log-analytics",
+        "service": "soc_application_logs",
+        "candidates": [
+          "SOC Application Logs"
+        ]
+      },
+      "tags": [
+        "application",
+        "apm",
+        "octo-apm-demo",
+        "attack-lab",
+        "link-analysis",
+        "tile-layout"
+      ],
+      "visualization_type": "link",
+      "visualization_options": {}
+    },
+    {
+      "query_file": "apps/apm_octo_attack_trace_correlation.json",
+      "title": "APM: Octo Demo Attack Trace Correlation",
+      "description": "Trace-level rollup of attack-lab evidence. Shows which Attack ID and Run ID have spans, MITRE stages, payment redirect evidence, and compromised VM evidence on the same Trace ID.",
+      "level": "high",
+      "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and 'Attack ID' != null and 'Trace ID' != null | stats count as Events, distinctcount('Span ID') as Spans, unique('Attack Stage') as Stages, unique('MITRE Technique ID') as Techniques, unique('Payment Redirect URL') as Redirects, unique('Compromised VM') as CompromisedVMs by 'Attack ID', 'Run ID', 'Trace ID', 'Service Name' | sort -Events",
+      "logsource": {
+        "product": "application",
+        "service": "soc_application_logs",
+        "candidates": [
+          "SOC Application Logs"
+        ]
+      },
+      "tags": [
+        "apm",
+        "octo-apm-demo",
+        "trace-correlation",
+        "attack-lab"
+      ],
+      "visualization_type": "summary_table",
+      "visualization_options": {}
+    },
+    {
+      "query_file": "apps/apm_octo_payment_threats.json",
+      "title": "APM: Octo Demo Payment Threats",
+      "description": "Payment interception and redirect signals emitted by the Octo attack lab. Keeps only demo-safe payment metadata such as provider, status, brand, last4, risk score, and redirect URL.",
+      "level": "critical",
+      "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and 'Attack ID' != null and ('Payment Interception' != null or 'Payment Redirect' != null or 'Payment Redirect URL' != null) | stats count as Events, distinctcount('Trace ID') as Traces, max('Payment Risk Score') as MaxRisk, unique('Payment Risk Score') as RiskScores, unique('Payment Card Last4') as CardLast4 by 'Attack ID', 'Run ID', 'Payment Provider', 'Payment Redirect URL' | sort -Events",
+      "logsource": {
+        "product": "application",
+        "service": "soc_application_logs",
+        "candidates": [
+          "SOC Application Logs"
+        ]
+      },
+      "tags": [
+        "apm",
+        "octo-apm-demo",
+        "payment",
+        "attack-lab",
+        "threat-hunting"
+      ],
+      "visualization_type": "summary_table",
+      "visualization_options": {}
+    },
+    {
+      "query_file": "apps/apm_octo_osquery_findings.json",
+      "title": "APM: Octo Demo OSQuery Host Evidence",
+      "description": "Host-level OSQuery findings emitted by the Octo attack lab, grouped by compromised host, instance OCID, query name, and severity so investigators can pivot from APM trace context to VM evidence.",
+      "level": "high",
+      "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and 'Attack ID' != null and 'OSQuery Query' != null | stats count as Findings, distinctcount('Trace ID') as Traces, unique('OSQuery Finding') as FindingSamples, unique('OSQuery SQL') as QuerySQL by 'Host Name', 'Instance OCID', 'OSQuery Query', 'Security Severity' | sort -Findings",
+      "logsource": {
+        "category": "application",
+        "product": "oci-log-analytics",
+        "service": "soc_application_logs",
+        "candidates": [
+          "SOC Application Logs"
+        ]
+      },
+      "tags": [
+        "application",
+        "apm",
+        "octo-apm-demo",
+        "osquery",
+        "host-evidence",
+        "attack-lab"
+      ],
+      "visualization_type": "summary_table",
+      "visualization_options": {}
+    },
+    {
+      "query_file": "apps/apm_octo_compromised_vm_pivots.json",
+      "title": "APM: Octo Demo Compromised VM Pivots",
+      "description": "Compromised VM and process evidence from the Octo attack lab, including OSQuery findings, instance OCIDs, host roles, and process command lines.",
+      "level": "critical",
+      "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and 'Attack ID' != null and 'Compromised VM' != null | stats count as Events, distinctcount('Trace ID') as Traces, unique('Process Command Line') as Commands, unique('OSQuery Query') as OSQueryQueries by 'Compromised VM', 'Instance OCID', 'Host Role', 'OSQuery Finding' | sort -Events",
+      "logsource": {
+        "product": "application",
+        "service": "soc_application_logs",
+        "candidates": [
+          "SOC Application Logs"
+        ]
+      },
+      "tags": [
+        "apm",
+        "octo-apm-demo",
+        "compromised-vm",
+        "osquery",
+        "attack-lab"
+      ],
+      "visualization_type": "summary_table",
+      "visualization_options": {}
+    },
+    {
+      "query_file": "apps/apm_octo_rule_api_gateway_threat_count.json",
+      "title": "APM: Octo Demo API Gateway Threat Detection Rule",
+      "description": "Scheduled-rule-safe count of Octo API Gateway threat decisions tied to an attack ID and trace.",
+      "level": "high",
+      "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and 'Attack ID' != null and 'API Gateway Threat Signal' != null | stats count as ApiGatewayThreatEvents by 'Attack ID', 'Trace ID', 'API Gateway Threat Signal'",
+      "logsource": {
+        "category": "application",
+        "product": "oci-log-analytics",
+        "service": "soc_application_logs",
+        "candidates": [
+          "SOC Application Logs"
+        ]
+      },
+      "tags": [
+        "application",
+        "apm",
+        "octo-apm-demo",
+        "api-gateway",
+        "detection-rule"
+      ],
+      "visualization_type": null,
+      "visualization_options": {}
+    },
+    {
+      "query_file": "apps/apm_octo_rule_compromised_vm_count.json",
+      "title": "APM: Octo Demo Compromised VM Detection Rule",
+      "description": "Scheduled-rule-safe count of compromised VM evidence correlated to Octo attack IDs.",
+      "level": "critical",
+      "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and 'Attack ID' != null and 'Compromised VM' != null | stats count as CompromisedVmEvents by 'Attack ID', 'Compromised VM', 'Host Role'",
+      "logsource": {
+        "category": "application",
+        "product": "oci-log-analytics",
+        "service": "soc_application_logs",
+        "candidates": [
+          "SOC Application Logs"
+        ]
+      },
+      "tags": [
+        "application",
+        "apm",
+        "octo-apm-demo",
+        "compromised-vm",
+        "detection-rule"
+      ],
+      "visualization_type": null,
+      "visualization_options": {}
+    },
+    {
+      "query_file": "apps/apm_octo_rule_java_payment_error_count.json",
+      "title": "APM: Octo Demo Java Payment Error Detection Rule",
+      "description": "Scheduled-rule-safe count of Java APM sidecar payment errors for Octo checkout traces.",
+      "level": "high",
+      "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and 'Java APM Error Type' != null | stats count as JavaPaymentErrorEvents by 'Java APM Error Type', 'Trace ID', 'Response Code'",
+      "logsource": {
+        "category": "application",
+        "product": "oci-log-analytics",
+        "service": "soc_application_logs",
+        "candidates": [
+          "SOC Application Logs"
+        ]
+      },
+      "tags": [
+        "application",
+        "apm",
+        "octo-apm-demo",
+        "java-apm",
+        "payment-gateway",
+        "detection-rule"
+      ],
+      "visualization_type": null,
+      "visualization_options": {}
+    },
+    {
+      "query_file": "apps/apm_octo_rule_payment_interception_count.json",
+      "title": "APM: Octo Demo Payment Interception Detection Rule",
+      "description": "Scheduled-rule-safe count of payment interception signals correlated to an Octo attack trace.",
+      "level": "critical",
+      "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and 'Attack ID' != null and 'Payment Interception' != null | stats count as PaymentInterceptionEvents by 'Attack ID', 'Trace ID', 'Payment Provider'",
+      "logsource": {
+        "category": "application",
+        "product": "oci-log-analytics",
+        "service": "soc_application_logs",
+        "candidates": [
+          "SOC Application Logs"
+        ]
+      },
+      "tags": [
+        "application",
+        "apm",
+        "octo-apm-demo",
+        "payment",
+        "detection-rule"
+      ],
+      "visualization_type": null,
+      "visualization_options": {}
+    },
+    {
+      "query_file": "apps/apm_octo_rule_payment_redirect_count.json",
+      "title": "APM: Octo Demo Payment Redirect Detection Rule",
+      "description": "Scheduled-rule-safe count of suspicious payment redirect signals correlated to an Octo attack trace.",
+      "level": "critical",
+      "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and 'Attack ID' != null and 'Payment Redirect URL' != null | stats count as PaymentRedirectEvents by 'Attack ID', 'Trace ID', 'Payment Redirect URL'",
+      "logsource": {
+        "category": "application",
+        "product": "oci-log-analytics",
+        "service": "soc_application_logs",
+        "candidates": [
+          "SOC Application Logs"
+        ]
+      },
+      "tags": [
+        "application",
+        "apm",
+        "octo-apm-demo",
+        "payment",
+        "detection-rule"
+      ],
+      "visualization_type": null,
+      "visualization_options": {}
+    }
+  ],
+  "fields": [
+    {
+      "display_name": "API Gateway Action",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.oci.api_gateway.action"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_api_gateway_edge.json"
+      ]
+    },
+    {
+      "display_name": "API Gateway Policy Decision",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.oci.api_gateway.policy.decision"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_api_gateway_edge.json"
+      ]
+    },
+    {
+      "display_name": "API Gateway Request ID",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.oci.api_gateway.request_id"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_api_gateway_edge.json"
+      ]
+    },
+    {
+      "display_name": "API Gateway Route",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.oci.api_gateway.route"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_api_gateway_edge.json"
+      ]
+    },
+    {
+      "display_name": "API Gateway Threat Signal",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.oci.api_gateway.threat_signal"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_api_gateway_edge.json",
+        "apps/apm_octo_rule_api_gateway_threat_count.json",
+        "apps/apm_octo_trace_investigation_tiles.json"
+      ]
+    },
+    {
+      "display_name": "APM Domain",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.apmDomain"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_db_spans.json",
+        "apps/apm_octo_error_logs.json",
+        "apps/apm_octo_metric_samples.json",
+        "apps/apm_octo_red_metrics.json",
+        "apps/apm_octo_request_timeline.json",
+        "apps/apm_octo_span_latency_hotspots.json",
+        "apps/apm_octo_span_link.json",
+        "apps/apm_octo_trace_investigation_tiles.json",
+        "apps/apm_octo_trace_logs_correlation.json"
+      ]
+    },
+    {
+      "display_name": "Attack ID",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.security.attack.id"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_api_gateway_edge.json",
+        "apps/apm_octo_attack_path_link.json",
+        "apps/apm_octo_attack_timeline.json",
+        "apps/apm_octo_attack_trace_correlation.json",
+        "apps/apm_octo_compromised_vm_pivots.json",
+        "apps/apm_octo_osquery_findings.json",
+        "apps/apm_octo_payment_threats.json",
+        "apps/apm_octo_rule_api_gateway_threat_count.json",
+        "apps/apm_octo_rule_compromised_vm_count.json",
+        "apps/apm_octo_rule_payment_interception_count.json",
+        "apps/apm_octo_rule_payment_redirect_count.json",
+        "apps/apm_octo_span_link.json",
+        "apps/apm_octo_trace_investigation_tiles.json",
+        "apps/apm_octo_trace_logs_correlation.json"
+      ]
+    },
+    {
+      "display_name": "Attack Stage",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.security.attack.stage"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_attack_path_link.json",
+        "apps/apm_octo_attack_timeline.json",
+        "apps/apm_octo_attack_trace_correlation.json",
+        "apps/apm_octo_trace_investigation_tiles.json",
+        "apps/apm_octo_trace_logs_correlation.json"
+      ]
+    },
+    {
+      "display_name": "Compromised VM",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.vm.compromised"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_attack_trace_correlation.json",
+        "apps/apm_octo_compromised_vm_pivots.json",
+        "apps/apm_octo_rule_compromised_vm_count.json"
+      ]
+    },
+    {
+      "display_name": "DB Connection Name",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.db.connection_name"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_db_spans.json"
+      ]
+    },
+    {
+      "display_name": "DB Elapsed ms",
+      "kind": "custom",
+      "type": "LONG",
+      "raw_json_paths": [
+        "$.db.elapsed_ms"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_db_spans.json",
+        "apps/apm_octo_span_latency_hotspots.json"
+      ]
+    },
+    {
+      "display_name": "DB Statement",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.db.statement"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": []
+    },
+    {
+      "display_name": "DB Target",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.dbTarget",
+        "$.db.target"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_db_spans.json"
+      ]
+    },
+    {
+      "display_name": "Destination IP",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.DestinationIp",
+        "$.destination.ip",
+        "$.data.destinationAddress",
+        "$.logContent.data.dst"
+      ],
+      "source_candidate_groups": [
+        "application_logs",
+        "network_firewall",
+        "sysmon_network",
+        "sysmon_operational",
+        "vcn_flow",
+        "windows_sysmon"
+      ],
+      "queries_using_it": []
+    },
+    {
+      "display_name": "Destination Port",
+      "kind": "custom",
+      "type": "LONG",
+      "raw_json_paths": [
+        "$.DestinationPort",
+        "$.destination.port",
+        "$.data.destinationPort",
+        "$.logContent.data.dport"
+      ],
+      "source_candidate_groups": [
+        "application_logs",
+        "network_firewall",
+        "sysmon_network",
+        "sysmon_operational",
+        "vcn_flow",
+        "windows_sysmon"
+      ],
+      "queries_using_it": []
+    },
+    {
+      "display_name": "Error Type",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.errorType"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_db_spans.json",
+        "apps/apm_octo_error_logs.json",
+        "apps/apm_octo_span_latency_hotspots.json",
+        "apps/apm_octo_trace_logs_correlation.json"
+      ]
+    },
+    {
+      "display_name": "HTTP Redirect Location",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.http.redirect.location"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": []
+    },
+    {
+      "display_name": "Host Name",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.Hostname",
+        "$.Computer",
+        "$.resourceName",
+        "$.hostname",
+        "$.host.name",
+        "$.Host Name"
+      ],
+      "source_candidate_groups": [
+        "application_logs",
+        "cloud_guard",
+        "lb_access",
+        "linux_secure",
+        "linux_syslog",
+        "multicloud_health",
+        "sysmon_network",
+        "sysmon_operational",
+        "waf_security",
+        "webapp_security",
+        "windows_event_security",
+        "windows_event_system",
+        "windows_sysmon"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_osquery_findings.json"
+      ]
+    },
+    {
+      "display_name": "Host Role",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.host.role"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_compromised_vm_pivots.json",
+        "apps/apm_octo_rule_compromised_vm_count.json"
+      ]
+    },
+    {
+      "display_name": "Instance OCID",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.cloud.instance.id"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_attack_timeline.json",
+        "apps/apm_octo_compromised_vm_pivots.json",
+        "apps/apm_octo_osquery_findings.json"
+      ]
+    },
+    {
+      "display_name": "Java APM Error Type",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.java_apm.error_type",
+        "$.java_apm_error_type"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_java_sidecar_errors.json",
+        "apps/apm_octo_rule_java_payment_error_count.json"
+      ]
+    },
+    {
+      "display_name": "Java APM Latency ms",
+      "kind": "custom",
+      "type": "LONG",
+      "raw_json_paths": [
+        "$.java_apm.latency_ms",
+        "$.java_apm_latency_ms"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_java_sidecar_errors.json"
+      ]
+    },
+    {
+      "display_name": "Java APM Path",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.java_apm.path",
+        "$.java_apm_path"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_java_sidecar_errors.json",
+        "apps/apm_octo_trace_investigation_tiles.json"
+      ]
+    },
+    {
+      "display_name": "MITRE Tactic",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.mitre.tactic"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": []
+    },
+    {
+      "display_name": "MITRE Technique ID",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.mitre.technique_id"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_attack_timeline.json",
+        "apps/apm_octo_attack_trace_correlation.json"
+      ]
+    },
+    {
+      "display_name": "Metric Name",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.metricName"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_metric_samples.json",
+        "apps/apm_octo_red_metrics.json"
+      ]
+    },
+    {
+      "display_name": "Metric Unit",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.metricUnit"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_metric_samples.json"
+      ]
+    },
+    {
+      "display_name": "Metric Value",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.metricValue"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_metric_samples.json"
+      ]
+    },
+    {
+      "display_name": "OSQuery Finding",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.osquery.finding"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_compromised_vm_pivots.json",
+        "apps/apm_octo_osquery_findings.json"
+      ]
+    },
+    {
+      "display_name": "OSQuery Query",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.osquery.query"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_compromised_vm_pivots.json",
+        "apps/apm_octo_osquery_findings.json"
+      ]
+    },
+    {
+      "display_name": "OSQuery SQL",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.osquery.sql"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_osquery_findings.json"
+      ]
+    },
+    {
+      "display_name": "Parent Span ID",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.parentSpanId"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_span_link.json"
+      ]
+    },
+    {
+      "display_name": "Payment Card Last4",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.payment.card_last4",
+        "$.payment.card.last4"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_payment_threats.json"
+      ]
+    },
+    {
+      "display_name": "Payment Interception",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.payment.interception.detected"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_payment_threats.json",
+        "apps/apm_octo_rule_payment_interception_count.json"
+      ]
+    },
+    {
+      "display_name": "Payment Provider",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.payment.provider",
+        "$.payment_provider"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_payment_threats.json",
+        "apps/apm_octo_rule_payment_interception_count.json"
+      ]
+    },
+    {
+      "display_name": "Payment Redirect",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.payment.redirect.detected"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_payment_threats.json"
+      ]
+    },
+    {
+      "display_name": "Payment Redirect URL",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.payment.redirect.url"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_attack_timeline.json",
+        "apps/apm_octo_attack_trace_correlation.json",
+        "apps/apm_octo_payment_threats.json",
+        "apps/apm_octo_rule_payment_redirect_count.json",
+        "apps/apm_octo_trace_investigation_tiles.json"
+      ]
+    },
+    {
+      "display_name": "Payment Risk Score",
+      "kind": "custom",
+      "type": "LONG",
+      "raw_json_paths": [
+        "$.payment.risk_score",
+        "$.payment_risk_score"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_payment_threats.json"
+      ]
+    },
+    {
+      "display_name": "Process Command Line",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.process.command_line"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_compromised_vm_pivots.json"
+      ]
+    },
+    {
+      "display_name": "Request ID",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.requestId",
+        "$.request_id"
+      ],
+      "source_candidate_groups": [
+        "application_logs",
+        "webapp_security"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_attack_timeline.json"
+      ]
+    },
+    {
+      "display_name": "Response Code",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.responseCode",
+        "$.statusCode",
+        "$.http.status_code",
+        "$.http.response.status_code",
+        "$.payment.processor.response_code",
+        "$.payment_processor_response_code"
+      ],
+      "source_candidate_groups": [
+        "application_logs",
+        "lb_access",
+        "waf_security",
+        "webapp_security"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_error_logs.json",
+        "apps/apm_octo_java_sidecar_errors.json",
+        "apps/apm_octo_rule_java_payment_error_count.json"
+      ]
+    },
+    {
+      "display_name": "Run ID",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.run_id"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_attack_timeline.json",
+        "apps/apm_octo_attack_trace_correlation.json",
+        "apps/apm_octo_payment_threats.json"
+      ]
+    },
+    {
+      "display_name": "Security Severity",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.security.severity"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_api_gateway_edge.json",
+        "apps/apm_octo_attack_timeline.json",
+        "apps/apm_octo_osquery_findings.json"
+      ]
+    },
+    {
+      "display_name": "Service Name",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.ServiceName",
+        "$.wafPolicy",
+        "$.serviceName",
+        "$.service.name",
+        "$.service_name",
+        "$.Service"
+      ],
+      "source_candidate_groups": [
+        "application_logs",
+        "multicloud_health",
+        "waf_security",
+        "windows_event_security",
+        "windows_event_system"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_attack_timeline.json",
+        "apps/apm_octo_attack_trace_correlation.json",
+        "apps/apm_octo_db_spans.json",
+        "apps/apm_octo_error_logs.json",
+        "apps/apm_octo_java_sidecar_errors.json",
+        "apps/apm_octo_metric_samples.json",
+        "apps/apm_octo_red_metrics.json",
+        "apps/apm_octo_request_timeline.json",
+        "apps/apm_octo_span_latency_hotspots.json",
+        "apps/apm_octo_span_link.json",
+        "apps/apm_octo_trace_investigation_tiles.json",
+        "apps/apm_octo_trace_logs_correlation.json"
+      ]
+    },
+    {
+      "display_name": "Service Namespace",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.service.namespace",
+        "$.service_namespace"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_api_gateway_edge.json",
+        "apps/apm_octo_attack_path_link.json",
+        "apps/apm_octo_attack_timeline.json",
+        "apps/apm_octo_attack_trace_correlation.json",
+        "apps/apm_octo_compromised_vm_pivots.json",
+        "apps/apm_octo_db_spans.json",
+        "apps/apm_octo_error_logs.json",
+        "apps/apm_octo_java_sidecar_errors.json",
+        "apps/apm_octo_metric_samples.json",
+        "apps/apm_octo_osquery_findings.json",
+        "apps/apm_octo_payment_threats.json",
+        "apps/apm_octo_red_metrics.json",
+        "apps/apm_octo_request_timeline.json",
+        "apps/apm_octo_rule_api_gateway_threat_count.json",
+        "apps/apm_octo_rule_compromised_vm_count.json",
+        "apps/apm_octo_rule_java_payment_error_count.json",
+        "apps/apm_octo_rule_payment_interception_count.json",
+        "apps/apm_octo_rule_payment_redirect_count.json",
+        "apps/apm_octo_span_latency_hotspots.json",
+        "apps/apm_octo_span_link.json",
+        "apps/apm_octo_trace_investigation_tiles.json",
+        "apps/apm_octo_trace_logs_correlation.json"
+      ]
+    },
+    {
+      "display_name": "Severity Level",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.Severity",
+        "$.level",
+        "$.logContent.data.severity"
+      ],
+      "source_candidate_groups": [
+        "application_logs",
+        "linux_secure",
+        "linux_syslog",
+        "network_firewall"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_error_logs.json",
+        "apps/apm_octo_request_timeline.json"
+      ]
+    },
+    {
+      "display_name": "Span Attributes",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.spanAttributes"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": []
+    },
+    {
+      "display_name": "Span ID",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.spanId",
+        "$.span_id",
+        "$.oracleApmSpanId"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_attack_timeline.json",
+        "apps/apm_octo_attack_trace_correlation.json",
+        "apps/apm_octo_red_metrics.json",
+        "apps/apm_octo_span_latency_hotspots.json",
+        "apps/apm_octo_span_link.json",
+        "apps/apm_octo_trace_investigation_tiles.json",
+        "apps/apm_octo_trace_logs_correlation.json"
+      ]
+    },
+    {
+      "display_name": "Span Kind",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.spanKind"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": []
+    },
+    {
+      "display_name": "Span Name",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.spanName"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_db_spans.json",
+        "apps/apm_octo_error_logs.json",
+        "apps/apm_octo_span_latency_hotspots.json"
+      ]
+    },
+    {
+      "display_name": "Trace ID",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.traceId",
+        "$.trace_id",
+        "$.oracleApmTraceId",
+        "$.Trace ID"
+      ],
+      "source_candidate_groups": [
+        "application_logs",
+        "lb_access",
+        "network_firewall",
+        "vcn_flow",
+        "waf_security",
+        "webapp_security"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_api_gateway_edge.json",
+        "apps/apm_octo_attack_path_link.json",
+        "apps/apm_octo_attack_timeline.json",
+        "apps/apm_octo_attack_trace_correlation.json",
+        "apps/apm_octo_compromised_vm_pivots.json",
+        "apps/apm_octo_db_spans.json",
+        "apps/apm_octo_error_logs.json",
+        "apps/apm_octo_java_sidecar_errors.json",
+        "apps/apm_octo_metric_samples.json",
+        "apps/apm_octo_osquery_findings.json",
+        "apps/apm_octo_payment_threats.json",
+        "apps/apm_octo_red_metrics.json",
+        "apps/apm_octo_rule_api_gateway_threat_count.json",
+        "apps/apm_octo_rule_java_payment_error_count.json",
+        "apps/apm_octo_rule_payment_interception_count.json",
+        "apps/apm_octo_rule_payment_redirect_count.json",
+        "apps/apm_octo_span_latency_hotspots.json",
+        "apps/apm_octo_span_link.json",
+        "apps/apm_octo_trace_investigation_tiles.json",
+        "apps/apm_octo_trace_logs_correlation.json"
+      ]
+    },
+    {
+      "display_name": "Workflow ID",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.workflow_id"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_metric_samples.json",
+        "apps/apm_octo_red_metrics.json",
+        "apps/apm_octo_span_latency_hotspots.json",
+        "apps/apm_octo_trace_logs_correlation.json"
+      ]
+    },
+    {
+      "display_name": "Workflow Step",
+      "kind": "custom",
+      "type": "STRING",
+      "raw_json_paths": [
+        "$.workflow_step"
+      ],
+      "source_candidate_groups": [
+        "application_logs"
+      ],
+      "queries_using_it": [
+        "apps/apm_octo_attack_timeline.json",
+        "apps/apm_octo_java_sidecar_errors.json",
+        "apps/apm_octo_metric_samples.json",
+        "apps/apm_octo_red_metrics.json",
+        "apps/apm_octo_span_latency_hotspots.json",
+        "apps/apm_octo_trace_logs_correlation.json"
+      ]
+    }
+  ],
+  "detection_rules": {
+    "spec_count": 5,
+    "deployable_count": 5,
+    "metadata_only": true,
+    "specs": [
+      {
+        "query_file": "queries/apps/apm_octo_rule_api_gateway_threat_count.json",
+        "title": "APM: Octo Demo API Gateway Threat Detection Rule",
+        "severity": "high",
+        "eligible": true,
+        "metric_name": "ApiGatewayThreatEvents",
+        "dimensions": [
+          "Attack ID",
+          "Trace ID",
+          "API Gateway Threat Signal"
+        ],
+        "schedule": "5m",
+        "lookback": "15m",
+        "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and 'Attack ID' != null and 'API Gateway Threat Signal' != null | stats count as ApiGatewayThreatEvents by 'Attack ID', 'Trace ID', 'API Gateway Threat Signal'",
+        "reasons": [],
+        "detection_maturity": "validated_locally",
+        "source_confidence": "high",
+        "field_coverage": "covered",
+        "test_data_coverage": "covered",
+        "live_validation_status": "validated_live",
+        "dashboard_readiness": "not_dashboard_annotated",
+        "scheduled_rule_eligibility": "deployable",
+        "alarm_template": {
+          "enabled": true,
+          "namespace": "oci_log_analytics_detections",
+          "metric_name": "ApiGatewayThreatEvents",
+          "dimensions": [
+            "Attack ID",
+            "Trace ID",
+            "API Gateway Threat Signal"
+          ],
+          "severity": "high",
+          "create_alarm_by_default": false
+        }
+      },
+      {
+        "query_file": "queries/apps/apm_octo_rule_compromised_vm_count.json",
+        "title": "APM: Octo Demo Compromised VM Detection Rule",
+        "severity": "critical",
+        "eligible": true,
+        "metric_name": "CompromisedVmEvents",
+        "dimensions": [
+          "Attack ID",
+          "Compromised VM",
+          "Host Role"
+        ],
+        "schedule": "5m",
+        "lookback": "15m",
+        "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and 'Attack ID' != null and 'Compromised VM' != null | stats count as CompromisedVmEvents by 'Attack ID', 'Compromised VM', 'Host Role'",
+        "reasons": [],
+        "detection_maturity": "validated_locally",
+        "source_confidence": "high",
+        "field_coverage": "covered",
+        "test_data_coverage": "covered",
+        "live_validation_status": "validated_live",
+        "dashboard_readiness": "not_dashboard_annotated",
+        "scheduled_rule_eligibility": "deployable",
+        "alarm_template": {
+          "enabled": true,
+          "namespace": "oci_log_analytics_detections",
+          "metric_name": "CompromisedVmEvents",
+          "dimensions": [
+            "Attack ID",
+            "Compromised VM",
+            "Host Role"
+          ],
+          "severity": "critical",
+          "create_alarm_by_default": false
+        }
+      },
+      {
+        "query_file": "queries/apps/apm_octo_rule_java_payment_error_count.json",
+        "title": "APM: Octo Demo Java Payment Error Detection Rule",
+        "severity": "high",
+        "eligible": true,
+        "metric_name": "JavaPaymentErrorEvents",
+        "dimensions": [
+          "Java APM Error Type",
+          "Trace ID",
+          "Response Code"
+        ],
+        "schedule": "5m",
+        "lookback": "15m",
+        "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and 'Java APM Error Type' != null | stats count as JavaPaymentErrorEvents by 'Java APM Error Type', 'Trace ID', 'Response Code'",
+        "reasons": [],
+        "detection_maturity": "validated_locally",
+        "source_confidence": "high",
+        "field_coverage": "covered",
+        "test_data_coverage": "covered",
+        "live_validation_status": "validated_live",
+        "dashboard_readiness": "not_dashboard_annotated",
+        "scheduled_rule_eligibility": "deployable",
+        "alarm_template": {
+          "enabled": true,
+          "namespace": "oci_log_analytics_detections",
+          "metric_name": "JavaPaymentErrorEvents",
+          "dimensions": [
+            "Java APM Error Type",
+            "Trace ID",
+            "Response Code"
+          ],
+          "severity": "high",
+          "create_alarm_by_default": false
+        }
+      },
+      {
+        "query_file": "queries/apps/apm_octo_rule_payment_interception_count.json",
+        "title": "APM: Octo Demo Payment Interception Detection Rule",
+        "severity": "critical",
+        "eligible": true,
+        "metric_name": "PaymentInterceptionEvents",
+        "dimensions": [
+          "Attack ID",
+          "Trace ID",
+          "Payment Provider"
+        ],
+        "schedule": "5m",
+        "lookback": "15m",
+        "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and 'Attack ID' != null and 'Payment Interception' != null | stats count as PaymentInterceptionEvents by 'Attack ID', 'Trace ID', 'Payment Provider'",
+        "reasons": [],
+        "detection_maturity": "validated_locally",
+        "source_confidence": "high",
+        "field_coverage": "covered",
+        "test_data_coverage": "covered",
+        "live_validation_status": "validated_live",
+        "dashboard_readiness": "not_dashboard_annotated",
+        "scheduled_rule_eligibility": "deployable",
+        "alarm_template": {
+          "enabled": true,
+          "namespace": "oci_log_analytics_detections",
+          "metric_name": "PaymentInterceptionEvents",
+          "dimensions": [
+            "Attack ID",
+            "Trace ID",
+            "Payment Provider"
+          ],
+          "severity": "critical",
+          "create_alarm_by_default": false
+        }
+      },
+      {
+        "query_file": "queries/apps/apm_octo_rule_payment_redirect_count.json",
+        "title": "APM: Octo Demo Payment Redirect Detection Rule",
+        "severity": "critical",
+        "eligible": true,
+        "metric_name": "PaymentRedirectEvents",
+        "dimensions": [
+          "Attack ID",
+          "Trace ID",
+          "Payment Redirect URL"
+        ],
+        "schedule": "5m",
+        "lookback": "15m",
+        "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and 'Attack ID' != null and 'Payment Redirect URL' != null | stats count as PaymentRedirectEvents by 'Attack ID', 'Trace ID', 'Payment Redirect URL'",
+        "reasons": [],
+        "detection_maturity": "validated_locally",
+        "source_confidence": "high",
+        "field_coverage": "covered",
+        "test_data_coverage": "covered",
+        "live_validation_status": "validated_live",
+        "dashboard_readiness": "not_dashboard_annotated",
+        "scheduled_rule_eligibility": "deployable",
+        "alarm_template": {
+          "enabled": true,
+          "namespace": "oci_log_analytics_detections",
+          "metric_name": "PaymentRedirectEvents",
+          "dimensions": [
+            "Attack ID",
+            "Trace ID",
+            "Payment Redirect URL"
+          ],
+          "severity": "critical",
+          "create_alarm_by_default": false
+        }
+      }
+    ]
+  },
+  "synthetic_data": {
+    "filename": "octo_apm_workshop_application_logs.jsonl",
+    "source": "SOC Application Logs",
+    "generator": "scripts/octo_apm_workshop.py --generate-data"
+  },
+  "deployment": {
+    "environment_variables": [
+      "OCI_PROFILE",
+      "OCI_COMPARTMENT_ID",
+      "OCI_TENANCY_ID",
+      "LA_NAMESPACE",
+      "LOG_ANALYTICS_LOG_GROUP_ID",
+      "DETECTIONS_REPO"
+    ],
+    "commands": [
+      "python3 scripts/setup_log_sources.py --octo-apm-only",
+      "python3 scripts/octo_apm_workshop.py --generate-data --days ${OCTO_WORKSHOP_DAYS}",
+      "python3 scripts/ingest_test_data.py --mode direct --file octo_apm_workshop_application_logs.jsonl",
+      "python3 scripts/detection_rule_creator.py --write-default",
+      "python3 scripts/deploy_dashboard.py --dashboard-name \"OCI-DEMO: Octo APM Demo Dashboard\" --query-lookback ${OCTO_WORKSHOP_LOOKBACK} --query-timeout ${OCTO_WORKSHOP_QUERY_TIMEOUT}",
+      "python3 scripts/verify_deployed_dashboards.py --dashboard-name \"OCI-DEMO: Octo APM Demo Dashboard\" --lookback ${OCTO_WORKSHOP_LOOKBACK} --query-timeout ${OCTO_WORKSHOP_QUERY_TIMEOUT}"
+    ]
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "title": "Linux Sensitive Data Collection from Local System",
+  "description": "Detects mass access to sensitive system files. Attackers collect data from local systems including SSH keys, cloud credentials, database configs, and application secrets for further exploitation or exfiltration.\n",
+  "query": "('Log Source' = 'SOC Linux Syslog Logs' or 'Log Source' = 'Linux Secure Logs' or 'Log Source' = 'Linux Syslog Logs') and 'Process Name' = 'bash' and (((msg like '*cat /root/.ssh/id_rsa*' or msg like '*cat /home/*/.ssh/id_rsa*' or msg like '*cp /root/.ssh/*' or msg like '*find / -name id_rsa*')) or ((msg like '*.oci/config*' or msg like '*.aws/credentials*' or msg like '*.gcloud/*' or msg like '*.kube/config*')) or ((msg like '*.env*' or msg like '*database.yml*' or msg like '*wp-config.php*' or msg like '*application.properties*' or msg like '*settings.py*')))",
+  "do_not_overwrite": true,
+  "sigma_id": "a1b2c3d4-6015-4000-8000-000000000015",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.collection",
+    "attack.t1005",
+    "attack.credential_access"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "collection",
+      "credential_access"
+    ],
+    "techniques": [
+      "T1005"
+    ]
+  },
+  "logsource": {
+    "product": "linux",
+    "service": "syslog",
+    "candidates": [
+      "SOC Linux Syslog Logs",
+      "Linux Secure Logs",
+      "Linux Syslog Logs",
+      "Linux Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Application deployment scripts",
+    "Configuration management tools"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 3,
+    "techniques_with_tests": [
+      "T1005"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1005",
+        "test_name": "Search files of interest and save them to a single zip file (Windows)",
+        "test_guid": "d3d9af44-b8ad-4375-8b0a-4bff4b7e419c",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1005/T1005.md"
+      },
+      {
+        "technique_id": "T1005",
+        "test_name": "Find and dump sqlite databases (Linux)",
+        "test_guid": "00cbb875-7ae4-4cf1-b638-e543fd825300",
+        "executor": "bash",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1005/T1005.md"
+      },
+      {
+        "technique_id": "T1005",
+        "test_name": "Copy Apple Notes database files using AppleScript",
+        "test_guid": "cfb6d400-a269-4c06-a347-6d88d584d5f7",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1005/T1005.md"
+      }
+    ]
+  }
+}

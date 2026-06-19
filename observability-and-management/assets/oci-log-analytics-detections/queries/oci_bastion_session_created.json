@@ -1,0 +1,35 @@
+{
+  "title": "OCI Bastion Session Created",
+  "description": "Detects creation of a Bastion session providing SSH or port-forwarding access to private resources. Unusual bastion sessions may indicate lateral movement.",
+  "query": "'Log Source' = 'OCI Audit Logs' and (('Event Type' = 'com.oraclecloud.bastion.createsession'))",
+  "sigma_id": "e1f2a3b4-4003-4000-8000-000000000003",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.lateral_movement",
+    "attack.t1021",
+    "stig.AC-17"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "lateral_movement"
+    ],
+    "techniques": [
+      "T1021"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "stig_ids": [
+    "AC-17"
+  ],
+  "falsepositives": [
+    "Routine administrative access to private subnets",
+    "Scheduled maintenance windows"
+  ]
+}

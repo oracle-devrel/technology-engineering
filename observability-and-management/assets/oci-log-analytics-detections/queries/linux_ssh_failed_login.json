@@ -1,0 +1,109 @@
+{
+  "title": "Linux SSH Failed Login",
+  "description": "Detects failed SSH login attempts.",
+  "query": "('Log Source' = 'SOC Linux Syslog Logs' or 'Log Source' = 'Linux Secure Logs' or 'Log Source' = 'Linux Syslog Logs' or 'Log Source' = 'Linux Audit Logs') and (('Process Name' = 'sshd' and msg like '*Failed password*'))",
+  "sigma_id": "4cda756f-09a8-4261-86c0-e566a0f2a9a4",
+  "level": "low",
+  "stig_category": "CAT III",
+  "tags": [
+    "attack.initial_access",
+    "attack.credential_access",
+    "attack.t1110.001"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "initial_access",
+      "credential_access"
+    ],
+    "techniques": [
+      "T1110.001"
+    ]
+  },
+  "logsource": {
+    "product": "linux",
+    "service": "auth",
+    "candidates": [
+      "SOC Linux Syslog Logs",
+      "Linux Secure Logs",
+      "Linux Syslog Logs",
+      "Linux Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Authorized remote administration",
+    "Automated SSH-based deployments"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 8,
+    "techniques_with_tests": [
+      "T1110.001"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1110.001",
+        "test_name": "Brute Force Credentials of single Active Directory domain users via SMB",
+        "test_guid": "09480053-2f98-4854-be6e-71ae5f672224",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1110.001/T1110.001.md"
+      },
+      {
+        "technique_id": "T1110.001",
+        "test_name": "Brute Force Credentials of single Active Directory domain user via LDAP against domain controller (NTLM or Kerberos)",
+        "test_guid": "c2969434-672b-4ec8-8df0-bbb91f40e250",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1110.001/T1110.001.md"
+      },
+      {
+        "technique_id": "T1110.001",
+        "test_name": "Brute Force Credentials of single Azure AD user",
+        "test_guid": "5a51ef57-299e-4d62-8e11-2d440df55e69",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1110.001/T1110.001.md"
+      },
+      {
+        "technique_id": "T1110.001",
+        "test_name": "Password Brute User using Kerbrute Tool",
+        "test_guid": "59dbeb1a-79a7-4c2a-baf4-46d0f4c761c4",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1110.001/T1110.001.md"
+      },
+      {
+        "technique_id": "T1110.001",
+        "test_name": "SUDO Brute Force - Debian",
+        "test_guid": "ba1bf0b6-f32b-4db0-b7cc-d78cacc76700",
+        "executor": "bash",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1110.001/T1110.001.md"
+      },
+      {
+        "technique_id": "T1110.001",
+        "test_name": "SUDO Brute Force - Redhat",
+        "test_guid": "4097bc00-5eeb-4d56-aaf9-287d60351d95",
+        "executor": "bash",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1110.001/T1110.001.md"
+      },
+      {
+        "technique_id": "T1110.001",
+        "test_name": "SUDO Brute Force - FreeBSD",
+        "test_guid": "abcde488-e083-4ee7-bc85-a5684edd7541",
+        "executor": "bash",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1110.001/T1110.001.md"
+      },
+      {
+        "technique_id": "T1110.001",
+        "test_name": "ESXi - Brute Force Until Account Lockout",
+        "test_guid": "ed6c2c87-bba6-4a28-ac6e-c8af3d6c2ab5",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1110.001/T1110.001.md"
+      }
+    ]
+  }
+}

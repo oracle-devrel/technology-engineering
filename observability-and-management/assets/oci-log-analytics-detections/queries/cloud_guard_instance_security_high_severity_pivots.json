@@ -1,0 +1,18 @@
+{
+  "title": "Cloud Guard Instance Security: High Severity Pivots",
+  "description": "High-severity workload findings with MITRE, host, process, and network pivots.",
+  "query": "'Log Source' = 'SOC Cloud Guard Instance Security Logs' and ('Finding Severity' = 'critical' or 'Finding Severity' = 'high' or 'Security Severity' = 'critical' or 'Security Severity' = 'high') | stats count as Findings, unique('Process Command Line') as Commands, unique('File Path') as Files by 'Host Name', 'Finding Name', 'MITRE Technique ID', 'Destination IP' | sort -Findings",
+  "level": "critical",
+  "type": "curated",
+  "tags": ["cloud_guard_instance_security", "high_severity"],
+  "logsource": {
+    "product": "oci",
+    "service": "cloud_guard_instance_security",
+    "candidates": ["SOC Cloud Guard Instance Security Logs"]
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "timeSelection": {"timePeriod": "l21d"},
+    "layout": {"width": 12, "height": 5}
+  }
+}

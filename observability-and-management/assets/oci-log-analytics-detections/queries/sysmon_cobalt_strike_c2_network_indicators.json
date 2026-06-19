@@ -1,0 +1,102 @@
+{
+  "title": "Sysmon Cobalt Strike C2 Network Indicators",
+  "description": "Detects network connections from processes commonly associated with Cobalt Strike beacon activity. Includes default Cobalt Strike process injection targets and malleable C2 patterns.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Sysmon Network Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (( (('Process Name' like '*\\\\beacon.exe' or 'Process Name' like '*\\\\cobaltstrike.exe') and Initiated = 'true') or (('Process Name' like '*\\\\rundll32.exe' or 'Process Name' like '*\\\\dllhost.exe' or 'Process Name' like '*\\\\svchost.exe' or 'Process Name' like '*\\\\explorer.exe') and Initiated = 'true' and ('Destination Port' = 80 or 'Destination Port' = 443 or 'Destination Port' = 8080 or 'Destination Port' = 8443 or 'Destination Port' = 50050)) ) and not (('Destination IP' like '10.*' or 'Destination IP' like '172.16.*' or 'Destination IP' like '192.168.*' or 'Destination IP' like '127.*')))",
+  "sigma_id": "a1b2c3d4-7001-4000-8000-000000000009",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.command_and_control",
+    "attack.t1071.001",
+    "attack.t1095"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "command_and_control"
+    ],
+    "techniques": [
+      "T1071.001",
+      "T1095"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Sysmon Network Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate DLL host operations",
+    "Windows service communication"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 7,
+    "techniques_with_tests": [
+      "T1071.001",
+      "T1095"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1071.001",
+        "test_name": "Malicious User Agents - Powershell",
+        "test_guid": "81c13829-f6c9-45b8-85a6-053366d55297",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1071.001/T1071.001.md"
+      },
+      {
+        "technique_id": "T1071.001",
+        "test_name": "Malicious User Agents - CMD",
+        "test_guid": "dc3488b0-08c7-4fea-b585-905c83b48180",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1071.001/T1071.001.md"
+      },
+      {
+        "technique_id": "T1071.001",
+        "test_name": "Malicious User Agents - Nix",
+        "test_guid": "2d7c471a-e887-4b78-b0dc-b0df1f2e0658",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1071.001/T1071.001.md"
+      },
+      {
+        "technique_id": "T1095",
+        "test_name": "ICMP C2",
+        "test_guid": "0268e63c-e244-42db-bef7-72a9e59fc1fc",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1095/T1095.md"
+      },
+      {
+        "technique_id": "T1095",
+        "test_name": "Netcat C2",
+        "test_guid": "bcf0d1c1-3f6a-4847-b1c9-7ed4ea321f37",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1095/T1095.md"
+      },
+      {
+        "technique_id": "T1095",
+        "test_name": "Powercat C2",
+        "test_guid": "3e0e0e7f-6aa2-4a61-b61d-526c2cc9330e",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1095/T1095.md"
+      },
+      {
+        "technique_id": "T1095",
+        "test_name": "Linux ICMP Reverse Shell using icmp-cnc",
+        "test_guid": "8e139e1f-1f3a-4be7-901d-afae9738c064",
+        "executor": "manual",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1095/T1095.md"
+      }
+    ]
+  }
+}

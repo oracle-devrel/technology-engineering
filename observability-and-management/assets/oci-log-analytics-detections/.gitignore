@@ -1,0 +1,71 @@
+# Local environment config (contains OCIDs)
+.env.local
+.env.local.*
+!.env.local.example
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Secrets
+*.pem
+.env
+
+# Generated test data
+test_data/
+
+# SigmaHQ clone (managed by sync_sigmahq.py)
+.sigmahq/
+
+# Microsoft Sentinel clone (managed by sync_sentinel_kql.py)
+.sentinel/
+queries/sentinel_candidates.json
+queries/sentinel/.gitkeep
+
+# Terraform
+stack/.terraform/
+stack/.terraform.lock.hcl
+*.tfstate
+*.tfstate.backup
+*.tfvars
+
+# ORM stack zip
+soc-detection-stack.zip
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Health-check artifacts (timestamped JSON / banners written by
+# scripts/daily_health_check.py)
+docs/health/*.json
+!docs/health/.gitkeep
+
+# Local graph/debug outputs
+graphify-out/
+.planning/graphs/
+firebase-debug.log
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
+.claude/checkpoints.log
+
+# Integrated Next.js webapp
+webapp/node_modules/
+webapp/.next/
+webapp/out/
+webapp/build/
+webapp/.logan-detections-runtime/
+webapp/*.tsbuildinfo
+
+# Agent worktrees (local isolation, never commit)
+.claude/worktrees/

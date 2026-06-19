@@ -1,0 +1,26 @@
+title: Linux Shell Profile Persistence
+id: e1f2a3b4-4013-4000-8000-000000000013
+status: stable
+description: Detects modification of shell profile files (.bashrc, .bash_profile,
+  .profile) for persistence. Malicious commands added to these files execute on every
+  user login.
+logsource:
+  product: linux
+  service: audit
+detection:
+  selection:
+    message|contains:
+    - .bashrc
+    - .bash_profile
+    - .profile
+    - /etc/profile.d/
+    - /etc/bash.bashrc
+  condition: selection
+level: medium
+tags:
+- attack.persistence
+- attack.t1546.004
+falsepositives:
+- User customizing their shell environment
+- Dotfile management tools
+version: 1

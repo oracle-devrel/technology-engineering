@@ -1,0 +1,34 @@
+{
+  "title": "Caldera - System Owner Discovery via whoami and query Commands (Windows)",
+  "description": "Process-creation level detection of whoami.exe, query.exe, and net user for identity and session enumeration. Caldera T1033 emulation immediately runs whoami /all to determine privilege level and group memberships, and query user to list active sessions. This binary-level rule complements the discovery-category rule that uses CommandLine matching.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Process Name' like '*\\\\whoami.exe') or ('Process Name' like '*\\\\whoami.exe' and ('Command Line' like '*/all*' or 'Command Line' like '*/priv*' or 'Command Line' like '*/groups*')) or ('Process Name' like '*\\\\query.exe' and ('Command Line' like '*user*' or 'Command Line' like '*session*')))",
+  "sigma_id": "2d35b034-e399-418f-bd0b-e46ba04353a4",
+  "level": "low",
+  "stig_category": "CAT III",
+  "tags": [
+    "attack.discovery",
+    "attack.t1033"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "discovery"
+    ],
+    "techniques": [
+      "T1033"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Login audit scripts",
+    "Help desk tools checking session state",
+    "Administrators verifying user context"
+  ]
+}

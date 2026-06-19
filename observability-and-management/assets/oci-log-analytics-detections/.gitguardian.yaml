@@ -1,0 +1,32 @@
+# GitGuardian configuration — https://docs.gitguardian.com/ggshield-docs/configuration
+#
+# This repository is a security-detection content engine. Its synthetic
+# attack-log generators legitimately embed well-known, PUBLIC threat-intel
+# constants as detection content — e.g. the canonical empty LM/NTLM hashes
+# (aad3b435b51404eeaad3b435b51404ee, 31d6cfe0d16ae931b73c59d7e0c089c0) that
+# every credential-dumping tool emits, and documented malware C2 IP IOCs.
+# These are NOT credentials; they are the data the detections match on.
+#
+# The same paths are exempted in scripts/scan_sensitive_values.py
+# (_is_synthetic_fixture_path). The T1 module split moved this content out of
+# the monolithic generators into focused packages, so the path list mirrors
+# that split. The real-secret gate remains active everywhere else.
+version: 2
+
+secret:
+  ignored-paths:
+    # Synthetic attack-log generator packages (carved from generate_test_logs.py)
+    - 'scripts/testlogs/**'
+    - 'scripts/logsources/**'
+    - 'scripts/generate_test_logs.py'
+    - 'scripts/generate_geo_health_logs.py'
+    - 'scripts/sentinel_synthetic_logs.py'
+    # Generated synthetic log corpus (gitignored, but belt-and-suspenders)
+    - 'test_data/**'
+  ignored-matches:
+    # Canonical empty LM / NTLM hash constants — public, blank-password digests
+    # used as Windows credential-theft detection content, not real secrets.
+    - name: empty LM hash (blank password) — synthetic detection content
+      match: aad3b435b51404eeaad3b435b51404ee
+    - name: empty NTLM hash (blank password) — synthetic detection content
+      match: 31d6cfe0d16ae931b73c59d7e0c089c0
