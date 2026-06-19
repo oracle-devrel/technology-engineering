@@ -55,7 +55,7 @@ Reviewed: Reviewed: 17.06.2026
 | Exadata cloud@customer | [Link](./database-observability/exacc-observability-assets/README.md) |  
 | Exadata Cloud Service  | [Link](./database-observability/exacs-and-dbcs-observability-assets/README.md)|  
 | Automated Observability Enablement for External Oracle Databases| [Link](./database-observability/external-database-enablement/README.md) | 
-| Automated Observability Enablement for OCI Cloud-Native Databases| [Link](https://github.com/adibirzu/oci-dbman-opsi) | 
+| Automated Observability Enablement for OCI Cloud-Native Databases| [Link](./assets/oci-dbman-opsi/README.md) | 
 | DB@GCP  | [WIP](https://docs.oracle.com/en-us/iaas/Content/database-at-gcp/gcpmn-monitor.html)|  
 | DB@Azure |[WIP](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/azumn-monitor.html)| 
 | DB@AWS | [Link](./oracleaws/README.md)|
