@@ -13,9 +13,20 @@ Reviewed: Reviewed: 17.06.2026
 | AI agent skills for OCI observability  | [Link](https://github.com/adibirzu/oci-skills) | 
 | Observability Design Guide  | [Link](https://obs.octodemo.cloud/) |  
 | OCI Prometheus Otel multicloud monitoring|[Link](./assets/oci-prometheus-otel-monitoring/README.md)|
-|Oracle Cloud Prometheus Exporter|[Link](./assets/oracle-cloud-prometheus-exporter/readme.md)|
+| Oracle Cloud Prometheus Exporter|[Link](./assets/oracle-cloud-prometheus-exporter/readme.md)|
 | Send OCI Logs to Azure Sentinel|[Link](./assets/send-oci-logs-to-azure-sentinel-using-oracle-functions/README.md)|
-|Streaming OCI Logs into Splunk |[Link](https://learnoci.cloud/streaming-oci-logs-into-splunk-with-soc4kafka-why-how-and-the-four-walls-i-hit-e1252024608e)|
+| Streaming OCI Logs into Splunk |[Link](./assets/stream-oci-logs-to-splunk/README.md)|
+| OCI Management Dashboard Automation|[Link](./assets/oci-management-dashboard-automation/README.md)|
+| Multi-cloud observability using OCI Monitoring|[Link](./assets/multi-cloud-observability-using-oci-monitoring/README.md)|
+| Using Pulumi to create OCI resource|[Link](./assets/using-pulumi-to-create-oci-resources/README.md)|
+| ServiceNow integration with OCI using secrets stored in OCI Vault to create incidents|[Link](./)|
+| ServiceNow integration with Oracle cloud alarms|[Link](./assets/servicenow-integration-with-oracle-cloud-alarms/README.md)|
+| How to get logs into Splunk from OCI obj storage|[Link](./)|
+| Stream OCI logs to Splunk|[Link](./assets/stream-oci-logs-to-splunk/README.md)|
+| How and why to run Wazuh in OCI|[Link](./assets/why-and-how-to-run-wazuh-on-oci/README.md)|
+| Use Cloud Guard Insight Recipes to monitor Windows Instances against Interesting Windows Event IDs for Malware/General Investigation |[Link](./cloud-guard-insight-recipes-windows-event-ids/README.md)|
+| OCI logs integration with Qradar|[Link](./assets/integrating-oci-logs-into-ibm-qradar-siem/README.md)|
+
 
  
 
@@ -64,28 +75,7 @@ Reviewed: Reviewed: 17.06.2026
 ## Blogs
 
 - [OCI Observability and Management best practices and checklist](https://blogs.oracle.com/observability/post/oci-observability-checklist)
-- [Use Cloud Guard Insight Recipes to monitor Windows Instances against Interesting Windows Event IDs for Malware/General Investigation ](https://learnoci.cloud/use-cloud-guard-insight-recipes-to-monitor-windows-instances-against-interesting-windows-event-ids-7ef796174d37?source=friends_link&sk=682c057a61e7c2707df1895420649c2c)
-- [Stream OCI logs to Splunk](https://blogs.oracle.com/cloud-infrastructure/post/stream-oci-logs-kafka-connect-splunk)
-- [Why and how to run Wazuh on OCI](https://learnoci.cloud/why-and-how-to-run-wazuh-on-oci-6b39174b5d2d?sk=2b9185ad216f0cedbf80b2e5a8705c96)
-- [How to integrate Service Now with Oracle cloud Alarms](https://karthicin.medium.com/servicenow-integration-with-oracle-cloud-d3d7a1c6f68a)
-- [Oracle Cloud Observability Terraform module](https://karthicin.medium.com/oracle-cloud-observability-terraform-module-d549132892cb)
-- [Useful cli commands](https://karthicin.medium.com/useful-oci-cli-commands-f6e05b3e5eef)
-- [How to install Grafana in OCI and send OCI metrics to it](https://learnoci.cloud/how-to-install-grafana-in-oci-and-send-oci-metrics-to-it-c2582ebdfda5)
-- [How to use Templates for Console Dashboards](https://learnoci.cloud/how-to-use-templates-for-console-dashboards-3e30890e7f31)
-- [How to get logs into Splunk from OCI obj storage](https://learnoci.cloud/how-to-get-logs-into-splunk-from-oci-object-storage-7304fbf467ea?sk=6539609ba70a068fe52f39fb079df32b)
-- [Enhanced Support in OCI Console — Create Service Requests (SR) in Child Tenancies](https://learnoci.cloud/enhanced-support-in-oci-console-create-service-requests-sr-in-child-tenancies-a327cb9d2c10)
-- [Supercharge your Oracle Enterprise Manager Cloud Control 13.5 management, by using the REST API calls](https://medium.com/@eugenesimos/supercharge-your-oracle-enterprise-manager-cloud-control-13-5-d264e7371ec9)
-- [ServiceNow integration with OCI using secrets stored in OCI Vault to create incidents](https://karthicin.medium.com/servicenow-integration-with-oracle-cloud-d3d7a1c6f68a)
-- [How to enable OCI Observability Services on Exadata Cloud@Customer](https://medium.com/@erikasciunzi/how-to-enable-oci-observability-services-on-exadata-cloud-customer-9501dcaa356e)
-- [Using Pulumi to create OCI resource](https://karthicin.medium.com/using-pulumi-to-create-oci-resource-1e685a7d25fb)
-- [How to monitor Weblogic in OCI and collect logs for analysis](https://karthicin.medium.com/how-to-monitor-weblogic-in-oci-and-collect-logs-for-analysis-7c5007426010)
-- [How to run Velociraptor in OCI Container Instance](https://learnoci.cloud/how-to-run-velociraport-in-oci-container-instance-7adfb75d1df8)
-- [Multi-cloud observability using OCI Monitoring](https://karthicin.medium.com/multi-cloud-observability-using-oci-monitoring-8fa87f9c5e84)
-- [How to enable OCI Observability on Oracle APEX](https://learnoci.cloud/oci-observability-for-oracle-apex-f25369bd771a)
-- [How to run Game of Active Directory in OCI — Part 1](https://learnoci.cloud/how-to-run-game-of-active-directory-in-oci-part-1-5be51387a7a2)
-- [How to monitor your OCI environment using Dynatrace](https://learnoci.cloud/how-to-monitor-your-oci-environment-using-dynatrace-8c23f376659b)
-- [OCI Management Dashboard Automation](https://karthicin.medium.com/oci-management-dashboard-automation-ea4f45cac24b)
-- [How to build an Advanced Observability solution in OCI for Security purposes](https://learnoci.cloud/start-building-an-advanced-observability-solution-in-oci-for-security-purposes-using-native-and-e2ed5d806eff)
+
 
 
 ## Cloud Coaching Clinics (Videos)
