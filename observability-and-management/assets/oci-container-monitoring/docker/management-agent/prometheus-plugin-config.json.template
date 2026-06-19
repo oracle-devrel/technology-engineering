@@ -1,0 +1,14 @@
+{
+  "entities": [
+    {
+      "namespace": "oci_prometheus_metrics",
+      "metricNamespace": "METRICS_NAMESPACE_PLACEHOLDER",
+      "resourceGroup": "RESOURCE_GROUP_PLACEHOLDER",
+      "prometheusConfig": {
+        "sourceUrl": "http://localhost:9090",
+        "scrapeInterval": "SCRAPE_INTERVAL_PLACEHOLDER",
+        "scrapeTimeout": "SCRAPE_TIMEOUT_PLACEHOLDER"
+      }
+    }
+  ]
+}

@@ -1,0 +1,258 @@
+{
+  "dashboard": {
+    "title": "Docker Container Monitoring (cAdvisor + Node Exporter)",
+    "tags": ["docker", "cadvisor", "node-exporter", "containers", "oci"],
+    "timezone": "browser",
+    "schemaVersion": 27,
+    "version": 1,
+    "refresh": "30s",
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "timepicker": {
+      "refresh_intervals": ["10s", "30s", "1m", "5m", "15m", "30m", "1h"],
+      "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "2d", "7d", "30d"]
+    },
+    "panels": [
+      {
+        "id": 1,
+        "title": "Container CPU Usage (%)",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+        "targets": [
+          {
+            "expr": "rate(container_cpu_usage_seconds_total{image!=\"\"}[5m]) * 100",
+            "legendFormat": "{{name}} - {{image}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {"format": "percent", "label": "CPU %"},
+          {"format": "short"}
+        ],
+        "legend": {"show": true, "alignAsTable": true, "rightSide": false},
+        "tooltip": {"shared": true}
+      },
+      {
+        "id": 2,
+        "title": "Container Memory Usage (MB)",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+        "targets": [
+          {
+            "expr": "container_memory_usage_bytes{image!=\"\"} / 1024 / 1024",
+            "legendFormat": "{{name}} - {{image}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {"format": "decmbytes", "label": "Memory"},
+          {"format": "short"}
+        ],
+        "legend": {"show": true, "alignAsTable": true, "rightSide": false}
+      },
+      {
+        "id": 3,
+        "title": "Container Network I/O (MB/s)",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+        "targets": [
+          {
+            "expr": "rate(container_network_receive_bytes_total{image!=\"\"}[5m]) / 1024 / 1024",
+            "legendFormat": "RX: {{name}}",
+            "refId": "A"
+          },
+          {
+            "expr": "rate(container_network_transmit_bytes_total{image!=\"\"}[5m]) / 1024 / 1024",
+            "legendFormat": "TX: {{name}}",
+            "refId": "B"
+          }
+        ],
+        "yaxes": [
+          {"format": "MBs", "label": "Network"},
+          {"format": "short"}
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Container Filesystem Usage (GB)",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+        "targets": [
+          {
+            "expr": "container_fs_usage_bytes{image!=\"\"} / 1024 / 1024 / 1024",
+            "legendFormat": "{{name}} - {{device}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {"format": "decgbytes", "label": "Disk"},
+          {"format": "short"}
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Node CPU Usage (%)",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16},
+        "targets": [
+          {
+            "expr": "100 - (avg by (instance) (irate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100)",
+            "legendFormat": "{{instance}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {"format": "percent", "max": 100, "min": 0},
+          {"format": "short"}
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Node Memory Usage (%)",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 16},
+        "targets": [
+          {
+            "expr": "100 * (1 - ((node_memory_MemAvailable_bytes or node_memory_Buffers_bytes + node_memory_Cached_bytes + node_memory_MemFree_bytes) / node_memory_MemTotal_bytes))",
+            "legendFormat": "{{instance}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {"format": "percent", "max": 100, "min": 0},
+          {"format": "short"}
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Node Network Traffic (MB/s)",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 24},
+        "targets": [
+          {
+            "expr": "rate(node_network_receive_bytes_total{device!=\"lo\"}[5m]) / 1024 / 1024",
+            "legendFormat": "RX: {{instance}} - {{device}}",
+            "refId": "A"
+          },
+          {
+            "expr": "rate(node_network_transmit_bytes_total{device!=\"lo\"}[5m]) / 1024 / 1024",
+            "legendFormat": "TX: {{instance}} - {{device}}",
+            "refId": "B"
+          }
+        ],
+        "yaxes": [
+          {"format": "MBs"},
+          {"format": "short"}
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Node Disk I/O (MB/s)",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 24},
+        "targets": [
+          {
+            "expr": "rate(node_disk_read_bytes_total[5m]) / 1024 / 1024",
+            "legendFormat": "Read: {{instance}} - {{device}}",
+            "refId": "A"
+          },
+          {
+            "expr": "rate(node_disk_written_bytes_total[5m]) / 1024 / 1024",
+            "legendFormat": "Write: {{instance}} - {{device}}",
+            "refId": "B"
+          }
+        ],
+        "yaxes": [
+          {"format": "MBs"},
+          {"format": "short"}
+        ]
+      },
+      {
+        "id": 9,
+        "title": "Container Status",
+        "type": "stat",
+        "gridPos": {"h": 4, "w": 6, "x": 0, "y": 32},
+        "targets": [
+          {
+            "expr": "count(container_last_seen{image!=\"\"})",
+            "legendFormat": "Running Containers",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "textMode": "value_and_name",
+          "colorMode": "background",
+          "graphMode": "none"
+        }
+      },
+      {
+        "id": 10,
+        "title": "Total CPU Cores",
+        "type": "stat",
+        "gridPos": {"h": 4, "w": 6, "x": 6, "y": 32},
+        "targets": [
+          {
+            "expr": "count(node_cpu_seconds_total{mode=\"idle\"})",
+            "legendFormat": "CPU Cores",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "textMode": "value_and_name",
+          "colorMode": "background",
+          "graphMode": "none"
+        }
+      },
+      {
+        "id": 11,
+        "title": "Total Memory (GB)",
+        "type": "stat",
+        "gridPos": {"h": 4, "w": 6, "x": 12, "y": 32},
+        "targets": [
+          {
+            "expr": "sum(node_memory_MemTotal_bytes) / 1024 / 1024 / 1024",
+            "legendFormat": "Total Memory",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "textMode": "value_and_name",
+          "colorMode": "background",
+          "graphMode": "none"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "unit": "decgbytes"
+          }
+        }
+      },
+      {
+        "id": 12,
+        "title": "Uptime (Days)",
+        "type": "stat",
+        "gridPos": {"h": 4, "w": 6, "x": 18, "y": 32},
+        "targets": [
+          {
+            "expr": "avg(node_time_seconds - node_boot_time_seconds) / 86400",
+            "legendFormat": "Uptime",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "textMode": "value_and_name",
+          "colorMode": "background",
+          "graphMode": "none"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "unit": "d",
+            "decimals": 1
+          }
+        }
+      }
+    ]
+  },
+  "overwrite": true
+}

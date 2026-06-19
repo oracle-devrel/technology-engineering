@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCI Container Monitoring Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 { color: #312D2A; }
+        .status { color: #28a745; font-weight: bold; }
+        .endpoint {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #007bff;
+        }
+        code {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 OCI Container Instance Monitoring Demo</h1>
+        <p class="status">✅ Application is running</p>
+
+        <h2>Available Endpoints:</h2>
+
+        <div class="endpoint">
+            <strong>Application:</strong> <code>/</code><br>
+            This page - main application interface
+        </div>
+
+        <div class="endpoint">
+            <strong>Health Check:</strong> <code>/health</code><br>
+            Returns application health status
+        </div>
+
+        <div class="endpoint">
+            <strong>Prometheus Metrics:</strong> <code>/metrics</code> or <code>:8081/metrics</code><br>
+            Application metrics in Prometheus format
+        </div>
+
+        <div class="endpoint">
+            <strong>Nginx Status:</strong> <code>/stub_status</code><br>
+            Nginx statistics (localhost only)
+        </div>
+
+        <h2>Monitoring Stack:</h2>
+        <ul>
+            <li><strong>cAdvisor:</strong> Container metrics (port 8080)</li>
+            <li><strong>Node Exporter:</strong> Host metrics (port 9100)</li>
+            <li><strong>Prometheus:</strong> Metrics aggregation (port 9090)</li>
+            <li><strong>Management Agent:</strong> OCI Monitoring integration</li>
+        </ul>
+
+        <h2>Architecture:</h2>
+        <p>This application runs with multiple sidecar containers for comprehensive monitoring:</p>
+        <ul>
+            <li>Application container (this)</li>
+            <li>Management Agent sidecar</li>
+            <li>Prometheus sidecar</li>
+            <li>Metrics exporters</li>
+        </ul>
+
+        <p style="margin-top: 30px; color: #666; font-size: 0.9em;">
+            <strong>Version:</strong> 1.0.0 |
+            <strong>Deployment:</strong> OCI Container Instance |
+            <strong>Monitoring:</strong> Prometheus + OCI
+        </p>
+    </div>
+</body>
+</html>

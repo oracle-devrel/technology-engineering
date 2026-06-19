@@ -1,0 +1,76 @@
+#######################################
+# OCI Container Instance Monitoring
+# Terraform Variables - Example Configuration
+# Copy this file to terraform.tfvars and customize
+#######################################
+
+# Provider Configuration
+region         = "us-ashburn-1"
+tenancy_ocid   = "ocid1.tenancy.oc1..aaaaaaaaxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+compartment_ocid = "ocid1.compartment.oc1..aaaaaaaaxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# Optional: If not using OCI CLI config
+# user_ocid        = "ocid1.user.oc1..aaaaaaaaxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+# fingerprint      = "xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx"
+# private_key_path = "~/.oci/oci_api_key.pem"
+
+# Container Instance Configuration
+container_instance_name = "nginx-monitoring-demo"
+container_image        = "nginx:latest"
+container_shape        = "CI.Standard.E4.Flex"
+container_ocpus        = 1
+container_memory_gb    = 4
+container_count        = 1
+container_port         = 80
+availability_domain    = 1
+
+# Container Environment Variables (as map)
+container_env_vars = {
+  "NGINX_HOST" = "localhost"
+  "NGINX_PORT" = "80"
+}
+
+# Networking
+vcn_ocid         = "ocid1.vcn.oc1.iad.aaaaaaaaxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+subnet_ocid      = "ocid1.subnet.oc1.iad.aaaaaaaaxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+assign_public_ip = true
+nsg_ocids        = []
+
+# Logging Configuration
+enable_logging      = true
+log_group_name      = "container-instance-logs"
+log_retention_days  = 30
+enable_audit_logs   = true
+
+# Management Agent Configuration
+enable_management_agent     = true
+mgmt_agent_name            = "container-prometheus-agent"
+mgmt_agent_install_key_name = "container-agent-key"
+prometheus_scrape_interval  = 60
+prometheus_metrics_port     = 9090
+prometheus_metrics_path     = "/metrics"
+
+# Monitoring & Dashboards
+create_dashboard         = true
+dashboard_name          = "Container Instance Monitoring Dashboard"
+metrics_namespace       = "container_monitoring"
+enable_alarms           = false
+cpu_alarm_threshold     = 80
+memory_alarm_threshold  = 80
+
+# Optional: Notification Topic for Alarms
+# notification_topic_ocid = "ocid1.onstopic.oc1.iad.aaaaaaaaxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# OCIR Authentication (if using private images)
+# ocir_username   = "tenancy-namespace/oracleidentitycloudservice/user@example.com"
+# ocir_auth_token = "your-auth-token"
+
+# Tags
+freeform_tags = {
+  Environment = "Development"
+  Project     = "Container-Monitoring"
+  ManagedBy   = "Terraform"
+  Owner       = "DevOps-Team"
+}
+
+defined_tags = {}

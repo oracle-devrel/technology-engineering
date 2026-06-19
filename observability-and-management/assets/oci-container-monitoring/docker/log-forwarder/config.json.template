@@ -1,0 +1,8 @@
+{
+  "log_mount_path": "/logs",
+  "log_file": "application.log",
+  "log_ocid": "",
+  "log_header": "container-logs",
+  "batch_size": 100,
+  "flush_interval": 5
+}

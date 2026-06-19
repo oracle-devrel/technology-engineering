@@ -1,0 +1,12 @@
+apiVersion: 1
+
+datasources:
+  - name: OCI Logs
+    type: oci-logs-datasource
+    access: proxy
+    isDefault: false
+    editable: true
+    jsonData:
+      authProvider: InstancePrincipal
+      # When using InstancePrincipal, tenancy and region are auto-discovered
+      # No explicit credentials or configuration needed

@@ -1,0 +1,77 @@
+# Environment Configuration
+config/oci-monitoring.env
+
+# Terraform
+terraform/.terraform/
+terraform/.terraform.lock.hcl
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+terraform/terraform.tfstate.d/
+terraform/terraform.tfvars
+terraform/*.tfplan
+terraform/tfplan
+terraform/.terraform.tfstate.lock.info
+
+# Output Directory
+output/
+logs/
+archive/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Credentials
+*.pem
+*.key
+*_rsa
+*.p12
+*.pfx
+*.cer
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+Thumbs.db
+.Spotlight-V100
+.Trashes
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Secrets
+secrets/
+*.secret
+.env
+.env.local
+.env.*.local
+
+# Sensitive data
+wallet/
+wallet_*/
+*.zip
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Agent configs (contain sensitive data)
+agent-config.json
+install-agent.sh
+service-discovery.json
+
+# SSH keys
+id_rsa
+id_rsa.pub
+authorized_keys

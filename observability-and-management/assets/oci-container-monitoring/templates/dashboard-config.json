@@ -1,0 +1,219 @@
+{
+  "displayName": "Container Instance Monitoring Dashboard",
+  "description": "Comprehensive monitoring dashboard for OCI Container Instances",
+  "compartmentId": "${COMPARTMENT_OCID}",
+  "isOobDashboard": false,
+  "widgets": [
+    {
+      "displayName": "CPU Utilization",
+      "widgetType": "line",
+      "nls": {},
+      "ui": {
+        "color": "#1f77b4",
+        "legend": {
+          "position": "bottom"
+        }
+      },
+      "query": {
+        "compartmentId": "${COMPARTMENT_OCID}",
+        "namespace": "oci_computecontainerinstance",
+        "resourceGroup": "",
+        "query": "CpuUtilization[1m]{resourceId = \"${CONTAINER_INSTANCE_ID}\"}.mean()",
+        "resolution": "1m",
+        "startTime": "-1h",
+        "endTime": "now"
+      }
+    },
+    {
+      "displayName": "Memory Utilization",
+      "widgetType": "line",
+      "nls": {},
+      "ui": {
+        "color": "#ff7f0e",
+        "legend": {
+          "position": "bottom"
+        }
+      },
+      "query": {
+        "compartmentId": "${COMPARTMENT_OCID}",
+        "namespace": "oci_computecontainerinstance",
+        "resourceGroup": "",
+        "query": "MemoryUtilization[1m]{resourceId = \"${CONTAINER_INSTANCE_ID}\"}.mean()",
+        "resolution": "1m",
+        "startTime": "-1h",
+        "endTime": "now"
+      }
+    },
+    {
+      "displayName": "Network Bytes In",
+      "widgetType": "line",
+      "nls": {},
+      "ui": {
+        "color": "#2ca02c",
+        "legend": {
+          "position": "bottom"
+        }
+      },
+      "query": {
+        "compartmentId": "${COMPARTMENT_OCID}",
+        "namespace": "oci_computecontainerinstance",
+        "resourceGroup": "",
+        "query": "NetworkBytesIn[1m]{resourceId = \"${CONTAINER_INSTANCE_ID}\"}.rate()",
+        "resolution": "1m",
+        "startTime": "-1h",
+        "endTime": "now"
+      }
+    },
+    {
+      "displayName": "Network Bytes Out",
+      "widgetType": "line",
+      "nls": {},
+      "ui": {
+        "color": "#d62728",
+        "legend": {
+          "position": "bottom"
+        }
+      },
+      "query": {
+        "compartmentId": "${COMPARTMENT_OCID}",
+        "namespace": "oci_computecontainerinstance",
+        "resourceGroup": "",
+        "query": "NetworkBytesOut[1m]{resourceId = \"${CONTAINER_INSTANCE_ID}\"}.rate()",
+        "resolution": "1m",
+        "startTime": "-1h",
+        "endTime": "now"
+      }
+    },
+    {
+      "displayName": "Container State",
+      "widgetType": "line",
+      "nls": {},
+      "ui": {
+        "color": "#9467bd",
+        "legend": {
+          "position": "bottom"
+        }
+      },
+      "query": {
+        "compartmentId": "${COMPARTMENT_OCID}",
+        "namespace": "oci_computecontainerinstance",
+        "resourceGroup": "",
+        "query": "ContainerState[1m]{resourceId = \"${CONTAINER_INSTANCE_ID}\"}.max()",
+        "resolution": "1m",
+        "startTime": "-1h",
+        "endTime": "now"
+      }
+    },
+    {
+      "displayName": "Disk Read Bytes",
+      "widgetType": "line",
+      "nls": {},
+      "ui": {
+        "color": "#8c564b",
+        "legend": {
+          "position": "bottom"
+        }
+      },
+      "query": {
+        "compartmentId": "${COMPARTMENT_OCID}",
+        "namespace": "oci_computecontainerinstance",
+        "resourceGroup": "",
+        "query": "DiskBytesRead[1m]{resourceId = \"${CONTAINER_INSTANCE_ID}\"}.rate()",
+        "resolution": "1m",
+        "startTime": "-1h",
+        "endTime": "now"
+      }
+    },
+    {
+      "displayName": "Disk Write Bytes",
+      "widgetType": "line",
+      "nls": {},
+      "ui": {
+        "color": "#e377c2",
+        "legend": {
+          "position": "bottom"
+        }
+      },
+      "query": {
+        "compartmentId": "${COMPARTMENT_OCID}",
+        "namespace": "oci_computecontainerinstance",
+        "resourceGroup": "",
+        "query": "DiskBytesWritten[1m]{resourceId = \"${CONTAINER_INSTANCE_ID}\"}.rate()",
+        "resolution": "1m",
+        "startTime": "-1h",
+        "endTime": "now"
+      }
+    },
+    {
+      "displayName": "Prometheus Metrics - Container Count",
+      "widgetType": "line",
+      "nls": {},
+      "ui": {
+        "color": "#7f7f7f",
+        "legend": {
+          "position": "bottom"
+        }
+      },
+      "query": {
+        "compartmentId": "${COMPARTMENT_OCID}",
+        "namespace": "${METRICS_NAMESPACE}",
+        "resourceGroup": "",
+        "query": "container_count[1m]{}.max()",
+        "resolution": "1m",
+        "startTime": "-1h",
+        "endTime": "now"
+      }
+    },
+    {
+      "displayName": "Prometheus Metrics - Container Memory Usage",
+      "widgetType": "line",
+      "nls": {},
+      "ui": {
+        "color": "#bcbd22",
+        "legend": {
+          "position": "bottom"
+        }
+      },
+      "query": {
+        "compartmentId": "${COMPARTMENT_OCID}",
+        "namespace": "${METRICS_NAMESPACE}",
+        "resourceGroup": "",
+        "query": "container_memory_usage_bytes[1m]{}.mean()",
+        "resolution": "1m",
+        "startTime": "-1h",
+        "endTime": "now"
+      }
+    }
+  ],
+  "layout": {
+    "type": "grid",
+    "columns": 3,
+    "rows": [
+      {
+        "widgets": [
+          {"widgetIndex": 0, "span": 1},
+          {"widgetIndex": 1, "span": 1},
+          {"widgetIndex": 4, "span": 1}
+        ]
+      },
+      {
+        "widgets": [
+          {"widgetIndex": 2, "span": 1},
+          {"widgetIndex": 3, "span": 1},
+          {"widgetIndex": 7, "span": 1}
+        ]
+      },
+      {
+        "widgets": [
+          {"widgetIndex": 5, "span": 1},
+          {"widgetIndex": 6, "span": 1},
+          {"widgetIndex": 8, "span": 1}
+        ]
+      }
+    ]
+  },
+  "freeformTags": {
+    "ManagedBy": "Terraform",
+    "Purpose": "Container Monitoring"
+  }
+}
