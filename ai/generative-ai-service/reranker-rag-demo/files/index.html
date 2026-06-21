@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Vision Corp Leave Policy RAG</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="workspace" aria-labelledby="page-title">
+        <header class="topbar">
+          <div>
+            <p id="page-eyebrow" class="eyebrow">Retrieval augmented generation</p>
+            <h1 id="page-title">Vision Corp Leave Policy RAG</h1>
+          </div>
+          <div class="top-actions">
+            <div id="model-pill" class="model-pill" aria-label="Selected OCI model">
+              <span class="signal-dot" aria-hidden="true"></span>
+              <span id="model-pill-text">cohere.rerank-v4.0-fast</span>
+            </div>
+          </div>
+        </header>
+
+        <section id="control-strip" class="control-strip" aria-label="Demo controls">
+          <label class="query-box" for="query-input">
+            <span id="query-label">Question</span>
+            <textarea id="query-input" rows="2"></textarea>
+          </label>
+
+          <div id="preset-row" class="preset-row" aria-label="Example questions">
+            <button class="preset-button is-active" type="button" data-preset="meaning">
+              AI meaning
+            </button>
+            <button class="preset-button" type="button" data-preset="useCases">
+              Use cases
+            </button>
+            <button class="preset-button" type="button" data-preset="adoption">
+              Adoption plan
+            </button>
+          </div>
+
+          <div class="switch-row">
+            <span id="vector-mode-label" class="mode-label">Vector search only</span>
+            <label class="toggle" for="rerank-toggle">
+              <input id="rerank-toggle" type="checkbox" checked />
+              <span class="toggle-track">
+                <span class="toggle-thumb"></span>
+              </span>
+              <span id="toggle-sr" class="sr-only">Use OCI Reranker</span>
+            </label>
+            <span id="rerank-mode-label" class="mode-label strong">OCI Reranker on</span>
+          </div>
+        </section>
+
+        <section id="pipeline" class="pipeline" aria-label="RAG pipeline">
+          <div class="pipeline-step">
+            <span class="step-icon">Q</span>
+            <span id="step-query">Query</span>
+          </div>
+          <div class="pipeline-line" aria-hidden="true"></div>
+          <div class="pipeline-step">
+            <span class="step-icon">V</span>
+            <span id="step-vector">Vector search</span>
+          </div>
+          <div class="pipeline-line" aria-hidden="true"></div>
+          <div class="pipeline-step rerank-step">
+            <span class="step-icon">R</span>
+            <span id="step-rerank">Rerank top-k</span>
+          </div>
+          <div class="pipeline-line" aria-hidden="true"></div>
+          <div class="pipeline-step">
+            <span class="step-icon">A</span>
+            <span id="step-answer">Answer</span>
+          </div>
+        </section>
+
+        <section class="result-grid">
+          <article class="answer-panel" aria-labelledby="answer-title">
+            <div class="panel-heading">
+              <div>
+                <p id="answer-eyebrow" class="eyebrow">Generated response</p>
+                <h2 id="answer-title">RAG answer</h2>
+              </div>
+              <span id="answer-mode" class="status-chip"></span>
+            </div>
+            <p id="answer-copy" class="answer-copy"></p>
+            <div id="citation-row" class="citation-row" aria-label="Cited passages"></div>
+          </article>
+
+          <article class="score-panel" aria-labelledby="score-title">
+            <div class="panel-heading">
+              <div>
+                <p id="score-eyebrow" class="eyebrow">Ranking effect</p>
+                <h2 id="score-title">Top passages</h2>
+              </div>
+              <span id="lift-badge" class="lift-badge"></span>
+            </div>
+            <div id="rank-list" class="rank-list"></div>
+            <p id="score-note" class="score-note"></p>
+          </article>
+        </section>
+
+        <section class="compare-grid" aria-label="Side by side comparison">
+          <article class="mini-panel">
+            <div id="vector-mini-title" class="mini-title">Without reranker</div>
+            <div id="vector-stack" class="mini-stack"></div>
+          </article>
+          <article class="mini-panel accented">
+            <div id="rerank-mini-title" class="mini-title">With OCI Reranker</div>
+            <div id="rerank-stack" class="mini-stack"></div>
+          </article>
+        </section>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
