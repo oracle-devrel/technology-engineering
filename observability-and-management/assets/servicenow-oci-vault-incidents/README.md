@@ -1,6 +1,6 @@
 # ServiceNow integration with OCI using secrets stored in OCI Vault to create incidents
 
-In this article we will see how we can integrate Service Now with Oracle cloud Alarms to create incidents using OCI(Oracle Cloud Infrastructure) functions
+In this article we will see how we can integrate ServiceNow with Oracle cloud Alarms to create incidents using OCI functions.
 
 You can integrate OCI alarms with servicenow using username and password by following this [doc](https://docs.servicenow.com/bundle/tokyo-it-operations-management/page/product/event-management/task/oracle-cloud-events-integration.html)
 

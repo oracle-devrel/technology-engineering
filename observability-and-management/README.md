@@ -12,20 +12,13 @@ Reviewed: Reviewed: 17.06.2026
 |---|---|
 | AI agent skills for OCI observability  | [Link](https://github.com/adibirzu/oci-skills) | 
 | Observability Design Guide  | [Link](https://obs.octodemo.cloud/) |  
-| OCI Prometheus Otel multicloud monitoring|[Link](./assets/oci-prometheus-otel-monitoring/README.md)|
-| Oracle Cloud Prometheus Exporter|[Link](./assets/oracle-cloud-prometheus-exporter/readme.md)|
-| Send OCI Logs to Azure Sentinel|[Link](./assets/send-oci-logs-to-azure-sentinel-using-oracle-functions/README.md)|
-| Streaming OCI Logs into Splunk |[Link](./assets/stream-oci-logs-to-splunk/README.md)|
 | OCI Management Dashboard Automation|[Link](./assets/oci-management-dashboard-automation/README.md)|
 | Multi-cloud observability using OCI Monitoring|[Link](./assets/multi-cloud-observability-using-oci-monitoring/README.md)|
-| Using Pulumi to create OCI resource|[Link](./assets/using-pulumi-to-create-oci-resources/README.md)|
-| ServiceNow integration with OCI using secrets stored in OCI Vault to create incidents|[Link](./assets/servicenow-oci-vault-incidents/README.md)|
-| ServiceNow integration with Oracle cloud alarms|[Link](./assets/servicenow-integration-with-oracle-cloud-alarms/README.md)|
-| How to get logs into Splunk from OCI obj storage|[Link](./assets/get-logs-into-splunk-from-oci-object-storage/README.md)|
-| Stream OCI logs to Splunk|[Link](./assets/stream-oci-logs-to-splunk/README.md)|
 | How and why to run Wazuh in OCI|[Link](./assets/why-and-how-to-run-wazuh-on-oci/README.md)|
-| Use Cloud Guard Insight Recipes to monitor Windows Instances against Interesting Windows Event IDs for Malware/General Investigation |[Link](./cloud-guard-insight-recipes-windows-event-ids/README.md)|
-| OCI logs integration with Qradar|[Link](./assets/integrating-oci-logs-into-ibm-qradar-siem/README.md)|
+| OCI Metric Report Generator|[Link](./assets/oci-metrics-report/README.md)|
+| Using Plumi to create OCI Resources|[Link](./assets/using-pulumi-to-create-oci-resources/README.md)|
+| Wazuh running in OCI | [Link](./assets/why-and-how-to-run-wazuh-on-oci/README.md)|
+| Use Cloud Guard Insight Recipes to monitor Windows Instances against Interesting Windows Event IDs for Malware/General Investigation |[Link](./assets/cloud-guard-insight-recipes-windows-event-ids/README.md)|
 
 
  
@@ -62,13 +55,28 @@ Reviewed: Reviewed: 17.06.2026
 | EBS | [Link](https://docs.oracle.com/en/solutions/enable-om-stack-monitoring-ebs/index.html#GUID-6D9E091F-3614-4E3E-A082-5FC82B27CD7C) | 
 | Observability for Golden Gate Cloud|[Link](./assets/oci-observability-for-goldengate-cloud/readme.md)|
 | Observability for APEX |[Link](./assets/oci-observability-for-oracle-apex/readme.md)|
-| OCI CI Container Instance | [Link](https://github.com/adibirzu/oci-container-monitoring)  |
+| OCI CI Container Instance | [Link](./assets/oci-container-monitoring/README.md)  |
 | Monitor Weblogic in OCI | [Link](./assets/monitor-weblogic-in-oci-and-collect-logs/README.md) |
-| .... |  | 
+
 
 &nbsp; 
 
+| 3rd Party integration  |  Assets Page| 
+|---|---| 
+| Azure logs to OCI | [Link](./assets/azurelogs2oci/README.md)|
+| GCP Logs to OCI |[Link](./assets/gcplogs2oci/README.md)|
+| OCI Logs to Splunk from OCI Object Storage|[Link](./assets/get-logs-into-splunk-from-oci-object-storage/README.md)|
+| Stream OCI Logs to Splunk|[Link](./assets/stream-oci-logs-to-splunk/README.md)|
+| OCI Logs to IBM QRadar|[Link](./assets/integrating-oci-logs-into-ibm-qradar-siem/README.md)|
+| OCI Prometheus and OTEL Monitoring|[Link](./assets/oci-prometheus-otel-monitoring/README.md)|
+| Prometheus exporter in OCI |[Link](./assets/oracle-cloud-prometheus-exporter/README.md)|
+| OCI Logs to Sentinel|[Link](./assets/send-oci-logs-to-azure-sentinel-using-oracle-functions/README.md)|
+| ServiceNow integration with OCI using secrets stored in OCI Vault to create incidents|[Link](./assets/servicenow-oci-vault-incidents/README.md)|
+| ServiceNow integration with Oracle cloud alarms|[Link](./assets/servicenow-integration-with-oracle-cloud-alarms/README.md)|
 
+
+
+&nbsp; 
 
 # Team Publications
 
@@ -93,8 +101,7 @@ Reviewed: Reviewed: 17.06.2026
 
 # Useful Links
 
-- [PMs GitHub repo](https://github.com/oracle-quickstart/oci-o11y-solutions)
-  - Observability and Manageability Product Managers GitHub
+- [Product Managers GitHub repo](https://github.com/oracle-quickstart/oci-o11y-solutions)
 - [O&M Oracle Blogs](https://blogs.oracle.com/observability/)
 - [Documentation](https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/monitoring-and-observability.htm)
 - [OCI Monitoring](https://docs.oracle.com/en-us/iaas/Content/Monitoring/home.htm)

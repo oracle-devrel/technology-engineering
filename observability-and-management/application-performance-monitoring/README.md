@@ -14,7 +14,6 @@ Reviewed: 12.03.2026
 
 - [OCI APM and Logging Analytics](https://blogs.oracle.com/observability/post/connect-apm-with-log-analytics-and-more)
 - [Create dynamic links from OCI APM to other services for efficient workflows](https://blogs.oracle.com/observability/post/connect-apm-with-log-analytics-and-more)
-- [Delete Multiple Resources in OCI Stack Monitoring with the Python SDK](https://medium.com/@michtoeth/delete-multiple-resources-in-oci-stack-monitoring-with-the-python-sdk-60fa23970ac1)
 - [OCI APM for JD Edwards: Pinpoint performance bottlenecks in business-critical services](https://blogs.oracle.com/observability/post/enable-oci-apm-for-oracle-jd-edwards)
 
 

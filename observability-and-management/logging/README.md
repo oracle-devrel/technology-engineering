@@ -4,6 +4,17 @@ The Oracle Cloud Infrastructure Logging service is a highly scalable and fully m
 
 Reviewed: 09.04.2026
 
+|OCI Logging Asset| Asset Page|
+||[Link]()|
+||[Link]()|
+||[Link]()|
+||[Link]()|
+||[Link]()|
+||[Link]()|
+|Cloud Guard insight recipes windows events|[Link](./assets/cloud-guard-insight-recipes-windows-event-ids/README.md)|
+
+
+
 # Table of Contents
 
 1. [Team Publications](#team-publications)
