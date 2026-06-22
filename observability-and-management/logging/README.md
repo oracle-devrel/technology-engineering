@@ -13,6 +13,7 @@ Reviewed: 22.06.2026
 # Team Publications
 
 |OCI Logging Asset| Asset Page|
+|---|---|
 | How to export OCI logs to file|[Link](./assets/export-oci-logs-to-file/README.md)|
 | OCI Cross-tenancy log management|[Link](./assets/oci-cross-tenancy-log-management/README.md)|
 | OKE logging using OCI Logging|[Link](./assets/oke-log-collection-using-oci-logging/README.md)|
