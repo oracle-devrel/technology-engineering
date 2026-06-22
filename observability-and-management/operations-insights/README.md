@@ -17,15 +17,14 @@ Reviewed: 09.04.2026
 # Team Publications
 
 - [Ops Insights Demo](https://www.youtube.com/watch?v=Y45kPRn_c7s)
-- [Auto enable hosts for Operation Insights in OCI](https://karthicin.medium.com/auto-enable-hosts-for-operation-insights-in-oci-60c9c80486b1)
-- [How to enable Ops Insight for Oracle DBCS](https://learnoci.cloud/how-to-enable-operations-insight-for-oracle-dbcs-51dac10da833)
-- [How to enable Ops Insights on Oracle Autonomous Database Serverless](https://medium.com/@rishabhghosh24/enable-oci-ops-insight-on-oracle-autonomous-database-serverless-61efab78f927)
+
+
 
 # Useful Links
 
 - [Ops Insights](https://docs.oracle.com/en-us/iaas/operations-insights/index.html)
-- [Tag Exadata and Its Members in Ops Insights with OCI API](https://medium.com/@michtoeth/tag-exadata-and-its-members-in-operations-insights-with-oci-api-48f4d5c01fae)
-- [Automation to enable OCI OpsInsight for Host](https://karthicin.medium.com/automation-to-enable-oci-opsinsight-for-host-00b333d704ff)
+
+
 
 # License
 

@@ -63,8 +63,8 @@ Reviewed: Reviewed: 17.06.2026
 
 | 3rd Party integration  |  Assets Page| 
 |---|---| 
-| Azure logs to OCI | [Link](./assets/azurelogs2oci/README.md)|
-| GCP Logs to OCI |[Link](./assets/gcplogs2oci/README.md)|
+| Stream Azure Event Hub logs into Log Analytics|[Link](./assets/azurelogs2oci/README.md)|
+| Stream GCP logs into Log Analytics|[Link](./assets/gcplogs2oci/README.md)|
 | OCI Logs to Splunk from OCI Object Storage|[Link](./assets/get-logs-into-splunk-from-oci-object-storage/README.md)|
 | Stream OCI Logs to Splunk|[Link](./assets/stream-oci-logs-to-splunk/README.md)|
 | OCI Logs to IBM QRadar|[Link](./assets/integrating-oci-logs-into-ibm-qradar-siem/README.md)|
