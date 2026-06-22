@@ -202,11 +202,11 @@
       max-width: 100%;
       margin-bottom: 10px;
       font-family: Georgia, "Times New Roman", serif;
-      font-size: 3.6rem;
+      font-size: clamp(2.35rem, 6vw, 3.6rem);
       font-weight: 400;
       line-height: 1.04;
       letter-spacing: 0;
-      overflow-wrap: normal;
+      overflow-wrap: anywhere;
     }
 
     h1 span {
@@ -261,7 +261,7 @@
     }
 
     .search-results-layout .search-card {
-      position: sticky;
+      /* position: sticky; */
       top: 16px;
     }
 
@@ -1059,6 +1059,7 @@
       .top-actions { width: 100%; }
       .top-actions .btn { flex: 0 0 auto; }
       .hero-main { min-height: 0; }
+      h1 span:first-child { white-space: normal; }
       .field-pair,
       .hero-content,
       .intent-grid,
@@ -2217,7 +2218,12 @@
         }
       });
 
-      [keywords, areaSelect, assetType].forEach(element => {
+      keywords.addEventListener("input", () => {
+        updatePreview();
+        updateSearchButtonState();
+      });
+
+      [areaSelect, assetType].forEach(element => {
         element.addEventListener("input", () => renderResults(false));
         element.addEventListener("change", () => renderResults(false));
       });
