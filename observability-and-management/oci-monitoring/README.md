@@ -14,12 +14,13 @@ Reviewed: 26.01.2026
 
 |OCI Monitoring asset| Asset Page|
 | Multicloud Observability with OCI Monitoring|[Link](./assets/multi-cloud-observability-using-oci-monitoring/README.md)|
+| OCI Metrics Report|[Link](./assets/oci-metrics-report/README.md)|
+| How to install Arkime(Moloch) using embedded Open Search|[Link](./assets/install-arkime-moloch-using-embedded-open-search/README.md)|
+| How to monitor the resource usage on your OCI Instances using Cloud Guard Instance Security Queries|[Link](./assets/monitor-oci-instance-resource-usage-cloud-guard-queries/README.md)|
+| Security Onion on OCI|[Link](./assets/install-security-onion-on-oci/README.md)|
+| How to feed OCI metrics to Security Onion Grafana|[Link](./assets/feed-oci-metrics-to-security-onion-grafana/README.md)|
 
 
-- [How to feed OCI metrics to Security Onion Grafana](https://learnoci.cloud/how-to-feed-oci-metrics-to-security-onion-grafana-2dd1ceac3f71) ->ok
-- [How to monitor the resource usage on your OCI Instances using Cloud Guard Instance Security Queries](https://learnoci.cloud/how-to-monitor-the-resource-usage-on-your-oci-instances-using-cloud-guard-instance-security-queries-342836ca2811) ->ok
-- [How to install Arkime(Moloch) using embedded Open Search](https://learnoci.cloud/how-to-install-arkime-moloch-using-embedded-open-search-19a7a58f8eff) ->ok
-- [OCI Metrics Report](https://github.com/adibirzu/oci-metrics-report)
 
 # Useful Links
 

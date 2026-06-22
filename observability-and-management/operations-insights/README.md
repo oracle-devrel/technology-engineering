@@ -2,12 +2,8 @@
 
 Ops Insights provides comprehensive information about the resource use and capacity of databases and hosts. Use this service to analyze CPU and storage resources, forecast capacity issues, and proactively identify SQL performance issues across a database fleet.
 
-Reviewed: 09.04.2026
+Reviewed: 22.06.2026
 
-
-|Asset  |   Page| 
-|---|---|
-| Landing Zone Add-on  | [Link](./LZ-addons/README.md) |
 
 # Table of Contents
 
@@ -16,7 +12,15 @@ Reviewed: 09.04.2026
 
 # Team Publications
 
-- [Ops Insights Demo](https://www.youtube.com/watch?v=Y45kPRn_c7s)
+|Asset  |   Page| 
+|---|---|
+| Landing Zone Add-on  | [Link](./LZ-addons/README.md) |
+| Ops Insights Demo|[Link](https://www.youtube.com/watch?v=Y45kPRn_c7s)|
+| Tag Exadata and Its Members in OCI Ops Insights with API|[Link](./assets/tag-exadata-members-oci-ops-insights-api/README.md)|
+| Automated Observability Enablement for External Oracle Databases| [Link](./external-database-enablement/README.md) | 
+| Automated Observability Enablement for OCI Cloud-Native Databases| [Link](./assets/oci-dbman-opsi/README.md) | 
+
+
 
 
 

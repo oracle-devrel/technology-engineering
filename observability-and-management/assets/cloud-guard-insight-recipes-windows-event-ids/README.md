@@ -13,9 +13,9 @@ The Event ID’s that I will add in this Search are from this Sophos page, and t
 So the first thing we need to do is to create the OCI AuthZ policies that will allow the Logging Service to be used by Cloud Guard.
 
 Go to Cloud Guard, click on Data Sources and copy the needed policies:
-
+```test
 allow service logging to {LOG_DEFINITION_READ, LOG_DEFINITION_WRITE, LOG_WRITE, LOG_NAMESPACE_READ, LOG_CONTENT_READ, AUDIT_EVENT_READ,LOG_CONTENT_PUSH} in tenancy
-
+```
 allow service logging to {INTERNAL_AUDIT_EVENT_READ} in tenancy
 
 ![Picture 36](./images/image-01.png)
@@ -26,8 +26,9 @@ The policy needs to be enabled at the root level.
 
 Next step would be to go to OCI Logging, and create a Search for certain event ID from a Custom Agent Log for Windows.
 
-search “ocid1.compartment.oc1..aaaaaaaarsk54oz6cd4kd5pgnrgqcxiyd2ldo2n5zx6psna2hyln6vtzkgka/ocid1.loggroup.oc1.eu-frankfurt-1.amaaaaaagysxq7aaz52drpqvc45q6aukcg6pxgldm4r52pzbs25uja3i374a/ocid1.log.oc1.eu-frankfurt-1.amaaaaaagysxq7aaqa4q37sv6d3yyglgmokuiest56pdoiyh3wvwvzcb2ufq” | data.event_id=’7036' or data.event_id=’4688' or data.event_id=’4740'| sort by datetime desc
-
+```text
+search “ocid1.compartment.oc1..xxx/ocid1.loggroup.oc1.eu-frankfurt-1.xxxx/ocid1.log.oc1.eu-frankfurt-1.xxx”| data.event_id=’7036' or data.event_id=’4688' or data.event_id=’4740'| sort by datetime desc
+```
 ![Picture 34](./images/image-03.png)
 
 You can press Save Search, and this search can be choose when you create the rule. If you don’t want to save the search, you can also copy and paste.
@@ -56,7 +57,9 @@ After the Query is imported, you need to define the keys used by the query and m
 
 ![Picture 28](./images/image-09.png)
 
-search “ocid1.compartment.oc1..aaaaaaaarsk54oz6cd4kd5pgnrgqcxiyd2ldo2n5zx6psna2hyln6vtzkgka/ocid1.loggroup.oc1.eu-frankfurt-1.amaaaaaagysxq7aaz52drpqvc45q6aukcg6pxgldm4r52pzbs25uja3i374a/ocid1.log.oc1.eu-frankfurt-1.amaaaaaagysxq7aaqa4q37sv6d3yyglgmokuiest56pdoiyh3wvwvzcb2ufq” | data.event_id=’7036' or data.event_id=’4688'or data.event_id=’4740' or data.event_id=’4648'| select data.event_id as cgkey01
+```text
+search “ocid1.compartment.oc1..xxx/ocid1.loggroup.oc1.eu-frankfurt-1.xxx/ocid1.log.oc1.eu-frankfurt-1.xxx” | data.event_id=’7036' or data.event_id=’4688'or data.event_id=’4740' or data.event_id=’4648'| select data.event_id as cgkey01
+```
 
 If mapping is not done, you will receive this error:
 
@@ -106,7 +109,9 @@ After you detach it, you can edit it and add additional EventID’s like 4672 , 
 
 ![Picture 13](./images/image-23.png)
 
-search “ocid1.compartment.oc1..aaaaaaaarsk54oz6cd4kd5pgnrgqcxiyd2ldo2n5zx6psna2hyln6vtzkgka/ocid1.loggroup.oc1.eu-frankfurt-1.amaaaaaagysxq7aaz52drpqvc45q6aukcg6pxgldm4r52pzbs25uja3i374a/ocid1.log.oc1.eu-frankfurt-1.amaaaaaagysxq7aaqa4q37sv6d3yyglgmokuiest56pdoiyh3wvwvzcb2ufq” | data.event_id=’7036' or data.event_id=’4688'or data.event_id=’4740' or data.event_id=’4648' or data.event_id=’4740' | select data.event_id as cgkey01
+```test
+search “ocid1.compartment.oc1..xxx/ocid1.loggroup.oc1.eu-frankfurt-1.xxx/ocid1.log.oc1.eu-frankfurt-1.xxx” | data.event_id=’7036' or data.event_id=’4688'or data.event_id=’4740' or data.event_id=’4648' or data.event_id=’4740' | select data.event_id as xxx
+```
 
 Last step now is to attach Rule to the needed compartment by clicking Cloud Guard → Targets and create new Target:
 
