@@ -18,7 +18,7 @@ Reviewed: 22.06.2026
 | Landing Zone Add-on  | [Link](./LZ-addons/README.md) |
 | Database Management Demo|[Link](https://www.youtube.com/watch?v=3k9jrkOlBkc)|
 | Automated Observability Enablement for External Oracle Databases| [Link](./external-database-enablement/README.md) | 
-| Automated Observability Enablement for OCI Cloud-Native Databases| [Link](./assets/oci-dbman-opsi/README.md) | 
+| Automated Observability Enablement for OCI Cloud-Native Databases| [Link](./oci-dbman-opsi/README.md) | 
 
 
 # Useful Links
