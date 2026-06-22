@@ -14,14 +14,14 @@ Reviewed: 22.06.2026
 
 |OCI Logging Asset| Asset Page|
 |---|---|
-| How to export OCI logs to file|[Link](./assets/export-oci-logs-to-file/README.md)|
-| OCI Cross-tenancy log management|[Link](./assets/oci-cross-tenancy-log-management/README.md)|
-| OKE logging using OCI Logging|[Link](./assets/oke-log-collection-using-oci-logging/README.md)|
-| How to create a Postman collection for audit logs|[Link](./assets/postman-collection-for-oci-audit-logs/README.md)|
-| Use CloudGuard to search for MITRE ATT&CK Techniques detection|[Link](./assets/cloudguard-mitre-attack-techniques-detections/README.md)|
-| How to enable custom logs in OCI Instances|[Link](./assets/enable-custom-logs-in-oci-instances/README.md)|
-| Use Auditd logs in OCI with Logging Service|[Link](./assets/use-auditd-logs-in-oci-with-logging-service/README.md)|
-|Cloud Guard insight recipes windows events|[Link](./assets/cloud-guard-insight-recipes-windows-event-ids/README.md)|
+| How to export OCI logs to file|[Link](/observability-and-management/assets/export-oci-logs-to-file/README.md)|
+| OCI Cross-tenancy log management|[Link](/observability-and-management/assets/oci-cross-tenancy-log-management/README.md)|
+| OKE logging using OCI Logging|[Link](/observability-and-management/assets/oke-log-collection-using-oci-logging/README.md)|
+| How to create a Postman collection for audit logs|[Link](/observability-and-management/assets/postman-collection-for-oci-audit-logs/README.md)|
+| Use CloudGuard to search for MITRE ATT&CK Techniques detection|[Link](/observability-and-management/assets/cloudguard-mitre-attack-techniques-detections/README.md)|
+| How to enable custom logs in OCI Instances|[Link](/observability-and-management/assets/enable-custom-logs-in-oci-instances/README.md)|
+| Use Auditd logs in OCI with Logging Service|[Link](/observability-and-management/assets/use-auditd-logs-in-oci-with-logging-service/README.md)|
+|Cloud Guard insight recipes windows events|[Link](/observability-and-management/assets/cloud-guard-insight-recipes-windows-event-ids/README.md)|
 
 # Useful Links
 - [Logging](https://docs.oracle.com/en-us/iaas/Content/Logging/home.htm)
