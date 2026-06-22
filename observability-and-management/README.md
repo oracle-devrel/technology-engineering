@@ -12,13 +12,13 @@ Reviewed: Reviewed: 17.06.2026
 |---|---|
 | AI agent skills for OCI observability  | [Link](https://github.com/adibirzu/oci-skills) | 
 | Observability Design Guide  | [Link](https://obs.octodemo.cloud/) |  
-| OCI Management Dashboard Automation|[Link](./assets/oci-management-dashboard-automation/README.md)|
-| Multi-cloud observability using OCI Monitoring|[Link](./assets/multi-cloud-observability-using-oci-monitoring/README.md)|
-| How and why to run Wazuh in OCI|[Link](./assets/why-and-how-to-run-wazuh-on-oci/README.md)|
-| OCI Metric Report Generator|[Link](./assets/oci-metrics-report/README.md)|
-| Using Plumi to create OCI Resources|[Link](./assets/using-pulumi-to-create-oci-resources/README.md)|
-| Wazuh running in OCI | [Link](./assets/why-and-how-to-run-wazuh-on-oci/README.md)|
-| Use Cloud Guard Insight Recipes to monitor Windows Instances against Interesting Windows Event IDs for Malware/General Investigation |[Link](./assets/cloud-guard-insight-recipes-windows-event-ids/README.md)|
+| OCI Management Dashboard Automation|[Link](/observability-and-management/assets/oci-management-dashboard-automation/README.md)|
+| Multi-cloud observability using OCI Monitoring|[Link](/observability-and-management/assets/multi-cloud-observability-using-oci-monitoring/README.md)|
+| How and why to run Wazuh in OCI|[Link](/observability-and-management/assets/why-and-how-to-run-wazuh-on-oci/README.md)|
+| OCI Metric Report Generator|[Link](/observability-and-management/assets/oci-metrics-report/README.md)|
+| Using Plumi to create OCI Resources|[Link](/observability-and-management/assets/using-pulumi-to-create-oci-resources/README.md)|
+| Wazuh running in OCI | [Link](/observability-and-management/assets/why-and-how-to-run-wazuh-on-oci/README.md)|
+| Use Cloud Guard Insight Recipes to monitor Windows Instances against Interesting Windows Event IDs for Malware/General Investigation |[Link](/observability-and-management/assets/cloud-guard-insight-recipes-windows-event-ids/README.md)|
 
 
  
