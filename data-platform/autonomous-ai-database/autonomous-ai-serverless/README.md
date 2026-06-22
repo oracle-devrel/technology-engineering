@@ -86,6 +86,10 @@ Reviewed: 28.10.2025
 
 - [Database Link Creation between Autonomous AI Database and MS SQL Server using Oracle Database Gateway](https://medium.com/@andrea.dal84_3885/database-link-creation-between-autonomous-ai-database-and-ms-sql-server-using-oracle-database-99bb5ffd6d7c)
     - The blog explains step-by-step how to create a dblink from a serverless ADB to a MS SQL Server using an Oracle Database Gateway as a forwarder. 
+
+- [Best Practices for Parquet File Ingestion with Geospatial Data on Autonomous AI Lakehouse](https://blogs.oracle.com/autonomous-ai-database/best-practices-for-parquet-file-ingestion-with-geospatial-data-on-autonomous-ai-lakehouse).
+    -  The blog explains an efficient method to ingest huge quantity of geospatial data from parquet files into Autonomous AI Data Lakehouse leveraging on technical details as external and staging tables, partitioning, interleaving cluster and exchange partition. 
+
       
 ## Tip of the Day
  
