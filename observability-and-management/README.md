@@ -7,7 +7,7 @@ AI agent skills for OCI observability  [Link](https://github.com/adibirzu/oci-sk
 
 &nbsp; 
 
-Reviewed: Reviewed: 27.05.2026
+Reviewed: Reviewed: 17.06.2026
 
 &nbsp; 
 
@@ -28,14 +28,15 @@ Reviewed: Reviewed: 27.05.2026
 
 |Observability Targets  |  Assets Page|  
 |---|---|
-| Autonomous Database  | [Link](https://medium.com/@erikasciunzi/how-to-enable-oci-observability-on-autonomous-shared-database-716b623d1f15) | 
-| Database Cloud Service  | [Link](https://medium.com/learnoci/enable-observability-for-oci-native-database-deploy-235484953e46) |  
-| Exadata cloud@customer | [Link](https://learnoci.cloud/how-to-enable-oci-observability-services-on-exadata-cloud-customer-9501dcaa356e) |  
-| Exadata Cloud Service  | [Link](https://medium.com/learnoci/enable-observability-for-oci-native-database-deploy-235484953e46)|  
-| DB@GCP  | [Link](https://docs.oracle.com/en-us/iaas/Content/database-at-gcp/gcpmn-monitor.html)|  
-| DB@Azure |[Link](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/azumn-monitor.html)| 
-| DB@AWS | [Link](https://docs.oracle.com/en-us/iaas/Content/database-at-aws-exadata-awsmn/awsmn-monitor.html)| 
-| External Oracle DB| [Link](./shared-assets/external-database-enablement/README.md) | 
+| Autonomous Database  | [Link](./database-observability/autonomous-observability-asset/README.md) | 
+| Database Cloud Service  | [Link](./database-observability/exacs-and-dbcs-observability-assets/README.md) |  
+| Exadata cloud@customer | [Link](./database-observability/exacc-observability-assets/README.md) |  
+| Exadata Cloud Service  | [Link](./database-observability/exacs-and-dbcs-observability-assets/README.md)|  
+| Automated Observability Enablement for External Oracle Databases| [Link](./database-observability/external-database-enablement/README.md) | 
+| Automated Observability Enablement for OCI Cloud-Native Databases| [Link](https://github.com/adibirzu/oci-dbman-opsi) | 
+| DB@GCP  | [WIP](https://docs.oracle.com/en-us/iaas/Content/database-at-gcp/gcpmn-monitor.html)|  
+| DB@Azure |[WIP](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/azumn-monitor.html)| 
+| DB@AWS | [Link](./oracleaws/README.md)|
 | EBS | [Link](https://docs.oracle.com/en/solutions/enable-om-stack-monitoring-ebs/index.html#GUID-6D9E091F-3614-4E3E-A082-5FC82B27CD7C) | 
 | Webogic | [Link](https://karthicin.medium.com/how-to-monitor-weblogic-in-oci-and-collect-logs-for-analysis-7c5007426010) |
 | Apex | [Link](https://blogs.oracle.com/observability/oci-observability-for-oracle-apex) | 
@@ -111,4 +112,3 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

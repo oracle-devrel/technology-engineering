@@ -1,6 +1,6 @@
 # Oracle SQL Tools
 
-This section covers Oracle SQL Tools: from SQL Developer Desktop to SQL Developer Web on GUI ADB Database Actions to SQLcl.
+This section covers Oracle SQL Tools: from SQL Developer Desktop to SQL Developer for Visual Studio Code, from SQL Developer Web on GUI ADB Database Actions to SQLcl.
 Providing links to public useful documentation and articles/blogs written by Oracle SQL and Database Advocates and Product Managers.
 We use this asset when we want to explore the various SQL IDE development tools like SQL Developer, sqlcl and VS Code with SQL Developer extentions.
 
