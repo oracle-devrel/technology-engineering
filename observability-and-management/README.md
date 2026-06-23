@@ -32,15 +32,15 @@ Reviewed: Reviewed: 17.06.2026
 | Exadata cloud@customer | [Link](./database-observability/exacc-observability-assets/README.md) |  
 | Exadata Cloud Service  | [Link](./database-observability/exacs-and-dbcs-observability-assets/README.md)|  
 | Automated Observability Enablement for External Oracle Databases| [Link](./database-observability/external-database-enablement/README.md) | 
-| Automated Observability Enablement for OCI Cloud-Native Databases| [Link](./assets/oci-dbman-opsi/README.md) | 
+| Automated Observability Enablement for OCI Cloud-Native Databases| [Link](/observability-and-management/assets/oci-dbman-opsi/README.md) | 
 | DB@GCP  | [WIP](https://docs.oracle.com/en-us/iaas/Content/database-at-gcp/gcpmn-monitor.html)|  
 | DB@Azure |[WIP](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/azumn-monitor.html)| 
-| DB@AWS | [Link](./oracleaws/README.md)|
+| DB@AWS | [Link](./database-observability/oracleaws/README.md)|
 | EBS | [Link](https://docs.oracle.com/en/solutions/enable-om-stack-monitoring-ebs/index.html#GUID-6D9E091F-3614-4E3E-A082-5FC82B27CD7C) | 
-| Observability for Golden Gate Cloud|[Link](./assets/oci-observability-for-goldengate-cloud/readme.md)|
-| Observability for APEX |[Link](./assets/oci-observability-for-oracle-apex/readme.md)|
-| OCI CI Container Instance | [Link](./assets/oci-container-monitoring/README.md)  |
-| Monitor Weblogic in OCI | [Link](./assets/monitor-weblogic-in-oci-and-collect-logs/README.md) |
+| Observability for Golden Gate Cloud|[Link](/observability-and-management/assets/oci-observability-for-goldengate-cloud/README.md)|
+| Observability for APEX |[Link](./database-observability/oci-observability-for-oracle-apex/readme.md)|
+| OCI CI Container Instance | [Link](/observability-and-management/assets/oci-container-monitoring/README.md)  |
+| Monitor Weblogic in OCI | [Link](/observability-and-management//assets/monitor-weblogic-in-oci-and-collect-logs/README.md) |
 
 
 &nbsp;
