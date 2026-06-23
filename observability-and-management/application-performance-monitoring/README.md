@@ -15,7 +15,7 @@ Reviewed: 12.03.2026
 
 |APM Asset| Asset page|
 |---|---|
-| Connect OCI APM and Logging Analytics|[Link](https://blogs.oracle.com/observability/post/connect-apm-with-log-analytics-and-more)|
+| OCI APM and Log Analytics improve stack visibility with continuous workflows|[Link](https://blogs.oracle.com/observability/post/connect-apm-with-log-analytics-and-more)|
 | Create dynamic links from OCI APM to other services for efficient workflows|[Link](https://blogs.oracle.com/observability/post/connect-apm-with-log-analytics-and-more)|
 | OCI APM for JD Edwards: Pinpoint performance bottlenecks in business-critical services|[Link](https://blogs.oracle.com/observability/post/enable-oci-apm-for-oracle-jd-edwards)|
 
