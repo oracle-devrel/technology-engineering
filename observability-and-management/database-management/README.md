@@ -13,7 +13,7 @@ Reviewed: 22.06.2026
 
 # Team Publications
 
-|Asset  |   Page| 
+| Database Management asset  | Asset Page| 
 |---|---|
 | Landing Zone Add-on  | [Link](./LZ-addons/README.md) |
 | Database Management Demo|[Link](https://www.youtube.com/watch?v=3k9jrkOlBkc)|

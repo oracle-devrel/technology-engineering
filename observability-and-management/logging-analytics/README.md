@@ -2,14 +2,7 @@
 
 Oracle Logging Analytics is a cloud solution in Oracle Cloud Infrastructure that lets you index, enrich, aggregate, explore, search, analyze, correlate, visualize, and monitor all log data from your applications and system infrastructure.
 
-Reviewed: 05.05.2026
-
-|Asset  |   Page| 
-|---|---|
-| How to inject Oracle Fusion HCM logs in Logging Analytics | [Link](./fusion-hcm-to-la/README.md)|
-| Log Analytics Advanced Security Detection|[Link](/observability-and-management/assets/oci-log-analytics-detections/README.md)|
-| Stream Azure Event Hub logs into Log Analytics|[Link](/observability-and-management/assets/azurelogs2oci/README.md)|
-| Stream GCP logs into Log Analytics|[Link](/observability-and-management/assets/gcplogs2oci/README.md)|
+Reviewed: 23.06.2026
 
 
 # Table of Contents
@@ -19,8 +12,16 @@ Reviewed: 05.05.2026
 
 # Team Publications
 
-- [Logging Analytics Demo](https://www.youtube.com/watch?v=1bJb92put4k)
-- [Analyzing OCI Compute Instance logs with OCI Logging Analytics](https://blogs.oracle.com/observability/post/oci-logginganalytics-compute-instance)
+
+|OCI Log Analytics Asset  | Asset  Page| 
+|---|---|
+| Log Analytics Demo|[Link](https://www.youtube.com/watch?v=1bJb92put4k)|
+| Log Analytics for FinOps| [Link](./finops/README.md)|
+| Analyzing OCI Compute Instance logs with OCI Logging Analytics|[Link](https://blogs.oracle.com/observability/post/oci-logginganalytics-compute-instance)|
+| How to inject Oracle Fusion HCM logs in Logging Analytics | [Link](./fusion-hcm-to-la/README.md)|
+| Log Analytics Advanced Security Detection|[Link](/observability-and-management/assets/oci-log-analytics-detections/README.md)|
+| Stream Azure Event Hub logs into Log Analytics|[Link](/observability-and-management/assets/azurelogs2oci/README.md)|
+| Stream GCP logs into Log Analytics|[Link](/observability-and-management/assets/gcplogs2oci/README.md)|
 
 
 # Useful Links

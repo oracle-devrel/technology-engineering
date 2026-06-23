@@ -12,9 +12,12 @@ Reviewed: 12.03.2026
 
 # Team Publications
 
-- [OCI APM and Logging Analytics](https://blogs.oracle.com/observability/post/connect-apm-with-log-analytics-and-more)
-- [Create dynamic links from OCI APM to other services for efficient workflows](https://blogs.oracle.com/observability/post/connect-apm-with-log-analytics-and-more)
-- [OCI APM for JD Edwards: Pinpoint performance bottlenecks in business-critical services](https://blogs.oracle.com/observability/post/enable-oci-apm-for-oracle-jd-edwards)
+
+|APM Asset| Asset page|
+|---|---|
+| Connect OCI APM and Logging Analytics|[Link](https://blogs.oracle.com/observability/post/connect-apm-with-log-analytics-and-more)|
+| Create dynamic links from OCI APM to other services for efficient workflows|[Link](https://blogs.oracle.com/observability/post/connect-apm-with-log-analytics-and-more)|
+| OCI APM for JD Edwards: Pinpoint performance bottlenecks in business-critical services|[Link](https://blogs.oracle.com/observability/post/enable-oci-apm-for-oracle-jd-edwards)|
 
 
 # Useful Links

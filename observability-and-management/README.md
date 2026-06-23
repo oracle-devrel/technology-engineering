@@ -8,25 +8,8 @@ Reviewed: Reviewed: 17.06.2026
 
 &nbsp;
 
-|Observability Platform Asset  |  Assets Page| 
-|---|---|
-| AI agent skills for OCI observability  | [Link](https://github.com/adibirzu/oci-skills) | 
-| Observability Design Guide  | [Link](https://obs.octodemo.cloud/) |  
-| OCI Management Dashboard Automation|[Link](/observability-and-management/assets/oci-management-dashboard-automation/README.md)|
-| Multi-cloud observability using OCI Monitoring|[Link](/observability-and-management/assets/multi-cloud-observability-using-oci-monitoring/README.md)|
-| How and why to run Wazuh in OCI|[Link](/observability-and-management/assets/why-and-how-to-run-wazuh-on-oci/README.md)|
-| OCI Metric Report Generator|[Link](/observability-and-management/assets/oci-metrics-report/README.md)|
-| Using Plumi to create OCI Resources|[Link](/observability-and-management/assets/using-pulumi-to-create-oci-resources/README.md)|
-| Wazuh running in OCI | [Link](/observability-and-management/assets/why-and-how-to-run-wazuh-on-oci/README.md)|
-| Use Cloud Guard Insight Recipes to monitor Windows Instances against Interesting Windows Event IDs for Malware/General Investigation |[Link](/observability-and-management/assets/cloud-guard-insight-recipes-windows-event-ids/README.md)|
 
-
- 
-
-
-&nbsp; 
-
-
+# Team Publications
 
 |Observability Service  |  Assets Page| 
 |---|---|
@@ -39,9 +22,10 @@ Reviewed: Reviewed: 17.06.2026
 | Organization Management | WIP |  
 | Cost Management | WIP |  
 
-&nbsp; 
 
-|Observability Targets  |  Assets Page|  
+&nbsp;
+
+|Observability by Targets  |  Assets Page|  
 |---|---|
 | Autonomous Database  | [Link](./database-observability/autonomous-observability-asset/README.md) | 
 | Database Cloud Service  | [Link](./database-observability/exacs-and-dbcs-observability-assets/README.md) |  
@@ -57,6 +41,25 @@ Reviewed: Reviewed: 17.06.2026
 | Observability for APEX |[Link](./assets/oci-observability-for-oracle-apex/readme.md)|
 | OCI CI Container Instance | [Link](./assets/oci-container-monitoring/README.md)  |
 | Monitor Weblogic in OCI | [Link](./assets/monitor-weblogic-in-oci-and-collect-logs/README.md) |
+
+
+&nbsp;
+
+
+|Observability Platform Asset  |  Assets Page| 
+|---|---|
+|OCI Observability and Management best practices and checklist|[Link](https://blogs.oracle.com/observability/post/oci-observability-checklist)|
+| Observability Design Guide  | [Link](https://obs.octodemo.cloud/) |  
+| AI agent skills for OCI observability  | [Link](https://github.com/adibirzu/oci-skills) | 
+| OCI Management Dashboard Automation|[Link](/observability-and-management/assets/oci-management-dashboard-automation/README.md)|
+| Multi-cloud observability using OCI Monitoring|[Link](/observability-and-management/assets/multi-cloud-observability-using-oci-monitoring/README.md)|
+| How and why to run Wazuh in OCI|[Link](/observability-and-management/assets/why-and-how-to-run-wazuh-on-oci/README.md)|
+| OCI Metric Report Generator|[Link](/observability-and-management/assets/oci-metrics-report/README.md)|
+| Using Plumi to create OCI Resources|[Link](/observability-and-management/assets/using-pulumi-to-create-oci-resources/README.md)|
+| Wazuh running in OCI | [Link](/observability-and-management/assets/why-and-how-to-run-wazuh-on-oci/README.md)|
+| Use Cloud Guard Insight Recipes to monitor Windows Instances against Interesting Windows Event IDs for Malware/General Investigation |[Link](/observability-and-management/assets/cloud-guard-insight-recipes-windows-event-ids/README.md)|
+
+
 
 
 &nbsp; 
@@ -77,12 +80,6 @@ Reviewed: Reviewed: 17.06.2026
 
 
 &nbsp; 
-
-# Team Publications
-
-## Blogs
-
-- [OCI Observability and Management best practices and checklist](https://blogs.oracle.com/observability/post/oci-observability-checklist)
 
 
 

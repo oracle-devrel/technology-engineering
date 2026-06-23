@@ -12,7 +12,7 @@ Reviewed: 22.06.2026
 
 # Team Publications
 
-|Asset  |   Page| 
+| Ops Insights asset  | Asset  Page| 
 |---|---|
 | Landing Zone Add-on  | [Link](./LZ-addons/README.md) |
 | Ops Insights Demo|[Link](https://www.youtube.com/watch?v=Y45kPRn_c7s)|
