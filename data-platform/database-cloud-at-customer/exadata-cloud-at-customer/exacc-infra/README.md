@@ -2,6 +2,9 @@
 
 Exadata Database Service on Cloud@Customer infrastructure brings Oracle's industry-leading Exadata platform directly into your data center, providing a dedicated, high-performance foundation for mission-critical database workloads. Fully engineered, integrated, and managed by Oracle, it combines the scalability and automation of cloud services with the security, compliance, and data sovereignty benefits of on-premises deployment.
 
+<img src="./../images/exadb-infra.png" alt="Infrastructure">
+
+
 # Useful Links
 
 - [Main Oracle Product Page](https://www.oracle.com/uk/engineered-systems/exadata/cloud-at-customer/)
@@ -39,7 +42,7 @@ Exadata Database Service on Cloud@Customer infrastructure brings Oracle's indust
 
 - [OCI Ops Insights - Cloud native support for Exadata Cloud@Customer Databases)](https://blogs.oracle.com/observability/post/oci-ops-insights-cloud-native-support-for-exadata-cloudcustomer-databases)
 
-Reviewed: 06/11/26
+Reviewed: 06/24/26
 
 # License
 

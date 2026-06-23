@@ -2,6 +2,8 @@
 
 Exadata Cloud@Customer incorporates multiple layers of security across the infrastructure, network, and database stack to help protect business-critical data and applications. Features such as network segregation, encryption in transit and at rest, role-based access controls, customer-managed encryption keys, and audited operational access work together to provide a secure and compliant database platform.
 
+<img src="./../images/exadb-infra.png" alt="Infrastructure"> 
+
 # Useful Links
 
 - [Security Documentation](https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-secguide.html)
@@ -19,7 +21,7 @@ Exadata Cloud@Customer incorporates multiple layers of security across the infra
 - [Oracle Cloud Compliance (oracle.com)](https://www.oracle.com/corporate/cloud-compliance/)
 
 
-Reviewed: 06/11/26
+Reviewed: 06/24/26
 
 # License
 

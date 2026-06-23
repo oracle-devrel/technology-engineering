@@ -2,6 +2,8 @@
 
 Exadata Cloud@Customer provides secure connectivity between the Exadata infrastructure, your local data center, and Oracle Cloud Infrastructure (OCI). Dedicated client and backup networks enable seamless integration with enterprise applications and backup services, while a secure control plane connection to OCI allows Oracle to deliver cloud-based management, monitoring, and lifecycle operations. For business continuity and disaster recovery, the platform supports Oracle Data Guard and other replication technologies to protect critical workloads across geographically separated sites.
 
+<img src="./../images/exadb-data-protection.png" alt="Data Protection"> 
+
 # ExaDB-C@C Backup Approaches
 
 Below is a summary of the backup and recovery approaches, target platforms and benefits and considerations for each approach. Please also refer to the "Additional Information" section for links to the documentation and MOS Notes pertinent to this area.
@@ -80,8 +82,9 @@ Oracle's recommended approach.
 - [Site Requirements for Oracle Exadata Database Service on Cloud@Customer](https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-site-requirements.html)
 - [Use Oracle Data Guard with Oracle Exadata Database Service on Cloud@Customer - Documentation](https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-using-data-guard.html)
 - [Using Autonomous Data Guard with Autonomous Database on Exadata Cloud@Customer - Documentation](https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/adb-using-adg-with-adb.html)
+- [Backup from ExaDB-C@C to C3 Object Storage](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-data-protection/backup-from-exacc-to-c3-object-store)
 
-Reviewed: 06/11/26
+Reviewed: 06/24/26
 
 # License
 
