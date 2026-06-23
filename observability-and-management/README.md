@@ -38,7 +38,7 @@ Reviewed: Reviewed: 17.06.2026
 | DB@AWS | [Link](./database-observability/oracleaws/README.md)|
 | EBS | [Link](https://docs.oracle.com/en/solutions/enable-om-stack-monitoring-ebs/index.html#GUID-6D9E091F-3614-4E3E-A082-5FC82B27CD7C) | 
 | Observability for Golden Gate Cloud|[Link](/observability-and-management/assets/oci-observability-for-goldengate-cloud/README.md)|
-| Observability for APEX |[Link](./database-observability/oci-observability-for-oracle-apex/readme.md)|
+| Observability for APEX |[Link](/observability-and-management/assets/oci-observability-for-oracle-apex/README.md)|
 | OCI CI Container Instance | [Link](/observability-and-management/assets/oci-container-monitoring/README.md)  |
 | Monitor Weblogic in OCI | [Link](/observability-and-management//assets/monitor-weblogic-in-oci-and-collect-logs/README.md) |
 
