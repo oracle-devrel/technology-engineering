@@ -1,0 +1,121 @@
+#!/usr/bin/env bash
+# convert this file with
+#  cat <filename> | base64 --wrap 0
+# and put it as user_data in the launch script
+# filename of this script
+THIS_SCRIPT="${DOLLAR}(basename ${DOLLAR}{BASH_SOURCE})"
+exec >> /tmp/boot-init-output.txt 2>&1
+echo -e "\n################################################################################"
+echo -e "###\n### output from ${DOLLAR}{THIS_SCRIPT}\n###\n"
+
+INSTALL_LIST=();
+source /etc/os-release
+if [[ "${DOLLAR}NAME" == "Oracle Linux Server" ]]; then
+  if [[ "${DOLLAR}VERSION_ID" == 8* ]]; then
+    echo "### ${DOLLAR}(date +"%Y%m%d %T") : Oracle Linux 8"
+    echo "### ${DOLLAR}(date +"%Y%m%d %T") : dnf install oraclelinux-developer-release-el8"
+    dnf install oraclelinux-developer-release-el8
+    echo "### ${DOLLAR}(date +"%Y%m%d %T") : dnf install oracle-epel-release-el8"
+    dnf install oracle-epel-release-el8
+    echo "### ${DOLLAR}(date +"%Y%m%d %T") : dnf -y config-manager --enable ol8_developer_EPEL"
+    dnf -y config-manager --enable ol8_developer_EPEL
+    INSTALL_LIST+=('et')
+  elif [[ "${DOLLAR}VERSION_ID" == 9* ]]; then
+    echo "### ${DOLLAR}(date +"%Y%m%d %T") : Oracle Linux 9"
+    echo "### ${DOLLAR}(date +"%Y%m%d %T") : dnf install oraclelinux-developer-release-el9"
+    dnf install oraclelinux-developer-release-el9
+    echo "### ${DOLLAR}(date +"%Y%m%d %T") : dnf install oracle-epel-release-el9"
+    dnf install oracle-epel-release-el9
+    echo "### ${DOLLAR}(date +"%Y%m%d %T") : dnf -y config-manager --enable ol9_developer_EPEL"
+    dnf -y config-manager --enable ol9_developer_EPEL
+    INSTALL_LIST+=('et')
+  elif [[ "${DOLLAR}VERSION_ID" == 10* ]]; then
+    echo "### ${DOLLAR}(date +"%Y%m%d %T") : Oracle Linux 10"
+    echo "### ${DOLLAR}(date +"%Y%m%d %T") : dnf install oraclelinux-developer-release-el10"
+    dnf install oraclelinux-developer-release-el10
+    echo "### ${DOLLAR}(date +"%Y%m%d %T") : dnf install oracle-epel-release-el10"
+    dnf install oracle-epel-release-el10
+    echo "### ${DOLLAR}(date +"%Y%m%d %T") : dnf -y config-manager --enable ol10_u0_developer_EPEL"
+    dnf -y config-manager --enable ol10_u0_developer_EPEL
+  else
+    echo "### ${DOLLAR}(date +"%Y%m%d %T") : version not supported: ${DOLLAR}VERSION_ID"
+    exit
+  fi
+else
+  echo "### ${DOLLAR}(date +"%Y%m%d %T") : OS not supported: ${DOLLAR}NAME"
+  exit
+fi
+
+# install tmux, git, htop. Eternal Terminal if not Oracle Linux 10
+INSTALL_LIST+=('tmux')
+INSTALL_LIST+=('git')
+INSTALL_LIST+=('htop')
+for packet in "${DOLLAR}{INSTALL_LIST[@]}"; do
+  echo "### ${DOLLAR}(date +"%Y%m%d %T") : dnf -y install ${DOLLAR}{packet}"
+  dnf -y install "${DOLLAR}{packet}"
+  if [[ "${DOLLAR}{packet}" == "et" ]]; then
+    echo "### ${DOLLAR}(date +"%Y%m%d %T") : systemctl --now enable et"
+    systemctl --now enable et
+  fi
+done
+
+echo "### ${DOLLAR}(date +"%Y%m%d %T") : INSTANCE_NAME=\"\${DOLLAR}(curl -s -H \"Authorization: Bearer Oracle\" http://169.254.169.254/opc/v2/instance/displayName)\""
+INSTANCE_NAME="${DOLLAR}(curl -s -H "Authorization: Bearer Oracle" http://169.254.169.254/opc/v2/instance/displayName)"
+if [ "${DOLLAR}{INSTANCE_NAME}" = "${tf_command_server_name}" ]; then
+  echo "### ${DOLLAR}(date +"%Y%m%d %T") : dnf -y install httpd"
+  dnf -y install httpd
+  echo "### ${DOLLAR}(date +"%Y%m%d %T") : systemctl --now enable httpd"
+  systemctl --now enable httpd
+fi
+
+if [[ "${DOLLAR}VERSION_ID" == 10* ]]; then
+    echo "### ${DOLLAR}(date +"%Y%m%d %T") : dnf -y config-manager --disable ol10_u0_developer_EPEL"
+    dnf -y config-manager --disable ol10_u0_developer_EPEL
+fi
+
+
+echo "### ${DOLLAR}(date +"%Y%m%d %T") : the firewall configuration"
+echo "### ${DOLLAR}(date +"%Y%m%d %T") : systemctl start firewalld"
+          systemctl start firewalld
+
+# schedule a job to execute some firewall-cmd
+echo "### ${DOLLAR}(date +"%Y%m%d %T") : ATJOB_FILE="/usr/local/bin/atjob.bash""
+ATJOB_FILE="/usr/local/bin/atjob.bash"
+echo "### ${DOLLAR}(date +"%Y%m%d %T") : cat > \"\${DOLLAR}{ATJOB_FILE}\" << EOF"
+cat > "${DOLLAR}{ATJOB_FILE}" << EOF
+#!/usr/bin/env bash
+
+exec >> /tmp/atjob-output.txt 2>&1
+
+echo "### ${DOLLAR}(date +"%Y%m%d %T") : ${DOLLAR}(date +"%Y%m%d-%T")"
+EOF
+if [ "${DOLLAR}{INSTANCE_NAME}" = "${tf_command_server_name}" ]; then
+  echo "### ${DOLLAR}(date +"%Y%m%d %T") : echo \"firewall-cmd --permanent --zone=public --add-port=80/tcp\" >> \"\${DOLLAR}{ATJOB_FILE}\""
+  echo "echo \"### firewall-cmd --permanent --zone=public --add-port=80/tcp\"" >> "${DOLLAR}{ATJOB_FILE}"
+  echo "firewall-cmd --permanent --zone=public --add-port=80/tcp" >> "${DOLLAR}{ATJOB_FILE}"
+fi
+echo "### ${DOLLAR}(date +"%Y%m%d %T") : echo \"firewall-cmd --permanent --zone=public --add-port=2022/tcp\" >> \"\${DOLLAR}{ATJOB_FILE}\""
+echo "echo \"### firewall-cmd --permanent --zone=public --add-port=2022/tcp\"" >> "${DOLLAR}{ATJOB_FILE}"
+echo "firewall-cmd --permanent --zone=public --add-port=2022/tcp" >> "${DOLLAR}{ATJOB_FILE}"
+echo "echo \"### firewall-cmd --reload\"" >> "${DOLLAR}{ATJOB_FILE}"
+echo "### ${DOLLAR}(date +"%Y%m%d %T") : echo \"firewall-cmd --reload\" >> \"\${DOLLAR}{ATJOB_FILE}\""
+echo "firewall-cmd --reload" >> "${DOLLAR}{ATJOB_FILE}"
+echo "### ${DOLLAR}(date +"%Y%m%d %T") : chmod +x "${DOLLAR}{ATJOB_FILE}""
+chmod +x "${DOLLAR}{ATJOB_FILE}"
+
+SERVICE_FILE="/etc/systemd/system/from-boot-init.service"
+echo "### ${DOLLAR}(date +"%Y%m%d %T") : cat > \"\${DOLLAR}{SERVICE_FILE}\" << EOF"
+cat > "${DOLLAR}{SERVICE_FILE}" << EOF
+[Unit]
+Description=one-time execution. Commands in ${DOLLAR}{ATJOB_FILE} fail when executed in boot-init
+
+[Service]
+Type=oneshot
+ExecStart=${DOLLAR}{ATJOB_FILE}
+EOF
+echo "### ${DOLLAR}(date +"%Y%m%d %T") : systemctl daemon-reload"
+systemctl daemon-reload
+echo "### ${DOLLAR}(date +"%Y%m%d %T") : systemctl start from-boot-init.service"
+systemctl start from-boot-init.service
+
+echo "### ${DOLLAR}(date +"%Y%m%d %T") : root-setup.bash finished"

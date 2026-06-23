@@ -1,0 +1,5 @@
+.git/
+.terraform/
+.terraform.lock.hcl
+provider.tf
+terraform.tfvars

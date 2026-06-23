@@ -1,0 +1,164 @@
+#!/usr/bin/env bash
+THIS_SCRIPT="${DOLLAR}(basename ${DOLLAR}{BASH_SOURCE})"
+exec >> /tmp/boot-init-output.txt 2>&1
+echo -e "\n################################################################################"
+echo -e "###\n### output from ${DOLLAR}{THIS_SCRIPT}\n###\n"
+
+DNSHOSTNAME="${tf_rpiconnect_name}"
+DNSDOMAIN="${tf_zone_name}"
+#VCN="OSManagementHub" not needed when deployed by Terraform
+TMUX_SCRIPT="tmux-default.bash"
+
+# if we are not in an OCI instance, quit
+echo "### ${DOLLAR}(date +"%Y%m%d %T") : quit if not running in OCI Instance"
+curl --connect-timeout 5 -s -H "Authorization: Bearer Oracle" http://169.254.169.254/opc/v2/instance/id || exit
+echo ""
+INSTANCE_NAME="${DOLLAR}(curl -s -H "Authorization: Bearer Oracle" http://169.254.169.254/opc/v2/instance/displayName)"
+
+NSGS=()
+NSGS+=('${tf_eternal_terminal_nsg}')
+if [ "${DOLLAR}{INSTANCE_NAME}" = "${tf_command_server_name}" ]; then
+  NSGS+=('${tf_http_nsg}')
+fi
+
+# use ~/.bin instead of ~/bin
+echo "### ${DOLLAR}(date +"%Y%m%d %T") : edit .bashrc to use ~/.bin"
+sed --in-place=.bak -e 's/\${DOLLAR}HOME\/bin/${DOLLAR}HOME\/.bin/' "${DOLLAR}{HOME}"/.bashrc
+
+# prepare for using OCI CLI with instance principal authorization
+echo "### ${DOLLAR}(date +"%Y%m%d %T") : add OCI_CLI_AUTH=\"instance_principal\" to ~/.bash_profile"
+cat >> ~/.bash_profile << EOF
+export OCI_CLI_AUTH="instance_principal"
+EOF
+
+# use tmux on interactive shells
+echo "### ${DOLLAR}(date +"%Y%m%d %T") : change .bash_profile to use tmux on interactive shells"
+cat >> "${DOLLAR}{HOME}"/.bash_profile << EOF
+TMUX_LOGIN=false
+if [[ \${DOLLAR}{TMUX_LOGIN} == true ]] && [[ -z \${DOLLAR}{TMUX+x} ]] && [[ ! -z \${DOLLAR}{SSH_TTY+x} ]]; then
+	  "\${DOLLAR}{HOME}/.bin/${DOLLAR}{TMUX_SCRIPT}"
+fi
+EOF
+
+# install Oh my Tmux!
+echo "### ${DOLLAR}(date +"%Y%m%d %T") : install Oh my Tmux!"
+cd
+git clone --single-branch https://github.com/gpakosz/.tmux.git
+ln -s -f .tmux/.tmux.conf
+cp .tmux/.tmux.conf.local .
+sed --in-place=.bak -e 's/^#set -g mouse on/set -g mouse on/' "${DOLLAR}{HOME}"/.tmux.conf.local
+
+# either source ~/.bash_profile or set OCI_CLI_AUTH
+export OCI_CLI_AUTH="instance_principal"
+
+INSTANCE_ID=${DOLLAR}(curl -s -H "Authorization: Bearer Oracle" http://169.254.169.254/opc/v2/instance/id)
+
+#
+# download scripts from object storage
+#
+# make sure the target directories for the downloaded files exist
+echo "### ${DOLLAR}(date +"%Y%m%d %T") : make sure ~/.oci and ~/.bin exist"
+if [ ! -d "${DOLLAR}{HOME}/.oci" ]; then
+  mkdir "${DOLLAR}{HOME}/.oci"
+fi
+if [ ! -d "${DOLLAR}{HOME}/.bin" ]; then
+  mkdir "${DOLLAR}{HOME}/.bin"
+fi
+
+# setup the file list
+FILE=();                         LOCATION=();              PERMS=();
+FILE+=('instancectl.bash');      LOCATION+=("${DOLLAR}HOME/.bin"); PERMS+=('755');
+FILE+=('oci_cli_rc');            LOCATION+=("${DOLLAR}HOME/.oci"); PERMS+=('600');
+FILE+=('oci-connectivity.bash'); LOCATION+=("${DOLLAR}HOME/.bin"); PERMS+=('755');
+FILE+=('osmh-logs.bash');        LOCATION+=("${DOLLAR}HOME/.bin"); PERMS+=('755');
+FILE+=('params.txt');            LOCATION+=("${DOLLAR}HOME/.bin"); PERMS+=('600');
+FILE+=('tmux-default.bash');     LOCATION+=("${DOLLAR}HOME/.bin"); PERMS+=('755');
+if [ "${DOLLAR}{INSTANCE_NAME}" = "${tf_command_server_name}" ]; then
+  FILE+=('rpi-connect.bash'); LOCATION+=("${DOLLAR}HOME/.bin"); PERMS+=('755');
+  FILE+=('updatedns.bash');   LOCATION+=("${DOLLAR}HOME/.bin"); PERMS+=('755');
+else
+  FILE+=('register-to-osmh.bash');     LOCATION+=("${DOLLAR}HOME/.bin"); PERMS+=('755');
+  FILE+=('unregister-from-osmh.bash'); LOCATION+=("${DOLLAR}HOME/.bin"); PERMS+=('755');
+  FILE+=('suicide.bash');              LOCATION+=("${DOLLAR}HOME/.bin"); PERMS+=('755');
+fi
+
+BUCKET_NAME="${tf_bucket_name}"
+NAMESPACE=${DOLLAR}(oci os ns get --query "data" --raw-output)
+for i in "${DOLLAR}{!FILE[@]}"; do
+  printf "\n### %s - loading %-22s %15s %3s\n" "${DOLLAR}(date +"%Y%m%d %T")" "${DOLLAR}{FILE[${DOLLAR}i]}" "${DOLLAR}{LOCATION[${DOLLAR}i]}" "${DOLLAR}{PERMS[${DOLLAR}i]}"
+  oci os object get -bn "${DOLLAR}{BUCKET_NAME}" \
+                    -ns "${DOLLAR}{NAMESPACE}" \
+                    --file "${DOLLAR}{LOCATION[${DOLLAR}i]}/${DOLLAR}{FILE[${DOLLAR}i]}" \
+                    --name "${DOLLAR}{FILE[${DOLLAR}i]}" \
+    && chmod "${DOLLAR}{PERMS[${DOLLAR}i]}" "${DOLLAR}{LOCATION[${DOLLAR}i]}/${DOLLAR}{FILE[${DOLLAR}i]}"
+done
+
+## VCN
+#VCN_ID=${DOLLAR}(oci network vcn list --all --query "data[?\"display-name\"=='${DOLLAR}{VCN}']|[0].id" --raw-output)
+## VNIC
+#VNIC_ID=${DOLLAR}(oci compute instance list-vnics --instance-id "${DOLLAR}{INSTANCE_ID}" --query "data[].id|[0]" --raw-output)
+## NSG
+#NSG_LIST="[ "
+#for i in "${DOLLAR}{NSGS[@]}"; do
+#  NSG_ID="${DOLLAR}(oci network nsg list --all --query "data[?(\"display-name\"=='${DOLLAR}{i}') && \"vcn-id\" == '${DOLLAR}{VCN_ID}']|[0].id")"
+#  NSG_LIST="${DOLLAR}{NSG_LIST}${DOLLAR}{NSG_ID}, "
+#done
+#NSG_LIST="${DOLLAR}{NSG_LIST%, } ]"
+#echo "###  ${DOLLAR}(date +"%Y%m%d %T") - NSG_LIST: >>>${DOLLAR}{NSG_LIST}<<<"
+
+
+# set the NSGs and retrieve the public ip address
+# when instance has been deployed by Terraform, don't set NSG from the inside, terraform destroy will fail
+#PUBLIC_IP="${DOLLAR}(oci network vnic update --force --vnic-id "${DOLLAR}VNIC_ID" --nsg-ids "${DOLLAR}NSG_LIST" --query "data.\"public-ip\"" --raw-output)"
+PUBLIC_IP="${DOLLAR}(oci compute instance list-vnics --instance-id ${DOLLAR}(oci-instanceid) --query 'data[0]."public-ip"' --raw-output)"
+
+
+if [ "${DOLLAR}{INSTANCE_NAME}" = "${tf_command_server_name}" ]; then
+  # set defined tag ResourceControl.keep = true
+  oci compute instance update --force --instance-id "${DOLLAR}{INSTANCE_ID}" --defined-tags "${DOLLAR}(oci-metadata --json --value-only --get definedTags | sed "s/'/\"/g" | jq '.ResourceControl.keepup = "true" | .ResourceControl.instancectl = "false"')"
+
+  # create DNS entry
+  ZONE_ID=${DOLLAR}(oci dns zone list \
+                --raw-output \
+                --query "data[?name=='${DOLLAR}{DNSDOMAIN}'] | [0].id")
+  echo "###  ${DOLLAR}(date +"%Y%m%d %T") - zone_id: ${DOLLAR}{ZONE_ID}"
+
+  oci dns record rrset update \
+      --force \
+      --domain "${DOLLAR}{DNSHOSTNAME}.${DOLLAR}{DNSDOMAIN}" \
+      --rtype "A" \
+      --zone-name-or-id ${DOLLAR}{ZONE_ID} \
+      --items "[{\"domain\":\"${DOLLAR}{DNSHOSTNAME}.${DOLLAR}{DNSDOMAIN}\",\"rdata\":\"${DOLLAR}{PUBLIC_IP}\" ,\"rtype\":\"A\",\"ttl\":30}]"
+fi
+
+echo "###  ${DOLLAR}(date +"%Y%m%d %T") - user-setup script finished"
+exit
+
+# notice the exit above
+echo "###  ${DOLLAR}(date +"%Y%m%d %T") - it seems to be a problem (at least in Oracle Linux 8)"
+echo "###  ${DOLLAR}(date +"%Y%m%d %T") - to execute firewall-cmd from within boot-init."
+echo "###  ${DOLLAR}(date +"%Y%m%d %T") - Trying to do this via at job"
+echo "###  ${DOLLAR}(date +"%Y%m%d %T") - ATJOB_FILE="/tmp/atjob.bash""
+ATJOB_FILE="/tmp/atjob.bash"
+echo "###  ${DOLLAR}(date +"%Y%m%d %T") - cat > \"\${DOLLAR}{ATJOB_FILE}\" << EOF"
+cat > "${DOLLAR}{ATJOB_FILE}" << EOF
+#!/usr/bin/env bash
+
+exec > /tmp/atjob-output.txt 2>&1
+EOF
+if [ "${DOLLAR}{INSTANCE_NAME}" = "${tf_command_server_name}" ]; then
+  echo "###  ${DOLLAR}(date +"%Y%m%d %T") - echo \"sudo firewall-cmd --permanent --zone=public --add-port=80/tcp\" >> \"\${DOLLAR}{ATJOB_FILE}\""
+  echo "echo \"### sudo firewall-cmd --permanent --zone=public --add-port=80/tcp\"" >> "${DOLLAR}{ATJOB_FILE}"
+  echo "sudo firewall-cmd --permanent --zone=public --add-port=80/tcp" >> "${DOLLAR}{ATJOB_FILE}"
+fi
+echo "###  ${DOLLAR}(date +"%Y%m%d %T") - echo \"sudo firewall-cmd --permanent --zone=public --add-port=2022/tcp\" >> \"\${DOLLAR}{ATJOB_FILE}\""
+echo "echo \"### sudo firewall-cmd --permanent --zone=public --add-port=2022/tcp\"" >> "${DOLLAR}{ATJOB_FILE}"
+echo "sudo firewall-cmd --permanent --zone=public --add-port=2022/tcp" >> "${DOLLAR}{ATJOB_FILE}"
+echo "echo \"### sudo firewall-cmd --reload\"" >> "${DOLLAR}{ATJOB_FILE}"
+echo "###  ${DOLLAR}(date +"%Y%m%d %T") - echo \"sudo firewall-cmd --reload\" >> \"\${DOLLAR}{ATJOB_FILE}\""
+echo "sudo firewall-cmd --reload" >> "${DOLLAR}{ATJOB_FILE}"
+echo "###  ${DOLLAR}(date +"%Y%m%d %T") - chmod +x "${DOLLAR}{ATJOB_FILE}""
+chmod +x "${DOLLAR}{ATJOB_FILE}"
+echo "###  ${DOLLAR}(date +"%Y%m%d %T") - echo \"\${DOLLAR}{ATJOB_FILE}\" | at now + 1 minute"
+echo "${DOLLAR}{ATJOB_FILE}" | at now + 1 minute
+echo "###  ${DOLLAR}(date +"%Y%m%d %T") - user-setup script finished"

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+tempfile=${DOLLAR}(mktemp)
+echo "Temporary file created: ${DOLLAR}tempfile"
+
+curl -s -H "Authorization: Bearer Oracle" http://169.254.169.254/opc/v2/instance/regionInfo > "${DOLLAR}{tempfile}"
+export REGION=${DOLLAR}(cat "${DOLLAR}{tempfile}" | jq -r ".regionIdentifier")
+export DOMAIN=${DOLLAR}(cat "${DOLLAR}{tempfile}" | jq -r ".realmDomainComponent")
+curl -s https://osmh."${DOLLAR}{REGION}".oci."${DOLLAR}{DOMAIN}" &>/dev/null ; [ ${DOLLAR}? == 0 ] && echo "Success" || echo "Failure"
+rm "${DOLLAR}{tempfile}"

@@ -1,0 +1,37 @@
+resource "oci_database_db_system" "test_db_system" {
+  availability_domain  = local.last_ad_name
+  compartment_id       = local.compartment.id
+  cpu_core_count = "2"
+  data_storage_size_in_gb = "256"
+  database_edition = "ENTERPRISE_EDITION"
+  db_home {
+    db_version = "23.9.0.25.07"
+    display_name = "tfDbHome1"
+    database {
+      admin_password = "BEstrO0ng_#11"
+      character_set = "AL32UTF8"
+      db_name = "tfDb"
+      db_workload = "OLTP"
+    #  kms_key_id = var.kms_key_id
+    #  kms_key_version_id = var.kms_key_version_id
+      ncharacter_set = "AL16UTF16"
+      pdb_name = "tfPdb1"
+    #  vault_id = var.vault_id
+    }
+  }
+  db_system_options {
+    storage_management = "LVM"
+  }
+  disk_redundancy = "NORMAL"
+  display_name = "tfDbSystem"
+  domain = "katogana.de"
+  #fault_domains = ["FAULT-DOMAIN-1"]
+  hostname = "tfOracleDb"
+  #license_model = "LICENSE_INCLUDED"
+  license_model = "BRING_YOUR_OWN_LICENSE"
+  #license_model = "help me!"
+  node_count = "1"
+  shape = "VM.Standard2.2"
+  ssh_public_keys = ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDm41ofwN6PwXN4GYDe/m3LjFt0jPkAdFAY28bfd1eyTN2qn3qVFhbGCVr1BikAo6g9EMzw6c2Kk3UIPQwMRbhxM6B1tcf89XOQaqs7ejJ3E0UQ/c9hhuQydLUA6p2DLg4SOP5DOE8J/UZExD+RMKNc/BUEVFJeSxuhorrzM7LDoHwySzV4Hh216LzpfXe3o23l8XtADwypGLJ4atSKU0m17SpwO1ODdZua00/QROaBtQs0ww7vgPbSlN/j6uxcFChSovg9yU3JBquwyS8fKIWgzahnXnBM0p4mKvmSTgTa8dZ7WdDlIMaJa/X/oNIGxVGUeg/tVeChH4DG9Ww+meB7GsiijkPnhNM29GnD3ziO3Eamwn6dDFrr+WPRL8Xby16kgr1H9QZ93uju3/XmJ5+9tn8Jrtb/rJ65MwwG0NMR0CeOuQl8HR5pNyMvNYTceRVSGLyZJnRbF6dJv+0Vlh4EqhwZiUdyEAMLHyHRokGWfuDLr40MDF/p4EQ5YjkHiYBh7WWvgB3F19QiRBCnmwutfONODxKAdVasbeqRftp/upQU7UfYJknm8It7WMICufAhTOTzwXlhsLA1svyfJnzsKUDjwVnMYvcwvvsj2s9QMEmsNt5WR9YSCfzko53J40xjy65RShXonW+O2RYpWW4A4pefQpy9q/79YIHj58fLlw== lange@Moloko"]
+  subnet_id = oci_core_subnet.public_subnet.id
+}

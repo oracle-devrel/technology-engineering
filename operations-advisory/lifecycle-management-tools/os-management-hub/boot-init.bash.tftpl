@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+# convert this file with
+#  cat <filename> | base64 --wrap 0
+# and put it as user_data in the launch script
+exec > /tmp/boot-init-output.txt 2>&1
+
+source /etc/os-release
+if [[ "${DOLLAR}NAME" == "Oracle Linux Server" ]]; then
+  if [[ "${DOLLAR}VERSION_ID" == 8* ]]; then
+    echo "### Oracle Linux 8"
+    echo "### ${DOLLAR}(date +"%Y%m%d %T") : dnf -y install python36-oci-cli"
+    dnf -y install python36-oci-cli
+  elif [[ "${DOLLAR}VERSION_ID" == 9* ]]; then
+    echo "### Oracle Linux 9"
+    echo "### ${DOLLAR}(date +"%Y%m%d %T") : dnf -y install python39-oci-cli"
+    dnf -y install python39-oci-cli
+  elif [[ "${DOLLAR}VERSION_ID" == 10* ]]; then
+    echo "### Oracle Linux 10"
+    echo "### ${DOLLAR}(date +"%Y%m%d %T") : dnf -y install python3-oci-cli"
+    dnf -y install python3-oci-cli
+  else
+    echo "### ${DOLLAR}(date +"%Y%m%d %T") : version not supported: ${DOLLAR}VERSION_ID"
+    exit
+  fi
+else
+  echo "### ${DOLLAR}(date +"%Y%m%d %T") : OS not supported: ${DOLLAR}NAME"
+  exit
+fi
+
+
+echo "### ${DOLLAR}(date +"%Y%m%d %T") : export OCI_CLI_AUTH=\"instance_principal\""
+export OCI_CLI_AUTH="instance_principal"
+
+# download scripts from object storage
+BUCKET_NAME="${tf_bucket_name}"
+NAMESPACE=${DOLLAR}(oci os ns get --query "data" --raw-output)
+echo "### ${DOLLAR}(date +"%Y%m%d %T") : loading root-setup.bash from bucket ${DOLLAR}{BUCKET_NAME}"
+oci os object get -bn "${DOLLAR}{BUCKET_NAME}" \
+                  -ns "${DOLLAR}{NAMESPACE}" \
+                  --file /tmp/root-setup.bash \
+                  --name root-setup.bash \
+    && chmod 755 /tmp/root-setup.bash
+
+echo "### ${DOLLAR}(date +"%Y%m%d %T") : loading user-setup.bash from bucket ${DOLLAR}{BUCKET_NAME}"
+oci os object get -bn "${DOLLAR}{BUCKET_NAME}" \
+                  -ns "${DOLLAR}{NAMESPACE}" \
+                  --file /tmp/user-setup.bash \
+                  --name user-setup.bash \
+    && chmod 755 /tmp/user-setup.bash
+
+echo "### ${DOLLAR}(date +"%Y%m%d %T") : /tmp/root-setup.bash"
+          /tmp/root-setup.bash
+echo "### ${DOLLAR}(date +"%Y%m%d %T") : chown opc:opc /tmp/boot-init-output.txt"
+          chown opc:opc /tmp/boot-init-output.txt
+echo "### ${DOLLAR}(date +"%Y%m%d %T") : runuser -u opc /tmp/user-setup.bash"
+          runuser -u opc /tmp/user-setup.bash
+echo -e "###\n### ${DOLLAR}(date +"%Y%m%d %T") - end of boot-init\n###"

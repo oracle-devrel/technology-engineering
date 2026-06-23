@@ -1,0 +1,161 @@
+#!/usr/bin/env bash
+# filename of this script
+THIS_SCRIPT="${DOLLAR}(basename ${DOLLAR}{BASH_SOURCE})"
+
+DNSDOMAIN="${tf_zone_name}"
+
+# avoid reading ~/.oci/oci_cli_rc
+OCIOPTIONS="--cli-rc-file /dev/null"
+
+# params.txt must define some variables
+# OCICLI_DIR
+# COMPARTMENT_ID takes precedence over COMPARTMENT_NAME if set
+# COMPARTMENT_NAME
+# see usage()
+
+
+# make sure params.txt is found if script is called from other directory
+PARAMETER_FILE="${DOLLAR}(dirname "${DOLLAR}(realpath "${DOLLAR}0")")/params.txt"
+if [ ! -f "${DOLLAR}{PARAMETER_FILE}" ]; then
+  echo -e "\n### parameter file \"${DOLLAR}{PARAMETER_FILE}\" not found. Exiting.\n"
+  exit
+fi
+source "${DOLLAR}{PARAMETER_FILE}"
+
+# do not change value if set in environment
+DEBUG_PRINT="${DOLLAR}{DEBUG_PRINT:=false}"
+
+debug_print()
+{
+  if [[ "${DOLLAR}{DEBUG_PRINT}" = true ]]; then
+    echo -e "${DOLLAR}*"
+  fi
+}
+
+# Begin OCI setup
+#
+# OCICLI_DIR is read from params.txt
+# if OCICLI_DIR is set, use oci from there if it exists
+if [ ! -z "${DOLLAR}{OCICLI_DIR+x}" ] && [ -r "${DOLLAR}{OCICLI_DIR}/bin/activate" ] && [ -x "${DOLLAR}{OCICLI_DIR}/bin/oci" ]; then
+  debug_print "### activate VENV from ${DOLLAR}OCICLI_DIR"
+  source "${DOLLAR}{OCICLI_DIR}/bin/activate"
+fi
+if ${DOLLAR}(which oci 2>&1 > /dev/null); then
+  debug_print "### using ${DOLLAR}(which oci)"
+else
+  echo -e "###\n### oci not found.### exiting\n###"
+  echo -e "### see https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/cliinstall.htm\n### to install OCI CLI"
+fi
+# End OCI setup
+debug_print "### oci virtual environment: ${DOLLAR}VIRTUAL_ENV"
+
+usage()
+{
+echo -e "\nUsage:\n======"
+echo -e "    ${DOLLAR}{THIS_SCRIPT} <IP_ADDRESS>:        change DNS record for raspi4.${DOLLAR}{DNSDOMAIN}"
+echo -e "                                        <IP_ADDRESS> must be from 192.168.2.0/24"
+echo -e "    ${DOLLAR}{THIS_SCRIPT} <host> <IP_ADDRESS>: change DNS record for <host>.${DOLLAR}{DNSDOMAIN}"
+echo -e ""
+echo -e "  ${DOLLAR}{THIS_SCRIPT} reads the parameter file params.txt which needs to provide these values:"
+echo -e "    - OCICLI_DIR : location of OCI CLI installation"
+echo -e "    - COMPARTMENT_NAME : the compartment to work on. If the name is not unique,"
+echo -e "                         the script uses the first compartment with matching name returned by search\n"
+oci ${DOLLAR}{OCIOPTIONS} dns record zone get --all \
+                                      --zone-name-or-id "${DOLLAR}{DNSDOMAIN}" \
+                                      --query "data.items[?rtype == 'A'].{domain: domain, rdata: rdata}" \
+                                      --output table
+exit
+}
+
+# Test an IP address for validity:
+# Usage:
+#      valid_ip IP_ADDRESS
+#      if [[ ${DOLLAR}? -eq 0 ]]; then echo good; else echo bad; fi
+#   OR
+#      if valid_ip IP_ADDRESS; then echo good; else echo bad; fi
+#
+# https://www.linuxjournal.com/content/validating-ip-address-bash-script
+function valid_ip()
+{
+    local  ip=${DOLLAR}1
+    local  stat=1
+
+    if [[ ${DOLLAR}ip =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}${DOLLAR} ]]; then
+        OIFS=${DOLLAR}IFS
+        IFS='.'
+        ip=(${DOLLAR}ip)
+        IFS=${DOLLAR}OIFS
+        [[ ${DOLLAR}{ip[0]} -le 255 && ${DOLLAR}{ip[1]} -le 255 \
+            && ${DOLLAR}{ip[2]} -le 255 && ${DOLLAR}{ip[3]} -le 255 ]]
+        stat=${DOLLAR}?
+    fi
+    return ${DOLLAR}stat
+}
+
+case "${DOLLAR}#" in
+  "1")
+    DNSHOSTNAME="raspi4"
+    NEW_IP="${DOLLAR}1"
+    ;;
+  "2")
+    DNSHOSTNAME="${DOLLAR}1"
+    NEW_IP="${DOLLAR}2"
+    ;;
+  *)
+    usage
+esac
+
+if ! valid_ip ${DOLLAR}NEW_IP; then
+  echo -e "\n### check format of IP address"
+  usage
+fi
+if [[ ${DOLLAR}DNSHOSTNAME == "raspi4" ]]; then
+  if [[ ${DOLLAR}NEW_IP != "192.168.2."* ]]; then
+    echo -e "\n### network of raspi4 must be 192.168.2.0/24"
+    usage
+  fi
+fi
+
+
+# get the compartment to work in
+# if COMPARTMENT_ID is set and looks like having the correct
+# format, go with it. Otherwise look for COMPARTMENT_NAME
+# https://stackoverflow.com/questions/3601515/how-to-check-if-a-variable-is-set-in-bash
+if [ ! -z ${DOLLAR}{COMPARTMENT_ID+x} ]; then
+  case "${DOLLAR}{COMPARTMENT_ID}" in
+  ocid1.compartment.oc1..* | ocid1.tenancy.oc1..* )
+    debug_print "### COMPARTMENT_ID is set. Using it"
+    ;;
+  *)
+    echo "COMPARTMENT_ID is set, but has wrong format"
+    echo "COMPARTMENT_ID : \"${DOLLAR}{COMPARTMENT_ID}\""
+    echo "Now trying COMPARTMENT_NAME"
+    unset COMPARTMENT_ID
+  esac
+fi
+if [ -z ${DOLLAR}{COMPARTMENT_ID+x} ]; then
+  debug_print "### using COMPARTMENT_NAME \"${DOLLAR}{COMPARTMENT_NAME}\""
+  COMPARTMENT_ID=${DOLLAR}(oci ${DOLLAR}{OCIOPTIONS} search resource structured-search \
+    --raw-output \
+    --query-text "query compartment resources
+                    where displayName=='${DOLLAR}{COMPARTMENT_NAME}'" \
+    --query "data.items[0].identifier")
+  if [ "${DOLLAR}{COMPARTMENT_ID}" = "" ]; then
+    echo "compartment \"${DOLLAR}{COMPARTMENT_NAME}\" not found"
+    exit
+  fi
+fi
+debug_print "### compartment_id: ${DOLLAR}COMPARTMENT_ID"
+
+ZONE_ID=${DOLLAR}(oci ${DOLLAR}{OCIOPTIONS} dns zone list \
+              --compartment-id ${DOLLAR}{COMPARTMENT_ID} \
+              --raw-output \
+              --query "data[?name=='${DOLLAR}{DNSDOMAIN}'] | [0].id")
+debug_print "### zone_id: ${DOLLAR}{ZONE_ID}"
+
+oci ${DOLLAR}{OCIOPTIONS} dns record rrset update \
+    --force \
+    --domain "${DOLLAR}{DNSHOSTNAME}.${DOLLAR}{DNSDOMAIN}" \
+    --rtype "A" \
+    --zone-name-or-id ${DOLLAR}{ZONE_ID} \
+    --items "[{\"domain\":\"${DOLLAR}{DNSHOSTNAME}.${DOLLAR}{DNSDOMAIN}\",\"rdata\":\"${DOLLAR}{NEW_IP}\" ,\"rtype\":\"A\",\"ttl\":30}]"

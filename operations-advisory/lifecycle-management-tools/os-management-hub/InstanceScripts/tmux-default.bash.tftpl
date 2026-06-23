@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+if [ ! -d "${DOLLAR}{HOME}/tmp" ]; then
+  mkdir "${DOLLAR}{HOME}/tmp"
+fi
+cd "${DOLLAR}{HOME}/tmp"
+tmux has-session -t "${DOLLAR}(hostname)" && tmux attach-session -t "${DOLLAR}(hostname)" || tmux new-session -s "${DOLLAR}(hostname)"\; \
+     split-window -h \; \
+     send-keys 'htop' C-m\; \
+     split-window -v\; \
+     select-pane -t 1\;

@@ -1,0 +1,355 @@
+#!/usr/bin/env bash
+
+# filename of this script
+THIS_SCRIPT="${DOLLAR}(basename ${DOLLAR}{BASH_SOURCE})"
+
+# avoid reading ~/.oci/oci_cli_rc
+OCIOPTIONS="--cli-rc-file /dev/null"
+
+# params.txt must define some variables
+# OCICLI_DIR
+# COMPARTMENT_NAME takes precedence over COMPARTMENT_ID if set
+# COMPARTMENT_ID
+# TAG_NAMESPACE
+# TAG_KEY
+# TAG_VALUE
+# RESOURCES_TO_PROCESS
+# see usage()
+
+
+# if set in environment takes precedence over params file
+unset THE_COMPARTMENT_NAME
+if [ ! -z ${DOLLAR}{COMPARTMENT_NAME+x} ]; then
+  THE_COMPARTMENT_NAME="${DOLLAR}{COMPARTMENT_NAME}"
+fi
+unset THE_COMPARTMENT_ID
+if [ ! -z ${DOLLAR}{COMPARTMENT_ID+x} ]; then
+  THE_COMPARTMENT_ID="${DOLLAR}{COMPARTMENT_ID}"
+fi
+
+# make sure params.txt is found if script is called from other directory
+PARAMETER_FILE="${DOLLAR}(dirname "${DOLLAR}(realpath "${DOLLAR}0")")/params.txt"
+if [ ! -f "${DOLLAR}{PARAMETER_FILE}" ]; then
+  echo -e "\n### parameter file \"${DOLLAR}{PARAMETER_FILE}\" not found. Exiting.\n"
+  exit
+fi
+source "${DOLLAR}{PARAMETER_FILE}"
+# environment overrides values from params.txt
+if [ ! -z ${DOLLAR}{THE_COMPARTMENT_NAME+x} ]; then
+  COMPARTMENT_NAME="${DOLLAR}{THE_COMPARTMENT_NAME}"
+  unset COMPARTMENT_ID
+fi
+if [ ! -z ${DOLLAR}{THE_COMPARTMENT_ID+x} ]; then
+  COMPARTMENT_ID="${DOLLAR}{THE_COMPARTMENT_ID}"
+  unset COMPARTMENT_NAME # unset, otherwise COMPARTMENT_NAME takes precedence
+fi
+
+# do not change value if set in environment
+DEBUG_PRINT="${DOLLAR}{DEBUG_PRINT:=false}"
+
+debug_print()
+{
+  if [[ "${DOLLAR}{DEBUG_PRINT}" = true ]]; then
+    echo -e "${DOLLAR}*"
+  fi
+}
+
+# Begin OCI setup
+#
+# OCICLI_DIR is read from params.txt
+# if OCICLI_DIR is set, use oci from there if it exists
+if [ ! -z "${DOLLAR}{OCICLI_DIR+x}" ] && [ -r "${DOLLAR}{OCICLI_DIR}/bin/activate" ] && [ -x "${DOLLAR}{OCICLI_DIR}/bin/oci" ]; then
+  debug_print "### activate VENV from ${DOLLAR}OCICLI_DIR"
+  source "${DOLLAR}{OCICLI_DIR}/bin/activate"
+fi
+if ${DOLLAR}(which oci 2>&1 > /dev/null); then
+  debug_print "### using ${DOLLAR}(which oci)"
+else
+  echo -e "###\n### oci not found.### exiting\n###"
+  echo -e "### see https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/cliinstall.htm\n### to install OCI CLI"
+fi
+# End OCI setup
+debug_print "### oci virtual environment: ${DOLLAR}VIRTUAL_ENV"
+
+usage()
+{
+echo -e "\nUsage:\n======"
+echo -e "                   no action, show list of resources in compartment: ${DOLLAR}{THIS_SCRIPT}"
+echo -e "                         no action, display resources matching name: ${DOLLAR}{THIS_SCRIPT} <name>"
+echo -e "                         start/stop resources matching defined tags: ${DOLLAR}{THIS_SCRIPT} start|stop"
+echo -e "                                 start/stop resources matching name: ${DOLLAR}{THIS_SCRIPT} <name> start|stop"
+echo -e ""
+echo -e "  ${DOLLAR}{THIS_SCRIPT} reads the parameter file params.txt which needs to provide these values:"
+echo -e "    - OCICLI_DIR : location of OCI CLI installation"
+echo -e "    - COMPARTMENT_NAME : the compartment to work on. If the name is not unique,"
+echo -e "                         the script uses the first compartment with matching name returned by search"
+echo -e "    - TAG_NAMESPACE : start and stop act on matching resources when no name parameter is given."
+echo -e "    - TAG_KEY"
+echo -e "    - TAG_VALUE"
+echo -e "    - RESOURCES_TO_PROCESS can be instance,dbnode,autonomousdatabase"
+exit
+}
+
+if [ "${DOLLAR}#" -gt 2 ]; then
+  echo -e "\n### too many parameters\n"
+  usage
+fi
+
+oldIFS="${DOLLAR}{IFS}"
+IFS=","
+TYPE_LIST=(${DOLLAR}RESOURCES_TO_PROCESS)
+IFS="${DOLLAR}{oldIFS}"
+debug_print "### types to process:\n### >>>"
+for f in "${DOLLAR}{TYPE_LIST[@]}"; do
+  debug_print "###    ${DOLLAR}f"
+done
+debug_print "### <<<"
+
+# get the compartment to work in
+# if COMPARTMENT_ID is set and looks like having the correct
+# format, go with it. Otherwise look for COMPARTMENT_NAME
+# https://stackoverflow.com/questions/3601515/how-to-check-if-a-variable-is-set-in-bash
+if [ ! -z ${DOLLAR}{COMPARTMENT_NAME+x} ]; then
+  debug_print "### COMPARTMENT_NAME set to \"${DOLLAR}{COMPARTMENT_NAME}\""
+  COMPARTMENT_ID=${DOLLAR}(oci ${DOLLAR}{OCIOPTIONS} search resource structured-search \
+    --raw-output \
+    --query-text "query compartment resources
+                    where displayName=='${DOLLAR}{COMPARTMENT_NAME}'" \
+    --query "data.items[0].identifier")
+  if [ "${DOLLAR}{COMPARTMENT_ID}" = "" ]; then
+    echo "compartment \"${DOLLAR}{COMPARTMENT_NAME}\" not found"
+  fi
+else
+  if [ ! -z ${DOLLAR}{COMPARTMENT_ID+x} ]; then
+    case "${DOLLAR}{COMPARTMENT_ID}" in
+    ocid1.compartment.oc1..* | ocid1.tenancy.oc1..* )
+      debug_print "### COMPARTMENT_ID is set. Using it"
+      ;;
+    *)
+      echo "COMPARTMENT_ID : \"${DOLLAR}{COMPARTMENT_ID}\""
+      echo "COMPARTMENT_ID is set, but has wrong format"
+      echo "exiting."
+      exit
+    esac
+  else
+    echo "COMPARTMENT_NAME and COMPARTMENT_ID are not set"
+    echo "exiting."
+    exit
+  fi
+fi
+debug_print "### compartment_id: ${DOLLAR}COMPARTMENT_ID"
+
+process_nodes()
+{
+  debug_print "in process_nodes(action=${DOLLAR}1, ocid=${DOLLAR}2)"
+  case "${DOLLAR}1" in
+    start)
+      LIFECYCLE_EXPR="&&\"lifecycle-state\"=='STOPPED'"
+      ;;
+    stop)
+      LIFECYCLE_EXPR="&&\"lifecycle-state\"=='AVAILABLE'"
+      ;;
+    *)
+      echo "### unknown action \"${DOLLAR}1\", continuing."
+      return
+  esac
+  oci db node list \
+    --raw-output \
+    --output table \
+    --db-system-id "${DOLLAR}{2}" \
+    --compartment-id "${DOLLAR}{COMPARTMENT_ID}" \
+    --query "sort_by(data[?!contains(\"lifecycle-state\",'TERMINAT')
+                          ${DOLLAR}{LIFECYCLE_EXPR}],&hostname)[].{\"1 hostname\":hostname,
+                                                           \"2 lifecycle-state\":\"lifecycle-state\",
+                                                           \"3 ocid\":id}"
+  TMP_LIST=${DOLLAR}(oci db node list \
+    --raw-output \
+    --db-system-id "${DOLLAR}{2}" \
+    --compartment-id "${DOLLAR}{COMPARTMENT_ID}" \
+    --query "join(' ',data[?!contains(\"lifecycle-state\",'TERMINAT')${DOLLAR}{LIFECYCLE_EXPR}].id)")
+  OCID_LIST=(${DOLLAR}{TMP_LIST})
+  for ocid in "${DOLLAR}{OCID_LIST[@]}"; do
+    echo oci ${DOLLAR}{OCIOPTIONS} db node ${DOLLAR}1 --db-node-id ${DOLLAR}{ocid}
+    OUTPUT=${DOLLAR}(oci ${DOLLAR}{OCIOPTIONS} db node ${DOLLAR}1 --db-node-id ${DOLLAR}{ocid} --raw-output --query "\"opc-work-request-id\"")
+    if [[ "${DOLLAR}{OUTPUT}" != ocid1.coreservicesworkrequest.oc1.* ]]; then
+      echo "### error performing ${DOLLAR}1 on ${DOLLAR}{ocid}: ${DOLLAR}OUTPUT"
+    fi
+  done
+}
+
+process_resources()
+{
+  echo "in process_resources(type=\"${DOLLAR}1\", action=\"${DOLLAR}2\", name=\"${DOLLAR}3\")"
+  # ${DOLLAR}1: resource type, ${DOLLAR}2: action, ${DOLLAR}3: name
+  case "${DOLLAR}2" in
+    start)
+      LIFECYCLE_EXPR="&&\"lifecycle-state\"=='STOPPED'"
+      ;;
+    stop)
+      LIFECYCLE_EXPR="&&(\"lifecycle-state\"=='RUNNING'||\"lifecycle-state\"=='AVAILABLE')"
+      ;;
+    *)
+      echo "### Unknown action \"${DOLLAR}2\". Continuing."
+  esac
+  if [ "${DOLLAR}{1}" = "dbsystem" ]; then
+    LIFECYCLE_EXPR="&&\"lifecycle-state\"=='AVAILABLE'"
+  fi
+  if [ "${DOLLAR}#" = "3" ]; then
+    # partial name given, no check for defined tag
+    TAG_CONDITION=""
+  else
+    TAG_CONDITION="&&\"defined-tags\".${DOLLAR}{TAG_NAMESPACE}.${DOLLAR}{TAG_KEY}=='${DOLLAR}{TAG_VALUE}'"
+  fi
+  NAME=${DOLLAR}3
+  case "${DOLLAR}1" in
+    instance)
+      RESOURCE_EXPR="compute instance"
+      ;;
+    dbsystem)
+      RESOURCE_EXPR="db system"
+      ;;
+    autonomousdatabase)
+      RESOURCE_EXPR="db autonomous-database"
+      ;;
+    *)
+      echo "### in process_resource : unknown type \”${DOLLAR}1\". Continuing."
+  esac
+  oci ${DOLLAR}{RESOURCE_EXPR} list \
+    --raw-output \
+    --output table \
+    --compartment-id "${DOLLAR}{COMPARTMENT_ID}" \
+    --query "sort_by(data[?!contains(\"lifecycle-state\",'TERMINAT')
+                          ${DOLLAR}{LIFECYCLE_EXPR} ${DOLLAR}{TAG_CONDITION}
+                          && contains(\"display-name\",'${DOLLAR}NAME')],
+                     &\"display-name\")[].{\"1 name\":\"display-name\",
+                                           \"2 lifecycle-state\":\"lifecycle-state\",
+                                           \"3 ocid\":id}"
+  TMP_LIST=${DOLLAR}(oci ${DOLLAR}{RESOURCE_EXPR} list --raw-output --compartment-id "${DOLLAR}{COMPARTMENT_ID}" \
+    --query "join(' ',data[?!contains(\"lifecycle-state\",'TERMINAT')
+                           ${DOLLAR}{LIFECYCLE_EXPR}
+                           ${DOLLAR}{TAG_CONDITION} && contains(\"display-name\",'${DOLLAR}NAME')].id)")
+  OCID_LIST=(${DOLLAR}{TMP_LIST})
+  ERROR_OCIDS=()
+  for ocid in "${DOLLAR}{OCID_LIST[@]}"; do 
+    case "${DOLLAR}1" in
+      instance)
+        if [ "${DOLLAR}{2}" = "stop" ]; then ACTION="softstop"; else ACTION="${DOLLAR}{2}"; fi
+        ACTION_EXPR="compute instance action --action ${DOLLAR}{ACTION} --instance-id ${DOLLAR}{ocid}"
+        ;;
+      dbsystem)
+        # must retrieve list of nodes, then operate on nodes
+        process_nodes "${DOLLAR}{2}" "${DOLLAR}{ocid}" 
+        continue
+        ;;
+      autonomousdatabase)
+        ACTION_EXPR="db autonomous-database ${DOLLAR}{2} --autonomous-database-id ${DOLLAR}{ocid}"
+        ;;
+      *)
+        echo "### in process_resource : unknown type \”${DOLLAR}1\". Continuing."
+    esac
+    if [ "${DOLLAR}1" = "dbsystem" ]; then
+      echo -e "###\n### surprising\n###"
+      continue
+    fi
+    echo oci ${DOLLAR}{OCIOPTIONS} ${DOLLAR}{ACTION_EXPR}
+    if ! OUTPUT=${DOLLAR}(oci ${DOLLAR}{OCIOPTIONS} ${DOLLAR}{ACTION_EXPR}); then
+      ERROR_OCIDS+=(${DOLLAR}{ocid})
+    fi
+  done
+}
+
+# start or stop resources
+# - in compartment
+# - with matching defined tag namespace, key and value
+# - with matching name
+action_all_resources()
+{
+  debug_print "### in action_all_resources(action=${DOLLAR}1, name=${DOLLAR}2) #=${DOLLAR}#"
+  for type in "${DOLLAR}{TYPE_LIST[@]}"; do
+    case "${DOLLAR}{type}" in
+      instance)
+        debug_print "processing instances"
+        process_resources "instance" ${DOLLAR}1 ${DOLLAR}2
+        ;;
+      dbsystem)
+        debug_print "processing db systems"
+        process_resources "dbsystem" ${DOLLAR}1 ${DOLLAR}2
+        ;;
+      autonomousdatabase)
+        debug_print "processing autonomous databases"
+        process_resources "autonomousdatabase" ${DOLLAR}1 ${DOLLAR}2
+        ;;
+      *)
+        echo "### resource type ${DOLLAR}{type} is not supported. Continuing"
+    esac
+  done
+  exit
+}
+
+## first argument is start, stop or name argument
+## the length of "start" and "stop" is greater than 3
+## => test can be made regardless if one or two arguments have been provided
+#if [ ${DOLLAR}{#1} -lt 3 ]; then
+#  echo -e "### structured search needs at least 3 characters for comparison.\n### \"${DOLLAR}1\" is too short."
+#  exit
+#fi
+
+# display name matching resources or start/stop all
+if [ "${DOLLAR}#" = "2" ]; then
+  debug_print "### name: ${DOLLAR}1, action: ${DOLLAR}2"
+  case "${DOLLAR}2" in
+    start | stop)
+      action_all_resources "${DOLLAR}2" "${DOLLAR}1"
+      exit
+      ;;
+    *)
+      usage
+      ;;
+  esac
+fi
+
+# display name matching resources or start/stop all
+if [ "${DOLLAR}#" = "1" ] || [ "${DOLLAR}#" = "0" ]; then
+  debug_print "### argument #1: ${DOLLAR}1"
+  case "${DOLLAR}1" in
+    start | stop)
+      action_all_resources "${DOLLAR}1"
+      exit
+      ;;
+    *)
+      # show resources with matching names
+      CONDITION_EXPR=""
+      NAME_EXPR="&&contains(\"display-name\",'${DOLLAR}1')"
+      ;;
+  esac
+    for type in "${DOLLAR}{TYPE_LIST[@]}"; do
+      case "${DOLLAR}type" in
+        instance)
+          RESOURCE_EXPR="compute instance"
+          ;;
+        dbsystem)
+          RESOURCE_EXPR="db system"
+          ;;
+        autonomousdatabase)
+          RESOURCE_EXPR="db autonomous-database"
+          ;;
+        *)
+          echo "### in process_resource : unknown type \”${DOLLAR}1\". Continuing."
+      esac
+      OUTPUT=${DOLLAR}(oci ${DOLLAR}{OCIOPTIONS} ${DOLLAR}{RESOURCE_EXPR} list --raw-output --output table --compartment-id "${DOLLAR}{COMPARTMENT_ID}" \
+                   --query "sort_by(data[?!contains(\"lifecycle-state\",'TERMINAT')
+                                         ${DOLLAR}{CONDITION_EXPR} ${DOLLAR}{NAME_EXPR}],
+                                    &\"display-name\")[].{\"   name\":\"display-name\",
+                                                          \"  lifecycle-state\":\"lifecycle-state\",
+                                                          \" ${DOLLAR}{TAG_NAMESPACE}.${DOLLAR}{TAG_KEY}\":\"defined-tags\".${DOLLAR}{TAG_NAMESPACE}.${DOLLAR}{TAG_KEY},
+                                                          \"ocid\":id}")
+      case "${DOLLAR}OUTPUT" in
+        "Command returned empty list"*)
+          echo "No ${DOLLAR}type resources match \"${DOLLAR}1\""
+          ;;
+        *)
+          echo "${DOLLAR}OUTPUT"
+      esac
+    done
+  exit
+fi
