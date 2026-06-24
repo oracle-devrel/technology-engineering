@@ -8,7 +8,7 @@ When performing real-world testing, there is the risk of exposing sensitive data
 
 A set of best practices and other useful assets/links can be found in this page.
 
-Reviewed: 04.06.2026
+Reviewed: 15.06.2026
 
  
 # Table of Contents
@@ -18,13 +18,17 @@ Reviewed: 04.06.2026
 # Useful Links
 - [Database Replay Introduction](https://docs.oracle.com/en/database/oracle/oracle-database/19/ratug/introduction-to-database-replay.html#GUID-5AA30327-74FB-4406-8F7C-5D442F307534)
 - [RAT: Database Replay Demo](https://blogs.oracle.com/coretec/post/rat-demo)
+- [Take the Guesswork Out of Database Upgrades with Oracle Real Application Testing](https://blogs.oracle.com/observability/take-the-guesswork-out-of-database-upgrades-with-oracle-real-application-testing)
+- [How to Use Oracle Real Application Testing for Oracle AI Database 26ai Upgrade](https://www.youtube.com/watch?v=rk3A4nM-AoI)
 - [Why RAT vs. Artificial Load Generators](https://bolltoftoracle.wordpress.com/2017/10/03/why-real-application-testing-database-replay-should-be-used-instead-of-artificial-load-generator/)
 - [Subsetting](https://db-blog.web.cern.ch/blog/szymon-skorupinski/2016-01-how-generate-subset-out-real-application-testing-captures)
 - [SQL Performance Analyser & Database Replay Lab Guide](https://apexapps.oracle.com/pls/apex/f?p=133:180:110908450042950::::wid:858)
 - [RAT Best Practices](https://bolltoftoracle.wordpress.com/2017/09/29/real-application-testing-best-practices-part-1/)
 - [RAT Live Labs](https://livelabs.oracle.com/ords/r/dbpm/livelabs/view-workshop?clear=RR,180&wid=858&session=107159561994685)
 - [RAT Best Practices & Deep Dive](https://www.youtube.com/watch?v=Aa8ujC4sX7E)
+- [Oracle Real Application Testing - Database Upgrade, Best Practices & Deep Dive](https://www.youtube.com/watch?v=Aa8ujC4sX7E)
 - [Autonomous Database: Test Workloads with RAT](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/autonomous-real-application-testing.html)
+- [Documentation: Introduction Page](https://docs.oracle.com/en/database/oracle/oracle-database/26/ratug/database-replay.html)
 
 # License
  

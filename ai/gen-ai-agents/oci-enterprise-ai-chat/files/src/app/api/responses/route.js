@@ -3,6 +3,7 @@ import { appendFileSync } from 'node:fs';
 import { ociRequest } from '../../lib/oci-proxy';
 import { Langfuse } from 'langfuse';
 import { createLogger } from '../../lib/logger';
+import { splitMcpFunctionName } from '../../lib/mcp-fn-name';
 
 // Debug: append-only file of raw OCI events for offline analysis. Gated by env
 // var so production stays silent. Set `OCI_TRACE_FILE` to an absolute path to
@@ -21,6 +22,13 @@ export const maxDuration = 300;
 export async function POST(request) {
   const requestId = crypto.randomUUID();
   const log = createLogger('responses-api', { requestId });
+
+  // Declared outside the try block: the catch references these, and `let` inside
+  // the try is not in scope there — any pre-stream failure would die with a
+  // ReferenceError instead of returning the real error to the client.
+  let langfuseTrace = null;
+  let langfuseGeneration = null;
+  let langfuse = null;
 
   try {
     const { input, conversationId, model, systemPrompt, tools, reasoning, previousResponseId } = await request.json();
@@ -196,10 +204,7 @@ export async function POST(request) {
     }
 
     // LangFuse tracing (non-blocking, fire-and-forget)
-    let langfuseTrace = null;
-    let langfuseGeneration = null;
     const langfuseEnabled = process.env.LANGFUSE_SECRET_KEY && process.env.LANGFUSE_PUBLIC_KEY;
-    let langfuse = null;
     if (langfuseEnabled) {
       try {
         langfuse = new Langfuse({
@@ -242,6 +247,7 @@ export async function POST(request) {
         // duplicated text/results. Keyed by call_id (stable across the dupes).
         const delegatedFunctionCalls = new Set();
         const fileSearchOutputsSent = new Set();
+        const codeExecutionSent = new Set();
         let usageData = null;
         let responseCompleted = false;
         let completedResponseData = null;
@@ -257,7 +263,15 @@ export async function POST(request) {
         // with `output`, OCI ran the tool — do NOT delegate (would double-execute).
         // Otherwise the client must execute it and chain a Pass 2.
         const pendingDelegations = [];
+        // While a function_call mirror is buffered, the model's FOLLOWING text is
+        // speculative — it was written before the tool produced any result, and
+        // when we delegate it gets replaced by the chained pass anyway. Streaming
+        // it live made the UI show an answer that then vanished (flicker). Hold
+        // it here: flush if OCI turns out to have run the tool natively, discard
+        // if we delegate.
+        let deferredText = '';
         const resolvePendingDelegations = (finalOutputs = null) => {
+          let delegatedAny = false;
           for (const fc of pendingDelegations) {
             const ranByOci = !!finalOutputs && finalOutputs.some(o =>
               o.type === 'mcp_call' && o.output &&
@@ -269,6 +283,7 @@ export async function POST(request) {
               traceEvent('tool_native_ran', { tool: fc.tool_name, server: fc.server_label, call_id: fc.callId });
               log.info('MCP tool executed by OCI natively (mcp_call in outputs) — no chain', { tool: fc.tool_name, server: fc.server_label });
             } else {
+              delegatedAny = true;
               controller.enqueue(encoder.encode(JSON.stringify({
                 mcp_function_call: {
                   item_id: fc.itemId,
@@ -282,6 +297,14 @@ export async function POST(request) {
               traceEvent('mcp_call_delegated', { tool: fc.tool_name, server: fc.server_label, call_id: fc.callId });
               log.info('MCP tool delegated to client (no mcp_call.output in finalOutputs)', { tool: fc.tool_name, server: fc.server_label, hadOutputs: !!finalOutputs });
             }
+          }
+          if (deferredText) {
+            if (!delegatedAny) {
+              controller.enqueue(encoder.encode(JSON.stringify({ text: deferredText }) + '\n'));
+            } else {
+              traceEvent('pass1_text_discarded', { chars: deferredText.length });
+            }
+            deferredText = '';
           }
           pendingDelegations.length = 0;
         };
@@ -476,7 +499,11 @@ export async function POST(request) {
                 // ═══ TEXT STREAMING ═══
                 else if (eventType === 'response.output_text.delta' && data.delta) {
                   fullOutputText += data.delta;
-                  controller.enqueue(encoder.encode(JSON.stringify({ text: data.delta }) + '\n'));
+                  if (pendingDelegations.length > 0) {
+                    deferredText += data.delta; // held until delegation resolves (see above)
+                  } else {
+                    controller.enqueue(encoder.encode(JSON.stringify({ text: data.delta }) + '\n'));
+                  }
                 }
                 else if (eventType === 'response.output_text.done') {
                   controller.enqueue(encoder.encode(JSON.stringify({ text_done: data.text }) + '\n'));
@@ -631,6 +658,7 @@ export async function POST(request) {
                   }
                   // Code interpreter completed
                   else if (itemType === 'code_interpreter_call') {
+                    codeExecutionSent.add(itemId);
                     const results = data.item.outputs || data.item.results || [];
                     const outputText = results.map(r => r.logs || r.output || r.text || '').join('\n').trim();
                     controller.enqueue(encoder.encode(JSON.stringify({
@@ -652,7 +680,10 @@ export async function POST(request) {
                   // (b) anything else → legacy client-side function_call path.
                   else if (itemType === 'function_call') {
                     const fname = data.item.name || '';
-                    const mcpMatch = fname.match(/^mcp__([^_]+(?:_[^_]+)*?)__(.+)$/);
+                    // Pass the configured server labels so labels containing "__"
+                    // (sanitized names like "PPT___Mail") split correctly.
+                    const knownLabels = (tools || []).filter(t => t.type === 'mcp').map(t => t.server_label);
+                    const mcpMatch = splitMcpFunctionName(fname, knownLabels);
                     if (mcpMatch) {
                       const callId = data.item.call_id;
                       // OCI's native tools (file_search, web_search, image_generation,
@@ -692,13 +723,23 @@ export async function POST(request) {
                       // Dedup: OCI emits this event twice for Gemini (different
                       // output_index, same call_id). Only buffer the first.
                       if (callId && delegatedFunctionCalls.has(callId)) {
-                        log.info('Skipping duplicate function_call done', { callId, tool: mcpMatch[2] });
+                        log.info('Skipping duplicate function_call done', { callId, tool: mcpMatch.toolName });
                       } else {
                         if (callId) delegatedFunctionCalls.add(callId);
-                        const [, serverLabel, toolName] = mcpMatch;
+                        const { serverLabel, toolName } = mcpMatch;
                         const tc = toolCalls.find(t =>
                           t.tool === toolName && t.server === serverLabel && !t.outputSent
                         );
+                        // Same tool already delivered its output via a real
+                        // mcp_call in THIS stream (outputSent and not merely
+                        // delegated): this mirror is a duplicate signal, not a
+                        // fresh invocation. Buffering it would push a phantom
+                        // "calling" chip that nothing ever completes.
+                        if (!tc && toolCalls.some(t => t.tool === toolName && t.server === serverLabel && t.outputSent && !t.delegated)) {
+                          traceEvent('function_call_mirror_after_output_skipped', { tool: toolName, server: serverLabel, call_id: callId });
+                          log.info('Skipping function_call mirror — tool already completed via mcp_call', { tool: toolName, server: serverLabel, callId });
+                          continue;
+                        }
                         // gpt-oss-120b emits function_call items without their
                         // own `id` field — only `call_id`. Without a fallback we
                         // emit mcp.calling with id=undefined, and a moment later
@@ -942,15 +983,34 @@ export async function POST(request) {
                   if (incompleteDetails) log.warn('Response incomplete', { details: incompleteDetails });
 
                   // Emit tool_output for MCP calls that arrived in response.completed
-                  // but never got an individual output_item.done event
+                  // but never got an individual output_item.done event.
+                  // `delegated` entries don't count as sent: their outputSent flag is
+                  // bookkeeping from the function_call-mirror handler, not a real
+                  // tool_output emit — if OCI ran the tool natively, THIS loop is the
+                  // only place the actual output reaches the chip.
                   for (const mc of outputs.filter(o => o.type === 'mcp_call' && o.output)) {
-                    const alreadySent = toolCalls.some(tc => tc.tool === mc.name && tc.server === mc.server_label && tc.outputSent);
+                    const alreadySent = toolCalls.some(tc => tc.tool === mc.name && tc.server === mc.server_label && tc.outputSent && !tc.delegated);
                     if (!alreadySent) {
                       log.info('Emitting late MCP tool_output from response.completed', { tool: mc.name, server: mc.server_label, outputSize: mc.output.length });
                       controller.enqueue(encoder.encode(JSON.stringify({
                         mcp: { type: 'tool_output', id: mc.id, tool: mc.name, server: mc.server_label, output: mc.output, outputSize: mc.output.length, truncated: false, arguments: mc.arguments }
                       }) + '\n'));
                     }
+                  }
+
+                  // Same late-emit treatment for code_interpreter_call: Gemini runs
+                  // the sandbox without emitting per-item done events — the executed
+                  // call (with code + status) only shows up here. Without this the
+                  // UI renders the answer with no code block at all.
+                  for (const ci of outputs.filter(o => o.type === 'code_interpreter_call')) {
+                    if (codeExecutionSent.has(ci.id)) continue;
+                    codeExecutionSent.add(ci.id);
+                    const results = ci.outputs || ci.results || [];
+                    const outputText = results.map(r => r.logs || r.output || r.text || '').join('\n').trim();
+                    log.info('Emitting late code_execution from response.completed', { id: ci.id, hasCode: !!(ci.code || ci.input) });
+                    controller.enqueue(encoder.encode(JSON.stringify({
+                      code_execution: { code: ci.code || ci.input || '', output: outputText, containerId: ci.container_id || null }
+                    }) + '\n'));
                   }
 
                   // Fallback: emit tool_output for any file_search_call whose

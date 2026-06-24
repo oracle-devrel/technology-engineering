@@ -7,6 +7,8 @@ import { generateTitle } from "../services/titleService";
 import { groupMessages, parseContentWithWidgets } from "../utils/messageUtils";
 import { createWidgetStreamParser } from "../utils/widgetParser";
 import { createWidgetV2StreamParser, serializeWidgetV2Tree } from "../utils/widgetV2Parser";
+import { splitMcpFunctionName } from "../lib/mcp-fn-name";
+import { isReadOnlySql } from "../lib/sqlGuard";
 import { withBase } from "@/lib/withBase";
 
 // Friendly names for OCI internal tools
@@ -395,7 +397,12 @@ export default function useChat({ initialConversationId = null, selectedModel, o
       return [...state.responses];
     }
 
-    // Handle function call (client-side tool or OCI internal tool)
+    // Handle function call (OCI internal tool, or a function nothing executes).
+    // The non-internal case used to render a GREEN chip with the arguments as
+    // "output" — a lie: nobody ran anything. Seen live with NL2SQL when the
+    // OAuth token died: the tool silently dropped out of the request, the model
+    // hallucinated the call from the system prompt, and the user saw a
+    // successful-looking chip with no answer. Render it as failed, honestly.
     if (typeof chunk === 'object' && chunk.function_call) {
       const fcName = chunk.function_call.name;
       const isOciInternal = fcName?.startsWith('oci_internal_');
@@ -406,9 +413,11 @@ export default function useChat({ initialConversationId = null, selectedModel, o
         server: isOciInternal ? 'oci' : 'function',
         tool: fcName,
         arguments: chunk.function_call.arguments,
-        status: isOciInternal ? "calling" : "completed",
+        status: isOciInternal ? "calling" : "failed",
         label: isOciInternal ? 'Using memory...' : formatToolName(fcName),
-        output: isOciInternal ? null : chunk.function_call.arguments,
+        output: null,
+        error: isOciInternal ? undefined
+          : `The model called "${fcName}" but no connected tool executed it — check the tool's authorization and configuration in Settings → Tools.`,
         isOciInternal,
       });
       return [...state.responses];
@@ -500,10 +509,18 @@ export default function useChat({ initialConversationId = null, selectedModel, o
           });
         }
       } else if (mcp.type === 'tool_output') {
-        // Find the chip and mark it as completed — match by ID first, fallback to tool name
-        const chipIdx = mcp.id
+        // Find the chip and mark it as completed — match by ID first, fallback to
+        // tool name. The fallback also applies when an id IS present but no chip
+        // carries it: on the Gemini/native-ran path the final output arrives with
+        // the mcp_call item id while the chip was created from the function_call
+        // mirror with a different id. Dropping the output left the chip in
+        // "calling" forever.
+        let chipIdx = mcp.id
           ? state.responses.findLastIndex(r => r.type === "mcp_chip" && r.mcpItemId === mcp.id)
-          : state.responses.findLastIndex(r => r.type === "mcp_chip" && r.tool === mcp.tool && r.status === "calling");
+          : -1;
+        if (chipIdx < 0) {
+          chipIdx = state.responses.findLastIndex(r => r.type === "mcp_chip" && r.tool === mcp.tool && r.status === "calling");
+        }
         if (chipIdx >= 0) {
           state.responses[chipIdx].output = mcp.output;
           state.responses[chipIdx].status = "completed";
@@ -817,15 +834,70 @@ export default function useChat({ initialConversationId = null, selectedModel, o
       const mcpServers = typeof window !== 'undefined'
         ? JSON.parse(localStorage.getItem('mcpServers') || '[]')
         : [];
-      const findServerByLabel = (serverLabel) => mcpServers.find(s => {
-        let label = (s.name || '').replace(/[^a-zA-Z0-9_-]/g, '_');
-        if (!/^[a-zA-Z]/.test(label)) label = 'mcp_' + label;
-        return label === serverLabel;
-      });
+      const findServerByLabel = (serverLabel) => {
+        const found = mcpServers.find(s => {
+          let label = (s.name || '').replace(/[^a-zA-Z0-9_-]/g, '_');
+          if (!/^[a-zA-Z]/.test(label)) label = 'mcp_' + label;
+          return label === serverLabel;
+        });
+        if (found) return found;
+        // Text-to-SQL is the DBTools MCP pseudo-server (label "OracleDB"), attached
+        // from env + Settings rather than mcpServers. When OCI delegates its tool
+        // call instead of running it natively, synthesize the config so the chain
+        // executor can run it through /api/mcp — the oauth2.1 cookie already
+        // exists (the user authorized from Settings → Tools → Text to SQL).
+        if (serverLabel === 'Nl2Sql' && process.env.NEXT_PUBLIC_NL2SQL_MCP_URL) {
+          return {
+            id: 'nl2sql-native',
+            name: 'Nl2Sql',
+            endpoint: process.env.NEXT_PUBLIC_NL2SQL_MCP_URL,
+            authType: 'oauth2.1',
+          };
+        }
+        return undefined;
+      };
+
+      // Best-effort MCP initialize, once per server per chain run. Some servers
+      // (DBTools NL2SQL among them) expect the handshake and return a session id
+      // that must accompany tools/call; others reject initialize but accept
+      // direct calls — so failures fall through silently, mirroring
+      // mcpService.listToolsFromServer.
+      const chainSessions = new Map();
+      const ensureChainSession = async (server) => {
+        if (chainSessions.has(server.id)) return chainSessions.get(server.id);
+        let sessionId = null;
+        try {
+          const res = await fetch('/api/mcp', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              endpoint: server.endpoint,
+              method: 'initialize',
+              params: {
+                protocolVersion: '2024-11-05',
+                capabilities: {},
+                clientInfo: { name: 'OCI-Chat', version: '1.0.0' },
+              },
+              authType: server.authType,
+              authKey: server.authKey,
+              oauth: server.oauth,
+            }),
+          });
+          const data = await res.json().catch(() => ({}));
+          if (res.ok) sessionId = data._sessionId || null;
+        } catch { /* best-effort — tools/call will surface real problems */ }
+        chainSessions.set(server.id, sessionId);
+        return sessionId;
+      };
 
       let chainDepth = 0;
       const MAX_CHAIN_DEPTH = 5;
       let needsAuthFor = null; // { name, endpoint, authType } when an MCP server needs OAuth
+      // Models retry a failed tool with the SAME arguments over and over (seen
+      // live: 3 identical generate_sql calls per turn). Executing identical
+      // failures again wastes calls and floods the chat with chips; replay the
+      // recorded failure instead and tell the model not to insist.
+      const failedChainCalls = new Map(); // `${server}::${tool}::${args}` → output
       while ((streamingStateRef.current.pendingMcpFunctionCalls).length > 0 && chainDepth < MAX_CHAIN_DEPTH) {
         chainDepth++;
         const pending = streamingStateRef.current.pendingMcpFunctionCalls;
@@ -855,10 +927,103 @@ export default function useChat({ initialConversationId = null, selectedModel, o
 
           let output;
           let authRequired = false;
-          if (!server) {
+          // Honest chip state: a tool whose result is an ERROR must render red.
+          // The error output still goes back to the model (it needs to know the
+          // call failed to react), but the chip must not claim success.
+          let toolFailed = false;
+          const retryKey = `${fc.server_label}::${fc.tool_name}::${fc.arguments || ''}`;
+          if (failedChainCalls.has(retryKey)) {
+            output = JSON.stringify({
+              error: 'This exact tool call already failed in this turn and was NOT retried.',
+              previousError: failedChainCalls.get(retryKey),
+              instruction: 'Do not call this tool again with the same arguments. Explain the failure to the user instead.',
+            });
+            toolFailed = true;
+          } else if (!server) {
             output = JSON.stringify({ error: `Server '${fc.server_label}' not configured` });
+            toolFailed = true;
+          } else if (fc.tool_name === 'generate_sql') {
+            // NL2SQL two-step (guide §1.5 generate + execution): the model called
+            // generate_sql, so generate the SQL from the NL question via the data
+            // plane (/api/nl2sql), gate it as read-only, then run it through the
+            // DBTools `sql_run` tool. We answer the model with the actual rows.
+            try {
+              const nlq = parsedArgs.inputNaturalLanguageQuery || parsedArgs.query || parsedArgs.input || '';
+              let storeId = parsedArgs?.metadata?.semanticStoreId || parsedArgs.semanticStoreId || '';
+              if (!storeId) {
+                try { storeId = (JSON.parse(localStorage.getItem('nl2sqlSemanticStoreIds') || '[]'))[0] || ''; } catch { /* ignore */ }
+              }
+              const genRes = await fetch('/api/nl2sql', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ question: nlq, semanticStoreId: storeId }),
+              });
+              const genData = await genRes.json();
+              if (!genRes.ok || !genData.sql) {
+                output = JSON.stringify({ error: genData.error || 'SQL generation failed' });
+                toolFailed = true;
+              } else if (!isReadOnlySql(genData.sql)) {
+                output = JSON.stringify({ sql: genData.sql, error: 'Generated SQL is not a single read-only SELECT; not executed.' });
+                toolFailed = true;
+              } else {
+                const sessionId = await ensureChainSession(server);
+                const runSql = async () => {
+                  const r = await fetch('/api/mcp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      endpoint: server.endpoint,
+                      method: 'tools/call',
+                      params: { name: 'sql_run', arguments: { source: genData.sql } },
+                      ...(sessionId ? { sessionId } : {}),
+                      authType: server.authType,
+                      authKey: server.authKey,
+                      oauth: server.oauth,
+                    }),
+                  });
+                  return { status: r.status, data: await r.json() };
+                };
+                // One-shot retry: sql_run occasionally hits a transient JSON-RPC
+                // error (an OAuth-token blip during refresh, or -32603). The SELECT
+                // is read-only/idempotent, so re-running once is safe and makes the
+                // flow resilient. We do NOT retry a real 401 needs_auth (that means
+                // re-authorize, not retry).
+                let exec = await runSql();
+                if (exec.data?.error && !(exec.status === 401 && exec.data.error === 'needs_auth')) {
+                  exec = await runSql();
+                }
+                const execData = exec.data;
+                if (exec.status === 401 && execData.error === 'needs_auth') {
+                  authRequired = true;
+                  needsAuthFor = { name: server.name, endpoint: server.endpoint, authType: server.authType };
+                } else if (execData.result?.content) {
+                  const rows = execData.result.content.map(c => c.text || JSON.stringify(c)).join('\n');
+                  output = JSON.stringify({ sql: genData.sql, result: rows });
+                  if (execData.result.isError) toolFailed = true;
+                } else if (execData.error) {
+                  const msg = (execData.error.message || JSON.stringify(execData.error) || '').toString();
+                  // A stale OAuth token comes back as a JSON-RPC error (HTTP 200),
+                  // not a 401, so the proxy doesn't flag needs_auth. Detect the
+                  // auth-failure message and surface the Authorize banner so the
+                  // user can re-login — instead of a dead error they can't recover.
+                  if (/authoriz|unauthentic|invalid[_ ]?token|token (?:expired|invalid)|401/i.test(msg)) {
+                    authRequired = true;
+                    needsAuthFor = { name: server.name, endpoint: server.endpoint, authType: server.authType };
+                  } else {
+                    output = JSON.stringify({ sql: genData.sql, error: msg });
+                    toolFailed = true;
+                  }
+                } else {
+                  output = JSON.stringify({ sql: genData.sql, result: execData });
+                }
+              }
+            } catch (err) {
+              output = JSON.stringify({ error: err.message || String(err) });
+              toolFailed = true;
+            }
           } else {
             try {
+              const sessionId = await ensureChainSession(server);
               const res = await fetch('/api/mcp', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -866,6 +1031,7 @@ export default function useChat({ initialConversationId = null, selectedModel, o
                   endpoint: server.endpoint,
                   method: 'tools/call',
                   params: { name: fc.tool_name, arguments: parsedArgs },
+                  ...(sessionId ? { sessionId } : {}),
                   authType: server.authType,
                   authKey: server.authKey,
                   oauth: server.oauth,
@@ -880,14 +1046,20 @@ export default function useChat({ initialConversationId = null, selectedModel, o
                 needsAuthFor = { name: server.name, endpoint: server.endpoint, authType: server.authType };
               } else if (data.result?.content) {
                 output = data.result.content.map(c => c.text || JSON.stringify(c)).join('\n');
+                if (data.result.isError) toolFailed = true; // MCP tool-level failure flag
               } else if (data.error) {
                 output = JSON.stringify({ error: data.error.message || JSON.stringify(data.error) });
+                toolFailed = true;
               } else {
                 output = JSON.stringify(data);
               }
             } catch (err) {
               output = JSON.stringify({ error: err.message || String(err) });
+              toolFailed = true;
             }
+          }
+          if (toolFailed && !failedChainCalls.has(retryKey)) {
+            failedChainCalls.set(retryKey, output);
           }
 
           // Update the chip in BOTH the React exchange AND the streaming state.
@@ -904,6 +1076,9 @@ export default function useChat({ initialConversationId = null, selectedModel, o
             if (!matches) return chip;
             if (authRequired) {
               return { ...chip, status: 'failed', label: formatToolName(fc.tool_name) || 'Authorization required', error: 'Authorization required' };
+            }
+            if (toolFailed) {
+              return { ...chip, status: 'failed', output, label: formatToolName(fc.tool_name) || 'Failed', error: output };
             }
             return { ...chip, status: 'completed', output, label: formatToolName(fc.tool_name) || 'Completed' };
           };
@@ -923,12 +1098,31 @@ export default function useChat({ initialConversationId = null, selectedModel, o
 
         if (needsAuthFor) break; // skip chained call, surface banner instead
 
-        // Finalise the previous stream's open text item BEFORE the chained
-        // sendMessage starts. Otherwise its output_text deltas append to the
-        // accumulator and we render duplicate text (the first stream's summary
-        // + the chained stream's identical summary concatenated).
+        // Drop pass-1 text that arrived AFTER the delegated tool call: the model
+        // wrote it BEFORE the tool ran, so any claim about results in it is
+        // hallucinated (Gemini routinely "answers" with apologies mimicking the
+        // conversation history). Text before the chip — a genuine preamble like
+        // "let me check the database" — stays. The chained pass delivers the
+        // real answer.
         if (streamingStateRef.current) {
           const st = streamingStateRef.current;
+          const firstChainedChipIdx = (st.responses || []).findIndex(
+            r => r.type === 'mcp_chip' && pending.some(p => p.item_id === r.mcpItemId)
+          );
+          if (firstChainedChipIdx >= 0) {
+            const dropped = st.responses.filter(
+              (r, i) => i > firstChainedChipIdx && r.type === 'text'
+            );
+            if (dropped.length > 0) {
+              st.responses = st.responses.filter(
+                (r, i) => !(i > firstChainedChipIdx && r.type === 'text')
+              );
+              updateLatestExchange(exchange => ({ ...exchange, responses: [...st.responses] }));
+            }
+          }
+          // Finalise any open text item BEFORE the chained sendMessage starts —
+          // otherwise its output_text deltas append to the accumulator and we
+          // render the chained summary concatenated onto pass-1 text.
           const idx = (st.responses || []).findIndex(r => r.type === 'text' && r.isStreaming);
           if (idx >= 0) st.responses[idx].isStreaming = false;
           st.currentTextContent = '';
@@ -1249,6 +1443,16 @@ export default function useChat({ initialConversationId = null, selectedModel, o
       if (items?.length > 0) {
         const sortedItems = [...items].reverse();
 
+        // Chained tool runs (gpt-oss client-side execution) store the result in a
+        // separate function_call_output item keyed by call_id. Index them so the
+        // function_call chip below can show its real output instead of nothing.
+        const callOutputsById = new Map();
+        for (const it of sortedItems) {
+          if (it.type === 'function_call_output' && it.call_id) {
+            callOutputsById.set(it.call_id, it.output || '');
+          }
+        }
+
         const exchanges = [];
         let currentExchange = null;
 
@@ -1289,6 +1493,9 @@ export default function useChat({ initialConversationId = null, selectedModel, o
               displayContent = rawTextContent || (imageCount > 0 ? '' : '[Content]');
             } else {
               rawTextContent = typeof item.content === 'string' ? item.content : '';
+              // content may be a non-string/non-array object (e.g. a structured/tool
+              // payload) — coerce so we never hand an object to the renderer.
+              displayContent = rawTextContent;
             }
 
             // Parse widget response §>...§ from raw text (after extracting from array if needed)
@@ -1419,16 +1626,24 @@ export default function useChat({ initialConversationId = null, selectedModel, o
           } else if (item.type?.endsWith('_call') && currentExchange) {
             // Generic tool call handling: mcp_call, web_search_call, file_search_call, etc.
             const toolType = item.type.replace(/_call$/, '');
-            const toolOutput = item.output || item.error || (item.action?.query) || '';
+            // function_call items from chained client-side runs carry the raw
+            // mcp__<server>__<tool> name and keep their result in a separate
+            // function_call_output item — resolve both so the chip reloads with
+            // a human label and its actual output.
+            const mcpName = item.type === 'function_call' ? splitMcpFunctionName(item.name || '') : null;
+            const toolName = mcpName ? mcpName.toolName : (item.name || toolType);
+            const serverLabel = mcpName ? mcpName.serverLabel : (item.server_label || toolType);
+            const chainedOutput = item.call_id ? callOutputsById.get(item.call_id) : undefined;
+            const toolOutput = chainedOutput || item.output || item.error || (item.action?.query) || '';
             const toolStatus = item.status === 'incomplete' ? 'failed' : (item.status || 'completed');
             currentExchange.responses.push({
               type: "mcp_chip",
-              server: item.server_label || toolType,
-              tool: item.name || toolType,
+              server: serverLabel,
+              tool: toolName,
               arguments: item.arguments || (item.action ? JSON.stringify(item.action) : ''),
               output: toolOutput,
               status: toolStatus,
-              label: item.name || formatToolName(toolType),
+              label: mcpName ? formatToolName(toolName) : (item.name || formatToolName(toolType)),
               error: toolStatus === 'failed' ? (item.error || '') : undefined,
             });
             // Track file_search queries on the exchange so we can re-enrich
