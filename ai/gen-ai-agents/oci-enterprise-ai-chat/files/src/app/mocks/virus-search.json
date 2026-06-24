@@ -1,0 +1,60 @@
+{
+  "name": "Virus Information Search",
+  "keywords": ["virus", "malware", "security", "intrusion"],
+  "messages": [
+    {
+      "type": "chip",
+      "chipData": {
+        "icon": "BookOpen",
+        "label": "Retrieval",
+        "status": "success",
+        "content": {
+          "description": "Knowledge base search",
+          "query": "tell me about virus",
+          "citations": [
+            {
+              "sourceText": "A: A virus is a type of\nmalware that replicates itself, while malware is a broader term that includes all\ntypes of malicious software. 2. Q: How do I know if my system is infected with a virus? A: Look for common signs\nof virus infection, such as slow system performance, unexplained pop-ups or ads,\nor unusual network activity. 3. Q: How do I remove a virus from my system? A: Use an anti-virus software or\nmalware removal tool to remove the virus. 4. Q: How do I prevent future virus and intrusion attacks? A: Keep your anti-virus\nsoftware and operating system up-to-date, use strong passwords, and be cautious\nwhen opening emails or attachments from unknown sources.",
+              "sourceLocation": {
+                "sourceLocationType": "OCI_OBJECT_STORAGE",
+                "url": "https://objectstorage.eu-frankfurt-1.oraclecloud.com/n/frpj5kvxryk1/b/llamaras-agent-bucket/o/Checking%20for%20Viruses%20and%20Network%20Intrusions-%20A%20Guide%20for%20Customer%20Support%20Agents.pdf"
+              },
+              "title": "Checking for Viruses and Network Intrusions- A Guide for Customer Support Agents.pdf",
+              "pageNumbers": [3]
+            },
+            {
+              "sourceText": "Checking for Network Intrusions:\n1. Monitor network traffic: Use a network monitoring tool to detect unusual network\ntraffic. 2. Check for open ports: Use a port scanning tool to detect open ports and potential\nvulnerabilities. 3. Scan for vulnerabilities: Use a vulnerability scanning tool to detect potential\nvulnerabilities in the network. 4. Check firewall settings: Ensure the firewall is enabled and configured correctly.",
+              "sourceLocation": {
+                "sourceLocationType": "OCI_OBJECT_STORAGE",
+                "url": "https://objectstorage.eu-frankfurt-1.oraclecloud.com/n/frpj5kvxryk1/b/llamaras-agent-bucket/o/Checking%20for%20Viruses%20and%20Network%20Intrusions-%20A%20Guide%20for%20Customer%20Support%20Agents.pdf"
+              },
+              "title": "Checking for Viruses and Network Intrusions- A Guide for Customer Support Agents.pdf",
+              "pageNumbers": [2, 3]
+            },
+            {
+              "sourceText": "Title: Checking for Viruses and Network Intrusions: A Guide for Customer Support Agents\nIntroduction: As a customer support agent, helping customers check for viruses and\nnetwork intrusions is an essential part of providing excellent service and ensuring the\nsecurity of their devices and networks.",
+              "sourceLocation": {
+                "sourceLocationType": "OCI_OBJECT_STORAGE",
+                "url": "https://objectstorage.eu-frankfurt-1.oraclecloud.com/n/frpj5kvxryk1/b/llamaras-agent-bucket/o/Checking%20for%20Viruses%20and%20Network%20Intrusions-%20A%20Guide%20for%20Customer%20Support%20Agents.pdf"
+              },
+              "title": "Checking for Viruses and Network Intrusions- A Guide for Customer Support Agents.pdf",
+              "pageNumbers": [1, 2]
+            },
+            {
+              "sourceText": "A: A firewall is a network security\nsystem that monitors and controls incoming and outgoing traffic based on\npredetermined security rules. 2. Q: How do I know if my network is secure? A: Conduct regular network security\nassessments and monitor network activity to detect suspicious behavior.",
+              "sourceLocation": {
+                "sourceLocationType": "OCI_OBJECT_STORAGE",
+                "url": "https://objectstorage.eu-frankfurt-1.oraclecloud.com/n/frpj5kvxryk1/b/llamaras-agent-bucket/o/Securing%20Business%20Networks-%20A%20Guide%20for%20Customer%20Support%20Agents.pdf"
+              },
+              "title": "Securing Business Networks- A Guide for Customer Support Agents.pdf",
+              "pageNumbers": [3]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "text", 
+      "content": "Based on the knowledge base search, here's what I found about viruses:\n\n**What is a virus?**\nA virus is a type of malware that replicates itself, while malware is a broader term that includes all types of malicious software.\n\n**Signs of virus infection:**\n- Slow system performance\n- Unexplained pop-ups or ads\n- Unusual network activity\n\n**How to remove a virus:**\n- Use anti-virus software or malware removal tools\n- Follow the removal tool's instructions carefully\n\n**Prevention measures:**\n- Keep anti-virus software up-to-date\n- Update your operating system regularly\n- Use strong passwords\n- Be cautious with email attachments from unknown sources\n\n**Network security:**\n- Monitor network traffic for unusual activity\n- Check for open ports and vulnerabilities\n- Ensure firewall is properly configured\n- Conduct regular security assessments"
+    }
+  ]
+}

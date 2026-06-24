@@ -1,0 +1,5 @@
+langchain-community==0.3.27
+oci==2.155.2
+pip==24.3.1
+plotly==6.2.0
+streamlit==1.47.0

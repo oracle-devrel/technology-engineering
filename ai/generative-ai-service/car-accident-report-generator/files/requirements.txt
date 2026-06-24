@@ -1,0 +1,10 @@
+streamlit
+Pillow
+pdf2image
+reportlab
+arabic-reshaper
+python-bidi
+langchain-community
+langchain-core
+matplotlib
+oci

@@ -6,7 +6,7 @@ This workshop shows you how to design and develop a Get Worker Details integrati
 
 Estimated Time: 120 minutes
 
-Review Date: 27.03.2024
+Review Date: 14.11.2025
 
 # OracleIntegration GetWorkerDetails HCM HandsonLab
 
@@ -24,8 +24,8 @@ The information is generic in nature and not specified for a particular customer
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](./LICENSE) for more details.

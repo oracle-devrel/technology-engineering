@@ -1,0 +1,8 @@
+[DEFAULT]
+user=ocid1.use
+fingerprint=c6:4f:
+tenancy=ocid1.te
+region=eu-frankfurt-1
+key_file=~/.
+
+

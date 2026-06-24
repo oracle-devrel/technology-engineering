@@ -1,0 +1,17 @@
+{
+  "name": "ci-sidecar",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@logdna/tail-file": "^4.0.2",
+    "oci-common": "^2.52.0",
+    "oci-core": "^2.52.0",
+    "oci-identity": "^2.52.0",
+    "oci-loggingingestion": "^2.54.0",
+    "oci-objectstorage": "^2.119.0"
+  }
+}

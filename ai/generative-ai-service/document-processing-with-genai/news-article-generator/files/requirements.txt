@@ -1,0 +1,14 @@
+# UI
+streamlit>=1.34.0
+
+# LangChain core
+langchain>=0.2.14
+langchain-core>=0.2.34
+langchain-community>=0.2.12
+
+# Oracle Cloud Infrastructure SDK
+oci>=2.150.1
+
+# Utilities
+pydantic>=2.6.0
+python-dotenv>=1.0.1

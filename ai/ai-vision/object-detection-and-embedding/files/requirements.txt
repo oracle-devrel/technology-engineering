@@ -1,0 +1,7 @@
+numpy==2.4.2
+oci==2.164.0
+opencv_python==4.8.0.74
+oracledb==3.4.2
+pandas==3.0.0
+Pillow==12.1.1
+streamlit==1.49.1

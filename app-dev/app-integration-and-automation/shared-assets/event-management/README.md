@@ -9,7 +9,7 @@ Examples of topics could be:
 * Generallyspeaking:needtopropagateinformationfromsourcesystemstotargetonesassoonastheyareupdated (near real time approach)
 * APortal/Webapplicationwhichneedsasynchronousupdatesonsourceinformationlikeorderactivation,shipment status, etc.
 
-Review Date: 19.01.2024
+Review Date: 14.11.2025
 
 # How to use this asset?
  
@@ -17,8 +17,8 @@ This asset is provided as an example. Please tailor the code according to your n
  
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](./LICENSE) for more details.

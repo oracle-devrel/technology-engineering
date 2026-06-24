@@ -172,3 +172,54 @@ If the compartment to which a node pool, worker node subnet, file system, or mou
 ALLOW any-user to manage file-family in TENANCY where request.principal.type = 'cluster'
 ALLOW any-user to use virtual-network-family in TENANCY where request.principal.type = 'cluster'
 ```
+
+### Replace boot volume /Reboot instance through Kubernetes API when using a custom image
+
+[https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/replace-boot-volume-worker-node-top.htm](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/replace-boot-volume-worker-node-top.htm)
+[https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/reboot-worker-node-top.htm](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/reboot-worker-node-top.htm)
+
+```
+ALLOW any-user to read instance-images in TENANCY where request.principal.type = 'cluster'
+```
+
+### Allow OKE to create a LB/NLB on a different compartment
+
+[https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengconfiguringloadbalancersnetworkloadbalancers-subtopic.htm#contengcreatingloadbalancer_topic_Specifying_compartment](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengconfiguringloadbalancersnetworkloadbalancers-subtopic.htm#contengcreatingloadbalancer_topic_Specifying_compartment)
+
+```
+Allow any-user to manage load-balancers in compartment id <compartment-ocid> where all { request.principal.type = 'cluster' }
+Allow any-user to manage network-load-balancers in compartment id <compartment-ocid> where all { request.principal.type = 'cluster' }
+```
+
+
+### Allow OKE to attach certificates from OCI Certificate service to the Load Balancer
+
+[https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingloadbalancers-subtopic.htm#creatinglbhttps-OCICertificates](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingloadbalancers-subtopic.htm#creatinglbhttps-OCICertificates)
+
+```
+Allow any-user to manage certificate-authority-family in compartment <certificate-compartment-name> where ALL {request.principal.type = 'cluster'}
+```
+
+### Assigning security attributes
+
+[https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengusingzpr.htm#contengusingzpr_topic_permissions](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengusingzpr.htm#contengusingzpr_topic_permissions)
+
+```
+Allow any-user to use security-attribute-namespace in compartment <security_attribute_compartment_name> where request.principal.type = 'cluster'
+Allow any-user to manage security-attribute-namespace in compartment <security_attribute_compartment_name> where request.principal.type = 'nodepool'
+```
+### Using Compute Host Groups
+
+[https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengusinghostgroups.htm#required-iam-policy-for-compute-host-groups](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengusinghostgroups.htm#required-iam-policy-for-compute-host-groups)
+
+```
+Allow any-user to {HOST_GROUP_LAUNCH_INSTANCE} in compartment <compartment_name> where request.principal.type = 'nodepool' and target.resource.id = '<host_group_OCID>'
+```
+
+### Using Compute Clusters
+
+[https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengusingcomputeclusters.htm#required-iam-policy-for-compute-clusters](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengusingcomputeclusters.htm#required-iam-policy-for-compute-clusters)
+
+```
+Allow any-user to {COMPUTE_CLUSTER_LAUNCH_INSTANCE} in compartment <compartment_name> where request.principal.type = 'nodepool' and target.resource.id = '<compute_cluster_OCID>'
+```

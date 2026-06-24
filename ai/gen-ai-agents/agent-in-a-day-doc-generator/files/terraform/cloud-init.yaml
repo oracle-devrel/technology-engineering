@@ -1,0 +1,60 @@
+#cloud-config
+
+write_files:
+  - path: /home/opc/agent-day-doc-report/requirements.txt
+    owner: opc:opc
+    permissions: '0644'
+    content: |
+      fastmcp>=2.0
+      oci
+      requests
+      python-docx
+      matplotlib
+      numpy
+
+  - path: /etc/systemd/system/mcp-server.service
+    owner: root:root
+    permissions: '0644'
+    content: |
+      [Unit]
+      Description=MCP Document Report Server
+      After=network-online.target
+      Wants=network-online.target
+
+      [Service]
+      Type=simple
+      User=opc
+      WorkingDirectory=/home/opc/agent-day-doc-report
+      Environment=OCI_REGION=${oci_region}
+      Environment=AGENT_REGION=${oci_region}
+      Environment=AGENT_ENDPOINT_OCID=${agent_endpoint_ocid}
+      Environment=COMPARTMENT_OCID=${compartment_ocid}
+      Environment=GENAI_MODEL=${genai_model}
+      Environment=OBJECT_STORAGE_NAMESPACE=${os_namespace}
+      Environment=REPORTS_BUCKET=${reports_bucket}
+      ExecStart=/usr/bin/python3 /home/opc/agent-day-doc-report/server.py
+      Restart=on-failure
+      RestartSec=5
+
+      [Install]
+      WantedBy=multi-user.target
+
+runcmd:
+  # Install Python 3.11 and pip
+  - dnf install -y python3.11 python3.11-pip
+
+  # Create app directory
+  - mkdir -p /home/opc/agent-day-doc-report
+  - chown -R opc:opc /home/opc/agent-day-doc-report
+
+  # Install Python dependencies
+  - su - opc -c "cd /home/opc/agent-day-doc-report && python3.11 -m pip install --user -r requirements.txt"
+
+  # Open firewall port 8000
+  - firewall-cmd --permanent --add-port=8000/tcp
+  - firewall-cmd --reload
+
+  # Enable and start the service (will fail until app code is deployed)
+  - systemctl daemon-reload
+  - systemctl enable mcp-server.service
+  - systemctl start mcp-server.service

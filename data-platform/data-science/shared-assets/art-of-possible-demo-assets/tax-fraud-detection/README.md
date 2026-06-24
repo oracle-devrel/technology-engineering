@@ -4,7 +4,7 @@ This demo is going to showcase Oracle AI/ML platform capabilities to identify fr
 A particular type of behavior investigated includes circular money transfers, which can be indicative of abnormal interactions and can constitute sufficient cause for further analysis.
 The objective is to uncover hidden fraud patterns through graph analysis, machine learning, and generative AI techniques.
 
-Reviewed: 2025.03.02
+Reviewed: 2026.01.05
  
 
 # When to use this asset?
@@ -24,7 +24,7 @@ This asset is provided as general purpose material. Please tailor the content ac
  
 # License
  
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

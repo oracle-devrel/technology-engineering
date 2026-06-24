@@ -1,6 +1,6 @@
 # Fusion HCM & EBS to MS AD integration
 
-Review Date: 20.03.2025
+Review Date: 11.11.2025
 
 # When to use this asset?
 
@@ -16,7 +16,7 @@ TBD
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

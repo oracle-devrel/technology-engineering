@@ -2,12 +2,13 @@
 
 Multicloud architectures leverage the coordinated use of cloud services from two or more public cloud vendors. Organizations use multicloud environments to distribute computing resources and minimize the risk of downtime and data loss. Organizations may also adopt two or more public cloud providers for their unique capabilities. 
 
-Reviewed: 29.04.2025
+Reviewed: 12.06.2026
 
 # Team Publications
 
 ## Video Content
 
+- [Developer Coaching - From Zero to Cross‑Region DR - Oracle Database@Azure](https://youtu.be/FVeyvW5fnd4?si=nLrU5XNfy_F8_cPr)
 - [Cloud Coaching - Automate your OCI Multicloud connectivity with Equinix](https://youtu.be/phIpvM1MQSI?si=UXJn3ieiRZwFLVbz)
 - [Cloud Coaching - Networking for Oracle Database@Azure](https://youtu.be/ApfFm6O4kcw?si=Ni_ziz66AsQ5uVeZ)
 - [Simple & Secure OCI Multicloud Architecture with Aviatrix](https://youtu.be/9Jh9N6fouxE?feature=shared)
@@ -17,6 +18,8 @@ Reviewed: 29.04.2025
 
 ## Blog Posts
 
+- [Learn about selecting network topologies for Oracle AI Database@Google Cloud](https://docs.oracle.com/en/solutions/network-topology-oracle-database-at-google-cloud/index.html)
+- [Deploy Oracle AI Database@Google Cloud](https://docs.oracle.com/en/solutions/deploy-oracle-database-at-google-cloud/index.html)
 - [DNS in multicloud disaster recovery architectures](https://blogs.oracle.com/cloud-infrastructure/post/dns-in-multicloud-disaster-recovery-architectures)
 - [Oracle OCI — encrypted connection to AWS, Azure, GCP](https://aviatrix.com/blog/oracle-oci-encrypted-connection/)
 - [Oracle and Microsoft Simplify the Path to Multicloud Choice](https://blogs.oracle.com/cloud-infrastructure/post/simplify-path-to-multicloud-choice)
@@ -29,13 +32,13 @@ Reviewed: 29.04.2025
 
 ## Reference Architectures
 
+- [About DNS resolution in Oracle Database@Google Cloud](https://docs.oracle.com/en/solutions/dns-resolution-oracle-db-at-google-cloud/index.html)
 - [Learn About multicloud Architecture Framework](https://docs.oracle.com/en/solutions/learn-about-multicloud-arch-framework/index.html)
 - [Use AWS endpoint service to securely connect applications to Oracle Autonomous Database](https://docs.oracle.com/en/solutions/adb-endpoint-in-aws/index.html)
 - [Resolve DNS records seamlessly in OCI multicloud architectures](https://docs.oracle.com/en/solutions/resolve-dns-oci/index.html#GUID-84375E55-F207-4A72-84E8-C17CE0CE6BF3)
 - [Connect Oracle Data Safe to Oracle databases on multicloud and hybrid cloud environments](https://docs.oracle.com/en/solutions/data-safe-multicloud-ods-hybrid/index.html)
 - [Extend your high availability database architecture to multicloud using OCI GoldenGate replication](https://docs.oracle.com/en/solutions/oci-multicloud-db-replication-goldengate/index.html)
 - [Deploy multicloud Oracle Database Service for Microsoft Azure in a hub and spoke topology](https://docs.oracle.com/en/solutions/odsa-azure-hub-spoke/index.html)
-- [Deploy a Multicloud split-stack solution across OCI, AWS, and GCP](https://docs.oracle.com/en/solutions/oci-aws-gcp-multicloud/index)
 - [Best practices for hybrid and multicloud OCI networking design](https://docs.oracle.com/en/solutions/oci-best-practices-networking/index.html)
 - [Multicloud patterns to deploy Oracle Applications (EBS, PeopleSoft, JD Edwards) to Azure and OCI](https://learn.microsoft.com/en-us/azure/virtual-machines/workloads/oracle/oracle-oci-applications)
 - [Extend Active Directory integration in Hybrid Cloud](https://docs.oracle.com/en/solutions/integrate-oci-msft-ad/)
@@ -43,13 +46,12 @@ Reviewed: 29.04.2025
 - [Multicloud split-stack architecture with OCI, GCP, and AWS](https://docs.oracle.com/en/solutions/oci-aws-gcp-multicloud/index.html)
 
 ## Certifications
- 
-- [Become an OCI Multicloud Architect Associate](https://mylearn.oracle.com/ou/learning-path/become-an-oci-multicloud-architect/120606)
+
 - [Become an OCI Multicloud Architect Professional (2025)](https://mylearn.oracle.com/ou/learning-path/become-an-oracle-cloud-infrastructure-multicloud-architect-professional-2025/144472)
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

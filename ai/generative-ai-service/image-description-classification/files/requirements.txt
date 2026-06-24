@@ -1,0 +1,5 @@
+python-dotenv
+langchain-oci
+pillow
+streamlit
+watchdog
