@@ -28,7 +28,7 @@ End result is that ALL traffic to and from the CPS to Oracle is tunneled in the 
 
 - [Troubleshooting](https://www.ateam-oracle.com/post/oracle-cloud-vpn-connect-troubleshooting)
 
-Reviewed: 01/22/26
+Reviewed: 06/23/26
 
 # License
 

@@ -16,15 +16,15 @@ Oracle Exadata Cloud@Customer (ExaDB-C@C) brings the performance, automation, an
 
 # Subpages
 
-- [ExaDB-C@C Infrastructure](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-infra)
+- <img src="./images/exadb-infra.png" width="24" alt="Infrastructure">  [ExaDB-C@C Infrastructure](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-infra)
 
-- [ExaDB-C@C Network](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-network)
+- <img src="./images/exadb-network.png" width="24" alt="Network">  [ExaDB-C@C Network](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-network)
 
-- [ExaDB-C@C Security](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-security)
+- <img src="./images/exadb-security.png" width="24" alt="Security">  [ExaDB-C@C Security](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-security)
 
-- [ExaDB-C@C Data Protection](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-data-protection)
+- <img src="./images/exadb-data-protection.png" width="24" alt="Data Protection">  [ExaDB-C@C Data Protection](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-data-protection)
 
-- [ADB-C@C](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/adb-cc)
+- <img src="./images/exadb-adb.png" width="24" alt="ADB-C@C">  [ADB-C@C](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/adb-cc)
 
 # Videos
 A short video series covering different aspects of the Oracle Exadata Cloud@Customer - the best platform for running your Oracle Databases in the cloud behind your firewall.
@@ -114,7 +114,7 @@ There are other YouTube channels which have relevant training videos published, 
 
 - [Oracle Universiy](https://shop.oracle.com/apex/f?p=dstore:2:0::NO:RIR,2:PROD_HIER_ID:38022788136100320034918191)
 
-Reviewed: 06/11/26
+Reviewed: 06/24/26
 
 # License
 
