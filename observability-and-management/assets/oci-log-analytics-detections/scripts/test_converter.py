@@ -432,7 +432,7 @@ class TestQueryValidator(unittest.TestCase):
         'nested_groups.json':
             "((('Log Source' = 'X') and 'Event ID' = '1'))",
         'trace_correlation.json':
-            "('Trace ID' = 'abc' or 'Client IP' = '1.2.3.4')",
+            "('Trace ID' = 'abc' or 'Client IP' = 'xxxx')",
         'mimikatz_spaces_in_like.json':
             "('Log Source' = 'X') and ('Command Line' like '*SID                :*')",
         # An escaped backslash (\\) before a quote must NOT be treated as an

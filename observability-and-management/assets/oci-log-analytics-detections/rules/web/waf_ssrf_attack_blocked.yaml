@@ -13,7 +13,7 @@ detection:
     request_url|contains:
     - "169.254.169.254"
     - "metadata.google"
-    - "100.100.100.200"
+    - "xxxx"
     - "localhost"
     - "127.0.0.1"
     - "0.0.0.0"

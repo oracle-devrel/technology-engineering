@@ -69,7 +69,7 @@ GENAI_EXAMPLE = {
     "message": "GenAI gateway BLOCK: prompt-injection guardrail tripped on /v1/chat/completions",
     "service": {"name": "octo-genai-gateway"},
     "host": "genai-gw-01",
-    "client_ip": "185.220.101.1",
+    "client_ip": "xxx",
     "user_agent": "python-openai/1.30.1",
     "http": {
         "method": "POST",

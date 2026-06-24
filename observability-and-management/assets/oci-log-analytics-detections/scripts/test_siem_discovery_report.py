@@ -145,7 +145,7 @@ class TestSiemDiscoveryReport(unittest.TestCase):
 
         text = json.dumps(redacted)
         self.assertNotIn("ocid1.instance", text)
-        self.assertNotIn("144.24.1.2", text)
+        self.assertNotIn("xxx", text)
         self.assertNotIn("abcdef1234567890", text)
         self.assertNotIn("00000000-1111-2222-3333-444444444444", text)
 

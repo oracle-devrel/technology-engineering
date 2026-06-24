@@ -338,7 +338,7 @@ class TestGenerateTestLogs(unittest.TestCase):
     def test_web_to_cloud_chain_correlates_entry_point_to_cloud_exfiltration(self):
         random.seed(43)
         trace_id = "trace_w2c_entry_001"
-        attacker_ip = "185.220.101.1"
+        attacker_ip = "xxx"
         compromised_host = "app-prod-02"
         compromised_private_ip = "10.0.1.50"
         c2_ip = "198.51.100.77"

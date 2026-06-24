@@ -1517,7 +1517,7 @@
       "quality_score": 78,
       "source_path": "Hunting Queries/Microsoft 365 Defender/Privilege escalation/cve-2019-0808-c2.yaml",
       "status": "field_gap",
-      "query": "'Log Source' = 'SOC Sysmon Network Logs' and ('Request URL' in ('luckluck.blog', 'fffun-video.biz') or 'Destination IP' = '63.141.233.82')",
+      "query": "'Log Source' = 'SOC Sysmon Network Logs' and ('Request URL' in ('luckluck.blog', 'fffun-video.biz') or 'Destination IP' = 'xxxx')",
       "selected_source": "SOC Sysmon Network Logs",
       "parser": "SOC Sysmon Network JSON Parser",
       "sources": [

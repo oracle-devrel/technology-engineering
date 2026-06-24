@@ -39,10 +39,10 @@ LINUX_EXAMPLE = {
     "Facility": "auth",
     "Severity": "info",
     "User": "admin",
-    "SourceIP": "45.33.32.156",
+    "SourceIP": "xxx",
     "AuthMethod": "password",
     "SessionType": "ssh",
-    "msg": "Failed password for admin from 45.33.32.156 port 54321 ssh2",
+    "msg": "Failed password for admin from xxx port 54321 ssh2",
 }
 
 LINUX_SOURCE_INTERNAL = "socLinuxSyslogSource"
@@ -513,8 +513,8 @@ LINSEC_EXAMPLE = {
     "PID": 12345,
     "Facility": "auth",
     "Severity": "info",
-    "msg": "Failed password for admin from 45.33.32.156 port 54321 ssh2",
-    "SourceIP": "45.33.32.156",
+    "msg": "Failed password for admin from xxxxx port 54321 ssh2",
+    "SourceIP": "xxx",
     "User": "admin",
     "AuthMethod": "password",
     "SessionType": "ssh",
@@ -570,10 +570,10 @@ SYSMON_EXAMPLE = {
     "TargetImage": "C:\\Windows\\System32\\lsass.exe",
     "CommandLine": "cmd.exe /c whoami",
     "DestinationHostname": "evil-c2.duckdns.org",
-    "DestinationIp": "185.215.113.206",
+    "DestinationIp": "xxx",
     "DestinationPort": 443,
     "QueryName": "evil-c2.duckdns.org",
-    "QueryResults": "185.215.113.206",
+    "QueryResults": "xxx",
     "PipeName": "",
     "TargetFilename": "",
     "GrantedAccess": "0x1010",
@@ -624,7 +624,7 @@ SYSNET_EXAMPLE = {
     "User": "CORP\\admin",
     "Image": "C:\\Windows\\System32\\cmd.exe",
     "Protocol": "tcp",
-    "DestinationIp": "185.220.101.1",
+    "DestinationIp": "xxx",
     "DestinationPort": 443,
     "DestinationHostname": "evil-c2.example.com",
     "SourceIp": "10.0.1.50",
@@ -634,7 +634,7 @@ SYSNET_EXAMPLE = {
     "TechniqueName": "Application Layer Protocol",
     "TechniqueId": "T1071",
     "AccountName": "admin",
-    "msg": "Network connection detected: cmd.exe -> 185.220.101.1:443",
+    "msg": "Network connection detected: cmd.exe -> xxx",
 }
 
 SYSNET_SOURCE_INTERNAL = "socSysmonNetworkSource"
