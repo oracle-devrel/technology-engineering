@@ -20,7 +20,7 @@ Reviewed: Reviewed: 17.06.2026
 | Application Performance Monitoring | [Link](./application-performance-monitoring/README.md) | 
 | OCI Monitoring | [Link](./oci-monitoring/README.md) |   
 | Organization Management | WIP |  
-| Cost Management | WIP |  
+| Cost Management | [Link](./cost-management/README.md) |  
 
 
 &nbsp;
@@ -48,7 +48,7 @@ Reviewed: Reviewed: 17.06.2026
 
 |Observability Platform Asset  |  Assets Page| 
 |---|---|
-|OCI Observability and Management best practices and checklist|[Link](https://blogs.oracle.com/observability/post/oci-observability-checklist)|
+| OCI Observability and Management best practices and checklist|[Link](https://blogs.oracle.com/observability/post/oci-observability-checklist)|
 | Observability Design Guide  | [Link](https://obs.octodemo.cloud/) |  
 | AI agent skills for OCI observability  | [Link](https://github.com/adibirzu/oci-skills) | 
 | OCI Management Dashboard Automation|[Link](/observability-and-management/assets/oci-management-dashboard-automation/README.md)|
