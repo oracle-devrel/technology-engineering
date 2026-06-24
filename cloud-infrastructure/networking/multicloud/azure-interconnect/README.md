@@ -2,7 +2,7 @@
  
 Oracle Interconnect for Microsoft Azure provides organizations with a simple migration path to a multicloud environment that includes Oracle Database capabilities such as Oracle Exadata Database Service, Autonomous Database, and MySQL HeatWave. Customers can innovate using the best of Oracle Cloud Infrastructure (OCI) and Microsoft Azure with seamless interoperability.
  
-Reviewed: 10.10.2025
+Reviewed: 12.06.2026
 
 # Table of Contents
  

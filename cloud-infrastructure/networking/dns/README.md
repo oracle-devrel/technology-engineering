@@ -18,6 +18,7 @@ Reviewed: 10.10.2025
 
 # Team Publications
 
+- [OCI Network Load Balancer DNS Healthcheck](https://youtu.be/mzpNS9Wa1p0?si=WaErLqjZJycBFvip)
 - [DNS in multicloud disaster recovery architectures](#blogs)
 - [DNS tutorials - Part 1](https://docs.oracle.com/en/learn/bind9-in-oci/)
 - [DNS tutorials - Part 2](https://docs.oracle.com/en/learn/ha-on-bind9dns/)

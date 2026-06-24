@@ -2,7 +2,7 @@
  
 Modernized network Architecture Asset provides a solution where you will be able to achieve N-S traffic inspection for your Internet published App via OCI Network Firewall, protect your application using OCI WAFv2, load balance the traffic using LBaaS
  
-Reviewed: 10.10.2025
+Reviewed: 12.06.2026
 
 # When to use this asset?
  

@@ -2,7 +2,7 @@
  
 *This asset talks about how we can configurate private DNS to forward requrests to multiple onprem DNS servers*
 
-Reviewed: 10.10.2025
+Reviewed: 12.06.2026
  
 # When to use this asset?
  

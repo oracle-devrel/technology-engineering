@@ -8,7 +8,7 @@ Key Features:
 - Flexible Configuration: Configure the VPN IPSec tunnels to meet your specific network requirements, including tunnel modes, encryption algorithms, authentication methods, and key exchange protocols. Customize the configuration to align with your security policies and compliance needs.
 - Site-to-Site Connectivity: Establish a site-to-site VPN connection, allowing seamless and secure communication between your on-premises network and your virtual cloud network (VCN) in OCI. This enables you to extend your on-premises network to OCI, facilitating hybrid cloud architectures.
 
-Reviewed: 30.10.2024
+Reviewed: 12.06.2026
 
 # Useful Links
 

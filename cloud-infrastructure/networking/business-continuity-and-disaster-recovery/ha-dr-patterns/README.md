@@ -2,7 +2,7 @@
  
 Use this asset to understand various HA and DR Patterns
 
-Reviewed: 10.10.2025
+Reviewed: 12.06.2026
  
 # When to use this asset?
  
