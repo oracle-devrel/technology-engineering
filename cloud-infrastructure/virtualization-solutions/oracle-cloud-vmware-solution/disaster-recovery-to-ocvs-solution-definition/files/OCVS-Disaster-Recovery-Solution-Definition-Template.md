@@ -323,12 +323,14 @@ At the time this document was created, no resilience or recovery requirements we
 
 ### Disaster Recovery to OCVS
 
-This section describes the disaster recovery options and tools that can be used to protect selected workloads to Oracle Cloud VMware Solution. The examples below describe two disaster recovery approaches for protecting on-premises VMware workloads to Oracle Cloud VMware Solution. VMware HCX Disaster Recovery is included with the Oracle Cloud VMware Solution service and provides basic disaster recovery capabilities. VMware Site Recovery Manager provides more advanced disaster recovery orchestration and is licensed separately; it is not included with Oracle Cloud VMware Solution. Third-party solutions such as Veeam, RackWare, Zerto, and others are also available in the market, but are not described in this document.
+This section describes the disaster recovery options and tools that can be used to protect selected workloads to Oracle Cloud VMware Solution. Oracle Cloud VMware Solution is no longer positioned as a VMware license-included service. Customers must bring, procure, and maintain the VMware software licenses required for the SDDC and any disaster recovery tooling, according to the licensing terms agreed with Broadcom or an authorized VMware partner. This bring-your-own-license (BYOL) model must be validated during commercial and technical discovery.
+
+VMware HCX Disaster Recovery can provide basic virtual machine protection capabilities, but HCX DR has been deprecated by Broadcom and is planned for removal in a future HCX release. For enterprise disaster recovery and business continuity, VMware Site Recovery Manager, now part of the [VMware Live Recovery](https://www.vmware.com/products/cloud-infrastructure/advanced-services/live-recovery) portfolio, should be evaluated. VMware Site Recovery Manager automates and orchestrates failover, failback, and non-disruptive testing of virtual machines between sites to help minimize downtime and prevent data loss. Third-party solutions such as Zerto, RackWare, and Veeam can also be used where they better align with customer recovery objectives, operational model, or existing tooling.
 
 
 #### Disaster recovery architecture with VMware HCX
 
-VMware HCX is an application mobility platform that enables migration and protection of virtual machines from an on-premises VMware environment to an Oracle Cloud VMware Solution SDDC. HCX Disaster Recovery protects virtual workloads managed by VMware vSphere, whether those workloads are deployed in a private cloud or public cloud environment.
+VMware HCX is an application mobility platform that enables migration, workload rebalancing, and limited disaster recovery use cases for virtual machines between an on-premises VMware environment and an Oracle Cloud VMware Solution SDDC. HCX Disaster Recovery protects virtual workloads managed by VMware vSphere, whether those workloads are deployed in a private cloud or public cloud environment.
 
 The VMware HCX implementation includes activities at both the on-premises site and the cloud site. The HCX Manager implementation and configuration in Oracle Cloud is handled as part of the Oracle Cloud VMware Solution SDDC provisioning process. As a result, only minimal Oracle Cloud-side configuration is required after provisioning; most remaining tasks are related to pairing, connectivity, service mesh configuration, and workload protection.
 
@@ -336,29 +338,27 @@ The following image illustrates the solution overview for VMware HCX implementat
 
 ![OCVS DR Architecture using HCX](images/HCXarchitecture.png)
 
-HCX Disaster Recovery uses VMware vSphere Replication technology to transfer virtual machine disk data. When protection is enabled for a virtual machine, the replication engine first performs a full synchronization of the virtual machine data to the target datastore. After the baseline synchronization completes, the system performs delta synchronizations, replicating only changed data blocks.
+HCX Disaster Recovery uses VMware vSphere Replication technology to transfer virtual machine disk data. When protection is enabled for a virtual machine, the replication engine first performs a full synchronization of the virtual machine data to the target datastore. After the baseline synchronization completes, the system performs delta synchronizations, replicating only changed data blocks. Because HCX DR is deprecated, it should not be selected as the strategic disaster recovery platform for new enterprise designs unless the customer has explicitly accepted the lifecycle and support implications.
 
 Delta synchronization occurs according to the recovery point objective (RPO) configured for the virtual machine and creates a replication instance. The selectable RPO ranges from 5 minutes to 24 hours. For example, an RPO of 2 hours means the maximum tolerated data loss for that virtual machine is 2 hours.
 
 ##### Licensing
 
-HCX is available with two license levels: HCX Advanced, which is included with Oracle Cloud VMware Solution, and HCX Enterprise, which is available as an additional SKU and can be enabled from the OCI Console on a monthly subscription basis.
+HCX licensing must be reviewed as part of the customer's VMware BYOL position. The licensing and entitlement model can vary by VMware software bundle, Oracle Cloud VMware Solution shape, and commercial agreement. Do not assume that HCX or other VMware components are license-included with Oracle Cloud VMware Solution.
 
-Evaluate the HCX license level against the required features before selecting the disaster recovery approach. For more information about HCX license differences, see the following documentation:
+Evaluate the HCX license level against the required migration and mobility features before selecting an approach. For more information about HCX license differences, see the following documentation:
 
 [HCX License types](https://docs.oracle.com/en-us/iaas/Content/VMware/Concepts/ocvsoverview.htm#aboutsoftware__hcx-license-types)
 
 __Please note:__ According to [Broadcom’s official release notes for VMware HCX 4.11](https://techdocs.broadcom.com/us/en/vmware-cis/hcx/vmware-hcx/4-11/hcx-4-11-release-notes/vmware-hcx-411-release-notes.html),
 the **HCX Disaster Recovery (HCX DR)** feature has been **deprecated** and is planned for removal in a future release.
 
-__Please note:__ If you are using Oracle Cloud VMware Solution with Standard Shapes, HCX Enterprise is included in the subscription and no additional cost is required.
-
 __Please note:__ Check the VMware interoperability matrix to confirm VMware HCX compatibility with the source vSphere environment.
 
 
 #### Disaster recovery architecture with VMware Site Recovery Manager
 
-VMware Site Recovery Manager is an extension to VMware vCenter that provides disaster recovery, site migration, and non-disruptive recovery testing capabilities. It provides more advanced orchestration than VMware HCX Disaster Recovery.
+VMware Site Recovery Manager is an enterprise-grade disaster recovery and business continuity solution for VMware environments. Site Recovery Manager is now part of the [VMware Live Recovery](https://www.vmware.com/products/cloud-infrastructure/advanced-services/live-recovery) portfolio and provides disaster recovery, site migration, and non-disruptive recovery testing capabilities. It provides more advanced orchestration than VMware HCX Disaster Recovery and should be evaluated as the preferred VMware-native disaster recovery option for enterprise workloads.
 
 Site Recovery Manager works with VMware vSphere Replication to automate migration, recovery, testing, reprotection, and failback for virtual machine workloads.
 
@@ -373,6 +373,10 @@ Site Recovery Manager extends the VMware virtual infrastructure platform to supp
 The following diagram shows a high-level architecture for disaster recovery to Oracle Cloud VMware Solution with Site Recovery Manager.
 
 ![High-level disaster recovery to OCVS with SRM](images/SRMDRtoOCVS.png)
+
+#### Third-party disaster recovery solutions
+
+Customers can also use third-party disaster recovery and cyber resilience platforms with Oracle Cloud VMware Solution where these tools meet the required RPO, RTO, operational, licensing, and support requirements. Examples include Zerto, RackWare, and Veeam. These solutions should be assessed during the solution design phase, including architecture fit, network requirements, replication behavior, failover and failback processes, testing approach, licensing, and vendor support boundaries.
 
 
 
@@ -532,6 +536,8 @@ Oracle Cloud VMware Solution supports two primary architecture options:
 - Oracle Cloud VMware Solution with DenseIO shapes: This architecture primarily uses VMware vSAN storage backed by NVMe drives from the local Bare Metal servers.
 - Oracle Cloud VMware Solution with Standard Shapes: This architecture uses OCI Block Storage as the primary storage option for virtual machine workloads.
 
+Oracle Cloud VMware Solution requires customer-provided VMware software licensing under a BYOL model. The customer is responsible for bringing, procuring, and maintaining the VMware licenses required for the selected SDDC architecture, including any additional VMware disaster recovery or business continuity components. License eligibility, portability, support, and commercial terms must be validated with Broadcom or an authorized VMware partner before implementation.
+
 ![Future State Architecture](images/ocvs-overview.png)
 
 Oracle Cloud VMware Solution is the central component of this deployment. It provides an automated implementation of a VMware software-defined data center (SDDC) within the customer's Oracle Cloud Infrastructure tenancy. The solution runs on Oracle Cloud Infrastructure Bare Metal Compute and includes the following VMware components:
@@ -541,7 +547,7 @@ Oracle Cloud VMware Solution is the central component of this deployment. It pro
 * VMware vSAN
 * OCI Block Storage
 * VMware NSX-T
-* VMware HCX Advanced
+* VMware HCX, subject to customer licensing and entitlement
 
 
 
@@ -551,7 +557,9 @@ __OCVS__
 
 The __VMware SDDC__ consists of vSphere (ESXi and vCenter), NSX-T, vSAN, and HCX. The SDDC can be deployed on OCI DenseIO shapes that provide vSAN storage, or on OCI Standard Shapes with OCI Block Storage as the primary storage option.
 
-* __VMware HCX__ - An application mobility platform designed to simplify application migration, workload rebalancing, and business continuity across data centers and clouds. HCX enables migration of VMware workloads to Oracle Cloud VMware Solution.
+* __VMware licensing__ - Oracle Cloud VMware Solution is consumed with customer-provided VMware licenses. The solution design must confirm the VMware Cloud Foundation, vSphere, vSAN, NSX, HCX, VMware Live Recovery, Site Recovery Manager, or other VMware entitlements required for the selected architecture and recovery approach.
+
+* __VMware HCX__ - An application mobility platform designed to simplify application migration and workload rebalancing across data centers and clouds. HCX can support selected mobility use cases for VMware workloads to Oracle Cloud VMware Solution, subject to licensing, entitlement, compatibility, and lifecycle considerations.
 
 * __HCX Manager__ - An appliance deployed in Oracle Cloud VMware Solution. HCX Manager is paired with the on-premises vCenter through HCX Connector.
 
