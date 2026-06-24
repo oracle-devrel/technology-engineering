@@ -2,7 +2,7 @@
 
 This repository contains a detailed guide for using vSphere Replication 9.x with Oracle Cloud VMware Solution.
 
-Reviewed: 17.11.2025
+Reviewed: 24.06.2026
 
 # When to use this asset?
 
