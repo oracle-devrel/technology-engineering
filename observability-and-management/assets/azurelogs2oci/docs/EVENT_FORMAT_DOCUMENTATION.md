@@ -16,17 +16,17 @@ Each event sent to OCI Streaming follows this exact format from Azure Event Hub:
 ```json
 {
   "TimeGenerated": "2025-12-04T16:41:27.385849+00:00",
-  "Id": "2c0113df-342e-482e-b63b-6425d31dea3d",
+  "Id": "xxxx",
   "Operation": "Add member to group",
   "RecordType": 11,
   "ResultStatus": "Failure",
   "UserType": "Admin",
-  "UserId": "user3679@example.com",
-  "UserKey": "11bfead6-20de-405e-a265-e75dfbb48a65",
+  "UserId": "xxxx",
+  "UserKey": "xxxx",
   "Workload": "AzureActiveDirectory",
-  "ObjectId": "19c66d27-6602-43b5-ac0e-5eb87b9f6c8d",
-  "ClientIP": "71.29.189.247",
-  "OrganizationId": "7c38a3a9-2710-4798-83e6-82f14ba656bd",
+  "ObjectId": "xxxxxx",
+  "ClientIP": "x",
+  "OrganizationId": "xxxxx",
   "Version": 1,
   "CreationTime": "2025-12-04T16:41:27",
   "AzureActiveDirectoryEventType": 2,
@@ -42,26 +42,26 @@ Each event sent to OCI Streaming follows this exact format from Azure Event Hub:
   ],
   "Actor": [
     {
-      "ID": "91af402b-5540-4d3d-9029-ff26768def1e",
+      "ID": "xxxx",
       "Type": 0
     },
     {
-      "ID": "user3939@example.com",
+      "ID": "xxxx",
       "Type": 5
     }
   ],
-  "ActorContextId": "3cd6474d-ca79-445c-a336-7e21738e935f",
-  "ActorIpAddress": "118.248.128.23",
-  "InterSystemsId": "2632722a-4354-471b-8356-08d44451f803",
-  "IntraSystemId": "ec6869c2-b550-492c-a5f3-b29ee1bd1f43",
+  "ActorContextId": "xxxx",
+  "ActorIpAddress": "xxx",
+  "InterSystemsId": "xxxx",
+  "IntraSystemId": "xxxx",
   "Target": [
     {
-      "ID": "aea77556-60a8-479f-8afc-3c6ecfddbf1f",
+      "ID": "xxxx",
       "Type": 0
     }
   ],
-  "TargetContextId": "b4c245f3-521b-456d-9eb1-ca5a86d28394",
-  "ApplicationId": "00000002-0000-0ff1-ce00-000000000000"
+  "TargetContextId": "xxxx",
+  "ApplicationId": "xxxx"
 }
 ```
 
