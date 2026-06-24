@@ -1,0 +1,513 @@
+{
+  "title": "AMSI Bypass via PowerShell Reflection",
+  "description": "Detects PowerShell reflection techniques used to bypass AMSI by patching the AmsiScanBuffer function.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*System.Management.Automation*' and 'Command Line' like '*amsi*')))",
+  "sigma_id": "f3735c1f-a5ee-4225-a1af-bb62ff251923",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.t1562.001"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1562.001"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Security research tools"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 59,
+    "techniques_with_tests": [
+      "T1562.001"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Disable syslog",
+        "test_guid": "4ce786f8-e601-44b5-bfae-9ebb15a7d1c8",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Disable syslog (freebsd)",
+        "test_guid": "db9de996-441e-4ae0-947b-61b6871e2fdf",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Disable Cb Response",
+        "test_guid": "ae8943f7-0f8d-44de-962d-fbc2e2f03eb8",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Disable SELinux",
+        "test_guid": "fc225f36-9279-4c39-b3f9-5141ab74f8d8",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Stop Crowdstrike Falcon on Linux",
+        "test_guid": "828a1278-81cc-4802-96ab-188bf29ca77d",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Disable Carbon Black Response",
+        "test_guid": "8fba7766-2d11-4b4a-979a-1e3d9cc9a88c",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Disable LittleSnitch",
+        "test_guid": "62155dd8-bb3d-4f32-b31c-6532ff3ac6a3",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Disable OpenDNS Umbrella",
+        "test_guid": "07f43b33-1e15-4e99-be70-bc094157c849",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Disable macOS Gatekeeper",
+        "test_guid": "2a821573-fb3f-4e71-92c3-daac7432f053",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Stop and unload Crowdstrike Falcon on macOS",
+        "test_guid": "b3e7510c-2d4c-4249-a33f-591a2bc83eef",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Unload Sysmon Filter Driver",
+        "test_guid": "811b3e76-c41b-430c-ac0d-e2380bfaa164",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Uninstall Sysmon",
+        "test_guid": "a316fb2e-5344-470d-91c1-23e15c374edc",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "AMSI Bypass - AMSI InitFailed",
+        "test_guid": "695eed40-e949-40e5-b306-b4031e4154bd",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "AMSI Bypass - Remove AMSI Provider Reg Key",
+        "test_guid": "13f09b91-c953-438e-845b-b585e51cac9b",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Disable Arbitrary Security Windows Service",
+        "test_guid": "a1230893-56ac-4c81-b644-2108e982f8f5",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Tamper with Windows Defender ATP PowerShell",
+        "test_guid": "6b8df440-51ec-4d53-bf83-899591c9b5d7",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Tamper with Windows Defender Command Prompt",
+        "test_guid": "aa875ed4-8935-47e2-b2c5-6ec00ab220d2",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Tamper with Windows Defender Registry",
+        "test_guid": "1b3e0146-a1e5-4c5c-89fb-1bb2ffe8fc45",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Disable Microsoft Office Security Features",
+        "test_guid": "6f5fb61b-4e56-4a3d-a8c3-82e13686c6d7",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Remove Windows Defender Definition Files",
+        "test_guid": "3d47daaa-2f56-43e0-94cc-caf5d8d52a68",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Stop and Remove Arbitrary Security Windows Service",
+        "test_guid": "ae753dda-0f15-4af6-a168-b9ba16143143",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Uninstall Crowdstrike Falcon on Windows",
+        "test_guid": "b32b1ccf-f7c1-49bc-9ddd-7d7466a7b297",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Tamper with Windows Defender Evade Scanning -Folder",
+        "test_guid": "0b19f4ee-de90-4059-88cb-63c800c683ed",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Tamper with Windows Defender Evade Scanning -Extension",
+        "test_guid": "315f4be6-2240-4552-b3e1-d1047f5eecea",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Tamper with Windows Defender Evade Scanning -Process",
+        "test_guid": "a123ce6a-3916-45d6-ba9c-7d4081315c27",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "office-365-Disable-AntiPhishRule",
+        "test_guid": "b9bbae2c-2ba6-4cf3-b452-8e8f908696f3",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Disable Windows Defender with DISM",
+        "test_guid": "871438ac-7d6e-432a-b27d-3e7db69faf58",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Disable Defender Using NirSoft AdvancedRun",
+        "test_guid": "81ce22fd-9612-4154-918e-8a1f285d214d",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Kill antimalware protected processes using Backstab",
+        "test_guid": "24a12b91-05a7-4deb-8d7f-035fa98591bc",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "WinPwn - Kill the event log services for stealth",
+        "test_guid": "7869d7a3-3a30-4d2c-a5d2-f1cd9c34ce66",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Tamper with Windows Defender ATP using Aliases - PowerShell",
+        "test_guid": "c531aa6e-9c97-4b29-afee-9b7be6fc8a64",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "LockBit Black - Disable Privacy Settings Experience Using Registry -cmd",
+        "test_guid": "d6d22332-d07d-498f-aea0-6139ecb7850e",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "LockBit Black - Use Registry Editor to turn on automatic logon -cmd",
+        "test_guid": "9719d0e1-4fe0-4b2e-9a72-7ad3ee8ddc70",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "LockBit Black - Disable Privacy Settings Experience Using Registry -Powershell",
+        "test_guid": "d8c57eaa-497a-4a08-961e-bd5efd7c9374",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Lockbit Black - Use Registry Editor to turn on automatic logon -Powershell",
+        "test_guid": "5e27f36d-5132-4537-b43b-413b0d5eec9a",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Disable Windows Defender with PwSh Disable-WindowsOptionalFeature",
+        "test_guid": "f542ffd3-37b4-4528-837f-682874faa012",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "WMIC Tamper with Windows Defender Evade Scanning Folder",
+        "test_guid": "59d386fc-3a4b-41b8-850d-9e3eee24dfe4",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Delete Windows Defender Scheduled Tasks",
+        "test_guid": "4b841aa1-0d05-4b32-bbe7-7564346e7c76",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Clear History",
+        "test_guid": "23b88394-091b-4968-a42d-fb8076992443",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Suspend History",
+        "test_guid": "94f6a1c9-aae7-46a4-9083-2bb1f5768ec4",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Reboot Linux Host via Kernel System Request",
+        "test_guid": "6d6d3154-1a52-4d1a-9d51-92ab8148b32e",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Clear Pagging Cache",
+        "test_guid": "f790927b-ea85-4a16-b7b2-7eb44176a510",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Disable Memory Swap",
+        "test_guid": "e74e4c63-6fde-4ad2-9ee8-21c3a1733114",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Disable Hypervisor-Enforced Code Integrity (HVCI)",
+        "test_guid": "70bd71e6-eba4-4e00-92f7-617911dbe020",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "AMSI Bypass - Override AMSI via COM",
+        "test_guid": "17538258-5699-4ff1-92d1-5ac9b0dc21f5",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "AWS - GuardDuty Suspension or Deletion",
+        "test_guid": "11e65d8d-e7e4-470e-a3ff-82bc56ad938e",
+        "executor": "bash",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Tamper with Defender ATP on Linux/MacOS",
+        "test_guid": "40074085-dbc8-492b-90a3-11bcfc52fda8",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Tamper with Windows Defender Registry - Reg.exe",
+        "test_guid": "1f6743da-6ecc-4a93-b03f-dc357e4b313f",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Tamper with Windows Defender Registry - Powershell",
+        "test_guid": "a72cfef8-d252-48b3-b292-635d332625c3",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "ESXi - Disable Account Lockout Policy via PowerCLI",
+        "test_guid": "091a6290-cd29-41cb-81ea-b12f133c66cb",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Delete Microsoft Defender ASR Rules - InTune",
+        "test_guid": "eea0a6c2-84e9-4e8c-a242-ac585d28d0d1",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Delete Microsoft Defender ASR Rules - GPO",
+        "test_guid": "0e7b8a4b-2ca5-4743-a9f9-96051abb6e50",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "AMSI Bypass - Create AMSIEnable Reg Key",
+        "test_guid": "728eca7b-0444-4f6f-ac36-437e3d751dc0",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Disable EventLog-Application Auto Logger Session Via Registry - Cmd",
+        "test_guid": "653c6e17-14a2-4849-851d-f1c0cc8ea9ab",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Disable EventLog-Application Auto Logger Session Via Registry - PowerShell",
+        "test_guid": "da86f239-9bd3-4e85-92ed-4a94ef111a1c",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Disable EventLog-Application ETW Provider Via Registry - Cmd",
+        "test_guid": "1cac9b54-810e-495c-8aac-989e0076583b",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Disable EventLog-Application ETW Provider Via Registry - PowerShell",
+        "test_guid": "8f907648-1ebf-4276-b0f0-e2678ca474f0",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Freeze PPL-protected process with EDR-Freeze",
+        "test_guid": "cbb2573a-a6ad-4c87-aef8-6e175598559b",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      },
+      {
+        "technique_id": "T1562.001",
+        "test_name": "Disable ASLR Via sysctl parameters - Linux",
+        "test_guid": "ac333fe1-ce2b-400b-a117-538634427439",
+        "executor": "bash",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md"
+      }
+    ]
+  }
+}

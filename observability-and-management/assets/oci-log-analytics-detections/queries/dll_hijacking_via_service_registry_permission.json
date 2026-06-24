@@ -1,0 +1,57 @@
+{
+  "title": "DLL Hijacking via Service Registry Permission",
+  "description": "Detects modification of service registry entries to point to attacker-controlled DLLs.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*reg*' and 'Command Line' like '*add*' and 'Command Line' like '*ImagePath*' and 'Command Line' like '*Services*')))",
+  "sigma_id": "4c82fb86-f13d-464e-997d-78318ff4ad29",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.privilege_escalation",
+    "attack.t1574.011"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "privilege_escalation"
+    ],
+    "techniques": [
+      "T1574.011"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Service reconfiguration by administrators"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 2,
+    "techniques_with_tests": [
+      "T1574.011"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1574.011",
+        "test_name": "Service Registry Permissions Weakness",
+        "test_guid": "f7536d63-7fd4-466f-89da-7e48d550752a",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1574.011/T1574.011.md"
+      },
+      {
+        "technique_id": "T1574.011",
+        "test_name": "Service ImagePath Change with reg.exe",
+        "test_guid": "f38e9eea-e1d7-4ba6-b716-584791963827",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1574.011/T1574.011.md"
+      }
+    ]
+  }
+}

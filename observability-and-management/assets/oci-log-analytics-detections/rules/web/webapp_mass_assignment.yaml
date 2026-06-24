@@ -1,0 +1,31 @@
+title: Mass Assignment Attack Detected
+id: a1010030-owasp-a04-massassign-001
+status: stable
+version: 1
+description: Detects mass assignment attacks where extra parameters are injected into API requests to modify protected fields (isAdmin, role, price). OWASP A04:2021 Insecure Design.
+logsource:
+  product: oci
+  service: webapp
+detection:
+  selection_type:
+    attack_type:
+    - mass_assignment
+    - parameter_tampering
+  selection_payload:
+    request_body|contains:
+    - "isAdmin"
+    - "is_admin"
+    - "\"role\":"
+    - "\"permissions\":"
+    - "\"verified\":"
+    - "\"balance\":"
+    - "\"price\":0"
+    - "\"discount\":100"
+  condition: selection_type or selection_payload
+level: high
+tags:
+- attack.privilege_escalation
+- attack.t1078
+- owasp.a04
+falsepositives:
+- Admin API endpoints that legitimately set these fields

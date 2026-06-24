@@ -1,0 +1,31 @@
+{
+  "title": "OCI Compute Instance Terminated",
+  "description": "Detects successful termination of a compute instance, indicating potential resource destruction or evidence tampering.",
+  "query": "'Log Source' = 'OCI Audit Logs' and (('Event Type' = 'com.oraclecloud.computeapi.terminateinstance' and (Status = 'Success' or Status = '200')))",
+  "sigma_id": "2bce3086-0d16-4b92-b303-76a9d66932e5",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.impact",
+    "attack.t1485"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "impact"
+    ],
+    "techniques": [
+      "T1485"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Authorized scaling operations",
+    "Automated IaC deployments"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "title": "Windows Rare Parent-Child Process Relationships",
+  "description": "Identifies unusual parent-child process pairs that deviate from normal system behavior. Rare combinations may indicate process injection, living-off-the-land, or malware execution.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'SOC Windows Sysmon Logs') and 'Process Name' != null and 'Parent Process Name' != null | stats count as occurrence, distinctcount('Host Name') as host_count by 'Parent Process Name', 'Process Name' | where occurrence <= 3 and host_count <= 2 | sort occurrence",
+  "type": "hunting",
+  "category": "execution",
+  "mitre_attack": {
+    "tactics": ["execution", "defense_evasion"],
+    "techniques": ["T1055", "T1218"]
+  },
+  "data_source": "Windows Sysmon",
+  "frequency": "weekly",
+  "notes": "Normal Windows operations have well-known parent-child relationships (explorer.exe -> notepad.exe). Unusual pairings like winword.exe -> powershell.exe deserve investigation."
+}

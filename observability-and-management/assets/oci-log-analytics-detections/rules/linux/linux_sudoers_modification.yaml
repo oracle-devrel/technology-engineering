@@ -1,0 +1,24 @@
+title: Linux Sudoers File Modification
+id: e1f2a3b4-4012-4000-8000-000000000012
+status: stable
+description: Detects modifications to the sudoers file or files in sudoers.d directory.
+  Attackers modify sudoers to escalate privileges or maintain persistent elevated
+  access.
+logsource:
+  product: linux
+  service: audit
+detection:
+  selection:
+    message|contains:
+    - visudo
+    - /etc/sudoers
+    - /etc/sudoers.d/
+  condition: selection
+level: high
+tags:
+- attack.privilege_escalation
+- attack.t1548.003
+falsepositives:
+- System administrators configuring sudo access
+- Automated configuration management (Ansible, Puppet)
+version: 1

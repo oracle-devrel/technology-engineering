@@ -1,0 +1,82 @@
+{
+  "title": "Clipboard Data Collection",
+  "description": "Detects PowerShell or command-line access to clipboard data for credential or data theft.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*Get-Clipboard*' or 'Command Line' like '*clip.exe*' or 'Command Line' like '*powershell.*clipboard*')))",
+  "sigma_id": "7632906d-bf61-4f10-8f17-25760ada1784",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.collection",
+    "attack.t1115"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "collection"
+    ],
+    "techniques": [
+      "T1115"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Clipboard managers",
+    "Automation scripts"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 5,
+    "techniques_with_tests": [
+      "T1115"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1115",
+        "test_name": "Utilize Clipboard to store or execute commands from",
+        "test_guid": "0cd14633-58d4-4422-9ede-daa2c9474ae7",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1115/T1115.md"
+      },
+      {
+        "technique_id": "T1115",
+        "test_name": "Execute Commands from Clipboard using PowerShell",
+        "test_guid": "d6dc21af-bec9-4152-be86-326b6babd416",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1115/T1115.md"
+      },
+      {
+        "technique_id": "T1115",
+        "test_name": "Execute commands from clipboard",
+        "test_guid": "1ac2247f-65f8-4051-b51f-b0ccdfaaa5ff",
+        "executor": "bash",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1115/T1115.md"
+      },
+      {
+        "technique_id": "T1115",
+        "test_name": "Collect Clipboard Data via VBA",
+        "test_guid": "9c8d5a72-9c98-48d3-b9bf-da2cc43bdf52",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1115/T1115.md"
+      },
+      {
+        "technique_id": "T1115",
+        "test_name": "Add or copy content to clipboard with xClip",
+        "test_guid": "ee363e53-b083-4230-aff3-f8d955f2d5bb",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1115/T1115.md"
+      }
+    ]
+  }
+}

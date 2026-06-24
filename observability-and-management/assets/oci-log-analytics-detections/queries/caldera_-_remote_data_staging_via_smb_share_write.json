@@ -1,0 +1,35 @@
+{
+  "title": "Caldera - Remote Data Staging via SMB Share Write",
+  "description": "Detects staging of collected data on remote SMB shares before exfiltration. Caldera T1074.002 emulation copies files to a UNC share path accessible from the attacker system, consolidating data from multiple compromised hosts. Patterns include net use with copy/xcopy writing to remote UNC destinations.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (( (('Command Line' like '*copy * \\\\\\\\*' or 'Command Line' like '*copy /Y \\\\\\\\*' or 'Command Line' like '*xcopy /s \\\\\\\\*')) or ('Process Name' like '*\\\\robocopy.exe' and 'Command Line' like '* \\\\\\\\*') or (('Command Line' like '*Copy-Item -Destination \\\\\\\\*' or 'Command Line' like '*Move-Item -Destination \\\\\\\\*')) ) and (('Command Line' like '*C:\\\\Temp*' or 'Command Line' like '*C:\\\\Users\\\\Public*' or 'Command Line' like '*C:\\\\ProgramData*' or 'Command Line' like '*%TEMP%*')))",
+  "sigma_id": "365f9437-df92-478a-ad78-27f5326433e8",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.collection",
+    "attack.t1074",
+    "attack.t1074.002"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "collection"
+    ],
+    "techniques": [
+      "T1074",
+      "T1074.002"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Backup software staging files to a central share",
+    "IT teams consolidating data for migration"
+  ]
+}

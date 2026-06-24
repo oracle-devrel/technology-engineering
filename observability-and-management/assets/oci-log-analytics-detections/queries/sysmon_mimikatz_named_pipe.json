@@ -1,0 +1,263 @@
+{
+  "title": "Sysmon Mimikatz Named Pipe",
+  "description": "Detects named pipe creation matching known Mimikatz pipe patterns. Mimikatz uses named pipes for credential extraction and token manipulation operations.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Pipe Name' like '*mimikatz*' or 'Pipe Name' like '*mimilib*' or 'Pipe Name' like '*mimidrv*')) or (('Pipe Name' like '*\\\\HID_CTRL*' or 'Pipe Name' like '*\\\\Win32Pipes.*')))",
+  "sigma_id": "a1b2c3d4-7002-4000-8000-000000000003",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.credential_access",
+    "attack.t1003.001",
+    "attack.t1134"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "credential_access"
+    ],
+    "techniques": [
+      "T1003.001",
+      "T1134"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Very unlikely in production environments"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 27,
+    "techniques_with_tests": [
+      "T1003.001",
+      "T1134.001",
+      "T1134.002",
+      "T1134.004",
+      "T1134.005"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1003.001",
+        "test_name": "Dump LSASS.exe Memory using ProcDump",
+        "test_guid": "0be2230c-9ab3-4ac2-8826-3199b9a0ebf8",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md"
+      },
+      {
+        "technique_id": "T1003.001",
+        "test_name": "Dump LSASS.exe Memory using comsvcs.dll",
+        "test_guid": "2536dee2-12fb-459a-8c37-971844fa73be",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md"
+      },
+      {
+        "technique_id": "T1003.001",
+        "test_name": "Dump LSASS.exe Memory using direct system calls and API unhooking",
+        "test_guid": "7ae7102c-a099-45c8-b985-4c7a2d05790d",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md"
+      },
+      {
+        "technique_id": "T1003.001",
+        "test_name": "Dump LSASS.exe Memory using NanoDump",
+        "test_guid": "dddd4aca-bbed-46f0-984d-e4c5971c51ea",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md"
+      },
+      {
+        "technique_id": "T1003.001",
+        "test_name": "Dump LSASS.exe Memory using Windows Task Manager",
+        "test_guid": "dea6c349-f1c6-44f3-87a1-1ed33a59a607",
+        "executor": "manual",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md"
+      },
+      {
+        "technique_id": "T1003.001",
+        "test_name": "Offline Credential Theft With Mimikatz",
+        "test_guid": "453acf13-1dbd-47d7-b28a-172ce9228023",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md"
+      },
+      {
+        "technique_id": "T1003.001",
+        "test_name": "LSASS read with pypykatz",
+        "test_guid": "c37bc535-5c62-4195-9cc3-0517673171d8",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md"
+      },
+      {
+        "technique_id": "T1003.001",
+        "test_name": "Dump LSASS.exe Memory using Out-Minidump.ps1",
+        "test_guid": "6502c8f0-b775-4dbd-9193-1298f56b6781",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md"
+      },
+      {
+        "technique_id": "T1003.001",
+        "test_name": "Create Mini Dump of LSASS.exe using ProcDump",
+        "test_guid": "7cede33f-0acd-44ef-9774-15511300b24b",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md"
+      },
+      {
+        "technique_id": "T1003.001",
+        "test_name": "Powershell Mimikatz",
+        "test_guid": "66fb0bc1-3c3f-47e9-a298-550ecfefacbc",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md"
+      },
+      {
+        "technique_id": "T1003.001",
+        "test_name": "Dump LSASS with createdump.exe from .Net v5",
+        "test_guid": "9d0072c8-7cca-45c4-bd14-f852cfa35cf0",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md"
+      },
+      {
+        "technique_id": "T1003.001",
+        "test_name": "Dump LSASS.exe using imported Microsoft DLLs",
+        "test_guid": "86fc3f40-237f-4701-b155-81c01c48d697",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md"
+      },
+      {
+        "technique_id": "T1003.001",
+        "test_name": "Dump LSASS.exe using lolbin rdrleakdiag.exe",
+        "test_guid": "47a539d1-61b9-4364-bf49-a68bc2a95ef0",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md"
+      },
+      {
+        "technique_id": "T1003.001",
+        "test_name": "Dump LSASS.exe Memory through Silent Process Exit",
+        "test_guid": "eb5adf16-b601-4926-bca7-dad22adffb37",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md"
+      },
+      {
+        "technique_id": "T1134.002",
+        "test_name": "Access Token Manipulation",
+        "test_guid": "dbf4f5a9-b8e0-46a3-9841-9ad71247239e",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.002/T1134.002.md"
+      },
+      {
+        "technique_id": "T1134.002",
+        "test_name": "WinPwn - Get SYSTEM shell - Pop System Shell using Token Manipulation technique",
+        "test_guid": "ccf4ac39-ec93-42be-9035-90e2f26bcd92",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.002/T1134.002.md"
+      },
+      {
+        "technique_id": "T1134.001",
+        "test_name": "Named pipe client impersonation",
+        "test_guid": "90db9e27-8e7c-4c04-b602-a45927884966",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.001/T1134.001.md"
+      },
+      {
+        "technique_id": "T1134.001",
+        "test_name": "`SeDebugPrivilege` token duplication",
+        "test_guid": "34f0a430-9d04-4d98-bcb5-1989f14719f0",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.001/T1134.001.md"
+      },
+      {
+        "technique_id": "T1134.001",
+        "test_name": "Launch NSudo Executable",
+        "test_guid": "7be1bc0f-d8e5-4345-9333-f5f67d742cb9",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.001/T1134.001.md"
+      },
+      {
+        "technique_id": "T1134.001",
+        "test_name": "Bad Potato",
+        "test_guid": "9c6d799b-c111-4749-a42f-ec2f8cb51448",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.001/T1134.001.md"
+      },
+      {
+        "technique_id": "T1134.001",
+        "test_name": "Juicy Potato",
+        "test_guid": "f095e373-b936-4eb4-8d22-f47ccbfbe64a",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.001/T1134.001.md"
+      },
+      {
+        "technique_id": "T1134.004",
+        "test_name": "Parent PID Spoofing using PowerShell",
+        "test_guid": "069258f4-2162-46e9-9a25-c9c6c56150d2",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.004/T1134.004.md"
+      },
+      {
+        "technique_id": "T1134.004",
+        "test_name": "Parent PID Spoofing - Spawn from Current Process",
+        "test_guid": "14920ebd-1d61-491a-85e0-fe98efe37f25",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.004/T1134.004.md"
+      },
+      {
+        "technique_id": "T1134.004",
+        "test_name": "Parent PID Spoofing - Spawn from Specified Process",
+        "test_guid": "cbbff285-9051-444a-9d17-c07cd2d230eb",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.004/T1134.004.md"
+      },
+      {
+        "technique_id": "T1134.004",
+        "test_name": "Parent PID Spoofing - Spawn from svchost.exe",
+        "test_guid": "e9f2b777-3123-430b-805d-5cedc66ab591",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.004/T1134.004.md"
+      },
+      {
+        "technique_id": "T1134.004",
+        "test_name": "Parent PID Spoofing - Spawn from New Process",
+        "test_guid": "2988133e-561c-4e42-a15f-6281e6a9b2db",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.004/T1134.004.md"
+      },
+      {
+        "technique_id": "T1134.005",
+        "test_name": "Injection SID-History with mimikatz",
+        "test_guid": "6bef32e5-9456-4072-8f14-35566fb85401",
+        "executor": "command_prompt",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.005/T1134.005.md"
+      }
+    ]
+  }
+}

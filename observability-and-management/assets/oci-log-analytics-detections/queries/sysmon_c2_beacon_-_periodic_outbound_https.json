@@ -1,0 +1,78 @@
+{
+  "title": "Sysmon C2 Beacon - Periodic Outbound HTTPS",
+  "description": "Detects periodic outbound HTTPS connections to non-standard destinations that may indicate C2 beaconing activity. Suspicious processes making repeated connections to external IPs on port 443 are flagged.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Sysmon Network Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Destination Port' = 443 or 'Destination Port' = 8443 or 'Destination Port' = 4443)) and (('Process Name' like '*\\\\rundll32.exe' or 'Process Name' like '*\\\\regsvr32.exe' or 'Process Name' like '*\\\\mshta.exe' or 'Process Name' like '*\\\\powershell.exe' or 'Process Name' like '*\\\\cmd.exe' or 'Process Name' like '*\\\\wscript.exe' or 'Process Name' like '*\\\\cscript.exe' or 'Process Name' like '*\\\\certutil.exe' or 'Process Name' like '*\\\\bitsadmin.exe' or 'Process Name' like '*\\\\msiexec.exe')) and (Initiated = 'true') and not (('Destination IP' like '10.*' or 'Destination IP' like '172.16.*' or 'Destination IP' like '192.168.*' or 'Destination IP' like '127.*')))",
+  "sigma_id": "a1b2c3d4-7001-4000-8000-000000000001",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.command_and_control",
+    "attack.t1071.001",
+    "attack.t1573"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "command_and_control"
+    ],
+    "techniques": [
+      "T1071.001",
+      "T1573"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Sysmon Network Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate software update processes",
+    "System management tools"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 4,
+    "techniques_with_tests": [
+      "T1071.001",
+      "T1573"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1071.001",
+        "test_name": "Malicious User Agents - Powershell",
+        "test_guid": "81c13829-f6c9-45b8-85a6-053366d55297",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1071.001/T1071.001.md"
+      },
+      {
+        "technique_id": "T1071.001",
+        "test_name": "Malicious User Agents - CMD",
+        "test_guid": "dc3488b0-08c7-4fea-b585-905c83b48180",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1071.001/T1071.001.md"
+      },
+      {
+        "technique_id": "T1071.001",
+        "test_name": "Malicious User Agents - Nix",
+        "test_guid": "2d7c471a-e887-4b78-b0dc-b0df1f2e0658",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1071.001/T1071.001.md"
+      },
+      {
+        "technique_id": "T1573",
+        "test_name": "OpenSSL C2",
+        "test_guid": "21caf58e-87ad-440c-a6b8-3ac259964003",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1573/T1573.md"
+      }
+    ]
+  }
+}

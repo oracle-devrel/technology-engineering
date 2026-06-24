@@ -1,0 +1,27 @@
+title: Linux Process Memory Access via /proc
+id: f1e2d3c4-5003-4000-8000-000000000003
+status: stable
+description: Detects reading process memory via /proc filesystem entries (maps, mem,
+  environ). Used to extract credentials, secrets, or encryption keys from running
+  processes.
+logsource:
+  product: linux
+  service: audit
+detection:
+  selection:
+    message|contains:
+    - /proc/self/maps
+    - /proc/self/mem
+    - /proc/self/environ
+    - /proc/*/maps
+    - /proc/*/mem
+    - /proc/*/environ
+  condition: selection
+level: high
+tags:
+- attack.credential_access
+- attack.t1003.007
+falsepositives:
+- Debugging tools and profilers
+- Application performance monitoring agents
+version: 1

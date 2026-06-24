@@ -1,0 +1,37 @@
+{
+  "title": "OCI After-Hours IAM Activity (Time-Based Anomaly)",
+  "description": "Detects IAM configuration changes made outside normal business hours (before 06:00 or after 22:00 UTC). Identity changes at unusual hours may indicate a compromised account being used when legitimate users are not monitoring. Uses time-based anomaly detection (Threat Hunter's Cookbook: Forecasting/Anomaly Detection - temporal patterns).",
+  "query": "'Log Source' = 'OCI Audit Logs' and 'Event Type' like 'com.oraclecloud.identitycontrolplane.*' | eval hour = toNumber(formatDate(Time, 'HH')) | where hour < 6 or hour > 22 | stats count as after_hours_changes by 'User Name', 'Event Type' | sort -after_hours_changes",
+  "type": "hunting",
+  "hunting_type": "time_anomaly",
+  "cookbook_method": "forecasting_anomaly",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.persistence",
+    "attack.t1098",
+    "attack.defense_evasion",
+    "stig.AC-2"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence",
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1098"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit"
+  },
+  "stig_ids": [
+    "AC-2"
+  ],
+  "falsepositives": [
+    "Teams in different time zones",
+    "On-call incident response",
+    "Scheduled automation running outside business hours"
+  ]
+}

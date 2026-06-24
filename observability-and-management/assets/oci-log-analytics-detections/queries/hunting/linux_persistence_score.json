@@ -1,0 +1,35 @@
+{
+  "title": "Linux Persistence Indicator Score (Combined Methods)",
+  "description": "Calculates a persistence risk score per host by counting distinct persistence mechanism indicators (crontab, systemd, authorized_keys, shell profiles, at-jobs, sudoers). A host with multiple persistence vectors indicates thorough attacker entrenchment. Uses combined scoring (Threat Hunter's Cookbook: Combined Methods - risk scoring).",
+  "query": "('Log Source' = 'SOC Linux Syslog Logs' or 'Log Source' = 'Linux Secure Logs' or 'Log Source' = 'Linux Syslog Logs') and 'Process Name' = 'bash' and (msg like '*crontab*' or msg like '*systemctl enable*' or msg like '*systemctl daemon-reload*' or msg like '*authorized_keys*' or msg like '*.bashrc*' or msg like '*.bash_profile*' or msg like '*.service*' or msg like '*at -f*' or msg like '*visudo*' or msg like '*/etc/sudoers*') | stats count as total_events, distinctcount(msg) as unique_mechanisms by 'Host Name' | where unique_mechanisms > 2 | sort -unique_mechanisms",
+  "type": "hunting",
+  "do_not_overwrite": true,
+  "hunting_type": "scoring",
+  "cookbook_method": "combined",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.persistence",
+    "attack.t1053",
+    "attack.t1543.002",
+    "attack.t1098.004"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence"
+    ],
+    "techniques": [
+      "T1053",
+      "T1543.002",
+      "T1098.004"
+    ]
+  },
+  "logsource": {
+    "product": "linux",
+    "service": "syslog"
+  },
+  "falsepositives": [
+    "System provisioning or configuration management",
+    "Application deployment scripts"
+  ]
+}

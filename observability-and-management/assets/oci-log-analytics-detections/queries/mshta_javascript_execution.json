@@ -1,0 +1,121 @@
+{
+  "title": "MSHTA JavaScript Execution",
+  "description": "Detects MSHTA executing inline JavaScript or VBScript content.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Process Name' like '*\\\\mshta.exe' and ('Command Line' like '*javascript:*' or 'Command Line' like '*vbscript:*')))",
+  "sigma_id": "5baffc84-0e51-4e15-bbe9-f03b757bd3ea",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.execution",
+    "attack.t1218.005"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "execution"
+    ],
+    "techniques": [
+      "T1218.005"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legacy HTA applications"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 10,
+    "techniques_with_tests": [
+      "T1218.005"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1218.005",
+        "test_name": "Mshta executes JavaScript Scheme Fetch Remote Payload With GetObject",
+        "test_guid": "1483fab9-4f52-4217-a9ce-daa9d7747cae",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.005/T1218.005.md"
+      },
+      {
+        "technique_id": "T1218.005",
+        "test_name": "Mshta executes VBScript to execute malicious command",
+        "test_guid": "906865c3-e05f-4acc-85c4-fbc185455095",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.005/T1218.005.md"
+      },
+      {
+        "technique_id": "T1218.005",
+        "test_name": "Mshta Executes Remote HTML Application (HTA)",
+        "test_guid": "c4b97eeb-5249-4455-a607-59f95485cb45",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.005/T1218.005.md"
+      },
+      {
+        "technique_id": "T1218.005",
+        "test_name": "Invoke HTML Application - Jscript Engine over Local UNC Simulating Lateral Movement",
+        "test_guid": "007e5672-2088-4853-a562-7490ddc19447",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.005/T1218.005.md"
+      },
+      {
+        "technique_id": "T1218.005",
+        "test_name": "Invoke HTML Application - Jscript Engine Simulating Double Click",
+        "test_guid": "58a193ec-131b-404e-b1ca-b35cf0b18c33",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.005/T1218.005.md"
+      },
+      {
+        "technique_id": "T1218.005",
+        "test_name": "Invoke HTML Application - Direct download from URI",
+        "test_guid": "39ceed55-f653-48ac-bd19-aceceaf525db",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.005/T1218.005.md"
+      },
+      {
+        "technique_id": "T1218.005",
+        "test_name": "Invoke HTML Application - JScript Engine with Rundll32 and Inline Protocol Handler",
+        "test_guid": "e7e3a525-7612-4d68-a5d3-c4649181b8af",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.005/T1218.005.md"
+      },
+      {
+        "technique_id": "T1218.005",
+        "test_name": "Invoke HTML Application - JScript Engine with Inline Protocol Handler",
+        "test_guid": "d3eaaf6a-cdb1-44a9-9ede-b6c337d0d840",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.005/T1218.005.md"
+      },
+      {
+        "technique_id": "T1218.005",
+        "test_name": "Invoke HTML Application - Simulate Lateral Movement over UNC Path",
+        "test_guid": "b8a8bdb2-7eae-490d-8251-d5e0295b2362",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.005/T1218.005.md"
+      },
+      {
+        "technique_id": "T1218.005",
+        "test_name": "Mshta used to Execute PowerShell",
+        "test_guid": "8707a805-2b76-4f32-b1c0-14e558205772",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.005/T1218.005.md"
+      }
+    ]
+  }
+}

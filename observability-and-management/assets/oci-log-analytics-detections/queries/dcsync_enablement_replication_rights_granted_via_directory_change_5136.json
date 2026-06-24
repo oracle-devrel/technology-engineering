@@ -1,0 +1,35 @@
+{
+  "title": "DCSync Enablement: Replication Rights Granted via Directory Change (5136)",
+  "description": "Detects the persistence/setup step for DCSync, where DS-Replication-Get-Changes and -Get-Changes-All rights are granted to a non-DC principal by modifying the domain object ACL (Event 5136 carrying the replication control-access-right GUIDs in its properties). Complements the existing 4662 DCSync detection by catching the rights grant itself.\n",
+  "query": "('Log Source' = 'Windows Security Events' or 'Log Source' = 'Windows Event Security Logs') and (('Event ID' = '5136' and ('Properties' like '*1131f6aa-9c07-11d1-f79f-00c04fc2dcd2*' or 'Properties' like '*1131f6ad-9c07-11d1-f79f-00c04fc2dcd2*' or 'Properties' like '*89e95b76-444d-4c62-991a-0facbeda640c*')))",
+  "sigma_id": "0ae80906-31fb-45b7-b27e-1c7f43287871",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.persistence",
+    "attack.t1098",
+    "attack.credential_access",
+    "attack.t1003.006"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence",
+      "credential_access"
+    ],
+    "techniques": [
+      "T1098",
+      "T1003.006"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "security",
+    "candidates": [
+      "Windows Security Events",
+      "Windows Event Security Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate delegation of replication rights to a new DC or sync service"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "title": "Web-to-Cloud: OCI Audit Cloud Abuse",
+  "description": "Filters OCI Audit for cloud discovery and Object Storage actions associated with the compromised service identity and web-to-cloud Trace ID.",
+  "query": "'Log Source' = 'OCI Audit Logs' and ('Trace ID' = 'trace_w2c_entry_001' or 'User Name' = 'compromised-svc@corp.example.com' or 'Resource Name' like '*prod-customer-backups*') | stats count as AuditEvents, unique('Event Type') as EventTypes, unique('Resource Name') as Resources by 'User Name', 'Source IP', Status | sort -AuditEvents",
+  "type": "hunting",
+  "level": "critical",
+  "tags": ["web_to_cloud", "oci_audit", "cloud_abuse", "object_storage"],
+  "logsource": {
+    "product": "oci",
+    "service": "audit"
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "groupBy": ["User Name", "Status"],
+      "valueField": "AuditEvents"
+    },
+    "ask_ai_prompts": [
+      "Which OCI Audit actions prove cloud control-plane abuse?",
+      "Identify the bucket and object names touched by the compromised identity."
+    ]
+  },
+  "mitre_attack": {
+    "tactics": ["discovery", "collection", "exfiltration"],
+    "techniques": ["T1580", "T1530", "T1567"]
+  },
+  "falsepositives": ["Approved backup export automation"]
+}

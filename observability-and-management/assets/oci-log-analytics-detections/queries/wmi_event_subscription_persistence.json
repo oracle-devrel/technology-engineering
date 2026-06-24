@@ -1,0 +1,65 @@
+{
+  "title": "WMI Event Subscription Persistence",
+  "description": "Detects creation of WMI event subscriptions for fileless persistence.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*ActiveScriptEventConsumer*' and 'Command Line' like '*__EventFilter*')))",
+  "sigma_id": "60e21bc5-b986-4a04-8ae6-c9d3b25fe70d",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.persistence",
+    "attack.t1546.003"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence"
+    ],
+    "techniques": [
+      "T1546.003"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "WMI-based monitoring software"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 3,
+    "techniques_with_tests": [
+      "T1546.003"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1546.003",
+        "test_name": "Persistence via WMI Event Subscription - CommandLineEventConsumer",
+        "test_guid": "3c64f177-28e2-49eb-a799-d767b24dd1e0",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.003/T1546.003.md"
+      },
+      {
+        "technique_id": "T1546.003",
+        "test_name": "Persistence via WMI Event Subscription - ActiveScriptEventConsumer",
+        "test_guid": "fecd0dfd-fb55-45fa-a10b-6250272d0832",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.003/T1546.003.md"
+      },
+      {
+        "technique_id": "T1546.003",
+        "test_name": "Windows MOFComp.exe Load MOF File",
+        "test_guid": "29786d7e-8916-4de6-9c55-be7b093b2706",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.003/T1546.003.md"
+      }
+    ]
+  }
+}

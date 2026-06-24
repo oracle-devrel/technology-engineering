@@ -1,0 +1,33 @@
+{
+  "title": "Caldera - WMIC OS and Hardware Enumeration (Windows)",
+  "description": "Detects WMIC-based system profiling commands used by Caldera T1082 discovery operations. The Caldera discovery adversary profile queries Win32_OperatingSystem, Win32_ComputerSystem, Win32_Processor, and installed software to build a comprehensive host profile. This process_creation level rule focuses on wmic.exe command-line patterns distinct from the PowerShell Get-WmiObject variant.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Process Name' like '*\\\\wmic.exe' and 'Command Line' like '*os get*') or ('Process Name' like '*\\\\wmic.exe' and 'Command Line' like '*computersystem get*') or ('Process Name' like '*\\\\wmic.exe' and 'Command Line' like '*cpu get*') or ('Process Name' like '*\\\\wmic.exe' and 'Command Line' like '*product get*') or ('Process Name' like '*\\\\wmic.exe' and 'Command Line' like '*nic get*'))",
+  "sigma_id": "bf31a6d7-a546-4afc-8277-a847952f2447",
+  "level": "low",
+  "stig_category": "CAT III",
+  "tags": [
+    "attack.discovery",
+    "attack.t1082"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "discovery"
+    ],
+    "techniques": [
+      "T1082"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "IT inventory and asset management tools using WMIC",
+    "Software deployment scripts checking compatibility"
+  ]
+}

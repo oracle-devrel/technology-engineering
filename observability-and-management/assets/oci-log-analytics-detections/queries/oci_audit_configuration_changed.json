@@ -1,0 +1,38 @@
+{
+  "title": "OCI Audit Configuration Changed",
+  "description": "Detects modifications to OCI Audit service configuration including retention period changes. Reducing audit retention is a defense evasion tactic.",
+  "query": "'Log Source' = 'OCI Audit Logs' and (('Event Type' = 'com.oraclecloud.audit.updateconfiguration'))",
+  "sigma_id": "d1a2b3c4-1012-4000-8000-000000000012",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.t1562.008",
+    "stig.AU-11",
+    "compliance.cis_oci_3.14"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1562.008"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "stig_ids": [
+    "AU-11"
+  ],
+  "compliance_frameworks": [
+    "cis_oci_3.14"
+  ],
+  "falsepositives": [
+    "Compliance-driven audit configuration changes"
+  ]
+}

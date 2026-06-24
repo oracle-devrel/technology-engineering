@@ -1,0 +1,28 @@
+{
+  "title": "Attack Activity Timeline by Log Source (l21d)",
+  "description": "Cross-domain attack-volume timeline over the 21-day demo window, bucketed hourly and split by Log Source so analysts can see when each attack story (cloud audit, Linux, Windows, WAF, network) lit up and drill into the spike.",
+  "query": "('Log Source' = 'OCI Audit Logs' or 'Log Source' = 'SOC Linux Syslog Logs' or 'Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC WAF Security Logs' or 'Log Source' = 'SOC VCN Flow Logs' or 'Log Source' = 'SOC Network Firewall Logs') | timestats span = 6hour count as Events by 'Log Source'",
+  "type": "hunting",
+  "level": "informational",
+  "tags": [
+    "demo_command_center",
+    "hunting",
+    "timeline"
+  ],
+  "logsource": {
+    "product": "multi",
+    "service": "hunting"
+  },
+  "dashboard": {
+    "visualizationType": "line",
+    "showTitle": true,
+    "timeSelection": {
+      "timePeriod": "l21d"
+    },
+    "visualizationOptions": {
+      "timeField": "Time",
+      "seriesField": "Log Source",
+      "valueField": "Events"
+    }
+  }
+}

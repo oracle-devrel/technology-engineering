@@ -1,0 +1,31 @@
+{
+  "title": "C2: Destination IP Drilldown",
+  "description": "Summarizes suspicious C2 destinations across Sysmon network events, VCN Flow Logs, and Network Firewall logs. Includes hostname and byte evidence when those fields are present.",
+  "query": "((('Log Source' = 'SOC Sysmon Network Logs' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and 'Event ID' = '3' and ('Destination IP' = '198.51.100.77' or 'Destination Hostname' like '*duckdns.org' or 'Destination Hostname' like '*malware.xyz' or 'Destination Hostname' like '*attacker.top' or 'Destination Hostname' like '*cobalt.example.com' or 'Destination Port' = 4443 or 'Destination Port' = 8443)) or (('Log Source' = 'SOC VCN Flow Logs' or 'Log Source' = 'SOC Network Firewall Logs') and ('Destination IP' = '198.51.100.77' or 'Threat Name' = 'Suspicious Data Exfiltration'))) | stats count as Connections, unique('Destination Hostname') as Hostnames, unique('Bytes Sent') as BytesSent by 'Log Source', 'Source IP', 'Destination IP', 'Destination Port' | sort -Connections | head 25",
+  "type": "hunting",
+  "level": "critical",
+  "tags": ["c2", "network", "firewall", "vcn_flow", "showcase", "attack.t1071.001"],
+  "logsource": {
+    "product": "multi_source",
+    "service": "network",
+    "candidates": ["SOC Sysmon Network Logs", "SOC VCN Flow Logs", "SOC Network Firewall Logs"]
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "groupBy": ["Log Source", "Source IP", "Destination IP"],
+      "valueField": "Connections"
+    },
+    "ask_ai_prompts": [
+      "Which source and destination pair is the strongest C2 candidate?",
+      "Use the byte evidence to separate beaconing from exfiltration."
+    ]
+  },
+  "mitre_attack": {
+    "tactics": ["command_and_control", "exfiltration"],
+    "techniques": ["T1071.001", "T1041"]
+  },
+  "falsepositives": ["Known test C2 destination in the demo dataset"]
+}

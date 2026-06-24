@@ -1,0 +1,105 @@
+{
+  "title": "Keylogging via PowerShell Get-Keystrokes",
+  "description": "Detects PowerShell-based keylogging techniques using API hooks or input monitoring.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*Get-Keystrokes*' or 'Command Line' like '*SetWindowsHookEx*' or 'Command Line' like '*GetAsyncKeyState*' or 'Command Line' like '*keylog*')))",
+  "sigma_id": "06d1d7c8-0eb3-431e-a2fb-b408990e5659",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.collection",
+    "attack.t1056.001"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "collection"
+    ],
+    "techniques": [
+      "T1056.001"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Input monitoring accessibility tools"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 8,
+    "techniques_with_tests": [
+      "T1056.001"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1056.001",
+        "test_name": "Input Capture",
+        "test_guid": "d9b633ca-8efb-45e6-b838-70f595c6ae26",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1056.001/T1056.001.md"
+      },
+      {
+        "technique_id": "T1056.001",
+        "test_name": "Living off the land Terminal Input Capture on Linux with pam.d",
+        "test_guid": "9c6bdb34-a89f-4b90-acb1-5970614c711b",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1056.001/T1056.001.md"
+      },
+      {
+        "technique_id": "T1056.001",
+        "test_name": "Logging bash history to syslog",
+        "test_guid": "0e59d59d-3265-4d35-bebd-bf5c1ec40db5",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1056.001/T1056.001.md"
+      },
+      {
+        "technique_id": "T1056.001",
+        "test_name": "Logging sh history to syslog/messages",
+        "test_guid": "b04284dc-3bd9-4840-8d21-61b8d31c99f2",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1056.001/T1056.001.md"
+      },
+      {
+        "technique_id": "T1056.001",
+        "test_name": "Bash session based keylogger",
+        "test_guid": "7f85a946-a0ea-48aa-b6ac-8ff539278258",
+        "executor": "bash",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1056.001/T1056.001.md"
+      },
+      {
+        "technique_id": "T1056.001",
+        "test_name": "SSHD PAM keylogger",
+        "test_guid": "81d7d2ad-d644-4b6a-bea7-28ffe43becca",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1056.001/T1056.001.md"
+      },
+      {
+        "technique_id": "T1056.001",
+        "test_name": "Auditd keylogger",
+        "test_guid": "a668edb9-334e-48eb-8c2e-5413a40867af",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1056.001/T1056.001.md"
+      },
+      {
+        "technique_id": "T1056.001",
+        "test_name": "MacOS Swift Keylogger",
+        "test_guid": "aee3a097-4c5c-4fff-bbd3-0a705867ae29",
+        "executor": "bash",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1056.001/T1056.001.md"
+      }
+    ]
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "title": "BLUELIGHT RAT: Executable Download via Graph API",
+  "description": "Detects executable or DLL files dropped in temporary directories by processes that also connect to Microsoft Graph API. BLUELIGHT downloads additional tools from OneDrive via Graph API and stages them in Temp or AppData for execution.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Event ID' = '11' and ('Target Filename' like '*\\\\Temp\\\\*' or 'Target Filename' like '*\\\\AppData\\\\*') and ('Target Filename' like '*.exe' or 'Target Filename' like '*.dll' or 'Target Filename' like '*.scr' or 'Target Filename' like '*.bat' or 'Target Filename' like '*.ps1'))) | stats count by 'Host Name (Server)', 'Process Name', 'Target Filename'",
+  "sigma_id": "bl-s0657-t1105-001",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.command_and_control",
+    "attack.t1105",
+    "apt.apt37",
+    "malware.bluelight"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "command_and_control"
+    ],
+    "techniques": [
+      "T1105"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate software installers downloading updates",
+    "Browser downloads to Temp directory"
+  ],
+  "atomic_red_team": {
+    "has_tests": false,
+    "test_count": 0,
+    "techniques_with_tests": [],
+    "tests": []
+  },
+  "splunk_original": "index=sysmon EventCode=11 TargetFilename IN (\"*\\\\Temp\\\\*.exe\",\"*\\\\AppData\\\\*.exe\",\"*\\\\Temp\\\\*.dll\") | join Image [search index=sysmon EventCode=3 DestinationHostname=\"graph.microsoft.com\"] | table _time, Image, TargetFilename, DestinationHostname",
+  "threat_intel": {
+    "malware_family": "BLUELIGHT",
+    "mitre_software_id": "S0657",
+    "threat_actor": "APT37 (InkySquid)"
+  }
+}
