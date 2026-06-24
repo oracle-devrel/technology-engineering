@@ -39,7 +39,7 @@ Reviewed: Reviewed: 17.06.2026
 | EBS | [Link](https://docs.oracle.com/en/solutions/enable-om-stack-monitoring-ebs/index.html#GUID-6D9E091F-3614-4E3E-A082-5FC82B27CD7C) | 
 | Observability for Golden Gate Cloud|[Link](/observability-and-management/assets/oci-observability-for-goldengate-cloud/README.md)|
 | Observability for APEX |[Link](/observability-and-management/assets/oci-observability-for-oracle-apex/README.md)|
-| OCI CI Container Instance | [Link](/observability-and-management/assets/oci-container-monitoring/README.md)  |
+| OCI CI Container Instance |WIP  |
 | Monitor Weblogic in OCI | [Link](/observability-and-management//assets/monitor-weblogic-in-oci-and-collect-logs/README.md) |
 
 
@@ -71,7 +71,7 @@ Reviewed: Reviewed: 17.06.2026
 | OCI Logs to Splunk from OCI Object Storage|[Link](./assets/get-logs-into-splunk-from-oci-object-storage/README.md)|
 | Stream OCI Logs to Splunk|[Link](./assets/stream-oci-logs-to-splunk/README.md)|
 | OCI Logs to IBM QRadar|[Link](./assets/integrating-oci-logs-into-ibm-qradar-siem/README.md)|
-| OCI Prometheus and OTEL Monitoring|[Link](./assets/oci-prometheus-otel-monitoring/README.md)|
+| OCI Prometheus and OTEL Monitoring|WIP|
 | Prometheus exporter in OCI |[Link](./assets/oracle-cloud-prometheus-exporter/README.md)|
 | OCI Logs to Sentinel|[Link](./assets/send-oci-logs-to-azure-sentinel-using-oracle-functions/README.md)|
 | ServiceNow integration with OCI using secrets stored in OCI Vault to create incidents|[Link](./assets/servicenow-oci-vault-incidents/README.md)|
