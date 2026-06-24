@@ -10,12 +10,26 @@ Every development team's goal: (Operations)
 - Delivering a few change requests at a time to end users
 - Through a series of high-quality releases on a regular cadence
 
-Reviewed: 01.12.2025
+Reviewed: 2026.06.18
 
 # Table of Contents
  
+1. [Demo Assets](#demo-assets)
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-links)
+
+
+# Demo Assets
+
+- [Oracle Database SQLcl Projects with GitHub Actions](https://github.com/vmendo/oracle-db-sqlcl-project-github-actions-demo)  
+  Production-oriented CI/CD reference showing how to use SQLcl Projects with GitHub Actions for Oracle Database change management. This demo is the recommended starting point for users who want to understand how database changes can be managed through a Git-based workflow, validated through automation, and promoted using a repeatable pipeline. It is especially useful for teams exploring how SQLcl Projects can generate deployment artifacts, support controlled releases, and bring database development closer to standard application DevOps practices.
+
+- [Oracle Database DevOps with SQLcl Projects - Education Demo](https://github.com/vmendo/dbcicd-demo-pub)  
+  Hands-on educational walkthrough for learning SQLcl Projects, database change tracking, branching, pull requests, and deployment flow. This version is useful for workshops, enablement sessions, and step-by-step learning because it focuses on explaining the flow and concepts behind Database CI/CD.
+
+- [APEX CI/CD Demo](https://github.com/vmendo/APEXCICD)  
+  Companion demo for teams that also need to include Oracle APEX application lifecycle and deployment in the CI/CD process. Use this when the delivery process includes both database objects and APEX application artifacts.
+
  
 # Team Publications
 
@@ -34,7 +48,6 @@ Reviewed: 01.12.2025
  
 # Useful Links
 
-- [Cloud Native DevOps](../../../app-dev/devops/README.md)
 - [Understanding the Oracle APEX Application Development Lifecycle](https://apex.oracle.com/go/lifecycle-technical-paper)
 - [Implementing DevOps principles with Oracle Database](https://www.oracle.com/a/ocom/docs/database/implementing-devops-principles-with-oracle-database.pdf)
 - [Automate CI/CD with OCI DevOps](https://www.oracle.com/devops/devops-service/)

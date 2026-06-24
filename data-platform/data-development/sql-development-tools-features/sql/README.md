@@ -6,11 +6,11 @@ Structured Query Language (SQL) is the standard programming language used for ma
 
 PL/SQL, the Oracle procedural extension of SQL, is a portable, high-performance transaction-processing language. PL/SQL offers several advantages over other programming languages: from being tightly integrated with SQL to leveraging High Performance and High Productivity. PL/SQL is a portable and scalable Procedural Language which also increase Manageability and support for Object Oriented Programming. 
 
-SQL and in general Database Development Tools like SQL Command Line Interface (SQLcl) and SQL Developer Extension for Visual Studio Code leverages the Oracle user Developers, together with the tight integration of these two tools with Model Context Protocol (MCP) Server tooling to allow AI Agents to interact with the database. SQL Developer Web (a.k.a Database Actions) for Autonomous Database and other non-ADB ORDS-enabled Oracle database provide an additional IDE for Developers and Administrators. Furthermore, Database Tools OCI-managed service to offer a set of reusable connections to any Oracle Database. 
+SQL development tools such as Oracle SQLcl and SQL Developer for VS Code help developers build, test, automate, and manage Oracle Database applications. SQLcl also includes MCP Server support, enabling AI assistants and agents to interact with Oracle Database through governed database connections. SQL Developer Web (a.k.a Database Actions) for Autonomous Database and other non-ADB ORDS-enabled Oracle database provide an additional IDE for Developers and Administrators. Furthermore, Database Tools OCI-managed service to offer a set of reusable connections to any Oracle Database. 
 
 Below you'll find an index to all the sections available in this repository, along with a brief introduction to what you can expect in each section.
 
-Reviewed: 26.02.2025
+Reviewed: 2026.06.17
 
 # Table of contents
 
