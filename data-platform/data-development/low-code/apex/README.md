@@ -4,11 +4,29 @@
 
 Using APEX, developers don't need to be experts in a vast array of technologies to deliver sophisticated solutions. Just focus on solving the problem and let APEX take care of the rest.
 
-Reviewed: 01.12.2025
+Reviewed: 2026.06.17
 
 # Table of Contents
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-links)
+1. [APEX 26.1 Highlights](#apex-261-highlights)
+2. [Assets](#assets)
+3. [Team Publications](#team-publications)
+4. [Useful Links](#useful-links)
+
+# APEX 26.1 Highlights
+
+- AI-assisted development capabilities
+- APEXlang
+- AI Agents
+- AI Interactive Reports
+- Workflow enhancements
+- Universal Theme updates
+- REST data source and security enhancements
+
+# Assets
+
+- [OCI Service Integration with REST APIs](./oci-service-integration-rest-apis/)
+- [OCI Services Integration without REST](./oci-services-integration-non-rest/)
+
 
 # Team Publications
 
@@ -47,10 +65,10 @@ Reviewed: 01.12.2025
 
 ## Documentation
 
-- [APEX Documentation]https://docs.oracle.com/en/database/oracle/apex/24.1/index.html)
-- [APEX API Reference](https://docs.oracle.com/en/database/oracle/apex/24.1/api-references.html)
+- [Oracle APEX Documentation 26.1](https://docs.oracle.com/en/database/oracle/apex/26.1/index.html)
+- [APEX API Reference](https://docs.oracle.com/en/database/oracle/apex/26.1/aeapi/index.html)
 - [APEX Universal Theme](https://apex.oracle.com/pls/apex/r/apex_pm/ut/getting-started)
-- [APEX Managing Application Backups](https://docs.oracle.com/en/database/oracle/apex/24.1/htmdb/managing-application-backups.html)
+- [APEX Managing Application Backups] (https://docs.oracle.com/en/database/oracle/apex/26.1/htmdb/managing-application-backups.html)
 - [APEX Application Development Lifecycle Technical Paper](https://www.oracle.com/a/tech/docs/apex-lifecycle-management-v3.pdf)
 
 ## Tutorials/ How-To's
