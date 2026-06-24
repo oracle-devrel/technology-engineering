@@ -1,0 +1,233 @@
+{
+  "title": "BloodHound AD Enumeration",
+  "description": "Detects execution of BloodHound or SharpHound for Active Directory reconnaissance.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*SharpHound*' or 'Command Line' like '*BloodHound*' or 'Command Line' like '*Invoke-BloodHound*' or 'Command Line' like '*azurehound*')))",
+  "sigma_id": "a06ab772-724c-4ac4-adcb-bd84a9b055da",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.discovery",
+    "attack.t1087.002"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "discovery"
+    ],
+    "techniques": [
+      "T1087.002"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Authorized AD security assessments"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 24,
+    "techniques_with_tests": [
+      "T1087.002"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1087.002",
+        "test_name": "Enumerate all accounts (Domain)",
+        "test_guid": "6fbc9e68-5ad7-444a-bd11-8bf3136c477e",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1087.002/T1087.002.md"
+      },
+      {
+        "technique_id": "T1087.002",
+        "test_name": "Enumerate all accounts via PowerShell (Domain)",
+        "test_guid": "8b8a6449-be98-4f42-afd2-dedddc7453b2",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1087.002/T1087.002.md"
+      },
+      {
+        "technique_id": "T1087.002",
+        "test_name": "Enumerate logged on users via CMD (Domain)",
+        "test_guid": "161dcd85-d014-4f5e-900c-d3eaae82a0f7",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1087.002/T1087.002.md"
+      },
+      {
+        "technique_id": "T1087.002",
+        "test_name": "Automated AD Recon (ADRecon)",
+        "test_guid": "95018438-454a-468c-a0fa-59c800149b59",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1087.002/T1087.002.md"
+      },
+      {
+        "technique_id": "T1087.002",
+        "test_name": "Adfind -Listing password policy",
+        "test_guid": "736b4f53-f400-4c22-855d-1a6b5a551600",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1087.002/T1087.002.md"
+      },
+      {
+        "technique_id": "T1087.002",
+        "test_name": "Adfind - Enumerate Active Directory Admins",
+        "test_guid": "b95fd967-4e62-4109-b48d-265edfd28c3a",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1087.002/T1087.002.md"
+      },
+      {
+        "technique_id": "T1087.002",
+        "test_name": "Adfind - Enumerate Active Directory User Objects",
+        "test_guid": "e1ec8d20-509a-4b9a-b820-06c9b2da8eb7",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1087.002/T1087.002.md"
+      },
+      {
+        "technique_id": "T1087.002",
+        "test_name": "Adfind - Enumerate Active Directory Exchange AD Objects",
+        "test_guid": "5e2938fb-f919-47b6-8b29-2f6a1f718e99",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1087.002/T1087.002.md"
+      },
+      {
+        "technique_id": "T1087.002",
+        "test_name": "Enumerate Default Domain Admin Details (Domain)",
+        "test_guid": "c70ab9fd-19e2-4e02-a83c-9cfa8eaa8fef",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1087.002/T1087.002.md"
+      },
+      {
+        "technique_id": "T1087.002",
+        "test_name": "Enumerate Active Directory for Unconstrained Delegation",
+        "test_guid": "46f8dbe9-22a5-4770-8513-66119c5be63b",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1087.002/T1087.002.md"
+      },
+      {
+        "technique_id": "T1087.002",
+        "test_name": "Get-DomainUser with PowerView",
+        "test_guid": "93662494-5ed7-4454-a04c-8c8372808ac2",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1087.002/T1087.002.md"
+      },
+      {
+        "technique_id": "T1087.002",
+        "test_name": "Enumerate Active Directory Users with ADSISearcher",
+        "test_guid": "02e8be5a-3065-4e54-8cc8-a14d138834d3",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1087.002/T1087.002.md"
+      },
+      {
+        "technique_id": "T1087.002",
+        "test_name": "Enumerate Linked Policies In ADSISearcher Discovery",
+        "test_guid": "7ab0205a-34e4-4a44-9b04-e1541d1a57be",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1087.002/T1087.002.md"
+      },
+      {
+        "technique_id": "T1087.002",
+        "test_name": "Enumerate Root Domain linked policies Discovery",
+        "test_guid": "00c652e2-0750-4ca6-82ff-0204684a6fe4",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1087.002/T1087.002.md"
+      },
+      {
+        "technique_id": "T1087.002",
+        "test_name": "WinPwn - generaldomaininfo",
+        "test_guid": "ce483c35-c74b-45a7-a670-631d1e69db3d",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1087.002/T1087.002.md"
+      },
+      {
+        "technique_id": "T1087.002",
+        "test_name": "Kerbrute - userenum",
+        "test_guid": "f450461c-18d1-4452-9f0d-2c42c3f08624",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1087.002/T1087.002.md"
+      },
+      {
+        "technique_id": "T1087.002",
+        "test_name": "Wevtutil - Discover NTLM Users Remote",
+        "test_guid": "b8a563d4-a836-4993-a74e-0a19b8481bfe",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1087.002/T1087.002.md"
+      },
+      {
+        "technique_id": "T1087.002",
+        "test_name": "Suspicious LAPS Attributes Query with Get-ADComputer all properties",
+        "test_guid": "394012d9-2164-4d4f-b9e5-acf30ba933fe",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1087.002/T1087.002.md"
+      },
+      {
+        "technique_id": "T1087.002",
+        "test_name": "Suspicious LAPS Attributes Query with Get-ADComputer ms-Mcs-AdmPwd property",
+        "test_guid": "6e85bdf9-7bc4-4259-ac0f-f0cb39964443",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1087.002/T1087.002.md"
+      },
+      {
+        "technique_id": "T1087.002",
+        "test_name": "Suspicious LAPS Attributes Query with Get-ADComputer all properties and SearchScope",
+        "test_guid": "ffbcfd62-15d6-4989-a21a-80bfc8e58bb5",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1087.002/T1087.002.md"
+      },
+      {
+        "technique_id": "T1087.002",
+        "test_name": "Suspicious LAPS Attributes Query with adfind all properties",
+        "test_guid": "abf00f6c-9983-4d9a-afbc-6b1c6c6448e1",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1087.002/T1087.002.md"
+      },
+      {
+        "technique_id": "T1087.002",
+        "test_name": "Suspicious LAPS Attributes Query with adfind ms-Mcs-AdmPwd",
+        "test_guid": "51a98f96-0269-4e09-a10f-e307779a8b05",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1087.002/T1087.002.md"
+      },
+      {
+        "technique_id": "T1087.002",
+        "test_name": "Active Directory Domain Search",
+        "test_guid": "096b6d2a-b63f-4100-8fa0-525da4cd25ca",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1087.002/T1087.002.md"
+      },
+      {
+        "technique_id": "T1087.002",
+        "test_name": "Account Enumeration with LDAPDomainDump",
+        "test_guid": "a54d497e-8dbe-4558-9895-44944baa395f",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1087.002/T1087.002.md"
+      }
+    ]
+  }
+}

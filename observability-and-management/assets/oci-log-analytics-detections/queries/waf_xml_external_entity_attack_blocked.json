@@ -1,0 +1,33 @@
+{
+  "title": "WAF XML External Entity Attack Blocked",
+  "description": "Detects XXE (XML External Entity) injection attempts blocked by WAF. Attackers exploit XML parsers to read files, perform SSRF, or execute denial of service.",
+  "query": "('Log Source' = 'OCI WAF Logs' or 'Log Source' = 'SOC WAF Security Logs') and (('Action' = 'BLOCK') and ( (('Request URL' like '*<!DOCTYPE*' or 'Request URL' like '*<!ENTITY*' or 'Request URL' like '*SYSTEM *' or 'Request URL' like '*file:///*' or 'Request URL' like '*expect://*' or 'Request URL' like '*php://filter*' or 'Request URL' like '*data://text*')) or ( (('Request Body' like '*<!DOCTYPE*' or 'Request Body' like '*<!ENTITY*' or 'Request Body' like '*SYSTEM *' or 'Request Body' like '*file:///*' or 'Request Body' like '*php://filter*')) and (('Content Type' like '*text/xml*' or 'Content Type' like '*application/xml*')) ) ))",
+  "sigma_id": "a1010007-owasp-a05-xxe-block-001",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.initial_access",
+    "attack.t1190",
+    "owasp.a05"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "initial_access"
+    ],
+    "techniques": [
+      "T1190"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "waf",
+    "candidates": [
+      "OCI WAF Logs",
+      "SOC WAF Security Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate XML-based API endpoints",
+    "SOAP web services"
+  ]
+}

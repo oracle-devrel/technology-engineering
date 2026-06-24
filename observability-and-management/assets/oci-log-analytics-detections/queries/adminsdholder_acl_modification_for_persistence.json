@@ -1,0 +1,32 @@
+{
+  "title": "AdminSDHolder ACL Modification for Persistence",
+  "description": "Detects modification of the AdminSDHolder container ACL (or dsacls against it) to plant a backdoor that SDProp re-applies to all protected groups every 60 minutes, granting durable privileged access to Domain Admins and similar.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Command Line' like '*AdminSDHolder*') and (('Command Line' like '*dsacls*' or 'Command Line' like '*Add-DomainObjectAcl*' or 'Command Line' like '*/G *' or 'Command Line' like '*GenericAll*' or 'Command Line' like '*Set-Acl*')))",
+  "sigma_id": "cf3d8b61-5745-4573-8bb1-bb868fb69995",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.persistence",
+    "attack.t1098"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence"
+    ],
+    "techniques": [
+      "T1098"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Rare sanctioned AdminSDHolder delegation changes"
+  ]
+}

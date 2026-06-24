@@ -1,0 +1,37 @@
+{
+  "title": "OCI IAM and Fusion Activity Correlation",
+  "description": "Correlates OCI IAM identity events with Fusion Apps sign-in/sign-out and ESS audit activity. Flags identities or source IPs seen in both OCI and Fusion during the search window, which may indicate account misuse or suspicious cross-platform identity activity.",
+  "query": "('Log Source' = 'OCI Audit Logs' and ('Type' like 'com.oraclecloud.identitycontrolplane.*' or 'Type' like 'com.oraclecloud.identitysignon.*' or 'Type' like 'com.oraclecloud.IdentitySignOn.*')) or 'Log Source' = 'Fusion Apps: Sign In - Sign Out Activity Logs' or 'Log Source' = 'Fusion Apps: ESS Audit Logs' | eval actor = if('User Name' != '', 'User Name', if(userInternalName != '', userInternalName, if(userID.loginID != '', userID.loginID, if('Source IP' != '', 'Source IP', if('Client IP' != '', 'Client IP', if(ipAddress != '', ipAddress, clientIp)))))) | eval source_type = if('Log Source' = 'OCI Audit Logs', 'oci_iam', 'fusion') | where actor != '' | stats count as total_events, distinctcount(source_type) as source_type_count, unique('Log Source') as correlated_sources, earliest(time) as first_seen, latest(time) as last_seen by actor | where source_type_count = 2 and total_events > 1 | sort -total_events",
+  "type": "hunting",
+  "hunting_type": "grouping_correlation",
+  "cookbook_method": "grouping_correlation",
+  "level": "high",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.initial_access",
+    "attack.privilege_escalation",
+    "attack.persistence",
+    "attack.t1078",
+    "attack.t1098"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "initial_access",
+      "privilege_escalation",
+      "persistence"
+    ],
+    "techniques": [
+      "T1078",
+      "T1098"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit"
+  },
+  "falsepositives": [
+    "Planned identity administration during Fusion rollout or migration",
+    "Large scheduled provisioning jobs touching OCI IAM and Fusion identities",
+    "Shared break-glass accounts used by multiple administrators"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "title": "OCI Local Peering Gateway Created",
+  "description": "Detects creation of VCN local peering gateway enabling communication between VCNs within same region.",
+  "query": "'Log Source' = 'OCI Audit Logs' and (('Event Type' = 'com.oraclecloud.virtualnetwork.createlocalpeeringgateway'))",
+  "sigma_id": "d8ac164f-635e-4408-b274-8b2183ef5778",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.lateral_movement",
+    "attack.t1599"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "lateral_movement"
+    ],
+    "techniques": [
+      "T1599"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Multi-VCN architecture deployment"
+  ]
+}

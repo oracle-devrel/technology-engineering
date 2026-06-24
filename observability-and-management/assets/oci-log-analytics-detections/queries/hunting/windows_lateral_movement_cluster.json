@@ -1,0 +1,32 @@
+{
+  "title": "Windows Lateral Movement Tool Cluster (Grouping)",
+  "description": "Groups lateral movement tool usage by host to identify systems being used as pivot points. When multiple lateral movement tools (PsExec, RDP, WinRM, remote shares) appear on the same host, it strongly suggests active lateral movement. Uses grouping/clustering (Threat Hunter's Cookbook: Grouping method).",
+  "query": "'Log Source' = 'SOC Windows Sysmon Logs' and (('Process Name' like '*psexec*') or ('Process Name' like '*mstsc*') or ('Command Line' like '*Enter-PSSession*') or ('Command Line' like '*Invoke-Command*') or ('Command Line' like '*wmic*node*')) | stats count as lateral_events, distinctcount('Process Name') as unique_tools by 'Host Name' | where unique_tools > 1 | sort -lateral_events",
+  "type": "hunting",
+  "hunting_type": "grouping",
+  "cookbook_method": "grouping",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.lateral_movement",
+    "attack.t1021",
+    "attack.t1570"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "lateral_movement"
+    ],
+    "techniques": [
+      "T1021",
+      "T1570"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon"
+  },
+  "falsepositives": [
+    "IT administrators managing multiple servers",
+    "Remote management software"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "title": "Cross-Service Trace Correlation (CRM ↔ Drone Shop)",
+  "description": "Correlates distributed traces across CRM Portal and Drone Shop via shared trace_id. Identifies cross-service request flows, order sync operations, and integration health issues. This is the core 360 monitoring query.",
+  "query": "'Log Source' = 'SOC Application Logs' | where 'Trace ID' != null | stats count as LogEntries, distinctcount('Service Name') as Services, unique('Service Name') as ServiceList, earliest(Time) as FirstEvent, latest(Time) as LastEvent by 'Trace ID' | where Services > 1 | sort -LogEntries | head 50",
+  "level": "informational",
+  "tags": ["correlation.distributed_trace", "integration.cross_service", "observability.360"],
+  "mitre_attack": {
+    "tactics": [],
+    "techniques": []
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "application"
+  },
+  "falsepositives": []
+}

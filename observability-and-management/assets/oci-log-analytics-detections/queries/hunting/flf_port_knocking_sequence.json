@@ -1,0 +1,41 @@
+{
+  "title": "FLF: Port Knocking Sequence Drilldown",
+  "description": "FreeLabFriday-inspired link analysis for port knocking: knocks on 7000, 8000, and 9000 followed by SSH on 22, with failed wrong-order attempts preserved for comparison.",
+  "query": "('Log Source' = 'SOC VCN Flow Logs' or 'Log Source' = 'SOC Network Firewall Logs') and ('Destination Port' = 7000 or 'Destination Port' = 8000 or 'Destination Port' = 9000 or 'Destination Port' = 22) | link span = 5minute 'Source IP', 'Destination IP' | eventstats max(Count) as PeakEvents, sum(Count) as Events, distinctcount('Source IP') as Sources, distinctcount('Destination IP') as Targets",
+  "type": "hunting",
+  "hunting_type": "free_lab_friday_source_hunt",
+  "level": "medium",
+  "tags": ["freelabfriday", "port_knocking", "network", "ssh", "attack.t1021.004"],
+  "logsource": {
+    "product": "oci",
+    "service": "network",
+    "candidates": ["SOC VCN Flow Logs", "SOC Network Firewall Logs"]
+  },
+  "dashboard": {
+    "visualizationType": "link",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "groupBy": ["Source IP"],
+      "linkBy": ["Destination IP"],
+      "valueField": "Count",
+      "dashboardOptions": ["Tiles", "Main Table"],
+      "tileLayoutXml": "<summary><container background-color=\"#F4F6F7\"><table><row><column><tiles layout=\"table\" columns=\"4\" background-color=\"#EAF2F8\"><tile field=\"PeakEvents\" color=\"#1B4F72\" font-size=\"large\"><title align=\"bottom\"><title-text>Peak Path</title-text></title></tile><tile field=\"Events\" color=\"#7D3C98\" font-size=\"large\"><title align=\"bottom\"><title-text>Events</title-text></title></tile><tile field=\"Sources\" color=\"#117A65\" font-size=\"large\"><title align=\"bottom\"><title-text>Sources</title-text></title></tile><tile field=\"Targets\" color=\"#B03A2E\" font-size=\"large\"><title align=\"bottom\"><title-text>Targets</title-text></title></tile></tiles></column></row></table></container></summary>"
+    },
+    "ask_ai_prompts": [
+      "Which source completed the 7000 to 8000 to 9000 knock sequence and then reached SSH?",
+      "Compare the successful sequence with failed wrong-order attempts and identify the protected server."
+    ]
+  },
+  "references": [
+    {
+      "name": "Black Hills InfoSec FreeLabFriday Labs - Port Knocking on the Wire",
+      "url": "https://github.com/blackhillsinfosec/FreeLabFriday_Labs/blob/main/Packet_Capture_Labs/Port_Knocking/Port_Knocking_Lab.md"
+    }
+  ],
+  "mitre_attack": {
+    "tactics": ["lateral_movement", "command_and_control"],
+    "techniques": ["T1021.004", "T1095"]
+  },
+  "falsepositives": ["Approved port-knocking administration", "Security lab traffic"]
+}

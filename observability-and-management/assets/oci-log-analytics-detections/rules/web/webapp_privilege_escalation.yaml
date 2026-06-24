@@ -1,0 +1,30 @@
+title: Web Application Privilege Escalation
+id: a1010018-owasp-a01-privesc-001
+status: stable
+version: 1
+description: Detects privilege escalation attempts where users try to modify their role or access admin-only endpoints. OWASP A01:2021 Broken Access Control.
+logsource:
+  product: oci
+  service: webapp
+detection:
+  selection_type:
+    attack_type:
+    - privilege_escalation
+    - role_manipulation
+    - admin_bypass
+  selection_payload:
+    request_body|contains:
+    - "\"role\":\"admin\""
+    - "\"isAdmin\":true"
+    - "\"role\": \"admin\""
+    - "admin=true"
+    - "role=admin"
+    - "privilege=admin"
+  condition: selection_type or selection_payload
+level: critical
+tags:
+- attack.privilege_escalation
+- attack.t1078
+- owasp.a01
+falsepositives:
+- Legitimate admin user management operations

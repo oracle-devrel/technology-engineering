@@ -1,0 +1,15 @@
+{
+  "title": "APM: Octo Demo Compromised VM Detection Rule",
+  "description": "Scheduled-rule-safe count of compromised VM evidence correlated to Octo attack IDs.",
+  "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and 'Attack ID' != null and 'Compromised VM' != null | stats count as CompromisedVmEvents by 'Attack ID', 'Compromised VM', 'Host Role'",
+  "level": "critical",
+  "type": "curated",
+  "tags": ["application", "apm", "octo-apm-demo", "compromised-vm", "detection-rule"],
+  "logsource": {"category": "application", "product": "oci-log-analytics", "service": "soc_application_logs", "candidates": ["SOC Application Logs"]},
+  "detection_rule": {"schedule": "5m", "lookback": "15m"},
+  "detection_maturity": "validated_locally",
+  "source_confidence": "high",
+  "field_coverage": "covered",
+  "test_data_coverage": "covered",
+  "live_validation_status": "validated_live"
+}

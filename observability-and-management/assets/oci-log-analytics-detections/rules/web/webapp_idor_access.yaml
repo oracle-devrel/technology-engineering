@@ -1,0 +1,21 @@
+title: Insecure Direct Object Reference Detected
+id: a1010017-owasp-a01-idor-001
+status: stable
+version: 1
+description: Detects IDOR (Insecure Direct Object Reference) attacks where users access resources belonging to other users by manipulating object IDs in URLs. OWASP A01:2021 Broken Access Control.
+logsource:
+  product: oci
+  service: webapp
+detection:
+  selection:
+    attack_type: IDOR
+  alt_selection:
+    owasp_category|contains: Broken Access Control
+  condition: selection or alt_selection
+level: high
+tags:
+- attack.initial_access
+- attack.t1190
+- owasp.a01
+falsepositives:
+- Admin users legitimately accessing other user profiles

@@ -1,0 +1,33 @@
+{
+  "title": "APM: Clickjacking - Missing Frame Protection Headers",
+  "description": "Detects HTTP responses missing X-Frame-Options or Content-Security-Policy frame-ancestors directives, indicating vulnerability to clickjacking attacks. Monitors APM response headers for missing security controls.\n",
+  "query": "'Log Source' = 'SOC Application Logs' and (('Response Code' = '200' and 'Content Type' like '*text/html*') and not (('Response Headers' like '*X-Frame-Options*' or 'Response Headers' like '*frame-ancestors*'))) | stats count as MissingHeaders by 'Request URL', 'Service Name' | sort -MissingHeaders",
+  "sigma_id": "apm-browser-clickjack-001",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.initial_access",
+    "attack.t1185",
+    "owasp.a05",
+    "browser_attack"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "initial_access"
+    ],
+    "techniques": [
+      "T1185"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "apm",
+    "candidates": [
+      "SOC Application Logs"
+    ]
+  },
+  "falsepositives": [
+    "Public pages intentionally designed to be embeddable",
+    "CDN-served static content"
+  ]
+}

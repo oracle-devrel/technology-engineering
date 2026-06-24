@@ -1,0 +1,43 @@
+title: Caldera - System Network Connections Discovery (Linux)
+id: c3fe4b7a-dc87-4617-9397-6b2a5efaf31c
+status: experimental
+description: >
+  Detects enumeration of active network connections on Linux systems.
+  Caldera T1049 emulation uses netstat, ss, and /proc/net file reads to list
+  established connections, listening ports, and socket state for network mapping.
+author: SOC Detection Engineering
+date: 2026/06/11
+logsource:
+  product: linux
+  service: syslog
+detection:
+  sel_netstat:
+    message|contains:
+      - 'netstat -an'
+      - 'netstat -anp'
+      - 'netstat -tulpn'
+      - 'netstat -tunap'
+      - 'netstat -plantu'
+      - 'netstat -ntlp'
+  sel_ss:
+    message|contains:
+      - 'ss -anp'
+      - 'ss -tlnp'
+      - 'ss -tunap'
+      - 'ss -s '
+      - 'ss -plnt'
+  sel_proc_net:
+    message|contains:
+      - 'cat /proc/net/tcp'
+      - 'cat /proc/net/udp'
+      - 'cat /proc/net/tcp6'
+  condition: sel_netstat or sel_ss or sel_proc_net
+level: low
+tags:
+  - attack.discovery
+  - attack.t1049
+falsepositives:
+  - System monitoring agents
+  - Security scanners auditing the host
+  - Administrators diagnosing network issues
+version: 1
