@@ -41,13 +41,13 @@ Now, you need to add the data to connect to OCI:
 Create a text file and collect this data from OCI:
 
 ```text
-StreamOCID: ex: ocid1.stream.oci1.eu-frankfurt-1.amssssdfsdfsdsde334dd
-Stream Endpoint: ex: https://cell-1.streaming.eu-frankfurt-1.oci.oraclecloud.com
+StreamOCID: ex: ocid1.stream.oci1.eu-frankfurt-1.xxx
+Stream Endpoint: ex: https://cell-1.streaming.xxxxx.oci.oraclecloud.com
 OCI Region: ex: eu-frankfurt-1
 OCI API Key File Location : /opt/splunk/key.pem
-User OCID: ocid1.user.oc1..aaaaaaaawlmnpxxxxxxxxxxxxxxxx
-Tenancy OCID: ocid1.tenancy.oc1..aaaaaaaaxzpxbcagxxxxxxxx
-Fingerprint: 12:21:4b:2:36:a6:d2:ad:a2:63:d1:9b:27:d2:82:1b
+User OCID: ocid1.user.oc1..xxxxxxxxxxxxxxxx
+Tenancy OCID: ocid1.tenancy.oc1..xxxxxxxx
+Fingerprint: xxxx
 ```
 
 Get Stream Data
