@@ -12,7 +12,7 @@ VTAP sources can be:
 - An Exadata VM Cluster
 - An Autonomous Database for Analytics and Data Warehousing instance using a private endpoint
 
-Reviewed: 10.10.2025
+Reviewed: 12.06.2026
 
 # Useful Links
 
