@@ -1,0 +1,12 @@
+apiVersion: functions.oci.oracle.com/v1alpha1
+kind: FunctionJob
+metadata:
+  name: oci-hello-job
+spec:
+  functionRef:
+    name: oci-existing-hello
+  payloads:
+  - message: hello from oci mode
+    requestId: oci-sample-001
+  parallelism: 1
+  retryLimit: 1

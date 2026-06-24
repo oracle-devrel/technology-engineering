@@ -1,0 +1,4 @@
+resources:
+- bases/functions.oci.oracle.com_functions.yaml
+- bases/functions.oci.oracle.com_functionjobs.yaml
+- bases/functions.oci.oracle.com_functioneventtriggers.yaml

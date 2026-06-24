@@ -1,0 +1,18 @@
+apiVersion: functions.oci.oracle.com/v1alpha1
+kind: FunctionJob
+metadata:
+  name: hello-job
+  labels:
+    demo: oci-functions-operator-fake
+spec:
+  functionRef:
+    name: existing-hello
+  payloads:
+  - message: hello from kubernetes
+    requestId: sample-001
+  - message: hello again
+    requestId: sample-002
+  - message: final hello
+    requestId: sample-003
+  parallelism: 2
+  retryLimit: 2
