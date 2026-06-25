@@ -6,7 +6,7 @@
       .bg { fill: #f7f9fc; }
       .zone { fill: #eaf2ff; stroke: #5a7fb8; stroke-width: 2; }
       .zone-title { font: 700 18px Arial, sans-serif; fill: #111827; }
-      .section-title { font: 700 16px Arial, sans-serif; fill: #111827; }
+      .section-title { font: 700 15px Arial, sans-serif; fill: #111827; }
       .label { font: 500 14px Arial, sans-serif; fill: #1f2937; }
       .small { font: 500 12px Arial, sans-serif; fill: #374151; }
       .tiny { font: 500 11px Arial, sans-serif; fill: #374151; }
@@ -84,7 +84,8 @@
   <text x="800" y="434" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#dbeafe">Deploys paired service appliances for migration traffic</text>
 
   <rect x="424" y="300" width="118" height="214" class="box-green"/>
-  <text x="483" y="326" text-anchor="middle" class="section-title">Migration Services</text>
+  <text x="483" y="322" text-anchor="middle" class="section-title">Migration</text>
+  <text x="483" y="340" text-anchor="middle" class="section-title">Services</text>
   <rect x="446" y="346" width="74" height="42" class="box"/>
   <text x="483" y="372" text-anchor="middle" class="note">NE</text>
   <rect x="446" y="404" width="74" height="42" class="box"/>
@@ -93,7 +94,8 @@
   <text x="483" y="488" text-anchor="middle" class="note">WO</text>
 
   <rect x="1058" y="300" width="118" height="214" class="box-green"/>
-  <text x="1117" y="326" text-anchor="middle" class="section-title">Migration Services</text>
+  <text x="1117" y="322" text-anchor="middle" class="section-title">Migration</text>
+  <text x="1117" y="340" text-anchor="middle" class="section-title">Services</text>
   <rect x="1080" y="346" width="74" height="42" class="box"/>
   <text x="1117" y="372" text-anchor="middle" class="note">NE</text>
   <rect x="1080" y="404" width="74" height="42" class="box"/>
@@ -166,14 +168,14 @@
   </g>
 
   <path class="line-blue" marker-end="url(#arrow-blue)" d="M528 604 C650 570 950 570 1072 604"/>
-  <text x="800" y="570" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#0b5cab">Migration flows: vMotion, Bulk Migration, Replication Assisted vMotion</text>
+  <text x="800" y="560" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#0b5cab">Migration flows: vMotion, Bulk Migration, Replication Assisted vMotion</text>
   <path class="line-green" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)" d="M528 646 C650 690 950 690 1072 646"/>
-  <text x="800" y="704" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#15803d">Optional L2 Network Extension for IP retention during migration</text>
+  <text x="800" y="714" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#15803d">Optional L2 Network Extension for IP retention during migration</text>
 
   <rect x="35" y="760" width="1530" height="104" class="legend"/>
   <text x="60" y="788" class="section-title">Customer design considerations</text>
-  <text x="60" y="815" class="small">1. Validate VMware Cloud Foundation, HCX, and migration tool entitlements before provisioning OCVS capacity.</text>
-  <text x="60" y="838" class="small">2. Provide outbound connectivity for HCX activation, updates, and service lifecycle operations.</text>
-  <text x="60" y="861" class="small">3. Plan migration waves, test moves, cutover windows, and optional Network Extension based on application requirements.</text>
-  <text x="850" y="838" class="small">4. Size the migration underlay for bandwidth, latency, and security requirements.</text>
+  <text x="60" y="812" class="small">1. Validate VMware Cloud Foundation, HCX, and migration tool entitlements before provisioning OCVS capacity.</text>
+  <text x="60" y="836" class="small">2. Provide outbound connectivity for HCX activation, updates, and service lifecycle operations.</text>
+  <text x="60" y="860" class="small">3. Plan migration waves, test moves, cutover windows, and optional Network Extension based on application requirements.</text>
+  <text x="930" y="836" class="small">4. Size the migration underlay for bandwidth, latency, and security requirements.</text>
 </svg>
