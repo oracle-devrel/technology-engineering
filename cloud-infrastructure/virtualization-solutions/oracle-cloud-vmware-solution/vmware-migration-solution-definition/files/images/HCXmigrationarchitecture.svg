@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
   <title id="title">Oracle Cloud VMware Solution HCX Migration Architecture</title>
-  <desc id="desc">Updated HCX migration architecture showing on-premises VMware, Oracle Cloud VMware Solution, HCX Connector, HCX Cloud Manager, Service Mesh appliances, network connectivity, BYOL licensing, and HCX Disaster Recovery deprecation guidance.</desc>
+  <desc id="desc">Updated HCX migration architecture showing on-premises VMware, Oracle Cloud VMware Solution, HCX Connector, HCX Cloud Manager, Service Mesh appliances, network connectivity, BYOL licensing, service mesh, and migration flows.</desc>
   <defs>
     <style>
       .bg { fill: #f7f9fc; }
@@ -16,14 +16,13 @@
       .box-blue-text { font: 700 14px Arial, sans-serif; fill: #ffffff; }
       .box-green { fill: #e9f8ef; stroke: #1f8f4f; stroke-width: 1.5; rx: 8; }
       .box-orange { fill: #fff4e5; stroke: #d97706; stroke-width: 1.5; rx: 8; }
-      .box-red { fill: #fff1f2; stroke: #e11d48; stroke-width: 1.5; rx: 8; }
+      .box-neutral { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.5; rx: 8; }
       .cloud { fill: #ffffff; stroke: #111827; stroke-width: 3; }
       .line { stroke: #344054; stroke-width: 2; fill: none; }
       .line-dash { stroke: #64748b; stroke-width: 2; stroke-dasharray: 8 6; fill: none; }
       .line-blue { stroke: #0b5cab; stroke-width: 3; fill: none; }
       .line-green { stroke: #15803d; stroke-width: 3; fill: none; }
       .line-orange { stroke: #d97706; stroke-width: 3; fill: none; }
-      .line-red { stroke: #e11d48; stroke-width: 2.5; fill: none; stroke-dasharray: 8 6; }
       .vm { fill: #0f766e; }
       .host { fill: #f59e0b; stroke: #b45309; stroke-width: 1; }
       .host-base { fill: #dbeafe; }
@@ -46,7 +45,7 @@
   <rect class="bg" width="1600" height="900"/>
 
   <text x="800" y="34" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#111827">VMware HCX Migration Architecture for Oracle Cloud VMware Solution</text>
-  <text x="800" y="58" text-anchor="middle" class="small">OCVS bundle: HCX Cloud 4.11.2 / HCX Connector 4.10.2, OCVS BYOL licensing, migration-focused design</text>
+  <text x="800" y="58" text-anchor="middle" class="small">HCX service mesh for workload mobility to Oracle Cloud VMware Solution</text>
 
   <rect x="35" y="96" width="560" height="640" class="zone"/>
   <text x="315" y="126" text-anchor="middle" class="zone-title">On-Premises VMware Data Center</text>
@@ -57,8 +56,8 @@
   <text x="1285" y="148" text-anchor="middle" class="small">VMware SDDC on OCI Bare Metal, VCN/VLANs, NSX overlay</text>
 
   <path class="cloud" d="M758 142c-17-37 18-72 53-61 13-31 60-31 73 0 35-11 70 24 53 61 25 6 37 40 15 61-22 21-61 13-79 13h-143c-18 0-57 8-79-13-22-21-10-55 15-61z"/>
-  <text x="800" y="122" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#111827">HCX SaaS / Depot</text>
-  <text x="800" y="245" text-anchor="middle" class="small">Activation, updates, fleet services</text>
+  <text x="800" y="122" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#111827">HCX Cloud Services</text>
+  <text x="800" y="245" text-anchor="middle" class="small">Activation, updates, service lifecycle</text>
   <text x="800" y="263" text-anchor="middle" class="tiny">connect.hcx.vmware.com / hybridity-depot.vmware.com</text>
 
   <rect x="205" y="180" width="190" height="84" class="box"/>
@@ -69,7 +68,7 @@
   <rect x="1205" y="180" width="190" height="84" class="box"/>
   <text x="1300" y="207" text-anchor="middle" class="section-title">HCX Cloud Manager</text>
   <text x="1300" y="230" text-anchor="middle" class="small">Enabled in OCVS SDDC</text>
-  <text x="1300" y="248" text-anchor="middle" class="tiny">Subject to BYOL entitlement</text>
+  <text x="1300" y="248" text-anchor="middle" class="tiny">VMware licensing validated</text>
 
   <path class="line-dash" marker-end="url(#arrow)" d="M300 180 L735 190"/>
   <path class="line-dash" marker-end="url(#arrow)" d="M1300 180 L865 190"/>
@@ -85,7 +84,7 @@
   <text x="800" y="434" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#dbeafe">Deploys paired service appliances for migration traffic</text>
 
   <rect x="424" y="300" width="118" height="214" class="box-green"/>
-  <text x="483" y="326" text-anchor="middle" class="section-title">HCX Services</text>
+  <text x="483" y="326" text-anchor="middle" class="section-title">Migration Services</text>
   <rect x="446" y="346" width="74" height="42" class="box"/>
   <text x="483" y="372" text-anchor="middle" class="note">NE</text>
   <rect x="446" y="404" width="74" height="42" class="box"/>
@@ -94,7 +93,7 @@
   <text x="483" y="488" text-anchor="middle" class="note">WO</text>
 
   <rect x="1058" y="300" width="118" height="214" class="box-green"/>
-  <text x="1117" y="326" text-anchor="middle" class="section-title">HCX Services</text>
+  <text x="1117" y="326" text-anchor="middle" class="section-title">Migration Services</text>
   <rect x="1080" y="346" width="74" height="42" class="box"/>
   <text x="1117" y="372" text-anchor="middle" class="note">NE</text>
   <rect x="1080" y="404" width="74" height="42" class="box"/>
@@ -171,15 +170,10 @@
   <path class="line-green" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)" d="M528 646 C650 690 950 690 1072 646"/>
   <text x="800" y="704" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#15803d">Optional L2 Network Extension for IP retention during migration</text>
 
-  <rect x="610" y="610" width="380" height="64" class="box-red"/>
-  <text x="800" y="635" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#9f1239">Design note</text>
-  <text x="800" y="656" text-anchor="middle" class="small">HCX DR is deprecated in HCX 4.11 release notes.</text>
-  <text x="800" y="674" text-anchor="middle" class="tiny">Use SRM / VMware Live Recovery or third-party DR for enterprise DR.</text>
-
   <rect x="35" y="760" width="1530" height="104" class="legend"/>
-  <text x="60" y="788" class="section-title">Current design assumptions</text>
-  <text x="60" y="815" class="small">1. OCVS uses customer-provided VMware licensing under BYOL for new capacity. Validate VCF, HCX, and migration tool entitlements before provisioning.</text>
-  <text x="60" y="838" class="small">2. HCX Manager requires outbound connectivity for activation and updates. FastConnect is recommended for migration underlay but not mandatory.</text>
-  <text x="60" y="861" class="small">3. Service Mesh deploys paired appliances such as Network Extension (NE), Interconnect (IX), and WAN Optimization (WO), based on enabled services and licensing.</text>
-  <text x="1490" y="854" text-anchor="end" class="tiny">Generated for OCVS migration template - 2026-06-25</text>
+  <text x="60" y="788" class="section-title">Customer design considerations</text>
+  <text x="60" y="815" class="small">1. Validate VMware Cloud Foundation, HCX, and migration tool entitlements before provisioning OCVS capacity.</text>
+  <text x="60" y="838" class="small">2. Provide outbound connectivity for HCX activation, updates, and service lifecycle operations.</text>
+  <text x="60" y="861" class="small">3. Plan migration waves, test moves, cutover windows, and optional Network Extension based on application requirements.</text>
+  <text x="850" y="838" class="small">4. Size the migration underlay for bandwidth, latency, and security requirements.</text>
 </svg>
