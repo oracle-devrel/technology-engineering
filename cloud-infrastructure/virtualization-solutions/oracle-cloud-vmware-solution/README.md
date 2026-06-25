@@ -20,6 +20,14 @@ Reviewed: 24.06.2026
 
 ## Reference Architectures & Step-by-step Guides
 
+### Deployment Guides
+
+- [Architecting Multi-Region Networking and Security with NSX Federation in OCVS - Part 1](https://blogs.oracle.com/cloud-infrastructure/nsx-fed-ocvs)
+    - This deployment guide shows the deployment and use cases for NSX Federation with Oracle Cloud VMware Solution and VCF BYOL licensing.
+
+- [Architecting Multi-Region Networking and Security with NSX Federation in OCVS - Part 2: Edge Clusters, Federated Routing, and North-South Connectivity](https://blogs.oracle.com/cloud-infrastructure/nsx-fed-ocvs-part2-edge-routing-and-ns-connectivity)
+    - This deployment guide covers dedicated federation edge clusters, RTEPs, Federated Tier-0 and Tier-1 gateways, stretched segments, and north-south connectivity for cross-site workloads.
+
 - [Deploy a VMware vSAN stretched cluster across OCI regions with Oracle Cloud VMware Solution](https://docs.oracle.com/en/solutions/ocvs-vsan-stretched-cluster/index.html) 
     - This solution playbook describes deploying Oracle Cloud VMware Solution with a VMware vSAN stretched cluster across multiple OCI regions (with a vSAN Witness in a third region) to achieve region-level availability and resilience.
 
