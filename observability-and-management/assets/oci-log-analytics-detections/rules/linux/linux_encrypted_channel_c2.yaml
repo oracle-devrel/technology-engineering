@@ -1,0 +1,41 @@
+title: Linux Encrypted Channel C2 Communication
+id: a1b2c3d4-6018-4000-8000-000000000018
+status: stable
+description: 'Detects establishment of encrypted communication channels that may indicate
+  C2 activity. Attackers use OpenSSL, stunnel, and encrypted reverse shells to establish
+  covert command and control over TLS/SSL.
+
+  '
+author: SOC Detection Team
+date: 2026/02/11
+logsource:
+  product: linux
+  service: syslog
+detection:
+  sel_openssl:
+    message|contains:
+    - openssl s_client -connect
+    - openssl s_server
+  sel_stunnel:
+    message|contains:
+    - stunnel
+    - stunnel.conf
+  sel_encrypted_shell:
+    message|contains:
+    - ncat --ssl
+    - socat openssl-connect
+    - socat OPENSSL
+  sel_ssh_reverse:
+    message|contains:
+    - ssh -R
+    - ssh -fNR
+  condition: sel_openssl or sel_stunnel or sel_encrypted_shell or sel_ssh_reverse
+level: high
+tags:
+- attack.command_and_control
+- attack.t1573
+- attack.t1573.002
+falsepositives:
+- Legitimate SSL/TLS debugging
+- Authorized SSH tunnels
+version: 1

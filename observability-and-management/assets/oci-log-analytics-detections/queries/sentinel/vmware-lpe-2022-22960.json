@@ -1,0 +1,84 @@
+{
+  "title": "VMWare-LPE-2022-22960",
+  "description": "The query checks process command being placed into the script; CVE-2022-22960 allows a user to write to it and be executed as root.\nThis vulnerability of VMware Workspace ONE Access, Identity Manager and vRealize Automation contain a privilege escalation vulnerability due to improper permissions in support scripts.\nCVE: CVE-2022-22960.\nRead more here:.\nhttps://www.cisa.gov/uscert/ncas/alerts/aa22-138b\nhttps://www.vmware.com/security/advisories/VMSA-2022-0011.html\nTags: #exploit #CVE-2022-22960\n",
+  "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and (('Command Line' like '*/opt/vmware/certproxy/bing/certproxyService.sh*' or 'Command Line' like '*/horizon/scripts/exportCustomGroupUsers.sh*' or 'Command Line' like '*/horizon/scripts/extractUserIdFromDatabase.sh*') or ('Process Name' like '*certproxyService.sh*' or 'Process Name' like '*exportCustomGroupUsers.sh*' or 'Process Name' like '*extractUserIdFromDatabase.sh *')) | fields Time, 'Host Name (Server)', 'Process Name', 'Command Line', 'Command Line'",
+  "level": "medium",
+  "source_type": "microsoft_sentinel",
+  "sentinel_id": "1d468d49-ffea-4daf-ba6b-72525ec17b61",
+  "sentinel_source_path": "Hunting Queries/Microsoft 365 Defender/Exploits/VMWare-LPE-2022-22960.yaml",
+  "sentinel_source_url": "https://github.com/Azure/Azure-Sentinel/blob/63ff8eedc58e7df0d22eba05ca73c92b59a66634/Hunting Queries/Microsoft 365 Defender/Exploits/VMWare-LPE-2022-22960.yaml",
+  "required_data_connectors": [
+    {
+      "connector_id": "MicrosoftThreatProtection",
+      "data_types": [
+        "DeviceProcessEvents"
+      ]
+    }
+  ],
+  "conversion_status": "promoted",
+  "conversion_confidence": "medium",
+  "source_confidence": "high",
+  "live_validation_status": "passed",
+  "sentinel_tables": [
+    "DeviceProcessEvents"
+  ],
+  "sentinel_category": "endpoint",
+  "tags": [
+    "microsoft_sentinel",
+    "sentinel.endpoint"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "execution",
+      "privilege_escalation"
+    ],
+    "techniques": [
+      "T1204",
+      "T1548"
+    ]
+  },
+  "logsource": {
+    "product": "microsoft_sentinel",
+    "service": "defender_endpoint",
+    "candidates": [
+      "SOC Windows Sysmon Logs",
+      "Windows Security Events"
+    ],
+    "original_tables": [
+      "DeviceProcessEvents"
+    ]
+  },
+  "references": [
+    {
+      "name": "Microsoft Sentinel source rule",
+      "url": "https://github.com/Azure/Azure-Sentinel/blob/63ff8eedc58e7df0d22eba05ca73c92b59a66634/Hunting Queries/Microsoft 365 Defender/Exploits/VMWare-LPE-2022-22960.yaml"
+    },
+    {
+      "name": "Microsoft Sentinel repository",
+      "url": "https://github.com/Azure/Azure-Sentinel"
+    },
+    {
+      "name": "Azure/Azure-Sentinel license",
+      "url": "https://github.com/Azure/Azure-Sentinel/blob/master/LICENSE"
+    }
+  ],
+  "attribution": {
+    "source": "Microsoft Sentinel",
+    "repository": "Azure/Azure-Sentinel",
+    "license": "MIT",
+    "license_url": "https://github.com/Azure/Azure-Sentinel/blob/master/LICENSE"
+  },
+  "dashboard": {
+    "visualizationType": "table",
+    "timeSelection": {
+      "timePeriod": "l21d"
+    },
+    "ask_ai_prompts": [
+      "Summarize the Microsoft Sentinel converted detection results and identify the highest-risk pivots."
+    ]
+  },
+  "detection_maturity": "source_converted",
+  "field_coverage": "mapped_subset",
+  "test_data_coverage": "not_evaluated",
+  "scheduled_rule_eligibility": "not_evaluated"
+}

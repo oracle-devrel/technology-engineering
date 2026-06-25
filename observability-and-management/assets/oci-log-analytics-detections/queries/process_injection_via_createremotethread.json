@@ -1,0 +1,58 @@
+{
+  "title": "Process Injection via CreateRemoteThread",
+  "description": "Detects suspicious processes commonly used as injection vehicles with command-line indicators of injection.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*VirtualAllocEx*' or 'Command Line' like '*WriteProcessMemory*' or 'Command Line' like '*CreateRemoteThread*' or 'Command Line' like '*NtMapViewOfSection*')))",
+  "sigma_id": "a336fbb3-5b88-4675-9d53-d9adacb0e54f",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.t1055.001"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1055.001"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Debugging tools",
+    "Anti-cheat software"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 2,
+    "techniques_with_tests": [
+      "T1055.001"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1055.001",
+        "test_name": "Process Injection via mavinject.exe",
+        "test_guid": "74496461-11a1-4982-b439-4d87a550d254",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1055.001/T1055.001.md"
+      },
+      {
+        "technique_id": "T1055.001",
+        "test_name": "WinPwn - Get SYSTEM shell - Bind System Shell using UsoClient DLL load technique",
+        "test_guid": "8b56f787-73d9-4f1d-87e8-d07e89cbc7f5",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1055.001/T1055.001.md"
+      }
+    ]
+  }
+}

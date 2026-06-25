@@ -1,0 +1,30 @@
+{
+  "title": "2025-2026: Exfiltration After Initial Access",
+  "description": "Finds large outbound transfers and firewall data-theft alerts tied to ClickFix/CrashFix, web-to-cloud, and cloud identity abuse traces.",
+  "query": "('Trace ID' = 'trace_clickfix_2026_001' or 'Trace ID' = 'trace_w2c_entry_001' or 'Trace ID' = 'trace_aitm_token_2026_001' or 'Threat Name' = 'ClickFix Data Exfiltration' or 'Threat Name' = 'Suspicious Data Exfiltration' or 'Resource Name' like '*payroll-may-2026.csv*' or 'Resource Name' like '*customer-export-2026-05.csv*') and ('Log Source' = 'SOC VCN Flow Logs' or 'Log Source' = 'SOC Network Firewall Logs' or 'Log Source' = 'OCI Audit Logs' or 'Log Source' = 'SOC Application Logs') | stats count as Evidence, unique('Bytes Sent') as BytesSent, unique('Resource Name') as Resources, unique('Threat Name') as Threats by 'Log Source', 'Destination IP', 'User Name', 'Trace ID' | sort -Evidence",
+  "type": "hunting",
+  "level": "critical",
+  "tags": ["exfiltration", "2025_2026", "data_loss", "clickfix", "cloud_identity"],
+  "logsource": {
+    "product": "multi_source",
+    "service": "network_audit_application"
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "groupBy": ["Log Source", "Trace ID", "Destination IP"],
+      "valueField": "Evidence"
+    },
+    "ask_ai_prompts": [
+      "Which data objects or destinations are tied to exfiltration?",
+      "Identify the entry point and compromised machines for each exfiltration trace."
+    ]
+  },
+  "mitre_attack": {
+    "tactics": ["collection", "exfiltration"],
+    "techniques": ["T1530", "T1041", "T1567"]
+  },
+  "falsepositives": ["Scheduled backup or export jobs already tagged as demo traffic"]
+}

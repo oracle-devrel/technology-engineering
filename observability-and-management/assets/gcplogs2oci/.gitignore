@@ -1,0 +1,50 @@
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Security keys – never commit
+*.key
+*.crt
+*.csr
+*.pem
+gcp-sa-key.json
+
+# Local development
+.venv/
+__pycache__/
+*.pyc
+.env
+.env.local
+.python_packages/
+
+# IDE
+.vscode/
+.idea/
+
+# Docker
+docker/.env
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfplan
+.terraform.lock.hcl
+
+# OS
+Thumbs.db

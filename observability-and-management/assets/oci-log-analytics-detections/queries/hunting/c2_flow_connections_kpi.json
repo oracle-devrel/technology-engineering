@@ -1,0 +1,37 @@
+{
+  "title": "C2: Flow Connections KPI",
+  "description": "Counts C2 and exfiltration flow evidence observed by VCN Flow Logs and Network Firewall logs for the known external destination.",
+  "query": "('Log Source' = 'SOC VCN Flow Logs' or 'Log Source' = 'SOC Network Firewall Logs') and ('Destination IP' = '198.51.100.77' or 'Threat Name' = 'Suspicious Data Exfiltration') | stats count as C2Flows",
+  "type": "hunting",
+  "level": "critical",
+  "tags": ["c2", "network", "vcn_flow", "firewall", "kpi", "attack.t1071.001"],
+  "logsource": {
+    "product": "oci",
+    "service": "network",
+    "candidates": ["SOC VCN Flow Logs", "SOC Network Firewall Logs"]
+  },
+  "dashboard": {
+    "visualizationType": "tile",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "dataField": "C2Flows",
+      "thresholdConfig": {
+        "thresholds": [
+          {"min": 0, "max": 0, "color": "#26a69a", "label": "None"},
+          {"min": 1, "max": 49, "color": "#ffa726", "label": "Observed"},
+          {"min": 50, "max": 999999, "color": "#ef5350", "label": "Persistent"}
+        ]
+      }
+    },
+    "ask_ai_prompts": [
+      "How many network flow records prove C2 or exfiltration?",
+      "Which flow log source should be used for containment evidence?"
+    ]
+  },
+  "mitre_attack": {
+    "tactics": ["command_and_control", "exfiltration"],
+    "techniques": ["T1071.001", "T1041"]
+  },
+  "falsepositives": ["Authorized exfiltration drill traffic"]
+}

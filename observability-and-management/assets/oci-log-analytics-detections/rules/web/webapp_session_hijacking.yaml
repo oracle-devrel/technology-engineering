@@ -1,0 +1,26 @@
+title: Web Application Session Hijacking Indicators
+id: a1010026-owasp-a07-sessionhijack-001
+status: stable
+version: 1
+description: Detects indicators of session hijacking or session fixation attacks where an attacker steals or manipulates session tokens. OWASP A07:2021 Identification and Authentication Failures.
+logsource:
+  product: oci
+  service: webapp
+detection:
+  selection_type:
+    attack_type:
+    - session_hijacking
+    - session_fixation
+    - cookie_theft
+    - token_theft
+  selection_owasp:
+    owasp_category|contains: Authentication
+  condition: selection_type or selection_owasp
+level: critical
+tags:
+- attack.credential_access
+- attack.t1539
+- attack.t1550.004
+- owasp.a07
+falsepositives:
+- Session migration during load balancer failover

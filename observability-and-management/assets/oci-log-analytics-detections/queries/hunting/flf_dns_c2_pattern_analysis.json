@@ -1,0 +1,61 @@
+{
+  "title": "FLF: DNS C2 Pattern Analysis",
+  "description": "FreeLabFriday-inspired hunt for DNS command-and-control patterns: long or suspicious DNS query names, dynamic DNS infrastructure, high-risk TLDs, and repeated queries by host.",
+  "query": "('Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and 'Event ID' = '22' and 'Query Name' != null and ('Query Name' like '*.dnsexfil.example' or 'Query Name' like '*.duckdns.org' or 'Query Name' like '*.xyz' or 'Query Name' like '*.top' or 'Query Name' like '*.info' or 'Query Name' like '*.cc' or 'Query Name' like '*.pw' or 'Query Name' like '*.tk') | stats count as DNSQueries, distinctcount('Query Name') as UniqueQueries, unique('Query Name') as QueryNames by 'Host Name (Server)' | where DNSQueries > 2 | sort -DNSQueries",
+  "type": "hunting",
+  "hunting_type": "free_lab_friday_source_hunt",
+  "level": "high",
+  "tags": [
+    "freelabfriday",
+    "dns",
+    "c2",
+    "beaconing",
+    "attack.t1071.004"
+  ],
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon",
+    "candidates": [
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {
+      "timePeriod": "l21d"
+    },
+    "visualizationOptions": {
+      "groupBy": [
+        "Host Name (Server)"
+      ],
+      "valueField": "DNSQueries"
+    },
+    "ask_ai_prompts": [
+      "Which host has DNS query patterns most consistent with DNS C2?",
+      "List the suspicious query names and explain whether the activity looks like beaconing or exfiltration."
+    ]
+  },
+  "references": [
+    {
+      "name": "Black Hills InfoSec FreeLabFriday Labs - Domain Name System As C2",
+      "url": "https://github.com/blackhillsinfosec/FreeLabFriday_Labs/blob/main/Cards/C2E/Domain_Name_System_As_C2.md"
+    }
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "command_and_control",
+      "exfiltration"
+    ],
+    "techniques": [
+      "T1071.004",
+      "T1048.003"
+    ]
+  },
+  "falsepositives": [
+    "Approved dynamic DNS services",
+    "Security training DNS tunnel exercises",
+    "Internal DNS testing"
+  ]
+}

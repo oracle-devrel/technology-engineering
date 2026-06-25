@@ -1,0 +1,32 @@
+{
+  "title": "C2: Beacon Activity Timeline",
+  "description": "Shows C2 activity over time across Sysmon DNS/network, VCN Flow, and Network Firewall telemetry. The timeline helps analysts identify recurring callbacks and pivot into the source and destination widgets.",
+  "query": "(('Log Source' = 'Windows Sysmon Operational Logs' and 'Event ID' = '22' and ('Query Name' like '*.xyz' or 'Query Name' like '*.info' or 'Query Name' like '*.top' or 'Query Name' like '*.pw' or 'Query Name' like '*.cc' or 'Query Name' like '*.tk' or 'Query Name' like '*.bit' or 'Query Name' like '*.duckdns.org' or 'Query Name' like '*.dnsexfil.example')) or (('Log Source' = 'SOC Sysmon Network Logs' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and 'Event ID' = '3' and ('Destination IP' = '198.51.100.77' or 'Destination Hostname' like '*duckdns.org' or 'Destination Hostname' like '*malware.xyz' or 'Destination Hostname' like '*attacker.top' or 'Destination Hostname' like '*cobalt.example.com' or 'Destination Port' = 4443 or 'Destination Port' = 8443)) or (('Log Source' = 'SOC VCN Flow Logs' or 'Log Source' = 'SOC Network Firewall Logs') and ('Destination IP' = '198.51.100.77' or 'Threat Name' = 'Suspicious Data Exfiltration'))) | timestats span = 1hour count as C2Events by 'Log Source'",
+  "type": "hunting",
+  "level": "high",
+  "tags": ["c2", "beaconing", "timeline", "showcase", "attack.t1071"],
+  "logsource": {
+    "product": "multi_source",
+    "service": "log_analytics",
+    "candidates": ["Windows Sysmon Operational Logs", "SOC Sysmon Network Logs", "SOC VCN Flow Logs", "SOC Network Firewall Logs"]
+  },
+  "dashboard": {
+    "visualizationType": "line",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "timeField": "Time",
+      "seriesField": "Log Source",
+      "valueField": "C2Events"
+    },
+    "ask_ai_prompts": [
+      "Identify the first and last C2 beacon windows.",
+      "Which log source provides the strongest recurring beacon evidence?"
+    ]
+  },
+  "mitre_attack": {
+    "tactics": ["command_and_control"],
+    "techniques": ["T1071", "T1071.001", "T1071.004"]
+  },
+  "falsepositives": ["Expected red-team beacon replay", "Synthetic demo callbacks"]
+}

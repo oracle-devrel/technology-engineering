@@ -1,0 +1,33 @@
+{
+  "title": "Suspicious HTTP Method Usage",
+  "description": "Detects use of unusual or dangerous HTTP methods (PUT, DELETE, TRACE, OPTIONS, PATCH) that may indicate API abuse or security misconfiguration. OWASP A05:2021 Security Misconfiguration.",
+  "query": "('Log Source' = 'OCI Load Balancer Access Logs' or 'Log Source' = 'SOC Load Balancer Access Logs') and ((('HTTP Method' = 'PUT' or 'HTTP Method' = 'DELETE' or 'HTTP Method' = 'TRACE' or 'HTTP Method' = 'CONNECT' or 'HTTP Method' = 'PATCH')))",
+  "sigma_id": "a1010013-owasp-a05-httpmethod-001",
+  "level": "low",
+  "stig_category": "CAT III",
+  "tags": [
+    "attack.initial_access",
+    "attack.t1190",
+    "owasp.a05"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "initial_access"
+    ],
+    "techniques": [
+      "T1190"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "loadbalancer",
+    "candidates": [
+      "OCI Load Balancer Access Logs",
+      "SOC Load Balancer Access Logs"
+    ]
+  },
+  "falsepositives": [
+    "RESTful APIs using PUT/DELETE/PATCH for CRUD operations",
+    "CORS preflight OPTIONS requests"
+  ]
+}

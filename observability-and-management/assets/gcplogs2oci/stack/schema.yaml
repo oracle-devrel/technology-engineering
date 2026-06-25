@@ -1,0 +1,143 @@
+title: "GCP Cloud Logging to OCI Log Analytics Pipeline"
+description: >-
+  Deploy the OCI infrastructure for the gcplogs2oci bridge:
+  Streaming (Kafka-compatible), Log Analytics log group,
+  Service Connector Hub, and IAM policies.
+
+  After applying, run scripts/setup_log_analytics.py to create
+  the custom GCP parser, 40 fields, and Log Analytics source.
+schemaVersion: 1.1.0
+version: "1.0.0"
+locale: "en"
+
+variableGroups:
+  - title: "General Configuration"
+    visible: true
+    variables:
+      - compartment_ocid
+      - region
+      - tenancy_ocid
+
+  - title: "OCI Streaming"
+    visible: true
+    variables:
+      - stream_pool_name
+      - stream_name
+      - stream_partitions
+      - stream_retention_in_hours
+
+  - title: "Log Analytics"
+    visible: true
+    variables:
+      - log_group_name
+      - log_group_description
+      - log_analytics_namespace
+
+  - title: "Service Connector Hub"
+    visible: true
+    variables:
+      - sch_name
+      - sch_description
+
+  - title: "IAM Policies"
+    visible: true
+    variables:
+      - create_iam_policies
+
+variables:
+  compartment_ocid:
+    type: oci:identity:compartment:id
+    title: "Target Compartment"
+    description: "Compartment for Streaming, Log Analytics, and SCH resources"
+    required: true
+
+  region:
+    type: oci:identity:region:name
+    title: "Region"
+    description: "OCI region for all resources"
+    required: true
+
+  tenancy_ocid:
+    type: string
+    title: "Tenancy OCID"
+    description: "Tenancy OCID (auto-populated in Resource Manager)"
+    required: true
+    visible: false
+
+  stream_pool_name:
+    type: string
+    title: "Stream Pool Name"
+    default: "MultiCloud_Log_Pool"
+    required: true
+
+  stream_name:
+    type: string
+    title: "Stream Name"
+    default: "gcp-inbound-stream"
+    required: true
+
+  stream_partitions:
+    type: integer
+    title: "Stream Partitions"
+    default: 1
+    minimum: 1
+    maximum: 5
+    required: true
+
+  stream_retention_in_hours:
+    type: integer
+    title: "Retention (hours)"
+    description: "Message retention period (24–168 hours)"
+    default: 24
+    minimum: 24
+    maximum: 168
+    required: true
+
+  log_group_name:
+    type: string
+    title: "Log Group Name"
+    default: "GCPLogs"
+    required: true
+
+  log_group_description:
+    type: string
+    title: "Log Group Description"
+    default: "GCP Cloud Logging imports via gcplogs2oci bridge"
+
+  log_analytics_namespace:
+    type: string
+    title: "Log Analytics Namespace"
+    description: "Leave empty for auto-detection"
+    default: ""
+
+  sch_name:
+    type: string
+    title: "Service Connector Hub Name"
+    default: "GCP-Stream-to-LogAnalytics"
+    required: true
+
+  sch_description:
+    type: string
+    title: "Service Connector Hub Description"
+    default: "Forwards GCP logs from OCI Streaming to Log Analytics using GCP Cloud Logging parser"
+
+  create_iam_policies:
+    type: boolean
+    title: "Create IAM Policies"
+    description: "Create policies for SCH to read streams and write to Log Analytics. Disable if they already exist."
+    default: true
+
+outputGroups:
+  - title: "Bridge Configuration"
+    outputs:
+      - stream_id
+      - stream_messaging_endpoint
+      - kafka_bootstrap_servers
+      - log_analytics_namespace
+      - env_local_snippet
+
+  - title: "Resource OCIDs"
+    outputs:
+      - stream_pool_id
+      - log_group_id
+      - service_connector_id

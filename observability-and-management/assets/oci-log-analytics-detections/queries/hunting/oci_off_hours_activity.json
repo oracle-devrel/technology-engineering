@@ -1,0 +1,14 @@
+{
+  "title": "OCI Off-Hours Administrative Activity",
+  "description": "Surfaces administrative API calls occurring outside business hours (evenings, weekends), which may indicate unauthorized access or compromised accounts.",
+  "query": "'Log Source' = 'OCI Audit Logs' and ('Event Type' like '*create*' or 'Event Type' like '*delete*' or 'Event Type' like '*update*') | eval hour = formatDate(Time, 'HH') | eval day = formatDate(Time, 'E') | where hour < '06' or hour > '22' or day = 'Sat' or day = 'Sun' | stats count as actions by 'Principal Name', day, hour | sort -actions",
+  "type": "hunting",
+  "category": "persistence",
+  "mitre_attack": {
+    "tactics": ["persistence", "defense_evasion"],
+    "techniques": ["T1078", "T1098"]
+  },
+  "data_source": "OCI Audit Logs",
+  "frequency": "daily",
+  "notes": "Adjust business hours thresholds for your timezone. Exclude known automation/service accounts."
+}

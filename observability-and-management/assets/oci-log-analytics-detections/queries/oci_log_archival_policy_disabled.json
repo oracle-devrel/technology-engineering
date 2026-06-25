@@ -1,0 +1,30 @@
+{
+  "title": "OCI Log Archival Policy Disabled",
+  "description": "Detects modification of logging configuration that may reduce log retention or disable archival.",
+  "query": "'Log Source' = 'OCI Audit Logs' and (('Event Type' = 'com.oraclecloud.logging.updatelog'))",
+  "sigma_id": "b32514c4-be0c-4ebc-9f83-1cb09fc57a4d",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.t1562.008"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1562.008"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Logging configuration updates by administrators"
+  ]
+}

@@ -1,0 +1,145 @@
+{
+  "title": "VBA Macro Spawning Suspicious Child Process",
+  "description": "Detects Office applications spawning command shells or scripting engines, indicating macro execution.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Parent Process Name' like '*\\\\WINWORD.EXE' or 'Parent Process Name' like '*\\\\EXCEL.EXE' or 'Parent Process Name' like '*\\\\POWERPNT.EXE' or 'Parent Process Name' like '*\\\\OUTLOOK.EXE') and ('Process Name' like '*\\\\cmd.exe' or 'Process Name' like '*\\\\powershell.exe' or 'Process Name' like '*\\\\wscript.exe' or 'Process Name' like '*\\\\cscript.exe' or 'Process Name' like '*\\\\mshta.exe')))",
+  "sigma_id": "8eb3f12c-434b-42d2-bb2f-655d8a5c869f",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.execution",
+    "attack.t1204.002"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "execution"
+    ],
+    "techniques": [
+      "T1204.002"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate macros that launch helper scripts"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 13,
+    "techniques_with_tests": [
+      "T1204.002"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1204.002",
+        "test_name": "OSTap Style Macro Execution",
+        "test_guid": "8bebc690-18c7-4549-bc98-210f7019efff",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1204.002/T1204.002.md"
+      },
+      {
+        "technique_id": "T1204.002",
+        "test_name": "OSTap Payload Download",
+        "test_guid": "3f3af983-118a-4fa1-85d3-ba4daa739d80",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1204.002/T1204.002.md"
+      },
+      {
+        "technique_id": "T1204.002",
+        "test_name": "Maldoc choice flags command execution",
+        "test_guid": "0330a5d2-a45a-4272-a9ee-e364411c4b18",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1204.002/T1204.002.md"
+      },
+      {
+        "technique_id": "T1204.002",
+        "test_name": "OSTAP JS version",
+        "test_guid": "add560ef-20d6-4011-a937-2c340f930911",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1204.002/T1204.002.md"
+      },
+      {
+        "technique_id": "T1204.002",
+        "test_name": "Office launching .bat file from AppData",
+        "test_guid": "9215ea92-1ded-41b7-9cd6-79f9a78397aa",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1204.002/T1204.002.md"
+      },
+      {
+        "technique_id": "T1204.002",
+        "test_name": "Excel 4 Macro",
+        "test_guid": "4ea1fc97-8a46-4b4e-ba48-af43d2a98052",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1204.002/T1204.002.md"
+      },
+      {
+        "technique_id": "T1204.002",
+        "test_name": "Headless Chrome code execution via VBA",
+        "test_guid": "a19ee671-ed98-4e9d-b19c-d1954a51585a",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1204.002/T1204.002.md"
+      },
+      {
+        "technique_id": "T1204.002",
+        "test_name": "Potentially Unwanted Applications (PUA)",
+        "test_guid": "02f35d62-9fdc-4a97-b899-a5d9a876d295",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1204.002/T1204.002.md"
+      },
+      {
+        "technique_id": "T1204.002",
+        "test_name": "Office Generic Payload Download",
+        "test_guid": "5202ee05-c420-4148-bf5e-fd7f7d24850c",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1204.002/T1204.002.md"
+      },
+      {
+        "technique_id": "T1204.002",
+        "test_name": "LNK Payload Download",
+        "test_guid": "581d7521-9c4b-420e-9695-2aec5241167f",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1204.002/T1204.002.md"
+      },
+      {
+        "technique_id": "T1204.002",
+        "test_name": "Mirror Blast Emulation",
+        "test_guid": "24fd9719-7419-42dd-bce6-ab3463110b3c",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1204.002/T1204.002.md"
+      },
+      {
+        "technique_id": "T1204.002",
+        "test_name": "ClickFix Campaign - Abuse RunMRU to Launch mshta via PowerShell",
+        "test_guid": "3f3120f0-7e50-4be2-88ae-54c61230cb9f",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1204.002/T1204.002.md"
+      },
+      {
+        "technique_id": "T1204.002",
+        "test_name": "Simulate Click-Fix via Downloaded BAT File",
+        "test_guid": "22386853-f68d-4b50-a362-de235127c443",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1204.002/T1204.002.md"
+      }
+    ]
+  }
+}

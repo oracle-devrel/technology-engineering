@@ -1,0 +1,18 @@
+{
+  "title": "Cloud Guard Instance Security: Raw Result Detail",
+  "description": "Raw Cloud Guard Instance Security and OSQuery result detail for analyst review.",
+  "query": "'Log Source' = 'SOC Cloud Guard Instance Security Logs' | fields Time, 'Host Name', 'Instance OCID', 'Pack Name', 'Pack Query ID', 'Finding Name', 'Finding Severity', 'Finding Status', 'OSQuery SQL', 'OSQuery Finding', 'Process Command Line', 'File Path' | sort -Time",
+  "level": "medium",
+  "type": "curated",
+  "tags": ["cloud_guard_instance_security", "raw_results"],
+  "logsource": {
+    "product": "oci",
+    "service": "cloud_guard_instance_security",
+    "candidates": ["SOC Cloud Guard Instance Security Logs", "SOC OSQuery Result Logs"]
+  },
+  "dashboard": {
+    "visualizationType": "table",
+    "timeSelection": {"timePeriod": "l21d"},
+    "layout": {"width": 12, "height": 6}
+  }
+}

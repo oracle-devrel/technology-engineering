@@ -1,0 +1,34 @@
+{
+  "title": "APM: DOM-Based Attack via Dangerous JavaScript APIs",
+  "description": "Detects DOM-based attacks using dangerous JavaScript APIs observed in browser telemetry spans. Monitors for document.cookie access, eval() calls, innerHTML manipulation, and location/hash-based injection in OpenTelemetry browser spans.\n",
+  "query": "'Log Source' = 'SOC Application Logs' and ((('Span Attributes' like '*document.cookie*' or 'Span Attributes' like '*document.domain*')) or (('Span Attributes' like '*eval(*' or 'Span Attributes' like '*Function(*' or 'Span Attributes' like '*setTimeout(*' or 'Span Attributes' like '*setInterval(*')) or (('Span Attributes' like '*.innerHTML*' or 'Span Attributes' like '*.outerHTML*' or 'Span Attributes' like '*document.write*' or 'Span Attributes' like '*insertAdjacentHTML*')) or (('Span Attributes' like '*location.hash*' or 'Span Attributes' like '*location.search*' or 'Span Attributes' like '*window.name*' or 'Span Attributes' like '*document.referrer*'))) | stats count as Attacks by 'Request URL', 'Client IP', 'User Agent', 'Service Name' | sort -Attacks",
+  "sigma_id": "apm-browser-dom-001",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.execution",
+    "attack.t1059.007",
+    "owasp.a03",
+    "owasp.a07",
+    "browser_attack"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "execution"
+    ],
+    "techniques": [
+      "T1059.007"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "apm",
+    "candidates": [
+      "SOC Application Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate SPA frameworks using innerHTML for rendering",
+    "Analytics scripts accessing document.referrer"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "title": "ATLAS: Denial of ML Service / Inference Flood (AML.T0029 / AML.T0046)",
+  "description": "Surfaces request floods and chaff/spam aimed at LLM/ML inference endpoints, the telemetry signature of Denial of ML Service and resource exhaustion. Aggregates inference traffic by Client IP and route, ranking high-volume sources and the share of error/throttle responses they generate, using only SOC Application Logs fields. Triage threshold: investigate Client IPs with Calls far above the per-service baseline or a high Throttled/Errored share. MITRE ATLAS AML.T0029 (Denial of ML Service) and AML.T0046 (Spamming ML System with Chaff Data).\n",
+  "query": "'Log Source' = 'SOC Application Logs' and ('Request URL' like '*/v1/chat*' or 'Request URL' like '*/v1/completions*' or 'Request URL' like '*/v1/embeddings*' or 'Request URL' like '*/llm/*' or 'Request URL' like '*/ai/*' or 'Request URL' like '*/generate*' or 'Request URL' like '*/predict*' or 'Request URL' like '*/invoke*') | stats count as Calls, distinctcount('Trace ID') as Sessions by 'Client IP', 'Service Name' | sort -Calls",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "atlas.t0029",
+    "atlas.t0046",
+    "atlas.impact",
+    "ai_attack",
+    "genai",
+    "attack.t1499"
+  ],
+  "atlas": {
+    "tactics": [
+      "impact"
+    ],
+    "techniques": [
+      "AML.T0029",
+      "AML.T0046"
+    ]
+  },
+  "mitre_attack": {
+    "tactics": [
+      "impact"
+    ],
+    "techniques": [
+      "T1499"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "application",
+    "candidates": [
+      "SOC Application Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate burst traffic from a known high-volume integration or load test",
+    "Autoscaling health probes hitting inference routes"
+  ]
+}

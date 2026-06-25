@@ -1,0 +1,36 @@
+{
+  "title": "APM: Octo Demo Payment Threats",
+  "description": "Payment interception and redirect signals emitted by the Octo attack lab. Keeps only demo-safe payment metadata such as provider, status, brand, last4, risk score, and redirect URL.",
+  "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and 'Attack ID' != null and ('Payment Interception' != null or 'Payment Redirect' != null or 'Payment Redirect URL' != null) | stats count as Events, distinctcount('Trace ID') as Traces, unique('Payment Risk Score') as RiskScores, unique('Payment Card Last4') as CardLast4 by 'Attack ID', 'Run ID', 'Payment Provider', 'Payment Redirect URL' | sort -Events",
+  "level": "critical",
+  "type": "curated",
+  "tags": [
+    "apm",
+    "octo-apm-demo",
+    "payment",
+    "attack-lab",
+    "threat-hunting"
+  ],
+  "logsource": {
+    "product": "application",
+    "service": "soc_application_logs",
+    "candidates": [
+      "SOC Application Logs"
+    ]
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {
+      "timePeriod": "l21d"
+    },
+    "visualizationOptions": {
+      "valueField": "Events",
+      "highlightField": "Traces"
+    },
+    "ask_ai_prompts": [
+      "Explain the payment interception and redirect evidence for the selected Attack ID.",
+      "Which redirect URL and trace should an investigator pivot into first?"
+    ]
+  }
+}

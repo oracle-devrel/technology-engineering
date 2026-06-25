@@ -1,0 +1,14 @@
+{
+  "title": "Windows High-Entropy DNS Queries",
+  "description": "Surfaces DNS queries with unusually long or high-entropy domain names, which are characteristic of DNS tunneling, DGA malware, or data exfiltration over DNS.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'SOC Windows Sysmon Logs') and 'Query Name' != null | eval domain_length = length('Query Name') | stats count as query_count, avg(domain_length) as avg_length, max(domain_length) as max_length by 'Host Name' | where avg_length > 40 or max_length > 60 | sort -avg_length",
+  "type": "hunting",
+  "category": "command_and_control",
+  "mitre_attack": {
+    "tactics": ["command_and_control", "exfiltration"],
+    "techniques": ["T1071.004", "T1048.003"]
+  },
+  "data_source": "Windows Sysmon",
+  "frequency": "daily",
+  "notes": "Normal domains average 15-25 characters. Domains over 40 chars often encode data. Look for base64-like subdomains and queries to uncommon TLDs."
+}

@@ -1,0 +1,121 @@
+{
+  "title": "Ransomware File Extension Indicators",
+  "description": "Detects commands associated with ransomware encryption activities based on known file extension patterns.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*.encrypted*' or 'Command Line' like '*.locked*' or 'Command Line' like '*.crypted*' or 'Command Line' like '*.enc*' or 'Command Line' like '*.crypt*')))",
+  "sigma_id": "d6ce5832-a4a0-4a95-a27e-f1f49fba2887",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.impact",
+    "attack.t1486"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "impact"
+    ],
+    "techniques": [
+      "T1486"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate encryption tools"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 10,
+    "techniques_with_tests": [
+      "T1486"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1486",
+        "test_name": "Encrypt files using gpg (FreeBSD/Linux)",
+        "test_guid": "7b8ce084-3922-4618-8d22-95f996173765",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1486/T1486.md"
+      },
+      {
+        "technique_id": "T1486",
+        "test_name": "Encrypt files using 7z (FreeBSD/Linux)",
+        "test_guid": "53e6735a-4727-44cc-b35b-237682a151ad",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1486/T1486.md"
+      },
+      {
+        "technique_id": "T1486",
+        "test_name": "Encrypt files using ccrypt (FreeBSD/Linux)",
+        "test_guid": "08cbf59f-85da-4369-a5f4-049cffd7709f",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1486/T1486.md"
+      },
+      {
+        "technique_id": "T1486",
+        "test_name": "Encrypt files using openssl (FreeBSD/Linux)",
+        "test_guid": "142752dc-ca71-443b-9359-cf6f497315f1",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1486/T1486.md"
+      },
+      {
+        "technique_id": "T1486",
+        "test_name": "PureLocker Ransom Note",
+        "test_guid": "649349c7-9abf-493b-a7a2-b1aa4d141528",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1486/T1486.md"
+      },
+      {
+        "technique_id": "T1486",
+        "test_name": "Encrypt files using 7z utility - macOS",
+        "test_guid": "645f0f5a-ef09-48d8-b9bc-f0e24c642d72",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1486/T1486.md"
+      },
+      {
+        "technique_id": "T1486",
+        "test_name": "Encrypt files using openssl utility - macOS",
+        "test_guid": "1a01f6b8-b1e8-418e-bbe3-78a6f822759e",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1486/T1486.md"
+      },
+      {
+        "technique_id": "T1486",
+        "test_name": "Data Encrypted with GPG4Win",
+        "test_guid": "4541e2c2-33c8-44b1-be79-9161440f1718",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1486/T1486.md"
+      },
+      {
+        "technique_id": "T1486",
+        "test_name": "Data Encrypt Using DiskCryptor",
+        "test_guid": "44b68e11-9da2-4d45-a0d9-893dabd60f30",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1486/T1486.md"
+      },
+      {
+        "technique_id": "T1486",
+        "test_name": "Akira Ransomware drop Files with .akira Extension and Ransomnote",
+        "test_guid": "ab3f793f-2dcc-4da5-9c71-34988307263f",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1486/T1486.md"
+      }
+    ]
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "title": "FLF: New User Persistence",
+  "description": "FreeLabFriday-inspired hunt for attacker persistence through account creation. Windows Event ID 4720 is surfaced with host, account, and source context for triage.",
+  "query": "('Log Source' = 'Windows Security Events' or 'Log Source' = 'Windows Event Security Logs') and 'Event ID' = '4720' | stats count as NewUsers by 'Host Name (Server)', User, 'Source IP' | sort -NewUsers",
+  "type": "hunting",
+  "hunting_type": "free_lab_friday_source_hunt",
+  "level": "critical",
+  "tags": ["freelabfriday", "persistence", "account_creation", "attack.t1136.001"],
+  "logsource": {
+    "product": "windows",
+    "service": "security",
+    "candidates": ["Windows Security Events", "Windows Event Security Logs"]
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "groupBy": ["Host Name (Server)", "User", "Source IP"],
+      "valueField": "NewUsers"
+    },
+    "ask_ai_prompts": [
+      "Which newly-created account looks suspicious and why?",
+      "Pivot to privilege assignment, group membership, and logon events around this account creation."
+    ]
+  },
+  "references": [
+    {
+      "name": "Black Hills InfoSec FreeLabFriday Labs - New User Added",
+      "url": "https://github.com/blackhillsinfosec/FreeLabFriday_Labs/blob/main/Cards/PER/New_User_Added.md"
+    }
+  ],
+  "mitre_attack": {
+    "tactics": ["persistence"],
+    "techniques": ["T1136.001", "T1136.002"]
+  },
+  "falsepositives": ["Approved helpdesk account provisioning", "Lab account creation during training"]
+}

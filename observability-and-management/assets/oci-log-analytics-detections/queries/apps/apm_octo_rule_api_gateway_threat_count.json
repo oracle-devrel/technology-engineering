@@ -1,0 +1,15 @@
+{
+  "title": "APM: Octo Demo API Gateway Threat Detection Rule",
+  "description": "Scheduled-rule-safe count of Octo API Gateway threat decisions tied to an attack ID and trace.",
+  "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and 'Attack ID' != null and 'API Gateway Threat Signal' != null | stats count as ApiGatewayThreatEvents by 'Attack ID', 'Trace ID', 'API Gateway Threat Signal'",
+  "level": "high",
+  "type": "curated",
+  "tags": ["application", "apm", "octo-apm-demo", "api-gateway", "detection-rule"],
+  "logsource": {"category": "application", "product": "oci-log-analytics", "service": "soc_application_logs", "candidates": ["SOC Application Logs"]},
+  "detection_rule": {"schedule": "5m", "lookback": "15m"},
+  "detection_maturity": "validated_locally",
+  "source_confidence": "high",
+  "field_coverage": "covered",
+  "test_data_coverage": "covered",
+  "live_validation_status": "validated_live"
+}

@@ -1,0 +1,218 @@
+{
+  "title": "Windows Remote System Discovery",
+  "description": "Detects commands and tools used to discover remote systems on the network. Attackers perform network sweeps, ARP scans, and DNS lookups to identify targets for lateral movement.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Process Name' like '*arp.exe' and 'Command Line' like '*-a*') or (('Command Line' like '*for /l*' or 'Command Line' like '*ping -n 1*')) or ('Process Name' like '*nslookup.exe') or (('Command Line' like '*Test-Connection*' or 'Command Line' like '*Test-NetConnection*' or 'Command Line' like '*Resolve-DnsName*' or 'Command Line' like '*Get-ADComputer*')) or (('Command Line' like '*nbtscan*' or 'Command Line' like '*nbtstat -a*')))",
+  "sigma_id": "a1b2c3d4-6004-4000-8000-000000000004",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.discovery",
+    "attack.t1018"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "discovery"
+    ],
+    "techniques": [
+      "T1018"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "process_creation",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Network troubleshooting",
+    "IT monitoring scripts"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 22,
+    "techniques_with_tests": [
+      "T1018"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1018",
+        "test_name": "Remote System Discovery - net",
+        "test_guid": "85321a9c-897f-4a60-9f20-29788e50bccd",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1018/T1018.md"
+      },
+      {
+        "technique_id": "T1018",
+        "test_name": "Remote System Discovery - net group Domain Computers",
+        "test_guid": "f1bf6c8f-9016-4edf-aff9-80b65f5d711f",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1018/T1018.md"
+      },
+      {
+        "technique_id": "T1018",
+        "test_name": "Remote System Discovery - nltest",
+        "test_guid": "52ab5108-3f6f-42fb-8ba3-73bc054f22c8",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1018/T1018.md"
+      },
+      {
+        "technique_id": "T1018",
+        "test_name": "Remote System Discovery - ping sweep",
+        "test_guid": "6db1f57f-d1d5-4223-8a66-55c9c65a9592",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1018/T1018.md"
+      },
+      {
+        "technique_id": "T1018",
+        "test_name": "Remote System Discovery - arp",
+        "test_guid": "2d5a61f5-0447-4be4-944a-1f8530ed6574",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1018/T1018.md"
+      },
+      {
+        "technique_id": "T1018",
+        "test_name": "Remote System Discovery - arp nix",
+        "test_guid": "acb6b1ff-e2ad-4d64-806c-6c35fe73b951",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1018/T1018.md"
+      },
+      {
+        "technique_id": "T1018",
+        "test_name": "Remote System Discovery - sweep",
+        "test_guid": "96db2632-8417-4dbb-b8bb-a8b92ba391de",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1018/T1018.md"
+      },
+      {
+        "technique_id": "T1018",
+        "test_name": "Remote System Discovery - nslookup",
+        "test_guid": "baa01aaa-5e13-45ec-8a0d-e46c93c9760f",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1018/T1018.md"
+      },
+      {
+        "technique_id": "T1018",
+        "test_name": "Remote System Discovery - adidnsdump",
+        "test_guid": "95e19466-469e-4316-86d2-1dc401b5a959",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1018/T1018.md"
+      },
+      {
+        "technique_id": "T1018",
+        "test_name": "Adfind - Enumerate Active Directory Computer Objects",
+        "test_guid": "a889f5be-2d54-4050-bd05-884578748bb4",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1018/T1018.md"
+      },
+      {
+        "technique_id": "T1018",
+        "test_name": "Adfind - Enumerate Active Directory Domain Controller Objects",
+        "test_guid": "5838c31e-a0e2-4b9f-b60a-d79d2cb7995e",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1018/T1018.md"
+      },
+      {
+        "technique_id": "T1018",
+        "test_name": "Remote System Discovery - ip neighbour",
+        "test_guid": "158bd4dd-6359-40ab-b13c-285b9ef6fa25",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1018/T1018.md"
+      },
+      {
+        "technique_id": "T1018",
+        "test_name": "Remote System Discovery - ip route",
+        "test_guid": "1a4ebe70-31d0-417b-ade2-ef4cb3e7d0e1",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1018/T1018.md"
+      },
+      {
+        "technique_id": "T1018",
+        "test_name": "Remote System Discovery - netstat",
+        "test_guid": "d2791d72-b67f-4615-814f-ec824a91f514",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1018/T1018.md"
+      },
+      {
+        "technique_id": "T1018",
+        "test_name": "Remote System Discovery - ip tcp_metrics",
+        "test_guid": "6c2da894-0b57-43cb-87af-46ea3b501388",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1018/T1018.md"
+      },
+      {
+        "technique_id": "T1018",
+        "test_name": "Enumerate domain computers within Active Directory using DirectorySearcher",
+        "test_guid": "962a6017-1c09-45a6-880b-adc9c57cb22e",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1018/T1018.md"
+      },
+      {
+        "technique_id": "T1018",
+        "test_name": "Enumerate Active Directory Computers with Get-AdComputer",
+        "test_guid": "97e89d9e-e3f5-41b5-a90f-1e0825df0fdf",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1018/T1018.md"
+      },
+      {
+        "technique_id": "T1018",
+        "test_name": "Enumerate Active Directory Computers with ADSISearcher",
+        "test_guid": "64ede6ac-b57a-41c2-a7d1-32c6cd35397d",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1018/T1018.md"
+      },
+      {
+        "technique_id": "T1018",
+        "test_name": "Get-DomainController with PowerView",
+        "test_guid": "b9d2e8ca-5520-4737-8076-4f08913da2c4",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1018/T1018.md"
+      },
+      {
+        "technique_id": "T1018",
+        "test_name": "Get-WmiObject to Enumerate Domain Controllers",
+        "test_guid": "e3cf5123-f6c9-4375-bdf2-1bb3ba43a1ad",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1018/T1018.md"
+      },
+      {
+        "technique_id": "T1018",
+        "test_name": "Remote System Discovery - net group Domain Controller",
+        "test_guid": "5843529a-5056-4bc1-9c13-a311e2af4ca0",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1018/T1018.md"
+      },
+      {
+        "technique_id": "T1018",
+        "test_name": "Enumerate Remote Hosts with Netscan",
+        "test_guid": "b8147c9a-84db-4ec1-8eee-4e0da75f0de5",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1018/T1018.md"
+      }
+    ]
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "title": "Caldera - System Owner and User Discovery (Windows)",
+  "description": "Detects commands used to discover the current system owner and logged-in users. Caldera T1033 emulation runs whoami, query user, and PowerShell Get-LocalUser to determine privilege context, active sessions, and user account details immediately after gaining access to a Windows endpoint.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Process Name' like '*\\\\whoami.exe') or ('Process Name' like '*\\\\query.exe' and ('Command Line' like '*user*' or 'Command Line' like '*session*')) or (('Command Line' like '*Get-LocalUser*' or 'Command Line' like '*Get-LocalGroup*' or 'Command Line' like '*[System.Security.Principal.WindowsIdentity]::GetCurrent*' or 'Command Line' like '*$env:USERNAME*')) or (('Process Name' like '*\\\\net.exe' or 'Process Name' like '*\\\\net1.exe') and 'Command Line' like '*user*'))",
+  "sigma_id": "df034b80-b4db-4f74-a7ed-292bd361aa5a",
+  "level": "low",
+  "stig_category": "CAT III",
+  "tags": [
+    "attack.discovery",
+    "attack.t1033"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "discovery"
+    ],
+    "techniques": [
+      "T1033"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Login scripts checking user context",
+    "Administrative tooling verifying run-as identity",
+    "Help desk automation querying session state"
+  ]
+}
