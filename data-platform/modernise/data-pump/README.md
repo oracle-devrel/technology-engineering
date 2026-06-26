@@ -54,6 +54,12 @@ Reviewed: 04.06.2026
     - Blog article by Carlos Álvarez about using the Data Pump module in the Database Actions tool to import Data Pump dump files stored in Buckets into Autonomous Database.
 - [How to perform DataPump Import to Autonomous AI Database with Private Service Access to Export Dumps on Object Storage Bucket ?](https://amalrajputhenchira.wordpress.com/2026/01/26/how-to-perform-datapump-import-to-autonomous-ai-database-with-private-service-access-to-export-dumps-on-object-storage-bucket/)
     - Blog article by Amalraj Puthenchira about performing DataPump Import to Autonomous AI Database by accessing the Export Dumps on Object Storage using Private Service Access.
+- [Manual Database Migration to Oracle Autonomous Database@Google Cloud - Part 1:ADB-S Creation](https://amalrajputhenchira.com/2026/06/18/manual-database-migration-to-oracle-autonomous-databasegoogle-cloud-part-1-adb-s-creation/)
+    - Blog series by Amalraj Puthenchira about performing manual database migration to Autonomous Database@Google Cloud where part 1 details the steps for creating Autonomous Database.
+- [Manual Database Migration to Oracle Autonomous Database@Google Cloud - Part 2:Configure NFS server](https://amalrajputhenchira.com/2026/06/18/manual-database-migration-to-oracle-autonomous-databasegoogle-cloud-part-2-configure-nfs-server/)
+    - Blog series by Amalraj Puthenchira about performing manual database migration to Autonomous Database@Google Cloud where part 2 details the steps for configuring custom NFS server.
+- [Manual Database Migration to Oracle Autonomous Database@Google Cloud - Part 3:Database Migration](https://amalrajputhenchira.com/2026/06/18/manual-database-migration-to-oracle-autonomous-databasegoogle-cloud-part-3-database-migration/)
+    - Blog series by Amalraj Puthenchira about performing manual database migration to Autonomous Database@Google Cloud where part 3 details the steps for Database Migration.
     
 # Useful Links
 - [Loading Data from Google Cloud Storage to Oracle Database](https://database-heartbeat.com/2024/10/01/google-storage-to-oracle-database/)
