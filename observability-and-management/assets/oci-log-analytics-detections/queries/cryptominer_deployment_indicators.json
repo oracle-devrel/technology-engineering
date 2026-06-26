@@ -1,0 +1,57 @@
+{
+  "title": "Cryptominer Deployment Indicators",
+  "description": "Detects indicators of cryptocurrency mining software deployment on Windows systems.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*stratum+tcp*' or 'Command Line' like '*xmrig*' or 'Command Line' like '*minergate*' or 'Command Line' like '*nicehash*' or 'Command Line' like '*hashrate*')))",
+  "sigma_id": "0f757d5c-07b1-4183-95a8-856119449a55",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.impact",
+    "attack.t1496"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "impact"
+    ],
+    "techniques": [
+      "T1496"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Authorized cryptocurrency mining"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 2,
+    "techniques_with_tests": [
+      "T1496"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1496",
+        "test_name": "FreeBSD/macOS/Linux - Simulate CPU Load with Yes",
+        "test_guid": "904a5a0e-fb02-490d-9f8d-0e256eb37549",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1496/T1496.md"
+      },
+      {
+        "technique_id": "T1496",
+        "test_name": "Windows - Simulate CPU Load with PowerShell",
+        "test_guid": "44315fb0-f78d-4cef-b10f-cf21c1fe2c75",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1496/T1496.md"
+      }
+    ]
+  }
+}

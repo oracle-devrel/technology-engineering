@@ -2,7 +2,7 @@
 
 Networking - Competitive Insights in Oracle Cloud Infrastructure (OCI). Gain competitive knowledge by exploring OCI's networking capabilities and discovering how they compare to other cloud providers.
 
-Reviewed: 10.10.2025
+Reviewed: 12.06.2026
 
 # Useful Links
 

@@ -3,7 +3,7 @@
 import { Box, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useBaseRouter as useRouter } from "@/lib/useBaseRouter";
 import { useEffect, useState } from "react";
 
 export default function SplashPage() {

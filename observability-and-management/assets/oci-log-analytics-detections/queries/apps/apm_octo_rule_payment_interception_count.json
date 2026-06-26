@@ -1,0 +1,15 @@
+{
+  "title": "APM: Octo Demo Payment Interception Detection Rule",
+  "description": "Scheduled-rule-safe count of payment interception signals correlated to an Octo attack trace.",
+  "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and 'Attack ID' != null and 'Payment Interception' != null | stats count as PaymentInterceptionEvents by 'Attack ID', 'Trace ID', 'Payment Provider'",
+  "level": "critical",
+  "type": "curated",
+  "tags": ["application", "apm", "octo-apm-demo", "payment", "detection-rule"],
+  "logsource": {"category": "application", "product": "oci-log-analytics", "service": "soc_application_logs", "candidates": ["SOC Application Logs"]},
+  "detection_rule": {"schedule": "5m", "lookback": "15m"},
+  "detection_maturity": "validated_locally",
+  "source_confidence": "high",
+  "field_coverage": "covered",
+  "test_data_coverage": "covered",
+  "live_validation_status": "validated_live"
+}

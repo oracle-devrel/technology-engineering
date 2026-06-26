@@ -1,0 +1,26 @@
+{
+  "title": "APM: Octo Demo Trace to Log Correlation",
+  "description": "Correlates octo-apm-demo logs and span context by Trace ID. Use this table to pivot from a trace to its spans, routes, response codes, and error types.",
+  "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and ('Service Name' = 'octo-apm-demo' or 'APM Domain' = 'octo-apm-demo' or 'Attack ID' != null) and 'Trace ID' != null | stats count as Events, distinctcount('Span ID') as Spans, unique('Error Type') as Errors, unique('Attack Stage') as AttackStages by 'Trace ID', 'Workflow ID', 'Workflow Step', 'Service Name' | sort -Events",
+  "level": "medium",
+  "type": "curated",
+  "tags": ["apm", "octo-apm-demo", "trace", "logs", "correlation"],
+  "logsource": {
+    "product": "application",
+    "service": "soc_application_logs",
+    "candidates": ["SOC Application Logs"]
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "valueField": "Events",
+      "highlightField": "Spans"
+    },
+    "ask_ai_prompts": [
+      "For the busiest octo-apm-demo trace, explain the related log messages.",
+      "Which traces contain both errors and multiple spans?"
+    ]
+  }
+}

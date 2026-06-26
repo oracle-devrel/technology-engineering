@@ -1,0 +1,33 @@
+{
+  "title": "Cloud Guard Problem: Group Has Too Many Admins",
+  "description": "Detects Cloud Guard reporting problem: Group_Has_Too_Many_Admins.",
+  "query": "('Log Source' = 'OCI Cloud Guard Problems' or 'Log Source' = 'OCI Cloud Guard Logs' or 'Log Source' = 'SOC Cloud Guard Logs') and (('Problem Name' = 'Group_Has_Too_Many_Admins'))",
+  "sigma_id": "e262f895-bd75-49d5-94f5-231ea2c65d9a",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "oci.cloud_guard",
+    "attack.privilege_escalation",
+    "attack.t1098"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "privilege_escalation"
+    ],
+    "techniques": [
+      "T1098"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "cloud_guard",
+    "candidates": [
+      "OCI Cloud Guard Problems",
+      "OCI Cloud Guard Logs",
+      "SOC Cloud Guard Logs"
+    ]
+  },
+  "falsepositives": [
+    "Authorized administrative operations"
+  ]
+}

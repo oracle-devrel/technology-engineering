@@ -1,0 +1,121 @@
+{
+  "title": "Accessibility Features Backdoor",
+  "description": "Detects replacement of accessibility programs (sethc, utilman, osk) with cmd.exe for pre-login access.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*sethc.exe*' or 'Command Line' like '*utilman.exe*' or 'Command Line' like '*osk.exe*' or 'Command Line' like '*narrator.exe*' or 'Command Line' like '*magnify.exe*')) and (('Command Line' like '*copy*' or 'Command Line' like '*move*' or 'Command Line' like '*ren*' or 'Command Line' like '*reg*')))",
+  "sigma_id": "dd3797d5-ea02-4d89-926a-e40cfbd660bc",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.persistence",
+    "attack.t1546.008"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence"
+    ],
+    "techniques": [
+      "T1546.008"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Accessibility tool configuration changes"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 10,
+    "techniques_with_tests": [
+      "T1546.008"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1546.008",
+        "test_name": "Attaches Command Prompt as a Debugger to a List of Target Processes",
+        "test_guid": "3309f53e-b22b-4eb6-8fd2-a6cf58b355a9",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.008/T1546.008.md"
+      },
+      {
+        "technique_id": "T1546.008",
+        "test_name": "Replace binary of sticky keys",
+        "test_guid": "934e90cf-29ca-48b3-863c-411737ad44e3",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.008/T1546.008.md"
+      },
+      {
+        "technique_id": "T1546.008",
+        "test_name": "Create Symbolic Link From osk.exe to cmd.exe",
+        "test_guid": "51ef369c-5e87-4f33-88cd-6d61be63edf2",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.008/T1546.008.md"
+      },
+      {
+        "technique_id": "T1546.008",
+        "test_name": "Atbroker.exe (AT) Executes Arbitrary Command via Registry Key",
+        "test_guid": "444ff124-4c83-4e28-8df6-6efd3ece6bd4",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.008/T1546.008.md"
+      },
+      {
+        "technique_id": "T1546.008",
+        "test_name": "Auto-start application on user logon",
+        "test_guid": "7125eba8-7b30-426b-9147-781d152be6fb",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.008/T1546.008.md"
+      },
+      {
+        "technique_id": "T1546.008",
+        "test_name": "Replace utilman.exe (Ease of Access Binary) with cmd.exe",
+        "test_guid": "1db380da-3422-481d-a3c8-6d5770dba580",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.008/T1546.008.md"
+      },
+      {
+        "technique_id": "T1546.008",
+        "test_name": "Replace Magnify.exe (Magnifier binary) with cmd.exe",
+        "test_guid": "5e4fa70d-c789-470e-85e1-6992b92bb321",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.008/T1546.008.md"
+      },
+      {
+        "technique_id": "T1546.008",
+        "test_name": "Replace Narrator.exe (Narrator binary) with cmd.exe",
+        "test_guid": "2002f5ea-cd13-4c82-bf73-e46722e5dc5e",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.008/T1546.008.md"
+      },
+      {
+        "technique_id": "T1546.008",
+        "test_name": "Replace DisplaySwitch.exe (Display Switcher binary) with cmd.exe",
+        "test_guid": "825ba8ca-71cc-436b-b1dd-ea0d5e109086",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.008/T1546.008.md"
+      },
+      {
+        "technique_id": "T1546.008",
+        "test_name": "Replace AtBroker.exe (App Switcher binary) with cmd.exe",
+        "test_guid": "210be7ea-d841-40ec-b3e1-ff610bb62744",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.008/T1546.008.md"
+      }
+    ]
+  }
+}

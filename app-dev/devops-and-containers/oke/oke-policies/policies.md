@@ -199,3 +199,27 @@ Allow any-user to manage network-load-balancers in compartment id <compartment-o
 ```
 Allow any-user to manage certificate-authority-family in compartment <certificate-compartment-name> where ALL {request.principal.type = 'cluster'}
 ```
+
+### Assigning security attributes
+
+[https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengusingzpr.htm#contengusingzpr_topic_permissions](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengusingzpr.htm#contengusingzpr_topic_permissions)
+
+```
+Allow any-user to use security-attribute-namespace in compartment <security_attribute_compartment_name> where request.principal.type = 'cluster'
+Allow any-user to manage security-attribute-namespace in compartment <security_attribute_compartment_name> where request.principal.type = 'nodepool'
+```
+### Using Compute Host Groups
+
+[https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengusinghostgroups.htm#required-iam-policy-for-compute-host-groups](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengusinghostgroups.htm#required-iam-policy-for-compute-host-groups)
+
+```
+Allow any-user to {HOST_GROUP_LAUNCH_INSTANCE} in compartment <compartment_name> where request.principal.type = 'nodepool' and target.resource.id = '<host_group_OCID>'
+```
+
+### Using Compute Clusters
+
+[https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengusingcomputeclusters.htm#required-iam-policy-for-compute-clusters](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengusingcomputeclusters.htm#required-iam-policy-for-compute-clusters)
+
+```
+Allow any-user to {COMPUTE_CLUSTER_LAUNCH_INSTANCE} in compartment <compartment_name> where request.principal.type = 'nodepool' and target.resource.id = '<compute_cluster_OCID>'
+```

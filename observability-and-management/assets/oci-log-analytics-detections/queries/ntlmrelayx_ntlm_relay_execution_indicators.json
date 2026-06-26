@@ -1,0 +1,32 @@
+{
+  "title": "ntlmrelayx NTLM Relay Execution Indicators",
+  "description": "Detects execution of impacket ntlmrelayx, used to relay coerced NTLM authentication to LDAP/SMB/HTTP targets for RBCD, ADCS ESC8, or remote code execution. GOAD's NTLM relay scenario relays a coerced hash to a target host.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*ntlmrelayx*' or 'Command Line' like '*ntlmrelayx.py*')) or ( (('Command Line' like '*-smb2support*' or 'Command Line' like '*--delegate-access*' or 'Command Line' like '*-socks*' or 'Command Line' like '*--escalate-user*')) and (('Command Line' like '*ntlmrelayx*' or 'Command Line' like '*ntlmrelayx.py*')) ))",
+  "sigma_id": "f8e84b18-04c3-474c-8977-a54c0c8e9827",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.credential_access",
+    "attack.t1557.001"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "credential_access"
+    ],
+    "techniques": [
+      "T1557.001"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Authorized relay assessments"
+  ]
+}

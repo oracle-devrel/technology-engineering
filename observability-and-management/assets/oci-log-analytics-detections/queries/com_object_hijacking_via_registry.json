@@ -1,0 +1,73 @@
+{
+  "title": "COM Object Hijacking via Registry",
+  "description": "Detects modification of COM object registry entries to hijack execution flow.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*reg*' and 'Command Line' like '*add*' and 'Command Line' like '*InprocServer32*')))",
+  "sigma_id": "30de24d1-7812-4846-9eca-ab9ff7e1c88a",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.persistence",
+    "attack.t1546.015"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence"
+    ],
+    "techniques": [
+      "T1546.015"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "COM component registration during software installation"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 4,
+    "techniques_with_tests": [
+      "T1546.015"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1546.015",
+        "test_name": "COM Hijacking - InprocServer32",
+        "test_guid": "48117158-d7be-441b-bc6a-d9e36e47b52b",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.015/T1546.015.md"
+      },
+      {
+        "technique_id": "T1546.015",
+        "test_name": "Powershell Execute COM Object",
+        "test_guid": "752191b1-7c71-445c-9dbe-21bb031b18eb",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.015/T1546.015.md"
+      },
+      {
+        "technique_id": "T1546.015",
+        "test_name": "COM Hijacking with RunDLL32 (Local Server Switch)",
+        "test_guid": "123520cc-e998-471b-a920-bd28e3feafa0",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.015/T1546.015.md"
+      },
+      {
+        "technique_id": "T1546.015",
+        "test_name": "COM hijacking via TreatAs",
+        "test_guid": "33eacead-f117-4863-8eb0-5c6304fbfaa9",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.015/T1546.015.md"
+      }
+    ]
+  }
+}

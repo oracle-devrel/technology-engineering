@@ -2,7 +2,7 @@
  
 *Overview presentation of OCI Network Firewall*
 
-Reviewed: 10.10.2025
+Reviewed: 12.06.2026
  
 # When to use this asset?
  

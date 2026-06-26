@@ -1,0 +1,49 @@
+{
+  "title": "ScreenSaver Hijacking Persistence",
+  "description": "Detects modification of screensaver registry settings for persistence.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*SCRNSAVE.EXE*' and 'Command Line' like '*reg*')))",
+  "sigma_id": "60537cd1-5951-4e75-8f68-a56ddde649ff",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.persistence",
+    "attack.t1546.002"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence"
+    ],
+    "techniques": [
+      "T1546.002"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate screensaver configuration"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 1,
+    "techniques_with_tests": [
+      "T1546.002"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1546.002",
+        "test_name": "Set Arbitrary Binary as Screensaver",
+        "test_guid": "281201e7-de41-4dc9-b73d-f288938cbb64",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.002/T1546.002.md"
+      }
+    ]
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "title": "BLUELIGHT RAT: YARA Google App C2 Communication (APT_MAL_Win_BlueLight_B)",
+  "description": "Detects BLUELIGHT C2 communication via Google services. The variant uses custom Google App authentication with spoofed Firefox User-Agent and Korean language Accept-Language headers (ko-KR). Accesses Gmail and Google Account settings to enable IMAP for email exfiltration. Based on Volexity YARA rule APT_MAL_Win_BlueLight_B $chrome strings.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Sysmon Network Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*ko-KR,ko;q=0.8,en-US;q=0.5*' or 'Command Line' like '*rv:80.0) Gecko/20100101 Firefox/80.0*')) or ( (('Destination Hostname' like '*mail.google.com*' or 'Destination Hostname' like '*myaccount.google.com*')) and not (('Process Name' like '*\\\\chrome.exe' or 'Process Name' like '*\\\\msedge.exe' or 'Process Name' like '*\\\\firefox.exe')) ) or (('Command Line' like '*AccountSettingsUi/data/batchexecute*' or 'Command Line' like '*BqLdsd*' or 'Command Line' like '*SNlM0e*'))) | stats count by 'Host Name (Server)', Entity, 'Destination Hostname'",
+  "sigma_id": "bl-s0657-yara-google-c2-001",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.command_and_control",
+    "attack.t1071.001",
+    "attack.t1102",
+    "apt.apt37",
+    "malware.bluelight",
+    "yara.APT_MAL_Win_BlueLight_B"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "command_and_control"
+    ],
+    "techniques": [
+      "T1071.001",
+      "T1102"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Sysmon Network Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Korean-language users browsing Google services with Firefox 80",
+    "The batch execute and SNlM0e patterns are highly specific"
+  ],
+  "atomic_red_team": {
+    "has_tests": false,
+    "test_count": 0,
+    "techniques_with_tests": [],
+    "tests": []
+  },
+  "yara_source": {
+    "rule_name": "APT_MAL_Win_BlueLight_B",
+    "rule_id": "3ec2d44c-4c08-514d-a839-acef3f53f7dc",
+    "author": "threatintel@volexity.com",
+    "strings_used": [
+      "$chrome9",
+      "$chrome19",
+      "$chrome25",
+      "$chrome26"
+    ],
+    "repository": "https://github.com/Neo23x0/signature-base/blob/master/yara/apt_apt37_bluelight.yar"
+  },
+  "threat_intel": {
+    "malware_family": "BLUELIGHT",
+    "mitre_software_id": "S0657",
+    "threat_actor": "APT37 (InkySquid)"
+  }
+}

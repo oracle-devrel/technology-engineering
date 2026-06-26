@@ -1,0 +1,34 @@
+{
+  "title": "Caldera - Exfiltration of Staged Data over C2 Channel (Linux)",
+  "description": "Detects Linux-side exfiltration of collected data over the C2 channel using HTTP POST requests. Caldera T1041 emulation transmits staged files from /tmp or /dev/shm back to the C2 server using curl or wget with POST/PUT methods and multipart form uploads, distinct from the alternative-protocol T1048 pattern.\n",
+  "query": "('Log Source' = 'SOC Linux Syslog Logs' or 'Log Source' = 'Linux Secure Logs' or 'Log Source' = 'Linux Syslog Logs' or 'Log Source' = 'Linux Audit Logs') and (( ((msg like '*curl -X POST*' or msg like '*curl --upload-file*' or msg like '*curl -F*' or msg like '*curl -d @*' or msg like '*curl -T *')) or ((msg like '*wget --post-file*' or msg like '*wget --post-data*')) or ((msg like '*requests.post*' or msg like '*urllib.request.urlopen*' or msg like '*http.client.HTTPConnection*')) ) and ((msg like '*/tmp/*' or msg like '*/dev/shm/*' or msg like '*/var/tmp/*')))",
+  "sigma_id": "223f8064-ae93-4d43-a978-2dda7a205f65",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.exfiltration",
+    "attack.t1041"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "exfiltration"
+    ],
+    "techniques": [
+      "T1041"
+    ]
+  },
+  "logsource": {
+    "product": "linux",
+    "service": "syslog",
+    "candidates": [
+      "SOC Linux Syslog Logs",
+      "Linux Secure Logs",
+      "Linux Syslog Logs",
+      "Linux Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Application deployment pipelines uploading build artifacts",
+    "Monitoring agents posting metrics to collection endpoints"
+  ]
+}

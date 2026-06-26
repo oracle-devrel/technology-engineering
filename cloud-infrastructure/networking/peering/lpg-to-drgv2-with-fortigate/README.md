@@ -2,7 +2,7 @@
  
 *This is a reference architecture for converting a LPG based architecture to modernised DRGV2 based architecture along with Fortigate*
  
-Reviewed: 10.10.2025
+Reviewed: 12.06.2026
 
 # When to use this asset?
  

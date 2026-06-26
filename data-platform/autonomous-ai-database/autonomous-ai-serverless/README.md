@@ -78,6 +78,20 @@ Reviewed: 28.10.2025
  - [Zero Data Loss Protection in Autonomous Database Serverless](https://medium.com/p/da091463c516?postPublishedType=initial)
     - Starting this month (May 2026) the Oracle Autonomous Database Serverless supports Zero Data Loss Protection for local Autonomous Data Guard standby databases, bringing enterprise-grade resilience and automatic failover to mission-critical workloads with RPO = 0.
       
+ - [From Shared ADMIN to Named DBAs with CLONE_ADMIN_PRIVILEGES in Autonomous AI Database Serverless](https://medium.com/@mmy0utu8e/from-shared-admin-to-named-dbas-with-clone-admin-privileges-in-autonomous-ai-database-serverless-fbee577c45c1)
+    - Oracle recently introduced a useful enhancement in Autonomous AI Database Serverless: the ability to clone ADMIN privileges to a named user.
+      
+- [Autonomous AI Database — Performance Hub: graph visualizations and walking through](https://medium.com/@andrea.dal84_3885/autonomous-ai-database-performance-hub-graph-visualizations-and-walking-through-ce2ac5c68b3b)
+    - The blog collects and explains some diagnostic scenarios possible with the Performance Hub by analyzing the workload present in the database.
+
+- [Database Link Creation between Autonomous AI Database and MS SQL Server using Oracle Database Gateway](https://medium.com/@andrea.dal84_3885/database-link-creation-between-autonomous-ai-database-and-ms-sql-server-using-oracle-database-99bb5ffd6d7c)
+    - The blog explains step-by-step how to create a dblink from a serverless ADB to a MS SQL Server using an Oracle Database Gateway as a forwarder. 
+
+ - [Best Practices for Parquet File Ingestion with Geospatial Data on Autonomous AI Lakehouse](https://blogs.oracle.com/autonomous-ai-database/best-practices-for-parquet-file-ingestion-with-geospatial-data-on-autonomous-ai-lakehouse)
+    -  The blog explains an efficient method to ingest huge quantity of geospatial data from parquet files into Autonomous AI Data Lakehouse leveraging on technical details as partitioning, interleaving cluster and exchange partition. 
+
+
+      
 ## Tip of the Day
  
 - [Tip 1](https://www.linkedin.com/posts/javier-de-la-torre-medina_oracle-autonomousdatabase-tipoftheday-activity-7104394940436164609-LSa-?)

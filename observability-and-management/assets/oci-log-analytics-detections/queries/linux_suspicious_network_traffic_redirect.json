@@ -1,0 +1,50 @@
+{
+  "title": "Linux Suspicious Network Traffic Redirect",
+  "description": "Detects iptables or nftables modifications that redirect network traffic, which could indicate man-in-the-middle attacks or traffic interception.",
+  "query": "('Log Source' = 'SOC Linux Syslog Logs' or 'Log Source' = 'Linux Secure Logs' or 'Log Source' = 'Linux Syslog Logs' or 'Log Source' = 'Linux Audit Logs') and (((msg like '*iptables -t nat -A PREROUTING*' or msg like '*iptables -t nat -A OUTPUT*' or msg like '*iptables -A FORWARD*' or msg like '*nft add rule.*dnat*' or msg like '*nft add rule.*redirect*')))",
+  "sigma_id": "d1a2b3c4-2006-4000-8000-000000000006",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.collection",
+    "attack.t1557"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "collection"
+    ],
+    "techniques": [
+      "T1557"
+    ]
+  },
+  "logsource": {
+    "product": "linux",
+    "service": "audit",
+    "candidates": [
+      "SOC Linux Syslog Logs",
+      "Linux Secure Logs",
+      "Linux Syslog Logs",
+      "Linux Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate network debugging"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 1,
+    "techniques_with_tests": [
+      "T1557.001"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1557.001",
+        "test_name": "LLMNR Poisoning with Inveigh (PowerShell)",
+        "test_guid": "deecd55f-afe0-4a62-9fba-4d1ba2deb321",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1557.001/T1557.001.md"
+      }
+    ]
+  }
+}

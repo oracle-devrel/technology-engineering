@@ -1,0 +1,32 @@
+{
+  "title": "DFSCoerce MS-DFSNM Authentication Coercion",
+  "description": "Detects DFSCoerce, which abuses the MS-DFSNM (NetrDfsRemoveStdRoot / NetrDfsAddStdRoot) interface to coerce a Domain Controller into authenticating to an attacker-controlled host for NTLM relay.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*dfscoerce*' or 'Command Line' like '*NetrDfsRemoveStdRoot*' or 'Command Line' like '*NetrDfsAddStdRoot*' or 'Command Line' like '*MS-DFSNM*')))",
+  "sigma_id": "3f8d769a-77b1-465b-956b-7540c1614005",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.credential_access",
+    "attack.t1187"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "credential_access"
+    ],
+    "techniques": [
+      "T1187"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate DFS namespace administration"
+  ]
+}

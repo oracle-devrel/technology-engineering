@@ -1,0 +1,30 @@
+{
+  "title": "OCI Console Login from Suspicious IP Range",
+  "description": "Detects console login events that may indicate unauthorized access from unusual sources.",
+  "query": "'Log Source' = 'OCI Audit Logs' and (('Event Type' = 'com.oraclecloud.identitycontrolplane.interactivelogin'))",
+  "sigma_id": "8310207f-1ba4-4c10-8cb4-0c8105336c62",
+  "level": "low",
+  "stig_category": "CAT III",
+  "tags": [
+    "attack.initial_access",
+    "attack.t1078"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "initial_access"
+    ],
+    "techniques": [
+      "T1078"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Normal console access"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "title": "API Endpoint Unauthorized Access Attempts",
+  "description": "Detects unauthorized access attempts to API endpoints (401/403 responses). May indicate API key brute force, token manipulation, or broken access control. OWASP A01:2021 Broken Access Control.",
+  "query": "('Log Source' = 'OCI Load Balancer Access Logs' or 'Log Source' = 'SOC Load Balancer Access Logs') and ((('Request URL' like '*/api/*' or 'Request URL' like '*/v1/*' or 'Request URL' like '*/v2/*' or 'Request URL' like '*/graphql*' or 'Request URL' like '*/rest/*')) and (('Response Code' = '401' or 'Response Code' = '403')))",
+  "sigma_id": "a1010023-owasp-a01-apiabuse-001",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.initial_access",
+    "attack.t1190",
+    "attack.t1078",
+    "owasp.a01"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "initial_access"
+    ],
+    "techniques": [
+      "T1190",
+      "T1078"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "loadbalancer",
+    "candidates": [
+      "OCI Load Balancer Access Logs",
+      "SOC Load Balancer Access Logs"
+    ]
+  },
+  "falsepositives": [
+    "Expired API tokens being refreshed",
+    "Misconfigured API clients"
+  ]
+}

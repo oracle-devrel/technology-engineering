@@ -1,0 +1,14 @@
+{
+  "title": "OCI Failed Action Spike by Source IP",
+  "description": "Identifies source IPs with a high ratio of failed to successful API calls, which may indicate credential stuffing or permission enumeration.",
+  "query": "'Log Source' = 'OCI Audit Logs' | stats count as total, sum(if(Status = 'Failure', 1, 0)) as failures by 'Client Host' | eval fail_rate = failures * 100 / total | where fail_rate > 50 and total > 10 | sort -fail_rate",
+  "type": "hunting",
+  "category": "credential_access",
+  "mitre_attack": {
+    "tactics": ["credential_access", "initial_access"],
+    "techniques": ["T1110", "T1078"]
+  },
+  "data_source": "OCI Audit Logs",
+  "frequency": "daily",
+  "notes": "A high failure rate from a single IP with many attempts is a strong indicator of brute force or credential stuffing."
+}

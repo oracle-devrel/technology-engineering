@@ -1,0 +1,48 @@
+title: Linux Proxy and Tunneling Tool Detected
+id: a1b2c3d4-6017-4000-8000-000000000017
+status: stable
+description: 'Detects proxy and tunneling tools used to create covert communication
+  channels. Attackers use tools like chisel, ligolo, reGeorg, and frp to proxy C2
+  traffic through compromised hosts and evade network security controls.
+
+  '
+author: SOC Detection Team
+date: 2026/02/11
+logsource:
+  product: linux
+  service: syslog
+detection:
+  sel_chisel:
+    message|contains:
+    - chisel client
+    - chisel server
+  sel_ligolo:
+    message|contains:
+    - ligolo-ng
+    - ligolo-proxy
+  sel_frp:
+    message|contains:
+    - frpc -c
+    - frps -c
+    - frp.ini
+  sel_regeorg:
+    message|contains:
+    - reGeorg
+    - tunnel.aspx
+    - tunnel.jsp
+  sel_other:
+    message|contains:
+    - proxychains
+    - tsocks
+    - revsocks
+  condition: sel_chisel or sel_ligolo or sel_frp or sel_regeorg or sel_other
+level: high
+tags:
+- attack.command_and_control
+- attack.t1090
+- attack.t1090.001
+falsepositives:
+- Authorized penetration testing tools
+- VPN or proxy for development
+version: 1
+do_not_overwrite: true  # curated demo-tuned query — see scripts/test_query_audit.py

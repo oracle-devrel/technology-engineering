@@ -1,0 +1,44 @@
+title: Caldera - Exfiltration to Web Service via curl (Linux)
+id: c605c2e5-4c0d-4192-8b24-ed160ca9483b
+status: experimental
+description: >
+  Detects Linux-side data upload to public web services used as exfiltration
+  channels. Caldera T1567 emulation uploads staged files to paste sites,
+  cloud storage APIs (S3, GCS), or anonymous file-sharing services using curl.
+  Covers the endpoint-level activity that OCI network monitoring may miss.
+author: SOC Detection Engineering
+date: 2026/06/11
+logsource:
+  product: linux
+  service: syslog
+detection:
+  sel_paste_sites:
+    message|contains:
+      - 'paste.ee'
+      - 'pastebin.com'
+      - 'ghostbin.co'
+      - 'transfer.sh'
+      - 'file.io'
+      - 'ix.io'
+      - '0x0.st'
+  sel_cloud_storage:
+    message|contains:
+      - 's3.amazonaws.com'
+      - 'storage.googleapis.com'
+      - 'blob.core.windows.net'
+      - 'objectstorage.oraclecloud.com'
+  sel_upload_method:
+    message|contains:
+      - 'curl -X PUT'
+      - 'curl -X POST'
+      - 'curl -T '
+      - 'curl --upload-file'
+  condition: (sel_paste_sites or sel_cloud_storage) or (sel_upload_method and sel_paste_sites)
+level: high
+tags:
+  - attack.exfiltration
+  - attack.t1567
+falsepositives:
+  - Developers uploading code snippets to paste sites during troubleshooting
+  - Authorized backup jobs to cloud object storage
+version: 1

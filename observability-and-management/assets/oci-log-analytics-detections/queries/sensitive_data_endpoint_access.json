@@ -1,0 +1,36 @@
+{
+  "title": "Sensitive Data Endpoint Access",
+  "description": "Detects access to endpoints that may expose sensitive data (database exports, configuration files, backup files). OWASP A02:2021 Cryptographic Failures / A01 Broken Access Control.",
+  "query": "('Log Source' = 'OCI Load Balancer Access Logs' or 'Log Source' = 'SOC Load Balancer Access Logs') and ((('Response Code' = '200' or 'Response Code' = '301' or 'Response Code' = '302')) and (('Request URL' like '*.sql*' or 'Request URL' like '*.bak*' or 'Request URL' like '*.old*' or 'Request URL' like '*.backup*' or 'Request URL' like '*.dump*' or 'Request URL' like '*.log*' or 'Request URL' like '*.conf*' or 'Request URL' like '*.cfg*' or 'Request URL' like '*.ini*' or 'Request URL' like '*.key*' or 'Request URL' like '*.pem*' or 'Request URL' like '*.cert*' or 'Request URL' like '*.p12*' or 'Request URL' like '*.jks*' or 'Request URL' like '*.env*' or 'Request URL' like '*.htpasswd*' or 'Request URL' like '*.htaccess*' or 'Request URL' like '*/debug/*' or 'Request URL' like '*/trace/*' or 'Request URL' like '*/dump/*' or 'Request URL' like '*phpinfo*')))",
+  "sigma_id": "a1010012-owasp-a02-dataexposure-001",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.collection",
+    "attack.t1005",
+    "attack.t1552.001",
+    "owasp.a01",
+    "owasp.a02"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "collection"
+    ],
+    "techniques": [
+      "T1005",
+      "T1552.001"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "loadbalancer",
+    "candidates": [
+      "OCI Load Balancer Access Logs",
+      "SOC Load Balancer Access Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate access to log viewing endpoints",
+    "Authorized database administration"
+  ]
+}

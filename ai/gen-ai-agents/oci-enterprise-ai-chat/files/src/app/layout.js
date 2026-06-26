@@ -4,6 +4,7 @@ import { Roboto } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import theme from "./theme/theme";
+import BasePathInit from "./components/BasePathInit";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -36,6 +37,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${roboto.variable} ${oracleSans.variable}`}>
       <body>
+        <BasePathInit />
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>{children}</ThemeProvider>
         </AppRouterCacheProvider>

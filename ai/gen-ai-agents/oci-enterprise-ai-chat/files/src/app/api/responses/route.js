@@ -1,7 +1,20 @@
 import { NextResponse } from 'next/server';
+import { appendFileSync } from 'node:fs';
 import { ociRequest } from '../../lib/oci-proxy';
 import { Langfuse } from 'langfuse';
 import { createLogger } from '../../lib/logger';
+import { splitMcpFunctionName } from '../../lib/mcp-fn-name';
+
+// Debug: append-only file of raw OCI events for offline analysis. Gated by env
+// var so production stays silent. Set `OCI_TRACE_FILE` to an absolute path to
+// enable (e.g. /tmp/oci-raw-events.jsonl). One JSON object per line.
+const RAW_EVENTS_FILE = process.env.OCI_TRACE_FILE || null;
+const appendRawEvent = RAW_EVENTS_FILE
+  ? (entry) => {
+      try { appendFileSync(RAW_EVENTS_FILE, JSON.stringify(entry) + '\n'); }
+      catch { /* never break the stream for a log write */ }
+    }
+  : () => {};
 
 // Allow long-running MCP tool calls (up to 5 minutes)
 export const maxDuration = 300;
@@ -10,6 +23,13 @@ export async function POST(request) {
   const requestId = crypto.randomUUID();
   const log = createLogger('responses-api', { requestId });
 
+  // Declared outside the try block: the catch references these, and `let` inside
+  // the try is not in scope there — any pre-stream failure would die with a
+  // ReferenceError instead of returning the real error to the client.
+  let langfuseTrace = null;
+  let langfuseGeneration = null;
+  let langfuse = null;
+
   try {
     const { input, conversationId, model, systemPrompt, tools, reasoning, previousResponseId } = await request.json();
 
@@ -17,7 +37,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Input is required' }, { status: 400 });
     }
 
-    const modelId = model || 'openai.gpt-4.1';
+    const modelId = model || 'openai.gpt-oss-120b';
 
     // Multi-agent models use /v1, all others use /openai/v1
     const basePath = modelId.includes('multi-agent') ? '/v1' : '/openai/v1';
@@ -58,7 +78,7 @@ export async function POST(request) {
 
     // Add reasoning params (effort + summary) — only for reasoning-capable models
     if (reasoning && typeof reasoning === 'object') {
-      const reasoningModels = ['o4-mini', 'gpt-5.4', 'grok-4-reasoning', 'o3', 'o4'];
+      const reasoningModels = []; // client-safe models (gpt-oss / gemini) don't take a reasoning param here
       const supportsReasoning = reasoningModels.some(rm => modelId.includes(rm));
       if (supportsReasoning) {
         requestBody.reasoning = reasoning;
@@ -85,6 +105,25 @@ export async function POST(request) {
       store: requestBody.store,
       max_output_tokens: requestBody.max_output_tokens,
     });
+
+    // Marcador de inicio de request en el log raw — útil para separar Stream 1 vs Stream 2 vs chain calls
+    if (RAW_EVENTS_FILE) {
+      appendRawEvent({
+        _kind: 'request_start',
+        requestId,
+        ts: new Date().toISOString(),
+        model: requestBody.model,
+        hasConversation: !!requestBody.conversation,
+        hasPreviousResponseId: !!requestBody.previous_response_id,
+        previousResponseId: requestBody.previous_response_id || null,
+        conversation: requestBody.conversation || null,
+        inputPreview: Array.isArray(formattedInput)
+          ? formattedInput.map(i => ({ type: i.type, role: i.role, call_id: i.call_id, name: i.name, contentPreview: typeof i.content === 'string' ? i.content.slice(0, 120) : Array.isArray(i.content) ? i.content.map(c => c.type) : null }))
+          : (typeof formattedInput === 'string' ? formattedInput.slice(0, 200) : null),
+        toolCount: requestBody.tools?.length || 0,
+        toolLabels: (requestBody.tools || []).map(t => t.server_label || t.type),
+      });
+    }
 
     let response = await ociRequest('POST', '/responses', {
       body: requestBody,
@@ -165,10 +204,7 @@ export async function POST(request) {
     }
 
     // LangFuse tracing (non-blocking, fire-and-forget)
-    let langfuseTrace = null;
-    let langfuseGeneration = null;
     const langfuseEnabled = process.env.LANGFUSE_SECRET_KEY && process.env.LANGFUSE_PUBLIC_KEY;
-    let langfuse = null;
     if (langfuseEnabled) {
       try {
         langfuse = new Langfuse({
@@ -203,7 +239,15 @@ export async function POST(request) {
         const startTime = Date.now();
         let fullOutputText = '';
         let toolCalls = [];
+        // Track which function_call call_ids we've already delegated to the
+        // client. Gemini-via-OCI emits `output_item.done(function_call)` TWICE
+        // for the same call (once with output_index=0, once aligned with the
+        // following message item's index). Without this dedup we'd emit two
+        // mcp_function_call chunks → chain loop runs the tool twice →
+        // duplicated text/results. Keyed by call_id (stable across the dupes).
+        const delegatedFunctionCalls = new Set();
         const fileSearchOutputsSent = new Set();
+        const codeExecutionSent = new Set();
         let usageData = null;
         let responseCompleted = false;
         let completedResponseData = null;
@@ -212,6 +256,58 @@ export async function POST(request) {
         // When OCI sends `event: error`, the following `data:` line carries the real
         // error payload (provider message, code, details). Capture it to surface to UI.
         let pendingErrorEvent = false;
+        // For Gemini, OCI runs MCP tools natively but emits results as `function_call`
+        // items (no standalone `mcp_call` SSE events). However, OCI DOES include the
+        // executed `mcp_call` with its output in `response.completed.output[]`. That
+        // is the authoritative signal: if `outputs[]` carries a matching `mcp_call`
+        // with `output`, OCI ran the tool — do NOT delegate (would double-execute).
+        // Otherwise the client must execute it and chain a Pass 2.
+        const pendingDelegations = [];
+        // While a function_call mirror is buffered, the model's FOLLOWING text is
+        // speculative — it was written before the tool produced any result, and
+        // when we delegate it gets replaced by the chained pass anyway. Streaming
+        // it live made the UI show an answer that then vanished (flicker). Hold
+        // it here: flush if OCI turns out to have run the tool natively, discard
+        // if we delegate.
+        let deferredText = '';
+        const resolvePendingDelegations = (finalOutputs = null) => {
+          let delegatedAny = false;
+          for (const fc of pendingDelegations) {
+            const ranByOci = !!finalOutputs && finalOutputs.some(o =>
+              o.type === 'mcp_call' && o.output &&
+              o.name === fc.tool_name && o.server_label === fc.server_label
+            );
+            if (ranByOci) {
+              // The late-mcp_call emitter above already pushed mcp.tool_output with
+              // the real output. Chip is already in "completed" state. Nothing to do.
+              traceEvent('tool_native_ran', { tool: fc.tool_name, server: fc.server_label, call_id: fc.callId });
+              log.info('MCP tool executed by OCI natively (mcp_call in outputs) — no chain', { tool: fc.tool_name, server: fc.server_label });
+            } else {
+              delegatedAny = true;
+              controller.enqueue(encoder.encode(JSON.stringify({
+                mcp_function_call: {
+                  item_id: fc.itemId,
+                  call_id: fc.callId,
+                  fn_name: fc.fn_name,
+                  server_label: fc.server_label,
+                  tool_name: fc.tool_name,
+                  arguments: fc.arguments,
+                }
+              }) + '\n'));
+              traceEvent('mcp_call_delegated', { tool: fc.tool_name, server: fc.server_label, call_id: fc.callId });
+              log.info('MCP tool delegated to client (no mcp_call.output in finalOutputs)', { tool: fc.tool_name, server: fc.server_label, hadOutputs: !!finalOutputs });
+            }
+          }
+          if (deferredText) {
+            if (!delegatedAny) {
+              controller.enqueue(encoder.encode(JSON.stringify({ text: deferredText }) + '\n'));
+            } else {
+              traceEvent('pass1_text_discarded', { chars: deferredText.length });
+            }
+            deferredText = '';
+          }
+          pendingDelegations.length = 0;
+        };
 
         // ── Request trace: structured timeline for diagnostics ──
         const trace = {
@@ -223,10 +319,39 @@ export async function POST(request) {
           tools: {},        // {itemId: {tool, server, status, startMs, endMs, outputSize}}
           completion: null,  // {status, outputItems, outputTokens, totalTokens, elapsed}
           error: null,       // string if something went wrong
+          rawOciEvents: [], // [{t, event, item_type, item_name, item_status, delta, output_preview, args_preview}] — uncondicionado, en orden
         };
         const traceEvent = (type, detail) => {
           trace.events.push({ ts: Date.now() - startTime, type, ...(detail || {}) });
         };
+        // Raw event recorder — captures EVERY parsed SSE event from OCI in
+        // arrival order, with no transformation/filtering. Used to verify the
+        // actual sequence of events vs. what we render in the UI. Gated by
+        // env var so the per-event work and trace bloat only happen when
+        // someone is actually debugging.
+        const recordRawOciEvent = RAW_EVENTS_FILE
+          ? (data, elapsed) => {
+              const entry = { _kind: 'oci_event', requestId, t: elapsed, event: data.type };
+              if (data.item?.type) entry.item_type = data.item.type;
+              if (data.item?.id) entry.item_id = data.item.id;
+              if (data.item?.name) entry.item_name = data.item.name;
+              if (data.item?.status) entry.item_status = data.item.status;
+              if (data.item?.server_label) entry.server_label = data.item.server_label;
+              if (data.item?.call_id) entry.call_id = data.item.call_id;
+              if (typeof data.delta === 'string') entry.delta = data.delta.length > 80 ? data.delta.slice(0, 80) + '…' : data.delta;
+              if (typeof data.item?.output === 'string') {
+                entry.output_preview = data.item.output.length > 120 ? data.item.output.slice(0, 120) + '…' : data.item.output;
+                entry.output_len = data.item.output.length;
+              }
+              if (typeof data.item?.arguments === 'string') {
+                entry.args_preview = data.item.arguments.length > 120 ? data.item.arguments.slice(0, 120) + '…' : data.item.arguments;
+              }
+              if (data.response?.status) entry.response_status = data.response.status;
+              if (data.response?.id) entry.response_id = data.response.id;
+              trace.rawOciEvents.push(entry);
+              appendRawEvent(entry);
+            }
+          : () => {};
 
         // Send thinking indicator IMMEDIATELY when stream starts
         log.info('Stream started');
@@ -353,6 +478,9 @@ export async function POST(request) {
                 lastEventType = eventType;
                 eventCount++;
 
+                // Raw event recording — uncondicionado, ANTES de cualquier transformación.
+                recordRawOciEvent(data, elapsed);
+
                 // DEBUG: Log every SSE event type for full visibility
                 log.debug('SSE event', { event: eventType, itemType, itemId: itemId?.slice(-12), elapsed, lineLen: line.length });
 
@@ -371,7 +499,11 @@ export async function POST(request) {
                 // ═══ TEXT STREAMING ═══
                 else if (eventType === 'response.output_text.delta' && data.delta) {
                   fullOutputText += data.delta;
-                  controller.enqueue(encoder.encode(JSON.stringify({ text: data.delta }) + '\n'));
+                  if (pendingDelegations.length > 0) {
+                    deferredText += data.delta; // held until delegation resolves (see above)
+                  } else {
+                    controller.enqueue(encoder.encode(JSON.stringify({ text: data.delta }) + '\n'));
+                  }
                 }
                 else if (eventType === 'response.output_text.done') {
                   controller.enqueue(encoder.encode(JSON.stringify({ text_done: data.text }) + '\n'));
@@ -424,12 +556,6 @@ export async function POST(request) {
                   else if (itemType === 'image_generation_call') {
                     controller.enqueue(encoder.encode(JSON.stringify({
                       mcp: { type: 'calling', id: itemId, server: 'image_generation', tool: 'image_generation', arguments: '' }
-                    }) + '\n'));
-                  }
-                  else if (itemType === 'nl2sql_call') {
-                    const query = data.item.input_natural_language_query || data.item.query || '';
-                    controller.enqueue(encoder.encode(JSON.stringify({
-                      mcp: { type: 'calling', id: itemId, server: 'nl2sql', tool: 'nl2sql', arguments: query ? JSON.stringify({ query }) : '' }
                     }) + '\n'));
                   }
                   // File search added — emit calling chip early with vector_store info
@@ -532,30 +658,131 @@ export async function POST(request) {
                   }
                   // Code interpreter completed
                   else if (itemType === 'code_interpreter_call') {
+                    codeExecutionSent.add(itemId);
                     const results = data.item.outputs || data.item.results || [];
                     const outputText = results.map(r => r.logs || r.output || r.text || '').join('\n').trim();
                     controller.enqueue(encoder.encode(JSON.stringify({
                       code_execution: { code: data.item.code || data.item.input || '', output: outputText, containerId: data.item.container_id || null }
                     }) + '\n'));
                   }
-                  // NL2SQL completed
-                  else if (itemType === 'nl2sql_call') {
-                    const sql = data.item.generated_sql || data.item.sql || '';
-                    const results = data.item.results || data.item.output || '';
-                    const output = sql ? `**Generated SQL:**\n\`\`\`sql\n${sql}\n\`\`\`${results ? `\n\n**Results:**\n${typeof results === 'string' ? results : JSON.stringify(results, null, 2)}` : ''}` : 'Query completed';
-                    controller.enqueue(encoder.encode(JSON.stringify({
-                      mcp: { type: 'tool_output', id: itemId, tool: 'nl2sql', server: 'nl2sql', output, arguments: data.item.input_natural_language_query || data.item.query || '' }
-                    }) + '\n'));
-                  }
                   // Image generation completed
                   else if (itemType === 'image_generation_call') {
                     controller.enqueue(encoder.encode(JSON.stringify({ generated_image: data.item.result || '' }) + '\n'));
                   }
-                  // Function call completed
+                  // Function call completed.
+                  //
+                  // Two distinct flavors:
+                  // (a) mcp__<server>__<tool> name → the model wants an MCP tool
+                  //     run but OCI did NOT execute it itself (typical with
+                  //     gpt-oss-120b). The output field is empty. We must run
+                  //     the tool on the client side and submit a
+                  //     function_call_output back via a chained Responses call.
+                  // (b) anything else → legacy client-side function_call path.
                   else if (itemType === 'function_call') {
-                    controller.enqueue(encoder.encode(JSON.stringify({
-                      function_call: { id: itemId, callId: data.item.call_id, name: data.item.name, arguments: data.item.arguments }
-                    }) + '\n'));
+                    const fname = data.item.name || '';
+                    // Pass the configured server labels so labels containing "__"
+                    // (sanitized names like "PPT___Mail") split correctly.
+                    const knownLabels = (tools || []).filter(t => t.type === 'mcp').map(t => t.server_label);
+                    const mcpMatch = splitMcpFunctionName(fname, knownLabels);
+                    if (mcpMatch) {
+                      const callId = data.item.call_id;
+                      // OCI's native tools (file_search, web_search, image_generation,
+                      // code_interpreter) come through the model under names like
+                      // `mcp__hosted_genai_<tool>__<tool>`. The native branches above (e.g.
+                      // file_search_call.done) already produce the chip + tool_output; this
+                      // mirror is a duplicate signal. Skip it — emitting mcp_function_call
+                      // would create a phantom client-side chain trying to call a
+                      // non-existent MCP server.
+                      //
+                      // Note on gpt-oss-120b: OCI's docs claim file_search works with this
+                      // model, but in practice OCI emits ONLY this mirror and never runs
+                      // the search natively. Skipping the mirror here means the model is
+                      // left waiting for a function_call_output that never comes → stream
+                      // closes with `stream_final_event_missing`. That's the correct
+                      // visible failure; the previous client-side workaround that re-ran
+                      // the search ourselves and chained Pass 2 produced low-quality
+                      // generic responses anyway. Use Gemini or Grok for RAG.
+                      // Detect against the FULL fn_name. OCI uses two formats
+                      // for the same op depending on the model/version:
+                      //   mcp__hosted_genai_file_search__file_search   (single _)
+                      //   mcp__hosted_genai__file_search__file_search  (double _)
+                      // Both start with "mcp__hosted_genai_" so a single
+                      // prefix check catches both. Fall back to detecting raw
+                      // native names too, just in case some future model
+                      // emits them without the `hosted_genai` prefix.
+                      const NATIVE_OCI_TOOL_NAMES = ['file_search', 'web_search', 'image_generation', 'code_interpreter'];
+                      const isNativeMirror =
+                        fname.startsWith('mcp__hosted_genai_') ||
+                        NATIVE_OCI_TOOL_NAMES.some(n => fname === `mcp__${n}__${n}` || fname.startsWith(`mcp__${n}__`));
+                      if (isNativeMirror) {
+                        log.info('Skipping function_call mirror for native OCI tool', { fname, callId });
+                        traceEvent('function_call_native_mirror_skipped', { fname, call_id: callId });
+                        if (callId) delegatedFunctionCalls.add(callId);
+                        continue;
+                      }
+                      // Dedup: OCI emits this event twice for Gemini (different
+                      // output_index, same call_id). Only buffer the first.
+                      if (callId && delegatedFunctionCalls.has(callId)) {
+                        log.info('Skipping duplicate function_call done', { callId, tool: mcpMatch.toolName });
+                      } else {
+                        if (callId) delegatedFunctionCalls.add(callId);
+                        const { serverLabel, toolName } = mcpMatch;
+                        const tc = toolCalls.find(t =>
+                          t.tool === toolName && t.server === serverLabel && !t.outputSent
+                        );
+                        // Same tool already delivered its output via a real
+                        // mcp_call in THIS stream (outputSent and not merely
+                        // delegated): this mirror is a duplicate signal, not a
+                        // fresh invocation. Buffering it would push a phantom
+                        // "calling" chip that nothing ever completes.
+                        if (!tc && toolCalls.some(t => t.tool === toolName && t.server === serverLabel && t.outputSent && !t.delegated)) {
+                          traceEvent('function_call_mirror_after_output_skipped', { tool: toolName, server: serverLabel, call_id: callId });
+                          log.info('Skipping function_call mirror — tool already completed via mcp_call', { tool: toolName, server: serverLabel, callId });
+                          continue;
+                        }
+                        // gpt-oss-120b emits function_call items without their
+                        // own `id` field — only `call_id`. Without a fallback we
+                        // emit mcp.calling with id=undefined, and a moment later
+                        // emit mcp_function_call also with item_id=undefined.
+                        // useChat then can't match the two (chip mcpItemId ends
+                        // up as null while fc.item_id is undefined) → it pushes
+                        // a SECOND chip for the same call. Fall back to call_id
+                        // so both events carry the same stable identifier.
+                        const chipItemId = tc?.id || itemId || callId || null;
+
+                        // Eagerly show a "calling" chip so the user sees the tool was invoked.
+                        // The completion path (delegate vs. mark-done) is decided at response.completed.
+                        controller.enqueue(encoder.encode(JSON.stringify({
+                          mcp: {
+                            type: 'calling',
+                            id: chipItemId,
+                            server: serverLabel,
+                            tool: toolName,
+                            arguments: data.item.arguments || '{}',
+                          }
+                        }) + '\n'));
+
+                        pendingDelegations.push({
+                          itemId: chipItemId,
+                          callId,
+                          fn_name: fname,
+                          server_label: serverLabel,
+                          tool_name: toolName,
+                          arguments: data.item.arguments || '{}',
+                        });
+                        if (tc) {
+                          tc.outputSent = true;
+                          tc.delegated = true;
+                        }
+                        traceEvent('function_call_buffered', { tool: toolName, server: serverLabel, call_id: callId });
+                        log.info('MCP function_call buffered for completion-time decision', { tool: toolName, server: serverLabel, callId });
+                      }
+                    } else {
+                      // Real client-side function call (legacy path)
+                      controller.enqueue(encoder.encode(JSON.stringify({
+                        function_call: { id: itemId, callId: data.item.call_id, name: data.item.name, arguments: data.item.arguments }
+                      }) + '\n'));
+                    }
                   }
                   // Reasoning item done — signal end-of-reasoning to the UI
                   else if (itemType === 'reasoning') {
@@ -673,22 +900,6 @@ export async function POST(request) {
                   log.debug('File search completed', { itemId, elapsed });
                 }
 
-                // ═══ NL2SQL EVENTS ═══
-                else if (eventType === 'response.nl2sql_call.in_progress') {
-                  const query = data.query || data.input_natural_language_query || '';
-                  controller.enqueue(encoder.encode(JSON.stringify({
-                    mcp: { type: 'calling', id: itemId, server: 'nl2sql', tool: 'nl2sql', arguments: query ? JSON.stringify({ query }) : '' }
-                  }) + '\n'));
-                }
-                else if (eventType === 'response.nl2sql_call.completed') {
-                  const sql = data.generated_sql || data.sql || '';
-                  const results = data.results || data.output || '';
-                  const output = sql ? `**Generated SQL:**\n\`\`\`sql\n${sql}\n\`\`\`${results ? `\n\n**Results:**\n${typeof results === 'string' ? results : JSON.stringify(results, null, 2)}` : ''}` : 'Query completed';
-                  controller.enqueue(encoder.encode(JSON.stringify({
-                    mcp: { type: 'tool_output', id: itemId, tool: 'nl2sql', server: 'nl2sql', output }
-                  }) + '\n'));
-                }
-
                 // ═══ REASONING EVENTS ═══
                 else if (eventType === 'response.reasoning_summary_text.delta' && data.delta) {
                   controller.enqueue(encoder.encode(JSON.stringify({ reasoning: { type: 'delta', text: data.delta } }) + '\n'));
@@ -772,15 +983,34 @@ export async function POST(request) {
                   if (incompleteDetails) log.warn('Response incomplete', { details: incompleteDetails });
 
                   // Emit tool_output for MCP calls that arrived in response.completed
-                  // but never got an individual output_item.done event
+                  // but never got an individual output_item.done event.
+                  // `delegated` entries don't count as sent: their outputSent flag is
+                  // bookkeeping from the function_call-mirror handler, not a real
+                  // tool_output emit — if OCI ran the tool natively, THIS loop is the
+                  // only place the actual output reaches the chip.
                   for (const mc of outputs.filter(o => o.type === 'mcp_call' && o.output)) {
-                    const alreadySent = toolCalls.some(tc => tc.tool === mc.name && tc.server === mc.server_label && tc.outputSent);
+                    const alreadySent = toolCalls.some(tc => tc.tool === mc.name && tc.server === mc.server_label && tc.outputSent && !tc.delegated);
                     if (!alreadySent) {
                       log.info('Emitting late MCP tool_output from response.completed', { tool: mc.name, server: mc.server_label, outputSize: mc.output.length });
                       controller.enqueue(encoder.encode(JSON.stringify({
                         mcp: { type: 'tool_output', id: mc.id, tool: mc.name, server: mc.server_label, output: mc.output, outputSize: mc.output.length, truncated: false, arguments: mc.arguments }
                       }) + '\n'));
                     }
+                  }
+
+                  // Same late-emit treatment for code_interpreter_call: Gemini runs
+                  // the sandbox without emitting per-item done events — the executed
+                  // call (with code + status) only shows up here. Without this the
+                  // UI renders the answer with no code block at all.
+                  for (const ci of outputs.filter(o => o.type === 'code_interpreter_call')) {
+                    if (codeExecutionSent.has(ci.id)) continue;
+                    codeExecutionSent.add(ci.id);
+                    const results = ci.outputs || ci.results || [];
+                    const outputText = results.map(r => r.logs || r.output || r.text || '').join('\n').trim();
+                    log.info('Emitting late code_execution from response.completed', { id: ci.id, hasCode: !!(ci.code || ci.input) });
+                    controller.enqueue(encoder.encode(JSON.stringify({
+                      code_execution: { code: ci.code || ci.input || '', output: outputText, containerId: ci.container_id || null }
+                    }) + '\n'));
                   }
 
                   // Fallback: emit tool_output for any file_search_call whose
@@ -812,12 +1042,40 @@ export async function POST(request) {
                   // against the vector_store(s) attached to this request so we can emit the
                   // matching documents as `file_citation` annotations the UI renders as chips.
                   // Each citation carries `file_search_call_id` so the chip can count chunks per call.
-                  const fsCalls = outputs.filter(o => o.type === 'file_search_call' && o.queries?.length > 0);
+                  //
+                  // Fallback for queries: Grok runs file_search but leaves the `queries` field
+                  // empty on the call item (semantic search keyed off the conversation rather
+                  // than explicit queries). Without queries our re-search would never run and
+                  // the user would see no sources chip. Fall back to the user's last input as
+                  // the query so we always get citations when a search actually happened.
+                  const deriveUserQuery = () => {
+                    if (typeof input === 'string') return input;
+                    if (Array.isArray(input)) {
+                      for (const item of input) {
+                        if (typeof item === 'string') return item;
+                        if (item?.type === 'input_text' && item.text) return item.text;
+                        if (item?.role === 'user' && Array.isArray(item.content)) {
+                          const t = item.content.find(c => c.type === 'input_text');
+                          if (t?.text) return t.text;
+                        }
+                      }
+                    }
+                    return '';
+                  };
+                  const fsCalls = outputs
+                    .filter(o => o.type === 'file_search_call')
+                    .map(fs => {
+                      const explicit = Array.isArray(fs.queries) ? fs.queries.filter(q => typeof q === 'string' && q.trim()) : [];
+                      if (explicit.length > 0) return { ...fs, _queries: explicit };
+                      const fallback = deriveUserQuery().trim();
+                      return fallback ? { ...fs, _queries: [fallback] } : null;
+                    })
+                    .filter(Boolean);
                   if (fsCalls.length > 0 && vsIds.length > 0) {
                     const fsCitations = [];
                     const seen = new Set();
                     await Promise.all(
-                      fsCalls.flatMap(fs => fs.queries.flatMap(query =>
+                      fsCalls.flatMap(fs => fs._queries.flatMap(query =>
                         vsIds.map(async (vsId) => {
                           try {
                             const sr = await ociRequest('POST', `/vector_stores/${vsId}/search`, {
@@ -859,16 +1117,6 @@ export async function POST(request) {
                       log.info('Emitting file_search source citations', { count: fsCitations.length });
                       controller.enqueue(encoder.encode(JSON.stringify({ annotations: fsCitations }) + '\n'));
                     }
-                  }
-
-                  // Enrich nl2sql with results
-                  for (const ns of outputs.filter(o => o.type === 'nl2sql_call')) {
-                    const sql = ns.generated_sql || ns.sql || '';
-                    const results = ns.results || ns.output || '';
-                    const output = sql ? `**Generated SQL:**\n\`\`\`sql\n${sql}\n\`\`\`${results ? `\n\n**Results:**\n${typeof results === 'string' ? results : JSON.stringify(results, null, 2)}` : ''}` : 'Query completed';
-                    controller.enqueue(encoder.encode(JSON.stringify({
-                      mcp: { type: 'tool_output', tool: 'nl2sql', server: 'nl2sql', output }
-                    }) + '\n'));
                   }
 
                   // Extract all annotations
@@ -932,6 +1180,10 @@ export async function POST(request) {
                     }) + '\n'));
                   }
 
+                  // Resolve buffered function_call delegations using outputs as the
+                  // authoritative source of mcp_call coverage.
+                  resolvePendingDelegations(outputs || []);
+
                   // Cache for end-of-stream finalization.
                   // Do NOT declare tools orphaned or emit done:true yet —
                   // OCI sometimes emits tool results (response.output_item.done with mcp_call output)
@@ -984,24 +1236,21 @@ export async function POST(request) {
             } catch (_) { /* controller may already be closing */ }
           }
 
-          // Detect premature close: OCI dropped connection without response.completed
+          // Stream ended. If OCI didn't explicitly send response.completed we just
+          // treat the close as a normal end — the UI shows whatever state the
+          // chips reached. No fabricated error, no soft/hard classification.
+          // Network-level failures still bubble through the outer try/catch.
           if (!responseCompleted && !stalled) {
-            log.error('PREMATURE STREAM CLOSE — OCI never sent response.completed', {
-              elapsed, eventCount, lastEventType, toolCalls, textLength: fullOutputText.length, opcRequestId,
-              buffer: buffer.substring(0, 500),
+            log.info('Stream ended without response.completed (treated as normal end)', {
+              elapsed, eventCount, lastEventType, toolCalls: toolCalls.map(t => t.tool), opcRequestId,
             });
+            // Still resolve any buffered delegations — without response.completed we
+            // don't have outputs, so default to delegating (safer than leaving the
+            // chip stuck in "calling" forever).
+            resolvePendingDelegations(null);
             trace.opcRequestId = opcRequestId;
-            trace.error = `OCI closed connection after ${Math.round(elapsed / 1000)}s without response.completed. ` +
-              `Received ${eventCount} events, last was "${lastEventType || 'none'}". ` +
-              `${toolCalls.length > 0 ? `Active tools: ${toolCalls.map(t => t.tool).join(', ')}. ` : ''}` +
-              `This is an OCI Responses API issue — the upstream closed the SSE stream prematurely.`;
-            traceEvent('premature_close', { eventCount, lastEventType });
             try {
-              controller.enqueue(encoder.encode(JSON.stringify({
-                error: trace.error,
-                done: true,
-                trace,
-              }) + '\n'));
+              controller.enqueue(encoder.encode(JSON.stringify({ done: true, trace }) + '\n'));
             } catch (_) { /* controller may already be closing */ }
           }
 

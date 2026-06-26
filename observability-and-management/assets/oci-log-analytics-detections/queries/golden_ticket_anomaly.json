@@ -1,0 +1,39 @@
+{
+  "title": "Golden Ticket: RC4 Encrypted TGT Request",
+  "description": "Detects Kerberos TGT requests (4768) or renewals (4770) using RC4 encryption. Golden tickets forged with krbtgt hash use RC4; modern AD defaults to AES256.\n",
+  "query": "('Log Source' = 'Windows Security Events' or 'Log Source' = 'Windows Event Security Logs') and ((('Event ID' = '4768' or 'Event ID' = '4770') and 'Ticket Encryption Type' = '0x17')) | stats count as Requests by User, 'Event ID' | sort -Requests",
+  "sigma_id": "golden-t1558-001",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.credential_access",
+    "attack.t1558.001",
+    "attack.persistence"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "credential_access",
+      "persistence"
+    ],
+    "techniques": [
+      "T1558.001"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "security",
+    "candidates": [
+      "Windows Security Events",
+      "Windows Event Security Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legacy systems requesting RC4 TGTs"
+  ],
+  "atomic_red_team": {
+    "has_tests": false,
+    "test_count": 0,
+    "techniques_with_tests": [],
+    "tests": []
+  }
+}

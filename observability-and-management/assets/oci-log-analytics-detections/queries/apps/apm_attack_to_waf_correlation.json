@@ -1,0 +1,31 @@
+{
+  "title": "APM: Browser Attack to WAF Block Correlation",
+  "description": "Summary table joining browser-side attack telemetry from SOC Application Logs with the WAF signal that flagged the same Trace ID. Hosts a count of how many traces fired both an APM detection and a WAF block, so the SOC can prove cross-tier defence-in-depth coverage.",
+  "query": "'Log Source' in ('SOC Application Logs', 'SOC WAF Security Logs') and 'Trace ID' != null | stats count as Events, distinctcount('Log Source') as DistinctTiers, distinctcount('Service Name') as Services by 'Trace ID' | where DistinctTiers > 1 | sort -Events",
+  "type": "hunting",
+  "level": "high",
+  "tags": ["apm", "waf", "correlation", "defence_in_depth", "showcase"],
+  "logsource": {
+    "product": "oci",
+    "service": "apm",
+    "candidates": ["SOC Application Logs", "SOC WAF Security Logs"]
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "valueField": "Events",
+      "highlightField": "DistinctTiers",
+      "highlightThreshold": 2
+    },
+    "ask_ai_prompts": [
+      "List traces where both APM and WAF observed the same attack.",
+      "Which client IP triggered the most cross-tier detections?"
+    ]
+  },
+  "mitre_attack": {
+    "tactics": ["initial_access"],
+    "techniques": ["T1190"]
+  }
+}

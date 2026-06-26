@@ -1,0 +1,32 @@
+{
+  "title": "Insecure Direct Object Reference Detected",
+  "description": "Detects IDOR (Insecure Direct Object Reference) attacks where users access resources belonging to other users by manipulating object IDs in URLs. OWASP A01:2021 Broken Access Control.",
+  "query": "('Log Source' = 'SOC Web Application Logs' or 'Log Source' = 'OCI Load Balancer Access Logs') and (('Attack Type' = 'IDOR') or ('OWASP Category' like '*Broken Access Control*'))",
+  "sigma_id": "a1010017-owasp-a01-idor-001",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.initial_access",
+    "attack.t1190",
+    "owasp.a01"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "initial_access"
+    ],
+    "techniques": [
+      "T1190"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "webapp",
+    "candidates": [
+      "SOC Web Application Logs",
+      "OCI Load Balancer Access Logs"
+    ]
+  },
+  "falsepositives": [
+    "Admin users legitimately accessing other user profiles"
+  ]
+}

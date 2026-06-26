@@ -1,0 +1,122 @@
+{
+  "title": "Linux Hidden File or Directory Creation in Suspicious Location",
+  "description": "Detects creation of hidden files or directories (starting with dot) in world-writable or suspicious locations commonly used by attackers to stash tools and payloads.",
+  "query": "('Log Source' = 'SOC Linux Syslog Logs' or 'Log Source' = 'Linux Secure Logs' or 'Log Source' = 'Linux Syslog Logs' or 'Log Source' = 'Linux Audit Logs') and (((msg like '*/tmp/.*' or msg like '*/var/tmp/.*' or msg like '*/dev/shm/.*' or msg like '*/run/lock/.*')))",
+  "sigma_id": "f1e2d3c4-5010-4000-8000-000000000010",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.t1564.001"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1564.001"
+    ]
+  },
+  "logsource": {
+    "product": "linux",
+    "service": "audit",
+    "candidates": [
+      "SOC Linux Syslog Logs",
+      "Linux Secure Logs",
+      "Linux Syslog Logs",
+      "Linux Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Applications creating hidden temporary configuration files"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 10,
+    "techniques_with_tests": [
+      "T1564.001"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1564.001",
+        "test_name": "Create a hidden file in a hidden directory",
+        "test_guid": "61a782e5-9a19-40b5-8ba4-69a4b9f3d7be",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1564.001/T1564.001.md"
+      },
+      {
+        "technique_id": "T1564.001",
+        "test_name": "Mac Hidden file",
+        "test_guid": "cddb9098-3b47-4e01-9d3b-6f5f323288a9",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1564.001/T1564.001.md"
+      },
+      {
+        "technique_id": "T1564.001",
+        "test_name": "Create Windows System File with Attrib",
+        "test_guid": "f70974c8-c094-4574-b542-2c545af95a32",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1564.001/T1564.001.md"
+      },
+      {
+        "technique_id": "T1564.001",
+        "test_name": "Create Windows Hidden File with Attrib",
+        "test_guid": "dadb792e-4358-4d8d-9207-b771faa0daa5",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1564.001/T1564.001.md"
+      },
+      {
+        "technique_id": "T1564.001",
+        "test_name": "Hidden files",
+        "test_guid": "3b7015f2-3144-4205-b799-b05580621379",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1564.001/T1564.001.md"
+      },
+      {
+        "technique_id": "T1564.001",
+        "test_name": "Hide a Directory",
+        "test_guid": "b115ecaf-3b24-4ed2-aefe-2fcb9db913d3",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1564.001/T1564.001.md"
+      },
+      {
+        "technique_id": "T1564.001",
+        "test_name": "Show all hidden files",
+        "test_guid": "9a1ec7da-b892-449f-ad68-67066d04380c",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1564.001/T1564.001.md"
+      },
+      {
+        "technique_id": "T1564.001",
+        "test_name": "Hide Files Through Registry",
+        "test_guid": "f650456b-bd49-4bc1-ae9d-271b5b9581e7",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1564.001/T1564.001.md"
+      },
+      {
+        "technique_id": "T1564.001",
+        "test_name": "Create Windows Hidden File with powershell",
+        "test_guid": "7f66d539-4fbe-4cfa-9a56-4a2bf660c58a",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1564.001/T1564.001.md"
+      },
+      {
+        "technique_id": "T1564.001",
+        "test_name": "Create Windows System File with powershell",
+        "test_guid": "d380c318-0b34-45cb-9dad-828c11891e43",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1564.001/T1564.001.md"
+      }
+    ]
+  }
+}

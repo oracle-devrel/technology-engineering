@@ -4,7 +4,7 @@ A transportable tablespace is an Oracle Database feature that helps to migrate e
 
 Transportable tablespaces are usually the fastest fast way to move user and application data between databases because tablespace data files are moved en masse from the source database to the target.
 
-Reviewed: 08.10.2025
+Reviewed: 04.06.2026
  
 # Table of Contents
  
