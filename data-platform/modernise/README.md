@@ -43,25 +43,25 @@ Reviewed: 15.06.2026
     - Explore and compare key features of different Oracle migration methods, available on Marcus Doeringer's public platform
 - [Multicloud Network Architectures for DB Migrations to Oracle Cloud Infrastructure](https://www.youtube.com/watch?v=1ngXJRsP5jA)
     - Cloud Coaching Webinar explaining different multicloud network architectures for migrating databases to OCI using Zero Downtime Migration
-- [Migrate On-Premises Database to OCI using Oracle Database Cloud Backup Module and RMAN ](https://amalrajputhenchira.wordpress.com/2024/08/13/migrate-on-premises-oracle-database-to-oci-using-oracle-database-cloud-backup-module-and-rman/)
+- [Migrate On-Premises Database to OCI using Oracle Database Cloud Backup Module and RMAN ](https://amalrajputhenchira.com/2024/08/13/migrate-on-premises-oracle-database-to-oci-using-oracle-database-cloud-backup-module-and-rman/)
     - Detailed, step-by-step instructions for performing Physical Offline Migration of On-Premises database to Co-Managed Database in OCI using Oracle Database Cloud Backup Module and RMAN , available on Amalraj Puthenchira's public platform
-- [How to Modernise OS and Shape of your Oracle Base Database Standalone Systems on Intel ? ](https://amalrajputhenchira.wordpress.com/2024/12/03/how-to-modernise-os-and-shape-of-your-oracle-base-database-standalone-systems-on-intel/)
+- [How to Modernise OS and Shape of your Oracle Base Database Standalone Systems on Intel ? ](https://amalrajputhenchira.com/2024/12/03/how-to-modernise-os-and-shape-of-your-oracle-base-database-standalone-systems-on-intel/)
     - Detailed, step-by-step instructions for Modernising OS and Shape of Oracle Base Database Standalone Systems on Intel , available on Amalraj Puthenchira's public platform
-- [Migrate Oracle Base Database to Oracle Exadata Database Service on ExaScale Infrastructure using Refreshable PDBs ](https://amalrajputhenchira.wordpress.com/2025/02/04/migrate-oracle-base-database-to-oracle-exadata-database-service-on-exascale-infrastructure-using-refreshable-pdbs/)
+- [Migrate Oracle Base Database to Oracle Exadata Database Service on ExaScale Infrastructure using Refreshable PDBs ](https://amalrajputhenchira.com/2025/02/04/migrate-oracle-base-database-to-oracle-exadata-database-service-on-exascale-infrastructure-using-refreshable-pdbs/)
     - Detailed, step-by-step instructions for Migrating Oracle Base Database to Oracle Exadata Database Service on ExaScale Infrastructure using Refreshable PDB feature, available on Amalraj Puthenchira's public platform    
-- [Modernise OS and Shape of your Oracle Base Database Systems with Data Guard using Refreshable PDBs ](https://amalrajputhenchira.wordpress.com/2025/02/13/modernise-os-and-shape-of-your-oracle-base-database-systems-with-data-guard-using-refreshable-pdbs/)
+- [Modernise OS and Shape of your Oracle Base Database Systems with Data Guard using Refreshable PDBs ](https://amalrajputhenchira.com/2025/02/13/modernise-os-and-shape-of-your-oracle-base-database-systems-with-data-guard-using-refreshable-pdbs/)
     - Detailed, step-by-step instructions for Modernising OS and Shape of Oracle Base Database Systems with Data Guard using Refreshable PDBs , available on Amalraj Puthenchira's public platform
-- [Migrating to latest generation of Exadata Database Service on Dedicated Infrastructure without worrying about RTO/RPO](https://amalrajputhenchira.wordpress.com/2025/02/17/migrating-to-latest-generation-of-exadata-database-service-on-dedicated-infrastructure-without-worrying-about-rto-rpo/)
+- [Migrating to latest generation of Exadata Database Service on Dedicated Infrastructure without worrying about RTO/RPO](https://amalrajputhenchira.com/2025/02/17/migrating-to-latest-generation-of-exadata-database-service-on-dedicated-infrastructure-without-worrying-about-rto-rpo/)
     - Detailed, step-by-step instructions for Migrating Database from existing ExaDB-D to latest generation of ExaDB-D , available on Amalraj Puthenchira's public platform
-- [Migrate and Upgrade your Oracle Base Database to Exadata Database Service on Exascale Infrastructure using AutoUpgrade](https://amalrajputhenchira.wordpress.com/2025/03/03/migrate-your-oracle-base-database-to-exadata-database-service-on-exascale-infrastructure-using-autoupgrade/)
+- [Migrate and Upgrade your Oracle Base Database to Exadata Database Service on Exascale Infrastructure using AutoUpgrade](https://amalrajputhenchira.com/2025/03/03/migrate-your-oracle-base-database-to-exadata-database-service-on-exascale-infrastructure-using-autoupgrade/)
     - Detailed, step-by-step instructions for Migrate and Upgrade Oracle Base Database 19c to ExaDB-XS using AutoUpgrade , available on Amalraj Puthenchira's public platform
 - [Exadata Cloud Infrastructure Migration Automation Utility for ExaDB-D and ExaDB-C@C ](https://youtu.be/0GA-c24nFd4?si=Rl7E0Fd0jfSglxb8)
     - Detailed Oracle Developer On Demand video with step-by-step instructions for migrating Infrastucture , VM Cluster and Databases on ExaDB-D and ExaDB-C@C using new Automation Utility , delivered by Amalraj Puthenchira in collaboration with Black Belts from Mission Critical Team and Exadata Cloud@Customer Team.
-- [Migrating to Exadata Database Service on Dedicated Infrastructure using Cloud native command line ](https://amalrajputhenchira.wordpress.com/2025/12/02/migrating-to-exadata-database-on-dedicated-infrastructure-using-cloud-native-command-line/)
+- [Migrating to Exadata Database Service on Dedicated Infrastructure using Cloud native command line ](https://amalrajputhenchira.com/2025/12/02/migrating-to-exadata-database-on-dedicated-infrastructure-using-cloud-native-command-line/)
     - Detailed, step-by-step instructions for performing physical offline migration to Exdata Database Service on Dedicated Infrastructure using Cloud native command line , available on Amalraj Puthenchira's public platform
 - [Migration Toolkit](https://macsdata.com/migration-toolkit)
     - Professional calculators and tools for planning, executing, and monitoring data migrations, available on Marcus Doeringer's public platform
-- [How to create a Non Container Database on Exadata Database Service on Dedicated Infrastructure ? ](https://amalrajputhenchira.wordpress.com/2026/01/12/how-to-create-a-non-container-database-on-exadata-database-service-on-dedicated-infrastructure/)
+- [How to create a Non Container Database on Exadata Database Service on Dedicated Infrastructure ? ](https://amalrajputhenchira.com/2026/01/12/how-to-create-a-non-container-database-on-exadata-database-service-on-dedicated-infrastructure/)
     - Detailed, step-by-step instructions for creating a non-cdb database on exadb-d using Cloud native command line , available on Amalraj Puthenchira's public platform
 - [Migration between different Oracle versions using Remote Clone and DBUpgrade](https://carlosal.wordpress.com/2026/01/21/remote-clone-between-different-database-versions-a-real-case-remote-clone-dbupgrade/https://carlosal.wordpress.com/2026/01/21/remote-clone-between-different-database-versions-a-real-case-remote-clone-dbupgrade/)
     - Blog technical article about how to migrate databases with different versions using Remote Clone and DBUpgrade: a real case. Available on Carlos Álvarez's public platform.
@@ -69,7 +69,8 @@ Reviewed: 15.06.2026
     - Blog technical article that explains in detail how to migrate a 19c PDB to a 26ai CDB using autoupgrade and Refreshable Clone. Available on Carlos Álvarez's public platform.
 - [SQL Formatter](https://macsdata.com/sql-formatter)
     - Format, beautify, and export SQL. Available on Marcus Doeringer's public platform. 
-
+- [Deploying Oracle GoldenGate Docker for Database Migration to Oracle Database@Google Cloud ](https://amalrajputhenchira.com/2026/06/09/deploying-oracle-goldengate-docker-for-database-migration-to-oracle-databasegoogle-cloud/)
+    - Detailed, step-by-step instructions for deploying Oracle GoldenGate on docker for database migrtion to Oracle Database@Google Cloud, available on Amalraj Puthenchira's public platform
 
 # Useful Links
 
