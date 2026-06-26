@@ -40,6 +40,8 @@ Reviewed: 07.10.2025
     - Detailed, step-by-step instructions for performing logical online migration to Autonomous Database Dedicated using NFS as data transfer medium, available on Amalraj Puthenchira's public platform
 - [ZDM: Migration to Exadata Database Service on Dedicated Infrastructure with Cloud Native DR ](https://amalrajputhenchira.wordpress.com/2025/08/04/oracle-zero-downtime-migration-to-exadata-database-service-on-dedicated-infrastructure-with-cloud-native-dr/)
     - Detailed, step-by-step instructions for performing Physical online migration to Exadata Database Service on Dedicated Infrastructure with Cloud Native DR , available on Amalraj Puthenchira's public platform
+- [ZDM: Physical Online Migration with Refreshable Clone ](https://carlosal.wordpress.com/2026/06/16/zero-downtime-migration-v26-1-physical-online-migrations-with-refreshable-clone/)
+    - Detailed, step-by-step instructions for performing Physical Online Migration using the ZDM 26.1 support for Refreshable Clone PDBs, available on Carlos Álvarez's public platform
 
 ## LiveLabs Workshops
 - [Zero Downtime Migration: Physical Offline Migration to Co-Managed Databases in OCI](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=3568)
