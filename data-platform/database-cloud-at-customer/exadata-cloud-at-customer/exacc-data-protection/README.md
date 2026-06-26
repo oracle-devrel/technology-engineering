@@ -83,6 +83,7 @@ Oracle's recommended approach.
 - [Use Oracle Data Guard with Oracle Exadata Database Service on Cloud@Customer - Documentation](https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-using-data-guard.html)
 - [Using Autonomous Data Guard with Autonomous Database on Exadata Cloud@Customer - Documentation](https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/adb-using-adg-with-adb.html)
 - [Backup from ExaDB-C@C to C3 Object Storage](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-data-protection/backup-from-exacc-to-c3-object-store)
+- [ExaDB-C@C with Dedicated Backup Network to connect ZDLRA](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-data-protection/exacc-zdlra-backup)
 
 Reviewed: 06/24/26
 
