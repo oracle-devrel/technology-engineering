@@ -12,16 +12,17 @@ Exadata Cloud@Customer incorporates multiple layers of security across the infra
 
 - [List of all the attestation and certifications achieved by OCI](https://www.oracle.com/corporate/cloud-compliance/#hdi-mqr-attestations)
 
-- [Operator Access Control Documentation](https://docs.oracle.com/en/cloud/paas/operator-access-control/exops/overview-of-operator-access-control.html)
-
-- [Operator Access Control Technical Brief](https://www.oracle.com/uk/a/ocom/docs/engineered-systems/exadata/oracle-operator-access-control-tech-brief.pdf)
-
 - [Security Testing in the Oracle Cloud (applies to ExaDB-C@C)](https://www.oracle.com/corporate/security-practices/testing/cloud/)
 
 - [Oracle Cloud Compliance (oracle.com)](https://www.oracle.com/corporate/cloud-compliance/)
 
+- [ExaDB-C@C API Access Control](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-security/exacc-api-accesscontrol)
 
-Reviewed: 06/24/26
+- [ExaDB-C@C Key Management](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-security/exacc-key-management)
+
+- [ExaDB-C@C Operator Access Control](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-security/exacc-opctls)
+
+Reviewed: 06/26/26
 
 # License
 
