@@ -30,8 +30,25 @@ OCM used the following services. To ensure that all traffic flows over your Fast
 - objectstorage.[region].oraclecloud.com
 
 If you only want to redirect the actual replication data, you just need to re-route all objectstorage traffic via your FastConnect/VPN. IP addresses for your region used by Object Storage are specifically mentioned in the JSON file.
+
 Here an example for the eu-frankfurt-1 region in the public_ip_ranges.json:
 
+<img src="images/public_ip_example.png">
+
+## Configure OCI Service Gateway
+
+Steps to configure to ensure OSN traffic is routed over your FastConnect or VPN.
+
+1.	Configure your on-premise router to route all traffic to the Oracle Cloud Service network for your region towards your FastConnect or IPSEC tunnel.
+2.	Create a Route Table inside your VCN that has route rules in place for your on-premise CIDR ranges and route this to your DRG
+3.	Create a Service Gateway
+4.	On your service gateway set a customer route table. This should be set to the route table created in set 2.
+
+<img src="images/routetable.png">
+
+After this you should end up with configuration that will route all OSN traffic or just the replication data (Object Storage) traffic over your FastConnect or IPSEC VPN
+
+<img src="images/customroute.png">
 
 
 
