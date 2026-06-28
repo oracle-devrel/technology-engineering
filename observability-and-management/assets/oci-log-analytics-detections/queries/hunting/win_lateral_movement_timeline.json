@@ -1,0 +1,14 @@
+{
+  "title": "Windows Lateral Movement Timeline",
+  "description": "Correlates SMB connections, remote service creation, and WinRM sessions to build a timeline of lateral movement activity across the environment.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'SOC Windows Sysmon Logs') and ('Process Name' in ('psexec.exe', 'psexesvc.exe', 'winrs.exe', 'winrm.cmd') or 'Destination Port' in ('445', '5985', '5986', '3389') or 'Pipe Name' like '*PSEXEC*') | stats count as events, distinctcount('Destination IP') as targets, earliest(Time) as start_time, latest(Time) as end_time by 'Host Name', User | where targets >= 2 | sort -targets",
+  "type": "hunting",
+  "category": "lateral_movement",
+  "mitre_attack": {
+    "tactics": ["lateral_movement"],
+    "techniques": ["T1021.002", "T1021.006", "T1021.001"]
+  },
+  "data_source": "Windows Sysmon",
+  "frequency": "daily",
+  "notes": "A single host connecting to multiple targets via SMB/WinRM/RDP is a strong lateral movement indicator. Map the timeline to identify the initial entry point."
+}

@@ -1,0 +1,65 @@
+{
+  "title": "Visual Basic Script Compilation via vbc.exe",
+  "description": "Detects compilation of Visual Basic code using vbc.exe from non-standard locations.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Process Name' like '*\\\\vbc.exe') and not ('Parent Process Name' like '*Visual Studio*'))",
+  "sigma_id": "bfad19ea-74b4-4bab-89c3-acdb22668a9f",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.execution",
+    "attack.t1059.005"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "execution"
+    ],
+    "techniques": [
+      "T1059.005"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    ".NET development processes"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 3,
+    "techniques_with_tests": [
+      "T1059.005"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1059.005",
+        "test_name": "Visual Basic script execution to gather local computer information",
+        "test_guid": "1620de42-160a-4fe5-bbaf-d3fef0181ce9",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.005/T1059.005.md"
+      },
+      {
+        "technique_id": "T1059.005",
+        "test_name": "Encoded VBS code execution",
+        "test_guid": "e8209d5f-e42d-45e6-9c2f-633ac4f1eefa",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.005/T1059.005.md"
+      },
+      {
+        "technique_id": "T1059.005",
+        "test_name": "Extract Memory via VBA",
+        "test_guid": "8faff437-a114-4547-9a60-749652a03df6",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.005/T1059.005.md"
+      }
+    ]
+  }
+}

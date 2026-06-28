@@ -1,0 +1,34 @@
+{
+  "title": "WAF Path Traversal Attack Blocked",
+  "description": "Detects directory traversal (path traversal) attacks blocked by WAF. Attackers attempt to access files outside the web root using ../ sequences. OWASP A01:2021 Broken Access Control.",
+  "query": "('Log Source' = 'OCI WAF Logs' or 'Log Source' = 'SOC WAF Security Logs') and (('Action' = 'BLOCK') and ( (('Request URL' like '*../*' or 'Request URL' like '*..%2f*' or 'Request URL' like '*..%5c*' or 'Request URL' like '*..%252f*' or 'Request URL' like '*%2e%2e/*' or 'Request URL' like '*%2e%2e%2f*' or 'Request URL' like '*..../*' or 'Request URL' like '*/etc/passwd*' or 'Request URL' like '*/etc/shadow*' or 'Request URL' like '*/proc/self*' or 'Request URL' like '*/windows/system32*' or 'Request URL' like '*boot.ini*' or 'Request URL' like '*win.ini*')) or ('Rule Key' like '*930*') ))",
+  "sigma_id": "a1010004-owasp-a01-pathtraversal-001",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.initial_access",
+    "attack.t1083",
+    "attack.t1190",
+    "owasp.a01"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "initial_access"
+    ],
+    "techniques": [
+      "T1083",
+      "T1190"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "waf",
+    "candidates": [
+      "OCI WAF Logs",
+      "SOC WAF Security Logs"
+    ]
+  },
+  "falsepositives": [
+    "Misconfigured web applications with legitimate relative paths"
+  ]
+}

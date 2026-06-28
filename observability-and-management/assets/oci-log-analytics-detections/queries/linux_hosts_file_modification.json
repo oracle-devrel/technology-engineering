@@ -1,0 +1,40 @@
+{
+  "title": "Linux Hosts File Modification",
+  "description": "Detects modification of /etc/hosts or /etc/resolv.conf. Attackers modify these to redirect traffic, bypass security controls, or perform DNS hijacking.",
+  "query": "('Log Source' = 'SOC Linux Syslog Logs' or 'Log Source' = 'Linux Secure Logs' or 'Log Source' = 'Linux Syslog Logs' or 'Log Source' = 'Linux Audit Logs') and (((msg like '*/etc/hosts*' or msg like '*/etc/resolv.conf*')))",
+  "sigma_id": "f1e2d3c4-5002-4000-8000-000000000002",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.t1565.001"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1565.001"
+    ]
+  },
+  "logsource": {
+    "product": "linux",
+    "service": "audit",
+    "candidates": [
+      "SOC Linux Syslog Logs",
+      "Linux Secure Logs",
+      "Linux Syslog Logs",
+      "Linux Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Network configuration management",
+    "Container orchestration updating DNS resolution"
+  ],
+  "atomic_red_team": {
+    "has_tests": false,
+    "test_count": 0,
+    "techniques_with_tests": [],
+    "tests": []
+  }
+}

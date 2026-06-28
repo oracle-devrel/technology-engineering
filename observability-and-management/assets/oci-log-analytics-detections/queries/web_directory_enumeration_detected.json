@@ -1,0 +1,36 @@
+{
+  "title": "Web Directory Enumeration Detected",
+  "description": "Detects directory and file enumeration attempts via high volume of 404 responses to common admin/config paths. OWASP A01:2021 Broken Access Control.",
+  "query": "('Log Source' = 'OCI Load Balancer Access Logs' or 'Log Source' = 'SOC Load Balancer Access Logs') and (('Response Code' = '404') and (('Request URL' like '*/admin*' or 'Request URL' like '*/administrator*' or 'Request URL' like '*/wp-admin*' or 'Request URL' like '*/wp-login*' or 'Request URL' like '*/phpmyadmin*' or 'Request URL' like '*/phpMyAdmin*' or 'Request URL' like '*/.env*' or 'Request URL' like '*/.git*' or 'Request URL' like '*/.svn*' or 'Request URL' like '*/config*' or 'Request URL' like '*/backup*' or 'Request URL' like '*/db*' or 'Request URL' like '*/database*' or 'Request URL' like '*/debug*' or 'Request URL' like '*/console*' or 'Request URL' like '*/swagger*' or 'Request URL' like '*/api-docs*' or 'Request URL' like '*/actuator*' or 'Request URL' like '*/graphql*' or 'Request URL' like '*/graphiql*' or 'Request URL' like '*/server-status*' or 'Request URL' like '*/server-info*' or 'Request URL' like '*/robots.txt*' or 'Request URL' like '*/sitemap.xml*' or 'Request URL' like '*/crossdomain.xml*' or 'Request URL' like '*/.well-known*' or 'Request URL' like '*/composer.json*' or 'Request URL' like '*/package.json*' or 'Request URL' like '*/web.config*' or 'Request URL' like '*/Dockerfile*')))",
+  "sigma_id": "a1010011-owasp-a01-direnum-001",
+  "level": "low",
+  "stig_category": "CAT III",
+  "tags": [
+    "attack.reconnaissance",
+    "attack.t1083",
+    "attack.t1595.002",
+    "owasp.a01",
+    "owasp.a05"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "reconnaissance"
+    ],
+    "techniques": [
+      "T1083",
+      "T1595.002"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "loadbalancer",
+    "candidates": [
+      "OCI Load Balancer Access Logs",
+      "SOC Load Balancer Access Logs"
+    ]
+  },
+  "falsepositives": [
+    "Web crawlers and search engine bots",
+    "Broken links from external sites"
+  ]
+}

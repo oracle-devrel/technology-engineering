@@ -1,0 +1,56 @@
+{
+  "title": "Web Server Process Spawning Command Shell",
+  "description": "Detects a web server or scripting engine process spawning a command shell\n(cmd.exe, powershell.exe, bash) with suspicious command-line arguments\ncontaining pipe, semicolon, or other command injection characters.\nThis indicates successful Remote Code Execution (RCE) via the web application\n(e.g., OS command injection in a FastAPI/Django/Express endpoint).\nCovers MITRE ATT&CK T1059 (Command and Scripting Interpreter).\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Parent Process Name' like '*\\\\python.exe' or 'Parent Process Name' like '*\\\\pythonw.exe' or 'Parent Process Name' like '*\\\\python3.exe' or 'Parent Process Name' like '*\\\\node.exe' or 'Parent Process Name' like '*\\\\java.exe' or 'Parent Process Name' like '*\\\\javaw.exe' or 'Parent Process Name' like '*\\\\php.exe' or 'Parent Process Name' like '*\\\\php-cgi.exe' or 'Parent Process Name' like '*\\\\ruby.exe' or 'Parent Process Name' like '*\\\\dotnet.exe' or 'Parent Process Name' like '*\\\\httpd.exe' or 'Parent Process Name' like '*\\\\nginx.exe' or 'Parent Process Name' like '*\\\\w3wp.exe' or 'Parent Process Name' like '*\\\\uvicorn.exe' or 'Parent Process Name' like '*\\\\gunicorn')) and (('Process Name' like '*\\\\cmd.exe' or 'Process Name' like '*\\\\powershell.exe' or 'Process Name' like '*\\\\pwsh.exe' or 'Process Name' like '*\\\\bash.exe' or 'Process Name' like '*\\\\sh.exe' or 'Process Name' like '*\\\\wsl.exe')) and (('Command Line' like '*;*' or 'Command Line' like '*|*' or 'Command Line' like '*&&*' or 'Command Line' like '*||*' or 'Command Line' like '*`*' or 'Command Line' like '*$*' or 'Command Line' like '*/c whoami*' or 'Command Line' like '*/c id*' or 'Command Line' like '*/c cat*' or 'Command Line' like '*/c type*' or 'Command Line' like '*/c net*' or 'Command Line' like '*-enc *' or 'Command Line' like '*-EncodedCommand*')))",
+  "sigma_id": "a1b2c3d4-8002-4000-8000-000000000001",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.execution",
+    "attack.t1059",
+    "attack.t1059.001",
+    "attack.initial_access",
+    "attack.t1190"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "execution",
+      "initial_access"
+    ],
+    "techniques": [
+      "T1059",
+      "T1059.001",
+      "T1190"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate deployment scripts run by web frameworks",
+    "CI/CD build processes spawning shells from web hooks"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 1,
+    "techniques_with_tests": [
+      "T1059.003"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1059.003",
+        "test_name": "Command Prompt",
+        "test_guid": "11111111-1111-1111-1111-111111111111",
+        "executor": "command_prompt",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.003/T1059.003.md"
+      }
+    ]
+  }
+}

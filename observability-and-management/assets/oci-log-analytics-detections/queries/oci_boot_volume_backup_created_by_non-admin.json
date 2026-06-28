@@ -1,0 +1,30 @@
+{
+  "title": "OCI Boot Volume Backup Created by Non-Admin",
+  "description": "Detects boot volume backup creation which could be used to copy instance data for exfiltration.",
+  "query": "'Log Source' = 'OCI Audit Logs' and (('Event Type' = 'com.oraclecloud.computeapi.createbootvolumebackup'))",
+  "sigma_id": "3a50793f-6425-47e2-81e8-5fa7ef983b77",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.exfiltration",
+    "attack.t1537"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "exfiltration"
+    ],
+    "techniques": [
+      "T1537"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Routine backup operations"
+  ]
+}

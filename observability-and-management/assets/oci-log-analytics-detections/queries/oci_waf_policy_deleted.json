@@ -1,0 +1,30 @@
+{
+  "title": "OCI WAF Policy Deleted",
+  "description": "Detects deletion of Web Application Firewall policies which may expose applications to attacks.",
+  "query": "'Log Source' = 'OCI Audit Logs' and (('Event Type' = 'com.oraclecloud.waf.deletewebappfirewallpolicy'))",
+  "sigma_id": "50000bcb-481b-4425-8a46-aa6b2406c3d3",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.t1562.001"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1562.001"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "WAF policy replacement during updates"
+  ]
+}

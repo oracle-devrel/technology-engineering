@@ -1,0 +1,105 @@
+{
+  "title": "Renamed System Binary Execution",
+  "description": "Detects execution of renamed system utilities where the original filename does not match the current image name.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Original File Name' = 'powershell.exe') and not (('Process Name' like '*\\\\powershell.exe' or 'Process Name' like '*\\\\pwsh.exe')))",
+  "sigma_id": "18687462-bae5-4113-a1bc-9a1c8eb34528",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.t1036.003"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1036.003"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Custom-wrapped PowerShell executables"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 8,
+    "techniques_with_tests": [
+      "T1036.003"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1036.003",
+        "test_name": "Masquerading as Windows LSASS process",
+        "test_guid": "5ba5a3d1-cf3c-4499-968a-a93155d1f717",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1036.003/T1036.003.md"
+      },
+      {
+        "technique_id": "T1036.003",
+        "test_name": "Masquerading as FreeBSD or Linux crond process.",
+        "test_guid": "a315bfff-7a98-403b-b442-2ea1b255e556",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1036.003/T1036.003.md"
+      },
+      {
+        "technique_id": "T1036.003",
+        "test_name": "Masquerading - cscript.exe running as notepad.exe",
+        "test_guid": "3a2a578b-0a01-46e4-92e3-62e2859b42f0",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1036.003/T1036.003.md"
+      },
+      {
+        "technique_id": "T1036.003",
+        "test_name": "Masquerading - wscript.exe running as svchost.exe",
+        "test_guid": "24136435-c91a-4ede-9da1-8b284a1c1a23",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1036.003/T1036.003.md"
+      },
+      {
+        "technique_id": "T1036.003",
+        "test_name": "Masquerading - powershell.exe running as taskhostw.exe",
+        "test_guid": "ac9d0fc3-8aa8-4ab5-b11f-682cd63b40aa",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1036.003/T1036.003.md"
+      },
+      {
+        "technique_id": "T1036.003",
+        "test_name": "Masquerading - non-windows exe running as windows exe",
+        "test_guid": "bc15c13f-d121-4b1f-8c7d-28d95854d086",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1036.003/T1036.003.md"
+      },
+      {
+        "technique_id": "T1036.003",
+        "test_name": "Masquerading - windows exe running as different windows exe",
+        "test_guid": "c3d24a39-2bfe-4c6a-b064-90cd73896cb0",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1036.003/T1036.003.md"
+      },
+      {
+        "technique_id": "T1036.003",
+        "test_name": "Malicious process Masquerading as LSM.exe",
+        "test_guid": "83810c46-f45e-4485-9ab6-8ed0e9e6ed7f",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1036.003/T1036.003.md"
+      }
+    ]
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "title": "Linux At Job Scheduled",
+  "description": "Detects scheduling of at jobs for deferred command execution. Attackers use at jobs for timed persistence or delayed payload execution.",
+  "query": "('Log Source' = 'SOC Linux Syslog Logs' or 'Log Source' = 'Linux Secure Logs' or 'Log Source' = 'Linux Syslog Logs' or 'Log Source' = 'Linux Audit Logs') and (('Process Name' = 'at') or ('Process Name' = 'batch'))",
+  "sigma_id": "e1f2a3b4-4014-4000-8000-000000000014",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.persistence",
+    "attack.t1053.002"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence"
+    ],
+    "techniques": [
+      "T1053.002"
+    ]
+  },
+  "logsource": {
+    "product": "linux",
+    "service": "audit",
+    "candidates": [
+      "SOC Linux Syslog Logs",
+      "Linux Secure Logs",
+      "Linux Syslog Logs",
+      "Linux Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate scheduled maintenance tasks",
+    "Batch processing systems"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 3,
+    "techniques_with_tests": [
+      "T1053.002"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1053.002",
+        "test_name": "At.exe Scheduled task",
+        "test_guid": "4a6c0dc4-0f2a-4203-9298-a5a9bdc21ed8",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1053.002/T1053.002.md"
+      },
+      {
+        "technique_id": "T1053.002",
+        "test_name": "At - Schedule a job",
+        "test_guid": "7266d898-ac82-4ec0-97c7-436075d0d08e",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1053.002/T1053.002.md"
+      },
+      {
+        "technique_id": "T1053.002",
+        "test_name": "At - Schedule a job via kubectl in a Pod",
+        "test_guid": "9ddf2e5e-7e2c-46c2-9940-3c2ff29c7213",
+        "executor": "bash",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1053.002/T1053.002.md"
+      }
+    ]
+  }
+}

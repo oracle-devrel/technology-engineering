@@ -1,0 +1,84 @@
+{
+  "title": "Doppelpaymer Stop Services",
+  "description": "This query was originally published in the threat analytics report, Doppelpaymer: More human-operated ransomware. There is also a related blog.\nDoppelPaymer is ransomware that is spread manually by human operators. These operators have exhibited extensive knowledge of system administration and common network security misconfigurations. They often use stolen credentials from over-privileged service accounts to turn off security software, run malicious commands, and spread malware throughout an organization.\nThe following query detects attempts to stop security services.\nThe See also section below lists links to other queries associated with DoppelPaymer.\nReferences:\nhttps://msrc-blog.microsoft.com/2019/11/20/customer-guidance-for-the-dopplepaymer-ransomware/\nhttps://www.microsoft.com/en-us/wdsi/threats/malware-encyclopedia-description?Name=Ransom:Win32/DoppelPaymer.KM!MTB\n",
+  "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and ('Parent Process Name' like 'psexe*' and 'Process Name' = 'powershell.exe' and 'Command Line' like '*stop-service*' and 'Command Line' like '*sql*' and 'Command Line' like '*msexchange*')",
+  "level": "high",
+  "source_type": "microsoft_sentinel",
+  "sentinel_id": "5bdc1504-880c-4b30-a39c-7c746535928d",
+  "sentinel_source_path": "Solutions/Microsoft Defender XDR/Analytic Rules/Defense Evasion/DoppelpaymerStopService.yaml",
+  "sentinel_source_url": "https://github.com/Azure/Azure-Sentinel/blob/63ff8eedc58e7df0d22eba05ca73c92b59a66634/Solutions/Microsoft Defender XDR/Analytic Rules/Defense Evasion/DoppelpaymerStopService.yaml",
+  "required_data_connectors": [
+    {
+      "connector_id": "MicrosoftThreatProtection",
+      "data_types": [
+        "DeviceProcessEvents"
+      ]
+    }
+  ],
+  "conversion_status": "promoted",
+  "conversion_confidence": "medium",
+  "source_confidence": "high",
+  "live_validation_status": "passed",
+  "sentinel_tables": [
+    "DeviceProcessEvents"
+  ],
+  "sentinel_category": "endpoint",
+  "tags": [
+    "microsoft_sentinel",
+    "sentinel.endpoint"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "execution",
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1059",
+      "T1562"
+    ]
+  },
+  "logsource": {
+    "product": "microsoft_sentinel",
+    "service": "defender_endpoint",
+    "candidates": [
+      "SOC Windows Sysmon Logs",
+      "Windows Security Events"
+    ],
+    "original_tables": [
+      "DeviceProcessEvents"
+    ]
+  },
+  "references": [
+    {
+      "name": "Microsoft Sentinel source rule",
+      "url": "https://github.com/Azure/Azure-Sentinel/blob/63ff8eedc58e7df0d22eba05ca73c92b59a66634/Solutions/Microsoft Defender XDR/Analytic Rules/Defense Evasion/DoppelpaymerStopService.yaml"
+    },
+    {
+      "name": "Microsoft Sentinel repository",
+      "url": "https://github.com/Azure/Azure-Sentinel"
+    },
+    {
+      "name": "Azure/Azure-Sentinel license",
+      "url": "https://github.com/Azure/Azure-Sentinel/blob/master/LICENSE"
+    }
+  ],
+  "attribution": {
+    "source": "Microsoft Sentinel",
+    "repository": "Azure/Azure-Sentinel",
+    "license": "MIT",
+    "license_url": "https://github.com/Azure/Azure-Sentinel/blob/master/LICENSE"
+  },
+  "dashboard": {
+    "visualizationType": "table",
+    "timeSelection": {
+      "timePeriod": "l21d"
+    },
+    "ask_ai_prompts": [
+      "Summarize the Microsoft Sentinel converted detection results and identify the highest-risk pivots."
+    ]
+  },
+  "detection_maturity": "source_converted",
+  "field_coverage": "mapped_subset",
+  "test_data_coverage": "not_evaluated",
+  "scheduled_rule_eligibility": "not_evaluated"
+}

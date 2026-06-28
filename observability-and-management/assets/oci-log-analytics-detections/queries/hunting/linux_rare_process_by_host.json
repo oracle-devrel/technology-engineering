@@ -1,0 +1,14 @@
+{
+  "title": "Linux Rare Process Execution by Host",
+  "description": "Surfaces processes that have only been seen on a small number of hosts, which may indicate attacker tools, backdoors, or lateral movement payloads.",
+  "query": "('Log Source' = 'SOC Linux Syslog Logs' or 'Log Source' = 'Linux Audit Logs') and 'Process Name' != null | stats distinctcount('Host Name') as host_count, count as exec_count by 'Process Name' | where host_count <= 2 and exec_count > 1 | sort -exec_count",
+  "type": "hunting",
+  "category": "execution",
+  "mitre_attack": {
+    "tactics": ["execution", "defense_evasion"],
+    "techniques": ["T1059", "T1036"]
+  },
+  "data_source": "Linux Syslog/Audit",
+  "frequency": "weekly",
+  "notes": "Processes seen on only 1-2 hosts are statistical outliers. Filter out known host-specific applications. Focus on processes in /tmp, /dev/shm, or non-standard paths."
+}
