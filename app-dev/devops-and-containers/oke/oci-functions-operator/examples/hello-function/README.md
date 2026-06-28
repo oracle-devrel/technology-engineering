@@ -1,6 +1,6 @@
 # Hello Function Runtime Image
 
-Minimal OCI Functions-compatible Python function for the managed Function demo.
+Minimal OCI Functions-compatible Python function for managed Function examples.
 This builds the function runtime image that OCI Functions runs. It is not the
 operator/controller image that runs in OKE.
 
@@ -26,7 +26,7 @@ The `greeting` value comes from the `GREETING` function config/environment varia
 ## Preferred: Build With Fn CLI
 
 Use the Fn CLI so the image is built and tagged as an OCI Functions/Fn image.
-The image must be pushed to same-region OCIR. For the Jeddah demo, use:
+The image must be pushed to same-region OCIR. For Jeddah, use:
 
 ```text
 jed.ocir.io/<TENANCY_NAMESPACE>/hello-function:<tag>

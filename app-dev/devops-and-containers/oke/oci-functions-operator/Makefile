@@ -1,6 +1,8 @@
 LOCALBIN ?= $(shell pwd)/bin
 CONTROLLER_GEN ?= $(LOCALBIN)/controller-gen
 CONTROLLER_TOOLS_VERSION ?= v0.21.0
+GENERATED_CRD_DIR ?= config/crd/bases
+CHART_CRD_DIR ?= charts/oci-functions-operator/crds
 
 .PHONY: all
 all: generate manifests test
@@ -19,11 +21,26 @@ test:
 
 .PHONY: helm-chart
 helm-chart: manifests
-	mkdir -p charts/oci-functions-operator/crds
-	cp config/crd/bases/functions.oci.oracle.com_functions.yaml charts/oci-functions-operator/crds/functions.functions.oci.oracle.com.yaml
-	cp config/crd/bases/functions.oci.oracle.com_functionjobs.yaml charts/oci-functions-operator/crds/functionjobs.functions.oci.oracle.com.yaml
-	cp config/crd/bases/functions.oci.oracle.com_functionevents.yaml charts/oci-functions-operator/crds/functionevents.functions.oci.oracle.com.yaml
-	cp config/crd/bases/functions.oci.oracle.com_functioneventtriggers.yaml charts/oci-functions-operator/crds/functioneventtriggers.functions.oci.oracle.com.yaml
+	mkdir -p $(CHART_CRD_DIR)
+	cp $(GENERATED_CRD_DIR)/functions.oci.oracle.com_functionapplications.yaml $(CHART_CRD_DIR)/functionapplications.functions.oci.oracle.com.yaml
+	cp $(GENERATED_CRD_DIR)/functions.oci.oracle.com_functions.yaml $(CHART_CRD_DIR)/functions.functions.oci.oracle.com.yaml
+	cp $(GENERATED_CRD_DIR)/functions.oci.oracle.com_functionjobs.yaml $(CHART_CRD_DIR)/functionjobs.functions.oci.oracle.com.yaml
+	cp $(GENERATED_CRD_DIR)/functions.oci.oracle.com_functionevents.yaml $(CHART_CRD_DIR)/functionevents.functions.oci.oracle.com.yaml
+	cp $(GENERATED_CRD_DIR)/functions.oci.oracle.com_functioneventtriggers.yaml $(CHART_CRD_DIR)/functioneventtriggers.functions.oci.oracle.com.yaml
+	$(MAKE) helm-crds-check
+
+.PHONY: helm-crds-check
+helm-crds-check:
+	test -f $(CHART_CRD_DIR)/functionapplications.functions.oci.oracle.com.yaml
+	test -f $(CHART_CRD_DIR)/functions.functions.oci.oracle.com.yaml
+	test -f $(CHART_CRD_DIR)/functionjobs.functions.oci.oracle.com.yaml
+	test -f $(CHART_CRD_DIR)/functioneventtriggers.functions.oci.oracle.com.yaml
+	test -f $(CHART_CRD_DIR)/functionevents.functions.oci.oracle.com.yaml
+	cmp -s $(GENERATED_CRD_DIR)/functions.oci.oracle.com_functionapplications.yaml $(CHART_CRD_DIR)/functionapplications.functions.oci.oracle.com.yaml
+	cmp -s $(GENERATED_CRD_DIR)/functions.oci.oracle.com_functions.yaml $(CHART_CRD_DIR)/functions.functions.oci.oracle.com.yaml
+	cmp -s $(GENERATED_CRD_DIR)/functions.oci.oracle.com_functionjobs.yaml $(CHART_CRD_DIR)/functionjobs.functions.oci.oracle.com.yaml
+	cmp -s $(GENERATED_CRD_DIR)/functions.oci.oracle.com_functioneventtriggers.yaml $(CHART_CRD_DIR)/functioneventtriggers.functions.oci.oracle.com.yaml
+	cmp -s $(GENERATED_CRD_DIR)/functions.oci.oracle.com_functionevents.yaml $(CHART_CRD_DIR)/functionevents.functions.oci.oracle.com.yaml
 
 .PHONY: helm-template
 helm-template: helm-chart

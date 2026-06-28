@@ -2,8 +2,8 @@ apiVersion: v2
 name: oci-functions-operator
 description: Kubernetes operator for managing and invoking OCI Functions from OKE
 type: application
-version: 0.1.0
-appVersion: "mvp-events-functionevents-v1"
+version: 0.1.7
+appVersion: "v0.1.7"
 keywords:
 - oci
 - functions

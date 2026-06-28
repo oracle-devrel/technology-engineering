@@ -1,61 +1,117 @@
 # OCI Functions Operator
 
-Kubernetes-native management and job-style invocation of OCI Functions from OKE.
+Kubernetes-native APIs for managing and invoking OCI Functions from OKE.
 
-MVP controller image:
+Current controller image:
 
 ```text
-ghcr.io/ronsevet/oci-functions-operator/controller:mvp-events-functionevents-v1
+ghcr.io/ronsevetoci/oci-functions-operator/controller:v0.1.7
 ```
 
-## MVP Feature Summary
+## What This Operator Provides
 
-The MVP adds four namespaced CRDs:
+The operator exposes five namespaced CRDs in `functions.oci.oracle.com/v1alpha1`:
 
-- `Function`: references an existing OCI Function or manages an OCI Functions application/function.
-- `FunctionJob`: invokes a referenced `Function`, fans out inline JSON payloads, retries failed invocations, and records aggregate/per-payload status.
-- `FunctionEventTrigger`: creates OCI Events Rules for OCI service events such as Object Storage events, or routes Kubernetes-native `functionevent.*` events to a referenced `Function`.
-- `FunctionEvent`: Kubernetes-native event object for direct operator-routed invocation through `functionevent.*` event types.
+- `FunctionApplication`: maps to an OCI Functions Application. It owns app-level settings such as compartment, region, subnets, NSGs, application config, and invocation log settings.
+- `Function`: maps to an OCI Function. It can reference an existing OCI Function or manage one inside a `FunctionApplication`.
+- `FunctionJob`: invokes a referenced `Function` with one or more inline JSON payloads, parallelism, retry limits, and per-payload status.
+- `FunctionEventTrigger`: routes an OCI Events rule or a Kubernetes-native `functionevent.*` event type to a `Function`.
+- `FunctionEvent`: an in-cluster event envelope that the operator matches against `FunctionEventTrigger` resources.
+
+`FunctionJob` and `FunctionEvent` both end in a Function invocation, but they are not the same resource. Use `FunctionJob` when a user or system wants to submit explicit invocation work and track that work as a job. Use `FunctionEvent` when an application emits an event and wants the operator to route it through matching triggers.
+
+## Resource Flow
+
+```mermaid
+flowchart TB
+    APPCR[FunctionApplication CR]
+    APP[OCI Functions Application]
+    FNCR[Function CR]
+    FN[OCI Function]
+    INVOKE[Function Invocation]
+
+    APPCR --> APP
+    APP --> FNCR
+    FNCR --> FN
+    FN --> INVOKE
+
+    JOB[FunctionJob CR]
+    TRIGGER[FunctionEventTrigger CR]
+    EVENT[FunctionEvent CR]
+    OCIEVENT[OCI service event]
+    RULE[OCI Events Rule]
+
+    JOB --> INVOKE
+    EVENT --> TRIGGER
+    OCIEVENT --> RULE
+    RULE --> TRIGGER
+    TRIGGER --> INVOKE
+```
+
+Read it top to bottom: a `FunctionApplication` is the application wrapper, a `Function` lives inside it, and every invocation path eventually invokes that function. `FunctionJob` is direct work submission. `FunctionEventTrigger` routes either OCI service events through an OCI Events Rule or in-cluster `FunctionEvent` objects.
+
+The important boundary is that the operator does not turn OCI Functions into Pods. It keeps OCI Functions as OCI resources and gives Kubernetes users a clear control plane for application setup, function setup, invocation, event routing, status, and events.
 
 ## Two Images
 
-The operator image and function runtime image are different artifacts:
+The operator image and function runtime image are separate artifacts:
 
 - Operator/controller image: runs as a Kubernetes Deployment in OKE. It can be in GHCR, OCIR, or any registry OKE can pull from.
 - Function runtime image: runs in OCI Functions. It must be an OCI Functions-compatible Fn image in same-region OCIR, for example `jed.ocir.io/<TENANCY_NAMESPACE>/hello-function:fn-v1` for Jeddah.
 
-Do not use GHCR for the OCI Functions runtime image. OCI Functions pulls the runtime image from the Functions application network during invocation, so the application subnet/NSG must have egress to Oracle Services Network/OCIR even when the OCIR repository is public.
+Do not use GHCR for the OCI Functions runtime image. OCI Functions pulls the runtime image from the Functions application network during invocation, so the application subnet and any attached NSGs must allow egress to Oracle Services Network/OCIR even when the OCIR repository is public.
 
 ## Start Here
 
-- [Helm install](docs/helm-install.md): recommended OKE installation and upgrade path.
-- [MVP demo flow](docs/demo/mvp-demo-flow.md): primary concise handoff/demo guide for the final MVP image.
-- [MVP checklist](docs/demo/mvp-checklist.md): short secondary pre-demo checklist.
-- [MVP video script](docs/demo/mvp-video-script.md): short secondary narration outline.
-- [Managed Function demo](docs/managed-function-demo.md): primary OKE walkthrough for managed application/function creation and invocation.
-- [Function events](docs/function-events.md): Kubernetes-native `functionevent.*` events routed directly by the operator.
-- [Function event triggers](docs/event-triggers.md): OCI Events Rule and FunctionEvent trigger setup.
-- [OKE deployment](docs/oke-deployment.md): supported Helm deployment, Workload Identity, IAM, and network setup.
-- [Design overview](docs/design.md): CRDs, controllers, lifecycle, invoker contracts, and limitations.
-- [Local existing Function demo](docs/oci-mode-demo.md): local `OCI_AUTH_MODE=config` path against an already-created OCI Function.
+- [Helm install](docs/helm-install.md): supported OKE installation and upgrade path.
+- [OKE deployment](docs/oke-deployment.md): Workload Identity, IAM, networking, and the core resource sequence.
+- [Function event triggers](docs/event-triggers.md): OCI Events and `functionevent.*` routing.
+- [Function events](docs/function-events.md): Kubernetes-native event emission.
 - [Debugging Functions](docs/debugging-functions.md): image, CRD, Workload Identity, NSG, and invocation failure checks.
-- [Validation notes](docs/validation-notes.md): template for recording real OCI-mode runs.
-- [Sample function image](examples/hello-function/README.md): Fn-compatible Python function runtime image for the managed demo.
+- [Design overview](docs/design.md): controller architecture, resource behavior, and current limitations.
+- [Sample function image](examples/hello-function/README.md): Fn-compatible Python function runtime image.
+
+Tracked files under `config/samples/` are generic examples with placeholders. Live walkthrough manifests with OCIDs, tenancy namespaces, bucket names, or temporary cleanup settings should live in the ignored `local/` directory, not in the repository history.
+
+## Helm CRDs
+
+The Helm chart includes CRDs for `FunctionApplication`, `Function`, `FunctionJob`, `FunctionEventTrigger`, and `FunctionEvent`.
+
+Fresh Helm installs install CRDs from `charts/oci-functions-operator/crds/`, but existing Helm upgrades do not add or update CRDs from that directory. Before installing or upgrading after API changes, apply the chart CRDs first:
+
+```sh
+kubectl apply -f charts/oci-functions-operator/crds/
+```
+
+Then run `helm upgrade --install`.
 
 ## Modes
 
-`INVOKER_MODE=fake` is the default. It requires no OCI auth, creates no OCI resources, and is useful only for CRD/controller/status demos.
+`INVOKER_MODE=fake` is the default for local controller development and tests. It requires no OCI auth and creates no OCI resources.
 
 `INVOKER_MODE=oci` uses the OCI Go SDK:
 
 - On OKE, the Helm chart configures Workload Identity with `oci.authMode=workload`.
 - For local development only, use `OCI_AUTH_MODE=config` with `OCI_CONFIG_FILE` and `OCI_CONFIG_PROFILE`.
 
-Existing mode requires `spec.functionId` and `spec.invokeEndpoint` on the `Function`. Managed mode uses `spec.config` to create/update the OCI Functions application and function, then writes `status.applicationId`, `status.functionId`, and `status.invokeEndpoint`.
+The Helm chart is the supported way to deploy the operator on OKE. Kustomize under `config/` is kept for Kubebuilder-generated manifests and local development only. Do not mix Helm and Kustomize for the same cluster install.
 
-## Local Fake Demo
+## Resource Model
 
-Install or refresh generated manifests:
+Preferred managed mode is explicit:
+
+1. Create a `FunctionApplication` for the shared OCI Functions Application.
+2. Create one or more managed `Function` resources with `spec.applicationRef.name`.
+3. Wait for `Function.status.functionId` and `Function.status.invokeEndpoint`.
+4. Invoke through `FunctionJob`, OCI Events-backed `FunctionEventTrigger`, or Kubernetes-native `FunctionEvent`.
+
+Legacy managed `Function` manifests that put app-level settings under `spec.config` still work for compatibility, but new manifests should use `FunctionApplication`.
+
+`Function.spec.deletionPolicy` defaults to `Retain`. Deleting a managed `Function` with `Retain` leaves OCI resources untouched. Set `deletionPolicy: Delete` only when Kubernetes deletion should also delete the managed OCI Function. `FunctionApplication.spec.deletionPolicy` controls OCI Application cleanup separately; `Delete` is honored only for managed applications and only when no functions remain. Existing-mode resources never delete OCI resources.
+
+## Local Development
+
+Install or refresh generated CRDs:
 
 ```sh
 make generate
@@ -63,31 +119,18 @@ make manifests
 kubectl apply -k config/crd
 ```
 
-Run the manager against your current kubeconfig:
+Run the manager in fake mode:
 
 ```sh
 INVOKER_MODE=fake go run ./cmd
 ```
 
-In another terminal:
+Apply the safe sample resources:
 
 ```sh
-scripts/check-demo-prereqs.sh
-scripts/demo-fake.sh
+kubectl apply -k config/samples
+kubectl get functions,functionjobs
+kubectl describe functionjob hello-job
 ```
 
-Fake mode proves only the Kubernetes reconciliation/status path. It does not prove OCI auth, OCI Functions network egress, OCIR image access, or function image compatibility.
-
-## Primary OKE Path
-
-For OKE managed mode:
-
-1. Build and push the operator/controller image to a registry OKE can pull.
-2. Build a Fn-compatible function runtime image and push it to same-region OCIR.
-3. Deploy the operator with Helm. The chart is the supported OKE path and defaults to OCI mode with Workload Identity.
-4. Apply a managed `Function` with `spec.config.region`, `compartmentId`, `applicationName`, `subnetIds`, optional `nsgIds`, and same-region OCIR `image`.
-5. Submit a `FunctionJob`, create a `FunctionEventTrigger`, or emit a `FunctionEvent` after the `Function` is Ready.
-
-See [docs/helm-install.md](docs/helm-install.md) for installation and [docs/managed-function-demo.md](docs/managed-function-demo.md) for the full Function sequence.
-
-Kustomize under `config/` is kept for Kubebuilder-generated manifests and local controller development only. Do not mix Helm and Kustomize for the same OKE operator install.
+Fake mode proves only Kubernetes reconciliation and status behavior. It does not prove OCI auth, OCI Functions network egress, OCIR image access, or function image compatibility.

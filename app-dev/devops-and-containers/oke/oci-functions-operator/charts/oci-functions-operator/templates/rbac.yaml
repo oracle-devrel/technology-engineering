@@ -16,6 +16,18 @@ rules:
 - apiGroups:
   - functions.oci.oracle.com
   resources:
+  - functionapplications
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - functions.oci.oracle.com
+  resources:
   - functionevents
   verbs:
   - delete
@@ -37,6 +49,7 @@ rules:
 - apiGroups:
   - functions.oci.oracle.com
   resources:
+  - functionapplications/finalizers
   - functioneventtriggers/finalizers
   - functionjobs/finalizers
   - functions/finalizers
@@ -45,6 +58,7 @@ rules:
 - apiGroups:
   - functions.oci.oracle.com
   resources:
+  - functionapplications/status
   - functionevents/status
   - functioneventtriggers/status
   - functionjobs/status
@@ -56,8 +70,19 @@ rules:
 - apiGroups:
   - functions.oci.oracle.com
   resources:
-  - functionjobs
   - functions
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - functions.oci.oracle.com
+  resources:
+  - functionjobs
   verbs:
   - get
   - list

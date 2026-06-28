@@ -10,6 +10,15 @@ resources:
   controller: true
   domain: oci.oracle.com
   group: functions
+  kind: FunctionApplication
+  path: github.com/oracle/oci-functions-operator/api/v1alpha1
+  version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: oci.oracle.com
+  group: functions
   kind: Function
   path: github.com/oracle/oci-functions-operator/api/v1alpha1
   version: v1alpha1

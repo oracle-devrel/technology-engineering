@@ -82,6 +82,16 @@ func main() {
 		os.Exit(1)
 	}
 
+	if err = (&controller.FunctionApplicationReconciler{
+		Client:   mgr.GetClient(),
+		Scheme:   mgr.GetScheme(),
+		Manager:  functionManager,
+		Recorder: mgr.GetEventRecorderFor("functionapplication-controller"),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "FunctionApplication")
+		os.Exit(1)
+	}
+
 	if err = (&controller.FunctionJobReconciler{
 		Client:   mgr.GetClient(),
 		Scheme:   mgr.GetScheme(),

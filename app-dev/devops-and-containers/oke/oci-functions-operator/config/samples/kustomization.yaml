@@ -1,5 +1,5 @@
 resources:
-# Safe fake-mode demo resources. Managed and local OCI samples contain
+# Safe fake-mode sample resources. Managed and local OCI samples contain
 # placeholders and should be applied directly after editing.
 - functions_v1alpha1_function_existing.yaml
 - functions_v1alpha1_functionjob.yaml

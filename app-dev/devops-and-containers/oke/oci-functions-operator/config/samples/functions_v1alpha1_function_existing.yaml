@@ -3,7 +3,8 @@ kind: Function
 metadata:
   name: existing-hello
   labels:
-    demo: oci-functions-operator-fake
+    app.kubernetes.io/part-of: oci-functions-operator
+    app.kubernetes.io/component: sample
 spec:
   mode: Existing
   functionId: ocid1.fnfunc.oc1.iad.exampleuniqueid

@@ -55,13 +55,27 @@ spec:
           spec:
             description: FunctionSpec defines the desired state of Function.
             properties:
+              applicationRef:
+                description: |-
+                  ApplicationRef references a FunctionApplication that manages or resolves the OCI Functions application.
+                  When set, app-level settings such as region, compartmentId, applicationName, subnetIds, and nsgIds
+                  are read from the referenced FunctionApplication instead of this Function's legacy config.
+                properties:
+                  name:
+                    description: Name is the referenced FunctionApplication name.
+                    minLength: 1
+                    type: string
+                required:
+                - name
+                type: object
               config:
                 description: Config describes desired function configuration for managed
                   lifecycle.
                 properties:
                   applicationName:
-                    description: ApplicationName is the display name of the OCI Functions
-                      application to ensure.
+                    description: |-
+                      ApplicationName is the display name of the OCI Functions application to ensure.
+                      Required for legacy managed Functions that do not set applicationRef.
                     maxLength: 255
                     minLength: 1
                     type: string
@@ -72,8 +86,9 @@ spec:
                     pattern: ^ocid1\.fnapp\..+
                     type: string
                   compartmentId:
-                    description: CompartmentID is the compartment OCID for the managed
-                      application/function.
+                    description: |-
+                      CompartmentID is the compartment OCID for the managed application/function.
+                      Required for legacy managed Functions that do not set applicationRef.
                     pattern: ^ocid1\.compartment\..+
                     type: string
                   config:
@@ -140,12 +155,15 @@ spec:
                     type: array
                     x-kubernetes-list-type: atomic
                   region:
-                    description: Region is the OCI region identifier, such as me-jeddah-1.
+                    description: |-
+                      Region is the OCI region identifier, such as me-jeddah-1.
+                      Required for legacy managed Functions that do not set applicationRef.
                     minLength: 1
                     type: string
                   subnetIds:
-                    description: SubnetIDs are the subnet OCIDs for a newly created
-                      application.
+                    description: |-
+                      SubnetIDs are the subnet OCIDs for a newly created application.
+                      Required for legacy managed Functions that do not set applicationRef.
                     items:
                       type: string
                     minItems: 1
@@ -160,13 +178,19 @@ spec:
                     minimum: 1
                     type: integer
                 required:
-                - applicationName
-                - compartmentId
                 - displayName
                 - image
-                - region
-                - subnetIds
                 type: object
+              deletionPolicy:
+                default: Retain
+                description: |-
+                  DeletionPolicy controls what happens to OCI resources when this Kubernetes Function is deleted.
+                  Defaults to Retain for safety. Delete is honored only for Managed mode and deletes the managed OCI Function.
+                  The OCI Functions application is controlled separately by FunctionApplication.
+                enum:
+                - Retain
+                - Delete
+                type: string
               existingFunctionOcid:
                 description: |-
                   ExistingFunctionOCID points at an existing OCI Functions function.
@@ -194,9 +218,10 @@ spec:
                 type: string
             type: object
             x-kubernetes-validations:
-            - message: one of spec.functionId, spec.existingFunctionOcid, or spec.config
-                is required
+            - message: one of spec.functionId, spec.existingFunctionOcid, spec.config,
+                or spec.applicationRef is required
               rule: has(self.functionId) || has(self.existingFunctionOcid) || has(self.config)
+                || has(self.applicationRef)
             - message: spec.config is mutually exclusive with existing function references
               rule: '!(has(self.config) && (has(self.functionId) || has(self.existingFunctionOcid)))'
             - message: spec.functionId and spec.existingFunctionOcid are mutually
