@@ -15,7 +15,7 @@ data oci_ocvp_esxi_hosts export_esxi_hosts{
 }
 ```
 
-Reviewed: 11.12.2023
+Reviewed: 24.06.2026
 
 ## New VLAN Assignment to your OCVS environment
 

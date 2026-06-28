@@ -69,7 +69,7 @@ If you have setup the Notification topic and for instance have an user subscribe
 
 Script created by: richard.garsthagen@oracle.com, feedback is welcome! Please see the 'Issue' feature in GitHub.
 
-Reviewed: 26.11.2025
+Reviewed: 24.06.2026
 
 # License
 
