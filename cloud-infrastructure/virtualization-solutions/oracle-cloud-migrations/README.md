@@ -2,7 +2,9 @@
  
 Oracle Cloud Migrations enables customers to migrate virtual machines to Oracle Cloud Infrastructure (OCI) Compute instances. It helps customers eliminate manual migration tasks and ultimately reduces errors in asset discovery and migration planning and execution.
 
-Reviewed: 012.11.2025
+Current source environments supported: VMware Sphere and AWS EC2
+
+Reviewed: 01.07.2026
  
 # Table of Contents
  
@@ -31,7 +33,9 @@ Reviewed: 012.11.2025
 
 # Reusable Assets
 
-- [OCM Solution Definition Document](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/virtualization-solutions/oracle-cloud-migrations/ocm-solution-definition-document)
+- [OCM Solution Definition Document](./ocm-solution-definition-document)
+- [Using the OCM service over FastConnect or VPN](./ocm-over-fastconnect)
+
 
 
  
