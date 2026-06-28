@@ -16,7 +16,13 @@ Reviewed: 01.07.2026
 - [Oracle Cloud Migrations](https://www.oracle.com/cloud/compute/virtual-machines/migration/)
 - [Oracle Cloud Migrations Documentation](https://docs.oracle.com/en-us/iaas/Content/cloud-migration/home.htm)
 - [OCM Scripts and policy examples](https://github.com/oracle-quickstart/oci-cloud-migrations)
-
+  - Script to automate enablement of Change Block Tracking
+  - Fix target IP addresses for migrated VMs
+  - Fix boot order issues
+  - Rename disk volumes to more logical name of the Compute instance
+  - Clean up disks after migration
+  - Target Asset report
+  
 # Team Publications
 
 ## Reference Architectures & Step-by-step Guides
@@ -35,7 +41,6 @@ Reviewed: 01.07.2026
 
 - [OCM Solution Definition Document](./ocm-solution-definition-document)
 - [Using the OCM service over FastConnect or VPN](./ocm-over-fastconnect)
-
 
 
  
