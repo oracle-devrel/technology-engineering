@@ -1,12 +1,12 @@
-# Windows Migrations
+# OCM over FastConnect
 
-This is a guide on how to migrate source environments based on the Microsoft Windows operating system.
+This is a guide on how to use a FastConnect for the replication of Virtual Machine to OCI
 
 Reviewed: 01.07.2026
 
 # When to use this asset?
 
-When you want to migrate source environments based on the Microsoft Windows operating system.
+When you want to use your FastConnect for the replication process from on-premises VMware to OCI Object Storage
 
 # How to use this asset?
 
