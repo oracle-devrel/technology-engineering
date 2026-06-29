@@ -1,0 +1,65 @@
+{
+  "title": "Active Setup Persistence",
+  "description": "Detects creation of Active Setup entries in the registry for per-user persistence.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*Active Setup*' and 'Command Line' like '*StubPath*')))",
+  "sigma_id": "f69f445d-8d53-43cf-ab1d-ad4171b5ca3b",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.persistence",
+    "attack.t1547.014"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence"
+    ],
+    "techniques": [
+      "T1547.014"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate Active Setup entries from software installers"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 3,
+    "techniques_with_tests": [
+      "T1547.014"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1547.014",
+        "test_name": "HKLM - Add atomic_test key to launch executable as part of user setup",
+        "test_guid": "deff4586-0517-49c2-981d-bbea24d48d71",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1547.014/T1547.014.md"
+      },
+      {
+        "technique_id": "T1547.014",
+        "test_name": "HKLM - Add malicious StubPath value to existing Active Setup Entry",
+        "test_guid": "39e417dd-4fed-4d9c-ae3a-ba433b4d0e9a",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1547.014/T1547.014.md"
+      },
+      {
+        "technique_id": "T1547.014",
+        "test_name": "HKLM - re-execute 'Internet Explorer Core Fonts' StubPath payload by decreasing version number",
+        "test_guid": "04d55cef-f283-40ba-ae2a-316bc3b5e78c",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1547.014/T1547.014.md"
+      }
+    ]
+  }
+}

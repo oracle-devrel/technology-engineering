@@ -1,0 +1,31 @@
+{
+  "title": "RBCD: msDS-AllowedToActOnBehalfOfOtherIdentity Modified (Event 5136)",
+  "description": "Detects writes to the msDS-AllowedToActOnBehalfOfOtherIdentity attribute via Directory Service object modification (Event 5136), the core of a Resource-Based Constrained Delegation (RBCD) takeover. The schemaIDGUID 3f78c3e5-f79a-46bd-a0b8-9d18116ddc79 identifies the attribute. GOAD uses webdav+RBCD to take over computer objects.\n",
+  "query": "('Log Source' = 'Windows Security Events' or 'Log Source' = 'Windows Event Security Logs') and (('Event ID' = '5136' and ('Properties' like '*3f78c3e5-f79a-46bd-a0b8-9d18116ddc79*' or 'Properties' like '*msDS-AllowedToActOnBehalfOfOtherIdentity*')))",
+  "sigma_id": "cb96dce3-0170-4e00-96ae-239948a05f1f",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.privilege_escalation",
+    "attack.t1098"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "privilege_escalation"
+    ],
+    "techniques": [
+      "T1098"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "security",
+    "candidates": [
+      "Windows Security Events",
+      "Windows Event Security Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate Kerberos constrained-delegation administration"
+  ]
+}

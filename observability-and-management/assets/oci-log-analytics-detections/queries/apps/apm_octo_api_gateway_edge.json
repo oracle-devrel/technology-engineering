@@ -1,0 +1,29 @@
+{
+  "title": "APM: Octo Demo API Gateway Edge Decisions",
+  "description": "API Gateway edge-policy, quota, auth, and backend decisions captured by the Octo attack lab and correlated to the same Attack ID, Request ID, and Trace ID used by APM spans and application logs.",
+  "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and 'Attack ID' != null and 'API Gateway Request ID' != null | stats count as Events, distinctcount('Trace ID') as Traces, unique('API Gateway Policy Decision') as Decisions, unique('API Gateway Threat Signal') as ThreatSignals by 'Attack ID', 'API Gateway Action', 'API Gateway Route', 'Security Severity' | sort -Events",
+  "level": "high",
+  "tags": ["application", "apm", "octo-apm-demo", "api-gateway", "attack-lab", "trace-correlation"],
+  "logsource": {
+    "category": "application",
+    "product": "oci-log-analytics",
+    "service": "soc_application_logs",
+    "candidates": ["SOC Application Logs"]
+  },
+  "falsepositives": [
+    "Admin-triggered attack-lab simulations or API Gateway policy tests in demo compartments."
+  ],
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "valueField": "Events",
+      "highlightField": "API Gateway Action"
+    },
+    "ask_ai_prompts": [
+      "Explain which API Gateway edge decision is linked to the selected Attack ID.",
+      "Which route, policy decision, and Trace ID should be used for the first drilldown?"
+    ]
+  }
+}

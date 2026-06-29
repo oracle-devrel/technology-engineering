@@ -1,0 +1,34 @@
+{
+  "title": "Pass-the-Cert / UnPAC-the-Hash via Certipy auth",
+  "description": "Detects authentication using a stolen or forged certificate (pass-the-cert) and PKINIT UnPAC-the-hash, where Certipy 'auth' is used with a .pfx to obtain a TGT and recover the account NT hash from the PAC. Rubeus asktgt with /getcredentials /certificate performs the equivalent.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (( (('Command Line' like '*certipy*' and 'Command Line' like '*auth*')) and (('Command Line' like '*-pfx*' or 'Command Line' like '*.pfx*')) ) or (('Command Line' like '*asktgt*' and 'Command Line' like '*/getcredentials*')))",
+  "sigma_id": "88a0571b-8529-43f5-a264-ab3d93678fbe",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.credential_access",
+    "attack.t1550.003",
+    "attack.t1649"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "credential_access"
+    ],
+    "techniques": [
+      "T1550.003",
+      "T1649"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Authorized certificate-based authentication testing"
+  ]
+}

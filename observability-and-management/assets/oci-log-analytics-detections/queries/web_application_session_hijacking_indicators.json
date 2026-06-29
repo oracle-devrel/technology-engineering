@@ -1,0 +1,34 @@
+{
+  "title": "Web Application Session Hijacking Indicators",
+  "description": "Detects indicators of session hijacking or session fixation attacks where an attacker steals or manipulates session tokens. OWASP A07:2021 Identification and Authentication Failures.",
+  "query": "('Log Source' = 'SOC Web Application Logs' or 'Log Source' = 'OCI Load Balancer Access Logs') and ((('Attack Type' = 'session_hijacking' or 'Attack Type' = 'session_fixation' or 'Attack Type' = 'cookie_theft' or 'Attack Type' = 'token_theft')) or ('OWASP Category' like '*Authentication*'))",
+  "sigma_id": "a1010026-owasp-a07-sessionhijack-001",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.credential_access",
+    "attack.t1539",
+    "attack.t1550.004",
+    "owasp.a07"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "credential_access"
+    ],
+    "techniques": [
+      "T1539",
+      "T1550.004"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "webapp",
+    "candidates": [
+      "SOC Web Application Logs",
+      "OCI Load Balancer Access Logs"
+    ]
+  },
+  "falsepositives": [
+    "Session migration during load balancer failover"
+  ]
+}

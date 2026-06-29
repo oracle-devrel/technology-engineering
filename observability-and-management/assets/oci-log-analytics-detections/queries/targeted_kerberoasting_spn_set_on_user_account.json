@@ -1,0 +1,32 @@
+{
+  "title": "Targeted Kerberoasting: SPN Set on User Account",
+  "description": "Detects targeted kerberoasting, where an attacker with write access to a user object sets a servicePrincipalName so the account becomes kerberoastable, then requests and removes it. Indicators: Set-ADUser/Set-DomainObject writing serviceprincipalname, or the targetedKerberoast tool.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*serviceprincipalname*' or 'Command Line' like '*targetedKerberoast*' or 'Command Line' like '*Set-DomainObject*')) and (('Command Line' like '*Set-ADUser*' or 'Command Line' like '*-ServicePrincipalName*' or 'Command Line' like '*targetedKerberoast*' or 'Command Line' like '*serviceprincipalname*')))",
+  "sigma_id": "441f774f-e038-4117-8fb1-2c6dc07f893b",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.credential_access",
+    "attack.t1558.003"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "credential_access"
+    ],
+    "techniques": [
+      "T1558.003"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate SPN registration for new services"
+  ]
+}

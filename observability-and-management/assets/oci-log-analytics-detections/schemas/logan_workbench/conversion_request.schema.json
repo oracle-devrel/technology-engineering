@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oci-logan.local/schemas/logan_workbench/conversion_request.schema.json",
+  "type": "object",
+  "required": ["source_language", "source_query"],
+  "properties": {
+    "source_language": { "enum": ["sigma_yaml", "sentinel_kql", "splunk_spl", "elastic_lucene", "elastic_eql", "oci_logan"] },
+    "source_query": { "type": "string", "minLength": 1, "maxLength": 20000 },
+    "read_only": { "type": "boolean", "default": true },
+    "example_id": { "type": "string" }
+  },
+  "additionalProperties": false
+}

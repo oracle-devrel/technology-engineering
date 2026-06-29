@@ -1,0 +1,65 @@
+{
+  "title": "Image File Execution Options Debugger",
+  "description": "Detects setting of Image File Execution Options debugger for persistence or tampering.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*Image File Execution Options*' and 'Command Line' like '*Debugger*')))",
+  "sigma_id": "335d90de-64dd-4ef3-9cf1-742c7bb2568f",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.persistence",
+    "attack.t1546.012"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence"
+    ],
+    "techniques": [
+      "T1546.012"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Debugging configurations by developers"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 3,
+    "techniques_with_tests": [
+      "T1546.012"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1546.012",
+        "test_name": "IFEO Add Debugger",
+        "test_guid": "fdda2626-5234-4c90-b163-60849a24c0b8",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.012/T1546.012.md"
+      },
+      {
+        "technique_id": "T1546.012",
+        "test_name": "IFEO Global Flags",
+        "test_guid": "46b1f278-c8ee-4aa5-acce-65e77b11f3c1",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.012/T1546.012.md"
+      },
+      {
+        "technique_id": "T1546.012",
+        "test_name": "GlobalFlags in Image File Execution Options",
+        "test_guid": "13117939-c9b2-4a43-999e-0a543df92f0d",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.012/T1546.012.md"
+      }
+    ]
+  }
+}

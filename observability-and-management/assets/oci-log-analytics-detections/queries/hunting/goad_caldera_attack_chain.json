@@ -1,0 +1,46 @@
+{
+  "title": "Hunting: GOAD/Apex Caldera Attack Chain (Multi-Stage)",
+  "description": "Correlates Caldera adversary phases (Discovery, Credential Access, Lateral Movement) on the 10 GOAD + Apex AD Windows hosts. Maps the c7_run_caldera_operations.sh adversary profiles to Windows Security Event IDs: failed logons (4625) for Brute Force / network logon sweep, explicit credentials (4648) for Pass-the-Ticket / runas, special privileges (4672) for SeDebug elevation, Kerberos service tickets (4769) for Kerberoasting, directory replication (4662) for DCSync, credential read (5379) for Credential Manager dump.\n\nA host with 3+ distinct event types in the lookback indicates an active multi-stage Caldera operation against that GOAD/Apex VM. Use this widget alongside the per-technique tiles to confirm full kill-chain progression vs isolated detections, and to attribute alerts to specific Caldera operations (Discovery/CredAccess/Lateral) rather than treating each tile in isolation.",
+  "query": "('Log Source' = 'Windows Security Events' or 'Log Source' = 'Windows Event Security Logs') and 'Event ID' in ('4625', '4648', '4672', '4769', '4662', '5379') | stats count as TotalEvents, distinctcount('Event ID') as UniqueEventTypes by User | where UniqueEventTypes >= 3 | sort -TotalEvents",
+  "type": "hunting",
+  "level": "critical",
+  "tags": [
+    "attack.credential_access",
+    "attack.t1003",
+    "attack.t1558.003",
+    "attack.t1110.001",
+    "attack.t1134",
+    "attack.t1550.003",
+    "hunting",
+    "correlation",
+    "caldera",
+    "goad",
+    "apex_ad"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "credential_access",
+      "privilege_escalation",
+      "lateral_movement"
+    ],
+    "techniques": [
+      "T1003.006",
+      "T1558.003",
+      "T1110.001",
+      "T1134",
+      "T1550.003"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "security",
+    "candidates": [
+      "Windows Security Events",
+      "Windows Event Security Logs"
+    ]
+  },
+  "falsepositives": [
+    "Patch Tuesday post-reboot service account churn",
+    "Domain Controller promotion / demotion windows where replication, ticketing, and authentication events legitimately co-occur"
+  ]
+}

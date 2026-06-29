@@ -1,0 +1,42 @@
+title: Caldera - WinRM Lateral Movement via Evil-WinRM from Linux
+id: 5edfb7b0-e60e-40a9-a4d5-fad31796e4a7
+status: experimental
+description: >
+  Detects use of Evil-WinRM or Python WinRM clients from Linux hosts for lateral
+  movement to Windows targets. Caldera T1021.006 emulation connects to WinRM
+  (port 5985/5986) on Windows machines in the GOAD network using stolen credentials
+  or pass-the-hash to execute commands remotely.
+author: SOC Detection Engineering
+date: 2026/06/11
+logsource:
+  product: linux
+  service: syslog
+detection:
+  sel_evil_winrm:
+    message|contains:
+      - 'evil-winrm'
+      - 'evil_winrm'
+  sel_winrm_py:
+    message|contains:
+      - 'winrm.Protocol'
+      - 'winrm.Session'
+      - 'pywinrm'
+  sel_winrm_port:
+    message|contains:
+      - ':5985'
+      - ':5986'
+  sel_winrm_flags:
+    message|contains:
+      - '-u '
+      - '-p '
+      - '-H '
+      - '--hash'
+  condition: sel_evil_winrm or sel_winrm_py or (sel_winrm_port and sel_winrm_flags)
+level: high
+tags:
+  - attack.lateral_movement
+  - attack.t1021.006
+falsepositives:
+  - Authorized Windows administration from Linux jump hosts
+  - IT teams using WinRM for cross-platform management
+version: 1

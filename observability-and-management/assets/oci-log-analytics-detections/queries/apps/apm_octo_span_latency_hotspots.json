@@ -1,0 +1,26 @@
+{
+  "title": "APM: Octo Demo Span Latency Hotspots",
+  "description": "Span-level rollup for octo-apm-demo. Shows which span names, DB targets, slow request flags, and error types concentrate the most events.",
+  "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and ('Service Name' = 'octo-apm-demo' or 'APM Domain' = 'octo-apm-demo') and 'Span ID' != null | stats count as Spans, distinctcount('Trace ID') as Traces, unique('DB Elapsed ms') as DBLatencyMs by 'Span Name', 'Workflow ID', 'Workflow Step', 'Error Type' | sort -Spans",
+  "level": "medium",
+  "type": "curated",
+  "tags": ["apm", "octo-apm-demo", "spans", "latency"],
+  "logsource": {
+    "product": "application",
+    "service": "soc_application_logs",
+    "candidates": ["SOC Application Logs"]
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "valueField": "Spans",
+      "highlightField": "Traces"
+    },
+    "ask_ai_prompts": [
+      "Rank the octo-apm-demo span hotspots by trace impact.",
+      "Which spans look slow, failed, or database-bound?"
+    ]
+  }
+}

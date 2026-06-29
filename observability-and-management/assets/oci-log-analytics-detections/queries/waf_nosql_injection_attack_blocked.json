@@ -1,0 +1,32 @@
+{
+  "title": "WAF NoSQL Injection Attack Blocked",
+  "description": "Detects NoSQL injection attempts (MongoDB, CouchDB) blocked by WAF. Attackers inject NoSQL query operators to bypass authentication or extract data. OWASP A03:2021 Injection.",
+  "query": "('Log Source' = 'OCI WAF Logs' or 'Log Source' = 'SOC WAF Security Logs') and (('Action' = 'BLOCK') and ( (('Request URL' like '*$gt*' or 'Request URL' like '*$ne*' or 'Request URL' like '*$regex*' or 'Request URL' like '*$where*' or 'Request URL' like '*$exists*' or 'Request URL' like '*$nin*' or 'Request URL' like '*$or*' or 'Request URL' like '*$and*' or 'Request URL' like '*[$gt]*' or 'Request URL' like '*[$ne]*' or 'Request URL' like '*[$regex]*' or 'Request URL' like '*{$gt:*' or 'Request URL' like '*{$ne:*')) or (('Request Body' like '*$gt*' or 'Request Body' like '*$ne*' or 'Request Body' like '*$regex*' or 'Request Body' like '*$where*' or 'Request Body' like '*{\"$gt\":*')) ))",
+  "sigma_id": "a1010027-owasp-a03-nosqli-block-001",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.initial_access",
+    "attack.t1190",
+    "owasp.a03"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "initial_access"
+    ],
+    "techniques": [
+      "T1190"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "waf",
+    "candidates": [
+      "OCI WAF Logs",
+      "SOC WAF Security Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate MongoDB query APIs exposed through REST"
+  ]
+}

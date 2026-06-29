@@ -1,0 +1,37 @@
+{
+  "title": "C2: DNS Beacon Queries KPI",
+  "description": "Counts all suspicious DNS beacon and DNS exfiltration lookups from Sysmon Operational DNS events for the 21-day demo window.",
+  "query": "'Log Source' = 'Windows Sysmon Operational Logs' and 'Event ID' = '22' and ('Query Name' like '*.xyz' or 'Query Name' like '*.info' or 'Query Name' like '*.top' or 'Query Name' like '*.pw' or 'Query Name' like '*.cc' or 'Query Name' like '*.tk' or 'Query Name' like '*.bit' or 'Query Name' like '*.duckdns.org' or 'Query Name' like '*.dnsexfil.example') | stats count as C2DNSQueries",
+  "type": "hunting",
+  "level": "high",
+  "tags": ["c2", "dns", "kpi", "showcase", "attack.t1071.004"],
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon",
+    "candidates": ["Windows Sysmon Operational Logs"]
+  },
+  "dashboard": {
+    "visualizationType": "tile",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "dataField": "C2DNSQueries",
+      "thresholdConfig": {
+        "thresholds": [
+          {"min": 0, "max": 0, "color": "#26a69a", "label": "None"},
+          {"min": 1, "max": 99, "color": "#ffa726", "label": "Active"},
+          {"min": 100, "max": 999999, "color": "#ef5350", "label": "Beaconing"}
+        ]
+      }
+    },
+    "ask_ai_prompts": [
+      "Explain the DNS beacon query count and the domains driving it.",
+      "Which hosts should be investigated first based on DNS beacon volume?"
+    ]
+  },
+  "mitre_attack": {
+    "tactics": ["command_and_control"],
+    "techniques": ["T1071.004"]
+  },
+  "falsepositives": ["Allowed dynamic DNS testing"]
+}

@@ -1,0 +1,35 @@
+{
+  "title": "Caldera - System Network Connections Discovery (Linux)",
+  "description": "Detects enumeration of active network connections on Linux systems. Caldera T1049 emulation uses netstat, ss, and /proc/net file reads to list established connections, listening ports, and socket state for network mapping.\n",
+  "query": "('Log Source' = 'SOC Linux Syslog Logs' or 'Log Source' = 'Linux Secure Logs' or 'Log Source' = 'Linux Syslog Logs' or 'Log Source' = 'Linux Audit Logs') and (((msg like '*netstat -an*' or msg like '*netstat -anp*' or msg like '*netstat -tulpn*' or msg like '*netstat -tunap*' or msg like '*netstat -plantu*' or msg like '*netstat -ntlp*')) or ((msg like '*ss -anp*' or msg like '*ss -tlnp*' or msg like '*ss -tunap*' or msg like '*ss -s *' or msg like '*ss -plnt*')) or ((msg like '*cat /proc/net/tcp*' or msg like '*cat /proc/net/udp*' or msg like '*cat /proc/net/tcp6*')))",
+  "sigma_id": "c3fe4b7a-dc87-4617-9397-6b2a5efaf31c",
+  "level": "low",
+  "stig_category": "CAT III",
+  "tags": [
+    "attack.discovery",
+    "attack.t1049"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "discovery"
+    ],
+    "techniques": [
+      "T1049"
+    ]
+  },
+  "logsource": {
+    "product": "linux",
+    "service": "syslog",
+    "candidates": [
+      "SOC Linux Syslog Logs",
+      "Linux Secure Logs",
+      "Linux Syslog Logs",
+      "Linux Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "System monitoring agents",
+    "Security scanners auditing the host",
+    "Administrators diagnosing network issues"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "title": "Geographic Health: Unhealthy Regions Alert",
+  "description": "Identifies regions with degraded or unreachable instances across all cloud providers. Highlights regions needing immediate attention for operational response.",
+  "query": "'Log Source' = 'SOC Multicloud Health Logs' and ('Status' = 'degraded' or 'Status' = 'unreachable') | stats count as alert_count, unique('Host Name') as affected_instances by 'Cloud Provider', 'Region', 'Status' | sort -alert_count",
+  "type": "hunting",
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "ask_ai_prompts": [
+      "Prioritize the unhealthy regions by likely operational impact and affected instance count.",
+      "Explain whether the failures are clustered by one provider, one geography, or one status pattern."
+    ]
+  },
+  "hunting_type": "alerting",
+  "cookbook_method": "threshold_analysis",
+  "level": "high",
+  "tags": [
+    "operations.health",
+    "operations.incident",
+    "multicloud.monitoring"
+  ],
+  "logsource": {
+    "product": "multicloud",
+    "service": "health"
+  },
+  "falsepositives": [
+    "Scheduled maintenance causing temporary degradation",
+    "Auto-scaling events during low-traffic windows"
+  ]
+}

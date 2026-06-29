@@ -1,0 +1,65 @@
+{
+  "title": "Forced Authentication via PetitPotam",
+  "description": "Detects PetitPotam and related NTLM relay tools that force authentication to attacker-controlled servers.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*PetitPotam*' or 'Command Line' like '*petitpotam*' or 'Command Line' like '*EfsRpcOpenFileRaw*')))",
+  "sigma_id": "4d2f1f57-fade-4957-a5d6-313efbb687f4",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.credential_access",
+    "attack.t1187"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "credential_access"
+    ],
+    "techniques": [
+      "T1187"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Security testing"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 3,
+    "techniques_with_tests": [
+      "T1187"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1187",
+        "test_name": "PetitPotam",
+        "test_guid": "485ce873-2e65-4706-9c7e-ae3ab9e14213",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1187/T1187.md"
+      },
+      {
+        "technique_id": "T1187",
+        "test_name": "WinPwn - PowerSharpPack - Retrieving NTLM Hashes without Touching LSASS",
+        "test_guid": "7f06b25c-799e-40f1-89db-999c9cc84317",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1187/T1187.md"
+      },
+      {
+        "technique_id": "T1187",
+        "test_name": "Trigger an authenticated RPC call to a target server with no Sign flag set",
+        "test_guid": "81cfdd7f-1f41-4cc5-9845-bb5149438e37",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1187/T1187.md"
+      }
+    ]
+  }
+}

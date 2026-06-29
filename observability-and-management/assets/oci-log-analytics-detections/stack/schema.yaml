@@ -1,0 +1,120 @@
+title: "SOC Detection Rules Stack"
+description: "Deploy OCI Log Analytics SOC detection infrastructure including streams, service connectors, log sources, and dashboards."
+schemaVersion: 1.1.0
+version: "1.0.0"
+locale: "en"
+
+variableGroups:
+  - title: "General Configuration"
+    description: "Required OCI identifiers"
+    variables:
+      - compartment_id
+      - tenancy_ocid
+      - region
+
+  - title: "Log Analytics"
+    description: "Log Analytics log group settings"
+    variables:
+      - log_group_name
+      - log_group_description
+
+  - title: "Streaming"
+    description: "OCI Streaming configuration for log ingestion pipelines"
+    variables:
+      - stream_pool_id
+      - stream_partitions
+      - stream_retention_hours
+
+  - title: "Provisioning Options"
+    description: "Control which components are deployed via Python scripts"
+    variables:
+      - deploy_log_sources
+      - deploy_dashboards
+      - ingest_test_data
+
+variables:
+  compartment_id:
+    type: oci:identity:compartment:id
+    title: "Compartment"
+    description: "Compartment where all resources will be created"
+    required: true
+
+  tenancy_ocid:
+    type: string
+    title: "Tenancy OCID"
+    description: "OCID of the tenancy (auto-populated by ORM)"
+    required: true
+
+  region:
+    type: oci:identity:region:name
+    title: "Region"
+    description: "OCI region for deployment (auto-populated by ORM)"
+    required: true
+
+  log_group_name:
+    type: string
+    title: "Log Group Name"
+    description: "Name of the Log Analytics log group for SOC detections"
+    default: "soc-detection-test-logs"
+    required: true
+
+  log_group_description:
+    type: string
+    title: "Log Group Description"
+    description: "Description for the Log Analytics log group"
+    default: "Log group for SOC detection rules testing and validation"
+    required: false
+
+  stream_pool_id:
+    type: string
+    title: "Stream Pool OCID (Optional)"
+    description: "OCID of an existing stream pool. Leave empty to create streams in the compartment directly."
+    default: ""
+    required: false
+
+  stream_partitions:
+    type: number
+    title: "Stream Partitions"
+    description: "Number of partitions per stream"
+    default: 1
+    required: false
+    minimum: 1
+    maximum: 10
+
+  stream_retention_hours:
+    type: number
+    title: "Stream Retention (Hours)"
+    description: "Message retention period in hours"
+    default: 24
+    required: false
+    minimum: 24
+    maximum: 168
+
+  deploy_log_sources:
+    type: boolean
+    title: "Deploy Log Sources"
+    description: "Create custom LA fields, parsers, and log sources via Python script"
+    default: true
+    required: false
+
+  deploy_dashboards:
+    type: boolean
+    title: "Deploy Dashboards"
+    description: "Deploy SOC detection dashboards and saved searches"
+    default: true
+    required: false
+
+  deploy_dashboard_cleanup:
+    type: boolean
+    title: "Cleanup Existing Dashboards"
+    description: "Remove existing SOC dashboards before deploying new ones (--cleanup flag)"
+    default: true
+    required: false
+    visible: deploy_dashboards
+
+  ingest_test_data:
+    type: boolean
+    title: "Ingest Test Data"
+    description: "Upload test attack logs for validation (not recommended for production)"
+    default: false
+    required: false

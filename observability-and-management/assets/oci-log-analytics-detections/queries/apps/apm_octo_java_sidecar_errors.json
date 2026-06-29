@@ -1,0 +1,29 @@
+{
+  "title": "APM: Octo Demo Java Sidecar Error Correlation",
+  "description": "Java APM sidecar and payment-gateway error evidence correlated with Octo checkout and attack-lab traces. Highlights the Java path, error type, status code, and workflow step that should be investigated in APM Trace Explorer.",
+  "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and ('Java APM Path' != null or 'Java APM Error Type' != null) | stats count as Events, distinctcount('Trace ID') as Traces, unique('Java APM Latency ms') as LatencyMs, unique('Response Code') as Statuses by 'Java APM Path', 'Java APM Error Type', 'Service Name', 'Workflow Step' | sort -Events",
+  "level": "medium",
+  "tags": ["application", "apm", "octo-apm-demo", "java-apm", "payment-gateway", "trace-correlation"],
+  "logsource": {
+    "category": "application",
+    "product": "oci-log-analytics",
+    "service": "soc_application_logs",
+    "candidates": ["SOC Application Logs"]
+  },
+  "falsepositives": [
+    "Synthetic payment-gateway timeout and SQL-error simulations triggered by the admin demo console."
+  ],
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "valueField": "Events",
+      "highlightField": "Traces"
+    },
+    "ask_ai_prompts": [
+      "Identify the Java APM sidecar error path and the trace IDs that connect it to the checkout flow.",
+      "Which payment or SQL sidecar event explains the user-visible checkout error?"
+    ]
+  }
+}

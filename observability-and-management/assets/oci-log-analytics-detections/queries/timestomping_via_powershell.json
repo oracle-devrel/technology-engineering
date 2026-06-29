@@ -1,0 +1,121 @@
+{
+  "title": "Timestomping via PowerShell",
+  "description": "Detects PowerShell commands modifying file timestamps to blend malicious files with legitimate ones.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*CreationTime*' and 'Command Line' like '*LastWriteTime*')))",
+  "sigma_id": "c3d28121-f2bc-46d3-9e15-ed7fbb9c4863",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.t1070.006"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1070.006"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Deployment scripts setting consistent timestamps"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 10,
+    "techniques_with_tests": [
+      "T1070.006"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1070.006",
+        "test_name": "Set a file's access timestamp",
+        "test_guid": "5f9113d5-ed75-47ed-ba23-ea3573d05810",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.006/T1070.006.md"
+      },
+      {
+        "technique_id": "T1070.006",
+        "test_name": "Set a file's modification timestamp",
+        "test_guid": "20ef1523-8758-4898-b5a2-d026cc3d2c52",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.006/T1070.006.md"
+      },
+      {
+        "technique_id": "T1070.006",
+        "test_name": "Set a file's creation timestamp",
+        "test_guid": "8164a4a6-f99c-4661-ac4f-80f5e4e78d2b",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.006/T1070.006.md"
+      },
+      {
+        "technique_id": "T1070.006",
+        "test_name": "Modify file timestamps using reference file",
+        "test_guid": "631ea661-d661-44b0-abdb-7a7f3fc08e50",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.006/T1070.006.md"
+      },
+      {
+        "technique_id": "T1070.006",
+        "test_name": "Windows - Modify file creation timestamp with PowerShell",
+        "test_guid": "b3b2c408-2ff0-4a33-b89b-1cb46a9e6a9c",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.006/T1070.006.md"
+      },
+      {
+        "technique_id": "T1070.006",
+        "test_name": "Windows - Modify file last modified timestamp with PowerShell",
+        "test_guid": "f8f6634d-93e1-4238-8510-f8a90a20dcf2",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.006/T1070.006.md"
+      },
+      {
+        "technique_id": "T1070.006",
+        "test_name": "Windows - Modify file last access timestamp with PowerShell",
+        "test_guid": "da627f63-b9bd-4431-b6f8-c5b44d061a62",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.006/T1070.006.md"
+      },
+      {
+        "technique_id": "T1070.006",
+        "test_name": "Windows - Timestomp a File",
+        "test_guid": "d7512c33-3a75-4806-9893-69abc3ccdd43",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.006/T1070.006.md"
+      },
+      {
+        "technique_id": "T1070.006",
+        "test_name": "MacOS - Timestomp Date Modified",
+        "test_guid": "87fffff4-d371-4057-a539-e3b24c37e564",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.006/T1070.006.md"
+      },
+      {
+        "technique_id": "T1070.006",
+        "test_name": "Event Log Manipulations- Time slipping via Powershell",
+        "test_guid": "7bcf83bf-f5ef-425c-9d9a-71618ad9ed12",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.006/T1070.006.md"
+      }
+    ]
+  }
+}

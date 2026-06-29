@@ -1,0 +1,160 @@
+/*
+ * Forge Console — design tokens
+ * Direction: dark luxury security console.
+ * Obsidian / ink-blue base with a warm rust-amber brand accent and a
+ * disciplined severity ramp. Every value here is intentional; do not
+ * scatter raw hex/hsl across components — consume these tokens.
+ *
+ * Color channels are expressed as bare "H S% L%" triples so they can be
+ * composed with hsl(var(--token) / <alpha>) in Tailwind and raw CSS.
+ */
+
+:root {
+  /* Deliberate type pairing: geometric sans display + precise grotesk text,
+     paired with a tabular mono for code and data. Offline-safe stacks so the
+     build never depends on a font CDN. */
+  --font-display: var(--font-inter), "SF Pro Display", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-sans: var(--font-inter), "SF Pro Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), "JetBrains Mono", "SFMono-Regular", "Cascadia Code", "Roboto Mono", ui-monospace, monospace;
+
+  /* Editorial scale — fluid, with real hierarchy contrast (not uniform). */
+  --text-eyebrow: 0.6875rem;
+  --text-meta: 0.75rem;
+  --text-body: 0.8125rem;
+  --text-lead: 0.9375rem;
+  --text-title: clamp(1.05rem, 0.9rem + 0.6vw, 1.4rem);
+  --text-display: clamp(1.6rem, 1.2rem + 1.4vw, 2.35rem);
+
+  --tracking-eyebrow: 0.18em;
+  --tracking-display: -0.02em;
+
+  /* Rhythm — intentional, non-uniform spacing steps. */
+  --space-hair: 0.375rem;
+  --space-tight: 0.625rem;
+  --space-snug: 0.875rem;
+  --space-base: 1.125rem;
+  --space-roomy: 1.75rem;
+
+  --radius: 0.875rem;
+  --radius-panel: 1.125rem;
+
+  --duration-fast: 130ms;
+  --duration-normal: 240ms;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ---------------------------------------------------------------------------
+ * LIGHT — restrained "daylight ops" surface. Kept intentional (warm paper,
+ * not pure gray-on-white) so the toggle reads as a real second theme.
+ * ------------------------------------------------------------------------ */
+:root {
+  --background: 30 24% 97%;
+  --foreground: 222 38% 12%;
+
+  --surface-sunken: 30 22% 94%;
+  --surface-raised: 0 0% 100%;
+  --surface-overlay: 0 0% 100%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 222 38% 12%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 38% 12%;
+
+  --primary: 12 72% 47%; /* rust-amber brand */
+  --primary-foreground: 30 40% 98%;
+  --brand-glow: 18 88% 55%;
+
+  --secondary: 30 16% 90%;
+  --secondary-foreground: 222 30% 18%;
+  --muted: 30 16% 92%;
+  --muted-foreground: 222 12% 42%;
+  --accent: 30 18% 90%;
+  --accent-foreground: 222 30% 18%;
+
+  --destructive: 0 72% 48%;
+  --destructive-foreground: 30 40% 98%;
+
+  --border: 28 16% 86%;
+  --border-strong: 28 14% 78%;
+  --input: 28 16% 86%;
+  --ring: 18 88% 52%;
+
+  /* Severity ramp — semantic, shared by warnings + support badges. */
+  --sev-critical: 356 74% 48%;
+  --sev-high: 22 90% 48%;
+  --sev-medium: 41 92% 44%;
+  --sev-info: 205 78% 44%;
+  --sev-ok: 162 70% 36%;
+
+  --logan-success: 162 70% 36%;
+  --logan-warning: 22 90% 48%;
+  --logan-danger: 356 74% 48%;
+
+  --grid-line: 28 16% 88%;
+  --code-bg: 30 22% 95%;
+
+  --sidebar-background: 30 22% 95%;
+  --sidebar-foreground: 222 30% 18%;
+  --sidebar-border: 28 16% 86%;
+  --sidebar-accent: 30 18% 90%;
+  --sidebar-accent-foreground: 222 30% 18%;
+  --sidebar-ring: 18 88% 52%;
+}
+
+/* ---------------------------------------------------------------------------
+ * DARK — the primary "security console" surface. Ink-blue obsidian with
+ * layered raised surfaces and inner highlights for real depth.
+ * ------------------------------------------------------------------------ */
+.dark {
+  --background: 224 44% 6%;     /* obsidian ink */
+  --foreground: 210 30% 92%;
+
+  --surface-sunken: 225 42% 5%;
+  --surface-raised: 222 34% 11%;  /* panel face */
+  --surface-overlay: 221 32% 14%; /* dialog / popover */
+
+  --card: 222 34% 11%;
+  --card-foreground: 210 30% 92%;
+  --popover: 221 32% 14%;
+  --popover-foreground: 210 30% 92%;
+
+  --primary: 16 84% 56%; /* warm rust-amber, high chroma on dark */
+  --primary-foreground: 224 44% 7%;
+  --brand-glow: 24 92% 60%;
+
+  --secondary: 222 28% 16%;
+  --secondary-foreground: 210 28% 90%;
+  --muted: 222 26% 15%;
+  --muted-foreground: 217 18% 64%;
+  --accent: 222 28% 18%;
+  --accent-foreground: 210 30% 94%;
+
+  --destructive: 356 76% 58%;
+  --destructive-foreground: 210 40% 96%;
+
+  --border: 220 28% 18%;
+  --border-strong: 218 30% 26%;
+  --input: 220 28% 18%;
+  --ring: 24 92% 58%;
+
+  /* Severity ramp — calibrated for AA contrast on the obsidian base. */
+  --sev-critical: 356 84% 64%;
+  --sev-high: 22 94% 58%;
+  --sev-medium: 42 96% 56%;
+  --sev-info: 202 90% 62%;
+  --sev-ok: 158 72% 50%;
+
+  --logan-success: 158 72% 50%;
+  --logan-warning: 22 94% 58%;
+  --logan-danger: 356 84% 64%;
+
+  --grid-line: 220 32% 16%;
+  --code-bg: 225 40% 7%;
+
+  --sidebar-background: 225 42% 5%;
+  --sidebar-foreground: 210 28% 88%;
+  --sidebar-border: 220 28% 16%;
+  --sidebar-accent: 222 28% 16%;
+  --sidebar-accent-foreground: 210 30% 94%;
+  --sidebar-ring: 24 92% 58%;
+}

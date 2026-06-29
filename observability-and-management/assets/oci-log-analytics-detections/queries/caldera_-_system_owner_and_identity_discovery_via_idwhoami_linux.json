@@ -1,0 +1,34 @@
+{
+  "title": "Caldera - System Owner and Identity Discovery via id/whoami (Linux)",
+  "description": "Detects identity enumeration commands used by Caldera T1033 emulation on Linux. Adversaries run id, whoami, logname, and finger immediately after access to determine their effective privilege level and active username. This rule covers the quick identity check commands not included in the existing T1033 rule.\n",
+  "query": "('Log Source' = 'SOC Linux Syslog Logs' or 'Log Source' = 'Linux Secure Logs' or 'Log Source' = 'Linux Syslog Logs' or 'Log Source' = 'Linux Audit Logs') and (((msg like '*id -u*' or msg like '*id -g*' or msg like '*id -G*' or msg like '*id -Z*')) or ((msg like '*whoami*' or msg like '*logname*')) or ((msg like '*echo $USER*' or msg like '*echo $LOGNAME*' or msg like '*echo $UID*' or msg like '*cat /etc/passwd*')))",
+  "sigma_id": "a26c3909-5e36-4ba7-909d-fe7fb683b1f8",
+  "level": "low",
+  "stig_category": "CAT III",
+  "tags": [
+    "attack.discovery",
+    "attack.t1033"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "discovery"
+    ],
+    "techniques": [
+      "T1033"
+    ]
+  },
+  "logsource": {
+    "product": "linux",
+    "service": "syslog",
+    "candidates": [
+      "SOC Linux Syslog Logs",
+      "Linux Secure Logs",
+      "Linux Syslog Logs",
+      "Linux Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "User login scripts checking privilege level",
+    "Automation scripts verifying run-as context"
+  ]
+}

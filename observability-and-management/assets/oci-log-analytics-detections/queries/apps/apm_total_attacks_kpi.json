@@ -1,0 +1,36 @@
+{
+  "title": "APM: Total Browser Attacks (24h)",
+  "description": "KPI tile counting every SOC Application Logs record carrying an Attack Type tag in the last 24 hours. Headline metric for executive dashboards.",
+  "query": "'Log Source' = 'SOC Application Logs' and 'Attack Type' != null | timestats span = 1hour count as Attacks",
+  "type": "hunting",
+  "level": "informational",
+  "tags": ["apm", "kpi", "showcase"],
+  "logsource": {
+    "product": "oci",
+    "service": "apm",
+    "candidates": ["SOC Application Logs"]
+  },
+  "dashboard": {
+    "visualizationType": "tile",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "dataField": "Attacks",
+      "thresholdConfig": {
+        "thresholds": [
+          {"min": 0, "max": 0, "color": "#26a69a", "label": "Calm"},
+          {"min": 1, "max": 19, "color": "#ffa726", "label": "Active"},
+          {"min": 20, "max": 999999, "color": "#ef5350", "label": "Storm"}
+        ]
+      }
+    },
+    "ask_ai_prompts": [
+      "What is driving the browser attack volume right now?",
+      "Compare last 24h attacks to the previous day."
+    ]
+  },
+  "mitre_attack": {
+    "tactics": ["initial_access"],
+    "techniques": ["T1190"]
+  }
+}

@@ -1,0 +1,23 @@
+title: Linux Reverse Shell Detected
+id: f6a7b8c9-abcd-ef01-2345-678901234056
+status: stable
+description: Detects common reverse shell patterns in process execution, indicating potential remote access backdoor activity.
+logsource:
+  product: linux
+  service: audit
+detection:
+  selection:
+    message|contains:
+    - /dev/tcp/
+    - bash -i >&
+    - nc -e /bin
+    - ncat -e /bin
+    - mkfifo /tmp
+  condition: selection
+level: critical
+tags:
+- attack.execution
+- attack.t1059
+version: 1
+falsepositives:
+- Authorized penetration testing

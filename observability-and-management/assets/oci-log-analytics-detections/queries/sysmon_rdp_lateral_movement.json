@@ -1,0 +1,75 @@
+{
+  "title": "Sysmon RDP Lateral Movement",
+  "description": "Detects outbound RDP connections (port 3389) from unusual processes. While RDP is commonly used for administration, connections from non-standard processes may indicate lateral movement.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Sysmon Network Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Destination Port' = 3389 and Initiated = 'true') and (('Process Name' like '*\\\\cmd.exe' or 'Process Name' like '*\\\\powershell.exe' or 'Process Name' like '*\\\\wscript.exe' or 'Process Name' like '*\\\\mstsc.exe' or 'Process Name' like '*\\\\tscon.exe')))",
+  "sigma_id": "a1b2c3d4-7001-4000-8000-000000000004",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.lateral_movement",
+    "attack.t1021.001"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "lateral_movement"
+    ],
+    "techniques": [
+      "T1021.001"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Sysmon Network Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate RDP client usage",
+    "Help desk remote support"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 4,
+    "techniques_with_tests": [
+      "T1021.001"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1021.001",
+        "test_name": "RDP to DomainController",
+        "test_guid": "355d4632-8cb9-449d-91ce-b566d0253d3e",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1021.001/T1021.001.md"
+      },
+      {
+        "technique_id": "T1021.001",
+        "test_name": "Changing RDP Port to Non Standard Port via Powershell",
+        "test_guid": "2f840dd4-8a2e-4f44-beb3-6b2399ea3771",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1021.001/T1021.001.md"
+      },
+      {
+        "technique_id": "T1021.001",
+        "test_name": "Changing RDP Port to Non Standard Port via Command_Prompt",
+        "test_guid": "74ace21e-a31c-4f7d-b540-53e4eb6d1f73",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1021.001/T1021.001.md"
+      },
+      {
+        "technique_id": "T1021.001",
+        "test_name": "Disable NLA for RDP via Command Prompt",
+        "test_guid": "01d1c6c0-faf0-408e-b368-752a02285cb2",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1021.001/T1021.001.md"
+      }
+    ]
+  }
+}

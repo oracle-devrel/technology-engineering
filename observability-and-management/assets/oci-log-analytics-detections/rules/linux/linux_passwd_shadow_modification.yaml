@@ -1,0 +1,30 @@
+title: Linux Password File Direct Modification
+id: d1a2b3c4-2004-4000-8000-000000000004
+status: stable
+description: Detects direct writes to /etc/passwd or /etc/shadow files, bypassing normal user management tools. This could
+  indicate account creation for persistence.
+logsource:
+  product: linux
+  service: audit
+detection:
+  sel1:
+    message|contains:
+    - '>> /etc/passwd'
+    - '> /etc/passwd'
+    - '>> /etc/shadow'
+    - '> /etc/shadow'
+  sel2:
+    message|contains:
+    - tee /etc/passwd
+    - tee -a /etc/passwd
+    - sed -i.*/etc/passwd
+    - sed -i.*/etc/shadow
+  condition: sel1 or sel2
+level: critical
+tags:
+- attack.persistence
+- attack.t1136.001
+version: 1
+falsepositives:
+- Authorized password management
+- System user provisioning
