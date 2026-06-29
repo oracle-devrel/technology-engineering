@@ -219,8 +219,6 @@ $env:HOST="127.0.0.1"
 $env:PORT="4173"
 ```
 
-Do not commit your OCI private key, local OCI config, or secrets to GitHub.
-
 ## Run Locally
 
 ```powershell
@@ -317,10 +315,4 @@ python server.py
 ### Reranker and vector answers look the same
 
 That can happen when vector search already ranks the best passage first. Use the compound preset questions or add overlapping KB chunks to make the reranking effect easier to demonstrate.
-
-## Notes for GitHub
-
-Do not commit OCI config files, private keys, `.env` files, or personal OCIDs. This demo reads sensitive deployment values from environment variables or your local OCI config at runtime.
-
-The app is intentionally simple: no build step, no frontend framework, and no database. It is meant to be a clear demo asset for explaining why reranking improves RAG retrieval quality.
 
