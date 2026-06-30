@@ -56,3 +56,11 @@ Before sharing more broadly, confirm the applicable Oracle review path with the 
 3. Create an EventBridge schedule to run the Lambda daily.
 4. Verify CloudWatch logs and the S3 audit log file.
 5. Confirm OCI receives flat file names at the bucket root (or with a blank destination prefix).
+
+License
+
+Copyright (c) 2026 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See LICENSE for more details.
