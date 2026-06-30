@@ -45,10 +45,6 @@ aws-focus-to-oci-object-storage/
 - Writes structured execution logs to CloudWatch.
 - Appends a monthly transfer audit log into an S3 `transfer-logs/` prefix.
 
-## Notes for internal review
-
-Before sharing more broadly, confirm the applicable Oracle review path with the PM / OGHO / Legal / CorpArch teams. Sanitize all secrets, tokens, customer names, private account IDs, and screenshots before publishing.
-
 ## Quick start
 
 1. Copy `examples/lambda-env-vars.example` into Lambda environment variables.
