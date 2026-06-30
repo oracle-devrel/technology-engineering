@@ -57,7 +57,7 @@ Before sharing more broadly, confirm the applicable Oracle review path with the 
 4. Verify CloudWatch logs and the S3 audit log file.
 5. Confirm OCI receives flat file names at the bucket root (or with a blank destination prefix).
 
-License
+## License
 
 Copyright (c) 2026 Oracle and/or its affiliates.
 
