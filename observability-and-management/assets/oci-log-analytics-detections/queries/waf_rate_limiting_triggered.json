@@ -1,0 +1,33 @@
+{
+  "title": "WAF Rate Limiting Triggered",
+  "description": "Detects WAF rate limiting events indicating automated attack tools or brute force attempts. Rate limiting is configured at 100 requests per minute for Seven Kingdoms Portal.",
+  "query": "('Log Source' = 'OCI WAF Logs' or 'Log Source' = 'SOC WAF Security Logs') and (('Rule Type' = 'REQUEST_RATE_LIMITING'))",
+  "sigma_id": "a1010008-owasp-a07-ratelimit-001",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.credential_access",
+    "attack.t1110",
+    "owasp.a07"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "credential_access"
+    ],
+    "techniques": [
+      "T1110"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "waf",
+    "candidates": [
+      "OCI WAF Logs",
+      "SOC WAF Security Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate high-traffic users or API consumers",
+    "Load testing activities"
+  ]
+}

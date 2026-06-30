@@ -1,0 +1,53 @@
+{
+  "title": "Linux Encrypted Channel C2 Communication",
+  "description": "Detects establishment of encrypted communication channels that may indicate C2 activity. Attackers use OpenSSL, stunnel, and encrypted reverse shells to establish covert command and control over TLS/SSL.\n",
+  "query": "('Log Source' = 'SOC Linux Syslog Logs' or 'Log Source' = 'Linux Secure Logs' or 'Log Source' = 'Linux Syslog Logs' or 'Log Source' = 'Linux Audit Logs') and (((msg like '*openssl s_client -connect*' or msg like '*openssl s_server*')) or ((msg like '*stunnel*' or msg like '*stunnel.conf*')) or ((msg like '*ncat --ssl*' or msg like '*socat openssl-connect*' or msg like '*socat OPENSSL*')) or ((msg like '*ssh -R*' or msg like '*ssh -fNR*')))",
+  "sigma_id": "a1b2c3d4-6018-4000-8000-000000000018",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.command_and_control",
+    "attack.t1573",
+    "attack.t1573.002"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "command_and_control"
+    ],
+    "techniques": [
+      "T1573",
+      "T1573.002"
+    ]
+  },
+  "logsource": {
+    "product": "linux",
+    "service": "syslog",
+    "candidates": [
+      "SOC Linux Syslog Logs",
+      "Linux Secure Logs",
+      "Linux Syslog Logs",
+      "Linux Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate SSL/TLS debugging",
+    "Authorized SSH tunnels"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 1,
+    "techniques_with_tests": [
+      "T1573"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1573",
+        "test_name": "OpenSSL C2",
+        "test_guid": "21caf58e-87ad-440c-a6b8-3ac259964003",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1573/T1573.md"
+      }
+    ]
+  }
+}

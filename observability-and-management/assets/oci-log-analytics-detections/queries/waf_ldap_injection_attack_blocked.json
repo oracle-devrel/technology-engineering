@@ -1,0 +1,32 @@
+{
+  "title": "WAF LDAP Injection Attack Blocked",
+  "description": "Detects LDAP injection attempts blocked by WAF. Attackers manipulate LDAP queries to bypass authentication or extract directory information. OWASP A03:2021 Injection.",
+  "query": "('Log Source' = 'OCI WAF Logs' or 'Log Source' = 'SOC WAF Security Logs') and (('Action' = 'BLOCK') and (('Request URL' like '*)(cn=*' or 'Request URL' like '*)(uid=*' or 'Request URL' like '*)(mail=*' or 'Request URL' like '*)(|(cn=*' or 'Request URL' like '**)(&*' or 'Request URL' like '**)(objectClass=*' or 'Request URL' like '*)(userPassword=*' or 'Request URL' like '**))(|*' or 'Request URL' like '*admin)(&)*' or 'Request URL' like '*x])(objectClass*')))",
+  "sigma_id": "a1010016-owasp-a03-ldapi-block-001",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.initial_access",
+    "attack.t1190",
+    "owasp.a03"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "initial_access"
+    ],
+    "techniques": [
+      "T1190"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "waf",
+    "candidates": [
+      "OCI WAF Logs",
+      "SOC WAF Security Logs"
+    ]
+  },
+  "falsepositives": [
+    "LDAP-based search functionality with special characters"
+  ]
+}

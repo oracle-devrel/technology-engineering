@@ -1,0 +1,326 @@
+# Mapping from Sigma standardized fields to OCI Log Analytics fields
+# Format: sigma_field: oci_field
+# Multi-word OCL field names must be wrapped in single quotes: "'Field Name'"
+#
+# This file is the single source of truth for field translation between
+# Sigma detection rules and OCI Log Analytics Query Language (OCL).
+
+field_mappings:
+  # ─── Common Fields ────────────────────────────────────────────
+  user: User
+  src_ip: "'Client Host'"
+  dst_ip: "'Destination IP'"
+  action: Action
+  status: Status
+  hostname: "'Host Name'"
+
+  # ─── OCI Audit Event Fields ──────────────────────────────────
+  event_type: "'Event Type'"
+  resource_id: ResourceIdentifier
+  resource_name: "'Resource Name'"
+  resource_type: "'Resource Type'"
+  # OCI Audit's parser exposes the API verb under ``HTTP Method``; the
+  # ``Request Action Type`` display name is reserved for the higher-level
+  # action verb (e.g. CREATE/UPDATE) and isn't searchable on the audit
+  # source. Use HTTP Method so `request_action: POST` filters work.
+  request_action: "'HTTP Method'"
+  compartment_name: "'Compartment Name'"
+  compartment_id: "'Compartment OCID'"
+  region: "'Region'"
+  principal_name: "'Principal Name'"
+  auth_type: "'Auth Type'"
+
+  # ─── Network Fields ──────────────────────────────────────────
+  src_port: "'Source Port'"
+  dst_port: "'Destination Port'"
+  protocol: Protocol
+
+  # ─── Payload / Generic ───────────────────────────────────────
+  response_payload: "'Original Log Content'"
+  process_name: "'Process Name'"
+  message: msg
+
+  # ─── Cloud Guard Fields ──────────────────────────────────────
+  problem_name: "'Problem Name'"
+  risk_level: "'Risk Level'"
+  detector_id: "'Detector ID'"
+
+  # ─── Windows Sysmon / Security Fields ────────────────────────
+  CommandLine: "'Command Line'"
+  Image: "'Process Name'"
+  ParentImage: "'Parent Process Name'"
+  ParentCommandLine: "'Parent Command Line'"
+  Hashes: Hashes
+  LogonId: "'Logon ID'"
+  TerminalSessionId: "'Terminal Session ID'"
+  IntegrityLevel: "'Integrity Level'"
+  User: User
+  TargetFilename: "'Target Filename'"
+  SourceFilename: "'Source Filename'"
+  command_line: "'Command Line'"
+  OriginalFileName: "'Original File Name'"
+  EventID: "'Event ID'"
+  Provider: "'Provider'"
+  Channel: "'Channel'"
+
+  # ─── Sysmon Network Connection Fields (Event ID 3) ─────────
+  SourceImage: "'Source Process'"
+  TargetImage: "'Target Process'"
+  DestinationHostname: "'Destination Hostname'"
+  DestinationIp: "'Destination IP'"
+  DestinationPort: "'Destination Port'"
+  SourceIp: "'Source IP'"
+  SourcePort: "'Source Port'"
+  Protocol: Protocol
+  Initiated: Initiated
+
+  # ─── Sysmon DNS Query Fields (Event ID 22) ────────────────
+  QueryName: "'Query Name'"
+  QueryResults: "'Query Results'"
+
+  # ─── Sysmon Named Pipe Fields (Event ID 17/18) ────────────
+  PipeName: "'Pipe Name'"
+
+  # ─── Windows Security / Event Log Fields ─────────────────
+  SubjectUserName: "'Subject User Name'"
+  TargetUserName: "'Target User Name'"
+  TargetDomainName: "'Target Domain Name'"
+  LogonType: "'Logon Type'"
+  ObjectName: "'Object Name'"
+  # OCI Log Analytics' Windows Security parser surfaces the new-process name
+  # under ``Process Name``, not ``New Process Name``. Map to the working field.
+  NewProcessName: "'Process Name'"
+  ServiceName: "'Service Name'"
+  ServiceFileName: "'Service File Name'"
+  # ``Target Server Name`` is NOT extracted by OCI's stock Windows Security
+  # parser. We keep the mapping for reference, but consumers should fall back
+  # to ``Subject User Name`` or drop the filter.
+  TargetServerName: "'Target Server Name'"
+  # Kerberos ticket details (events 4768/4769/4770)
+  TicketEncryptionType: "'Ticket Encryption Type'"
+  PrivilegeList: "'Privilege List'"
+  # Linux Auditd / lower-snake_case variants used by some hand-written rules
+  parent_process_name: "'Parent Process Name'"
+  ShareName: "'Share Name'"
+  RelativeTargetName: "'Relative Target Name'"
+  AccessMask: "'Access Mask'"
+  ObjectType: "'Object Type'"
+  Properties: "'Properties'"
+  TargetObject: "'Target Object'"
+  Details: Details
+
+  # ─── Sysmon Registry Fields (Event ID 12/13/14) ─────────
+  EventType: "'Event Type'"
+  TargetImage: "'Target Process'"
+
+  # ─── MITRE ATT&CK Metadata ────────────────────────────────
+  RuleName: RuleName
+  TechniqueName: "'Technique Name'"
+  TechniqueId: "'Technique ID'"
+
+  # ─── WAF / Web Application Fields ──────────────────────────────
+  # OCI WAF log fields (from OCI Logging → Log Analytics)
+  waf_action: "'Action'"
+  http_method: "'HTTP Method'"
+  request_url: "'Request URL'"
+  uri_path: "'URI Path'"
+  query_string: "'Query String'"
+  client_address: "'Client IP'"
+  country_code: "'Country Code'"
+  user_agent: "'User Agent'"
+  response_code: "'Response Code'"
+  rule_type: "'Rule Type'"
+  rule_key: "'Rule Key'"
+  rule_action: "'Rule Action'"
+  request_body: "'Request Body'"
+  content_type: "'Content Type'"
+  referrer: "'Referrer'"
+  request_headers: "'Request Headers'"
+  waf_policy: "'WAF Policy'"
+  threat_feeds: "'Threat Feeds'"
+  fingerprint: "'Fingerprint'"
+
+  # ─── Load Balancer Access Log Fields ────────────────────────────
+  backend_address: "'Backend Address'"
+  backend_status_code: "'Backend Status Code'"
+  bytes_received: "'Bytes Received'"
+  bytes_sent: "'Bytes Sent'"
+  request_processing_time: "'Request Processing Time'"
+  lb_name: "'Load Balancer Name'"
+  listener_name: "'Listener Name'"
+  backend_name: "'Backend Name'"
+
+  # ─── Web Application Log Fields ────────────────────────────────
+  app_name: "'Application Name'"
+  attack_type: "'Attack Type'"
+  attack_payload: "'Attack Payload'"
+  vulnerability_id: "'Vulnerability ID'"
+  session_id: "'Session ID'"
+  owasp_category: "'OWASP Category'"
+  request_id: "'Request ID'"
+
+  # ─── APM / OpenTelemetry Fields ───────────────────────────────────
+  SpanName: "'Span Name'"
+  SpanKind: "'Span Kind'"
+  HttpUrl: "'Request URL'"
+  HTTP_URL: "'Request URL'"
+  HttpMethod: "'HTTP Method'"
+  HTTP_Method: "'HTTP Method'"
+  HttpStatusCode: "'Response Code'"
+  HTTP_Status_Code: "'Response Code'"
+  UserAgent: "'User Agent'"
+  trace_id: "'Trace ID'"
+  span_id: "'span_id'"
+  Duration: Duration
+  Error: Error
+  Span_Name: "'Span Name'"
+  Span_Attributes: "'Span Attributes'"
+  Session_ID: "'Session ID'"
+  Source_IP: "'Client IP'"
+  Content_Type: "'Content Type'"
+  Response_Headers: "'Response Headers'"
+  Referer: "'Referrer'"
+
+  # ─── Sysmon Process Access Fields (Event ID 10) ───────────────────
+  GrantedAccess: "'Granted Access'"
+  CallTrace: "'Call Trace'"
+
+logsource_mappings:
+  # Sigma Category/Product -> ordered OCI Log Source candidates.
+  # Converter emits a query filter that matches any listed source.
+  #
+  # Strategy:
+  #   - Prefer native OCI sources where they exist and are data-rich.
+  #   - Keep SOC custom sources as fallback for compatibility.
+  #   - Linux detections keep SOC-first because there is no single native
+  #     equivalent that matches the SOC Linux Syslog pattern coverage.
+
+  # OCI Audit (native)
+  oci_audit:
+    - OCI Audit Logs
+
+  # Cloud Guard (native-first, SOC fallback)
+  oci_cloud_guard:
+    - OCI Cloud Guard Problems
+    - OCI Cloud Guard Logs
+    - SOC Cloud Guard Logs
+
+  # Linux (SOC-first, then native alternatives)
+  linux_audit:
+    - SOC Linux Syslog Logs
+    - Linux Secure Logs
+    - Linux Syslog Logs
+    - Linux Audit Logs
+  linux_auditd:
+    - SOC Linux Syslog Logs
+    - Linux Secure Logs
+    - Linux Syslog Logs
+    - Linux Audit Logs
+  linux_auth:
+    - SOC Linux Syslog Logs
+    - Linux Secure Logs
+    - Linux Syslog Logs
+    - Linux Audit Logs
+  linux_syslog:
+    - SOC Linux Syslog Logs
+    - Linux Secure Logs
+    - Linux Syslog Logs
+    - Linux Audit Logs
+
+  # Windows Sysmon/process creation (native-first, SOC fallback)
+  windows_process_creation:
+    - Windows Sysmon Events
+    - Windows Sysmon Operational Logs
+    - SOC Windows Sysmon Logs
+  windows_sysmon:
+    - Windows Sysmon Events
+    - Windows Sysmon Operational Logs
+    - SOC Windows Sysmon Logs
+  windows_event:
+    - Windows Sysmon Events
+    - Windows Sysmon Operational Logs
+    - SOC Windows Sysmon Logs
+  windows_security:
+    - Windows Security Events
+    - Windows Event Security Logs
+
+  # Sysmon Network Connection (Event ID 3)
+  windows_network_connection:
+    - Windows Sysmon Events
+    - Windows Sysmon Operational Logs
+    - SOC Sysmon Network Logs
+    - SOC Windows Sysmon Logs
+
+  # Sysmon DNS Query (Event ID 22)
+  windows_dns_query:
+    - Windows Sysmon Events
+    - Windows Sysmon Operational Logs
+    - SOC Windows Sysmon Logs
+
+  # Sysmon Named Pipe (Event ID 17/18)
+  windows_pipe_created:
+    - Windows Sysmon Events
+    - Windows Sysmon Operational Logs
+    - SOC Windows Sysmon Logs
+
+  # Sysmon File Creation (Event ID 11)
+  windows_file_creation:
+    - Windows Sysmon Events
+    - Windows Sysmon Operational Logs
+    - SOC Windows Sysmon Logs
+
+  # Sysmon Registry Event (Event ID 12/13/14)
+  windows_registry_event:
+    - Windows Sysmon Events
+    - Windows Sysmon Operational Logs
+    - SOC Windows Sysmon Logs
+
+  # Sysmon Image Loaded (Event ID 7)
+  windows_image_load:
+    - Windows Sysmon Events
+    - Windows Sysmon Operational Logs
+    - SOC Windows Sysmon Logs
+
+  # Linux process creation (maps to syslog-based detection)
+  linux_process_creation:
+    - SOC Linux Syslog Logs
+    - Linux Secure Logs
+    - Linux Syslog Logs
+    - Linux Audit Logs
+
+  # ─── OCI WAF Security Logs ─────────────────────────────────────
+  # WAF logs from OCI WAF → OCI Logging → Log Analytics
+  oci_waf:
+    - OCI WAF Logs
+    - SOC WAF Security Logs
+  webserver_waf:
+    - OCI WAF Logs
+    - SOC WAF Security Logs
+
+  # ─── Load Balancer Access Logs ──────────────────────────────────
+  oci_loadbalancer:
+    - OCI Load Balancer Access Logs
+    - SOC Load Balancer Access Logs
+  webserver_access:
+    - OCI Load Balancer Access Logs
+    - SOC Load Balancer Access Logs
+
+  # ─── Web Application Logs ──────────────────────────────────────
+  oci_webapp:
+    - SOC Web Application Logs
+    - OCI Load Balancer Access Logs
+  webserver:
+    - OCI Load Balancer Access Logs
+    - SOC Web Application Logs
+
+  # ─── APM / OpenTelemetry Application Logs ────────────────────
+  oci_apm:
+    - SOC Application Logs
+  opentelemetry_apm:
+    - SOC Application Logs
+
+  # ─── Sysmon Process Access (Event ID 10) ─────────────────────
+  windows_process_access:
+    - Windows Sysmon Events
+    - Windows Sysmon Operational Logs
+    - SOC Windows Sysmon Logs

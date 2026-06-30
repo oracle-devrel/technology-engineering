@@ -2,7 +2,7 @@
  
 This is an  guide for Private DNS implementation
 
-Reviewed: 10.10.2025
+Reviewed: 12.06.2026
 
 # When to use this asset?
  

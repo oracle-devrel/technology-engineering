@@ -1,0 +1,14 @@
+{
+  "title": "OCI Unusual API Caller - First Seen User-Agent",
+  "description": "Identifies API calls from user-agents that have not been seen in the baseline period, which may indicate new tooling or unauthorized API access.",
+  "query": "'Log Source' = 'OCI Audit Logs' | stats earliest(Time) as first_seen, count as call_count by 'User Agent' | where call_count < 5 | sort -first_seen",
+  "type": "hunting",
+  "category": "discovery",
+  "mitre_attack": {
+    "tactics": ["discovery", "initial_access"],
+    "techniques": ["T1087", "T1078"]
+  },
+  "data_source": "OCI Audit Logs",
+  "frequency": "weekly",
+  "notes": "Baseline user-agents over 30 days first. New entries may indicate compromised credentials being used from a new tool."
+}

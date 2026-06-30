@@ -21,6 +21,10 @@ Reviewed: 28.10.2025
 - [The One Billion Row Challenge, Autonomous Database (ADB) Edition](https://dev.to/oracle/the-one-billion-row-challenge-autonomous-database-adb-edition-331a)
     - The 1 billion Row Challenge using Autonomous DB with In-Memory
 
+- [Streamline Backups for Oracle Autonomous AI Database on Exadata Cloud@Customer with ZDLRA as the Destination](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3197&clear=RR,180)
+    - This set of hands-on labs is designed to assist developers and database users with setting up and using various features of the Autonomous Database on Dedicated Exadata Infrastructure Service.
+ 
+  
 # Useful Links
  
 - [Autonomous Database Dedicated Documentation](https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbd-index.html)
@@ -37,14 +41,9 @@ Reviewed: 28.10.2025
 - [Oracle Autonomous Database Dedicated for Fleet Administrators](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3196&clear=RR,180)
     - In this workshop designed for Oracle Autonomous Database Dedicated fleet administrators, you set up the network, users, and groups and required administrator privileges on your OCI account.
 
-- [Streamline Backups for Oracle Autonomous AI Database on Exadata Cloud@Customer with ZDLRA as the Destination](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3197&clear=RR,180)
-    - This set of hands-on labs is designed to assist developers and database users with setting up and using various features of the Autonomous Database on Dedicated Exadata Infrastructure Service.
-
 - [Oracle Autonomous Database Dedicated for Security Administrators](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3198&clear=RR,180)
     - This set of hands-on labs is designed to assist database security administrators with setting up and using various features of the Autonomous Database on the dedicated Exadata Infrastructure service.
  
- - [Streamline Backups for Oracle Autonomous AI Database on Exadata Cloud@Customer with ZDLRA as the Destination](https://blogs.oracle.com/autonomous-ai-database/streamline-backups-for-oracle-autonomous-ai-database-on-exadata-cloudcustomer-with-zdlra-as-the-destination)
-    - The blog is a step-by-step guide on how to enable and configure the backup destination to ZDLRA at ACD level in an ADB C@C scenario.
     
 # License
  

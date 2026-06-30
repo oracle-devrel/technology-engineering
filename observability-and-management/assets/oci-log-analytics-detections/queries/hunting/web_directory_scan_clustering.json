@@ -1,0 +1,31 @@
+{
+  "title": "Web Directory Scanning IP Clustering (Anomaly Detection)",
+  "description": "Clusters IPs performing directory enumeration by counting distinct 404-generating paths. A high number of unique 404 paths from a single IP indicates systematic directory/file scanning using tools like dirb, gobuster, or ffuf.",
+  "query": "('Log Source' = 'OCI Load Balancer Access Logs' or 'Log Source' = 'SOC Load Balancer Access Logs') and 'Response Code' = '404' | stats count as total_404s, distinctcount('Request URL') as unique_paths by 'Client IP', 'User Agent' | sort -unique_paths | where unique_paths > 20",
+  "type": "hunting",
+  "hunting_type": "anomaly_detection",
+  "cookbook_method": "clustering",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.reconnaissance",
+    "attack.t1595.002",
+    "owasp.a01"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "reconnaissance"
+    ],
+    "techniques": [
+      "T1595.002"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "loadbalancer"
+  },
+  "falsepositives": [
+    "Search engine crawlers",
+    "Broken link checkers"
+  ]
+}

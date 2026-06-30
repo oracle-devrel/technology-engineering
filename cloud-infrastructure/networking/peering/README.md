@@ -4,10 +4,11 @@ Local VCN peering: is the process of connecting two VCNs in the same region so t
 
 Remote VCN peering is the process of connecting two VCNs in different regions (but with the same tenancy ). The peering allows the VCNs' resources to communicate using private IP addresses without routing the traffic over the internet or through your on-premises network. RPC requires 2 DRG instances (one for each region see pic below). The customer can also use RPC  to peer different tenants in the same region peering the DRGs.
 
-Reviewed: 10.10.2025
+Reviewed: 12.06.2026
 
 # Useful Links
 
+- [Set up RPC Connection between Two Tenants and their Dynamic Routing Gateways](https://docs.oracle.com/en/learn/oci-tenants-rpc/index.html)
 - [RPC Documentation](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/remoteVCNpeering.htm#Remote_VCN_Peering_Across_Regions)
 - [LPC Documentation](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/localVCNpeering.htm)
 - [Use Terraform to Deploy Multiple Kubernetes Clusters across different OCI Regions using OKE and Create a Full Mesh Network using RPC](https://docs.oracle.com/en/learn/oci-oke-multicluster-k8s-terraform/#introduction)

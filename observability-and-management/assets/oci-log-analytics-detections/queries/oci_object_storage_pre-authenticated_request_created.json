@@ -1,0 +1,34 @@
+{
+  "title": "OCI Object Storage Pre-Authenticated Request Created",
+  "description": "Detects creation of pre-authenticated requests (PARs) for OCI Object Storage. PARs bypass IAM authentication and can be used for data exfiltration via shareable URLs.",
+  "query": "'Log Source' = 'OCI Audit Logs' and (('Event Type' = 'com.oraclecloud.objectstorage.createpreauthenticatedrequest'))",
+  "sigma_id": "d1a2b3c4-1015-4000-8000-000000000015",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.exfiltration",
+    "attack.t1567",
+    "stig.AC-3"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "exfiltration"
+    ],
+    "techniques": [
+      "T1567"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "stig_ids": [
+    "AC-3"
+  ],
+  "falsepositives": [
+    "Authorized data sharing workflows"
+  ]
+}

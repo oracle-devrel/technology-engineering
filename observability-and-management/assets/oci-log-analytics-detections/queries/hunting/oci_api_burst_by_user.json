@@ -1,0 +1,14 @@
+{
+  "title": "OCI API Call Burst by User",
+  "description": "Detects users making an unusually high number of API calls in a short window, which may indicate automated enumeration or data exfiltration scripts.",
+  "query": "'Log Source' = 'OCI Audit Logs' | stats count as api_calls by 'Principal Name', 'Event Type' | where api_calls > 100 | sort -api_calls",
+  "type": "hunting",
+  "category": "exfiltration",
+  "mitre_attack": {
+    "tactics": ["exfiltration", "collection"],
+    "techniques": ["T1119", "T1530"]
+  },
+  "data_source": "OCI Audit Logs",
+  "frequency": "daily",
+  "notes": "High API call volume from a single principal may indicate automated data collection. Cross-reference with known CI/CD service accounts."
+}

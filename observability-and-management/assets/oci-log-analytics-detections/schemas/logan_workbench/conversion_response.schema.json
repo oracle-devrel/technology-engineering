@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oci-logan.local/schemas/logan_workbench/conversion_response.schema.json",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "logan_query", "support_level", "explanation", "warnings", "metadata", "backend"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "generated_at": { "type": "string" },
+    "source_language": { "type": "string" },
+    "source_query": { "type": "string" },
+    "logan_query": { "type": "string" },
+    "support_level": { "enum": ["supported", "partial", "lossy", "unsupported"] },
+    "explanation": { "type": "string" },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "message", "severity"],
+        "properties": {
+          "code": { "type": "string" },
+          "message": { "type": "string" },
+          "severity": { "enum": ["info", "warning", "error"] }
+        },
+        "additionalProperties": false
+      }
+    },
+    "metadata": { "type": "object" },
+    "backend": { "type": "string" }
+  },
+  "additionalProperties": true
+}

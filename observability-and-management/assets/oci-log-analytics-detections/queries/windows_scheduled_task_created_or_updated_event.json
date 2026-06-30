@@ -1,0 +1,50 @@
+{
+  "title": "Windows Scheduled Task Created or Updated",
+  "description": "Detects Security Event IDs 4698 and 4702 for scheduled tasks created or modified with suspicious task names or executable actions.",
+  "query": "('Log Source' = 'Windows Security Events' or 'Log Source' = 'Windows Event Security Logs') and 'Event ID' in ('4698', '4702') and ('Task Name' like '*Update*' or 'Task Name' like '*Cache*' or 'Command Line' like '*powershell*' or 'Command Line' like '*\\\\Temp\\\\*' or 'Command Line' like '*\\\\Users\\\\Public\\\\*' or msg like '*Task Name*') | stats count as TaskChanges, unique('Task Name') as Tasks, unique('Command Line') as Commands by User, 'Host Name (Server)', Entity | sort -TaskChanges",
+  "sigma_id": "logan-winsec-4698-4702-scheduled-task-change",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.persistence",
+    "attack.privilege_escalation",
+    "attack.t1053.005"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence",
+      "privilege_escalation"
+    ],
+    "techniques": [
+      "T1053.005"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "security",
+    "candidates": [
+      "Windows Security Events",
+      "Windows Event Security Logs"
+    ]
+  },
+  "falsepositives": [
+    "Software deployment tools and endpoint management platforms creating scheduled maintenance tasks"
+  ],
+  "requires_aggregation": true,
+  "references": [
+    {
+      "name": "Microsoft Learn: 4698(S) A scheduled task was created",
+      "url": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4698"
+    },
+    {
+      "name": "Microsoft Learn: 4702(S) A scheduled task was updated",
+      "url": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4702"
+    }
+  ],
+  "atomic_red_team": {
+    "has_tests": false,
+    "test_count": 0,
+    "techniques_with_tests": [],
+    "tests": []
+  }
+}

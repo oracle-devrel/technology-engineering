@@ -1,0 +1,34 @@
+{
+  "title": "APM: CSRF Token Missing or Invalid on State-Changing Request",
+  "description": "Detects HTTP POST/PUT/DELETE requests to state-changing endpoints that lack CSRF tokens or have invalid tokens, indicating potential Cross-Site Request Forgery. Uses APM span attributes to detect missing security headers.\n",
+  "query": "'Log Source' = 'SOC Application Logs' and ((('HTTP Method' = 'POST' or 'HTTP Method' = 'PUT' or 'HTTP Method' = 'DELETE' or 'HTTP Method' = 'PATCH')) and (not ('Referrer' like '*')) and not (('Request URL' like '*/api/health*' or 'Request URL' like '*/api/status*' or 'Request URL' like '*/login*' or 'Request URL' like '*/oauth*' or 'Request URL' like '*/webhook*'))) | stats count as Violations by 'Request URL', 'HTTP Method', 'Client IP', 'Service Name' | sort -Violations",
+  "sigma_id": "apm-browser-csrf-001",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.initial_access",
+    "attack.t1185",
+    "owasp.a01",
+    "browser_attack"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "initial_access"
+    ],
+    "techniques": [
+      "T1185"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "apm",
+    "candidates": [
+      "SOC Application Logs"
+    ]
+  },
+  "falsepositives": [
+    "API-to-API calls without browser context",
+    "Mobile app requests",
+    "Webhook callbacks"
+  ]
+}

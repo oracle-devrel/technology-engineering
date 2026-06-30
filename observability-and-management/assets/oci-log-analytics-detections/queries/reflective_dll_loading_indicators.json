@@ -1,0 +1,49 @@
+{
+  "title": "Reflective DLL Loading Indicators",
+  "description": "Detects indicators of reflective DLL loading where DLLs are loaded from memory without touching disk.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*ReflectiveLoader*' or 'Command Line' like '*Invoke-ReflectivePEInjection*' or 'Command Line' like '*sRDI*')))",
+  "sigma_id": "a31a29fc-e8ee-4a26-b7fb-7ca3da17e2c0",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.t1620"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1620"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Security research tools"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 1,
+    "techniques_with_tests": [
+      "T1620"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1620",
+        "test_name": "WinPwn - Reflectively load Mimik@tz into memory",
+        "test_guid": "56b9589c-9170-4682-8c3d-33b86ecb5119",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1620/T1620.md"
+      }
+    ]
+  }
+}

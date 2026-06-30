@@ -1,0 +1,30 @@
+{
+  "title": "Web-to-Cloud: Entry Point and SSRF Evidence",
+  "description": "Identifies the initial web request that reached the application tier and attempted access to the cloud instance metadata endpoint. Use the Request URL, Client IP, backend host, and Trace ID to start the investigation.",
+  "query": "('Log Source' = 'SOC WAF Security Logs' or 'Log Source' = 'SOC Load Balancer Access Logs' or 'Log Source' = 'SOC Web Application Logs' or 'Log Source' = 'SOC Application Logs') and ('Trace ID' = 'trace_w2c_entry_001' or 'Client IP' = '203.0.113.50' or 'Request URL' like '*169.254.169.254*') | stats count as Events, unique('Action') as Actions, unique('Response Code') as ResponseCodes, unique('Request URL') as Requests by 'Client IP', 'Trace ID', 'Log Source', 'Host Name' | sort -Events",
+  "type": "hunting",
+  "level": "critical",
+  "tags": ["web_to_cloud", "ssrf", "initial_access", "entry_point"],
+  "logsource": {
+    "product": "oci",
+    "service": "waf_load_balancer_application"
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "groupBy": ["Client IP", "Trace ID"],
+      "valueField": "Events"
+    },
+    "ask_ai_prompts": [
+      "Explain how the SSRF entry point was detected.",
+      "Which request URL and source IP started the chain?"
+    ]
+  },
+  "mitre_attack": {
+    "tactics": ["initial_access"],
+    "techniques": ["T1190"]
+  },
+  "falsepositives": ["Internal SSRF validation testing"]
+}

@@ -1,0 +1,283 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.21.0
+  name: functionapplications.functions.oci.oracle.com
+spec:
+  group: functions.oci.oracle.com
+  names:
+    categories:
+    - oci
+    - functions
+    kind: FunctionApplication
+    listKind: FunctionApplicationList
+    plural: functionapplications
+    singular: functionapplication
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.phase
+      name: Phase
+      type: string
+    - jsonPath: .status.applicationId
+      name: Application ID
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: FunctionApplication is the Schema for OCI Functions applications.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: FunctionApplicationSpec defines the desired state of FunctionApplication.
+            properties:
+              compartmentId:
+                description: CompartmentID is the compartment OCID for the OCI Functions
+                  application.
+                pattern: ^ocid1\.compartment\..+
+                type: string
+              config:
+                additionalProperties:
+                  type: string
+                description: Config is application-level OCI Functions configuration
+                  shared by functions in this application.
+                type: object
+              deletionPolicy:
+                default: Retain
+                description: |-
+                  DeletionPolicy controls OCI application cleanup when this Kubernetes FunctionApplication is deleted.
+                  Defaults to Retain for safety. Delete is honored only for Managed mode and only when no functions remain in the application.
+                enum:
+                - Retain
+                - Delete
+                type: string
+              displayName:
+                description: DisplayName is the OCI Functions application display
+                  name.
+                maxLength: 255
+                minLength: 1
+                type: string
+              existingApplicationId:
+                description: ExistingApplicationID points at an existing OCI Functions
+                  application.
+                pattern: ^ocid1\.fnapp\..+
+                type: string
+              logging:
+                description: |-
+                  Logging configures function invocation logs for this OCI Functions application.
+                  Omit this field to leave application logging unmanaged.
+                properties:
+                  invocationLogs:
+                    description: InvocationLogs configures OCI Functions invocation
+                      logs for this application.
+                    properties:
+                      category:
+                        description: |-
+                          Category is the OCI Logging service log category.
+                          Defaults to invoke.
+                        minLength: 1
+                        type: string
+                      enabled:
+                        default: true
+                        description: |-
+                          Enabled enables invocation log configuration on the OCI Functions application.
+                          Omit spec.logging entirely to leave invocation logging unmanaged.
+                        type: boolean
+                      lineFormat:
+                        default: JSON
+                        description: |-
+                          LineFormat is the emitted function log line format.
+                          Defaults to JSON when invocation logging is enabled and no format is set.
+                        enum:
+                        - JSON
+                        - PLAIN_TEXT
+                        type: string
+                      logDisplayName:
+                        description: |-
+                          LogDisplayName is the display name for the OCI Logging service log.
+                          Defaults to "<function-application-display-name>-invocation".
+                        maxLength: 255
+                        type: string
+                      logGroupId:
+                        description: |-
+                          LogGroupID is the OCID of an existing OCI Logging log group where the Functions service log should be created or updated.
+                          Required when invocation logs are enabled.
+                        pattern: ^ocid1\.loggroup\..+
+                        type: string
+                      service:
+                        description: |-
+                          Service is the OCI Logging service source name.
+                          Defaults to functions.
+                        minLength: 1
+                        type: string
+                    type: object
+                type: object
+              mode:
+                default: Managed
+                description: |-
+                  Mode selects whether the operator manages or only resolves an existing OCI Functions application.
+                  Defaults to Managed.
+                enum:
+                - Managed
+                - Existing
+                type: string
+              nsgIds:
+                description: |-
+                  NSGIDs are the Network Security Group OCIDs to attach to the OCI Functions application.
+                  When omitted, the operator leaves NSGs unmanaged on existing applications.
+                  Set an empty list to explicitly clear all NSGs.
+                  Set a non-empty list to create new applications with those NSGs and reconcile existing applications to that set.
+                items:
+                  pattern: ^ocid1\.networksecuritygroup\..+
+                  type: string
+                type: array
+                x-kubernetes-list-type: atomic
+              region:
+                description: Region is the OCI region identifier, such as me-jeddah-1.
+                minLength: 1
+                type: string
+              subnetIds:
+                description: SubnetIDs are the subnet OCIDs for a newly created managed
+                  OCI Functions application.
+                items:
+                  type: string
+                minItems: 1
+                type: array
+                x-kubernetes-list-type: atomic
+            required:
+            - compartmentId
+            - displayName
+            type: object
+            x-kubernetes-validations:
+            - message: mode Existing requires spec.existingApplicationId or spec.displayName
+                and spec.compartmentId
+              rule: '!has(self.mode) || self.mode != ''Existing'' || has(self.existingApplicationId)
+                || (has(self.displayName) && has(self.compartmentId))'
+            - message: spec.logging.invocationLogs.logGroupId is required when invocation
+                logs are enabled
+              rule: '!has(self.logging) || !has(self.logging.invocationLogs) || (has(self.logging.invocationLogs.enabled)
+                && self.logging.invocationLogs.enabled == false) || has(self.logging.invocationLogs.logGroupId)'
+          status:
+            description: FunctionApplicationStatus defines the observed state of FunctionApplication.
+            properties:
+              applicationId:
+                description: ApplicationID is the resolved OCI Functions application
+                  OCID.
+                type: string
+              conditions:
+                description: Conditions contain detailed state transitions.
+                items:
+                  description: Condition contains details for one aspect of the current
+                    state of this API Resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        lastTransitionTime is the last time the condition transitioned from one status to another.
+                        This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        message is a human readable message indicating details about the transition.
+                        This may be an empty string.
+                      maxLength: 32768
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        observedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      minimum: 0
+                      type: integer
+                    reason:
+                      description: |-
+                        reason contains a programmatic identifier indicating the reason for the condition's last transition.
+                        Producers of specific condition types may define expected values and meanings for this field,
+                        and whether the values are considered a guaranteed API.
+                        The value should be a CamelCase string.
+                        This field may not be empty.
+                      maxLength: 1024
+                      minLength: 1
+                      pattern: ^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$
+                      type: string
+                    status:
+                      description: status of the condition, one of True, False, Unknown.
+                      enum:
+                      - "True"
+                      - "False"
+                      - Unknown
+                      type: string
+                    type:
+                      description: type of condition in CamelCase or in foo.example.com/CamelCase.
+                      maxLength: 316
+                      pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - message
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              displayName:
+                description: DisplayName is the resolved OCI Functions application
+                  display name.
+                type: string
+              lastSyncTime:
+                description: LastSyncTime is the last time the controller updated
+                  observed status.
+                format: date-time
+                type: string
+              message:
+                description: Message is a short human-readable status summary.
+                type: string
+              observedGeneration:
+                description: ObservedGeneration is the last metadata.generation observed
+                  by the controller.
+                format: int64
+                type: integer
+              phase:
+                description: Phase is a compact state summary for kubectl output.
+                enum:
+                - Pending
+                - Ready
+                - Error
+                type: string
+              region:
+                description: Region is the resolved OCI region.
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

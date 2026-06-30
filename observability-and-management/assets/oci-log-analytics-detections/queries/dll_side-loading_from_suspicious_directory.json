@@ -1,0 +1,39 @@
+{
+  "title": "DLL Side-Loading from Suspicious Directory",
+  "description": "Detects execution of legitimate signed binaries from temp or user-writable directories, suggesting DLL side-loading.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Process Name' like '*.exe' and ('Process Name' like '*\\\\Temp\\\\*' or 'Process Name' like '*\\\\AppData\\\\Local\\\\Temp\\\\*' or 'Process Name' like '*\\\\Downloads\\\\*' or 'Process Name' like '*\\\\Desktop\\\\*')) and not (('Process Name' like '*\\\\Windows\\\\Temp\\\\setup*' or 'Process Name' like '*\\\\Microsoft\\\\*')))",
+  "sigma_id": "33350827-b2b5-4553-8286-07aa08b70157",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.t1574.002"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1574.002"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Software installers running from Downloads",
+    "Portable applications"
+  ],
+  "atomic_red_team": {
+    "has_tests": false,
+    "test_count": 0,
+    "techniques_with_tests": [],
+    "tests": []
+  }
+}

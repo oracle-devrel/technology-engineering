@@ -1,0 +1,32 @@
+title: Linux System Owner and User Discovery
+id: a1b2c3d4-6006-4000-8000-000000000006
+status: stable
+description: 'Detects commands used to discover system owner, logged-in users, and
+  user context. Attackers run these commands early in post-compromise to understand
+  their privilege level and identify other active users.
+
+  '
+author: SOC Detection Team
+date: 2026/02/11
+logsource:
+  product: linux
+  service: syslog
+detection:
+  sel_commands:
+    message|contains:
+    - 'w '
+    - who -a
+    - last -a
+    - lastlog
+    - getent passwd
+    - cat /etc/group
+    - groups root
+  condition: sel_commands
+level: low
+tags:
+- attack.discovery
+- attack.t1033
+falsepositives:
+- System administrators checking active sessions
+- Monitoring scripts
+version: 1
