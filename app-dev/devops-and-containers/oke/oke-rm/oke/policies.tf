@@ -17,7 +17,7 @@ locals {
 
   #"Allow any-user to manage volume-attachments in compartment id ${var.oke_compartment_id} where ALL {request.principal.type='workload', request.principal.namespace ='karpenter', request.principal.service_account = 'karpenter', request.principal.cluster_id = '${module.oke.cluster_id}'}"
   karpenter_compute_statements = [
-    var.create_karpenter_policies ? "Allow dynamic-group id ${oci_identity_domains_dynamic_resource_group.karpenter_dynamic_group.0.ocid} to {CLUSTER_JOIN} in compartment id ${var.oke_compartment_id} where { target.cluster.id = '${module.oke.cluster_id}' }" : "",
+    var.create_karpenter_policies ? "Allow dynamic-group id ${oci_identity_domains_dynamic_resource_group.karpenter_dynamic_group.0.ocid} to {CLUSTER_JOIN} in compartment id ${var.oke_compartment_id} where target.cluster.id = '${module.oke.cluster_id}'" : "",
     "Allow any-user to manage instance-family in compartment id ${var.oke_compartment_id} where ALL {request.principal.type='workload', request.principal.namespace ='karpenter', request.principal.service_account = 'karpenter', request.principal.cluster_id = '${module.oke.cluster_id}'}",
     local.create_karpenter_capacity_reservation_policy_optional ? "Allow any-user to use compute-capacity-reservation in compartment id ${var.oke_compartment_id} where ALL {request.principal.type='workload', request.principal.namespace ='karpenter', request.principal.service_account = 'karpenter', request.principal.cluster_id = '${module.oke.cluster_id}'}" : "",
     local.create_karpenter_compute_cluster_policy_optional ? "Allow any-user to use compute-clusters in compartment id ${var.oke_compartment_id} where ALL {request.principal.type='workload', request.principal.namespace ='karpenter', request.principal.service_account = 'karpenter', request.principal.cluster_id = '${module.oke.cluster_id}'}" : "",
@@ -104,7 +104,7 @@ locals {
   create_storage_policy = !var.policies_dry_run && local.create_karpenter_policies
   create_tag_policy     = !var.policies_dry_run && local.create_karpenter_tag_policy_optional
   create_iam_policy     = !var.policies_dry_run && local.create_karpenter_policies
-  create_kms_policy     = !var.policies_dry_run && var.cluster_kms_key_id != null
+  create_kms_policy     = var.enable_policies && !var.policies_dry_run && var.cluster_kms_key_id != null
 }
 
 resource "oci_identity_policy" "oke_policy_compute" {

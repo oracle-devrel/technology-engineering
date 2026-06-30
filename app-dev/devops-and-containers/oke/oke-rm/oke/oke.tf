@@ -3,7 +3,7 @@
 
 module "oke" {
   source         = "oracle-terraform-modules/oke/oci"
-  version        = "5.4.3"
+  version        = "5.5.0"
   compartment_id = var.oke_compartment_id
   # Network module - VCN
   create_vcn                        = false
@@ -13,19 +13,19 @@ module "oke" {
   subnets = {
     bastion  = { create = "never" }
     operator = { create = "never" }
-    pub_lb   = { id = local.is_lb_subnet_private ? null : var.lb_subnet_id }
-    int_lb   = { id = local.is_lb_subnet_private ? var.lb_subnet_id : null }
-    cp       = { id = var.cp_subnet_id }
-    workers  = { id = var.worker_subnet_id }
-    pods     = { id = local.is_flannel ? null : var.pod_subnet_id }
+    pub_lb   = { create = "never", id = local.is_lb_subnet_private ? null : var.lb_subnet_id }
+    int_lb   = { create = "never", id = local.is_lb_subnet_private ? var.lb_subnet_id : null }
+    cp       = { create = "never", id = var.cp_subnet_id }
+    workers  = { create = "never", id = var.worker_subnet_id }
+    pods     = { create = "never", id = local.is_flannel ? null : var.pod_subnet_id }
   }
   nsgs = {
     bastion  = { create = "never" }
     operator = { create = "never" }
     pub_lb   = { create = "never" }
     int_lb   = { create = "never" }
-    cp       = { id = var.cp_nsg_id }
-    workers  = { id = var.worker_nsg_id }
+    cp       = { create = "never", id = var.cp_nsg_id }
+    workers  = { create = "never", id = var.worker_nsg_id }
     pods     = { create = "never", id = var.cni_type == "flannel" ? null : var.pod_nsg_id }
   }
   # Network module - security
@@ -40,6 +40,7 @@ module "oke" {
   cluster_type       = var.cluster_type
   cni_type           = local.cni
   kubernetes_version = var.kubernetes_version
+  oke_ip_families    = ["IPv4"]
   services_cidr      = var.services_cidr
   pods_cidr          = var.pods_cidr
 
@@ -83,7 +84,12 @@ module "oke" {
    */
 
   # Cloud init to add to all node pools. This will be added to the default_cloud_init
-  #worker_cloud_init = [{ content_type = "text/cloud-config", content = file("cloud-init/oca.yml")}]
+  #worker_cloud_init = [{ content_type = "text/cloud-config", content = file("cloud-init/storage.yml")}]
+
+  # To set custom Kubernetes node names on Kubernetes 1.32 or later, use the complete
+  # cloud-init example in cloud-init/custom-hostname.yml on the relevant worker pool:
+  # disable_default_cloud_init = true
+  # cloud_init = [{ content_type = "text/cloud-config", content = file("cloud-init/custom-hostname.yml") }]
 
 
   # Default Persistent Volume Tags
@@ -140,6 +146,40 @@ module "oke" {
       boot_volume_size             = 100
       # max_pods_per_node = 10                              # When using VCN_NATIVE CNI, configure maximum number of pods for each node in the node pool
       create = false # Set it to true so that the node pool is created
+    }
+
+    # MANAGED NODE POOL WITH GENERIC VNIC ATTACHMENT (GVA)
+    # Prerequisites:
+    # - The cluster must use VCN-native pod networking (cni_type = "vcn_native").
+    # - The selected pod subnet must be IPv4-only and have more than one IPv4 CIDR block.
+    # - The selected shape must support the required number of VNIC attachments.
+    # Nodes exposing an Application Resource are tainted by OKE. Workloads must request
+    # exactly one oke-application-resource.oci.oraclecloud.com/frontend resource and
+    # tolerate the oci.oraclecloud.com/application-resource-only:NoSchedule taint.
+    np-gva = {
+      mode                = "node-pool"
+      shape               = "VM.Standard.E5.Flex"
+      size                = 1
+      kubernetes_version  = var.kubernetes_version
+      placement_ads       = ["1"]
+      ocpus               = 1
+      memory              = 8
+      boot_volume_size    = 100
+      network_launch_type = "PARAVIRTUALIZED"
+
+      gva_secondary_vnics = {
+        frontend = {
+          display_name           = "gva-frontend"
+          subnet_id              = var.pod_subnet_id
+          nsg_ids                = [var.pod_nsg_id]
+          ip_count               = 16
+          application_resources  = ["frontend"]
+          assign_public_ip       = false
+          skip_source_dest_check = false
+        }
+      }
+
+      create = false # Set to true only after the GVA prerequisites above are satisfied.
     }
 
     # Node Pool reserved for Karpenter and CoreDNS
