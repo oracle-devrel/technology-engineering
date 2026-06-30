@@ -1,6 +1,6 @@
 # Exadata Cloud@Customer VM Serial Console Access
 
-Announcing the General Availability (GA) of VM Serial Console Access for Exadata Cloud@Customer. With this new feature, customers can:
+With the VM Serial Console Access for Exadata Cloud@Customer customers can:
 
 - Enable a serial console connection to each individual VM
 - Access the virtual serial console via SSH (via proxy and hypervisor)
@@ -16,7 +16,7 @@ This new feature allows customers to access the serial console of their Virtual 
 
 - Proper OCI user permissions are required to create a serial console connection - see [product documentation](https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-policy-details.html#GUID-CBEEA1B3-8CFC-4E9C-ACA8-6675F4582920) for details
 
-Reviewed: 01/22/26
+Reviewed: 06/28/26
 
 # License
 
