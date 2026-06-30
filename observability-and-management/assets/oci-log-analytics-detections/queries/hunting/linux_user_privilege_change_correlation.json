@@ -1,0 +1,14 @@
+{
+  "title": "Linux User Privilege Change Correlation",
+  "description": "Correlates sudo/su usage with subsequent sensitive file access or network activity, revealing post-escalation attacker behavior.",
+  "query": "('Log Source' = 'SOC Linux Syslog Logs' or 'Log Source' = 'Linux Audit Logs') and ('Process Name' in ('sudo', 'su', 'pkexec') or msg like '*/etc/shadow*' or msg like '*/etc/passwd*' or msg like '*useradd*') | stats count as actions, distinctcount('Process Name') as distinct_procs, earliest(Time) as first_seen, latest(Time) as last_seen by 'Host Name', User | where distinct_procs >= 2 | sort -actions",
+  "type": "hunting",
+  "category": "privilege_escalation",
+  "mitre_attack": {
+    "tactics": ["privilege_escalation", "credential_access"],
+    "techniques": ["T1548.003", "T1003"]
+  },
+  "data_source": "Linux Syslog/Audit",
+  "frequency": "daily",
+  "notes": "A user escalating privileges then immediately accessing sensitive files is a classic post-exploitation pattern."
+}

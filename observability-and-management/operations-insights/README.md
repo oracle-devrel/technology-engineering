@@ -2,12 +2,8 @@
 
 Ops Insights provides comprehensive information about the resource use and capacity of databases and hosts. Use this service to analyze CPU and storage resources, forecast capacity issues, and proactively identify SQL performance issues across a database fleet.
 
-Reviewed: 09.04.2026
+Reviewed: 22.06.2026
 
-
-|Asset  |   Page| 
-|---|---|
-| Landing Zone Add-on  | [Link](./LZ-addons/README.md) |
 
 # Table of Contents
 
@@ -16,16 +12,23 @@ Reviewed: 09.04.2026
 
 # Team Publications
 
-- [Ops Insights Demo](https://www.youtube.com/watch?v=Y45kPRn_c7s)
-- [Auto enable hosts for Operation Insights in OCI](https://karthicin.medium.com/auto-enable-hosts-for-operation-insights-in-oci-60c9c80486b1)
-- [How to enable Ops Insight for Oracle DBCS](https://learnoci.cloud/how-to-enable-operations-insight-for-oracle-dbcs-51dac10da833)
-- [How to enable Ops Insights on Oracle Autonomous Database Serverless](https://medium.com/@rishabhghosh24/enable-oci-ops-insight-on-oracle-autonomous-database-serverless-61efab78f927)
+| Ops Insights asset  | Asset  Page| 
+|---|---|
+| Landing Zone Add-on  | [Link](./LZ-addons/README.md) |
+| Ops Insights Demo|[Link](https://www.youtube.com/watch?v=Y45kPRn_c7s)|
+| Tag Exadata and Its Members in OCI Ops Insights with API|[Link](/observability-and-management/assets/tag-exadata-members-oci-ops-insights-api/README.md)|
+| Automated Observability Enablement for External Oracle Databases| [Link](/observability-and-management/assets/external-database-enablement/README.md) | 
+| Automated Observability Enablement for OCI Cloud-Native Databases| [Link](/observability-and-management/assets/oci-dbman-opsi/README.md) | 
+
+
+
+
 
 # Useful Links
 
 - [Ops Insights](https://docs.oracle.com/en-us/iaas/operations-insights/index.html)
-- [Tag Exadata and Its Members in Ops Insights with OCI API](https://medium.com/@michtoeth/tag-exadata-and-its-members-in-operations-insights-with-oci-api-48f4d5c01fae)
-- [Automation to enable OCI OpsInsight for Host](https://karthicin.medium.com/automation-to-enable-oci-opsinsight-for-host-00b333d704ff)
+
+
 
 # License
 

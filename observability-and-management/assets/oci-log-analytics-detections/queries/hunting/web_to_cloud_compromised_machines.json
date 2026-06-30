@@ -1,0 +1,30 @@
+{
+  "title": "Web-to-Cloud: Compromised Machines",
+  "description": "Shows hosts and private IPs tied to the compromise, including application host activity, Windows C2 telemetry, VCN flows, and firewall sessions. Analysts can pivot from host names to network tuples and command lines.",
+  "query": "('Log Source' = 'Linux Secure Logs' or 'Log Source' = 'SOC Linux Syslog Logs' or 'Log Source' = 'SOC Sysmon Network Logs' or 'Log Source' = 'SOC VCN Flow Logs' or 'Log Source' = 'SOC Network Firewall Logs') and ('Trace ID' = 'trace_w2c_entry_001' or 'Host Name' = 'app-prod-02' or 'Host Name (Server)' = 'SRV01.sevenkingdoms.local' or 'Source IP' = '10.0.1.50' or 'Destination IP' = '198.51.100.77') | stats count as Events, unique('Process Name') as Processes, unique('Destination IP') as Destinations by 'Log Source', 'Host Name', 'Host Name (Server)', 'Source IP' | sort -Events",
+  "type": "hunting",
+  "level": "high",
+  "tags": ["web_to_cloud", "compromised_host", "c2", "lateral_movement"],
+  "logsource": {
+    "product": "oci",
+    "service": "host_and_network"
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "groupBy": ["Log Source", "Host Name", "Host Name (Server)"],
+      "valueField": "Events"
+    },
+    "ask_ai_prompts": [
+      "Which machines are implicated in the web-to-cloud chain?",
+      "List the private IPs and host names that should be isolated."
+    ]
+  },
+  "mitre_attack": {
+    "tactics": ["execution", "command_and_control"],
+    "techniques": ["T1059", "T1071.001"]
+  },
+  "falsepositives": ["Load testing from controlled security hosts"]
+}

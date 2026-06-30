@@ -1,0 +1,88 @@
+name: Live OCI Validation
+
+# LIVE gate. This workflow talks to a real OCI Log Analytics tenancy and
+# therefore requires credentials. It is intentionally NOT wired to push or
+# pull_request:
+#   * `workflow_dispatch` — manual, trusted maintainer trigger only.
+#   * `environment: live-oci` — protected environment. Configure required
+#     reviewers / branch restrictions on it so secrets are released only after
+#     explicit approval. Fork PRs can never reach a protected environment.
+#
+# Because there is no `pull_request`/`pull_request_target` trigger, untrusted
+# fork PRs cannot start this job and cannot exfiltrate OCI secrets.
+on:
+  workflow_dispatch:
+    inputs:
+      profile:
+        description: "OCI CLI profile to validate against (must exist in the OCI_CONFIG secret)"
+        required: true
+        default: "cap"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: live-validation
+  cancel-in-progress: false
+
+jobs:
+  parse-validate:
+    name: parse_query over all queries (live)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: live-oci
+    steps:
+      - uses: actions/checkout@v4
+
+      # Defense in depth: even though a protected environment + workflow_dispatch
+      # already prevent fork-PR access, refuse to run if the secret is absent so
+      # the job fails loudly instead of silently "passing" with no validation.
+      - name: Require OCI credentials
+        env:
+          OCI_CONFIG: ${{ secrets.OCI_CONFIG }}
+          OCI_API_KEY_PEM: ${{ secrets.OCI_API_KEY_PEM }}
+        run: |
+          if [ -z "${OCI_CONFIG}" ] || [ -z "${OCI_API_KEY_PEM}" ]; then
+            echo "::error::OCI_CONFIG and OCI_API_KEY_PEM secrets are required for live validation."
+            exit 1
+          fi
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt -r requirements-dev.txt
+
+      # Materialize OCI config + key from secrets into the standard ~/.oci paths
+      # used by scripts/oci_config.py. Secrets are written to runner-local files,
+      # never echoed, and the runner is ephemeral.
+      - name: Configure OCI credentials
+        env:
+          OCI_CONFIG: ${{ secrets.OCI_CONFIG }}
+          OCI_API_KEY_PEM: ${{ secrets.OCI_API_KEY_PEM }}
+        run: |
+          umask 077
+          mkdir -p "$HOME/.oci"
+          printf '%s' "$OCI_CONFIG" > "$HOME/.oci/config"
+          printf '%s' "$OCI_API_KEY_PEM" > "$HOME/.oci/oci_api_key.pem"
+          chmod 600 "$HOME/.oci/config" "$HOME/.oci/oci_api_key.pem"
+
+      - name: Parse-validate all queries (live)
+        env:
+          OCI_PROFILE: ${{ github.event.inputs.profile }}
+        run: |
+          mkdir -p docs/health
+          python scripts/parse_validate_all_queries.py --json docs/health/parse-validate-all.json
+
+      - name: Upload parse-validate report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: parse-validate-all
+          path: docs/health/parse-validate-all.json
+          if-no-files-found: warn

@@ -1,0 +1,35 @@
+{
+  "title": "Web Application Brute Force Login Attempt",
+  "description": "Detects repeated failed login attempts via HTTP 401/403 responses to authentication endpoints. Indicates brute force or credential stuffing attacks. OWASP A07:2021 Identification and Authentication Failures.",
+  "query": "('Log Source' = 'OCI Load Balancer Access Logs' or 'Log Source' = 'SOC Load Balancer Access Logs') and ((('Request URL' like '*/login*' or 'Request URL' like '*/signin*' or 'Request URL' like '*/authenticate*' or 'Request URL' like '*/auth*' or 'Request URL' like '*/api/login*' or 'Request URL' like '*/api/auth*' or 'Request URL' like '*/token*' or 'Request URL' like '*/oauth*' or 'Request URL' like '*/portal/login*' or 'Request URL' like '*/vulnerable/login*')) and (('Response Code' = '401' or 'Response Code' = '403')))",
+  "sigma_id": "a1010010-owasp-a07-bruteforce-001",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.credential_access",
+    "attack.t1110.001",
+    "attack.t1110.003",
+    "owasp.a07"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "credential_access"
+    ],
+    "techniques": [
+      "T1110.001",
+      "T1110.003"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "loadbalancer",
+    "candidates": [
+      "OCI Load Balancer Access Logs",
+      "SOC Load Balancer Access Logs"
+    ]
+  },
+  "falsepositives": [
+    "Users with expired passwords",
+    "Misconfigured service accounts"
+  ]
+}

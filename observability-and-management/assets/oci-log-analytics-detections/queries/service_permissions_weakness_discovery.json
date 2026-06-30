@@ -1,0 +1,57 @@
+{
+  "title": "Service Permissions Weakness Discovery",
+  "description": "Detects tools checking for weak service permissions that allow privilege escalation.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*accesschk*' or 'Command Line' like '*sc sdshow*' or 'Command Line' like '*Get-ServiceAcl*')))",
+  "sigma_id": "0c0ce680-f1d4-4ca3-bc38-10170e5f7f8e",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.privilege_escalation",
+    "attack.t1574.011"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "privilege_escalation"
+    ],
+    "techniques": [
+      "T1574.011"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Security auditing"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 2,
+    "techniques_with_tests": [
+      "T1574.011"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1574.011",
+        "test_name": "Service Registry Permissions Weakness",
+        "test_guid": "f7536d63-7fd4-466f-89da-7e48d550752a",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1574.011/T1574.011.md"
+      },
+      {
+        "technique_id": "T1574.011",
+        "test_name": "Service ImagePath Change with reg.exe",
+        "test_guid": "f38e9eea-e1d7-4ba6-b716-584791963827",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1574.011/T1574.011.md"
+      }
+    ]
+  }
+}

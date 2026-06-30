@@ -1,7 +1,5 @@
 # Backup from ExaDB-C@C to C3 Object Storage
 
-<div class="toc-macro rbtoc1782116934272">
-
 - [Use case](#BackupfromExaDBC@CtoC3ObjectStorage-Usecase)
 - [Manual Backups on ExaDB-C@C](#BackupfromExaDBC@CtoC3ObjectStorage-ManualBackupsonExaDB-C@C)
   - [Objective](#BackupfromExaDBC@CtoC3ObjectStorage-Objective)
@@ -12,9 +10,8 @@
   - [Testing](#BackupfromExaDBC@CtoC3ObjectStorage-Testing.1)
   - [Result](#BackupfromExaDBC@CtoC3ObjectStorage-Result.1)
 - [Summary](#BackupfromExaDBC@CtoC3ObjectStorage-Summary)
-</div>
 
-# Use case
+## Use case
 
 An Exadata Cloud@Customer customer with requirements to run applications on-premises for data residency and/or latency reasons will likely appreciate the consumption model of the Compute Cloud@Customer (C3).\
 If said customer also has database backup infrastructure limitations and require a consumption based backup/recovery solution, the C3 could potentially deliver resources for the ExaDB-C@C backups and recovery. This document does not discuss the merits of such solution, but will validate the technical feasibility.
@@ -74,13 +71,9 @@ The objective of this test is to verify functionality and potentially uncover an
 
 ### Detailed steps
 
-#### <span class="nh-number">1. </span>Requirements
+#### 1. Requirements
 
 The OCI .config file (if it exists as part of OCI CLI installation), can be used to retreive the required parameters.
-
-<div class="code panel pdl" style="border-width: 1px;">
-
-<div class="codeContent panelContent pdl">
 
 ``` syntaxhighlighter-pre
 [C3]
@@ -93,25 +86,13 @@ namespace=emeac3001
 cert-bundle=/home/opc/.oci/cert-bundle.crt
 ```
 
-</div>
-
-</div>
-
 These are environment variables that were used by OCI CLI for trial and error and troubleshooting.
-
-<div class="code panel pdl" style="border-width: 1px;">
-
-<div class="codeContent panelContent pdl">
 
 ``` syntaxhighlighter-pre
 export OCI_CLI_SUPPRESS_FILE_PERMISSIONS_WARNING=True
 export comp=ocid1.compartment.oc1..<complete ocid>
 export OCI_CLI_CERT_BUNDLE=/home/opc/.oci/cert-bundle.crt
 ```
-
-</div>
-
-</div>
 
 Connecting to the Virtual Machine with SSH
 
@@ -131,13 +112,9 @@ If your database have Automatic Backups enabled, follow the documenation to disa
 
 - [Disabling Automatic Backups to Facilitate Manual Backup and Recovery Management](https://docs.oracle.com/en-us/iaas/exadata/doc/ecc-manage-db-backup-and-recovery.html#ECCCM-GUID-E8EB30A9-7E0F-48B6-8DCD-5B013A13E79C)
 
-#### <span class="nh-number">2. </span>Creating directories and prepare for installtion of libopc
+#### 2. Creating directories and prepare for installtion of libopc
 
 Create required directories:
-
-<div class="code panel pdl" style="border-width: 1px;">
-
-<div class="codeContent panelContent pdl">
 
 ``` syntaxhighlighter-pre
 sudo su - oracle
@@ -147,19 +124,11 @@ sudo su - oracle
 [oracle@ecctc4n2 ~]$ mkdir -p /u02/app/oracle/oci_backup/config
 ```
 
-</div>
-
-</div>
-
 Download the Oracle Database Cloud Backup Module (libopc) in case it is not already available at `$ORACLE_HOME/lib`
 
 - [Oracle Database Cloud Backup Module](https://www.oracle.com/database/technologies/oracle-cloud-backup-downloads.html)
 
 Unzip the OCI installer to the correct directory:
-
-<div class="code panel pdl" style="border-width: 1px;">
-
-<div class="codeContent panelContent pdl">
 
 ``` syntaxhighlighter-pre
 sudo su - oracle
@@ -168,19 +137,11 @@ sudo su - oracle
 [oracle@ecctc4n2 oci_backup]$ unzip $ORACLE_HOME/lib/oci_installer.zip -d .
 ```
 
-</div>
-
-</div>
-
 Repeat for all nodes in the VM Cluster
 
-#### <span class="nh-number">3. </span>Import the C3 CA certificates
+#### 3. Import the C3 CA certificates
 
     Get the java_home:
-
-<div class="code panel pdl" style="border-width: 1px;">
-
-<div class="codeContent panelContent pdl">
 
 ``` syntaxhighlighter-pre
 sudo su - root
@@ -188,15 +149,7 @@ sudo su - root
 0 lrwxrwxrwx. 1 root root 46 Aug  5  2025 /etc/alternatives/java -> /usr/lib/jvm/jdk-1.8.0_461-oracle-x64/bin/java
 ```
 
-</div>
-
-</div>
-
     Import the C3 CA certificates:
-
-<div class="code panel pdl" style="border-width: 1px;">
-
-<div class="codeContent panelContent pdl">
 
 ``` syntaxhighlighter-pre
 [root@ecctc4n2 ~]$ cd /usr/lib/jvm/jdk-1.8.0_461-oracle-x64/jre/lib/security
@@ -207,13 +160,9 @@ sudo su - root
 pca-bundle, Mar 4, 2026, trustedCertEntry, 
 ```
 
-</div>
-
-</div>
-
     Repeat for all nodes in the VM Cluster
 
-#### <span class="nh-number">4. </span>Installing Oracle Database Cloud Backup Module (libopc) 
+#### 4. Installing Oracle Database Cloud Backup Module (libopc) 
 
 If the C3 Private Key contains the OCI CLI label `OCI_API_KEY` as per the documentation recomendations, this needs to be removed prior to installing libopc. The label can be appended again to the key file after the installation is complete.
 
@@ -221,10 +170,6 @@ If the C3 Private Key contains the OCI CLI label `OCI_API_KEY` as per the docume
 - [Required Keys and OCIDs](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm)
 
 Installing Oracle Database Cloud Backup Module (libopc):
-
-<div class="code panel pdl" style="border-width: 1px;">
-
-<div class="codeContent panelContent pdl">
 
 ``` syntaxhighlighter-pre
 sudo su - oracle
@@ -251,15 +196,8 @@ Downloading Oracle Database Cloud Backup Module Software Library from Oracle Clo
 Download complete.
 ```
 
-</div>
-
-</div>
-
 Verify installation:
 
-<div class="code panel pdl" style="border-width: 1px;">
-
-<div class="codeContent panelContent pdl">
 
 ``` syntaxhighlighter-pre
 [oracle@ecctc4n2 oci_backup]$ cat /u02/app/oracle/oci_backup/config/••••••••••.ora
@@ -278,19 +216,11 @@ total 94932
 -rw-r--r--. 1 oracle oinstall     9801 Mar  4 09:09 python_readme.txt
 ```
 
-</div>
-
-</div>
-
 Repeat for all nodes in the VM Cluster
 
-#### <span class="nh-number">5. </span>Testing the library and media communication
+#### 5. Testing the library and media communication
 
 Testing the library and media communication:
-
-<div class="code panel pdl" style="border-width: 1px;">
-
-<div class="codeContent panelContent pdl">
 
 ``` syntaxhighlighter-pre
 $ sudo su - oracle
@@ -341,17 +271,9 @@ proxy copy is not supported
 *** The SBT API test was successful ***
 ```
 
-</div>
-
-</div>
-
-#### <span class="nh-number">6. </span>Configuring RMAN and run backup
+#### 6. Configuring RMAN and run backup
 
 Make sure to have "`set encryption on"` when doing backups
-
-<div class="code panel pdl" style="border-width: 1px;">
-
-<div class="codeContent panelContent pdl">
 
 ``` syntaxhighlighter-pre
 $ sudo su - oracle
@@ -404,15 +326,7 @@ Finished Control File and SPFILE Autobackup at 04-MAR-26
 released channel: cloud1
 ```
 
-</div>
-
-</div>
-
 List the completed backup. Retrieve the backupset number from the previous backup execution. In this example it was 10667.
-
-<div class="code panel pdl" style="border-width: 1px;">
-
-<div class="codeContent panelContent pdl">
 
 ``` syntaxhighlighter-pre
 RMAN> list backupset 10667;
@@ -427,15 +341,7 @@ BP Key: 10667 Status: AVAILABLE Compressed: YES Tag: TEST_CF_RUN1
 Handle: dn4i520q_10679_1_1 Media: ••••••••••.•••••••••.••.<url>/n/osce~/dbcs-bucket
 Control File Included: Ckp SCN: 37380583 Ckp time: 04-MAR-26
 ```
-
-</div>
-
-</div>
 Check the contents of the C3 bucket:
-
-<div class="code panel pdl" style="border-width: 1px;">
-
-<div class="codeContent panelContent pdl">
 
 ``` syntaxhighlighter-pre
 [opc@ecctc4n1 ~]$ oci --profile C3 os object list -ns oscemea001 -bn dbcs-bucket | grep "dn4i520q_10679_1_1"
@@ -443,10 +349,6 @@ Check the contents of the C3 bucket:
 "name": "file_chunk/1000593576/DB02T/backuppiece/2026-03-04/dn4i520q_10679_1_1/720ab7C87fpP/metadata.xml",
 "name": "sbt_catalog/dn4i520q_10679_1_1/metadata.xml",
 ```
-
-</div>
-
-</div>
 
 ## Result
 
@@ -486,7 +388,7 @@ C3 only supports OCI Object Storage endpoints, neither SWIFT nor S3 endpoints ca
 The testing of Automatic/User Configured Backups from ExaDB-C@C to C3 Object Storage Service failed.
 This backup method is not available.
 
-# Summary
+## Summary
 
 As shown in the above testing we can succesfully backup Exadata Cloud@Customer databases to Compute Cloud@Customer Object Storage service. This makes the Use Case described earlier confirmed from a technical point of view. The validity of said Use Case is a different discussion that includes more considerations than covered here.
 
@@ -503,7 +405,7 @@ For Autonomous Databases on ExaDB-C@C that can not use the Manual Backup method 
 
 Using the File Storage Service on C3 is an option that is likely to be too expensive.
 
-Reviewed: 06/24/2026
+Reviewed: 06/26/2026
 
 # License
 

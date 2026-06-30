@@ -1,0 +1,30 @@
+{
+  "title": "Web-to-Cloud: Exfiltrated Data Evidence",
+  "description": "Combines application export messages, VCN Flow egress, Network Firewall threat alerts, and OCI Audit object reads to show what data left the environment and which destination received it.",
+  "query": "('Log Source' = 'SOC Application Logs' or 'Log Source' = 'SOC VCN Flow Logs' or 'Log Source' = 'SOC Network Firewall Logs' or 'Log Source' = 'OCI Audit Logs') and ('Trace ID' = 'trace_w2c_entry_001' or 'Destination IP' = '198.51.100.77' or 'Threat Name' = 'Suspicious Data Exfiltration' or 'Resource Name' like '*customer-export-2026-05.csv*') | stats count as Evidence, unique('Bytes Sent') as BytesSent, unique('Resource Name') as Resources, unique('Threat Name') as Threats by 'Log Source', 'Destination IP', 'User Name', 'Trace ID' | sort -Evidence",
+  "type": "hunting",
+  "level": "critical",
+  "tags": ["web_to_cloud", "exfiltration", "data_loss", "object_storage"],
+  "logsource": {
+    "product": "oci",
+    "service": "network_and_audit"
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "groupBy": ["Log Source", "Destination IP", "User Name"],
+      "valueField": "Evidence"
+    },
+    "ask_ai_prompts": [
+      "What data was exfiltrated and which logs prove it?",
+      "Connect the Object Storage object read to the outbound network destination."
+    ]
+  },
+  "mitre_attack": {
+    "tactics": ["collection", "exfiltration"],
+    "techniques": ["T1530", "T1041", "T1567"]
+  },
+  "falsepositives": ["Known customer export demo traffic"]
+}

@@ -1,0 +1,145 @@
+{
+  "title": "Volume Shadow Copy Deletion via WMIC",
+  "description": "Detects deletion of volume shadow copies using WMIC, a common ransomware preparation step.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Process Name' like '*\\\\wmic.exe' and ('Command Line' like '*shadowcopy*' and 'Command Line' like '*delete*')))",
+  "sigma_id": "790cfaca-a0bb-4647-bbfb-08a41c82db4e",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.impact",
+    "attack.t1490"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "impact"
+    ],
+    "techniques": [
+      "T1490"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Shadow copy cleanup by storage management"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 13,
+    "techniques_with_tests": [
+      "T1490"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1490",
+        "test_name": "Windows - Delete Volume Shadow Copies",
+        "test_guid": "43819286-91a9-4369-90ed-d31fb4da2c01",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md"
+      },
+      {
+        "technique_id": "T1490",
+        "test_name": "Windows - Delete Volume Shadow Copies via WMI",
+        "test_guid": "6a3ff8dd-f49c-4272-a658-11c2fe58bd88",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md"
+      },
+      {
+        "technique_id": "T1490",
+        "test_name": "Windows - wbadmin Delete Windows Backup Catalog",
+        "test_guid": "263ba6cb-ea2b-41c9-9d4e-b652dadd002c",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md"
+      },
+      {
+        "technique_id": "T1490",
+        "test_name": "Windows - Disable Windows Recovery Console Repair",
+        "test_guid": "cf21060a-80b3-4238-a595-22525de4ab81",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md"
+      },
+      {
+        "technique_id": "T1490",
+        "test_name": "Windows - Delete Volume Shadow Copies via WMI with PowerShell",
+        "test_guid": "39a295ca-7059-4a88-86f6-09556c1211e7",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md"
+      },
+      {
+        "technique_id": "T1490",
+        "test_name": "Windows - Delete Backup Files",
+        "test_guid": "6b1dbaf6-cc8a-4ea6-891f-6058569653bf",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md"
+      },
+      {
+        "technique_id": "T1490",
+        "test_name": "Windows - wbadmin Delete systemstatebackup",
+        "test_guid": "584331dd-75bc-4c02-9e0b-17f5fd81c748",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md"
+      },
+      {
+        "technique_id": "T1490",
+        "test_name": "Windows - Disable the SR scheduled task",
+        "test_guid": "1c68c68d-83a4-4981-974e-8993055fa034",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md"
+      },
+      {
+        "technique_id": "T1490",
+        "test_name": "Disable System Restore Through Registry",
+        "test_guid": "66e647d1-8741-4e43-b7c1-334760c2047f",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md"
+      },
+      {
+        "technique_id": "T1490",
+        "test_name": "Windows - vssadmin Resize Shadowstorage Volume",
+        "test_guid": "da558b07-69ae-41b9-b9d4-4d98154a7049",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md"
+      },
+      {
+        "technique_id": "T1490",
+        "test_name": "Modify VSS Service Permissions",
+        "test_guid": "a4420f93-5386-4290-b780-f4f66abc7070",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md"
+      },
+      {
+        "technique_id": "T1490",
+        "test_name": "Disable Time Machine",
+        "test_guid": "ed952f70-91d4-445a-b7ff-30966bfb1aff",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md"
+      },
+      {
+        "technique_id": "T1490",
+        "test_name": "Windows - Delete Volume Shadow Copies via Diskshadow",
+        "test_guid": "42111a6f-7e7f-482c-9b1b-3cfd090b999c",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md"
+      }
+    ]
+  }
+}

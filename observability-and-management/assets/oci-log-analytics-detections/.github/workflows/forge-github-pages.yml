@@ -1,0 +1,64 @@
+name: Forge GitHub Pages
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "webapp/**"
+      - "queries/logan_ql_reference_catalog.json"
+      - "queries/cross_ql_mapping_patterns.json"
+      - "queries/conversion_examples.json"
+      - "queries/ql_conversion_capability_matrix.json"
+      - ".github/workflows/forge-github-pages.yml"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.26.1
+          run_install: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: webapp/pnpm-lock.yaml
+
+      - name: Install webapp dependencies
+        working-directory: webapp
+        run: pnpm install --frozen-lockfile
+
+      - name: Build static Forge export
+        working-directory: webapp
+        env:
+          NEXT_PUBLIC_FORGE_BASE_PATH: "/${{ github.event.repository.name }}"
+        run: pnpm build:pages
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: webapp/out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

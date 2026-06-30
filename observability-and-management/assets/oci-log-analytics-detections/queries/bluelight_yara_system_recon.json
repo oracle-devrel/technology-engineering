@@ -1,0 +1,60 @@
+{
+  "title": "BLUELIGHT RAT: YARA System Reconnaissance JSON (APT_MAL_Win_BlueLight)",
+  "description": "Detects BLUELIGHT system reconnaissance data collection pattern. The malware collects UserName, ComName, OS, OnlineIP, LocalIP, Time, Compiled, Process Level, AntiVirus, and VM detection results in a specific JSON format and exfiltrates via OneDrive. Based on Volexity YARA rule APT_MAL_Win_BlueLight $msg strings.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Command Line' like '*ipinfo.io*') or (('Command Line' like '*\"UserName\":\"*' or 'Command Line' like '*\"ComName\":\"*' or 'Command Line' like '*\"OnlineIP\":\"*' or 'Command Line' like '*\"LocalIP\":\"*' or 'Command Line' like '*\"AntiVirus\":\"*' or 'Command Line' like '*\"Process Level\":\"*' or 'Command Line' like '*\"VM\":\"*'))) | stats count by 'Host Name (Server)', Entity, 'Process Name'",
+  "sigma_id": "bl-s0657-yara-recon-001",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.discovery",
+    "attack.t1082",
+    "attack.t1016",
+    "attack.t1057",
+    "apt.apt37",
+    "malware.bluelight",
+    "yara.APT_MAL_Win_BlueLight"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "discovery"
+    ],
+    "techniques": [
+      "T1082",
+      "T1016",
+      "T1057"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate ipinfo.io lookups (common in DevOps tools)",
+    "The JSON field pattern combination is highly specific to BLUELIGHT"
+  ],
+  "atomic_red_team": {
+    "has_tests": false,
+    "test_count": 0,
+    "techniques_with_tests": [],
+    "tests": []
+  },
+  "yara_source": {
+    "rule_name": "APT_MAL_Win_BlueLight",
+    "rule_id": "3ec2d44c-4c08-514d-a839-acef3f53f7dc",
+    "author": "threatintel@volexity.com",
+    "strings_used": [
+      "$msg0-$msg15"
+    ],
+    "repository": "https://github.com/Neo23x0/signature-base/blob/master/yara/apt_apt37_bluelight.yar"
+  },
+  "threat_intel": {
+    "malware_family": "BLUELIGHT",
+    "mitre_software_id": "S0657",
+    "threat_actor": "APT37 (InkySquid)"
+  }
+}

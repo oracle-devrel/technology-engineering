@@ -1,0 +1,43 @@
+{
+  "title": "SSRF to Cloud Metadata Endpoint (169.254.169.254)",
+  "description": "Detects outbound network connections to the cloud instance metadata service\n(169.254.169.254) from web application or scripting processes. This indicates\nServer-Side Request Forgery (SSRF) where an attacker exploits a web app to\naccess the OCI/AWS/GCP/Azure IMDS endpoint and steal credentials, instance\nidentity tokens, or configuration data.\nCovers MITRE ATT&CK T1552.005 (Cloud Instance Metadata API).\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Sysmon Network Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Destination IP' = '169.254.169.254' and Initiated = 'true') and (('Process Name' like '*\\\\python.exe' or 'Process Name' like '*\\\\pythonw.exe' or 'Process Name' like '*\\\\python3.exe' or 'Process Name' like '*\\\\node.exe' or 'Process Name' like '*\\\\java.exe' or 'Process Name' like '*\\\\javaw.exe' or 'Process Name' like '*\\\\php.exe' or 'Process Name' like '*\\\\ruby.exe' or 'Process Name' like '*\\\\dotnet.exe' or 'Process Name' like '*\\\\httpd.exe' or 'Process Name' like '*\\\\nginx.exe' or 'Process Name' like '*\\\\w3wp.exe' or 'Process Name' like '*\\\\curl.exe' or 'Process Name' like '*\\\\wget.exe')))",
+  "sigma_id": "a1b2c3d4-8001-4000-8000-000000000001",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.credential_access",
+    "attack.t1552.005",
+    "attack.initial_access",
+    "attack.t1190"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "credential_access",
+      "initial_access"
+    ],
+    "techniques": [
+      "T1552.005",
+      "T1190"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Sysmon Network Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate cloud SDK calls from web applications (rare \u2014 most use SDKs, not direct IMDS)"
+  ],
+  "atomic_red_team": {
+    "has_tests": false,
+    "test_count": 0,
+    "techniques_with_tests": [],
+    "tests": []
+  }
+}

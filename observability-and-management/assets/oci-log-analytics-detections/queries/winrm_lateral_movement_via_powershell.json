@@ -1,0 +1,65 @@
+{
+  "title": "WinRM Lateral Movement via PowerShell",
+  "description": "Detects WinRM-based lateral movement using PowerShell Invoke-Command or Enter-PSSession.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*Invoke-Command*' or 'Command Line' like '*Enter-PSSession*' or 'Command Line' like '*-ComputerName*')))",
+  "sigma_id": "54acde38-92ba-4d35-a423-0a1a4d6ae6f8",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.lateral_movement",
+    "attack.t1021.006"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "lateral_movement"
+    ],
+    "techniques": [
+      "T1021.006"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate remote administration"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 3,
+    "techniques_with_tests": [
+      "T1021.006"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1021.006",
+        "test_name": "Enable Windows Remote Management",
+        "test_guid": "9059e8de-3d7d-4954-a322-46161880b9cf",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1021.006/T1021.006.md"
+      },
+      {
+        "technique_id": "T1021.006",
+        "test_name": "Remote Code Execution with PS Credentials Using Invoke-Command",
+        "test_guid": "5295bd61-bd7e-4744-9d52-85962a4cf2d6",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1021.006/T1021.006.md"
+      },
+      {
+        "technique_id": "T1021.006",
+        "test_name": "WinRM Access with Evil-WinRM",
+        "test_guid": "efe86d95-44c4-4509-ae42-7bfd9d1f5b3d",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1021.006/T1021.006.md"
+      }
+    ]
+  }
+}

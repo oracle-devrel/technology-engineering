@@ -1,0 +1,57 @@
+{
+  "title": "CMSTP UAC Bypass",
+  "description": "Detects usage of CMSTP.exe to bypass UAC and execute arbitrary commands through .inf files.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Process Name' like '*\\\\cmstp.exe' and 'Command Line' like '*/s*'))",
+  "sigma_id": "f4a27819-5417-4450-b894-b6cdb9ed3e85",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.t1218.003"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1218.003"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate Connection Manager profile installation"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 2,
+    "techniques_with_tests": [
+      "T1218.003"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1218.003",
+        "test_name": "CMSTP Executing Remote Scriptlet",
+        "test_guid": "34e63321-9683-496b-bbc1-7566bc55e624",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.003/T1218.003.md"
+      },
+      {
+        "technique_id": "T1218.003",
+        "test_name": "CMSTP Executing UAC Bypass",
+        "test_guid": "748cb4f6-2fb3-4e97-b7ad-b22635a09ab0",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.003/T1218.003.md"
+      }
+    ]
+  }
+}

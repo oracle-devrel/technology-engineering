@@ -1,0 +1,34 @@
+{
+  "title": "Web Application Authentication Bypass",
+  "description": "Detects authentication bypass attempts including JWT manipulation, session fixation, and forced browsing to protected endpoints. OWASP A07:2021 Identification and Authentication Failures.",
+  "query": "('Log Source' = 'SOC Web Application Logs' or 'Log Source' = 'OCI Load Balancer Access Logs') and ((('Attack Type' = 'authentication_bypass' or 'Attack Type' = 'jwt_manipulation' or 'Attack Type' = 'session_fixation' or 'Attack Type' = 'forced_browsing')) or ('OWASP Category' like '*Authentication*'))",
+  "sigma_id": "a1010019-owasp-a07-authbypass-001",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.initial_access",
+    "attack.t1078",
+    "attack.t1550",
+    "owasp.a07"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "initial_access"
+    ],
+    "techniques": [
+      "T1078",
+      "T1550"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "webapp",
+    "candidates": [
+      "SOC Web Application Logs",
+      "OCI Load Balancer Access Logs"
+    ]
+  },
+  "falsepositives": [
+    "Security testing tools"
+  ]
+}

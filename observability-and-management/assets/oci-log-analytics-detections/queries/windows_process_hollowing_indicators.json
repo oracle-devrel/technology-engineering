@@ -1,0 +1,74 @@
+{
+  "title": "Windows Process Hollowing Indicators",
+  "description": "Detects suspicious process creation patterns indicative of process hollowing where a legitimate process is spawned in a suspended state and its memory replaced with malicious code.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*CREATE_SUSPENDED*' or 'Command Line' like '*NtUnmapViewOfSection*' or 'Command Line' like '*ZwUnmapViewOfSection*' or 'Command Line' like '*WriteProcessMemory*' or 'Command Line' like '*NtResumeThread*')))",
+  "sigma_id": "f1e2d3c4-5018-4000-8000-000000000018",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.t1055.012"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1055.012"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "process_creation",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Debugging and development tools",
+    "Security products inspecting process memory"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 4,
+    "techniques_with_tests": [
+      "T1055.012"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1055.012",
+        "test_name": "Process Hollowing using PowerShell",
+        "test_guid": "562427b4-39ef-4e8c-af88-463a78e70b9c",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1055.012/T1055.012.md"
+      },
+      {
+        "technique_id": "T1055.012",
+        "test_name": "RunPE via VBA",
+        "test_guid": "3ad4a037-1598-4136-837c-4027e4fa319b",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1055.012/T1055.012.md"
+      },
+      {
+        "technique_id": "T1055.012",
+        "test_name": "Process Hollowing in Go using CreateProcessW WinAPI",
+        "test_guid": "c8f98fe1-c89b-4c49-a7e3-d60ee4bc2f5a",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1055.012/T1055.012.md"
+      },
+      {
+        "technique_id": "T1055.012",
+        "test_name": "Process Hollowing in Go using CreateProcessW and CreatePipe WinAPIs (T1055.012)",
+        "test_guid": "94903cc5-d462-498a-b919-b1e5ab155fee",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1055.012/T1055.012.md"
+      }
+    ]
+  }
+}

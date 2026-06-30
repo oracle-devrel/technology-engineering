@@ -1,0 +1,33 @@
+{
+  "title": "Cloud Guard Problem: Audit Log Retention",
+  "description": "Detects Cloud Guard reporting problem: Audit_Log_Retention.",
+  "query": "('Log Source' = 'OCI Cloud Guard Problems' or 'Log Source' = 'OCI Cloud Guard Logs' or 'Log Source' = 'SOC Cloud Guard Logs') and (('Problem Name' = 'Audit_Log_Retention'))",
+  "sigma_id": "323f7813-0c1e-48d8-9b7d-6aa98a963942",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "oci.cloud_guard",
+    "attack.defense_evasion",
+    "attack.t1562.008"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1562.008"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "cloud_guard",
+    "candidates": [
+      "OCI Cloud Guard Problems",
+      "OCI Cloud Guard Logs",
+      "SOC Cloud Guard Logs"
+    ]
+  },
+  "falsepositives": [
+    "Authorized administrative operations"
+  ]
+}
