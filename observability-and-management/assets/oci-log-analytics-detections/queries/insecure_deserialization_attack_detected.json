@@ -1,0 +1,34 @@
+{
+  "title": "Insecure Deserialization Attack Detected",
+  "description": "Detects insecure deserialization attacks where malicious serialized objects are sent to achieve remote code execution. OWASP A08:2021 Software and Data Integrity Failures.",
+  "query": "('Log Source' = 'SOC Web Application Logs' or 'Log Source' = 'OCI Load Balancer Access Logs') and ((('Attack Type' = 'deserialization' or 'Attack Type' = 'insecure_deserialization' or 'Attack Type' = 'object_injection')) or ('OWASP Category' like '*Integrity*') or (('Request Body' like '*rO0AB*' or 'Request Body' like '*java.lang.Runtime*' or 'Request Body' like '*java.lang.ProcessBuilder*' or 'Request Body' like '*ysoserial*' or 'Request Body' like '*ObjectInputStream*' or 'Request Body' like '*__reduce__*' or 'Request Body' like '*pickle.loads*' or 'Request Body' like '*yaml.load*' or 'Request Body' like '*unserialize(*' or 'Request Body' like '*O:4:\"User\"*')))",
+  "sigma_id": "a1010020-owasp-a08-deserial-001",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.execution",
+    "attack.t1059",
+    "attack.t1190",
+    "owasp.a08"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "execution"
+    ],
+    "techniques": [
+      "T1059",
+      "T1190"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "webapp",
+    "candidates": [
+      "SOC Web Application Logs",
+      "OCI Load Balancer Access Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate serialized data in API payloads"
+  ]
+}

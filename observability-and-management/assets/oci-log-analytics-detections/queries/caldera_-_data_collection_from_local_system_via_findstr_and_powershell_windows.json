@@ -1,0 +1,34 @@
+{
+  "title": "Caldera - Data Collection from Local System via findstr and PowerShell (Windows)",
+  "description": "Detects collection of sensitive documents and data files from local directories. Caldera T1005 emulation searches for and copies high-value files (documents, spreadsheets, databases, source code) from user profiles and common data paths to a staging location. Complements credential_file_discovery with broader document collection.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (( ('Process Name' like '*\\\\findstr.exe' and ('Command Line' like '*.docx*' or 'Command Line' like '*.xlsx*' or 'Command Line' like '*.pdf*' or 'Command Line' like '*.pst*' or 'Command Line' like '*.kdbx*')) or (('Command Line' like '*Get-ChildItem -Recurse*' or 'Command Line' like '*Get-Item -Path*' or 'Command Line' like '*dir /s /b*')) ) and ( (('Command Line' like '*\\\\Documents\\\\*' or 'Command Line' like '*\\\\Desktop\\\\*' or 'Command Line' like '*\\\\Downloads\\\\*' or 'Command Line' like '*\\\\AppData\\\\*')) or (('Command Line' like '*C:\\\\Temp*' or 'Command Line' like '*C:\\\\Users\\\\Public*' or 'Command Line' like '*C:\\\\ProgramData*')) ))",
+  "sigma_id": "29a99d76-e1b8-47f4-b522-48dbbfeec148",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.collection",
+    "attack.t1005"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "collection"
+    ],
+    "techniques": [
+      "T1005"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Document management systems indexing files",
+    "Backup agents scanning user directories",
+    "E-discovery tools collecting user data"
+  ]
+}

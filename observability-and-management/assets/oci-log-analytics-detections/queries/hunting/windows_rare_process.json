@@ -1,0 +1,34 @@
+{
+  "title": "Windows Rare Process Detection (Stacking)",
+  "description": "Identifies rarely-seen processes on Windows endpoints. Uses the rare value hunting technique (Threat Hunter's Cookbook: Sorting/Stacking method) to surface processes that appear fewer than 80 times across the active search window, which keeps the demo resilient for a 14-day dataset and repeated reingestion while still highlighting uncommon attacker tooling.",
+  "query": "'Log Source' = 'SOC Windows Sysmon Logs' and 'Process Name' != '' | stats count as executions by 'Process Name' | sort executions | head 25",
+  "type": "hunting",
+  "do_not_overwrite": true,
+  "hunting_type": "rare_value",
+  "cookbook_method": "sorting_stacking",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.execution",
+    "attack.t1059",
+    "attack.defense_evasion"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "execution",
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1059"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon"
+  },
+  "falsepositives": [
+    "Legitimate but rarely-used administrative tools",
+    "Software updates or installers",
+    "New deployments"
+  ]
+}

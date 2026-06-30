@@ -1,0 +1,49 @@
+{
+  "title": "Office Application Startup Persistence",
+  "description": "Detects modification of Office startup locations for add-in persistence.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*\\\\Microsoft\\\\Word\\\\STARTUP*' or 'Command Line' like '*\\\\Microsoft\\\\Excel\\\\XLSTART*' or 'Command Line' like '*AddIns*')))",
+  "sigma_id": "bcad9305-2e01-4bce-a177-e00dd645db66",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.persistence",
+    "attack.t1137"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence"
+    ],
+    "techniques": [
+      "T1137"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate Office add-in installations"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 1,
+    "techniques_with_tests": [
+      "T1137"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1137",
+        "test_name": "Office Application Startup - Outlook as a C2",
+        "test_guid": "bfe6ac15-c50b-4c4f-a186-0fc6b8ba936c",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1137/T1137.md"
+      }
+    ]
+  }
+}

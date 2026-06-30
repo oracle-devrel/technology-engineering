@@ -1,0 +1,81 @@
+{
+  "title": "Alternate Data Stream Execution",
+  "description": "Detects execution of payloads hidden in NTFS Alternate Data Streams.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*.exe:*' or 'Command Line' like '*.dll:*' or 'Command Line' like '*.txt:*' or 'Command Line' like '*.ps1:*' or 'Command Line' like '*.bat:*' or 'Command Line' like '*.vbs:*' or 'Command Line' like '*.js:*')))",
+  "sigma_id": "a2ffd565-aa4f-4a2f-9b9c-d69df97fe67b",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.t1564.004"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1564.004"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate use of alternate data streams by backup software"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 5,
+    "techniques_with_tests": [
+      "T1564.004"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1564.004",
+        "test_name": "Alternate Data Streams (ADS)",
+        "test_guid": "8822c3b0-d9f9-4daf-a043-49f4602364f4",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1564.004/T1564.004.md"
+      },
+      {
+        "technique_id": "T1564.004",
+        "test_name": "Store file in Alternate Data Stream (ADS)",
+        "test_guid": "2ab75061-f5d5-4c1a-b666-ba2a50df5b02",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1564.004/T1564.004.md"
+      },
+      {
+        "technique_id": "T1564.004",
+        "test_name": "Create ADS command prompt",
+        "test_guid": "17e7637a-ddaf-4a82-8622-377e20de8fdb",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1564.004/T1564.004.md"
+      },
+      {
+        "technique_id": "T1564.004",
+        "test_name": "Create ADS PowerShell",
+        "test_guid": "0045ea16-ed3c-4d4c-a9ee-15e44d1560d1",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1564.004/T1564.004.md"
+      },
+      {
+        "technique_id": "T1564.004",
+        "test_name": "Create Hidden Directory via $index_allocation",
+        "test_guid": "3e6791e7-232c-481c-a680-a52f86b83fdf",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1564.004/T1564.004.md"
+      }
+    ]
+  }
+}

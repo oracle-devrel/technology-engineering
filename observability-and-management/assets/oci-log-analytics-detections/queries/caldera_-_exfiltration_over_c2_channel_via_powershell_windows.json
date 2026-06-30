@@ -1,0 +1,34 @@
+{
+  "title": "Caldera - Exfiltration over C2 Channel via PowerShell (Windows)",
+  "description": "Detects PowerShell-based HTTP POST exfiltration used by Caldera T1041 emulation. After staging data locally, the operation transmits collected files using Invoke-WebRequest or Invoke-RestMethod with -Method POST and -Body/-InFile parameters to send data back over the established C2 channel.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (( (('Command Line' like '*Invoke-WebRequest*' or 'Command Line' like '*Invoke-RestMethod*' or 'Command Line' like '*iwr *' or 'Command Line' like '*irm *')) and (('Command Line' like '*-Method POST*' or 'Command Line' like '*-Method Put*' or 'Command Line' like '*-Method \"POST\"*')) and (('Command Line' like '*-Body*' or 'Command Line' like '*-InFile*' or 'Command Line' like '*-UploadFile*')) ) or ('Process Name' like '*\\\\curl.exe' and ('Command Line' like '*-X POST*' or 'Command Line' like '*--upload-file*' or 'Command Line' like '*-d @*' or 'Command Line' like '*-T *')))",
+  "sigma_id": "df51539f-a49a-4c31-8633-25bd6a1525a2",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.exfiltration",
+    "attack.t1041"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "exfiltration"
+    ],
+    "techniques": [
+      "T1041"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "DevOps pipelines POSTing build results to CI systems",
+    "Application monitoring agents posting health data",
+    "Legitimate webhook integrations"
+  ]
+}

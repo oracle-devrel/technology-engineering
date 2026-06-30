@@ -1,0 +1,57 @@
+{
+  "title": "DCSync Attack via Replication Request",
+  "description": "Detects potential DCSync attacks by looking for mimikatz-style commands requesting directory replication.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*lsadump*' and 'Command Line' like '*dcsync*')))",
+  "sigma_id": "4e67285e-e578-40ea-b7aa-1a9e45d9bfdf",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.credential_access",
+    "attack.t1003.006"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "credential_access"
+    ],
+    "techniques": [
+      "T1003.006"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate domain replication testing"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 2,
+    "techniques_with_tests": [
+      "T1003.006"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1003.006",
+        "test_name": "DCSync (Active Directory)",
+        "test_guid": "129efd28-8497-4c87-a1b0-73b9a870ca3e",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.006/T1003.006.md"
+      },
+      {
+        "technique_id": "T1003.006",
+        "test_name": "Run DSInternals Get-ADReplAccount",
+        "test_guid": "a0bced08-3fc5-4d8b-93b7-e8344739376e",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.006/T1003.006.md"
+      }
+    ]
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "title": "Linux Boopkit eBPF Rootkit Activity",
+  "description": "Detects boopkit/eBPF rootkit activity including BPF program/map loading, XDP attachment, and magic-packet triggered command execution. Boopkit hides reverse shells via eBPF and is invoked by attacker-crafted SYN packets.",
+  "query": "('Log Source' = 'SOC Linux Syslog Logs' or 'Log Source' = 'Linux Secure Logs' or 'Log Source' = 'Linux Syslog Logs' or 'Log Source' = 'Linux Audit Logs') and ((msg like '*boopkit*') or (msg like '*bpftool prog load*' or msg like '*bpftool map create*' or msg like '*bpftool prog show pinned*') or (msg like '*/sys/fs/bpf/*') or (msg like '*XDP_REDIRECT*') or (msg like '*magic packet*' and msg like '*reverse shell*'))",
+  "sigma_id": "a4b3c2d1-eb0f-4001-9001-000000000001",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.execution",
+    "attack.command_and_control",
+    "attack.t1014",
+    "attack.t1059.004",
+    "attack.t1095"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion",
+      "execution",
+      "command_and_control"
+    ],
+    "techniques": [
+      "T1014",
+      "T1059.004",
+      "T1095"
+    ]
+  },
+  "logsource": {
+    "product": "linux",
+    "service": "audit",
+    "candidates": [
+      "SOC Linux Syslog Logs",
+      "Linux Secure Logs",
+      "Linux Syslog Logs",
+      "Linux Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Authorized eBPF observability tooling (bpftool, bcc, bpftrace) used by SREs",
+    "Cilium/Calico CNI bpf program loads on Kubernetes worker nodes"
+  ],
+  "dashboard": {
+    "visualizationType": "table",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"}
+  }
+}

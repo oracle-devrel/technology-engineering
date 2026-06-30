@@ -1,0 +1,35 @@
+{
+  "title": "OCI Notification Subscription Created",
+  "description": "Detects creation of notification topic subscriptions. Attackers may create subscriptions to exfiltrate alerts or intercept security notifications.",
+  "query": "'Log Source' = 'OCI Audit Logs' and (('Event Type' = 'com.oraclecloud.ons.createsubscription'))",
+  "sigma_id": "e1f2a3b4-4005-4000-8000-000000000005",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.collection",
+    "attack.t1114",
+    "stig.AU-12"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "collection"
+    ],
+    "techniques": [
+      "T1114"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "stig_ids": [
+    "AU-12"
+  ],
+  "falsepositives": [
+    "Normal notification infrastructure setup",
+    "CI/CD pipeline configuration"
+  ]
+}

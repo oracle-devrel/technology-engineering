@@ -1,0 +1,49 @@
+{
+  "title": "Web-to-Cloud: Network Firewall C2 and Threat Alerts",
+  "description": "Correlates Network Firewall traffic and threat records for the C2 destination. Threat Name, Firewall Rule, byte counts, and action values show whether the exfiltration was alerted, allowed, or denied.",
+  "query": "'Log Source' = 'SOC Network Firewall Logs' and ('Trace ID' = 'trace_w2c_entry_001' or 'Destination IP' = '198.51.100.77' or 'Threat Name' != null) | stats count as Events, unique('Threat Name') as Threats, unique('Firewall Rule') as Rules, unique('Bytes Sent') as BytesSent by 'Source IP', 'Destination IP', 'Action', 'Log Type' | sort -Events",
+  "type": "hunting",
+  "level": "critical",
+  "tags": [
+    "web_to_cloud",
+    "network_firewall",
+    "c2",
+    "exfiltration"
+  ],
+  "logsource": {
+    "product": "oci",
+    "service": "network_firewall"
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {
+      "timePeriod": "l21d"
+    },
+    "visualizationOptions": {
+      "groupBy": [
+        "Source IP",
+        "Destination IP",
+        "Threat Name"
+      ],
+      "valueField": "Events"
+    },
+    "ask_ai_prompts": [
+      "Which Network Firewall rule observed the C2/exfiltration traffic?",
+      "Did the firewall allow, alert, or deny the suspicious session?"
+    ]
+  },
+  "mitre_attack": {
+    "tactics": [
+      "command_and_control",
+      "exfiltration"
+    ],
+    "techniques": [
+      "T1071.001",
+      "T1041"
+    ]
+  },
+  "falsepositives": [
+    "Security appliance proof-of-concept traffic"
+  ]
+}

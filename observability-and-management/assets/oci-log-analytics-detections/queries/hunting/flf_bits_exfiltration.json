@@ -1,0 +1,62 @@
+{
+  "title": "FLF: BITS Exfiltration Hunt",
+  "description": "FreeLabFriday-inspired hunt for BITS abuse through bitsadmin.exe or Start-BitsTransfer commands that reference external HTTP/HTTPS destinations or suspicious file-transfer behavior.",
+  "query": "('Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'SOC Sysmon Network Logs') and ('Process Name' like '*\\\\bitsadmin.exe' or 'Command Line' like '*Start-BitsTransfer*' or 'Command Line' like '*bitsadmin*') and ('Command Line' like '*http*' or 'Destination IP' != null or 'Destination Hostname' != null) | stats count as Events, unique('Command Line') as Commands, unique('Destination IP') as Destinations, unique('Destination Hostname') as Hostnames by 'Host Name (Server)', 'Process Name' | sort -Events",
+  "type": "hunting",
+  "hunting_type": "free_lab_friday_source_hunt",
+  "level": "high",
+  "tags": [
+    "freelabfriday",
+    "bits",
+    "lolbin",
+    "exfiltration",
+    "attack.t1197"
+  ],
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon",
+    "candidates": [
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs",
+      "SOC Sysmon Network Logs"
+    ]
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {
+      "timePeriod": "l21d"
+    },
+    "visualizationOptions": {
+      "groupBy": [
+        "Host Name (Server)",
+        "Process Name"
+      ],
+      "valueField": "Events"
+    },
+    "ask_ai_prompts": [
+      "Which BITS commands or network events look like exfiltration rather than update traffic?",
+      "Identify the host, command line, and destination that should be investigated first."
+    ]
+  },
+  "references": [
+    {
+      "name": "Black Hills InfoSec FreeLabFriday Labs - BITS As Exfil",
+      "url": "https://github.com/blackhillsinfosec/FreeLabFriday_Labs/blob/main/Cards/C2E/Backround_Intelligent_Transfer_Service_As_Exfil.md"
+    }
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion",
+      "exfiltration"
+    ],
+    "techniques": [
+      "T1197",
+      "T1048.003"
+    ]
+  },
+  "falsepositives": [
+    "Windows Update or enterprise software distribution",
+    "Administrator-managed BITS transfer jobs"
+  ]
+}

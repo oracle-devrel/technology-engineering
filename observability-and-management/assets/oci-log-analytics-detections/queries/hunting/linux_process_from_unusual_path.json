@@ -1,0 +1,14 @@
+{
+  "title": "Linux Process Execution from Unusual Paths",
+  "description": "Identifies processes running from world-writable or temporary directories, which is a common indicator of post-exploitation activity.",
+  "query": "('Log Source' = 'SOC Linux Syslog Logs' or 'Log Source' = 'Linux Audit Logs') and ('Command Line' like '*/tmp/*' or 'Command Line' like '*/dev/shm/*' or 'Command Line' like '*/var/tmp/*' or 'Command Line' like '*/run/user/*') | stats count as exec_count, distinctcount('Host Name') as host_spread by 'Process Name', 'Command Line' | where exec_count > 1 | sort -host_spread",
+  "type": "hunting",
+  "category": "execution",
+  "mitre_attack": {
+    "tactics": ["execution", "defense_evasion"],
+    "techniques": ["T1059", "T1036.005"]
+  },
+  "data_source": "Linux Syslog/Audit",
+  "frequency": "daily",
+  "notes": "Legitimate software rarely executes from /tmp or /dev/shm. Any binary in these paths warrants investigation, especially if seen on multiple hosts."
+}

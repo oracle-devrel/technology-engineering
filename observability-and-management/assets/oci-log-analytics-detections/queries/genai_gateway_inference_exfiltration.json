@@ -1,0 +1,42 @@
+{
+  "title": "GenAI Gateway: Bulk Inference Exfiltration / Model Extraction (AML.T0024)",
+  "description": "Surfaces callers driving high inference volume and token throughput against the GenAI gateway, the signature of model-extraction and data exfiltration via the inference API. Aggregates calls, summed tokens, and distinct models touched per API key / identity / source IP. Triage threshold: investigate callers with token throughput far above their baseline. MITRE ATLAS AML.T0024 (Exfiltration via ML Inference API).\n",
+  "query": "'Log Source' = 'SOC GenAI Gateway Logs' and ('GenAI Operation' = 'chat.completions' or 'GenAI Operation' = 'completions' or 'GenAI Operation' = 'embeddings') | stats count as Calls, sum('GenAI Total Tokens') as Tokens, distinctcount('GenAI Model') as Models by 'API Key ID', 'GenAI Identity', 'Client IP' | sort -Tokens",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "atlas.t0024",
+    "atlas.exfiltration",
+    "ai_attack",
+    "genai",
+    "attack.t1567"
+  ],
+  "atlas": {
+    "tactics": [
+      "exfiltration",
+      "ml_model_access"
+    ],
+    "techniques": [
+      "AML.T0024"
+    ]
+  },
+  "mitre_attack": {
+    "tactics": [
+      "exfiltration"
+    ],
+    "techniques": [
+      "T1567"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "genai_gateway",
+    "candidates": [
+      "SOC GenAI Gateway Logs"
+    ]
+  },
+  "falsepositives": [
+    "Approved batch inference / load tests",
+    "High-volume legitimate RAG or chatbot integrations with a known baseline"
+  ]
+}

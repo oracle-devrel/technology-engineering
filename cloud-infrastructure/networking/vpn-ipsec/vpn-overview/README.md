@@ -2,7 +2,7 @@
  
 The VPN overview Asset is a crucial networking overview that enables secure and private communication between different networks, such as on-premises networks and cloud environments like Oracle Cloud Infrastructure (OCI).
  
-Reviewed: 30.10.2024
+Reviewed: 12.06.2026
 
 # When to use this asset?
  
@@ -14,7 +14,7 @@ This document can be used as a first introduction and overview for FC users.
  
 ## Useful Links (Optional)
 
-- [Fast Connect overview ](files/OCI%20Connectivity%20VPN-Connect.pdf)
+- [OCI Connectivity overview ](files/OCI%20Connectivity%20VPN-Connect.pdf)
 
  
 # License

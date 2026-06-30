@@ -1,0 +1,30 @@
+{
+  "title": "OCI Policy Allows Manage All Resources",
+  "description": "Detects update of existing IAM policies to include manage all-resources, an overprivileged access pattern that may indicate privilege escalation.",
+  "query": "'Log Source' = 'OCI Audit Logs' and (('Event Type' = 'com.oraclecloud.identitycontrolplane.updatepolicy' and 'Original Log Content' like '*manage all-resources*'))",
+  "sigma_id": "e48b6f69-5779-45f9-b22b-be74beffa433",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.privilege_escalation",
+    "attack.t1098"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "privilege_escalation"
+    ],
+    "techniques": [
+      "T1098"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Emergency access policy creation by tenancy admins"
+  ]
+}

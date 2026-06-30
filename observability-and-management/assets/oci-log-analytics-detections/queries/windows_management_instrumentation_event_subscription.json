@@ -1,0 +1,121 @@
+{
+  "title": "Windows Management Instrumentation Event Subscription",
+  "description": "Detects WMI event subscription creation for persistence via command-line WMI tools.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*EventFilter*' and 'Command Line' like '*__EventConsumer*' and 'Command Line' like '*CommandLineEventConsumer*')))",
+  "sigma_id": "d82a237e-2350-4d2a-b035-d611c0efdbba",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.execution",
+    "attack.t1047"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "execution"
+    ],
+    "techniques": [
+      "T1047"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "WMI-based monitoring solutions"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 10,
+    "techniques_with_tests": [
+      "T1047"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1047",
+        "test_name": "WMI Reconnaissance Users",
+        "test_guid": "c107778c-dcf5-47c5-af2e-1d058a3df3ea",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1047/T1047.md"
+      },
+      {
+        "technique_id": "T1047",
+        "test_name": "WMI Reconnaissance Processes",
+        "test_guid": "5750aa16-0e59-4410-8b9a-8a47ca2788e2",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1047/T1047.md"
+      },
+      {
+        "technique_id": "T1047",
+        "test_name": "WMI Reconnaissance Software",
+        "test_guid": "718aebaa-d0e0-471a-8241-c5afa69c7414",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1047/T1047.md"
+      },
+      {
+        "technique_id": "T1047",
+        "test_name": "WMI Reconnaissance List Remote Services",
+        "test_guid": "0fd48ef7-d890-4e93-a533-f7dedd5191d3",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1047/T1047.md"
+      },
+      {
+        "technique_id": "T1047",
+        "test_name": "WMI Execute Local Process",
+        "test_guid": "b3bdfc91-b33e-4c6d-a5c8-d64bee0276b3",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1047/T1047.md"
+      },
+      {
+        "technique_id": "T1047",
+        "test_name": "WMI Execute Remote Process",
+        "test_guid": "9c8ef159-c666-472f-9874-90c8d60d136b",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1047/T1047.md"
+      },
+      {
+        "technique_id": "T1047",
+        "test_name": "Create a Process using WMI Query and an Encoded Command",
+        "test_guid": "7db7a7f9-9531-4840-9b30-46220135441c",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1047/T1047.md"
+      },
+      {
+        "technique_id": "T1047",
+        "test_name": "Create a Process using obfuscated Win32_Process",
+        "test_guid": "10447c83-fc38-462a-a936-5102363b1c43",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1047/T1047.md"
+      },
+      {
+        "technique_id": "T1047",
+        "test_name": "WMI Execute rundll32",
+        "test_guid": "00738d2a-4651-4d76-adf2-c43a41dfb243",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1047/T1047.md"
+      },
+      {
+        "technique_id": "T1047",
+        "test_name": "Application uninstall using WMIC",
+        "test_guid": "c510d25b-1667-467d-8331-a56d3e9bc4ff",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1047/T1047.md"
+      }
+    ]
+  }
+}

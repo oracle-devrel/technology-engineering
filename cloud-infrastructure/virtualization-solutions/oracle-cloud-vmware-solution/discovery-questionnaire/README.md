@@ -2,7 +2,7 @@
 
 This document can be used as a reference questionnaire to collect the required details for a project involving Oracle Cloud VMware Solution.
 
-Reviewed: 12.11.2025
+Reviewed: 24.06.2026
 
 # When to use this asset?
 

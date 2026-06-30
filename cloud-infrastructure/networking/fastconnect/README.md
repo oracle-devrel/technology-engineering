@@ -6,7 +6,7 @@ Use Case
 Private peering: To extend your existing infrastructure into a virtual cloud network (VCN) in Oracle Cloud Infrastructure (for example, to implement a hybrid cloud or a lift and shift scenario). Communication across the connection is with IPv4 private addresses (typically RFC 1918).
 Public peering: To access public services in Oracle Cloud Infrastructure without using the internet. For example, Object Storage, the Oracle Cloud Infrastructure Console, and APIs, or public load balancers in your VCN
 
-Reviewed: 10.10.2025
+Reviewed: 12.06.2026
 
 # Useful Links
 

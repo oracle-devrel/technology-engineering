@@ -1,0 +1,73 @@
+{
+  "title": "BITS Job Persistence",
+  "description": "Detects BITS jobs created for persistent execution or file download.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Process Name' like '*\\\\bitsadmin.exe' and ('Command Line' like '*/create*' or 'Command Line' like '*/addfile*' or 'Command Line' like '*/setnotifycmdline*')))",
+  "sigma_id": "3fc4f8ba-f80b-4154-b7b9-3fd6734f14c5",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.persistence",
+    "attack.t1197"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence"
+    ],
+    "techniques": [
+      "T1197"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate BITS transfers by WSUS or SCCM"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 4,
+    "techniques_with_tests": [
+      "T1197"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1197",
+        "test_name": "Bitsadmin Download (cmd)",
+        "test_guid": "3c73d728-75fb-4180-a12f-6712864d7421",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1197/T1197.md"
+      },
+      {
+        "technique_id": "T1197",
+        "test_name": "Bitsadmin Download (PowerShell)",
+        "test_guid": "f63b8bc4-07e5-4112-acba-56f646f3f0bc",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1197/T1197.md"
+      },
+      {
+        "technique_id": "T1197",
+        "test_name": "Persist, Download, & Execute",
+        "test_guid": "62a06ec5-5754-47d2-bcfc-123d8314c6ae",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1197/T1197.md"
+      },
+      {
+        "technique_id": "T1197",
+        "test_name": "Bits download using desktopimgdownldr.exe (cmd)",
+        "test_guid": "afb5e09e-e385-4dee-9a94-6ee60979d114",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1197/T1197.md"
+      }
+    ]
+  }
+}

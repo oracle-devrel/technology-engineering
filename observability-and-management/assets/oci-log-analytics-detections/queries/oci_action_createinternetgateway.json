@@ -1,0 +1,32 @@
+{
+  "title": "OCI Action: CreateInternetGateway",
+  "description": "Detects the execution of CreateInternetGateway action in OCI.",
+  "query": "'Log Source' = 'OCI Audit Logs' and (('Event Type' = 'com.oraclecloud.virtualnetwork.createinternetgateway'))",
+  "sigma_id": "184fc0e0-6054-47eb-a62a-a06c74cd6263",
+  "level": "informational",
+  "stig_category": "CAT III",
+  "tags": [
+    "oci.audit",
+    "attack.persistence",
+    "attack.t1583"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence"
+    ],
+    "techniques": [
+      "T1583"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Planned network architecture changes",
+    "Automated IaC deployments"
+  ]
+}
