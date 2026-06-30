@@ -47,9 +47,9 @@ To encrypt OKE worker nodes boot volume with a key that is in a different compar
 [https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengpolicyconfig.htm#contengpolicyconfig\_topic\_Create\_Policies\_for\_User\_Managed\_Encryption](https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengpolicyconfig.htm#contengpolicyconfig_topic_Create_Policies_for_User_Managed_Encryption)  
 
 ```
-Allow any-user to use key-delegates in <compartment-key> where ALL {request.principal.type='nodepool', target.key.id = '<key_OCID>'}
+Allow any-user to use key-delegate in <compartment-key> where ALL {request.principal.type='nodepool', target.key.id = '<key_OCID>'}
 Allow service blockstorage to use keys in compartment <compartment-key> where target.key.id = '<key_OCID>'
-Allow any-user to use key-delegates in compartment <compartment-key> where ALL {request.principal.type='nodepool', target.key.id = '<key_OCID>'}
+Allow any-user to use key-delegate in compartment <compartment-key> where ALL {request.principal.type='nodepool', target.key.id = '<key_OCID>'}
 ```
 
   
@@ -62,7 +62,7 @@ To enable encryption on block volumes with a key in a different compartment than
 
 ```
 Allow service blockstorage to use keys in compartment <compartment-key> where target.key.id = '<key-ocid>'
-Allow any-user to use key-delegates in compartment <compartment-key> where ALL {request.principal.type = 'cluster', target.key.id = '<key-ocid>'}
+Allow any-user to use key-delegate in compartment <compartment-key> where ALL {request.principal.type = 'cluster', target.key.id = '<key-ocid>'}
 ```
 
   
@@ -78,7 +78,7 @@ Dynamic Group
 ALL { resource.type='filesystem', resource.compartment.id = '<file_system_compartment_OCID>' }
 
 Allow dynamic-group <domain>/<dynamic-group-name> to use keys in compartment <key-compartment-name>
-Allow any-user to use key-delegates in compartment <compartment-key> where ALL {request.principal.type = 'cluster', target.key.id = '<key_OCID>'}
+Allow any-user to use key-delegate in compartment <compartment-key> where ALL {request.principal.type = 'cluster', target.key.id = '<key_OCID>'}
 ```
 
   
@@ -90,7 +90,6 @@ Allow any-user to use key-delegates in compartment <compartment-key> where ALL {
 ```
 ALLOW any-user to manage network-security-groups in compartment <compartment-name> where request.principal.type = 'cluster'
 ALLOW any-user to manage vcns in compartment <compartment-name> where request.principal.type = 'cluster'
-ALLOW any-user to manage virtual-network-family in compartment <compartment-name> where request.principal.type = 'cluster'
 ```
 
   
@@ -100,7 +99,7 @@ ALLOW any-user to manage virtual-network-family in compartment <compartment-name
 [https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengtaggingclusterresources\_iam-tag-namespace-policy.htm#contengtaggingclusterresources\_iam-tag-namespace-policy](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengtaggingclusterresources_iam-tag-namespace-policy.htm#contengtaggingclusterresources_iam-tag-namespace-policy)
 
 ```
-Allow any-user to use tag-namespace in compartment <compartment-ocid-tag-namespace> where all { request.principal.id = '<cluster-ocid>' }
+Allow any-user to use tag-namespaces in compartment <compartment-ocid-tag-namespace> where all { request.principal.id = '<cluster-ocid>' }
 ```
 
   
