@@ -3,7 +3,7 @@
 
 module "oke" {
   source         = "oracle-terraform-modules/oke/oci"
-  version        = "5.4.3"
+  version        = "5.5.0"
   compartment_id = var.oke_compartment_id
   # Network module - VCN
   create_vcn                        = false
@@ -13,19 +13,19 @@ module "oke" {
   subnets = {
     bastion  = { create = "never" }
     operator = { create = "never" }
-    pub_lb   = { id = local.is_lb_subnet_private ? null : var.lb_subnet_id }
-    int_lb   = { id = local.is_lb_subnet_private ? var.lb_subnet_id : null }
-    cp       = { id = var.cp_subnet_id }
-    workers  = { id = var.worker_subnet_id }
-    pods     = { id = local.is_flannel ? null : var.pod_subnet_id }
+    pub_lb   = { create = "never", id = local.is_lb_subnet_private ? null : var.lb_subnet_id }
+    int_lb   = { create = "never", id = local.is_lb_subnet_private ? var.lb_subnet_id : null }
+    cp       = { create = "never", id = var.cp_subnet_id }
+    workers  = { create = "never", id = var.worker_subnet_id }
+    pods     = { create = "never", id = local.is_flannel ? null : var.pod_subnet_id }
   }
   nsgs = {
     bastion  = { create = "never" }
     operator = { create = "never" }
     pub_lb   = { create = "never" }
     int_lb   = { create = "never" }
-    cp       = { id = var.cp_nsg_id }
-    workers  = { id = var.worker_nsg_id }
+    cp       = { create = "never", id = var.cp_nsg_id }
+    workers  = { create = "never", id = var.worker_nsg_id }
     pods     = { create = "never", id = var.cni_type == "flannel" ? null : var.pod_nsg_id }
   }
   # Network module - security
@@ -40,6 +40,7 @@ module "oke" {
   cluster_type       = var.cluster_type
   cni_type           = local.cni
   kubernetes_version = var.kubernetes_version
+  oke_ip_families    = ["IPv4"]
   services_cidr      = var.services_cidr
   pods_cidr          = var.pods_cidr
 
@@ -63,8 +64,9 @@ module "oke" {
 
   worker_pool_mode = "node-pool" # Default mode should be node-pool for managed nodes, other modes are available for self-managed nodes, like instance and instance-pool, but be careful to have the required policy: https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengdynamicgrouppolicyforselfmanagednodes.htm
   #ssh_public_key = ""    # Insert the ssh public key to access worker nodes
-  worker_image_type = "oke" # NOTE: the oke mode will fetch the latest OKE Oracle Linux image released by the OKE team. If you want more control, better to use "custom" and specify the image id. This is because an image id is always fixed, and controlled by you.
-  #worker_image_id = ""                     # The image id to use for the worker nodes. For Oracle Linux images, check this link: https://docs.oracle.com/en-us/iaas/images/oke-worker-node-oracle-linux-8x/index.htm
+  worker_image_type       = "oke" # The oke mode fetches the latest compatible OKE worker image.
+  worker_image_os_version = "9"   # Default to OKE-managed Oracle Linux 9 worker images.
+  #worker_image_id = ""                     # The image id to use for the worker nodes. For Oracle Linux image details, see https://docs.oracle.com/en-us/iaas/images/
   # For Ubuntu images, you need to create an Ubuntu custom image in your tenancy first, and then set the OCID of the custom image here
   # NOTE: set worker_image_type to "custom" and specify an image id to use custom images for all workers
 
@@ -83,7 +85,12 @@ module "oke" {
    */
 
   # Cloud init to add to all node pools. This will be added to the default_cloud_init
-  #worker_cloud_init = [{ content_type = "text/cloud-config", content = file("cloud-init/oca.yml")}]
+  #worker_cloud_init = [{ content_type = "text/cloud-config", content = file("cloud-init/storage.yml")}]
+
+  # To set custom Kubernetes node names on Kubernetes 1.32 or later, use the complete
+  # cloud-init example in cloud-init/custom-hostname.yml on the relevant worker pool:
+  # disable_default_cloud_init = true
+  # cloud_init = [{ content_type = "text/cloud-config", content = file("cloud-init/custom-hostname.yml") }]
 
 
   # Default Persistent Volume Tags
@@ -140,6 +147,40 @@ module "oke" {
       boot_volume_size             = 100
       # max_pods_per_node = 10                              # When using VCN_NATIVE CNI, configure maximum number of pods for each node in the node pool
       create = false # Set it to true so that the node pool is created
+    }
+
+    # MANAGED NODE POOL WITH GENERIC VNIC ATTACHMENT (GVA)
+    # Prerequisites:
+    # - The cluster must use VCN-native pod networking (cni_type = "vcn_native").
+    # - The selected pod subnet must be IPv4-only and have more than one IPv4 CIDR block.
+    # - The selected shape must support the required number of VNIC attachments.
+    # Nodes exposing an Application Resource are tainted by OKE. Workloads must request
+    # exactly one oke-application-resource.oci.oraclecloud.com/frontend resource and
+    # tolerate the oci.oraclecloud.com/application-resource-only:NoSchedule taint.
+    np-gva = {
+      mode                = "node-pool"
+      shape               = "VM.Standard.E5.Flex"
+      size                = 1
+      kubernetes_version  = var.kubernetes_version
+      placement_ads       = ["1"]
+      ocpus               = 1
+      memory              = 8
+      boot_volume_size    = 100
+      network_launch_type = "PARAVIRTUALIZED"
+
+      gva_secondary_vnics = {
+        frontend = {
+          display_name           = "gva-frontend"
+          subnet_id              = var.pod_subnet_id
+          nsg_ids                = [var.pod_nsg_id]
+          ip_count               = 16
+          application_resources  = ["frontend"]
+          assign_public_ip       = false
+          skip_source_dest_check = false
+        }
+      }
+
+      create = false # Set to true only after the GVA prerequisites above are satisfied.
     }
 
     # Node Pool reserved for Karpenter and CoreDNS

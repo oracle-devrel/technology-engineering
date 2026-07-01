@@ -81,12 +81,16 @@ variableGroups:
       - create_drg_attachment
       - peer_vcns
 
-  - title: "Additional Network"
+  - title: "Database"
     variables:
       - create_db_subnet
       - db_subnet_name
+      - create_database_nsgs
       - db_service_list
       - separate_db_nsg
+
+  - title: "Messaging"
+    variables:
       - create_msg_subnet
       - msg_subnet_name
       - create_streaming_nsg
@@ -442,7 +446,7 @@ variables:
 
   db_service_list:
     title: "Additional Database Services"
-    description: "Create network rules for additional database services you are planning to use"
+    description: "Select the database services that workloads in the OKE cluster need to access"
     type: enum
     additionalProps:
       allowMultiple: true
@@ -453,11 +457,19 @@ variables:
       - mysql
     required: false
     default: []
+    visible: ${create_database_nsgs}
+
+  create_database_nsgs:
+    title: "Create Database NSGs and Rules"
+    description: "Create database NSGs and the corresponding pod or worker rules. Resources are created only when this option is enabled and at least one database service is selected."
+    type: boolean
+    default: false
 
   separate_db_nsg:
     title: "Create Separate database NSGs"
     description: "Create separate database NSGs to manually select which applications will be granted access to the database"
     type: boolean
+    visible: ${create_database_nsgs}
 
   create_msg_subnet:
     title: "Create Messaging Subnet"
@@ -541,3 +553,97 @@ variables:
   tag_value:
     type: oci:identity:tag:value
     title: Tags
+
+
+# OUTPUT SECTION
+
+outputGroups:
+  - title: "OKE Network Handoff"
+    outputs:
+      - vcn_id
+      - cp_subnet_id
+      - worker_subnet_id
+      - pod_subnet_id
+      - external_lb_subnet_id
+      - internal_lb_subnet_id
+      - bastion_subnet_id
+      - cp_nsg_id
+      - worker_nsg_id
+      - pod_nsg_id
+      - lb_nsg_id
+
+  - title: "Database"
+    outputs:
+      - db_subnet_id
+      - database_nsg_ids
+      - database_client_nsg_ids
+
+  - title: "Messaging"
+    outputs:
+      - msg_subnet_id
+      - streaming_nsg_id
+
+outputs:
+  vcn_id:
+    type: copyableString
+    title: VCN OCID
+
+  cp_subnet_id:
+    type: copyableString
+    title: Control Plane Subnet OCID
+
+  worker_subnet_id:
+    type: copyableString
+    title: Worker Subnet OCID
+
+  pod_subnet_id:
+    type: copyableString
+    title: Pod Subnet OCID
+
+  external_lb_subnet_id:
+    type: copyableString
+    title: External Load Balancer Subnet OCID
+
+  internal_lb_subnet_id:
+    type: copyableString
+    title: Internal Load Balancer Subnet OCID
+
+  bastion_subnet_id:
+    type: copyableString
+    title: Bastion Subnet OCID
+
+  cp_nsg_id:
+    type: copyableString
+    title: Control Plane NSG OCID
+
+  worker_nsg_id:
+    type: copyableString
+    title: Worker NSG OCID
+
+  pod_nsg_id:
+    type: copyableString
+    title: Pod NSG OCID
+
+  lb_nsg_id:
+    type: copyableString
+    title: Load Balancer NSG OCID
+
+  db_subnet_id:
+    type: copyableString
+    title: Database Subnet OCID
+
+  database_nsg_ids:
+    type: map
+    title: Database NSG OCIDs
+
+  database_client_nsg_ids:
+    type: map
+    title: Database Client NSG OCIDs
+
+  msg_subnet_id:
+    type: copyableString
+    title: Messaging Subnet OCID
+
+  streaming_nsg_id:
+    type: copyableString
+    title: OCI Streaming NSG OCID

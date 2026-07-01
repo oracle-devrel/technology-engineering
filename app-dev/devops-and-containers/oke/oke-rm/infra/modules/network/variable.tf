@@ -177,6 +177,10 @@ variable "db_service_list" {
   type = list(string)
 }
 
+variable "create_database_nsgs" {
+  type = bool
+}
+
 variable "separate_db_nsg" {
   type = bool
 }

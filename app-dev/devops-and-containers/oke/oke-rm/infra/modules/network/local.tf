@@ -24,7 +24,8 @@ locals {
   drg_id                = var.create_drg ? try(oci_core_drg.vcn_drg.0.id, null) : var.drg_id
 
   create_db_subnet  = var.create_db_subnet && var.create_vcn && length(var.db_service_list) > 0
-  create_app_db_nsg = length(var.db_service_list) > 0 && var.separate_db_nsg
+  create_db_nsg     = var.create_database_nsgs && length(var.db_service_list) > 0
+  create_app_db_nsg = local.create_db_nsg && var.separate_db_nsg
 
   create_msg_subnet = var.create_msg_subnet && var.create_vcn
 
