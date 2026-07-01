@@ -16,7 +16,7 @@ Reviewed: 23.06.2026
 |---|---|
 | Tenancy usage cost report|[Link](/observability-and-management/assets/tenancy-usage-cost-reports/README.md)|
 | Log Analytics for FinOps|[Link](/observability-and-management/logging-analytics/finops/README.md)|
-
+|AWS FOCUS Daily Export to OCI Object Storage|[Link](/observability-and-management/logging-analytics/finops/aws-focus-to-oci-object-storage/README.md)|
 
 
 # Useful Links
