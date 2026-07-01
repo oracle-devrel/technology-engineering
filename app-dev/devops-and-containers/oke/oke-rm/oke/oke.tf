@@ -64,8 +64,9 @@ module "oke" {
 
   worker_pool_mode = "node-pool" # Default mode should be node-pool for managed nodes, other modes are available for self-managed nodes, like instance and instance-pool, but be careful to have the required policy: https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengdynamicgrouppolicyforselfmanagednodes.htm
   #ssh_public_key = ""    # Insert the ssh public key to access worker nodes
-  worker_image_type = "oke" # NOTE: the oke mode will fetch the latest OKE Oracle Linux image released by the OKE team. If you want more control, better to use "custom" and specify the image id. This is because an image id is always fixed, and controlled by you.
-  #worker_image_id = ""                     # The image id to use for the worker nodes. For Oracle Linux images, check this link: https://docs.oracle.com/en-us/iaas/images/oke-worker-node-oracle-linux-8x/index.htm
+  worker_image_type       = "oke" # The oke mode fetches the latest compatible OKE worker image.
+  worker_image_os_version = "9"   # Default to OKE-managed Oracle Linux 9 worker images.
+  #worker_image_id = ""                     # The image id to use for the worker nodes. For Oracle Linux image details, see https://docs.oracle.com/en-us/iaas/images/
   # For Ubuntu images, you need to create an Ubuntu custom image in your tenancy first, and then set the OCID of the custom image here
   # NOTE: set worker_image_type to "custom" and specify an image id to use custom images for all workers
 
