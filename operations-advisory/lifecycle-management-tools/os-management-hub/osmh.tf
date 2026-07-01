@@ -15,24 +15,24 @@ locals {
 #    ol9x86  = { source = oci_os_management_hub_software_source.ol9x86["create"] }
 #    ol8x86  = { source = oci_os_management_hub_software_source.ol8x86["create"] }
 #  }
-  ol8arm_snapshot_software_source_ids = [
-    for s in values(oci_os_management_hub_software_source.ol8arm_snap_from_vendor) : s.id
-  ]
-  ol9arm_snapshot_software_source_ids = [
-    for s in values(oci_os_management_hub_software_source.ol9arm_snap_from_vendor) : s.id
-  ]
-  ol10arm_snapshot_software_source_ids = [
-    for s in values(oci_os_management_hub_software_source.ol10arm_snap_from_vendor) : s.id
-  ]
-  ol8x86_snapshot_software_source_ids = [
-    for s in values(oci_os_management_hub_software_source.ol8x86_snap_from_vendor) : s.id
-  ]
-  ol9x86_snapshot_software_source_ids = [
-    for s in values(oci_os_management_hub_software_source.ol9x86_snap_from_vendor) : s.id
-  ]
-  ol10x86_snapshot_software_source_ids = [
-    for s in values(oci_os_management_hub_software_source.ol10x86_snap_from_vendor) : s.id
-  ]
+#snap  ol8arm_snapshot_software_source_ids = [
+#snap    for s in values(oci_os_management_hub_software_source.ol8arm_snap_from_vendor) : s.id
+#snap  ]
+#snap  ol9arm_snapshot_software_source_ids = [
+#snap    for s in values(oci_os_management_hub_software_source.ol9arm_snap_from_vendor) : s.id
+#snap  ]
+#snap  ol10arm_snapshot_software_source_ids = [
+#snap    for s in values(oci_os_management_hub_software_source.ol10arm_snap_from_vendor) : s.id
+#snap  ]
+#snap  ol8x86_snapshot_software_source_ids = [
+#snap    for s in values(oci_os_management_hub_software_source.ol8x86_snap_from_vendor) : s.id
+#snap  ]
+#snap  ol9x86_snapshot_software_source_ids = [
+#snap    for s in values(oci_os_management_hub_software_source.ol9x86_snap_from_vendor) : s.id
+#snap  ]
+#snap  ol10x86_snapshot_software_source_ids = [
+#snap    for s in values(oci_os_management_hub_software_source.ol10x86_snap_from_vendor) : s.id
+#snap  ]
   create_profile         = true
   create_software_source = true
   attach_to_ol10arm = {
@@ -65,48 +65,48 @@ resource "oci_os_management_hub_managed_instance_attach_profile_management" "att
   for_each            = local.attach_to_ol10arm
   #Required
   managed_instance_id = oci_core_instance.standard-instance[each.key].id
-  profile_id          = oci_os_management_hub_profile.ol10arm-selfregister["create"].id
+  profile_id          = oci_os_management_hub_profile.ol10arm-profile["create"].id
 }
 
 resource "oci_os_management_hub_managed_instance_attach_profile_management" "attach_to_ol10x86" {
   for_each            = local.attach_to_ol10x86
   #Required
   managed_instance_id = oci_core_instance.standard-instance[each.key].id
-  profile_id          = oci_os_management_hub_profile.ol10x86-selfregister["create"].id
+  profile_id          = oci_os_management_hub_profile.ol10x86-profile["create"].id
 }
 
 resource "oci_os_management_hub_managed_instance_attach_profile_management" "attach_to_ol9arm" {
   for_each            = local.attach_to_ol9arm
   #Required
   managed_instance_id = oci_core_instance.standard-instance[each.key].id
-  profile_id          = oci_os_management_hub_profile.ol9arm-selfregister["create"].id
+  profile_id          = oci_os_management_hub_profile.ol9arm-profile["create"].id
 }
 
 resource "oci_os_management_hub_managed_instance_attach_profile_management" "attach_to_ol9x86" {
   for_each            = local.attach_to_ol9x86
   #Required
   managed_instance_id = oci_core_instance.standard-instance[each.key].id
-  profile_id          = oci_os_management_hub_profile.ol9x86-selfregister["create"].id
+  profile_id          = oci_os_management_hub_profile.ol9x86-profile["create"].id
 }
 
 resource "oci_os_management_hub_managed_instance_attach_profile_management" "attach_to_ol8arm" {
   for_each            = local.attach_to_ol8arm
   #Required
   managed_instance_id = oci_core_instance.standard-instance[each.key].id
-  profile_id          = oci_os_management_hub_profile.ol8arm-selfregister["create"].id
+  profile_id          = oci_os_management_hub_profile.ol8arm-profile["create"].id
 }
 
 resource "oci_os_management_hub_managed_instance_attach_profile_management" "attach_to_ol8x86" {
   for_each            = local.attach_to_ol8x86
   #Required
   managed_instance_id = oci_core_instance.standard-instance[each.key].id
-  profile_id          = oci_os_management_hub_profile.ol8x86-selfregister["create"].id
+  profile_id          = oci_os_management_hub_profile.ol8x86-profile["create"].id
 }
 
-resource "oci_os_management_hub_profile" "ol10arm-selfregister" {
+resource "oci_os_management_hub_profile" "ol10arm-profile" {
   for_each            = local.create_profile ? {create = true} : {}
   compartment_id      = local.compartment.id
-  display_name        = "ol10arm-selfregister"
+  display_name        = "ol10arm-profile"
   arch_type           = "AARCH64"
   os_family           = "ORACLE_LINUX_10"
   vendor_name         = "ORACLE"
@@ -119,10 +119,10 @@ resource "oci_os_management_hub_profile" "ol10arm-selfregister" {
   ]
 }
 
-#resource "oci_os_management_hub_profile" "ol9arm-selfregister" {
+#resource "oci_os_management_hub_profile" "ol9arm-profile" {
 #  for_each            = local.create_profile ? {create = true} : {}
 #  compartment_id      = local.compartment.id
-#  display_name        = "ol9arm-selfregister"
+#  display_name        = "ol9arm-profile"
 #  profile_type        = "SOFTWARESOURCE"
 #  arch_type           = "AARCH64"
 #  os_family           = "ORACLE_LINUX_9"
@@ -138,10 +138,10 @@ resource "oci_os_management_hub_profile" "ol10arm-selfregister" {
 #  description = "Profile using snapshot software sources"
 #}
 
-resource "oci_os_management_hub_profile" "ol9arm-selfregister" {
+resource "oci_os_management_hub_profile" "ol9arm-profile" {
   for_each            = local.create_profile ? {create = true} : {}
   compartment_id      = local.compartment.id
-  display_name        = "ol9arm-selfregister"
+  display_name        = "ol9arm-profile"
   arch_type           = "AARCH64"
   os_family           = "ORACLE_LINUX_9"
   vendor_name         = "ORACLE"
@@ -154,10 +154,10 @@ resource "oci_os_management_hub_profile" "ol9arm-selfregister" {
   ]
 }
 
-resource "oci_os_management_hub_profile" "ol8arm-selfregister" {
+resource "oci_os_management_hub_profile" "ol8arm-profile" {
   for_each            = local.create_profile ? {create = true} : {}
   compartment_id      = local.compartment.id
-  display_name        = "ol8arm-selfregister"
+  display_name        = "ol8arm-profile"
   arch_type           = "AARCH64"
   os_family           = "ORACLE_LINUX_8"
   vendor_name         = "ORACLE"
@@ -170,10 +170,10 @@ resource "oci_os_management_hub_profile" "ol8arm-selfregister" {
   ]
 }
 
-resource "oci_os_management_hub_profile" "ol10x86-selfregister" {
+resource "oci_os_management_hub_profile" "ol10x86-profile" {
   for_each            = local.create_profile ? {create = true} : {}
   compartment_id      = local.compartment.id
-  display_name        = "ol10x86-selfregister"
+  display_name        = "ol10x86-profile"
   arch_type           = "X86_64"
   os_family           = "ORACLE_LINUX_10"
   vendor_name         = "ORACLE"
@@ -186,10 +186,10 @@ resource "oci_os_management_hub_profile" "ol10x86-selfregister" {
   ]
 }
 
-resource "oci_os_management_hub_profile" "ol9x86-selfregister" {
+resource "oci_os_management_hub_profile" "ol9x86-profile" {
   for_each            = local.create_profile ? {create = true} : {}
   compartment_id      = local.compartment.id
-  display_name        = "ol9x86-selfregister"
+  display_name        = "ol9x86-profile"
   arch_type           = "X86_64"
   os_family           = "ORACLE_LINUX_9"
   vendor_name         = "ORACLE"
@@ -202,10 +202,10 @@ resource "oci_os_management_hub_profile" "ol9x86-selfregister" {
   ]
 }
 
-resource "oci_os_management_hub_profile" "ol8x86-selfregister" {
+resource "oci_os_management_hub_profile" "ol8x86-profile" {
   for_each            = local.create_profile ? {create = true} : {}
   compartment_id      = local.compartment.id
-  display_name        = "ol8x86-selfregister"
+  display_name        = "ol8x86-profile"
   arch_type           = "X86_64"
   os_family           = "ORACLE_LINUX_8"
   vendor_name         = "ORACLE"
@@ -218,228 +218,228 @@ resource "oci_os_management_hub_profile" "ol8x86-selfregister" {
   ]
 }
 
-resource "oci_os_management_hub_software_source" "ol8arm_snap_from_vendor" {
-  for_each = {
-    for src in flatten([
-      for c in data.oci_os_management_hub_software_sources.ol8arm_vendor_software_sources.software_source_collection :
-      c.items
-    ]) : src.id => src
-  }
-
-  compartment_id               = local.compartment.id
-  display_name                 = "${each.value.display_name}-snap-${formatdate("YYYYMMDD", timestamp())}"
-  is_auto_resolve_dependencies = false
-  is_latest_content_only       = false
-  is_automatically_updated     = false
-
-  software_source_type     = "CUSTOM"
-  software_source_sub_type = "SNAPSHOT"
-
-  vendor_software_sources {
-    display_name = each.value.display_name
-    id           = each.value.id
-  }
-  lifecycle {
-    ignore_changes = [
-      display_name
-    ]
-  }
-  timeouts {
-    create = "1h"
-    delete = "1h"
-  }
-
-  description = "Custom snapshot of ${each.value.display_name}"
-}
-
-resource "oci_os_management_hub_software_source" "ol9arm_snap_from_vendor" {
-  for_each = {
-    for src in flatten([
-      for c in data.oci_os_management_hub_software_sources.ol9arm_vendor_software_sources.software_source_collection :
-      c.items
-    ]) : src.id => src
-  }
-
-  compartment_id               = local.compartment.id
-  display_name                 = "${each.value.display_name}-snap-${formatdate("YYYYMMDD", timestamp())}"
-  is_auto_resolve_dependencies = false
-  is_latest_content_only       = false
-  is_automatically_updated     = false
-
-  software_source_type     = "CUSTOM"
-  software_source_sub_type = "SNAPSHOT"
-
-  vendor_software_sources {
-    display_name = each.value.display_name
-    id           = each.value.id
-  }
-  lifecycle {
-    ignore_changes = [
-      display_name
-    ]
-  }
-  timeouts {
-    create = "1h"
-    delete = "1h"
-  }
-
-  description = "Custom snapshot of ${each.value.display_name}"
-}
-
-resource "oci_os_management_hub_software_source" "ol10arm_snap_from_vendor" {
-  for_each = {
-    for src in flatten([
-      for c in data.oci_os_management_hub_software_sources.ol10arm_vendor_software_sources.software_source_collection :
-      c.items
-    ]) : src.id => src
-  }
-
-  compartment_id               = local.compartment.id
-  display_name                 = "${each.value.display_name}-snap-${formatdate("YYYYMMDD", timestamp())}"
-  is_auto_resolve_dependencies = false
-  is_latest_content_only       = false
-  is_automatically_updated     = false
-
-  software_source_type     = "CUSTOM"
-  software_source_sub_type = "SNAPSHOT"
-
-  vendor_software_sources {
-    display_name = each.value.display_name
-    id           = each.value.id
-  }
-  lifecycle {
-    ignore_changes = [
-      display_name
-    ]
-  }
-  timeouts {
-    create = "1h"
-    delete = "1h"
-  }
-
-  description = "Custom snapshot of ${each.value.display_name}"
-}
-
-resource "oci_os_management_hub_software_source" "ol8x86_snap_from_vendor" {
-  for_each = {
-    for src in flatten([
-      for c in data.oci_os_management_hub_software_sources.ol8x86_vendor_software_sources.software_source_collection :
-      c.items
-    ]) : src.id => src
-  }
-
-  compartment_id               = local.compartment.id
-  display_name                 = "${each.value.display_name}-snap-${formatdate("YYYYMMDD", timestamp())}"
-  is_auto_resolve_dependencies = false
-  is_latest_content_only       = false
-  is_automatically_updated     = false
-
-  software_source_type     = "CUSTOM"
-  software_source_sub_type = "SNAPSHOT"
-
-  vendor_software_sources {
-    display_name = each.value.display_name
-    id           = each.value.id
-  }
-  lifecycle {
-    ignore_changes = [
-      display_name
-    ]
-  }
-  timeouts {
-    create = "1h"
-    delete = "1h"
-  }
-
-  description = "Custom snapshot of ${each.value.display_name}"
-}
-#output "custom_software_source_ids" {
-#  value = {
-#    for k, v in oci_os_management_hub_software_source.ol8x86_snap_from_vendor :
-#    k => {
-#      id           = v.id
-#      display_name = v.display_name
-#    }
-#  }
-#}
-
-resource "oci_os_management_hub_software_source" "ol9x86_snap_from_vendor" {
-  for_each = {
-    for src in flatten([
-      for c in data.oci_os_management_hub_software_sources.ol9x86_vendor_software_sources.software_source_collection :
-      c.items
-    ]) : src.id => src
-  }
-
-  compartment_id               = local.compartment.id
-  display_name                 = "${each.value.display_name}-snap-${formatdate("YYYYMMDD", timestamp())}"
-  is_auto_resolve_dependencies = false
-  is_latest_content_only       = false
-  is_automatically_updated     = false
-
-  software_source_type     = "CUSTOM"
-  software_source_sub_type = "SNAPSHOT"
-
-  vendor_software_sources {
-    display_name = each.value.display_name
-    id           = each.value.id
-  }
-  lifecycle {
-    ignore_changes = [
-      display_name
-    ]
-  }
-  timeouts {
-    create = "1h"
-    delete = "1h"
-  }
-
-  description = "Custom snapshot of ${each.value.display_name}"
-}
-
-#output "custom_software_source_ids" {
-#  value = {
-#    for k, v in oci_os_management_hub_software_source.ol9arm_snap_from_vendor :
-#    k => {
-#      id           = v.id
-#      display_name = v.display_name
-#    }
-#  }
-#}
-
-resource "oci_os_management_hub_software_source" "ol10x86_snap_from_vendor" {
-  for_each = {
-    for src in flatten([
-      for c in data.oci_os_management_hub_software_sources.ol10x86_vendor_software_sources.software_source_collection :
-      c.items
-    ]) : src.id => src
-  }
-
-  compartment_id               = local.compartment.id
-  display_name                 = "${each.value.display_name}-snap-${formatdate("YYYYMMDD", timestamp())}"
-  is_auto_resolve_dependencies = false
-  is_latest_content_only       = false
-  is_automatically_updated     = false
-
-  software_source_type     = "CUSTOM"
-  software_source_sub_type = "SNAPSHOT"
-
-  vendor_software_sources {
-    display_name = each.value.display_name
-    id           = each.value.id
-  }
-  lifecycle {
-    ignore_changes = [
-      display_name
-    ]
-  }
-  timeouts {
-    create = "1h"
-    delete = "1h"
-  }
-
-  description = "Custom snapshot of ${each.value.display_name}"
-}
+#snapresource "oci_os_management_hub_software_source" "ol8arm_snap_from_vendor" {
+#snap  for_each = {
+#snap    for src in flatten([
+#snap      for c in data.oci_os_management_hub_software_sources.ol8arm_vendor_software_sources.software_source_collection :
+#snap      c.items
+#snap    ]) : src.id => src
+#snap  }
+#snap
+#snap  compartment_id               = local.compartment.id
+#snap  display_name                 = "${each.value.display_name}-snap-${formatdate("YYYYMMDD", timestamp())}"
+#snap  is_auto_resolve_dependencies = false
+#snap  is_latest_content_only       = false
+#snap  is_automatically_updated     = false
+#snap
+#snap  software_source_type     = "CUSTOM"
+#snap  software_source_sub_type = "SNAPSHOT"
+#snap
+#snap  vendor_software_sources {
+#snap    display_name = each.value.display_name
+#snap    id           = each.value.id
+#snap  }
+#snap  lifecycle {
+#snap    ignore_changes = [
+#snap      display_name
+#snap    ]
+#snap  }
+#snap  timeouts {
+#snap    create = "1h"
+#snap    delete = "1h"
+#snap  }
+#snap
+#snap  description = "Custom snapshot of ${each.value.display_name}"
+#snap}
+#snap
+#snapresource "oci_os_management_hub_software_source" "ol9arm_snap_from_vendor" {
+#snap  for_each = {
+#snap    for src in flatten([
+#snap      for c in data.oci_os_management_hub_software_sources.ol9arm_vendor_software_sources.software_source_collection :
+#snap      c.items
+#snap    ]) : src.id => src
+#snap  }
+#snap
+#snap  compartment_id               = local.compartment.id
+#snap  display_name                 = "${each.value.display_name}-snap-${formatdate("YYYYMMDD", timestamp())}"
+#snap  is_auto_resolve_dependencies = false
+#snap  is_latest_content_only       = false
+#snap  is_automatically_updated     = false
+#snap
+#snap  software_source_type     = "CUSTOM"
+#snap  software_source_sub_type = "SNAPSHOT"
+#snap
+#snap  vendor_software_sources {
+#snap    display_name = each.value.display_name
+#snap    id           = each.value.id
+#snap  }
+#snap  lifecycle {
+#snap    ignore_changes = [
+#snap      display_name
+#snap    ]
+#snap  }
+#snap  timeouts {
+#snap    create = "1h"
+#snap    delete = "1h"
+#snap  }
+#snap
+#snap  description = "Custom snapshot of ${each.value.display_name}"
+#snap}
+#snap
+#snapresource "oci_os_management_hub_software_source" "ol10arm_snap_from_vendor" {
+#snap  for_each = {
+#snap    for src in flatten([
+#snap      for c in data.oci_os_management_hub_software_sources.ol10arm_vendor_software_sources.software_source_collection :
+#snap      c.items
+#snap    ]) : src.id => src
+#snap  }
+#snap
+#snap  compartment_id               = local.compartment.id
+#snap  display_name                 = "${each.value.display_name}-snap-${formatdate("YYYYMMDD", timestamp())}"
+#snap  is_auto_resolve_dependencies = false
+#snap  is_latest_content_only       = false
+#snap  is_automatically_updated     = false
+#snap
+#snap  software_source_type     = "CUSTOM"
+#snap  software_source_sub_type = "SNAPSHOT"
+#snap
+#snap  vendor_software_sources {
+#snap    display_name = each.value.display_name
+#snap    id           = each.value.id
+#snap  }
+#snap  lifecycle {
+#snap    ignore_changes = [
+#snap      display_name
+#snap    ]
+#snap  }
+#snap  timeouts {
+#snap    create = "1h"
+#snap    delete = "1h"
+#snap  }
+#snap
+#snap  description = "Custom snapshot of ${each.value.display_name}"
+#snap}
+#snap
+#snapresource "oci_os_management_hub_software_source" "ol8x86_snap_from_vendor" {
+#snap  for_each = {
+#snap    for src in flatten([
+#snap      for c in data.oci_os_management_hub_software_sources.ol8x86_vendor_software_sources.software_source_collection :
+#snap      c.items
+#snap    ]) : src.id => src
+#snap  }
+#snap
+#snap  compartment_id               = local.compartment.id
+#snap  display_name                 = "${each.value.display_name}-snap-${formatdate("YYYYMMDD", timestamp())}"
+#snap  is_auto_resolve_dependencies = false
+#snap  is_latest_content_only       = false
+#snap  is_automatically_updated     = false
+#snap
+#snap  software_source_type     = "CUSTOM"
+#snap  software_source_sub_type = "SNAPSHOT"
+#snap
+#snap  vendor_software_sources {
+#snap    display_name = each.value.display_name
+#snap    id           = each.value.id
+#snap  }
+#snap  lifecycle {
+#snap    ignore_changes = [
+#snap      display_name
+#snap    ]
+#snap  }
+#snap  timeouts {
+#snap    create = "1h"
+#snap    delete = "1h"
+#snap  }
+#snap
+#snap  description = "Custom snapshot of ${each.value.display_name}"
+#snap}
+#snap#output "custom_software_source_ids" {
+#snap#  value = {
+#snap#    for k, v in oci_os_management_hub_software_source.ol8x86_snap_from_vendor :
+#snap#    k => {
+#snap#      id           = v.id
+#snap#      display_name = v.display_name
+#snap#    }
+#snap#  }
+#snap#}
+#snap
+#snapresource "oci_os_management_hub_software_source" "ol9x86_snap_from_vendor" {
+#snap  for_each = {
+#snap    for src in flatten([
+#snap      for c in data.oci_os_management_hub_software_sources.ol9x86_vendor_software_sources.software_source_collection :
+#snap      c.items
+#snap    ]) : src.id => src
+#snap  }
+#snap
+#snap  compartment_id               = local.compartment.id
+#snap  display_name                 = "${each.value.display_name}-snap-${formatdate("YYYYMMDD", timestamp())}"
+#snap  is_auto_resolve_dependencies = false
+#snap  is_latest_content_only       = false
+#snap  is_automatically_updated     = false
+#snap
+#snap  software_source_type     = "CUSTOM"
+#snap  software_source_sub_type = "SNAPSHOT"
+#snap
+#snap  vendor_software_sources {
+#snap    display_name = each.value.display_name
+#snap    id           = each.value.id
+#snap  }
+#snap  lifecycle {
+#snap    ignore_changes = [
+#snap      display_name
+#snap    ]
+#snap  }
+#snap  timeouts {
+#snap    create = "1h"
+#snap    delete = "1h"
+#snap  }
+#snap
+#snap  description = "Custom snapshot of ${each.value.display_name}"
+#snap}
+#snap
+#snap#output "custom_software_source_ids" {
+#snap#  value = {
+#snap#    for k, v in oci_os_management_hub_software_source.ol9arm_snap_from_vendor :
+#snap#    k => {
+#snap#      id           = v.id
+#snap#      display_name = v.display_name
+#snap#    }
+#snap#  }
+#snap#}
+#snap
+#snapresource "oci_os_management_hub_software_source" "ol10x86_snap_from_vendor" {
+#snap  for_each = {
+#snap    for src in flatten([
+#snap      for c in data.oci_os_management_hub_software_sources.ol10x86_vendor_software_sources.software_source_collection :
+#snap      c.items
+#snap    ]) : src.id => src
+#snap  }
+#snap
+#snap  compartment_id               = local.compartment.id
+#snap  display_name                 = "${each.value.display_name}-snap-${formatdate("YYYYMMDD", timestamp())}"
+#snap  is_auto_resolve_dependencies = false
+#snap  is_latest_content_only       = false
+#snap  is_automatically_updated     = false
+#snap
+#snap  software_source_type     = "CUSTOM"
+#snap  software_source_sub_type = "SNAPSHOT"
+#snap
+#snap  vendor_software_sources {
+#snap    display_name = each.value.display_name
+#snap    id           = each.value.id
+#snap  }
+#snap  lifecycle {
+#snap    ignore_changes = [
+#snap      display_name
+#snap    ]
+#snap  }
+#snap  timeouts {
+#snap    create = "1h"
+#snap    delete = "1h"
+#snap  }
+#snap
+#snap  description = "Custom snapshot of ${each.value.display_name}"
+#snap}
 
 ## OL10ARM
 #resource "oci_os_management_hub_software_source" "ol10arm" {
@@ -599,10 +599,13 @@ resource "oci_os_management_hub_managed_instance_group" "ol8arm_group" {
   vendor_name    = "ORACLE"
   location       = "OCI_COMPUTE"
 
-  # All snapshot software sources created above
-  software_source_ids = local.ol8arm_snapshot_software_source_ids
+  #software_source_ids = local.ol8arm_snapshot_software_source_ids
+  software_source_ids = [
+    for s in data.oci_os_management_hub_software_sources.ol8arm_vendor_software_sources.software_source_collection.0.items :
+    s.id
+  ]
 
-  description = "Managed Instance Group with all OL8 ARM snapshot software sources"
+  description = "Managed Instance Group for OL8 ARM"
 }
 resource "oci_os_management_hub_managed_instance_group" "ol9arm_group" {
   compartment_id = local.compartment.id
@@ -612,10 +615,13 @@ resource "oci_os_management_hub_managed_instance_group" "ol9arm_group" {
   vendor_name    = "ORACLE"
   location       = "OCI_COMPUTE"
 
-  # All snapshot software sources created above
-  software_source_ids = local.ol9arm_snapshot_software_source_ids
+  #software_source_ids = local.ol9arm_snapshot_software_source_ids
+  software_source_ids = [
+    for s in data.oci_os_management_hub_software_sources.ol9arm_vendor_software_sources.software_source_collection.0.items :
+    s.id
+  ]
 
-  description = "Managed Instance Group with all OL9 ARM snapshot software sources"
+  description = "Managed Instance Group for OL9 ARM"
 }
 resource "oci_os_management_hub_managed_instance_group" "ol10arm_group" {
   compartment_id = local.compartment.id
@@ -625,10 +631,13 @@ resource "oci_os_management_hub_managed_instance_group" "ol10arm_group" {
   vendor_name    = "ORACLE"
   location       = "OCI_COMPUTE"
 
-  # All snapshot software sources created above
-  software_source_ids = local.ol10arm_snapshot_software_source_ids
+  #software_source_ids = local.ol10arm_snapshot_software_source_ids
+  software_source_ids = [
+    for s in data.oci_os_management_hub_software_sources.ol10arm_vendor_software_sources.software_source_collection.0.items :
+    s.id
+  ]
 
-  description = "Managed Instance Group with all OL10 ARM snapshot software sources"
+  description = "Managed Instance Group for OL10 ARM"
 }
 resource "oci_os_management_hub_managed_instance_group" "ol8x86" {
   compartment_id = local.compartment.id
@@ -638,10 +647,13 @@ resource "oci_os_management_hub_managed_instance_group" "ol8x86" {
   vendor_name    = "ORACLE"
   location       = "OCI_COMPUTE"
 
-  # All snapshot software sources created above
-  software_source_ids = local.ol8x86_snapshot_software_source_ids
+  #software_source_ids = local.ol8x86_snapshot_software_source_ids
+  software_source_ids = [
+    for s in data.oci_os_management_hub_software_sources.ol8x86_vendor_software_sources.software_source_collection.0.items :
+    s.id
+  ]
 
-  description = "Managed Instance Group with all OL8 x86 snapshot software sources"
+  description = "Managed Instance Group for OL8 x86"
 }
 resource "oci_os_management_hub_managed_instance_group" "ol9x86_group" {
   compartment_id = local.compartment.id
@@ -651,10 +663,13 @@ resource "oci_os_management_hub_managed_instance_group" "ol9x86_group" {
   vendor_name    = "ORACLE"
   location       = "OCI_COMPUTE"
 
-  # All snapshot software sources created above
-  software_source_ids = local.ol9x86_snapshot_software_source_ids
+  #software_source_ids = local.ol9x86_snapshot_software_source_ids
+  software_source_ids = [
+    for s in data.oci_os_management_hub_software_sources.ol9x86_vendor_software_sources.software_source_collection.0.items :
+    s.id
+  ]
 
-  description = "Managed Instance Group with all OL9 x86 snapshot software sources"
+  description = "Managed Instance Group for OL9 x86"
 }
 resource "oci_os_management_hub_managed_instance_group" "ol10x86_group" {
   compartment_id = local.compartment.id
@@ -664,8 +679,11 @@ resource "oci_os_management_hub_managed_instance_group" "ol10x86_group" {
   vendor_name    = "ORACLE"
   location       = "OCI_COMPUTE"
 
-  # All snapshot software sources created above
-  software_source_ids = local.ol10x86_snapshot_software_source_ids
+  #software_source_ids = local.ol10x86_snapshot_software_source_ids
+  software_source_ids = [
+    for s in data.oci_os_management_hub_software_sources.ol10x86_vendor_software_sources.software_source_collection.0.items :
+    s.id
+  ]
 
-  description = "Managed Instance Group with all OL10 x86 snapshot software sources"
+  description = "Managed Instance Group for OL10 x86"
 }

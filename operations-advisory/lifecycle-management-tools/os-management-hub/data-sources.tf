@@ -247,7 +247,7 @@ data "oci_os_management_hub_software_sources" "ol10arm_vendor_software_sources" 
     vendor_name = "ORACLE"
     filter {
       name = "repo_id"
-      values = ["ol10_uekr8","ol10_addons","ol10_appstream","ol10_baseos_latest","ol10_ksplice","ol10_u1_developer_epel"]
+      values = ["ol10_uekr8","ol10_addons","ol10_appstream","ol10_baseos_latest","ol10_ksplice","ol10_oci_included","ol10_u1_developer_epel"]
     }
 }
 
@@ -283,7 +283,7 @@ data "oci_os_management_hub_software_sources" "ol10x86_vendor_software_sources" 
     vendor_name = "ORACLE"
     filter {
       name = "repo_id"
-      values = ["ol10_uekr8","ol10_addons","ol10_appstream","ol10_baseos_latest","ol10_ksplice","ol10_u1_developer_epel"]
+      values = ["ol10_uekr8","ol10_addons","ol10_appstream","ol10_baseos_latest","ol10_ksplice","ol10_oci_included","ol10_u1_developer_epel"]
     }
 }
 
@@ -295,7 +295,7 @@ data "oci_os_management_hub_software_sources" "ol9x86_vendor_software_sources" {
     vendor_name = "ORACLE"
     filter {
       name = "repo_id"
-      values = ["ol9_uekr8","ol9_addons","ol9_appstream","ol9_baseos_latest","ol9_ksplice","ol9_developer_epel"]
+      values = ["ol9_uekr8","ol9_addons","ol9_appstream","ol9_baseos_latest","ol9_ksplice","ol9_oci_included","ol9_developer_epel"]
     }
 }
 
@@ -308,7 +308,7 @@ data "oci_os_management_hub_software_sources" "ol8x86_vendor_software_sources" {
     filter {
       name = "repo_id"
       #values = ["ol8_mysql84_community","ol8_mysql84_tools_community","ol8_mysql_connectors_community","ol8_uekr7","ol8_addons","ol8_appstream","ol8_baseos_latest","ol8_ksplice","ol8_oci_included","ol8_developer_epel"]
-      values = ["ol8_mysql84_community","ol8_mysql84_tools_community","ol8_mysql_connectors_community","ol8_uekr7","ol8_baseos_latest","ol8_ksplice","ol8_developer_epel"]
+      values = ["ol8_mysql84_community","ol8_mysql84_tools_community","ol8_mysql_connectors_community","ol8_uekr7","ol8_addons","ol8_appstream","ol8_baseos_latest","ol8_ksplice","ol8_oci_included","ol8_developer_epel"]
     }
 }
 

@@ -10,24 +10,25 @@ command_server_name = "frankfurt"
 
 instances = {
     "crashandburn" = { os =  "OracleLinux10", arch= "arm", osmh=false, phase="production"}
+    "test" = { os =  "OracleLinux10", arch= "arm", osmh=false, phase="production"}
     "ol8arm-pilot"   = { os="OracleLinux8", arch="arm", osmh=true, phase="pilot"}
     "ol9arm-pilot"   = { os="OracleLinux9", arch="arm", osmh=true, phase="pilot"}
-    "ol10arm-pilot"  = { os="OracleLinux10",arch="arm", osmh=true, phase="pilot"}
+    "ol10arm-pilot"  = { os="OracleLinux10",arch="arm", osmh=false, phase="pilot"}
     "ol8arm-prod"    = { os="OracleLinux8", arch="arm", osmh=true, phase="production"}
     "ol9arm-prod"    = { os="OracleLinux9", arch="arm", osmh=true, phase="production"}
     "ol10arm-prod"   = { os="OracleLinux10",arch="arm", osmh=true, phase="production"}
-##osmh    "ol8amd-pilot"   = { os="OracleLinux8", arch="amd", osmh=true, phase="pilot"}
-##osmh    "ol9amd-pilot"   = { os="OracleLinux9", arch="amd", osmh=true, phase="pilot"}
-##osmh    "ol10amd-pilot"  = { os="OracleLinux10",arch="amd", osmh=true, phase="pilot"}
-##osmh    "ol8amd-prod"    = { os="OracleLinux8", arch="amd", osmh=true, phase="production"}
-##osmh    "ol9amd-prod"    = { os="OracleLinux9", arch="amd", osmh=true, phase="production"}
-##osmh    "ol10amd-prod"   = { os="OracleLinux10",arch="amd", osmh=true, phase="production"}
-##osmh    "ol8x86-pilot"   = { os="OracleLinux8", arch="x86", osmh=true, phase="pilot"}
-##osmh    "ol9x86-pilot"   = { os="OracleLinux9", arch="x86", osmh=true, phase="pilot"}
-##osmh    "ol10x86-pilot"  = { os="OracleLinux10",arch="x86", osmh=true, phase="pilot"}
-##osmh    "ol8x86-prod"    = { os="OracleLinux8", arch="x86", osmh=true, phase="production"}
-##osmh    "ol9x86-prod"    = { os="OracleLinux9", arch="x86", osmh=true, phase="production"}
-##osmh    "ol10x86-prod"   = { os="OracleLinux10",arch="x86", osmh=true, phase="production"}
+    "ol8amd-pilot"   = { os="OracleLinux8", arch="amd", osmh=true, phase="pilot"}
+    "ol9amd-pilot"   = { os="OracleLinux9", arch="amd", osmh=true, phase="pilot"}
+    "ol10amd-pilot"  = { os="OracleLinux10",arch="amd", osmh=true, phase="pilot"}
+    "ol8amd-prod"    = { os="OracleLinux8", arch="amd", osmh=true, phase="production"}
+    "ol9amd-prod"    = { os="OracleLinux9", arch="amd", osmh=true, phase="production"}
+    "ol10amd-prod"   = { os="OracleLinux10",arch="amd", osmh=true, phase="production"}
+#osmh    "ol8x86-pilot"   = { os="OracleLinux8", arch="x86", osmh=true, phase="pilot"}
+#osmh    "ol9x86-pilot"   = { os="OracleLinux9", arch="x86", osmh=true, phase="pilot"}
+#osmh    "ol10x86-pilot"  = { os="OracleLinux10",arch="x86", osmh=true, phase="pilot"}
+#osmh    "ol8x86-prod"    = { os="OracleLinux8", arch="x86", osmh=true, phase="production"}
+#osmh    "ol9x86-prod"    = { os="OracleLinux9", arch="x86", osmh=true, phase="production"}
+#osmh    "ol10x86-prod"   = { os="OracleLinux10",arch="x86", osmh=true, phase="production"}
 ###    "ol9x86-01" = { os="OracleLinux9",arch="x86", osmh=false, phase="pilot"}
 ###    "ol9x86-02" = { os="OracleLinux9",arch="x86", osmh=false, phase="pilot"}
 ###    "ol9x86-03" = { os="OracleLinux9",arch="x86", osmh=false, phase="pilot"}
