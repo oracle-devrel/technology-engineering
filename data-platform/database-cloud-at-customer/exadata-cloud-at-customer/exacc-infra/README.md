@@ -4,6 +4,30 @@ Exadata Database Service on Cloud@Customer infrastructure brings Oracle's indust
 
 <img src="./../images/exadb-infra.png" alt="Infrastructure">
 
+## Infrastructure options
+
+Oracle Exadata Database Service on Cloud@Customer is shipping with the latest generation Exadata infrastructure, Exadata X11M.
+
+Oracle Exadata X11M offers the following database server shapes:
+- Base: 120 ECPUs and 660 GB of memory
+- X11M (standard): 760 ECPUs and 1390 GB of memory
+- X11M-L (large): 760 ECPUs and 2090 GB of memory
+- X11M-XL (extra large): 760 ECPUs and 2800 GB of memory
+
+Mixing the different shapes is not supported within a single system. The minimum number of DB servers in a system is two. 
+
+Oracle Exadata X11M offers the following storage server shapes:
+- Base: 35.6 TB usable storage capacity
+- X11M-HC: 80 TB usable storage capacity, 27.2 TB flash cache, 1.25 TB XRMEM cache
+- X11M-EF: 37.2 TB usable flash storage capacity, 27.2 TB flash cache, 1.25 TB XRMEM cache
+- X11-HC: 80 TB usable storage capacity, 27.2 TB flash cache
+- X11-EF: 37.2 TB usable flash storage capacity, 27.2 TB flash cache
+
+Mixing the different shapes is not supported within a single system. The minimum number of storage servers in a system is three. 
+Any database server shape can be combined with any storage server shape. 
+
+A maximum of 12 VM Clusters can be created on a single X11M system with 2 database servers and a maximum of 24 VM Clusters can be created on a system that contains greater than 2 DB servers. The maximum number of VM Clusters per system is the same regardless of whether the system contains base or standard database servers. The maximum number of individual VMs supported on a single database server is 8.
+
 ## ECPU metric
 
 The ExaDB-C@C X11M adopts ECPUs as the standard billing metric for the Database Service. ECPU replace the OCPU metric that has been used so far and will be the only metric on ExaDB-C@C X11M.
