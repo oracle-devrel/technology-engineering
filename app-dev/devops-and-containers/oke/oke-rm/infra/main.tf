@@ -52,12 +52,13 @@ module "network" {
   fss_subnet_dns_label = local.subnets.dns.fss
   fss_subnet_name      = var.fss_subnet_name
   # DB SUBNET
-  create_db_subnet    = var.create_db_subnet
-  db_subnet_cidr      = local.subnets.cidr.db
-  db_subnet_dns_label = local.subnets.dns.db
-  db_subnet_name      = var.db_subnet_name
-  db_service_list     = local.db_service_list
-  separate_db_nsg     = var.separate_db_nsg
+  create_db_subnet     = var.create_db_subnet
+  db_subnet_cidr       = local.subnets.cidr.db
+  db_subnet_dns_label  = local.subnets.dns.db
+  db_subnet_name       = var.db_subnet_name
+  db_service_list      = local.db_service_list
+  create_database_nsgs = var.create_database_nsgs
+  separate_db_nsg      = var.separate_db_nsg
   # MESSAGING
   create_msg_subnet    = var.create_msg_subnet
   msg_subnet_cidr      = local.subnets.cidr.msg

@@ -279,14 +279,14 @@ variables:
     title: "Vault"
     description: "Vault where the key to encrypt the OKE cluster is located"
     dependsOn:
-      compartmentId: ${oke_vault_compartment_id}
+      compartmentId: ${kms_compartment_id}
 
   cluster_kms_key_id:
     type: oci:kms:key:id
     title: "OKE encryption key"
-    description: "Key used to encrypt secrets located in etcd. A POLICY for the cluster will be also created if Enable Policies is enabled in the stack"
+    description: "Using a customer-managed key requires an IAM policy that allows the OKE cluster to use the key. Enable automatic policy creation below, or create the required policy manually before deploying the cluster."
     dependsOn:
-      compartmentId: ${oke_vault_compartment_id}
+      compartmentId: ${kms_compartment_id}
       vaultId: ${oke_vault_id}
 
 # POLICIES

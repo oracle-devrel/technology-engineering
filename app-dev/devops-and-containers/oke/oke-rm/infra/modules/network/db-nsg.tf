@@ -1,5 +1,4 @@
 locals {
-  create_db_nsg = length(var.db_service_list) > 0
   app_nsg_lookup = {
     npn = {
       nsg_id = local.is_npn ? oci_core_network_security_group.pod_nsg.0.id : null
