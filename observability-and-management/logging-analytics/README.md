@@ -19,7 +19,7 @@ Reviewed: 23.06.2026
 | Log Analytics for FinOps| [Link](./finops/README.md)|
 | Analyzing OCI Compute Instance logs with OCI Logging Analytics|[Link](https://blogs.oracle.com/observability/post/oci-logginganalytics-compute-instance)|
 | How to inject Oracle Fusion HCM logs in Logging Analytics | [Link](./fusion-hcm-to-la/README.md)|
-| Log Analytics Advanced Security Detection|[Link](/observability-and-management/assets/oci-log-analytics-detections/README.md)|
+| Log Analytics Advanced Security Detection|[Link](https://github.com/adibirzu/oci-log-analytics-detections)|
 | Stream Azure Event Hub logs into Log Analytics|[Link](/observability-and-management/assets/azurelogs2oci/README.md)|
 | Stream GCP logs into Log Analytics|[Link](/observability-and-management/assets/gcplogs2oci/README.md)|
 
