@@ -1,0 +1,42 @@
+#cloud-config
+write_files:
+  - path: /etc/systemd/system/kube-reserved.slice
+    permissions: "0644"
+    owner: root:root
+    content: |
+      [Unit]
+      Description=Reserved resources for kubelet and CRI-O
+
+  - path: /etc/systemd/system/crio.service.d/20-kube-reserved.conf
+    permissions: "0644"
+    owner: root:root
+    content: |
+      [Service]
+      Slice=kube-reserved.slice
+
+  - path: /etc/systemd/system/kubelet.service.d/20-kube-reserved.conf
+    permissions: "0644"
+    owner: root:root
+    content: |
+      [Service]
+      Slice=kube-reserved.slice
+
+runcmd:
+  - mkdir -p /etc/systemd/system/crio.service.d
+  - mkdir -p /etc/systemd/system/kubelet.service.d
+  - systemctl daemon-reload
+  - |
+    curl --fail -H "Authorization: Bearer Oracle" -L0 \
+      http://169.254.169.254/opc/v2/instance/metadata/oke_init_script \
+      | base64 --decode > /var/run/oke-init.sh
+  - |
+    bash /var/run/oke-init.sh --kubelet-extra-args "\
+      --kube-reserved=cpu=70m,memory=512Mi \
+      --system-reserved=cpu=100m,memory=384Mi \
+      --eviction-hard=memory.available<500Mi \
+      --enforce-node-allocatable=pods,system-reserved,kube-reserved \
+      --kube-reserved-cgroup=/kube-reserved.slice \
+      --system-reserved-cgroup=/system.slice"
+  - systemctl daemon-reload
+  - systemctl restart crio
+  - systemctl restart kubelet

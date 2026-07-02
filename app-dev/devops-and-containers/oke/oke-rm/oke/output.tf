@@ -11,5 +11,5 @@ output "oidc_discovery_endpoint" {
 }
 
 output "policy_statements" {
-  value = var.enable_policies ? concat(local.compute_statements, local.network_statements, local.storage_statements, local.tag_statements, local.iam_statements) : []
+  value = var.enable_policies ? concat(local.compute_statements, local.network_statements, local.storage_statements, local.tag_statements, local.kms_statements, local.iam_statements) : []
 }

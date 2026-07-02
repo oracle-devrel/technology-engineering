@@ -28,6 +28,14 @@ output "bastion_subnet_id" {
   value = local.create_bastion_subnet ? oci_core_subnet.bastion_subnet[0].id : null
 }
 
+output "db_subnet_id" {
+  value = local.create_db_subnet ? oci_core_subnet.db_subnet[0].id : null
+}
+
+output "msg_subnet_id" {
+  value = local.create_msg_subnet ? oci_core_subnet.msg_subnet[0].id : null
+}
+
 # NSG
 
 output "cp_nsg_id" {
@@ -44,4 +52,22 @@ output "worker_nsg_id" {
 
 output "lb_nsg_id" {
   value = oci_core_network_security_group.oke_lb_nsg.id
+}
+
+output "database_nsg_ids" {
+  value = {
+    for service, nsg in oci_core_network_security_group.db : service => nsg.id
+  }
+}
+
+output "database_client_nsg_ids" {
+  value = local.is_npn ? {
+    for service, nsg in oci_core_network_security_group.pod_db : service => nsg.id
+    } : {
+    for service, nsg in oci_core_network_security_group.worker_db : service => nsg.id
+  }
+}
+
+output "streaming_nsg_id" {
+  value = var.create_streaming_nsg ? oci_core_network_security_group.streaming[0].id : null
 }
