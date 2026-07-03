@@ -2,7 +2,7 @@
 
 Owner: Olaf Heimburger
 
-Version: 260506 (cis_report.py version 3.2.1) for CIS OCI Foundation Benchmark 3.0.0
+Version: 260702 (cis_report.py version 3.2.1) for CIS OCI Foundation Benchmark 3.0.0
 
 ## When to use this asset?
 
@@ -16,31 +16,35 @@ This asset covers the OCI platform as specified in the *CIS Oracle Cloud Infrast
 
 ## Before you begin
 
-The main goals of this script are:
+To make the usage of this script as smooth as possible:
+
+- **Download** the **[CIS Oracle Cloud Infrastructure Foundations Benchmark](https://www.cisecurity.org/benchmark/Oracle_Cloud)** and consider printing it.
+- **Read two or three recommendations** to get used to the terminologies used in the benchmark.
+- Make sure the required policy statements have been updated. **Please review and update your tenancy configuration.**
+- **For a quick and smooth run, this script requires an Internet connection.**
+
+## Benefits of this package
+
+The file `standard.sh` acts as the main entry point and does the following:
 
 - Make the run as easy and smooth as possible.
 - Do not affect your desktop whenever possible.
-- **For a successful run, this script requires an Internet connection.**
-
-## Benefits of this package
+- Automatic check for Python runtime version.
+- Automatic venv creation and activation.
+- Automatic installation of required Python libraries.
+- Automatic **OCI Cloud Shell** and tenancy name detection.
+- Automated Internet access detection.
+- Automatic creation of timestamped output directory.
+- Call of `cis_reports.py`.
+- Automatic output archive (ZIP file) creation.
+- Automatic runtime protocol.
+- Support for encrypted archive (ZIP file).
 
 This package includes *two* files
 - standard.sh
 - scripts/cis_reports/cis_reports.py
 
-The file standard.sh acts as the entry point and does the following:
-
-- Automatic check for Python runtime version
-- Automatic venv creation and activation
-- Automatic installation of required Python libraries
-- Automatic **OCI Cloud Shell** and tenancy name detection
-- Automatic creation of timestamped output directory
-- Call of cis_reports.py
-- Automatic output archive (ZIP file) creation
-- Automatic runtime protocol
-- Support for encrypted archive (ZIP file). New command line option `--zip-protect`.
-
-Tested on **OCI Cloud Shell** with **Public network**, **Oracle Linux**, **MacOS 12** and higher.
+It was tested on **OCI Cloud Shell** with **Public network**, **OCI Cloud Shell** with **OCI Service network**, **Oracle Linux**, **MacOS 12** and higher.
 
 ## Usage
 
@@ -48,22 +52,22 @@ Tested on **OCI Cloud Shell** with **Public network**, **Oracle Linux**, **MacOS
 
 Before running the *OCI Security Health Check - Standard Edition* you should download and verify it.
 
-  - Download the latest distribution [oci-security-health-check-standard-260506.zip](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-260506.zip).
+  - Download the latest distribution [oci-security-health-check-standard-260702.zip](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-260702.zip).
   - Download the respective checksum file:
-    - [oci-security-health-check-standard-260506.sha512](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-260506.sha512).
-    - [oci-security-health-check-standard-260506.sha512256](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-260506.sha512256).
+    - [oci-security-health-check-standard-260702.sha512](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-260702.sha512).
+    - [oci-security-health-check-standard-260702.sha512256](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-260702.sha512256).
   - Verify the integrity of the distribution. Both files must be in the same directory (for example, in your downloads directory).
 
     On MacOS:
     ```
     cd <your_downloads_directory>
-    shasum -a 512256 -c oci-security-health-check-standard-260506.sha512256
+    shasum -a 512256 -c oci-security-health-check-standard-260702.sha512256
     ```
 
     On Linux (including Cloud Shell):
     ```
     cd <your_downloads_directory>
-    sha512sum -c oci-security-health-check-standard-260506.sha512
+    sha512sum -c oci-security-health-check-standard-260702.sha512
     ```
 
 **Reject the downloaded file when the check fails!**
@@ -120,7 +124,7 @@ To create a group for auditing do the following steps:
       allow group 'Default'/'grp-auditors' to use ons-family in tenancy where any {request.operation!=/Create*/, request.operation!=/Update*/, request.operation!=/Delete*/, request.operation!=/Change*/}
 
       ```
-    - For tenancies **without** Identity Domains use
+    - For older tenancies **without** Identity Domains use
       ```
       allow group grp-auditors to inspect all-resources in tenancy
       allow group grp-auditors to read audit-events in tenancy
@@ -153,7 +157,19 @@ To create a group for auditing do the following steps:
 
 ### <a name="run_cloud_shell"></a>Run the OCI Security Health Check in OCI Cloud Shell
 
+### OCI Cloud Shell
+
 The recommended way is to run the *OCI Security Health Check - Standard* in the [OCI Cloud Shell](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/cloudshellintro.htm). It does not require any additional configuration on a local desktop machine.
+
+#### Networking Options for OCI Cloud Shell
+
+OCI Cloud Shell sessions do not allow for any incoming connections, and there is no public IP address available.
+
+For details on OCI Cloud Shell Networking refer to [OCI Cloud Shell Networking](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/cloudshellintro_topic-Cloud_Shell_Networking.htm#cloudshellintro_topic-Cloud_Shell_Networking) documentation.
+
+### OCI Cloud Shell With Internet Access
+
+In OCI Cloud Shell with Internet Access you can do a short cut without downloading the files mentioned above to your desktop.
 
 #### Required IAM Policy statements
 
@@ -163,78 +179,23 @@ allow group 'Default'/'grp-auditors' to use cloud-shell in tenancy
 allow group 'Default'/'grp-auditors' to use cloud-shell-public-network in tenancy
 ```
 
-#### Networking Options for OCI Cloud Shell
+#### Installing and running the script
 
-OCI Cloud Shell sessions do not allow for any incoming connections, and there is no public IP address available.
-
-So far, the *OCI Security Health Check - Standard Edition* in OCI Cloud Shell has been tested with Public Network Access only.
-
-For details on OCI Cloud Shell Networking refer to [OCI Cloud Shell Networking](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/cloudshellintro_topic-Cloud_Shell_Networking.htm#cloudshellintro_topic-Cloud_Shell_Networking) documentation.
-
-<!--
-##### Public Network Access
-
-The best networking option. When enabled the *OCI Security Health Check - Standard* can be run without any additional conifguration steps. To enable this option the following policy statement must be assigned to the `grp-auditors`:
-
-```
-allow group 'Default'/'grp-auditors' to use cloud-shell-public-network in tenancy
-```
-
-##### OCI Service Network Access
-
-The default networking option for OCI Cloud Shell. 
-
-To use this option without access to the public Internet remove any presence of this policy statement:
-
-```
-allow group ... to use cloud-shell-public-network in tenancy
-```
-
-This option requires manual configuration of these Python libraries:
-- [xlsxwriter]()
-- [pytz]()
-- [pandas]()
-- [openpyxl]()
-- [pyyaml]()
-- [requests]()
-
-For each library these steps need to done:
-
-- Download the packages
-- Upload the packages
-- Unzip the packages
-- Install the packages
-
-##### Private Network Access
-
-```
-allow group 'Default'/'grp-auditors' to use subnets in compartment <compartment>
-allow group 'Default'/'grp-auditors' to use vnics in compartment <compartment>
-allow group 'Default'/'grp-auditors' to use network-security-groups in compartment <compartment>
-allow group 'Default'/'grp-auditors' to inspect vcns in compartment <compartment>
-```
--->
-
-
-#### Upload the release file
-
-  - Log into the OCI Console.
-  - Select the *Developer Tools* icon (looks like a small window) in the header toolbar.
-  - From the menu select the *Cloud Shell* item.
-  - Wait until the Cloud Shell has been initialized.
-  - On the green tool bar click on the *Settings* icon and select the *Upload ...* menu item.
-  - Upload the distribution file.
-  - Extract it
-    ```
-    unzip -q oci-security-health-check-standard-260506.zip
-    ```
-
+1. Login to your OCI console.
+2. Open Cloud Shell
+3. Run these commands in your Cloud Shell:
+  ```
+  wget -q https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-260702.zip
+  wget -q https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-260702.sha512
+  sha512sum -c oci-security-health-check-standard-260702.sha512
+  unzip -q oci-security-health-check-standard-260702.zip
+  ```
 #### Run the script
-  - Change directory into `oci-security-health-check-standard`:
+  - Change directory into `oci-security-health-check-standard-260702`:
     ```
-    $ cd oci-security-health-check-standard
+    cd oci-security-health-check-standard-260702
     ```
-  - In the `oci-security-health-check-standard` directory:
+  - In the `oci-security-health-check-standard-260702` directory:
     - Enable execution of script `standard.sh`:
       ```
       chmod +x standard.sh
@@ -251,6 +212,53 @@ allow group 'Default'/'grp-auditors' to inspect vcns in compartment <compartment
       ```
       ./standard.sh -h
       ```
+
+#### OCI Cloud Shell With OCI Service Network
+
+[!NOTE]
+> A Cloud Shell with OCI Service Network can run the *OCI Security Health Check - Standard Edition* in and for your **home region only**! This is a [Cloud Shell limitation](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/cloudshellintro.htm#Cloud_Shell_Limitations).
+
+#### Required IAM Policy statements
+
+The following policy statement is part of the recommended policy statements for the `grp-auditors` group, for example:
+```
+allow group 'Default'/'grp-auditors' to use cloud-shell in tenancy
+```
+
+#### Installing and running the script
+
+In OCI Cloud Shell with OCI Service Network Access you have to do the following:
+
+1. Download and verify the package (see **Download and verify the release file**).
+2. Login to your OCI console.
+3. Open Cloud Shell.
+4. Upload the ZIP file to your Cloud Shell.
+5. Unzip the ZIP file in the home directory.
+   ```
+   cd
+   unzip -q oci-security-health-check-standard-260702.zip
+   ```
+
+#### Run the script
+  - Change directory into `oci-security-health-check-standard-260702`:
+    ```
+    cd oci-security-health-check-standard-260702
+    ```
+  - In the `oci-security-health-check-standard-260702` directory:
+    - Enable execution of script `standard.sh`:
+      ```
+      chmod +x standard.sh
+      ```
+    - Run the script for all subscribed regions:
+      ```
+      ./standard.sh
+      ```
+    - Get command line options:
+      ```
+      ./standard.sh -h
+      ```
+      The the region option (`-r`) will be ignored automatically!
+
 
 ### Using an OCI Compute VM (Oracle Linux)
 
@@ -303,11 +311,11 @@ allow group 'Default'/'grp-auditors' to inspect vcns in compartment <compartment
       Follow the instructions to select /usr/bin/python3.9
     - Log out
 
-  - From your desktop, upload the `oci-security-health-check-standard-260506.zip` file to the Compute VM using any SFTP client.
+  - From your desktop, upload the `oci-security-health-check-standard-260702.zip` file to the Compute VM using any SFTP client.
   - Log into the Compute VM
     - Extract the distribution
       ```
-      unzip -q oci-security-health-check-standard-260506.zip
+      unzip -q oci-security-health-check-standard-260702.zip
       ```
     - Change directory into `oci-security-health-check-standard`:
       ```
@@ -360,8 +368,8 @@ allow group 'Default'/'grp-auditors' to inspect vcns in compartment <compartment
 The report results are showing the compliance status of the related [CIS OCI Foundation Benchmark, version 2.0](https://www.cisecurity.org/benchmark/Oracle_Cloud) recommendations. Please download this benchmark before reading the report. (For license reasons, we cannot distribute the benchmark.)
 
 The report results are summarized in two files:
-- *cis_html_summary_report.html* &ndash; The report in HTML that displays the all recommendations and their compliance status, respectively.
-- *Consolidated_Report.xslx* &ndash; An XSLX workbook with a summary and sheets for the non-compliant recommendations.
+- *tenancy_name_YYYYMMDDHHmmss_standard_cis_summary_report.html* &ndash; The report in HTML that displays the all recommendations and their compliance status, respectively.
+- *tenancy_name_YYYYMMDDHHmmss_standard_Consolidate_Report.xslx* &ndash; An XSLX workbook with a summary and sheets for the non-compliant recommendations.
 
 ## Known Issues
 
@@ -387,5 +395,5 @@ Copyright (c) 2022-2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE) for more details.
+See [LICENSE.txt](https://github.com/oracle-devrel/technology-engineering/blob/folder-structure/LICENSE.txt) for more details.
 
