@@ -42,7 +42,7 @@ Reviewed: 03.07.2026
  
 # Useful Links
  
-- [Oracle and AWS Collaborate to Expand Multicloud Networking](hhttps://www.oracle.com/news/announcement/oracle-and-aws-collaborate-to-expand-multicloud-networking-2026-04-16/)
+- [Oracle and AWS Collaborate to Expand Multicloud Networking](https://www.oracle.com/news/announcement/oracle-and-aws-collaborate-to-expand-multicloud-networking-2026-04-16/)
 - [Set Up Oracle Interconnect for AWS from Start to Finish](https://blogs.oracle.com/oracleuniversity/set-up-oracle-interconnect-for-aws-from-start-to-finish?source=:so:li:or:awr:ocl:::SetUpInterconnect&SC=:so:li:or:awr:ocl:::SetUpInterconnect&pcode=)
 
 

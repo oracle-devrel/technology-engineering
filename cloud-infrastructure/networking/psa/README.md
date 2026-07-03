@@ -2,7 +2,7 @@
 
 As organizations expand their cloud adoption, protecting sensitive data while maintaining operational agility has become a top priority. In Oracle Cloud Infrastructure (OCI), the Service Gateway has long enabled private, on-cloud access to the Oracle Service Network (OSN), keeping service traffic off the public internet and within the Oracle network. However, because it allowed access to all OSN services in a region, customers with strict compliance or security mandates often found themselves needing finer control.
 
-They wanted to restrict connectivity to only the services they trust, enforce precise policies that reflect Zero Trust security principles, and protect against risks like data exfiltration or unauthorized service use. They also needed the ability to use private IPs for service endpoints—ensuring a stronger security posture without complicating operations.
+They wanted to restrict connectivity to only the services they trust, enforce precise policies that reflect Zero Trust security principles, and protect against risks like data exfiltration or unauthorized service use. They also needed the ability to use private IPs for service endpoints ensuring a stronger security posture without complicating operations.
 
 ## What is PSA ?
 
