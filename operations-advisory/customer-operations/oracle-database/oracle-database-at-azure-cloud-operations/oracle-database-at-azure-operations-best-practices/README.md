@@ -4,7 +4,7 @@
 
 Last reviewed: 2026-06-16
 
-This asset describes how to operate the Exadata Database Service scope of Oracle Database@Azure (OD@Azure) in the **GitOps multi-cloud operating model**: Git is the source of truth, changes are reviewed through pull requests, and pipelines apply the approved desired state. The focus is control-plane ownership, Terraform state boundaries, Day 1 and Day 2 tool selection, handoff contracts, and drift handling.
+This asset describes how to operate the Exadata Database Service scope of Oracle Database@Azure (OD@Azure) in the **GitOps Multi-Cloud operating model**: Git is the source of truth, changes are reviewed through pull requests, and pipelines apply the approved desired state. The focus is control-plane ownership, Terraform state boundaries, Day 1 and Day 2 tool selection, handoff contracts, and drift handling.
 
 For the implementation runbook, dependency handoff examples, and module wiring patterns, see [OD@Azure Module Handoff Reference](./handoff-reference.md).
 
