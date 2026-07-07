@@ -16,11 +16,11 @@ Exadata Cloud@Customer provides secure connectivity between the Exadata infrastr
 
 - [Using Data Guard](https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-using-data-guard.html)
 
-- [Enable VPN Tunnel for CPS connectivity](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-network/enabling-vpn-tunnel-for-cps)
+- [Enable VPN Tunnel for CPS connectivity](./enabling-vpn-tunnel-for-cps)
 
-- [ExaDB-C@C transceivers](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-network/exacc-transceivers)
+- [ExaDB-C@C transceivers](./exacc-transceivers)
 
-- [Changing NTP/DNS settings](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-network/ntp-dns-change)
+- [Changing NTP/DNS settings](./ntp-dns-change)
 
 Reviewed: 06/24/26
 
@@ -30,4 +30,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

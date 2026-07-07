@@ -57,23 +57,23 @@ ECPUs provide similar or better price-performance than OCPUs because
 
 - [Oracle EMCC extracts sizing script and documentaion](assets/Oracle_EMCC_sizing_extracts.zip)
 
-- [ExaDB-C@C Data Collection for sizing](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-infra/data-collection)
+- [ExaDB-C@C Data Collection for sizing](./data-collection)
 
-- [ExaDB-C@C Configuration Collection](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-infra/exacc-configuration-collection)
+- [ExaDB-C@C Configuration Collection](./exacc-configuration-collection)
 
-- [ExaDB-C@C Health Check](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-infra/exacc-healthcheck)
+- [ExaDB-C@C Health Check](./exacc-healthcheck)
 
-- [ExaDB-C@C related list of MOS notes](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-infra/exacc-mos-note-list)
+- [ExaDB-C@C related list of MOS notes](./exacc-mos-note-list)
 
-- [ExaDB-C@C Supported Database Versions](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-infra/exacc-supported-db-versions)
+- [ExaDB-C@C Supported Database Versions](./exacc-supported-db-versions)
 
-- [ExaDB-C@C VM Cluster scaling](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-infra/vm-cluster-scaling)
+- [ExaDB-C@C VM Cluster scaling](./vm-cluster-scaling)
 
-- [ExaDB-C@C Single Node VM Cluster](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-infra/single-node-vm-cluster)
+- [ExaDB-C@C Single Node VM Cluster](./single-node-vm-cluster)
 
-- [VM serial consol access](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/vm-serial-consol-access)
+- [VM serial consol access](./vm-serial-consol-access)
 
-- [VM serial consol history and Cloud Shell integration](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/vm-serial-consol-history-and-cloud-shell-integration)
+- [VM serial consol history and Cloud Shell integration](./vm-serial-consol-history-and-cloud-shell-integration)
 
 ## Useful Documentation
 - [Managing VM Clusters](https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-manage-vm-clusters.html)
@@ -108,4 +108,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
