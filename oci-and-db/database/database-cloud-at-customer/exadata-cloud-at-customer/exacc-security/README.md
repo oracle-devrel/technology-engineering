@@ -16,11 +16,11 @@ Exadata Cloud@Customer incorporates multiple layers of security across the infra
 
 - [Oracle Cloud Compliance (oracle.com)](https://www.oracle.com/corporate/cloud-compliance/)
 
-- [ExaDB-C@C API Access Control](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-security/exacc-api-accesscontrol)
+- [ExaDB-C@C API Access Control](./exacc-api-accesscontrol)
 
-- [ExaDB-C@C Key Management](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-security/exacc-key-management)
+- [ExaDB-C@C Key Management](./exacc-key-management)
 
-- [ExaDB-C@C Operator Access Control](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-security/exacc-opctls)
+- [ExaDB-C@C Operator Access Control](./exacc-opctls)
 
 Reviewed: 06/26/26
 
@@ -30,4 +30,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
