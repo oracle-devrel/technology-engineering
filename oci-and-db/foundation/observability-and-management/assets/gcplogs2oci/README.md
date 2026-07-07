@@ -551,4 +551,4 @@ Secrets are mounted from OCI Vault — see [docs/ARCHITECTURE.md](docs/ARCHITECT
 
 ## License
 
-Copyright (c) 2025 Oracle and/or its affiliates. Released under the [Universal Permissive License v1.0](LICENSE.txt).
+Copyright (c) 2025 Oracle and/or its affiliates. Released under the [Universal Permissive License v1.0](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt).
