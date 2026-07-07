@@ -71,7 +71,7 @@ Following the steps of the <a href="../java-helloworld-with-local-dev-and-oci-fu
 
 <p>
 
-To use <code>.oci config</code> for testing locally replace the contents of Dockerfile with the contents from <a href="Dockerfile.local_oci">Dockerfile.local_oci</a>. Then copy your <code>~/.oci</code> -directory under the project root and build the Function with Fn:
+To use <code>.oci config</code> for testing locally replace the contents of Dockerfile with the contents from <a href="./files/Dockerfile.local_oci">Dockerfile.local_oci</a>. Then copy your <code>~/.oci</code> -directory under the project root and build the Function with Fn:
 
 <pre>
 fn --verbose deploy --app hellofunction --local
