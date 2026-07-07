@@ -7,10 +7,10 @@
 #
 # Author: Olaf Heimburger
 #
-VERSION=260702
+VERSION=260708
 GRAAL_VERSION=25.1.3
-SHA_VERSION=260702
-FILE_SHA512_CHECKSUM="https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-"${SHA_VERSION}".sha512"
+SHA_VERSION=260708
+FILE_SHA512_CHECKSUM="https://github.com/oracle-devrel/technology-engineering/raw/main/oci-and-db/foundation/ciso/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-"${SHA_VERSION}".sha512"
 OCI_CONFIG_FILE="${OCI_CLI_CONFIG_FILE:-$HOME/.oci/config}"
 
 test_internet_access() {

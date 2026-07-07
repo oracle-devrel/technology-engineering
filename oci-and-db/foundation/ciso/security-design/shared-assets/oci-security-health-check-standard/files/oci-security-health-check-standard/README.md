@@ -2,7 +2,7 @@
 
 Owner: Olaf Heimburger
 
-Version: 260702 (cis_report.py version 3.2.1) for CIS OCI Foundation Benchmark 3.0.0
+Version: 260708 (cis_report.py version 3.2.1) for CIS OCI Foundation Benchmark 3.0.0
 
 ## When to use this asset?
 
@@ -52,22 +52,22 @@ It was tested on **OCI Cloud Shell** with **Public network**, **OCI Cloud Shell*
 
 Before running the *OCI Security Health Check - Standard Edition* you should download and verify it.
 
-  - Download the latest distribution [oci-security-health-check-standard-260702.zip](https://github.com/oracle-devrel/technology-engineering/raw/main/oci-and-db/foundation/ciso/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-260702.zip).
+  - Download the latest distribution [oci-security-health-check-standard-260708.zip](https://github.com/oracle-devrel/technology-engineering/raw/main/oci-and-db/foundation/ciso/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-260708.zip).
   - Download the respective checksum file:
-    - [oci-security-health-check-standard-260702.sha512](https://github.com/oracle-devrel/technology-engineering/raw/main/oci-and-db/foundation/ciso/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-260702.sha512).
-    - [oci-security-health-check-standard-260702.sha512256](https://github.com/oracle-devrel/technology-engineering/raw/main/oci-and-db/foundation/ciso/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-260702.sha512256).
+    - [oci-security-health-check-standard-260708.sha512](https://github.com/oracle-devrel/technology-engineering/raw/main/oci-and-db/foundation/ciso/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-260708.sha512).
+    - [oci-security-health-check-standard-260708.sha512256](https://github.com/oracle-devrel/technology-engineering/raw/main/oci-and-db/foundation/ciso/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-260708.sha512256).
   - Verify the integrity of the distribution. Both files must be in the same directory (for example, in your downloads directory).
 
     On MacOS:
     ```
     cd <your_downloads_directory>
-    shasum -a 512256 -c oci-security-health-check-standard-260702.sha512256
+    shasum -a 512256 -c oci-security-health-check-standard-260708.sha512256
     ```
 
     On Linux (including Cloud Shell):
     ```
     cd <your_downloads_directory>
-    sha512sum -c oci-security-health-check-standard-260702.sha512
+    sha512sum -c oci-security-health-check-standard-260708.sha512
     ```
 
 **Reject the downloaded file when the check fails!**
@@ -185,17 +185,17 @@ allow group 'Default'/'grp-auditors' to use cloud-shell-public-network in tenanc
 2. Open Cloud Shell
 3. Run these commands in your Cloud Shell:
   ```
-  wget -q https://github.com/oracle-devrel/technology-engineering/raw/main/oci-and-db/foundation/ciso/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-260702.zip
-  wget -q https://github.com/oracle-devrel/technology-engineering/raw/main/oci-and-db/foundation/ciso/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-260702.sha512
-  sha512sum -c oci-security-health-check-standard-260702.sha512
-  unzip -q oci-security-health-check-standard-260702.zip
+  wget -q https://github.com/oracle-devrel/technology-engineering/raw/main/oci-and-db/foundation/ciso/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-260708.zip
+  wget -q https://github.com/oracle-devrel/technology-engineering/raw/main/oci-and-db/foundation/ciso/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-260708.sha512
+  sha512sum -c oci-security-health-check-standard-260708.sha512
+  unzip -q oci-security-health-check-standard-260708.zip
   ```
 #### Run the script
-  - Change directory into `oci-security-health-check-standard-260702`:
+  - Change directory into `oci-security-health-check-standard-260708`:
     ```
-    cd oci-security-health-check-standard-260702
+    cd oci-security-health-check-standard-260708
     ```
-  - In the `oci-security-health-check-standard-260702` directory:
+  - In the `oci-security-health-check-standard-260708` directory:
     - Enable execution of script `standard.sh`:
       ```
       chmod +x standard.sh
@@ -236,15 +236,15 @@ In OCI Cloud Shell with OCI Service Network Access you have to do the following:
 5. Unzip the ZIP file in the home directory.
    ```
    cd
-   unzip -q oci-security-health-check-standard-260702.zip
+   unzip -q oci-security-health-check-standard-260708.zip
    ```
 
 #### Run the script
-  - Change directory into `oci-security-health-check-standard-260702`:
+  - Change directory into `oci-security-health-check-standard-260708`:
     ```
-    cd oci-security-health-check-standard-260702
+    cd oci-security-health-check-standard-260708
     ```
-  - In the `oci-security-health-check-standard-260702` directory:
+  - In the `oci-security-health-check-standard-260708` directory:
     - Enable execution of script `standard.sh`:
       ```
       chmod +x standard.sh
@@ -311,11 +311,11 @@ In OCI Cloud Shell with OCI Service Network Access you have to do the following:
       Follow the instructions to select /usr/bin/python3.9
     - Log out
 
-  - From your desktop, upload the `oci-security-health-check-standard-260702.zip` file to the Compute VM using any SFTP client.
+  - From your desktop, upload the `oci-security-health-check-standard-260708.zip` file to the Compute VM using any SFTP client.
   - Log into the Compute VM
     - Extract the distribution
       ```
-      unzip -q oci-security-health-check-standard-260702.zip
+      unzip -q oci-security-health-check-standard-260708.zip
       ```
     - Change directory into `oci-security-health-check-standard`:
       ```
