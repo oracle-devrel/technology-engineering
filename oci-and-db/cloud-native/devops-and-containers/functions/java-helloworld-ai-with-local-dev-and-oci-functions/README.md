@@ -71,7 +71,7 @@ Following the steps of the <a href="../java-helloworld-with-local-dev-and-oci-fu
 
 <p>
 
-To use <code>.oci config</code> for testing locally replace the contents of Dockerfile with the contents from <a href="Dockerfile.local_oci">Dockerfile.local_oci</a>. Then copy your <code>~/.oci</code> -directory under the project root and build the Function with Fn:
+To use <code>.oci config</code> for testing locally replace the contents of Dockerfile with the contents from <a href="./files/Dockerfile.local_oci">Dockerfile.local_oci</a>. Then copy your <code>~/.oci</code> -directory under the project root and build the Function with Fn:
 
 <pre>
 fn --verbose deploy --app hellofunction --local
@@ -151,6 +151,6 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
 
 ORACLE AND ITS AFFILIATES DO NOT PROVIDE ANY WARRANTY WHATSOEVER, EXPRESS OR IMPLIED, FOR ANY SOFTWARE, MATERIAL OR CONTENT OF ANY KIND CONTAINED OR PRODUCED WITHIN THIS REPOSITORY, AND IN PARTICULAR SPECIFICALLY DISCLAIM ANY AND ALL IMPLIED WARRANTIES OF TITLE, NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A PARTICULAR PURPOSE.  FURTHERMORE, ORACLE AND ITS AFFILIATES DO NOT REPRESENT THAT ANY CUSTOMARY SECURITY REVIEW HAS BEEN PERFORMED WITH RESPECT TO ANY SOFTWARE, MATERIAL OR CONTENT CONTAINED OR PRODUCED WITHIN THIS REPOSITORY. IN ADDITION, AND WITHOUT LIMITING THE FOREGOING, THIRD PARTIES MAY HAVE POSTED SOFTWARE, MATERIAL OR CONTENT TO THIS REPOSITORY WITHOUT ANY REVIEW. USE AT YOUR OWN RISK. 
