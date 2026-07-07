@@ -6,7 +6,7 @@ Oracle Cloud@Customer brings Oracle Cloud services into your data center, combin
 
 - [Oracle Cloud@Customer Landing Page](https://www.oracle.com/cloud/cloud-at-customer/)
 
-- [Exadata Cloud@Customer](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/)
+- [Exadata Cloud@Customer](./exadata-cloud-at-customer/)
 
 Reviewed: 06/13/26
 
@@ -16,4 +16,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
