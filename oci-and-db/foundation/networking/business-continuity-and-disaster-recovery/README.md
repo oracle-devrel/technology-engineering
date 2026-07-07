@@ -2,7 +2,7 @@
 
 These assets help you understand various HA and DR cloud architectures.
 
-Reviewed: 10.10.2025
+Reviewed: 12.06.2026
 
 # Useful Links
 

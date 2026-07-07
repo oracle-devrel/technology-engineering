@@ -1,0 +1,66 @@
+{
+  "title": "Hidden PowerShell Window Execution",
+  "description": "Detects PowerShell execution with hidden window style, commonly used to avoid user visibility.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Process Name' like '*\\\\powershell.exe' and 'Command Line' like '*-WindowStyle Hidden*'))",
+  "sigma_id": "b8710dd4-273a-4e97-8b35-e22f0b47ffb1",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.t1564.003"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1564.003"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate automation scripts",
+    "System management tools"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 3,
+    "techniques_with_tests": [
+      "T1564.003"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1564.003",
+        "test_name": "Hidden Window",
+        "test_guid": "f151ee37-9e2b-47e6-80e4-550b9f999b7a",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1564.003/T1564.003.md"
+      },
+      {
+        "technique_id": "T1564.003",
+        "test_name": "Headless Browser Accessing Mockbin",
+        "test_guid": "0ad9ab92-c48c-4f08-9b20-9633277c4646",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1564.003/T1564.003.md"
+      },
+      {
+        "technique_id": "T1564.003",
+        "test_name": "Hidden Window-Conhost Execution",
+        "test_guid": "5510d22f-2595-4911-8456-4d630c978616",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1564.003/T1564.003.md"
+      }
+    ]
+  }
+}

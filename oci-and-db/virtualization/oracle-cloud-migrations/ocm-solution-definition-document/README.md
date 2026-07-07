@@ -1,7 +1,7 @@
 # Oracle Cloud Migrations - Workload Migration Solution Definition
 This repository contains an in-depth guide for the migration of VMware workloads to OCI Compute VMs. It offers a high-level solution definition of the deployment architecture and migration process of workloads from a current VMware environment to OCI Compute. The document is aimed at capturing the current state architecture with requirements and provides a prospective state, potential project scope, and anticipated timelines for the migration.
 
-Reviewed: 12.11.2025
+Reviewed: 01.07.2026
 
 # When to use this asset?
 This document serves as an integral asset for individuals and organizations seeking to deploy re-platform their VMware workloads and migrate OCI Compute VMs.

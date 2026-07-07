@@ -1,0 +1,49 @@
+{
+  "title": "Default File Association Hijack",
+  "description": "Detects modification of default file associations for persistence.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Process Name' like '*\\\\assoc.exe' or 'Process Name' like '*\\\\ftype.exe')))",
+  "sigma_id": "b4e4b0b5-7ea5-42b4-8558-d7d5d4b972f1",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.persistence",
+    "attack.t1546.001"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence"
+    ],
+    "techniques": [
+      "T1546.001"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate file association changes by applications"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 1,
+    "techniques_with_tests": [
+      "T1546.001"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1546.001",
+        "test_name": "Change Default File Association",
+        "test_guid": "10a08978-2045-4d62-8c42-1957bbbea102",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.001/T1546.001.md"
+      }
+    ]
+  }
+}

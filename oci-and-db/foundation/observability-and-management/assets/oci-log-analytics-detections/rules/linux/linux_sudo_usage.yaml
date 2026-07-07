@@ -1,0 +1,20 @@
+title: Linux Sudo Usage
+id: 42793848-2b55-462d-a986-fd84dcf64063
+status: stable
+description: Detects execution of sudo commands.
+logsource:
+  product: linux
+  service: auth
+detection:
+  selection:
+    process_name: sudo
+    message|contains: COMMAND=
+  condition: selection
+level: low
+tags:
+- attack.privilege_escalation
+- attack.t1548.003
+version: 1
+falsepositives:
+- Authorized system administration
+- Automated maintenance scripts

@@ -1,0 +1,37 @@
+{
+  "title": "MELTS: 2025-2026 Attack Signal Overview",
+  "description": "Correlates Metrics-style counts, Events, Logs, Traces, and Security state for the modern 2025-2026 demo attacks: ClickFix/CrashFix, SharePoint ToolShell, RMM abuse, AiTM token replay, and staged exfiltration.",
+  "query": "('Trace ID' = 'trace_clickfix_2026_001' or 'Trace ID' = 'trace_toolshell_sp_001' or 'Trace ID' = 'trace_rmm_2025_001' or 'Trace ID' = 'trace_aitm_token_2026_001' or 'Threat Name' = 'ClickFix Clipboard Execution' or 'Threat Name' = 'CrashFix Python RAT' or 'Threat Name' = 'RMM Tool Abuse' or 'Threat Name' = 'AiTM Token Replay' or 'Request URL' like '*spinstall0.aspx*' or 'Command Line' like '*ClickFix*' or 'Command Line' like '*CrashFix*' or 'Process Name' like '*ScreenConnect*' or 'Process Name' like '*AnyDesk*' or 'Process Name' like '*AteraAgent*' or 'User Name' = 'codeofconduct-reader@corp.example.com') | stats count as Events, unique('Host Name (Server)') as Hosts, unique('Source IP') as SourceIPs, unique('Destination IP') as Destinations by 'Log Source', 'Threat Name', 'Trace ID' | sort -Events",
+  "type": "hunting",
+  "level": "critical",
+  "tags": ["melts", "threat_hunting", "2025_2026", "correlation", "showcase"],
+  "logsource": {
+    "product": "multi_source",
+    "service": "log_analytics",
+    "candidates": ["SOC Windows Sysmon Logs", "Windows Security Events", "SOC Sysmon Network Logs", "SOC WAF Security Logs", "SOC Load Balancer Access Logs", "SOC Web Application Logs", "SOC Application Logs", "OCI Audit Logs", "SOC VCN Flow Logs", "SOC Network Firewall Logs"]
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "groupBy": ["Log Source", "Threat Name", "Trace ID"],
+      "valueField": "Events"
+    },
+    "ask_ai_prompts": [
+      "Summarize the 2025-2026 campaign by MELTS signal type and attack stage.",
+      "Which trace IDs and log sources provide the strongest evidence?"
+    ]
+  },
+  "references": [
+    {
+      "name": "MELT observability pattern: Metrics, Events, Logs, and Traces",
+      "url": "https://www.splunk.com/en_us/blog/learn/melt-observability.html"
+    }
+  ],
+  "mitre_attack": {
+    "tactics": ["initial_access", "execution", "command_and_control", "credential_access", "exfiltration"],
+    "techniques": ["T1566", "T1059.001", "T1218", "T1219", "T1071.001", "T1530", "T1041"]
+  },
+  "falsepositives": ["Authorized purple-team replay of the 2025-2026 demo campaign"]
+}

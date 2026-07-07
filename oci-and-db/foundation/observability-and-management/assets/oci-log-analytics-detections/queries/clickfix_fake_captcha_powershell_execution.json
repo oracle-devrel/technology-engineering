@@ -1,0 +1,52 @@
+{
+  "title": "ClickFix Fake CAPTCHA PowerShell Execution",
+  "description": "Detects browser-launched PowerShell patterns associated with ClickFix fake CAPTCHA social engineering, including clipboard instructions, hidden execution, and download cradles.",
+  "query": "(('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs') and 'Event ID' = '1' and ('Parent Process Name' like '*chrome.exe' or 'Parent Process Name' like '*msedge.exe' or 'Parent Process Name' like '*firefox.exe' or 'Parent Process Name' like '*iexplore.exe') and 'Process Name' like '*powershell.exe' and ('Command Line' like '*ClickFix*' or 'Command Line' like '*fake CAPTCHA*' or 'Command Line' like '*clipboard*' or 'Command Line' like '*Invoke-WebRequest*' or 'Command Line' like '*iwr*' or 'Command Line' like '*WindowStyle Hidden*')) or (('Log Source' = 'Windows Security Events' or 'Log Source' = 'Windows Event Security Logs') and 'Event ID' = '4688' and 'Process Name' like '*powershell.exe' and ('Command Line' like '*ClickFix*' or 'Command Line' like '*fake CAPTCHA*' or 'Command Line' like '*clipboard*' or 'Command Line' like '*Invoke-WebRequest*' or 'Command Line' like '*iwr*')) or ('Log Source' = 'Windows PowerShell Operational Logs' and 'Event ID' in ('4103', '4104') and ('Script Block Text' like '*ClickFix*' or 'Script Block Text' like '*fake CAPTCHA*' or 'Script Block Text' like '*clipboard*' or 'Script Block Text' like '*DownloadString*' or 'Script Block Text' like '*Invoke-WebRequest*' or 'Script Block Text' like '*iwr*' or 'Host Application' like '*WindowStyle Hidden*')) | stats count as Hits, unique('Command Line') as Commands, unique('Parent Process Name') as Parents by 'Host Name (Server)', Entity, User | sort -Hits",
+  "sigma_id": "logan-clickfix-fake-captcha-powershell",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.initial_access",
+    "attack.execution",
+    "attack.t1204",
+    "attack.t1059.001"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "initial_access",
+      "execution"
+    ],
+    "techniques": [
+      "T1204",
+      "T1059.001"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon_security",
+    "candidates": [
+      "SOC Windows Sysmon Logs",
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "Windows Security Events",
+      "Windows Event Security Logs",
+      "Windows PowerShell Operational Logs"
+    ]
+  },
+  "falsepositives": [
+    "Security awareness simulations and browser-delivered helpdesk scripts"
+  ],
+  "requires_aggregation": true,
+  "references": [
+    {
+      "name": "Microsoft Security Blog: Think before you ClickFix",
+      "url": "https://www.microsoft.com/en-us/security/blog/2025/08/21/think-before-you-clickfix-analyzing-the-clickfix-social-engineering-technique/"
+    }
+  ],
+  "atomic_red_team": {
+    "has_tests": false,
+    "test_count": 0,
+    "techniques_with_tests": [],
+    "tests": []
+  }
+}

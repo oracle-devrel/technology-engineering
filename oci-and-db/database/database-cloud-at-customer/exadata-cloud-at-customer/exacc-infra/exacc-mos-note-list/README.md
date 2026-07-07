@@ -2,11 +2,7 @@
 
 ## Collecting all ExaDB-C@C relevant My Oracle Support (MOS) notes
 
-To provide an easily accessible repository pointing to MOS notes and keeping this repository up-to-date.
-
-After initial collection review and update as necessary or at least once per month. 
-
-Anyone working with ExaDB-C@C service.
+We are providing an easily accessible repository pointing to MOS notes related to the ExaDB-C@C service. Please note that that list is not comprehensive you should always check MOS as well. 
 
 The ExaDB-C@C Specialist Team is updating the list manually and refreshing it as necessary. 
 
@@ -44,7 +40,7 @@ The ExaDB-C@C Specialist Team is updating the list manually and refreshing it as
 
 - [2940064.1](https://support.oracle.com/epmos/faces/DocumentDisplay?id=2940064.1) - (ODyS) Oracle Dynamic Scaling on Kubernetes: Setting up Dynamic Scaling on Kubernetes
 
-Reviewed: 06/11/26
+Reviewed: 06/28/26
 
 # License
 

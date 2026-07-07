@@ -118,12 +118,18 @@ async function fetchAuthServerMetadata(authServer) {
   return null;
 }
 
-function fixMetadataUrls(metadata, mcpEndpoint) {
+export function fixMetadataUrls(metadata, mcpEndpoint) {
   const basePath = new URL(mcpEndpoint).pathname.replace(/\/$/, '');
   if (!basePath) return metadata;
 
-  // If the registration URL already includes the base path, metadata is correct
-  const regPath = new URL(metadata.registration_endpoint).pathname;
+  // Probe with the registration URL when present, else the authorize URL —
+  // metadata without registration_endpoint is valid (IDCS has none) and
+  // `new URL(undefined)` would throw.
+  const probeUrl = metadata.registration_endpoint || metadata.authorization_endpoint;
+  if (!probeUrl) return metadata;
+
+  // If the probe URL already includes the base path, metadata is correct
+  const regPath = new URL(probeUrl).pathname;
   if (regPath.startsWith(basePath)) return metadata;
 
   // Prepend the MCP base path to all OAuth endpoints
@@ -189,6 +195,49 @@ export async function exchangeCode(tokenEndpoint, code, codeVerifier, clientId, 
     throw new Error(`Token exchange failed: ${res.status} ${err}`);
   }
   return res.json();
+}
+
+// ── Minted-token cache + single-flight ──────────────────────────────────────
+// IDCS rotates refresh tokens and invalidates the consumed one ("invalid_grant:
+// The token has already been consumed"). We mint in several places per message
+// (pre-send probe, client-side chain executor, Settings probes); minting fresh
+// every time both wasted an IdP roundtrip and raced rotation — two mints with
+// the same refresh token permanently killed the grant. Cache the minted access
+// token for its lifetime, single-flight concurrent mints, and index the cache
+// under BOTH the old and rotated refresh tokens (the cookie update may lag).
+// globalThis: each Next route compiles as its own module instance (turbopack),
+// so plain module state gave every route a PRIVATE cache — two routes minting
+// with the same refresh token raced anyway and killed the rotation. globalThis
+// is shared per Node process and survives dev hot-reloads.
+const _mintCache = (globalThis.__mcpMintCache ||= new Map());       // rtKey → entry
+const _mintInFlight = (globalThis.__mcpMintInFlight ||= new Map()); // rtKey → Promise<entry>
+const _rtKey = (rt) => createHash('sha256').update(rt).digest('hex').slice(0, 16);
+
+export async function mintAccessToken(tokenEndpoint, refreshToken, clientId, clientSecret) {
+  const key = _rtKey(refreshToken);
+  const cached = _mintCache.get(key);
+  if (cached && cached.expiresAt > Date.now() + 60_000) return cached;
+  if (_mintInFlight.has(key)) return _mintInFlight.get(key);
+
+  const inFlight = (async () => {
+    try {
+      const refreshed = await refreshAccessToken(tokenEndpoint, refreshToken, clientId, clientSecret);
+      const entry = {
+        accessToken: refreshed.access_token,
+        refreshToken: refreshed.refresh_token || refreshToken,
+        expiresAt: Date.now() + (refreshed.expires_in || 3600) * 1000,
+      };
+      _mintCache.set(key, entry);
+      if (refreshed.refresh_token && refreshed.refresh_token !== refreshToken) {
+        _mintCache.set(_rtKey(refreshed.refresh_token), entry);
+      }
+      return entry;
+    } finally {
+      _mintInFlight.delete(key);
+    }
+  })();
+  _mintInFlight.set(key, inFlight);
+  return inFlight;
 }
 
 export async function refreshAccessToken(tokenEndpoint, refreshToken, clientId, clientSecret) {

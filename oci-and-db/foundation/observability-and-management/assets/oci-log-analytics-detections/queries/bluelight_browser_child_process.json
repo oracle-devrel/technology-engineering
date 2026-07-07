@@ -1,0 +1,46 @@
+{
+  "title": "BLUELIGHT RAT: Browser Spawning Suspicious Child Process",
+  "description": "Detects Internet Explorer spawning command interpreters or script hosts. After exploiting CVE-2020-1380 or CVE-2021-26411, BLUELIGHT uses iexplore.exe to spawn cmd.exe, powershell.exe, or wscript.exe for second-stage payload execution.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Event ID' = '1' and 'Parent Process Name' like '*\\\\iexplore.exe' and ('Process Name' like '*\\\\cmd.exe' or 'Process Name' like '*\\\\powershell.exe' or 'Process Name' like '*\\\\wscript.exe' or 'Process Name' like '*\\\\mshta.exe' or 'Process Name' like '*\\\\cscript.exe' or 'Process Name' like '*\\\\rundll32.exe'))) | stats count by 'Host Name (Server)', 'Parent Process Name', 'Process Name', 'Command Line'",
+  "sigma_id": "bl-s0657-t1203-001",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.execution",
+    "attack.t1203",
+    "apt.apt37",
+    "malware.bluelight"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "execution"
+    ],
+    "techniques": [
+      "T1203"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Browser helper objects launching legitimate utilities"
+  ],
+  "atomic_red_team": {
+    "has_tests": false,
+    "test_count": 0,
+    "techniques_with_tests": [],
+    "tests": []
+  },
+  "splunk_original": "index=sysmon EventCode=1 ParentImage=\"*iexplore.exe\" Image IN (\"*cmd.exe\",\"*powershell.exe\",\"*wscript.exe\",\"*mshta.exe\") | table _time, ParentImage, Image, CommandLine, User",
+  "threat_intel": {
+    "malware_family": "BLUELIGHT",
+    "mitre_software_id": "S0657",
+    "threat_actor": "APT37 (InkySquid)"
+  }
+}

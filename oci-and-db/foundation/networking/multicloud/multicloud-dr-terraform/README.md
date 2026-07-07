@@ -7,7 +7,7 @@ It configures all the networking detailed in the following reference architectur
 - [Implement cross-region disaster recovery for Exadata Database Service on Google Cloud](https://docs.oracle.com/en/solutions/exadb-dr-on-db-google-cloud/index.html)
 - [Oracle Database@AWS Achieves Gold MAA Certification for Maximum Availability Architecture](https://blogs.oracle.com/maa/post/oracle-databaseaws-achieves-gold-maa-certification)
 
-Reviewed: 10.11.2025
+Reviewed: 12.06.2026
 
 ## Architecture diagram
 

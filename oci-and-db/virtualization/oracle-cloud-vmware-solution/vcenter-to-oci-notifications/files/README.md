@@ -1,4 +1,4 @@
-# OCI-OCVS-Notifications
+﻿# OCI-OCVS-Notifications
 
 This script enables integration between vCenter alarms and the OCI Notifications service. By forwarding vCenter alarms to OCI Notifications, you can more easily manage who receives notifications and choose from multiple notification protocols (such as email, Slack, custom webhooks, or PagerDuty) supported by OCI. This simplifies recipient management and extends the reach of your alerts beyond the vCenter infrastructure.
 
@@ -69,7 +69,7 @@ If you have setup the Notification topic and for instance have an user subscribe
 
 Script created by: richard.garsthagen@oracle.com, feedback is welcome! Please see the 'Issue' feature in GitHub.
 
-Reviewed: 26.11.2025
+Reviewed: 24.06.2026
 
 # License
 

@@ -1,0 +1,47 @@
+{
+  "title": "Windows PowerShell Suspicious Script Block",
+  "description": "Detects PowerShell Operational Event ID 4104 script blocks containing download cradles, AMSI bypass attempts, encoded payload handling, or Invoke-Expression execution.",
+  "query": "'Log Source' = 'Windows PowerShell Operational Logs' and 'Event ID' = '4104' and ('Script Block Text' like '*IEX*' or 'Script Block Text' like '*Invoke-Expression*' or 'Script Block Text' like '*DownloadString*' or 'Script Block Text' like '*FromBase64String*' or 'Script Block Text' like '*AmsiUtils*' or 'Script Block Text' like '*ExecutionPolicy Bypass*') | stats count as ScriptBlocks, unique('Script Block Text') as ScriptSamples, unique('Host Application') as HostApplications by User, 'Host Name (Server)', Entity | sort -ScriptBlocks",
+  "sigma_id": "logan-winps-4104-suspicious-script-block",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.execution",
+    "attack.defense_evasion",
+    "attack.t1059.001",
+    "attack.t1027"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "execution",
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1059.001",
+      "T1027"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "powershell",
+    "candidates": [
+      "Windows PowerShell Operational Logs"
+    ]
+  },
+  "falsepositives": [
+    "Security automation and administrative PowerShell frameworks"
+  ],
+  "requires_aggregation": true,
+  "references": [
+    {
+      "name": "Microsoft Learn: about_Logging_Windows",
+      "url": "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging_windows"
+    }
+  ],
+  "atomic_red_team": {
+    "has_tests": false,
+    "test_count": 0,
+    "techniques_with_tests": [],
+    "tests": []
+  }
+}

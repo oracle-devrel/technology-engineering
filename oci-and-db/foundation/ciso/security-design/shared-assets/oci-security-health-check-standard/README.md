@@ -2,7 +2,26 @@
 
 Owner: Olaf Heimburger
 
-Version: 260506 (cis_report.py version 3.2.1) for CIS OCI Foundation Benchmark 3.0.0
+Version: 260702 (cis_report.py version 3.2.1) for CIS OCI Foundation Benchmark 3.0.0
+
+# Fast Start in OCI Console
+
+1. Get your copy of the [CIS Oracle Cloud Infrastructure Foundations Benchmark](https://www.cisecurity.org/benchmark/Oracle_Cloud).
+2. Download the package
+    ```
+    wget -q https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-260702.zip
+    wget -q https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-260702.sha512
+    sha512sum -c oci-security-health-check-standard-260702.sha512
+    unzip -q oci-security-health-check-standard-260702.zip
+    ```
+3. Hit the Enter-Key
+4. Run the script
+    ```
+    cd oci-security-health-check-standard-260702
+    ./standard.sh
+    ```
+5. Follow the instructions for getting the results.
+
 
 # Introduction
 ![Flyer](./files/resources/OCI_Security_Health_Check_Standard.png)
@@ -21,32 +40,36 @@ This asset covers the OCI platform as specified in the *CIS Oracle Cloud Infrast
 
 ## Before you begin
 
-The main goals of this script are:
+To make the usage of this script as smooth as possible:
 
-- Make the run as easy and smooth as possible.
-- Do not affect your desktop whenever possible.
-- The required policy statements have been updated. **Please review and update your configuration.**
-- **For a successful run, this script requires an Internet connection.**
+- **Download** the **[CIS Oracle Cloud Infrastructure Foundations Benchmark](https://www.cisecurity.org/benchmark/Oracle_Cloud)** and consider printing it.
+- **Read two or three recommendations** to get used to the terminologies used in the benchmark.
+- Make sure the required policy statements have been updated. **Please review and update your tenancy configuration.**
+- **For a quick and smooth run (including all regions), this script requires an Internet connection.**
+- **Running the script in OCI Cloud Shell with OCI Service Gateway network setup, only the home region of the tenancy will be checked!**
 
 ## Benefits of this package
 
 The file `standard.sh` acts as the main entry point and does the following:
 
-- Automatic check for Python runtime version
-- Automatic venv creation and activation
-- Automatic installation of required Python libraries
-- Automatic **OCI Cloud Shell** and tenancy name detection
-- Automatic creation of timestamped output directory
-- Call of `cis_reports.py`
-- Automatic output archive (ZIP file) creation
-- Automatic runtime protocol
-- Support for encrypted archive (ZIP file)
+- Make the run as easy and smooth as possible.
+- Do not affect your desktop whenever possible.
+- Automatic check for Python runtime version.
+- Automatic venv creation and activation.
+- Automatic installation of required Python libraries.
+- Automatic **OCI Cloud Shell** and tenancy name detection.
+- Automated Internet access detection.
+- Automatic creation of timestamped output directory.
+- Call of `cis_reports.py`.
+- Automatic output archive (ZIP file) creation.
+- Automatic runtime protocol.
+- Support for encrypted archive (ZIP file).
 
 This package includes *two* files
 - standard.sh
 - scripts/cis_reports/cis_reports.py
 
-It was tested on **OCI Cloud Shell** with **Public network**, **Oracle Linux**, **MacOS 12** and higher.
+It was tested on **OCI Cloud Shell** with **Public network**, **OCI Cloud Shell** with **OCI Service network**, **Oracle Linux**, **MacOS 12** and higher.
 
 ## Complete Runtime Example
 
@@ -58,39 +81,63 @@ See the *OCI Security Health Check - Standard Edition* in action and watch the [
 
 Before running the *OCI Security Health Check - Standard Edition* you should download and verify it.
 
-  - Download the latest distribution [oci-security-health-check-standard-260506.zip](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-260506.zip).
+  - Download the latest distribution [oci-security-health-check-standard-260702.zip](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-260702.zip).
   - Download the respective checksum file:
-    - [oci-security-health-check-standard-260506.sha512](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-260506.sha512).
-    - [oci-security-health-check-standard-260506.sha512256](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-260506.sha512256).
+    - [oci-security-health-check-standard-260702.sha512](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-260702.sha512).
+    - [oci-security-health-check-standard-260702.sha512256](https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-260702.sha512256).
   - Verify the integrity of the distribution. Both files must be in the same directory (for example, in your downloads directory).
 
     On MacOS:
     ```
     cd <your_downloads_directory>
-    shasum -a 512256 -c oci-security-health-check-standard-260506.sha512256
+    shasum -a 512256 -c oci-security-health-check-standard-260702.sha512256
     ```
 
     On Linux (including Cloud Shell):
     ```
     cd <your_downloads_directory>
-    sha512sum -c oci-security-health-check-standard-260506.sha512
+    sha512sum -c oci-security-health-check-standard-260702.sha512
     ```
 
 **Reject the downloaded file if the check fails!**
 
 ### In OCI Cloud Shell
 
-In OCI Cloud Shell you can do a short cut without downloading the files mentioned above to your desktop:
+The recommended way is to run the *OCI Security Health Check - Standard* in the [OCI Cloud Shell](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/cloudshellintro.htm). It does not require any additional configuration on a local desktop machine.
+
+#### With Internet Access
+
+In OCI Cloud Shell with Internet Access you can do a short cut without downloading the files mentioned above to your desktop:
 
 1. Login to your OCI console.
 2. Open Cloud Shell
 3. Run these commands in your Cloud Shell:
   ```
-  wget -q https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-260506.zip
-  wget -q https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-260506.sha512
-  sha512sum -c oci-security-health-check-standard-260506.sha512
-  unzip -q oci-security-health-check-standard-260506.zip
+  wget -q https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-260702.zip
+  wget -q https://github.com/oracle-devrel/technology-engineering/raw/main/security/security-design/shared-assets/oci-security-health-check-standard/files/resources/oci-security-health-check-standard-260702.sha512
+  sha512sum -c oci-security-health-check-standard-260702.sha512
+  unzip -q oci-security-health-check-standard-260702.zip
   ```
+
+#### With OCI Service Network
+
+[!NOTE]
+> A Cloud Shell with OCI Service Network can run the *OCI Security Health Check - Standard Edition* in and for your **home region only**! This is a [Cloud Shell limitation](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/cloudshellintro.htm#Cloud_Shell_Limitations).
+>
+> Additionally, the output may **not** include the overview diagrams and the XLSX file!
+
+In OCI Cloud Shell with OCI Service Network Access you have to do the following:
+
+1. Download and verify the package (see **Download and verify the release file**).
+2. Login to your OCI console.
+3. Open Cloud Shell.
+4. Upload the ZIP file to your Cloud Shell.
+5. Unzip the ZIP file in the home directory.
+   ```
+   cd
+   unzip -q oci-security-health-check-standard-260702.zip
+   ```
+6. Run the script **in your home region**.
 
 ## Prepare the OCI Tenancy
 
@@ -154,10 +201,21 @@ For a detailed description go to [Run the OCI Security Health Check in OCI Cloud
 
 After a completed run you will find a directory with a name starting with your tenancy name followed by a timestamp in your working directory (like `tenancy_name_YYYYMMDDHHmmss_standard`). A zip archive for easier download using the same name will be created, too. Both hold data files for your review.
 
-To start with reviewing the results, open the file named `tenancy_name_YYYYMMDDHHmmss_standard_cis_html_summary_report.html`.
+To start with reviewing the results, open the file named `tenancy_name_YYYYMMDDHHmmss_standard_cis_summary_report.html`.
 
 It may look like this example:
 ![Example](./files/resources/Example_Output.png)
+
+## How to read the report
+
+The file named `tenancy_name_YYYYMMDDHHmmss_standard_cis_summary_report.html` is your starting point.
+
+You will find four tabs:
+
+1. **Compliant** - All compliant recommendations.
+1. **Non-compliant** - All non-compliant recommendations (findings). Each entry has links to the recommendation description and to the non-compliant resources (as CSV file).
+1. **Details** - Details for all non-compliant recommendation. These short introductions to the recommendation copied from the [CIS Oracle Cloud Infrastructure Foundations Benchmark](https://www.cisecurity.org/benchmark/Oracle_Cloud).
+1. **Resources** - A list of references for security related documentation for OCI.
 
 # Advanced Use
 
@@ -169,6 +227,7 @@ The script `standard.sh` supports additional commandline options:
   - `--cis '-h'` prints the options of cis_report.py
   - `--cis '--debug'` runs cis_report.py in debug mode with additional output
 - `--zip-protect` asks for a password of your choice. Zero-length passwords are not supported!
+- `--redact` redacts sensitive information (e.g., OCIDs, emails)
 
 # Known Issues
 
@@ -194,4 +253,4 @@ Copyright (c) 2022-2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE.txt](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

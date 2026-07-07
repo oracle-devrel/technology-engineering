@@ -1,0 +1,41 @@
+title: WAF Server-Side Request Forgery Blocked
+id: a1010006-owasp-a10-ssrf-block-001
+status: stable
+version: 1
+description: Detects SSRF attempts blocked by WAF where attackers try to make the server fetch internal resources. OWASP A10:2021 Server-Side Request Forgery.
+logsource:
+  product: oci
+  service: waf
+detection:
+  selection:
+    waf_action: BLOCK
+  ssrf_patterns:
+    request_url|contains:
+    - "169.254.169.254"
+    - "metadata.google"
+    - "xxxx"
+    - "localhost"
+    - "127.0.0.1"
+    - "0.0.0.0"
+    - "[::]"
+    - "0x7f000001"
+    - "2130706433"
+    - "http://10."
+    - "http://172.16"
+    - "http://172.17"
+    - "http://172.18"
+    - "http://192.168"
+    - "file:///"
+    - "gopher://"
+    - "dict://"
+    - "oraclecloud.com/opc"
+    - "metadata.oraclecloud.com"
+  condition: selection and ssrf_patterns
+level: critical
+tags:
+- attack.initial_access
+- attack.t1190
+- attack.t1552.005
+- owasp.a10
+falsepositives:
+- Internal health check endpoints configured through URL parameters

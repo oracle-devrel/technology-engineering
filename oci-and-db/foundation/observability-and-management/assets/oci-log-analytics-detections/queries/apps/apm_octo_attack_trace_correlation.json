@@ -1,0 +1,35 @@
+{
+  "title": "APM: Octo Demo Attack Trace Correlation",
+  "description": "Trace-level rollup of attack-lab evidence. Shows which Attack ID and Run ID have spans, MITRE stages, payment redirect evidence, and compromised VM evidence on the same Trace ID.",
+  "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and 'Attack ID' != null and 'Trace ID' != null | stats count as Events, distinctcount('Span ID') as Spans, unique('Attack Stage') as Stages, unique('MITRE Technique ID') as Techniques, unique('Payment Redirect URL') as Redirects, unique('Compromised VM') as CompromisedVMs by 'Attack ID', 'Run ID', 'Trace ID', 'Service Name' | sort -Events",
+  "level": "high",
+  "type": "curated",
+  "tags": [
+    "apm",
+    "octo-apm-demo",
+    "trace-correlation",
+    "attack-lab"
+  ],
+  "logsource": {
+    "product": "application",
+    "service": "soc_application_logs",
+    "candidates": [
+      "SOC Application Logs"
+    ]
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {
+      "timePeriod": "l21d"
+    },
+    "visualizationOptions": {
+      "valueField": "Events",
+      "highlightField": "Spans"
+    },
+    "ask_ai_prompts": [
+      "Correlate the attack-lab evidence by Trace ID and identify the highest-impact span group.",
+      "Which Run ID links payment redirect, compromised VM, and MITRE stage evidence together?"
+    ]
+  }
+}

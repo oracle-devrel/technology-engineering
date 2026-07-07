@@ -160,16 +160,18 @@ const createGenaiAgentService = () => {
             systemPrompt += `\n\n## KNOWLEDGE BASE (RAG)\nYou have access to a knowledge base via the file_search tool. ALWAYS search the knowledge base FIRST before answering questions, especially when the user asks about specific topics, projects, documents, or data. Use file_search proactively — do not rely solely on your training data when relevant documents may exist in the knowledge base.`;
           }
         }
-        // NL2SQL routing hints: tell the model which databases (semantic stores)
-        // it can query via the Nl2Sql MCP tool, and how to pass the store id.
+        // Text-to-SQL (guide §1.5): direct the model to call the NL2SQL
+        // `generate_sql` tool with the NL question + the Semantic Store id. The
+        // chain executor (useChat) INTERCEPTS that call — it generates the SQL via
+        // the data plane (/api/nl2sql) and runs it through the DBTools `sql_run`
+        // tool, returning the rows. So from the model's side, generate_sql answers
+        // the question with data. The semanticStoreId must be passed (the data
+        // plane requires it); telling the model NOT to send it was a mistake.
         if (nativeState.native_text_to_sql && !isGptOssForPrompt) {
-          const nl2sqlUrl = process.env.NEXT_PUBLIC_NL2SQL_MCP_URL || '';
-          const stores = JSON.parse(localStorage.getItem('nl2sqlSemanticStores') || '[]');
-          if (nl2sqlUrl && stores.length > 0) {
-            const list = stores
-              .map(s => `- ${s.displayName} (semanticStoreId: ${s.id})${s.schemas ? ` — schema(s): ${s.schemas}` : ''}`)
-              .join('\n');
-            systemPrompt += `\n\n## TEXT-TO-SQL (NL2SQL)\nYou can answer questions about enterprise data using the "Nl2Sql" MCP tool (call its generate_sql function). Available databases:\n${list}\n\nWhen the user asks something answerable from this data, call generate_sql with arguments:\n{"inputNaturalLanguageQuery": "<the user's question, in English>", "metadata": {"semanticStoreId": "<the matching semanticStoreId from the list above>"}}\nChoose the database whose schema best matches the question. If a question spans multiple databases, make one call per database. Then present the generated SQL and its results to the user.`;
+          const storeIds = JSON.parse(localStorage.getItem('nl2sqlSemanticStoreIds') || '[]');
+          const storeId = Array.isArray(storeIds) && storeIds.length ? storeIds[0] : '';
+          if (storeId) {
+            systemPrompt += `\n\n## DATABASE (Text-to-SQL)\nYou can answer questions about the company database (orders, customers, products) using the "Nl2Sql" tool. For ANY question about the database or its data, call the tool generate_sql with EXACTLY these arguments:\n{"inputNaturalLanguageQuery": "<the user's question, verbatim>", "metadata": {"semanticStoreId": "${storeId}"}}\nIt returns the generated SQL and its result rows. Answer using those rows. Do not write SQL yourself, do not ask the user for a semanticStoreId (it is provided here), and do not use other tools for database questions.`;
           }
         }
       } catch { /* ignore */ }
@@ -297,42 +299,44 @@ const createGenaiAgentService = () => {
             if (activeIds.length > 0) nativeTools.push({ type: 'file_search', vector_store_ids: activeIds });
           }
           if (nativeState.native_text_to_sql) {
-            // NL2SQL ("Text to SQL") is delivered as a remote MCP tool
-            // (server_label "Nl2Sql" → generate_sql), NOT a native OCI tool type:
-            // OCI rejects {type:'nl2sql'} with 400 "Unsupported tool type". See the
-            // NL2SQL User Guide §1.5. The hosted DBTools/NL2SQL MCP endpoint comes
-            // from NEXT_PUBLIC_NL2SQL_MCP_URL. The selected semantic store(s) are
-            // passed by the model as metadata.semanticStoreId per the system-prompt
-            // routing block (built above). One endpoint serves many stores/DBs.
+            // Text-to-SQL = the DBTools MCP server (§1.5: Responses API + MCP).
+            // Attached as a remote MCP tool; OCI discovers its toolset
+            // (schema_information / sql_run / request_status) and runs it. Auth is
+            // OAuth 2.1 against the IAM Identity Domain — same per-endpoint token
+            // store as custom oauth2.1 servers. No token → abort with the auth
+            // banner so the user authorizes from Settings → Tools → Text to SQL.
             const nl2sqlUrl = process.env.NEXT_PUBLIC_NL2SQL_MCP_URL || '';
-            const nl2sqlIds = JSON.parse(localStorage.getItem('nl2sqlSemanticStoreIds') || '[]');
-            if (nl2sqlUrl && nl2sqlIds.length > 0) {
+            if (nl2sqlUrl) {
               const tool = {
                 type: 'mcp',
                 server_label: 'Nl2Sql',
                 server_url: nl2sqlUrl,
                 require_approval: 'never',
               };
-              // The DBTools NL2SQL MCP server uses OAuth 2.1 (IAM Identity Domain).
-              // Reuse the same per-endpoint token store as custom oauth2.1 servers.
-              // No token yet → skip the tool (chat keeps working); the user authorizes
-              // from Settings → Tools → Text to SQL.
+              let nl2sqlToken = null;
               try {
                 const res = await fetch(`/api/mcp/oauth/token?endpoint=${encodeURIComponent(nl2sqlUrl)}`);
                 const data = await res.json();
-                if (data.hasToken && data.accessToken) {
-                  tool.authorization = data.accessToken;
-                  nativeTools.push(tool);
-                } else {
-                  console.warn('[NL2SQL] No OAuth token yet — authorize in Settings → Tools → Text to SQL');
-                }
-              } catch {
-                console.warn('[NL2SQL] OAuth token check failed — authorize in Settings → Tools → Text to SQL');
+                if (data.hasToken && data.accessToken) nl2sqlToken = data.accessToken;
+              } catch { /* treated as missing token below */ }
+              if (!nl2sqlToken) {
+                const err = new Error('mcp_oauth_required');
+                err.type = 'mcp_auth_expired';
+                err.serverLabel = 'Nl2Sql';
+                err.serverEndpoint = nl2sqlUrl;
+                err.serverAuthType = 'oauth2.1';
+                throw err;
               }
+              tool.authorization = nl2sqlToken;
+              nativeTools.push(tool);
             }
           }
         }
-      } catch { /* ignore */ }
+      } catch (e) {
+        // The auth abort must reach useChat (it renders the authorize banner);
+        // everything else in this block is best-effort localStorage parsing.
+        if (e?.type === 'mcp_auth_expired') throw e;
+      }
 
       // OCI's docs claim gpt-oss-120b supports the native tool set, but in
       // practice OCI's pipeline doesn't actually run them for this model — it

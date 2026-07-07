@@ -35,10 +35,10 @@ import { darkCssVars, darkModeOverrides, DARK_SURFACE } from "../../config/darkM
 import { INTERNAL_TOOL_TABS, INTERNAL_ADDONS } from "../../config/tools-internal";
 
 // NL2SQL is presented as a native tool ("Text to SQL") but is delivered under
-// the hood as a remote MCP tool (server_label "Nl2Sql", tool generate_sql) per
-// the OCI NL2SQL User Guide §1.5. The hosted DBTools/NL2SQL MCP endpoint is
-// supplied by the service team and configured via this env var. When empty, the
-// toggle still works in the UI but no tool is sent to OCI (see genaiAgentsService).
+// the hood as a remote MCP tool (server_label "Nl2Sql") per the OCI NL2SQL User
+// Guide §1.5. The hosted DBTools/NL2SQL MCP endpoint is supplied by the service
+// team and configured via this env var. When empty, the toggle still works in
+// the UI but no tool is sent to OCI (see genaiAgentsService).
 const NL2SQL_MCP_URL = process.env.NEXT_PUBLIC_NL2SQL_MCP_URL || '';
 
 const NATIVE_TOOLS = [
@@ -441,8 +441,10 @@ export default function ToolsTab() {
 
     setIsHydrated(true);
 
-    // Auto-load tools from custom servers
-    customServers.forEach(server => {
+    // Auto-load tools from ENABLED custom servers only. Probing disabled ones
+    // spammed connection errors for servers the user intentionally turned off
+    // (e.g. internal MCPs that need VPN).
+    customServers.filter(s => s.enabled !== false).forEach(server => {
       loadServerTools(server);
     });
 
@@ -860,7 +862,8 @@ export default function ToolsTab() {
     if (isHydrated) checkOauth21Tokens();
   }, [servers, isHydrated]);
 
-  // Check OAuth 2.1 token for the NL2SQL (Text to SQL) MCP endpoint
+  // Text-to-SQL = the DBTools MCP server (§1.5). It needs an OAuth 2.1 user
+  // token; probe whether one is mintable so the UI can show authorized/needs_auth.
   useEffect(() => {
     if (!isHydrated || !NL2SQL_MCP_URL || !nativeToolsEnabled.native_text_to_sql) {
       setNl2sqlAuth(null);
@@ -879,8 +882,6 @@ export default function ToolsTab() {
     return () => { cancelled = true; };
   }, [isHydrated, nativeToolsEnabled.native_text_to_sql]);
 
-  // Kick off the OAuth 2.1 flow for the NL2SQL MCP endpoint (same flow as custom
-  // oauth2.1 servers — backend discovers metadata from the endpoint).
   const authorizeNl2sql = () => {
     const returnTo = typeof window !== 'undefined' ? window.location.pathname : '/settings/tools';
     window.location.href = MCPService.buildAuthorizeUrl({ endpoint: NL2SQL_MCP_URL, authType: 'oauth2.1' }, returnTo);
@@ -988,6 +989,13 @@ export default function ToolsTab() {
   const handleToggleServer = (serverId, enabled) => {
     MCPService.updateServer(serverId, { enabled });
     setServers(servers.map(s => s.id === serverId ? { ...s, enabled } : s));
+    // Re-enabling a server probes it again (mount only auto-loads enabled ones).
+    if (enabled) {
+      const server = servers.find(s => s.id === serverId);
+      if (server && server.authType !== 'oauth2.1' && server.authType !== 'oauth2-user') {
+        loadServerTools({ ...server, enabled });
+      }
+    }
   };
 
   const handleStartEdit = (server) => setEditingServerId(server.id);
@@ -1021,7 +1029,10 @@ export default function ToolsTab() {
     }
   };
 
-  // Test connection and update tools list
+  // Test connection and update tools list. This is the user-initiated path, so
+  // it reports the outcome explicitly — success with the tool count, failure
+  // with the actual reason (before, errors only flipped the chip red and the
+  // cause was buried in the console).
   const testServerConnection = async (server) => {
     setLoadingServers(prev => ({ ...prev, [server.id]: true }));
     setServerStatus(prev => ({ ...prev, [server.id]: null }));
@@ -1039,8 +1050,10 @@ export default function ToolsTab() {
           return toAdd.length > 0 ? [...cleaned, ...toAdd] : cleaned;
         });
       }
+      setToast({ message: `${server.name} connected · ${tools?.length ?? 0} tools`, severity: 'success' });
     } catch (error) {
       setServerStatus(prev => ({ ...prev, [server.id]: 'error' }));
+      setToast({ message: `${server.name}: ${error?.message || 'connection failed'}`, severity: 'error' });
     } finally {
       setLoadingServers(prev => ({ ...prev, [server.id]: false }));
     }
@@ -1323,13 +1336,13 @@ export default function ToolsTab() {
                           {!NL2SQL_MCP_URL ? (
                             <Box sx={{ mb: 1, px: 1, py: 0.75, borderRadius: 1.5, backgroundColor: "rgba(245, 158, 11, 0.08)" }}>
                               <Typography sx={{ fontSize: "0.72rem", color: "var(--dm-muted, rgba(0,0,0,0.55))", lineHeight: 1.4 }}>
-                                ⚠️ NL2SQL endpoint not configured. You can select databases here, but queries won&apos;t run until <code>NEXT_PUBLIC_NL2SQL_MCP_URL</code> (the hosted DBTools MCP endpoint) is set.
+                                ⚠️ NL2SQL endpoint not configured. Set <code>NEXT_PUBLIC_NL2SQL_MCP_URL</code> to the hosted DBTools MCP endpoint.
                               </Typography>
                             </Box>
                           ) : nl2sqlAuth === 'needs_auth' ? (
                             <Box sx={{ mb: 1, px: 1, py: 1, borderRadius: 1.5, backgroundColor: "rgba(245, 158, 11, 0.08)", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 1 }}>
                               <Typography sx={{ fontSize: "0.72rem", color: "var(--dm-muted, rgba(0,0,0,0.6))", lineHeight: 1.4 }}>
-                                🔒 Authorization required to run SQL queries.
+                                🔒 Authorization required to query the database.
                               </Typography>
                               <Button
                                 size="small"

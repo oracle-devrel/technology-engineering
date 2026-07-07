@@ -2,12 +2,13 @@
 
 Multicloud architectures leverage the coordinated use of cloud services from two or more public cloud vendors. Organizations use multicloud environments to distribute computing resources and minimize the risk of downtime and data loss. Organizations may also adopt two or more public cloud providers for their unique capabilities. 
 
-Reviewed: 10.10.2025
+Reviewed: 12.06.2026
 
 # Team Publications
 
 ## Video Content
 
+- [Developer Coaching - From Zero to Cross‑Region DR - Oracle Database@Azure](https://youtu.be/FVeyvW5fnd4?si=nLrU5XNfy_F8_cPr)
 - [Cloud Coaching - Automate your OCI Multicloud connectivity with Equinix](https://youtu.be/phIpvM1MQSI?si=UXJn3ieiRZwFLVbz)
 - [Cloud Coaching - Networking for Oracle Database@Azure](https://youtu.be/ApfFm6O4kcw?si=Ni_ziz66AsQ5uVeZ)
 - [Simple & Secure OCI Multicloud Architecture with Aviatrix](https://youtu.be/9Jh9N6fouxE?feature=shared)
@@ -17,6 +18,8 @@ Reviewed: 10.10.2025
 
 ## Blog Posts
 
+- [Learn about selecting network topologies for Oracle AI Database@Google Cloud](https://docs.oracle.com/en/solutions/network-topology-oracle-database-at-google-cloud/index.html)
+- [Deploy Oracle AI Database@Google Cloud](https://docs.oracle.com/en/solutions/deploy-oracle-database-at-google-cloud/index.html)
 - [DNS in multicloud disaster recovery architectures](https://blogs.oracle.com/cloud-infrastructure/post/dns-in-multicloud-disaster-recovery-architectures)
 - [Oracle OCI — encrypted connection to AWS, Azure, GCP](https://aviatrix.com/blog/oracle-oci-encrypted-connection/)
 - [Oracle and Microsoft Simplify the Path to Multicloud Choice](https://blogs.oracle.com/cloud-infrastructure/post/simplify-path-to-multicloud-choice)

@@ -1,0 +1,105 @@
+{
+  "title": "Compiled HTML File Execution",
+  "description": "Detects execution of compiled HTML (.chm) files via hh.exe, which can execute embedded scripts.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Process Name' like '*\\\\hh.exe' and 'Command Line' like '*.chm*'))",
+  "sigma_id": "4e820998-8bfb-4244-91e5-15add0d0f9ec",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.t1218.001"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1218.001"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate help file viewing"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 8,
+    "techniques_with_tests": [
+      "T1218.001"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1218.001",
+        "test_name": "Compiled HTML Help Local Payload",
+        "test_guid": "5cb87818-0d7c-4469-b7ef-9224107aebe8",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.001/T1218.001.md"
+      },
+      {
+        "technique_id": "T1218.001",
+        "test_name": "Compiled HTML Help Remote Payload",
+        "test_guid": "0f8af516-9818-4172-922b-42986ef1e81d",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.001/T1218.001.md"
+      },
+      {
+        "technique_id": "T1218.001",
+        "test_name": "Invoke CHM with default Shortcut Command Execution",
+        "test_guid": "29d6f0d7-be63-4482-8827-ea77126c1ef7",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.001/T1218.001.md"
+      },
+      {
+        "technique_id": "T1218.001",
+        "test_name": "Invoke CHM with InfoTech Storage Protocol Handler",
+        "test_guid": "b4094750-5fc7-4e8e-af12-b4e36bf5e7f6",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.001/T1218.001.md"
+      },
+      {
+        "technique_id": "T1218.001",
+        "test_name": "Invoke CHM Simulate Double click",
+        "test_guid": "5decef42-92b8-4a93-9eb2-877ddcb9401a",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.001/T1218.001.md"
+      },
+      {
+        "technique_id": "T1218.001",
+        "test_name": "Invoke CHM with Script Engine and Help Topic",
+        "test_guid": "4f83adda-f5ec-406d-b318-9773c9ca92e5",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.001/T1218.001.md"
+      },
+      {
+        "technique_id": "T1218.001",
+        "test_name": "Invoke CHM Shortcut Command with ITS and Help Topic",
+        "test_guid": "15756147-7470-4a83-87fb-bb5662526247",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.001/T1218.001.md"
+      },
+      {
+        "technique_id": "T1218.001",
+        "test_name": "Decompile Local CHM File",
+        "test_guid": "20cb05e0-1fa5-406d-92c1-84da4ba01813",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.001/T1218.001.md"
+      }
+    ]
+  }
+}

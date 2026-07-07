@@ -1,0 +1,30 @@
+{
+  "title": "OCI Service Gateway Created",
+  "description": "Detects creation of a service gateway that bypasses internet to access OCI services, a potential lateral movement path.",
+  "query": "'Log Source' = 'OCI Audit Logs' and (('Event Type' = 'com.oraclecloud.virtualnetwork.createservicegateway'))",
+  "sigma_id": "c9992aa9-8d34-4429-9b48-58911f8fd079",
+  "level": "low",
+  "stig_category": "CAT III",
+  "tags": [
+    "attack.lateral_movement",
+    "attack.t1599"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "lateral_movement"
+    ],
+    "techniques": [
+      "T1599"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Standard VCN architecture setup"
+  ]
+}

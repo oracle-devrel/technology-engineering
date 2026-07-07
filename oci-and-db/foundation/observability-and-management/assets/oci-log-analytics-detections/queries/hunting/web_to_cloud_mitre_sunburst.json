@@ -1,0 +1,48 @@
+{
+  "title": "Web-to-Cloud: MITRE Stage Breakdown",
+  "description": "Sunburst-friendly rollup of the web-to-cloud chain by evidence source and threat label. It shows whether evidence is present across initial access, host, network, firewall, and cloud-control-plane telemetry.",
+  "query": "('Trace ID' = 'trace_w2c_entry_001' or 'Client IP' = '203.0.113.50' or 'Source IP' = '10.0.1.50' or 'Destination IP' = '198.51.100.77' or 'User Name' = 'compromised-svc@corp.example.com' or 'Threat Name' = 'Suspicious Data Exfiltration') | stats count as Events by 'Log Source', 'Threat Name' | sort -Events",
+  "type": "hunting",
+  "level": "high",
+  "tags": [
+    "web_to_cloud",
+    "mitre",
+    "sunburst",
+    "attack_stage"
+  ],
+  "logsource": {
+    "product": "oci",
+    "service": "log_analytics"
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {
+      "timePeriod": "l21d"
+    },
+    "visualizationOptions": {
+      "valueField": "Events"
+    },
+    "ask_ai_prompts": [
+      "Which MITRE-style stages have complete evidence coverage?",
+      "Which log source contributes most to each attack stage?"
+    ]
+  },
+  "mitre_attack": {
+    "tactics": [
+      "initial_access",
+      "credential_access",
+      "command_and_control",
+      "exfiltration"
+    ],
+    "techniques": [
+      "T1190",
+      "T1552.005",
+      "T1071.001",
+      "T1041"
+    ]
+  },
+  "falsepositives": [
+    "Demo replay traffic"
+  ]
+}

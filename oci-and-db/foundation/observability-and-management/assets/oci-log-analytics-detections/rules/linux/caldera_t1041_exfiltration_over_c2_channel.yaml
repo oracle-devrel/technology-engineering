@@ -1,0 +1,44 @@
+title: Caldera - Exfiltration of Staged Data over C2 Channel (Linux)
+id: 223f8064-ae93-4d43-a978-2dda7a205f65
+status: experimental
+description: >
+  Detects Linux-side exfiltration of collected data over the C2 channel using
+  HTTP POST requests. Caldera T1041 emulation transmits staged files from /tmp
+  or /dev/shm back to the C2 server using curl or wget with POST/PUT methods
+  and multipart form uploads, distinct from the alternative-protocol T1048 pattern.
+author: SOC Detection Engineering
+date: 2026/06/11
+logsource:
+  product: linux
+  service: syslog
+detection:
+  sel_curl_post:
+    message|contains:
+      - 'curl -X POST'
+      - 'curl --upload-file'
+      - 'curl -F'
+      - 'curl -d @'
+      - 'curl -T '
+  sel_wget_post:
+    message|contains:
+      - 'wget --post-file'
+      - 'wget --post-data'
+  sel_python_post:
+    message|contains:
+      - 'requests.post'
+      - 'urllib.request.urlopen'
+      - 'http.client.HTTPConnection'
+  sel_staged_src:
+    message|contains:
+      - '/tmp/'
+      - '/dev/shm/'
+      - '/var/tmp/'
+  condition: (sel_curl_post or sel_wget_post or sel_python_post) and sel_staged_src
+level: high
+tags:
+  - attack.exfiltration
+  - attack.t1041
+falsepositives:
+  - Application deployment pipelines uploading build artifacts
+  - Monitoring agents posting metrics to collection endpoints
+version: 1

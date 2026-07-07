@@ -14,7 +14,7 @@ async function initAuth() {
   if (useResourcePrincipal) {
     authProvider = oci.common.ResourcePrincipalAuthenticationDetailsProvider.builder();
   } else if (useInstancePrincipal) {
-    authProvider = await oci.common.InstancePrincipalsAuthenticationDetailsProviderBuilder().build();
+    authProvider = await new oci.common.InstancePrincipalsAuthenticationDetailsProviderBuilder().build();
   } else {
     authProvider = new oci.ConfigFileAuthenticationDetailsProvider(
       process.env.OCI_CONFIG_FILE || '~/.oci/config',

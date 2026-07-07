@@ -2,6 +2,8 @@
 
 Autonomous Database on Exadata Cloud@Customer combines Oracle's self-managing, self-securing, and self-repairing database technology with the performance and scalability of Exadata infrastructure deployed in your data center. Organizations can benefit from automated database operations and reduced administrative overhead while maintaining control over data location, security, and compliance requirements.
 
+<img src="./../images/exadb-adb.png" alt="ADB-C@C"> 
+
 # Resource Allocation for ADB-C@C
 
 The Autonomous Database documentation is not specifying a hard limit for the number of VM clusters (AVMCs) supported. It rather says that you can keep provisioning AVMCs and ACDs (Autonomous Container Databases) as long as the minimum amount of required resources are available.
@@ -23,7 +25,7 @@ The Autonomous Database documentation is not specifying a hard limit for the num
 
 - [What's New on Oracle Autonomous Database](https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/nfccyy/index.html)
 
-Reviewed: 06/11/26
+Reviewed: 06/24/26
 
 # License
 

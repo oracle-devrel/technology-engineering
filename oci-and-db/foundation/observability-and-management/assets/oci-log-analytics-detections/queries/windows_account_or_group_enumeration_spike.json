@@ -1,0 +1,50 @@
+{
+  "title": "Windows Account or Group Enumeration Spike",
+  "description": "Detects repeated Security Event IDs 4798 and 4799, which can indicate adversary account or group membership enumeration.",
+  "query": "('Log Source' = 'Windows Security Events' or 'Log Source' = 'Windows Event Security Logs') and 'Event ID' in ('4798', '4799') | stats count as EnumerationEvents, unique('Target User Name') as Targets by User, 'Source Address', 'Host Name (Server)' | where EnumerationEvents > 3 | sort -EnumerationEvents",
+  "sigma_id": "logan-winsec-4798-4799-enumeration-spike",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.discovery",
+    "attack.t1087",
+    "attack.t1069"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "discovery"
+    ],
+    "techniques": [
+      "T1087",
+      "T1069"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "security",
+    "candidates": [
+      "Windows Security Events",
+      "Windows Event Security Logs"
+    ]
+  },
+  "falsepositives": [
+    "Administrative scripts and inventory tooling"
+  ],
+  "requires_aggregation": true,
+  "references": [
+    {
+      "name": "Microsoft Learn: 4798(S) A user's local group membership was enumerated",
+      "url": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4798"
+    },
+    {
+      "name": "Microsoft Learn: 4799(S) A security-enabled local group membership was enumerated",
+      "url": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4799"
+    }
+  ],
+  "atomic_red_team": {
+    "has_tests": false,
+    "test_count": 0,
+    "techniques_with_tests": [],
+    "tests": []
+  }
+}

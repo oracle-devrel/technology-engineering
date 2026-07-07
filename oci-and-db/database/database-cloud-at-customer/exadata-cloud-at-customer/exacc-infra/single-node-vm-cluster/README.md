@@ -1,8 +1,8 @@
 # Exadata Cloud@Customer Single Node VM Cluster
 
-With this enhancement, you can deploy and run multiple single-instance databases in a single-node cluster without RAC licenses being required.
+It is possible to deploy and run multiple single-instance databases in a single-node cluster without RAC licenses being required.
 
-Please note. This functionality should only be used on non-production environments, where under BYOL licensing, RAC licenses are not available.
+Please note the following. This functionality should only be used on non-production environments, where under BYOL licensing, RAC licenses are not available.
 
 The lack of RAC licenses means that it is impossible to easily instantiate the DB instance on another DB Server in the Exadata Cloud@Customer infrastructure. This means that during maintenance, there will ALWAYS be an outage of the DB service unless there is a possibility to switch the service to a DR environment. 
 
@@ -14,7 +14,7 @@ Run each single instance database as a singleton workload or PDB in a shared RAC
 Run each single instance database as a singleton workload or PDB in a dedicated CDB
 Run each single instance database as a two–node cluster, but shut down unnecessary instances
 
-Reviewed: 01/22/26
+Reviewed: 06/28/26
 
 # Useful Links
 

@@ -1,0 +1,81 @@
+{
+  "title": "Named Pipe Impersonation via PowerShell",
+  "description": "Detects named pipe impersonation technique for privilege escalation via PowerShell.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*Get-System*' and 'Command Line' like '*NamedPipe*')))",
+  "sigma_id": "eed41b6b-7ee9-4113-bd76-abd0d0fb8ecd",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.privilege_escalation",
+    "attack.t1134.001"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "privilege_escalation"
+    ],
+    "techniques": [
+      "T1134.001"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Authorized penetration testing"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 5,
+    "techniques_with_tests": [
+      "T1134.001"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1134.001",
+        "test_name": "Named pipe client impersonation",
+        "test_guid": "90db9e27-8e7c-4c04-b602-a45927884966",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.001/T1134.001.md"
+      },
+      {
+        "technique_id": "T1134.001",
+        "test_name": "`SeDebugPrivilege` token duplication",
+        "test_guid": "34f0a430-9d04-4d98-bcb5-1989f14719f0",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.001/T1134.001.md"
+      },
+      {
+        "technique_id": "T1134.001",
+        "test_name": "Launch NSudo Executable",
+        "test_guid": "7be1bc0f-d8e5-4345-9333-f5f67d742cb9",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.001/T1134.001.md"
+      },
+      {
+        "technique_id": "T1134.001",
+        "test_name": "Bad Potato",
+        "test_guid": "9c6d799b-c111-4749-a42f-ec2f8cb51448",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.001/T1134.001.md"
+      },
+      {
+        "technique_id": "T1134.001",
+        "test_name": "Juicy Potato",
+        "test_guid": "f095e373-b936-4eb4-8d22-f47ccbfbe64a",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.001/T1134.001.md"
+      }
+    ]
+  }
+}

@@ -186,6 +186,11 @@ variable "db_service_list" {
   default = []
 }
 
+variable "create_database_nsgs" {
+  type    = bool
+  default = false
+}
+
 variable "separate_db_nsg" {
   type    = bool
   default = true
@@ -245,4 +250,3 @@ variable "tag_value" {
   })
   default = null
 }
-

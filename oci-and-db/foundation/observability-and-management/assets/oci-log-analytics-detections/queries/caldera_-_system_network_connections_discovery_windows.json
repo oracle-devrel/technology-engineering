@@ -1,0 +1,34 @@
+{
+  "title": "Caldera - System Network Connections Discovery (Windows)",
+  "description": "Detects enumeration of active network connections on Windows systems. Caldera T1049 emulation runs netstat.exe and PowerShell Get-NetTCPConnection to list established connections, listening ports, and routing tables for network topology mapping after initial access.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Process Name' like '*\\\\netstat.exe' and ('Command Line' like '*-an*' or 'Command Line' like '*-ano*' or 'Command Line' like '*-b*' or 'Command Line' like '*-f*')) or (('Command Line' like '*Get-NetTCPConnection*' or 'Command Line' like '*Get-NetUDPEndpoint*' or 'Command Line' like '*netstat -a*')) or ('Process Name' like '*\\\\route.exe' and 'Command Line' like '*print*'))",
+  "sigma_id": "10b9adb3-5e6b-463c-9805-103fbfbfe2db",
+  "level": "low",
+  "stig_category": "CAT III",
+  "tags": [
+    "attack.discovery",
+    "attack.t1049"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "discovery"
+    ],
+    "techniques": [
+      "T1049"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Security monitoring agents",
+    "Administrators diagnosing network connectivity issues",
+    "IT helpdesk troubleshooting tools"
+  ]
+}

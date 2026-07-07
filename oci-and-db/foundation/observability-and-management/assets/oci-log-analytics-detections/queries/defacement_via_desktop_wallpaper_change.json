@@ -1,0 +1,73 @@
+{
+  "title": "Defacement via Desktop Wallpaper Change",
+  "description": "Detects commands changing the desktop wallpaper, which may indicate ransomware defacement.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*Wallpaper*' and 'Command Line' like '*reg*' and 'Command Line' like '*add*')))",
+  "sigma_id": "014caac1-79d2-4eaa-ad2d-2a5fb1bc2190",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.impact",
+    "attack.t1491.001"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "impact"
+    ],
+    "techniques": [
+      "T1491.001"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Group Policy wallpaper deployment"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 4,
+    "techniques_with_tests": [
+      "T1491.001"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1491.001",
+        "test_name": "Replace Desktop Wallpaper",
+        "test_guid": "30558d53-9d76-41c4-9267-a7bd5184bed3",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1491.001/T1491.001.md"
+      },
+      {
+        "technique_id": "T1491.001",
+        "test_name": "Configure LegalNoticeCaption and LegalNoticeText registry keys to display ransom message",
+        "test_guid": "ffcbfaab-c9ff-470b-928c-f086b326089b",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1491.001/T1491.001.md"
+      },
+      {
+        "technique_id": "T1491.001",
+        "test_name": "ESXi - Change Welcome Message on Direct Console User Interface (DCUI)",
+        "test_guid": "30905f21-34f3-4504-8b4c-f7a5e314b810",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1491.001/T1491.001.md"
+      },
+      {
+        "technique_id": "T1491.001",
+        "test_name": "Windows - Display a simulated ransom note via Notepad (non-destructive)",
+        "test_guid": "0eeb68ce-e64c-4420-8d53-ad5bdc6f86d5",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1491.001/T1491.001.md"
+      }
+    ]
+  }
+}

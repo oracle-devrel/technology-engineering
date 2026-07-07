@@ -1,0 +1,31 @@
+{
+  "title": "C2: HTTPS Beaconing Drilldown",
+  "description": "Shows repeated HTTPS callbacks to suspicious destinations across Sysmon network, VCN Flow, and Network Firewall telemetry. Port 443 rows with high connection counts are the main C2 beaconing evidence.",
+  "query": "(((('Log Source' = 'SOC Sysmon Network Logs' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and 'Event ID' = '3' and ('Destination IP' = '198.51.100.77' or 'Destination Hostname' like '*duckdns.org' or 'Destination Hostname' like '*malware.xyz' or 'Destination Hostname' like '*attacker.top' or 'Destination Hostname' like '*cobalt.example.com' or 'Destination Port' = 4443 or 'Destination Port' = 8443)) or (('Log Source' = 'SOC VCN Flow Logs' or 'Log Source' = 'SOC Network Firewall Logs') and ('Destination IP' = '198.51.100.77' or 'Threat Name' = 'Suspicious Data Exfiltration'))) and 'Destination Port' = 443) | stats count as Connections, unique('Destination Hostname') as Hostnames, unique('Bytes Sent') as BytesSent by 'Log Source', 'Source IP', 'Destination IP', 'Destination Port' | sort -Connections | head 25",
+  "type": "hunting",
+  "level": "critical",
+  "tags": ["c2", "https", "beaconing", "showcase", "attack.t1071.001"],
+  "logsource": {
+    "product": "multi_source",
+    "service": "network",
+    "candidates": ["SOC Sysmon Network Logs", "SOC VCN Flow Logs", "SOC Network Firewall Logs"]
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "groupBy": ["Log Source", "Source IP", "Destination IP"],
+      "valueField": "Connections"
+    },
+    "ask_ai_prompts": [
+      "Which HTTPS destination shows periodic beaconing behavior?",
+      "Identify whether the same destination also has high BytesSent evidence."
+    ]
+  },
+  "mitre_attack": {
+    "tactics": ["command_and_control"],
+    "techniques": ["T1071.001"]
+  },
+  "falsepositives": ["Monitoring agents with regular HTTPS health checks"]
+}

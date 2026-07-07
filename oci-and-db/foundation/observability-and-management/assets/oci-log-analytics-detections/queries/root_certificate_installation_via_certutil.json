@@ -1,0 +1,97 @@
+{
+  "title": "Root Certificate Installation via Certutil",
+  "description": "Detects installation of root certificates which could enable MitM attacks or trust arbitrary code.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Process Name' like '*\\\\certutil.exe' and ('Command Line' like '*-addstore*' and 'Command Line' like '*Root*')))",
+  "sigma_id": "c97059bf-3064-41f0-a889-22535878e1de",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.t1553.004"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1553.004"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Enterprise PKI deployment"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 7,
+    "techniques_with_tests": [
+      "T1553.004"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1553.004",
+        "test_name": "Install root CA on CentOS/RHEL",
+        "test_guid": "9c096ec4-fd42-419d-a762-d64cc950627e",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1553.004/T1553.004.md"
+      },
+      {
+        "technique_id": "T1553.004",
+        "test_name": "Install root CA on FreeBSD",
+        "test_guid": "f4568003-1438-44ab-a234-b3252ea7e7a3",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1553.004/T1553.004.md"
+      },
+      {
+        "technique_id": "T1553.004",
+        "test_name": "Install root CA on Debian/Ubuntu",
+        "test_guid": "53bcf8a0-1549-4b85-b919-010c56d724ff",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1553.004/T1553.004.md"
+      },
+      {
+        "technique_id": "T1553.004",
+        "test_name": "Install root CA on macOS",
+        "test_guid": "cc4a0b8c-426f-40ff-9426-4e10e5bf4c49",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1553.004/T1553.004.md"
+      },
+      {
+        "technique_id": "T1553.004",
+        "test_name": "Install root CA on Windows",
+        "test_guid": "76f49d86-5eb1-461a-a032-a480f86652f1",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1553.004/T1553.004.md"
+      },
+      {
+        "technique_id": "T1553.004",
+        "test_name": "Install root CA on Windows with certutil",
+        "test_guid": "5fdb1a7a-a93c-4fbe-aa29-ddd9ef94ed1f",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1553.004/T1553.004.md"
+      },
+      {
+        "technique_id": "T1553.004",
+        "test_name": "Add Root Certificate to CurrentUser Certificate Store",
+        "test_guid": "ca20a3f1-42b5-4e21-ad3f-1049199ec2e0",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1553.004/T1553.004.md"
+      }
+    ]
+  }
+}

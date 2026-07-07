@@ -1,0 +1,14 @@
+{
+  "title": "Octo Chaos — Stale Scenario State",
+  "description": "Identifies chaos-audit events where a scenario remains active past its TTL. Used by the chaos-cleanup playbook (tier: low) to auto-clear the registry.",
+  "query": "'Log Source' = 'octo-chaos-audit' and Event = 'chaos.apply' | stats latest(ts) as applied_at, latest(Chaos Scenario) as scenario, latest('Chaos TTL Seconds') as ttl by 'Chaos Target' | eval expires_at = applied_at + ttl | eval now = toepoch(current_timestamp) | where expires_at < now",
+  "type": "hunting",
+  "category": "operational",
+  "mitre_attack": {
+    "tactics": [],
+    "techniques": []
+  },
+  "data_source": "octo-chaos-audit",
+  "frequency": "5m",
+  "notes": "Auto-remediation safe: chaos clear is a tier-low action."
+}

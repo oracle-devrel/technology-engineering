@@ -1,0 +1,68 @@
+{
+  "version": "1.0",
+  "sources": [
+    {
+      "id": "sigmahq",
+      "name": "SigmaHQ",
+      "type": "sigma_rules",
+      "url": "https://github.com/SigmaHQ/sigma",
+      "license": "SigmaHQ repository license applies",
+      "intake_mode": "local_checkout_or_sync_script",
+      "promotion_policy": "metadata_only_until_reviewed"
+    },
+    {
+      "id": "cisa_kev",
+      "name": "CISA Known Exploited Vulnerabilities Catalog",
+      "type": "advisory_catalog",
+      "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+      "license": "public_advisory_metadata",
+      "intake_mode": "curated_reference",
+      "promotion_policy": "derive detections only after OCI telemetry review"
+    },
+    {
+      "id": "vendor_incident_reports",
+      "name": "Vendor Incident Reports",
+      "type": "incident_report",
+      "url": "",
+      "license": "source_specific",
+      "intake_mode": "curated_reference",
+      "promotion_policy": "do not copy proprietary rule logic; capture attribution"
+    },
+    {
+      "id": "elastic_detection_rules",
+      "name": "Elastic Detection Rules",
+      "type": "rule_reference",
+      "url": "https://github.com/elastic/detection-rules",
+      "license": "Elastic repository license applies",
+      "intake_mode": "coverage_gap_reference",
+      "promotion_policy": "metadata_only_until_reviewed"
+    },
+    {
+      "id": "splunk_security_content",
+      "name": "Splunk Security Content",
+      "type": "rule_reference",
+      "url": "https://github.com/splunk/security_content",
+      "license": "Splunk repository license applies",
+      "intake_mode": "curated_reference",
+      "promotion_policy": "metadata_only_until_reviewed"
+    },
+    {
+      "id": "microsoft_sentinel",
+      "name": "Microsoft Sentinel Detections",
+      "type": "rule_reference",
+      "url": "https://github.com/Azure/Azure-Sentinel",
+      "license": "Microsoft repository license applies",
+      "intake_mode": "curated_reference",
+      "promotion_policy": "metadata_only_until_reviewed"
+    },
+    {
+      "id": "internal_workshop_scenarios",
+      "name": "Internal Curated Workshop Scenarios",
+      "type": "workshop_scenario",
+      "url": "",
+      "license": "owned",
+      "intake_mode": "curated_reference",
+      "promotion_policy": "can promote after local and CAP validation"
+    }
+  ]
+}

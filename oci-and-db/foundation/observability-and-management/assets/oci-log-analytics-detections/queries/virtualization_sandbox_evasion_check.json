@@ -1,0 +1,115 @@
+{
+  "title": "Virtualization Sandbox Evasion Check",
+  "description": "Detects commands checking for virtualization or sandbox environments before executing payloads.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*VBOX*' or 'Command Line' like '*VMware*' or 'Command Line' like '*VirtualBox*' or 'Command Line' like '*qemu*' or 'Command Line' like '*xen*' or 'Command Line' like '*SbieDll.dll*')))",
+  "sigma_id": "8b04ce8f-1cda-484c-a824-4f5ef541551c",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.t1497"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1497"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Virtualization management tools",
+    "VM guest agents"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 9,
+    "techniques_with_tests": [
+      "T1497.001",
+      "T1497.003"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1497.001",
+        "test_name": "Detect Virtualization Environment (Linux)",
+        "test_guid": "dfbd1a21-540d-4574-9731-e852bd6fe840",
+        "executor": "sh",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1497.001/T1497.001.md"
+      },
+      {
+        "technique_id": "T1497.001",
+        "test_name": "Detect Virtualization Environment (FreeBSD)",
+        "test_guid": "e129d73b-3e03-4ae9-bf1e-67fc8921e0fd",
+        "executor": "sh",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1497.001/T1497.001.md"
+      },
+      {
+        "technique_id": "T1497.001",
+        "test_name": "Detect Virtualization Environment (Windows)",
+        "test_guid": "502a7dc4-9d6f-4d28-abf2-f0e84692562d",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1497.001/T1497.001.md"
+      },
+      {
+        "technique_id": "T1497.001",
+        "test_name": "Detect Virtualization Environment via ioreg",
+        "test_guid": "a960185f-aef6-4547-8350-d1ce16680d09",
+        "executor": "sh",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1497.001/T1497.001.md"
+      },
+      {
+        "technique_id": "T1497.001",
+        "test_name": "Detect Virtualization Environment via WMI Manufacturer/Model Listing (Windows)",
+        "test_guid": "4a41089a-48e0-47aa-82cb-5b81a463bc78",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1497.001/T1497.001.md"
+      },
+      {
+        "technique_id": "T1497.001",
+        "test_name": "Detect Virtualization Environment using sysctl (hw.model)",
+        "test_guid": "6beae646-eb4c-4730-95be-691a4094408c",
+        "executor": "sh",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1497.001/T1497.001.md"
+      },
+      {
+        "technique_id": "T1497.001",
+        "test_name": "Check if System Integrity Protection is enabled",
+        "test_guid": "2b73cd9b-b2fb-4357-b9d7-c73c41d9e945",
+        "executor": "sh",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1497.001/T1497.001.md"
+      },
+      {
+        "technique_id": "T1497.001",
+        "test_name": "Detect Virtualization Environment using system_profiler",
+        "test_guid": "e04d2e89-de15-4d90-92f9-a335c7337f0f",
+        "executor": "sh",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1497.001/T1497.001.md"
+      },
+      {
+        "technique_id": "T1497.003",
+        "test_name": "Delay execution with ping",
+        "test_guid": "8b87dd03-8204-478c-bac3-3959f6528de3",
+        "executor": "sh",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1497.003/T1497.003.md"
+      }
+    ]
+  }
+}

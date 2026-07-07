@@ -19,4 +19,8 @@ resource "oci_identity_domains_dynamic_resource_group" "karpenter_dynamic_group"
   matching_rule = local.karpenter_matching_rule
   schemas       = ["urn:ietf:params:scim:schemas:oracle:idcs:DynamicResourceGroup"]
   count         = var.create_karpenter_policies ? 1 : 0
+
+  lifecycle {
+    ignore_changes = [schemas]
+  }
 }

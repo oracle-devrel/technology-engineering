@@ -1,0 +1,35 @@
+{
+  "title": "Caldera - Data Collection from Network Shared Drive (Linux)",
+  "description": "Detects collection of data from mounted network shares on Linux hosts. Caldera T1039 emulation accesses SMB/CIFS and NFS mounts, lists their contents, and copies files to a staging location. Patterns include smbclient interactive commands, direct reads from /mnt share paths, and cifs-utils access.\n",
+  "query": "('Log Source' = 'SOC Linux Syslog Logs' or 'Log Source' = 'Linux Secure Logs' or 'Log Source' = 'Linux Syslog Logs' or 'Log Source' = 'Linux Audit Logs') and (((msg like '*smbclient //*' or msg like '*smbclient -L*' or msg like '*smbclient -U*')) or ((msg like '*mount -t cifs*' or msg like '*mount -t nfs*' or msg like '*mount -t smbfs*' or msg like '*mount.cifs*')) or ((msg like '*ls /mnt/*' or msg like '*cp /mnt/*' or msg like '*find /mnt/*' or msg like '*find /media/*' or msg like '*rsync /mnt/*')) or ((msg like '*smb: \\\\\\\\> get*' or msg like '*smb: \\\\\\\\> mget*' or msg like '*smb: \\\\\\\\> lcd*')))",
+  "sigma_id": "10d80508-d684-4070-a0ea-ee78fab09c50",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.collection",
+    "attack.t1039"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "collection"
+    ],
+    "techniques": [
+      "T1039"
+    ]
+  },
+  "logsource": {
+    "product": "linux",
+    "service": "syslog",
+    "candidates": [
+      "SOC Linux Syslog Logs",
+      "Linux Secure Logs",
+      "Linux Syslog Logs",
+      "Linux Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Authorized backup agents reading from network shares",
+    "File servers serving content from mounted volumes",
+    "Administrators managing share contents"
+  ]
+}

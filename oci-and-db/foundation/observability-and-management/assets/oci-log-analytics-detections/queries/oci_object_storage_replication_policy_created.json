@@ -1,0 +1,30 @@
+{
+  "title": "OCI Object Storage Replication Policy Created",
+  "description": "Detects creation of cross-region object storage replication policy, a potential data movement vector.",
+  "query": "'Log Source' = 'OCI Audit Logs' and (('Event Type' = 'com.oraclecloud.objectstorage.createreplicationpolicy'))",
+  "sigma_id": "2ad1fc65-7141-47aa-8f10-f55428dd65e7",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.exfiltration",
+    "attack.t1537"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "exfiltration"
+    ],
+    "techniques": [
+      "T1537"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Disaster recovery replication setup"
+  ]
+}

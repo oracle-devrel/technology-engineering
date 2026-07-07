@@ -1,0 +1,57 @@
+{
+  "title": "Pass-the-Ticket via Rubeus",
+  "description": "Detects Rubeus commands for pass-the-ticket lateral movement using Kerberos tickets.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*rubeus*' or 'Command Line' like '*ptt*' or 'Command Line' like '*createnetonly*')))",
+  "sigma_id": "8545e5e2-b3c6-40c5-9b10-a8d22ca2428a",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.lateral_movement",
+    "attack.t1550.003"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "lateral_movement"
+    ],
+    "techniques": [
+      "T1550.003"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Authorized security testing"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 2,
+    "techniques_with_tests": [
+      "T1550.003"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1550.003",
+        "test_name": "Mimikatz Kerberos Ticket Attack",
+        "test_guid": "dbf38128-7ba7-4776-bedf-cc2eed432098",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1550.003/T1550.003.md"
+      },
+      {
+        "technique_id": "T1550.003",
+        "test_name": "Rubeus Kerberos Pass The Ticket",
+        "test_guid": "a2fc4ec5-12c6-4fb4-b661-961f23f359cb",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1550.003/T1550.003.md"
+      }
+    ]
+  }
+}

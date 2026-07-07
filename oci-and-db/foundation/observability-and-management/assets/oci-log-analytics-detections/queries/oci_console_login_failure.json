@@ -1,0 +1,31 @@
+{
+  "title": "OCI Console Login Failure",
+  "description": "Detects failed console login attempts to OCI, which may indicate brute-force or credential stuffing attacks.",
+  "query": "'Log Source' = 'OCI Audit Logs' and (('Event Type' = 'com.oraclecloud.consolesignon.login' and Status = 'Failure'))",
+  "sigma_id": "d4e5f6a7-89ab-cdef-0123-456789012034",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.initial_access",
+    "attack.t1078"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "initial_access"
+    ],
+    "techniques": [
+      "T1078"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Users with expired passwords or MFA issues",
+    "Scheduled password rotation"
+  ]
+}

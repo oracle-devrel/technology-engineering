@@ -2,7 +2,7 @@
 
 This collection will hold various network architectures for different types of workloads
 
-Reviewed: 10.10.2025
+Reviewed: 12.06.2026
 
 # Useful Links
 

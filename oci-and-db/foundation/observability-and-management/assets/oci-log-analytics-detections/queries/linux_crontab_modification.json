@@ -1,0 +1,75 @@
+{
+  "title": "Linux Crontab Modification",
+  "description": "Detects crontab command execution, which may indicate persistence via scheduled tasks.",
+  "query": "('Log Source' = 'SOC Linux Syslog Logs' or 'Log Source' = 'Linux Secure Logs' or 'Log Source' = 'Linux Syslog Logs' or 'Log Source' = 'Linux Audit Logs') and (('Process Name' = 'crontab') and (('Command Line' like '*-e*' or 'Command Line' like '*-r*' or 'Command Line' like '*/tmp/*' or 'Command Line' like '*/var/tmp/*' or 'Command Line' like '*/dev/shm/*')))",
+  "sigma_id": "07b8c9d0-bcde-f012-3456-789012345067",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.persistence",
+    "attack.t1053.003"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence"
+    ],
+    "techniques": [
+      "T1053.003"
+    ]
+  },
+  "logsource": {
+    "product": "linux",
+    "service": "audit",
+    "candidates": [
+      "SOC Linux Syslog Logs",
+      "Linux Secure Logs",
+      "Linux Syslog Logs",
+      "Linux Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate scheduled maintenance tasks",
+    "Automated system updates"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 4,
+    "techniques_with_tests": [
+      "T1053.003"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1053.003",
+        "test_name": "Cron - Replace crontab with referenced file",
+        "test_guid": "435057fb-74b1-410e-9403-d81baf194f75",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1053.003/T1053.003.md"
+      },
+      {
+        "technique_id": "T1053.003",
+        "test_name": "Cron - Add script to all cron subfolders",
+        "test_guid": "b7d42afa-9086-4c8a-b7b0-8ea3faa6ebb0",
+        "executor": "bash",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1053.003/T1053.003.md"
+      },
+      {
+        "technique_id": "T1053.003",
+        "test_name": "Cron - Add script to /etc/cron.d folder",
+        "test_guid": "078e69eb-d9fb-450e-b9d0-2e118217c846",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1053.003/T1053.003.md"
+      },
+      {
+        "technique_id": "T1053.003",
+        "test_name": "Cron - Add script to /var/spool/cron/crontabs/ folder",
+        "test_guid": "2d943c18-e74a-44bf-936f-25ade6cccab4",
+        "executor": "bash",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1053.003/T1053.003.md"
+      }
+    ]
+  }
+}

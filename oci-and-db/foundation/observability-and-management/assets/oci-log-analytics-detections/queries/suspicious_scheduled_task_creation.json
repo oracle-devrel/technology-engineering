@@ -1,0 +1,137 @@
+{
+  "title": "Suspicious Scheduled Task Creation",
+  "description": "Detects schtasks.exe creating tasks that execute scripts or binaries from user-writable paths.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Process Name' like '*\\\\schtasks.exe' and ('Command Line' like '*/create*' and 'Command Line' like '*/sc*')) and (('Command Line' like '*\\\\Temp\\\\*' or 'Command Line' like '*\\\\AppData\\\\*' or 'Command Line' like '*powershell*' or 'Command Line' like '*cmd.exe*')))",
+  "sigma_id": "aeaf33f6-7947-4391-891f-75ac4c3067ec",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.execution",
+    "attack.t1053.005"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "execution"
+    ],
+    "techniques": [
+      "T1053.005"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate task scheduling by administrators"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 12,
+    "techniques_with_tests": [
+      "T1053.005"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1053.005",
+        "test_name": "Scheduled Task Startup Script",
+        "test_guid": "fec27f65-db86-4c2d-b66c-61945aee87c2",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1053.005/T1053.005.md"
+      },
+      {
+        "technique_id": "T1053.005",
+        "test_name": "Scheduled task Local",
+        "test_guid": "42f53695-ad4a-4546-abb6-7d837f644a71",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1053.005/T1053.005.md"
+      },
+      {
+        "technique_id": "T1053.005",
+        "test_name": "Scheduled task Remote",
+        "test_guid": "2e5eac3e-327b-4a88-a0c0-c4057039a8dd",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1053.005/T1053.005.md"
+      },
+      {
+        "technique_id": "T1053.005",
+        "test_name": "Powershell Cmdlet Scheduled Task",
+        "test_guid": "af9fd58f-c4ac-4bf2-a9ba-224b71ff25fd",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1053.005/T1053.005.md"
+      },
+      {
+        "technique_id": "T1053.005",
+        "test_name": "Task Scheduler via VBA",
+        "test_guid": "ecd3fa21-7792-41a2-8726-2c5c673414d3",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1053.005/T1053.005.md"
+      },
+      {
+        "technique_id": "T1053.005",
+        "test_name": "WMI Invoke-CimMethod Scheduled Task",
+        "test_guid": "e16b3b75-dc9e-4cde-a23d-dfa2d0507b3b",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1053.005/T1053.005.md"
+      },
+      {
+        "technique_id": "T1053.005",
+        "test_name": "Scheduled Task Executing Base64 Encoded Commands From Registry",
+        "test_guid": "e895677d-4f06-49ab-91b6-ae3742d0a2ba",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1053.005/T1053.005.md"
+      },
+      {
+        "technique_id": "T1053.005",
+        "test_name": "Import XML Schedule Task with Hidden Attribute",
+        "test_guid": "cd925593-fbb4-486d-8def-16cbdf944bf4",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1053.005/T1053.005.md"
+      },
+      {
+        "technique_id": "T1053.005",
+        "test_name": "PowerShell Modify A Scheduled Task",
+        "test_guid": "dda6fc7b-c9a6-4c18-b98d-95ec6542af6d",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1053.005/T1053.005.md"
+      },
+      {
+        "technique_id": "T1053.005",
+        "test_name": "Scheduled Task (\"Ghost Task\") via Registry Key Manipulation",
+        "test_guid": "704333ca-cc12-4bcf-9916-101844881f54",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1053.005/T1053.005.md"
+      },
+      {
+        "technique_id": "T1053.005",
+        "test_name": "Scheduled Task Persistence via CompMgmt.msc",
+        "test_guid": "8fcfa3d5-ea7d-4e1c-bd3e-3c4ed315b7d2",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1053.005/T1053.005.md"
+      },
+      {
+        "technique_id": "T1053.005",
+        "test_name": "Scheduled Task Persistence via Eventviewer.msc",
+        "test_guid": "02124c37-767e-4b76-9383-c9fc366d9d4c",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1053.005/T1053.005.md"
+      }
+    ]
+  }
+}

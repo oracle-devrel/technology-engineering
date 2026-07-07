@@ -1,0 +1,56 @@
+title: Web Server Process Spawning Shell with Injection Characters (Linux)
+id: a1b2c3d4-8004-4000-8000-000000000001
+status: stable
+description: |
+  Detects a web application runtime (Python, Node, Java, PHP) spawning a shell
+  process (bash, sh, dash) with command-line arguments containing injection
+  characters (semicolons, pipes, backticks). This indicates successful Remote
+  Code Execution (RCE) via a command injection vulnerability in the web app.
+  Covers MITRE ATT&CK T1059 (Command and Scripting Interpreter) and
+  T1190 (Exploit Public-Facing Application).
+author: SOC Detection Team
+date: 2026/03/01
+logsource:
+  product: linux
+  service: auditd
+detection:
+  sel_parent_web:
+    message|contains:
+    - 'ppid=python'
+    - 'ppid=python3'
+    - 'ppid=node'
+    - 'ppid=java'
+    - 'ppid=php'
+    - 'ppid=ruby'
+    - 'ppid=uvicorn'
+    - 'ppid=gunicorn'
+    - 'ppid=nginx'
+    - 'ppid=httpd'
+  sel_shell_exec:
+    message|contains:
+    - 'exe="/bin/bash"'
+    - 'exe="/bin/sh"'
+    - 'exe="/bin/dash"'
+    - 'exe="/usr/bin/bash"'
+    - 'exe="/usr/bin/sh"'
+  sel_injection:
+    message|contains:
+    - ';'
+    - '|'
+    - '&&'
+    - '`'
+    - '$('
+    - 'whoami'
+    - '/etc/passwd'
+    - '/etc/shadow'
+  condition: sel_parent_web and sel_shell_exec and sel_injection
+level: critical
+tags:
+- attack.execution
+- attack.t1059
+- attack.initial_access
+- attack.t1190
+falsepositives:
+- Legitimate subprocess calls from web application deployment scripts
+- CI/CD pipeline hooks
+version: 1

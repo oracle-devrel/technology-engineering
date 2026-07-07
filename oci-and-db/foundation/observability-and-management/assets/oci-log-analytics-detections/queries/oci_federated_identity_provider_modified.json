@@ -1,0 +1,30 @@
+{
+  "title": "OCI Federated Identity Provider Modified",
+  "description": "Detects modification of SAML/OIDC identity provider configuration which could enable unauthorized access.",
+  "query": "'Log Source' = 'OCI Audit Logs' and ((('Event Type' = 'com.oraclecloud.identitycontrolplane.updateidentityprovider' or 'Event Type' = 'com.oraclecloud.identitycontrolplane.createidentityprovider')))",
+  "sigma_id": "dcc34b02-d75f-4228-9529-e93fdd87ffcf",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.initial_access",
+    "attack.t1606"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "initial_access"
+    ],
+    "techniques": [
+      "T1606"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Federation configuration changes by IAM admins"
+  ]
+}

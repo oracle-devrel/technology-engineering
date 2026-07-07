@@ -1,0 +1,148 @@
+{
+  "title": "Token Impersonation via Incognito",
+  "description": "Detects usage of Incognito or similar tools for Windows access token manipulation and impersonation.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*incognito*' or 'Command Line' like '*list_tokens*' or 'Command Line' like '*impersonate_token*')))",
+  "sigma_id": "fd438170-b7bc-456f-882c-00aaefa36226",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.credential_access",
+    "attack.t1134"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "credential_access"
+    ],
+    "techniques": [
+      "T1134"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Authorized security testing"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 13,
+    "techniques_with_tests": [
+      "T1134.001",
+      "T1134.002",
+      "T1134.004",
+      "T1134.005"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1134.002",
+        "test_name": "Access Token Manipulation",
+        "test_guid": "dbf4f5a9-b8e0-46a3-9841-9ad71247239e",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.002/T1134.002.md"
+      },
+      {
+        "technique_id": "T1134.002",
+        "test_name": "WinPwn - Get SYSTEM shell - Pop System Shell using Token Manipulation technique",
+        "test_guid": "ccf4ac39-ec93-42be-9035-90e2f26bcd92",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.002/T1134.002.md"
+      },
+      {
+        "technique_id": "T1134.001",
+        "test_name": "Named pipe client impersonation",
+        "test_guid": "90db9e27-8e7c-4c04-b602-a45927884966",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.001/T1134.001.md"
+      },
+      {
+        "technique_id": "T1134.001",
+        "test_name": "`SeDebugPrivilege` token duplication",
+        "test_guid": "34f0a430-9d04-4d98-bcb5-1989f14719f0",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.001/T1134.001.md"
+      },
+      {
+        "technique_id": "T1134.001",
+        "test_name": "Launch NSudo Executable",
+        "test_guid": "7be1bc0f-d8e5-4345-9333-f5f67d742cb9",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.001/T1134.001.md"
+      },
+      {
+        "technique_id": "T1134.001",
+        "test_name": "Bad Potato",
+        "test_guid": "9c6d799b-c111-4749-a42f-ec2f8cb51448",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.001/T1134.001.md"
+      },
+      {
+        "technique_id": "T1134.001",
+        "test_name": "Juicy Potato",
+        "test_guid": "f095e373-b936-4eb4-8d22-f47ccbfbe64a",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.001/T1134.001.md"
+      },
+      {
+        "technique_id": "T1134.004",
+        "test_name": "Parent PID Spoofing using PowerShell",
+        "test_guid": "069258f4-2162-46e9-9a25-c9c6c56150d2",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.004/T1134.004.md"
+      },
+      {
+        "technique_id": "T1134.004",
+        "test_name": "Parent PID Spoofing - Spawn from Current Process",
+        "test_guid": "14920ebd-1d61-491a-85e0-fe98efe37f25",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.004/T1134.004.md"
+      },
+      {
+        "technique_id": "T1134.004",
+        "test_name": "Parent PID Spoofing - Spawn from Specified Process",
+        "test_guid": "cbbff285-9051-444a-9d17-c07cd2d230eb",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.004/T1134.004.md"
+      },
+      {
+        "technique_id": "T1134.004",
+        "test_name": "Parent PID Spoofing - Spawn from svchost.exe",
+        "test_guid": "e9f2b777-3123-430b-805d-5cedc66ab591",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.004/T1134.004.md"
+      },
+      {
+        "technique_id": "T1134.004",
+        "test_name": "Parent PID Spoofing - Spawn from New Process",
+        "test_guid": "2988133e-561c-4e42-a15f-6281e6a9b2db",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.004/T1134.004.md"
+      },
+      {
+        "technique_id": "T1134.005",
+        "test_name": "Injection SID-History with mimikatz",
+        "test_guid": "6bef32e5-9456-4072-8f14-35566fb85401",
+        "executor": "command_prompt",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.005/T1134.005.md"
+      }
+    ]
+  }
+}

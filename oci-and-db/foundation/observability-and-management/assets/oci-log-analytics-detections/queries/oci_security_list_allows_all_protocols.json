@@ -1,0 +1,39 @@
+{
+  "title": "OCI Security List Allows All Protocols",
+  "description": "Detects security list updates that allow all protocols (protocol=all) from any source, creating an overly permissive network configuration that violates STIG network segmentation requirements.",
+  "query": "'Log Source' = 'OCI Audit Logs' and ((('Event Type' = 'com.oraclecloud.virtualnetwork.createsecuritylist' or 'Event Type' = 'com.oraclecloud.virtualnetwork.updatesecuritylist') and 'Original Log Content' like '*\"protocol\":\"all\"*'))",
+  "sigma_id": "d1a2b3c4-1007-4000-8000-000000000007",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.t1562.007",
+    "stig.SC-7",
+    "compliance.cis_oci_2.4"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1562.007"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "stig_ids": [
+    "SC-7"
+  ],
+  "compliance_frameworks": [
+    "cis_oci_2.4"
+  ],
+  "falsepositives": [
+    "Network infrastructure changes during maintenance windows",
+    "Automated IaC deployments"
+  ]
+}

@@ -2,6 +2,8 @@
 
 Exadata Cloud@Customer provides secure connectivity between the Exadata infrastructure, your local data center, and Oracle Cloud Infrastructure (OCI). Dedicated client and backup networks enable seamless integration with enterprise applications and backup services, while a secure control plane connection to OCI allows Oracle to deliver cloud-based management, monitoring, and lifecycle operations. For business continuity and disaster recovery, the platform supports Oracle Data Guard and other replication technologies to protect critical workloads across geographically separated sites.
 
+<img src="./../images/exadb-network.png" alt="Network">
+
 # Useful Links
 
 - [Network Requirements for Oracle Exadata Database Service on Cloud@Customer](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-network)
@@ -14,7 +16,13 @@ Exadata Cloud@Customer provides secure connectivity between the Exadata infrastr
 
 - [Using Data Guard](https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-using-data-guard.html)
 
-Reviewed: 06/11/26
+- [Enable VPN Tunnel for CPS connectivity](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-network/enabling-vpn-tunnel-for-cps)
+
+- [ExaDB-C@C transceivers](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-network/exacc-transceivers)
+
+- [Changing NTP/DNS settings](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-network/ntp-dns-change)
+
+Reviewed: 06/24/26
 
 # License
 
