@@ -17,7 +17,7 @@ The Autonomous Database documentation is not specifying a hard limit for the num
 
 # Useful Links
 
-- [Autonomous AI Database on Oracle Technology Engineering GitHub](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/autonomous-ai-database)
+- [Autonomous AI Database on Oracle Technology Engineering GitHub](../../../autonomous-ai-database/)
 
 - [Oracle Autonomous Database landing page on oracle.com](https://www.oracle.com/autonomous-database/)
 
@@ -33,4 +33,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
