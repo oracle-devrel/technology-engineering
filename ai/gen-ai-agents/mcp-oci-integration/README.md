@@ -133,4 +133,4 @@ For more information, see [here](./docs/integrate_apm.md)
 ## License
 
 Licensed under the **MIT** license.
-See [LICENSE](./LICENSE).
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt).

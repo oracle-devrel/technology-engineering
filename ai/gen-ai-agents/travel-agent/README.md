@@ -78,7 +78,7 @@ To use it, you should:
 ## License
 This assett is licensed under **MIT** license.
 
-See [LICENSE](./LICENSE)
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt)
 
 
 
