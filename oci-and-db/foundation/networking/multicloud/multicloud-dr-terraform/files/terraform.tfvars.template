@@ -1,0 +1,20 @@
+############################
+#  OCI Tenancy Credentials #
+############################
+
+primary_region="xx-yyyyyy-a" # Region identifier https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm
+standby_region="xz-yyyccc-b" # Region identifier https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm
+user="ocid1.user.............."
+tenancy="ocid1.tenancy............."
+compartment_ocid="ocid1.compartment............." # Compartment designated for hosting all network-related resources
+fingerprint="XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX"
+private_key_path= "xxxxxxxxxxxx.pem"
+
+###########################################
+#  Oracle Cloud Infrastructure Variables  #
+###########################################
+
+hub_vcn_primary_cidr_block = "X.X.Z.Z/X"
+hub_vcn_standby_cidr_block = "X.X.B.B/X"
+vcn_primary_ocid = "ocid1.vcn.xxxxxxxxxxxxx"
+vcn_standby_ocid = "ocid1.vcn.yyyyyyyyyyyyy"
