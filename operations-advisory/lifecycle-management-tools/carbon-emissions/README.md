@@ -8,10 +8,9 @@ Carbon Emissions Analysis is an easy-to-use visualization tool that allows payin
 
 Reviewed: 2026-06-17
 
-# Table of Contents
+# Table of Contents  <!-- omit in toc --> 
 
 - [OCI Carbon Emissions Dashboard](#oci-carbon-emissions-dashboard)
-- [Table of Contents](#table-of-contents)
 - [Team Publications](#team-publications)
 - [Useful Links](#useful-links)
 - [License](#license)

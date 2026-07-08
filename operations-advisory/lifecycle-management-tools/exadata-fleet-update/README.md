@@ -8,10 +8,9 @@ The service simplifies Day 2 operations at scale by automating prechecks, stagin
 
 Reviewed: 2026-06-17
 
-# Table of Contents
+# Table of Contents  <!-- omit in toc --> 
 
 - [OCI Exadata Fleet Update](#oci-exadata-fleet-update)
-- [Table of Contents](#table-of-contents)
 - [Team Publications](#team-publications)
 - [Useful Links](#useful-links)
 - [License](#license)

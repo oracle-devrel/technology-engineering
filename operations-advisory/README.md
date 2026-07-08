@@ -2,12 +2,11 @@
 
 The Operations Advisory provides critical guidance to Customers on how to define their operations. Operations Excellence Advisory 'Approach Workshop' advises on best practices and their benefits from Oracle based on previous experiences and is meant to identify  an outline for Day 2 optimal operations, based on  priorities and requirements for DR, Integrations, O&M also in the following scenarios: Hybrid, Multi-cloud, Dedicated Cloud. Where needed, Automation advice is also included.
   
-Reviewed: 2026-06-17
+Reviewed: 2026-07-08
 
-# Table of Contents
+# Table of Contents <!-- omit in toc --> 
 
 - [Operations Advisory](#operations-advisory)
-- [Table of Contents](#table-of-contents)
 - [Team Publications](#team-publications)
   - [Multi-Cloud Operating Models](#multi-cloud-operating-models)
     - [Operational Security](#operational-security)
@@ -30,9 +29,12 @@ Reviewed: 2026-06-17
 ## Multi-Cloud Operating Models
 
 - [Landing Zone Deep Dive - Operations workshop session video.](https://www.youtube.com/watch?v=Kqp0i42ds7Y&t=2825s)
+- [What is GitOps and why it's needed.](./multi-cloud-operating-models/gitops/README.md)
 
 ### Operational Security
 
+- [Git Security.](./multi-cloud-operating-models/operational-security/git-security/README.md)
+- [CI/CD Security.](./multi-cloud-operating-models/operational-security/cicd-security/README.md)
 - [CIS Compliance Dashboard.](./multi-cloud-operating-models/operational-security/CISDashboard/README.md)
 - [OCI Terraform GitHub Actions Worload Identity Federation Example.](./multi-cloud-operating-models/operational-security/programatic-access-cicd/README.md)
 - [Programmatic Access to OCI for CI/CD Pipelines.](./multi-cloud-operating-models/operational-security/programatic-access-cicd/README.md)
@@ -47,6 +49,10 @@ Reviewed: 2026-06-17
   
 ### Oracle Database Operations
 
+- [ExaDB-D - Management Interfaces Deep Dive Workshop](./customer-operations/oracle-database/exadb-d/files/Public_0_OCI_ExaDB_Management_Interfaces_v1.0.pdf)
+- [ExaDB-D - Management Provisioning Operations Deep Dive Workshop](./customer-operations/oracle-database/exadb-d/files/Public_1_ExaDB-D_Provision_v1.0.pdf)
+- [ExaDB-D - Management Change Operations Deep Dive Workshop](./customer-operations/oracle-database/exadb-d/files/Public_2_ExaDB-D_Change_v2.0.pdf)
+- [ExaDB-D - Management Maintenance Operations Deep Dive Workshop](./customer-operations/oracle-database/exadb-d/files/Public_3_ExaDB-D_Maintenance_v2.0.pdf)
 - [Oracle Database@Azure Automation Workshop.](./customer-operations/oracle-database/oracle-database-at-azure-cloud-operations/oracle-database-at-azure-automation-workshop/files/Public_OD@AZ_Automation_v0.1.pdf)
 - [Oracle Database@GCP Operational Best Practices.](./customer-operations/oracle-database/oracle-database-at-azure-cloud-operations/oracle-database-at-azure-operations-best-practices/README.md)
 - [Oracle Database@GCP Automation Workshop.](./customer-operations/oracle-database/oracle-database-at-google-cloud-operations/oracle-database-at-google-automation-workshop/files/Public_OD@GCP_Automation_v0.1.pdf)
