@@ -1,12 +1,19 @@
 ## Multi-Cloud Operating Models
 
-Reviewed: 2026-06-01
-
 A Multi-Cloud Operating Model is a combination of processes, governance, organisational practices, and the tools which make it possible, that companies uses to manage and operate workloads across multiple cloud providers.
 
 Multi-Cloud Operating Model also brings simplicity for managing different cloud deployment options, as within OCI with Public cloud, Dedicated Cloud, Hybrid Cloud (Cloud@Customer), Sovereign Cloud and, Multi-Cloud (OD@), where the use of different realms and consoles can increase the operational complexity and a common model is desirable to simplify the overall model.
 
 Operational Advisory team work in making the Multi-Cloud Operating Models a reality, bringing the concepts and standardising how to setup to simplify customers on-boarding in complex setups. 
+
+Reviewed: 2026-07-08
+
+# Table of Contents <!-- omit in toc --> 
+
+- [Multi-Cloud Operating Models](#multi-cloud-operating-models)
+- [Team Publications](#team-publications)
+  - [Operational Security](#operational-security)
+- [License](#license)
 
 # Team Publications
 
