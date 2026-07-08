@@ -33,9 +33,7 @@ Then, GitOps is defined as:
 
 The GitOps technology context and personas relationship is represented in the following picture:
 
-<p align="center">
-<img src="./files/iac-personas-and-components.png width="1000" height="auto">
-</p>
+![IaC Personas and Components](./files/iac-personas-and-components.png)
 
 The **Control Version Systems (GIT)** is the **single source of truth** for code and all infrastructure components (including Landing Zone & Workload) configuration and code. Any change goes through the Control Version System, where you can audit and track all changes made over time.
 
@@ -61,9 +59,7 @@ It is important to remark this separation of duties, so IaC Developers don't hav
 
 For seeing how OCI fits, thanks to GitOps, in a Multi-Cloud world, let's have a look to the following diagram representing a typical workflow for a 3rd party Cloud Service Provider (CSP) and OCI:
 
-<p align="center">
-<img src="./files/gitops-multiCloud.png width="1000" height="auto">
-</p>
+![GitOps & Multi-Cloud](./files/gitops-multiCloud.png)
 
 The above diagram depicts the following components:
 
@@ -93,9 +89,7 @@ The 2 IaC approaches, Declarative and Procedural, shares a similar runtime appro
 
 **Declarative IaC approach** is represented as:
 
-<p align="center">
-<img src="./files/gitops-declarative-workflow.png width="1000" height="auto">
-</p>
+![Declarative IaC Workflow](./files/gitops-declarative-workflow.png)
 
 In the above diagram can be seen that IaC Developers has access to the Git repositories where OCI Code is maintained. It holds the OCI Landing Zone Terraform Modules within some possible additional Terraform Extension Modules created by them for specific workloads or extending default modules. They use same automation tooling to build and test the modules before making them available for the whole organisation.
 
@@ -107,9 +101,7 @@ For the job execution, the runner will gather the configurations, the code, will
 
 For the **Procedural IaC approach**, based in Ansible, a similar flow is followed:
 
-<p align="center">
-<img src="./files//gitops-procedural-workflow.png width="1000" height="auto">
-</p>
+![Procedural IaC Workflow](./files/gitops-procedural-workflow.png)
 
 In the procedural approach, the IaC Developers creates and maintains some common playbooks for repeatable operations (as patching, provisioning software, etc.), kept in specific Git repositories and tested using same automation tools.
 

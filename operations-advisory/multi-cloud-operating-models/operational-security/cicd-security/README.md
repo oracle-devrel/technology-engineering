@@ -28,9 +28,7 @@ In the below diagram, we can see an example of how an automation pipelines is fi
 
 A more detailed description of these best practices:
 
-<p align="center">
-<img src="./files/cicd-security.png width="1000" height="auto">
-</p>
+![CI/CD Security](./files/cicd-security.png)
 
 1) **Runner always updated:** Forcing use of latest versions of dependant software may reduce the existence of security vulnerabilities and bugs.
    

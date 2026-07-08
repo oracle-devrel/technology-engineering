@@ -6,9 +6,7 @@ One of the considerations within Operational Security is to align the end-to-end
 
 In the below diagram, we can see an overview of the different Git Security Best Practices we recommend:
 
-<p align="center">
-<img src="./files/git-security.png width="1000" height="auto">
-</p>
+![Git Security](./files/git-security.png)
 
 A more detailed description of these best practices:
 
