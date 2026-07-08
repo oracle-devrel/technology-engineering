@@ -4,6 +4,14 @@
 
 Reviewed: 2026-06-01
 
+# Table of Contents  <!-- omit in toc --> 
+- [FinOps](#finops)
+- [Principles](#principles)
+- [FinOps Phases](#finops-phases)
+- [Team Publications](#team-publications)
+- [Useful Links](#useful-links)
+- [License](#license)
+
 **The FinOps Framework** describes 
 1. The Principles that drive FinOps practices
 2. The Personas that FinOps must support as stakeholders
