@@ -1,6 +1,6 @@
-# OCI Enterprise AI Agents — OAC MCP Server
+# OCI Enterprise AI Agents - OAC MCP Server
 
-A React assistant that lets [OCI Enterprise AI](https://www.oracle.com/artificial-intelligence/enterprise-ai/) query **governed Oracle Analytics Cloud data** through the **OAC MCP server**. The model reasons through the OCI Generative AI Responses API, the app executes the delegated OAC MCP tool calls, and every numeric result is rendered as a chart — with the Logical SQL and the full tool timeline shown next to it.
+A React assistant that lets [OCI Enterprise AI](https://www.oracle.com/artificial-intelligence/enterprise-ai/) query **governed Oracle Analytics Cloud data** through the **OAC MCP server**. The model reasons through the OCI Generative AI Responses API, the app executes the delegated OAC MCP tool calls, and every numeric result is rendered as a chart - with the Logical SQL and the full tool timeline shown next to it.
 
 Built with **Next.js 16**, **React 19**, **Recharts**, and a small **Python bridge**.
 
@@ -36,7 +36,7 @@ Open [http://localhost:3000](http://localhost:3000). Click the **Graph Demo** qu
 Create `files/.env` (copy `.env.example`):
 
 ```env
-# OCI Generative AI — OpenAI-compatible Responses API for your region
+# OCI Generative AI - OpenAI-compatible Responses API for your region
 GENAI_BASE_URL=https://inference.generativeai.eu-frankfurt-1.oci.oraclecloud.com/openai/v1
 GENAI_API_KEY=<oci-genai-api-key>
 GENAI_PROJECT_ID=ocid1.generativeaiproject.oc1..xxxxx
@@ -44,10 +44,10 @@ GENAI_PROJECT_ID=ocid1.generativeaiproject.oc1..xxxxx
 # Oracle Analytics Cloud MCP endpoint of your instance
 OAC_MCP_SERVER_URL=https://<your-oac-instance>.analytics.ocp.oraclecloud.com/api/mcp
 
-# Optional — derived from OAC_MCP_SERVER_URL when not set
+# Optional - derived from OAC_MCP_SERVER_URL when not set
 # OAC_TOKEN_REFRESH_URL=https://<your-oac-instance>.analytics.ocp.oraclecloud.com/api/dv/api/v1/tokens/token/refresh
 
-# Optional — python used by the API route (default: files/.venv/bin/python, then python3)
+# Optional - python used by the API route (default: files/.venv/bin/python, then python3)
 # PYTHON_BIN=/usr/bin/python3
 ```
 
@@ -55,10 +55,10 @@ OAC_MCP_SERVER_URL=https://<your-oac-instance>.analytics.ocp.oraclecloud.com/api
 
 Two options, in the order the bridge resolves them:
 
-1. **Access token** — set `OAC_ACCESS_TOKEN` (or `MCP_BEARER_TOKEN`) in `.env`, or paste a token in the UI. OAC access tokens expire after ~1 hour.
-2. **`tokens.json` (recommended)** — in OAC go to **Profile → Mobile Authentication → Download token file** and save it as `files/tokens.json` (shape in `tokens.example.json`). The bridge reads it on every request and **refreshes it automatically** ~10 minutes before expiry, persisting the rotated refresh token back to the file. This survives well beyond the 1-hour access-token window.
+1. **Access token** - set `OAC_ACCESS_TOKEN` (or `MCP_BEARER_TOKEN`) in `.env`, or paste a token in the UI. OAC access tokens expire after ~1 hour.
+2. **`tokens.json` (recommended)** - in OAC go to **Profile → Mobile Authentication → Download token file** and save it as `files/tokens.json` (shape in `tokens.example.json`). The bridge reads it on every request and **refreshes it automatically** ~10 minutes before expiry, persisting the rotated refresh token back to the file. This survives well beyond the 1-hour access-token window.
 
-> The refresh endpoint authenticates with the *access token itself*, so once a downloaded token file fully expires it cannot be refreshed — download a fresh `tokens.json` from OAC.
+> The refresh endpoint authenticates with the *access token itself*, so once a downloaded token file fully expires it cannot be refreshed - download a fresh `tokens.json` from OAC.
 
 ---
 
@@ -96,7 +96,7 @@ Follow-up questions keep `previous_response_id`, so "break that down by month" w
 ![Home](images/01-home.png)
 
 ### Governed analytics through MCP
-The assistant discovers the right subject area or dataset, describes only the relevant metadata, and builds Logical SQL from the exact described column names — including the `XSA('owner'.'Dataset')` syntax for uploaded datasets.
+The assistant discovers the right subject area or dataset, describes only the relevant metadata, and builds Logical SQL from the exact described column names - including the `XSA('owner'.'Dataset')` syntax for uploaded datasets.
 
 ### Automatic result charts
 Any executed Logical SQL result with at least one category column and one numeric measure is rendered as a bar chart. A **Graph Demo** quick prompt renders a deterministic local chart to verify the UI path with no OAC access at all.
@@ -105,7 +105,7 @@ Any executed Logical SQL result with at least one category column and one numeri
 Every MCP call is listed with status, arguments, and compacted output; all executed Logical SQL statements are shown verbatim.
 
 ### Token diagnostics
-On 401/403 the bridge reports the token source used, whether the JWT is readable/expired, and whether the token audience matches the OAC host — the usual failure causes, stated directly in the error message.
+On 401/403 the bridge reports the token source used, whether the JWT is readable/expired, and whether the token audience matches the OAC host - the usual failure causes, stated directly in the error message.
 
 ### Display masking
 Dataset owner e-mails, OCIDs, and `XSA('owner'...)` identifiers are masked in the rendered UI so demo recordings don't leak identifiers.
@@ -145,7 +145,7 @@ oci-enterprise-ai-agents-oac-mcp-server/
 
 1. UI POSTs `{action: "chat", prompt, previousResponseId, ...}` to `/api/oac-demo`
 2. The route spawns `scripts/oac_react_api.py` and writes the payload to stdin
-3. The bridge resolves an OAC token (see below) and preflights `initialize` against the OAC MCP endpoint — 401/403 fail fast with token diagnostics
+3. The bridge resolves an OAC token (see below) and preflights `initialize` against the OAC MCP endpoint - 401/403 fail fast with token diagnostics
 4. The bridge lists the OAC MCP tools and exposes them to the model as function tools via the Responses API
 5. Each model tool call is executed by the bridge against OAC MCP (`tools/call`), compacted, and returned to the model; the loop repeats until the model produces a final answer
 6. The bridge extracts Logical SQL, builds the chart payload from the last SQL result rows, and emits one JSON object to stdout; the route returns it to the UI
@@ -153,7 +153,7 @@ oci-enterprise-ai-agents-oac-mcp-server/
 ### Token resolution order
 
 1. `accessToken` pasted in the UI payload
-2. `files/tokens.json` — used directly while valid, auto-refreshed (and persisted) when within 10 minutes of expiry
+2. `files/tokens.json` - used directly while valid, auto-refreshed (and persisted) when within 10 minutes of expiry
 3. `OAC_ACCESS_TOKEN` / `MCP_BEARER_TOKEN` environment variables
 
 ### Chart building
@@ -165,11 +165,11 @@ oci-enterprise-ai-agents-oac-mcp-server/
 ## OCI API endpoints used
 
 ### Generative AI (inference)
-- `POST {GENAI_BASE_URL}/responses` — model reasoning with function tools, chained via `previous_response_id` (OpenAI-compatible Responses API; authenticated with `GENAI_API_KEY` + `GENAI_PROJECT_ID`)
+- `POST {GENAI_BASE_URL}/responses` - model reasoning with function tools, chained via `previous_response_id` (OpenAI-compatible Responses API; authenticated with `GENAI_API_KEY` + `GENAI_PROJECT_ID`)
 
 ### Oracle Analytics Cloud
-- `POST {OAC_MCP_SERVER_URL}` — MCP JSON-RPC 2.0: `initialize`, `tools/list`, `tools/call` (Bearer token)
-- `POST .../api/dv/api/v1/tokens/token/refresh` — refreshes a downloaded token file: current access token in the `Authorization` header, refresh token as `text/plain` body; returns rotated `accessToken`/`refreshToken`
+- `POST {OAC_MCP_SERVER_URL}` - MCP JSON-RPC 2.0: `initialize`, `tools/list`, `tools/call` (Bearer token)
+- `POST .../api/dv/api/v1/tokens/token/refresh` - refreshes a downloaded token file: current access token in the `Authorization` header, refresh token as `text/plain` body; returns rotated `accessToken`/`refreshToken`
 
 ---
 
@@ -217,12 +217,12 @@ The chart needs at least one text/category column and one numeric measure in the
 
 ## Tech Stack
 
-- **Framework** — Next.js 16 (App Router, Turbopack)
-- **UI** — React 19, Lucide icons, CSS Modules
-- **Charts** — Recharts
-- **Markdown** — react-markdown + remark-gfm
-- **Bridge** — Python 3, `openai` (OCI Responses API), `requests` (OAC MCP JSON-RPC + token refresh)
-- **Protocols** — MCP (JSON-RPC 2.0 over streamable HTTP), OpenAI-compatible Responses API
+- **Framework** - Next.js 16 (App Router, Turbopack)
+- **UI** - React 19, Lucide icons, CSS Modules
+- **Charts** - Recharts
+- **Markdown** - react-markdown + remark-gfm
+- **Bridge** - Python 3, `openai` (OCI Responses API), `requests` (OAC MCP JSON-RPC + token refresh)
+- **Protocols** - MCP (JSON-RPC 2.0 over streamable HTTP), OpenAI-compatible Responses API
 
 ---
 
@@ -233,5 +233,3 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
 See [LICENSE](LICENSE) for more details.
-
-ORACLE AND ITS AFFILIATES DO NOT PROVIDE ANY WARRANTY WHATSOEVER, EXPRESS OR IMPLIED, FOR ANY SOFTWARE, MATERIAL OR CONTENT OF ANY KIND CONTAINED OR PRODUCED WITHIN THIS REPOSITORY, AND IN PARTICULAR SPECIFICALLY DISCLAIM ANY AND ALL IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. FURTHERMORE, ORACLE AND ITS AFFILIATES DO NOT REPRESENT THAT ANY CUSTOMARY SECURITY REVIEW HAS BEEN PERFORMED WITH RESPECT TO ANY SOFTWARE, MATERIAL OR CONTENT CONTAINED OR PRODUCED WITHIN THIS REPOSITORY. IN ADDITION, AND WITHOUT LIMITING THE FOREGOING, THIRD PARTIES MAY HAVE POSTED SOFTWARE, MATERIAL OR CONTENT TO THIS REPOSITORY WITHOUT ANY REVIEW. USE AT YOUR OWN RISK.
