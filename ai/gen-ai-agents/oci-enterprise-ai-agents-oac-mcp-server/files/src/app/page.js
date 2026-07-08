@@ -416,9 +416,9 @@ function formatToolOutput(value) {
 function maskSensitive(value) {
   if (value == null) return value;
   let text = typeof value === "string" ? value : String(value);
-  text = text.replace(/XSA\('[^']*'\./g, "XSA('…'.");
+  text = text.replace(/XSA\('[^']*'\./g, "XSA('...'.");
   text = text.replace(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g, "[hidden]");
-  text = text.replace(/ocid1\.[a-z0-9._-]+/gi, "ocid1.…");
+  text = text.replace(/ocid1\.[a-z0-9._-]+/gi, "ocid1....");
   return text;
 }
 
