@@ -8,7 +8,7 @@ In the below diagram, we can see an example of how an automation pipelines is fi
 
 1) **Configuration repository checkout:** The runner gathers the configuration repository contents locally, so it can work with the Terraform variables.
    
-2) **Runner initialisation (optional): **Depending on the kind of runner deployment (VM, container), it might be needed to check the status of required packages to run the pipeline. In containerised platforms, the runner image is maintained in a registry, that can be versioned and doesn't need to perform this step.
+2) **Runner initialisation (optional):** Depending on the kind of runner deployment (VM, container), it might be needed to check the status of required packages to run the pipeline. In containerised platforms, the runner image is maintained in a registry, that can be versioned and doesn't need to perform this step.
    
 3) **Code cloning:** This is where the code meets the configurations. The code module(s) is referenced in the pipeline definition and usually uses an orchestrator (as the OCI Landing Zone Orchestrator module), that acts as a wrapper or orchestration layer for multiple depends modules (Landing Zone or Workloads modules). This avoids that operator can add new, uncontrolled code. 
    
