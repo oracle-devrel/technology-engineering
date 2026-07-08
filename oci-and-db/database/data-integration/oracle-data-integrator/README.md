@@ -2,7 +2,7 @@
 
 Oracle Data Integrator is a comprehensive data integration platform that covers all data integration requirements: from high-volume, high-performance batch loads, to event-driven, trickle-feed integration processes, to SOA-enabled data services. Oracle Data Integrator (ODI) 14c, the latest version of Oracle’s strategic Data Integration offering, provides superior developer productivity and improved user experience with a redesigned flow-based declarative user interface and deeper integration with Oracle GoldenGate. ODI 14c further builds on its flexible and high-performance architecture with comprehensive big data support and added parallelism when executing data integration processes. It includes interoperability with Oracle Warehouse Builder (OWB) for a quick and simple migration for OWB customers to ODI 14c. 
 
-Reviewed: 05.06.2026
+Reviewed: 08.07.2026
 
 # Table of Contents
  
@@ -10,8 +10,10 @@ Reviewed: 05.06.2026
 2. [Useful Links](#useful-links)
  
 # Team Publications
-- [Automatic Parallelism in SQL*Loader with Oracle Data Integrator and 26ai Database Client](https://github.com/oracle-devrel/technology-engineering/blob/main/data-platform/data-integration/shared-assets/parallel-sqlloader-odi-aidatabase26)
-    - How to utilize automatic parallelism in SQL*Loader in ODI with a custom Knowledge Module. 
+- [Automatic Parallelism in SQL*Loader with Oracle Data Integrator and 26ai Database Client](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/data-integration/shared-assets/parallel-sqlloader-odi-aidatabase26)
+    - How to utilize automatic parallelism with SQL*Loader in ODI using a custom Knowledge Module. 
+- [Automatic Parallelism in SQL*Loader with Oracle Data Integrator and 26ai Database Client](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/data-integration/shared-assets/direct-to-target-loading-sqlldr)
+    - How to load directly into target table with SQL*Loader in ODI using a custom Knowledge Module.
       
 # Useful Links
  
@@ -40,4 +42,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/database/data-integration/shared-assets/parallel-sqlloader-odi-aidatabase26/LICENSE) for more details.
