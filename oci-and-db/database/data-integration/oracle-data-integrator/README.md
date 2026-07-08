@@ -12,7 +12,7 @@ Reviewed: 08.07.2026
 # Team Publications
 - [Automatic Parallelism in SQL*Loader with Oracle Data Integrator and 26ai Database Client](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/data-integration/shared-assets/parallel-sqlloader-odi-aidatabase26)
     - How to utilize automatic parallelism with SQL*Loader in ODI using a custom Knowledge Module. 
-- [Automatic Parallelism in SQL*Loader with Oracle Data Integrator and 26ai Database Client](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/data-integration/shared-assets/direct-to-target-loading-sqlldr)
+- [Direct to target loads with SQL*Loader in Oracle Data Integrator](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/data-integration/shared-assets/direct-to-target-loading-sqlldr)
     - How to load directly into target table with SQL*Loader in ODI using a custom Knowledge Module.
       
 # Useful Links
