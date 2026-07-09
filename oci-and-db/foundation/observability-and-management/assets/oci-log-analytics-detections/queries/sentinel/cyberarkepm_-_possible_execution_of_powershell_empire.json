@@ -1,0 +1,82 @@
+{
+  "title": "CyberArkEPM - Possible execution of Powershell Empire",
+  "description": "'Detects possible execution of Powershell Empire.'\n",
+  "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and ('Event Type' != 'AttackAttempt') and (('Command Line' like '*-NoP -sta -NonI -W Hidden -Enc*' or 'Command Line' like '*-noP -sta -w 1 -enc*' or 'Command Line' like '*-NoP -NonI -W Hidden -enc*'))",
+  "level": "high",
+  "source_type": "microsoft_sentinel",
+  "sentinel_id": "eddfd1fd-71df-4cc3-b050-287643bee398",
+  "sentinel_source_path": "Solutions/CyberArkEPM/Analytic Rules/CyberArkEPMPossibleExecutionOfPowershellEmpire.yaml",
+  "sentinel_source_url": "https://github.com/Azure/Azure-Sentinel/blob/63ff8eedc58e7df0d22eba05ca73c92b59a66634/Solutions/CyberArkEPM/Analytic Rules/CyberArkEPMPossibleExecutionOfPowershellEmpire.yaml",
+  "required_data_connectors": [
+    {
+      "connector_id": "CyberArkEPM",
+      "data_types": [
+        "CyberArkEPM"
+      ]
+    }
+  ],
+  "conversion_status": "promoted",
+  "conversion_confidence": "medium",
+  "source_confidence": "high",
+  "live_validation_status": "passed",
+  "sentinel_tables": [
+    "CyberArkEPM"
+  ],
+  "sentinel_category": "endpoint",
+  "tags": [
+    "microsoft_sentinel",
+    "sentinel.endpoint"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "execution"
+    ],
+    "techniques": [
+      "T1204"
+    ]
+  },
+  "logsource": {
+    "product": "microsoft_sentinel",
+    "service": "endpoint_privilege",
+    "candidates": [
+      "SOC Windows Sysmon Logs",
+      "Windows Security Events"
+    ],
+    "original_tables": [
+      "CyberArkEPM"
+    ]
+  },
+  "references": [
+    {
+      "name": "Microsoft Sentinel source rule",
+      "url": "https://github.com/Azure/Azure-Sentinel/blob/63ff8eedc58e7df0d22eba05ca73c92b59a66634/Solutions/CyberArkEPM/Analytic Rules/CyberArkEPMPossibleExecutionOfPowershellEmpire.yaml"
+    },
+    {
+      "name": "Microsoft Sentinel repository",
+      "url": "https://github.com/Azure/Azure-Sentinel"
+    },
+    {
+      "name": "Azure/Azure-Sentinel license",
+      "url": "https://github.com/Azure/Azure-Sentinel/blob/master/LICENSE"
+    }
+  ],
+  "attribution": {
+    "source": "Microsoft Sentinel",
+    "repository": "Azure/Azure-Sentinel",
+    "license": "MIT",
+    "license_url": "https://github.com/Azure/Azure-Sentinel/blob/master/LICENSE"
+  },
+  "dashboard": {
+    "visualizationType": "table",
+    "timeSelection": {
+      "timePeriod": "l21d"
+    },
+    "ask_ai_prompts": [
+      "Summarize the Microsoft Sentinel converted detection results and identify the highest-risk pivots."
+    ]
+  },
+  "detection_maturity": "source_converted",
+  "field_coverage": "mapped_subset",
+  "test_data_coverage": "not_evaluated",
+  "scheduled_rule_eligibility": "not_evaluated"
+}

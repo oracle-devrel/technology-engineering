@@ -1,0 +1,143 @@
+{
+  "title": "Sysmon PsExec Named Pipe",
+  "description": "Detects named pipe creation matching PsExec default pipe names. PsExec creates named pipes for remote command execution and is commonly used for lateral movement.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Pipe Name' like '*\\\\PSEXESVC*' or 'Pipe Name' like '*\\\\psexec*' or 'Pipe Name' like '*\\\\csexec*' or 'Pipe Name' like '*\\\\remcom*' or 'Pipe Name' like '*\\\\PAExec*')))",
+  "sigma_id": "a1b2c3d4-7002-4000-8000-000000000002",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.lateral_movement",
+    "attack.t1021.002",
+    "attack.execution",
+    "attack.t1569.002"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "lateral_movement",
+      "execution"
+    ],
+    "techniques": [
+      "T1021.002",
+      "T1569.002"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate PsExec usage by administrators",
+    "Authorized remote management"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 12,
+    "techniques_with_tests": [
+      "T1021.002",
+      "T1569.002"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1021.002",
+        "test_name": "Map admin share",
+        "test_guid": "3386975b-367a-4fbb-9d77-4dcf3639ffd3",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1021.002/T1021.002.md"
+      },
+      {
+        "technique_id": "T1021.002",
+        "test_name": "Map Admin Share PowerShell",
+        "test_guid": "514e9cd7-9207-4882-98b1-c8f791bae3c5",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1021.002/T1021.002.md"
+      },
+      {
+        "technique_id": "T1021.002",
+        "test_name": "Copy and Execute File with PsExec",
+        "test_guid": "0eb03d41-79e4-4393-8e57-6344856be1cf",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1021.002/T1021.002.md"
+      },
+      {
+        "technique_id": "T1021.002",
+        "test_name": "Execute command writing output to local Admin Share",
+        "test_guid": "d41aaab5-bdfe-431d-a3d5-c29e9136ff46",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1021.002/T1021.002.md"
+      },
+      {
+        "technique_id": "T1569.002",
+        "test_name": "Execute a Command as a Service",
+        "test_guid": "2382dee2-a75f-49aa-9378-f52df6ed3fb1",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1569.002/T1569.002.md"
+      },
+      {
+        "technique_id": "T1569.002",
+        "test_name": "Use PsExec to execute a command on a remote host",
+        "test_guid": "873106b7-cfed-454b-8680-fa9f6400431c",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1569.002/T1569.002.md"
+      },
+      {
+        "technique_id": "T1569.002",
+        "test_name": "psexec.py (Impacket)",
+        "test_guid": "edbcd8c9-3639-4844-afad-455c91e95a35",
+        "executor": "bash",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1569.002/T1569.002.md"
+      },
+      {
+        "technique_id": "T1569.002",
+        "test_name": "BlackCat pre-encryption cmds with Lateral Movement",
+        "test_guid": "31eb7828-97d7-4067-9c1e-c6feb85edc4b",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1569.002/T1569.002.md"
+      },
+      {
+        "technique_id": "T1569.002",
+        "test_name": "Use RemCom to execute a command on a remote host",
+        "test_guid": "a5d8cdeb-be90-43a9-8b26-cc618deac1e0",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1569.002/T1569.002.md"
+      },
+      {
+        "technique_id": "T1569.002",
+        "test_name": "Snake Malware Service Create",
+        "test_guid": "b8db787e-dbea-493c-96cb-9272296ddc49",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1569.002/T1569.002.md"
+      },
+      {
+        "technique_id": "T1569.002",
+        "test_name": "Modifying ACL of Service Control Manager via SDET",
+        "test_guid": "bf07f520-3909-4ef5-aa22-877a50f2f77b",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1569.002/T1569.002.md"
+      },
+      {
+        "technique_id": "T1569.002",
+        "test_name": "Pipe Creation - PsExec Tool Execution From Suspicious Locations",
+        "test_guid": "004a5d68-627b-452d-af3d-43bd1fc75a3b",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1569.002/T1569.002.md"
+      }
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "title": "APM: Octo Demo Metric Samples",
+  "description": "Metric sample inventory for octo-apm-demo. Displays metric names, values, units, and routes as parsed from SOC Application Logs.",
+  "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and ('Service Name' = 'octo-apm-demo' or 'APM Domain' = 'octo-apm-demo') and 'Metric Name' != null | stats count as Samples, unique('Metric Unit') as Units, unique('Metric Value') as Values, distinctcount('Trace ID') as Traces by 'Metric Name', 'Service Name', 'Workflow ID', 'Workflow Step' | sort -Samples",
+  "level": "informational",
+  "type": "curated",
+  "tags": ["apm", "octo-apm-demo", "metrics"],
+  "logsource": {
+    "product": "application",
+    "service": "soc_application_logs",
+    "candidates": ["SOC Application Logs"]
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "valueField": "Samples",
+      "highlightField": "Values"
+    },
+    "ask_ai_prompts": [
+      "List the octo-apm-demo metric samples and explain what each one measures.",
+      "Which metric values suggest latency or error pressure?"
+    ]
+  }
+}

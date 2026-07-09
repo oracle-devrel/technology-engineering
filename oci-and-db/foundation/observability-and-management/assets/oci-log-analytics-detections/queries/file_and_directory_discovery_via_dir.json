@@ -1,0 +1,113 @@
+{
+  "title": "File and Directory Discovery via dir",
+  "description": "Detects recursive directory listings often used during post-exploitation to find sensitive files.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Process Name' like '*\\\\cmd.exe' and ('Command Line' like '*dir*' and 'Command Line' like '*/s*' and 'Command Line' like '*/b*')) and (('Command Line' like '*.doc*' or 'Command Line' like '*.xls*' or 'Command Line' like '*.pdf*' or 'Command Line' like '*.pst*' or 'Command Line' like '*.kdbx*' or 'Command Line' like '*.config*')))",
+  "sigma_id": "8bcc9557-7d63-42f0-bfd2-33e341989859",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.discovery",
+    "attack.t1083"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "discovery"
+    ],
+    "techniques": [
+      "T1083"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "File inventory scripts"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 9,
+    "techniques_with_tests": [
+      "T1083"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1083",
+        "test_name": "File and Directory Discovery (cmd.exe)",
+        "test_guid": "0e36303b-6762-4500-b003-127743b80ba6",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1083/T1083.md"
+      },
+      {
+        "technique_id": "T1083",
+        "test_name": "File and Directory Discovery (PowerShell)",
+        "test_guid": "2158908e-b7ef-4c21-8a83-3ce4dd05a924",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1083/T1083.md"
+      },
+      {
+        "technique_id": "T1083",
+        "test_name": "Nix File and Directory Discovery",
+        "test_guid": "ffc8b249-372a-4b74-adcd-e4c0430842de",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1083/T1083.md"
+      },
+      {
+        "technique_id": "T1083",
+        "test_name": "Nix File and Directory Discovery 2",
+        "test_guid": "13c5e1ae-605b-46c4-a79f-db28c77ff24e",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1083/T1083.md"
+      },
+      {
+        "technique_id": "T1083",
+        "test_name": "Simulating MAZE Directory Enumeration",
+        "test_guid": "c6c34f61-1c3e-40fb-8a58-d017d88286d8",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1083/T1083.md"
+      },
+      {
+        "technique_id": "T1083",
+        "test_name": "Launch DirLister Executable",
+        "test_guid": "c5bec457-43c9-4a18-9a24-fe151d8971b7",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1083/T1083.md"
+      },
+      {
+        "technique_id": "T1083",
+        "test_name": "ESXi - Enumerate VMDKs available on an ESXi Host",
+        "test_guid": "4a233a40-caf7-4cf1-890a-c6331bbc72cf",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1083/T1083.md"
+      },
+      {
+        "technique_id": "T1083",
+        "test_name": "Identifying Network Shares - Linux",
+        "test_guid": "361fe49d-0c19-46ec-a483-ccb92d38e88e",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1083/T1083.md"
+      },
+      {
+        "technique_id": "T1083",
+        "test_name": "Recursive Enumerate Files And Directories By Powershell",
+        "test_guid": "95a21323-770d-434c-80cd-6f6fbf7af432",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1083/T1083.md"
+      }
+    ]
+  }
+}

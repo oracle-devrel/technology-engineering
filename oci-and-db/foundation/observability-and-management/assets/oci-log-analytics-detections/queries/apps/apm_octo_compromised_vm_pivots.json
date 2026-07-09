@@ -1,0 +1,36 @@
+{
+  "title": "APM: Octo Demo Compromised VM Pivots",
+  "description": "Compromised VM and process evidence from the Octo attack lab, including OSQuery findings, instance OCIDs, host roles, and process command lines.",
+  "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and 'Attack ID' != null and 'Compromised VM' != null | stats count as Events, distinctcount('Trace ID') as Traces, unique('Process Command Line') as Commands, unique('OSQuery Query') as OSQueryQueries by 'Compromised VM', 'Instance OCID', 'Host Role', 'OSQuery Finding' | sort -Events",
+  "level": "critical",
+  "type": "curated",
+  "tags": [
+    "apm",
+    "octo-apm-demo",
+    "compromised-vm",
+    "osquery",
+    "attack-lab"
+  ],
+  "logsource": {
+    "product": "application",
+    "service": "soc_application_logs",
+    "candidates": [
+      "SOC Application Logs"
+    ]
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {
+      "timePeriod": "l21d"
+    },
+    "visualizationOptions": {
+      "valueField": "Events",
+      "highlightField": "Instance OCID"
+    },
+    "ask_ai_prompts": [
+      "List the compromised VMs involved in the Octo attack-lab run and summarize the host evidence.",
+      "Which process command line or OSQuery finding best explains the compromise?"
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+version: 1
+table_shards:
+- tables/identity.yaml
+- tables/endpoint.yaml
+- tables/cloud_azure.yaml
+- tables/cloud_office.yaml
+- tables/network.yaml
+- tables/azure_as_is_custom.yaml
+field_shards:
+- fields/common.yaml
+- fields/subject.yaml
+- fields/process.yaml
+- fields/office.yaml
+- fields/network.yaml

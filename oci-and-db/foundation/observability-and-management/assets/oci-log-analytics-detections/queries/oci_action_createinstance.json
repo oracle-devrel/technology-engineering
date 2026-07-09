@@ -1,0 +1,32 @@
+{
+  "title": "OCI Action: CreateInstance",
+  "description": "Detects the execution of CreateInstance action in OCI.",
+  "query": "'Log Source' = 'OCI Audit Logs' and (('Event Type' = 'com.oraclecloud.computeapi.launchinstance'))",
+  "sigma_id": "ebffc976-d456-4a92-a086-4796b2571f0a",
+  "level": "informational",
+  "stig_category": "CAT III",
+  "tags": [
+    "oci.audit",
+    "attack.resource_development",
+    "attack.t1583.003"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "resource_development"
+    ],
+    "techniques": [
+      "T1583.003"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Authorized scaling operations",
+    "Automated IaC deployments"
+  ]
+}

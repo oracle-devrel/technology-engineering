@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Use this file to deploy some handlers/chains and services      --><!-- Two ways to do this:                                           --><!--   java org.apache.axis.client.AdminClient deploy.wsdd          --><!--      after the axis server is running                          --><!-- or                                                             --><!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   --><!--      from the same directory that the Axis engine runs         --><deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from ExtendAccessWSv1Service WSDL service -->
+
+  <service name="ExtendAccessWSv1" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://samplews.oracle.com"/>
+      <parameter name="wsdlServiceElement" value="ExtendAccessWSv1Service"/>
+      <parameter name="schemaQualified" value="http://samplews.oracle.com"/>
+      <parameter name="wsdlServicePort" value="ExtendAccessWSv1"/>
+      <parameter name="className" value="com.oracle.samplews.ExtendAccessWSv1"/>
+      <parameter name="wsdlPortType" value="ExtendAccessWSv1"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation xmlns:operNS="http://samplews.oracle.com" xmlns:retNS="http://samplews.oracle.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="extendAccess" qname="operNS:extendAccess" returnQName="retNS:extendAccessReturn" returnType="rtns:string" soapAction="">
+        <parameter xmlns:pns="http://samplews.oracle.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:userId" type="tns:string"/>
+        <parameter xmlns:pns="http://samplews.oracle.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:eaUUID" type="tns:string"/>
+      </operation>
+      <parameter name="allowedMethods" value="extendAccess"/>
+
+  </service>
+</deployment>

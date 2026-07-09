@@ -1,0 +1,81 @@
+{
+  "title": "Parent PID Spoofing",
+  "description": "Detects indicators of Parent PID spoofing, where a process fakes its parent for evasion.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*PROC_THREAD_ATTRIBUTE_PARENT_PROCESS*' or 'Command Line' like '*ppid*')))",
+  "sigma_id": "f7b73317-0177-4f69-829c-ebf338ce3ac7",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.privilege_escalation",
+    "attack.t1134.004"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "privilege_escalation"
+    ],
+    "techniques": [
+      "T1134.004"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Security testing tools"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 5,
+    "techniques_with_tests": [
+      "T1134.004"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1134.004",
+        "test_name": "Parent PID Spoofing using PowerShell",
+        "test_guid": "069258f4-2162-46e9-9a25-c9c6c56150d2",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.004/T1134.004.md"
+      },
+      {
+        "technique_id": "T1134.004",
+        "test_name": "Parent PID Spoofing - Spawn from Current Process",
+        "test_guid": "14920ebd-1d61-491a-85e0-fe98efe37f25",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.004/T1134.004.md"
+      },
+      {
+        "technique_id": "T1134.004",
+        "test_name": "Parent PID Spoofing - Spawn from Specified Process",
+        "test_guid": "cbbff285-9051-444a-9d17-c07cd2d230eb",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.004/T1134.004.md"
+      },
+      {
+        "technique_id": "T1134.004",
+        "test_name": "Parent PID Spoofing - Spawn from svchost.exe",
+        "test_guid": "e9f2b777-3123-430b-805d-5cedc66ab591",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.004/T1134.004.md"
+      },
+      {
+        "technique_id": "T1134.004",
+        "test_name": "Parent PID Spoofing - Spawn from New Process",
+        "test_guid": "2988133e-561c-4e42-a15f-6281e6a9b2db",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.004/T1134.004.md"
+      }
+    ]
+  }
+}

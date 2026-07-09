@@ -1,0 +1,34 @@
+{
+  "title": "GPO Scheduled Task Written to SYSVOL",
+  "description": "Detects writes of a ScheduledTasks.xml (or GPT.ini bump) under the SYSVOL Policies path, the on-disk artifact left by GPO-abuse tools that push an immediate scheduled task to every machine the GPO applies to.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*SYSVOL*' or 'Command Line' like '*Policies*')) and (('Command Line' like '*ScheduledTasks.xml*' or 'Command Line' like '*Preferences*' or 'Command Line' like '*GPT.INI*' or 'Command Line' like '*gPCMachineExtensionNames*')))",
+  "sigma_id": "a215a400-3d47-4a25-863a-aa0dc21fd929",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.persistence",
+    "attack.t1484.001",
+    "attack.t1053.005"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence"
+    ],
+    "techniques": [
+      "T1484.001",
+      "T1053.005"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate Group Policy Preference scheduled-task deployment"
+  ]
+}

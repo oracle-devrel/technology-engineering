@@ -1,0 +1,32 @@
+Report Summary for 23ai: 
+*****************************
+
+
+Summary of aggregation operators found: your operators are 100% compatible with MongoDB API 
+****************************************************************************************************
+ - Total Aggregation Pipelines found: 17
+ - Total Supported Aggregation Pipelines: 17
+ - Total Not Supported Aggregation Pipelines: 0
+
+
+List of supported aggregation operators and the number of times it appears: 
+********************************************************************************
+{'$set': 3, '$lt': 1, '$and': 1, '$ne': 1, '$exists': 1, '$not': 1, '$regex': 1, '$push': 4, '$each': 2, '$slice': 2}
+
+
+List of NOT supported aggregation operators and the number of times it appears: 
+********************************************************************************
+{}
+
+
+Summary of operations found: your operations are 100% compatible with MongoDB API 
+*************************************************************************************
+ - Query operations using find: 3
+ - Update operations : 4
+
+
+ ** Operations not supported.
+ Insert and updates could not be accurate number as appears more in the log.
+
+
+

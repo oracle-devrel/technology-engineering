@@ -1,0 +1,57 @@
+{
+  "title": "Token Manipulation via RunAs",
+  "description": "Detects suspicious RunAs usage that may indicate token manipulation for privilege escalation.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Process Name' like '*\\\\runas.exe' and 'Command Line' like '*/netonly*'))",
+  "sigma_id": "6ba8f6c4-7c54-4ab2-a4fb-7d239c64a6c1",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.privilege_escalation",
+    "attack.t1134.002"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "privilege_escalation"
+    ],
+    "techniques": [
+      "T1134.002"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate administrative access"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 2,
+    "techniques_with_tests": [
+      "T1134.002"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1134.002",
+        "test_name": "Access Token Manipulation",
+        "test_guid": "dbf4f5a9-b8e0-46a3-9841-9ad71247239e",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.002/T1134.002.md"
+      },
+      {
+        "technique_id": "T1134.002",
+        "test_name": "WinPwn - Get SYSTEM shell - Pop System Shell using Token Manipulation technique",
+        "test_guid": "ccf4ac39-ec93-42be-9035-90e2f26bcd92",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.002/T1134.002.md"
+      }
+    ]
+  }
+}

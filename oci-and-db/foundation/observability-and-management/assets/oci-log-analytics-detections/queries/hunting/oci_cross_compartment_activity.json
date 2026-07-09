@@ -1,0 +1,14 @@
+{
+  "title": "OCI Cross-Compartment Activity Anomaly",
+  "description": "Identifies users operating across an unusual number of compartments, which may indicate lateral movement or reconnaissance after initial access.",
+  "query": "'Log Source' = 'OCI Audit Logs' | stats distinctcount('Compartment Name') as compartment_count, count as total_actions by 'Principal Name' | where compartment_count > 5 | sort -compartment_count",
+  "type": "hunting",
+  "category": "lateral_movement",
+  "mitre_attack": {
+    "tactics": ["lateral_movement", "discovery"],
+    "techniques": ["T1087.004", "T1580"]
+  },
+  "data_source": "OCI Audit Logs",
+  "frequency": "weekly",
+  "notes": "Most users operate in 1-3 compartments. Cross-compartment spikes suggest compromised credentials or insider threat."
+}

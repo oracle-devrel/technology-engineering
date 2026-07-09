@@ -1,0 +1,177 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Oracle Cloud VMware Solution HCX Migration Architecture</title>
+  <desc id="desc">Customer-facing HCX migration architecture showing on-premises VMware, Oracle Cloud VMware Solution, HCX Connector, HCX Cloud Manager, Service Mesh creation, migration service appliances, network connectivity, and migration flows.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f7f9fc; }
+      .zone { fill: #eaf2ff; stroke: #5a7fb8; stroke-width: 2; }
+      .zone-title { font: 700 18px Arial, sans-serif; fill: #111827; }
+      .section-title { font: 700 15px Arial, sans-serif; fill: #111827; }
+      .label { font: 500 14px Arial, sans-serif; fill: #1f2937; }
+      .small { font: 500 12px Arial, sans-serif; fill: #374151; }
+      .tiny { font: 500 11px Arial, sans-serif; fill: #374151; }
+      .note { font: 600 12px Arial, sans-serif; fill: #374151; }
+      .box { fill: #ffffff; stroke: #94a3b8; stroke-width: 1.5; rx: 8; }
+      .box-blue { fill: #0b5cab; stroke: #073b73; stroke-width: 1.5; rx: 8; }
+      .box-blue-text { font: 700 14px Arial, sans-serif; fill: #ffffff; }
+      .box-green { fill: #e9f8ef; stroke: #1f8f4f; stroke-width: 1.5; rx: 8; }
+      .box-orange { fill: #fff4e5; stroke: #d97706; stroke-width: 1.5; rx: 8; }
+      .box-neutral { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.5; rx: 8; }
+      .line { stroke: #344054; stroke-width: 2; fill: none; }
+      .line-dash { stroke: #64748b; stroke-width: 2; stroke-dasharray: 8 6; fill: none; }
+      .line-blue { stroke: #0b5cab; stroke-width: 3; fill: none; }
+      .line-green { stroke: #15803d; stroke-width: 3; fill: none; }
+      .line-orange { stroke: #d97706; stroke-width: 3; fill: none; }
+      .vm { fill: #0f766e; }
+      .host { fill: #f59e0b; stroke: #b45309; stroke-width: 1; }
+      .host-base { fill: #dbeafe; }
+      .legend { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.2; rx: 8; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#344054"/>
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#0b5cab"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#15803d"/>
+    </marker>
+    <marker id="arrow-orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#d97706"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1600" height="900"/>
+
+  <text x="800" y="34" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#111827">VMware HCX Migration Architecture for Oracle Cloud VMware Solution</text>
+  <text x="800" y="58" text-anchor="middle" class="small">HCX Connector and HCX Cloud Manager create a Service Mesh for workload mobility</text>
+
+  <rect x="35" y="96" width="560" height="640" class="zone"/>
+  <text x="315" y="126" text-anchor="middle" class="zone-title">On-Premises VMware Data Center</text>
+  <text x="315" y="148" text-anchor="middle" class="small">vCenter, NSX/VDS, ESXi clusters, workloads</text>
+
+  <rect x="1005" y="96" width="560" height="640" class="zone"/>
+  <text x="1285" y="126" text-anchor="middle" class="zone-title">OCI Region - Oracle Cloud VMware Solution</text>
+  <text x="1285" y="148" text-anchor="middle" class="small">VMware SDDC on OCI Bare Metal, VCN/VLANs, NSX overlay</text>
+
+  <rect x="640" y="98" width="320" height="58" class="box-neutral"/>
+  <text x="800" y="122" text-anchor="middle" class="section-title">Internet Access for HCX Lifecycle</text>
+  <text x="800" y="144" text-anchor="middle" class="tiny">Activation and updates through VMware/Broadcom endpoints</text>
+
+  <rect x="205" y="178" width="210" height="92" class="box"/>
+  <text x="310" y="205" text-anchor="middle" class="section-title">HCX Connector</text>
+  <text x="310" y="228" text-anchor="middle" class="small">Customer-managed appliance</text>
+  <text x="310" y="248" text-anchor="middle" class="tiny">Creates Service Mesh with</text>
+  <text x="310" y="263" text-anchor="middle" class="tiny">HCX Cloud Manager</text>
+
+  <rect x="1185" y="178" width="210" height="92" class="box"/>
+  <text x="1290" y="205" text-anchor="middle" class="section-title">HCX Cloud Manager</text>
+  <text x="1290" y="228" text-anchor="middle" class="small">Enabled in OCVS SDDC</text>
+  <text x="1290" y="248" text-anchor="middle" class="tiny">Creates Service Mesh with</text>
+  <text x="1290" y="263" text-anchor="middle" class="tiny">HCX Connector</text>
+
+  <path class="line-dash" marker-end="url(#arrow)" d="M415 196 L640 127"/>
+  <path class="line-dash" marker-end="url(#arrow)" d="M1185 196 L960 127"/>
+
+  <rect x="652" y="286" width="296" height="58" class="box-blue"/>
+  <text x="800" y="311" text-anchor="middle" class="box-blue-text">Site Pairing</text>
+  <text x="800" y="331" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#dbeafe">Secure pairing between HCX sites</text>
+  <path class="line" marker-end="url(#arrow)" d="M415 224 L652 315"/>
+  <path class="line" marker-end="url(#arrow)" d="M948 315 L1185 224"/>
+
+  <rect x="596" y="384" width="408" height="74" class="box-blue"/>
+  <text x="800" y="411" text-anchor="middle" class="box-blue-text">Service Mesh</text>
+  <text x="800" y="431" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#dbeafe">Created by HCX Connector and HCX Cloud Manager</text>
+  <text x="800" y="447" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#dbeafe">Deploys paired migration service appliances</text>
+
+  <rect x="424" y="300" width="118" height="214" class="box-green"/>
+  <text x="483" y="322" text-anchor="middle" class="section-title">Migration</text>
+  <text x="483" y="340" text-anchor="middle" class="section-title">Services</text>
+  <rect x="446" y="346" width="74" height="42" class="box"/>
+  <text x="483" y="372" text-anchor="middle" class="note">NE</text>
+  <rect x="446" y="404" width="74" height="42" class="box"/>
+  <text x="483" y="430" text-anchor="middle" class="note">IX</text>
+  <rect x="446" y="462" width="74" height="42" class="box"/>
+  <text x="483" y="488" text-anchor="middle" class="note">WO</text>
+
+  <rect x="1058" y="300" width="118" height="214" class="box-green"/>
+  <text x="1117" y="322" text-anchor="middle" class="section-title">Migration</text>
+  <text x="1117" y="340" text-anchor="middle" class="section-title">Services</text>
+  <rect x="1080" y="346" width="74" height="42" class="box"/>
+  <text x="1117" y="372" text-anchor="middle" class="note">NE</text>
+  <rect x="1080" y="404" width="74" height="42" class="box"/>
+  <text x="1117" y="430" text-anchor="middle" class="note">IX</text>
+  <rect x="1080" y="462" width="74" height="42" class="box"/>
+  <text x="1117" y="488" text-anchor="middle" class="note">WO</text>
+
+  <path class="line-blue" marker-end="url(#arrow-blue)" d="M542 367 L596 414"/>
+  <path class="line-blue" marker-end="url(#arrow-blue)" d="M1004 414 L1058 367"/>
+  <path class="line-blue" marker-end="url(#arrow-blue)" d="M542 425 L596 421"/>
+  <path class="line-blue" marker-end="url(#arrow-blue)" d="M1004 421 L1058 425"/>
+  <path class="line-blue" marker-end="url(#arrow-blue)" d="M542 483 L596 429"/>
+  <path class="line-blue" marker-end="url(#arrow-blue)" d="M1004 429 L1058 483"/>
+
+  <rect x="608" y="492" width="384" height="40" class="box"/>
+  <text x="800" y="515" text-anchor="middle" class="label">WAN / FastConnect / IPSec VPN</text>
+
+  <rect x="84" y="364" width="248" height="92" class="box"/>
+  <text x="208" y="391" text-anchor="middle" class="section-title">vCenter / NSX / VDS</text>
+  <text x="208" y="414" text-anchor="middle" class="small">Inventory, networks, migration source</text>
+  <text x="208" y="435" text-anchor="middle" class="tiny">Manages source ESXi clusters</text>
+
+  <rect x="1268" y="364" width="248" height="92" class="box"/>
+  <text x="1392" y="391" text-anchor="middle" class="section-title">vCenter / NSX-T</text>
+  <text x="1392" y="414" text-anchor="middle" class="small">Target SDDC inventory and overlays</text>
+  <text x="1392" y="435" text-anchor="middle" class="tiny">Manages target ESXi clusters</text>
+
+  <path class="line-dash" d="M208 456 L208 552"/>
+  <path class="line-dash" d="M1392 456 L1392 552"/>
+
+  <rect x="78" y="552" width="450" height="130" class="box"/>
+  <text x="303" y="576" text-anchor="middle" class="section-title">Source ESXi Clusters and Workloads</text>
+  <g transform="translate(104 596)">
+    <polygon class="host-base" points="0,42 92,42 76,82 16,82"/>
+    <rect class="host" x="0" y="16" width="92" height="26"/>
+    <text x="46" y="34" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#ffffff">ESXi</text>
+    <rect class="vm" x="8" y="0" width="18" height="14"/><rect class="vm" x="32" y="0" width="18" height="14"/><rect class="vm" x="56" y="0" width="18" height="14"/>
+  </g>
+  <g transform="translate(250 596)">
+    <polygon class="host-base" points="0,42 92,42 76,82 16,82"/>
+    <rect class="host" x="0" y="16" width="92" height="26"/>
+    <text x="46" y="34" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#ffffff">ESXi</text>
+    <rect class="vm" x="8" y="0" width="18" height="14"/><rect class="vm" x="32" y="0" width="18" height="14"/><rect class="vm" x="56" y="0" width="18" height="14"/>
+  </g>
+  <g transform="translate(396 596)">
+    <polygon class="host-base" points="0,42 92,42 76,82 16,82"/>
+    <rect class="host" x="0" y="16" width="92" height="26"/>
+    <text x="46" y="34" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#ffffff">ESXi</text>
+    <rect class="vm" x="8" y="0" width="18" height="14"/><rect class="vm" x="32" y="0" width="18" height="14"/><rect class="vm" x="56" y="0" width="18" height="14"/>
+  </g>
+
+  <rect x="1072" y="552" width="450" height="130" class="box"/>
+  <text x="1297" y="576" text-anchor="middle" class="section-title">Target OCVS ESXi Clusters and Workloads</text>
+  <g transform="translate(1098 596)">
+    <polygon class="host-base" points="0,42 92,42 76,82 16,82"/>
+    <rect class="host" x="0" y="16" width="92" height="26"/>
+    <text x="46" y="34" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#ffffff">ESXi</text>
+    <rect class="vm" x="8" y="0" width="18" height="14"/><rect class="vm" x="32" y="0" width="18" height="14"/><rect class="vm" x="56" y="0" width="18" height="14"/>
+  </g>
+  <g transform="translate(1244 596)">
+    <polygon class="host-base" points="0,42 92,42 76,82 16,82"/>
+    <rect class="host" x="0" y="16" width="92" height="26"/>
+    <text x="46" y="34" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#ffffff">ESXi</text>
+    <rect class="vm" x="8" y="0" width="18" height="14"/><rect class="vm" x="32" y="0" width="18" height="14"/><rect class="vm" x="56" y="0" width="18" height="14"/>
+  </g>
+  <g transform="translate(1390 596)">
+    <polygon class="host-base" points="0,42 92,42 76,82 16,82"/>
+    <rect class="host" x="0" y="16" width="92" height="26"/>
+    <text x="46" y="34" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#ffffff">ESXi</text>
+    <rect class="vm" x="8" y="0" width="18" height="14"/><rect class="vm" x="32" y="0" width="18" height="14"/><rect class="vm" x="56" y="0" width="18" height="14"/>
+  </g>
+
+  <path class="line-blue" marker-end="url(#arrow-blue)" d="M528 604 C650 570 950 570 1072 604"/>
+  <text x="800" y="560" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#0b5cab">Migration flows: vMotion, Bulk Migration, Replication Assisted vMotion</text>
+  <path class="line-green" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)" d="M528 646 C650 690 950 690 1072 646"/>
+  <text x="800" y="714" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#15803d">Optional L2 Network Extension</text>
+
+</svg>

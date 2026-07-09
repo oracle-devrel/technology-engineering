@@ -1,0 +1,214 @@
+{
+  "title": "Sysmon Mimikatz Network Activity",
+  "description": "Detects network connections from mimikatz or known credential theft tools accessing domain controller services (LDAP, Kerberos, SMB).\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Sysmon Network Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Process Name' like '*\\\\mimikatz.exe' or 'Process Name' like '*\\\\sekurlsa.exe' or 'Process Name' like '*\\\\procdump.exe' or 'Process Name' like '*\\\\lsass_dump.exe') and Initiated = 'true') or ( (('Process Name' like '*\\\\mimikatz.exe' or 'Process Name' like '*\\\\sekurlsa.exe' or 'Process Name' like '*\\\\procdump.exe' or 'Process Name' like '*\\\\lsass_dump.exe') and Initiated = 'true') and (('Destination Port' = 88 or 'Destination Port' = 389 or 'Destination Port' = 445 or 'Destination Port' = 636 or 'Destination Port' = 3268)) ))",
+  "sigma_id": "a1b2c3d4-7001-4000-8000-000000000010",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.credential_access",
+    "attack.t1003.001",
+    "attack.t1558.003"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "credential_access"
+    ],
+    "techniques": [
+      "T1003.001",
+      "T1558.003"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Sysmon Network Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Authorized penetration testing",
+    "Security assessment tools"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 21,
+    "techniques_with_tests": [
+      "T1003.001",
+      "T1558.003"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1003.001",
+        "test_name": "Dump LSASS.exe Memory using ProcDump",
+        "test_guid": "0be2230c-9ab3-4ac2-8826-3199b9a0ebf8",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md"
+      },
+      {
+        "technique_id": "T1003.001",
+        "test_name": "Dump LSASS.exe Memory using comsvcs.dll",
+        "test_guid": "2536dee2-12fb-459a-8c37-971844fa73be",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md"
+      },
+      {
+        "technique_id": "T1003.001",
+        "test_name": "Dump LSASS.exe Memory using direct system calls and API unhooking",
+        "test_guid": "7ae7102c-a099-45c8-b985-4c7a2d05790d",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md"
+      },
+      {
+        "technique_id": "T1003.001",
+        "test_name": "Dump LSASS.exe Memory using NanoDump",
+        "test_guid": "dddd4aca-bbed-46f0-984d-e4c5971c51ea",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md"
+      },
+      {
+        "technique_id": "T1003.001",
+        "test_name": "Dump LSASS.exe Memory using Windows Task Manager",
+        "test_guid": "dea6c349-f1c6-44f3-87a1-1ed33a59a607",
+        "executor": "manual",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md"
+      },
+      {
+        "technique_id": "T1003.001",
+        "test_name": "Offline Credential Theft With Mimikatz",
+        "test_guid": "453acf13-1dbd-47d7-b28a-172ce9228023",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md"
+      },
+      {
+        "technique_id": "T1003.001",
+        "test_name": "LSASS read with pypykatz",
+        "test_guid": "c37bc535-5c62-4195-9cc3-0517673171d8",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md"
+      },
+      {
+        "technique_id": "T1003.001",
+        "test_name": "Dump LSASS.exe Memory using Out-Minidump.ps1",
+        "test_guid": "6502c8f0-b775-4dbd-9193-1298f56b6781",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md"
+      },
+      {
+        "technique_id": "T1003.001",
+        "test_name": "Create Mini Dump of LSASS.exe using ProcDump",
+        "test_guid": "7cede33f-0acd-44ef-9774-15511300b24b",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md"
+      },
+      {
+        "technique_id": "T1003.001",
+        "test_name": "Powershell Mimikatz",
+        "test_guid": "66fb0bc1-3c3f-47e9-a298-550ecfefacbc",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md"
+      },
+      {
+        "technique_id": "T1003.001",
+        "test_name": "Dump LSASS with createdump.exe from .Net v5",
+        "test_guid": "9d0072c8-7cca-45c4-bd14-f852cfa35cf0",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md"
+      },
+      {
+        "technique_id": "T1003.001",
+        "test_name": "Dump LSASS.exe using imported Microsoft DLLs",
+        "test_guid": "86fc3f40-237f-4701-b155-81c01c48d697",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md"
+      },
+      {
+        "technique_id": "T1003.001",
+        "test_name": "Dump LSASS.exe using lolbin rdrleakdiag.exe",
+        "test_guid": "47a539d1-61b9-4364-bf49-a68bc2a95ef0",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md"
+      },
+      {
+        "technique_id": "T1003.001",
+        "test_name": "Dump LSASS.exe Memory through Silent Process Exit",
+        "test_guid": "eb5adf16-b601-4926-bca7-dad22adffb37",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md"
+      },
+      {
+        "technique_id": "T1558.003",
+        "test_name": "Request for service tickets",
+        "test_guid": "3f987809-3681-43c8-bcd8-b3ff3a28533a",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1558.003/T1558.003.md"
+      },
+      {
+        "technique_id": "T1558.003",
+        "test_name": "Rubeus kerberoast",
+        "test_guid": "14625569-6def-4497-99ac-8e7817105b55",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1558.003/T1558.003.md"
+      },
+      {
+        "technique_id": "T1558.003",
+        "test_name": "Extract all accounts in use as SPN using setspn",
+        "test_guid": "e6f4affd-d826-4871-9a62-6c9004b8fe06",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1558.003/T1558.003.md"
+      },
+      {
+        "technique_id": "T1558.003",
+        "test_name": "Request A Single Ticket via PowerShell",
+        "test_guid": "988539bc-2ed7-4e62-aec6-7c5cf6680863",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1558.003/T1558.003.md"
+      },
+      {
+        "technique_id": "T1558.003",
+        "test_name": "Request All Tickets via PowerShell",
+        "test_guid": "902f4ed2-1aba-4133-90f2-cff6d299d6da",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1558.003/T1558.003.md"
+      },
+      {
+        "technique_id": "T1558.003",
+        "test_name": "WinPwn - Kerberoasting",
+        "test_guid": "78d10e20-c874-45f2-a9df-6fea0120ec27",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1558.003/T1558.003.md"
+      },
+      {
+        "technique_id": "T1558.003",
+        "test_name": "WinPwn - PowerSharpPack - Kerberoasting Using Rubeus",
+        "test_guid": "29094950-2c96-4cbd-b5e4-f7c65079678f",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1558.003/T1558.003.md"
+      }
+    ]
+  }
+}

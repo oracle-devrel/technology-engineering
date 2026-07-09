@@ -1,0 +1,30 @@
+{
+  "title": "C2: Unique DNS Domains KPI",
+  "description": "Counts the distinct suspicious C2 and DNS exfiltration domains queried during the demo window.",
+  "query": "'Log Source' = 'Windows Sysmon Operational Logs' and 'Event ID' = '22' and ('Query Name' like '*.xyz' or 'Query Name' like '*.info' or 'Query Name' like '*.top' or 'Query Name' like '*.pw' or 'Query Name' like '*.cc' or 'Query Name' like '*.tk' or 'Query Name' like '*.bit' or 'Query Name' like '*.duckdns.org' or 'Query Name' like '*.dnsexfil.example') | stats distinctcount('Query Name') as UniqueDomains",
+  "type": "hunting",
+  "level": "medium",
+  "tags": ["c2", "dns", "kpi", "showcase", "attack.t1071.004"],
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon",
+    "candidates": ["Windows Sysmon Operational Logs"]
+  },
+  "dashboard": {
+    "visualizationType": "tile",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "dataField": "UniqueDomains"
+    },
+    "ask_ai_prompts": [
+      "Which unique domains should be added to containment or DNS block lists?",
+      "Separate C2 domains from DNS exfiltration domains."
+    ]
+  },
+  "mitre_attack": {
+    "tactics": ["command_and_control"],
+    "techniques": ["T1071.004", "T1568.002"]
+  },
+  "falsepositives": ["Legitimate dynamic DNS use by admins"]
+}

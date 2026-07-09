@@ -1,0 +1,34 @@
+{
+  "title": "ADCS ESC6: EDITF_ATTRIBUTESUBJECTALTNAME2 Flag Enabled via Certutil",
+  "description": "Detects enabling of the EDITF_ATTRIBUTESUBJECTALTNAME2 policy flag on an Enterprise CA (ESC6). When set, any requester can specify an arbitrary SAN on any certificate request, allowing domain-wide impersonation. Set via 'certutil -setreg policy\\EditFlags'. GOAD demonstrates this on the SRV03 CA.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*setreg*' and 'Command Line' like '*EditFlags*')) or (('Command Line' like '*EDITF_ATTRIBUTESUBJECTALTNAME2*' or 'Command Line' like '*ATTRIBUTESUBJECTALTNAME2*')))",
+  "sigma_id": "4fb239f7-b0e6-472e-8e4e-1575b6bcbf1f",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.credential_access",
+    "attack.t1649"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion",
+      "credential_access"
+    ],
+    "techniques": [
+      "T1649"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate CA policy administration (rare; should be change-controlled)"
+  ]
+}

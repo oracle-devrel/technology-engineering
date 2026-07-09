@@ -1,0 +1,410 @@
+{
+	"info": {
+		"_postman_id": "018c3537-dde3-4f9d-9e5e-6780074bbae2",
+		"name": "OAG_POSTMAN_REQUEST_SAMPLES",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "37345996"
+	},
+	"item": [
+		{
+			"name": "Get Authorization Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Retrieve access token.\r",
+							"pm.collectionVariables.set(\"access_token\",JSON.parse(pm.response.text()).access_token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "<your_client_secret>",
+						"username": "<your_client_id>"
+					}
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "scope",
+							"value": "{{oag_url}}/urn:opc:agcs:all",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						}
+					]
+				},
+				"url": "{{ociiam_url}}/oauth2/v1/token"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Access Bundle Identifier",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Retrieve access bundles and retain the ID of the first access bundle in the result.\r",
+							"pm.collectionVariables.set(\"access_bundle_id\", JSON.parse(pm.response.text()).items[0].id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					}
+				],
+				"url": "{{oag_url}}/access-governance/access-controls/20250331/accessBundles"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Access Guardrail Identifier",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Retrieve access guardrails and retain the ID of the first access guardrail in the result.\r",
+							"pm.collectionVariables.set(\"access_guardrail_id\",JSON.parse(pm.response.text()).items[0].id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					}
+				],
+				"url": "{{oag_url}}/access-governance/access-controls/20250331/accessGuardrails"
+			},
+			"response": []
+		},
+		{
+			"name": "Get User Identifier - Violation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Retrieve the violation user ID based on the beneficiary_filter_violation value.\r",
+							"pm.collectionVariables.set(\"beneficiary_id_violation\",JSON.parse(pm.response.text()).items[0].id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{oag_url}}/access-governance/identities/20250331/identities?keywordContains={{beneficiary_filter_violation}}",
+					"host": [
+						"{{oag_url}}"
+					],
+					"path": [
+						"access-governance",
+						"identities",
+						"20250331",
+						"identities"
+					],
+					"query": [
+						{
+							"key": "keywordContains",
+							"value": "{{beneficiary_filter_violation}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User Identifier - No Violation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Retrieve the user ID based on the beneficiary_filter value.\r",
+							"pm.collectionVariables.set(\"beneficiary_id\",JSON.parse(pm.response.text()).items[0].id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{oag_url}}/access-governance/identities/20250331/identities?keywordContains={{beneficiary_filter}}",
+					"host": [
+						"{{oag_url}}"
+					],
+					"path": [
+						"access-governance",
+						"identities",
+						"20250331",
+						"identities"
+					],
+					"query": [
+						{
+							"key": "keywordContains",
+							"value": "{{beneficiary_filter}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Access Request - Violation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"justification\": \"Access Request REST API Guardrail Violation Test\",\r\n    \"createdBy\": \"{{beneficiary_id_violation}}\",\r\n    \"accessBundles\": [\r\n        \"{{access_bundle_id}}\"\r\n    ],\r\n    \"identities\": [\r\n        \"{{beneficiary_id_violation}}\"\r\n    ],\r\n    \"accountProfileDetails\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{oag_url}}/access-governance/access-controls/20250331/accessRequests"
+			},
+			"response": []
+		},
+		{
+			"name": "Analyze Access Guardrail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"globalIdentityIds\": [\r\n    \"{{beneficiary_id_violation}}\"\r\n  ],\r\n  \"accessGuardrailIds\": [\r\n    \"{{access_guardrail_id}}\"\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{oag_url}}/access-governance/access-controls/20250331/accessGuardrails/analyze"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Access Request - No Violation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Retrieve org id.\r",
+							"pm.collectionVariables.set(\"organization_id\",JSON.parse(responseBody).id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"justification\": \"Access Request REST API Test\",\r\n    \"createdBy\": \"{{beneficiary_id}}\",\r\n    \"accessBundles\": [\r\n        \"{{access_bundle_id}}\"\r\n    ],\r\n    \"identities\": [\r\n        \"{{beneficiary_id}}\"\r\n    ],\r\n    \"accountProfileDetails\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{oag_url}}/access-governance/access-controls/20250331/accessRequests"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "ociiam_url",
+			"value": "https://idcs-<your_oci_iam_uri>"
+		},
+		{
+			"key": "oag_url",
+			"value": "https://oag-<your_oag_uri>"
+		},
+		{
+			"key": "beneficiary_filter",
+			"value": "Klein"
+		},
+		{
+			"key": "beneficiary_filter_violation",
+			"value": "Adams"
+		},
+		{
+			"key": "access_token",
+			"value": ""
+		},
+		{
+			"key": "access_bundle_id",
+			"value": ""
+		},
+		{
+			"key": "access_guardrail_id",
+			"value": ""
+		},
+		{
+			"key": "beneficiary_id_violation",
+			"value": ""
+		},
+		{
+			"key": "beneficiary_id",
+			"value": ""
+		}
+	]
+}

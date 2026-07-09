@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://samplews.oracle.com" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://samplews.oracle.com" xmlns:intf="http://samplews.oracle.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://samplews.oracle.com" xmlns="http://www.w3.org/2001/XMLSchema">
+   <element name="extendAccess">
+    <complexType>
+     <sequence>
+      <element name="userId" type="xsd:string"/>
+      <element name="eaUUID" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="extendAccessResponse">
+    <complexType>
+     <sequence>
+      <element name="extendAccessReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+ </wsdl:types>
+   <wsdl:message name="extendAccessRequest">
+      <wsdl:part element="impl:extendAccess" name="parameters">
+      </wsdl:part>
+   </wsdl:message>
+   <wsdl:message name="extendAccessResponse">
+      <wsdl:part element="impl:extendAccessResponse" name="parameters">
+      </wsdl:part>
+   </wsdl:message>
+   <wsdl:portType name="ExtendAccessWSv1">
+      <wsdl:operation name="extendAccess">
+         <wsdl:input message="impl:extendAccessRequest" name="extendAccessRequest">
+       </wsdl:input>
+         <wsdl:output message="impl:extendAccessResponse" name="extendAccessResponse">
+       </wsdl:output>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="ExtendAccessWSv1SoapBinding" type="impl:ExtendAccessWSv1">
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+      <wsdl:operation name="extendAccess">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input name="extendAccessRequest">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="extendAccessResponse">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="ExtendAccessWSv1Service">
+      <wsdl:port binding="impl:ExtendAccessWSv1SoapBinding" name="ExtendAccessWSv1">
+         <wsdlsoap:address location="http://tempuri.org/ExtendAccessWS/services/ExtendAccessWSv1"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,33 @@
+{
+  "title": "C2: Communication Topology",
+  "description": "Link analysis for source-to-destination C2 communications across Sysmon network, VCN Flow, and Network Firewall logs. Use it to pivot from a compromised machine or private IP to the external C2 destination.",
+  "query": "((('Log Source' = 'SOC Sysmon Network Logs' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and 'Event ID' = '3' and ('Destination IP' = '198.51.100.77' or 'Destination Hostname' like '*duckdns.org' or 'Destination Hostname' like '*malware.xyz' or 'Destination Hostname' like '*attacker.top' or 'Destination Hostname' like '*cobalt.example.com' or 'Destination Port' = 4443 or 'Destination Port' = 8443)) or (('Log Source' = 'SOC VCN Flow Logs' or 'Log Source' = 'SOC Network Firewall Logs') and ('Destination IP' = '198.51.100.77' or 'Threat Name' = 'Suspicious Data Exfiltration'))) | link span = 15minute 'Source IP', 'Destination IP' | eventstats max(Count) as PeakEvents, sum(Count) as Events, distinctcount('Source IP') as Sources, distinctcount('Destination IP') as Destinations",
+  "type": "hunting",
+  "level": "critical",
+  "tags": ["c2", "link", "topology", "showcase", "attack.t1071"],
+  "logsource": {
+    "product": "multi_source",
+    "service": "network"
+  },
+  "dashboard": {
+    "visualizationType": "link",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "groupBy": ["Source IP"],
+      "linkBy": ["Destination IP"],
+      "valueField": "Count",
+      "dashboardOptions": ["Tiles", "Main Table"],
+      "tileLayoutXml": "<summary><container background-color=\"#F4F6F7\"><table><row><column><tiles layout=\"table\" columns=\"4\" background-color=\"#EAF2F8\"><tile field=\"PeakEvents\" color=\"#1B4F72\" font-size=\"large\"><title align=\"bottom\"><title-text>Peak Path</title-text></title></tile><tile field=\"Events\" color=\"#7D3C98\" font-size=\"large\"><title align=\"bottom\"><title-text>Events</title-text></title></tile><tile field=\"Sources\" color=\"#117A65\" font-size=\"large\"><title align=\"bottom\"><title-text>Sources</title-text></title></tile><tile field=\"Destinations\" color=\"#B03A2E\" font-size=\"large\"><title align=\"bottom\"><title-text>Destinations</title-text></title></tile></tiles></column></row></table></container></summary>"
+    },
+    "ask_ai_prompts": [
+      "Trace the C2 path from source IP to destination IP.",
+      "Which source IP appears compromised and what evidence supports that conclusion?"
+    ]
+  },
+  "mitre_attack": {
+    "tactics": ["command_and_control"],
+    "techniques": ["T1071", "T1095"]
+  },
+  "falsepositives": ["Approved threat-hunting drilldown exercise"]
+}

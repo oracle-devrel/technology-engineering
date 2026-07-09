@@ -1,0 +1,40 @@
+{
+  "title": "Pass-the-Ticket: Excessive Explicit Credential Logons",
+  "description": "Detects Event 4648 explicit credential delegation at high frequency from a single source \u2014 indicates pass-the-ticket, over-pass-the-hash, or Rubeus asktgt lateral movement across the domain.\n",
+  "query": "('Log Source' = 'Windows Security Events' or 'Log Source' = 'Windows Event Security Logs') and (('Event ID' = '4648')) | stats count as Attempts by User, Entity | where Attempts > 5 | sort -Attempts",
+  "sigma_id": "ptt-t1550-003",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.credential_access",
+    "attack.t1550.003",
+    "attack.lateral_movement"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "credential_access",
+      "lateral_movement"
+    ],
+    "techniques": [
+      "T1550.003"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "security",
+    "candidates": [
+      "Windows Security Events",
+      "Windows Event Security Logs"
+    ]
+  },
+  "falsepositives": [
+    "Service accounts delegating credentials to multiple servers"
+  ],
+  "requires_aggregation": true,
+  "atomic_red_team": {
+    "has_tests": false,
+    "test_count": 0,
+    "techniques_with_tests": [],
+    "tests": []
+  }
+}

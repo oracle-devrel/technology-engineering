@@ -1,0 +1,42 @@
+title: SSRF to Cloud Instance Metadata Service (Linux)
+id: a1b2c3d4-8003-4000-8000-000000000001
+status: stable
+description: |
+  Detects outbound HTTP requests to the cloud instance metadata endpoint
+  (169.254.169.254) from web application processes on Linux. This indicates
+  Server-Side Request Forgery (SSRF) exploitation targeting OCI/AWS/GCP/Azure
+  IMDS to extract instance credentials or configuration.
+  Covers MITRE ATT&CK T1552.005 (Cloud Instance Metadata API).
+author: SOC Detection Team
+date: 2026/03/01
+logsource:
+  product: linux
+  service: auditd
+detection:
+  sel_metadata:
+    message|contains: '169.254.169.254'
+  sel_web_process:
+    message|contains:
+    - python
+    - python3
+    - node
+    - java
+    - ruby
+    - php
+    - httpd
+    - nginx
+    - uvicorn
+    - gunicorn
+    - curl
+    - wget
+  condition: sel_metadata and sel_web_process
+level: critical
+tags:
+- attack.credential_access
+- attack.t1552.005
+- attack.initial_access
+- attack.t1190
+falsepositives:
+- Cloud-init metadata access during instance bootstrapping
+- OCI SDK calls using instance principal authentication
+version: 1

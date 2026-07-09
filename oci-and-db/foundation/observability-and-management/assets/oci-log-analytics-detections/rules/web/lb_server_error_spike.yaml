@@ -1,0 +1,24 @@
+title: Web Application Server Error Spike
+id: a1010015-owasp-a05-servererror-001
+status: stable
+version: 1
+description: Detects HTTP 500 Internal Server Error responses which may indicate successful injection attacks causing application errors, or application instability from attack traffic.
+logsource:
+  product: oci
+  service: loadbalancer
+detection:
+  selection:
+    response_code:
+    - "500"
+    - "502"
+    - "503"
+  condition: selection
+level: medium
+tags:
+- attack.impact
+- attack.t1499
+- owasp.a05
+falsepositives:
+- Application deployment or restart
+- Backend service outages
+- Legitimate application bugs

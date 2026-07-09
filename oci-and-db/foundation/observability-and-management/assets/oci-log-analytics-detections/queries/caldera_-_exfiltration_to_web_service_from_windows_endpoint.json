@@ -1,0 +1,33 @@
+{
+  "title": "Caldera - Exfiltration to Web Service from Windows Endpoint",
+  "description": "Detects uploads of collected data to public web services from Windows hosts. Caldera T1567 emulation uses PowerShell or curl to push staged files to paste sites, anonymous file-share services, or cloud storage APIs. This complements the OneDrive-specific BLUELIGHT APT rule with a general cross-service detection.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (( (('Command Line' like '*pastebin.com*' or 'Command Line' like '*paste.ee*' or 'Command Line' like '*transfer.sh*' or 'Command Line' like '*file.io*' or 'Command Line' like '*ix.io*' or 'Command Line' like '*0x0.st*')) or (('Command Line' like '*s3.amazonaws.com*' or 'Command Line' like '*storage.googleapis.com*' or 'Command Line' like '*blob.core.windows.net*' or 'Command Line' like '*objectstorage.oraclecloud.com*')) ) and (('Command Line' like '*Invoke-WebRequest*' or 'Command Line' like '*Invoke-RestMethod*' or 'Command Line' like '*curl.exe*' or 'Command Line' like '*wget.exe*')))",
+  "sigma_id": "d768a458-8aed-499e-9493-2f4d548e90d5",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.exfiltration",
+    "attack.t1567"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "exfiltration"
+    ],
+    "techniques": [
+      "T1567"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Developers testing API uploads",
+    "Authorized DevOps pipelines deploying to cloud storage"
+  ]
+}

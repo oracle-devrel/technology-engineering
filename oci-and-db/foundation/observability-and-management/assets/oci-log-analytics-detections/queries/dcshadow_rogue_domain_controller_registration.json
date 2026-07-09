@@ -1,0 +1,32 @@
+{
+  "title": "DCShadow Rogue Domain Controller Registration",
+  "description": "Detects DCShadow, where mimikatz registers a rogue Domain Controller (lsadump::dcshadow) to push malicious directory replication (e.g. SID History or AdminSDHolder changes) while bypassing normal change logging.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*lsadump::dcshadow*' or 'Command Line' like '*dcshadow*' or 'Command Line' like '*/push*')) and (('Command Line' like '*/object:*' or 'Command Line' like '*/attribute:*')))",
+  "sigma_id": "59ac966e-8b7d-48a4-b4af-0af2301a711b",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.t1207"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1207"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "None expected; DCShadow has no legitimate use"
+  ]
+}

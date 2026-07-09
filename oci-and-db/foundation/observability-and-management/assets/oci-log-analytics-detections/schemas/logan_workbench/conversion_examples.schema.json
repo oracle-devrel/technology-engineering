@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oci-logan.local/schemas/logan_workbench/conversion_examples.schema.json",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "examples"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "generated_at": { "type": "string" },
+    "examples": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "source_language", "source_query", "expected_logan_ql", "explanation", "warnings", "support_level", "synthetic_log_shape", "pattern_ids"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "title": { "type": "string", "minLength": 1 },
+          "source_language": { "enum": ["sigma_yaml", "sentinel_kql", "splunk_spl", "elastic_lucene", "elastic_eql", "oci_logan"] },
+          "source_query": { "type": "string", "minLength": 1 },
+          "expected_logan_ql": { "type": "string" },
+          "explanation": { "type": "string", "minLength": 1 },
+          "warnings": { "type": "array", "items": { "type": "string" } },
+          "support_level": { "enum": ["supported", "partial", "lossy", "unsupported"] },
+          "synthetic_log_shape": { "type": "string", "minLength": 1 },
+          "pattern_ids": { "type": "array", "items": { "type": "string" } }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

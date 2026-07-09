@@ -1,0 +1,75 @@
+# Default values for protein-design-chart.
+
+replicaCount: 1
+
+alphafold2:
+  containerName: alphafold2
+  containerPort: 8000
+  repository: nvcr.io/nim/deepmind/alphafold2
+  tag: "2.1"
+  pullPolicy: Always
+  cacheFolder: /opt/nim/.cache
+  servicePort: 8081
+
+imagePullSecret:
+  registry: "nvcr.io"
+  name: "ngc-secret-protein-design"
+  create: true
+  username: '$oauthtoken'
+  secretName: ngc-registry-secret
+  secretKey: NGC_REGISTRY_KEY
+
+service:
+  type: LoadBalancer
+
+nameOverride: ""
+fullnameOverride: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+
+
+resources:
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  limits:
+    nvidia.com/gpu: 1
+  requests:
+    nvidia.com/gpu: 1
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+
+persistence:
+  enabled: true
+  existingClaim: ""
+  storageClass: standard
+  accessMode: ReadWriteMany
+  hostPath: /data/nim
+  size: 2Ti
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+ 

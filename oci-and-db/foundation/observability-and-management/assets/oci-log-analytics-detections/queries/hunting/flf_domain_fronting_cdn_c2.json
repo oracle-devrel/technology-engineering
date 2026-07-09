@@ -1,0 +1,38 @@
+{
+  "title": "FLF: Domain Fronting CDN C2 Hunt",
+  "description": "FreeLabFriday-inspired hunt for suspicious C2 candidates where non-browser processes repeatedly connect to CDN or cloud-fronting endpoints over HTTPS.",
+  "query": "('Log Source' = 'SOC Sysmon Network Logs' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and 'Event ID' = '3' and 'Destination Port' = 443 and ('Destination Hostname' like '*cloudfront.net' or 'Destination Hostname' like '*azureedge.net' or 'Destination Hostname' like '*cloudflare*' or 'Destination Hostname' like '*workers.dev' or 'Destination Hostname' like '*graph.microsoft.com') and not (('Process Name' like '*\\\\chrome.exe' or 'Process Name' like '*\\\\msedge.exe' or 'Process Name' like '*\\\\firefox.exe' or 'Process Name' like '*\\\\iexplore.exe' or 'Process Name' like '*\\\\OneDrive.exe' or 'Process Name' like '*\\\\Teams.exe' or 'Process Name' like '*\\\\OUTLOOK.EXE')) | stats count as FrontingCandidates, unique('Destination Hostname') as CDNHosts by 'Host Name (Server)', 'Process Name', 'Destination IP' | sort -FrontingCandidates",
+  "type": "hunting",
+  "hunting_type": "free_lab_friday_source_hunt",
+  "level": "high",
+  "tags": ["freelabfriday", "domain_fronting", "cdn", "c2", "attack.t1090.004"],
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon_network",
+    "candidates": ["SOC Sysmon Network Logs", "Windows Sysmon Operational Logs", "SOC Windows Sysmon Logs"]
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "groupBy": ["Host Name (Server)", "Process Name", "Destination IP"],
+      "valueField": "FrontingCandidates"
+    },
+    "ask_ai_prompts": [
+      "Which endpoint process/CDN pair looks most like domain-fronted C2?",
+      "What additional TLS, proxy, or firewall evidence should be checked for SNI and Host-header mismatch?"
+    ]
+  },
+  "references": [
+    {
+      "name": "Black Hills InfoSec FreeLabFriday Labs - Domain Fronting as C2",
+      "url": "https://github.com/blackhillsinfosec/FreeLabFriday_Labs/blob/main/Cards/C2E/Domain_Fronting_As_C2.md"
+    }
+  ],
+  "mitre_attack": {
+    "tactics": ["command_and_control", "defense_evasion"],
+    "techniques": ["T1090.004", "T1071.001"]
+  },
+  "falsepositives": ["Enterprise agents using CDNs", "Software update checks", "Developer tooling that uses cloud worker endpoints"]
+}

@@ -1,0 +1,29 @@
+{
+	"system1": {
+		"host":"IP ADDRESS OR HOSTNAME TO ACCESS DATABASE SYSTEM",
+		"port":"1521",
+		"protocol":"TCP OR TCPS",
+		"managementAgentId":"OCID FOR MANAGEMENT AGENT CONNECTING TO CONTAINER AND PLUGGABLE DATABASES",
+		"databaseCredentials":"KEY FOR THE CORRECT CREDENTIAL OBJECT IN db_credentials.json. IF protocol IS TCPS, CREDENTIAL OBJECT MUST INCLUDE sslSecretId",
+		"containerName":"container1",
+		"containerServiceName":"CONTAINER SERVICE NAME",
+		"containerDBManagement":"INSERT enable OR disable TO MANAGE DATABASE MANAGEMENT FOR CONTAINER DATABASE",
+		"dbManagementLicense":"BRING_YOUR_OWN_LICENSE OR LICENSE_INCLUDED",
+		"containerStackMonitoring":"INSERT enable OR disable TO MANAGE STACK MONITORING FOR CONTAINER DATABASE",
+		"asmStackMonitoring":"INSERT enable OR disable TO MANAGE STACK MONITORING FOR ASM. IF disable, OTHER ASM DETAILS ARE IGNORED",
+		"asmHost":"IP ADDRESS OR HOSTNAME TO ACCESS ASM INSTANCE",
+		"asmPort":"PORT TO ACCESS ASM INSTANCE",
+		"asmServiceName":"ASM SERVICE NAME",
+		"asmCredentials":"KEY FOR THE CORRECT CREDENTIAL OBJECT IN db_credentials.json. CREDENTIAL OBJECT MUST INCLUDE userPasswordSecretId",
+		"pdbs":[
+			{
+				"pdbName":"pdb1",
+				"databaseCredentials":"KEY FOR THE CORRECT CREDENTIAL OBJECT IN db_credentials.json",
+				"pdbServiceName":"PDB SERVICE NAME",
+				"pdbDBManagement":"INSERT enable OR disable TO MANAGE DATABASE MANAGEMENT FOR PLUGGABLE DATABASE",
+				"pdbStackMonitoring":"INSERT enable OR disable TO MANAGE STACK MONITORING FOR PLUGGABLE DATABASE",
+				"pdbOPSI":"INSERT enable OR disable TO MANAGE OPERATIONS INSIGHTS FOR PLUGGABLE DATABASE"
+			}
+		]
+	}
+}

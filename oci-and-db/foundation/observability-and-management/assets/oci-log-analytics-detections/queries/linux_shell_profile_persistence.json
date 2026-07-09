@@ -1,0 +1,99 @@
+{
+  "title": "Linux Shell Profile Persistence",
+  "description": "Detects modification of shell profile files (.bashrc, .bash_profile, .profile) for persistence. Malicious commands added to these files execute on every user login.",
+  "query": "('Log Source' = 'SOC Linux Syslog Logs' or 'Log Source' = 'Linux Secure Logs' or 'Log Source' = 'Linux Syslog Logs' or 'Log Source' = 'Linux Audit Logs') and (((msg like '*.bashrc*' or msg like '*.bash_profile*' or msg like '*.profile*' or msg like '*/etc/profile.d/*' or msg like '*/etc/bash.bashrc*')))",
+  "sigma_id": "e1f2a3b4-4013-4000-8000-000000000013",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.persistence",
+    "attack.t1546.004"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence"
+    ],
+    "techniques": [
+      "T1546.004"
+    ]
+  },
+  "logsource": {
+    "product": "linux",
+    "service": "audit",
+    "candidates": [
+      "SOC Linux Syslog Logs",
+      "Linux Secure Logs",
+      "Linux Syslog Logs",
+      "Linux Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "User customizing their shell environment",
+    "Dotfile management tools"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 7,
+    "techniques_with_tests": [
+      "T1546.004"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1546.004",
+        "test_name": "Add command to .bash_profile",
+        "test_guid": "94500ae1-7e31-47e3-886b-c328da46872f",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.004/T1546.004.md"
+      },
+      {
+        "technique_id": "T1546.004",
+        "test_name": "Add command to .bashrc",
+        "test_guid": "0a898315-4cfa-4007-bafe-33a4646d115f",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.004/T1546.004.md"
+      },
+      {
+        "technique_id": "T1546.004",
+        "test_name": "Add command to .shrc",
+        "test_guid": "41502021-591a-4649-8b6e-83c9192aff53",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.004/T1546.004.md"
+      },
+      {
+        "technique_id": "T1546.004",
+        "test_name": "Append to the system shell profile",
+        "test_guid": "694b3cc8-6a78-4d35-9e74-0123d009e94b",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.004/T1546.004.md"
+      },
+      {
+        "technique_id": "T1546.004",
+        "test_name": "Append commands user shell profile",
+        "test_guid": "bbdb06bc-bab6-4f5b-8232-ba3fbed51d77",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.004/T1546.004.md"
+      },
+      {
+        "technique_id": "T1546.004",
+        "test_name": "System shell profile scripts",
+        "test_guid": "8fe2ccfd-f079-4c03-b1a9-bd9b362b67d4",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.004/T1546.004.md"
+      },
+      {
+        "technique_id": "T1546.004",
+        "test_name": "Create/Append to .bash_logout",
+        "test_guid": "37ad2f24-7c53-4a50-92da-427a4ad13f58",
+        "executor": "bash",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.004/T1546.004.md"
+      }
+    ]
+  }
+}

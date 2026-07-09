@@ -1,0 +1,35 @@
+{
+  "title": "GenAI Gateway: LLM Sensitive-Information Disclosure (AML.T0057)",
+  "description": "Detects attempts to coerce the LLM into disclosing system prompts, secrets, or sensitive context at the GenAI gateway. Fires when the guardrail flags sensitive disclosure or the data-leak flag is set (often paired with a REDACT verdict), ranking caller identity, API key, and source IP. MITRE ATLAS AML.T0057 (LLM Data Leakage / sensitive information disclosure).\n",
+  "query": "'Log Source' = 'SOC GenAI Gateway Logs' and ('Guardrail Category' = 'sensitive_disclosure' or 'Data Leak Detected' = 'true') | stats count as Hits, distinctcount('GenAI Model') as Models, max('Prompt Risk Score') as MaxRisk by 'GenAI Identity', 'API Key ID', 'Client IP' | sort -Hits",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "atlas.t0057",
+    "atlas.exfiltration",
+    "atlas.collection",
+    "ai_attack",
+    "genai",
+    "llm_data_leakage"
+  ],
+  "atlas": {
+    "tactics": [
+      "exfiltration",
+      "collection"
+    ],
+    "techniques": [
+      "AML.T0057"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "genai_gateway",
+    "candidates": [
+      "SOC GenAI Gateway Logs"
+    ]
+  },
+  "falsepositives": [
+    "Prompt-leakage red-team assessments",
+    "Support flows legitimately repeating earlier content"
+  ]
+}

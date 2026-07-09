@@ -1,0 +1,13 @@
+apiVersion: functions.oci.oracle.com/v1alpha1
+kind: FunctionEvent
+metadata:
+  name: order-created-abc123
+  namespace: default
+spec:
+  eventType: functionevent.order.created
+  source: checkout-service
+  subject: orders/abc123
+  payload:
+    orderId: abc123
+    customerId: c-42
+    total: "123.45"

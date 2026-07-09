@@ -1,0 +1,12 @@
+apiVersion: functions.oci.oracle.com/v1alpha1
+kind: FunctionEventTrigger
+metadata:
+  name: order-created-trigger
+  namespace: default
+spec:
+  functionRef:
+    name: managed-hello
+  isEnabled: true
+  condition:
+    eventType:
+    - functionevent.order.created

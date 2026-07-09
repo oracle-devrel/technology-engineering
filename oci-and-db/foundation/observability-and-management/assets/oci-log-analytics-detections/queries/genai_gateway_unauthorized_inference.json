@@ -1,0 +1,35 @@
+{
+  "title": "GenAI Gateway: Unauthorized / Rejected Inference Access (AML.T0040)",
+  "description": "Detects unauthorized or rejected access to the GenAI inference gateway. Filters auth/authorization failures (401, 403) and ranks the offending identity, API key, and source IP. Repeated rejections from one identity or a revoked key indicate credential probing or unauthorized model use. MITRE ATLAS AML.T0040 (ML Inference API Access).\n",
+  "query": "'Log Source' = 'SOC GenAI Gateway Logs' and ('Response Code' = '401' or 'Response Code' = '403') | stats count as RejectedCalls, distinctcount('GenAI Model') as Models by 'GenAI Identity', 'API Key ID', 'Client IP' | sort -RejectedCalls",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "atlas.t0040",
+    "atlas.ml_model_access",
+    "atlas.credential_access",
+    "ai_attack",
+    "genai",
+    "llm_unauthorized_access"
+  ],
+  "atlas": {
+    "tactics": [
+      "ml_model_access",
+      "credential_access"
+    ],
+    "techniques": [
+      "AML.T0040"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "genai_gateway",
+    "candidates": [
+      "SOC GenAI Gateway Logs"
+    ]
+  },
+  "falsepositives": [
+    "Expired token retried by a legitimate client",
+    "Key rotation windows"
+  ]
+}

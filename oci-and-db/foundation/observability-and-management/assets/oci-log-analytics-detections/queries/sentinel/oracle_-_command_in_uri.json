@@ -1,0 +1,84 @@
+{
+  "title": "Oracle - Command in URI",
+  "description": "'Detects command in URI'\n",
+  "query": "('Log Source' = 'SOC WAF Security Logs' or 'Log Source' = 'SOC Web Application Logs' or 'Log Source' = 'SOC Load Balancer Access Logs') and (('Request URL' like '*cat%20/etc/passwd*' or 'Request URL' like '*/etc/passwd*' or 'Request URL' like '*ping -i*' or 'Request URL' like '*/usr/bin/id(*' or 'Request URL' like '*%2f%75%73%72%2f%62%69%6e%2f%69%64*' or 'Request URL' like '*phpinfo*' or 'Request URL' like '*%70%68%70%69%6e%66%6f%28%29*' or 'Request URL' like '*;id*' or 'Request URL' like '*%3b%69%64*' or 'Request URL' like '*/bin/bash -c*' or 'Request URL' like '*%2f%62%69%6e%2f%62%61%73%68%20%2d%63%27*' or 'Request URL' like '*/bin/bash*' or 'Request URL' like '*%2f%62%69%6e%2f%62%61%73%68*' or 'Request URL' like '*sleep(*' or 'Request URL' like '*%73%6c%65%65%70%28*' or 'Request URL' like '*curl*' or 'Request URL' like '*%63%75%72%6c*' or 'Request URL' like '*&dir*' or 'Request URL' like '*%26%64%69%72*' or 'Request URL' like '*& dir*' or 'Request URL' like '*%26%20%64%69%72*' or 'Request URL' like '*<script>*' or 'Request URL' like '*%3c%73%63%72%69%70%74%3e*' or 'Request URL' like '*eval(*' or 'Request URL' like '*%65%76%61%6c%28*' or 'Request URL' like '*exec(*' or 'Request URL' like '*%65%78%65%63%28*' or 'Request URL' like '*whoami*' or 'Request URL' like '*%77%68%6f%61%6d%69*' or 'Request URL' like '*wget*' or 'Request URL' like '*python*' or 'Request URL' like '*gcc*' or 'Request URL' like '*uname*' or 'Request URL' like '*systeminfo*' or 'Request URL' like '*%77%67%65%74*' or 'Request URL' like '*%70%79%74%68%6f%6e*' or 'Request URL' like '*%75%6e%61%6d%65*' or 'Request URL' like '*%73%79%73%74%65%6d%69%6e%66%6f*'))",
+  "level": "high",
+  "source_type": "microsoft_sentinel",
+  "sentinel_id": "6ae36a5e-573f-11ec-bf63-0242ac130002",
+  "sentinel_source_path": "Solutions/OracleWebLogicServer/Analytic Rules/OracleWebLogicCommandInURI.yaml",
+  "sentinel_source_url": "https://github.com/Azure/Azure-Sentinel/blob/63ff8eedc58e7df0d22eba05ca73c92b59a66634/Solutions/OracleWebLogicServer/Analytic Rules/OracleWebLogicCommandInURI.yaml",
+  "required_data_connectors": [
+    {
+      "connector_id": "CustomLogsAma",
+      "data_types": [
+        "OracleWebLogicServer_CL"
+      ]
+    }
+  ],
+  "conversion_status": "promoted",
+  "conversion_confidence": "medium",
+  "source_confidence": "high",
+  "live_validation_status": "passed",
+  "sentinel_tables": [
+    "OracleWebLogicServerEvent"
+  ],
+  "sentinel_category": "network",
+  "tags": [
+    "microsoft_sentinel",
+    "sentinel.network"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "initial_access"
+    ],
+    "techniques": [
+      "T1190",
+      "T1133"
+    ]
+  },
+  "logsource": {
+    "product": "microsoft_sentinel",
+    "service": "web_server",
+    "candidates": [
+      "SOC WAF Security Logs",
+      "SOC Web Application Logs",
+      "SOC Load Balancer Access Logs"
+    ],
+    "original_tables": [
+      "OracleWebLogicServerEvent"
+    ]
+  },
+  "references": [
+    {
+      "name": "Microsoft Sentinel source rule",
+      "url": "https://github.com/Azure/Azure-Sentinel/blob/63ff8eedc58e7df0d22eba05ca73c92b59a66634/Solutions/OracleWebLogicServer/Analytic Rules/OracleWebLogicCommandInURI.yaml"
+    },
+    {
+      "name": "Microsoft Sentinel repository",
+      "url": "https://github.com/Azure/Azure-Sentinel"
+    },
+    {
+      "name": "Azure/Azure-Sentinel license",
+      "url": "https://github.com/Azure/Azure-Sentinel/blob/master/LICENSE"
+    }
+  ],
+  "attribution": {
+    "source": "Microsoft Sentinel",
+    "repository": "Azure/Azure-Sentinel",
+    "license": "MIT",
+    "license_url": "https://github.com/Azure/Azure-Sentinel/blob/master/LICENSE"
+  },
+  "dashboard": {
+    "visualizationType": "table",
+    "timeSelection": {
+      "timePeriod": "l21d"
+    },
+    "ask_ai_prompts": [
+      "Summarize the Microsoft Sentinel converted detection results and identify the highest-risk pivots."
+    ]
+  },
+  "detection_maturity": "source_converted",
+  "field_coverage": "mapped_subset",
+  "test_data_coverage": "not_evaluated",
+  "scheduled_rule_eligibility": "not_evaluated"
+}

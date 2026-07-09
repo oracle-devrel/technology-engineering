@@ -1,0 +1,48 @@
+title: Sensitive Data Endpoint Access
+id: a1010012-owasp-a02-dataexposure-001
+status: stable
+version: 1
+description: Detects access to endpoints that may expose sensitive data (database exports, configuration files, backup files). OWASP A02:2021 Cryptographic Failures / A01 Broken Access Control.
+logsource:
+  product: oci
+  service: loadbalancer
+detection:
+  selection:
+    response_code:
+    - "200"
+    - "301"
+    - "302"
+  sensitive_paths:
+    request_url|contains:
+    - ".sql"
+    - ".bak"
+    - ".old"
+    - ".backup"
+    - ".dump"
+    - ".log"
+    - ".conf"
+    - ".cfg"
+    - ".ini"
+    - ".key"
+    - ".pem"
+    - ".cert"
+    - ".p12"
+    - ".jks"
+    - ".env"
+    - ".htpasswd"
+    - ".htaccess"
+    - "/debug/"
+    - "/trace/"
+    - "/dump/"
+    - "phpinfo"
+  condition: selection and sensitive_paths
+level: high
+tags:
+- attack.collection
+- attack.t1005
+- attack.t1552.001
+- owasp.a01
+- owasp.a02
+falsepositives:
+- Legitimate access to log viewing endpoints
+- Authorized database administration

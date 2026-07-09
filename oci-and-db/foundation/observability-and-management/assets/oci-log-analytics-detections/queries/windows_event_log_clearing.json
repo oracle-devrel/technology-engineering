@@ -1,0 +1,65 @@
+{
+  "title": "Windows Event Log Clearing",
+  "description": "Detects clearing of Windows event logs via wevtutil or PowerShell. Attackers clear logs to destroy evidence of their activities and hinder forensic investigation.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Process Name' like '*wevtutil.exe' and ('Command Line' like '*cl Security*' or 'Command Line' like '*cl System*' or 'Command Line' like '*cl Application*' or 'Command Line' like '*clear-log*')) or (('Process Name' like '*powershell.exe' or 'Process Name' like '*pwsh.exe') and 'Command Line' like '*Clear-EventLog*'))",
+  "sigma_id": "f1e2d3c4-5011-4000-8000-000000000011",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.t1070.001"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1070.001"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "process_creation",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate log maintenance during disk space emergencies"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 3,
+    "techniques_with_tests": [
+      "T1070.001"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1070.001",
+        "test_name": "Clear Logs",
+        "test_guid": "e6abb60e-26b8-41da-8aae-0c35174b0967",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.001/T1070.001.md"
+      },
+      {
+        "technique_id": "T1070.001",
+        "test_name": "Delete System Logs Using Clear-EventLog",
+        "test_guid": "b13e9306-3351-4b4b-a6e8-477358b0b498",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.001/T1070.001.md"
+      },
+      {
+        "technique_id": "T1070.001",
+        "test_name": "Clear Event Logs via VBA",
+        "test_guid": "1b682d84-f075-4f93-9a89-8a8de19ffd6e",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.001/T1070.001.md"
+      }
+    ]
+  }
+}

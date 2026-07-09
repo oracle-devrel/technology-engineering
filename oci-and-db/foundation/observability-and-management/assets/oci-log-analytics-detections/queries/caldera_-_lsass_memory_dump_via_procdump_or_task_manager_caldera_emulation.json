@@ -1,0 +1,35 @@
+{
+  "title": "Caldera - LSASS Memory Dump via ProcDump or Task Manager (Caldera Emulation)",
+  "description": "Detects LSASS credential dumping specifically as emulated by Caldera T1003.001 operations. Caldera's credential-access adversary profile leverages ProcDump, Task Manager, or comsvcs.dll MiniDump to extract LSASS memory. This rule covers the ProcDump command-line pattern and the Task Manager dump output file name, complementing the existing lsass_memory_dump_via_comsvcs_dll.yaml.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Process Name' like '*\\\\procdump.exe' or 'Process Name' like '*\\\\procdump64.exe') and ('Command Line' like '*lsass*' or 'Command Line' like '*-ma *')) or (('Command Line' like '*lsass.dmp*' or 'Command Line' like '*lsass.exe.dmp*')) or ('Process Name' like '*\\\\nanodump.exe') or (('Command Line' like '*avdump64.exe*' or 'Command Line' like '*avdump.exe*')))",
+  "sigma_id": "988e7beb-0cc9-4734-89a6-906aaf3cfec2",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.credential_access",
+    "attack.t1003",
+    "attack.t1003.001"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "credential_access"
+    ],
+    "techniques": [
+      "T1003",
+      "T1003.001"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Authorized memory forensics on production systems",
+    "Incident response tooling collecting crash dumps"
+  ]
+}

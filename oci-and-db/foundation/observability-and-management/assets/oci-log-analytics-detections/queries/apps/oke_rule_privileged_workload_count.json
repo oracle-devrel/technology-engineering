@@ -1,0 +1,25 @@
+{
+  "title": "OKE: Privileged Kubernetes Workload Detection Rule",
+  "description": "Scheduled-rule-safe count of privileged Kubernetes workload indicators such as hostPID, hostPath, DaemonSet creation, and pod exec leading to node access.",
+  "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and ('Span Attributes' like '*privileged=true*' or 'Span Attributes' like '*hostPID=true*' or 'Span Attributes' like '*hostPath=*' or 'Span Attributes' like '*subresource=exec*' or 'Process Command Line' like '*kubectl exec*' or 'Process Command Line' like '*nsenter*') | stats count as PrivilegedWorkloadEvents by 'Attack ID', 'Attack Stage', 'Host Name'",
+  "level": "critical",
+  "type": "curated",
+  "tags": [
+    "oke",
+    "kubernetes",
+    "privileged-container",
+    "node-escape",
+    "detection-rule"
+  ],
+  "logsource": {
+    "product": "application",
+    "service": "soc_application_logs",
+    "candidates": [
+      "SOC Application Logs"
+    ]
+  },
+  "detection_rule": {
+    "schedule": "5m",
+    "lookback": "15m"
+  }
+}

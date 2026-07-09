@@ -1,0 +1,10 @@
+availability_domain = "XXXX:REGION-AD-1" // Replace with your availability domain, e.g., "gqUG:EU-FRANKFURT-1-AD-1"
+base_image_ocid = "ocid1.image.oc1.region-name.XXXXXXXXXX" // Replace with the OCID of the Oracle-provided OKE base image
+compartment_ocid = "ocid1.compartment.oc1..XXXXXXXXXX" // Replace with your OCI compartment OCID
+image_prefix = "oke-custom-image-" // Optional: Change the prefix for the generated image name
+shape = "VM.Standard.E4.Flex" // Replace with your desired VM shape
+ocpus = 1 // Optional: Number of OCPUs
+memory_in_gbs = 8 // Optional: Memory in GB
+subnet_ocid = "ocid1.subnet.oc1.region-name.XXXXXXXXXX" // Replace with your subnet OCID
+region = "region-name" // Replace with your OCI region, e.g., "eu-frankfurt-1"
+skip_create_image = false // Optional: Set to true to skip creating the image

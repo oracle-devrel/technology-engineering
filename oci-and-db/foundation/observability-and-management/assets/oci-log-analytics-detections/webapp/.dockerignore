@@ -1,0 +1,12 @@
+.git
+.next
+node_modules
+coverage
+playwright-report
+test-results
+.env
+.env.*
+*.tsbuildinfo
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*

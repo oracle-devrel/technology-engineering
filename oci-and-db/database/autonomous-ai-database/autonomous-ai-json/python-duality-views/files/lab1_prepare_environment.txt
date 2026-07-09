@@ -1,0 +1,53 @@
+========= Provision a OCI VM ===============
+
+For this workshop we are going to use a Oracle Cloud VM with Oracle Linux 8.
+
+=========== Install and configure 23c free ========
+
+Obtain all the information for Oracle 23c Developer Free here: https://www.oracle.com/uk/database/free/get-started/
+
+1. Install Oracle 23c Developer free as root:
+
+sudo su
+wget https://yum.oracle.com/repo/OracleLinux/OL8/developer/x86_64/getPackage/oracle-database-preinstall-23c-1.0-0.5.el8.x86_64.rpm
+wget https://download.oracle.com/otn-pub/otn_software/db-free/oracle-database-free-23c-1.0-1.el8.x86_64.rpm
+yum -y localinstall oracle-database*
+
+2.- Configure Oracle 23c free
+
+/etc/init.d/oracle-free-23c configure
+
+3.- Enable firewall and automatic start of 23c Database.
+
+systemctl enable oracle-free-23c
+firewall-cmd --permanent --add-port=1521/tcp
+firewall-cmd --reload
+
+=========Install python =========
+
+-- We need python 3.7 or higher. We install python3.11
+python --version
+yum install python3.11
+
+--select python 3.11 as default, should be selection 2
+update-alternatives --config python3
+
+-- Install pip and Oracle Driver for python: oracledb
+yum install python3.11-pip
+python -m pip install oracledb --upgrade
+exit
+
+4.- Set environment variables to use sqlplus
+
+echo 'export ORACLE_HOME=/opt/oracle/product/23c/dbhomeFree' >> .bashrc
+echo 'export PATH=$ORACLE_HOME/bin:$PATH' >> .bashrc
+. .bashrc
+
+========== Create new user for 23c  ==============
+=== PLEASE CHANGE YOUR_PASSWORD  TO A REAL PASSWORD! ===
+
+sqlplus sys/YOUR_PASSWORD@localhost:1521/FREEPDB1 as sysdba
+create user myapp identified by YOUR_PASSWORD;
+grant db_developer_role to myapp;
+alter user myapp quota unlimited on users;
+exit;

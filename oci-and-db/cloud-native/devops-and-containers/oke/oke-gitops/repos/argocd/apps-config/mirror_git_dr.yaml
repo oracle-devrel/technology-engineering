@@ -1,0 +1,95 @@
+version: 0.1
+component: build
+timeoutInSeconds: 10000
+runAs: root
+shell: bash
+
+env:
+  vaultVariables:
+    git_username: "ocid1.vaultsecret..."    # OCID of the Secret containing Git credentials to push to the DR secondary region
+    git_password: "ocid1.vaultsecret..."    # OCID of the Secret containing Git credentials to push to the DR secondary region
+  variables:
+    destination_repo_clone_url: ""    # HTTPS repository URL for the OCI DevOps repository in the secondary region
+    destination_branch: ""
+    source_head: ""
+    safe_destination_repo_clone_url: ""
+
+steps:
+
+  - type: Command
+    timeoutInSeconds: 300
+    name: "Resolve Inputs"
+    failImmediatelyOnError: true
+    command: |
+      command -v git >/dev/null 2>&1 || { echo "Missing dependency: git" >&2; exit 1; }
+      command -v base64 >/dev/null 2>&1 || { echo "Missing dependency: base64" >&2; exit 1; }
+      command -v sed >/dev/null 2>&1 || { echo "Missing dependency: sed" >&2; exit 1; }
+
+      if [ -z "${destination_repo_clone_url}" ] || [ -z "${git_username}" ] || [ -z "${git_password}" ]; then
+        echo "Missing required variables. Required: destination_repo_clone_url, git_username, git_password" >&2
+        exit 1
+      fi
+
+      destination_branch="${OCI_TRIGGER_SOURCE_BRANCH_NAME:-main}"
+      if [ -z "${destination_branch}" ]; then
+        destination_branch="main"
+      fi
+
+      if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        echo "Current workspace is not a git repository" >&2
+        exit 1
+      fi
+
+      source_head="$(git rev-parse --verify HEAD)"
+      if [ -z "${source_head}" ]; then
+        echo "Unable to resolve source HEAD" >&2
+        exit 1
+      fi
+
+      safe_destination_repo_clone_url="$(echo "${destination_repo_clone_url}" | sed -E 's#(https?://)[^/@]+@#\1#')"
+
+      echo "[INFO] Source HEAD to mirror: ${source_head}"
+      echo "[INFO] Destination branch: ${destination_branch}"
+      echo "[INFO] Destination remote URL: ${safe_destination_repo_clone_url}"
+    onFailure:
+      - type: Command
+        command: |
+          echo "Failed to resolve inputs for DR mirroring";
+        timeoutInSeconds: 120
+
+  - type: Command
+    timeoutInSeconds: 300
+    name: "Configure DR Remote"
+    failImmediatelyOnError: true
+    command: |
+      echo "[INFO] Configuring local git identity for CI run"
+      git config --local user.name "${git_username}"
+      git config --local user.email "${git_username}@dr-mirror.local"
+
+      if git remote get-url dr-origin >/dev/null 2>&1; then
+        echo "[INFO] Updating existing remote dr-origin"
+        git remote set-url dr-origin "${destination_repo_clone_url}"
+      else
+        echo "[INFO] Adding remote dr-origin"
+        git remote add dr-origin "${destination_repo_clone_url}"
+      fi
+    onFailure:
+      - type: Command
+        command: |
+          echo "Failed to configure DR remote";
+        timeoutInSeconds: 120
+
+  - type: Command
+    timeoutInSeconds: 600
+    name: "Force Push To DR"
+    failImmediatelyOnError: true
+    command: |
+      auth_b64="$(printf '%s:%s' "${git_username}" "${git_password}" | base64 | tr -d '\n')"
+      echo "[INFO] Pushing HEAD to DR with force sync"
+      git -c http.extraHeader="Authorization: Basic ${auth_b64}" push --force dr-origin "HEAD:${destination_branch}"
+      echo "[INFO] DR mirror completed successfully"
+    onFailure:
+      - type: Command
+        command: |
+          echo "Failed to mirror repository to DR";
+        timeoutInSeconds: 400

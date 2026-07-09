@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<scheduledTasks xmlns="http://xmlns.oracle.com/oim/scheduler">
+<task>
+<name>Access Termination Notification</name>
+<class>com.oracle.sample.AccessTerminationNotification</class>
+<description>Access Termination Notification</description>
+<retry>1</retry>
+<parameters>
+<string-param required="true" encrypted="false" helpText="Number of days before the email is sent.">Days Before Expiration</string-param>
+<string-param required="true" encrypted="false" helpText="Email template name for the email.">Email Template Name</string-param>
+</parameters>
+</task>
+</scheduledTasks>

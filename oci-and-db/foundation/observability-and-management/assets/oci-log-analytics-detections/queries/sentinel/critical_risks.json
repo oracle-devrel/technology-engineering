@@ -1,0 +1,94 @@
+{
+  "title": "Critical Risks",
+  "description": "This query searches for all the exploited risks that RidgeBot identified\n",
+  "query": "('Log Source' = 'SOC Network Firewall Logs' or 'Log Source' = 'OCI Network Firewall Logs' or 'Log Source' = 'SOC VCN Flow Logs') and (Provider = 'RidgeSecurity') and ('Event ID' = '4001') | sort -Time",
+  "level": "high",
+  "source_type": "microsoft_sentinel",
+  "sentinel_id": "1eebfaf3-40e1-4bc2-9f42-049b7b8ceb60",
+  "sentinel_source_path": "Solutions/RidgeSecurity/Analytic Rules/RidgeSecurity_Risks.yaml",
+  "sentinel_source_url": "https://github.com/Azure/Azure-Sentinel/blob/63ff8eedc58e7df0d22eba05ca73c92b59a66634/Solutions/RidgeSecurity/Analytic Rules/RidgeSecurity_Risks.yaml",
+  "required_data_connectors": [
+    {
+      "connector_id": "RidgeBotDataConnector",
+      "data_types": [
+        "CommonSecurityLog"
+      ]
+    },
+    {
+      "connector_id": "CefAma",
+      "data_types": [
+        "CommonSecurityLog"
+      ]
+    }
+  ],
+  "conversion_status": "promoted",
+  "conversion_confidence": "medium",
+  "source_confidence": "high",
+  "live_validation_status": "passed",
+  "sentinel_tables": [
+    "CommonSecurityLog"
+  ],
+  "sentinel_category": "network",
+  "tags": [
+    "microsoft_sentinel",
+    "sentinel.network"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "execution",
+      "initial_access",
+      "privilege_escalation"
+    ],
+    "techniques": [
+      "T1189",
+      "T1059",
+      "T1053",
+      "T1548"
+    ]
+  },
+  "logsource": {
+    "product": "microsoft_sentinel",
+    "service": "common_security",
+    "candidates": [
+      "SOC Network Firewall Logs",
+      "OCI Network Firewall Logs",
+      "SOC VCN Flow Logs"
+    ],
+    "original_tables": [
+      "CommonSecurityLog"
+    ]
+  },
+  "references": [
+    {
+      "name": "Microsoft Sentinel source rule",
+      "url": "https://github.com/Azure/Azure-Sentinel/blob/63ff8eedc58e7df0d22eba05ca73c92b59a66634/Solutions/RidgeSecurity/Analytic Rules/RidgeSecurity_Risks.yaml"
+    },
+    {
+      "name": "Microsoft Sentinel repository",
+      "url": "https://github.com/Azure/Azure-Sentinel"
+    },
+    {
+      "name": "Azure/Azure-Sentinel license",
+      "url": "https://github.com/Azure/Azure-Sentinel/blob/master/LICENSE"
+    }
+  ],
+  "attribution": {
+    "source": "Microsoft Sentinel",
+    "repository": "Azure/Azure-Sentinel",
+    "license": "MIT",
+    "license_url": "https://github.com/Azure/Azure-Sentinel/blob/master/LICENSE"
+  },
+  "dashboard": {
+    "visualizationType": "table",
+    "timeSelection": {
+      "timePeriod": "l21d"
+    },
+    "ask_ai_prompts": [
+      "Summarize the Microsoft Sentinel converted detection results and identify the highest-risk pivots."
+    ]
+  },
+  "detection_maturity": "source_converted",
+  "field_coverage": "mapped_subset",
+  "test_data_coverage": "not_evaluated",
+  "scheduled_rule_eligibility": "not_evaluated"
+}

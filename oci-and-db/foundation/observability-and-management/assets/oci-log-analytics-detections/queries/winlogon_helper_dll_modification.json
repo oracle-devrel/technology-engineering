@@ -1,0 +1,81 @@
+{
+  "title": "Winlogon Helper DLL Modification",
+  "description": "Detects modification of Winlogon helper DLL registry entries for persistence.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*Winlogon*' and 'Command Line' like '*Shell*' and 'Command Line' like '*reg*')))",
+  "sigma_id": "8a0754d8-a47e-4cf1-bba3-a79689629944",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.persistence",
+    "attack.t1547.004"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence"
+    ],
+    "techniques": [
+      "T1547.004"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Custom shell replacements by administrators"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 5,
+    "techniques_with_tests": [
+      "T1547.004"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1547.004",
+        "test_name": "Winlogon Shell Key Persistence - PowerShell",
+        "test_guid": "bf9f9d65-ee4d-4c3e-a843-777d04f19c38",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1547.004/T1547.004.md"
+      },
+      {
+        "technique_id": "T1547.004",
+        "test_name": "Winlogon Userinit Key Persistence - PowerShell",
+        "test_guid": "fb32c935-ee2e-454b-8fa3-1c46b42e8dfb",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1547.004/T1547.004.md"
+      },
+      {
+        "technique_id": "T1547.004",
+        "test_name": "Winlogon Notify Key Logon Persistence - PowerShell",
+        "test_guid": "d40da266-e073-4e5a-bb8b-2b385023e5f9",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1547.004/T1547.004.md"
+      },
+      {
+        "technique_id": "T1547.004",
+        "test_name": "Winlogon HKLM Shell Key Persistence - PowerShell",
+        "test_guid": "95a3c42f-8c88-4952-ad60-13b81d929a9d",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1547.004/T1547.004.md"
+      },
+      {
+        "technique_id": "T1547.004",
+        "test_name": "Winlogon HKLM Userinit Key Persistence - PowerShell",
+        "test_guid": "f9b8daff-8fa7-4e6a-a1a7-7c14675a545b",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1547.004/T1547.004.md"
+      }
+    ]
+  }
+}

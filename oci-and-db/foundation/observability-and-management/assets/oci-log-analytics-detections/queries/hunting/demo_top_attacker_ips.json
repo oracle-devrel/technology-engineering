@@ -1,0 +1,31 @@
+{
+  "title": "Top Attacker Source IPs - OCI Audit (l21d)",
+  "description": "Ranks external source IPs by destructive/anomalous OCI control-plane activity, with the count of distinct event types each IP touched. Click a row to pivot into Log Explorer scoped to that Source IP for the full identity-attack drilldown.",
+  "query": "'Log Source' = 'OCI Audit Logs' and 'Source IP' != null and ('Event Type' like '*delete*' or 'Event Type' like '*terminate*' or 'Event Type' like '*remove*' or 'Event Type' like '*update*' or 'Event Type' like '*create*' or 'Event Type' like '*DeletePolicy*' or 'Event Type' like '*DeleteCompartment*') | stats count as DestructiveEvents, distinctcount('Event Type') as DistinctActions, distinctcount('User Name') as Users by 'Source IP' | sort -DestructiveEvents",
+  "type": "hunting",
+  "level": "high",
+  "tags": [
+    "demo_command_center",
+    "hunting",
+    "cloud"
+  ],
+  "logsource": {
+    "product": "oci",
+    "service": "audit"
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {
+      "timePeriod": "l21d"
+    },
+    "visualizationOptions": {
+      "valueField": "DestructiveEvents",
+      "highlightField": "DistinctActions"
+    },
+    "ask_ai_prompts": [
+      "Which source IP shows the most destructive OCI activity and what did it delete?",
+      "Are any of these source IPs touching multiple user accounts (possible credential theft)?"
+    ]
+  }
+}

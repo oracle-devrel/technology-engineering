@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: oke-kubeconfig-azure-token
+  namespace: kube-system
+  annotations:
+    kubernetes.io/service-account.name: azure
+type: kubernetes.io/service-account-token
