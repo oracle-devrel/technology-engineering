@@ -5,7 +5,8 @@ Oracle Database 12c JSON Document store and higher and the Oracle NoSQL Database
 
 Oracle Database Actions is a web-based interface that uses Oracle REST Data Services to provide development, data studio, administration and monitoring features for Oracle Autonomous Database, Oracle Database Cloud Services and on-premises Oracle Database. Database Actions comes already configured, via ORDS, on Autonomous Database.
 
-Reviewed: 10.06.2026
+Since latest version (<b>26.2</b>) Oracle REST Data Services has added <b>Model Context Protocol</b> support for Agentic AI Database access.
+Reviewed: 08.07.2026
 
 # Table of Contents
  
@@ -16,12 +17,12 @@ Reviewed: 10.06.2026
 
 # Team Publications
 
-- [ORDS version 26.1 is now available, time to upgrade!](https://www.oracle.com/database/sqldeveloper/technologies/db-actions/download/)
-
+- [ORDS version 26.2 is now available! - Online Documentation](https://docs.oracle.com/en/database/oracle/oracle-rest-data-services/index.html)
 - [JSON & Customer Managed ORDS with ADB](https://medium.com/@devpiotrekk/cloud-scalability-using-customer-managed-oracle-rest-data-service-with-autonomous-json-275fa06e8d22)
     - Article demonstrating the performance of Customer Managed ORDS combined with the Autonomous Database
  - [How ORDS help with DevOps](https://www.youtube.com/watch?v=GIRdoGlqIDE)
  - [Scalability with Customer Managed ORDS on ADB](https://medium.com/oracledevs/cloud-scalability-using-customer-managed-oracle-rest-data-service-with-autonomous-json-275fa06e8d22)
+ - [Oracle Database Actions - multiple tricks & scenarios](https://docs.oracle.com/en/database/oracle/oracle-rest-data-services/index.html)
 <br>
 <br>
 
@@ -35,7 +36,7 @@ Reviewed: 10.06.2026
 
 # Useful Links
 
-- [ORDS - Latest Release](https://www.oracle.com/tools/ords/ords-relnotes-26.1.0.html)
+- [ORDS - Latest Release](https://www.oracle.com/tools/ords/ords-changelog.html)
 - [SQL Developer Web/Database Actions](https://docs.oracle.com/en/database/oracle/sql-developer-web/)
 - [Webinar - ORDS & DevOps](https://www.youtube.com/watch?v=GIRdoGlqIDE)
 - [High Availability (HA) with ORDS](https://docs.oracle.com/en/solutions/deploy-ords-ha-oci/index.html)
