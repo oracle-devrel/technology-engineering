@@ -8,7 +8,9 @@ An additional managed offering in Oracle Cloud Infrastructure (OCI) called <b>Or
 You establish the connection and then access your database resources via web-based SQL Worksheet or use the SQLcl connection via OCI Cloud Shell.
 Security is preserved as passwords and ADB credentials are securely stored and encrypted in OCI Vault resource. 
 
-Reviewed: 18.05.2026
+Currently, both [Oracle SQLcl](https://docs.oracle.com/en/database/oracle/sql-developer-command-line/26.2/index.html) and [Oracle SQL Developer for Visual Studio Code](https://docs.oracle.com/en/database/oracle/sql-developer-vscode/index.html) are out with newest 26.2 versions! 
+
+Reviewed: 09.07.2026
 
 # Table of Contents
  
@@ -30,20 +32,27 @@ Reviewed: 18.05.2026
 
 # Useful Links
 
+## OCI Database Connection Tools 
 - [Oracle Database Tool Service](https://www.oracle.com/database/tools-service/)
 - [Announcing the Oracle Cloud Database Tools Service](https://www.thatjeffsmith.com/archive/2021/11/announcing-the-database-tools-oracle-cloud-service/)
+
+## Oracle SQL Developer (Desktop Classic/VS Code)
 - [SQL Developer](https://www.oracle.com/uk/database/sqldeveloper/)
 - [SQL Developer Releases](https://docs.oracle.com/en/database/oracle/sql-developer/)
-- [SQL Developer - Jeff Smith Page](https://www.thatjeffsmith.com/sql-developer/)
 - [SQL Developer - Data Modeler](https://www.oracle.com/database/sqldeveloper/technologies/sql-data-modeler/)
 - [SQL Developer - Developer Community](https://forums.oracle.com/ords/apexds/domain/dev-community/category/sql_developer?tags=sql-developer)
+- [SQL Developer/VS Code - Jeff Smith Page](https://www.thatjeffsmith.com/sql-developer/)
+- [SQL Developer for Visual Studio Code - 26.2 release is out!](https://docs.oracle.com/en/database/oracle/sql-developer-vscode/index.html)
+
+## Oracle SQL Developer Command Line (SQLcl)
 - [Oracle SQLcl](https://www.oracle.com/uk/database/sqldeveloper/technologies/sqlcl/)
 - [SQL Tools Training](https://education.oracle.com/database/oracle-database/pFamily_32)
-- [Autonomous Database Actions](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/connect-database-actions.html#GUID-102845D9-6855-4944-8937-5C688939610F)
-- [Live SQL](https://livesql.oracle.com/apex/f?p=590:1000)
 - [SQL Notebooks in Oracle SQL Developer for VS Code](https://www.thatjeffsmith.com/archive/2025/07/sql-notebooks-in-oracle-sql-developer-for-vs-code/)
 - [SQL Dev Extension for VS Code for MCP with Cline](https://www.thatjeffsmith.com/archive/2025/11/using-sqlcl-in-sql-developer-for-vs-code-for-mcp-with-cline/)
 
+## Database Actions and SQL Tools publicly available
+- [Autonomous Database Actions](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/connect-database-actions.html#GUID-102845D9-6855-4944-8937-5C688939610F)
+- [Free SQL](https://freesql.com)
 
 ## Dev Gyms 
 - [The amazing Dev Gym](https://devgym.oracle.com/pls/apex/f?p=10001:20011::::20011::) 

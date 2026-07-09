@@ -19,7 +19,7 @@ Oracle True Cache provides several business benefits related to application deve
 
 Oracle True Cache is available starting from Oracle AI Database 26ai release (not supported in 19c).
 
-Reviewed: 06.05.2026
+Reviewed: 09.07.2026
 
 # Table of Contents 
 1. [Team Publications](#team-publications)
@@ -35,6 +35,7 @@ N/A
 - [True Cache - Learn about cache warmup - Oracle Blogs](https://blogs.oracle.com/database/oracle-true-cache-learn-about-cache-warmup)
 - [Blog - Accelerate Your Application Performance with Oracle True Cache](https://blogs.oracle.com/database/accelerate-your-application-performance-with-oracle-true-cache)
 - [Blog - True Cache and Active Data Guard Transparent JDBC Redirection](https://blogs.oracle.com/maa/true-cache-and-active-data-guard-jdbc-redirection)
+- [Blog - Maintain Application Read Availability as a bonus from Oracle True Cache while boosting App Performance!](https://blogs.oracle.com/database/application-read-availability-true-cache-while-boosting-app-performance)
 - [LiveLabs-Improve application performance with True Cache](https://livelabs.oracle.com/ords/r/dbpm/livelabs/view-workshop?wid=3933&clear=RR%2C180&session=103853267931988)
 - [YouTube - Application Acceleration with Oracle True Cache: Oracle DatabaseWorld 2025](https://www.youtube.com/watch?v=akCz6tskFLU)
 
