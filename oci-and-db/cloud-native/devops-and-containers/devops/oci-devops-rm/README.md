@@ -41,6 +41,7 @@ The default sample creates:
 
 ### Shared Reference
 
+- [Changelog](CHANGELOG.md): release history and customer-visible capabilities.
 - [Architecture](docs/architecture.md): what the stack creates and how the developer and operations paths fit together.
 - [Responsibilities](docs/responsibilities.md): ownership boundaries for developers, cluster administrators, and stack/platform owners.
 - [Resource Manager Inputs](docs/resource-manager-inputs.md): stack variables, application definitions, and optional cluster-administration configuration.
