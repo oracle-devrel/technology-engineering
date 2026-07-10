@@ -33,10 +33,12 @@ Reviewed: 09.07.2026
 # Useful Links
 
 ## OCI Database Connection Tools 
+
 - [Oracle Database Tool Service](https://www.oracle.com/database/tools-service/)
 - [Announcing the Oracle Cloud Database Tools Service](https://www.thatjeffsmith.com/archive/2021/11/announcing-the-database-tools-oracle-cloud-service/)
 
 ## Oracle SQL Developer (Desktop Classic/VS Code)
+
 - [SQL Developer](https://www.oracle.com/uk/database/sqldeveloper/)
 - [SQL Developer Releases](https://docs.oracle.com/en/database/oracle/sql-developer/)
 - [SQL Developer - Data Modeler](https://www.oracle.com/database/sqldeveloper/technologies/sql-data-modeler/)
@@ -45,6 +47,7 @@ Reviewed: 09.07.2026
 - [SQL Developer for Visual Studio Code - 26.2 release is out!](https://docs.oracle.com/en/database/oracle/sql-developer-vscode/index.html)
 
 ## Oracle SQL Developer Command Line (SQLcl)
+
 - [Oracle SQLcl](https://www.oracle.com/uk/database/sqldeveloper/technologies/sqlcl/)
 - [SQL Tools Training](https://education.oracle.com/database/oracle-database/pFamily_32)
 - [SQL Notebooks in Oracle SQL Developer for VS Code](https://www.thatjeffsmith.com/archive/2025/07/sql-notebooks-in-oracle-sql-developer-for-vs-code/)
@@ -55,6 +58,7 @@ Reviewed: 09.07.2026
 - [Free SQL](https://freesql.com)
 
 ## Dev Gyms 
+
 - [The amazing Dev Gym](https://devgym.oracle.com/pls/apex/f?p=10001:20011::::20011::) 
     - Join the Oracle Product Management Dev Gym (FREE!) and build your Oracle technology muscles by taking workouts, quizzes, and even entire classes on SQL, PL/SQL, database design, logic and more.
 - [Dev Gym Workout Class - Getting Started on Oracle Cloud](https://devgym.oracle.com/pls/apex/f?p=10001:29:4444375111375:::29:P29_CLASS_ID:20342&cs=1qfK8bInptu93se5QM5iMzsT-iih_gFsY78j308d3ZUzrCzX2c0-kgiimo59pm0c_NblFShALC1oOB8MosiaSYQ)
@@ -72,8 +76,9 @@ Reviewed: 09.07.2026
 
 
 ## SQL Best Practices
-Periodical sharing of Standard Query Language Best Practices links and blog, video publications from Advocate SQL and PL/SQL Developers and PMs
 
+Periodical sharing of Standard Query Language Best Practices links and blog, video publications from Advocate SQL and PL/SQL Developers and PMs
+- [AskTom SQL Questions](https://asktom.oracle.com/ords/f?p=100:1:313587262511422:::::) - AskTom Page with useful SQL Tips & Tricks from Developer's Advocates (Chris Saxon, Connor McDonald);
 - The power of SQL JOIN: [The JOIN syntax in SQL that no-one knows about](https://www.youtube.com/watch?v=nb52Gx4i364) (From Connor McDonald)
 - Analytic Functions: [how to get SQL cumulative running total on each row](https://blogs.oracle.com/sql/post/cumulative-running-total-of-previous-rows-with-sql) (from Chris Saxon);
 - V$ views: [Top 10 V$ Views For DBA and Developers](https://youtu.be/oI1F4vFwM9Q?si=i1UslciVja50792t) (From Connor McDonald);
