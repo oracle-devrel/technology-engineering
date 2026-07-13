@@ -32,15 +32,15 @@ Reviewed: Reviewed: 17.06.2026
 | Exadata cloud@customer | [Link](./database-observability/exacc-observability-assets/README.md) |  
 | Exadata Cloud Service  | [Link](./database-observability/exacs-and-dbcs-observability-assets/README.md)|  
 | Automated Observability Enablement for External Oracle Databases| [Link](./database-observability/external-database-enablement/README.md) | 
-| Automated Observability Enablement for OCI Cloud-Native Databases| [Link](/observability-and-management/assets/oci-dbman-opsi/README.md) | 
+| Automated Observability Enablement for OCI Cloud-Native Databases| [Link](./assets/oci-dbman-opsi/README.md) | 
 | DB@GCP  | [WIP](https://docs.oracle.com/en-us/iaas/Content/database-at-gcp/gcpmn-monitor.html)|  
 | DB@Azure |[WIP](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/azumn-monitor.html)| 
 | DB@AWS | [Link](./database-observability/oracleaws/README.md)|
 | EBS | [Link](https://docs.oracle.com/en/solutions/enable-om-stack-monitoring-ebs/index.html#GUID-6D9E091F-3614-4E3E-A082-5FC82B27CD7C) | 
-| Observability for Golden Gate Cloud|[Link](/observability-and-management/assets/oci-observability-for-goldengate-cloud/README.md)|
-| Observability for APEX |[Link](/observability-and-management/assets/oci-observability-for-oracle-apex/README.md)|
+| Observability for Golden Gate Cloud|[Link](./assets/oci-observability-for-goldengate-cloud/README.md)|
+| Observability for APEX |[Link](./assets/oci-observability-for-oracle-apex/README.md)|
 | OCI CI Container Instance |WIP  |
-| Monitor Weblogic in OCI | [Link](/observability-and-management//assets/monitor-weblogic-in-oci-and-collect-logs/README.md) |
+| Monitor Weblogic in OCI | [Link](./assets/monitor-weblogic-in-oci-and-collect-logs/README.md) |
 
 
 &nbsp;
@@ -51,13 +51,13 @@ Reviewed: Reviewed: 17.06.2026
 | OCI Observability and Management best practices and checklist|[Link](https://blogs.oracle.com/observability/post/oci-observability-checklist)|
 | Observability Design Guide  | [Link](https://obs.octodemo.cloud/) |  
 | AI agent skills for OCI observability  | [Link](https://github.com/adibirzu/oci-skills) | 
-| OCI Management Dashboard Automation|[Link](/observability-and-management/assets/oci-management-dashboard-automation/README.md)|
-| Multi-cloud observability using OCI Monitoring|[Link](/observability-and-management/assets/multi-cloud-observability-using-oci-monitoring/README.md)|
-| How and why to run Wazuh in OCI|[Link](/observability-and-management/assets/why-and-how-to-run-wazuh-on-oci/README.md)|
-| OCI Metric Report Generator|[Link](/observability-and-management/assets/oci-metrics-report/README.md)|
-| Using Plumi to create OCI Resources|[Link](/observability-and-management/assets/using-pulumi-to-create-oci-resources/README.md)|
-| Wazuh running in OCI | [Link](/observability-and-management/assets/why-and-how-to-run-wazuh-on-oci/README.md)|
-| Use Cloud Guard Insight Recipes to monitor Windows Instances against Interesting Windows Event IDs for Malware/General Investigation |[Link](/observability-and-management/assets/cloud-guard-insight-recipes-windows-event-ids/README.md)|
+| OCI Management Dashboard Automation|[Link](./assets/oci-management-dashboard-automation/README.md)|
+| Multi-cloud observability using OCI Monitoring|[Link](./assets/multi-cloud-observability-using-oci-monitoring/README.md)|
+| How and why to run Wazuh in OCI|[Link](./assets/why-and-how-to-run-wazuh-on-oci/README.md)|
+| OCI Metric Report Generator|[Link](./assets/oci-metrics-report/README.md)|
+| Using Plumi to create OCI Resources|[Link](./assets/using-pulumi-to-create-oci-resources/README.md)|
+| Wazuh running in OCI | [Link](./assets/why-and-how-to-run-wazuh-on-oci/README.md)|
+| Use Cloud Guard Insight Recipes to monitor Windows Instances against Interesting Windows Event IDs for Malware/General Investigation |[Link](./assets/cloud-guard-insight-recipes-windows-event-ids/README.md)|
 
 
 
