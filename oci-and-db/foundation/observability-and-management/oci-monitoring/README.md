@@ -14,12 +14,12 @@ Reviewed: 23.06.2026
 
 |OCI Monitoring asset| Asset Page|
 |---|---|
-| Multicloud Observability with OCI Monitoring|[Link](/observability-and-management/assets/multi-cloud-observability-using-oci-monitoring/README.md)|
-| OCI Metrics Report|[Link](/observability-and-management/assets/oci-metrics-report/README.md)|
+| Multicloud Observability with OCI Monitoring|[Link](/oci-and-db/foundation/observability-and-management/assets/multi-cloud-observability-using-oci-monitoring/README.md)|
+| OCI Metrics Report|[Link](/oci-and-db/foundation/observability-and-management/assets/oci-metrics-report/README.md)|
 | How to install Arkime(Moloch) using embedded Open Search|[Link](/observability-and-management/assets/install-arkime-moloch-using-embedded-open-search/README.md)|
-| How to monitor the resource usage on your OCI Instances using Cloud Guard Instance Security Queries|[Link](/observability-and-management/assets/monitor-oci-instance-resource-usage-cloud-guard-queries/README.md)|
-| Security Onion on OCI|[Link](/observability-and-management/assets/install-security-onion-on-oci/README.md)|
-| How to feed OCI metrics to Security Onion Grafana|[Link](/observability-and-management/assets/feed-oci-metrics-to-security-onion-grafana/README.md)|
+| How to monitor the resource usage on your OCI Instances using Cloud Guard Instance Security Queries|[Link](/oci-and-db/foundation/observability-and-management/assets/monitor-oci-instance-resource-usage-cloud-guard-queries/README.md)|
+| Security Onion on OCI|[Link](/oci-and-db/foundation/observability-and-management/assets/install-security-onion-on-oci/README.md)|
+| How to feed OCI metrics to Security Onion Grafana|[Link](/oci-and-db/foundation/observability-and-management/assets/feed-oci-metrics-to-security-onion-grafana/README.md)|
 
 
 

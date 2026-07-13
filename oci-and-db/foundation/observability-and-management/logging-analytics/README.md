@@ -20,8 +20,8 @@ Reviewed: 23.06.2026
 | Analyzing OCI Compute Instance logs with OCI Logging Analytics|[Link](https://blogs.oracle.com/observability/post/oci-logginganalytics-compute-instance)|
 | How to inject Oracle Fusion HCM logs in Logging Analytics | [Link](./fusion-hcm-to-la/README.md)|
 | Log Analytics Advanced Security Detection|[Link](https://github.com/adibirzu/oci-log-analytics-detections)|
-| Stream Azure Event Hub logs into Log Analytics|[Link](/observability-and-management/assets/azurelogs2oci/README.md)|
-| Stream GCP logs into Log Analytics|[Link](/observability-and-management/assets/gcplogs2oci/README.md)|
+| Stream Azure Event Hub logs into Log Analytics|[Link](/oci-and-db/foundation/observability-and-management/assets/azurelogs2oci/README.md)|
+| Stream GCP logs into Log Analytics|[Link](/oci-and-db/foundation/observability-and-management/assets/gcplogs2oci/README.md)|
 
 
 # Useful Links
