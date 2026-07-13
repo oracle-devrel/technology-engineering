@@ -1,6 +1,6 @@
 # Oracle Database @ Azure Cloud Operations
 
-Reviewed: 2026-05-27
+Reviewed: 2026-07-13
 
 # Table of Contents  <!-- omit in toc --> 
 - [Oracle Database @ Azure Cloud Operations](#oracle-database--azure-cloud-operations)
@@ -9,9 +9,10 @@ Reviewed: 2026-05-27
 
 # Team Publications
 
-- [Oracle Database@AWS Automation Workshop](./oracle-database-at-aws-automation-workshop/files/Public_OD@AWS_Automation_v0.1.pdf)
+- [Oracle Database@AWS Automation Workshop](./od-at-aws-automation-ws/files/Public_OD@AWS_Automation_v0.1.pdf)
 - [Oracle Database@AWS Change Operations](../exadb-d/files/Public_2_ExaDB-D_Change_v2.0.pdf)
 - [Oracle Database@AWS Cloud Maintenance Operations](../exadb-d/files/Public_3_ExaDB-D_Maintenance_v2.0.pdf)
+- [Oracle Database@AWS Backup & Recovery Operations](../exadb-d/files/Public_4_ExaDB-D_BackupRecovery_v1.0.pdf)
   
 # License
 
