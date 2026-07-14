@@ -59,11 +59,11 @@ Reviewed: 2026-07-08
 - [ExaDB-XS Maintenance Operations Deep Dive Workshop.](./customer-operations/oracle-database/exadb-xs/files/Public_03_ExaDBXS_Maintenance_v1.0.pdf)
 - [ExaDB-XS Backup & Recovery Operations Deep Dive Workshop.](./customer-operations/oracle-database/exadb-xs/files/Public_04_ExaDBXS_DB_Backup_Recovery_v1.0.pdf)
 - [ExaDB-D/ExaDB-C@C Dynamic Scaling.](./customer-operations/oracle-database/scaling/README.md)
-- [Oracle Database@Azure Automation Workshop.](./customer-operations/oracle-database/oracle-database-at-azure-cloud-operations/oracle-database-at-azure-automation-workshop/files/Public_OD@AZ_Automation_v0.1.pdf)
-- [Oracle Database@GCP Operational Best Practices.](./customer-operations/oracle-database/oracle-database-at-azure-cloud-operations/oracle-database-at-azure-operations-best-practices/README.md)
-- [Oracle Database@GCP Automation Workshop.](./customer-operations/oracle-database/oracle-database-at-google-cloud-operations/oracle-database-at-google-automation-workshop/files/Public_OD@GCP_Automation_v0.1.pdf)
-- [Oracle Database@GCP Operational Best Practices.](./customer-operations/oracle-database/oracle-database-at-google-cloud-operations/oracle-database-at-google-operations-best-practices/README.md)
-- [Oracle Database@AWS Automation Workshop.](./customer-operations/oracle-database/oracle-database-at-aws-cloud-operations/oracle-database-at-aws-automation-workshop/files/Public_OD@AWS_Automation_v0.1.pdf)
+- [Oracle Database@Azure Automation Workshop.](./customer-operations/oracle-database/od-at-azure-cloud-operations/od-at-azure-automation-ws/files/Public_OD@AZ_Automation_v0.1.pdf)
+- [Oracle Database@GCP Operational Best Practices.](./customer-operations/oracle-database/od-at-gcp-cloud-operations/od-at-gcp-ops-best-practices/README.md)
+- [Oracle Database@GCP Automation Workshop.](./customer-operations/oracle-database/od-at-gcp-cloud-operations/od-at-gcp-automation-ws/files/Public_OD@GCP_Automation_v0.1.pdf)
+- [Oracle Database@GCP Operational Best Practices.](./customer-operations/oracle-database/od-at-gcp-cloud-operations/od-at-gcp-ops-best-practices/README.md)
+- [Oracle Database@AWS Automation Workshop.](./customer-operations/oracle-database/od-at-aws-cloud-operations/od-at-aws-automation-ws/files/Public_OD@AWS_Automation_v0.1.pdf)
 - [Streamline Backups for Oracle Autonomous AI Database on Exadata Cloud@Customer with ZDLRA as the Destination.](https://blogs.oracle.com/autonomous-ai-database/streamline-backups-for-oracle-autonomous-ai-database-on-exadata-cloudcustomer-with-zdlra-as-the-destination)
 
 ## Lifecycle Management
