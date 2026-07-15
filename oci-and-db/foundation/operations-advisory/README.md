@@ -2,7 +2,7 @@
 
 The Operations Advisory provides critical guidance to Customers on how to define their operations. Operations Excellence Advisory 'Approach Workshop' advises on best practices and their benefits from Oracle based on previous experiences and is meant to identify  an outline for Day 2 optimal operations, based on  priorities and requirements for DR, Integrations, O&M also in the following scenarios: Hybrid, Multi-cloud, Dedicated Cloud. Where needed, Automation advice is also included.
   
-Reviewed: 2026-07-08
+Reviewed: 2026-07-15
 
 # Table of Contents <!-- omit in toc --> 
 
@@ -14,6 +14,7 @@ Reviewed: 2026-07-08
     - [Core Infrastructure Operations](#core-infrastructure-operations)
     - [Oracle Database Operations](#oracle-database-operations)
   - [Lifecycle Management](#lifecycle-management)
+    - [FinOps](#finops)
     - [Advanced Operational Integrations](#advanced-operational-integrations)
     - [Carbon Emissions Dashboard](#carbon-emissions-dashboard)
     - [Email Delivery Service](#email-delivery-service)
@@ -53,6 +54,7 @@ Reviewed: 2026-07-08
 - [ExaDB-D - Management Provisioning Operations Deep Dive Workshop.](./customer-operations/oracle-database/exadb-d/files/Public_1_ExaDB-D_Provision_v1.0.pdf)
 - [ExaDB-D - Management Change Operations Deep Dive Workshop.](./customer-operations/oracle-database/exadb-d/files/Public_2_ExaDB-D_Change_v2.0.pdf)
 - [ExaDB-D - Management Maintenance Operations Deep Dive Workshop.](./customer-operations/oracle-database/exadb-d/files/Public_3_ExaDB-D_Maintenance_v2.0.pdf)
+- [Building a Complete Exadata FinOps Model](./lifecycle-management-tools/finops/files/Public_FinOps_ExadataCostAttribution_v0.1.pdf)
 - [ExaDB-XS Management Interfaces Deep Dive Workshop.](./customer-operations/oracle-database/exadb-xs/files/Public_00_ExaDBXS_Management_Interfaces_v1.0.pdf)
 - [ExaDB-XS Provision Operations Deep Dive Workshop.](./customer-operations/oracle-database/exadb-xs/files/Public_01_ExaDBXS_Provision_v1.0.pdf)
 - [ExaDB-XS Change Operations Deep Dive Workshop.](./customer-operations/oracle-database/exadb-xs/files/Public_02_ExaDBXS_Change_v1.0.pdf)
@@ -60,13 +62,18 @@ Reviewed: 2026-07-08
 - [ExaDB-XS Backup & Recovery Operations Deep Dive Workshop.](./customer-operations/oracle-database/exadb-xs/files/Public_04_ExaDBXS_DB_Backup_Recovery_v1.0.pdf)
 - [ExaDB-D/ExaDB-C@C Dynamic Scaling.](./customer-operations/oracle-database/scaling/README.md)
 - [Oracle Database@Azure Automation Workshop.](./customer-operations/oracle-database/od-at-azure-cloud-operations/od-at-azure-automation-ws/files/Public_OD@AZ_Automation_v0.1.pdf)
-- [Oracle Database@GCP Operational Best Practices.](./customer-operations/oracle-database/od-at-gcp-cloud-operations/od-at-gcp-ops-best-practices/README.md)
+- [Oracle Database@Azure Operational Best Practices.](./customer-operations/oracle-database/od-at-gcp-cloud-operations/od-at-gcp-ops-best-practices/README.md)
 - [Oracle Database@GCP Automation Workshop.](./customer-operations/oracle-database/od-at-gcp-cloud-operations/od-at-gcp-automation-ws/files/Public_OD@GCP_Automation_v0.1.pdf)
 - [Oracle Database@GCP Operational Best Practices.](./customer-operations/oracle-database/od-at-gcp-cloud-operations/od-at-gcp-ops-best-practices/README.md)
 - [Oracle Database@AWS Automation Workshop.](./customer-operations/oracle-database/od-at-aws-cloud-operations/od-at-aws-automation-ws/files/Public_OD@AWS_Automation_v0.1.pdf)
 - [Streamline Backups for Oracle Autonomous AI Database on Exadata Cloud@Customer with ZDLRA as the Destination.](https://blogs.oracle.com/autonomous-ai-database/streamline-backups-for-oracle-autonomous-ai-database-on-exadata-cloudcustomer-with-zdlra-as-the-destination)
 
 ## Lifecycle Management
+
+### FinOps
+- [How OCI can support FinOps Workshop.](./lifecycle-management-tools/finops/files/Public_Finops%20Overview%20feb%202026_v0.2.pdf)
+- [OCI Tagging - Driving Governance, Visibility and Cost Control.](./lifecycle-management-tools/finops/files/Public_FinOps_Tagging_v0.1.pdf)
+- [Building a Complete Exadata FinOps Model](./lifecycle-management-tools/finops/files/Public_FinOps_ExadataCostAttribution_v0.1.pdf)
 
 ### Advanced Operational Integrations
 - [Sentinel](./lifecycle-management-tools/advanced-operational-integrations/sentinel/files/IntegratingLoggingwithSentinel.pdf)
