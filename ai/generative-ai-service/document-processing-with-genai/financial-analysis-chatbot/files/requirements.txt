@@ -1,4 +1,4 @@
-streamlit==1.48.0           
+streamlit==1.54.0           
 pandas                      
 Pillow                      
 pdf2image                   
