@@ -12,7 +12,7 @@ resolves one cloud/environment/region tuple and passes it to Platform CI.
 State keys are `<bucket>/<owner>/<repository>/<cloud>/<environment>/<region>/terraform.tfstate`.
 
 For every enabled GitHub Environment, create environment-scoped placeholder
-secrets and a non-empty `CONTROL_PLANE_READY` marker with that same name in
+secrets and a non-empty `READINESS_MARKER` marker with that same name in
 each distinct GitHub Environment. A missing
 marker must fail closed. Placeholder names must be environment-qualified and
 may not reference a different environment. Plan/check selects the environment
@@ -37,7 +37,7 @@ secrets are unavailable.
 For a trial organization, publish private `platform-ci`, `gitops-templates`,
 and `oe-nonprod-project-template` repositories from the deployment runbook.
 Create `dev`, `test`, and `uat` GitHub Environments in each project repository,
-then set the scoped readiness marker with `gh secret set CONTROL_PLANE_READY
+then set the scoped readiness marker with `gh secret set READINESS_MARKER
 --env <environment> --repo OWNER/oe-nonprod-PROJECT`. Configure branch
 protection to require status checks and code-owner approval before opening the
 first manifest pull request. Do not use organization-wide or repository secrets

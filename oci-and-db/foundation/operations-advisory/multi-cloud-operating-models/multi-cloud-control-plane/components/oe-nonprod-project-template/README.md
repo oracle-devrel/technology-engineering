@@ -11,6 +11,6 @@ rejected. The protected default branch owns `control-plane.json`, workflows,
 and CODEOWNERS. Project changes may contain one cloud/environment/region tuple.
 
 Configure one GitHub Environment per allowed environment with a scoped
-`CONTROL_PLANE_READY` readiness secret (created separately in each GitHub
+`READINESS_MARKER` readiness secret (created separately in each GitHub
 Environment) and environment-scoped
 placeholder secrets. Do not use `secrets: inherit`.

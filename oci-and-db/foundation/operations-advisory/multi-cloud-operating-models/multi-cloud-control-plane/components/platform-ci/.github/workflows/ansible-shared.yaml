@@ -43,9 +43,9 @@ jobs:
       - name: Verify environment readiness
         shell: bash
         env:
-          CONTROL_PLANE_READY: ${{ secrets.CONTROL_PLANE_READY }}
+          READINESS_MARKER: ${{ secrets.READINESS_MARKER }}
         run: |
-          test -n "$CONTROL_PLANE_READY" || { echo "❌ Selected GitHub Environment is not ready"; exit 1; }
+          test -n "$READINESS_MARKER" || { echo "❌ Selected GitHub Environment is not ready"; exit 1; }
 
       # =====================================================================
       # Setup

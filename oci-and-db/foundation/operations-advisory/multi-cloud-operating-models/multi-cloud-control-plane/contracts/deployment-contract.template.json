@@ -32,7 +32,7 @@
         "codeowners": ["@__CUSTOMER_ORG__/platform-team"],
         "runner_labels": {"oci": ["self-hosted", "oci", "<environment>"], "azure": ["self-hosted", "azure", "<environment>"], "gcp": ["self-hosted", "gcp", "<environment>"]},
         "supported_clouds": ["oci", "azure", "gcp"],
-        "readiness_marker_secret": "CONTROL_PLANE_READY"
+        "readiness_marker": "configured-per-github-environment"
       }
   }
 }
