@@ -1,0 +1,94 @@
+name: OCI Project Foundation Handoff
+
+on:
+  workflow_dispatch:
+    inputs:
+      project:
+        description: Canonical OP04 project slug
+        required: true
+        type: string
+  workflow_call:
+    inputs:
+      project:
+        description: Canonical OP04 project slug
+        required: true
+        type: string
+
+# This workflow only reads landing-zone state and uploads an artifact. It never
+# checks out, writes to, or opens a pull request against a project repository.
+permissions:
+  contents: read
+
+jobs:
+  handoff:
+    name: Generate project-foundation handoff artifact
+    if: github.ref == 'refs/heads/main'
+    runs-on: self-hosted
+    timeout-minutes: 15
+    env:
+      PROJECT: ${{ inputs.project }}
+      OCI_TF_STATE_BUCKET: ${{ vars.OCI_TF_STATE_BUCKET }}
+      OCI_TF_STATE_NAMESPACE: ${{ vars.OCI_TF_STATE_NAMESPACE }}
+      STATE_REGION: ${{ vars.REGION }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_version: 1.12.1
+          terraform_wrapper: false
+
+      - name: Render artifact-only handoff
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$PROJECT" =~ ^oe-(prod|dev)-[a-z][a-z0-9]*(?:-[a-z0-9]+)*$ ]] || { echo "Invalid project slug" >&2; exit 1; }
+          project_directory="op04_manage_project/${BASH_REMATCH[1]}/$PROJECT"
+          [[ -d "$project_directory" ]] || { echo "OP04 project directory is missing" >&2; exit 1; }
+          for variable in OCI_TF_STATE_BUCKET OCI_TF_STATE_NAMESPACE STATE_REGION; do
+            [[ -n "${!variable}" ]] || { echo "Required variable $variable is empty" >&2; exit 1; }
+          done
+          artifact_directory="$RUNNER_TEMP/project-foundation-handoff-$GITHUB_RUN_ID"
+          mkdir -p "$artifact_directory"
+          state_root="$RUNNER_TEMP/project-foundation-state-$GITHUB_RUN_ID"
+          mkdir -p "$state_root/op02" "$state_root/op04"
+          for state in op02 op04; do
+            cat > "$state_root/$state/backend.tf" <<'EOF'
+          terraform { backend "oci" {} }
+          EOF
+          done
+          terraform -chdir="$state_root/op02" init -input=false -no-color \
+            -backend-config="bucket=$OCI_TF_STATE_BUCKET" \
+            -backend-config="namespace=$OCI_TF_STATE_NAMESPACE" \
+            -backend-config="region=$STATE_REGION" \
+            -backend-config="auth=InstancePrincipal" \
+            -backend-config="key=op02_manage_environment/${BASH_REMATCH[1]}/terraform.tfstate"
+          terraform -chdir="$state_root/op04" init -input=false -no-color \
+            -backend-config="bucket=$OCI_TF_STATE_BUCKET" \
+            -backend-config="namespace=$OCI_TF_STATE_NAMESPACE" \
+            -backend-config="region=$STATE_REGION" \
+            -backend-config="auth=InstancePrincipal" \
+            -backend-config="key=$project_directory/terraform.tfstate"
+          terraform -chdir="$state_root/op02" output -json > "$state_root/op02-output.json"
+          terraform -chdir="$state_root/op04" output -json > "$state_root/op04-output.json"
+          python3 scripts/render_project_handoff.py \
+            --project "$PROJECT" \
+            --project-directory "$project_directory" \
+            --op04-output "$state_root/op04-output.json" \
+            --op02-output "$state_root/op02-output.json" \
+            --network-config "op02_manage_environment/${BASH_REMATCH[1]}/oci_open_lz_one-oe_op02_${BASH_REMATCH[1]}_network_light.auto.tfvars.json" \
+            --source-repository "$GITHUB_REPOSITORY" \
+            --source-workflow "$GITHUB_WORKFLOW" \
+            --source-run "$GITHUB_RUN_ID" \
+            --source-commit "$GITHUB_SHA" \
+            --op02-state-key "op02_manage_environment/${BASH_REMATCH[1]}/terraform.tfstate" \
+            --op04-state-key "$project_directory/terraform.tfstate" \
+            --output "$artifact_directory/enviroment_information.md" \
+            --handoff-output "$artifact_directory/project-foundation-handoff.json"
+
+      - name: Upload handoff artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: project-foundation-handoff-${{ inputs.project }}
+          path: ${{ runner.temp }}/project-foundation-handoff-${{ github.run_id }}/
+          if-no-files-found: error

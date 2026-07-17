@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "core_repositories": {
+    "platform_ci": "__PLATFORM_CI_REF__",
+    "project_template": "__PROJECT_TEMPLATE_REF__",
+    "catalogs": "__CATALOGS_REF__"
+  },
+  "workload_orchestrators": {
+    "oci": {
+      "repository": "oci-landing-zones/terraform-oci-modules-orchestrator",
+      "revision": "34202e837e9df015ddaaa4fce0ab62bb6e3883de"
+    },
+    "azure": {
+      "repository": "oci-clickops/clickops-orchestrator-azure",
+      "revision": "2d0b532f7639212f1b7c2708cd15b71d80b217fe"
+    },
+    "gcp": {
+      "repository": "oci-clickops/clickops-orchestrator-gcp",
+      "revision": "c434e0697a3ca4daa8f8c7903afd4c6c7be287f9"
+    }
+  },
+  "enabled_request_adapters": ["github-pr"],
+  "accepted_handoff_schema_versions": [1]
+}

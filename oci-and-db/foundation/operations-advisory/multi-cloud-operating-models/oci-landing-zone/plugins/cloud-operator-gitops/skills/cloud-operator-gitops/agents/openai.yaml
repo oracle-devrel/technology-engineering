@@ -1,0 +1,4 @@
+interface:
+  display_name: "Cloud Operator GitOps"
+  short_description: "OCI foundation onboarding and artifact handoff"
+  default_prompt: "Use $cloud-operator-gitops to prepare a governed OP04 change and produce the project-foundation handoff artifact."

@@ -1,0 +1,25 @@
+{
+  "compartments_configuration": {
+    "compartments": {
+      "CMP-LZP-P-__PROJECT_UPPER__-KEY": {
+        "children": {
+          "CMP-LZP-P-__PROJECT_UPPER__-APP-KEY": {"defined_tags": {"tn-lzp-proj-role.app-admin": "grp-lzp-__environment__-__project_lower__-app-admins"}, "description": "__Environment_Title__ environment, __Project_Title__, Application layer", "name": "cmp-lzp-p-__project_lower__-app"},
+          "CMP-LZP-P-__PROJECT_UPPER__-DB-KEY": {"defined_tags": {"tn-lzp-proj-role.db-admin": "grp-lzp-__environment__-__project_lower__-db-admins"}, "description": "__Environment_Title__ environment, __Project_Title__, DB layer", "name": "cmp-lzp-p-__project_lower__-db"},
+          "CMP-LZP-P-__PROJECT_UPPER__-INFRA-KEY": {"defined_tags": {"tn-lzp-proj-role.infra-admin": "grp-lzp-__environment__-__project_lower__-infra-admins"}, "description": "__Environment_Title__ environment, __Project_Title__, Infra layer", "name": "cmp-lzp-p-__project_lower__-infra"}
+        },
+        "defined_tags": {"tn-lzp-proj-role.proj-admin": "grp-lzp-__environment__-__project_lower__"},
+        "description": "__Environment_Title__ environment, __Project_Title__ compartment",
+        "name": "cmp-lzp-p-__project_lower__"
+      }
+    },
+    "default_parent_id": "__PARENT_COMPARTMENT_OCID__",
+    "enable_delete": "true"
+  },
+  "groups_configuration": {
+    "groups": {
+      "GRP-LZP-__ENVIRONMENT_UPPER__-__PROJECT_UPPER__-APP-ADMINS": {"defined_tags": {"tn-lzp-proj-role.app-admin": "grp-lzp-__environment__-__project_lower__-app-admins", "tn-lzp-proj-role.proj-admin": "grp-lzp-__environment__-__project_lower__"}, "description": "__Environment_Title__ Landing Zone, __Project_Title__, Application Administrators.", "name": "grp-lzp-__environment__-__project_lower__-app-admins"},
+      "GRP-LZP-__ENVIRONMENT_UPPER__-__PROJECT_UPPER__-DB-ADMINS": {"defined_tags": {"tn-lzp-proj-role.db-admin": "grp-lzp-__environment__-__project_lower__-db-admins", "tn-lzp-proj-role.proj-admin": "grp-lzp-__environment__-__project_lower__"}, "description": "__Environment_Title__ Landing Zone, __Project_Title__, Database Administrators.", "name": "grp-lzp-__environment__-__project_lower__-db-admins"},
+      "GRP-LZP-__ENVIRONMENT_UPPER__-__PROJECT_UPPER__-INFRA-ADMINS": {"defined_tags": {"tn-lzp-proj-role.infra-admin": "grp-lzp-__environment__-__project_lower__-infra-admins", "tn-lzp-proj-role.proj-admin": "grp-lzp-__environment__-__project_lower__"}, "description": "__Environment_Title__ Landing Zone, __Project_Title__, Infra Administrators.", "name": "grp-lzp-__environment__-__project_lower__-infra-admins"}
+    }
+  }
+}

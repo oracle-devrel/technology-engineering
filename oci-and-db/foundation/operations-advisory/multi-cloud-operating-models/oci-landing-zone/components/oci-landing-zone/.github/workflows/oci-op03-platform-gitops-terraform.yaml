@@ -1,0 +1,159 @@
+name: OCI Terraform pipeline - OP03 Manage Platform - GitOps
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'op03_manage_platform_gitops/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+    - 'op03_manage_platform_gitops/**'
+
+  workflow_dispatch:
+
+jobs:
+ projects:
+    name: 'op03_manage_platform_gitops'
+    env:
+      SCENARIO: op03_manage_platform_gitops
+
+    runs-on: self-hosted
+    permissions:
+      contents: read
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: 'Checkout'
+      uses: actions/checkout@v4
+
+    # Gather Orchestrator Module
+    - name: 'Clone Orchestrator Module'
+      run: git clone https://github.com/oci-landing-zones/terraform-oci-modules-orchestrator.git ORCH && git -C ORCH checkout 34202e837e9df015ddaaa4fce0ab62bb6e3883de
+
+    # Setup Terraform Binary
+    - name: 'Setup Terraform'
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: 1.12.1
+        terraform_wrapper: true
+
+    # # Setup Terraform backend overriding default Orchestrator Provider options
+    - name: 'Setup Orchestrator Instance Principal Auth'
+      id: backend
+      run: |
+        cat > ${{ github.workspace }}/ORCH/providers.tf << EOF
+        data "oci_identity_regions" "these" {}
+
+        data "oci_identity_tenancy" "this" {
+          tenancy_id = var.tenancy_ocid
+        }
+
+        locals {
+          regions_map         = { for r in data.oci_identity_regions.these.regions : r.key => r.name } # All regions indexed by region key.
+          regions_map_reverse = { for r in data.oci_identity_regions.these.regions : r.name => r.key } # All regions indexed by region name.
+          home_region_key     = data.oci_identity_tenancy.this.home_region_key                         # Home region key obtained from the tenancy data source
+          region_key          = lower(local.regions_map_reverse[var.region])                           # Region key obtained from the region name
+        }
+
+        provider "oci" {
+           auth                = "InstancePrincipal"
+          region               = var.region
+          tenancy_ocid         = var.tenancy_ocid
+          user_ocid            = var.user_ocid
+          fingerprint          = var.fingerprint
+          private_key_path     = var.private_key_path
+          private_key_password = var.private_key_password
+          ignore_defined_tags  = ["Oracle-Tags.CreatedBy", "Oracle-Tags.CreatedOn"]
+        }
+
+        provider "oci" {
+          auth                 = "InstancePrincipal"
+          alias                = "home"
+          region               = local.regions_map[local.home_region_key]
+          tenancy_ocid         = var.tenancy_ocid
+          user_ocid            = var.user_ocid
+          fingerprint          = var.fingerprint
+          private_key_path     = var.private_key_path
+          private_key_password = var.private_key_password
+          ignore_defined_tags  = ["Oracle-Tags.CreatedBy", "Oracle-Tags.CreatedOn"]
+        }
+
+        provider "oci" {
+          auth                 = "InstancePrincipal"
+          alias                = "secondary_region"
+          region               = local.regions_map[local.home_region_key]
+          tenancy_ocid         = var.tenancy_ocid
+          user_ocid            = var.user_ocid
+          fingerprint          = var.fingerprint
+          private_key_path     = var.private_key_path
+          private_key_password = var.private_key_password
+          ignore_defined_tags  = ["Oracle-Tags.CreatedBy", "Oracle-Tags.CreatedOn"]
+        }
+
+        terraform {
+          required_version = ">= 1.3.0"
+          required_providers {
+            oci = {
+              source                = "oracle/oci"
+              configuration_aliases = [oci.home]
+            }
+          }
+            backend "oci" {
+              bucket = "__BUCKET__"
+              namespace ="__NAMESPACE__"
+              auth = "InstancePrincipal"
+              region = "__REGION__"
+              key = "__SCENARIO__/terraform.tfstate"
+            }
+        }
+        EOF
+        sed -i "s|__BUCKET__|${{ vars.OCI_TF_STATE_BUCKET }}|g" ${{ github.workspace }}/ORCH/providers.tf
+        sed -i "s|__NAMESPACE__|${{ vars.OCI_TF_STATE_NAMESPACE }}|g" ${{ github.workspace }}/ORCH/providers.tf
+        sed -i "s|__REGION__|${{ vars.REGION }}|g" ${{ github.workspace }}/ORCH/providers.tf
+        sed -i "s|__SCENARIO__|${{ env.SCENARIO }}|g" ${{ github.workspace }}/ORCH/providers.tf
+
+
+    # Landing Zone Terraform Orchestrator and Base Modules initialization
+    - name: 'Terraform Init'
+      id: init
+      run: |
+       cd ${{ github.workspace }}/ORCH
+       terraform init
+
+    # Test: Terraform Validate
+    - name: 'Terraform Validate'
+      id: validate
+      if: github.ref != 'refs/heads/main' && (success() || failure())
+      run: |
+       cd ${{ github.workspace }}/ORCH
+       terraform validate -no-color
+
+    # Integration: Terraform Plan
+    - name: 'Terraform Plan'
+      id: plan
+      if: github.event_name == 'pull_request'
+      run: |
+       cd ${{ github.workspace }}/ORCH
+       SCENARIO_DIR=${{ github.workspace }}/$SCENARIO
+       VARS=`find $SCENARIO_DIR -name *json`
+       echo $VARS
+       terraform plan -no-color `for i in $VARS; do echo "-var-file $i"; done` -var "output_path=output" --out tfplan.binary
+
+
+    # Integration: Show fail status if plan failed
+    - name: 'Terraform Plan Status'
+      if: steps.plan.outcome == 'failure'
+      run: exit 1
+
+    # Deployment: Terraform apply when merge request
+    - name: Terraform Apply
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: |
+       cd ${{ github.workspace }}/ORCH
+       SCENARIO_DIR=${{ github.workspace }}/$SCENARIO
+       VARS=`find $SCENARIO_DIR -name *json`
+       echo $VARS
+       terraform apply -no-color `for i in $VARS; do echo "-var-file $i"; done` -var "output_path=output" --auto-approve

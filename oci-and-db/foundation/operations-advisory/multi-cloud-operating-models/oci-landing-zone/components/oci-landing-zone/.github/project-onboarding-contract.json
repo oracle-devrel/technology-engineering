@@ -1,0 +1,11 @@
+{
+  "contract_version": 2,
+  "project_slug_pattern": "^oe-(prod)-[a-z][a-z0-9]*(?:-[a-z0-9]+)*$",
+  "project_name_max_length": 30,
+  "same_slug_repository": true,
+  "allowed_environments": ["prod"],
+  "environment_blueprints": {
+    "prod": "blueprints/prod/project-onboarding-environment.json"
+  },
+  "op04_template": "op04_manage_project/templates/project-iam.template.json"
+}

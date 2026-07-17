@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "foundation_repository": "__FOUNDATION_REPOSITORY__",
+  "foundation_ref": "__FOUNDATION_REF__",
+  "oci_orchestrator": {
+    "repository": "oci-landing-zones/terraform-oci-modules-orchestrator",
+    "revision": "34202e837e9df015ddaaa4fce0ab62bb6e3883de"
+  },
+  "environments": [
+    {"name": "__ENVIRONMENT__", "region": "__OCI_REGION__"}
+  ],
+  "foundation_workflows": [
+    "oci-bootstrap-terraform.yaml",
+    "oci-op00-terraform.yaml",
+    "oci-op01-terraform.yaml",
+    "oci-op02-prod-terraform.yaml",
+    "oci-op03-platform-gitops-terraform.yaml",
+    "oci-op04-terraform.yaml"
+  ],
+  "codex_app_plugin": false
+}

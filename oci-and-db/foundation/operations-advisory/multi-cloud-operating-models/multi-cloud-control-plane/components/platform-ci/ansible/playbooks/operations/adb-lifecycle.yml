@@ -1,0 +1,50 @@
+---
+# ADB Lifecycle Operations
+# Start and stop Autonomous Databases
+
+- name: ADB Lifecycle
+  hosts: adb_instances
+  gather_facts: false
+
+  tasks:
+    - name: Get current state
+      oracle.oci.oci_database_autonomous_database_facts:
+        autonomous_database_id: "{{ oci_ocid }}"
+        auth_type: instance_principal
+      register: adb_state
+      delegate_to: localhost
+      check_mode: false
+
+    - name: Start ADB
+      oracle.oci.oci_database_autonomous_database_actions:
+        autonomous_database_id: "{{ oci_ocid }}"
+        action: start
+        wait: "{{ wait_for_state | default(true) }}"
+        wait_timeout: "{{ (timeout_minutes | default(30)) * 60 }}"
+        auth_type: instance_principal
+      delegate_to: localhost
+      when:
+        - action == 'start'
+        - adb_state.autonomous_databases[0].lifecycle_state != 'AVAILABLE'
+      register: start_result
+
+    - name: Stop ADB
+      oracle.oci.oci_database_autonomous_database_actions:
+        autonomous_database_id: "{{ oci_ocid }}"
+        action: stop
+        wait: "{{ wait_for_state | default(true) }}"
+        wait_timeout: "{{ (timeout_minutes | default(30)) * 60 }}"
+        auth_type: instance_principal
+      delegate_to: localhost
+      when:
+        - action == 'stop'
+        - adb_state.autonomous_databases[0].lifecycle_state == 'AVAILABLE'
+      register: stop_result
+
+    - name: Show result
+      debug:
+        msg: >-
+          {{ inventory_hostname }}:
+          {% if start_result.changed | default(false) %}started
+          {% elif stop_result.changed | default(false) %}stopped
+          {% else %}already in desired state{% endif %}

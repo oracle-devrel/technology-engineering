@@ -1,0 +1,27 @@
+name: OCI Terraform
+
+on:
+    pull_request:
+        branches: [main]
+        paths:
+            - "oci/**"
+            - "!oci/**/lifecycle_operations/**"
+    push:
+        branches: [main]
+        paths:
+            - "oci/**"
+            - "!oci/**/lifecycle_operations/**"
+    workflow_dispatch:
+
+jobs:
+    terraform:
+        if: github.event_name != 'push' || github.event.before != '0000000000000000000000000000000000000000'
+        uses: __CUSTOMER_ORG__/platform-ci/.github/workflows/terraform-shared.yaml@__PLATFORM_CI_REF__
+        secrets: inherit
+        with:
+            mode: ${{ github.event_name == 'push' && 'apply' || 'pr' }}
+            cloud: oci
+            # region: eu-frankfurt-1 # Optional: Auto-detected from changed files
+            orchestrator_repo: oci-landing-zones/terraform-oci-modules-orchestrator
+            orchestrator_ref: 34202e837e9df015ddaaa4fce0ab62bb6e3883de
+            bucket_name: gitops-state-bucket

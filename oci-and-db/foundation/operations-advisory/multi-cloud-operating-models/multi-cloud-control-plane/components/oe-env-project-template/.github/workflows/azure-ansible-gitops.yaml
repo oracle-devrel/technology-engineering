@@ -1,0 +1,19 @@
+name: Azure Ansible GitOps
+
+on:
+    pull_request:
+        branches: [main]
+        paths: [azure/**/lifecycle_operations/**]
+    push:
+        branches: [main]
+        paths: [azure/**/lifecycle_operations/**]
+    workflow_dispatch:
+
+jobs:
+    ansible:
+        if: github.event_name != 'push' || github.event.before != '0000000000000000000000000000000000000000'
+        uses: __CUSTOMER_ORG__/platform-ci/.github/workflows/ansible-shared.yaml@__PLATFORM_CI_REF__
+        with:
+            mode: ${{ github.event_name == 'push' && 'execute' || 'check' }}
+            cloud: azure
+            bucket_name: gitops-state-bucket

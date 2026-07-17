@@ -1,0 +1,29 @@
+<!-- Manifest editor partial -->
+<div class="card bg-base-100 mb-6">
+    <div class="card-body">
+        <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <div>
+                <h2 class="card-title text-xl font-bold tracking-tight font-mono">{{ path }}</h2>
+                <p class="text-base-content/40 text-sm font-medium">Manifest file</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card bg-base-100">
+    <div class="card-body">
+        <div class="form-control mb-4">
+            <label class="label">
+                <span class="label-text text-base-content/50 text-xs font-bold uppercase tracking-wider">JSON Content</span>
+            </label>
+            <pre class="p-4 rounded-lg bg-base-300/50 border border-base-300 h-96 overflow-auto font-mono text-sm leading-relaxed">{{ content|tojson(indent=2) }}</pre>
+        </div>
+
+        <div class="flex gap-4">
+            <a class="btn btn-ghost btn-sm" hx-get="/partials/tree?project={{ project }}" hx-target="#main">Back</a>
+        </div>
+    </div>
+</div>

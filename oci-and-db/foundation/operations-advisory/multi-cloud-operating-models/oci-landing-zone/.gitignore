@@ -1,0 +1,18 @@
+# Customer-local secrets
+.env
+.secrets/
+
+# Local validation only; not published with the customer asset
+tests/
+components/**/tests/
+components/**/test_*.py
+**/__pycache__/
+**/*.py[cod]
+**/.pytest_cache/
+
+# Local rendering and infrastructure outputs
+staging/
+*.tfstate
+*.tfstate.*
+*.tfplan
+.terraform/

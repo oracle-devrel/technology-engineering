@@ -1,0 +1,34 @@
+---
+# Deploy Agent Operations
+# Install agent marker on compute instances (fake placeholder)
+# Replace tasks with real agent installation when ready
+
+- name: Deploy Agent
+  hosts: compute_instances
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Create agents directory
+      file:
+        path: /opt/agents
+        state: directory
+        mode: "0755"
+
+    - name: Deploy agent marker
+      copy:
+        dest: "/opt/agents/{{ agent_type }}.installed"
+        content: |
+          agent_type={{ agent_type }}
+          agent_version={{ agent_version | default('latest') }}
+          installed_by=ansible-gitops
+          installed_at={{ ansible_date_time.iso8601 }}
+          hostname={{ inventory_hostname }}
+        mode: "0644"
+
+    - name: Show result
+      debug:
+        msg: >-
+          {{ inventory_hostname }}: {{ agent_type }}
+          {{ agent_version | default('latest') }} installed
+          → /opt/agents/{{ agent_type }}.installed

@@ -1,0 +1,2 @@
+{% from "partials/_alerts.html" import error_alert %}
+{{ error_alert(message=message, title=title or "Error", retry_url=retry_url or "", retry_target=retry_target or "#main", retry_label=retry_label or "Retry") }}

@@ -1,0 +1,24 @@
+---
+name: project-gitops
+description: Use in the Codex app when a Project Team requests governed OCI, Azure, or Google Day 1 changes; OCI ADB start or stop; OCI SSH deploy-agent; read-only pull-request status; or a post-apply summary in an already handed-off customer project repository.
+---
+
+# Project GitOps
+
+Read `deployment-contract.json`, [safety boundaries](references/safety-boundaries.md), and [operations](references/operations.md). Fail closed unless the contract validates the exact organization, repository, environment, immutable catalog ref, and workflow. Use English for user-facing output.
+
+Run only in the Codex app when local shell and `gh` access are available.
+
+Never generate helper scripts, wrappers, or executable files. Run documented commands directly
+and use only the validator included in this package. Status and monitoring requests create no
+local files. Writable flows keep non-executable temporary data inside one fresh system temporary
+directory, register cleanup immediately, and remove it before finishing.
+
+Accept only `oe-<allowed-environment>-<dns-name>` repositories already handed off on exact `main`. Use disposable clones. Read schemas only from the configured catalog repository at the approved SHA. Support OCI ADB, compute and NSG Day 1; Azure Day 1; Google ADB-S Day 1; OCI ADB start/stop; and OCI SSH `deploy-agent`. Preserve aggregate manifest roots and canonical `lifecycle_operations` paths. Refuse Azure and Google Day 2: those provider-specific operations are planned and not available.
+
+Before every branch push or PR creation, show a semantic preview and hashes, state `GitHub writes: none`, ask `Do you confirm? Reply "Confirm".`, then revalidate. Never merge, approve, control workflows, call cloud APIs, or run Terraform/Ansible.
+
+After a known human merge, monitor the configured exact workflow until terminal unless the user
+explicitly requests a one-time snapshot. Keep the task active while it is queued or running; poll
+structured GitHub reads every 15–30 seconds, use commentary for progress, and never require the
+user to return and announce completion.

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OCI project-foundation handoff v1",
+  "type": "object",
+  "required": ["schema_version", "cloud", "project_slug", "environment", "region", "app_compartment", "database_compartment", "infrastructure_compartment", "vcn", "subnets", "source_repository", "source_workflow", "source_run", "source_commit", "op02_state_key", "op04_state_key"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1},
+    "cloud": {"const": "oci"},
+    "project_slug": {"type": "string", "pattern": "^oe-[a-z][a-z0-9-]*$"},
+    "environment": {"type": "string"},
+    "region": {"type": "string"},
+    "app_compartment": {"type": "string"},
+    "database_compartment": {"type": "string"},
+    "infrastructure_compartment": {"type": "string"},
+    "vcn": {"type": "string"},
+    "subnets": {
+      "type": "object",
+      "required": ["web", "app", "database", "infrastructure"],
+      "additionalProperties": false,
+      "properties": {
+        "web": {"type": "string"},
+        "app": {"type": "string"},
+        "database": {"type": "string"},
+        "infrastructure": {"type": "string"}
+      }
+    },
+    "source_repository": {"type": "string"},
+    "source_workflow": {"type": "string"},
+    "source_run": {"type": "string", "pattern": "^[0-9]+$"},
+    "source_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "op02_state_key": {"type": "string", "pattern": "terraform\\.tfstate$"},
+    "op04_state_key": {"type": "string", "pattern": "terraform\\.tfstate$"}
+  }
+}
