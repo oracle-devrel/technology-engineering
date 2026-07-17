@@ -1198,7 +1198,12 @@ def _safe_file(repo: Path, relative_path: str, *, size_limit: int) -> bytes:
 
 def validate_handoff(repo: Path, project: str) -> None:
     """Validate the human-only project handoff marker without parsing it as input."""
-    content = _safe_file(repo, "enviroment_information.md", size_limit=MAX_HANDOFF_BYTES)
+    environment = project.split("-", 1)[0]
+    content = _safe_file(
+        repo,
+        f"environments/{environment}/environment_information.md",
+        size_limit=MAX_HANDOFF_BYTES,
+    )
     text = _decode_text(content, "INVALID_HANDOFF", "Project handoff is invalid.")
     if "<fill during handoff>" in text.casefold():
         _failure("INVALID_HANDOFF", "Project handoff is incomplete or invalid.")
@@ -1220,7 +1225,7 @@ def validate_handoff(repo: Path, project: str) -> None:
 
     project_match = re.search(r"project(?P<number>[0-9]+)$", project)
     project_key = project.rsplit("-", 1)[-1]
-    environment = project.split("-", 2)[1]
+    environment = project.split("-", 1)[0]
     short_project = f"proj{project_match.group('number')}" if project_match else ""
     project_row = one_row("Project", 1)
     environment_row = one_row("Environment", 1)

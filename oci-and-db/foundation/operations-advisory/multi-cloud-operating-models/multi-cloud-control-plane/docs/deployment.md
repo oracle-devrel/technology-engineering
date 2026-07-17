@@ -150,16 +150,5 @@ under the expected project/cloud/environment/region key.
 
 ## 5. Verify environment-secret isolation
 
-Run this check before permitting real requests. It verifies that the reusable
-workflow receives secrets only from the GitHub Environment declared in its own
-job; no caller uses `secrets: inherit`.
-
-1. In `dev`, set `READINESS_MARKER` and a JSON `GITOPS_SECRET_VALUES` mapping
-   for one synthetic placeholder in a disposable OCI/dev manifest. Do not set
-   that placeholder mapping in `uat`.
-2. Open a dev-only pull request and confirm its Terraform plan passes variable
-   preparation without printing the secret value.
-3. Submit the same placeholder in UAT. Confirm **Prepare variables** fails
-   closed with an unresolved-placeholder error. Do not merge either test PR.
-4. Confirm the runs select their respective GitHub Environment, runner labels,
-   and state-key environment segment. Delete the test branches and secret values.
+Complete the mandatory [environment-secret end-to-end verification](environment-secret-e2e.md)
+before allowing workload requests.

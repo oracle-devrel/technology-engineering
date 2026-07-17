@@ -13,15 +13,13 @@ _INVALID_VALUE_PREFIXES = (
 
 
 class HandoffService:
-    """Build editable Deploy Resource form suggestions from enviroment_information.md."""
-
-    HANDOFF_PATH = "enviroment_information.md"
+    """Build form suggestions from a caller-resolved environment handoff."""
 
     def __init__(self, github_client, project_name: str):
         self.github = github_client
         self.project_name = project_name
 
-    async def load_suggestions(self, template_path: str = "", handoff_path: str = HANDOFF_PATH) -> dict[str, str]:
+    async def load_suggestions(self, handoff_path: str, template_path: str = "") -> dict[str, str]:
         """Load the caller-resolved handoff; shared paths are never inferred."""
         content = await self.github.get_file_content(self.project_name, handoff_path)
         if not content:

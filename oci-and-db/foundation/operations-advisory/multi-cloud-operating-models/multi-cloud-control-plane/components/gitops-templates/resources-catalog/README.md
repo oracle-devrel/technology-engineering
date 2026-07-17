@@ -58,7 +58,7 @@ Cross-template dependency: NSG/security-group placeholders in workload templates
 ## Security notes
 
 - Don't commit real passwords. The `admin_password` fields are double-underscore placeholders resolved by `platform-ci` from inherited GitHub Actions secrets or runner environment variables.
-- Store OP04 handoff references in `enviroment_information.md`, not as Terraform credentials.
+- Store OP04 handoff references in `environments/<environment>/environment_information.md`, not as Terraform credentials.
 
 ## Warranty disclaimer
 
