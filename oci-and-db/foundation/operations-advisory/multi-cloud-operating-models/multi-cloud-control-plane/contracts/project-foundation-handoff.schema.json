@@ -2,9 +2,8 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "OCI project-foundation handoff",
   "type": "object",
-  "required": ["schema_version", "cloud", "project_slug", "environment", "region", "app_compartment", "database_compartment", "infrastructure_compartment", "vcn", "subnets", "source_repository", "source_workflow", "source_run", "source_commit", "op02_state_key", "op04_state_key"],
+  "required": ["schema_version", "cloud", "project_slug", "environment", "region", "app_compartment", "database_compartment", "infrastructure_compartment", "vcn", "subnets", "source_repository", "source_workflow", "source_run", "source_commit", "op02_state_key", "op04_state_key", "repository_layout", "target_repository", "handoff_path"],
   "additionalProperties": false,
-  "required": ["repository_layout", "target_repository", "handoff_path"],
   "properties": {
     "schema_version": {"const": 2},
     "cloud": {"const": "oci"},

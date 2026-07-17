@@ -29,7 +29,7 @@
       "handoff_path": "environments/<environment>/environment_information.md",
       "environment_contract": {
         "github_environment": "<environment>",
-        "codeowners": ["@__CUSTOMER_ORG__/platform-team"],
+        "codeowners": ["@__CUSTOMER_ORG__/__PROJECT__-<environment>-approvers"],
         "runner_labels": {"oci": ["self-hosted", "oci", "<environment>"], "azure": ["self-hosted", "azure", "<environment>"], "gcp": ["self-hosted", "gcp", "<environment>"]},
         "supported_clouds": ["oci", "azure", "gcp"],
         "readiness_marker": "configured-per-github-environment"

@@ -1,8 +1,0 @@
-# Enforce LF line endings for all text files
-* text=auto eol=lf
-
-# Explicitly declare text files
-*.json text eol=lf
-*.yaml text eol=lf
-*.yml text eol=lf
-*.md text eol=lf

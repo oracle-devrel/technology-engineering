@@ -31,8 +31,8 @@ OCI Compute `deploy-agent` example.
 
 Troubleshooting: unresolved `__PLACEHOLDER__` values mean the mapped secret or
 handoff suggestion is missing. A Day 2 target must use the exact display name
-recorded in Terraform state. Keep one region per pull request; the legacy
-workflows reject a mixed environment or region request. Paths outside this table
+recorded in Terraform state. Keep one region per pull request; the shared
+resolver rejects a mixed environment or region request. Paths outside this table
 are rejected. Missing runner labels are a platform configuration issue, and
 missing handoff data must be corrected by the platform team before a request is
 prepared.

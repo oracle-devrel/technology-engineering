@@ -71,6 +71,12 @@ results, and allow the project repositories to call Platform CI workflows at
 **Organization settings → Actions → General → Access → Accessible from
 repositories in the organization**.
 
+Before granting Project Team access, replace every `__PROJECT__-<environment>-approvers`
+owner in the generated `CODEOWNERS` with an existing team for that project and
+environment. Keep platform ownership for `.github`, `control-plane.json`, and
+`environments`; only workload subtrees are delegated. Require code-owner review
+and the plan/check status in the `main` branch-protection rule.
+
 ## 2. Configure trusted runners
 
 | Setting | Purpose |
@@ -100,6 +106,8 @@ The canonical field contract is
 ```bash
 export HANDOFF=/secure/project-foundation-handoff.json
 export PROJECT_OUTPUT=/tmp/project-repository
+export PROJECT_REPOSITORY=$(jq -r .target_repository "$HANDOFF")
+export PROJECT_TOKEN=${PROJECT_REPOSITORY#oe-nonprod-}
 
 jq -e '
   .schema_version == 2 and .repository_layout == "shared-nonprod-v2" and .cloud == "oci" and
@@ -110,6 +118,9 @@ jq -e '
 
 cp -R "$STAGE/oe-nonprod-project-template" "$PROJECT_OUTPUT"
 rm -rf "$PROJECT_OUTPUT/.git"
+test "$PROJECT_REPOSITORY" = "oe-nonprod-$PROJECT_TOKEN"
+find "$PROJECT_OUTPUT" -type f -exec perl -pi -e \
+  's/__PROJECT__/$ENV{PROJECT_TOKEN}/g' {} +
 {
   printf '# Project Environment Information\n\n```json\n'
   jq --sort-keys . "$HANDOFF"
@@ -136,3 +147,19 @@ Open one non-production manifest pull request. The installation is working when
 the expected plan is tied to the current commit, independent approval is
 required, the trusted runner completes the merged change, and state is stored
 under the expected project/cloud/environment/region key.
+
+## 5. Verify environment-secret isolation
+
+Run this check before permitting real requests. It verifies that the reusable
+workflow receives secrets only from the GitHub Environment declared in its own
+job; no caller uses `secrets: inherit`.
+
+1. In `dev`, set `READINESS_MARKER` and a JSON `GITOPS_SECRET_VALUES` mapping
+   for one synthetic placeholder in a disposable OCI/dev manifest. Do not set
+   that placeholder mapping in `uat`.
+2. Open a dev-only pull request and confirm its Terraform plan passes variable
+   preparation without printing the secret value.
+3. Submit the same placeholder in UAT. Confirm **Prepare variables** fails
+   closed with an unresolved-placeholder error. Do not merge either test PR.
+4. Confirm the runs select their respective GitHub Environment, runner labels,
+   and state-key environment segment. Delete the test branches and secret values.

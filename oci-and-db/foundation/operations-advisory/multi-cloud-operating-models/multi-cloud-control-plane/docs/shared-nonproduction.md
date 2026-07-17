@@ -42,3 +42,6 @@ then set the scoped readiness marker with `gh secret set READINESS_MARKER
 protection to require status checks and code-owner approval before opening the
 first manifest pull request. Do not use organization-wide or repository secrets
 as substitutes for environment secrets.
+
+Complete the mandatory [environment-secret end-to-end verification](environment-secret-e2e.md)
+before allowing real workload requests.

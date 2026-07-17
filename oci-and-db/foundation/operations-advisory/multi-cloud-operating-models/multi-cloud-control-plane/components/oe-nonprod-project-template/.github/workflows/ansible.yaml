@@ -17,15 +17,21 @@ jobs:
       runner_labels: ${{ steps.path.outputs.runner_labels }}
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.repository.default_branch }}
       - id: path
         shell: bash
         run: |
           set -euo pipefail
+          test "$(jq -r .repository_layout control-plane.json)" = shared-nonprod-v2
+          test "$(jq -r .target_repository control-plane.json)" = "${GITHUB_REPOSITORY#*/}"
+          git fetch --no-tags origin "${{ github.event.pull_request.base.sha || github.event.before }}" "${{ github.event.pull_request.head.sha || github.sha }}"
           changed=$(git diff --name-only "${{ github.event.pull_request.base.sha || github.event.before }}" "${{ github.event.pull_request.head.sha || github.sha }}" | rg '^oci/(dev|test|uat)/[^/]+/lifecycle_operations/.+\.json$')
           test "$(printf '%s\n' "$changed" | cut -d/ -f1-3 | sort -u | wc -l | tr -d ' ')" = 1
           environment=$(printf '%s\n' "$changed" | head -1 | cut -d/ -f2)
           echo "environment=$environment" >> "$GITHUB_OUTPUT"
           echo "operation_file=$(printf '%s\n' "$changed" | head -1)" >> "$GITHUB_OUTPUT"
+          jq -e --arg e "$environment" '.environments[$e].supported_clouds | index("oci")' control-plane.json >/dev/null
           jq -c --arg e "$environment" '.environments[$e].runner_labels.oci' control-plane.json | sed 's/^/runner_labels=/' >> "$GITHUB_OUTPUT"
   execute:
     needs: validate-path

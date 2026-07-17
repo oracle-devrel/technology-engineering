@@ -49,8 +49,9 @@ Platform administrators: [architecture](docs/architecture.md),
 [deployment](docs/deployment.md), and [security](docs/security.md).
 
 Project Teams: [first request](docs/first-request.md) and
-[day-to-day operations](docs/operations.md). The UI is described in
-[Multi-Cloud Control Plane UI](docs/codex-app.md).
+[day-to-day operations](docs/operations.md). The
+[Multi-Cloud Control Plane UI](components/multi-cloud-plane/README.md) and the
+[optional Codex app assistant](docs/codex-app.md) are separate integrations.
 
 This initial-installation package supports the
 [shared non-production repository model](docs/shared-nonproduction.md) only.
