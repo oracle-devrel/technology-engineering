@@ -12,10 +12,10 @@ export STATE_BUCKET=example-control-plane-state
 
 mkdir -p "$STAGE"
 cp -R components/platform-ci "$STAGE/platform-ci"
-cp -R components/oe-env-project-template "$STAGE/oe-env-project-template"
+cp -R components/oe-nonprod-project-template "$STAGE/oe-nonprod-project-template"
 cp -R components/gitops-templates "$STAGE/gitops-templates"
 cp LICENSE "$STAGE/platform-ci/LICENSE"
-cp LICENSE "$STAGE/oe-env-project-template/LICENSE"
+cp LICENSE "$STAGE/oe-nonprod-project-template/LICENSE"
 cp LICENSE "$STAGE/gitops-templates/LICENSE"
 
 find "$STAGE" -type f -exec perl -pi -e \
@@ -35,14 +35,14 @@ export PLATFORM_CI_REF=$(git -C "$STAGE/platform-ci" rev-parse HEAD)
 find "$STAGE/oe-env-project-template" -type f -exec perl -pi -e \
   's/__PLATFORM_CI_REF__/$ENV{PLATFORM_CI_REF}/g' {} +
 
-for repository in oe-env-project-template gitops-templates; do
+for repository in oe-nonprod-project-template gitops-templates; do
   git -C "$STAGE/$repository" init -b main
   git -C "$STAGE/$repository" add -A
   git -C "$STAGE/$repository" -c user.name='Platform Administrator' \
     -c user.email='platform@invalid' commit -m "Prepare $repository"
 done
 
-export PROJECT_TEMPLATE_REF=$(git -C "$STAGE/oe-env-project-template" rev-parse HEAD)
+export PROJECT_TEMPLATE_REF=$(git -C "$STAGE/oe-nonprod-project-template" rev-parse HEAD)
 export CATALOGS_REF=$(git -C "$STAGE/gitops-templates" rev-parse HEAD)
 cp contracts/deployment-contract.template.json "$STAGE/deployment-contract.json"
 find "$STAGE/deployment-contract.json" -type f -exec perl -pi -e \
@@ -105,13 +105,13 @@ jq -e '
   ((.subnets | keys | sort) == ["app","database","infrastructure","web"])
 ' "$HANDOFF"
 
-cp -R "$STAGE/oe-env-project-template" "$PROJECT_OUTPUT"
+cp -R "$STAGE/oe-nonprod-project-template" "$PROJECT_OUTPUT"
 rm -rf "$PROJECT_OUTPUT/.git"
 {
   printf '# Project Environment Information\n\n```json\n'
   jq --sort-keys . "$HANDOFF"
   printf '\n```\n'
-} > "$PROJECT_OUTPUT/enviroment_information.md"
+} > "$PROJECT_OUTPUT/environments/dev/environment_information.md"
 
 git -C "$PROJECT_OUTPUT" init -b main
 git -C "$PROJECT_OUTPUT" add -A
@@ -120,8 +120,8 @@ git -C "$PROJECT_OUTPUT" -c user.name='Platform Administrator' \
 git -C "$PROJECT_OUTPUT" status --short
 ```
 
-The final command must return no output. `enviroment_information.md` retains its
-misspelling only for the legacy repository contract; workflows do not parse it.
+The final command must return no output. Repeat the verified handoff for each
+enabled environment under `environments/<environment>/environment_information.md`.
 Confirm the project, environment,
 region, compartments, VCN, subnets, workflow run, commit, and state keys against
 the approved onboarding record. Then create the private project repository,

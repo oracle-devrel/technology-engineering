@@ -21,8 +21,9 @@ class HandoffService:
         self.github = github_client
         self.project_name = project_name
 
-    async def load_suggestions(self, template_path: str = "") -> dict[str, str]:
-        content = await self.github.get_file_content(self.project_name, self.HANDOFF_PATH)
+    async def load_suggestions(self, template_path: str = "", handoff_path: str = HANDOFF_PATH) -> dict[str, str]:
+        """Load the caller-resolved handoff; shared paths are never inferred."""
+        content = await self.github.get_file_content(self.project_name, handoff_path)
         if not content:
             return {}
         references = self._extract_references(content)

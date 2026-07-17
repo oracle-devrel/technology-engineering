@@ -1,15 +1,15 @@
 # First OCI Autonomous Database request
 
 This tutorial uses the approved OCI database catalog entry and updates the
-existing aggregate manifest. It is valid for a handed-off legacy project
-repository; do not create a second file containing the same Terraform root key.
+existing aggregate manifest. Select the target `dev`, `test`, or `uat`
+environment first; do not create a second file containing the same Terraform root key.
 
 1. Select `resources-catalog/oci/databases/project_database_template.auto.tfvars.json`.
 2. Render its double-underscore placeholders using the handoff values. Map
    `__ADB_DEV_PROJECT01_ADMIN_PASSWORD__` to the approved deployment secret;
    do not put the password in JSON. The workflow resolves that placeholder at
    runtime.
-3. Merge the rendered entry into `oci/eu-frankfurt-1/database/database.json`.
+3. Merge the rendered entry into `oci/dev/eu-frankfurt-1/database/database.json`.
 
 For example, the existing aggregate file is:
 

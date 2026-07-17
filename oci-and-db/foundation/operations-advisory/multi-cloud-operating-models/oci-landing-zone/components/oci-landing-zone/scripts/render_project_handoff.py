@@ -373,8 +373,8 @@ def generate_document(
     return data, render_markdown(data)
 
 
-def build_machine_handoff(data, source, op02_state_key, op04_state_key):
-    """Return the intentionally small, credential-free v1 handoff contract."""
+def build_machine_handoff(data, source, op02_state_key, op04_state_key, target_repository, handoff_path):
+    """Return the credential-free shared-nonprod-v2 handoff contract."""
     required_source = {"repository", "workflow", "run", "commit"}
     if set(source) != required_source or not all(isinstance(value, str) and value for value in source.values()):
         raise HandoffError("handoff provenance is incomplete")
@@ -384,10 +384,17 @@ def build_machine_handoff(data, source, op02_state_key, op04_state_key):
         raise HandoffError("source run or commit is invalid")
     if not all(isinstance(value, str) and value.endswith("terraform.tfstate") for value in (op02_state_key, op04_state_key)):
         raise HandoffError("handoff state keys are invalid")
+    if data["environment"] not in {"dev", "test", "uat"}:
+        raise HandoffError("shared non-production handoff environment is invalid")
+    if not re.fullmatch(r"oe-nonprod-[a-z][a-z0-9-]*", target_repository):
+        raise HandoffError("shared non-production repository is invalid")
+    expected_path = f"environments/{data['environment']}/environment_information.md"
+    if handoff_path != expected_path:
+        raise HandoffError("shared non-production handoff path is invalid")
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "cloud": "oci",
-        "project_slug": data["project"],
+        "project_slug": target_repository,
         "environment": data["environment"],
         "region": data["region"],
         "app_compartment": data["compartments"]["app"]["ocid"],
@@ -401,6 +408,9 @@ def build_machine_handoff(data, source, op02_state_key, op04_state_key):
         "source_commit": source["commit"],
         "op02_state_key": op02_state_key,
         "op04_state_key": op04_state_key,
+        "repository_layout": "shared-nonprod-v2",
+        "target_repository": target_repository,
+        "handoff_path": handoff_path,
     }
 
 
@@ -421,6 +431,8 @@ def build_parser():
     parser.add_argument("--source-commit")
     parser.add_argument("--op02-state-key")
     parser.add_argument("--op04-state-key")
+    parser.add_argument("--target-repository")
+    parser.add_argument("--handoff-path")
     return parser
 
 
@@ -444,6 +456,7 @@ def main(argv=None):
             machine_args = (
                 args.source_repository, args.source_workflow, args.source_run,
                 args.source_commit, args.op02_state_key, args.op04_state_key,
+                args.target_repository, args.handoff_path,
             )
             if not all(machine_args):
                 raise HandoffError("machine handoff requires complete provenance and state keys")
@@ -452,6 +465,7 @@ def main(argv=None):
                 {"repository": args.source_repository, "workflow": args.source_workflow,
                  "run": args.source_run, "commit": args.source_commit},
                 args.op02_state_key, args.op04_state_key,
+                args.target_repository, args.handoff_path,
             )
             args.handoff_output.parent.mkdir(parents=True, exist_ok=True)
             args.handoff_output.write_text(

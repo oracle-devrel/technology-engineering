@@ -1,0 +1,50 @@
+name: Shared non-production Terraform
+
+on:
+  pull_request:
+    branches: [main]
+    paths: ["oci/**", "azure/**", "gcp/**"]
+  push:
+    branches: [main]
+    paths: ["oci/**", "azure/**", "gcp/**"]
+
+jobs:
+  resolve:
+    runs-on: [self-hosted, control-plane-resolver]
+    outputs:
+      cloud: ${{ steps.tuple.outputs.cloud }}
+      environment: ${{ steps.tuple.outputs.environment }}
+      region: ${{ steps.tuple.outputs.region }}
+      runner_labels: ${{ steps.tuple.outputs.runner_labels }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+      - id: tuple
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(jq -r .repository_layout control-plane.json)" = shared-nonprod-v2
+          test "$(jq -r .target_repository control-plane.json)" = "${GITHUB_REPOSITORY#*/}"
+          git fetch --no-tags origin "${{ github.event.pull_request.base.sha || github.event.before }}" "${{ github.event.pull_request.head.sha || github.sha }}"
+          changed=$(git diff --name-only "${{ github.event.pull_request.base.sha || github.event.before }}" "${{ github.event.pull_request.head.sha || github.sha }}" | rg '^(oci|azure|gcp)/(dev|test|uat)/[^/]+/' || true)
+          test -n "$changed" && test "$(printf '%s\n' "$changed" | cut -d/ -f1-3 | sort -u | wc -l | tr -d ' ')" = 1
+          tuple=$(printf '%s\n' "$changed" | head -1 | cut -d/ -f1-3)
+          IFS=/ read -r cloud environment region <<< "$tuple"
+          test "$environment" != prod && test "$environment" != production && test "$environment" != prd && test "$environment" != live
+          jq -e --arg e "$environment" --arg c "$cloud" '.environments[$e].supported_clouds | index($c)' control-plane.json >/dev/null
+          echo "cloud=$cloud" >> "$GITHUB_OUTPUT"; echo "environment=$environment" >> "$GITHUB_OUTPUT"; echo "region=$region" >> "$GITHUB_OUTPUT"
+          jq -c --arg e "$environment" --arg c "$cloud" '.environments[$e].runner_labels[$c]' control-plane.json | sed 's/^/runner_labels=/' >> "$GITHUB_OUTPUT"
+  terraform:
+    needs: resolve
+    uses: __CUSTOMER_ORG__/platform-ci/.github/workflows/terraform-shared.yaml@__PLATFORM_CI_REF__
+    with:
+      mode: ${{ github.event_name == 'push' && 'apply' || 'pr' }}
+      cloud: ${{ needs.resolve.outputs.cloud }}
+      environment_name: ${{ needs.resolve.outputs.environment }}
+      region: ${{ needs.resolve.outputs.region }}
+      repository_layout: shared-nonprod-v2
+      runner_labels: ${{ needs.resolve.outputs.runner_labels }}
+      orchestrator_repo: oci-landing-zones/terraform-oci-modules-orchestrator
+      orchestrator_ref: __ORCHESTRATOR_REF__
+      bucket_name: __STATE_BUCKET__

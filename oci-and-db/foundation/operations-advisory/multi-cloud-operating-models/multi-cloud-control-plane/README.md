@@ -51,6 +51,9 @@ Project Teams: [first request](docs/first-request.md) and
 [day-to-day operations](docs/operations.md). The UI is described in
 [Multi-Cloud Control Plane UI](docs/codex-app.md).
 
+This initial-installation package supports the
+[shared non-production repository model](docs/shared-nonproduction.md) only.
+
 ## Glossary
 
 - **OP04**: Landing Zone project-foundation phase that creates the project

@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "core_repositories": {
     "platform_ci": "__PLATFORM_CI_REF__",
     "project_template": "__PROJECT_TEMPLATE_REF__",
@@ -20,5 +20,19 @@
     }
   },
   "enabled_request_adapters": ["github-pr"],
-  "accepted_handoff_schema_versions": [1]
+  "accepted_handoff_schema_versions": [2],
+  "repository_layout": {
+      "repository_pattern": "oe-nonprod-<project>",
+      "manifest_path": "<cloud>/<environment>/<region>/...",
+      "environment_allowlist": ["dev", "test", "uat"],
+      "rejected_environments": ["prod", "production", "prd", "live"],
+      "handoff_path": "environments/<environment>/environment_information.md",
+      "environment_contract": {
+        "github_environment": "<environment>",
+        "codeowners": ["@__CUSTOMER_ORG__/platform-team"],
+        "runner_labels": {"oci": ["self-hosted", "oci", "<environment>"], "azure": ["self-hosted", "azure", "<environment>"], "gcp": ["self-hosted", "gcp", "<environment>"]},
+        "supported_clouds": ["oci", "azure", "gcp"],
+        "readiness_marker_secret": "CONTROL_PLANE_READY"
+      }
+  }
 }

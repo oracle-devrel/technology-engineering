@@ -1,0 +1,6 @@
+/.github/ @__CUSTOMER_ORG__/platform-team
+/control-plane.json @__CUSTOMER_ORG__/platform-team
+/environments/ @__CUSTOMER_ORG__/platform-team
+/oci/ @__CUSTOMER_ORG__/platform-team
+/azure/ @__CUSTOMER_ORG__/platform-team
+/gcp/ @__CUSTOMER_ORG__/platform-team

@@ -16,6 +16,15 @@ on:
         required: false
         type: string
         default: ""
+      environment_name:
+        description: "Selected GitHub Environment (dev, test, or uat)"
+        required: true
+        type: string
+        default: ""
+      repository_layout:
+        description: "Protected repository layout identifier"
+        required: true
+        type: string
       orchestrator_repo:
         description: "Repository for Terraform modules"
         required: true
@@ -38,11 +47,21 @@ jobs:
   terraform:
     name: "Terraform ${{ inputs.mode }}"
     runs-on: ${{ fromJSON(inputs.runner_labels) }}
+    environment:
+      name: ${{ inputs.environment_name }}
+      url: ${{ inputs.mode == 'apply' && format('{0}/actions/runs/{1}', github.server_url, github.run_id) || '' }}
     concurrency:
-      group: ${{ inputs.cloud }}-terraform-${{ github.repository }}
+      group: ${{ inputs.cloud }}-${{ inputs.environment_name }}-terraform-${{ github.repository }}
       cancel-in-progress: false
 
     steps:
+      - name: Verify environment readiness
+        shell: bash
+        env:
+          CONTROL_PLANE_READY: ${{ secrets.CONTROL_PLANE_READY }}
+        run: |
+          test -n "$CONTROL_PLANE_READY" || { echo "❌ Selected GitHub Environment is not ready"; exit 1; }
+
       # =====================================================================
       # Setup
       # =====================================================================
@@ -78,6 +97,14 @@ jobs:
         shell: bash
         run: |
           CONFIG_REGION="${{ inputs.region }}"
+          LAYOUT="${{ inputs.repository_layout }}"
+          ENVIRONMENT_NAME="${{ inputs.environment_name }}"
+          if [ "$LAYOUT" != "shared-nonprod-v2" ]; then
+            echo "❌ Unsupported repository layout: $LAYOUT"; exit 1
+          fi
+          if { [ -z "$ENVIRONMENT_NAME" ] || ! [[ "$ENVIRONMENT_NAME" =~ ^(dev|test|uat)$ ]]; }; then
+            echo "❌ Shared non-production requests require an allowed environment"; exit 1
+          fi
           if [ -z "$CONFIG_REGION" ]; then
             # Attempt auto-detection from changed files
             # This logic assumes paths like: oci/<region>/...
@@ -108,7 +135,7 @@ jobs:
             exit 1
           fi
 
-          CONFIG_SUBPATH="${{ inputs.cloud }}/$CONFIG_REGION"
+          CONFIG_SUBPATH="${{ inputs.cloud }}/$ENVIRONMENT_NAME/$CONFIG_REGION"
           if [ ! -d "$CONFIG_SUBPATH" ]; then
             echo "❌ Config directory not found: $CONFIG_SUBPATH"
             echo "Available directories under ${{ inputs.cloud }}/:"

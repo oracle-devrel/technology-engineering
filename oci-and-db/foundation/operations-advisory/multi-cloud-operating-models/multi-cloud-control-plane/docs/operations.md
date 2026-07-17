@@ -15,11 +15,11 @@ Use these standard locations (this is the canonical path table):
 
 | Request | Location |
 |---|---|
-| OCI project NSGs | `oci/{region}/network/project-nsgs.json` |
-| OCI Autonomous Database | `oci/{region}/database/database.json` |
-| OCI Compute | `oci/{region}/compute/compute.json` |
-| Google ADB-S | `gcp/{region}/workloads/adb.json` |
-| Lifecycle operation | `{cloud}/{region}/lifecycle_operations/{operation}.json` |
+| OCI project NSGs | `oci/{environment}/{region}/network/project-nsgs.json` |
+| OCI Autonomous Database | `oci/{environment}/{region}/database/database.json` |
+| OCI Compute | `oci/{environment}/{region}/compute/compute.json` |
+| Google ADB-S | `gcp/{environment}/{region}/workloads/adb.json` |
+| Lifecycle operation | `{cloud}/{environment}/{region}/lifecycle_operations/{operation}.json` |
 
 Keep one file for each Terraform configuration group in a project and region.
 Splitting the same group across files can cause values to be ignored because
@@ -32,7 +32,7 @@ OCI Compute `deploy-agent` example.
 Troubleshooting: unresolved `__PLACEHOLDER__` values mean the mapped secret or
 handoff suggestion is missing. A Day 2 target must use the exact display name
 recorded in Terraform state. Keep one region per pull request; the legacy
-workflows cannot safely infer a mixed-region request. Paths outside this table
+workflows reject a mixed environment or region request. Paths outside this table
 are rejected. Missing runner labels are a platform configuration issue, and
 missing handoff data must be corrected by the platform team before a request is
 prepared.

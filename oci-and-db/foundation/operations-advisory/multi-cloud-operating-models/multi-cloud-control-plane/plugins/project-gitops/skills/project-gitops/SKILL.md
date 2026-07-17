@@ -22,3 +22,12 @@ After a known human merge, monitor the configured exact workflow until terminal 
 explicitly requests a one-time snapshot. Keep the task active while it is queued or running; poll
 structured GitHub reads every 15–30 seconds, use commentary for progress, and never require the
 user to return and announce completion.
+# Shared non-production repositories
+
+For `oe-nonprod-<project>`, require the user to select `dev`, `test`, or `uat`.
+Read `control-plane.json`; never infer a layout from path segments. Validate the
+matching `environments/<environment>/environment_information.md` and use the
+environment-aware manifest path. Refuse production aliases, protected contract
+or workflow changes, cross-environment placeholders, and changes spanning more
+than one cloud/environment/region tuple. Run `scripts/validate-shared-layout.py`
+before proposing Git changes. The skill still creates Git changes only.
