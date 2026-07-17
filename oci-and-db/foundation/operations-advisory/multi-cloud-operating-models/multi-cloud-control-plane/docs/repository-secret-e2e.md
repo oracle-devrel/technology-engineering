@@ -23,7 +23,9 @@ cross-environment placeholder. Caller workflows must contain neither
 `secrets: inherit` nor `toJSON(secrets)`; they pass exactly one named repository
 secret to Platform CI.
 
+Confirm that neither run attaches to or auto-creates a GitHub Environment.
+
 Close both test PRs and remove the test members from the repository secret JSON
-objects. This procedure validates the GitHub Free repository-secret profile.
-OCI Vault and paid-plan GitHub Environment secrets require their own acceptance
-tests if a later release implements either source.
+objects. This procedure validates only the GitHub Free repository-secret
+profile. Use the separate
+[GitHub Environment procedure](environment-secret-e2e.md) for that profile.

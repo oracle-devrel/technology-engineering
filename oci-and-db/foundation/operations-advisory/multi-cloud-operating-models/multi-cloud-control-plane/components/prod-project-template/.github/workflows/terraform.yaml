@@ -18,6 +18,7 @@ jobs:
     outputs:
       cloud: ${{ steps.tuple.outputs.cloud }}
       region: ${{ steps.tuple.outputs.region }}
+      security_profile: ${{ steps.tuple.outputs.security_profile }}
       runner_labels: ${{ steps.tuple.outputs.runner_labels }}
     steps:
       - uses: actions/checkout@v6
@@ -34,6 +35,8 @@ jobs:
           fi
           test "$(jq -r .repository_layout control-plane.json)" = production-v1
           test "$(jq -r .target_repository control-plane.json)" = "${GITHUB_REPOSITORY#*/}"
+          security_profile=$(jq -r .security_profile control-plane.json)
+          test "$security_profile" = github-environments || test "$security_profile" = repository-secrets
           git fetch --no-tags origin "${{ github.event.pull_request.base.sha || github.event.before }}" "${{ github.event.pull_request.head.sha || github.sha }}"
           head_sha="${{ github.event.pull_request.head.sha || github.sha }}"
           all_changed=$(git diff --name-only "${{ github.event.pull_request.base.sha || github.event.before }}" "$head_sha")
@@ -49,7 +52,7 @@ jobs:
           jq -e --arg c "$cloud" '.environments.prod.supported_clouds | index($c)' control-plane.json >/dev/null
           test "$(jq -r '.environments.prod.repository_secret' control-plane.json)" = GITOPS_SECRET_VALUES_PROD
           test "$(jq -r '.environments.prod.readiness_marker_variable' control-plane.json)" = CONTROL_PLANE_READY_PROD
-          echo "cloud=$cloud" >> "$GITHUB_OUTPUT"; echo "region=$region" >> "$GITHUB_OUTPUT"
+          echo "cloud=$cloud" >> "$GITHUB_OUTPUT"; echo "region=$region" >> "$GITHUB_OUTPUT"; echo "security_profile=$security_profile" >> "$GITHUB_OUTPUT"
           jq -c --arg c "$cloud" '.environments.prod.runner_labels[$c]' control-plane.json | sed 's/^/runner_labels=/' >> "$GITHUB_OUTPUT"
   terraform:
     needs: resolve
@@ -60,12 +63,13 @@ jobs:
       environment_name: prod
       region: ${{ needs.resolve.outputs.region }}
       repository_layout: production-v1
+      security_profile: ${{ needs.resolve.outputs.security_profile }}
       manifest_ref: ${{ github.event.pull_request.head.sha || github.sha }}
       platform_ci_ref: __PLATFORM_CI_REF__
-      readiness_marker: ${{ vars.CONTROL_PLANE_READY_PROD }}
+      readiness_marker: ${{ needs.resolve.outputs.security_profile == 'repository-secrets' && vars.CONTROL_PLANE_READY_PROD || '' }}
       runner_labels: ${{ needs.resolve.outputs.runner_labels }}
       orchestrator_repo: ${{ needs.resolve.outputs.cloud == 'oci' && 'oci-landing-zones/terraform-oci-modules-orchestrator' || needs.resolve.outputs.cloud == 'azure' && 'oci-clickops/clickops-orchestrator-azure' || 'oci-clickops/clickops-orchestrator-gcp' }}
       orchestrator_ref: ${{ needs.resolve.outputs.cloud == 'oci' && '__OCI_ORCHESTRATOR_REF__' || needs.resolve.outputs.cloud == 'azure' && '__AZURE_ORCHESTRATOR_REF__' || '__GCP_ORCHESTRATOR_REF__' }}
       bucket_name: __STATE_BUCKET__
     secrets:
-      gitops_secret_values: ${{ secrets.GITOPS_SECRET_VALUES_PROD }}
+      repository_secret_values: ${{ needs.resolve.outputs.security_profile == 'repository-secrets' && secrets.GITOPS_SECRET_VALUES_PROD || '' }}

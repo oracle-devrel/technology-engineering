@@ -18,6 +18,7 @@ jobs:
     outputs:
       environment: ${{ steps.path.outputs.environment }}
       operation_file: ${{ steps.path.outputs.operation_file }}
+      security_profile: ${{ steps.path.outputs.security_profile }}
       runner_labels: ${{ steps.path.outputs.runner_labels }}
     steps:
       - uses: actions/checkout@v6
@@ -34,6 +35,8 @@ jobs:
           fi
           test "$(jq -r .repository_layout control-plane.json)" = shared-nonprod-v2
           test "$(jq -r .target_repository control-plane.json)" = "${GITHUB_REPOSITORY#*/}"
+          security_profile=$(jq -r .security_profile control-plane.json)
+          test "$security_profile" = github-environments || test "$security_profile" = repository-secrets
           git fetch --no-tags origin "${{ github.event.pull_request.base.sha || github.event.before }}" "${{ github.event.pull_request.head.sha || github.sha }}"
           head_sha="${{ github.event.pull_request.head.sha || github.sha }}"
           all_changed=$(git diff --name-only "${{ github.event.pull_request.base.sha || github.event.before }}" "$head_sha")
@@ -47,6 +50,7 @@ jobs:
           environment=$(printf '%s\n' "$changed" | head -1 | cut -d/ -f2)
           echo "environment=$environment" >> "$GITHUB_OUTPUT"
           echo "operation_file=$(printf '%s\n' "$changed" | head -1)" >> "$GITHUB_OUTPUT"
+          echo "security_profile=$security_profile" >> "$GITHUB_OUTPUT"
           jq -e --arg e "$environment" '.environments[$e].supported_clouds | index("oci")' control-plane.json >/dev/null
           expected_suffix=$(printf '%s' "$environment" | tr '[:lower:]' '[:upper:]')
           test "$(jq -r --arg e "$environment" '.environments[$e].readiness_marker_variable' control-plane.json)" = "CONTROL_PLANE_READY_${expected_suffix}"
@@ -58,9 +62,10 @@ jobs:
       mode: ${{ github.event_name == 'push' && 'execute' || 'check' }}
       cloud: oci
       environment_name: ${{ needs.validate-path.outputs.environment }}
+      security_profile: ${{ needs.validate-path.outputs.security_profile }}
       manifest_ref: ${{ github.event.pull_request.head.sha || github.sha }}
       platform_ci_ref: __PLATFORM_CI_REF__
-      readiness_marker: ${{ needs.validate-path.outputs.environment == 'dev' && vars.CONTROL_PLANE_READY_DEV || needs.validate-path.outputs.environment == 'test' && vars.CONTROL_PLANE_READY_TEST || needs.validate-path.outputs.environment == 'uat' && vars.CONTROL_PLANE_READY_UAT || '' }}
+      readiness_marker: ${{ needs.validate-path.outputs.security_profile == 'repository-secrets' && (needs.validate-path.outputs.environment == 'dev' && vars.CONTROL_PLANE_READY_DEV || needs.validate-path.outputs.environment == 'test' && vars.CONTROL_PLANE_READY_TEST || needs.validate-path.outputs.environment == 'uat' && vars.CONTROL_PLANE_READY_UAT || '') || '' }}
       operation_file: ${{ needs.validate-path.outputs.operation_file }}
       runner_labels: ${{ needs.validate-path.outputs.runner_labels }}
       bucket_name: __STATE_BUCKET__

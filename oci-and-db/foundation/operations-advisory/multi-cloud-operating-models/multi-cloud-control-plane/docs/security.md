@@ -6,10 +6,17 @@ services and Terraform state after approval.
 
 Before production rollout:
 
-- Keep shared and project repositories private. Protect `main` on a paid plan;
-  on GitHub Free, restrict administration and direct pushes by policy.
-- Require a successful plan or check and human approval. Enforce independent
-  approval with paid-plan repository controls.
+- Keep shared and project repositories private. Use the recommended
+  `github-environments` profile on paid plans, protect `main`, require
+  CODEOWNERS and successful checks, and configure Environment reviewers where
+  the private-repository plan supports them. Use `repository-secrets` only as
+  the GitHub Free fallback, with administration and direct pushes restricted
+  by policy.
+- Require a successful plan or check and human approval. GitHub Environment
+  secrets and protected branches strengthen every paid tier and provide
+  deployment history. Required Environment reviewers and prevention of
+  self-review enforce an additional boundary on Enterprise private
+  repositories; Free-profile approval remains procedural.
 - Pin shared workflows, GitHub Actions, catalogs, and orchestrators to approved
   versions.
 - Separate Terraform state by organization, project, cloud, environment, and
@@ -18,9 +25,11 @@ Before production rollout:
   workload scope.
 - Resolve credentials and passwords at runtime; never store them in manifests,
   handoffs, the UI, or the Codex app.
-- Keep one JSON Actions repository secret per environment. The default-branch
-  caller passes exactly one bundle to pinned Platform CI and rejects forks,
-  workflow changes, mixed tuples, and cross-environment placeholders.
+- In `github-environments`, keep `GITOPS_SECRET_VALUES` and `READINESS_MARKER`
+  in each selected GitHub Environment. In `repository-secrets`, keep one
+  environment-qualified JSON repository secret and readiness variable per
+  environment. The default-branch caller rejects forks, workflow changes,
+  mixed tuples, and cross-environment placeholders in both profiles.
 - Test failed plans, partial deployments, state recovery, runner isolation, SSH
   host verification, and audit evidence in non-production.
 

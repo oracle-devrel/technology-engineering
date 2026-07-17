@@ -120,6 +120,7 @@ export HANDOFF=/secure/project-foundation-handoff.json
 export PROJECT_OUTPUT=/tmp/project-repository
 export PROJECT_REPOSITORY=$(jq -r .target_repository "$HANDOFF")
 export PROJECT_TOKEN=${PROJECT_REPOSITORY#nonprod-}
+export SECURITY_PROFILE=github-environments
 
 jq -e '
   .schema_version == 2 and .repository_layout == "shared-nonprod-v2" and .cloud == "oci" and
@@ -133,6 +134,13 @@ rm -rf "$PROJECT_OUTPUT/.git"
 test "$PROJECT_REPOSITORY" = "nonprod-$PROJECT_TOKEN"
 find "$PROJECT_OUTPUT" -type f -exec perl -pi -e \
   's/__PROJECT__/$ENV{PROJECT_TOKEN}/g' {} +
+case "$SECURITY_PROFILE" in
+  github-environments|repository-secrets) ;;
+  *) echo "Unsupported SECURITY_PROFILE" >&2; exit 1 ;;
+esac
+jq --arg profile "$SECURITY_PROFILE" '.security_profile = $profile' \
+  "$PROJECT_OUTPUT/control-plane.json" > "$PROJECT_OUTPUT/control-plane.json.tmp"
+mv "$PROJECT_OUTPUT/control-plane.json.tmp" "$PROJECT_OUTPUT/control-plane.json"
 {
   printf '# Project Environment Information\n\n```json\n'
   jq --sort-keys . "$HANDOFF"
@@ -153,8 +161,28 @@ region, compartments, VCN, subnets, workflow run, commit, and state keys against
 the approved onboarding record. Then create the private project repository,
 apply the same protections, and grant the Project Team access.
 
-Configure the project repository's environment-isolated secret bundles and
-readiness variables. The secret commands prompt for each JSON value:
+Configure exactly one security profile for the entire repository. Do not
+configure both sources.
+
+For the recommended paid-plan `github-environments` profile, create each
+enabled GitHub Environment, configure required reviewers and prevention of
+self-review where available, then set the two environment secrets. These
+commands prompt for values:
+
+```bash
+gh api --method PUT "repos/$CUSTOMER_ORG/$PROJECT_REPOSITORY/environments/dev"
+gh api --method PUT "repos/$CUSTOMER_ORG/$PROJECT_REPOSITORY/environments/test"
+gh api --method PUT "repos/$CUSTOMER_ORG/$PROJECT_REPOSITORY/environments/uat"
+gh secret set GITOPS_SECRET_VALUES --env dev --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
+gh secret set READINESS_MARKER --env dev --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
+gh secret set GITOPS_SECRET_VALUES --env test --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
+gh secret set READINESS_MARKER --env test --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
+gh secret set GITOPS_SECRET_VALUES --env uat --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
+gh secret set READINESS_MARKER --env uat --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
+```
+
+For the GitHub Free `repository-secrets` fallback, use the repository bundles
+and readiness variables:
 
 ```bash
 gh secret set GITOPS_SECRET_VALUES_DEV --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
@@ -176,7 +204,10 @@ the expected plan is tied to the current commit, a human review is recorded,
 the trusted runner completes the merged change, and state is stored
 under the expected project/cloud/environment/region key.
 
-## 5. Verify repository-secret isolation
+## 5. Verify secret isolation
 
-Complete the mandatory [repository-secret end-to-end verification](repository-secret-e2e.md)
-before allowing workload requests.
+For `github-environments`, complete the mandatory
+[GitHub Environment end-to-end verification](environment-secret-e2e.md). For
+`repository-secrets`, complete the mandatory
+[repository-secret end-to-end verification](repository-secret-e2e.md). Do not
+allow workload requests until the selected profile passes its procedure.

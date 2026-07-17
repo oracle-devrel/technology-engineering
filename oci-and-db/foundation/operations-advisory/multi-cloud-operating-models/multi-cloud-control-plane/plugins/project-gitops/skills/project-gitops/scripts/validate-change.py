@@ -145,6 +145,15 @@ def _failure(code: str, message: str) -> NoReturn:
     raise ValidationFailure(code, message)
 
 
+def validate_manifest_scope(environment: str, kind: str) -> None:
+    """Reject operations that are not enabled for the repository environment."""
+    if environment == "prod" and kind.startswith("lifecycle_operations/"):
+        _failure(
+            "UNSUPPORTED_PRODUCTION_DAY2",
+            "Production lifecycle operations are not available in this release.",
+        )
+
+
 def _decode_text(content: bytes, code: str, message: str) -> str:
     try:
         return content.decode("utf-8", errors="strict")
@@ -1406,6 +1415,7 @@ def collect_change(repo: str | os.PathLike[str], base_ref: str = "origin/main") 
     environment = path_match.group("environment")
     validate_handoff(repository, project, environment)
     kind = path_match.group("kind")
+    validate_manifest_scope(environment, kind)
     expected_resource = {
         "database/database.json": "adb",
         "compute/compute.json": "vm",

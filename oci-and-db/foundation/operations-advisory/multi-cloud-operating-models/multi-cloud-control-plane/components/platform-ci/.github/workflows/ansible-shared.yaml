@@ -23,6 +23,10 @@ on:
         description: "Selected deployment environment (dev, test, uat, or prod)"
         required: true
         type: string
+      security_profile:
+        description: "github-environments or repository-secrets"
+        required: true
+        type: string
       manifest_ref:
         description: "Validated manifest repository commit"
         required: true
@@ -33,18 +37,26 @@ on:
         type: string
       readiness_marker:
         description: "Environment-specific repository readiness variable"
-        required: true
+        required: false
         type: string
+        default: ""
       runner_labels:
         description: "Runner labels as JSON array"
         required: false
         type: string
         default: '["self-hosted","oci"]'
+    secrets:
+      READINESS_MARKER:
+        description: "Selected GitHub Environment readiness secret; empty for repository-secrets"
+        required: false
 
 jobs:
   ansible:
     name: "Ansible ${{ inputs.mode }}"
     runs-on: ${{ fromJSON(inputs.runner_labels) }}
+    environment:
+      name: ${{ inputs.security_profile == 'github-environments' && inputs.environment_name || null }}
+      deployment: ${{ inputs.security_profile == 'github-environments' && inputs.mode == 'execute' }}
     concurrency:
       group: ${{ inputs.cloud }}-${{ inputs.environment_name }}-ansible-${{ github.repository }}
       cancel-in-progress: false
@@ -53,9 +65,25 @@ jobs:
       - name: Verify environment readiness
         shell: bash
         env:
-          READINESS_MARKER: ${{ inputs.readiness_marker }}
+          ENVIRONMENT_READINESS_MARKER: ${{ secrets.READINESS_MARKER }}
+          REPOSITORY_READINESS_MARKER: ${{ inputs.readiness_marker }}
+          SECURITY_PROFILE: ${{ inputs.security_profile }}
         run: |
-          test "$READINESS_MARKER" = "true" || { echo "❌ Selected deployment environment is not ready"; exit 1; }
+          set -euo pipefail
+          case "$SECURITY_PROFILE" in
+            github-environments)
+              test -z "$REPOSITORY_READINESS_MARKER"
+              test "$ENVIRONMENT_READINESS_MARKER" = "true"
+              ;;
+            repository-secrets)
+              test -z "$ENVIRONMENT_READINESS_MARKER"
+              test "$REPOSITORY_READINESS_MARKER" = "true"
+              ;;
+            *)
+              echo "❌ Unsupported security profile"
+              exit 1
+              ;;
+          esac
 
       # =====================================================================
       # Setup

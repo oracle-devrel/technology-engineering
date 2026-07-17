@@ -19,6 +19,7 @@ jobs:
       cloud: ${{ steps.tuple.outputs.cloud }}
       environment: ${{ steps.tuple.outputs.environment }}
       region: ${{ steps.tuple.outputs.region }}
+      security_profile: ${{ steps.tuple.outputs.security_profile }}
       runner_labels: ${{ steps.tuple.outputs.runner_labels }}
     steps:
       - uses: actions/checkout@v6
@@ -35,6 +36,8 @@ jobs:
           fi
           test "$(jq -r .repository_layout control-plane.json)" = shared-nonprod-v2
           test "$(jq -r .target_repository control-plane.json)" = "${GITHUB_REPOSITORY#*/}"
+          security_profile=$(jq -r .security_profile control-plane.json)
+          test "$security_profile" = github-environments || test "$security_profile" = repository-secrets
           git fetch --no-tags origin "${{ github.event.pull_request.base.sha || github.event.before }}" "${{ github.event.pull_request.head.sha || github.sha }}"
           head_sha="${{ github.event.pull_request.head.sha || github.sha }}"
           all_changed=$(git diff --name-only "${{ github.event.pull_request.base.sha || github.event.before }}" "$head_sha")
@@ -52,7 +55,7 @@ jobs:
           expected_suffix=$(printf '%s' "$environment" | tr '[:lower:]' '[:upper:]')
           test "$(jq -r --arg e "$environment" '.environments[$e].repository_secret' control-plane.json)" = "GITOPS_SECRET_VALUES_${expected_suffix}"
           test "$(jq -r --arg e "$environment" '.environments[$e].readiness_marker_variable' control-plane.json)" = "CONTROL_PLANE_READY_${expected_suffix}"
-          echo "cloud=$cloud" >> "$GITHUB_OUTPUT"; echo "environment=$environment" >> "$GITHUB_OUTPUT"; echo "region=$region" >> "$GITHUB_OUTPUT"
+          echo "cloud=$cloud" >> "$GITHUB_OUTPUT"; echo "environment=$environment" >> "$GITHUB_OUTPUT"; echo "region=$region" >> "$GITHUB_OUTPUT"; echo "security_profile=$security_profile" >> "$GITHUB_OUTPUT"
           jq -c --arg e "$environment" --arg c "$cloud" '.environments[$e].runner_labels[$c]' control-plane.json | sed 's/^/runner_labels=/' >> "$GITHUB_OUTPUT"
   terraform:
     needs: resolve
@@ -63,12 +66,13 @@ jobs:
       environment_name: ${{ needs.resolve.outputs.environment }}
       region: ${{ needs.resolve.outputs.region }}
       repository_layout: shared-nonprod-v2
+      security_profile: ${{ needs.resolve.outputs.security_profile }}
       manifest_ref: ${{ github.event.pull_request.head.sha || github.sha }}
       platform_ci_ref: __PLATFORM_CI_REF__
-      readiness_marker: ${{ needs.resolve.outputs.environment == 'dev' && vars.CONTROL_PLANE_READY_DEV || needs.resolve.outputs.environment == 'test' && vars.CONTROL_PLANE_READY_TEST || needs.resolve.outputs.environment == 'uat' && vars.CONTROL_PLANE_READY_UAT || '' }}
+      readiness_marker: ${{ needs.resolve.outputs.security_profile == 'repository-secrets' && (needs.resolve.outputs.environment == 'dev' && vars.CONTROL_PLANE_READY_DEV || needs.resolve.outputs.environment == 'test' && vars.CONTROL_PLANE_READY_TEST || needs.resolve.outputs.environment == 'uat' && vars.CONTROL_PLANE_READY_UAT || '') || '' }}
       runner_labels: ${{ needs.resolve.outputs.runner_labels }}
       orchestrator_repo: ${{ needs.resolve.outputs.cloud == 'oci' && 'oci-landing-zones/terraform-oci-modules-orchestrator' || needs.resolve.outputs.cloud == 'azure' && 'oci-clickops/clickops-orchestrator-azure' || 'oci-clickops/clickops-orchestrator-gcp' }}
       orchestrator_ref: ${{ needs.resolve.outputs.cloud == 'oci' && '__OCI_ORCHESTRATOR_REF__' || needs.resolve.outputs.cloud == 'azure' && '__AZURE_ORCHESTRATOR_REF__' || '__GCP_ORCHESTRATOR_REF__' }}
       bucket_name: __STATE_BUCKET__
     secrets:
-      gitops_secret_values: ${{ needs.resolve.outputs.environment == 'dev' && secrets.GITOPS_SECRET_VALUES_DEV || needs.resolve.outputs.environment == 'test' && secrets.GITOPS_SECRET_VALUES_TEST || needs.resolve.outputs.environment == 'uat' && secrets.GITOPS_SECRET_VALUES_UAT || '' }}
+      repository_secret_values: ${{ needs.resolve.outputs.security_profile == 'repository-secrets' && (needs.resolve.outputs.environment == 'dev' && secrets.GITOPS_SECRET_VALUES_DEV || needs.resolve.outputs.environment == 'test' && secrets.GITOPS_SECRET_VALUES_TEST || needs.resolve.outputs.environment == 'uat' && secrets.GITOPS_SECRET_VALUES_UAT || '') || '' }}

@@ -4,27 +4,64 @@ New projects use exactly one repository, `nonprod-<project>`, governed by the
 `shared-nonprod-v2` contract. Allowed lowercase environments are `dev`, `test`,
 and `uat`; `prod`, `production`, `prd`, and `live` are rejected.
 
-The protected `control-plane.json` maps each environment to its repository
-secret bundle, readiness variable, CODEOWNERS, cloud-specific runner labels,
-supported clouds, and handoff. The trusted default-branch caller resolves one
-cloud/environment/region tuple and passes it to Platform CI. State keys are
+The protected `control-plane.json` declares one repository-wide
+`security_profile`: `github-environments` or `repository-secrets`. It also maps
+each environment to CODEOWNERS, cloud-specific runner labels, supported clouds,
+the handoff path, and the Free-profile secret and readiness names. Never mix
+profiles inside one repository.
+
+The trusted default-branch caller resolves one cloud/environment/region tuple,
+validates the profile, and passes both to pinned Platform CI. Both profiles use
+the same `pull_request_target` same-repository guard, manifest-only diff,
+regular-file and JSON validation, environment-qualified placeholders, pinned
+refs, runner routing, concurrency, and state key:
 `<bucket>/<owner>/<repository>/<cloud>/<environment>/<region>/terraform.tfstate`.
 
-For each enabled environment, create one Actions repository secret in that
-project repository: `GITOPS_SECRET_VALUES_DEV`,
-`GITOPS_SECRET_VALUES_TEST`, or `GITOPS_SECRET_VALUES_UAT`. Its value is a JSON
-object whose keys and manifest placeholders start with the selected uppercase
-environment. For example, `DEV_ADB_ADMIN_PASSWORD` resolves
-`__DEV_ADB_ADMIN_PASSWORD__`. Do not combine environments in one secret.
+## Recommended paid-plan profile: GitHub Environments
 
-Also create the matching repository variable `CONTROL_PLANE_READY_DEV`,
-`CONTROL_PLANE_READY_TEST`, or `CONTROL_PLANE_READY_UAT` with the exact value
-`true`. A missing secret or readiness variable fails closed. Caller workflows
-select exactly one bundle and never use `secrets: inherit`.
+Set `security_profile` to `github-environments`. Create `dev`, `test`, and `uat`
+GitHub Environments as needed. In each Environment create:
 
-For a trial organization, publish private `platform-ci`, `gitops-templates`,
-and `nonprod-project-template` repositories from the deployment runbook. Then
-configure each project repository directly:
+- `GITOPS_SECRET_VALUES`: a JSON object whose names begin with that Environment
+  in uppercase, such as `DEV_ADB_ADMIN_PASSWORD` for
+  `__DEV_ADB_ADMIN_PASSWORD__`.
+- `READINESS_MARKER`: the exact value `true`.
+
+The reusable job declares the selected GitHub Environment and reads only these
+environment-scoped secrets. Protect `main`, require CODEOWNERS and successful
+checks, and isolate runner groups. On Enterprise private repositories, also
+configure required Environment reviewers and prevention of self-review; these
+controls are not available for private repositories on Pro/Team. Plans and
+checks use the Environment without creating deployment records, while apply
+and execute jobs create the auditable deployment history. These controls make
+this the recommended paid-plan profile.
+
+Configure the secrets interactively; never put their values on the command
+line or in Git:
+
+```bash
+gh secret set GITOPS_SECRET_VALUES --env dev --repo OWNER/nonprod-PROJECT
+gh secret set READINESS_MARKER --env dev --repo OWNER/nonprod-PROJECT
+gh secret set GITOPS_SECRET_VALUES --env test --repo OWNER/nonprod-PROJECT
+gh secret set READINESS_MARKER --env test --repo OWNER/nonprod-PROJECT
+gh secret set GITOPS_SECRET_VALUES --env uat --repo OWNER/nonprod-PROJECT
+gh secret set READINESS_MARKER --env uat --repo OWNER/nonprod-PROJECT
+```
+
+Complete the mandatory
+[GitHub Environment end-to-end verification](environment-secret-e2e.md) before
+allowing workload requests.
+
+## GitHub Free fallback: repository secrets
+
+Set `security_profile` to `repository-secrets`. For each enabled environment,
+create one Actions repository secret: `GITOPS_SECRET_VALUES_DEV`,
+`GITOPS_SECRET_VALUES_TEST`, or `GITOPS_SECRET_VALUES_UAT`. Create the matching
+repository variable `CONTROL_PLANE_READY_DEV`, `CONTROL_PLANE_READY_TEST`, or
+`CONTROL_PLANE_READY_UAT` with the exact value `true`.
+
+Caller workflows pass exactly one named bundle and readiness value to Platform
+CI. They never use `secrets: inherit` or `toJSON(secrets)`.
 
 ```bash
 gh secret set GITOPS_SECRET_VALUES_DEV --repo OWNER/nonprod-PROJECT
@@ -35,13 +72,22 @@ gh variable set CONTROL_PLANE_READY_TEST --body true --repo OWNER/nonprod-PROJEC
 gh variable set CONTROL_PLANE_READY_UAT --body true --repo OWNER/nonprod-PROJECT
 ```
 
-Each `gh secret set` command prompts for the JSON value. Do not pass a literal
-secret value on the command line, store it in a file, or commit it. Do not use
-an organization secret or a single cross-environment bundle.
+GitHub Free private repositories cannot enforce the same private branch
+protection, CODEOWNERS review, or Environment approval controls as paid plans.
+Restrict repository administration and direct pushes by policy, record a human
+PR review, and isolate runner groups. This fallback has procedural approval,
+not the paid profile's enforceable approval boundary.
 
-Audit the configured names and repository access without reading secret values:
+Complete the mandatory
+[repository-secret end-to-end verification](repository-secret-e2e.md) before
+allowing workload requests.
+
+## Audit
+
+Audit configured names and access without reading secret values:
 
 ```bash
+gh secret list --env dev --repo OWNER/nonprod-PROJECT
 gh secret list --repo OWNER/nonprod-PROJECT
 gh variable list --repo OWNER/nonprod-PROJECT
 gh api repos/OWNER/nonprod-PROJECT/actions/permissions
@@ -49,44 +95,12 @@ gh api repos/OWNER/nonprod-PROJECT/actions/runners
 gh api repos/OWNER/platform-ci/actions/permissions/access
 ```
 
-Confirm that only the enabled environment bundles and readiness variables are
-present, Actions is enabled, runner registration matches the intended boundary,
-and Platform CI is accessible to the project repository.
-
-## GitHub Free security profile
-
-GitHub Free private repositories are supported by this repository-secret
-profile. PR evaluation uses the workflow from the default branch, rejects
-forks and non-manifest changes, and sends only validated JSON to pinned Platform
-CI. Apply creates and applies one exact saved binary plan after merge.
-
-GitHub Free private repositories do not provide the same enforceable private
-branch protection, CODEOWNERS review, or Environment approval controls as paid
-plans. Keep repository administration restricted, prohibit direct pushes by
-policy, require human PR review, and isolate runner groups. This is a weaker
-governance guarantee than the paid profile; it cannot prevent a repository
-administrator from bypassing process.
-
-## Paid-plan and Vault evolution
-
-On GitHub Pro/Team or Enterprise, add private-repository branch protection,
-required status checks, CODEOWNERS approval, and—where the plan supports
-them—GitHub Environment reviewers, prevention of self-review, and
-environment-scoped secrets. Moving secret resolution from the repository
-bundles to GitHub Environment secrets is a separately reviewed workflow change;
-do not create both sources and assume automatic precedence.
-
-Audit paid-plan protection with:
+On paid plans also audit branch protection:
 
 ```bash
 gh api repos/OWNER/nonprod-PROJECT/branches/main/protection
 ```
 
-OCI Vault can become the system of record later, but it is not a drop-in source
-in this release. A Vault evolution requires a pinned Platform CI resolver,
-Instance Principal `read secret-bundles` policy, approved Vault OCID mappings,
-masking, and fail-closed tests before Terraform. No GitHub App is required for
-the current repository-secret profile.
-
-Complete the mandatory [repository-secret end-to-end verification](repository-secret-e2e.md)
-before allowing real workload requests.
+OCI Vault can become the system of record later, but it is not a secret source
+in this release. That evolution requires a pinned resolver, Instance Principal
+policy, approved Vault OCID mappings, masking, and separate fail-closed tests.

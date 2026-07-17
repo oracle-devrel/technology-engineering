@@ -20,10 +20,15 @@ on:
         description: "Selected deployment environment (dev, test, uat, or prod)"
         required: true
         type: string
-      readiness_marker:
-        description: "Environment-specific repository readiness variable"
+      security_profile:
+        description: "github-environments or repository-secrets"
         required: true
         type: string
+      readiness_marker:
+        description: "Environment-specific repository readiness variable"
+        required: false
+        type: string
+        default: ""
       repository_layout:
         description: "Protected repository layout identifier"
         required: true
@@ -54,14 +59,23 @@ on:
         type: string
         default: '["self-hosted","oci"]'
     secrets:
-      gitops_secret_values:
-        description: "JSON placeholder map selected explicitly by the caller"
-        required: true
+      GITOPS_SECRET_VALUES:
+        description: "Selected GitHub Environment JSON map; empty for repository-secrets"
+        required: false
+      READINESS_MARKER:
+        description: "Selected GitHub Environment readiness secret; empty for repository-secrets"
+        required: false
+      repository_secret_values:
+        description: "Repository-secret JSON map; empty for github-environments"
+        required: false
 
 jobs:
   terraform:
     name: "Terraform ${{ inputs.mode }}"
     runs-on: ${{ fromJSON(inputs.runner_labels) }}
+    environment:
+      name: ${{ inputs.security_profile == 'github-environments' && inputs.environment_name || null }}
+      deployment: ${{ inputs.security_profile == 'github-environments' && inputs.mode == 'apply' }}
     concurrency:
       group: ${{ inputs.cloud }}-${{ inputs.environment_name }}-terraform-${{ github.repository }}
       cancel-in-progress: false
@@ -70,9 +84,31 @@ jobs:
       - name: Verify environment readiness
         shell: bash
         env:
-          READINESS_MARKER: ${{ inputs.readiness_marker }}
+          ENVIRONMENT_READINESS_MARKER: ${{ secrets.READINESS_MARKER }}
+          ENVIRONMENT_SECRET_VALUES: ${{ secrets.GITOPS_SECRET_VALUES }}
+          REPOSITORY_READINESS_MARKER: ${{ inputs.readiness_marker }}
+          REPOSITORY_SECRET_VALUES: ${{ secrets.repository_secret_values }}
+          SECURITY_PROFILE: ${{ inputs.security_profile }}
         run: |
-          test "$READINESS_MARKER" = "true" || { echo "❌ Selected deployment environment is not ready"; exit 1; }
+          set -euo pipefail
+          case "$SECURITY_PROFILE" in
+            github-environments)
+              test -z "$REPOSITORY_READINESS_MARKER"
+              test -z "$REPOSITORY_SECRET_VALUES"
+              test "$ENVIRONMENT_READINESS_MARKER" = "true"
+              test -n "$ENVIRONMENT_SECRET_VALUES"
+              ;;
+            repository-secrets)
+              test -z "$ENVIRONMENT_READINESS_MARKER"
+              test -z "$ENVIRONMENT_SECRET_VALUES"
+              test "$REPOSITORY_READINESS_MARKER" = "true"
+              test -n "$REPOSITORY_SECRET_VALUES"
+              ;;
+            *)
+              echo "❌ Unsupported security profile"
+              exit 1
+              ;;
+          esac
 
       # =====================================================================
       # Setup
@@ -319,7 +355,7 @@ jobs:
         id: vars
         shell: bash
         env:
-          GITOPS_SECRET_VALUES: ${{ secrets.gitops_secret_values }}
+          GITOPS_SECRET_VALUES: ${{ inputs.security_profile == 'github-environments' && secrets.GITOPS_SECRET_VALUES || secrets.repository_secret_values }}
         run: |
           CONFIG_DIR="${{ github.workspace }}/${{ steps.config.outputs.config_subpath }}"
           PREPARED_VAR_DIR="${{ runner.temp }}/terraform-var-files"
