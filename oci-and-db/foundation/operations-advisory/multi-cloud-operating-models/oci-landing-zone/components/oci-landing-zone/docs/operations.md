@@ -31,5 +31,5 @@ before retrying. Never repair the failure with an unreviewed local apply or a
 manual state edit.
 
 After OP04, use `project-foundation-handoff.json` for machine processing and
-`enviroment_information.md` for people. The workflow does not create or write to
+`environment_information.md` for people. The workflow does not create or write to
 a project repository.

@@ -4,8 +4,11 @@
 2. Resolve the approved catalog file through GitHub API at the configured SHA and verify its blob hash.
 3. Create a disposable clone and one collision-free branch from exact `origin/main`.
 4. Edit one canonical aggregate manifest. For `nonprod-<project>`, first run
-   `validate-shared-layout.py` for the selected environment; then run
-   `validate-change.py` for both non-production and production repositories.
+   `validate-shared-layout.py` for the explicitly selected `dev`, `test`, or
+   `uat` environment; then run `validate-change.py` for both non-production and
+   production repositories. Use only
+   `{cloud}/{environment}/{region}/...` manifest paths and the matching
+   `environments/<environment>/environment_information.md` handoff.
 5. Show the semantic diff, destructive/replacement warnings, branch, base SHA, and content SHA-256; then stop for fresh confirmation.
 6. Revalidate hashes, stage only the validated path, commit, push, and conditionally create one PR. Stop before merge.
 7. After human merge, monitor only the configured exact workflow and merge commit. Report configuration and structured workflow results without inferring cloud state.

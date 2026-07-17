@@ -20,6 +20,7 @@ If a plan or apply fails, retain the workflow logs and determine whether
 Terraform state matches OCI before submitting a corrective pull request. Do not
 edit state manually or bypass review with a local apply.
 
-The filename `enviroment_information.md` is intentionally retained for project
-template compatibility. Use `project-foundation-handoff.json` for automated
-processing.
+The workflow publishes `environment_information.md` for people and
+`project-foundation-handoff.json` for automated processing. Keep the Markdown
+file at the machine contract's exact `handoff_path` in the target project
+repository.

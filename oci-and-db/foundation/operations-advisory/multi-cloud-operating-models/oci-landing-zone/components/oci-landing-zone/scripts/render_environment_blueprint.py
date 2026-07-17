@@ -11,7 +11,7 @@ SHA = re.compile(r"^[0-9a-f]{40}$")
 ENVIRONMENT = re.compile(r"^[a-z][a-z0-9]{0,30}$")
 REGION = re.compile(r"^[a-z]{2}-[a-z]+-[0-9]+$")
 REPOSITORY = re.compile(r"^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$")
-WORKFLOW = re.compile(r"^oci-op02-[a-z0-9]+-terraform\.yaml$")
+WORKFLOW = re.compile(r"^oci-op02-terraform\.yaml$")
 
 
 def main() -> None:

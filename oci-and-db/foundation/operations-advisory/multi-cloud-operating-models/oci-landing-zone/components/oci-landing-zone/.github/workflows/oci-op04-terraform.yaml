@@ -6,11 +6,13 @@ on:
       - main
     paths:
       - 'op04_manage_project/**'
+      - '!op04_manage_project/templates/**'
   pull_request:
     branches:
       - main
     paths:
       - 'op04_manage_project/**'
+      - '!op04_manage_project/templates/**'
   workflow_dispatch:
     inputs:
       env:
@@ -20,11 +22,13 @@ on:
         type: choice
         options:
           - dev
+          - test
+          - uat
           - prod
       project:
         description: "Canonical project slug under op04_manage_project/<env>/"
         required: true
-        default: "oe-prod-project15"
+        default: "prod-project15"
 
 jobs:
   project:
@@ -47,6 +51,9 @@ jobs:
       - name: 'Resolve OP04 target'
         id: target
         shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          CURRENT_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
 
@@ -93,7 +100,7 @@ jobs:
 
           TARGET_ENV="$(echo "$TARGET_SUBPATH" | cut -d/ -f2)"
           TARGET_PROJECT="$(echo "$TARGET_SUBPATH" | cut -d/ -f3)"
-          if [[ ! "$TARGET_PROJECT" =~ ^oe-(prod|dev)-([a-z][a-z0-9]*(-[a-z0-9]+)*)$ ]]; then
+          if [[ ! "$TARGET_PROJECT" =~ ^(dev|test|uat|prod)-([a-z][a-z0-9]*(-[a-z0-9]+)*)$ ]]; then
             echo "Invalid canonical project folder: $TARGET_PROJECT"
             exit 1
           fi
@@ -102,6 +109,29 @@ jobs:
             echo "Project folder does not match its environment: $TARGET_SUBPATH"
             exit 1
           fi
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            CONTRACT_REF="$BASE_SHA"
+          else
+            CONTRACT_REF="$CURRENT_SHA"
+          fi
+          CONTRACT=$(git show "$CONTRACT_REF:.github/project-onboarding-contract.json")
+          BLUEPRINT_PATH=$(
+            jq -er --arg environment "$TARGET_ENV" '
+              select(
+                .contract_version == 2 and
+                .same_slug_repository == false and
+                (.allowed_environments | index($environment)) != null and
+                .target_repository_prefixes[$environment] ==
+                  (if $environment == "prod" then "prod" else "nonprod" end)
+              ) |
+              .environment_blueprints[$environment]
+            ' <<< "$CONTRACT"
+          )
+          git cat-file -e "$CONTRACT_REF:$BLUEPRINT_PATH"
+          git show "$CONTRACT_REF:$BLUEPRINT_PATH" \
+            | jq -e --arg environment "$TARGET_ENV" '
+                .schema_version == 2 and .environment == $environment
+              ' >/dev/null
           STATE_KEY="$TARGET_SUBPATH/terraform.tfstate"
 
           {
@@ -276,7 +306,7 @@ jobs:
     if: >-
       github.ref == 'refs/heads/main' &&
       github.event_name == 'push' &&
-      needs.project.outputs.target_env == 'prod'
+      contains(fromJSON('["dev","test","uat","prod"]'), needs.project.outputs.target_env)
     permissions:
       contents: read
     uses: ./.github/workflows/oci-project-handoff.yaml

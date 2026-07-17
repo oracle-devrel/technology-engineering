@@ -58,7 +58,7 @@ workflow produces both handoff files with the expected project and provenance.
 ## 4. Hand off the project
 
 Provide `project-foundation-handoff.json` to the Control Plane administrator and
-`enviroment_information.md` to the project team. Do not add credentials or
+`environment_information.md` to the project team. Do not add credentials or
 secrets. Keep the files with the approved onboarding record.
 
 If any phase fails, stop. Compare OCI with Terraform state before submitting a

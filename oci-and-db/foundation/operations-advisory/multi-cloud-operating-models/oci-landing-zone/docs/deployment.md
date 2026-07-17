@@ -8,9 +8,12 @@ required.
 
 ```bash
 export STAGE=/tmp/oci-landing-zone
+export CUSTOMER_ORG=example-customer
 export FOUNDATION_REPOSITORY=oci-landing-zone
 export ENVIRONMENT=prod
 export OCI_REGION=eu-frankfurt-1
+: "${NONPROD_TEMPLATE_REF:?Set the approved non-production template commit}"
+: "${PROD_TEMPLATE_REF:?Set the approved production template commit}"
 
 mkdir -p "$STAGE"
 cp -R components/oci-landing-zone "$STAGE/$FOUNDATION_REPOSITORY"
@@ -44,7 +47,7 @@ git -C "$STAGE/$FOUNDATION_REPOSITORY" \
 export FOUNDATION_REF=$(git -C "$STAGE/$FOUNDATION_REPOSITORY" rev-parse HEAD)
 cp contracts/deployment-contract.template.json "$STAGE/deployment-contract.json"
 find "$STAGE/deployment-contract.json" -type f -exec perl -pi -e \
-  's/__FOUNDATION_REPOSITORY__/$ENV{FOUNDATION_REPOSITORY}/g; s/__FOUNDATION_REF__/$ENV{FOUNDATION_REF}/g; s/__ENVIRONMENT__/$ENV{ENVIRONMENT}/g; s/__OCI_REGION__/$ENV{OCI_REGION}/g' {} +
+  's/__CUSTOMER_ORG__/$ENV{CUSTOMER_ORG}/g; s/__FOUNDATION_REPOSITORY__/$ENV{FOUNDATION_REPOSITORY}/g; s/__FOUNDATION_REF__/$ENV{FOUNDATION_REF}/g; s/__NONPROD_TEMPLATE_REF__/$ENV{NONPROD_TEMPLATE_REF}/g; s/__PROD_TEMPLATE_REF__/$ENV{PROD_TEMPLATE_REF}/g; s/__ENVIRONMENT__/$ENV{ENVIRONMENT}/g; s/__OCI_REGION__/$ENV{OCI_REGION}/g' {} +
 git -C "$STAGE/$FOUNDATION_REPOSITORY" status --short
 ```
 
@@ -78,9 +81,14 @@ request per phase, review its Terraform plan, obtain approval, merge, and verify
 the OCI outcome.
 
 OP02 is complete when `project-onboarding-environment.json` identifies the
-expected environment, VCN, and role-based subnets. OP04 is complete when the
-workflow produces `project-foundation-handoff.json` and
-`enviroment_information.md` with the expected project and provenance.
+expected environment, VCN, and role-based subnets. Commit the reviewed artifact
+to the protected path named by `.github/project-onboarding-contract.json` before
+allowing OP04 onboarding for that environment. Repeat this for every enabled
+`dev`, `test`, `uat`, or `prod` foundation; absent evidence fails closed.
+
+OP04 is complete when the workflow produces `project-foundation-handoff.json`
+and `environment_information.md` with the expected project, target repository,
+environment-aware handoff path, and provenance.
 
 Provide the JSON handoff to the Control Plane administrator. Do not add
 credentials or secrets to either handoff file.

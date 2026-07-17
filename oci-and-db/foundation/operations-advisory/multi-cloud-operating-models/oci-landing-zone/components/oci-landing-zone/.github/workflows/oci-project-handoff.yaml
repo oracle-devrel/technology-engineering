@@ -42,8 +42,16 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          [[ "$PROJECT" =~ ^oe-(prod|dev)-[a-z][a-z0-9]*(?:-[a-z0-9]+)*$ ]] || { echo "Invalid project slug" >&2; exit 1; }
-          project_directory="op04_manage_project/${BASH_REMATCH[1]}/$PROJECT"
+          [[ "$PROJECT" =~ ^(dev|test|uat|prod)-([a-z][a-z0-9]*(-[a-z0-9]+)*)$ ]] || { echo "Invalid project slug" >&2; exit 1; }
+          ENVIRONMENT="${BASH_REMATCH[1]}"
+          PROJECT_NAME="${BASH_REMATCH[2]}"
+          if [ "$ENVIRONMENT" = "prod" ]; then
+            TARGET_REPOSITORY="prod-$PROJECT_NAME"
+          else
+            TARGET_REPOSITORY="nonprod-$PROJECT_NAME"
+          fi
+          HANDOFF_PATH="environments/$ENVIRONMENT/environment_information.md"
+          project_directory="op04_manage_project/$ENVIRONMENT/$PROJECT"
           [[ -d "$project_directory" ]] || { echo "OP04 project directory is missing" >&2; exit 1; }
           for variable in OCI_TF_STATE_BUCKET OCI_TF_STATE_NAMESPACE STATE_REGION; do
             [[ -n "${!variable}" ]] || { echo "Required variable $variable is empty" >&2; exit 1; }
@@ -62,7 +70,7 @@ jobs:
             -backend-config="namespace=$OCI_TF_STATE_NAMESPACE" \
             -backend-config="region=$STATE_REGION" \
             -backend-config="auth=InstancePrincipal" \
-            -backend-config="key=op02_manage_environment/${BASH_REMATCH[1]}/terraform.tfstate"
+            -backend-config="key=op02_manage_environment/$ENVIRONMENT/terraform.tfstate"
           terraform -chdir="$state_root/op04" init -input=false -no-color \
             -backend-config="bucket=$OCI_TF_STATE_BUCKET" \
             -backend-config="namespace=$OCI_TF_STATE_NAMESPACE" \
@@ -71,19 +79,29 @@ jobs:
             -backend-config="key=$project_directory/terraform.tfstate"
           terraform -chdir="$state_root/op02" output -json > "$state_root/op02-output.json"
           terraform -chdir="$state_root/op04" output -json > "$state_root/op04-output.json"
+          mapfile -t NETWORK_CONFIGS < <(
+            find "op02_manage_environment/$ENVIRONMENT" -maxdepth 1 -type f -name '*.json' -print \
+              | while IFS= read -r candidate; do
+                  jq -e '.network_configuration | type == "object"' "$candidate" >/dev/null 2>&1 && printf '%s\n' "$candidate"
+                done
+          )
+          test "${#NETWORK_CONFIGS[@]}" -eq 1
           python3 scripts/render_project_handoff.py \
             --project "$PROJECT" \
             --project-directory "$project_directory" \
             --op04-output "$state_root/op04-output.json" \
             --op02-output "$state_root/op02-output.json" \
-            --network-config "op02_manage_environment/${BASH_REMATCH[1]}/oci_open_lz_one-oe_op02_${BASH_REMATCH[1]}_network_light.auto.tfvars.json" \
+            --network-config "${NETWORK_CONFIGS[0]}" \
+            --region "$STATE_REGION" \
             --source-repository "$GITHUB_REPOSITORY" \
             --source-workflow "$GITHUB_WORKFLOW" \
             --source-run "$GITHUB_RUN_ID" \
             --source-commit "$GITHUB_SHA" \
-            --op02-state-key "op02_manage_environment/${BASH_REMATCH[1]}/terraform.tfstate" \
+            --op02-state-key "op02_manage_environment/$ENVIRONMENT/terraform.tfstate" \
             --op04-state-key "$project_directory/terraform.tfstate" \
-            --output "$artifact_directory/enviroment_information.md" \
+            --target-repository "$TARGET_REPOSITORY" \
+            --handoff-path "$HANDOFF_PATH" \
+            --output "$artifact_directory/environment_information.md" \
             --handoff-output "$artifact_directory/project-foundation-handoff.json"
 
       - name: Upload handoff artifact

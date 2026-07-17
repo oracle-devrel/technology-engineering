@@ -1,7 +1,25 @@
 {
   "schema_version": 1,
-  "foundation_repository": "__FOUNDATION_REPOSITORY__",
+  "customer_org": "__CUSTOMER_ORG__",
+  "foundation_repository": "__CUSTOMER_ORG__/__FOUNDATION_REPOSITORY__",
   "foundation_ref": "__FOUNDATION_REF__",
+  "project_templates": {
+    "shared-nonprod-v2": {
+      "repository": "__CUSTOMER_ORG__/nonprod-project-template",
+      "revision": "__NONPROD_TEMPLATE_REF__"
+    },
+    "production-v1": {
+      "repository": "__CUSTOMER_ORG__/prod-project-template",
+      "revision": "__PROD_TEMPLATE_REF__"
+    }
+  },
+  "target_repository_prefixes": {
+    "dev": "nonprod",
+    "test": "nonprod",
+    "uat": "nonprod",
+    "prod": "prod"
+  },
+  "handoff_path_template": "environments/{environment}/environment_information.md",
   "oci_orchestrator": {
     "repository": "oci-landing-zones/terraform-oci-modules-orchestrator",
     "revision": "34202e837e9df015ddaaa4fce0ab62bb6e3883de"
@@ -13,9 +31,10 @@
     "oci-bootstrap-terraform.yaml",
     "oci-op00-terraform.yaml",
     "oci-op01-terraform.yaml",
-    "oci-op02-prod-terraform.yaml",
+    "oci-op02-terraform.yaml",
     "oci-op03-platform-gitops-terraform.yaml",
-    "oci-op04-terraform.yaml"
+    "oci-op04-terraform.yaml",
+    "oci-project-handoff.yaml"
   ],
   "codex_app_plugin": false
 }

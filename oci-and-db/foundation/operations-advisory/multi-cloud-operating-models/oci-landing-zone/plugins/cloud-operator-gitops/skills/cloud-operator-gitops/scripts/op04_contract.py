@@ -57,8 +57,29 @@ def validate_project(project: str) -> ProjectIdentity:
 
 def validate_runtime_contract(repo: Path, ref: str, environment: str) -> dict[str, Any]:
     contract = load_at(repo, ref, RUNTIME_CONTRACT_PATH)
-    required = {"contract_version", "project_slug_pattern", "project_name_max_length", "same_slug_repository", "allowed_environments", "environment_blueprints", "op04_template"}
-    if not isinstance(contract, dict) or set(contract) != required or contract.get("contract_version") != 2 or contract.get("project_name_max_length") != 30 or contract.get("same_slug_repository") is not True or environment not in contract.get("allowed_environments", []):
+    required = {
+        "contract_version", "project_slug_pattern", "project_name_max_length",
+        "same_slug_repository", "allowed_environments", "environment_blueprints",
+        "target_repository_prefixes", "repository_layouts",
+        "handoff_path_template", "op04_template",
+    }
+    allowed = ["dev", "test", "uat", "prod"]
+    prefixes = {"dev": "nonprod", "test": "nonprod", "uat": "nonprod", "prod": "prod"}
+    layouts = {"dev": "shared-nonprod-v2", "test": "shared-nonprod-v2", "uat": "shared-nonprod-v2", "prod": "production-v1"}
+    if (
+        not isinstance(contract, dict)
+        or set(contract) != required
+        or contract.get("contract_version") != 2
+        or contract.get("project_slug_pattern") != r"^(?:dev|test|uat|prod)-[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"
+        or contract.get("project_name_max_length") != 30
+        or contract.get("same_slug_repository") is not False
+        or contract.get("allowed_environments") != allowed
+        or set(contract.get("environment_blueprints", {})) != set(allowed)
+        or contract.get("target_repository_prefixes") != prefixes
+        or contract.get("repository_layouts") != layouts
+        or contract.get("handoff_path_template") != "environments/{environment}/environment_information.md"
+        or environment not in allowed
+    ):
         raise ContractError(f"The landing-zone runtime does not support governed {environment} onboarding.")
     return contract
 

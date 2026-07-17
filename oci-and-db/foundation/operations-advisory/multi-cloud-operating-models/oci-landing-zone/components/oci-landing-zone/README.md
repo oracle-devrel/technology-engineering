@@ -52,7 +52,7 @@ private keys in this repository.
 - Do not run local applies after the permanent GitOps flow is active.
 
 After OP04, download `project-foundation-handoff.json` for the Multi-Cloud
-Control Plane and `enviroment_information.md` for the project team. Neither file
+Control Plane and `environment_information.md` for the project team. Neither file
 contains credentials.
 
 ## Guides

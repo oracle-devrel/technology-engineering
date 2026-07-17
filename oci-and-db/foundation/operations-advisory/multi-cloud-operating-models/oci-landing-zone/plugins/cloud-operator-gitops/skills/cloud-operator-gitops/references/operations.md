@@ -8,10 +8,24 @@
 6. Show paths, semantic changes, base SHA, content hash, and `GitHub writes: none`.
 7. Require fresh confirmation, revalidate the hashes, push, and open one PR.
 8. Stop before merge. After human merge, monitor only the exact OP04 workflow.
-9. Report the validated JSON and Markdown handoff artifacts, then stop.
+9. Download only that successful run's JSON and Markdown artifacts and validate
+   them together with `validate-handoff.py`. Derive the target repository,
+   layout, and handoff path only from its output.
+10. Resolve the exact template repository and immutable revision for that layout
+    from `deployment-contract.json`. If the target is absent, preview and
+    separately confirm creation of one private repository, then verify its
+    initial tree matches the pinned template. If an exact shared non-production
+    target already exists, reuse it; never recreate or overwrite it.
+11. In a disposable clone, write only the validated Markdown artifact to
+    `environments/<environment>/environment_information.md`. Show the path,
+    source and content hashes, branch, and semantic summary with
+    `GitHub writes: none`; require fresh confirmation and revalidate.
+12. Push the validated branch and conditionally open one PR. Stop before merge
+    and report the repository, environment, handoff path, and PR state.
 
-Discard confirmation after interruption or Git drift. Project repository creation
-and project-repository writes are outside this plugin.
+Discard confirmation after interruption or Git drift. Never reuse an OP04
+confirmation for repository creation or handoff publication; each write stage
+requires its own preview and fresh confirmation.
 
 Run commands directly and never generate helper executables. Register cleanup as soon as a
 temporary workspace is created and remove it when the operation ends or is abandoned. Inventory

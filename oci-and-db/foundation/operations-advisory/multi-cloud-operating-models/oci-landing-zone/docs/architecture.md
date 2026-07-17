@@ -24,8 +24,14 @@ flowchart LR
 - **OP04** creates one project's compartments, groups, and policies.
 
 After OP04, the workflow produces `project-foundation-handoff.json` for the
-Control Plane and `enviroment_information.md` for your teams. The Landing Zone
+Control Plane and `environment_information.md` for your teams. The Landing Zone
 does not create the project repository or deploy project workloads.
+
+OP04 foundation identities are environment-specific: `dev-<project>`,
+`test-<project>`, `uat-<project>`, and `prod-<project>`. Dev, test, and UAT
+handoffs target the shared `nonprod-<project>` repository; production targets
+`prod-<project>`. Each handoff is written to
+`environments/<environment>/environment_information.md`.
 
 Cloud Operators control the foundation. Project Teams work only in their
 handed-off project repositories, where the normal pull-request approval process

@@ -155,6 +155,26 @@ class SecurityProfileTests(unittest.TestCase):
                 workflow,
             )
 
+    def test_project_skill_documents_environment_aware_paths(self):
+        skill = (
+            ROOT
+            / "plugins"
+            / "project-gitops"
+            / "skills"
+            / "project-gitops"
+        )
+        safety = (skill / "references/safety-boundaries.md").read_text(
+            encoding="utf-8"
+        )
+        operations = (skill / "references/operations.md").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("{cloud}/{environment}/{region}/", safety)
+        self.assertIn("gcp/{environment}/{region}/workloads/adb.json", safety)
+        self.assertNotIn("{cloud}/{region}/lifecycle_operations/", safety)
+        self.assertIn(
+            "environments/<environment>/environment_information.md", operations
+        )
 
 if __name__ == "__main__":
     unittest.main()

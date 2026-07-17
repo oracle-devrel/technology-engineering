@@ -4,7 +4,7 @@ import re
 from pathlib import Path
 
 
-REGION = "eu-frankfurt-1"
+REGION_PATTERN = re.compile(r"^[a-z]{2}-[a-z]+-[0-9]+$")
 VCN_KEY = "VCN-FRA-LZP-P-PROJECTS-KEY"
 SUBNET_KEYS = {
     "web": "SSN-FRA-LZP-P-WEB-KEY",
@@ -99,6 +99,7 @@ def build_handoff_data(
     op04_output,
     op02_output,
     network_config,
+    region,
 ):
     environment, project_name = validate_project(project)
     project_token = project_name.upper()
@@ -112,6 +113,8 @@ def build_handoff_data(
         network_config,
         "network configuration",
     )
+    if not isinstance(region, str) or REGION_PATTERN.fullmatch(region) is None:
+        raise HandoffError(f"invalid OCI region: {region!r}")
 
     compartment_config = require_mapping(
         project_config.get("compartments_configuration"),
@@ -156,7 +159,9 @@ def build_handoff_data(
         role_keys[role] = key
 
     state_compartments = require_mapping(
-        require_mapping(op04_output, "iam_resources").get("compartments"),
+        require_mapping(op04_output.get("iam_resources"), "iam_resources").get(
+            "compartments"
+        ),
         "iam_resources.compartments",
     )
     compartments = {
@@ -172,7 +177,9 @@ def build_handoff_data(
         for role, key in role_keys.items()
     }
 
-    state_network = require_mapping(op02_output, "network_resources")
+    state_network = require_mapping(
+        op02_output.get("network_resources"), "network_resources"
+    )
     state_vcns = require_mapping(state_network.get("vcns"), "network_resources.vcns")
     state_subnets = require_mapping(
         state_network.get("subnets"),
@@ -251,7 +258,7 @@ def build_handoff_data(
     return {
         "project": project,
         "environment": environment,
-        "region": REGION,
+        "region": region,
         "compartments": compartments,
         "vcn": vcn,
         "subnets": subnets,
@@ -310,7 +317,8 @@ def render_markdown(data):
 
 This file is the human-readable representation of the validated
 `project-foundation-handoff.json` artifact. Deployment workflows do not parse
-it; executable intent remains in JSON under `oci/{data['region']}/`.
+it; executable intent remains in JSON under
+`oci/{data['environment']}/{data['region']}/`.
 
 Do not store secrets, passwords, private keys, or user credentials here.
 
@@ -352,6 +360,7 @@ def generate_document(
     op04_output_path,
     op02_output_path,
     network_config_path,
+    region,
 ):
     validate_project(project)
     project_directory = Path(project_directory)
@@ -371,12 +380,13 @@ def generate_document(
         op04_output=load_json(op04_output_path),
         op02_output=load_json(op02_output_path),
         network_config=load_json(network_config_path),
+        region=region,
     )
     return data, render_markdown(data)
 
 
 def build_machine_handoff(data, source, op02_state_key, op04_state_key, target_repository, handoff_path):
-    """Return the credential-free shared-nonprod-v2 handoff contract."""
+    """Return the credential-free environment-aware handoff contract."""
     required_source = {"repository", "workflow", "run", "commit"}
     if set(source) != required_source or not all(isinstance(value, str) and value for value in source.values()):
         raise HandoffError("handoff provenance is incomplete")
@@ -386,17 +396,19 @@ def build_machine_handoff(data, source, op02_state_key, op04_state_key, target_r
         raise HandoffError("source run or commit is invalid")
     if not all(isinstance(value, str) and value.endswith("terraform.tfstate") for value in (op02_state_key, op04_state_key)):
         raise HandoffError("handoff state keys are invalid")
-    if data["environment"] not in {"dev", "test", "uat"}:
-        raise HandoffError("shared non-production handoff environment is invalid")
+    environment, project_name = validate_project(data["project"])
+    if environment != data["environment"]:
+        raise HandoffError("foundation project environment is inconsistent")
     expected_repository = (
-        rf"nonprod-[a-z][a-z0-9-]*" if data["environment"] != "prod"
-        else rf"prod-[a-z][a-z0-9-]*"
+        f"prod-{project_name}"
+        if environment == "prod"
+        else f"nonprod-{project_name}"
     )
-    if not re.fullmatch(expected_repository, target_repository):
+    if target_repository != expected_repository:
         raise HandoffError("target repository does not match the foundation environment")
-    expected_path = f"environments/{data['environment']}/environment_information.md"
+    expected_path = f"environments/{environment}/environment_information.md"
     if handoff_path != expected_path:
-        raise HandoffError("shared non-production handoff path is invalid")
+        raise HandoffError("environment handoff path is invalid")
     return {
         "schema_version": 2,
         "cloud": "oci",
@@ -414,7 +426,7 @@ def build_machine_handoff(data, source, op02_state_key, op04_state_key, target_r
         "source_commit": source["commit"],
         "op02_state_key": op02_state_key,
         "op04_state_key": op04_state_key,
-        "repository_layout": "production-v1" if data["environment"] == "prod" else "shared-nonprod-v2",
+        "repository_layout": "production-v1" if environment == "prod" else "shared-nonprod-v2",
         "target_repository": target_repository,
         "handoff_path": handoff_path,
     }
@@ -429,6 +441,7 @@ def build_parser():
     parser.add_argument("--op04-output", required=True, type=Path)
     parser.add_argument("--op02-output", required=True, type=Path)
     parser.add_argument("--network-config", required=True, type=Path)
+    parser.add_argument("--region", required=True)
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--handoff-output", type=Path)
     parser.add_argument("--source-repository")
@@ -452,6 +465,7 @@ def main(argv=None):
             op04_output_path=args.op04_output,
             op02_output_path=args.op02_output,
             network_config_path=args.network_config,
+            region=args.region,
         )
     except HandoffError as exc:
         parser.error(str(exc))
