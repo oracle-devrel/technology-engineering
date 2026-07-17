@@ -56,7 +56,7 @@ find "$STAGE/deployment-contract.json" -type f -exec perl -pi -e \
   's/__PLATFORM_CI_REF__/$ENV{PLATFORM_CI_REF}/g; s/__PROJECT_TEMPLATE_REF__/$ENV{PROJECT_TEMPLATE_REF}/g; s/__PRODUCTION_PROJECT_TEMPLATE_REF__/$ENV{PRODUCTION_PROJECT_TEMPLATE_REF}/g; s/__CATALOGS_REF__/$ENV{CATALOGS_REF}/g' {} +
 ```
 
-If the optional UI is required, copy `components/multi-cloud-plane`, replace
+If the optional UI is required, copy `components/optional-ui`, replace
 `__CUSTOMER_ORG__`, remove its `tests/` directory and `test_github_api.py`, and
 initialize it in the same way. If the Codex app assistant
 is required, copy `plugins/project-gitops`, replace `__CUSTOMER_ORG__`, and

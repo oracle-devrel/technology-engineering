@@ -53,7 +53,7 @@ Platform administrators: [architecture](docs/architecture.md),
 
 Project Teams: [first request](docs/first-request.md) and
 [day-to-day operations](docs/operations.md). The
-[Multi-Cloud Control Plane UI](components/multi-cloud-plane/README.md) and the
+[Multi-Cloud Control Plane UI](components/optional-ui/README.md) and the
 [optional Codex app assistant](docs/codex-app.md) are separate integrations.
 
 This initial-installation package supports the
