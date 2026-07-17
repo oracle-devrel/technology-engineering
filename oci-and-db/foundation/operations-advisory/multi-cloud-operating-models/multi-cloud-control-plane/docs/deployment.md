@@ -164,22 +164,46 @@ apply the same protections, and grant the Project Team access.
 Configure exactly one security profile for the entire repository. Do not
 configure both sources.
 
-For the recommended paid-plan `github-environments` profile, create each
-enabled GitHub Environment, configure required reviewers and prevention of
-self-review where available, then set the two environment secrets. These
-commands prompt for values:
+For the recommended paid-plan `github-environments` profile, create two GitHub
+Environments for every enabled logical environment. The base Environment
+(`dev`, `test`, or `uat`) is used by plan/check and has no required reviewers.
+The matching apply Environment (`dev-apply`, `test-apply`, or `uat-apply`) is
+used by apply/execute; configure its required reviewers and prevention of
+self-review where the plan supports those controls. Store identical copies of
+the two environment secrets in each pair. These commands prompt for secret
+values:
 
 ```bash
 gh api --method PUT "repos/$CUSTOMER_ORG/$PROJECT_REPOSITORY/environments/dev"
+gh api --method PUT "repos/$CUSTOMER_ORG/$PROJECT_REPOSITORY/environments/dev-apply"
 gh api --method PUT "repos/$CUSTOMER_ORG/$PROJECT_REPOSITORY/environments/test"
+gh api --method PUT "repos/$CUSTOMER_ORG/$PROJECT_REPOSITORY/environments/test-apply"
 gh api --method PUT "repos/$CUSTOMER_ORG/$PROJECT_REPOSITORY/environments/uat"
+gh api --method PUT "repos/$CUSTOMER_ORG/$PROJECT_REPOSITORY/environments/uat-apply"
 gh secret set GITOPS_SECRET_VALUES --env dev --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
 gh secret set READINESS_MARKER --env dev --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
+gh secret set GITOPS_SECRET_VALUES --env dev-apply --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
+gh secret set READINESS_MARKER --env dev-apply --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
 gh secret set GITOPS_SECRET_VALUES --env test --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
 gh secret set READINESS_MARKER --env test --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
+gh secret set GITOPS_SECRET_VALUES --env test-apply --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
+gh secret set READINESS_MARKER --env test-apply --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
 gh secret set GITOPS_SECRET_VALUES --env uat --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
 gh secret set READINESS_MARKER --env uat --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
+gh secret set GITOPS_SECRET_VALUES --env uat-apply --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
+gh secret set READINESS_MARKER --env uat-apply --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
+printf '{"INVALID":"true"}\n' | gh secret set GITOPS_SECRET_VALUES --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
+printf 'false\n' | gh secret set READINESS_MARKER --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
 ```
+
+The last two repository secrets are non-sensitive, invalid sentinels required
+by GitHub's reusable-workflow secret channel. They must remain exactly
+`{"INVALID":"true"}` and `false`; never store real values in them. The invalid
+member cannot pass any environment-qualified secret-name check. When the called job declares the
+selected Environment, its same-named secrets override the sentinels. A missing
+or misspelled Environment or secret therefore fails readiness or placeholder
+resolution instead of falling back to repository credentials. Keep every
+base/apply secret pair synchronized and verify both copies after rotation.
 
 For the GitHub Free `repository-secrets` fallback, use the repository bundles
 and readiness variables:

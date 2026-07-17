@@ -72,4 +72,6 @@ jobs:
       orchestrator_ref: ${{ needs.resolve.outputs.cloud == 'oci' && '__OCI_ORCHESTRATOR_REF__' || needs.resolve.outputs.cloud == 'azure' && '__AZURE_ORCHESTRATOR_REF__' || '__GCP_ORCHESTRATOR_REF__' }}
       bucket_name: __STATE_BUCKET__
     secrets:
+      GITOPS_SECRET_VALUES: ${{ needs.resolve.outputs.security_profile == 'github-environments' && secrets.GITOPS_SECRET_VALUES || '' }}
+      READINESS_MARKER: ${{ needs.resolve.outputs.security_profile == 'github-environments' && secrets.READINESS_MARKER || '' }}
       repository_secret_values: ${{ needs.resolve.outputs.security_profile == 'repository-secrets' && secrets.GITOPS_SECRET_VALUES_PROD || '' }}

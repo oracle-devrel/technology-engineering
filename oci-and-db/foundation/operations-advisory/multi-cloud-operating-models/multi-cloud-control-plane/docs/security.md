@@ -25,11 +25,16 @@ Before production rollout:
   workload scope.
 - Resolve credentials and passwords at runtime; never store them in manifests,
   handoffs, the UI, or the Codex app.
-- In `github-environments`, keep `GITOPS_SECRET_VALUES` and `READINESS_MARKER`
-  in each selected GitHub Environment. In `repository-secrets`, keep one
-  environment-qualified JSON repository secret and readiness variable per
-  environment. The default-branch caller rejects forks, workflow changes,
-  mixed tuples, and cross-environment placeholders in both profiles.
+- In `github-environments`, use a reviewer-free base Environment for plan/check
+  and a reviewer-protected `<environment>-apply` Environment for apply/execute;
+  keep identical `GITOPS_SECRET_VALUES` and `READINESS_MARKER` secrets in the
+  pair. Same-named repository secrets containing only `{"INVALID":"true"}`
+  and `false` are required fail-closed transport sentinels, not credential
+  storage. In
+  `repository-secrets`, keep one environment-qualified JSON repository secret
+  and readiness variable per environment. The default-branch caller rejects
+  forks, workflow changes, mixed tuples, and cross-environment placeholders in
+  both profiles.
 - Test failed plans, partial deployments, state recovery, runner isolation, SSH
   host verification, and audit evidence in non-production.
 

@@ -70,384 +70,76 @@ on:
         required: false
 
 jobs:
-  terraform:
+  terraform-environments:
+    if: inputs.security_profile == 'github-environments'
     name: "Terraform ${{ inputs.mode }}"
     runs-on: ${{ fromJSON(inputs.runner_labels) }}
     environment:
-      name: ${{ inputs.security_profile == 'github-environments' && inputs.environment_name || null }}
-      deployment: ${{ inputs.security_profile == 'github-environments' && inputs.mode == 'apply' }}
+      name: ${{ inputs.mode == 'apply' && format('{0}-apply', inputs.environment_name) || inputs.environment_name }}
+      deployment: ${{ inputs.mode == 'apply' }}
     concurrency:
       group: ${{ inputs.cloud }}-${{ inputs.environment_name }}-terraform-${{ github.repository }}
       cancel-in-progress: false
-
     steps:
-      - name: Verify environment readiness
-        shell: bash
-        env:
-          ENVIRONMENT_READINESS_MARKER: ${{ secrets.READINESS_MARKER }}
-          ENVIRONMENT_SECRET_VALUES: ${{ secrets.GITOPS_SECRET_VALUES }}
-          REPOSITORY_READINESS_MARKER: ${{ inputs.readiness_marker }}
-          REPOSITORY_SECRET_VALUES: ${{ secrets.repository_secret_values }}
-          SECURITY_PROFILE: ${{ inputs.security_profile }}
-        run: |
-          set -euo pipefail
-          case "$SECURITY_PROFILE" in
-            github-environments)
-              test -z "$REPOSITORY_READINESS_MARKER"
-              test -z "$REPOSITORY_SECRET_VALUES"
-              test "$ENVIRONMENT_READINESS_MARKER" = "true"
-              test -n "$ENVIRONMENT_SECRET_VALUES"
-              ;;
-            repository-secrets)
-              test -z "$ENVIRONMENT_READINESS_MARKER"
-              test -z "$ENVIRONMENT_SECRET_VALUES"
-              test "$REPOSITORY_READINESS_MARKER" = "true"
-              test -n "$REPOSITORY_SECRET_VALUES"
-              ;;
-            *)
-              echo "❌ Unsupported security profile"
-              exit 1
-              ;;
-          esac
-
-      # =====================================================================
-      # Setup
-      # =====================================================================
-      - name: Checkout manifest repo
+      - name: Checkout validated manifest
         uses: actions/checkout@v6
         with:
           ref: ${{ inputs.manifest_ref }}
           fetch-depth: 0
-
-      - name: Checkout orchestrator
-        uses: actions/checkout@v6
-        with:
-          repository: ${{ inputs.orchestrator_repo }}
-          ref: ${{ inputs.orchestrator_ref }}
-          path: ORCH
-
-      - name: Checkout platform-ci
+      - name: Checkout pinned Platform CI
         uses: actions/checkout@v6
         with:
           repository: __CUSTOMER_ORG__/platform-ci
           ref: ${{ inputs.platform_ci_ref }}
           path: platform-ci
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v4.0.1
+      - name: Execute Terraform
+        uses: ./platform-ci/actions/terraform-execution
         with:
-          terraform_version: 1.12.1
-          terraform_wrapper: false
-
-      # =====================================================================
-      # Resolve config
-      # =====================================================================
-      - name: Resolve config
-        id: config
-        shell: bash
-        run: |
-          CONFIG_REGION="${{ inputs.region }}"
-          LAYOUT="${{ inputs.repository_layout }}"
-          ENVIRONMENT_NAME="${{ inputs.environment_name }}"
-          if [ "$LAYOUT" != "shared-nonprod-v2" ] && [ "$LAYOUT" != "production-v1" ]; then
-            echo "❌ Unsupported repository layout: $LAYOUT"; exit 1
-          fi
-          if [ "$LAYOUT" = "shared-nonprod-v2" ] && { [ -z "$ENVIRONMENT_NAME" ] || ! [[ "$ENVIRONMENT_NAME" =~ ^(dev|test|uat)$ ]]; }; then
-            echo "❌ Shared non-production requests require dev, test, or uat"; exit 1
-          fi
-          if [ "$LAYOUT" = "production-v1" ] && [ "$ENVIRONMENT_NAME" != "prod" ]; then
-            echo "❌ Production requests require the prod environment"; exit 1
-          fi
-          if [ -z "$CONFIG_REGION" ]; then
-            # Attempt auto-detection from changed files
-            # This logic assumes paths like: oci/<region>/...
-            # We use git diff to find changed files in the PR or commit
-            CHANGED_FILES=$(git diff --name-only HEAD^ HEAD)
-
-            # Extract region from the first file that matches the cloud pattern
-            DETECTED_REGION=$(echo "$CHANGED_FILES" | grep "^${{ inputs.cloud }}/" | cut -d/ -f2 | head -n 1)
-
-            if [ -n "$DETECTED_REGION" ]; then
-               CONFIG_REGION="$DETECTED_REGION"
-               echo "ℹ️  Auto-detected region from changes: $CONFIG_REGION"
-            fi
-          fi
-
-          if [ -z "$CONFIG_REGION" ]; then
-            CONFIG_REGION="${REGION:-}"
-          fi
-          if [ -z "$CONFIG_REGION" ] && [ "${{ inputs.cloud }}" = "oci" ]; then
-            CONFIG_REGION="${STATE_REGION:-}"
-            if [ -n "$CONFIG_REGION" ]; then
-              echo "ℹ️  Using STATE_REGION as OCI config region. Set REGION if config differs."
-            fi
-          fi
-
-          if [ -z "$CONFIG_REGION" ]; then
-            echo "❌ Config region not set. Provide workflow input 'region', rely on auto-detection from file paths, or set REGION on the runner."
-            exit 1
-          fi
-
-          CONFIG_SUBPATH="${{ inputs.cloud }}/$ENVIRONMENT_NAME/$CONFIG_REGION"
-          if [ ! -d "$CONFIG_SUBPATH" ]; then
-            echo "❌ Config directory not found: $CONFIG_SUBPATH"
-            echo "Available directories under ${{ inputs.cloud }}/:"
-            ls -la "${{ inputs.cloud }}" || true
-            exit 1
-          fi
-
-          STATE_KEY="${{ inputs.bucket_name }}/${{ github.repository }}/$CONFIG_SUBPATH/terraform.tfstate"
-
-          echo "config_subpath=$CONFIG_SUBPATH" >> $GITHUB_OUTPUT
-          echo "CONFIG_REGION=$CONFIG_REGION" >> $GITHUB_ENV
-          echo "STATE_KEY=$STATE_KEY" >> $GITHUB_ENV
-          echo "BUCKET_NAME=${{ inputs.bucket_name }}" >> $GITHUB_ENV
-          echo "✅ Config: $CONFIG_SUBPATH"
-
-      # =====================================================================
-      # Auth & Backend
-      # =====================================================================
-      - name: Authenticate Azure
-        if: inputs.cloud == 'azure'
-        shell: bash
-        run: |
-          az login --service-principal \
-            --username "$ARM_CLIENT_ID" \
-            --password "$ARM_CLIENT_SECRET" \
-            --tenant "$ARM_TENANT_ID"
-          az account set --subscription "$ARM_SUBSCRIPTION_ID"
-
-      - name: Authenticate Google
-        if: inputs.cloud == 'gcp'
-        shell: bash
-        run: |
-          if [ -n "${GOOGLE_CREDENTIALS:-}" ]; then
-            echo "✅ Using GOOGLE_CREDENTIALS for Google provider authentication"
-            exit 0
-          fi
-
-          if [ -n "${GOOGLE_APPLICATION_CREDENTIALS:-}" ] && [ -f "$GOOGLE_APPLICATION_CREDENTIALS" ]; then
-            echo "✅ Using GOOGLE_APPLICATION_CREDENTIALS for Google provider authentication"
-            exit 0
-          fi
-
-          if command -v gcloud >/dev/null 2>&1 && gcloud auth application-default print-access-token >/dev/null 2>&1; then
-            echo "✅ Using existing Google Application Default Credentials"
-            exit 0
-          fi
-
-          echo "❌ Google authentication is not configured. Set GOOGLE_CREDENTIALS, GOOGLE_APPLICATION_CREDENTIALS, or ADC on the runner."
-          exit 1
-
-      - name: Generate providers.tf
-        shell: bash
-        run: |
-          # Use namespace from runner environment variable
-          NAMESPACE="$STATE_NAMESPACE"
-          if [ -z "$NAMESPACE" ]; then
-            echo "❌ STATE_NAMESPACE is not set on the runner"
-            exit 1
-          fi
-
-          # OCI Object Storage buckets are regional. We always take the bucket
-          # region from the runner (STATE_REGION) to avoid coupling it to the
-          # manifest folder name.
-          if [ -z "${STATE_REGION:-}" ]; then
-            echo "❌ STATE_REGION is required (OCI Object Storage bucket region)"
-            exit 1
-          fi
-          BACKEND_REGION="$STATE_REGION"
-
-          # Write backend.tf (Common)
-          # We use OCI Object Storage for state regardless of the target cloud
-          cat > ORCH/backend.tf << EOF
-          terraform {
-            backend "oci" {
-              bucket    = "$BUCKET_NAME"
-              key       = "$STATE_KEY"
-              namespace = "$NAMESPACE"
-              auth      = "InstancePrincipal"
-              region    = "$BACKEND_REGION"
-            }
-          }
-          EOF
-
-          # Write providers.tf (Cloud specific)
-          if [ "${{ inputs.cloud }}" = "oci" ]; then
-            cat > ORCH/providers.tf << EOF
-          provider "oci" {
-            auth   = "InstancePrincipal"
-            region = var.region
-            ignore_defined_tags = ["Oracle-Tags.CreatedBy", "Oracle-Tags.CreatedOn"]
-          }
-          provider "oci" {
-            auth   = "InstancePrincipal"
-            alias  = "home"
-            region = var.region
-            ignore_defined_tags = ["Oracle-Tags.CreatedBy", "Oracle-Tags.CreatedOn"]
-          }
-          provider "oci" {
-            auth   = "InstancePrincipal"
-            alias  = "secondary_region"
-            region = var.region
-            ignore_defined_tags = ["Oracle-Tags.CreatedBy", "Oracle-Tags.CreatedOn"]
-          }
-          terraform {
-            required_version = ">= 1.12.0"
-            required_providers {
-              oci = { source = "oracle/oci", configuration_aliases = [oci.home] }
-            }
-          }
-          EOF
-          elif [ "${{ inputs.cloud }}" = "azure" ]; then
-            cat > ORCH/providers.tf << EOF
-          provider "azurerm" {
-            features {}
-          }
-          terraform {
-            required_version = ">= 1.12.0"
-            required_providers {
-              azurerm = { source = "hashicorp/azurerm", version = "~> 4.0" }
-            }
-          }
-          EOF
-          elif [ "${{ inputs.cloud }}" = "gcp" ]; then
-            cat > ORCH/providers.tf << EOF
-          provider "google" {
-            project = var.project_id
-            region  = var.location
-          }
-          terraform {
-            required_version = ">= 1.4.0"
-            required_providers {
-              google = { source = "hashicorp/google", version = ">= 7.35.0, < 8.0.0" }
-            }
-          }
-          EOF
-          else
-            echo "❌ Unsupported cloud: ${{ inputs.cloud }}"
-            exit 1
-          fi
-
-          terraform -chdir=ORCH fmt providers.tf
-          echo "✅ Generated providers.tf"
-
-      # =====================================================================
-      # Terraform
-      # =====================================================================
-      - name: Terraform init
-        shell: bash
-        run: terraform -chdir=ORCH init
-
-      - name: Terraform fmt
-        id: format
-        if: inputs.mode == 'pr'
-        shell: bash
-        run: terraform -chdir=ORCH fmt -check
-
-      - name: Terraform validate
-        id: validate
-        if: inputs.mode == 'pr'
-        shell: bash
-        run: terraform -chdir=ORCH validate -no-color
-
-      - name: Prepare variables
-        id: vars
-        shell: bash
-        env:
-          GITOPS_SECRET_VALUES: ${{ inputs.security_profile == 'github-environments' && secrets.GITOPS_SECRET_VALUES || secrets.repository_secret_values }}
-        run: |
-          CONFIG_DIR="${{ github.workspace }}/${{ steps.config.outputs.config_subpath }}"
-          PREPARED_VAR_DIR="${{ runner.temp }}/terraform-var-files"
-
-          # Exclude lifecycle_operations/ directories - those JSON files are
-          # for Ansible, not Terraform. Prepare copies under runner.temp so secret-backed
-          # placeholders never modify the checked-out manifest repository.
-          VAR_FILES=$(python3 platform-ci/scripts_python/prepare_var_files.py \
-            "$CONFIG_DIR" "$PREPARED_VAR_DIR" "${{ inputs.environment_name }}")
-          echo "var_files=$VAR_FILES" >> $GITHUB_OUTPUT
-
-          EXTRA=""
-          if [ "${{ inputs.cloud }}" = "oci" ]; then
-            if [ -z "${CONFIG_REGION:-}" ]; then
-              echo "❌ CONFIG_REGION missing (set inputs.region or runner REGION)"
-              exit 1
-            fi
-
-            # Only override region. Project repositories should not create OCI IAM
-            # foundation resources; OP04 owns compartments, groups, and policies.
-            EXTRA="-var=region=$CONFIG_REGION"
-          elif [ "${{ inputs.cloud }}" = "gcp" ]; then
-            if [ -z "${CONFIG_REGION:-}" ]; then
-              echo "❌ CONFIG_REGION missing (set inputs.region or runner REGION)"
-              exit 1
-            fi
-
-            # GCP config folders are Google provider regions such as europe-west2.
-            EXTRA="-var=location=$CONFIG_REGION"
-          fi
-          echo "extra=$EXTRA" >> $GITHUB_OUTPUT
-
-      - name: Terraform plan
-        id: plan
-        shell: bash
-        working-directory: ORCH
-        run: |
-          set -o pipefail
-          terraform plan -detailed-exitcode -no-color \
-            ${{ steps.vars.outputs.extra }} ${{ steps.vars.outputs.var_files }} \
-            -out=tfplan.binary 2>&1 | tee plan.txt || true
-          EXIT=${PIPESTATUS[0]}
-
-          echo "plan_output<<EOF" >> $GITHUB_OUTPUT
-          cat plan.txt >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-          echo "exit_code=$EXIT" >> $GITHUB_OUTPUT
-
-          # Exit codes: 0=no changes, 1=error, 2=changes detected
-          # Only exit 1 is a real error
-          if [ "$EXIT" -eq 1 ]; then
-            exit 1
-          fi
-          # Exit 0 or 2 are both success (0=no changes, 2=changes to apply)
-          exit 0
-
-      - name: Terraform apply
-        if: inputs.mode == 'apply'
-        shell: bash
-        run: |
-          # Apply the exact binary plan produced by the preceding plan step.
-          # Passing variables here would make Terraform create a second,
-          # potentially different implicit plan.
-          terraform -chdir=ORCH apply -auto-approve -no-color tfplan.binary
-          echo "✅ Apply completed"
-
-      # =====================================================================
-      # PR Comment
-      # =====================================================================
-      - name: Comment on PR
-        if: inputs.mode == 'pr' && github.event.pull_request
-        uses: actions/github-script@v8
-        env:
-          PLAN: ${{ steps.plan.outputs.plan_output }}
+          mode: ${{ inputs.mode }}
+          cloud: ${{ inputs.cloud }}
+          region: ${{ inputs.region }}
+          environment_name: ${{ inputs.environment_name }}
+          security_profile: ${{ inputs.security_profile }}
+          readiness_marker: ${{ inputs.readiness_marker }}
+          repository_layout: ${{ inputs.repository_layout }}
+          orchestrator_repo: ${{ inputs.orchestrator_repo }}
+          orchestrator_ref: ${{ inputs.orchestrator_ref }}
+          bucket_name: ${{ inputs.bucket_name }}
+          environment_readiness_marker: ${{ secrets.READINESS_MARKER }}
+          environment_secret_values: ${{ secrets.GITOPS_SECRET_VALUES }}
+          repository_secret_values: ${{ secrets.repository_secret_values }}
+  terraform-repository:
+    if: inputs.security_profile == 'repository-secrets'
+    name: "Terraform ${{ inputs.mode }}"
+    runs-on: ${{ fromJSON(inputs.runner_labels) }}
+    concurrency:
+      group: ${{ inputs.cloud }}-${{ inputs.environment_name }}-terraform-${{ github.repository }}
+      cancel-in-progress: false
+    steps:
+      - name: Checkout validated manifest
+        uses: actions/checkout@v6
         with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `#### Terraform Plan
-
-            **Format:** \`${{ steps.format.outcome }}\`
-            **Validate:** \`${{ steps.validate.outcome }}\`
-
-            <details><summary>Show Plan</summary>
-
-            \`\`\`terraform
-            ${process.env.PLAN}
-            \`\`\`
-
-            </details>
-
-            *By @${{ github.actor }}*`
-            });
+          ref: ${{ inputs.manifest_ref }}
+          fetch-depth: 0
+      - name: Checkout pinned Platform CI
+        uses: actions/checkout@v6
+        with:
+          repository: __CUSTOMER_ORG__/platform-ci
+          ref: ${{ inputs.platform_ci_ref }}
+          path: platform-ci
+      - name: Execute Terraform
+        uses: ./platform-ci/actions/terraform-execution
+        with:
+          mode: ${{ inputs.mode }}
+          cloud: ${{ inputs.cloud }}
+          region: ${{ inputs.region }}
+          environment_name: ${{ inputs.environment_name }}
+          security_profile: ${{ inputs.security_profile }}
+          readiness_marker: ${{ inputs.readiness_marker }}
+          repository_layout: ${{ inputs.repository_layout }}
+          orchestrator_repo: ${{ inputs.orchestrator_repo }}
+          orchestrator_ref: ${{ inputs.orchestrator_ref }}
+          bucket_name: ${{ inputs.bucket_name }}
+          environment_readiness_marker: ${{ secrets.READINESS_MARKER }}
+          environment_secret_values: ${{ secrets.GITOPS_SECRET_VALUES }}
+          repository_secret_values: ${{ secrets.repository_secret_values }}

@@ -69,3 +69,5 @@ jobs:
       operation_file: ${{ needs.validate-path.outputs.operation_file }}
       runner_labels: ${{ needs.validate-path.outputs.runner_labels }}
       bucket_name: __STATE_BUCKET__
+    secrets:
+      READINESS_MARKER: ${{ needs.validate-path.outputs.security_profile == 'github-environments' && secrets.READINESS_MARKER || '' }}

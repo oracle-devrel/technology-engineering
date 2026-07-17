@@ -1,0 +1,251 @@
+name: Ansible execution
+description: Run the pinned Ansible check or execute sequence for one validated project tuple.
+
+inputs:
+  mode:
+    description: check or execute
+    required: true
+  cloud:
+    description: Selected target cloud
+    required: true
+  operation_file:
+    description: Validated lifecycle-operation manifest path
+    required: false
+    default: ""
+  bucket_name:
+    description: OCI Object Storage state bucket
+    required: true
+  environment_name:
+    description: Selected logical environment
+    required: true
+  security_profile:
+    description: Selected repository security profile
+    required: true
+  readiness_marker:
+    description: Repository-profile readiness value
+    required: false
+    default: ""
+  environment_readiness_marker:
+    description: Environment-profile readiness value
+    required: false
+    default: ""
+
+runs:
+  using: composite
+  steps:
+    - name: Verify environment readiness
+      shell: bash
+      env:
+        ENVIRONMENT_READINESS_MARKER: ${{ inputs.environment_readiness_marker }}
+        REPOSITORY_READINESS_MARKER: ${{ inputs.readiness_marker }}
+        SECURITY_PROFILE: ${{ inputs.security_profile }}
+      run: |
+        set -euo pipefail
+        case "$SECURITY_PROFILE" in
+          github-environments)
+            test -z "$REPOSITORY_READINESS_MARKER"
+            test "$ENVIRONMENT_READINESS_MARKER" = "true"
+            ;;
+          repository-secrets)
+            test -z "$ENVIRONMENT_READINESS_MARKER"
+            test "$REPOSITORY_READINESS_MARKER" = "true"
+            ;;
+          *)
+            echo "❌ Unsupported security profile"
+            exit 1
+            ;;
+        esac
+
+    # =====================================================================
+    # Setup
+    # =====================================================================
+    - name: Setup work directory
+      shell: bash
+      run: |
+        WORK_TEMP="${{ runner.temp }}/ansible-work"
+        mkdir -p "$WORK_TEMP"
+        echo "WORK_TEMP=$WORK_TEMP" >> $GITHUB_ENV
+
+    - name: Install Ansible and OCI CLI
+      shell: bash
+      run: |
+        python3.11 -m pip install --upgrade pip
+        python3.11 -m pip install ansible==9.0.1 oci-cli
+        ansible-galaxy collection install -r platform-ci/ansible/requirements.yml
+        echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+    # =====================================================================
+    # Detect operation file (if not provided)
+    # =====================================================================
+    - name: Detect operation file
+      id: detect
+      if: inputs.operation_file == ''
+      shell: bash
+      run: |
+        if [ "${{ github.event_name }}" = "pull_request" ]; then
+          git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} > $WORK_TEMP/changed.txt
+        elif [ "${{ github.event_name }}" = "push" ]; then
+          git diff --name-only ${{ github.event.before }} ${{ github.event.after }} > $WORK_TEMP/changed.txt
+        else
+          find ${{ inputs.cloud }} -path '*/lifecycle_operations/*.json' -type f > $WORK_TEMP/changed.txt
+        fi
+
+        OPERATION_FILE=$(grep '^${{ inputs.cloud }}/' $WORK_TEMP/changed.txt | grep '/lifecycle_operations/' | grep '\.json$' | head -1)
+
+        if [ -z "$OPERATION_FILE" ]; then
+          echo "❌ No Ansible operation files found"
+          exit 1
+        fi
+
+        echo "operation_file=$OPERATION_FILE" >> $GITHUB_OUTPUT
+        echo "✅ Found: $OPERATION_FILE"
+
+    # =====================================================================
+    # Discover operation
+    # =====================================================================
+    - name: Discover operation
+      id: discover
+      shell: bash
+      run: |
+        OPERATION_FILE="${{ inputs.operation_file || steps.detect.outputs.operation_file }}"
+        FULL_PATH="${{ github.workspace }}/$OPERATION_FILE"
+
+        # Extract operation_type from JSON
+        OPERATION_TYPE=$(python3 -c "import json; print(json.load(open('$FULL_PATH'))['operation_type'])")
+
+        # Shared layout is cloud/environment/region.
+        CONFIG_SUBPATH=$(echo "$OPERATION_FILE" | cut -d/ -f1-3)
+        REGION=$(echo "$CONFIG_SUBPATH" | cut -d/ -f3)
+        test "$(echo "$CONFIG_SUBPATH" | cut -d/ -f2)" = "${{ inputs.environment_name }}"
+
+        # Count targets
+        TARGET_COUNT=$(python3 -c "
+        import json
+        m = json.load(open('$FULL_PATH'))
+        print(len(m.get('targets', [])))
+        ")
+
+        echo "operation_type=$OPERATION_TYPE" >> $GITHUB_OUTPUT
+        echo "config_subpath=$CONFIG_SUBPATH" >> $GITHUB_OUTPUT
+        echo "target_count=$TARGET_COUNT" >> $GITHUB_OUTPUT
+        echo "DETECTED_REGION=$REGION" >> $GITHUB_ENV
+        echo "OPERATION_TYPE=$OPERATION_TYPE" >> $GITHUB_ENV
+        echo "✅ $OPERATION_TYPE ($TARGET_COUNT targets)"
+
+    # =====================================================================
+    # Auth & Inventory
+    # =====================================================================
+    - name: Authenticate Azure
+      if: inputs.cloud == 'azure'
+      shell: bash
+      run: |
+        az login --service-principal \
+          --username "$ARM_CLIENT_ID" \
+          --password "$ARM_CLIENT_SECRET" \
+          --tenant "$ARM_TENANT_ID"
+        az account set --subscription "$ARM_SUBSCRIPTION_ID"
+
+    # STATE_NAMESPACE is provided by runner environment
+
+    - name: Generate inventory
+      shell: bash
+      run: |
+        python3 platform-ci/scripts_python/ansible_inventory.py \
+          "${{ inputs.cloud }}" \
+          "${{ inputs.bucket_name }}" \
+          "${{ steps.discover.outputs.config_subpath }}" \
+          "${{ inputs.operation_file || steps.detect.outputs.operation_file }}"
+
+    - name: Setup OCI config for Ansible
+      if: inputs.cloud == 'oci'
+      shell: bash
+      run: |
+        mkdir -p ~/.oci
+        cat > ~/.oci/config << EOF
+        [DEFAULT]
+        auth = instance_principal
+        EOF
+        chmod 600 ~/.oci/config
+        echo "✅ OCI config created for Instance Principal"
+
+    # =====================================================================
+    # Execute Ansible
+    # =====================================================================
+    - name: Ansible check
+      id: check
+      if: inputs.mode == 'check'
+      shell: bash
+      working-directory: platform-ci/ansible
+      run: |
+        set +e
+        ansible-playbook \
+          -i $WORK_TEMP/inventory.json \
+          --check --diff \
+          -e "@${{ github.workspace }}/${{ inputs.operation_file || steps.detect.outputs.operation_file }}" \
+          playbooks/master.yml \
+          --tags "$OPERATION_TYPE" \
+          2>&1 | tee $WORK_TEMP/ansible.log
+        ANSIBLE_STATUS=${PIPESTATUS[0]}
+
+        echo "check_output<<EOF" >> $GITHUB_OUTPUT
+        head -100 $WORK_TEMP/ansible.log >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+        exit "$ANSIBLE_STATUS"
+
+    - name: Ansible execute
+      id: execute
+      if: inputs.mode == 'execute'
+      shell: bash
+      working-directory: platform-ci/ansible
+      run: |
+        set +e
+        ansible-playbook \
+          -i $WORK_TEMP/inventory.json \
+          -e "@${{ github.workspace }}/${{ inputs.operation_file || steps.detect.outputs.operation_file }}" \
+          playbooks/master.yml \
+          --tags "$OPERATION_TYPE" \
+          2>&1 | tee $WORK_TEMP/ansible.log
+        ANSIBLE_STATUS=${PIPESTATUS[0]}
+
+        if [ "$ANSIBLE_STATUS" -eq 0 ]; then
+          echo "✅ Execution completed"
+        fi
+        exit "$ANSIBLE_STATUS"
+
+    # =====================================================================
+    # PR Comment
+    # =====================================================================
+    - name: Comment on PR
+      if: inputs.mode == 'check' && github.event.pull_request
+      uses: actions/github-script@v8
+      env:
+        OUTPUT: ${{ steps.check.outputs.check_output }}
+      with:
+        script: |
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `#### Ansible Check
+
+          **Operation:** \`${{ steps.discover.outputs.operation_type }}\`
+          **Targets:** \`${{ steps.discover.outputs.target_count }}\`
+
+          <details><summary>Show Output</summary>
+
+          \`\`\`yaml
+          ${process.env.OUTPUT}
+          \`\`\`
+
+          </details>
+
+          *By @${{ github.actor }}*`
+          });
+
+    - name: Upload logs
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: ansible-logs-${{ github.run_number }}
+        path: ${{ env.WORK_TEMP }}/*.log
+        if-no-files-found: ignore

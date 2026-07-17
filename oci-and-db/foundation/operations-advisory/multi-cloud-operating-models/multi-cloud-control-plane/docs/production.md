@@ -17,13 +17,24 @@ runbook and create `prod-<project>` from that exact pinned template. Replace
 security profile in `control-plane.json`.
 
 The recommended paid-plan profile is `github-environments`. Create the `prod`
-GitHub Environment, configure required reviewers and prevention of self-review
-where available, and set its secrets interactively:
+Environment for plans without required reviewers and `prod-apply` for apply.
+Configure required reviewers and prevention of self-review on `prod-apply`
+where available, and set identical secrets in both Environments. Also create
+the two non-sensitive repository sentinels required by the reusable-workflow
+secret channel:
 
 ```bash
 gh secret set GITOPS_SECRET_VALUES --env prod --repo OWNER/prod-PROJECT
 gh secret set READINESS_MARKER --env prod --repo OWNER/prod-PROJECT
+gh secret set GITOPS_SECRET_VALUES --env prod-apply --repo OWNER/prod-PROJECT
+gh secret set READINESS_MARKER --env prod-apply --repo OWNER/prod-PROJECT
+printf '{"INVALID":"true"}\n' | gh secret set GITOPS_SECRET_VALUES --repo OWNER/prod-PROJECT
+printf 'false\n' | gh secret set READINESS_MARKER --repo OWNER/prod-PROJECT
 ```
+
+The selected Environment overrides these repository sentinels. Keep the
+Environment copies synchronized; never place real credential values in the
+sentinels.
 
 Run the [GitHub Environment end-to-end verification](environment-secret-e2e.md)
 against a disposable production manifest.

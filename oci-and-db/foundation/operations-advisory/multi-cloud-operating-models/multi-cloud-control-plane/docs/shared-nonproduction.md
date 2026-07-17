@@ -19,22 +19,32 @@ refs, runner routing, concurrency, and state key:
 
 ## Recommended paid-plan profile: GitHub Environments
 
-Set `security_profile` to `github-environments`. Create `dev`, `test`, and `uat`
-GitHub Environments as needed. In each Environment create:
+Set `security_profile` to `github-environments`. For every enabled logical
+environment, create a base GitHub Environment (`dev`, `test`, or `uat`) for
+plan/check and a matching `<environment>-apply` Environment for apply/execute.
+The base has no required reviewers. Configure required reviewers and prevention
+of self-review on the apply Environment where supported. In both members of
+each pair create identical copies of:
 
 - `GITOPS_SECRET_VALUES`: a JSON object whose names begin with that Environment
   in uppercase, such as `DEV_ADB_ADMIN_PASSWORD` for
   `__DEV_ADB_ADMIN_PASSWORD__`.
 - `READINESS_MARKER`: the exact value `true`.
 
-The reusable job declares the selected GitHub Environment and reads only these
-environment-scoped secrets. Protect `main`, require CODEOWNERS and successful
-checks, and isolate runner groups. On Enterprise private repositories, also
-configure required Environment reviewers and prevention of self-review; these
-controls are not available for private repositories on Pro/Team. Plans and
-checks use the Environment without creating deployment records, while apply
-and execute jobs create the auditable deployment history. These controls make
-this the recommended paid-plan profile.
+The reusable job declares the base Environment with deployment recording
+disabled for plan/check and declares `<environment>-apply` for apply/execute.
+Protect `main`, require CODEOWNERS and successful checks, and isolate runner
+groups. On Enterprise private repositories, the apply Environment's required
+reviewers and prevention of self-review add the enforcement boundary; these
+controls are not available for private repositories on Pro/Team. Apply and
+execute jobs create the auditable deployment history. These controls make this
+the recommended paid-plan profile.
+
+Also create repository secrets named `GITOPS_SECRET_VALUES` with the exact
+value `{"INVALID":"true"}` and `READINESS_MARKER` with the exact value `false`. These are
+non-sensitive fail-closed sentinels for GitHub's reusable-workflow secret
+channel, not credential storage. The selected Environment overrides them. Keep
+the base/apply secret copies synchronized after every rotation.
 
 Configure the secrets interactively; never put their values on the command
 line or in Git:
@@ -42,10 +52,18 @@ line or in Git:
 ```bash
 gh secret set GITOPS_SECRET_VALUES --env dev --repo OWNER/nonprod-PROJECT
 gh secret set READINESS_MARKER --env dev --repo OWNER/nonprod-PROJECT
+gh secret set GITOPS_SECRET_VALUES --env dev-apply --repo OWNER/nonprod-PROJECT
+gh secret set READINESS_MARKER --env dev-apply --repo OWNER/nonprod-PROJECT
 gh secret set GITOPS_SECRET_VALUES --env test --repo OWNER/nonprod-PROJECT
 gh secret set READINESS_MARKER --env test --repo OWNER/nonprod-PROJECT
+gh secret set GITOPS_SECRET_VALUES --env test-apply --repo OWNER/nonprod-PROJECT
+gh secret set READINESS_MARKER --env test-apply --repo OWNER/nonprod-PROJECT
 gh secret set GITOPS_SECRET_VALUES --env uat --repo OWNER/nonprod-PROJECT
 gh secret set READINESS_MARKER --env uat --repo OWNER/nonprod-PROJECT
+gh secret set GITOPS_SECRET_VALUES --env uat-apply --repo OWNER/nonprod-PROJECT
+gh secret set READINESS_MARKER --env uat-apply --repo OWNER/nonprod-PROJECT
+printf '{"INVALID":"true"}\n' | gh secret set GITOPS_SECRET_VALUES --repo OWNER/nonprod-PROJECT
+printf 'false\n' | gh secret set READINESS_MARKER --repo OWNER/nonprod-PROJECT
 ```
 
 Complete the mandatory
