@@ -10,7 +10,9 @@ are lowercase `dev`, `test`, and `uat`. Production aliases are permanently
 rejected. The protected default branch owns `control-plane.json`, workflows,
 and CODEOWNERS. Project changes may contain one cloud/environment/region tuple.
 
-Configure one GitHub Environment per allowed environment with a scoped
-`READINESS_MARKER` readiness secret (created separately in each GitHub
-Environment) and environment-scoped
-placeholder secrets. Do not use `secrets: inherit`.
+Configure one JSON Actions repository secret per enabled environment:
+`GITOPS_SECRET_VALUES_DEV`, `GITOPS_SECRET_VALUES_TEST`, or
+`GITOPS_SECRET_VALUES_UAT`. Configure the matching
+`CONTROL_PLANE_READY_<ENVIRONMENT>` repository variable with value `true`.
+Bundle keys and runtime placeholders must begin with the selected uppercase
+environment. Do not use `secrets: inherit` or combine environments.

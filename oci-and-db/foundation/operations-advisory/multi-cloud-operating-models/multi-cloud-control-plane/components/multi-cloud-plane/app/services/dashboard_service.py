@@ -110,13 +110,17 @@ class DashboardService:
                     region_name = region["name"]
 
                     for res in region.get("resources", []):
+                        if res.get("environment") != self.git.environment:
+                            continue
                         # Skip ansible operations - they are not resources
                         if res.get("type") == "ansible" or "ansible" in res.get("path", ""):
                             continue
 
-                        # Calculate relative path (strip cloud/region/) to pass to read_manifest
-                        # res['path'] is full path e.g. oci/region/database/db.json
-                        prefix = f"{cloud_name}/{region_name}/"
+                        # Strip cloud/environment/region before read_manifest
+                        # rebuilds the selected environment-aware prefix.
+                        prefix = (
+                            f"{cloud_name}/{res['environment']}/{region_name}/"
+                        )
                         relative_path = res["path"]
                         if relative_path.startswith(prefix):
                             relative_path = relative_path[len(prefix):]

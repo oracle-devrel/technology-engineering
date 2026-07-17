@@ -31,6 +31,14 @@ class LayoutService:
             raise LayoutError("Repository does not match its protected layout contract")
         return contract
 
+    async def resolve_environment(self, environment: str | None = None) -> tuple[dict, str]:
+        """Resolve a requested environment only from the protected contract."""
+        contract = await self.load()
+        configured = contract.get("environments") or {}
+        selected = environment or next(iter(configured), "")
+        self.handoff_path(contract, selected)
+        return contract, selected
+
     @classmethod
     def handoff_path(cls, layout: dict, environment: str | None = None) -> str:
         allowed = cls.ALLOWED_ENVIRONMENTS if layout.get("repository_layout") == cls.SHARED else {"prod"}

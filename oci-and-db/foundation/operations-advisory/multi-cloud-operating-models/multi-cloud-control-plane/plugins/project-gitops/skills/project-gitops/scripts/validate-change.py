@@ -31,13 +31,14 @@ MAX_HANDOFF_BYTES, MAX_DEPTH, MAX_COLLECTION_ITEMS = 65_536, 20, 1_000
 MAX_STRING_LENGTH, GIT_TIMEOUT_SECONDS = 4_096, 10
 MAX_ADB_MUTATIONS = 3
 
-PROJECT_PATTERN = re.compile(r"^prod-[a-z][a-z0-9]*(?:-[a-z0-9]+)*$")
+PROJECT_PATTERN = re.compile(r"^(?:nonprod|prod)-[a-z][a-z0-9]*(?:-[a-z0-9]+)*$")
 REGION_PATTERN = re.compile(r"^[a-z]{2}-[a-z]+-[0-9]+$")
 BRANCH_PATTERN = re.compile(
     r"^agent/(?:adb|vm|nsg)-[a-z0-9](?:[a-z0-9-]{0,62})$"
 )
 PATH_PATTERN = re.compile(
-    r"^oci/(?P<region>[a-z]{2}-[a-z]+-[0-9]+)/(?P<kind>database/database\.json|"
+    r"^oci/(?P<environment>dev|test|uat|prod)/"
+    r"(?P<region>[a-z]{2}-[a-z]+-[0-9]+)/(?P<kind>database/database\.json|"
     r"compute/compute\.json|network/project-nsgs\.json|"
     r"lifecycle_operations/adb-lifecycle\.json)$")
 SHA_RE = re.compile(r"^[0-9a-f]{40}$")
@@ -132,6 +133,7 @@ class RepositoryChange:
     base_ref: str
     base_sha: str
     path: str
+    environment: str
     region: str
     kind: str
     base_content: bytes
@@ -255,7 +257,12 @@ def strict_json(content: bytes) -> Any:
 
 
 def validate_adb_declaration(
-    adb_key: object, adb: object, *, project: str, region: str
+    adb_key: object,
+    adb: object,
+    *,
+    project: str,
+    environment: str,
+    region: str,
 ) -> None:
     """Validate one created or updated ADB declaration."""
     if (not isinstance(adb_key, str) or ADB_KEY_RE.fullmatch(adb_key) is None
@@ -290,8 +297,11 @@ def validate_adb_declaration(
     if type(password) is not str:
         _failure("INVALID_ADB_CHANGE", "The ADB declaration is invalid.")
     inner_secret_name = password[2:-2]
+    environment_prefix = f"{environment.upper()}_"
     if (not project_token or ADB_PASSWORD_RE.fullmatch(password) is None
-            or "__" in inner_secret_name or project_token not in inner_secret_name.split("_")):
+            or "__" in inner_secret_name
+            or not inner_secret_name.startswith(environment_prefix)
+            or project_token not in inner_secret_name.split("_")):
         _failure("INVALID_SECRET_PLACEHOLDER",
                  "The ADB administrator secret placeholder is invalid.")
 
@@ -425,7 +435,11 @@ def validate_adb_change(change: RepositoryChange) -> dict[str, object]:
         if _has_sensitive_value(new_adb):
             _failure("INVALID_SECRET_VALUE", "The ADB manifest contains a rejected value.")
         validate_adb_declaration(
-            adb_key, new_adb, project=change.project, region=change.region
+            adb_key,
+            new_adb,
+            project=change.project,
+            environment=change.environment,
+            region=change.region,
         )
         resource_summaries.append(_adb_summary(
             adb_key, new_adb, action="create", region=change.region,
@@ -437,7 +451,11 @@ def validate_adb_change(change: RepositoryChange) -> dict[str, object]:
         if _has_sensitive_value(updated_adb):
             _failure("INVALID_SECRET_VALUE", "The ADB manifest contains a rejected value.")
         validate_adb_declaration(
-            adb_key, updated_adb, project=change.project, region=change.region
+            adb_key,
+            updated_adb,
+            project=change.project,
+            environment=change.environment,
+            region=change.region,
         )
         previous_adb = base_databases[adb_key]
         changed_fields = sorted(
@@ -660,7 +678,9 @@ def validate_compute_change(change: RepositoryChange) -> dict[str, object]:
         )
 
     declared_nsgs = (
-        _declared_nsg_keys_at_base(change.repo, change.base_sha, change.region)
+        _declared_nsg_keys_at_base(
+            change.repo, change.base_sha, change.environment, change.region
+        )
         if added_keys or modified_keys
         else frozenset()
     )
@@ -730,10 +750,12 @@ def validate_compute_change(change: RepositoryChange) -> dict[str, object]:
     return _success_document(change, operation, COMPUTE_VALIDATIONS, summary)
 
 
-def _network_path(region: str) -> str:
+def _network_path(environment: str, region: str) -> str:
+    if environment not in {"dev", "test", "uat", "prod"}:
+        _failure("INVALID_ENVIRONMENT", "The manifest environment is invalid.")
     if REGION_PATTERN.fullmatch(region) is None:
         _failure("INVALID_REGION", "The manifest region is invalid.")
-    return f"oci/{region}/network/project-nsgs.json"
+    return f"oci/{environment}/{region}/network/project-nsgs.json"
 
 
 def _network_aggregate(
@@ -798,9 +820,9 @@ def _network_aggregate(
 
 
 def _declared_nsg_keys_at_base(
-    repo: Path, base_sha: str, region: str
+    repo: Path, base_sha: str, environment: str, region: str
 ) -> frozenset[str]:
-    path = _network_path(region)
+    path = _network_path(environment, region)
     entry = run_git(repo, "ls-tree", base_sha, "--", path)
     expected = rb"(?:100644|100755) blob [0-9a-f]{40}\t" + re.escape(path.encode()) + rb"\n"
     if re.fullmatch(expected, entry) is None:
@@ -1045,16 +1067,19 @@ def _success_document(
     summary: dict[str, object],
 ) -> dict[str, object]:
     return {"ok": True, "project": change.project, "operation": operation,
-        "branch": change.branch, "region": change.region,
+        "branch": change.branch, "environment": change.environment,
+        "region": change.region,
         "base_sha": change.base_sha, "path": change.path,
         "content_sha256": hashlib.sha256(change.candidate_content).hexdigest(),
         "validations": list(validations), "summary": summary, "diff": change.diff}
 
 
-def _database_path(region: str) -> str:
+def _database_path(environment: str, region: str) -> str:
+    if environment not in {"dev", "test", "uat", "prod"}:
+        _failure("INVALID_ENVIRONMENT", "The manifest environment is invalid.")
     if REGION_PATTERN.fullmatch(region) is None:
         _failure("INVALID_REGION", "The manifest region is invalid.")
-    return f"oci/{region}/database/database.json"
+    return f"oci/{environment}/{region}/database/database.json"
 
 
 def _declared_adb_names(content: bytes) -> frozenset[str]:
@@ -1072,14 +1097,16 @@ def _declared_adb_names(content: bytes) -> frozenset[str]:
     return frozenset(names)
 
 
-def declared_adb_names(repo: Path, region: str) -> frozenset[str]:
+def declared_adb_names(repo: Path, environment: str, region: str) -> frozenset[str]:
     """Read valid ADB display names from the same-region canonical aggregate."""
-    path = _database_path(region)
+    path = _database_path(environment, region)
     return _declared_adb_names(_safe_file(repo, path, size_limit=MAX_JSON_BYTES))
 
 
-def _declared_adb_names_at_base(repo: Path, base_sha: str, region: str) -> frozenset[str]:
-    path = _database_path(region)
+def _declared_adb_names_at_base(
+    repo: Path, base_sha: str, environment: str, region: str
+) -> frozenset[str]:
+    path = _database_path(environment, region)
     entry = run_git(repo, "ls-tree", base_sha, "--", path)
     if re.fullmatch(rb"(?:100644|100755) blob [0-9a-f]{40}\t" + re.escape(path.encode()) + rb"\n", entry) is None:
         _failure("INVALID_DATABASE_MANIFEST", "The database manifest is invalid.")
@@ -1111,9 +1138,13 @@ def _validate_lifecycle_change(
     return LIFECYCLE_VALIDATIONS
 
 
-def validate_lifecycle_change(repo: Path, candidate: object, region: str) -> Sequence[str]:
+def validate_lifecycle_change(
+    repo: Path, candidate: object, environment: str, region: str
+) -> Sequence[str]:
     """Validate one bounded start/stop request against declared same-region ADBs."""
-    return _validate_lifecycle_change(candidate, declared_adb_names(repo, region))
+    return _validate_lifecycle_change(
+        candidate, declared_adb_names(repo, environment, region)
+    )
 
 
 def _render_diff(path: str, base_content: bytes, candidate_content: bytes) -> str:
@@ -1196,9 +1227,14 @@ def _safe_file(repo: Path, relative_path: str, *, size_limit: int) -> bytes:
             os.close(descriptor)
 
 
-def validate_handoff(repo: Path, project: str) -> None:
+def validate_handoff(repo: Path, project: str, environment: str) -> None:
     """Validate the human-only project handoff marker without parsing it as input."""
-    environment = project.split("-", 1)[0]
+    layout = project.split("-", 1)[0]
+    if (
+        (layout == "prod" and environment != "prod")
+        or (layout == "nonprod" and environment not in {"dev", "test", "uat"})
+    ):
+        _failure("INVALID_HANDOFF", "Project environment does not match its repository.")
     content = _safe_file(
         repo,
         f"environments/{environment}/environment_information.md",
@@ -1225,7 +1261,6 @@ def validate_handoff(repo: Path, project: str) -> None:
 
     project_match = re.search(r"project(?P<number>[0-9]+)$", project)
     project_key = project.rsplit("-", 1)[-1]
-    environment = project.split("-", 1)[0]
     short_project = f"proj{project_match.group('number')}" if project_match else ""
     project_row = one_row("Project", 1)
     environment_row = one_row("Environment", 1)
@@ -1363,12 +1398,13 @@ def collect_change(repo: str | os.PathLike[str], base_ref: str = "origin/main") 
     if branch == "main" or BRANCH_PATTERN.fullmatch(branch) is None:
         _failure("INVALID_BRANCH", "The current branch is not allowed.")
     base_sha = _resolve_base_sha(repository, base_ref)
-    validate_handoff(repository, project)
     _validate_effective_git_config(repository)
     path = _porcelain_path(run_git(repository, "status", "--porcelain=v1", "-z"))
     path_match = PATH_PATTERN.fullmatch(path)
     if path_match is None:
         _failure("INVALID_MANIFEST_PATH", "The modified manifest path is not allowed.")
+    environment = path_match.group("environment")
+    validate_handoff(repository, project, environment)
     kind = path_match.group("kind")
     expected_resource = {
         "database/database.json": "adb",
@@ -1399,7 +1435,8 @@ def collect_change(repo: str | os.PathLike[str], base_ref: str = "origin/main") 
     region = path_match.group("region")
     return RepositoryChange(
         repo=repository, project=project, branch=branch, base_ref=base_ref,
-        base_sha=base_sha, path=path, region=region, kind=kind,
+        base_sha=base_sha, path=path, environment=environment, region=region,
+        kind=kind,
         base_content=base_content, candidate_content=candidate_content, diff="")
 
 
@@ -1442,7 +1479,10 @@ def main(argv: list[str] | None = None) -> int:
             document = validate_nsg_change(change)
         elif change.kind == "lifecycle_operations/adb-lifecycle.json":
             declared_names = _declared_adb_names_at_base(
-                change.repo, change.base_sha, change.region
+                change.repo,
+                change.base_sha,
+                change.environment,
+                change.region,
             )
             candidate = strict_json(change.candidate_content)
             validations = _validate_lifecycle_change(
@@ -1451,6 +1491,7 @@ def main(argv: list[str] | None = None) -> int:
             summary = {
                 "resource_type": "oci-adb",
                 "action": "lifecycle",
+                "environment": change.environment,
                 "region": change.region,
                 "targets": candidate["targets"],
             }

@@ -98,9 +98,9 @@ _OCI_ADB_ADMIN_PASSWORD_PLACEHOLDER = "__ADB_ADMIN_PASSWORD__"
 _OCI_ADB_CONFIGURATION_KEY = "autonomous_databases_configuration"
 _OCI_ADB_COLLECTION_KEY = "autonomous_databases"
 _ACTIONS_SECRET_NAME_RE = re.compile(r"^[A-Z_][A-Z0-9_]*$")
-_ACTIONS_SECRET_NAME_EXAMPLE = "ADB_PROD_PROJ9_02_ADMIN_PASSWORD"
 _ACTIONS_SECRET_HELP = (
-    "The secret must already exist in the selected project repository."
+    "Use an environment-qualified key that already exists in the selected "
+    "repository secret bundle."
 )
 
 
@@ -121,19 +121,23 @@ def _is_oci_adb_admin_password_field(template: Any, field: dict) -> bool:
 def _apply_oci_adb_secret_field_metadata(
     template: Any,
     fields: list[dict],
+    environment: str,
 ) -> None:
     for field in fields:
         if not _is_oci_adb_admin_password_field(template, field):
             continue
-        field["label"] = "GitHub Actions secret name"
+        field["label"] = "Secret mapping name"
         field["input_type"] = "text"
-        field["input_placeholder"] = _ACTIONS_SECRET_NAME_EXAMPLE
+        field["input_placeholder"] = (
+            f"{environment.upper()}_ADB_PROJ9_02_ADMIN_PASSWORD"
+        )
         field["help_text"] = _ACTIONS_SECRET_HELP
 
 
 def _prepare_oci_adb_runtime_secret(
     template: Any,
     payload: dict[str, Any],
+    environment: str,
 ) -> tuple[dict[str, Any], set[str], str | None]:
     prepared = dict(payload)
     if (
@@ -149,8 +153,17 @@ def _prepare_oci_adb_runtime_secret(
     is_wrapped_placeholder = secret_name.startswith("__") and secret_name.endswith(
         "__"
     )
-    if not _ACTIONS_SECRET_NAME_RE.fullmatch(secret_name) or is_wrapped_placeholder:
-        return prepared, set(), "Enter a valid GitHub Actions secret name."
+    expected_prefix = f"{environment.upper()}_"
+    if (
+        not _ACTIONS_SECRET_NAME_RE.fullmatch(secret_name)
+        or is_wrapped_placeholder
+        or not secret_name.startswith(expected_prefix)
+    ):
+        return (
+            prepared,
+            set(),
+            f"Enter a valid secret mapping name beginning with {expected_prefix}.",
+        )
 
     token = f"__{secret_name}__"
     prepared[_OCI_ADB_ADMIN_PASSWORD_PLACEHOLDER] = token
@@ -789,7 +802,15 @@ async def resources_partial(
     load_error = ""
     try:
         github_client = request.state.github_client
-        git = GitService(project, github_client=github_client)
+        _, environment = await LayoutService(
+            github_client,
+            project,
+        ).resolve_environment()
+        git = GitService(
+            project,
+            github_client=github_client,
+            environment=environment,
+        )
         dashboard = DashboardService(git)
         inventory = await dashboard.get_resource_inventory(strict=True)
         resources = inventory.get("resources", [])
@@ -884,12 +905,15 @@ async def resource_form_partial(
         template = await _load_catalog_resource_template(github_client, path)
         fields = extract_form_fields(template.content)
         _apply_template_specific_field_labels(template.content, fields)
-        _apply_oci_adb_secret_field_metadata(template.content, fields)
+        layout = await LayoutService(github_client, project).load()
+        environment = environment or next(
+            iter(layout.get("environments") or {}),
+            "",
+        )
+        _apply_oci_adb_secret_field_metadata(template.content, fields, environment)
         for field in fields:
             field["name"] = field["placeholder"]
         fields.extend(_editable_default_fields_for_template(template.content))
-        layout = await LayoutService(github_client, project).load()
-        environment = environment or next(iter((layout.get("environments") or {}), ""))
         handoff_suggestions = await HandoffService(github_client, project).load_suggestions(
             template_path=path, handoff_path=LayoutService.handoff_path(layout, environment),
         )
@@ -965,7 +989,11 @@ async def deploy_resource_submit(
         template = await _load_catalog_resource_template(github_client, form.template_path)
 
         payload, allowed_runtime_secret_tokens, secret_error = (
-            _prepare_oci_adb_runtime_secret(template.content, payload)
+            _prepare_oci_adb_runtime_secret(
+                template.content,
+                payload,
+                form.environment,
+            )
         )
         if secret_error:
             return render_partial(

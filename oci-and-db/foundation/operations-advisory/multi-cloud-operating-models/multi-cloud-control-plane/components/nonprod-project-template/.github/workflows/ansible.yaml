@@ -1,12 +1,16 @@
 name: Shared non-production OCI operations
 
 on:
-  pull_request:
+  pull_request_target:
     branches: [main]
     paths: ["oci/**/lifecycle_operations/**"]
   push:
     branches: [main]
     paths: ["oci/**/lifecycle_operations/**"]
+
+permissions:
+  contents: read
+  pull-requests: write
 
 jobs:
   validate-path:
@@ -21,17 +25,31 @@ jobs:
           ref: ${{ github.event.repository.default_branch }}
       - id: path
         shell: bash
+        env:
+          PR_HEAD_REPOSITORY: ${{ github.event.pull_request.head.repo.full_name }}
         run: |
           set -euo pipefail
+          if [ "${{ github.event_name }}" = pull_request_target ]; then
+            test "$PR_HEAD_REPOSITORY" = "$GITHUB_REPOSITORY"
+          fi
           test "$(jq -r .repository_layout control-plane.json)" = shared-nonprod-v2
           test "$(jq -r .target_repository control-plane.json)" = "${GITHUB_REPOSITORY#*/}"
           git fetch --no-tags origin "${{ github.event.pull_request.base.sha || github.event.before }}" "${{ github.event.pull_request.head.sha || github.sha }}"
-          changed=$(git diff --name-only "${{ github.event.pull_request.base.sha || github.event.before }}" "${{ github.event.pull_request.head.sha || github.sha }}" | rg '^oci/(dev|test|uat)/[^/]+/lifecycle_operations/.+\.json$')
+          head_sha="${{ github.event.pull_request.head.sha || github.sha }}"
+          all_changed=$(git diff --name-only "${{ github.event.pull_request.base.sha || github.event.before }}" "$head_sha")
+          changed=$(printf '%s\n' "$all_changed" | rg '^oci/(dev|test|uat)/[A-Za-z0-9._-]+/lifecycle_operations/[A-Za-z0-9._-]+\.json$' || true)
+          test -n "$changed" && test "$all_changed" = "$changed"
+          while IFS= read -r path; do
+            git ls-tree "$head_sha" -- "$path" | rg '^100644 blob [0-9a-f]{40}\t' >/dev/null
+            git show "$head_sha:$path" | jq -e . >/dev/null
+          done <<< "$changed"
           test "$(printf '%s\n' "$changed" | cut -d/ -f1-3 | sort -u | wc -l | tr -d ' ')" = 1
           environment=$(printf '%s\n' "$changed" | head -1 | cut -d/ -f2)
           echo "environment=$environment" >> "$GITHUB_OUTPUT"
           echo "operation_file=$(printf '%s\n' "$changed" | head -1)" >> "$GITHUB_OUTPUT"
           jq -e --arg e "$environment" '.environments[$e].supported_clouds | index("oci")' control-plane.json >/dev/null
+          expected_suffix=$(printf '%s' "$environment" | tr '[:lower:]' '[:upper:]')
+          test "$(jq -r --arg e "$environment" '.environments[$e].readiness_marker_variable' control-plane.json)" = "CONTROL_PLANE_READY_${expected_suffix}"
           jq -c --arg e "$environment" '.environments[$e].runner_labels.oci' control-plane.json | sed 's/^/runner_labels=/' >> "$GITHUB_OUTPUT"
   execute:
     needs: validate-path
@@ -40,6 +58,9 @@ jobs:
       mode: ${{ github.event_name == 'push' && 'execute' || 'check' }}
       cloud: oci
       environment_name: ${{ needs.validate-path.outputs.environment }}
+      manifest_ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      platform_ci_ref: __PLATFORM_CI_REF__
+      readiness_marker: ${{ needs.validate-path.outputs.environment == 'dev' && vars.CONTROL_PLANE_READY_DEV || needs.validate-path.outputs.environment == 'test' && vars.CONTROL_PLANE_READY_TEST || needs.validate-path.outputs.environment == 'uat' && vars.CONTROL_PLANE_READY_UAT || '' }}
       operation_file: ${{ needs.validate-path.outputs.operation_file }}
       runner_labels: ${{ needs.validate-path.outputs.runner_labels }}
       bucket_name: __STATE_BUCKET__

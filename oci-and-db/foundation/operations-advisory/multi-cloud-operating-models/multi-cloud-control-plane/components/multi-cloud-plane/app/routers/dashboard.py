@@ -8,6 +8,7 @@ from app.auth import ProjectSelected, require_github_client
 from app.helpers import render_partial, render_repository_state_error
 from app.services.dashboard_service import DashboardService
 from app.services.git_service import GitService, RepositoryStateError
+from app.services.layout_service import LayoutService
 from app.services.project_service import ProjectService
 
 logger = logging.getLogger(__name__)
@@ -65,7 +66,15 @@ async def dashboard_partial(
     load_error = ""
     try:
         github_client = request.state.github_client
-        git = GitService(project, github_client=github_client)
+        _, environment = await LayoutService(
+            github_client,
+            project,
+        ).resolve_environment()
+        git = GitService(
+            project,
+            github_client=github_client,
+            environment=environment,
+        )
         dashboard = DashboardService(git)
         stats = await dashboard.get_dashboard_stats(strict=True)
         pending_prs = await dashboard.get_pending_prs()
@@ -100,7 +109,15 @@ async def cloud_regions_partial(
     load_error = ""
     try:
         github_client = request.state.github_client
-        git = GitService(project, github_client=github_client)
+        _, environment = await LayoutService(
+            github_client,
+            project,
+        ).resolve_environment()
+        git = GitService(
+            project,
+            github_client=github_client,
+            environment=environment,
+        )
         dashboard = DashboardService(git)
         inventory = await dashboard.get_resource_inventory(strict=True)
         cloud_regions = _build_cloud_region_summary(inventory)

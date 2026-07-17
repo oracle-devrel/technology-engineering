@@ -26,7 +26,8 @@ Credentials. Keep all credential values outside Git.
 ## Terraform workflow
 
 `.github/workflows/terraform-shared.yaml` accepts the mode, cloud, region,
-orchestrator repository and immutable ref, state bucket, and runner labels.
+environment, validated manifest ref, orchestrator repository and immutable ref,
+state bucket, readiness marker, runner labels, and one explicit secret bundle.
 
 - Pull requests run validation and plan and report the result for review.
 - Merges to `main` create and apply a saved plan on the trusted runner.
@@ -35,15 +36,16 @@ orchestrator repository and immutable ref, state bucket, and runner labels.
   Storage.
 
 Before Terraform runs, JSON files are copied to the runner's temporary
-directory. Double-underscore tokens such as `__ADB_ADMIN_PASSWORD__` are
-resolved from inherited GitHub Actions secrets or runner environment values.
-The workflow fails if any token remains and never modifies the checked-out
-manifest.
+directory. Environment-qualified tokens such as
+`__DEV_ADB_ADMIN_PASSWORD__` resolve only from the explicitly passed JSON
+repository secret bundle. The workflow rejects unqualified, cross-environment,
+or unresolved tokens and never modifies the checked-out manifest. It masks
+each decoded value before Terraform can emit it.
 
 Terraform does not deep-merge repeated root variables. Keep each root
 configuration in one regional file, including OCI project NSGs in
-`oci/{region}/network/project-nsgs.json` and Google ADB-S resources in
-`gcp/{region}/workloads/adb.json`.
+`oci/{environment}/{region}/network/project-nsgs.json` and Google ADB-S
+resources in `gcp/{environment}/{region}/workloads/adb.json`.
 
 ## Ansible workflow
 
@@ -54,7 +56,7 @@ executes after approval and merge. Current end-to-end operations are:
 - OCI Compute `deploy-agent` over SSH.
 
 Operation manifests belong under
-`oci/{region}/lifecycle_operations/{operation}.json`. Every target display name
+`oci/{environment}/{region}/lifecycle_operations/{operation}.json`. Every target display name
 must exactly match a resource in Terraform state. Azure and Google Day 2 are not
 available.
 

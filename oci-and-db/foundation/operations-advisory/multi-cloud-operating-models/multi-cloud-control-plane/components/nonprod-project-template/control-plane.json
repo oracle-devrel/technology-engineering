@@ -3,8 +3,8 @@
   "target_repository": "nonprod-__PROJECT__",
   "allowed_environments": ["dev", "test", "uat"],
   "environments": {
-    "dev": {"github_environment": "dev", "handoff_path": "environments/dev/environment_information.md", "supported_clouds": ["oci", "azure", "gcp"], "runner_labels": {"oci": ["self-hosted", "oci", "dev"], "azure": ["self-hosted", "azure", "dev"], "gcp": ["self-hosted", "gcp", "dev"]}},
-    "test": {"github_environment": "test", "handoff_path": "environments/test/environment_information.md", "supported_clouds": ["oci", "azure", "gcp"], "runner_labels": {"oci": ["self-hosted", "oci", "test"], "azure": ["self-hosted", "azure", "test"], "gcp": ["self-hosted", "gcp", "test"]}},
-    "uat": {"github_environment": "uat", "handoff_path": "environments/uat/environment_information.md", "supported_clouds": ["oci", "azure", "gcp"], "runner_labels": {"oci": ["self-hosted", "oci", "uat"], "azure": ["self-hosted", "azure", "uat"], "gcp": ["self-hosted", "gcp", "uat"]}}
+    "dev": {"repository_secret": "GITOPS_SECRET_VALUES_DEV", "readiness_marker_variable": "CONTROL_PLANE_READY_DEV", "handoff_path": "environments/dev/environment_information.md", "supported_clouds": ["oci", "azure", "gcp"], "runner_labels": {"oci": ["self-hosted", "oci", "dev"], "azure": ["self-hosted", "azure", "dev"], "gcp": ["self-hosted", "gcp", "dev"]}},
+    "test": {"repository_secret": "GITOPS_SECRET_VALUES_TEST", "readiness_marker_variable": "CONTROL_PLANE_READY_TEST", "handoff_path": "environments/test/environment_information.md", "supported_clouds": ["oci", "azure", "gcp"], "runner_labels": {"oci": ["self-hosted", "oci", "test"], "azure": ["self-hosted", "azure", "test"], "gcp": ["self-hosted", "gcp", "test"]}},
+    "uat": {"repository_secret": "GITOPS_SECRET_VALUES_UAT", "readiness_marker_variable": "CONTROL_PLANE_READY_UAT", "handoff_path": "environments/uat/environment_information.md", "supported_clouds": ["oci", "azure", "gcp"], "runner_labels": {"oci": ["self-hosted", "oci", "uat"], "azure": ["self-hosted", "azure", "uat"], "gcp": ["self-hosted", "gcp", "uat"]}}
   }
 }

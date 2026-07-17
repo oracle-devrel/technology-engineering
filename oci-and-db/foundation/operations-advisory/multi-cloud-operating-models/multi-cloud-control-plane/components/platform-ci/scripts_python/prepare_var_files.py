@@ -12,6 +12,7 @@ from typing import Any, Optional
 
 
 PLACEHOLDER_RE = re.compile(r"(?<![A-Za-z0-9_])(__[A-Za-z0-9_]+__)(?![A-Za-z0-9_])")
+ALLOWED_ENVIRONMENTS = {"dev", "test", "uat", "prod"}
 
 
 def find_placeholders(value: Any) -> set[str]:
@@ -31,7 +32,7 @@ def find_placeholders(value: Any) -> set[str]:
     return set()
 
 
-def load_secret_values() -> dict[str, str]:
+def load_secret_values(environment: str) -> dict[str, str]:
     raw = os.environ.get("GITOPS_SECRET_VALUES", "{}")
     try:
         decoded = json.loads(raw)
@@ -39,15 +40,41 @@ def load_secret_values() -> dict[str, str]:
         raise ValueError("GITOPS_SECRET_VALUES must be a JSON object") from exc
     if not isinstance(decoded, dict):
         raise ValueError("GITOPS_SECRET_VALUES must be a JSON object")
-    return {str(key): str(value) for key, value in decoded.items() if value not in (None, "")}
+    secret_values = {
+        str(key): str(value)
+        for key, value in decoded.items()
+        if value not in (None, "")
+    }
+    expected_prefix = f"{environment.upper()}_"
+    invalid_names = sorted(
+        name for name in secret_values if not name.startswith(expected_prefix)
+    )
+    if invalid_names:
+        joined = ", ".join(invalid_names)
+        raise ValueError(
+            f"GITOPS_SECRET_VALUES contains names outside {environment}: {joined}"
+        )
+    return secret_values
 
 
 def replacement_for(token: str, secret_values: dict[str, str]) -> Optional[str]:
-    env_name = token.strip("_")
-    value = os.environ.get(env_name)
-    if value == "":
-        value = None
-    return value if value is not None else secret_values.get(env_name)
+    return secret_values.get(token[2:-2])
+
+
+def validate_placeholder_environment(token: str, environment: str) -> None:
+    expected_prefix = f"__{environment.upper()}_"
+    if not token.startswith(expected_prefix):
+        raise ValueError(
+            f"placeholder {token} is not qualified for environment {environment}"
+        )
+
+
+def mask_secret_values(secret_values: dict[str, str]) -> None:
+    """Mask each JSON member before tools can print resolved values in Actions."""
+    if os.environ.get("GITHUB_ACTIONS") != "true":
+        return
+    for value in sorted(set(secret_values.values())):
+        print(f"::add-mask::{value}", file=sys.stderr)
 
 
 def replace_string(value: str, replacements: dict[str, str]) -> str:
@@ -78,7 +105,12 @@ def terraform_json_files(config_dir: Path) -> list[Path]:
     )
 
 
-def prepare_file(source: Path, destination: Path, secret_values: dict[str, str]) -> None:
+def prepare_file(
+    source: Path,
+    destination: Path,
+    secret_values: dict[str, str],
+    environment: str,
+) -> None:
     try:
         data = json.loads(source.read_text(encoding="utf-8"))
     except json.JSONDecodeError as exc:
@@ -88,6 +120,7 @@ def prepare_file(source: Path, destination: Path, secret_values: dict[str, str])
     replacements: dict[str, str] = {}
     missing: list[str] = []
     for token in sorted(placeholders):
+        validate_placeholder_environment(token, environment)
         replacement = replacement_for(token, secret_values)
         if replacement is None:
             missing.append(token)
@@ -109,12 +142,19 @@ def prepare_file(source: Path, destination: Path, secret_values: dict[str, str])
 
 
 def main() -> int:
-    if len(sys.argv) != 3:
-        print("Usage: prepare_var_files.py <config-dir> <output-dir>", file=sys.stderr)
+    if len(sys.argv) != 4:
+        print(
+            "Usage: prepare_var_files.py <config-dir> <output-dir> <environment>",
+            file=sys.stderr,
+        )
         return 2
 
     config_dir = Path(sys.argv[1]).resolve()
     output_dir = Path(sys.argv[2]).resolve()
+    environment = sys.argv[3].lower()
+    if environment not in ALLOWED_ENVIRONMENTS:
+        print(f"Unsupported deployment environment: {environment}", file=sys.stderr)
+        return 1
     if not config_dir.is_dir():
         print(f"Config directory not found: {config_dir}", file=sys.stderr)
         return 1
@@ -125,10 +165,11 @@ def main() -> int:
 
     prepared_files: list[Path] = []
     try:
-        secret_values = load_secret_values()
+        secret_values = load_secret_values(environment)
+        mask_secret_values(secret_values)
         for source in terraform_json_files(config_dir):
             destination = output_dir / source.relative_to(config_dir)
-            prepare_file(source, destination, secret_values)
+            prepare_file(source, destination, secret_values, environment)
             prepared_files.append(destination)
     except ValueError as exc:
         print(f"ERROR: {exc}", file=sys.stderr)

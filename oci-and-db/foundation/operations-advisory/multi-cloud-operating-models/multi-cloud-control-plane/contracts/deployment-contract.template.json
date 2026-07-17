@@ -3,6 +3,7 @@
   "core_repositories": {
     "platform_ci": "__PLATFORM_CI_REF__",
     "project_template": "__PROJECT_TEMPLATE_REF__",
+    "production_project_template": "__PRODUCTION_PROJECT_TEMPLATE_REF__",
     "catalogs": "__CATALOGS_REF__"
   },
   "workload_orchestrators": {
@@ -28,11 +29,12 @@
       "rejected_environments": ["prod", "production", "prd", "live"],
       "handoff_path": "environments/<environment>/environment_information.md",
       "environment_contract": {
-        "github_environment": "<environment>",
+        "github_environment_upgrade_name": "<environment>",
         "codeowners": ["@__CUSTOMER_ORG__/__PROJECT__-<environment>-approvers"],
         "runner_labels": {"oci": ["self-hosted", "oci", "<environment>"], "azure": ["self-hosted", "azure", "<environment>"], "gcp": ["self-hosted", "gcp", "<environment>"]},
         "supported_clouds": ["oci", "azure", "gcp"],
-        "readiness_marker_secret": "READINESS_MARKER"
+        "repository_secret": "GITOPS_SECRET_VALUES_<ENVIRONMENT_UPPER>",
+        "readiness_marker_variable": "CONTROL_PLANE_READY_<ENVIRONMENT_UPPER>"
       }
   },
   "production_layout": {
@@ -41,11 +43,12 @@
     "manifest_path": "<cloud>/prod/<region>/...",
     "handoff_path": "environments/prod/environment_information.md",
     "environment_contract": {
-      "github_environment": "prod",
+      "github_environment_upgrade_name": "prod",
       "codeowners": ["@__CUSTOMER_ORG__/__PROJECT__-prod-approvers"],
       "runner_labels": {"oci": ["self-hosted", "oci", "prod"], "azure": ["self-hosted", "azure", "prod"], "gcp": ["self-hosted", "gcp", "prod"]},
       "supported_clouds": ["oci", "azure", "gcp"],
-      "readiness_marker_secret": "READINESS_MARKER"
+      "repository_secret": "GITOPS_SECRET_VALUES_PROD",
+      "readiness_marker_variable": "CONTROL_PLANE_READY_PROD"
     }
   }
 }

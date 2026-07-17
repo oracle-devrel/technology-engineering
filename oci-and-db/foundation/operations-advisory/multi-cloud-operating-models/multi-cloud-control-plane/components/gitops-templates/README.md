@@ -11,13 +11,14 @@ For a Day 1 request, choose the approved template, replace its
 existing regional manifest. Do not create a second file with the same Terraform
 root key: Terraform does not deep-merge variable files.
 
-For secrets such as an OCI Autonomous Database admin password, keep a token such
-as `__ADB_ADMIN_PASSWORD__` in Git and create a GitHub Actions secret with the
-same name without underscores at the ends. The trusted workflow resolves it at
-runtime.
+For secrets such as an OCI Autonomous Database admin password, replace the
+catalog token with an environment-qualified runtime token. For example, keep
+`__DEV_ADB_ADMIN_PASSWORD__` in a dev manifest and add
+`DEV_ADB_ADMIN_PASSWORD` to `GITOPS_SECRET_VALUES_DEV` in that project
+repository. The trusted workflow resolves it at runtime.
 
 For a Day 2 request, copy an available operation manifest into
-`oci/{region}/lifecycle_operations/`. Use an exact resource display name from
+`oci/{environment}/{region}/lifecycle_operations/`. Use an exact resource display name from
 Terraform state. OCI Autonomous Database start/stop and OCI Compute
 `deploy-agent` are available; Azure and Google Day 2 are not.
 

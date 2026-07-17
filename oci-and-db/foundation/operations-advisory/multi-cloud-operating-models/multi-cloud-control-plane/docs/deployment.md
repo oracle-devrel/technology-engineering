@@ -16,10 +16,13 @@ export GCP_ORCHESTRATOR_REF=c434e0697a3ca4daa8f8c7903afd4c6c7be287f9
 mkdir -p "$STAGE"
 cp -R components/platform-ci "$STAGE/platform-ci"
 cp -R components/nonprod-project-template "$STAGE/nonprod-project-template"
+cp -R components/prod-project-template "$STAGE/prod-project-template"
 cp -R components/gitops-templates "$STAGE/gitops-templates"
 cp LICENSE "$STAGE/platform-ci/LICENSE"
 cp LICENSE "$STAGE/nonprod-project-template/LICENSE"
+cp LICENSE "$STAGE/prod-project-template/LICENSE"
 cp LICENSE "$STAGE/gitops-templates/LICENSE"
+rm -rf "$STAGE/platform-ci/tests"
 
 find "$STAGE" -type f -exec perl -pi -e \
   's/__CUSTOMER_ORG__/$ENV{CUSTOMER_ORG}/g; s/gitops-state-bucket/$ENV{STATE_BUCKET}/g; s/__STATE_BUCKET__/$ENV{STATE_BUCKET}/g' {} +
@@ -35,10 +38,10 @@ git -C "$STAGE/platform-ci" -c user.name='Platform Administrator' \
   -c user.email='platform@invalid' commit -m 'Prepare Platform CI'
 export PLATFORM_CI_REF=$(git -C "$STAGE/platform-ci" rev-parse HEAD)
 
-find "$STAGE/nonprod-project-template" -type f -exec perl -pi -e \
+find "$STAGE/nonprod-project-template" "$STAGE/prod-project-template" -type f -exec perl -pi -e \
   's/__PLATFORM_CI_REF__/$ENV{PLATFORM_CI_REF}/g; s/__OCI_ORCHESTRATOR_REF__/$ENV{OCI_ORCHESTRATOR_REF}/g; s/__AZURE_ORCHESTRATOR_REF__/$ENV{AZURE_ORCHESTRATOR_REF}/g; s/__GCP_ORCHESTRATOR_REF__/$ENV{GCP_ORCHESTRATOR_REF}/g' {} +
 
-for repository in nonprod-project-template gitops-templates; do
+for repository in nonprod-project-template prod-project-template gitops-templates; do
   git -C "$STAGE/$repository" init -b main
   git -C "$STAGE/$repository" add -A
   git -C "$STAGE/$repository" -c user.name='Platform Administrator' \
@@ -46,36 +49,43 @@ for repository in nonprod-project-template gitops-templates; do
 done
 
 export PROJECT_TEMPLATE_REF=$(git -C "$STAGE/nonprod-project-template" rev-parse HEAD)
+export PRODUCTION_PROJECT_TEMPLATE_REF=$(git -C "$STAGE/prod-project-template" rev-parse HEAD)
 export CATALOGS_REF=$(git -C "$STAGE/gitops-templates" rev-parse HEAD)
 cp contracts/deployment-contract.template.json "$STAGE/deployment-contract.json"
 find "$STAGE/deployment-contract.json" -type f -exec perl -pi -e \
-  's/__PLATFORM_CI_REF__/$ENV{PLATFORM_CI_REF}/g; s/__PROJECT_TEMPLATE_REF__/$ENV{PROJECT_TEMPLATE_REF}/g; s/__CATALOGS_REF__/$ENV{CATALOGS_REF}/g' {} +
+  's/__PLATFORM_CI_REF__/$ENV{PLATFORM_CI_REF}/g; s/__PROJECT_TEMPLATE_REF__/$ENV{PROJECT_TEMPLATE_REF}/g; s/__PRODUCTION_PROJECT_TEMPLATE_REF__/$ENV{PRODUCTION_PROJECT_TEMPLATE_REF}/g; s/__CATALOGS_REF__/$ENV{CATALOGS_REF}/g' {} +
 ```
 
 If the optional UI is required, copy `components/multi-cloud-plane`, replace
-`__CUSTOMER_ORG__`, and initialize it in the same way. If the Codex app assistant
+`__CUSTOMER_ORG__`, remove its `tests/` directory and `test_github_api.py`, and
+initialize it in the same way. If the Codex app assistant
 is required, copy `plugins/project-gitops`, replace `__CUSTOMER_ORG__`, and
 install it through your approved Codex plugin process. Both remain optional.
 
 Verify that no mutable workflow reference or local test content is present:
 
 ```bash
-rg '@main|__CUSTOMER_ORG__|__PLATFORM_CI_REF__|__.*_ORCHESTRATOR_REF__|__STATE_BUCKET__' "$STAGE"
+rg '@main|__CUSTOMER_ORG__|__[A-Z_]+_REF__|__STATE_BUCKET__' "$STAGE"
 find "$STAGE" -type d -name tests
 ```
 
 Both commands must return no output. Create the matching private GitHub
 repositories and publish each prepared `main` branch through your approved Git
-process. Protect `main`, require independent approval and successful plan/check
-results, and allow the project repositories to call Platform CI workflows at
-**Organization settings → Actions → General → Access → Accessible from
+process. In the published `platform-ci` repository, allow project repositories
+to call its reusable workflows at **Settings → Actions → General → Access → Accessible from
 repositories in the organization**.
+
+On paid plans, protect `main` and require independent approval plus successful
+plan/check results. GitHub Free private repositories cannot enforce the same
+branch and code-owner controls; restrict administration and direct pushes,
+record a human PR review, and follow the limitations in
+[Shared non-production](shared-nonproduction.md#github-free-security-profile).
 
 Before granting Project Team access, replace every `__PROJECT__-<environment>-approvers`
 owner in the generated `CODEOWNERS` with an existing team for that project and
 environment. Keep platform ownership for `.github`, `control-plane.json`, and
-`environments`; only workload subtrees are delegated. Require code-owner review
-and the plan/check status in the `main` branch-protection rule.
+`environments`; only workload subtrees are delegated. On a paid plan, require
+code-owner review and the plan/check status in the `main` branch-protection rule.
 
 ## 2. Configure trusted runners
 
@@ -87,8 +97,10 @@ and the plan/check status in the `main` branch-protection rule.
 | `REGION` | Optional workload-region fallback |
 
 Runners need Terraform 1.12 or later, Python 3.11 or later, and `rg` for
-validation. Put runners in organization runner groups and grant each group only
-to the repositories that need it. OCI runner instances must belong to an OCI
+validation. On GitHub Free, use repository-level self-hosted runners and
+dedicated environment labels; do not share one runner identity across security
+boundaries. On paid plans, use organization runner groups and grant each group
+only to the repositories that need it. OCI runner instances must belong to an OCI
 dynamic group with policies for Object Storage state access and only the
 compartments/services required by their workload. Azure and Google runners need
 equivalent workload-scoped identities. Azure additionally
@@ -141,14 +153,30 @@ region, compartments, VCN, subnets, workflow run, commit, and state keys against
 the approved onboarding record. Then create the private project repository,
 apply the same protections, and grant the Project Team access.
 
+Configure the project repository's environment-isolated secret bundles and
+readiness variables. The secret commands prompt for each JSON value:
+
+```bash
+gh secret set GITOPS_SECRET_VALUES_DEV --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
+gh secret set GITOPS_SECRET_VALUES_TEST --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
+gh secret set GITOPS_SECRET_VALUES_UAT --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
+gh variable set CONTROL_PLANE_READY_DEV --body true --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
+gh variable set CONTROL_PLANE_READY_TEST --body true --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
+gh variable set CONTROL_PLANE_READY_UAT --body true --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
+```
+
+Only configure enabled environments. Every JSON member name must begin with
+the corresponding uppercase environment. Never place multiple environments in
+one bundle.
+
 ## 4. Confirm the installation
 
 Open one non-production manifest pull request. The installation is working when
-the expected plan is tied to the current commit, independent approval is
-required, the trusted runner completes the merged change, and state is stored
+the expected plan is tied to the current commit, a human review is recorded,
+the trusted runner completes the merged change, and state is stored
 under the expected project/cloud/environment/region key.
 
-## 5. Verify environment-secret isolation
+## 5. Verify repository-secret isolation
 
-Complete the mandatory [environment-secret end-to-end verification](environment-secret-e2e.md)
+Complete the mandatory [repository-secret end-to-end verification](repository-secret-e2e.md)
 before allowing workload requests.

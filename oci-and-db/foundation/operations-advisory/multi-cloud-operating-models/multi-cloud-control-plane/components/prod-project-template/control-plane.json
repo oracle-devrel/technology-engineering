@@ -3,6 +3,6 @@
   "target_repository": "prod-__PROJECT__",
   "allowed_environments": ["prod"],
   "environments": {
-    "prod": {"github_environment": "prod", "handoff_path": "environments/prod/environment_information.md", "supported_clouds": ["oci", "azure", "gcp"], "runner_labels": {"oci": ["self-hosted", "oci", "prod"], "azure": ["self-hosted", "azure", "prod"], "gcp": ["self-hosted", "gcp", "prod"]}}
+    "prod": {"repository_secret": "GITOPS_SECRET_VALUES_PROD", "readiness_marker_variable": "CONTROL_PLANE_READY_PROD", "handoff_path": "environments/prod/environment_information.md", "supported_clouds": ["oci", "azure", "gcp"], "runner_labels": {"oci": ["self-hosted", "oci", "prod"], "azure": ["self-hosted", "azure", "prod"], "gcp": ["self-hosted", "gcp", "prod"]}}
   }
 }

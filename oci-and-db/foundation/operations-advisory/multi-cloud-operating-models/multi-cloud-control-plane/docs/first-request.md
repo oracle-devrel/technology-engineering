@@ -6,7 +6,9 @@ environment first; do not create a second file containing the same Terraform roo
 
 1. Select `resources-catalog/oci/databases/project_database_template.auto.tfvars.json`.
 2. Render its double-underscore placeholders using the handoff values. Map
-   `__ADB_ADMIN_PASSWORD__` to the approved environment-scoped deployment secret;
+   the catalog token `__ADB_ADMIN_PASSWORD__` to an environment-qualified runtime
+   token such as `__DEV_ADB_ADMIN_PASSWORD__`, whose name exists in the selected
+   repository secret bundle;
    do not put the password in JSON. The workflow resolves that placeholder at
    runtime.
 3. Merge the rendered entry into `oci/dev/eu-frankfurt-1/database/database.json`.
@@ -20,13 +22,13 @@ For example, the existing aggregate file is:
 The rendered catalog entry is **not** a separate var-file:
 
 ```json
-{"autonomous_databases_configuration":{"adb_dev_project01":{"display_name":"adb-dev-project01","admin_password":"__ADB_ADMIN_PASSWORD__"}}}
+{"autonomous_databases_configuration":{"adb_dev_project01":{"display_name":"adb-dev-project01","admin_password":"__DEV_ADB_ADMIN_PASSWORD__"}}}
 ```
 
 The single merged manifest is:
 
 ```json
-{"autonomous_databases_configuration":{"adb_existing":{"display_name":"adb-existing"},"adb_dev_project01":{"display_name":"adb-dev-project01","admin_password":"__ADB_ADMIN_PASSWORD__"}}}
+{"autonomous_databases_configuration":{"adb_existing":{"display_name":"adb-existing"},"adb_dev_project01":{"display_name":"adb-dev-project01","admin_password":"__DEV_ADB_ADMIN_PASSWORD__"}}}
 ```
 
 Terraform does not deep-merge two files that set

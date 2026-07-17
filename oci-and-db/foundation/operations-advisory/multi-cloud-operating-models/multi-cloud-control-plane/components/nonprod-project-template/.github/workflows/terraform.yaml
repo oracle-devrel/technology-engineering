@@ -1,12 +1,16 @@
 name: Shared non-production Terraform
 
 on:
-  pull_request:
+  pull_request_target:
     branches: [main]
     paths: ["oci/**", "azure/**", "gcp/**", "!**/lifecycle_operations/**"]
   push:
     branches: [main]
     paths: ["oci/**", "azure/**", "gcp/**", "!**/lifecycle_operations/**"]
+
+permissions:
+  contents: read
+  pull-requests: write
 
 jobs:
   resolve:
@@ -22,17 +26,32 @@ jobs:
           ref: ${{ github.event.repository.default_branch }}
       - id: tuple
         shell: bash
+        env:
+          PR_HEAD_REPOSITORY: ${{ github.event.pull_request.head.repo.full_name }}
         run: |
           set -euo pipefail
+          if [ "${{ github.event_name }}" = pull_request_target ]; then
+            test "$PR_HEAD_REPOSITORY" = "$GITHUB_REPOSITORY"
+          fi
           test "$(jq -r .repository_layout control-plane.json)" = shared-nonprod-v2
           test "$(jq -r .target_repository control-plane.json)" = "${GITHUB_REPOSITORY#*/}"
           git fetch --no-tags origin "${{ github.event.pull_request.base.sha || github.event.before }}" "${{ github.event.pull_request.head.sha || github.sha }}"
-          changed=$(git diff --name-only "${{ github.event.pull_request.base.sha || github.event.before }}" "${{ github.event.pull_request.head.sha || github.sha }}" | rg '^(oci|azure|gcp)/(dev|test|uat)/[^/]+/' || true)
+          head_sha="${{ github.event.pull_request.head.sha || github.sha }}"
+          all_changed=$(git diff --name-only "${{ github.event.pull_request.base.sha || github.event.before }}" "$head_sha")
+          changed=$(printf '%s\n' "$all_changed" | rg '^(oci|azure|gcp)/(dev|test|uat)/[A-Za-z0-9._-]+(/[A-Za-z0-9._-]+)*\.json$' | rg -v '/lifecycle_operations/' || true)
+          test "$all_changed" = "$changed"
+          while IFS= read -r path; do
+            git ls-tree "$head_sha" -- "$path" | rg '^100644 blob [0-9a-f]{40}\t' >/dev/null
+            git show "$head_sha:$path" | jq -e . >/dev/null
+          done <<< "$changed"
           test -n "$changed" && test "$(printf '%s\n' "$changed" | cut -d/ -f1-3 | sort -u | wc -l | tr -d ' ')" = 1
           tuple=$(printf '%s\n' "$changed" | head -1 | cut -d/ -f1-3)
           IFS=/ read -r cloud environment region <<< "$tuple"
           test "$environment" != prod && test "$environment" != production && test "$environment" != prd && test "$environment" != live
           jq -e --arg e "$environment" --arg c "$cloud" '.environments[$e].supported_clouds | index($c)' control-plane.json >/dev/null
+          expected_suffix=$(printf '%s' "$environment" | tr '[:lower:]' '[:upper:]')
+          test "$(jq -r --arg e "$environment" '.environments[$e].repository_secret' control-plane.json)" = "GITOPS_SECRET_VALUES_${expected_suffix}"
+          test "$(jq -r --arg e "$environment" '.environments[$e].readiness_marker_variable' control-plane.json)" = "CONTROL_PLANE_READY_${expected_suffix}"
           echo "cloud=$cloud" >> "$GITHUB_OUTPUT"; echo "environment=$environment" >> "$GITHUB_OUTPUT"; echo "region=$region" >> "$GITHUB_OUTPUT"
           jq -c --arg e "$environment" --arg c "$cloud" '.environments[$e].runner_labels[$c]' control-plane.json | sed 's/^/runner_labels=/' >> "$GITHUB_OUTPUT"
   terraform:
@@ -44,7 +63,12 @@ jobs:
       environment_name: ${{ needs.resolve.outputs.environment }}
       region: ${{ needs.resolve.outputs.region }}
       repository_layout: shared-nonprod-v2
+      manifest_ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      platform_ci_ref: __PLATFORM_CI_REF__
+      readiness_marker: ${{ needs.resolve.outputs.environment == 'dev' && vars.CONTROL_PLANE_READY_DEV || needs.resolve.outputs.environment == 'test' && vars.CONTROL_PLANE_READY_TEST || needs.resolve.outputs.environment == 'uat' && vars.CONTROL_PLANE_READY_UAT || '' }}
       runner_labels: ${{ needs.resolve.outputs.runner_labels }}
       orchestrator_repo: ${{ needs.resolve.outputs.cloud == 'oci' && 'oci-landing-zones/terraform-oci-modules-orchestrator' || needs.resolve.outputs.cloud == 'azure' && 'oci-clickops/clickops-orchestrator-azure' || 'oci-clickops/clickops-orchestrator-gcp' }}
       orchestrator_ref: ${{ needs.resolve.outputs.cloud == 'oci' && '__OCI_ORCHESTRATOR_REF__' || needs.resolve.outputs.cloud == 'azure' && '__AZURE_ORCHESTRATOR_REF__' || '__GCP_ORCHESTRATOR_REF__' }}
       bucket_name: __STATE_BUCKET__
+    secrets:
+      gitops_secret_values: ${{ needs.resolve.outputs.environment == 'dev' && secrets.GITOPS_SECRET_VALUES_DEV || needs.resolve.outputs.environment == 'test' && secrets.GITOPS_SECRET_VALUES_TEST || needs.resolve.outputs.environment == 'uat' && secrets.GITOPS_SECRET_VALUES_UAT || '' }}

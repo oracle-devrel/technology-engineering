@@ -17,12 +17,23 @@ on:
         type: string
         default: ""
       environment_name:
-        description: "Selected GitHub Environment (dev, test, or uat)"
+        description: "Selected deployment environment (dev, test, uat, or prod)"
         required: true
         type: string
-        default: ""
+      readiness_marker:
+        description: "Environment-specific repository readiness variable"
+        required: true
+        type: string
       repository_layout:
         description: "Protected repository layout identifier"
+        required: true
+        type: string
+      manifest_ref:
+        description: "Validated manifest repository commit"
+        required: true
+        type: string
+      platform_ci_ref:
+        description: "Approved immutable Platform CI commit"
         required: true
         type: string
       orchestrator_repo:
@@ -42,14 +53,15 @@ on:
         required: false
         type: string
         default: '["self-hosted","oci"]'
+    secrets:
+      gitops_secret_values:
+        description: "JSON placeholder map selected explicitly by the caller"
+        required: true
 
 jobs:
   terraform:
     name: "Terraform ${{ inputs.mode }}"
     runs-on: ${{ fromJSON(inputs.runner_labels) }}
-    environment:
-      name: ${{ inputs.environment_name }}
-      url: ${{ inputs.mode == 'apply' && format('{0}/actions/runs/{1}', github.server_url, github.run_id) || '' }}
     concurrency:
       group: ${{ inputs.cloud }}-${{ inputs.environment_name }}-terraform-${{ github.repository }}
       cancel-in-progress: false
@@ -58,9 +70,9 @@ jobs:
       - name: Verify environment readiness
         shell: bash
         env:
-          READINESS_MARKER: ${{ secrets.READINESS_MARKER }}
+          READINESS_MARKER: ${{ inputs.readiness_marker }}
         run: |
-          test -n "$READINESS_MARKER" || { echo "❌ Selected GitHub Environment is not ready"; exit 1; }
+          test "$READINESS_MARKER" = "true" || { echo "❌ Selected deployment environment is not ready"; exit 1; }
 
       # =====================================================================
       # Setup
@@ -68,6 +80,7 @@ jobs:
       - name: Checkout manifest repo
         uses: actions/checkout@v6
         with:
+          ref: ${{ inputs.manifest_ref }}
           fetch-depth: 0
 
       - name: Checkout orchestrator
@@ -81,6 +94,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           repository: __CUSTOMER_ORG__/platform-ci
+          ref: ${{ inputs.platform_ci_ref }}
           path: platform-ci
 
       - name: Setup Terraform
@@ -305,7 +319,7 @@ jobs:
         id: vars
         shell: bash
         env:
-          GITOPS_SECRET_VALUES: ${{ toJSON(secrets) }}
+          GITOPS_SECRET_VALUES: ${{ secrets.gitops_secret_values }}
         run: |
           CONFIG_DIR="${{ github.workspace }}/${{ steps.config.outputs.config_subpath }}"
           PREPARED_VAR_DIR="${{ runner.temp }}/terraform-var-files"
@@ -313,7 +327,8 @@ jobs:
           # Exclude lifecycle_operations/ directories - those JSON files are
           # for Ansible, not Terraform. Prepare copies under runner.temp so secret-backed
           # placeholders never modify the checked-out manifest repository.
-          VAR_FILES=$(python3 platform-ci/scripts_python/prepare_var_files.py "$CONFIG_DIR" "$PREPARED_VAR_DIR")
+          VAR_FILES=$(python3 platform-ci/scripts_python/prepare_var_files.py \
+            "$CONFIG_DIR" "$PREPARED_VAR_DIR" "${{ inputs.environment_name }}")
           echo "var_files=$VAR_FILES" >> $GITHUB_OUTPUT
 
           EXTRA=""

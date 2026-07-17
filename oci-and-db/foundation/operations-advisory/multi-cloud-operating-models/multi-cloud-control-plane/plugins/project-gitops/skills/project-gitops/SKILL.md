@@ -28,6 +28,7 @@ For `nonprod-<project>`, require the user to select `dev`, `test`, or `uat`.
 Read `control-plane.json`; never infer a layout from path segments. Validate the
 matching `environments/<environment>/environment_information.md` and use the
 environment-aware manifest path. Refuse production aliases, protected contract
-or workflow changes, cross-environment placeholders, and changes spanning more
+or workflow changes, placeholders that do not begin with the selected uppercase
+environment (for example, `__DEV_...__`), and changes spanning more
 than one cloud/environment/region tuple. Run `scripts/validate-shared-layout.py`
 before proposing Git changes. The skill still creates Git changes only.

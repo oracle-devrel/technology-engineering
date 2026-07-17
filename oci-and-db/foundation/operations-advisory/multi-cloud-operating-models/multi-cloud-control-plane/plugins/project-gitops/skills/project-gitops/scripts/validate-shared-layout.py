@@ -43,9 +43,8 @@ def main() -> None:
         document = json.loads((repository / path).read_text())
         tokens = PLACEHOLDER.findall(json.dumps(document))
         for token in tokens:
-            for other in ALLOWED - {environment}:
-                if f"_{other.upper()}_" in token:
-                    fail("placeholder references a different environment")
+            if not token.startswith(f"__{environment.upper()}_"):
+                fail("placeholder is not qualified for the selected environment")
         tuples.add((cloud, environment, region))
     if len(tuples) != 1:
         fail("a change must target exactly one cloud/environment/region tuple")

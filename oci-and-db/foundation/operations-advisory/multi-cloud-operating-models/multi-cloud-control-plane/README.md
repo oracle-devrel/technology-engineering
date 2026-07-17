@@ -5,7 +5,9 @@ Azure, and Google without direct cloud credentials or local Terraform expertise.
 
 Teams select an approved template, submit a JSON change, and review the
 Terraform plan or Ansible check in a pull request. A trusted runner performs the
-change only after the required approval and merge.
+change only after human approval and merge. Paid GitHub plans can enforce that
+approval with repository controls; the Free profile relies on restricted roles
+and documented process.
 
 Release status: preview. Evaluate the solution in non-production and complete
 your security review before production rollout.
@@ -22,11 +24,12 @@ Azure and Google Day 2 operations are not currently available.
 
 ## What you get
 
-Installation prepares three private repositories for your organization:
+Installation prepares four private repositories for your organization:
 
 - `platform-ci` provides the approved Terraform and Ansible workflows.
 - `nonprod-project-template` provides the standard shared non-production
   project repository structure.
+- `prod-project-template` provides the separate production project structure.
 - `gitops-templates` provides the approved resource and operation catalog.
 
 The Multi-Cloud Control Plane UI and Codex app assistant are optional. GitHub pull requests remain the
@@ -41,7 +44,7 @@ authentication required by each enabled cloud. Use the
 [OCI Landing Zone](../oci-landing-zone/README.md) if you need to
 establish the OCI foundation first.
 
-Follow the [deployment runbook](docs/deployment.md) to prepare and pin the three
+Follow the [deployment runbook](docs/deployment.md) to prepare and pin the four
 repositories with standard file, Git, `jq`, and Perl commands. No custom
 installation program is required.
 

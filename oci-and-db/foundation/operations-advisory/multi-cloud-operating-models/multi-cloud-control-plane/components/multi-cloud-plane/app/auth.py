@@ -94,9 +94,13 @@ async def has_project_access(request: Request, project: str, require_write: bool
         project_name = (project or "").strip()
         project_name_lc = project_name.lower()
         prefix = (settings.project_repo_prefix or "").strip().lower()
+        matches_project_boundary = (
+            project_name_lc.startswith(prefix)
+            if prefix
+            else project_name_lc.startswith(("nonprod-", "prod-"))
+        )
         if (
-            not prefix
-            or not project_name_lc.startswith(prefix)
+            not matches_project_boundary
             or project_name_lc in {"gitops-templates", "platform-ci"}
             or project_name_lc.endswith("-template")
         ):

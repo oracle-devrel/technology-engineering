@@ -103,7 +103,10 @@ async def operation_form_partial(
     try:
         github_client = request.state.github_client
         layout = await LayoutService(github_client, project).load()
-        environment = environment or next(iter((layout.get("environments") or {}), ""))
+        environment = environment or next(
+            iter(layout.get("environments") or {}),
+            "",
+        )
         LayoutService.handoff_path(layout, environment)
         git_service = GitService(project, github_client=github_client, environment=environment)
         catalog = await git_service.get_operations_catalog(cloud_filter=cloud)

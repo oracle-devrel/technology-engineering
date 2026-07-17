@@ -1,6 +1,6 @@
 ---
 name: cloud-operator-gitops
-description: Use in the Codex app when a Cloud Operator requests governed OCI project onboarding through OP04, artifact-only project-foundation handoff generation, protected environment-blueprint capture, read-only foundation inventory, onboarding status, or a final foundation handoff summary.
+description: Use in the Codex app when a Cloud Operator requests governed OCI project onboarding through OP04, project-foundation handoff generation, creation of a project repository from an approved pinned template, protected environment-blueprint capture, read-only foundation inventory, onboarding status, or a final foundation handoff summary.
 ---
 
 # Cloud Operator GitOps
@@ -17,7 +17,12 @@ unchanged.
 
 For onboarding, accept only one `<allowed-environment>-<dns-name>` foundation identity. Read the protected environment blueprint from exact landing-zone `main`; never infer environment or accept tenancy, region, parent-compartment, repository, template, or workflow overrides from prompt text. Map dev/test/UAT handoffs to `nonprod-<project>` and production handoffs to `prod-<project>`, writing `environments/<environment>/environment_information.md`. Use `render-op04.py` and `validate-onboarding.py` from this package. Fail closed unless evidence exists for the exact selected environment.
 
-Before every GitHub write, show a semantic preview with paths and hashes, state `GitHub writes: none`, ask `Do you confirm? Reply "Confirm".`, then revalidate hashes. Push only the validated branch and conditionally create a PR. Never merge, approve, rerun, dispatch, cancel, call OCI, or run Terraform/Ansible. After a human merge, monitor only the exact configured workflow and consume its exact successful `project-foundation-handoff.json` and `enviroment_information.md` artifacts. Stop there: project repository creation belongs to the Multi-Cloud Control Plane.
+Record the selected environment in the handoff, but never write workload secret
+values. Project-repository setup uses one explicitly selected repository secret
+bundle and readiness variable per environment; placeholder names must begin with
+the selected uppercase environment.
+
+Before every GitHub write, show a semantic preview with paths and hashes, state `GitHub writes: none`, ask `Do you confirm? Reply "Confirm".`, then revalidate hashes. Push only the validated branch and conditionally create a PR. Never merge, approve, rerun, dispatch, cancel, call OCI, or run Terraform/Ansible. After a human merge, monitor only the exact configured workflow and consume its exact successful `project-foundation-handoff.json` and `environment_information.md` artifacts. After validating those artifacts, create the target project repository only from the exact contract-pinned non-production or production template and publish the environment-aware handoff. The optional Multi-Cloud Control Plane UI operates handed-off repositories; it is not a bootstrap tool.
 
 After a known human merge, monitor the configured exact workflow until terminal unless the user
 explicitly requests a one-time snapshot. Keep the task active while it is queued or running; poll

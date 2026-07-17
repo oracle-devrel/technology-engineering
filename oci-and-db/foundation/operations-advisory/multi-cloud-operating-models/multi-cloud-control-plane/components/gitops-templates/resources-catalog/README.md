@@ -22,7 +22,7 @@ resources-catalog/
 ### OCI — network
 
 **`project_nsgs_template.auto.tfvars.json`**
-Defines exactly one generic project NSG under `network_configuration.inject_into_existing_vcns`. Render `__NSG_KEY__`, `__NSG_DISPLAY_NAME__`, `__NSG_COMPARTMENT_OCID__`, and `__NSG_TIER__`, then merge only that entry into `oci/<region>/network/project-nsgs.json`. Add ingress or egress rules only from explicit approved intent. Workloads reference the rendered NSG key, not an OCID.
+Defines exactly one generic project NSG under `network_configuration.inject_into_existing_vcns`. Render `__NSG_KEY__`, `__NSG_DISPLAY_NAME__`, `__NSG_COMPARTMENT_OCID__`, and `__NSG_TIER__`, then merge only that entry into `oci/<environment>/<region>/network/project-nsgs.json`. Add ingress or egress rules only from explicit approved intent. Workloads reference the rendered NSG key, not an OCID.
 
 ### OCI — compute
 
@@ -32,7 +32,7 @@ Provisions exactly one generic OCI VM. Render `__VM_KEY__`, `__VM_NAME__`, `__VM
 ### OCI — databases
 
 **`project_database_template.auto.tfvars.json`**
-Provisions OCI Autonomous Databases. Use `__PROJ_DB_SUBNET_OCID__` for the private DB subnet and `__NSG_DB_KEY__` for the DB-tier NSG. `admin_password` must be a runtime placeholder such as `__ADB_ADMIN_PASSWORD__`; create the matching project-repository GitHub Actions secret as `ADB_ADMIN_PASSWORD`. Use one secret per ADB when deploying multiple databases. If an ADB needs a dedicated NSG, define that NSG in `oci/<region>/network/project-nsgs.json` and reference its key in `nsg_ids`.
+Provisions OCI Autonomous Databases. Use `__PROJ_DB_SUBNET_OCID__` for the private DB subnet and `__NSG_DB_KEY__` for the DB-tier NSG. Render the catalog's `__ADB_ADMIN_PASSWORD__` as an environment-qualified runtime token, such as `__DEV_ADB_ADMIN_PASSWORD__`, and add the corresponding key to that environment's project-repository secret bundle. Use one mapping key per ADB when deploying multiple databases. If an ADB needs a dedicated NSG, define that NSG in `oci/<environment>/<region>/network/project-nsgs.json` and reference its key in `nsg_ids`.
 
 ### Azure — compute
 
@@ -51,13 +51,15 @@ Provisions Oracle Autonomous Database Serverless on Google Cloud through `terraf
 
 ## Placeholders
 
-All placeholders follow the `__UPPER_SNAKE_CASE__` pattern.
+All placeholders follow the `__UPPER_SNAKE_CASE__` pattern. Committed runtime
+secret placeholders must additionally begin with the selected environment,
+such as `__DEV_`, `__TEST_`, `__UAT_`, or `__PROD_`.
 
 Cross-template dependency: NSG/security-group placeholders in workload templates are string references, not OCIDs. Render them with a key that already exists in the corresponding project network manifest.
 
 ## Security notes
 
-- Don't commit real passwords. The `admin_password` fields are double-underscore placeholders resolved by `platform-ci` from inherited GitHub Actions secrets or runner environment variables.
+- Don't commit real passwords. The `admin_password` fields are environment-qualified double-underscore placeholders resolved by `platform-ci` from exactly one explicitly selected project-repository secret bundle.
 - Store OP04 handoff references in `environments/<environment>/environment_information.md`, not as Terraform credentials.
 
 ## Warranty disclaimer
