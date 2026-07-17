@@ -9,7 +9,9 @@ Every infrastructure request follows the same governed process:
 5. Obtain independent approval and merge.
 6. Verify the workflow result and cloud outcome.
 
-Use these standard locations:
+## Manifest paths
+
+Use these standard locations (this is the canonical path table):
 
 | Request | Location |
 |---|---|
@@ -26,6 +28,14 @@ Terraform does not deep-merge variable files.
 Lifecycle requests identify the operation and target resource by display name.
 Currently supported operations are OCI Autonomous Database start/stop and the
 OCI Compute `deploy-agent` example.
+
+Troubleshooting: unresolved `__PLACEHOLDER__` values mean the mapped secret or
+handoff suggestion is missing. A Day 2 target must use the exact display name
+recorded in Terraform state. Keep one region per pull request; the legacy
+workflows cannot safely infer a mixed-region request. Paths outside this table
+are rejected. Missing runner labels are a platform configuration issue, and
+missing handoff data must be corrected by the platform team before a request is
+prepared.
 
 Never commit passwords or credentials. If a deployment fails, retain the logs,
 confirm the state of the resource and Terraform state, and submit a reviewed

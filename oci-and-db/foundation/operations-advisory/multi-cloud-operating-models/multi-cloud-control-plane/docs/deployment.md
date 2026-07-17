@@ -64,7 +64,9 @@ find "$STAGE" -type d -name tests
 Both commands must return no output. Create the matching private GitHub
 repositories and publish each prepared `main` branch through your approved Git
 process. Protect `main`, require independent approval and successful plan/check
-results, and allow the project repositories to call Platform CI workflows.
+results, and allow the project repositories to call Platform CI workflows at
+**Organization settings → Actions → General → Access → Accessible from
+repositories in the organization**.
 
 ## 2. Configure trusted runners
 
@@ -75,7 +77,12 @@ results, and allow the project repositories to call Platform CI workflows.
 | `OCI_CLI_AUTH=instance_principal` | OCI state and inventory authentication |
 | `REGION` | Optional workload-region fallback |
 
-Runners need Terraform 1.12 or later and Python 3.11 or later. Azure additionally
+Runners need Terraform 1.12 or later, Python 3.11 or later, and `rg` for
+validation. Put runners in organization runner groups and grant each group only
+to the repositories that need it. OCI runner instances must belong to an OCI
+dynamic group with policies for Object Storage state access and only the
+compartments/services required by their workload. Azure and Google runners need
+equivalent workload-scoped identities. Azure additionally
 needs its approved service-principal environment values. Google needs
 `GOOGLE_CREDENTIALS`, `GOOGLE_APPLICATION_CREDENTIALS`, or Application Default
 Credentials. Keep credentials outside Git.
@@ -113,7 +120,9 @@ git -C "$PROJECT_OUTPUT" -c user.name='Platform Administrator' \
 git -C "$PROJECT_OUTPUT" status --short
 ```
 
-The final command must return no output. Confirm the project, environment,
+The final command must return no output. `enviroment_information.md` retains its
+misspelling only for the legacy repository contract; workflows do not parse it.
+Confirm the project, environment,
 region, compartments, VCN, subnets, workflow run, commit, and state keys against
 the approved onboarding record. Then create the private project repository,
 apply the same protections, and grant the Project Team access.

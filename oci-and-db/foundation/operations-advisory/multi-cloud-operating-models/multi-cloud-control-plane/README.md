@@ -28,7 +28,7 @@ Installation prepares three private repositories for your organization:
 - `oe-env-project-template` provides the standard project repository structure.
 - `gitops-templates` provides the approved resource and operation catalog.
 
-The web UI and Codex app assistant are optional. GitHub pull requests remain the
+The Multi-Cloud Control Plane UI and Codex app assistant are optional. GitHub pull requests remain the
 standard path, so neither option is required.
 
 ## Get started
@@ -44,13 +44,26 @@ Follow the [deployment runbook](docs/deployment.md) to prepare and pin the three
 repositories with standard file, Git, `jq`, and Perl commands. No custom
 installation program is required.
 
-Continue with:
+Platform administrators: [architecture](docs/architecture.md),
+[deployment](docs/deployment.md), and [security](docs/security.md).
 
-1. [How the Control Plane works](docs/architecture.md)
-2. [Deployment](docs/deployment.md)
-3. [Day-to-day operations](docs/operations.md)
-4. [Security](docs/security.md)
-5. [Optional Codex app assistant](docs/codex-app.md)
+Project Teams: [first request](docs/first-request.md) and
+[day-to-day operations](docs/operations.md). The UI is described in
+[Multi-Cloud Control Plane UI](docs/codex-app.md).
+
+## Glossary
+
+- **OP04**: Landing Zone project-foundation phase that creates the project
+  compartments, groups, and policies.
+- **Handoff**: verified foundation references delivered by the platform team;
+  executable request intent stays in JSON manifests.
+- **Orchestrator**: the pinned Terraform repository that consumes a manifest.
+- **Day 1**: provisioning a resource. **Day 2**: a supported operation on an
+  existing resource, such as an ADB lifecycle request.
+- **Handed-off project**: a repository whose foundation and access conventions
+  have been supplied and accepted by the platform team.
+- **Codex app**: the optional Project GitOps assistant that prepares Git changes
+  and pull requests; it never deploys cloud resources.
 
 ## License
 
