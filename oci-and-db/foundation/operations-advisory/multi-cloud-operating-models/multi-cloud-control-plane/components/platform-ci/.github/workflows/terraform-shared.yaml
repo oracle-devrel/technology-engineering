@@ -99,11 +99,14 @@ jobs:
           CONFIG_REGION="${{ inputs.region }}"
           LAYOUT="${{ inputs.repository_layout }}"
           ENVIRONMENT_NAME="${{ inputs.environment_name }}"
-          if [ "$LAYOUT" != "shared-nonprod-v2" ]; then
+          if [ "$LAYOUT" != "shared-nonprod-v2" ] && [ "$LAYOUT" != "production-v1" ]; then
             echo "❌ Unsupported repository layout: $LAYOUT"; exit 1
           fi
-          if { [ -z "$ENVIRONMENT_NAME" ] || ! [[ "$ENVIRONMENT_NAME" =~ ^(dev|test|uat)$ ]]; }; then
-            echo "❌ Shared non-production requests require an allowed environment"; exit 1
+          if [ "$LAYOUT" = "shared-nonprod-v2" ] && { [ -z "$ENVIRONMENT_NAME" ] || ! [[ "$ENVIRONMENT_NAME" =~ ^(dev|test|uat)$ ]]; }; then
+            echo "❌ Shared non-production requests require dev, test, or uat"; exit 1
+          fi
+          if [ "$LAYOUT" = "production-v1" ] && [ "$ENVIRONMENT_NAME" != "prod" ]; then
+            echo "❌ Production requests require the prod environment"; exit 1
           fi
           if [ -z "$CONFIG_REGION" ]; then
             # Attempt auto-detection from changed files

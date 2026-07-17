@@ -1,6 +1,6 @@
 {
   "repository_layout": "shared-nonprod-v2",
-  "target_repository": "oe-nonprod-__PROJECT__",
+  "target_repository": "nonprod-__PROJECT__",
   "allowed_environments": ["dev", "test", "uat"],
   "environments": {
     "dev": {"github_environment": "dev", "handoff_path": "environments/dev/environment_information.md", "supported_clouds": ["oci", "azure", "gcp"], "runner_labels": {"oci": ["self-hosted", "oci", "dev"], "azure": ["self-hosted", "azure", "dev"], "gcp": ["self-hosted", "gcp", "dev"]}},

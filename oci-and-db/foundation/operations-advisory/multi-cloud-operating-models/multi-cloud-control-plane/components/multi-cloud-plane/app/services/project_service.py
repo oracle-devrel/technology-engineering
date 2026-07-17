@@ -31,9 +31,11 @@ class ProjectService:
             name_lc = name.lower()
             if prefix_lc and not name_lc.startswith(prefix_lc):
                 continue
+            if not prefix_lc and not name_lc.startswith(("nonprod-", "prod-")):
+                continue
 
-            # Exclude template-style repos from oe-* listing (e.g., oe-foo-template)
-            if name_lc.startswith("oe-") and name_lc.endswith("-template"):
+            # Exclude template-style repositories from project listings.
+            if name_lc.endswith("-template"):
                 continue
 
             seen_names.add(name)

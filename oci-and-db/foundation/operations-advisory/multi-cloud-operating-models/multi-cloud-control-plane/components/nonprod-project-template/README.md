@@ -1,6 +1,6 @@
 # Shared non-production project template
 
-This template creates `oe-nonprod-<project>` repositories using the explicit
+This template creates `nonprod-<project>` repositories using the explicit
 `shared-nonprod-v2` contract. This package is for initial installations and
 does not support another repository layout.
 

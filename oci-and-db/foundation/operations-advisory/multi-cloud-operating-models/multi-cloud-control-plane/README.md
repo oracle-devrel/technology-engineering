@@ -25,7 +25,7 @@ Azure and Google Day 2 operations are not currently available.
 Installation prepares three private repositories for your organization:
 
 - `platform-ci` provides the approved Terraform and Ansible workflows.
-- `oe-nonprod-project-template` provides the standard shared non-production
+- `nonprod-project-template` provides the standard shared non-production
   project repository structure.
 - `gitops-templates` provides the approved resource and operation catalog.
 
@@ -54,7 +54,8 @@ Project Teams: [first request](docs/first-request.md) and
 [optional Codex app assistant](docs/codex-app.md) are separate integrations.
 
 This initial-installation package supports the
-[shared non-production repository model](docs/shared-nonproduction.md) only.
+[shared non-production repository model](docs/shared-nonproduction.md) and the
+separate [production repository model](docs/production.md).
 
 ## Glossary
 

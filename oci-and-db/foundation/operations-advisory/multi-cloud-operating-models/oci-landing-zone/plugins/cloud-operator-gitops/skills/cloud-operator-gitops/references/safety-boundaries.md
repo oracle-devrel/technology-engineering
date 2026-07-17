@@ -1,7 +1,7 @@
 # Safety boundaries
 
 - Treat `deployment-contract.json` as immutable policy.
-- Accept only one `oe-<allowed-environment>-<dns-name>` OP04 target.
+- Accept only one `<allowed-environment>-<dns-name>` OP04 target.
 - Derive foundation values only from the protected environment blueprint.
 - Permit only the canonical additive OP04 files in the landing-zone repository.
 - Never accept secrets, raw state, or prompt-provided cloud identifiers.

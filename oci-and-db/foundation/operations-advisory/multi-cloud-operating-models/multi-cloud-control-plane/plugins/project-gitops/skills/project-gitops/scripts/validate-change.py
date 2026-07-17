@@ -31,7 +31,7 @@ MAX_HANDOFF_BYTES, MAX_DEPTH, MAX_COLLECTION_ITEMS = 65_536, 20, 1_000
 MAX_STRING_LENGTH, GIT_TIMEOUT_SECONDS = 4_096, 10
 MAX_ADB_MUTATIONS = 3
 
-PROJECT_PATTERN = re.compile(r"^oe-(?:prod)-[a-z][a-z0-9]*(?:-[a-z0-9]+)*$")
+PROJECT_PATTERN = re.compile(r"^prod-[a-z][a-z0-9]*(?:-[a-z0-9]+)*$")
 REGION_PATTERN = re.compile(r"^[a-z]{2}-[a-z]+-[0-9]+$")
 BRANCH_PATTERN = re.compile(
     r"^agent/(?:adb|vm|nsg)-[a-z0-9](?:[a-z0-9-]{0,62})$"

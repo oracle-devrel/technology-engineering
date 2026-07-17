@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-PROJECT_RE = re.compile(r"^oe-(?P<environment>[a-z][a-z0-9]{0,30})-(?P<project_name>[a-z][a-z0-9]*(?:-[a-z0-9]+)*)$")
+PROJECT_RE = re.compile(r"^(?P<environment>[a-z][a-z0-9]{0,30})-(?P<project_name>[a-z][a-z0-9]*(?:-[a-z0-9]+)*)$")
 OCID_RE = re.compile(r"^ocid1\.(?P<kind>tenancy|compartment)\.oc1\.\.[A-Za-z0-9_-]+$")
 REGION_RE = re.compile(r"^[a-z]{2}-[a-z]+-[0-9]+$")
 RUNTIME_CONTRACT_PATH = ".github/project-onboarding-contract.json"
@@ -51,7 +51,7 @@ def load_at(repo: Path, ref: str, path: str) -> Any:
 
 def validate_project(project: str) -> ProjectIdentity:
     match = PROJECT_RE.fullmatch(project)
-    if match is None or len(match.group("project_name")) > 30: raise ContractError("The project must match oe-<environment>-<dns-name>.")
+    if match is None or len(match.group("project_name")) > 30: raise ContractError("The project must match <environment>-<dns-name>.")
     return ProjectIdentity(project, match.group("environment"), match.group("project_name"))
 
 

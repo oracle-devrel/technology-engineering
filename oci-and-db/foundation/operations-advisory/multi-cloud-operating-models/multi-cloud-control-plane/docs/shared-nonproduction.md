@@ -1,6 +1,6 @@
 # Shared non-production repository model
 
-New projects use exactly one repository, `oe-nonprod-<project>`, governed by
+New projects use exactly one repository, `nonprod-<project>`, governed by
 the `shared-nonprod-v2` contract. Production is not part of this installation.
 Allowed lowercase environments are `dev`, `test`, and `uat`; `prod`,
 `production`, `prd`, and `live` are rejected.
@@ -21,9 +21,9 @@ without deployment recording; apply/execute records the deployment.
 Use `gh api` to audit the controls after configuration:
 
 ```bash
-gh api repos/OWNER/oe-nonprod-PROJECT/environments
-gh api repos/OWNER/oe-nonprod-PROJECT/branches/main/protection
-gh api repos/OWNER/oe-nonprod-PROJECT/actions/permissions
+gh api repos/OWNER/nonprod-PROJECT/environments
+gh api repos/OWNER/nonprod-PROJECT/branches/main/protection
+gh api repos/OWNER/nonprod-PROJECT/actions/permissions
 ```
 
 Enterprise installations should require environment reviewers, prevent
@@ -35,10 +35,10 @@ guarantee. GitHub Free private repositories are unsupported because environment
 secrets are unavailable.
 
 For a trial organization, publish private `platform-ci`, `gitops-templates`,
-and `oe-nonprod-project-template` repositories from the deployment runbook.
+and `nonprod-project-template` repositories from the deployment runbook.
 Create `dev`, `test`, and `uat` GitHub Environments in each project repository,
 then set the scoped readiness marker with `gh secret set READINESS_MARKER
---env <environment> --repo OWNER/oe-nonprod-PROJECT`. Configure branch
+--env <environment> --repo OWNER/nonprod-PROJECT`. Configure branch
 protection to require status checks and code-owner approval before opening the
 first manifest pull request. Do not use organization-wide or repository secrets
 as substitutes for environment secrets.

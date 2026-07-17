@@ -22,7 +22,7 @@
   "enabled_request_adapters": ["github-pr"],
   "accepted_handoff_schema_versions": [2],
   "repository_layout": {
-      "repository_pattern": "oe-nonprod-<project>",
+      "repository_pattern": "nonprod-<project>",
       "manifest_path": "<cloud>/<environment>/<region>/...",
       "environment_allowlist": ["dev", "test", "uat"],
       "rejected_environments": ["prod", "production", "prd", "live"],
@@ -34,5 +34,18 @@
         "supported_clouds": ["oci", "azure", "gcp"],
         "readiness_marker": "configured-per-github-environment"
       }
+  },
+  "production_layout": {
+    "identifier": "production-v1",
+    "repository_pattern": "prod-<project>",
+    "manifest_path": "<cloud>/prod/<region>/...",
+    "handoff_path": "environments/prod/environment_information.md",
+    "environment_contract": {
+      "github_environment": "prod",
+      "codeowners": ["@__CUSTOMER_ORG__/__PROJECT__-prod-approvers"],
+      "runner_labels": {"oci": ["self-hosted", "oci", "prod"], "azure": ["self-hosted", "azure", "prod"], "gcp": ["self-hosted", "gcp", "prod"]},
+      "supported_clouds": ["oci", "azure", "gcp"],
+      "readiness_marker": "configured-per-github-environment"
+    }
   }
 }

@@ -21,8 +21,8 @@ def main() -> None:
     args = parser.parse_args()
     repository = args.repository.resolve()
     name = repository.name
-    if not re.fullmatch(r"oe-nonprod-[a-z][a-z0-9-]*", name):
-        fail("repository name must be oe-nonprod-<project>")
+    if not re.fullmatch(r"nonprod-[a-z][a-z0-9-]*", name):
+        fail("repository name must be nonprod-<project>")
     contract = json.loads((repository / "control-plane.json").read_text())
     if contract.get("repository_layout") != "shared-nonprod-v2" or contract.get("target_repository") != name:
         fail("protected layout contract does not match repository")

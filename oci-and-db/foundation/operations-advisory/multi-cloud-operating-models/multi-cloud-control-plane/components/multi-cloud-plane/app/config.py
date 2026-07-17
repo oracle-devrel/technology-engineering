@@ -49,7 +49,7 @@ class Settings(BaseSettings):
     )
 
     # Project filtering
-    project_repo_prefix: str = "oe-"
+    project_repo_prefix: str = ""
 
     # Audit behavior
     audit_infra_paths: str = "oci/,azure/,gcp/,aws/,terraform/"

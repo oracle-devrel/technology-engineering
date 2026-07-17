@@ -13,7 +13,7 @@ SUBNET_KEYS = {
     "infrastructure": "SSN-FRA-LZP-P-INFRA",
 }
 PROJECT_PATTERN = re.compile(
-    r"^oe-(?P<environment>dev|test|uat)-"
+    r"^(?P<environment>dev|test|uat|prod)-"
     r"(?P<project_name>[a-z][a-z0-9]*(?:-[a-z0-9]+)*)$"
 )
 PLACEHOLDER_PATTERN = re.compile(r"<[^<>\r\n]+>")
@@ -388,8 +388,12 @@ def build_machine_handoff(data, source, op02_state_key, op04_state_key, target_r
         raise HandoffError("handoff state keys are invalid")
     if data["environment"] not in {"dev", "test", "uat"}:
         raise HandoffError("shared non-production handoff environment is invalid")
-    if not re.fullmatch(r"oe-nonprod-[a-z][a-z0-9-]*", target_repository):
-        raise HandoffError("shared non-production repository is invalid")
+    expected_repository = (
+        rf"nonprod-[a-z][a-z0-9-]*" if data["environment"] != "prod"
+        else rf"prod-[a-z][a-z0-9-]*"
+    )
+    if not re.fullmatch(expected_repository, target_repository):
+        raise HandoffError("target repository does not match the foundation environment")
     expected_path = f"environments/{data['environment']}/environment_information.md"
     if handoff_path != expected_path:
         raise HandoffError("shared non-production handoff path is invalid")
@@ -410,7 +414,7 @@ def build_machine_handoff(data, source, op02_state_key, op04_state_key, target_r
         "source_commit": source["commit"],
         "op02_state_key": op02_state_key,
         "op04_state_key": op04_state_key,
-        "repository_layout": "shared-nonprod-v2",
+        "repository_layout": "production-v1" if data["environment"] == "prod" else "shared-nonprod-v2",
         "target_repository": target_repository,
         "handoff_path": handoff_path,
     }

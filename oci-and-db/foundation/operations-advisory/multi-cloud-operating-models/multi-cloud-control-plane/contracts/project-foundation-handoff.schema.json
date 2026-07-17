@@ -4,11 +4,18 @@
   "type": "object",
   "required": ["schema_version", "cloud", "project_slug", "environment", "region", "app_compartment", "database_compartment", "infrastructure_compartment", "vcn", "subnets", "source_repository", "source_workflow", "source_run", "source_commit", "op02_state_key", "op04_state_key", "repository_layout", "target_repository", "handoff_path"],
   "additionalProperties": false,
+  "allOf": [{
+    "if": {"properties": {"repository_layout": {"const": "shared-nonprod-v2"}}},
+    "then": {"properties": {"project_slug": {"pattern": "^nonprod-[a-z][a-z0-9-]*$"}, "environment": {"enum": ["dev", "test", "uat"]}, "target_repository": {"pattern": "^nonprod-[a-z][a-z0-9-]*$"}, "handoff_path": {"pattern": "^environments/(?:dev|test|uat)/environment_information\\.md$"}}}
+  }, {
+    "if": {"properties": {"repository_layout": {"const": "production-v1"}}},
+    "then": {"properties": {"project_slug": {"pattern": "^prod-[a-z][a-z0-9-]*$"}, "environment": {"const": "prod"}, "target_repository": {"pattern": "^prod-[a-z][a-z0-9-]*$"}, "handoff_path": {"const": "environments/prod/environment_information.md"}}}
+  }],
   "properties": {
     "schema_version": {"const": 2},
     "cloud": {"const": "oci"},
-    "project_slug": {"type": "string", "pattern": "^oe-nonprod-[a-z][a-z0-9-]*$"},
-    "environment": {"enum": ["dev", "test", "uat"]},
+    "project_slug": {"type": "string", "pattern": "^(?:nonprod|prod)-[a-z][a-z0-9-]*$"},
+    "environment": {"enum": ["dev", "test", "uat", "prod"]},
     "region": {"type": "string"},
     "app_compartment": {"type": "string"},
     "database_compartment": {"type": "string"},
@@ -31,8 +38,8 @@
     "source_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
     "op02_state_key": {"type": "string", "pattern": "terraform\\.tfstate$"},
     "op04_state_key": {"type": "string", "pattern": "terraform\\.tfstate$"},
-    "repository_layout": {"const": "shared-nonprod-v2"},
-    "target_repository": {"type": "string", "pattern": "^oe-nonprod-[a-z][a-z0-9-]*$"},
-    "handoff_path": {"type": "string", "pattern": "^environments/(?:dev|test|uat)/environment_information\\.md$"}
+    "repository_layout": {"enum": ["shared-nonprod-v2", "production-v1"]},
+    "target_repository": {"type": "string", "pattern": "^(?:nonprod|prod)-[a-z][a-z0-9-]*$"},
+    "handoff_path": {"type": "string", "pattern": "^environments/(?:dev|test|uat|prod)/environment_information\\.md$"}
   }
 }

@@ -876,7 +876,7 @@ async def resource_form_partial(
     request: Request,
     project: ProjectRead,
     path: str = Query(...),
-    environment: str = Query("dev"),
+    environment: str | None = Query(None),
 ) -> HTMLResponse:
     """Show dynamic form to deploy a resource."""
     try:
@@ -889,6 +889,7 @@ async def resource_form_partial(
             field["name"] = field["placeholder"]
         fields.extend(_editable_default_fields_for_template(template.content))
         layout = await LayoutService(github_client, project).load()
+        environment = environment or next(iter((layout.get("environments") or {}), ""))
         handoff_suggestions = await HandoffService(github_client, project).load_suggestions(
             template_path=path, handoff_path=LayoutService.handoff_path(layout, environment),
         )
@@ -932,7 +933,7 @@ async def resource_form_partial(
         selected_region=selected_region,
         region_options=region_options,
         environment=environment,
-        environment_options=sorted(LayoutService.ALLOWED_ENVIRONMENTS),
+        environment_options=sorted((layout.get("environments") or {}).keys()),
         fields=fields,
     )
 

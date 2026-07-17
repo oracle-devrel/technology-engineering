@@ -15,10 +15,10 @@ export GCP_ORCHESTRATOR_REF=c434e0697a3ca4daa8f8c7903afd4c6c7be287f9
 
 mkdir -p "$STAGE"
 cp -R components/platform-ci "$STAGE/platform-ci"
-cp -R components/oe-nonprod-project-template "$STAGE/oe-nonprod-project-template"
+cp -R components/nonprod-project-template "$STAGE/nonprod-project-template"
 cp -R components/gitops-templates "$STAGE/gitops-templates"
 cp LICENSE "$STAGE/platform-ci/LICENSE"
-cp LICENSE "$STAGE/oe-nonprod-project-template/LICENSE"
+cp LICENSE "$STAGE/nonprod-project-template/LICENSE"
 cp LICENSE "$STAGE/gitops-templates/LICENSE"
 
 find "$STAGE" -type f -exec perl -pi -e \
@@ -35,17 +35,17 @@ git -C "$STAGE/platform-ci" -c user.name='Platform Administrator' \
   -c user.email='platform@invalid' commit -m 'Prepare Platform CI'
 export PLATFORM_CI_REF=$(git -C "$STAGE/platform-ci" rev-parse HEAD)
 
-find "$STAGE/oe-nonprod-project-template" -type f -exec perl -pi -e \
+find "$STAGE/nonprod-project-template" -type f -exec perl -pi -e \
   's/__PLATFORM_CI_REF__/$ENV{PLATFORM_CI_REF}/g; s/__OCI_ORCHESTRATOR_REF__/$ENV{OCI_ORCHESTRATOR_REF}/g; s/__AZURE_ORCHESTRATOR_REF__/$ENV{AZURE_ORCHESTRATOR_REF}/g; s/__GCP_ORCHESTRATOR_REF__/$ENV{GCP_ORCHESTRATOR_REF}/g' {} +
 
-for repository in oe-nonprod-project-template gitops-templates; do
+for repository in nonprod-project-template gitops-templates; do
   git -C "$STAGE/$repository" init -b main
   git -C "$STAGE/$repository" add -A
   git -C "$STAGE/$repository" -c user.name='Platform Administrator' \
     -c user.email='platform@invalid' commit -m "Prepare $repository"
 done
 
-export PROJECT_TEMPLATE_REF=$(git -C "$STAGE/oe-nonprod-project-template" rev-parse HEAD)
+export PROJECT_TEMPLATE_REF=$(git -C "$STAGE/nonprod-project-template" rev-parse HEAD)
 export CATALOGS_REF=$(git -C "$STAGE/gitops-templates" rev-parse HEAD)
 cp contracts/deployment-contract.template.json "$STAGE/deployment-contract.json"
 find "$STAGE/deployment-contract.json" -type f -exec perl -pi -e \
@@ -107,7 +107,7 @@ The canonical field contract is
 export HANDOFF=/secure/project-foundation-handoff.json
 export PROJECT_OUTPUT=/tmp/project-repository
 export PROJECT_REPOSITORY=$(jq -r .target_repository "$HANDOFF")
-export PROJECT_TOKEN=${PROJECT_REPOSITORY#oe-nonprod-}
+export PROJECT_TOKEN=${PROJECT_REPOSITORY#nonprod-}
 
 jq -e '
   .schema_version == 2 and .repository_layout == "shared-nonprod-v2" and .cloud == "oci" and
@@ -116,9 +116,9 @@ jq -e '
   ((.subnets | keys | sort) == ["app","database","infrastructure","web"])
 ' "$HANDOFF"
 
-cp -R "$STAGE/oe-nonprod-project-template" "$PROJECT_OUTPUT"
+cp -R "$STAGE/nonprod-project-template" "$PROJECT_OUTPUT"
 rm -rf "$PROJECT_OUTPUT/.git"
-test "$PROJECT_REPOSITORY" = "oe-nonprod-$PROJECT_TOKEN"
+test "$PROJECT_REPOSITORY" = "nonprod-$PROJECT_TOKEN"
 find "$PROJECT_OUTPUT" -type f -exec perl -pi -e \
   's/__PROJECT__/$ENV{PROJECT_TOKEN}/g' {} +
 {

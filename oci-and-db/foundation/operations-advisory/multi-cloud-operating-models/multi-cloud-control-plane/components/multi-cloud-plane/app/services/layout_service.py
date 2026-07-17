@@ -1,4 +1,4 @@
-"""Explicit validation for shared non-production project repositories."""
+"""Explicit validation for shared non-production and production repositories."""
 from __future__ import annotations
 
 import json
@@ -10,6 +10,7 @@ class LayoutError(ValueError):
 
 class LayoutService:
     SHARED = "shared-nonprod-v2"
+    PRODUCTION = "production-v1"
     ALLOWED_ENVIRONMENTS = frozenset({"dev", "test", "uat"})
 
     def __init__(self, github_client, project_name: str):
@@ -23,7 +24,8 @@ class LayoutService:
             contract = json.loads(content)
         except json.JSONDecodeError as exc:
             raise LayoutError("Invalid control-plane.json") from exc
-        if contract.get("repository_layout") != self.SHARED:
+        layout = contract.get("repository_layout")
+        if layout not in {self.SHARED, self.PRODUCTION}:
             raise LayoutError("Unsupported repository layout")
         if contract.get("target_repository") != self.project_name:
             raise LayoutError("Repository does not match its protected layout contract")
@@ -31,8 +33,9 @@ class LayoutService:
 
     @classmethod
     def handoff_path(cls, layout: dict, environment: str | None = None) -> str:
-        if environment not in cls.ALLOWED_ENVIRONMENTS:
-            raise LayoutError("An allowed shared non-production environment is required")
+        allowed = cls.ALLOWED_ENVIRONMENTS if layout.get("repository_layout") == cls.SHARED else {"prod"}
+        if environment not in allowed:
+            raise LayoutError("An allowed repository environment is required")
         config = (layout.get("environments") or {}).get(environment) or {}
         path = config.get("handoff_path")
         if path != f"environments/{environment}/environment_information.md":

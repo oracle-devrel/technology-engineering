@@ -14,7 +14,7 @@ and use only the validator included in this package. Status and monitoring reque
 local files. Writable flows keep non-executable temporary data inside one fresh system temporary
 directory, register cleanup immediately, and remove it before finishing.
 
-Accept only `oe-<allowed-environment>-<dns-name>` repositories already handed off on exact `main`. Use disposable clones. Read schemas only from the configured catalog repository at the approved SHA. Support OCI ADB, compute and NSG Day 1; Azure Day 1; Google ADB-S Day 1; OCI ADB start/stop; and OCI SSH `deploy-agent`. Preserve aggregate manifest roots and canonical `lifecycle_operations` paths. Refuse Azure and Google Day 2: those provider-specific operations are planned and not available.
+Accept only handed-off `nonprod-<project>` or `prod-<project>` repositories on exact `main`. Use disposable clones. Read schemas only from the configured catalog repository at the approved SHA. Support OCI ADB, compute and NSG Day 1; Azure Day 1; Google ADB-S Day 1; OCI ADB start/stop; and OCI SSH `deploy-agent`. Preserve aggregate manifest roots and canonical `lifecycle_operations` paths. Refuse Azure and Google Day 2: those provider-specific operations are planned and not available.
 
 Before every branch push or PR creation, show a semantic preview and hashes, state `GitHub writes: none`, ask `Do you confirm? Reply "Confirm".`, then revalidate. Never merge, approve, control workflows, call cloud APIs, or run Terraform/Ansible.
 
@@ -24,7 +24,7 @@ structured GitHub reads every 15–30 seconds, use commentary for progress, and 
 user to return and announce completion.
 # Shared non-production repositories
 
-For `oe-nonprod-<project>`, require the user to select `dev`, `test`, or `uat`.
+For `nonprod-<project>`, require the user to select `dev`, `test`, or `uat`.
 Read `control-plane.json`; never infer a layout from path segments. Validate the
 matching `environments/<environment>/environment_information.md` and use the
 environment-aware manifest path. Refuse production aliases, protected contract
