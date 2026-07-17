@@ -17,3 +17,8 @@ dev state key or secret. Delete both test PRs and their test secrets afterwards.
 Caller workflows must remain free of `secrets: inherit`; Platform CI receives
 only the selected environment's secrets because its reusable job declares that
 environment.
+
+This test requires a GitHub organization plan that supports Environment
+secrets. It does not validate OCI Vault: a Vault-backed secret flow requires a
+separate Platform CI integration that resolves an approved Vault reference at
+runtime.

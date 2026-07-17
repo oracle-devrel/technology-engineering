@@ -34,6 +34,14 @@ workflows, and runner isolation, while recognizing the weaker pre-plan approval
 guarantee. GitHub Free private repositories are unsupported because environment
 secrets are unavailable.
 
+Use a GitHub organization plan that provides Environment secrets for the
+supported workflow. OCI Vault is an appropriate system of record for workload
+secrets, but it is **not** a drop-in replacement for GitHub Environment
+secrets in this release: Platform CI currently resolves placeholders only from
+the selected GitHub Environment. Do not place OCI Vault values in repository
+or organization secrets. Add an explicit, reviewed Vault-reference resolver to
+Platform CI before using OCI Vault as a deployment-time secret source.
+
 For a trial organization, publish private `platform-ci`, `gitops-templates`,
 and `nonprod-project-template` repositories from the deployment runbook.
 Create `dev`, `test`, and `uat` GitHub Environments in each project repository,
