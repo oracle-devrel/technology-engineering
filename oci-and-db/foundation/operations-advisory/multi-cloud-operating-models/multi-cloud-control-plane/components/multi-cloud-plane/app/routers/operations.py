@@ -24,6 +24,7 @@ from app.helpers import render_partial, render_repository_state_error
 from app.path_validation import validate_path_segment
 from app.services.dashboard_service import DashboardService
 from app.services.git_service import GitService, RepositoryStateError
+from app.services.layout_service import LayoutService
 from app.services.operations_service import OperationsService
 
 logger = logging.getLogger(__name__)
@@ -47,6 +48,7 @@ class ExecuteOperationForm(BaseModel):
     operation: RequiredText
     cloud: RequiredText = settings.default_cloud
     region: RequiredText = settings.default_region
+    environment: RequiredText
     change_reference: OptionalText = ""
 
 
@@ -95,11 +97,14 @@ async def operation_form_partial(
     project: ProjectSelected,
     cloud: str = Query(None),
     region: str = Query(None),
+    environment: str = Query("dev"),
 ) -> HTMLResponse:
     """Show form for a specific operation."""
     try:
         github_client = request.state.github_client
-        git_service = GitService(project, github_client=github_client)
+        layout = await LayoutService(github_client, project).load()
+        LayoutService.handoff_path(layout, environment)
+        git_service = GitService(project, github_client=github_client, environment=environment)
         catalog = await git_service.get_operations_catalog(cloud_filter=cloud)
 
         operation_def = OperationsService.find_operation(catalog, op)
@@ -153,6 +158,8 @@ async def operation_form_partial(
             cloud=operation_cloud,
             region=selected_region,
             region_options=region_options,
+            environment=environment,
+            environment_options=sorted(LayoutService.ALLOWED_ENVIRONMENTS),
             can_execute=can_execute,
         )
 
@@ -196,7 +203,9 @@ async def execute_operation_htmx(
         validate_path_segment(form.operation, "operation")
 
         github_client = request.state.github_client
-        git_service = GitService(form.project, github_client=github_client)
+        layout = await LayoutService(github_client, form.project).load()
+        LayoutService.handoff_path(layout, form.environment)
+        git_service = GitService(form.project, github_client=github_client, environment=form.environment)
         catalog = await git_service.get_operations_catalog(cloud_filter=form.cloud)
 
         operation_def = OperationsService.find_operation(catalog, form.operation)

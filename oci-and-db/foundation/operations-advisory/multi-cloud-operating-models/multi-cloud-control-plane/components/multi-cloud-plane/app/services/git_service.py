@@ -21,10 +21,18 @@ class RepositoryStateError(RuntimeError):
 class GitService:
     """Git operations for GitOps repositories."""
 
-    def __init__(self, project_name, github_client=None):
+    def __init__(self, project_name, github_client=None, environment: str | None = None):
         self.project_name = project_name
         self.org = settings.github_org
         self.github = github_client or default_github_client
+        self.environment = environment
+
+    def _manifest_path(self, cloud: str, region: str, resource_path: str) -> str:
+        """Build a shared-layout path only after an explicit environment choice."""
+        if not self.environment:
+            raise RepositoryStateError("A shared non-production environment is required")
+        validate_path_segment(self.environment, "environment")
+        return f"{cloud}/{self.environment}/{region}/{resource_path}"
 
     async def get_repository_structure(self, strict: bool = False):
         """Get repo structure as tree."""
@@ -44,10 +52,10 @@ class GitService:
                     continue
 
                 parts = path.split("/")
-                if len(parts) < 3:
+                if len(parts) < 4:
                     continue
 
-                cloud, region = parts[0], parts[1]
+                cloud, environment, region = parts[0], parts[1], parts[2]
                 if cloud.startswith(".") or cloud in ["README.md"]:
                     continue
 
@@ -56,9 +64,10 @@ class GitService:
                 if region not in clouds_dict[cloud]:
                     clouds_dict[cloud][region] = []
 
-                res_type = parts[2] if len(parts) > 3 else "root"
+                res_type = parts[3] if len(parts) > 4 else "root"
                 clouds_dict[cloud][region].append(
                     {
+                        "environment": environment,
                         "type": res_type,
                         "file": parts[-1],
                         "path": path,
@@ -81,7 +90,7 @@ class GitService:
 
     async def read_manifest(self, cloud, region, resource_path, strict: bool = False):
         """Read manifest file."""
-        path = f"{cloud}/{region}/{resource_path}"
+        path = self._manifest_path(cloud, region, resource_path)
         try:
             if strict:
                 content = await self.github.get_file_content_strict(self.project_name, path)
@@ -109,10 +118,11 @@ class GitService:
         validate_path_segment(cloud, "cloud")
         validate_path_segment(region, "region")
         validate_relative_path(resource_path)
-        file_path = f"{cloud}/{region}/{resource_path}"
+        validate_path_segment(self.environment or "", "environment")
+        file_path = self._manifest_path(cloud, region, resource_path)
         commit_message = commit_message or f"Update {file_path}"
         branch_suffix = f"{int(time.time())}-{uuid.uuid4().hex[:8]}"
-        branch = f"change/{cloud}-{region}-{branch_suffix}"
+        branch = f"change/{cloud}-{self.environment}-{region}-{branch_suffix}"
 
         issue = await self.github.create_issue_async(
             self.project_name,

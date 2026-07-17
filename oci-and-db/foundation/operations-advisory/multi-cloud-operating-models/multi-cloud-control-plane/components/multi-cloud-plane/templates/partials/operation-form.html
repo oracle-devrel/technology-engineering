@@ -24,6 +24,15 @@
             <input type="hidden" name="cloud" value="{{ cloud }}">
 
             <div class="form-control mb-4">
+                <label class="label"><span class="label-text">Environment</span></label>
+                <select name="environment" class="select select-bordered w-full" required>
+                    {% for option in environment_options %}
+                    <option value="{{ option }}" {% if option == environment %}selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-control mb-4">
                 <label class="label">
                     <span class="label-text">Region</span>
                 </label>

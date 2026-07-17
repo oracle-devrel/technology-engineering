@@ -19,7 +19,7 @@ MAX_FILE_BYTES = 1_048_576
 MAX_DIFF_BYTES = 131_072
 SHA_RE = re.compile(r"^[0-9a-f]{40}$")
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
-PROJECT = r"oe-(?:prod|dev)-[a-z][a-z0-9]*(?:-[a-z0-9]+)*"
+PROJECT = r"oe-(?:dev|test|uat)-[a-z][a-z0-9]*(?:-[a-z0-9]+)*"
 BRANCH_RE = re.compile(rf"^agent/project-onboard-(?:crq[0-9]{{1,20}}-)?(?P<project>{PROJECT})-[0-9a-f]{{12}}$")
 ORIGIN_PREFIXES = (
     "https://github.com/__CUSTOMER_ORG__/",

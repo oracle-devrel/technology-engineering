@@ -4,7 +4,6 @@ import re
 from pathlib import Path
 
 
-ENVIRONMENT = "prod"
 REGION = "eu-frankfurt-1"
 VCN_KEY = "VCN-FRA-LZP-P-PROJECTS-KEY"
 SUBNET_KEYS = {
@@ -14,7 +13,7 @@ SUBNET_KEYS = {
     "infrastructure": "SSN-FRA-LZP-P-INFRA",
 }
 PROJECT_PATTERN = re.compile(
-    r"^oe-(?P<environment>prod|dev)-"
+    r"^oe-(?P<environment>dev|test|uat)-"
     r"(?P<project_name>[a-z][a-z0-9]*(?:-[a-z0-9]+)*)$"
 )
 PLACEHOLDER_PATTERN = re.compile(r"<[^<>\r\n]+>")
@@ -52,9 +51,9 @@ def validate_project(project):
     if match is None:
         raise HandoffError(f"invalid project input: {project!r}")
     project_name = match.group("project_name")
-    if match.group("environment") != ENVIRONMENT or len(project_name) > 30:
+    if len(project_name) > 30:
         raise HandoffError(f"invalid project input: {project!r}")
-    return project_name
+    return match.group("environment"), project_name
 
 
 def find_project_config(project_directory):
@@ -101,7 +100,8 @@ def build_handoff_data(
     op02_output,
     network_config,
 ):
-    project_token = validate_project(project).upper()
+    environment, project_name = validate_project(project)
+    project_token = project_name.upper()
     project_config = require_mapping(
         project_config,
         "OP04 project configuration",
@@ -187,8 +187,10 @@ def build_handoff_data(
         network_root.get("network_configuration_categories"),
         "network_configuration_categories",
     )
-    prod = require_mapping(categories.get(ENVIRONMENT), "prod network category")
-    configured_vcns = require_mapping(prod.get("vcns"), "prod.vcns")
+    environment_category = require_mapping(
+        categories.get(environment), f"{environment} network category"
+    )
+    configured_vcns = require_mapping(environment_category.get("vcns"), f"{environment}.vcns")
     configured_vcn = require_mapping(
         configured_vcns.get(VCN_KEY),
         f"configured VCN {VCN_KEY}",
@@ -248,7 +250,7 @@ def build_handoff_data(
 
     return {
         "project": project,
-        "environment": ENVIRONMENT,
+        "environment": environment,
         "region": REGION,
         "compartments": compartments,
         "vcn": vcn,
@@ -337,10 +339,10 @@ Do not store secrets, passwords, private keys, or user credentials here.
 
 | Change type | Manifest path |
 |-------------|---------------|
-| Project NSGs | `oci/{data['region']}/network/project-nsgs.json` |
-| OCI ADB | `oci/{data['region']}/database/database.json` |
-| OCI compute | `oci/{data['region']}/compute/compute.json` |
-| Day 2 operations | `oci/{data['region']}/lifecycle_operations/` |
+| Project NSGs | `oci/{data['environment']}/{data['region']}/network/project-nsgs.json` |
+| OCI ADB | `oci/{data['environment']}/{data['region']}/database/database.json` |
+| OCI compute | `oci/{data['environment']}/{data['region']}/compute/compute.json` |
+| Day 2 operations | `oci/{data['environment']}/{data['region']}/lifecycle_operations/` |
 """
 
 

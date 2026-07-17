@@ -1,0 +1,39 @@
+name: Shared non-production OCI operations
+
+on:
+  pull_request:
+    branches: [main]
+    paths: ["oci/**/lifecycle_operations/**"]
+  push:
+    branches: [main]
+    paths: ["oci/**/lifecycle_operations/**"]
+
+jobs:
+  validate-path:
+    runs-on: [self-hosted, control-plane-resolver]
+    outputs:
+      environment: ${{ steps.path.outputs.environment }}
+      operation_file: ${{ steps.path.outputs.operation_file }}
+      runner_labels: ${{ steps.path.outputs.runner_labels }}
+    steps:
+      - uses: actions/checkout@v6
+      - id: path
+        shell: bash
+        run: |
+          set -euo pipefail
+          changed=$(git diff --name-only "${{ github.event.pull_request.base.sha || github.event.before }}" "${{ github.event.pull_request.head.sha || github.sha }}" | rg '^oci/(dev|test|uat)/[^/]+/lifecycle_operations/.+\.json$')
+          test "$(printf '%s\n' "$changed" | cut -d/ -f1-3 | sort -u | wc -l | tr -d ' ')" = 1
+          environment=$(printf '%s\n' "$changed" | head -1 | cut -d/ -f2)
+          echo "environment=$environment" >> "$GITHUB_OUTPUT"
+          echo "operation_file=$(printf '%s\n' "$changed" | head -1)" >> "$GITHUB_OUTPUT"
+          jq -c --arg e "$environment" '.environments[$e].runner_labels.oci' control-plane.json | sed 's/^/runner_labels=/' >> "$GITHUB_OUTPUT"
+  execute:
+    needs: validate-path
+    uses: __CUSTOMER_ORG__/platform-ci/.github/workflows/ansible-shared.yaml@__PLATFORM_CI_REF__
+    with:
+      mode: ${{ github.event_name == 'push' && 'execute' || 'check' }}
+      cloud: oci
+      environment_name: ${{ needs.validate-path.outputs.environment }}
+      operation_file: ${{ needs.validate-path.outputs.operation_file }}
+      runner_labels: ${{ needs.validate-path.outputs.runner_labels }}
+      bucket_name: __STATE_BUCKET__

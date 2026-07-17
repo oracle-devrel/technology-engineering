@@ -33,3 +33,12 @@ use environment secrets, CODEOWNERS, branch protection, pinned trusted
 workflows, and runner isolation, while recognizing the weaker pre-plan approval
 guarantee. GitHub Free private repositories are unsupported because environment
 secrets are unavailable.
+
+For a trial organization, publish private `platform-ci`, `gitops-templates`,
+and `oe-nonprod-project-template` repositories from the deployment runbook.
+Create `dev`, `test`, and `uat` GitHub Environments in each project repository,
+then set the scoped readiness marker with `gh secret set CONTROL_PLANE_READY
+--env <environment> --repo OWNER/oe-nonprod-PROJECT`. Configure branch
+protection to require status checks and code-owner approval before opening the
+first manifest pull request. Do not use organization-wide or repository secrets
+as substitutes for environment secrets.

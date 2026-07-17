@@ -25,7 +25,8 @@ Azure and Google Day 2 operations are not currently available.
 Installation prepares three private repositories for your organization:
 
 - `platform-ci` provides the approved Terraform and Ansible workflows.
-- `oe-env-project-template` provides the standard project repository structure.
+- `oe-nonprod-project-template` provides the standard shared non-production
+  project repository structure.
 - `gitops-templates` provides the approved resource and operation catalog.
 
 The Multi-Cloud Control Plane UI and Codex app assistant are optional. GitHub pull requests remain the

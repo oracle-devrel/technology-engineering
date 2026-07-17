@@ -20,8 +20,8 @@ on:
         required: true
         type: string
       environment_name:
-        description: "Selected GitHub Environment for shared-nonprod-v2"
-        required: false
+        description: "Selected GitHub Environment (dev, test, or uat)"
+        required: true
         type: string
       runner_labels:
         description: "Runner labels as JSON array"
@@ -34,12 +34,19 @@ jobs:
     name: "Ansible ${{ inputs.mode }}"
     runs-on: ${{ fromJSON(inputs.runner_labels) }}
     environment:
-      name: ${{ inputs.environment_name || '' }}
+      name: ${{ inputs.environment_name }}
     concurrency:
-      group: ${{ inputs.cloud }}-${{ inputs.environment_name || 'legacy' }}-ansible-${{ github.repository }}
+      group: ${{ inputs.cloud }}-${{ inputs.environment_name }}-ansible-${{ github.repository }}
       cancel-in-progress: false
 
     steps:
+      - name: Verify environment readiness
+        shell: bash
+        env:
+          CONTROL_PLANE_READY: ${{ secrets.CONTROL_PLANE_READY }}
+        run: |
+          test -n "$CONTROL_PLANE_READY" || { echo "❌ Selected GitHub Environment is not ready"; exit 1; }
+
       # =====================================================================
       # Setup
       # =====================================================================
@@ -102,9 +109,10 @@ jobs:
           # Extract operation_type from JSON
           OPERATION_TYPE=$(python3 -c "import json; print(json.load(open('$FULL_PATH'))['operation_type'])")
 
-          # Extract config path (cloud/region)
-          CONFIG_SUBPATH=$(echo "$OPERATION_FILE" | grep -oP '^[^/]+/[^/]+')
-          REGION=$(echo "$CONFIG_SUBPATH" | cut -d'/' -f2)
+          # Shared layout is cloud/environment/region.
+          CONFIG_SUBPATH=$(echo "$OPERATION_FILE" | cut -d/ -f1-3)
+          REGION=$(echo "$CONFIG_SUBPATH" | cut -d/ -f3)
+          test "$(echo "$CONFIG_SUBPATH" | cut -d/ -f2)" = "${{ inputs.environment_name }}"
 
           # Count targets
           TARGET_COUNT=$(python3 -c "

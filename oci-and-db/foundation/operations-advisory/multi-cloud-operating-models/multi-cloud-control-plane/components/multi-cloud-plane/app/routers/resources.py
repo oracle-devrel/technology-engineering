@@ -33,6 +33,7 @@ from app.services.catalog_service import CatalogService
 from app.services.dashboard_service import DashboardService
 from app.services.git_service import GitService, RepositoryStateError
 from app.services.handoff_service import HandoffService
+from app.services.layout_service import LayoutService
 from app.services.operations_service import OperationsService
 
 logger = logging.getLogger(__name__)
@@ -62,6 +63,7 @@ class DeployResourceForm(BaseModel):
     project: RequiredText
     template_path: RequiredText
     region: RequiredText
+    environment: RequiredText
     change_reference: OptionalText = ""
 
 
@@ -69,6 +71,7 @@ _REQUIRED_LABELS = {
     "project": "Project",
     "template_path": "Template path",
     "region": "Region",
+    "environment": "Environment",
 }
 _SKIP_COLLECTION_NORMALIZATION = {
     "gcp_autonomous_databases_configuration",
@@ -715,6 +718,7 @@ async def _resolve_resource_write(
     git: GitService,
     cloud: str,
     region: str,
+    environment: str,
     target_resource_path: str,
     data: dict,
     *,
@@ -726,7 +730,7 @@ async def _resolve_resource_write(
     if not incoming_collections:
         return target_resource_path, data
 
-    target_full_path = f"{cloud}/{region}/{target_resource_path}"
+    target_full_path = f"{cloud}/{environment}/{region}/{target_resource_path}"
     target_exists = False
     existing_manifests: list[tuple[str, str, dict]] = []
 
@@ -737,10 +741,12 @@ async def _resolve_resource_write(
             if region_entry.get("name") != region:
                 continue
             for resource in sorted(region_entry.get("resources", []), key=lambda item: item.get("path", "")):
+                if resource.get("environment") != environment:
+                    continue
                 full_path = resource.get("path", "")
                 if full_path == target_full_path:
                     target_exists = True
-                prefix = f"{cloud}/{region}/"
+                prefix = f"{cloud}/{environment}/{region}/"
                 if not full_path.startswith(prefix) or not full_path.endswith(".json"):
                     continue
                 relative_path = full_path[len(prefix):]
@@ -750,8 +756,7 @@ async def _resolve_resource_write(
                     continue
 
                 existing = await git.read_manifest(
-                    cloud,
-                    region,
+                    cloud, region,
                     relative_path,
                     strict=True,
                 )
@@ -871,6 +876,7 @@ async def resource_form_partial(
     request: Request,
     project: ProjectRead,
     path: str = Query(...),
+    environment: str = Query("dev"),
 ) -> HTMLResponse:
     """Show dynamic form to deploy a resource."""
     try:
@@ -882,8 +888,9 @@ async def resource_form_partial(
         for field in fields:
             field["name"] = field["placeholder"]
         fields.extend(_editable_default_fields_for_template(template.content))
+        layout = await LayoutService(github_client, project).load()
         handoff_suggestions = await HandoffService(github_client, project).load_suggestions(
-            template_path=path,
+            template_path=path, handoff_path=LayoutService.handoff_path(layout, environment),
         )
         for field in fields:
             placeholder = field.get("placeholder")
@@ -894,7 +901,7 @@ async def resource_form_partial(
         selected_region = handoff_suggestions.get("__REGION__") or default_region
         region_options = settings.region_options_for_cloud(cloud)
         region_options = _region_options_with_selected(region_options, selected_region)
-        git = GitService(project, github_client=github_client)
+        git = GitService(project, github_client=github_client, environment=environment)
         nsg_options = (
             []
             if _is_network_configuration(template.content)
@@ -924,6 +931,8 @@ async def resource_form_partial(
         default_region=default_region,
         selected_region=selected_region,
         region_options=region_options,
+        environment=environment,
+        environment_options=sorted(LayoutService.ALLOWED_ENVIRONMENTS),
         fields=fields,
     )
 
@@ -1029,11 +1038,14 @@ async def deploy_resource_submit(
         base_msg = f"Day-1: Deploy {filename}"
         commit_message = f"[{change_reference}] {base_msg}" if change_reference else base_msg
 
-        git = GitService(project, github_client=github_client)
+        layout = await LayoutService(github_client, project).load()
+        LayoutService.handoff_path(layout, form.environment)
+        git = GitService(project, github_client=github_client, environment=form.environment)
         resource_path, data = await _resolve_resource_write(
             git=git,
             cloud=cloud,
             region=region,
+            environment=form.environment,
             target_resource_path=target_resource_path,
             data=data,
             search_existing_collections=search_existing_collections,

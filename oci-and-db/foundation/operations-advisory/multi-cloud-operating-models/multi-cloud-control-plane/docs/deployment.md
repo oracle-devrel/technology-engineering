@@ -9,6 +9,9 @@ clean clone of this asset; no custom deployment program is required.
 export STAGE=/tmp/control-plane
 export CUSTOMER_ORG=example-enterprise
 export STATE_BUCKET=example-control-plane-state
+export OCI_ORCHESTRATOR_REF=34202e837e9df015ddaaa4fce0ab62bb6e3883de
+export AZURE_ORCHESTRATOR_REF=2d0b532f7639212f1b7c2708cd15b71d80b217fe
+export GCP_ORCHESTRATOR_REF=c434e0697a3ca4daa8f8c7903afd4c6c7be287f9
 
 mkdir -p "$STAGE"
 cp -R components/platform-ci "$STAGE/platform-ci"
@@ -19,7 +22,7 @@ cp LICENSE "$STAGE/oe-nonprod-project-template/LICENSE"
 cp LICENSE "$STAGE/gitops-templates/LICENSE"
 
 find "$STAGE" -type f -exec perl -pi -e \
-  's/__CUSTOMER_ORG__/$ENV{CUSTOMER_ORG}/g; s/gitops-state-bucket/$ENV{STATE_BUCKET}/g' {} +
+  's/__CUSTOMER_ORG__/$ENV{CUSTOMER_ORG}/g; s/gitops-state-bucket/$ENV{STATE_BUCKET}/g; s/__STATE_BUCKET__/$ENV{STATE_BUCKET}/g' {} +
 ```
 
 Create the Platform CI commit first because project workflows pin that exact
@@ -32,8 +35,8 @@ git -C "$STAGE/platform-ci" -c user.name='Platform Administrator' \
   -c user.email='platform@invalid' commit -m 'Prepare Platform CI'
 export PLATFORM_CI_REF=$(git -C "$STAGE/platform-ci" rev-parse HEAD)
 
-find "$STAGE/oe-env-project-template" -type f -exec perl -pi -e \
-  's/__PLATFORM_CI_REF__/$ENV{PLATFORM_CI_REF}/g' {} +
+find "$STAGE/oe-nonprod-project-template" -type f -exec perl -pi -e \
+  's/__PLATFORM_CI_REF__/$ENV{PLATFORM_CI_REF}/g; s/__OCI_ORCHESTRATOR_REF__/$ENV{OCI_ORCHESTRATOR_REF}/g; s/__AZURE_ORCHESTRATOR_REF__/$ENV{AZURE_ORCHESTRATOR_REF}/g; s/__GCP_ORCHESTRATOR_REF__/$ENV{GCP_ORCHESTRATOR_REF}/g' {} +
 
 for repository in oe-nonprod-project-template gitops-templates; do
   git -C "$STAGE/$repository" init -b main
@@ -57,7 +60,7 @@ install it through your approved Codex plugin process. Both remain optional.
 Verify that no mutable workflow reference or local test content is present:
 
 ```bash
-rg '@main|__CUSTOMER_ORG__|__PLATFORM_CI_REF__|gitops-state-bucket' "$STAGE"
+rg '@main|__CUSTOMER_ORG__|__PLATFORM_CI_REF__|__.*_ORCHESTRATOR_REF__|__STATE_BUCKET__' "$STAGE"
 find "$STAGE" -type d -name tests
 ```
 
@@ -99,7 +102,7 @@ export HANDOFF=/secure/project-foundation-handoff.json
 export PROJECT_OUTPUT=/tmp/project-repository
 
 jq -e '
-  .schema_version == 1 and .cloud == "oci" and
+  .schema_version == 2 and .repository_layout == "shared-nonprod-v2" and .cloud == "oci" and
   (.source_commit | test("^[0-9a-f]{40}$")) and
   (.source_run | test("^[0-9]+$")) and
   ((.subnets | keys | sort) == ["app","database","infrastructure","web"])
@@ -132,4 +135,4 @@ apply the same protections, and grant the Project Team access.
 Open one non-production manifest pull request. The installation is working when
 the expected plan is tied to the current commit, independent approval is
 required, the trusted runner completes the merged change, and state is stored
-under the expected project/cloud/region key.
+under the expected project/cloud/environment/region key.
