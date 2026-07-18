@@ -17,6 +17,7 @@ on:
 jobs:
  projects:
     name: 'op01_manage_landing_zone_environment'
+    if: vars.FOUNDATION_AUTOMATION_READY == 'true'
     env:
       SCENARIO: op01_manage_landing_zone_environment
 
@@ -136,11 +137,16 @@ jobs:
       id: plan
       if: github.event_name == 'pull_request'
       run: |
-       cd ${{ github.workspace }}/ORCH
-       SCENARIO_DIR=${{ github.workspace }}/$SCENARIO
-       VARS=`find $SCENARIO_DIR -name *json`
-       echo $VARS
-       terraform plan -no-color `for i in $VARS; do echo "-var-file $i"; done` -var "output_path=output" --out tfplan.binary
+       set -euo pipefail
+       cd "${{ github.workspace }}/ORCH"
+       SCENARIO_DIR="${{ github.workspace }}/$SCENARIO"
+       mapfile -t VAR_FILES < <(find "$SCENARIO_DIR" -type f -name '*.json' | sort)
+       test "${#VAR_FILES[@]}" -gt 0
+       VAR_ARGS=()
+       for var_file in "${VAR_FILES[@]}"; do
+         VAR_ARGS+=("-var-file=$var_file")
+       done
+       terraform plan -no-color "${VAR_ARGS[@]}" -var "output_path=output" --out tfplan.binary
 
 
     # Integration: Show fail status if plan failed
@@ -152,8 +158,13 @@ jobs:
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: |
-       cd ${{ github.workspace }}/ORCH
-       SCENARIO_DIR=${{ github.workspace }}/$SCENARIO
-       VARS=`find $SCENARIO_DIR -name *json`
-       echo $VARS
-       terraform apply -no-color `for i in $VARS; do echo "-var-file $i"; done` -var "output_path=output" --auto-approve
+       set -euo pipefail
+       cd "${{ github.workspace }}/ORCH"
+       SCENARIO_DIR="${{ github.workspace }}/$SCENARIO"
+       mapfile -t VAR_FILES < <(find "$SCENARIO_DIR" -type f -name '*.json' | sort)
+       test "${#VAR_FILES[@]}" -gt 0
+       VAR_ARGS=()
+       for var_file in "${VAR_FILES[@]}"; do
+         VAR_ARGS+=("-var-file=$var_file")
+       done
+       terraform apply -no-color "${VAR_ARGS[@]}" -var "output_path=output" --auto-approve

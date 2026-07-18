@@ -52,8 +52,14 @@ git -C "$STAGE/$FOUNDATION_REPOSITORY" status --short
 ```
 
 The final command must return no output. Create a private GitHub repository with
-the same name and publish this prepared `main` branch through your approved Git
-process.
+the same name, set the installation gate to `false`, and then publish this
+prepared `main` branch through your approved Git process:
+
+```bash
+gh repo create "$CUSTOMER_ORG/$FOUNDATION_REPOSITORY" --private
+gh variable set FOUNDATION_AUTOMATION_READY --body false \
+  --repo "$CUSTOMER_ORG/$FOUNDATION_REPOSITORY"
+```
 
 ## 3. Configure GitHub and OCI
 
@@ -67,12 +73,21 @@ variables:
 | `OCI_TF_STATE_NAMESPACE` | Object Storage namespace |
 | `REGION` | State bucket region |
 | `OCI_TENANCY_OCID` | Tenancy used to validate the OP02 handoff |
+| `FOUNDATION_AUTOMATION_READY` | Set to `false` during installation; set to `true` only after the runner and backend are verified |
 
 Bootstrap creates the permanent runner, so its first apply needs a temporary
 trusted Linux execution host with Terraform 1.12.1 and an approved OCI
 administrative identity. Create the state bucket first, review the Bootstrap
 plan, apply it, register the permanent runner, verify Instance Principal access,
 and retain the temporary state until recovery is tested.
+
+All foundation jobs are skipped while `FOUNDATION_AUTOMATION_READY` is missing
+or not exactly `true`. Set it explicitly to `false` before publishing the
+initial `main` branch. This makes the initial repository push safe: it cannot
+queue or apply Bootstrap, OP00, OP01, OP02, OP03, or OP04. After repository
+variables, the trusted runner, and backend access are verified, set it to
+`true`, open one focused pull request per phase, and use the normal plan then
+merge gate. Do not set it to `true` merely to make an initial push run.
 
 ## 4. Establish the foundation
 

@@ -22,7 +22,7 @@ permissions:
 jobs:
   handoff:
     name: Generate project-foundation handoff artifact
-    if: github.ref == 'refs/heads/main'
+    if: vars.FOUNDATION_AUTOMATION_READY == 'true' && github.ref == 'refs/heads/main'
     runs-on: self-hosted
     timeout-minutes: 15
     env:

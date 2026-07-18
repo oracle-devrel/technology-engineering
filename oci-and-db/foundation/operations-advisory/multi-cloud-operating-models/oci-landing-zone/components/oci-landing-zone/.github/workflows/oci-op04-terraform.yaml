@@ -33,6 +33,7 @@ on:
 jobs:
   project:
     name: 'op04_manage_project'
+    if: vars.FOUNDATION_AUTOMATION_READY == 'true'
     runs-on: self-hosted
     outputs:
       target_env: ${{ steps.target.outputs.target_env }}

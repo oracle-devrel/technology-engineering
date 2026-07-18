@@ -178,6 +178,23 @@ class LandingZoneContractTests(unittest.TestCase):
         self.assertIn('--handoff-path "$HANDOFF_PATH"', handoff)
         self.assertNotIn("enviroment_information.md", handoff)
 
+    def test_foundation_workflows_fail_closed_until_explicitly_enabled(self):
+        workflows = COMPONENT / ".github/workflows"
+        guarded = (
+            "oci-bootstrap-terraform.yaml",
+            "oci-op00-terraform.yaml",
+            "oci-op01-terraform.yaml",
+            "oci-op02-terraform.yaml",
+            "oci-op03-platform-gitops-terraform.yaml",
+            "oci-op04-terraform.yaml",
+            "oci-project-handoff.yaml",
+        )
+        for workflow in guarded:
+            content = (workflows / workflow).read_text(encoding="utf-8")
+            self.assertIn(
+                "vars.FOUNDATION_AUTOMATION_READY == 'true'", content, workflow
+            )
+
     def test_packaged_cloud_skill_validates_handoff_and_write_boundaries(self):
         handoff = self.machine_handoff("test")
         markdown = " ".join(

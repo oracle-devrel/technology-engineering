@@ -27,6 +27,7 @@ on:
 jobs:
   projects:
     name: 'op02_manage_environment'
+    if: vars.FOUNDATION_AUTOMATION_READY == 'true'
     runs-on: self-hosted
     permissions:
       contents: read
