@@ -50,10 +50,13 @@ gh variable set CONTROL_PLANE_READY_PROD --body true --repo OWNER/prod-PROJECT
 The secret commands prompt for values; never put literal members on a command
 line or in Git.
 
-Create a dedicated production approver team before creating the repository,
-replace `__PROJECT__` in the template, and configure exactly the secret source
-selected by `security_profile`. Every bundle key and runtime placeholder must
-begin with `PROD_`. Require
+Before creating the production repository, render
+`.github/CODEOWNERS.template` as `.github/CODEOWNERS` with valid existing
+owners. Keep `.github`, `control-plane.json`, and `environments` under platform
+ownership; use a dedicated production approver team or user for the production
+workload paths. Replace `__PROJECT__` in the template and configure exactly the
+secret source selected by `security_profile`. Every bundle key and runtime
+placeholder must begin with `PROD_`. Require
 independent approval, code-owner review, passing plans, and isolated production
 runners. For the Free fallback, run the
 [repository-secret end-to-end verification](repository-secret-e2e.md) against

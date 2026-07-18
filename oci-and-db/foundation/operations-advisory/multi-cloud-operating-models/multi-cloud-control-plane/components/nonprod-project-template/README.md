@@ -10,6 +10,11 @@ are lowercase `dev`, `test`, and `uat`. Production aliases are permanently
 rejected. The protected default branch owns `control-plane.json`, workflows,
 and CODEOWNERS. Project changes may contain one cloud/environment/region tuple.
 
+Before creating a project repository, render `.github/CODEOWNERS.template` to
+an active `.github/CODEOWNERS` file with valid existing platform and
+environment owners. Do not publish the generic template placeholders as active
+CODEOWNERS rules.
+
 Configure one JSON Actions repository secret per enabled environment:
 `GITOPS_SECRET_VALUES_DEV`, `GITOPS_SECRET_VALUES_TEST`, or
 `GITOPS_SECRET_VALUES_UAT`. Configure the matching

@@ -81,12 +81,6 @@ branch and code-owner controls; restrict administration and direct pushes,
 record a human PR review, and follow the limitations in
 [Shared non-production](shared-nonproduction.md#github-free-security-profile).
 
-Before granting Project Team access, replace every `__PROJECT__-<environment>-approvers`
-owner in the generated `CODEOWNERS` with an existing team for that project and
-environment. Keep platform ownership for `.github`, `control-plane.json`, and
-`environments`; only workload subtrees are delegated. On a paid plan, require
-code-owner review and the plan/check status in the `main` branch-protection rule.
-
 ## 2. Configure trusted runners
 
 | Setting | Purpose |
@@ -147,6 +141,18 @@ mv "$PROJECT_OUTPUT/control-plane.json.tmp" "$PROJECT_OUTPUT/control-plane.json"
   printf '\n```\n'
 } > "$PROJECT_OUTPUT/environments/dev/environment_information.md"
 
+# Generic templates deliberately ship CODEOWNERS.template, not active rules.
+# Every owner must already exist and have repository write access.
+export PLATFORM_OWNERS='@example-platform-admin'
+export DEV_OWNERS='@example-dev-approver'
+export TEST_OWNERS='@example-test-approver'
+export UAT_OWNERS='@example-uat-approver'
+cp "$PROJECT_OUTPUT/.github/CODEOWNERS.template" \
+  "$PROJECT_OUTPUT/.github/CODEOWNERS"
+find "$PROJECT_OUTPUT/.github/CODEOWNERS" -type f -exec perl -pi -e \
+  's/__PLATFORM_OWNERS__/$ENV{PLATFORM_OWNERS}/g; s/__DEV_OWNERS__/$ENV{DEV_OWNERS}/g; s/__TEST_OWNERS__/$ENV{TEST_OWNERS}/g; s/__UAT_OWNERS__/$ENV{UAT_OWNERS}/g' {} +
+! rg '__[A-Z_]+__' "$PROJECT_OUTPUT/.github/CODEOWNERS"
+
 git -C "$PROJECT_OUTPUT" init -b main
 git -C "$PROJECT_OUTPUT" add -A
 git -C "$PROJECT_OUTPUT" -c user.name='Platform Administrator' \
@@ -160,6 +166,10 @@ Confirm the project, environment,
 region, compartments, VCN, subnets, workflow run, commit, and state keys against
 the approved onboarding record. Then create the private project repository,
 apply the same protections, and grant the Project Team access.
+
+Keep `.github`, `control-plane.json`, and `environments` under platform
+ownership; only workload subtrees are delegated. On a paid plan, require
+code-owner review and the plan/check status in the `main` branch-protection rule.
 
 Configure exactly one security profile for the entire repository. Do not
 configure both sources.

@@ -38,6 +38,20 @@ class SecurityProfileTests(unittest.TestCase):
             )
             self.assertEqual(contract["security_profile"], "github-environments")
 
+    def test_templates_require_rendering_valid_codeowners(self):
+        for template in ("nonprod-project-template", "prod-project-template"):
+            github = COMPONENTS / template / ".github"
+            self.assertFalse((github / "CODEOWNERS").exists())
+            content = (github / "CODEOWNERS.template").read_text(encoding="utf-8")
+            self.assertIn("__PLATFORM_OWNERS__", content)
+            self.assertNotIn("@__CUSTOMER_ORG__", content)
+
+        deployment = (ROOT / "docs" / "deployment.md").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("CODEOWNERS.template", deployment)
+        self.assertIn("Every owner must already exist", deployment)
+
     def test_hardened_callers_resolve_repository_profile(self):
         workflows = (
             COMPONENTS / "nonprod-project-template" / ".github/workflows/terraform.yaml",

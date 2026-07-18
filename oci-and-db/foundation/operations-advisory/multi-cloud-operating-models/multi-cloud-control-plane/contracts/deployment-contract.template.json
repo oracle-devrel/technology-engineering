@@ -30,7 +30,7 @@
       "handoff_path": "environments/<environment>/environment_information.md",
       "environment_contract": {
         "github_environment_upgrade_name": "<environment>",
-        "codeowners": ["@__CUSTOMER_ORG__/__PROJECT__-<environment>-approvers"],
+        "codeowners": ["<configured-environment-owner>"],
         "runner_labels": {"oci": ["self-hosted", "oci", "<environment>"], "azure": ["self-hosted", "azure", "<environment>"], "gcp": ["self-hosted", "gcp", "<environment>"]},
         "supported_clouds": ["oci", "azure", "gcp"],
         "repository_secret": "GITOPS_SECRET_VALUES_<ENVIRONMENT_UPPER>",
@@ -44,7 +44,7 @@
     "handoff_path": "environments/prod/environment_information.md",
     "environment_contract": {
       "github_environment_upgrade_name": "prod",
-      "codeowners": ["@__CUSTOMER_ORG__/__PROJECT__-prod-approvers"],
+      "codeowners": ["<configured-production-owner>"],
       "runner_labels": {"oci": ["self-hosted", "oci", "prod"], "azure": ["self-hosted", "azure", "prod"], "gcp": ["self-hosted", "gcp", "prod"]},
       "supported_clouds": ["oci", "azure", "gcp"],
       "repository_secret": "GITOPS_SECRET_VALUES_PROD",

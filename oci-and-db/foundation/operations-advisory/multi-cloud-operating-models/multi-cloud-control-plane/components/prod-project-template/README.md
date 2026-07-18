@@ -6,7 +6,9 @@ it uses only the `prod` deployment environment, production-isolated runners and
 production approvers. Manifest paths are `<cloud>/prod/<region>/...` and the
 handoff is `environments/prod/environment_information.md`.
 
-Replace `__PROJECT__` and the CODEOWNERS team before granting project access.
+Replace `__PROJECT__` and render `.github/CODEOWNERS.template` to an active
+`.github/CODEOWNERS` file with valid existing owners before granting project
+access.
 Keep the default `github-environments` profile on paid plans and follow the
 production runbook. For the GitHub Free `repository-secrets` fallback,
 configure `GITOPS_SECRET_VALUES_PROD` as the JSON Actions repository secret and

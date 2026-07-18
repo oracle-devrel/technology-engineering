@@ -1,6 +1,0 @@
-/.github/ @__CUSTOMER_ORG__/platform-team
-/control-plane.json @__CUSTOMER_ORG__/platform-team
-/environments/ @__CUSTOMER_ORG__/platform-team
-/oci/prod/ @__CUSTOMER_ORG__/__PROJECT__-prod-approvers
-/azure/prod/ @__CUSTOMER_ORG__/__PROJECT__-prod-approvers
-/gcp/prod/ @__CUSTOMER_ORG__/__PROJECT__-prod-approvers
