@@ -71,6 +71,8 @@ Reviewed: 15.06.2026
     - Format, beautify, and export SQL. Available on Marcus Doeringer's public platform. 
 - [Deploying Oracle GoldenGate Docker for Database Migration to Oracle Database@Google Cloud ](https://amalrajputhenchira.com/2026/06/09/deploying-oracle-goldengate-docker-for-database-migration-to-oracle-databasegoogle-cloud/)
     - Detailed, step-by-step instructions for deploying Oracle GoldenGate on docker for database migrtion to Oracle Database@Google Cloud, available on Amalraj Puthenchira's public platform
+- [Managing statistics during migration to Oracle Autonomous AI Database ](https://amalrajputhenchira.com/2026/07/17/managing-statistics-during-migration-to-oracle-autonomous-ai-database/)
+    - Detailed, step-by-step instructions for managing statisics during database migration to Oracle Autonomous AI Database , available on Amalraj Puthenchira's public platform
 
 # Useful Links
 
