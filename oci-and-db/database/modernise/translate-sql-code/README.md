@@ -2,7 +2,7 @@
  
 Translate SQL code from a non-Oracle SQL flavor to Oracle using the DBMS_CLOUD_MIGRATION package. This is an Oracle Autonomous Database PL/SQL package that helps translate SQL written for non-Oracle databases into Oracle SQL flavour. A SQL translation and compatibility support solution, not for moving data by itself despite the “migration” in the name. You can use this package when migrating applications and you need help converting SQL syntax, DDL, or query patterns. It is useful for testing individual statements, converting SQL scripts, and enabling temporary compatibility while applications are being adapted.
 
-Reviewed: 15.06.2026
+Reviewed: 21.07.2026
  
 # Table of Contents
  
