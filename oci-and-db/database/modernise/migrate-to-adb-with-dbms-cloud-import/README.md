@@ -2,7 +2,7 @@
  
 How to use the new DBMS_CLOUD_IMPORT package to import data into the Oracle Autonomous AI Database from Oracle and supported non-Oracle sources, including MySQL, PostgreSQL, and Amazon Redshift in a unified way. You can import an entire DB or just a subset of the data stored in a supported source database.
 
-Reviewed: 21.07.2026 
+Reviewed: 22.07.2026 
  
 # Table of Contents
  
@@ -12,6 +12,7 @@ Reviewed: 21.07.2026
 # Team Publications
  
 - [Migrate data from Oracle and non-Oracle databases using DBMS_CLOUD_IMPORT](https://techrochet.com/dbmscloudimport)
+    - A blog article showing how to use DBMS_CLOUD_IMPORT to import data from Oracle and non-Oracle databases into Oracle Autonomous AI Database using a simple, unified, consistent approach.
  
 # Useful Links
 
