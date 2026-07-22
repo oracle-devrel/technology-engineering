@@ -14,6 +14,7 @@ permissions:
 
 jobs:
   resolve:
+    if: vars.PROJECT_AUTOMATION_READY == 'true'
     runs-on: [self-hosted, control-plane-resolver]
     outputs:
       cloud: ${{ steps.tuple.outputs.cloud }}

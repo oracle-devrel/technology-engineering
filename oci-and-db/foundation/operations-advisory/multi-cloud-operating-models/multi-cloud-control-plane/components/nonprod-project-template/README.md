@@ -15,6 +15,11 @@ an active `.github/CODEOWNERS` file with valid existing platform and
 environment owners. Do not publish the generic template placeholders as active
 CODEOWNERS rules.
 
+New repositories are inactive by default. Set the repository variable
+`PROJECT_AUTOMATION_READY` to `true` only after the rendered contract,
+CODEOWNERS, handoff, secrets, readiness markers, runner routing, and branch
+protection are all in place.
+
 Configure one JSON Actions repository secret per enabled environment:
 `GITOPS_SECRET_VALUES_DEV`, `GITOPS_SECRET_VALUES_TEST`, or
 `GITOPS_SECRET_VALUES_UAT`. Configure the matching

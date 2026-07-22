@@ -243,6 +243,19 @@ Only configure enabled environments. Every JSON member name must begin with
 the corresponding uppercase environment. Never place multiple environments in
 one bundle.
 
+Project automation is disabled by default. Only after the rendered contract,
+CODEOWNERS, handoff files, selected-profile secrets and readiness markers,
+runner routing, and `main` branch protection are verified, enable it once:
+
+```bash
+gh variable set PROJECT_AUTOMATION_READY --body true \
+  --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
+```
+
+Do not set this variable while publishing or rendering a generic template. A
+missing or any value other than `true` skips every project workflow before it
+can allocate a runner.
+
 ## 4. Confirm the installation
 
 Open one non-production manifest pull request. The installation is working when

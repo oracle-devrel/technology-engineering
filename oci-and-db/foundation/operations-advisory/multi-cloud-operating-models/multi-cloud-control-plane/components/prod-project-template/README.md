@@ -9,6 +9,10 @@ handoff is `environments/prod/environment_information.md`.
 Replace `__PROJECT__` and render `.github/CODEOWNERS.template` to an active
 `.github/CODEOWNERS` file with valid existing owners before granting project
 access.
+New repositories are inactive by default. Set the repository variable
+`PROJECT_AUTOMATION_READY` to `true` only after the rendered contract,
+CODEOWNERS, handoff, secrets, readiness markers, runner routing, and branch
+protection are all in place.
 Keep the default `github-environments` profile on paid plans and follow the
 production runbook. For the GitHub Free `repository-secrets` fallback,
 configure `GITOPS_SECRET_VALUES_PROD` as the JSON Actions repository secret and
