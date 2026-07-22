@@ -1,0 +1,24 @@
+{
+    "dynamic_groups_configuration": {
+        "dynamic_groups": {
+            "DG-BOOTSTRAP-RUNNERS": {
+                "name": "dg-bootstrap-runners",
+                "description": "Dynamic group identifying the Bootstrap CI runner.",
+                "matching_rule": "All {instance.compartment.id = '__BOOTSTRAP_COMPARTMENT_OCID__'}"
+            }
+        }
+    },
+    "policies_configuration": {
+        "enable_cis_benchmark_checks": "false",
+        "supplied_policies": {
+            "PCY-BOOTSTRAP": {
+                "name": "pcy-bootstrap",
+                "description": "Policy for the Bootstrap CI runner to establish the Landing Zone.",
+                "compartment_id": "TENANCY-ROOT",
+                "statements": [
+                    "allow dynamic-group dg-bootstrap-runners to manage all-resources in tenancy"
+                ]
+            }
+        }
+    }
+}
