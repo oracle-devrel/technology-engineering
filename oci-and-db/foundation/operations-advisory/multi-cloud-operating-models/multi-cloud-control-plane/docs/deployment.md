@@ -56,6 +56,18 @@ find "$STAGE/deployment-contract.json" -type f -exec perl -pi -e \
   's/__PLATFORM_CI_REF__/$ENV{PLATFORM_CI_REF}/g; s/__PROJECT_TEMPLATE_REF__/$ENV{PROJECT_TEMPLATE_REF}/g; s/__PRODUCTION_PROJECT_TEMPLATE_REF__/$ENV{PRODUCTION_PROJECT_TEMPLATE_REF}/g; s/__CATALOGS_REF__/$ENV{CATALOGS_REF}/g' {} +
 ```
 
+After pushing the prepared template repositories to the customer organization,
+mark both of them as GitHub template repositories. Private templates remain
+private; this setting is required before a Cloud Operator can create a project
+repository from either template in the GitHub UI or API.
+
+```bash
+gh repo edit "$CUSTOMER_ORG/nonprod-project-template" --template
+gh repo edit "$CUSTOMER_ORG/prod-project-template" --template
+gh api "repos/$CUSTOMER_ORG/nonprod-project-template" --jq '.is_template'
+gh api "repos/$CUSTOMER_ORG/prod-project-template" --jq '.is_template'
+```
+
 If the optional UI is required, copy `components/optional-ui`, replace
 `__CUSTOMER_ORG__`, remove its `tests/` directory and `test_github_api.py`, and
 initialize it in the same way. If the Codex app assistant
