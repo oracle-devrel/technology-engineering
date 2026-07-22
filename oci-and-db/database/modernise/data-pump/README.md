@@ -6,7 +6,7 @@ The Data Pump export utility writes the schema objects, including the tables and
 
 A set of best practices and other useful assets/links can be found in this page.
 
-Reviewed: 04.06.2026
+Reviewed: 21.07.2026
 
  
 # Table of Contents
