@@ -18,7 +18,7 @@ Also make sure to check the dedicated pages of the main technology areas of Data
 * [Migrate to Autonomous Database using DBMS_CLOUD_IMPORT](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/modernise/migrate-to-adb-with-dbms-cloud-import)
 
 
-Reviewed: 21.07.2026
+Reviewed: 22.07.2026
 
 # Team Publications
  
@@ -74,10 +74,6 @@ Reviewed: 21.07.2026
     - Detailed, step-by-step instructions for deploying Oracle GoldenGate on docker for database migrtion to Oracle Database@Google Cloud, available on Amalraj Puthenchira's public platform
 - [Managing statistics during migration to Oracle Autonomous AI Database ](https://amalrajputhenchira.com/2026/07/17/managing-statistics-during-migration-to-oracle-autonomous-ai-database/)
     - Detailed, step-by-step instructions for managing statisics during database migration to Oracle Autonomous AI Database , available on Amalraj Puthenchira's public platform
-- [A unified approach to Migrate to Autonomous Database ](https://techrochet.com/dbmscloudimport)
-    - A blog article showing how to use DBMS_CLOUD_IMPORT to import data from Oracle and non-Oracle databases into Oracle Autonomous AI Database using a simple, consistent approach. 
-- [Translate 3rd Party SQL code for Autonomous Database ](https://techrochet.com/dbmscloudmigration)
-    - A step-by-step guide showing how to use the DBMS_CLOUD_MIGRATION PL/SQL package in the Oracle Autonomous Database to translate SQL written for non-Oracle databases into Oracle SQL.
 
 # Useful Links
 
