@@ -21,6 +21,12 @@ If a plan or apply fails, retain the workflow logs and determine whether
 Terraform state matches OCI before submitting a corrective pull request. Do not
 edit state manually or bypass review with a local apply.
 
+OCI automatically adds `Oracle-Tags.CreatedBy` and `Oracle-Tags.CreatedOn` to
+new resources. The protected phase workflows ignore exactly those two
+provider-managed keys during planning, preserving the tags and preventing
+unchanged configurations from proposing their removal. Treat either removal
+as a failed idempotency check and stop before merge.
+
 The workflow publishes `environment_information.md` for people and
 `project-foundation-handoff.json` for automated processing. Keep the Markdown
 file at the machine contract's exact `handoff_path` in the target project

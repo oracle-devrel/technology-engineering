@@ -168,6 +168,27 @@ class LandingZoneContractTests(unittest.TestCase):
                 'rm -rf -- "$GITHUB_WORKSPACE/ORCH"',
                 content,
             )
+        for phase in (
+            "oci-op00-terraform.yaml",
+            "oci-op01-terraform.yaml",
+            "oci-op02-terraform.yaml",
+            "oci-op03-platform-gitops-terraform.yaml",
+            "oci-op04-terraform.yaml",
+        ):
+            content = (workflows / phase).read_text()
+            self.assertEqual(
+                content.count(
+                    '"Oracle-Tags.CreatedBy",'
+                ),
+                3,
+            )
+            self.assertEqual(
+                content.count(
+                    '"Oracle-Tags.CreatedOn",'
+                ),
+                3,
+            )
+            self.assertEqual(content.count("ignore_defined_tags = ["), 3)
 
     def test_foundation_runner_bootstrap_is_reproducible(self):
         cloud_init = (

@@ -142,16 +142,28 @@ jobs:
           provider "oci" {
             auth   = "InstancePrincipal"
             region = var.region
+            ignore_defined_tags = [
+              "Oracle-Tags.CreatedBy",
+              "Oracle-Tags.CreatedOn",
+            ]
           }
           provider "oci" {
             auth   = "InstancePrincipal"
             alias  = "home"
             region = local.regions_map[local.home_region_key]
+            ignore_defined_tags = [
+              "Oracle-Tags.CreatedBy",
+              "Oracle-Tags.CreatedOn",
+            ]
           }
           provider "oci" {
             auth   = "InstancePrincipal"
             alias  = "secondary_region"
             region = var.region
+            ignore_defined_tags = [
+              "Oracle-Tags.CreatedBy",
+              "Oracle-Tags.CreatedOn",
+            ]
           }
           terraform {
             required_version = ">= 1.5.0"

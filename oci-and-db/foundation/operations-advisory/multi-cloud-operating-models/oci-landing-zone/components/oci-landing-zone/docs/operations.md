@@ -28,6 +28,14 @@ If a plan or apply fails, retain its logs and reconcile OCI with Terraform state
 before retrying. Never repair the failure with an unreviewed local apply or a
 manual state edit.
 
+An unchanged configuration should not propose updates that remove
+`Oracle-Tags.CreatedBy` or `Oracle-Tags.CreatedOn`. OCI adds those automatic
+default tags after resource creation. The phase workflows use the OCI
+provider's `ignore_defined_tags` setting for exactly those two keys so a later
+apply preserves them and remains idempotent. If either tag appears as a
+removal in a plan, stop before merge and verify that the protected workflow
+still contains that provider setting.
+
 After OP04, use `project-foundation-handoff.json` for machine processing and
 `environment_information.md` for people. The workflow does not create or write to
 a project repository. The three workload-role compartment values intentionally
