@@ -75,11 +75,36 @@ variables:
 | `OCI_TENANCY_OCID` | Tenancy used to validate the OP02 handoff |
 | `FOUNDATION_AUTOMATION_READY` | Set to `false` during installation; set to `true` only after the runner and backend are verified |
 
+### Bootstrap administrator authentication preflight
+
+Before creating the state bucket or the temporary runner, verify the local OCI
+administrator profile against the target tenancy. This is a hard gate: do not
+continue after an authentication error.
+
+```bash
+export OCI_CLI_PROFILE=cloudopstenancy
+export TARGET_TENANCY_OCID='<target-tenancy-ocid>'
+oci iam tenancy get --profile "$OCI_CLI_PROFILE" \
+  --tenancy-id "$TARGET_TENANCY_OCID" \
+  --query 'data.{name:name,id:id,home_region_key:"home-region-key"}' \
+  --output table
+```
+
+The command must return the intended tenancy. A `401 NotAuthenticated` result
+means that the API-key profile, its fingerprint, or its private key does not
+match the OCI user; repair that administrative access before creating any
+resource. The API key is only for out-of-band setup of the state bucket and
+temporary runner boundary. Never place its private key or profile in GitHub
+Actions secrets, repository variables, Git, or handoff files.
+
 Bootstrap creates the permanent runner, so its first apply needs a temporary
-trusted Linux execution host with Terraform 1.12.1 and an approved OCI
-administrative identity. Create the state bucket first, review the Bootstrap
-plan, apply it, register the permanent runner, verify Instance Principal access,
-and retain the temporary state until recovery is tested.
+trusted Linux **self-hosted runner** with Git, outbound HTTPS, and an Instance
+Principal identity authorized for Bootstrap and state access. The workflow
+installs its pinned Terraform release. Use a short-lived GitHub runner
+registration token only to register that runner; it does not authenticate to
+OCI. Create the state bucket first, review the Bootstrap plan, apply it through
+the temporary runner, register the permanent runner, verify Instance Principal
+access, and retain the temporary state until recovery is tested.
 
 All foundation jobs are skipped while `FOUNDATION_AUTOMATION_READY` is missing
 or not exactly `true`. Set it explicitly to `false` before publishing the

@@ -8,11 +8,31 @@ first project handoff.
 The first Bootstrap apply cannot run on the runner it creates. Before starting,
 an OCI administrator must provide:
 
-- A temporary trusted Linux execution host with Git and outbound HTTPS access.
-- Approved OCI authentication with permission to create the Bootstrap
-  compartment, network, compute instance, dynamic group, and root policy.
+- A temporary repository-scoped Linux GitHub Actions runner with Git and
+  outbound HTTPS access.
+- A temporary dynamic group and Instance Principal policy for that runner, with
+  permission to create the Bootstrap compartment, network, compute instance,
+  dynamic group, root policy, and state objects.
 - An OCI Object Storage bucket for Terraform state.
 - A private GitHub repository containing this prepared configuration.
+
+Use an OCI API-key profile only to create and verify this temporary boundary.
+Before creating any resource, verify it returns the intended tenancy:
+
+```bash
+export OCI_CLI_PROFILE=cloudopstenancy
+export TARGET_TENANCY_OCID='<target-tenancy-ocid>'
+oci iam tenancy get --profile "$OCI_CLI_PROFILE" \
+  --tenancy-id "$TARGET_TENANCY_OCID" \
+  --query 'data.{name:name,id:id,home_region_key:"home-region-key"}' \
+  --output table
+```
+
+Stop on `401 NotAuthenticated`; repair the API-key profile before proceeding.
+Never copy the API key into GitHub Actions secrets or runner configuration. The
+workflow itself uses the temporary runner's Instance Principal identity. A
+short-lived GitHub runner registration token registers the runner only; it is
+not OCI authentication.
 
 Review `bootstrap/` and replace every example value. In particular, confirm the
 target region, image OCID, CIDRs, SSH public key, names, and the scope of
@@ -21,10 +41,10 @@ Zone; narrow it when your operating model permits. The GitHub workflow installs
 its pinned Terraform 1.12.1 release; a local Terraform installation is needed
 only if the temporary host will perform an approved local verification.
 
-Run the Bootstrap configuration from the temporary host using the OCI
-orchestrator commit pinned by this installation. Save the reviewed plan before
-apply. Retain the temporary host and local state until state is safely stored in
-the OCI bucket and recovery has been tested.
+Run the Bootstrap configuration through the reviewed GitHub workflow on the
+temporary runner, using the OCI orchestrator commit pinned by this installation.
+Save the reviewed plan before apply. Retain the temporary runner and state until
+state is safely stored in the OCI bucket and recovery has been tested.
 
 Bootstrap is deliberately a two-pass operation:
 
