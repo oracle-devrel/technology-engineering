@@ -48,6 +48,10 @@ OE `v3.1.0`'s obsolete `allow service osms` statement: the legacy
 and current OCI IAM rejects the retired `osms` service principal. OS Management
 Hub access must use its current, separately scoped policies.
 
+The adapter derives every DRG route-distribution statement key from its owning
+distribution. This preserves the Hub E routes while satisfying the official
+networking module's globally unique flattened-statement key contract.
+
 The current OE model creates one project compartment under the environment's
 `PROJECTS` compartment. Application, database, and infrastructure values in the
 handoff are logical compatibility fields and contain the same project

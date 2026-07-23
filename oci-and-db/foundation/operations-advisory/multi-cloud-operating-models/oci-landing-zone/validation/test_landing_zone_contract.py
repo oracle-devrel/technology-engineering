@@ -213,6 +213,11 @@ class LandingZoneContractTests(unittest.TestCase):
             "statement != retired_osms_statement",
             render,
         )
+        self.assertIn(
+            "drg_route_statement_key(distribution_key)",
+            render,
+        )
+        self.assertNotIn("'ROUTE-ALL-VCNS-KEY'", render)
         self.assertIn("project_identity(environment, project)", render)
         self.assertIn("dg-mccp-platform-runner", render)
         self.assertNotIn("project_key[0:", render)

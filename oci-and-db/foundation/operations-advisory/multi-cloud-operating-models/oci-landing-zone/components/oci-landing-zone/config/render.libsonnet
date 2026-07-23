@@ -85,6 +85,13 @@ local environment_category(categories, vcn_key) =
     'expected one network category for ' + vcn_key;
   matches[0];
 
+local drg_route_statement_key(distribution_key) =
+  std.strReplace(
+    std.strReplace(distribution_key, 'DRGRD-', 'DRGRDS-'),
+    '-KEY',
+    '-ALL-VCNS-KEY',
+  );
+
 local render(customer) =
   local raw_config = customer.blueprint;
   local environment_names = std.objectFields(raw_config.environments);
@@ -178,7 +185,7 @@ local render(customer) =
           full_drg.drg_route_distributions[distribution_key];
         distribution {
           statements: {
-            'ROUTE-ALL-VCNS-KEY': {
+            [drg_route_statement_key(distribution_key)]: {
               action: 'ACCEPT',
               match_criteria: {
                 attachment_type: 'VCN',
