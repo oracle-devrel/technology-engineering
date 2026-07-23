@@ -196,6 +196,60 @@ class LandingZoneContractTests(unittest.TestCase):
                 content,
                 workflow.name,
             )
+            self.assertIsNone(
+                re.search(
+                    r'-var=["\']?[a-z_]+_dependency=',
+                    content,
+                ),
+                workflow.name,
+            )
+        for workflow, dependency_file in {
+            "oci-op01-terraform.yaml":
+                "op01-dependencies.tfvars.json",
+            "oci-op02-terraform.yaml":
+                "op02-dependencies.tfvars.json",
+            "oci-op03-platform-gitops-terraform.yaml":
+                "op03-dependencies.tfvars.json",
+            "oci-op04-terraform.yaml":
+                "op04-dependencies.tfvars.json",
+        }.items():
+            content = (workflows / workflow).read_text()
+            self.assertGreaterEqual(
+                content.count(dependency_file),
+                2,
+                workflow,
+            )
+            self.assertIn("terraform.tfstate.json", content, workflow)
+            self.assertIn("state pull", content, workflow)
+            self.assertIn(
+                ".instances[]?.attributes.content",
+                content,
+                workflow,
+            )
+            self.assertIn(
+                "Expected exactly one Orchestrator dependency artifact",
+                content,
+                workflow,
+            )
+        for workflow, artifacts in {
+            "oci-op01-terraform.yaml": ("compartments_output",),
+            "oci-op02-terraform.yaml": (
+                "compartments_output",
+                "network_output",
+                "tags_output",
+            ),
+            "oci-op03-platform-gitops-terraform.yaml": (
+                "compartments_output",
+                "network_output",
+            ),
+            "oci-op04-terraform.yaml": (
+                "identity_domains_output",
+                "compartments_output",
+            ),
+        }.items():
+            content = (workflows / workflow).read_text()
+            for artifact in artifacts:
+                self.assertIn(artifact, content, workflow)
 
     def test_foundation_runner_bootstrap_is_reproducible(self):
         cloud_init = (
@@ -363,6 +417,26 @@ class LandingZoneContractTests(unittest.TestCase):
             list((COMPONENT / "bootstrap").glob("*")),
             [],
         )
+
+    def test_repeatability_exception_is_narrowly_documented(self):
+        for document in (
+            ROOT / "docs/operations.md",
+            COMPONENT / "docs/operations.md",
+        ):
+            text = document.read_text(encoding="utf-8")
+            self.assertIn(
+                "terraform-oci-modules-observability/issues/17",
+                text,
+            )
+            self.assertIn("target.compartment_id", text)
+            self.assertIn(
+                "no other OCI changes, replacements, or destroys",
+                text,
+            )
+            self.assertIn(
+                "Do not patch the downloaded official module",
+                text,
+            )
 
     def test_documentation_links_and_bootstrap_model_are_current(self):
         link_pattern = re.compile(r"\[[^\]]+\]\(([^)]+)\)")

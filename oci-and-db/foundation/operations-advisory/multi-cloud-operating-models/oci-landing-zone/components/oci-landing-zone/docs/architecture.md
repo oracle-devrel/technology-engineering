@@ -66,4 +66,9 @@ from the selected phase as Terraform variable files.
 
 Because phases depend on earlier outputs, deploy them in order for a new
 tenancy. Later maintenance remains isolated to the phase that owns the changed
-resource.
+resource. A downstream phase reads the exact Orchestrator-generated dependency
+JSON content recorded in protected upstream Terraform state
+(`compartments_output.json`, `network_output.json`, and similar) and passes the
+resulting file paths through a temporary `.tfvars.json` file. The temporary
+file only binds official Orchestrator dependency variables to JSON files; it
+does not define resources or replace the Orchestrator.

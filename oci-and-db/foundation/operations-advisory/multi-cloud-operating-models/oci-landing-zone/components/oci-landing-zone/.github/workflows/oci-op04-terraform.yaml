@@ -245,16 +245,49 @@ jobs:
             -backend-config="region=$STATE_REGION" \
             -backend-config="auth=InstancePrincipal" \
             -backend-config="key=op02_manage_environment/$ENVIRONMENT/terraform.tfstate"
-          terraform -chdir="$dependency_root/op00" output -json \
-            iam_resources > "$RUNNER_TEMP/op00-iam.json"
-          terraform -chdir="$dependency_root/op02" output -json \
-            iam_resources > "$RUNNER_TEMP/op02-iam.json"
-          jq '{identity_domains: .identity_domains}' \
-            "$RUNNER_TEMP/op00-iam.json" \
-            > "$RUNNER_TEMP/identity-domains-dependency.json"
-          jq '{compartments: .compartments}' \
-            "$RUNNER_TEMP/op02-iam.json" \
-            > "$RUNNER_TEMP/compartments-dependency.json"
+          op00_state="$dependency_root/op00/terraform.tfstate.json"
+          op02_state="$dependency_root/op02/terraform.tfstate.json"
+          terraform -chdir="$dependency_root/op00" state pull > "$op00_state"
+          terraform -chdir="$dependency_root/op02" state pull > "$op02_state"
+          extract_dependency() {
+            local state_file="$1"
+            local resource_name="$2"
+            local output_file="$3"
+            jq -er --arg resource_name "$resource_name" '
+              [
+                .resources[]? |
+                select(
+                  .type == "local_file" and
+                  .name == $resource_name
+                ) |
+                .instances[]?.attributes.content
+              ] |
+              if length == 1 then
+                .[0] | fromjson
+              else
+                error(
+                  "Expected exactly one Orchestrator dependency artifact"
+                )
+              end
+            ' "$state_file" > "$output_file"
+          }
+          extract_dependency \
+            "$op00_state" \
+            identity_domains_output \
+            "$RUNNER_TEMP/identity-domains-dependency.json"
+          extract_dependency \
+            "$op02_state" \
+            compartments_output \
+            "$RUNNER_TEMP/compartments-dependency.json"
+          jq -n \
+            --arg identity_domains \
+              "$RUNNER_TEMP/identity-domains-dependency.json" \
+            --arg compartments \
+              "$RUNNER_TEMP/compartments-dependency.json" \
+            '{
+              identity_domains_dependency: $identity_domains,
+              compartments_dependency: $compartments
+            }' > "$RUNNER_TEMP/op04-dependencies.tfvars.json"
 
       - name: Configure Instance Principal and OP04 state
         shell: bash
@@ -350,9 +383,8 @@ jobs:
           terraform -chdir="$GITHUB_WORKSPACE/ORCH" plan \
             -input=false -no-color \
             -var-file="$RUNNER_TEMP/oci-credentials.tfvars.json" \
+            -var-file="$RUNNER_TEMP/op04-dependencies.tfvars.json" \
             -var-file="$GITHUB_WORKSPACE/request/$OP04_ROOT/generated/iam.json" \
-            -var="identity_domains_dependency=$RUNNER_TEMP/identity-domains-dependency.json" \
-            -var="compartments_dependency=$RUNNER_TEMP/compartments-dependency.json" \
             -var="output_path=$RUNNER_TEMP/op04-output" \
             -out="$RUNNER_TEMP/op04.tfplan"
 

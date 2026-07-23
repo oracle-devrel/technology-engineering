@@ -141,25 +141,54 @@ jobs:
             -backend-config="region=$STATE_REGION" \
             -backend-config="auth=InstancePrincipal" \
             -backend-config="key=op01_manage_landing_zone_environment/terraform.tfstate"
-          terraform -chdir="$state_directory" output -json \
-            iam_resources > "$RUNNER_TEMP/op01-iam.json"
-          terraform -chdir="$state_directory" output -json \
-            network_resources > "$RUNNER_TEMP/op01-network-resources.json"
-          terraform -chdir="$state_directory" output -json \
-            governance_resources > "$RUNNER_TEMP/op01-governance.json"
-          jq '{compartments: .compartments}' \
-            "$RUNNER_TEMP/op01-iam.json" \
-            > "$RUNNER_TEMP/compartments-dependency.json"
-          jq '{network_resources: .}' \
-            "$RUNNER_TEMP/op01-network-resources.json" \
-            > "$RUNNER_TEMP/network-dependency.json"
-          jq '{tags: .tags}' \
-            "$RUNNER_TEMP/op01-governance.json" \
-            > "$RUNNER_TEMP/tags-dependency.json"
+          state_file="$state_directory/terraform.tfstate.json"
+          terraform -chdir="$state_directory" state pull > "$state_file"
+          extract_dependency() {
+            local resource_name="$1"
+            local output_file="$2"
+            jq -er --arg resource_name "$resource_name" '
+              [
+                .resources[]? |
+                select(
+                  .type == "local_file" and
+                  .name == $resource_name
+                ) |
+                .instances[]?.attributes.content
+              ] |
+              if length == 1 then
+                .[0] | fromjson
+              else
+                error(
+                  "Expected exactly one Orchestrator dependency artifact"
+                )
+              end
+            ' "$state_file" > "$output_file"
+          }
+          extract_dependency \
+            compartments_output \
+            "$RUNNER_TEMP/compartments-dependency.json"
+          extract_dependency \
+            network_output \
+            "$RUNNER_TEMP/network-dependency.json"
+          extract_dependency \
+            tags_output \
+            "$RUNNER_TEMP/tags-dependency.json"
+          jq -n \
+            --arg compartments \
+              "$RUNNER_TEMP/compartments-dependency.json" \
+            --arg network \
+              "$RUNNER_TEMP/network-dependency.json" \
+            --arg tags \
+              "$RUNNER_TEMP/tags-dependency.json" \
+            '{
+              compartments_dependency: $compartments,
+              network_dependency: $network,
+              tags_dependency: $tags
+            }' > "$RUNNER_TEMP/op02-dependencies.tfvars.json"
           drg_route_table_id="$(
             jq -er '
               [
-                .drg_route_tables |
+                .network_resources.drg_route_tables |
                 to_entries[] |
                 select(.key | test("^DRGRT-.*-SPOKES-KEY$")) |
                 .value.id
@@ -167,7 +196,7 @@ jobs:
               select(length == 1) |
               .[0] |
               select(startswith("ocid1.drgroutetable."))
-            ' "$RUNNER_TEMP/op01-network-resources.json"
+            ' "$RUNNER_TEMP/network-dependency.json"
           )"
           jq --arg route_table_id "$drg_route_table_id" '
             walk(
@@ -278,11 +307,9 @@ jobs:
           terraform -chdir="$GITHUB_WORKSPACE/ORCH" plan \
             -input=false -no-color \
             -var-file="$RUNNER_TEMP/oci-credentials.tfvars.json" \
+            -var-file="$RUNNER_TEMP/op02-dependencies.tfvars.json" \
             -var-file="$GITHUB_WORKSPACE/request/$OP02_ROOT/generated/iam.json" \
             -var-file="$RUNNER_TEMP/op02-network.json" \
-            -var="compartments_dependency=$RUNNER_TEMP/compartments-dependency.json" \
-            -var="network_dependency=$RUNNER_TEMP/network-dependency.json" \
-            -var="tags_dependency=$RUNNER_TEMP/tags-dependency.json" \
             -var="output_path=$RUNNER_TEMP/op02-output" \
             -out="$RUNNER_TEMP/op02.tfplan"
 

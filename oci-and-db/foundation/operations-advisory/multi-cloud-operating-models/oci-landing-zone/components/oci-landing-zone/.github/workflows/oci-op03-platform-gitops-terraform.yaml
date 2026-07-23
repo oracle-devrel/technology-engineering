@@ -162,16 +162,44 @@ jobs:
             -backend-config="region=$STATE_REGION" \
             -backend-config="auth=InstancePrincipal" \
             -backend-config="key=op01_manage_landing_zone_environment/terraform.tfstate"
-          terraform -chdir="$dependency_root" output -json \
-            iam_resources > "$RUNNER_TEMP/op01-iam.json"
-          terraform -chdir="$dependency_root" output -json \
-            network_resources > "$RUNNER_TEMP/op01-network.json"
-          jq '{compartments: .compartments}' \
-            "$RUNNER_TEMP/op01-iam.json" \
-            > "$RUNNER_TEMP/compartments-dependency.json"
-          jq '{network_resources: .}' \
-            "$RUNNER_TEMP/op01-network.json" \
-            > "$RUNNER_TEMP/network-dependency.json"
+          state_file="$dependency_root/terraform.tfstate.json"
+          terraform -chdir="$dependency_root" state pull > "$state_file"
+          extract_dependency() {
+            local resource_name="$1"
+            local output_file="$2"
+            jq -er --arg resource_name "$resource_name" '
+              [
+                .resources[]? |
+                select(
+                  .type == "local_file" and
+                  .name == $resource_name
+                ) |
+                .instances[]?.attributes.content
+              ] |
+              if length == 1 then
+                .[0] | fromjson
+              else
+                error(
+                  "Expected exactly one Orchestrator dependency artifact"
+                )
+              end
+            ' "$state_file" > "$output_file"
+          }
+          extract_dependency \
+            compartments_output \
+            "$RUNNER_TEMP/compartments-dependency.json"
+          extract_dependency \
+            network_output \
+            "$RUNNER_TEMP/network-dependency.json"
+          jq -n \
+            --arg compartments \
+              "$RUNNER_TEMP/compartments-dependency.json" \
+            --arg network \
+              "$RUNNER_TEMP/network-dependency.json" \
+            '{
+              compartments_dependency: $compartments,
+              network_dependency: $network
+            }' > "$RUNNER_TEMP/op03-dependencies.tfvars.json"
 
       - name: Configure Instance Principal and OP03 state
         shell: bash
@@ -266,10 +294,9 @@ jobs:
           terraform -chdir="$GITHUB_WORKSPACE/ORCH" validate -no-color
           arguments=(
             "-var-file=$RUNNER_TEMP/oci-credentials.tfvars.json"
+            "-var-file=$RUNNER_TEMP/op03-dependencies.tfvars.json"
             "-var-file=$GITHUB_WORKSPACE/request/op03_manage_platform_gitops/configuration/identity.json"
             "-var-file=$GITHUB_WORKSPACE/request/op03_manage_platform_gitops/configuration/runner.json"
-            "-var=compartments_dependency=$RUNNER_TEMP/compartments-dependency.json"
-            "-var=network_dependency=$RUNNER_TEMP/network-dependency.json"
             "-var=output_path=$RUNNER_TEMP/op03-output"
           )
           if [ "$OP03_STAGE" = "identity" ]; then

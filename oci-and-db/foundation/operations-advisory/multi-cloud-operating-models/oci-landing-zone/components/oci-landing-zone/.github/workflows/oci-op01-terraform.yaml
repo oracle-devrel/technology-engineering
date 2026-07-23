@@ -230,6 +230,28 @@ jobs:
           dependency_root="$RUNNER_TEMP/op02-dependencies"
           mkdir -p "$dependency_root"
           output_files=()
+          extract_dependency() {
+            local state_file="$1"
+            local resource_name="$2"
+            local output_file="$3"
+            jq -er --arg resource_name "$resource_name" '
+              [
+                .resources[]? |
+                select(
+                  .type == "local_file" and
+                  .name == $resource_name
+                ) |
+                .instances[]?.attributes.content
+              ] |
+              if length == 1 then
+                .[0] | fromjson
+              else
+                error(
+                  "Expected exactly one Orchestrator dependency artifact"
+                )
+              end
+            ' "$state_file" > "$output_file"
+          }
           for environment in "${environments[@]}"; do
             [[ "$environment" =~ ^(dev|test|uat|prod)$ ]]
             state_directory="$dependency_root/$environment"
@@ -246,17 +268,24 @@ jobs:
               -backend-config="region=$STATE_REGION" \
               -backend-config="auth=InstancePrincipal" \
               -backend-config="key=op02_manage_environment/$environment/terraform.tfstate"
-            output="$state_directory/iam.json"
-            terraform -chdir="$state_directory" output -json \
-              iam_resources > "$output"
+            state_file="$state_directory/terraform.tfstate.json"
+            terraform -chdir="$state_directory" state pull > "$state_file"
+            output="$state_directory/compartments_output.json"
+            extract_dependency \
+              "$state_file" compartments_output "$output"
             output_files+=("$output")
           done
           jq -s '
             reduce .[] as $item (
               {"compartments": {}};
-              .compartments += ($item.compartments // {})
+              .compartments += $item.compartments
             )
           ' "${output_files[@]}" > "$RUNNER_TEMP/op02-compartments.json"
+          jq -n \
+            --arg compartments \
+              "$RUNNER_TEMP/op02-compartments.json" \
+            '{compartments_dependency: $compartments}' \
+            > "$RUNNER_TEMP/op01-dependencies.tfvars.json"
 
       - name: Initialize and plan OP01
         shell: bash
@@ -283,7 +312,7 @@ jobs:
           )
           if [ "$OP01_STAGE" != "core" ]; then
             arguments+=(
-              "-var=compartments_dependency=$RUNNER_TEMP/op02-compartments.json"
+              "-var-file=$RUNNER_TEMP/op01-dependencies.tfvars.json"
             )
           fi
           for file in "${files[@]}"; do
