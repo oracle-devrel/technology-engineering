@@ -151,7 +151,9 @@ jobs:
           dependency_root="$RUNNER_TEMP/op01-dependency"
           mkdir -p "$dependency_root"
           cat > "$dependency_root/backend.tf" <<'EOF'
-          terraform { backend "oci" {} }
+          terraform {
+            backend "oci" {}
+          }
           EOF
           terraform -chdir="$dependency_root" init \
             -input=false -no-color \

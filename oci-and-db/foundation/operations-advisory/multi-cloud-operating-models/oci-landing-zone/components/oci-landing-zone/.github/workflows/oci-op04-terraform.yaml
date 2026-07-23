@@ -226,7 +226,9 @@ jobs:
           for phase in op00 op02; do
             mkdir -p "$dependency_root/$phase"
             cat > "$dependency_root/$phase/backend.tf" <<'EOF'
-          terraform { backend "oci" {} }
+          terraform {
+            backend "oci" {}
+          }
           EOF
           done
           terraform -chdir="$dependency_root/op00" init \

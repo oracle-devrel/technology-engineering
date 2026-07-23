@@ -189,6 +189,13 @@ class LandingZoneContractTests(unittest.TestCase):
                 3,
             )
             self.assertEqual(content.count("ignore_defined_tags = ["), 3)
+        for workflow in workflows.glob("*.yaml"):
+            content = workflow.read_text()
+            self.assertNotIn(
+                'terraform { backend "oci" {} }',
+                content,
+                workflow.name,
+            )
 
     def test_foundation_runner_bootstrap_is_reproducible(self):
         cloud_init = (

@@ -79,7 +79,9 @@ jobs:
           state_directory="$RUNNER_TEMP/op04-state-$GITHUB_RUN_ID"
           mkdir -p "$artifact_directory" "$state_directory"
           cat > "$state_directory/backend.tf" <<'EOF'
-          terraform { backend "oci" {} }
+          terraform {
+            backend "oci" {}
+          }
           EOF
           op02_state_key="op02_manage_environment/$environment/terraform.tfstate"
           op04_state_key="$project_directory/terraform.tfstate"

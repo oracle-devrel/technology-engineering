@@ -130,7 +130,9 @@ jobs:
           state_directory="$RUNNER_TEMP/op01-state"
           mkdir -p "$state_directory"
           cat > "$state_directory/backend.tf" <<'EOF'
-          terraform { backend "oci" {} }
+          terraform {
+            backend "oci" {}
+          }
           EOF
           terraform -chdir="$state_directory" init \
             -input=false -no-color \
