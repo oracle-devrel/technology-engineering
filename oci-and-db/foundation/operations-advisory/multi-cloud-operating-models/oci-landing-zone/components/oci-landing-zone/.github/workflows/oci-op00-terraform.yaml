@@ -105,7 +105,7 @@ jobs:
         uses: hashicorp/setup-terraform@v4.0.1
         with:
           terraform_version: 1.15.8
-          terraform_wrapper: true
+          terraform_wrapper: false
 
       - name: Configure Instance Principal and OP00 state
         shell: bash

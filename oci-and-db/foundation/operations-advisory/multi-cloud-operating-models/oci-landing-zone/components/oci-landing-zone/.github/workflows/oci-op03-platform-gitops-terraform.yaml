@@ -138,7 +138,7 @@ jobs:
         uses: hashicorp/setup-terraform@v4.0.1
         with:
           terraform_version: 1.15.8
-          terraform_wrapper: true
+          terraform_wrapper: false
 
       - name: Load OP01 dependencies
         shell: bash

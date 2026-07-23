@@ -22,7 +22,7 @@
           ]
         },
         "cloud_init": {
-          "heredoc_script": "#cloud-config\nusers:\n  - default\n  - name: github-runner\n    groups: [wheel]\n    shell: /bin/bash\nruncmd:\n  - dnf install -y git jq nodejs python3 unzip tar gzip\n  - mkdir -p /opt/actions-runner\n  - curl --fail --location --output /tmp/actions-runner.tar.gz https://github.com/actions/runner/releases/download/v2.336.0/actions-runner-linux-arm64-2.336.0.tar.gz\n  - echo '58b758e420b87093fbd4bfddd368074960053e2f1388f01848c82624b90f27d1  /tmp/actions-runner.tar.gz' | sha256sum --check\n  - tar xzf /tmp/actions-runner.tar.gz -C /opt/actions-runner\n  - chown -R github-runner:github-runner /opt/actions-runner\n  - rm -f /tmp/actions-runner.tar.gz"
+          "heredoc_script": "#cloud-config\nusers:\n  - default\n  - name: github-runner\n    groups: [wheel]\n    shell: /bin/bash\nruncmd:\n  - dnf install -y git jq python3 unzip tar gzip\n  - mkdir -p /opt/actions-runner\n  - curl --fail --location --output /tmp/actions-runner.tar.gz https://github.com/actions/runner/releases/download/v2.336.0/actions-runner-linux-arm64-2.336.0.tar.gz\n  - echo '58b758e420b87093fbd4bfddd368074960053e2f1388f01848c82624b90f27d1  /tmp/actions-runner.tar.gz' | sha256sum --check\n  - tar xzf /tmp/actions-runner.tar.gz -C /opt/actions-runner\n  - chown -R github-runner:github-runner /opt/actions-runner\n  - rm -f /tmp/actions-runner.tar.gz"
         },
         "flex_shape_settings": {
           "memory": "6",

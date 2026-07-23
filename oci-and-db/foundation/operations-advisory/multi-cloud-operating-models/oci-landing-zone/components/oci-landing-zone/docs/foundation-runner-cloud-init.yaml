@@ -12,7 +12,6 @@ packages:
   - git
   - gzip
   - jq
-  - nodejs
   - oraclelinux-developer-release-el9
   - python3
   - python39-oci-cli
