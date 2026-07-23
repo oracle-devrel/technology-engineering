@@ -42,7 +42,11 @@ has no Terraform state.
 
 OE `v3.1.0` owns the hierarchy, naming, and standard IAM definitions. The local
 Jsonnet adapter projects its output into the OP00–OP04 state boundaries and
-adds only the MCPP runner policies that OE does not provide.
+adds only the MCPP runner policies that OE does not provide. It also removes
+OE `v3.1.0`'s obsolete `allow service osms` statement: the legacy
+[OS Management service reached end of life on April 23, 2025](https://docs.oracle.com/iaas/os-management/osms/alx-overview.htm),
+and current OCI IAM rejects the retired `osms` service principal. OS Management
+Hub access must use its current, separately scoped policies.
 
 The current OE model creates one project compartment under the environment's
 `PROJECTS` compartment. Application, database, and infrastructure values in the

@@ -28,6 +28,8 @@ local base_group_keys = [
   'GRP-LZ-SECURITY-ADMIN-KEY',
   'GRP-SECURITY-ADMIN-KEY',
 ];
+local retired_osms_statement =
+  'allow service osms to read instances in tenancy';
 
 local selected_policies(policies, keys) =
   policies {
@@ -35,6 +37,14 @@ local selected_policies(policies, keys) =
       [key]: policies.supplied_policies[key]
       for key in keys
     },
+  };
+
+local without_retired_osms_statement(policy) =
+  policy {
+    statements: std.filter(
+      function(statement) statement != retired_osms_statement,
+      policy.statements,
+    ),
   };
 
 local selected_groups(groups, keys) =
@@ -196,6 +206,8 @@ local render(customer) =
     },
   };
 
+  local op00_policies =
+    selected_policies(iam.policies_configuration, global_policy_keys);
   local op00_iam = {
     identity_domains_configuration:
       iam.identity_domains_configuration,
@@ -204,8 +216,14 @@ local render(customer) =
         iam.identity_domain_groups_configuration,
         base_group_keys,
       ),
-    policies_configuration:
-      selected_policies(iam.policies_configuration, global_policy_keys),
+    policies_configuration: op00_policies {
+      supplied_policies: op00_policies.supplied_policies {
+        'PCY-SERVICES-ADMIN-KEY':
+          without_retired_osms_statement(
+            op00_policies.supplied_policies['PCY-SERVICES-ADMIN-KEY'],
+          ),
+      },
+    },
   };
   local op01_iam = {
     compartments_configuration:

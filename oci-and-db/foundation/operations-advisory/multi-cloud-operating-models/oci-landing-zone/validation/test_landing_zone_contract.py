@@ -208,6 +208,11 @@ class LandingZoneContractTests(unittest.TestCase):
             COMPONENT / ".github/workflows/oci-op04-terraform.yaml"
         ).read_text()
         self.assertIn("local lz = import 'landing_zone.libsonnet'", render)
+        self.assertIn("without_retired_osms_statement", render)
+        self.assertIn(
+            "statement != retired_osms_statement",
+            render,
+        )
         self.assertIn("project_identity(environment, project)", render)
         self.assertIn("dg-mccp-platform-runner", render)
         self.assertNotIn("project_key[0:", render)
