@@ -150,6 +150,10 @@ class LandingZoneContractTests(unittest.TestCase):
             self.assertIn("terraform_version: 1.15.8", content)
             self.assertIn('required_version = ">= 1.5.0"', content)
             self.assertIn("pull_request_target:", content)
+            self.assertIn(
+                'rm -rf -- "$GITHUB_WORKSPACE/ORCH"',
+                content,
+            )
             self.assertIn("apply", content.lower())
         for phase in (
             "oci-op02-terraform.yaml",
@@ -158,6 +162,10 @@ class LandingZoneContractTests(unittest.TestCase):
             content = (workflows / phase).read_text()
             self.assertIn("terraform_version: 1.15.8", content)
             self.assertIn('required_version = ">= 1.5.0"', content)
+            self.assertIn(
+                'rm -rf -- "$GITHUB_WORKSPACE/ORCH"',
+                content,
+            )
 
     def test_foundation_runner_bootstrap_is_reproducible(self):
         cloud_init = (
@@ -168,9 +176,24 @@ class LandingZoneContractTests(unittest.TestCase):
             "ripgrep/releases/download/15.2.0",
             "go-jsonnet/releases/download/v0.22.0",
             "actions/runner/releases/download/v2.336.0",
+            "nodejs",
             "python39-oci-cli",
         ):
             self.assertIn(value, cloud_init)
+        readiness = (
+            COMPONENT / ".github/workflows/oci-bootstrap-readiness.yaml"
+        ).read_text()
+        self.assertIn("git jq jsonnet node oci rg", readiness)
+        runner = json.loads(
+            (
+                COMPONENT
+                / "op03_manage_platform_gitops/configuration/runner.json"
+            ).read_text()
+        )
+        runner_script = runner["instances_configuration"]["instances"][
+            "VM-LZ-SHARED-GITOPS-RUNNER-KEY"
+        ]["cloud_init"]["heredoc_script"]
+        self.assertIn("jq nodejs python3", runner_script)
         self.assertIn("--versioning Enabled", runbook)
         self.assertIn('."cidr-block"', runbook)
         self.assertIn("--is-ipv6-enabled false", runbook)

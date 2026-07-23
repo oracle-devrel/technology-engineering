@@ -23,7 +23,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for command in git jq jsonnet oci rg; do
+          for command in git jq jsonnet node oci rg; do
             command -v "$command" >/dev/null || {
               echo "Required runner command is missing: $command" >&2
               exit 1

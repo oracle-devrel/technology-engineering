@@ -91,6 +91,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          rm -rf -- "$GITHUB_WORKSPACE/ORCH"
           git init --quiet "$GITHUB_WORKSPACE/ORCH"
           git -C "$GITHUB_WORKSPACE/ORCH" remote add origin \
             https://github.com/oci-landing-zones/terraform-oci-modules-orchestrator.git

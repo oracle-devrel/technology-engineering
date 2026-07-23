@@ -221,7 +221,9 @@ export FOUNDATION_RUNNER_INSTANCE_OCID=$(
 Wait for the instance, cloud-init, and Bastion plugin to become ready before
 registering GitHub Actions. The supplied cloud-init pins and verifies ripgrep
 `15.2.0`, go-jsonnet `0.22.0`, and GitHub Actions runner `2.336.0`; OCI CLI is
-installed from Oracle's OL9 package repository.
+installed from Oracle's OL9 package repository. It also installs the OL9
+`nodejs` package because the pinned `hashicorp/setup-terraform` action's
+Terraform wrapper runs with `/usr/bin/env node`.
 
 In the private foundation repository, use **Settings → Actions → Runners →
 New self-hosted runner**. Run the generated repository-scoped Linux ARM64
