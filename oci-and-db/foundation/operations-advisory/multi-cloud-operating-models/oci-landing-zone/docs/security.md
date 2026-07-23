@@ -12,7 +12,8 @@ Before production rollout:
   instance OCID, and do not share it with project workloads.
 - Treat the administrator-created foundation identity as privileged. Protect,
   monitor, patch, and replace it through a reviewed procedure.
-- Isolate, protect, and back up Terraform state for every phase.
+- Keep the Terraform state bucket private with Object Storage versioning
+  enabled. Bootstrap readiness fails if either control is absent.
 - Keep API keys, private keys, runner tokens, passwords, and credentials out of
   Git and project handoffs.
 - Test failure recovery, partial applies, runner replacement, audit evidence,

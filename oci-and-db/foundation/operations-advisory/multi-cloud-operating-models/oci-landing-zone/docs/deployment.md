@@ -107,6 +107,12 @@ process. Protect `main`, require independent approval and successful checks,
 disallow force pushes and deletion, and restrict writes to the Cloud Operator
 team. Keep the repository private.
 
+GitHub Free cannot enforce branch protection on a private repository. For an
+acceptance installation on Free, keep automation disabled by default, restrict
+repository administration, record the independent review procedurally, and
+enable only the reviewed phase. Paid plans remain the recommended production
+profile because these controls are enforced technically.
+
 ## 4. Establish the bootstrap boundary
 
 Follow the repository's

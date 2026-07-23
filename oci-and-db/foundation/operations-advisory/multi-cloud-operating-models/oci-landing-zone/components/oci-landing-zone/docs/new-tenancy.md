@@ -28,10 +28,15 @@ Terraform, or a handoff.
 
 ## 2. Create the private state and runner boundary
 
-Create one private Object Storage bucket:
+Choose non-overlapping bootstrap values and create one private, versioned Object
+Storage bucket:
 
 ```bash
 export STATE_BUCKET=mccp-oci-lz-tfstate
+export FOUNDATION_REPOSITORY='<organization>/<foundation-repository>'
+export BOOTSTRAP_VCN_CIDR=10.255.0.0/24
+export BOOTSTRAP_SUBNET_CIDR=10.255.0.0/28
+export SSH_PUBLIC_KEY_FILE="$HOME/.ssh/id_ed25519.pub"
 export OCI_NAMESPACE=$(oci os ns get --profile lz-bootstrap-session \
   --auth security_token --query data --raw-output)
 
@@ -40,25 +45,191 @@ oci os bucket create --profile lz-bootstrap-session --auth security_token \
   --namespace-name "$OCI_NAMESPACE" \
   --name "$STATE_BUCKET" \
   --public-access-type NoPublicAccess \
+  --versioning Enabled \
   --region "$OCI_REGION"
+
+oci os bucket get --profile lz-bootstrap-session --auth security_token \
+  --namespace-name "$OCI_NAMESPACE" --name "$STATE_BUCKET" \
+  --region "$OCI_REGION" \
+  --query 'data.{access:"public-access-type",versioning:versioning}'
 ```
 
-Create a dedicated Linux ARM64 foundation runner using your standard OCI
-Compute procedure. It is an unavoidable trust-bootstrap resource and is not
-managed by the Landing Zone it deploys. Require:
+Both values must be `NoPublicAccess` and `Enabled`. Never reuse another
+application's state bucket.
 
-- No public IP address.
-- A private subnet with outbound HTTPS through a NAT Gateway and access to OCI
-  services through a Service Gateway.
-- OCI Bastion or another approved private administrator path.
-- A dedicated operating-system account and GitHub runner service.
-- Git, `jq`, Jsonnet, OCI CLI, `rg`, Python 3, `curl`, `tar`, and `unzip`.
-- Repository-scoped GitHub registration with the `mccp-foundation` label.
+Create a dedicated bootstrap VCN. It remains outside Landing Zone Terraform and
+must not be attached to the Landing Zone DRG:
+
+```bash
+export BOOTSTRAP_VCN_OCID=$(
+  oci network vcn create \
+    --profile lz-bootstrap-session --auth security_token \
+    --compartment-id "$TARGET_TENANCY_OCID" \
+    --cidr-block "$BOOTSTRAP_VCN_CIDR" \
+    --display-name vcn-mccp-foundation-bootstrap \
+    --dns-label mccpboot --is-ipv6-enabled false \
+    --query data.id --raw-output
+)
+
+export BOOTSTRAP_ROUTE_TABLE_OCID=$(
+  oci network vcn get \
+    --profile lz-bootstrap-session --auth security_token \
+    --vcn-id "$BOOTSTRAP_VCN_OCID" \
+    --query 'data."default-route-table-id"' --raw-output
+)
+export BOOTSTRAP_SECURITY_LIST_OCID=$(
+  oci network vcn get \
+    --profile lz-bootstrap-session --auth security_token \
+    --vcn-id "$BOOTSTRAP_VCN_OCID" \
+    --query 'data."default-security-list-id"' --raw-output
+)
+
+export NAT_GATEWAY_OCID=$(
+  oci network nat-gateway create \
+    --profile lz-bootstrap-session --auth security_token \
+    --compartment-id "$TARGET_TENANCY_OCID" \
+    --vcn-id "$BOOTSTRAP_VCN_OCID" \
+    --display-name nat-mccp-foundation-bootstrap \
+    --query data.id --raw-output
+)
+
+services="$(
+  oci network service list \
+    --profile lz-bootstrap-session --auth security_token --all
+)"
+test "$(jq '[.data[] | select(.name | startswith("All "))] | length' \
+  <<< "$services")" -eq 1
+export OCI_SERVICES_OCID=$(
+  jq -er '.data[] | select(.name | startswith("All ")) | .id' \
+    <<< "$services"
+)
+export OCI_SERVICES_CIDR=$(
+  jq -er '.data[] | select(.name | startswith("All ")) | ."cidr-block"' \
+    <<< "$services"
+)
+
+export SERVICE_GATEWAY_OCID=$(
+  oci network service-gateway create \
+    --profile lz-bootstrap-session --auth security_token \
+    --compartment-id "$TARGET_TENANCY_OCID" \
+    --vcn-id "$BOOTSTRAP_VCN_OCID" \
+    --display-name sgw-mccp-foundation-bootstrap \
+    --services "[{\"serviceId\":\"$OCI_SERVICES_OCID\"}]" \
+    --query data.id --raw-output
+)
+
+route_rules="$(
+  jq -cn \
+    --arg nat "$NAT_GATEWAY_OCID" \
+    --arg service_gateway "$SERVICE_GATEWAY_OCID" \
+    --arg service_cidr "$OCI_SERVICES_CIDR" '
+    [
+      {
+        destination: "0.0.0.0/0",
+        destinationType: "CIDR_BLOCK",
+        networkEntityId: $nat,
+        description: "Outbound HTTPS through NAT"
+      },
+      {
+        destination: $service_cidr,
+        destinationType: "SERVICE_CIDR_BLOCK",
+        networkEntityId: $service_gateway,
+        description: "Private OCI service access"
+      }
+    ]'
+)"
+oci network route-table update \
+  --profile lz-bootstrap-session --auth security_token \
+  --rt-id "$BOOTSTRAP_ROUTE_TABLE_OCID" \
+  --route-rules "$route_rules" --force
+
+oci network security-list update \
+  --profile lz-bootstrap-session --auth security_token \
+  --security-list-id "$BOOTSTRAP_SECURITY_LIST_OCID" \
+  --ingress-security-rules \
+    "[{\"source\":\"$BOOTSTRAP_VCN_CIDR\",\"sourceType\":\"CIDR_BLOCK\",\"protocol\":\"6\",\"isStateless\":false,\"tcpOptions\":{\"destinationPortRange\":{\"min\":22,\"max\":22}},\"description\":\"SSH from OCI Bastion in bootstrap VCN\"},{\"source\":\"0.0.0.0/0\",\"sourceType\":\"CIDR_BLOCK\",\"protocol\":\"1\",\"isStateless\":false,\"icmpOptions\":{\"type\":3,\"code\":4},\"description\":\"Path MTU discovery\"}]" \
+  --egress-security-rules \
+    '[{"destination":"0.0.0.0/0","destinationType":"CIDR_BLOCK","protocol":"all","isStateless":false,"description":"Runner outbound through controlled routes"}]' \
+  --force
+
+export BOOTSTRAP_SUBNET_OCID=$(
+  oci network subnet create \
+    --profile lz-bootstrap-session --auth security_token \
+    --compartment-id "$TARGET_TENANCY_OCID" \
+    --vcn-id "$BOOTSTRAP_VCN_OCID" \
+    --cidr-block "$BOOTSTRAP_SUBNET_CIDR" \
+    --display-name sn-mccp-foundation-runner \
+    --dns-label runner \
+    --route-table-id "$BOOTSTRAP_ROUTE_TABLE_OCID" \
+    --security-list-ids "[\"$BOOTSTRAP_SECURITY_LIST_OCID\"]" \
+    --prohibit-public-ip-on-vnic true \
+    --prohibit-internet-ingress true \
+    --query data.id --raw-output
+)
+```
+
+The Service Gateway route destination must be the returned service
+`cidr-block` label, such as
+`all-fra-services-in-oracle-services-network`; its display name is invalid in
+a route rule.
+
+Create the restricted Bastion and select a reviewed Oracle Linux 9 ARM64 image:
+
+```bash
+export CLIENT_IP="$(curl -4 --fail --silent https://api.ipify.org)"
+oci bastion bastion create \
+  --profile lz-bootstrap-session --auth security_token \
+  --bastion-type standard \
+  --compartment-id "$TARGET_TENANCY_OCID" \
+  --target-subnet-id "$BOOTSTRAP_SUBNET_OCID" \
+  --name bst-mccp-foundation-runner \
+  --max-session-ttl 10800 \
+  --client-cidr-list "[\"$CLIENT_IP/32\"]" \
+  --wait-for-state SUCCEEDED
+
+oci compute image list \
+  --profile lz-bootstrap-session --auth security_token \
+  --compartment-id "$TARGET_TENANCY_OCID" \
+  --shape VM.Standard.A1.Flex \
+  --operating-system 'Oracle Linux' \
+  --sort-by TIMECREATED --sort-order DESC --limit 10 \
+  --query 'data[?\"operating-system-version\"==`9`].{name:"display-name",id:id,created:"time-created"}'
+
+export FOUNDATION_IMAGE_OCID='<reviewed-oracle-linux-9-arm64-image-ocid>'
+export FOUNDATION_RUNNER_INSTANCE_OCID=$(
+  oci compute instance launch \
+    --profile lz-bootstrap-session --auth security_token \
+    --availability-domain '<availability-domain>' \
+    --compartment-id "$TARGET_TENANCY_OCID" \
+    --shape VM.Standard.A1.Flex \
+    --shape-config '{"ocpus":1,"memoryInGBs":6}' \
+    --image-id "$FOUNDATION_IMAGE_OCID" \
+    --subnet-id "$BOOTSTRAP_SUBNET_OCID" \
+    --assign-public-ip false \
+    --display-name vm-mccp-foundation-runner \
+    --hostname-label mccp-foundation \
+    --ssh-authorized-keys-file "$SSH_PUBLIC_KEY_FILE" \
+    --user-data-file docs/foundation-runner-cloud-init.yaml \
+    --boot-volume-size-in-gbs 50 \
+    --is-pv-encryption-in-transit-enabled true \
+    --agent-config \
+      '{"areAllPluginsDisabled":false,"isManagementDisabled":false,"isMonitoringDisabled":false,"pluginsConfig":[{"name":"Bastion","desiredState":"ENABLED"},{"name":"OS Management Service Agent","desiredState":"ENABLED"}]}' \
+    --query data.id --raw-output
+)
+```
+
+Wait for the instance, cloud-init, and Bastion plugin to become ready before
+registering GitHub Actions. The supplied cloud-init pins and verifies ripgrep
+`15.2.0`, go-jsonnet `0.22.0`, and GitHub Actions runner `2.336.0`; OCI CLI is
+installed from Oracle's OL9 package repository.
 
 In the private foundation repository, use **Settings → Actions → Runners →
-New self-hosted runner** and follow GitHub's generated Linux ARM64 commands.
-The registration token is short-lived and authenticates only runner
-registration; it is not an OCI credential. Configure the runner as a service.
+New self-hosted runner**. Run the generated repository-scoped Linux ARM64
+configuration through a time-limited OCI Bastion managed SSH session, name the
+runner `mccp-foundation-<region>`, add only the `mccp-foundation` custom label,
+and configure it as the `github-runner` system service. The registration token
+is short-lived and is not an OCI credential. Never store it in cloud-init,
+GitHub secrets, shell history, or the repository.
 
 Bind the runner identity to its exact instance OCID:
 
@@ -142,8 +313,17 @@ gh variable set FOUNDATION_AUTOMATION_READY --body false \
 
 Protect `main`, require review and successful checks, and keep the repository
 private. Run **OCI Bootstrap readiness** manually. It must verify the runner
-tools, Instance Principal tenancy identity, private bucket, and read-only object
-access. Only after it succeeds:
+tools, Instance Principal tenancy identity, private versioned bucket, and
+read-only object access.
+
+GitHub Free does not enforce branch protection on private repositories; its API
+returns HTTP 403 for this configuration. A Free-plan acceptance installation
+must keep `FOUNDATION_AUTOMATION_READY=false`, restrict repository
+administration, record independent review procedurally, and enable automation
+only for the reviewed phase. Paid plans are recommended because they enforce
+the branch and review controls technically.
+
+Only after readiness succeeds:
 
 ```bash
 gh variable set FOUNDATION_AUTOMATION_READY --body true \

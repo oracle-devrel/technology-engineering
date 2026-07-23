@@ -58,16 +58,18 @@ jobs:
               --raw-output
           )"
           test "$tenancy" = "$TENANCY_OCID"
-          access="$(
+          bucket="$(
             oci os bucket get \
               --auth instance_principal \
               --namespace-name "$STATE_NAMESPACE" \
               --name "$STATE_BUCKET" \
               --region "$STATE_REGION" \
-              --query 'data."public-access-type"' \
-              --raw-output
+              --query 'data.{access:"public-access-type",versioning:versioning}'
           )"
-          test "$access" = "NoPublicAccess"
+          jq -e '
+            .access == "NoPublicAccess" and
+            .versioning == "Enabled"
+          ' <<< "$bucket" >/dev/null
           oci os object list \
             --auth instance_principal \
             --namespace-name "$STATE_NAMESPACE" \

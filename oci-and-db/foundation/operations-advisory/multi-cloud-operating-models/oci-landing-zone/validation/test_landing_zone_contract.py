@@ -135,6 +135,7 @@ class LandingZoneContractTests(unittest.TestCase):
         self.assertNotIn("terraform plan", bootstrap)
         self.assertNotIn("terraform apply", bootstrap)
         self.assertIn("--auth instance_principal", bootstrap)
+        self.assertIn('.versioning == "Enabled"', bootstrap)
         for phase, state_key in {
             "oci-op00-terraform.yaml":
                 "op00_manage_global_landing_zone/terraform.tfstate",
@@ -157,6 +158,23 @@ class LandingZoneContractTests(unittest.TestCase):
             content = (workflows / phase).read_text()
             self.assertIn("terraform_version: 1.15.8", content)
             self.assertIn('required_version = ">= 1.5.0"', content)
+
+    def test_foundation_runner_bootstrap_is_reproducible(self):
+        cloud_init = (
+            COMPONENT / "docs/foundation-runner-cloud-init.yaml"
+        ).read_text()
+        runbook = (COMPONENT / "docs/new-tenancy.md").read_text()
+        for value in (
+            "ripgrep/releases/download/15.2.0",
+            "go-jsonnet/releases/download/v0.22.0",
+            "actions/runner/releases/download/v2.336.0",
+            "python39-oci-cli",
+        ):
+            self.assertIn(value, cloud_init)
+        self.assertIn("--versioning Enabled", runbook)
+        self.assertIn('."cidr-block"', runbook)
+        self.assertIn("--is-ipv6-enabled false", runbook)
+        self.assertIn("GitHub Free does not enforce branch protection", runbook)
 
     def test_phase_projection_uses_pinned_oe_and_official_project_model(self):
         render = (COMPONENT / "config/render.libsonnet").read_text()

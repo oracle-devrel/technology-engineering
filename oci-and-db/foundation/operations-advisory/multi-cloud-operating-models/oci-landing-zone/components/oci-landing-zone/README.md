@@ -27,6 +27,7 @@ An OCI administrator must create one dedicated private foundation runner, its
 exact-instance dynamic group and policy, and the private Object Storage state
 bucket before foundation automation can start. See
 [New tenancy setup](docs/new-tenancy.md) before changing any phase.
+The state bucket must have Object Storage versioning enabled.
 
 Register the runner with this repository and set these GitHub repository
 variables:

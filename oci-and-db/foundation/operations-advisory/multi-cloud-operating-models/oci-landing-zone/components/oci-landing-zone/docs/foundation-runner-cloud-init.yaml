@@ -1,0 +1,67 @@
+#cloud-config
+package_update: true
+
+users:
+  - default
+  - name: github-runner
+    lock_passwd: true
+    shell: /bin/bash
+
+packages:
+  - curl
+  - git
+  - gzip
+  - jq
+  - oraclelinux-developer-release-el9
+  - python3
+  - python39-oci-cli
+  - tar
+  - unzip
+
+write_files:
+  - path: /usr/local/sbin/install-mccp-foundation-tools
+    owner: root:root
+    permissions: "0700"
+    content: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+      tool_directory="$(mktemp -d)"
+      cleanup() {
+        rm -rf "$tool_directory"
+      }
+      trap cleanup EXIT
+      cd "$tool_directory"
+
+      curl -LfsS -o ripgrep.tar.gz \
+        https://github.com/BurntSushi/ripgrep/releases/download/15.2.0/ripgrep-15.2.0-aarch64-unknown-linux-gnu.tar.gz
+      echo \
+        "a740b91c82eaf9914cfedd353572f2791cbe0162c84101ee0951058f4dcbc90d  ripgrep.tar.gz" \
+        | sha256sum -c -
+      tar xzf ripgrep.tar.gz
+      install -o root -g root -m 0755 \
+        ripgrep-15.2.0-aarch64-unknown-linux-gnu/rg \
+        /usr/local/bin/rg
+
+      curl -LfsS -o go-jsonnet.tar.gz \
+        https://github.com/google/go-jsonnet/releases/download/v0.22.0/go-jsonnet_0.22.0_linux_arm64.tar.gz
+      echo \
+        "3016b049254cb92548ba99304b6f44ec3795e6173f908e3ce3c5add57243fe20  go-jsonnet.tar.gz" \
+        | sha256sum -c -
+      tar xzf go-jsonnet.tar.gz
+      install -o root -g root -m 0755 jsonnet /usr/local/bin/jsonnet
+      install -o root -g root -m 0755 jsonnetfmt /usr/local/bin/jsonnetfmt
+
+      curl -LfsS -o actions-runner.tar.gz \
+        https://github.com/actions/runner/releases/download/v2.336.0/actions-runner-linux-arm64-2.336.0.tar.gz
+      echo \
+        "58b758e420b87093fbd4bfddd368074960053e2f1388f01848c82624b90f27d1  actions-runner.tar.gz" \
+        | sha256sum -c -
+      install -d -o github-runner -g github-runner -m 0750 \
+        /opt/actions-runner
+      tar xzf actions-runner.tar.gz -C /opt/actions-runner
+      chown -R github-runner:github-runner /opt/actions-runner
+
+runcmd:
+  - [/usr/local/sbin/install-mccp-foundation-tools]
+  - [rm, -f, /usr/local/sbin/install-mccp-foundation-tools]
+  - [systemctl, enable, --now, oracle-cloud-agent]
