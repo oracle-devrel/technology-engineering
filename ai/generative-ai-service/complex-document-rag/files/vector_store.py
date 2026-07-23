@@ -61,23 +61,55 @@ class EnhancedVectorStore(VectorStore):
 
     # --- Utility: sanitize metadata before sending to Chroma ---
     def _safe_metadata(self, metadata: dict) -> dict:
-        """Ensure Chroma-compatible metadata (convert everything non-str → str)."""
-        safe = {}
-        for k, v in (metadata or {}).items():
-            key = str(k)
+        """Ensure Chroma-compatible metadata (deep conversion)"""
+        def conv(v):
+            if v is None:
+                return None
+            if isinstance(v, bool):
+                return "true" if v else "false"
+            if isinstance(v, numbers.Number):
+                return str(v)
             if isinstance(v, str):
-                safe[key] = v
-            elif isinstance(v, numbers.Number):  # catches numpy.int64, Decimal, etc.
-                safe[key] = str(v)
-            elif v is None:
-                continue
-            else:
-                safe[key] = str(v)
-        return safe
+                return v
+            if isinstance(v, dict):
+                out = {}
+                for kk, vv in v.items():
+                    cv = conv(vv)
+                    if cv is not None:
+                        out[str(kk)] = cv
+                return out
+            if isinstance(v, (list, tuple, set)):
+                out_list = []
+                for item in v:
+                    cv = conv(item)
+                    if cv is not None:
+                        out_list.append(cv)
+                return out_list
+            return str(v)
+
+        if not isinstance(metadata, dict):
+            return {}
+        out = {}
+        for k, v in (metadata or {}).items():
+            cv = conv(v)
+            if cv is not None:
+                out[str(k)] = cv
+        return out
 
     def _as_int(self, x):
         try:
-            return int(x)
+            if x is None:
+                return None
+            if isinstance(x, bool):
+                return int(x)
+            if isinstance(x, (int, float)):
+                return int(x)
+            s = str(x).strip()
+            # handle "1024", "1_024", "1024.0"
+            s = s.replace("_", "")
+            if s.isdigit():
+                return int(s)
+            return int(float(s))
         except Exception:
             return None
 
@@ -99,28 +131,55 @@ class EnhancedVectorStore(VectorStore):
         raise ValueError("Cannot determine embedding dimensions for non-string embedding model.")
 
     def _ensure_base_collections(self, embedding_dim: int):
+        """Create or get base collections with proper metadata sanitization"""
         base_collection_names = ["pdf_documents", "xlsx_documents"]
+        
+        # Keep dimensions as int internally for logic
+        # ALWAYS sanitize before passing to ChromaDB
         metadata = {
             "hnsw:space": "cosine",
-            "embedding_model": self.embedding_model_name,  # keep int in memory
-            "embedding_dimensions": embedding_dim         # keep int in memory
+            "embedding_model": self.embedding_model_name,
+            "embedding_dimensions": embedding_dim  # Keep as int, sanitize before API call
         }
 
         for base_name in base_collection_names:
             full_name = f"{base_name}_{self.embedding_model_name}_{embedding_dim}"
             try:
-                # Prefer fast path: get_or_create with safe metadata
-                coll = self.client.get_or_create_collection(
-                    name=full_name,
-                    metadata=self._safe_metadata(metadata)  # ← sanitize only here
-                )
+                # Try to get existing collection first
+                coll = None
+                try:
+                    coll = self.client.get_collection(name=full_name)
+                    # Verify the collection is usable (catches corrupt SQLite segments)
+                    coll.count()
+                    logger.info(f"Found existing collection '{full_name}'")
+                except Exception as get_err:
+                    if coll is not None:
+                        # Collection exists but is corrupt — delete and recreate
+                        logger.warning(f"Collection '{full_name}' is corrupt ({get_err}), recreating...")
+                        try:
+                            self.client.delete_collection(name=full_name)
+                        except Exception:
+                            pass
+                    # Create new collection with SANITIZED metadata
+                    logger.info(f"Creating collection '{full_name}' with {embedding_dim}D")
+                    coll = self.client.create_collection(
+                        name=full_name,
+                        metadata=self._safe_metadata(metadata)  # CRITICAL: Always sanitize
+                    )
 
-                # Defensive dim check (cast back to int if Chroma stored as str)
-                actual_dim = self._as_int((coll.metadata or {}).get("embedding_dimensions"))
-                if actual_dim and actual_dim != embedding_dim:
-                    logger.error(f"❌ Dimension mismatch for '{full_name}'. Expected {embedding_dim}, found {actual_dim}.")
-                    raise ValueError(f"Collection '{full_name}' has dim {actual_dim}, expected {embedding_dim}.")
+                # Defensive dimension validation
+                stored_dim = self._as_int((coll.metadata or {}).get("embedding_dimensions"))
+                if stored_dim and stored_dim != embedding_dim:
+                    logger.error(
+                        f"❌ Dimension mismatch for '{full_name}': "
+                        f"expected {embedding_dim}D, found {stored_dim}D in metadata"
+                    )
+                    raise ValueError(
+                        f"Collection '{full_name}' dimension mismatch: "
+                        f"expected {embedding_dim}D but collection has {stored_dim}D"
+                    )
 
+                # Register collection
                 self.collections[full_name] = coll
                 if base_name == "pdf_documents":
                     self.pdf_collection = coll
@@ -129,10 +188,15 @@ class EnhancedVectorStore(VectorStore):
                     self.xlsx_collection = coll
                     self.current_xlsx_collection_name = full_name
 
-                logger.info(f"🗂️  Ready collection '{full_name}' ({embedding_dim}D, {coll.count()} chunks)")
+                logger.info(f"🗂️  Ready: '{full_name}' ({embedding_dim}D, {coll.count()} chunks)")
+                
             except Exception as e:
-                logger.error(f"❌ Failed to create or get collection '{full_name}': {e}")
-                raise
+                logger.error(f"❌ Failed to initialize collection '{full_name}': {e}")
+                logger.error(f"   Metadata type: embedding_dimensions={type(metadata.get('embedding_dimensions'))}")
+                raise RuntimeError(
+                    f"Collection initialization failed for '{full_name}': {e}\n"
+                    f"This usually means ChromaDB received invalid metadata types."
+                ) from e
 
     def get_collection_key(self, base_name: str) -> str:
         return f"{base_name}_{self.embedding_model_name}_{self._embedding_dim}"
@@ -405,49 +469,6 @@ class EnhancedVectorStore(VectorStore):
         
         return comparison_results
     
-    def get_chunk_details(self, chunk_id: str, collection_name: str) -> Dict[str, Any]:
-        """Get detailed information about a specific chunk
-        
-        Args:
-            chunk_id: ID of the chunk
-            collection_name: Collection containing the chunk
-            
-        Returns:
-            Detailed chunk information
-        """
-        try:
-            collection = self.collections.get(collection_name)
-            if not collection:
-                return {"error": f"Collection {collection_name} not found"}
-            
-            # Get chunk data
-            result = collection.get(
-                ids=[chunk_id],
-                include=["documents", "metadatas", "embeddings"]
-            )
-            
-            if not result["ids"]:
-                return {"error": f"Chunk {chunk_id} not found"}
-            
-            chunk_details = {
-                "id": chunk_id,
-                "content": result["documents"][0] if result["documents"] else "",
-                "metadata": result["metadatas"][0] if result["metadatas"] else {},
-                "embedding_dimensions": len(result["embeddings"][0]) if result["embeddings"] and result["embeddings"][0] else 0,
-                "collection": collection_name,
-                "embedding_model": self.embedding_model_name
-            }
-            
-            return chunk_details
-            
-        except Exception as e:
-            logger.error(f"Error getting chunk details: {e}")
-            return {"error": str(e)}
-    
-    def list_available_embedding_models(self) -> List[Dict[str, Any]]:
-        """List all available embedding models"""
-        return self.embedding_manager.list_available_models()
-    
     def debug_collections(self):
         """Print all Chroma collections with their stored embedding dims & model."""
         try:
@@ -457,7 +478,7 @@ class EnhancedVectorStore(VectorStore):
                     name = getattr(c, "name", None) or (c.get("name") if isinstance(c, dict) else None)
                     if not name:
                         continue
-                    coll = self.client.get_or_create_collection(name=name)
+                    coll = self.client.get_collection(name=name)
                     md = coll.metadata or {}
                     dims = md.get("embedding_dimensions")
                     model = md.get("embedding_model")
@@ -518,16 +539,69 @@ class EnhancedVectorStore(VectorStore):
         return meta
 
     
+    def _resolve_collection(self, collection_name: str):
+        """Resolve a logical collection name to a live collection handle."""
+        if collection_name == "xlsx_documents":
+            return self.xlsx_collection
+        if collection_name == "pdf_documents":
+            return self.pdf_collection
+
+        collection = self.collection_map.get(collection_name)
+        if not collection:
+            # Try with current model/dimension suffix
+            full_name = self.get_collection_key(collection_name)
+            collection = self.collection_map.get(full_name)
+        return collection
+
+    def delete_document_chunks(self, collection_name: str, entity: str, filename: str) -> int:
+        """
+        Remove every chunk previously ingested for this (entity, filename) pair.
+
+        Ingest assigns a fresh document_id on every run, so re-ingesting the same
+        file used to append a second full copy rather than replace the first. That
+        left the corpus lopsided between entities — with a fixed top-k per entity,
+        the two are then compared on structurally different views of their own data.
+        Calling this before an add makes re-ingestion idempotent.
+
+        Returns the number of chunks deleted.
+        """
+        if not entity or not filename:
+            return 0
+
+        try:
+            collection = self._resolve_collection(collection_name)
+            if not collection:
+                logger.error(f"Collection {collection_name} not found")
+                return 0
+
+            where = {"$and": [{"entity": entity}, {"filename": filename}]}
+            existing = collection.get(where=where)
+            ids = existing.get("ids", []) or []
+            if not ids:
+                logger.info(f"🧹 No prior chunks for {entity}/{filename} — nothing to replace")
+                return 0
+
+            collection.delete(ids=ids)
+            logger.info(
+                f"🧹 Replaced {len(ids)} existing chunk(s) for {entity}/{filename}"
+            )
+            return len(ids)
+
+        except Exception as e:
+            # Never block an ingest on cleanup — a duplicate is better than no data.
+            logger.warning(f"⚠️ Could not remove prior chunks for {entity}/{filename}: {e}")
+            return 0
+
     def delete_chunks(self, collection_name: str, chunk_ids: List[str]):
         """Delete specific chunks from a collection by their IDs
-        
+
         Args:
             collection_name: Name of the collection (e.g., 'xlsx_documents', 'pdf_documents')
             chunk_ids: List of chunk IDs to delete
         """
         if not chunk_ids:
             return
-            
+
         try:
             # Get the appropriate collection
             if collection_name == "xlsx_documents":
@@ -727,10 +801,13 @@ class EnhancedVectorStore(VectorStore):
                         "embedding_model": self.embedding_model_name,
                         "embedding_dimensions": actual_dimensions,  # keep int internally
                     }
-                    correct_collection = self.client.get_or_create_collection(
-                        name=correct_name,
-                        metadata=self._safe_metadata(md)  # sanitize here
-                    )
+                    try:
+                        correct_collection = self.client.get_collection(correct_name)
+                    except Exception:
+                        correct_collection = self.client.create_collection(
+                            name=correct_name,
+                            metadata=self._safe_metadata(md)
+                        )
                     logger.info(f"🆕 Created PDF collection: {correct_name}")
 
                 # Add to the correct collection
@@ -804,6 +881,7 @@ class EnhancedVectorStore(VectorStore):
             where_filter = {"entity": ent} if ent else None
 
             # 4) Get a handler that matches the collection’s model
+            use_handler: Any
             if isinstance(self.embedding_model, str):
                 # current is 'chromadb-default' (no external handler)
                 use_handler = self.embedding_manager.get_model(stored_model)
@@ -814,8 +892,8 @@ class EnhancedVectorStore(VectorStore):
             # 5) Query (prefer vector query with matching model; fallback to text query)
             overfetch = max(n_results * 4, n_results)
             try:
-                if isinstance(use_handler, str) and use_handler == "chromadb-default":
-                    # text query (only works if Chroma has an embedder bound; still useful as a fallback)
+                if isinstance(use_handler, str):
+                    # Text query (works if Chroma has an embedder bound; also safe for unknown string handlers)
                     raw = target.query(
                         query_texts=[query],
                         n_results=overfetch,
@@ -907,15 +985,15 @@ class EnhancedVectorStore(VectorStore):
             embedder_info = self.embedder.get_model_info()
             handler_dim = embedder_info.get("dimensions")
             
-            # Get collection metadata dimensions
-            metadata_dim = (self.pdf_collection.metadata or {}).get("embedding_dimensions")
+            # Get collection metadata dimensions (convert to int for consistent comparison)
+            metadata_dim = self._as_int((self.pdf_collection.metadata or {}).get("embedding_dimensions"))
             
             # Detect actual ChromaDB collection dimensions
             actual_dim = self._detect_actual_collection_dimensions(self.pdf_collection)
             
             logger.info(f"PDF collection dimension check: metadata={metadata_dim}D, actual={actual_dim}D, embedder={handler_dim}D")
             
-            # Check if we have a dimension mismatch
+            # Check if we have a dimension mismatch (all comparisons use int now)
             dimension_mismatch = False
             if actual_dim and handler_dim and actual_dim != handler_dim:
                 dimension_mismatch = True
@@ -971,10 +1049,13 @@ class EnhancedVectorStore(VectorStore):
                             "embedding_model": self.embedding_model_name,
                             "embedding_dimensions": handler_dim
                         }
-                        self.pdf_collection = self.client.get_or_create_collection(
-                            name=correct_collection_name,
-                            metadata=self._safe_metadata(metadata) 
-                        )
+                        try:
+                            self.pdf_collection = self.client.get_collection(correct_collection_name)
+                        except Exception:
+                            self.pdf_collection = self.client.create_collection(
+                                name=correct_collection_name,
+                                metadata=self._safe_metadata(metadata)
+                            )
                         logger.info(f"✅ Created new PDF collection: {correct_collection_name}")
                         actual_dim = handler_dim
 
@@ -1021,33 +1102,42 @@ class EnhancedVectorStore(VectorStore):
             return []
 
 
-    def inspect_xlsx_chunk_metadata(self, limit: int = 10):
+    def query_collection(
+        self,
+        query: str,
+        n_results: int = 3,
+        entity: Optional[str] = None,
+        add_cite: bool = False,
+    ) -> List[Dict[str, Any]]:
+        """Query BOTH PDF and XLSX collections, merge by distance, dedupe by content.
+
+        Overfetches from each sub-collection, then merges and returns the best
+        *n_results* unique chunks sorted by ascending distance.
         """
-        Print stored metadata from the XLSX vector store for debugging.
-        Assumes self.xlsx_collection is a valid Chroma collection.
-        """
-        try:
-            print(f"📦 Inspecting XLSX vector store metadata (limit: {limit})...")
-            
-            # Fetch all metadata
-            results = self.xlsx_collection.get(include=["metadatas"])
-            metadatas = results.get("metadatas", [])
-            
-            total = len(metadatas)
-            print(f"✅ Retrieved {total} metadata entries")
+        overfetch = max(n_results * 2, 6)
 
-            if not metadatas:
-                print("⚠️ No metadata found. Check if data was ingested correctly.")
-                return
+        pdf_chunks = self.query_pdf_collection(
+            query, n_results=overfetch, entity=entity, add_cite=add_cite
+        ) or []
+        xlsx_chunks = self.query_xlsx_collection(
+            query, n_results=overfetch, entity=entity
+        ) or []
 
-            for i, meta in enumerate(metadatas[:limit]):
-                print(f"🔹 Chunk {i}: {meta}")
+        combined = pdf_chunks + xlsx_chunks
+        # Sort by distance (lower = more similar)
+        combined.sort(key=lambda c: c.get("distance", 1.0))
 
-            if total > limit:
-                print(f"... ({total - limit} more not shown)")
+        # Deduplicate by first 200 chars of content
+        seen: set[str] = set()
+        deduped: List[Dict[str, Any]] = []
+        for chunk in combined:
+            key = (chunk.get("content") or "")[:200]
+            if key in seen:
+                continue
+            seen.add(key)
+            deduped.append(chunk)
 
-        except Exception as e:
-            print(f"❌ Error inspecting metadata: {e}")
+        return deduped[:n_results]
 
     def bind_collections_for_model(self, embedding_model: str) -> None:
         """
@@ -1093,34 +1183,44 @@ class EnhancedVectorStore(VectorStore):
         pdf_name  = f"pdf_documents_{self.embedding_model_name}_{embedding_dim}"
         xlsx_name = f"xlsx_documents_{self.embedding_model_name}_{embedding_dim}"
 
-        # Get or create those specific collections with proper metadata
+        # Prepare metadata (keep int internally, sanitize at API boundary)
         metadata = {
             "hnsw:space": "cosine",
             "embedding_model": self.embedding_model_name,
-            "embedding_dimensions": embedding_dim
+            "embedding_dimensions": embedding_dim  # Keep as int, will be sanitized by _safe_metadata
         }
-        logger.info(
-            "Create/get collections: PDF=%r, XLSX=%r | meta=%r (dim_field=%s:%s)",
-            pdf_name,
-            xlsx_name,
-            metadata,
-            "embedding_dimensions",
-            type(metadata.get("embedding_dimensions")).__name__,
-        )
-        self.pdf_collection  = self.client.get_or_create_collection(
-            name=pdf_name,
-            metadata=self._safe_metadata(metadata) 
-        )
-        self.xlsx_collection = self.client.get_or_create_collection(
-            name=xlsx_name,
-            metadata=self._safe_metadata(metadata) 
-        )
+        
+        logger.info(f"🔗 Binding collections: PDF='{pdf_name}', XLSX='{xlsx_name}' ({embedding_dim}D)")
+        
+        # Get or create PDF collection with sanitized metadata
+        try:
+            self.pdf_collection = self.client.get_collection(name=pdf_name)
+            logger.info(f"✅ Found existing PDF collection: {pdf_name}")
+        except Exception:
+            logger.info(f"🆕 Creating PDF collection: {pdf_name}")
+            self.pdf_collection = self.client.create_collection(
+                name=pdf_name,
+                metadata=self._safe_metadata(metadata)  # CRITICAL: Always sanitize
+            )
+            
+        # Get or create XLSX collection with sanitized metadata
+        try:
+            self.xlsx_collection = self.client.get_collection(name=xlsx_name)
+            logger.info(f"✅ Found existing XLSX collection: {xlsx_name}")
+        except Exception:
+            logger.info(f"🆕 Creating XLSX collection: {xlsx_name}")
+            self.xlsx_collection = self.client.create_collection(
+                name=xlsx_name,
+                metadata=self._safe_metadata(metadata)  # CRITICAL: Always sanitize
+            )
 
-        # Cache for debugging
+        # Update internal collection registry
+        self.collections[pdf_name] = self.pdf_collection
+        self.collections[xlsx_name] = self.xlsx_collection
         self.current_pdf_collection_name = pdf_name
         self.current_xlsx_collection_name = xlsx_name
 
-        logger.info(f"🔗 Bound collections to: PDF='{pdf_name}' ({embedding_dim}D), XLSX='{xlsx_name}' ({embedding_dim}D)")
+        logger.info(f"✅ Collections bound: PDF='{pdf_name}' ({embedding_dim}D), XLSX='{xlsx_name}' ({embedding_dim}D)")
 
 
 def main():

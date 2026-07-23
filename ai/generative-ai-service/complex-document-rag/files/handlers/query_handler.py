@@ -58,12 +58,6 @@ def process_query(
         # Generic safe query function
         def _safe_query(collection_label: str, text: str, n: int = 5):
             vs = rag_system.vector_store
-            if hasattr(vs, "query_collection_by_name"):
-                return vs.query_collection_by_name(
-                    collection_name=collection_label,
-                    query_text=text,
-                    n_results=n
-                )
             if collection_label == "pdf":
                 return vs.query_pdf_collection(text, n_results=n)
             if collection_label == "xlsx":
@@ -80,33 +74,33 @@ def process_query(
         if agentic and rag_system.rag_agent and hasattr(rag_system.rag_agent, 'process_query_with_multi_collection_context'):
             progress(0.6, desc=f"Querying collections with {embedding_model}...")
 
-            all_results = []
-
-            if include_pdf:
+            # No upfront retrieval on the report path. The agentic pipeline retrieves per
+            # section, per entity, using the planner's criteria — a single query embedded
+            # against the whole prompt added nothing: _process_query_with_report_agent
+            # accepts multi_collection_context and never reads it. Worse, gating on its
+            # results aborted reports that per-section retrieval would have answered fine.
+            # The use_cot=False branch *does* consume the context, so it still retrieves.
+            upfront_context: list = []
+            if not getattr(rag_system.rag_agent, "use_cot", True):
+                vs = rag_system.vector_store
                 try:
-                    # Agentic workflow: 8 chunks per collection (more targeted retrieval per subtask)
-                    pdf_results = _safe_query("pdf", query, n=8)
-                    if pdf_results:
-                        all_results.extend(pdf_results)
-                        collections_queried.append(f"PDF ({embedding_model})")
-                        logger.info(f"✅ PDF: Found {len(pdf_results)} chunks")
+                    if active_collection == "multi" and hasattr(vs, "query_collection"):
+                        upfront_context = vs.query_collection(query, n_results=8) or []
                     else:
-                        logger.info("📭 PDF: No results found")
+                        if include_pdf:
+                            upfront_context.extend(_safe_query("pdf", query, n=8) or [])
+                        if include_xlsx:
+                            upfront_context.extend(_safe_query("xlsx", query, n=8) or [])
                 except Exception as e:
-                    logger.warning(f"❌ PDF collection query failed: {e}")
+                    logger.warning(f"❌ Upfront collection query failed: {e}")
 
-            if include_xlsx:
-                try:
-                    # Agentic workflow: 8 chunks per collection (more targeted retrieval per subtask)
-                    xlsx_results = _safe_query("xlsx", query, n=8)
-                    if xlsx_results:
-                        all_results.extend(xlsx_results)
-                        collections_queried.append(f"XLSX ({embedding_model})")
-                        logger.info(f"✅ XLSX: Found {len(xlsx_results)} chunks")
-                    else:
-                        logger.info("📭 XLSX: No results found")
-                except Exception as e:
-                    logger.warning(f"❌ XLSX collection query failed: {e}")
+            if active_collection == "multi":
+                collections_queried.append(f"PDF+XLSX ({embedding_model})")
+            else:
+                if include_pdf:
+                    collections_queried.append(f"PDF ({embedding_model})")
+                if include_xlsx:
+                    collections_queried.append(f"XLSX ({embedding_model})")
 
             progress(0.8, desc="Generating response...")
 
@@ -121,26 +115,19 @@ def process_query(
             if provided_entities:
                 logger.info(f"Using provided entities: {provided_entities}")
 
-            if all_results:
-                # Pass provided entities to the RAG system
-                result = rag_system.rag_agent.process_query_with_multi_collection_context(
-                    query,
-                    all_results,
-                    collection_mode=active_collection,
-                    provided_entities=provided_entities if provided_entities else None
-                )
-                # Ensure result is a dictionary
-                if not isinstance(result, dict):
-                    result = {"answer": str(result)}
-            else:
-                result = {
-                    "answer": f"No relevant information found in selected collections using {embedding_model} embedding model."
-                }
+            result = rag_system.rag_agent.process_query_with_multi_collection_context(
+                query,
+                upfront_context,
+                collection_mode=active_collection,
+                provided_entities=provided_entities if provided_entities else None
+            )
+            # Ensure result is a dictionary
+            if not isinstance(result, dict):
+                result = {"answer": str(result)}
 
             # Add metadata to result dictionary
-            if isinstance(result, dict):
-                result["collections_queried"] = collections_queried
-                result["total_chunks"] = len(all_results)
+            result["collections_queried"] = collections_queried
+            result.setdefault("total_chunks", result.get("total_chunks_used", 0))
 
         # --- NON-AGENTIC MODE (OPTIMIZED) ---
         else:

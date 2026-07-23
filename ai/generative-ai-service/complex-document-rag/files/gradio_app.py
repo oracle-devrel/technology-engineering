@@ -7,12 +7,13 @@ import disable_telemetry
 import gradio as gr
 import logging
 import os
+import threading
 import traceback
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Callable
 
 from local_rag_agent import RAGSystem
-from local_rag_agent import OCIModelHandler, LocalLLM
+from llm_factory import get_available_models, MODEL_REGISTRY
 from oci_embedding_handler import EmbeddingModelManager
 from vector_store import EnhancedVectorStore
 from ingest_xlsx import XLSXIngester
@@ -22,6 +23,7 @@ from ingest_pdf import PDFIngester
 from handlers.xlsx_handler import process_xlsx_file
 from handlers.pdf_handler import process_pdf_file
 from handlers.query_handler import process_query
+from progress_bus import progress_bus
 from handlers.vector_handler import (
     get_collection_stats,
     view_collection_documents,
@@ -115,59 +117,18 @@ class RAGAppController:
 
     def _get_available_llm_models(self) -> List[str]:
         """
-        Get list of available LLM models dynamically from OCIModelHandler.
-        
+        Get list of available LLM models from llm_factory.
+
         Returns:
             List[str]: Names of available LLM models
         """
         try:
-            # Get all available models from OCIModelHandler
-            available_models = OCIModelHandler.get_available_models()
-            
-            # Filter out models that don't have required configuration
-            configured_models = []
-            for model_name in available_models:
-                try:
-                    # Check if model can be initialized (has required env vars or is dedicated)
-                    model_config = OCIModelHandler.MODEL_CONFIGS.get(model_name, {})
-                    
-                    # Check if it's a dedicated cluster (always available)
-                    if model_config.get("is_dedicated", False):
-                        # Check if DAC compartment is configured
-                        if os.getenv("COMPARTMENT_ID_DAC"):
-                            configured_models.append(model_name)
-                            logger.info(f"Added dedicated cluster model: {model_name}")
-                    # Check if model has required environment variables
-                    elif model_config.get("model_id"):
-                        configured_models.append(model_name)
-                    else:
-                        # Check environment variables for non-dedicated models
-                        model_env_mapping = {
-                            "grok-3": ["OCI_GROK_3_MODEL_ID", "GROK_MODEL_ID"],
-                            "grok-3-fast": ["OCI_GROK_3_FAST_MODEL_ID"],
-                            "grok-4": ["OCI_GROK_4_MODEL_ID"],
-                            "llama3.3": ["OCI_LLAMA_3_3_MODEL_ID"],
-                            "cohere-command-a": ["OCI_COHERE_COMMAND_A_MODEL_ID"],
-                        }
-                        
-                        if model_name in model_env_mapping:
-                            envs = model_env_mapping[model_name]
-                            if any(os.getenv(ev) for ev in envs):
-                                configured_models.append(model_name)
-                except Exception as e:
-                    logger.warning(f"Could not validate model {model_name}: {e}")
-            
-            if not configured_models:
-                logger.warning("No configured LLM models found, using defaults")
-                configured_models = ["grok-3"]  # Fallback to at least one model
-            
+            configured_models = get_available_models()
             logger.info(f"Available LLM models: {configured_models}")
             return configured_models
-            
         except Exception as e:
             logger.error(f"Error getting available LLM models: {e}")
-            # Return fallback list
-            return ["grok-3", "grok-4", "llama3.3", "cohere-command-a"]
+            return ["grok-3"]
 
     def _initialize_vector_store(self, embedding_model: str) -> str:
         """
@@ -331,6 +292,32 @@ rag_system = RAGAppController()
 
 
 
+def _discover_sample_prompts(root: str = "sample_queries") -> Dict[str, Path]:
+    """
+    Map a readable label to each saved prompt file under sample_queries/.
+
+    Files there have mixed conventions — some carry a .txt extension, some do not —
+    so select on "is a readable file" rather than on suffix, and skip OS cruft.
+    """
+    prompts: Dict[str, Path] = {}
+    root_path = Path(root)
+    if not root_path.is_dir():
+        logger.warning(f"Sample prompt directory not found: {root_path}")
+        return prompts
+
+    for path in sorted(root_path.rglob("*")):
+        if not path.is_file() or path.name.startswith("."):
+            continue
+        label = f"{path.parent.name} / {path.stem}" if path.parent != root_path else path.stem
+        prompts[label] = path
+
+    logger.info(f"Discovered {len(prompts)} saved prompts")
+    return prompts
+
+
+SAMPLE_PROMPTS: Dict[str, Path] = _discover_sample_prompts()
+
+
 def create_oracle_interface():
     
     # Load external CSS
@@ -349,15 +336,17 @@ def create_oracle_interface():
     # Add CSS to hide the footer (which contains the "Use via API" button)
     gradio_css += "\nfooter{display:none !important}"
     
-    with gr.Blocks(title="RAG Report Generator", css=gradio_css) as interface:
+    with gr.Blocks(title="Multi-Agent Report Generator", css=gradio_css) as interface:
 
-        # Global Header
+        # Global Header. Colour and size come from .app-header in gradio.css — the
+        # inline values here previously contradicted it (white text on a white
+        # background) and only worked because the stylesheet's !important won.
         with gr.Row(elem_classes=["app-header"]):
             gr.Markdown("""
-                <h1 style="margin: 0; color: #ffffff; font-size: 1.8rem; font-weight: 600; 
-                text-transform: uppercase; letter-spacing: 2px; 
+                <h1 style="margin: 0; font-weight: 600;
+                text-transform: uppercase; letter-spacing: 2px;
                 font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Courier New', monospace;">
-                RAG Report Generator</h1>
+                Multi-Agent Report Generator</h1>
             """)
 
         with gr.Tab("DOCUMENT PROCESSING", id="processing"):
@@ -467,24 +456,26 @@ def create_oracle_interface():
                 placeholder="All chunks will be displayed here..."
             )
 
-            gr.Markdown("### ⚠️ DELETE ALL CHUNKS")
-            with gr.Row():
-                delete_collection = gr.Dropdown(
-                    choices=["PDF Documents", "XLSX Documents"],
-                    value="XLSX Documents",
-                    label="Collection to Delete",
-                    scale=2
+            # Collapsed by default: an irreversible one-click wipe should not sit
+            # open on screen while this tab is being shown to an audience.
+            with gr.Accordion("⚠️ Danger zone — delete all chunks", open=False):
+                with gr.Row():
+                    delete_collection = gr.Dropdown(
+                        choices=["PDF Documents", "XLSX Documents"],
+                        value="XLSX Documents",
+                        label="Collection to Delete",
+                        scale=2
+                    )
+                    with gr.Column(scale=1):
+                        delete_chunks_btn = gr.Button("🗑️ DELETE ALL CHUNKS", variant="stop", size="sm")
+                        gr.Markdown("*⚠️ This action cannot be undone*", elem_classes=["warning-text"])
+
+                delete_result = gr.Textbox(
+                    label="Deletion Result",
+                    lines=5,
+                    max_lines=8,
+                    placeholder="Deletion results will appear here..."
                 )
-                with gr.Column(scale=1):
-                    delete_chunks_btn = gr.Button("🗑️ DELETE ALL CHUNKS", variant="stop", size="sm")
-                    gr.Markdown("*⚠️ This action cannot be undone*", elem_classes=["warning-text"])
-            
-            delete_result = gr.Textbox(
-                label="Deletion Result",
-                lines=5,
-                max_lines=8,
-                placeholder="Deletion results will appear here..."
-            )
 
         with gr.Tab("INFERENCE & QUERY", id="inference"):
             with gr.Row():
@@ -492,14 +483,23 @@ def create_oracle_interface():
                 with gr.Column(scale=1, elem_classes=["inference-left-column"]):
                     # Large Query Section
                     with gr.Group(elem_classes=["query-section"]):
+                        # Saved prompts, so a 3,000-character task prompt does not
+                        # have to be pasted in live.
+                        sample_prompt_selector = gr.Dropdown(
+                            choices=[""] + list(SAMPLE_PROMPTS.keys()),
+                            value="",
+                            label="Load a saved prompt",
+                            info="Populates the query box below. Edit freely after loading.",
+                        )
+
                         query_input = gr.Textbox(
-                            label="Query", 
+                            label="Query",
                             lines=15,  # Much larger query area
                             max_lines=20,
                             placeholder="Enter your query here...",
                             elem_classes=["compact-query"]
                         )
-                        
+
                         query_btn = gr.Button(
                             "Run Query", 
                             elem_classes=["primary-button"], 
@@ -525,11 +525,14 @@ def create_oracle_interface():
                                 scale=1
                             )
                         
-                        # Data Sources and Processing Mode in one compact row
+                        # Data Sources and Processing Mode in one compact row.
+                        # XLSX + Agentic default ON: the multi-agent report pipeline
+                        # lives behind agent_mode, and starting with everything off
+                        # meant a fresh launch silently produced nothing useful.
                         with gr.Row():
                             collection_pdf = gr.Checkbox(label="Include PDF", value=False, scale=1)
-                            collection_xlsx = gr.Checkbox(label="Include XLSX", value=False, scale=1)
-                            agent_mode = gr.Checkbox(label="Agentic Mode", value=False, scale=1)
+                            collection_xlsx = gr.Checkbox(label="Include XLSX", value=True, scale=1)
+                            agent_mode = gr.Checkbox(label="Agentic Mode", value=True, scale=1)
                 
                 # Right Column - Results
                 with gr.Column(scale=1, elem_classes=["inference-right-column"]):
@@ -543,7 +546,18 @@ def create_oracle_interface():
                     )
                     
                     response_box = gr.Markdown()
-                    
+
+                    # Charts appear here as each section renders one. They were
+                    # previously only visible inside the downloaded .docx.
+                    charts_gallery = gr.Gallery(
+                        label="📊 Charts",
+                        visible=False,
+                        columns=2,
+                        height="auto",
+                        object_fit="contain",
+                        show_label=True,
+                    )
+
                     # Download section for generated reports
                     download_file = gr.File(
                         label="📄 Download Generated Report",
@@ -553,15 +567,54 @@ def create_oracle_interface():
 
         # === Callbacks ===
 
-        def process_xlsx_and_clear(file, model, entity):
-            # Process file and get just the summary (no processing status)
-            success, summary = process_xlsx_file(file, model, rag_system, entity)
-            return f"Processed successfully!\n{summary}", gr.update(value="")
+        def load_sample_prompt(label: str):
+            """Populate the query box from a saved prompt file."""
+            if not label:
+                return gr.update()
+            path = SAMPLE_PROMPTS.get(label)
+            if not path:
+                return gr.update()
+            try:
+                return gr.update(value=path.read_text(encoding="utf-8").strip())
+            except Exception as e:
+                logger.error(f"Could not read sample prompt {path}: {e}")
+                return gr.update(value=f"Could not read {path}: {e}")
 
-        def process_pdf_and_clear(file, model, entity):
-            # Process file and get just the summary (no processing status) 
-            success, summary = process_pdf_file(file, model, rag_system, entity)
-            return f"Processed successfully!\n{summary}", gr.update(value="")
+        def _default_entity(file, entity: str) -> str:
+            """
+            Fall back to the filename stem when no entity is typed.
+
+            Both ingest handlers hard-require an entity and return an error string if
+            it is blank — which the UI then displayed as success. The entity is also
+            the retrieval filter key, so it has to match the name used in the query
+            prompt: Supremo1.xlsx -> "supremo1", which is exactly what the planner
+            extracts from "compare Supremo1 and Supremo2".
+            """
+            if entity and entity.strip():
+                return entity.strip()
+            if file is None:
+                return ""
+            return Path(file.name).stem.strip().lower()
+
+        # These handlers return (summary, detailed_log) — NOT (success, summary).
+        # The summary already carries its own ✅/❌, so display it directly. The old
+        # code unpacked it as a success flag and printed "Processed successfully!"
+        # unconditionally, hiding "❌ ERROR: Entity name is required" behind a tick.
+        def process_xlsx_and_clear(file, model, entity, progress=gr.Progress()):
+            resolved = _default_entity(file, entity)
+            progress(0, desc=f"Ingesting {Path(file.name).name if file else 'file'} as '{resolved}'…")
+            summary, detailed_log = process_xlsx_file(file, model, rag_system, resolved)
+            if not (entity and entity.strip()) and resolved:
+                summary = f"ℹ️ No entity given — used **{resolved}** (from filename).\n\n{summary}"
+            return summary, gr.update(value="")
+
+        def process_pdf_and_clear(file, model, entity, progress=gr.Progress()):
+            resolved = _default_entity(file, entity)
+            progress(0, desc=f"Ingesting {Path(file.name).name if file else 'file'} as '{resolved}'…")
+            summary, detailed_log = process_pdf_file(file, model, rag_system, resolved)
+            if not (entity and entity.strip()) and resolved:
+                summary = f"ℹ️ No entity given — used **{resolved}** (from filename).\n\n{summary}"
+            return summary, gr.update(value="")
 
         xlsx_process_btn.click(
             fn=process_xlsx_and_clear,
@@ -606,78 +659,138 @@ def create_oracle_interface():
             outputs=[delete_result]
         )
 
-        def handle_query_with_download(query, llm_model, embedding_model, include_pdf, include_xlsx, agentic, progress=gr.Progress()):
-            """Handle query and manage download functionality with progress updates"""
-            
-            # Show initial status
-            yield (
-                gr.update(value="🔄 **Processing Query...**\n\nInitializing system...", visible=True),
-                gr.update(value=""),
-                gr.update(visible=False)
-            )
-            
-            # Update progress
-            progress(0.2, desc="Connecting to models...")
-            yield (
-                gr.update(value="🔄 **Processing Query...**\n\nConnecting to models and preparing collections...", visible=True),
-                gr.update(value=""),
-                gr.update(visible=False)
-            )
-            
-            # Process the query
-            progress(0.5, desc="Analyzing query and retrieving context...")
-            yield (
-                gr.update(value="🔄 **Processing Query...**\n\nAnalyzing query and retrieving relevant context from collections...", visible=True),
-                gr.update(value=""),
-                gr.update(visible=False)
-            )
-            
-            # If agentic mode, show additional status
-            if agentic:
-                progress(0.7, desc="Running multi-agent workflow...")
-                yield (
-                    gr.update(value="🤖 **Multi-Agent Processing...**\n\nAgents are planning, researching, and writing report sections...\n\nThis may take a few moments for comprehensive analysis.", visible=True),
-                    gr.update(value=""),
-                    gr.update(visible=False)
+        def _format_status(snap, agentic: bool) -> str:
+            """Render the progress bus snapshot as the status panel's markdown."""
+            mins, secs = divmod(int(snap.elapsed), 60)
+            clock = f"{mins}:{secs:02d}"
+
+            if not agentic:
+                return f"✍️ **Generating response…**  ·  elapsed {clock}"
+
+            if snap.total_steps:
+                filled = int(snap.fraction * 20)
+                bar = "█" * filled + "░" * (20 - filled)
+                headline = (
+                    f"🤖 **Multi-agent processing**  ·  step {snap.step}/{snap.total_steps}"
+                    f"  ·  elapsed {clock}\n\n`{bar}`  {int(snap.fraction * 100)}%"
                 )
             else:
-                progress(0.7, desc="Generating response...")
-                yield (
-                    gr.update(value="✍️ **Generating Response...**\n\nProcessing retrieved context and formulating answer...", visible=True),
-                    gr.update(value=""),
-                    gr.update(visible=False)
-                )
-            
-            # Actually process the query with entity parameters
-            # Pass empty strings for entities to trigger automatic detection
+                headline = f"🤖 **Multi-agent processing**  ·  elapsed {clock}"
+
+            current = f"\n\n**{snap.message}**" if snap.message else ""
+
+            # Most recent activity first — the tail is what is actually happening.
+            recent = snap.events[-6:]
+            trail = "\n".join(f"- {e}" for e in reversed(recent)) if recent else ""
+            trail = f"\n\n{trail}" if trail else ""
+
+            return headline + current + trail
+
+        def handle_query_with_download(query, llm_model, embedding_model, include_pdf, include_xlsx, agentic, progress=gr.Progress()):
+            """
+            Run the query on a worker thread and stream real progress.
+
+            Previously every yield here fired within milliseconds and then
+            process_query() blocked for minutes, so the bar jumped to 70% and froze.
+            The pipeline now publishes milestones to progress_bus and this generator
+            polls them while the work actually runs.
+            """
             entity1 = ""  # Will be automatically detected by the LLM
             entity2 = ""  # Will be automatically detected by the LLM
-            response, report_path = process_query(query, llm_model, embedding_model, include_pdf, include_xlsx, agentic, rag_system, entity1, entity2)
-            
+
+            progress_bus.start(message="Initialising…")
+            yield (
+                gr.update(value="🔄 **Starting…**", visible=True),
+                gr.update(value=""),
+                gr.update(visible=False),
+                gr.update(value=[], visible=False),
+            )
+
+            result: dict = {}
+
+            def _run():
+                try:
+                    result["value"] = process_query(
+                        query, llm_model, embedding_model,
+                        include_pdf, include_xlsx, agentic,
+                        rag_system, entity1, entity2,
+                    )
+                except Exception as e:
+                    logger.exception("Query processing failed")
+                    result["error"] = e
+                finally:
+                    progress_bus.finish()
+
+            worker = threading.Thread(target=_run, daemon=True, name="rag-query")
+            worker.start()
+
+            last_render = ""
+            last_chart_count = 0
+            while worker.is_alive():
+                worker.join(timeout=0.5)
+                snap = progress_bus.snapshot()
+                progress(snap.fraction, desc=snap.message or "Working…")
+                rendered = _format_status(snap, agentic)
+                if rendered == last_render:
+                    continue
+                last_render = rendered
+
+                # The status text changes every second (it carries the clock), but
+                # the gallery must only be rebuilt when a new chart actually lands —
+                # otherwise it reloads and flickers once a second for minutes.
+                if len(snap.charts) != last_chart_count:
+                    last_chart_count = len(snap.charts)
+                    gallery_update = gr.update(value=snap.charts, visible=True)
+                else:
+                    gallery_update = gr.update()
+
+                yield (
+                    gr.update(value=rendered, visible=True),
+                    gr.update(),
+                    gr.update(),
+                    gallery_update,
+                )
+
+            snap = progress_bus.snapshot()
             progress(1.0, desc="Complete!")
-            
-            # Return final results and hide status
-            if report_path and Path(report_path).exists():
-                # Show download components
+
+            if "error" in result:
                 yield (
-                    gr.update(visible=False),  # Hide status
-                    response,
-                    gr.update(value=report_path, visible=True)
+                    gr.update(
+                        value=f"❌ **Query failed**\n\n```\n{result['error']}\n```",
+                        visible=True,
+                    ),
+                    gr.update(value=""),
+                    gr.update(visible=False),
+                    gr.update(value=snap.charts, visible=bool(snap.charts)),
                 )
-            else:
-                # Hide download components
-                yield (
-                    gr.update(visible=False),  # Hide status
-                    response,
-                    gr.update(visible=False)
-                )
+                return
+
+            response, report_path = result.get("value", ("No response produced.", None))
+            elapsed = int(snap.elapsed)
+            done = f"✅ **Complete** in {elapsed // 60}:{elapsed % 60:02d}"
+
+            yield (
+                gr.update(value=done, visible=True),
+                response,
+                gr.update(value=report_path, visible=True)
+                if report_path and Path(report_path).exists()
+                else gr.update(visible=False),
+                gr.update(value=snap.charts, visible=bool(snap.charts)),
+            )
+
+        sample_prompt_selector.change(
+            fn=load_sample_prompt,
+            inputs=[sample_prompt_selector],
+            outputs=[query_input],
+        )
 
         query_btn.click(
             fn=handle_query_with_download,
             # inputs=[query_input, llm_model_selector, embedding_model_selector_query, collection_pdf, collection_xlsx, agent_mode, entity1_input, entity2_input],
             inputs=[query_input, llm_model_selector, embedding_model_selector_query, collection_pdf, collection_xlsx, agent_mode],
-            outputs=[status_box, response_box, download_file],
-            show_progress="full"
+            outputs=[status_box, response_box, download_file, charts_gallery],
+            show_progress="minimal"
         )
 
     return interface
@@ -711,6 +824,9 @@ def show_embedding_info(model_name):
 if __name__ == "__main__":
     logger.info("Launching Oracle Enterprise RAG Interface")
     ui = create_oracle_interface()
+    # Streaming generators need the queue; without it the progress updates above
+    # are collapsed into a single response at the end.
+    ui.queue()
     ui.launch(
         server_name="0.0.0.0", 
         server_port=7863, 
