@@ -48,6 +48,14 @@ OE `v3.1.0`'s obsolete `allow service osms` statement: the legacy
 and current OCI IAM rejects the retired `osms` service principal. OS Management
 Hub access must use its current, separately scoped policies.
 
+OE `v3.1.0` also emits a child-specific Security Zone for the shared network
+compartment in addition to the parent CIS zone. OCI prohibits a platform
+resource in the parent zone from using a subnet in that child zone. Until the
+upstream generator places dependent resources under one common zone, the
+protected adapter omits only the shared-network child target. Shared network
+and platform resources therefore inherit the same CIS Level 1 zone from
+`CMP-LANDINGZONE-KEY`; the environment-level zone remains unchanged.
+
 The adapter derives every DRG route-distribution statement key from its owning
 distribution. This preserves the Hub E routes while satisfying the official
 networking module's globally unique flattened-statement key contract.

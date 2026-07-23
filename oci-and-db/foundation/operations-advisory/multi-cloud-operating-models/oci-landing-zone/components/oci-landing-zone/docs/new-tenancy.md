@@ -22,6 +22,13 @@ oci iam tenancy get --profile lz-bootstrap-session --auth security_token \
   --output table
 ```
 
+Use the browser flow above to create a session or replace an expired session.
+Do not add `--no-browser` when the existing profile contains only an expired
+session token. Oracle's no-browser flow must itself authenticate with an API
+key or a still-valid session token; otherwise token generation fails with
+`401 NotAuthenticated`. See
+[Token-based Authentication for the CLI](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/clitoken.htm).
+
 Stop if the returned tenancy is not the intended target or authentication
 fails. Never copy the session credential into GitHub, a runner configuration,
 Terraform, or a handoff.
@@ -292,6 +299,14 @@ protected OP01 state, replaces the marker in a temporary copy, and fails closed
 before Terraform if it cannot resolve it. Do not edit generated files manually.
 The protected workflow regenerates changed phases from OE `v3.1.0` and rejects
 drift.
+
+The protected adapter also omits OE `v3.1.0`'s child-specific shared-network
+Security Zone target. This is a narrow workaround for the upstream template:
+OCI rejects a platform Compute instance in the parent CIS zone when its subnet
+is in the child zone. The shared network and platform hierarchies therefore
+inherit the same parent CIS Level 1 zone, while environment zones remain
+unchanged. Review the OP01 final plan to confirm that no parent or environment
+Security Zone is removed.
 
 ## 4. Configure GitHub and run readiness
 

@@ -15,6 +15,13 @@ OP03 is optional when the platform is hosted elsewhere. OP02 repeats per
 environment. OP04 accepts one project target per run and remains a Cloud
 Operator operation.
 
+The generated OP01 final security configuration intentionally omits the
+OE `v3.1.0` `SZ-TGT-LZ-SHARED-NETWORK-KEY` child target. OCI requires a Compute
+instance and its subnet to belong to the same Security Zone. The shared network
+and platform hierarchies instead inherit the common parent CIS zone. Do not
+restore a child-specific network zone unless the upstream template has been
+fixed or every dependent platform resource is placed under that same zone.
+
 ## Standard change procedure
 
 1. Confirm the earlier phase outputs and state are healthy.

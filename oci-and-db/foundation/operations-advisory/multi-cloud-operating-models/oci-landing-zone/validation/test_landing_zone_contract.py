@@ -276,6 +276,7 @@ class LandingZoneContractTests(unittest.TestCase):
         runner_script = runner["instances_configuration"]["instances"][
             "VM-LZ-SHARED-GITOPS-RUNNER-KEY"
         ]["cloud_init"]["heredoc_script"]
+        self.assertIn("dnf install -y curl git", runner_script)
         self.assertIn("jq python3", runner_script)
         self.assertNotIn("nodejs", runner_script)
         self.assertIn("--versioning Enabled", runbook)
@@ -297,6 +298,18 @@ class LandingZoneContractTests(unittest.TestCase):
         )
         self.assertIn(
             "drg_route_statement_key(distribution_key)",
+            render,
+        )
+        self.assertIn(
+            "without_shared_network_security_zone(active_render.security_cis1)",
+            render,
+        )
+        self.assertIn(
+            "if key != shared_network_zone_key",
+            render,
+        )
+        self.assertIn(
+            "active_render.security_cis1_pre",
             render,
         )
         self.assertNotIn("'ROUTE-ALL-VCNS-KEY'", render)
