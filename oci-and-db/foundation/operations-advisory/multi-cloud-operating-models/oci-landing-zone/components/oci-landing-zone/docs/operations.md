@@ -22,6 +22,14 @@ and platform hierarchies instead inherit the common parent CIS zone. Do not
 restore a child-specific network zone unless the upstream template has been
 fixed or every dependent platform resource is placed under that same zone.
 
+The Hub management security list must allow SSH only from the platform
+Bastion's current private endpoint `/32`. Retrieve that address from OCI,
+record it in `config/customer.jsonnet` as
+`platform_bastion_private_endpoint_cidr`, regenerate OP01, and review the
+focused network plan. A `null` value removes OE's non-authoritative example
+rule and fails closed. Recreate this focused change whenever the Bastion
+endpoint is replaced.
+
 ## Standard change procedure
 
 1. Confirm the earlier phase outputs and state are healthy.

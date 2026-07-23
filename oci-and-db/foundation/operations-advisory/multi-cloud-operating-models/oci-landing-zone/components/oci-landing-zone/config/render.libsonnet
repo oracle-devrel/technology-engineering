@@ -30,6 +30,8 @@ local base_group_keys = [
 ];
 local retired_osms_statement =
   'allow service osms to read instances in tenancy';
+local bastion_rule_description =
+  'EXAMPLE: Allow inbound traffic from the Bastion Service private endpoint IP address';
 
 local selected_policies(policies, keys) =
   policies {
@@ -170,6 +172,48 @@ local render(customer) =
     full.network.network_configuration.network_configuration_categories;
   local hub_vcn_key = n.key('VCN', ['HUB']);
   local shared_category = environment_category(categories, hub_vcn_key);
+  local platform_bastion_cidr =
+    if std.objectHas(customer, 'platform_bastion_private_endpoint_cidr')
+    then customer.platform_bastion_private_endpoint_cidr
+    else null;
+  assert platform_bastion_cidr == null ||
+    (
+      std.type(platform_bastion_cidr) == 'string' &&
+      std.endsWith(platform_bastion_cidr, '/32')
+    ) :
+    'platform_bastion_private_endpoint_cidr must be null or an IPv4 /32';
+  local with_platform_bastion_endpoint(category, endpoint_cidr) =
+    local management_security_list_key = n.key('SL', ['HUB', 'MGMT']);
+    local management_security_list =
+      category.vcns[hub_vcn_key]
+        .security_lists[management_security_list_key];
+    local bastion_rules = std.filter(
+      function(rule)
+        std.objectHas(rule, 'description') &&
+        rule.description == bastion_rule_description,
+      management_security_list.ingress_rules,
+    );
+    assert std.length(bastion_rules) == 1 :
+      'expected one official Hub management Bastion example rule';
+    category {
+      vcns+: {
+        [hub_vcn_key]+: {
+          security_lists+: {
+            [management_security_list_key]+: {
+              ingress_rules: std.filter(
+                function(rule)
+                  !std.objectHas(rule, 'description') ||
+                  rule.description != bastion_rule_description,
+                management_security_list.ingress_rules,
+              ) + (
+                if endpoint_cidr == null then []
+                else [bastion_rules[0] { src: endpoint_cidr }]
+              ),
+            },
+          },
+        },
+      },
+    };
   local drg_key = n.key('DRG', ['HUB']);
   local full_drg =
     shared_category.non_vcn_specific_gateways
@@ -202,7 +246,11 @@ local render(customer) =
   local op01_network = full.network {
     network_configuration+: {
       network_configuration_categories: {
-        '0-shared': shared_category {
+        '0-shared':
+          with_platform_bastion_endpoint(
+            shared_category,
+            platform_bastion_cidr,
+          ) {
           non_vcn_specific_gateways+: {
             dynamic_routing_gateways: {
               [drg_key]: shared_drg,

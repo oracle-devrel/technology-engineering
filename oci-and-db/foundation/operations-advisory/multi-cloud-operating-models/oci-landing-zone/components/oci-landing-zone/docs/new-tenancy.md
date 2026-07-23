@@ -362,10 +362,63 @@ approval, merge, and verify the apply before continuing:
 5. Move OP01 to `"stage": "pre"`.
 6. Move OP01 to `"stage": "final"`.
 7. If MCPP execution is hosted in this tenancy, deploy OP03 first with
-   `"stage": "infrastructure"`, register its new private runner, then replace
-   the OP03 identity placeholders and move to `"stage": "identity"`.
-8. Add one project name to `config/projects.json`, generate
+   `"stage": "infrastructure"`.
+8. Create its restricted OCI Bastion, record the assigned private endpoint
+   `/32` in `platform_bastion_private_endpoint_cidr`, and apply the focused
+   OP01 network update described below.
+9. Validate and register the new private runner, replace the OP03 identity
+   placeholders, and move OP03 to `"stage": "identity"`.
+10. Add one project name to `config/projects.json`, generate
    `op04:<environment>-<project>`, and submit the two-file OP04 request.
+
+### Configure and validate private access to the OP03 runner
+
+After OP03 infrastructure succeeds, take the GitOps compartment OCID from the
+OP03 output and the Hub management subnet OCID from the protected OP01 network
+output. Create a dedicated Bastion with the narrowest client allowlist:
+
+```bash
+export PLATFORM_GITOPS_COMPARTMENT_OCID='<OP03 GitOps compartment OCID>'
+export HUB_MGMT_SUBNET_OCID='<OP01 Hub management subnet OCID>'
+export CLIENT_IP="$(curl -4 --fail --silent https://api.ipify.org)"
+
+oci bastion bastion create \
+  --profile lz-bootstrap-session --auth security_token \
+  --bastion-type standard \
+  --compartment-id "$PLATFORM_GITOPS_COMPARTMENT_OCID" \
+  --target-subnet-id "$HUB_MGMT_SUBNET_OCID" \
+  --name bst-mccp-platform-runner \
+  --max-session-ttl 3600 \
+  --client-cidr-list "[\"$CLIENT_IP/32\"]" \
+  --wait-for-state SUCCEEDED
+```
+
+Read the Bastion OCID and its assigned private endpoint from OCI:
+
+```bash
+oci bastion bastion list \
+  --profile lz-bootstrap-session --auth security_token \
+  --compartment-id "$PLATFORM_GITOPS_COMPARTMENT_OCID" \
+  --name bst-mccp-platform-runner \
+  --query 'data[0].{id:id,private_endpoint:"private-endpoint-ip-address"}' \
+  --output table
+```
+
+Set `platform_bastion_private_endpoint_cidr` in `config/customer.jsonnet` to
+that private endpoint plus `/32`, regenerate OP01, and submit the focused OP01
+request. The plan must replace only the Hub management SSH rule source, apart
+from documented Orchestrator output files and the known Service Connector
+normalization. Do not use OE's generated host-offset example or a subnet-wide
+SSH source. With a `null` value, the adapter omits the example rule entirely.
+
+Before registration, connect through a short-lived managed SSH session and
+verify `cloud-init status --wait`, `rg --version`, `python3.11 --version`,
+`python3.11 -m pip --version`, the runner version as `github-runner`, Oracle
+Cloud Agent, SSH, and outbound HTTPS to GitHub. Terraform is installed by the
+pinned setup action; Ansible and OCI CLI are installed by the execution action.
+Do not replace an existing runner merely to update cloud-init: reconcile a
+previously created validation VM in place with the same pinned package and
+checksum-verified tool versions, then verify it before registration.
 
 OP04 uses the official OE `v3.1.0` project model: one project compartment,
 one administrator group, and the OE policies. The MCPP runner policies are the

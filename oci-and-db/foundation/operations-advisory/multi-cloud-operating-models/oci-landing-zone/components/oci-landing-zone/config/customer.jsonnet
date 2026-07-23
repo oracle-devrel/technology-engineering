@@ -5,6 +5,9 @@
 // makes those additions normal, repeatable Landing Zone changes.
 {
   notification_email: '__NOTIFICATION_EMAIL__',
+  // Set this to the OCI-assigned OP03 Bastion endpoint plus /32. Keep it null
+  // until the Bastion exists so no non-authoritative example rule is emitted.
+  platform_bastion_private_endpoint_cidr: null,
   // OP01 uses this list to render security and observability controls. During
   // initial installation OP01 remains in its core stage until DEV OP02 exists.
   // Add later environments here only after their OP02 state exists.

@@ -56,6 +56,14 @@ protected adapter omits only the shared-network child target. Shared network
 and platform resources therefore inherit the same CIS Level 1 zone from
 `CMP-LANDINGZONE-KEY`; the environment-level zone remains unchanged.
 
+OE `v3.1.0` derives an example Bastion SSH source by adding host offset `123`
+to the Hub management subnet. OCI Bastion assigns its private endpoint
+dynamically, so that example is not an executable access contract. The
+protected adapter removes the example when
+`platform_bastion_private_endpoint_cidr` is `null` and otherwise replaces it
+with the exact OCI-assigned `/32`. No broader management-subnet SSH source is
+accepted.
+
 The adapter derives every DRG route-distribution statement key from its owning
 distribution. This preserves the Hub E routes while satisfying the official
 networking module's globally unique flattened-statement key contract.

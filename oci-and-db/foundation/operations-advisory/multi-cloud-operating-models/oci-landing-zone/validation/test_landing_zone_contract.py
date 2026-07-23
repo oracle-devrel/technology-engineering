@@ -277,6 +277,15 @@ class LandingZoneContractTests(unittest.TestCase):
             "VM-LZ-SHARED-GITOPS-RUNNER-KEY"
         ]["cloud_init"]["heredoc_script"]
         self.assertIn("dnf install -y curl git", runner_script)
+        self.assertIn("python3.11 python3.11-pip", runner_script)
+        self.assertIn(
+            "ripgrep/releases/download/15.2.0",
+            runner_script,
+        )
+        self.assertIn(
+            "a740b91c82eaf9914cfedd353572f2791cbe0162c84101ee0951058f4dcbc90d",
+            runner_script,
+        )
         self.assertIn("jq python3", runner_script)
         self.assertNotIn("nodejs", runner_script)
         self.assertIn("--versioning Enabled", runbook)
@@ -302,6 +311,14 @@ class LandingZoneContractTests(unittest.TestCase):
         )
         self.assertIn(
             "without_shared_network_security_zone(active_render.security_cis1)",
+            render,
+        )
+        self.assertIn(
+            "with_platform_bastion_endpoint(",
+            render,
+        )
+        self.assertIn(
+            "platform_bastion_private_endpoint_cidr must be null or an IPv4 /32",
             render,
         )
         self.assertIn(
