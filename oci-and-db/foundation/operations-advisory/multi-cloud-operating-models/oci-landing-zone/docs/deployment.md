@@ -77,25 +77,32 @@ variables:
 
 ### Bootstrap administrator authentication preflight
 
-Before creating the state bucket or the temporary runner, verify the local OCI
-administrator profile against the target tenancy. This is a hard gate: do not
-continue after an authentication error.
+Before creating the state bucket or the temporary runner, authenticate a local
+OCI administrator session against the target tenancy. This is a hard gate: do
+not continue after an authentication error.
+
+For a clean-room installation, prefer an OCI CLI security-token session on an
+administrator workstation with a browser:
 
 ```bash
-export OCI_CLI_PROFILE=cloudopstenancy
+export OCI_REGION=eu-frankfurt-1
 export TARGET_TENANCY_OCID='<target-tenancy-ocid>'
-oci iam tenancy get --profile "$OCI_CLI_PROFILE" \
+oci session authenticate --profile-name lz-bootstrap-session \
+  --region "$OCI_REGION"
+oci session validate --profile lz-bootstrap-session --auth security_token
+oci iam tenancy get --profile lz-bootstrap-session --auth security_token \
   --tenancy-id "$TARGET_TENANCY_OCID" \
   --query 'data.{name:name,id:id,home_region_key:"home-region-key"}' \
   --output table
 ```
 
-The command must return the intended tenancy. A `401 NotAuthenticated` result
-means that the API-key profile, its fingerprint, or its private key does not
-match the OCI user; repair that administrative access before creating any
-resource. The API key is only for out-of-band setup of the state bucket and
-temporary runner boundary. Never place its private key or profile in GitHub
-Actions secrets, repository variables, Git, or handoff files.
+The command must return the intended tenancy. A security-token session normally
+expires after one hour, so use it only to create and verify the state bucket and
+temporary runner boundary. A `401 NotAuthenticated` result is a hard stop;
+authenticate a new session before creating any resource. An approved API-key
+profile is an alternative for this administrator-only setup, but neither
+credential may be placed in GitHub Actions secrets, repository variables, Git,
+or handoff files.
 
 Bootstrap creates the permanent runner, so its first apply needs a temporary
 trusted Linux **self-hosted runner** with Git, outbound HTTPS, and an Instance

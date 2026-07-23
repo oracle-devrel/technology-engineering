@@ -16,23 +16,28 @@ an OCI administrator must provide:
 - An OCI Object Storage bucket for Terraform state.
 - A private GitHub repository containing this prepared configuration.
 
-Use an OCI API-key profile only to create and verify this temporary boundary.
-Before creating any resource, verify it returns the intended tenancy:
+Use an OCI CLI security-token session to create and verify this temporary
+boundary. On an administrator workstation with a browser, authenticate and
+verify the intended tenancy before creating any resource:
 
 ```bash
-export OCI_CLI_PROFILE=cloudopstenancy
+export OCI_REGION=eu-frankfurt-1
 export TARGET_TENANCY_OCID='<target-tenancy-ocid>'
-oci iam tenancy get --profile "$OCI_CLI_PROFILE" \
+oci session authenticate --profile-name lz-bootstrap-session \
+  --region "$OCI_REGION"
+oci session validate --profile lz-bootstrap-session --auth security_token
+oci iam tenancy get --profile lz-bootstrap-session --auth security_token \
   --tenancy-id "$TARGET_TENANCY_OCID" \
   --query 'data.{name:name,id:id,home_region_key:"home-region-key"}' \
   --output table
 ```
 
-Stop on `401 NotAuthenticated`; repair the API-key profile before proceeding.
-Never copy the API key into GitHub Actions secrets or runner configuration. The
-workflow itself uses the temporary runner's Instance Principal identity. A
-short-lived GitHub runner registration token registers the runner only; it is
-not OCI authentication.
+Stop on `401 NotAuthenticated`; authenticate a new session before proceeding.
+The session normally expires after one hour and is only for creating the state
+bucket and temporary runner boundary. Never copy a session credential into
+GitHub Actions secrets or runner configuration. The workflow itself uses the
+temporary runner's Instance Principal identity. A short-lived GitHub runner
+registration token registers the runner only; it is not OCI authentication.
 
 Review `bootstrap/` and replace every example value. In particular, confirm the
 target region, image OCID, CIDRs, SSH public key, names, and the scope of
