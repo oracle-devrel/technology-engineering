@@ -1,5 +1,5 @@
 {
-  "contract_version": 2,
+  "contract_version": 3,
   "project_slug_pattern": "^(?:dev|test|uat|prod)-[a-z][a-z0-9]*(?:-[a-z0-9]+)*$",
   "project_name_max_length": 30,
   "same_slug_repository": false,
@@ -23,5 +23,11 @@
     "prod": "production-v1"
   },
   "handoff_path_template": "environments/{environment}/environment_information.md",
-  "op04_template": "op04_manage_project/templates/project-iam.template.json"
+  "project_catalog": "config/projects.json",
+  "op04_generator": {
+    "repository": "oci-landing-zones/oci-landing-zone-operating-entities",
+    "release": "v3.1.0",
+    "revision": "172809932c53467ab20ec6d1b44290a487211b36",
+    "adapter": "config/render.libsonnet"
+  }
 }

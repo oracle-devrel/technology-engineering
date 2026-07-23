@@ -14,99 +14,103 @@ on:
         required: true
         type: string
 
-# This workflow only reads landing-zone state and uploads an artifact. It never
-# checks out, writes to, or opens a pull request against a project repository.
 permissions:
   contents: read
 
 jobs:
   handoff:
     name: Generate project-foundation handoff artifact
-    if: vars.FOUNDATION_AUTOMATION_READY == 'true' && github.ref == 'refs/heads/main'
-    runs-on: self-hosted
+    if: >-
+      vars.FOUNDATION_AUTOMATION_READY == 'true' &&
+      github.ref == 'refs/heads/main'
+    runs-on: ${{ fromJSON(vars.FOUNDATION_RUNNER_LABELS || '["self-hosted"]') }}
     timeout-minutes: 15
     env:
       PROJECT: ${{ inputs.project }}
-      OCI_TF_STATE_BUCKET: ${{ vars.OCI_TF_STATE_BUCKET }}
-      OCI_TF_STATE_NAMESPACE: ${{ vars.OCI_TF_STATE_NAMESPACE }}
+      STATE_BUCKET: ${{ vars.OCI_TF_STATE_BUCKET }}
+      STATE_NAMESPACE: ${{ vars.OCI_TF_STATE_NAMESPACE }}
       STATE_REGION: ${{ vars.REGION }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
 
-      - uses: hashicorp/setup-terraform@v4
+      - uses: hashicorp/setup-terraform@v4.0.1
         with:
-          terraform_version: 1.12.1
+          terraform_version: 1.15.8
           terraform_wrapper: false
 
       - name: Render artifact-only handoff
         shell: bash
         run: |
           set -euo pipefail
-          [[ "$PROJECT" =~ ^(dev|test|uat|prod)-([a-z][a-z0-9]*(-[a-z0-9]+)*)$ ]] || { echo "Invalid project slug" >&2; exit 1; }
-          ENVIRONMENT="${BASH_REMATCH[1]}"
-          PROJECT_NAME="${BASH_REMATCH[2]}"
-          if [ "$ENVIRONMENT" = "prod" ]; then
-            TARGET_REPOSITORY="prod-$PROJECT_NAME"
+          [[ "$PROJECT" =~ ^(dev|test|uat|prod)-([a-z][a-z0-9]*(-[a-z0-9]+)*)$ ]]
+          environment="${BASH_REMATCH[1]}"
+          project_name="${BASH_REMATCH[2]}"
+          if [ "$environment" = "prod" ]; then
+            target_repository="prod-$project_name"
           else
-            TARGET_REPOSITORY="nonprod-$PROJECT_NAME"
+            target_repository="nonprod-$project_name"
           fi
-          HANDOFF_PATH="environments/$ENVIRONMENT/environment_information.md"
-          project_directory="op04_manage_project/$ENVIRONMENT/$PROJECT"
-          [[ -d "$project_directory" ]] || { echo "OP04 project directory is missing" >&2; exit 1; }
-          for variable in OCI_TF_STATE_BUCKET OCI_TF_STATE_NAMESPACE STATE_REGION; do
-            [[ -n "${!variable}" ]] || { echo "Required variable $variable is empty" >&2; exit 1; }
+          handoff_path="environments/$environment/environment_information.md"
+          project_directory="op04_manage_project/$environment/$PROJECT"
+          test -f "$project_directory/generated/iam.json"
+          for variable in \
+            STATE_BUCKET STATE_NAMESPACE STATE_REGION
+          do
+            test -n "${!variable}" || {
+              echo "Required variable is empty: $variable" >&2
+              exit 1
+            }
           done
-          artifact_directory="$RUNNER_TEMP/project-foundation-handoff-$GITHUB_RUN_ID"
-          mkdir -p "$artifact_directory"
-          state_root="$RUNNER_TEMP/project-foundation-state-$GITHUB_RUN_ID"
-          mkdir -p "$state_root/op02" "$state_root/op04"
-          for state in op02 op04; do
-            cat > "$state_root/$state/backend.tf" <<'EOF'
+          contract=".github/project-onboarding-contract.json"
+          blueprint="$(
+            jq -er --arg environment "$environment" '
+              select(
+                .contract_version == 3 and
+                (.allowed_environments | index($environment)) != null
+              ) |
+              .environment_blueprints[$environment]
+            ' "$contract"
+          )"
+          test -f "$blueprint"
+          jq -e --arg environment "$environment" '
+            .schema_version == 2 and .environment == $environment
+          ' "$blueprint" >/dev/null
+          artifact_directory="$RUNNER_TEMP/project-handoff-$GITHUB_RUN_ID"
+          state_directory="$RUNNER_TEMP/op04-state-$GITHUB_RUN_ID"
+          mkdir -p "$artifact_directory" "$state_directory"
+          cat > "$state_directory/backend.tf" <<'EOF'
           terraform { backend "oci" {} }
           EOF
-          done
-          terraform -chdir="$state_root/op02" init -input=false -no-color \
-            -backend-config="bucket=$OCI_TF_STATE_BUCKET" \
-            -backend-config="namespace=$OCI_TF_STATE_NAMESPACE" \
+          op02_state_key="op02_manage_environment/$environment/terraform.tfstate"
+          op04_state_key="$project_directory/terraform.tfstate"
+          terraform -chdir="$state_directory" init -input=false -no-color \
+            -backend-config="bucket=$STATE_BUCKET" \
+            -backend-config="namespace=$STATE_NAMESPACE" \
             -backend-config="region=$STATE_REGION" \
             -backend-config="auth=InstancePrincipal" \
-            -backend-config="key=op02_manage_environment/$ENVIRONMENT/terraform.tfstate"
-          terraform -chdir="$state_root/op04" init -input=false -no-color \
-            -backend-config="bucket=$OCI_TF_STATE_BUCKET" \
-            -backend-config="namespace=$OCI_TF_STATE_NAMESPACE" \
-            -backend-config="region=$STATE_REGION" \
-            -backend-config="auth=InstancePrincipal" \
-            -backend-config="key=$project_directory/terraform.tfstate"
-          terraform -chdir="$state_root/op02" output -json > "$state_root/op02-output.json"
-          terraform -chdir="$state_root/op04" output -json > "$state_root/op04-output.json"
-          mapfile -t NETWORK_CONFIGS < <(
-            find "op02_manage_environment/$ENVIRONMENT" -maxdepth 1 -type f -name '*.json' -print \
-              | while IFS= read -r candidate; do
-                  jq -e '.network_configuration | type == "object"' "$candidate" >/dev/null 2>&1 && printf '%s\n' "$candidate"
-                done
-          )
-          test "${#NETWORK_CONFIGS[@]}" -eq 1
+            -backend-config="key=$op04_state_key"
+          terraform -chdir="$state_directory" output -json \
+            > "$state_directory/op04-output.json"
           python3 scripts/render_project_handoff.py \
             --project "$PROJECT" \
             --project-directory "$project_directory" \
-            --op04-output "$state_root/op04-output.json" \
-            --op02-output "$state_root/op02-output.json" \
-            --network-config "${NETWORK_CONFIGS[0]}" \
-            --region "$STATE_REGION" \
+            --op04-output "$state_directory/op04-output.json" \
+            --environment-blueprint "$blueprint" \
             --source-repository "$GITHUB_REPOSITORY" \
             --source-workflow "$GITHUB_WORKFLOW" \
             --source-run "$GITHUB_RUN_ID" \
             --source-commit "$GITHUB_SHA" \
-            --op02-state-key "op02_manage_environment/$ENVIRONMENT/terraform.tfstate" \
-            --op04-state-key "$project_directory/terraform.tfstate" \
-            --target-repository "$TARGET_REPOSITORY" \
-            --handoff-path "$HANDOFF_PATH" \
+            --op02-state-key "$op02_state_key" \
+            --op04-state-key "$op04_state_key" \
+            --target-repository "$target_repository" \
+            --handoff-path "$handoff_path" \
             --output "$artifact_directory/environment_information.md" \
-            --handoff-output "$artifact_directory/project-foundation-handoff.json"
+            --handoff-output \
+              "$artifact_directory/project-foundation-handoff.json"
 
       - name: Upload handoff artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: project-foundation-handoff-${{ inputs.project }}
-          path: ${{ runner.temp }}/project-foundation-handoff-${{ github.run_id }}/
+          path: ${{ runner.temp }}/project-handoff-${{ github.run_id }}/
           if-no-files-found: error

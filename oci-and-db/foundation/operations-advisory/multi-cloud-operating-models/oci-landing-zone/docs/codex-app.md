@@ -5,6 +5,11 @@ handoff in the Codex app. It validates Git changes and both handoff artifacts,
 shows a preview, and requires a separate confirmation before each repository
 creation, branch push, or pull request.
 
+OP04 declarations come from the contract-pinned OE `v3.1.0` generator. The
+assistant preserves its single project-compartment hierarchy and rejects a
+handoff whose three workload-role compatibility fields do not identify that
+same compartment.
+
 Copy `plugins/cloud-operator-gitops`, replace `__CUSTOMER_ORG__`, install it
 through your approved Codex plugin process, and set `codex_app_plugin` to `true`
 in the deployment contract. The operator needs the Codex app with local shell

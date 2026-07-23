@@ -7,7 +7,8 @@ Cloud Operators are responsible for:
 
 - Maintaining tenancy IAM, shared networking, environments, and platform
   foundations.
-- Creating project compartments, groups, and policies through OP04.
+- Creating each official OE project compartment, group, and policies through
+  OP04.
 - Reviewing plans for unexpected replacement, deletion, or privilege changes.
 - Confirming state and OCI agree after each deployment.
 - Providing the validated project handoff after OP04.

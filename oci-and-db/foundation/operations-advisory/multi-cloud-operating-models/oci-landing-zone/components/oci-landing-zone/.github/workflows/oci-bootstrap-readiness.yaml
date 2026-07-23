@@ -1,0 +1,76 @@
+name: OCI Bootstrap readiness
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  readiness:
+    name: Verify the private foundation runner and state boundary
+    runs-on: ${{ fromJSON(vars.FOUNDATION_RUNNER_LABELS || '["self-hosted"]') }}
+    timeout-minutes: 10
+    env:
+      STATE_BUCKET: ${{ vars.OCI_TF_STATE_BUCKET }}
+      STATE_NAMESPACE: ${{ vars.OCI_TF_STATE_NAMESPACE }}
+      STATE_REGION: ${{ vars.REGION }}
+      TENANCY_OCID: ${{ vars.OCI_TENANCY_OCID }}
+    steps:
+      - uses: actions/checkout@v7.0.1
+
+      - name: Verify local tools and protected configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+          for command in git jq jsonnet oci rg; do
+            command -v "$command" >/dev/null || {
+              echo "Required runner command is missing: $command" >&2
+              exit 1
+            }
+          done
+          for variable in \
+            STATE_BUCKET STATE_NAMESPACE STATE_REGION TENANCY_OCID
+          do
+            test -n "${!variable}" || {
+              echo "Required repository variable is empty: $variable" >&2
+              exit 1
+            }
+          done
+          jq -e '
+            keys == ["dev", "prod", "test", "uat"] and
+            all(.[]; type == "array")
+          ' config/projects.json >/dev/null
+          if rg -n '__[A-Z0-9_]+__' config/customer.jsonnet; then
+            echo "Customer configuration is not rendered." >&2
+            exit 1
+          fi
+
+      - name: Verify Instance Principal and read-only state access
+        shell: bash
+        run: |
+          set -euo pipefail
+          tenancy="$(
+            oci iam tenancy get \
+              --auth instance_principal \
+              --tenancy-id "$TENANCY_OCID" \
+              --query 'data.id' \
+              --raw-output
+          )"
+          test "$tenancy" = "$TENANCY_OCID"
+          access="$(
+            oci os bucket get \
+              --auth instance_principal \
+              --namespace-name "$STATE_NAMESPACE" \
+              --name "$STATE_BUCKET" \
+              --region "$STATE_REGION" \
+              --query 'data."public-access-type"' \
+              --raw-output
+          )"
+          test "$access" = "NoPublicAccess"
+          oci os object list \
+            --auth instance_principal \
+            --namespace-name "$STATE_NAMESPACE" \
+            --bucket-name "$STATE_BUCKET" \
+            --region "$STATE_REGION" \
+            --limit 1 >/dev/null

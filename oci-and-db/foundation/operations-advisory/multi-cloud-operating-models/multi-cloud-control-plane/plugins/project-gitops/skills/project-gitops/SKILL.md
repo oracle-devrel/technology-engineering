@@ -32,3 +32,7 @@ or workflow changes, placeholders that do not begin with the selected uppercase
 environment (for example, `__DEV_...__`), and changes spanning more
 than one cloud/environment/region tuple. Run `scripts/validate-shared-layout.py`
 before proposing Git changes. The skill still creates Git changes only.
+
+The current OE `v3.1.0` handoff has one project compartment. Require its App,
+DB, and Infra compatibility rows to contain that same compartment OCID; the
+network subnet rows remain distinct.

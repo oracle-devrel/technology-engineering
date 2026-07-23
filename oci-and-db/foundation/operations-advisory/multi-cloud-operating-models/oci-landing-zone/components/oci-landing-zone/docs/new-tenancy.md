@@ -1,24 +1,14 @@
 # New tenancy setup
 
-This checklist takes a new OCI tenancy from initial administrative access to the
-first project handoff.
+This procedure establishes the smallest trusted boundary needed to deploy the
+official OCI Landing Zone Operating Entities blueprint. Bootstrap readiness is
+read-only; Terraform starts at OP00.
 
-## 1. Prepare the bootstrap boundary
+## 1. Verify administrator access
 
-The first Bootstrap apply cannot run on the runner it creates. Before starting,
-an OCI administrator must provide:
-
-- A temporary repository-scoped Linux GitHub Actions runner with Git and
-  outbound HTTPS access.
-- A temporary dynamic group and Instance Principal policy for that runner, with
-  permission to create the Bootstrap compartment, network, compute instance,
-  dynamic group, root policy, and state objects.
-- An OCI Object Storage bucket for Terraform state.
-- A private GitHub repository containing this prepared configuration.
-
-Use an OCI CLI security-token session to create and verify this temporary
-boundary. On an administrator workstation with a browser, authenticate and
-verify the intended tenancy before creating any resource:
+Use an approved OCI administrator identity only for the initial runner, state
+bucket, dynamic group, and policy. A short-lived OCI CLI security-token session
+keeps that credential out of GitHub:
 
 ```bash
 export OCI_REGION=eu-frankfurt-1
@@ -32,77 +22,175 @@ oci iam tenancy get --profile lz-bootstrap-session --auth security_token \
   --output table
 ```
 
-Stop on `401 NotAuthenticated`; authenticate a new session before proceeding.
-The session normally expires after one hour and is only for creating the state
-bucket and temporary runner boundary. Never copy a session credential into
-GitHub Actions secrets or runner configuration. The workflow itself uses the
-temporary runner's Instance Principal identity. A short-lived GitHub runner
-registration token registers the runner only; it is not OCI authentication.
+Stop if the returned tenancy is not the intended target or authentication
+fails. Never copy the session credential into GitHub, a runner configuration,
+Terraform, or a handoff.
 
-Review `bootstrap/` and replace every example value. In particular, confirm the
-target region, image OCID, CIDRs, SSH public key, names, and the scope of
-`pcy-bootstrap`. The supplied policy is broad enough to establish the Landing
-Zone; narrow it when your operating model permits. The GitHub workflow installs
-its pinned Terraform 1.12.1 release; a local Terraform installation is needed
-only if the temporary host will perform an approved local verification.
+## 2. Create the private state and runner boundary
 
-Run the Bootstrap configuration through the reviewed GitHub workflow on the
-temporary runner, using the OCI orchestrator commit pinned by this installation.
-Save the reviewed plan before apply. Retain the temporary runner and state until
-state is safely stored in the OCI bucket and recovery has been tested.
+Create one private Object Storage bucket:
 
-Bootstrap is deliberately a two-pass operation:
+```bash
+export STATE_BUCKET=mccp-oci-lz-tfstate
+export OCI_NAMESPACE=$(oci os ns get --profile lz-bootstrap-session \
+  --auth security_token --query data --raw-output)
 
-1. The first reviewed Bootstrap PR creates the Bootstrap compartment, network,
-   and permanent runner. The dynamic-group and policy file remains disabled.
-2. Obtain the newly created Bootstrap compartment OCID from the reviewed state
-   output. Rename
-   `oci_open_lz_one-oe_bootstrap_runner_iam.auto.tfvars.json.disabled` to end
-   in `.json`, replace `__BOOTSTRAP_COMPARTMENT_OCID__`, and open a second
-   reviewed Bootstrap PR. It adds the permanent runner's dynamic group and
-   policy without recreating the first-pass resources.
+oci os bucket create --profile lz-bootstrap-session --auth security_token \
+  --compartment-id "$TARGET_TENANCY_OCID" \
+  --namespace-name "$OCI_NAMESPACE" \
+  --name "$STATE_BUCKET" \
+  --public-access-type NoPublicAccess \
+  --region "$OCI_REGION"
+```
 
-The OCI dynamic-group API requires a literal compartment OCID in its matching
-rule, so this sequence is required; do not substitute a guessed value or enable
-the second file during the first pass.
+Create a dedicated Linux ARM64 foundation runner using your standard OCI
+Compute procedure. It is an unavoidable trust-bootstrap resource and is not
+managed by the Landing Zone it deploys. Require:
 
-## 2. Activate the permanent runner
+- No public IP address.
+- A private subnet with outbound HTTPS through a NAT Gateway and access to OCI
+  services through a Service Gateway.
+- OCI Bastion or another approved private administrator path.
+- A dedicated operating-system account and GitHub runner service.
+- Git, `jq`, Jsonnet, OCI CLI, `rg`, Python 3, `curl`, `tar`, and `unzip`.
+- Repository-scoped GitHub registration with the `mccp-foundation` label.
 
-After Bootstrap succeeds:
+In the private foundation repository, use **Settings → Actions → Runners →
+New self-hosted runner** and follow GitHub's generated Linux ARM64 commands.
+The registration token is short-lived and authenticates only runner
+registration; it is not an OCI credential. Configure the runner as a service.
 
-1. Complete the GitHub Actions runner registration on the new VM.
-2. Install Git, Terraform 1.12.1, and the tools required by your workflows.
-3. Confirm the instance matches the Bootstrap dynamic group.
-4. Confirm Instance Principal can read and write only the required state and
-   perform the next phase's OCI operations. Allow IAM propagation after the
-   second Bootstrap pass before running this test.
-5. Configure `OCI_TF_STATE_BUCKET`, `OCI_TF_STATE_NAMESPACE`, `REGION`, and
-   `OCI_TENANCY_OCID` as repository variables.
-6. Run a non-destructive state access test before removing temporary bootstrap
-   access.
+Bind the runner identity to its exact instance OCID:
 
-## 3. Deploy the foundation
+```bash
+export FOUNDATION_RUNNER_INSTANCE_OCID='<foundation-runner-instance-ocid>'
+export FOUNDATION_DYNAMIC_GROUP=dg-mccp-foundation-runner
+export FOUNDATION_POLICY=pcy-mccp-foundation-runner
 
-For OP00, OP01, OP02, OP03, and OP04, use the same control loop:
+oci iam dynamic-group create \
+  --profile lz-bootstrap-session --auth security_token \
+  --name "$FOUNDATION_DYNAMIC_GROUP" \
+  --description 'Dedicated MCCP foundation runner' \
+  --matching-rule \
+    "ALL {instance.id = '$FOUNDATION_RUNNER_INSTANCE_OCID'}"
 
-1. Change only the target phase.
-2. Open a pull request and review its Terraform plan.
-3. Obtain independent approval.
-4. Merge and verify the workflow and OCI outcome.
+oci iam policy create \
+  --profile lz-bootstrap-session --auth security_token \
+  --compartment-id "$TARGET_TENANCY_OCID" \
+  --name "$FOUNDATION_POLICY" \
+  --description 'MCCP foundation automation' \
+  --statements \
+    "[\"allow dynamic-group $FOUNDATION_DYNAMIC_GROUP to manage all-resources in tenancy\"]"
+```
 
-Run the phases in order. OP03 is required only when the GitOps platform is
-hosted in this tenancy. Repeat OP02 for each approved environment and OP04 for
-each project.
+The foundation policy is intentionally privileged because OP00 and OP01 manage
+tenancy-wide IAM and shared foundation resources. Exact-instance matching,
+private networking, repository isolation, branch protection, runner patching,
+and audit monitoring are mandatory controls. Project workloads use the
+separate, narrower OP03 runner identity.
 
-OP02 is complete when `project-onboarding-environment.json` identifies the
-expected environment, VCN, and role-based subnets. OP04 is complete when its
-workflow produces both handoff files with the expected project and provenance.
+## 3. Configure and generate the official blueprint
 
-## 4. Hand off the project
+Edit `config/customer.jsonnet` and replace every customer token. Keep
+`config/projects.json` empty during foundation creation. For the initial
+low-cost topology, use Hub E and one development project VCN.
 
-Provide `project-foundation-handoff.json` to the Control Plane administrator and
-`environment_information.md` to the project team. Do not add credentials or
-secrets. Keep the files with the approved onboarding record.
+Generate the committed phase configuration from the pinned OE release:
 
-If any phase fails, stop. Compare OCI with Terraform state before submitting a
-corrective pull request; do not edit state manually or bypass the review gate.
+```bash
+scripts/generate_foundation.sh all
+if rg -n '__[A-Z0-9_]+__' \
+  config/customer.jsonnet config/projects.json \
+  op00_manage_global_landing_zone \
+  op01_manage_landing_zone_environment
+then
+  echo 'Unresolved placeholders remain' >&2
+  exit 1
+fi
+test "$(
+  rg -o --no-filename '__[A-Z0-9_]+__' op02_manage_environment |
+    sort -u
+)" = '__DRG_SPOKES_ROUTE_TABLE_OCID__'
+```
+
+Only the exact OP02 dependency marker tested above may remain. It is not a
+customer value: the OP02 workflow reads the unique spokes route-table OCID from
+protected OP01 state, replaces the marker in a temporary copy, and fails closed
+before Terraform if it cannot resolve it. Do not edit generated files manually.
+The protected workflow regenerates changed phases from OE `v3.1.0` and rejects
+drift.
+
+## 4. Configure GitHub and run readiness
+
+Set these repository variables:
+
+```bash
+gh variable set FOUNDATION_RUNNER_LABELS \
+  --body '["self-hosted","linux","arm64","mccp-foundation"]' \
+  --repo '<organization>/<foundation-repository>'
+gh variable set OCI_TF_STATE_BUCKET --body "$STATE_BUCKET" \
+  --repo '<organization>/<foundation-repository>'
+gh variable set OCI_TF_STATE_NAMESPACE --body "$OCI_NAMESPACE" \
+  --repo '<organization>/<foundation-repository>'
+gh variable set REGION --body "$OCI_REGION" \
+  --repo '<organization>/<foundation-repository>'
+gh variable set OCI_TENANCY_OCID --body "$TARGET_TENANCY_OCID" \
+  --repo '<organization>/<foundation-repository>'
+gh variable set FOUNDATION_AUTOMATION_READY --body false \
+  --repo '<organization>/<foundation-repository>'
+```
+
+Protect `main`, require review and successful checks, and keep the repository
+private. Run **OCI Bootstrap readiness** manually. It must verify the runner
+tools, Instance Principal tenancy identity, private bucket, and read-only object
+access. Only after it succeeds:
+
+```bash
+gh variable set FOUNDATION_AUTOMATION_READY --body true \
+  --repo '<organization>/<foundation-repository>'
+```
+
+## 5. Deploy the multi-stack foundation
+
+Use one focused pull request per step. Review the exact Terraform plan, obtain
+approval, merge, and verify the apply before continuing:
+
+1. Set OP00 `operation.json` to `"enabled": true`.
+2. Set OP01 to `"enabled": true, "stage": "core"`.
+3. Set the selected OP02 environment to `"enabled": true`.
+4. Download the successful OP02
+   `project-onboarding-<environment>-<commit>` artifact, review it, and commit
+   it to the protected blueprint path in
+   `.github/project-onboarding-contract.json`.
+5. Move OP01 to `"stage": "pre"`.
+6. Move OP01 to `"stage": "final"`.
+7. If MCPP execution is hosted in this tenancy, deploy OP03 first with
+   `"stage": "infrastructure"`, register its new private runner, then replace
+   the OP03 identity placeholders and move to `"stage": "identity"`.
+8. Add one project name to `config/projects.json`, generate
+   `op04:<environment>-<project>`, and submit the two-file OP04 request.
+
+OP04 uses the official OE `v3.1.0` project model: one project compartment,
+one administrator group, and the OE policies. The MCPP runner policies are the
+only project-IAM extension. The resulting handoff repeats the same project
+compartment OCID in its three workload-role fields for compatibility.
+
+For a later environment, first add it to `customer.jsonnet` without activating
+it, generate and deploy its OP02 stack, commit its protected blueprint, then add
+it to `activated_environments` and run the OP01 `pre` and `final` updates.
+
+## 6. Hand off the project
+
+After OP04 applies, validate both artifacts:
+
+- `project-foundation-handoff.json` for machine processing.
+- `environment_information.md` for people.
+
+The Cloud Operator flow creates or reuses the contract-selected private project
+repository and publishes the exact environment handoff through a reviewed pull
+request. It never merges that pull request, runs Terraform locally, or places
+credentials in the handoff.
+
+If any apply fails, stop and compare OCI with the owning Terraform state before
+submitting a corrective pull request. Never edit state manually or bypass the
+review gate.

@@ -92,12 +92,18 @@ def main() -> int:
         for field, prefix in OCID_PREFIXES.items():
             if not isinstance(data[field], str) or not data[field].startswith(prefix):
                 fail(f"invalid {field}")
+        if len({data[field] for field in OCID_PREFIXES if field != "vcn"}) != 1:
+            fail("OE v3.1 project compartment aliases do not match")
         if not isinstance(data["subnets"], dict) or not data["subnets"]:
             fail("handoff subnets are invalid")
         for value in data["subnets"].values():
             if not isinstance(value, str) or not value.startswith("ocid1.subnet."):
                 fail("handoff subnet OCID is invalid")
-        expected_markdown_values = [args.project, environment, data["region"]]
+        expected_markdown_values = [
+            project_name,
+            environment,
+            data["region"],
+        ]
         expected_markdown_values.extend(data[field] for field in OCID_PREFIXES)
         expected_markdown_values.extend(data["subnets"].values())
         if any(str(value) not in markdown for value in expected_markdown_values):

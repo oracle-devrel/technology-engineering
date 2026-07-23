@@ -1283,10 +1283,14 @@ def validate_handoff(repo: Path, project: str, environment: str) -> None:
     ):
         _failure("INVALID_HANDOFF", "Project handoff is incomplete or invalid.")
     region = region_row[0]
+    compartment_ocids = []
     for label in ("App compartment", "DB compartment", "Infra compartment"):
         row = one_row(label, 2)
         if row is None or not _valid_ocid(row[-1], "compartment"):
             _failure("INVALID_HANDOFF", "Project handoff is incomplete or invalid.")
+        compartment_ocids.append(row[-1])
+    if len(set(compartment_ocids)) != 1:
+        _failure("INVALID_HANDOFF", "Project handoff is incomplete or invalid.")
     for label, kind in (
         ("Projects VCN", "vcn"),
         ("Web subnet", "subnet"),

@@ -1,0 +1,26 @@
+{
+  "dynamic_groups_configuration": {
+    "dynamic_groups": {
+      "DG-MCCP-PLATFORM-RUNNER-KEY": {
+        "description": "Exact OCI instance used by the Multi-Cloud Control Plane",
+        "matching_rule": "ALL {instance.id = '__PLATFORM_RUNNER_INSTANCE_OCID__'}",
+        "name": "dg-mccp-platform-runner"
+      }
+    }
+  },
+  "policies_configuration": {
+    "enable_cis_benchmark_checks": "false",
+    "supplied_policies": {
+      "PCY-MCCP-PLATFORM-RUNNER-STATE-KEY": {
+        "compartment_id": "TENANCY-ROOT",
+        "description": "Multi-Cloud Control Plane Terraform state access",
+        "name": "pcy-mccp-platform-runner-state",
+        "statements": [
+          "allow dynamic-group dg-mccp-platform-runner to read objectstorage-namespaces in tenancy",
+          "allow dynamic-group dg-mccp-platform-runner to read buckets in tenancy where target.bucket.name = '__STATE_BUCKET_NAME__'",
+          "allow dynamic-group dg-mccp-platform-runner to manage objects in tenancy where target.bucket.name = '__STATE_BUCKET_NAME__'"
+        ]
+      }
+    }
+  }
+}

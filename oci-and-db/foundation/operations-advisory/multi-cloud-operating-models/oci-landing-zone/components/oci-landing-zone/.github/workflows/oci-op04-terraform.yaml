@@ -1,232 +1,307 @@
-name: OCI Terraform pipeline - OP04 Manage Project
+name: OCI OP04 project foundation
 
 on:
+  pull_request_target:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'config/projects.json'
+      - 'op04_manage_project/*/*/generated/**'
   push:
-    branches:
-      - main
+    branches: [main]
     paths:
-      - 'op04_manage_project/**'
-      - '!op04_manage_project/templates/**'
-  pull_request:
-    branches:
-      - main
-    paths:
-      - 'op04_manage_project/**'
-      - '!op04_manage_project/templates/**'
-  workflow_dispatch:
-    inputs:
-      env:
-        description: "Environment"
-        required: true
-        default: "prod"
-        type: choice
-        options:
-          - dev
-          - test
-          - uat
-          - prod
-      project:
-        description: "Canonical project slug under op04_manage_project/<env>/"
-        required: true
-        default: "prod-project15"
+      - 'config/projects.json'
+      - 'op04_manage_project/*/*/generated/**'
+
+permissions:
+  contents: read
+
+env:
+  OE_REVISION: 172809932c53467ab20ec6d1b44290a487211b36
+  ORCHESTRATOR_REVISION: fcf1d7f02c0b4faa1ff55f1776c396452dd51761
 
 jobs:
   project:
-    name: 'op04_manage_project'
-    if: vars.FOUNDATION_AUTOMATION_READY == 'true'
-    runs-on: self-hosted
+    name: Plan and apply one OP04 project
+    if: >-
+      vars.FOUNDATION_AUTOMATION_READY == 'true' &&
+      (
+        github.event_name != 'pull_request_target' ||
+        github.event.pull_request.head.repo.full_name == github.repository
+      )
+    runs-on: ${{ fromJSON(vars.FOUNDATION_RUNNER_LABELS || '["self-hosted"]') }}
+    timeout-minutes: 90
     outputs:
-      target_env: ${{ steps.target.outputs.target_env }}
-      target_project: ${{ steps.target.outputs.target_project }}
-    permissions:
-      pull-requests: write
-      actions: read
-      contents: read
-
+      target_project: ${{ steps.target.outputs.project }}
     steps:
-      - name: 'Checkout'
-        uses: actions/checkout@v7
+      - name: Check out protected workflow and generator
+        uses: actions/checkout@v7.0.1
         with:
+          ref: ${{ github.event.pull_request.base.sha || github.sha }}
+          path: trusted
           fetch-depth: 0
 
-      - name: 'Resolve OP04 target'
+      - name: Check out requested OP04 revision
+        uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          path: request
+          fetch-depth: 0
+
+      - name: Resolve one additive project declaration
         id: target
         shell: bash
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
-          CURRENT_SHA: ${{ github.sha }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           set -euo pipefail
-
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            TARGET_SUBPATH="op04_manage_project/${{ inputs.env }}/${{ inputs.project }}"
-          else
-            CHANGED_FILE_LIST="$(mktemp)"
-
-            if [ "${{ github.event_name }}" = "pull_request" ]; then
-              git diff --name-only \
-                "${{ github.event.pull_request.base.sha }}" \
-                "${{ github.event.pull_request.head.sha }}" > "$CHANGED_FILE_LIST"
-            elif [ "${{ github.event_name }}" = "push" ]; then
-              git diff --name-only \
-                "${{ github.event.before }}" \
-                "${{ github.event.after }}" > "$CHANGED_FILE_LIST"
+          cd "$GITHUB_WORKSPACE/request"
+          mapfile -t changed_files < <(
+            if [ "$BASE_SHA" = \
+              "0000000000000000000000000000000000000000" ]; then
+              git ls-tree -r --name-only "$HEAD_SHA"
             else
-              find op04_manage_project -type f > "$CHANGED_FILE_LIST"
+              git diff --name-only "$BASE_SHA" "$HEAD_SHA"
             fi
-
-            mapfile -t TARGETS < <(
-              awk -F/ '$1 == "op04_manage_project" && NF >= 4 {print $1 "/" $2 "/" $3}' "$CHANGED_FILE_LIST" \
-                | sort -u
-            )
-
-            if [ "${#TARGETS[@]}" -eq 0 ]; then
-              echo "No OP04 project directory found in changed files."
-              exit 1
-            fi
-
-            if [ "${#TARGETS[@]}" -gt 1 ]; then
-              echo "OP04 workflow accepts one project per run. Split these changes into separate PRs:"
-              printf '  - %s\n' "${TARGETS[@]}"
-              exit 1
-            fi
-
-            TARGET_SUBPATH="${TARGETS[0]}"
-          fi
-
-          if [ ! -d "$TARGET_SUBPATH" ]; then
-            echo "OP04 project directory not found: $TARGET_SUBPATH"
-            exit 1
-          fi
-
-          TARGET_ENV="$(echo "$TARGET_SUBPATH" | cut -d/ -f2)"
-          TARGET_PROJECT="$(echo "$TARGET_SUBPATH" | cut -d/ -f3)"
-          if [[ ! "$TARGET_PROJECT" =~ ^(dev|test|uat|prod)-([a-z][a-z0-9]*(-[a-z0-9]+)*)$ ]]; then
-            echo "Invalid canonical project folder: $TARGET_PROJECT"
-            exit 1
-          fi
-          if [[ "${BASH_REMATCH[1]}" != "$TARGET_ENV" ]] || \
-             [[ "${#BASH_REMATCH[2]}" -gt 30 ]]; then
-            echo "Project folder does not match its environment: $TARGET_SUBPATH"
-            exit 1
-          fi
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            CONTRACT_REF="$BASE_SHA"
-          else
-            CONTRACT_REF="$CURRENT_SHA"
-          fi
-          CONTRACT=$(git show "$CONTRACT_REF:.github/project-onboarding-contract.json")
-          BLUEPRINT_PATH=$(
-            jq -er --arg environment "$TARGET_ENV" '
-              select(
-                .contract_version == 2 and
-                .same_slug_repository == false and
-                (.allowed_environments | index($environment)) != null and
-                .target_repository_prefixes[$environment] ==
-                  (if $environment == "prod" then "prod" else "nonprod" end)
-              ) |
-              .environment_blueprints[$environment]
-            ' <<< "$CONTRACT"
           )
-          git cat-file -e "$CONTRACT_REF:$BLUEPRINT_PATH"
-          git show "$CONTRACT_REF:$BLUEPRINT_PATH" \
-            | jq -e --arg environment "$TARGET_ENV" '
-                .schema_version == 2 and .environment == $environment
-              ' >/dev/null
-          STATE_KEY="$TARGET_SUBPATH/terraform.tfstate"
-
+          mapfile -t targets < <(
+            printf '%s\n' "${changed_files[@]}" |
+              awk -F/ '
+                $1 == "op04_manage_project" &&
+                $4 == "generated" &&
+                $5 == "iam.json" &&
+                NF == 5 {
+                  print $1 "/" $2 "/" $3
+                }
+              ' | sort -u
+          )
+          test "${#targets[@]}" -eq 1
+          root="${targets[0]}"
+          environment="$(cut -d/ -f2 <<< "$root")"
+          project="$(cut -d/ -f3 <<< "$root")"
+          [[ "$environment" =~ ^(dev|test|uat|prod)$ ]]
+          [[ "$project" =~ ^(dev|test|uat|prod)-([a-z][a-z0-9]*(-[a-z0-9]+)*)$ ]]
+          test "${BASH_REMATCH[1]}" = "$environment"
+          project_name="${BASH_REMATCH[2]}"
+          test "${#project_name}" -le 30
+          test "${#changed_files[@]}" -eq 2
+          for path in "${changed_files[@]}"; do
+            case "$path" in
+              config/projects.json|"$root/generated/iam.json")
+                ;;
+              *)
+                echo "OP04 must add one generated project only: $path" >&2
+                exit 1
+                ;;
+            esac
+            test "$(git ls-tree "$HEAD_SHA" -- "$path" | awk '{print $1}')" = \
+              "100644"
+          done
+          jq -e '
+            keys == ["dev", "prod", "test", "uat"] and
+            all(.[]; type == "array") and
+            all(.[][];
+              test("^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$") and
+              length <= 30
+            ) and
+            all(.[]; length == (unique | length))
+          ' config/projects.json >/dev/null
+          git show "$BASE_SHA:config/projects.json" \
+            > "$RUNNER_TEMP/projects-before.json"
+          jq -n \
+            --slurpfile before "$RUNNER_TEMP/projects-before.json" \
+            --slurpfile after config/projects.json \
+            --arg environment "$environment" \
+            --arg project "$project_name" '
+              (($after[0][$environment] - $before[0][$environment]) ==
+                [$project]) and
+              (($before[0][$environment] - $after[0][$environment]) == []) and
+              all(
+                ["dev", "test", "uat", "prod"][] |
+                select(. != $environment);
+                $after[0][.] == $before[0][.]
+              )
+            ' | jq -e . >/dev/null
           {
-            echo "target_subpath=$TARGET_SUBPATH"
-            echo "target_env=$TARGET_ENV"
-            echo "target_project=$TARGET_PROJECT"
-            echo "state_key=$STATE_KEY"
+            echo "environment=$environment"
+            echo "project=$project"
+            echo "project_name=$project_name"
+            echo "root=$root"
+            echo "state_key=$root/terraform.tfstate"
           } >> "$GITHUB_OUTPUT"
-          {
-            echo "OP04_TARGET_SUBPATH=$TARGET_SUBPATH"
-            echo "OP04_STATE_KEY=$STATE_KEY"
-          } >> "$GITHUB_ENV"
 
-          echo "Resolved OP04 target: $TARGET_SUBPATH"
+      - name: Regenerate OP04 from pinned OE
+        shell: bash
+        env:
+          OP04_ROOT: ${{ steps.target.outputs.root }}
+        run: |
+          set -euo pipefail
+          git init --quiet "$RUNNER_TEMP/oe"
+          git -C "$RUNNER_TEMP/oe" remote add origin \
+            https://github.com/oci-landing-zones/oci-landing-zone-operating-entities.git
+          git -C "$RUNNER_TEMP/oe" fetch --quiet --depth 1 \
+            origin "$OE_REVISION"
+          git -C "$RUNNER_TEMP/oe" checkout --quiet --detach FETCH_HEAD
+          test "$(git -C "$RUNNER_TEMP/oe" rev-parse HEAD)" = "$OE_REVISION"
+          render_config="$RUNNER_TEMP/render-config"
+          regenerated="$RUNNER_TEMP/regenerated"
+          mkdir -p "$render_config" "$regenerated/$OP04_ROOT/generated"
+          cp "$GITHUB_WORKSPACE/trusted/config/render.jsonnet" \
+            "$render_config/render.jsonnet"
+          cp "$GITHUB_WORKSPACE/trusted/config/render.libsonnet" \
+            "$render_config/render.libsonnet"
+          cp "$GITHUB_WORKSPACE/request/config/customer.jsonnet" \
+            "$render_config/customer.jsonnet"
+          cp "$GITHUB_WORKSPACE/request/config/projects.json" \
+            "$render_config/projects.json"
+          mapfile -t environments < <(
+            cd "$render_config"
+            jsonnet -e '
+              std.objectFields(
+                (import "customer.jsonnet").blueprint.environments
+              )
+            ' | jq -r '.[]'
+          )
+          mkdir -p \
+            "$regenerated/op00_manage_global_landing_zone/generated" \
+            "$regenerated/op01_manage_landing_zone_environment/generated"
+          for environment in "${environments[@]}"; do
+            mkdir -p \
+              "$regenerated/op02_manage_environment/$environment/generated"
+            while IFS= read -r project_name; do
+              mkdir -p \
+                "$regenerated/op04_manage_project/$environment/$environment-$project_name/generated"
+            done < <(jq -r --arg environment "$environment" \
+              '.[$environment][]' "$render_config/projects.json")
+          done
+          jsonnet -J "$RUNNER_TEMP/oe/gen" \
+            --multi "$regenerated" "$render_config/render.jsonnet"
+          diff -u \
+            "$regenerated/$OP04_ROOT/generated/iam.json" \
+            "$GITHUB_WORKSPACE/request/$OP04_ROOT/generated/iam.json"
+          jq -e '
+            keys == [
+              "compartments_configuration",
+              "identity_domain_groups_configuration",
+              "policies_configuration"
+            ]
+          ' "$GITHUB_WORKSPACE/request/$OP04_ROOT/generated/iam.json" >/dev/null
+          if rg -n '__[A-Za-z0-9_]+__' \
+            "$GITHUB_WORKSPACE/request/$OP04_ROOT"; then
+            echo "Unresolved OP04 placeholder." >&2
+            exit 1
+          fi
 
-      - name: 'Clone Orchestrator Module'
-        run: git clone https://github.com/oci-landing-zones/terraform-oci-modules-orchestrator.git ORCH && git -C ORCH checkout 34202e837e9df015ddaaa4fce0ab62bb6e3883de
-
-      - name: 'Setup Terraform'
-        uses: hashicorp/setup-terraform@v4
-        with:
-          terraform_version: 1.12.1
-          terraform_wrapper: true
-
-      - name: 'Setup Orchestrator Instance Principal Auth'
-        id: backend
+      - name: Fetch the pinned Orchestrator
         shell: bash
         run: |
           set -euo pipefail
+          git init --quiet "$GITHUB_WORKSPACE/ORCH"
+          git -C "$GITHUB_WORKSPACE/ORCH" remote add origin \
+            https://github.com/oci-landing-zones/terraform-oci-modules-orchestrator.git
+          git -C "$GITHUB_WORKSPACE/ORCH" fetch --quiet --depth 1 \
+            origin "$ORCHESTRATOR_REVISION"
+          git -C "$GITHUB_WORKSPACE/ORCH" checkout --quiet --detach FETCH_HEAD
+          test "$(git -C "$GITHUB_WORKSPACE/ORCH" rev-parse HEAD)" = \
+            "$ORCHESTRATOR_REVISION"
 
-          if [ -z "${{ vars.OCI_TF_STATE_BUCKET }}" ]; then
-            echo "Repository variable OCI_TF_STATE_BUCKET is required."
-            exit 1
-          fi
-          if [ -z "${{ vars.OCI_TF_STATE_NAMESPACE }}" ]; then
-            echo "Repository variable OCI_TF_STATE_NAMESPACE is required."
-            exit 1
-          fi
-          if [ -z "${{ vars.REGION }}" ]; then
-            echo "Repository variable REGION is required."
-            exit 1
-          fi
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v4.0.1
+        with:
+          terraform_version: 1.15.8
+          terraform_wrapper: true
 
-          cat > "${{ github.workspace }}/ORCH/providers.tf" << EOF
+      - name: Load OP00 and OP02 dependencies
+        shell: bash
+        env:
+          ENVIRONMENT: ${{ steps.target.outputs.environment }}
+          STATE_BUCKET: ${{ vars.OCI_TF_STATE_BUCKET }}
+          STATE_NAMESPACE: ${{ vars.OCI_TF_STATE_NAMESPACE }}
+          STATE_REGION: ${{ vars.REGION }}
+        run: |
+          set -euo pipefail
+          dependency_root="$RUNNER_TEMP/foundation-dependencies"
+          for phase in op00 op02; do
+            mkdir -p "$dependency_root/$phase"
+            cat > "$dependency_root/$phase/backend.tf" <<'EOF'
+          terraform { backend "oci" {} }
+          EOF
+          done
+          terraform -chdir="$dependency_root/op00" init \
+            -input=false -no-color \
+            -backend-config="bucket=$STATE_BUCKET" \
+            -backend-config="namespace=$STATE_NAMESPACE" \
+            -backend-config="region=$STATE_REGION" \
+            -backend-config="auth=InstancePrincipal" \
+            -backend-config="key=op00_manage_global_landing_zone/terraform.tfstate"
+          terraform -chdir="$dependency_root/op02" init \
+            -input=false -no-color \
+            -backend-config="bucket=$STATE_BUCKET" \
+            -backend-config="namespace=$STATE_NAMESPACE" \
+            -backend-config="region=$STATE_REGION" \
+            -backend-config="auth=InstancePrincipal" \
+            -backend-config="key=op02_manage_environment/$ENVIRONMENT/terraform.tfstate"
+          terraform -chdir="$dependency_root/op00" output -json \
+            iam_resources > "$RUNNER_TEMP/op00-iam.json"
+          terraform -chdir="$dependency_root/op02" output -json \
+            iam_resources > "$RUNNER_TEMP/op02-iam.json"
+          jq '{identity_domains: .identity_domains}' \
+            "$RUNNER_TEMP/op00-iam.json" \
+            > "$RUNNER_TEMP/identity-domains-dependency.json"
+          jq '{compartments: .compartments}' \
+            "$RUNNER_TEMP/op02-iam.json" \
+            > "$RUNNER_TEMP/compartments-dependency.json"
+
+      - name: Configure Instance Principal and OP04 state
+        shell: bash
+        env:
+          STATE_BUCKET: ${{ vars.OCI_TF_STATE_BUCKET }}
+          STATE_NAMESPACE: ${{ vars.OCI_TF_STATE_NAMESPACE }}
+          STATE_REGION: ${{ vars.REGION }}
+          TENANCY_OCID: ${{ vars.OCI_TENANCY_OCID }}
+          STATE_KEY: ${{ steps.target.outputs.state_key }}
+        run: |
+          set -euo pipefail
+          for variable in \
+            STATE_BUCKET STATE_NAMESPACE STATE_REGION TENANCY_OCID STATE_KEY
+          do
+            test -n "${!variable}" || {
+              echo "Required repository variable is empty: $variable" >&2
+              exit 1
+            }
+          done
+          cat > "$GITHUB_WORKSPACE/ORCH/providers.tf" <<EOF
           data "oci_identity_regions" "these" {}
-
           data "oci_identity_tenancy" "this" {
             tenancy_id = var.tenancy_ocid
           }
-
           locals {
-            regions_map         = { for r in data.oci_identity_regions.these.regions : r.key => r.name }
-            regions_map_reverse = { for r in data.oci_identity_regions.these.regions : r.name => r.key }
-            home_region_key     = data.oci_identity_tenancy.this.home_region_key
-            region_key          = lower(local.regions_map_reverse[var.region])
+            regions_map = {
+              for r in data.oci_identity_regions.these.regions : r.key => r.name
+            }
+            regions_map_reverse = {
+              for r in data.oci_identity_regions.these.regions : r.name => r.key
+            }
+            home_region_key = data.oci_identity_tenancy.this.home_region_key
+            region_key      = lower(local.regions_map_reverse[var.region])
           }
-
           provider "oci" {
-            auth                 = "InstancePrincipal"
-            region               = var.region
-            tenancy_ocid         = var.tenancy_ocid
-            user_ocid            = var.user_ocid
-            fingerprint          = var.fingerprint
-            private_key_path     = var.private_key_path
-            private_key_password = var.private_key_password
-            ignore_defined_tags  = ["Oracle-Tags.CreatedBy", "Oracle-Tags.CreatedOn"]
+            auth   = "InstancePrincipal"
+            region = var.region
           }
-
           provider "oci" {
-            auth                 = "InstancePrincipal"
-            alias                = "home"
-            region               = local.regions_map[local.home_region_key]
-            tenancy_ocid         = var.tenancy_ocid
-            user_ocid            = var.user_ocid
-            fingerprint          = var.fingerprint
-            private_key_path     = var.private_key_path
-            private_key_password = var.private_key_password
-            ignore_defined_tags  = ["Oracle-Tags.CreatedBy", "Oracle-Tags.CreatedOn"]
+            auth   = "InstancePrincipal"
+            alias  = "home"
+            region = local.regions_map[local.home_region_key]
           }
-
           provider "oci" {
-            auth                 = "InstancePrincipal"
-            alias                = "secondary_region"
-            region               = local.regions_map[local.home_region_key]
-            tenancy_ocid         = var.tenancy_ocid
-            user_ocid            = var.user_ocid
-            fingerprint          = var.fingerprint
-            private_key_path     = var.private_key_path
-            private_key_password = var.private_key_password
-            ignore_defined_tags  = ["Oracle-Tags.CreatedBy", "Oracle-Tags.CreatedOn"]
+            auth   = "InstancePrincipal"
+            alias  = "secondary_region"
+            region = var.region
           }
-
           terraform {
-            required_version = ">= 1.3.0"
+            required_version = ">= 1.5.0"
             required_providers {
               oci = {
                 source                = "oracle/oci"
@@ -234,80 +309,49 @@ jobs:
               }
             }
             backend "oci" {
-              bucket    = "${{ vars.OCI_TF_STATE_BUCKET }}"
-              namespace = "${{ vars.OCI_TF_STATE_NAMESPACE }}"
+              bucket    = "$STATE_BUCKET"
+              namespace = "$STATE_NAMESPACE"
               auth      = "InstancePrincipal"
-              region    = "${{ vars.REGION }}"
-              key       = "$OP04_STATE_KEY"
+              region    = "$STATE_REGION"
+              key       = "$STATE_KEY"
             }
           }
           EOF
+          jq -n \
+            --arg tenancy_ocid "$TENANCY_OCID" \
+            --arg region "$STATE_REGION" \
+            '{tenancy_ocid: $tenancy_ocid, region: $region}' \
+            > "$RUNNER_TEMP/oci-credentials.tfvars.json"
 
-      - name: 'Terraform Init'
-        id: init
+      - name: Initialize and plan OP04
         shell: bash
-        run: |
-          cd "${{ github.workspace }}/ORCH"
-          terraform init
-
-      - name: 'Terraform Validate'
-        id: validate
-        if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
-        shell: bash
-        run: |
-          cd "${{ github.workspace }}/ORCH"
-          terraform validate -no-color
-
-      - name: 'Terraform Plan'
-        id: plan
-        if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
-        shell: bash
+        env:
+          OP04_ROOT: ${{ steps.target.outputs.root }}
         run: |
           set -euo pipefail
-          cd "${{ github.workspace }}/ORCH"
-          SCENARIO_DIR="${{ github.workspace }}/${{ steps.target.outputs.target_subpath }}"
-          mapfile -t VAR_FILES < <(find "$SCENARIO_DIR" -type f -name '*.json' | sort)
+          terraform -chdir="$GITHUB_WORKSPACE/ORCH" init \
+            -input=false -no-color
+          terraform -chdir="$GITHUB_WORKSPACE/ORCH" validate -no-color
+          terraform -chdir="$GITHUB_WORKSPACE/ORCH" plan \
+            -input=false -no-color \
+            -var-file="$RUNNER_TEMP/oci-credentials.tfvars.json" \
+            -var-file="$GITHUB_WORKSPACE/request/$OP04_ROOT/generated/iam.json" \
+            -var="identity_domains_dependency=$RUNNER_TEMP/identity-domains-dependency.json" \
+            -var="compartments_dependency=$RUNNER_TEMP/compartments-dependency.json" \
+            -var="output_path=$RUNNER_TEMP/op04-output" \
+            -out="$RUNNER_TEMP/op04.tfplan"
 
-          if [ "${#VAR_FILES[@]}" -eq 0 ]; then
-            echo "No JSON var-files found in $SCENARIO_DIR"
-            exit 1
-          fi
-
-          VAR_ARGS=()
-          for var_file in "${VAR_FILES[@]}"; do
-            VAR_ARGS+=("-var-file=$var_file")
-          done
-
-          terraform plan -no-color "${VAR_ARGS[@]}" -var "output_path=output" --out tfplan.binary
-
-      - name: 'Terraform Apply'
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      - name: Apply the same OP04 plan after merge
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         shell: bash
         run: |
-          set -euo pipefail
-          cd "${{ github.workspace }}/ORCH"
-          SCENARIO_DIR="${{ github.workspace }}/${{ steps.target.outputs.target_subpath }}"
-          mapfile -t VAR_FILES < <(find "$SCENARIO_DIR" -type f -name '*.json' | sort)
-
-          if [ "${#VAR_FILES[@]}" -eq 0 ]; then
-            echo "No JSON var-files found in $SCENARIO_DIR"
-            exit 1
-          fi
-
-          VAR_ARGS=()
-          for var_file in "${VAR_FILES[@]}"; do
-            VAR_ARGS+=("-var-file=$var_file")
-          done
-
-          terraform apply -no-color "${VAR_ARGS[@]}" -var "output_path=output" --auto-approve
+          terraform -chdir="$GITHUB_WORKSPACE/ORCH" apply \
+            -input=false -no-color -auto-approve "$RUNNER_TEMP/op04.tfplan"
 
   handoff:
     name: Generate project handoff after OP04
     needs: project
-    if: >-
-      github.ref == 'refs/heads/main' &&
-      github.event_name == 'push' &&
-      contains(fromJSON('["dev","test","uat","prod"]'), needs.project.outputs.target_env)
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     permissions:
       contents: read
     uses: ./.github/workflows/oci-project-handoff.yaml

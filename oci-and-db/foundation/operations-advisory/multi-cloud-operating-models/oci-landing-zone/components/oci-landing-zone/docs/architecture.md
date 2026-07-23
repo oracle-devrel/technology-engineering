@@ -5,7 +5,7 @@ so reviewers can understand the scope of each plan.
 
 ```mermaid
 flowchart LR
-  B[Bootstrap] --> O0[OP00 global IAM]
+  B[Bootstrap readiness] --> O0[OP00 global IAM]
   O0 --> O1[OP01 shared foundation]
   O1 --> O2[OP02 environment]
   O2 -. optional .-> O3[OP03 platform]
@@ -27,7 +27,6 @@ separate key:
 
 | Phase | State key |
 |---|---|
-| Bootstrap | `bootstrap/terraform.tfstate` |
 | OP00 | `op00_manage_global_landing_zone/terraform.tfstate` |
 | OP01 | `op01_manage_landing_zone_environment/terraform.tfstate` |
 | OP02 | `op02_manage_environment/{environment}/terraform.tfstate` |
@@ -35,8 +34,21 @@ separate key:
 | OP04 | `op04_manage_project/{environment}/{project}/terraform.tfstate` |
 
 The workflows obtain the bucket, namespace, and region from GitHub repository
-variables. After Bootstrap, OCI providers and state access use the runner's
-Instance Principal identity.
+variables. OCI providers and state access use the private foundation runner's
+Instance Principal identity. Bootstrap readiness is a read-only workflow and
+has no Terraform state.
+
+## Official blueprint boundary
+
+OE `v3.1.0` owns the hierarchy, naming, and standard IAM definitions. The local
+Jsonnet adapter projects its output into the OP00–OP04 state boundaries and
+adds only the MCPP runner policies that OE does not provide.
+
+The current OE model creates one project compartment under the environment's
+`PROJECTS` compartment. Application, database, and infrastructure values in the
+handoff are logical compatibility fields and contain the same project
+compartment OCID. The application, database, and infrastructure *subnets*
+remain distinct because they are part of the official project-network model.
 
 ## Change path
 

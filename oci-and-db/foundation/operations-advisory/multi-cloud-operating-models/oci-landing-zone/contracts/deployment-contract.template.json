@@ -3,6 +3,9 @@
   "customer_org": "__CUSTOMER_ORG__",
   "foundation_repository": "__CUSTOMER_ORG__/__FOUNDATION_REPOSITORY__",
   "foundation_ref": "__FOUNDATION_REF__",
+  "terraform": {
+    "version": "1.15.8"
+  },
   "project_templates": {
     "shared-nonprod-v2": {
       "repository": "__CUSTOMER_ORG__/nonprod-project-template",
@@ -22,13 +25,25 @@
   "handoff_path_template": "environments/{environment}/environment_information.md",
   "oci_orchestrator": {
     "repository": "oci-landing-zones/terraform-oci-modules-orchestrator",
-    "revision": "34202e837e9df015ddaaa4fce0ab62bb6e3883de"
+    "release_branch": "release-2.1.4",
+    "revision": "fcf1d7f02c0b4faa1ff55f1776c396452dd51761"
+  },
+  "oci_landing_zone_operating_entities": {
+    "repository": "oci-landing-zones/oci-landing-zone-operating-entities",
+    "release": "v3.1.0",
+    "revision": "172809932c53467ab20ec6d1b44290a487211b36"
+  },
+  "oci_database_modules": {
+    "repository": "oci-landing-zones/terraform-oci-modules-exadata",
+    "release_branch": "release-1.2.0",
+    "revision": "55eeee14808f864e450db550530d760f9e0b0105"
   },
   "environments": [
     {"name": "__ENVIRONMENT__", "region": "__OCI_REGION__"}
   ],
   "foundation_workflows": [
-    "oci-bootstrap-terraform.yaml",
+    "oci-bootstrap-readiness.yaml",
+    "oci-generated-contract.yaml",
     "oci-op00-terraform.yaml",
     "oci-op01-terraform.yaml",
     "oci-op02-terraform.yaml",

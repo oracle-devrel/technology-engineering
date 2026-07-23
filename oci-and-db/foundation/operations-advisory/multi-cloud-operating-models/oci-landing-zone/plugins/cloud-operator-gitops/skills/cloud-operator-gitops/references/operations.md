@@ -4,21 +4,27 @@
 2. Resolve one canonical project slug and its allowed environment without inference.
 3. Read the configured environment blueprint from exact landing-zone `main`.
 4. Create a disposable clone and branch from exact `origin/main`.
-5. Render the canonical OP04 files and run `validate-onboarding.py`.
+5. Add one project to the protected catalog, generate its canonical OP04 file
+   from the pinned OE release, and run `validate-onboarding.py`.
 6. Show paths, semantic changes, base SHA, content hash, and `GitHub writes: none`.
 7. Require fresh confirmation, revalidate the hashes, push, and open one PR.
 8. Stop before merge. After human merge, monitor only the exact OP04 workflow.
 9. Download only that successful run's JSON and Markdown artifacts and validate
    them together with `validate-handoff.py`. Derive the target repository,
    layout, and handoff path only from its output.
+   Require the three workload-role compartment values to identify the same
+   official OE `v3.1.0` project compartment.
 10. Resolve the exact template repository and immutable revision for that layout
     from `deployment-contract.json`. If the target is absent, preview and
     separately confirm creation of one private repository, then verify its
     initial tree matches the pinned template. If an exact shared non-production
     target already exists, reuse it; never recreate or overwrite it.
-11. In a disposable clone, write only the validated Markdown artifact to
-    `environments/<environment>/environment_information.md`. Show the path,
-    source and content hashes, branch, and semantic summary with
+11. In a disposable clone, write the validated Markdown artifact to
+    `environments/<environment>/environment_information.md`. If the operator
+    explicitly requests registration of a verified externally deployed regular
+    ExaCS database, also update the platform-owned
+    `environments/<environment>/exacs-databases.json` registry. Show every
+    path, source and content hashes, branch, and semantic summary with
     `GitHub writes: none`; require fresh confirmation and revalidate.
 12. Push the validated branch and conditionally open one PR. Stop before merge
     and report the repository, environment, handoff path, and PR state.

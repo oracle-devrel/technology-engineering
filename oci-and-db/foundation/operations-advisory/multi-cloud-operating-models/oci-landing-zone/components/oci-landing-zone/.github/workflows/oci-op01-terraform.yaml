@@ -1,170 +1,289 @@
-name: OCI Terraform pipeline - OP01 Manage Landing Zone Environment
+name: OCI OP01 shared Landing Zone
 
 on:
+  pull_request_target:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'op01_manage_landing_zone_environment/generated/**'
+      - 'op01_manage_landing_zone_environment/operation.json'
   push:
-    branches:
-      - main
+    branches: [main]
     paths:
-      - 'op01_manage_landing_zone_environment/**'
-  pull_request:
-    branches:
-      - main
-    paths:
-    - 'op01_manage_landing_zone_environment/**'
+      - 'op01_manage_landing_zone_environment/generated/**'
+      - 'op01_manage_landing_zone_environment/operation.json'
 
-  workflow_dispatch:
+permissions:
+  contents: read
+
+env:
+  ORCHESTRATOR_REVISION: fcf1d7f02c0b4faa1ff55f1776c396452dd51761
+  STATE_KEY: op01_manage_landing_zone_environment/terraform.tfstate
 
 jobs:
- projects:
-    name: 'op01_manage_landing_zone_environment'
-    if: vars.FOUNDATION_AUTOMATION_READY == 'true'
-    env:
-      SCENARIO: op01_manage_landing_zone_environment
-
-    runs-on: self-hosted
-    permissions:
-      contents: read
-
+  op01:
+    name: Plan and apply OP01
+    if: >-
+      vars.FOUNDATION_AUTOMATION_READY == 'true' &&
+      (
+        github.event_name != 'pull_request_target' ||
+        github.event.pull_request.head.repo.full_name == github.repository
+      )
+    runs-on: ${{ fromJSON(vars.FOUNDATION_RUNNER_LABELS || '["self-hosted"]') }}
+    timeout-minutes: 120
     steps:
-    # Checkout the repository to the GitHub Actions runner
-    - name: 'Checkout'
-      uses: actions/checkout@v4
+      - name: Check out protected workflow source
+        uses: actions/checkout@v7.0.1
+        with:
+          path: trusted
+          fetch-depth: 0
 
-    # Gather Orchestrator Module
-    - name: 'Clone Orchestrator Module'
-      run: git clone https://github.com/oci-landing-zones/terraform-oci-modules-orchestrator.git ORCH && git -C ORCH checkout 34202e837e9df015ddaaa4fce0ab62bb6e3883de
+      - name: Check out requested OP01 revision
+        uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          path: request
+          fetch-depth: 0
 
-    # Setup Terraform Binary
-    - name: 'Setup Terraform'
-      uses: hashicorp/setup-terraform@v3
-      with:
-        terraform_version: 1.12.1
-        terraform_wrapper: true
+      - name: Validate the focused OP01 request
+        id: operation
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+          cd "$GITHUB_WORKSPACE/request"
+          stage="$(jq -er '
+            select(.contract_version == 1 and .enabled == true) |
+            .stage |
+            select(. == "core" or . == "pre" or . == "final")
+          ' op01_manage_landing_zone_environment/operation.json)"
+          if [ "${{ github.event_name }}" = "pull_request_target" ]; then
+            base_stage="$(git show \
+              "$BASE_SHA:op01_manage_landing_zone_environment/operation.json" |
+              jq -er '.stage')"
+            case "$base_stage:$stage" in
+              core:core|core:pre|pre:pre|pre:final|final:final)
+                ;;
+              *)
+                echo "Invalid OP01 stage transition: $base_stage -> $stage" >&2
+                exit 1
+                ;;
+            esac
+          fi
+          mapfile -t changed_files < <(
+            if [ "$BASE_SHA" = \
+              "0000000000000000000000000000000000000000" ]; then
+              git ls-tree -r --name-only "$HEAD_SHA"
+            else
+              git diff --name-only "$BASE_SHA" "$HEAD_SHA"
+            fi
+          )
+          for path in "${changed_files[@]}"; do
+            case "$path" in
+              config/customer.jsonnet|\
+              op01_manage_landing_zone_environment/operation.json|\
+              op01_manage_landing_zone_environment/generated/*.json)
+                ;;
+              *)
+                echo "OP01 must be a focused phase PR: $path" >&2
+                exit 1
+                ;;
+            esac
+            test "$(git ls-tree "$HEAD_SHA" -- "$path" | awk '{print $1}')" = \
+              "100644"
+          done
+          expected=(
+            governance.json
+            iam.json
+            network.json
+            observability_cis1.json
+            observability_cis1_pre.json
+            security_cis1.json
+            security_cis1_pre.json
+          )
+          for file in "${expected[@]}"; do
+            jq -e 'type == "object"' \
+              "op01_manage_landing_zone_environment/generated/$file" \
+              >/dev/null
+          done
+          echo "stage=$stage" >> "$GITHUB_OUTPUT"
 
-    # # Setup Terraform backend overriding default Orchestrator Provider options
-    - name: 'Setup Orchestrator Instance Principal Auth'
-      id: backend
-      run: |
-        cat > ${{ github.workspace }}/ORCH/providers.tf << EOF
-        data "oci_identity_regions" "these" {}
+      - name: Fetch the pinned Orchestrator
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init --quiet "$GITHUB_WORKSPACE/ORCH"
+          git -C "$GITHUB_WORKSPACE/ORCH" remote add origin \
+            https://github.com/oci-landing-zones/terraform-oci-modules-orchestrator.git
+          git -C "$GITHUB_WORKSPACE/ORCH" fetch --quiet --depth 1 \
+            origin "$ORCHESTRATOR_REVISION"
+          git -C "$GITHUB_WORKSPACE/ORCH" checkout --quiet --detach FETCH_HEAD
+          test "$(git -C "$GITHUB_WORKSPACE/ORCH" rev-parse HEAD)" = \
+            "$ORCHESTRATOR_REVISION"
 
-        data "oci_identity_tenancy" "this" {
-          tenancy_id = var.tenancy_ocid
-        }
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v4.0.1
+        with:
+          terraform_version: 1.15.8
+          terraform_wrapper: true
 
-        locals {
-          regions_map         = { for r in data.oci_identity_regions.these.regions : r.key => r.name } # All regions indexed by region key.
-          regions_map_reverse = { for r in data.oci_identity_regions.these.regions : r.name => r.key } # All regions indexed by region name.
-          home_region_key     = data.oci_identity_tenancy.this.home_region_key                         # Home region key obtained from the tenancy data source
-          region_key          = lower(local.regions_map_reverse[var.region])                           # Region key obtained from the region name
-        }
-
-        provider "oci" {
-           auth                = "InstancePrincipal"
-          region               = var.region
-          tenancy_ocid         = var.tenancy_ocid
-          user_ocid            = var.user_ocid
-          fingerprint          = var.fingerprint
-          private_key_path     = var.private_key_path
-          private_key_password = var.private_key_password
-          ignore_defined_tags  = ["Oracle-Tags.CreatedBy", "Oracle-Tags.CreatedOn"]
-        }
-
-        provider "oci" {
-          auth                 = "InstancePrincipal"
-          alias                = "home"
-          region               = local.regions_map[local.home_region_key]
-          tenancy_ocid         = var.tenancy_ocid
-          user_ocid            = var.user_ocid
-          fingerprint          = var.fingerprint
-          private_key_path     = var.private_key_path
-          private_key_password = var.private_key_password
-          ignore_defined_tags  = ["Oracle-Tags.CreatedBy", "Oracle-Tags.CreatedOn"]
-        }
-
-        provider "oci" {
-          auth                 = "InstancePrincipal"
-          alias                = "secondary_region"
-          region               = local.regions_map[local.home_region_key]
-          tenancy_ocid         = var.tenancy_ocid
-          user_ocid            = var.user_ocid
-          fingerprint          = var.fingerprint
-          private_key_path     = var.private_key_path
-          private_key_password = var.private_key_password
-          ignore_defined_tags  = ["Oracle-Tags.CreatedBy", "Oracle-Tags.CreatedOn"]
-        }
-
-        terraform {
-          required_version = ">= 1.3.0"
-          required_providers {
-            oci = {
-              source                = "oracle/oci"
-              configuration_aliases = [oci.home]
+      - name: Configure Instance Principal and OP01 state
+        shell: bash
+        env:
+          STATE_BUCKET: ${{ vars.OCI_TF_STATE_BUCKET }}
+          STATE_NAMESPACE: ${{ vars.OCI_TF_STATE_NAMESPACE }}
+          STATE_REGION: ${{ vars.REGION }}
+          TENANCY_OCID: ${{ vars.OCI_TENANCY_OCID }}
+        run: |
+          set -euo pipefail
+          for variable in \
+            STATE_BUCKET STATE_NAMESPACE STATE_REGION TENANCY_OCID
+          do
+            test -n "${!variable}" || {
+              echo "Required repository variable is empty: $variable" >&2
+              exit 1
+            }
+          done
+          cat > "$GITHUB_WORKSPACE/ORCH/providers.tf" <<EOF
+          data "oci_identity_regions" "these" {}
+          data "oci_identity_tenancy" "this" {
+            tenancy_id = var.tenancy_ocid
+          }
+          locals {
+            regions_map = {
+              for r in data.oci_identity_regions.these.regions : r.key => r.name
+            }
+            regions_map_reverse = {
+              for r in data.oci_identity_regions.these.regions : r.name => r.key
+            }
+            home_region_key = data.oci_identity_tenancy.this.home_region_key
+            region_key      = lower(local.regions_map_reverse[var.region])
+          }
+          provider "oci" {
+            auth   = "InstancePrincipal"
+            region = var.region
+          }
+          provider "oci" {
+            auth   = "InstancePrincipal"
+            alias  = "home"
+            region = local.regions_map[local.home_region_key]
+          }
+          provider "oci" {
+            auth   = "InstancePrincipal"
+            alias  = "secondary_region"
+            region = var.region
+          }
+          terraform {
+            required_version = ">= 1.5.0"
+            required_providers {
+              oci = {
+                source                = "oracle/oci"
+                configuration_aliases = [oci.home]
+              }
+            }
+            backend "oci" {
+              bucket    = "$STATE_BUCKET"
+              namespace = "$STATE_NAMESPACE"
+              auth      = "InstancePrincipal"
+              region    = "$STATE_REGION"
+              key       = "$STATE_KEY"
             }
           }
-            backend "oci" {
-              bucket = "__BUCKET__"
-              namespace ="__NAMESPACE__"
-              auth = "InstancePrincipal"
-              region = "__REGION__"
-              key = "__SCENARIO__/terraform.tfstate"
-            }
-        }
-        EOF
-        sed -i "s|__BUCKET__|${{ vars.OCI_TF_STATE_BUCKET }}|g" ${{ github.workspace }}/ORCH/providers.tf
-        sed -i "s|__NAMESPACE__|${{ vars.OCI_TF_STATE_NAMESPACE }}|g" ${{ github.workspace }}/ORCH/providers.tf
-        sed -i "s|__REGION__|${{ vars.REGION }}|g" ${{ github.workspace }}/ORCH/providers.tf
-        sed -i "s|__SCENARIO__|${{ env.SCENARIO }}|g" ${{ github.workspace }}/ORCH/providers.tf
+          EOF
+          jq -n \
+            --arg tenancy_ocid "$TENANCY_OCID" \
+            --arg region "$STATE_REGION" \
+            '{tenancy_ocid: $tenancy_ocid, region: $region}' \
+            > "$RUNNER_TEMP/oci-credentials.tfvars.json"
 
+      - name: Load activated OP02 compartment dependencies
+        if: steps.operation.outputs.stage != 'core'
+        shell: bash
+        env:
+          STATE_BUCKET: ${{ vars.OCI_TF_STATE_BUCKET }}
+          STATE_NAMESPACE: ${{ vars.OCI_TF_STATE_NAMESPACE }}
+          STATE_REGION: ${{ vars.REGION }}
+        run: |
+          set -euo pipefail
+          cd "$GITHUB_WORKSPACE/request"
+          mapfile -t environments < <(
+            jsonnet -e '
+              (import "config/customer.jsonnet").activated_environments
+            ' | jq -r '.[]'
+          )
+          test "${#environments[@]}" -gt 0
+          dependency_root="$RUNNER_TEMP/op02-dependencies"
+          mkdir -p "$dependency_root"
+          output_files=()
+          for environment in "${environments[@]}"; do
+            [[ "$environment" =~ ^(dev|test|uat|prod)$ ]]
+            state_directory="$dependency_root/$environment"
+            mkdir -p "$state_directory"
+            cat > "$state_directory/backend.tf" <<'EOF'
+          terraform { backend "oci" {} }
+          EOF
+            terraform -chdir="$state_directory" init \
+              -input=false -no-color \
+              -backend-config="bucket=$STATE_BUCKET" \
+              -backend-config="namespace=$STATE_NAMESPACE" \
+              -backend-config="region=$STATE_REGION" \
+              -backend-config="auth=InstancePrincipal" \
+              -backend-config="key=op02_manage_environment/$environment/terraform.tfstate"
+            output="$state_directory/iam.json"
+            terraform -chdir="$state_directory" output -json \
+              iam_resources > "$output"
+            output_files+=("$output")
+          done
+          jq -s '
+            reduce .[] as $item (
+              {"compartments": {}};
+              .compartments += ($item.compartments // {})
+            )
+          ' "${output_files[@]}" > "$RUNNER_TEMP/op02-compartments.json"
 
-    # Landing Zone Terraform Orchestrator and Base Modules initialization
-    - name: 'Terraform Init'
-      id: init
-      run: |
-       cd ${{ github.workspace }}/ORCH
-       terraform init
+      - name: Initialize and plan OP01
+        shell: bash
+        env:
+          OP01_STAGE: ${{ steps.operation.outputs.stage }}
+        run: |
+          set -euo pipefail
+          terraform -chdir="$GITHUB_WORKSPACE/ORCH" init \
+            -input=false -no-color
+          terraform -chdir="$GITHUB_WORKSPACE/ORCH" validate -no-color
+          files=(
+            governance.json
+            iam.json
+            network.json
+          )
+          if [ "$OP01_STAGE" = "pre" ]; then
+            files+=(observability_cis1_pre.json security_cis1_pre.json)
+          elif [ "$OP01_STAGE" = "final" ]; then
+            files+=(observability_cis1.json security_cis1.json)
+          fi
+          arguments=(
+            "-var-file=$RUNNER_TEMP/oci-credentials.tfvars.json"
+            "-var=output_path=$RUNNER_TEMP/op01-output"
+          )
+          if [ "$OP01_STAGE" != "core" ]; then
+            arguments+=(
+              "-var=compartments_dependency=$RUNNER_TEMP/op02-compartments.json"
+            )
+          fi
+          for file in "${files[@]}"; do
+            arguments+=(
+              "-var-file=$GITHUB_WORKSPACE/request/op01_manage_landing_zone_environment/generated/$file"
+            )
+          done
+          mkdir -p "$RUNNER_TEMP/op01-output"
+          terraform -chdir="$GITHUB_WORKSPACE/ORCH" plan \
+            -input=false -no-color "${arguments[@]}" \
+            -out="$RUNNER_TEMP/op01.tfplan"
 
-    # Test: Terraform Validate
-    - name: 'Terraform Validate'
-      id: validate
-      if: github.ref != 'refs/heads/main' && (success() || failure())
-      run: |
-       cd ${{ github.workspace }}/ORCH
-       terraform validate -no-color
-
-    # Integration: Terraform Plan
-    - name: 'Terraform Plan'
-      id: plan
-      if: github.event_name == 'pull_request'
-      run: |
-       set -euo pipefail
-       cd "${{ github.workspace }}/ORCH"
-       SCENARIO_DIR="${{ github.workspace }}/$SCENARIO"
-       mapfile -t VAR_FILES < <(find "$SCENARIO_DIR" -type f -name '*.json' | sort)
-       test "${#VAR_FILES[@]}" -gt 0
-       VAR_ARGS=()
-       for var_file in "${VAR_FILES[@]}"; do
-         VAR_ARGS+=("-var-file=$var_file")
-       done
-       terraform plan -no-color "${VAR_ARGS[@]}" -var "output_path=output" --out tfplan.binary
-
-
-    # Integration: Show fail status if plan failed
-    - name: 'Terraform Plan Status'
-      if: steps.plan.outcome == 'failure'
-      run: exit 1
-
-    # Deployment: Terraform apply when merge request
-    - name: Terraform Apply
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: |
-       set -euo pipefail
-       cd "${{ github.workspace }}/ORCH"
-       SCENARIO_DIR="${{ github.workspace }}/$SCENARIO"
-       mapfile -t VAR_FILES < <(find "$SCENARIO_DIR" -type f -name '*.json' | sort)
-       test "${#VAR_FILES[@]}" -gt 0
-       VAR_ARGS=()
-       for var_file in "${VAR_FILES[@]}"; do
-         VAR_ARGS+=("-var-file=$var_file")
-       done
-       terraform apply -no-color "${VAR_ARGS[@]}" -var "output_path=output" --auto-approve
+      - name: Apply the same OP01 plan after merge
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        shell: bash
+        run: |
+          terraform -chdir="$GITHUB_WORKSPACE/ORCH" apply \
+            -input=false -no-color -auto-approve "$RUNNER_TEMP/op01.tfplan"

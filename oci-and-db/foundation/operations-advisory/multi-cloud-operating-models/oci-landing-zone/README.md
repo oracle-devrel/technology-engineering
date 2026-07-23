@@ -16,23 +16,22 @@ and complete your security review before production rollout.
 
 - A private Git repository for your OCI foundation.
 - Reviewed Terraform plans before foundation changes are applied.
-- Separate state and workflows for Bootstrap and OP00–OP04.
-- A consistent project foundation with application, database, and
-  infrastructure compartments.
+- A read-only bootstrap readiness gate and separate state for OP00–OP04.
+- The official OE `v3.1.0` hierarchy, including one compartment per project.
 - JSON and Markdown handoff files after OP04.
 - An optional Codex app assistant for Cloud Operators.
 
 ## Who uses it
 
-Cloud Operators own Bootstrap through OP04 and approve foundation changes.
+Cloud Operators own bootstrap readiness through OP04 and approve foundation changes.
 Project Teams start after the handoff and manage workloads through the
 [Multi-Cloud Control Plane](../multi-cloud-control-plane/README.md).
 
 ## Get started
 
 You need Git, Perl, a private GitHub organization, an OCI tenancy, and an
-approved OCI administrative identity. The first Bootstrap run also needs a
-trusted execution host and an OCI Object Storage state bucket.
+approved OCI administrative identity. Initial setup also needs a dedicated
+private foundation runner and an OCI Object Storage state bucket.
 
 Follow the [deployment runbook](docs/deployment.md) to copy the foundation
 repository, review its customer values, create the initial Git commit, and

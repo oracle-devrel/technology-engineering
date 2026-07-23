@@ -4,14 +4,19 @@
 - Accept only one `<allowed-environment>-<dns-name>` OP04 target.
 - Derive foundation values only from the protected environment blueprint.
 - Permit only the canonical additive OP04 files in the landing-zone repository.
+- Preserve the OE `v3.1.0` single project-compartment hierarchy; never add the
+  retired OE `v2.x` application/database/infrastructure children.
 - Never accept secrets, raw state, or prompt-provided cloud identifiers.
 - Create a project repository only when the validated handoff target is absent,
   using the exact contract-pinned template and private visibility. For an
   existing shared non-production repository, verify its identity and protected
   contract before adding another environment handoff.
-- In a project repository, write only the validated
+- In a project repository, write the validated
   `environments/<environment>/environment_information.md` path on a new branch.
-  Never change workflows, contracts, manifests, secrets, teams, or permissions.
+  Write `environments/<environment>/exacs-databases.json` only when the Cloud
+  Operator has an explicit request and verified regular-ExaCS resource facts;
+  it is platform-owned and must never be populated with secrets. Never change
+  workflows, contracts, manifests, secrets, teams, or permissions.
 - Never merge, approve, control workflows, call cloud APIs, or run Terraform.
 - Keep inventory read-only and limited to declared foundation state.
 - Never generate helper scripts or executable files. Use only packaged scripts. Keep temporary

@@ -1,21 +1,32 @@
 #!/usr/bin/env python3
-"""Render one canonical OP04 project target from same-environment evidence."""
+"""Add one project declaration and invoke the pinned foundation generator."""
 
 from __future__ import annotations
 
 import argparse
+import json
 import os
+import subprocess
 import sys
 from pathlib import Path
 
-from op04_contract import ContractError, derive_baseline, expected_files, git_text, validate_project
+from op04_contract import (
+    ContractError,
+    expected_paths,
+    git_text,
+    validate_project,
+    validate_runtime_contract,
+)
 
 
-def repository(path: str) -> Path:
-    absolute = Path(os.path.abspath(path))
-    if not absolute.is_dir() or Path(git_text(absolute, "rev-parse", "--show-toplevel").strip()) != absolute:
+def repository(value: str) -> Path:
+    path = Path(os.path.abspath(value))
+    if (
+        not path.is_dir()
+        or Path(git_text(path, "rev-parse", "--show-toplevel").strip()) != path
+    ):
         raise ContractError("The landing-zone repository is invalid.")
-    return absolute
+    return path
 
 
 def main() -> int:
@@ -27,18 +38,40 @@ def main() -> int:
     try:
         repo = repository(args.repo)
         identity = validate_project(args.project)
-        root = repo / "op04_manage_project" / identity.environment / identity.slug
-        if root.exists():
-            raise ContractError("The OP04 project target already exists.")
-        baseline = derive_baseline(repo, args.base_ref, identity.environment)
-        files = expected_files(args.project, baseline)
-        root.mkdir(parents=True, exist_ok=False)
-        for relative_path, content in files.items():
-            path = repo / relative_path
-            path.write_bytes(content)
-        print(f"Rendered {len(files)} canonical OP04 files for {args.project}.")
+        contract = validate_runtime_contract(
+            repo,
+            args.base_ref,
+            identity.environment,
+        )
+        catalog_path = repo / contract["project_catalog"]
+        catalog = json.loads(catalog_path.read_text(encoding="utf-8"))
+        if identity.project_name in catalog[identity.environment]:
+            raise ContractError("The OP04 project already exists.")
+        _, manifest_relative = expected_paths(identity.slug)
+        if (repo / manifest_relative).exists():
+            raise ContractError("The generated OP04 target already exists.")
+        original = catalog_path.read_bytes()
+        catalog[identity.environment].append(identity.project_name)
+        catalog[identity.environment].sort()
+        catalog_path.write_text(
+            json.dumps(catalog, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        result = subprocess.run(
+            [
+                "bash",
+                "scripts/generate_foundation.sh",
+                f"op04:{identity.slug}",
+            ],
+            cwd=repo,
+            check=False,
+        )
+        if result.returncode:
+            catalog_path.write_bytes(original)
+            raise ContractError("The pinned OE generator failed.")
+        print(f"Rendered the canonical OP04 declaration for {identity.slug}.")
         return 0
-    except (ContractError, OSError) as exc:
+    except (ContractError, OSError, json.JSONDecodeError) as exc:
         print(f"render-op04: {exc}", file=sys.stderr)
         return 2
 

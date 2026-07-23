@@ -1,0 +1,47 @@
+{
+  "instances_configuration": {
+    "default_compartment_id": "CMP-LZ-SHARED-GITOPS-KEY",
+    "default_ssh_public_key_path": "__RUNNER_SSH_PUBLIC_KEY__",
+    "instances": {
+      "VM-LZ-SHARED-GITOPS-RUNNER-KEY": {
+        "boot_volume": {
+          "preserve_on_instance_deletion": "true",
+          "size": "50"
+        },
+        "cis_level": "1",
+        "cloud_agent": {
+          "plugins": [
+            {
+              "enabled": true,
+              "name": "Bastion"
+            },
+            {
+              "enabled": true,
+              "name": "OS Management Service Agent"
+            }
+          ]
+        },
+        "cloud_init": {
+          "heredoc_script": "#cloud-config\nusers:\n  - default\n  - name: github-runner\n    groups: [wheel]\n    shell: /bin/bash\nruncmd:\n  - dnf install -y git jq python3 unzip tar gzip\n  - mkdir -p /opt/actions-runner\n  - curl --fail --location --output /tmp/actions-runner.tar.gz https://github.com/actions/runner/releases/download/v2.336.0/actions-runner-linux-arm64-2.336.0.tar.gz\n  - echo '58b758e420b87093fbd4bfddd368074960053e2f1388f01848c82624b90f27d1  /tmp/actions-runner.tar.gz' | sha256sum --check\n  - tar xzf /tmp/actions-runner.tar.gz -C /opt/actions-runner\n  - chown -R github-runner:github-runner /opt/actions-runner\n  - rm -f /tmp/actions-runner.tar.gz"
+        },
+        "flex_shape_settings": {
+          "memory": "6",
+          "ocpus": "1"
+        },
+        "name": "vm-lz-shared-gitops-runner",
+        "networking": {
+          "hostname": "lz-gitops-runner",
+          "subnet_id": "SN-FRA-LZ-HUB-MGMT-KEY"
+        },
+        "placement": {
+          "availability_domain": "1",
+          "fault_domain": "1"
+        },
+        "platform_image": {
+          "ocid": "__RUNNER_IMAGE_OCID__"
+        },
+        "shape": "VM.Standard.A1.Flex"
+      }
+    }
+  }
+}

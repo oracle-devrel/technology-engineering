@@ -1,4 +1,6 @@
+import importlib.util
 import json
+import os
 import re
 import subprocess
 import sys
@@ -10,234 +12,319 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 COMPONENT = ROOT / "components" / "oci-landing-zone"
 SCRIPTS = COMPONENT / "scripts"
-CLOUD_SKILL = (
-    ROOT
-    / "plugins"
-    / "cloud-operator-gitops"
-    / "skills"
-    / "cloud-operator-gitops"
-)
+ORCHESTRATOR_REVISION = "fcf1d7f02c0b4faa1ff55f1776c396452dd51761"
+OE_REVISION = "172809932c53467ab20ec6d1b44290a487211b36"
 sys.path.insert(0, str(SCRIPTS))
 
 from render_project_handoff import (  # noqa: E402
-    SUBNET_KEYS,
-    VCN_KEY,
     build_handoff_data,
     build_machine_handoff,
-    load_json,
+    render_markdown,
 )
 
 
 class LandingZoneContractTests(unittest.TestCase):
-    def machine_data(self, environment):
+    def environment_blueprint(self, environment="dev"):
+        token = environment.upper()
         return {
-            "project": f"{environment}-payments",
+            "schema_version": 2,
             "environment": environment,
             "region": "eu-frankfurt-1",
+            "tenancy_ocid": "ocid1.tenancy.oc1..example",
+            "parent_compartment_key": f"CMP-LZ-{token}-PROJECTS-KEY",
+            "parent_compartment_ocid":
+                "ocid1.compartment.oc1..projects",
             "compartments": {
-                role: {"ocid": f"ocid1.compartment.oc1..{role}"}
-                for role in ("app", "database", "infrastructure")
+                "projects": {
+                    "key": f"CMP-LZ-{token}-PROJECTS-KEY",
+                    "ocid": "ocid1.compartment.oc1..projects",
+                },
+                "network": {
+                    "key": f"CMP-LZ-{token}-NETWORK-KEY",
+                    "ocid": "ocid1.compartment.oc1..network",
+                },
+                "security": {
+                    "key": f"CMP-LZ-{token}-SECURITY-KEY",
+                    "ocid": "ocid1.compartment.oc1..security",
+                },
             },
-            "vcn": {"ocid": "ocid1.vcn.oc1..projects"},
-            "subnets": {
-                role: {"ocid": f"ocid1.subnet.oc1..{role}"}
-                for role in ("web", "app", "database", "infrastructure")
+            "network": {
+                "vcn": {
+                    "key": f"VCN-FRA-LZ-{token}-PROJECTS-KEY",
+                    "name": "projects",
+                    "cidr": "10.20.0.0/21",
+                    "ocid":
+                        "ocid1.vcn.oc1.eu-frankfurt-1.example",
+                },
+                "subnets": {
+                    role: {
+                        "key":
+                            f"SN-FRA-LZ-{token}-{role.upper()}-KEY",
+                        "name": role,
+                        "cidr": f"10.20.{index}.0/24",
+                        "ocid":
+                            "ocid1.subnet.oc1.eu-frankfurt-1."
+                            f"{role}",
+                    }
+                    for index, role in enumerate(
+                        ("web", "app", "database", "infrastructure"),
+                        start=1,
+                    )
+                },
+            },
+            "op02_state_key":
+                f"op02_manage_environment/{environment}/terraform.tfstate",
+            "source": {
+                "repository": "customer/oci-landing-zone",
+                "workflow": "oci-op02-terraform.yaml",
+                "run_id": "42",
+                "commit_sha": "c" * 40,
             },
         }
 
-    def machine_handoff(self, environment):
-        target = (
-            "prod-payments" if environment == "prod" else "nonprod-payments"
+    def project_config(self, environment="dev", project_name="payments"):
+        key = f"CMP-LZ-{environment.upper()}-{project_name.upper()}-KEY"
+        return {
+            "compartments_configuration": {
+                "compartments": {
+                    key: {
+                        "name":
+                            f"cmp-lz-{environment}-{project_name}",
+                    },
+                }
+            }
+        }
+
+    def op04_output(self, environment="dev", project_name="payments"):
+        key = f"CMP-LZ-{environment.upper()}-{project_name.upper()}-KEY"
+        return {
+            "iam_resources": {
+                "compartments": {
+                    key: {"id": "ocid1.compartment.oc1..project"},
+                }
+            }
+        }
+
+    def test_deployment_contract_pins_all_official_sources(self):
+        contract = json.loads(
+            (ROOT / "contracts/deployment-contract.template.json").read_text()
         )
-        return build_machine_handoff(
-            self.machine_data(environment),
+        self.assertEqual(
+            contract["oci_orchestrator"]["revision"],
+            ORCHESTRATOR_REVISION,
+        )
+        self.assertEqual(
+            contract["oci_landing_zone_operating_entities"],
+            {
+                "repository":
+                    "oci-landing-zones/"
+                    "oci-landing-zone-operating-entities",
+                "release": "v3.1.0",
+                "revision": OE_REVISION,
+            },
+        )
+        self.assertEqual(
+            contract["oci_database_modules"]["revision"],
+            "55eeee14808f864e450db550530d760f9e0b0105",
+        )
+        self.assertEqual(contract["terraform"]["version"], "1.15.8")
+
+    def test_foundation_is_multistack_and_bootstrap_is_read_only(self):
+        workflows = COMPONENT / ".github/workflows"
+        bootstrap = (workflows / "oci-bootstrap-readiness.yaml").read_text()
+        self.assertNotIn("terraform plan", bootstrap)
+        self.assertNotIn("terraform apply", bootstrap)
+        self.assertIn("--auth instance_principal", bootstrap)
+        for phase, state_key in {
+            "oci-op00-terraform.yaml":
+                "op00_manage_global_landing_zone/terraform.tfstate",
+            "oci-op01-terraform.yaml":
+                "op01_manage_landing_zone_environment/terraform.tfstate",
+            "oci-op03-platform-gitops-terraform.yaml":
+                "op03_manage_platform_gitops/terraform.tfstate",
+        }.items():
+            content = (workflows / phase).read_text()
+            self.assertIn(ORCHESTRATOR_REVISION, content)
+            self.assertIn(state_key, content)
+            self.assertIn("terraform_version: 1.15.8", content)
+            self.assertIn('required_version = ">= 1.5.0"', content)
+            self.assertIn("pull_request_target:", content)
+            self.assertIn("apply", content.lower())
+        for phase in (
+            "oci-op02-terraform.yaml",
+            "oci-op04-terraform.yaml",
+        ):
+            content = (workflows / phase).read_text()
+            self.assertIn("terraform_version: 1.15.8", content)
+            self.assertIn('required_version = ">= 1.5.0"', content)
+
+    def test_phase_projection_uses_pinned_oe_and_official_project_model(self):
+        render = (COMPONENT / "config/render.libsonnet").read_text()
+        generator = (COMPONENT / "scripts/generate_foundation.sh").read_text()
+        op04 = (
+            COMPONENT / ".github/workflows/oci-op04-terraform.yaml"
+        ).read_text()
+        self.assertIn("local lz = import 'landing_zone.libsonnet'", render)
+        self.assertIn("project_identity(environment, project)", render)
+        self.assertIn("dg-mccp-platform-runner", render)
+        self.assertNotIn("project_key[0:", render)
+        self.assertNotIn("'-APP-KEY'", render)
+        self.assertIn(OE_REVISION, generator)
+        self.assertIn(OE_REVISION, op04)
+        self.assertIn("config/projects.json", op04)
+        self.assertEqual(
+            list((COMPONENT / "op04_manage_project/templates").glob("*")),
+            [],
+        )
+
+    def test_handoff_uses_protected_environment_evidence(self):
+        data = build_handoff_data(
+            "dev-payments",
+            self.project_config(),
+            self.op04_output(),
+            self.environment_blueprint(),
+        )
+        handoff = build_machine_handoff(
+            data,
             {
                 "repository": "customer/oci-landing-zone",
-                "workflow": "handoff",
+                "workflow": "OCI Project Foundation Handoff",
                 "run": "42",
                 "commit": "c" * 40,
             },
-            f"op02_manage_environment/{environment}/terraform.tfstate",
-            f"op04_manage_project/{environment}/{environment}-payments/terraform.tfstate",
-            target,
-            f"environments/{environment}/environment_information.md",
+            "op02_manage_environment/dev/terraform.tfstate",
+            "op04_manage_project/dev/dev-payments/terraform.tfstate",
+            "nonprod-payments",
+            "environments/dev/environment_information.md",
         )
-
-    def test_runtime_contract_maps_all_foundations(self):
-        contract = json.loads(
-            (COMPONENT / ".github/project-onboarding-contract.json").read_text()
-        )
-        self.assertEqual(contract["allowed_environments"], ["dev", "test", "uat", "prod"])
-        self.assertIs(contract["same_slug_repository"], False)
+        self.assertEqual(handoff["repository_layout"], "shared-nonprod-v2")
         self.assertEqual(
-            contract["target_repository_prefixes"],
-            {"dev": "nonprod", "test": "nonprod", "uat": "nonprod", "prod": "prod"},
+            handoff["database_compartment"],
+            "ocid1.compartment.oc1..project",
         )
-        pattern = re.compile(contract["project_slug_pattern"])
-        for environment in contract["allowed_environments"]:
-            self.assertIsNotNone(pattern.fullmatch(f"{environment}-payments"))
-            handoff = self.machine_handoff(environment)
-            expected_layout = (
-                "production-v1" if environment == "prod" else "shared-nonprod-v2"
-            )
-            self.assertEqual(handoff["repository_layout"], expected_layout)
+        self.assertEqual(
+            {
+                handoff["app_compartment"],
+                handoff["database_compartment"],
+                handoff["infrastructure_compartment"],
+            },
+            {"ocid1.compartment.oc1..project"},
+        )
+        handoff_workflow = (
+            COMPONENT / ".github/workflows/oci-project-handoff.yaml"
+        ).read_text()
+        self.assertIn("--environment-blueprint", handoff_workflow)
+        self.assertNotIn("--op02-output", handoff_workflow)
 
-    def test_renderer_consumes_nested_terraform_outputs_and_runtime_region(self):
-        parent = "CMP-LZP-P-PAYMENTS-KEY"
-        children = {
-            "app": "CMP-LZP-P-PAYMENTS-APP-KEY",
-            "database": "CMP-LZP-P-PAYMENTS-DB-KEY",
-            "infrastructure": "CMP-LZP-P-PAYMENTS-INFRA-KEY",
-        }
-        project_config = {
-            "compartments_configuration": {
-                "compartments": {
-                    parent: {"children": {key: {} for key in children.values()}}
-                }
-            }
-        }
-        network_config = {
-            "network_configuration": {
-                "network_configuration_categories": {
-                    "prod": {
-                        "vcns": {
-                            VCN_KEY: {
-                                "display_name": "projects",
-                                "cidr_blocks": ["10.0.0.0/16"],
-                                "subnets": {
-                                    key: {
-                                        "display_name": role,
-                                        "cidr_block": f"10.0.{index}.0/24",
-                                    }
-                                    for index, (role, key) in enumerate(
-                                        SUBNET_KEYS.items(), start=1
-                                    )
-                                },
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        terraform_outputs = {
-            "op04": {
-                "iam_resources": {
-                    "sensitive": False,
-                    "type": ["object", {}],
-                    "value": {
-                        "compartments": {
-                            key: {"id": f"ocid1.compartment.oc1..{role}"}
-                            for role, key in children.items()
-                        }
-                    },
-                }
-            },
-            "op02": {
-                "network_resources": {
-                    "sensitive": False,
-                    "type": ["object", {}],
-                    "value": {
-                        "vcns": {VCN_KEY: {"id": "ocid1.vcn.oc1..projects"}},
-                        "subnets": {
-                            key: {"id": f"ocid1.subnet.oc1..{role}"}
-                            for role, key in SUBNET_KEYS.items()
-                        },
-                    },
-                }
-            },
-        }
+    @unittest.skipIf(
+        sys.version_info < (3, 10),
+        "The packaged Project GitOps runtime requires Python 3.10+.",
+    )
+    def test_handoff_is_accepted_by_the_packaged_project_skill(self):
+        validator_path = (
+            ROOT.parent
+            / "multi-cloud-control-plane/plugins/project-gitops"
+            / "skills/project-gitops/scripts/validate-change.py"
+        )
+        spec = importlib.util.spec_from_file_location(
+            "packaged_project_validator",
+            validator_path,
+        )
+        validator = importlib.util.module_from_spec(spec)
+        sys.modules[spec.name] = validator
+        spec.loader.exec_module(validator)
+        markdown = render_markdown(
+            build_handoff_data(
+                "dev-payments",
+                self.project_config(),
+                self.op04_output(),
+                self.environment_blueprint(),
+            )
+        )
         with tempfile.TemporaryDirectory() as temporary:
-            fixture = Path(temporary)
-            output_paths = {}
-            for name, output in terraform_outputs.items():
-                output_paths[name] = fixture / f"{name}-output.json"
-                output_paths[name].write_text(json.dumps(output), encoding="utf-8")
-            result = build_handoff_data(
-                "prod-payments",
-                project_config,
-                load_json(output_paths["op04"]),
-                load_json(output_paths["op02"]),
-                network_config,
-                "uk-london-1",
+            handoff = (
+                Path(temporary)
+                / "environments/dev/environment_information.md"
             )
-        self.assertEqual(result["region"], "uk-london-1")
-
-    def test_workflows_are_environment_aware_and_complete(self):
-        workflows = COMPONENT / ".github/workflows"
-        op02 = (workflows / "oci-op02-terraform.yaml").read_text()
-        op04 = (workflows / "oci-op04-terraform.yaml").read_text()
-        handoff = (workflows / "oci-project-handoff.yaml").read_text()
-        self.assertFalse((workflows / "oci-op02-prod-terraform.yaml").exists())
-        self.assertIn("op02_manage_environment/**", op02)
-        self.assertIn("^(dev|test|uat|prod)$", op02)
-        self.assertIn("^(dev|test|uat|prod)-", op04)
-        self.assertNotIn("oe-(prod|dev)", op04)
-        self.assertIn('git cat-file -e "$CONTRACT_REF:$BLUEPRINT_PATH"', op04)
-        self.assertIn(".environment_blueprints[$environment]", op04)
-        self.assertIn('--target-repository "$TARGET_REPOSITORY"', handoff)
-        self.assertIn('--handoff-path "$HANDOFF_PATH"', handoff)
-        self.assertNotIn("enviroment_information.md", handoff)
-
-    def test_foundation_workflows_fail_closed_until_explicitly_enabled(self):
-        workflows = COMPONENT / ".github/workflows"
-        guarded = (
-            "oci-bootstrap-terraform.yaml",
-            "oci-op00-terraform.yaml",
-            "oci-op01-terraform.yaml",
-            "oci-op02-terraform.yaml",
-            "oci-op03-platform-gitops-terraform.yaml",
-            "oci-op04-terraform.yaml",
-            "oci-project-handoff.yaml",
-        )
-        for workflow in guarded:
-            content = (workflows / workflow).read_text(encoding="utf-8")
-            self.assertIn(
-                "vars.FOUNDATION_AUTOMATION_READY == 'true'", content, workflow
+            handoff.parent.mkdir(parents=True)
+            handoff.write_text(markdown, encoding="utf-8")
+            validator.validate_handoff(
+                Path(temporary),
+                "nonprod-payments",
+                "dev",
             )
-
-    def test_packaged_cloud_skill_validates_handoff_and_write_boundaries(self):
-        handoff = self.machine_handoff("test")
-        markdown = " ".join(
-            ["test-payments", "test", handoff["region"]]
-            + [
-                handoff[field]
-                for field in (
-                    "app_compartment",
-                    "database_compartment",
-                    "infrastructure_compartment",
-                    "vcn",
+            handoff.write_text(
+                markdown.replace(
+                    "| DB compartment | "
+                    "CMP-LZ-DEV-PAYMENTS-KEY | "
+                    "ocid1.compartment.oc1..project |",
+                    "| DB compartment | "
+                    "CMP-LZ-DEV-PAYMENTS-DB-KEY | "
+                    "ocid1.compartment.oc1..retired-child |",
+                ),
+                encoding="utf-8",
+            )
+            with self.assertRaises(validator.ValidationFailure):
+                validator.validate_handoff(
+                    Path(temporary),
+                    "nonprod-payments",
+                    "dev",
                 )
-            ]
-            + list(handoff["subnets"].values())
-        )
-        with tempfile.TemporaryDirectory() as temporary:
-            fixture = Path(temporary)
-            json_path = fixture / "project-foundation-handoff.json"
-            markdown_path = fixture / "environment_information.md"
-            json_path.write_text(json.dumps(handoff), encoding="utf-8")
-            markdown_path.write_text(markdown, encoding="utf-8")
-            command = [
-                sys.executable,
-                str(CLOUD_SKILL / "scripts/validate-handoff.py"),
-                "--handoff-json",
-                str(json_path),
-                "--handoff-markdown",
-                str(markdown_path),
-                "--project",
-                "test-payments",
-            ]
-            accepted = subprocess.run(command, check=False, capture_output=True, text=True)
-            self.assertEqual(accepted.returncode, 0, accepted.stdout + accepted.stderr)
-            handoff["target_repository"] = "nonprod-other"
-            json_path.write_text(json.dumps(handoff), encoding="utf-8")
-            rejected = subprocess.run(command, check=False, capture_output=True, text=True)
-            self.assertNotEqual(rejected.returncode, 0)
 
-        skill = (CLOUD_SKILL / "SKILL.md").read_text()
-        safety = (CLOUD_SKILL / "references/safety-boundaries.md").read_text()
-        self.assertIn("validate-handoff.py", skill)
-        self.assertIn("exact contract-pinned template", safety)
-        self.assertNotIn("Never create or write a project repository", safety)
+    def test_no_stale_static_phase_files_remain(self):
+        stale = [
+            path
+            for path in COMPONENT.rglob("*auto.tfvars.json*")
+            if "/generated/" not in str(path)
+        ]
+        self.assertEqual(stale, [])
+        self.assertEqual(
+            list((COMPONENT / "bootstrap").glob("*")),
+            [],
+        )
+
+    def test_documentation_links_and_bootstrap_model_are_current(self):
+        link_pattern = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
+        stale_phrases = (
+            "Bootstrap creates the permanent runner",
+            "bootstrap/terraform.tfstate",
+            "two-pass operation",
+        )
+        for document in ROOT.rglob("*.md"):
+            text = document.read_text(encoding="utf-8")
+            for phrase in stale_phrases:
+                self.assertNotIn(phrase, text, str(document))
+            for raw_target in link_pattern.findall(text):
+                target = raw_target.split("#", 1)[0]
+                if (
+                    not target
+                    or "://" in target
+                    or target.startswith(("mailto:", "<"))
+                ):
+                    continue
+                resolved = (document.parent / target).resolve()
+                self.assertTrue(
+                    resolved.exists(),
+                    f"{document}: broken relative link {raw_target}",
+                )
+
+    def test_scripts_compile_without_repository_cache_files(self):
+        with tempfile.TemporaryDirectory() as cache:
+            environment = os.environ.copy()
+            environment["PYTHONPYCACHEPREFIX"] = cache
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "py_compile",
+                    *[str(path) for path in SCRIPTS.glob("*.py")],
+                ],
+                capture_output=True,
+                text=True,
+                check=False,
+                env=environment,
+            )
+        self.assertEqual(result.returncode, 0, result.stderr)
 
 
 if __name__ == "__main__":
