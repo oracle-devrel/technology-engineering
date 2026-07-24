@@ -4,7 +4,7 @@ Oracle Cloud Infrastructure’s Ops Insight (OPSI) provides a historical archive
 
 An Exadata system in Ops Insights can have many databases and hosts that are part of a whole. Tags are a good way to manage OCI resources across your tenancy including those in Ops Insights (read more [here](https://docs.oracle.com/en-us/iaas/Content/Tagging/home.htm)). To help with this, I’ve written scripts using the OCI Python SDK and APIs to easily tag the Exadata system and all its members in Ops Insights.
 
-![Picture 2](./images/image-01.png)
+![Picture 2](./files/image-01.png)
 
 Read more to see how to tag Exadata systems and members in OCI Ops Insights
 
