@@ -2,7 +2,7 @@
 
 In this document we will see how to optimize the workflow for cross-tenancy log collection.
 
-![Picture 7](./images/image-01.png)
+![Picture 7](./files/image-01.png)
 
 The solutions I proposed to be used are shown below, and it’s very important to use the OCI resources with Cross Tenancy capabilities, and have the proper policies in place:
 
@@ -38,24 +38,24 @@ docs.oracle.com
 
 1- Logging to Cross tenancy exposed Stream
 
-![Picture 5](./images/image-02.png)
+![Picture 5](./files/image-02.png)
 
 2- Cross tenancy Stream from Hub Tenancy to a SIEM Stream used to push the logs to an external SIEM.
 
-![Picture 4](./images/image-03.png)
+![Picture 4](./files/image-03.png)
 
 3- Backup Connector that will copy the stream from Cross tenancy Stream to an OCI Backup Bucket (Archive) for long therm storage
 
-![Picture 3](./images/image-04.png)
+![Picture 3](./files/image-04.png)
 
 4- Analytics Connector that will copy the logs from Cross Tenancy Stream to Logging Analytics.
 
-![Picture 2](./images/image-05.png)
+![Picture 2](./files/image-05.png)
 
 When a Source and a target is properly configured, you will see a green Check mark on the service.
 
 A high-level overview of the flow can be seen here:
 
-![Picture 1](./images/image-06.png)
+![Picture 1](./files/image-06.png)
 
 This is just an example of how you can move the logs between different tenancies to a central one, and you can extend the capabilities based on your needs.
