@@ -6,7 +6,7 @@ While the Oracle APEX framework provides administrator and [monitoring](https:/
 
 Press enter or click to view image in full size
 
-![Picture 6](./images/image-01.png)
+![Picture 6](./files/image-01.png)
 
 Utilizing OCI Observability and Management services you can obtain, a single point of display and control for all the services, without having to be an APEX expert or administrator.
 
@@ -23,7 +23,7 @@ Enabling these advanced OCI O&M services yields such Applied Observability insig
 ### Error, User Authentication, and Application Usage Dashboard
 
 
-![Picture 5](./images/image-02.png)
+![Picture 5](./files/image-02.png)
 
 Figure 1 APEX Error Dashboard
 
@@ -31,7 +31,7 @@ The errors dashboard group provides a view of application errors and the impact 
 
 
 
-![Picture 4](./images/image-03.png)
+![Picture 4](./files/image-03.png)
 
 Figure 2 APEX User Audit Dashboard
 
@@ -39,7 +39,7 @@ The User Audit widget group shows the application user and the database login. I
 
 
 
-![Picture 3](./images/image-04.png)
+![Picture 3](./files/image-04.png)
 
 Figure 3 APEX Application Usage Dashboard
 
@@ -53,7 +53,7 @@ Real user monitoring (RUM) records all user interaction with a [website](https:
 
 
 
-![Picture 1](./images/image-05.png)
+![Picture 1](./files/image-05.png)
 
 Fig. 4 APEX Real User Experience Dashboard
 
