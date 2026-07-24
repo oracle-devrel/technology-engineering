@@ -6,18 +6,19 @@ Check out the links below to detailed videos, technical demonstrations, blog art
 
 Also make sure to check the dedicated pages of the main technology areas of Database Migration, Upgrade & Patching:
 
-* [Zero Downtime Migration](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/zero-downtime-migration)
-* [OCI Database Migration](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/oci-database-migration)
-* [Oracle Data Pump](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/data-pump)
-* [Database Patching](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/database-patching)
-* [Cloud Premigration Advisor Tool](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/cloud-premigration-advisor-tool)
-* [Transportable Tablespace](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/transportable-tablespace)
-* [Real Application Testing](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/real-application-testing)
-* [Migration to OCI Database with PostgreSQL](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/migration-to-oci-database-with-postgresql)
-* [Translate SQL Code](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/translate-sql-code)
+* [Zero Downtime Migration](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/modernise/zero-downtime-migration)
+* [OCI Database Migration](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/modernise/oci-database-migration)
+* [Oracle Data Pump](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/modernise/data-pump)
+* [Database Patching](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/modernise/database-patching)
+* [Cloud Premigration Advisor Tool](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/modernise/cloud-premigration-advisor-tool)
+* [Transportable Tablespace](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/modernise/transportable-tablespace)
+* [Real Application Testing](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/modernise/real-application-testing)
+* [Migration to OCI Database with PostgreSQL](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/modernise/migration-to-oci-database-with-postgresql)
+* [Translate SQL Code](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/modernise/translate-sql-code)
+* [Migrate to Autonomous Database using DBMS_CLOUD_IMPORT](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/modernise/migrate-to-adb-with-dbms-cloud-import)
 
 
-Reviewed: 15.06.2026
+Reviewed: 22.07.2026
 
 # Team Publications
  
@@ -31,7 +32,7 @@ Reviewed: 15.06.2026
     - Blog technical article about how to check and enable Transparent Data Encryption (TDE) after migrating a Database to OCI by Cloning, available on Carlos Álvarez's public platform
 - [How to survive an Oracle Database failure without your users ever noticing - Cloud Coaching Webinar]( https://www.youtube.com/watch?v=dsUbi5dO_PU)
     - Cloud Coaching Webinar, including a technical demonstration, delivered by Amalraj Puthenchira around the use of Application Continuity to avoid unplanned application outages.
-- [Teradata to Autonomous Data Warehouse on OCI Migration Guide](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/shared-assets/teradata-to-autonomous-data-warehouse-migration-guide)
+- [Teradata to Autonomous Data Warehouse on OCI Migration Guide](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/modernise/shared-assets/teradata-to-autonomous-data-warehouse-migration-guide)
     - Comprehensive lab guide with best practices to migrate Teradata to Autonomous Data Warehouse on Oracle Cloud Infrastructure
 - [Load Data into an Autonomous Database using OCI Data Load](https://youtu.be/r1ff0jW8l_s)
     - YouTube Video by Austine Ouma explaining how to use the OCI Data Load functionality for loading data into an Oracle Autonomous Database on OCI
@@ -71,6 +72,8 @@ Reviewed: 15.06.2026
     - Format, beautify, and export SQL. Available on Marcus Doeringer's public platform. 
 - [Deploying Oracle GoldenGate Docker for Database Migration to Oracle Database@Google Cloud ](https://amalrajputhenchira.com/2026/06/09/deploying-oracle-goldengate-docker-for-database-migration-to-oracle-databasegoogle-cloud/)
     - Detailed, step-by-step instructions for deploying Oracle GoldenGate on docker for database migrtion to Oracle Database@Google Cloud, available on Amalraj Puthenchira's public platform
+- [Managing statistics during migration to Oracle Autonomous AI Database ](https://amalrajputhenchira.com/2026/07/17/managing-statistics-during-migration-to-oracle-autonomous-ai-database/)
+    - Detailed, step-by-step instructions for managing statisics during database migration to Oracle Autonomous AI Database , available on Amalraj Puthenchira's public platform
 
 # Useful Links
 
