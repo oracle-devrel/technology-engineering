@@ -200,11 +200,11 @@ scrape_configs:
 
 Press enter or click to view image in full size
 
-![Picture 2](./images/image-01.png)
+![Picture 2](./files/image-01.png)
 
 Press enter or click to view image in full size
 
-![Picture 1](./images/image-02.png)
+![Picture 1](./files/image-02.png)
 
 Prometheus OCI VCN metrics
 
