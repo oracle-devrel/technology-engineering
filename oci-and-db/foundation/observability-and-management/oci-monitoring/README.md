@@ -10,7 +10,7 @@ Reviewed: 14.07.2026
 2. [Useful Links](#useful-links)
 
 # Team Publications
-https://github.com/oracle-devrel/technology-engineering/tree/Alex-feedback/oci-and-db/foundation/observability-and-management/assets/install-arkime-moloch-using-embedded-open-search
+
 
 |OCI Monitoring asset| Asset Page|
 |---|---|
