@@ -54,16 +54,28 @@ executes after approval and merge. Current end-to-end operations are:
 
 - OCI Autonomous Database start or stop.
 - OCI Compute `deploy-agent` over SSH.
+- OCI ExaCS regular database out-of-place patching through the OCI Database API.
 
 Operation manifests belong under
-`oci/{environment}/{region}/lifecycle_operations/{operation}.json`. Every target display name
-must exactly match a resource in Terraform state. Azure and Google Day 2 are not
-available.
+`oci/{environment}/{region}/lifecycle_operations/{operation}.json`. State-backed
+operations must resolve an exact display name in Terraform state. The ExaCS
+operation instead resolves a platform-registered database in
+`environments/{environment}/exacs-databases.json`. Azure and Google Day 2 are
+not available.
 
 For `deploy-agent`, the default SSH user is `opc` and the default private key is
 `/home/opc/.ssh/oci_vm_key`. Override them with
 `COMPUTE_ANSIBLE_USER` and `COMPUTE_SSH_PRIVATE_KEY_FILE` on the runner. Verify
 SSH host trust and protect the private key.
+
+The ExaCS operation is API-driven and does not use SSH, `dbaascli`, or OCI CLI.
+It downloads the OCI Ansible Collection 5.5.0 artifact over HTTPS, verifies its
+pinned SHA-256 checksum, and calls its `precheck` action in a pull request,
+then the `upgrade` action with `DB_HOME` after merge. Its target must be in the
+platform-owned `environments/{environment}/exacs-databases.json` registry. The
+registry permits existing databases that were not provisioned by Terraform,
+while binding each request to an approved database, compartment, VM cluster,
+and target Database Home/version.
 
 ## Project boundary
 

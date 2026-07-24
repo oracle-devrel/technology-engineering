@@ -19,7 +19,7 @@ The workflow picks up the file that changed in the PR diff, parses it, and runs 
 ```
 
 - `operation_type` — must match a tag defined in `platform-ci/ansible/playbooks/master.yml`.
-- `targets[].display_name` — the display name of the resource as it appears in the Terraform state. The inventory script uses this to resolve the target host/endpoint.
+- `targets[].display_name` — the display name of the resource as it appears in Terraform state for state-backed operations. The ExaCS patch operation resolves it from the platform-owned environment registry.
 - `targets[].action` — optional. `adb-lifecycle` accepts only the exact lowercase values `start` or `stop`; `restart` and every other action are unsupported. Other operations may ignore it.
 
 Extra top-level fields are operation-specific (e.g. `deploy-agent` adds `agent_type` and `agent_version`).
@@ -37,6 +37,7 @@ display names in Terraform state for that OCI region. Add another object to the
 | --- | --- | --- | --- |
 | `oci/adb-lifecycle.json` | `adb-lifecycle` | OCI | Start or stop an Autonomous Database |
 | `oci/deploy-agent.json` | `deploy-agent` | OCI | Deploy an agent to a compute instance via SSH |
+| `oci/exacs-database-out-of-place-patch.json` | `exacs-database-out-of-place-patch` | OCI | Move one regular ExaCS database to an approved patched Database Home through OCI APIs |
 | `azure/adb-lifecycle.json` | `adb-lifecycle` | Azure | Template only — playbook not connected yet |
 
 ## Adding a new operation
@@ -52,6 +53,7 @@ operations-catalog/
   oci/
     adb-lifecycle.json
     deploy-agent.json
+    exacs-database-out-of-place-patch.json
   azure/
     adb-lifecycle.json
 ```

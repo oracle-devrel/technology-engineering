@@ -6,10 +6,17 @@
     "production_project_template": "__PRODUCTION_PROJECT_TEMPLATE_REF__",
     "catalogs": "__CATALOGS_REF__"
   },
+  "project_state_bucket": "__PROJECT_STATE_BUCKET__",
   "workload_orchestrators": {
     "oci": {
       "repository": "oci-landing-zones/terraform-oci-modules-orchestrator",
-      "revision": "34202e837e9df015ddaaa4fce0ab62bb6e3883de"
+      "release_branch": "release-2.1.4",
+      "revision": "fcf1d7f02c0b4faa1ff55f1776c396452dd51761",
+      "database_modules": {
+        "repository": "oci-landing-zones/terraform-oci-modules-exadata",
+        "release_branch": "release-1.2.0",
+        "revision": "55eeee14808f864e450db550530d760f9e0b0105"
+      }
     },
     "azure": {
       "repository": "oci-clickops/clickops-orchestrator-azure",
@@ -25,12 +32,14 @@
   "repository_layout": {
       "repository_pattern": "nonprod-<project>",
       "manifest_path": "<cloud>/<environment>/<region>/...",
+      "security_profile": "__NONPROD_SECURITY_PROFILE__",
+      "platform_codeowners": ["__PLATFORM_OWNER__"],
       "environment_allowlist": ["dev", "test", "uat"],
       "rejected_environments": ["prod", "production", "prd", "live"],
       "handoff_path": "environments/<environment>/environment_information.md",
       "environment_contract": {
         "github_environment_upgrade_name": "<environment>",
-        "codeowners": ["<configured-environment-owner>"],
+        "codeowners": ["__ENVIRONMENT_OWNER__"],
         "runner_labels": {"oci": ["self-hosted", "oci", "<environment>"], "azure": ["self-hosted", "azure", "<environment>"], "gcp": ["self-hosted", "gcp", "<environment>"]},
         "supported_clouds": ["oci", "azure", "gcp"],
         "repository_secret": "GITOPS_SECRET_VALUES_<ENVIRONMENT_UPPER>",
@@ -42,9 +51,11 @@
     "repository_pattern": "prod-<project>",
     "manifest_path": "<cloud>/prod/<region>/...",
     "handoff_path": "environments/prod/environment_information.md",
+    "security_profile": "__PROD_SECURITY_PROFILE__",
+    "platform_codeowners": ["__PLATFORM_OWNER__"],
     "environment_contract": {
       "github_environment_upgrade_name": "prod",
-      "codeowners": ["<configured-production-owner>"],
+      "codeowners": ["__PROD_OWNER__"],
       "runner_labels": {"oci": ["self-hosted", "oci", "prod"], "azure": ["self-hosted", "azure", "prod"], "gcp": ["self-hosted", "gcp", "prod"]},
       "supported_clouds": ["oci", "azure", "gcp"],
       "repository_secret": "GITOPS_SECRET_VALUES_PROD",

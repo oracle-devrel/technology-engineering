@@ -34,13 +34,13 @@ MAX_ADB_MUTATIONS = 3
 PROJECT_PATTERN = re.compile(r"^(?:nonprod|prod)-[a-z][a-z0-9]*(?:-[a-z0-9]+)*$")
 REGION_PATTERN = re.compile(r"^[a-z]{2}-[a-z]+-[0-9]+$")
 BRANCH_PATTERN = re.compile(
-    r"^agent/(?:adb|vm|nsg)-[a-z0-9](?:[a-z0-9-]{0,62})$"
+    r"^agent/(?:adb|vm|nsg|exacs)-[a-z0-9](?:[a-z0-9-]{0,62})$"
 )
 PATH_PATTERN = re.compile(
     r"^oci/(?P<environment>dev|test|uat|prod)/"
     r"(?P<region>[a-z]{2}-[a-z]+-[0-9]+)/(?P<kind>database/database\.json|"
     r"compute/compute\.json|network/project-nsgs\.json|"
-    r"lifecycle_operations/adb-lifecycle\.json)$")
+    r"lifecycle_operations/(?:adb-lifecycle|exacs-database-out-of-place-patch)\.json)$")
 SHA_RE = re.compile(r"^[0-9a-f]{40}$")
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 BASE_REF_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._/-]{0,254}$")
@@ -55,6 +55,10 @@ ADB_VALIDATIONS = ("repository", "one-file-diff", "strict-json", "governed-adb-c
                    "secret-placeholder")
 LIFECYCLE_VALIDATIONS = (
     "repository", "one-file-diff", "strict-json", "declared-adb-targets", "start-stop-only")
+EXACS_PATCH_VALIDATIONS = (
+    "repository", "one-file-diff", "strict-json", "registered-exacs-database",
+    "approved-target-db-home", "one-database-only", "oci-api-precheck-before-move",
+)
 COMPUTE_VALIDATIONS = (
     "repository", "one-file-diff", "strict-json", "governed-vm-change",
     "declared-nsg-references",
@@ -64,19 +68,39 @@ NSG_VALIDATIONS = (
 )
 LIFECYCLE_ROOT_KEYS = frozenset({"operation_type", "targets"})
 TARGET_KEYS = frozenset({"display_name", "action"})
+EXACS_PATCH_TARGET_KEYS = frozenset(
+    {
+        "display_name", "expected_source_db_home_id", "target_db_home_id",
+        "target_db_version", "timeout_minutes",
+    }
+)
+EXACS_REGISTRY_KEYS = frozenset({"schema_version", "databases"})
+EXACS_REGISTRY_DATABASE_KEYS = frozenset(
+    {
+        "display_name", "database_id", "compartment_id", "vm_cluster_id",
+        "service_model", "declarative_owner", "approved_target_db_homes",
+    }
+)
+EXACS_REGISTRY_HOME_KEYS = frozenset({"id", "db_version"})
 ADB_FIELDS = frozenset(
-    "db_name display_name compartment_id cpu_core_count "
-    "data_storage_size_in_tbs compute_model db_workload db_version "
-    "is_auto_scaling_enabled is_auto_scaling_for_storage_enabled license_model "
-    "admin_password is_mtls_connection_required subnet_id nsg_ids kms_key_id".split())
+    "db_name display_name is_dedicated ecpu_count non_dw_storage_size_in_gbs "
+    "db_workload license_model enable_cpu_auto_scaling "
+    "enable_storage_auto_scaling admin_password networking".split())
 MAX_NSG_IDS = 5
 ADB_STRING_PATTERNS = {
     "db_name": re.compile(r"^[A-Za-z][A-Za-z0-9]{0,29}$"),
-    "display_name": re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,254}$"),
-    "db_version": re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,31}$")}
+    "display_name": re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,254}$")}
 ADB_KEY_RE = re.compile(r"^[A-Z0-9][A-Z0-9_-]{0,127}$")
 ADB_NSG_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$")
 ADB_PASSWORD_RE = re.compile(r"^__[A-Z][A-Z0-9_]{2,99}__$")
+DATABASE_OCID_RE = re.compile(r"^ocid1\.database\.[A-Za-z0-9.-]+\.[A-Za-z0-9._-]+$")
+DB_HOME_OCID_RE = re.compile(r"^ocid1\.dbhome\.[A-Za-z0-9.-]+\.[A-Za-z0-9._-]+$")
+COMPARTMENT_OCID_RE = re.compile(r"^ocid1\.compartment\.[A-Za-z0-9.-]+\.[A-Za-z0-9._-]+$")
+VM_CLUSTER_OCID_RE = re.compile(r"^ocid1\.vmcluster\.[A-Za-z0-9.-]+\.[A-Za-z0-9._-]+$")
+CLOUD_VM_CLUSTER_OCID_RE = re.compile(
+    r"^ocid1\.cloudvmcluster\.[A-Za-z0-9.-]+\.[A-Za-z0-9._-]+$"
+)
+DB_VERSION_RE = re.compile(r"^[1-9][0-9]*(?:\.[0-9]+){4}$")
 RESOURCE_KEY_RE = re.compile(r"^[A-Z0-9][A-Z0-9_-]{0,127}$")
 RESOURCE_NAME_RE = re.compile(r"^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$")
 SHAPE_RE = re.compile(r"^VM\.[A-Za-z0-9][A-Za-z0-9.]{1,126}$")
@@ -280,37 +304,38 @@ def validate_adb_declaration(
     invalid = any(type(adb[field]) is not str or pattern.fullmatch(adb[field]) is None
                   for field, pattern in ADB_STRING_PATTERNS.items())
     invalid |= any(type(adb[field]) is not bool for field in (
-        "is_auto_scaling_enabled", "is_auto_scaling_for_storage_enabled",
-        "is_mtls_connection_required",
+        "is_dedicated", "enable_cpu_auto_scaling", "enable_storage_auto_scaling",
     ))
-    invalid |= type(adb["cpu_core_count"]) is not int or not 1 <= adb["cpu_core_count"] <= 512
-    invalid |= (type(adb["data_storage_size_in_tbs"]) is not int
-                or not 1 <= adb["data_storage_size_in_tbs"] <= 384)
+    invalid |= adb["is_dedicated"] is not False
+    invalid |= type(adb["ecpu_count"]) is not int or not 2 <= adb["ecpu_count"] <= 512
+    invalid |= (type(adb["non_dw_storage_size_in_gbs"]) is not int
+                or adb["non_dw_storage_size_in_gbs"] < 20)
     for field, allowed in {
-        "compute_model": {"ECPU", "OCPU"}, "db_workload": {"OLTP", "DW"},
+        "db_workload": {"OLTP"},
         "license_model": {"BRING_YOUR_OWN_LICENSE", "LICENSE_INCLUDED"},
     }.items():
         invalid |= type(adb[field]) is not str or adb[field] not in allowed
-    invalid |= not _valid_ocid(adb["compartment_id"], "compartment", nullable=True)
-    invalid |= not _valid_ocid(adb["subnet_id"], "subnet", region)
-    invalid |= not _valid_ocid(adb["kms_key_id"], "key", region, nullable=True)
-    nsg_ids = adb["nsg_ids"]
-    invalid |= (type(nsg_ids) is not list or not 1 <= len(nsg_ids) <= MAX_NSG_IDS
-                or any(type(item) is not str or ADB_NSG_RE.fullmatch(item) is None
-                       for item in nsg_ids) or len(set(nsg_ids)) != len(nsg_ids))
+    networking = adb["networking"]
+    invalid |= not isinstance(networking, dict) or set(networking) != {
+        "enable_private_endpoint", "subnet_id", "network_security_groups"
+    }
+    if isinstance(networking, dict):
+        nsg_ids = networking.get("network_security_groups")
+        invalid |= networking.get("enable_private_endpoint") is not True
+        invalid |= not _valid_ocid(networking.get("subnet_id"), "subnet", region)
+        invalid |= (type(nsg_ids) is not list or not 1 <= len(nsg_ids) <= MAX_NSG_IDS
+                    or any(type(item) is not str or ADB_NSG_RE.fullmatch(item) is None
+                           for item in nsg_ids) or len(set(nsg_ids)) != len(nsg_ids))
     if invalid:
         _failure("INVALID_ADB_CHANGE", "The ADB declaration is invalid.")
     password = adb["admin_password"]
-    project_match = re.search(r"project(?P<number>[0-9]+)$", project)
-    project_token = f"PROJ{project_match.group('number')}" if project_match else ""
     if type(password) is not str:
         _failure("INVALID_ADB_CHANGE", "The ADB declaration is invalid.")
     inner_secret_name = password[2:-2]
     environment_prefix = f"{environment.upper()}_"
-    if (not project_token or ADB_PASSWORD_RE.fullmatch(password) is None
+    if (ADB_PASSWORD_RE.fullmatch(password) is None
             or "__" in inner_secret_name
-            or not inner_secret_name.startswith(environment_prefix)
-            or project_token not in inner_secret_name.split("_")):
+            or not inner_secret_name.startswith(environment_prefix)):
         _failure("INVALID_SECRET_PLACEHOLDER",
                  "The ADB administrator secret placeholder is invalid.")
 
@@ -346,7 +371,7 @@ def _adb_configuration(document: object) -> tuple[dict[str, Any], dict[str, Any]
     if not isinstance(document, dict) or set(document) != {"autonomous_databases_configuration"}:
         _failure("INVALID_ADB_CHANGE", "The ADB manifest is invalid.")
     configuration = document.get("autonomous_databases_configuration")
-    databases = configuration.get("autonomous_databases") if isinstance(configuration, dict) else None
+    databases = configuration.get("databases") if isinstance(configuration, dict) else None
     if not isinstance(configuration, dict) or not isinstance(databases, dict):
         _failure("INVALID_ADB_CHANGE", "The ADB manifest is invalid.")
     return configuration, databases
@@ -356,7 +381,7 @@ def _adb_aggregate(document: object, *, allow_empty: bool) -> tuple[str | None, 
     if allow_empty and document == {}:
         return None, {}
     configuration, databases = _adb_configuration(document)
-    if (set(configuration) != {"default_compartment_id", "autonomous_databases"}
+    if (set(configuration) != {"default_compartment_id", "databases"}
             or not _valid_ocid(configuration.get("default_compartment_id"), "compartment")):
         _failure("INVALID_ADB_CHANGE", "The ADB manifest is invalid.")
     return configuration["default_compartment_id"], databases
@@ -385,19 +410,17 @@ def _adb_summary(
         summary["destructive"] = True
         return summary
     summary.update({
-        "compartment_id": entry.get("compartment_id") or default_compartment_id,
-        "compute_model": entry.get("compute_model"),
-        "cpu_core_count": entry.get("cpu_core_count"),
-        "data_storage_size_in_tbs": entry.get("data_storage_size_in_tbs"),
+        "compartment_id": default_compartment_id,
+        "dedicated": entry.get("is_dedicated"),
+        "ecpu_count": entry.get("ecpu_count"),
+        "non_dw_storage_size_in_gbs": entry.get("non_dw_storage_size_in_gbs"),
         "db_workload": entry.get("db_workload"),
-        "db_version": entry.get("db_version"),
         "license_model": entry.get("license_model"),
-        "compute_auto_scaling": entry.get("is_auto_scaling_enabled"),
-        "storage_auto_scaling": entry.get("is_auto_scaling_for_storage_enabled"),
-        "mtls_required": entry.get("is_mtls_connection_required"),
-        "subnet_id": entry.get("subnet_id"),
-        "nsg_keys": entry.get("nsg_ids"),
-        "kms_key_id": entry.get("kms_key_id"),
+        "compute_auto_scaling": entry.get("enable_cpu_auto_scaling"),
+        "storage_auto_scaling": entry.get("enable_storage_auto_scaling"),
+        "private_endpoint": (entry.get("networking") or {}).get("enable_private_endpoint"),
+        "subnet_id": (entry.get("networking") or {}).get("subnet_id"),
+        "nsg_keys": (entry.get("networking") or {}).get("network_security_groups"),
     })
     password = entry.get("admin_password")
     if isinstance(password, str) and ADB_PASSWORD_RE.fullmatch(password):
@@ -944,8 +967,7 @@ def _validate_new_nsg(
         _failure("INVALID_NSG_CHANGE", "The new NSG declaration is invalid.")
     display_name = nsg.get("display_name")
     tags = nsg.get("freeform_tags")
-    project_match = re.search(r"project(?P<number>[0-9]+)$", project)
-    expected_project = f"proj{project_match.group('number')}" if project_match else ""
+    expected_project = project.split("-", 1)[1]
     invalid = not _valid_ocid(nsg.get("compartment_id"), "compartment")
     invalid |= (
         type(display_name) is not str
@@ -1094,7 +1116,7 @@ def _database_path(environment: str, region: str) -> str:
 def _declared_adb_names(content: bytes) -> frozenset[str]:
     configuration, databases = _adb_configuration(strict_json(content))
     if set(configuration) not in (
-            {"autonomous_databases"}, {"default_compartment_id", "autonomous_databases"}):
+            {"databases"}, {"default_compartment_id", "databases"}):
         _failure("INVALID_ADB_CHANGE", "The ADB manifest is invalid.")
     pattern = ADB_STRING_PATTERNS["display_name"]
     names = [entry["display_name"] for entry in databases.values()
@@ -1154,6 +1176,118 @@ def validate_lifecycle_change(
     return _validate_lifecycle_change(
         candidate, declared_adb_names(repo, environment, region)
     )
+
+
+def _exacs_registry_at_base(repo: Path, base_sha: str, environment: str) -> dict[str, Any]:
+    """Read the platform-owned ExaCS registry at the immutable base commit."""
+    path = f"environments/{environment}/exacs-databases.json"
+    entry = run_git(repo, "ls-tree", base_sha, "--", path)
+    if re.fullmatch(
+        rb"100644 blob [0-9a-f]{40}\t" + re.escape(path.encode()) + rb"\n", entry
+    ) is None:
+        _failure("MISSING_EXACS_REGISTRY", "The ExaCS database registry is missing.")
+    registry = strict_json(run_git(repo, "show", f"{base_sha}:{path}"))
+    if not isinstance(registry, dict) or set(registry) != EXACS_REGISTRY_KEYS:
+        _failure("INVALID_EXACS_REGISTRY", "The ExaCS database registry is invalid.")
+    databases = registry.get("databases")
+    if registry.get("schema_version") != 2 or not isinstance(databases, list):
+        _failure("INVALID_EXACS_REGISTRY", "The ExaCS database registry is invalid.")
+
+    names: set[str] = set()
+    for database in databases:
+        if not isinstance(database, dict) or set(database) != EXACS_REGISTRY_DATABASE_KEYS:
+            _failure("INVALID_EXACS_REGISTRY", "The ExaCS database registry is invalid.")
+        name = database.get("display_name")
+        homes = database.get("approved_target_db_homes")
+        service_model = database.get("service_model")
+        declarative_owner = database.get("declarative_owner")
+        vm_cluster_id = database.get("vm_cluster_id")
+        if (
+            type(name) is not str
+            or ADB_STRING_PATTERNS["display_name"].fullmatch(name) is None
+            or name.casefold() in names
+            or not isinstance(homes, list)
+            or not homes
+            or DATABASE_OCID_RE.fullmatch(str(database.get("database_id"))) is None
+            or COMPARTMENT_OCID_RE.fullmatch(str(database.get("compartment_id"))) is None
+            or service_model not in {"exacs", "od-gcp"}
+            or declarative_owner not in {"external", "oci-exadata-state"}
+            or (
+                service_model == "exacs"
+                and VM_CLUSTER_OCID_RE.fullmatch(str(vm_cluster_id)) is None
+            )
+            or (
+                service_model == "od-gcp"
+                and CLOUD_VM_CLUSTER_OCID_RE.fullmatch(str(vm_cluster_id)) is None
+            )
+        ):
+            _failure("INVALID_EXACS_REGISTRY", "The ExaCS database registry is invalid.")
+        names.add(name.casefold())
+        home_ids: set[str] = set()
+        for home in homes:
+            if (
+                not isinstance(home, dict)
+                or set(home) != EXACS_REGISTRY_HOME_KEYS
+                or type(home.get("id")) is not str
+                or DB_HOME_OCID_RE.fullmatch(home["id"]) is None
+                or home["id"] in home_ids
+                or type(home.get("db_version")) is not str
+                or DB_VERSION_RE.fullmatch(home["db_version"]) is None
+            ):
+                _failure("INVALID_EXACS_REGISTRY", "The ExaCS database registry is invalid.")
+            home_ids.add(home["id"])
+    return registry
+
+
+def _validate_exacs_patch_change(candidate: object, registry: dict[str, Any]) -> Sequence[str]:
+    """Validate one registered regular-ExaCS database move request."""
+    if _has_sensitive_value(candidate):
+        _failure("INVALID_SECRET_VALUE", "The lifecycle manifest contains a rejected value.")
+    if not isinstance(candidate, dict) or set(candidate) != LIFECYCLE_ROOT_KEYS:
+        _failure("INVALID_EXACS_PATCH", "The ExaCS patch request is invalid.")
+    targets = candidate.get("targets")
+    if (
+        candidate.get("operation_type") != "exacs-database-out-of-place-patch"
+        or not isinstance(targets, list)
+        or len(targets) != 1
+        or not isinstance(targets[0], dict)
+        or set(targets[0]) != EXACS_PATCH_TARGET_KEYS
+    ):
+        _failure("INVALID_EXACS_PATCH", "The ExaCS patch request is invalid.")
+
+    target = targets[0]
+    display_name = target.get("display_name")
+    source_home = target.get("expected_source_db_home_id")
+    target_home = target.get("target_db_home_id")
+    target_version = target.get("target_db_version")
+    timeout = target.get("timeout_minutes")
+    if (
+        type(display_name) is not str
+        or ADB_STRING_PATTERNS["display_name"].fullmatch(display_name) is None
+        or type(source_home) is not str
+        or DB_HOME_OCID_RE.fullmatch(source_home) is None
+        or type(target_home) is not str
+        or DB_HOME_OCID_RE.fullmatch(target_home) is None
+        or source_home == target_home
+        or type(target_version) is not str
+        or DB_VERSION_RE.fullmatch(target_version) is None
+        or type(timeout) is not int
+        or not 30 <= timeout <= 480
+    ):
+        _failure("INVALID_EXACS_PATCH", "The ExaCS patch request is invalid.")
+
+    registered = next(
+        (database for database in registry["databases"] if database["display_name"] == display_name),
+        None,
+    )
+    if registered is None:
+        _failure("UNREGISTERED_EXACS_DATABASE", "The ExaCS database is not registered for this environment.")
+    if not any(
+        home["id"] == target_home and home["db_version"] == target_version
+        for home in registered["approved_target_db_homes"]
+    ):
+        _failure("UNAPPROVED_TARGET_DB_HOME", "The target Database Home is not approved for this database.")
+    return EXACS_PATCH_VALIDATIONS
 
 
 def _render_diff(path: str, base_content: bytes, candidate_content: bytes) -> str:
@@ -1345,7 +1479,7 @@ def _resolve_base_sha(repository: Path, base_ref: str) -> str:
     return base_sha
 
 
-def _porcelain_path(status_output: bytes) -> str:
+def _porcelain_path(status_output: bytes) -> tuple[str, str]:
     records = status_output.split(b"\0")
     if records[-1] != b"":
         _failure("INVALID_CHANGE", "The repository change is invalid.")
@@ -1353,10 +1487,17 @@ def _porcelain_path(status_output: bytes) -> str:
     if len(records) != 1:
         _failure("INVALID_CHANGE", "Exactly one manifest must be modified.")
     record = records[0]
-    if len(record) < 4 or record[2:3] != b" " or record[:2] not in (b" M", b"M ", b"MM"):
-        _failure("INVALID_CHANGE", "The manifest must be an existing modified file.")
+    if (
+        len(record) < 4
+        or record[2:3] != b" "
+        or record[:2] not in (b" M", b"M ", b"MM", b"??")
+    ):
+        _failure("INVALID_CHANGE", "The manifest change is not allowed.")
     try:
-        return record[3:].decode("utf-8", errors="strict")
+        return (
+            record[3:].decode("utf-8", errors="strict"),
+            record[:2].decode("ascii", errors="strict"),
+        )
     except UnicodeDecodeError as exc:
         raise ValidationFailure("INVALID_CHANGE", "The repository change is invalid.") from exc
 
@@ -1397,7 +1538,8 @@ def _validate_expected_base(expected_base_sha: str, current_base_sha: str) -> No
 
 
 def _finalize_change(change: RepositoryChange) -> RepositoryChange:
-    strict_json(change.base_content)
+    if change.base_content:
+        strict_json(change.base_content)
     strict_json(change.candidate_content)
     return replace(change, diff=_render_diff(change.path, change.base_content, change.candidate_content))
 
@@ -1412,7 +1554,15 @@ def collect_change(repo: str | os.PathLike[str], base_ref: str = "origin/main") 
         _failure("INVALID_BRANCH", "The current branch is not allowed.")
     base_sha = _resolve_base_sha(repository, base_ref)
     _validate_effective_git_config(repository)
-    path = _porcelain_path(run_git(repository, "status", "--porcelain=v1", "-z"))
+    path, status = _porcelain_path(
+        run_git(
+            repository,
+            "status",
+            "--porcelain=v1",
+            "--untracked-files=all",
+            "-z",
+        )
+    )
     path_match = PATH_PATTERN.fullmatch(path)
     if path_match is None:
         _failure("INVALID_MANIFEST_PATH", "The modified manifest path is not allowed.")
@@ -1420,22 +1570,50 @@ def collect_change(repo: str | os.PathLike[str], base_ref: str = "origin/main") 
     validate_handoff(repository, project, environment)
     kind = path_match.group("kind")
     validate_manifest_scope(environment, kind)
+    is_new = status == "??"
+    if is_new and not kind.startswith("lifecycle_operations/"):
+        _failure(
+            "INVALID_CHANGE",
+            "Only a canonical lifecycle operation manifest may be added.",
+        )
     expected_resource = {
         "database/database.json": "adb",
         "compute/compute.json": "vm",
         "network/project-nsgs.json": "nsg",
         "lifecycle_operations/adb-lifecycle.json": "adb",
+        "lifecycle_operations/exacs-database-out-of-place-patch.json": "exacs",
     }[kind]
     if not branch.startswith(f"agent/{expected_resource}-"):
         _failure("INVALID_BRANCH", "The current branch does not match the manifest resource.")
     candidate_content = _safe_file(repository, path, size_limit=MAX_JSON_BYTES)
     name_status = _decode_git(run_git(
         repository, "diff", "--name-status", "--no-renames", base_sha))
-    if name_status != f"M\t{path}\n":
+    if is_new:
+        base_entry = _decode_git(
+            run_git(repository, "ls-tree", "--name-only", base_sha, "--", path)
+        )
+        if name_status or base_entry:
+            _failure(
+                "INVALID_CHANGE",
+                "Exactly one new lifecycle operation manifest must be added.",
+            )
+    elif name_status != f"M\t{path}\n":
         _failure("INVALID_CHANGE", "Exactly one existing manifest must be modified.")
     run_git(repository, "diff", "--check", base_sha)
-    inspection_diff = run_git(repository, "diff", "--no-ext-diff", "--no-textconv",
-                              "--no-color", base_sha, "--", path)
+    inspection_diff = (
+        b""
+        if is_new
+        else run_git(
+            repository,
+            "diff",
+            "--no-ext-diff",
+            "--no-textconv",
+            "--no-color",
+            base_sha,
+            "--",
+            path,
+        )
+    )
     verified_candidate_content = _safe_file(repository, path, size_limit=MAX_JSON_BYTES)
     if verified_candidate_content != candidate_content:
         _failure("WORKTREE_CHANGED", "The worktree changed during validation.")
@@ -1445,7 +1623,7 @@ def collect_change(repo: str | os.PathLike[str], base_ref: str = "origin/main") 
         for line in inspection_diff.splitlines()
     ):
         _failure("BINARY_DIFF", "Binary manifest diffs are not allowed.")
-    base_content = run_git(repository, "show", f"{base_sha}:{path}")
+    base_content = b"" if is_new else run_git(repository, "show", f"{base_sha}:{path}")
     region = path_match.group("region")
     return RepositoryChange(
         repo=repository, project=project, branch=branch, base_ref=base_ref,
@@ -1511,6 +1689,22 @@ def main(argv: list[str] | None = None) -> int:
             }
             document = _success_document(
                 change, "adb-lifecycle", validations, summary
+            )
+        elif change.kind == "lifecycle_operations/exacs-database-out-of-place-patch.json":
+            registry = _exacs_registry_at_base(
+                change.repo, change.base_sha, change.environment
+            )
+            candidate = strict_json(change.candidate_content)
+            validations = _validate_exacs_patch_change(candidate, registry)
+            summary = {
+                "resource_type": "oci-exacs-database",
+                "action": "out-of-place-patch",
+                "environment": change.environment,
+                "region": change.region,
+                "targets": candidate["targets"],
+            }
+            document = _success_document(
+                change, "exacs-database-out-of-place-patch", validations, summary
             )
         else:
             _failure("UNSUPPORTED_MANIFEST", "Manifest semantics are not available.")

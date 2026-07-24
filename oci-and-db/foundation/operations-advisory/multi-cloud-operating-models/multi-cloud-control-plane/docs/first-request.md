@@ -16,19 +16,19 @@ environment first; do not create a second file containing the same Terraform roo
 For example, the existing aggregate file is:
 
 ```json
-{"autonomous_databases_configuration":{"adb_existing":{"display_name":"adb-existing"}}}
+{"autonomous_databases_configuration":{"default_compartment_id":"ocid1.compartment.oc1..projectdatabase","databases":{"adb_existing":{"db_name":"EXISTING","display_name":"adb-existing","is_dedicated":false,"ecpu_count":2,"non_dw_storage_size_in_gbs":32,"db_workload":"OLTP","license_model":"BRING_YOUR_OWN_LICENSE","enable_cpu_auto_scaling":false,"enable_storage_auto_scaling":false,"admin_password":"__DEV_ADB_EXISTING_ADMIN_PASSWORD__","networking":{"enable_private_endpoint":true,"subnet_id":"ocid1.subnet.oc1.eu-frankfurt-1.projectdatabase","network_security_groups":["NSG-DB-EXISTING"]}}}}}
 ```
 
 The rendered catalog entry is **not** a separate var-file:
 
 ```json
-{"autonomous_databases_configuration":{"adb_dev_project01":{"display_name":"adb-dev-project01","admin_password":"__DEV_ADB_ADMIN_PASSWORD__"}}}
+{"autonomous_databases_configuration":{"default_compartment_id":"ocid1.compartment.oc1..projectdatabase","databases":{"adb_dev_project01":{"db_name":"PROJ01ADB","display_name":"adb-dev-project01","is_dedicated":false,"ecpu_count":2,"non_dw_storage_size_in_gbs":32,"db_workload":"OLTP","license_model":"BRING_YOUR_OWN_LICENSE","enable_cpu_auto_scaling":false,"enable_storage_auto_scaling":false,"admin_password":"__DEV_ADB_ADMIN_PASSWORD__","networking":{"enable_private_endpoint":true,"subnet_id":"ocid1.subnet.oc1.eu-frankfurt-1.projectdatabase","network_security_groups":["NSG-DB-PROJECT01"]}}}}}
 ```
 
 The single merged manifest is:
 
 ```json
-{"autonomous_databases_configuration":{"adb_existing":{"display_name":"adb-existing"},"adb_dev_project01":{"display_name":"adb-dev-project01","admin_password":"__DEV_ADB_ADMIN_PASSWORD__"}}}
+{"autonomous_databases_configuration":{"default_compartment_id":"ocid1.compartment.oc1..projectdatabase","databases":{"adb_existing":{"db_name":"EXISTING","display_name":"adb-existing","is_dedicated":false,"ecpu_count":2,"non_dw_storage_size_in_gbs":32,"db_workload":"OLTP","license_model":"BRING_YOUR_OWN_LICENSE","enable_cpu_auto_scaling":false,"enable_storage_auto_scaling":false,"admin_password":"__DEV_ADB_EXISTING_ADMIN_PASSWORD__","networking":{"enable_private_endpoint":true,"subnet_id":"ocid1.subnet.oc1.eu-frankfurt-1.projectdatabase","network_security_groups":["NSG-DB-EXISTING"]}},"adb_dev_project01":{"db_name":"PROJ01ADB","display_name":"adb-dev-project01","is_dedicated":false,"ecpu_count":2,"non_dw_storage_size_in_gbs":32,"db_workload":"OLTP","license_model":"BRING_YOUR_OWN_LICENSE","enable_cpu_auto_scaling":false,"enable_storage_auto_scaling":false,"admin_password":"__DEV_ADB_ADMIN_PASSWORD__","networking":{"enable_private_endpoint":true,"subnet_id":"ocid1.subnet.oc1.eu-frankfurt-1.projectdatabase","network_security_groups":["NSG-DB-PROJECT01"]}}}}}
 ```
 
 Terraform does not deep-merge two files that set

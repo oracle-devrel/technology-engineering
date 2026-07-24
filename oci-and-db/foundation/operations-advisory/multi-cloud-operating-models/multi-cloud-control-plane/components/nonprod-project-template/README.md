@@ -20,9 +20,25 @@ New repositories are inactive by default. Set the repository variable
 CODEOWNERS, handoff, secrets, readiness markers, runner routing, and branch
 protection are all in place.
 
-Configure one JSON Actions repository secret per enabled environment:
-`GITOPS_SECRET_VALUES_DEV`, `GITOPS_SECRET_VALUES_TEST`, or
-`GITOPS_SECRET_VALUES_UAT`. Configure the matching
-`CONTROL_PLANE_READY_<ENVIRONMENT>` repository variable with value `true`.
-Bundle keys and runtime placeholders must begin with the selected uppercase
-environment. Do not use `secrets: inherit` or combine environments.
+The platform team may register externally deployed regular ExaCS databases in
+`environments/<environment>/exacs-databases.json`. This registry is a
+platform-owned handoff artifact; project teams do not edit it. It binds a
+subsequent reviewed out-of-place patch request to the approved database and
+target Database Homes without requiring Terraform to have created the database.
+
+Keep the default `github-environments` profile on paid plans. Create a
+reviewer-free base Environment and a matching reviewer-protected
+`<environment>-apply` Environment for each logical environment; required
+Environment reviewers on private repositories require Enterprise.
+
+For the GitHub Free `repository-secrets` fallback, configure one JSON Actions
+repository secret per enabled environment: `GITOPS_SECRET_VALUES_DEV`,
+`GITOPS_SECRET_VALUES_TEST`, or `GITOPS_SECRET_VALUES_UAT`. Configure the
+matching `CONTROL_PLANE_READY_<ENVIRONMENT>` repository variable with value
+`true`. Bundle keys and runtime placeholders must begin with the selected
+uppercase environment. Do not use `secrets: inherit` or combine environments.
+
+See the
+[GitHub plan capability matrix](../../docs/security.md#github-plan-capability-matrix)
+and the [shared non-production runbook](../../docs/shared-nonproduction.md)
+before enabling automation.

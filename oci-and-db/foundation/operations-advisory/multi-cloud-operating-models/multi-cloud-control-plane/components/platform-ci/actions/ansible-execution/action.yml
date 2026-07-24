@@ -71,8 +71,16 @@ runs:
       run: |
         python3.11 -m pip install --upgrade pip
         python3.11 -m pip install ansible==9.0.1 oci-cli
-        ansible-galaxy collection install -r platform-ci/ansible/requirements.yml
+        export PATH="$HOME/.local/bin:$PATH"
         echo "$HOME/.local/bin" >> $GITHUB_PATH
+        collection_archive="$WORK_TEMP/oracle-oci-5.5.0.tar.gz"
+        curl --fail --location --retry 3 --proto '=https' --tlsv1.2 \
+          --output "$collection_archive" \
+          https://galaxy.ansible.com/download/oracle-oci-5.5.0.tar.gz
+        printf '%s  %s\n' \
+          '4df1187e8728a91725ebe8d2f1e4eddb6193145c1ae4312c54caba6cdad4e60e' \
+          "$collection_archive" | sha256sum --check --status
+        ansible-galaxy collection install "$collection_archive"
 
     # =====================================================================
     # Detect operation file (if not provided)
@@ -181,6 +189,7 @@ runs:
         ansible-playbook \
           -i $WORK_TEMP/inventory.json \
           --check --diff \
+          -e "operation_execution_mode=check" \
           -e "@${{ github.workspace }}/${{ inputs.operation_file || steps.detect.outputs.operation_file }}" \
           playbooks/master.yml \
           --tags "$OPERATION_TYPE" \
@@ -201,6 +210,7 @@ runs:
         set +e
         ansible-playbook \
           -i $WORK_TEMP/inventory.json \
+          -e "operation_execution_mode=execute" \
           -e "@${{ github.workspace }}/${{ inputs.operation_file || steps.detect.outputs.operation_file }}" \
           playbooks/master.yml \
           --tags "$OPERATION_TYPE" \

@@ -1,0 +1,108 @@
+---
+# OCI API-driven out-of-place patching for one regular ExaCS database.
+# The PR path runs OCI UpgradeDatabase precheck; execution runs UpgradeDatabase.
+
+- name: ExaCS Database Out-of-Place Patch
+  hosts: database_instances
+  gather_facts: false
+
+  tasks:
+    - name: Read the current database
+      oracle.oci.oci_database_database_facts:
+        database_id: "{{ oci_ocid }}"
+        auth_type: instance_principal
+      register: database_state
+      delegate_to: localhost
+      check_mode: false
+
+    - name: Read the target Database Home
+      oracle.oci.oci_database_db_home_facts:
+        db_home_id: "{{ target_db_home_id }}"
+        auth_type: instance_principal
+      register: target_home_state
+      delegate_to: localhost
+      check_mode: false
+
+    - name: Validate the approved database move boundary
+      ansible.builtin.assert:
+        quiet: true
+        that:
+          - database_state.databases | length == 1
+          - target_home_state.db_homes | length == 1
+          - database_state.databases[0].lifecycle_state == 'AVAILABLE'
+          - database_state.databases[0].display_name == inventory_hostname
+          - database_state.databases[0].db_home_id == expected_source_db_home_id
+          - database_state.databases[0].compartment_id == registered_compartment_id
+          - database_state.databases[0].vm_cluster_id == registered_vm_cluster_id
+          - target_db_home_id != expected_source_db_home_id
+          - target_home_state.db_homes[0].lifecycle_state == 'AVAILABLE'
+          - target_home_state.db_homes[0].db_version == target_db_version
+          - target_home_state.db_homes[0].vm_cluster_id == database_state.databases[0].vm_cluster_id
+        fail_msg: >-
+          The requested database move does not match the current state, target
+          Database Home, VM cluster, or approved version.
+      delegate_to: localhost
+      check_mode: false
+
+    - name: Run OCI database upgrade precheck
+      oracle.oci.oci_database_database_actions:
+        database_id: "{{ oci_ocid }}"
+        action: precheck
+        database_upgrade_source_details:
+          source: DB_HOME
+          db_home_id: "{{ target_db_home_id }}"
+        auth_type: instance_principal
+        wait: true
+        wait_timeout: "{{ timeout_minutes | int * 60 }}"
+      register: precheck_result
+      delegate_to: localhost
+      check_mode: false
+      when: operation_execution_mode == 'check'
+
+    - name: Move the database to the approved Database Home
+      oracle.oci.oci_database_database_actions:
+        database_id: "{{ oci_ocid }}"
+        action: upgrade
+        database_upgrade_source_details:
+          source: DB_HOME
+          db_home_id: "{{ target_db_home_id }}"
+        auth_type: instance_principal
+        wait: true
+        wait_timeout: "{{ timeout_minutes | int * 60 }}"
+      register: upgrade_result
+      delegate_to: localhost
+      when: operation_execution_mode == 'execute'
+
+    - name: Verify the database now uses the approved Database Home
+      oracle.oci.oci_database_database_facts:
+        database_id: "{{ oci_ocid }}"
+        auth_type: instance_principal
+      register: post_upgrade_database_state
+      delegate_to: localhost
+      when: operation_execution_mode == 'execute'
+
+    - name: Assert the database move completed at the requested target
+      ansible.builtin.assert:
+        quiet: true
+        that:
+          - post_upgrade_database_state.databases | length == 1
+          - post_upgrade_database_state.databases[0].lifecycle_state == 'AVAILABLE'
+          - post_upgrade_database_state.databases[0].db_home_id == target_db_home_id
+        fail_msg: The OCI upgrade action completed without the requested Database Home state.
+      delegate_to: localhost
+      when: operation_execution_mode == 'execute'
+
+    - name: Report the controlled operation result
+      ansible.builtin.debug:
+        msg:
+          operation: exacs-database-out-of-place-patch
+          execution_mode: "{{ operation_execution_mode }}"
+          service_model: "{{ service_model }}"
+          declarative_owner: "{{ declarative_owner }}"
+          database: "{{ inventory_hostname }}"
+          expected_source_db_home_id: "{{ expected_source_db_home_id }}"
+          target_db_home_id: "{{ target_db_home_id }}"
+          target_db_version: "{{ target_db_version }}"
+          precheck_completed: "{{ precheck_result is defined }}"
+          upgrade_completed: "{{ upgrade_result is defined }}"
+          owning_state_plan_required: "{{ declarative_owner == 'oci-exadata-state' }}"

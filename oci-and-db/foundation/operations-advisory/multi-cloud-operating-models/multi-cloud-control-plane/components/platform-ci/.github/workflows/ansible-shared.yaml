@@ -46,6 +46,9 @@ on:
         type: string
         default: '["self-hosted","oci"]'
     secrets:
+      PLATFORM_CI_DEPLOY_KEY:
+        description: "Read-only deploy key for this private Platform CI repository"
+        required: true
       READINESS_MARKER:
         description: "Selected GitHub Environment readiness secret; empty for repository-secrets"
         required: false
@@ -73,6 +76,7 @@ jobs:
           repository: __CUSTOMER_ORG__/platform-ci
           ref: ${{ inputs.platform_ci_ref }}
           path: platform-ci
+          ssh-key: ${{ secrets.PLATFORM_CI_DEPLOY_KEY }}
       - name: Execute Ansible
         uses: ./platform-ci/actions/ansible-execution
         with:
@@ -103,6 +107,7 @@ jobs:
           repository: __CUSTOMER_ORG__/platform-ci
           ref: ${{ inputs.platform_ci_ref }}
           path: platform-ci
+          ssh-key: ${{ secrets.PLATFORM_CI_DEPLOY_KEY }}
       - name: Execute Ansible
         uses: ./platform-ci/actions/ansible-execution
         with:

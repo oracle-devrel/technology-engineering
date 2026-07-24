@@ -8,3 +8,6 @@
 
 - import_playbook: operations/deploy-agent.yml
   tags: [deploy-agent]
+
+- import_playbook: operations/exacs-database-out-of-place-patch.yml
+  tags: [exacs-database-out-of-place-patch]

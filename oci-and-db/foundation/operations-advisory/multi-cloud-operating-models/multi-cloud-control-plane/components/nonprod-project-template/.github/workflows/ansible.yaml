@@ -48,14 +48,21 @@ jobs:
             git show "$head_sha:$path" | jq -e . >/dev/null
           done <<< "$changed"
           test "$(printf '%s\n' "$changed" | cut -d/ -f1-3 | sort -u | wc -l | tr -d ' ')" = 1
+          test "$(printf '%s\n' "$changed" | sed '/^$/d' | wc -l | tr -d ' ')" = 1
           environment=$(printf '%s\n' "$changed" | head -1 | cut -d/ -f2)
+          operation_file=$(printf '%s\n' "$changed" | head -1)
           echo "environment=$environment" >> "$GITHUB_OUTPUT"
-          echo "operation_file=$(printf '%s\n' "$changed" | head -1)" >> "$GITHUB_OUTPUT"
+          echo "operation_file=$operation_file" >> "$GITHUB_OUTPUT"
           echo "security_profile=$security_profile" >> "$GITHUB_OUTPUT"
           jq -e --arg e "$environment" '.environments[$e].supported_clouds | index("oci")' control-plane.json >/dev/null
           expected_suffix=$(printf '%s' "$environment" | tr '[:lower:]' '[:upper:]')
           test "$(jq -r --arg e "$environment" '.environments[$e].readiness_marker_variable' control-plane.json)" = "CONTROL_PLANE_READY_${expected_suffix}"
-          jq -c --arg e "$environment" '.environments[$e].runner_labels.oci' control-plane.json | sed 's/^/runner_labels=/' >> "$GITHUB_OUTPUT"
+          operation_type=$(git show "$head_sha:$operation_file" | jq -r '.operation_type')
+          runner_labels=$(jq -c --arg e "$environment" '.environments[$e].runner_labels.oci' control-plane.json)
+          if [ "$operation_type" = "exacs-database-out-of-place-patch" ]; then
+            runner_labels=$(jq -c '. + ["exacs-database-operations"]' <<< "$runner_labels")
+          fi
+          echo "runner_labels=$runner_labels" >> "$GITHUB_OUTPUT"
   execute:
     needs: validate-path
     uses: __CUSTOMER_ORG__/platform-ci/.github/workflows/ansible-shared.yaml@__PLATFORM_CI_REF__
@@ -71,4 +78,5 @@ jobs:
       runner_labels: ${{ needs.validate-path.outputs.runner_labels }}
       bucket_name: __STATE_BUCKET__
     secrets:
+      PLATFORM_CI_DEPLOY_KEY: ${{ secrets.PLATFORM_CI_DEPLOY_KEY }}
       READINESS_MARKER: ${{ needs.validate-path.outputs.security_profile == 'github-environments' && secrets.READINESS_MARKER || '' }}

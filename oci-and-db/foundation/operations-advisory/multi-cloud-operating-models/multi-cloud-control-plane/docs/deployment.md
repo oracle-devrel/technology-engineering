@@ -8,10 +8,15 @@ clean clone of this asset; no custom deployment program is required.
 ```bash
 export STAGE=/tmp/control-plane
 export CUSTOMER_ORG=example-enterprise
-export STATE_BUCKET=example-control-plane-state
-export OCI_ORCHESTRATOR_REF=34202e837e9df015ddaaa4fce0ab62bb6e3883de
+export PROJECT_STATE_BUCKET=example-project-state
+export OCI_ORCHESTRATOR_REF=fcf1d7f02c0b4faa1ff55f1776c396452dd51761
 export AZURE_ORCHESTRATOR_REF=2d0b532f7639212f1b7c2708cd15b71d80b217fe
 export GCP_ORCHESTRATOR_REF=c434e0697a3ca4daa8f8c7903afd4c6c7be287f9
+export NONPROD_SECURITY_PROFILE=github-environments
+export PROD_SECURITY_PROFILE=github-environments
+export PLATFORM_OWNER='@example-platform-owner'
+export ENVIRONMENT_OWNER="$PLATFORM_OWNER"
+export PROD_OWNER="$PLATFORM_OWNER"
 
 mkdir -p "$STAGE"
 cp -R components/platform-ci "$STAGE/platform-ci"
@@ -25,8 +30,22 @@ cp LICENSE "$STAGE/gitops-templates/LICENSE"
 rm -rf "$STAGE/platform-ci/tests"
 
 find "$STAGE" -type f -exec perl -pi -e \
-  's/__CUSTOMER_ORG__/$ENV{CUSTOMER_ORG}/g; s/gitops-state-bucket/$ENV{STATE_BUCKET}/g; s/__STATE_BUCKET__/$ENV{STATE_BUCKET}/g' {} +
+  's/__CUSTOMER_ORG__/$ENV{CUSTOMER_ORG}/g; s/gitops-state-bucket/$ENV{PROJECT_STATE_BUCKET}/g; s/__STATE_BUCKET__/$ENV{PROJECT_STATE_BUCKET}/g' {} +
 ```
+
+`PROJECT_STATE_BUCKET` must name a dedicated private Object Storage bucket
+with versioning enabled. Do not reuse the OCI Landing Zone foundation-state
+bucket. When the Landing Zone asset creates the OP03 runner identity, its
+`PROJECT_STATE_BUCKET` repository variable and this value must match exactly.
+
+`OCI_ORCHESTRATOR_REF` pins OCI Landing Zones Orchestrator
+[`release-2.1.4`](https://github.com/oci-landing-zones/terraform-oci-modules-orchestrator/tree/release-2.1.4).
+That release consumes
+[`terraform-oci-modules-exadata` `release-1.2.0`](https://github.com/oci-landing-zones/terraform-oci-modules-exadata/tree/release-1.2.0)
+for both `autonomous_databases_configuration` and
+`cloud_exadata_database_configuration`. The workflow uses the immutable
+Orchestrator commit; the release-branch names remain recorded as provenance in
+the deployment contract.
 
 Create the Platform CI commit first because project workflows pin that exact
 commit:
@@ -53,8 +72,17 @@ export PRODUCTION_PROJECT_TEMPLATE_REF=$(git -C "$STAGE/prod-project-template" r
 export CATALOGS_REF=$(git -C "$STAGE/gitops-templates" rev-parse HEAD)
 cp contracts/deployment-contract.template.json "$STAGE/deployment-contract.json"
 find "$STAGE/deployment-contract.json" -type f -exec perl -pi -e \
-  's/__PLATFORM_CI_REF__/$ENV{PLATFORM_CI_REF}/g; s/__PROJECT_TEMPLATE_REF__/$ENV{PROJECT_TEMPLATE_REF}/g; s/__PRODUCTION_PROJECT_TEMPLATE_REF__/$ENV{PRODUCTION_PROJECT_TEMPLATE_REF}/g; s/__CATALOGS_REF__/$ENV{CATALOGS_REF}/g' {} +
+  's/__PLATFORM_CI_REF__/$ENV{PLATFORM_CI_REF}/g; s/__PROJECT_TEMPLATE_REF__/$ENV{PROJECT_TEMPLATE_REF}/g; s/__PRODUCTION_PROJECT_TEMPLATE_REF__/$ENV{PRODUCTION_PROJECT_TEMPLATE_REF}/g; s/__CATALOGS_REF__/$ENV{CATALOGS_REF}/g; s/__PROJECT_STATE_BUCKET__/$ENV{PROJECT_STATE_BUCKET}/g; s/__NONPROD_SECURITY_PROFILE__/$ENV{NONPROD_SECURITY_PROFILE}/g; s/__PROD_SECURITY_PROFILE__/$ENV{PROD_SECURITY_PROFILE}/g; s/__PLATFORM_OWNER__/$ENV{PLATFORM_OWNER}/g; s/__ENVIRONMENT_OWNER__/$ENV{ENVIRONMENT_OWNER}/g; s/__PROD_OWNER__/$ENV{PROD_OWNER}/g' {} +
 ```
+
+The example defaults to the recommended paid-plan `github-environments`
+profile. For private repositories on GitHub Free, set both profile variables
+to `repository-secrets`. Do not mix profiles inside one project repository.
+See the [GitHub plan capability matrix](security.md#github-plan-capability-matrix).
+Owner values must be existing `@user` or `@organization/team` identities with
+write access. An isolated Free-plan acceptance test may use the same owner for
+every path; production deployments should use separate environment reviewer
+teams.
 
 After pushing the prepared template repositories to the customer organization,
 mark both of them as GitHub template repositories. Private templates remain
@@ -77,7 +105,7 @@ install it through your approved Codex plugin process. Both remain optional.
 Verify that no mutable workflow reference or local test content is present:
 
 ```bash
-rg '@main|__CUSTOMER_ORG__|__[A-Z_]+_REF__|__STATE_BUCKET__' "$STAGE"
+rg '@main|__CUSTOMER_ORG__|__[A-Z_]+_REF__|__STATE_BUCKET__|__PROJECT_STATE_BUCKET__' "$STAGE"
 find "$STAGE" -type d -name tests
 ```
 
@@ -87,11 +115,66 @@ process. In the published `platform-ci` repository, allow project repositories
 to call its reusable workflows at **Settings → Actions → General → Access → Accessible from
 repositories in the organization**.
 
-On paid plans, protect `main` and require independent approval plus successful
-plan/check results. GitHub Free private repositories cannot enforce the same
-branch and code-owner controls; restrict administration and direct pushes,
-record a human PR review, and follow the limitations in
-[Shared non-production](shared-nonproduction.md#github-free-security-profile).
+Keep `platform-ci` private. Reusable-workflow access alone does not authorize
+the caller's `GITHUB_TOKEN` to check out private Platform CI files at runtime.
+For a new GitHub organization, an organization owner must first enable deploy
+keys at **Organization → Settings → Member privileges → Deploy keys → Enabled**.
+Create one read-only SSH deploy key on `platform-ci` and store its private half
+as the repository secret `PLATFORM_CI_DEPLOY_KEY` in every project repository.
+The workflows pass that secret explicitly only to the SHA-pinned Platform CI
+checkout; they never use `secrets: inherit`.
+
+```bash
+ssh-keygen -t ed25519 -f /secure/platform-ci-readonly-deploy-key -N '' \
+  -C 'platform-ci readonly workflow checkout'
+gh repo deploy-key add /secure/platform-ci-readonly-deploy-key.pub \
+  --repo "$CUSTOMER_ORG/platform-ci" --title 'project workflow read-only checkout'
+gh secret set PLATFORM_CI_DEPLOY_KEY --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY" \
+  < /secure/platform-ci-readonly-deploy-key
+```
+
+Do not enable write access for the deploy key. Protect and rotate the key like
+any other repository secret; it authorizes read-only access to Platform CI code
+only, not cloud access or GitHub writes. Do not commit it, add it to the JSON
+secret bundles, or expose it in a workflow log.
+
+On paid plans, apply this branch-protection baseline to every project
+repository after rendering valid CODEOWNERS. It requires an independent
+approval, CODEOWNERS review, approval of the latest push, resolved
+conversations, and administrator enforcement:
+
+```bash
+export PROTECTED_REPOSITORY="$CUSTOMER_ORG/$PROJECT_REPOSITORY"
+jq -n '{
+  required_status_checks: null,
+  enforce_admins: true,
+  required_pull_request_reviews: {
+    dismiss_stale_reviews: true,
+    require_code_owner_reviews: true,
+    required_approving_review_count: 1,
+    require_last_push_approval: true
+  },
+  restrictions: null,
+  allow_force_pushes: false,
+  allow_deletions: false,
+  required_conversation_resolution: true
+}' | gh api --method PUT \
+  "repos/$PROTECTED_REPOSITORY/branches/main/protection" --input -
+gh api "repos/$PROTECTED_REPOSITORY/branches/main/protection"
+```
+
+The baseline deliberately does not register a static status-check context.
+Terraform and Ansible use mutually exclusive path-filtered workflows; GitHub
+leaves a required path-filtered workflow pending when that workflow is not
+selected. Reviewers must verify the successful plan/check attached to the
+current commit before merge. An organization that requires technical status
+enforcement must first provide one stable, always-running aggregate gate and
+then add only that context to `required_status_checks`.
+
+GitHub Free private repositories cannot enforce the same branch and code-owner
+controls; restrict administration and direct pushes, record a human PR review,
+verify the current plan/check, and follow the limitations in
+[Shared non-production](shared-nonproduction.md#github-free-fallback-repository-secrets).
 
 ## 2. Configure trusted runners
 
@@ -105,14 +188,112 @@ record a human PR review, and follow the limitations in
 Runners need Terraform 1.12 or later, Python 3.11 or later, and `rg` for
 validation. On GitHub Free, use repository-level self-hosted runners and
 dedicated environment labels; do not share one runner identity across security
-boundaries. On paid plans, use organization runner groups and grant each group
-only to the repositories that need it. OCI runner instances must belong to an OCI
-dynamic group with policies for Object Storage state access and only the
-compartments/services required by their workload. Azure and Google runners need
-equivalent workload-scoped identities. Azure additionally
+boundaries. On GitHub Team or Enterprise, use organization runner groups and
+grant each group only to the repositories that need it. Enterprise runner
+groups may also be scoped across organizations. OCI runner instances must
+belong to an OCI dynamic group with policies for Object Storage state access
+and only the compartments/services required by their workload. Azure and
+Google runners need equivalent workload-scoped identities. Azure additionally
 needs its approved service-principal environment values. Google needs
 `GOOGLE_CREDENTIALS`, `GOOGLE_APPLICATION_CREDENTIALS`, or Application Default
 Credentials. Keep credentials outside Git.
+
+For the optional non-production ExaCS out-of-place patch operation, use a
+dedicated runner dynamic group and scope it to the registered database
+compartment. The OCI Database API move requires Database and Database Home
+permissions. Name the dynamic group after the repository and bind it to the
+single runner instance, not its whole compartment. For example, a project
+named `orders` uses `mcp-exacs-orders-runner-dg` and the following matching
+rule:
+
+```text
+ALL {instance.id = '<exacs-runner-instance-ocid>'}
+```
+
+On OCI tenancies that use identity domains, create the dynamic group in
+**Identity & Security → Domains → Default → Dynamic Groups**. Use `Default`
+unless a platform administrator has deliberately established another domain
+for runner identities. A group in `Default` is referenced by its unqualified
+name in a policy; a group in another domain must use the qualified form
+`'<domain-name>'/'<group-name>'`.
+
+Create a tenancy policy named `mcp-exacs-orders-runner-policy` with the
+following statement. Use the database compartment OCID so a renamed or
+similarly named compartment cannot broaden the permission:
+
+```text
+Allow dynamic-group mcp-exacs-orders-runner-dg to manage database-family in compartment id <project-database-compartment-ocid>
+```
+
+Do not grant this policy at tenancy scope. Route the operation only to that
+dedicated runner group by registering it with the additional
+`exacs-database-operations` label. Register only approved databases and target
+homes, and keep the generic project runner outside this dynamic group.
+
+### Oracle Linux 9 ExaCS runner bootstrap
+
+Use a repository-scoped runner for a non-production ExaCS test or project
+repository. Do not reuse it for another repository or register it at
+organization scope. Confirm the architecture before downloading the matching
+GitHub Actions package:
+
+```bash
+uname -m # aarch64 selects actions-runner-linux-arm64; x86_64 selects linux-x64
+sudo dnf config-manager --set-enabled ol9_developer_EPEL
+sudo dnf install -y git ripgrep python3.11 python3.11-pip
+```
+
+The VM must have outbound HTTPS (TCP 443) access to GitHub Actions before
+registration. At minimum, allow `github.com`, `api.github.com`, and
+`*.actions.githubusercontent.com`; the runner also needs `codeload.github.com`
+to download actions, `results-receiver.actions.githubusercontent.com` and
+`*.blob.core.windows.net` for job logs/artifacts, and the GitHub release/object
+domains for runner updates. Use GitHub's current self-hosted-runner domain list
+when configuring a firewall or proxy because the published endpoint set can
+change. A VM that can install Oracle Linux packages but cannot reach GitHub
+cannot register or accept Actions jobs.
+
+For Ansible operations, also permit outbound HTTPS to `pypi.org`,
+`files.pythonhosted.org`, and `galaxy.ansible.com`. The workflow installs the
+pinned Ansible runtime and Oracle OCI collection before it reads a lifecycle
+manifest; block that traffic and the workflow fails before contacting OCI.
+If the runner uses an outbound proxy, configure it as a URI, for example
+`HTTP_PROXY=http://proxy.example:8080` and
+`HTTPS_PROXY=http://proxy.example:8080`. The workflow normalizes a legacy
+scheme-less value for its own Ansible bootstrap, but the runner service should
+use the URI form so all tools behave consistently. Do not disable TLS
+certificate verification; install the enterprise CA bundle if the proxy
+intercepts TLS.
+
+Download the current matching runner package from GitHub's runner release page,
+verify its published SHA-256 checksum, unpack it under a dedicated directory,
+and run its dependency installer. Generate a short-lived registration token in
+the repository's **Settings → Actions → Runners → New self-hosted runner**
+page; never paste a token into a ticket, pull request, terminal history, or
+committed file.
+
+```bash
+mkdir -p "$HOME/actions-runner-exacs" && cd "$HOME/actions-runner-exacs"
+# Download and checksum-verify the package selected for uname -m.
+tar xzf actions-runner-linux-<architecture>-<version>.tar.gz
+sudo ./bin/installdependencies.sh
+./config.sh --unattended \
+  --url "https://github.com/<organization>/nonprod-<project>" \
+  --token '<short-lived-registration-token>' \
+  --name 'exacs-<project>-<hostname>' \
+  --labels 'oci,dev,control-plane-resolver,exacs-database-operations' \
+  --work _work
+sudo ./svc.sh install <runner-user>
+sudo ./svc.sh start
+sudo ./svc.sh status
+```
+
+`control-plane-resolver` is required only for the caller's secret-free path
+resolver. With repository registration it cannot receive jobs from another
+repository. `exacs-database-operations` is appended only for the governed
+out-of-place patch operation, so that job cannot run on a generic OCI runner.
+The VM's OCI dynamic group must have the database-family policy above; its
+scope is the approved database compartment, never the tenancy.
 
 ## 3. Onboard an OCI project
 

@@ -8,7 +8,9 @@ The protected `control-plane.json` declares one repository-wide
 `security_profile`: `github-environments` or `repository-secrets`. It also maps
 each environment to CODEOWNERS, cloud-specific runner labels, supported clouds,
 the handoff path, and the Free-profile secret and readiness names. Never mix
-profiles inside one repository.
+profiles inside one repository. Use the
+[GitHub plan capability matrix](security.md#github-plan-capability-matrix) to
+select the profile before rendering the repository.
 
 The trusted default-branch caller resolves one cloud/environment/region tuple,
 validates the profile, and passes both to pinned Platform CI. Both profiles use
@@ -34,11 +36,12 @@ each pair create identical copies of:
 The reusable job declares the base Environment with deployment recording
 disabled for plan/check and declares `<environment>-apply` for apply/execute.
 Protect `main`, require CODEOWNERS and successful checks, and isolate runner
-groups. On Enterprise private repositories, the apply Environment's required
-reviewers and prevention of self-review add the enforcement boundary; these
-controls are not available for private repositories on Pro/Team. Apply and
-execute jobs create the auditable deployment history. These controls make this
-the recommended paid-plan profile.
+groups. Organization runner groups require GitHub Team or Enterprise. On
+Enterprise private repositories, the apply Environment's required reviewers
+and prevention of self-review add the enforcement boundary; these controls are
+not available for private repositories on Pro/Team. Apply and execute jobs
+create the auditable deployment history. These controls make this the
+recommended paid-plan profile.
 
 Also create repository secrets named `GITOPS_SECRET_VALUES` with the exact
 value `{"INVALID":"true"}` and `READINESS_MARKER` with the exact value `false`. These are
@@ -93,8 +96,9 @@ gh variable set CONTROL_PLANE_READY_UAT --body true --repo OWNER/nonprod-PROJECT
 GitHub Free private repositories cannot enforce the same private branch
 protection, CODEOWNERS review, or Environment approval controls as paid plans.
 Restrict repository administration and direct pushes by policy, record a human
-PR review, and isolate runner groups. This fallback has procedural approval,
-not the paid profile's enforceable approval boundary.
+PR review, verify the successful plan/check on the current commit, and use a
+repository-level runner with dedicated environment labels. This fallback has
+procedural approval, not the paid profile's enforceable approval boundary.
 
 Complete the mandatory
 [repository-secret end-to-end verification](repository-secret-e2e.md) before

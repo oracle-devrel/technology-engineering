@@ -14,14 +14,17 @@ Publish the prepared `prod-project-template` repository from the deployment
 runbook and create `prod-<project>` from that exact pinned template. Replace
 `__PROJECT__`, install the verified production handoff at
 `environments/prod/environment_information.md`. Select one repository-wide
-security profile in `control-plane.json`.
+security profile in `control-plane.json`. Use the
+[GitHub plan capability matrix](security.md#github-plan-capability-matrix)
+before configuring the repository.
 
 The recommended paid-plan profile is `github-environments`. Create the `prod`
-Environment for plans without required reviewers and `prod-apply` for apply.
-Configure required reviewers and prevention of self-review on `prod-apply`
-where available, and set identical secrets in both Environments. Also create
-the two non-sensitive repository sentinels required by the reusable-workflow
-secret channel:
+base Environment for plans and `prod-apply` for apply. Do not configure
+reviewers on the base Environment. On Enterprise private repositories,
+configure required reviewers and prevention of self-review on `prod-apply`;
+those two controls are unavailable for private repositories on Pro/Team. Set
+identical secrets in both Environments. Also create the two non-sensitive
+repository sentinels required by the reusable-workflow secret channel:
 
 ```bash
 gh secret set GITOPS_SECRET_VALUES --env prod --repo OWNER/prod-PROJECT
@@ -48,7 +51,10 @@ gh variable set CONTROL_PLANE_READY_PROD --body true --repo OWNER/prod-PROJECT
 ```
 
 The secret commands prompt for values; never put literal members on a command
-line or in Git.
+line or in Git. GitHub Free private repositories cannot enforce branch
+protection, CODEOWNERS review, or Environment approval. Restrict repository
+administration and direct pushes, record an independent PR review, and verify
+the successful production plan on the current commit before merge.
 
 Before creating the production repository, render
 `.github/CODEOWNERS.template` as `.github/CODEOWNERS` with valid existing
@@ -56,8 +62,10 @@ owners. Keep `.github`, `control-plane.json`, and `environments` under platform
 ownership; use a dedicated production approver team or user for the production
 workload paths. Replace `__PROJECT__` in the template and configure exactly the
 secret source selected by `security_profile`. Every bundle key and runtime
-placeholder must begin with `PROD_`. Require
-independent approval, code-owner review, passing plans, and isolated production
-runners. For the Free fallback, run the
+placeholder must begin with `PROD_`. On paid plans, enforce independent
+approval and code-owner review using the branch-protection baseline in the
+deployment runbook. On every plan, verify the result for the current commit
+before merge. Use an isolated production runner in every profile. For the Free
+fallback, run the
 [repository-secret end-to-end verification](repository-secret-e2e.md) against
 production with a disposable manifest before accepting a real request.

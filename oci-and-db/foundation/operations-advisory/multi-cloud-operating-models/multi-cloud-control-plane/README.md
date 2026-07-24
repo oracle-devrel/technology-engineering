@@ -7,7 +7,9 @@ Teams select an approved template, submit a JSON change, and review the
 Terraform plan or Ansible check in a pull request. A trusted runner performs the
 change only after human approval and merge. Paid GitHub plans can enforce that
 approval with repository controls; the Free profile relies on restricted roles
-and documented process.
+and documented process. Use the
+[GitHub plan capability matrix](docs/security.md#github-plan-capability-matrix)
+before choosing a repository security profile.
 
 Release status: preview. Evaluate the solution in non-production and complete
 your security review before production rollout.

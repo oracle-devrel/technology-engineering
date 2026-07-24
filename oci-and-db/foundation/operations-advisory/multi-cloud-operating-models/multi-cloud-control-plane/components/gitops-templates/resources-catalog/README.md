@@ -22,7 +22,7 @@ resources-catalog/
 ### OCI — network
 
 **`project_nsgs_template.auto.tfvars.json`**
-Defines exactly one generic project NSG under `network_configuration.inject_into_existing_vcns`. Render `__NSG_KEY__`, `__NSG_DISPLAY_NAME__`, `__NSG_COMPARTMENT_OCID__`, and `__NSG_TIER__`, then merge only that entry into `oci/<environment>/<region>/network/project-nsgs.json`. Add ingress or egress rules only from explicit approved intent. Workloads reference the rendered NSG key, not an OCID.
+Defines exactly one generic project NSG under `network_configuration.inject_into_existing_vcns`. Render `__NSG_KEY__`, `__NSG_DISPLAY_NAME__`, `__NSG_COMPARTMENT_OCID__`, and `__NSG_TIER__`, then merge only that entry into `oci/<environment>/<region>/network/project-nsgs.json`. `__NSG_COMPARTMENT_OCID__` is the project compartment OCID from the selected environment handoff; it is not the shared network compartment. Add ingress or egress rules only from explicit approved intent. Workloads reference the rendered NSG key, not an OCID.
 
 ### OCI — compute
 
@@ -32,7 +32,7 @@ Provisions exactly one generic OCI VM. Render `__VM_KEY__`, `__VM_NAME__`, `__VM
 ### OCI — databases
 
 **`project_database_template.auto.tfvars.json`**
-Provisions OCI Autonomous Databases. Use `__PROJ_DB_SUBNET_OCID__` for the private DB subnet and `__NSG_DB_KEY__` for the DB-tier NSG. Render the catalog's `__ADB_ADMIN_PASSWORD__` as an environment-qualified runtime token, such as `__DEV_ADB_ADMIN_PASSWORD__`, and add the corresponding key to that environment's project-repository secret bundle. Use one mapping key per ADB when deploying multiple databases. If an ADB needs a dedicated NSG, define that NSG in `oci/<environment>/<region>/network/project-nsgs.json` and reference its key in `nsg_ids`.
+Provisions OCI Autonomous Database Serverless through the current OCI Landing Zones Autonomous Database contract. Use `__PROJ_DB_SUBNET_OCID__` for the private DB subnet and `__NSG_DB_KEY__` for the DB-tier NSG. Render the catalog's `__ADB_ADMIN_PASSWORD__` as an environment-qualified runtime token, such as `__DEV_ADB_ADMIN_PASSWORD__`, and add the corresponding key to that environment's project-repository secret bundle. Use one mapping key per ADB when deploying multiple databases. If an ADB needs a dedicated NSG, define that NSG in `oci/<environment>/<region>/network/project-nsgs.json` and reference its key in `networking.network_security_groups`. The catalog intentionally sets `is_dedicated` to `false`; ADB Dedicated requires an existing Autonomous Container Database and is not a project self-service request in this release.
 
 ### Azure — compute
 

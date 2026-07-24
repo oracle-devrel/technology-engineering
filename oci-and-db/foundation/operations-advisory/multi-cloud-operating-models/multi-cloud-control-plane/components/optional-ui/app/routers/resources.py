@@ -96,7 +96,7 @@ _NETWORK_PLACEHOLDER_LABELS = {
 }
 _OCI_ADB_ADMIN_PASSWORD_PLACEHOLDER = "__ADB_ADMIN_PASSWORD__"
 _OCI_ADB_CONFIGURATION_KEY = "autonomous_databases_configuration"
-_OCI_ADB_COLLECTION_KEY = "autonomous_databases"
+_OCI_ADB_COLLECTION_KEY = "databases"
 _ACTIONS_SECRET_NAME_RE = re.compile(r"^[A-Z_][A-Z0-9_]*$")
 _ACTIONS_SECRET_HELP = (
     "Use an environment-qualified key that already exists in the selected "
@@ -218,7 +218,7 @@ def _find_disallowed_placeholders(
 
 
 def _collection_paths(data: dict, path: tuple[str, ...] = ()) -> list[tuple[str, tuple[str, ...], dict]]:
-    """Find Terraform resource collection maps, e.g. autonomous_databases."""
+    """Find Terraform resource collection maps, such as ADB databases."""
     matches = []
     for key, value in (data or {}).items():
         if not isinstance(value, dict):
@@ -322,7 +322,7 @@ def _canonical_resource_target(cloud: str, data: dict) -> tuple[str, str, bool]:
         return "adb", "workloads/adb.json", False
 
     if cloud_key == "oci":
-        if "autonomous_databases" in collection_names:
+        if _OCI_ADB_COLLECTION_KEY in collection_names:
             return "database", "database/database.json", True
         if {"compute_instances", "instances"} & collection_names:
             return "compute", "compute/compute.json", True

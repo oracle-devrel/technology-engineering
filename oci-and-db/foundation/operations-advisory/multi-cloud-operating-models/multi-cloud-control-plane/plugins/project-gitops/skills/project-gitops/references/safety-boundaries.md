@@ -5,7 +5,7 @@
   selected uppercase environment and resolve only from that environment's
   explicitly selected repository secret bundle.
 - Operate only in handed-off `nonprod-<project>` or `prod-<project>` repositories.
-- OCI supports ADB, compute, additive project NSGs, and ADB start/stop. Azure Day 1 and Google ADB-S Day 1 are previews; refuse all Azure/GCP Day 2 requests.
+- OCI supports ADB, compute, additive project NSGs, ADB start/stop, and non-production regular ExaCS database out-of-place patching. ExaCS requests must use an exact display name from the platform-owned `environments/<environment>/exacs-databases.json` registry; never accept a project-supplied database OCID. Azure Day 1 and Google ADB-S Day 1 are previews; refuse all Azure/GCP Day 2 requests.
 - Use environment-aware aggregate paths under
   `{cloud}/{environment}/{region}/`. Non-production OCI Day 2 uses
   `oci/{environment}/{region}/lifecycle_operations/`; Google ADB-S Day 1 uses

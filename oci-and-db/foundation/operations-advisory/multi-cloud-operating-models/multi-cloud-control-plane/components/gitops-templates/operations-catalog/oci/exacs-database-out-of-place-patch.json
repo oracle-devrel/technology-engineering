@@ -1,0 +1,12 @@
+{
+  "operation_type": "exacs-database-out-of-place-patch",
+  "targets": [
+    {
+      "display_name": "__EXACS_DATABASE_DISPLAY_NAME__",
+      "expected_source_db_home_id": "__EXACS_SOURCE_DB_HOME_OCID__",
+      "target_db_home_id": "__EXACS_TARGET_DB_HOME_OCID__",
+      "target_db_version": "__EXACS_TARGET_DB_VERSION__",
+      "timeout_minutes": 240
+    }
+  ]
+}
