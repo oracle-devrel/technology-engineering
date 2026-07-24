@@ -51,6 +51,7 @@ Reviewed: Reviewed: 17.06.2026
 | OCI Observability and Management best practices and checklist|[Link](https://blogs.oracle.com/observability/post/oci-observability-checklist)|
 | Observability Design Guide  | [Link](https://obs.octodemo.cloud/) |  
 | AI agent skills for OCI observability  | [Link](https://github.com/adibirzu/oci-skills) | 
+| AI Agent Observability |[Link](https://www.ateam-oracle.com/ai-agent-observability-understand-how-ai-agents-behave-in-gen-ai-applications-and-ecosystems)|
 | OCI Management Dashboard Automation|[Link](./assets/oci-management-dashboard-automation/README.md)|
 | Multi-cloud observability using OCI Monitoring|[Link](./assets/multi-cloud-observability-using-oci-monitoring/README.md)|
 | How and why to run Wazuh in OCI|[Link](./assets/why-and-how-to-run-wazuh-on-oci/README.md)|

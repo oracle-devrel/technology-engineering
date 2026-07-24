@@ -3,7 +3,7 @@
 
 This section will bring some examples of how to create OCI Monitoring custom metric namespaces to extend the default, out-of-the-box, OCI Monitoring metrics for OCI resources. 
 
-Reviewed: 05.11.2025
+Reviewed: 14.07.2026
 
 # Team Publications
 
