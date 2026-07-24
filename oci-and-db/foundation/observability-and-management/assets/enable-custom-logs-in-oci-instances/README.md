@@ -6,13 +6,13 @@ Custom Logs Diagnostic information from custom applications, other cloud provid
 
 Go to Menu → Observability&Management → Agent Configurations
 
-![Picture 14](./images/image-01.png)
+![Picture 14](./files/image-01.png)
 
 Click Create Agent config:
 
-![Picture 13](./images/image-02.png)
+![Picture 13](./files/image-02.png)
 
-![Picture 12](./images/image-03.png)
+![Picture 12](./files/image-03.png)
 
 As you can see, there are 2 pre-requisites before the custom logs will work:
 
@@ -20,7 +20,7 @@ As you can see, there are 2 pre-requisites before the custom logs will work:
 
 2- Create the Dynamic Group in Menu →Identity & Security → Dynamic Groups and press Create Dynamic Group
 
-![Picture 11](./images/image-04.png)
+![Picture 11](./files/image-04.png)
 
 Add the matching rule Following the Service documentation:
 
@@ -28,34 +28,34 @@ Add the matching rule Following the Service documentation:
 
 An example is this:
 
-![Picture 9](./images/image-05.png)
+![Picture 9](./files/image-05.png)
 
-![Picture 8](./images/image-06.png)
+![Picture 8](./files/image-06.png)
 
 Specify what you want to collect with the Agent
 
-![Picture 7](./images/image-07.png)
+![Picture 7](./files/image-07.png)
 
 If you want to monitor logs from files, you can also specify the location of the log.
 
-![Picture 6](./images/image-08.png)
+![Picture 6](./files/image-08.png)
 
-![Picture 5](./images/image-09.png)
+![Picture 5](./files/image-09.png)
 
 Select the Log Group destination and press Create.
 
 Ensure that Logging&Monitoring agent is enabled on the monitored hosts
 
-![Picture 4](./images/image-10.png)
+![Picture 4](./files/image-10.png)
 
 After a few minutes go to one instance where you have the Custom Logging enabled and check if the logs are there.
 
-![Picture 3](./images/image-11.png)
+![Picture 3](./files/image-11.png)
 
 You can also check the Logs in OCI Logging Service:
 
-![Picture 2](./images/image-12.png)
+![Picture 2](./files/image-12.png)
 
-![Picture 1](./images/image-13.png)
+![Picture 1](./files/image-13.png)
 
 On my next blog entry, I will show you how to use the collected Windows logs with Logging Analytics to do a basic Threat Hunting.

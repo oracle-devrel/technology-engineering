@@ -18,44 +18,44 @@ allow service logging to {LOG_DEFINITION_READ, LOG_DEFINITION_WRITE, LOG_WRITE, 
 ```
 allow service logging to {INTERNAL_AUDIT_EVENT_READ} in tenancy
 
-![Picture 36](./images/image-01.png)
+![Picture 36](./files/image-01.png)
 
 The policy needs to be enabled at the root level.
 
-![Picture 35](./images/image-02.png)
+![Picture 35](./files/image-02.png)
 
 Next step would be to go to OCI Logging, and create a Search for certain event ID from a Custom Agent Log for Windows.
 
 ```text
 search “ocid1.compartment.oc1..xxx/ocid1.loggroup.oc1.eu-frankfurt-1.xxxx/ocid1.log.oc1.eu-frankfurt-1.xxx”| data.event_id=’7036' or data.event_id=’4688' or data.event_id=’4740'| sort by datetime desc
 ```
-![Picture 34](./images/image-03.png)
+![Picture 34](./files/image-03.png)
 
 You can press Save Search, and this search can be choose when you create the rule. If you don’t want to save the search, you can also copy and paste.
 
 After you have the proper search for your events of interest, you can go to Cloud Guard and Press Create Query:
 
-![Picture 33](./images/image-04.png)
+![Picture 33](./files/image-04.png)
 
 \
 
 After you select the Region, give query a name, you can click Import Saved Search Query
 
-![Picture 32](./images/image-05.png)
+![Picture 32](./files/image-05.png)
 
 Based on how often you want to have the problems created you can change the trigger from 24h to once per hour or once at 5 minutes for testing.
 
-![Picture 31](./images/image-06.png)
+![Picture 31](./files/image-06.png)
 
-![Picture 30](./images/image-07.png)
+![Picture 30](./files/image-07.png)
 
 And press import:
 
-![Picture 29](./images/image-08.png)
+![Picture 29](./files/image-08.png)
 
 After the Query is imported, you need to define the keys used by the query and mapping with Logging as seen below on the code:
 
-![Picture 28](./images/image-09.png)
+![Picture 28](./files/image-09.png)
 
 ```text
 search “ocid1.compartment.oc1..xxx/ocid1.loggroup.oc1.eu-frankfurt-1.xxx/ocid1.log.oc1.eu-frankfurt-1.xxx” | data.event_id=’7036' or data.event_id=’4688'or data.event_id=’4740' or data.event_id=’4648'| select data.event_id as cgkey01
@@ -63,51 +63,51 @@ search “ocid1.compartment.oc1..xxx/ocid1.loggroup.oc1.eu-frankfurt-1.xxx/ocid1
 
 If mapping is not done, you will receive this error:
 
-![Picture 27](./images/image-10.png)
+![Picture 27](./files/image-10.png)
 
 Now with the first query created, we can go with the Recipe creation. Go to Cloud Guard → Detector recipes → Create recipes
 
-![Picture 26](./images/image-11.png)
+![Picture 26](./files/image-11.png)
 
-![Picture 25](./images/image-12.png)
+![Picture 25](./files/image-12.png)
 
 After the Recipe is created, we can go and add the rules by clicking on Create rule:
 
-![Picture 24](./images/image-13.png)
+![Picture 24](./files/image-13.png)
 
-![Picture 23](./images/image-14.png)
+![Picture 23](./files/image-14.png)
 
 After the rule is added and Enabled, you can see how the log entity is mapped with the Cloud Guard Entity.
 
-![Picture 22](./images/image-15.png)
+![Picture 22](./files/image-15.png)
 
 After you have added the rule, you need to wait for new Events to be generated on your Windows Machine and a new Problem will be created in the Cloud Guard Problems page:
 
-![Picture 21](./images/image-16.png)
+![Picture 21](./files/image-16.png)
 
 Other Method to check for the events is by Clicking the Data Source and Click Events under Resource:
 
-![Picture 20](./images/image-17.png)
+![Picture 20](./files/image-17.png)
 
 Once the data source is added to the Rule, you will not be able to update the rule. As the events I have added initially are not generated all the time, I needed to add an additional login eventID.
 
 Go to the Data Source:
 
-![Picture 18](./images/image-18.png)
+![Picture 18](./files/image-18.png)
 
 Click on Data Source and detach it from the Recipe
 
-![Picture 17](./images/image-19.png)
+![Picture 17](./files/image-19.png)
 
-![Picture 16](./images/image-20.png)
+![Picture 16](./files/image-20.png)
 
 After you detach it, you can edit it and add additional EventID’s like 4672 , save the new search and create a new rule back in the Detection Insight Policy:
 
-![Picture 15](./images/image-21.png)
+![Picture 15](./files/image-21.png)
 
-![Picture 14](./images/image-22.png)
+![Picture 14](./files/image-22.png)
 
-![Picture 13](./images/image-23.png)
+![Picture 13](./files/image-23.png)
 
 ```test
 search “ocid1.compartment.oc1..xxx/ocid1.loggroup.oc1.eu-frankfurt-1.xxx/ocid1.log.oc1.eu-frankfurt-1.xxx” | data.event_id=’7036' or data.event_id=’4688'or data.event_id=’4740' or data.event_id=’4648' or data.event_id=’4740' | select data.event_id as xxx
@@ -115,20 +115,20 @@ search “ocid1.compartment.oc1..xxx/ocid1.loggroup.oc1.eu-frankfurt-1.xxx/ocid1
 
 Last step now is to attach Rule to the needed compartment by clicking Cloud Guard → Targets and create new Target:
 
-![Picture 12](./images/image-24.png)
+![Picture 12](./files/image-24.png)
 
-![Picture 11](./images/image-25.png)
+![Picture 11](./files/image-25.png)
 
 Attach the mandatory policies and wait for the Events to be generated in the Cloud Guard.
 
-![Picture 10](./images/image-26.png)
+![Picture 10](./files/image-26.png)
 
-![Picture 9](./images/image-27.png)
+![Picture 9](./files/image-27.png)
 
-![Picture 8](./images/image-28.png)
+![Picture 8](./files/image-28.png)
 
 Congratulation! Now you can create proper Monitoring rules for Threat Hunting and Security Event Notifications.
 
 Note: When you update an existing Data Source, there is a slight delay in updating the Data Source and the state will be Updating for a few minutes.
 
-![Picture 7](./images/image-29.png)
+![Picture 7](./files/image-29.png)
