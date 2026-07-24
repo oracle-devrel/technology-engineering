@@ -4,6 +4,7 @@
 
 # Local validation only; not published with the customer asset
 tests/
+validation/
 components/**/tests/
 components/**/test_*.py
 **/__pycache__/
