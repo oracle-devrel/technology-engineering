@@ -16,40 +16,40 @@ Edit description
 
 www.postman.com
 
-![Picture 12](./images/image-01.png)
+![Picture 12](./files/image-01.png)
 
-![Picture 11](./images/image-02.png)
+![Picture 11](./files/image-02.png)
 
 Next you duplicate the Collection and you rename it Audit API:
 
-![Picture 10](./images/image-03.png)
+![Picture 10](./files/image-03.png)
 
 You leave the variables as the ones from Logging Search, and you go to OCI Logging → Audit:
 
-![Picture 9](./images/image-04.png)
+![Picture 9](./files/image-04.png)
 
 In your browser open Developer Tools(Menu →More Tools →Developer Tools):
 
-![Picture 7](./images/image-05.png)
+![Picture 7](./files/image-05.png)
 
 Clear the data, and do a search in OCI Audit:
 
-![Picture 6](./images/image-06.png)
+![Picture 6](./files/image-06.png)
 
-![Picture 5](./images/image-07.png)
+![Picture 5](./files/image-07.png)
 
 In the right, you will see the Search Payload:
 
-![Picture 4](./images/image-08.png)
+![Picture 4](./files/image-08.png)
 
 Right click on the Payload and copy the value:
 
-![Picture 3](./images/image-09.png)
+![Picture 3](./files/image-09.png)
 
 Paste it in the Body of Search logs POST Request in Postman and press Send(Change the TimeStart and TimeEnd values based on your requirement):
 
-![Picture 2](./images/image-10.png)
+![Picture 2](./files/image-10.png)
 
 Congratulation! You have created your own OCI audit API call.
 
-![Picture 1](./images/image-11.png)
+![Picture 1](./files/image-11.png)
