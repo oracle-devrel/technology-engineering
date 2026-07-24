@@ -2,7 +2,7 @@
 
 **FinOps** is a cloud financial management practice that supports organizations to optimize their cloud spending by providing a dedicated framework to achieve maximum business value by helping engineering, finance & business teams to collaborate on data-driven spending decision
 
-Reviewed: 2026-06-01
+Reviewed: 2026-06-15
 
 # Table of Contents  <!-- omit in toc --> 
 - [FinOps](#finops)
@@ -36,6 +36,7 @@ Reviewed: 2026-06-01
 # Team Publications
 - [How OCI can support FinOps Workshop.](./files/Public_Finops%20Overview%20feb%202026_v0.2.pdf)
 - [OCI Tagging - Driving Governance, Visibility and Cost Control.](./files/Public_FinOps_Tagging_v0.1.pdf)
+- [Building a Complete Exadata FinOps Model](./files/Public_FinOps_ExadataCostAttribution_v0.1.pdf)
 
 # Useful Links
 
