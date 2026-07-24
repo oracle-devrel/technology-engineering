@@ -32,25 +32,25 @@ OCI Observability Platform can be used also to send data to Wazuh, or it can als
 
 With this short description in mind, I will move forward and install Wazuh using a 2 OCPU Instance as it’s a test instance with a maximum of 10 deployed agents.
 
-![Picture 19](./images/image-01.png)
+![Picture 19](./files/image-01.png)
 
 The [quick start](https://documentation.wazuh.com/current/quickstart.html) installation is very simple. I have choose OEL8 as the OS.
 
 Menu →Compute →Create Instance and give it a name, select the AD, Image and Shape:
 
-![Picture 17](./images/image-02.png)
+![Picture 17](./files/image-02.png)
 
-![Picture 16](./images/image-03.png)
+![Picture 16](./files/image-03.png)
 
 Select the VCN and Subnet:
 
-![Picture 15](./images/image-04.png)
+![Picture 15](./files/image-04.png)
 
 Add the ssh key, and increase the boot volume to 100 Gb. This is just a demo on how to install Wazuh. You should install it on a Block volume, as the performance is much better then on boot:
 
-![Picture 14](./images/image-05.png)
+![Picture 14](./files/image-05.png)
 
-![Picture 13](./images/image-06.png)
+![Picture 13](./files/image-06.png)
 
 After boot, run :
 
@@ -58,7 +58,7 @@ After boot, run :
 sudo /usr/libexec/oci-growfs
 ```
 
-![Picture 12](./images/image-07.png)
+![Picture 12](./files/image-07.png)
 
 Next run this command to get [the installer](https://documentation.wazuh.com/current/deployment-options/elastic-stack/all-in-one-deployment/index.html) and execute:
 
@@ -66,9 +66,9 @@ Next run this command to get [the installer](https://documentation.wazuh.com/cu
 curl -sO https://packages.wazuh.com/4.7/wazuh-install.sh && sudo bash ./wazuh-install.sh -a
 ```
 
-![Picture 11](./images/image-08.png)
+![Picture 11](./files/image-08.png)
 
-![Picture 10](./images/image-09.png)
+![Picture 10](./files/image-09.png)
 
 I have updated the command to latest version.
 
@@ -93,11 +93,11 @@ sudo rpm — import https://packages.wazuh.com/key/GPG-KEY-WAZUH
 
 I have disabled the OS Management agent on the instance:
 
-![Picture 9](./images/image-10.png)
+![Picture 9](./files/image-10.png)
 
 And I have started the install again. After the provisioning is finished, you can try to connect to the Wazuh Page.
 
-![Picture 8](./images/image-11.png)
+![Picture 8](./files/image-11.png)
 
 This will not work, as port 443 is not opened from the instance, even if I have it opened in the NSG.
 
@@ -108,6 +108,6 @@ On the Wazuh server run these commands, and reload the page:
 # firewall-cmd --reload
 ```
 
-![Picture 20](./images/image-12.png)
+![Picture 20](./files/image-12.png)
 
 Congratulations! You have your Wazuh Server up and running(All-in-one server).
