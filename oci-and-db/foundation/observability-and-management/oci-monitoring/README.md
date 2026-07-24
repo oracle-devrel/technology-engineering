@@ -2,7 +2,7 @@
 
 Use Monitoring to query metrics and manage alarms. Metrics and alarms help monitor the health, capacity, and performance of your cloud resources.
 
-Reviewed: 23.06.2026
+Reviewed: 14.07.2026
 
 # Table of Contents
 
@@ -20,6 +20,8 @@ Reviewed: 23.06.2026
 | How to monitor the resource usage on your OCI Instances using Cloud Guard Instance Security Queries|[Link](/oci-and-db/foundation/observability-and-management/assets/monitor-oci-instance-resource-usage-cloud-guard-queries/README.md)|
 | Security Onion on OCI|[Link](/oci-and-db/foundation/observability-and-management/assets/install-security-onion-on-oci/README.md)|
 | How to feed OCI metrics to Security Onion Grafana|[Link](/oci-and-db/foundation/observability-and-management/assets/feed-oci-metrics-to-security-onion-grafana/README.md)|
+| How to create OCI Monitoring custom metric|[Link](/oci-and-db/foundation/observability-and-management/oci-monitoring/custom-metrics)|
+
 
 
 
