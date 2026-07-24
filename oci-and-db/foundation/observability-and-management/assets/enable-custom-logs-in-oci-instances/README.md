@@ -59,3 +59,5 @@ You can also check the Logs in OCI Logging Service:
 ![Picture 1](./files/image-13.png)
 
 On my next blog entry, I will show you how to use the collected Windows logs with Logging Analytics to do a basic Threat Hunting.
+
+Reviewed: 01.07.2026
