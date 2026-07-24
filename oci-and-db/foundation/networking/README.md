@@ -6,8 +6,11 @@ Reviewed: 12.06.2026
 
 # Table of Contents
  
-1. [Useful Links](#useful-links)
-2. [Team Publications](#team publications)
+- [Cloud Networking](#cloud-networking)
+- [Table of Contents](#table-of-contents)
+- [Useful Links](#useful-links)
+- [Team Publications](#team-publications)
+- [License](#license)
  
 # Useful Links
 
