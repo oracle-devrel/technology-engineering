@@ -15,7 +15,7 @@ Reviewed: 14.07.2026
 |OCI Monitoring asset| Asset Page|
 |---|---|
 | Multicloud Observability with OCI Monitoring|[Link](/oci-and-db/foundation/observability-and-management/assets/multi-cloud-observability-using-oci-monitoring/README.md)|
-| OCI Metrics Report|[Link]([https://github.com/adibirzu/gcplogs2oci](https://github.com/adibirzu/oci-metrics-report))|
+| OCI Metrics Report|[Link](https://github.com/adibirzu/gcplogs2oci](https://github.com/adibirzu/oci-metrics-report)|
 | How to install Arkime(Moloch) using embedded Open Search|[Link](/observability-and-management/assets/install-arkime-moloch-using-embedded-open-search/README.md)|
 | How to monitor the resource usage on your OCI Instances using Cloud Guard Instance Security Queries|[Link](/oci-and-db/foundation/observability-and-management/assets/monitor-oci-instance-resource-usage-cloud-guard-queries/README.md)|
 | Security Onion on OCI|[Link](/oci-and-db/foundation/observability-and-management/assets/install-security-onion-on-oci/README.md)|
