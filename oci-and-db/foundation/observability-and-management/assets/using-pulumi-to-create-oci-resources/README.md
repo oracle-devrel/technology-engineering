@@ -14,7 +14,7 @@ I have chosen Python as my preferred language to write the code .
 
 In Pulumi Project is the top level and we will write our code inside the project .Stacks are used to differentiate environments like dev/QA /prod etc..
 
-![Picture 13](./images/image-01.png)
+![Picture 13](./files/image-01.png)
 
 Lets use [pulumi cli](https://www.pulumi.com/docs/cli/) to create the project.
 
@@ -24,7 +24,7 @@ pulumi login — local (double hyphen before local)
 pulumi new oci-python — force(double hyphen before force)
 ```
 
-![Picture 12](./images/image-02.png)
+![Picture 12](./files/image-02.png)
 
 You might get an error like this below if you are using python 3.12
 
@@ -37,17 +37,17 @@ Pulumi.<stackname>.yaml
 requirements.txt
 __main__.py
 
-![Picture 10](./images/image-03.png)
+![Picture 10](./files/image-03.png)
 
 Update this file to use the latest version.
 
-![Picture 9](./images/image-04.png)
+![Picture 9](./files/image-04.png)
 
 Run the command venv/bin/python -m pip install -r requirements.txt to fix the grpcio version and to use latest pulumi-oci version in the virtual env.
 
 Pulumi.yaml will have info about the project and the runtime.
 
-![Picture 8](./images/image-05.png)
+![Picture 8](./files/image-05.png)
 
 Update the __main__.py with the resource code.
 
@@ -116,7 +116,7 @@ discovery_job = oci.stackmonitoring.DiscoveryJob(resource_name=config.get("proce
     discovery_type="ADD")
 ```
 
-![Picture 7](./images/image-06.png)
+![Picture 7](./files/image-06.png)
 
 Pulumi also has an experimental [AI feature](https://www.pulumi.com/ai) to help you with writing the code and explanation.
 
