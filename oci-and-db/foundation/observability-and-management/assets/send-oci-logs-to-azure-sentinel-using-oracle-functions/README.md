@@ -20,7 +20,7 @@ Solution Overview
 
 Press enter or click to view image in full size
 
-![Picture 17](./images/image-01.png)
+![Picture 17](./files/image-01.png)
 
 We use OCI Audit logs as an example here as these are enabled by default in any OCI tenancy. These are OCI native logs in JSON format.
 
@@ -56,11 +56,11 @@ OCI Audit Logs are enabled by default, so no additional setup is required. Howev
 
 To view the Audit Logs, from the main OCI hamburger menu on top left, go to Observability and Management -> Logging -> Audit
 
-![Picture 16](./images/image-02.png)
+![Picture 16](./files/image-02.png)
 
 Press enter or click to view image in full size
 
-![Picture 15](./images/image-03.png)
+![Picture 15](./files/image-03.png)
 
 Step 2: Collect Sentinel Workspace Details
 
@@ -70,19 +70,19 @@ Login to your Azure portal and get these details as shown —
 
 Press enter or click to view image in full size
 
-![Picture 14](./images/image-04.png)
+![Picture 14](./files/image-04.png)
 
 Step 3: Create Function in OCI
 
-![Picture 13](./images/image-05.png)
+![Picture 13](./files/image-05.png)
 
 Click on Create application
 
-![Picture 12](./images/image-06.png)
+![Picture 12](./files/image-06.png)
 
 Press enter or click to view image in full size
 
-![Picture 11](./images/image-07.png)
+![Picture 11](./files/image-07.png)
 
 Note: The values shown are for demonstration purposes only. Be sure to replace them with your own configuration values based on your setup.
 
@@ -90,7 +90,7 @@ Click on Create after this.
 
 Press enter or click to view image in full size
 
-![Picture 9](./images/image-08.png)
+![Picture 9](./files/image-08.png)
 
 On the Details page, you’ll find guides for getting started with OCI Functions. Choose the setup that best fits your use case:
 
@@ -104,7 +104,7 @@ Click View Guide and follow the steps provided for your configuration.
 
 Important: From the Actions menu in Cloud Shell, switch the architecture to x86_64. This matches the default shape used when creating the Function (see Step 4 above).
 
-![Picture 8](./images/image-09.png)
+![Picture 8](./files/image-09.png)
 
 The following example is for illustration only — do not copy these values directly, as they will differ based on your setup. Use the ones from your Cloud Shell setup guide only.
 
@@ -218,13 +218,13 @@ Now, return to the Functions application in the OCI Console and navigate to th
 
 Press enter or click to view image in full size
 
-![Picture 7](./images/image-10.png)
+![Picture 7](./files/image-10.png)
 
 Click Add Configuration, then enter the values for workspace id and primary key variables used in the code.
 
 Press enter or click to view image in full size
 
-![Picture 6](./images/image-11.png)
+![Picture 6](./files/image-11.png)
 
 Deploy the function once all the changes have been made.
 
@@ -242,13 +242,13 @@ To begin, navigate to:
 
 Main Menu ->Observability & Management ->Logging ->Connectors
 
-![Picture 5](./images/image-12.png)
+![Picture 5](./files/image-12.png)
 
 Click on Create Connector and enter details as shown below.
 
 Press enter or click to view image in full size
 
-![Picture 4](./images/image-13.png)
+![Picture 4](./files/image-13.png)
 
 Select the logs you want to forward. You can include multiple log sources by clicking + Another Log, and choose logs from any compartment as needed.
 
@@ -256,7 +256,7 @@ The Filter Task lets you define criteria to include or exclude specific logs. 
 
 Press enter or click to view image in full size
 
-![Picture 3](./images/image-14.png)
+![Picture 3](./files/image-14.png)
 
 Next, configure the target by selecting the Oracle Function you deployed earlier.
 
@@ -266,7 +266,7 @@ Finally, click Create.
 
 Press enter or click to view image in full size
 
-![Picture 2](./images/image-15.png)
+![Picture 2](./files/image-15.png)
 
 With this step, the logs are ready to be shipped from Logging service to the OCI Functions code via the Connector, and from there, to Azure Sentinel.
 
@@ -276,7 +276,7 @@ Go to your Azure Sentinel Log workspace and search as follows to see the OCI log
 
 Press enter or click to view image in full size
 
-![Picture 1](./images/image-16.png)
+![Picture 1](./files/image-16.png)
 
 Note
 
