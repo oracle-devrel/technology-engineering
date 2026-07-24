@@ -40,6 +40,7 @@ Storage bucket:
 
 ```bash
 export STATE_BUCKET=mccp-oci-lz-tfstate
+export PROJECT_STATE_BUCKET=mccp-project-tfstate
 export FOUNDATION_REPOSITORY='<organization>/<foundation-repository>'
 export BOOTSTRAP_VCN_CIDR=10.255.0.0/24
 export BOOTSTRAP_SUBNET_CIDR=10.255.0.0/28
@@ -47,22 +48,27 @@ export SSH_PUBLIC_KEY_FILE="$HOME/.ssh/id_ed25519.pub"
 export OCI_NAMESPACE=$(oci os ns get --profile lz-bootstrap-session \
   --auth security_token --query data --raw-output)
 
-oci os bucket create --profile lz-bootstrap-session --auth security_token \
-  --compartment-id "$TARGET_TENANCY_OCID" \
-  --namespace-name "$OCI_NAMESPACE" \
-  --name "$STATE_BUCKET" \
-  --public-access-type NoPublicAccess \
-  --versioning Enabled \
-  --region "$OCI_REGION"
+for bucket in "$STATE_BUCKET" "$PROJECT_STATE_BUCKET"; do
+  oci os bucket create \
+    --profile lz-bootstrap-session --auth security_token \
+    --compartment-id "$TARGET_TENANCY_OCID" \
+    --namespace-name "$OCI_NAMESPACE" \
+    --name "$bucket" \
+    --public-access-type NoPublicAccess \
+    --versioning Enabled \
+    --region "$OCI_REGION"
 
-oci os bucket get --profile lz-bootstrap-session --auth security_token \
-  --namespace-name "$OCI_NAMESPACE" --name "$STATE_BUCKET" \
-  --region "$OCI_REGION" \
-  --query 'data.{access:"public-access-type",versioning:versioning}'
+  oci os bucket get \
+    --profile lz-bootstrap-session --auth security_token \
+    --namespace-name "$OCI_NAMESPACE" --name "$bucket" \
+    --region "$OCI_REGION" \
+    --query 'data.{name:name,access:"public-access-type",versioning:versioning}'
+done
 ```
 
-Both values must be `NoPublicAccess` and `Enabled`. Never reuse another
-application's state bucket.
+Both buckets must report `NoPublicAccess` and `Enabled`. Keep foundation state
+in `STATE_BUCKET` and project workload state in `PROJECT_STATE_BUCKET`; the
+names must be different. Never reuse another application's state bucket.
 
 Create a dedicated bootstrap VCN. It remains outside Landing Zone Terraform and
 must not be attached to the Landing Zone DRG:
@@ -318,6 +324,8 @@ gh variable set FOUNDATION_RUNNER_LABELS \
   --repo '<organization>/<foundation-repository>'
 gh variable set OCI_TF_STATE_BUCKET --body "$STATE_BUCKET" \
   --repo '<organization>/<foundation-repository>'
+gh variable set PROJECT_STATE_BUCKET --body "$PROJECT_STATE_BUCKET" \
+  --repo '<organization>/<foundation-repository>'
 gh variable set OCI_TF_STATE_NAMESPACE --body "$OCI_NAMESPACE" \
   --repo '<organization>/<foundation-repository>'
 gh variable set REGION --body "$OCI_REGION" \
@@ -366,10 +374,18 @@ approval, merge, and verify the apply before continuing:
 8. Create its restricted OCI Bastion, record the assigned private endpoint
    `/32` in `platform_bastion_private_endpoint_cidr`, and apply the focused
    OP01 network update described below.
-9. Validate and register the new private runner, replace the OP03 identity
-   placeholders, and move OP03 to `"stage": "identity"`.
-10. Add one project name to `config/projects.json`, generate
+9. Replace the OP03 identity placeholders, using `PROJECT_STATE_BUCKET` for
+   `__STATE_BUCKET_NAME__`, move OP03 to
+   `"stage": "identity"`, and apply the focused identity request with the
+   foundation runner.
+10. Validate the new private runner and its Instance Principal identity. On a
+    paid GitHub plan, it can now be registered in a repository-restricted
+    organization runner group. On GitHub Free, leave it unregistered until the
+    project repository exists.
+11. Add one project name to `config/projects.json`, generate
    `op04:<environment>-<project>`, and submit the two-file OP04 request.
+12. Create and hand off the project repository. On GitHub Free, register the
+    runner to that repository only; do not register it at organization scope.
 
 ### Configure and validate private access to the OP03 runner
 
@@ -411,19 +427,75 @@ from documented Orchestrator output files and the known Service Connector
 normalization. Do not use OE's generated host-offset example or a subnet-wide
 SSH source. With a `null` value, the adapter omits the example rule entirely.
 
-Before registration, connect through a short-lived managed SSH session and
-verify `cloud-init status --wait`, `rg --version`, `python3.11 --version`,
-`python3.11 -m pip --version`, the runner version as `github-runner`, Oracle
-Cloud Agent, SSH, and outbound HTTPS to GitHub. Terraform is installed by the
-pinned setup action; Ansible and OCI CLI are installed by the execution action.
-Do not replace an existing runner merely to update cloud-init: reconcile a
-previously created validation VM in place with the same pinned package and
-checksum-verified tool versions, then verify it before registration.
+After the OP03 identity apply, connect through a short-lived managed SSH
+session and verify `cloud-init status --wait`, `rg --version`,
+`python3.11 --version`, `python3.11 -m pip --version`, the runner version as
+`github-runner`, Oracle Cloud Agent, SSH, outbound HTTPS to GitHub, the exact
+Instance Principal tenancy identity, and read-only access to the private
+versioned project-state bucket. Terraform is installed by the pinned setup
+action;
+Ansible and OCI CLI are installed by the execution action. Do not replace an
+existing runner merely to update cloud-init: reconcile a previously created
+validation VM in place with the same pinned package and checksum-verified tool
+versions, then verify it before registration.
+
+Registration follows the GitHub plan. Paid plans should put the runner in a
+repository-restricted organization runner group. GitHub Free private
+repositories must use repository-scoped registration after OP04 and handoff
+have created the target repository. Generate the short-lived token from that
+repository's **Settings → Actions → Runners → New self-hosted runner** page,
+register as `github-runner`, and apply only the labels declared by that
+repository's protected `control-plane.json`. Never paste the token into a
+ticket, pull request, chat, shell history, or committed file.
+
+Before installing the runner service, create the runner-local environment and
+command-path files in its installation directory. Replace only the namespace
+and region values:
+
+```bash
+sudo -u github-runner tee .env >/dev/null <<EOF
+LANG=en_US.UTF-8
+STATE_NAMESPACE=<object-storage-namespace>
+STATE_REGION=<project-state-bucket-region>
+OCI_CLI_AUTH=instance_principal
+REGION=<project-region>
+EOF
+
+sudo -u github-runner tee .path >/dev/null <<'EOF'
+/home/github-runner/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin
+EOF
+```
+
+Install or restart the service only after those files exist. Verify from the
+service account that `rg`, `jq`, `python3.11`, and `oci` resolve through that
+exact path and that the environment values are visible to a diagnostic
+workflow. Do not put tokens or secret bundles in either file.
 
 OP04 uses the official OE `v3.1.0` project model: one project compartment,
 one administrator group, and the OE policies. The MCPP runner policies are the
-only project-IAM extension. The resulting handoff repeats the same project
-compartment OCID in its three workload-role fields for compatibility.
+only project-IAM extension. They grant NSG management only in the exact project
+compartment, never across the shared environment network compartment. The
+resulting handoff repeats the same project compartment OCID in its three
+workload-role fields for compatibility.
+
+The generated GitOps policies are attached to the immediate parent of every
+named target: project policy under the environment `PROJECTS` compartment and
+network/security policies under the environment compartment. This is required
+by OCI named-compartment policy resolution. Do not move those GitOps policies
+inside the child compartment they target.
+
+OCI treats NSG create/delete as changes to both the NSG and its VCN. The
+network GitOps policy must retain the generated conditional `manage vcns`
+statement limited to `CreateNetworkSecurityGroup` and
+`DeleteNetworkSecurityGroup`; `use virtual-network-family` alone is not enough
+to create an NSG in a project compartment against the shared environment VCN.
+
+When a protected adapter change modifies an existing project's generated IAM,
+first review and merge the adapter change without running project Terraform.
+Then regenerate `op04:<environment>-<project>` and submit a second pull request
+containing only that project's generated `iam.json`. The OP04 workflow
+regenerates it from the protected default branch and reconciles only that
+project's existing OP04 state.
 
 For a later environment, first add it to `customer.jsonnet` without activating
 it, generate and deploy its OP02 stack, commit its protected blueprint, then add

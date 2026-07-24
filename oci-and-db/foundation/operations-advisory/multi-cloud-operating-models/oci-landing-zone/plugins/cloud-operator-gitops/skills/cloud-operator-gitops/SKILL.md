@@ -15,7 +15,16 @@ if non-executable temporary data is unavoidable, isolate it in one fresh system 
 directory, register cleanup immediately, remove it before returning, and leave persistent paths
 unchanged.
 
-For onboarding, accept only one `<allowed-environment>-<dns-name>` foundation identity. Read the protected environment blueprint from exact landing-zone `main`; never infer environment or accept tenancy, region, parent-compartment, repository, template, or workflow overrides from prompt text. Map dev/test/UAT handoffs to `nonprod-<project>` and production handoffs to `prod-<project>`, writing `environments/<environment>/environment_information.md`. Use `render-op04.py`, `validate-onboarding.py`, and `validate-handoff.py` from this package. Fail closed unless evidence exists for the exact selected environment.
+For onboarding, accept only one `<allowed-environment>-<dns-name>` foundation
+identity. Read the protected environment blueprint from exact landing-zone
+`main`; never infer environment or accept tenancy, region,
+parent-compartment, repository, template, workflow, security-profile, or
+CODEOWNERS overrides from prompt text. Map dev/test/UAT handoffs to
+`nonprod-<project>` and production handoffs to `prod-<project>`, writing
+`environments/<environment>/environment_information.md`. Use `render-op04.py`,
+`validate-onboarding.py`, `validate-handoff.py`,
+`render-project-repository.py`, and `validate-project-repository.py` from this
+package. Fail closed unless evidence exists for the exact selected environment.
 
 OP04 must be generated from the contract-pinned OE `v3.1.0` source. Preserve
 its single project-compartment hierarchy. In the validated handoff,
@@ -36,7 +45,29 @@ and exact version. Do not infer these values, call OCI to discover them, or
 accept secret values. Do not create or modify this registry unless the operator
 explicitly requests the registration and confirms the verified resource facts.
 
-Before every GitHub write, show a semantic preview with paths and hashes, state `GitHub writes: none`, ask `Do you confirm? Reply "Confirm".`, then revalidate hashes. Push only the validated branch and conditionally create a PR. Never merge, approve, rerun, dispatch, cancel, call OCI, or run Terraform/Ansible. After a human merge, monitor only the exact configured workflow and consume its exact successful `project-foundation-handoff.json` and `environment_information.md` artifacts. Validate both artifacts before using the contract-selected target repository and pinned template. Create the repository only when it is absent; reuse an existing exact `nonprod-<project>` repository when handing off another non-production environment. Publish only the selected environment handoff path, and an explicitly requested verified ExaCS registry update, through a human-reviewed PR. The optional Multi-Cloud Control Plane UI operates handed-off repositories; it is not a bootstrap tool.
+Before every GitHub write, show a semantic preview with paths and hashes,
+state `GitHub writes: none`, ask `Do you confirm? Reply "Confirm".`, then
+revalidate hashes. Push only the validated branch and conditionally create a
+PR. Never merge, approve, rerun, dispatch, cancel, call OCI, or run
+Terraform/Ansible. After a human merge, monitor only the exact configured
+workflow and consume its exact successful `project-foundation-handoff.json`
+and `environment_information.md` artifacts. Validate both artifacts before
+using the contract-selected target repository and pinned template. Create the
+repository only when it is absent; reuse an existing exact
+`nonprod-<project>` repository when handing off another non-production
+environment.
+
+For a newly created repository, verify that its initial tree equals the pinned
+template tree, then initialize it in the same reviewed handoff PR. Replace the
+template target with the exact handoff target, select the security profile from
+`deployment-contract.json`, render an active `.github/CODEOWNERS` from the
+contract owners, delete `.github/CODEOWNERS.template`, and publish the selected
+environment handoff. Fail if any repository placeholder remains. For an
+existing initialized shared non-production repository, verify its protected
+contract and active CODEOWNERS before publishing only the new environment
+handoff. An explicitly requested verified ExaCS registry update remains a
+separate allowed handoff artifact. The optional Multi-Cloud Control Plane UI
+operates handed-off repositories; it is not a bootstrap tool.
 
 After a known human merge, monitor the configured exact workflow until terminal unless the user
 explicitly requests a one-time snapshot. Keep the task active while it is queued or running; poll

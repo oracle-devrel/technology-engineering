@@ -6,6 +6,7 @@
   "terraform": {
     "version": "1.15.8"
   },
+  "project_state_bucket": "__PROJECT_STATE_BUCKET__",
   "project_templates": {
     "shared-nonprod-v2": {
       "repository": "__CUSTOMER_ORG__/nonprod-project-template",
@@ -21,6 +22,24 @@
     "test": "nonprod",
     "uat": "nonprod",
     "prod": "prod"
+  },
+  "project_repository_initialization": {
+    "shared-nonprod-v2": {
+      "security_profile": "__NONPROD_SECURITY_PROFILE__",
+      "codeowners": {
+        "platform": ["__PLATFORM_OWNER__"],
+        "dev": ["__DEV_OWNER__"],
+        "test": ["__TEST_OWNER__"],
+        "uat": ["__UAT_OWNER__"]
+      }
+    },
+    "production-v1": {
+      "security_profile": "__PROD_SECURITY_PROFILE__",
+      "codeowners": {
+        "platform": ["__PLATFORM_OWNER__"],
+        "prod": ["__PROD_OWNER__"]
+      }
+    }
   },
   "handoff_path_template": "environments/{environment}/environment_information.md",
   "oci_orchestrator": {

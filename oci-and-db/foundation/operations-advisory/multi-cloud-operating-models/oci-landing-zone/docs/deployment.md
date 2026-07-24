@@ -120,7 +120,8 @@ Follow the repository's
 procedure to:
 
 1. Authenticate an approved administrator with a short-lived OCI CLI session.
-2. Create the private Object Storage state bucket.
+2. Create separate private Object Storage buckets for foundation and project
+   state.
 3. Create and register one dedicated private foundation runner.
 4. Bind its dynamic group to the exact instance OCID.
 5. Configure the repository variables.
@@ -135,7 +136,8 @@ Required repository variables are:
 | Variable | Purpose |
 |---|---|
 | `FOUNDATION_RUNNER_LABELS` | JSON array selecting only the foundation runner |
-| `OCI_TF_STATE_BUCKET` | Private Object Storage state bucket |
+| `OCI_TF_STATE_BUCKET` | Private Object Storage foundation-state bucket |
+| `PROJECT_STATE_BUCKET` | Separate private Object Storage project-state bucket |
 | `OCI_TF_STATE_NAMESPACE` | Object Storage namespace |
 | `REGION` | State and deployment region |
 | `OCI_TENANCY_OCID` | Exact target tenancy |
@@ -154,11 +156,16 @@ Use one focused pull request per transition:
    protected path declared by `.github/project-onboarding-contract.json`.
 5. OP01: change `stage` to `pre`.
 6. OP01: change `stage` to `final`.
-7. OP03, when MCPP runs in this tenancy: deploy `infrastructure`, register the
-   new runner, then deploy `identity` with its exact instance OCID and state
-   bucket name.
+7. OP03, when MCPP runs in this tenancy: deploy `infrastructure`, create the
+   restricted Bastion path, then deploy `identity` with the exact runner
+   instance OCID and the separate project-state bucket name. Validate Instance
+   Principal before registration.
 8. OP04: add one project to `config/projects.json` and generate its official
    project declaration.
+9. On paid GitHub plans, register the OP03 runner in a
+   repository-restricted organization runner group. On GitHub Free, wait until
+   the project repository exists and register the runner to that repository
+   only.
 
 For every pull request, confirm the generated-contract check and Terraform plan
 succeed, review replacements/deletions/IAM/routes, obtain independent approval,
@@ -183,23 +190,58 @@ the local contract used by the packaged Cloud Operator skill:
 export FOUNDATION_REF=$(gh api \
   "repos/$CUSTOMER_ORG/$FOUNDATION_REPOSITORY/commits/main" \
   --jq .sha)
+export PROJECT_STATE_BUCKET=example-project-state
+export NONPROD_SECURITY_PROFILE=repository-secrets
+export PROD_SECURITY_PROFILE=repository-secrets
+export PLATFORM_OWNER='@example-platform-owner'
+export DEV_OWNER="$PLATFORM_OWNER"
+export TEST_OWNER="$PLATFORM_OWNER"
+export UAT_OWNER="$PLATFORM_OWNER"
+export PROD_OWNER="$PLATFORM_OWNER"
 cd '<publication asset>/oci-landing-zone'
+cp -R plugins/cloud-operator-gitops \
+  "$STAGE/cloud-operator-gitops"
 cp contracts/deployment-contract.template.json \
-  "$STAGE/deployment-contract.json"
+  "$STAGE/cloud-operator-gitops/deployment-contract.json"
 perl -pi -e \
   's/__CUSTOMER_ORG__/$ENV{CUSTOMER_ORG}/g;
    s/__FOUNDATION_REPOSITORY__/$ENV{FOUNDATION_REPOSITORY}/g;
    s/__FOUNDATION_REF__/$ENV{FOUNDATION_REF}/g;
    s/__NONPROD_TEMPLATE_REF__/$ENV{NONPROD_TEMPLATE_REF}/g;
    s/__PROD_TEMPLATE_REF__/$ENV{PROD_TEMPLATE_REF}/g;
+   s/__NONPROD_SECURITY_PROFILE__/$ENV{NONPROD_SECURITY_PROFILE}/g;
+   s/__PROD_SECURITY_PROFILE__/$ENV{PROD_SECURITY_PROFILE}/g;
+   s/__PLATFORM_OWNER__/$ENV{PLATFORM_OWNER}/g;
+   s/__DEV_OWNER__/$ENV{DEV_OWNER}/g;
+   s/__TEST_OWNER__/$ENV{TEST_OWNER}/g;
+   s/__UAT_OWNER__/$ENV{UAT_OWNER}/g;
+   s/__PROD_OWNER__/$ENV{PROD_OWNER}/g;
+   s/__PROJECT_STATE_BUCKET__/$ENV{PROJECT_STATE_BUCKET}/g;
    s/__ENVIRONMENT__/$ENV{ENVIRONMENT}/g;
    s/__OCI_REGION__/$ENV{OCI_REGION}/g' \
-  "$STAGE/deployment-contract.json"
-jq -e . "$STAGE/deployment-contract.json" >/dev/null
+  "$STAGE/cloud-operator-gitops/deployment-contract.json"
+jq -e . \
+  "$STAGE/cloud-operator-gitops/deployment-contract.json" >/dev/null
+if rg -n '__[A-Z0-9_]+__' \
+  "$STAGE/cloud-operator-gitops/deployment-contract.json"
+then
+  echo 'Unresolved deployment-contract placeholders remain' >&2
+  exit 1
+fi
 ```
 
 The contract is installation policy, not a secret. Keep it with the approved
-operator configuration.
+operator configuration. Install the staged
+`$STAGE/cloud-operator-gitops` package, not the unrendered publication
+directory. The skill reads `deployment-contract.json` from that package before
+it performs any onboarding action.
+
+Use `repository-secrets` for GitHub Free. Use `github-environments` for the
+recommended paid-plan profile. Every owner must be an existing `@user` or
+`@organization/team` with write access to the project repository. It is valid
+to use the same platform owner for all environments during an isolated
+acceptance test, but production installations should use separate environment
+reviewer teams.
 
 ## 7. Onboard and hand off a project
 
@@ -210,9 +252,13 @@ Add one lowercase project name to the selected array in
 scripts/generate_foundation.sh op04:dev-payments
 ```
 
-The pull request must contain exactly `config/projects.json` and the generated
-OP04 `iam.json`. The workflow regenerates the file from protected OE `v3.1.0`,
-plans one separate OP04 state, applies after merge, and publishes:
+A new-project pull request must contain exactly `config/projects.json` and the
+generated OP04 `iam.json`. A later adapter or policy reconciliation for an
+existing registered project must contain exactly that project's generated
+`iam.json`; the protected workflow rejects any project-list change in this
+maintenance mode. In both cases the workflow regenerates the file from the
+protected default-branch adapter and pinned OE `v3.1.0`, plans one separate
+OP04 state, applies after merge, and publishes:
 
 - `project-foundation-handoff.json`
 - `environment_information.md`
@@ -223,4 +269,9 @@ remain role-specific.
 
 The Cloud Operator skill validates the artifacts, creates or reuses the
 contract-selected private project repository, and opens the handoff pull
-request. It never merges, calls OCI directly, or runs Terraform.
+request. For a new repository, that same reviewed request must replace
+`nonprod-__PROJECT__` or `prod-__PROJECT__`, select the contract security
+profile, render an active `.github/CODEOWNERS`, remove
+`.github/CODEOWNERS.template`, and publish the selected environment handoff.
+Validation rejects any unresolved placeholder or additional path. The skill
+never merges, calls OCI directly, or runs Terraform.

@@ -11,8 +11,16 @@
   using the exact contract-pinned template and private visibility. For an
   existing shared non-production repository, verify its identity and protected
   contract before adding another environment handoff.
-- In a project repository, write the validated
-  `environments/<environment>/environment_information.md` path on a new branch.
+- In a newly created project repository, the first handoff branch may change
+  only `control-plane.json`, `.github/CODEOWNERS.template`,
+  `.github/CODEOWNERS`, and the validated
+  `environments/<environment>/environment_information.md`. Derive the exact
+  target, security profile, and owners from `deployment-contract.json`; never
+  accept them from a prompt. Require the rendered CODEOWNERS identities to
+  exist and have repository write access before the branch is pushed.
+- In an already initialized project repository, write only the validated
+  `environments/<environment>/environment_information.md` path on a new
+  branch.
   Write `environments/<environment>/exacs-databases.json` only when the Cloud
   Operator has an explicit request and verified regular-ExaCS resource facts;
   it is platform-owned and must never be populated with secrets. Never change

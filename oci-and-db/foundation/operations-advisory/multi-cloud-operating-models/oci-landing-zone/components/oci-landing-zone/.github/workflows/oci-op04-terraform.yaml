@@ -48,7 +48,7 @@ jobs:
           path: request
           fetch-depth: 0
 
-      - name: Resolve one additive project declaration
+      - name: Resolve one project declaration or maintenance update
         id: target
         shell: bash
         env:
@@ -85,7 +85,6 @@ jobs:
           test "${BASH_REMATCH[1]}" = "$environment"
           project_name="${BASH_REMATCH[2]}"
           test "${#project_name}" -le 30
-          test "${#changed_files[@]}" -eq 2
           for path in "${changed_files[@]}"; do
             case "$path" in
               config/projects.json|"$root/generated/iam.json")
@@ -107,22 +106,42 @@ jobs:
             ) and
             all(.[]; length == (unique | length))
           ' config/projects.json >/dev/null
-          git show "$BASE_SHA:config/projects.json" \
-            > "$RUNNER_TEMP/projects-before.json"
-          jq -n \
-            --slurpfile before "$RUNNER_TEMP/projects-before.json" \
-            --slurpfile after config/projects.json \
-            --arg environment "$environment" \
-            --arg project "$project_name" '
-              (($after[0][$environment] - $before[0][$environment]) ==
-                [$project]) and
-              (($before[0][$environment] - $after[0][$environment]) == []) and
-              all(
-                ["dev", "test", "uat", "prod"][] |
-                select(. != $environment);
-                $after[0][.] == $before[0][.]
-              )
-            ' | jq -e . >/dev/null
+          case "${#changed_files[@]}" in
+            1)
+              test "${changed_files[0]}" = "$root/generated/iam.json"
+              git diff --quiet "$BASE_SHA" "$HEAD_SHA" -- \
+                config/projects.json
+              jq -e \
+                --arg environment "$environment" \
+                --arg project "$project_name" \
+                '.[$environment] | index($project) != null' \
+                config/projects.json >/dev/null
+              ;;
+            2)
+              test "${changed_files[0]}" = "config/projects.json" ||
+                test "${changed_files[1]}" = "config/projects.json"
+              git show "$BASE_SHA:config/projects.json" \
+                > "$RUNNER_TEMP/projects-before.json"
+              jq -n \
+                --slurpfile before "$RUNNER_TEMP/projects-before.json" \
+                --slurpfile after config/projects.json \
+                --arg environment "$environment" \
+                --arg project "$project_name" '
+                  (($after[0][$environment] - $before[0][$environment]) ==
+                    [$project]) and
+                  (($before[0][$environment] - $after[0][$environment]) == []) and
+                  all(
+                    ["dev", "test", "uat", "prod"][] |
+                    select(. != $environment);
+                    $after[0][.] == $before[0][.]
+                  )
+                ' | jq -e . >/dev/null
+              ;;
+            *)
+              echo "OP04 accepts one generated IAM maintenance update or one two-file project addition." >&2
+              exit 1
+              ;;
+          esac
           {
             echo "environment=$environment"
             echo "project=$project"

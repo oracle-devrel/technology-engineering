@@ -21,6 +21,13 @@ If a plan or apply fails, retain the workflow logs and determine whether
 Terraform state matches OCI before submitting a corrective pull request. Do not
 edit state manually or bypass review with a local apply.
 
+For a merged project change that failed only because a foundation dependency
+was missing or ineffective, fix that dependency through a separately reviewed
+foundation pull request. After confirming that project state contains no
+partially created OCI resource, a human operator may rerun the exact failed
+merge-commit job. Do not manufacture a no-op project commit or rerun a
+different revision.
+
 OCI automatically adds `Oracle-Tags.CreatedBy` and `Oracle-Tags.CreatedOn` to
 new resources. The protected phase workflows ignore exactly those two
 provider-managed keys during planning, preserving the tags and preventing

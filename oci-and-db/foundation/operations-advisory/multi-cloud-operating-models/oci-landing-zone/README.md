@@ -31,7 +31,8 @@ Project Teams start after the handoff and manage workloads through the
 
 You need Git, Perl, a private GitHub organization, an OCI tenancy, and an
 approved OCI administrative identity. Initial setup also needs a dedicated
-private foundation runner and an OCI Object Storage state bucket.
+private foundation runner, a foundation-state bucket, and a separate
+project-state bucket when OP03 is enabled.
 
 Follow the [deployment runbook](docs/deployment.md) to copy the foundation
 repository, review its customer values, create the initial Git commit, and

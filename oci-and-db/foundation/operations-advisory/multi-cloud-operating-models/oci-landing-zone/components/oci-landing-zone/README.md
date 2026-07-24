@@ -24,10 +24,11 @@ initial deployment, change only the phase that owns the resource.
 ## Before the first workflow
 
 An OCI administrator must create one dedicated private foundation runner, its
-exact-instance dynamic group and policy, and the private Object Storage state
-bucket before foundation automation can start. See
+exact-instance dynamic group and policy, and the private foundation-state
+bucket before foundation automation can start. Create the separate
+project-state bucket before enabling OP03. See
 [New tenancy setup](docs/new-tenancy.md) before changing any phase.
-The state bucket must have Object Storage versioning enabled.
+Both state buckets must have Object Storage versioning enabled.
 
 Register the runner with this repository and set these GitHub repository
 variables:
@@ -35,7 +36,8 @@ variables:
 | Variable | Value |
 |---|---|
 | `FOUNDATION_RUNNER_LABELS` | JSON runner-label array, for example `["self-hosted","linux","arm64","mccp-foundation"]` |
-| `OCI_TF_STATE_BUCKET` | State bucket name |
+| `OCI_TF_STATE_BUCKET` | Foundation-state bucket name |
+| `PROJECT_STATE_BUCKET` | Separate project-state bucket name used by OP03 IAM |
 | `OCI_TF_STATE_NAMESPACE` | Object Storage namespace |
 | `REGION` | State bucket region |
 | `OCI_TENANCY_OCID` | Tenancy used to validate the OP02 handoff |

@@ -287,6 +287,7 @@ jobs:
         env:
           OP03_STAGE: ${{ steps.operation.outputs.stage }}
           STATE_BUCKET: ${{ vars.OCI_TF_STATE_BUCKET }}
+          PROJECT_STATE_BUCKET: ${{ vars.PROJECT_STATE_BUCKET }}
         run: |
           set -euo pipefail
           terraform -chdir="$GITHUB_WORKSPACE/ORCH" init \
@@ -300,8 +301,16 @@ jobs:
             "-var=output_path=$RUNNER_TEMP/op03-output"
           )
           if [ "$OP03_STAGE" = "identity" ]; then
+            test -n "$PROJECT_STATE_BUCKET" || {
+              echo "Required repository variable is empty: PROJECT_STATE_BUCKET" >&2
+              exit 1
+            }
+            test "$PROJECT_STATE_BUCKET" != "$STATE_BUCKET" || {
+              echo "Foundation and project state buckets must be different." >&2
+              exit 1
+            }
             identity_file="$GITHUB_WORKSPACE/request/op03_manage_platform_gitops/configuration/runner-identity.json"
-            rg -F "target.bucket.name = '$STATE_BUCKET'" "$identity_file"
+            rg -F "target.bucket.name = '$PROJECT_STATE_BUCKET'" "$identity_file"
             arguments+=("-var-file=$identity_file")
           fi
           terraform -chdir="$GITHUB_WORKSPACE/ORCH" plan \

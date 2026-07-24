@@ -43,6 +43,13 @@ If a plan or apply fails, retain its logs and reconcile OCI with Terraform state
 before retrying. Never repair the failure with an unreviewed local apply or a
 manual state edit.
 
+If an already merged project apply fails because a reviewed foundation
+dependency is missing or ineffective, correct that foundation through its own
+plan-and-merge gate first. After verifying the project state contains no
+partially created OCI resource, a human operator may rerun only the exact
+failed merge-commit job. Do not push a synthetic no-op manifest change, rerun a
+different commit, or let the Project GitOps skill control the workflow.
+
 An unchanged configuration should not propose updates that remove
 `Oracle-Tags.CreatedBy` or `Oracle-Tags.CreatedOn`. OCI adds those automatic
 default tags after resource creation. The phase workflows use the OCI

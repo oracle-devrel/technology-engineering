@@ -25,6 +25,9 @@ network references, never credentials.
 All phases may share one protected OCI Object Storage bucket, but each uses a
 separate key:
 
+The OP03 runner uses a different private, versioned bucket for project
+workload state. Its IAM policy must not authorize the foundation-state bucket.
+
 | Phase | State key |
 |---|---|
 | OP00 | `op00_manage_global_landing_zone/terraform.tfstate` |
@@ -73,6 +76,24 @@ The current OE model creates one project compartment under the environment's
 handoff are logical compatibility fields and contain the same project
 compartment OCID. The application, database, and infrastructure *subnets*
 remain distinct because they are part of the official project-network model.
+The MCPP runner extension grants project NSG management in that exact project
+compartment. It does not grant NSG management across the shared environment
+network compartment; the project manifest combines the handed-off project
+compartment OCID with the handed-off shared VCN OCID.
+
+OCI resolves a named compartment in a policy statement as a direct child of
+the compartment where that policy is attached. The adapter therefore attaches
+the project GitOps policy to the environment's `PROJECTS` compartment and the
+network/security GitOps policies to the environment compartment. Their
+statements still target only the exact project, network, or security child
+compartment; attaching them at the parent makes those scopes effective without
+broadening them.
+
+Creating or deleting a project NSG also changes its shared VCN. The network
+GitOps policy therefore adds OCI's narrowly conditioned `manage vcns` grant
+only for `CreateNetworkSecurityGroup` and `DeleteNetworkSecurityGroup` in the
+environment network compartment. The existing `use virtual-network-family`
+grant remains the read/use boundary for other VCN operations.
 
 ## Change path
 

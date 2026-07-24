@@ -12,6 +12,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 COMPONENT = ROOT / "components" / "oci-landing-zone"
 SCRIPTS = COMPONENT / "scripts"
+PLUGIN_SCRIPTS = (
+    ROOT
+    / "plugins/cloud-operator-gitops/skills/cloud-operator-gitops/scripts"
+)
+PROJECT_TEMPLATES = (
+    ROOT.parent / "multi-cloud-control-plane/components"
+)
 ORCHESTRATOR_REVISION = "fcf1d7f02c0b4faa1ff55f1776c396452dd51761"
 OE_REVISION = "172809932c53467ab20ec6d1b44290a487211b36"
 sys.path.insert(0, str(SCRIPTS))
@@ -128,6 +135,29 @@ class LandingZoneContractTests(unittest.TestCase):
             "55eeee14808f864e450db550530d760f9e0b0105",
         )
         self.assertEqual(contract["terraform"]["version"], "1.15.8")
+        self.assertEqual(
+            contract["project_state_bucket"],
+            "__PROJECT_STATE_BUCKET__",
+        )
+        initialization = contract["project_repository_initialization"]
+        self.assertEqual(
+            set(initialization),
+            {"shared-nonprod-v2", "production-v1"},
+        )
+        self.assertEqual(
+            initialization["shared-nonprod-v2"]["security_profile"],
+            "__NONPROD_SECURITY_PROFILE__",
+        )
+        self.assertEqual(
+            set(
+                initialization["shared-nonprod-v2"]["codeowners"]
+            ),
+            {"platform", "dev", "test", "uat"},
+        )
+        self.assertEqual(
+            initialization["production-v1"]["security_profile"],
+            "__PROD_SECURITY_PROFILE__",
+        )
 
     def test_foundation_is_multistack_and_bootstrap_is_read_only(self):
         workflows = COMPONENT / ".github/workflows"
@@ -156,6 +186,21 @@ class LandingZoneContractTests(unittest.TestCase):
                 content,
             )
             self.assertIn("apply", content.lower())
+        op03 = (
+            workflows / "oci-op03-platform-gitops-terraform.yaml"
+        ).read_text()
+        self.assertIn(
+            "PROJECT_STATE_BUCKET: ${{ vars.PROJECT_STATE_BUCKET }}",
+            op03,
+        )
+        self.assertIn(
+            'test "$PROJECT_STATE_BUCKET" != "$STATE_BUCKET"',
+            op03,
+        )
+        self.assertIn(
+            "target.bucket.name = '$PROJECT_STATE_BUCKET'",
+            op03,
+        )
         for phase in (
             "oci-op02-terraform.yaml",
             "oci-op04-terraform.yaml",
@@ -289,9 +334,30 @@ class LandingZoneContractTests(unittest.TestCase):
         self.assertIn("jq python3", runner_script)
         self.assertNotIn("nodejs", runner_script)
         self.assertIn("--versioning Enabled", runbook)
+        self.assertIn(
+            "export PROJECT_STATE_BUCKET=mccp-project-tfstate",
+            runbook,
+        )
         self.assertIn('."cidr-block"', runbook)
         self.assertIn("--is-ipv6-enabled false", runbook)
         self.assertIn("GitHub Free does not enforce branch protection", runbook)
+        self.assertIn(
+            "On GitHub Free, leave it unregistered until the\n"
+            "    project repository exists",
+            runbook,
+        )
+        self.assertIn(
+            "GitHub Free private\nrepositories must use repository-scoped "
+            "registration after OP04",
+            runbook,
+        )
+        self.assertIn("STATE_NAMESPACE=<object-storage-namespace>", runbook)
+        self.assertIn("OCI_CLI_AUTH=instance_principal", runbook)
+        self.assertIn(
+            "/home/github-runner/.local/bin:/usr/local/bin:/usr/local/sbin:"
+            "/usr/bin:/usr/sbin:/bin:/sbin",
+            runbook,
+        )
 
     def test_phase_projection_uses_pinned_oe_and_official_project_model(self):
         render = (COMPONENT / "config/render.libsonnet").read_text()
@@ -332,11 +398,42 @@ class LandingZoneContractTests(unittest.TestCase):
         self.assertNotIn("'ROUTE-ALL-VCNS-KEY'", render)
         self.assertIn("project_identity(environment, project)", render)
         self.assertIn("dg-mccp-platform-runner", render)
+        self.assertIn(
+            "manage network-security-groups in compartment cmp-lz-%s-%s",
+            render,
+        )
+        self.assertIn(
+            "manage vcns in compartment cmp-lz-%s-network where any "
+            "{request.operation = 'CreateNetworkSecurityGroup', "
+            "request.operation = 'DeleteNetworkSecurityGroup'}",
+            render,
+        )
+        self.assertIn(
+            "if suffix == 'project' then project_container_key",
+            render,
+        )
+        self.assertIn("else environment_key", render)
+        self.assertNotIn(
+            "manage network-security-groups in compartment cmp-lz-%s-network",
+            render,
+        )
         self.assertNotIn("project_key[0:", render)
         self.assertNotIn("'-APP-KEY'", render)
         self.assertIn(OE_REVISION, generator)
         self.assertIn(OE_REVISION, op04)
         self.assertIn("config/projects.json", op04)
+        self.assertIn(
+            "one generated IAM maintenance update or one two-file project addition",
+            op04,
+        )
+        self.assertIn(
+            'git diff --quiet "$BASE_SHA" "$HEAD_SHA" --',
+            op04,
+        )
+        self.assertIn(
+            '.[$environment] | index($project) != null',
+            op04,
+        )
         self.assertEqual(
             list((COMPONENT / "op04_manage_project/templates").glob("*")),
             [],
@@ -380,6 +477,325 @@ class LandingZoneContractTests(unittest.TestCase):
         ).read_text()
         self.assertIn("--environment-blueprint", handoff_workflow)
         self.assertNotIn("--op02-output", handoff_workflow)
+
+    def test_cloud_operator_initializes_project_repositories_fail_closed(self):
+        initializer_source = (
+            PLUGIN_SCRIPTS / "render-project-repository.py"
+        ).read_text()
+        validator_source = (
+            PLUGIN_SCRIPTS / "validate-project-repository.py"
+        ).read_text()
+        self.assertIn(
+            "validate_template_placeholders(repo, initialization)",
+            initializer_source,
+        )
+        self.assertIn(
+            'git(repo, "rev-parse", "HEAD^{commit}").strip() != base',
+            validator_source,
+        )
+        self.assertIn(
+            "validate_no_placeholders(repo)",
+            validator_source,
+        )
+        for environment, layout, template_name, profile in (
+            (
+                "dev",
+                "shared-nonprod-v2",
+                "nonprod-project-template",
+                "repository-secrets",
+            ),
+            (
+                "prod",
+                "production-v1",
+                "prod-project-template",
+                "github-environments",
+            ),
+        ):
+            with self.subTest(environment=environment):
+                project = f"{environment}-payments"
+                target = (
+                    "prod-payments"
+                    if environment == "prod"
+                    else "nonprod-payments"
+                )
+                with tempfile.TemporaryDirectory() as temporary:
+                    temporary_path = Path(temporary)
+                    repo = temporary_path / "repo"
+                    (repo / ".github").mkdir(parents=True)
+                    handoff_path = (
+                        repo
+                        / f"environments/{environment}/"
+                        "environment_information.md"
+                    )
+                    handoff_path.parent.mkdir(parents=True)
+                    template = PROJECT_TEMPLATES / template_name
+                    (repo / "control-plane.json").write_bytes(
+                        (template / "control-plane.json").read_bytes()
+                    )
+                    (repo / ".github/CODEOWNERS.template").write_bytes(
+                        (
+                            template / ".github/CODEOWNERS.template"
+                        ).read_bytes()
+                    )
+                    handoff_path.write_text(
+                        "# Pending project handoff\n",
+                        encoding="utf-8",
+                    )
+                    subprocess.run(
+                        ["git", "init", "-b", "main"],
+                        cwd=repo,
+                        check=True,
+                        capture_output=True,
+                    )
+                    subprocess.run(
+                        ["git", "add", "-A"],
+                        cwd=repo,
+                        check=True,
+                    )
+                    subprocess.run(
+                        [
+                            "git",
+                            "-c",
+                            "user.name=Test",
+                            "-c",
+                            "user.email=test@example.invalid",
+                            "commit",
+                            "-m",
+                            "template",
+                        ],
+                        cwd=repo,
+                        check=True,
+                        capture_output=True,
+                    )
+                    base = subprocess.run(
+                        ["git", "rev-parse", "HEAD"],
+                        cwd=repo,
+                        check=True,
+                        text=True,
+                        capture_output=True,
+                    ).stdout.strip()
+                    subprocess.run(
+                        [
+                            "git",
+                            "remote",
+                            "add",
+                            "origin",
+                            f"https://github.com/customer/{target}.git",
+                        ],
+                        cwd=repo,
+                        check=True,
+                    )
+                    subprocess.run(
+                        [
+                            "git",
+                            "checkout",
+                            "-b",
+                            f"agent/project-handoff-{project}-{base[:12]}",
+                        ],
+                        cwd=repo,
+                        check=True,
+                        capture_output=True,
+                    )
+                    data = build_handoff_data(
+                        project,
+                        self.project_config(environment),
+                        self.op04_output(environment),
+                        self.environment_blueprint(environment),
+                    )
+                    markdown_path = temporary_path / "handoff.md"
+                    markdown_path.write_text(
+                        render_markdown(data),
+                        encoding="utf-8",
+                    )
+                    machine_path = temporary_path / "handoff.json"
+                    machine_path.write_text(
+                        json.dumps(
+                            build_machine_handoff(
+                                data,
+                                {
+                                    "repository":
+                                        "customer/oci-landing-zone",
+                                    "workflow":
+                                        "OCI Project Foundation Handoff",
+                                    "run": "42",
+                                    "commit": "c" * 40,
+                                },
+                                "op02_manage_environment/"
+                                f"{environment}/terraform.tfstate",
+                                "op04_manage_project/"
+                                f"{environment}/{project}/terraform.tfstate",
+                                target,
+                                "environments/"
+                                f"{environment}/"
+                                "environment_information.md",
+                            ),
+                            indent=2,
+                        )
+                        + "\n",
+                        encoding="utf-8",
+                    )
+                    contract = json.loads(
+                        (
+                            ROOT
+                            / "contracts/"
+                            "deployment-contract.template.json"
+                        ).read_text()
+                    )
+                    contract.update(
+                        {
+                            "customer_org": "customer",
+                            "foundation_repository":
+                                "customer/oci-landing-zone",
+                            "foundation_ref": "a" * 40,
+                            "project_state_bucket":
+                                "customer-project-state",
+                            "environments": [
+                                {
+                                    "name": environment,
+                                    "region": "eu-frankfurt-1",
+                                }
+                            ],
+                        }
+                    )
+                    contract["project_templates"][
+                        "shared-nonprod-v2"
+                    ]["repository"] = (
+                        "customer/nonprod-project-template"
+                    )
+                    contract["project_templates"][
+                        "shared-nonprod-v2"
+                    ]["revision"] = "b" * 40
+                    contract["project_templates"][
+                        "production-v1"
+                    ]["repository"] = "customer/prod-project-template"
+                    contract["project_templates"][
+                        "production-v1"
+                    ]["revision"] = "d" * 40
+                    contract["project_repository_initialization"] = {
+                        "shared-nonprod-v2": {
+                            "security_profile": "repository-secrets",
+                            "codeowners": {
+                                "platform":
+                                    ["@customer/platform-team"],
+                                "dev": ["@customer/dev-approvers"],
+                                "test": ["@customer/test-approvers"],
+                                "uat": ["@customer/uat-approvers"],
+                            },
+                        },
+                        "production-v1": {
+                            "security_profile": "github-environments",
+                            "codeowners": {
+                                "platform":
+                                    ["@customer/platform-team"],
+                                "prod": ["@customer/prod-approvers"],
+                            },
+                        },
+                    }
+                    contract_path = temporary_path / "deployment-contract.json"
+                    contract_path.write_text(
+                        json.dumps(contract, indent=2) + "\n",
+                        encoding="utf-8",
+                    )
+                    common = [
+                        "--repo",
+                        str(repo),
+                        "--deployment-contract",
+                        str(contract_path),
+                        "--handoff-json",
+                        str(machine_path),
+                        "--handoff-markdown",
+                        str(markdown_path),
+                        "--project",
+                        project,
+                    ]
+                    rendered = subprocess.run(
+                        [
+                            sys.executable,
+                            str(
+                                PLUGIN_SCRIPTS
+                                / "render-project-repository.py"
+                            ),
+                            *common,
+                        ],
+                        text=True,
+                        capture_output=True,
+                        check=False,
+                    )
+                    self.assertEqual(
+                        rendered.returncode,
+                        0,
+                        rendered.stdout + rendered.stderr,
+                    )
+                    validated = subprocess.run(
+                        [
+                            sys.executable,
+                            str(
+                                PLUGIN_SCRIPTS
+                                / "validate-project-repository.py"
+                            ),
+                            *common,
+                            "--base-ref",
+                            "main",
+                        ],
+                        text=True,
+                        capture_output=True,
+                        check=False,
+                    )
+                    self.assertEqual(
+                        validated.returncode,
+                        0,
+                        validated.stdout + validated.stderr,
+                    )
+                    result = json.loads(validated.stdout)
+                    self.assertEqual(
+                        result["summary"]["repository_layout"],
+                        layout,
+                    )
+                    self.assertEqual(
+                        result["summary"]["security_profile"],
+                        profile,
+                    )
+                    control_plane = json.loads(
+                        (repo / "control-plane.json").read_text()
+                    )
+                    self.assertEqual(
+                        control_plane["target_repository"],
+                        target,
+                    )
+                    self.assertEqual(
+                        control_plane["security_profile"],
+                        profile,
+                    )
+                    self.assertFalse(
+                        (repo / ".github/CODEOWNERS.template").exists()
+                    )
+                    self.assertTrue(
+                        (repo / ".github/CODEOWNERS").is_file()
+                    )
+                    control_plane["target_repository"] = "nonprod-wrong"
+                    (repo / "control-plane.json").write_text(
+                        json.dumps(control_plane, indent=2) + "\n"
+                    )
+                    rejected = subprocess.run(
+                        [
+                            sys.executable,
+                            str(
+                                PLUGIN_SCRIPTS
+                                / "validate-project-repository.py"
+                            ),
+                            *common,
+                            "--base-ref",
+                            "main",
+                        ],
+                        text=True,
+                        capture_output=True,
+                        check=False,
+                    )
+                    self.assertEqual(rejected.returncode, 2)
+                    self.assertIn(
+                        "initialized control-plane contract is invalid",
+                        rejected.stdout,
+                    )
 
     @unittest.skipIf(
         sys.version_info < (3, 10),
@@ -503,6 +919,10 @@ class LandingZoneContractTests(unittest.TestCase):
                     "-m",
                     "py_compile",
                     *[str(path) for path in SCRIPTS.glob("*.py")],
+                    *[
+                        str(path)
+                        for path in PLUGIN_SCRIPTS.glob("*.py")
+                    ],
                 ],
                 capture_output=True,
                 text=True,
