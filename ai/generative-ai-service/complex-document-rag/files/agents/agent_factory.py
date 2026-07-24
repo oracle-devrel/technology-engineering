@@ -1,14 +1,24 @@
-from typing import List, Dict, Any, ClassVar, Optional
+import os
+
+# MUST be the first thing in this module, before any third-party import. langchain
+# pulls in transformers transitively, and transformers emits its "None of PyTorch,
+# TensorFlow >= 2.0, or Flax have been found" banner *during* import — so these have
+# to be set before that first import line runs, not merely before we use it.
+os.environ.setdefault("TRANSFORMERS_VERBOSITY", "error")
+os.environ.setdefault("TRANSFORMERS_NO_ADVISORY_WARNINGS", "1")
+
+from typing import List, Dict, Any, ClassVar, Optional, Set
 from pydantic import BaseModel, Field, ValidationError
-from langchain.prompts import ChatPromptTemplate
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.messages import HumanMessage
 from docx import Document
 import logging
 import warnings
 import json
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import re, unicodedata
-from transformers import logging as transformers_logging
 from agents.report_writer_agent import ReportWriterAgent, SectionWriterAgent
+from contracts import Chunk, PlanSection, Plan, SectionDraft, ReportResult
 
 import re, json, unicodedata, logging
 from typing import Any, Optional
@@ -28,8 +38,16 @@ except ImportError:
     logger = logging.getLogger(__name__)
     DEMO_MODE = False
 
-# Suppress specific transformers warnings
-transformers_logging.set_verbosity_error()
+def _verbose() -> bool:
+    """Full logging detail, for debugging rather than presenting."""
+    return os.environ.get("VERBOSE", "").lower() in ("1", "true", "yes") or \
+        os.environ.get("RAG_VERBOSE", "").lower() in ("1", "true", "yes")
+
+
+# transformers is no longer imported at all. It was pulled in solely to call
+# set_verbosity_error() — but the import itself emits the "None of PyTorch,
+# TensorFlow >= 2.0, or Flax have been found" banner, so importing it to silence it
+# was self-defeating. Nothing here uses the library.
 warnings.filterwarnings("ignore", message="Setting `pad_token_id` to `eos_token_id`")
 
 
@@ -67,11 +85,21 @@ class UniversalJSONCleaner:
 
     @staticmethod
     def _fix_broken_possessives(text, entities):
-        # For each entity, replace Foo"s with Foo's
-        for ent in entities:
-            # Replace only if "s is after the entity (word boundary)
-            text = re.sub(rf'{re.escape(ent)}["”`′″]s\b', f"{ent}'s", text)
-        return text
+        # For each entity, replace Foo"s with Foo's.
+        # Match case-insensitively: entities arrive lowercased from the UI
+        # (entity.strip().lower()) while the model writes them capitalised, so a
+        # case-sensitive pass silently missed every occurrence of Supremo1"s.
+        # Preserve the casing the model actually used rather than the entity's.
+        for ent in entities or []:
+            text = re.sub(
+                rf'({re.escape(ent)})["”`′″]s\b',
+                lambda m: f"{m.group(1)}'s",
+                text,
+                flags=re.IGNORECASE,
+            )
+        # Always run the generic pass too. An entity list that fails to match the
+        # model's spelling must not suppress the fallback that would have caught it.
+        return re.sub(r'(\b[A-Z][a-zA-Z0-9]*)["”`′″]s\b', r"\1's", text)
 
     @staticmethod
     def clean_and_extract_json(response: str, expected_type: str = "auto", entities=None) -> str:
@@ -83,25 +111,23 @@ class UniversalJSONCleaner:
         response = UniversalJSONCleaner._normalize_quotes(response)
         response = UniversalJSONCleaner._normalize_quotes_and_symbols(response)
 
-        # If entities provided, try to fix broken possessives for each
-        if entities:
-            response = UniversalJSONCleaner._fix_broken_possessives(response, entities)
-        else:
-            # fallback: try to fix generic Foo"s → Foo's
-            response = re.sub(r'(\b[A-Z][a-zA-Z0-9]*)["”`′″]s\b', r"\1's", response)
+        # Fix broken possessives. Handles both the entity-specific and generic cases
+        # internally — passing entities no longer skips the generic pass.
+        response = UniversalJSONCleaner._fix_broken_possessives(response, entities)
 
         # Strip code fences & comments
         response = re.sub(r"^```[\w-]*\s*|\s*```$", "", response, flags=re.MULTILINE).strip()
         response = re.sub(r'^\s*//.*$', "", response, flags=re.MULTILINE).strip()
 
         response = UniversalJSONCleaner._fix_common_json_issues(response)
-        json_str = UniversalJSONCleaner._escape_quotes_in_values(response)
+        response = response.strip()
 
-        if UniversalJSONCleaner.DEBUG_JSON_LOGGING:
-            logger.debug(f"🧹 After pre-parse cleanup:\n{json_str}")
-
-        response = json_str.strip()
         # Extract only array/object
+        # NOTE: extraction must precede quote escaping. The escaper scans for string
+        # boundaries, so any prose the model emits before the JSON ("Here is the
+        # "report":") would put it inside a string literal and it would then escape
+        # the object's own key quotes — yielding "Expecting property name enclosed in
+        # double quotes" at the very first key.
         if expected_type == "array" or (expected_type == "auto" and response.startswith("[")):
             start = response.find("[")
             end = response.rfind("]")
@@ -121,6 +147,12 @@ class UniversalJSONCleaner:
             else:
                 json_str = response
 
+        # Now that only the JSON payload remains, repair unescaped inner quotes.
+        json_str = UniversalJSONCleaner._escape_quotes_in_values(json_str)
+
+        if UniversalJSONCleaner.DEBUG_JSON_LOGGING:
+            logger.debug(f"🧹 After pre-parse cleanup:\n{json_str}")
+
         logger.info(f"🔧 Cleaned JSON (first 200 chars): {json_str[:200]}...")
         return json_str
 
@@ -137,17 +169,81 @@ class UniversalJSONCleaner:
         json_str += '}' * (json_str.count('{') - json_str.count('}'))
         return json_str
 
+    # A quote inside a string is a *closing* quote only if the next meaningful
+    # character continues the JSON grammar. Anything else means the model emitted an
+    # unescaped quote mid-sentence.
+    _JSON_STRUCTURAL_AFTER_STRING = set(',:}]')
+
     @staticmethod
     def _escape_quotes_in_values(json_str: str) -> str:
-        def replacer(match):
-            prefix = match.group(1)
-            content = match.group(2)
-            # Escape internal double quotes and fix possessives
-            content = re.sub(r'(\b\w+)"s\b', r"\1's", content)
-            content = re.sub(r'(?<!\\)"', r'\\"', content)
-            return f'{prefix}{content}"'
-        pattern = r'(":\s*")((?:[^"\\]|\\.)*?)"(?=\s*[,\}])'
-        return re.sub(pattern, replacer, json_str)
+        """
+        Escape unescaped double quotes that appear inside JSON string literals.
+
+        This is the single most common malformed-JSON failure from the section
+        writers — the model writes prose containing quotation marks and does not
+        escape them, producing `Expecting ',' delimiter` at the first inner quote.
+
+        Implemented as a scanner rather than a regex. The previous pattern was
+
+            (":\\s*")((?:[^"\\\\]|\\\\.)*?)"(?=\\s*[,\\}])
+
+        which had two defects that between them let most real failures through:
+
+        1. The content group could not match a bare `"`, so the very values that
+           needed repair — those containing an inner quote — never matched at all.
+        2. The `":\\s*"` prefix only matched object values. String elements inside
+           arrays were never considered, and `findings` is an array of prose strings.
+
+        A character scan handles both, and correctly leaves already-escaped quotes,
+        keys, and non-string tokens alone.
+        """
+        out: List[str] = []
+        in_string = False
+        i = 0
+        length = len(json_str)
+
+        while i < length:
+            char = json_str[i]
+
+            if not in_string:
+                out.append(char)
+                if char == '"':
+                    in_string = True
+                i += 1
+                continue
+
+            # Inside a string literal.
+            if char == '\\':
+                # Preserve the escape pair verbatim.
+                out.append(char)
+                if i + 1 < length:
+                    out.append(json_str[i + 1])
+                    i += 2
+                else:
+                    i += 1
+                continue
+
+            if char == '"':
+                # Closing quote, or an unescaped quote in the middle of prose?
+                j = i + 1
+                while j < length and json_str[j].isspace():
+                    j += 1
+                is_terminator = (
+                    j >= length
+                    or json_str[j] in UniversalJSONCleaner._JSON_STRUCTURAL_AFTER_STRING
+                )
+                if is_terminator:
+                    out.append(char)
+                    in_string = False
+                else:
+                    out.append('\\"')
+                i += 1
+                continue
+
+            out.append(char)
+            i += 1
+
+        return "".join(out)
 
     @staticmethod
     def parse_with_validation(json_str: str, expected_structure: str = None, entities=None) -> Any:
@@ -180,15 +276,6 @@ class UniversalJSONCleaner:
     
 
 
-def log_token_count(text: str, tokenizer, label: str = "Prompt"):
-    """Log token count using provided tokenizer"""
-    if not text or not tokenizer:
-        print(f"⚠️ Cannot log tokens: text or tokenizer missing for {label}")
-        return
-    token_count = len(tokenizer.encode(text))
-    print(f"🧮 {label} token count: {token_count}")
-
-
 class Agent(BaseModel):
     """Base agent class with common properties"""
     name: str
@@ -204,7 +291,12 @@ class Agent(BaseModel):
         return f"<{self.__class__.__name__}>"
     
     def log_prompt(self, prompt: str, prefix: str = ""):
-        """Log a prompt being sent to the LLM"""
+        """Log a prompt being sent to the LLM. Debug detail — verbose mode only."""
+        if DEMO_MODE and not _verbose():
+            # A full task prompt is thousands of characters; dumping it buries the
+            # pipeline narrative. Kept behind VERBOSE=1 for debugging.
+            logger.debug(f"{prefix} prompt ({len(prompt)} chars)")
+            return
         # Check if the prompt contains context
         if "Context:" in prompt:
             # Split the prompt at "Context:" and keep only the first part
@@ -222,7 +314,10 @@ class Agent(BaseModel):
             logger.info(f"\n{'='*80}\n{prefix} Prompt:\n{'-'*40}\n{prompt}\n{'='*80}")
         
     def log_response(self, response: str, prefix: str = ""):
-        """Log a response received from the LLM"""
+        """Log a response received from the LLM. Debug detail — verbose mode only."""
+        if DEMO_MODE and not _verbose():
+            logger.debug(f"{prefix} response ({len(response)} chars)")
+            return
         # Log the response but truncate if it's too long
         if len(response) > 500:
             truncated_response = response[:500] + "... [response truncated]"
@@ -231,119 +326,9 @@ class Agent(BaseModel):
             logger.info(f"\n{'='*80}\n{prefix} Response:\n{'-'*40}\n{response}\n{'='*80}")
 
 
-class DummyMessage:
-    def __init__(self, content):
-        self.content = content
-
-
-class PlanStep(BaseModel):
-    """Individual planning step with validation"""
-    description: str = Field(description="Step description containing named entities")
-    entities: Optional[List[str]] = Field(default=None, description="Named entities for retrieval")
-
-class PlanningResponse(BaseModel):
-    """Validated planning response structure"""
-    steps: List[str] = Field(description="List of planning step descriptions")
-    reasoning: Optional[str] = Field(default=None, description="Optional reasoning")
-
-class RobustJSONParser:
-    """Industry-standard robust JSON parsing with multiple fallback strategies."""
-
-    @staticmethod
-    def clean_json_text(text: str) -> str:
-        """Clean and normalize JSON-ish text before extraction."""
-        # Normalize smart quotes and characters
-        
-
-        # Replace smart double quotes and apostrophes with standard ones
-        text = text.replace("“", '"').replace("”", '"')
-        text = text.replace("‘", "'").replace("’", "'")
-
-        # Fix common JSON mis-quote error: Aelwyn"s → Aelwyn's
-        text = re.sub(r'(\b\w+)"s\b', r"\1's", text)
-
-        # Remove markdown fences
-        fence = re.compile(r"^```[\w-]*\s*|\s*```$", re.MULTILINE)
-        text = fence.sub("", text).strip()
-
-        # Remove // comments
-        comment_lines = re.compile(r'^\s*//.*$', re.MULTILINE)
-        text = comment_lines.sub("", text).strip()
-
-        return text
-
-    @staticmethod
-    def extract_json_array(text: str) -> str:
-        start = text.find("[")
-        end = text.rfind("]")
-        return text[start:end + 1].strip() if start != -1 and end > start else text
-
-    @staticmethod
-    def extract_json_object(text: str) -> str:
-        start = text.find("{")
-        end = text.rfind("}")
-        return text[start:end + 1].strip() if start != -1 and end > start else text
-
-    @staticmethod
-    def parse_with_fallbacks(text: str, max_retries: int = 3) -> List[str]:
-        """Attempt multiple fallback strategies for step extraction."""
-        original_text = text
-        cleaned = RobustJSONParser.clean_json_text(text)
-
-        # Strategy 1: Try JSON array directly
-        try:
-            result = json.loads(RobustJSONParser.extract_json_array(cleaned))
-            if isinstance(result, list):
-                return [str(item) for item in result]
-        except Exception as e:
-            logger.debug(f"Strategy 1 failed: {e}")
-
-        # Strategy 2: JSON object with steps-like keys
-        try:
-            result = json.loads(RobustJSONParser.extract_json_object(cleaned))
-            if isinstance(result, dict):
-                for key in ['steps', 'tasks', 'plan', 'items', 'list']:
-                    if key in result and isinstance(result[key], list):
-                        return [str(item) for item in result[key]]
-                # fallback: any list value
-                for val in result.values():
-                    if isinstance(val, list):
-                        return [str(item) for item in val]
-        except Exception as e:
-            logger.debug(f"Strategy 2 failed: {e}")
-
-        # Strategy 3: Regex-based list parsing
-        try:
-            numbered = re.findall(r'^\s*\d+\.\s*(.+)$', cleaned, re.MULTILINE)
-            if len(numbered) >= 2:
-                return [s.strip() for s in numbered]
-            bulleted = re.findall(r'^\s*[-*•]\s*(.+)$', cleaned, re.MULTILINE)
-            if len(bulleted) >= 2:
-                return [s.strip() for s in bulleted]
-        except Exception as e:
-            logger.debug(f"Strategy 3 failed: {e}")
-
-        # Strategy 4: Line-by-line filter
-        try:
-            lines = [line.strip() for line in cleaned.splitlines() if line.strip()]
-            steps = [
-                line for line in lines
-                if len(line) > 10 and not any(line.startswith(c) for c in '{[}"') and ':' not in line[:10]
-            ]
-            if len(steps) >= 2:
-                return steps[:20]
-        except Exception as e:
-            logger.debug(f"Strategy 4 failed: {e}")
-
-        # Final fallback
-        logger.warning(f"All parsing strategies failed. Original input: {original_text[:200]}...")
-        return [
-            "Analyze the main requirements and objectives",
-            "Gather relevant information and context", 
-            "Identify key stakeholders and entities",
-            "Compare and contrast different approaches",
-            "Synthesize findings into actionable insights"
-        ]
+# RobustJSONParser has been removed (Step 8).
+# Topic extraction now uses PlannerAgent._extract_topics_from_llm().
+# Section JSON parsing still uses UniversalJSONCleaner.
 
 
 class ChunkRewriteAgent(Agent):
@@ -446,7 +431,7 @@ class ChunkRewriteAgent(Agent):
         self.log_prompt(prompt, f"ChunkRewriter (Batch of {len(batch)})")
 
         try:
-            response = self.llm.invoke([DummyMessage(prompt)])
+            response = self.llm.invoke([HumanMessage(content=prompt)])
 
             # Handle different LLM response styles
             if hasattr(response, "content"):
@@ -491,12 +476,14 @@ class ChunkRewriteAgent(Agent):
         # Split by the chunk separator
         parts = response_text.split("---CHUNK_END---")
         
-        # Clean up each part
-        results = []
+        # Clean up each part. This is positional: result[i] must correspond to the i-th
+        # chunk handed to the model. Skipping empty parts instead of recording them
+        # would shift every later chunk onto the wrong chunk's metadata.
+        results = [""] * expected_chunks
         for i, part in enumerate(parts):
             if i >= expected_chunks:
                 break
-                
+
             cleaned = part.strip()
             if cleaned:
                 # Remove any "CHUNK N:" headers that might have been included
@@ -505,25 +492,29 @@ class ChunkRewriteAgent(Agent):
                 for line in lines:
                     if not re.match(r'^CHUNK \d+:', line.strip()):
                         filtered_lines.append(line)
-                
-                cleaned = '\n'.join(filtered_lines).strip()
-                if cleaned:
-                    results.append(cleaned)
-        
-        # If we didn't get enough results, try alternative parsing
-        if len(results) < expected_chunks:
-            # Use debug level instead of warning for demo mode
+
+                results[i] = '\n'.join(filtered_lines).strip()
+
+        parsed_count = sum(1 for r in results if r)
+
+        # Nothing parsed at all — the model likely ignored the delimiter, so try the
+        # alternative patterns. A partial parse is kept as-is: the chunks that did come
+        # back are correctly aligned, and the blanks make the caller keep those
+        # originals. Re-parsing the whole response would discard good content.
+        if parsed_count == 0:
             if DEMO_MODE:
-                logger.debug(f"Expected {expected_chunks} results, got {len(results)}. Trying fallback parsing.")
+                logger.debug(f"No chunks parsed from response. Trying fallback parsing.")
             else:
-                logger.warning(f"⚠️ Expected {expected_chunks} results, got {len(results)}. Trying fallback parsing.")
+                logger.warning(f"⚠️ No chunks parsed from response. Trying fallback parsing.")
             return self._fallback_parse(response_text, expected_chunks)
-        
-        # Pad with empty results if needed
-        while len(results) < expected_chunks:
-            results.append("No rewritten content available for this chunk.")
-        
-        return results[:expected_chunks]
+
+        if parsed_count < expected_chunks:
+            logger.warning(
+                f"⚠️ Parsed {parsed_count}/{expected_chunks} chunks; "
+                f"keeping originals for the remainder."
+            )
+
+        return results
     
     def _fallback_parse(self, response_text: str, expected_chunks: int) -> List[str]:
         """Fallback parsing when the main method fails"""
@@ -550,39 +541,41 @@ class ChunkRewriteAgent(Agent):
                         logger.info(f"✅ Fallback parsing successful with pattern: {pattern}")
                     return results
         
-        # Ultimate fallback: split the text evenly
+        # Ultimate fallback: abandon this batch. Splitting the response evenly by line
+        # count assumes the model emitted equal-length chunks in order; when it did not,
+        # each chunk is stored against another chunk's metadata. Silently misattributed
+        # content is worse than no rewrite, so return "" and let the caller keep the
+        # originals.
         if DEMO_MODE:
-            logger.debug(f"All parsing methods failed. Using even split fallback.")
+            logger.debug("All parsing methods failed. Keeping original chunk text.")
         else:
-            logger.warning(f"⚠️ All parsing methods failed. Using even split fallback.")
-        
-        lines = response_text.split('\n')
-        lines_per_chunk = max(1, len(lines) // expected_chunks)
-        
-        results = []
-        for i in range(expected_chunks):
-            start_idx = i * lines_per_chunk
-            end_idx = start_idx + lines_per_chunk if i < expected_chunks - 1 else len(lines)
-            chunk_lines = lines[start_idx:end_idx]
-            chunk_text = '\n'.join(chunk_lines).strip()
-            results.append(chunk_text if chunk_text else f"Chunk {i+1} content not available.")
+            logger.warning(
+                f"⚠️ All parsing methods failed for {expected_chunks} chunks. "
+                f"Keeping original text rather than risking misaligned content."
+            )
 
-        return results
+        return [""] * expected_chunks
 
 
 class PlannerAgent(Agent):
-    # ────────────────────────────────────────────────────────────────
-    # 1.  Normalise quotes  *and* remove Markdown fences / extra text
-    # ────────────────────────────────────────────────────────────────
-
     """Agent responsible for breaking down problems and planning steps"""
-    def __init__(self, llm):
+
+    known_tags: Optional[Set[str]] = Field(default=None, description="Known entity tags from vector store")
+
+    # Cap on criteria text carried into a retrieval step. Keeps the embedded query
+    # inside the embedding model's window and stops one verbose topic from diluting
+    # its own search terms.
+    MAX_CRITERIA_CHARS: ClassVar[int] = 1400
+
+    def __init__(self, llm, known_tags: Optional[Set[str]] = None):
         super().__init__(
             name="Planner",
             role="Strategic Planner",
             description="Breaks down complex problems into manageable steps",
-            llm=llm
+            llm=llm,
         )
+        if known_tags is not None:
+            self.known_tags = known_tags
  
     def _detect_comparison_query(self, query: str) -> bool:
             """Use LLM to detect whether the query involves a comparison."""
@@ -750,19 +743,34 @@ Respond with a single word: "yes" or "no".
         - Derive section topics from the user's TASK PROMPT (not hardcoded).
         - For each topic, emit one mirrored retrieval step per entity.
         - Output shape: List[{"topic": str, "steps": List[str]}], plus (entities, is_comparison).
+        - Now supports up to 10 entities for multi-entity comparisons (e.g., tender responses)
 
         Returns:
             (plan, entities, is_comparison)
         """
 
-        # 1) Determine comparison intent and entities (keep your existing logic)
-        is_comparison = self._detect_comparison_query(query) or is_comparison_report
+        # 1) Determine comparison intent and entities (updated to support up to 10 entities)
+        # Short-circuit before _detect_comparison_query — it is an LLM round trip, and
+        # both an explicit is_comparison_report flag and 2+ caller-supplied entities
+        # already answer the question.
+        if is_comparison_report or (provided_entities and len(provided_entities) >= 2):
+            is_comparison = True
+        else:
+            is_comparison = self._detect_comparison_query(query)
 
         if provided_entities:
             entities = [e for e in provided_entities if isinstance(e, str) and e.strip()]
+            # Limit to 10 entities maximum for performance reasons
+            if len(entities) > 10:
+                logger.warning(f"⚠️ Limiting to first 10 entities from {len(entities)} provided")
+                entities = entities[:10]
             logger.info(f"[Planner] Using provided entities: {entities}")
         else:
             entities = self._extract_entities(query)
+            # Support up to 10 entities
+            if len(entities) > 10:
+                logger.warning(f"⚠️ Limiting to first 10 entities from {len(entities)} detected")
+                entities = entities[:10]
             logger.info(f"[Planner] Detected entities: {entities} | Comparison task: {is_comparison}")
 
         # If comparison requested but <2 entities, degrade gracefully to single-entity mode
@@ -770,72 +778,102 @@ Respond with a single word: "yes" or "no".
             logger.warning(f"⚠️ Comparison requested but only {len(entities)} entity found: {entities}. Falling back to single-entity.")
             is_comparison = False
 
-        # 2) Ask the LLM ONLY for topics (strings), not full objects — we’ll build steps ourselves
+        # 2) Ask the LLM ONLY for topics (strings), not full objects — we'll build steps ourselves
         #    This avoids fragile JSON with missing "topic" keys.
         topic_prompt = f"""
-Extract the main section topics from the TASK PROMPT. 
-Use the user's own headings/bullets/order when present. 
+Extract the main section topics from the TASK PROMPT, and for each topic list the specific
+criteria, metrics and policy areas the user wants covered under it.
+
+Use the user's own headings/bullets/order when present.
 If none are explicit, infer 5–10 concise, non-overlapping topics that reflect the user's request.
+
+Assign every criterion the user lists to the topic it belongs under. Reuse the user's own
+wording: the criteria are embedded verbatim as the search query against the source documents,
+so concrete nouns (sector names, policy names, metric names, standards, thresholds) retrieve
+far better than abstract prose.
 
 TASK PROMPT:
 {query}
 
-Return ONLY a JSON array of strings, e.g. ["Executive Summary","Revenue Analysis","Profitability"]. 
-No prose, no keys, no markdown.
-"""
-        self.log_prompt(topic_prompt, "Planner: Topic Extraction")
-        raw_topics = None
-        topics: list[str] = []
-        try:
-            raw_topics = self.llm(topic_prompt).strip()
-            json_str = UniversalJSONCleaner.clean_and_extract_json(raw_topics, expected_type="array")
-            parsed = UniversalJSONCleaner.parse_with_validation(json_str, expected_structure=None)
-            if isinstance(parsed, list):
-                # Keep only non-empty strings
-                topics = [str(t).strip() for t in parsed if isinstance(t, (str, int, float)) and str(t).strip()]
-        except Exception as e:
-            logger.error(f"❌ Topic extraction failed: {e}")
-            logger.debug(f"Raw topic response:\n{raw_topics}")
+Also classify each topic by how it must be written:
+- "compare"   : reports data about the subjects — needs source documents retrieved
+- "synthesize": summarises or judges across the other sections (executive summaries,
+                overall assessments, conclusions) — uses no new source data
+- "recommend" : proposes actions based on gaps found in the other sections
 
-        # 2b) Hard fallback: if still empty, derive topics from obvious headings in the query
-        if not topics:
+Return ONLY a JSON array of objects, e.g.
+[{{"topic":"Environmental Performance","role":"compare","criteria":"Scope 1/2/3 GHG targets; renewable electricity sourcing; thermal coal financing policy"}},
+ {{"topic":"Recommendations","role":"recommend","criteria":""}}]
+Each object must have exactly the keys "topic" (short heading), "role" (one of compare,
+synthesize, recommend) and "criteria" (a single line of semicolon-separated search terms;
+use "" for synthesize and recommend topics).
+No prose, no markdown.
+"""
+        self.log_prompt(topic_prompt, "Planner: Topic + Criteria Extraction")
+        topic_specs: list[dict] = self._extract_topic_specs_from_llm(topic_prompt)
+
+        # 2b) Hard fallback: if still empty, derive topics from obvious headings in the query.
+        #     Fallback paths yield no criteria, so their steps degrade to the topic label alone.
+        if not topic_specs:
             # Grab capitalized/bulleted lines as headings
             lines = [ln.strip() for ln in (query or "").splitlines()]
             bullets = [ln.lstrip("-*• ").strip() for ln in lines if ln.strip().startswith(("-", "*", "•"))]
             caps = [ln for ln in lines if ln and ln == ln.title() and len(ln.split()) <= 8]
             candidates = bullets or caps
             if candidates:
-                topics = [t for t in candidates if len(t) >= 3][:10]
+                topic_specs = [
+                    {"topic": t, "criteria": "", "role": self._infer_role(t)}
+                    for t in candidates if len(t) >= 3
+                ][:10]
 
         # 2c) Ultimate fallback: generic buckets (kept minimal, not domain-specific)
-        if not topics:
-            topics = [
+        if not topic_specs:
+            topic_specs = [{"topic": t, "criteria": "", "role": self._infer_role(t)} for t in (
                 "Executive Summary",
                 "Key Metrics",
                 "Section 1",
                 "Section 2",
                 "Section 3",
                 "Risks & Considerations",
-                "Conclusion"
-            ]
+                "Conclusion",
+            )]
 
-        # 3) Build plan objects and MIRROR steps across entities (no hardcoded content)
+        # 3) Build plan objects and MIRROR steps across entities (now supports multi-entity)
         plan: list[dict] = []
-        for t in topics:
-            t_clean = str(t).strip()
+        for spec in topic_specs:
+            t_clean = str(spec.get("topic", "")).strip()
             if not t_clean:
                 continue
 
-            if is_comparison and len(entities) >= 2:
-                # One retrieval step per entity — mirrored wording
-                steps = [f"Find all items requested under '{t_clean}' for {entities[0]}",
-                         f"Find all items requested under '{t_clean}' for {entities[1]}"]
+            # The step string IS the retrieval query (see ResearchAgent.research, which
+            # embeds f"{step} {entity}"). Carrying the user's criteria here is what lets
+            # retrieval reach criterion-specific chunks; a bare topic label cannot.
+            criteria = " ".join(str(spec.get("criteria") or "").split())
+            if len(criteria) > self.MAX_CRITERIA_CHARS:
+                criteria = criteria[:self.MAX_CRITERIA_CHARS].rsplit(" ", 1)[0] + "…"
+
+            role = str(spec.get("role") or "").strip().lower()
+            if role not in ("compare", "synthesize", "recommend"):
+                role = self._infer_role(t_clean)
+
+            def _step_for(entity: str, _t=t_clean, _c=criteria) -> str:
+                if _c:
+                    return f"{_t}: {_c} — for {entity}"
+                return f"Find all items requested under '{_t}' for {entity}"
+
+            # synthesize/recommend sections read the written compare sections rather
+            # than the source documents, so they get no retrieval steps at all.
+            if role in ("synthesize", "recommend"):
+                steps = []
+            elif is_comparison and len(entities) >= 2:
+                # One retrieval step per entity — mirrored wording for all entities
+                steps = [_step_for(entity) for entity in entities]
             else:
                 # Single entity (or unknown)
                 e0 = entities[0] if entities else "The Entity"
-                steps = [f"Find all items requested under '{t_clean}' for {e0}"]
+                steps = [_step_for(e0)]
 
-            plan.append({"topic": t_clean, "steps": steps})
+            plan.append({"topic": t_clean, "steps": steps, "role": role})
 
         # 4) Log and return
         try:
@@ -845,15 +883,183 @@ No prose, no keys, no markdown.
 
         return plan, entities, is_comparison
 
+    def plan_typed(
+        self,
+        query: str,
+        *,
+        is_comparison_report: bool = False,
+        provided_entities: Optional[List[str]] = None,
+        max_topics: int = 10,
+    ) -> Plan:
+        """Return a typed Plan model. Preferred over plan() for new code."""
+        plan_list, entities, is_comparison = self.plan(
+            query,
+            is_comparison_report=is_comparison_report,
+            provided_entities=provided_entities,
+        )
+        # Limit topics
+        plan_list = plan_list[:max_topics]
+        return Plan.from_legacy_tuple(plan_list, entities, is_comparison)
 
+    @staticmethod
+    def _strip_fences(text: str) -> str:
+        """Remove markdown code fences from LLM output."""
+        return re.sub(r"^```[\w-]*\s*|\s*```$", "", text, flags=re.MULTILINE).strip()
 
+    @staticmethod
+    def _normalize_smart_quotes(text: str) -> str:
+        """Replace smart/curly quotes with ASCII equivalents."""
+        replacements = {
+            "\u201c": '"', "\u201d": '"', "\u2018": "'", "\u2019": "'",
+            "\u2032": "'", "\u2033": '"',
+        }
+        for bad, good in replacements.items():
+            text = text.replace(bad, good)
+        return text
+
+    @staticmethod
+    def _infer_role(topic: str) -> str:
+        """
+        Fallback role classification from the topic heading, used when the LLM omits
+        or mangles "role". Defaults to "compare" — the safe choice, since a compare
+        section still retrieves and reports data rather than producing nothing.
+        """
+        t = topic.strip().lower()
+        if any(k in t for k in ("recommend", "next step", "action plan", "improvement")):
+            return "recommend"
+        if any(k in t for k in (
+            "executive summary", "overall", "conclusion", "summary",
+            "assessment", "verdict", "overview",
+        )):
+            return "synthesize"
+        return "compare"
+
+    def _extract_topic_specs_from_llm(self, topic_prompt: str) -> list[dict]:
+        """
+        Extract [{"topic": str, "criteria": str}, ...] from the LLM.
+
+        A bare array of strings is also accepted, so a model that ignores the object
+        format degrades to label-only steps (the previous behaviour) rather than
+        failing the plan outright.
+        """
+        raw = None
+        for attempt in range(2):
+            try:
+                if attempt == 0:
+                    raw = self.llm(topic_prompt).strip()
+                else:
+                    retry_prompt = (
+                        "Your previous response was not valid JSON. Return ONLY a valid JSON "
+                        'array of objects, each with keys "topic" and "criteria". '
+                        f"Fix this output:\n{raw}"
+                    )
+                    raw = self.llm(retry_prompt).strip()
+
+                cleaned = self._normalize_smart_quotes(self._strip_fences(raw))
+
+                # Extract array substring
+                start = cleaned.find("[")
+                end = cleaned.rfind("]")
+                if start != -1 and end > start:
+                    cleaned = cleaned[start:end + 1]
+
+                parsed = json.loads(cleaned)
+                if not isinstance(parsed, list):
+                    continue
+
+                specs: list[dict] = []
+                for item in parsed:
+                    if isinstance(item, dict):
+                        topic = str(item.get("topic", "")).strip()
+                        criteria = item.get("criteria", "")
+                        # Models often return criteria as a list despite the instruction
+                        if isinstance(criteria, (list, tuple)):
+                            criteria = "; ".join(str(c).strip() for c in criteria if str(c).strip())
+                        criteria = str(criteria or "").strip()
+                        role = str(item.get("role", "")).strip().lower()
+                    elif isinstance(item, (str, int, float)):
+                        topic, criteria, role = str(item).strip(), "", ""
+                    else:
+                        continue
+                    if topic:
+                        if role not in ("compare", "synthesize", "recommend"):
+                            role = self._infer_role(topic)
+                        specs.append({"topic": topic, "criteria": criteria, "role": role})
+
+                if specs:
+                    with_criteria = sum(1 for s in specs if s["criteria"])
+                    roles = ", ".join(f"{s['topic']}={s['role']}" for s in specs)
+                    logger.info(
+                        f"[Planner] Extracted {len(specs)} topics, "
+                        f"{with_criteria} with criteria | roles: {roles}"
+                    )
+                    return specs
+
+            except Exception as e:
+                logger.warning(f"Topic/criteria extraction attempt {attempt + 1} failed: {e}")
+
+        logger.warning("Topic extraction: falling back to heuristic parsing")
+        return []
+
+    def _extract_topics_from_llm(self, topic_prompt: str) -> list[str]:
+        """
+        Extract topic list from LLM with simplified parsing:
+        1. Try json.loads after stripping fences + normalizing quotes.
+        2. One retry with corrective prompt.
+        3. Heuristic fallback.
+        """
+        raw_topics = None
+        for attempt in range(2):
+            try:
+                if attempt == 0:
+                    raw_topics = self.llm(topic_prompt).strip()
+                else:
+                    retry_prompt = (
+                        "Your previous response was not valid JSON. "
+                        "Return ONLY a valid JSON array of strings. "
+                        f"Fix this output:\n{raw_topics}"
+                    )
+                    raw_topics = self.llm(retry_prompt).strip()
+
+                cleaned = self._strip_fences(raw_topics)
+                cleaned = self._normalize_smart_quotes(cleaned)
+
+                # Extract array substring
+                start = cleaned.find("[")
+                end = cleaned.rfind("]")
+                if start != -1 and end > start:
+                    cleaned = cleaned[start:end + 1]
+
+                parsed = json.loads(cleaned)
+                if isinstance(parsed, list):
+                    topics = [str(t).strip() for t in parsed
+                              if isinstance(t, (str, int, float)) and str(t).strip()]
+                    if topics:
+                        return topics
+
+            except (json.JSONDecodeError, Exception) as e:
+                logger.warning(f"Topic extraction attempt {attempt + 1} failed: {e}")
+                if attempt == 0:
+                    continue
+
+        # Heuristic fallback: never reaches UniversalJSONCleaner
+        logger.warning("Topic extraction: falling back to heuristic parsing")
+        return []
 
 
 class ResearchAgent(Agent):
     """Agent responsible for gathering and analyzing information"""
     
-    TOP_K: ClassVar[int] = 3
-    MAX_CHARS: ClassVar[int] = 1000
+    # Chunks retrieved per entity per section. Env-tunable because it is the main
+    # lever on prompt size, and prompt size drives section-write latency: measured on
+    # one Environmental section, 16 chunks/28.5k chars = 69.8s, 8 chunks/14.6k = 58.3s,
+    # 4 chunks/7.5k = 42.5s. Below 4 the table starts losing rows, so lowering this is
+    # a coverage trade, not a free win — verify against the criteria list before
+    # reducing it for a corpus larger than the current 8 chunks per entity.
+    TOP_K: ClassVar[int] = int(os.environ.get("RESEARCH_TOP_K", "8"))
+    # Chunks run ~1500-2500 chars; at 1000 the tail (later sheet rows — sector
+    # targets, programme names) was silently cut before the writer ever saw it.
+    MAX_CHARS: ClassVar[int] = 2500
     MAX_WORKERS: ClassVar[int] = 4  
 
     def __init__(self, llm, vector_store):
@@ -877,13 +1083,12 @@ class ResearchAgent(Agent):
     ) -> List[Dict[str, Any]]:
         logger.info(f"🔍 Researching: {step} [collection={collection}]")
 
-        # OPTIMIZED: Reduce TOP_K for faster retrieval, increase MAX_CHARS for better context
         def run_qfn(qfn, sq, entity=None):
-            return qfn(sq, n_results=min(self.TOP_K, 2), entity=entity.lower() if entity else None) or []
+            return qfn(sq, n_results=self.TOP_K, entity=entity.lower() if entity else None) or []
 
         # === Handle comparison mode ===
         if is_comparison:
-            ents = entities or self._detect_entities_from_step(step) or []
+            ents = entities or []
             ents = [e.strip() for e in ents if isinstance(e, str) and e.strip()]
             if not ents:
                 logger.warning("⚠️ No entities detected/provided for comparison step")
@@ -898,8 +1103,7 @@ class ResearchAgent(Agent):
                 elif collection == "pdf":
                     chunks = run_qfn(self.vector_store.query_pdf_collection, sq, e)
                 else:  # multi
-                    chunks = run_qfn(self.vector_store.query_pdf_collection, sq, e)
-                    chunks += run_qfn(self.vector_store.query_xlsx_collection, sq, e)
+                    chunks = run_qfn(self.vector_store.query_collection, sq, e)
                 for c in chunks:
                     txt = (c.get("content") or "").strip()
                     if len(txt) > self.MAX_CHARS:
@@ -941,8 +1145,7 @@ class ResearchAgent(Agent):
         elif collection == "pdf":
             chunks = run_qfn(self.vector_store.query_pdf_collection, step)
         else:  # multi
-            chunks = run_qfn(self.vector_store.query_pdf_collection, step)
-            chunks += run_qfn(self.vector_store.query_xlsx_collection, step)
+            chunks = run_qfn(self.vector_store.query_collection, step)
 
         seen = set()
         out = []
@@ -994,141 +1197,35 @@ class ResearchAgent(Agent):
                     interleaved.append(chunks[i])
         return interleaved
 
-    def _detect_entities_from_step(self, step: str) -> List[str]:
-        """Extract entity names (e.g., Aelwyn, Elinexa) from a task step"""
-        known = ["aelwyn", "elinexa"]
-        entities = [e for e in known if e in step.lower()]
-        return entities if len(entities) == 2 else known
+    def research_typed(
+        self,
+        query: str,
+        step: str,
+        *,
+        is_comparison: bool = False,
+        entities: Optional[List[str]] = None,
+        collection: str = "multi",
+        k: int = 3,
+    ) -> List[Chunk]:
+        """Return typed Chunk models instead of raw dicts."""
+        raw = self.research(
+            query, step, is_comparison=is_comparison,
+            entities=entities, collection=collection,
+        )
+        return [Chunk.from_legacy_dict(d) for d in raw]
 
   
-
-class ReasoningAgent(Agent):
-    """Agent responsible for logical reasoning and analysis"""
-    def __init__(self, llm):
-        super().__init__(
-            name="Reasoner",
-            role="Logic and Analysis",
-            description="Applies logical reasoning to information and draws conclusions",
-            llm=llm
-        )
-        
-    def reason(self, query: str, step: str, context: List[Dict[str, Any]]) -> str:
-        logger.info(f"\n🤔 Reasoning about step: {step}")
-        
-        template = """Analyze the information and draw a clear conclusion for this step.
-        
-        Step: {step}
-        Context: {context}
-        Query: {query}
-        
-        Conclusion:"""
-        
-        # Create context string but don't log it
-        context_str = "\n\n".join([f"Context {i+1}:\n{item['content']} {item['metadata']['cite']}" for i, item in enumerate(context)])
-        prompt = ChatPromptTemplate.from_template(template)
-        messages = prompt.format_messages(step=step, query=query, context=context_str)
-        prompt_text = "\n".join([str(msg.content) for msg in messages])
-        self.log_prompt(prompt_text, "Reasoner")
-        
-        response = self.llm.invoke(messages)
-        self.log_response(response.content, "Reasoner")
-        return response.content
-
-class SynthesisAgent(Agent):
-    MAX_STEP_CHARS: ClassVar[int] = 1000
-    MAX_STEPS_USED: ClassVar[int] = 40
-    RETRY_LIMIT: ClassVar[int]    = 1
-    CITE_RE: ClassVar[re.Pattern] = re.compile(r"\[[^\[\]]+:\d+\]")
-
-    def __init__(self, llm):
-        super().__init__(
-            name="Synthesizer",
-            role="Information Synthesizer",
-            description="Combines multiple pieces of information into a coherent response",
-            llm=llm
-        )
-
-    def synthesize(self, query: str, grouped_steps: dict[str, list[str]]) -> str:
-        logger.info("📝 Synthesizing answer from %d sections", len(grouped_steps))
-
-        sections = []
-
-        for section_name, steps in grouped_steps.items():
-            logger.info(f"📚 Synthesizing section: {section_name} ({len(steps)} steps)")
-            try:
-                section_text = self._synthesize_section(query, section_name, steps)
-                sections.append(section_text)
-            except Exception as e:
-                logger.warning(f"⚠️ Skipping section '{section_name}' due to error: {e}")
-
-        return "\n\n".join(sections)
-
-    def _synthesize_section(self, query: str, section_name: str, reasoning_steps: List[str]) -> str:
-        trimmed = []
-        required_cites = set()
-
-        for step in reasoning_steps[:self.MAX_STEPS_USED]:
-            txt = step[:self.MAX_STEP_CHARS] + ("…" if len(step) > self.MAX_STEP_CHARS else "")
-            trimmed.append(txt)
-            required_cites.update(self.CITE_RE.findall(txt))
-
-        steps_str = "\n\n".join(trimmed)
-
-        template = """You are a senior analyst. Write a focused, well-structured section for a report, based only on the reasoning steps below.
-
-**Section: {section_name}**
-
-Query: {query}
-
-STEPS:
-{steps}
-
-GUIDELINES:
-1. Write a short intro paragraph summarizing key findings.
-2. Use well-structured, readable language — plain but authoritative.
-3. Every factual sentence **must** include an existing cite token like [BANK_2024:3].
-4. Finish with a summary paragraph.
-5. At the end, add a markdown **References:** list of all cite tokens.
-
-Section Output:
-"""
-
-        missing = set()
-        for attempt in range(self.RETRY_LIMIT + 1):
-            prompt = ChatPromptTemplate.from_template(template)
-            messages = prompt.format_messages(
-                query=query,
-                steps=steps_str,
-                section_name=section_name
-            )
-            self.log_prompt("\n".join(str(m.content) for m in messages), "Synthesizer")
-
-            answer = self.llm.invoke(messages).content.strip()
-            self.log_response(answer, "Synthesizer")
-
-            found_cites = set(self.CITE_RE.findall(answer))
-            missing = required_cites - found_cites
-
-            if not missing:
-                return f"## {section_name}\n\n{answer}"
-
-            logger.warning(f"Missing cites in section '{section_name}': {list(missing)[:3]} (attempt {attempt+1})")
-
-        raise ValueError(f"❌ Failed to include required citations in section: {section_name}")
-
 
 def create_ingestion_only_agents(llm):
     """Agents needed only for ingestion and preprocessing, not full agentic reasoning"""
     return {
         "chunk_rewriter": ChunkRewriteAgent(llm)
     }
-def create_agents(llm, vector_store=None, model_name="unknown", tokenizer=None):
+def create_agents(llm, vector_store=None, model_name="unknown", tokenizer=None, known_tags=None):
     """Create and return the set of specialized agents"""
     return {
-        "planner": PlannerAgent(llm),
+        "planner": PlannerAgent(llm, known_tags=known_tags),
         "researcher": ResearchAgent(llm, vector_store) if vector_store else None,
-        "reasoner": ReasoningAgent(llm),
-        "synthesizer": SynthesisAgent(llm),
         "section_writer": SectionWriterAgent(llm, tokenizer=tokenizer),
         "report_agent": ReportWriterAgent(doc=None, model_name=model_name, llm=llm),
         "chunk_rewriter": ChunkRewriteAgent(llm)

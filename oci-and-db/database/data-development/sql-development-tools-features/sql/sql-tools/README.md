@@ -8,7 +8,7 @@ An additional managed offering in Oracle Cloud Infrastructure (OCI) called <b>Or
 You establish the connection and then access your database resources via web-based SQL Worksheet or use the SQLcl connection via OCI Cloud Shell.
 Security is preserved as passwords and ADB credentials are securely stored and encrypted in OCI Vault resource. 
 
-Reviewed: 18.05.2026
+Reviewed: 14.07.2026
 
 # Table of Contents
  
@@ -29,6 +29,22 @@ Reviewed: 18.05.2026
 
 
 # Useful Links
+
+## Public Oracle SQL Tools
+
+Explore a variety of Oracle SQL tools to streamline your database management tasks:
+
+- **Learn and share SQL**: the new [Livesql Portal](https://livesql.oracle.com/landing/) including Scripts, Tutorials, Tips and a Live SQL Developer Web environment to quickly get hands on practice. You can start coding straight away or access the useful Scripts and Tutorial Library section from the landing page.
+
+- **SQL Developer**: Oracle SQL Developer provides a powerful integrated development environment (IDE) for Oracle Database. Discover its features and functionalities to optimize your SQL workflow.
+  
+- **SQL Developer for VS Code**: Microsoft Visual Studio Code (VS Code) extension which brings the ability to execute your SQL queries and scripts, perform PL/SQL development, and interact with your database schema objects. SQL Developer for VS Code is the evolution of our popular SQL Developer desktop application embracing, thus, the familiar richness of our desktop version, reimagined into a lighter and more flexible tool that adapts to your needs. Including our SQLcl as a modern command-line interface.
+
+- **sqlplus**: Master the command-line interface for Oracle Database with sqlplus. Learn essential commands and best practices for efficient SQL execution.
+
+- **SQLcl**: Dive into the versatile command-line interface for Oracle Database with SQLcl. Experience its advanced features and customization options for enhanced SQL scripting and execution.
+
+- **Oracle Database Connection**: the main OCI-native Database Tools Service which enables you to create connections to any Oracle Database in OCI that can be reused by multiple users, resources, and services. Managed MCP Servers for Oracle AI Database is available as well.
 
 - [Oracle Database Tool Service](https://www.oracle.com/database/tools-service/)
 - [Announcing the Oracle Cloud Database Tools Service](https://www.thatjeffsmith.com/archive/2021/11/announcing-the-database-tools-oracle-cloud-service/)
@@ -86,3 +102,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+
