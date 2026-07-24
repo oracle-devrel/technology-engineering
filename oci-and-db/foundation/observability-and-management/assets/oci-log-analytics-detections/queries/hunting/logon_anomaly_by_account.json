@@ -1,0 +1,26 @@
+{
+  "title": "Hunting: Logon Anomaly - Account Activity Profiling",
+  "description": "Profiles user account activity across Windows Security Events using the parsed 'Target User Name' field: total logons, unique hosts authenticated to, explicit credential delegations (4648), privilege assignments (4672), and failed-logon ratio (4625). Surfaces accounts with many hosts, high delegation, or high failure rate.",
+  "query": "'Log Source' = 'Windows Security Events' and 'Event ID' in ('4624', '4625', '4648', '4672') and not 'Target User Name' = 'ANONYMOUS LOGON' and not 'Target User Name' like '%$' | eval IsFailure = if('Event ID' = '4625', 1, 0) | eval IsExplicit = if('Event ID' = '4648', 1, 0) | eval IsPrivilege = if('Event ID' = '4672', 1, 0) | stats count as TotalEvents, sum(IsFailure) as Failures, sum(IsExplicit) as ExplicitCreds, sum(IsPrivilege) as PrivilegeAssigns, distinctcount(Entity) as UniqueHosts by 'Target User Name' | eval FailRate = round(Failures * 100 / TotalEvents, 1) | where UniqueHosts > 2 or ExplicitCreds > 10 or FailRate > 20 | sort -UniqueHosts",
+  "type": "hunting",
+  "level": "high",
+  "tags": [
+    "attack.credential_access",
+    "attack.lateral_movement",
+    "hunting",
+    "anomaly_detection",
+    "real_data"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "credential_access",
+      "lateral_movement",
+      "privilege_escalation"
+    ],
+    "techniques": [
+      "T1078",
+      "T1021",
+      "T1134"
+    ]
+  }
+}

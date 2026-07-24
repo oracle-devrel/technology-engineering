@@ -1,0 +1,38 @@
+{
+  "title": "OWASP Multi-Stage Web Attack Chain (Combined Methods)",
+  "description": "Correlates web attack indicators across WAF, Load Balancer, and application logs to identify multi-stage attack chains. An IP that triggers WAF blocks, generates auth failures, and accesses sensitive endpoints is likely executing a coordinated attack campaign. Uses combined methods (Threat Hunter's Cookbook: Combined Methods - multi-stage grouping).",
+  "query": "('Log Source' = 'OCI WAF Logs' or 'Log Source' = 'SOC WAF Security Logs' or 'Log Source' = 'OCI Load Balancer Access Logs' or 'Log Source' = 'SOC Load Balancer Access Logs' or 'Log Source' = 'SOC Web Application Logs') | stats count as total_events, distinctcount('Log Source') as log_sources, unique('Action') as actions, unique('Response Code') as status_codes by 'Client IP' | where log_sources > 1 | sort -total_events",
+  "type": "hunting",
+  "hunting_type": "multi_stage",
+  "cookbook_method": "combined",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.initial_access",
+    "attack.t1190",
+    "attack.credential_access",
+    "attack.t1110",
+    "owasp.a01",
+    "owasp.a03",
+    "owasp.a07"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "initial_access",
+      "credential_access",
+      "execution"
+    ],
+    "techniques": [
+      "T1190",
+      "T1110",
+      "T1059"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "waf"
+  },
+  "falsepositives": [
+    "Authorized penetration testing engagements"
+  ]
+}

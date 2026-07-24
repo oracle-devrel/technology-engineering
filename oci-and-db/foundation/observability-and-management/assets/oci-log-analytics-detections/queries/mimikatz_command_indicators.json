@@ -1,0 +1,42 @@
+{
+  "title": "Mimikatz: Command and Module Indicators in Process Logs",
+  "description": "Detects Mimikatz command and module strings in Windows Security Event 4688 process creation and 4624/4648 logon events. Covers sekurlsa, lsadump, kerberos, dpapi, crypto modules and common Mimikatz post-exploitation patterns. Works with real Windows Security Events via Original Log Content matching.\n",
+  "query": "('Log Source' = 'Windows Security Events' or 'Log Source' = 'Windows Event Security Logs') and (('Event ID' = '4688') and ( (('Command Line' like '*sekurlsa::logonpasswords*' or 'Command Line' like '*sekurlsa::wdigest*' or 'Command Line' like '*sekurlsa::kerberos*' or 'Command Line' like '*sekurlsa::msv*' or 'Command Line' like '*sekurlsa::tspkg*' or 'Command Line' like '*lsadump::sam*' or 'Command Line' like '*lsadump::lsa /patch*' or 'Command Line' like '*lsadump::dcsync*' or 'Command Line' like '*kerberos::list*' or 'Command Line' like '*kerberos::golden*' or 'Command Line' like '*kerberos::ptt*' or 'Command Line' like '*dpapi::cred*' or 'Command Line' like '*crypto::certificates*' or 'Command Line' like '*token::elevate*' or 'Command Line' like '*privilege::debug*' or 'Command Line' like '*misc::memssp*')) or (('Command Line' like '*mimikatz*' or 'Command Line' like '*mimi32*' or 'Command Line' like '*mimi64*' or 'Command Line' like '*gentilkiwi*' or 'Command Line' like '*benjamin DELPY*')) or (('Command Line' like '*SID                :*' or 'Command Line' like '*User               :*' or 'Command Line' like '** Username :*' or 'Command Line' like '** Domain   :*' or 'Command Line' like '** NTLM     :*' or 'Command Line' like '** SHA1     :*' or 'Command Line' like '*Authentication Id :*' or 'Command Line' like '*wdigest :*' or 'Command Line' like '*tspkg :*' or 'Command Line' like '*kerberos :*')) )) | stats count as Detections by Entity | sort -Detections",
+  "sigma_id": "mimi-cmd-t1003-001",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.credential_access",
+    "attack.t1003.001",
+    "attack.t1003.006",
+    "attack.t1558.003"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "credential_access"
+    ],
+    "techniques": [
+      "T1003.001",
+      "T1003.006",
+      "T1558.003"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "security",
+    "candidates": [
+      "Windows Security Events",
+      "Windows Event Security Logs"
+    ]
+  },
+  "falsepositives": [
+    "Security testing tools that emulate Mimikatz output",
+    "Honeypot systems designed to attract credential dumpers"
+  ],
+  "atomic_red_team": {
+    "has_tests": false,
+    "test_count": 0,
+    "techniques_with_tests": [],
+    "tests": []
+  }
+}

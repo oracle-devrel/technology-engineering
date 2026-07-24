@@ -1,0 +1,196 @@
+{
+  "id": "offer-analysis-flow",
+  "name": "Offer Analysis and Comparison",
+  "triggerPhrases": [
+    "Analyze current offers (2 received)"
+  ],
+  "messages": [
+    {
+      "type": "chip",
+      "chipData": {
+        "label": "Planning",
+        "status": "info",
+        "icon": "Lightbulb",
+        "content": "Perfect! The user wants to analyze the current offers we've received. I have 2 competitive quotes: TechParts Inc at $2,850 and Industrial Motors Co at $3,100. I need to perform comprehensive analysis considering total cost, delivery timeline, supplier reliability, and value-for-money. I'll use our analytics engine to calculate weighted scores based on price, delivery speed, supplier track record, and shipping costs."
+      },
+      "delay": 120
+    },
+    {
+      "type": "chip",
+      "chipData": {
+        "label": "Calling Analysis Engine API",
+        "status": "warning",
+        "icon": "SatelliteDish",
+        "content": {
+          "description": "Analyzing supplier quotes using comprehensive scoring algorithm to determine optimal choice based on price, delivery, and reliability factors.",
+          "function": "analyzeSupplierQuotes",
+          "endpoint": "/analytics/procurement/api/v1/quotes/analyze",
+          "parameters": {
+            "partNumber": "HD-2024",
+            "quotes": [
+              {
+                "supplier": "TechParts Inc",
+                "price": 2750,
+                "delivery": 5,
+                "shipping": 220
+              },
+              {
+                "supplier": "Industrial Motors Co",
+                "price": 2965,
+                "delivery": 3,
+                "shipping": 220
+              }
+            ],
+            "analysisType": "comprehensive",
+            "weightings": {
+              "price": 0.4,
+              "delivery": 0.3,
+              "reliability": 0.2,
+              "shipping": 0.1
+            },
+            "includeRecommendation": true
+          }
+        }
+      },
+      "delay": 100
+    },
+    {
+      "type": "chip",
+      "chipData": {
+        "label": "Receiving Analysis Results",
+        "status": "success",
+        "icon": "FileSpreadsheet",
+        "content": {
+          "response": {
+            "status": "success",
+            "timestamp": "2025-07-30T10:17:12Z",
+            "analysisResults": {
+              "totalOffers": 2,
+              "recommendations": [
+                {
+                  "supplier": "TechParts Inc",
+                  "score": 92,
+                  "totalCost": "$2,970",
+                  "deliveryDays": 5,
+                  "riskLevel": "low"
+                },
+                {
+                  "supplier": "Industrial Motors Co",
+                  "score": 85,
+                  "totalCost": "$3,185",
+                  "deliveryDays": 3,
+                  "riskLevel": "medium"
+                }
+              ],
+              "bestChoice": "TechParts Inc",
+              "confidenceLevel": "96%"
+            }
+          }
+        }
+      },
+      "delay": 100
+    },
+    {
+      "type": "agent_state",
+      "agentStateData": {
+        "analysis": {
+          "bestPrice": {
+            "supplier": "TechParts Inc",
+            "amount": "$2,850",
+            "savings": "$250 vs average"
+          },
+          "fastestDelivery": {
+            "supplier": "Industrial Motors Co",
+            "time": "3 days",
+            "method": "Express shipping"
+          },
+          "bestOverall": {
+            "supplier": "TechParts Inc",
+            "score": "95/100",
+            "reasons": [
+              "Lowest price",
+              "Good delivery time",
+              "Excellent reputation"
+            ]
+          },
+          "totalSavings": "$450 vs highest quote"
+        }
+      },
+      "delay": 80
+    },
+    {
+      "type": "chip",
+      "chipData": {
+        "label": "Planning",
+        "status": "info",
+        "icon": "Lightbulb",
+        "content": "Excellent! The analysis is complete and the results are very clear. TechParts Inc offers the best price at $2,750 with excellent reputation, while Industrial Motors Co has the fastest delivery at 3 days. Looking at the overall scores, TechParts Inc rates 95/100 which is significantly higher. The price advantage is substantial - $215 savings compared to the highest quote. Their delivery time of 5 days is still very reasonable. Based on price, quality, and reliability, TechParts Inc is clearly the optimal choice."
+      },
+      "delay": 100
+    },
+    {
+      "type": "data_table",
+      "tableData": {
+        "title": "Supplier Quote Comparison - HD-2024 Motor",
+        "columns": [
+          "Supplier",
+          "Price",
+          "Delivery",
+          "Shipping",
+          "Total",
+          "Score"
+        ],
+        "rows": [
+          {
+            "supplier": "TechParts Inc",
+            "price": "$2,750",
+            "delivery": "5 days",
+            "shipping": "$220",
+            "total": "$2,970",
+            "score": "95/100",
+            "recommended": true
+          },
+          {
+            "supplier": "Industrial Motors Co",
+            "price": "$2,965",
+            "delivery": "3 days",
+            "shipping": "$220",
+            "total": "$3,185",
+            "score": "88/100",
+            "recommended": false
+          },
+          {
+            "supplier": "GlobalTech Solutions",
+            "price": "Pending",
+            "delivery": "Unknown",
+            "shipping": "Unknown",
+            "total": "Pending",
+            "score": "N/A",
+            "recommended": false
+          }
+        ]
+      },
+      "delay": 60
+    },
+    {
+      "type": "text",
+      "content": "I've completed the analysis and the results are quite clear. **TechParts Inc** comes out as the winner with a score of **95/100** compared to Industrial Motors Co's **88/100**. \n\nThe main advantage is cost - TechParts Inc offers **$215 in savings** at **$2,970** versus **$3,185** from Industrial Motors Co. TechFlow also has an excellent track record with a **98% on-time delivery** rate based on 47 similar orders.\n\nThe trade-off is delivery time: Industrial Motors Co can deliver in 3 days while TechParts Inc needs 5 days. However, 5 days is still quite reasonable for this type of equipment.\n\nUnless you need it in 3 days vs 5, **TechParts Inc is best value.**",
+      "delay": 50
+    },
+    {
+      "type": "interactive",
+      "interactiveData": {
+        "inputType": "choice",
+        "title": "",
+        "options": [
+          {
+            "value": "create_order_techparts",
+            "label": "Create order with TechParts Inc ($2,970)",
+            "type": "action"
+          }
+        ]
+      },
+      "delay": 100
+    }
+  ]
+}

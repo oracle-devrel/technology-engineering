@@ -1,0 +1,2221 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-05-17T07:15:10.332687+00:00",
+  "source": {
+    "name": "Microsoft Sentinel",
+    "repository": "https://github.com/Azure/Azure-Sentinel",
+    "commit": "63ff8eedc58e7df0d22eba05ca73c92b59a66634",
+    "license": "MIT",
+    "license_url": "https://github.com/Azure/Azure-Sentinel/blob/master/LICENSE"
+  },
+  "summary": {
+    "selected_candidates": 100,
+    "synthetic_ready": 30,
+    "conversion_skipped": 38,
+    "source_gaps": 0,
+    "field_gaps": 32,
+    "data_dir": "test_data/sentinel_synthetic"
+  },
+  "files": [
+    {
+      "filename": "soc_load_balancer_access_logs.jsonl",
+      "events": 1
+    },
+    {
+      "filename": "soc_network_firewall_logs.jsonl",
+      "events": 2
+    },
+    {
+      "filename": "soc_windows_sysmon_logs.jsonl",
+      "events": 25
+    },
+    {
+      "filename": "windows_event_security_logs.jsonl",
+      "events": 2
+    }
+  ],
+  "candidates": [
+    {
+      "title": "ApexOne - Top sources with alerts",
+      "sentinel_id": "8bb86556-67b4-11ec-90d6-0242ac120003",
+      "quality_score": 133,
+      "source_path": "Solutions/Trend Micro Apex One/Hunting Queries/TMApexOneTopSources.yaml",
+      "status": "field_gap",
+      "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and (('Source IP' != null and 'Source IP' != '')) | stats count as IpCount by 'Source IP' | sort -IpCount | head 20",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs",
+        "Windows Security Events"
+      ],
+      "required_fields": [
+        "Source IP"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "Source IP"
+        ],
+        "missing_sources": [
+          "Windows Security Events"
+        ],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "Detect Suspicious Commands Initiated by Webserver Processes",
+      "sentinel_id": "fa2f7d8a-6726-465a-aa72-6f6e3d4c99d7",
+      "quality_score": 110,
+      "source_path": "Solutions/Microsoft Defender XDR/Analytic Rules/Discovery/SuspiciousCommandInitiatedByWebServerProcess.yaml",
+      "status": "synthetic_ready",
+      "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and (((('Parent Process Name' in ('w3wp.exe', 'beasvc.exe', 'httpd.exe') or 'Parent Process Name' like 'tomcat*') or 'Parent Process Name' in ('w3wp.exe', 'beasvc.exe', 'httpd.exe') or 'Parent Process Name' like 'tomcat*')) and 'Process Name' in ('cmd.exe', 'powershell.exe')) and ('Command Line' like '*%temp%*' or 'Command Line' like '*wget*' or 'Command Line' like '*whoami*' or 'Command Line' like '*certutil*' or 'Command Line' like '*systeminfo*' or 'Command Line' like '*ping*' or 'Command Line' like '*ipconfig*' or 'Command Line' like '*timeout*') | stats unique('Process Name') as any_FileName, unique('Command Line') as set_ProcessCommandLine, unique('Parent Process Name') as any_InitiatingProcessFileName, unique('Parent Process Name') as any_InitiatingProcessParentFileName by Entity, 'Host Name (Server)'",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs",
+        "Windows Security Events"
+      ],
+      "required_fields": [
+        "Command Line",
+        "Host Name (Server)",
+        "Parent Process Name",
+        "Process Name"
+      ],
+      "synthetic_file": "soc_windows_sysmon_logs.jsonl"
+    },
+    {
+      "title": "McAfee ePO - Multiple threats on same host",
+      "sentinel_id": "f53e5168-afdb-4fad-b29a-bb9cb71ec460",
+      "quality_score": 108,
+      "source_path": "Solutions/McAfee ePolicy Orchestrator/Analytic Rules/McAfeeEPOMultipleThreatsSameHost.yaml",
+      "status": "field_gap",
+      "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and (('Threat Name' != null and 'Threat Name' != '')) and ('Threat Name' != '_') | stats distinctcount('Threat Name') as th_cnt, unique('Threat Name') as th_list by 'Source IP' | where th_cnt > 1",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs",
+        "Windows Security Events"
+      ],
+      "required_fields": [
+        "Source IP",
+        "Threat Name"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "Source IP",
+          "Threat Name"
+        ],
+        "missing_sources": [
+          "Windows Security Events"
+        ],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "McAfee ePO - Threat was not blocked",
+      "sentinel_id": "6d70a26a-c119-45b7-b4c6-44ac4fd1bcb7",
+      "quality_score": 108,
+      "source_path": "Solutions/McAfee ePolicy Orchestrator/Analytic Rules/McAfeeEPOThreatNotBlocked.yaml",
+      "status": "field_gap",
+      "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and (Action in ('none', 'IDS_ACTION_WOULD_BLOCK'))",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs",
+        "Windows Security Events"
+      ],
+      "required_fields": [
+        "Action"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "Action"
+        ],
+        "missing_sources": [
+          "Windows Security Events"
+        ],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "Deimos Component Execution",
+      "sentinel_id": "c25a8cd4-5b4a-45a8-9ba0-3b753a652f6b",
+      "quality_score": 103,
+      "source_path": "Solutions/Microsoft Defender XDR/Analytic Rules/Campaign/Jupyter-Solarmaker/DeimosComponentExecution.yaml",
+      "status": "field_gap",
+      "query": "'Log Source' = 'SOC Windows Sysmon Logs' and ('Parent Process Name' = 'powershell.exe') and (Action = 'AmsiScriptContent') and (Properties like '*[mArS.deiMos]::inteRaCt\"}') | fields 'Parent Process Name', 'Parent Process Name', 'Command Line', Action, Properties, 'Host Name (Server)'",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs"
+      ],
+      "required_fields": [
+        "Action",
+        "Command Line",
+        "Host Name (Server)",
+        "Parent Process Name",
+        "Properties"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "Action",
+          "Properties"
+        ],
+        "missing_sources": [],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "Critical Risks",
+      "sentinel_id": "1eebfaf3-40e1-4bc2-9f42-049b7b8ceb60",
+      "quality_score": 103,
+      "source_path": "Solutions/RidgeSecurity/Analytic Rules/RidgeSecurity_Risks.yaml",
+      "status": "field_gap",
+      "query": "('Log Source' = 'SOC Network Firewall Logs' or 'Log Source' = 'OCI Network Firewall Logs' or 'Log Source' = 'SOC VCN Flow Logs') and (Provider = 'RidgeSecurity') and ('Event ID' = '4001') | sort -Time",
+      "selected_source": "SOC Network Firewall Logs",
+      "parser": "SOC Network Firewall JSON Parser",
+      "sources": [
+        "OCI Network Firewall Logs",
+        "SOC Network Firewall Logs",
+        "SOC VCN Flow Logs"
+      ],
+      "required_fields": [
+        "Event ID",
+        "Provider"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "Event ID",
+          "Provider"
+        ],
+        "missing_sources": [
+          "OCI Network Firewall Logs"
+        ],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "Vulerabilities",
+      "sentinel_id": "d096643d-6789-4c74-8893-dd3fc8a94069",
+      "quality_score": 103,
+      "source_path": "Solutions/RidgeSecurity/Analytic Rules/RidgeSecurity_Vulnerabilities.yaml",
+      "status": "field_gap",
+      "query": "('Log Source' = 'SOC Network Firewall Logs' or 'Log Source' = 'OCI Network Firewall Logs' or 'Log Source' = 'SOC VCN Flow Logs') and (Provider = 'RidgeSecurity') and ('Event ID' like '40*') | sort Severity",
+      "selected_source": "SOC Network Firewall Logs",
+      "parser": "SOC Network Firewall JSON Parser",
+      "sources": [
+        "OCI Network Firewall Logs",
+        "SOC Network Firewall Logs",
+        "SOC VCN Flow Logs"
+      ],
+      "required_fields": [
+        "Event ID",
+        "Provider"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "Event ID",
+          "Provider"
+        ],
+        "missing_sources": [
+          "OCI Network Firewall Logs"
+        ],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "TEARDROP memory-only dropper",
+      "sentinel_id": "738702fd-0a66-42c7-8586-e30f0583f8fe",
+      "quality_score": 102,
+      "source_path": "Solutions/Microsoft Defender XDR/Analytic Rules/SolarWinds_TEARDROP_Process-IOCs.yaml",
+      "status": "field_gap",
+      "query": "'Log Source' = 'SOC Windows Sysmon Logs' and (Action like '*ExploitGuardNonMicrosoftSignedBlocked*') and ('Parent Process Name' like '*svchost.exe*' and 'Process Name' like '*NetSetupSvc.dll*') | eval HashAlgorithm = 'SHA1'",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs"
+      ],
+      "required_fields": [
+        "Action",
+        "Parent Process Name",
+        "Process Name"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "Action"
+        ],
+        "missing_sources": [],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "Doppelpaymer Stop Services",
+      "sentinel_id": "5bdc1504-880c-4b30-a39c-7c746535928d",
+      "quality_score": 98,
+      "source_path": "Solutions/Microsoft Defender XDR/Analytic Rules/Defense Evasion/DoppelpaymerStopService.yaml",
+      "status": "synthetic_ready",
+      "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and ('Parent Process Name' like 'psexe*' and 'Process Name' = 'powershell.exe' and 'Command Line' like '*stop-service*' and 'Command Line' like '*sql*' and 'Command Line' like '*msexchange*')",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs",
+        "Windows Security Events"
+      ],
+      "required_fields": [
+        "Command Line",
+        "Parent Process Name",
+        "Process Name"
+      ],
+      "synthetic_file": "soc_windows_sysmon_logs.jsonl"
+    },
+    {
+      "title": "Office Apps Launching Wscipt",
+      "sentinel_id": "174de33b-107b-4cd8-a85d-b4025a35453f",
+      "quality_score": 98,
+      "source_path": "Solutions/Microsoft Defender XDR/Analytic Rules/Execution/OfficeAppsLaunchingWscript.yaml",
+      "status": "synthetic_ready",
+      "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and ('Parent Process Name' in ('winword.exe', 'excel.exe', 'outlook.exe')) and ('Process Name' = 'wscript.exe' and 'Command Line' like '*.jse*')",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs",
+        "Windows Security Events"
+      ],
+      "required_fields": [
+        "Command Line",
+        "Parent Process Name",
+        "Process Name"
+      ],
+      "synthetic_file": "soc_windows_sysmon_logs.jsonl"
+    },
+    {
+      "title": "Apache - Apache 2.4.49 flaw CVE-2021-41773",
+      "sentinel_id": "767f9dc4-3b01-11ec-8d3d-0242ac130003",
+      "quality_score": 93,
+      "source_path": "Solutions/ApacheHTTPServer/Analytic Rules/ApacheCVE-2021-41773.yaml",
+      "status": "field_gap",
+      "query": "('Log Source' = 'SOC WAF Security Logs' or 'Log Source' = 'SOC Web Application Logs' or 'Log Source' = 'SOC Load Balancer Access Logs') and ('HTTP Request Method' = 'GET') and (('Request URL' like '*/cgi-bin/*' and 'Request URL' like '*/%2e%2e/*')) and ('HTTP Status Code' = 200)",
+      "selected_source": "SOC Load Balancer Access Logs",
+      "parser": "SOC Load Balancer Access JSON Parser",
+      "sources": [
+        "SOC Load Balancer Access Logs",
+        "SOC WAF Security Logs",
+        "SOC Web Application Logs"
+      ],
+      "required_fields": [
+        "HTTP Request Method",
+        "HTTP Status Code",
+        "Request URL"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "HTTP Request Method",
+          "HTTP Status Code"
+        ],
+        "missing_sources": [],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "Qakbot Discovery Activies",
+      "sentinel_id": "ba9db6b2-3d05-42ae-8aee-3a15bbe29f27",
+      "quality_score": 91,
+      "source_path": "Solutions/Microsoft Defender XDR/Analytic Rules/Ransomware/QakbotDiscoveryActivities.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported Sentinel field mapping: ALL",
+        "unsupported Sentinel field mapping: querytype",
+        "unsupported Sentinel field mapping: timeout"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "Cisco Cloud Security - Windows PowerShell User-Agent Detected",
+      "sentinel_id": "b12b3dab-d973-45af-b07e-e29bb34d8db9",
+      "quality_score": 89,
+      "source_path": "Solutions/CiscoUmbrella/Analytic Rules/CiscoUmbrellaPowershellUserAgentDetected.yaml",
+      "status": "field_gap",
+      "query": "('Log Source' = 'SOC WAF Security Logs' or 'Log Source' = 'SOC Web Application Logs' or 'Log Source' = 'SOC Network Firewall Logs') and ('Event Type' = 'proxylogs') and ('User Agent' like '*WindowsPowerShell*') | eval Message = 'Windows PowerShell User Agent' | fields Time, Message, 'Source IP', 'Destination IP', 'Request URL', 'User Agent'",
+      "selected_source": "SOC Network Firewall Logs",
+      "parser": "SOC Network Firewall JSON Parser",
+      "sources": [
+        "SOC Network Firewall Logs",
+        "SOC WAF Security Logs",
+        "SOC Web Application Logs"
+      ],
+      "required_fields": [
+        "Destination IP",
+        "Event Type",
+        "Request URL",
+        "Source IP",
+        "User Agent"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "Event Type",
+          "Request URL",
+          "User Agent"
+        ],
+        "missing_sources": [],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "LemonDuck-component-names",
+      "sentinel_id": "bcb5f147-863a-4972-aec9-48f67cc24727",
+      "quality_score": 88,
+      "source_path": "Hunting Queries/Microsoft 365 Defender/Campaigns/LemonDuck/LemonDuck-component-names.yaml",
+      "status": "synthetic_ready",
+      "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and ('Parent Process Name' = 'cmd.exe') and (('Command Line' like '*kr.bin*' or 'Command Line' like '*if.bin*' or 'Command Line' like '*m6.bin*'))",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs",
+        "Windows Security Events"
+      ],
+      "required_fields": [
+        "Command Line",
+        "Parent Process Name"
+      ],
+      "synthetic_file": "soc_windows_sysmon_logs.jsonl"
+    },
+    {
+      "title": "Cisco Cloud Security - Crypto Miner User-Agent Detected",
+      "sentinel_id": "b619d1f1-7f39-4c7e-bf9e-afbb46457997",
+      "quality_score": 88,
+      "source_path": "Solutions/CiscoUmbrella/Analytic Rules/CiscoUmbrellaCryptoMinerUserAgentDetected.yaml",
+      "status": "field_gap",
+      "query": "('Log Source' = 'SOC WAF Security Logs' or 'Log Source' = 'SOC Web Application Logs' or 'Log Source' = 'SOC Network Firewall Logs') and ('Event Type' = 'proxylogs') and ('User Agent' like '*XMRig*' or 'User Agent' like '*ccminer*') | eval Message = 'Crypto Miner User Agent' | fields Time, Message, 'Source IP', 'Destination IP', 'Request URL', 'User Agent'",
+      "selected_source": "SOC Network Firewall Logs",
+      "parser": "SOC Network Firewall JSON Parser",
+      "sources": [
+        "SOC Network Firewall Logs",
+        "SOC WAF Security Logs",
+        "SOC Web Application Logs"
+      ],
+      "required_fields": [
+        "Destination IP",
+        "Event Type",
+        "Request URL",
+        "Source IP",
+        "User Agent"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "Event Type",
+          "Request URL",
+          "User Agent"
+        ],
+        "missing_sources": [],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "CyberArkEPM - Renamed Windows binary",
+      "sentinel_id": "9281b7cc-8f05-45a9-bf10-17fb29492a84",
+      "quality_score": 88,
+      "source_path": "Solutions/CyberArkEPM/Analytic Rules/CyberArkEPMRenamedWindowsBinary.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported predicate expression: ActingProcessName !has ActingProcessFileInternalName"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "DopplePaymer Procdump",
+      "sentinel_id": "1be34fb9-f81b-47ae-84fb-465e6686d76c",
+      "quality_score": 88,
+      "source_path": "Solutions/Microsoft Defender XDR/Analytic Rules/Credential Access/DoppelPaymerProcDump.yaml",
+      "status": "synthetic_ready",
+      "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and (('Command Line' like '*lsass*' and ('Command Line' like '*-accepteula*' or 'Command Line' like '*-ma*')) or ('Process Name' in ('procdump.exe', 'procdump64.exe') and 'Command Line' like '*lsass*'))",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs",
+        "Windows Security Events"
+      ],
+      "required_fields": [
+        "Command Line",
+        "Process Name"
+      ],
+      "synthetic_file": "soc_windows_sysmon_logs.jsonl"
+    },
+    {
+      "title": "LSASS Credential Dumping with Procdump",
+      "sentinel_id": "c332b840-61e4-462e-a201-0e2d69bad45d",
+      "quality_score": 88,
+      "source_path": "Solutions/Microsoft Defender XDR/Analytic Rules/Credential Access/LSASSCredDumpProcdump.yaml",
+      "status": "synthetic_ready",
+      "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and ((('Process Name' like '*procdump.exe*' or 'Process Name' like '*procdump64.exe*') and 'Command Line' like '*lsass*') or ('Command Line' like '*lsass.exe*' and ('Command Line' like '*-accepteula*' or 'Command Line' like '*-ma*')))",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs",
+        "Windows Security Events"
+      ],
+      "required_fields": [
+        "Command Line",
+        "Process Name"
+      ],
+      "synthetic_file": "soc_windows_sysmon_logs.jsonl"
+    },
+    {
+      "title": "Remote File Creation with PsExec",
+      "sentinel_id": "35ab0d58-baab-4154-87ed-fa2f69797e9e",
+      "quality_score": 88,
+      "source_path": "Solutions/Microsoft Defender XDR/Analytic Rules/Lateral Movement/RemoteFileCreationWithPsExec.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported scalar expression: countof(InitiatingProcessCommandLine, \".exe\")"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "NRT Process executed from binary hidden in Base64 encoded file",
+      "sentinel_id": "7ad4c32b-d0d2-411c-a0e8-b557afa12fce",
+      "quality_score": 86,
+      "source_path": "Solutions/Windows Security Events/Analytic Rules/NRT_execute_base64_decodedpayload.yaml",
+      "status": "field_gap",
+      "query": "('Log Source' = 'Windows Security Events' or 'Log Source' = 'Windows Event Security Logs') and ('Event ID' = '4688') and (('Command Line' != null and 'Command Line' != '')) | fields Time, Entity, 'Subject User Name', 'Target Domain Name', 'Process Name', 'Command Line', 'Parent Process Name', 'Account Name' | where 'Command Line' like '*.decode(\\'base64\\')*' or 'Command Line' like '*base64 --decode*' or 'Command Line' like '*.decode64(*'",
+      "selected_source": "Windows Event Security Logs",
+      "parser": "SOC Windows Event Security JSON Parser",
+      "sources": [
+        "Windows Event Security Logs",
+        "Windows Security Events"
+      ],
+      "required_fields": [
+        "Account Name",
+        "Command Line",
+        "Event ID",
+        "Parent Process Name",
+        "Process Name",
+        "Subject User Name",
+        "Target Domain Name"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "Account Name",
+          "Parent Process Name"
+        ],
+        "missing_sources": [
+          "Windows Security Events"
+        ],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "Discord download invoked from cmd line",
+      "sentinel_id": "e7dd442a-0af8-48eb-8358-9e91f4911849",
+      "quality_score": 85,
+      "source_path": "Solutions/Windows Security Events/Hunting Queries/Discorddownloadinvokedfromcmdline.yaml",
+      "status": "synthetic_ready",
+      "query": "('Log Source' = 'Windows Security Events' or 'Log Source' = 'Windows Event Security Logs') and ('Event ID' = '4688') and (('Process Name' like '*powershell.exe*' or 'Process Name' like '*powershell_ise.exe*' or 'Process Name' like '*cmd.exe*') or 'Command Line' like '*powershell*') and (('Command Line' like '*cdn.discordapp.com*' or 'Command Line' like '*moc.ppadrocsid.ndc*')) | fields Time, Entity, User, 'Process Name', 'Command Line'",
+      "selected_source": "Windows Event Security Logs",
+      "parser": "SOC Windows Event Security JSON Parser",
+      "sources": [
+        "Windows Event Security Logs",
+        "Windows Security Events"
+      ],
+      "required_fields": [
+        "Command Line",
+        "Event ID",
+        "Process Name"
+      ],
+      "synthetic_file": "windows_event_security_logs.jsonl"
+    },
+    {
+      "title": "PowerShell or non-browser mailbox login activity",
+      "sentinel_id": "49a4f65a-fe18-408e-afec-042fde93d3ce",
+      "quality_score": 84,
+      "source_path": "Solutions/Microsoft 365/Hunting Queries/powershell_or_nonbrowser_MailboxLogin.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported Sentinel field mapping: Client",
+        "unsupported Sentinel field mapping: Microsoft"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "NRT Base64 Encoded Windows Process Command-lines",
+      "sentinel_id": "c3e5dbaa-a540-408c-8b36-68bdfb3df088",
+      "quality_score": 84,
+      "source_path": "Solutions/Windows Security Events/Analytic Rules/NRT_base64_encoded_pefile.yaml",
+      "status": "synthetic_ready",
+      "query": "('Log Source' = 'Windows Security Events' or 'Log Source' = 'Windows Event Security Logs') and ('Event ID' = '4688') and (('Command Line' != null and 'Command Line' != '')) and ('Command Line' like '*TVqQAAMAAAAEAAA*')",
+      "selected_source": "Windows Event Security Logs",
+      "parser": "SOC Windows Event Security JSON Parser",
+      "sources": [
+        "Windows Event Security Logs",
+        "Windows Security Events"
+      ],
+      "required_fields": [
+        "Command Line",
+        "Event ID"
+      ],
+      "synthetic_file": "windows_event_security_logs.jsonl"
+    },
+    {
+      "title": "Changes to PIM Settings",
+      "sentinel_id": "0ed0fe7c-af29-4990-af7f-bb5ccb231198",
+      "quality_score": 83,
+      "source_path": "Detections/AuditLogs/ChangestoPIMSettings.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported Sentinel field mapping: Category",
+        "unsupported Sentinel field mapping: ResultReason",
+        "unsupported scalar expression: InitiatedBy.user.id",
+        "unsupported scalar expression: InitiatedBy.user.ipAddress",
+        "unsupported scalar expression: InitiatedBy.user.userPrincipalName",
+        "unsupported scalar expression: split(InitiatingUserPrincipalName, \"@\")[0]",
+        "unsupported scalar expression: split(InitiatingUserPrincipalName, \"@\")[1]"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "deimos-component-execution",
+      "sentinel_id": "0e86928c-cc9f-494c-a79e-04f647eb5ef8",
+      "quality_score": 83,
+      "source_path": "Hunting Queries/Microsoft 365 Defender/Campaigns/Jupyter-Solarmaker/deimos-component-execution.yaml",
+      "status": "field_gap",
+      "query": "'Log Source' = 'SOC Windows Sysmon Logs' and ('Parent Process Name' = 'powershell.exe') and (Action = 'AmsiScriptContent') and (Properties like '*[mArS.deiMos]::inteRaCt\"}') | fields 'Parent Process Name', 'Parent Process Name', 'Command Line', Action, Properties",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs"
+      ],
+      "required_fields": [
+        "Action",
+        "Command Line",
+        "Parent Process Name",
+        "Properties"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "Action",
+          "Properties"
+        ],
+        "missing_sources": [],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "LemonDuck-competition-killer",
+      "sentinel_id": "9f6b9f77-0183-4d5b-89a3-761d308cbfad",
+      "quality_score": 83,
+      "source_path": "Hunting Queries/Microsoft 365 Defender/Campaigns/LemonDuck/LemonDuck-competition-killer.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported scalar expression: array_length(set_ProcessCommandLine)"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "powercat-download",
+      "sentinel_id": "12793a73-e49d-4b3d-bb87-e4d4a326d610",
+      "quality_score": 83,
+      "source_path": "Hunting Queries/Microsoft 365 Defender/Delivery/powercat-download.yaml",
+      "status": "synthetic_ready",
+      "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and (('Process Name' like '*cmd.exe*' or 'Process Name' like '*powershell.exe*' or 'Process Name' like '*PowerShell_ISE.exe*')) and ('Command Line' like '*powercat.ps1')",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs",
+        "Windows Security Events"
+      ],
+      "required_fields": [
+        "Command Line",
+        "Process Name"
+      ],
+      "synthetic_file": "soc_windows_sysmon_logs.jsonl"
+    },
+    {
+      "title": "detect-malicious-rar-extraction",
+      "sentinel_id": "dac6bcd8-35c9-4937-88e8-3b1c00dcebe2",
+      "quality_score": 83,
+      "source_path": "Hunting Queries/Microsoft 365 Defender/Execution/detect-malicious-rar-extraction.yaml",
+      "status": "synthetic_ready",
+      "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and ('Process Name' = 'cmd.exe') and ('Command Line' like '*set path=%ProgramFiles(x86)%\\\\WinRAR;C:\\\\Program Files\\\\WinRAR;*') and ('Command Line' like '*cd /d %~dp0 & rar.exe e -o+ -r -inul*.rar*')",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs",
+        "Windows Security Events"
+      ],
+      "required_fields": [
+        "Command Line",
+        "Process Name"
+      ],
+      "synthetic_file": "soc_windows_sysmon_logs.jsonl"
+    },
+    {
+      "title": "cve-2019-0808-nufsys-file creation",
+      "sentinel_id": "447cdff3-2bfc-4f7a-b718-048d6d0ebd87",
+      "quality_score": 83,
+      "source_path": "Hunting Queries/Microsoft 365 Defender/Privilege escalation/cve-2019-0808-nufsys-file creation.yaml",
+      "status": "synthetic_ready",
+      "query": "'Log Source' = 'SOC Windows Sysmon Logs' and ('Target Filename' like '*temp*' and 'Process Name' in ('updata.exe', 'recovery_db.exe', 'spsextserver.exe', 'recoverydb.exe') or Hashes in ('987cf95281a3f6449681148ea05e44115f74ccbc', '6f465b791ab8ef289f20c412808af7ae331c87ab', 'd5c6c037735c4518fffcdac1026770d8d251c7c8'))",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs"
+      ],
+      "required_fields": [
+        "Hashes",
+        "Process Name",
+        "Target Filename"
+      ],
+      "synthetic_file": "soc_windows_sysmon_logs.jsonl"
+    },
+    {
+      "title": "Apache - Request from private IP",
+      "sentinel_id": "a0077556-3aff-11ec-8d3d-0242ac130003",
+      "quality_score": 83,
+      "source_path": "Solutions/ApacheHTTPServer/Analytic Rules/ApacheRequestFromPrivateIP.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported predicate expression: ipv4_is_private(SrcIpAddr)"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "Cisco ASA - threat detection message fired",
+      "sentinel_id": "795edf2d-cf3e-45b5-8452-fe6c9e6a582e",
+      "quality_score": 83,
+      "source_path": "Solutions/CiscoASA/Analytic Rules/CiscoASA-ThreatDetectionMessage.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported Sentinel field mapping: CommunicationDirection"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "Cloudflare - WAF Allowed threat",
+      "sentinel_id": "f53fe2a9-96b5-454c-827e-cf1764a67fb1",
+      "quality_score": 83,
+      "source_path": "Solutions/Cloudflare CCF/Analytic Rules/CloudflareCCFWafThreatAllowed.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported scalar expression: strcat(HttpRequestHeaderHost,ClientRequestPath)"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "Cloudflare - WAF Allowed threat",
+      "sentinel_id": "f53fe2a9-96b5-454c-827e-cf1764a67fb0",
+      "quality_score": 83,
+      "source_path": "Solutions/Cloudflare/Analytic Rules/CloudflareWafThreatAllowed.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported scalar expression: strcat(HttpRequestHeaderHost,ClientRequestPath)"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "GWorkspace - Alert events",
+      "sentinel_id": "e369d246-5da8-11ec-bf63-0242ac130002",
+      "quality_score": 83,
+      "source_path": "Solutions/GoogleWorkspaceReports/Analytic Rules/GWorkspaceAlertEvents.yaml",
+      "status": "field_gap",
+      "query": "'Log Source' = 'SOC Application Logs' and ('Event Type' like '*ALERT_CENTER*')",
+      "selected_source": "SOC Application Logs",
+      "parser": "SOC Application JSON Parser",
+      "sources": [
+        "SOC Application Logs"
+      ],
+      "required_fields": [
+        "Event Type"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "Event Type"
+        ],
+        "missing_sources": [],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "Imperva - Request from unexpected IP address to admin panel",
+      "sentinel_id": "427c025d-c068-4844-8205-66879e89bcfa",
+      "quality_score": 83,
+      "source_path": "Solutions/ImpervaCloudWAF/Analytic Rules/ImpervaAdminPanelUncommonIp.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported Sentinel field mapping: QueryString",
+        "unsupported predicate expression: ipv4_is_private(SrcIpAddr) == False"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "Imperva - Critical severity event not blocked",
+      "sentinel_id": "4d365217-f96a-437c-9c57-53594fa261c3",
+      "quality_score": 83,
+      "source_path": "Solutions/ImpervaCloudWAF/Analytic Rules/ImpervaAttackNotBlocked.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported Sentinel field mapping: EventSeverity"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "Imperva - Malicious Client",
+      "sentinel_id": "2ff35ed4-b26a-4cad-93a6-f67adb00e919",
+      "quality_score": 83,
+      "source_path": "Solutions/ImpervaCloudWAF/Analytic Rules/ImpervaMaliciousClient.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported Sentinel field mapping: ClientApp"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "Imperva - Malicious user agent",
+      "sentinel_id": "905794a9-bc46-42b9-974d-5a2dd58110c5",
+      "quality_score": 83,
+      "source_path": "Solutions/ImpervaCloudWAF/Analytic Rules/ImpervaMaliciousUA.yaml",
+      "status": "field_gap",
+      "query": "('Log Source' = 'SOC WAF Security Logs' or 'Log Source' = 'SOC Web Application Logs' or 'Log Source' = 'SOC Network Firewall Logs') and (('User Agent' like '*Nikto*' or 'User Agent' like '*hydra*' or 'User Agent' like '*advanced email extractor*' or 'User Agent' like '*BFAC*' or 'User Agent' like '*brutus*' or 'User Agent' like '*cgichk*' or 'User Agent' like '*cisco-torch*' or 'User Agent' like '*scanner*' or 'User Agent' like '*datacha0s*' or 'User Agent' like '*dirbuster*' or 'User Agent' like '*grabber*' or 'User Agent' like '*havij*' or 'User Agent' like '*internet ninja*' or 'User Agent' like '*masscan*' or 'User Agent' like '*morfeus*' or 'User Agent' like '*mysqloit*' or 'User Agent' like '*n-stealth*' or 'User Agent' like '*nessus*' or 'User Agent' like '*netsparker*' or 'User Agent' like '*nmap nse*' or 'User Agent' like '*nmap scripting engine*' or 'User Agent' like '*nmap-nse*' or 'User Agent' like '*nsauditor*' or 'User Agent' like '*openvas*' or 'User Agent' like '*pangolin*' or 'User Agent' like '*qualys was*' or 'User Agent' like '*security scan*' or 'User Agent' like '*springenwerk*' or 'User Agent' like '*sql power injector*' or 'User Agent' like '*sqlmap*' or 'User Agent' like '*sqlninja*' or 'User Agent' like '*w3af.sf.net*' or 'User Agent' like '*w3af.sourceforge.net*' or 'User Agent' like '*w3af.org*' or 'User Agent' like '*webbandit*' or 'User Agent' like '*webinspect*' or 'User Agent' like '*webvulnscan*' or 'User Agent' like '*xmlrpc exploit*' or 'User Agent' like '*WPScan*' or 'User Agent' like '*XSpider*' or 'User Agent' like '*Webster*' or 'User Agent' like '*fantomCrew*' or 'User Agent' like '*fantomBrowser*')) | timestats span = 5minute count as count_ by 'Source IP'",
+      "selected_source": "SOC Network Firewall Logs",
+      "parser": "SOC Network Firewall JSON Parser",
+      "sources": [
+        "SOC Network Firewall Logs",
+        "SOC WAF Security Logs",
+        "SOC Web Application Logs"
+      ],
+      "required_fields": [
+        "Source IP",
+        "User Agent",
+        "span"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "User Agent",
+          "span"
+        ],
+        "missing_sources": [],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "McAfee ePO - Unable to clean or delete infected file",
+      "sentinel_id": "9860e89f-72c8-425e-bac9-4a170798d3ea",
+      "quality_score": 83,
+      "source_path": "Solutions/McAfee ePolicy Orchestrator/Analytic Rules/McAfeeEPOUnableCleanDeleteInfectedFile.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported Sentinel field mapping: DstFileName",
+        "unsupported scalar expression: case(EventId == '1026', 'Unable to clean infected file',\n                              EventId == '1028', 'Unable to delete infected file',\n                              EventId == '1298', 'File infected. Delete failed, quarantine failed',\n                              EventId == '1310', 'Multiple extension heuristic detection - delete failed, quarantine failed',\n                              EventId == '1055', 'Unable to delete infected file',\n                              EventId == '2002', 'Unable to clean infected file',\n                              EventId == '2004', 'Unable to delete infected file',\n                              'Unable to move infected file to quarantine')"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "Azure RBAC (Elevate Access)",
+      "sentinel_id": "132fdff4-c044-4855-a390-c1b71e0f833b",
+      "quality_score": 83,
+      "source_path": "Solutions/Microsoft Entra ID/Analytic Rules/AzureRBAC.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported Sentinel field mapping: Category",
+        "unsupported Sentinel field mapping: LoggedByService",
+        "unsupported scalar expression: InitiatedBy.user.ipAddress",
+        "unsupported scalar expression: InitiatedBy.user.userPrincipalName"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "Oracle - Command in URI",
+      "sentinel_id": "6ae36a5e-573f-11ec-bf63-0242ac130002",
+      "quality_score": 83,
+      "source_path": "Solutions/OracleWebLogicServer/Analytic Rules/OracleWebLogicCommandInURI.yaml",
+      "status": "synthetic_ready",
+      "query": "('Log Source' = 'SOC WAF Security Logs' or 'Log Source' = 'SOC Web Application Logs' or 'Log Source' = 'SOC Load Balancer Access Logs') and (('Request URL' like '*cat%20/etc/passwd*' or 'Request URL' like '*/etc/passwd*' or 'Request URL' like '*ping -i*' or 'Request URL' like '*/usr/bin/id(*' or 'Request URL' like '*%2f%75%73%72%2f%62%69%6e%2f%69%64*' or 'Request URL' like '*phpinfo*' or 'Request URL' like '*%70%68%70%69%6e%66%6f%28%29*' or 'Request URL' like '*;id*' or 'Request URL' like '*%3b%69%64*' or 'Request URL' like '*/bin/bash -c*' or 'Request URL' like '*%2f%62%69%6e%2f%62%61%73%68%20%2d%63%27*' or 'Request URL' like '*/bin/bash*' or 'Request URL' like '*%2f%62%69%6e%2f%62%61%73%68*' or 'Request URL' like '*sleep(*' or 'Request URL' like '*%73%6c%65%65%70%28*' or 'Request URL' like '*curl*' or 'Request URL' like '*%63%75%72%6c*' or 'Request URL' like '*&dir*' or 'Request URL' like '*%26%64%69%72*' or 'Request URL' like '*& dir*' or 'Request URL' like '*%26%20%64%69%72*' or 'Request URL' like '*<script>*' or 'Request URL' like '*%3c%73%63%72%69%70%74%3e*' or 'Request URL' like '*eval(*' or 'Request URL' like '*%65%76%61%6c%28*' or 'Request URL' like '*exec(*' or 'Request URL' like '*%65%78%65%63%28*' or 'Request URL' like '*whoami*' or 'Request URL' like '*%77%68%6f%61%6d%69*' or 'Request URL' like '*wget*' or 'Request URL' like '*python*' or 'Request URL' like '*gcc*' or 'Request URL' like '*uname*' or 'Request URL' like '*systeminfo*' or 'Request URL' like '*%77%67%65%74*' or 'Request URL' like '*%70%79%74%68%6f%6e*' or 'Request URL' like '*%75%6e%61%6d%65*' or 'Request URL' like '*%73%79%73%74%65%6d%69%6e%66%6f*'))",
+      "selected_source": "SOC Load Balancer Access Logs",
+      "parser": "SOC Load Balancer Access JSON Parser",
+      "sources": [
+        "SOC Load Balancer Access Logs",
+        "SOC WAF Security Logs",
+        "SOC Web Application Logs"
+      ],
+      "required_fields": [
+        "Request URL"
+      ],
+      "synthetic_file": "soc_load_balancer_access_logs.jsonl"
+    },
+    {
+      "title": "Oracle - Malicious user agent",
+      "sentinel_id": "51d050ee-5740-11ec-bf63-0242ac130002",
+      "quality_score": 83,
+      "source_path": "Solutions/OracleWebLogicServer/Analytic Rules/OracleWebLogicKnownMaliciousUserAgents.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [],
+      "local_validation_errors": [
+        "unsupported Logan output token: \\b(?:summarize|project|extend|join|let|datatable|externaldata|make-series)\\b"
+      ]
+    },
+    {
+      "title": "PaloAlto - Possible attack without response",
+      "sentinel_id": "b6d54840-51d3-11ec-bf63-0242ac130002",
+      "quality_score": 83,
+      "source_path": "Solutions/PaloAltoCDL/Analytic Rules/PaloAltoCDLPossibleAttackWithoutResponse.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported Sentinel field mapping: EventResourceId"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "ApexOne - Commands in Url",
+      "sentinel_id": "4a9a5900-67b7-11ec-90d6-0242ac120003",
+      "quality_score": 83,
+      "source_path": "Solutions/Trend Micro Apex One/Analytic Rules/TMApexOneCommandsInRequest.yaml",
+      "status": "field_gap",
+      "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and ('Event Type' in ('WB:7', 'CnC:Block', 'VAD', 700106)) and ('Request URL' like '*cat%20/etc/passwd*' or 'Request URL' like '*/etc/passwd*' or 'Request URL' like '*ping -i*' or 'Request URL' like '*/usr/bin/id(*' or 'Request URL' like '*%2f%75%73%72%2f%62%69%6e%2f%69%64*' or 'Request URL' like '*phpinfo*' or 'Request URL' like '*%70%68%70%69%6e%66%6f%28%29*' or 'Request URL' like '*;id*' or 'Request URL' like '*%3b%69%64*' or 'Request URL' like '*/bin/bash -c*' or 'Request URL' like '*%2f%62%69%6e%2f%62%61%73%68%20%2d%63%27*' or 'Request URL' like '*/bin/bash*' or 'Request URL' like '*%2f%62%69%6e%2f%62%61%73%68*' or 'Request URL' like '*sleep(*' or 'Request URL' like '*%73%6c%65%65%70%28*' or 'Request URL' like '*curl*' or 'Request URL' like '*%63%75%72%6c*' or 'Request URL' like '*&dir*' or 'Request URL' like '*%26%64%69%72*' or 'Request URL' like '*& dir*' or 'Request URL' = '%26%20%64%69%72' or 'Request URL' like '*<script>*' or 'Request URL' like '*%3c%73%63%72%69%70%74%3e*' or 'Request URL' like '*eval(*' or 'Request URL' like '*%65%76%61%6c%28*' or 'Request URL' like '*exec(*' or 'Request URL' like '*%65%78%65%63%28*' or 'Request URL' like '*whoami*' or 'Request URL' like '*%77%68%6f%61%6d%69*' or 'Request URL' like '*wget*' or 'Request URL' like '*python*' or 'Request URL' like '*gcc*' or 'Request URL' like '*uname*' or 'Request URL' like '*systeminfo*' or 'Request URL' like '*%77%67%65%74*' or 'Request URL' like '*%70%79%74%68%6f%6e*' or 'Request URL' like '*%75%6e%61%6d%65*' or 'Request URL' = '%73%79%73%74%65%6d%69%6e%66%6f')",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs",
+        "Windows Security Events"
+      ],
+      "required_fields": [
+        "Event Type",
+        "Request URL"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "Event Type",
+          "Request URL"
+        ],
+        "missing_sources": [
+          "Windows Security Events"
+        ],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "ApexOne - Possible exploit or execute operation",
+      "sentinel_id": "e289d762-6cc2-11ec-90d6-0242ac120003",
+      "quality_score": 83,
+      "source_path": "Solutions/Trend Micro Apex One/Analytic Rules/TMApexOnePossibleExploitOrExecuteOperation.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported Sentinel field mapping: Event_Type",
+        "unsupported scalar expression: coalesce(column_ifexists(\"FieldDeviceCustomNumber3\", long(null)),DeviceCustomNumber3)"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "Java Executing cmd to run Powershell",
+      "sentinel_id": "2c81c0a0-9823-4a14-b21a-2b4acd3335d2",
+      "quality_score": 82,
+      "source_path": "Solutions/Microsoft Defender XDR/Analytic Rules/Campaign/Sysrv-botnet/MaliciousCMDExecutionByJava.yaml",
+      "status": "synthetic_ready",
+      "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and ('Parent Process Name' = 'java.exe' and 'Process Name' = 'cmd.exe' and ('Command Line' like '*powershell iex*' and 'Command Line' like '*DownloadString*'))",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs",
+        "Windows Security Events"
+      ],
+      "required_fields": [
+        "Command Line",
+        "Parent Process Name",
+        "Process Name"
+      ],
+      "synthetic_file": "soc_windows_sysmon_logs.jsonl"
+    },
+    {
+      "title": "Dev-0530 File Extension Rename",
+      "sentinel_id": "d82eb796-d1eb-43c8-a813-325ce3417cef",
+      "quality_score": 80,
+      "source_path": "Detections/MultipleDataSources/Dev-0530_FileExtRename.yaml",
+      "status": "synthetic_ready",
+      "query": "'Log Source' = 'SOC Windows Sysmon Logs'",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs"
+      ],
+      "required_fields": [],
+      "synthetic_file": "soc_windows_sysmon_logs.jsonl"
+    },
+    {
+      "title": "Clearing of forensic evidence from event logs using wevtutil",
+      "sentinel_id": "515d0bba-b297-4f83-8280-20ff7f27ecb1",
+      "quality_score": 80,
+      "source_path": "Solutions/Microsoft Defender XDR/Analytic Rules/Ransomware/LogDeletionUsingWevtutil.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported Sentinel field mapping: LogClearCount",
+        "unsupported summarize aggregate: LogClearCount = dcount(tostring(ProcessCommandLine))"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "VMWare-LPE-2022-22960",
+      "sentinel_id": "1d468d49-ffea-4daf-ba6b-72525ec17b61",
+      "quality_score": 79,
+      "source_path": "Hunting Queries/Microsoft 365 Defender/Exploits/VMWare-LPE-2022-22960.yaml",
+      "status": "synthetic_ready",
+      "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and (('Command Line' like '*/opt/vmware/certproxy/bing/certproxyService.sh*' or 'Command Line' like '*/horizon/scripts/exportCustomGroupUsers.sh*' or 'Command Line' like '*/horizon/scripts/extractUserIdFromDatabase.sh*') or ('Process Name' like '*certproxyService.sh*' or 'Process Name' like '*exportCustomGroupUsers.sh*' or 'Process Name' like '*extractUserIdFromDatabase.sh *')) | fields Time, 'Host Name (Server)', 'Process Name', 'Command Line', 'Command Line'",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs",
+        "Windows Security Events"
+      ],
+      "required_fields": [
+        "Command Line",
+        "Host Name (Server)",
+        "Process Name"
+      ],
+      "synthetic_file": "soc_windows_sysmon_logs.jsonl"
+    },
+    {
+      "title": "Cisco SE - Ransomware Activity",
+      "sentinel_id": "c9629114-0f49-4b50-9f1b-345287b2eebf",
+      "quality_score": 79,
+      "source_path": "Solutions/Cisco Secure Endpoint/Analytic Rules/CiscoSERansomwareActivityOnHost copy.yaml",
+      "status": "synthetic_ready",
+      "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and (Description like '*Suspected ransomware*')",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs",
+        "Windows Security Events"
+      ],
+      "required_fields": [
+        "Description"
+      ],
+      "synthetic_file": "soc_windows_sysmon_logs.jsonl"
+    },
+    {
+      "title": "Cisco Cloud Security - Connection to non-corporate private network",
+      "sentinel_id": "c9b6d281-b96b-4763-b728-9a04b9fe1246",
+      "quality_score": 79,
+      "source_path": "Solutions/CiscoUmbrella/Analytic Rules/CiscoUmbrellaConnectionNon-CorporatePrivateNetwork.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported Sentinel field mapping: Identities"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "Cisco Cloud Security - Request Allowed to harmful/malicious URI category",
+      "sentinel_id": "d6bf1931-b1eb-448d-90b2-de118559c7ce",
+      "quality_score": 79,
+      "source_path": "Solutions/CiscoUmbrella/Analytic Rules/CiscoUmbrellaRequestAllowedHarmfulMaliciousURICategory.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported Sentinel field mapping: Identities"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "Imperva - Top destinations with blocked requests",
+      "sentinel_id": "e360c980-b515-4c27-921c-19d411bd059d",
+      "quality_score": 79,
+      "source_path": "Solutions/ImpervaCloudWAF/Hunting Queries/ImpervaDestinationBlocked.yaml",
+      "status": "synthetic_ready",
+      "query": "('Log Source' = 'SOC WAF Security Logs' or 'Log Source' = 'SOC Web Application Logs' or 'Log Source' = 'SOC Network Firewall Logs') and (Action like 'REQ_BLOCKED*') | stats count as count_ by 'Destination IP'",
+      "selected_source": "SOC Network Firewall Logs",
+      "parser": "SOC Network Firewall JSON Parser",
+      "sources": [
+        "SOC Network Firewall Logs",
+        "SOC WAF Security Logs",
+        "SOC Web Application Logs"
+      ],
+      "required_fields": [
+        "Action",
+        "Destination IP"
+      ],
+      "synthetic_file": "soc_network_firewall_logs.jsonl"
+    },
+    {
+      "title": "NGINX - Core Dump",
+      "sentinel_id": "9a7f5a97-354b-4eac-b407-a1cc7fc4b4ec",
+      "quality_score": 79,
+      "source_path": "Solutions/NGINX HTTP Server/Analytic Rules/NGINXCoreDump.yaml",
+      "status": "field_gap",
+      "query": "('Log Source' = 'SOC WAF Security Logs' or 'Log Source' = 'SOC Web Application Logs' or 'Log Source' = 'SOC Load Balancer Access Logs') and ('Event Type' = 'ErrorLog') and (Description like '*exited on signal 6 (core dumped)*') | eval ProcessIdCustomEntity = 'Process ID'",
+      "selected_source": "SOC Load Balancer Access Logs",
+      "parser": "SOC Load Balancer Access JSON Parser",
+      "sources": [
+        "SOC Load Balancer Access Logs",
+        "SOC WAF Security Logs",
+        "SOC Web Application Logs"
+      ],
+      "required_fields": [
+        "Description",
+        "Event Type"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "Description",
+          "Event Type"
+        ],
+        "missing_sources": [],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "Ransomware Attack Detected",
+      "sentinel_id": "6c8770fb-c854-403e-a64d-0293ba344d5f",
+      "quality_score": 79,
+      "source_path": "Solutions/Nasuni/Analytic Rules/RansomwareAttackDetected.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported Sentinel field mapping: SyslogMessage",
+        "unsupported scalar expression: substring(SyslogMessage, indexof(SyslogMessage, \"(\")+1, indexof(SyslogMessage, \")\") - indexof(SyslogMessage,\"(\")-1)",
+        "unsupported scalar expression: substring(SyslogMessage, indexof(SyslogMessage, \"volume\")+7, indexof(SyslogMessage,\". Visit\") - (indexof(SyslogMessage, \"volume\")+7))"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "Ransomware Client Blocked",
+      "sentinel_id": "0c96a5a2-d60d-427d-8399-8df7fe8e6536",
+      "quality_score": 79,
+      "source_path": "Solutions/Nasuni/Analytic Rules/RansomwareClientBlocked.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported Sentinel field mapping: SyslogMessage",
+        "unsupported scalar expression: substring(SyslogMessage, indexof(SyslogMessage, \"(\")+1, indexof(SyslogMessage, \")\") - indexof(SyslogMessage,\"(\")-1)",
+        "unsupported scalar expression: substring(SyslogMessage, indexof(SyslogMessage, \"volume\")+7, indexof(SyslogMessage,\"and\") - (indexof(SyslogMessage, \"volume\")+7))"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "LemonDuck-component-download-structure",
+      "sentinel_id": "036bf8d8-954c-467a-8573-76f0fce614ff",
+      "quality_score": 78,
+      "source_path": "Hunting Queries/Microsoft 365 Defender/Campaigns/LemonDuck/LemonDuck-component-download-structure.yaml",
+      "status": "synthetic_ready",
+      "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and ('Parent Process Name' = 'cmd.exe') and (('Command Line' like '*echo*' and 'Command Line' like '*tmp+*' and 'Command Line' like '*.bin*' and 'Command Line' like '*gmd5*' and 'Command Line' like '*downloaddata*' and 'Command Line' like '*down_url*'))",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs",
+        "Windows Security Events"
+      ],
+      "required_fields": [
+        "Command Line",
+        "Parent Process Name"
+      ],
+      "synthetic_file": "soc_windows_sysmon_logs.jsonl"
+    },
+    {
+      "title": "LemonDuck-registration-function",
+      "sentinel_id": "9e963c83-c569-4c9e-a729-d8f7ca05464d",
+      "quality_score": 78,
+      "source_path": "Hunting Queries/Microsoft 365 Defender/Campaigns/LemonDuck/LemonDuck-registration-function.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [],
+      "local_validation_errors": [
+        "query contains unsafe double quote outside Logan string literal"
+      ]
+    },
+    {
+      "title": "locate-dll-created-locally[Nobelium]",
+      "sentinel_id": "644a6cea-7662-45db-89d0-a9136a9a5da6",
+      "quality_score": 78,
+      "source_path": "Hunting Queries/Microsoft 365 Defender/Campaigns/locate-dll-created-locally[Nobelium].yaml",
+      "status": "synthetic_ready",
+      "query": "'Log Source' = 'SOC Windows Sysmon Logs' and (Hashes in ('76640508b1e7759e548771a5359eaed353bf1eec', 'd130bd75645c2433f88ac03e73395fba172ef676', '1acf3108bf1e376c8848fbb25dc87424f2c2a39c', 'e257236206e99f5a5c62035c9c59c57206728b28', '6fdd82b7ca1c1f0ec67c05b36d14c9517065353b', '2f1a5a7411d015d01aaee4535835400191645023', 'bcb5a4dcbc60d26a5f619518f2cfc1b4bb4e4387', '16505d0b929d80ad1680f993c02954cfd3772207', 'd8938528d68aabe1e31df485eb3f75c8a925b5d9', '395da6d4f3c890295f7584132ea73d759bd9d094', 'c8b7f28230ea8fbf441c64fdd3feeba88607069e', '2841391dfbffa02341333dd34f5298071730366a', '2546b0e82aecfe987c318c7ad1d00f9fa11cd305', '2dafddbfb0981c5aa31f27a298b9c804e553c7bc', 'e2152737bed988c0939c900037890d1244d9a30e', 'fd15760abfc0b2537b89adc65b1ff3f072e7e31c') or Hashes in ('32519b85c0b422e4656de6e6c41878e95fd95026267daab4215ee59c107d6c77', 'ce77d116a074dab7a22a0fd4f2c1ab475f16eec42e1ded3c0b0aa8211fe858d6', 'dab758bf98d9b36fa057a66cd0284737abf89857b73ca89280267ee7caf62f3b', 'eb6fab5a2964c5817fb239a7a5079cabca0a00464fb3e07155f28b0a57a2c0ed', 'ac1b2b89e60707a20e9eb1ca480bc3410ead40643b386d624c5d21b47c02917c', '019085a76ba7126fff22770d71bd901c325fc68ac55aa743327984e89f4b0134', 'c09040d35630d75dfef0f804f320f8b3d16a481071076918e9b236a321c1ea77', '0f5d7e6dfdd62c83eb096ba193b5ae394001bac036745495674156ead6557589', 'e0b9eda35f01c1540134aba9195e7e6393286dde3e001fce36fb661cc346b91d', '20e35055113dac104d2bb02d4e7e33413fae0e5a426e0eea0dfd2c1dce692fd9', '2b3445e42d64c85a5475bdbc88a50ba8c013febb53ea97119a11604b7595e53d', 'a3efbc07068606ba1c19a7ef21f4de15d15b41ef680832d7bcba485143668f2d', '92bd1c3d2a11fc4aba2735d9547bd0261560fb20f36a0e7ca2f2d451f1b62690', 'a58d02465e26bdd3a839fd90e4b317eece431d28cab203bbdde569e11247d9e2', 'b8a05cc492f70ffa4adcd446b693d5aa2b71dc4fa2bf5022bf60d7b13884f666', 'cc082d21b9e880ceb6c96db1c48a0375aaf06a5f444cb0144b70e01dc69048e6', 'ffdbdd460420972fd2926a7f460c198523480bc6279dd6cca177230db18748e8'))",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs"
+      ],
+      "required_fields": [
+        "Hashes"
+      ],
+      "synthetic_file": "soc_windows_sysmon_logs.jsonl"
+    },
+    {
+      "title": "locate-dll-loaded-in-memory[Nobelium]",
+      "sentinel_id": "bfea1fee-aa17-467d-b285-932d5a45ca53",
+      "quality_score": 78,
+      "source_path": "Hunting Queries/Microsoft 365 Defender/Campaigns/locate-dll-loaded-in-memory[Nobelium].yaml",
+      "status": "synthetic_ready",
+      "query": "'Log Source' = 'SOC Windows Sysmon Logs' and (Hashes in ('76640508b1e7759e548771a5359eaed353bf1eec', 'd130bd75645c2433f88ac03e73395fba172ef676', '1acf3108bf1e376c8848fbb25dc87424f2c2a39c', 'e257236206e99f5a5c62035c9c59c57206728b28', '6fdd82b7ca1c1f0ec67c05b36d14c9517065353b', '2f1a5a7411d015d01aaee4535835400191645023', 'bcb5a4dcbc60d26a5f619518f2cfc1b4bb4e4387', '16505d0b929d80ad1680f993c02954cfd3772207', 'd8938528d68aabe1e31df485eb3f75c8a925b5d9', '395da6d4f3c890295f7584132ea73d759bd9d094', 'c8b7f28230ea8fbf441c64fdd3feeba88607069e', '2841391dfbffa02341333dd34f5298071730366a', '2546b0e82aecfe987c318c7ad1d00f9fa11cd305', '2dafddbfb0981c5aa31f27a298b9c804e553c7bc', 'e2152737bed988c0939c900037890d1244d9a30e', 'fd15760abfc0b2537b89adc65b1ff3f072e7e31c') or Hashes in ('32519b85c0b422e4656de6e6c41878e95fd95026267daab4215ee59c107d6c77', 'ce77d116a074dab7a22a0fd4f2c1ab475f16eec42e1ded3c0b0aa8211fe858d6', 'dab758bf98d9b36fa057a66cd0284737abf89857b73ca89280267ee7caf62f3b', 'eb6fab5a2964c5817fb239a7a5079cabca0a00464fb3e07155f28b0a57a2c0ed', 'ac1b2b89e60707a20e9eb1ca480bc3410ead40643b386d624c5d21b47c02917c', '019085a76ba7126fff22770d71bd901c325fc68ac55aa743327984e89f4b0134', 'c09040d35630d75dfef0f804f320f8b3d16a481071076918e9b236a321c1ea77', '0f5d7e6dfdd62c83eb096ba193b5ae394001bac036745495674156ead6557589', 'e0b9eda35f01c1540134aba9195e7e6393286dde3e001fce36fb661cc346b91d', '20e35055113dac104d2bb02d4e7e33413fae0e5a426e0eea0dfd2c1dce692fd9', '2b3445e42d64c85a5475bdbc88a50ba8c013febb53ea97119a11604b7595e53d', 'a3efbc07068606ba1c19a7ef21f4de15d15b41ef680832d7bcba485143668f2d', '92bd1c3d2a11fc4aba2735d9547bd0261560fb20f36a0e7ca2f2d451f1b62690', 'a58d02465e26bdd3a839fd90e4b317eece431d28cab203bbdde569e11247d9e2', 'b8a05cc492f70ffa4adcd446b693d5aa2b71dc4fa2bf5022bf60d7b13884f666', 'cc082d21b9e880ceb6c96db1c48a0375aaf06a5f444cb0144b70e01dc69048e6', 'ffdbdd460420972fd2926a7f460c198523480bc6279dd6cca177230db18748e8'))",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs"
+      ],
+      "required_fields": [
+        "Hashes"
+      ],
+      "synthetic_file": "soc_windows_sysmon_logs.jsonl"
+    },
+    {
+      "title": "recon-with-rundll",
+      "sentinel_id": "c720f607-7f7b-41c8-bed9-2d9a240d965c",
+      "quality_score": 78,
+      "source_path": "Hunting Queries/Microsoft 365 Defender/Command and Control/recon-with-rundll.yaml",
+      "status": "field_gap",
+      "query": "'Log Source' = 'SOC Sysmon Network Logs' and ('Parent Process Name' = 'rundll32.exe') and ('Command Line' like '*rundll32.exe*' and not ('Command Line' like '* *') and 'Command Line' != '') | timestats span = 5minute distinctcount('Destination IP') as DestinationIPCount, unique('Destination IP') as set_RemoteIP, unique('Request URL') as set_RemoteUrl, unique('Destination Port') as set_RemotePort by 'Command Line', Entity",
+      "selected_source": "SOC Sysmon Network Logs",
+      "parser": "SOC Sysmon Network JSON Parser",
+      "sources": [
+        "SOC Sysmon Network Logs"
+      ],
+      "required_fields": [
+        "Command Line",
+        "Destination IP",
+        "Destination Port",
+        "Parent Process Name",
+        "Request URL",
+        "span"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "Command Line",
+          "Parent Process Name",
+          "Request URL",
+          "span"
+        ],
+        "missing_sources": [],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "jse-launched-by-word",
+      "sentinel_id": "da127884-b65b-4ccf-b178-320d9cac3e15",
+      "quality_score": 78,
+      "source_path": "Hunting Queries/Microsoft 365 Defender/Execution/jse-launched-by-word.yaml",
+      "status": "synthetic_ready",
+      "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and ('Parent Process Name' in ('explorer.exe', 'winword.exe') and 'Process Name' = 'wscript.exe' and 'Command Line' like '*.jse*')",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs",
+        "Windows Security Events"
+      ],
+      "required_fields": [
+        "Command Line",
+        "Parent Process Name",
+        "Process Name"
+      ],
+      "synthetic_file": "soc_windows_sysmon_logs.jsonl"
+    },
+    {
+      "title": "office-apps-launching-wscipt",
+      "sentinel_id": "1d438d7a-be4b-4bee-a116-fac9a2a621c7",
+      "quality_score": 78,
+      "source_path": "Hunting Queries/Microsoft 365 Defender/Execution/office-apps-launching-wscipt.yaml",
+      "status": "synthetic_ready",
+      "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and ('Parent Process Name' in ('winword.exe', 'excel.exe', 'outlook.exe')) and ('Process Name' = 'wscript.exe' and 'Command Line' like '*.jse*')",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs",
+        "Windows Security Events"
+      ],
+      "required_fields": [
+        "Command Line",
+        "Parent Process Name",
+        "Process Name"
+      ],
+      "synthetic_file": "soc_windows_sysmon_logs.jsonl"
+    },
+    {
+      "title": "reverse-shell-nishang",
+      "sentinel_id": "7490e437-edc2-40b3-87fe-45b736593deb",
+      "quality_score": 78,
+      "source_path": "Hunting Queries/Microsoft 365 Defender/Execution/reverse-shell-nishang.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported Sentinel field mapping: New",
+        "unsupported Sentinel field mapping: client"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "insider-threat-detection-queries (12)",
+      "sentinel_id": "e86221a2-7961-440a-a759-8c7a1fbe40b2",
+      "quality_score": 78,
+      "source_path": "Hunting Queries/Microsoft 365 Defender/General queries/insider-threat-detection-queries (12).yaml",
+      "status": "field_gap",
+      "query": "'Log Source' = 'SOC Windows Sysmon Logs' and (Action = 'UserAccountCreated')",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs"
+      ],
+      "required_fields": [
+        "Action"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "Action"
+        ],
+        "missing_sources": [],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "insider-threat-detection-queries (16)",
+      "sentinel_id": "2d4f4889-ef25-4e3c-9ece-2275e55e8332",
+      "quality_score": 78,
+      "source_path": "Hunting Queries/Microsoft 365 Defender/General queries/insider-threat-detection-queries (16).yaml",
+      "status": "field_gap",
+      "query": "'Log Source' = 'SOC Windows Sysmon Logs' and ('Process Name' like '*.docx' or 'Process Name' like '*.pptx' or 'Process Name' like '*.xlsx' or 'Process Name' like '*.pdf') | timestats span = 5minute count as TotalFiles by 'Account Name' | where TotalFiles > 100 | fields TotalFiles, Time, 'Account Name'",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs"
+      ],
+      "required_fields": [
+        "Account Name",
+        "Process Name",
+        "span"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "Account Name",
+          "span"
+        ],
+        "missing_sources": [],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "insider-threat-detection-queries (4)",
+      "sentinel_id": "1b6d19d5-c1f9-43b0-8db6-1c44c3c965b3",
+      "quality_score": 78,
+      "source_path": "Hunting Queries/Microsoft 365 Defender/General queries/insider-threat-detection-queries (4).yaml",
+      "status": "field_gap",
+      "query": "'Log Source' = 'SOC Windows Sysmon Logs' and (Action like 'ScreenshotTaken*')",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs"
+      ],
+      "required_fields": [
+        "Action"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "Action"
+        ],
+        "missing_sources": [],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "insider-threat-detection-queries",
+      "sentinel_id": "d69ccf9a-4592-41db-a78f-f24108fea06e",
+      "quality_score": 78,
+      "source_path": "Hunting Queries/Microsoft 365 Defender/General queries/insider-threat-detection-queries.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported Sentinel field mapping: IsLocalAdmin"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "cve-2019-0808-c2",
+      "sentinel_id": "0be1295f-b417-477b-95d1-82ce7c43fa03",
+      "quality_score": 78,
+      "source_path": "Hunting Queries/Microsoft 365 Defender/Privilege escalation/cve-2019-0808-c2.yaml",
+      "status": "field_gap",
+      "query": "'Log Source' = 'SOC Sysmon Network Logs' and ('Request URL' in ('luckluck.blog', 'fffun-video.biz') or 'Destination IP' = 'xxxx')",
+      "selected_source": "SOC Sysmon Network Logs",
+      "parser": "SOC Sysmon Network JSON Parser",
+      "sources": [
+        "SOC Sysmon Network Logs"
+      ],
+      "required_fields": [
+        "Destination IP",
+        "Request URL"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "Request URL"
+        ],
+        "missing_sources": [],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "cve-2019-0808-set-scheduled-task",
+      "sentinel_id": "80cb5ddb-baf2-4eb2-9751-8f77c072eb4d",
+      "quality_score": 78,
+      "source_path": "Hunting Queries/Microsoft 365 Defender/Privilege escalation/cve-2019-0808-set-scheduled-task.yaml",
+      "status": "synthetic_ready",
+      "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and ('Process Name' = 'schtasks.exe') and ('Command Line' like '*highest*' and ('Command Line' like '*ecosetup*' or 'Command Line' like '*spsextserv.exe*'))",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs",
+        "Windows Security Events"
+      ],
+      "required_fields": [
+        "Command Line",
+        "Process Name"
+      ],
+      "synthetic_file": "soc_windows_sysmon_logs.jsonl"
+    },
+    {
+      "title": "Apache - Unexpected Post Requests",
+      "sentinel_id": "c21ea046-3ae7-11ec-8d3d-0242ac130003",
+      "quality_score": 78,
+      "source_path": "Solutions/ApacheHTTPServer/Hunting Queries/ApacheUnexpectedPostRequests.yaml",
+      "status": "field_gap",
+      "query": "('Log Source' = 'SOC WAF Security Logs' or 'Log Source' = 'SOC Web Application Logs' or 'Log Source' = 'SOC Load Balancer Access Logs') and ('HTTP Request Method' in ('POST', 'PUT')) | fields 'Request URL', 'HTTP Status Code'",
+      "selected_source": "SOC Load Balancer Access Logs",
+      "parser": "SOC Load Balancer Access JSON Parser",
+      "sources": [
+        "SOC Load Balancer Access Logs",
+        "SOC WAF Security Logs",
+        "SOC Web Application Logs"
+      ],
+      "required_fields": [
+        "HTTP Request Method",
+        "HTTP Status Code",
+        "Request URL"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "HTTP Request Method",
+          "HTTP Status Code"
+        ],
+        "missing_sources": [],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "Apache - Top URLs with client errors",
+      "sentinel_id": "28961fc8-3892-11ec-8d3d-0242ac130003",
+      "quality_score": 78,
+      "source_path": "Solutions/ApacheHTTPServer/Hunting Queries/ApacheUrlClienterrors.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported Sentinel field mapping: (tostring(UrlOriginal))"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "Apache - Top URLs with server errors",
+      "sentinel_id": "ccdd22c6-3896-11ec-8d3d-0242ac130003",
+      "quality_score": 78,
+      "source_path": "Solutions/ApacheHTTPServer/Hunting Queries/ApacheUrlServerErrors.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported Sentinel field mapping: (tostring(UrlOriginal))"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "Box - Downloaded data volume per user",
+      "sentinel_id": "47e0a82d-fd66-4d6e-a64a-ac377f136426",
+      "quality_score": 78,
+      "source_path": "Solutions/Box/Hunting Queries/BoxUserDownloadsByVolume.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported Sentinel field mapping: ['DataVolume(Bytes)']"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "Cisco SE - Connection to known C2 server",
+      "sentinel_id": "0f788a93-dc88-4f80-89ef-bef7cd0fef05",
+      "quality_score": 78,
+      "source_path": "Solutions/Cisco Secure Endpoint/Analytic Rules/CiscoSEC2Connection.yaml",
+      "status": "synthetic_ready",
+      "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and (Description like '*Suspected botnet connection*')",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs",
+        "Windows Security Events"
+      ],
+      "required_fields": [
+        "Description"
+      ],
+      "synthetic_file": "soc_windows_sysmon_logs.jsonl"
+    },
+    {
+      "title": "Cisco SE - Dropper activity on host",
+      "sentinel_id": "b6df3e11-de70-4779-ac9a-276c454a9025",
+      "quality_score": 78,
+      "source_path": "Solutions/Cisco Secure Endpoint/Analytic Rules/CiscoSEDropperActivity.yaml",
+      "status": "synthetic_ready",
+      "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and (Description like '*Potential Dropper Infection*')",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs",
+        "Windows Security Events"
+      ],
+      "required_fields": [
+        "Description"
+      ],
+      "synthetic_file": "soc_windows_sysmon_logs.jsonl"
+    },
+    {
+      "title": "Cisco SE - Generic IOC",
+      "sentinel_id": "bccdbc39-31d3-4e2b-9df2-e4c9eecba825",
+      "quality_score": 78,
+      "source_path": "Solutions/Cisco Secure Endpoint/Analytic Rules/CiscoSEGenIoC.yaml",
+      "status": "synthetic_ready",
+      "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and (Description like '*Generic IOC*')",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs",
+        "Windows Security Events"
+      ],
+      "required_fields": [
+        "Description"
+      ],
+      "synthetic_file": "soc_windows_sysmon_logs.jsonl"
+    },
+    {
+      "title": "Cisco SE - Malware execusion on host",
+      "sentinel_id": "aea4468e-6322-48b6-bd83-f9d300cce855",
+      "quality_score": 78,
+      "source_path": "Solutions/Cisco Secure Endpoint/Analytic Rules/CiscoSEMalwareExecution.yaml",
+      "status": "synthetic_ready",
+      "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and (Description like '*Executed Malware*')",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs",
+        "Windows Security Events"
+      ],
+      "required_fields": [
+        "Description"
+      ],
+      "synthetic_file": "soc_windows_sysmon_logs.jsonl"
+    },
+    {
+      "title": "Cisco SE - Possible webshell",
+      "sentinel_id": "d2c97cc9-1ccc-494d-bad4-564700451a2b",
+      "quality_score": 78,
+      "source_path": "Solutions/Cisco Secure Endpoint/Analytic Rules/CiscoSEWebshell.yaml",
+      "status": "synthetic_ready",
+      "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and (Description like '*Possible webshell*')",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs",
+        "Windows Security Events"
+      ],
+      "required_fields": [
+        "Description"
+      ],
+      "synthetic_file": "soc_windows_sysmon_logs.jsonl"
+    },
+    {
+      "title": "Cisco Duo - Admin password reset",
+      "sentinel_id": "413e49a5-b107-4698-8428-46b89308bd22",
+      "quality_score": 78,
+      "source_path": "Solutions/CiscoDuoSecurity/Analytic Rules/CiscoDuoAdminPasswordReset.yaml",
+      "status": "field_gap",
+      "query": "'Log Source' = 'SOC Application Logs' and (Action = 'admin_reset_password')",
+      "selected_source": "SOC Application Logs",
+      "parser": "SOC Application JSON Parser",
+      "sources": [
+        "SOC Application Logs"
+      ],
+      "required_fields": [
+        "Action"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "Action"
+        ],
+        "missing_sources": [],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "Cisco WSA - Multiple infected files",
+      "sentinel_id": "93186e3d-5dc2-4a00-a993-fa1448db8734",
+      "quality_score": 78,
+      "source_path": "Solutions/CiscoWSA/Analytic Rules/CiscoWSAMultipleInfectedFiles.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported Sentinel field mapping: AmpFileName"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "Cloudflare - Client errors",
+      "sentinel_id": "5d72f483-929a-498a-b840-dff7deed2117",
+      "quality_score": 78,
+      "source_path": "Solutions/Cloudflare CCF/Hunting Queries/CloudflareCCFClientErrors.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported predicate expression: HttpStatusCode between(400..499)"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "Cloudflare - Server errors",
+      "sentinel_id": "7c8f0bed-b25c-4d48-9afa-c505e141bf4c",
+      "quality_score": 78,
+      "source_path": "Solutions/Cloudflare CCF/Hunting Queries/CloudflareCCFServerErrors.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported predicate expression: HttpStatusCode between(500..599)"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "Cloudflare - Client errors",
+      "sentinel_id": "5d72f483-929a-498a-b840-dff7deed2116",
+      "quality_score": 78,
+      "source_path": "Solutions/Cloudflare/Hunting Queries/CloudflareClientErrors.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported predicate expression: HttpStatusCode between(400..499)"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "Cloudflare - Server errors",
+      "sentinel_id": "7c8f0bed-b25c-4d48-9afa-c505e141bf4b",
+      "quality_score": 78,
+      "source_path": "Solutions/Cloudflare/Hunting Queries/CloudflareServerErrors.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported predicate expression: HttpStatusCode between(500..599)"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "CyberArkEPM - Attack attempt not blocked",
+      "sentinel_id": "8e8978a2-9188-4187-8909-5ea00507bf16",
+      "quality_score": 78,
+      "source_path": "Solutions/CyberArkEPM/Analytic Rules/CyberArkEPMAttackAttemptNotBlocked.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported Sentinel field mapping: Evidences",
+        "unsupported Sentinel field mapping: ThreatProtectionAction"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "CyberArkEPM - Multiple attack types",
+      "sentinel_id": "c02f96b4-057b-4e63-87af-6376ef7a081b",
+      "quality_score": 78,
+      "source_path": "Solutions/CyberArkEPM/Analytic Rules/CyberArkEPMMultipleAttackAttempts.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported predicate expression: array_length(att) > 1"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "CyberArkEPM - Possible execution of Powershell Empire",
+      "sentinel_id": "eddfd1fd-71df-4cc3-b050-287643bee398",
+      "quality_score": 78,
+      "source_path": "Solutions/CyberArkEPM/Analytic Rules/CyberArkEPMPossibleExecutionOfPowershellEmpire.yaml",
+      "status": "field_gap",
+      "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and ('Event Type' != 'AttackAttempt') and (('Command Line' like '*-NoP -sta -NonI -W Hidden -Enc*' or 'Command Line' like '*-noP -sta -w 1 -enc*' or 'Command Line' like '*-NoP -NonI -W Hidden -enc*'))",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs",
+        "Windows Security Events"
+      ],
+      "required_fields": [
+        "Command Line",
+        "Event Type"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "Event Type"
+        ],
+        "missing_sources": [
+          "Windows Security Events"
+        ],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "CyberArkEPM - Unexpected executable extension",
+      "sentinel_id": "911d5b75-a1ce-4f13-a839-9c2474768696",
+      "quality_score": 78,
+      "source_path": "Solutions/CyberArkEPM/Analytic Rules/CyberArkEPMUnexpectedExecutableExtension.yaml",
+      "status": "field_gap",
+      "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and ('Event Type' != 'AttackAttempt') and ('Parent Process Name' like '*\\\\*') and (not ('Parent Process Name' like '*.exe')) | fields Time, Description, 'User Name', 'Parent Process Name'",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs",
+        "Windows Security Events"
+      ],
+      "required_fields": [
+        "Event Type",
+        "Parent Process Name",
+        "User Name"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "Event Type",
+          "User Name"
+        ],
+        "missing_sources": [
+          "Windows Security Events"
+        ],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "EatonForeseer - Unauthorized Logins",
+      "sentinel_id": "5a7fccb8-3ed0-44f2-8477-540af3ef4d92",
+      "quality_score": 78,
+      "source_path": "Solutions/EatonForeseer/Analytic Rules/EatonUnautorizedLogins.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "summarize stage did not produce supported aggregates",
+        "unsupported Sentinel field mapping: AccountType",
+        "unsupported summarize aggregate: TimeGenerated=arg_min(TimeGenerated, *)"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "Google DNS - CVE-2021-40444 exploitation",
+      "sentinel_id": "6758c671-e9ee-495d-b6b0-92ffd08a8c3b",
+      "quality_score": 78,
+      "source_path": "Solutions/GoogleCloudPlatformDNS/Analytic Rules/GCPDNSCVE-2021-40444.yaml",
+      "status": "field_gap",
+      "query": "('Log Source' = 'SOC WAF Security Logs' or 'Log Source' = 'SOC Web Application Logs' or 'Log Source' = 'SOC Network Firewall Logs') and (('Query Name' like '*hidusi.com*' or 'Query Name' like '*dodefoh.com*' or 'Query Name' like '*joxinu.com*'))",
+      "selected_source": "SOC Network Firewall Logs",
+      "parser": "SOC Network Firewall JSON Parser",
+      "sources": [
+        "SOC Network Firewall Logs",
+        "SOC WAF Security Logs",
+        "SOC Web Application Logs"
+      ],
+      "required_fields": [
+        "Query Name"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "Query Name"
+        ],
+        "missing_sources": [],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "Google DNS - Possible data exfiltration",
+      "sentinel_id": "705bed63-668f-4508-9d2d-26faf4010700",
+      "quality_score": 78,
+      "source_path": "Solutions/GoogleCloudPlatformDNS/Analytic Rules/GCPDNSDataExfiltration.yaml",
+      "status": "field_gap",
+      "query": "('Log Source' = 'SOC WAF Security Logs' or 'Log Source' = 'SOC Web Application Logs' or 'Log Source' = 'SOC Network Firewall Logs') and ('Query Name' like '*webhook.site*')",
+      "selected_source": "SOC Network Firewall Logs",
+      "parser": "SOC Network Firewall JSON Parser",
+      "sources": [
+        "SOC Network Firewall Logs",
+        "SOC WAF Security Logs",
+        "SOC Web Application Logs"
+      ],
+      "required_fields": [
+        "Query Name"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "Query Name"
+        ],
+        "missing_sources": [],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "Google DNS - Exchange online autodiscover abuse",
+      "sentinel_id": "424c2aca-5367-4247-917a-5d0f7035e40e",
+      "quality_score": 78,
+      "source_path": "Solutions/GoogleCloudPlatformDNS/Analytic Rules/GCPDNSExchangeAutodiscoverAbuse.yaml",
+      "status": "field_gap",
+      "query": "('Log Source' = 'SOC WAF Security Logs' or 'Log Source' = 'SOC Web Application Logs' or 'Log Source' = 'SOC Network Firewall Logs') and (('Query Name' like '*autodiscover.com.br*' or 'Query Name' like '*autodiscover.com.cn*' or 'Query Name' like '*autodiscover.com.co*' or 'Query Name' like '*autodiscover.es*' or 'Query Name' like '*autodiscover.fr*' or 'Query Name' like '*autodiscover.in*' or 'Query Name' like '*autodiscover.it*' or 'Query Name' like '*autodiscover.sg*' or 'Query Name' like '*autodiscover.uk*' or 'Query Name' like '*autodiscover.xyz*' or 'Query Name' like '*autodiscover.online*'))",
+      "selected_source": "SOC Network Firewall Logs",
+      "parser": "SOC Network Firewall JSON Parser",
+      "sources": [
+        "SOC Network Firewall Logs",
+        "SOC WAF Security Logs",
+        "SOC Web Application Logs"
+      ],
+      "required_fields": [
+        "Query Name"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "Query Name"
+        ],
+        "missing_sources": [],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "Google DNS - Malicous Python packages",
+      "sentinel_id": "75491db8-eaf7-40bb-a46a-279872cc82f5",
+      "quality_score": 78,
+      "source_path": "Solutions/GoogleCloudPlatformDNS/Analytic Rules/GCPDNSMaliciousPythonPackages.yaml",
+      "status": "field_gap",
+      "query": "('Log Source' = 'SOC WAF Security Logs' or 'Log Source' = 'SOC Web Application Logs' or 'Log Source' = 'SOC Network Firewall Logs') and (('Query Name' like '*psec.forward.io.global.prod.fastly.net*' or 'Query Name' like '*b0a0374cd1cb4305002e.d.requestbin.net*' or 'Query Name' like '*tornadodomain.000webhostapp.com*' or 'Query Name' like '*yxznlysc47wvrb9r9z211e1jbah15q*'))",
+      "selected_source": "SOC Network Firewall Logs",
+      "parser": "SOC Network Firewall JSON Parser",
+      "sources": [
+        "SOC Network Firewall Logs",
+        "SOC WAF Security Logs",
+        "SOC Web Application Logs"
+      ],
+      "required_fields": [
+        "Query Name"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "Query Name"
+        ],
+        "missing_sources": [],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "Google DNS - CVE-2021-34527 (PrintNightmare) external exploit",
+      "sentinel_id": "e632e73a-06c4-47f6-8bed-b2498aa6e30f",
+      "quality_score": 78,
+      "source_path": "Solutions/GoogleCloudPlatformDNS/Analytic Rules/GCPDNSPrintNightmare.yaml",
+      "status": "field_gap",
+      "query": "('Log Source' = 'SOC WAF Security Logs' or 'Log Source' = 'SOC Web Application Logs' or 'Log Source' = 'SOC Network Firewall Logs') and ('Query Name' like '*gentilkiwi*')",
+      "selected_source": "SOC Network Firewall Logs",
+      "parser": "SOC Network Firewall JSON Parser",
+      "sources": [
+        "SOC Network Firewall Logs",
+        "SOC WAF Security Logs",
+        "SOC Web Application Logs"
+      ],
+      "required_fields": [
+        "Query Name"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "Query Name"
+        ],
+        "missing_sources": [],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "Google DNS - UNC2452 (Nobelium) APT Group activity",
+      "sentinel_id": "22a613ea-c338-4f91-bbd3-3be97b00ebf9",
+      "quality_score": 78,
+      "source_path": "Solutions/GoogleCloudPlatformDNS/Analytic Rules/GCPDNSUNC2452AptActivity.yaml",
+      "status": "field_gap",
+      "query": "('Log Source' = 'SOC WAF Security Logs' or 'Log Source' = 'SOC Web Application Logs' or 'Log Source' = 'SOC Network Firewall Logs') and (('Query Name' like '*tomasubiera.com*' or 'Query Name' like '*theandersonco.com*' or 'Query Name' like '*stonecrestnews.com*' or 'Query Name' like '*nordicmademedia.com*'))",
+      "selected_source": "SOC Network Firewall Logs",
+      "parser": "SOC Network Firewall JSON Parser",
+      "sources": [
+        "SOC Network Firewall Logs",
+        "SOC WAF Security Logs",
+        "SOC Web Application Logs"
+      ],
+      "required_fields": [
+        "Query Name"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "Query Name"
+        ],
+        "missing_sources": [],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "GWorkspace - Admin permissions granted",
+      "sentinel_id": "03f25156-6172-11ec-90d6-0242ac120003",
+      "quality_score": 78,
+      "source_path": "Solutions/GoogleWorkspaceReports/Analytic Rules/GWorkspaceAdminPermissionsGranted.yaml",
+      "status": "field_gap",
+      "query": "'Log Source' = 'SOC Application Logs' and (Description = 'grant_admin_privilege')",
+      "selected_source": "SOC Application Logs",
+      "parser": "SOC Application JSON Parser",
+      "sources": [
+        "SOC Application Logs"
+      ],
+      "required_fields": [
+        "Description"
+      ],
+      "gap": {
+        "reason": "selected parser does not expose every query field",
+        "missing_fields": [
+          "Description"
+        ],
+        "missing_sources": [],
+        "oci_steps": [
+          "confirm OCI source",
+          "define parser or parser mapping",
+          "define fields and aliases",
+          "ingest representative sample logs",
+          "validate in CAP tenancy",
+          "update field dictionary",
+          "add allow-list mapping",
+          "add converter tests"
+        ]
+      }
+    },
+    {
+      "title": "GWorkspace - Unknown login type",
+      "sentinel_id": "05189314-5e58-11ec-bf63-0242ac130002",
+      "quality_score": 78,
+      "source_path": "Solutions/GoogleWorkspaceReports/Hunting Queries/GWorkspaceUnknownLoginType.yaml",
+      "status": "conversion_skipped",
+      "skip_reasons": [
+        "unsupported Sentinel field mapping: LoginType"
+      ],
+      "local_validation_errors": []
+    },
+    {
+      "title": "Imperva - Top sources with blocked requests",
+      "sentinel_id": "ec5b9eb6-f43a-40fc-ae65-2af9ae1e77ae",
+      "quality_score": 78,
+      "source_path": "Solutions/ImpervaCloudWAF/Hunting Queries/ImpervaSourceBlocked.yaml",
+      "status": "synthetic_ready",
+      "query": "('Log Source' = 'SOC WAF Security Logs' or 'Log Source' = 'SOC Web Application Logs' or 'Log Source' = 'SOC Network Firewall Logs') and (Action like 'REQ_BLOCKED*') | stats count as count_ by 'Source IP'",
+      "selected_source": "SOC Network Firewall Logs",
+      "parser": "SOC Network Firewall JSON Parser",
+      "sources": [
+        "SOC Network Firewall Logs",
+        "SOC WAF Security Logs",
+        "SOC Web Application Logs"
+      ],
+      "required_fields": [
+        "Action",
+        "Source IP"
+      ],
+      "synthetic_file": "soc_network_firewall_logs.jsonl"
+    },
+    {
+      "title": "McAfee ePO - Deployment failed",
+      "sentinel_id": "155243f4-d962-4717-8a7b-b15b6d112660",
+      "quality_score": 78,
+      "source_path": "Solutions/McAfee ePolicy Orchestrator/Analytic Rules/McAfeeEPODeploymentFailed.yaml",
+      "status": "synthetic_ready",
+      "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Security Events') and ('Event ID' = '2412')",
+      "selected_source": "SOC Windows Sysmon Logs",
+      "parser": "SOC Windows Sysmon JSON Parser",
+      "sources": [
+        "SOC Windows Sysmon Logs",
+        "Windows Security Events"
+      ],
+      "required_fields": [
+        "Event ID"
+      ],
+      "synthetic_file": "soc_windows_sysmon_logs.jsonl"
+    }
+  ]
+}

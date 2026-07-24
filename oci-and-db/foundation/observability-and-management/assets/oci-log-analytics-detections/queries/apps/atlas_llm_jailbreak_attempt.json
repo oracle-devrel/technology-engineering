@@ -1,0 +1,34 @@
+{
+  "title": "ATLAS: LLM Jailbreak Attempt Against Application (AML.T0054)",
+  "description": "Detects jailbreak attempts against LLM-backed application endpoints using only SOC Application Logs fields. Matches well-known jailbreak personas and bypass phrases (\"DAN\", \"do anything now\", \"developer mode\", \"jailbreak\", \"unfiltered\", \"roleplay as\") in Span Attributes, Query String, or Request URL on chat/completion routes. MITRE ATLAS AML.T0054 (LLM Jailbreak).\n",
+  "query": "'Log Source' = 'SOC Application Logs' and ('Request URL' like '*/v1/chat*' or 'Request URL' like '*/llm/*' or 'Request URL' like '*/ai/*' or 'Request URL' like '*/generate*' or 'Request URL' like '*/invoke*') and ('Span Attributes' like '*do anything now*' or 'Span Attributes' like '*developer mode*' or 'Span Attributes' like '*jailbreak*' or 'Span Attributes' like '*ignore your guidelines*' or 'Span Attributes' like '*without any restrictions*' or 'Span Attributes' like '*roleplay as*' or 'Span Attributes' like '*pretend you are*' or 'Query String' like '*jailbreak*' or 'Request URL' like '*dan_mode*') | stats count as Hits, distinctcount('Trace ID') as Sessions by 'Client IP', 'Service Name' | sort -Hits",
+  "level": "high",
+  "stig_category": "CAT II",
+  "tags": [
+    "atlas.t0054",
+    "atlas.defense_evasion",
+    "ai_attack",
+    "genai",
+    "llm_jailbreak"
+  ],
+  "atlas": {
+    "tactics": [
+      "defense_evasion",
+      "ml_attack_staging"
+    ],
+    "techniques": [
+      "AML.T0054"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "application",
+    "candidates": [
+      "SOC Application Logs"
+    ]
+  },
+  "falsepositives": [
+    "Safety/guardrail regression suites that intentionally submit jailbreak corpora",
+    "Security research traffic from an approved internal team"
+  ]
+}

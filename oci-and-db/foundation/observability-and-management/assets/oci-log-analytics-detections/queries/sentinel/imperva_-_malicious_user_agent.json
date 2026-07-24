@@ -1,0 +1,84 @@
+{
+  "title": "Imperva - Malicious user agent",
+  "description": "'Detects requests containing known malicious user agent strings.'\n",
+  "query": "('Log Source' = 'SOC WAF Security Logs' or 'Log Source' = 'SOC Web Application Logs' or 'Log Source' = 'SOC Network Firewall Logs') and (('User Agent' like '*Nikto*' or 'User Agent' like '*hydra*' or 'User Agent' like '*advanced email extractor*' or 'User Agent' like '*BFAC*' or 'User Agent' like '*brutus*' or 'User Agent' like '*cgichk*' or 'User Agent' like '*cisco-torch*' or 'User Agent' like '*scanner*' or 'User Agent' like '*datacha0s*' or 'User Agent' like '*dirbuster*' or 'User Agent' like '*grabber*' or 'User Agent' like '*havij*' or 'User Agent' like '*internet ninja*' or 'User Agent' like '*masscan*' or 'User Agent' like '*morfeus*' or 'User Agent' like '*mysqloit*' or 'User Agent' like '*n-stealth*' or 'User Agent' like '*nessus*' or 'User Agent' like '*netsparker*' or 'User Agent' like '*nmap nse*' or 'User Agent' like '*nmap scripting engine*' or 'User Agent' like '*nmap-nse*' or 'User Agent' like '*nsauditor*' or 'User Agent' like '*openvas*' or 'User Agent' like '*pangolin*' or 'User Agent' like '*qualys was*' or 'User Agent' like '*security scan*' or 'User Agent' like '*springenwerk*' or 'User Agent' like '*sql power injector*' or 'User Agent' like '*sqlmap*' or 'User Agent' like '*sqlninja*' or 'User Agent' like '*w3af.sf.net*' or 'User Agent' like '*w3af.sourceforge.net*' or 'User Agent' like '*w3af.org*' or 'User Agent' like '*webbandit*' or 'User Agent' like '*webinspect*' or 'User Agent' like '*webvulnscan*' or 'User Agent' like '*xmlrpc exploit*' or 'User Agent' like '*WPScan*' or 'User Agent' like '*XSpider*' or 'User Agent' like '*Webster*' or 'User Agent' like '*fantomCrew*' or 'User Agent' like '*fantomBrowser*')) | timestats span = 5minute count as count_ by 'Source IP'",
+  "level": "high",
+  "source_type": "microsoft_sentinel",
+  "sentinel_id": "905794a9-bc46-42b9-974d-5a2dd58110c5",
+  "sentinel_source_path": "Solutions/ImpervaCloudWAF/Analytic Rules/ImpervaMaliciousUA.yaml",
+  "sentinel_source_url": "https://github.com/Azure/Azure-Sentinel/blob/63ff8eedc58e7df0d22eba05ca73c92b59a66634/Solutions/ImpervaCloudWAF/Analytic Rules/ImpervaMaliciousUA.yaml",
+  "required_data_connectors": [
+    {
+      "connector_id": "ImpervaWAFCloudAPI",
+      "data_types": [
+        "ImpervaWAFCloud"
+      ]
+    }
+  ],
+  "conversion_status": "promoted",
+  "conversion_confidence": "medium",
+  "source_confidence": "high",
+  "live_validation_status": "passed",
+  "sentinel_tables": [
+    "ImpervaWAFCloud"
+  ],
+  "sentinel_category": "network",
+  "tags": [
+    "microsoft_sentinel",
+    "sentinel.network"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "initial_access"
+    ],
+    "techniques": [
+      "T1190",
+      "T1133"
+    ]
+  },
+  "logsource": {
+    "product": "microsoft_sentinel",
+    "service": "waf",
+    "candidates": [
+      "SOC WAF Security Logs",
+      "SOC Web Application Logs",
+      "SOC Network Firewall Logs"
+    ],
+    "original_tables": [
+      "ImpervaWAFCloud"
+    ]
+  },
+  "references": [
+    {
+      "name": "Microsoft Sentinel source rule",
+      "url": "https://github.com/Azure/Azure-Sentinel/blob/63ff8eedc58e7df0d22eba05ca73c92b59a66634/Solutions/ImpervaCloudWAF/Analytic Rules/ImpervaMaliciousUA.yaml"
+    },
+    {
+      "name": "Microsoft Sentinel repository",
+      "url": "https://github.com/Azure/Azure-Sentinel"
+    },
+    {
+      "name": "Azure/Azure-Sentinel license",
+      "url": "https://github.com/Azure/Azure-Sentinel/blob/master/LICENSE"
+    }
+  ],
+  "attribution": {
+    "source": "Microsoft Sentinel",
+    "repository": "Azure/Azure-Sentinel",
+    "license": "MIT",
+    "license_url": "https://github.com/Azure/Azure-Sentinel/blob/master/LICENSE"
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "timeSelection": {
+      "timePeriod": "l21d"
+    },
+    "ask_ai_prompts": [
+      "Summarize the Microsoft Sentinel converted detection results and identify the highest-risk pivots."
+    ]
+  },
+  "detection_maturity": "source_converted",
+  "field_coverage": "mapped_subset",
+  "test_data_coverage": "not_evaluated",
+  "scheduled_rule_eligibility": "not_evaluated"
+}

@@ -1,0 +1,143 @@
+{
+  "title": "Sysmon DNS Data Exfiltration",
+  "description": "Detects DNS queries with high-entropy subdomains that may indicate data exfiltration via DNS tunneling. Encoded data in subdomain labels is a common technique for covert data transfer.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Query Name' matches '^[a-zA-Z0-9]{30,}\\\\.') or (('Query Name' like '*.dnscat.*' or 'Query Name' like '*.dns2tcp.*' or 'Query Name' like '*.iodine.*' or 'Query Name' like '*.dnsexfil.*')) or ('Query Name' matches '^[0-9a-f]{20,}\\\\.')) | eval domain_length = length('Query Name') | where domain_length > 30 | fields 'Query Name', 'Host Name (Server)', User, domain_length",
+  "sigma_id": "a1b2c3d4-7003-4000-8000-000000000001",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.exfiltration",
+    "attack.t1048.003",
+    "attack.command_and_control",
+    "attack.t1071.004"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "exfiltration",
+      "command_and_control"
+    ],
+    "techniques": [
+      "T1048.003",
+      "T1071.004"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "CDN hostnames with long hashes",
+    "Legitimate DKIM DNS records"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 12,
+    "techniques_with_tests": [
+      "T1048.003",
+      "T1071.004"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1048.003",
+        "test_name": "Exfiltration Over Alternative Protocol - HTTP",
+        "test_guid": "1d1abbd6-a3d3-4b2e-bef5-c59293f46eff",
+        "executor": "manual",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1048.003/T1048.003.md"
+      },
+      {
+        "technique_id": "T1048.003",
+        "test_name": "Exfiltration Over Alternative Protocol - ICMP",
+        "test_guid": "dd4b4421-2e25-4593-90ae-7021947ad12e",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1048.003/T1048.003.md"
+      },
+      {
+        "technique_id": "T1048.003",
+        "test_name": "Exfiltration Over Alternative Protocol - DNS",
+        "test_guid": "c403b5a4-b5fc-49f2-b181-d1c80d27db45",
+        "executor": "manual",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1048.003/T1048.003.md"
+      },
+      {
+        "technique_id": "T1048.003",
+        "test_name": "Exfiltration Over Alternative Protocol - HTTP",
+        "test_guid": "6aa58451-1121-4490-a8e9-1dada3f1c68c",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1048.003/T1048.003.md"
+      },
+      {
+        "technique_id": "T1048.003",
+        "test_name": "Exfiltration Over Alternative Protocol - SMTP",
+        "test_guid": "ec3a835e-adca-4c7c-88d2-853b69c11bb9",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1048.003/T1048.003.md"
+      },
+      {
+        "technique_id": "T1048.003",
+        "test_name": "MAZE FTP Upload",
+        "test_guid": "57799bc2-ad1e-4130-a793-fb0c385130ba",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1048.003/T1048.003.md"
+      },
+      {
+        "technique_id": "T1048.003",
+        "test_name": "Exfiltration Over Alternative Protocol - FTP - Rclone",
+        "test_guid": "b854eb97-bf9b-45ab-a1b5-b94e4880c56b",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1048.003/T1048.003.md"
+      },
+      {
+        "technique_id": "T1048.003",
+        "test_name": "Python3 http.server",
+        "test_guid": "3ea1f938-f80a-4305-9aa8-431bc4867313",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1048.003/T1048.003.md"
+      },
+      {
+        "technique_id": "T1071.004",
+        "test_name": "DNS Large Query Volume",
+        "test_guid": "1700f5d6-5a44-487b-84de-bc66f507b0a6",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1071.004/T1071.004.md"
+      },
+      {
+        "technique_id": "T1071.004",
+        "test_name": "DNS Regular Beaconing",
+        "test_guid": "3efc144e-1af8-46bb-8ca2-1376bb6db8b6",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1071.004/T1071.004.md"
+      },
+      {
+        "technique_id": "T1071.004",
+        "test_name": "DNS Long Domain Query",
+        "test_guid": "fef31710-223a-40ee-8462-a396d6b66978",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1071.004/T1071.004.md"
+      },
+      {
+        "technique_id": "T1071.004",
+        "test_name": "DNS C2",
+        "test_guid": "e7bf9802-2e78-4db9-93b5-181b7bcd37d7",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1071.004/T1071.004.md"
+      }
+    ]
+  }
+}

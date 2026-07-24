@@ -1,0 +1,32 @@
+{
+  "title": "Mass Assignment Attack Detected",
+  "description": "Detects mass assignment attacks where extra parameters are injected into API requests to modify protected fields (isAdmin, role, price). OWASP A04:2021 Insecure Design.",
+  "query": "('Log Source' = 'SOC Web Application Logs' or 'Log Source' = 'OCI Load Balancer Access Logs') and ((('Attack Type' = 'mass_assignment' or 'Attack Type' = 'parameter_tampering')) or (('Request Body' like '*isAdmin*' or 'Request Body' like '*is_admin*' or 'Request Body' like '*\"role\":*' or 'Request Body' like '*\"permissions\":*' or 'Request Body' like '*\"verified\":*' or 'Request Body' like '*\"balance\":*' or 'Request Body' like '*\"price\":0*' or 'Request Body' like '*\"discount\":100*')))",
+  "sigma_id": "a1010030-owasp-a04-massassign-001",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.privilege_escalation",
+    "attack.t1078",
+    "owasp.a04"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "privilege_escalation"
+    ],
+    "techniques": [
+      "T1078"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "webapp",
+    "candidates": [
+      "SOC Web Application Logs",
+      "OCI Load Balancer Access Logs"
+    ]
+  },
+  "falsepositives": [
+    "Admin API endpoints that legitimately set these fields"
+  ]
+}

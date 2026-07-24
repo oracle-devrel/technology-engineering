@@ -1,0 +1,73 @@
+{
+  "title": "SharpRDP Lateral Movement",
+  "description": "Detects indicators of SharpRDP or similar tools performing authenticated RDP lateral movement.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*SharpRDP*' or 'Command Line' like '*xfreerdp*' or 'Command Line' like '*rdesktop*')))",
+  "sigma_id": "c14b23f9-e3cd-4abb-9d07-8ff112654c25",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.lateral_movement",
+    "attack.t1021.001"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "lateral_movement"
+    ],
+    "techniques": [
+      "T1021.001"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate RDP client usage"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 4,
+    "techniques_with_tests": [
+      "T1021.001"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1021.001",
+        "test_name": "RDP to DomainController",
+        "test_guid": "355d4632-8cb9-449d-91ce-b566d0253d3e",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1021.001/T1021.001.md"
+      },
+      {
+        "technique_id": "T1021.001",
+        "test_name": "Changing RDP Port to Non Standard Port via Powershell",
+        "test_guid": "2f840dd4-8a2e-4f44-beb3-6b2399ea3771",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1021.001/T1021.001.md"
+      },
+      {
+        "technique_id": "T1021.001",
+        "test_name": "Changing RDP Port to Non Standard Port via Command_Prompt",
+        "test_guid": "74ace21e-a31c-4f7d-b540-53e4eb6d1f73",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1021.001/T1021.001.md"
+      },
+      {
+        "technique_id": "T1021.001",
+        "test_name": "Disable NLA for RDP via Command Prompt",
+        "test_guid": "01d1c6c0-faf0-408e-b368-752a02285cb2",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1021.001/T1021.001.md"
+      }
+    ]
+  }
+}

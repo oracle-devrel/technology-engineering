@@ -1,0 +1,89 @@
+{
+  "title": "Software Discovery via WMIC",
+  "description": "Detects software enumeration using WMIC to identify installed applications.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Process Name' like '*\\\\wmic.exe' and ('Command Line' like '*product get*' or 'Command Line' like '*qfe list*')))",
+  "sigma_id": "d7e23910-3d80-4a54-9e23-77c6898da091",
+  "level": "low",
+  "stig_category": "CAT III",
+  "tags": [
+    "attack.discovery",
+    "attack.t1518"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "discovery"
+    ],
+    "techniques": [
+      "T1518"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "IT inventory scripts"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 6,
+    "techniques_with_tests": [
+      "T1518"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1518",
+        "test_name": "Find and Display Internet Explorer Browser Version",
+        "test_guid": "68981660-6670-47ee-a5fa-7e74806420a4",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1518/T1518.md"
+      },
+      {
+        "technique_id": "T1518",
+        "test_name": "Applications Installed",
+        "test_guid": "c49978f6-bd6e-4221-ad2c-9e3e30cc1e3b",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1518/T1518.md"
+      },
+      {
+        "technique_id": "T1518",
+        "test_name": "Find and Display Safari Browser Version",
+        "test_guid": "103d6533-fd2a-4d08-976a-4a598565280f",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1518/T1518.md"
+      },
+      {
+        "technique_id": "T1518",
+        "test_name": "WinPwn - Dotnetsearch",
+        "test_guid": "7e79a1b6-519e-433c-ad55-3ff293667101",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1518/T1518.md"
+      },
+      {
+        "technique_id": "T1518",
+        "test_name": "WinPwn - DotNet",
+        "test_guid": "10ba02d0-ab76-4f80-940d-451633f24c5b",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1518/T1518.md"
+      },
+      {
+        "technique_id": "T1518",
+        "test_name": "WinPwn - powerSQL",
+        "test_guid": "0bb64470-582a-4155-bde2-d6003a95ed34",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1518/T1518.md"
+      }
+    ]
+  }
+}

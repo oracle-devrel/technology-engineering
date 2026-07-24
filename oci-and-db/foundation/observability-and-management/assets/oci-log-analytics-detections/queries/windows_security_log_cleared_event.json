@@ -1,0 +1,45 @@
+{
+  "title": "Windows Security or System Event Log Cleared",
+  "description": "Detects native Windows event log clearing through Security Event ID 1102 and System Event ID 104.",
+  "query": "(('Log Source' = 'Windows Security Events' or 'Log Source' = 'Windows Event Security Logs') and 'Event ID' = '1102') or ('Log Source' = 'Windows Event System Logs' and 'Event ID' = '104') | stats count as ClearEvents by User, 'Host Name (Server)', Entity | sort -ClearEvents",
+  "sigma_id": "logan-winsec-1102-event-log-cleared",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.t1070.001"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1070.001"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "security_system",
+    "candidates": [
+      "Windows Security Events",
+      "Windows Event Security Logs",
+      "Windows Event System Logs"
+    ]
+  },
+  "falsepositives": [
+    "Approved incident-response evidence collection or test system resets"
+  ],
+  "requires_aggregation": true,
+  "references": [
+    {
+      "name": "Microsoft Learn: 1102(S) The audit log was cleared",
+      "url": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-1102"
+    }
+  ],
+  "atomic_red_team": {
+    "has_tests": false,
+    "test_count": 0,
+    "techniques_with_tests": [],
+    "tests": []
+  }
+}

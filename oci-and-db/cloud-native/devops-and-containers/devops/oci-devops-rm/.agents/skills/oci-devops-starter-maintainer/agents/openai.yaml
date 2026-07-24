@@ -1,0 +1,7 @@
+interface:
+  display_name: "OKE DevOps Starter Maintainer"
+  short_description: "Safely maintain and test the OCI DevOps starter"
+  default_prompt: "Use $oci-devops-starter-maintainer to make and validate this stack change safely."
+
+policy:
+  allow_implicit_invocation: true

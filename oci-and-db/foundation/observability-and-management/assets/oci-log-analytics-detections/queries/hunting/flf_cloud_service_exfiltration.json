@@ -1,0 +1,38 @@
+{
+  "title": "FLF: Cloud Service Exfiltration Hunt",
+  "description": "FreeLabFriday-inspired hunt for suspicious non-browser processes uploading or connecting to trusted cloud services such as Microsoft Graph, OneDrive, Google Drive, Dropbox, and Slack.",
+  "query": "('Log Source' = 'SOC Sysmon Network Logs' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and 'Event ID' = '3' and ('Destination Hostname' like '*graph.microsoft.com*' or 'Destination Hostname' like '*login.microsoftonline.com*' or 'Destination Hostname' like '*drive.google.com*' or 'Destination Hostname' like '*dropbox.com*' or 'Destination Hostname' like '*slack.com*' or 'Destination Hostname' like '*onedrive*') and not (('Process Name' like '*\\\\OneDrive.exe' or 'Process Name' like '*\\\\Teams.exe' or 'Process Name' like '*\\\\OUTLOOK.EXE' or 'Process Name' like '*\\\\msedge.exe' or 'Process Name' like '*\\\\chrome.exe' or 'Process Name' like '*\\\\firefox.exe')) | stats count as CloudApiEvents, unique('Destination Hostname') as CloudHosts by 'Host Name (Server)', 'Process Name', 'Destination IP' | sort -CloudApiEvents",
+  "type": "hunting",
+  "hunting_type": "free_lab_friday_source_hunt",
+  "level": "critical",
+  "tags": ["freelabfriday", "cloud_services", "exfiltration", "c2", "attack.t1567"],
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon_network",
+    "candidates": ["SOC Sysmon Network Logs", "Windows Sysmon Operational Logs", "SOC Windows Sysmon Logs"]
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "groupBy": ["Host Name (Server)", "Process Name", "Destination IP"],
+      "valueField": "CloudApiEvents"
+    },
+    "ask_ai_prompts": [
+      "Which non-browser process is using trusted cloud services in a suspicious way?",
+      "Correlate this cloud-service activity with file discovery, staging, or outbound byte-volume evidence."
+    ]
+  },
+  "references": [
+    {
+      "name": "Black Hills InfoSec FreeLabFriday Labs - Cloud-Based Services as Exfil",
+      "url": "https://github.com/blackhillsinfosec/FreeLabFriday_Labs/blob/main/Cards/C2E/Cloud_Based_Services_As_Exfil.md"
+    }
+  ],
+  "mitre_attack": {
+    "tactics": ["command_and_control", "exfiltration"],
+    "techniques": ["T1071.001", "T1567", "T1567.002"]
+  },
+  "falsepositives": ["Approved sync clients", "Enterprise management agents", "Software update services using cloud APIs"]
+}

@@ -1,0 +1,35 @@
+{
+  "title": "Caldera - Document and Data File Collection from Linux Host",
+  "description": "Detects collection of document and data files from user home directories and common data paths. Caldera T1005 emulation searches for and copies high-value files (office docs, PDFs, databases, source code archives) using find and cp. Complements linux_sensitive_data_access.yaml which focuses on SSH keys and cloud credential files.\n",
+  "query": "('Log Source' = 'SOC Linux Syslog Logs' or 'Log Source' = 'Linux Secure Logs' or 'Log Source' = 'Linux Syslog Logs' or 'Log Source' = 'Linux Audit Logs') and (((msg like '*find / -name *.pdf*' or msg like '*find / -name *.docx*' or msg like '*find / -name *.xlsx*' or msg like '*find /home -name *.doc*' or msg like '*find /home -name *.xls*' or msg like '*find /home -name *.kdbx*' or msg like '*find / -name *.pst*')) or ((msg like '*find / -name *.db*' or msg like '*find / -name *.sqlite*' or msg like '*find / -name *.sql*' or msg like '*find / -name *.bak*')) or ((msg like '*find / -name *.py*' or msg like '*find / -name *.rb*' or msg like '*find / -name *.php*' or msg like '*find / -name *.go*')) or ((msg like '*cp -r /home*' or msg like '*cp -r /root*' or msg like '*cp -r /srv*' or msg like '*cp -r /var/www*')))",
+  "sigma_id": "fcd2d7ce-5c2c-41ce-ad44-e82a4befd6e2",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.collection",
+    "attack.t1005"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "collection"
+    ],
+    "techniques": [
+      "T1005"
+    ]
+  },
+  "logsource": {
+    "product": "linux",
+    "service": "syslog",
+    "candidates": [
+      "SOC Linux Syslog Logs",
+      "Linux Secure Logs",
+      "Linux Syslog Logs",
+      "Linux Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Content management systems indexing files",
+    "Backup agents scanning for changed files",
+    "Development tools building project inventories"
+  ]
+}

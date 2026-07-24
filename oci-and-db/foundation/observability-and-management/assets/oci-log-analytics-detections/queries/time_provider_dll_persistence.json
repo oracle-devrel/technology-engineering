@@ -1,0 +1,57 @@
+{
+  "title": "Time Provider DLL Persistence",
+  "description": "Detects registration of time provider DLLs for high-privilege persistence.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*TimeProviders*' and 'Command Line' like '*DllName*' and 'Command Line' like '*reg*')))",
+  "sigma_id": "ad1a6254-eab5-461e-96a3-e4bac4b35fa1",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.persistence",
+    "attack.t1547.003"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence"
+    ],
+    "techniques": [
+      "T1547.003"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "NTP software installation"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 2,
+    "techniques_with_tests": [
+      "T1547.003"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1547.003",
+        "test_name": "Create a new time provider",
+        "test_guid": "df1efab7-bc6d-4b88-8be9-91f55ae017aa",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1547.003/T1547.003.md"
+      },
+      {
+        "technique_id": "T1547.003",
+        "test_name": "Edit an existing time provider",
+        "test_guid": "29e0afca-8d1d-471a-8d34-25512fc48315",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1547.003/T1547.003.md"
+      }
+    ]
+  }
+}

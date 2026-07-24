@@ -1,0 +1,33 @@
+title: Linux Setuid Binary Creation
+id: a1b2c3d4-6019-4000-8000-000000000019
+status: stable
+description: 'Detects creation of setuid/setgid binaries. Attackers set the SUID bit
+  on binaries to maintain root-level access even when running as unprivileged users.
+  This is a classic privilege escalation persistence technique.
+
+  '
+author: SOC Detection Team
+date: 2026/02/11
+logsource:
+  product: linux
+  service: syslog
+detection:
+  sel_chmod_suid:
+    message|contains:
+    - chmod +s
+    - chmod u+s
+    - chmod g+s
+    - chmod 4755
+    - chmod 4775
+    - chmod 2755
+    - chmod 6755
+  condition: sel_chmod_suid
+level: high
+tags:
+- attack.privilege_escalation
+- attack.t1548.001
+- attack.persistence
+falsepositives:
+- Package installation setting legitimate SUID bits
+- Application requiring elevated permissions
+version: 1

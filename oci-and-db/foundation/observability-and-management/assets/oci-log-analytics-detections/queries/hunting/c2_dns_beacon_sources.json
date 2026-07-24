@@ -1,0 +1,31 @@
+{
+  "title": "C2: DNS Beacon Sources",
+  "description": "Identifies hosts and source processes issuing suspicious DNS beacon or DNS exfiltration lookups. This provides the host pivot for the C2 DNS widgets.",
+  "query": "'Log Source' = 'Windows Sysmon Operational Logs' and 'Event ID' = '22' and ('Query Name' like '*.xyz' or 'Query Name' like '*.info' or 'Query Name' like '*.top' or 'Query Name' like '*.pw' or 'Query Name' like '*.cc' or 'Query Name' like '*.tk' or 'Query Name' like '*.bit' or 'Query Name' like '*.duckdns.org' or 'Query Name' like '*.dnsexfil.example') | stats count as Queries, distinctcount('Query Name') as Domains by 'Host Name', 'Source Process' | sort -Queries | head 20",
+  "type": "hunting",
+  "level": "high",
+  "tags": ["c2", "dns", "host_pivot", "showcase", "attack.t1071.004"],
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon",
+    "candidates": ["Windows Sysmon Operational Logs"]
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "groupBy": ["Host Name", "Source Process"],
+      "valueField": "Queries"
+    },
+    "ask_ai_prompts": [
+      "Which host and process issued the most suspicious DNS queries?",
+      "List the first host to isolate based on DNS beaconing evidence."
+    ]
+  },
+  "mitre_attack": {
+    "tactics": ["command_and_control"],
+    "techniques": ["T1071.004"]
+  },
+  "falsepositives": ["DNS troubleshooting tools querying test domains"]
+}

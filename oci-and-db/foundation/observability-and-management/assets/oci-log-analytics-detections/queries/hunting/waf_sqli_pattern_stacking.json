@@ -1,0 +1,30 @@
+{
+  "title": "SQL Injection Pattern Stacking (Rare Value Detection)",
+  "description": "Stacks unique SQL injection payloads observed in WAF events to identify attack tool signatures and novel injection techniques. Rare payloads may indicate custom exploits or new attack vectors. Uses rare value stacking (Threat Hunter's Cookbook: Sorting/Stacking).",
+  "query": "('Log Source' = 'OCI WAF Logs' or 'Log Source' = 'SOC WAF Security Logs') and ('Request URL' like '*SELECT*' or 'Request URL' like '*UNION*' or 'Request URL' like '*OR 1=1*' or 'Request URL' like '*DROP*' or 'Request URL' like '*INSERT*' or 'Request URL' like '*--*' or 'Rule Key' like '*941*' or 'Rule Key' like '*942*' or Message like '*UNION*' or msg like '*UNION*') | stats count as occurrences by 'Request URL', 'Client IP' | sort -occurrences",
+  "type": "hunting",
+  "hunting_type": "rare_value",
+  "cookbook_method": "sorting_stacking",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.initial_access",
+    "attack.t1190",
+    "owasp.a03"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "initial_access"
+    ],
+    "techniques": [
+      "T1190"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "waf"
+  },
+  "falsepositives": [
+    "Security researchers testing detection coverage"
+  ]
+}

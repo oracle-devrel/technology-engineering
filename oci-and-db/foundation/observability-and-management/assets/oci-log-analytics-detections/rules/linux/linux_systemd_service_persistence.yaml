@@ -1,0 +1,25 @@
+title: Linux Systemd Service Persistence
+id: e1f2a3b4-4008-4000-8000-000000000008
+status: stable
+description: Detects creation or enabling of systemd services, a common persistence
+  mechanism where attackers install malicious services that survive reboots.
+logsource:
+  product: linux
+  service: audit
+detection:
+  sel_create:
+    message|contains:
+    - systemctl enable
+    - systemctl daemon-reload
+    - /etc/systemd/system/
+  sel_link:
+    message|contains: .service
+  condition: sel_create and sel_link
+level: medium
+tags:
+- attack.persistence
+- attack.t1543.002
+falsepositives:
+- Legitimate software installation
+- System administration tasks
+version: 1

@@ -1,0 +1,43 @@
+{
+  "title": "GenAI Gateway: Denial of ML Service / Inference Flood (AML.T0029 / AML.T0046)",
+  "description": "Surfaces request floods and chaff/spam against the GenAI gateway, the signature of Denial of ML Service and resource exhaustion. Aggregates throttled/rate-limited inference traffic (429 or THROTTLE verdict) by source IP and API key. Triage threshold: investigate sources with throttle counts far above baseline. MITRE ATLAS AML.T0029 (Denial of ML Service) and AML.T0046 (Spamming ML System with Chaff Data).\n",
+  "query": "'Log Source' = 'SOC GenAI Gateway Logs' and ('Response Code' = '429' or 'Guardrail Action' = 'THROTTLE') | stats count as ThrottledCalls, sum('GenAI Total Tokens') as Tokens, distinctcount('Trace ID') as Sessions by 'Client IP', 'API Key ID' | sort -ThrottledCalls",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "atlas.t0029",
+    "atlas.t0046",
+    "atlas.impact",
+    "ai_attack",
+    "genai",
+    "attack.t1499"
+  ],
+  "atlas": {
+    "tactics": [
+      "impact"
+    ],
+    "techniques": [
+      "AML.T0029",
+      "AML.T0046"
+    ]
+  },
+  "mitre_attack": {
+    "tactics": [
+      "impact"
+    ],
+    "techniques": [
+      "T1499"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "genai_gateway",
+    "candidates": [
+      "SOC GenAI Gateway Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate burst traffic / load tests",
+    "Autoscaling probes hitting inference routes"
+  ]
+}

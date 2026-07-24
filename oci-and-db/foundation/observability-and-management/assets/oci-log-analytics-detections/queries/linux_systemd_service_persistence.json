@@ -1,0 +1,67 @@
+{
+  "title": "Linux Systemd Service Persistence",
+  "description": "Detects creation or enabling of systemd services, a common persistence mechanism where attackers install malicious services that survive reboots.",
+  "query": "('Log Source' = 'SOC Linux Syslog Logs' or 'Log Source' = 'Linux Secure Logs' or 'Log Source' = 'Linux Syslog Logs' or 'Log Source' = 'Linux Audit Logs') and (((msg like '*systemctl enable*' or msg like '*systemctl daemon-reload*' or msg like '*/etc/systemd/system/*')) and (msg like '*.service*'))",
+  "sigma_id": "e1f2a3b4-4008-4000-8000-000000000008",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.persistence",
+    "attack.t1543.002"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence"
+    ],
+    "techniques": [
+      "T1543.002"
+    ]
+  },
+  "logsource": {
+    "product": "linux",
+    "service": "audit",
+    "candidates": [
+      "SOC Linux Syslog Logs",
+      "Linux Secure Logs",
+      "Linux Syslog Logs",
+      "Linux Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate software installation",
+    "System administration tasks"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 3,
+    "techniques_with_tests": [
+      "T1543.002"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1543.002",
+        "test_name": "Create Systemd Service",
+        "test_guid": "d9e4f24f-aa67-4c6e-bcbf-85622b697a7c",
+        "executor": "bash",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1543.002/T1543.002.md"
+      },
+      {
+        "technique_id": "T1543.002",
+        "test_name": "Create SysV Service",
+        "test_guid": "760fe8d2-79d9-494f-905e-a239a3df86f6",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1543.002/T1543.002.md"
+      },
+      {
+        "technique_id": "T1543.002",
+        "test_name": "Create Systemd Service file,  Enable the service , Modify and Reload the service.",
+        "test_guid": "c35ac4a8-19de-43af-b9f8-755da7e89c89",
+        "executor": "bash",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1543.002/T1543.002.md"
+      }
+    ]
+  }
+}

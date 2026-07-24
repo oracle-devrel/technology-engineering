@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SIEM Migration Plan",
+  "type": "object",
+  "required": ["version", "generated_at", "summary", "items"],
+  "properties": {
+    "version": {"type": "string"},
+    "generated_at": {"type": "string"},
+    "source_inventory": {"type": "string"},
+    "migration_report": {"type": "string"},
+    "summary": {
+      "type": "object",
+      "required": ["planned_count", "ready_for_local_validation_count", "blocked_count"],
+      "properties": {
+        "planned_count": {"type": "integer", "minimum": 0},
+        "ready_for_local_validation_count": {"type": "integer", "minimum": 0},
+        "blocked_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "content_id",
+          "title",
+          "kind",
+          "priority_score",
+          "enabled",
+          "severity",
+          "source_tables",
+          "mapped_oci_sources",
+          "migration_status",
+          "blockers",
+          "next_validation"
+        ],
+        "properties": {
+          "content_id": {"type": "string"},
+          "title": {"type": "string"},
+          "kind": {"type": "string"},
+          "priority_score": {"type": "integer"},
+          "enabled": {"type": "boolean"},
+          "severity": {"type": "string"},
+          "source_tables": {"type": "array"},
+          "mapped_oci_sources": {"type": "array"},
+          "feed_dependencies": {"type": "array"},
+          "migration_status": {"type": "string"},
+          "blockers": {"type": "array"},
+          "next_validation": {"type": "string"}
+        }
+      }
+    }
+  }
+}

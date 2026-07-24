@@ -1,0 +1,21 @@
+title: Linux SSH Failed Login
+id: 4cda756f-09a8-4261-86c0-e566a0f2a9a4
+status: stable
+description: Detects failed SSH login attempts.
+logsource:
+  product: linux
+  service: auth
+detection:
+  selection:
+    process_name: sshd
+    message|contains: Failed password
+  condition: selection
+level: low
+tags:
+- attack.initial_access
+- attack.credential_access
+- attack.t1110.001
+version: 1
+falsepositives:
+- Authorized remote administration
+- Automated SSH-based deployments

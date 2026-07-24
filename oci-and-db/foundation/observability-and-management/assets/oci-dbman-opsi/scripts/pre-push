@@ -1,0 +1,89 @@
+#!/bin/sh
+
+set -u
+
+IDENTIFIER_PATTERN='ocid1\.[a-z0-9]+\.oc[0-9]\.[a-z0-9._-]{15,}|[a-z0-9-]+\.ocir\.io/[a-z0-9]+'
+ZERO_SHA='0000000000000000000000000000000000000000'
+TMP_DIR=${TMPDIR:-/tmp}
+FINDINGS_FILE=$(mktemp "$TMP_DIR/dbman-opsi-pre-push-findings.XXXXXX") || exit 2
+DIFF_FILE=$(mktemp "$TMP_DIR/dbman-opsi-pre-push-diff.XXXXXX") || exit 2
+checked_push_range=0
+
+cleanup() {
+    rm -f "$FINDINGS_FILE" "$DIFF_FILE"
+}
+
+trap cleanup EXIT HUP INT TERM
+
+abort_with_findings() {
+    echo "ERROR: real OCI identifier format found outside Markdown; push aborted." >&2
+    echo "Move tenant-specific values to local/private config and commit placeholders only." >&2
+    cat "$FINDINGS_FILE" >&2
+    exit 1
+}
+
+check_diff_file() {
+    if grep -nE "^\+[^+].*($IDENTIFIER_PATTERN)" "$DIFF_FILE" > "$FINDINGS_FILE"; then
+        abort_with_findings
+    fi
+}
+
+check_push_range() {
+    local_ref=$1
+    local_sha=$2
+    remote_sha=$4
+
+    if [ "$local_sha" = "$ZERO_SHA" ]; then
+        return
+    fi
+
+    : > "$DIFF_FILE"
+    if [ "$remote_sha" = "$ZERO_SHA" ]; then
+        git diff-tree --root -r -U0 "$local_sha" -- . ':!*.md' > "$DIFF_FILE"
+    else
+        git diff -U0 "$remote_sha" "$local_sha" -- . ':!*.md' > "$DIFF_FILE"
+    fi
+    check_diff_file
+
+    # Keep shellcheck-style unused-ref noise away without requiring shellcheck.
+    : "$local_ref"
+}
+
+check_working_tree() {
+    : > "$FINDINGS_FILE"
+    git ls-files -co --exclude-standard | while IFS= read -r path
+    do
+        case "$path" in
+            *.md)
+                continue
+                ;;
+        esac
+        if [ -f "$path" ]; then
+            grep -nE "$IDENTIFIER_PATTERN" "$path" | sed "s|^|$path:|" >> "$FINDINGS_FILE"
+        fi
+    done
+    if [ -s "$FINDINGS_FILE" ]; then
+        abort_with_findings
+    fi
+}
+
+while read -r local_ref local_sha remote_ref remote_sha
+do
+    checked_push_range=1
+    check_push_range "$local_ref" "$local_sha" "$remote_ref" "$remote_sha"
+done
+
+if [ "$checked_push_range" -eq 0 ]; then
+    check_working_tree
+fi
+
+if command -v gitleaks >/dev/null 2>&1; then
+    if ! gitleaks detect --source . --config .gitleaks.toml --no-banner; then
+        echo "ERROR: gitleaks detected a secret; push aborted." >&2
+        exit 1
+    fi
+else
+    echo "WARNING: gitleaks is not installed; skipping gitleaks secret scan." >&2
+fi
+
+exit 0

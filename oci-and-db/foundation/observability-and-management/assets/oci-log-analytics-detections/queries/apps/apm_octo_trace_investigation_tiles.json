@@ -1,0 +1,50 @@
+{
+  "title": "APM: Octo Demo Trace Investigation Tiles",
+  "description": "A link-and-tiles investigation view for Octo APM traces. It groups logs, spans, attack evidence, API Gateway edge signals, Java errors, DB spans, and payment redirect indicators by Trace ID so analysts can move from APM Trace Explorer into Log Analytics without losing context.",
+  "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and 'Trace ID' != null and ('Service Name' = 'octo-apm-demo' or 'APM Domain' = 'octo-apm-demo' or 'Attack ID' != null or 'Java APM Path' != null or 'API Gateway Threat Signal' != null or 'Payment Redirect URL' != null) | link span = 5minute 'Trace ID', 'Service Name', 'Span ID', 'Attack Stage' | eventstats distinctcount('Trace ID') as Traces, sum(Count) as Events, distinctcount('Service Name') as Services, distinctcount('Span ID') as Spans, distinctcount('Attack Stage') as Stages",
+  "level": "high",
+  "type": "curated",
+  "tags": [
+    "apm",
+    "octo-apm-demo",
+    "trace",
+    "link",
+    "tile-layout",
+    "ask-ai",
+    "correlation"
+  ],
+  "logsource": {
+    "product": "application",
+    "service": "soc_application_logs",
+    "candidates": [
+      "SOC Application Logs"
+    ]
+  },
+  "dashboard": {
+    "visualizationType": "link",
+    "showTitle": true,
+    "timeSelection": {
+      "timePeriod": "l21d"
+    },
+    "visualizationOptions": {
+      "groupBy": [
+        "Trace ID"
+      ],
+      "linkBy": [
+        "Service Name",
+        "Span ID",
+        "Attack Stage"
+      ],
+      "valueField": "Count",
+      "dashboardOptions": [
+        "Tiles",
+        "Main Table"
+      ],
+      "tileLayoutXml": "<summary><container display=\"none\"><table><row><column><tiles layout=\"table\" columns=\"5\" background-color=\"#EAF2F8\"><tile field=\"Traces\" color=\"#1B4F72\" font-size=\"large\"><title align=\"bottom\"><title-text>Traces</title-text></title></tile><tile field=\"Events\" color=\"#7D3C98\" font-size=\"large\"><title align=\"bottom\"><title-text>Events</title-text></title></tile><tile field=\"Spans\" color=\"#117A65\" font-size=\"large\"><title align=\"bottom\"><title-text>Spans</title-text></title></tile><tile field=\"Services\" color=\"#0E6251\" font-size=\"large\"><title align=\"bottom\"><title-text>Services</title-text></title></tile><tile field=\"Stages\" color=\"#B03A2E\" font-size=\"large\"><title align=\"bottom\"><title-text>Attack Stages</title-text></title></tile></tiles></column></row><row><column><tiles><tile type=\"chart\" chart-type=\"pie\"><title><title-text>Services</title-text><title-ai name=\"Ask AI\" allow-conversation=\"true\" allow-model-selection=\"true\"><prompt><param field=\"Traces\" alias=\"Trace_Count\"/><param field=\"Events\" alias=\"Event_Count\"/><param field=\"Spans\" alias=\"Span_Count\"/><param field=\"Services\" alias=\"Service_Count\"/><param field=\"Stages\" alias=\"Attack_Stage_Count\"/><![CDATA[Analyze this Octo APM trace investigation tile. Provide three short lines: what changed, which Trace ID or span family to pivot into first, and whether attack, payment, API Gateway, Java, or DB evidence is present. Use only the supplied fields.]]></prompt></title-ai></title><chart-value field=\"Count\" series-field=\"Service Name\"/></tile></tiles></column><column><tiles><tile type=\"chart\" chart-type=\"pie\"><title><title-text>Attack Stages</title-text></title><chart-value field=\"Count\" series-field=\"Attack Stage\"/></tile></tiles></column><column><tiles><tile type=\"chart\" chart-type=\"pie\"><title><title-text>Spans</title-text></title><chart-value field=\"Count\" series-field=\"Span ID\"/></tile></tiles></column></row></table></container></summary>"
+    },
+    "ask_ai_prompts": [
+      "Summarize the Octo APM trace investigation tiles and identify the first Trace ID to pivot into.",
+      "Which span, service, attack stage, or payment redirect signal explains the current trace cluster?"
+    ]
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "title": "Suspicious or Empty User Agent Detected",
+  "description": "Detects requests with empty, missing, or known-malicious user agents. Automated attack tools often use non-standard user agents or omit them entirely.",
+  "query": "('Log Source' = 'OCI Load Balancer Access Logs' or 'Log Source' = 'SOC Load Balancer Access Logs') and (('User Agent' = '') or (('User Agent' like '*<?php*' or 'User Agent' like '*${jndi*' or 'User Agent' like '*<script*' or 'User Agent' like '*() { :;}*' or 'User Agent' like '*shellshock*' or 'User Agent' like '*masscan*' or 'User Agent' like '*zgrab*' or 'User Agent' like '*censys*' or 'User Agent' like '*shodan*' or 'User Agent' like '*internetmeasurement*')))",
+  "sigma_id": "a1010028-owasp-recon-ua-001",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.reconnaissance",
+    "attack.t1595",
+    "owasp.a09"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "reconnaissance"
+    ],
+    "techniques": [
+      "T1595"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "loadbalancer",
+    "candidates": [
+      "OCI Load Balancer Access Logs",
+      "SOC Load Balancer Access Logs"
+    ]
+  },
+  "falsepositives": [
+    "Internal monitoring tools with custom user agents",
+    "Health check probes"
+  ]
+}

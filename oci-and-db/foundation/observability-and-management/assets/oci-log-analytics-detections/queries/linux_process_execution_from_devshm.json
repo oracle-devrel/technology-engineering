@@ -1,0 +1,50 @@
+{
+  "title": "Linux Process Execution from /dev/shm",
+  "description": "Detects execution of processes from /dev/shm (shared memory filesystem). This in-memory filesystem is frequently used by attackers to stage and execute payloads without touching disk.",
+  "query": "('Log Source' = 'SOC Linux Syslog Logs' or 'Log Source' = 'Linux Secure Logs' or 'Log Source' = 'Linux Syslog Logs' or 'Log Source' = 'Linux Audit Logs') and ((msg like '*/dev/shm/*'))",
+  "sigma_id": "e1f2a3b4-4011-4000-8000-000000000011",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.execution",
+    "attack.t1059"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "execution"
+    ],
+    "techniques": [
+      "T1059"
+    ]
+  },
+  "logsource": {
+    "product": "linux",
+    "service": "audit",
+    "candidates": [
+      "SOC Linux Syslog Logs",
+      "Linux Secure Logs",
+      "Linux Syslog Logs",
+      "Linux Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Some legitimate applications use /dev/shm for inter-process communication"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 1,
+    "techniques_with_tests": [
+      "T1059"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1059",
+        "test_name": "AutoIt Script Execution",
+        "test_guid": "a9b93f17-31cb-435d-a462-5e838a2a6026",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059/T1059.md"
+      }
+    ]
+  }
+}

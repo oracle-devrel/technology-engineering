@@ -1,0 +1,47 @@
+title: Web Vulnerability Scanner Detected
+id: a1010009-owasp-recon-scanner-001
+status: stable
+version: 1
+description: Detects known web vulnerability scanner user agents in Load Balancer access logs. Indicates active reconnaissance against the web application.
+logsource:
+  product: oci
+  service: loadbalancer
+detection:
+  selection:
+    user_agent|contains:
+    - sqlmap
+    - Nikto
+    - nikto
+    - Nessus
+    - nessus
+    - OpenVAS
+    - "w3af"
+    - DirBuster
+    - dirbuster
+    - Gobuster
+    - gobuster
+    - ffuf
+    - feroxbuster
+    - nuclei
+    - Nuclei
+    - Acunetix
+    - ZAP
+    - "OWASP ZAP"
+    - Arachni
+    - Skipfish
+    - Burp Suite
+    - Hydra
+    - wfuzz
+    - "masscan"
+    - "python-requests"
+    - "Go-http-client"
+    - "curl/"
+  condition: selection
+level: medium
+tags:
+- attack.reconnaissance
+- attack.t1595.002
+- owasp.a09
+falsepositives:
+- Authorized penetration testing
+- Automated security scanning programs

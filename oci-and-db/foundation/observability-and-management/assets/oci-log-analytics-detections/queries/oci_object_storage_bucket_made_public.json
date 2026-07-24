@@ -1,0 +1,31 @@
+{
+  "title": "OCI Object Storage Bucket Made Public",
+  "description": "Detects when a bucket's visibility is set to public.",
+  "query": "'Log Source' = 'OCI Audit Logs' and (('Event Type' = 'com.oraclecloud.objectstorage.updatebucket' and 'Original Log Content' like '*\"publicAccessType\":\"ObjectRead\"*'))",
+  "sigma_id": "3ea8400b-e89c-4a99-8eb1-6d0baa299963",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.exfiltration",
+    "attack.t1537"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "exfiltration"
+    ],
+    "techniques": [
+      "T1537"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Routine storage operations by authorized administrators",
+    "Automated backup or archival processes"
+  ]
+}

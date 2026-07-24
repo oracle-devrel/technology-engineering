@@ -1,0 +1,31 @@
+{
+  "title": "C2: Top DNS Beacon Domains",
+  "description": "Ranks suspicious DNS queries for dynamic DNS, high-risk TLDs, and demo DNS exfiltration domains. This replaces the legacy endsWith-based dashboard query with LAQL patterns that return rows from current Sysmon Operational DNS events.",
+  "query": "'Log Source' = 'Windows Sysmon Operational Logs' and 'Event ID' = '22' and ('Query Name' like '*.xyz' or 'Query Name' like '*.info' or 'Query Name' like '*.top' or 'Query Name' like '*.pw' or 'Query Name' like '*.cc' or 'Query Name' like '*.tk' or 'Query Name' like '*.bit' or 'Query Name' like '*.duckdns.org' or 'Query Name' like '*.dnsexfil.example') | stats count as Queries by 'Query Name' | sort -Queries | head 20",
+  "type": "hunting",
+  "level": "high",
+  "tags": ["c2", "dns", "beaconing", "showcase", "attack.t1071.004"],
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon",
+    "candidates": ["Windows Sysmon Operational Logs"]
+  },
+  "dashboard": {
+    "visualizationType": "bar",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "groupBy": ["Query Name"],
+      "valueField": "Queries"
+    },
+    "ask_ai_prompts": [
+      "Which DNS domains look like C2 or exfiltration infrastructure?",
+      "Group the domains by dynamic DNS, suspicious TLD, and DNS exfiltration evidence."
+    ]
+  },
+  "mitre_attack": {
+    "tactics": ["command_and_control", "exfiltration"],
+    "techniques": ["T1071.004", "T1048.003"]
+  },
+  "falsepositives": ["Legitimate dynamic DNS usage", "Security lab DNS test domains"]
+}

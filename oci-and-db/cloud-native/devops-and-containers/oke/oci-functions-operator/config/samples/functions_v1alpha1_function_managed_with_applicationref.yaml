@@ -1,0 +1,17 @@
+apiVersion: functions.oci.oracle.com/v1alpha1
+kind: Function
+metadata:
+  name: managed-hello
+  namespace: default
+spec:
+  mode: Managed
+  deletionPolicy: Retain
+  applicationRef:
+    name: managed-hello-app
+  config:
+    displayName: managed-hello
+    image: jed.ocir.io/<TENANCY_NAMESPACE>/hello-function:<tag>
+    memoryInMBs: 256
+    timeoutInSeconds: 120
+    config:
+      GREETING: "hello from oke functions operator"

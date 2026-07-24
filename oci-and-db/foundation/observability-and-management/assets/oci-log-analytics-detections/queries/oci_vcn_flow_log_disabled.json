@@ -1,0 +1,30 @@
+{
+  "title": "OCI VCN Flow Log Disabled",
+  "description": "Detects deletion or disabling of VCN flow logs which may indicate an attempt to hide network activity.",
+  "query": "'Log Source' = 'OCI Audit Logs' and (('Event Type' = 'com.oraclecloud.virtualnetwork.deleteflowlog'))",
+  "sigma_id": "7864f30e-1007-4ce7-aeed-89ed8d53a375",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.t1562.008"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1562.008"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "VCN cleanup during decommissioning"
+  ]
+}

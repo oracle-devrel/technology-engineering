@@ -1,0 +1,103 @@
+{
+  "title": "Linux Proxy and Tunneling Tool Detected",
+  "description": "Detects proxy and tunneling tools used to create covert communication channels. Attackers use tools like chisel, ligolo, reGeorg, and frp to proxy C2 traffic through compromised hosts and evade network security controls.\n",
+  "query": "('Log Source' = 'SOC Linux Syslog Logs' or 'Log Source' = 'Linux Secure Logs' or 'Log Source' = 'Linux Syslog Logs') and 'Process Name' = 'bash' and (((msg like '*chisel client*' or msg like '*chisel server*')) or ((msg like '*ligolo-ng*' or msg like '*ligolo-proxy*')) or ((msg like '*frpc -c*' or msg like '*frps -c*' or msg like '*frp.ini*')) or ((msg like '*reGeorg*' or msg like '*tunnel.aspx*' or msg like '*tunnel.jsp*')) or ((msg like '*proxychains*' or msg like '*tsocks*' or msg like '*revsocks*')))",
+  "do_not_overwrite": true,
+  "sigma_id": "a1b2c3d4-6017-4000-8000-000000000017",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.command_and_control",
+    "attack.t1090",
+    "attack.t1090.001"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "command_and_control"
+    ],
+    "techniques": [
+      "T1090",
+      "T1090.001"
+    ]
+  },
+  "logsource": {
+    "product": "linux",
+    "service": "syslog",
+    "candidates": [
+      "SOC Linux Syslog Logs",
+      "Linux Secure Logs",
+      "Linux Syslog Logs",
+      "Linux Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Authorized penetration testing tools",
+    "VPN or proxy for development"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 7,
+    "techniques_with_tests": [
+      "T1090.001",
+      "T1090.003"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1090.003",
+        "test_name": "Psiphon",
+        "test_guid": "14d55ca0-920e-4b44-8425-37eedd72b173",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1090.003/T1090.003.md"
+      },
+      {
+        "technique_id": "T1090.003",
+        "test_name": "Tor Proxy Usage - Windows",
+        "test_guid": "7b9d85e5-c4ce-4434-8060-d3de83595e69",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1090.003/T1090.003.md"
+      },
+      {
+        "technique_id": "T1090.003",
+        "test_name": "Tor Proxy Usage - Debian/Ubuntu/FreeBSD",
+        "test_guid": "5ff9d047-6e9c-4357-b39b-5cf89d9b59c7",
+        "executor": "sh",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1090.003/T1090.003.md"
+      },
+      {
+        "technique_id": "T1090.003",
+        "test_name": "Tor Proxy Usage - MacOS",
+        "test_guid": "12631354-fdbc-4164-92be-402527e748da",
+        "executor": "sh",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1090.003/T1090.003.md"
+      },
+      {
+        "technique_id": "T1090.001",
+        "test_name": "Connection Proxy",
+        "test_guid": "0ac21132-4485-4212-a681-349e8a6637cd",
+        "executor": "sh",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1090.001/T1090.001.md"
+      },
+      {
+        "technique_id": "T1090.001",
+        "test_name": "Connection Proxy for macOS UI",
+        "test_guid": "648d68c1-8bcd-4486-9abe-71c6655b6a2c",
+        "executor": "sh",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1090.001/T1090.001.md"
+      },
+      {
+        "technique_id": "T1090.001",
+        "test_name": "portproxy reg key",
+        "test_guid": "b8223ea9-4be2-44a6-b50a-9657a3d4e72a",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1090.001/T1090.001.md"
+      }
+    ]
+  }
+}

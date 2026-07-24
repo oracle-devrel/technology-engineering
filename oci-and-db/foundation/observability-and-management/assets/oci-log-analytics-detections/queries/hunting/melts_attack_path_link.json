@@ -1,0 +1,33 @@
+{
+  "title": "MELTS: Attack Path Link Drilldown",
+  "description": "Link analysis for the 2025-2026 campaign. Groups trace IDs to log sources so analysts can pivot from entry point to host execution, cloud abuse, C2, and exfiltration evidence.",
+  "query": "('Trace ID' = 'trace_clickfix_2026_001' or 'Trace ID' = 'trace_toolshell_sp_001' or 'Trace ID' = 'trace_rmm_2025_001' or 'Trace ID' = 'trace_aitm_token_2026_001' or 'Threat Name' = 'ClickFix Clipboard Execution' or 'Threat Name' = 'CrashFix Python RAT' or 'Threat Name' = 'RMM Tool Abuse' or 'Threat Name' = 'AiTM Token Replay' or 'Request URL' like '*spinstall0.aspx*' or 'Command Line' like '*ClickFix*' or 'Command Line' like '*CrashFix*' or 'Process Name' like '*ScreenConnect*' or 'Process Name' like '*AnyDesk*' or 'Process Name' like '*AteraAgent*' or 'User Name' = 'codeofconduct-reader@corp.example.com') | link span = 15minute 'Trace ID', 'Log Source' | eventstats max(Count) as PeakEvents, sum(Count) as Events, distinctcount('Trace ID') as Traces, distinctcount('Log Source') as Sources",
+  "type": "hunting",
+  "level": "critical",
+  "tags": ["melts", "link", "attack_path", "drilldown", "2025_2026"],
+  "logsource": {
+    "product": "multi_source",
+    "service": "log_analytics"
+  },
+  "dashboard": {
+    "visualizationType": "link",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "groupBy": ["Trace ID"],
+      "linkBy": ["Log Source"],
+      "valueField": "Count",
+      "dashboardOptions": ["Tiles", "Main Table"],
+      "tileLayoutXml": "<summary><container background-color=\"#F4F6F7\"><table><row><column><tiles layout=\"table\" columns=\"4\" background-color=\"#EAF2F8\"><tile field=\"PeakEvents\" color=\"#1B4F72\" font-size=\"large\"><title align=\"bottom\"><title-text>Peak Path</title-text></title></tile><tile field=\"Events\" color=\"#7D3C98\" font-size=\"large\"><title align=\"bottom\"><title-text>Evidence</title-text></title></tile><tile field=\"Traces\" color=\"#117A65\" font-size=\"large\"><title align=\"bottom\"><title-text>Traces</title-text></title></tile><tile field=\"Sources\" color=\"#B03A2E\" font-size=\"large\"><title align=\"bottom\"><title-text>Log Sources</title-text></title></tile></tiles></column></row></table></container></summary>"
+    },
+    "ask_ai_prompts": [
+      "Trace each attack path from entry point to exfiltration.",
+      "Identify missing telemetry for any trace group."
+    ]
+  },
+  "mitre_attack": {
+    "tactics": ["initial_access", "execution", "command_and_control", "exfiltration"],
+    "techniques": ["T1566", "T1059", "T1218", "T1071.001", "T1041"]
+  },
+  "falsepositives": ["Authorized red-team exercise"]
+}

@@ -1,0 +1,135 @@
+/* Oracle Recognition Card Studio — global styles
+ * Typography: Georgia (matches the typography rendered onto every generated card).
+ * Palette:    Redwood-inspired — warm cream base, slate ink, mustard / teal / olive accents.
+ */
+
+:root {
+  /* Type stack — Georgia is universally available across Windows/macOS/iOS/Android/Linux,
+     so we don't load a webfont. 'Times New Roman' and serif are graceful fallbacks. */
+  --font-serif: Georgia, 'Times New Roman', 'Liberation Serif', serif;
+  --font-mono: 'Cascadia Code', 'JetBrains Mono', 'Consolas', 'Menlo', monospace;
+
+  /* Redwood palette */
+  --cream: #f5f0e5;
+  --cream-soft: #faf6ec;
+  --cream-deep: #ede4d2;
+  --ink: #2d2e32;
+  --ink-soft: #4a4b50;
+  --slate: #6b6c70;
+  --muted: #8b8a85;
+  --line: rgba(45, 46, 50, 0.10);
+  --line-soft: rgba(45, 46, 50, 0.06);
+
+  /* Accent */
+  --oracle-red: #c5131a;
+  --oracle-red-deep: #9c0f15;
+  --teal: #5a7b7f;
+  --olive: #4a5238;
+  --mustard: #d6a23a;
+  --sienna: #c25e2d;
+
+  /* Surfaces */
+  --surface: #ffffff;
+  --surface-warm: #fffdf7;
+  --shadow-sm: 0 1px 2px rgba(45, 46, 50, 0.06), 0 2px 6px rgba(45, 46, 50, 0.04);
+  --shadow-md: 0 4px 14px -6px rgba(45, 46, 50, 0.16), 0 8px 24px -12px rgba(45, 46, 50, 0.10);
+  --shadow-lg: 0 12px 32px -16px rgba(45, 46, 50, 0.22), 0 20px 60px -24px rgba(45, 46, 50, 0.14);
+
+  font-family: var(--font-serif);
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-serif);
+  min-height: 100vh;
+  /* Subtle Redwood-style warm vignette in the corners — calm centre. */
+  background-image:
+    radial-gradient(ellipse 60% 50% at 0% 0%, rgba(214, 162, 58, 0.08), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 100% 100%, rgba(90, 123, 127, 0.07), transparent 60%),
+    linear-gradient(180deg, #faf6ec 0%, #f5f0e5 100%);
+  background-attachment: fixed;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+  line-height: 1.2;
+}
+
+p {
+  font-family: var(--font-serif);
+}
+
+/* Form elements inherit the serif voice rather than the browser default sans. */
+input,
+select,
+textarea,
+button {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+a {
+  color: var(--oracle-red);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+a:hover {
+  color: var(--oracle-red-deep);
+}
+
+/* Selection in brand red — small touch but feels considered. */
+::selection {
+  background: rgba(197, 19, 26, 0.15);
+  color: var(--ink);
+}
+
+/* Scrollbar — tasteful, not loud. */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(45, 46, 50, 0.18);
+  border-radius: 6px;
+  border: 2px solid var(--cream);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(45, 46, 50, 0.32);
+}

@@ -1,0 +1,32 @@
+{
+  "title": "OCI Action: AddUserToGroup",
+  "description": "Detects the execution of AddUserToGroup action in OCI.",
+  "query": "'Log Source' = 'OCI Audit Logs' and (('Event Type' = 'com.oraclecloud.identitycontrolplane.addusertogroup'))",
+  "sigma_id": "6a4dca3d-85a8-4959-9c3e-05909298a09d",
+  "level": "informational",
+  "stig_category": "CAT III",
+  "tags": [
+    "oci.audit",
+    "attack.persistence",
+    "attack.t1098.001"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence"
+    ],
+    "techniques": [
+      "T1098.001"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Routine IAM administration",
+    "Automated provisioning systems"
+  ]
+}

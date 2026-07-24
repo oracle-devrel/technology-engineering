@@ -1,0 +1,125 @@
+{
+  "title": "Linux Setuid Binary Creation",
+  "description": "Detects creation of setuid/setgid binaries. Attackers set the SUID bit on binaries to maintain root-level access even when running as unprivileged users. This is a classic privilege escalation persistence technique.\n",
+  "query": "('Log Source' = 'SOC Linux Syslog Logs' or 'Log Source' = 'Linux Secure Logs' or 'Log Source' = 'Linux Syslog Logs' or 'Log Source' = 'Linux Audit Logs') and (((msg like '*chmod +s*' or msg like '*chmod u+s*' or msg like '*chmod g+s*' or msg like '*chmod 4755*' or msg like '*chmod 4775*' or msg like '*chmod 2755*' or msg like '*chmod 6755*')))",
+  "sigma_id": "a1b2c3d4-6019-4000-8000-000000000019",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.privilege_escalation",
+    "attack.t1548.001",
+    "attack.persistence"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "privilege_escalation",
+      "persistence"
+    ],
+    "techniques": [
+      "T1548.001"
+    ]
+  },
+  "logsource": {
+    "product": "linux",
+    "service": "syslog",
+    "candidates": [
+      "SOC Linux Syslog Logs",
+      "Linux Secure Logs",
+      "Linux Syslog Logs",
+      "Linux Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Package installation setting legitimate SUID bits",
+    "Application requiring elevated permissions"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 10,
+    "techniques_with_tests": [
+      "T1548.001"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1548.001",
+        "test_name": "Make and modify binary from C source",
+        "test_guid": "896dfe97-ae43-4101-8e96-9a7996555d80",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1548.001/T1548.001.md"
+      },
+      {
+        "technique_id": "T1548.001",
+        "test_name": "Make and modify binary from C source (freebsd)",
+        "test_guid": "dd580455-d84b-481b-b8b0-ac96f3b1dc4c",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1548.001/T1548.001.md"
+      },
+      {
+        "technique_id": "T1548.001",
+        "test_name": "Set a SetUID flag on file",
+        "test_guid": "759055b3-3885-4582-a8ec-c00c9d64dd79",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1548.001/T1548.001.md"
+      },
+      {
+        "technique_id": "T1548.001",
+        "test_name": "Set a SetUID flag on file (freebsd)",
+        "test_guid": "9be9b827-ff47-4e1b-bef8-217db6fb7283",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1548.001/T1548.001.md"
+      },
+      {
+        "technique_id": "T1548.001",
+        "test_name": "Set a SetGID flag on file",
+        "test_guid": "db55f666-7cba-46c6-9fe6-205a05c3242c",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1548.001/T1548.001.md"
+      },
+      {
+        "technique_id": "T1548.001",
+        "test_name": "Set a SetGID flag on file (freebsd)",
+        "test_guid": "1f73af33-62a8-4bf1-bd10-3bea931f2c0d",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1548.001/T1548.001.md"
+      },
+      {
+        "technique_id": "T1548.001",
+        "test_name": "Make and modify capabilities of a binary",
+        "test_guid": "db53959c-207d-4000-9e7a-cd8eb417e072",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1548.001/T1548.001.md"
+      },
+      {
+        "technique_id": "T1548.001",
+        "test_name": "Provide the SetUID capability to a file",
+        "test_guid": "1ac3272f-9bcf-443a-9888-4b1d3de785c1",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1548.001/T1548.001.md"
+      },
+      {
+        "technique_id": "T1548.001",
+        "test_name": "Do reconnaissance for files that have the setuid bit set",
+        "test_guid": "8e36da01-cd29-45fd-be72-8a0fcaad4481",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1548.001/T1548.001.md"
+      },
+      {
+        "technique_id": "T1548.001",
+        "test_name": "Do reconnaissance for files that have the setgid bit set",
+        "test_guid": "3fb46e17-f337-4c14-9f9a-a471946533e2",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1548.001/T1548.001.md"
+      }
+    ]
+  }
+}

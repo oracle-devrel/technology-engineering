@@ -1,0 +1,219 @@
+{
+  "id": "parts-advisory-flow",
+  "name": "Parts Advisory Flow - User Decision",
+  "triggerPhrases": [
+    "Advise me, but I want to decide"
+  ],
+  "messages": [
+    {
+      "type": "chip",
+      "chipData": {
+        "label": "Calling Oracle Fusion ERP API",
+        "status": "warning",
+        "icon": "SatelliteDish",
+        "content": {
+          "description": "Searching Oracle Fusion ERP product catalog with your precise specifications.",
+          "function": "searchProductCatalog",
+          "endpoint": "/fusion/erp/api/v1/products/search",
+          "parameters": {
+            "searchTerms": ["production line", "spare parts", "conveyor motor"],
+            "filters": {
+              "voltage": "380V",
+              "powerRange": "15-20HP",
+              "category": "Industrial Motors", 
+              "availability": "in_stock"
+            },
+            "maxResults": 5,
+            "sortBy": "relevance"
+          }
+        }
+      },
+      "delay": 100
+    },
+    {
+      "type": "chip",
+      "chipData": {
+        "label": "Receiving Search Results",
+        "status": "success",
+        "icon": "FileSpreadsheet",
+        "content": {
+          "response": {
+            "status": "success",
+            "timestamp": "2025-07-30T10:15:18Z",
+            "totalResults": 2,
+            "products": [
+              {
+                "itemId": "HD-2024",
+                "description": "Heavy-duty conveyor belt motor",
+                "specifications": {
+                  "power": "15HP",
+                  "voltage": "380V",
+                  "rpm": 1750,
+                  "enclosure": "TEFC"
+                },
+                "price": "$2,750-$2,950", 
+                "availability": "IN_STOCK"
+              },
+              {
+                "itemId": "HD-2025",
+                "description": "Ultra heavy-duty conveyor motor",
+                "specifications": {
+                  "power": "20HP",
+                  "voltage": "380V",
+                  "rpm": 1450,
+                  "enclosure": "TEFC"
+                },
+                "price": "$4,100-$4,200",
+                "availability": "IN_STOCK"
+              }
+            ]
+          }
+        }
+      },
+      "delay": 120
+    },
+    {
+      "type": "chip",
+      "chipData": {
+        "label": "Querying RAG Knowledge Base",
+        "status": "warning",
+        "icon": "ScanEye",
+        "content": {
+          "description": "Searching technical documentation for detailed motor specifications and usage recommendations.",
+          "function": "queryRAGDocuments",
+          "endpoint": "/rag/api/v1/documents/search",
+          "parameters": {
+            "partNumbers": ["HD-2024", "HD-2025"],
+            "query": "installation compatibility maintenance requirements use cases operational limits"
+          }
+        }
+      },
+      "delay": 100
+    },
+    {
+      "type": "chip",
+      "chipData": {
+        "label": "Receiving Documentation Chunks",
+        "status": "success",
+        "icon": "FileSpreadsheet",
+        "content": {
+          "response": {
+            "status": "success",
+            "timestamp": "2025-07-30T10:15:35Z",
+            "totalChunks": 6,
+            "relevantDocs": [
+              {
+                "partNumber": "HD-2024",
+                "chunk": "HD-2024 cost-effectiveness rating: 95% for 8-hour operations. Initial cost $2,850, standard mounting saves $800 installation vs reinforced systems."
+              },
+              {
+                "partNumber": "HD-2025",
+                "chunk": "HD-2025 cost-effectiveness rating: 60% for 8-hour operations. Higher initial cost $4,150, requires reinforced mounting adding $800+ installation costs."
+              },
+              {
+                "partNumber": "HD-2024",
+                "chunk": "8-hour reliability assessment: HD-2024 scores 90% - exceeds requirements for standard shifts with 15HP output, 500hr maintenance intervals."
+              },
+              {
+                "partNumber": "HD-2025",
+                "chunk": "8-hour reliability assessment: HD-2025 scores 95% but over-engineered for standard shifts - 20HP exceeds 15HP requirement, designed for 24/7 continuous operation."
+              },
+              {
+                "document": "Installation Complexity Report 2025",
+                "chunk": "Installation ease: HD-2024 rated 95% (standard mounting, plug-and-play). HD-2025 rated 40% (requires reinforced foundation, specialized mounting hardware)."
+              },
+              {
+                "document": "Maintenance Simplicity Analysis 2025",
+                "chunk": "Maintenance requirements: HD-2024 scores 90% simplicity (standard parts, 500hr intervals). HD-2025 scores 70% (specialized components, complex systems)."
+              }
+            ]
+          }
+        }
+      },
+      "delay": 120
+    },
+    {
+      "type": "agent_state",
+      "agentStateData": {
+        "system": "RAG Knowledge Base",
+        "documents": "Technical Manuals",
+        "searchTerms": ["HD-2024", "HD-2025", "installation", "maintenance"],
+        "status": "analyzing",
+        "chunks": 6
+      },
+      "delay": 80
+    },
+    {
+      "type": "chip",
+      "chipData": {
+        "label": "Processing Search Results",
+        "status": "info",
+        "icon": "Lightbulb",
+        "content": "Analyzing both ERP data and technical documentation. The RAG system found key differences: HD-2024 is designed for 8-hour shifts with standard mounting, while HD-2025 supports 24/7 continuous operation but requires reinforced mounting."
+      },
+      "delay": 90
+    },
+    {
+      "type": "text",
+      "content": "Found **2 matching motors** in **Oracle Fusion ERP**. I researched additional details in **technical manuals**:\n\n**HD-2024 (15HP, 380V)** - $2,750-$2,950\n- ✅ **For 8-hour shifts** (Motor Installation Guide v2.3)\n- ✅ Standard mounting sufficient\n- ✅ Most cost-effective\n\n**HD-2025 (20HP, 380V)** - $4,100-$4,200\n- ✅ **Supports 24/7 continuous operation** (Heavy-Duty Operations Manual)\n- ⚠️ Requires reinforced mounting\n- ✅ Premium performance\n\nLet me show you a **cost-benefit analysis** for your 8-hour operations:",
+      "sources": [
+        {
+          "name": "Motor Installation Guide v2.3",
+          "pages": [12, 18, 24],
+          "url": "/docs/motor-installation-guide-v2.3.pdf"
+        },
+        {
+          "name": "Heavy-Duty Operations Manual",
+          "pages": [7, 15, 31],
+          "url": "/docs/heavy-duty-operations-manual.pdf"
+        }
+      ],
+      "delay": 50
+    },
+    {
+      "type": "radar_chart",
+      "radarData": {
+        "title": "8-Hour Operations Suitability Analysis",
+        "metrics": ["Cost-Effectiveness", "8h Reliability", "Easy Installation", "Sufficient Power", "Maintenance Simplicity"],
+        "items": [
+          {
+            "name": "HD-2024",
+            "values": [95, 90, 95, 85, 90]
+          },
+          {
+            "name": "HD-2025", 
+            "values": [60, 95, 40, 100, 70]
+          }
+        ]
+      },
+      "delay": 80
+    },
+    {
+      "type": "text",
+      "content": "Perfect! The analysis shows **HD-2024 is ideal** for your 8-hour standard shifts:\n\n- 🎯 **Cost-Effectiveness (95%)** - Much better value for money\n- 🎯 **Easy Installation (95%)** - Standard mounting, no extra work\n- 🎯 **8h Reliability (90%)** - More than sufficient for your shifts\n- 🎯 **Sufficient Power (85%)** - Meets your exact 15HP requirement\n\nHD-2025 is **over-engineered** for 8-hour operations - you'd pay extra for 24/7 capabilities you don't need, plus require expensive reinforced mounting.\n\nWhich would you prefer?",
+      "delay": 50
+    },
+    {
+      "type": "interactive",
+      "interactiveData": {
+        "inputType": "choice",
+        "title": "",
+        "options": [
+          {
+            "value": "hd_motor_2024",
+            "label": "HD-2024 - Heavy-duty conveyor belt motor (15HP, 380V)",
+            "type": "product",
+            "details": "Power: 15HP | Voltage: 380V | RPM: 1750 | Price Range: $2,500-$3,200"
+          },
+          {
+            "value": "hd_motor_2025",
+            "label": "HD-2025 - Ultra heavy-duty conveyor motor (20HP, 380V)",
+            "type": "product",
+            "details": "Power: 20HP | Voltage: 380V | RPM: 1450 | Price Range: $3,800-$4,500"
+          }
+        ]
+      },
+      "delay": 140
+    }
+  ]
+}

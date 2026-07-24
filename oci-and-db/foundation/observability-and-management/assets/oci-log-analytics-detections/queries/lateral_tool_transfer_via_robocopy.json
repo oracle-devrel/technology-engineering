@@ -1,0 +1,57 @@
+{
+  "title": "Lateral Tool Transfer via Robocopy",
+  "description": "Detects usage of robocopy to transfer tools or files to remote systems.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Process Name' like '*\\\\robocopy.exe' and 'Command Line' like '*\\\\\\\\*'))",
+  "sigma_id": "f298059c-0e62-46c1-ab63-e3fd9bea8d19",
+  "level": "low",
+  "stig_category": "CAT III",
+  "tags": [
+    "attack.lateral_movement",
+    "attack.t1570"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "lateral_movement"
+    ],
+    "techniques": [
+      "T1570"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate file synchronization"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 2,
+    "techniques_with_tests": [
+      "T1570"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1570",
+        "test_name": "Exfiltration Over SMB over QUIC (New-SmbMapping)",
+        "test_guid": "d8d13303-159e-4f33-89f4-9f07812d016f",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1570/T1570.md"
+      },
+      {
+        "technique_id": "T1570",
+        "test_name": "Exfiltration Over SMB over QUIC (NET USE)",
+        "test_guid": "183235ca-8e6c-422c-88c2-3aa28c4825d9",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1570/T1570.md"
+      }
+    ]
+  }
+}

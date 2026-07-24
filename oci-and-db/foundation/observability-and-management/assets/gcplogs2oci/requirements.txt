@@ -1,0 +1,5 @@
+google-cloud-pubsub>=2.21.0
+google-cloud-logging>=3.10.0
+google-auth>=2.29.0
+oci>=2.124.0
+python-dotenv>=1.0.0

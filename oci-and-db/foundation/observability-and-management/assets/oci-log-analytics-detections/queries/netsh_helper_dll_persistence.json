@@ -1,0 +1,49 @@
+{
+  "title": "Netsh Helper DLL Persistence",
+  "description": "Detects registration of netsh helper DLLs which execute every time netsh.exe is invoked.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Process Name' like '*\\\\netsh.exe' and ('Command Line' like '*add*' and 'Command Line' like '*helper*')))",
+  "sigma_id": "d4fd5f18-0639-4280-9093-57d9e51ad06f",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.persistence",
+    "attack.t1546.007"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence"
+    ],
+    "techniques": [
+      "T1546.007"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate network extension DLLs"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 1,
+    "techniques_with_tests": [
+      "T1546.007"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1546.007",
+        "test_name": "Netsh Helper DLL Registration",
+        "test_guid": "3244697d-5a3a-4dfc-941c-550f69f91a4d",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.007/T1546.007.md"
+      }
+    ]
+  }
+}
