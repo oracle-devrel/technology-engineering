@@ -127,6 +127,7 @@ Attach the mandatory policies and wait for the Events to be generated in the Clo
 
 ![Picture 8](./files/image-28.png)
 
+Reviewed: 24.07.2026
 Congratulation! Now you can create proper Monitoring rules for Threat Hunting and Security Event Notifications.
 
 Note: When you update an existing Data Source, there is a slight delay in updating the Data Source and the state will be Updating for a few minutes.
