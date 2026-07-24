@@ -41,3 +41,5 @@ You can create customised widgets from Host Explorer .For example to know top 10
 You can get weekly report by using [News Report feature](https://blogs.oracle.com/cloud-infrastructure/post/operations-insights-actionable-workload-news) as well.
 
 To learn more about other features please refer the operation insights [blog](https://blogs.oracle.com/observability/category/oem-operations-insights).
+
+Reviewed: 24.07.2026
