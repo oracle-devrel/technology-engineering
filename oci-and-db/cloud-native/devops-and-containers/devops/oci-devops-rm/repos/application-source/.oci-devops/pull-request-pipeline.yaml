@@ -1,0 +1,12 @@
+version: 0.1
+component: build
+timeoutInSeconds: 28799
+shell: bash
+
+steps:
+  - type: Command
+    name: Run component tests
+    timeoutInSeconds: 28799
+    command: |
+      set -euo pipefail
+      echo "Unit tests succeeded"

@@ -1,0 +1,33 @@
+{
+  "title": "WAF CORS Bypass Attempt Blocked",
+  "description": "Detects CORS misconfiguration exploitation attempts where attackers try to bypass cross-origin restrictions. OWASP A05:2021 Security Misconfiguration.",
+  "query": "('Log Source' = 'OCI WAF Logs' or 'Log Source' = 'SOC WAF Security Logs') and (('Action' = 'BLOCK') and (('Request Headers' like '*Origin: null*' or 'Request Headers' like '*Origin: http://evil*' or 'Request Headers' like '*Origin: https://evil*' or 'Request Headers' like '*Origin: http://attacker*' or 'Request Headers' like '*Access-Control-Allow-Origin: **')))",
+  "sigma_id": "a1010029-owasp-a05-cors-001",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.initial_access",
+    "attack.t1189",
+    "owasp.a05"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "initial_access"
+    ],
+    "techniques": [
+      "T1189"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "waf",
+    "candidates": [
+      "OCI WAF Logs",
+      "SOC WAF Security Logs"
+    ]
+  },
+  "falsepositives": [
+    "Mobile apps with custom origin headers",
+    "Browser extensions modifying headers"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "title": "Linux Multi-Stage Attack Indicators (Combined Methods)",
+  "description": "Detects hosts exhibiting multiple attack stage indicators: initial access (SSH failures), persistence (authorized_keys, crontab), execution (reverse shells, downloads). When 3+ different indicator types appear on the same host, it suggests an active multi-stage attack. Uses combined methods (Threat Hunter's Cookbook: Combined Methods - multi-stage grouping).",
+  "query": "'Log Source' = 'SOC Linux Syslog Logs' and (msg like '*Failed password*' or msg like '*authorized_keys*' or msg like '*/dev/tcp/*' or msg like '*curl*http*' or msg like '*wget*http*' or msg like '*crontab*' or msg like '*systemctl enable*' or msg like '*/etc/passwd*' or msg like '*/etc/shadow*') | stats count as total_indicators, distinctcount(msg) as unique_patterns by 'Host Name' | where unique_patterns > 3 | sort -total_indicators",
+  "type": "hunting",
+  "hunting_type": "multi_stage",
+  "cookbook_method": "combined",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.initial_access",
+    "attack.persistence",
+    "attack.execution",
+    "attack.t1110",
+    "attack.t1059.004"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "initial_access",
+      "persistence",
+      "execution"
+    ],
+    "techniques": [
+      "T1110",
+      "T1059.004"
+    ]
+  },
+  "logsource": {
+    "product": "linux",
+    "service": "syslog"
+  },
+  "falsepositives": [
+    "Penetration testing activities",
+    "Automated security scanning"
+  ]
+}

@@ -1,0 +1,142 @@
+{
+  "title": "Linux Archive Data Collected for Exfiltration",
+  "description": "Detects creation of compressed archives from sensitive directories. Attackers archive collected data (credentials, source code, configs) before exfiltrating to reduce transfer size and avoid detection.\n",
+  "query": "('Log Source' = 'SOC Linux Syslog Logs' or 'Log Source' = 'Linux Secure Logs' or 'Log Source' = 'Linux Syslog Logs') and 'Process Name' = 'bash' and ((msg like '*tar*' or msg like '*zip*') and (msg like '*/etc/*' or msg like '*/home/*' or msg like '*/root/*' or msg like '*/var/www/*' or msg like '*/opt/*'))",
+  "do_not_overwrite": true,
+  "sigma_id": "a1b2c3d4-6012-4000-8000-000000000012",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.collection",
+    "attack.t1560.001",
+    "attack.exfiltration"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "collection",
+      "exfiltration"
+    ],
+    "techniques": [
+      "T1560.001"
+    ]
+  },
+  "logsource": {
+    "product": "linux",
+    "service": "syslog",
+    "candidates": [
+      "SOC Linux Syslog Logs",
+      "Linux Secure Logs",
+      "Linux Syslog Logs",
+      "Linux Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "System backup scripts",
+    "Application deployment archives"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 12,
+    "techniques_with_tests": [
+      "T1560.001"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1560.001",
+        "test_name": "Compress Data for Exfiltration With Rar",
+        "test_guid": "02ea31cb-3b4c-4a2d-9bf1-e4e70ebcf5d0",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1560.001/T1560.001.md"
+      },
+      {
+        "technique_id": "T1560.001",
+        "test_name": "Compress Data and lock with password for Exfiltration with winrar",
+        "test_guid": "8dd61a55-44c6-43cc-af0c-8bdda276860c",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1560.001/T1560.001.md"
+      },
+      {
+        "technique_id": "T1560.001",
+        "test_name": "Compress Data and lock with password for Exfiltration with winzip",
+        "test_guid": "01df0353-d531-408d-a0c5-3161bf822134",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1560.001/T1560.001.md"
+      },
+      {
+        "technique_id": "T1560.001",
+        "test_name": "Compress Data and lock with password for Exfiltration with 7zip",
+        "test_guid": "d1334303-59cb-4a03-8313-b3e24d02c198",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1560.001/T1560.001.md"
+      },
+      {
+        "technique_id": "T1560.001",
+        "test_name": "Data Compressed - nix - zip",
+        "test_guid": "c51cec55-28dd-4ad2-9461-1eacbc82c3a0",
+        "executor": "bash",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1560.001/T1560.001.md"
+      },
+      {
+        "technique_id": "T1560.001",
+        "test_name": "Data Compressed - nix - gzip Single File",
+        "test_guid": "cde3c2af-3485-49eb-9c1f-0ed60e9cc0af",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1560.001/T1560.001.md"
+      },
+      {
+        "technique_id": "T1560.001",
+        "test_name": "Data Compressed - nix - tar Folder or File",
+        "test_guid": "7af2b51e-ad1c-498c-aca8-d3290c19535a",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1560.001/T1560.001.md"
+      },
+      {
+        "technique_id": "T1560.001",
+        "test_name": "Data Encrypted with zip and gpg symmetric",
+        "test_guid": "0286eb44-e7ce-41a0-b109-3da516e05a5f",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1560.001/T1560.001.md"
+      },
+      {
+        "technique_id": "T1560.001",
+        "test_name": "Encrypts collected data with AES-256 and Base64",
+        "test_guid": "a743e3a6-e8b2-4a30-abe7-ca85d201b5d3",
+        "executor": "bash",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1560.001/T1560.001.md"
+      },
+      {
+        "technique_id": "T1560.001",
+        "test_name": "ESXi - Remove Syslog remote IP",
+        "test_guid": "36c62584-d360-41d6-886f-d194654be7c2",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1560.001/T1560.001.md"
+      },
+      {
+        "technique_id": "T1560.001",
+        "test_name": "Compress a File for Exfiltration using Makecab",
+        "test_guid": "2a7bc405-9555-4f49-ace2-b2ae2941d629",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1560.001/T1560.001.md"
+      },
+      {
+        "technique_id": "T1560.001",
+        "test_name": "Copy and Compress AppData Folder",
+        "test_guid": "05e8942e-f04f-460a-b560-f7781257feec",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1560.001/T1560.001.md"
+      }
+    ]
+  }
+}

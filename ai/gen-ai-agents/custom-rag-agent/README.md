@@ -58,4 +58,4 @@ For example, to ensure that final responses do not disclose Personally Identifia
 ## License
 The assett is licensed under **MIT** license.
 
-See [LICENSE](./LICENSE)
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt)

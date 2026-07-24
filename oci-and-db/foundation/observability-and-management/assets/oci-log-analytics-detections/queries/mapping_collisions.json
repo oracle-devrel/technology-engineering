@@ -1,0 +1,1074 @@
+{
+  "collisions": [
+    {
+      "fields": [
+        "InitiatingProcessAccountName",
+        "SubjectAccount"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:InitiatingProcessAccountName+SubjectAccount→Account Name"
+      ],
+      "roles": {
+        "InitiatingProcessAccountName": "initiator",
+        "SubjectAccount": "subject"
+      },
+      "target": "Account Name",
+      "target_mapping": "'Account Name'"
+    },
+    {
+      "fields": [
+        "ActionType",
+        "DeviceAction",
+        "DvcAction",
+        "ThreatActionTaken"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:ActionType+DeviceAction→Action",
+        "lossy_mapping_collision:ActionType+DvcAction→Action",
+        "lossy_mapping_collision:ActionType+ThreatActionTaken→Action",
+        "lossy_mapping_collision:DeviceAction+DvcAction→Action",
+        "lossy_mapping_collision:DeviceAction+ThreatActionTaken→Action",
+        "lossy_mapping_collision:DvcAction+ThreatActionTaken→Action"
+      ],
+      "roles": {
+        "ActionType": "resource",
+        "DeviceAction": "resource",
+        "DvcAction": "resource",
+        "ThreatActionTaken": "resource"
+      },
+      "target": "Action",
+      "target_mapping": "Action"
+    },
+    {
+      "fields": [
+        "AppDisplayName",
+        "Application",
+        "ClientAppUsed",
+        "DeviceProduct",
+        "OfficeWorkload"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:AppDisplayName+Application→Application Name",
+        "lossy_mapping_collision:AppDisplayName+ClientAppUsed→Application Name",
+        "lossy_mapping_collision:AppDisplayName+DeviceProduct→Application Name",
+        "lossy_mapping_collision:AppDisplayName+OfficeWorkload→Application Name",
+        "lossy_mapping_collision:Application+ClientAppUsed→Application Name",
+        "lossy_mapping_collision:Application+DeviceProduct→Application Name",
+        "lossy_mapping_collision:Application+OfficeWorkload→Application Name",
+        "lossy_mapping_collision:ClientAppUsed+DeviceProduct→Application Name",
+        "lossy_mapping_collision:ClientAppUsed+OfficeWorkload→Application Name",
+        "lossy_mapping_collision:DeviceProduct+OfficeWorkload→Application Name"
+      ],
+      "roles": {
+        "AppDisplayName": "resource",
+        "Application": "resource",
+        "ClientAppUsed": "resource",
+        "DeviceProduct": "resource",
+        "OfficeWorkload": "resource"
+      },
+      "target": "Application Name",
+      "target_mapping": "'Application Name'"
+    },
+    {
+      "fields": [
+        "ActingProcessCommandLine",
+        "CommandLine",
+        "InitiatingProcessCommandLine",
+        "ProcessCommandLine"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:ActingProcessCommandLine+CommandLine→Command Line",
+        "lossy_mapping_collision:ActingProcessCommandLine+InitiatingProcessCommandLine→Command Line",
+        "lossy_mapping_collision:ActingProcessCommandLine+ProcessCommandLine→Command Line",
+        "lossy_mapping_collision:CommandLine+InitiatingProcessCommandLine→Command Line",
+        "lossy_mapping_collision:CommandLine+ProcessCommandLine→Command Line",
+        "lossy_mapping_collision:InitiatingProcessCommandLine+ProcessCommandLine→Command Line"
+      ],
+      "roles": {
+        "ActingProcessCommandLine": "initiator",
+        "CommandLine": "initiator",
+        "InitiatingProcessCommandLine": "initiator",
+        "ProcessCommandLine": "initiator"
+      },
+      "target": "Command Line",
+      "target_mapping": "'Command Line'"
+    },
+    {
+      "fields": [
+        "Description",
+        "ErrorMessage",
+        "EventMessage",
+        "Reason",
+        "ResultDescription"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:Description+ErrorMessage→Description",
+        "lossy_mapping_collision:Description+EventMessage→Description",
+        "lossy_mapping_collision:Description+Reason→Description",
+        "lossy_mapping_collision:Description+ResultDescription→Description",
+        "lossy_mapping_collision:ErrorMessage+EventMessage→Description",
+        "lossy_mapping_collision:ErrorMessage+Reason→Description",
+        "lossy_mapping_collision:ErrorMessage+ResultDescription→Description",
+        "lossy_mapping_collision:EventMessage+Reason→Description",
+        "lossy_mapping_collision:EventMessage+ResultDescription→Description",
+        "lossy_mapping_collision:Reason+ResultDescription→Description"
+      ],
+      "roles": {
+        "Description": "resource",
+        "ErrorMessage": "resource",
+        "EventMessage": "resource",
+        "Reason": "resource",
+        "ResultDescription": "resource"
+      },
+      "target": "Description",
+      "target_mapping": "Description"
+    },
+    {
+      "fields": [
+        "ClientRequestHost",
+        "DestinationHostName",
+        "DestinationHostname",
+        "DstHostname",
+        "HttpRequestHeaderHost"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:ClientRequestHost+DestinationHostName→Destination Hostname",
+        "lossy_mapping_collision:ClientRequestHost+DestinationHostname→Destination Hostname",
+        "lossy_mapping_collision:ClientRequestHost+DstHostname→Destination Hostname",
+        "lossy_mapping_collision:ClientRequestHost+HttpRequestHeaderHost→Destination Hostname",
+        "lossy_mapping_collision:DestinationHostName+DestinationHostname→Destination Hostname",
+        "lossy_mapping_collision:DestinationHostName+DstHostname→Destination Hostname",
+        "lossy_mapping_collision:DestinationHostName+HttpRequestHeaderHost→Destination Hostname",
+        "lossy_mapping_collision:DestinationHostname+DstHostname→Destination Hostname",
+        "lossy_mapping_collision:DestinationHostname+HttpRequestHeaderHost→Destination Hostname",
+        "lossy_mapping_collision:DstHostname+HttpRequestHeaderHost→Destination Hostname"
+      ],
+      "roles": {
+        "ClientRequestHost": "network",
+        "DestinationHostName": "network",
+        "DestinationHostname": "network",
+        "DstHostname": "network",
+        "HttpRequestHeaderHost": "network"
+      },
+      "target": "Destination Hostname",
+      "target_mapping": "'Destination Hostname'"
+    },
+    {
+      "fields": [
+        "DestinationIP",
+        "DestinationIp",
+        "DestinationIpAddress",
+        "DstIP",
+        "DstIpAddr",
+        "RemoteIP"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:DestinationIP+DestinationIp→Destination IP",
+        "lossy_mapping_collision:DestinationIP+DestinationIpAddress→Destination IP",
+        "lossy_mapping_collision:DestinationIP+DstIP→Destination IP",
+        "lossy_mapping_collision:DestinationIP+DstIpAddr→Destination IP",
+        "lossy_mapping_collision:DestinationIP+RemoteIP→Destination IP",
+        "lossy_mapping_collision:DestinationIp+DestinationIpAddress→Destination IP",
+        "lossy_mapping_collision:DestinationIp+DstIP→Destination IP",
+        "lossy_mapping_collision:DestinationIp+DstIpAddr→Destination IP",
+        "lossy_mapping_collision:DestinationIp+RemoteIP→Destination IP",
+        "lossy_mapping_collision:DestinationIpAddress+DstIP→Destination IP",
+        "lossy_mapping_collision:DestinationIpAddress+DstIpAddr→Destination IP",
+        "lossy_mapping_collision:DestinationIpAddress+RemoteIP→Destination IP",
+        "lossy_mapping_collision:DstIP+DstIpAddr→Destination IP",
+        "lossy_mapping_collision:DstIP+RemoteIP→Destination IP",
+        "lossy_mapping_collision:DstIpAddr+RemoteIP→Destination IP"
+      ],
+      "roles": {
+        "DestinationIP": "network",
+        "DestinationIp": "network",
+        "DestinationIpAddress": "network",
+        "DstIP": "network",
+        "DstIpAddr": "network",
+        "RemoteIP": "network"
+      },
+      "target": "Destination IP",
+      "target_mapping": "'Destination IP'"
+    },
+    {
+      "fields": [
+        "DestinationPort",
+        "DstPortNumber",
+        "RemotePort"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:DestinationPort+DstPortNumber→Destination Port",
+        "lossy_mapping_collision:DestinationPort+RemotePort→Destination Port",
+        "lossy_mapping_collision:DstPortNumber+RemotePort→Destination Port"
+      ],
+      "roles": {
+        "DestinationPort": "network",
+        "DstPortNumber": "network",
+        "RemotePort": "network"
+      },
+      "target": "Destination Port",
+      "target_mapping": "'Destination Port'"
+    },
+    {
+      "fields": [
+        "Computer",
+        "DeviceId"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:Computer+DeviceId→Entity"
+      ],
+      "roles": {
+        "Computer": "resource",
+        "DeviceId": "resource"
+      },
+      "target": "Entity",
+      "target_mapping": "Entity"
+    },
+    {
+      "fields": [
+        "DeviceEventClassID",
+        "EventID",
+        "EventId"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:DeviceEventClassID+EventID→Event ID",
+        "lossy_mapping_collision:DeviceEventClassID+EventId→Event ID",
+        "lossy_mapping_collision:EventID+EventId→Event ID"
+      ],
+      "roles": {
+        "DeviceEventClassID": "resource",
+        "EventID": "resource",
+        "EventId": "resource"
+      },
+      "target": "Event ID",
+      "target_mapping": "'Event ID'"
+    },
+    {
+      "fields": [
+        "Activity",
+        "ActivityType",
+        "EventName",
+        "EventSubType",
+        "EventType",
+        "data_eventName_s"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:Activity+ActivityType→Event Type",
+        "lossy_mapping_collision:Activity+EventName→Event Type",
+        "lossy_mapping_collision:Activity+EventSubType→Event Type",
+        "lossy_mapping_collision:Activity+EventType→Event Type",
+        "lossy_mapping_collision:Activity+data_eventName_s→Event Type",
+        "lossy_mapping_collision:ActivityType+EventName→Event Type",
+        "lossy_mapping_collision:ActivityType+EventSubType→Event Type",
+        "lossy_mapping_collision:ActivityType+EventType→Event Type",
+        "lossy_mapping_collision:ActivityType+data_eventName_s→Event Type",
+        "lossy_mapping_collision:EventName+EventSubType→Event Type",
+        "lossy_mapping_collision:EventName+EventType→Event Type",
+        "lossy_mapping_collision:EventName+data_eventName_s→Event Type",
+        "lossy_mapping_collision:EventSubType+EventType→Event Type",
+        "lossy_mapping_collision:EventSubType+data_eventName_s→Event Type",
+        "lossy_mapping_collision:EventType+data_eventName_s→Event Type"
+      ],
+      "roles": {
+        "Activity": "resource",
+        "ActivityType": "resource",
+        "EventName": "resource",
+        "EventSubType": "resource",
+        "EventType": "resource",
+        "data_eventName_s": "resource"
+      },
+      "target": "Event Type",
+      "target_mapping": "'Event Type'"
+    },
+    {
+      "fields": [
+        "ActingProcessSHA256",
+        "Hash",
+        "InitiatingProcessSHA256",
+        "MD5",
+        "SHA1",
+        "SHA256",
+        "TargetFileMD5",
+        "TargetFileSHA1",
+        "TargetFileSHA256"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:ActingProcessSHA256+Hash→Hashes",
+        "lossy_mapping_collision:ActingProcessSHA256+InitiatingProcessSHA256→Hashes",
+        "lossy_mapping_collision:ActingProcessSHA256+MD5→Hashes",
+        "lossy_mapping_collision:ActingProcessSHA256+SHA1→Hashes",
+        "lossy_mapping_collision:ActingProcessSHA256+SHA256→Hashes",
+        "lossy_mapping_collision:ActingProcessSHA256+TargetFileMD5→Hashes",
+        "lossy_mapping_collision:ActingProcessSHA256+TargetFileSHA1→Hashes",
+        "lossy_mapping_collision:ActingProcessSHA256+TargetFileSHA256→Hashes",
+        "lossy_mapping_collision:Hash+InitiatingProcessSHA256→Hashes",
+        "lossy_mapping_collision:Hash+MD5→Hashes",
+        "lossy_mapping_collision:Hash+SHA1→Hashes",
+        "lossy_mapping_collision:Hash+SHA256→Hashes",
+        "lossy_mapping_collision:Hash+TargetFileMD5→Hashes",
+        "lossy_mapping_collision:Hash+TargetFileSHA1→Hashes",
+        "lossy_mapping_collision:Hash+TargetFileSHA256→Hashes",
+        "lossy_mapping_collision:InitiatingProcessSHA256+MD5→Hashes",
+        "lossy_mapping_collision:InitiatingProcessSHA256+SHA1→Hashes",
+        "lossy_mapping_collision:InitiatingProcessSHA256+SHA256→Hashes",
+        "lossy_mapping_collision:InitiatingProcessSHA256+TargetFileMD5→Hashes",
+        "lossy_mapping_collision:InitiatingProcessSHA256+TargetFileSHA1→Hashes",
+        "lossy_mapping_collision:InitiatingProcessSHA256+TargetFileSHA256→Hashes",
+        "lossy_mapping_collision:MD5+SHA1→Hashes",
+        "lossy_mapping_collision:MD5+SHA256→Hashes",
+        "lossy_mapping_collision:MD5+TargetFileMD5→Hashes",
+        "lossy_mapping_collision:MD5+TargetFileSHA1→Hashes",
+        "lossy_mapping_collision:MD5+TargetFileSHA256→Hashes",
+        "lossy_mapping_collision:SHA1+SHA256→Hashes",
+        "lossy_mapping_collision:SHA1+TargetFileMD5→Hashes",
+        "lossy_mapping_collision:SHA1+TargetFileSHA1→Hashes",
+        "lossy_mapping_collision:SHA1+TargetFileSHA256→Hashes",
+        "lossy_mapping_collision:SHA256+TargetFileMD5→Hashes",
+        "lossy_mapping_collision:SHA256+TargetFileSHA1→Hashes",
+        "lossy_mapping_collision:SHA256+TargetFileSHA256→Hashes",
+        "lossy_mapping_collision:TargetFileMD5+TargetFileSHA1→Hashes",
+        "lossy_mapping_collision:TargetFileMD5+TargetFileSHA256→Hashes",
+        "lossy_mapping_collision:TargetFileSHA1+TargetFileSHA256→Hashes"
+      ],
+      "roles": {
+        "ActingProcessSHA256": "hash",
+        "Hash": "hash",
+        "InitiatingProcessSHA256": "hash",
+        "MD5": "hash",
+        "SHA1": "hash",
+        "SHA256": "hash",
+        "TargetFileMD5": "hash",
+        "TargetFileSHA1": "hash",
+        "TargetFileSHA256": "hash"
+      },
+      "target": "Hashes",
+      "target_mapping": "Hashes"
+    },
+    {
+      "fields": [
+        "Dvc",
+        "DvcHostname",
+        "HostName"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:Dvc+DvcHostname→Host Name",
+        "lossy_mapping_collision:Dvc+HostName→Host Name",
+        "lossy_mapping_collision:DvcHostname+HostName→Host Name"
+      ],
+      "roles": {
+        "Dvc": "network",
+        "DvcHostname": "network",
+        "HostName": "network"
+      },
+      "target": "Host Name",
+      "target_mapping": "'Host Name'"
+    },
+    {
+      "fields": [
+        "ClientRequestMethod",
+        "HttpRequestMethod",
+        "RequestMethod"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:ClientRequestMethod+HttpRequestMethod→HTTP Request Method",
+        "lossy_mapping_collision:ClientRequestMethod+RequestMethod→HTTP Request Method",
+        "lossy_mapping_collision:HttpRequestMethod+RequestMethod→HTTP Request Method"
+      ],
+      "roles": {
+        "ClientRequestMethod": "network",
+        "HttpRequestMethod": "network",
+        "RequestMethod": "network"
+      },
+      "target": "HTTP Request Method",
+      "target_mapping": "'HTTP Request Method'"
+    },
+    {
+      "fields": [
+        "LogonType",
+        "Logon_Type"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:LogonType+Logon_Type→Logon Type"
+      ],
+      "roles": {
+        "LogonType": "resource",
+        "Logon_Type": "resource"
+      },
+      "target": "Logon Type",
+      "target_mapping": "'Logon Type'"
+    },
+    {
+      "fields": [
+        "ActivityDisplayName",
+        "Operation",
+        "OperationName"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:ActivityDisplayName+Operation→Operation",
+        "lossy_mapping_collision:ActivityDisplayName+OperationName→Operation",
+        "lossy_mapping_collision:Operation+OperationName→Operation"
+      ],
+      "roles": {
+        "ActivityDisplayName": "resource",
+        "Operation": "resource",
+        "OperationName": "resource"
+      },
+      "target": "Operation",
+      "target_mapping": "Operation"
+    },
+    {
+      "fields": [
+        "ActingProcessFileInternalName",
+        "ActingProcessName",
+        "InitiatingProcessFileName",
+        "InitiatingProcessFolderPath",
+        "InitiatingProcessParentFileName",
+        "ParentImage",
+        "ParentProcessName"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:ActingProcessFileInternalName+ActingProcessName→Parent Process Name",
+        "lossy_mapping_collision:ActingProcessFileInternalName+InitiatingProcessFileName→Parent Process Name",
+        "lossy_mapping_collision:ActingProcessFileInternalName+InitiatingProcessFolderPath→Parent Process Name",
+        "lossy_mapping_collision:ActingProcessFileInternalName+InitiatingProcessParentFileName→Parent Process Name",
+        "lossy_mapping_collision:ActingProcessFileInternalName+ParentImage→Parent Process Name",
+        "lossy_mapping_collision:ActingProcessFileInternalName+ParentProcessName→Parent Process Name",
+        "lossy_mapping_collision:ActingProcessName+InitiatingProcessFileName→Parent Process Name",
+        "lossy_mapping_collision:ActingProcessName+InitiatingProcessFolderPath→Parent Process Name",
+        "lossy_mapping_collision:ActingProcessName+InitiatingProcessParentFileName→Parent Process Name",
+        "lossy_mapping_collision:ActingProcessName+ParentImage→Parent Process Name",
+        "lossy_mapping_collision:ActingProcessName+ParentProcessName→Parent Process Name",
+        "lossy_mapping_collision:InitiatingProcessFileName+InitiatingProcessFolderPath→Parent Process Name",
+        "lossy_mapping_collision:InitiatingProcessFileName+InitiatingProcessParentFileName→Parent Process Name",
+        "lossy_mapping_collision:InitiatingProcessFileName+ParentImage→Parent Process Name",
+        "lossy_mapping_collision:InitiatingProcessFileName+ParentProcessName→Parent Process Name",
+        "lossy_mapping_collision:InitiatingProcessFolderPath+InitiatingProcessParentFileName→Parent Process Name",
+        "lossy_mapping_collision:InitiatingProcessFolderPath+ParentImage→Parent Process Name",
+        "lossy_mapping_collision:InitiatingProcessFolderPath+ParentProcessName→Parent Process Name",
+        "lossy_mapping_collision:InitiatingProcessParentFileName+ParentImage→Parent Process Name",
+        "lossy_mapping_collision:InitiatingProcessParentFileName+ParentProcessName→Parent Process Name",
+        "lossy_mapping_collision:ParentImage+ParentProcessName→Parent Process Name"
+      ],
+      "roles": {
+        "ActingProcessFileInternalName": "initiator",
+        "ActingProcessName": "initiator",
+        "InitiatingProcessFileName": "initiator",
+        "InitiatingProcessFolderPath": "initiator",
+        "InitiatingProcessParentFileName": "initiator",
+        "ParentImage": "initiator",
+        "ParentProcessName": "initiator"
+      },
+      "target": "Parent Process Name",
+      "target_mapping": "'Parent Process Name'"
+    },
+    {
+      "fields": [
+        "InitiatingProcessId",
+        "ProcessId"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:InitiatingProcessId+ProcessId→Process ID"
+      ],
+      "roles": {
+        "InitiatingProcessId": "initiator",
+        "ProcessId": "initiator"
+      },
+      "target": "Process ID",
+      "target_mapping": "'Process ID'"
+    },
+    {
+      "fields": [
+        "Exe",
+        "FileName",
+        "Image",
+        "Process",
+        "ProcessName"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:Exe+FileName→Process Name",
+        "lossy_mapping_collision:Exe+Image→Process Name",
+        "lossy_mapping_collision:Exe+Process→Process Name",
+        "lossy_mapping_collision:Exe+ProcessName→Process Name",
+        "lossy_mapping_collision:FileName+Image→Process Name",
+        "lossy_mapping_collision:FileName+Process→Process Name",
+        "lossy_mapping_collision:FileName+ProcessName→Process Name",
+        "lossy_mapping_collision:Image+Process→Process Name",
+        "lossy_mapping_collision:Image+ProcessName→Process Name",
+        "lossy_mapping_collision:Process+ProcessName→Process Name"
+      ],
+      "roles": {
+        "Exe": "initiator",
+        "FileName": "initiator",
+        "Image": "initiator",
+        "Process": "initiator",
+        "ProcessName": "initiator"
+      },
+      "target": "Process Name",
+      "target_mapping": "'Process Name'"
+    },
+    {
+      "fields": [
+        "DeviceVendor",
+        "EventSource",
+        "EventVendor"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:DeviceVendor+EventSource→Provider",
+        "lossy_mapping_collision:DeviceVendor+EventVendor→Provider",
+        "lossy_mapping_collision:EventSource+EventVendor→Provider"
+      ],
+      "roles": {
+        "DeviceVendor": "resource",
+        "EventSource": "resource",
+        "EventVendor": "resource"
+      },
+      "target": "Provider",
+      "target_mapping": "Provider"
+    },
+    {
+      "fields": [
+        "Query",
+        "QueryName"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:Query+QueryName→Query Name"
+      ],
+      "roles": {
+        "Query": "resource",
+        "QueryName": "resource"
+      },
+      "target": "Query Name",
+      "target_mapping": "'Query Name'"
+    },
+    {
+      "fields": [
+        "ClientRequestURI",
+        "RemoteUrl",
+        "RequestURL",
+        "RequestUrl",
+        "URL",
+        "Url",
+        "UrlOriginal",
+        "data_request_headers_oci_original_url_s"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:ClientRequestURI+RemoteUrl→Request URL",
+        "lossy_mapping_collision:ClientRequestURI+RequestURL→Request URL",
+        "lossy_mapping_collision:ClientRequestURI+RequestUrl→Request URL",
+        "lossy_mapping_collision:ClientRequestURI+URL→Request URL",
+        "lossy_mapping_collision:ClientRequestURI+Url→Request URL",
+        "lossy_mapping_collision:ClientRequestURI+UrlOriginal→Request URL",
+        "lossy_mapping_collision:ClientRequestURI+data_request_headers_oci_original_url_s→Request URL",
+        "lossy_mapping_collision:RemoteUrl+RequestURL→Request URL",
+        "lossy_mapping_collision:RemoteUrl+RequestUrl→Request URL",
+        "lossy_mapping_collision:RemoteUrl+URL→Request URL",
+        "lossy_mapping_collision:RemoteUrl+Url→Request URL",
+        "lossy_mapping_collision:RemoteUrl+UrlOriginal→Request URL",
+        "lossy_mapping_collision:RemoteUrl+data_request_headers_oci_original_url_s→Request URL",
+        "lossy_mapping_collision:RequestURL+RequestUrl→Request URL",
+        "lossy_mapping_collision:RequestURL+URL→Request URL",
+        "lossy_mapping_collision:RequestURL+Url→Request URL",
+        "lossy_mapping_collision:RequestURL+UrlOriginal→Request URL",
+        "lossy_mapping_collision:RequestURL+data_request_headers_oci_original_url_s→Request URL",
+        "lossy_mapping_collision:RequestUrl+URL→Request URL",
+        "lossy_mapping_collision:RequestUrl+Url→Request URL",
+        "lossy_mapping_collision:RequestUrl+UrlOriginal→Request URL",
+        "lossy_mapping_collision:RequestUrl+data_request_headers_oci_original_url_s→Request URL",
+        "lossy_mapping_collision:URL+Url→Request URL",
+        "lossy_mapping_collision:URL+UrlOriginal→Request URL",
+        "lossy_mapping_collision:URL+data_request_headers_oci_original_url_s→Request URL",
+        "lossy_mapping_collision:Url+UrlOriginal→Request URL",
+        "lossy_mapping_collision:Url+data_request_headers_oci_original_url_s→Request URL",
+        "lossy_mapping_collision:UrlOriginal+data_request_headers_oci_original_url_s→Request URL"
+      ],
+      "roles": {
+        "ClientRequestURI": "network",
+        "RemoteUrl": "network",
+        "RequestURL": "network",
+        "RequestUrl": "network",
+        "URL": "network",
+        "Url": "network",
+        "UrlOriginal": "network",
+        "data_request_headers_oci_original_url_s": "network"
+      },
+      "target": "Request URL",
+      "target_mapping": "'Request URL'"
+    },
+    {
+      "fields": [
+        "ReportId",
+        "ResourceId",
+        "_ResourceId"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:ReportId+ResourceId→Resource ID",
+        "lossy_mapping_collision:ReportId+_ResourceId→Resource ID",
+        "lossy_mapping_collision:ResourceId+_ResourceId→Resource ID"
+      ],
+      "roles": {
+        "ReportId": "network",
+        "ResourceId": "resource",
+        "_ResourceId": "resource"
+      },
+      "target": "Resource ID",
+      "target_mapping": "'Resource ID'"
+    },
+    {
+      "fields": [
+        "OrganizationName",
+        "Resource",
+        "ServicePrincipalName",
+        "TargetResource"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:OrganizationName+Resource→Resource Name",
+        "lossy_mapping_collision:OrganizationName+ServicePrincipalName→Resource Name",
+        "lossy_mapping_collision:OrganizationName+TargetResource→Resource Name",
+        "lossy_mapping_collision:Resource+ServicePrincipalName→Resource Name",
+        "lossy_mapping_collision:Resource+TargetResource→Resource Name",
+        "lossy_mapping_collision:ServicePrincipalName+TargetResource→Resource Name"
+      ],
+      "roles": {
+        "OrganizationName": "resource",
+        "Resource": "resource",
+        "ServicePrincipalName": "subject",
+        "TargetResource": "target"
+      },
+      "target": "Resource Name",
+      "target_mapping": "'Resource Name'"
+    },
+    {
+      "fields": [
+        "DvcIpAddr",
+        "IPAddress",
+        "IpAddress",
+        "SourceIP",
+        "SourceIPAddress",
+        "SourceIp",
+        "SourceIpAddress",
+        "SrcIP",
+        "SrcIpAddr"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:DvcIpAddr+IPAddress→Source IP",
+        "lossy_mapping_collision:DvcIpAddr+IpAddress→Source IP",
+        "lossy_mapping_collision:DvcIpAddr+SourceIP→Source IP",
+        "lossy_mapping_collision:DvcIpAddr+SourceIPAddress→Source IP",
+        "lossy_mapping_collision:DvcIpAddr+SourceIp→Source IP",
+        "lossy_mapping_collision:DvcIpAddr+SourceIpAddress→Source IP",
+        "lossy_mapping_collision:DvcIpAddr+SrcIP→Source IP",
+        "lossy_mapping_collision:DvcIpAddr+SrcIpAddr→Source IP",
+        "lossy_mapping_collision:IPAddress+IpAddress→Source IP",
+        "lossy_mapping_collision:IPAddress+SourceIP→Source IP",
+        "lossy_mapping_collision:IPAddress+SourceIPAddress→Source IP",
+        "lossy_mapping_collision:IPAddress+SourceIp→Source IP",
+        "lossy_mapping_collision:IPAddress+SourceIpAddress→Source IP",
+        "lossy_mapping_collision:IPAddress+SrcIP→Source IP",
+        "lossy_mapping_collision:IPAddress+SrcIpAddr→Source IP",
+        "lossy_mapping_collision:IpAddress+SourceIP→Source IP",
+        "lossy_mapping_collision:IpAddress+SourceIPAddress→Source IP",
+        "lossy_mapping_collision:IpAddress+SourceIp→Source IP",
+        "lossy_mapping_collision:IpAddress+SourceIpAddress→Source IP",
+        "lossy_mapping_collision:IpAddress+SrcIP→Source IP",
+        "lossy_mapping_collision:IpAddress+SrcIpAddr→Source IP",
+        "lossy_mapping_collision:SourceIP+SourceIPAddress→Source IP",
+        "lossy_mapping_collision:SourceIP+SourceIp→Source IP",
+        "lossy_mapping_collision:SourceIP+SourceIpAddress→Source IP",
+        "lossy_mapping_collision:SourceIP+SrcIP→Source IP",
+        "lossy_mapping_collision:SourceIP+SrcIpAddr→Source IP",
+        "lossy_mapping_collision:SourceIPAddress+SourceIp→Source IP",
+        "lossy_mapping_collision:SourceIPAddress+SourceIpAddress→Source IP",
+        "lossy_mapping_collision:SourceIPAddress+SrcIP→Source IP",
+        "lossy_mapping_collision:SourceIPAddress+SrcIpAddr→Source IP",
+        "lossy_mapping_collision:SourceIp+SourceIpAddress→Source IP",
+        "lossy_mapping_collision:SourceIp+SrcIP→Source IP",
+        "lossy_mapping_collision:SourceIp+SrcIpAddr→Source IP",
+        "lossy_mapping_collision:SourceIpAddress+SrcIP→Source IP",
+        "lossy_mapping_collision:SourceIpAddress+SrcIpAddr→Source IP",
+        "lossy_mapping_collision:SrcIP+SrcIpAddr→Source IP"
+      ],
+      "roles": {
+        "DvcIpAddr": "network",
+        "IPAddress": "network",
+        "IpAddress": "network",
+        "SourceIP": "network",
+        "SourceIPAddress": "network",
+        "SourceIp": "network",
+        "SourceIpAddress": "network",
+        "SrcIP": "network",
+        "SrcIpAddr": "network"
+      },
+      "target": "Source IP",
+      "target_mapping": "'Source IP'"
+    },
+    {
+      "fields": [
+        "EventResult",
+        "EventResultDetails",
+        "Result",
+        "Status"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:EventResult+EventResultDetails→Status",
+        "lossy_mapping_collision:EventResult+Result→Status",
+        "lossy_mapping_collision:EventResult+Status→Status",
+        "lossy_mapping_collision:EventResultDetails+Result→Status",
+        "lossy_mapping_collision:EventResultDetails+Status→Status",
+        "lossy_mapping_collision:Result+Status→Status"
+      ],
+      "roles": {
+        "EventResult": "resource",
+        "EventResultDetails": "resource",
+        "Result": "resource",
+        "Status": "resource"
+      },
+      "target": "Status",
+      "target_mapping": "Status"
+    },
+    {
+      "fields": [
+        "InitiatingProcessAccountDomain",
+        "SubjectDomainName",
+        "UPNSuffix"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:InitiatingProcessAccountDomain+SubjectDomainName→Target Domain Name",
+        "lossy_mapping_collision:InitiatingProcessAccountDomain+UPNSuffix→Target Domain Name",
+        "lossy_mapping_collision:SubjectDomainName+UPNSuffix→Target Domain Name"
+      ],
+      "roles": {
+        "InitiatingProcessAccountDomain": "initiator",
+        "SubjectDomainName": "subject",
+        "UPNSuffix": "subject"
+      },
+      "target": "Target Domain Name",
+      "target_mapping": "'Target Domain Name'"
+    },
+    {
+      "fields": [
+        "FilePath",
+        "FolderPath",
+        "LocalFile",
+        "SourceFileName",
+        "SrcFileName",
+        "TargetFileName",
+        "TargetFilePath"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:FilePath+FolderPath→Target Filename",
+        "lossy_mapping_collision:FilePath+LocalFile→Target Filename",
+        "lossy_mapping_collision:FilePath+SourceFileName→Target Filename",
+        "lossy_mapping_collision:FilePath+SrcFileName→Target Filename",
+        "lossy_mapping_collision:FilePath+TargetFileName→Target Filename",
+        "lossy_mapping_collision:FilePath+TargetFilePath→Target Filename",
+        "lossy_mapping_collision:FolderPath+LocalFile→Target Filename",
+        "lossy_mapping_collision:FolderPath+SourceFileName→Target Filename",
+        "lossy_mapping_collision:FolderPath+SrcFileName→Target Filename",
+        "lossy_mapping_collision:FolderPath+TargetFileName→Target Filename",
+        "lossy_mapping_collision:FolderPath+TargetFilePath→Target Filename",
+        "lossy_mapping_collision:LocalFile+SourceFileName→Target Filename",
+        "lossy_mapping_collision:LocalFile+SrcFileName→Target Filename",
+        "lossy_mapping_collision:LocalFile+TargetFileName→Target Filename",
+        "lossy_mapping_collision:LocalFile+TargetFilePath→Target Filename",
+        "lossy_mapping_collision:SourceFileName+SrcFileName→Target Filename",
+        "lossy_mapping_collision:SourceFileName+TargetFileName→Target Filename",
+        "lossy_mapping_collision:SourceFileName+TargetFilePath→Target Filename",
+        "lossy_mapping_collision:SrcFileName+TargetFileName→Target Filename",
+        "lossy_mapping_collision:SrcFileName+TargetFilePath→Target Filename",
+        "lossy_mapping_collision:TargetFileName+TargetFilePath→Target Filename"
+      ],
+      "roles": {
+        "FilePath": "initiator",
+        "FolderPath": "initiator",
+        "LocalFile": "resource",
+        "SourceFileName": "initiator",
+        "SrcFileName": "initiator",
+        "TargetFileName": "target",
+        "TargetFilePath": "target"
+      },
+      "target": "Target Filename",
+      "target_mapping": "'Target Filename'"
+    },
+    {
+      "fields": [
+        "ObjectDN",
+        "ObjectItemName",
+        "ObjectName",
+        "SourceItemName",
+        "Target"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:ObjectDN+ObjectItemName→Target Object",
+        "lossy_mapping_collision:ObjectDN+ObjectName→Target Object",
+        "lossy_mapping_collision:ObjectDN+SourceItemName→Target Object",
+        "lossy_mapping_collision:ObjectDN+Target→Target Object",
+        "lossy_mapping_collision:ObjectItemName+ObjectName→Target Object",
+        "lossy_mapping_collision:ObjectItemName+SourceItemName→Target Object",
+        "lossy_mapping_collision:ObjectItemName+Target→Target Object",
+        "lossy_mapping_collision:ObjectName+SourceItemName→Target Object",
+        "lossy_mapping_collision:ObjectName+Target→Target Object",
+        "lossy_mapping_collision:SourceItemName+Target→Target Object"
+      ],
+      "roles": {
+        "ObjectDN": "target",
+        "ObjectItemName": "target",
+        "ObjectName": "target",
+        "SourceItemName": "resource",
+        "Target": "target"
+      },
+      "target": "Target Object",
+      "target_mapping": "'Target Object'"
+    },
+    {
+      "fields": [
+        "DstUserName",
+        "DstUsername",
+        "RecipientEmailAddress",
+        "TargetUserId",
+        "TargetUserName",
+        "TargetUsername"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:DstUserName+DstUsername→Target User Name",
+        "lossy_mapping_collision:DstUserName+RecipientEmailAddress→Target User Name",
+        "lossy_mapping_collision:DstUserName+TargetUserId→Target User Name",
+        "lossy_mapping_collision:DstUserName+TargetUserName→Target User Name",
+        "lossy_mapping_collision:DstUserName+TargetUsername→Target User Name",
+        "lossy_mapping_collision:DstUsername+RecipientEmailAddress→Target User Name",
+        "lossy_mapping_collision:DstUsername+TargetUserId→Target User Name",
+        "lossy_mapping_collision:DstUsername+TargetUserName→Target User Name",
+        "lossy_mapping_collision:DstUsername+TargetUsername→Target User Name",
+        "lossy_mapping_collision:RecipientEmailAddress+TargetUserId→Target User Name",
+        "lossy_mapping_collision:RecipientEmailAddress+TargetUserName→Target User Name",
+        "lossy_mapping_collision:RecipientEmailAddress+TargetUsername→Target User Name",
+        "lossy_mapping_collision:TargetUserId+TargetUserName→Target User Name",
+        "lossy_mapping_collision:TargetUserId+TargetUsername→Target User Name",
+        "lossy_mapping_collision:TargetUserName+TargetUsername→Target User Name"
+      ],
+      "roles": {
+        "DstUserName": "target",
+        "DstUsername": "target",
+        "RecipientEmailAddress": "target",
+        "TargetUserId": "target",
+        "TargetUserName": "target",
+        "TargetUsername": "target"
+      },
+      "target": "Target User Name",
+      "target_mapping": "'Target User Name'"
+    },
+    {
+      "fields": [
+        "ThreatCategory",
+        "ThreatType",
+        "ThreatTypes",
+        "UrlCategory"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:ThreatCategory+ThreatType→Threat Category",
+        "lossy_mapping_collision:ThreatCategory+ThreatTypes→Threat Category",
+        "lossy_mapping_collision:ThreatCategory+UrlCategory→Threat Category",
+        "lossy_mapping_collision:ThreatType+ThreatTypes→Threat Category",
+        "lossy_mapping_collision:ThreatType+UrlCategory→Threat Category",
+        "lossy_mapping_collision:ThreatTypes+UrlCategory→Threat Category"
+      ],
+      "roles": {
+        "ThreatCategory": "resource",
+        "ThreatType": "resource",
+        "ThreatTypes": "resource",
+        "UrlCategory": "network"
+      },
+      "target": "Threat Category",
+      "target_mapping": "'Threat Category'"
+    },
+    {
+      "fields": [
+        "ThreatName",
+        "Title"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:ThreatName+Title→Threat Name"
+      ],
+      "roles": {
+        "ThreatName": "resource",
+        "Title": "resource"
+      },
+      "target": "Threat Name",
+      "target_mapping": "'Threat Name'"
+    },
+    {
+      "fields": [
+        "EventCreationTime",
+        "EventEndTime",
+        "TimeGenerated",
+        "Timestamp"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:EventCreationTime+EventEndTime→Time",
+        "lossy_mapping_collision:EventCreationTime+TimeGenerated→Time",
+        "lossy_mapping_collision:EventCreationTime+Timestamp→Time",
+        "lossy_mapping_collision:EventEndTime+TimeGenerated→Time",
+        "lossy_mapping_collision:EventEndTime+Timestamp→Time",
+        "lossy_mapping_collision:TimeGenerated+Timestamp→Time"
+      ],
+      "roles": {
+        "EventCreationTime": "time",
+        "EventEndTime": "time",
+        "TimeGenerated": "time",
+        "Timestamp": "time"
+      },
+      "target": "Time",
+      "target_mapping": "Time"
+    },
+    {
+      "fields": [
+        "Account",
+        "AccountName",
+        "Actor",
+        "User"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:Account+AccountName→User",
+        "lossy_mapping_collision:Account+Actor→User",
+        "lossy_mapping_collision:Account+User→User",
+        "lossy_mapping_collision:AccountName+Actor→User",
+        "lossy_mapping_collision:AccountName+User→User",
+        "lossy_mapping_collision:Actor+User→User"
+      ],
+      "roles": {
+        "Account": "subject",
+        "AccountName": "subject",
+        "Actor": "subject",
+        "User": "subject"
+      },
+      "target": "User",
+      "target_mapping": "User"
+    },
+    {
+      "fields": [
+        "ClientInfoString",
+        "ClientRequestUserAgent",
+        "HttpUserAgent",
+        "HttpUserAgentOriginal",
+        "UserAgent"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:ClientInfoString+ClientRequestUserAgent→User Agent",
+        "lossy_mapping_collision:ClientInfoString+HttpUserAgent→User Agent",
+        "lossy_mapping_collision:ClientInfoString+HttpUserAgentOriginal→User Agent",
+        "lossy_mapping_collision:ClientInfoString+UserAgent→User Agent",
+        "lossy_mapping_collision:ClientRequestUserAgent+HttpUserAgent→User Agent",
+        "lossy_mapping_collision:ClientRequestUserAgent+HttpUserAgentOriginal→User Agent",
+        "lossy_mapping_collision:ClientRequestUserAgent+UserAgent→User Agent",
+        "lossy_mapping_collision:HttpUserAgent+HttpUserAgentOriginal→User Agent",
+        "lossy_mapping_collision:HttpUserAgent+UserAgent→User Agent",
+        "lossy_mapping_collision:HttpUserAgentOriginal+UserAgent→User Agent"
+      ],
+      "roles": {
+        "ClientInfoString": "network",
+        "ClientRequestUserAgent": "network",
+        "HttpUserAgent": "network",
+        "HttpUserAgentOriginal": "network",
+        "UserAgent": "network"
+      },
+      "target": "User Agent",
+      "target_mapping": "'User Agent'"
+    },
+    {
+      "fields": [
+        "SubjectUserSid",
+        "UserId"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:SubjectUserSid+UserId→User ID (hashed)"
+      ],
+      "roles": {
+        "SubjectUserSid": "subject",
+        "UserId": "hash"
+      },
+      "target": "User ID (hashed)",
+      "target_mapping": "'User ID (hashed)'"
+    },
+    {
+      "fields": [
+        "AccountUpn",
+        "ActorUsername",
+        "MailboxOwnerUPN",
+        "SenderFromAddress",
+        "SourceLogin",
+        "SrcUserName",
+        "SrcUsername",
+        "UPN",
+        "UserName",
+        "UserPrincipalName"
+      ],
+      "reasons": [
+        "lossy_mapping_collision:AccountUpn+ActorUsername→User Name",
+        "lossy_mapping_collision:AccountUpn+MailboxOwnerUPN→User Name",
+        "lossy_mapping_collision:AccountUpn+SenderFromAddress→User Name",
+        "lossy_mapping_collision:AccountUpn+SourceLogin→User Name",
+        "lossy_mapping_collision:AccountUpn+SrcUserName→User Name",
+        "lossy_mapping_collision:AccountUpn+SrcUsername→User Name",
+        "lossy_mapping_collision:AccountUpn+UPN→User Name",
+        "lossy_mapping_collision:AccountUpn+UserName→User Name",
+        "lossy_mapping_collision:AccountUpn+UserPrincipalName→User Name",
+        "lossy_mapping_collision:ActorUsername+MailboxOwnerUPN→User Name",
+        "lossy_mapping_collision:ActorUsername+SenderFromAddress→User Name",
+        "lossy_mapping_collision:ActorUsername+SourceLogin→User Name",
+        "lossy_mapping_collision:ActorUsername+SrcUserName→User Name",
+        "lossy_mapping_collision:ActorUsername+SrcUsername→User Name",
+        "lossy_mapping_collision:ActorUsername+UPN→User Name",
+        "lossy_mapping_collision:ActorUsername+UserName→User Name",
+        "lossy_mapping_collision:ActorUsername+UserPrincipalName→User Name",
+        "lossy_mapping_collision:MailboxOwnerUPN+SenderFromAddress→User Name",
+        "lossy_mapping_collision:MailboxOwnerUPN+SourceLogin→User Name",
+        "lossy_mapping_collision:MailboxOwnerUPN+SrcUserName→User Name",
+        "lossy_mapping_collision:MailboxOwnerUPN+SrcUsername→User Name",
+        "lossy_mapping_collision:MailboxOwnerUPN+UPN→User Name",
+        "lossy_mapping_collision:MailboxOwnerUPN+UserName→User Name",
+        "lossy_mapping_collision:MailboxOwnerUPN+UserPrincipalName→User Name",
+        "lossy_mapping_collision:SenderFromAddress+SourceLogin→User Name",
+        "lossy_mapping_collision:SenderFromAddress+SrcUserName→User Name",
+        "lossy_mapping_collision:SenderFromAddress+SrcUsername→User Name",
+        "lossy_mapping_collision:SenderFromAddress+UPN→User Name",
+        "lossy_mapping_collision:SenderFromAddress+UserName→User Name",
+        "lossy_mapping_collision:SenderFromAddress+UserPrincipalName→User Name",
+        "lossy_mapping_collision:SourceLogin+SrcUserName→User Name",
+        "lossy_mapping_collision:SourceLogin+SrcUsername→User Name",
+        "lossy_mapping_collision:SourceLogin+UPN→User Name",
+        "lossy_mapping_collision:SourceLogin+UserName→User Name",
+        "lossy_mapping_collision:SourceLogin+UserPrincipalName→User Name",
+        "lossy_mapping_collision:SrcUserName+SrcUsername→User Name",
+        "lossy_mapping_collision:SrcUserName+UPN→User Name",
+        "lossy_mapping_collision:SrcUserName+UserName→User Name",
+        "lossy_mapping_collision:SrcUserName+UserPrincipalName→User Name",
+        "lossy_mapping_collision:SrcUsername+UPN→User Name",
+        "lossy_mapping_collision:SrcUsername+UserName→User Name",
+        "lossy_mapping_collision:SrcUsername+UserPrincipalName→User Name",
+        "lossy_mapping_collision:UPN+UserName→User Name",
+        "lossy_mapping_collision:UPN+UserPrincipalName→User Name",
+        "lossy_mapping_collision:UserName+UserPrincipalName→User Name"
+      ],
+      "roles": {
+        "AccountUpn": "subject",
+        "ActorUsername": "subject",
+        "MailboxOwnerUPN": "subject",
+        "SenderFromAddress": "subject",
+        "SourceLogin": "subject",
+        "SrcUserName": "subject",
+        "SrcUsername": "subject",
+        "UPN": "subject",
+        "UserName": "subject",
+        "UserPrincipalName": "subject"
+      },
+      "target": "User Name",
+      "target_mapping": "'User Name'"
+    }
+  ],
+  "generated_from": "config/mapping/_root.yaml",
+  "summary": {
+    "collision_count": 37,
+    "collision_field_count": 164,
+    "field_count": 183
+  },
+  "version": 1
+}

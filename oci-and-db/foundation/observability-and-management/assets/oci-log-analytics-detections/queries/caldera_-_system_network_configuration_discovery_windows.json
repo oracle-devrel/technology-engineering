@@ -1,0 +1,34 @@
+{
+  "title": "Caldera - System Network Configuration Discovery (Windows)",
+  "description": "Detects network configuration enumeration on Windows systems as emulated by Caldera T1016 operations. Adversaries run ipconfig, arp, nslookup, and PowerShell network cmdlets to identify interfaces, DNS settings, and proxies.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Process Name' like '*\\\\ipconfig.exe' and ('Command Line' like '*/all*' or 'Command Line' like '*/displaydns*' or 'Command Line' like '*/flushdns*')) or ('Process Name' like '*\\\\arp.exe' and 'Command Line' like '*-a*') or ('Process Name' like '*\\\\nslookup.exe') or (('Command Line' like '*Get-NetIPConfiguration*' or 'Command Line' like '*Get-NetIPAddress*' or 'Command Line' like '*Get-DnsClientServerAddress*' or 'Command Line' like '*Get-NetAdapter*')))",
+  "sigma_id": "afd8e429-4606-414c-895c-271a2078320d",
+  "level": "low",
+  "stig_category": "CAT III",
+  "tags": [
+    "attack.discovery",
+    "attack.t1016"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "discovery"
+    ],
+    "techniques": [
+      "T1016"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Network administrators running ipconfig",
+    "IT support scripts collecting network diagnostics",
+    "Monitoring agents polling network configuration"
+  ]
+}

@@ -1,0 +1,44 @@
+title: WAF Command Injection Attack Blocked
+id: a1010005-owasp-a03-cmdi-block-001
+status: stable
+version: 1
+description: Detects OS command injection attempts blocked by OCI WAF. Attackers inject system commands through web parameters. OWASP A03:2021 Injection.
+logsource:
+  product: oci
+  service: waf
+detection:
+  selection:
+    waf_action: BLOCK
+  cmdi_patterns:
+    request_url|contains:
+    - "; ls"
+    - "; cat "
+    - "; id"
+    - "; whoami"
+    - "; ping "
+    - "; wget "
+    - "; curl "
+    - "| ls"
+    - "| cat "
+    - "| id"
+    - "| whoami"
+    - "`id`"
+    - "`whoami`"
+    - "$(id)"
+    - "$(whoami)"
+    - "$(/bin/bash"
+    - "/bin/sh -c"
+    - "cmd.exe /c"
+    - "powershell -"
+  cmdi_rules:
+    rule_key|contains:
+    - "932"
+  condition: selection and (cmdi_patterns or cmdi_rules)
+level: critical
+tags:
+- attack.execution
+- attack.t1059
+- attack.t1190
+- owasp.a03
+falsepositives:
+- Legitimate API endpoints that accept command-like parameters

@@ -1,0 +1,22 @@
+title: Linux LD_PRELOAD Library Hijacking
+id: d1a2b3c4-2002-4000-8000-000000000002
+status: stable
+description: Detects LD_PRELOAD environment variable injection or /etc/ld.so.preload modification, used for library hijacking
+  and process injection.
+logsource:
+  product: linux
+  service: audit
+detection:
+  selection:
+    message|contains:
+    - LD_PRELOAD=
+    - /etc/ld.so.preload
+    - ld.so.preload
+  condition: selection
+level: high
+tags:
+- attack.persistence
+- attack.t1574.006
+version: 1
+falsepositives:
+- Legitimate library preloading for testing

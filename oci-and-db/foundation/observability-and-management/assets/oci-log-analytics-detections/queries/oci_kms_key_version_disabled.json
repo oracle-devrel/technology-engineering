@@ -1,0 +1,30 @@
+{
+  "title": "OCI KMS Key Version Disabled",
+  "description": "Detects disabling of a KMS key version which may impact data encryption or indicate key compromise response.",
+  "query": "'Log Source' = 'OCI Audit Logs' and (('Event Type' = 'com.oraclecloud.keymanagement.disablekeyversion'))",
+  "sigma_id": "f0414af9-9639-44c8-99ca-98ff70f159a5",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.impact",
+    "attack.t1600"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "impact"
+    ],
+    "techniques": [
+      "T1600"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Key rotation procedures"
+  ]
+}

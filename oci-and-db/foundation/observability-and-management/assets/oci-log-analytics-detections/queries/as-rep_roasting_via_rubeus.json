@@ -1,0 +1,65 @@
+{
+  "title": "AS-REP Roasting via Rubeus",
+  "description": "Detects AS-REP Roasting attempts using Rubeus or similar tools targeting accounts without Kerberos pre-authentication.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*asreproast*' or 'Command Line' like '*GetNPUsers*')))",
+  "sigma_id": "07b03613-7861-4182-82d1-b07a741573b9",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.credential_access",
+    "attack.t1558.004"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "credential_access"
+    ],
+    "techniques": [
+      "T1558.004"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Authorized penetration testing"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 3,
+    "techniques_with_tests": [
+      "T1558.004"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1558.004",
+        "test_name": "Rubeus asreproast",
+        "test_guid": "615bd568-2859-41b5-9aed-61f6a88e48dd",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1558.004/T1558.004.md"
+      },
+      {
+        "technique_id": "T1558.004",
+        "test_name": "Get-DomainUser with PowerView",
+        "test_guid": "d6139549-7b72-4e48-9ea1-324fc9bdf88a",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1558.004/T1558.004.md"
+      },
+      {
+        "technique_id": "T1558.004",
+        "test_name": "WinPwn - PowerSharpPack - Kerberoasting Using Rubeus",
+        "test_guid": "8c385f88-4d47-4c9a-814d-93d9deec8c71",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1558.004/T1558.004.md"
+      }
+    ]
+  }
+}

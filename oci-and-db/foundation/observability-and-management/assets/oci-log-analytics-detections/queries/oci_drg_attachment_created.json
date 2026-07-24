@@ -1,0 +1,30 @@
+{
+  "title": "OCI DRG Attachment Created",
+  "description": "Detects creation of Dynamic Routing Gateway attachment, enabling network connectivity between VCNs or on-premises.",
+  "query": "'Log Source' = 'OCI Audit Logs' and (('Event Type' = 'com.oraclecloud.virtualnetwork.createdrgattachment'))",
+  "sigma_id": "967c7462-bf3a-414f-aaa5-80b987ce46af",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.lateral_movement",
+    "attack.t1599"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "lateral_movement"
+    ],
+    "techniques": [
+      "T1599"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Network architecture changes"
+  ]
+}

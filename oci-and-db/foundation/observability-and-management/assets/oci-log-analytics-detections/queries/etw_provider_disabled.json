@@ -1,0 +1,121 @@
+{
+  "title": "ETW Provider Disabled",
+  "description": "Detects disabling of ETW (Event Tracing for Windows) providers, which can blind security monitoring.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*logman*' and 'Command Line' like '*stop*' and 'Command Line' like '*EventLog*')))",
+  "sigma_id": "c5960c2a-ae04-4e57-bf4e-ac2d27435683",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.t1562.002"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1562.002"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Performance troubleshooting"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 10,
+    "techniques_with_tests": [
+      "T1562.002"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1562.002",
+        "test_name": "Disable Windows IIS HTTP Logging",
+        "test_guid": "69435dcf-c66f-4ec0-a8b1-82beb76b34db",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.002/T1562.002.md"
+      },
+      {
+        "technique_id": "T1562.002",
+        "test_name": "Disable Windows IIS HTTP Logging via PowerShell",
+        "test_guid": "a957fb0f-1e85-49b2-a211-413366784b1e",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.002/T1562.002.md"
+      },
+      {
+        "technique_id": "T1562.002",
+        "test_name": "Kill Event Log Service Threads",
+        "test_guid": "41ac52ba-5d5e-40c0-b267-573ed90489bd",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.002/T1562.002.md"
+      },
+      {
+        "technique_id": "T1562.002",
+        "test_name": "Impair Windows Audit Log Policy",
+        "test_guid": "5102a3a7-e2d7-4129-9e45-f483f2e0eea8",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.002/T1562.002.md"
+      },
+      {
+        "technique_id": "T1562.002",
+        "test_name": "Clear Windows Audit Policy Config",
+        "test_guid": "913c0e4e-4b37-4b78-ad0b-90e7b25010f6",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.002/T1562.002.md"
+      },
+      {
+        "technique_id": "T1562.002",
+        "test_name": "Disable Event Logging with wevtutil",
+        "test_guid": "b26a3340-dad7-4360-9176-706269c74103",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.002/T1562.002.md"
+      },
+      {
+        "technique_id": "T1562.002",
+        "test_name": "Makes Eventlog blind with Phant0m",
+        "test_guid": "3ddf3d03-f5d6-462a-ad76-2c5ff7b6d741",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.002/T1562.002.md"
+      },
+      {
+        "technique_id": "T1562.002",
+        "test_name": "Modify Event Log Channel Access Permissions via Registry - PowerShell",
+        "test_guid": "8e81d090-0cd6-4d46-863c-eec11311298f",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.002/T1562.002.md"
+      },
+      {
+        "technique_id": "T1562.002",
+        "test_name": "Modify Event Log Channel Access Permissions via Registry 2 - PowerShell",
+        "test_guid": "85e6eff8-3ed4-4e03-ae50-aa6a404898a5",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.002/T1562.002.md"
+      },
+      {
+        "technique_id": "T1562.002",
+        "test_name": "Modify Event Log Access Permissions via Registry - PowerShell",
+        "test_guid": "a0cb81f8-44d0-4ac4-a8f3-c5c7f43a12c1",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.002/T1562.002.md"
+      }
+    ]
+  }
+}

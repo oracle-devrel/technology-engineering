@@ -1,0 +1,178 @@
+{
+  "title": "Linux Bind Shell Listener",
+  "description": "Detects creation of bind shell listeners using netcat, socat, or ncat. Bind shells open a listening port that allows remote attackers to connect and execute commands.",
+  "query": "('Log Source' = 'SOC Linux Syslog Logs' or 'Log Source' = 'Linux Secure Logs' or 'Log Source' = 'Linux Syslog Logs' or 'Log Source' = 'Linux Audit Logs') and (((msg like '*nc -lvp*' or msg like '*nc -lp*' or msg like '*ncat -lvp*' or msg like '*ncat -lp*' or msg like '*netcat -lvp*')) or (msg like '*socat TCP-LISTEN*'))",
+  "sigma_id": "f1e2d3c4-5008-4000-8000-000000000008",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.execution",
+    "attack.t1059.004"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "execution"
+    ],
+    "techniques": [
+      "T1059.004"
+    ]
+  },
+  "logsource": {
+    "product": "linux",
+    "service": "audit",
+    "candidates": [
+      "SOC Linux Syslog Logs",
+      "Linux Secure Logs",
+      "Linux Syslog Logs",
+      "Linux Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Network troubleshooting using netcat in listen mode"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 17,
+    "techniques_with_tests": [
+      "T1059.004"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1059.004",
+        "test_name": "Create and Execute Bash Shell Script",
+        "test_guid": "7e7ac3ed-f795-4fa5-b711-09d6fbe9b873",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.004/T1059.004.md"
+      },
+      {
+        "technique_id": "T1059.004",
+        "test_name": "Command-Line Interface",
+        "test_guid": "d0c88567-803d-4dca-99b4-7ce65e7b257c",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.004/T1059.004.md"
+      },
+      {
+        "technique_id": "T1059.004",
+        "test_name": "Harvest SUID executable files",
+        "test_guid": "46274fc6-08a7-4956-861b-24cbbaa0503c",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.004/T1059.004.md"
+      },
+      {
+        "technique_id": "T1059.004",
+        "test_name": "LinEnum tool execution",
+        "test_guid": "a2b35a63-9df1-4806-9a4d-5fe0500845f2",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.004/T1059.004.md"
+      },
+      {
+        "technique_id": "T1059.004",
+        "test_name": "New script file in the tmp directory",
+        "test_guid": "8cd1947b-4a54-41fb-b5ea-07d0ace04f81",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.004/T1059.004.md"
+      },
+      {
+        "technique_id": "T1059.004",
+        "test_name": "What shell is running",
+        "test_guid": "7b38e5cc-47be-44f0-a425-390305c76c17",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.004/T1059.004.md"
+      },
+      {
+        "technique_id": "T1059.004",
+        "test_name": "What shells are available",
+        "test_guid": "bf23c7dc-1004-4949-8262-4c1d1ef87702",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.004/T1059.004.md"
+      },
+      {
+        "technique_id": "T1059.004",
+        "test_name": "Command line scripts",
+        "test_guid": "b04ed73c-7d43-4dc8-b563-a2fc595cba1a",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.004/T1059.004.md"
+      },
+      {
+        "technique_id": "T1059.004",
+        "test_name": "Obfuscated command line scripts",
+        "test_guid": "5bec4cc8-f41e-437b-b417-33ff60acf9af",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.004/T1059.004.md"
+      },
+      {
+        "technique_id": "T1059.004",
+        "test_name": "Change login shell",
+        "test_guid": "c7ac59cb-13cc-4622-81dc-6d2fee9bfac7",
+        "executor": "bash",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.004/T1059.004.md"
+      },
+      {
+        "technique_id": "T1059.004",
+        "test_name": "Environment variable scripts",
+        "test_guid": "bdaebd56-368b-4970-a523-f905ff4a8a51",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.004/T1059.004.md"
+      },
+      {
+        "technique_id": "T1059.004",
+        "test_name": "Detecting pipe-to-shell",
+        "test_guid": "fca246a8-a585-4f28-a2df-6495973976a1",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.004/T1059.004.md"
+      },
+      {
+        "technique_id": "T1059.004",
+        "test_name": "Current kernel information enumeration",
+        "test_guid": "3a53734a-9e26-4f4b-ad15-059e767f5f14",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.004/T1059.004.md"
+      },
+      {
+        "technique_id": "T1059.004",
+        "test_name": "Shell Creation using awk command",
+        "test_guid": "ee72b37d-b8f5-46a5-a9e7-0ff50035ffd5",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.004/T1059.004.md"
+      },
+      {
+        "technique_id": "T1059.004",
+        "test_name": "Creating shell using cpan command",
+        "test_guid": "bcd4c2bc-490b-4f91-bd31-3709fe75bbdf",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.004/T1059.004.md"
+      },
+      {
+        "technique_id": "T1059.004",
+        "test_name": "Shell Creation using busybox command",
+        "test_guid": "ab4d04af-68dc-4fee-9c16-6545265b3276",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.004/T1059.004.md"
+      },
+      {
+        "technique_id": "T1059.004",
+        "test_name": "emacs spawning an interactive system shell",
+        "test_guid": "e0742e38-6efe-4dd4-ba5c-2078095b6156",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.004/T1059.004.md"
+      }
+    ]
+  }
+}

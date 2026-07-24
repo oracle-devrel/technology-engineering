@@ -1,0 +1,96 @@
+version: 0.1
+component: build
+timeoutInSeconds: 10000
+runAs: root
+shell: bash
+
+env:
+  variables:
+    repo_compartment_id: ""
+    repo_prefix: ""
+    region: ""
+    region_key: ""
+    chart_name: "flux-operator"
+    chart_repo: "oci://ghcr.io/controlplaneio-fluxcd/charts"
+    chart_version: ""
+    source_controller_version: ""
+    kustomize_controller_version: ""
+    helm_controller_version: ""
+    namespace: "flux-system"   # The Helm Chart will be deployed in this namespace
+
+  exportedVariables:
+    - "chart_version"
+    - "chart_name"
+    - "region_key"
+    - "tenancy_namespace"
+    - "repo_prefix"
+    - "namespace"
+
+steps:
+
+  - type: Command
+    name: "Load variables"
+    failImmediatelyOnError: true
+    command: |
+      source ./variables.sh
+      export OCI_CLI_REGION=${region}
+      region_key=$(oci iam region list --query "data[?name == '$region'].key | [0]" --raw-output);
+      export region_key=$(echo "$region_key" | tr '[:upper:]' '[:lower:]');
+      export tenancy_namespace=$(oci artifacts container configuration get --compartment-id "${repo_compartment_id}" --query data.namespace --raw-output);
+    onFailure:
+      - type: Command
+        command: |
+          echo "Error loading common environment variables";
+        timeoutInSeconds: 400
+
+  - type: Command
+    name: "Resolve Flux Operator chart version"
+    failImmediatelyOnError: true
+    command: |
+      if [ -n "${chart_version}" ]; then
+        echo "[INFO] chart_version already provided: ${chart_version}"
+        exit 0
+      fi
+
+      echo "[INFO] chart_version not provided. Resolving latest version from ${chart_repo}/${chart_name}"
+      SKOPEO_IMAGE="quay.io/skopeo/stable:latest"
+      CHART_REPO_REF="${chart_repo#oci://}/${chart_name}"
+      docker image inspect "${SKOPEO_IMAGE}" >/dev/null 2>&1 || docker pull "${SKOPEO_IMAGE}" >/dev/null
+
+      TAGS_JSON=$(docker run --rm "${SKOPEO_IMAGE}" list-tags "docker://${CHART_REPO_REF}")
+      LATEST_CHART_VERSION=$(
+        echo "${TAGS_JSON}" \
+          | tr -d '[:space:]' \
+          | sed 's/.*"Tags":\[//; s/\].*//' \
+          | tr ',' '\n' \
+          | tr -d '"' \
+          | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$' \
+          | sed 's/^v//' \
+          | sort -t. -k1,1n -k2,2n -k3,3n \
+          | tail -1
+      )
+
+      if [ -z "${LATEST_CHART_VERSION}" ]; then
+        echo "Failed to resolve latest chart version for ${CHART_REPO_REF}" >&2
+        exit 1
+      fi
+
+      export chart_version="${LATEST_CHART_VERSION}"
+      echo "[INFO] Resolved chart_version=${chart_version}"
+    onFailure:
+      - type: Command
+        command: |
+          echo "Error resolving latest Flux Operator chart version";
+        timeoutInSeconds: 400
+
+  - type: Command
+    name: "Mirror Flux Operator"
+    failImmediatelyOnError: true
+    command: |
+      export OCI_CLI_REGION=${region}
+      ./script/mirror-flux.sh -c "${repo_compartment_id}" -k "${region_key}" -p "${repo_prefix}" -t "${tenancy_namespace}" -v "v${chart_version#v}"
+    onFailure:
+      - type: Command
+        command: |
+          echo "Error mirroring Helm Chart to OCIR";
+        timeoutInSeconds: 400

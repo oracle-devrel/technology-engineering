@@ -1,0 +1,52 @@
+name: Deploy Azure Function (zip)
+
+on:
+  workflow_dispatch:
+    inputs:
+      function_app_name:
+        description: "Existing Azure Function App name (Linux, Python)"
+        required: true
+        type: string
+      python_version:
+        description: "Python runtime version"
+        default: "3.11"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ inputs.python_version }}
+
+      - name: Build function package
+        run: |
+          set -euo pipefail
+          PACKAGE_PATH="artifacts/azurelogs2oci-function.zip"
+          mkdir -p artifacts
+          cd function/EventHubsNamespaceToOCIStreaming
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt --target ".python_packages/lib/site-packages"
+          zip -qry "../../${PACKAGE_PATH}" .
+
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: azurelogs2oci-function
+          path: artifacts/azurelogs2oci-function.zip
+
+      - name: Deploy to Azure Function App
+        uses: Azure/functions-action@v1
+        with:
+          app-name: ${{ inputs.function_app_name }}
+          package: artifacts/azurelogs2oci-function.zip
+          publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}

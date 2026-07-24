@@ -1,0 +1,36 @@
+{
+  "title": "OCI Cloud Infrastructure Discovery",
+  "description": "Detects excessive cloud infrastructure enumeration via OCI API calls. Attackers with compromised credentials perform reconnaissance by listing instances, networks, buckets, and databases to map the cloud environment.\n",
+  "query": "'Log Source' = 'OCI Audit Logs' and ((('Event Type' = 'com.oraclecloud.computeapi.listinstances' or 'Event Type' = 'com.oraclecloud.virtualnetwork.listvcns' or 'Event Type' = 'com.oraclecloud.virtualnetwork.listsubnets' or 'Event Type' = 'com.oraclecloud.objectstorage.listbuckets' or 'Event Type' = 'com.oraclecloud.identitycontrolplane.listusers' or 'Event Type' = 'com.oraclecloud.identitycontrolplane.listgroups' or 'Event Type' = 'com.oraclecloud.identitycontrolplane.listpolicies' or 'Event Type' = 'com.oraclecloud.databaseservice.listautonomousdatabases')))",
+  "sigma_id": "a1b2c3d4-6005-4000-8000-000000000005",
+  "level": "low",
+  "stig_category": "CAT III",
+  "tags": [
+    "attack.discovery",
+    "attack.t1580",
+    "stig.AU-12"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "discovery"
+    ],
+    "techniques": [
+      "T1580"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "stig_ids": [
+    "AU-12"
+  ],
+  "falsepositives": [
+    "Cloud management consoles",
+    "Infrastructure-as-code tools",
+    "Monitoring and compliance scanners"
+  ]
+}

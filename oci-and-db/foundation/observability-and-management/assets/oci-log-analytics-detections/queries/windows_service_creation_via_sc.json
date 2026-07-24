@@ -1,0 +1,89 @@
+{
+  "title": "Windows Service Creation via SC",
+  "description": "Detects creation of new Windows services using sc.exe, which may indicate persistence or privilege escalation.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Process Name' like '*sc.exe' and 'Command Line' like '*create*'))",
+  "sigma_id": "5cg3h425-0123-4567-89ab-2345678b1c02",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.persistence",
+    "attack.t1543.003"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence"
+    ],
+    "techniques": [
+      "T1543.003"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "process_creation",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate service installation during software deployment"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 6,
+    "techniques_with_tests": [
+      "T1543.003"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1543.003",
+        "test_name": "Modify Fax service to run PowerShell",
+        "test_guid": "ed366cde-7d12-49df-a833-671904770b9f",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1543.003/T1543.003.md"
+      },
+      {
+        "technique_id": "T1543.003",
+        "test_name": "Service Installation CMD",
+        "test_guid": "981e2942-e433-44e9-afc1-8c957a1496b6",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1543.003/T1543.003.md"
+      },
+      {
+        "technique_id": "T1543.003",
+        "test_name": "Service Installation PowerShell",
+        "test_guid": "491a4af6-a521-4b74-b23b-f7b3f1ee9e77",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1543.003/T1543.003.md"
+      },
+      {
+        "technique_id": "T1543.003",
+        "test_name": "TinyTurla backdoor service w64time",
+        "test_guid": "ef0581fd-528e-4662-87bc-4c2affb86940",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1543.003/T1543.003.md"
+      },
+      {
+        "technique_id": "T1543.003",
+        "test_name": "Remote Service Installation CMD",
+        "test_guid": "fb4151a2-db33-4f8c-b7f8-78ea8790f961",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1543.003/T1543.003.md"
+      },
+      {
+        "technique_id": "T1543.003",
+        "test_name": "Modify Service to Run Arbitrary Binary (Powershell)",
+        "test_guid": "1f896ce4-8070-4959-8a25-2658856a70c9",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1543.003/T1543.003.md"
+      }
+    ]
+  }
+}

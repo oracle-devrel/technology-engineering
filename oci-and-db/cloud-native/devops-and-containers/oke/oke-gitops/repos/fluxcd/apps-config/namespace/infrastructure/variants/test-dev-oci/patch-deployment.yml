@@ -1,0 +1,9 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-component
+spec:
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/provider: oci

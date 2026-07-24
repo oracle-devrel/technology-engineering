@@ -1,0 +1,39 @@
+{
+  "title": "OCI Privilege Escalation Chain Detection",
+  "description": "Detects potential privilege escalation by identifying users who perform a sequence of IAM operations: creating policies, groups, or dynamic groups followed by adding themselves to privileged groups. Combines multiple identity control plane events from the same principal to surface escalation chains.",
+  "query": "'Log Source' = 'OCI Audit Logs' and 'Event Type' like 'com.oraclecloud.identitycontrolplane.*' | stats count as iam_ops, distinctcount('Event Type') as unique_actions by 'User Name' | sort -iam_ops | where iam_ops > 5 and unique_actions > 3",
+  "type": "hunting",
+  "hunting_type": "combined_scoring",
+  "cookbook_method": "grouping_correlation",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.privilege_escalation",
+    "attack.t1098",
+    "attack.persistence",
+    "attack.t1078",
+    "stig.AC-6"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "privilege_escalation",
+      "persistence"
+    ],
+    "techniques": [
+      "T1098",
+      "T1078"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit"
+  },
+  "stig_ids": [
+    "AC-6"
+  ],
+  "falsepositives": [
+    "Terraform/IaC performing bulk provisioning",
+    "Authorized admin performing environment setup",
+    "Automated onboarding workflows"
+  ]
+}

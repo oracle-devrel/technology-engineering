@@ -1,0 +1,41 @@
+{
+  "title": "APM: OWASP Attack Volume by Service",
+  "description": "Sunburst nesting Service Name inside Attack Type. Operators can compare which application surfaces face which OWASP categories most frequently and drill outward from a tactic slice to the affected service.",
+  "query": "'Log Source' = 'SOC Application Logs' and 'Attack Type' != null | stats count as Events by 'Attack Type', 'Service Name' | sort -Events",
+  "type": "hunting",
+  "level": "informational",
+  "tags": [
+    "apm",
+    "owasp",
+    "showcase"
+  ],
+  "logsource": {
+    "product": "oci",
+    "service": "apm",
+    "candidates": [
+      "SOC Application Logs"
+    ]
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {
+      "timePeriod": "l21d"
+    },
+    "visualizationOptions": {
+      "valueField": "Events"
+    },
+    "ask_ai_prompts": [
+      "Which OWASP category dominates browser attacks right now?",
+      "Compare attack mix between enterprise-crm-portal and octo-drone-shop."
+    ]
+  },
+  "mitre_attack": {
+    "tactics": [
+      "initial_access"
+    ],
+    "techniques": [
+      "T1190"
+    ]
+  }
+}

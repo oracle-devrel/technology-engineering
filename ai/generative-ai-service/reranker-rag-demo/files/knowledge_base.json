@@ -1,0 +1,98 @@
+[
+  {
+    "id": "eligibility-definitions",
+    "title": "Eligibility and Definitions",
+    "source": "Vision Corp Leave policy.pdf - Section 1",
+    "text": "Vision Corp. Leave Policy applies to all permanent employees of Vision Corp. based in Netherlands and Poland. The Leave Year coincides with the Vision Corp. Financial Year, from 1 January to 31 December. Direct Relative means Parents, Grandparents, Siblings, Children, and Grandchildren for Compassionate Leave. For all other leaves, Direct Relative means Parents, Spouse, Siblings, or Children. Manager refers to the employee's direct or indirect line manager. Leave calculated based on calendar days includes any weekends or public holidays falling within the leave period. All leave types, except special religious leave, are an annual entitlement per Leave Year.",
+    "tags": ["eligibility", "definitions", "leave year", "direct relative", "Netherlands", "Poland"],
+    "answer": "The policy applies to permanent Vision Corp employees in the Netherlands and Poland. The leave year runs from 1 January to 31 December, and direct-relative definitions differ for compassionate leave versus other leave types."
+  },
+  {
+    "id": "direct-relative-definition",
+    "title": "Direct Relative Definition for Compassionate Leave",
+    "source": "Vision Corp Leave policy.pdf - Section 1.3",
+    "text": "Direct Relative is defined as follows. For Compassionate Leave: Employee's Parents, Grandparents, Siblings, Children, and Grandchildren. For all other leaves: Employee's Parents, Spouse, Siblings, or Children.",
+    "tags": ["direct relative", "compassionate leave", "parents", "grandparents", "siblings", "children", "grandchildren", "spouse"],
+    "answer": "For compassionate leave, direct relatives are the employee's parents, grandparents, siblings, children, and grandchildren. For all other leave types, direct relatives are parents, spouse, siblings, or children."
+  },
+  {
+    "id": "annual-leave",
+    "title": "Annual Leave",
+    "source": "Vision Corp Leave policy.pdf - Section 2",
+    "text": "Netherlands employees are entitled to 25 working days of paid annual leave per Leave Year. Poland employees are entitled to 20 working days of paid annual leave per Leave Year, or 26 days if the employee has over 10 years of work experience. Employees hired during the Leave Year are eligible for annual leave on a pro-rata basis. Employees must use their annual leave within the Leave Year; otherwise, it will be forfeited unless otherwise agreed by HR.",
+    "tags": ["annual leave", "paid leave", "Netherlands", "Poland", "pro-rata", "carry over", "forfeit"],
+    "answer": "Netherlands employees receive 25 working days of paid annual leave. Poland employees receive 20 working days, or 26 days with over 10 years of work experience. New hires receive leave pro-rata, and unused annual leave is forfeited unless HR agrees otherwise."
+  },
+  {
+    "id": "leave-year-calendar-days",
+    "title": "Leave Year and Calendar-Day Rules",
+    "source": "Vision Corp Leave policy.pdf - Sections 1.2, 1.5-1.6",
+    "text": "The Leave Year coincides with the Vision Corp. Financial Year, from 1 January to 31 December. Leave calculated based on calendar days includes any weekends or public holidays falling within the period of the leave availed. All leave types, except special religious leave, are an annual entitlement per Leave Year.",
+    "tags": ["leave year", "calendar days", "weekends", "public holidays", "annual entitlement", "financial year"],
+    "answer": "The leave year runs from 1 January to 31 December. When leave is calculated in calendar days, weekends and public holidays inside the leave period count as part of the leave. All leave types except special religious leave are annual entitlements per leave year."
+  },
+  {
+    "id": "sick-leave",
+    "title": "Sick Leave",
+    "source": "Vision Corp Leave policy.pdf - Section 3",
+    "text": "Employees are eligible for paid sick leave. In the Netherlands, employees receive up to 104 weeks of sick leave with full or partial pay, subject to Dutch labor laws and company policies. In Poland, employees receive 33 days of paid sick leave per year at 80% of salary, after which the benefit is covered by social security, ZUS. Employees must inform their Manager on the first day of illness. Sick leave exceeding two consecutive days must be accompanied by a medical certificate.",
+    "tags": ["sick leave", "medical certificate", "illness", "Netherlands", "Poland", "ZUS", "manager"],
+    "answer": "In the Netherlands, sick leave can run up to 104 weeks with full or partial pay under Dutch law and company policy. In Poland, employees receive 33 days at 80% salary before ZUS covers the benefit. Employees must inform their manager on the first day of illness, and sick leave over two consecutive days requires a medical certificate."
+  },
+  {
+    "id": "sick-leave-notice-certificate",
+    "title": "Sick Leave Notice and Medical Certificate",
+    "source": "Vision Corp Leave policy.pdf - Sections 3.2-3.3",
+    "text": "Employees must inform their Manager on the first day of illness. Sick leave exceeding two consecutive days must be accompanied by a medical certificate.",
+    "tags": ["sick leave", "illness", "manager", "medical certificate", "two consecutive days"],
+    "answer": "For illness, employees must inform their manager on the first day. If sick leave exceeds two consecutive days, they must provide a medical certificate."
+  },
+  {
+    "id": "maternity-paternity",
+    "title": "Maternity and Paternity Leave",
+    "source": "Vision Corp Leave policy.pdf - Sections 4-5",
+    "text": "For maternity leave, Netherlands female employees are entitled to 16 weeks of fully paid maternity leave. Poland female employees are entitled to 20 weeks of paid maternity leave, with an option for additional leave. Employees must notify HR and their Manager at least 3 months before the expected delivery date. For paternity leave, Netherlands employees are entitled to 1 week of paid paternity leave plus an additional 5 weeks at 70% pay. Poland employees are entitled to 2 weeks of fully paid paternity leave. Paternity leave must be taken within 6 months of the child's birth or adoption.",
+    "tags": ["maternity leave", "paternity leave", "birth", "adoption", "Netherlands", "Poland", "HR notification"],
+    "answer": "Netherlands maternity leave is 16 fully paid weeks, while Poland maternity leave is 20 paid weeks with an option for additional leave. Employees must notify HR and their manager at least 3 months before delivery. For paternity leave, Netherlands provides 1 paid week plus 5 weeks at 70% pay, while Poland provides 2 fully paid weeks, taken within 6 months of birth or adoption."
+  },
+  {
+    "id": "marriage-compassionate",
+    "title": "Marriage and Compassionate Leave",
+    "source": "Vision Corp Leave policy.pdf - Sections 6-7",
+    "text": "Employees are entitled to 3 working days of paid leave for their own wedding. Employees receive 1 day of paid leave for the wedding of a direct relative. For compassionate leave, employees receive 5 working days of paid leave for the death of a spouse. Employees receive 3 working days of paid leave for the death of a direct relative.",
+    "tags": ["marriage leave", "wedding", "compassionate leave", "death", "spouse", "direct relative"],
+    "answer": "For compassionate leave, direct relatives are parents, grandparents, siblings, children, and grandchildren. Employees receive 5 paid working days for the death of a spouse and 3 paid working days for the death of a direct relative. The policy also provides 3 paid working days for the employee's own wedding and 1 paid day for a direct relative's wedding."
+  },
+  {
+    "id": "religious-unpaid-study",
+    "title": "Religious, Unpaid, and Study Leave",
+    "source": "Vision Corp Leave policy.pdf - Sections 8-10",
+    "text": "Employees who wish to observe special religious events may request up to 30 days of unpaid leave during their tenure at Vision Corp. Any leave availed without Manager approval will be considered unpaid leave and may lead to disciplinary action. Employees can apply for planned unpaid leave if they have exhausted their annual leave balance. Employees who have completed 2 years of service are eligible for 10 working days of study leave per year, only if enrolled in an accredited educational institution.",
+    "tags": ["religious leave", "unpaid leave", "study leave", "manager approval", "disciplinary action", "accredited education"],
+    "answer": "Special religious leave allows up to 30 unpaid days during an employee's tenure. Unapproved leave is treated as unpaid and may lead to disciplinary action, while planned unpaid leave can be requested after annual leave is exhausted. Study leave is 10 working days per year after 2 years of service, if the employee is enrolled in an accredited institution."
+  },
+  {
+    "id": "unpaid-leave-manager-approval",
+    "title": "Unpaid Leave and Manager Approval",
+    "source": "Vision Corp Leave policy.pdf - Section 9",
+    "text": "Any leave availed without Manager approval will be considered Unpaid Leave and may lead to disciplinary action. Employees can apply for planned unpaid leave if they have exhausted their Annual Leave balance.",
+    "tags": ["unpaid leave", "manager approval", "disciplinary action", "annual leave balance"],
+    "answer": "Leave taken without manager approval is considered unpaid leave and may lead to disciplinary action. Planned unpaid leave can be requested after annual leave is exhausted."
+  },
+  {
+    "id": "public-holidays-approval",
+    "title": "Public Holidays and Leave Approval",
+    "source": "Vision Corp Leave policy.pdf - Sections 11-12",
+    "text": "Employees are entitled to all declared public holidays in their respective country. Netherlands public holidays include New Year's Day, Easter, King's Day, Liberation Day, Ascension Day, Christmas, and others. Poland public holidays include New Year's Day, Easter, Constitution Day, All Saints' Day, Christmas, and others. Public holidays will be communicated by HR annually. Employees must schedule leave in advance and secure approval from their Manager. Employees must submit all leave requests via the HR Self-Service Portal. Unused annual leave may not be carried over unless HR grants an exception. The policy is subject to updates based on local labor laws and Vision Corp internal guidelines.",
+    "tags": ["public holidays", "leave approval", "HR portal", "manager approval", "carry over", "Netherlands", "Poland"],
+    "answer": "Employees receive declared public holidays for their country, communicated annually by HR. Leave must be scheduled in advance, approved by the manager, and submitted through the HR Self-Service Portal. Unused annual leave cannot be carried over unless HR grants an exception."
+  },
+  {
+    "id": "public-holiday-examples",
+    "title": "Public Holiday Examples by Country",
+    "source": "Vision Corp Leave policy.pdf - Section 11",
+    "text": "Employees are entitled to all declared Public Holidays as per their respective country. Netherlands public holidays include New Year's Day, Easter, King's Day, Liberation Day, Ascension Day, Christmas, and others. Poland public holidays include New Year's Day, Easter, Constitution Day, All Saints' Day, Christmas, and others. Public holidays will be communicated by HR annually.",
+    "tags": ["public holidays", "Netherlands", "Poland", "Easter", "Christmas", "King's Day", "Constitution Day"],
+    "answer": "Employees receive declared public holidays in their country. Netherlands examples include New Year's Day, Easter, King's Day, Liberation Day, Ascension Day, and Christmas. Poland examples include New Year's Day, Easter, Constitution Day, All Saints' Day, and Christmas. HR communicates public holidays annually."
+  }
+]

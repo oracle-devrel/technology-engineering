@@ -1,0 +1,35 @@
+{
+  "title": "OCI Log Group Deleted",
+  "description": "Detects deletion of OCI Log Analytics log groups. Deleting log groups destroys collected log data and can indicate an attacker covering their tracks.",
+  "query": "'Log Source' = 'OCI Audit Logs' and ((('Event Type' = 'com.oraclecloud.loganalytics.deleteloganalyticsloggroup' or 'Event Type' = 'com.oraclecloud.logging.deleteloggroup')))",
+  "sigma_id": "e1f2a3b4-4006-4000-8000-000000000006",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.t1562.001",
+    "stig.AU-11"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1562.001"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "stig_ids": [
+    "AU-11"
+  ],
+  "falsepositives": [
+    "Log group consolidation during infrastructure cleanup",
+    "Decommissioning of monitoring infrastructure"
+  ]
+}

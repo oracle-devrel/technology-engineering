@@ -1,0 +1,49 @@
+{
+  "title": "Sysmon Executable File Created or Detected",
+  "description": "Detects Sysmon Event ID 29 FileExecutableDetected and Event ID 11 executable file creates in writable or startup locations.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ('Event ID' in ('29', '11')) and ('Target Filename' like '*.exe' or 'Target Filename' like '*.dll' or 'Target Filename' like '*.scr' or 'Target Filename' like '*.ps1') and ('Target Filename' like '*\\\\Temp\\\\*' or 'Target Filename' like '*\\\\Users\\\\Public\\\\*' or 'Target Filename' like '*\\\\ProgramData\\\\*' or 'Target Filename' like '*\\\\Startup\\\\*') | stats count as FileEvents, unique('Target Filename') as Files, unique('Process Name') as Writers by User, 'Host Name (Server)', Entity | sort -FileEvents",
+  "sigma_id": "logan-sysmon-29-executable-file-detected",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.command_and_control",
+    "attack.persistence",
+    "attack.t1105",
+    "attack.t1547.001"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "command_and_control",
+      "persistence"
+    ],
+    "techniques": [
+      "T1105",
+      "T1547.001"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Installers, browser downloads, and software update packages"
+  ],
+  "requires_aggregation": true,
+  "references": [
+    {
+      "name": "Microsoft Sysinternals: Sysmon",
+      "url": "https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon"
+    }
+  ],
+  "atomic_red_team": {
+    "has_tests": false,
+    "test_count": 0,
+    "techniques_with_tests": [],
+    "tests": []
+  }
+}

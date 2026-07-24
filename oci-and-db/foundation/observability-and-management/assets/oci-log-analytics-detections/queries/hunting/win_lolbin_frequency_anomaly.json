@@ -1,0 +1,14 @@
+{
+  "title": "Windows LOLBin Usage Frequency Anomaly",
+  "description": "Identifies hosts with abnormally high usage of living-off-the-land binaries (LOLBins), which may indicate fileless malware or attacker tool usage.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'SOC Windows Sysmon Logs') and 'Process Name' in ('certutil.exe', 'mshta.exe', 'regsvr32.exe', 'rundll32.exe', 'wscript.exe', 'cscript.exe', 'msbuild.exe', 'bitsadmin.exe', 'wmic.exe', 'installutil.exe') | stats count as lolbin_count, distinctcount('Process Name') as distinct_lolbins by 'Host Name' | where lolbin_count > 20 or distinct_lolbins >= 4 | sort -lolbin_count",
+  "type": "hunting",
+  "category": "defense_evasion",
+  "mitre_attack": {
+    "tactics": ["defense_evasion", "execution"],
+    "techniques": ["T1218", "T1059"]
+  },
+  "data_source": "Windows Sysmon",
+  "frequency": "daily",
+  "notes": "Individual LOLBin usage may be legitimate, but high frequency or diversity of LOLBin usage on a single host is unusual. Compare against baseline."
+}

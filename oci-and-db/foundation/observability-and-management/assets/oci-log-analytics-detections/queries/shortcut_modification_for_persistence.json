@@ -1,0 +1,57 @@
+{
+  "title": "Shortcut Modification for Persistence",
+  "description": "Detects creation of suspicious .lnk shortcut files using PowerShell COM objects.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*WScript.Shell*' and 'Command Line' like '*CreateShortcut*')))",
+  "sigma_id": "2f33f481-f882-43bf-8207-24d697c1da7a",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.persistence",
+    "attack.t1547.009"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence"
+    ],
+    "techniques": [
+      "T1547.009"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate shortcut creation by scripts"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 2,
+    "techniques_with_tests": [
+      "T1547.009"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1547.009",
+        "test_name": "Shortcut Modification",
+        "test_guid": "ce4fc678-364f-4282-af16-2fb4c78005ce",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1547.009/T1547.009.md"
+      },
+      {
+        "technique_id": "T1547.009",
+        "test_name": "Create shortcut to cmd in startup folders",
+        "test_guid": "cfdc954d-4bb0-4027-875b-a1893ce406f2",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1547.009/T1547.009.md"
+      }
+    ]
+  }
+}

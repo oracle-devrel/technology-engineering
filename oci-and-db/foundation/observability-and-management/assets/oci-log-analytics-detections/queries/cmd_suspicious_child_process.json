@@ -1,0 +1,49 @@
+{
+  "title": "CMD: Suspicious Command Execution (Real Windows Security Events)",
+  "description": "Detects suspicious cmd.exe commands in Windows Security Event 4688 process creation logs. Covers reconnaissance, persistence, lateral movement, and defense evasion commands commonly used by attackers after initial compromise.\n",
+  "query": "('Log Source' = 'Windows Security Events' or 'Log Source' = 'Windows Event Security Logs') and ('Event ID' = '4688') and ( (('Command Line' like '*whoami /all*' or 'Command Line' like '*net user *' or 'Command Line' like '*net group *' or 'Command Line' like '*net localgroup*' or 'Command Line' like '*net view*' or 'Command Line' like '*nltest /dclist*' or 'Command Line' like '*nltest /domain_trusts*' or 'Command Line' like '*systeminfo*' or 'Command Line' like '*ipconfig /all*' or 'Command Line' like '*arp -a*' or 'Command Line' like '*netstat -ano*' or 'Command Line' like '*tasklist /svc*' or 'Command Line' like '*wmic process list*' or 'Command Line' like '*qwinsta*' or 'Command Line' like '*query user*')) or (('Command Line' like '*schtasks /create*' or 'Command Line' like '*at *' or 'Command Line' like '*reg add *' or 'Command Line' like '*sc create *' or 'Command Line' like '*wmic /node:*')) or (('Command Line' like '*psexec *' or 'Command Line' like '*wmic /node:*' or 'Command Line' like '*winrs -r:*' or 'Command Line' like '*net use \\\\\\\\\\\\\\\\*' or 'Command Line' like '*copy \\\\\\\\\\\\\\\\*')) or (('Command Line' like '*vssadmin delete shadows*' or 'Command Line' like '*wevtutil cl *' or 'Command Line' like '*bcdedit /set*' or 'Command Line' like '*reg delete *' or 'Command Line' like '*wbadmin delete*')) ) | stats count as Detections by 'Command Line' | sort -Detections",
+  "sigma_id": "cmd-exec-t1059-003",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.execution",
+    "attack.t1059.003"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "execution"
+    ],
+    "techniques": [
+      "T1059.003"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "security",
+    "candidates": [
+      "Windows Security Events",
+      "Windows Event Security Logs"
+    ]
+  },
+  "falsepositives": [
+    "System administrators running diagnostic commands",
+    "Automated maintenance scripts"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 1,
+    "techniques_with_tests": [
+      "T1059.003"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1059.003",
+        "test_name": "Command Prompt",
+        "test_guid": "11111111-1111-1111-1111-111111111111",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.003/T1059.003.md"
+      }
+    ]
+  }
+}

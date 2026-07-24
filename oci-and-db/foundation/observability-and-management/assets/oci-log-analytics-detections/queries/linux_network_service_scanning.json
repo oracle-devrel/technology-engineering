@@ -1,0 +1,139 @@
+{
+  "title": "Linux Network Service Scanning",
+  "description": "Detects network scanning tools (nmap, masscan, zmap) used for host and service discovery. Attackers use these tools during the discovery phase to map network topology and identify vulnerable services.\n",
+  "query": "('Log Source' = 'SOC Linux Syslog Logs' or 'Log Source' = 'Linux Secure Logs' or 'Log Source' = 'Linux Syslog Logs' or 'Log Source' = 'Linux Audit Logs') and (('Process Name' like '*nmap') or ('Process Name' like '*masscan') or ('Process Name' like '*zmap') or ((msg like '*nmap -s*' or msg like '*nmap -p*' or msg like '*masscan -p*' or msg like '*zmap -p*')))",
+  "sigma_id": "a1b2c3d4-6001-4000-8000-000000000001",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.discovery",
+    "attack.t1046"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "discovery"
+    ],
+    "techniques": [
+      "T1046"
+    ]
+  },
+  "logsource": {
+    "product": "linux",
+    "service": "syslog",
+    "candidates": [
+      "SOC Linux Syslog Logs",
+      "Linux Secure Logs",
+      "Linux Syslog Logs",
+      "Linux Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Authorized vulnerability scanning",
+    "Network monitoring tools"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 12,
+    "techniques_with_tests": [
+      "T1046"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1046",
+        "test_name": "Port Scan",
+        "test_guid": "68e907da-2539-48f6-9fc9-257a78c05540",
+        "executor": "bash",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1046/T1046.md"
+      },
+      {
+        "technique_id": "T1046",
+        "test_name": "Port Scan Nmap",
+        "test_guid": "515942b0-a09f-4163-a7bb-22fefb6f185f",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1046/T1046.md"
+      },
+      {
+        "technique_id": "T1046",
+        "test_name": "Port Scan NMap for Windows",
+        "test_guid": "d696a3cb-d7a8-4976-8eb5-5af4abf2e3df",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1046/T1046.md"
+      },
+      {
+        "technique_id": "T1046",
+        "test_name": "Port Scan using python",
+        "test_guid": "6ca45b04-9f15-4424-b9d3-84a217285a5c",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1046/T1046.md"
+      },
+      {
+        "technique_id": "T1046",
+        "test_name": "WinPwn - spoolvulnscan",
+        "test_guid": "54574908-f1de-4356-9021-8053dd57439a",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1046/T1046.md"
+      },
+      {
+        "technique_id": "T1046",
+        "test_name": "WinPwn - MS17-10",
+        "test_guid": "97585b04-5be2-40e9-8c31-82157b8af2d6",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1046/T1046.md"
+      },
+      {
+        "technique_id": "T1046",
+        "test_name": "WinPwn - bluekeep",
+        "test_guid": "1cca5640-32a9-46e6-b8e0-fabbe2384a73",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1046/T1046.md"
+      },
+      {
+        "technique_id": "T1046",
+        "test_name": "WinPwn - fruit",
+        "test_guid": "bb037826-cbe8-4a41-93ea-b94059d6bb98",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1046/T1046.md"
+      },
+      {
+        "technique_id": "T1046",
+        "test_name": "Network Service Discovery for Containers",
+        "test_guid": "06eaafdb-8982-426e-8a31-d572da633caa",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1046/T1046.md"
+      },
+      {
+        "technique_id": "T1046",
+        "test_name": "Port-Scanning /24 Subnet with PowerShell",
+        "test_guid": "05df2a79-dba6-4088-a804-9ca0802ca8e4",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1046/T1046.md"
+      },
+      {
+        "technique_id": "T1046",
+        "test_name": "Remote Desktop Services Discovery via PowerShell",
+        "test_guid": "9e55750e-4cbf-4013-9627-e9a045b541bf",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1046/T1046.md"
+      },
+      {
+        "technique_id": "T1046",
+        "test_name": "Port Scan using nmap (Port range)",
+        "test_guid": "0d5a2b03-3a26-45e4-96ae-89485b4d1f97",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1046/T1046.md"
+      }
+    ]
+  }
+}

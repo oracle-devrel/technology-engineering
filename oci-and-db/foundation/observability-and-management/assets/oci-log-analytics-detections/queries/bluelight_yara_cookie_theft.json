@@ -1,0 +1,66 @@
+{
+  "title": "BLUELIGHT RAT: YARA Chrome/Edge Cookie Theft (APT_MAL_Win_BlueLight_B)",
+  "description": "Detects BLUELIGHT browser cookie theft targeting Google authentication. The malware extracts SID, OSID, __Secure-3PSID cookies from Chrome/Edge to hijack Gmail and Google Account sessions. Enables IMAP access on victim Gmail accounts for persistent email exfiltration. Based on Volexity YARA rule APT_MAL_Win_BlueLight_B $chrome strings.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*cookie_name: OSID*' or 'Command Line' like '*cookie_name: SID,*' or 'Command Line' like '*__Secure-3PSID*' or 'Command Line' like '*cookie_name: __Secure-3PSID*')) or (('Command Line' like '*GM_ACTION_TOKEN*' or 'Command Line' like '*GM_ID_KEY=*' or 'Command Line' like '*mail/u/0/?ik=*' or 'Command Line' like '*Success to enable imap*' or 'Command Line' like '*Success to enable thunder access*')) or (('Command Line' like '*Failed to get chrome cookie*' or 'Command Line' like '*Failed to get Edge cookie*' or 'Command Line' like '*Failed to get New Edge cookie*'))) | stats count by 'Host Name (Server)', Entity, 'Process Name'",
+  "sigma_id": "bl-s0657-yara-cookie-001",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.credential_access",
+    "attack.t1539",
+    "attack.t1555.003",
+    "attack.collection",
+    "attack.t1114",
+    "apt.apt37",
+    "malware.bluelight",
+    "yara.APT_MAL_Win_BlueLight_B"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "credential_access",
+      "collection"
+    ],
+    "techniques": [
+      "T1539",
+      "T1555.003",
+      "T1114"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "None expected - these strings are unique to BLUELIGHT malware"
+  ],
+  "atomic_red_team": {
+    "has_tests": false,
+    "test_count": 0,
+    "techniques_with_tests": [],
+    "tests": []
+  },
+  "yara_source": {
+    "rule_name": "APT_MAL_Win_BlueLight_B",
+    "rule_id": "3ec2d44c-4c08-514d-a839-acef3f53f7dc",
+    "author": "threatintel@volexity.com",
+    "strings_used": [
+      "$chrome1-$chrome27",
+      "$msg1-$msg11"
+    ],
+    "condition_logic": "24 of ($chrome*) or 4 of ($msg*)",
+    "repository": "https://github.com/Neo23x0/signature-base/blob/master/yara/apt_apt37_bluelight.yar"
+  },
+  "threat_intel": {
+    "malware_family": "BLUELIGHT",
+    "mitre_software_id": "S0657",
+    "threat_actor": "APT37 (InkySquid)",
+    "hashes": [
+      "837eaf7b736583497afb8bbdb527f70577901eff04cc69d807983b233524bfed"
+    ]
+  }
+}

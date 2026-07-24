@@ -1,0 +1,32 @@
+{
+  "title": "ADCS ESC1: Subject Alternative Name Abuse via Certipy/Certify",
+  "description": "Detects ADCS ESC1 abuse where an attacker requests a certificate from a vulnerable template that allows enrollee-supplied subject and uses an alternate UPN (SAN) to impersonate a privileged account. Certipy and Certify expose this via the 'req' action with -upn/-template/-altname. In GOAD this is run against the ESC1 template on the CA to impersonate a Domain Admin.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*certipy*' or 'Command Line' like '*Certify.exe*' or 'Command Line' like '*Certify *')) and (('Command Line' like '*req*' or 'Command Line' like '*request*')) and (('Command Line' like '*-upn*' or 'Command Line' like '*/altname*' or 'Command Line' like '*-altname*' or 'Command Line' like '*subject*' or 'Command Line' like '*-sid*')))",
+  "sigma_id": "50fe3f50-4618-4135-b444-21f2b7b4e08e",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.credential_access",
+    "attack.t1649"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "credential_access"
+    ],
+    "techniques": [
+      "T1649"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Authorized certificate template security assessments"
+  ]
+}

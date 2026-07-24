@@ -1,0 +1,46 @@
+{
+  "title": "Hunting: GOAD/Apex Caldera Sandcat Agent Activity",
+  "description": "Surfaces Caldera sandcat-as-splunkd.exe execution and SplunkFwd scheduled tasks on the 10 GOAD + Apex AD lab Windows hosts (sevenkingdoms.local, north.sevenkingdoms.local, essos.local, apex.local domains). Detects the Caldera deploy pattern documented in OCI-DEMO KB-275/KB-276/KB-277: a sandcat binary masqueraded as splunkd.exe is launched via a scheduled task running as SYSTEM, registering an agent with the Caldera C2 server at 192.168.100.78:8888.\n\nThe Caldera deploy pipeline runs: (1) Defender disable via Set-MpPreference, (2) write C:/Users/Public/splunkd.exe (sandcat binary), (3) schtasks /Create /SC ONCE /TN SplunkFwd /TR splunkd.exe /RU SYSTEM, (4) schtasks /Run /TN SplunkFwd. Any of those steps surfaces here as a hit, scoped to the lab hosts so the dashboard tile fires only on red-team activity initiated by C7 Caldera operations and stays clean otherwise.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and 'Event ID' in ('1', '11') and ('Process Name' like '*splunkd.exe' or 'Image' like '*splunkd.exe' or 'Target Filename' like '*splunkd.exe' or 'Command Line' like '*SplunkFwd*' or 'Command Line' like '*Set-MpPreference*DisableRealtimeMonitoring*') and (Entity in ('kingslanding', 'winterfell', 'meereen', 'castelblack', 'braavos', 'hq-dc01', 'eu-dc01', 'eu-app01', 'apac-dc01', 'apac-db01') or 'Host Name (Server)' in ('kingslanding', 'winterfell', 'meereen', 'castelblack', 'braavos', 'hq-dc01', 'eu-dc01', 'eu-app01', 'apac-dc01', 'apac-db01')) | stats count as Detections, distinctcount('Event ID') as EventTypes by Entity, 'Event ID' | sort -Detections",
+  "type": "hunting",
+  "level": "critical",
+  "tags": [
+    "attack.execution",
+    "attack.t1053.005",
+    "attack.defense_evasion",
+    "attack.t1562.001",
+    "attack.t1036",
+    "attack.command_and_control",
+    "attack.t1071.001",
+    "hunting",
+    "caldera",
+    "sandcat",
+    "goad",
+    "apex_ad"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "execution",
+      "defense_evasion",
+      "command_and_control"
+    ],
+    "techniques": [
+      "T1053.005",
+      "T1036",
+      "T1071.001",
+      "T1562.001"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate Splunk Universal Forwarder running as splunkd.exe \u2014 real product path is C:/Program Files/SplunkUniversalForwarder/bin/splunkd.exe, NOT C:/Users/Public/splunkd.exe"
+  ]
+}

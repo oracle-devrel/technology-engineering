@@ -1,0 +1,37 @@
+{
+  "title": "APM: SQL Injection Attack in Request",
+  "description": "Detects SQL injection payloads inside APM-instrumented application requests. Matches UNION SELECT, OR 1=1, time-based blind (SLEEP), boolean-based, error-based (EXTRACTVALUE), and stacked-query patterns appearing in Request URL.",
+  "query": "'Log Source' = 'SOC Application Logs' and (('Request URL' like '*UNION SELECT*' or 'Request URL' like '*UNION%20SELECT*' or 'Request URL' like '*UNION+SELECT*' or 'Request URL' like '*union select*' or 'Request URL' like '*union%20select*') or ('Request URL' like '*OR 1=1*' or 'Request URL' like '*OR%201%3D1*' or 'Request URL' like '*%27%20OR%201%3D1*' or 'Request URL' like '*AND 1=1*') or ('Request URL' like '*SLEEP(*' or 'Request URL' like '*BENCHMARK(*' or 'Request URL' like '*WAITFOR DELAY*') or ('Request URL' like '*EXTRACTVALUE(*' or 'Request URL' like '*UPDATEXML(*') or ('Request URL' like '*INFORMATION_SCHEMA.TABLES*' or 'Request URL' like '*INFORMATION_SCHEMA.COLUMNS*') or ('Request URL' like '*; DROP TABLE*'))",
+  "sigma_id": "d5e6f7a8-1190-4002-8003-000000000002",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.initial_access",
+    "attack.t1190",
+    "owasp.a03_injection"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "initial_access"
+    ],
+    "techniques": [
+      "T1190"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "apm",
+    "candidates": [
+      "SOC Application Logs"
+    ]
+  },
+  "falsepositives": [
+    "Documentation pages or knowledge-base articles containing SQL examples in URL query strings",
+    "Internal red-team / sqlmap penetration tests against staging APM-instrumented apps"
+  ],
+  "dashboard": {
+    "visualizationType": "table",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"}
+  }
+}

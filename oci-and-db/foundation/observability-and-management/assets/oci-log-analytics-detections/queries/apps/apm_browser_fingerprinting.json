@@ -1,0 +1,33 @@
+{
+  "title": "APM: Browser Fingerprinting via Canvas/WebGL/AudioContext",
+  "description": "Detects browser fingerprinting techniques using Canvas API, WebGL parameters, AudioContext, and other APIs commonly used to uniquely identify browsers. Excessive fingerprinting API calls indicate tracking scripts or reconnaissance.\n",
+  "query": "'Log Source' = 'SOC Application Logs' and (( (('Span Attributes' like '*canvas.toDataURL*' or 'Span Attributes' like '*toBlob*' or 'Span Attributes' like '*getImageData*')) and (('Span Attributes' like '*webgl.getParameter*' or 'Span Attributes' like '*WEBGL_debug_renderer_info*' or 'Span Attributes' like '*getExtension*')) ) or ( (('Span Attributes' like '*AudioContext*' or 'Span Attributes' like '*OfflineAudioContext*' or 'Span Attributes' like '*createOscillator*')) and (('Span Attributes' like '*navigator.plugins*' or 'Span Attributes' like '*navigator.languages*' or 'Span Attributes' like '*screen.colorDepth*' or 'Span Attributes' like '*navigator.hardwareConcurrency*')) ) or ( (('Span Attributes' like '*canvas.toDataURL*' or 'Span Attributes' like '*toBlob*' or 'Span Attributes' like '*getImageData*')) and (('Span Attributes' like '*AudioContext*' or 'Span Attributes' like '*OfflineAudioContext*' or 'Span Attributes' like '*createOscillator*')) )) | stats count as FingerprintAttempts by 'Client IP', 'User Agent', 'Service Name' | sort -FingerprintAttempts",
+  "sigma_id": "apm-browser-fingerprint-001",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.reconnaissance",
+    "attack.t1592.004",
+    "owasp.a07",
+    "browser_attack"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "reconnaissance"
+    ],
+    "techniques": [
+      "T1592.004"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "apm",
+    "candidates": [
+      "SOC Application Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate WebGL applications and games",
+    "Audio processing web applications"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "title": "Web Application Privilege Escalation",
+  "description": "Detects privilege escalation attempts where users try to modify their role or access admin-only endpoints. OWASP A01:2021 Broken Access Control.",
+  "query": "('Log Source' = 'SOC Web Application Logs' or 'Log Source' = 'OCI Load Balancer Access Logs') and ((('Attack Type' = 'privilege_escalation' or 'Attack Type' = 'role_manipulation' or 'Attack Type' = 'admin_bypass')) or (('Request Body' like '*\"role\":\"admin\"*' or 'Request Body' like '*\"isAdmin\":true*' or 'Request Body' like '*\"role\": \"admin\"*' or 'Request Body' like '*admin=true*' or 'Request Body' like '*role=admin*' or 'Request Body' like '*privilege=admin*')))",
+  "sigma_id": "a1010018-owasp-a01-privesc-001",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.privilege_escalation",
+    "attack.t1078",
+    "owasp.a01"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "privilege_escalation"
+    ],
+    "techniques": [
+      "T1078"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "webapp",
+    "candidates": [
+      "SOC Web Application Logs",
+      "OCI Load Balancer Access Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate admin user management operations"
+  ]
+}

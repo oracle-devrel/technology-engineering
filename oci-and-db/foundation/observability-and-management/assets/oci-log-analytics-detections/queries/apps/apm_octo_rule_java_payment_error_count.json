@@ -1,0 +1,15 @@
+{
+  "title": "APM: Octo Demo Java Payment Error Detection Rule",
+  "description": "Scheduled-rule-safe count of Java APM sidecar payment errors for Octo checkout traces.",
+  "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and 'Java APM Error Type' != null | stats count as JavaPaymentErrorEvents by 'Java APM Error Type', 'Trace ID', 'Response Code'",
+  "level": "high",
+  "type": "curated",
+  "tags": ["application", "apm", "octo-apm-demo", "java-apm", "payment-gateway", "detection-rule"],
+  "logsource": {"category": "application", "product": "oci-log-analytics", "service": "soc_application_logs", "candidates": ["SOC Application Logs"]},
+  "detection_rule": {"schedule": "5m", "lookback": "15m"},
+  "detection_maturity": "validated_locally",
+  "source_confidence": "high",
+  "field_coverage": "covered",
+  "test_data_coverage": "covered",
+  "live_validation_status": "validated_live"
+}

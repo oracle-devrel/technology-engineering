@@ -1,0 +1,105 @@
+{
+  "title": "Account Access Removal",
+  "description": "Detects deletion or disabling of user accounts which may indicate an attempt to lock out legitimate users.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Process Name' like '*\\\\net.exe' or 'Process Name' like '*\\\\net1.exe') and ('Command Line' like '*user*' and 'Command Line' like '*/active:no*')))",
+  "sigma_id": "0e2aa6b5-8a4a-483f-8e72-2f84cf780810",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.impact",
+    "attack.t1531"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "impact"
+    ],
+    "techniques": [
+      "T1531"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate account management"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 8,
+    "techniques_with_tests": [
+      "T1531"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1531",
+        "test_name": "Change User Password - Windows",
+        "test_guid": "1b99ef28-f83c-4ec5-8a08-1a56263a5bb2",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1531/T1531.md"
+      },
+      {
+        "technique_id": "T1531",
+        "test_name": "Delete User - Windows",
+        "test_guid": "f21a1d7d-a62f-442a-8c3a-2440d43b19e5",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1531/T1531.md"
+      },
+      {
+        "technique_id": "T1531",
+        "test_name": "Remove Account From Domain Admin Group",
+        "test_guid": "43f71395-6c37-498e-ab17-897d814a0947",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1531/T1531.md"
+      },
+      {
+        "technique_id": "T1531",
+        "test_name": "Change User Password via passwd",
+        "test_guid": "3c717bf3-2ecc-4d79-8ac8-0bfbf08fbce6",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1531/T1531.md"
+      },
+      {
+        "technique_id": "T1531",
+        "test_name": "Delete User via dscl utility",
+        "test_guid": "4d938c43-2fe8-4d70-a5b3-5bf239aa7846",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1531/T1531.md"
+      },
+      {
+        "technique_id": "T1531",
+        "test_name": "Delete User via sysadminctl utility",
+        "test_guid": "d3812c4e-30ee-466a-a0aa-07e355b561d6",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1531/T1531.md"
+      },
+      {
+        "technique_id": "T1531",
+        "test_name": "Azure AD - Delete user via Azure AD PowerShell",
+        "test_guid": "4f577511-dc1c-4045-bcb8-75d2457f01f4",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1531/T1531.md"
+      },
+      {
+        "technique_id": "T1531",
+        "test_name": "Azure AD - Delete user via Azure CLI",
+        "test_guid": "c955c1c7-3145-4a22-af2d-63eea0d967f0",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1531/T1531.md"
+      }
+    ]
+  }
+}

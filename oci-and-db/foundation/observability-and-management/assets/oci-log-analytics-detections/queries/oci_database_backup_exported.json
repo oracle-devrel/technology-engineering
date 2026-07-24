@@ -1,0 +1,30 @@
+{
+  "title": "OCI Database Backup Exported",
+  "description": "Detects database backup creation that could be used to extract sensitive data.",
+  "query": "'Log Source' = 'OCI Audit Logs' and (('Event Type' = 'com.oraclecloud.databaseservice.createbackup'))",
+  "sigma_id": "ef6043f4-a5f6-4ef9-96ae-59bc84fd2d53",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.exfiltration",
+    "attack.t1537"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "exfiltration"
+    ],
+    "techniques": [
+      "T1537"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Scheduled database backups"
+  ]
+}

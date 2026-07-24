@@ -1,0 +1,47 @@
+{
+  "title": "BLUELIGHT RAT: Registry Enumeration of Security Products",
+  "description": "Detects registry access targeting security product and installed software keys. BLUELIGHT enumerates SecurityCenter2, Uninstall keys, and AV service registrations to identify defensive tools before attempting further payload delivery.\n",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Event ID' = '12' or 'Event ID' = '13' or 'Event ID' = '14') and ('Target Object' like '*\\\\CurrentVersion\\\\Uninstall*' or 'Target Object' like '*\\\\CurrentControlSet\\\\Services*' or 'Target Object' like '*SecurityCenter2*' or 'Target Object' like '*\\\\Windows Defender*' or 'Target Object' like '*\\\\AVAST Software*' or 'Target Object' like '*\\\\ESET*' or 'Target Object' like '*\\\\KasperskyLab*')) and not (('Process Name' like '*\\\\MsMpEng.exe' or 'Process Name' like '*\\\\svchost.exe' or 'Process Name' like '*\\\\TrustedInstaller.exe' or 'Process Name' like '*\\\\msiexec.exe'))) | stats count by 'Host Name (Server)', 'Process Name', 'Target Object'",
+  "sigma_id": "bl-s0657-t1012-001",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.discovery",
+    "attack.t1012",
+    "apt.apt37",
+    "malware.bluelight"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "discovery"
+    ],
+    "techniques": [
+      "T1012"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Software inventory tools",
+    "Antivirus self-update routines"
+  ],
+  "atomic_red_team": {
+    "has_tests": false,
+    "test_count": 0,
+    "techniques_with_tests": [],
+    "tests": []
+  },
+  "splunk_original": "index=sysmon EventCode=13 TargetObject IN (\"*\\\\CurrentVersion\\\\Uninstall*\",\"*\\\\CurrentControlSet\\\\Services*\",\"*SecurityCenter2*\") NOT Image IN (\"*MsMpEng.exe\",\"*svchost.exe\",\"*TrustedInstaller.exe\") | table _time, Image, TargetObject, User",
+  "threat_intel": {
+    "malware_family": "BLUELIGHT",
+    "mitre_software_id": "S0657",
+    "threat_actor": "APT37 (InkySquid)"
+  }
+}

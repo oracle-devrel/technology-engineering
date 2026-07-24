@@ -1,0 +1,31 @@
+{
+  "title": "MELTS: 2025-2026 Attack Timeline",
+  "description": "Time-series view of the modern attack scenarios across endpoint, web, application, network, firewall, and cloud-control-plane logs. Use this as the first pivot before drilling into attack-specific widgets.",
+  "query": "('Trace ID' = 'trace_clickfix_2026_001' or 'Trace ID' = 'trace_toolshell_sp_001' or 'Trace ID' = 'trace_rmm_2025_001' or 'Trace ID' = 'trace_aitm_token_2026_001' or 'Threat Name' = 'ClickFix Clipboard Execution' or 'Threat Name' = 'CrashFix Python RAT' or 'Threat Name' = 'RMM Tool Abuse' or 'Threat Name' = 'AiTM Token Replay' or 'Request URL' like '*spinstall0.aspx*' or 'Command Line' like '*ClickFix*' or 'Command Line' like '*CrashFix*' or 'Process Name' like '*ScreenConnect*' or 'Process Name' like '*AnyDesk*' or 'Process Name' like '*AteraAgent*' or 'User Name' = 'codeofconduct-reader@corp.example.com') | timestats span = 1hour count as Events by 'Log Source'",
+  "type": "hunting",
+  "level": "high",
+  "tags": ["melts", "timeline", "2025_2026", "multi_source"],
+  "logsource": {
+    "product": "multi_source",
+    "service": "log_analytics"
+  },
+  "dashboard": {
+    "visualizationType": "line",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "timeField": "Time",
+      "seriesField": "Log Source",
+      "valueField": "Events"
+    },
+    "ask_ai_prompts": [
+      "Build a chronological threat-hunting timeline for these attacks.",
+      "Which log source saw the entry point first?"
+    ]
+  },
+  "mitre_attack": {
+    "tactics": ["initial_access", "execution", "command_and_control", "exfiltration"],
+    "techniques": ["T1566", "T1059", "T1071", "T1041"]
+  },
+  "falsepositives": ["Demo replay traffic"]
+}

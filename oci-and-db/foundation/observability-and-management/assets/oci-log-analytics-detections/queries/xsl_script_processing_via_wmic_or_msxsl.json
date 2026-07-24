@@ -1,0 +1,73 @@
+{
+  "title": "XSL Script Processing via WMIC or Msxsl",
+  "description": "Detects execution of XSL scripts through WMIC /format or msxsl.exe for code execution.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (( ('Process Name' like '*\\\\wmic.exe' and 'Command Line' like '*/format:*') or ('Process Name' like '*\\\\msxsl.exe') ))",
+  "sigma_id": "7f6896f0-17fe-48be-89a6-a6052ab6499e",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.t1220"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1220"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate WMIC format output"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 4,
+    "techniques_with_tests": [
+      "T1220"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1220",
+        "test_name": "MSXSL Bypass using local files",
+        "test_guid": "ca23bfb2-023f-49c5-8802-e66997de462d",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1220/T1220.md"
+      },
+      {
+        "technique_id": "T1220",
+        "test_name": "MSXSL Bypass using remote files",
+        "test_guid": "a7c3ab07-52fb-49c8-ab6d-e9c6d4a0a985",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1220/T1220.md"
+      },
+      {
+        "technique_id": "T1220",
+        "test_name": "WMIC bypass using local XSL file",
+        "test_guid": "1b237334-3e21-4a0c-8178-b8c996124988",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1220/T1220.md"
+      },
+      {
+        "technique_id": "T1220",
+        "test_name": "WMIC bypass using remote XSL file",
+        "test_guid": "7f5be499-33be-4129-a560-66021f379b9b",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1220/T1220.md"
+      }
+    ]
+  }
+}

@@ -5,14 +5,14 @@ librosa==0.11.0
 matplotlib==3.10.7
 nlpaug==1.1.11
 numpy==2.3.5
-oci==2.164.0
+oci==2.165.1
 pandas==2.3.3
 python-dotenv==1.2.1
 pytorch_lightning==2.6.0
 scikit_learn==1.8.0
 scipy==1.16.3
-streamlit==1.43.2
-torch==2.8.0
+streamlit==1.53.0
+torch==2.5.1
 torchaudio==2.5.1
 torchvision==0.20.1
 tqdm==4.66.5

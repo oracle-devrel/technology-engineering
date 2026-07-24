@@ -1,0 +1,52 @@
+title: Caldera - Document and Data File Collection from Linux Host
+id: fcd2d7ce-5c2c-41ce-ad44-e82a4befd6e2
+status: experimental
+description: >
+  Detects collection of document and data files from user home directories and
+  common data paths. Caldera T1005 emulation searches for and copies high-value
+  files (office docs, PDFs, databases, source code archives) using find and cp.
+  Complements linux_sensitive_data_access.yaml which focuses on SSH keys and
+  cloud credential files.
+author: SOC Detection Engineering
+date: 2026/06/11
+logsource:
+  product: linux
+  service: syslog
+detection:
+  sel_find_docs:
+    message|contains:
+      - 'find / -name *.pdf'
+      - 'find / -name *.docx'
+      - 'find / -name *.xlsx'
+      - 'find /home -name *.doc'
+      - 'find /home -name *.xls'
+      - 'find /home -name *.kdbx'
+      - 'find / -name *.pst'
+  sel_find_db:
+    message|contains:
+      - 'find / -name *.db'
+      - 'find / -name *.sqlite'
+      - 'find / -name *.sql'
+      - 'find / -name *.bak'
+  sel_find_code:
+    message|contains:
+      - 'find / -name *.py'
+      - 'find / -name *.rb'
+      - 'find / -name *.php'
+      - 'find / -name *.go'
+  sel_cp_bulk:
+    message|contains:
+      - 'cp -r /home'
+      - 'cp -r /root'
+      - 'cp -r /srv'
+      - 'cp -r /var/www'
+  condition: sel_find_docs or sel_find_db or sel_find_code or sel_cp_bulk
+level: medium
+tags:
+  - attack.collection
+  - attack.t1005
+falsepositives:
+  - Content management systems indexing files
+  - Backup agents scanning for changed files
+  - Development tools building project inventories
+version: 1

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oci-logan.local/schemas/logan_workbench/mapping_patterns.schema.json",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "patterns"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "generated_at": { "type": "string" },
+    "patterns": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "source_language", "source_construct", "oci_mapping", "support_level", "logan_commands", "warning_behavior", "example_ids"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "source_language": { "type": "string" },
+          "source_construct": { "type": "string", "minLength": 1 },
+          "oci_mapping": { "type": "string", "minLength": 1 },
+          "support_level": { "enum": ["supported", "partial", "lossy", "unsupported"] },
+          "logan_commands": { "type": "array", "items": { "type": "string" } },
+          "warning_behavior": { "type": "string" },
+          "example_ids": { "type": "array", "items": { "type": "string" } }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
