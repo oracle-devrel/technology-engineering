@@ -539,6 +539,33 @@ class EnhancedVectorStore(VectorStore):
         return meta
 
     
+    def list_entities(self, which: str = "both") -> list:
+        """Return sorted distinct `entity` tags present in the bound collections.
+
+        `which`: 'pdf', 'xlsx', or 'both'. Deterministic read used to populate the
+        query-time entity picker, so the user always selects a tag that actually
+        exists in the store and retrieval's exact-match filter is guaranteed to hit.
+        """
+        targets = []
+        if which in ("pdf", "both"):
+            targets.append(getattr(self, "pdf_collection", None))
+        if which in ("xlsx", "both"):
+            targets.append(getattr(self, "xlsx_collection", None))
+
+        entities = set()
+        for coll in targets:
+            if coll is None:
+                continue
+            try:
+                got = coll.get(include=["metadatas"]) or {}
+                for meta in (got.get("metadatas") or []):
+                    ent = (meta or {}).get("entity")
+                    if ent:
+                        entities.add(str(ent))
+            except Exception as e:
+                logger.warning(f"list_entities: could not read '{getattr(coll, 'name', '?')}': {e}")
+        return sorted(entities)
+
     def _resolve_collection(self, collection_name: str):
         """Resolve a logical collection name to a live collection handle."""
         if collection_name == "xlsx_documents":
@@ -984,23 +1011,27 @@ class EnhancedVectorStore(VectorStore):
             # Get the embedder's actual dimensions
             embedder_info = self.embedder.get_model_info()
             handler_dim = embedder_info.get("dimensions")
-            
+
             # Get collection metadata dimensions (convert to int for consistent comparison)
             metadata_dim = self._as_int((self.pdf_collection.metadata or {}).get("embedding_dimensions"))
-            
-            # Detect actual ChromaDB collection dimensions
-            actual_dim = self._detect_actual_collection_dimensions(self.pdf_collection)
-            
-            logger.info(f"PDF collection dimension check: metadata={metadata_dim}D, actual={actual_dim}D, embedder={handler_dim}D")
-            
-            # Check if we have a dimension mismatch (all comparisons use int now)
-            dimension_mismatch = False
-            if actual_dim and handler_dim and actual_dim != handler_dim:
-                dimension_mismatch = True
-                logger.warning(f"❌ ACTUAL dimension mismatch: collection has {actual_dim}D vectors, embedder produces {handler_dim}D")
-            elif metadata_dim and handler_dim and metadata_dim != handler_dim and not actual_dim:
-                dimension_mismatch = True
-                logger.warning(f"⚠️ METADATA dimension mismatch: collection metadata says {metadata_dim}D, embedder produces {handler_dim}D")
+
+            # Fast path: when the collection metadata already agrees with the embedder
+            # (the normal case), skip re-measuring the dimension. Previously every query
+            # pulled a full sample vector off disk via _detect_actual_collection_dimensions
+            # just to reconfirm a value that cannot change mid-run — one redundant Chroma
+            # read (and two log lines) per retrieval, dozens of times per report.
+            if metadata_dim and handler_dim and metadata_dim == handler_dim:
+                dimension_mismatch = False
+            else:
+                actual_dim = self._detect_actual_collection_dimensions(self.pdf_collection)
+                logger.info(f"PDF collection dimension check: metadata={metadata_dim}D, actual={actual_dim}D, embedder={handler_dim}D")
+                dimension_mismatch = False
+                if actual_dim and handler_dim and actual_dim != handler_dim:
+                    dimension_mismatch = True
+                    logger.warning(f"❌ ACTUAL dimension mismatch: collection has {actual_dim}D vectors, embedder produces {handler_dim}D")
+                elif metadata_dim and handler_dim and metadata_dim != handler_dim and not actual_dim:
+                    dimension_mismatch = True
+                    logger.warning(f"⚠️ METADATA dimension mismatch: collection metadata says {metadata_dim}D, embedder produces {handler_dim}D")
             
             if dimension_mismatch:
                 # Try to find the correct PDF collection for this embedding model

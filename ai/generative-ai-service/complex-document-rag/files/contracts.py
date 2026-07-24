@@ -10,7 +10,7 @@ from __future__ import annotations
 import hashlib
 from typing import Any, Dict, List, Literal, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 # ---------------------------------------------------------------------------
@@ -172,6 +172,21 @@ class SectionDraft(BaseModel):
     is_comparison: bool = False
     chunks_used: int = 0
     sources: List[Dict[str, Any]] = Field(default_factory=list)
+    # Per-chunk references actually fed to this section: {file, entity, page, excerpt}.
+    # Distinct from `sources`, which is deduped to document level.
+    chunk_refs: List[Dict[str, Any]] = Field(default_factory=list)
+
+    @field_validator("markdown", mode="before")
+    @classmethod
+    def _coerce_markdown(cls, v):
+        """Some LLMs (e.g. grok-3-fast) return the section body as a list of
+        strings instead of one string. Join it rather than letting the whole
+        section fail validation and be dropped from the report."""
+        if v is None:
+            return ""
+        if isinstance(v, (list, tuple)):
+            return "\n".join(str(x) for x in v)
+        return str(v)
 
     # -- conversion helpers --------------------------------------------------
 
@@ -199,6 +214,10 @@ class SectionDraft(BaseModel):
         if not isinstance(sources, list):
             sources = []
 
+        chunk_refs = d.get("chunk_refs", [])
+        if not isinstance(chunk_refs, list):
+            chunk_refs = []
+
         return cls(
             topic=d.get("heading", d.get("topic", "Untitled")),
             markdown=d.get("text", ""),
@@ -209,6 +228,7 @@ class SectionDraft(BaseModel):
             is_comparison=d.get("is_comparison", False),
             chunks_used=d.get("chunks_used", 0),
             sources=sources,
+            chunk_refs=chunk_refs,
         )
 
     def to_legacy_dict(self) -> dict:
@@ -223,6 +243,7 @@ class SectionDraft(BaseModel):
             "is_comparison": self.is_comparison,
             "chunks_used": self.chunks_used,
             "sources": self.sources,
+            "chunk_refs": self.chunk_refs,
         }
 
 

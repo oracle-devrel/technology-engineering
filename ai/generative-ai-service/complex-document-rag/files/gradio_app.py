@@ -3,6 +3,8 @@
 
 # Disable telemetry first to prevent startup errors
 import disable_telemetry
+# Patch gradio_client bool-schema crash before gradio builds any API info
+import gradio_compat  # noqa: F401
 
 import gradio as gr
 import logging
@@ -24,6 +26,7 @@ from handlers.xlsx_handler import process_xlsx_file
 from handlers.pdf_handler import process_pdf_file
 from handlers.query_handler import process_query
 from progress_bus import progress_bus
+from utils.entity_utils import suggest_entities_from_filename
 from handlers.vector_handler import (
     get_collection_stats,
     view_collection_documents,
@@ -378,10 +381,12 @@ def create_oracle_interface():
                             file_types=[".xlsx", ".xls"], 
                             type="filepath"
                         )
-                        xlsx_entity = gr.Textbox(
-                            label="Entity", 
-                            placeholder="e.g. ZypherCorp",
-                            max_lines=1
+                        xlsx_entity = gr.Dropdown(
+                            label="Entity",
+                            choices=[],
+                            value=None,
+                            allow_custom_value=True,
+                            info="Suggested from the filename on upload — pick one or type your own.",
                         )
                         xlsx_process_btn = gr.Button("Process XLSX", variant="secondary", elem_classes=["secondary-button"])
                         xlsx_summary = gr.Textbox(label="XLSX Summary", lines=2, max_lines=3, elem_classes=["compact-field"])
@@ -395,10 +400,12 @@ def create_oracle_interface():
                             file_types=[".pdf"], 
                             type="filepath"
                         )
-                        pdf_entity = gr.Textbox(
-                            label="Entity", 
-                            placeholder="e.g. TechCorp Inc.",
-                            max_lines=1
+                        pdf_entity = gr.Dropdown(
+                            label="Entity",
+                            choices=[],
+                            value=None,
+                            allow_custom_value=True,
+                            info="Suggested from the filename on upload — pick one or type your own.",
                         )
                         pdf_process_btn = gr.Button("Process PDF", variant="secondary", elem_classes=["secondary-button"])
                         pdf_summary = gr.Textbox(label="PDF Summary", lines=2, max_lines=3, elem_classes=["compact-field"])
@@ -530,9 +537,39 @@ def create_oracle_interface():
                         # lives behind agent_mode, and starting with everything off
                         # meant a fresh launch silently produced nothing useful.
                         with gr.Row():
-                            collection_pdf = gr.Checkbox(label="Include PDF", value=False, scale=1)
+                            collection_pdf = gr.Checkbox(label="Include PDF", value=True, scale=1)
                             collection_xlsx = gr.Checkbox(label="Include XLSX", value=True, scale=1)
                             agent_mode = gr.Checkbox(label="Agentic Mode", value=True, scale=1)
+
+                        # Deterministic, model-independent entity selection. Populated
+                        # from the tags actually in the store (see vector_store.list_entities),
+                        # so a pick always matches retrieval's exact-match filter. Leave
+                        # empty to fall back to LLM extraction from the prompt.
+                        with gr.Row():
+                            def _initial_entities():
+                                try:
+                                    return rag_system.vector_store.list_entities()
+                                except Exception:
+                                    return []
+                            query_entities = gr.Dropdown(
+                                label="Entities to compare",
+                                info="From ingested documents. Leave empty to auto-detect from the prompt.",
+                                choices=_initial_entities(),
+                                value=[],
+                                multiselect=True,
+                                allow_custom_value=True,
+                                scale=5,
+                            )
+                            refresh_entities_btn = gr.Button("↻ Refresh", scale=1, elem_classes=["secondary-button"])
+
+                        # Chunks retrieved per entity per section. Lower = tighter,
+                        # fewer citations; higher = more context. Overrides RESEARCH_TOP_K.
+                        with gr.Row():
+                            top_k_slider = gr.Slider(
+                                minimum=1, maximum=12, value=4, step=1,
+                                label="Chunks per entity (TOP_K)",
+                                info="Lower = tighter & fewer citations; higher = more context per section.",
+                            )
                 
                 # Right Column - Results
                 with gr.Column(scale=1, elem_classes=["inference-right-column"]):
@@ -616,16 +653,44 @@ def create_oracle_interface():
                 summary = f"ℹ️ No entity given — used **{resolved}** (from filename).\n\n{summary}"
             return summary, gr.update(value="")
 
+        # On upload, suggest up to 3 entity-name variants from the filename and
+        # preselect the first. Deterministic; the user can still pick another or type.
+        def _suggest_entity_from_file(file):
+            if file is None:
+                return gr.update(choices=[], value=None)
+            variants = suggest_entities_from_filename(Path(file.name).name)
+            return gr.update(choices=variants, value=(variants[0] if variants else None))
+
+        pdf_file.change(fn=_suggest_entity_from_file, inputs=[pdf_file], outputs=[pdf_entity])
+        xlsx_file.change(fn=_suggest_entity_from_file, inputs=[xlsx_file], outputs=[xlsx_entity])
+
+        # Refresh the query-time entity picker from what is actually in the store.
+        def _refresh_query_entities():
+            try:
+                return gr.update(choices=rag_system.vector_store.list_entities())
+            except Exception:
+                return gr.update()
+
+        refresh_entities_btn.click(fn=_refresh_query_entities, outputs=[query_entities])
+
+        # After ingesting, tick the matching collection (so a query defaults to the
+        # collection just populated) and refresh the entity picker.
         xlsx_process_btn.click(
             fn=process_xlsx_and_clear,
             inputs=[xlsx_file, embedding_model_selector_ingest, xlsx_entity],
             outputs=[xlsx_summary, xlsx_entity]
+        ).then(
+            fn=lambda: (gr.update(value=True), _refresh_query_entities()),
+            outputs=[collection_xlsx, query_entities],
         )
 
         pdf_process_btn.click(
             fn=process_pdf_and_clear,
             inputs=[pdf_file, embedding_model_selector_ingest, pdf_entity],
             outputs=[pdf_summary, pdf_entity]
+        ).then(
+            fn=lambda: (gr.update(value=True), _refresh_query_entities()),
+            outputs=[collection_pdf, query_entities],
         )
 
         stats_refresh_btn.click(
@@ -686,7 +751,7 @@ def create_oracle_interface():
 
             return headline + current + trail
 
-        def handle_query_with_download(query, llm_model, embedding_model, include_pdf, include_xlsx, agentic, progress=gr.Progress()):
+        def handle_query_with_download(query, llm_model, embedding_model, include_pdf, include_xlsx, agentic, selected_entities, top_k, progress=gr.Progress()):
             """
             Run the query on a worker thread and stream real progress.
 
@@ -695,8 +760,8 @@ def create_oracle_interface():
             The pipeline now publishes milestones to progress_bus and this generator
             polls them while the work actually runs.
             """
-            entity1 = ""  # Will be automatically detected by the LLM
-            entity2 = ""  # Will be automatically detected by the LLM
+            # Deterministic entity selection from the picker; empty => LLM auto-detect.
+            selected_entities = [e for e in (selected_entities or []) if e and e.strip()]
 
             progress_bus.start(message="Initialising…")
             yield (
@@ -713,7 +778,8 @@ def create_oracle_interface():
                     result["value"] = process_query(
                         query, llm_model, embedding_model,
                         include_pdf, include_xlsx, agentic,
-                        rag_system, entity1, entity2,
+                        rag_system, provided_entities=selected_entities,
+                        top_k=int(top_k) if top_k else None,
                     )
                 except Exception as e:
                     logger.exception("Query processing failed")
@@ -787,8 +853,7 @@ def create_oracle_interface():
 
         query_btn.click(
             fn=handle_query_with_download,
-            # inputs=[query_input, llm_model_selector, embedding_model_selector_query, collection_pdf, collection_xlsx, agent_mode, entity1_input, entity2_input],
-            inputs=[query_input, llm_model_selector, embedding_model_selector_query, collection_pdf, collection_xlsx, agent_mode],
+            inputs=[query_input, llm_model_selector, embedding_model_selector_query, collection_pdf, collection_xlsx, agent_mode, query_entities, top_k_slider],
             outputs=[status_box, response_box, download_file, charts_gallery],
             show_progress="minimal"
         )

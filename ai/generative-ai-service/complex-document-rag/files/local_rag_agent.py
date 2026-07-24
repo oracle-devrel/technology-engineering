@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 
 from agents.agent_factory import create_agents, create_ingestion_only_agents
 from contracts import Chunk, Plan, PlanSection, SectionDraft, ReportResult
-from llm_concurrency import llm_semaphore
+from llm_concurrency import llm_semaphore, MAX_LLM_CONCURRENCY
 from llm_factory import create_llm, get_available_models, MODEL_REGISTRY
 from progress_bus import progress_bus
 from vector_store import EnhancedVectorStore
@@ -415,7 +415,10 @@ class RAGSystem:
 
         # --- Wave 1: compare sections (retrieve + write), in parallel -------------
         if retrieval_sections:
-            max_workers = min(4, len(retrieval_sections))
+            # Match the global LLM semaphore (MAX_LLM_CONCURRENCY, default 6) rather than
+            # capping at 4 — the semaphore already throttles actual concurrent LLM calls,
+            # so a smaller pool just left allowed slots idle and forced an extra wave.
+            max_workers = min(MAX_LLM_CONCURRENCY, len(retrieval_sections))
             with ThreadPoolExecutor(max_workers=max_workers) as executor:
                 section_futures = [
                     (executor.submit(process_section, (section, idx)), idx)

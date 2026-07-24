@@ -22,9 +22,16 @@ def process_query(
     rag_system,
     entity1: str = "",
     entity2: str = "",
+    provided_entities: Optional[list] = None,
+    top_k: Optional[int] = None,
     progress=gr.Progress()
 ) -> Tuple[str, Optional[str]]:
-    """Process a query using the RAG system with optional entity specification"""
+    """Process a query using the RAG system with optional entity specification.
+
+    `provided_entities`, when given, is an explicit list of entity tags (from the
+    query-time picker) and takes precedence over entity1/entity2 and over LLM
+    extraction. This is the deterministic, model-independent path.
+    """
 
     if not query.strip():
         return "ERROR: Please enter a query", None
@@ -54,6 +61,16 @@ def process_query(
         success = rag_system._initialize_rag_agent(llm_model, collection=active_collection, embedding_model=embedding_model)
         if not success:
             return "ERROR: Failed to initialize RAG agent", None
+
+        # Per-query override of chunks retrieved per entity (defaults to the agent's
+        # env value RESEARCH_TOP_K when not supplied by the UI). TOP_K is a Pydantic
+        # ClassVar, so it must be set on the class, not the instance. Queries run one
+        # at a time in this UI, so a class-level override is safe.
+        if top_k:
+            researcher = getattr(getattr(rag_system, "rag_agent", None), "agents", {}).get("researcher")
+            if researcher is not None:
+                type(researcher).TOP_K = int(top_k)
+                logger.info(f"Research TOP_K set to {int(top_k)} for this query")
 
         # Generic safe query function
         def _safe_query(collection_label: str, text: str, n: int = 5):
@@ -104,22 +121,26 @@ def process_query(
 
             progress(0.8, desc="Generating response...")
 
-            # Prepare provided entities if any
-            provided_entities = []
-            if entity1 and entity1.strip():
-                provided_entities.append(entity1.strip().lower())
-            if entity2 and entity2.strip():
-                provided_entities.append(entity2.strip().lower())
-            
-            # Log entities being used
+            # Prepare provided entities. An explicit list from the query-time picker
+            # wins; otherwise fall back to the legacy entity1/entity2 slots.
             if provided_entities:
-                logger.info(f"Using provided entities: {provided_entities}")
+                entities_to_use = [e.strip().lower() for e in provided_entities if e and e.strip()]
+            else:
+                entities_to_use = []
+                if entity1 and entity1.strip():
+                    entities_to_use.append(entity1.strip().lower())
+                if entity2 and entity2.strip():
+                    entities_to_use.append(entity2.strip().lower())
+
+            # Log entities being used
+            if entities_to_use:
+                logger.info(f"Using provided entities: {entities_to_use}")
 
             result = rag_system.rag_agent.process_query_with_multi_collection_context(
                 query,
                 upfront_context,
                 collection_mode=active_collection,
-                provided_entities=provided_entities if provided_entities else None
+                provided_entities=entities_to_use if entities_to_use else None
             )
             # Ensure result is a dictionary
             if not isinstance(result, dict):
@@ -302,10 +323,9 @@ Question:
             ""
         ])
         
-        # Query details section
+        # Run details section. The query itself is intentionally omitted — it is
+        # already visible in the query box on the left, so echoing it here is clutter.
         formatted_response.extend([
-
-            f"• Query: {query}",
             f"• Agentic Workflow: {'Yes' if agentic else 'No'}",
             f"• Collections: {'PDF ' if include_pdf else ''}{'XLSX' if include_xlsx else ''}".strip(),
             ""

@@ -420,6 +420,16 @@ def format_value_with_units(value: float, units: str) -> str:
         return f"{value:.1f}"
 
 
+def _needs_log_scale(values, ratio: float = 100.0) -> bool:
+    """True when positive values span more than `ratio`x (≈2 orders of magnitude),
+    where a linear axis would crush the small bars to invisibility. Requires all
+    plotted values to be positive (log can't represent 0 / negatives)."""
+    pos = [v for v in values if isinstance(v, (int, float)) and v > 0]
+    if len(pos) < 2:
+        return False
+    return (max(pos) / min(pos)) > ratio
+
+
 def _make_grouped_chart(grouped_data: dict[str, dict[str, float]],
                         title: str, units: str,
                         entity_colors: dict[str, str]) -> str | None:
@@ -438,6 +448,11 @@ def _make_grouped_chart(grouped_data: dict[str, dict[str, float]],
     all_entities = list(entity_colors.keys())
     n_entities = len(all_entities)
     bar_height = 0.8 / n_entities
+
+    # When metric values span orders of magnitude (e.g. a 250,000 fee next to a
+    # 15% uplift), a linear axis makes the small bars vanish — use a log axis.
+    all_vals = [v for sub in grouped_data.values() for v in sub.values()]
+    use_log = _needs_log_scale(all_vals)
 
     fig, ax = plt.subplots(figsize=(12, max(6, len(metrics) * 1.2)))
 
@@ -459,7 +474,11 @@ def _make_grouped_chart(grouped_data: dict[str, dict[str, float]],
     wrapped = ["\n".join(textwrap.wrap(m, width=35)) for m in metrics]
     ax.set_yticks(center_offsets)
     ax.set_yticklabels(wrapped)
-    ax.set_xlabel(units)
+    if use_log:
+        ax.set_xscale("log")
+        ax.set_xlabel(f"{units} (log scale)")
+    else:
+        ax.set_xlabel(units)
     ax.set_title(title[:100])
     ax.legend(loc="lower right", framealpha=0.9)
     ax.grid(axis="x", linestyle="--", alpha=0.6)
@@ -529,6 +548,12 @@ def make_chart(chart_data: dict, title: str = "",
                 grouped[str(k)[:80]] = nums
 
     if grouped:
+        # Skip a chart that would show a single bar (one entity, one metric) —
+        # a one-value bar chart conveys nothing a sentence doesn't.
+        total_points = sum(len(sub) for sub in grouped.values())
+        if total_points < 2:
+            logger.info(f"📊 make_chart: '{title}' has a single data point — skipping trivial chart")
+            return None
         # Collect all entity names that appear in the data
         seen_ents: list[str] = []
         for sub in grouped.values():
@@ -559,9 +584,14 @@ def make_chart(chart_data: dict, title: str = "",
     if not clean:
         logger.warning("No valid numeric data to plot for chart: %s", title)
         return None
+    # Skip a single-bar chart (one entity, one number) — it looks silly and adds nothing.
+    if len(clean) < 2:
+        logger.info(f"📊 make_chart: '{title}' has a single data point — skipping trivial chart")
+        return None
 
     labels = list(clean.keys())
     values = list(clean.values())
+    use_log = _needs_log_scale(values)
 
     max_label_length = max(len(label) for label in labels) if labels else 0
     if len(clean) > 12:
@@ -604,6 +634,14 @@ def make_chart(chart_data: dict, title: str = "",
                         xytext=(0, 5), textcoords="offset points",
                         ha='center', va='bottom', fontsize=8)
 
+    if use_log:
+        if horizontal:
+            ax.set_xscale("log")
+            ax.set_xlabel(f"{units} (log scale)")
+        else:
+            ax.set_yscale("log")
+            ax.set_ylabel(f"{units} (log scale)")
+
     ax.set_title(title[:100])
     ax.grid(axis="y" if not horizontal else "x", linestyle="--", alpha=0.6)
     fig.tight_layout()
@@ -630,6 +668,48 @@ def _chart_fingerprint(chart_data: dict) -> str:
     return hashlib.sha256(canonical.encode()).hexdigest()
 
 
+def _basename(path: str) -> str:
+    return str(path or "").replace("\\", "/").rsplit("/", 1)[-1]
+
+
+def _chunk_ref_key(ref: dict) -> str:
+    """Stable identity for a chunk reference, used for global de-duplication."""
+    return "|".join([
+        str(ref.get("file", "")),
+        str(ref.get("entity", "")),
+        str(ref.get("page", "")),
+        str(ref.get("excerpt", ""))[:80],
+    ])
+
+
+def _chunk_refs_from_chunks(chunks: list, max_refs: int = 16, excerpt_chars: int = 220) -> list:
+    """Build per-chunk reference dicts ({file, entity, page, excerpt}) from the
+    chunks fed to a section, de-duplicated within the section."""
+    refs, seen = [], set()
+    for c in chunks or []:
+        content = (c.get("content") or "").strip()
+        if not content:
+            continue
+        meta = c.get("metadata", {}) or {}
+        excerpt = " ".join(content.split())
+        if len(excerpt) > excerpt_chars:
+            excerpt = excerpt[:excerpt_chars].rstrip() + "…"
+        ref = {
+            "file": meta.get("filename") or _basename(meta.get("source")) or "Unknown",
+            "entity": c.get("_search_entity") or meta.get("entity") or "",
+            "page": meta.get("page"),
+            "excerpt": excerpt,
+        }
+        k = _chunk_ref_key(ref)
+        if k in seen:
+            continue
+        seen.add(k)
+        refs.append(ref)
+        if len(refs) >= max_refs:
+            break
+    return refs
+
+
 def append_to_doc(doc, section_data: dict, level: int = 2, citation_map: dict | None = None, skip_charts: bool = False, rendered_charts: set | None = None):
     """Append section to document with heading, paragraph, table, chart, and citations."""
     heading = section_data.get("heading", "Untitled Section")
@@ -637,13 +717,22 @@ def append_to_doc(doc, section_data: dict, level: int = 2, citation_map: dict | 
 
     text = section_data.get("text", "").strip()
 
-    # Add citations to the text if sources are available
-    if text and citation_map and section_data.get("sources"):
+    # Append citation markers at the end of the section. Prefer chunk-level refs
+    # (each retrieved chunk gets its own number); fall back to document-level
+    # sources only when no chunk refs were captured (e.g. synthesis sections).
+    if text and citation_map:
         citation_numbers = []
-        for source in section_data.get("sources", []):
-            source_key = f"{source.get('file', 'Unknown')}_{source.get('sheet', '')}_{source.get('entity', '')}"
-            if source_key in citation_map:
-                citation_numbers.append(citation_map[source_key])
+        chunk_refs = section_data.get("chunk_refs") or []
+        if chunk_refs:
+            for ref in chunk_refs:
+                key = _chunk_ref_key(ref)
+                if key in citation_map:
+                    citation_numbers.append(citation_map[key])
+        else:
+            for source in section_data.get("sources", []):
+                source_key = f"{source.get('file', 'Unknown')}_{source.get('sheet', '')}_{source.get('entity', '')}"
+                if source_key in citation_map:
+                    citation_numbers.append(citation_map[source_key])
         if citation_numbers:
             unique_citations = sorted(set(citation_numbers))
             citations_str = " " + "".join([f"[{num}]" for num in unique_citations])
@@ -687,9 +776,8 @@ def append_to_doc(doc, section_data: dict, level: int = 2, citation_map: dict | 
                     last_paragraph = doc.paragraphs[-1]
                     last_paragraph.alignment = 1  # center
                     logger.info(f"📊 Chart rendered for '{heading}'")
-                    # Surface it in the UI too — charts were only ever visible
-                    # inside the finished .docx.
-                    progress_bus.publish_chart(chart_path)
+                    # Charts are embedded in the .docx only — not surfaced on screen.
+                    # The results panel gallery was clutter next to the report text.
                 else:
                     logger.warning(f"📊 Chart generation returned None for '{heading}'")
         else:
@@ -865,6 +953,8 @@ than "Supremo1's targets"). Do not wrap the JSON in code fences or commentary.""
         result.setdefault("entities", entities or [])
         result.setdefault("is_comparison", is_comparison)
         result["chunks_used"] = len(chunks)
+        # Capture the actual chunks that fed this section for chunk-level citations.
+        result["chunk_refs"] = _chunk_refs_from_chunks(legacy_chunks)
 
         return SectionDraft.from_legacy_dict(result)
 
@@ -1928,32 +2018,49 @@ Return ONLY valid JSON."""
         return sections
 
     def _build_references_section(self, sections: list[dict]) -> tuple[dict, str]:
-        all_sources = []
-        citation_map = {}
-        citation_counter = 1
-        seen_sources = set()
-        for section in sections:
-            sources = section.get("sources", [])
-            for source in sources:
-                source_key = f"{source.get('file', 'Unknown')}_{source.get('sheet', '')}_{source.get('entity', '')}"
-                if source_key not in seen_sources:
-                    all_sources.append(source)
-                    citation_map[source_key] = citation_counter
-                    citation_counter += 1
-                    seen_sources.add(source_key)
+        """Assign a global number to every distinct chunk used across the report and
+        render a reference list that quotes each chunk (not just its document).
 
-        references_text = []
-        for i, source in enumerate(all_sources, 1):
-            file_name = source.get("file", "Unknown")
-            sheet = source.get("sheet", "")
-            entity = source.get("entity", "")
-            if sheet:
-                ref_text = f"[{i}] {file_name}, Sheet: {sheet}"
-            else:
-                ref_text = f"[{i}] {file_name}"
-            if entity:
-                ref_text += f" ({entity})"
-            references_text.append(ref_text)
+        Falls back to document-level sources for sections that carry no chunk refs
+        (e.g. synthesis sections), so nothing is silently un-cited."""
+        citation_map: dict = {}
+        counter = 1
+        references_text: list[str] = []
+
+        # Primary path: chunk-level references.
+        for section in sections:
+            for ref in section.get("chunk_refs", []) or []:
+                key = _chunk_ref_key(ref)
+                if key in citation_map:
+                    continue
+                citation_map[key] = counter
+                file_name = ref.get("file", "Unknown")
+                entity = ref.get("entity", "")
+                page = ref.get("page")
+                excerpt = ref.get("excerpt", "")
+                loc = f", p.{page}" if page not in (None, "", "None") else ""
+                who = f" ({entity})" if entity else ""
+                references_text.append(f'[{counter}] {file_name}{who}{loc} — "{excerpt}"')
+                counter += 1
+
+        # Fallback: if no chunk refs existed at all, keep the old document-level list.
+        if not references_text:
+            seen_sources = set()
+            for section in sections:
+                for source in section.get("sources", []):
+                    source_key = f"{source.get('file', 'Unknown')}_{source.get('sheet', '')}_{source.get('entity', '')}"
+                    if source_key in seen_sources:
+                        continue
+                    seen_sources.add(source_key)
+                    citation_map[source_key] = counter
+                    file_name = source.get("file", "Unknown")
+                    sheet = source.get("sheet", "")
+                    entity = source.get("entity", "")
+                    ref_text = f"[{counter}] {file_name}" + (f", Sheet: {sheet}" if sheet else "")
+                    if entity:
+                        ref_text += f" ({entity})"
+                    references_text.append(ref_text)
+                    counter += 1
 
         return citation_map, "\n".join(references_text)
     
@@ -2260,7 +2367,9 @@ Return ONLY valid JSON."""
                 if references_text:
                     doc.add_paragraph()
                     doc.add_heading("References", level=2)
-                    doc.add_paragraph(references_text)
+                    for _ref_line in references_text.split("\n"):
+                        if _ref_line.strip():
+                            doc.add_paragraph(_ref_line)
         else:
             # No LLM: the title falls back to its deterministic template.
             report_title = self._generate_report_title(is_comparison, entities, query, sections)
@@ -2302,7 +2411,9 @@ Return ONLY valid JSON."""
             if references_text:
                 doc.add_paragraph()
                 doc.add_heading("References", level=2)
-                doc.add_paragraph(references_text)
+                for _ref_line in references_text.split("\n"):
+                    if _ref_line.strip():
+                        doc.add_paragraph(_ref_line)
 
         now = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         filename = f"report_{self.model_name}_{now}.docx"

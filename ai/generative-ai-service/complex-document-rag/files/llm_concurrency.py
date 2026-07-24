@@ -16,4 +16,7 @@ import threading
 
 _MAX_CONCURRENT_LLM_CALLS = int(os.environ.get("MAX_LLM_CONCURRENCY", "6"))
 
+# Public alias so callers can size thread pools to the same ceiling.
+MAX_LLM_CONCURRENCY = _MAX_CONCURRENT_LLM_CALLS
+
 llm_semaphore = threading.Semaphore(value=_MAX_CONCURRENT_LLM_CALLS)

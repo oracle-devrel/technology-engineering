@@ -77,6 +77,8 @@ MODEL_REGISTRY: Dict[str, Dict[str, Any]] = {
         "provider": "generic",
         "region": "us-chicago-1",
         "max_output_tokens": 8000,
+        # OpenAI models on OCI reject 'max_tokens' and require 'max_completion_tokens'.
+        "token_param": "max_completion_tokens",
         "model_kwargs": {
             "temperature": 0.7,
             "top_p": 0.9,
@@ -259,9 +261,11 @@ def create_llm(model_name: str = "grok-3", *, singleton: bool = True) -> OCIChat
     region = cfg.get("region", "us-chicago-1")
     service_endpoint = f"https://inference.generativeai.{region}.oci.oraclecloud.com"
 
-    # Build model_kwargs with max_tokens
+    # Build model_kwargs with the output-token cap. Most providers use 'max_tokens';
+    # OpenAI models on OCI require 'max_completion_tokens' (set via token_param).
     model_kwargs = dict(cfg.get("model_kwargs", {}))
-    model_kwargs["max_tokens"] = cfg.get("max_output_tokens", 4000)
+    token_param = cfg.get("token_param", "max_tokens")
+    model_kwargs[token_param] = cfg.get("max_output_tokens", 4000)
 
     # Construct ChatOCIGenAI (langchain-oci supports generic provider)
     from langchain_oci import ChatOCIGenAI
