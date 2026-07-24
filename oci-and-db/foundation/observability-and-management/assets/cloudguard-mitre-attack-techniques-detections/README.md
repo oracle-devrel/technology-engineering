@@ -124,10 +124,11 @@ Last step is to create a new target and attach the detector recipes and enable t
 
 ![Picture 3](./files/image-24.png)
 
-Reviewed: 01.07.2026
-
 If you select any of the Queries, and you see that you have green checks on all steps, Congratulations, you have finished configuring the Cloud Guard detection.
 
 ![Picture 2](./files/image-25.png)
 
 ![Picture 1](./files/image-26.png)
+
+
+Reviewed: 01.07.2026
