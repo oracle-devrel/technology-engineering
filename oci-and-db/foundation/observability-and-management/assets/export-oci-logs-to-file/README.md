@@ -63,3 +63,6 @@ Select the Bucket and press create:
 Check the Bucket and download the logs ( CLI, [3rd Party tools](https://learnoci.cloud/how-to-connect-to-your-oci-object-storage-bucket-from-cyberduck-winscp-commander-one-and-rsync-be9c2f799b7a?sk=7fe44bdd6300a48b909e13c32628aa20), PAR, Etc.)
 
 ![Picture 1](./files/image-08.png)
+
+
+Reviewed: 01.07.2026
