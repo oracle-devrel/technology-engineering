@@ -1,0 +1,36 @@
+{
+  "title": "RMM: Post-Compromise Remote Access Activity",
+  "description": "Detects remote monitoring and management tooling used after compromise, including ScreenConnect, AnyDesk, and Atera process execution plus outbound relay traffic.",
+  "query": "(('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs') and ('Process Name' like '*ScreenConnect*' or 'Process Name' like '*AnyDesk*' or 'Process Name' like '*AteraAgent*' or 'Command Line' like '*screenconnect*' or 'Command Line' like '*anydesk*' or 'Command Line' like '*atera*')) or (('Log Source' = 'SOC Sysmon Network Logs' or 'Log Source' = 'Windows Sysmon Operational Logs') and ('Destination Hostname' like '*screenconnect*' or 'Destination Hostname' like '*atera*' or 'Destination Hostname' like '*rmm*')) | stats count as Events, unique('Destination Hostname') as Destinations, unique('Command Line') as Commands by 'Host Name (Server)', 'Process Name', 'Trace ID' | sort -Events",
+  "type": "hunting",
+  "level": "high",
+  "tags": ["rmm", "remote_access", "screenconnect", "anydesk", "atera", "attack.t1219"],
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon_network"
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "groupBy": ["Host Name (Server)", "Process Name"],
+      "valueField": "Events"
+    },
+    "ask_ai_prompts": [
+      "Which RMM tools were launched and which relay hosts were contacted?",
+      "Differentiate expected IT management from post-compromise remote access."
+    ]
+  },
+  "references": [
+    {
+      "name": "CISA: Remote Monitoring and Management software security guidance",
+      "url": "https://www.cisa.gov/resources-tools/resources/remote-monitoring-and-management-rmm-software-security-guidance"
+    }
+  ],
+  "mitre_attack": {
+    "tactics": ["command_and_control", "lateral_movement"],
+    "techniques": ["T1219", "T1071.001"]
+  },
+  "falsepositives": ["Approved helpdesk sessions", "Managed service provider maintenance"]
+}

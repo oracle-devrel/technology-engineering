@@ -1,0 +1,35 @@
+{
+  "title": "APM: Octo Demo Attack Timeline",
+  "description": "Chronological attack-lab events from the Octo APM demo, keyed by Attack ID, Run ID, Request ID, Trace ID, and Span ID so operators can pivot from security logs into APM spans.",
+  "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and 'Attack ID' != null | sort Time | fields Time, 'Attack ID', 'Run ID', 'Attack Stage', 'Security Severity', 'MITRE Technique ID', 'Service Name', 'Workflow Step', 'Request ID', 'Trace ID', 'Span ID', 'Instance OCID', 'Payment Redirect URL', msg",
+  "level": "high",
+  "type": "curated",
+  "tags": [
+    "apm",
+    "octo-apm-demo",
+    "attack-lab",
+    "threat-hunting"
+  ],
+  "logsource": {
+    "product": "application",
+    "service": "soc_application_logs",
+    "candidates": [
+      "SOC Application Logs"
+    ]
+  },
+  "dashboard": {
+    "visualizationType": "table",
+    "showTitle": true,
+    "timeSelection": {
+      "timePeriod": "l21d"
+    },
+    "layout": {
+      "width": 12,
+      "height": 6
+    },
+    "ask_ai_prompts": [
+      "Walk the Octo attack-lab timeline by Attack ID and identify the first compromised VM.",
+      "Correlate each attack stage with the Trace ID and Span ID shown in the timeline."
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "title": "Linux Unusual Outbound Connection Frequency",
+  "description": "Detects hosts making an unusually high number of outbound connections, which may indicate C2 beaconing, data exfiltration, or scanning activity.",
+  "query": "('Log Source' = 'SOC Linux Syslog Logs' or 'Log Source' = 'Linux Audit Logs') and (msg like '*CONNECT*' or msg like '*TCP*') | stats count as connection_count, distinctcount('Destination IP') as unique_destinations by 'Host Name' | where connection_count > 500 or unique_destinations > 50 | sort -connection_count",
+  "type": "hunting",
+  "category": "command_and_control",
+  "mitre_attack": {
+    "tactics": ["command_and_control", "exfiltration"],
+    "techniques": ["T1071", "T1041"]
+  },
+  "data_source": "Linux Syslog/Audit",
+  "frequency": "daily",
+  "notes": "High connection count to many unique IPs suggests scanning. Regular connections to few IPs at fixed intervals suggests C2 beaconing."
+}

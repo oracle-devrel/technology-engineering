@@ -1,0 +1,30 @@
+{
+  "title": "Web-to-Cloud: VCN Egress and Exfil Flows",
+  "description": "Surfaces accepted VCN Flow Log records from the compromised application host to the C2/exfil destination and OCI service endpoints. Large Bytes Sent values provide the primary network indicator for data loss.",
+  "query": "'Log Source' = 'SOC VCN Flow Logs' and ('Trace ID' = 'trace_w2c_entry_001' or 'Source IP' = '10.0.1.50' or 'Destination IP' = '198.51.100.77') | stats count as Flows, unique('Action') as Actions, unique('Bytes Sent') as BytesSent, unique('Flow ID') as FlowIds by 'Source IP', 'Destination IP', 'Destination Port', 'Trace ID' | sort -Flows",
+  "type": "hunting",
+  "level": "critical",
+  "tags": ["web_to_cloud", "vcn_flow", "egress", "exfiltration"],
+  "logsource": {
+    "product": "oci",
+    "service": "vcn_flow_logs"
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "groupBy": ["Source IP", "Destination IP"],
+      "valueField": "Flows"
+    },
+    "ask_ai_prompts": [
+      "Which VCN flows show the largest outbound transfer?",
+      "Map the compromised private IP to the external C2 destination."
+    ]
+  },
+  "mitre_attack": {
+    "tactics": ["command_and_control", "exfiltration"],
+    "techniques": ["T1071.001", "T1041"]
+  },
+  "falsepositives": ["Approved bulk export from application subnet"]
+}

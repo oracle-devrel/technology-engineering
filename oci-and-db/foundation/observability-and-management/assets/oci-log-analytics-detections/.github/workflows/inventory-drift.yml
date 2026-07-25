@@ -1,0 +1,23 @@
+name: Inventory Drift Guard
+
+# Runs unconditionally on every push and PR. No `paths:` filter — the drift
+# check must not be bypassable by editing README/STATUS/catalog/the gate
+# script directly without touching rules/queries/scripts.
+on:
+  push:
+  pull_request:
+
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Check README/STATUS inventory drift vs catalog
+        run: python3 scripts/check_inventory_drift.py

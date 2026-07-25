@@ -1,0 +1,145 @@
+@import "../styles/tokens.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "ss01", "cv01", "cv03";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Visible, branded keyboard focus everywhere — never remove the ring. */
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+    border-radius: calc(var(--radius) - 6px);
+  }
+
+  ::selection {
+    background: hsl(var(--brand-glow) / 0.28);
+    color: hsl(var(--foreground));
+  }
+}
+
+@layer components {
+  /*
+   * Console atmosphere: an obsidian field with a faint top-left brand bloom
+   * and a hairline grid. Compositor-friendly (paints only, no animation).
+   */
+  .console-atmosphere {
+    position: relative;
+    background-color: hsl(var(--surface-sunken));
+    background-image:
+      radial-gradient(120% 90% at 0% 0%, hsl(var(--brand-glow) / 0.1), transparent 55%),
+      radial-gradient(90% 70% at 100% 0%, hsl(var(--sev-info) / 0.07), transparent 50%),
+      linear-gradient(hsl(var(--grid-line) / 0.55) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--grid-line) / 0.55) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 44px 44px, 44px 44px;
+    background-position: 0 0, 0 0, -1px -1px, -1px -1px;
+  }
+
+  /* Raised panel with layered depth: inner top highlight + grounded shadow. */
+  .console-panel {
+    background-color: hsl(var(--surface-raised));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius-panel);
+    box-shadow:
+      inset 0 1px 0 0 hsl(0 0% 100% / 0.04),
+      0 1px 2px 0 hsl(224 60% 3% / 0.4),
+      0 18px 40px -24px hsl(224 70% 2% / 0.7);
+  }
+
+  .console-panel-quiet {
+    background-color: hsl(var(--surface-raised) / 0.7);
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+  }
+
+  .console-rail {
+    background:
+      linear-gradient(180deg, hsl(var(--surface-raised)), hsl(var(--surface-sunken)));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius-panel);
+  }
+
+  .eyebrow {
+    font-size: var(--text-eyebrow);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    font-weight: 600;
+    color: hsl(var(--muted-foreground));
+  }
+
+  /* Hairline ticks used as section connectors (editorial detailing). */
+  .tick-rule {
+    background-image: repeating-linear-gradient(
+      90deg,
+      hsl(var(--border-strong)) 0,
+      hsl(var(--border-strong)) 1px,
+      transparent 1px,
+      transparent 7px
+    );
+  }
+
+  .surface-grain {
+    position: relative;
+  }
+  .surface-grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    border-radius: inherit;
+  }
+
+  /* Brand-tinted primary action with a subtle internal sheen. */
+  .btn-brand {
+    background-image: linear-gradient(180deg, hsl(var(--brand-glow)), hsl(var(--primary)));
+    color: hsl(var(--primary-foreground));
+    box-shadow:
+      inset 0 1px 0 0 hsl(0 0% 100% / 0.22),
+      0 8px 20px -10px hsl(var(--primary) / 0.7);
+    transition:
+      transform var(--duration-fast) var(--ease-out-expo),
+      box-shadow var(--duration-fast) var(--ease-out-expo),
+      filter var(--duration-fast) var(--ease-out-expo);
+  }
+  .btn-brand:hover {
+    filter: brightness(1.06);
+    box-shadow:
+      inset 0 1px 0 0 hsl(0 0% 100% / 0.28),
+      0 10px 26px -10px hsl(var(--primary) / 0.85);
+  }
+  .btn-brand:active {
+    transform: translateY(1px) scale(0.99);
+  }
+  .btn-brand:disabled {
+    filter: grayscale(0.4) brightness(0.8);
+    box-shadow: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .btn-brand:active {
+    transform: none;
+  }
+}

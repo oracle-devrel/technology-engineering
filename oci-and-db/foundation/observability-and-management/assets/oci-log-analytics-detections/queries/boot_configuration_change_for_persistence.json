@@ -1,0 +1,49 @@
+{
+  "title": "Boot Configuration Change for Persistence",
+  "description": "Detects BCDEdit commands that modify boot configuration for safe mode persistence.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Process Name' like '*\\\\bcdedit.exe' and ('Command Line' like '*safeboot*' or 'Command Line' like '*bootstatuspolicy*')))",
+  "sigma_id": "90b3d3ec-1650-4bd3-9284-c18eebe9cf6d",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.persistence",
+    "attack.t1542"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence"
+    ],
+    "techniques": [
+      "T1542"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Boot troubleshooting"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 1,
+    "techniques_with_tests": [
+      "T1542.001"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1542.001",
+        "test_name": "UEFI Persistence via Wpbbin.exe File Creation",
+        "test_guid": "b8a49f03-e3c4-40f2-b7bb-9e8f8fdddbf1",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1542.001/T1542.001.md"
+      }
+    ]
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "title": "Print Processor Persistence",
+  "description": "Detects registration of malicious print processors for persistence via the Print Spooler service.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*Print Processors*' and 'Command Line' like '*reg*' and 'Command Line' like '*add*')))",
+  "sigma_id": "0905efd5-d0c6-40de-a470-79d8fd1c0887",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.persistence",
+    "attack.t1547.012"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "persistence"
+    ],
+    "techniques": [
+      "T1547.012"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate print processor installation"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 1,
+    "techniques_with_tests": [
+      "T1547.012"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1547.012",
+        "test_name": "Print Processors",
+        "test_guid": "f7d38f47-c61b-47cc-a59d-fc0368f47ed0",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1547.012/T1547.012.md"
+      }
+    ]
+  }
+}

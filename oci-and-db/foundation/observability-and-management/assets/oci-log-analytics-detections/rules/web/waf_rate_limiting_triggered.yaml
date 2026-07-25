@@ -1,0 +1,20 @@
+title: WAF Rate Limiting Triggered
+id: a1010008-owasp-a07-ratelimit-001
+status: stable
+version: 1
+description: Detects WAF rate limiting events indicating automated attack tools or brute force attempts. Rate limiting is configured at 100 requests per minute for Seven Kingdoms Portal.
+logsource:
+  product: oci
+  service: waf
+detection:
+  selection:
+    rule_type: REQUEST_RATE_LIMITING
+  condition: selection
+level: medium
+tags:
+- attack.credential_access
+- attack.t1110
+- owasp.a07
+falsepositives:
+- Legitimate high-traffic users or API consumers
+- Load testing activities

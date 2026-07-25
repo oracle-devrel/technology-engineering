@@ -1,0 +1,35 @@
+{
+  "title": "GenAI Gateway: Adversarial / Obfuscated Guardrail Evasion (AML.T0043)",
+  "description": "Detects crafted adversarial payloads aimed at evading GenAI gateway guardrails (zero-width/bidi unicode smuggling, base64 payloads, chat-template control tokens, char-code construction). Fires on the evasion/obfuscation guardrail category, ranking caller identity, API key, and source IP. MITRE ATLAS AML.T0043 (Craft Adversarial Data) used for evasion.\n",
+  "query": "'Log Source' = 'SOC GenAI Gateway Logs' and 'Guardrail Category' = 'evasion_obfuscation' | stats count as Hits, distinctcount('GenAI Model') as Models, max('Prompt Risk Score') as MaxRisk by 'GenAI Identity', 'API Key ID', 'Client IP' | sort -Hits",
+  "level": "high",
+  "stig_category": "CAT II",
+  "tags": [
+    "atlas.t0043",
+    "atlas.ml_attack_staging",
+    "atlas.defense_evasion",
+    "ai_attack",
+    "genai",
+    "adversarial_input"
+  ],
+  "atlas": {
+    "tactics": [
+      "ml_attack_staging",
+      "defense_evasion"
+    ],
+    "techniques": [
+      "AML.T0043"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "genai_gateway",
+    "candidates": [
+      "SOC GenAI Gateway Logs"
+    ]
+  },
+  "falsepositives": [
+    "Adversarial-robustness test suites",
+    "Legitimate binary/multilingual prompts flagged by heuristics"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "title": "OCI VCN Peering Connection Created",
+  "description": "Detects creation of VCN peering connections (local or remote). Unauthorized peering can extend network access across compartments or regions, enabling lateral movement.",
+  "query": "'Log Source' = 'OCI Audit Logs' and ((('Event Type' = 'com.oraclecloud.virtualnetwork.createlocalpeeringgateway' or 'Event Type' = 'com.oraclecloud.virtualnetwork.createremotepeeringconnection' or 'Event Type' = 'com.oraclecloud.virtualnetwork.connectremotepeeringconnections')))",
+  "sigma_id": "d1a2b3c4-1014-4000-8000-000000000014",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.lateral_movement",
+    "attack.t1021",
+    "stig.SC-7"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "lateral_movement"
+    ],
+    "techniques": [
+      "T1021"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "stig_ids": [
+    "SC-7"
+  ],
+  "falsepositives": [
+    "Network infrastructure changes during maintenance windows",
+    "Automated IaC deployments"
+  ]
+}

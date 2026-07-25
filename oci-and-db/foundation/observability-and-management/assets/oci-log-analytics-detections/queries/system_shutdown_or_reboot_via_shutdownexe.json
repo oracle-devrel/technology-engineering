@@ -1,0 +1,169 @@
+{
+  "title": "System Shutdown or Reboot via shutdown.exe",
+  "description": "Detects forced system shutdown or reboot commands that may be part of destructive operations.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Process Name' like '*\\\\shutdown.exe' and ('Command Line' like '*/s*' or 'Command Line' like '*/r*' or 'Command Line' like '*/f*')))",
+  "sigma_id": "c93d093d-c5e0-43b5-aaba-e3ddcb3cb105",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.impact",
+    "attack.t1529"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "impact"
+    ],
+    "techniques": [
+      "T1529"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate system maintenance"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 16,
+    "techniques_with_tests": [
+      "T1529"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1529",
+        "test_name": "Shutdown System - Windows",
+        "test_guid": "ad254fa8-45c0-403b-8c77-e00b3d3e7a64",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1529/T1529.md"
+      },
+      {
+        "technique_id": "T1529",
+        "test_name": "Restart System - Windows",
+        "test_guid": "f4648f0d-bf78-483c-bafc-3ec99cd1c302",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1529/T1529.md"
+      },
+      {
+        "technique_id": "T1529",
+        "test_name": "Restart System via `shutdown` - FreeBSD/macOS/Linux",
+        "test_guid": "6326dbc4-444b-4c04-88f4-27e94d0327cb",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1529/T1529.md"
+      },
+      {
+        "technique_id": "T1529",
+        "test_name": "Shutdown System via `shutdown` - FreeBSD/macOS/Linux",
+        "test_guid": "4963a81e-a3ad-4f02-adda-812343b351de",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1529/T1529.md"
+      },
+      {
+        "technique_id": "T1529",
+        "test_name": "Restart System via `reboot` - FreeBSD/macOS/Linux",
+        "test_guid": "47d0b042-a918-40ab-8cf9-150ffe919027",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1529/T1529.md"
+      },
+      {
+        "technique_id": "T1529",
+        "test_name": "Shutdown System via `halt` - FreeBSD/Linux",
+        "test_guid": "918f70ab-e1ef-49ff-bc57-b27021df84dd",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1529/T1529.md"
+      },
+      {
+        "technique_id": "T1529",
+        "test_name": "Reboot System via `halt` - FreeBSD",
+        "test_guid": "7b1cee42-320f-4890-b056-d65c8b884ba5",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1529/T1529.md"
+      },
+      {
+        "technique_id": "T1529",
+        "test_name": "Reboot System via `halt` - Linux",
+        "test_guid": "78f92e14-f1e9-4446-b3e9-f1b921f2459e",
+        "executor": "bash",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1529/T1529.md"
+      },
+      {
+        "technique_id": "T1529",
+        "test_name": "Shutdown System via `poweroff` - FreeBSD/Linux",
+        "test_guid": "73a90cd2-48a2-4ac5-8594-2af35fa909fa",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1529/T1529.md"
+      },
+      {
+        "technique_id": "T1529",
+        "test_name": "Reboot System via `poweroff` - FreeBSD",
+        "test_guid": "5a282e50-86ff-438d-8cef-8ae01c9e62e1",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1529/T1529.md"
+      },
+      {
+        "technique_id": "T1529",
+        "test_name": "Reboot System via `poweroff` - Linux",
+        "test_guid": "61303105-ff60-427b-999e-efb90b314e41",
+        "executor": "bash",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1529/T1529.md"
+      },
+      {
+        "technique_id": "T1529",
+        "test_name": "Logoff System - Windows",
+        "test_guid": "3d8c25b5-7ff5-4c9d-b21f-85ebd06654a4",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1529/T1529.md"
+      },
+      {
+        "technique_id": "T1529",
+        "test_name": "ESXi - Terminates VMs using pkill",
+        "test_guid": "987c9b4d-a637-42db-b1cb-e9e242c3991b",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1529/T1529.md"
+      },
+      {
+        "technique_id": "T1529",
+        "test_name": "ESXi - Avoslocker enumerates VMs and forcefully kills VMs",
+        "test_guid": "189f7d6e-9442-4160-9bc3-5e4104d93ece",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1529/T1529.md"
+      },
+      {
+        "technique_id": "T1529",
+        "test_name": "ESXi - vim-cmd Used to Power Off VMs",
+        "test_guid": "622cc1a0-45e7-428c-aed7-c96dd605fbe6",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1529/T1529.md"
+      },
+      {
+        "technique_id": "T1529",
+        "test_name": "Abuse of Linux Magic System Request Key for Reboot",
+        "test_guid": "d2a1f4bc-a064-4223-8281-a086dce5423c",
+        "executor": "bash",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1529/T1529.md"
+      }
+    ]
+  }
+}

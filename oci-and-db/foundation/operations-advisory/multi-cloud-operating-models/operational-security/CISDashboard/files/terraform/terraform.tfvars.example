@@ -1,0 +1,3 @@
+##Example for importing CIS log sources
+log_analytics_custom_content_files = [ "./CISSummary.zip","./CISObjectstorage.zip","./CISFileStorage.zip","./CISCompute.zip","./CISIdentityAPIKey_90days.zip","./CISIdentityIAM45days.zip","./CISBlockvolume.zip","./CISIdentity.zip","./CISIdentityKeyRotation.zip","./CISIdentityOneActiveKey.zip","./CISIdentitySecretkey_90days.zip","./CISIdentityUser.zip","./CISLoggingMonitoringCMK.zip","./CISLoggingMonitoringObject.zip","./CISLoggingMonitoringTopic.zip","./CISLoggingMonitoringVCNLogs.zip","./CISNetworking.zip","./CISNetworkingADB.zip" ]
+namespace = "<LA_namespace>"

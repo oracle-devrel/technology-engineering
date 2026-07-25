@@ -1,0 +1,31 @@
+{
+  "title": "Web Attack Geographic Anomaly (Rare Country Detection)",
+  "description": "Identifies attack traffic originating from unusual countries by stacking WAF events by country code. Rare countries with high attack volumes may indicate targeted campaigns from specific threat actor regions.",
+  "query": "('Log Source' = 'OCI WAF Logs' or 'Log Source' = 'SOC WAF Security Logs') and 'Action' = 'BLOCK' | stats count as attacks, unique('Client IP') as unique_ips by 'Country Code' | sort -attacks | where attacks > 5",
+  "type": "hunting",
+  "hunting_type": "rare_value",
+  "cookbook_method": "sorting_stacking",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.initial_access",
+    "attack.t1190",
+    "owasp.a09"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "initial_access"
+    ],
+    "techniques": [
+      "T1190"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "waf"
+  },
+  "falsepositives": [
+    "Legitimate international users",
+    "VPN traffic from unusual exit nodes"
+  ]
+}

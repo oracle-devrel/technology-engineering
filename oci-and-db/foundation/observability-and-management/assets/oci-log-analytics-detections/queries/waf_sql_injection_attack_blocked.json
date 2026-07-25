@@ -1,0 +1,36 @@
+{
+  "title": "WAF SQL Injection Attack Blocked",
+  "description": "Detects SQL injection attempts blocked by OCI WAF. Indicates active exploitation of OWASP A03:2021 Injection vulnerabilities against the web application.",
+  "query": "('Log Source' = 'OCI WAF Logs' or 'Log Source' = 'SOC WAF Security Logs') and (('Action' = 'BLOCK') and (('Request URL' like '*UNION SELECT*' or 'Request URL' like '*union select*' or 'Request URL' like '*UNION%20SELECT*' or 'Request URL' like '*DROP TABLE*' or 'Request URL' like '*drop table*' or 'Request URL' like '*ORDER BY 1*' or 'Request URL' like '*order by 1*' or 'Request URL' like '*INFORMATION_SCHEMA*' or 'Request URL' like '*information_schema*' or 'Request URL' like '*WAITFOR DELAY*' or 'Request URL' like '*BENCHMARK(*' or 'Request URL' like '*SLEEP(*' or 'Request URL' like '*EXTRACTVALUE(*' or 'Request URL' like '*UPDATEXML(*')))",
+  "do_not_overwrite": true,
+  "sigma_id": "a1010001-owasp-a03-sqli-block-001",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.initial_access",
+    "attack.t1190",
+    "attack.t1059.007",
+    "owasp.a03"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "initial_access"
+    ],
+    "techniques": [
+      "T1190",
+      "T1059.007"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "waf",
+    "candidates": [
+      "OCI WAF Logs",
+      "SOC WAF Security Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate queries containing SQL keywords in search fields",
+    "Security scanning tools during authorized testing"
+  ]
+}

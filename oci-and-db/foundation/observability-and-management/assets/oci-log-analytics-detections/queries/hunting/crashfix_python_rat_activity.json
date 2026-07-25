@@ -1,0 +1,36 @@
+{
+  "title": "CrashFix: Python RAT Activity",
+  "description": "Detects CrashFix-style ClickFix variants where browser social engineering leads to Python RAT execution, package retrieval, and HTTPS callback activity.",
+  "query": "(('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'Windows Security Events' or 'Log Source' = 'Windows Event Security Logs') and ('Command Line' like '*CrashFix*' or 'Command Line' like '*python-rat*' or 'Command Line' like '*crashfix.py*' or ('Process Name' like '*\\\\python.exe' and 'Command Line' like '*--install-rat*'))) or (('Log Source' = 'SOC Sysmon Network Logs' or 'Log Source' = 'Windows Sysmon Operational Logs') and ('Destination Hostname' like '*crashfix-help.example*' or 'Destination Hostname' like '*captcha-verify.example*')) | stats count as Hits, unique('Command Line') as Commands, unique('Destination Hostname') as Destinations by 'Log Source', 'Host Name (Server)', 'Process Name', 'Trace ID' | sort -Hits",
+  "type": "hunting",
+  "level": "critical",
+  "tags": ["crashfix", "clickfix", "python_rat", "attack.t1059.006", "attack.t1071.001"],
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon_network"
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "groupBy": ["Log Source", "Host Name (Server)", "Destination Hostname"],
+      "valueField": "Hits"
+    },
+    "ask_ai_prompts": [
+      "Tie the Python process execution to outbound CrashFix callback evidence.",
+      "Which host should be isolated first and why?"
+    ]
+  },
+  "references": [
+    {
+      "name": "Microsoft: ClickFix variant CrashFix deploying Python RAT trojan",
+      "url": "https://www.microsoft.com/en-us/security/blog/2026/02/05/clickfix-variant-crashfix-deploying-python-rat-trojan/"
+    }
+  ],
+  "mitre_attack": {
+    "tactics": ["execution", "command_and_control"],
+    "techniques": ["T1059.006", "T1105", "T1071.001"]
+  },
+  "falsepositives": ["Internal Python package installation from browser downloads"]
+}

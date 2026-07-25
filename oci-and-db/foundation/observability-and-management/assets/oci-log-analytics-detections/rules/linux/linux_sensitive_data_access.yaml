@@ -1,0 +1,44 @@
+title: Linux Sensitive Data Collection from Local System
+id: a1b2c3d4-6015-4000-8000-000000000015
+status: stable
+description: 'Detects mass access to sensitive system files. Attackers collect data
+  from local systems including SSH keys, cloud credentials, database configs, and
+  application secrets for further exploitation or exfiltration.
+
+  '
+author: SOC Detection Team
+date: 2026/02/11
+logsource:
+  product: linux
+  service: syslog
+detection:
+  sel_ssh_keys:
+    message|contains:
+    - cat /root/.ssh/id_rsa
+    - cat /home/*/.ssh/id_rsa
+    - cp /root/.ssh/
+    - find / -name id_rsa
+  sel_cloud_creds:
+    message|contains:
+    - .oci/config
+    - .aws/credentials
+    - .gcloud/
+    - .kube/config
+  sel_app_secrets:
+    message|contains:
+    - .env
+    - database.yml
+    - wp-config.php
+    - application.properties
+    - settings.py
+  condition: sel_ssh_keys or sel_cloud_creds or sel_app_secrets
+level: high
+tags:
+- attack.collection
+- attack.t1005
+- attack.credential_access
+falsepositives:
+- Application deployment scripts
+- Configuration management tools
+version: 1
+do_not_overwrite: true  # curated demo-tuned query — see scripts/test_query_audit.py

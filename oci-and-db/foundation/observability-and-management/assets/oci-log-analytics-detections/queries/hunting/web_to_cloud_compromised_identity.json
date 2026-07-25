@@ -1,0 +1,30 @@
+{
+  "title": "Web-to-Cloud: Compromised Cloud Identity",
+  "description": "Highlights OCI Audit activity performed by the compromised service identity after instance metadata access. The widget surfaces Object Storage enumeration, object reads, and pre-authenticated request creation.",
+  "query": "'Log Source' = 'OCI Audit Logs' and ('User Name' = 'compromised-svc@corp.example.com' or 'Trace ID' = 'trace_w2c_entry_001') | stats count as CloudActions, distinctcount('Event Type') as UniqueActions, unique('Event Type') as EventTypes, unique('Resource Name') as Resources by 'User Name', 'Source IP', 'Trace ID' | sort -CloudActions",
+  "type": "hunting",
+  "level": "critical",
+  "tags": ["web_to_cloud", "compromised_identity", "oci_audit", "object_storage"],
+  "logsource": {
+    "product": "oci",
+    "service": "audit"
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "groupBy": ["User Name", "Source IP"],
+      "valueField": "CloudActions"
+    },
+    "ask_ai_prompts": [
+      "Which OCI identity was abused after the web entry point?",
+      "List the Object Storage actions and resources accessed by the compromised identity."
+    ]
+  },
+  "mitre_attack": {
+    "tactics": ["credential_access", "discovery", "collection"],
+    "techniques": ["T1552.005", "T1580", "T1530"]
+  },
+  "falsepositives": ["Break-glass object-storage recovery workflow"]
+}

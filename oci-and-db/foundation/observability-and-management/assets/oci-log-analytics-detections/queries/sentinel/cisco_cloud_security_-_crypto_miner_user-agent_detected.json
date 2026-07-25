@@ -1,0 +1,87 @@
+{
+  "title": "Cisco Cloud Security - Crypto Miner User-Agent Detected",
+  "description": "'Detects suspicious user agent strings used by crypto miners in proxy logs.'\n",
+  "query": "('Log Source' = 'SOC WAF Security Logs' or 'Log Source' = 'SOC Web Application Logs' or 'Log Source' = 'SOC Network Firewall Logs') and ('Event Type' = 'proxylogs') and ('User Agent' like '*XMRig*' or 'User Agent' like '*ccminer*') | eval Message = 'Crypto Miner User Agent' | fields Time, Message, 'Source IP', 'Destination IP', 'Request URL', 'User Agent'",
+  "level": "medium",
+  "source_type": "microsoft_sentinel",
+  "sentinel_id": "b619d1f1-7f39-4c7e-bf9e-afbb46457997",
+  "sentinel_source_path": "Solutions/CiscoUmbrella/Analytic Rules/CiscoUmbrellaCryptoMinerUserAgentDetected.yaml",
+  "sentinel_source_url": "https://github.com/Azure/Azure-Sentinel/blob/63ff8eedc58e7df0d22eba05ca73c92b59a66634/Solutions/CiscoUmbrella/Analytic Rules/CiscoUmbrellaCryptoMinerUserAgentDetected.yaml",
+  "required_data_connectors": [
+    {
+      "connector_id": "CiscoUmbrellaDataConnector",
+      "data_types": [
+        "Cisco_Umbrella_proxy_CL"
+      ]
+    }
+  ],
+  "conversion_status": "promoted",
+  "conversion_confidence": "medium",
+  "source_confidence": "high",
+  "live_validation_status": "passed",
+  "sentinel_tables": [
+    "Cisco_Umbrella"
+  ],
+  "sentinel_category": "network",
+  "tags": [
+    "microsoft_sentinel",
+    "sentinel.network"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "impact",
+      "command_and_control",
+      "exfiltration"
+    ],
+    "techniques": [
+      "T1496",
+      "T1071.001",
+      "T1041"
+    ]
+  },
+  "logsource": {
+    "product": "microsoft_sentinel",
+    "service": "dns_security",
+    "candidates": [
+      "SOC WAF Security Logs",
+      "SOC Web Application Logs",
+      "SOC Network Firewall Logs"
+    ],
+    "original_tables": [
+      "Cisco_Umbrella"
+    ]
+  },
+  "references": [
+    {
+      "name": "Microsoft Sentinel source rule",
+      "url": "https://github.com/Azure/Azure-Sentinel/blob/63ff8eedc58e7df0d22eba05ca73c92b59a66634/Solutions/CiscoUmbrella/Analytic Rules/CiscoUmbrellaCryptoMinerUserAgentDetected.yaml"
+    },
+    {
+      "name": "Microsoft Sentinel repository",
+      "url": "https://github.com/Azure/Azure-Sentinel"
+    },
+    {
+      "name": "Azure/Azure-Sentinel license",
+      "url": "https://github.com/Azure/Azure-Sentinel/blob/master/LICENSE"
+    }
+  ],
+  "attribution": {
+    "source": "Microsoft Sentinel",
+    "repository": "Azure/Azure-Sentinel",
+    "license": "MIT",
+    "license_url": "https://github.com/Azure/Azure-Sentinel/blob/master/LICENSE"
+  },
+  "dashboard": {
+    "visualizationType": "table",
+    "timeSelection": {
+      "timePeriod": "l21d"
+    },
+    "ask_ai_prompts": [
+      "Summarize the Microsoft Sentinel converted detection results and identify the highest-risk pivots."
+    ]
+  },
+  "detection_maturity": "source_converted",
+  "field_coverage": "mapped_subset",
+  "test_data_coverage": "not_evaluated",
+  "scheduled_rule_eligibility": "not_evaluated"
+}

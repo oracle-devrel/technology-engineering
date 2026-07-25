@@ -1,0 +1,30 @@
+{
+  "title": "OCI Network Security Group Rule Added for All Protocols",
+  "description": "Detects adding NSG rules that allow all protocols, potentially opening attack surface.",
+  "query": "'Log Source' = 'OCI Audit Logs' and (('Event Type' = 'com.oraclecloud.virtualnetwork.addnetworksecuritygroupsecurityrules'))",
+  "sigma_id": "97943766-68a0-4aa8-838d-5fd21bbbfcc6",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.defense_evasion",
+    "attack.t1562.004"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "defense_evasion"
+    ],
+    "techniques": [
+      "T1562.004"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Security group configuration during deployment"
+  ]
+}

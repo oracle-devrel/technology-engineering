@@ -1,0 +1,37 @@
+{
+  "title": "OKE: Boopkit Attack Timeline",
+  "description": "Chronological OKE attack-lab timeline for Boopkit-style eBPF rootkit activity. Shows API reconnaissance, secret access, privileged DaemonSet creation, pod exec, eBPF load, C2 traffic hiding, CronJob persistence, and RBAC backdoor evidence with APM trace pivots.",
+  "query": "'Log Source' = 'SOC Application Logs' and 'Service Namespace' = 'octo' and 'Attack ID' = 'attack-oke-boopkit-001' | sort Time | fields Time, 'Attack ID', 'Run ID', 'Attack Stage', 'Security Severity', 'MITRE Technique ID', 'MITRE Technique', 'Service Name', 'Workflow Step', 'Host Name', 'Source IP', 'Process Command Line', 'Trace ID', 'Span ID', msg",
+  "level": "critical",
+  "type": "curated",
+  "tags": [
+    "oke",
+    "kubernetes",
+    "boopkit",
+    "ebpf",
+    "attack-timeline",
+    "apm"
+  ],
+  "logsource": {
+    "product": "application",
+    "service": "soc_application_logs",
+    "candidates": [
+      "SOC Application Logs"
+    ]
+  },
+  "dashboard": {
+    "visualizationType": "table",
+    "showTitle": true,
+    "timeSelection": {
+      "timePeriod": "l21d"
+    },
+    "layout": {
+      "width": 12,
+      "height": 6
+    },
+    "ask_ai_prompts": [
+      "Walk the OKE Boopkit timeline in order and identify the first control-plane event that enabled node compromise.",
+      "Summarize the Trace ID, Span ID, MITRE technique, host, and command evidence for each Boopkit stage."
+    ]
+  }
+}

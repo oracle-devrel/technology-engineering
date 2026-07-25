@@ -1,0 +1,59 @@
+{
+  "title": "Linux Cryptominer Activity Detected",
+  "description": "Detects execution of known cryptomining software or command patterns associated with unauthorized cryptocurrency mining on compromised hosts.",
+  "query": "('Log Source' = 'SOC Linux Syslog Logs' or 'Log Source' = 'Linux Secure Logs' or 'Log Source' = 'Linux Syslog Logs' or 'Log Source' = 'Linux Audit Logs') and (((msg like '*xmrig*' or msg like '*minerd*' or msg like '*cpuminer*' or msg like '*stratum+tcp*' or msg like '*stratum+ssl*' or msg like '*cryptonight*' or msg like '*--donate-level*')))",
+  "sigma_id": "f1e2d3c4-5005-4000-8000-000000000005",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.impact",
+    "attack.t1496"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "impact"
+    ],
+    "techniques": [
+      "T1496"
+    ]
+  },
+  "logsource": {
+    "product": "linux",
+    "service": "audit",
+    "candidates": [
+      "SOC Linux Syslog Logs",
+      "Linux Secure Logs",
+      "Linux Syslog Logs",
+      "Linux Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Authorized mining operations",
+    "Blockchain development testing"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 2,
+    "techniques_with_tests": [
+      "T1496"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1496",
+        "test_name": "FreeBSD/macOS/Linux - Simulate CPU Load with Yes",
+        "test_guid": "904a5a0e-fb02-490d-9f8d-0e256eb37549",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1496/T1496.md"
+      },
+      {
+        "technique_id": "T1496",
+        "test_name": "Windows - Simulate CPU Load with PowerShell",
+        "test_guid": "44315fb0-f78d-4cef-b10f-cf21c1fe2c75",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1496/T1496.md"
+      }
+    ]
+  }
+}

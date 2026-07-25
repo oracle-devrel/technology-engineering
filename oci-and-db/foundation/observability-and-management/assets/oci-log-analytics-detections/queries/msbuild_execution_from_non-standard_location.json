@@ -1,0 +1,57 @@
+{
+  "title": "MSBuild Execution from Non-Standard Location",
+  "description": "Detects MSBuild.exe executing project files from user-writable directories.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Process Name' like '*\\\\MSBuild.exe') and not (('Command Line' like '*Visual Studio*' or 'Command Line' like '*dotnet*')))",
+  "sigma_id": "d01b332d-8065-43d2-a705-9053a53a2fec",
+  "level": "high",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.execution",
+    "attack.t1127.001"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "execution"
+    ],
+    "techniques": [
+      "T1127.001"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Developer build processes"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 2,
+    "techniques_with_tests": [
+      "T1127.001"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1127.001",
+        "test_name": "MSBuild Bypass Using Inline Tasks (C#)",
+        "test_guid": "58742c0f-cb01-44cd-a60b-fb26e8871c93",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1127.001/T1127.001.md"
+      },
+      {
+        "technique_id": "T1127.001",
+        "test_name": "MSBuild Bypass Using Inline Tasks (VB)",
+        "test_guid": "ab042179-c0c5-402f-9bc8-42741f5ce359",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1127.001/T1127.001.md"
+      }
+    ]
+  }
+}

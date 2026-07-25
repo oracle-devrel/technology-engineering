@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oci-logan.local/schemas/logan_workbench/artifact_manifest.schema.json",
+  "type": "object",
+  "required": ["schema_version", "artifacts"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["key", "path", "schema"],
+        "properties": {
+          "key": { "type": "string" },
+          "path": { "type": "string" },
+          "schema": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

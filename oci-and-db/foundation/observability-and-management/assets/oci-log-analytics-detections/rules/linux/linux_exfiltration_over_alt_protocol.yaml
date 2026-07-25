@@ -1,0 +1,43 @@
+title: Linux Exfiltration Over Alternative Protocol
+id: a1b2c3d4-6010-4000-8000-000000000010
+status: stable
+description: 'Detects data exfiltration using non-standard protocols. Attackers use
+  tools like netcat, socat, or raw sockets to send data over TCP/UDP to external hosts,
+  bypassing HTTP/HTTPS-based monitoring.
+
+  '
+author: SOC Detection Team
+date: 2026/02/11
+logsource:
+  product: linux
+  service: syslog
+detection:
+  sel_nc_send:
+    message|contains:
+    - nc -w
+    - nc -q
+    - ncat --send
+    - socat - TCP
+    - socat STDIN TCP
+  sel_pipe_send:
+    message|contains:
+    - '| nc '
+    - '| ncat '
+    - '| socat '
+    - '| curl -X POST'
+  sel_scp_ext:
+    message|contains:
+    - scp -r /
+    - scp /etc
+    - scp /var/log
+    - scp /home
+  condition: sel_nc_send or sel_pipe_send or sel_scp_ext
+level: high
+tags:
+- attack.exfiltration
+- attack.t1048
+falsepositives:
+- Authorized data transfers
+- Backup scripts using scp
+version: 1
+do_not_overwrite: true  # curated demo-tuned query — see scripts/test_query_audit.py

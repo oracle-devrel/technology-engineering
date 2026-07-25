@@ -1,0 +1,18 @@
+{
+  "title": "Cloud Guard Instance Security: Findings by Pack Query",
+  "description": "Shows which OSQuery pack queries are producing the most findings.",
+  "query": "'Log Source' = 'SOC Cloud Guard Instance Security Logs' | stats count as Findings, unique('OSQuery Finding') as FindingSamples by 'Pack Name', 'Pack Query ID', 'Pack Query Name', 'Finding Severity' | sort -Findings",
+  "level": "high",
+  "type": "curated",
+  "tags": ["cloud_guard_instance_security", "osquery"],
+  "logsource": {
+    "product": "oci",
+    "service": "osquery_results",
+    "candidates": ["SOC Cloud Guard Instance Security Logs", "SOC OSQuery Result Logs"]
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "timeSelection": {"timePeriod": "l21d"},
+    "layout": {"width": 12, "height": 5}
+  }
+}

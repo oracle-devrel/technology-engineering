@@ -1,0 +1,1063 @@
+# Generated from config/mapping/*.yaml. Do not edit by hand.
+# Run: python3 scripts/generate_mapping_config.py --export-compat
+
+tables:
+  SigninLogs:
+    category: identity
+    service: entra_signin
+    sources:
+    - Azure Entra ID Sign-in Logs
+  AADNonInteractiveUserSignInLogs:
+    category: identity
+    service: entra_signin
+    sources:
+    - Azure Entra ID Sign-in Logs
+  AuditLogs:
+    category: identity
+    service: entra_audit
+    sources:
+    - Azure Entra ID Audit Logs
+  imAuthentication:
+    category: identity
+    service: asim_authentication
+    sources:
+    - Azure Entra ID Sign-in Logs
+    - Windows Security Events
+  CiscoDuo:
+    category: identity
+    service: cisco_duo
+    sources:
+    - SOC Application Logs
+  CiscoISEEvent:
+    category: identity
+    service: cisco_ise
+    sources:
+    - SOC Application Logs
+  SecurityEvent:
+    category: endpoint
+    service: windows_security
+    sources:
+    - Windows Security Events
+    - Windows Event Security Logs
+  WindowsEvent:
+    category: endpoint
+    service: windows_event
+    sources:
+    - Windows Event System Logs
+    - Windows Security Events
+  Event:
+    category: endpoint
+    service: windows_event
+    sources:
+    - Windows Event System Logs
+    - Windows Security Events
+  Sysmon:
+    category: endpoint
+    service: sysmon
+    sources:
+    - SOC Windows Sysmon Logs
+    - Windows Sysmon Operational Logs
+    - Windows Sysmon Events
+  DeviceEvents:
+    category: endpoint
+    service: defender_endpoint
+    sources:
+    - SOC Windows Sysmon Logs
+  DeviceProcessEvents:
+    category: endpoint
+    service: defender_endpoint
+    sources:
+    - SOC Windows Sysmon Logs
+    - Windows Security Events
+  DeviceNetworkEvents:
+    category: endpoint
+    service: defender_endpoint
+    sources:
+    - SOC Sysmon Network Logs
+  DeviceLogonEvents:
+    category: endpoint
+    service: defender_endpoint
+    sources:
+    - Windows Security Events
+    - Windows Event Security Logs
+  DeviceFileEvents:
+    category: endpoint
+    service: defender_endpoint
+    sources:
+    - SOC Windows Sysmon Logs
+  DeviceImageLoadEvents:
+    category: endpoint
+    service: defender_endpoint
+    sources:
+    - SOC Windows Sysmon Logs
+  imProcess:
+    category: endpoint
+    service: asim_process
+    sources:
+    - SOC Windows Sysmon Logs
+    - Windows Security Events
+  imProcessCreate:
+    category: endpoint
+    service: asim_process
+    sources:
+    - SOC Windows Sysmon Logs
+    - Windows Security Events
+  imFileEvent:
+    category: endpoint
+    service: asim_file
+    sources:
+    - SOC Windows Sysmon Logs
+  CiscoSecureEndpoint:
+    category: endpoint
+    service: cisco_secure_endpoint
+    sources:
+    - SOC Windows Sysmon Logs
+    - Windows Security Events
+  CyberArkEPM:
+    category: endpoint
+    service: endpoint_privilege
+    sources:
+    - SOC Windows Sysmon Logs
+    - Windows Security Events
+  McAfeeEPOEvent:
+    category: endpoint
+    service: endpoint_security
+    sources:
+    - SOC Windows Sysmon Logs
+    - Windows Security Events
+  SentinelOne:
+    category: endpoint
+    service: endpoint_security
+    sources:
+    - SOC Windows Sysmon Logs
+    - Windows Security Events
+  Syslog:
+    category: endpoint
+    service: linux_syslog
+    sources:
+    - SOC Linux Syslog Logs
+    - Linux Secure Logs
+  TMApexOneEvent:
+    category: endpoint
+    service: endpoint_security
+    sources:
+    - SOC Windows Sysmon Logs
+    - Windows Security Events
+  Perf:
+    category: monitoring
+    service: kusto_perf
+    sources:
+    - SOC Application Logs
+  Alert:
+    category: monitoring
+    service: kusto_alert
+    sources:
+    - SOC Application Logs
+    - OCI Cloud Guard Problems
+  AzureActivity:
+    category: azure_cloud
+    service: azure_activity
+    sources:
+    - Azure Activity Logs
+  OCILogs:
+    category: azure_cloud
+    service: oci_audit
+    sources:
+    - OCI Audit Logs
+  AWSCloudTrail:
+    category: azure_cloud
+    service: aws_cloudtrail
+    sources:
+    - SOC Cloud Guard Logs
+    - SOC Application Logs
+  GCPAuditLogs:
+    category: azure_cloud
+    service: gcp_audit
+    sources:
+    - SOC Cloud Guard Logs
+    - SOC Application Logs
+  GCP_IAM:
+    category: azure_cloud
+    service: gcp_iam
+    sources:
+    - SOC Cloud Guard Logs
+    - SOC Application Logs
+  PaloAltoPrismaCloud:
+    category: azure_cloud
+    service: cloud_security_posture
+    sources:
+    - SOC Cloud Guard Logs
+    - SOC Application Logs
+  AzureDiagnostics:
+    category: azure_cloud
+    service: azure_diagnostics
+    sources:
+    - Azure Diagnostics Logs
+    - OCI Audit Logs
+  OfficeActivity:
+    category: m365
+    service: office_activity
+    sources:
+    - Microsoft 365 Audit Logs
+    - Office 365 Audit Logs
+    - SOC Application Logs
+  CloudAppEvents:
+    category: m365
+    service: cloud_app_events
+    sources:
+    - Microsoft 365 Cloud App Events
+    - SOC Application Logs
+  EmailEvents:
+    category: m365
+    service: defender_email
+    sources:
+    - Microsoft Defender Email Logs
+    - Microsoft 365 Audit Logs
+  EmailUrlInfo:
+    category: m365
+    service: defender_email
+    sources:
+    - Microsoft Defender Email Logs
+    - Microsoft 365 Audit Logs
+  UrlClickEvents:
+    category: m365
+    service: defender_email
+    sources:
+    - Microsoft Defender Email Logs
+    - Microsoft 365 Audit Logs
+  MessagePostDeliveryEvents:
+    category: m365
+    service: defender_email
+    sources:
+    - Microsoft Defender Email Logs
+    - Microsoft 365 Audit Logs
+  AlertInfo:
+    category: m365
+    service: defender_alerts
+    sources:
+    - SOC Application Logs
+  ADOAuditLogs:
+    category: m365
+    service: devops_audit
+    sources:
+    - SOC Application Logs
+  BoxEvents:
+    category: m365
+    service: box_audit
+    sources:
+    - SOC Application Logs
+  GitHubAuditData:
+    category: m365
+    service: github_audit
+    sources:
+    - SOC Application Logs
+  GWorkspaceActivityReports:
+    category: m365
+    service: google_workspace
+    sources:
+    - SOC Application Logs
+  JiraAudit:
+    category: m365
+    service: jira_audit
+    sources:
+    - SOC Application Logs
+  SecurityAlert:
+    category: m365
+    service: security_alerts
+    sources:
+    - SOC Application Logs
+  SlackAudit:
+    category: m365
+    service: slack_audit
+    sources:
+    - SOC Application Logs
+  Snowflake:
+    category: m365
+    service: snowflake_audit
+    sources:
+    - SOC Application Logs
+  TrendMicroCAS:
+    category: m365
+    service: cloud_app_security
+    sources:
+    - SOC Application Logs
+  Cloudflare:
+    category: network
+    service: waf
+    sources:
+    - SOC WAF Security Logs
+    - SOC Web Application Logs
+  ApacheHTTPServer:
+    category: network
+    service: web_server
+    sources:
+    - SOC WAF Security Logs
+    - SOC Web Application Logs
+    - SOC Load Balancer Access Logs
+  CiscoWSAEvent:
+    category: network
+    service: web_security
+    sources:
+    - SOC WAF Security Logs
+    - SOC Web Application Logs
+    - SOC Network Firewall Logs
+  Cisco_Umbrella:
+    category: network
+    service: dns_security
+    sources:
+    - SOC WAF Security Logs
+    - SOC Web Application Logs
+    - SOC Network Firewall Logs
+  GCPCloudDNS:
+    category: network
+    service: dns
+    sources:
+    - SOC WAF Security Logs
+    - SOC Web Application Logs
+    - SOC Network Firewall Logs
+  ImpervaWAFCloud:
+    category: network
+    service: waf
+    sources:
+    - SOC WAF Security Logs
+    - SOC Web Application Logs
+    - SOC Network Firewall Logs
+  NGINXHTTPServer:
+    category: network
+    service: web_server
+    sources:
+    - SOC WAF Security Logs
+    - SOC Web Application Logs
+    - SOC Load Balancer Access Logs
+  OracleWebLogicServerEvent:
+    category: network
+    service: web_server
+    sources:
+    - SOC WAF Security Logs
+    - SOC Web Application Logs
+    - SOC Load Balancer Access Logs
+  PaloAltoCDLEvent:
+    category: network
+    service: firewall
+    sources:
+    - SOC WAF Security Logs
+    - SOC Web Application Logs
+    - SOC Network Firewall Logs
+  TomcatEvent:
+    category: network
+    service: web_server
+    sources:
+    - SOC WAF Security Logs
+    - SOC Web Application Logs
+    - SOC Load Balancer Access Logs
+  DnsEvents:
+    category: network
+    service: dns
+    sources:
+    - SOC Windows Sysmon Logs
+    - Windows Sysmon Operational Logs
+    - SOC VCN Flow Logs
+  DNSQuery:
+    category: network
+    service: dns
+    sources:
+    - SOC Windows Sysmon Logs
+    - Windows Sysmon Operational Logs
+  CommonSecurityLog:
+    category: network
+    service: common_security
+    sources:
+    - SOC Network Firewall Logs
+    - OCI Network Firewall Logs
+    - SOC VCN Flow Logs
+  CommonSecurityLog_CL:
+    category: network
+    service: common_security
+    sources:
+    - SOC Network Firewall Logs
+    - OCI Network Firewall Logs
+    - SOC VCN Flow Logs
+  AADSignInEventsBeta: &id001
+    category: azure_custom
+    service: sentinel_workspace_custom
+    sources:
+    - Azure Log Analytics Custom Logs
+    - SOC Application Logs
+  ADFSSignInLogs: *id001
+  AGWFirewallLogs: *id001
+  AIAgentsInfo: *id001
+  AIShield: *id001
+  ARGOS_CL: *id001
+  ASimNetworkSessionSonicWallFirewall: *id001
+  AWSGuardDuty: *id001
+  AWSSecurityHubFindings: *id001
+  AZFWApplicationRule: *id001
+  AZFWFlowTrace: *id001
+  AZFWIdpsSignature: *id001
+  AZFWNetworkRule: *id001
+  AZFWThreatIntel: *id001
+  AZFWDnsQuery: *id001
+  AlertEvidence: *id001
+  Alerts_advisory: *id001
+  Alerts_assets: *id001
+  Alerts_bit_bucket: *id001
+  Alerts_cloud_storage: *id001
+  Alerts_compromised_endpoints_cookies: *id001
+  Alerts_compromised_files: *id001
+  Alerts_cyber_crime_forums: *id001
+  Alerts_darkweb_data_breaches: *id001
+  Alerts_darkweb_marketplaces: *id001
+  Alerts_darkweb_ransomware: *id001
+  Alerts_defacement_content: *id001
+  Alerts_defacement_keyword: *id001
+  Alerts_defacement_url: *id001
+  Alerts_discord: *id001
+  Alerts_docker: *id001
+  Alerts_domain_expiry: *id001
+  Alerts_domain_watchlist: *id001
+  Alerts_flash_report: *id001
+  Alerts_github: *id001
+  Alerts_hacktivism: *id001
+  Alerts_i2p: *id001
+  Alerts_iocs: *id001
+  Alerts_ip_risk_score: *id001
+  Alerts_leaked_credentials: *id001
+  Alerts_malicious_ads: *id001
+  Alerts_mobile_apps: *id001
+  Alerts_new_vulnerability: *id001
+  Alerts_news_feed: *id001
+  Alerts_osint: *id001
+  Alerts_ot_ics: *id001
+  Alerts_pastebin: *id001
+  Alerts_phishing: *id001
+  Alerts_physical_threats: *id001
+  Alerts_postman: *id001
+  Alerts_product_vulnerability: *id001
+  Alerts_social_media_monitoring: *id001
+  Alerts_ssl_expiry: *id001
+  Alerts_stealer_logs: *id001
+  Alerts_subdomains: *id001
+  Alerts_suspicious_domains: *id001
+  Alerts_telegram_mentions: *id001
+  Alerts_tor_links: *id001
+  Alerts_vulnerability: *id001
+  Alerts_web_applications: *id001
+  Anomalies: *id001
+  Anvilogic_Alerts_CL: *id001
+  AppServiceAntivirusScanAuditLogs: *id001
+  Armorblox_CL: *id001
+  Authomize_v2_CL: *id001
+  BHEAttackPathsData_CL: *id001
+  BehaviorAnalytics: *id001
+  BitSightAlerts: *id001
+  BitSightBreaches: *id001
+  BitSightFindingsData: *id001
+  BitSightGraphData: *id001
+  Bitglass: *id001
+  CBSLog: *id001
+  CarbonBlackEvents_CL: *id001
+  CarbonBlackNotifications_CL: *id001
+  CiscoSEGEvent: *id001
+  CiscoSecureEndpoint_CL: *id001
+  CiscoSyslogUTD: *id001
+  ClarotyEvent: *id001
+  CognniIncidents_CL: *id001
+  CommvaultAlerts_CL: *id001
+  ContrastADRAttackEvents_CL: *id001
+  ContrastADRIncidents_CL: *id001
+  CopilotActivity: *id001
+  CortexXDR_Incidents_CL: *id001
+  CrowdStrikeFalconEventStream: *id001
+  CyberArk_AuditEvents_CL: *id001
+  CyberSixgill_Alerts_CL: *id001
+  CyberpionActionItems_CL: *id001
+  CyfirmaASCertificatesAlerts_CL: *id001
+  CyfirmaASCloudWeaknessAlerts_CL: *id001
+  CyfirmaASConfigurationAlerts_CL: *id001
+  CyfirmaASDomainIPReputationAlerts_CL: *id001
+  CyfirmaASDomainIPVulnerabilityAlerts_CL: *id001
+  CyfirmaASOpenPortsAlerts_CL: *id001
+  CyfirmaBIDomainITAssetAlerts_CL: *id001
+  CyfirmaBIExecutivePeopleAlerts_CL: *id001
+  CyfirmaBIMaliciousMobileAppsAlerts_CL: *id001
+  CyfirmaBIProductSolutionAlerts_CL: *id001
+  CyfirmaBISocialHandlersAlerts_CL: *id001
+  CyfirmaCompromisedAccounts_CL: *id001
+  CyfirmaDBWMDarkWebAlerts_CL: *id001
+  CyfirmaDBWMPhishingAlerts_CL: *id001
+  CyfirmaDBWMRansomwareAlerts_CL: *id001
+  CyfirmaIndicators_CL: *id001
+  CyfirmaSPEConfidentialFilesAlerts_CL: *id001
+  CyfirmaSPEPIIAndCIIAlerts_CL: *id001
+  CyfirmaSPESocialThreatAlerts_CL: *id001
+  CyfirmaSPESourceCodeAlerts_CL: *id001
+  CyfirmaVulnerabilities_CL: *id001
+  CynerioEvent_CL: *id001
+  Cyren_Indicators_CL: *id001
+  D3SOARIncidents_CL: *id001
+  DataminrPulseAlerts: *id001
+  DataverseActivity: *id001
+  DataverseSharePointSites: *id001
+  DefendAuditData: *id001
+  DeviceFileCertificateInfo: *id001
+  DeviceInfo: *id001
+  DeviceNetworkInfo: *id001
+  DeviceRegistryEvents: *id001
+  DeviceTvmInfoGathering: *id001
+  DeviceTvmSecureConfigurationAssessment: *id001
+  DeviceTvmSoftwareInventory: *id001
+  DeviceTvmSoftwareVulnerabilities: *id001
+  DeviceTvmSoftwareVulnerabilitiesKB: *id001
+  DigitalGuardianDLPEvent: *id001
+  DragosNotificationsToSentinel: *id001
+  DuoSecurityTrustMonitor_CL: *id001
+  DynatraceAttacks: *id001
+  DynatraceProblems: *id001
+  DynatraceSecurityProblems: *id001
+  ESETPROTECT: *id001
+  EgressDefend_CL: *id001
+  EmailAttachmentInfo: *id001
+  EmailPostDeliveryEvents: *id001
+  Entities_Data_CL: *id001
+  ExchangeAdminAuditLogs: *id001
+  ExtraHopDetections: *id001
+  FinanceOperationsActivity_CL: *id001
+  FireworkV2_CL: *id001
+  ForescoutHostProperties_CL: *id001
+  Fortiweb: *id001
+  GitHubAudit: *id001
+  GitHubRepo: *id001
+  GitLabAudit: *id001
+  GoogleCloudSCC: *id001
+  Guardian: *id001
+  HackerViewLog: *id001
+  Heartbeat: *id001
+  IdentityDirectoryEvents: *id001
+  IdentityInfo: *id001
+  IdentityLogonEvents: *id001
+  IdentityQueryEvents: *id001
+  Illumio_Auditable_Events_CL: *id001
+  Infoblox: *id001
+  InfobloxCDC: *id001
+  InfobloxCDC_SOCInsights: *id001
+  InfobloxInsight: *id001
+  Infoblox_dnsclient: *id001
+  InformationProtectionLogs_CL: *id001
+  JamfProtectThreatEvents: *id001
+  JamfProtectUnifiedLogs: *id001
+  KeeperSecurityEventNewLogs_CL: *id001
+  KnowBe4Defend_CL: *id001
+  LAQueryLogs: *id001
+  LastPassNativePoller_CL: *id001
+  LookoutEvents: *id001
+  Lookout_CL: *id001
+  MSBizAppsTerminatedEmployees: *id001
+  MailGuard365_Threats_CL: *id001
+  MessageEvents: *id001
+  MessageUrlInfo: *id001
+  MimecastAudit: *id001
+  MimecastAudit_CL: *id001
+  MimecastCG: *id001
+  MimecastDLP: *id001
+  MimecastDLP_CL: *id001
+  MimecastSIEM_CL: *id001
+  MimecastTTPAttachment: *id001
+  MimecastTTPAttachment_CL: *id001
+  MimecastTTPImpersonation: *id001
+  MimecastTTPImpersonation_CL: *id001
+  MimecastTTPUrl: *id001
+  MimecastTTPUrl_CL: *id001
+  MorphisecAlerts_CL: *id001
+  NetBackupAlerts_CL: *id001
+  Netclean_Incidents_CL: *id001
+  NetskopeWebTransactions_CL: *id001
+  NetskopeWebtxErrors_CL: *id001
+  NetworkAccessTraffic: *id001
+  NordPassEventLogs_CL: *id001
+  OktaSSO: *id001
+  OnePasswordEventLogs_CL: *id001
+  OracleDatabaseAuditEvent: *id001
+  PingFederateEvent: *id001
+  PowerAutomateActivity: *id001
+  ProofPointTAPClicksPermittedV2_CL: *id001
+  ProofPointTAPMessagesDeliveredV2_CL: *id001
+  ProofpointPOD: *id001
+  PulseConnectSecure: *id001
+  PurviewDataSensitivityLogs: *id001
+  QualysHostDetection: *id001
+  RSAIDPlus_AdminLogs_CL: *id001
+  RadiflowEvent: *id001
+  RecordedFutureIdentity_PlaybookAlertResults_CL: *id001
+  RedCanaryDetections_CL: *id001
+  Rubrik_Anomaly_Data_CL: *id001
+  Rubrik_Events_Data_CL: *id001
+  SAPBTPAuditLog_CL: *id001
+  SAPETDAlerts_CL: *id001
+  SAPETDInvestigations_CL: *id001
+  SAPLogServ_CL: *id001
+  SINECSecurityGuard_CL: *id001
+  SOCPrimeAuditLogs_CL: *id001
+  SOCRadarAuditLog_CL: *id001
+  SOCRadar_Alarms_CL: *id001
+  SQLEvent: *id001
+  SailPointIDN_Events_CL: *id001
+  SailPointIDN_Triggers_CL: *id001
+  SalesforceServiceCloud: *id001
+  Samsung_Knox_Audit_CL: *id001
+  Samsung_Knox_Process_CL: *id001
+  Samsung_Knox_System_CL: *id001
+  Samsung_Knox_User_CL: *id001
+  SecurityIncident: *id001
+  SecurityNestedRecommendation: *id001
+  SecurityRecommendation: *id001
+  SecurityRegulatoryCompliance: *id001
+  SenservaPro_CL: *id001
+  Sonrai_Tickets_CL: *id001
+  SophosXGFirewall: *id001
+  SpyCloudBreachDataWatchlist_CL: *id001
+  StorageBlobLogs: *id001
+  StorageFileLogs: *id001
+  SymantecEndpointProtection: *id001
+  SymantecProxySG: *id001
+  SymantecVIP: *id001
+  TacitRed_Findings_CL: *id001
+  TheomAlerts_CL: *id001
+  ThreatIntelIndicators: *id001
+  ThreatIntelligenceIndicator: *id001
+  TrendMicro_XDR_WORKBENCH_CL: *id001
+  UbiquitiAuditEvent: *id001
+  VMConnection: *id001
+  VMwareESXi: *id001
+  VMware_CWS_DLPLogs_CL: *id001
+  VMware_CWS_Weblogs_CL: *id001
+  VMware_SDWAN_FirewallLogs_CL: *id001
+  VMware_VECO_EventLogs_CL: *id001
+  Vaikora_AgentSignals_CL: *id001
+  Vaikora_SecurityAlerts_CL: *id001
+  ValenceAlert_CL: *id001
+  ValimailEnforceEvents_CL: *id001
+  VectraDetections: *id001
+  VeeamMalwareEvents_CL: *id001
+  VeeamOneTriggeredAlarms_CL: *id001
+  VeeamSecurityComplianceAnalyzer_CL: *id001
+  VeeamSessions_CL: *id001
+  Veeam_GetFinishedConfigurationBackupSessions: *id001
+  Veeam_GetJobFinished: *id001
+  Veeam_GetSecurityEvents: *id001
+  VersasecCmsSysLogs: *id001
+  W3CIISLog: *id001
+  WireData: *id001
+  XbowAssets_CL: *id001
+  XbowFindings_CL: *id001
+  ZNSegmentAudit: *id001
+  ZPAEvent: *id001
+  ZeroFoxAlertPoller_CL: *id001
+  ZoomLogs: *id001
+  _ASim_FileEvent: *id001
+  _ASim_ProcessEvent: *id001
+  _ASim_ProcessEvent_Create: *id001
+  _ASim_RegistryEvent: *id001
+  _Im_Dns: *id001
+  _Im_FileEvent: *id001
+  _Im_NetworkSession: *id001
+  _Im_ProcessEvent: *id001
+  _Im_WebSession: *id001
+  afad_parser: *id001
+  apifirewall_log_1_CL: *id001
+  atlassian_beacon_alerts_CL: *id001
+  AzureNetworkAnalytics_CL: *id001
+  blacklens_CL: *id001
+  corelight_conn: *id001
+  corelight_conn_red: *id001
+  corelight_dns: *id001
+  corelight_dns_red: *id001
+  corelight_files: *id001
+  corelight_http: *id001
+  corelight_smb_mapping: *id001
+  corelight_smtp: *id001
+  darktrace_model_alerts_CL: *id001
+  datatable: *id001
+  datawizaserveraccess_CL: *id001
+  dsp_parser: *id001
+  eset_CL: *id001
+  fluentbit_CL: *id001
+  http_proxy_oab_CL: *id001
+  imRegistry: *id001
+  imNetworkSession: *id001
+  jamfprotectalerts_CL: *id001
+  prancer_CL: *id001
+  secRMM_CL: *id001
+  test: *id001
+  vCenter: *id001
+fields:
+  Activity: '''Event Type'''
+  ActivityType: '''Event Type'''
+  ActivityDisplayName: Operation
+  AppDisplayName: '''Application Name'''
+  Application: '''Application Name'''
+  ActionType: Action
+  AdditionalFields: Properties
+  Computer: Entity
+  CounterName: '''Metric Name'''
+  CounterValue: '''Metric Value'''
+  Description: Description
+  DvcAction: Action
+  DeviceAction: Action
+  DeviceEventClassID: '''Event ID'''
+  DeviceProduct: '''Application Name'''
+  DeviceVendor: Provider
+  DeviceId: Entity
+  EventCreationTime: Time
+  EventMessage: Description
+  EventName: '''Event Type'''
+  EventResult: Status
+  EventResultDetails: Status
+  EventEndTime: Time
+  EventSource: Provider
+  EventSubType: '''Event Type'''
+  EventType: '''Event Type'''
+  EventVendor: Provider
+  LogSeverity: Severity
+  Operation: Operation
+  OperationName: Operation
+  QueryName: '''Query Name'''
+  Query: '''Query Name'''
+  Reason: Description
+  Resource: '''Resource Name'''
+  ResourceGroup: '''Resource Group'''
+  ResourceId: '''Resource ID'''
+  ResourceProvider: '''Resource Type'''
+  Result: Status
+  ResultDescription: Description
+  Status: Status
+  SourceItemName: '''Target Object'''
+  ObjectDN: '''Target Object'''
+  ObjectName: '''Target Object'''
+  AttributeLDAPDisplayName: '''Object Type'''
+  EventData: '''Original Log Content'''
+  ThreatCategory: '''Threat Category'''
+  ThreatActionTaken: Action
+  ThreatName: '''Threat Name'''
+  ThreatType: '''Threat Category'''
+  ThreatTypes: '''Threat Category'''
+  Title: '''Threat Name'''
+  TimeGenerated: Time
+  Timestamp: Time
+  ErrorMessage: Description
+  _ResourceId: '''Resource ID'''
+  data_eventName_s: '''Event Type'''
+  Account: User
+  AccountName: User
+  Actor: User
+  AccountUpn: '''User Name'''
+  DstUserName: '''Target User Name'''
+  DstUsername: '''Target User Name'''
+  ActorUsername: '''User Name'''
+  ServicePrincipalName: '''Resource Name'''
+  SrcUserName: '''User Name'''
+  SrcUsername: '''User Name'''
+  SourceLogin: '''User Name'''
+  SubjectUserName: '''Subject User Name'''
+  SubjectAccount: '''Account Name'''
+  SubjectDomainName: '''Target Domain Name'''
+  SubjectLogonId: '''Logon ID'''
+  SubjectUserSid: '''User ID (hashed)'''
+  Target: '''Target Object'''
+  TargetResource: '''Resource Name'''
+  TargetUserName: '''Target User Name'''
+  TargetUsername: '''Target User Name'''
+  TargetUserId: '''Target User Name'''
+  UPN: '''User Name'''
+  UPNSuffix: '''Target Domain Name'''
+  User: User
+  UserName: '''User Name'''
+  UserPrincipalName: '''User Name'''
+  ObjectItemName: '''Target Object'''
+  CommandLine: '''Command Line'''
+  EventID: '''Event ID'''
+  EventId: '''Event ID'''
+  FileName: '''Process Name'''
+  FilePath: '''Target Filename'''
+  FolderPath: '''Target Filename'''
+  Hash: Hashes
+  MD5: Hashes
+  SHA1: Hashes
+  SHA256: Hashes
+  Image: '''Process Name'''
+  InitiatingProcessCommandLine: '''Command Line'''
+  InitiatingProcessFileName: '''Parent Process Name'''
+  InitiatingProcessParentFileName: '''Parent Process Name'''
+  InitiatingProcessFolderPath: '''Parent Process Name'''
+  InitiatingProcessAccountDomain: '''Target Domain Name'''
+  InitiatingProcessAccountName: '''Account Name'''
+  InitiatingProcessSHA256: Hashes
+  InitiatingProcessId: '''Process ID'''
+  LogonType: '''Logon Type'''
+  Logon_Type: '''Logon Type'''
+  ParentImage: '''Parent Process Name'''
+  ParentProcessName: '''Parent Process Name'''
+  Process: '''Process Name'''
+  ProcessId: '''Process ID'''
+  ProcessCommandLine: '''Command Line'''
+  ProcessName: '''Process Name'''
+  Exe: '''Process Name'''
+  LocalFile: '''Target Filename'''
+  ActingProcessCommandLine: '''Command Line'''
+  ActingProcessName: '''Parent Process Name'''
+  ActingProcessSHA256: Hashes
+  ActingProcessFileInternalName: '''Parent Process Name'''
+  SrcFileName: '''Target Filename'''
+  SourceFileName: '''Target Filename'''
+  TargetFileMD5: Hashes
+  TargetFileName: '''Target Filename'''
+  TargetFilePath: '''Target Filename'''
+  TargetFileSHA1: Hashes
+  TargetFileSHA256: Hashes
+  UserId: '''User ID (hashed)'''
+  ClientAppUsed: '''Application Name'''
+  MailboxOwnerUPN: '''User Name'''
+  OfficeWorkload: '''Application Name'''
+  OrganizationName: '''Resource Name'''
+  ClientInfoString: '''User Agent'''
+  UserType: Type
+  EmailDirection: Direction
+  RecipientEmailAddress: '''Target User Name'''
+  SenderFromAddress: '''User Name'''
+  ClientRequestHost: '''Destination Hostname'''
+  ClientRequestMethod: '''HTTP Request Method'''
+  ClientRequestPath: '''URL Path'''
+  ClientRequestURI: '''Request URL'''
+  ClientRequestUserAgent: '''User Agent'''
+  ClientIP: '''Client IP'''
+  DestinationIpAddress: '''Destination IP'''
+  DstIpAddr: '''Destination IP'''
+  DstIP: '''Destination IP'''
+  DstHostname: '''Destination Hostname'''
+  DestinationHostName: '''Destination Hostname'''
+  DestinationHostname: '''Destination Hostname'''
+  DestinationIP: '''Destination IP'''
+  DestinationIp: '''Destination IP'''
+  DestinationPort: '''Destination Port'''
+  Dvc: '''Host Name'''
+  DvcHostname: '''Host Name'''
+  DvcIpAddr: '''Source IP'''
+  DeviceName: '''Host Name (Server)'''
+  FileSize: '''Network Bytes Out'''
+  HttpRequestHeaderHost: '''Destination Hostname'''
+  HttpStatusCode: '''HTTP Status Code'''
+  HostName: '''Host Name'''
+  HttpUserAgent: '''User Agent'''
+  HttpRequestMethod: '''HTTP Request Method'''
+  IPAddress: '''Source IP'''
+  IpAddress: '''Source IP'''
+  RequestMethod: '''HTTP Request Method'''
+  RequestURL: '''Request URL'''
+  RequestUrl: '''Request URL'''
+  RemoteIP: '''Destination IP'''
+  RemoteUrl: '''Request URL'''
+  RemotePort: '''Destination Port'''
+  ReportId: '''Resource ID'''
+  SourceIPAddress: '''Source IP'''
+  SourceIpAddress: '''Source IP'''
+  SourceIP: '''Source IP'''
+  SourceIp: '''Source IP'''
+  SourcePort: '''Source Port'''
+  SrcIP: '''Source IP'''
+  SrcIpAddr: '''Source IP'''
+  URL: '''Request URL'''
+  Url: '''Request URL'''
+  UrlCategory: '''Threat Category'''
+  UrlOriginal: '''Request URL'''
+  UserAgent: '''User Agent'''
+  HttpUserAgentOriginal: '''User Agent'''
+  WAFAction: '''WAF Action'''
+  WAFRuleID: '''Rule Key'''
+  WAFRuleMessage: '''Attack Type'''
+  DstPortNumber: '''Destination Port'''
+  data_request_headers_oci_original_url_s: '''Request URL'''
+field_roles:
+  Activity: resource
+  ActivityType: resource
+  ActivityDisplayName: resource
+  AppDisplayName: resource
+  Application: resource
+  ActionType: resource
+  AdditionalFields: resource
+  Computer: resource
+  CounterName: resource
+  CounterValue: resource
+  Description: resource
+  DvcAction: resource
+  DeviceAction: resource
+  DeviceEventClassID: resource
+  DeviceProduct: resource
+  DeviceVendor: resource
+  DeviceId: resource
+  EventCreationTime: time
+  EventMessage: resource
+  EventName: resource
+  EventResult: resource
+  EventResultDetails: resource
+  EventEndTime: time
+  EventSource: resource
+  EventSubType: resource
+  EventType: resource
+  EventVendor: resource
+  LogSeverity: resource
+  Operation: resource
+  OperationName: resource
+  QueryName: resource
+  Query: resource
+  Reason: resource
+  Resource: resource
+  ResourceGroup: resource
+  ResourceId: resource
+  ResourceProvider: resource
+  Result: resource
+  ResultDescription: resource
+  Status: resource
+  SourceItemName: resource
+  ObjectDN: target
+  ObjectName: target
+  AttributeLDAPDisplayName: resource
+  EventData: resource
+  ThreatCategory: resource
+  ThreatActionTaken: resource
+  ThreatName: resource
+  ThreatType: resource
+  ThreatTypes: resource
+  Title: resource
+  TimeGenerated: time
+  Timestamp: time
+  ErrorMessage: resource
+  _ResourceId: resource
+  data_eventName_s: resource
+  Account: subject
+  AccountName: subject
+  Actor: subject
+  AccountUpn: subject
+  DstUserName: target
+  DstUsername: target
+  ActorUsername: subject
+  ServicePrincipalName: subject
+  SrcUserName: subject
+  SrcUsername: subject
+  SourceLogin: subject
+  SubjectUserName: subject
+  SubjectAccount: subject
+  SubjectDomainName: subject
+  SubjectLogonId: subject
+  SubjectUserSid: subject
+  Target: target
+  TargetResource: target
+  TargetUserName: target
+  TargetUsername: target
+  TargetUserId: target
+  UPN: subject
+  UPNSuffix: subject
+  User: subject
+  UserName: subject
+  UserPrincipalName: subject
+  ObjectItemName: target
+  CommandLine: initiator
+  EventID: resource
+  EventId: resource
+  FileName: initiator
+  FilePath: initiator
+  FolderPath: initiator
+  Hash: hash
+  MD5: hash
+  SHA1: hash
+  SHA256: hash
+  Image: initiator
+  InitiatingProcessCommandLine: initiator
+  InitiatingProcessFileName: initiator
+  InitiatingProcessParentFileName: initiator
+  InitiatingProcessFolderPath: initiator
+  InitiatingProcessAccountDomain: initiator
+  InitiatingProcessAccountName: initiator
+  InitiatingProcessSHA256: hash
+  InitiatingProcessId: initiator
+  LogonType: resource
+  Logon_Type: resource
+  ParentImage: initiator
+  ParentProcessName: initiator
+  Process: initiator
+  ProcessId: initiator
+  ProcessCommandLine: initiator
+  ProcessName: initiator
+  Exe: initiator
+  LocalFile: resource
+  ActingProcessCommandLine: initiator
+  ActingProcessName: initiator
+  ActingProcessSHA256: hash
+  ActingProcessFileInternalName: initiator
+  SrcFileName: initiator
+  SourceFileName: initiator
+  TargetFileMD5: hash
+  TargetFileName: target
+  TargetFilePath: target
+  TargetFileSHA1: hash
+  TargetFileSHA256: hash
+  UserId: hash
+  ClientAppUsed: resource
+  MailboxOwnerUPN: subject
+  OfficeWorkload: resource
+  OrganizationName: resource
+  ClientInfoString: network
+  UserType: subject
+  EmailDirection: resource
+  RecipientEmailAddress: target
+  SenderFromAddress: subject
+  ClientRequestHost: network
+  ClientRequestMethod: network
+  ClientRequestPath: network
+  ClientRequestURI: network
+  ClientRequestUserAgent: network
+  ClientIP: network
+  DestinationIpAddress: network
+  DstIpAddr: network
+  DstIP: network
+  DstHostname: network
+  DestinationHostName: network
+  DestinationHostname: network
+  DestinationIP: network
+  DestinationIp: network
+  DestinationPort: network
+  Dvc: network
+  DvcHostname: network
+  DvcIpAddr: network
+  DeviceName: network
+  FileSize: network
+  HttpRequestHeaderHost: network
+  HttpStatusCode: network
+  HostName: network
+  HttpUserAgent: network
+  HttpRequestMethod: network
+  IPAddress: network
+  IpAddress: network
+  RequestMethod: network
+  RequestURL: network
+  RequestUrl: network
+  RemoteIP: network
+  RemoteUrl: network
+  RemotePort: network
+  ReportId: network
+  SourceIPAddress: network
+  SourceIpAddress: network
+  SourceIP: network
+  SourceIp: network
+  SourcePort: network
+  SrcIP: network
+  SrcIpAddr: network
+  URL: network
+  Url: network
+  UrlCategory: network
+  UrlOriginal: network
+  UserAgent: network
+  HttpUserAgentOriginal: network
+  WAFAction: network
+  WAFRuleID: network
+  WAFRuleMessage: network
+  DstPortNumber: network
+  data_request_headers_oci_original_url_s: network

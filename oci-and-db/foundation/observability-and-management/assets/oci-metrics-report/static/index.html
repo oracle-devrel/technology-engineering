@@ -1,0 +1,3687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCI Metrics Report Generator</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <!-- OCI Redwood Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Oracle+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* OCI Redwood Theme Colors */
+        :root {
+            /* Redwood Primary Colors */
+            --redwood-dark: #312D2A;
+            --redwood-charcoal: #3A3631;
+            --redwood-warm-gray: #63605B;
+            --redwood-light-gray: #C4C0BB;
+            --redwood-off-white: #F5F4F2;
+
+            /* Redwood Accent Colors */
+            --redwood-red: #C74634;
+            --redwood-orange: #D97B34;
+            --redwood-teal: #0D6B6E;
+            --redwood-blue: #1A6FA8;
+            --redwood-purple: #6B4FA0;
+            --redwood-green: #4A8522;
+
+            /* Functional Colors */
+            --success: #4A8522;
+            --warning: #D97B34;
+            --danger: #C74634;
+            --info: #1A6FA8;
+
+            /* UI Colors */
+            --bg-primary: #FFFFFF;
+            --bg-secondary: var(--redwood-off-white);
+            --bg-tertiary: #E8E6E3;
+            --text-primary: var(--redwood-dark);
+            --text-secondary: var(--redwood-warm-gray);
+            --text-muted: var(--redwood-light-gray);
+            --border-color: #D9D7D4;
+            --border-light: #E8E6E3;
+
+            /* Shadows */
+            --shadow-sm: 0 1px 3px rgba(49, 45, 42, 0.08);
+            --shadow-md: 0 4px 12px rgba(49, 45, 42, 0.12);
+            --shadow-lg: 0 8px 24px rgba(49, 45, 42, 0.16);
+
+            /* Border Radius */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Oracle Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: var(--text-primary);
+            background-color: var(--bg-secondary);
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* Header - Redwood Style */
+        header {
+            background: linear-gradient(135deg, var(--redwood-dark) 0%, var(--redwood-charcoal) 100%);
+            color: white;
+            padding: 0;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .oracle-logo {
+            width: 32px;
+            height: 32px;
+            background: var(--redwood-red);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        header h1 {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .header-meta {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 13px;
+            opacity: 0.85;
+        }
+
+        .auth-badge {
+            background: rgba(255,255,255,0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        /* Cards - Redwood Style */
+        .card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-primary);
+        }
+
+        .card-header h2 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        /* Time Range Picker - Redwood Style */
+        .time-range-container {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .time-preset-buttons {
+            display: flex;
+            gap: 0;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-md);
+            padding: 4px;
+        }
+
+        .time-preset-btn {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+        }
+
+        .time-preset-btn:hover {
+            color: var(--text-primary);
+            background: rgba(255,255,255,0.5);
+        }
+
+        .time-preset-btn.active {
+            background: var(--bg-primary);
+            color: var(--redwood-dark);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .custom-time-inputs {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .custom-time-inputs label {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .custom-time-inputs input {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-family: inherit;
+        }
+
+        /* Query List - Redwood Style */
+        .query-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+            max-width: 300px;
+        }
+
+        .query-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-md);
+            background: var(--bg-primary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .query-item:hover {
+            border-color: var(--redwood-teal);
+            background: rgba(13, 107, 110, 0.02);
+        }
+
+        .query-item.active {
+            border-color: var(--redwood-teal);
+            background: rgba(13, 107, 110, 0.05);
+        }
+
+        .query-item-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .query-item-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .query-item-mql {
+            font-size: 12px;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+            margin-top: 2px;
+        }
+
+        .query-item-actions {
+            display: flex;
+            gap: 4px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .query-item:hover .query-item-actions {
+            opacity: 1;
+        }
+
+        .query-item-actions button {
+            padding: 6px 8px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .query-item-actions button:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .query-item-actions .delete-btn:hover {
+            background: rgba(199, 70, 52, 0.1);
+            color: var(--danger);
+        }
+
+        /* Query Editor Layout */
+        .query-editor-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 24px;
+        }
+
+        .query-editor-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+        }
+
+        /* Form Elements - Redwood Style */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .form-group label small {
+            font-weight: 400;
+            text-transform: none;
+            color: var(--text-secondary);
+        }
+
+        .form-group select,
+        .form-group input,
+        .form-group textarea {
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-family: inherit;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--redwood-teal);
+            box-shadow: 0 0 0 3px rgba(13, 107, 110, 0.15);
+        }
+
+        .form-group textarea {
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+            font-size: 13px;
+            resize: vertical;
+        }
+
+        .form-group .help-text {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 6px;
+        }
+
+        /* Toggle Switch - Redwood Style */
+        .advanced-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--border-color);
+            transition: 0.3s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .toggle-switch input:checked + .toggle-slider {
+            background-color: var(--redwood-teal);
+        }
+
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(20px);
+        }
+
+        /* Buttons - Redwood Style */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--redwood-teal);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0A5456;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-secondary {
+            background: var(--redwood-dark);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: var(--redwood-charcoal);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #3D6E1B;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-outline {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--bg-secondary);
+            border-color: var(--redwood-warm-gray);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        /* Charts Container */
+        .charts-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Enhanced Chart Wrapper - Redwood Style */
+        .chart-wrapper {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-light);
+            background: var(--bg-secondary);
+        }
+
+        .chart-header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chart-checkbox {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--redwood-teal);
+        }
+
+        .chart-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+        }
+
+        .chart-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .chart-actions .btn {
+            padding: 8px 14px;
+            font-size: 13px;
+        }
+
+        .chart-body {
+            padding: 20px;
+        }
+
+        .chart-canvas-container {
+            position: relative;
+            height: 320px;
+        }
+
+        /* Enhanced Legend - Collapsible */
+        .chart-legend-container {
+            border-top: 1px solid var(--border-light);
+            background: var(--bg-secondary);
+        }
+
+        .legend-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .legend-header:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .legend-header h4 {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-count {
+            background: var(--redwood-teal);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .legend-toggle {
+            font-size: 12px;
+            color: var(--text-secondary);
+            transition: transform 0.3s;
+        }
+
+        .legend-toggle.collapsed {
+            transform: rotate(-90deg);
+        }
+
+        .legend-content {
+            padding: 0 20px 16px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .legend-content.collapsed {
+            display: none;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            background: var(--bg-primary);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .legend-item:hover {
+            border-color: var(--border-color);
+        }
+
+        .legend-item.hidden {
+            opacity: 0.4;
+        }
+
+        .legend-color {
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+
+        .legend-label {
+            flex: 1;
+            font-size: 12px;
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .legend-value {
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Data Table - Redwood Style */
+        .data-table-container {
+            margin-top: 0;
+            border-top: 1px solid var(--border-light);
+            max-height: 350px;
+            overflow: auto;
+            display: none;
+        }
+
+        .data-table-container.visible {
+            display: block;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .data-table th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+            color: var(--text-primary);
+            position: sticky;
+            top: 0;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.03em;
+        }
+
+        .data-table tr:hover {
+            background: rgba(13, 107, 110, 0.02);
+        }
+
+        .data-table td {
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+            font-size: 12px;
+        }
+
+        /* Export Panel - Redwood Style */
+        .export-panel {
+            background: var(--bg-secondary);
+            padding: 16px 20px;
+            border-radius: var(--radius-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            border: 1px solid var(--border-light);
+        }
+
+        .export-panel-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .export-panel-info .count {
+            font-weight: 700;
+            color: var(--redwood-teal);
+        }
+
+        /* Loading & States */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px;
+            color: var(--text-secondary);
+        }
+
+        .loading::before {
+            content: '';
+            width: 24px;
+            height: 24px;
+            border: 3px solid var(--border-light);
+            border-top-color: var(--redwood-teal);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 12px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: rgba(199, 70, 52, 0.08);
+            border: 1px solid var(--danger);
+            color: var(--danger);
+            padding: 16px 20px;
+            border-radius: var(--radius-md);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .empty-state p {
+            font-size: 14px;
+        }
+
+        /* Toast Notifications - Redwood Style */
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .toast {
+            background: var(--redwood-dark);
+            color: white;
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            animation: slideIn 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .toast.success {
+            background: var(--success);
+        }
+
+        .toast.error {
+            background: var(--danger);
+        }
+
+        .toast.info {
+            background: var(--info);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .query-editor-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .query-list {
+                max-width: none;
+            }
+
+            .time-range-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+        }
+
+        /* Dimensions Section - Redwood Style */
+        .dimensions-section {
+            margin-top: 20px;
+            padding: 16px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-light);
+        }
+
+        .dimensions-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .dimensions-header h4 {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .aggregate-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .aggregate-toggle input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--redwood-teal);
+        }
+
+        .dimensions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .dimension-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: var(--bg-primary);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-light);
+        }
+
+        .dimension-row .form-group {
+            flex: 1;
+            margin: 0;
+        }
+
+        .dimension-row .form-group label {
+            font-size: 11px;
+            margin-bottom: 4px;
+        }
+
+        .dimension-row .form-group select {
+            padding: 8px 10px;
+            font-size: 13px;
+        }
+
+        .dimension-row .remove-btn {
+            padding: 8px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: var(--text-muted);
+            border-radius: var(--radius-sm);
+            transition: all 0.2s;
+        }
+
+        .dimension-row .remove-btn:hover {
+            background: rgba(199, 70, 52, 0.1);
+            color: var(--danger);
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 13px;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--redwood-light-gray);
+        }
+
+        /* Searchable Combobox Styles */
+        .combobox-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .combobox-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .combobox-input {
+            width: 100%;
+            padding: 10px 36px 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-family: inherit;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: border-color 0.2s, box-shadow 0.2s;
+            cursor: text;
+        }
+
+        .combobox-input:focus {
+            outline: none;
+            border-color: var(--redwood-teal);
+            box-shadow: 0 0 0 3px rgba(13, 107, 110, 0.15);
+        }
+
+        .combobox-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .combobox-arrow {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: var(--text-secondary);
+            font-size: 10px;
+            transition: transform 0.2s;
+        }
+
+        .combobox-container.open .combobox-arrow {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        .combobox-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            margin-top: 4px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            max-height: 400px;
+            min-width: 100%;
+            width: max-content;
+            max-width: 600px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+
+        .combobox-container.open .combobox-dropdown {
+            display: block;
+        }
+
+        .combobox-option {
+            padding: 10px 14px;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: background 0.15s;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .combobox-option:last-child {
+            border-bottom: none;
+        }
+
+        .combobox-option:hover,
+        .combobox-option.highlighted {
+            background: rgba(13, 107, 110, 0.08);
+        }
+
+        .combobox-option.selected {
+            background: rgba(13, 107, 110, 0.12);
+        }
+
+        .combobox-option.selected .combobox-option-name {
+            color: var(--redwood-teal);
+        }
+
+        .combobox-option-name {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .combobox-option-path {
+            display: block;
+            font-size: 12px;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .combobox-option mark {
+            background: rgba(13, 107, 110, 0.25);
+            color: inherit;
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+
+        .combobox-option-icon {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            vertical-align: middle;
+            color: var(--text-muted);
+        }
+
+        .combobox-result-count {
+            padding: 8px 14px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-light);
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        /* Tree-like indentation guide */
+        .combobox-option[style*="padding-left"] {
+            position: relative;
+        }
+
+        .combobox-option[style*="padding-left"]::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: var(--border-light);
+        }
+
+        /* Better hover state for paths */
+        .combobox-option:hover .combobox-option-path {
+            color: var(--text-primary);
+        }
+
+        /* Improve dropdown on smaller screens */
+        @media (max-width: 768px) {
+            .combobox-dropdown {
+                max-width: calc(100vw - 48px);
+                right: 0;
+            }
+        }
+
+        .combobox-no-results {
+            padding: 16px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .combobox-loading {
+            padding: 16px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .combobox-clear {
+            position: absolute;
+            right: 32px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 14px;
+            padding: 4px;
+            border-radius: 50%;
+            display: none;
+            transition: color 0.2s, background 0.2s;
+        }
+
+        .combobox-clear:hover {
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
+        }
+
+        .combobox-container.has-value .combobox-clear {
+            display: block;
+        }
+
+        /* Multi-Select Chips Styles */
+        .multi-select-wrapper {
+            position: relative;
+        }
+
+        .multi-select-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            min-height: 44px;
+            background: var(--bg-primary);
+            align-items: center;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+
+        .multi-select-container:focus-within {
+            border-color: var(--redwood-teal);
+            box-shadow: 0 0 0 3px rgba(13, 107, 110, 0.15);
+        }
+
+        .multi-select-container.empty {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .multi-select-container .empty-placeholder {
+            color: var(--text-muted);
+            font-size: 14px;
+            padding: 4px 0;
+        }
+
+        .selection-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 8px 4px 12px;
+            background: var(--bg-tertiary);
+            border-radius: 16px;
+            font-size: 13px;
+            color: var(--text-primary);
+            max-width: 200px;
+        }
+
+        .selection-chip .chip-text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .selection-chip .chip-remove {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-muted);
+            padding: 2px 4px;
+            border-radius: 50%;
+            font-size: 12px;
+            line-height: 1;
+            transition: all 0.2s;
+        }
+
+        .selection-chip .chip-remove:hover {
+            background: rgba(199, 70, 52, 0.15);
+            color: var(--danger);
+        }
+
+        .selection-chip.region-chip {
+            background: rgba(13, 107, 110, 0.1);
+            border: 1px solid rgba(13, 107, 110, 0.3);
+        }
+
+        .selection-chip.compartment-chip {
+            background: rgba(26, 111, 168, 0.1);
+            border: 1px solid rgba(26, 111, 168, 0.3);
+        }
+
+        .add-selection-btn {
+            padding: 4px 12px;
+            border: 1px dashed var(--border-color);
+            border-radius: 16px;
+            background: transparent;
+            cursor: pointer;
+            font-size: 13px;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+
+        .add-selection-btn:hover {
+            border-color: var(--redwood-teal);
+            color: var(--redwood-teal);
+            background: rgba(13, 107, 110, 0.05);
+        }
+
+        /* Multi-select dropdown */
+        .multi-select-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            margin-top: 4px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1001;
+            display: none;
+        }
+
+        .multi-select-dropdown.open {
+            display: block;
+        }
+
+        .multi-select-search {
+            position: sticky;
+            top: 0;
+            background: var(--bg-primary);
+            padding: 8px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .multi-select-search input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+        }
+
+        .multi-select-option {
+            padding: 10px 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.15s;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .multi-select-option:last-child {
+            border-bottom: none;
+        }
+
+        .multi-select-option:hover {
+            background: rgba(13, 107, 110, 0.05);
+        }
+
+        .multi-select-option.selected {
+            background: rgba(13, 107, 110, 0.1);
+        }
+
+        .multi-select-option input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--redwood-teal);
+        }
+
+        .multi-select-option-text {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .multi-select-option-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .multi-select-option-detail {
+            font-size: 12px;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Unified Dashboard Mode Indicator */
+        .unified-mode-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            background: rgba(13, 107, 110, 0.1);
+            border: 1px solid rgba(13, 107, 110, 0.3);
+            border-radius: 12px;
+            font-size: 12px;
+            color: var(--redwood-teal);
+            font-weight: 500;
+        }
+
+        .source-badge {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            margin-left: 6px;
+        }
+
+        .source-badge.region {
+            background: rgba(13, 107, 110, 0.15);
+            color: var(--redwood-teal);
+        }
+
+        .source-badge.compartment {
+            background: rgba(26, 111, 168, 0.15);
+            color: var(--redwood-blue);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="header-left">
+                <div class="oracle-logo">O</div>
+                <div>
+                    <h1>OCI Metrics Report Generator</h1>
+                </div>
+            </div>
+            <div class="header-meta">
+                <span id="regionDisplay">Region: Loading...</span>
+                <span class="auth-badge" id="authBadge">Authenticating...</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Time Range Selection -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Time Range</h2>
+            </div>
+            <div class="card-body">
+                <div class="time-range-container">
+                    <div class="time-preset-buttons">
+                        <button class="time-preset-btn" data-hours="1">1h</button>
+                        <button class="time-preset-btn" data-hours="6">6h</button>
+                        <button class="time-preset-btn active" data-hours="24">24h</button>
+                        <button class="time-preset-btn" data-hours="168">7d</button>
+                        <button class="time-preset-btn" data-hours="720">30d</button>
+                        <button class="time-preset-btn" data-hours="2160">90d</button>
+                        <button class="time-preset-btn" data-custom="true">Custom</button>
+                    </div>
+                    <div class="custom-time-inputs" id="customTimeInputs" style="display: none;">
+                        <label>From:</label>
+                        <input type="datetime-local" id="startTime">
+                        <label>To:</label>
+                        <input type="datetime-local" id="endTime">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Query Builder -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Query Editor</h2>
+                <button class="btn btn-outline" onclick="toggleQueryEditor()">
+                    <span id="queryEditorToggleText">Close query editor</span>
+                </button>
+            </div>
+            <div class="card-body" id="queryEditorBody">
+                <div class="query-editor-layout">
+                    <!-- Query List -->
+                    <div>
+                        <div class="query-list" id="queryList">
+                            <!-- Query items will be added here -->
+                        </div>
+                        <button class="btn btn-outline" onclick="addNewQuery()">
+                            + Add Query
+                        </button>
+                    </div>
+
+                    <!-- Query Form -->
+                    <div id="queryFormContainer">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                            <h3 id="currentQueryTitle" style="font-size: 16px; font-weight: 600;">Query 1</h3>
+                            <div class="advanced-toggle">
+                                <span>Advanced mode</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="advancedMode" onchange="toggleAdvancedMode()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Basic Mode Form -->
+                        <div id="basicModeForm">
+                            <div class="query-editor-form">
+                                <div class="form-group" style="grid-column: span 2;">
+                                    <label>Compartments <small>(select one or more)</small></label>
+                                    <div class="multi-select-wrapper">
+                                        <div class="multi-select-container" id="compartmentMultiSelect" onclick="openCompartmentPicker(event)">
+                                            <div id="selectedCompartmentsChips">
+                                                <span class="empty-placeholder">Click to select compartments...</span>
+                                            </div>
+                                            <button type="button" class="add-selection-btn" tabindex="-1">+ Add</button>
+                                        </div>
+                                        <div class="multi-select-dropdown" id="compartmentPickerDropdown">
+                                            <div class="multi-select-search">
+                                                <input type="text" id="compartmentSearchInput" placeholder="Search compartments..."
+                                                       oninput="filterCompartmentOptions(this.value)" onclick="event.stopPropagation()">
+                                            </div>
+                                            <div id="compartmentPickerOptions">
+                                                <div class="combobox-loading">Loading compartments...</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="grid-column: span 2;">
+                                    <label>Regions <small>(optional, defaults to current)</small></label>
+                                    <div class="multi-select-wrapper">
+                                        <div class="multi-select-container" id="regionMultiSelect" onclick="openRegionPicker(event)">
+                                            <div id="selectedRegionsChips">
+                                                <span class="empty-placeholder">Click to select regions...</span>
+                                            </div>
+                                            <button type="button" class="add-selection-btn" tabindex="-1">+ Add</button>
+                                        </div>
+                                        <div class="multi-select-dropdown" id="regionPickerDropdown">
+                                            <div id="regionPickerOptions">
+                                                <div class="combobox-loading">Loading regions...</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Metric namespace</label>
+                                    <select id="namespaceSelect" onchange="onNamespaceChange()">
+                                        <option value="">Select compartment first</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Resource group <small>Optional</small></label>
+                                    <select id="resourceGroupSelect">
+                                        <option value="">No resource group</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Metric name</label>
+                                    <select id="metricSelect" onchange="onMetricChange()">
+                                        <option value="">Select namespace first</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Interval</label>
+                                    <select id="intervalSelect">
+                                        <option value="1m">1 minute</option>
+                                        <option value="5m">5 minutes</option>
+                                        <option value="15m">15 minutes</option>
+                                        <option value="1h" selected>1 hour</option>
+                                        <option value="6h">6 hours</option>
+                                        <option value="1d">1 day</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Statistic</label>
+                                    <select id="statisticSelect">
+                                        <option value="mean">Mean</option>
+                                        <option value="max">Max</option>
+                                        <option value="min">Min</option>
+                                        <option value="sum">Sum</option>
+                                        <option value="count">Count</option>
+                                        <option value="rate">Rate</option>
+                                        <option value="percentile(0.5)">P50</option>
+                                        <option value="percentile(0.9)">P90</option>
+                                        <option value="percentile(0.95)">P95</option>
+                                        <option value="percentile(0.99)">P99</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Metric Dimensions Section -->
+                            <div class="dimensions-section" id="dimensionsSection">
+                                <div class="dimensions-header">
+                                    <h4>Metric dimensions</h4>
+                                    <div class="aggregate-toggle">
+                                        <input type="checkbox" id="aggregateStreams">
+                                        <label for="aggregateStreams">Aggregate metric streams</label>
+                                    </div>
+                                </div>
+                                <div class="dimensions-list" id="dimensionsList">
+                                    <!-- Dimension rows will be added here -->
+                                </div>
+                                <button class="btn btn-outline btn-sm" onclick="addDimensionFilter()" id="addDimensionBtn" style="margin-top: 10px;">
+                                    + Additional dimension
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Advanced Mode Form -->
+                        <div id="advancedModeForm" style="display: none;">
+                            <div class="query-editor-form">
+                                <div class="form-group">
+                                    <label>Compartment</label>
+                                    <div class="combobox-container" id="compartmentComboboxAdv">
+                                        <div class="combobox-input-wrapper">
+                                            <input type="text" class="combobox-input" id="compartmentInputAdv"
+                                                   placeholder="Search compartments..." autocomplete="off">
+                                            <button type="button" class="combobox-clear" onclick="clearCompartmentSelectionAdv()">✕</button>
+                                            <span class="combobox-arrow">▼</span>
+                                        </div>
+                                        <div class="combobox-dropdown" id="compartmentDropdownAdv">
+                                            <div class="combobox-loading">Loading compartments...</div>
+                                        </div>
+                                        <input type="hidden" id="compartmentSelectAdv" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Metric namespace</label>
+                                    <select id="namespaceSelectAdv">
+                                        <option value="">Select compartment first</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top: 16px;">
+                                <label>MQL Query</label>
+                                <textarea id="mqlInput" rows="4" placeholder="e.g., CpuUtilization[1h].groupBy(resourceId).mean()"></textarea>
+                                <p class="help-text">Enter a valid MQL query. Example: MetricName[interval]{dimension="value"}.statistic()</p>
+                            </div>
+                        </div>
+
+                        <div class="button-group">
+                            <button class="btn btn-primary" onclick="executeCurrentQuery()">
+                                Run Query
+                            </button>
+                            <button class="btn btn-success" onclick="executeAllQueries()">
+                                Run All Queries
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Export Panel -->
+        <div class="card" id="exportPanel" style="display: none;">
+            <div class="card-body" style="padding: 0;">
+                <div class="export-panel">
+                    <div class="export-panel-info">
+                        <input type="checkbox" id="selectAllCharts" class="chart-checkbox" onchange="toggleSelectAllCharts()">
+                        <span><span class="count" id="selectedCount">0</span> charts selected</span>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn btn-outline" onclick="exportSelectedAsPNG()">
+                            Export as PNG
+                        </button>
+                        <button class="btn btn-outline" onclick="exportSelectedAsCSV()">
+                            Export as CSV
+                        </button>
+                        <button class="btn btn-outline" onclick="exportSelectedAsPDF()">
+                            Export as PDF
+                        </button>
+                        <button class="btn btn-primary" onclick="exportAllAsPDF()">
+                            Export All as PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Container -->
+        <div class="charts-container" id="chartsContainer">
+            <div class="empty-state">
+                <h3>No queries yet</h3>
+                <p>Add a query and click "Run Query" to visualize metrics</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // Redwood color palette for charts
+        const REDWOOD_CHART_COLORS = [
+            '#0D6B6E', // Teal
+            '#C74634', // Red
+            '#1A6FA8', // Blue
+            '#D97B34', // Orange
+            '#6B4FA0', // Purple
+            '#4A8522', // Green
+            '#8B5E3C', // Brown
+            '#5C6BC0', // Indigo
+            '#00897B', // Cyan
+            '#F4511E', // Deep Orange
+            '#7B1FA2', // Deep Purple
+            '#388E3C', // Light Green
+        ];
+
+        // State Management
+        const state = {
+            queries: [],
+            currentQueryIndex: 0,
+            charts: {},
+            chartLegends: {},
+            timeRange: {
+                hours: 24,
+                custom: false,
+                startTime: null,
+                endTime: null
+            },
+            compartments: [],
+            selectedCompartments: [],  // Array of {id, name, path}
+            availableRegions: [],
+            selectedRegions: [],       // Array of region strings
+            currentRegion: '',
+            selectedCharts: new Set(),
+            hiddenSeries: {},
+            availableDimensions: {},  // Cache for dimensions by namespace/metric
+            dimensionFilters: []      // Current dimension filters [{name, value}]
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadAuthInfo();
+            await loadCompartments();
+            await loadRegions();
+            addNewQuery();
+            setupTimePresets();
+            updateTimeInputs();
+            setupMultiSelectClickOutside();
+        });
+
+        // Load auth info
+        async function loadAuthInfo() {
+            try {
+                const response = await fetch('/api/auth-info');
+                const data = await response.json();
+                if (!data.error) {
+                    document.getElementById('regionDisplay').textContent = `Region: ${data.region}`;
+                    document.getElementById('authBadge').textContent = data.auth_type.replace('_', ' ');
+                }
+            } catch (error) {
+                console.error('Failed to load auth info:', error);
+            }
+        }
+
+        // Time Range Functions
+        function setupTimePresets() {
+            document.querySelectorAll('.time-preset-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.time-preset-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    if (btn.dataset.custom) {
+                        state.timeRange.custom = true;
+                        document.getElementById('customTimeInputs').style.display = 'flex';
+                    } else {
+                        state.timeRange.custom = false;
+                        state.timeRange.hours = parseInt(btn.dataset.hours);
+                        document.getElementById('customTimeInputs').style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        function updateTimeInputs() {
+            const now = new Date();
+            const start = new Date(now.getTime() - state.timeRange.hours * 60 * 60 * 1000);
+
+            document.getElementById('endTime').value = formatDateTimeLocal(now);
+            document.getElementById('startTime').value = formatDateTimeLocal(start);
+        }
+
+        function formatDateTimeLocal(date) {
+            return date.toISOString().slice(0, 16);
+        }
+
+        function getTimeRange() {
+            if (state.timeRange.custom) {
+                const startEl = document.getElementById('startTime');
+                const endEl = document.getElementById('endTime');
+                return {
+                    start: new Date(startEl.value),
+                    end: new Date(endEl.value)
+                };
+            }
+            const end = new Date();
+            const start = new Date(end.getTime() - state.timeRange.hours * 60 * 60 * 1000);
+            return { start, end };
+        }
+
+        // API Functions
+        async function loadCompartments() {
+            try {
+                const response = await fetch('/api/compartments');
+                const data = await response.json();
+
+                if (data.error) throw new Error(data.error);
+
+                state.compartments = data.compartments;
+                populateCompartmentSelects();
+                renderCompartmentPickerOptions();
+            } catch (error) {
+                showToast('Failed to load compartments: ' + error.message, 'error');
+            }
+        }
+
+        async function loadRegions() {
+            try {
+                const response = await fetch('/api/regions');
+                const data = await response.json();
+
+                if (data.error) throw new Error(data.error);
+
+                state.availableRegions = data.regions;
+                state.currentRegion = data.current_region;
+                renderRegionPickerOptions();
+            } catch (error) {
+                console.error('Failed to load regions:', error);
+                // Non-critical - default to current region
+            }
+        }
+
+        function setupMultiSelectClickOutside() {
+            document.addEventListener('click', (e) => {
+                // Close compartment picker if click is outside the wrapper
+                const compartmentDropdown = document.getElementById('compartmentPickerDropdown');
+                const compartmentWrapper = document.getElementById('compartmentMultiSelect')?.closest('.multi-select-wrapper');
+                if (compartmentDropdown && compartmentWrapper && !compartmentWrapper.contains(e.target)) {
+                    compartmentDropdown.classList.remove('open');
+                }
+
+                // Close region picker if click is outside the wrapper
+                const regionDropdown = document.getElementById('regionPickerDropdown');
+                const regionWrapper = document.getElementById('regionMultiSelect')?.closest('.multi-select-wrapper');
+                if (regionDropdown && regionWrapper && !regionWrapper.contains(e.target)) {
+                    regionDropdown.classList.remove('open');
+                }
+            });
+        }
+
+        // Multi-Select Compartment Functions
+        function openCompartmentPicker(event) {
+            event.stopPropagation();
+            event.preventDefault();
+            // Close region picker if open
+            document.getElementById('regionPickerDropdown')?.classList.remove('open');
+
+            const dropdown = document.getElementById('compartmentPickerDropdown');
+            const isOpen = dropdown.classList.contains('open');
+            dropdown.classList.toggle('open');
+
+            if (!isOpen) {
+                setTimeout(() => {
+                    const searchInput = document.getElementById('compartmentSearchInput');
+                    if (searchInput) {
+                        searchInput.focus({ preventScroll: true });
+                    }
+                }, 50);
+            }
+        }
+
+        // Prevent dropdown from closing when clicking inside
+        document.addEventListener('DOMContentLoaded', () => {
+            const compartmentDropdown = document.getElementById('compartmentPickerDropdown');
+            if (compartmentDropdown) {
+                compartmentDropdown.addEventListener('click', (e) => e.stopPropagation());
+            }
+            const regionDropdown = document.getElementById('regionPickerDropdown');
+            if (regionDropdown) {
+                regionDropdown.addEventListener('click', (e) => e.stopPropagation());
+            }
+        });
+
+        function renderCompartmentPickerOptions(filter = '') {
+            const container = document.getElementById('compartmentPickerOptions');
+            if (!container) return;
+
+            const filterLower = filter.toLowerCase().trim();
+
+            const filtered = filterLower
+                ? state.compartments.filter(c =>
+                    c.path.toLowerCase().includes(filterLower) ||
+                    c.name.toLowerCase().includes(filterLower))
+                : state.compartments;
+
+            if (state.compartments.length === 0) {
+                container.innerHTML = '<div class="combobox-loading">Loading compartments...</div>';
+                return;
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="combobox-no-results">No compartments found</div>';
+                return;
+            }
+
+            container.innerHTML = filtered.map(comp => {
+                const isSelected = state.selectedCompartments.some(c => c.id === comp.id);
+                return `
+                    <div class="multi-select-option ${isSelected ? 'selected' : ''}"
+                         onclick="event.stopPropagation(); toggleCompartment('${comp.id}')">
+                        <input type="checkbox" ${isSelected ? 'checked' : ''} onclick="event.stopPropagation(); toggleCompartment('${comp.id}')">
+                        <div class="multi-select-option-text">
+                            <div class="multi-select-option-name">${escapeHtml(comp.name)}</div>
+                            <div class="multi-select-option-detail">${escapeHtml(comp.path)}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterCompartmentOptions(filter) {
+            renderCompartmentPickerOptions(filter);
+        }
+
+        function toggleCompartment(compartmentId) {
+            const comp = state.compartments.find(c => c.id === compartmentId);
+            if (!comp) return;
+
+            const existingIndex = state.selectedCompartments.findIndex(c => c.id === compartmentId);
+            if (existingIndex >= 0) {
+                state.selectedCompartments.splice(existingIndex, 1);
+            } else {
+                state.selectedCompartments.push(comp);
+            }
+
+            renderSelectedCompartmentsChips();
+            renderCompartmentPickerOptions(document.getElementById('compartmentSearchInput')?.value || '');
+            onMultiCompartmentChange();
+        }
+
+        function removeCompartment(compartmentId, event) {
+            event.stopPropagation();
+            state.selectedCompartments = state.selectedCompartments.filter(c => c.id !== compartmentId);
+            renderSelectedCompartmentsChips();
+            renderCompartmentPickerOptions(document.getElementById('compartmentSearchInput')?.value || '');
+            onMultiCompartmentChange();
+        }
+
+        function renderSelectedCompartmentsChips() {
+            const container = document.getElementById('selectedCompartmentsChips');
+            if (!container) return;
+
+            if (state.selectedCompartments.length === 0) {
+                container.innerHTML = '<span class="empty-placeholder">Click to select compartments...</span>';
+                return;
+            }
+
+            container.innerHTML = state.selectedCompartments.map(comp => `
+                <div class="selection-chip compartment-chip" title="${escapeHtml(comp.path)}">
+                    <span class="chip-text">${escapeHtml(comp.name)}</span>
+                    <button class="chip-remove" onclick="event.stopPropagation(); removeCompartment('${comp.id}', event)">×</button>
+                </div>
+            `).join('');
+        }
+
+        function onMultiCompartmentChange() {
+            // Update namespace dropdown based on ALL selected compartments
+            if (state.selectedCompartments.length > 0) {
+                loadNamespacesForAllCompartments();
+            } else {
+                document.getElementById('namespaceSelect').innerHTML = '<option value="">Select compartment first</option>';
+                document.getElementById('metricSelect').innerHTML = '<option value="">Select namespace first</option>';
+                document.getElementById('resourceGroupSelect').innerHTML = '<option value="">No resource group</option>';
+            }
+            clearDimensionFilters();
+        }
+
+        async function loadNamespacesForAllCompartments() {
+            const namespaceSelect = document.getElementById('namespaceSelect');
+            namespaceSelect.innerHTML = '<option value="">Loading namespaces...</option>';
+
+            try {
+                // Collect namespaces from all selected compartments
+                const allNamespaces = new Set();
+
+                for (const comp of state.selectedCompartments) {
+                    try {
+                        const response = await fetch(`/api/namespaces?compartment_id=${encodeURIComponent(comp.id)}`);
+                        const data = await response.json();
+
+                        if (data.namespaces) {
+                            data.namespaces.forEach(ns => allNamespaces.add(ns));
+                        }
+                    } catch (err) {
+                        console.warn(`Failed to load namespaces for ${comp.name}:`, err);
+                    }
+                }
+
+                namespaceSelect.innerHTML = '<option value="">Select namespace</option>';
+
+                if (allNamespaces.size === 0) {
+                    namespaceSelect.innerHTML = '<option value="">No namespaces found in selected compartments</option>';
+                    return;
+                }
+
+                Array.from(allNamespaces).sort().forEach(ns => {
+                    const option = document.createElement('option');
+                    option.value = ns;
+                    option.textContent = ns;
+                    namespaceSelect.appendChild(option);
+                });
+            } catch (error) {
+                showToast('Failed to load namespaces: ' + error.message, 'error');
+            }
+        }
+
+        async function loadNamespacesForCompartment(compartmentId) {
+            const namespaceSelect = document.getElementById('namespaceSelect');
+            namespaceSelect.innerHTML = '<option value="">Loading...</option>';
+
+            try {
+                const response = await fetch(`/api/namespaces?compartment_id=${encodeURIComponent(compartmentId)}`);
+                const data = await response.json();
+
+                if (data.error) throw new Error(data.error);
+
+                namespaceSelect.innerHTML = '<option value="">Select namespace</option>';
+                data.namespaces.forEach(ns => {
+                    const option = document.createElement('option');
+                    option.value = ns;
+                    option.textContent = ns;
+                    namespaceSelect.appendChild(option);
+                });
+            } catch (error) {
+                showToast('Failed to load namespaces: ' + error.message, 'error');
+            }
+        }
+
+        // Multi-Select Region Functions
+        function openRegionPicker(event) {
+            event.stopPropagation();
+            event.preventDefault();
+            // Close compartment picker if open
+            document.getElementById('compartmentPickerDropdown')?.classList.remove('open');
+
+            const dropdown = document.getElementById('regionPickerDropdown');
+            dropdown.classList.toggle('open');
+        }
+
+        function renderRegionPickerOptions() {
+            const container = document.getElementById('regionPickerOptions');
+            if (!container) return;
+
+            if (state.availableRegions.length === 0) {
+                container.innerHTML = '<div class="combobox-loading">Loading regions...</div>';
+                return;
+            }
+
+            container.innerHTML = state.availableRegions.map(region => {
+                const isSelected = state.selectedRegions.includes(region);
+                const isCurrent = region === state.currentRegion;
+                return `
+                    <div class="multi-select-option ${isSelected ? 'selected' : ''}"
+                         onclick="event.stopPropagation(); toggleRegion('${region}')">
+                        <input type="checkbox" ${isSelected ? 'checked' : ''} onclick="event.stopPropagation(); toggleRegion('${region}')">
+                        <div class="multi-select-option-text">
+                            <div class="multi-select-option-name">${region}${isCurrent ? ' (current)' : ''}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleRegion(region) {
+            const existingIndex = state.selectedRegions.indexOf(region);
+            if (existingIndex >= 0) {
+                state.selectedRegions.splice(existingIndex, 1);
+            } else {
+                state.selectedRegions.push(region);
+            }
+
+            renderSelectedRegionsChips();
+            renderRegionPickerOptions();
+        }
+
+        function removeRegion(region, event) {
+            event.stopPropagation();
+            state.selectedRegions = state.selectedRegions.filter(r => r !== region);
+            renderSelectedRegionsChips();
+            renderRegionPickerOptions();
+        }
+
+        function renderSelectedRegionsChips() {
+            const container = document.getElementById('selectedRegionsChips');
+            if (!container) return;
+
+            if (state.selectedRegions.length === 0) {
+                container.innerHTML = '<span class="empty-placeholder">Click to select regions...</span>';
+                return;
+            }
+
+            container.innerHTML = state.selectedRegions.map(region => `
+                <div class="selection-chip region-chip">
+                    <span class="chip-text">${region}</span>
+                    <button class="chip-remove" onclick="event.stopPropagation(); removeRegion('${region}', event)">×</button>
+                </div>
+            `).join('');
+        }
+
+        function populateCompartmentSelects() {
+            // Initialize advanced mode combobox (keep backward compat)
+            initCompartmentCombobox('compartmentComboboxAdv', 'compartmentInputAdv', 'compartmentDropdownAdv', 'compartmentSelectAdv', onCompartmentChangeAdv);
+        }
+
+        function initCompartmentCombobox(containerId, inputId, dropdownId, hiddenInputId, onSelectCallback) {
+            const container = document.getElementById(containerId);
+            const input = document.getElementById(inputId);
+            const dropdown = document.getElementById(dropdownId);
+            const hiddenInput = document.getElementById(hiddenInputId);
+
+            // Render initial dropdown content
+            renderCompartmentOptions(dropdown, state.compartments, '', null);
+
+            // Input focus - open dropdown
+            input.addEventListener('focus', () => {
+                container.classList.add('open');
+                renderCompartmentOptions(dropdown, state.compartments, input.value, hiddenInput.value);
+            });
+
+            // Input typing - filter options
+            input.addEventListener('input', () => {
+                container.classList.add('open');
+                renderCompartmentOptions(dropdown, state.compartments, input.value, hiddenInput.value);
+            });
+
+            // Keyboard navigation
+            input.addEventListener('keydown', (e) => {
+                const options = dropdown.querySelectorAll('.combobox-option');
+                const highlighted = dropdown.querySelector('.combobox-option.highlighted');
+                let currentIndex = Array.from(options).indexOf(highlighted);
+
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    container.classList.add('open');
+                    if (currentIndex < options.length - 1) {
+                        if (highlighted) highlighted.classList.remove('highlighted');
+                        options[currentIndex + 1].classList.add('highlighted');
+                        options[currentIndex + 1].scrollIntoView({ block: 'nearest' });
+                    } else if (options.length > 0 && currentIndex === -1) {
+                        options[0].classList.add('highlighted');
+                    }
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    if (currentIndex > 0) {
+                        if (highlighted) highlighted.classList.remove('highlighted');
+                        options[currentIndex - 1].classList.add('highlighted');
+                        options[currentIndex - 1].scrollIntoView({ block: 'nearest' });
+                    }
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (highlighted) {
+                        selectCompartment(containerId, inputId, hiddenInputId, highlighted.dataset.id, highlighted.dataset.path, onSelectCallback);
+                    }
+                } else if (e.key === 'Escape') {
+                    container.classList.remove('open');
+                    input.blur();
+                }
+            });
+
+            // Click outside to close
+            document.addEventListener('click', (e) => {
+                if (!container.contains(e.target)) {
+                    container.classList.remove('open');
+                    // Reset input to selected value if nothing new was selected
+                    const selectedPath = input.dataset.selectedPath || '';
+                    if (hiddenInput.value && input.value !== selectedPath) {
+                        input.value = selectedPath;
+                    }
+                }
+            });
+
+            // Option click handler (delegated)
+            dropdown.addEventListener('click', (e) => {
+                const option = e.target.closest('.combobox-option');
+                if (option) {
+                    selectCompartment(containerId, inputId, hiddenInputId, option.dataset.id, option.dataset.path, onSelectCallback);
+                }
+            });
+        }
+
+        function renderCompartmentOptions(dropdown, compartments, filter, selectedId) {
+            const filterLower = filter.toLowerCase().trim();
+            const filtered = filterLower
+                ? compartments.filter(c => c.path.toLowerCase().includes(filterLower) || c.name.toLowerCase().includes(filterLower))
+                : compartments;
+
+            if (filtered.length === 0) {
+                dropdown.innerHTML = '<div class="combobox-no-results">No compartments found</div>';
+                return;
+            }
+
+            // Show result count when filtering
+            const countHtml = filterLower
+                ? `<div class="combobox-result-count">${filtered.length} of ${compartments.length} compartments</div>`
+                : `<div class="combobox-result-count">${compartments.length} compartments</div>`;
+
+            const optionsHtml = filtered.map(comp => {
+                const isSelected = comp.id === selectedId;
+                const displayName = filterLower ? highlightMatch(comp.name, filterLower) : escapeHtml(comp.name);
+                const displayPath = filterLower ? highlightMatch(comp.path, filterLower) : escapeHtml(comp.path);
+
+                // Determine icon based on whether it's root or has children
+                const isRoot = comp.path.includes('(root)');
+                const depth = (comp.path.match(/\//g) || []).length;
+                const indent = depth > 0 ? `padding-left: ${Math.min(depth * 12, 48)}px;` : '';
+
+                return `
+                    <div class="combobox-option ${isSelected ? 'selected' : ''}"
+                         data-id="${comp.id}" data-path="${escapeHtml(comp.path)}"
+                         style="${indent}" title="${escapeHtml(comp.path)}">
+                        <span class="combobox-option-name">${isRoot ? '🏠 ' : '📁 '}${displayName}</span>
+                        <span class="combobox-option-path">${displayPath}</span>
+                    </div>
+                `;
+            }).join('');
+
+            dropdown.innerHTML = countHtml + optionsHtml;
+        }
+
+        function highlightMatch(text, filter) {
+            const escaped = escapeHtml(text);
+            const filterEscaped = escapeHtml(filter);
+            const regex = new RegExp(`(${filterEscaped.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+            return escaped.replace(regex, '<mark>$1</mark>');
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function selectCompartment(containerId, inputId, hiddenInputId, id, path, onSelectCallback) {
+            const container = document.getElementById(containerId);
+            const input = document.getElementById(inputId);
+            const hiddenInput = document.getElementById(hiddenInputId);
+
+            hiddenInput.value = id;
+            input.value = path;
+            input.dataset.selectedPath = path;
+            container.classList.remove('open');
+            container.classList.add('has-value');
+
+            if (onSelectCallback) {
+                onSelectCallback();
+            }
+        }
+
+        function clearCompartmentSelection() {
+            const container = document.getElementById('compartmentCombobox');
+            const input = document.getElementById('compartmentInput');
+            const hiddenInput = document.getElementById('compartmentSelect');
+
+            hiddenInput.value = '';
+            input.value = '';
+            input.dataset.selectedPath = '';
+            container.classList.remove('has-value');
+
+            // Clear dependent fields
+            document.getElementById('namespaceSelect').innerHTML = '<option value="">Select compartment first</option>';
+            document.getElementById('resourceGroupSelect').innerHTML = '<option value="">No resource group</option>';
+            document.getElementById('metricSelect').innerHTML = '<option value="">Select namespace first</option>';
+            clearDimensionFilters();
+        }
+
+        function clearCompartmentSelectionAdv() {
+            const container = document.getElementById('compartmentComboboxAdv');
+            const input = document.getElementById('compartmentInputAdv');
+            const hiddenInput = document.getElementById('compartmentSelectAdv');
+
+            hiddenInput.value = '';
+            input.value = '';
+            input.dataset.selectedPath = '';
+            container.classList.remove('has-value');
+
+            // Clear dependent fields
+            document.getElementById('namespaceSelectAdv').innerHTML = '<option value="">Select compartment first</option>';
+        }
+
+        function setCompartmentValue(containerId, inputId, hiddenInputId, id) {
+            if (!id) return;
+            const comp = state.compartments.find(c => c.id === id);
+            if (comp) {
+                const container = document.getElementById(containerId);
+                const input = document.getElementById(inputId);
+                const hiddenInput = document.getElementById(hiddenInputId);
+
+                hiddenInput.value = id;
+                input.value = comp.path;
+                input.dataset.selectedPath = comp.path;
+                container.classList.add('has-value');
+            }
+        }
+
+        async function onCompartmentChange() {
+            const compartmentId = document.getElementById('compartmentSelect').value;
+            if (!compartmentId) return;
+
+            const namespaceSelect = document.getElementById('namespaceSelect');
+            const resourceGroupSelect = document.getElementById('resourceGroupSelect');
+            const metricSelect = document.getElementById('metricSelect');
+
+            namespaceSelect.innerHTML = '<option value="">Loading...</option>';
+            resourceGroupSelect.innerHTML = '<option value="">No resource group</option>';
+            metricSelect.innerHTML = '<option value="">Select namespace first</option>';
+
+            try {
+                const response = await fetch(`/api/namespaces?compartment_id=${encodeURIComponent(compartmentId)}`);
+                const data = await response.json();
+
+                if (data.error) throw new Error(data.error);
+
+                namespaceSelect.innerHTML = '<option value="">Select namespace</option>';
+                data.namespaces.forEach(ns => {
+                    const option = document.createElement('option');
+                    option.value = ns;
+                    option.textContent = ns;
+                    namespaceSelect.appendChild(option);
+                });
+            } catch (error) {
+                showToast('Failed to load namespaces: ' + error.message, 'error');
+            }
+        }
+
+        async function onCompartmentChangeAdv() {
+            const compartmentId = document.getElementById('compartmentSelectAdv').value;
+            if (!compartmentId) return;
+
+            const namespaceSelect = document.getElementById('namespaceSelectAdv');
+            namespaceSelect.innerHTML = '<option value="">Loading...</option>';
+
+            try {
+                const response = await fetch(`/api/namespaces?compartment_id=${encodeURIComponent(compartmentId)}`);
+                const data = await response.json();
+
+                if (data.error) throw new Error(data.error);
+
+                namespaceSelect.innerHTML = '<option value="">Select namespace</option>';
+                data.namespaces.forEach(ns => {
+                    const option = document.createElement('option');
+                    option.value = ns;
+                    option.textContent = ns;
+                    namespaceSelect.appendChild(option);
+                });
+            } catch (error) {
+                showToast('Failed to load namespaces: ' + error.message, 'error');
+            }
+        }
+
+        async function onNamespaceChange() {
+            // Use first selected compartment from multi-select state
+            const compartmentId = state.selectedCompartments.length > 0
+                ? state.selectedCompartments[0].id
+                : null;
+            const namespace = document.getElementById('namespaceSelect').value;
+            if (!compartmentId || !namespace) return;
+
+            const resourceGroupSelect = document.getElementById('resourceGroupSelect');
+            const metricSelect = document.getElementById('metricSelect');
+
+            // Clear dimensions when namespace changes
+            clearDimensionFilters();
+
+            // Load resource groups
+            try {
+                const rgResponse = await fetch(`/api/resource-groups?compartment_id=${encodeURIComponent(compartmentId)}&namespace=${encodeURIComponent(namespace)}`);
+                const rgData = await rgResponse.json();
+
+                resourceGroupSelect.innerHTML = '<option value="">No resource group</option>';
+                if (rgData.resource_groups) {
+                    rgData.resource_groups.forEach(rg => {
+                        const option = document.createElement('option');
+                        option.value = rg;
+                        option.textContent = rg;
+                        resourceGroupSelect.appendChild(option);
+                    });
+                }
+            } catch (error) {
+                console.error('Failed to load resource groups:', error);
+            }
+
+            // Load metrics
+            metricSelect.innerHTML = '<option value="">Loading...</option>';
+
+            try {
+                const response = await fetch(`/api/metrics?compartment_id=${encodeURIComponent(compartmentId)}&namespace=${encodeURIComponent(namespace)}`);
+                const data = await response.json();
+
+                if (data.error) throw new Error(data.error);
+
+                metricSelect.innerHTML = '<option value="">Select metric</option>';
+                data.metrics.forEach(metric => {
+                    const option = document.createElement('option');
+                    option.value = metric.name;
+                    option.textContent = metric.name;
+                    metricSelect.appendChild(option);
+                });
+            } catch (error) {
+                showToast('Failed to load metrics: ' + error.message, 'error');
+            }
+        }
+
+        async function onMetricChange() {
+            // Use first selected compartment from multi-select state
+            const compartmentId = state.selectedCompartments.length > 0
+                ? state.selectedCompartments[0].id
+                : null;
+            const namespace = document.getElementById('namespaceSelect').value;
+            const metricName = document.getElementById('metricSelect').value;
+
+            // Clear existing dimension filters
+            clearDimensionFilters();
+
+            if (!compartmentId || !namespace || !metricName) return;
+
+            // Load dimensions for this metric
+            await loadDimensions(compartmentId, namespace, metricName);
+        }
+
+        async function loadDimensions(compartmentId, namespace, metricName) {
+            const cacheKey = `${compartmentId}:${namespace}:${metricName || 'all'}`;
+
+            if (state.availableDimensions[cacheKey]) {
+                return state.availableDimensions[cacheKey];
+            }
+
+            try {
+                let url = `/api/dimensions?compartment_id=${encodeURIComponent(compartmentId)}&namespace=${encodeURIComponent(namespace)}`;
+                if (metricName) {
+                    url += `&metric_name=${encodeURIComponent(metricName)}`;
+                }
+
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data.error) throw new Error(data.error);
+
+                state.availableDimensions[cacheKey] = data.dimensions;
+                return data.dimensions;
+
+            } catch (error) {
+                console.error('Failed to load dimensions:', error);
+                return {};
+            }
+        }
+
+        function clearDimensionFilters() {
+            state.dimensionFilters = [];
+            renderDimensionFilters();
+        }
+
+        function addDimensionFilter() {
+            // Use first selected compartment from multi-select state
+            const compartmentId = state.selectedCompartments.length > 0
+                ? state.selectedCompartments[0].id
+                : null;
+            const namespace = document.getElementById('namespaceSelect').value;
+            const metricName = document.getElementById('metricSelect').value;
+
+            if (!compartmentId || !namespace) {
+                showToast('Please select a compartment and namespace first', 'error');
+                return;
+            }
+
+            state.dimensionFilters.push({ name: '', value: '' });
+            renderDimensionFilters();
+        }
+
+        function removeDimensionFilter(index) {
+            state.dimensionFilters.splice(index, 1);
+            renderDimensionFilters();
+        }
+
+        async function renderDimensionFilters() {
+            const container = document.getElementById('dimensionsList');
+            // Use first selected compartment from multi-select state
+            const compartmentId = state.selectedCompartments.length > 0
+                ? state.selectedCompartments[0].id
+                : null;
+            const namespace = document.getElementById('namespaceSelect').value;
+            const metricName = document.getElementById('metricSelect').value;
+
+            container.innerHTML = '';
+
+            if (!compartmentId || !namespace) return;
+
+            // Load available dimensions
+            const dimensions = await loadDimensions(compartmentId, namespace, metricName);
+            const dimensionNames = Object.keys(dimensions);
+
+            state.dimensionFilters.forEach((filter, index) => {
+                const row = document.createElement('div');
+                row.className = 'dimension-row';
+                row.dataset.index = index;
+
+                // Build dimension name options
+                let nameOptions = '<option value="">Select a value</option>';
+                dimensionNames.forEach(name => {
+                    const selected = filter.name === name ? 'selected' : '';
+                    nameOptions += `<option value="${name}" ${selected}>${name}</option>`;
+                });
+
+                // Build dimension value options
+                let valueOptions = '<option value="">Select a value</option>';
+                if (filter.name && dimensions[filter.name]) {
+                    dimensions[filter.name].forEach(value => {
+                        const displayValue = value.length > 50 ? value.substring(0, 47) + '...' : value;
+                        const selected = filter.value === value ? 'selected' : '';
+                        valueOptions += `<option value="${value}" ${selected} title="${value}">${displayValue}</option>`;
+                    });
+                }
+
+                row.innerHTML = `
+                    <div class="form-group">
+                        <label>Dimension name</label>
+                        <select onchange="onDimensionNameChange(${index}, this.value)">
+                            ${nameOptions}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Dimension value</label>
+                        <select onchange="onDimensionValueChange(${index}, this.value)">
+                            ${valueOptions}
+                        </select>
+                    </div>
+                    <button class="remove-btn" onclick="removeDimensionFilter(${index})" title="Remove dimension">
+                        ✕
+                    </button>
+                `;
+
+                container.appendChild(row);
+            });
+        }
+
+        async function onDimensionNameChange(index, name) {
+            state.dimensionFilters[index].name = name;
+            state.dimensionFilters[index].value = '';
+            await renderDimensionFilters();
+        }
+
+        function onDimensionValueChange(index, value) {
+            state.dimensionFilters[index].value = value;
+        }
+
+        function getDimensionFiltersForMQL() {
+            // Get valid filters (both name and value selected)
+            return state.dimensionFilters.filter(f => f.name && f.value);
+        }
+
+        // Query Management
+        function addNewQuery() {
+            // Save current query state before switching to new query
+            if (state.queries.length > 0) {
+                saveCurrentQueryState();
+            }
+
+            // Inherit compartments and regions from current selection for convenience
+            const inheritedCompartments = state.selectedCompartments.map(c => ({...c}));
+            const inheritedRegions = [...state.selectedRegions];
+
+            const queryIndex = state.queries.length;
+            const query = {
+                id: `query-${Date.now()}`,
+                name: `Query ${queryIndex + 1}`,
+                mql: '',
+                compartmentId: '',           // For advanced mode backward compat
+                compartmentIds: inheritedCompartments,  // Inherit current compartments
+                regions: inheritedRegions,              // Inherit current regions
+                namespace: '',
+                isAdvanced: false
+            };
+            state.queries.push(query);
+            state.currentQueryIndex = queryIndex;
+            renderQueryList();
+            updateQueryForm();
+        }
+
+        function selectQuery(index) {
+            saveCurrentQueryState();
+            state.currentQueryIndex = index;
+            renderQueryList();
+            updateQueryForm();
+        }
+
+        function deleteQuery(index, event) {
+            event.stopPropagation();
+            if (state.queries.length === 1) {
+                showToast('Cannot delete the last query', 'error');
+                return;
+            }
+
+            const queryId = state.queries[index].id;
+            state.queries.splice(index, 1);
+
+            if (state.charts[queryId]) {
+                state.charts[queryId].destroy();
+                delete state.charts[queryId];
+            }
+
+            if (state.currentQueryIndex >= state.queries.length) {
+                state.currentQueryIndex = state.queries.length - 1;
+            }
+
+            renderQueryList();
+            updateQueryForm();
+            renderCharts();
+        }
+
+        function toggleQueryVisibility(index, event) {
+            event.stopPropagation();
+            state.queries[index].visible = !state.queries[index].visible;
+            renderQueryList();
+            renderCharts();
+        }
+
+        function saveCurrentQueryState() {
+            const query = state.queries[state.currentQueryIndex];
+            const isAdvanced = document.getElementById('advancedMode').checked;
+
+            if (isAdvanced) {
+                query.compartmentId = document.getElementById('compartmentSelectAdv').value;
+                query.namespace = document.getElementById('namespaceSelectAdv').value;
+                query.mql = document.getElementById('mqlInput').value;
+                query.isAdvanced = true;
+            } else {
+                // Save multi-select compartments and regions
+                query.compartmentIds = state.selectedCompartments.map(c => ({...c}));
+                query.regions = [...state.selectedRegions];
+                query.namespace = document.getElementById('namespaceSelect').value;
+                query.metricName = document.getElementById('metricSelect').value;
+                query.interval = document.getElementById('intervalSelect').value;
+                query.statistic = document.getElementById('statisticSelect').value;
+                query.resourceGroup = document.getElementById('resourceGroupSelect').value;
+                query.isAdvanced = false;
+
+                // Save dimension filters and aggregate streams setting
+                query.dimensionFilters = state.dimensionFilters.map(f => ({...f}));
+                query.aggregateStreams = document.getElementById('aggregateStreams').checked;
+
+                query.mql = buildMQL(query);
+            }
+
+            query.name = query.mql || `Query ${state.currentQueryIndex + 1}`;
+        }
+
+        function buildMQL(query) {
+            if (!query.metricName) return '';
+            let mql = `${query.metricName}[${query.interval}]`;
+
+            // Build dimension filters
+            const filters = [];
+            if (query.resourceGroup) {
+                filters.push(`resourceGroup="${query.resourceGroup}"`);
+            }
+            if (query.dimensionFilters && query.dimensionFilters.length > 0) {
+                query.dimensionFilters.forEach(f => {
+                    if (f.name && f.value) {
+                        // Escape quotes in values
+                        const escapedValue = f.value.replace(/"/g, '\\"');
+                        filters.push(`${f.name}="${escapedValue}"`);
+                    }
+                });
+            }
+
+            if (filters.length > 0) {
+                mql += `{${filters.join(', ')}}`;
+            }
+
+            // Add groupBy if aggregate is not checked
+            if (!query.aggregateStreams && query.dimensionFilters && query.dimensionFilters.length > 0) {
+                // Default groupBy the first dimension if not aggregating
+            }
+
+            mql += `.${query.statistic}()`;
+            return mql;
+        }
+
+        function renderQueryList() {
+            const container = document.getElementById('queryList');
+            container.innerHTML = '';
+
+            state.queries.forEach((query, index) => {
+                const item = document.createElement('div');
+                item.className = `query-item ${index === state.currentQueryIndex ? 'active' : ''}`;
+                item.onclick = () => selectQuery(index);
+
+                item.innerHTML = `
+                    <div class="query-item-info">
+                        <div class="query-item-name">Query ${index + 1}</div>
+                        <div class="query-item-mql">${query.mql || 'Not configured'}</div>
+                    </div>
+                    <div class="query-item-actions">
+                        <button onclick="deleteQuery(${index}, event)" class="delete-btn" title="Delete">🗑️</button>
+                        <button onclick="toggleQueryVisibility(${index}, event)" title="Toggle visibility">
+                            ${query.visible !== false ? '👁️' : '👁️‍🗨️'}
+                        </button>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function updateQueryForm() {
+            const query = state.queries[state.currentQueryIndex];
+            document.getElementById('currentQueryTitle').textContent = `Query ${state.currentQueryIndex + 1}`;
+            document.getElementById('advancedMode').checked = query.isAdvanced;
+
+            toggleAdvancedMode();
+
+            if (query.isAdvanced) {
+                // Use combobox setter for advanced mode
+                if (query.compartmentId) {
+                    setCompartmentValue('compartmentComboboxAdv', 'compartmentInputAdv', 'compartmentSelectAdv', query.compartmentId);
+                } else {
+                    clearCompartmentSelectionAdv();
+                }
+                document.getElementById('namespaceSelectAdv').value = query.namespace || '';
+                document.getElementById('mqlInput').value = query.mql || '';
+            } else {
+                // Restore multi-select compartments
+                if (query.compartmentIds && query.compartmentIds.length > 0) {
+                    state.selectedCompartments = query.compartmentIds.map(c => ({...c}));
+                    renderSelectedCompartmentsChips();
+                    renderCompartmentPickerOptions();
+
+                    // Load namespaces from ALL selected compartments
+                    loadNamespacesForAllCompartments().then(() => {
+                        document.getElementById('namespaceSelect').value = query.namespace || '';
+                        if (query.namespace) {
+                            onNamespaceChange().then(() => {
+                                document.getElementById('metricSelect').value = query.metricName || '';
+                                document.getElementById('resourceGroupSelect').value = query.resourceGroup || '';
+
+                                // Restore dimension filters
+                                if (query.dimensionFilters && query.dimensionFilters.length > 0) {
+                                    state.dimensionFilters = query.dimensionFilters.map(f => ({...f}));
+                                } else {
+                                    state.dimensionFilters = [];
+                                }
+                                renderDimensionFilters();
+
+                                // Restore aggregate streams checkbox
+                                document.getElementById('aggregateStreams').checked = query.aggregateStreams || false;
+                            });
+                        }
+                    });
+                } else {
+                    // Clear multi-select state
+                    state.selectedCompartments = [];
+                    renderSelectedCompartmentsChips();
+                    renderCompartmentPickerOptions();
+                    document.getElementById('namespaceSelect').innerHTML = '<option value="">Select compartment first</option>';
+                    document.getElementById('metricSelect').innerHTML = '<option value="">Select namespace first</option>';
+                    document.getElementById('resourceGroupSelect').innerHTML = '<option value="">No resource group</option>';
+                    state.dimensionFilters = [];
+                    renderDimensionFilters();
+                    document.getElementById('aggregateStreams').checked = false;
+                }
+
+                // Restore multi-select regions
+                if (query.regions && query.regions.length > 0) {
+                    state.selectedRegions = [...query.regions];
+                } else {
+                    state.selectedRegions = [];
+                }
+                renderSelectedRegionsChips();
+                renderRegionPickerOptions();
+
+                document.getElementById('intervalSelect').value = query.interval || '1h';
+                document.getElementById('statisticSelect').value = query.statistic || 'mean';
+            }
+        }
+
+        function toggleAdvancedMode() {
+            const isAdvanced = document.getElementById('advancedMode').checked;
+            document.getElementById('basicModeForm').style.display = isAdvanced ? 'none' : 'block';
+            document.getElementById('advancedModeForm').style.display = isAdvanced ? 'block' : 'none';
+        }
+
+        function toggleQueryEditor() {
+            const body = document.getElementById('queryEditorBody');
+            const text = document.getElementById('queryEditorToggleText');
+
+            if (body.style.display === 'none') {
+                body.style.display = 'block';
+                text.textContent = 'Close query editor';
+            } else {
+                body.style.display = 'none';
+                text.textContent = 'Open query editor';
+            }
+        }
+
+        // Query Execution
+        async function executeCurrentQuery() {
+            saveCurrentQueryState();
+            const query = state.queries[state.currentQueryIndex];
+
+            // Check if we're using multi-select (basic mode) or single select (advanced mode)
+            const isAdvanced = document.getElementById('advancedMode').checked;
+            const compartmentIds = isAdvanced
+                ? (query.compartmentId ? [query.compartmentId] : [])
+                : state.selectedCompartments.map(c => c.id);
+            // Filter out empty values and ensure we have at least one region
+            const selectedRegions = state.selectedRegions.filter(r => r);
+            const regions = selectedRegions.length > 0
+                ? selectedRegions
+                : (state.currentRegion ? [state.currentRegion] : []);
+
+            if (compartmentIds.length === 0) {
+                showToast('Please select at least one compartment', 'error');
+                return;
+            }
+            if (!query.namespace) {
+                showToast('Please select a metric namespace', 'error');
+                return;
+            }
+            if (!query.mql) {
+                showToast('Please select a metric name to build the query', 'error');
+                return;
+            }
+            if (regions.length === 0) {
+                showToast('No regions available. Please check your OCI configuration.', 'error');
+                return;
+            }
+
+            const timeRange = getTimeRange();
+            const isUnifiedQuery = compartmentIds.length > 1 || regions.length > 1;
+
+            try {
+                const queryInfo = isUnifiedQuery
+                    ? `Querying ${regions.length} region(s), ${compartmentIds.length} compartment(s)...`
+                    : 'Running query...';
+                showToast(queryInfo, 'info');
+
+                // Use unified endpoint for multi-compartment/multi-region queries
+                const response = await fetch('/api/query-unified', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        regions: regions,
+                        compartment_ids: compartmentIds,
+                        namespace: query.namespace,
+                        query: query.mql,
+                        start_time: timeRange.start.toISOString(),
+                        end_time: timeRange.end.toISOString()
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.error) throw new Error(data.error);
+
+                // Aggregate results from unified query
+                query.result = aggregateUnifiedResults(data);
+                query.visible = true;
+
+                // Log query details for debugging
+                console.log('Query sent:', {
+                    regions: regions,
+                    compartments: compartmentIds,
+                    namespace: query.namespace,
+                    mql: query.mql,
+                    timeRange: { start: timeRange.start.toISOString(), end: timeRange.end.toISOString() }
+                });
+                console.log('Response:', data);
+
+                // Check if any metrics were returned
+                const totalSeries = query.result.metric_data?.length || 0;
+                if (totalSeries === 0) {
+                    const regionList = regions.join(', ');
+                    showToast(`No data found in ${regions.length} region(s): ${regionList}. Check: 1) Instances running for 5+ min? 2) Correct compartments? 3) Correct namespace?`, 'warning');
+                }
+
+                // Show summary for unified queries
+                if (data.metadata) {
+                    const meta = data.metadata;
+                    const msg = meta.failed_queries > 0
+                        ? `Completed: ${meta.successful_queries}/${meta.total_queries} queries (${meta.failed_queries} failed)`
+                        : `Query returned ${totalSeries} series from ${meta.successful_queries} sources`;
+                    showToast(msg, meta.failed_queries > 0 ? 'warning' : 'success');
+
+                    // Show per-region breakdown for multi-region queries
+                    if (regions.length > 1 && data.results && data.results.length > 0) {
+                        const regionCounts = {};
+                        data.results.forEach(r => {
+                            const count = r.metric_data?.length || 0;
+                            regionCounts[r.region] = (regionCounts[r.region] || 0) + count;
+                        });
+                        const breakdown = Object.entries(regionCounts)
+                            .map(([region, count]) => `${region}: ${count}`)
+                            .join(', ');
+                        console.log('Region breakdown:', regionCounts);
+                        showToast(`Series per region: ${breakdown}`, 'info');
+                    }
+
+                    // Show individual errors
+                    if (data.errors && data.errors.length > 0) {
+                        data.errors.forEach(err => {
+                            showToast(`${err.compartment_name || 'Unknown'} [${err.region}]: ${err.error}`, 'error');
+                        });
+                    }
+                } else {
+                    showToast('Query executed successfully', 'success');
+                }
+
+                renderQueryList();
+                renderCharts();
+
+            } catch (error) {
+                showToast('Query failed: ' + error.message, 'error');
+            }
+        }
+
+        function aggregateUnifiedResults(data) {
+            // Aggregate metric data from all regions/compartments into single result
+            if (!data.results || data.results.length === 0) {
+                return {
+                    query: '',
+                    namespace: '',
+                    metric_data: [],
+                    sources: []
+                };
+            }
+
+            const aggregated = {
+                query: data.results[0]?.query || '',
+                namespace: data.results[0]?.namespace || '',
+                start_time: data.results[0]?.start_time,
+                end_time: data.results[0]?.end_time,
+                metric_data: [],
+                sources: []
+            };
+
+            data.results.forEach(result => {
+                // Each result already has _source metadata added by backend
+                if (result.metric_data) {
+                    aggregated.metric_data.push(...result.metric_data);
+                }
+
+                aggregated.sources.push({
+                    region: result.region,
+                    compartment_id: result.compartment_id,
+                    compartment_name: result.compartment_name
+                });
+            });
+
+            return aggregated;
+        }
+
+        async function executeAllQueries() {
+            saveCurrentQueryState();
+
+            // Check validity based on multi-select compartments or advanced mode compartmentId
+            const validQueries = state.queries.filter(q => {
+                const hasCompartments = q.isAdvanced
+                    ? q.compartmentId
+                    : (q.compartmentIds && q.compartmentIds.length > 0);
+                return hasCompartments && q.namespace && q.mql;
+            });
+
+            if (validQueries.length === 0) {
+                showToast('No valid queries to execute', 'error');
+                return;
+            }
+
+            const timeRange = getTimeRange();
+
+            try {
+                showToast(`Running ${validQueries.length} queries...`, 'info');
+
+                // Execute each query using unified endpoint
+                let totalSuccessful = 0;
+                let totalFailed = 0;
+
+                for (const query of validQueries) {
+                    const compartmentIds = query.isAdvanced
+                        ? [query.compartmentId]
+                        : query.compartmentIds.map(c => c.id);
+                    // Filter out empty values and ensure valid regions
+                    const queryRegions = (query.regions || []).filter(r => r);
+                    const regions = queryRegions.length > 0
+                        ? queryRegions
+                        : (state.currentRegion ? [state.currentRegion] : []);
+
+                    // Log query details for debugging
+                    console.log(`Executing query "${query.name}":`, {
+                        regions: regions,
+                        compartments: compartmentIds,
+                        namespace: query.namespace,
+                        mql: query.mql
+                    });
+
+                    try {
+                        const response = await fetch('/api/query-unified', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                regions: regions,
+                                compartment_ids: compartmentIds,
+                                namespace: query.namespace,
+                                query: query.mql,
+                                start_time: timeRange.start.toISOString(),
+                                end_time: timeRange.end.toISOString()
+                            })
+                        });
+
+                        const data = await response.json();
+
+                        if (data.error) {
+                            totalFailed++;
+                            continue;
+                        }
+
+                        query.result = aggregateUnifiedResults(data);
+                        query.visible = true;
+                        totalSuccessful++;
+
+                        if (data.metadata) {
+                            totalFailed += data.metadata.failed_queries;
+                        }
+                    } catch (err) {
+                        totalFailed++;
+                    }
+                }
+
+                renderQueryList();
+                renderCharts();
+
+                if (totalFailed > 0) {
+                    showToast(`Executed ${totalSuccessful} queries (${totalFailed} sources failed)`, 'warning');
+                } else {
+                    showToast(`Executed ${totalSuccessful} queries successfully`, 'success');
+                }
+
+            } catch (error) {
+                showToast('Failed to execute queries: ' + error.message, 'error');
+            }
+        }
+
+        // Enhanced Chart Rendering
+        function renderCharts() {
+            const container = document.getElementById('chartsContainer');
+            const exportPanel = document.getElementById('exportPanel');
+
+            const queriesWithResults = state.queries.filter(q => q.result && q.visible !== false);
+
+            if (queriesWithResults.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>No queries yet</h3>
+                        <p>Add a query and click "Run Query" to visualize metrics</p>
+                    </div>
+                `;
+                exportPanel.style.display = 'none';
+                return;
+            }
+
+            exportPanel.style.display = 'block';
+            container.innerHTML = '';
+
+            queriesWithResults.forEach((query, idx) => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'chart-wrapper';
+                wrapper.id = `chart-wrapper-${query.id}`;
+
+                const seriesCount = query.result.metric_data?.length || 0;
+
+                wrapper.innerHTML = `
+                    <div class="chart-header">
+                        <div class="chart-header-left">
+                            <input type="checkbox" class="chart-checkbox" data-query-id="${query.id}"
+                                   onchange="updateChartSelection()" ${state.selectedCharts.has(query.id) ? 'checked' : ''}>
+                            <span class="chart-title">${query.mql}</span>
+                        </div>
+                        <div class="chart-actions">
+                            <button class="btn btn-outline" onclick="toggleDataTable('${query.id}')">
+                                Data Table
+                            </button>
+                            <button class="btn btn-outline" onclick="exportChartAsPNG('${query.id}')">
+                                PNG
+                            </button>
+                            <button class="btn btn-outline" onclick="exportChartAsCSV('${query.id}')">
+                                CSV
+                            </button>
+                            <button class="btn btn-outline" onclick="exportChartAsPDF('${query.id}')">
+                                PDF
+                            </button>
+                        </div>
+                    </div>
+                    <div class="chart-body">
+                        <div class="chart-canvas-container">
+                            <canvas id="chart-${query.id}"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-legend-container" id="legend-container-${query.id}">
+                        <div class="legend-header" onclick="toggleLegend('${query.id}')">
+                            <h4>
+                                <span>Legend</span>
+                                <span class="legend-count">${seriesCount} series</span>
+                            </h4>
+                            <span class="legend-toggle" id="legend-toggle-${query.id}">▼</span>
+                        </div>
+                        <div class="legend-content" id="legend-content-${query.id}">
+                            <!-- Legend items will be added here -->
+                        </div>
+                    </div>
+                    <div class="data-table-container" id="table-${query.id}">
+                        ${renderDataTable(query.result)}
+                    </div>
+                `;
+
+                container.appendChild(wrapper);
+                createChart(query);
+            });
+
+            updateSelectedCount();
+        }
+
+        function createChart(query) {
+            const ctx = document.getElementById(`chart-${query.id}`).getContext('2d');
+
+            if (state.charts[query.id]) {
+                state.charts[query.id].destroy();
+            }
+
+            // Initialize hidden series state
+            if (!state.hiddenSeries[query.id]) {
+                state.hiddenSeries[query.id] = new Set();
+            }
+
+            const datasets = query.result.metric_data.map((series, idx) => {
+                const color = REDWOOD_CHART_COLORS[idx % REDWOOD_CHART_COLORS.length];
+                const isHidden = state.hiddenSeries[query.id].has(idx);
+
+                // Process data points to handle gaps - insert nulls where data is missing
+                const processedData = processDataPointsWithGaps(series.data_points);
+
+                return {
+                    label: series.label,
+                    shortLabel: extractShortLabel(series),
+                    data: processedData,
+                    borderColor: color,
+                    backgroundColor: color + '20',
+                    fill: false,
+                    tension: 0.1, // Reduced tension for cleaner gap visualization
+                    pointRadius: 2, // Show small points to indicate actual data
+                    pointHoverRadius: 6,
+                    borderWidth: 2,
+                    hidden: isHidden,
+                    spanGaps: false // Don't connect lines across null values (gaps)
+                };
+            });
+
+            state.charts[query.id] = new Chart(ctx, {
+                type: 'line',
+                data: { datasets },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    plugins: {
+                        legend: {
+                            display: false // We use custom legend
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(49, 45, 42, 0.95)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            borderColor: 'rgba(255,255,255,0.1)',
+                            borderWidth: 1,
+                            cornerRadius: 8,
+                            padding: 12,
+                            titleFont: { size: 13, weight: '600' },
+                            bodyFont: { size: 12 },
+                            filter: (tooltipItem) => {
+                                // Don't show tooltip for null values (gaps)
+                                return tooltipItem.parsed.y !== null;
+                            },
+                            callbacks: {
+                                title: (items) => {
+                                    if (items.length === 0) return '';
+                                    return new Date(items[0].parsed.x).toLocaleString();
+                                },
+                                label: (context) => {
+                                    if (context.parsed.y === null) return null;
+                                    const ds = context.dataset;
+                                    const label = ds.shortLabel || ds.label;
+                                    return `${label}: ${context.parsed.y.toFixed(2)}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                displayFormats: {
+                                    hour: 'MMM d, HH:mm',
+                                    day: 'MMM d',
+                                    week: 'MMM d'
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Time (UTC)',
+                                color: '#63605B',
+                                font: { size: 12, weight: '500' }
+                            },
+                            grid: {
+                                color: 'rgba(0,0,0,0.05)'
+                            },
+                            ticks: {
+                                color: '#63605B',
+                                font: { size: 11 }
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: query.result.metric_data[0]?.unit || 'Value',
+                                color: '#63605B',
+                                font: { size: 12, weight: '500' }
+                            },
+                            grid: {
+                                color: 'rgba(0,0,0,0.05)'
+                            },
+                            ticks: {
+                                color: '#63605B',
+                                font: { size: 11 }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Render custom legend
+            renderCustomLegend(query, datasets);
+        }
+
+        function processDataPointsWithGaps(dataPoints) {
+            /**
+             * Process data points to detect gaps and insert null values.
+             * This ensures Chart.js doesn't draw connecting lines across gaps.
+             *
+             * A gap is detected when the time between consecutive points
+             * is significantly larger than the expected interval.
+             */
+            if (!dataPoints || dataPoints.length < 2) {
+                return dataPoints.map(dp => ({
+                    x: new Date(dp.timestamp),
+                    y: dp.value
+                }));
+            }
+
+            // Sort data points by timestamp
+            const sorted = [...dataPoints].sort((a, b) =>
+                new Date(a.timestamp) - new Date(b.timestamp)
+            );
+
+            // Calculate the median interval between consecutive points
+            const intervals = [];
+            for (let i = 1; i < sorted.length; i++) {
+                const diff = new Date(sorted[i].timestamp) - new Date(sorted[i-1].timestamp);
+                intervals.push(diff);
+            }
+
+            // Find median interval (typical data collection interval)
+            intervals.sort((a, b) => a - b);
+            const medianInterval = intervals[Math.floor(intervals.length / 2)];
+
+            // Gap threshold: if interval is more than 2x the median, it's a gap
+            const gapThreshold = medianInterval * 2.5;
+
+            const result = [];
+            for (let i = 0; i < sorted.length; i++) {
+                const current = sorted[i];
+                const currentTime = new Date(current.timestamp);
+
+                // Check if there's a gap before this point
+                if (i > 0) {
+                    const prevTime = new Date(sorted[i-1].timestamp);
+                    const timeDiff = currentTime - prevTime;
+
+                    // If there's a significant gap, insert a null point
+                    if (timeDiff > gapThreshold) {
+                        // Insert null at a point just after the previous data
+                        result.push({
+                            x: new Date(prevTime.getTime() + medianInterval),
+                            y: null
+                        });
+                    }
+                }
+
+                result.push({
+                    x: currentTime,
+                    y: current.value
+                });
+            }
+
+            return result;
+        }
+
+        function extractShortLabel(series) {
+            // Extract meaningful short label from dimensions
+            const dims = series.dimensions || {};
+
+            // Priority order for display name
+            const displayKeys = ['resourceDisplayName', 'displayName', 'name'];
+            for (const key of displayKeys) {
+                if (dims[key]) return dims[key];
+            }
+
+            // If we have resourceId, show last part
+            if (dims.resourceId) {
+                const parts = dims.resourceId.split('.');
+                return parts[parts.length - 1].slice(0, 20);
+            }
+
+            // Fall back to first meaningful dimension
+            for (const [key, value] of Object.entries(dims)) {
+                if (!key.includes('ocid') && value) {
+                    return `${value}`.slice(0, 25);
+                }
+            }
+
+            return series.name || 'Series';
+        }
+
+        function renderCustomLegend(query, datasets) {
+            const container = document.getElementById(`legend-content-${query.id}`);
+            container.innerHTML = '';
+
+            datasets.forEach((ds, idx) => {
+                const item = document.createElement('div');
+                item.className = `legend-item ${ds.hidden ? 'hidden' : ''}`;
+                item.onclick = () => toggleSeriesVisibility(query.id, idx);
+
+                // Calculate average value
+                const values = ds.data.map(d => d.y).filter(v => v !== null && v !== undefined);
+                const avg = values.length > 0 ? (values.reduce((a, b) => a + b, 0) / values.length).toFixed(2) : '-';
+
+                item.innerHTML = `
+                    <div class="legend-color" style="background-color: ${ds.borderColor}"></div>
+                    <span class="legend-label" title="${ds.label}">${ds.shortLabel}</span>
+                    <span class="legend-value">avg: ${avg}</span>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function toggleSeriesVisibility(queryId, seriesIndex) {
+            const chart = state.charts[queryId];
+            if (!chart) return;
+
+            const isHidden = chart.isDatasetVisible(seriesIndex);
+            chart.setDatasetVisibility(seriesIndex, !isHidden);
+            chart.update();
+
+            // Update state
+            if (isHidden) {
+                state.hiddenSeries[queryId].delete(seriesIndex);
+            } else {
+                state.hiddenSeries[queryId].add(seriesIndex);
+            }
+
+            // Update legend item
+            const legendContent = document.getElementById(`legend-content-${queryId}`);
+            const items = legendContent.querySelectorAll('.legend-item');
+            if (items[seriesIndex]) {
+                items[seriesIndex].classList.toggle('hidden', !isHidden);
+            }
+        }
+
+        function toggleLegend(queryId) {
+            const content = document.getElementById(`legend-content-${queryId}`);
+            const toggle = document.getElementById(`legend-toggle-${queryId}`);
+            content.classList.toggle('collapsed');
+            toggle.classList.toggle('collapsed');
+        }
+
+        function getColor(index, alpha = 1) {
+            const color = REDWOOD_CHART_COLORS[index % REDWOOD_CHART_COLORS.length];
+            if (alpha === 1) return color;
+            // Convert hex to rgba
+            const r = parseInt(color.slice(1, 3), 16);
+            const g = parseInt(color.slice(3, 5), 16);
+            const b = parseInt(color.slice(5, 7), 16);
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
+
+        function renderDataTable(result) {
+            if (!result.metric_data || result.metric_data.length === 0) {
+                return '<p style="padding: 20px; color: #63605B;">No data available</p>';
+            }
+
+            const timestamps = new Set();
+            result.metric_data.forEach(series => {
+                series.data_points.forEach(dp => timestamps.add(dp.timestamp));
+            });
+            const sortedTimestamps = Array.from(timestamps).sort();
+
+            let html = '<table class="data-table"><thead><tr><th>Timestamp</th>';
+            result.metric_data.forEach(series => {
+                const shortLabel = extractShortLabel(series);
+                html += `<th title="${series.label}">${shortLabel}</th>`;
+            });
+            html += '</tr></thead><tbody>';
+
+            sortedTimestamps.slice(-100).forEach(ts => { // Limit to last 100 rows
+                html += `<tr><td>${new Date(ts).toLocaleString()}</td>`;
+                result.metric_data.forEach(series => {
+                    const point = series.data_points.find(dp => dp.timestamp === ts);
+                    html += `<td>${point ? point.value.toFixed(2) : '-'}</td>`;
+                });
+                html += '</tr>';
+            });
+
+            html += '</tbody></table>';
+            return html;
+        }
+
+        function toggleDataTable(queryId) {
+            const table = document.getElementById(`table-${queryId}`);
+            table.classList.toggle('visible');
+        }
+
+        // Export Functions
+        function updateChartSelection() {
+            state.selectedCharts.clear();
+            document.querySelectorAll('.chart-checkbox:checked').forEach(cb => {
+                state.selectedCharts.add(cb.dataset.queryId);
+            });
+            updateSelectedCount();
+        }
+
+        function toggleSelectAllCharts() {
+            const selectAll = document.getElementById('selectAllCharts').checked;
+            document.querySelectorAll('.chart-checkbox').forEach(cb => {
+                cb.checked = selectAll;
+            });
+            updateChartSelection();
+        }
+
+        function updateSelectedCount() {
+            document.getElementById('selectedCount').textContent = state.selectedCharts.size;
+        }
+
+        async function exportChartAsPNG(queryId) {
+            const wrapper = document.getElementById(`chart-wrapper-${queryId}`);
+            try {
+                const canvas = await html2canvas(wrapper, {
+                    backgroundColor: '#ffffff',
+                    scale: 2
+                });
+                const link = document.createElement('a');
+                link.download = `oci-metric-${queryId}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                showToast('Chart exported as PNG', 'success');
+            } catch (error) {
+                showToast('Failed to export chart: ' + error.message, 'error');
+            }
+        }
+
+        function exportChartAsCSV(queryId) {
+            const query = state.queries.find(q => q.id === queryId);
+            if (!query || !query.result) return;
+
+            const result = query.result;
+            let csv = 'Timestamp';
+
+            result.metric_data.forEach(series => {
+                const label = extractShortLabel(series).replace(/"/g, '""');
+                csv += `,"${label}"`;
+            });
+            csv += '\n';
+
+            const timestamps = new Set();
+            result.metric_data.forEach(series => {
+                series.data_points.forEach(dp => timestamps.add(dp.timestamp));
+            });
+
+            Array.from(timestamps).sort().forEach(ts => {
+                csv += ts;
+                result.metric_data.forEach(series => {
+                    const point = series.data_points.find(dp => dp.timestamp === ts);
+                    csv += `,${point ? point.value : ''}`;
+                });
+                csv += '\n';
+            });
+
+            downloadFile(csv, `oci-metric-${queryId}.csv`, 'text/csv');
+            showToast('Data exported as CSV', 'success');
+        }
+
+        async function exportSelectedAsPNG() {
+            if (state.selectedCharts.size === 0) {
+                showToast('No charts selected', 'error');
+                return;
+            }
+
+            for (const queryId of state.selectedCharts) {
+                await exportChartAsPNG(queryId);
+            }
+        }
+
+        function exportSelectedAsCSV() {
+            if (state.selectedCharts.size === 0) {
+                showToast('No charts selected', 'error');
+                return;
+            }
+
+            state.selectedCharts.forEach(queryId => {
+                exportChartAsCSV(queryId);
+            });
+        }
+
+        async function exportChartAsPDF(queryId) {
+            const query = state.queries.find(q => q.id === queryId);
+            if (!query || !query.result) {
+                showToast('No data to export', 'error');
+                return;
+            }
+
+            const wrapper = document.getElementById(`chart-wrapper-${queryId}`);
+            try {
+                showToast('Generating PDF...', 'info');
+
+                const canvas = await html2canvas(wrapper, {
+                    backgroundColor: '#ffffff',
+                    scale: 2
+                });
+
+                const { jsPDF } = window.jspdf;
+                const imgWidth = 190; // A4 width minus margins
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+                // Use landscape if chart is very wide
+                const orientation = imgHeight > 250 ? 'portrait' : 'landscape';
+                const pdf = new jsPDF(orientation, 'mm', 'a4');
+
+                // Add title
+                pdf.setFontSize(14);
+                pdf.setTextColor(49, 45, 42); // Redwood dark
+                pdf.text('OCI Metrics Report', 10, 15);
+
+                pdf.setFontSize(10);
+                pdf.setTextColor(99, 96, 91); // Redwood warm gray
+                pdf.text(`Query: ${query.mql}`, 10, 22);
+                pdf.text(`Generated: ${new Date().toLocaleString()}`, 10, 28);
+
+                // Add chart image
+                const imgData = canvas.toDataURL('image/png');
+                pdf.addImage(imgData, 'PNG', 10, 35, imgWidth, imgHeight);
+
+                pdf.save(`oci-metric-${queryId}.pdf`);
+                showToast('Chart exported as PDF', 'success');
+            } catch (error) {
+                showToast('Failed to export PDF: ' + error.message, 'error');
+            }
+        }
+
+        async function exportSelectedAsPDF() {
+            if (state.selectedCharts.size === 0) {
+                showToast('No charts selected', 'error');
+                return;
+            }
+
+            try {
+                showToast('Generating PDF...', 'info');
+
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('landscape', 'mm', 'a4');
+                const pageWidth = pdf.internal.pageSize.getWidth();
+                const pageHeight = pdf.internal.pageSize.getHeight();
+
+                let isFirstPage = true;
+
+                for (const queryId of state.selectedCharts) {
+                    const query = state.queries.find(q => q.id === queryId);
+                    if (!query || !query.result) continue;
+
+                    const wrapper = document.getElementById(`chart-wrapper-${queryId}`);
+                    if (!wrapper) continue;
+
+                    if (!isFirstPage) {
+                        pdf.addPage();
+                    }
+                    isFirstPage = false;
+
+                    // Add header
+                    pdf.setFontSize(12);
+                    pdf.setTextColor(49, 45, 42);
+                    pdf.text('OCI Metrics Report', 10, 12);
+
+                    pdf.setFontSize(9);
+                    pdf.setTextColor(99, 96, 91);
+                    const truncatedMql = query.mql.length > 100 ? query.mql.substring(0, 100) + '...' : query.mql;
+                    pdf.text(`Query: ${truncatedMql}`, 10, 18);
+
+                    // Capture chart
+                    const canvas = await html2canvas(wrapper, {
+                        backgroundColor: '#ffffff',
+                        scale: 2
+                    });
+
+                    const imgWidth = pageWidth - 20;
+                    const imgHeight = Math.min((canvas.height * imgWidth) / canvas.width, pageHeight - 35);
+
+                    const imgData = canvas.toDataURL('image/png');
+                    pdf.addImage(imgData, 'PNG', 10, 25, imgWidth, imgHeight);
+                }
+
+                // Add footer on last page
+                pdf.setFontSize(8);
+                pdf.setTextColor(150, 150, 150);
+                pdf.text(`Generated: ${new Date().toLocaleString()}`, 10, pageHeight - 5);
+
+                pdf.save('oci-metrics-selected.pdf');
+                showToast('Selected charts exported as PDF', 'success');
+            } catch (error) {
+                showToast('Failed to export PDF: ' + error.message, 'error');
+            }
+        }
+
+        async function exportAllAsPDF() {
+            const queriesWithResults = state.queries.filter(q => q.result && q.visible !== false);
+
+            if (queriesWithResults.length === 0) {
+                showToast('No charts to export', 'error');
+                return;
+            }
+
+            try {
+                showToast('Generating PDF report...', 'info');
+
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('landscape', 'mm', 'a4');
+                const pageWidth = pdf.internal.pageSize.getWidth();
+                const pageHeight = pdf.internal.pageSize.getHeight();
+
+                // Title page
+                pdf.setFontSize(24);
+                pdf.setTextColor(49, 45, 42); // Redwood dark
+                pdf.text('OCI Metrics Report', pageWidth / 2, 40, { align: 'center' });
+
+                pdf.setFontSize(12);
+                pdf.setTextColor(99, 96, 91); // Redwood warm gray
+                pdf.text(`Generated: ${new Date().toLocaleString()}`, pageWidth / 2, 55, { align: 'center' });
+                pdf.text(`Total Charts: ${queriesWithResults.length}`, pageWidth / 2, 65, { align: 'center' });
+
+                // Get time range info
+                const timeRange = getTimeRange();
+                pdf.text(`Time Range: ${timeRange.start.toLocaleString()} - ${timeRange.end.toLocaleString()}`, pageWidth / 2, 75, { align: 'center' });
+
+                // Add Oracle branding
+                pdf.setFontSize(10);
+                pdf.setTextColor(199, 70, 52); // Redwood red
+                pdf.text('Oracle Cloud Infrastructure', pageWidth / 2, 90, { align: 'center' });
+
+                // Add each chart on a new page
+                for (const query of queriesWithResults) {
+                    pdf.addPage();
+
+                    // Header
+                    pdf.setFontSize(12);
+                    pdf.setTextColor(49, 45, 42);
+                    pdf.text('OCI Metrics Report', 10, 12);
+
+                    pdf.setFontSize(9);
+                    pdf.setTextColor(99, 96, 91);
+                    const truncatedMql = query.mql.length > 120 ? query.mql.substring(0, 120) + '...' : query.mql;
+                    pdf.text(`Query: ${truncatedMql}`, 10, 18);
+
+                    // Capture chart
+                    const wrapper = document.getElementById(`chart-wrapper-${query.id}`);
+                    if (!wrapper) continue;
+
+                    const canvas = await html2canvas(wrapper, {
+                        backgroundColor: '#ffffff',
+                        scale: 2
+                    });
+
+                    const imgWidth = pageWidth - 20;
+                    const imgHeight = Math.min((canvas.height * imgWidth) / canvas.width, pageHeight - 35);
+
+                    const imgData = canvas.toDataURL('image/png');
+                    pdf.addImage(imgData, 'PNG', 10, 25, imgWidth, imgHeight);
+
+                    // Footer
+                    pdf.setFontSize(8);
+                    pdf.setTextColor(150, 150, 150);
+                    pdf.text(`Page ${pdf.internal.getNumberOfPages() - 1} of ${queriesWithResults.length}`, pageWidth - 30, pageHeight - 5);
+                }
+
+                pdf.save('oci-metrics-report.pdf');
+                showToast('Full report exported as PDF', 'success');
+            } catch (error) {
+                showToast('Failed to export PDF: ' + error.message, 'error');
+            }
+        }
+
+        function downloadFile(content, filename, mimeType) {
+            const blob = new Blob([content], { type: mimeType });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            link.click();
+            URL.revokeObjectURL(link.href);
+        }
+
+        // Toast Notifications
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 4000);
+        }
+    </script>
+</body>
+</html>

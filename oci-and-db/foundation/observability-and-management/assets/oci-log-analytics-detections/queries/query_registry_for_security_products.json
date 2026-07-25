@@ -1,0 +1,129 @@
+{
+  "title": "Query Registry for Security Products",
+  "description": "Detects registry queries checking for installed security products.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and (('Process Name' like '*\\\\reg.exe' and ('Command Line' like '*AntiVirusProduct*' or 'Command Line' like '*FirewallProduct*' or 'Command Line' like '*SecurityCenter*')))",
+  "sigma_id": "8f3a5796-f848-4b01-9ff6-a9c1a3ae6a57",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.discovery",
+    "attack.t1518.001"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "discovery"
+    ],
+    "techniques": [
+      "T1518.001"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Security management tools"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 11,
+    "techniques_with_tests": [
+      "T1518.001"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1518.001",
+        "test_name": "Security Software Discovery",
+        "test_guid": "f92a380f-ced9-491f-b338-95a991418ce2",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1518.001/T1518.001.md"
+      },
+      {
+        "technique_id": "T1518.001",
+        "test_name": "Security Software Discovery - powershell",
+        "test_guid": "7f566051-f033-49fb-89de-b6bacab730f0",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1518.001/T1518.001.md"
+      },
+      {
+        "technique_id": "T1518.001",
+        "test_name": "Security Software Discovery - ps (macOS)",
+        "test_guid": "ba62ce11-e820-485f-9c17-6f3c857cd840",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1518.001/T1518.001.md"
+      },
+      {
+        "technique_id": "T1518.001",
+        "test_name": "Security Software Discovery - ps (Linux)",
+        "test_guid": "23b91cd2-c99c-4002-9e41-317c63e024a2",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1518.001/T1518.001.md"
+      },
+      {
+        "technique_id": "T1518.001",
+        "test_name": "Security Software Discovery - pgrep (FreeBSD)",
+        "test_guid": "fa96c21c-5fd6-4428-aa28-51a2fbecdbdc",
+        "executor": "sh",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1518.001/T1518.001.md"
+      },
+      {
+        "technique_id": "T1518.001",
+        "test_name": "Security Software Discovery - Sysmon Service",
+        "test_guid": "fe613cf3-8009-4446-9a0f-bc78a15b66c9",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1518.001/T1518.001.md"
+      },
+      {
+        "technique_id": "T1518.001",
+        "test_name": "Security Software Discovery - AV Discovery via WMI",
+        "test_guid": "1553252f-14ea-4d3b-8a08-d7a4211aa945",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1518.001/T1518.001.md"
+      },
+      {
+        "technique_id": "T1518.001",
+        "test_name": "Security Software Discovery - AV Discovery via Get-CimInstance and Get-WmiObject cmdlets",
+        "test_guid": "015cd268-996e-4c32-8347-94c80c6286ee",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1518.001/T1518.001.md"
+      },
+      {
+        "technique_id": "T1518.001",
+        "test_name": "Security Software Discovery - Windows Defender Enumeration",
+        "test_guid": "d3415a0e-66ef-429b-acf4-a768876954f6",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1518.001/T1518.001.md"
+      },
+      {
+        "technique_id": "T1518.001",
+        "test_name": "Security Software Discovery - Windows Firewall Enumeration",
+        "test_guid": "9dca5a1d-f78c-4a8d-accb-d6de67cfed6b",
+        "executor": "powershell",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1518.001/T1518.001.md"
+      },
+      {
+        "technique_id": "T1518.001",
+        "test_name": "Get Windows Defender exclusion settings using WMIC",
+        "test_guid": "e31564c8-4c60-40cd-a8f4-9261307e8336",
+        "executor": "command_prompt",
+        "match_type": "exact",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1518.001/T1518.001.md"
+      }
+    ]
+  }
+}

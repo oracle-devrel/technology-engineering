@@ -1,0 +1,36 @@
+{
+  "title": "ClickFix: LOLBin Payload Execution",
+  "description": "Detects ClickFix follow-on payload execution through mshta, rundll32, or scriptlet-style LOLBins launched from browser context.",
+  "query": "('Log Source' = 'SOC Windows Sysmon Logs' or 'Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'Windows Security Events' or 'Log Source' = 'Windows Event Security Logs') and (('Process Name' like '*\\\\mshta.exe' or 'Process Name' like '*\\\\rundll32.exe' or 'Process Name' like '*\\\\regsvr32.exe' or 'Process Name' like '*\\\\wscript.exe' or 'Process Name' like '*\\\\cscript.exe') and ('Command Line' like '*ClickFix*' or 'Command Line' like '*captcha*' or 'Command Line' like '*javascript:*' or 'Command Line' like '*http*' or 'Command Line' like '*script:*')) | stats count as Hits, unique('Command Line') as Commands, unique('Parent Process Name') as Parents by 'Host Name (Server)', Entity, 'Process Name', 'Trace ID' | sort -Hits",
+  "type": "hunting",
+  "level": "high",
+  "tags": ["clickfix", "lolbin", "mshta", "rundll32", "attack.t1218"],
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon_security"
+  },
+  "dashboard": {
+    "visualizationType": "summary_table",
+    "showTitle": true,
+    "timeSelection": {"timePeriod": "l21d"},
+    "visualizationOptions": {
+      "groupBy": ["Process Name", "Host Name (Server)"],
+      "valueField": "Hits"
+    },
+    "ask_ai_prompts": [
+      "Which signed binaries were abused after the ClickFix entry point?",
+      "Prioritize commands that downloaded or executed remote script content."
+    ]
+  },
+  "references": [
+    {
+      "name": "Microsoft: ClickFix social-engineering technique",
+      "url": "https://www.microsoft.com/en-us/security/blog/2025/08/21/think-before-you-clickfix-analyzing-the-clickfix-social-engineering-technique/"
+    }
+  ],
+  "mitre_attack": {
+    "tactics": ["execution", "defense_evasion"],
+    "techniques": ["T1218", "T1218.005", "T1218.011", "T1059.007"]
+  },
+  "falsepositives": ["Legacy admin HTA launchers", "Internal scriptlet testing"]
+}

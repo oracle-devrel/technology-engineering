@@ -1,0 +1,100 @@
+{
+  "name": "OCI GenAI Gateway - Summarizer Demo",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "oci-genai-summary",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "b6f5b7d2-df7b-4d0a-b0e9-568fc6acb921",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -460,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8088/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer not-used"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"google.gemini-2.5-flash\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are a concise assistant for a integration example. Return a 3-sentence summary.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": $json.body.text\n    }\n  ],\n  \"temperature\": 0.2,\n  \"max_tokens\": 300\n}",
+        "options": {}
+      },
+      "id": "2ff737cf-b299-4ca5-9c83-c4e5e40f3e4d",
+      "name": "Call OCI GenAI Gateway",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -160,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"summary\": $json.choices[0].message.content,\n  \"model\": $json.model,\n  \"gateway_response_id\": $json.id\n}",
+        "options": {}
+      },
+      "id": "9beb5173-e486-48b4-a551-a31b0567eeeb",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        140,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Call OCI GenAI Gateway",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call OCI GenAI Gateway": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-05-11T00:00:00.000Z",
+  "versionId": "5aa64ad6-6e34-4a76-b096-5cb9f989d4ad"
+}

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" fill="none">
+  <!-- Construction grid lines -->
+  <line x1="150" y1="0" x2="150" y2="400" stroke="currentColor" stroke-width="0.5" stroke-dasharray="6 4" opacity="0.25"/>
+  <line x1="300" y1="0" x2="300" y2="400" stroke="currentColor" stroke-width="0.5" stroke-dasharray="6 4" opacity="0.25"/>
+  <line x1="450" y1="0" x2="450" y2="400" stroke="currentColor" stroke-width="0.5" stroke-dasharray="6 4" opacity="0.25"/>
+  <line x1="0" y1="120" x2="600" y2="120" stroke="currentColor" stroke-width="0.5" stroke-dasharray="6 4" opacity="0.25"/>
+  <line x1="0" y1="200" x2="600" y2="200" stroke="currentColor" stroke-width="0.5" stroke-dasharray="6 4" opacity="0.25"/>
+  <line x1="0" y1="280" x2="600" y2="280" stroke="currentColor" stroke-width="0.5" stroke-dasharray="6 4" opacity="0.25"/>
+
+  <!-- Construction crosshairs -->
+  <g stroke="currentColor" stroke-width="0.4" opacity="0.2">
+    <line x1="145" y1="120" x2="155" y2="120"/><line x1="150" y1="115" x2="150" y2="125"/>
+    <line x1="145" y1="280" x2="155" y2="280"/><line x1="150" y1="275" x2="150" y2="285"/>
+    <line x1="445" y1="120" x2="455" y2="120"/><line x1="450" y1="115" x2="450" y2="125"/>
+    <line x1="445" y1="280" x2="455" y2="280"/><line x1="450" y1="275" x2="450" y2="285"/>
+    <line x1="295" y1="80" x2="305" y2="80"/><line x1="300" y1="75" x2="300" y2="85"/>
+    <line x1="295" y1="320" x2="305" y2="320"/><line x1="300" y1="315" x2="300" y2="325"/>
+  </g>
+
+  <!-- Outer O -->
+  <rect x="100" y="80" width="400" height="240" rx="120" ry="120"
+    stroke="currentColor" stroke-width="3.5" fill="none" opacity="0.85"/>
+
+  <!-- Inner O -->
+  <rect x="145" y="118" width="310" height="164" rx="82" ry="82"
+    stroke="currentColor" stroke-width="3.5" fill="none" opacity="0.85"/>
+
+  <!-- Construction arcs -->
+  <circle cx="220" cy="200" r="120" stroke="currentColor" stroke-width="0.4" stroke-dasharray="4 6" fill="none" opacity="0.15"/>
+  <circle cx="380" cy="200" r="120" stroke="currentColor" stroke-width="0.4" stroke-dasharray="4 6" fill="none" opacity="0.15"/>
+</svg>

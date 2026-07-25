@@ -1,0 +1,148 @@
+{
+  "title": "Kerberos Ticket Export via Mimikatz",
+  "description": "Detects Kerberos ticket exporting commands used in pass-the-ticket and golden ticket attacks.",
+  "query": "('Log Source' = 'Windows Sysmon Events' or 'Log Source' = 'Windows Sysmon Operational Logs' or 'Log Source' = 'SOC Windows Sysmon Logs') and ((('Command Line' like '*kerberos::list*' or 'Command Line' like '*kerberos::ptt*' or 'Command Line' like '*export*' or 'Command Line' like '*.kirbi*')))",
+  "sigma_id": "1beb31b9-8f20-498f-9f02-3e8360622a74",
+  "level": "critical",
+  "stig_category": "CAT I",
+  "tags": [
+    "attack.credential_access",
+    "attack.t1558"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "credential_access"
+    ],
+    "techniques": [
+      "T1558"
+    ]
+  },
+  "logsource": {
+    "product": "windows",
+    "service": "",
+    "candidates": [
+      "Windows Sysmon Events",
+      "Windows Sysmon Operational Logs",
+      "SOC Windows Sysmon Logs"
+    ]
+  },
+  "falsepositives": [
+    "Kerberos troubleshooting by domain admins"
+  ],
+  "atomic_red_team": {
+    "has_tests": true,
+    "test_count": 13,
+    "techniques_with_tests": [
+      "T1558.001",
+      "T1558.002",
+      "T1558.003",
+      "T1558.004"
+    ],
+    "tests": [
+      {
+        "technique_id": "T1558.004",
+        "test_name": "Rubeus asreproast",
+        "test_guid": "615bd568-2859-41b5-9aed-61f6a88e48dd",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1558.004/T1558.004.md"
+      },
+      {
+        "technique_id": "T1558.004",
+        "test_name": "Get-DomainUser with PowerView",
+        "test_guid": "d6139549-7b72-4e48-9ea1-324fc9bdf88a",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1558.004/T1558.004.md"
+      },
+      {
+        "technique_id": "T1558.004",
+        "test_name": "WinPwn - PowerSharpPack - Kerberoasting Using Rubeus",
+        "test_guid": "8c385f88-4d47-4c9a-814d-93d9deec8c71",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1558.004/T1558.004.md"
+      },
+      {
+        "technique_id": "T1558.001",
+        "test_name": "Crafting Active Directory golden tickets with mimikatz",
+        "test_guid": "9726592a-dabc-4d4d-81cd-44070008b3af",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1558.001/T1558.001.md"
+      },
+      {
+        "technique_id": "T1558.001",
+        "test_name": "Crafting Active Directory golden tickets with Rubeus",
+        "test_guid": "e42d33cd-205c-4acf-ab59-a9f38f6bad9c",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1558.001/T1558.001.md"
+      },
+      {
+        "technique_id": "T1558.002",
+        "test_name": "Crafting Active Directory silver tickets with mimikatz",
+        "test_guid": "385e59aa-113e-4711-84d9-f637aef01f2c",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1558.002/T1558.002.md"
+      },
+      {
+        "technique_id": "T1558.003",
+        "test_name": "Request for service tickets",
+        "test_guid": "3f987809-3681-43c8-bcd8-b3ff3a28533a",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1558.003/T1558.003.md"
+      },
+      {
+        "technique_id": "T1558.003",
+        "test_name": "Rubeus kerberoast",
+        "test_guid": "14625569-6def-4497-99ac-8e7817105b55",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1558.003/T1558.003.md"
+      },
+      {
+        "technique_id": "T1558.003",
+        "test_name": "Extract all accounts in use as SPN using setspn",
+        "test_guid": "e6f4affd-d826-4871-9a62-6c9004b8fe06",
+        "executor": "command_prompt",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1558.003/T1558.003.md"
+      },
+      {
+        "technique_id": "T1558.003",
+        "test_name": "Request A Single Ticket via PowerShell",
+        "test_guid": "988539bc-2ed7-4e62-aec6-7c5cf6680863",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1558.003/T1558.003.md"
+      },
+      {
+        "technique_id": "T1558.003",
+        "test_name": "Request All Tickets via PowerShell",
+        "test_guid": "902f4ed2-1aba-4133-90f2-cff6d299d6da",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1558.003/T1558.003.md"
+      },
+      {
+        "technique_id": "T1558.003",
+        "test_name": "WinPwn - Kerberoasting",
+        "test_guid": "78d10e20-c874-45f2-a9df-6fea0120ec27",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1558.003/T1558.003.md"
+      },
+      {
+        "technique_id": "T1558.003",
+        "test_name": "WinPwn - PowerSharpPack - Kerberoasting Using Rubeus",
+        "test_guid": "29094950-2c96-4cbd-b5e4-f7c65079678f",
+        "executor": "powershell",
+        "match_type": "sub_technique",
+        "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1558.003/T1558.003.md"
+      }
+    ]
+  }
+}

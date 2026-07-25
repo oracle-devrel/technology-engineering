@@ -1,0 +1,35 @@
+{
+  "title": "ATLAS: Unauthorized ML Inference API Access (AML.T0040)",
+  "description": "Detects unauthorized or rejected access to LLM/ML inference application endpoints using only SOC Application Logs fields. Filters inference routes returning auth/authorization failures (401, 403) or rate-limit rejections (429) and ranks the offending Client IP + Service Name. Repeated rejected inference calls indicate credential probing or unauthorized model use. MITRE ATLAS AML.T0040 (ML Inference API Access).\n",
+  "query": "'Log Source' = 'SOC Application Logs' and ('Request URL' like '*/v1/chat*' or 'Request URL' like '*/v1/completions*' or 'Request URL' like '*/v1/embeddings*' or 'Request URL' like '*/llm/*' or 'Request URL' like '*/ai/*' or 'Request URL' like '*/generate*' or 'Request URL' like '*/predict*' or 'Request URL' like '*/invoke*') and ('Response Code' = 401 or 'Response Code' = 403 or 'Response Code' = 429) | stats count as RejectedCalls, distinctcount('Request URL') as Routes by 'Client IP', 'Service Name', 'Response Code' | sort -RejectedCalls",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "atlas.t0040",
+    "atlas.ml_model_access",
+    "atlas.credential_access",
+    "ai_attack",
+    "genai",
+    "llm_unauthorized_access"
+  ],
+  "atlas": {
+    "tactics": [
+      "ml_model_access",
+      "credential_access"
+    ],
+    "techniques": [
+      "AML.T0040"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "application",
+    "candidates": [
+      "SOC Application Logs"
+    ]
+  },
+  "falsepositives": [
+    "Misconfigured client retrying with an expired token",
+    "Rate-limit tuning windows where legitimate clients briefly receive 429"
+  ]
+}

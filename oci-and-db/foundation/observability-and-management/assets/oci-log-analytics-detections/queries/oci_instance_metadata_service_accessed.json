@@ -1,0 +1,30 @@
+{
+  "title": "OCI Instance Metadata Service Accessed",
+  "description": "Detects access to instance metadata service which may reveal instance principal credentials.",
+  "query": "'Log Source' = 'OCI Audit Logs' and (('Event Type' = 'com.oraclecloud.computeapi.getinstancecredentials'))",
+  "sigma_id": "a315feca-89ce-449b-a96a-33d884e1fe75",
+  "level": "medium",
+  "stig_category": "CAT II",
+  "tags": [
+    "attack.credential_access",
+    "attack.t1552.005"
+  ],
+  "mitre_attack": {
+    "tactics": [
+      "credential_access"
+    ],
+    "techniques": [
+      "T1552.005"
+    ]
+  },
+  "logsource": {
+    "product": "oci",
+    "service": "audit",
+    "candidates": [
+      "OCI Audit Logs"
+    ]
+  },
+  "falsepositives": [
+    "Legitimate instance principal authentication"
+  ]
+}
