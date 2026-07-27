@@ -80,3 +80,6 @@ sudo iptables-restore < /etc/iptables/rules.v4
 ![Picture 8](./files/image-08.png)
 
 ![Picture 7](./files/image-09.png)
+
+
+Reviewed: 27.07.2026

@@ -66,3 +66,6 @@ Resources:
 [Getting Started with OCI Logging Analytics](https://docs.oracle.com/en-us/iaas/logging-analytics/doc/quick-start.html)
 
 [Getting Started with OCI APM](https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/get-started-application-performance-monitoring.html)
+
+
+Reviewed: 25.07.2026

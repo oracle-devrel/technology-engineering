@@ -141,3 +141,6 @@ curl https://docs.oracle.com/en-us/iaas/Content/Resources/Assets/secondary_vnic_
 chmod +x secondary_vnic_all_configure.sh
 sudo ./secondary_vnic_all_configure.sh -c
 ```
+
+
+Reviewed: 27.07.2026

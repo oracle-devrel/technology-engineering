@@ -191,3 +191,6 @@ Preview of Part 2 — Adding automation:
 1. Send the Logs to Logging Analytics
 
 2. Create queries on collected data.
+
+
+Reviewed: 24.07.2026

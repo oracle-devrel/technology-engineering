@@ -141,3 +141,6 @@ Congratulations! You have ingested now logs into Splunk using OCI Object Storage
 To be sure that your traffic is private, you need to check the private route table and see that All FRA Services are routed through your VCN Service Gateway.
 
 ![Picture 7](./files/image-25.png)
+
+
+Reviewed: 27.07.2026

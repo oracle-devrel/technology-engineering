@@ -53,3 +53,6 @@ Paste it in the Body of Search logs POST Request in Postman and press Send(Chang
 Congratulation! You have created your own OCI audit API call.
 
 ![Picture 1](./files/image-11.png)
+
+
+Reviewed: 27.07.2026

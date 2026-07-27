@@ -106,3 +106,6 @@ Since we are using the OCA management plugin the the agent userid will be oracle
 Use the cluster feature to find the potential issues easily.
 
 ![Weblogic monitoring image 16](./files/image-17.webp)
+
+
+Reviewed: 25.07.2026

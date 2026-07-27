@@ -133,3 +133,6 @@ Congratulation! Now you can create proper Monitoring rules for Threat Hunting an
 Note: When you update an existing Data Source, there is a slight delay in updating the Data Source and the state will be Updating for a few minutes.
 
 ![Picture 7](./files/image-29.png)
+
+
+Reviewed: 27.07.2026

@@ -300,3 +300,6 @@ See the following links for more:
 3. [Ops Insights API](https://docs.oracle.com/en-us/iaas/api/)
 
 4. [OCI SDK and CLI Configuration File](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/sdkconfig.htm)
+
+
+Reviewed: 27.07.2026

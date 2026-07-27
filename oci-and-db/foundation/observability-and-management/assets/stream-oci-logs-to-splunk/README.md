@@ -151,3 +151,6 @@ After this change, the OCI App will start to show data with the prebuild Dashboa
 Press enter or click to view image in full size
 
 ![Picture 1](./files/image-25.png)
+
+
+Reviewed: 22.07.2026

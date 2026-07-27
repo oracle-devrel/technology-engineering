@@ -121,3 +121,6 @@ discovery_job = oci.stackmonitoring.DiscoveryJob(resource_name=config.get("proce
 Pulumi also has an experimental [AI feature](https://www.pulumi.com/ai) to help you with writing the code and explanation.
 
 Recently a VScode extension has been released as well which will help in writing the code faster with autocomplete and other features.
+
+
+Reviewed: 23.07.2026

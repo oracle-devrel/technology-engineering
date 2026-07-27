@@ -143,3 +143,5 @@ Press enter or click to view image in full size
 ![Picture 1](./files/image-14.png)
 
 This idea can be applied to any Kafka consumer including a standalone Linux host
+
+Reviewed: 27.07.2026

@@ -12,7 +12,7 @@ The asset is broken down into three sections:
 
 ![What will we cover in this series about OCI APM?](files/images/series-scope-introduction.png)
 
-Reviewed: 24.04.2026
+Reviewed: 27.07.2026
 
 # When to use this asset?
 
@@ -23,6 +23,7 @@ Once an application is instrumented and traces are collected by agents, it can b
 When an application is instrumented and traces are being collected, this asset can be used to get some guidance on how to approach OCI APM as a tool.
 
 If possible, it's recommended to instrument an application with OCI APM first and look at the data while reading these articles. APM has a free version that can be used to try out all the capabilities discussed in this asset (click [here](https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/create-apm-domain.html) for more).
+
 
 # License
 

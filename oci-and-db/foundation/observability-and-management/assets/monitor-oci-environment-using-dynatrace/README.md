@@ -133,3 +133,6 @@ Go to Dashboards - Search App — Extensions →and check the views:
 ![Picture 7](./files/image-29.png)
 
 Congratulations! You have configured Dynatrace to collect logs from OCI.
+
+
+Reviewed: 27.07.2026

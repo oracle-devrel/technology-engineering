@@ -165,3 +165,6 @@ Now you can see that the rules from the rule file we have created are loaded and
 As you can see, we have the the data.body.key field populated, so in my next blog I will be able to use it in my searches.
 
 Congratulations! You are able to collect Auditd logs in OCI and parse them in a correct way.
+
+
+Reviewed: 27.07.2026

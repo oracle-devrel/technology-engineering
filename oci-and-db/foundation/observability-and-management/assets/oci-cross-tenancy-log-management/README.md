@@ -59,3 +59,6 @@ A high-level overview of the flow can be seen here:
 ![Picture 1](./files/image-06.png)
 
 This is just an example of how you can move the logs between different tenancies to a central one, and you can extend the capabilities based on your needs.
+
+
+Reviewed: 25.07.2026

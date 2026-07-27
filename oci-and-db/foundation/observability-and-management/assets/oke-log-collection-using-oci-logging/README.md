@@ -27,3 +27,5 @@ systemctl restart unified-monitoring-agent_config_downloader
 ```
 
 Congratulations! You have now OKE logs in OCI Logging.
+
+Reviewed: 25.07.2026

@@ -14,6 +14,9 @@ Oracle Cloud Infrastructure as a Data Source for Grafana | [Link](https://blogs.
 
 Grafana Plug-in | [Link](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/grafana.htm?source=post_page-----2dd1ceac3f71---------------------------------------)
 
+
+Reviewed: 27.07.2026
+
 ### Accounts
 
 By default, you will be viewing Grafana as an anonymous user. If you want to make changes to the default Grafana dashboards, you will need to log into Grafana with username admin and the randomized password found via sudo salt-call pillar.get secrets.

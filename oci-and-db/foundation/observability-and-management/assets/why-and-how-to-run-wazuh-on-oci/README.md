@@ -111,3 +111,6 @@ On the Wazuh server run these commands, and reload the page:
 ![Picture 20](./files/image-12.png)
 
 Congratulations! You have your Wazuh Server up and running(All-in-one server).
+
+
+Reviewed: 27.07.2026

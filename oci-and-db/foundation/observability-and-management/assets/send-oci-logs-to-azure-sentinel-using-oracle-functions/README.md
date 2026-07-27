@@ -286,3 +286,6 @@ Note
 If there are errors, troubleshoot them as per the error messages.
 
 2. If you don’t want to hard code the workspace ID and the primary keys, it is possible to use OCI Vaults service. Although this will require slight changes to the code.
+
+
+Reviewed: 27.07.2026

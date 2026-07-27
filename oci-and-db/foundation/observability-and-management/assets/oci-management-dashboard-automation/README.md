@@ -294,3 +294,5 @@ if len(dashboard_list) == 0:
 Once the dashboard and saved search is created we can simply drag and drop the required widgets. You can also update the saved search if any changes needed later.
 
 The above automation though is a starting point in saving time it’s not a perfect solution for all requirements. The idea is to show how easy it can be automated using python SDK and you can make small changes as per the requirements instead of writing from scratch.
+
+Reviewed: 25.07.2026

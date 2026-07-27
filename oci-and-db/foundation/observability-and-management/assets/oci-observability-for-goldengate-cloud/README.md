@@ -110,3 +110,6 @@ Press enter or click to view image in full size
 ![Picture 1](./files/image-18.png)
 
 Now you can use full Observability capability on your Golden Gate service.
+
+
+Reviewed: 25.07.2026

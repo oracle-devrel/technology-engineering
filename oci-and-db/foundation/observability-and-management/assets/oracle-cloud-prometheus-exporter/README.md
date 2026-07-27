@@ -209,3 +209,6 @@ Press enter or click to view image in full size
 Prometheus OCI VCN metrics
 
 If the use-case is to view OCI metrics in grafana then you can use the [grafana plugin](https://github.com/oracle/oci-grafana-metrics) no need of exporters.
+
+
+Reviewed: 25.07.2026
