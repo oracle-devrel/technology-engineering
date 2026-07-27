@@ -10,11 +10,11 @@ for example, We can move data from the logging service to the streaming service 
 
 Press enter or click to view image in full size
 
-![Picture 15](./images/image-01.png)
+![Picture 15](./files/image-01.png)
 
 Press enter or click to view image in full size
 
-![Picture 14](./images/image-02.jpeg)
+![Picture 14](./files/image-02.jpeg)
 
 we will use service connectors to send the logs to streams
 
@@ -60,7 +60,7 @@ On OCI Configure your Logging data ( any of the above ) as Source and Target as 
 
 Press enter or click to view image in full size
 
-![Picture 13](./images/image-03.png)
+![Picture 13](./files/image-03.png)
 
 Pro Tip :
 
@@ -72,31 +72,31 @@ On the QRadar Log Source management section
 
 Press enter or click to view image in full size
 
-![Picture 11](./images/image-04.png)
+![Picture 11](./files/image-04.png)
 
 Select New Log source & Select Single Log source
 
 Press enter or click to view image in full size
 
-![Picture 10](./images/image-05.png)
+![Picture 10](./files/image-05.png)
 
 Select log source type as [Universal DSM](https://www.ibm.com/docs/en/dsm?topic=options-apache-kafka-protocol-configuration)
 
 Press enter or click to view image in full size
 
-![Picture 9](./images/image-06.png)
+![Picture 9](./files/image-06.png)
 
 This section is specific to your use case and self explanatory
 
 Press enter or click to view image in full size
 
-![Picture 8](./images/image-07.png)
+![Picture 8](./files/image-07.png)
 
 The protocol section is required to match your OCI streaming service configuration
 
 Press enter or click to view image in full size
 
-![Picture 7](./images/image-08.png)
+![Picture 7](./files/image-08.png)
 
 Parameter to be referred from OCI Streampool section ( not stream !!)
 
@@ -112,17 +112,17 @@ Topic List is your OCI stream name
 
 Press enter or click to view image in full size
 
-![Picture 6](./images/image-09.jpeg)
+![Picture 6](./files/image-09.jpeg)
 
 Press enter or click to view image in full size
 
-![Picture 5](./images/image-10.png)
+![Picture 5](./files/image-10.png)
 
 ensure you have the required SSL certificates for your OCI bootstrap server is placed at /opt/qradar/conf/trusted_certificates/ directory
 
 Press enter or click to view image in full size
 
-![Picture 4](./images/image-11.jpeg)
+![Picture 4](./files/image-11.jpeg)
 
 Steps to import certificates
 
@@ -130,16 +130,18 @@ Post-configuration Protocol should have all the information
 
 Press enter or click to view image in full size
 
-![Picture 3](./images/image-12.jpeg)
+![Picture 3](./files/image-12.jpeg)
 
 Once your Parameter and Protocol are matching you should be able to receive logs from OCI to QRadar
 
 Press enter or click to view image in full size
 
-![Picture 2](./images/image-13.png)
+![Picture 2](./files/image-13.png)
 
 Press enter or click to view image in full size
 
-![Picture 1](./images/image-14.png)
+![Picture 1](./files/image-14.png)
 
 This idea can be applied to any Kafka consumer including a standalone Linux host
+
+Reviewed: 27.07.2026

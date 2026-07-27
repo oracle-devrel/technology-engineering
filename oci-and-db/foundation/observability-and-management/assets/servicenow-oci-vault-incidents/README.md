@@ -122,3 +122,6 @@ def handler(ctx, data: io.BytesIO = None):
 Once the alarm is triggered you would be able to see the incident created in ServiceNow. Enable function logs if needed for troubleshooting.
 
 Tip: Create split notification if you are using the alarm for multiple metric stream so alarms are triggered for individual resource.
+
+
+Reviewed: 27.07.2026

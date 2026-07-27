@@ -585,3 +585,6 @@ Logging Analytics query errors:
 - remove `ORDER BY` on sequence or timestamp columns
 - avoid `WHERE` filters on the incremental sequence or timestamp column
 - verify the selected sequence column is unique and increasing
+
+
+Reviewed: 25.07.2026

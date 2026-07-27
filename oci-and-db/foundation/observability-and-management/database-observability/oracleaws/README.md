@@ -220,3 +220,6 @@ Use the local OCI-native documentation for the detailed steps:
   https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/create_dashboard.html
 - Amazon EventBridge overview:
   https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-what-is.html
+
+
+  Reviewed: 25.07.2026
