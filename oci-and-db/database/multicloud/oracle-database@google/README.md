@@ -1,18 +1,12 @@
 # Oracle Database@Google --- New  Announcement !!!
  
-Oracle and Google Cloud announced a partnership that gives customers the choice to combine Oracle Cloud Infrastructure (OCI) and Google Cloud technologies to help accelerate their application migrations and modernization. 
+Oracle and Google Cloud announced a joint solution to deliver Oracle Exadata Database Service within Google Cloud, allowing customers to run mission-critical Oracle Database workloads with Oracle-managed database operations and Google Cloud integration. 
 
-Google Cloud’s Cross-Cloud Interconnect will be initially available for customer onboarding in 11 global regions, allowing customers to deploy general purpose workloads with no cross-cloud data transfer charges. Later this year, a new offering, Oracle Database@Google Cloud, will be available with the highest level of Oracle database and network performance, along with feature and pricing parity with OCI.
+Oracle Database@Google Cloud provides enterprise-grade Oracle database capabilities on Google Cloud infrastructure, with secure networking, low-latency connectivity, and joint Oracle-Google support for hybrid and multicloud deployments.
  
 Reviewed: 28.07.2026
  
 # Useful Links
-
-## Design Workshop Assets
-
-- Design workshop overview: [design-workshop/README.md](./design-workshop/README.md)
-- Supporting materials and downloadable assets are stored in [design-workshop/files/](./design-workshop/files/)
-- Technical deep dive asset: [design-workshop/files/Oracle-Database@Google-Cloud-Technical-Deep-Dive.pdf](./design-workshop/files/Oracle-Database@Google-Cloud-Technical-Deep-Dive.pdf)
 
 ## General
 
