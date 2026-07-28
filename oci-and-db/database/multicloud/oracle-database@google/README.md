@@ -8,6 +8,11 @@ Reviewed: 22.10.2025
  
 # Useful Links
 
+## Technical Deep Dive Assets
+
+- Supporting materials and downloadable assets are stored in [files/](./files/)
+- Technical deep dive asset: [Oracle-Database@Google-Cloud-Technical-Deep-Dive.pdf](./files/Oracle-Database@Google-Cloud-Technical-Deep-Dive.pdf)
+
 ## General
 
 - [Oracle and Google Cloud Announce a Groundbreaking Multicloud Partnership](https://www.oracle.com/news/announcement/oracle-and-google-cloud-announce-groundbreaking-multicloud-partnership-2024-06-11/)
