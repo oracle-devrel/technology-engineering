@@ -1,10 +1,10 @@
-# PeopleSoft Migration Template
+# JDE Migration Template
 
 Review Date: 28.07.2026
 
 # When to use this asset?
 
-Any Oracle Partner/Service Provider/Consultant working on a PeopleSoft workload migration project to OCI should find this useful.
+Any Oracle Partner/Service Provider/Consultant working on a JDE workload migration project to OCI should find this useful.
 
 # How to use this asset?
 
