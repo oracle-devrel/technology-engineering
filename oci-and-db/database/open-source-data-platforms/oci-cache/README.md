@@ -2,7 +2,7 @@
 OCI Cache with Redis is a comprehensive, managed in-memory caching solution built on the foundation of open source Redis. 
 This fully managed service accelerates data reads and writes, significantly enhancing application response times and database performance to provide an improved customer experience.
 
-Reviewed: 10.06.2026
+Reviewed: 28.07.2026
 
 # Table of Contents
 
@@ -13,8 +13,8 @@ Reviewed: 10.06.2026
 # Team Publications
 
 ## Github
-- [Connect OCI Cache through Network Load Balancer](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-cache/connect-via-nlb)
-- [Vector Search with OCI Cache (Valkey 8.1) and OCI Data Science Notebook](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-cache/vector-search)
+- [Connect OCI Cache through Network Load Balancer](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-cache/code-examples/connect-via-nlb)
+- [Vector Search with OCI Cache (Valkey 8.1) and OCI Data Science Notebook](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-cache/code-examples/vector-search)
 
 
 ## Architecture Center & Oracle Learn
@@ -25,6 +25,7 @@ Reviewed: 10.06.2026
 ## Blogs
 - [Upgrade OCI Cache with Redis to Valkey](https://medium.com/@devpiotrekk/upgrade-oci-cache-with-redis-to-valkey-d3c01deb8733)
 - [Serverless Deployment of Valkey Admin with OCI Container Instances](https://medium.com/@devpiotrekk/serverless-deployment-of-valkey-admin-with-oci-container-instances-dd1cb3debab2)
+- [OCI Cache and MySQL HeatWave: Better Together for High-Performance Applications](https://dasini.net/blog/2026/07/21/oci-cache-and-mysql-heatwave-better-together-for-high-performance-applications/)
 
 
 ## LiveLabs

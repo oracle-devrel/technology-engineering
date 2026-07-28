@@ -1,6 +1,6 @@
 # Example of Producing and Consuming for OCI Streaming
 
-Reviewed: 11.11.2025
+Reviewed: 28.07.2026
 
 1. Create compute instance. Oracle Linux 7.
 2. Run the below to install Git, clone the repo, and install several packages

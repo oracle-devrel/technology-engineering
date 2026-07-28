@@ -1,6 +1,6 @@
 # Triggering OCI Data Flow from OCI Functions
 
-Reviewed: 11.11.2025
+Reviewed: 28.07.2026
 
 # When to use this asset?
 

@@ -1,5 +1,7 @@
 # OCI GoldenGate connection to OCI Streaming with Apache Kafka
 
+Reviewed: 28.07.2026
+
 ### This guide documents how to set up OCI GoldenGate connection to OCI Streaming with Apache Kafka (OSAK) cluster.
 ---
 

@@ -3,7 +3,7 @@ OCI Search with OpenSearch is a managed service that you can use to build in-app
 
 Search with OpenSearch handles all the management and operations of search clusters, including operations such as security updates, upgrades, resizing, and scheduled backups. This allows you to focus your resources on building features for your OpenSearch solutions.
 
-Reviewed: 10.06.2026
+Reviewed: 28.07.2026
 
 # Table of Contents
 
@@ -33,6 +33,7 @@ Reviewed: 10.06.2026
 
 ### Architecture Center
 - [Modernize your application development with OCI-managed PostgreSQL, Redis, and OpenSearch](https://docs.oracle.com/en/solutions/modernize-app-dev-oci-postgresql-redis-opensearch/#GUID-DA0594DA-D549-481E-9CBD-46735766CA82)
+- [Deploy Atlassian Bitbucket Data Center on OCI with Managed OpenSearch and PostgreSQL](https://docs.oracle.com/en/solutions/deploy-bitbucket-oci/#GUID-D5ADF584-AFB8-4087-97F3-4EC8FF5E687D)
 
 
 # Useful Links

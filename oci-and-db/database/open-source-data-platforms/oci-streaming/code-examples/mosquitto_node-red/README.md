@@ -1,6 +1,6 @@
 # Create and run Mosquitto & Node-RED, connecting to OCI Streaming
 
-Reviewed: 11.11.2025
+Reviewed: 28.07.2026
 
 The below creates a Mosquitto instance on OCI and adds configuration to handle the incoming KPN IoT platform traffic. KPN needs CA signed certificates and encrypted messages, and username/password auth.
 
