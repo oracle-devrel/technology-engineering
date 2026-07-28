@@ -4,7 +4,7 @@ This repository contains E-Business Suite (EBS) reference architecture, useful l
 
 __Note:__ This is a living document. We will make changes and enhance this as and when needed.  
 
-Reviewed: 26.11.2025
+Review Date: 28.07.2026
 
 # When to use this asset?
 
