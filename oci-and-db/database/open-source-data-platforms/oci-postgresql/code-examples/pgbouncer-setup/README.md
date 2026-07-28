@@ -1,6 +1,6 @@
 # Set up PgBouncer for Connection Pooling with OCI Database with PostgreSQL
 
-Reviewed: 25.11.2025
+Reviewed: 28.07.2026
 
 # When to use this asset?
 

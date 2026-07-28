@@ -1,6 +1,6 @@
 # Automate Switchover/Failover operations with OCI PostgreSQL Warm-Standby DR
 
-Reviewed: 7.04.2026
+Reviewed: 28.07.2026
 
 # When to use this asset?
 

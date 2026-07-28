@@ -1,6 +1,6 @@
 # MySQL HeatWave
 
-Reviewed: 10.06.2026
+Reviewed: 28.07.2026
 
 MySQL HeatWave is Oracle’s cloud database service that combines MySQL transactions, real-time analytics, machine learning, and vector search in one MySQL-compatible platform. It lets teams run operational and analytical workloads without moving data into separate systems, reducing complexity and latency. 
 
@@ -11,12 +11,20 @@ MySQL HeatWave is Oracle’s cloud database service that combines MySQL transact
 3. [Reusable Assets](#reusable-assets)
 
 # Team Publications
-- [Cloud-native analytics using Open-source tools with MySQL HeatWave](https://livelabs.oracle.com/ords/r/dbpm/livelabs/run-workshop?p210_wid=3234&p210_wec=&clear=210&session=118326321955831)
+
+### Blogs
 - [Building an AI Vision Search Engine with MySQL HeatWave GenAI](https://dasini.net/blog/2026/05/14/building-an-ai-vision-search-engine-with-mysql-heatwave-genai/)
 - [Querying the Unstructured: Natural Language to SQL for JSON Data](https://dasini.net/blog/2025/10/14/querying-the-unstructured-natural-language-to-sql-for-json-data/)
 - [Let Your AI DBA Assistant Write Your MySQL Queries](https://dasini.net/blog/2025/10/07/let-your-ai-dba-assistant-write-your-mysql-queries/)
 - [Lightning-Fast Archiving in MySQL HeatWave Using Table Partition Exchange](https://blogs.oracle.com/mysql/%f0%9f%9a%80-lightning-fast-archiving-in-mysql-heatwave-using-table-partition-exchange)
 - [How to do HeatWave Audit Archive and dump to Object Storage](https://blogs.oracle.com/mysql/heatwave-audit-archive-and-dump-to-object-storage)
+- [OCI Cache and MySQL HeatWave: Better Together for High-Performance Applications](https://dasini.net/blog/2026/07/21/oci-cache-and-mysql-heatwave-better-together-for-high-performance-applications/)
+
+### Github
+- [OCI Object Event to MySQL Table](https://github.com/ivanxma/oci-fn-object-event-2-hw-table)
+
+### LiveLabs
+- [Cloud-native analytics using Open-source tools with MySQL HeatWave](https://livelabs.oracle.com/ords/r/dbpm/livelabs/run-workshop?p210_wid=3234&p210_wec=&clear=210&session=118326321955831)
 
 # Useful Links
 - [MySQL Product Management Public](https://oracle.sharepoint.com/sites/oracleheatwave/HeatWave%20Collateral/Forms/AllItems.aspx)

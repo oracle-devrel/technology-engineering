@@ -1,6 +1,6 @@
 # Configuring Schema registry and Kafka connect with AKHQ(UI) for OSAK
 
-Review: 11.11.2025
+Reviewed: 28.07.2026
 
 ### Prerequistes
     

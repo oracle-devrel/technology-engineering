@@ -1,6 +1,6 @@
 # Vector Search with OCI Cache (Valkey 8.1) and OCI Data Science Notebook
 
-Reviewed: 12.02.2026
+Reviewed: 28.07.2026
 
 # When to use this asset?
 
