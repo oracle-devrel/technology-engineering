@@ -2,6 +2,8 @@
 
 Cyber security has become an increasingly critical topic as malware and ransomware attacks continue to occur around the world. For mission-critical databases, such attacks leading to lost data and system downtime can have far-ranging impacts throughout the business in terms of revenue, operations, reputation, and even penalties.
 
+Review Date: 28.07.2026
+
 ## When to use this asset?
 
 Cyber Recovery should be considered as part of a comprehensive cybersecurity strategy, in conjunction with other preventive, detective, and responsive measures. Its primary focus is on rapid recovery and maintaining the integrity of critical systems and data in the face of cyber threats.
