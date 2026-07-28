@@ -4,14 +4,15 @@ Oracle and Google Cloud announced a partnership that gives customers the choice 
 
 Google Cloud’s Cross-Cloud Interconnect will be initially available for customer onboarding in 11 global regions, allowing customers to deploy general purpose workloads with no cross-cloud data transfer charges. Later this year, a new offering, Oracle Database@Google Cloud, will be available with the highest level of Oracle database and network performance, along with feature and pricing parity with OCI.
  
-Reviewed: 22.10.2025
+Reviewed: 28.07.2026
  
 # Useful Links
 
-## Technical Deep Dive Assets
+## Design Workshop Assets
 
-- Supporting materials and downloadable assets are stored in [files/](./files/)
-- Technical deep dive asset: [Oracle-Database@Google-Cloud-Technical-Deep-Dive.pdf](./files/Oracle-Database@Google-Cloud-Technical-Deep-Dive.pdf)
+- Design workshop overview: [design-workshop/README.md](./design-workshop/README.md)
+- Supporting materials and downloadable assets are stored in [design-workshop/files/](./design-workshop/files/)
+- Technical deep dive asset: [design-workshop/files/Oracle-Database@Google-Cloud-Technical-Deep-Dive.pdf](./design-workshop/files/Oracle-Database@Google-Cloud-Technical-Deep-Dive.pdf)
 
 ## General
 
