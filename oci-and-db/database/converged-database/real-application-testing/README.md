@@ -4,7 +4,7 @@ Real Application Testing comes in two flavors - Database Replay (DB Replay) and 
 
 Database Replay can be used to capture a real workload on the production system and replay it on a test system with the exact timing, concurrency, and transaction characteristics of the original workload. This enables you to test the effects of a system change without affecting the production system. 
 
-Review Date: 03.06.2024
+Review Date: 29.07.2026
 
 # Useful Links
 
@@ -24,6 +24,9 @@ Review Date: 03.06.2024
 - [Real Application Testing Database Replay Demo](https://blogs.oracle.com/coretec/post/rat-demo)
 - [Smooth transition to Autonomous Database using SPA](https://blogs.oracle.com/coretec/post/spa-in-autonomous-database)
 - [Oracle SQL Tuning Sets (STS) - The foundation for SQL Tuning](https://blogs.oracle.com/coretec/post/oracle-sql-tuning-sets-the-basis-for-sql-tuning)
+- [Capture-Replay Workloads between non-Autonomous and Autonomous Databases](https://www.youtube.com/watch?v=cWZ9MPBZemc)
+- [Capture-Replay Workloads between Autonomous Databases](https://www.youtube.com/watch?v=JXpQe7zUFs8)
+- [Using the new graphical interface for Database Replay to test new patches on Autonomous Database](https://medium.com/@adrian.capitanu/using-database-replay-to-test-new-patches-on-autonomous-database-6701ed9def6e)
 
 # License
 
