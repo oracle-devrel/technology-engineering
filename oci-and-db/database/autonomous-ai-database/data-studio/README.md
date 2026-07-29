@@ -2,7 +2,7 @@
  
 The Data Studio Tools enables you to load data from the cloud and other diverse sources, analyze it, and gain insights from it. You can share the result of the analysis with other users. It is a one-stop application of your analytics tool from multiple data sources. This tool makes sure that there is a seamless transition between different applications. The multiple ways of navigation do not impact the progress of your work.
  
-Reviewed: 28.10.2025
+Reviewed: 29.07.2026
  
 # Table of Contents
  
