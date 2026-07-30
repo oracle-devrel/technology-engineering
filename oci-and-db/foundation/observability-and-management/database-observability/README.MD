@@ -1,6 +1,7 @@
 
 |Observability Database Asset  |  Assets Page|  
 |---|---|
+|  Automated Enablement of DB Observability at scale from 1 to 1000+ DBs | [Link](https://github.com/adibirzu/terraform-oci-database-observability)  |
 | Autonomous Database  | [Link](./autonomous-observability-asset/README.md) | 
 | Database Cloud Service  | [Link](./exacs-and-dbcs-observability-assets/README.md) |  
 | Exadata cloud@customer | [Link](./exacc-observability-assets/README.md) |  
