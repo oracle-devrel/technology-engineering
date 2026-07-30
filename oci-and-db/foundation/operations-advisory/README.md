@@ -51,9 +51,10 @@ Reviewed: 2026-07-15
 ### Oracle Database Operations
 
 - [ExaDB-D - Management Interfaces Deep Dive Workshop.](./customer-operations/oracle-database/exadb-d/files/Public_0_OCI_ExaDB_Management_Interfaces_v1.0.pdf)
-- [ExaDB-D - Management Provisioning Operations Deep Dive Workshop.](./customer-operations/oracle-database/exadb-d/files/Public_1_ExaDB-D_Provision_v1.0.pdf)
-- [ExaDB-D - Management Change Operations Deep Dive Workshop.](./customer-operations/oracle-database/exadb-d/files/Public_2_ExaDB-D_Change_v2.0.pdf)
-- [ExaDB-D - Management Maintenance Operations Deep Dive Workshop.](./customer-operations/oracle-database/exadb-d/files/Public_3_ExaDB-D_Maintenance_v2.0.pdf)
+- [ExaDB-D - Provisioning Operations Deep Dive Workshop.](./customer-operations/oracle-database/exadb-d/files/Public_1_ExaDB-D_Provision_v1.0.pdf)
+- [ExaDB-D - Change Operations Deep Dive Workshop.](./customer-operations/oracle-database/exadb-d/files/Public_2_ExaDB-D_Change_v2.0.pdf)
+- [ExaDB-D - Maintenance Operations Deep Dive Workshop.](./customer-operations/oracle-database/exadb-d/files/Public_3_ExaDB-D_Maintenance_v2.0.pdf)
+- [ExaDB-D - Ansible Operations Deep Dive Workshop](./customer-operations/oracle-database/exadb-d/files/Public_5_ExaDB-D_Ansible_Operations_v0.3.pdf)
 - [Building a Complete Exadata FinOps Model](./lifecycle-management-tools/finops/files/Public_FinOps_ExadataCostAttribution_v0.1.pdf)
 - [ExaDB-XS Management Interfaces Deep Dive Workshop.](./customer-operations/oracle-database/exadb-xs/files/Public_00_ExaDBXS_Management_Interfaces_v1.0.pdf)
 - [ExaDB-XS Provision Operations Deep Dive Workshop.](./customer-operations/oracle-database/exadb-xs/files/Public_01_ExaDBXS_Provision_v1.0.pdf)

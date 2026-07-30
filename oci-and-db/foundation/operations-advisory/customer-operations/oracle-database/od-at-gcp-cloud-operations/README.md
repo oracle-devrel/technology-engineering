@@ -1,6 +1,6 @@
 # Oracle Database@Google Cloud Operations
 
-Reviewed: 2026-07-13
+Reviewed: 2026-07-30
 
 # Table of Contents  <!-- omit in toc --> 
 - [Oracle Database@Google Cloud Operations](#oracle-databasegoogle-cloud-operations)
@@ -14,6 +14,7 @@ Reviewed: 2026-07-13
 - [Oracle Database@Google Cloud Change Operations](../exadb-d/files/Public_2_ExaDB-D_Change_v2.0.pdf)
 - [Oracle Database@Google Cloud Maintenance Operations](../exadb-d/files/Public_3_ExaDB-D_Maintenance_v2.0.pdf)
 - [Oracle Database@Google Cloud Backup & Recovery Operations](../exadb-d/files/Public_4_ExaDB-D_BackupRecovery_v1.0.pdf)
+- [Oracle Database@Google Cooud - Ansible Operations Deep Dive Workshop](../exadb-d/files/Public_5_ExaDB-D_Ansible_Operations_v0.3.pdf)
 
   
 # License
