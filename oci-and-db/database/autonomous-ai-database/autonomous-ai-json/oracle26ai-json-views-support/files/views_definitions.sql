@@ -32,4 +32,3 @@ select json {'_id' : department_id,
              'dname'   : department_name,
              'location' : location_id}
 from departments with insert update delete;
-
