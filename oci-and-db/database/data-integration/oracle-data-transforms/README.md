@@ -19,6 +19,8 @@ Reviewed: 03.06.2026
 
 - [Introducing Oracle Data Transforms](https://www.youtube.com/watch?v=ImrdoFe-4QE)
 
+- [Oracle Data Transforms Workshop](https://livelabs.oracle.com/ords/r/dbpm/livelabs/view-workshop?wid=3916)
+
 - [Oracle Data Transforms - Configuring Rest APIs](https://www.youtube.com/watch?v=-qLseJFfCls)
 
 - [Comparing Oracle ETL/ELT Tools](https://www.ateam-oracle.com/comparing-oracle-etlelt-tools)
