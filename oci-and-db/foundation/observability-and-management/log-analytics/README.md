@@ -22,6 +22,7 @@ Reviewed: 23.07.2026
 | Log Analytics Advanced Security Detection|[Link](https://github.com/adibirzu/oci-log-analytics-detections)|
 | Stream Azure Event Hub logs into Log Analytics|[Link](https://github.com/adibirzu/azurelogs2oci)|
 | Stream GCP logs into Log Analytics|[Link](https://github.com/adibirzu/gcplogs2oci)|
+| Exporting Oracle DB audit events from OCI Data Safe to Oracle Log Analytics | [Link](https://github.com/adibirzu/oci-datasafe-log-analytics-dashboards) |
 
 
 # Useful Links
