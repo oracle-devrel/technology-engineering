@@ -17,7 +17,7 @@ Run the scripts in the "files" directory, make sure that you have the following:
 - Oracle Database 23ai with Oracle API for MongoDB enabled
 - HR database sample schema installed
 
-#License
+# License
 
 Copyright (c) 2026 Oracle and/or its affiliates.
 
