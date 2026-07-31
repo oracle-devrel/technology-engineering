@@ -22,10 +22,6 @@ Strong security and compliance controls
 Seamless hybrid and disaster recovery options
 Reduced operational burden through Oracle-managed infrastructure
 
-How to position the value
-
-The best sales message is simple:
-
 Oracle Database@Hyperscaler is not about asking customers to adopt another cloud. It is about delivering Oracle Database services inside the hyperscaler they already trust and use.
 
 This means customers can:
