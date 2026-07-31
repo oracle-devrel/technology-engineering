@@ -2,6 +2,22 @@
 
 Oracle Exadata Cloud@Customer (ExaDB-C@C) brings the performance, automation, and economics of Exadata Database Service and the fully managed Autonomous AI Database into enterprise data centers. It’s the simplest way for customers to start using cloud database resources in their data centers and help address strict data residency requirements. Exadata Cloud@Customer incorporates unique optimizations that let Oracle AI Database workloads run faster with less management and lower costs so organizations can get more value from their data. Oracle offers both autonomous and co-managed Oracle Database cloud solutions on Exadata Cloud@Customer.
 
+Reviewed: 29/07/26
+
+# Table of Contents
+- [Useful Links](#useful-links)
+  - [Subpages](#subpages)
+  - [Videos](#videos)
+  - [Exadata Cloud@Customer Public references](#exadata-cloudcustomer-public-references)
+  - [Exadata Cloud@Customer Training](#exadata-cloudcustomer-training)
+    - [Oracle MyLearn](#oracle-mylearn)
+    - [Free Customer Training](#free-customer-training)
+      - [Some other trainings you may want to consider:](#some-other-trainings-you-may-want-to-consider)
+    - [Chargeable Customer Training](#chargeable-customer-training)
+    - [Additional Training Resources](#additional-training-resources)
+- [License](#license)
+
+
 # Useful Links
 
 - [Main Oracle Product Page](https://www.oracle.com/uk/engineered-systems/exadata/cloud-at-customer/)
@@ -14,7 +30,7 @@ Oracle Exadata Cloud@Customer (ExaDB-C@C) brings the performance, automation, an
 
 - [What’s New in ADB-D on Exadata Cloud@Customer](https://docs.oracle.com/en-us/iaas/exadata/doc/adb-okv-integration.html)
 
-# Subpages
+## Subpages
 
 - <img src="./images/exadb-infra.png" width="24" alt="Infrastructure">  [ExaDB-C@C Infrastructure](./exacc-infra)
 
@@ -26,7 +42,7 @@ Oracle Exadata Cloud@Customer (ExaDB-C@C) brings the performance, automation, an
 
 - <img src="./images/exadb-adb.png" width="24" alt="ADB-C@C">  [ADB-C@C](./adb-cc)
 
-# Videos
+## Videos
 A short video series covering different aspects of the Oracle Exadata Cloud@Customer - the best platform for running your Oracle Databases in the cloud behind your firewall.
 
 **Episode 1 - Introductions to Exadata Cloud@Customer:**
@@ -54,7 +70,7 @@ The below videos are showcasing best practices and how-to's with a technical and
 **Learn how to optimize Exadata Database Service performance using IORM (I/O Resource Manager):** 
 [![IORM](files/images/Ep5_TN.jpg "Exadata Database Service Resource Management – IORM")](https://youtu.be/vXkWR6Uc0vM)
 
-# Exadata Cloud@Customer Public references
+## Exadata Cloud@Customer Public references
 
 - [Advania, Infromation Technology, Sweden](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/files/Adviana-Island-ExaDBCC.pdf)
 
@@ -70,15 +86,15 @@ The below videos are showcasing best practices and how-to's with a technical and
 
 - [HUS, Healthcare, Finland](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/files/HUS-yhtyma-ExaDBCC.pdf)
 
-# Exadata Cloud@Customer Training
+## Exadata Cloud@Customer Training
 
-## Oracle MyLearn
+### Oracle MyLearn
 At [Oracle Mylearn](https://www.oracle.com/uk/education/training/) Here you can find Training, certification, Oracle guided learning, skill development etc. Some content is free and some you need to buy a subscription for/pay for. 
 
 Below, we have summarised content we think customers would benefit from specifically to support their skills and development in using Exadata Cloud@Customer.
 Your Customer Success Services account manager can guide you on available training that can be purchased. Reach out if you would like us to put you in contact with your aligned representative or you can reach CSS via [this link](https://www.oracle.com/uk/education/contact-form.html).
 
-## Free Customer Training
+### Free Customer Training
 
 [Oracle Cloud Infrastructure Training and Certification](https://www.oracle.com/uk/education/training/oracle-cloud-infrastructure/)
 
@@ -91,7 +107,7 @@ Where we would recommend:
 * OCI Networking Professional
 * Managing OCI identity and access management
 
-### Some other trainings you may want to consider:
+#### Some other trainings you may want to consider:
 [Administering Exadata Cloud at Customer Gen 2](https://education.oracle.com/administering-exadata-cloud-at-customer-gen-2/courP_110895624)
 [Develop Coaching webinars](https://www.oracle.com/developer/events/)
 
@@ -103,18 +119,16 @@ There are other YouTube channels which have relevant training videos published, 
 
 [Tips for Managing Exadata Cloud@Customer and Exadata Cloud Service with Enterprise Manager](https://www.youtube.com/watch?v=L_kcLPZjlXg)
 
-## Chargeable Customer Training
+### Chargeable Customer Training
 [Oracle Technology Learning Subscription (Oracle Cloud Infrastructure, Oracle Database)](https://shop.oracle.com/apex/f?p=DSTORE:PRODUCT::::6:P6_LPI,P6_PROD_HIER_ID:39173837313210910012927941,39203894217074790107465754)
 
-# Useful Links
+### Additional Training Resources
 
 - [Oracle Mylearn](https://www.oracle.com/uk/education/training/)
 
 - [Oracle Developers YouTube channel](https://www.youtube.com/@oracledevs)
 
 - [Oracle Universiy](https://shop.oracle.com/apex/f?p=dstore:2:0::NO:RIR,2:PROD_HIER_ID:38022788136100320034918191)
-
-Reviewed: 06/24/26
 
 # License
 
