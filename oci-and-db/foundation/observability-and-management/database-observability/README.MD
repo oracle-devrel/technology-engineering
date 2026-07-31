@@ -11,3 +11,4 @@
 | DB@GCP  | [WIP](https://docs.oracle.com/en-us/iaas/Content/database-at-gcp/gcpmn-monitor.html)|  
 | DB@Azure |[WIP](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/azumn-monitor.html)| 
 | DB@AWS | [Link](./oracleaws/README.md)|
+| Exporting Oracle DB audit events from OCI Data Safe to Oracle Log Analytics | [Link](https://github.com/adibirzu/oci-datasafe-log-analytics-dashboards) |
