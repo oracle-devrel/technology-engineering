@@ -1,6 +1,6 @@
-## Oracle Database 23ai support for JSON Duality and Collection Views
+## Oracle Database 26ai support for JSON Duality and Collection Views
 
-This repository contains scripts demonstrating support for Oracle JSON views in Oracle Database 23ai and Oracle API for MongoDB
+This repository contains scripts demonstrating support for Oracle JSON views in Oracle Database 26ai and Oracle API for MongoDB
 
 
 ## Requirements
