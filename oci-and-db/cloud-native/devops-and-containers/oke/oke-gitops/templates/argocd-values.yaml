@@ -1,0 +1,14 @@
+global:
+  image:
+    repository: ${region_key}.ocir.io/${tenancy_namespace}/${repo_prefix}/argocd
+  imagePullSecrets:
+    - name: ocirsecret
+
+dex:
+  image:
+    repository: ${region_key}.ocir.io/${tenancy_namespace}/${repo_prefix}/dex
+
+redis:
+  image:
+    repository: ${region_key}.ocir.io/${tenancy_namespace}/${repo_prefix}/redis
+

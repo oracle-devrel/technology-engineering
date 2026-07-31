@@ -90,16 +90,47 @@ Notes:
 
 ---
 
-## 4. Run the Streamlit App
+"# 4️⃣ Run the Streamlit Application
 
-Run the application from the project directory.
+Before running the application, update the required configuration variables inside `app.py`.
 
-```
-streamlit run app.py
-```
+## 🔧 Configuration
+
+Fill in the following variables in the code:
+
+- **`OCI_CONFIG_PATH`**  
+  Path to your local OCI configuration file (usually located at `~/.oci/config` on macOS/Linux or `C:\\Users\\<your-user>\\.oci\\config` on Windows).
+
+- **`COMPARTMENT_ID`**  
+  The OCID of your compartment within the OCI tenancy.
+
+- **`EMBED_MODEL_ID`**  
+  The embedding model used to generate and retrieve embeddings from the database:
+  ```python
+  EMBED_MODEL_ID = \"cohere.embed-v4.0\"
+  ```
+
+- **`OD_MODEL_ID`**  
+  The OCID of your custom Vision **Object Detection** model created in OCI.
+
+- **`GENAI_ENDPOINT`**  
+  The inference endpoint for OCI Generative AI. Example:
+  ```python
+  GENAI_ENDPOINT = \"https://inference.generativeai.<your-region>.oci.oraclecloud.com\"
+  ```
 
 ---
 
+## ▶️ Running the Application
+
+Navigate to the project directory and run:
+
+```bash
+streamlit run app.py
+```
+
+The application will start locally and provide a URL in the terminal (typically `http://localhost:8501`).
+"
 ## 5. App Views (How to Use)
 
 ### ➕ Add Images
@@ -175,7 +206,11 @@ This enables **multi-object identification within a single image** rather than w
 
 ---
 
-## 8. Troubleshooting
+## 8. Architecture Diagram
+![Architecture Diagram](images/architecture.png)
+
+
+## 9. Troubleshooting
 
 ### Authentication / Permissions Issues
 
@@ -213,7 +248,7 @@ Confirm:
 
 ---
 
-## 9. References
+## 10. References
 
 - OCI Vision documentation https://docs.oracle.com/en-us/iaas/Content/vision/using/home.htm
 - OCI Vision Python SDK https://docs.oracle.com/en-us/iaas/tools/python/latest/api/ai_vision.html  
@@ -222,7 +257,7 @@ Confirm:
 
 ---
 
-## 10. License
+## 11. License
 
 Copyright © 2025  
 Oracle and/or its affiliates.

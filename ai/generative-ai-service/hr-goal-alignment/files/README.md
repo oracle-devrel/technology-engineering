@@ -152,7 +152,7 @@ LLM Provider: Oracle Generative AI (via Cohere or other supported backends)
 Graph Visualization: Graphviz (for org charts)
 
 ## License
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 See the LICENSE file for more details.

@@ -203,4 +203,4 @@ This is especially important for compliance-critical areas such as **licenses, p
 ## License
 
 Licensed under MIT license. 
-See [LICENSE](./LICENSE)
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt)

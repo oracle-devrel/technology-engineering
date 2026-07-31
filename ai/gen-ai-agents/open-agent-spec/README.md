@@ -147,4 +147,4 @@ The **Open Agent Specification** defines a **declarative, interoperable schema**
 ## License
 Licensed under **MIT** LICENSE
 
-see [LICENSE](./LICENSE)
+see [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt)

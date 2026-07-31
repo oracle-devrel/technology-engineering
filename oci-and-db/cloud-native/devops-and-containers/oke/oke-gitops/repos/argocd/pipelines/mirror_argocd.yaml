@@ -1,0 +1,100 @@
+version: 0.1
+component: build
+timeoutInSeconds: 10000
+runAs: root
+shell: bash
+
+env:
+  variables:
+    repo_compartment_id: ""
+    repo_prefix: ""
+    region: ""
+    region_key: ""
+    tenancy_namespace: ""
+    chart_name: "argo-cd"
+    chart_repo: "https://argoproj.github.io/argo-helm"
+    chart_version: ""
+    namespace: "argocd"
+
+  exportedVariables:
+    - "chart_version"
+    - "chart_name"
+    - "region_key"
+    - "tenancy_namespace"
+    - "repo_prefix"
+    - "namespace"
+
+steps:
+
+  - type: Command
+    name: "Load variables"
+    failImmediatelyOnError: true
+    command: |
+      source ./variables.sh
+      export OCI_CLI_REGION=${region}
+      region_key=$(oci iam region list --query "data[?name == '$region'].key | [0]" --raw-output);
+      export region_key=$(echo "$region_key" | tr '[:upper:]' '[:lower:]');
+      export tenancy_namespace=$(oci artifacts container configuration get --compartment-id "${repo_compartment_id}" --query data.namespace --raw-output);
+    onFailure:
+      - type: Command
+        command: |
+          echo "Error loading common environment variables";
+        timeoutInSeconds: 400
+
+  - type: Command
+    name: "Resolve Argo CD chart version"
+    failImmediatelyOnError: true
+    command: |
+      if [ -n "${chart_version}" ]; then
+        echo "[INFO] chart_version already provided: ${chart_version}"
+        exit 0
+      fi
+
+      echo "[INFO] chart_version not provided. Resolving latest version from ${chart_repo}/${chart_name}"
+      helm repo add argocd "${chart_repo}" --force-update
+      helm repo update argocd
+
+      chart_version=$(
+        helm show chart "argocd/${chart_name}" \
+          | grep '^version:' \
+          | cut -d ':' -f 2 \
+          | tr -d '[:space:]'
+      )
+
+      if [ -z "${chart_version}" ]; then
+        echo "Failed to resolve latest chart version for argocd/${chart_name}" >&2
+        exit 1
+      fi
+
+      export chart_version
+      echo "[INFO] Resolved chart_version=${chart_version}"
+    onFailure:
+      - type: Command
+        command: |
+          echo "Error resolving latest Argo CD chart version";
+        timeoutInSeconds: 400
+
+  - type: Command
+    name: "Mirror Argo CD Helm Chart"
+    failImmediatelyOnError: true
+    command: |
+      export OCI_CLI_REGION=${region}
+      ./script/mirror-helm.sh -c "${repo_compartment_id}" -k "${region_key}" -v "${chart_version}" -n "${chart_name}" -p "${repo_prefix}" -r "${chart_repo}" -t "${tenancy_namespace}"
+    onFailure:
+      - type: Command
+        command: |
+          echo "Error mirroring Argo CD Helm Chart to OCIR";
+        timeoutInSeconds: 400
+
+  - type: Command
+    timeoutInSeconds: 800
+    name: "Mirror Argo CD Helm Images"
+    failImmediatelyOnError: true
+    command: |
+      export OCI_CLI_REGION=${region}
+      ./script/mirror-helm-image.sh -c "${repo_compartment_id}" -k "${region_key}" -v "${chart_version}" -n "${chart_name}" -r "${chart_repo}" -p "${repo_prefix}" -t "${tenancy_namespace}"
+    onFailure:
+      - type: Command
+        command: |
+          echo "Failed to mirror Argo CD images from the Helm Chart!";
+        timeoutInSeconds: 400

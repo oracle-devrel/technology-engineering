@@ -121,4 +121,4 @@ You can find a detailed comparison with LangGraph [here](./files/crewai-vs-langg
 ## License
 This assett is licensed under **MIT** license.
 
-see [LICENSE](./LICENSE)
+see [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt)
