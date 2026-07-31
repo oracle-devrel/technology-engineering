@@ -1,7 +1,7 @@
 
 # Oracle Database 26ai support for JSON Duality and Collection Views
 
-* Oracle JSON views in Oracle Database 26ai and Oracle API for MongoDB
+*Oracle JSON views in Oracle Database 26ai and Oracle API for MongoDB
 
 Review Date: 31.07.2026
 
