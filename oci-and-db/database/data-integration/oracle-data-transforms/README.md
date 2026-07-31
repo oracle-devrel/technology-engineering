@@ -19,6 +19,10 @@ Reviewed: 03.06.2026
 
 - [Introducing Oracle Data Transforms](https://www.youtube.com/watch?v=ImrdoFe-4QE)
 
+- [Oracle Data Transforms - Configuring Rest APIs](https://www.youtube.com/watch?v=-qLseJFfCls)
+
+- [Comparing Oracle ETL/ELT Tools](https://www.ateam-oracle.com/comparing-oracle-etlelt-tools)
+
 - [Oracle Data Transforms - Handling Incremental Loads](https://www.youtube.com/watch?v=3TCapQSa41s)
 
 - [Oracle Data Transforms Documentation](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/adp-odt-data-transforms-page.html)
