@@ -2,6 +2,8 @@
 
 Owner: Fabrizio Zarri
 
+Version: 31072026
+
 Oracle Data Safe is a fully integrated, regional Cloud service focused on data security. It provides a complete and integrated set of features of the Oracle Cloud Infrastructure (OCI) for protecting sensitive and regulated data in Oracle databases.
 
 Oracle Data Safe delivers essential security services for Oracle Autonomous Database, Exadata Database on Dedicated Infrastructure, Oracle Base Database, and Oracle Databases running in OCI. Data Safe also supports on-premises Oracle Databases, Exadata Database on Cloud@Customer, and multicloud deployments. All Oracle Database customers can reduce the risk of a data breach and simplify compliance by using Data Safe to assess configuration and user risk, monitor and audit user activity, and discover, classify, and mask sensitive data.
@@ -11,7 +13,9 @@ Oracle Functions is a serverless, highly scalable, fully managed Functions-as-a-
 This Reference Architecture describes OCI Logging solution for collecting Oracle Datasafe Oracle DB Audit Logs for continuous monitoring and troubleshooting. An OCI Function pulls audit logs from Data Safe REST API Endpoints regularly and ingests them in OCI Logging. 
 From OCI Logging Data Safe DB Audit Logs, can be sent to OCI Logging Analytics, external SIEM, and OCI Object Storage. See [Design Guidance for SIEM Integration](https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/siem-integration.htm)
 
-Reviewed: 20.02.2024
+## Disclaimer
+
+**This is not an official Oracle application and it is not supported by Oracle Support.**
 
 # Prerequisites
 
@@ -53,7 +57,7 @@ If you don't have the required permissions and quota, contact your tenancy admin
 Now, you'll want a local copy of this repo. You can make that with the commands:
 
     git clone https://github.com/oracle-devrel/technology-engineering.git
-    cd security/security-design/shared-assets/fn-datasafe-dbaudit-to-oci-logging
+    cd oci-and-db/foundation/ciso/security-design/shared-assets/fn-datasafe-dbaudit-to-oci-logging
     ls
 
 ## Prerequisites
@@ -145,8 +149,8 @@ We tested the terraform script in [Oracle Linux Cloud Developer Image](https://d
 
 # License
 
-Copyright (c) 2026 Oracle and/or its affiliates.
+Copyright (c) 2022-2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE.txt](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

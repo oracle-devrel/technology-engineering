@@ -2,7 +2,9 @@
 
 **NOTE**: Before generating the AHF reports it is important to install the latest version of the AHF suite.
 
-## Update AHF
+Reviewed: 30/07/26
+
+# When to use this asset?
 
 The main MOS note for the AHF maintenance is: 
 
@@ -21,7 +23,8 @@ The main MOS note for the AHF maintenance is:
   
         ./ahf_setup -ahf_loc /opt -data_dir /u02 -local
 
-### Get Latest CVU
+# How to use this asset?
+## Get Latest CVU
 
 It can be required to install the latest Cluster Verification Utility (CVU) utility to allow the exachk to complete the cluvfy checks.
 
@@ -409,9 +412,7 @@ To generate the AHF Insight Report, please, follow the below instructions.
     From Date : 10/24/2024 12:55:39 - To Date : 10/24/2024 14:55:39
     Report is generated at :  /u02/oracle.ahf/data/repository/collection_Thu_Oct_24_14_55_45_UTC_2024_node_all/custexcclu2-l9lkn1_insights_2024_10_24_14_56_36.zip
 
-Reviewed: 06/11/26
-
-## License
+# License
 
 Copyright (c) 2026 Oracle and/or its affiliates.
 
