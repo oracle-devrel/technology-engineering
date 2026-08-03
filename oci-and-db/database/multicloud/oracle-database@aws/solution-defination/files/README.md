@@ -4,6 +4,8 @@ This repository contains the solution definition material for Oracle Database@AW
 
 Oracle Database@AWS combines Oracle Exadata Database Service and Oracle database capabilities with AWS networking, identity, and operational services. The solution is designed for mission-critical workloads that require enterprise performance, security, availability, and cloud-native integration.
 
+Reviewed: 03.08.2026
+
 ## Purpose
 
 The purpose of this repository is to provide a structured, reusable, and customer-facing reference for:
