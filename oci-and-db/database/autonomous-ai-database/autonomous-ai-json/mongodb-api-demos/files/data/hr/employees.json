@@ -1,0 +1,21 @@
+[{"_id":100,"first_name":"Steven","last_name":"King","email":"SKING","phone_number":"515.123.4567","hire_date":"17-JUN-87","job_id":"AD_PRES","salary":24000,"department_id":90}
+,{"_id":101,"first_name":"Neena","last_name":"Kochhar","email":"NKOCHHAR","phone_number":"515.123.4568","hire_date":"21-SEP-89","job_id":"AD_VP","salary":17000,"manager_id":100,"department_id":90}
+,{"_id":102,"first_name":"Lex","last_name":"De Haan","email":"LDEHAAN","phone_number":"515.123.4569","hire_date":"13-JAN-93","job_id":"AD_VP","salary":17000,"manager_id":100,"department_id":90}
+,{"_id":200,"first_name":"Jennifer","last_name":"Whalen","email":"JWHALEN","phone_number":"515.123.4444","hire_date":"17-SEP-87","job_id":"AD_ASST","salary":4400,"manager_id":101,"department_id":10}
+,{"_id":205,"first_name":"Shelley","last_name":"Higgins","email":"SHIGGINS","phone_number":"515.123.8080","hire_date":"07-JUN-94","job_id":"AC_MGR","salary":12000,"manager_id":101,"department_id":110}
+,{"_id":206,"first_name":"William","last_name":"Gietz","email":"WGIETZ","phone_number":"515.123.8181","hire_date":"07-JUN-94","job_id":"AC_ACCOUNT","salary":8300,"manager_id":205,"department_id":110}
+,{"_id":149,"first_name":"Eleni","last_name":"Zlotkey","email":"EZLOTKEY","phone_number":"011.44.1344.429018","hire_date":"29-JAN-00","job_id":"SA_MAN","salary":10500,"commission_pct":0.2,"manager_id":100,"department_id":80,"bonus":"1500"}
+,{"_id":174,"first_name":"Ellen","last_name":"Abel","email":"EABEL","phone_number":"011.44.1644.429267","hire_date":"11-MAY-96","job_id":"SA_REP","salary":11000,"commission_pct":0.3,"manager_id":149,"department_id":80,"bonus":"1700"}
+,{"_id":176,"first_name":"Jonathon","last_name":"Taylor","email":"JTAYLOR","phone_number":"011.44.1644.429265","hire_date":"24-MAR-98","job_id":"SA_REP","salary":8600,"commission_pct":0.2,"manager_id":149,"department_id":80,"bonus":"1250"}
+,{"_id":178,"first_name":"Kimberely","last_name":"Grant","email":"KGRANT","phone_number":"011.44.1644.429263","hire_date":"24-MAY-99","job_id":"SA_REP","salary":7000,"commission_pct":0.15,"manager_id":149}
+,{"_id":124,"first_name":"Kevin","last_name":"Mourgos","email":"KMOURGOS","phone_number":"650.123.5234","hire_date":"16-NOV-99","job_id":"ST_MAN","salary":5800,"manager_id":100,"department_id":50}
+,{"_id":141,"first_name":"Trenna","last_name":"Rajs","email":"TRAJS","phone_number":"650.121.8009","hire_date":"17-OCT-95","job_id":"ST_CLERK","salary":3500,"manager_id":124,"department_id":50}
+,{"_id":142,"first_name":"Curtis","last_name":"Davies","email":"CDAVIES","phone_number":"650.121.2994","hire_date":"29-JAN-97","job_id":"ST_CLERK","salary":3100,"manager_id":124,"department_id":50}
+,{"_id":143,"first_name":"Randall","last_name":"Matos","email":"RMATOS","phone_number":"650.121.2874","hire_date":"15-MAR-98","job_id":"ST_CLERK","salary":2600,"manager_id":124,"department_id":50}
+,{"_id":144,"first_name":"Peter","last_name":"Vargas","email":"PVARGAS","phone_number":"650.121.2004","hire_date":"09-JUL-98","job_id":"ST_CLERK","salary":2500,"manager_id":124,"department_id":50}
+,{"_id":103,"first_name":"Alexander","last_name":"Hunold","email":"AHUNOLD","phone_number":"590.423.4567","hire_date":"03-JAN-90","job_id":"IT_PROG","salary":9000,"manager_id":102,"department_id":60}
+,{"_id":104,"first_name":"Bruce","last_name":"Ernst","email":"BERNST","phone_number":"590.423.4568","hire_date":"21-MAY-91","job_id":"IT_PROG","salary":6000,"manager_id":103,"department_id":60}
+,{"_id":107,"first_name":"Diana","last_name":"Lorentz","email":"DLORENTZ","phone_number":"590.423.5567","hire_date":"07-FEB-99","job_id":"IT_PROG","salary":4200,"manager_id":103,"department_id":60}
+,{"_id":201,"first_name":"Michael","last_name":"Hartstein","email":"MHARTSTE","phone_number":"515.123.5555","hire_date":"17-FEB-96","job_id":"MK_MAN","salary":13000,"manager_id":100,"department_id":20}
+,{"_id":202,"first_name":"Pat","last_name":"Be Charge","email":"PFAY","phone_number":"603.123.6666","hire_date":"17-AUG-97","job_id":"MK_REP","salary":6000,"manager_id":201,"department_id":20}
+]
