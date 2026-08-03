@@ -2,6 +2,8 @@
 
 This repository contains the solution definition material for Oracle Database@Azure (OD@Azure) engagements. It is intended to support discovery, architecture design, implementation planning, onboarding, and operational readiness for customers adopting Oracle Database services within Microsoft Azure.
 
+Reviewed: 03.08.2026
+
 Oracle Database@Azure combines Oracle Exadata Database Service and Oracle database capabilities with Microsoft Azure networking, identity, and operational services. The solution is designed for mission-critical workloads that require enterprise performance, security, availability, and cloud-native integration.
 
 ## Purpose
