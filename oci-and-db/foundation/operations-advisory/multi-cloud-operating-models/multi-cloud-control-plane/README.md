@@ -49,6 +49,8 @@ was performed for this publication; do not represent either adapter as
 live-cloud certified. See [Qualification](docs/qualification.md) for the
 evidence boundary.
 
+![One control plane gives teams one workflow, governed delivery, and a stable operator contract as provider implementations evolve.](docs/images/one-control-plane.png)
+
 ## What you get
 
 Installation prepares four private repositories for your organization:

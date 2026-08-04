@@ -6,8 +6,17 @@ provide the deployment authority.
 
 ![Cloud Operations hands off a prepared project boundary; Project Teams choose a direct pull request, optional UI, or optional Codex assistant; GitHub review and a trusted runner retain control of execution.](images/end-to-end-customer-journey.svg)
 
+![Conceptual control-plane architecture: Git repositories hold Landing Zone and project configuration plus the operations catalog; optional UI and AI skills prepare requests for automation pipelines across current and extended clouds.](images/conceptual-control-plane-architecture.png)
+
+The diagram includes examples of extensible cloud targets. Only the documented
+V2 baseline is supplied and qualified by this publication.
+
+![MCCP V2 production repository structure: one prod project repository holds its reviewed handoff and OCI, Azure, and GCP requests; shared control-plane repositories supply execution, catalog content, and pinned adapters.](images/repository-structure-v2.svg)
+
 *Every supported entry point produces the same governed pull request. The
 trusted runner executes only after human review and merge.*
+
+![Conceptual project onboarding: Cloud Operations prepares the project foundation and its repository, then Project Teams manage approved workloads through the control plane.](images/project-onboarding.png)
 
 Each project has its own repository and separate Terraform state for every
 cloud, environment, and region. Project repositories contain configuration

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title description">
+  <title id="title">Production project repository structure</title>
+  <desc id="description">A V2 production project repository holds the prod handoff and workload manifests for OCI, Azure, and GCP. Shared control-plane repositories provide execution, templates, and pinned adapters.</desc>
+  <defs>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%"><feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#312d2a" flood-opacity="0.1"/></filter>
+    <style>
+      .title { fill:#312d2a; font-family:"Oracle Sans",Arial,sans-serif; font-size:47px; font-weight:700; }
+      .section { fill:#312d2a; font-family:"Oracle Sans",Arial,sans-serif; font-size:30px; font-weight:700; text-anchor:middle; }
+      .label { fill:#312d2a; font-family:"Oracle Sans",Arial,sans-serif; font-size:22px; font-weight:700; text-anchor:middle; }
+      .copy { fill:#312d2a; font-family:"Oracle Sans",Arial,sans-serif; font-size:18px; text-anchor:middle; }
+      .small { fill:#312d2a; font-family:"Oracle Sans",Arial,sans-serif; font-size:15px; text-anchor:middle; }
+      .accent { fill:#c74634; font-family:"Oracle Sans",Arial,sans-serif; font-size:21px; font-weight:700; }
+    </style>
+  </defs>
+  <rect width="1600" height="900" fill="#fcfbfa"/>
+  <text x="80" y="88" class="title">Repository Structure</text>
+  <path d="M80 122 H224" stroke="#c74634" stroke-width="5"/>
+
+  <g filter="url(#shadow)">
+    <path d="M80 158 Q72 158 76 182 L80 770 Q80 790 102 790 H1498 Q1520 788 1516 766 L1512 182 Q1512 158 1490 158 Z" fill="#fde3a5" stroke="#312d2a" stroke-width="3"/>
+    <text x="800" y="207" class="section">Multi-Cloud Control Plane</text>
+    <text x="800" y="246" class="label">GIT</text>
+
+    <path d="M178 272 Q170 272 174 288 L178 348 Q178 360 192 360 H826 Q840 359 837 346 L833 288 Q833 272 819 272 Z" fill="#fffbd7" stroke="#312d2a" stroke-width="2.2"/>
+    <text x="505" y="313" class="label">LANDING ZONE REPOSITORY: <tspan class="accent">oci-landing-zone</tspan></text>
+    <text x="505" y="342" class="small">reviewed project foundation handoff</text>
+
+    <path d="M178 392 Q170 392 174 410 L178 646 Q178 660 194 660 H806 Q822 658 818 644 L814 410 Q814 392 798 392 Z" fill="#fffbd7" stroke="#312d2a" stroke-width="2.2"/>
+    <text x="496" y="433" class="label">PRODUCTION PROJECT REPOSITORY <tspan class="accent">prod-&lt;project&gt;</tspan></text>
+    <text x="496" y="461" class="small">environments/prod/environment_information.md</text>
+
+    <path d="M196 487 Q192 487 194 501 L198 616 Q198 628 211 628 H390 Q403 627 400 615 L396 501 Q396 487 383 487 Z" fill="#e8b493" stroke="#312d2a" stroke-width="1.8"/>
+    <text x="297" y="521" class="copy">OCI / prod / region</text>
+    <text x="297" y="549" class="small">compute/compute.json</text>
+    <text x="297" y="573" class="small">database/database.json</text>
+    <text x="297" y="597" class="small">network/project-nsgs.json</text>
+    <text x="297" y="621" class="small">lifecycle_operations/</text>
+
+    <path d="M414 487 Q410 487 412 501 L416 616 Q416 628 429 628 H608 Q621 627 618 615 L614 501 Q614 487 601 487 Z" fill="#b8cabb" stroke="#312d2a" stroke-width="1.8"/>
+    <text x="515" y="521" class="copy">AZURE / prod / region</text>
+    <text x="515" y="555" class="small">compute/compute.json</text>
+    <text x="515" y="581" class="small">database/database.json</text>
+
+    <path d="M632 487 Q628 487 630 501 L634 616 Q634 628 647 628 H826 Q839 627 836 615 L832 501 Q832 487 819 487 Z" fill="#c8c4c2" stroke="#312d2a" stroke-width="1.8"/>
+    <text x="733" y="521" class="copy">GCP / prod / region</text>
+    <text x="733" y="555" class="small">compute/compute.json</text>
+    <text x="733" y="581" class="small">workloads/adb.json</text>
+
+    <text x="496" y="694" class="section">…</text>
+    <path d="M178 714 Q170 714 174 728 L178 766 Q178 778 192 778 H806 Q820 777 817 765 L813 728 Q813 714 799 714 Z" fill="#fffbd7" stroke="#312d2a" stroke-width="2.2"/>
+    <text x="496" y="755" class="label">PRODUCTION PROJECT REPOSITORY <tspan class="accent">prod-&lt;project-n&gt;</tspan></text>
+
+    <path d="M996 402 Q990 402 994 416 L998 474 Q998 486 1012 486 H1378 Q1392 485 1389 473 L1385 416 Q1385 402 1371 402 Z" fill="#fffbd7" stroke="#312d2a" stroke-width="2"/>
+    <text x="1192" y="438" class="label">platform-ci</text>
+    <text x="1192" y="466" class="small">Terraform and Ansible execution workflows</text>
+
+    <path d="M996 510 Q990 510 994 524 L998 582 Q998 594 1012 594 H1378 Q1392 593 1389 581 L1385 524 Q1385 510 1371 510 Z" fill="#fffbd7" stroke="#312d2a" stroke-width="2"/>
+    <text x="1192" y="546" class="label">gitops-templates</text>
+    <text x="1192" y="574" class="small">resource and operations catalog</text>
+
+    <path d="M996 618 Q990 618 994 632 L998 690 Q998 702 1012 702 H1378 Q1392 701 1389 689 L1385 632 Q1385 618 1371 618 Z" fill="#fffbd7" stroke="#312d2a" stroke-width="2"/>
+    <text x="1192" y="654" class="label">Pinned workload adapters</text>
+    <text x="1192" y="682" class="small">OCI · Azure · GCP</text>
+  </g>
+</svg>

@@ -44,13 +44,13 @@
 
   <path d="M357 229 C396 229 424 229 458 229" class="arrow"/>
   <path d="M751 229 C790 229 818 229 853 229" class="arrow"/>
-  <text x="415" y="198" class="tag">PREPARE</text>
-  <text x="805" y="198" class="tag">HAND OFF</text>
+  <text x="415" y="157" class="tag">PREPARE</text>
+  <text x="805" y="157" class="tag">HAND OFF</text>
 
   <path d="M1005 308 C1005 347 1005 363 1005 398" class="arrow"/>
-  <text x="1074" y="353" class="tag">REQUEST</text>
+  <text x="1120" y="354" class="tag">REQUEST</text>
 
-  <text x="800" y="380" class="tag">CHOOSE A REQUEST INTERFACE</text>
+  <text x="704" y="380" class="tag">CHOOSE A REQUEST INTERFACE</text>
   <g filter="url(#softShadow)">
     <path d="M178 423 Q183 410 203 413 Q322 408 438 414 Q451 420 449 437 L447 514 Q444 527 426 525 Q317 531 203 525 Q184 522 186 506 Z" fill="#fcfbfa" stroke="#2b6242" stroke-width="3"/>
     <text x="317" y="454" class="small-title">DIRECT GITHUB PR</text>
@@ -85,7 +85,6 @@
   </g>
 
   <path d="M885 682 C940 682 982 682 1041 682" class="arrow"/>
-  <text x="962" y="651" class="tag">MERGED</text>
 
   <line x1="81" y1="821" x2="1518" y2="821" class="divider"/>
   <text x="800" y="863" class="card-title">GOVERNED SELF-SERVICE: PROJECT TEAMS REQUEST, REVIEWERS APPROVE, RUNNERS EXECUTE</text>
