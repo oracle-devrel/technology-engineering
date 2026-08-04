@@ -27,8 +27,9 @@ runbooks remain available for inspection.
   publication and must not be represented as live-cloud certified.
 - Azure and Google Day 2 operations are not part of the supplied baseline.
 - The GitHub Free profile is qualified for controlled non-production use with
-  procedural approval. Production enablement requires the hardened approval
-  model and a customer security review.
+  procedural approval. The production template uses the same mechanics, but
+  live production requires customer security review and the paid-plan hardening
+  model when enforceable GitHub approval controls are required.
 - Customer extensions are outside the qualification boundary until the full
   [extension model](architecture.md#extension-model) is implemented and tested.
 

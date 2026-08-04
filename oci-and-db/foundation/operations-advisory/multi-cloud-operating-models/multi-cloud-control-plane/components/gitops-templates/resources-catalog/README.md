@@ -1,4 +1,4 @@
-# Resources Catalog (Day 0 / Day 1)
+# Resources Catalog (Day 1)
 
 Terraform variable templates consumed by the GitOps control plane. A project
 operator or the optional Codex app assistant renders these catalog files into

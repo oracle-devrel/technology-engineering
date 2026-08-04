@@ -36,11 +36,12 @@ Azure and GCP Day 2 operations are not included in the supplied baseline.
 ## Scope and current limits
 
 The fixed `repository-secrets` profile is qualified for controlled
-non-production use on GitHub Free. The production repository structure is
-included, but production enablement requires the hardened approval model and a
-customer security review. Paid GitHub plans can enforce approval with
-repository controls; the Free profile relies on restricted roles and documented
-process. See [Security](docs/security.md) and
+non-production use on GitHub Free. The supplied production repository uses the
+same mechanics, but live production requires a customer security review and an
+isolated production runner. GitHub Free relies on restricted roles and recorded
+independent review in every environment; use the paid-plan hardening model when
+enforceable GitHub approval controls are required. See
+[Security](docs/security.md) and
 [Final-environment hardening](docs/final-environment-hardening.md).
 
 Azure and GCP qualification uses provider-schema validation and

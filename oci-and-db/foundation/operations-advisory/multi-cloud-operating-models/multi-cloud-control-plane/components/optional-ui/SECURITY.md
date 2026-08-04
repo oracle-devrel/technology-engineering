@@ -42,7 +42,8 @@ This application follows security best practices:
 - Run behind a reverse proxy (nginx, Caddy) with TLS
 - Set a strong random `SESSION_SECRET` in production (the app warns at startup when the dev placeholder is in use)
 - Restrict GitHub token permissions to only required repositories
-- Enable branch protection rules on infrastructure repositories
+- On a plan that supports them, enable branch protection and required reviews;
+  on GitHub Free, restrict direct pushes and record independent review
 - Regularly rotate credentials
 
 ## Supported Versions
