@@ -4,19 +4,16 @@ Project Teams describe the infrastructure they need in approved JSON manifests.
 GitHub provides the change record, review, and approval gate. Trusted runners
 provide the deployment authority.
 
+## Governed request journey
+
 ![Cloud Operations hands off a prepared project boundary; Project Teams choose a direct pull request, optional UI, or optional Codex assistant; GitHub review and a trusted runner retain control of execution.](images/end-to-end-customer-journey.svg)
+
+## Control-plane components
 
 ![Conceptual control-plane architecture: Git repositories hold Landing Zone and project configuration plus the operations catalog; optional UI and AI skills prepare requests for automation pipelines across current and extended clouds.](images/conceptual-control-plane-architecture.png)
 
 The diagram includes examples of extensible cloud targets. Only the documented
 V2 baseline is supplied and qualified by this publication.
-
-![MCCP V2 production repository structure: one prod project repository holds its reviewed handoff and OCI, Azure, and GCP requests; shared control-plane repositories supply execution, catalog content, and pinned adapters.](images/repository-structure-v2.svg)
-
-*Every supported entry point produces the same governed pull request. The
-trusted runner executes only after human review and merge.*
-
-![Conceptual project onboarding: Cloud Operations prepares the project foundation and its repository, then Project Teams manage approved workloads through the control plane.](images/project-onboarding.png)
 
 Each project has its own repository and separate Terraform state for every
 cloud, environment, and region. Project repositories contain configuration
@@ -32,6 +29,8 @@ the same environment handoff through a reviewed pull request. Workload adapters
 consume those values without creating resource groups, projects, IAM, networks,
 subnets, NSGs, service accounts, ODB Networks, or ODB Subnets.
 
+## Execution and trust boundary
+
 Project Teams propose changes. Reviewers approve them. Runner identities hold
 the cloud permissions. The optional Multi-Cloud Plane UI and Codex assistant
 can prepare the same Git changes but cannot deploy resources themselves.
@@ -42,14 +41,15 @@ runner-local `ARM_*` service-principal context, and Google uses runner-local
 Application Default Credentials. The final operating model places each workload
 on a native runner in its target cloud without changing project manifests.
 
+## Extension model
+
+The supplied baseline is a starting point, not an unrestricted service catalog.
+
 ![A stable request, review, approval, execution, and evidence contract lets the implementation expand without changing the Project Team experience.](images/stable-operating-contract.png)
 
 *Cloud-specific implementations may evolve; the governed operating contract
 remains consistent for Project Teams.*
 
-## Extension model
-
-The supplied baseline is a starting point, not an unrestricted service catalog.
 An installation-specific resource extension is ready only when the platform
 team implements and qualifies the complete delivery chain:
 

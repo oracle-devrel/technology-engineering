@@ -235,6 +235,8 @@ must have separate key pairs.
 
 ## 3. Onboard an OCI project
 
+![Conceptual project onboarding: Cloud Operations prepares the project foundation and its repository, then Project Teams manage approved workloads through the control plane.](images/project-onboarding.png)
+
 Validate the handoff before copying the project template:
 
 The canonical field contract is

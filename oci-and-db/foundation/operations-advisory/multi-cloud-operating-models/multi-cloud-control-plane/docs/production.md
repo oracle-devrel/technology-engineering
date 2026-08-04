@@ -12,6 +12,8 @@ OCI Day 2 lifecycle operations as non-production: ADB start/stop and
 production runner, and readiness gates. Azure and Google Day 2 operations are
 not included in this MVP.
 
+![MCCP V2 production repository structure: one prod project repository holds its reviewed handoff and OCI, Azure, and GCP requests; shared control-plane repositories supply execution, catalog content, and pinned adapters.](images/repository-structure-v2.svg)
+
 Publish the prepared `prod-project-template` repository from the deployment
 runbook and create `prod-<project>` from that exact pinned template. Validate
 the machine handoff and install the human-readable handoff at
