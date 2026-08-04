@@ -230,7 +230,7 @@ def build_machine_handoff(
         "op02_state_key": op02_state_key,
         "op04_state_key": op04_state_key,
         "repository_layout":
-            "production-v1"
+            "production"
             if environment == "prod"
             else "shared-nonprod-v2",
         "target_repository": target_repository,

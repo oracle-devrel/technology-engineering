@@ -1,6 +1,6 @@
 # Safety boundaries
 
-- Treat `deployment-contract.json` as immutable policy.
+- Treat `cloud-operator-installation.json` as immutable installation configuration.
 - Accept only one `<allowed-environment>-<dns-name>` OP04 target.
 - Derive foundation values only from the protected environment blueprint.
 - Permit only the canonical additive OP04 files in the landing-zone repository.
@@ -14,7 +14,8 @@
 - In a newly created project repository, the first handoff branch may change
   only `.github/CODEOWNERS.template`, `.github/CODEOWNERS`, and the validated
   `environments/<environment>/environment_information.md`. Derive the exact
-  target, security profile, and owners from `deployment-contract.json` and the
+  target, fixed security profile, and owners from
+  `cloud-operator-installation.json` and the
   protected template; never accept them from a prompt. Require the rendered
   CODEOWNERS identities to exist and have repository write access before the
   branch is pushed.

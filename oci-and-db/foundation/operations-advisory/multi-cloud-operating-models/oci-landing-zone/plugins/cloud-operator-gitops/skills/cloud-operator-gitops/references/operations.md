@@ -1,6 +1,6 @@
 # Operations
 
-1. Validate `deployment-contract.json` and active GitHub authentication.
+1. Validate `cloud-operator-installation.json` and active GitHub authentication.
 2. Resolve one canonical project slug and its allowed environment without inference.
 3. Read the configured environment blueprint from exact landing-zone `main`.
 4. Create a disposable clone and branch from exact `origin/main`.
@@ -15,7 +15,7 @@
    Require the three workload-role compartment values to identify the same
    official OE `v3.1.0` project compartment.
 10. Resolve the exact template repository and immutable revision for that
-    layout from `deployment-contract.json`. If the target is absent, preview
+    layout from `cloud-operator-installation.json`. If the target is absent, preview
     and separately confirm creation of one private repository, then verify its
     initial tree matches the pinned template. If an exact shared
     non-production target already exists, reuse it; never recreate or

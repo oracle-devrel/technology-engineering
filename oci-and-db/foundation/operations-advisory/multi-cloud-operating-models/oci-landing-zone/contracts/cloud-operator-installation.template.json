@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "customer_org": "__CUSTOMER_ORG__",
+  "template_revisions": {
+    "shared_nonprod_v2": "__NONPROD_TEMPLATE_REF__",
+    "production": "__PROD_TEMPLATE_REF__"
+  },
+  "environments": [
+    {"name": "__ENVIRONMENT__", "region": "__OCI_REGION__"}
+  ],
+  "codeowners": {
+    "platform": ["__PLATFORM_OWNER__"],
+    "dev": ["__DEV_OWNER__"],
+    "test": ["__TEST_OWNER__"],
+    "uat": ["__UAT_OWNER__"],
+    "prod": ["__PROD_OWNER__"]
+  }
+}

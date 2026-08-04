@@ -20,7 +20,7 @@
     "dev": "shared-nonprod-v2",
     "test": "shared-nonprod-v2",
     "uat": "shared-nonprod-v2",
-    "prod": "production-v1"
+    "prod": "production"
   },
   "handoff_path_template": "environments/{environment}/environment_information.md",
   "project_catalog": "config/projects.json",

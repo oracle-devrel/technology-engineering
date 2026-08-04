@@ -28,7 +28,8 @@ From a clean clone of this publication asset:
 `NONPROD_TEMPLATE_REF` and `PROD_TEMPLATE_REF` are the approved commit SHAs of
 the non-production and production project-template repositories created from
 the sibling [Multi-Cloud Control Plane](../../multi-cloud-control-plane/README.md)
-asset. They are required later when rendering the deployment contract; do not
+asset. They are required later when rendering the Cloud Operator installation
+file; do not
 use branch names.
 
 ```bash
@@ -92,7 +93,6 @@ git add -A
 git -c user.name='Landing Zone Administrator' \
   -c user.email='landing-zone@invalid' \
   commit -m 'Prepare OCI landing zone'
-export FOUNDATION_REF=$(git rev-parse HEAD)
 
 gh repo create "$CUSTOMER_ORG/$FOUNDATION_REPOSITORY" --private
 gh variable set FOUNDATION_AUTOMATION_READY --body false \
@@ -179,16 +179,15 @@ State remains isolated:
 | OP03 | `op03_manage_platform_gitops/terraform.tfstate` |
 | OP04 | `op04_manage_project/<environment>/<environment>-<project>/terraform.tfstate` |
 
-## 6. Create the deployment contract
+## 6. Create the Cloud Operator installation file
 
-After the foundation and both project templates have immutable commits, render
-the local contract used by the packaged Cloud Operator skill:
+After both project templates have immutable commits, render the small local
+file used by the packaged Cloud Operator skill. It contains only the customer
+organization, template revisions, enabled environments, and CODEOWNERS
+identities. Repository names, paths, and the fixed `repository-secrets` profile
+are part of this published MVP implementation.
 
 ```bash
-export FOUNDATION_REF=$(gh api \
-  "repos/$CUSTOMER_ORG/$FOUNDATION_REPOSITORY/commits/main" \
-  --jq .sha)
-export PROJECT_STATE_BUCKET=example-project-state
 export PLATFORM_OWNER='@example-platform-owner'
 export DEV_OWNER="$PLATFORM_OWNER"
 export TEST_OWNER="$PLATFORM_OWNER"
@@ -197,12 +196,10 @@ export PROD_OWNER="$PLATFORM_OWNER"
 cd "$ASSET_ROOT"
 cp -R plugins/cloud-operator-gitops \
   "$STAGE/cloud-operator-gitops"
-cp contracts/deployment-contract.template.json \
-  "$STAGE/cloud-operator-gitops/deployment-contract.json"
+cp contracts/cloud-operator-installation.template.json \
+  "$STAGE/cloud-operator-gitops/cloud-operator-installation.json"
 perl -pi -e \
   's/__CUSTOMER_ORG__/$ENV{CUSTOMER_ORG}/g;
-   s/__FOUNDATION_REPOSITORY__/$ENV{FOUNDATION_REPOSITORY}/g;
-   s/__FOUNDATION_REF__/$ENV{FOUNDATION_REF}/g;
    s/__NONPROD_TEMPLATE_REF__/$ENV{NONPROD_TEMPLATE_REF}/g;
    s/__PROD_TEMPLATE_REF__/$ENV{PROD_TEMPLATE_REF}/g;
    s/__PLATFORM_OWNER__/$ENV{PLATFORM_OWNER}/g;
@@ -210,25 +207,24 @@ perl -pi -e \
    s/__TEST_OWNER__/$ENV{TEST_OWNER}/g;
    s/__UAT_OWNER__/$ENV{UAT_OWNER}/g;
    s/__PROD_OWNER__/$ENV{PROD_OWNER}/g;
-   s/__PROJECT_STATE_BUCKET__/$ENV{PROJECT_STATE_BUCKET}/g;
    s/__ENVIRONMENT__/$ENV{ENVIRONMENT}/g;
    s/__OCI_REGION__/$ENV{OCI_REGION}/g' \
-  "$STAGE/cloud-operator-gitops/deployment-contract.json"
+  "$STAGE/cloud-operator-gitops/cloud-operator-installation.json"
 jq -e . \
-  "$STAGE/cloud-operator-gitops/deployment-contract.json" >/dev/null
+  "$STAGE/cloud-operator-gitops/cloud-operator-installation.json" >/dev/null
 if rg -n '__[A-Z0-9_]+__' \
-  "$STAGE/cloud-operator-gitops/deployment-contract.json"
+  "$STAGE/cloud-operator-gitops/cloud-operator-installation.json"
 then
-  echo 'Unresolved deployment-contract placeholders remain' >&2
+  echo 'Unresolved Cloud Operator installation placeholders remain' >&2
   exit 1
 fi
 ```
 
-The contract is installation policy, not a secret. Keep it with the approved
-operator configuration. Install the staged
+The installation file is not a secret. Keep it with the approved operator
+configuration. Install the staged
 `$STAGE/cloud-operator-gitops` package, not the unrendered publication
-directory. The skill reads `deployment-contract.json` from that package before
-it performs any onboarding action.
+directory. The skill reads `cloud-operator-installation.json` from that package
+before it performs any onboarding action.
 
 This GitHub Free MVP has one fixed `repository-secrets` profile for both
 non-production and production project repositories. Every owner must be an

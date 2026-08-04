@@ -58,7 +58,7 @@ def main() -> int:
         environment = match.group("environment")
         project_name = match.group("name")
         target = f"prod-{project_name}" if environment == "prod" else f"nonprod-{project_name}"
-        layout = "production-v1" if environment == "prod" else "shared-nonprod-v2"
+        layout = "production" if environment == "prod" else "shared-nonprod-v2"
         handoff_path = f"environments/{environment}/environment_information.md"
         data = json.loads(args.handoff_json.read_text(encoding="utf-8"))
         markdown = args.handoff_markdown.read_text(encoding="utf-8")

@@ -52,7 +52,7 @@ def regular_file(path: Path) -> bool:
 
 def validate(
     repo: Path,
-    deployment_contract: Path,
+    installation_file: Path,
     handoff_json: Path,
     handoff_markdown: Path,
     project: str,
@@ -74,7 +74,7 @@ def validate(
             "The handoff branch must start at the exact protected base."
         )
     initialization = load_initialization(
-        deployment_contract,
+        installation_file,
         handoff_json,
         project,
     )
@@ -173,7 +173,7 @@ def validate(
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repo", required=True)
-    parser.add_argument("--deployment-contract", required=True)
+    parser.add_argument("--cloud-operator-installation", required=True)
     parser.add_argument("--handoff-json", required=True)
     parser.add_argument("--handoff-markdown", required=True)
     parser.add_argument("--project", required=True)
@@ -184,7 +184,7 @@ def main() -> int:
     try:
         result = validate(
             Path(os.path.abspath(args.repo)),
-            Path(os.path.abspath(args.deployment_contract)),
+            Path(os.path.abspath(args.cloud_operator_installation)),
             Path(os.path.abspath(args.handoff_json)),
             Path(os.path.abspath(args.handoff_markdown)),
             args.project,

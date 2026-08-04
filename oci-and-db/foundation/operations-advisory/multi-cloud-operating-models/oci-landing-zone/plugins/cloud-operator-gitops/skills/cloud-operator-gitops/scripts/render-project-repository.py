@@ -32,7 +32,7 @@ def regular_file(path: Path) -> bool:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repo", required=True)
-    parser.add_argument("--deployment-contract", required=True)
+    parser.add_argument("--cloud-operator-installation", required=True)
     parser.add_argument("--handoff-json", required=True)
     parser.add_argument("--handoff-markdown", required=True)
     parser.add_argument("--project", required=True)
@@ -55,15 +55,15 @@ def main() -> int:
             raise RepositoryContractError(
                 "The project repository must be a clean Git worktree."
             )
-        deployment_contract = Path(
-            os.path.abspath(args.deployment_contract)
+        installation_file = Path(
+            os.path.abspath(args.cloud_operator_installation)
         )
         handoff_json = Path(os.path.abspath(args.handoff_json))
         handoff_markdown = Path(
             os.path.abspath(args.handoff_markdown)
         )
         initialization = load_initialization(
-            deployment_contract,
+            installation_file,
             handoff_json,
             args.project,
         )

@@ -23,12 +23,11 @@ OWNER_RE = re.compile(
     r"^@[A-Za-z0-9][A-Za-z0-9-]{0,38}"
     r"(?:/[A-Za-z0-9][A-Za-z0-9_.-]{0,99})?$"
 )
-REPOSITORY_RE = re.compile(r"^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$")
 ORG_RE = re.compile(r"^[A-Za-z0-9_.-]+$")
-SECURITY_PROFILES = {"repository-secrets"}
+SECURITY_PROFILE = "repository-secrets"
 LAYOUT_ENVIRONMENTS = {
     "shared-nonprod-v2": ("dev", "test", "uat"),
-    "production-v1": ("prod",),
+    "production": ("prod",),
 }
 CODEOWNER_TOKENS = {
     "platform": "__PLATFORM_OWNERS__",
@@ -96,11 +95,12 @@ def validate_owner_map(
     value: Any,
 ) -> dict[str, tuple[str, ...]]:
     environments = LAYOUT_ENVIRONMENTS[layout]
-    expected_keys = {"platform", *environments}
-    if not isinstance(value, dict) or set(value) != expected_keys:
+    all_owner_keys = {"platform", "dev", "test", "uat", "prod"}
+    selected_keys = {"platform", *environments}
+    if not isinstance(value, dict) or set(value) != all_owner_keys:
         raise RepositoryContractError("CODEOWNERS mapping is incomplete.")
     result: dict[str, tuple[str, ...]] = {}
-    for key in sorted(expected_keys):
+    for key in sorted(selected_keys):
         owners = value[key]
         if (
             not isinstance(owners, list)
@@ -120,7 +120,7 @@ def validate_owner_map(
 
 
 def load_initialization(
-    deployment_contract: Path,
+    installation_file: Path,
     handoff_json: Path,
     project: str,
 ) -> RepositoryInitialization:
@@ -128,51 +128,25 @@ def load_initialization(
         identity = validate_project(project)
     except ContractError as exc:
         raise RepositoryContractError(str(exc)) from exc
-    contract = load_json(deployment_contract)
+    installation = load_json(installation_file)
     handoff = load_json(handoff_json)
-    customer_org = contract.get("customer_org")
-    project_state_bucket = contract.get("project_state_bucket")
-    project_templates = contract.get("project_templates")
+    customer_org = installation.get("customer_org")
+    template_revisions = installation.get("template_revisions")
     if (
-        contract.get("schema_version") != 2
+        installation.get("schema_version") != 1
         or not isinstance(customer_org, str)
         or ORG_RE.fullmatch(customer_org) is None
-        or REPOSITORY_RE.fullmatch(
-            str(contract.get("foundation_repository", ""))
-        ) is None
-        or not str(
-            contract.get("foundation_repository", "")
-        ).startswith(f"{customer_org}/")
-        or SHA_RE.fullmatch(str(contract.get("foundation_ref", ""))) is None
-        or not isinstance(project_state_bucket, str)
-        or not project_state_bucket.strip()
-        or project_state_bucket != project_state_bucket.strip()
-        or PLACEHOLDER_RE.search(project_state_bucket) is not None
-        or not isinstance(project_templates, dict)
-        or set(project_templates)
-        != {"shared-nonprod-v2", "production-v1"}
+        or not isinstance(template_revisions, dict)
+        or set(template_revisions) != {"shared_nonprod_v2", "production"}
         or any(
-            not isinstance(value, dict)
-            or not str(value.get("repository", "")).startswith(
-                f"{customer_org}/"
-            )
-            or SHA_RE.fullmatch(str(value.get("revision", ""))) is None
-            for value in project_templates.values()
+            SHA_RE.fullmatch(str(revision)) is None
+            for revision in template_revisions.values()
         )
-        or contract.get("target_repository_prefixes")
-        != {
-            "dev": "nonprod",
-            "test": "nonprod",
-            "uat": "nonprod",
-            "prod": "prod",
-        }
-        or contract.get("handoff_path_template")
-        != "environments/{environment}/environment_information.md"
     ):
         raise RepositoryContractError(
-            "The deployment contract does not support project initialization."
+            "The Cloud Operator installation does not support project initialization."
         )
-    environment_contracts = contract.get("environments")
+    environment_contracts = installation.get("environments")
     if (
         not isinstance(environment_contracts, list)
         or not any(
@@ -186,7 +160,7 @@ def load_initialization(
             "The selected environment is not configured."
         )
     layout = (
-        "production-v1"
+        "production"
         if identity.environment == "prod"
         else "shared-nonprod-v2"
     )
@@ -207,42 +181,17 @@ def load_initialization(
         raise RepositoryContractError(
             "The handoff does not match the selected project repository."
         )
-    templates = project_templates
-    if (
-        not isinstance(templates, dict)
-        or layout not in templates
-        or not isinstance(templates[layout], dict)
-        or templates[layout].get("repository")
-        != f"{customer_org}/"
-        f"{'prod' if layout == 'production-v1' else 'nonprod'}"
-        "-project-template"
-        or SHA_RE.fullmatch(
-            str(templates[layout].get("revision", ""))
-        ) is None
-    ):
-        raise RepositoryContractError(
-            "The pinned project template contract is invalid."
-        )
-    initialization = contract.get("project_repository_initialization")
-    selected = (
-        initialization.get(layout)
-        if isinstance(initialization, dict)
-        else None
-    )
-    if (
-        not isinstance(selected, dict)
-        or selected.get("security_profile") not in SECURITY_PROFILES
-    ):
-        raise RepositoryContractError(
-            "The project security profile is invalid."
-        )
-    owners = validate_owner_map(layout, selected.get("codeowners"))
+    template_key = "production" if layout == "production" else "shared_nonprod_v2"
+    template_revision = template_revisions[template_key]
+    if SHA_RE.fullmatch(str(template_revision)) is None:
+        raise RepositoryContractError("The pinned project template revision is invalid.")
+    owners = validate_owner_map(layout, installation.get("codeowners"))
     return RepositoryInitialization(
         identity=identity,
         customer_org=customer_org,
         target_repository=target_repository,
         repository_layout=layout,
-        security_profile=selected["security_profile"],
+        security_profile=SECURITY_PROFILE,
         handoff_path=handoff_path,
         codeowners=owners,
         handoff=handoff,

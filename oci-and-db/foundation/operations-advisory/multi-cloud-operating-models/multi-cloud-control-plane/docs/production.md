@@ -69,11 +69,11 @@ automation:
 
 ```bash
 export PLATFORM_OWNERS='@example-platform-admin'
-export PROD_OWNER='@example-production-approver'
+export PROD_OWNERS='@example-production-approver'
 cp "$PROJECT_OUTPUT/.github/CODEOWNERS.template" \
   "$PROJECT_OUTPUT/.github/CODEOWNERS"
 perl -pi -e \
-  's/__PLATFORM_OWNERS__/$ENV{PLATFORM_OWNERS}/g; s/__PROD_OWNER__/$ENV{PROD_OWNER}/g' \
+  's/__PLATFORM_OWNERS__/$ENV{PLATFORM_OWNERS}/g; s/__PROD_OWNERS__/$ENV{PROD_OWNERS}/g' \
   "$PROJECT_OUTPUT/.github/CODEOWNERS"
 ! rg '__[A-Z_]+__' "$PROJECT_OUTPUT/.github/CODEOWNERS"
 ```

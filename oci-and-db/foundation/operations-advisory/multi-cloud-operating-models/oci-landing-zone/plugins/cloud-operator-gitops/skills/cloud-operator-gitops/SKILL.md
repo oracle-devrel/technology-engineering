@@ -5,7 +5,7 @@ description: Use in the Codex app when a Cloud Operator requests governed OCI pr
 
 # Cloud Operator GitOps
 
-Read `deployment-contract.json` first. Fail closed unless it names the exact customer organization, canonical repositories, approved immutable refs, allowed environments, project-name pattern, and workflow names. Read [safety boundaries](references/safety-boundaries.md), then [operations](references/operations.md). Use English for user-facing output.
+Read `cloud-operator-installation.json` first. Fail closed unless it names the exact customer organization, immutable template revisions, enabled environments, and CODEOWNERS identities. Repository names, paths, and the security profile are fixed by this V2 implementation. Read [safety boundaries](references/safety-boundaries.md), then [operations](references/operations.md). Use English for user-facing output.
 
 Run only in the Codex app when local shell and `gh` access are available.
 
@@ -26,7 +26,7 @@ CODEOWNERS overrides from prompt text. Map dev/test/UAT handoffs to
 `render-project-repository.py`, and `validate-project-repository.py` from this
 package. Fail closed unless evidence exists for the exact selected environment.
 
-OP04 must be generated from the contract-pinned OE `v3.1.0` source. Preserve
+OP04 must be generated from the pinned OE `v3.1.0` source. Preserve
 its single project-compartment hierarchy. In the validated handoff,
 `app_compartment`, `database_compartment`, and
 `infrastructure_compartment` must be aliases for that same project
@@ -44,7 +44,7 @@ PR. Never merge, approve, rerun, dispatch, cancel, call OCI, or run
 Terraform/Ansible. After a human merge, monitor only the exact configured
 workflow and consume its exact successful `project-foundation-handoff.json`
 and `environment_information.md` artifacts. Validate both artifacts before
-using the contract-selected target repository and pinned template. Create the
+using the installation-selected target repository and pinned template. Create the
 repository only when it is absent; reuse an existing exact
 `nonprod-<project>` repository when handing off another non-production
 environment.
@@ -52,8 +52,8 @@ environment.
 For a newly created repository, verify that its initial tree equals the pinned
 template tree, then initialize it in the same reviewed handoff PR. Replace the
 template target with the exact handoff target, select the security profile from
-`deployment-contract.json`, render an active `.github/CODEOWNERS` from the
-contract owners, delete `.github/CODEOWNERS.template`, and publish the selected
+`cloud-operator-installation.json`, render an active `.github/CODEOWNERS` from
+the configured owners, delete `.github/CODEOWNERS.template`, and publish the selected
 environment handoff. Fail if any repository placeholder remains. For an
 existing initialized shared non-production repository, verify its protected
 contract and active CODEOWNERS before publishing only the new environment
