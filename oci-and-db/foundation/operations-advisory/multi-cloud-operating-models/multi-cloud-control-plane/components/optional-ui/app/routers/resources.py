@@ -31,7 +31,7 @@ from app.helpers import (
     render_repository_state_error,
 )
 from app.services.catalog_service import CatalogService
-from app.services.contract_service import load_installed_contract
+from app.services.installation_service import load_mccp_installation
 from app.services.dashboard_service import DashboardService
 from app.services.git_service import GitService, RepositoryStateError
 from app.services.handoff_service import HandoffService
@@ -57,10 +57,10 @@ def _region_options_with_selected(options: list[str], selected_region: str) -> l
 
 def _environment_options(project: str) -> list[str]:
     """Return the V2 environments permitted by the selected project layout."""
-    contract = load_installed_contract(settings.deployment_contract_path)
+    installation = load_mccp_installation(settings.mccp_installation_path)
     if project.startswith("prod-"):
-        return [contract.project_context(project, "prod").environment]
-    return sorted(contract.nonprod_environments)
+        return [installation.project_context(project, "prod").environment]
+    return sorted(installation.nonprod_environments)
 
 RequiredText = Annotated[str, StringConstraints(min_length=1)]
 OptionalText = str

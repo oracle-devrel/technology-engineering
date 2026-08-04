@@ -1388,17 +1388,26 @@ def _render_diff(path: str, base_content: bytes, candidate_content: bytes) -> st
     return diff
 
 
-def load_deployment_contract(path: str | os.PathLike[str]) -> str:
-    """Return the exact customer organization from a rendered V3 contract."""
+def load_mccp_installation(path: str | os.PathLike[str]) -> str:
+    """Return the exact customer organization from a rendered MCCP installation."""
     try:
-        contract = strict_json(Path(path).read_bytes())
+        installation = strict_json(Path(path).read_bytes())
     except OSError as exc:
-        raise ValidationFailure("INVALID_CONTRACT", "Deployment contract is unavailable.") from exc
-    if not isinstance(contract, dict):
-        _failure("INVALID_CONTRACT", "Deployment contract is invalid.")
-    organization = contract.get("customer_org")
-    if contract.get("schema_version") != 3 or not isinstance(organization, str) or ORG_RE.fullmatch(organization) is None:
-        _failure("INVALID_CONTRACT", "Deployment contract is invalid.")
+        raise ValidationFailure("INVALID_INSTALLATION", "MCCP installation configuration is unavailable.") from exc
+    if not isinstance(installation, dict):
+        _failure("INVALID_INSTALLATION", "MCCP installation configuration is invalid.")
+    organization = installation.get("customer_org")
+    catalog = installation.get("catalog")
+    if (
+        installation.get("schema_version") != 1
+        or not isinstance(organization, str)
+        or ORG_RE.fullmatch(organization) is None
+        or not isinstance(catalog, dict)
+        or catalog.get("repository") != f"{organization}/gitops-templates"
+        or not isinstance(catalog.get("revision"), str)
+        or re.fullmatch(r"[0-9a-f]{40}", catalog["revision"]) is None
+    ):
+        _failure("INVALID_INSTALLATION", "MCCP installation configuration is invalid.")
     return organization
 
 
@@ -1757,7 +1766,7 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--base-ref", default="origin/main")
     parser.add_argument("--expect-base-sha")
     parser.add_argument("--expect-content-sha256")
-    parser.add_argument("--deployment-contract", required=True)
+    parser.add_argument("--mccp-installation", required=True)
     return parser
 
 
@@ -1774,7 +1783,7 @@ def main(argv: list[str] | None = None) -> int:
             _validate_expected_base(arguments.expect_base_sha, current_base_sha)
             collection_repo = repository
             collection_base_ref = arguments.expect_base_sha
-        customer_org = load_deployment_contract(arguments.deployment_contract)
+        customer_org = load_mccp_installation(arguments.mccp_installation)
         change = collect_change(collection_repo, collection_base_ref, customer_org)
         _validate_preview(change, arguments.expect_base_sha,
                           arguments.expect_content_sha256)

@@ -29,12 +29,14 @@ governed V2 artifacts.
 ## Installation
 
 The platform team copies this component to its UI runtime location and places
-the rendered MCCP `deployment-contract.json` beside it. The contract identifies
-the customer organization, approved catalog revision, repository layouts, and
-permitted environments.
+the rendered MCCP `mccp-installation.json` beside it. This small non-secret
+file identifies the customer organization and approved immutable catalog
+revision. Repository layouts and environments are fixed by this V2 reference
+blueprint.
 
 Create a local `.env` from `.env.example` and set the GitHub App and session
-values outside Git. `GITHUB_ORG` must match the rendered contract. Use TLS in
+values outside Git. `GITHUB_ORG` must match the rendered installation
+configuration. Use TLS in
 any shared deployment.
 
 For a local demo that coexists with another UI, create and install a separate

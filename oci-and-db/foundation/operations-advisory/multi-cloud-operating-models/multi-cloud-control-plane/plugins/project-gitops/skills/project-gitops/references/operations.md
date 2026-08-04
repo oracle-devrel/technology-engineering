@@ -1,6 +1,6 @@
 # Operations
 
-1. Validate the deployment contract, `gh` authentication, exact private repository metadata, canonical project repository name, and exact `main` SHA.
+1. Validate the MCCP installation configuration, `gh` authentication, exact private repository metadata, canonical project repository name, and exact `main` SHA.
 2. Resolve the approved catalog file through GitHub API at the configured SHA and verify its blob hash.
 3. Create a disposable clone and one collision-free branch from exact `origin/main`.
 4. Edit one canonical aggregate manifest. For `nonprod-<project>`, first run

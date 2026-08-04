@@ -5,7 +5,7 @@ description: Use in the Codex app when a Project Team requests governed OCI, Azu
 
 # Project GitOps
 
-Read `deployment-contract.json`, [safety boundaries](references/safety-boundaries.md), and [operations](references/operations.md). Fail closed unless the contract validates the exact organization, repository, environment, immutable catalog ref, and workflow. Use English for user-facing output.
+Read `mccp-installation.json`, [safety boundaries](references/safety-boundaries.md), and [operations](references/operations.md). Fail closed unless the installation validates the exact organization and immutable catalog ref, then validate the repository, environment, and workflow. Use English for user-facing output.
 
 Run only in the Codex app when local shell and `gh` access are available.
 

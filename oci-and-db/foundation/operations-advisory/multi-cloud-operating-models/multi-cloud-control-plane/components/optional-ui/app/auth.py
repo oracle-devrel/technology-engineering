@@ -9,7 +9,7 @@ from fastapi.responses import Response
 from app.config import settings
 from app.github import GitHubClient
 from app.helpers import render_partial
-from app.services.contract_service import ContractError, load_installed_contract
+from app.services.installation_service import InstallationError, load_mccp_installation
 
 _OAUTH_SESSION_TTL_SECONDS = 8 * 60 * 60
 _oauth_tokens_by_session_id: dict[str, tuple[str, float]] = {}
@@ -85,17 +85,17 @@ async def has_project_access(request: Request, project: str, require_write: bool
     primary_client = request.state.github_client
 
     try:
-        contract = load_installed_contract(settings.deployment_contract_path)
-    except ContractError:
+        installation = load_mccp_installation(settings.mccp_installation_path)
+    except InstallationError:
         return False
-    if settings.github_org != contract.customer_org:
+    if settings.github_org != installation.customer_org:
         return False
     try:
-        contract.project_context(
+        installation.project_context(
             project,
             "prod" if (project or "").strip().startswith("prod-") else "dev",
         )
-    except ContractError:
+    except InstallationError:
         return False
 
     def _allowed(permissions: dict) -> bool:

@@ -50,8 +50,8 @@ class Settings(BaseSettings):
         "gcp:europe-west2,europe-west4,us-east4"
     )
 
-    # MCCP V2 installation contract
-    deployment_contract_path: str = "deployment-contract.json"
+    # Small, non-secret MCCP installation configuration.
+    mccp_installation_path: str = "mccp-installation.json"
 
     # Audit behavior
     audit_infra_paths: str = "oci/,azure/,gcp/"

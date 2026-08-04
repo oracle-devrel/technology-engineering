@@ -2,7 +2,7 @@
 import logging
 from app.config import settings
 from app.github import github_client as default_github_client
-from app.services.contract_service import ContractError, load_installed_contract
+from app.services.installation_service import InstallationError, load_mccp_installation
 
 logger = logging.getLogger(__name__)
 
@@ -15,7 +15,7 @@ class ProjectService:
         self.github = github_client or default_github_client
 
     @staticmethod
-    def _filter_projects(repos: list, contract) -> list[dict]:
+    def _filter_projects(repos: list, installation) -> list[dict]:
         """Return only V2 handed-off project repository names."""
         projects = []
         seen_names = set()
@@ -30,12 +30,12 @@ class ProjectService:
             name_lc = name.lower()
             try:
                 if name_lc.startswith("nonprod-"):
-                    contract.project_context(name, "dev")
+                    installation.project_context(name, "dev")
                 elif name_lc.startswith("prod-"):
-                    contract.project_context(name, "prod")
+                    installation.project_context(name, "prod")
                 else:
                     continue
-            except ContractError:
+            except InstallationError:
                 continue
 
             if name_lc.endswith("-template"):
@@ -58,10 +58,10 @@ class ProjectService:
             repos = (user_repos or []) + (org_repos or [])
 
             logger.info(f"Total repos fetched: {len(repos)}")
-            contract = load_installed_contract(settings.deployment_contract_path)
-            if self.org != contract.customer_org:
+            installation = load_mccp_installation(settings.mccp_installation_path)
+            if self.org != installation.customer_org:
                 return []
-            projects = self._filter_projects(repos, contract)
+            projects = self._filter_projects(repos, installation)
 
             logger.info("Projects visible after filtering: %d", len(projects))
             return projects

@@ -3,6 +3,18 @@
 This runbook uses standard file, Git, `jq`, and Perl commands. Run it from a
 clean clone of this asset; no custom deployment program is required.
 
+## Installation configuration
+
+Cloud Operations renders one small, non-secret `mccp-installation.json` for
+this customer installation. It contains only the customer GitHub organization
+and the approved immutable catalog revision. The Optional UI and Project
+GitOps skill read it before they prepare a change, so neither can be redirected
+to a different organization or mutable catalog.
+
+This is not a project handoff and it does not deploy infrastructure. OCI
+foundation handoff remains a separate per-project artifact, validated before a
+project repository is created in [Project onboarding](#3-onboard-a-project).
+
 ## 1. Prepare the shared repositories
 
 ```bash
@@ -48,15 +60,13 @@ bucket. When the Landing Zone asset creates the OP03 runner identity, its
 
 `OCI_ORCHESTRATOR_REF` pins OCI Landing Zones Orchestrator
 [`release-2.1.4`](https://github.com/oci-landing-zones/terraform-oci-modules-orchestrator/tree/release-2.1.4).
-The workflow uses its immutable commit; release-branch names remain recorded
-as provenance in the deployment contract.
+The workflow uses that immutable commit.
 
 `AZURE_ORCHESTRATOR_REF` and `GCP_ORCHESTRATOR_REF` name the reviewed
 `mccp-v2.1.0` releases published by the external
 [Azure adapter](https://github.com/oci-clickops/clickops-orchestrator-azure/tree/mccp-v2.1.0)
 and [GCP adapter](https://github.com/oci-clickops/clickops-orchestrator-gcp/tree/mccp-v2.1.0).
-Record those exact release tags in the deployment contract and confirm that
-they resolve to the reviewed adapter commits before installation.
+Confirm that they resolve to the reviewed adapter commits before installation.
 
 Create and tag Platform CI first because project workflows pin that internal
 MCCP release tag:
@@ -84,9 +94,15 @@ done
 export PROJECT_TEMPLATE_REF=$(git -C "$STAGE/nonprod-project-template" rev-parse HEAD)
 export PRODUCTION_PROJECT_TEMPLATE_REF=$(git -C "$STAGE/prod-project-template" rev-parse HEAD)
 export CATALOGS_REF=$(git -C "$STAGE/gitops-templates" rev-parse HEAD)
-cp contracts/deployment-contract.template.json "$STAGE/deployment-contract.json"
-find "$STAGE/deployment-contract.json" -type f -exec perl -pi -e \
-  's/__CUSTOMER_ORG__/$ENV{CUSTOMER_ORG}/g; s/__PLATFORM_CI_REF__/$ENV{PLATFORM_CI_REF}/g; s/__PROJECT_TEMPLATE_REF__/$ENV{PROJECT_TEMPLATE_REF}/g; s/__PRODUCTION_PROJECT_TEMPLATE_REF__/$ENV{PRODUCTION_PROJECT_TEMPLATE_REF}/g; s/__CATALOGS_REF__/$ENV{CATALOGS_REF}/g; s/__PROJECT_STATE_BUCKET__/$ENV{PROJECT_STATE_BUCKET}/g; s/__PLATFORM_OWNER__/$ENV{PLATFORM_OWNER}/g; s/__ENVIRONMENT_OWNER__/$ENV{ENVIRONMENT_OWNER}/g; s/__PROD_OWNER__/$ENV{PROD_OWNER}/g' {} +
+cp contracts/mccp-installation.template.json "$STAGE/mccp-installation.json"
+perl -pi -e \
+  's/__CUSTOMER_ORG__/$ENV{CUSTOMER_ORG}/g; s/__CATALOGS_REF__/$ENV{CATALOGS_REF}/g' \
+  "$STAGE/mccp-installation.json"
+if rg -n '__[A-Z0-9_]+__' "$STAGE/mccp-installation.json"
+then
+  echo 'Unresolved MCCP installation placeholders remain' >&2
+  exit 1
+fi
 ```
 
 Treat `MCCP_RELEASE` and both external adapter release tags as immutable;
@@ -116,40 +132,26 @@ gh api "repos/$CUSTOMER_ORG/nonprod-project-template" --jq '.is_template'
 gh api "repos/$CUSTOMER_ORG/prod-project-template" --jq '.is_template'
 ```
 
-If the Codex app assistant is required, package it with the rendered installation
-contract and install that staged directory through the approved plugin process:
+If the Codex app assistant is required, package it with the rendered MCCP
+installation configuration and install that staged directory through the
+approved plugin process:
 
 ```bash
 cp -R plugins/project-gitops "$STAGE/project-gitops"
-cp contracts/deployment-contract.template.json \
-  "$STAGE/project-gitops/deployment-contract.json"
-perl -pi -e \
-  's/__CUSTOMER_ORG__/$ENV{CUSTOMER_ORG}/g;
-   s/__PLATFORM_CI_REF__/$ENV{PLATFORM_CI_REF}/g;
-   s/__PROJECT_TEMPLATE_REF__/$ENV{PROJECT_TEMPLATE_REF}/g;
-   s/__PRODUCTION_PROJECT_TEMPLATE_REF__/$ENV{PRODUCTION_PROJECT_TEMPLATE_REF}/g;
-   s/__CATALOGS_REF__/$ENV{CATALOGS_REF}/g;
-   s/__PROJECT_STATE_BUCKET__/$ENV{PROJECT_STATE_BUCKET}/g;
-   s/__PLATFORM_OWNER__/$ENV{PLATFORM_OWNER}/g;
-   s/__ENVIRONMENT_OWNER__/$ENV{ENVIRONMENT_OWNER}/g;
-   s/__PROD_OWNER__/$ENV{PROD_OWNER}/g' \
-  "$STAGE/project-gitops/deployment-contract.json"
-if rg -n '__[A-Z0-9_]+__' "$STAGE/project-gitops/deployment-contract.json"
-then
-  echo 'Unresolved deployment-contract placeholders remain' >&2
-  exit 1
-fi
+cp "$STAGE/mccp-installation.json" \
+  "$STAGE/project-gitops/mccp-installation.json"
 ```
 
 The assistant remains optional and is not required by any workflow.
 
-If the Multi-Cloud Plane UI is required, place the same rendered contract beside
-the staged UI runtime. Configure its OAuth and session secrets outside Git.
+If the Multi-Cloud Plane UI is required, place the same rendered MCCP
+installation configuration beside the staged UI runtime. Configure its OAuth
+and session secrets outside Git.
 The UI can only prepare a GitHub pull request; it uses the same V2 manifests,
 review gate, and runner execution path as a direct GitHub request.
 
 ```bash
-cp "$STAGE/deployment-contract.json" "$STAGE/optional-ui/deployment-contract.json"
+cp "$STAGE/mccp-installation.json" "$STAGE/optional-ui/mccp-installation.json"
 test ! -e "$STAGE/optional-ui/.env"
 ```
 
@@ -192,7 +194,7 @@ test "$(git ls-remote "https://github.com/$CUSTOMER_ORG/gitops-templates.git" \
 ```
 
 Each `test` command must return exit code zero. Record the same tag and commit
-values in the deployment contract. Runtime foundation, project, and disposable
+values as installation evidence. Runtime foundation, project, and disposable
 acceptance repositories are validated by their pinned source commits and
 handoff contracts, not by copying tenancy-specific files into this release
 bundle.
@@ -383,7 +385,8 @@ Only configure enabled environments. Every JSON member name must begin with
 the corresponding uppercase environment. Never place multiple environments in
 one bundle.
 
-Project automation is disabled by default. Only after the rendered contract,
+Project automation is disabled by default. Only after the rendered MCCP
+installation configuration,
 CODEOWNERS, handoff files, selected secret and readiness pairs, runner routing,
 and manual-review process are verified, enable it once:
 
