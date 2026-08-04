@@ -15,7 +15,8 @@ The workshop content is organized into a set of supporting materials. Review the
 ## Related materials
 
 - Introduction to Oracle Database@Google Cloud: [files/Oracle-Database@Google-Cloud-Introduction.pdf](./files/Oracle-Database@Google-Cloud-Introduction.pdf)
-- Solution definition document (SDD): [files/Oracle-Database@Google-Cloud-SDD.pdf](./files/Oracle-Database@Google-Cloud-SDD.pdf)
+- Solution definition: [solution-definition/README.md](./solution-definition/README.md)
+- Technical deep dive: [files/Oracle-Database@Google-Cloud-Technical-Deep-Dive.pdf](./files/Oracle-Database@Google-Cloud-Technical-Deep-Dive.pdf)
 - Supporting materials and downloadable assets: [files/](./files/)
 
 # License
