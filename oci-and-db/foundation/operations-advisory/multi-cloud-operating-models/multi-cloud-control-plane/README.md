@@ -14,8 +14,10 @@ before choosing a repository security profile.
 For the operating-model background behind this implementation, see
 [What is GitOps and why it is needed](../gitops/README.md).
 
-Release status: MVP reference implementation. Complete your security review and
-validate enabled capabilities before production rollout.
+This package is a working MVP reference implementation designed to be used as
+an extensible blueprint. Its catalog demonstrates governed delivery patterns;
+it is not an exhaustive catalog of cloud services. Complete your security
+review and validate enabled capabilities before production rollout.
 
 ## What your teams can manage
 
@@ -25,11 +27,16 @@ validate enabled capabilities before production rollout.
 - OCI Autonomous Database start and stop operations.
 - OCI Compute agent deployment as an SSH operations example.
 
-Azure and Google Day 2 operations are outside this MVP.
+These resources and operations are the supplied, validated baseline. Customers
+can extend the blueprint for installation-specific requirements, but every new
+path must implement and qualify the complete governed chain described in the
+[extension model](docs/architecture.md#extension-model) before it is enabled.
+Azure and Google Day 2 operations are not included in the supplied baseline.
 
-Azure and Google qualification uses provider-schema validation and credential-free mocked
-Terraform lifecycle tests. No live target-cloud apply was performed for this publication; do not
-represent either adapter as live-cloud certified.
+Azure and Google qualification uses provider-schema validation and
+credential-free mocked Terraform lifecycle tests. No live target-cloud apply
+was performed for this publication; do not represent either adapter as
+live-cloud certified.
 
 ## What you get
 
@@ -42,8 +49,7 @@ Installation prepares four private repositories for your organization:
 - `gitops-templates` provides the approved resource and operation catalog.
 
 The Codex app assistant is optional. GitHub pull requests remain the standard
-path and require no additional user interface. A browser UI is outside the
-scope of this MVP reference implementation.
+path and require no additional user interface. A browser UI is not included.
 
 ## Get started
 

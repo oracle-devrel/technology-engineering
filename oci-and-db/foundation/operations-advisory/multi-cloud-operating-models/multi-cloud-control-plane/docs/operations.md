@@ -11,7 +11,7 @@ Every infrastructure request follows the same governed process:
 
 ## Manifest paths
 
-Use these standard locations (this is the canonical path table):
+Use these canonical locations for the supplied baseline:
 
 | Request | Location |
 |---|---|
@@ -24,14 +24,23 @@ Use these standard locations (this is the canonical path table):
 | Google ADB-S | `gcp/{environment}/{region}/workloads/adb.json` |
 | OCI lifecycle operation | `oci/{environment}/{region}/lifecycle_operations/{operation}.json` |
 
+Project Teams use only installed catalog entries and approved paths. A customer
+extension must add its reviewed path and validation before use; the required
+implementation layers are defined in the
+[architecture extension model](architecture.md#extension-model).
+
+Azure and Google manifests contain only workload declarations and direct
+handed-off references. Their adapters never create foundation resources, and
+VM manifests have no public-IP fields.
+
 Keep one file for each Terraform configuration group in a project and region.
 Splitting the same group across files can cause values to be ignored because
 Terraform does not deep-merge variable files.
 
 Lifecycle requests identify the operation and target resource by display name.
-Currently supported operations are OCI Autonomous Database start/stop and the
-OCI Compute `deploy-agent` example. Azure and Google Day 2 operations are not in
-this MVP release.
+The supplied, currently implemented reference examples are OCI Autonomous
+Database start/stop and OCI Compute `deploy-agent`. Azure and Google Day 2
+operations are not included in the supplied baseline.
 
 A lifecycle manifest records one completed request; it is not desired state.
 After verifying the operation, delete that manifest in a focused pull request.
@@ -44,14 +53,11 @@ secret bundle is missing a matching key. A placeholder that does not start with
 the selected uppercase environment is rejected before Terraform. Missing
 catalog-rendering values instead indicate incomplete handoff data. Day 2
 targets must use the exact display name recorded in Terraform state. Keep one
-region per pull request; the shared
-resolver rejects a mixed environment or region request. Paths outside this table
-are rejected. Missing runner labels are a platform configuration issue, and
-missing handoff data must be corrected by the platform team before a request is
-prepared.
-
-Azure and Google manifests contain only workload declarations and direct handed-off references.
-Their adapters never create foundation resources. VM manifests have no public-IP fields.
+region per pull request; the shared resolver rejects a mixed environment or
+region request. Paths outside this table are rejected unless they belong to an
+installed, qualified extension. Missing runner labels are a platform
+configuration issue, and missing handoff data must be corrected by the platform
+team before a request is prepared.
 
 Never commit passwords or credentials. If a deployment fails, retain the logs,
 confirm the state of the resource and Terraform state, and submit a reviewed

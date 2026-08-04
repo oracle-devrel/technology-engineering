@@ -52,6 +52,7 @@ git -C "$STAGE/platform-ci" init -b main
 git -C "$STAGE/platform-ci" add -A
 git -C "$STAGE/platform-ci" -c user.name='Platform Administrator' \
   -c user.email='platform@invalid' commit -m 'Prepare Platform CI'
+export PLATFORM_CI_COMMIT=$(git -C "$STAGE/platform-ci" rev-parse HEAD)
 git -C "$STAGE/platform-ci" tag -a "$MCCP_RELEASE" \
   -m "MCCP $MCCP_RELEASE"
 export PLATFORM_CI_REF="$MCCP_RELEASE"
@@ -144,27 +145,33 @@ repository, allow project repositories to call its reusable workflows at
 **Settings → Actions → General → Access → Accessible from repositories in the
 organization**.
 
-Before recording the published component commits in the deployment contract,
-clone the four component repositories into one temporary directory and run the
-release parity gate against the same rendered staging values. The substitutions
-file contains only non-secret rendered values such as immutable release tags,
-commits, and bucket names; do not put credentials or secret values in it.
+Record the exact prepared commits, then confirm that every published branch and
+the immutable Platform CI tag resolve to those commits:
 
 ```bash
-python3.11 scripts/verify-release-parity.py \
-  --manifest contracts/release-parity-manifest.template.json \
-  --published-root /tmp/published-components \
-  --customer-org "$CUSTOMER_ORG" \
-  --substitutions /secure/non-secret-release-substitutions.json
+printf '%s  %s\n' \
+  "$PLATFORM_CI_COMMIT" platform-ci \
+  "$PROJECT_TEMPLATE_REF" nonprod-project-template \
+  "$PRODUCTION_PROJECT_TEMPLATE_REF" prod-project-template \
+  "$CATALOGS_REF" gitops-templates
+
+test "$(git ls-remote "https://github.com/$CUSTOMER_ORG/platform-ci.git" \
+  refs/heads/main | cut -f1)" = "$PLATFORM_CI_COMMIT"
+test "$(git ls-remote "https://github.com/$CUSTOMER_ORG/platform-ci.git" \
+  "refs/tags/$MCCP_RELEASE^{}" | cut -f1)" = "$PLATFORM_CI_COMMIT"
+test "$(git ls-remote "https://github.com/$CUSTOMER_ORG/nonprod-project-template.git" \
+  refs/heads/main | cut -f1)" = "$PROJECT_TEMPLATE_REF"
+test "$(git ls-remote "https://github.com/$CUSTOMER_ORG/prod-project-template.git" \
+  refs/heads/main | cut -f1)" = "$PRODUCTION_PROJECT_TEMPLATE_REF"
+test "$(git ls-remote "https://github.com/$CUSTOMER_ORG/gitops-templates.git" \
+  refs/heads/main | cut -f1)" = "$CATALOGS_REF"
 ```
 
-The command must return exit code zero. It fails for a missing, unexpected, or
-different regular file, including a stale project-level policy file, or an
-unrendered release-owned token declared in the manifest. Project and catalog
-runtime tokens (for example `__ADB_DISPLAY_NAME__`) remain intentionally in
-the published templates. Runtime foundation, project, and disposable acceptance
-repositories are validated by their pinned source commits and handoff contracts,
-not by copying their tenancy-specific files into this release bundle.
+Each `test` command must return exit code zero. Record the same tag and commit
+values in the deployment contract. Runtime foundation, project, and disposable
+acceptance repositories are validated by their pinned source commits and
+handoff contracts, not by copying tenancy-specific files into this release
+bundle.
 
 Keep `platform-ci` private. Reusable-workflow access alone does not authorize
 the caller's `GITHUB_TOKEN` to check out private Platform CI files at runtime.
