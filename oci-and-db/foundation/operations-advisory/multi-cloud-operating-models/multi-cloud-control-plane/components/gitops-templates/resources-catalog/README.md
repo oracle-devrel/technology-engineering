@@ -83,7 +83,9 @@ They are intentionally **reference-only** in the supplied MVP. They are not
 loaded by GitHub Actions, `platform-ci`, or Terraform, so adding or updating
 them does not change deployment behaviour. The authoritative runtime validation
 remains the protected control-plane code and the pinned Terraform module
-contracts.
+contracts. Use the schemas for human review, offline manifest checking, and as
+the starting contract when designing a qualified extension; do not treat a
+schema change as a deployment change.
 
 ## Security notes
 

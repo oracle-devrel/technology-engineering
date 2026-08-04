@@ -6,12 +6,7 @@ Terraform expertise.
 
 Teams select an approved template, submit a JSON change, and review the
 Terraform plan or Ansible check in a pull request. A trusted runner performs the
-change only after human approval and merge. Paid GitHub plans can enforce that
-approval with repository controls; the Free profile relies on restricted roles
-and documented process. The supplied MVP uses one fixed
-`repository-secrets` profile; see [Security](docs/security.md) for its controls
-and [Final-environment hardening](docs/final-environment-hardening.md) for the
-future enforced-approval model.
+change only after human approval and merge.
 
 ![The operating model defines roles, governance, approval, and compliance while the control plane enforces approved patterns and execution controls.](docs/images/governed-self-service-model.png)
 
@@ -21,14 +16,8 @@ enforces the approved delivery path.*
 For the operating-model background behind this implementation, see
 [Multi-Cloud Operating Models](../README.md).
 
-This package is a working MVP reference implementation designed to be used as
-an extensible blueprint. Its catalog demonstrates governed delivery patterns;
-it is not an exhaustive catalog of cloud services. Complete your security
-review and validate enabled capabilities before production rollout.
-
-The supplied GitHub Free profile is qualified for controlled non-production
-use. The production repository structure is included, but production
-enablement requires the hardened approval model and a customer security review.
+This package is a working MVP reference blueprint: an extensible, governed
+baseline rather than an exhaustive catalog of cloud services.
 
 ## What your teams can manage
 
@@ -43,6 +32,16 @@ can extend the blueprint for installation-specific requirements, but every new
 path must implement and qualify the complete governed chain described in the
 [extension model](docs/architecture.md#extension-model) before it is enabled.
 Azure and GCP Day 2 operations are not included in the supplied baseline.
+
+## Scope and current limits
+
+The fixed `repository-secrets` profile is qualified for controlled
+non-production use on GitHub Free. The production repository structure is
+included, but production enablement requires the hardened approval model and a
+customer security review. Paid GitHub plans can enforce approval with
+repository controls; the Free profile relies on restricted roles and documented
+process. See [Security](docs/security.md) and
+[Final-environment hardening](docs/final-environment-hardening.md).
 
 Azure and GCP qualification uses provider-schema validation and
 credential-free mocked Terraform lifecycle tests. No live target-cloud apply
@@ -112,6 +111,8 @@ separate [production repository model](docs/production.md).
 
 - **OP04**: Landing Zone project-foundation phase that creates the project
   compartments, groups, and policies.
+- **Cloud Operations / platform team**: the platform administrators who own
+  foundation, OP04, runner routing, and the reviewed project handoff.
 - **Handoff**: verified foundation references delivered by the platform team;
   executable request intent stays in JSON manifests.
 - **Orchestrator**: the pinned Terraform repository that consumes a manifest.

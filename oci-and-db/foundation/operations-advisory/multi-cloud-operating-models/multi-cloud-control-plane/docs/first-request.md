@@ -24,6 +24,48 @@ paths.
 | Azure | `azure/{environment}/{region}/compute/compute.json` | `azure/{environment}/{region}/database/database.json` |
 | Google | `gcp/{environment}/{region}/compute/compute.json` | `gcp/{environment}/{region}/workloads/adb.json` |
 
+## Worked request: OCI VM
+
+The following is the rendered entry shape for one private OCI VM. The OCIDs
+and names are illustrative: replace them only with the selected environment's
+handed-off values. Keep the entry in the existing `instances` object rather
+than creating a second manifest.
+
+```json
+{
+  "instances_configuration": {
+    "default_compartment_id": "ocid1.compartment.oc1..exampleappcompartment",
+    "default_ssh_public_key_path": "/home/github-runner/.ssh/oci_vm_key.pub",
+    "instances": {
+      "orders_api_vm": {
+        "compartment_id": "ocid1.compartment.oc1..exampleappcompartment",
+        "cis_level": "1",
+        "name": "orders-api-dev-01",
+        "shape": "VM.Standard.A1.Flex",
+        "flex_shape_settings": { "ocpus": "1", "memory": "6" },
+        "platform_image": {
+          "ocid": "<approved OCI image OCID for this region>"
+        },
+        "placement": { "availability_domain": "1", "fault_domain": "1" },
+        "boot_volume": {
+          "size": "50",
+          "preserve_on_instance_deletion": "false"
+        },
+        "networking": {
+          "hostname": "orders-api-dev-01",
+          "subnet_id": "ocid1.subnet.oc1..exampleprivateappsubnet",
+          "network_security_groups": ["orders_app_nsg"]
+        }
+      }
+    }
+  }
+}
+```
+
+The supplied OCI Compute catalog template carries a Frankfurt image OCID.
+For any other OCI region, use a separately platform-validated template with a
+current regional image OCID before opening the request.
+
 VMs are private-only. Public-IP fields are rejected. To remove the final resource from one manifest, replace the complete file with the canonical empty object:
 
 ```json

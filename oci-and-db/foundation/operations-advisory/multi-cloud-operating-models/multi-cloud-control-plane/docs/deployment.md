@@ -36,6 +36,11 @@ find "$STAGE" -type f -exec perl -pi -e \
   's/__CUSTOMER_ORG__/$ENV{CUSTOMER_ORG}/g; s/__STATE_BUCKET__/$ENV{PROJECT_STATE_BUCKET}/g' {} +
 ```
 
+`STAGE` is a local build directory, not a Git repository or secret store. Use a
+directory accessible only to the installation operator, keep credentials and
+runtime secrets outside it, and remove it after the published repositories have
+been verified.
+
 `PROJECT_STATE_BUCKET` must name a dedicated private Object Storage bucket
 with versioning enabled. Do not reuse the OCI Landing Zone foundation-state
 bucket. When the Landing Zone asset creates the OP03 runner identity, its
@@ -45,6 +50,13 @@ bucket. When the Landing Zone asset creates the OP03 runner identity, its
 [`release-2.1.4`](https://github.com/oci-landing-zones/terraform-oci-modules-orchestrator/tree/release-2.1.4).
 The workflow uses its immutable commit; release-branch names remain recorded
 as provenance in the deployment contract.
+
+`AZURE_ORCHESTRATOR_REF` and `GCP_ORCHESTRATOR_REF` name the reviewed
+`mccp-v2.1.0` releases published by the external
+[Azure adapter](https://github.com/oci-clickops/clickops-orchestrator-azure/tree/mccp-v2.1.0)
+and [GCP adapter](https://github.com/oci-clickops/clickops-orchestrator-gcp/tree/mccp-v2.1.0).
+Record those exact release tags in the deployment contract and confirm that
+they resolve to the reviewed adapter commits before installation.
 
 Create and tag Platform CI first because project workflows pin that internal
 MCCP release tag:
