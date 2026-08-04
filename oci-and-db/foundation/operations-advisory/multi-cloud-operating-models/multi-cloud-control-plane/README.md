@@ -21,17 +21,22 @@ baseline rather than an exhaustive catalog of cloud services.
 
 ## What your teams can manage
 
+This MVP reference blueprint demonstrates the governed delivery model with a
+deliberately small set of representative Day 1 resources and OCI Day 2
+operations. It is designed to be extended for each customer, not to prescribe
+a fixed cloud-service catalogue.
+
 - OCI Autonomous Database, Compute, and project network security groups.
 - Private Azure Linux VMs and Oracle Autonomous Database.
 - Private Google Cloud Linux VMs and Oracle Autonomous Database.
 - OCI Autonomous Database start and stop operations.
 - OCI Compute software-agent deployment as an SSH operations example.
 
-These resources and operations are the supplied, validated baseline. Customers
-can extend the blueprint for installation-specific requirements, but every new
-path must implement and qualify the complete governed chain described in the
-[extension model](docs/architecture.md#extension-model) before it is enabled.
-Azure and GCP Day 2 operations are not included in the supplied baseline.
+These are the supplied and qualified examples. A customer can extend the
+blueprint for installation-specific requirements, but each additional resource
+or operation must implement and qualify the complete governed chain described
+in the [extension model](docs/architecture.md#extension-model) before it is
+enabled. Azure and GCP Day 2 operations are not included in this baseline.
 
 ## Scope and current limits
 
