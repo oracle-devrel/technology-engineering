@@ -34,14 +34,6 @@ inputs:
   bucket_name:
     description: OCI Object Storage state bucket
     required: true
-  environment_readiness_marker:
-    description: Environment-profile readiness value
-    required: false
-    default: ""
-  environment_secret_values:
-    description: Environment-profile secret JSON
-    required: false
-    default: ""
   repository_secret_values:
     description: Repository-profile secret JSON
     required: false
@@ -53,31 +45,14 @@ runs:
     - name: Verify environment readiness
       shell: bash
       env:
-        ENVIRONMENT_READINESS_MARKER: ${{ inputs.environment_readiness_marker }}
-        ENVIRONMENT_SECRET_VALUES: ${{ inputs.environment_secret_values }}
         REPOSITORY_READINESS_MARKER: ${{ inputs.readiness_marker }}
         REPOSITORY_SECRET_VALUES: ${{ inputs.repository_secret_values }}
         SECURITY_PROFILE: ${{ inputs.security_profile }}
       run: |
         set -euo pipefail
-        case "$SECURITY_PROFILE" in
-          github-environments)
-            test -z "$REPOSITORY_READINESS_MARKER"
-            test -z "$REPOSITORY_SECRET_VALUES"
-            test "$ENVIRONMENT_READINESS_MARKER" = "true"
-            test -n "$ENVIRONMENT_SECRET_VALUES"
-            ;;
-          repository-secrets)
-            test -z "$ENVIRONMENT_READINESS_MARKER"
-            test -z "$ENVIRONMENT_SECRET_VALUES"
-            test "$REPOSITORY_READINESS_MARKER" = "true"
-            test -n "$REPOSITORY_SECRET_VALUES"
-            ;;
-          *)
-            echo "❌ Unsupported security profile"
-            exit 1
-            ;;
-        esac
+        test "$SECURITY_PROFILE" = repository-secrets
+        test "$REPOSITORY_READINESS_MARKER" = true
+        test -n "$REPOSITORY_SECRET_VALUES"
 
     # =====================================================================
     # Setup
@@ -116,12 +91,12 @@ runs:
         fi
         if [ -z "$CONFIG_REGION" ]; then
           # Attempt auto-detection from changed files
-          # This logic assumes paths like: oci/<region>/...
+          # This logic assumes paths like: oci/<environment>/<region>/...
           # We use git diff to find changed files in the PR or commit
           CHANGED_FILES=$(git diff --name-only HEAD^ HEAD)
 
           # Extract region from the first file that matches the cloud pattern
-          DETECTED_REGION=$(echo "$CHANGED_FILES" | grep "^${{ inputs.cloud }}/" | cut -d/ -f2 | head -n 1)
+          DETECTED_REGION=$(echo "$CHANGED_FILES" | grep "^${{ inputs.cloud }}/" | cut -d/ -f3 | head -n 1)
 
           if [ -n "$DETECTED_REGION" ]; then
              CONFIG_REGION="$DETECTED_REGION"
@@ -286,6 +261,7 @@ runs:
         fi
 
         terraform -chdir=ORCH fmt providers.tf
+        terraform -chdir=ORCH fmt backend.tf
         echo "✅ Generated providers.tf"
 
     # =====================================================================
@@ -299,7 +275,11 @@ runs:
       id: format
       if: inputs.mode == 'pr'
       shell: bash
-      run: terraform -chdir=ORCH fmt -check
+      run: |
+        # Check only the runtime-generated files. Formatting of the pinned
+        # third-party orchestrator is certified when that revision is adopted.
+        terraform -chdir=ORCH fmt -check providers.tf
+        terraform -chdir=ORCH fmt -check backend.tf
 
     - name: Terraform validate
       id: validate
@@ -311,7 +291,7 @@ runs:
       id: vars
       shell: bash
       env:
-        GITOPS_SECRET_VALUES: ${{ inputs.security_profile == 'github-environments' && inputs.environment_secret_values || inputs.repository_secret_values }}
+        GITOPS_SECRET_VALUES: ${{ inputs.repository_secret_values }}
       run: |
         CONFIG_DIR="${{ github.workspace }}/${{ steps.config.outputs.config_subpath }}"
         PREPARED_VAR_DIR="${{ runner.temp }}/terraform-var-files"
@@ -349,21 +329,23 @@ runs:
       shell: bash
       working-directory: ORCH
       run: |
+        set +e
         set -o pipefail
         terraform plan -detailed-exitcode -no-color \
           ${{ steps.vars.outputs.extra }} ${{ steps.vars.outputs.var_files }} \
-          -out=tfplan.binary 2>&1 | tee plan.txt || true
+          -out=tfplan.binary 2>&1 | tee plan.txt
         EXIT=${PIPESTATUS[0]}
+        set -e
 
         echo "plan_output<<EOF" >> $GITHUB_OUTPUT
         cat plan.txt >> $GITHUB_OUTPUT
         echo "EOF" >> $GITHUB_OUTPUT
         echo "exit_code=$EXIT" >> $GITHUB_OUTPUT
 
-        # Exit codes: 0=no changes, 1=error, 2=changes detected
-        # Only exit 1 is a real error
-        if [ "$EXIT" -eq 1 ]; then
-          exit 1
+        # Exit codes: 0=no changes, 1=error, 2=changes detected.
+        # Fail closed for 1 and any unexpected result.
+        if [ "$EXIT" -ne 0 ] && [ "$EXIT" -ne 2 ]; then
+          exit "$EXIT"
         fi
         # Exit 0 or 2 are both success (0=no changes, 2=changes to apply)
         exit 0
@@ -382,7 +364,7 @@ runs:
     # PR Comment
     # =====================================================================
     - name: Comment on PR
-      if: inputs.mode == 'pr' && github.event.pull_request
+      if: always() && inputs.mode == 'pr' && github.event.pull_request
       uses: actions/github-script@v8
       env:
         PLAN: ${{ steps.plan.outputs.plan_output }}

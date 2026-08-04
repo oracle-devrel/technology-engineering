@@ -34,19 +34,17 @@ MAX_ADB_MUTATIONS = 3
 PROJECT_PATTERN = re.compile(r"^(?:nonprod|prod)-[a-z][a-z0-9]*(?:-[a-z0-9]+)*$")
 REGION_PATTERN = re.compile(r"^[a-z]{2}-[a-z]+-[0-9]+$")
 BRANCH_PATTERN = re.compile(
-    r"^agent/(?:adb|vm|nsg|exacs)-[a-z0-9](?:[a-z0-9-]{0,62})$"
+    r"^agent/(?:adb|vm|nsg)-[a-z0-9](?:[a-z0-9-]{0,62})$"
 )
 PATH_PATTERN = re.compile(
-    r"^oci/(?P<environment>dev|test|uat|prod)/"
-    r"(?P<region>[a-z]{2}-[a-z]+-[0-9]+)/(?P<kind>database/database\.json|"
+    r"^(?P<cloud>oci|azure|gcp)/(?P<environment>dev|test|uat|prod)/"
+    r"(?P<region>[a-z0-9-]+)/(?P<kind>database/database\.json|"
     r"compute/compute\.json|network/project-nsgs\.json|"
-    r"lifecycle_operations/(?:adb-lifecycle|exacs-database-out-of-place-patch)\.json)$")
+    r"workloads/adb\.json|lifecycle_operations/adb-lifecycle\.json)$")
 SHA_RE = re.compile(r"^[0-9a-f]{40}$")
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 BASE_REF_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._/-]{0,254}$")
-_ORIGIN_RES = tuple(re.compile(
-    rf"^{prefix}__CUSTOMER_ORG__/(?P<project>{PROJECT_PATTERN.pattern[1:-1]})(?:\.git)?$"
-) for prefix in (r"https://github\.com/", r"git@github\.com:", r"ssh://git@github\.com/"))
+ORG_RE = re.compile(r"^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$")
 _EXECUTABLE_GIT_CONFIG_PATTERN = re.compile(
     r"^(?:diff\..+\.(?:command|textconv)|"
     r"filter\..+\.(?:clean|smudge|process))$")
@@ -55,33 +53,15 @@ ADB_VALIDATIONS = ("repository", "one-file-diff", "strict-json", "governed-adb-c
                    "secret-placeholder")
 LIFECYCLE_VALIDATIONS = (
     "repository", "one-file-diff", "strict-json", "declared-adb-targets", "start-stop-only")
-EXACS_PATCH_VALIDATIONS = (
-    "repository", "one-file-diff", "strict-json", "registered-exacs-database",
-    "approved-target-db-home", "one-database-only", "oci-api-precheck-before-move",
-)
 COMPUTE_VALIDATIONS = (
     "repository", "one-file-diff", "strict-json", "governed-vm-change",
     "declared-nsg-references",
 )
 NSG_VALIDATIONS = (
-    "repository", "one-file-diff", "strict-json", "additive-nsg", "existing-vcn-only",
+    "repository", "one-file-diff", "strict-json", "governed-nsg-change", "existing-vcn-only",
 )
 LIFECYCLE_ROOT_KEYS = frozenset({"operation_type", "targets"})
 TARGET_KEYS = frozenset({"display_name", "action"})
-EXACS_PATCH_TARGET_KEYS = frozenset(
-    {
-        "display_name", "expected_source_db_home_id", "target_db_home_id",
-        "target_db_version", "timeout_minutes",
-    }
-)
-EXACS_REGISTRY_KEYS = frozenset({"schema_version", "databases"})
-EXACS_REGISTRY_DATABASE_KEYS = frozenset(
-    {
-        "display_name", "database_id", "compartment_id", "vm_cluster_id",
-        "service_model", "declarative_owner", "approved_target_db_homes",
-    }
-)
-EXACS_REGISTRY_HOME_KEYS = frozenset({"id", "db_version"})
 ADB_FIELDS = frozenset(
     "db_name display_name is_dedicated ecpu_count non_dw_storage_size_in_gbs "
     "db_workload license_model enable_cpu_auto_scaling "
@@ -93,19 +73,11 @@ ADB_STRING_PATTERNS = {
 ADB_KEY_RE = re.compile(r"^[A-Z0-9][A-Z0-9_-]{0,127}$")
 ADB_NSG_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$")
 ADB_PASSWORD_RE = re.compile(r"^__[A-Z][A-Z0-9_]{2,99}__$")
-DATABASE_OCID_RE = re.compile(r"^ocid1\.database\.[A-Za-z0-9.-]+\.[A-Za-z0-9._-]+$")
-DB_HOME_OCID_RE = re.compile(r"^ocid1\.dbhome\.[A-Za-z0-9.-]+\.[A-Za-z0-9._-]+$")
-COMPARTMENT_OCID_RE = re.compile(r"^ocid1\.compartment\.[A-Za-z0-9.-]+\.[A-Za-z0-9._-]+$")
-VM_CLUSTER_OCID_RE = re.compile(r"^ocid1\.vmcluster\.[A-Za-z0-9.-]+\.[A-Za-z0-9._-]+$")
-CLOUD_VM_CLUSTER_OCID_RE = re.compile(
-    r"^ocid1\.cloudvmcluster\.[A-Za-z0-9.-]+\.[A-Za-z0-9._-]+$"
-)
-DB_VERSION_RE = re.compile(r"^[1-9][0-9]*(?:\.[0-9]+){4}$")
 RESOURCE_KEY_RE = re.compile(r"^[A-Z0-9][A-Z0-9_-]{0,127}$")
 RESOURCE_NAME_RE = re.compile(r"^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$")
 SHAPE_RE = re.compile(r"^VM\.[A-Za-z0-9][A-Za-z0-9.]{1,126}$")
 GENERIC_KEY_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$")
-FIXED_SSH_PUBLIC_KEY_PATH = "/home/opc/.ssh/oci_vm_key.pub"
+FIXED_SSH_PUBLIC_KEY_PATH = "/home/github-runner/.ssh/oci_vm_key.pub"
 COMPUTE_ROOT_KEYS = frozenset(
     {"default_compartment_id", "default_ssh_public_key_path", "instances"}
 )
@@ -289,6 +261,193 @@ def strict_json(content: bytes) -> Any:
     return value
 
 
+def _handoff_references(markdown: str, cloud: str) -> dict[str, str]:
+    """Return labeled references from only the selected cloud handoff section."""
+    heading = "azure" if cloud == "azure" else "gcp"
+    references: dict[str, str] = {}
+    active = False
+    for raw_line in markdown.splitlines():
+        line = raw_line.strip()
+        if line.startswith("## "):
+            active = line[3:].strip().casefold() in {heading, "google" if cloud == "gcp" else heading}
+            continue
+        if not active or not line.startswith("|"):
+            continue
+        cells = [cell.strip() for cell in line.strip("|").split("|")]
+        if (
+            len(cells) >= 2
+            and cells[0].casefold() not in {"reference", "---"}
+            and cells[1]
+            and set(cells[1]) != {"-"}
+        ):
+            label = cells[0].casefold()
+            if label in references:
+                _failure("INVALID_HANDOFF", "The selected cloud handoff has duplicate references.")
+            references[label] = cells[1]
+    if not references:
+        _failure("INVALID_HANDOFF", "The selected cloud handoff section is missing.")
+    return references
+
+
+def validate_external_manifest(
+    cloud: str, kind: str, environment: str, document: object, handoff_markdown: str
+) -> str:
+    """Validate one Azure or GCP V2 workload manifest against its handoff section."""
+    if cloud not in {"azure", "gcp"} or kind not in {"compute", "adb"}:
+        _failure("UNSUPPORTED_CLOUD", "The requested cloud or workload is unsupported.")
+    if document == {}:
+        return "delete"
+    if not isinstance(document, dict):
+        _failure("INVALID_MANIFEST", "The workload manifest must be an object.")
+
+    root = {
+        ("azure", "compute"): "virtual_machines",
+        ("azure", "adb"): "oracle_autonomous_databases",
+        ("gcp", "compute"): "gcp_virtual_machines_configuration",
+        ("gcp", "adb"): "gcp_autonomous_databases_configuration",
+    }[(cloud, kind)]
+    allowed_roots = {root} | ({"project_id"} if cloud == "gcp" else set())
+    resources = document.get(root)
+    if set(document) != allowed_roots or not isinstance(resources, dict) or not resources:
+        _failure("INVALID_MANIFEST", "The workload manifest root is invalid.")
+
+    required = {
+        ("azure", "compute"): {"name", "location", "resource_group_name", "subnet_id", "network_security_group_id", "size", "admin_username", "ssh_public_key"},
+        ("azure", "adb"): {"name", "location", "resource_group_name", "subnet_id", "virtual_network_id", "admin_password"},
+        ("gcp", "compute"): {"name", "zone", "subnetwork", "service_account", "ssh_public_key"},
+        ("gcp", "adb"): {"autonomous_database_id", "display_name", "database", "odb_network", "odb_subnet", "properties"},
+    }[(cloud, kind)]
+    handoff_references = _handoff_references(handoff_markdown, cloud)
+    reference_fields = {
+        ("azure", "compute"): {
+            "location": "region",
+            "resource_group_name": "resource group",
+            "subnet_id": "vm subnet id",
+            "network_security_group_id": "nsg id",
+        },
+        ("azure", "adb"): {
+            "location": "region",
+            "resource_group_name": "resource group",
+            "subnet_id": "adb subnet id",
+            "virtual_network_id": "vnet id",
+        },
+        ("gcp", "compute"): {
+            "zone": "zone",
+            "subnetwork": "subnetwork",
+            "service_account": "service account",
+        },
+        ("gcp", "adb"): {
+            "odb_network": "odb network id",
+            "odb_subnet": "odb subnet id",
+        },
+    }[(cloud, kind)]
+    required_handoff_labels = set(reference_fields.values())
+    required_handoff_labels.add("subscription id" if cloud == "azure" else "project id")
+    if not required_handoff_labels.issubset(handoff_references):
+        _failure("INVALID_HANDOFF", "The selected cloud handoff is incomplete.")
+    if cloud == "gcp" and document.get("project_id") != handoff_references["project id"]:
+        _failure("HANDOFF_MISMATCH", "The Google project does not match the handoff.")
+    for resource_document in resources.values():
+        if not isinstance(resource_document, dict) or not required.issubset(resource_document):
+            _failure("INVALID_MANIFEST", "A workload declaration is incomplete.")
+        if any("public_ip" in key.casefold() for key in resource_document):
+            _failure("PUBLIC_IP_FORBIDDEN", "Public IP fields are not supported.")
+        if any(
+            resource_document[field] != handoff_references[label]
+            for field, label in reference_fields.items()
+        ):
+            _failure("HANDOFF_MISMATCH", "A workload reference does not match the handoff.")
+        if cloud == "azure":
+            subscription_prefix = f"/subscriptions/{handoff_references['subscription id']}/"
+            azure_id_fields = {
+                "subnet_id", "network_security_group_id", "virtual_network_id"
+            }.intersection(reference_fields)
+            if any(
+                not resource_document[field].startswith(subscription_prefix)
+                for field in azure_id_fields
+            ):
+                _failure("HANDOFF_MISMATCH", "An Azure resource ID uses another subscription.")
+        if cloud == "gcp" and kind == "adb":
+            properties = resource_document.get("properties")
+            if (
+                not isinstance(properties, dict)
+                or properties.get("secret_id") != handoff_references.get("password secret")
+            ):
+                _failure("HANDOFF_MISMATCH", "The password secret does not match the handoff.")
+
+    expected_prefix = f"__{environment.upper()}_"
+    for token in _UNRESOLVED_TOKEN_RE.findall(json.dumps(document, sort_keys=True)):
+        if not token.startswith(expected_prefix):
+            _failure("CROSS_ENVIRONMENT_SECRET", "A secret placeholder belongs to another environment.")
+    return "upsert"
+
+
+def _external_resource_entries(cloud: str, kind: str, document: object) -> tuple[dict[str, object], object]:
+    """Return aggregate entries and the optional Google project scope."""
+    if document == {}:
+        return {}, None
+    if not isinstance(document, dict):
+        _failure("INVALID_MANIFEST", "The workload manifest must be an object.")
+    root = {
+        ("azure", "compute"): "virtual_machines",
+        ("azure", "adb"): "oracle_autonomous_databases",
+        ("gcp", "compute"): "gcp_virtual_machines_configuration",
+        ("gcp", "adb"): "gcp_autonomous_databases_configuration",
+    }.get((cloud, kind))
+    if root is None:
+        _failure("UNSUPPORTED_CLOUD", "The requested cloud or workload is unsupported.")
+    allowed_roots = {root} | ({"project_id"} if cloud == "gcp" else set())
+    entries = document.get(root)
+    if set(document) != allowed_roots or not isinstance(entries, dict) or not entries:
+        _failure("INVALID_MANIFEST", "The workload manifest root is invalid.")
+    return entries, document.get("project_id")
+
+
+def validate_external_change(
+    cloud: str,
+    kind: str,
+    environment: str,
+    base_document: object,
+    candidate_document: object,
+    handoff_markdown: str,
+) -> str:
+    """Validate exactly one Azure or Google aggregate resource mutation."""
+    base_entries, base_project = _external_resource_entries(cloud, kind, base_document)
+    candidate_entries, candidate_project = _external_resource_entries(
+        cloud, kind, candidate_document
+    )
+    if (
+        cloud == "gcp"
+        and base_entries
+        and candidate_entries
+        and base_project != candidate_project
+    ):
+        _failure("INVALID_CHANGE", "The Google project scope cannot change.")
+
+    base_keys = set(base_entries)
+    candidate_keys = set(candidate_entries)
+    created = candidate_keys - base_keys
+    deleted = base_keys - candidate_keys
+    updated = {
+        key for key in base_keys.intersection(candidate_keys)
+        if base_entries[key] != candidate_entries[key]
+    }
+    if len(created) + len(deleted) + len(updated) != 1:
+        _failure("INVALID_CHANGE", "Exactly one workload resource must be changed.")
+
+    if created:
+        action = "create"
+    elif deleted:
+        action = "delete"
+    else:
+        action = "update"
+    validation_document = candidate_document if candidate_entries else base_document
+    validate_external_manifest(
+        cloud, kind, environment, validation_document, handoff_markdown
+    )
+    return action
+
+
 def validate_adb_declaration(
     adb_key: object,
     adb: object,
@@ -436,7 +595,7 @@ def validate_adb_change(change: RepositoryChange) -> dict[str, object]:
     base_document = strict_json(change.base_content)
     candidate_document = strict_json(change.candidate_content)
     base_default, base_databases = _adb_aggregate(base_document, allow_empty=True)
-    candidate_default, candidate_databases = _adb_aggregate(candidate_document, allow_empty=False)
+    candidate_default, candidate_databases = _adb_aggregate(candidate_document, allow_empty=True)
     added_keys = candidate_databases.keys() - base_databases.keys()
     removed_keys = base_databases.keys() - candidate_databases.keys()
     modified_keys = {
@@ -445,7 +604,9 @@ def validate_adb_change(change: RepositoryChange) -> dict[str, object]:
     }
     mutation_count = len(added_keys) + len(removed_keys) + len(modified_keys)
     if (not 1 <= mutation_count <= MAX_ADB_MUTATIONS
-            or (base_default is not None and base_default != candidate_default)):
+            or (candidate_default is not None
+                and base_default is not None
+                and base_default != candidate_default)):
         _failure(
             "INVALID_ADB_CHANGE",
             "Between one and three ADBs must be created, updated, or deleted.",
@@ -1000,7 +1161,7 @@ def _validate_new_nsg(
 
 
 def validate_nsg_change(change: RepositoryChange) -> dict[str, object]:
-    """Validate one additive project NSG change in an existing landing-zone VCN."""
+    """Validate one project NSG creation or deletion in an existing VCN."""
     base_document = strict_json(change.base_content)
     candidate_document = strict_json(change.candidate_content)
     if _has_sensitive_value(candidate_document):
@@ -1009,21 +1170,50 @@ def validate_nsg_change(change: RepositoryChange) -> dict[str, object]:
         base_document, allow_empty=True, region=change.region
     )
     candidate_default, candidate_skeleton, candidate_entries = _network_aggregate(
-        candidate_document, allow_empty=False, region=change.region
+        candidate_document, allow_empty=True, region=change.region
     )
     added_keys = candidate_entries.keys() - base_entries.keys()
+    removed_keys = base_entries.keys() - candidate_entries.keys()
     invalid_change = (
-        len(added_keys) != 1
-        or any(candidate_entries.get(key) != value for key, value in base_entries.items())
+        len(added_keys) + len(removed_keys) != 1
+        or any(
+            candidate_entries[key] != base_entries[key]
+            for key in base_entries.keys() & candidate_entries.keys()
+        )
     )
-    if base_default is None:
+    if candidate_default is None:
+        invalid_change |= len(removed_keys) != 1
+    elif base_default is None:
         invalid_change |= len(candidate_skeleton) != 1
     else:
         invalid_change |= (
             base_default != candidate_default or base_skeleton != candidate_skeleton
         )
     if invalid_change:
-        _failure("INVALID_NSG_CHANGE", "Exactly one NSG must be added.")
+        _failure("INVALID_NSG_CHANGE", "Exactly one NSG must be added or deleted.")
+
+    if removed_keys:
+        removed_key = next(iter(removed_keys))
+        removed_nsg = base_entries[removed_key]
+        display_name = (
+            removed_nsg.get("display_name", removed_key[-1])
+            if isinstance(removed_nsg, dict)
+            else removed_key[-1]
+        )
+        return _success_document(
+            change,
+            "nsg-delete",
+            NSG_VALIDATIONS,
+            {
+                "resource_type": "oci-nsg",
+                "action": "delete",
+                "key": removed_key[-1],
+                "display_name": display_name,
+                "region": change.region,
+                "destructive": True,
+            },
+        )
+
     added_key = next(iter(added_keys))
     declared_nsgs = frozenset(key[-1] for key in candidate_entries)
     new_nsg = candidate_entries[added_key]
@@ -1178,118 +1368,6 @@ def validate_lifecycle_change(
     )
 
 
-def _exacs_registry_at_base(repo: Path, base_sha: str, environment: str) -> dict[str, Any]:
-    """Read the platform-owned ExaCS registry at the immutable base commit."""
-    path = f"environments/{environment}/exacs-databases.json"
-    entry = run_git(repo, "ls-tree", base_sha, "--", path)
-    if re.fullmatch(
-        rb"100644 blob [0-9a-f]{40}\t" + re.escape(path.encode()) + rb"\n", entry
-    ) is None:
-        _failure("MISSING_EXACS_REGISTRY", "The ExaCS database registry is missing.")
-    registry = strict_json(run_git(repo, "show", f"{base_sha}:{path}"))
-    if not isinstance(registry, dict) or set(registry) != EXACS_REGISTRY_KEYS:
-        _failure("INVALID_EXACS_REGISTRY", "The ExaCS database registry is invalid.")
-    databases = registry.get("databases")
-    if registry.get("schema_version") != 2 or not isinstance(databases, list):
-        _failure("INVALID_EXACS_REGISTRY", "The ExaCS database registry is invalid.")
-
-    names: set[str] = set()
-    for database in databases:
-        if not isinstance(database, dict) or set(database) != EXACS_REGISTRY_DATABASE_KEYS:
-            _failure("INVALID_EXACS_REGISTRY", "The ExaCS database registry is invalid.")
-        name = database.get("display_name")
-        homes = database.get("approved_target_db_homes")
-        service_model = database.get("service_model")
-        declarative_owner = database.get("declarative_owner")
-        vm_cluster_id = database.get("vm_cluster_id")
-        if (
-            type(name) is not str
-            or ADB_STRING_PATTERNS["display_name"].fullmatch(name) is None
-            or name.casefold() in names
-            or not isinstance(homes, list)
-            or not homes
-            or DATABASE_OCID_RE.fullmatch(str(database.get("database_id"))) is None
-            or COMPARTMENT_OCID_RE.fullmatch(str(database.get("compartment_id"))) is None
-            or service_model not in {"exacs", "od-gcp"}
-            or declarative_owner not in {"external", "oci-exadata-state"}
-            or (
-                service_model == "exacs"
-                and VM_CLUSTER_OCID_RE.fullmatch(str(vm_cluster_id)) is None
-            )
-            or (
-                service_model == "od-gcp"
-                and CLOUD_VM_CLUSTER_OCID_RE.fullmatch(str(vm_cluster_id)) is None
-            )
-        ):
-            _failure("INVALID_EXACS_REGISTRY", "The ExaCS database registry is invalid.")
-        names.add(name.casefold())
-        home_ids: set[str] = set()
-        for home in homes:
-            if (
-                not isinstance(home, dict)
-                or set(home) != EXACS_REGISTRY_HOME_KEYS
-                or type(home.get("id")) is not str
-                or DB_HOME_OCID_RE.fullmatch(home["id"]) is None
-                or home["id"] in home_ids
-                or type(home.get("db_version")) is not str
-                or DB_VERSION_RE.fullmatch(home["db_version"]) is None
-            ):
-                _failure("INVALID_EXACS_REGISTRY", "The ExaCS database registry is invalid.")
-            home_ids.add(home["id"])
-    return registry
-
-
-def _validate_exacs_patch_change(candidate: object, registry: dict[str, Any]) -> Sequence[str]:
-    """Validate one registered regular-ExaCS database move request."""
-    if _has_sensitive_value(candidate):
-        _failure("INVALID_SECRET_VALUE", "The lifecycle manifest contains a rejected value.")
-    if not isinstance(candidate, dict) or set(candidate) != LIFECYCLE_ROOT_KEYS:
-        _failure("INVALID_EXACS_PATCH", "The ExaCS patch request is invalid.")
-    targets = candidate.get("targets")
-    if (
-        candidate.get("operation_type") != "exacs-database-out-of-place-patch"
-        or not isinstance(targets, list)
-        or len(targets) != 1
-        or not isinstance(targets[0], dict)
-        or set(targets[0]) != EXACS_PATCH_TARGET_KEYS
-    ):
-        _failure("INVALID_EXACS_PATCH", "The ExaCS patch request is invalid.")
-
-    target = targets[0]
-    display_name = target.get("display_name")
-    source_home = target.get("expected_source_db_home_id")
-    target_home = target.get("target_db_home_id")
-    target_version = target.get("target_db_version")
-    timeout = target.get("timeout_minutes")
-    if (
-        type(display_name) is not str
-        or ADB_STRING_PATTERNS["display_name"].fullmatch(display_name) is None
-        or type(source_home) is not str
-        or DB_HOME_OCID_RE.fullmatch(source_home) is None
-        or type(target_home) is not str
-        or DB_HOME_OCID_RE.fullmatch(target_home) is None
-        or source_home == target_home
-        or type(target_version) is not str
-        or DB_VERSION_RE.fullmatch(target_version) is None
-        or type(timeout) is not int
-        or not 30 <= timeout <= 480
-    ):
-        _failure("INVALID_EXACS_PATCH", "The ExaCS patch request is invalid.")
-
-    registered = next(
-        (database for database in registry["databases"] if database["display_name"] == display_name),
-        None,
-    )
-    if registered is None:
-        _failure("UNREGISTERED_EXACS_DATABASE", "The ExaCS database is not registered for this environment.")
-    if not any(
-        home["id"] == target_home and home["db_version"] == target_version
-        for home in registered["approved_target_db_homes"]
-    ):
-        _failure("UNAPPROVED_TARGET_DB_HOME", "The target Database Home is not approved for this database.")
-    return EXACS_PATCH_VALIDATIONS
-
-
 def _render_diff(path: str, base_content: bytes, candidate_content: bytes) -> str:
     base_text = _decode_text(base_content, "INVALID_UTF8", "JSON must be valid UTF-8.")
     candidate_text = _decode_text(
@@ -1314,12 +1392,27 @@ def _render_diff(path: str, base_content: bytes, candidate_content: bytes) -> st
     return diff
 
 
-def parse_origin(value: str) -> tuple[str, str]:
-    """Extract the fixed organization and project from an exact GitHub origin."""
-    for pattern in _ORIGIN_RES:
-        match = pattern.fullmatch(value)
+def load_deployment_contract(path: str | os.PathLike[str]) -> str:
+    """Return the exact customer organization from a rendered V3 contract."""
+    try:
+        contract = strict_json(Path(path).read_bytes())
+    except OSError as exc:
+        raise ValidationFailure("INVALID_CONTRACT", "Deployment contract is unavailable.") from exc
+    if not isinstance(contract, dict):
+        _failure("INVALID_CONTRACT", "Deployment contract is invalid.")
+    organization = contract.get("customer_org")
+    if contract.get("schema_version") != 3 or not isinstance(organization, str) or ORG_RE.fullmatch(organization) is None:
+        _failure("INVALID_CONTRACT", "Deployment contract is invalid.")
+    return organization
+
+
+def parse_origin(value: str, customer_org: str) -> tuple[str, str]:
+    """Extract the exact configured organization and project from a GitHub origin."""
+    escaped_org = re.escape(customer_org)
+    for prefix in (r"https://github\.com/", r"git@github\.com:", r"ssh://git@github\.com/"):
+        match = re.fullmatch(rf"{prefix}{escaped_org}/(?P<project>{PROJECT_PATTERN.pattern[1:-1]})(?:\.git)?", value)
         if match is not None:
-            return "__CUSTOMER_ORG__", match.group("project")
+            return customer_org, match.group("project")
     _failure("INVALID_ORIGIN", "The origin repository is not allowed.")
 
 
@@ -1403,7 +1496,7 @@ def validate_handoff(repo: Path, project: str, environment: str) -> None:
         return matches[0]
 
     project_match = re.search(r"project(?P<number>[0-9]+)$", project)
-    project_key = project.rsplit("-", 1)[-1]
+    project_key = project.split("-", 1)[-1]
     short_project = f"proj{project_match.group('number')}" if project_match else ""
     project_row = one_row("Project", 1)
     environment_row = one_row("Environment", 1)
@@ -1455,14 +1548,22 @@ def _validated_repository(repo: str | os.PathLike[str]) -> Path:
         resolved = absolute.resolve(strict=True)
     except (FileNotFoundError, OSError) as exc:
         raise ValidationFailure("INVALID_REPOSITORY", "Repository worktree is invalid.") from exc
-    if resolved != absolute or not absolute.is_dir():
+    if absolute.is_symlink() or not resolved.is_dir():
         _failure("INVALID_REPOSITORY", "Repository worktree is invalid.")
-    if (absolute / ".git").is_symlink():
+    if (resolved / ".git").is_symlink():
         _failure("INVALID_REPOSITORY", "Repository worktree is invalid.")
-    top_level = _decode_git(run_git(absolute, "rev-parse", "--show-toplevel")).strip()
-    if not top_level or Path(os.path.abspath(top_level)) != absolute:
+    top_level = _decode_git(run_git(resolved, "rev-parse", "--show-toplevel")).strip()
+    if not top_level:
         _failure("INVALID_REPOSITORY", "Repository worktree is invalid.")
-    return absolute
+    try:
+        git_root = Path(os.path.abspath(top_level)).resolve(strict=True)
+    except (FileNotFoundError, OSError) as exc:
+        raise ValidationFailure(
+            "INVALID_REPOSITORY", "Repository worktree is invalid."
+        ) from exc
+    if git_root != resolved:
+        _failure("INVALID_REPOSITORY", "Repository worktree is invalid.")
+    return resolved
 
 
 def _validate_base_ref(base_ref: str) -> None:
@@ -1544,11 +1645,11 @@ def _finalize_change(change: RepositoryChange) -> RepositoryChange:
     return replace(change, diff=_render_diff(change.path, change.base_content, change.candidate_content))
 
 
-def collect_change(repo: str | os.PathLike[str], base_ref: str = "origin/main") -> RepositoryChange:
+def collect_change(repo: str | os.PathLike[str], base_ref: str = "origin/main", customer_org: str = "__CUSTOMER_ORG__") -> RepositoryChange:
     """Collect one stable read-only canonical manifest modification."""
     repository = _validated_repository(repo)
     origin = _decode_git(run_git(repository, "remote", "get-url", "origin")).strip()
-    _organization, project = parse_origin(origin)
+    _organization, project = parse_origin(origin, customer_org)
     branch = _decode_git(run_git(repository, "branch", "--show-current")).strip()
     if branch == "main" or BRANCH_PATTERN.fullmatch(branch) is None:
         _failure("INVALID_BRANCH", "The current branch is not allowed.")
@@ -1567,7 +1668,20 @@ def collect_change(repo: str | os.PathLike[str], base_ref: str = "origin/main") 
     if path_match is None:
         _failure("INVALID_MANIFEST_PATH", "The modified manifest path is not allowed.")
     environment = path_match.group("environment")
-    validate_handoff(repository, project, environment)
+    cloud = path_match.group("cloud")
+    if cloud == "oci":
+        validate_handoff(repository, project, environment)
+    else:
+        handoff_content = _safe_file(
+            repository,
+            f"environments/{environment}/environment_information.md",
+            size_limit=MAX_HANDOFF_BYTES,
+        )
+        handoff_text = _decode_text(
+            handoff_content, "INVALID_HANDOFF", "Project handoff is invalid."
+        )
+        if "<fill during handoff>" in handoff_text.casefold():
+            _failure("INVALID_HANDOFF", "Project handoff is incomplete or invalid.")
     kind = path_match.group("kind")
     validate_manifest_scope(environment, kind)
     is_new = status == "??"
@@ -1578,10 +1692,10 @@ def collect_change(repo: str | os.PathLike[str], base_ref: str = "origin/main") 
         )
     expected_resource = {
         "database/database.json": "adb",
+        "workloads/adb.json": "adb",
         "compute/compute.json": "vm",
         "network/project-nsgs.json": "nsg",
         "lifecycle_operations/adb-lifecycle.json": "adb",
-        "lifecycle_operations/exacs-database-out-of-place-patch.json": "exacs",
     }[kind]
     if not branch.startswith(f"agent/{expected_resource}-"):
         _failure("INVALID_BRANCH", "The current branch does not match the manifest resource.")
@@ -1643,6 +1757,7 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--base-ref", default="origin/main")
     parser.add_argument("--expect-base-sha")
     parser.add_argument("--expect-content-sha256")
+    parser.add_argument("--deployment-contract", required=True)
     return parser
 
 
@@ -1659,11 +1774,35 @@ def main(argv: list[str] | None = None) -> int:
             _validate_expected_base(arguments.expect_base_sha, current_base_sha)
             collection_repo = repository
             collection_base_ref = arguments.expect_base_sha
-        change = collect_change(collection_repo, collection_base_ref)
+        customer_org = load_deployment_contract(arguments.deployment_contract)
+        change = collect_change(collection_repo, collection_base_ref, customer_org)
         _validate_preview(change, arguments.expect_base_sha,
                           arguments.expect_content_sha256)
         change = _finalize_change(change)
-        if change.kind == "database/database.json":
+        cloud = change.path.split("/", 1)[0]
+        if cloud in {"azure", "gcp"}:
+            workload_kind = "compute" if change.kind == "compute/compute.json" else "adb"
+            handoff_content = _safe_file(
+                change.repo,
+                f"environments/{change.environment}/environment_information.md",
+                size_limit=MAX_HANDOFF_BYTES,
+            )
+            action = validate_external_change(
+                cloud,
+                workload_kind,
+                change.environment,
+                strict_json(change.base_content),
+                strict_json(change.candidate_content),
+                _decode_text(handoff_content, "INVALID_HANDOFF", "Project handoff is invalid."),
+            )
+            document = _success_document(
+                change,
+                f"{cloud}-{workload_kind}",
+                ("repository", "one-file-diff", "one-resource-change", "strict-json", "selected-cloud-handoff", "private-only"),
+                {"resource_type": f"{cloud}-{workload_kind}", "action": action,
+                 "environment": change.environment, "region": change.region},
+            )
+        elif change.kind == "database/database.json":
             document = validate_adb_change(change)
         elif change.kind == "compute/compute.json":
             document = validate_compute_change(change)
@@ -1689,22 +1828,6 @@ def main(argv: list[str] | None = None) -> int:
             }
             document = _success_document(
                 change, "adb-lifecycle", validations, summary
-            )
-        elif change.kind == "lifecycle_operations/exacs-database-out-of-place-patch.json":
-            registry = _exacs_registry_at_base(
-                change.repo, change.base_sha, change.environment
-            )
-            candidate = strict_json(change.candidate_content)
-            validations = _validate_exacs_patch_change(candidate, registry)
-            summary = {
-                "resource_type": "oci-exacs-database",
-                "action": "out-of-place-patch",
-                "environment": change.environment,
-                "region": change.region,
-                "targets": candidate["targets"],
-            }
-            document = _success_document(
-                change, "exacs-database-out-of-place-patch", validations, summary
             )
         else:
             _failure("UNSUPPORTED_MANIFEST", "Manifest semantics are not available.")

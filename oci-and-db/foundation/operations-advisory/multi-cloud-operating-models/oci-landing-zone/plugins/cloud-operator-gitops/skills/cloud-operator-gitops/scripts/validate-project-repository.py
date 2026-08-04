@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Copyright (c) 2026 Oracle and/or its affiliates.
 """Validate one initialized project repository before GitHub writes."""
 
 from __future__ import annotations
@@ -83,7 +84,6 @@ def validate(
         [
             " D .github/CODEOWNERS.template",
             "?? .github/CODEOWNERS",
-            " M control-plane.json",
             f" M {initialization.handoff_path}",
         ]
     )
@@ -100,28 +100,13 @@ def validate(
             "Exactly the repository contract, CODEOWNERS, and selected "
             "handoff may change."
         )
-    control_plane_path = repo / "control-plane.json"
     codeowners_path = repo / ".github/CODEOWNERS"
     handoff_path = repo / initialization.handoff_path
-    for path in (control_plane_path, codeowners_path, handoff_path):
+    for path in (codeowners_path, handoff_path):
         if not regular_file(path):
             raise RepositoryContractError(
                 f"Invalid initialized file: {path.name}."
             )
-    control_plane_text = control_plane_path.read_text(encoding="utf-8")
-    control_plane = json.loads(control_plane_text)
-    if (
-        control_plane.get("repository_layout")
-        != initialization.repository_layout
-        or control_plane.get("target_repository")
-        != initialization.target_repository
-        or control_plane.get("security_profile")
-        != initialization.security_profile
-        or re.search(r"__[A-Z0-9_]+__", control_plane_text)
-    ):
-        raise RepositoryContractError(
-            "The initialized control-plane contract is invalid."
-        )
     template = git(
         repo,
         "show",
@@ -147,7 +132,6 @@ def validate(
     files = {
         ".github/CODEOWNERS": codeowners_path.read_bytes(),
         ".github/CODEOWNERS.template": b"",
-        "control-plane.json": control_plane_path.read_bytes(),
         initialization.handoff_path: handoff_path.read_bytes(),
     }
     content_hash = bundle_sha(files)

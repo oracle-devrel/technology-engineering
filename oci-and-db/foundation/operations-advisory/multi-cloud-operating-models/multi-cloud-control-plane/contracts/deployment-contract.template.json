@@ -1,10 +1,11 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
+  "customer_org": "__CUSTOMER_ORG__",
   "core_repositories": {
-    "platform_ci": "__PLATFORM_CI_REF__",
-    "project_template": "__PROJECT_TEMPLATE_REF__",
-    "production_project_template": "__PRODUCTION_PROJECT_TEMPLATE_REF__",
-    "catalogs": "__CATALOGS_REF__"
+    "platform_ci": {"repository": "__CUSTOMER_ORG__/platform-ci", "revision": "__PLATFORM_CI_REF__"},
+    "project_template": {"repository": "__CUSTOMER_ORG__/nonprod-project-template", "revision": "__PROJECT_TEMPLATE_REF__"},
+    "production_project_template": {"repository": "__CUSTOMER_ORG__/prod-project-template", "revision": "__PRODUCTION_PROJECT_TEMPLATE_REF__"},
+    "catalogs": {"repository": "__CUSTOMER_ORG__/gitops-templates", "revision": "__CATALOGS_REF__"}
   },
   "project_state_bucket": "__PROJECT_STATE_BUCKET__",
   "workload_orchestrators": {
@@ -20,41 +21,44 @@
     },
     "azure": {
       "repository": "oci-clickops/clickops-orchestrator-azure",
-      "revision": "2d0b532f7639212f1b7c2708cd15b71d80b217fe"
+      "release": "mccp-v2.1.0"
     },
     "gcp": {
       "repository": "oci-clickops/clickops-orchestrator-gcp",
-      "revision": "c434e0697a3ca4daa8f8c7903afd4c6c7be287f9"
+      "release": "mccp-v2.1.0"
     }
   },
   "enabled_request_adapters": ["github-pr"],
   "accepted_handoff_schema_versions": [2],
   "repository_layout": {
-      "repository_pattern": "nonprod-<project>",
-      "manifest_path": "<cloud>/<environment>/<region>/...",
-      "security_profile": "__NONPROD_SECURITY_PROFILE__",
-      "platform_codeowners": ["__PLATFORM_OWNER__"],
-      "environment_allowlist": ["dev", "test", "uat"],
-      "rejected_environments": ["prod", "production", "prd", "live"],
-      "handoff_path": "environments/<environment>/environment_information.md",
-      "environment_contract": {
-        "github_environment_upgrade_name": "<environment>",
-        "codeowners": ["__ENVIRONMENT_OWNER__"],
-        "runner_labels": {"oci": ["self-hosted", "oci", "<environment>"], "azure": ["self-hosted", "azure", "<environment>"], "gcp": ["self-hosted", "gcp", "<environment>"]},
-        "supported_clouds": ["oci", "azure", "gcp"],
-        "repository_secret": "GITOPS_SECRET_VALUES_<ENVIRONMENT_UPPER>",
-        "readiness_marker_variable": "CONTROL_PLANE_READY_<ENVIRONMENT_UPPER>"
-      }
+    "identifier": "shared-nonprod-v2",
+    "repository_pattern": "nonprod-<project>",
+    "manifest_path": "<cloud>/<environment>/<region>/...",
+    "security_profile": "repository-secrets",
+    "platform_codeowners": ["__PLATFORM_OWNER__"],
+    "environment_allowlist": ["dev", "test", "uat"],
+    "rejected_environments": ["prod", "production", "prd", "live"],
+    "handoff_path": "environments/<environment>/environment_information.md",
+    "environment_contract": {
+      "github_environment_name": "<environment>",
+      "github_apply_environment_name": "<environment>-apply",
+      "codeowners": ["__ENVIRONMENT_OWNER__"],
+      "runner_labels": {"oci": ["self-hosted", "oci", "<environment>"], "azure": ["self-hosted", "azure", "<environment>"], "gcp": ["self-hosted", "gcp", "<environment>"]},
+      "supported_clouds": ["oci", "azure", "gcp"],
+      "repository_secret": "GITOPS_SECRET_VALUES_<ENVIRONMENT_UPPER>",
+      "readiness_marker_variable": "CONTROL_PLANE_READY_<ENVIRONMENT_UPPER>"
+    }
   },
   "production_layout": {
     "identifier": "production-v1",
     "repository_pattern": "prod-<project>",
     "manifest_path": "<cloud>/prod/<region>/...",
     "handoff_path": "environments/prod/environment_information.md",
-    "security_profile": "__PROD_SECURITY_PROFILE__",
+    "security_profile": "repository-secrets",
     "platform_codeowners": ["__PLATFORM_OWNER__"],
     "environment_contract": {
-      "github_environment_upgrade_name": "prod",
+      "github_environment_name": "prod",
+      "github_apply_environment_name": "prod-apply",
       "codeowners": ["__PROD_OWNER__"],
       "runner_labels": {"oci": ["self-hosted", "oci", "prod"], "azure": ["self-hosted", "azure", "prod"], "gcp": ["self-hosted", "gcp", "prod"]},
       "supported_clouds": ["oci", "azure", "gcp"],

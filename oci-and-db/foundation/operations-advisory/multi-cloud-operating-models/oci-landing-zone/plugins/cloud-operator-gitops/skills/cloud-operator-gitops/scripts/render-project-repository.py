@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Copyright (c) 2026 Oracle and/or its affiliates.
 """Render one project repository from its pinned template and handoff."""
 
 from __future__ import annotations
@@ -89,13 +90,11 @@ def main() -> int:
             raise RepositoryContractError(
                 "The source handoff artifacts are invalid."
             )
-        control_plane_path = repo / "control-plane.json"
         codeowners_template_path = repo / ".github/CODEOWNERS.template"
         codeowners_path = repo / ".github/CODEOWNERS"
         handoff_path = repo / initialization.handoff_path
         if (
-            not regular_file(control_plane_path)
-            or not regular_file(codeowners_template_path)
+            not regular_file(codeowners_template_path)
             or codeowners_path.exists()
             or not regular_file(handoff_path)
             or not regular_file(handoff_markdown)
@@ -103,37 +102,9 @@ def main() -> int:
             raise RepositoryContractError(
                 "The pinned project template tree is invalid."
             )
-        control_plane = json.loads(
-            control_plane_path.read_text(encoding="utf-8")
-        )
-        expected_template_target = (
-            f"{'prod' if initialization.identity.environment == 'prod' else 'nonprod'}"
-            "-__PROJECT__"
-        )
-        if (
-            control_plane.get("repository_layout")
-            != initialization.repository_layout
-            or control_plane.get("target_repository")
-            != expected_template_target
-            or control_plane.get("security_profile")
-            not in {"github-environments", "repository-secrets"}
-        ):
-            raise RepositoryContractError(
-                "The protected project template contract is invalid."
-            )
         codeowners = render_codeowners(
             codeowners_template_path.read_text(encoding="utf-8"),
             initialization,
-        )
-        control_plane["target_repository"] = (
-            initialization.target_repository
-        )
-        control_plane["security_profile"] = (
-            initialization.security_profile
-        )
-        control_plane_path.write_text(
-            json.dumps(control_plane, indent=2) + "\n",
-            encoding="utf-8",
         )
         codeowners_path.write_text(codeowners, encoding="utf-8")
         codeowners_template_path.unlink()

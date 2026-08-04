@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Copyright (c) 2026 Oracle and/or its affiliates.
 """Render the credential-free OP04 handoff from protected evidence."""
 
 from __future__ import annotations
@@ -162,7 +163,7 @@ validated `project-foundation-handoff.json` artifact.
 | Infra compartment | {project_compartment['key']} | {project_compartment['ocid']} |
 
 The machine handoff's application, database, and infrastructure compartment
-fields are compatibility aliases for this same OE `v3.1.0` project
+fields are role aliases for this same OE project
 compartment.
 
 ## OP02 network

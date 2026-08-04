@@ -26,6 +26,5 @@ secret to Platform CI.
 Confirm that neither run attaches to or auto-creates a GitHub Environment.
 
 Close both test PRs and remove the test members from the repository secret JSON
-objects. This procedure validates only the GitHub Free repository-secret
-profile. Use the separate
-[GitHub Environment procedure](environment-secret-e2e.md) for that profile.
+objects. This procedure validates the only security profile supported by this
+MVP.

@@ -45,11 +45,8 @@ has no Terraform state.
 
 OE `v3.1.0` owns the hierarchy, naming, and standard IAM definitions. The local
 Jsonnet adapter projects its output into the OP00–OP04 state boundaries and
-adds only the MCPP runner policies that OE does not provide. It also removes
-OE `v3.1.0`'s obsolete `allow service osms` statement: the legacy
-[OS Management service reached end of life on April 23, 2025](https://docs.oracle.com/iaas/os-management/osms/alx-overview.htm),
-and current OCI IAM rejects the retired `osms` service principal. OS Management
-Hub access must use its current, separately scoped policies.
+adds only the MCCP runner policies that OE does not provide. It emits no OSMS
+service statement; OS Management Hub access uses separately scoped policies.
 
 OE `v3.1.0` also emits a child-specific Security Zone for the shared network
 compartment in addition to the parent CIS zone. OCI prohibits a platform
@@ -58,6 +55,18 @@ upstream generator places dependent resources under one common zone, the
 protected adapter omits only the shared-network child target. Shared network
 and platform resources therefore inherit the same CIS Level 1 zone from
 `CMP-LANDINGZONE-KEY`; the environment-level zone remains unchanged.
+
+The delegated project compartment is a different MCCP ownership boundary. OP04
+creates it below the environment's `PROJECTS` compartment. Its generated,
+reviewable `project-security-zone-exception.json` declaration identifies the
+child and inherited environment zone for the protected post-apply workflow to
+reconcile. It removes only that project child from inherited Security Zone
+enforcement. The foundation, environment, shared network, and platform zones
+remain enforced. OCI retains a standard Cloud Guard target for the removed
+delegated project compartment, while the Project Team's governed pull-request
+workflow can manage the approved project NSG lifecycle, including deletion.
+This is an explicit MCCP adapter behavior; OE `v3.1.0` does not model the
+project exception.
 
 OE `v3.1.0` derives an example Bastion SSH source by adding host offset `123`
 to the Hub management subnet. OCI Bastion assigns its private endpoint
@@ -71,23 +80,24 @@ The adapter derives every DRG route-distribution statement key from its owning
 distribution. This preserves the Hub E routes while satisfying the official
 networking module's globally unique flattened-statement key contract.
 
-The current OE model creates one project compartment under the environment's
+The OE model creates one project compartment under the environment's
 `PROJECTS` compartment. Application, database, and infrastructure values in the
-handoff are logical compatibility fields and contain the same project
+handoff are logical role aliases and contain the same project
 compartment OCID. The application, database, and infrastructure *subnets*
 remain distinct because they are part of the official project-network model.
-The MCPP runner extension grants project NSG management in that exact project
+The MCCP runner extension grants project NSG management in that exact project
 compartment. It does not grant NSG management across the shared environment
 network compartment; the project manifest combines the handed-off project
 compartment OCID with the handed-off shared VCN OCID.
 
-OCI resolves a named compartment in a policy statement as a direct child of
-the compartment where that policy is attached. The adapter therefore attaches
-the project GitOps policy to the environment's `PROJECTS` compartment and the
-network/security GitOps policies to the environment compartment. Their
-statements still target only the exact project, network, or security child
-compartment; attaching them at the parent makes those scopes effective without
-broadening them.
+The adapter attaches the project-specific GitOps policy inside the exact
+project compartment, alongside the human administrator policy created by OE.
+The policy and project therefore share one OP04 lifecycle boundary. Retiring
+one project cannot alter a sibling project's policy reference. The shared
+network and security GitOps policies remain attached to the environment
+compartment because their statements target the environment's shared
+`NETWORK` and `SECURITY` child compartments. Each policy still grants access
+only to its named target.
 
 Creating or deleting a project NSG also changes its shared VCN. The network
 GitOps policy therefore adds OCI's narrowly conditioned `manage vcns` grant

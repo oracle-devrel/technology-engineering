@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Copyright (c) 2026 Oracle and/or its affiliates.
 """Add one project declaration and invoke the pinned foundation generator."""
 
 from __future__ import annotations

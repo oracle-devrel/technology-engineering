@@ -34,10 +34,8 @@ jobs:
           if [ "${{ github.event_name }}" = pull_request_target ]; then
             test "$PR_HEAD_REPOSITORY" = "$GITHUB_REPOSITORY"
           fi
-          test "$(jq -r .repository_layout control-plane.json)" = production-v1
-          test "$(jq -r .target_repository control-plane.json)" = "${GITHUB_REPOSITORY#*/}"
-          security_profile=$(jq -r .security_profile control-plane.json)
-          test "$security_profile" = github-environments || test "$security_profile" = repository-secrets
+          security_profile=repository-secrets
+          test "$security_profile" = repository-secrets
           git fetch --no-tags origin "${{ github.event.pull_request.base.sha || github.event.before }}" "${{ github.event.pull_request.head.sha || github.sha }}"
           head_sha="${{ github.event.pull_request.head.sha || github.sha }}"
           all_changed=$(git diff --name-only "${{ github.event.pull_request.base.sha || github.event.before }}" "$head_sha")
@@ -49,12 +47,15 @@ jobs:
           done <<< "$changed"
           test -n "$changed" && test "$(printf '%s\n' "$changed" | cut -d/ -f1-3 | sort -u | wc -l | tr -d ' ')" = 1
           IFS=/ read -r cloud environment region <<< "$(printf '%s\n' "$changed" | head -1 | cut -d/ -f1-3)"
+          case "$cloud" in oci|azure|gcp) ;; *) exit 1 ;; esac
           test "$environment" = prod
-          jq -e --arg c "$cloud" '.environments.prod.supported_clouds | index($c)' control-plane.json >/dev/null
-          test "$(jq -r '.environments.prod.repository_secret' control-plane.json)" = GITOPS_SECRET_VALUES_PROD
-          test "$(jq -r '.environments.prod.readiness_marker_variable' control-plane.json)" = CONTROL_PLANE_READY_PROD
-          echo "cloud=$cloud" >> "$GITHUB_OUTPUT"; echo "region=$region" >> "$GITHUB_OUTPUT"; echo "security_profile=$security_profile" >> "$GITHUB_OUTPUT"
-          jq -c --arg c "$cloud" '.environments.prod.runner_labels[$c]' control-plane.json | sed 's/^/runner_labels=/' >> "$GITHUB_OUTPUT"
+          {
+            echo "cloud=$cloud"
+            echo "region=$region"
+            echo "security_profile=$security_profile"
+            jq -nc --arg cloud "$cloud" \
+              '["self-hosted", $cloud, "prod"]' | sed 's/^/runner_labels=/'
+          } >> "$GITHUB_OUTPUT"
   terraform:
     needs: resolve
     uses: __CUSTOMER_ORG__/platform-ci/.github/workflows/terraform-shared.yaml@__PLATFORM_CI_REF__
@@ -67,13 +68,11 @@ jobs:
       security_profile: ${{ needs.resolve.outputs.security_profile }}
       manifest_ref: ${{ github.event.pull_request.head.sha || github.sha }}
       platform_ci_ref: __PLATFORM_CI_REF__
-      readiness_marker: ${{ needs.resolve.outputs.security_profile == 'repository-secrets' && vars.CONTROL_PLANE_READY_PROD || '' }}
+      readiness_marker: ${{ vars.CONTROL_PLANE_READY_PROD }}
       runner_labels: ${{ needs.resolve.outputs.runner_labels }}
       orchestrator_repo: ${{ needs.resolve.outputs.cloud == 'oci' && 'oci-landing-zones/terraform-oci-modules-orchestrator' || needs.resolve.outputs.cloud == 'azure' && 'oci-clickops/clickops-orchestrator-azure' || 'oci-clickops/clickops-orchestrator-gcp' }}
       orchestrator_ref: ${{ needs.resolve.outputs.cloud == 'oci' && '__OCI_ORCHESTRATOR_REF__' || needs.resolve.outputs.cloud == 'azure' && '__AZURE_ORCHESTRATOR_REF__' || '__GCP_ORCHESTRATOR_REF__' }}
       bucket_name: __STATE_BUCKET__
     secrets:
       PLATFORM_CI_DEPLOY_KEY: ${{ secrets.PLATFORM_CI_DEPLOY_KEY }}
-      GITOPS_SECRET_VALUES: ${{ needs.resolve.outputs.security_profile == 'github-environments' && secrets.GITOPS_SECRET_VALUES || '' }}
-      READINESS_MARKER: ${{ needs.resolve.outputs.security_profile == 'github-environments' && secrets.READINESS_MARKER || '' }}
-      repository_secret_values: ${{ needs.resolve.outputs.security_profile == 'repository-secrets' && secrets.GITOPS_SECRET_VALUES_PROD || '' }}
+      repository_secret_values: ${{ secrets.GITOPS_SECRET_VALUES_PROD }}

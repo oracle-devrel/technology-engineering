@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/__CUSTOMER_ORG__/gitops-templates/schemas/azure/compute.schema.json",
+  "oneOf": [
+    {"type": "object", "maxProperties": 0},
+    {
+      "type": "object",
+      "required": ["virtual_machines"],
+      "additionalProperties": false,
+      "properties": {
+        "virtual_machines": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "object",
+            "required": ["name", "location", "resource_group_name", "subnet_id", "network_security_group_id", "size", "admin_username", "ssh_public_key"],
+            "additionalProperties": false,
+            "properties": {
+              "name": {"type": "string", "minLength": 1},
+              "location": {"type": "string", "minLength": 1},
+              "resource_group_name": {"type": "string", "minLength": 1},
+              "subnet_id": {"type": "string", "pattern": "^(?:/subscriptions/|__)"},
+              "network_security_group_id": {"type": "string", "pattern": "^(?:/subscriptions/|__)"},
+              "size": {"type": "string", "minLength": 1},
+              "admin_username": {"type": "string", "minLength": 1},
+              "ssh_public_key": {"type": "string", "pattern": "^__(?:(?:DEV|TEST|UAT|PROD)_)?AZURE_[A-Z0-9_]+__$"}
+            }
+          }
+        }
+      }
+    }
+  ]
+}

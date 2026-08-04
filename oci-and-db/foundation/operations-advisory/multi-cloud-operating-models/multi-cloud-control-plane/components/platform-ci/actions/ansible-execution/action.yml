@@ -25,10 +25,6 @@ inputs:
     description: Repository-profile readiness value
     required: false
     default: ""
-  environment_readiness_marker:
-    description: Environment-profile readiness value
-    required: false
-    default: ""
 
 runs:
   using: composite
@@ -36,25 +32,12 @@ runs:
     - name: Verify environment readiness
       shell: bash
       env:
-        ENVIRONMENT_READINESS_MARKER: ${{ inputs.environment_readiness_marker }}
         REPOSITORY_READINESS_MARKER: ${{ inputs.readiness_marker }}
         SECURITY_PROFILE: ${{ inputs.security_profile }}
       run: |
         set -euo pipefail
-        case "$SECURITY_PROFILE" in
-          github-environments)
-            test -z "$REPOSITORY_READINESS_MARKER"
-            test "$ENVIRONMENT_READINESS_MARKER" = "true"
-            ;;
-          repository-secrets)
-            test -z "$ENVIRONMENT_READINESS_MARKER"
-            test "$REPOSITORY_READINESS_MARKER" = "true"
-            ;;
-          *)
-            echo "❌ Unsupported security profile"
-            exit 1
-            ;;
-        esac
+        test "$SECURITY_PROFILE" = repository-secrets
+        test "$REPOSITORY_READINESS_MARKER" = true
 
     # =====================================================================
     # Setup
@@ -226,7 +209,7 @@ runs:
     # PR Comment
     # =====================================================================
     - name: Comment on PR
-      if: inputs.mode == 'check' && github.event.pull_request
+      if: always() && inputs.mode == 'check' && github.event.pull_request
       uses: actions/github-script@v8
       env:
         OUTPUT: ${{ steps.check.outputs.check_output }}
@@ -254,7 +237,7 @@ runs:
 
     - name: Upload logs
       if: always()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: ansible-logs-${{ github.run_number }}
         path: ${{ env.WORK_TEMP }}/*.log

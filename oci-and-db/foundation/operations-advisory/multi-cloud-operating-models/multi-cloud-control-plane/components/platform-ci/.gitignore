@@ -22,7 +22,6 @@ __pycache__/
 .venv
 venv/
 ENV/
-tests/
 
 # OS
 .DS_Store

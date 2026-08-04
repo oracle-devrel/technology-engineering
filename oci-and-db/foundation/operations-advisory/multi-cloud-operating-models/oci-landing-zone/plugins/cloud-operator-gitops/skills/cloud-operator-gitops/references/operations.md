@@ -28,12 +28,7 @@
     if any other path changes or any placeholder remains. For an existing
     initialized shared repository, verify those protected files and write only
     the new validated environment handoff.
-12. If the operator explicitly requests registration of a verified externally
-    deployed regular ExaCS database, also update the platform-owned
-    `environments/<environment>/exacs-databases.json` registry. Show every
-    path, source and content hashes, branch, and semantic summary with
-    `GitHub writes: none`; require fresh confirmation and revalidate.
-13. Push the validated branch and conditionally open one PR. Stop before merge
+12. Push the validated branch and conditionally open one PR. Stop before merge
     and report the repository, environment, handoff path, and PR state.
 
 Discard confirmation after interruption or Git drift. Never reuse an OP04
@@ -54,3 +49,17 @@ repeated authentication/API failure.
 For inventory, treat `{}` and a valid empty resource collection as zero declarations. Validate a
 collection before extraction and do not use an empty iterator's exit status to label it
 incomplete. Git declarations cannot prove whether a resource is currently running or stopped.
+
+## Project retirement
+
+1. Resolve one handed-off environment and collect the required workload, lifecycle, teardown,
+   CRQ, retention, repository-preservation, and human-approval evidence.
+2. Create a disposable landing-zone clone from exact `origin/main` and remove one project name
+   from its environment in `config/projects.json` plus that project's `generated/iam.json` and
+   `generated/project-security-zone-exception.json`.
+3. Run `validate-retirement.py --evidence <file> --repository <clone> --base-ref <sha> --project
+   <environment>-<project>`. Stop if any other path or catalog value changed.
+4. Show the semantic preview and hashes, require fresh confirmation, revalidate, then push one
+   branch and conditionally open one pull request. Stop before merge.
+5. After human merge, monitor the existing OP04 workflow to terminal. Disable the retired
+   environment and restore its handoff placeholder only through a separate reviewed change.

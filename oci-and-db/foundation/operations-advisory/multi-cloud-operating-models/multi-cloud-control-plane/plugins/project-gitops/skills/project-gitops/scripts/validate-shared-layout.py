@@ -23,20 +23,14 @@ def main() -> None:
     name = repository.name
     if not re.fullmatch(r"nonprod-[a-z][a-z0-9-]*", name):
         fail("repository name must be nonprod-<project>")
-    contract = json.loads((repository / "control-plane.json").read_text())
-    if contract.get("repository_layout") != "shared-nonprod-v2" or contract.get("target_repository") != name:
-        fail("protected layout contract does not match repository")
     tuples = set()
     for path in args.paths:
         match = PATH.fullmatch(path)
         if not match:
             fail(f"invalid shared manifest path: {path}")
         cloud, environment, region = match.groups()
-        if environment not in ALLOWED or environment not in contract.get("allowed_environments", []):
+        if environment not in ALLOWED:
             fail("environment is not allowed")
-        config = contract.get("environments", {}).get(environment, {})
-        if cloud not in config.get("supported_clouds", []):
-            fail("cloud is not supported for environment")
         handoff = repository / "environments" / environment / "environment_information.md"
         if not handoff.is_file():
             fail("environment handoff is missing")

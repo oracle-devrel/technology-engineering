@@ -12,7 +12,8 @@ for this Control Plane deployment.
 
 Use a trusted Linux self-hosted runner with:
 
-- Terraform 1.12 or later and Python 3.11 or later.
+- Git, `jq`, `rg`, and Python 3.11 or later.
+- Outbound HTTPS access to install the pinned Terraform 1.12.1 runtime.
 - OCI Instance Principal access to the Object Storage state bucket.
 - `STATE_NAMESPACE`, `STATE_REGION`, and
   `OCI_CLI_AUTH=instance_principal` in the runner environment.
@@ -31,9 +32,10 @@ state bucket, readiness marker, runner labels, and one explicit secret bundle.
 
 - Pull requests run validation and plan and report the result for review.
 - Merges to `main` create and apply a saved plan on the trusted runner.
-- The region normally comes from the changed `{cloud}/{region}/` path.
-- State is isolated by GitHub repository, cloud, and region in OCI Object
-  Storage.
+- The region normally comes from the changed
+  `{cloud}/{environment}/{region}/` path.
+- State is isolated by GitHub repository, cloud, environment, and region in
+  OCI Object Storage.
 
 Before Terraform runs, JSON files are copied to the runner's temporary
 directory. Environment-qualified tokens such as
@@ -54,28 +56,18 @@ executes after approval and merge. Current end-to-end operations are:
 
 - OCI Autonomous Database start or stop.
 - OCI Compute `deploy-agent` over SSH.
-- OCI ExaCS regular database out-of-place patching through the OCI Database API.
 
 Operation manifests belong under
-`oci/{environment}/{region}/lifecycle_operations/{operation}.json`. State-backed
-operations must resolve an exact display name in Terraform state. The ExaCS
-operation instead resolves a platform-registered database in
-`environments/{environment}/exacs-databases.json`. Azure and Google Day 2 are
-not available.
+`oci/{environment}/{region}/lifecycle_operations/{operation}.json`. Operations
+must resolve an exact display name in Terraform state. Azure and Google Day 2
+are not available.
 
 For `deploy-agent`, the default SSH user is `opc` and the default private key is
-`/home/opc/.ssh/oci_vm_key`. Override them with
+`/home/github-runner/.ssh/oci_vm_key`. OP03 creates and protects this key for
+the `github-runner` service account; project repositories never contain it.
+Override the defaults with
 `COMPUTE_ANSIBLE_USER` and `COMPUTE_SSH_PRIVATE_KEY_FILE` on the runner. Verify
 SSH host trust and protect the private key.
-
-The ExaCS operation is API-driven and does not use SSH, `dbaascli`, or OCI CLI.
-It downloads the OCI Ansible Collection 5.5.0 artifact over HTTPS, verifies its
-pinned SHA-256 checksum, and calls its `precheck` action in a pull request,
-then the `upgrade` action with `DB_HOME` after merge. Its target must be in the
-platform-owned `environments/{environment}/exacs-databases.json` registry. The
-registry permits existing databases that were not provisioned by Terraform,
-while binding each request to an approved database, compartment, VM cluster,
-and target Database Home/version.
 
 ## Project boundary
 

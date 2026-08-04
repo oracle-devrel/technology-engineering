@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Copyright (c) 2026 Oracle and/or its affiliates.
 """Create protected project-onboarding evidence from foundation outputs."""
 
 import argparse

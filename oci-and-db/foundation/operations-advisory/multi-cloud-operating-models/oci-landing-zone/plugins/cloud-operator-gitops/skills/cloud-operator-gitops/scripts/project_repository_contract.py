@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Copyright (c) 2026 Oracle and/or its affiliates.
 """Protected project-repository initialization contract."""
 
 from __future__ import annotations
@@ -24,7 +25,7 @@ OWNER_RE = re.compile(
 )
 REPOSITORY_RE = re.compile(r"^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$")
 ORG_RE = re.compile(r"^[A-Za-z0-9_.-]+$")
-SECURITY_PROFILES = {"github-environments", "repository-secrets"}
+SECURITY_PROFILES = {"repository-secrets"}
 LAYOUT_ENVIRONMENTS = {
     "shared-nonprod-v2": ("dev", "test", "uat"),
     "production-v1": ("prod",),
@@ -133,7 +134,7 @@ def load_initialization(
     project_state_bucket = contract.get("project_state_bucket")
     project_templates = contract.get("project_templates")
     if (
-        contract.get("schema_version") != 1
+        contract.get("schema_version") != 2
         or not isinstance(customer_org, str)
         or ORG_RE.fullmatch(customer_org) is None
         or REPOSITORY_RE.fullmatch(
@@ -294,7 +295,6 @@ def validate_template_placeholders(
     initialization: RepositoryInitialization,
 ) -> None:
     allowed = {
-        "control-plane.json": {"__PROJECT__"},
         ".github/CODEOWNERS.template": {
             CODEOWNER_TOKENS["platform"],
             *(

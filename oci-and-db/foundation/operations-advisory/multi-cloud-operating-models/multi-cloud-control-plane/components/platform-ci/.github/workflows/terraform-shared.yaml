@@ -12,20 +12,20 @@ on:
         required: true
         type: string
       region:
-        description: "Config region folder name (e.g., eu-frankfurt-1, westeurope, europe-west2). If omitted, the workflow auto-detects it from changed files or uses REGION from the runner."
+        description: "Config region folder name"
         required: false
         type: string
         default: ""
       environment_name:
-        description: "Selected deployment environment (dev, test, uat, or prod)"
+        description: "Selected deployment environment"
         required: true
         type: string
       security_profile:
-        description: "github-environments or repository-secrets"
+        description: "Fixed repository-secrets profile"
         required: true
         type: string
       readiness_marker:
-        description: "Environment-specific repository readiness variable"
+        description: "Selected repository readiness variable"
         required: false
         type: string
         default: ""
@@ -62,58 +62,12 @@ on:
       PLATFORM_CI_DEPLOY_KEY:
         description: "Read-only deploy key for this private Platform CI repository"
         required: true
-      GITOPS_SECRET_VALUES:
-        description: "Selected GitHub Environment JSON map; empty for repository-secrets"
-        required: false
-      READINESS_MARKER:
-        description: "Selected GitHub Environment readiness secret; empty for repository-secrets"
-        required: false
       repository_secret_values:
-        description: "Repository-secret JSON map; empty for github-environments"
-        required: false
+        description: "Selected repository JSON secret map"
+        required: true
 
 jobs:
-  terraform-environments:
-    if: inputs.security_profile == 'github-environments'
-    name: "Terraform ${{ inputs.mode }}"
-    runs-on: ${{ fromJSON(inputs.runner_labels) }}
-    environment:
-      name: ${{ inputs.mode == 'apply' && format('{0}-apply', inputs.environment_name) || inputs.environment_name }}
-      deployment: ${{ inputs.mode == 'apply' }}
-    concurrency:
-      group: ${{ inputs.cloud }}-${{ inputs.environment_name }}-terraform-${{ github.repository }}
-      cancel-in-progress: false
-    steps:
-      - name: Checkout validated manifest
-        uses: actions/checkout@v6
-        with:
-          ref: ${{ inputs.manifest_ref }}
-          fetch-depth: 0
-      - name: Checkout pinned Platform CI
-        uses: actions/checkout@v6
-        with:
-          repository: __CUSTOMER_ORG__/platform-ci
-          ref: ${{ inputs.platform_ci_ref }}
-          path: platform-ci
-          ssh-key: ${{ secrets.PLATFORM_CI_DEPLOY_KEY }}
-      - name: Execute Terraform
-        uses: ./platform-ci/actions/terraform-execution
-        with:
-          mode: ${{ inputs.mode }}
-          cloud: ${{ inputs.cloud }}
-          region: ${{ inputs.region }}
-          environment_name: ${{ inputs.environment_name }}
-          security_profile: ${{ inputs.security_profile }}
-          readiness_marker: ${{ inputs.readiness_marker }}
-          repository_layout: ${{ inputs.repository_layout }}
-          orchestrator_repo: ${{ inputs.orchestrator_repo }}
-          orchestrator_ref: ${{ inputs.orchestrator_ref }}
-          bucket_name: ${{ inputs.bucket_name }}
-          environment_readiness_marker: ${{ secrets.READINESS_MARKER }}
-          environment_secret_values: ${{ secrets.GITOPS_SECRET_VALUES }}
-          repository_secret_values: ${{ secrets.repository_secret_values }}
-  terraform-repository:
-    if: inputs.security_profile == 'repository-secrets'
+  terraform:
     name: "Terraform ${{ inputs.mode }}"
     runs-on: ${{ fromJSON(inputs.runner_labels) }}
     concurrency:
@@ -145,6 +99,4 @@ jobs:
           orchestrator_repo: ${{ inputs.orchestrator_repo }}
           orchestrator_ref: ${{ inputs.orchestrator_ref }}
           bucket_name: ${{ inputs.bucket_name }}
-          environment_readiness_marker: ${{ secrets.READINESS_MARKER }}
-          environment_secret_values: ${{ secrets.GITOPS_SECRET_VALUES }}
           repository_secret_values: ${{ secrets.repository_secret_values }}

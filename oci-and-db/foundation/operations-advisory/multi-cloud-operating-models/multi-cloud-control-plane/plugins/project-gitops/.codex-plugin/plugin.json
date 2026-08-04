@@ -1,6 +1,6 @@
 {
   "name": "project-gitops",
-  "version": "0.1.0",
+  "version": "2.1.0",
   "description": "Governed project infrastructure and lifecycle changes through the Codex app and pull requests",
   "author": {
     "name": "Oracle Operations Advisory"

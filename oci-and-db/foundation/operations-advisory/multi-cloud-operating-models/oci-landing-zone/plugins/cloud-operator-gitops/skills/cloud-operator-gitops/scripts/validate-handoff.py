@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Copyright (c) 2026 Oracle and/or its affiliates.
 """Validate environment-aware OCI project handoff artifacts."""
 
 from __future__ import annotations

@@ -20,7 +20,7 @@ repository. The trusted workflow resolves it at runtime.
 For a Day 2 request, copy an available operation manifest into
 `oci/{environment}/{region}/lifecycle_operations/`. Use an exact resource display name from
 Terraform state. OCI Autonomous Database start/stop and OCI Compute
-`deploy-agent` are available; Azure and Google Day 2 are not.
+`deploy-agent` are available. Azure and Google Day 2 are not available.
 
 Never copy landing-zone IAM, credential, or foundation configuration into a
 project repository. Never commit passwords or cloud credentials.

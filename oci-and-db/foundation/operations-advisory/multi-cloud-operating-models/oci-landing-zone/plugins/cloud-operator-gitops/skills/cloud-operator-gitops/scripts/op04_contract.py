@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Copyright (c) 2026 Oracle and/or its affiliates.
 """Small protected contract shared by the OP04 skill commands."""
 
 from __future__ import annotations

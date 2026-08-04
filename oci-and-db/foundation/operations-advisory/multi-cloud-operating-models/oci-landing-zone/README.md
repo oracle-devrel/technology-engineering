@@ -1,5 +1,7 @@
 # OCI Landing Zone
 
+Reviewed: 2026-08-03
+
 Build and govern your OCI foundation through reviewed Git changes. Cloud
 Operators establish tenancy IAM, shared networking, environments, the platform
 foundation, and project compartments without giving Project Teams administrative
@@ -9,8 +11,15 @@ When a project foundation is ready, the solution produces a secure handoff for
 the Multi-Cloud Control Plane. The handoff contains the compartment and network
 references needed by the project, but no credentials or secrets.
 
-Release status: preview. Evaluate the solution in a non-production environment
-and complete your security review before production rollout.
+Release status: MVP reference implementation. Complete your security review and
+validate enabled capabilities before production rollout.
+
+## Current MVP scope
+
+This MVP supports the commercial OCI realm `oc1` and standard commercial
+region identifiers such as `eu-frankfurt-1`. Dedicated Region Cloud@Customer,
+government regions, and non-`oc1` realms are not yet accepted by the handoff
+validators.
 
 ## What you get
 
@@ -29,10 +38,18 @@ Project Teams start after the handoff and manage workloads through the
 
 ## Get started
 
-You need Git, Perl, a private GitHub organization, an OCI tenancy, and an
-approved OCI administrative identity. Initial setup also needs a dedicated
-private foundation runner, a foundation-state bucket, and a separate
-project-state bucket when OP03 is enabled.
+Prepare these tools before starting:
+
+| Where | Required tools |
+|---|---|
+| Publication workstation | Git, `jq`, Jsonnet, ripgrep (`rg`), Perl, GitHub CLI (`gh`), and outbound HTTPS to GitHub |
+| OCI bootstrap workstation | OCI CLI (`oci`), `jq`, `curl`, and browser access for short-lived OCI authentication |
+| Foundation runner | Installed by the supplied cloud-init; no separate manual tool installation is expected |
+
+You also need a private GitHub organization, an OCI tenancy, and an approved OCI
+administrative identity. Initial setup needs a dedicated private foundation
+runner, a foundation-state bucket, and a separate project-state bucket when
+OP03 is enabled.
 
 Follow the [deployment runbook](docs/deployment.md) to copy the foundation
 repository, review its customer values, create the initial Git commit, and

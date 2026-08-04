@@ -1,6 +1,6 @@
 # Operations
 
-1. Validate the deployment contract, `gh` authentication, exact private repository metadata, and exact `main` SHA.
+1. Validate the deployment contract, `gh` authentication, exact private repository metadata, canonical project repository name, and exact `main` SHA.
 2. Resolve the approved catalog file through GitHub API at the configured SHA and verify its blob hash.
 3. Create a disposable clone and one collision-free branch from exact `origin/main`.
 4. Edit one canonical aggregate manifest. For `nonprod-<project>`, first run
@@ -9,9 +9,6 @@
    production repositories. Use only
    `{cloud}/{environment}/{region}/...` manifest paths and the matching
    `environments/<environment>/environment_information.md` handoff.
-   For an ExaCS out-of-place patch, use the canonical lifecycle path and only
-   the database display name and target Database Home/version registered by the
-   platform in `environments/<environment>/exacs-databases.json`.
 5. Show the semantic diff, destructive/replacement warnings, branch, base SHA, and content SHA-256; then stop for fresh confirmation.
 6. Revalidate hashes, stage only the validated path, commit, push, and conditionally create one PR. Stop before merge.
 7. After human merge, monitor only the configured exact workflow and merge commit. Report configuration and structured workflow results without inferring cloud state.

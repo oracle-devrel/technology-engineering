@@ -11,8 +11,9 @@ staging/
 __pycache__/
 .pytest_cache/
 
-# Local validation only; not published with the customer asset
-tests/
-validation/
-components/**/tests/
-components/**/test_*.py
+# Maintainer-only validation; never publish these files.
+/.github/actionlint.yaml
+/validation/
+**/tests/
+**/test_*.py
+**/*.tftest.hcl

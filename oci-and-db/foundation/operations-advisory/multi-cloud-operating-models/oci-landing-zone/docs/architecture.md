@@ -24,11 +24,9 @@ flowchart LR
 - **OP04** creates the official OE project compartment, group, and policies.
 
 The project hierarchy follows OE `v3.1.0`: each environment has a `PROJECTS`
-container and each project has one compartment below it. Older OE `v2.x`
-examples used application, database, and infrastructure child compartments;
-this asset does not recreate that retired hierarchy. The three existing
-Control Plane handoff fields are compatibility aliases for the same project
-compartment OCID.
+container and each project has one compartment below it. The application,
+database, and infrastructure fields in the Control Plane handoff intentionally
+reference that same project compartment OCID.
 
 After OP04, the workflow produces `project-foundation-handoff.json` for the
 Control Plane and `environment_information.md` for your teams. The Landing Zone

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/__CUSTOMER_ORG__/gitops-templates/schemas/azure/adb.schema.json",
+  "oneOf": [
+    {"type": "object", "maxProperties": 0},
+    {
+      "type": "object",
+      "required": ["oracle_autonomous_databases"],
+      "additionalProperties": false,
+      "properties": {
+        "oracle_autonomous_databases": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "object",
+            "required": ["name", "resource_group_name", "subnet_id", "virtual_network_id", "admin_password", "location"],
+            "additionalProperties": false,
+            "properties": {
+              "name": {"type": "string", "minLength": 1},
+              "display_name": {"type": "string", "minLength": 1},
+              "resource_group_name": {"type": "string", "minLength": 1},
+              "subnet_id": {"type": "string", "pattern": "^(?:/subscriptions/|__)"},
+              "virtual_network_id": {"type": "string", "pattern": "^(?:/subscriptions/|__)"},
+              "admin_password": {"type": "string", "pattern": "^__(?:(?:DEV|TEST|UAT|PROD)_)?AZURE_[A-Z0-9_]+__$"},
+              "location": {"type": "string", "minLength": 1},
+              "db_workload": {"enum": ["OLTP", "DW", "AJD", "APEX"]},
+              "compute_model": {"enum": ["ECPU", "OCPU"]},
+              "compute_count": {"type": "number", "exclusiveMinimum": 0},
+              "data_storage_size_in_tbs": {"type": "number", "exclusiveMinimum": 0},
+              "db_version": {"type": "string", "minLength": 1},
+              "license_model": {"enum": ["BringYourOwnLicense", "LicenseIncluded"]}
+            }
+          }
+        }
+      }
+    }
+  ]
+}

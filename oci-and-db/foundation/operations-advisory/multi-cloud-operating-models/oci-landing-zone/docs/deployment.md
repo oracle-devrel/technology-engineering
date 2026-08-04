@@ -12,31 +12,27 @@ The asset currently pins:
 |---|---|---|
 | OCI Landing Zone Operating Entities | `v3.1.0` | `172809932c53467ab20ec6d1b44290a487211b36` |
 | OCI Landing Zones Orchestrator | `release-2.1.4` | `fcf1d7f02c0b4faa1ff55f1776c396452dd51761` |
-| OCI Exadata modules | `release-1.2.0` | `55eeee14808f864e450db550530d760f9e0b0105` |
+| OCI database module dependency | `release-1.2.0` | `55eeee14808f864e450db550530d760f9e0b0105` |
 | Terraform CLI | `1.15.8` | Installed by the workflow action |
 
-These were the newest stable official OE tag and release branches verified on
-July 23, 2026.
-
 The release names provide readable provenance; the SHAs are the executable
-supply-chain locks. Upgrade each release name and SHA together, regenerate all
-phases, and rerun the contract tests. Do not follow a mutable branch at
-execution time.
-
-The Orchestrator declares Terraform `>= 1.5.0` because that is its OCI Resource
-Manager compatibility floor. This installation executes with Terraform CLI
-`1.15.8`, pinned independently in every workflow. The upstream floor therefore
-does not limit the newer CLI used by this GitHub Actions path.
+supply-chain locks. Do not follow a mutable branch at execution time.
 
 OE `v3.1.0` is the hierarchy source of truth. It creates one compartment per
-project. This asset does not recreate the application/database/infrastructure
-child compartments used by older OE `v2.x` examples.
+project, and the handoff uses that compartment for every workload role.
 
 ## 2. Prepare the foundation repository
 
 From a clean clone of this publication asset:
 
+`NONPROD_TEMPLATE_REF` and `PROD_TEMPLATE_REF` are the approved commit SHAs of
+the non-production and production project-template repositories created from
+the sibling [Multi-Cloud Control Plane](../../multi-cloud-control-plane/README.md)
+asset. They are required later when rendering the deployment contract; do not
+use branch names.
+
 ```bash
+export ASSET_ROOT="$PWD"
 export STAGE=/tmp/mccp-installation
 export CUSTOMER_ORG=example-customer
 export FOUNDATION_REPOSITORY=oci-landing-zone
@@ -47,13 +43,13 @@ export ENVIRONMENT=dev
 
 mkdir -p "$STAGE"
 cp -R components/oci-landing-zone "$STAGE/$FOUNDATION_REPOSITORY"
-cp LICENSE "$STAGE/$FOUNDATION_REPOSITORY/LICENSE"
 find "$STAGE/$FOUNDATION_REPOSITORY" -type d \
-  \( -name tests -o -name __pycache__ \) -prune -exec rm -rf {} +
+  \( -name tests -o -name __pycache__ \) \
+  -prune -exec rm -rf {} +
 ```
 
-Tests remain in the publication source and are not copied to the customer
-foundation repository.
+Publication validation tests and Python caches are not needed by the customer
+foundation repository and are removed from the staged copy.
 
 Edit `$STAGE/$FOUNDATION_REPOSITORY/config/customer.jsonnet` and replace every
 placeholder. Keep `config/projects.json` empty for the initial foundation. The
@@ -79,11 +75,12 @@ test "$(
 )" = '__DRG_SPOKES_ROUTE_TABLE_OCID__'
 ```
 
-The generator needs Git, `jq`, and Jsonnet plus outbound HTTPS to GitHub. Do not
-edit `generated/*.json` directly. The single OP02 token shown above is an
-internal dependency marker, not customer input: the OP02 workflow replaces it
-at runtime with the unique spokes route-table OCID read from protected OP01
-state and fails closed if the dependency is missing or ambiguous.
+The generator needs Git, `jq`, Jsonnet, and ripgrep (`rg`) plus outbound HTTPS
+to GitHub. Do not edit `generated/*.json` directly. The single OP02 token shown
+above is an internal dependency marker, not customer input: the OP02 workflow
+replaces it at runtime with the unique spokes route-table OCID read from
+protected OP01 state and fails closed if the dependency is missing or
+ambiguous.
 
 ## 3. Create the protected GitHub repository
 
@@ -129,7 +126,7 @@ procedure to:
 
 The readiness workflow creates nothing and has no Terraform state. The
 foundation runner remains the privileged execution identity for OP00–OP04. OP03
-creates a separate, narrower MCPP runner for project workload automation.
+creates a separate, narrower MCCP runner for project workload automation.
 
 Required repository variables are:
 
@@ -156,16 +153,17 @@ Use one focused pull request per transition:
    protected path declared by `.github/project-onboarding-contract.json`.
 5. OP01: change `stage` to `pre`.
 6. OP01: change `stage` to `final`.
-7. OP03, when MCPP runs in this tenancy: deploy `infrastructure`, create the
+7. OP03, when MCCP runs in this tenancy: deploy `infrastructure`, create the
    restricted Bastion path, then deploy `identity` with the exact runner
    instance OCID and the separate project-state bucket name. Validate Instance
    Principal before registration.
 8. OP04: add one project to `config/projects.json` and generate its official
    project declaration.
-9. On paid GitHub plans, register the OP03 runner in a
-   repository-restricted organization runner group. On GitHub Free, wait until
-   the project repository exists and register the runner to that repository
-   only.
+9. After the project repository exists, register the OP03 runner in an
+   organization runner group restricted to the selected project repositories.
+   This selected-repository scope is the GitHub Free MVP default. A paid plan
+   can add the environment protection and reviewer controls described in the
+   hardening guide.
 
 For every pull request, confirm the generated-contract check and Terraform plan
 succeed, review replacements/deletions/IAM/routes, obtain independent approval,
@@ -191,14 +189,12 @@ export FOUNDATION_REF=$(gh api \
   "repos/$CUSTOMER_ORG/$FOUNDATION_REPOSITORY/commits/main" \
   --jq .sha)
 export PROJECT_STATE_BUCKET=example-project-state
-export NONPROD_SECURITY_PROFILE=repository-secrets
-export PROD_SECURITY_PROFILE=repository-secrets
 export PLATFORM_OWNER='@example-platform-owner'
 export DEV_OWNER="$PLATFORM_OWNER"
 export TEST_OWNER="$PLATFORM_OWNER"
 export UAT_OWNER="$PLATFORM_OWNER"
 export PROD_OWNER="$PLATFORM_OWNER"
-cd '<publication asset>/oci-landing-zone'
+cd "$ASSET_ROOT"
 cp -R plugins/cloud-operator-gitops \
   "$STAGE/cloud-operator-gitops"
 cp contracts/deployment-contract.template.json \
@@ -209,8 +205,6 @@ perl -pi -e \
    s/__FOUNDATION_REF__/$ENV{FOUNDATION_REF}/g;
    s/__NONPROD_TEMPLATE_REF__/$ENV{NONPROD_TEMPLATE_REF}/g;
    s/__PROD_TEMPLATE_REF__/$ENV{PROD_TEMPLATE_REF}/g;
-   s/__NONPROD_SECURITY_PROFILE__/$ENV{NONPROD_SECURITY_PROFILE}/g;
-   s/__PROD_SECURITY_PROFILE__/$ENV{PROD_SECURITY_PROFILE}/g;
    s/__PLATFORM_OWNER__/$ENV{PLATFORM_OWNER}/g;
    s/__DEV_OWNER__/$ENV{DEV_OWNER}/g;
    s/__TEST_OWNER__/$ENV{TEST_OWNER}/g;
@@ -236,12 +230,13 @@ operator configuration. Install the staged
 directory. The skill reads `deployment-contract.json` from that package before
 it performs any onboarding action.
 
-Use `repository-secrets` for GitHub Free. Use `github-environments` for the
-recommended paid-plan profile. Every owner must be an existing `@user` or
-`@organization/team` with write access to the project repository. It is valid
-to use the same platform owner for all environments during an isolated
-acceptance test, but production installations should use separate environment
-reviewer teams.
+This GitHub Free MVP has one fixed `repository-secrets` profile for both
+non-production and production project repositories. Every owner must be an
+existing `@user` or `@organization/team` with write access to the project
+repository. It is valid to use the same platform owner for all environments
+during an isolated acceptance test, but production installations should use
+separate environment reviewer teams. Apply the documented paid-plan controls
+only after validating them in the customer organization.
 
 ## 7. Onboard and hand off a project
 
@@ -252,16 +247,24 @@ Add one lowercase project name to the selected array in
 scripts/generate_foundation.sh op04:dev-payments
 ```
 
-A new-project pull request must contain exactly `config/projects.json` and the
-generated OP04 `iam.json`. A later adapter or policy reconciliation for an
-existing registered project must contain exactly that project's generated
-`iam.json`; the protected workflow rejects any project-list change in this
-maintenance mode. In both cases the workflow regenerates the file from the
-protected default-branch adapter and pinned OE `v3.1.0`, plans one separate
-OP04 state, applies after merge, and publishes:
+A new-project pull request is a three-file OP04 request. It must contain exactly
+`config/projects.json`, the generated OP04 `iam.json`, and the generated
+`project-security-zone-exception.json` declaration. For a later adapter or
+policy reconciliation, leave `config/projects.json` unchanged and submit only
+the generated artifact or artifacts that changed: `generated/iam.json`,
+`project-security-zone-exception.json`, or both. The protected workflow
+regenerates both files from the default-branch adapter and pinned OE `v3.1.0`,
+validates the submitted files, plans one separate OP04 state, applies after
+merge, and publishes:
 
 - `project-foundation-handoff.json`
 - `environment_information.md`
+
+The project-specific runner policy is attached inside the exact project
+compartment so the policy, compartment, and OP04 state share one lifecycle
+boundary. Runner policies for the shared `NETWORK` and `SECURITY` compartments
+remain attached at the environment boundary. Keep these generated scopes
+unchanged.
 
 The three workload-role compartment fields in the machine handoff intentionally
 contain the same official OE project compartment OCID. Network subnet fields

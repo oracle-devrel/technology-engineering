@@ -239,12 +239,12 @@ optional `hashicorp/setup-terraform` wrapper, so the runner does not require a
 separate system Node.js installation.
 
 In the private foundation repository, use **Settings → Actions → Runners →
-New self-hosted runner**. Run the generated repository-scoped Linux ARM64
-configuration through a time-limited OCI Bastion managed SSH session, name the
-runner `mccp-foundation-<region>`, add only the `mccp-foundation` custom label,
-and configure it as the `github-runner` system service. The registration token
-is short-lived and is not an OCI credential. Never store it in cloud-init,
-GitHub secrets, shell history, or the repository.
+New self-hosted runner**. Run the generated Linux ARM64 configuration through a
+time-limited OCI Bastion managed SSH session, name the runner
+`mccp-foundation-<region>`, add only the `mccp-foundation` custom label, and
+configure it as the `github-runner` system service. The registration token is
+short-lived and is not an OCI credential. Never store it in cloud-init, GitHub
+secrets, shell history, or the repository.
 
 Bind the runner identity to its exact instance OCID:
 
@@ -314,6 +314,18 @@ inherit the same parent CIS Level 1 zone, while environment zones remain
 unchanged. Review the OP01 final plan to confirm that no parent or environment
 Security Zone is removed.
 
+OP04 has a separate, explicit delegated project compartment boundary. After an
+approved OP04 apply creates the project child, the protected workflow removes
+only that child from inherited environment Security Zone enforcement and verifies
+the result. The parent and environment Security Zones remain enforced. OCI keeps
+a standard Cloud Guard target for the removed delegated project compartment, so
+monitoring continues while the governed project pull-request workflow can
+create, update, and delete approved project NSGs. Do not perform this action
+manually or grant the project runner Security Zone permissions. When the Cloud
+Operator retires that project through the three-file OP04 retirement change,
+the protected workflow verifies and removes only this detached target before it
+applies the reviewed compartment destroy plan.
+
 ## 4. Configure GitHub and run readiness
 
 Set these repository variables:
@@ -369,7 +381,7 @@ approval, merge, and verify the apply before continuing:
    `.github/project-onboarding-contract.json`.
 5. Move OP01 to `"stage": "pre"`.
 6. Move OP01 to `"stage": "final"`.
-7. If MCPP execution is hosted in this tenancy, deploy OP03 first with
+7. If MCCP execution is hosted in this tenancy, deploy OP03 first with
    `"stage": "infrastructure"`.
 8. Create its restricted OCI Bastion, record the assigned private endpoint
    `/32` in `platform_bastion_private_endpoint_cidr`, and apply the focused
@@ -378,14 +390,19 @@ approval, merge, and verify the apply before continuing:
    `__STATE_BUCKET_NAME__`, move OP03 to
    `"stage": "identity"`, and apply the focused identity request with the
    foundation runner.
-10. Validate the new private runner and its Instance Principal identity. On a
-    paid GitHub plan, it can now be registered in a repository-restricted
-    organization runner group. On GitHub Free, leave it unregistered until the
-    project repository exists.
+10. Validate the new private runner and its Instance Principal identity. Leave
+    it unregistered until the project repository exists, then register it in an
+    organization runner group restricted to the selected project repositories.
+    This GitHub Free MVP uses that selected-repository scope; a paid plan can
+    add stronger environment and reviewer controls described in the final
+    hardening guide.
 11. Add one project name to `config/projects.json`, generate
-   `op04:<environment>-<project>`, and submit the two-file OP04 request.
-12. Create and hand off the project repository. On GitHub Free, register the
-    runner to that repository only; do not register it at organization scope.
+    `op04:<environment>-<project>`, and submit the three-file OP04 request:
+    the catalog change, `generated/iam.json`, and the generated,
+    reviewable version-2 `project-security-zone-exception.json` declaration.
+12. Create and hand off the project repository. Add it to the selected-
+    repository runner group; do not grant the runner group to unrelated
+    repositories.
 
 ### Configure and validate private access to the OP03 runner
 
@@ -433,20 +450,22 @@ session and verify `cloud-init status --wait`, `rg --version`,
 `github-runner`, Oracle Cloud Agent, SSH, outbound HTTPS to GitHub, the exact
 Instance Principal tenancy identity, and read-only access to the private
 versioned project-state bucket. Terraform is installed by the pinned setup
-action;
-Ansible and OCI CLI are installed by the execution action. Do not replace an
-existing runner merely to update cloud-init: reconcile a previously created
-validation VM in place with the same pinned package and checksum-verified tool
-versions, then verify it before registration.
+action. Ansible and OCI CLI are installed later by the execution action and are
+not baseline cloud-init prerequisites. Do not replace an existing runner merely
+to update cloud-init: reconcile a previously created validation VM in place
+with the same pinned package and checksum-verified tool versions, then verify
+it before registration.
 
-Registration follows the GitHub plan. Paid plans should put the runner in a
-repository-restricted organization runner group. GitHub Free private
-repositories must use repository-scoped registration after OP04 and handoff
-have created the target repository. Generate the short-lived token from that
-repository's **Settings → Actions → Runners → New self-hosted runner** page,
-register as `github-runner`, and apply only the labels declared by that
-repository's protected `control-plane.json`. Never paste the token into a
-ticket, pull request, chat, shell history, or committed file.
+After OP04 and handoff, register the runner in an organization runner group
+restricted to the selected project repositories. This is supported by GitHub
+Free and is the MVP default: add each handed-off project repository to that
+group, and do not grant it to unrelated repositories. Paid plans can add
+environment protection and reviewer controls described in the final hardening
+guide. Generate the short-lived token from the organization runner-group
+registration page, register as `github-runner`, and apply only the labels
+declared by the protected caller workflow: `self-hosted`, the cloud, and the
+environment. Never paste the token into a ticket, pull request, chat, shell
+history, or committed file.
 
 Before installing the runner service, create the runner-local environment and
 command-path files in its installation directory. Replace only the namespace
@@ -466,23 +485,43 @@ sudo -u github-runner tee .path >/dev/null <<'EOF'
 EOF
 ```
 
+OP03 cloud-init also creates the runner-owned key pair used for project VM
+creation and supported Ansible operations. Verify its metadata without printing
+either key:
+
+```bash
+sudo -u github-runner test -r /home/github-runner/.ssh/oci_vm_key
+sudo -u github-runner test -r /home/github-runner/.ssh/oci_vm_key.pub
+stat -c '%U:%G %a %n' \
+  /home/github-runner/.ssh \
+  /home/github-runner/.ssh/oci_vm_key \
+  /home/github-runner/.ssh/oci_vm_key.pub
+```
+
+The expected owner and group are `github-runner:github-runner`; the expected
+modes are `700`, `600`, and `644`, respectively. Do not copy the private key to
+GitHub, a project repository, a handoff artifact, or an operator workstation.
+
 Install or restart the service only after those files exist. Verify from the
-service account that `rg`, `jq`, `python3.11`, and `oci` resolve through that
-exact path and that the environment values are visible to a diagnostic
-workflow. Do not put tokens or secret bundles in either file.
+service account that `rg`, `jq`, and `python3.11` resolve through that exact
+path and that the environment values are visible to a diagnostic workflow.
+Verify `oci` and Ansible only after the execution action has installed them. Do
+not put tokens or secret bundles in either file.
 
 OP04 uses the official OE `v3.1.0` project model: one project compartment,
-one administrator group, and the OE policies. The MCPP runner policies are the
+one administrator group, and the OE policies. The MCCP runner policies are the
 only project-IAM extension. They grant NSG management only in the exact project
 compartment, never across the shared environment network compartment. The
 resulting handoff repeats the same project compartment OCID in its three
-workload-role fields for compatibility.
+workload-role aliases.
 
-The generated GitOps policies are attached to the immediate parent of every
-named target: project policy under the environment `PROJECTS` compartment and
-network/security policies under the environment compartment. This is required
-by OCI named-compartment policy resolution. Do not move those GitOps policies
-inside the child compartment they target.
+The project-specific GitOps policy is attached inside the exact project
+compartment, alongside the OE administrator policy. This keeps the project
+compartment, its policy, and its isolated OP04 state in one lifecycle boundary.
+The network and security GitOps policies remain attached to the environment
+compartment because they target the shared `NETWORK` and `SECURITY` child
+compartments. Do not move the project policy to the shared `PROJECTS` parent or
+broaden any of these named scopes.
 
 OCI treats NSG create/delete as changes to both the NSG and its VCN. The
 network GitOps policy must retain the generated conditional `manage vcns`
@@ -493,9 +532,11 @@ to create an NSG in a project compartment against the shared environment VCN.
 When a protected adapter change modifies an existing project's generated IAM,
 first review and merge the adapter change without running project Terraform.
 Then regenerate `op04:<environment>-<project>` and submit a second pull request
-containing only that project's generated `iam.json`. The OP04 workflow
-regenerates it from the protected default branch and reconciles only that
-project's existing OP04 state.
+containing only the generated artifact or artifacts that changed:
+`generated/iam.json`, `project-security-zone-exception.json`, or both. The OP04
+workflow regenerates both artifacts from the protected default branch,
+validates the submitted files, and reconciles only that project's existing
+OP04 state.
 
 For a later environment, first add it to `customer.jsonnet` without activating
 it, generate and deploy its OP02 stack, commit its protected blueprint, then add

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Copyright (c) 2026 Oracle and/or its affiliates.
 """Fail closed on one additive, OE-generated OP04 change."""
 
 from __future__ import annotations
@@ -29,6 +30,12 @@ BRANCH_RE = re.compile(
 )
 SHA_RE = re.compile(r"^[0-9a-f]{40}$")
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
+GITHUB_ORIGIN_RE = re.compile(
+    r"^(?:https://github\.com/|git@github\.com:|"
+    r"ssh://git@github\.com/)"
+    r"(?P<repository>[A-Za-z0-9][A-Za-z0-9_.-]*/"
+    r"[A-Za-z0-9][A-Za-z0-9_.-]*)$"
+)
 SENSITIVE_RE = re.compile(
     r"-----BEGIN [A-Z ]*PRIVATE KEY-----|github_pat_|"
     r"gh[pousr]_[A-Za-z0-9_]{10,}|"
@@ -62,6 +69,15 @@ def bundle_sha(files: dict[str, bytes]) -> str:
         digest.update(files[path])
         digest.update(b"\0")
     return digest.hexdigest()
+
+
+def repository_slug(repo: Path) -> str:
+    """Return the exact GitHub owner/repository represented by origin."""
+    remote = git(repo, "remote", "get-url", "origin").strip()
+    match = GITHUB_ORIGIN_RE.fullmatch(remote)
+    if match is None:
+        raise ValidationError("The foundation repository origin is invalid.")
+    return match.group("repository").removesuffix(".git")
 
 
 def validate(
@@ -162,7 +178,7 @@ def validate(
         "ok": True,
         "stage": "op04",
         "operation": "project-onboard",
-        "repository": "__CUSTOMER_ORG__/oci-landing-zone",
+        "repository": repository_slug(repo),
         "branch": branch,
         "environment": identity.environment,
         "project": project,

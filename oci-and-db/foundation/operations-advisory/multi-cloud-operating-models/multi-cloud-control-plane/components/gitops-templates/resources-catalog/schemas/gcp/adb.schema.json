@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/__CUSTOMER_ORG__/gitops-templates/schemas/gcp/adb.schema.json",
+  "oneOf": [
+    {"type": "object", "maxProperties": 0},
+    {
+      "type": "object",
+      "required": ["project_id", "gcp_autonomous_databases_configuration"],
+      "additionalProperties": false,
+      "properties": {
+        "project_id": {"type": "string", "minLength": 1},
+        "gcp_autonomous_databases_configuration": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "object",
+            "required": ["autonomous_database_id", "display_name", "database", "odb_network", "odb_subnet", "properties"],
+            "additionalProperties": false,
+            "properties": {
+              "autonomous_database_id": {"type": "string", "minLength": 1},
+              "display_name": {"type": "string", "minLength": 1},
+              "database": {"type": "string", "minLength": 1},
+              "odb_network": {"type": "string", "pattern": "^(?:projects/|__)"},
+              "odb_subnet": {"type": "string", "pattern": "^(?:projects/|__)"},
+              "properties": {
+                "type": "object",
+                "required": ["secret_id"],
+                "additionalProperties": false,
+                "properties": {
+                  "db_workload": {"enum": ["OLTP", "DW", "AJD", "APEX"]},
+                  "license_type": {"enum": ["LICENSE_INCLUDED", "BRING_YOUR_OWN_LICENSE"]},
+                  "compute_count": {"type": "number", "exclusiveMinimum": 0},
+                  "data_storage_size_tb": {"type": "number", "exclusiveMinimum": 0},
+                  "db_version": {"type": "string", "minLength": 1},
+                  "is_auto_scaling_enabled": {"type": "boolean"},
+                  "is_storage_auto_scaling_enabled": {"type": "boolean"},
+                  "secret_id": {"type": "string", "pattern": "^(?:projects/|__)"}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

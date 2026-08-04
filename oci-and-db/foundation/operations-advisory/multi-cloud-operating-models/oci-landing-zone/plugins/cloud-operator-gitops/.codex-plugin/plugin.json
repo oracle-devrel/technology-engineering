@@ -1,7 +1,7 @@
 {
   "name": "cloud-operator-gitops",
-  "version": "0.1.0",
-  "description": "Governed OCI foundation onboarding and artifact handoff for the Codex app",
+  "version": "2.1.0",
+  "description": "Governed OCI foundation onboarding, retirement, and artifact handoff for the Codex app",
   "author": {
     "name": "Oracle Operations Advisory"
   },
@@ -9,7 +9,7 @@
   "interface": {
     "displayName": "Cloud Operator GitOps",
     "shortDescription": "Govern OCI foundation onboarding and handoff.",
-    "longDescription": "Guides confirmation-gated OCI OP04 onboarding and produces a validated foundation handoff artifact without writing project repositories.",
+    "longDescription": "Guides confirmation-gated OCI OP04 onboarding and retirement and produces validated foundation handoff artifacts.",
     "developerName": "Oracle Operations Advisory",
     "category": "Productivity",
     "capabilities": ["Read", "Write"],

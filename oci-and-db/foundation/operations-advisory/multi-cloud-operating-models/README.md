@@ -24,9 +24,8 @@ contains identifiers and network references, not credentials. You may adopt
 either solution independently when your existing environment provides the same
 required boundary.
 
-Both solutions are currently preview releases. Evaluate them in non-production,
-complete your security review, and validate every capability you plan to enable
-before production rollout.
+Both solutions are MVP reference implementations. Complete your security review
+and validate every capability you plan to enable before production rollout.
 
 ## License
 

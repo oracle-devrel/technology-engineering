@@ -48,3 +48,10 @@ __pycache__
 desktop.ini
 
 app-dev/app-integration-and-automation/README.pdf
+
+# Public Multi-Cloud Operating Models include repository ignore rules,
+# validation suites, and non-secret Terraform JSON templates.
+!oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/oci-landing-zone/**/.gitignore
+!oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/**/.gitignore
+!oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/oci-landing-zone/**/*.tfvars.json
+!oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/**/*.tfvars.json

@@ -27,7 +27,7 @@ Defines exactly one generic project NSG under `network_configuration.inject_into
 ### OCI — compute
 
 **`project_compute_template.auto.tfvars.json`**
-Provisions exactly one generic OCI VM. Render `__VM_KEY__`, `__VM_NAME__`, `__VM_SUBNET_OCID__`, and `__VM_NSG_KEY__`; the NSG key must already exist in the regional project NSG manifest. `__PROJ_APP_CMP_OCID__` and `__DEFAULT_SSH_KEY__` come from the completed handoff. The `platform_image.ocid` is region-specific — use this template only for its approved Frankfurt image or publish a separately validated regional template.
+Provisions exactly one generic OCI VM. Render `__VM_KEY__`, `__VM_NAME__`, `__VM_SUBNET_OCID__`, and `__VM_NSG_KEY__`; the NSG key must already exist in the regional project NSG manifest. `__PROJ_APP_CMP_OCID__` comes from the completed handoff. The SSH public-key path is platform-owned and must remain `/home/github-runner/.ssh/oci_vm_key.pub`. The template uses the Frankfurt OCID for `Oracle-Linux-9.7-aarch64-2026.06.15-0`, which is compatible with `VM.Standard.A1.Flex`. Before approving a request, confirm in the official OCI image catalog that this is still the current Oracle Linux 9 aarch64 image; use a separately validated regional template outside Frankfurt.
 
 ### OCI — databases
 
@@ -37,12 +37,17 @@ Provisions OCI Autonomous Database Serverless through the current OCI Landing Zo
 ### Azure — compute
 
 **`project_compute_template.auto.tfvars.json`**
-Provisions exactly one generic Azure VM. References resources by key (`resource_group_key`, `network_key`, `subnet_key`, `security_group_key`) and defaults to no public IP. If a public IP is explicitly enabled, the template uses the supported `Standard` SKU.
+Provisions exactly one private Ubuntu 22.04 LTS Gen2 VM using handed-off resource-group, subnet, and NSG references. Public-IP fields are not part of the contract.
 
 ### Azure — databases
 
 **`project_oracle_adb_template.auto.tfvars.json`**
-Provisions exactly one generic Oracle ADB@Azure instance with the smallest catalog defaults, private networking, and Bring Your Own License. The `subnet_key` must point to a delegated subnet (`Oracle.Database/networkAttachments`). Replace `__ADMIN_PASSWORD__` and `__DBA_EMAIL__` at runtime.
+Provisions exactly one Oracle ADB@Azure instance using handed-off resource-group, VNet, and delegated-subnet references. Render `__AZURE_ADB_ADMIN_PASSWORD__` as an environment-qualified runtime placeholder.
+
+### Google — compute
+
+**`project_compute_template.auto.tfvars.json`**
+Provisions exactly one private Debian 12 VM using handed-off project, zone, subnetwork, and service-account references. Public-IP fields are not part of the contract.
 
 ### Google — databases
 
@@ -56,6 +61,20 @@ secret placeholders must additionally begin with the selected environment,
 such as `__DEV_`, `__TEST_`, `__UAT_`, or `__PROD_`.
 
 Cross-template dependency: NSG/security-group placeholders in workload templates are string references, not OCIDs. Render them with a key that already exists in the corresponding project network manifest.
+
+## Reference specifications
+
+The JSON Schemas in [`schemas/oci/`](schemas/oci/) are human-readable
+reference contracts for the supported OCI Day 1 manifest shapes:
+
+- [`adb.schema.json`](schemas/oci/adb.schema.json)
+- [`compute.schema.json`](schemas/oci/compute.schema.json)
+- [`nsg.schema.json`](schemas/oci/nsg.schema.json)
+
+They are intentionally **reference-only** in this release. They are not loaded
+by GitHub Actions, `platform-ci`, or Terraform, so adding or updating them does
+not change deployment behaviour. The authoritative runtime validation remains
+the protected control-plane code and the pinned Terraform module contracts.
 
 ## Security notes
 

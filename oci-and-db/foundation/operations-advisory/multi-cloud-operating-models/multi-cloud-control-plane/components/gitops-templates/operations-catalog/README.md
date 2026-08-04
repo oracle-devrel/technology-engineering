@@ -1,8 +1,12 @@
 # Operations Catalog (Day 2)
 
-Day 2 operations are post-provisioning actions executed by Ansible via the shared `ansible-shared.yaml` workflow. Each JSON file here is the manifest an operator edits and commits to trigger an operation.
+Day 2 operations are post-provisioning actions executed by Ansible through the
+shared `ansible-shared.yaml` workflow. Each JSON file is an approved manifest
+template for one operation.
 
-The workflow picks up the file that changed in the PR diff, parses it, and runs the playbook tag that matches `operation_type`.
+The protected project caller validates exactly one changed operation file and
+passes its path explicitly to the shared workflow. The workflow parses that
+file and runs the playbook tag matching `operation_type`.
 
 ## JSON schema
 
@@ -18,11 +22,26 @@ The workflow picks up the file that changed in the PR diff, parses it, and runs 
 }
 ```
 
-- `operation_type` — must match a tag defined in `platform-ci/ansible/playbooks/master.yml`.
-- `targets[].display_name` — the display name of the resource as it appears in Terraform state for state-backed operations. The ExaCS patch operation resolves it from the platform-owned environment registry.
-- `targets[].action` — optional. `adb-lifecycle` accepts only the exact lowercase values `start` or `stop`; `restart` and every other action are unsupported. Other operations may ignore it.
+- `operation_type` — must match a tag defined in
+  `platform-ci/ansible/playbooks/master.yml`.
+- `targets[].display_name` — must match the resource in Terraform state.
+- `targets[].action` — is operation-specific. `adb-lifecycle` accepts only
+  lowercase `start` or `stop`; `restart` and every other value are unsupported.
 
-Extra top-level fields are operation-specific (e.g. `deploy-agent` adds `agent_type` and `agent_version`).
+Additional top-level fields are operation-specific. For example,
+`deploy-agent` adds `agent_type` and `agent_version`.
+
+## Field reference
+
+The following guides explain supported operations in plain language,
+including required fields, allowed values, runtime defaults, and observed
+behavior:
+
+- [OCI ADB lifecycle](specs/oci/adb-lifecycle.md)
+- [OCI Compute deploy-agent](specs/oci/deploy-agent.md)
+
+They are reference-only. They do not change JSON manifests, shared workflows,
+or Ansible playbooks.
 
 ## Multiple ADB targets
 
@@ -37,8 +56,6 @@ display names in Terraform state for that OCI region. Add another object to the
 | --- | --- | --- | --- |
 | `oci/adb-lifecycle.json` | `adb-lifecycle` | OCI | Start or stop an Autonomous Database |
 | `oci/deploy-agent.json` | `deploy-agent` | OCI | Deploy an agent to a compute instance via SSH |
-| `oci/exacs-database-out-of-place-patch.json` | `exacs-database-out-of-place-patch` | OCI | Move one regular ExaCS database to an approved patched Database Home through OCI APIs |
-| `azure/adb-lifecycle.json` | `adb-lifecycle` | Azure | Template only — playbook not connected yet |
 
 ## Adding a new operation
 
@@ -53,11 +70,11 @@ operations-catalog/
   oci/
     adb-lifecycle.json
     deploy-agent.json
-    exacs-database-out-of-place-patch.json
   azure/
     adb-lifecycle.json
 ```
 
-## Warranty disclaimer
+## License
 
-ORACLE AND ITS AFFILIATES DO NOT PROVIDE ANY WARRANTY WHATSOEVER, EXPRESS OR IMPLIED, FOR ANY SOFTWARE, MATERIAL OR CONTENT OF ANY KIND.
+Copyright (c) 2026 Oracle and/or its affiliates. Licensed under the Universal
+Permissive License, Version 1.0. See [LICENSE](../LICENSE).

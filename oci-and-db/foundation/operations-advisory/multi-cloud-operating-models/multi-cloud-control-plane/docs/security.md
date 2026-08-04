@@ -1,83 +1,57 @@
 # Security
 
-Project Teams submit requests through Git but do not receive deployment
-credentials. Protected workflows use trusted runner identities to access cloud
-services and Terraform state after approval.
+Project teams submit reviewed Git changes but do not receive deployment
+credentials. Trusted runner identities access cloud services and Terraform
+state only after a human merges an approved change.
 
-## GitHub plan capability matrix
+## MVP profile: GitHub Free repository secrets
 
-Select one security profile for the entire project repository. Private
-repositories on a paid plan should use `github-environments`; private
-repositories on GitHub Free must use the `repository-secrets` fallback.
+This release supports one fixed profile in every project repository,
+including production: `repository-secrets`. Each logical environment has one
+environment-qualified JSON repository secret and one readiness variable:
 
-| Capability | GitHub Free private repository | Pro/Team private repository | Enterprise private repository |
-|---|---|---|---|
-| Supported profile | `repository-secrets` | `github-environments` | `github-environments` |
-| Workload-secret location | Environment-qualified repository bundles | GitHub Environment secrets | GitHub Environment secrets |
-| Private-branch protection and enforced CODEOWNERS review | Not available | Available | Available |
-| Required Environment reviewers and prevention of self-review | Not available | Not available for private repositories | Available |
-| Apply/execute deployment history | Not created by this profile | Recorded by `<environment>-apply` | Recorded by `<environment>-apply` |
-| Runner isolation | Repository-level runners and dedicated labels | Organization runner groups on GitHub Team | Organization or enterprise runner groups |
-| Approval boundary | Procedural PR review | Enforced PR/CODEOWNERS review; Environment approval remains unavailable | Enforced PR/CODEOWNERS review plus apply/execute Environment approval |
+| Environment | Secret | Readiness variable |
+| --- | --- | --- |
+| `dev` | `GITOPS_SECRET_VALUES_DEV` | `CONTROL_PLANE_READY_DEV` |
+| `test` | `GITOPS_SECRET_VALUES_TEST` | `CONTROL_PLANE_READY_TEST` |
+| `uat` | `GITOPS_SECRET_VALUES_UAT` | `CONTROL_PLANE_READY_UAT` |
+| `prod` | `GITOPS_SECRET_VALUES_PROD` | `CONTROL_PLANE_READY_PROD` |
 
-GitHub Pro applies to user-owned private repositories; this asset targets a
-GitHub organization, where GitHub Team is the corresponding paid
-non-Enterprise plan. Environment secrets are available to private repositories
-on paid plans, but required Environment reviewers for private repositories
-require Enterprise. Organization runner groups require Team or Enterprise.
-Verify these plan contracts against GitHub's current documentation for
-[deployments and environments](https://docs.github.com/en/actions/reference/workflows-and-actions/deployments-and-environments),
-[protected branches](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches),
-and [runner groups](https://docs.github.com/en/actions/concepts/runners/runner-groups)
-before each customer installation.
+The default-branch caller rejects forks, workflow changes, mixed tuples,
+invalid JSON, and cross-environment placeholders. It passes exactly one named
+secret bundle to the release-tag-pinned Platform CI reusable workflow. It
+never inherits all secrets or serializes the repository secret collection.
 
-These plan differences affect GitHub governance only. Both profiles retain the
-same protected-default-branch resolver, same-repository guard, manifest-only
-validation, immutable component refs, environment-qualified placeholders,
-state isolation, concurrency and cloud runner identity.
+GitHub Free private repositories do not provide the enforceable private branch
+protection, CODEOWNERS review, or Environment approval controls needed for a
+technical approval boundary. The operational control is therefore procedural:
+restrict administrators and direct pushes, record independent human review,
+verify the current-commit plan/check, then merge. Do not represent that as
+enforced GitHub approval.
 
-Before production rollout:
+Before accepting a workload request:
 
-- Keep shared and project repositories private. Use the recommended
-  `github-environments` profile on paid plans, protect `main`, require
-  CODEOWNERS and successful checks, and configure Environment reviewers where
-  the private-repository plan supports them. Use `repository-secrets` only as
-  the GitHub Free fallback, with administration and direct pushes restricted
-  by policy.
-- Require a successful plan or check and human approval. GitHub Environment
-  secrets and protected branches strengthen every paid tier and provide
-  deployment history. Required Environment reviewers and prevention of
-  self-review enforce an additional boundary on Enterprise private
-  repositories; Free-profile approval remains procedural.
-- Pin shared workflows, GitHub Actions, catalogs, and orchestrators to approved
-  versions.
-- Separate Terraform state by organization, project, cloud, environment, and
+- Keep shared and project repositories private. Pin internal MCCP release tags
+  without moving them, use reviewed major release tags for official GitHub
+  Actions, and pin external orchestrators to exact commit SHAs.
+- Keep state isolated by organization, project, cloud, environment, and
   region.
-- Give each runner identity only the permissions required for its cloud and
-  workload scope.
-- For ExaCS out-of-place patching, use a separate runner dynamic group scoped
-  to the project database compartment. `manage database-family` is required by
-  the OCI Database API for the approved Database and Database Home move; never
-  grant it tenancy-wide. The runtime additionally enforces the platform-owned
-  ExaCS registry and exact VM-cluster/compartment checks.
-- Resolve credentials and passwords at runtime; never store them in manifests,
-  handoffs, the UI, or the Codex app.
-- In `github-environments`, use a reviewer-free base Environment for plan/check
-  and a reviewer-protected `<environment>-apply` Environment for apply/execute;
-  keep identical `GITOPS_SECRET_VALUES` and `READINESS_MARKER` secrets in the
-  pair. Same-named repository secrets containing only `{"INVALID":"true"}`
-  and `false` are required fail-closed transport sentinels, not credential
-  storage. In
-  `repository-secrets`, keep one environment-qualified JSON repository secret
-  and readiness variable per environment. The default-branch caller rejects
-  forks, workflow changes, mixed tuples, and cross-environment placeholders in
-  both profiles.
-- Test failed plans, partial deployments, state recovery, runner isolation, SSH
-  host verification, and audit evidence in non-production.
+- Give each runner only the cloud permissions and routing labels needed for
+  its assigned scope.
+- Resolve passwords at runtime from the one selected secret bundle; never put
+  them in manifests, handoffs, or Codex configuration.
+- Validate a successful plan/check and the repository-secret acceptance test
+  in non-production before a real change.
 
-The optional UI and Codex app assistant can create Git changes only. They cannot
-call cloud APIs, hold deployment credentials, merge their own pull requests, or
-control deployment workflows.
+The initial OCI-hosted runner can carry OCI, Azure, and Google routing labels. Keep Azure
+service-principal `ARM_*` values and the Google ADC file on that runner; neither belongs in a
+workload secret bundle. The target separation model uses one native runner boundary per cloud,
+with the same manifests and pull-request gate.
 
-Review these controls against your organization's security, compliance, data
-residency, and change-management requirements before enabling production use.
+## Paid-plan enforcement model
+
+The paid-plan model uses paired GitHub Environments,
+protected branches, required reviews, and runner groups where the selected
+GitHub plan supports them. Enable it only after testing the controls in the customer
+organization. See
+[final-environment-hardening.md](final-environment-hardening.md).

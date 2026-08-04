@@ -1,3 +1,4 @@
+// Copyright (c) 2026 Oracle and/or its affiliates.
 // Customer-owned One-OE source configuration.
 //
 // Replace every customer token below before generating the reviewed JSON files.
@@ -15,6 +16,8 @@
   blueprint: {
     region: '__OCI_REGION__',
     region_short_name: '__OCI_REGION_KEY__',
+    // Installation scope: commercial OCI realm only. The handoff validators reject
+    // Dedicated Region Cloud@Customer, government, and non-oc1 identifiers.
     realm: 'oc1',
     cis_level: 1,
 

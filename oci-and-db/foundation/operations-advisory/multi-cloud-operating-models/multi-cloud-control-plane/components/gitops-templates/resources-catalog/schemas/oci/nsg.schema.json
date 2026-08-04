@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/__CUSTOMER_ORG__/gitops-templates/resources-catalog/schemas/oci/nsg.schema.json",
+  "title": "OCI project NSG manifest",
+  "description": "Reference-only schema for project NSGs injected into a handed-off VCN. It is not consumed at runtime.",
+  "x-mccp-contract-status": "reference-only",
+  "x-mccp-runtime-source": "platform-ci governed NSG validator and the pinned OCI Orchestrator Network contract",
+  "type": "object",
+  "required": ["network_configuration"],
+  "additionalProperties": false,
+  "properties": {
+    "network_configuration": {
+      "type": "object",
+      "required": ["default_enable_cis_checks", "network_configuration_categories"],
+      "additionalProperties": false,
+      "properties": {
+        "default_enable_cis_checks": {"type": "boolean"},
+        "network_configuration_categories": {
+          "type": "object",
+          "minProperties": 1,
+          "patternProperties": {
+            "^(?:[A-Za-z0-9][A-Za-z0-9._-]{0,127}|__[A-Z][A-Z0-9_]{2,99}__)$": {"$ref": "#/$defs/category"}
+          },
+          "additionalProperties": false
+        }
+      }
+    }
+  },
+  "$defs": {
+    "placeholder": {"type": "string", "pattern": "^__[A-Z][A-Z0-9_]{2,99}__$"},
+    "ocidOrPlaceholder": {
+      "type": "string",
+      "anyOf": [
+        {"pattern": "^ocid1\\.[a-z0-9]+\\.oc1\\.[A-Za-z0-9.-]+\\.[A-Za-z0-9_-]+$"},
+        {"$ref": "#/$defs/placeholder"}
+      ]
+    },
+    "resourceNameOrPlaceholder": {
+      "type": "string",
+      "anyOf": [
+        {"pattern": "^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$"},
+        {"$ref": "#/$defs/placeholder"}
+      ]
+    },
+    "category": {
+      "type": "object",
+      "required": ["inject_into_existing_vcns"],
+      "additionalProperties": false,
+      "properties": {
+        "inject_into_existing_vcns": {
+          "type": "object",
+          "minProperties": 1,
+          "patternProperties": {
+            "^(?:[A-Z0-9][A-Z0-9_-]{0,127}|__[A-Z][A-Z0-9_]{2,99}__)$": {"$ref": "#/$defs/vcn"}
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "vcn": {
+      "type": "object",
+      "required": ["vcn_id", "network_security_groups"],
+      "additionalProperties": false,
+      "properties": {
+        "vcn_id": {"$ref": "#/$defs/ocidOrPlaceholder"},
+        "network_security_groups": {
+          "type": "object",
+          "patternProperties": {
+            "^(?:[A-Z0-9][A-Z0-9_-]{0,127}|__[A-Z][A-Z0-9_]{2,99}__)$": {"$ref": "#/$defs/nsg"}
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "nsg": {
+      "type": "object",
+      "required": ["compartment_id", "display_name", "defined_tags", "freeform_tags", "ingress_rules", "egress_rules"],
+      "additionalProperties": false,
+      "properties": {
+        "compartment_id": {"$ref": "#/$defs/ocidOrPlaceholder"},
+        "display_name": {"$ref": "#/$defs/resourceNameOrPlaceholder"},
+        "defined_tags": {"type": "null"},
+        "freeform_tags": {
+          "type": "object",
+          "required": ["Project", "Tier", "ManagedBy"],
+          "additionalProperties": false,
+          "properties": {
+            "Project": {"type": "string"},
+            "Tier": {"enum": ["web", "app", "database", "infra", "__NSG_TIER__"]},
+            "ManagedBy": {"const": "platform-ci"}
+          }
+        },
+        "ingress_rules": {"$ref": "#/$defs/rules"},
+        "egress_rules": {"$ref": "#/$defs/rules"}
+      }
+    },
+    "rules": {
+      "type": "object",
+      "patternProperties": {
+        "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$": {"$ref": "#/$defs/rule"}
+      },
+      "additionalProperties": false
+    },
+    "rule": {
+      "type": "object",
+      "required": ["description", "protocol", "stateless", "dst_port_min", "dst_port_max", "src_port_min", "src_port_max", "icmp_type", "icmp_code"],
+      "properties": {
+        "description": {"type": "string", "minLength": 1, "maxLength": 255},
+        "protocol": {"enum": ["TCP", "UDP", "ICMP", "ALL"]},
+        "stateless": {"type": "boolean"},
+        "dst_port_min": {"type": ["integer", "null"], "minimum": 1, "maximum": 65535},
+        "dst_port_max": {"type": ["integer", "null"], "minimum": 1, "maximum": 65535},
+        "src_port_min": {"type": ["integer", "null"], "minimum": 1, "maximum": 65535},
+        "src_port_max": {"type": ["integer", "null"], "minimum": 1, "maximum": 65535},
+        "icmp_type": {"type": ["integer", "null"], "minimum": 0, "maximum": 255},
+        "icmp_code": {"type": ["integer", "null"], "minimum": 0, "maximum": 255},
+        "src": {"type": "string"},
+        "src_type": {"enum": ["CIDR_BLOCK", "NETWORK_SECURITY_GROUP", "SERVICE_CIDR_BLOCK"]},
+        "dst": {"type": "string"},
+        "dst_type": {"enum": ["CIDR_BLOCK", "NETWORK_SECURITY_GROUP", "SERVICE_CIDR_BLOCK"]}
+      },
+      "oneOf": [
+        {"required": ["src", "src_type"], "not": {"anyOf": [{"required": ["dst"]}, {"required": ["dst_type"]}]}},
+        {"required": ["dst", "dst_type"], "not": {"anyOf": [{"required": ["src"]}, {"required": ["src_type"]}]}}
+      ],
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,6 +1,6 @@
 ---
 name: cloud-operator-gitops
-description: Use in the Codex app when a Cloud Operator requests governed OCI project onboarding through OP04, project-foundation handoff generation, creation of a project repository from an approved pinned template, protected environment-blueprint capture, read-only foundation inventory, onboarding status, or a final foundation handoff summary.
+description: Use in the Codex app when a Cloud Operator requests governed OCI project onboarding or retirement through OP04, project-foundation handoff generation, creation of a project repository from an approved pinned template, protected environment-blueprint capture, read-only foundation inventory, onboarding status, or a final foundation handoff summary.
 ---
 
 # Cloud Operator GitOps
@@ -30,20 +30,12 @@ OP04 must be generated from the contract-pinned OE `v3.1.0` source. Preserve
 its single project-compartment hierarchy. In the validated handoff,
 `app_compartment`, `database_compartment`, and
 `infrastructure_compartment` must be aliases for that same project
-compartment OCID; never recreate the retired OE `v2.x` child hierarchy.
+compartment OCID. Do not add role-specific child compartments.
 
 Record the selected environment in the handoff, but never write workload secret
 values. Project-repository setup uses one explicitly selected repository secret
 bundle and readiness variable per environment; placeholder names must begin with
 the selected uppercase environment.
-
-When the Cloud Operator has verified a regular ExaCS database that was not
-provisioned by Terraform, register it only as a platform-owned handoff artifact
-at `environments/<environment>/exacs-databases.json`. Require its Database,
-compartment, and VM cluster OCIDs plus each approved target Database Home OCID
-and exact version. Do not infer these values, call OCI to discover them, or
-accept secret values. Do not create or modify this registry unless the operator
-explicitly requests the registration and confirms the verified resource facts.
 
 Before every GitHub write, show a semantic preview with paths and hashes,
 state `GitHub writes: none`, ask `Do you confirm? Reply "Confirm".`, then
@@ -65,11 +57,21 @@ contract owners, delete `.github/CODEOWNERS.template`, and publish the selected
 environment handoff. Fail if any repository placeholder remains. For an
 existing initialized shared non-production repository, verify its protected
 contract and active CODEOWNERS before publishing only the new environment
-handoff. An explicitly requested verified ExaCS registry update remains a
-separate allowed handoff artifact. The optional Multi-Cloud Control Plane UI
-operates handed-off repositories; it is not a bootstrap tool.
+handoff.
 
 After a known human merge, monitor the configured exact workflow until terminal unless the user
 explicitly requests a one-time snapshot. Keep the task active while it is queued or running; poll
 structured GitHub reads every 15–30 seconds, use commentary for progress, and never require the
 user to return and announce completion.
+
+## OP04 retirement
+
+For retirement, accept exactly one handed-off project environment. Before proposing a write,
+require: empty workload declarations; no lifecycle-operation requests; successful teardown
+evidence for that environment; a CRQ; a stated state-retention decision; and the required human
+approval. Run `validate-retirement.py` against the exact base commit and proposed working tree.
+Preview and remove only that project catalog entry and its two generated OP04 artifacts.
+Never delete a project repository or Terraform state automatically. After a human merge, monitor
+only the existing OP04 destroy workflow. Disable the retired environment and restore its handoff
+placeholder in a separate reviewed change. Retain a shared non-production repository while at
+least one of its environments remains active.

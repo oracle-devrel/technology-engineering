@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "customer_org": "__CUSTOMER_ORG__",
   "foundation_repository": "__CUSTOMER_ORG__/__FOUNDATION_REPOSITORY__",
   "foundation_ref": "__FOUNDATION_REF__",
@@ -25,7 +25,7 @@
   },
   "project_repository_initialization": {
     "shared-nonprod-v2": {
-      "security_profile": "__NONPROD_SECURITY_PROFILE__",
+      "security_profile": "repository-secrets",
       "codeowners": {
         "platform": ["__PLATFORM_OWNER__"],
         "dev": ["__DEV_OWNER__"],
@@ -34,7 +34,7 @@
       }
     },
     "production-v1": {
-      "security_profile": "__PROD_SECURITY_PROFILE__",
+      "security_profile": "repository-secrets",
       "codeowners": {
         "platform": ["__PLATFORM_OWNER__"],
         "prod": ["__PROD_OWNER__"]

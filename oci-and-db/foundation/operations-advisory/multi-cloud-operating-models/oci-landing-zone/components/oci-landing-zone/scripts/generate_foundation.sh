@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
+# Copyright (c) 2026 Oracle and/or its affiliates.
 set -euo pipefail
 
 OE_REPOSITORY="https://github.com/oci-landing-zones/oci-landing-zone-operating-entities.git"
 OE_RELEASE="v3.1.0"
 OE_REVISION="172809932c53467ab20ec6d1b44290a487211b36"
 target="${1:-all}"
-for command in git jq jsonnet; do
+for command in git jq jsonnet rg; do
   command -v "$command" >/dev/null || {
     echo "Required command is missing: $command" >&2
     exit 1
