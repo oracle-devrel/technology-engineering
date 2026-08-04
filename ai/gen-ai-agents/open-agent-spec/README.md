@@ -5,7 +5,7 @@ A **unified declarative standard for AI agents**, designed to bring interoperabi
 > From fragmented agent frameworks to interoperable agentic systems  
 > 📄 Source: [arXiv 2510.04173 (October 2025)](https://arxiv.org/abs/2510.04173)
 
-**Reviewed**: 28.01.2029
+**Reviewed**: 04.08.2026
 
 ---
 
