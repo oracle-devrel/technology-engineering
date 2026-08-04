@@ -1,8 +1,5 @@
 {
   "schema_version": 1,
   "customer_org": "__CUSTOMER_ORG__",
-  "catalog": {
-    "repository": "__CUSTOMER_ORG__/gitops-templates",
-    "revision": "__CATALOGS_REF__"
-  }
+  "catalog_revision": "__CATALOGS_REF__"
 }

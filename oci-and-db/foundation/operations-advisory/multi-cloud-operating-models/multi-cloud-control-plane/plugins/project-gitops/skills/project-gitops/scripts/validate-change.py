@@ -1397,15 +1397,15 @@ def load_mccp_installation(path: str | os.PathLike[str]) -> str:
     if not isinstance(installation, dict):
         _failure("INVALID_INSTALLATION", "MCCP installation configuration is invalid.")
     organization = installation.get("customer_org")
-    catalog = installation.get("catalog")
     if (
         installation.get("schema_version") != 1
         or not isinstance(organization, str)
         or ORG_RE.fullmatch(organization) is None
-        or not isinstance(catalog, dict)
-        or catalog.get("repository") != f"{organization}/gitops-templates"
-        or not isinstance(catalog.get("revision"), str)
-        or re.fullmatch(r"[0-9a-f]{40}", catalog["revision"]) is None
+        or not isinstance(installation.get("catalog_revision"), str)
+        or re.fullmatch(
+            r"[0-9a-f]{40}",
+            installation["catalog_revision"],
+        ) is None
     ):
         _failure("INVALID_INSTALLATION", "MCCP installation configuration is invalid.")
     return organization

@@ -57,19 +57,13 @@ class MCCPInstallation:
         if not isinstance(customer_org, str) or not _ORG_RE.fullmatch(customer_org):
             raise InstallationError("MCCP installation configuration has an invalid customer organization")
 
-        catalog = payload.get("catalog")
-        if not isinstance(catalog, dict):
-            raise InstallationError("MCCP installation configuration has no catalog")
-        catalog_repository = catalog.get("repository")
-        if catalog_repository != f"{customer_org}/gitops-templates":
-            raise InstallationError("MCCP installation catalog repository is not customer-owned")
-        catalog_revision = catalog.get("revision")
+        catalog_revision = payload.get("catalog_revision")
         if not isinstance(catalog_revision, str) or not _SHA_RE.fullmatch(catalog_revision):
             raise InstallationError("MCCP installation requires an immutable catalog revision")
 
         return cls(
             customer_org=customer_org,
-            catalog_repository=catalog_repository,
+            catalog_repository=f"{customer_org}/gitops-templates",
             catalog_revision=catalog_revision,
         )
 
