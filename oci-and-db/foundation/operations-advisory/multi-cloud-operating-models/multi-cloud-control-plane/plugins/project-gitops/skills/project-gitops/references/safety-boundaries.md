@@ -5,12 +5,11 @@
   selected uppercase environment and resolve only from that environment's
   explicitly selected repository secret bundle.
 - Operate only in handed-off `nonprod-<project>` or `prod-<project>` repositories.
-- OCI, Azure, and Google support the governed Day 1 VM and ADB manifest contracts, including one-at-a-time removal. OCI also supports project NSGs and non-production ADB start/stop. Refuse all Azure/GCP Day 2 requests.
+- OCI, Azure, and Google support the governed Day 1 VM and ADB manifest contracts, including one-at-a-time removal. OCI also supports project NSGs and ADB start/stop in every supported environment. Refuse all Azure/GCP Day 2 requests.
 - Use environment-aware aggregate paths under
-  `{cloud}/{environment}/{region}/`. Non-production OCI Day 2 uses
+  `{cloud}/{environment}/{region}/`. OCI ADB lifecycle requests use
   `oci/{environment}/{region}/lifecycle_operations/`; Google ADB-S Day 1 uses
-  `gcp/{environment}/{region}/workloads/adb.json`. Production Day 2 is
-  unsupported.
+  `gcp/{environment}/{region}/workloads/adb.json`.
 - Accept secret names only, never values. Refuse credentials, keys, arbitrary paths, roles, and profiles.
 - Require hash-bound confirmation before branch push and conditional PR creation. Human review and merge remain mandatory.
 - Never call cloud APIs, execute Terraform/Ansible, merge, approve, rerun, dispatch, or cancel.

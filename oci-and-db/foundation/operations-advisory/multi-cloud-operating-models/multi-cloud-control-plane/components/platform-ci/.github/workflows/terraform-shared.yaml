@@ -13,9 +13,8 @@ on:
         type: string
       region:
         description: "Config region folder name"
-        required: false
+        required: true
         type: string
-        default: ""
       environment_name:
         description: "Selected deployment environment"
         required: true

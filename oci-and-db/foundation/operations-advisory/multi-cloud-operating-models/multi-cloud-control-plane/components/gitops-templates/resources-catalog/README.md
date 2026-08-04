@@ -1,6 +1,9 @@
 # Resources Catalog (Day 0 / Day 1)
 
-Terraform variable templates consumed by the GitOps control plane. The Project Admin UI or a project operator renders these catalog files into project repository manifests; `platform-ci` then passes those manifests to the selected orchestrator as Terraform `-var-file` inputs.
+Terraform variable templates consumed by the GitOps control plane. A project
+operator or the optional Codex app assistant renders these catalog files into
+project repository manifests; `platform-ci` then passes those manifests to the
+selected orchestrator as Terraform `-var-file` inputs.
 
 ## Directory layout
 
@@ -14,6 +17,7 @@ resources-catalog/
     compute/              — Azure virtual machines
     databases/            — Oracle ADB@Azure
   gcp/
+    compute/              — Google Cloud virtual machines
     databases/            — Oracle ADB-S on Google Cloud
 ```
 
@@ -64,17 +68,22 @@ Cross-template dependency: NSG/security-group placeholders in workload templates
 
 ## Reference specifications
 
-The JSON Schemas in [`schemas/oci/`](schemas/oci/) are human-readable
-reference contracts for the supported OCI Day 1 manifest shapes:
+The JSON Schemas under [`schemas/`](schemas/README.md) are human-readable reference
+contracts for the supported Day 1 manifest shapes:
 
 - [`adb.schema.json`](schemas/oci/adb.schema.json)
 - [`compute.schema.json`](schemas/oci/compute.schema.json)
 - [`nsg.schema.json`](schemas/oci/nsg.schema.json)
+- [`azure/adb.schema.json`](schemas/azure/adb.schema.json)
+- [`azure/compute.schema.json`](schemas/azure/compute.schema.json)
+- [`gcp/adb.schema.json`](schemas/gcp/adb.schema.json)
+- [`gcp/compute.schema.json`](schemas/gcp/compute.schema.json)
 
-They are intentionally **reference-only** in this release. They are not loaded
-by GitHub Actions, `platform-ci`, or Terraform, so adding or updating them does
-not change deployment behaviour. The authoritative runtime validation remains
-the protected control-plane code and the pinned Terraform module contracts.
+They are intentionally **reference-only** in the supplied MVP. They are not
+loaded by GitHub Actions, `platform-ci`, or Terraform, so adding or updating
+them does not change deployment behaviour. The authoritative runtime validation
+remains the protected control-plane code and the pinned Terraform module
+contracts.
 
 ## Security notes
 

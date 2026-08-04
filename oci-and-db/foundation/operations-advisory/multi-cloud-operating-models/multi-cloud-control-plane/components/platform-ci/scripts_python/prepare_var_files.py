@@ -74,6 +74,7 @@ def mask_secret_values(secret_values: dict[str, str]) -> None:
     if os.environ.get("GITHUB_ACTIONS") != "true":
         return
     for value in sorted(set(secret_values.values())):
+        # stdout is reserved for the caller's Terraform -var-file arguments.
         print(f"::add-mask::{value}", file=sys.stderr)
 
 

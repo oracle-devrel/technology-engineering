@@ -4,41 +4,39 @@ Project Teams describe the infrastructure they need in approved JSON manifests.
 GitHub provides the change record, review, and approval gate. Trusted runners
 provide the deployment authority.
 
-```mermaid
-flowchart LR
-  H[Project foundation handoff] --> P[Project repository]
-  C[Approved catalog] --> P
-  P --> R[Pull request]
-  R --> V[Plan or check]
-  V --> A[Human approval]
-  A --> W[Trusted workflow]
-  W --> S[(Terraform state)]
-  W --> X[OCI, Azure, or Google]
-```
+![Cloud Operations hands off a prepared project boundary; Project Teams choose a direct pull request, optional UI, or optional Codex assistant; GitHub review and a trusted runner retain control of execution.](images/end-to-end-customer-journey.svg)
 
-Each project has its own repository and separate Terraform state for every cloud
-and region. Project repositories contain configuration only. Shared workflows
-generate the provider and backend settings, run Terraform or Ansible, and record
-the result.
+*Every supported entry point produces the same governed pull request. The
+trusted runner executes only after human review and merge.*
+
+Each project has its own repository and separate Terraform state for every
+cloud, environment, and region. Project repositories contain configuration
+only. Shared workflows generate the provider and backend settings, run
+Terraform or Ansible, and record the result.
 
 For OCI, onboarding starts with the handoff created after Landing Zone OP04. The
 Control Plane checks the project name, environment, region, compartments,
 network references, and source workflow before preparing the project repository.
 
-For Azure and Google, the platform team adds direct foundation references to
+For Azure and Google Cloud (GCP), the platform team adds direct foundation references to
 the same environment handoff through a reviewed pull request. Workload adapters
 consume those values without creating resource groups, projects, IAM, networks,
 subnets, NSGs, service accounts, ODB Networks, or ODB Subnets.
 
 Project Teams propose changes. Reviewers approve them. Runner identities hold
-the cloud permissions. The optional Codex app assistant can prepare the same
-Git changes but cannot deploy resources itself.
+the cloud permissions. The optional Multi-Cloud Plane UI and Codex assistant
+can prepare the same Git changes but cannot deploy resources themselves.
 
-The initial installation may route OCI, Azure, and Google jobs to one OCI-hosted
+The initial installation may route OCI, Azure, and GCP jobs to one OCI-hosted
 runner with all three cloud labels. OCI uses Instance Principal, Azure uses
 runner-local `ARM_*` service-principal context, and Google uses runner-local
 Application Default Credentials. The final operating model places each workload
 on a native runner in its target cloud without changing project manifests.
+
+![A stable request, review, approval, execution, and evidence contract lets the implementation expand without changing the Project Team experience.](images/stable-operating-contract.png)
+
+*Cloud-specific implementations may evolve; the governed operating contract
+remains consistent for Project Teams.*
 
 ## Extension model
 

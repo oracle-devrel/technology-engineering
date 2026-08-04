@@ -1,0 +1,79 @@
+<!-- Operations catalog partial -->
+{% from "partials/_alerts.html" import loading_error %}
+{% if load_error %}
+{{ loading_error(load_error) }}
+{% endif %}
+
+<div class="card bg-base-100 mb-6">
+    <div class="card-body">
+        <div class="flex justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                </svg>
+                <div>
+                    <h2 class="card-title text-2xl font-extrabold tracking-tight">Operations Catalog</h2>
+                    <p class="text-base-content/40 text-sm font-medium">Select a Day-2 operation to run against existing resources</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <select class="select select-bordered select-sm" name="environment"
+                    hx-get="/partials/operations?project={{ project }}" hx-target="#main" hx-trigger="change" hx-include="this">
+                    {% for item in environment_options %}
+                    <option value="{{ item }}" {% if item == environment %}selected{% endif %}>{{ item }}</option>
+                    {% endfor %}
+                </select>
+                <a class="btn btn-ghost btn-sm" hx-get="/partials/dashboard?project={{ project }}" hx-target="#main">Back</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if operations_by_cloud %}
+<div class="space-y-6">
+    {% for cloud, operations in operations_by_cloud.items() %}
+    <section class="bg-base-100 border border-base-300/40 rounded-box p-5">
+        <div class="flex items-center gap-3 mb-4">
+            <span class="badge badge-cloud-{{ cloud }} badge-lg font-mono uppercase">{{ cloud | upper }}</span>
+            <div>
+                <h3 class="text-lg font-bold uppercase tracking-wide">{{ cloud | upper }}</h3>
+                <p class="text-xs text-base-content/35">{{ operations | length }} operation{{ 's' if operations | length != 1 else '' }}</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+            {% for op in operations %}
+            <button type="button"
+                class="card bg-base-200/40 hover:bg-base-200 hover:border-primary/40 transition-all duration-200 text-left group"
+                hx-get="/partials/operation-form?op={{ op.id }}&project={{ project }}&cloud={{ op.cloud }}&environment={{ environment }}"
+                hx-target="#main"
+                hx-indicator="#loading-overlay">
+                <div class="card-body gap-3">
+                    <div class="flex items-start justify-between gap-3">
+                        <div>
+                            <h4 class="card-title text-base group-hover:text-primary transition-colors">
+                                {{ op.name or op.operation_type | replace('-', ' ') | title }}
+                            </h4>
+                            <p class="text-sm text-base-content/40 mt-1">{{ op.description or 'No description available' }}</p>
+                        </div>
+                        <span class="badge badge-outline text-xs">{{ op.cloud }}</span>
+                    </div>
+                    <div class="card-actions justify-end">
+                        <span class="btn btn-secondary btn-xs pointer-events-none">Select</span>
+                    </div>
+                </div>
+            </button>
+            {% endfor %}
+        </div>
+    </section>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert mt-6">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info shrink-0 w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+    </svg>
+    <span>No operations available in gitops-templates for this project type.</span>
+</div>
+{% endif %}

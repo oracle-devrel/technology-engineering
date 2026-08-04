@@ -8,7 +8,7 @@
     "if": {"properties": {"repository_layout": {"const": "shared-nonprod-v2"}}},
     "then": {"properties": {"project_slug": {"pattern": "^nonprod-[a-z][a-z0-9-]*$"}, "environment": {"enum": ["dev", "test", "uat"]}, "target_repository": {"pattern": "^nonprod-[a-z][a-z0-9-]*$"}, "handoff_path": {"pattern": "^environments/(?:dev|test|uat)/environment_information\\.md$"}}}
   }, {
-    "if": {"properties": {"repository_layout": {"const": "production-v1"}}},
+    "if": {"properties": {"repository_layout": {"const": "production"}}},
     "then": {"properties": {"project_slug": {"pattern": "^prod-[a-z][a-z0-9-]*$"}, "environment": {"const": "prod"}, "target_repository": {"pattern": "^prod-[a-z][a-z0-9-]*$"}, "handoff_path": {"const": "environments/prod/environment_information.md"}}}
   }],
   "properties": {
@@ -38,7 +38,7 @@
     "source_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
     "op02_state_key": {"type": "string", "pattern": "terraform\\.tfstate$"},
     "op04_state_key": {"type": "string", "pattern": "terraform\\.tfstate$"},
-    "repository_layout": {"enum": ["shared-nonprod-v2", "production-v1"]},
+    "repository_layout": {"enum": ["shared-nonprod-v2", "production"]},
     "target_repository": {"type": "string", "pattern": "^(?:nonprod|prod)-[a-z][a-z0-9-]*$"},
     "handoff_path": {"type": "string", "pattern": "^environments/(?:dev|test|uat|prod)/environment_information\\.md$"}
   }

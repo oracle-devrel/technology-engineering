@@ -8,7 +8,7 @@ on:
         required: true
         type: string
       cloud:
-        description: "oci or azure"
+        description: "oci"
         required: true
         type: string
       operation_file:

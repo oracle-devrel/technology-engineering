@@ -12,6 +12,10 @@ rendered workflows contain the fixed `repository-secrets` security profile and
 derive runner labels from the cloud and environment. Project changes may
 contain one cloud/environment/region tuple.
 
+The seeded region folders are examples. Before onboarding a project in another
+region, rename each enabled cloud/environment region folder and complete the
+matching environment handoff with the approved regional references.
+
 On GitHub Free, add a handed-off repository only to the organization runner
 group reserved for non-production projects. Do not share that group with
 production repositories.
@@ -34,6 +38,6 @@ matching `CONTROL_PLANE_READY_<ENVIRONMENT>` repository variable with value
 uppercase environment. Do not use `secrets: inherit` or combine environments.
 
 See the
-[shared non-production runbook](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/shared-nonproduction.md)
+[shared non-production runbook](https://github.com/oracle-devrel/technology-engineering/blob/OperationsAdvisory-updates2/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/shared-nonproduction.md)
 before enabling automation. The paid-plan enforcement model is described in
-the [final environment hardening guide](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/final-environment-hardening.md).
+the [final environment hardening guide](https://github.com/oracle-devrel/technology-engineering/blob/OperationsAdvisory-updates2/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/final-environment-hardening.md).

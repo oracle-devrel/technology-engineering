@@ -40,8 +40,6 @@
     "rejected_environments": ["prod", "production", "prd", "live"],
     "handoff_path": "environments/<environment>/environment_information.md",
     "environment_contract": {
-      "github_environment_name": "<environment>",
-      "github_apply_environment_name": "<environment>-apply",
       "codeowners": ["__ENVIRONMENT_OWNER__"],
       "runner_labels": {"oci": ["self-hosted", "oci", "<environment>"], "azure": ["self-hosted", "azure", "<environment>"], "gcp": ["self-hosted", "gcp", "<environment>"]},
       "supported_clouds": ["oci", "azure", "gcp"],
@@ -50,15 +48,13 @@
     }
   },
   "production_layout": {
-    "identifier": "production-v1",
+    "identifier": "production",
     "repository_pattern": "prod-<project>",
     "manifest_path": "<cloud>/prod/<region>/...",
     "handoff_path": "environments/prod/environment_information.md",
     "security_profile": "repository-secrets",
     "platform_codeowners": ["__PLATFORM_OWNER__"],
     "environment_contract": {
-      "github_environment_name": "prod",
-      "github_apply_environment_name": "prod-apply",
       "codeowners": ["__PROD_OWNER__"],
       "runner_labels": {"oci": ["self-hosted", "oci", "prod"], "azure": ["self-hosted", "azure", "prod"], "gcp": ["self-hosted", "gcp", "prod"]},
       "supported_clouds": ["oci", "azure", "gcp"],

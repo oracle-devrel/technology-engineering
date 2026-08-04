@@ -1,23 +1,34 @@
 # Multi-Cloud Control Plane
 
 Give Project Teams a consistent, governed way to request infrastructure in OCI,
-Azure, and Google without direct cloud credentials or local Terraform expertise.
+Azure, and Google Cloud (GCP) without direct cloud credentials or local
+Terraform expertise.
 
 Teams select an approved template, submit a JSON change, and review the
 Terraform plan or Ansible check in a pull request. A trusted runner performs the
 change only after human approval and merge. Paid GitHub plans can enforce that
 approval with repository controls; the Free profile relies on restricted roles
-and documented process. Use the
-[GitHub plan capability matrix](docs/security.md#github-plan-capability-matrix)
-before choosing a repository security profile.
+and documented process. The supplied MVP uses one fixed
+`repository-secrets` profile; see [Security](docs/security.md) for its controls
+and [Final-environment hardening](docs/final-environment-hardening.md) for the
+future enforced-approval model.
+
+![The operating model defines roles, governance, approval, and compliance while the control plane enforces approved patterns and execution controls.](docs/images/governed-self-service-model.png)
+
+*The operating model defines the rules; the control plane implements and
+enforces the approved delivery path.*
 
 For the operating-model background behind this implementation, see
-[What is GitOps and why it is needed](../gitops/README.md).
+[Multi-Cloud Operating Models](../README.md).
 
 This package is a working MVP reference implementation designed to be used as
 an extensible blueprint. Its catalog demonstrates governed delivery patterns;
 it is not an exhaustive catalog of cloud services. Complete your security
 review and validate enabled capabilities before production rollout.
+
+The supplied GitHub Free profile is qualified for controlled non-production
+use. The production repository structure is included, but production
+enablement requires the hardened approval model and a customer security review.
 
 ## What your teams can manage
 
@@ -25,18 +36,19 @@ review and validate enabled capabilities before production rollout.
 - Private Azure Linux VMs and Oracle Autonomous Database.
 - Private Google Cloud Linux VMs and Oracle Autonomous Database.
 - OCI Autonomous Database start and stop operations.
-- OCI Compute agent deployment as an SSH operations example.
+- OCI Compute software-agent deployment as an SSH operations example.
 
 These resources and operations are the supplied, validated baseline. Customers
 can extend the blueprint for installation-specific requirements, but every new
 path must implement and qualify the complete governed chain described in the
 [extension model](docs/architecture.md#extension-model) before it is enabled.
-Azure and Google Day 2 operations are not included in the supplied baseline.
+Azure and GCP Day 2 operations are not included in the supplied baseline.
 
-Azure and Google qualification uses provider-schema validation and
+Azure and GCP qualification uses provider-schema validation and
 credential-free mocked Terraform lifecycle tests. No live target-cloud apply
 was performed for this publication; do not represent either adapter as
-live-cloud certified.
+live-cloud certified. See [Qualification](docs/qualification.md) for the
+evidence boundary.
 
 ## What you get
 
@@ -48,8 +60,27 @@ Installation prepares four private repositories for your organization:
 - `prod-project-template` provides the separate production project structure.
 - `gitops-templates` provides the approved resource and operation catalog.
 
-The Codex app assistant is optional. GitHub pull requests remain the standard
-path and require no additional user interface. A browser UI is not included.
+GitHub pull requests are the standard path. The optional
+[Multi-Cloud Plane UI](components/optional-ui/README.md) and optional
+[Project GitOps skill](docs/codex-app.md) prepare the same governed artifacts;
+neither is required by a workflow or can deploy resources itself. Both support
+the supplied Day 1 requests and OCI ADB start/stop. The UI and direct GitHub
+flow also expose the supplied OCI Compute software-agent operation; the Codex
+assistant does not offer that operation until it is separately extended and
+qualified.
+
+## Choose a request interface
+
+| Role | Starting point | Result |
+| --- | --- | --- |
+| Cloud Operations | Foundation, OP04, and the reviewed handoff | A handed-off project boundary for OCI, Azure, or GCP workloads. |
+| Project Team | **Direct GitHub pull request** | The standard path, always available. |
+| Project Team | **Optional Multi-Cloud Plane UI** | A form-led issue, branch, commit, and pull request. |
+| Project Team | **Optional Codex assistant** | A confirmation-gated, conversational pull request. |
+| Reviewer and trusted runner | GitHub review and merged workflow | Review the plan or check; the runner executes only after merge. |
+
+Every request interface produces the same manifest and pull-request contract.
+They do not approve, merge, or deploy infrastructure.
 
 ## Get started
 
@@ -70,7 +101,8 @@ Platform administrators: [architecture](docs/architecture.md),
 
 Project Teams: [first request](docs/first-request.md),
 [day-to-day operations](docs/operations.md), and the
-[optional Codex app assistant](docs/codex-app.md).
+[Multi-Cloud Plane UI](components/optional-ui/README.md) or
+[Project GitOps skill](docs/codex-app.md).
 
 This initial-installation package supports the
 [shared non-production repository model](docs/shared-nonproduction.md) and the
@@ -87,8 +119,8 @@ separate [production repository model](docs/production.md).
   existing resource, such as an ADB lifecycle request.
 - **Handed-off project**: a repository whose foundation and access conventions
   have been supplied and accepted by the platform team.
-- **Codex app**: the optional Project GitOps assistant that prepares Git changes
-  and pull requests; it never deploys cloud resources.
+- **Multi-Cloud Plane UI / Codex app**: optional request interfaces that prepare
+  Git changes and pull requests; neither deploys cloud resources.
 
 ## License
 

@@ -6,8 +6,8 @@ state only after a human merges an approved change.
 
 ## MVP profile: GitHub Free repository secrets
 
-This release supports one fixed profile in every project repository,
-including production: `repository-secrets`. Each logical environment has one
+The supplied MVP uses one fixed profile in every project repository, including
+production: `repository-secrets`. Each logical environment has one
 environment-qualified JSON repository secret and one readiness variable:
 
 | Environment | Secret | Readiness variable |
@@ -33,7 +33,8 @@ Before accepting a workload request:
 
 - Keep shared and project repositories private. Pin internal MCCP release tags
   without moving them, use reviewed major release tags for official GitHub
-  Actions, and pin external orchestrators to exact commit SHAs.
+  Actions, pin the OCI orchestrator to its reviewed commit SHA, and pin the
+  Azure and Google adapters to reviewed immutable release tags.
 - Keep state isolated by organization, project, cloud, environment, and
   region.
 - Give each runner only the cloud permissions and routing labels needed for
@@ -43,15 +44,16 @@ Before accepting a workload request:
 - Validate a successful plan/check and the repository-secret acceptance test
   in non-production before a real change.
 
-The initial OCI-hosted runner can carry OCI, Azure, and Google routing labels. Keep Azure
-service-principal `ARM_*` values and the Google ADC file on that runner; neither belongs in a
-workload secret bundle. The target separation model uses one native runner boundary per cloud,
-with the same manifests and pull-request gate.
+The initial OCI-hosted runner can carry OCI, Azure, and Google routing labels.
+Keep Azure service-principal `ARM_*` values and the Google ADC file on that
+runner; neither belongs in a workload secret bundle. The target separation
+model uses one native runner boundary per cloud, with the same manifests and
+pull-request gate.
 
 ## Paid-plan enforcement model
 
 The paid-plan model uses paired GitHub Environments,
 protected branches, required reviews, and runner groups where the selected
-GitHub plan supports them. Enable it only after testing the controls in the customer
-organization. See
+GitHub plan supports them. Enable it only after testing the controls in the
+customer organization. See
 [final-environment-hardening.md](final-environment-hardening.md).

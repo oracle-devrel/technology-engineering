@@ -39,8 +39,12 @@ Terraform does not deep-merge variable files.
 
 Lifecycle requests identify the operation and target resource by display name.
 The supplied, currently implemented reference examples are OCI Autonomous
-Database start/stop and OCI Compute `deploy-agent`. Azure and Google Day 2
-operations are not included in the supplied baseline.
+Database start/stop and OCI Compute `deploy-agent`. Azure and GCP Day 2
+operations are not included in the supplied baseline. The optional Codex
+assistant supports ADB start/stop; the Compute software-agent operation is
+available through the UI or direct GitHub pull-request route until the
+assistant is separately extended and qualified. OCI lifecycle operations use
+the same governed flow in `dev`, `test`, `uat`, and `prod`.
 
 A lifecycle manifest records one completed request; it is not desired state.
 After verifying the operation, delete that manifest in a focused pull request.

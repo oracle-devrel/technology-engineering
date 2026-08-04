@@ -22,10 +22,12 @@ cp -R components/platform-ci "$STAGE/platform-ci"
 cp -R components/nonprod-project-template "$STAGE/nonprod-project-template"
 cp -R components/prod-project-template "$STAGE/prod-project-template"
 cp -R components/gitops-templates "$STAGE/gitops-templates"
+cp -R components/optional-ui "$STAGE/optional-ui"
 cp LICENSE "$STAGE/platform-ci/LICENSE"
 cp LICENSE "$STAGE/nonprod-project-template/LICENSE"
 cp LICENSE "$STAGE/prod-project-template/LICENSE"
 cp LICENSE "$STAGE/gitops-templates/LICENSE"
+cp LICENSE "$STAGE/optional-ui/LICENSE"
 
 find "$STAGE" -type d \( -name tests -o -name __pycache__ \) \
   -prune -exec rm -rf {} +
@@ -129,6 +131,16 @@ fi
 
 The assistant remains optional and is not required by any workflow.
 
+If the Multi-Cloud Plane UI is required, place the same rendered contract beside
+the staged UI runtime. Configure its OAuth and session secrets outside Git.
+The UI can only prepare a GitHub pull request; it uses the same V2 manifests,
+review gate, and runner execution path as a direct GitHub request.
+
+```bash
+cp "$STAGE/deployment-contract.json" "$STAGE/optional-ui/deployment-contract.json"
+test ! -e "$STAGE/optional-ui/.env"
+```
+
 Verify that no mutable shared-workflow reference or local test content is
 present:
 
@@ -175,65 +187,8 @@ bundle.
 
 Keep `platform-ci` private. Reusable-workflow access alone does not authorize
 the caller's `GITHUB_TOKEN` to check out private Platform CI files at runtime.
-For a new GitHub organization, an organization owner must first enable deploy
-keys at **Organization → Settings → Member privileges → Deploy keys → Enabled**.
-Create one read-only SSH deploy key on `platform-ci` and store its private half
-as the repository secret `PLATFORM_CI_DEPLOY_KEY` in every project repository.
-The workflows pass that secret explicitly only to the release-tag-pinned
-Platform CI checkout; they never use `secrets: inherit`.
-
-```bash
-ssh-keygen -t ed25519 -f /secure/platform-ci-readonly-deploy-key -N '' \
-  -C 'platform-ci readonly workflow checkout'
-gh repo deploy-key add /secure/platform-ci-readonly-deploy-key.pub \
-  --repo "$CUSTOMER_ORG/platform-ci" --title 'project workflow read-only checkout'
-gh secret set PLATFORM_CI_DEPLOY_KEY --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY" \
-  < /secure/platform-ci-readonly-deploy-key
-```
-
-Do not enable write access for the deploy key. Protect and rotate the key like
-any other repository secret; it authorizes read-only access to Platform CI code
-only, not cloud access or GitHub writes. Do not commit it, add it to the JSON
-secret bundles, or expose it in a workflow log.
-
-For the paid-plan enforcement model, apply this branch-protection
-baseline to every project repository after rendering valid CODEOWNERS. It
-requires an independent
-approval, CODEOWNERS review, approval of the latest push, resolved
-conversations, and administrator enforcement:
-
-```bash
-export PROTECTED_REPOSITORY="$CUSTOMER_ORG/$PROJECT_REPOSITORY"
-jq -n '{
-  required_status_checks: null,
-  enforce_admins: true,
-  required_pull_request_reviews: {
-    dismiss_stale_reviews: true,
-    require_code_owner_reviews: true,
-    required_approving_review_count: 1,
-    require_last_push_approval: true
-  },
-  restrictions: null,
-  allow_force_pushes: false,
-  allow_deletions: false,
-  required_conversation_resolution: true
-}' | gh api --method PUT \
-  "repos/$PROTECTED_REPOSITORY/branches/main/protection" --input -
-gh api "repos/$PROTECTED_REPOSITORY/branches/main/protection"
-```
-
-The baseline deliberately does not register a static status-check context.
-Terraform and Ansible use mutually exclusive path-filtered workflows; GitHub
-leaves a required path-filtered workflow pending when that workflow is not
-selected. Reviewers must verify the successful plan/check attached to the
-current commit before merge. An organization that requires technical status
-enforcement must first provide one stable, always-running aggregate gate and
-then add only that context to `required_status_checks`.
-
-GitHub Free private repositories cannot enforce the same branch and code-owner
-controls; restrict administration and direct pushes, record a human PR review,
-verify the current plan/check, and follow the limitations in
-[Shared non-production](shared-nonproduction.md).
+The project-onboarding step creates the required read-only deploy key only
+after the validated handoff has identified the project repository.
 
 ## 2. Configure trusted runners
 
@@ -242,7 +197,6 @@ verify the current plan/check, and follow the limitations in
 | `STATE_NAMESPACE` | OCI Object Storage namespace |
 | `STATE_REGION` | Region of the OCI state bucket |
 | `OCI_CLI_AUTH=instance_principal` | OCI state and inventory authentication |
-| `REGION` | Optional workload-region fallback |
 
 Resolver runners need Git, `jq`, and `rg`. Execution runners need Git and
 Python 3.11 or later; the workflow installs its pinned Terraform 1.12.1
@@ -276,27 +230,39 @@ The canonical field contract is
 
 ```bash
 export HANDOFF=/secure/project-foundation-handoff.json
+export HANDOFF_DOCUMENT=/secure/environment_information.md
 export PROJECT_OUTPUT=/tmp/project-repository
 export PROJECT_REPOSITORY=$(jq -r .target_repository "$HANDOFF")
 export PROJECT_TOKEN=${PROJECT_REPOSITORY#nonprod-}
+export HANDOFF_ENVIRONMENT=$(jq -r .environment "$HANDOFF")
+export HANDOFF_PATH=$(jq -r .handoff_path "$HANDOFF")
 
 jq -e '
   .schema_version == 2 and .repository_layout == "shared-nonprod-v2" and .cloud == "oci" and
+  (.environment == "dev" or .environment == "test" or .environment == "uat") and
+  .project_slug == .target_repository and
+  .handoff_path == ("environments/" + .environment + "/environment_information.md") and
   (.source_commit | test("^[0-9a-f]{40}$")) and
   (.source_run | test("^[0-9]+$")) and
   ((.subnets | keys | sort) == ["app","database","infrastructure","web"])
 ' "$HANDOFF"
+test -f "$HANDOFF_DOCUMENT"
 
 cp -R "$STAGE/nonprod-project-template" "$PROJECT_OUTPUT"
 rm -rf "$PROJECT_OUTPUT/.git"
 test "$PROJECT_REPOSITORY" = "nonprod-$PROJECT_TOKEN"
-find "$PROJECT_OUTPUT" -type f -exec perl -pi -e \
-  's/__PROJECT__/$ENV{PROJECT_TOKEN}/g' {} +
-{
-  printf '# Project Environment Information\n\n```json\n'
-  jq --sort-keys . "$HANDOFF"
-  printf '\n```\n'
-} > "$PROJECT_OUTPUT/environments/dev/environment_information.md"
+test "$HANDOFF_PATH" = \
+  "environments/$HANDOFF_ENVIRONMENT/environment_information.md"
+
+# Install the human-readable artifact emitted by the Landing Zone workflow.
+cp "$HANDOFF_DOCUMENT" "$PROJECT_OUTPUT/$HANDOFF_PATH"
+printf '\n' >> "$PROJECT_OUTPUT/$HANDOFF_PATH"
+sed -n '/^## Azure$/,$p' \
+  "$STAGE/nonprod-project-template/environments/$HANDOFF_ENVIRONMENT/environment_information.md" \
+  >> "$PROJECT_OUTPUT/$HANDOFF_PATH"
+rg -Fq '| Project |' "$PROJECT_OUTPUT/$HANDOFF_PATH"
+rg -q '^## Azure$' "$PROJECT_OUTPUT/$HANDOFF_PATH"
+rg -q '^## GCP$' "$PROJECT_OUTPUT/$HANDOFF_PATH"
 
 # Generic templates deliberately ship CODEOWNERS.template, not active rules.
 # Every owner must already exist and have repository write access.
@@ -319,6 +285,9 @@ git -C "$PROJECT_OUTPUT" status --short
 
 The final command must return no output. Repeat the verified handoff for each
 enabled environment under `environments/<environment>/environment_information.md`.
+The appended Azure and Google tables remain unusable until the platform team
+fills them through a reviewed handoff pull request; external-cloud validation
+rejects blank or mismatched references.
 Confirm the project, environment,
 region, compartments, VCN, subnets, workflow run, commit, and state keys against
 the approved onboarding record. Then create the private project repository,
@@ -330,6 +299,60 @@ subtrees are delegated. This GitHub Free MVP has a fixed
 cloud and environment. Record a human review and verify the plan/check on the
 current commit before merging; private-repository branch protection and
 enforced CODEOWNERS review are not claimed as technical controls in this MVP.
+
+For the paid-plan enforcement model, apply this branch-protection baseline now,
+after rendering valid CODEOWNERS and creating the project repository. It
+requires independent approval, CODEOWNERS review, approval of the latest push,
+resolved conversations, and administrator enforcement:
+
+```bash
+export PROTECTED_REPOSITORY="$CUSTOMER_ORG/$PROJECT_REPOSITORY"
+jq -n '{
+  required_status_checks: null,
+  enforce_admins: true,
+  required_pull_request_reviews: {
+    dismiss_stale_reviews: true,
+    require_code_owner_reviews: true,
+    required_approving_review_count: 1,
+    require_last_push_approval: true
+  },
+  restrictions: null,
+  allow_force_pushes: false,
+  allow_deletions: false,
+  required_conversation_resolution: true
+}' | gh api --method PUT \
+  "repos/$PROTECTED_REPOSITORY/branches/main/protection" --input -
+gh api "repos/$PROTECTED_REPOSITORY/branches/main/protection"
+```
+
+The baseline deliberately does not register a static status-check context.
+Terraform and Ansible use mutually exclusive path-filtered workflows; GitHub
+leaves a required path-filtered workflow pending when that workflow is not
+selected. Reviewers must verify the successful plan/check attached to the
+current commit before merge. An organization that requires technical status
+enforcement must first provide one stable, always-running aggregate gate and
+then add only that context to `required_status_checks`.
+
+For a new GitHub organization, an organization owner must first enable deploy
+keys at **Organization → Settings → Member privileges → Deploy keys → Enabled**.
+Create one read-only SSH deploy key on `platform-ci` and store its private half
+as `PLATFORM_CI_DEPLOY_KEY` in this handed-off project repository. The workflow
+passes it explicitly only to the release-tag-pinned Platform CI checkout; it
+never uses `secrets: inherit`.
+
+```bash
+ssh-keygen -t ed25519 -f /secure/platform-ci-readonly-deploy-key -N '' \
+  -C 'platform-ci readonly workflow checkout'
+gh repo deploy-key add /secure/platform-ci-readonly-deploy-key.pub \
+  --repo "$CUSTOMER_ORG/platform-ci" --title 'project workflow read-only checkout'
+gh secret set PLATFORM_CI_DEPLOY_KEY --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY" \
+  < /secure/platform-ci-readonly-deploy-key
+```
+
+Do not enable write access for the deploy key. Protect and rotate it like any
+other repository secret; it authorizes read-only access to Platform CI code
+only, not cloud access or GitHub writes. Do not commit it, add it to the JSON
+secret bundles, or expose it in a workflow log.
 
 Configure repository bundles and readiness variables for enabled environments:
 

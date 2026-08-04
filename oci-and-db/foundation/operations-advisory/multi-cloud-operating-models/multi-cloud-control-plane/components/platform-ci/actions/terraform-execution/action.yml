@@ -10,8 +10,7 @@ inputs:
     required: true
   region:
     description: Selected regional manifest folder
-    required: false
-    default: ""
+    required: true
   environment_name:
     description: Selected logical environment
     required: true
@@ -80,42 +79,17 @@ runs:
         CONFIG_REGION="${{ inputs.region }}"
         LAYOUT="${{ inputs.repository_layout }}"
         ENVIRONMENT_NAME="${{ inputs.environment_name }}"
-        if [ "$LAYOUT" != "shared-nonprod-v2" ] && [ "$LAYOUT" != "production-v1" ]; then
+        if [ "$LAYOUT" != "shared-nonprod-v2" ] && [ "$LAYOUT" != "production" ]; then
           echo "❌ Unsupported repository layout: $LAYOUT"; exit 1
         fi
         if [ "$LAYOUT" = "shared-nonprod-v2" ] && { [ -z "$ENVIRONMENT_NAME" ] || ! [[ "$ENVIRONMENT_NAME" =~ ^(dev|test|uat)$ ]]; }; then
           echo "❌ Shared non-production requests require dev, test, or uat"; exit 1
         fi
-        if [ "$LAYOUT" = "production-v1" ] && [ "$ENVIRONMENT_NAME" != "prod" ]; then
+        if [ "$LAYOUT" = "production" ] && [ "$ENVIRONMENT_NAME" != "prod" ]; then
           echo "❌ Production requests require the prod environment"; exit 1
         fi
         if [ -z "$CONFIG_REGION" ]; then
-          # Attempt auto-detection from changed files
-          # This logic assumes paths like: oci/<environment>/<region>/...
-          # We use git diff to find changed files in the PR or commit
-          CHANGED_FILES=$(git diff --name-only HEAD^ HEAD)
-
-          # Extract region from the first file that matches the cloud pattern
-          DETECTED_REGION=$(echo "$CHANGED_FILES" | grep "^${{ inputs.cloud }}/" | cut -d/ -f3 | head -n 1)
-
-          if [ -n "$DETECTED_REGION" ]; then
-             CONFIG_REGION="$DETECTED_REGION"
-             echo "ℹ️  Auto-detected region from changes: $CONFIG_REGION"
-          fi
-        fi
-
-        if [ -z "$CONFIG_REGION" ]; then
-          CONFIG_REGION="${REGION:-}"
-        fi
-        if [ -z "$CONFIG_REGION" ] && [ "${{ inputs.cloud }}" = "oci" ]; then
-          CONFIG_REGION="${STATE_REGION:-}"
-          if [ -n "$CONFIG_REGION" ]; then
-            echo "ℹ️  Using STATE_REGION as OCI config region. Set REGION if config differs."
-          fi
-        fi
-
-        if [ -z "$CONFIG_REGION" ]; then
-          echo "❌ Config region not set. Provide workflow input 'region', rely on auto-detection from file paths, or set REGION on the runner."
+          echo "❌ A resolved region input is required."
           exit 1
         fi
 
@@ -306,7 +280,7 @@ runs:
         EXTRA=""
         if [ "${{ inputs.cloud }}" = "oci" ]; then
           if [ -z "${CONFIG_REGION:-}" ]; then
-            echo "❌ CONFIG_REGION missing (set inputs.region or runner REGION)"
+            echo "❌ CONFIG_REGION missing from the resolved region input"
             exit 1
           fi
 
@@ -315,7 +289,7 @@ runs:
           EXTRA="-var=region=$CONFIG_REGION"
         elif [ "${{ inputs.cloud }}" = "gcp" ]; then
           if [ -z "${CONFIG_REGION:-}" ]; then
-            echo "❌ CONFIG_REGION missing (set inputs.region or runner REGION)"
+            echo "❌ CONFIG_REGION missing from the resolved region input"
             exit 1
           fi
 

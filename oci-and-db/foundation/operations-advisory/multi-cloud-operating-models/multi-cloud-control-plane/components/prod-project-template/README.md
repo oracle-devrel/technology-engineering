@@ -1,10 +1,14 @@
 # Production project template
 
 This template creates one `prod-<project>` repository under the explicit
-`production-v1` contract. Production is separate from shared non-production;
+`production` contract. Production is separate from shared non-production;
 it uses only the `prod` deployment environment, production-isolated runners and
 production approvers. Manifest paths are `<cloud>/prod/<region>/...` and the
 handoff is `environments/prod/environment_information.md`.
+
+The seeded region folders are examples. Before onboarding production in
+another region, rename each enabled cloud region folder and complete the
+production handoff with the approved regional references.
 
 On GitHub Free, add a handed-off repository only to the organization runner
 group reserved for production projects. Do not share that group with
@@ -22,10 +26,12 @@ and runtime placeholders must begin with `PROD_`. Require independent
 production approval and passing checks; do not use `secrets: inherit`.
 
 See the
-[production runbook](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/production.md)
+[production runbook](https://github.com/oracle-devrel/technology-engineering/blob/OperationsAdvisory-updates2/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/production.md)
 before enabling automation. The paid-plan enforcement model is described in
-the [final environment hardening guide](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/final-environment-hardening.md).
+the [final environment hardening guide](https://github.com/oracle-devrel/technology-engineering/blob/OperationsAdvisory-updates2/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/final-environment-hardening.md).
 
-Production supports Day 1 Terraform only in this release. Lifecycle operations
-(Day 2), including ADB start/stop and `deploy-agent`, are not available because
-this template intentionally has no Ansible caller workflow.
+Production supports the same supplied OCI Day 2 lifecycle operations as
+non-production: ADB start/stop and `deploy-agent`. The visible
+`lifecycle_operations/` directory contains no operation request; the UI or a
+focused pull request creates the JSON request when an approved operation is
+needed.

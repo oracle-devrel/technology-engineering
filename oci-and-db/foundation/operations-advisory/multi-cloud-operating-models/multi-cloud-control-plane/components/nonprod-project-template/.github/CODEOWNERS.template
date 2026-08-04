@@ -1,5 +1,4 @@
 /.github/ __PLATFORM_OWNERS__
-/control-plane.json __PLATFORM_OWNERS__
 /environments/ __PLATFORM_OWNERS__
 /oci/dev/ __DEV_OWNERS__
 /azure/dev/ __DEV_OWNERS__

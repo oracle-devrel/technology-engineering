@@ -63,6 +63,11 @@ display names in Terraform state for that OCI region. Add another object to the
 2. Create the JSON manifest here under the right provider directory.
 3. Make sure `operation_type` matches the tag exactly.
 
+These steps are only the catalog portion of an extension. Complete every
+control and qualification requirement in the
+[extension model](https://github.com/oracle-devrel/technology-engineering/blob/OperationsAdvisory-updates2/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/architecture.md#extension-model) before making
+the operation available to Project Teams.
+
 ## Directory layout
 
 ```text
@@ -70,8 +75,6 @@ operations-catalog/
   oci/
     adb-lifecycle.json
     deploy-agent.json
-  azure/
-    adb-lifecycle.json
 ```
 
 ## License

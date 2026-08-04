@@ -1,0 +1,129 @@
+<!-- Resources inventory partial -->
+{% from "partials/_alerts.html" import loading_error %}
+{% if load_error %}
+{{ loading_error(load_error) }}
+{% endif %}
+
+<div class="card bg-base-100 mb-6">
+    <div class="card-body">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+                </svg>
+                <div>
+                    <h2 class="card-title text-2xl font-extrabold tracking-tight">Resources</h2>
+                    <p class="text-base-content/40 text-sm font-medium">All deployed resources in <span class="font-bold text-base-content/70">{{ project }}</span></p>
+                </div>
+            </div>
+            <div class="flex gap-2">
+                <button class="btn btn-primary btn-sm"
+                    hx-get="/partials/resources-catalog?project={{ project }}"
+                    hx-target="#main">
+                    + Deploy New
+                </button>
+                <button class="btn btn-ghost btn-sm"
+                    hx-get="/partials/tree?project={{ project }}"
+                    hx-target="#main">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                    </svg>
+                    Browse Manifests
+                </button>
+                <button class="btn btn-ghost btn-sm" hx-get="/partials/dashboard?project={{ project }}"
+                    hx-target="#main">Back</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card bg-base-100">
+    <div class="card-body p-0">
+        {% if resources %}
+        <div class="overflow-x-auto">
+            <table class="table table-zebra">
+                <thead>
+                    <tr class="text-base-content/40">
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Cloud</th>
+                        <th>Region</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for res in resources %}
+                    <tr class="hover">
+                        <td class="font-medium">{{ res.name }}</td>
+                        <td><span class="badge badge-ghost">{{ res.type }}</span></td>
+                        <td><span class="badge badge-cloud-{{ res.cloud }} font-mono text-xs uppercase">{{ res.cloud }}</span></td>
+                        <td>{{ res.region }}</td>
+                        <td>
+                            <div class="flex gap-2 items-center">
+                                <button class="btn btn-sm btn-ghost"
+                                    hx-get="/partials/manifest?path={{ res.path }}&project={{ project }}"
+                                    hx-target="#main">
+                                    View
+                                </button>
+
+                                {% if res.collection_name is defined %}
+                                <button class="btn btn-sm btn-ghost"
+                                    hx-get="/partials/resource-edit?project={{ project }}&cloud={{ res.cloud }}&environment={{ res.environment }}&region={{ res.region }}&resource_path={{ res.resource_path }}&collection_name={{ res.collection_name }}&resource_key={{ res.id }}"
+                                    hx-target="#main">
+                                    Update
+                                </button>
+                                <button class="btn btn-sm btn-error btn-outline"
+                                    hx-get="/partials/resource-delete?project={{ project }}&cloud={{ res.cloud }}&environment={{ res.environment }}&region={{ res.region }}&resource_path={{ res.resource_path }}&collection_name={{ res.collection_name }}&resource_key={{ res.id }}"
+                                    hx-target="#main">
+                                    Delete
+                                </button>
+                                {% endif %}
+
+                                {% if res.ops | length == 1 %}
+                                <button class="btn btn-sm btn-warning"
+                                    hx-get="/partials/operation-form?op={{ res.ops[0].id }}&project={{ project }}&cloud={{ res.cloud }}&environment={{ res.environment }}&region={{ res.region }}"
+                                    hx-target="#main">
+                                    {{ res.ops[0].name or res.ops[0].id }}
+                                </button>
+
+                                {% elif res.ops | length > 1 %}
+                                <div class="dropdown dropdown-end">
+                                    <label tabindex="0" class="btn btn-sm btn-warning">Operate</label>
+                                    <ul tabindex="0"
+                                        class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 z-50">
+                                        {% for op in res.ops %}
+                                        <li>
+                                            <a hx-get="/partials/operation-form?op={{ op.id }}&project={{ project }}&cloud={{ res.cloud }}&environment={{ res.environment }}&region={{ res.region }}"
+                                                hx-target="#main">
+                                                {{ op.name or op.id }}
+                                            </a>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="hero py-10">
+            <div class="hero-content text-center">
+                <div class="max-w-md">
+                    <h1 class="text-3xl font-bold">No Resources Found</h1>
+                    <p class="py-6 text-base-content/60">This project doesn't have any deployed resources yet.</p>
+                    <button class="btn btn-primary" hx-get="/partials/resources-catalog?project={{ project }}"
+                        hx-target="#main">
+                        Deploy First Resource
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>

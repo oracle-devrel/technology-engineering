@@ -10,6 +10,7 @@ staging/
 .terraform/
 __pycache__/
 .pytest_cache/
+.venv/
 
 # Maintainer-only validation; never publish these files.
 /.github/actionlint.yaml

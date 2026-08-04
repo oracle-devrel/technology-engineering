@@ -1,0 +1,25 @@
+<!-- Operation result partial - Success/Error alerts for operation execution -->
+{% from "partials/_alerts.html" import error_alert %}
+{% import "partials/_result_macros.html" as result_macros %}
+{% if success %}
+<div class="alert alert-success">
+    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+    <div>
+        <h3 class="font-bold">Operation Submitted</h3>
+        <div class="text-xs">PR #{{ pr_number }} created for {{ operation }}</div>
+        <div class="text-xs text-base-content/60 mt-1">The GitOps workflow will trigger shortly.</div>
+    </div>
+    {{ result_macros.pr_plan_actions(pr_number, project, pr_url, preview_label="View Checks", preview_kind="operation") }}
+</div>
+{% else %}
+{{ error_alert(
+    message=error,
+    title="Error executing operation",
+    retry_url="/partials/operations?project=" ~ project,
+    retry_target="#main",
+    retry_label="Back"
+) }}
+{% endif %}

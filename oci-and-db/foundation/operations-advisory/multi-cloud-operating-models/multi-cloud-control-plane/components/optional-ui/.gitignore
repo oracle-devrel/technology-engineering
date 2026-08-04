@@ -1,0 +1,3 @@
+# Installation-specific values are supplied outside the published component.
+.env
+deployment-contract.json

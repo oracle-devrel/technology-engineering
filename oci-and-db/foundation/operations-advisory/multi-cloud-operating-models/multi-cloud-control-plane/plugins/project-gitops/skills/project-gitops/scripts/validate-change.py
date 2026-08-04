@@ -142,12 +142,8 @@ def _failure(code: str, message: str) -> NoReturn:
 
 
 def validate_manifest_scope(environment: str, kind: str) -> None:
-    """Reject operations that are not enabled for the repository environment."""
-    if environment == "prod" and kind.startswith("lifecycle_operations/"):
-        _failure(
-            "UNSUPPORTED_PRODUCTION_DAY2",
-            "Production lifecycle operations are not available in this release.",
-        )
+    """Keep lifecycle scope aligned with the canonical V2 manifest paths."""
+    _ = environment, kind
 
 
 def _decode_text(content: bytes, code: str, message: str) -> str:
@@ -1645,7 +1641,11 @@ def _finalize_change(change: RepositoryChange) -> RepositoryChange:
     return replace(change, diff=_render_diff(change.path, change.base_content, change.candidate_content))
 
 
-def collect_change(repo: str | os.PathLike[str], base_ref: str = "origin/main", customer_org: str = "__CUSTOMER_ORG__") -> RepositoryChange:
+def collect_change(
+    repo: str | os.PathLike[str],
+    base_ref: str,
+    customer_org: str,
+) -> RepositoryChange:
     """Collect one stable read-only canonical manifest modification."""
     repository = _validated_repository(repo)
     origin = _decode_git(run_git(repository, "remote", "get-url", "origin")).strip()

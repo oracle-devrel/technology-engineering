@@ -1,6 +1,15 @@
 # First workload request
 
-Start only after the platform team has completed the selected environment's `environment_information.md`. OCI references are generated from the Landing Zone. Azure and Google references are entered by the platform team in a separate reviewed handoff pull request. Blank handoff sections are not usable.
+Start only after the platform team has completed the selected environment's `environment_information.md`. OCI references are generated from the Landing Zone. Azure and GCP references are entered by the platform team in a separate reviewed handoff pull request. Blank handoff sections are not usable.
+
+The steps below describe the direct GitHub pull-request route. The optional UI
+and Codex assistant use the same catalog and handoff values to prepare the
+same aggregate manifest and governed pull request.
+
+Azure and GCP workload requests become available only after Cloud Operations
+has completed the reviewed direct-reference section for that cloud in the
+same handoff. They are workload paths, not independent foundation bootstrap
+paths.
 
 1. Choose one VM or ADB template from `gitops-templates/resources-catalog`.
 2. Select exactly one cloud, environment, and region.

@@ -1,0 +1,43 @@
+{% import "partials/_form_macros.html" as form_macros %}
+<div class="card bg-base-100 mb-6">
+    <div class="card-body">
+        <h2 class="card-title text-2xl font-extrabold tracking-tight">Update Resource</h2>
+        <p class="text-base-content/50 text-sm">
+            {{ cloud | upper }} / {{ environment }} / {{ region }} / {{ resource_key }}
+        </p>
+    </div>
+</div>
+
+<div class="card bg-base-100">
+    <div class="card-body">
+        <form hx-post="/partials/update-resource" hx-target="#result">
+            {% for name, value in {
+                "project": project,
+                "cloud": cloud,
+                "environment": environment,
+                "region": region,
+                "resource_path": resource_path,
+                "collection_name": collection_name,
+                "resource_key": resource_key
+            }.items() %}
+            <input type="hidden" name="{{ name }}" value="{{ value }}">
+            {% endfor %}
+
+            <div class="form-control mb-4">
+                <label class="label"><span class="label-text">Resource JSON</span></label>
+                <textarea name="resource_json" class="textarea textarea-bordered font-mono min-h-80 w-full" required>{{ resource_json }}</textarea>
+                <label class="label">
+                    <span class="label-text-alt text-base-content/50">Edit only this resource entry. The UI submits a pull request; it never applies infrastructure.</span>
+                </label>
+            </div>
+
+            {{ form_macros.change_reference_field() }}
+
+            <div class="flex gap-4 mt-2">
+                <button type="submit" class="btn btn-primary">Create Update PR</button>
+                <button type="button" class="btn btn-ghost" hx-get="/partials/resources?project={{ project }}" hx-target="#main">Cancel</button>
+            </div>
+        </form>
+        <div id="result" class="mt-4"></div>
+    </div>
+</div>
