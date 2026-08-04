@@ -7,6 +7,8 @@ This section contains operational security assets and examples for OCI operating
 | Asset | Purpose |
 |-------|---------|
 | [CIS Dashboard](./CISDashboard/) | Visualise and control your OCI CIS Compliance from an OCI Log Analytics Dashboard. |
+| [Git Security](./git-security/README.md) | Git repository security practices for operating models. |
+| [CI/CD Security](./cicd-security/README.md) | CI/CD pipeline security practices for operating models. |
 | [OCI Terraform GitHub Actions Worload Identity Federation Example](https://github.com/dgutierrezcolodra/oci-terraform-github-actions-wif-example) | Step-by-step example for GitHub Actions OIDC to OCI IAM Workload Identity Federation using JWT-to-UPST token exchange and Terraform `SecurityToken` authentication. See the [setup guide](https://github.com/dgutierrezcolodra/oci-terraform-github-actions-wif-example/blob/main/SETUP.md). |
 | [Programmatic Access to OCI for CI/CD Pipelines](./programatic-access-cicd/README.md) | Best practices to configure OCI Authentication from 3rd party CI/CD Automation Pipelines. |
 

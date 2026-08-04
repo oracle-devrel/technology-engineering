@@ -10,6 +10,7 @@ reviewed GitOps process for infrastructure delivery.
 | You need to establish an OCI tenancy foundation, environments, and project compartments | [OCI Landing Zone](oci-landing-zone/README.md) |
 | Your foundation already exists and teams need governed project-level OCI, Azure, or Google delivery | [Multi-Cloud Control Plane](multi-cloud-control-plane/README.md) |
 | You need both | Deploy the Landing Zone first, then pass its project handoff to the Control Plane |
+| You need Git, CI/CD, or OCI pipeline-access security guidance | [Operational Security](operational-security/README.md) |
 
 The Landing Zone is operated by Cloud Operators. It establishes OCI through
 Bootstrap and OP00–OP04, then provides the compartment and network references

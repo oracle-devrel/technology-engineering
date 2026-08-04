@@ -56,3 +56,8 @@ administration remains outside the project runner boundary.
 
 Review these controls against your organization's security, compliance, data
 residency, and change-management requirements before enabling production use.
+
+Related operational-security guidance:
+[Git Security](https://github.com/oracle-devrel/technology-engineering/tree/OperationsAdvisory-updates2/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/operational-security/git-security),
+[CI/CD Security](https://github.com/oracle-devrel/technology-engineering/tree/OperationsAdvisory-updates2/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/operational-security/cicd-security),
+and [Programmatic Access to OCI for CI/CD Pipelines](https://github.com/oracle-devrel/technology-engineering/tree/OperationsAdvisory-updates2/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/operational-security/programatic-access-cicd).
