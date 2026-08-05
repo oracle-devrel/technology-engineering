@@ -6,7 +6,7 @@ glossary**. It ships as a FastAPI app you can run locally in seconds, and deploy
 to OCI as an always-on **Container Instance behind a Load Balancer** via an
 included Terraform / Resource Manager Stack.
 
-Reviewed: 24.07.2026
+Reviewed: 04.08.2026
 
 ## Architecture
 

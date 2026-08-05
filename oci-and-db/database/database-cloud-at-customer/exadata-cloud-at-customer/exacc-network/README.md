@@ -4,6 +4,12 @@ Exadata Cloud@Customer provides secure connectivity between the Exadata infrastr
 
 <img src="./../images/exadb-network.png" alt="Network">
 
+Reviewed: 30/07/26
+
+# Table of Contents
+- [Useful Links](#useful-links)
+- [License](#license)
+
 # Useful Links
 
 - [Network Requirements for Oracle Exadata Database Service on Cloud@Customer](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/exacc-network)
