@@ -1,5 +1,5 @@
 # Generative AI Platform
-Reviewed: 27.10.2025
+Reviewed: 05.08.2026
 
 ## Team Publications
 - [OCI Generative AI Platform - intro](https://github.com/oracle-devrel/technology-engineering/blob/main/ai/gen-ai-platform/files/GenAI%20Platform%20-%20intro%20-%20public.pdf) - Understand why a platform approach is required when discussing AI
