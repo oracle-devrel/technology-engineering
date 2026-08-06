@@ -13,6 +13,7 @@ declared in Terraform state for the same environment and region.
 | Field | What to provide | Allowed values or behavior |
 | --- | --- | --- |
 | `operation_type` | Operation identifier. | Always `adb-lifecycle`. |
+| `database_compartment_id` | Database child compartment OCID from the schema-3 project handoff. | Required; it must exactly match the handed-off Database compartment. |
 | `targets` | Databases to operate. | One or more target objects. All targets run in the same workflow execution. |
 | `targets[].display_name` | ADB display name. | Exact, case-sensitive display name from Terraform state. |
 | `targets[].action` | Desired state. | Lowercase `start` or `stop` only; restart is not supported. |
@@ -26,6 +27,7 @@ overrides in project manifests.
 ```json
 {
   "operation_type": "adb-lifecycle",
+  "database_compartment_id": "ocid1.compartment.oc1..database",
   "targets": [
     {
       "display_name": "orders-adb-dev",

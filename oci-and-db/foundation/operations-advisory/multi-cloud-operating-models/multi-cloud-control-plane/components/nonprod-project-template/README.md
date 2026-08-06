@@ -40,6 +40,6 @@ matching `CONTROL_PLANE_READY_<ENVIRONMENT>` repository variable with value
 uppercase environment. Do not use `secrets: inherit` or combine environments.
 
 See the
-[shared non-production runbook](https://github.com/oracle-devrel/technology-engineering/blob/OperationsAdvisory-updates2/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/shared-nonproduction.md)
+[shared non-production runbook](../../docs/shared-nonproduction.md)
 before enabling automation. The paid-plan enforcement model is described in
-the [final environment hardening guide](https://github.com/oracle-devrel/technology-engineering/blob/OperationsAdvisory-updates2/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/final-environment-hardening.md).
+the [final environment hardening guide](../../docs/final-environment-hardening.md).

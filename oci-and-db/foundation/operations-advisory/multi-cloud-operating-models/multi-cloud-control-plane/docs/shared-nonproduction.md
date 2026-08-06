@@ -7,7 +7,7 @@ environments `dev`, `test`, and `uat`; it rejects production aliases.
 This MVP has one fixed security profile: `repository-secrets`. The trusted
 default-branch caller resolves exactly one cloud/environment/region tuple,
 selects that environment's repository secret and readiness variable, and calls
-release-tag-pinned Platform CI. It retains the same-repository guard,
+Platform CI `main`. It retains the same-repository guard,
 manifest-only diff, regular-file and JSON validation, pinned references,
 runner routing, concurrency, and state isolation:
 `<bucket>/<owner>/<repository>/<cloud>/<environment>/<region>/terraform.tfstate`.
@@ -33,8 +33,8 @@ environments in one bundle. Caller workflows never use `secrets: inherit` or
 `toJSON(secrets)`; they pass one selected bundle to Platform CI.
 
 Set `PROJECT_AUTOMATION_READY=true` only after the rendered workflows,
-CODEOWNERS, handoff, runner routing, deploy key, and enabled-environment
-secret/variable pairs have been checked:
+CODEOWNERS, handoff, runner routing, verified native private Actions access,
+and enabled-environment secret/variable pairs have been checked:
 
 ```bash
 gh variable set PROJECT_AUTOMATION_READY --body true --repo OWNER/nonprod-PROJECT
@@ -47,6 +47,9 @@ MVP does not claim private-repository branch protection, enforced CODEOWNERS
 review, or GitHub Environment approval. Use an organization runner group
 restricted to the selected non-production project repositories. Keep the group
 separate from production and add a repository only after its handoff is ready.
+The private `platform-ci` repository must be accessible from repositories in
+the organization through its Actions settings; its composite actions are
+downloaded from `main` with GitHub's temporary scoped token, not a deploy key.
 
 ## Acceptance and audit
 

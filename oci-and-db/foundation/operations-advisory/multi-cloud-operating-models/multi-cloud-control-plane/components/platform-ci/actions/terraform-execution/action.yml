@@ -273,7 +273,7 @@ runs:
         # Exclude lifecycle_operations/ directories - those JSON files are
         # for Ansible, not Terraform. Prepare copies under runner.temp so secret-backed
         # placeholders never modify the checked-out manifest repository.
-        VAR_FILES=$(python3 platform-ci/scripts_python/prepare_var_files.py \
+        VAR_FILES=$(python3 "${{ github.action_path }}/../../scripts_python/prepare_var_files.py" \
           "$CONFIG_DIR" "$PREPARED_VAR_DIR" "${{ inputs.environment_name }}")
         echo "var_files=$VAR_FILES" >> $GITHUB_OUTPUT
 

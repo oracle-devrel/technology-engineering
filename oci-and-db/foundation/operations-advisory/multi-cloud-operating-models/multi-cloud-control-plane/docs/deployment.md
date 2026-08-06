@@ -21,8 +21,7 @@ project repository is created in [Project onboarding](#3-onboard-a-project).
 export STAGE=/tmp/control-plane
 export CUSTOMER_ORG=example-enterprise
 export PROJECT_STATE_BUCKET=example-project-state
-export MCCP_RELEASE=v2.1.0
-export OCI_ORCHESTRATOR_REF=fcf1d7f02c0b4faa1ff55f1776c396452dd51761
+export OCI_ORCHESTRATOR_REF=34202e837e9df015ddaaa4fce0ab62bb6e3883de
 export AZURE_ORCHESTRATOR_REF=mccp-v2.1.0
 export GCP_ORCHESTRATOR_REF=mccp-v2.1.0
 export PLATFORM_OWNER='@example-platform-owner'
@@ -41,8 +40,9 @@ cp LICENSE "$STAGE/prod-project-template/LICENSE"
 cp LICENSE "$STAGE/gitops-templates/LICENSE"
 cp LICENSE "$STAGE/optional-ui/LICENSE"
 
-find "$STAGE" -type d \( -name tests -o -name __pycache__ \) \
+find "$STAGE" -type d \( -name tests -o -name __pycache__ -o -name .venv \) \
   -prune -exec rm -rf {} +
+find "$STAGE" -type f -name mccp-installation.json -delete
 
 find "$STAGE" -type f -exec perl -pi -e \
   's/__CUSTOMER_ORG__/$ENV{CUSTOMER_ORG}/g; s/__STATE_BUCKET__/$ENV{PROJECT_STATE_BUCKET}/g' {} +
@@ -59,7 +59,7 @@ bucket. When the Landing Zone asset creates the OP03 runner identity, its
 `PROJECT_STATE_BUCKET` repository variable and this value must match exactly.
 
 `OCI_ORCHESTRATOR_REF` pins OCI Landing Zones Orchestrator
-[`release-2.1.4`](https://github.com/oci-landing-zones/terraform-oci-modules-orchestrator/tree/release-2.1.4).
+[`v2.1.3`](https://github.com/oci-landing-zones/terraform-oci-modules-orchestrator/tree/v2.1.3).
 The workflow uses that immutable commit.
 
 `AZURE_ORCHESTRATOR_REF` and `GCP_ORCHESTRATOR_REF` name the reviewed
@@ -68,8 +68,8 @@ The workflow uses that immutable commit.
 and [GCP adapter](https://github.com/oci-clickops/clickops-orchestrator-gcp/tree/mccp-v2.1.0).
 Confirm that they resolve to the reviewed adapter commits before installation.
 
-Create and tag Platform CI first because project workflows pin that internal
-MCCP release tag:
+Create Platform CI first. Project workflows and its composite actions use its
+protected `main` branch directly:
 
 ```bash
 git -C "$STAGE/platform-ci" init -b main
@@ -77,12 +77,9 @@ git -C "$STAGE/platform-ci" add -A
 git -C "$STAGE/platform-ci" -c user.name='Platform Administrator' \
   -c user.email='platform@invalid' commit -m 'Prepare Platform CI'
 export PLATFORM_CI_COMMIT=$(git -C "$STAGE/platform-ci" rev-parse HEAD)
-git -C "$STAGE/platform-ci" tag -a "$MCCP_RELEASE" \
-  -m "MCCP $MCCP_RELEASE"
-export PLATFORM_CI_REF="$MCCP_RELEASE"
 
 find "$STAGE/nonprod-project-template" "$STAGE/prod-project-template" -type f -exec perl -pi -e \
-  's/__PLATFORM_CI_REF__/$ENV{PLATFORM_CI_REF}/g; s/__OCI_ORCHESTRATOR_REF__/$ENV{OCI_ORCHESTRATOR_REF}/g; s/__AZURE_ORCHESTRATOR_REF__/$ENV{AZURE_ORCHESTRATOR_REF}/g; s/__GCP_ORCHESTRATOR_REF__/$ENV{GCP_ORCHESTRATOR_REF}/g' {} +
+  's/__OCI_ORCHESTRATOR_REF__/$ENV{OCI_ORCHESTRATOR_REF}/g; s/__AZURE_ORCHESTRATOR_REF__/$ENV{AZURE_ORCHESTRATOR_REF}/g; s/__GCP_ORCHESTRATOR_REF__/$ENV{GCP_ORCHESTRATOR_REF}/g' {} +
 
 for repository in nonprod-project-template prod-project-template gitops-templates; do
   git -C "$STAGE/$repository" init -b main
@@ -94,7 +91,7 @@ done
 export PROJECT_TEMPLATE_REF=$(git -C "$STAGE/nonprod-project-template" rev-parse HEAD)
 export PRODUCTION_PROJECT_TEMPLATE_REF=$(git -C "$STAGE/prod-project-template" rev-parse HEAD)
 export CATALOGS_REF=$(git -C "$STAGE/gitops-templates" rev-parse HEAD)
-cp contracts/mccp-installation.template.json "$STAGE/mccp-installation.json"
+cp installation/mccp-installation.template.json "$STAGE/mccp-installation.json"
 perl -pi -e \
   's/__CUSTOMER_ORG__/$ENV{CUSTOMER_ORG}/g; s/__CATALOGS_REF__/$ENV{CATALOGS_REF}/g' \
   "$STAGE/mccp-installation.json"
@@ -105,9 +102,8 @@ then
 fi
 ```
 
-Treat `MCCP_RELEASE` and both external adapter release tags as immutable;
-never move an existing release tag. Official GitHub Actions use their reviewed
-major release tags.
+Keep the Platform CI `main` branch private and protected. Official GitHub
+Actions use their reviewed major release tags.
 
 The MVP uses the fixed `repository-secrets` profile on GitHub Free. Each
 enabled environment receives its own repository secret bundle and readiness
@@ -140,6 +136,12 @@ approved plugin process:
 cp -R plugins/project-gitops "$STAGE/project-gitops"
 cp "$STAGE/mccp-installation.json" \
   "$STAGE/project-gitops/mccp-installation.json"
+jq -e . "$STAGE/project-gitops/mccp-installation.json" >/dev/null
+if rg -n '__[A-Z0-9_]+__' "$STAGE/project-gitops/mccp-installation.json"
+then
+  echo 'Unresolved MCCP installation placeholders remain' >&2
+  exit 1
+fi
 ```
 
 The assistant remains optional and is not required by any workflow.
@@ -155,24 +157,22 @@ cp "$STAGE/mccp-installation.json" "$STAGE/optional-ui/mccp-installation.json"
 test ! -e "$STAGE/optional-ui/.env"
 ```
 
-Verify that no mutable shared-workflow reference or local test content is
-present:
+Verify that no unresolved release placeholder or local test content is present:
 
 ```bash
-rg '@main|__CUSTOMER_ORG__|__[A-Z_]+_REF__|__STATE_BUCKET__|__PROJECT_STATE_BUCKET__' "$STAGE"
+rg '__CUSTOMER_ORG__|__[A-Z_]+_REF__|__STATE_BUCKET__|__PROJECT_STATE_BUCKET__' "$STAGE"
 find "$STAGE" -type d -name tests
 ```
 
 Both commands must return no output. Create the matching private GitHub
 repositories and publish each prepared `main` branch through your approved Git
-process. Publish the `platform-ci` release tag at the same time and verify that
-it resolves to the reviewed Platform CI commit. In the published `platform-ci`
-repository, allow project repositories to call its reusable workflows at
+process. In the published `platform-ci` repository, allow project repositories
+to call its reusable workflows at
 **Settings → Actions → General → Access → Accessible from repositories in the
 organization**.
 
-Record the exact prepared commits, then confirm that every published branch and
-the immutable Platform CI tag resolve to those commits:
+Record the exact prepared commits, then confirm that every published branch
+resolves to those commits:
 
 ```bash
 printf '%s  %s\n' \
@@ -183,8 +183,6 @@ printf '%s  %s\n' \
 
 test "$(git ls-remote "https://github.com/$CUSTOMER_ORG/platform-ci.git" \
   refs/heads/main | cut -f1)" = "$PLATFORM_CI_COMMIT"
-test "$(git ls-remote "https://github.com/$CUSTOMER_ORG/platform-ci.git" \
-  "refs/tags/$MCCP_RELEASE^{}" | cut -f1)" = "$PLATFORM_CI_COMMIT"
 test "$(git ls-remote "https://github.com/$CUSTOMER_ORG/nonprod-project-template.git" \
   refs/heads/main | cut -f1)" = "$PROJECT_TEMPLATE_REF"
 test "$(git ls-remote "https://github.com/$CUSTOMER_ORG/prod-project-template.git" \
@@ -193,16 +191,16 @@ test "$(git ls-remote "https://github.com/$CUSTOMER_ORG/gitops-templates.git" \
   refs/heads/main | cut -f1)" = "$CATALOGS_REF"
 ```
 
-Each `test` command must return exit code zero. Record the same tag and commit
-values as installation evidence. Runtime foundation, project, and disposable
+Each `test` command must return exit code zero. Record the commits as
+installation evidence. Runtime foundation, project, and disposable
 acceptance repositories are validated by their pinned source commits and
 handoff contracts, not by copying tenancy-specific files into this release
 bundle.
 
-Keep `platform-ci` private. Reusable-workflow access alone does not authorize
-the caller's `GITHUB_TOKEN` to check out private Platform CI files at runtime.
-The project-onboarding step creates the required read-only deploy key only
-after the validated handoff has identified the project repository.
+Keep `platform-ci` private and configure its Actions access for organization
+repositories. A private reusable workflow invokes its directly referenced
+composite action on `main` with GitHub's scoped temporary token; project
+onboarding creates no deploy key or other Platform CI source credential.
 
 ## 2. Configure trusted runners
 
@@ -254,12 +252,14 @@ export HANDOFF_ENVIRONMENT=$(jq -r .environment "$HANDOFF")
 export HANDOFF_PATH=$(jq -r .handoff_path "$HANDOFF")
 
 jq -e '
-  .schema_version == 2 and .repository_layout == "shared-nonprod-v2" and .cloud == "oci" and
+  .schema_version == 3 and .repository_layout == "shared-nonprod-v2" and .cloud == "oci" and
   (.environment == "dev" or .environment == "test" or .environment == "uat") and
   .project_slug == .target_repository and
   .handoff_path == ("environments/" + .environment + "/environment_information.md") and
   (.source_commit | test("^[0-9a-f]{40}$")) and
   (.source_run | test("^[0-9]+$")) and
+  (.project_root_compartment | type == "string" and length > 0) and
+  ([.project_root_compartment, .app_compartment, .database_compartment, .infrastructure_compartment] | unique | length == 4) and
   ((.subnets | keys | sort) == ["app","database","infrastructure","web"])
 ' "$HANDOFF"
 test -f "$HANDOFF_DOCUMENT"
@@ -316,6 +316,24 @@ cloud and environment. Record a human review and verify the plan/check on the
 current commit before merging; private-repository branch protection and
 enforced CODEOWNERS review are not claimed as technical controls in this MVP.
 
+### Required GitHub Free bootstrap before Project GitOps
+
+The Cloud Operator handoff is complete only after the repository administrator
+has configured the project repository. Verify that private `platform-ci`
+Actions access is available to organization repositories, then for each
+handed-off environment set the corresponding
+`GITOPS_SECRET_VALUES_<ENVIRONMENT>` repository secret and
+`CONTROL_PLANE_READY_<ENVIRONMENT>=true`. Set
+`PROJECT_AUTOMATION_READY=true` only after those values, CODEOWNERS, handoff,
+runner routing, native Actions access, and procedural review are verified. For a non-production
+repository, use the concise [shared non-production
+checklist](shared-nonproduction.md); configure only its enabled environments.
+
+Do not submit a Project GitOps workload request or merge one until this
+bootstrap and the [repository-secret end-to-end verification](repository-secret-e2e.md)
+have completed. This manual step exists because GitHub Free private
+repositories cannot access organization secrets or variables.
+
 For the paid-plan enforcement model, apply this branch-protection baseline now,
 after rendering valid CODEOWNERS and creating the project repository. It
 requires independent approval, CODEOWNERS review, approval of the latest push,
@@ -349,26 +367,19 @@ current commit before merge. An organization that requires technical status
 enforcement must first provide one stable, always-running aggregate gate and
 then add only that context to `required_status_checks`.
 
-For a new GitHub organization, an organization owner must first enable deploy
-keys at **Organization → Settings → Member privileges → Deploy keys → Enabled**.
-Create one read-only SSH deploy key on `platform-ci` and store its private half
-as `PLATFORM_CI_DEPLOY_KEY` in this handed-off project repository. The workflow
-passes it explicitly only to the release-tag-pinned Platform CI checkout; it
-never uses `secrets: inherit`.
+Before handing off the first project, an organization owner must configure
+**platform-ci → Settings → Actions → General → Access** as accessible from
+repositories in the organization. Verify the native private-workflow access
+without reading a credential:
 
 ```bash
-ssh-keygen -t ed25519 -f /secure/platform-ci-readonly-deploy-key -N '' \
-  -C 'platform-ci readonly workflow checkout'
-gh repo deploy-key add /secure/platform-ci-readonly-deploy-key.pub \
-  --repo "$CUSTOMER_ORG/platform-ci" --title 'project workflow read-only checkout'
-gh secret set PLATFORM_CI_DEPLOY_KEY --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY" \
-  < /secure/platform-ci-readonly-deploy-key
+gh api repos/$CUSTOMER_ORG/platform-ci/actions/permissions/access
 ```
 
-Do not enable write access for the deploy key. Protect and rotate it like any
-other repository secret; it authorizes read-only access to Platform CI code
-only, not cloud access or GitHub writes. Do not commit it, add it to the JSON
-secret bundles, or expose it in a workflow log.
+The response must contain `"access_level":"organization"`. GitHub supplies a
+scoped, temporary token to download the directly referenced private composite
+action from Platform CI `main`. Do not use a deploy key, a personal access
+token, or `secrets: inherit` for Platform CI source access.
 
 Configure repository bundles and readiness variables for enabled environments:
 

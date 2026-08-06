@@ -32,10 +32,6 @@ on:
         description: "Validated manifest repository commit"
         required: true
         type: string
-      platform_ci_ref:
-        description: "Approved immutable Platform CI commit"
-        required: true
-        type: string
       readiness_marker:
         description: "Selected repository readiness variable"
         required: false
@@ -46,11 +42,6 @@ on:
         required: false
         type: string
         default: '["self-hosted","oci"]'
-    secrets:
-      PLATFORM_CI_DEPLOY_KEY:
-        description: "Read-only deploy key for this private Platform CI repository"
-        required: true
-
 jobs:
   ansible:
     name: "Ansible ${{ inputs.mode }}"
@@ -64,15 +55,8 @@ jobs:
         with:
           ref: ${{ inputs.manifest_ref }}
           fetch-depth: 0
-      - name: Checkout pinned Platform CI
-        uses: actions/checkout@v6
-        with:
-          repository: __CUSTOMER_ORG__/platform-ci
-          ref: ${{ inputs.platform_ci_ref }}
-          path: platform-ci
-          ssh-key: ${{ secrets.PLATFORM_CI_DEPLOY_KEY }}
       - name: Execute Ansible
-        uses: ./platform-ci/actions/ansible-execution
+        uses: __CUSTOMER_ORG__/platform-ci/actions/ansible-execution@main
         with:
           mode: ${{ inputs.mode }}
           cloud: ${{ inputs.cloud }}

@@ -1,0 +1,17 @@
+---
+- name: Create agents directory
+  ansible.builtin.file:
+    path: /opt/agents
+    state: directory
+    mode: "0755"
+
+- name: Deploy agent marker
+  ansible.builtin.copy:
+    dest: "/opt/agents/{{ agent_type }}.installed"
+    content: |
+      agent_type={{ agent_type }}
+      agent_version={{ agent_version | default('latest') }}
+      installed_by=ansible-gitops
+      installed_at={{ ansible_date_time.iso8601 }}
+      hostname={{ inventory_hostname }}
+    mode: "0644"

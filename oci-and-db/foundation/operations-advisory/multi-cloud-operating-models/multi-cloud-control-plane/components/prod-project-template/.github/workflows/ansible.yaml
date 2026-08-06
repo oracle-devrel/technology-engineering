@@ -80,17 +80,14 @@ jobs:
   execute:
     needs: validate-path
     if: needs.validate-path.outputs.execute_operation == 'true'
-    uses: __CUSTOMER_ORG__/platform-ci/.github/workflows/ansible-shared.yaml@__PLATFORM_CI_REF__
+    uses: __CUSTOMER_ORG__/platform-ci/.github/workflows/ansible-shared.yaml@main
     with:
       mode: ${{ github.event_name == 'push' && 'execute' || 'check' }}
       cloud: oci
       environment_name: prod
       security_profile: repository-secrets
       manifest_ref: ${{ github.event.pull_request.head.sha || github.sha }}
-      platform_ci_ref: __PLATFORM_CI_REF__
       readiness_marker: ${{ vars.CONTROL_PLANE_READY_PROD }}
       operation_file: ${{ needs.validate-path.outputs.operation_file }}
       runner_labels: ${{ needs.validate-path.outputs.runner_labels }}
       bucket_name: __STATE_BUCKET__
-    secrets:
-      PLATFORM_CI_DEPLOY_KEY: ${{ secrets.PLATFORM_CI_DEPLOY_KEY }}

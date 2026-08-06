@@ -123,6 +123,26 @@ runs:
         echo "OPERATION_TYPE=$OPERATION_TYPE" >> $GITHUB_ENV
         echo "✅ $OPERATION_TYPE ($TARGET_COUNT targets)"
 
+    - name: Resolve operation playbook
+      shell: bash
+      working-directory: ${{ github.action_path }}/../../ansible
+      run: |
+        case "$OPERATION_TYPE" in
+          adb-lifecycle)
+            OPERATION_PLAYBOOK="playbooks/operations/adb-lifecycle.yml"
+            ;;
+          deploy-agent)
+            OPERATION_PLAYBOOK="playbooks/operations/deploy-agent.yml"
+            ;;
+          *)
+            echo "❌ Unsupported operation type: $OPERATION_TYPE" >&2
+            exit 1
+            ;;
+        esac
+
+        test -f "$OPERATION_PLAYBOOK"
+        echo "OPERATION_PLAYBOOK=$OPERATION_PLAYBOOK" >> "$GITHUB_ENV"
+
     # =====================================================================
     # Auth & Inventory
     # =====================================================================
@@ -141,7 +161,7 @@ runs:
     - name: Generate inventory
       shell: bash
       run: |
-        python3 platform-ci/scripts_python/ansible_inventory.py \
+        python3 "${{ github.action_path }}/../../scripts_python/ansible_inventory.py" \
           "${{ inputs.cloud }}" \
           "${{ inputs.bucket_name }}" \
           "${{ steps.discover.outputs.config_subpath }}" \
@@ -166,16 +186,15 @@ runs:
       id: check
       if: inputs.mode == 'check'
       shell: bash
-      working-directory: platform-ci/ansible
+      working-directory: ${{ github.action_path }}/../../ansible
       run: |
         set +e
         ansible-playbook \
           -i $WORK_TEMP/inventory.json \
           --check --diff \
-          -e "operation_execution_mode=check" \
+          -e "operation_execution_mode=precheck" \
           -e "@${{ github.workspace }}/${{ inputs.operation_file || steps.detect.outputs.operation_file }}" \
-          playbooks/master.yml \
-          --tags "$OPERATION_TYPE" \
+          "$OPERATION_PLAYBOOK" \
           2>&1 | tee $WORK_TEMP/ansible.log
         ANSIBLE_STATUS=${PIPESTATUS[0]}
 
@@ -188,15 +207,14 @@ runs:
       id: execute
       if: inputs.mode == 'execute'
       shell: bash
-      working-directory: platform-ci/ansible
+      working-directory: ${{ github.action_path }}/../../ansible
       run: |
         set +e
         ansible-playbook \
           -i $WORK_TEMP/inventory.json \
           -e "operation_execution_mode=execute" \
           -e "@${{ github.workspace }}/${{ inputs.operation_file || steps.detect.outputs.operation_file }}" \
-          playbooks/master.yml \
-          --tags "$OPERATION_TYPE" \
+          "$OPERATION_PLAYBOOK" \
           2>&1 | tee $WORK_TEMP/ansible.log
         ANSIBLE_STATUS=${PIPESTATUS[0]}
 

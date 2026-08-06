@@ -31,7 +31,7 @@ Defines exactly one generic project NSG under `network_configuration.inject_into
 ### OCI — compute
 
 **`project_compute_template.auto.tfvars.json`**
-Provisions exactly one generic OCI VM. Render `__VM_KEY__`, `__VM_NAME__`, `__VM_SUBNET_OCID__`, and `__VM_NSG_KEY__`; the NSG key must already exist in the regional project NSG manifest. `__PROJ_APP_CMP_OCID__` comes from the completed handoff. The SSH public-key path is platform-owned and must remain `/home/github-runner/.ssh/oci_vm_key.pub`. The template uses the Frankfurt OCID for `Oracle-Linux-9.7-aarch64-2026.06.15-0`, which is compatible with `VM.Standard.A1.Flex`. Before approving a request, confirm in the official OCI image catalog that this is still the current Oracle Linux 9 aarch64 image; use a separately validated regional template outside Frankfurt.
+Provisions exactly one generic OCI VM. Render `__VM_KEY__`, `__VM_NAME__`, `__VM_SUBNET_OCID__`, and `__VM_NSG_KEY__`; the NSG key must already exist in the regional project NSG manifest. `__PROJ_APP_CMP_OCID__` comes from the completed handoff. The SSH public-key path is platform-owned and must remain `/home/github-runner/.ssh/oci_vm_key.pub`. The Frankfurt template pins the certified `Oracle-Linux-9.8-aarch64-2026.07.20-0` image, compatible with `VM.Standard.A1.Flex`. Before approving a request, confirm the current Oracle Linux 9 aarch64 image in the official OCI catalog; use a separately validated regional template outside Frankfurt.
 
 ### OCI — databases
 

@@ -52,7 +52,7 @@ _SAFE_COMMAND_CONFIG_KEYS = frozenset({"core.fsmonitor", "core.hookspath", "core
 ADB_VALIDATIONS = ("repository", "one-file-diff", "strict-json", "governed-adb-change",
                    "secret-placeholder")
 LIFECYCLE_VALIDATIONS = (
-    "repository", "one-file-diff", "strict-json", "declared-adb-targets", "start-stop-only")
+    "repository", "one-file-diff", "strict-json", "state-backed-target", "start-stop-only")
 COMPUTE_VALIDATIONS = (
     "repository", "one-file-diff", "strict-json", "governed-vm-change",
     "declared-nsg-references",
@@ -60,7 +60,9 @@ COMPUTE_VALIDATIONS = (
 NSG_VALIDATIONS = (
     "repository", "one-file-diff", "strict-json", "governed-nsg-change", "existing-vcn-only",
 )
-LIFECYCLE_ROOT_KEYS = frozenset({"operation_type", "targets"})
+LIFECYCLE_ROOT_KEYS = frozenset(
+    {"operation_type", "database_compartment_id", "targets"}
+)
 TARGET_KEYS = frozenset({"display_name", "action"})
 ADB_FIELDS = frozenset(
     "db_name display_name is_dedicated ecpu_count non_dw_storage_size_in_gbs "
@@ -135,10 +137,25 @@ class RepositoryChange:
     base_content: bytes
     candidate_content: bytes
     diff: str
+    workload_compartments: dict[str, str]
 
 
 def _failure(code: str, message: str) -> NoReturn:
     raise ValidationFailure(code, message)
+
+
+def validate_workload_compartment(
+    compartments: dict[str, str],
+    role: str,
+    compartment_id: object,
+) -> None:
+    """Require an OCI workload to use its TBAC handoff target."""
+    expected = compartments.get(role)
+    if expected is None or compartment_id != expected:
+        _failure(
+            "INVALID_WORKLOAD_COMPARTMENT",
+            f"The OCI workload must use the {role} TBAC compartment.",
+        )
 
 
 def validate_manifest_scope(environment: str, kind: str) -> None:
@@ -592,6 +609,11 @@ def validate_adb_change(change: RepositoryChange) -> dict[str, object]:
     candidate_document = strict_json(change.candidate_content)
     base_default, base_databases = _adb_aggregate(base_document, allow_empty=True)
     candidate_default, candidate_databases = _adb_aggregate(candidate_document, allow_empty=True)
+    for compartment_id in (base_default, candidate_default):
+        if compartment_id is not None:
+            validate_workload_compartment(
+                change.workload_compartments, "database", compartment_id
+            )
     added_keys = candidate_databases.keys() - base_databases.keys()
     removed_keys = base_databases.keys() - candidate_databases.keys()
     modified_keys = {
@@ -841,8 +863,20 @@ def validate_compute_change(change: RepositoryChange) -> dict[str, object]:
         base_document, allow_empty=True
     )
     candidate_compartment, candidate_ssh_path, candidate_instances = _compute_aggregate(
-        candidate_document, allow_empty=False
+        candidate_document, allow_empty=True
     )
+    for compartment_id in (base_compartment, candidate_compartment):
+        if compartment_id is not None:
+            validate_workload_compartment(
+                change.workload_compartments, "application", compartment_id
+            )
+    for instance in candidate_instances.values():
+        if isinstance(instance, dict):
+            validate_workload_compartment(
+                change.workload_compartments,
+                "application",
+                instance.get("compartment_id"),
+            )
     added_keys = candidate_instances.keys() - base_instances.keys()
     removed_keys = base_instances.keys() - candidate_instances.keys()
     modified_keys = {
@@ -854,7 +888,7 @@ def validate_compute_change(change: RepositoryChange) -> dict[str, object]:
     if (
         (mutation_count != 1 and not is_replacement)
         or (
-            base_compartment is not None
+            candidate_compartment is not None
             and (
                 base_compartment != candidate_compartment
                 or base_ssh_path != candidate_ssh_path
@@ -1168,6 +1202,13 @@ def validate_nsg_change(change: RepositoryChange) -> dict[str, object]:
     candidate_default, candidate_skeleton, candidate_entries = _network_aggregate(
         candidate_document, allow_empty=True, region=change.region
     )
+    for entry in [*base_entries.values(), *candidate_entries.values()]:
+        if isinstance(entry, dict):
+            validate_workload_compartment(
+                change.workload_compartments,
+                "infrastructure",
+                entry.get("compartment_id"),
+            )
     added_keys = candidate_entries.keys() - base_entries.keys()
     removed_keys = base_entries.keys() - candidate_entries.keys()
     invalid_change = (
@@ -1299,40 +1340,7 @@ def _database_path(environment: str, region: str) -> str:
     return f"oci/{environment}/{region}/database/database.json"
 
 
-def _declared_adb_names(content: bytes) -> frozenset[str]:
-    configuration, databases = _adb_configuration(strict_json(content))
-    if set(configuration) not in (
-            {"databases"}, {"default_compartment_id", "databases"}):
-        _failure("INVALID_ADB_CHANGE", "The ADB manifest is invalid.")
-    pattern = ADB_STRING_PATTERNS["display_name"]
-    names = [entry["display_name"] for entry in databases.values()
-             if isinstance(entry, dict) and type(entry.get("display_name")) is str
-             and pattern.fullmatch(entry["display_name"]) is not None]
-    folded_names = [name.casefold() for name in names]
-    if len(folded_names) != len(set(folded_names)):
-        _failure("AMBIGUOUS_ADB_DATABASE", "ADB display names are ambiguous.")
-    return frozenset(names)
-
-
-def declared_adb_names(repo: Path, environment: str, region: str) -> frozenset[str]:
-    """Read valid ADB display names from the same-region canonical aggregate."""
-    path = _database_path(environment, region)
-    return _declared_adb_names(_safe_file(repo, path, size_limit=MAX_JSON_BYTES))
-
-
-def _declared_adb_names_at_base(
-    repo: Path, base_sha: str, environment: str, region: str
-) -> frozenset[str]:
-    path = _database_path(environment, region)
-    entry = run_git(repo, "ls-tree", base_sha, "--", path)
-    if re.fullmatch(rb"(?:100644|100755) blob [0-9a-f]{40}\t" + re.escape(path.encode()) + rb"\n", entry) is None:
-        _failure("INVALID_DATABASE_MANIFEST", "The database manifest is invalid.")
-    return _declared_adb_names(run_git(repo, "show", f"{base_sha}:{path}"))
-
-
-def _validate_lifecycle_change(
-    candidate: object, declared_names: frozenset[str]
-) -> Sequence[str]:
+def _validate_lifecycle_change(candidate: object) -> Sequence[str]:
     if _has_sensitive_value(candidate):
         _failure("INVALID_SECRET_VALUE", "The lifecycle manifest contains a rejected value.")
     if not isinstance(candidate, dict) or set(candidate) != LIFECYCLE_ROOT_KEYS:
@@ -1350,18 +1358,7 @@ def _validate_lifecycle_change(
             or any(target["action"] not in ("start", "stop") for target in targets)
             or len(set(folded_names)) != len(names)):
         _failure("INVALID_LIFECYCLE_CHANGE", "The lifecycle manifest is invalid.")
-    if not set(names).issubset(declared_names):
-        _failure("UNDECLARED_ADB_TARGET", "A lifecycle target is not a declared ADB.")
     return LIFECYCLE_VALIDATIONS
-
-
-def validate_lifecycle_change(
-    repo: Path, candidate: object, environment: str, region: str
-) -> Sequence[str]:
-    """Validate one bounded start/stop request against declared same-region ADBs."""
-    return _validate_lifecycle_change(
-        candidate, declared_adb_names(repo, environment, region)
-    )
 
 
 def _render_diff(path: str, base_content: bytes, candidate_content: bytes) -> str:
@@ -1388,8 +1385,17 @@ def _render_diff(path: str, base_content: bytes, candidate_content: bytes) -> st
     return diff
 
 
-def load_mccp_installation(path: str | os.PathLike[str]) -> str:
-    """Return the exact customer organization from a rendered MCCP installation."""
+@dataclass(frozen=True, slots=True)
+class MCCPInstallation:
+    """The immutable non-secret configuration that governs one Project GitOps run."""
+
+    customer_org: str
+    catalog_repository: str
+    catalog_revision: str
+
+
+def load_mccp_installation(path: str | os.PathLike[str]) -> MCCPInstallation:
+    """Return the customer organization and catalog provenance from installation."""
     try:
         installation = strict_json(Path(path).read_bytes())
     except OSError as exc:
@@ -1408,7 +1414,11 @@ def load_mccp_installation(path: str | os.PathLike[str]) -> str:
         ) is None
     ):
         _failure("INVALID_INSTALLATION", "MCCP installation configuration is invalid.")
-    return organization
+    return MCCPInstallation(
+        customer_org=organization,
+        catalog_repository=f"{organization}/gitops-templates",
+        catalog_revision=installation["catalog_revision"],
+    )
 
 
 def parse_origin(value: str, customer_org: str) -> tuple[str, str]:
@@ -1468,7 +1478,7 @@ def _safe_file(repo: Path, relative_path: str, *, size_limit: int) -> bytes:
             os.close(descriptor)
 
 
-def validate_handoff(repo: Path, project: str, environment: str) -> None:
+def validate_handoff(repo: Path, project: str, environment: str) -> dict[str, str]:
     """Validate the human-only project handoff marker without parsing it as input."""
     layout = project.split("-", 1)[0]
     if (
@@ -1515,13 +1525,19 @@ def validate_handoff(repo: Path, project: str, environment: str) -> None:
     ):
         _failure("INVALID_HANDOFF", "Project handoff is incomplete or invalid.")
     region = region_row[0]
-    compartment_ocids = []
-    for label in ("App compartment", "DB compartment", "Infra compartment"):
+    compartment_rows = {
+        "project_root": "Project root",
+        "application": "App compartment",
+        "database": "DB compartment",
+        "infrastructure": "Infra compartment",
+    }
+    compartments: dict[str, str] = {}
+    for role, label in compartment_rows.items():
         row = one_row(label, 2)
         if row is None or not _valid_ocid(row[-1], "compartment"):
             _failure("INVALID_HANDOFF", "Project handoff is incomplete or invalid.")
-        compartment_ocids.append(row[-1])
-    if len(set(compartment_ocids)) != 1:
+        compartments[role] = row[-1]
+    if len(set(compartments.values())) != 4:
         _failure("INVALID_HANDOFF", "Project handoff is incomplete or invalid.")
     for label, kind in (
         ("Projects VCN", "vcn"),
@@ -1541,6 +1557,7 @@ def validate_handoff(repo: Path, project: str, environment: str) -> None:
             ) from exc
         if str(network) != row[-2]:
             _failure("INVALID_HANDOFF", "Project handoff is incomplete or invalid.")
+    return compartments
 
 
 def _decode_git(output: bytes) -> str:
@@ -1679,8 +1696,11 @@ def collect_change(
     environment = path_match.group("environment")
     cloud = path_match.group("cloud")
     if cloud == "oci":
-        validate_handoff(repository, project, environment)
+        workload_compartments = validate_handoff(
+            repository, project, environment
+        )
     else:
+        workload_compartments = {}
         handoff_content = _safe_file(
             repository,
             f"environments/{environment}/environment_information.md",
@@ -1752,7 +1772,8 @@ def collect_change(
         repo=repository, project=project, branch=branch, base_ref=base_ref,
         base_sha=base_sha, path=path, environment=environment, region=region,
         kind=kind,
-        base_content=base_content, candidate_content=candidate_content, diff="")
+        base_content=base_content, candidate_content=candidate_content, diff="",
+        workload_compartments=workload_compartments)
 
 
 class _ArgumentParser(argparse.ArgumentParser):
@@ -1783,8 +1804,10 @@ def main(argv: list[str] | None = None) -> int:
             _validate_expected_base(arguments.expect_base_sha, current_base_sha)
             collection_repo = repository
             collection_base_ref = arguments.expect_base_sha
-        customer_org = load_mccp_installation(arguments.mccp_installation)
-        change = collect_change(collection_repo, collection_base_ref, customer_org)
+        installation = load_mccp_installation(arguments.mccp_installation)
+        change = collect_change(
+            collection_repo, collection_base_ref, installation.customer_org
+        )
         _validate_preview(change, arguments.expect_base_sha,
                           arguments.expect_content_sha256)
         change = _finalize_change(change)
@@ -1818,21 +1841,19 @@ def main(argv: list[str] | None = None) -> int:
         elif change.kind == "network/project-nsgs.json":
             document = validate_nsg_change(change)
         elif change.kind == "lifecycle_operations/adb-lifecycle.json":
-            declared_names = _declared_adb_names_at_base(
-                change.repo,
-                change.base_sha,
-                change.environment,
-                change.region,
-            )
             candidate = strict_json(change.candidate_content)
-            validations = _validate_lifecycle_change(
-                candidate, declared_names
+            validations = _validate_lifecycle_change(candidate)
+            validate_workload_compartment(
+                change.workload_compartments,
+                "database",
+                candidate["database_compartment_id"],
             )
             summary = {
                 "resource_type": "oci-adb",
                 "action": "lifecycle",
                 "environment": change.environment,
                 "region": change.region,
+                "compartment_id": candidate["database_compartment_id"],
                 "targets": candidate["targets"],
             }
             document = _success_document(
@@ -1840,6 +1861,10 @@ def main(argv: list[str] | None = None) -> int:
             )
         else:
             _failure("UNSUPPORTED_MANIFEST", "Manifest semantics are not available.")
+        document["catalog"] = {
+            "repository": installation.catalog_repository,
+            "revision": installation.catalog_revision,
+        }
         sys.stdout.write(json.dumps(document, ensure_ascii=True, separators=(",", ":")) + "\n")
         return 0
     except ValidationFailure as error:

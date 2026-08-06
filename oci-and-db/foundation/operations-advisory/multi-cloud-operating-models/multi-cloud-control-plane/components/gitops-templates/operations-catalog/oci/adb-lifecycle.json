@@ -1,5 +1,6 @@
 {
   "operation_type": "adb-lifecycle",
+  "database_compartment_id": "__DATABASE_COMPARTMENT_OCID__",
   "targets": [
     {
       "display_name": "__ADB_NAME__",

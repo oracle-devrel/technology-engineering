@@ -16,7 +16,6 @@ __pycache__/
 /.github/actionlint.yaml
 /validation/
 /scripts/
-/contracts/release-parity-manifest.template.json
 **/tests/
 **/test_*.py
 **/*.tftest.hcl

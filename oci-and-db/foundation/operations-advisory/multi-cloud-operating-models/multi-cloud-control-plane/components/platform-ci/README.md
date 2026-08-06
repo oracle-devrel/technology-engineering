@@ -4,9 +4,12 @@ These reusable GitHub Actions workflows run reviewed project changes. Project
 repositories call them for Terraform plan/apply and supported Ansible checks or
 operations.
 
-Do not call a workflow from a mutable branch. The deployment runbook prepares
-project workflows with the exact Platform CI and orchestrator commit approved
-for this Control Plane deployment.
+Project workflows call the organization's protected `platform-ci` `main`
+branch directly. GitHub grants the temporary scoped token required to download
+the private reusable workflow and composite actions; no deploy key or personal
+access token is required. The deployment runbook records the initial Platform
+CI commit as installation evidence and pins each cloud orchestrator to its
+approved immutable revision.
 
 ## Required runner
 
@@ -61,6 +64,26 @@ Operation manifests belong under
 `oci/{environment}/{region}/lifecycle_operations/{operation}.json`. Operations
 must resolve an exact display name in Terraform state. Azure and Google Day 2
 are not available.
+
+## Operation playbook structure
+
+The execution action maps each validated `operation_type` to one supported
+operation playbook. There is no aggregate master playbook and no dynamic file
+path from a project manifest. Each operation playbook is a small facade over
+the same explicit phases:
+
+```text
+operation playbook
+├── precheck — read and validate the target before a change
+├── apply    — run only after merge with execution mode `execute`
+└── verify   — read back and report the result
+```
+
+Common tasks live under `ansible/playbooks/common/oci/<operation>/`. Add a new
+operation only through the extension model: catalog and manifest validation,
+inventory extraction, an allow-listed action mapping, these phases, and
+qualification evidence. Do not add a generic task runner or accept a playbook
+path from project input.
 
 For `deploy-agent`, the default SSH user is `opc` and the default private key is
 `/home/github-runner/.ssh/oci_vm_key`. OP03 creates and protects this key for

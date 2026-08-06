@@ -28,13 +28,15 @@ export PROJECT_OUTPUT=/tmp/project-repository
 export PROJECT_REPOSITORY=$(jq -r .target_repository "$HANDOFF")
 
 jq -e '
-  .schema_version == 2 and .repository_layout == "production" and
+  .schema_version == 3 and .repository_layout == "production" and
   .cloud == "oci" and .environment == "prod" and
   .project_slug == .target_repository and
   .handoff_path == "environments/prod/environment_information.md" and
   (.target_repository | test("^prod-[a-z][a-z0-9-]*$")) and
   (.source_commit | test("^[0-9a-f]{40}$")) and
   (.source_run | test("^[0-9]+$")) and
+  (.project_root_compartment | type == "string" and length > 0) and
+  ([.project_root_compartment, .app_compartment, .database_compartment, .infrastructure_compartment] | unique | length == 4) and
   ((.subnets | keys | sort) == ["app","database","infrastructure","web"])
 ' "$HANDOFF"
 test -f "$HANDOFF_DOCUMENT"

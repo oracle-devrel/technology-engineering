@@ -7,8 +7,11 @@ state only after a human merges an approved change.
 ## MVP profile: GitHub Free repository secrets
 
 The supplied MVP uses one fixed profile in every project repository, including
-production: `repository-secrets`. Each logical environment has one
-environment-qualified JSON repository secret and one readiness variable:
+production: `repository-secrets`. GitHub Free private repositories cannot
+access organization secrets or variables, so this is a deliberate manual
+per-repository bootstrap rather than a central secret-distribution mechanism.
+Each logical environment has one environment-qualified JSON repository secret
+and one readiness variable:
 
 | Environment | Secret | Readiness variable |
 | --- | --- | --- |
@@ -19,8 +22,12 @@ environment-qualified JSON repository secret and one readiness variable:
 
 The default-branch caller rejects forks, workflow changes, mixed tuples,
 invalid JSON, and cross-environment placeholders. It passes exactly one named
-secret bundle to the release-tag-pinned Platform CI reusable workflow. It
+secret bundle to the Platform CI `main` reusable workflow. It
 never inherits all secrets or serializes the repository secret collection.
+Platform CI stays private and is shared with organization workflows through
+GitHub Actions access settings. The reusable workflow downloads its directly
+referenced composite action on `main` with GitHub's scoped token; no deploy
+key or personal access token is used.
 
 GitHub Free private repositories do not provide the enforceable private branch
 protection, CODEOWNERS review, or Environment approval controls needed for a
@@ -31,10 +38,10 @@ enforced GitHub approval.
 
 Before accepting a workload request:
 
-- Keep shared and project repositories private. Pin internal MCCP release tags
-  without moving them, use reviewed major release tags for official GitHub
-  Actions, pin the OCI orchestrator to its reviewed commit SHA, and pin the
-  Azure and Google adapters to reviewed immutable release tags.
+- Keep shared and project repositories private. Use the protected Platform CI
+  `main` branch, reviewed major release tags for official GitHub Actions, the
+  OCI orchestrator's reviewed commit SHA, and reviewed release tags for the
+  Azure and Google adapters.
 - Keep state isolated by organization, project, cloud, environment, and
   region.
 - Give each runner only the cloud permissions and routing labels needed for
@@ -52,8 +59,9 @@ pull-request gate.
 
 ## Paid-plan enforcement model
 
-The paid-plan model uses paired GitHub Environments,
-protected branches, required reviews, and runner groups where the selected
-GitHub plan supports them. Enable it only after testing the controls in the
-customer organization. See
+The paid-plan profile keeps the same native private Actions access and
+repository-and-environment scoped workload secret bundles. It adds paired
+GitHub Environments, protected branches, required reviews, and runner groups
+where the selected GitHub plan supports them. Enable it only after testing the
+controls in the customer organization. See
 [final-environment-hardening.md](final-environment-hardening.md).
