@@ -1,4 +1,4 @@
-streamlit==1.32.2
+streamlit==1.37.0
 opencv-python==4.9.0.80
 langchain==0.2.5
 langchain-community==0.2.19
