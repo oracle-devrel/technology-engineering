@@ -1,0 +1,204 @@
+# ---------------------------------------------------------------------------
+# LiteLLM Gateway for OCI Generative AI
+#
+# One OpenAI-compatible endpoint in front of:
+#   1. OCI GenAI on-demand models (native `oci/` provider)
+#   2. Imported models on a Dedicated AI Cluster (OpenAI-compatible endpoint)
+#   3. External providers (OpenAI, Anthropic, ...)
+#
+# Stages (all in this one file, enable what you need):
+#   Stage 1 - model_list + general_settings  -> unified endpoint + virtual keys
+#   Stage 2 - `auto` model + router_settings -> automatic complexity routing
+#   Stage 3 - guardrails                     -> OCI Guardrails (moderation/PII/injection)
+#   Stage 4 - litellm_settings.callbacks     -> Langfuse observability
+#
+# All secrets and OCIDs come from the environment (.env) - never hardcode them.
+# ---------------------------------------------------------------------------
+
+# Shared OCI auth block (YAML anchor, merged into each OCI model below).
+# Uses API-key auth; on an OCI compute instance you can switch the gateway
+# to instance-principal auth instead (see files/README.md).
+oci_auth: &oci_auth
+  oci_region: os.environ/OCI_REGION
+  oci_user: os.environ/OCI_USER
+  oci_fingerprint: os.environ/OCI_FINGERPRINT
+  oci_tenancy: os.environ/OCI_TENANCY
+  oci_key_file: os.environ/OCI_KEY_FILE
+  oci_compartment_id: os.environ/OCI_COMPARTMENT_ID
+
+model_list:
+  # =========================================================================
+  # 1. OCI GenAI - on-demand models (native LiteLLM `oci/` provider)
+  # =========================================================================
+  - model_name: llama-3.3-70b
+    litellm_params:
+      <<: *oci_auth
+      model: oci/meta.llama-3.3-70b-instruct
+      tags: ["oci", "small"]
+    model_info:
+      description: "Fast + cheap. SIMPLE tier."
+
+  - model_name: gpt-oss-120b
+    litellm_params:
+      <<: *oci_auth
+      model: oci/openai.gpt-oss-120b
+      tags: ["oci", "small"]
+
+  - model_name: grok-4-fast
+    litellm_params:
+      <<: *oci_auth
+      model: oci/xai.grok-4-fast-non-reasoning
+      tags: ["oci", "medium"]
+    model_info:
+      description: "Workhorse. MEDIUM tier."
+
+  - model_name: grok-4-fast-reasoning
+    litellm_params:
+      <<: *oci_auth
+      model: oci/xai.grok-4-fast-reasoning
+      tags: ["oci", "reasoning"]
+
+  - model_name: grok-4
+    litellm_params:
+      <<: *oci_auth
+      model: oci/xai.grok-4
+      tags: ["oci", "large"]
+    model_info:
+      description: "Strongest OCI model. COMPLEX tier."
+
+  - model_name: cohere-command-a
+    litellm_params:
+      <<: *oci_auth
+      model: oci/cohere.command-a-03-2025
+      tags: ["oci", "medium"]
+
+  - model_name: gemini-2.5-flash
+    litellm_params:
+      <<: *oci_auth
+      model: oci/google.gemini-2.5-flash
+      tags: ["oci", "medium"]
+
+  # =========================================================================
+  # 2. Imported model on a Dedicated AI Cluster (DAC)
+  #
+  # Imported models (e.g. Qwen 3 imported from Hugging Face) are served by
+  # OCI GenAI behind the OpenAI-compatible endpoint:
+  #   https://inference.generativeai.<region>.oci.oraclecloud.com/20231130/actions/v1
+  # Auth is a plain OCI GenAI API key (sk-...), and the *model name is the
+  # DAC endpoint OCID*. LiteLLM therefore talks to it with the standard
+  # `openai/` provider - no OCI signing needed.
+  # =========================================================================
+  - model_name: qwen3-dac
+    litellm_params:
+      # OCI_DAC_MODEL must be the full string "openai/<DAC endpoint OCID>"
+      # (LiteLLM only resolves os.environ/ when it is the entire value).
+      model: os.environ/OCI_DAC_MODEL
+      api_base: os.environ/OCI_COMPAT_API_BASE
+      api_key: os.environ/OCI_GENAI_API_KEY
+      tags: ["oci", "dac", "imported"]
+    model_info:
+      description: "Imported model on a Dedicated AI Cluster via the OpenAI-compatible endpoint."
+
+  # =========================================================================
+  # 3. External providers - same gateway, same virtual keys
+  #    (uncomment the ones you have keys for)
+  # =========================================================================
+  # - model_name: gpt-5-mini
+  #   litellm_params:
+  #     model: openai/gpt-5-mini
+  #     api_key: os.environ/OPENAI_API_KEY
+  #     tags: ["external"]
+
+  # - model_name: claude-sonnet
+  #   litellm_params:
+  #     model: anthropic/claude-sonnet-5
+  #     api_key: os.environ/ANTHROPIC_API_KEY
+  #     tags: ["external"]
+
+  # =========================================================================
+  # Stage 2 - Automatic routing.
+  # Clients call model="auto"; LiteLLM's complexity router (heuristic scorer:
+  # token count, code presence, reasoning markers, multi-step patterns, ...)
+  # picks the tier. Requires litellm >= 1.94.
+  # =========================================================================
+  - model_name: auto
+    litellm_params:
+      model: auto_router/complexity_router
+      complexity_router_config:
+        tiers:
+          # Each tier can also be a list of models (random / adaptive pool)
+          SIMPLE: llama-3.3-70b
+          MEDIUM: grok-4-fast
+          COMPLEX: grok-4
+          REASONING: grok-4-fast-reasoning
+      complexity_router_default_model: grok-4-fast
+
+router_settings:
+  enable_tag_filtering: true        # requests may pin deployments via `tags`
+  num_retries: 2
+  # Cross-model fallbacks if a deployment errors, e.g.:
+  # fallbacks:
+  #   - grok-4: ["cohere-command-a"]
+
+litellm_settings:
+  drop_params: true                 # silently drop params a provider doesn't support
+  request_timeout: 600
+  # -------------------------------------------------------------------------
+  # Stage 4 - Observability (Langfuse via OpenTelemetry).
+  # Uncomment after setting LANGFUSE_* in .env. Works with Langfuse Cloud or
+  # a self-hosted Langfuse v3.
+  # -------------------------------------------------------------------------
+  # callbacks: ["langfuse_otel"]
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
+  # Postgres enables virtual API keys (/key/generate), per-key budgets,
+  # rate limits and spend tracking. Provided by docker-compose.
+  database_url: os.environ/DATABASE_URL
+
+# ---------------------------------------------------------------------------
+# Stage 3 - OCI Guardrails (content moderation, PII, prompt injection).
+# `default_on: false` means a request opts in with:
+#   extra_body={"guardrails": ["oci-guardrails"]}
+# Flip to true to enforce on every request. Implementation:
+# guardrails/oci_guardrails.py (wraps the OCI apply_guardrails API).
+# ---------------------------------------------------------------------------
+guardrails:
+  - guardrail_name: oci-guardrails
+    litellm_params:
+      guardrail: guardrails.oci_guardrails.OCIGuardrail
+      mode: pre_call
+      default_on: false
+      compartment_id: os.environ/OCI_COMPARTMENT_ID
+      region: os.environ/OCI_REGION
+      content_moderation:
+        enabled: true
+        threshold: 0.9
+        action: block            # block | log
+      prompt_injection:
+        enabled: true
+        threshold: 0.9
+        action: block            # block | log
+      pii:
+        enabled: true
+        types: ["EMAIL", "TELEPHONE_NUMBER", "ADDRESS", "PERSON"]
+        threshold: 0.9
+        action: mask             # mask | block | log
+
+  # Same checks applied to the model's *response* (masks PII the model emits).
+  - guardrail_name: oci-guardrails-output
+    litellm_params:
+      guardrail: guardrails.oci_guardrails.OCIGuardrail
+      mode: post_call
+      default_on: false
+      compartment_id: os.environ/OCI_COMPARTMENT_ID
+      region: os.environ/OCI_REGION
+      content_moderation:
+        enabled: true
+        threshold: 0.9
+        action: block
+      pii:
+        enabled: true
+        types: ["EMAIL", "TELEPHONE_NUMBER", "ADDRESS", "PERSON"]
+        threshold: 0.9
+        action: mask
